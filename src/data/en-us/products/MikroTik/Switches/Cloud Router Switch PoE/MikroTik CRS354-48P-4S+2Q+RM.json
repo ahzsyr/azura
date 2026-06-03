@@ -1,0 +1,373 @@
+{
+  "slug": "cloud-router-switch-crs354-48p-4s-2q-rm",
+  "id": "2625",
+  "productTitle": "MikroTik CRS354-48P-4S+2Q+RM Switch – 48x PoE, 4x SFP+, 2x QSFP+",
+  "name": "MikroTik CRS354-48P-4S+2Q+RM",
+  "title": "MikroTik CRS354-48P-4S+2Q+RM",
+  "title_extended": "MikroTik CRS354-48P-4S+2Q+RM Switch – 48x PoE, 4x SFP+, 2x QSFP+",
+  "short_description": "48x PoE-out ports, 4x 10G SFP+ ports, 2x 40G QSFP+ ports, RouterOS L5",
+  "description": "48x PoE-out ports, 4x 10G SFP+ ports, 2x 40G QSFP+ ports, RouterOS L5",
+  "detailed_description": [
+    {
+      "heading": "Efficient Management",
+      "text": "Introducing the MikroTik CRS354-48P-4S+2Q+RM, a rackmount switch designed to efficiently manage networks in demanding environments. With its exceptional functionality and the most competitive price point available, it's an ideal addition to any professional setup. This advanced solution offers unmatched performance, making it the top pick for system administrators."
+    },
+    {
+      "heading": "Flexibility & Scalability",
+      "text": "The CRS354-48P-4S+2Q+RM features 48 x 1G RJ45 ports, 4 x 10G SFP+ ports, and 2 x 40G QSFP+ ports, establishing an advanced level of connectivity that ensures high-speed data transfer and seamless handling of multiple devices. What sets it apart is its diverse power options. All 48 Ethernet ports offer a range of power output choices, including Passive PoE, low voltage PoE, and 802.3af/at (Type 1 \"PoE\" / Type 2 \"PoE+\") with auto-sensing. This feature makes the switch the ultimate solution for powering expansive setups with unparalleled ease and flexibility."
+    },
+    {
+      "heading": "Effortless Networking",
+      "text": "With a potent 750W power supply, the CRS354-48P-4S+2Q+RM effortlessly handles power-demanding devices. The cable management bracket that comes with the switch guarantees an organized arrangement, minimizing the need for complex maintenance.\n\nExperience unparalleled networking with a non-blocking throughput of 168 Gbps, a switching capacity of 336 Gbps, and a forwarding rate of 235 Mpps. No more bottlenecks, only seamless data flow."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": [
+    "MikroTik",
+    "Switches",
+    "Cloud Router Switch PoE"
+  ],
+  "mpn": "CRS354-48P-4S+2Q+RM",
+  "manufacturer_part_number": "CRS354-48P-4S+2Q+RM",
+  "ean": "4752224002273",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2625/crs35448p4s2qrm_1-5fda1ab4b7c28-medium.jpg",
+        "alt": "MikroTik CRS354-48P-4S+2Q+RM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2625/crs35448p4s2qrm_4-5fda1aa826690-medium.jpg",
+        "alt": "MikroTik CRS354-48P-4S+2Q+RM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2625/crs35448p4s2qrm_5-5fda1aa2e7ac7-medium.jpg",
+        "alt": "MikroTik CRS354-48P-4S+2Q+RM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2625/crs35448p4s2qrm_3-5fda1aad606b3-medium.jpg",
+        "alt": "MikroTik CRS354-48P-4S+2Q+RM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2625/crs35448p4s2qrm_2-5fda1ab158d4e-medium.jpg",
+        "alt": "MikroTik CRS354-48P-4S+2Q+RM",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/jQ-7ELVYk5g",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 800.84,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Communication Interface",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 100 Mbps, (48) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "48 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE, 802.3af (PoE), 802.3at (PoE+)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(4) 10G SFP+, (2) 40G QSFP+"
+        },
+        {
+          "name": "Communication Interface",
+          "value": "RJ45"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "QCA9531, 1 core, 650 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "128 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "32 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "85 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "443 x 382 x 44 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 5, SwitchOS"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Quick Start Guide - MikroTik CRS354-48P-4S+2Q+RM",
+      "url": "https://www.getic.com/files/catalogue/2625/quickguidecrs35448p4s2qrm-650ab23ab54cb.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik CRS354-48P-4S+2Q+RM",
+      "url": "https://www.getic.com/files/catalogue/2625/usermanualcrs35448p4s2qrm-650ab24de7de2.pdf"
+    },
+    {
+      "title": "Technical Specs / Datasheet - MikroTik CRS354-48P-4S+2Q+RM",
+      "url": "https://www.getic.com/files/catalogue/2625/crs35448p4s2qrm_ds-695b62927ee28.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 84.63,
+        "currency": "USD",
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 105.64,
+        "currency": "USD",
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.8,
+    "count": 4,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 75,
+      "great": 25,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 3,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Pero",
+        "date": "2026-01-03",
+        "text": "Hhjjjjhhjjhgg vgghhhj",
+        "photos": []
+      },
+      {
+        "name": "Jazeps",
+        "date": "2023-08-09",
+        "text": "Laba cena par labu un uzticamu aparatūru.",
+        "photos": []
+      },
+      {
+        "name": "ek",
+        "date": "2023-06-19",
+        "text": "..........",
+        "photos": []
+      },
+      {
+        "name": "Klaus-Dieter",
+        "date": "2023-04-02",
+        "text": "MikroTik CRS354-48P-4S+2Q+RM is a reliable, reasonably priced, full featured device. It easily suits mid-size company professional environments and provides valuable scalability options. Recommendation.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CRS326-24G-2S+RM",
+      "url": "/product/cloud-router-switch-326-24g-2srm",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS328-24P-4S+RM",
+      "url": "/product/cloud-router-switch-328-24p-4s-rm",
+      "price": 434.22,
+      "currency": "USD",
+      "mpn": "CRS328-24P-4S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS354-48G-4S+2Q+RM",
+      "url": "/product/cloud-router-switch-354-48g-4s-2q-rm",
+      "price": 491.51,
+      "currency": "USD",
+      "mpn": "CRS354-48G-4S+2Q+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+      "url": "/product/direct-attach-cable-xs-da0001",
+      "price": 26.85,
+      "currency": "USD",
+      "mpn": "XS+DA0001",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

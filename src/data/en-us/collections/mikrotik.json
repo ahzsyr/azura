@@ -1,0 +1,44 @@
+{
+  "id": "mikrotik",
+  "slug": "mikrotik",
+  "name": "MikroTik",
+  "description": "MikroTik (officially SIA \"Mikrotīkls\") is a Latvian networking equipment manufacturer founded in 1996 that specializes in high-performance, cost-effective routers, switches, and wireless systems. The company is widely recognized for its RouterOS software, which provides advanced enterprise-level features—such as BGP, OSPF, MPLS, and complex firewalls—at a fraction of the cost of traditional enterprise vendors.",
+  "badge": "MikroTik",
+  "coverImage": "/assets/products/images/1777840438243-story-evolution-3mo5abka.jpg",
+  "iconImage": "/assets/products/images/1777840419997-mikrotik-w4y9rth430h5bcfzp9in8i.webp",
+  "seo": {
+    "metaTitle": "MikroTik",
+    "metaDescription": "MikroTik (officially SIA \"Mikrotīkls\") is a Latvian networking equipment manufacturer founded in 1996 that specializes in high-performance, cost-effective…",
+    "keywords": "mikrotik, cost, enterprise, officially, sia, mikrotīkls, latvian, networking, equipment, manufacturer",
+    "ogTitle": "MikroTik",
+    "ogDescription": "MikroTik (officially SIA \"Mikrotīkls\") is a Latvian networking equipment manufacturer founded in 1996 that specializes in high-performance, cost-effective…",
+    "twitterTitle": "MikroTik",
+    "twitterDescription": "MikroTik (officially SIA \"Mikrotīkls\") is a Latvian networking equipment manufacturer founded in 1996 that specializes in high-performance, cost-effective…",
+    "twitterCard": "summary_large_image",
+    "canonicalPath": "/collections/mikrotik"
+  },
+  "conditions": {
+    "match": "any",
+    "rules": [
+      {
+        "field": "brand",
+        "operator": "contains",
+        "value": "MikroTik"
+      },
+      {
+        "field": "title",
+        "operator": "contains",
+        "value": "MikroTik"
+      }
+    ]
+  },
+  "cardTemplate": "default",
+  "sortBy": "name-asc",
+  "visible": true,
+  "showInNav": false,
+  "featured": false,
+  "tags": [],
+  "createdAt": "2026-05-17T15:16:34.890Z",
+  "updatedAt": "2026-05-17T15:16:34.890Z",
+  "_locale": "en-us"
+}

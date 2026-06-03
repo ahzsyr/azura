@@ -1,0 +1,259 @@
+{
+  "slug": "ubiquiti-poe-24-12w",
+  "id": "POE-24-12W",
+  "productTitle": "Ubiquiti Power Adapter POE-24-12W",
+  "name": "Ubiquiti Power Adapter POE-24-12W",
+  "title": "Ubiquiti Power Adapter POE-24-12W",
+  "title_extended": "Ubiquiti Power Adapter POE-24-12W - 24V DC, 12W, 0.5A, 100 Mbps, 2-Pair PoE",
+  "short_description": "POE adapter 24V DC, 12W, 0.5A",
+  "description": "POE adapter 24V DC, 12W, 0.5A",
+  "detailed_description": [
+    {
+      "heading": "Purpose-Built PoE Adapter for Network Devices",
+      "text": "The Ubiquiti POE-24-12W is a purpose-built Power over Ethernet (PoE) adapter, designed to supply both power and data through a single Ethernet cable, simplifying the deployment of network devices. This model is part of Ubiquiti's broader strategy to provide efficient and reliable power solutions tailored to specific networking hardware needs. The POE-24-12W outputs 24V DC at 0.5A, translating to a total power output of 12 watts. This power level is ideally suited for powering Ubiquiti devices such as smaller UniFi access points, airMAX stations, and other network equipment that are compatible with 24V passive PoE. The adapter is designed to operate with high efficiency, minimizing power loss and maximizing the energy delivered directly to the connected devices."
+    },
+    {
+      "heading": "Key Features",
+      "text": "Features: Surge protection Clamping protection Maximum surge discharge Peak pulse current AC cable with earth ground"
+    },
+    {
+      "heading": "Safety and Compliance",
+      "text": "The POE-24-12W includes essential safety features such as surge protection, which shields both the adapter and the connected devices from voltage spikes. Additionally, overcurrent protection is incorporated to prevent damage from excessive current, enhancing the longevity of both the PoE adapter and the powered devices. This adapter is compliant with major international standards, holding CE, FCC, and IC certifications. These certifications are indicative of the adapter’s adherence to safety, health, and environmental protection standards, making it suitable for use in a wide range of residential and commercial settings."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "PoE Adapters",
+  "categories": [
+    "PoE Adapters",
+    "Electrical Equipment"
+  ],
+  "mpn": "POE-24-12W",
+  "manufacturer_part_number": "POE-24-12W",
+  "ean": "0810354022982",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/785/poe24v12w_front_ports-6048a2d54e49e-medium.jpg",
+        "alt": "Ubiquiti Power Adapter POE-24-12W",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/785/poe24v12wback-6048a76ba9d00-medium.jpg",
+        "alt": "Ubiquiti Power Adapter POE-24-12W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/785/poe2412w_back-60489f54ead49-medium.jpg",
+        "alt": "Ubiquiti Power Adapter POE-24-12W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/785/poe24v12w_kit-6048adab3a8ee-medium.jpg",
+        "alt": "Ubiquiti Power Adapter POE-24-12W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/785/poe24v12w_box-60489ce7db101-medium.jpg",
+        "alt": "Ubiquiti Power Adapter POE-24-12W",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://dl.ubnt.com/datasheets/poe/PoE_Adapters_DS.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Power Adapter POE-24-12W"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 8.00,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage",
+        "Ehternet Ports",
+        "Ethernet Powering",
+        "Reset Button"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "0.5 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "24 V DC"
+        },
+        {
+          "name": "Ehternet Ports",
+          "value": "100 Mbps"
+        },
+        {
+          "name": "Ethernet Powering",
+          "value": "2-Pair"
+        },
+        {
+          "name": "Reset Button",
+          "value": "yes"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "87 x 44 x 29 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.092 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Power Adapter POE-24-12W",
+      "url": "https://dl.ubnt.com/datasheets/poe/PoE_Adapters_DS.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "TMM",
+        "date": "2025-01-24",
+        "text": "It is best quality. Shipping is very fast",
+        "photos": []
+      },
+      {
+        "name": "Armands",
+        "date": "2023-05-12",
+        "text": "Does what it is ment to do.! Great experience",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-24-12W-G",
+      "url": "/product/ubiquiti-poe-24-gigabit",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "POE-24-12W-G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam M5",
+      "url": "/product/litebeam-m5-23dbi",
+      "price": 46.86,
+      "currency": "USD",
+      "mpn": "LBE-M5-23",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airMAX NanoStation 5AC Loco",
+      "url": "/product/nanostation-5-ac-loco",
+      "price": 48.09,
+      "currency": "USD",
+      "mpn": "Loco5AC",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

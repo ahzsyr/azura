@@ -1,0 +1,237 @@
+{
+  "slug": "mikrotik-iot-antenna-for-lte-lora",
+  "id": 4027,
+  "productTitle": "MikroTik LTE 5G and LoRa IoT Antenna",
+  "name": "MikroTik LTE 5G and LoRa IoT Antenna",
+  "title": "MikroTik LTE 5G and LoRa IoT Antenna",
+  "title_extended": null,
+  "short_description": "IoT combo antenna for LTE and LoRa® frequencies",
+  "description": "IoT combo antenna for LTE and LoRa® frequencies",
+  "detailed_description": [
+    {
+      "heading": "Multi-Band IoT Antenna",
+      "text": "The MikroTik HGO-LTE-W is a compact and versatile combo antenna designed for Internet-of-Things applications that require support for both LTE and LoRa® connectivity. Covering an exceptionally wide frequency range from 699 MHz to 3.8 GHz, it eliminates the need for multiple antennas in mixed IoT deployments. A single antenna can be used for LTE/5G, CAT-M, NB-IoT, and LoRa® communication, simplifying installation and reducing hardware complexity. The antenna automatically transmits the signal provided by the modem, making it a flexible solution for diverse use cases. It is an ideal match for the MikroTik KNOT LR series, enabling reliable communication with LoRa® devices while forwarding data to the cloud via cellular networks. With a gain of 1.5 to 4 dBi, the HGO-LTE-W delivers balanced performance for both short- and long-range IoT scenarios, making it suitable for smart infrastructure, industrial monitoring, and remote sensing deployments."
+    },
+    {
+      "heading": "Built for Continuous and Reliable Operation",
+      "text": "The HGO-LTE-W is built for continuous and reliable operation in demanding environments. It features an RP-SMA male connector, ensuring secure and stable connectivity with compatible MikroTik devices. The antenna is designed for long-term use, with an MTBF of approximately 100,000 hours at 25°C, making it well-suited for always-on IoT installations. Tested for ambient temperatures ranging from -40°C to +70°C, the antenna can be deployed in harsh indoor and outdoor conditions without compromising performance. Its durable construction ensures stable signal transmission across supported frequency bands, even in challenging environments. By combining wide frequency support, dependable performance, and a compact form factor, the HGO-LTE-W offers a practical and cost-effective antenna solution for modern IoT networks that rely on both cellular and LoRa® technologies."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Antennas",
+  "categories": [
+    "Antennas",
+    "Accessories"
+  ],
+  "mpn": "HGO-LTE-W",
+  "manufacturer_part_number": "HGO-LTE-W",
+  "ean": "0708747440966",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4027/hgoltew-62541486b9ac8-medium.jpg",
+        "alt": "MikroTik LTE 5G and LoRa IoT Antenna",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4027/hgoltewconnector-66d19bfd22fba-medium.jpg",
+        "alt": "MikroTik LTE 5G and LoRa IoT Antenna connector view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4027/hgoltew-62541486b9ac8-tiny.jpg",
+        "alt": "MikroTik LTE 5G and LoRa IoT Antenna thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4027/hgoltewconnector-66d19bfd22fba-tiny.jpg",
+        "alt": "MikroTik LTE 5G and LoRa IoT Antenna thumbnail"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 9.65,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "4G (LTE), 5G (NR), NB-IoT"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Mobile Antenna Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Mobile Antenna Gain",
+          "value": "1.5 dBi, 1.5 dBi, 3.6 dBi"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) SMA Male"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "215 x 30 x 15 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik LTE 5G and LoRa IoT Antenna",
+      "url": "https://www.getic.com/files/catalogue/4027/hgo_lte_w_210943-625414cade4fc.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "Trustpilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Aleksandar",
+        "date": "2023-12-09",
+        "text": "thank you!!",
+        "photos": []
+      },
+      {
+        "name": "Jānis",
+        "date": "2023-10-06",
+        "text": "Good for LMT Router.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 868 Omni Antenna",
+      "url": "/product/mikrotik-868-omni-antenna",
+      "price": 40.1,
+      "currency": "USD",
+      "mpn": "868_Omni_antenna",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik Chateau LTE6",
+      "url": "/product/mikrotik-chateau-lte6",
+      "price": 113.42,
+      "currency": "USD",
+      "mpn": "D53G-5HacD2HnD-TC&FG621-EA",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik Chateau LTE6 ax",
+      "url": "/product/mikrotik-chateau-lte6-ax",
+      "price": 159.25,
+      "currency": "USD",
+      "mpn": "S53UG+5HaxD2HaxD-TC&FG621-EA",
+      "availability": "InStock"
+    },
+    {
+      "name": "Mikrotik KNOT Embedded LTE4",
+      "url": "/product/mikrotik-knot-embedded-lte4",
+      "price": 69.09,
+      "currency": "USD",
+      "mpn": "EC25-EU&KNe",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik Value Added Distributor",
+    "MikroTik MTCNA Certificate"
+  ],
+  "stock_stat": ""
+}

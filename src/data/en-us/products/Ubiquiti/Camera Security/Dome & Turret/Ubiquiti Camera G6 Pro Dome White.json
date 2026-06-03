@@ -1,0 +1,352 @@
+{
+  "slug": "ubiquiti-camera-g6-pro-dome-white",
+  "id": "6918",
+  "productTitle": "Ubiquiti Camera G6 Pro Dome White",
+  "name": "Ubiquiti Camera G6 Pro Dome White",
+  "title": "Ubiquiti Camera G6 Pro Dome White",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Premium 4K Video",
+      "text": "The UVC-G6 Pro Dome captures ultra-high-definition video in true 4K (3840 × 2160), using a large 1/1.2\" CMOS image sensor that delivers sharp, detailed images even in challenging lighting conditions. Its motorized varifocal lens (5.9–13.8 mm, f/1.5–f/2.9) provides flexible framing: a wide angle of view (horizontal up to 113.8°, diagonal up to 134°) for broad area coverage or a zoomed-in view (horizontal ~45.5°, vertical ~25.8°) when you need detail. With support for up to 30 FPS, the camera delivers smooth motion capture, making it suitable for use in security, surveillance, or monitoring across retail, warehouse, office, and outdoor locations. Night vision is enabled by built-in adaptive IR LEDs and an IR-cut filter, providing reliable imaging even in low-light conditions. A powerful 2.36× optical zoom enhances versatility, letting you adjust focus without compromising quality. Together, these features make the G6 Pro Dome suitable for applications requiring high resolution, fine detail, and adaptable framing."
+    },
+    {
+      "heading": "Robust Outdoor Build",
+      "text": "The UVC-G6 Pro Dome is engineered for demanding environments. Its weather-resistant housing with IP66 protection ensures reliable performance under rain, dust, and general outdoor exposure, while the IK10-rated vandal-resistant dome adds durability against impact or tampering. The enclosure, made from polycarbonate and aluminum alloy, withstands temperature ranges from –20 °C to +50 °C, making it suitable for diverse climates. Power is supplied via PoE+ (42.5–57 V DC), and maximum power consumption stays modest, ensuring energy-efficient operation. A single Gigabit Ethernet port (RJ45) provides stable, wired connectivity, which is critical for uninterrupted video streaming and data transfer. The dome design and included mounting options (ceiling or wall) allow flexible installation almost anywhere, whether indoors or outdoors. Together, these features deliver a durable, resilient camera tailored for professional-grade surveillance systems and long-term outdoor deployment."
+    },
+    {
+      "heading": "Smart Monitoring & Integration",
+      "text": "The G6 Pro Dome leverages a robust Quad-core Arm® Cortex®-A53 processor and integrates with the full-featured platform for advanced surveillance workflows. It supports MicroSD card storage (slot available), allowing local video retention and reducing reliance on external storage. Built-in support for intelligent detections, such as people, vehicles, or motion events, enables automated alerts and smart event handling. The camera includes essential image-processing settings: configurable color, brightness, contrast, exposure, white balance, 2D/3D noise reduction, motion-based noise reduction, masking, text overlay, and HDR, giving administrators fine-grained control over image quality. Thanks to the PoE+ power delivery and a compact yet professional build, installation and integration into existing network infrastructure is straightforward. The G6 Pro Dome is ideal for enterprise-level video surveillance, campus security, retail monitoring, or any environment demanding reliable, high-resolution video with minimal maintenance."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Cameras",
+  "categories": [
+    "Cameras",
+    "Camera Security",
+    "Dome & Turret"
+  ],
+  "mpn": "UVC-G6-Pro-Dome-W",
+  "manufacturer_part_number": "UVC-G6-Pro-Dome-W",
+  "ean": "0810177163268",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6918/1-6924661a82e6d-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Dome White",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6918/2-6924661d1a93f-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Dome White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6918/3-6924662060ca8-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Dome White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6918/4-69246623dea43-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Dome White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6918/5-692466270ad2c-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Dome White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6918/6-6924662a7b564-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Dome White",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/6918/unifig6prodome_ds-692466144c26c.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Camera G6 Pro Dome White"
+      }
+    ],
+    "3d_model": true
+  },
+  "price": {
+    "value": 465.55,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Color",
+      "options": [
+        "White",
+        "Black"
+      ],
+      "default": "White"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Video",
+      "features": [
+        "Megapixels",
+        "Resolution",
+        "Maximum Frame Rate"
+      ],
+      "items": [
+        {
+          "name": "Megapixels",
+          "value": "8MP"
+        },
+        {
+          "name": "Resolution",
+          "value": "3840 х 2160"
+        },
+        {
+          "name": "Maximum Frame Rate",
+          "value": "30 FPS"
+        }
+      ]
+    },
+    {
+      "technology": "Audio",
+      "features": [
+        "Microphone"
+      ],
+      "items": [
+        {
+          "name": "Microphone",
+          "value": "Build-in"
+        }
+      ]
+    },
+    {
+      "technology": "Video Camera",
+      "features": [
+        "Sensor",
+        "Lens",
+        "Night Mode"
+      ],
+      "items": [
+        {
+          "name": "Sensor",
+          "value": "1/1.2\" 8MP"
+        },
+        {
+          "name": "Lens",
+          "value": "F 5.9 - 13.8 mm; f/1.5–f/2.9"
+        },
+        {
+          "name": "Night Mode",
+          "value": "IR LED Illumination and IR Cut Filter, IR Range up to 40 m"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Memory card slots"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Memory card slots",
+          "value": "1 microSD"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad core Arm® Cortex®-A53 based chip"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3at PoE+"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "42.5 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "15 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Housing\tDurability",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP66"
+        },
+        {
+          "name": "Housing\tDurability",
+          "value": "Vandal-proof IK10-rated"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø163.8 × 108.8 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.2 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Ceilling Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Camera G6 Pro Dome White",
+      "url": "https://www.getic.com/files/catalogue/6918/unifig6prodome_ds-692466144c26c.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Camera G6 PTZ White",
+      "url": "/product/ubiquiti-camera-g6-ptz-wt",
+      "price": 387.17,
+      "currency": "USD",
+      "mpn": "UVC-G6-PTZ-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Pro Bullet White",
+      "url": "/product/ubiquiti-camera-g6-pro-bullet-white",
+      "price": 464.61,
+      "currency": "USD",
+      "mpn": "UVC-G6-Pro-Bullet-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Retrofit Hub",
+      "url": "/product/ubiquiti-retrofit-hub",
+      "price": 225.16,
+      "currency": "USD",
+      "mpn": "UA-Retrofit-Hub-2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Retrofit Reader White",
+      "url": "/product/ubiquiti-retrofit-reader-white",
+      "price": 159.82,
+      "currency": "USD",
+      "mpn": "UA-Retrofit-Reader-W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

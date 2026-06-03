@@ -1,0 +1,276 @@
+{
+  "slug": "uisp-fiber-olt-xgs",
+  "id": "UISP-FIBER-OLT-XGS",
+  "productTitle": "Ubiquiti Fiber OLT XGS",
+  "name": "Ubiquiti Fiber OLT XGS",
+  "title": "Ubiquiti Fiber OLT XGS",
+  "title_extended": "",
+  "short_description": "Optical Line Terminal, 4x 25G SFP28 ports, 1U, 10 Gbps uplink/downlink speeds",
+  "description": "The UISP Fiber OLT XGS serves as a critical component in fiber optic networking infrastructure, primarily used for Optical Line Termination (OLT) in fiber-to-the-home (FTTH), fiber-to-the-building (FTTB), and fiber-to-the-premises (FTTP) deployments. This device enables network operators to deliver high-speed internet access, voice, and video services to end-users with exceptional reliability and performance.",
+  "detailed_description": [
+    {
+      "heading": "8-port Optical Line Terminal",
+      "text": "The UISP Fiber OLT XGS serves as a critical component in fiber optic networking infrastructure, primarily used for Optical Line Termination (OLT) in fiber-to-the-home (FTTH), fiber-to-the-building (FTTB), and fiber-to-the-premises (FTTP) deployments. This device enables network operators to deliver high-speed internet access, voice, and video services to end-users with exceptional reliability and performance."
+    },
+    {
+      "heading": "Features",
+      "text": "XGSPON 10 Gbps bi-directional capacity\n(8) 10G SFP+ OLT ports\n(4) 25G SFP28 uplink ports\n1U Rack mount\n2048 Client capacity\nAC/DC power module redundancy support\n(2) Hot-swappable power supply ports"
+    },
+    {
+      "heading": "Hardware and Connectivity",
+      "text": "At its core, the UISP Fiber OLT XGS boasts a comprehensive hardware suite, featuring eight XGS/XG/GPON ports and four 1/10/25G SFP28 ports*. These interfaces provide versatile connectivity options for upstream and downstream traffic, supporting high-speed data transmission and broadband connectivity for residential, commercial, and industrial applications. Additionally, the UISP Fiber OLT XGS is equipped with a management interface comprising Ethernet out-of-band, Ethernet in-band, and an RJ45 serial console port, facilitating seamless configuration and monitoring tasks. Furthermore, Bluetooth capabilities enhance connectivity for management operations, enhancing user experience and efficiency."
+    },
+    {
+      "heading": "Power and Environmental Specifications",
+      "text": "Powered by a universal AC input mechanism compatible with 100–240V AC, 50/60 Hz, and equipped with two hot-swappable AC/DC PSUs, the UISP Fiber OLT XGS ensures reliable operation in diverse power environments. With a maximum power consumption of 70W and a factory reset button for quick device management, it delivers energy-efficient performance and streamlined operation. Designed to withstand harsh environmental conditions, the UISP Fiber OLT XGS operates within an ambient temperature range of -10 to 45°C (14 to 113°F) and ambient humidity of 10 to 95% non-condensing."
+    },
+    {
+      "heading": "Use Cases",
+      "text": "Enterprises and organizations can leverage the UISP Fiber OLT XGS to establish high-performance fiber optic networks within their premises. Educational institutions, universities, and large campuses can deploy it to create robust fiber optic networks. Municipalities and local governments can integrate it into their smart city initiatives. Internet service providers (ISPs) and wireless internet service providers (WISPs) can utilize it to expand their network infrastructure and deliver high-speed broadband services."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "GPON",
+  "categories": [
+    "Fiber Networks",
+    "SFP Modules",
+    "XGS-PON"
+  ],
+  "mpn": "UISP-FIBER-OLT-XGS",
+  "manufacturer_part_number": "UISP-FIBER-OLT-XGS",
+  "ean": "0810084691212",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4478/1-64e499d4e00b7-medium.jpg",
+        "alt": "Ubiquiti Fiber OLT XGS",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4478/2-64e499dea62a6-medium.jpg",
+        "alt": "Ubiquiti Fiber OLT XGS",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4478/3-64e499e5e6634-medium.jpg",
+        "alt": "Ubiquiti Fiber OLT XGS",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4478/4-64e499e9df6ce-medium.jpg",
+        "alt": "Ubiquiti Fiber OLT XGS",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4478/5-64e499ee28537-medium.jpg",
+        "alt": "Ubiquiti Fiber OLT XGS",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 2978.25,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "SFP Ports",
+          "value": "(4) 25G SFP28"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal x2 redundant PSU, External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "70 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Material",
+          "value": "Galvanized steel"
+        },
+        {
+          "name": "Dimensions",
+          "value": "443 x 286 x 44 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "5.29 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 45 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Fiber OLT XGS",
+      "url": "https://www.getic.com/files/catalogue/4478/uispfiberoltxgs_ds-64e499cf8d78e.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX NanoBeam M5",
+      "url": "/product/nanobeam-m5-16dbi",
+      "price": 63.63,
+      "currency": "USD",
+      "mpn": "NBE-M5-16",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti 10Gbps Bidirectional Single-Mode Optical Module, 2-pack",
+      "url": "/product/u-fiber-single-mode-module-10g-bidi-2-pack",
+      "price": 160.83,
+      "currency": "USD",
+      "mpn": "UACC-OM-SM-10G-S-2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX NanoBeam 5AC",
+      "url": "/product/nanobeam-ac-gen2",
+      "price": 96.18,
+      "currency": "USD",
+      "mpn": "NBE-5AC-Gen2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Fiber XG",
+      "url": "/product/uisp-fiber-xg",
+      "price": 107.41,
+      "currency": "USD",
+      "mpn": "UISP-FIBER-XG",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

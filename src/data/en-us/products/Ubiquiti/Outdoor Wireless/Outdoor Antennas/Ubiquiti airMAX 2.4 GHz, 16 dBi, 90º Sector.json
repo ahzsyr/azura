@@ -1,0 +1,285 @@
+{
+  "slug": "sector-airmax-2g16-90",
+  "id": "129",
+  "productTitle": "Ubiquiti airMAX 2.4 GHz, 16 dBi, 90º Sector",
+  "name": "Ubiquiti airMAX 2.4 GHz, 16 dBi, 90º Sector",
+  "title": "Ubiquiti airMAX 2.4 GHz, 16 dBi, 90º Sector",
+  "title_extended": "Ubiquiti airMAX 2.4 GHz 16 dBi 90° Sector Antenna for PtMP Wireless Networks",
+  "short_description": "Sector AirMax Antenna 2.4Ghz, 90°, 16dBi",
+  "description": "Sector AirMax Antenna 2.4Ghz, 90°, 16dBi",
+  "detailed_description": [
+    {
+      "heading": "AirMax Platform Integration",
+      "text": "The Sector AirMax 2G16-90 is a high-performance sector antenna developed by Ubiquiti Networks, renowned for its commitment to advancing wireless networking technology. This model is an integral component of Ubiquiti's AirMax series, designed to enhance the delivery of broadband wireless access in the 2.4 GHz frequency band, which is widely utilized for its balance of range and speed in outdoor wireless communications. Ubiquiti Networks has designed the AM-2G16-90 for seamless integration with its Rocket M and Rocket Prism series of base stations that operate in the 2.4 GHz frequency band. When paired, for example, with a compatible Rocket Prism 2AC unit, the antenna becomes part of a powerful PtMP network solution capable of delivering high-speed internet access across expansive areas. This integration is facilitated by Ubiquiti’s airMAX technology, which employs intelligent QoS and TDMA protocols to significantly improve network throughput, reduce latency, and support a high density of users. AirMAX technology is a cornerstone of Ubiquiti's approach to wireless networking, enabling the AM-2G16-90 to deliver exceptional performance in a wide range of applications."
+    },
+    {
+      "heading": "Antenna Design and Performance",
+      "text": "Engineered for precision and performance, the AM-2G16-90 boasts a 16 dBi gain, which significantly amplifies the antenna's ability to send and receive signals. This high gain is instrumental in extending the range of wireless networks, making it possible to cover larger areas with fewer base stations, thus optimizing the efficiency and cost-effectiveness of network deployment. The antenna's 90-degree beamwidth is specifically designed to concentrate the signal in a wide arc, making it an ideal choice for point-to-multipoint (PtMP) configurations where a single antenna needs to communicate with multiple receivers spread out within a sector. One of the standout features of the AM-2G16-90 is its utilization of dual-polarization technology. This technology allows the antenna to simultaneously transmit and receive data streams in both vertical and horizontal orientations, effectively doubling the potential throughput and enhancing the robustness of the connection even in challenging environmental conditions. The incorporation of dual-polarization, coupled with the antenna's focused beamwidth, ensures optimal bandwidth utilization and minimizes interference, leading to a more stable and reliable wireless network. The Sector AirMax 2G16-90 is built to endure the rigors of outdoor deployment. Its robust, weather-resistant design shields it from the elements, ensuring long-term durability and consistent performance regardless of rain, wind, or UV exposure. This resilience is crucial for maintaining uninterrupted network service in diverse climates and geographical locations."
+    },
+    {
+      "heading": "Applications and Deployment Scenarios",
+      "text": "The applications for the Sector AirMax 2G16-90 are varied and include deploying broadband access in rural and suburban communities, creating wireless networks for large campuses and industrial complexes, and establishing connectivity for public events. Its ability to provide focused coverage over significant distances also makes it suitable for connecting remote buildings or facilities within a centralized network architecture. Additionally, its focused 90-degree coverage makes it ideal for creating point-to-multipoint configurations, facilitating seamless communication between a central base station and multiple remote users or locations. Sector AirMax 2G16-90 from Ubiquiti Networks exemplifies the company's dedication to providing advanced, reliable solutions for outdoor wireless networking. With its significant gain, focused coverage area, dual-polarization capabilities, and durability, the AM-2G16-90 is engineered to meet the demands of modern wireless applications, offering network operators a versatile tool for expanding and enhancing broadband wireless access."
+    },
+    {
+      "heading": "Selection Considerations",
+      "text": "Selecting the right antenna from Ubiquiti's Sector AirMax series necessitates careful consideration of several crucial aspects. The primary focus should be on the specific coverage needs of your network. Models with a 120-degree beamwidth are designed for broad area coverage, making them ideal for expansive outdoor settings where users are spread out. In contrast, the 90-degree beamwidth models offer more focused coverage suitable for targeted areas or narrower sectors. The gain of the antenna, indicative of its signal strength and range, also plays a pivotal role in the selection process. Higher gain models are adept at covering large distances and penetrating through obstacles, essential for vast, open environments. Meanwhile, lower gain options might suffice for smaller, more confined spaces where extensive reach is not necessary. Take into account the installation environment, including potential obstacles (buildings, trees) and weather conditions. Higher gain antennas can better penetrate and maintain signal strength over distances but may require more substantial mounting solutions. As well as higher gain antennas can transmit signals over longer distances and are preferable for covering large, open spaces. Lower gain options may be adequate for smaller, more confined areas."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Wireless Antennas",
+  "categories": [
+    "Wireless Antennas",
+    "Antennas"
+  ],
+  "mpn": "AM-2G16-90",
+  "manufacturer_part_number": "AM-2G16-90",
+  "ean": "0810354020872",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/129/base_2_90-5feb347d4aa6f-medium.jpg",
+        "alt": "Ubiquiti airMAX 2.4 GHz, 16 dBi, 90º Sector main view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/129/am2g16901-69ef5c8cd1222-medium.jpg",
+        "alt": "Ubiquiti airMAX 2.4 GHz, 16 dBi, 90º Sector angle view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/129/am2g16902-69ef5c90e3fdb-medium.jpg",
+        "alt": "Ubiquiti airMAX 2.4 GHz, 16 dBi, 90º Sector side view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/129/base_2_90-5feb347d4aa6f-tiny.jpg",
+        "alt": "Ubiquiti airMAX 2.4 GHz, 16 dBi, 90º Sector main view"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/129/am2g16901-69ef5c8cd1222-tiny.jpg",
+        "alt": "Ubiquiti airMAX 2.4 GHz, 16 dBi, 90º Sector angle view"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/129/am2g16902-69ef5c90e3fdb-tiny.jpg",
+        "alt": "Ubiquiti airMAX 2.4 GHz, 16 dBi, 90º Sector side view"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/IuC-jTsKq1A",
+        "type": "youtube"
+      }
+    ],
+    "files": [
+      {
+        "url": "https://dl.ubnt.com/datasheets/airmaxsector/airMAX_Sector_Antennas_DS.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti airMAX 2.4 GHz, 16 dBi, 90º Sector"
+      },
+      {
+        "url": "https://dl.ubnt.com/guides/sector/airMAX_Sector_AM-2G16-90_QSG.pdf",
+        "title": "Quick Start Guide - Ubiquiti airMAX 2.4 GHz, 16 dBi, 90º Sector"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 117.94,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "2.4GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization",
+        "VSWR"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Sector"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.3 - 2.7 (GHz) 16 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "90 ° Vertical, 91 ° Horizontal"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        },
+        {
+          "name": "VSWR",
+          "value": "< 1.5"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Mounting Method",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "700 x 145 x 79 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "3.9 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX 2.4 GHz, 16 dBi, 90º Sector",
+      "url": "https://dl.ubnt.com/datasheets/airmaxsector/airMAX_Sector_Antennas_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX 2.4 GHz, 16 dBi, 90º Sector",
+      "url": "https://dl.ubnt.com/guides/sector/airMAX_Sector_AM-2G16-90_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 64.15,
+        "currency": "USD",
+        "delivery_days": 5
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 79.56,
+        "currency": "USD",
+        "delivery_days": 2
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.8,
+    "count": 5,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX 2.4 GHz, 10 dBi Omni",
+      "url": "/product/omni-airmax-2g10",
+      "price": 151.30,
+      "currency": "USD",
+      "mpn": "AMO-2G10",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 2.4 GHz, 13 dBi Omni",
+      "url": "/product/omni-airmax-2g13",
+      "price": 214.43,
+      "currency": "USD",
+      "mpn": "AMO-2G13",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 2.4 GHz, 15 dBi, 120º Sector",
+      "url": "/product/sector-airmax-2g15-120",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "AM-2G15-120",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airMAX PowerBeam M2 400",
+      "url": "/product/powerbeam-m2",
+      "price": 71.52,
+      "currency": "USD",
+      "mpn": "PBE-M2-400",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

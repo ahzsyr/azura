@@ -1,0 +1,99 @@
+{
+  "slug": "airfiber-11-high-band-duplexer",
+  "id": "AF-11-DUP-H",
+  "productTitle": "Ubiquiti airFiber High-Band Duplexer",
+  "name": "Ubiquiti airFiber High-Band Duplexer",
+  "title": "Ubiquiti airFiber High-Band Duplexer",
+  "title_extended": null,
+  "short_description": "Low Channel 10.940-11.200GHz, High Channel 11.440-11.700GHz",
+  "description": "The AirFiber 11 High Band Duplexer, carrying the manufacture part number AF-11-DUP-H, is a specialized component engineered by Ubiquiti Networks. This product is meticulously designed to augment the capabilities of Ubiquiti's AirFiber 11 series, a lineup renowned for its exceptional performance in wireless backhaul applications. Ubiquiti Networks, a leading innovator in the field of high-performance networking technology, introduces the AF-11-DUP-H as a solution aimed at enhancing the operational flexibility and efficiency of the AirFiber 11 radio systems, specifically tailored for use in high-frequency bands.",
+  "detailed_description": null,
+  "brand": "Ubiquiti",
+  "category": "Carrier Backhaul Radio",
+  "categories": null,
+  "mpn": "AF-11-DUP-H",
+  "manufacturer_part_number": "AF-11-DUP-H",
+  "ean": "0810354026539",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1407/af11duph-602faa7e19b8c-medium.jpg",
+        "alt": "Ubiquiti airFiber High-Band Duplexer",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 181.08,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": null,
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airFiber High-Band Duplexer",
+      "url": "https://www.getic.com/files/catalogue/1407/af-11_ds.pdf"
+    }
+  ],
+  "shipping": {
+    "options": []
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": null,
+    "count": null,
+    "source": "",
+    "distribution": null,
+    "breakdown": null,
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airFiber Low-Band Duplexer",
+      "url": "/product/airfiber-11-low-band-duplexer",
+      "price": 181.08,
+      "currency": "USD",
+      "mpn": "AF-11-DUP-L",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 5XHD",
+      "url": "/product/airfiber-5xhd",
+      "price": 397.94,
+      "currency": "USD",
+      "mpn": "AF-5XHD",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 11 High-Band Backhaul Radio with Dish Antenna",
+      "url": "/product/airfiber-af-11-complete-hb",
+      "price": 1459.34,
+      "currency": "USD",
+      "mpn": "AF11-Complete-HB",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 11 (no duplexers)",
+      "url": "/product/airfiber-11",
+      "price": 976.87,
+      "currency": "USD",
+      "mpn": "AF-11",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": null
+}

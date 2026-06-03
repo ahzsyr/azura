@@ -1,0 +1,381 @@
+{
+  "slug": "sxt-sq-5-ac",
+  "id": "1481",
+  "productTitle": "MikroTik SXTsq 5 ac",
+  "name": "MikroTik SXTsq 5 ac",
+  "title": "MikroTik SXTsq 5 ac",
+  "title_extended": "",
+  "short_description": "5GHz, 16dBi, 1xGLAN, 802.11a/n/ac, RouterOS L3",
+  "description": "5GHz, 16dBi, 1xGLAN, 802.11a/n/ac, RouterOS L3",
+  "detailed_description": [
+    {
+      "heading": "Blazing Wireless Standards",
+      "text": "The MikroTik SXTsq 5 ac is a compact, lightweight outdoor device designed for the 5GHz 802.11ac wireless standard, known for its efficiency in high-speed internet connectivity. This device leverages the less congested 5GHz frequency band, reducing interference and enhancing connection stability compared to older 2.4GHz band technologies. It is optimized for high-speed data transmission, supporting rates up to several gigabits per second, and incorporates technologies like beamforming and MIMO to improve signal range and reliability. Notably, the MikroTik SXTsq 5 ac features a 5GHz radio rate of up to 867 Mbps, providing a substantial throughput capacity for data-intensive applications."
+    },
+    {
+      "heading": "Upgraded Antenna Design",
+      "text": "The SXTsq 5 ac is engineered with a 16dBi antenna, encapsulated within a robust weatherproof enclosure, to sustain the high-gain capabilities that distinguished its precursor, the SXT 5 ac. This iteration advances the design by achieving a form factor that is two times thinner than its predecessor. This optimization in design not only enhances its aesthetic and installation flexibility but also leverages the focused transmission and reception capabilities inherent to 16dBi antennas. Such a configuration is instrumental in extending the wireless signal range and improving signal quality, crucial for long-distance communication links, outdoor wireless networks, and surveillance monitoring applications. The high-gain capability of the SXTsq 5 ac, underscored by its advanced antenna design, enables superior coverage and signal penetration. This feature is pivotal for maintaining strong communication links despite obstacles and enhancing network efficiency by ensuring more effective use of power and bandwidth."
+    },
+    {
+      "heading": "Seamless Connectivity Solutions",
+      "text": "This device is engineered to address a diverse array of networking needs across various scenarios, making it an invaluable asset in both urban and remote settings. Its adeptness at establishing Point-to-Point (PtP) links makes it perfect for creating direct wireless connections between two locations, eliminating the need for impractical cabling over distances. As Customer Premises Equipment (CPE), it excels, connecting end-users to wider Internet service provider networks with ease and reliability, especially in settings where it's mounted externally to capture the strongest signal. For outdoor Wi-Fi coverage, this device shines by offering extended connectivity to parks, venues, and rural areas, bringing internet access where traditional methods fall short."
+    },
+    {
+      "heading": null,
+      "text": "In the realm of security, it serves as a robust backhaul for video surveillance systems, ensuring steady and reliable transmission of critical surveillance footage from remote locations to central monitoring stations. Its utility extends to providing emergency internet access in situations demanding rapid deployment, such as events, disaster recovery, or temporary construction sites, ensuring continuity of communication when it's needed most. Furthermore, its capability for network bridging showcases its flexibility, seamlessly connecting separate network segments and expanding network reach without the physical constraints of wiring. Across these applications, the device stands out for its adaptability, performance, and ease of deployment, catering to a wide spectrum of networking challenges."
+    },
+    {
+      "heading": "Gigabit Ethernet & Powerful Core",
+      "text": "The SXTsq 5 ac is equipped with a 10/100/1000 Mbit Ethernet port, leveraging the 802.11ac protocol to ensure high-speed data transmission. This Ethernet port supports a wide range of network speeds, from 10 Mbps to 1 Gbps, facilitating efficient data transfer and making the device suitable for various applications, including high-definition video streaming and large file transfers."
+    },
+    {
+      "heading": null,
+      "text": "At its core, the device utilizes the IPQ-4018 chipset, which features a quad-core CPU architecture running at 716 MHz. This setup is complemented by 256 MB of RAM and 16 MB of storage memory, enabling the SXTsq 5 ac to handle multiple tasks simultaneously and maintain stable performance across its operations. The quad-core CPU helps in efficiently managing network traffic and enables the device to support advanced networking features and applications without significant performance degradation. The inclusion of 256 MB of RAM and 16 MB of storage provides sufficient capacity for the device's operating system, updates, and network configurations, ensuring smooth operation and reliability for both home and professional use."
+    },
+    {
+      "heading": "Robust Build with Lightning Protection",
+      "text": "The weatherproof enclosure of the device is designed for resilience, protecting against environmental factors such as rain, dust, and extreme temperatures to ensure consistent operation under diverse conditions. Enhanced by three mounting options, compatibility with hose clamps, and a grounding connection, the enclosure provides comprehensive protection. Additionally, it includes a feature for lightning protection, further securing the device against weather-related risks. These features collectively extend the lifespan of the device and reduce the need for frequent maintenance, making it well-suited for outdoor installations in both urban and rural areas, as well as in industrial settings where exposure to harsh conditions is common."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Integrated Antennas",
+    "Outdoor Wireless",
+    "MikroTik",
+    "Wireless Systems",
+    "SXT & DiscLite"
+  ],
+  "mpn": "RBSXTsqG-5acD",
+  "manufacturer_part_number": "RBSXTsqG-5acD",
+  "ean": "4752224004697",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1481/1374_hi_res1-62f11028b7943-medium.jpg",
+        "alt": "MikroTik SXTsq 5 ac",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1481/1375_hi_res1-62f11092e7377-medium.jpg",
+        "alt": "MikroTik SXTsq 5 ac",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1481/rbsxtsq5nd_7-5fd8774e1c509-medium.jpg",
+        "alt": "MikroTik SXTsq 5 ac",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1481/1374_hi_res1-62f11028b7943-tiny.jpg",
+        "alt": "MikroTik SXTsq 5 ac"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1481/1375_hi_res1-62f11092e7377-tiny.jpg",
+        "alt": "MikroTik SXTsq 5 ac"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1481/rbsxtsq5nd_7-5fd8774e1c509-tiny.jpg",
+        "alt": "MikroTik SXTsq 5 ac"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/SlacEYKkOf0",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": {
+      "id": "3c4743b0-480a-4bd1-858d-d13f7c5a94bb",
+      "pathModelLow": "https://www.getic.com/3D/1481/model_low-621cce5605ca7.fbx",
+      "pathModelMid": null,
+      "pathModelHigh": null,
+      "pathTextureAO": "https://www.getic.com/3D/1481/tex_ao-621ccd957b384.jpg",
+      "pathTextureBaseColour": "https://www.getic.com/3D/1481/tex_default_material_base_color-621ccdb405677.jpg",
+      "pathTextureNormal": "https://www.getic.com/3D/1481/tex_default_material_normal-621ccdbc59c34.jpg",
+      "pathTextureMetallic": "https://www.getic.com/3D/1481/tex_default_material_metallic-621ccdc3afdd5.jpg",
+      "pathTextureRoughness": "https://www.getic.com/3D/1481/tex_default_material_roughness-621ccdc85a957.jpg",
+      "pathTextureHeight": "https://www.getic.com/3D/1481/tex_height-621ccdd0a1817.jpg",
+      "pathTextureEmission": null
+    }
+  },
+  "price": {
+    "value": 53.37,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 5" },
+        { "name": "Standards", "value": "802.11n/ac" },
+        { "name": "MIMO", "value": "5GHz 2x2" },
+        { "name": "Frequency", "value": "5GHz" },
+        { "name": "5GHz Radio Rate", "value": "867 Mbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization"
+      ],
+      "items": [
+        { "name": "Antenna Design", "value": "Panel" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "5.150 - 5.875 (GHz) 16 (dBi)" },
+        { "name": "Beamwidth", "value": "23 °" },
+        { "name": "Polarization", "value": "Dual Linear" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 1 Gbps" },
+        { "name": "Management", "value": "Ethernet, Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "IPQ-4018, 4 core, 716 MHz" },
+        { "name": "RAM", "value": "256 MB" },
+        { "name": "Storage Memory", "value": "16 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "24V Passive PoE" },
+        { "name": "Power Supply", "value": "External PoE Adapter" },
+        { "name": "Supported Input Voltage", "value": "10 - 30 V DC" },
+        { "name": "Max Power Consumption", "value": "7 W" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 0.38 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        { "name": "Color", "value": "White" },
+        { "name": "Material", "value": "Plastic" },
+        { "name": "Ingress Protection Code", "value": "IP54" },
+        { "name": "Dimensions", "value": "129 x 129 x 34 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Outdoor" },
+        { "name": "Mounting Method", "value": "Pole Mount" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 3" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik SXTsq 5 ac",
+      "url": "https://www.getic.com/files/catalogue/1481/sxtsqplus5plusac_171235-5f8ffc987e819.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik SXTsq 5 ac",
+      "url": "https://www.getic.com/files/catalogue/1481/quickguidesxtsqlite5-6511361b52e36.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik SXTsq 5 ac",
+      "url": "https://www.getic.com/files/catalogue/1481/usermanualsxtsqseries-6511362c7f328.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "days": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.44,
+        "days": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "days": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 7,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 7,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Fabrizio",
+        "date": "2025-04-13",
+        "text": "Excellent product purchased for PtP connection between two buildings, excellent experience. TOP N.1",
+        "photos": []
+      },
+      {
+        "name": "customer",
+        "date": "2024-11-19",
+        "text": "Good product.",
+        "photos": []
+      },
+      {
+        "name": "Jouko",
+        "date": "2024-11-14",
+        "text": "Great range and speed.",
+        "photos": []
+      },
+      {
+        "name": "Viktors",
+        "date": "2024-11-10",
+        "text": "Good quality, good price",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq Lite5",
+      "url": "/product/sxt-sq-lite5",
+      "price": 35.59,
+      "currency": "USD",
+      "mpn": "RBSXTsq5nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq Lite2",
+      "url": "/product/sxt-sq-lite2",
+      "price": 35.28,
+      "currency": "USD",
+      "mpn": "RBSXTsq2nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik QuickMOUNT X",
+      "url": "/product/mikrotik-qm-x",
+      "price": 3.22,
+      "currency": "USD",
+      "mpn": "QM-X",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": "0"
+}

@@ -1,0 +1,193 @@
+{
+  "slug": "qrt-anti-noise-shield",
+  "id": 745,
+  "productTitle": "Anti-Noise Shield for MikroTik QRT",
+  "name": "Anti-Noise Shield for MikroTik QRT",
+  "title": "Anti-Noise Shield for MikroTik QRT",
+  "title_extended": "",
+  "short_description": "Paired with Mikrotik QRT-5 AC, QRT-5, QRT-2",
+  "description": "Buy Anti-Noise Shield for MikroTik QRT. Price from 20.04 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "Anti-Noise Solution",
+      "text": "The Anti-Noise Shield for MikroTik QRT (ANS-QRT) is a precision-engineered accessory designed to significantly improve the performance of MikroTik QRT devices. By providing targeted shielding around the antenna, the shield minimizes unwanted interference from nearby devices and external sources. This reduction in background noise ensures cleaner signals, higher stability, and improved overall performance for your wireless network deployments. Manufactured from durable steel and finished with a high-quality light gray powder coating, the shield is built to withstand demanding outdoor conditions while maintaining a professional appearance. Each shield is crafted with CNC precision, resulting in consistent accuracy and reliable installation. The ANS-QRT is the ideal solution for anyone looking to enhance signal clarity and reliability in crowded radio environments."
+    }
+  ],
+  "brand": "Cyberteam",
+  "category": "Antenna Accessories",
+  "categories": [
+    "Outdoor Wireless",
+    "Antenna Accessories"
+  ],
+  "mpn": "ANS-QRT",
+  "manufacturer_part_number": "ANS-QRT",
+  "ean": "0701017581468",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/745/rf-shield-qrt5_2-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik QRT",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/745/rf-shield-qrt5_1-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik QRT",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/745/rf-shield-qrt5_3-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik QRT",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 20.04,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "General",
+      "features": [
+        "Manufacturer part number",
+        "EAN",
+        "Country of Origin",
+        "Warranty"
+      ],
+      "items": [
+        {
+          "name": "Manufacturer part number",
+          "value": "ANS-QRT"
+        },
+        {
+          "name": "EAN",
+          "value": "0701017581468"
+        },
+        {
+          "name": "Country of Origin",
+          "value": "Poland"
+        },
+        {
+          "name": "Warranty",
+          "value": "12 months"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Customer",
+        "date": "2022-06-28",
+        "text": "Just as advertised",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Anti-Noise Shield for MikroTik SXTsq",
+      "url": "/product/sxtsq-lite5-anti-noise-shield",
+      "price": 9.63,
+      "currency": "USD",
+      "mpn": "ANS-SXTsq",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq 5 ac",
+      "url": "/product/sxt-sq-5-ac",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "RBSXTsqG-5acD",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Anti-Noise Shield for MikroTik wAP",
+      "url": "/product/mikrotik-wap-anti-noise-shield",
+      "price": 17.19,
+      "currency": "USD",
+      "mpn": "ANS-WAP",
+      "availability": "InStock"
+    },
+    {
+      "name": "Anti-Noise Shield for MikroTik SXT LTE",
+      "url": "/product/sxt-lte-anti-noise-shield",
+      "price": 23.10,
+      "currency": "USD",
+      "mpn": "ANS-SXT-LTE",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

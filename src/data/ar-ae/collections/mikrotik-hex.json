@@ -1,0 +1,26 @@
+{
+  "id": "mikrotik-hex",
+  "slug": "mikrotik-hex",
+  "name": "MikroTik hEX",
+  "description": "The MikroTik hEX collection consists of compact, five-port Ethernet routers designed for reliability in wired environments. The series ranges from budget-friendly lite models to high-performance 2.5G SFP units, all running on the versatile RouterOS platform",
+  "badge": "hEX",
+  "coverImage": "",
+  "parentSlug": "mikrotik-ethernet-routers",
+  "seo": {},
+  "conditions": {
+    "match": "any",
+    "rules": [
+      {
+        "field": "category",
+        "operator": "contains",
+        "value": "hex"
+      }
+    ]
+  },
+  "cardTemplate": "default",
+  "sortBy": "name-asc",
+  "visible": true,
+  "showInNav": false,
+  "updatedAt": "2026-05-07T10:00:06.478Z",
+  "_locale": "ar-ae"
+}

@@ -1,0 +1,226 @@
+{
+  "slug": "unifi-cable-cat6-cmr",
+  "id": "1255",
+  "productTitle": "Ubiquiti UniFi Indoor Cable CMR",
+  "name": "Ubiquiti UniFi Indoor Cable CMR",
+  "title": "Ubiquiti UniFi Indoor Cable CMR",
+  "title_extended": "",
+  "short_description": "Indoor, Category 6 UTP, Up to 1G Ethernet, 23 AWG Solid Copper Conductor Pairs",
+  "description": "The UniFi Indoor Cable CMR, identified by the model manufacture part number U-Cable-C6-CMR, epitomizes excellence in structured cabling solutions, meticulously engineered to meet the demanding requirements of modern networking environments. It is a Category 6 UTP cable that supports speeds up to 1Gbps with its 23 AWG solid copper, twisted pair conductor. The cable is designed for high-speed deployments located in environments that require plenum-rated cabling. The conductor's small diameter, combined with the cable's anti-crosstalk divider, isolates and protects signals from interference. The U-Cable-C6 is also a CMR cable with a fire-resistant jacket that ensures safe operation across multiple floors and vertical shafts. Category 6 Ethernet connectors are recommended to accommodate the conductor's size and optimize its performance. With a cable length of 305 meters (1000 feet) and a sleek white color, the UniFi Indoor Cable CMR offers ample coverage and a clean aesthetic suitable for various indoor environments. Constructed with solid bare copper conductors and a conductor wire gauge of 23 AWG, this cable ensures optimal conductivity and signal integrity, facilitating high-speed data transmission up to 10/100/1000 Base-T. The cable's shielding type, Unshielded Twisted Pair (UTP), provides protection against electromagnetic interference (EMI) and crosstalk, ensuring reliable performance in high-density networking environments. Additionally, the presence of an anti-crosstalk divider further enhances signal quality, minimizing interference and ensuring consistent performance across the cable length. Featuring a PVC jacket material with a diameter of 6.0 ± 0.2 mm, the UniFi Indoor Cable CMR offers exceptional durability and resistance to abrasion, moisture, and environmental factors. The cable's bend radius of minimum 24 mm and pulling tension of maximum 110 N ensure easy installation and termination, reducing labor time and ensuring optimal cable management. Compliant with industry standards such as ANSI/TIA-568-C.2 (2009), ISO/IEC 11801 (Edition 2.2), and IEC 61156-5 (Edition 2.1), the UniFi Indoor Cable CMR ensures compatibility and interoperability with existing network infrastructure. Additionally, the cable meets stringent flame test requirements, certified with UL 1666 (CMR) flame rating, ensuring compliance with safety regulations and peace of mind in fire-sensitive environments.",
+  "detailed_description": [
+    {
+      "heading": "Category 6 Ethernet cable for high-speed, indoor deployments.",
+      "text": "The UniFi Indoor Cable CMR, identified by the model manufacture part number U-Cable-C6-CMR, epitomizes excellence in structured cabling solutions, meticulously engineered to meet the demanding requirements of modern networking environments. It is a Category 6 UTP cable that supports speeds up to 1Gbps with its 23 AWG solid copper, twisted pair conductor. The cable is designed for high-speed deployments located in environments that require plenum-rated cabling. The conductor's small diameter, combined with the cable's anti-crosstalk divider, isolates and protects signals from interference."
+    },
+    {
+      "heading": "Fire-Resistant and High-Performance",
+      "text": "The U-Cable-C6 is also a CMR cable with a fire-resistant jacket that ensures safe operation across multiple floors and vertical shafts. Category 6 Ethernet connectors are recommended to accommodate the conductor's size and optimize its performance. With a cable length of 305 meters (1000 feet) and a sleek white color, the UniFi Indoor Cable CMR offers ample coverage and a clean aesthetic suitable for various indoor environments. Constructed with solid bare copper conductors and a conductor wire gauge of 23 AWG, this cable ensures optimal conductivity and signal integrity, facilitating high-speed data transmission up to 10/100/1000 Base-T."
+    },
+    {
+      "heading": "Features",
+      "text": "• Category 6 Unshielded Twisted Pair (UTP) cable\n• Communications Multipurpose Cable, Riser (CMR)-rated, fire-resistant jacket\n• 1,000 ft (305 m)\n• 23 AWG solid copper, twisted pair conductor\n• Anti-crosstalk divider"
+    },
+    {
+      "heading": "Signal Integrity and Interference Protection",
+      "text": "The cable's shielding type, Unshielded Twisted Pair (UTP), provides protection against electromagnetic interference (EMI) and crosstalk, ensuring reliable performance in high-density networking environments. Additionally, the presence of an anti-crosstalk divider further enhances signal quality, minimizing interference and ensuring consistent performance across the cable length."
+    },
+    {
+      "heading": "Durability and Installation",
+      "text": "Featuring a PVC jacket material with a diameter of 6.0 ± 0.2 mm, the UniFi Indoor Cable CMR offers exceptional durability and resistance to abrasion, moisture, and environmental factors. The cable's bend radius of minimum 24 mm and pulling tension of maximum 110 N ensure easy installation and termination, reducing labor time and ensuring optimal cable management."
+    },
+    {
+      "heading": "Industry Compliance",
+      "text": "Compliant with industry standards such as ANSI/TIA-568-C.2 (2009), ISO/IEC 11801 (Edition 2.2), and IEC 61156-5 (Edition 2.1), the UniFi Indoor Cable CMR ensures compatibility and interoperability with existing network infrastructure. Additionally, the cable meets stringent flame test requirements, certified with UL 1666 (CMR) flame rating, ensuring compliance with safety regulations and peace of mind in fire-sensitive environments."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Twisted Pair",
+  "categories": [
+    "Twisted Pair",
+    "Cables and Cabinets",
+    "Ubiquiti",
+    "Door Access",
+    "Accessories"
+  ],
+  "mpn": "U-Cable-C6-CMR",
+  "manufacturer_part_number": "U-Cable-C6-CMR",
+  "ean": "0810354026249",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1255/ucablec6cmr_003-603cfc2317825-medium.jpg",
+        "alt": "Ubiquiti UniFi Indoor Cable CMR cable roll",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1255/ucablec6cmr_002-603cfc242a566-medium.jpg",
+        "alt": "Ubiquiti UniFi Indoor Cable CMR cable detail",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1255/ucablec6cmr_001-603cfc2542a4e-medium.jpg",
+        "alt": "Ubiquiti UniFi Indoor Cable CMR packaging box",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/1255/ucablec6cmp_cmr_ds-60e6a9b5e5f43.pdf",
+        "type": "datasheet",
+        "title": "Technical Specs / Datasheet - Ubiquiti UniFi Indoor Cable CMR"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 190.61,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Cable Type",
+        "Max Data Rate",
+        "Insulation",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Cable Type",
+          "value": "Cat 6"
+        },
+        {
+          "name": "Max Data Rate",
+          "value": "1Gbps"
+        },
+        {
+          "name": "Insulation",
+          "value": "UTP"
+        },
+        {
+          "name": "Cable Length",
+          "value": "305 m"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Indoor Cable CMR",
+      "url": "https://www.getic.com/files/catalogue/1255/ucablec6cmp_cmr_ds-60e6a9b5e5f43.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 125.92,
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 160.81,
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "/product/usw-lite-8-poe-eu",
+      "price": 118.38,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UISP Cable Pro",
+      "url": "/product/uisp-cable-pro",
+      "price": 126.28,
+      "currency": "USD",
+      "mpn": "UISP-Cable-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro Wall",
+      "url": "/product/ubiquiti-access-point-u7-pro-wall",
+      "price": 200.14,
+      "currency": "USD",
+      "mpn": "U7-Pro-Wall",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

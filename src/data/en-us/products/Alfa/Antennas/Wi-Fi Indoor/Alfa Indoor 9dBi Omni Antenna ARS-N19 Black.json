@@ -1,0 +1,236 @@
+{
+  "slug": "alfa-ars-n19",
+  "id": "478",
+  "productTitle": "Alfa Indoor 9dBi Omni Antenna ARS-N19 Black",
+  "name": "Alfa Indoor 9dBi Omni Antenna ARS-N19 Black",
+  "title": "Alfa Indoor 9dBi Omni Antenna ARS-N19 Black",
+  "title_extended": "Alfa ARS-N19 WiFi Antenna – 2.4GHz Omni-Directional Antenna",
+  "short_description": "2.4GHz 9dBi Dipole Omni Antenna, RP-SMA Connector",
+  "description": "Alfa ARS-N19 is a high-gain omnidirectional antenna designed for indoor use. It is an excellent choice for improving wireless signal strength and coverage within indoor environments. Its omnidirectional design and high gain ensure consistent and reliable Wi-Fi connectivity for a variety of devices. ARS-N19 works in 2.4 - 2.5 GHz frequency range, has 9 dBi gain and a wide beamwidth of 360°. The antenna features linear and vertical polarization for optimal signal performance. The ARS-N19 is made from high-quality materials and is designed to be durable and reliable. It has a compact size and a low profile, making it easy to install. It is also very easy to use, and it does not require any special software or configuration.",
+  "detailed_description": [],
+  "brand": "Alfa Network",
+  "category": "WiFi Indoor Antennas",
+  "categories": [
+    "Home and Office Networks",
+    "WiFi Indoor Antennas",
+    "Alfa",
+    "Antennas",
+    "Wi-Fi Indoor"
+  ],
+  "mpn": "ARS-N19",
+  "manufacturer_part_number": "ARS-N19",
+  "ean": "4718050300167",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/478/arsn19-6111425524443-medium.jpg",
+        "alt": "Alfa Indoor 9dBi Omni Antenna ARS-N19 Black",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/478/ars-n19_2-medium.jpg",
+        "alt": "Alfa Indoor 9dBi Omni Antenna ARS-N19 Black",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 6.41,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "2.4GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization",
+        "VSWR",
+        "Impedance"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.4 - 2.5 (GHz) 9 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "360 ° Vertical"
+        },
+        {
+          "name": "Polarization",
+          "value": "Linear, Vertical"
+        },
+        {
+          "name": "VSWR",
+          "value": "< 1.5"
+        },
+        {
+          "name": "Impedance",
+          "value": "50 Ω"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) RP-SMA Male"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø13 x 392 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 55 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Alfa Indoor 9dBi Omni Antenna ARS-N19 Black",
+      "url": "https://www.getic.com/files/catalogue/478/arsn19specs-6034c6842dae8.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Alfa Panel Indoor Antenna APA-M25",
+      "url": "/product/alfa-panel-indoor-antenna-apa-m25",
+      "price": 15.78,
+      "currency": "USD",
+      "mpn": "APA-M25",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS1900",
+      "url": "/product/alfa-awus1900",
+      "price": 46.14,
+      "currency": "USD",
+      "mpn": "AWUS1900",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACM",
+      "url": "/product/alfa-awus036acm",
+      "price": 34.45,
+      "currency": "USD",
+      "mpn": "AWUS036ACM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACH v.2",
+      "url": "/product/alfa-awus036ach-c",
+      "price": 47.58,
+      "currency": "USD",
+      "mpn": "AWUS036ACH-C",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

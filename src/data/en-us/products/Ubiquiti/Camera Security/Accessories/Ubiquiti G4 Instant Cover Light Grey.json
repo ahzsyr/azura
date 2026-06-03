@@ -1,0 +1,193 @@
+{
+  "slug": "g4-instant-cover-light-grey",
+  "id": "UACC-G4-INS-Cover-Light-Grey",
+  "productTitle": "Ubiquiti G4 Instant Cover Light Grey",
+  "name": "Ubiquiti G4 Instant Cover Light Grey",
+  "title": "Ubiquiti G4 Instant Cover Light Grey",
+  "title_extended": "",
+  "short_description": "Custom cover for the G4 Instant camera, Light Grey",
+  "description": "The Ubiquiti G4 Instant Cover in light gray is a practical accessory designed to protect and customize your G4 Instant camera. Made from durable rubber, this lightweight cover (just 14 g) offers added protection against dust, minor impacts, and environmental wear, ensuring your device stays in excellent condition over time. Its precision-fit design allows for seamless installation without interfering with the camera’s functionality or image quality. The elegant light gray finish adds a subtle aesthetic upgrade, blending well with various environments for indoor setups. Perfect for users looking to extend the lifespan of their equipment while maintaining a clean and modern look, the G4 Instant Cover combines style, protection, and convenience in one simple accessory.",
+  "detailed_description": [
+    {
+      "heading": "Sleek Protection for G4 Instant Camera",
+      "text": "The Ubiquiti G4 Instant Cover in light gray is a practical accessory designed to protect and customize your G4 Instant camera. Made from durable rubber, this lightweight cover (just 14 g) offers added protection against dust, minor impacts, and environmental wear, ensuring your device stays in excellent condition over time. Its precision-fit design allows for seamless installation without interfering with the camera’s functionality or image quality. The elegant light gray finish adds a subtle aesthetic upgrade, blending well with various environments for indoor setups. Perfect for users looking to extend the lifespan of their equipment while maintaining a clean and modern look, the G4 Instant Cover combines style, protection, and convenience in one simple accessory."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Accessories",
+  "categories": [
+    "Camera Security",
+    "Accessories"
+  ],
+  "mpn": "UACC-G4-INS-Cover-Light-Grey",
+  "manufacturer_part_number": "UACC-G4-INS-Cover-Light-Grey",
+  "ean": "0810010078889",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4269/1-63bd2d43045d6-medium.jpg",
+        "alt": "Ubiquiti G4 Instant Cover Light Grey",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 9.99,
+    "currency": "USD",
+    "discount": 21
+  },
+  "old_price": 12.62,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Rubber"
+        },
+        {
+          "name": "Dimensions",
+          "value": "82 x 52 x 49 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.014 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti G4 Instant Cover Light Grey",
+      "url": "https://www.getic.com/files/catalogue/4269/uvcg4inscover_ds-63bd2d3dc84b8.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti G4 Instant Cover Light Grey",
+      "url": "https://www.getic.com/files/catalogue/4269/uvcg4inscover_instguide-63bd2d56036d7.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.60,
+        "delivery_time": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.48,
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.91,
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Camera G4 Instant",
+      "url": "/product/unifi-video-camera-g4-instant",
+      "price": 117.14,
+      "currency": "USD",
+      "mpn": "UVC-G4-INS",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Camera G5 Flex",
+      "url": "/product/ubiquiti-unifi-video-camera-g5-flex",
+      "price": 131.04,
+      "currency": "USD",
+      "mpn": "UVC-G5-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Instant",
+      "url": "/product/ubiquiti-camera-g6-instant",
+      "price": 178.80,
+      "currency": "USD",
+      "mpn": "UVC-G6-INS-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UNAS 2 Black",
+      "url": "/product/ubiquiti-unas-2-black",
+      "price": 214.56,
+      "currency": "USD",
+      "mpn": "UNAS-2-B",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

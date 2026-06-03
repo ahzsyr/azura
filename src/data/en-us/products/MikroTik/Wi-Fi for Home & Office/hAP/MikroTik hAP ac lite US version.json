@@ -1,0 +1,388 @@
+{
+  "slug": "routerboard-hap-ac-lite-us",
+  "id": "1908",
+  "productTitle": "MikroTik hAP ac lite US version",
+  "name": "MikroTik hAP ac lite US version",
+  "title": "MikroTik hAP ac lite US version",
+  "title_extended": "",
+  "short_description": "(USA) 650MHz CPU, 64MB RAM, 5x LAN ports, 802.11a/b/g/n/ac, 2.4GHz 2 chains + 5GHz 1 chain , RouterOS L4",
+  "description": "Enjoy a comprehensive and affordable home networking experience with the MikroTik hAP ac lite, a dual-concurrent 2.4/5GHz Access Point designed for exceptional 802.11ac performance. Featuring dual-chain 802.11b/g/n 2.4GHz wireless and single-chain 802.11a/n/ac 5GHz wireless capabilities, the hAP ac lite delivers seamless WiFi coverage across both frequencies, optimizing connectivity for various applications.\n\nCompact yet robust, this device is equipped with a potent 650MHz CPU, effortlessly managing a spectrum of networking tasks. Supported by 64MB of RAM, it thrives in multitasking scenarios, ensuring smooth and efficient operations across diverse applications. The blend of a powerful CPU and ample RAM makes this device a versatile and reliable ally for all your networking needs.\n\nAt the heart of its operation is the RouterOS L4 license, the operating system developed by MikroTik for their routers and wireless systems. This license level, demonstrating a comprehensive feature set, empowers the hAP ac lite with advanced capabilities suitable for managing small to medium-sized networks.\n\nThe hAP ac lite is equipped with five 10/100Mbps Ethernet ports, each supporting data transfer rates of 10 or 100 megabits per second (Mbps). These ports serve as versatile connectors for various devices within your local network, ensuring seamless connectivity. Enhancing its capabilities, the hAP ac lite features PoE-Out on Port 5, allowing it to supply power to other PoE-compatible devices. This feature streamlines cabling and power distribution, making it ideal for powering devices like IP cameras. Additionally, the USB-A 2.0 port opens the door to external connectivity, specifically designed to support 3G or 4G modems.\n\nThe device further features Passive PoE Input, enabling power to be supplied either through the conventional power jack or seamlessly via a PoE injector. Passive Power over Ethernet (PoE) ensures a constant voltage delivery, enhancing the efficiency of power and data transmission through the same Ethernet cable.",
+  "detailed_description": [
+    {
+      "heading": "Seamless WiFi Coverage",
+      "text": "Enjoy a comprehensive and affordable home networking experience with the MikroTik hAP ac lite, a dual-concurrent 2.4/5GHz Access Point designed for exceptional 802.11ac performance. Featuring dual-chain 802.11b/g/n 2.4GHz wireless and single-chain 802.11a/n/ac 5GHz wireless capabilities, the hAP ac lite delivers seamless WiFi coverage across both frequencies, optimizing connectivity for various applications."
+    },
+    {
+      "heading": "Effortless Networking Management",
+      "text": "Compact yet robust, this device is equipped with a potent 650MHz CPU, effortlessly managing a spectrum of networking tasks. Supported by 64MB of RAM, it thrives in multitasking scenarios, ensuring smooth and efficient operations across diverse applications. The blend of a powerful CPU and ample RAM makes this device a versatile and reliable ally for all your networking needs.\n\nAt the heart of its operation is the RouterOS L4 license, the operating system developed by MikroTik for their routers and wireless systems. This license level, demonstrating a comprehensive feature set, empowers the hAP ac lite with advanced capabilities suitable for managing small to medium-sized networks."
+    },
+    {
+      "heading": "Enhanced Connectivity Features",
+      "text": "The hAP ac lite is equipped with five 10/100Mbps Ethernet ports, each supporting data transfer rates of 10 or 100 megabits per second (Mbps). These ports serve as versatile connectors for various devices within your local network, ensuring seamless connectivity. Enhancing its capabilities, the hAP ac lite features PoE-Out on Port 5, allowing it to supply power to other PoE-compatible devices. This feature streamlines cabling and power distribution, making it ideal for powering devices like IP cameras. Additionally, the USB-A 2.0 port opens the door to external connectivity, specifically designed to support 3G or 4G modems.\n\nThe device further features Passive PoE Input, enabling power to be supplied either through the conventional power jack or seamlessly via a PoE injector. Passive Power over Ethernet (PoE) ensures a constant voltage delivery, enhancing the efficiency of power and data transmission through the same Ethernet cable."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "WiFi Routers",
+  "categories": [
+    "WiFi Routers"
+  ],
+  "mpn": "RB952Ui-5ac2nD-US",
+  "manufacturer_part_number": "RB952Ui-5ac2nD-US",
+  "ean": "4752224003287",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1908/rb952ui5ac2nd_1-5fd9cfe387317-medium.jpg",
+        "alt": "MikroTik hAP ac lite US version",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1908/rb952ui5ac2nd_1-5fd9cfe387317-tiny.jpg",
+        "alt": "MikroTik hAP ac lite US version"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/nd2QCrp9SYQ",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 46.00,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "US"
+      ],
+      "default": "US"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 1x1"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "300 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "433 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.412 - 2.462 (GHz) 1.5 (dBi), 5.170 - 5.250 (GHz) 2 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "USB Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(5) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 2.0"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "QCA9531, 1 core, 650 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "64 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "10 - 28 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "20 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 1.2 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "113 x 89 x 28 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 4"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik hAP ac lite US version",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-hap_ac_lite.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik hAP ac lite US version",
+      "url": "https://www.getic.com/files/catalogue/1908/hapaclite_usermanual-665d76ba01f11.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Normunds",
+        "date": "2025-06-05",
+        "text": "Ļoti labs",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hAP lite classic",
+      "url": "/product/routerboard-hap-lite",
+      "price": 22.54,
+      "currency": "USD",
+      "mpn": "RB941-2nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX PoE lite",
+      "url": "/product/routerboard-hex-poe-lite",
+      "price": 49.75,
+      "currency": "USD",
+      "mpn": "RB750UPr2",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX S",
+      "url": "/product/routerboard-hex-s",
+      "price": 53.10,
+      "currency": "USD",
+      "mpn": "RB760iGS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ac2 US version",
+      "url": "/product/mikrotik-hap-ac2-us",
+      "price": 65.22,
+      "currency": "USD",
+      "mpn": "RBD52G-5HacD2HnD-TC-US",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

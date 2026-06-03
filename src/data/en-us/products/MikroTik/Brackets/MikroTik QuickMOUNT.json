@@ -1,0 +1,187 @@
+{
+  "slug": "quickmount",
+  "id": 931,
+  "productTitle": "MikroTik QuickMOUNT",
+  "name": "MikroTik QuickMOUNT",
+  "title": "MikroTik QuickMOUNT",
+  "title_extended": "",
+  "short_description": "Wall mount adapter for small point to point and sector antennas",
+  "description": "QuickMOUNT is a versatile mounting adapter designed to securely install small point-to-point (PtP) and sector antennas in a wide range of environments. It allows stable attachment of equipment to a wall or functions as an adapter to convert a large-diameter pole into a mount for a smaller antenna, providing installation flexibility and structural reliability. QuickMOUNT offers antenna rotation up to 190°, enabling precise alignment to maximize network performance. It supports devices weighing up to 1.5 kg, including MikroTik SXT, Omnitik, BaseBox, DynaDish, and other pole-mounted solutions. Constructed from durable anvilNITE™ composite material, QuickMOUNT is resistant to mechanical stress and harsh environmental conditions. Ideal for use in offices, industrial sites, rooftops, or remote locations, it delivers dependable performance. QuickMOUNT also allows mounting two SXT devices simultaneously, enabling the creation of a repeater access point or extending network coverage. This cost-effective and robust adapter is an excellent solution for building efficient wireless networks anywhere.",
+  "detailed_description": [],
+  "brand": "MikroTik",
+  "category": "Mounting Accessories",
+  "categories": [
+    "Mounting Accessories",
+    "Mounts and Brackets"
+  ],
+  "mpn": "QM",
+  "manufacturer_part_number": "QM",
+  "ean": "4752224002525",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/931/mikrotikquickmountqm_1-5fdb48bb3f133-medium.jpg",
+        "alt": "MikroTik QuickMOUNT",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/931/mikrotikquickmountqm_2-5fdb48bac96f6-medium.jpg",
+        "alt": "MikroTik QuickMOUNT",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/931/mikrotikquickmountqm_1-5fdb48bb3f133-tiny.jpg",
+        "alt": "MikroTik QuickMOUNT thumbnail 1"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/931/mikrotikquickmountqm_2-5fdb48bac96f6-tiny.jpg",
+        "alt": "MikroTik QuickMOUNT thumbnail 2"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 3.70,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "108 x 96 x 56 mm"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik QuickMOUNT",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-quickmount.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Viktors",
+        "date": "2024-11-10",
+        "text": "Good quality, good price",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik QuickMOUNT extra",
+      "url": "/product/quickmount-extra",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QME",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq 5 ac",
+      "url": "/product/sxt-sq-5-ac",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "RBSXTsqG-5acD",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik QuickMOUNT X",
+      "url": "/product/mikrotik-qm-x",
+      "price": 3.22,
+      "currency": "USD",
+      "mpn": "QM-X",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

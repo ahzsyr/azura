@@ -1,0 +1,272 @@
+{
+  "slug": "fiber-poe-g2",
+  "id": "F-POE-G2",
+  "productTitle": "Ubiquiti Optical Data Transport",
+  "name": "Ubiquiti Optical Data Transport",
+  "title": "Ubiquiti Optical Data Transport",
+  "title_extended": "",
+  "short_description": "Optical Data Transport for Outdoor POE Devices",
+  "description": "Optical Data Transport for Outdoor POE Devices",
+  "detailed_description": [
+    {
+      "heading": "The FiberPoE™ connects remote PoE devices and provides data and power using fiber and DC cabling.",
+      "text": "The Ubiquiti F-POE-G2 Optical Data Transport device serves as a critical component in networking infrastructures, primarily facilitating efficient and reliable data transmission over optical fiber cables. Its advanced features and versatile connectivity options make it suitable for a wide range of application scenarios across various industries. Overcome PoE limitations with the next-generation FiberPoE™  low-cost solution for outdoor deployments that require long-distance runs to reach the PoE device. Deployments with the FiberPoE Gen 2 provide significant EMI and ESD protection over typical PoE installations. The FiberPoE Gen 2 also features a durable, weatherproof form factor and enhanced surge protection."
+    },
+    {
+      "heading": "Features:",
+      "text": "Reliable long-distance Gigabit PoE runs\nEnhanced ESD protection and EMI reduction\nDependable 24V/50V passive PoE transport\nWorks reliably in extreme temperatures (-40 to 60° C)"
+    },
+    {
+      "heading": "Features:",
+      "text": "PoE is ideal for indoor or short-run installations. However, for outdoor, long-distance installations, PoE becomes vulnerable to EMI and is limited to 100 meters with correlated power loss. With the FiberPoE Gen 2, data and power are transported on separate cables to greatly improve data integrity and enable much longer cable runs. The FiberPoE Gen 2 provides Gigabit bidirectional data transport between twisted-pair Ethernet cable and fiber optic cable, and injects DC power to the Ethernet cable for passive PoE. Use one FiberPoE Gen 2 device as an Fiber‑to‑Ethernet Converter, or a pair of FiberPoE Gen 2 devices to create a Fiber Bridge."
+    },
+    {
+      "heading": "Features:",
+      "text": "In terms of hardware, the F-POE-G2 device features a versatile array of networking interfaces, including one 1 Gbps SFP port, one DC terminal block, and one DC RJ45 port for DC injection. Additionally, it includes one GbE PoE port, supporting PoE passthrough functionality. Notably, the device supports 24V DC input through the DC terminal block and DC RJ45 port, with built-in surge and ESD/EMP protection for enhanced reliability and harsh environmental conditions, with an ambient operating temperature range of -40 to 60°C (-40 to 140°F) and ambient operating humidity of 10 to 95% noncondensing. The enclosure material, polycarbonate, further enhances its ruggedness, providing protection against environmental factors and ensuring long-term reliability. It holds certifications including CE, FCC, and IC, guaranteeing compliance with industry standards and regulations."
+    },
+    {
+      "heading": "Features:",
+      "text": "With a typical power consumption of 1.5W, the F-POE-G2 device is energy-efficient, minimizing power consumption while maximizing performance. It supports various power methods, including DC terminal block, 2-wire, 24V DC/50 VDC, and DC in RJ45 port, 2-pair (4, 5+; 7, 8-) (24V DC input), or 4-pair (24V DC/50V DC input) passthrough."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Fiber Networks",
+  "categories": [
+    "Fiber Networks",
+    "Accessories"
+  ],
+  "mpn": "F-POE-G2",
+  "manufacturer_part_number": "F-POE-G2",
+  "ean": "0817882024686",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1690/fpoe_top_angle-601d1e3dce0bc-medium.jpg",
+        "alt": "Ubiquiti Optical Data Transport",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1690/fpoe_front-601d1c096c3c0-medium.jpg",
+        "alt": "Ubiquiti Optical Data Transport",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1690/fpoe_back-601d1b53aef67-medium.jpg",
+        "alt": "Ubiquiti Optical Data Transport",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1690/fpoe_top_angle_ports-601d2071f3846-medium.jpg",
+        "alt": "Ubiquiti Optical Data Transport",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1690/fpoe_ports-601d1d31c2994-medium.jpg",
+        "alt": "Ubiquiti Optical Data Transport",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 31.25,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 1G SFP"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector"
+      ],
+      "items": [
+        {
+          "name": "Supported Input Voltage",
+          "value": "16 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "1.5 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "Terminal Block"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "196.4 x 93.5 x 32.4 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.288 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 60 °C"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Optical Data Transport",
+      "url": "https://dl.ubnt.com/datasheets/airfiber/fiberpoe_f-poe-g2_ds.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti Optical Data Transport",
+      "url": "https://dl.ubnt.com/guides/airfiber/F-POE-G2_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "OS1 Simplex LC UPC Fiber Patch Cable 100ft",
+      "url": "/product/fiber-cable-single-mode-100ft",
+      "price": 60.42,
+      "currency": "USD",
+      "mpn": "FC-SM-100",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti NanoSwitch",
+      "url": "/product/nano-switch",
+      "price": 43.46,
+      "currency": "USD",
+      "mpn": "N-SW",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Lite AP GPS",
+      "url": "/product/lite-ap-ac-gps",
+      "price": 92.48,
+      "currency": "USD",
+      "mpn": "LAP-GPS",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Outdoor",
+      "url": "/product/ubiquiti-access-point-u7-outdoor",
+      "price": 200.14,
+      "currency": "USD",
+      "mpn": "U7-Outdoor",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": ""
+}

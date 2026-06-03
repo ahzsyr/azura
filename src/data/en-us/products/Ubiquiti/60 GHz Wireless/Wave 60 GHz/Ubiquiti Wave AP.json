@@ -1,0 +1,352 @@
+{
+  "slug": "ubiquiti-uisp-wave-access-point",
+  "id": "Wave-AP",
+  "productTitle": "Ubiquiti Wave AP",
+  "name": "Ubiquiti Wave AP",
+  "title": "Ubiquiti Wave AP",
+  "title_extended": "",
+  "short_description": "60 GHz PtMP Access Point, 5 GHz backup radio, 5.4 Gbps total throughput, 1x 10G SFP+ Port, 1x 2.5 GbE Port",
+  "description": "60 GHz PtMP Access Point, 5 GHz backup radio, 5.4 Gbps total throughput, 1x 10G SFP+ Port, 1x 2.5 GbE Port",
+  "detailed_description": [
+    {
+      "heading": "60 GHz Performance",
+      "text": "The Ubiquiti Wave-AP is a high-performance 60 GHz PtMP access point designed for outdoor use. It operates on a 60 GHz frequency band and supports a maximum throughput of 5.4 Gbps, which effectively operates at 2.7 Gbps duplex. This device can support up to 24 client stations and offers a range of up to 8 km when connected to a Wave Pro or Wave Long-Range, and up to 5 km when connected to a Wave Nano."
+    },
+    {
+      "heading": "Connectivity and Backup",
+      "text": "The Wave-AP is equipped with a 5 GHz backup radio to ensure uninterrupted connectivity and also includes a Bluetooth radio for simplified setup via the UISP Mobile app. The access point features two WAN ports: one 10G SFP+ and one 2.5GbE, which facilitate high-speed data connections."
+    },
+    {
+      "heading": "Rugged Outdoor Design",
+      "text": "From a hardware perspective, the Wave-AP is housed in a robust aluminum alloy and UV-stabilized polycarbonate enclosure, which ensures durability and longevity in outdoor environments. It includes a quad-core ARM Cortex-A53 processor running at 1.4 GHz, coupled with 512 MB of DDR3L memory. Its physical dimensions are 212 x 205 x 187 mm, and it weighs 2.3 kg. The device is designed to handle wind loadings of 98 N at 200 km/h and is rated IPX6 for weatherproofing."
+    },
+    {
+      "heading": "Advanced Network Control",
+      "text": "Furthermore, the Wave-AP is equipped with advanced software tools and features. It supports PtMP access mode and is compatible with Ubiquiti's UISP version 1.5.7 and later. It includes practical network management tools such as antenna alignment, discovery utility, ping, traceroute, and a speed test. Moreover. Bluetooth-powered setup via the UISP Mobile app is available. Thanks to UISP app you can centrally manage your networks and clients with ease. Simply organize your clients' plans, setup billing and invoicing, and grow your customer base. UISP application allows viewing network topology, advanced data analytics, quickly set up devices and manage them on the go with a powerful mobile app."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Ubiquiti",
+    "60 GHz Wireless",
+    "Wave 60 GHz"
+  ],
+  "mpn": "Wave-AP",
+  "manufacturer_part_number": "Wave-AP",
+  "ean": "0810010078742",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4278/1-63be804c82811-medium.jpg",
+        "alt": "Ubiquiti Wave AP",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4278/2-63be805011054-medium.jpg",
+        "alt": "Ubiquiti Wave AP",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4278/3-63be805326fe4-medium.jpg",
+        "alt": "Ubiquiti Wave AP",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4278/4-63be805ba9571-medium.jpg",
+        "alt": "Ubiquiti Wave AP",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4278/5-63be805f02868-medium.jpg",
+        "alt": "Ubiquiti Wave AP",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4278/6-63be80630fbbb-medium.jpg",
+        "alt": "Ubiquiti Wave AP",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/KxC5RJ_3B3E",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 495.58,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "60GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ax, 802.11ay"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz, 60GHz"
+        },
+        {
+          "name": "60GHz Radio Rate",
+          "value": "5.4Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "57 - 71 (GHz) 24 (dBi), 5.15 - 5.875 (GHz) 12 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 2.5 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 10G SFP+"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad ARM® Cortex®-A53 cores at 1.4 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "512 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE, 48V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "24 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "48 V DC 0.65 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, UV Plastic"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX6"
+        },
+        {
+          "name": "Dimensions",
+          "value": "212 x 205 x 187 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "2.3 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Wave AP",
+      "url": "https://www.getic.com/files/catalogue/4278/waveap_ds-63be8047a4d0f.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti Wave AP",
+      "url": "https://www.getic.com/files/catalogue/4278/waveap_qig-63be807f41320.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti LTU Pro",
+      "url": "/product/ubiquiti-ltu-pro",
+      "price": 166.78,
+      "currency": "USD",
+      "mpn": "LTU-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Wave Nano",
+      "url": "/product/ubiquiti-uisp-wave-nano",
+      "price": 286.75,
+      "currency": "USD",
+      "mpn": "Wave-Nano",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Wave Long-Range",
+      "url": "/product/ubiquiti-uisp-wave-long-range",
+      "price": 388.57,
+      "currency": "USD",
+      "mpn": "Wave-LR",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Wave AP Micro",
+      "url": "/product/wave-access-point-micro",
+      "price": 470.56,
+      "currency": "USD",
+      "mpn": "Wave-AP-Micro",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,262 @@
+{
+  "slug": "ubiquiti-unifi-switch-pro-xg-aggregation",
+  "id": "6841",
+  "productTitle": "Ubiquiti UniFi Switch Pro XG Aggregation",
+  "name": "Ubiquiti UniFi Switch Pro XG Aggregation",
+  "title": "Ubiquiti UniFi Switch Pro XG Aggregation",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The Ubiquiti UniFi Switch Pro XG Aggregation (USW-Pro-XG-Aggregation) is a high-performance Layer 3 switch designed to deliver exceptional aggregation capacity for enterprise and data center networks. It includes (32) 10G SFP+ ports and (4) 25G SFP28 ports, providing high-bandwidth connectivity for uplinks, servers, and other switches. With a total switching capacity of 1.6 Tbps and non-blocking throughput of 800 Gbps, the USW-Pro-Aggregation ensures smooth and uninterrupted data transmission, even under heavy network load. Its forwarding rate reaches 1.2 Bpps, which allows the switch to handle large volumes of traffic efficiently. The rack-mountable 1U form factor fits seamlessly into standard enterprise racks, while the robust SGCC steel enclosure ensures durability and long-term reliability. This combination of high port density, massive throughput, and resilient construction makes the switch ideal for aggregating multiple 10G and 25G links in professional networks. It is especially suitable for environments that demand consistent high-speed connectivity and low latency, such as corporate networks, service providers, and data centers.",
+  "detailed_description": [
+    {
+      "heading": "High-Capacity Connectivity",
+      "text": "The Ubiquiti UniFi Switch Pro XG Aggregation (USW-Pro-XG-Aggregation) is a high-performance Layer 3 switch designed to deliver exceptional aggregation capacity for enterprise and data center networks. It includes (32) 10G SFP+ ports and (4) 25G SFP28 ports, providing high-bandwidth connectivity for uplinks, servers, and other switches. With a total switching capacity of 1.6 Tbps and non-blocking throughput of 800 Gbps, the USW-Pro-Aggregation ensures smooth and uninterrupted data transmission, even under heavy network load. Its forwarding rate reaches 1.2 Bpps, which allows the switch to handle large volumes of traffic efficiently. The rack-mountable 1U form factor fits seamlessly into standard enterprise racks, while the robust SGCC steel enclosure ensures durability and long-term reliability. This combination of high port density, massive throughput, and resilient construction makes the switch ideal for aggregating multiple 10G and 25G links in professional networks. It is especially suitable for environments that demand consistent high-speed connectivity and low latency, such as corporate networks, service providers, and data centers."
+    },
+    {
+      "heading": "Advanced Layer 3 Features",
+      "text": "The USW-Pro-Aggregation provides comprehensive Layer 3 functionality for modern networks, managed via the UniFi Network Controller for easy setup and configuration. It supports advanced switching and routing features, including Inter-VLAN routing, static routing, and multiple operation modes for individual ports. The switch allows up to 1,000 VLANs, providing flexible segmentation for large networks and improving traffic management. Its MAC address table holds 32,000 entries, while the Layer 3 table supports 128,000 ARP entries and 256,000 IPv4 routes, enabling efficient handling of complex network topologies. For enhanced network security, it supports 256 IPv4 and 256 MAC access control lists (ACLs), enabling granular control over network access. A 8 MB packet buffer ensures smooth packet flow even during high traffic spikes, reducing the chance of dropped packets or latency issues. These advanced Layer 3 capabilities, combined with high port density and throughput, make the USW-Pro-Aggregation ideal for enterprise aggregation, providing network administrators with the tools to build secure, efficient, and scalable infrastructures."
+    },
+    {
+      "heading": "Reliable Power and Management",
+      "text": "The USW-Pro-XG-Aggregation is designed for reliable operation in demanding environments. It features a universal AC input power supply supporting 100–240V AC at 50/60 Hz with a maximum power consumption of 200W, ensuring efficient energy use. For added redundancy, the switch includes a 12V DC input connector, allowing connection to the UniFi Smart Power RPS (USP-RPS) backup system. This ensures continuous operation even during power interruptions. The switch also features a 1.3-inch color touchscreen for quick status checks, diagnostics, and system monitoring without the need for additional software. Managed through the UniFi Network Controller, administrators gain centralized control over configuration, monitoring, firmware updates, and performance analytics. The rugged SGCC steel enclosure provides long-term durability and reliable protection in professional environments. This combination of intelligent management tools, redundant power options, and a durable design ensures the USW-Pro-XG-Aggregation delivers high reliability and uptime for critical enterprise network operations."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Aggregation"
+  ],
+  "mpn": "USW-Pro-XG-Aggregation",
+  "manufacturer_part_number": "USW-Pro-XG-Aggregation",
+  "ean": "0810177163077",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6841/1-68ef5f358c16f-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG Aggregation",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6841/2-68ef5f38af869-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG Aggregation",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6841/3-68ef5f3bcdfb9-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG Aggregation",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6841/4-68ef5f3ef0b43-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG Aggregation",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6841/5-68ef5f4229fa7-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG Aggregation",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6841/6-68ef5f455eb43-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG Aggregation",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 2512.85,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "PoE Out Standards",
+          "value": "w/o PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(32) 25G SFP28"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, USP RPS DC input"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "200 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Material",
+          "value": "SGCC steel"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442.4 x 43.7 x 480 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "7.2 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Pro XG Aggregation",
+      "url": "https://www.getic.com/files/catalogue/6841/uswproxgaggregation_ds-68ef5f2f6e517.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti 10Gbps Single-Mode Optical Module, 2-pack",
+      "url": "/product/u-fiber-single-mode-module-10g-2-pack",
+      "price": 88.78,
+      "currency": "USD",
+      "mpn": "UACC-OM-SM-10G-D-2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro 24 PoE",
+      "url": "/product/usw-pro-24-poe-gen-2",
+      "price": 702.24,
+      "currency": "USD",
+      "mpn": "USW-Pro-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro Max 24 PoE",
+      "url": "/product/switch-professional-max-24-poe",
+      "price": 798.21,
+      "currency": "USD",
+      "mpn": "USW-Pro-Max-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro Max",
+      "url": "/product/dream-machine-pro-max",
+      "price": 578.18,
+      "currency": "USD",
+      "mpn": "UDM-Pro-Max",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

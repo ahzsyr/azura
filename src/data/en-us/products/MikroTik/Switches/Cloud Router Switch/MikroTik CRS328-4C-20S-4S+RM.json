@@ -1,0 +1,309 @@
+{
+  "slug": "cloud-router-switch-328-4c-20s-4s-rm",
+  "id": 1573,
+  "productTitle": "MikroTik CRS328-4C-20S-4S+RM Switch – 20x SFP, 4x SFP+, 4x Combo",
+  "name": "MikroTik CRS328-4C-20S-4S+RM",
+  "title": "MikroTik CRS328-4C-20S-4S+RM",
+  "title_extended": "MikroTik CRS328-4C-20S-4S+RM Switch – 20x SFP, 4x SFP+, 4x Combo",
+  "short_description": "20 SFP ports, 4xSFP+ ports, 4 ETH/SFP combo ports, SwOS / RouterOS L5 (Dual Boot)",
+  "description": "20 SFP ports, 4xSFP+ ports, 4 ETH/SFP combo ports, SwOS / RouterOS L5 (Dual Boot)",
+  "detailed_description": [
+    {
+      "heading": "For Large Organizations & ISPs",
+      "text": "The MikroTik CRS328-4C-20S-4S+RM is optimized for large organizations and ISPs, features twenty SFP ports, supporting speeds up to 1GbE, ideal for fiber optic or copper connections. It also integrates four advanced SFP+ ports, capable of managing up to 10GbE speeds—a staple in current network environments. Furthermore, this switch presents four versatile combo ports, enabling users to choose between RJ45 and SFP connections. Plus, the device's customization capabilities ensure a tailored network experience for users."
+    },
+    {
+      "heading": "Maximizing Network Potential",
+      "text": "The CRS328 runs on the robust 98DX3236 chipset, operating at 800 MHz. Complemented by a substantial 512 MB of RAM, this configuration is tailored for dedicated network devices, managing tasks from buffering and routing tables to overseeing the device's OS operations. The standout feature of this device, however, is its Marvell switch chip. Renowned in both consumer and enterprise spheres, Marvell's chips excel in efficiently handling data plane operations. This translates to swift packet forwarding, adept VLAN management, and an overall streamlined data traffic experience, ensuring your network realizes its full potential."
+    },
+    {
+      "heading": "Mastering Complex Topologies",
+      "text": "The CRS328 is designed for optimal performance: with its non-blocking Layer 2 switching, every port runs at top speed without congestion. Boasting a 16K host table, the switch can track a vast number of devices, ideal for large-scale networks. It supports up to 4,000 VLANs, ensuring thorough network segmentation. With the incorporation of STP, RSTP, and MSTP, network loops are effectively prevented. For security, the CRS328 uses Access Control Lists to filter traffic and Port Security to limit device access. The inclusion of Port Mirroring provides real-time network monitoring. Furthermore, the CRS328 utilizes enhanced jumbo frames for increased performance, manages multicast traffic via IGMP Snooping, and leverages IEEE 802.3ad to bond ports together, resulting in faster and more stable connections."
+    },
+    {
+      "heading": "Hands-On Management",
+      "text": "The device is securely encased within a 1U rackmount frame, ensuring long-lasting durability. Equipped with two 100-240 V power supplies, it features failover capabilities to ensure uninterrupted operation. For administrators and IT professionals, a dedicated RJ45 console port provides a direct interface for in-depth network management and troubleshooting activities.\n\nThe \"Dual boot\" functionality in the MikroTik CRS328 provides users with the option to select between two distinct operating systems based on their specific needs. Users can opt for RouterOS, renowned for its comprehensive routing features, or SwOS, tailored for switch-specific functions. This feature allows users to precisely configure functions ranging from basic port-to-port forwarding to more complex adjustments in MAC and IP headers."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Cloud Router Switch"
+  ],
+  "mpn": "CRS328-4C-20S-4S+RM",
+  "manufacturer_part_number": "CRS328-4C-20S-4S+RM",
+  "ean": "4752224002242",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1573/crs3284c20s4srm_1-5fdb049c53dfe-medium.jpg",
+        "alt": "MikroTik CRS328-4C-20S-4S+RM",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1573/crs3284c20s4srm_2-5fdb049b971db-medium.jpg",
+        "alt": "MikroTik CRS328-4C-20S-4S+RM",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1573/crs3284c20s4srm_1-5fdb049c53dfe-tiny.jpg",
+        "alt": "MikroTik CRS328-4C-20S-4S+RM"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1573/crs3284c20s4srm_2-5fdb049b971db-tiny.jpg",
+        "alt": "MikroTik CRS328-4C-20S-4S+RM"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - MikroTik CRS328-4C-20S-4S+RM",
+        "url": "https://www.getic.com/files/catalogue/mikrotik/cr328-4c-20s-4-rm-data.pdf"
+      },
+      {
+        "title": "Quick Start Guide - MikroTik CRS328-4C-20S-4S+RM",
+        "url": "https://www.getic.com/files/catalogue/1573/quickguidecrs3284c20s4srm-650ad1a1036f1.pdf"
+      },
+      {
+        "title": "User Manual - MikroTik CRS328-4C-20S-4S+RM",
+        "url": "https://www.getic.com/files/catalogue/1573/usermanualscrs3284c20s4srm-650ad1ace743d.pdf"
+      }
+    ],
+    "3d_model": true
+  },
+  "price": {
+    "value": 359.75,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": ["US", "EU"],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": ["RJ45 Ports", "PoE Out Standards", "SFP Ports", "Communication Interface", "Management"],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(4) 1 Gbps"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "w/o PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(20) 1G SFP, (4) 1G SFP/ETH Combo, (4) 10G SFP+"
+        },
+        {
+          "name": "Communication Interface",
+          "value": "RJ45"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": ["Chipset", "RAM", "Storage Memory"],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "98DX3236, 1 core, 800 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "512 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": ["Power Supply", "Supported Input Voltage", "Max Power Consumption"],
+      "items": [
+        {
+          "name": "Power Supply",
+          "value": "Internal x2 redundant PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "43 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": ["Color", "Number of Rack Units", "Dimensions", "Operating Temperature", "Environment", "Mounting Method", "Form Factor"],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Dimensions",
+          "value": "443 x 194 x 44 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": ["MikroTik"],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 5, SwitchOS"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik CRS328-4C-20S-4S+RM",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/cr328-4c-20s-4-rm-data.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik CRS328-4C-20S-4S+RM",
+      "url": "https://www.getic.com/files/catalogue/1573/quickguidecrs3284c20s4srm-650ad1a1036f1.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik CRS328-4C-20S-4S+RM",
+      "url": "https://www.getic.com/files/catalogue/1573/usermanualscrs3284c20s4srm-650ad1ace743d.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.51,
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 52.32,
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "bought_together": [
+    {
+      "name": "MikroTik CSS326-24G-2S+RM",
+      "url": "/product/cloud-smart-switch-326-24g-2srm",
+      "price": 129.46,
+      "currency": "USD",
+      "mpn": "CSS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS326-24G-2S+RM",
+      "url": "/product/cloud-router-switch-326-24g-2srm",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS317-1G-16S+RM",
+      "url": "/product/cloud-router-switch-317-1g-16srm",
+      "price": 399.85,
+      "currency": "USD",
+      "mpn": "CRS317-1G-16S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS328-24P-4S+RM",
+      "url": "/product/cloud-router-switch-328-24p-4s-rm",
+      "price": 434.22,
+      "currency": "USD",
+      "mpn": "CRS328-24P-4S+RM",
+      "availability": "InStock"
+    }
+  ],
+  "stock_stat": ""
+}

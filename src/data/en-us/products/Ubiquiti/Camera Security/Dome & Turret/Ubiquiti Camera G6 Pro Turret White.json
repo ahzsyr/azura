@@ -1,0 +1,336 @@
+{
+  "slug": "ubiquiti-camera-g6-pro-turret-white",
+  "id": "7023",
+  "productTitle": "Ubiquiti Camera G6 Pro Turret White",
+  "name": "Ubiquiti Camera G6 Pro Turret White",
+  "title": "Ubiquiti Camera G6 Pro Turret White",
+  "title_extended": "Ubiquiti Camera G6 Pro Turret White",
+  "short_description": "Professional-grade 4K security camera with 1/1.2\" 8 MP CMOS sensor, Multi-TOPS AI engine, 2.36× optical zoom, HDR, and up to 30 FPS recording.",
+  "description": "The UniFi Camera G6 Pro Turret is a professional-grade 4K security camera designed for environments where image clarity and intelligent analytics are critical. It features a large 1/1.2\" 8 MP CMOS sensor combined with a powerful Multi-TOPS AI engine, delivering outstanding low-light performance and precise object recognition. The camera supports advanced smart detections, including people, vehicles, animals, face recognition, and license plate recognition, enabling accurate event filtering and faster investigations. With a 2.36× optical zoom and dual field-of-view modes (wide and tele), the G6 Pro Turret allows operators to monitor both large areas and distant details without sacrificing image quality. High Dynamic Range (HDR), advanced noise reduction, and full image tuning options ensure consistent, detailed video in challenging lighting conditions. Recording at up to 30 FPS in true 4K resolution makes the camera ideal for high-traffic areas requiring continuous, reliable monitoring.",
+  "detailed_description": [
+    {
+      "heading": "Professional Video Analytics",
+      "text": "The UniFi Camera G6 Pro Turret is a professional-grade 4K security camera designed for environments where image clarity and intelligent analytics are critical. It features a large 1/1.2\" 8 MP CMOS sensor combined with a powerful Multi-TOPS AI engine, delivering outstanding low-light performance and precise object recognition. The camera supports advanced smart detections, including people, vehicles, animals, face recognition, and license plate recognition, enabling accurate event filtering and faster investigations. With a 2.36× optical zoom and dual field-of-view modes (wide and tele), the G6 Pro Turret allows operators to monitor both large areas and distant details without sacrificing image quality. High Dynamic Range (HDR), advanced noise reduction, and full image tuning options ensure consistent, detailed video in challenging lighting conditions. Recording at up to 30 FPS in true 4K resolution makes the camera ideal for high-traffic areas requiring continuous, reliable monitoring."
+    },
+    {
+      "heading": "Night Vision & Reliability",
+      "text": "Designed for uninterrupted operation, the G6 Pro Turret delivers exceptional performance in both day and night scenarios. Adaptive infrared LEDs provide clear night vision up to 40 meters, automatically adjusting illumination based on scene conditions. An IR cut filter ensures accurate color reproduction during daytime operation and sharp monochrome imaging at night. The camera is housed in a robust aluminum alloy and polycarbonate enclosure with IP66 weather protection and IK04 tamper resistance, making it suitable for outdoor and indoor installations. It operates reliably in temperatures from –30 to +50 °C and humidity levels up to 90% non-condensing. Power and data are delivered over a single Ethernet cable with PoE+ support, simplifying installation and reducing installation complexity. Compliance with NDAA requirements and certifications such as CE, FCC, and IC ensures the camera meets enterprise, government, and regulated-industry standards."
+    },
+    {
+      "heading": "Seamless UniFi Integration",
+      "text": "The G6 Pro Turret is deeply integrated with the UniFi Protect platform, providing centralized control for live video monitoring, intelligent event search, and secure video storage within a single management interface. Administrators can manage multiple cameras, adjust image parameters, configure smart detection rules, and quickly review recorded footage from any authorized workstation. Installation is easy thanks to the included ceiling and wall mounting hardware, while optional arm, pendant, and junction box mounts allow the camera to be deployed in complex architectural layouts or outdoor environments. A built-in MicroSD card slot enables local edge storage, adding redundancy or supporting standalone recording when network storage is unavailable. Two-way audio allows real-time communication directly through the camera, supporting security response and on-site interaction. Combined with enterprise-grade components, advanced AI analytics, and seamless UniFi ecosystem integration, the G6 Pro Turret is well suited for commercial, industrial, campus, and high-security installations."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Cameras",
+  "categories": [
+    "Cameras"
+  ],
+  "mpn": "UVC-G6-Pro-Turret-W",
+  "manufacturer_part_number": "UVC-G6-Pro-Turret-W",
+  "ean": "0810177163251",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7023/1-69611198e460a-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Turret White",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7023/2-6961119b23acd-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Turret White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7023/3-6961119d743b3-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Turret White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7023/4-696111a007ad5-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Turret White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7023/5-696111a2bdab7-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Turret White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7023/6-696111a5a72ba-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Turret White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7023/7-696111a818da1-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Turret White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7023/8-696111aaf21ef-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Turret White",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 464.61,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Color",
+      "options": [
+        "White",
+        "Black"
+      ],
+      "default": "White"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Video",
+      "features": [
+        "Megapixels",
+        "Resolution",
+        "Maximum Frame Rate"
+      ],
+      "items": [
+        {
+          "name": "Megapixels",
+          "value": "8MP"
+        },
+        {
+          "name": "Resolution",
+          "value": "3840 х 2160"
+        },
+        {
+          "name": "Maximum Frame Rate",
+          "value": "30 FPS"
+        }
+      ]
+    },
+    {
+      "technology": "Video Camera",
+      "features": [
+        "Sensor",
+        "Lens",
+        "Night Mode",
+        "Viewing Angle"
+      ],
+      "items": [
+        {
+          "name": "Sensor",
+          "value": "1/1.2\" 8MP"
+        },
+        {
+          "name": "Lens",
+          "value": "F 5.9 - 13.8 mm; f/1.5–f/2.9"
+        },
+        {
+          "name": "Night Mode",
+          "value": "IR LED Illumination and IR Cut Filter, IR Range up to 40 m"
+        },
+        {
+          "name": "Viewing Angle",
+          "value": "113.8 ° (H) 61.9 ° (V)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Memory card slots"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Memory card slots",
+          "value": "1 microSD"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3at PoE+"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "42.5 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "15 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Housing\tDurability",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP66"
+        },
+        {
+          "name": "Housing\tDurability",
+          "value": "Vandal-proof IK04"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø117.2 × 116.5 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.2 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Ceilling Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Camera G6 Pro Turret White",
+      "url": "https://www.getic.com/files/catalogue/7023/uvcg6proturret_ds-6961119567d95.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX Rocket AC Lite",
+      "url": "/product/rocket-ac-lite",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "R5AC-LITE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Fiber",
+      "url": "/product/ubiquiti-unifi-cloud-gateway-fiber",
+      "price": 282.07,
+      "currency": "USD",
+      "mpn": "UCG-Fiber",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Bullet White",
+      "url": "/product/ubiquiti-camera-g6-bullet",
+      "price": 199.76,
+      "currency": "USD",
+      "mpn": "UVC-G6-Bullet-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 PTZ White",
+      "url": "/product/ubiquiti-camera-g6-ptz-wt",
+      "price": 387.17,
+      "currency": "USD",
+      "mpn": "UVC-G6-PTZ-W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor",
+      "link": null
+    }
+  ],
+  "stock_stat": "InStock"
+}

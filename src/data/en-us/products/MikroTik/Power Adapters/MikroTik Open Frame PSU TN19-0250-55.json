@@ -1,0 +1,160 @@
+{
+  "slug": "mikrotik-open-frame-psu-tn19-0250-55",
+  "id": 6822,
+  "productTitle": "MikroTik Open Frame PSU TN19-0250-55",
+  "name": "MikroTik Open Frame PSU TN19-0250-55",
+  "title": "MikroTik Open Frame PSU TN19-0250-55",
+  "title_extended": "",
+  "short_description": "Reliable Power for CRS418 Series",
+  "description": "The MikroTik TN19-0250-55 is a powerful and efficient 250W open frame replacement power supply designed specifically for the CRS418 series. Delivering a stable 55 V DC output at 4.5A, it ensures consistent energy delivery to keep your networking equipment running at peak performance. Its open-frame design allows for simple installation and seamless integration, making it an ideal choice for both replacements and system upgrades. This PSU provides the dependable power needed to maintain uninterrupted operation of critical infrastructure. By ensuring stable voltage and current, it helps protect your CRS418 devices from power-related issues that could disrupt performance. Whether used as a backup unit or as a direct replacement, the TN19-0250-55 minimizes downtime and supports long-term network stability. Combining durability, efficiency, and ease of use, it is a practical solution for keeping your MikroTik systems running smoothly.",
+  "detailed_description": [
+    {
+      "heading": "Reliable Power for CRS418 Series",
+      "text": "The MikroTik TN19-0250-55 is a powerful and efficient 250W open frame replacement power supply designed specifically for the CRS418 series. Delivering a stable 55 V DC output at 4.5A, it ensures consistent energy delivery to keep your networking equipment running at peak performance. Its open-frame design allows for simple installation and seamless integration, making it an ideal choice for both replacements and system upgrades. This PSU provides the dependable power needed to maintain uninterrupted operation of critical infrastructure. By ensuring stable voltage and current, it helps protect your CRS418 devices from power-related issues that could disrupt performance. Whether used as a backup unit or as a direct replacement, the TN19-0250-55 minimizes downtime and supports long-term network stability. Combining durability, efficiency, and ease of use, it is a practical solution for keeping your MikroTik systems running smoothly."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters",
+    "Electrical Equipment"
+  ],
+  "mpn": "TN19-0250-55",
+  "manufacturer_part_number": "TN19-0250-55",
+  "ean": "4752224010261",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6822/tn19025055-68d29c927725d-medium.jpg",
+        "alt": "MikroTik Open Frame PSU TN19-0250-55",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6822/tn19025055-68d29c927725d-tiny.jpg",
+        "alt": "MikroTik Open Frame PSU TN19-0250-55"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 56.53,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "4.5 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "55 V DC"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Open Frame PSU TN19-0250-55",
+      "url": "https://www.getic.com/files/catalogue/6822/tn19025055-68d29c8e82c48.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.66,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.61,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.08,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

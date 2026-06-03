@@ -1,0 +1,262 @@
+{
+  "slug": "ubiquiti-unifi-ups-tower",
+  "id": 7166,
+  "productTitle": "Ubiquiti UniFi UPS Tower",
+  "name": "Ubiquiti UniFi UPS Tower",
+  "title": "Ubiquiti UniFi UPS Tower",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Reliable Power Backup",
+      "text": "The Ubiquiti UniFi UPS Tower is a managed uninterruptible power supply designed to protect critical network infrastructure and ensure continuous operation during power interruptions. With a capacity of 1,000 VA and 600 W, it provides reliable backup power for essential devices such as network video recorders, storage systems, and communication equipment. The system features a line interactive topology, allowing efficient power regulation while maintaining stable output. It supports an input voltage range of 170 to 280 V AC and delivers a consistent output voltage of 220 to 240 V AC, ensuring compatibility with a wide range of equipment. Automatic frequency sensing and regulation help maintain stable performance under varying electrical conditions."
+    },
+    {
+      "heading": "Deployment and Protection",
+      "text": "Designed for practical deployment, the UPS includes five battery backup outlets combined with surge protection and five additional surge only outlets. This configuration allows users to prioritize critical devices for backup power while still protecting other connected equipment from electrical surges. With a typical transfer time of 6 milliseconds and a maximum of 10 milliseconds, the system quickly switches to battery mode during power loss, minimizing disruption to connected devices. Its simulated sine wave output ensures compatibility with most networking equipment. The UniFi UPS Tower provides a dependable power protection solution for maintaining uptime and safeguarding sensitive electronics."
+    },
+    {
+      "heading": "Efficient Energy System",
+      "text": "The UniFi UPS Tower is equipped with a 12 V, 9 Ah lead acid battery designed to deliver stable backup performance during power outages. It provides a runtime of approximately 7 minutes at half load of 300 W and up to 2 minutes at full load, giving connected systems sufficient time to complete critical processes or shut down safely. The battery is hot swappable, allowing replacement without interrupting operation, which is essential for maintaining uptime in professional environments. Charging efficiency is optimized, with the battery reaching 90% capacity within 6 to 8 hours, ensuring readiness for subsequent outages."
+    },
+    {
+      "heading": "Advanced Protection",
+      "text": "Advanced protection mechanisms are integrated to safeguard both the UPS and connected equipment. Overload protection automatically responds to excessive power demands, while short circuit protection ensures safe operation under fault conditions. The system also provides regulated voltage output within defined limits during battery mode, helping maintain stable performance for sensitive devices. The UPS includes detailed LED indicators that display system status and battery levels, allowing users to quickly assess operational conditions. These visual indicators simplify monitoring and provide immediate feedback during power events. Overall, the UniFi UPS Tower delivers reliable energy management and controlled shutdown capability for critical infrastructure."
+    },
+    {
+      "heading": "Hardware and Design",
+      "text": "The UniFi UPS Tower is built with a compact desktop form factor that allows easy integration into various environments without requiring dedicated rack space. Its enclosure is constructed from a durable blend of polycarbonate and acrylonitrile butadiene styrene, ensuring long term reliability while maintaining a lightweight and practical design. The device includes a dedicated Ethernet management interface, enabling integration into the UniFi ecosystem for centralized monitoring and control. Additional Gigabit Ethernet ports provide surge protected connectivity for network devices, enhancing overall system protection. Designed for stable operation, the UPS supports an operating temperature range of 0 to 40° C and humidity levels from 0 to 95% noncondensing."
+    },
+    {
+      "heading": "Integration and Usability",
+      "text": "It is suitable for deployment in a variety of indoor environments, maintaining consistent performance even under varying conditions. The system also supports graceful shutdown functionality for UniFi Network Video Recorders and UniFi Network Attached Storage devices, ensuring safe data handling during power loss. Compatibility with Network UPS Tools allows integration with third party systems, extending its usability beyond the UniFi ecosystem. With its combination of compact design, intelligent management features, and reliable hardware, the UniFi UPS Tower provides an efficient and flexible power protection solution for modern network installations."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters",
+    "Ubiquiti",
+    "Power Tech"
+  ],
+  "mpn": "UPS-Tower",
+  "manufacturer_part_number": "UPS-Tower",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7166/upstowerus1-69dce7e47053c-medium.jpg",
+        "alt": "Ubiquiti UniFi UPS Tower",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7166/upstowerus3-69dce7efe9505-medium.jpg",
+        "alt": "Ubiquiti UniFi UPS Tower",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7166/upstowerus5-69dce7f600d6a-medium.jpg",
+        "alt": "Ubiquiti UniFi UPS Tower",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7166/upstowerus2-69dce7fa313a8-medium.jpg",
+        "alt": "Ubiquiti UniFi UPS Tower",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/7166/upstower_ds-69dce7dbf00cf.pdf",
+        "type": "datasheet",
+        "title": "Technical Specs / Datasheet - Ubiquiti UniFi UPS Tower"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 166.47,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 100 Mbps, (2) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Supply",
+        "Supported Input Voltage",
+        "Battery Type",
+        "Power Connector",
+        "Charging Time"
+      ],
+      "items": [
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "170 - 280 V AC"
+        },
+        {
+          "name": "Battery Type",
+          "value": "Lead Acid 12V"
+        },
+        {
+          "name": "Power Connector",
+          "value": "C14"
+        },
+        {
+          "name": "Charging Time",
+          "value": "hour"
+        }
+      ]
+    },
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Reset Button"
+      ],
+      "items": [
+        {
+          "name": "Reset Button",
+          "value": "yes"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "ABS Plastic, Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "288 x 99 x 280.5  mm"
+        },
+        {
+          "name": "Weight",
+          "value": "7.85 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi UPS Tower",
+      "url": "https://www.getic.com/files/catalogue/7166/upstower_ds-69dce7dbf00cf.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

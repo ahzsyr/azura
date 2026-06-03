@@ -1,0 +1,174 @@
+{
+  "slug": "sector-5g17-90-anti-noise-shield",
+  "id": "ANS-AM-17",
+  "productTitle": "Anti-Noise Shield for AirMax Sector 5G17-90",
+  "name": "Anti-Noise Shield for AirMax Sector 5G17-90",
+  "title": "Anti-Noise Shield for AirMax Sector 5G17-90",
+  "title_extended": "",
+  "short_description": "Paired with Ubiquiti airMAX Sector 17/90 base station antennas",
+  "description": "The Anti-Noise Shield brought to you by Ubiquiti Networks under the manufacture part number ANS-AM-17, is an essential accessory designed to enhance the performance of the AirMax Sector 5G17-90 antennas. This product is a testament to Ubiquiti's ongoing commitment to solving the practical challenges faced in deploying wireless networks, particularly the issue of signal interference that can significantly degrade network performance.",
+  "detailed_description": [
+    {
+      "heading": "Mitigation of RF Noise and Improved Signal Clarity",
+      "text": "ANS-AM-17 anti-noise shield is engineered to mitigate unwanted radio frequency (RF) noise. In environments where the airwaves are crowded with signals from various sources, RF interference can become a critical problem, causing disruptions and decreasing the efficiency of wireless communications. By effectively reducing this external noise, the shield significantly improves the signal clarity and enhances the operational efficiency of the AirMax Sector antennas. This results in more stable connections, higher throughput, and improved reliability of the wireless network."
+    },
+    {
+      "heading": "Durable Construction and Environmental Resilience",
+      "text": "The construction of the ANS-AM-17 emphasizes durability and resilience to environmental factors, ensuring that it can withstand adverse weather conditions and continue to perform optimally. The materials used in the shield's manufacture are selected for their ability to resist corrosion and wear, safeguarding the investment in the network's infrastructure."
+    },
+    {
+      "heading": "User-Friendly Design and Easy Installation",
+      "text": "One of the defining features of the ANS-AM-17 is its user-friendly design, which simplifies the installation process. This aligns with Ubiquiti's philosophy of making advanced technology accessible and manageable. The shield is designed for a seamless and straightforward attachment to the AirMax Sector 5G17-90 antennas, requiring minimal tools and effort, thus allowing for a quick and efficient setup. This ease of installation is particularly beneficial for network operators seeking to enhance their network's performance swiftly, without extensive downtime or operational disruptions."
+    },
+    {
+      "heading": "Conclusion and Network Enhancement",
+      "text": "In conclusion, ANS-AM-17 is a strategically important product designed to address the challenge of RF interference in wireless networks. By improving signal quality and enhancing the performance of AirMax Sector 5G17-90 antennas, this shield not only prolongs the lifespan of the network infrastructure but also ensures a consistent level of service reliability and user satisfaction. The combination of robust environmental protection, ease of installation, and minimal impact on antenna functionality makes the ANS-AM-17 an indispensable accessory for networks utilizing Ubiquiti's AirMax Sector 5G17-90 antennas in areas where reducing interference is key to maintaining optimal connectivity."
+    }
+  ],
+  "brand": "Cyberteam",
+  "category": "Antenna Accessories",
+  "categories": [
+    "Antenna Accessories"
+  ],
+  "mpn": "ANS-AM-17",
+  "manufacturer_part_number": "ANS-AM-17",
+  "ean": "0708747433418",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1165/anti-noise-shield_am17_1-medium.jpg",
+        "alt": "Anti-Noise Shield for AirMax Sector 5G17-90",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1165/anti-noise-shield_am17_2-medium.jpg",
+        "alt": "Anti-Noise Shield for AirMax Sector 5G17-90",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1165/anti-noise-shield_am17_3-medium.jpg",
+        "alt": "Anti-Noise Shield for AirMax Sector 5G17-90",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 38.04,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "class": "Pickup point",
+      "price": 15.58,
+      "currency": "USD",
+      "description": "receive in 18 business days"
+    },
+    {
+      "class": "Standard",
+      "price": 31.52,
+      "currency": "USD",
+      "description": "receive in 5 business days"
+    },
+    {
+      "class": "Express",
+      "price": 52.33,
+      "currency": "USD",
+      "description": "receive in 2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 13 dBi Omni",
+      "url": "/product/omni-airmax-5g13",
+      "price": 142.96,
+      "currency": "USD",
+      "mpn": "AMO-5G13",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 17 dBi Sector",
+      "url": "/product/sector-airmax-5g17-90",
+      "price": 71.52,
+      "currency": "USD",
+      "mpn": "AM-5G17-90",
+      "availability": "InStock"
+    },
+    {
+      "name": "Anti-Noise Shield for LiteBeam 5AC-16-120 PRO",
+      "url": "/product/litebeam-ac-16dbi-120deg-anti-noise-shield-pro",
+      "price": 33.89,
+      "currency": "USD",
+      "mpn": "ANS-LB-AC16-PRO",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Anti-Noise Shield for NanoStation 5AC",
+      "url": "/product/ns-5ac-anti-noise-shield",
+      "price": 18.01,
+      "currency": "USD",
+      "mpn": "ANS-NS-5AC",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": "in_stock"
+}

@@ -1,0 +1,247 @@
+{
+  "slug": "xg-xgs-pon-optical-transceiver",
+  "id": "4483",
+  "productTitle": "Ubiquiti Fiber XGS/XG Optical Transceiver",
+  "name": "Ubiquiti Fiber XGS/XG Optical Transceiver",
+  "title": "Ubiquiti Fiber XGS/XG Optical Transceiver",
+  "title_extended": "",
+  "short_description": "Optical Transceiver Module, 10 Gbps throughput, SC/UPC connector, max. cable ditance 20km",
+  "description": "The UISP Fiber XGS/XG Optical Transceiver, model UACC-UF-OM-XGS, by Ubiquiti, is an advanced optical transceiver engineered to provide high-speed data transmission over single-mode fiber (SMF) networks. Designed to meet demanding network requirements, this transceiver module delivers exceptional performance and reliability, backed by precise technical specifications tailored to the needs of modern networking environments. The model is fully compatible with the UISP-FIBER-OLT-XGS, UISP-FIBER-XG, and UISP-FIBER-XGS systems, forming a cohesive and robust fiber optic network solution within the Ubiquiti UISP ecosystem.",
+  "detailed_description": [
+    {
+      "heading": "High-Speed Data Transmission",
+      "text": "The UISP Fiber XGS/XG Optical Transceiver, model UACC-UF-OM-XGS, by Ubiquiti, is an advanced optical transceiver engineered to provide high-speed data transmission over single-mode fiber (SMF) networks. Designed to meet demanding network requirements, this transceiver module delivers exceptional performance and reliability, backed by precise technical specifications tailored to the needs of modern networking environments. The model is fully compatible with the UISP-FIBER-OLT-XGS, UISP-FIBER-XG, and UISP-FIBER-XGS systems, forming a cohesive and robust fiber optic network solution within the Ubiquiti UISP ecosystem."
+    },
+    {
+      "heading": "Features",
+      "text": "10 Gbps throughput\nSC/UPC connector\nCompatibility: UISP-FIBER-OLT-XGS / UISP-FIBER-XG / UISP-FIBER-XGS\nSupports connections up to 20 km*"
+    },
+    {
+      "heading": "Important Warning",
+      "text": "WARNING! Do not look into the ends of the fiber optic cable or SFP module while converters are powered."
+    },
+    {
+      "heading": "Seamless Integration",
+      "text": "Designed to seamlessly integrate with UISP-FIBER-OLT-XGS, the Optical Line Terminal (OLT) component of the UISP fiber optic system, the UACC-UF-OM-XGS transceiver enables efficient communication between the OLT and Optical Network Units (ONUs) or Optical Network Terminals (ONTs) deployed in the network. This compatibility ensures reliable and high-speed data transmission, allowing for the delivery of broadband services to end-users with minimal latency and downtime. Furthermore, the UACC-UF-OM-XGS transceiver is compatible with UISP-FIBER-XG and UISP-FIBER-XGS systems, which encompass various network components such as switches, routers, and access points. By integrating the transceiver module into these network devices, administrators can extend the reach of their fiber optic networks and provide high-speed connectivity to a wide range of devices and applications."
+    },
+    {
+      "heading": "Technical Specifications",
+      "text": "Supporting single-mode fiber media, the UACC-UF-OM-XGS transceiver, also ensures compatibility with SMF optic cables, enabling seamless integration into fiber optic networks. Its SC/UPC connector type facilitates secure and reliable connections, maintaining signal integrity for optimal data transmission. With a TX (transmit) wavelength of 1577 nanometers (nm) and an RX (receive) wavelength of 1270 nm, the UACC-UF-OM-XGS transceiver employs precise optical wavelengths to facilitate efficient data transmission and reception. This wavelength configuration ensures reliable communication over extended distances, enhancing network performance and reliability. The transceiver's TX power range of +4 to +7 decibel-milliwatts (dBm) and RX power range of -9 to -26 dBm provide precise control over signal strength, optimizing signal quality and minimizing the risk of data loss or transmission errors. This level of control ensures robust and reliable data transmission, even in challenging network conditions. Capable of supporting a downlink data rate of 10 gigabits per second (Gbps) and an uplink data rate of 10 Gbps (XGS) or 2.5 Gbps (XG), the UACC-UF-OM-XGS transceiver delivers high-speed connectivity to meet the bandwidth demands of modern networks. Whether transmitting data downstream or upstream, this transceiver module provides exceptional performance to support a wide range of network applications. Designed for long-distance connectivity, the UACC-UF-OM-XGS transceiver supports a maximum cable distance of 20 kilometers (km), enabling reliable data transmission over extended distances. This capability makes it suitable for use in a variety of network environments, including data centers, enterprise networks, and telecommunications infrastructure."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "GPON",
+  "categories": [
+    "GPON"
+  ],
+  "mpn": "UACC-UF-OM-XGS",
+  "manufacturer_part_number": "UACC-UF-OM-XGS",
+  "ean": "0810084691038",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4483/1-64e5afbe073b2-medium.jpg",
+        "alt": "Ubiquiti Fiber XGS/XG Optical Transceiver",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4483/2-64e5afc1e260a-medium.jpg",
+        "alt": "Ubiquiti Fiber XGS/XG Optical Transceiver",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4483/3-64e5afc5cac02-medium.jpg",
+        "alt": "Ubiquiti Fiber XGS/XG Optical Transceiver",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4483/4-64e5afc94025b-medium.jpg",
+        "alt": "Ubiquiti Fiber XGS/XG Optical Transceiver",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 279.96,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Fiber Equipment",
+      "features": [
+        "Supported Media",
+        "Connector Type",
+        "TX Wavelength",
+        "RX Wavelength",
+        "Data Rate",
+        "Cable Distance"
+      ],
+      "items": [
+        {
+          "name": "Supported Media",
+          "value": "Single-Mode"
+        },
+        {
+          "name": "Connector Type",
+          "value": "(1) SC/UPC"
+        },
+        {
+          "name": "TX Wavelength",
+          "value": "1577 nm"
+        },
+        {
+          "name": "RX Wavelength",
+          "value": "1270 nm"
+        },
+        {
+          "name": "Data Rate",
+          "value": "10 Gbps"
+        },
+        {
+          "name": "Cable Distance",
+          "value": "20 km"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Max Power Consumption",
+          "value": "2.6 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 70 °C"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Fiber XGS/XG Optical Transceiver",
+      "url": "https://www.getic.com/files/catalogue/4483/uaccufomxgs_ds-64e5afb50688e.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti 10Gbps Bidirectional Single-Mode Optical Module, 2-pack",
+      "url": "/product/u-fiber-single-mode-module-10g-bidi-2-pack",
+      "price": 160.83,
+      "currency": "USD",
+      "mpn": "UACC-OM-SM-10G-S-2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Fiber OLT",
+      "url": "/product/u-fiber-olt",
+      "price": 1429.56,
+      "currency": "USD",
+      "mpn": "UF-OLT",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Fiber Instant",
+      "url": "/product/ufiber-instant-optical-transceiver",
+      "price": 43.47,
+      "currency": "USD",
+      "mpn": "UF-Instant",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Fiber OLT XGS",
+      "url": "/product/uisp-fiber-olt-xgs",
+      "price": 2978.25,
+      "currency": "USD",
+      "mpn": "UISP-FIBER-OLT-XGS",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

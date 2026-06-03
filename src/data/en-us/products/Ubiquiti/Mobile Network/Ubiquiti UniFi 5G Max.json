@@ -1,0 +1,326 @@
+{
+  "slug": "ubiquiti-unifi-5g-max",
+  "id": "6937",
+  "productTitle": "Ubiquiti UniFi 5G Max",
+  "name": "Ubiquiti UniFi 5G Max",
+  "title": "Ubiquiti UniFi 5G Max",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Ultra-Fast Connectivity",
+      "text": "Experience uncompromising mobile broadband performance with the Ubiquiti UniFi 5G Max (U5G-Max), engineered to deliver exceptional speed and reliability across a wide range of deployment scenarios. Powered by advanced 5G NR technology, it supports an extensive selection of global frequency bands, including n1, n2, n3, n40, n41, n77, n78, and more, ensuring broad compatibility and future-ready operation. With peak downlink rates of up to 3.4 Gbps on 5G NSA (up to 1.8 Gbps on 5G SA), the U5G-Max provides blazing-fast throughput for demanding applications, remote sites, branch offices, and mission-critical backup links. Embedded cellular antennas optimize signal quality, while HPUE power class 2 transmission boosts uplink stability in challenging environments. The device also supports 4G LTE and 3G UMTS fallback across a vast set of bands, delivering dependable multi-network coverage. Whether used as a primary modem or a high-availability failover connection, the U5G-Max ensures that networks remain responsive, secure, and consistently online under all conditions."
+    },
+    {
+      "heading": "Flexible Deployment Options",
+      "text": "Designed for seamless integration into any UniFi environment, the U5G-Max offers simple adoption through its 2.5 GbE RJ45 interface and PoE input, eliminating the need for additional power adapters or complex configurations. Its dual SIM architecture, featuring one Nano-SIM slot and a second slot that supports either a Nano-SIM or an eSIM, enables intelligent carrier redundancy and automatic failover for uninterrupted connectivity. Mounting flexibility is built in, with included hardware for desktop placement, wall installation, or window mounting to achieve optimal signal performance. The enclosure, constructed from durable polycarbonate and aluminum alloy, provides IK04-rated tamper resistance, making it suitable for both indoor and semi-secured installations. The 1.3\" touchscreen enhances usability by offering live signal metrics, status indicators, and quick-access settings. With a maximum power consumption of only 14.5W and broad environmental tolerance from 0 to 40°C, the U5G-Max delivers robust yet efficient operation across diverse deployment conditions."
+    },
+    {
+      "heading": "Unified Management",
+      "text": "The U5G-Max integrates effortlessly into the UniFi ecosystem, enabling centralized monitoring, configuration, and troubleshooting through UniFi Network version 10.0.162 or later. Management via Ethernet ensures stable control-plane communication and allows administrators to streamline network policies, view cellular diagnostics, and automate failover behavior from a single dashboard. Its PoE-powered architecture simplifies cabling while allowing rapid installation at optimal signal points, such as windows or elevated mounting surfaces. The device's embedded reset control provides a straightforward recovery method, while certifications including CE, PTCRB, and GCF ensure compliance and interoperability across global markets. Support for 5–95% non-condensing humidity and versatile mounting options makes the U5G-Max ideal for offices, retail spaces, remote deployments, and temporary setups. Whether enhancing network resilience or serving as a high-speed primary WAN, the U5G-Max offers powerful performance with the unified control and ease of use that UniFi environments demand."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Mobile Network",
+  "categories": [
+    "Ubiquiti",
+    "Mobile Network",
+    "5G Routers"
+  ],
+  "mpn": "U5G-Max",
+  "manufacturer_part_number": "U5G-Max",
+  "ean": "0810177161905",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6937/1-6932d54d407ed-medium.jpg",
+        "alt": "Ubiquiti UniFi 5G Max",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6937/2-6932d54fc7bc0-medium.jpg",
+        "alt": "Ubiquiti UniFi 5G Max",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6937/1-6932d54d407ed-tiny.jpg",
+        "alt": "Ubiquiti UniFi 5G Max"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6937/2-6932d54fc7bc0-tiny.jpg",
+        "alt": "Ubiquiti UniFi 5G Max"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6937/3-6932d5525f190-tiny.jpg",
+        "alt": "Ubiquiti UniFi 5G Max"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6937/4-6932d5551467f-tiny.jpg",
+        "alt": "Ubiquiti UniFi 5G Max"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6937/5-6932d557f05fb-tiny.jpg",
+        "alt": "Ubiquiti UniFi 5G Max"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6937/6-6932d55acec9e-tiny.jpg",
+        "alt": "Ubiquiti UniFi 5G Max"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - Ubiquiti UniFi 5G Max",
+        "url": "https://www.getic.com/files/catalogue/6937/unifi5gmax_ds-6932d54998053.pdf"
+      }
+    ],
+    "3d_model": true
+  },
+  "price": {
+    "value": 388.19,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "FDD LTE Frequency Bands",
+        "TDD LTE Frequency Bands",
+        "5G Category",
+        "NR SA Frequency Bands",
+        "NR NSA Frequency Bands",
+        "SIM Card Slot"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "3G (UMTS), 4G (LTE), 5G (NR)"
+        },
+        {
+          "name": "FDD LTE Frequency Bands",
+          "value": "1 (2100MHz), 2 (1900MHz), 3 (1800MHz), 5 (850MHz), 7 (2600MHz), 8 (900MHz), 12 (700MHz), 13 (700MHz), 14 (700MHz), 17 (700MHz), 18 (850MHz), 19 (850MHz), 20 (800MHz), 25 (1900MHz), 26 (850MHz), 28 (700MHz), 29 (700MHz), 30 (2300MHz), 32 (1400MHz), 66 (1700MHz), 71 (600MHz)"
+        },
+        {
+          "name": "TDD LTE Frequency Bands",
+          "value": "34 (2100MHz), 38 (2600MHz), 39 (1900MHz), 40 (2300MHz), 41 (2500MHz), 42 (3500MHz), 43 (3700MHz)"
+        },
+        {
+          "name": "5G Category",
+          "value": "SA - 1.8 Gbps / 650 Mbps, NSA - 3.4 Gbps / 560 Mbps"
+        },
+        {
+          "name": "NR SA Frequency Bands",
+          "value": "n1, n2, n3, n5, n7, n8, n12, n13, n14, n18, n20, n25, n26, n28, n29, n30, n38, n40, n41, n48, n66, n71, n75, n76, n77, n78, n79"
+        },
+        {
+          "name": "NR NSA Frequency Bands",
+          "value": "n1, n2, n3, n5, n7, n8, n12, n13, n14, n18, n20, n25, n26, n28, n29, n30, n38, n40, n41, n48, n66, n71, n75, n76, n77, n78, n79"
+        },
+        {
+          "name": "SIM Card Slot",
+          "value": "Nano-SIM, Dual SIM"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 2.5 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "14.5 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Housing\tDurability",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Housing\tDurability",
+          "value": "Vandal-proof IK04"
+        },
+        {
+          "name": "Dimensions",
+          "value": " 180 x 109 x 33.8 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.41 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Tabletop, Adhesive"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi 5G Max",
+      "url": "https://www.getic.com/files/catalogue/6937/unifi5gmax_ds-6932d54998053.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "class": "Pickup point",
+      "price": 25.85,
+      "currency": "USD",
+      "days": 18
+    },
+    {
+      "class": "Standard",
+      "price": 34.72,
+      "currency": "USD",
+      "days": 5
+    },
+    {
+      "class": "Express",
+      "price": 42.86,
+      "currency": "USD",
+      "days": 2
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti AC Adapter 210W",
+      "url": "/product/ubiquiti-ac-adapter-210w",
+      "price": 82.62,
+      "currency": "USD",
+      "mpn": "UACC-Adapter-AC-210W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Express 7",
+      "url": "/product/ubiquiti-unifi-express-7",
+      "price": 201.31,
+      "currency": "USD",
+      "mpn": "UX7",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti 10G PoE++ Adapter (60W)",
+      "url": "/product/ubiquiti-10g-poe-adapter-60w-",
+      "price": 42.11,
+      "currency": "USD",
+      "mpn": "UACC-PoE++-10G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 PTZ Black",
+      "url": "/product/ubiquiti-camera-g6-ptz-bk",
+      "price": 387.17,
+      "currency": "USD",
+      "mpn": "UVC-G6-PTZ-B",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

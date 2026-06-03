@@ -1,0 +1,246 @@
+{
+  "slug": "ubiquiti-poe-50-60w-gigabit",
+  "id": "POE-50-60W",
+  "productTitle": "Ubiquiti Gigabit Power Adapter POE-50-60W",
+  "name": "Ubiquiti Gigabit Power Adapter POE-50-60W",
+  "title": "Ubiquiti POE-50-60W Gigabit PoE Injector – 50V 60W Power Adapter for UniFi & airMAX Devices",
+  "title_extended": "Ubiquiti POE-50-60W Gigabit PoE Injector – 50V 60W Power Adapter for UniFi & airMAX Devices",
+  "short_description": "Gigabit POE adapter 50V DC, 60W, 1.2A",
+  "description": "The Ubiquiti POE-50-60W, a Gigabit Power Adapter, is designed to offer a robust and reliable Power over Ethernet (PoE) solution for networking devices that demand high power inputs. This model is particularly tailored to support Ubiquiti's advanced networking gear, catering to a range of devices that require a substantial power supply along with high-speed data connectivity. The POE-50-60W adapter delivers a powerful 50V DC output at 1.2A, resulting in a total power output of 60 watts. This high power capacity is ideal for supporting Ubiquiti devices such as high-performance wireless access points and other network equipment that require more power than the standard PoE can offer. The adapter is designed with efficiency in mind, operating above 80% efficiency, which ensures that it conserves energy while maintaining a stable power output.",
+  "detailed_description": [
+    {
+      "heading": "Overview",
+      "text": "The Ubiquiti POE-50-60W, a Gigabit Power Adapter, is designed to offer a robust and reliable Power over Ethernet (PoE) solution for networking devices that demand high power inputs. This model is particularly tailored to support Ubiquiti's advanced networking gear, catering to a range of devices that require a substantial power supply along with high-speed data connectivity. The POE-50-60W adapter delivers a powerful 50V DC output at 1.2A, resulting in a total power output of 60 watts. This high power capacity is ideal for supporting Ubiquiti devices such as high-performance wireless access points and other network equipment that require more power than the standard PoE can offer. The adapter is designed with efficiency in mind, operating above 80% efficiency, which ensures that it conserves energy while maintaining a stable power output."
+    },
+    {
+      "heading": "Features",
+      "text": "Features: Surge protection, Clamping protection, Maximum surge discharge, Peak pulse current, AC cable with earth ground."
+    },
+    {
+      "heading": "Robust Safety Features",
+      "text": "Equipped with a Gigabit Ethernet port, the POE-50-60W ensures that it can handle high-speed data transfers. This feature is crucial for maintaining the throughput levels required by high-end network devices, ensuring that there is no bottleneck at the power source. moreover, the adapter includes comprehensive surge protection mechanisms that guard against voltage spikes and power surges, a common challenge in diverse electrical environments. It also features overcurrent protection, which helps to prevent damage to connected devices by automatically cutting off power in the event of an overload."
+    },
+    {
+      "heading": "Design and Build",
+      "text": "The design of the POE-50-60W is compact and durable, allowing for easy installation and integration into various network environments without requiring excessive space. The Ubiquiti POE-50-60W is particularly useful in deployments where devices are far from power sources or in situations where running traditional power cabling is impractical or too costly. It is ideal for powering devices such as high-definition security cameras, high-throughput wireless access points, and other network devices that require both power and high-speed data. In addition, the Ubiquiti POE-50-60W is certified by multiple international standards, including CE, FCC, IC, and UL. These certifications attest to its safety, reliability, and environmental compliance, making it a trustworthy choice for professional networking setups."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "PoE Adapters",
+  "categories": [
+    "PoE Adapters",
+    "Accessory Tech",
+    "Ubiquiti"
+  ],
+  "mpn": "POE-50-60W",
+  "manufacturer_part_number": "POE-50-60W",
+  "ean": "0810354023118",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/460/poe5060w_front_ports-60487bd3e9789-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-50-60W front ports view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/460/poe50v60w_frontangle-604878236d197-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-50-60W front angle view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/460/poe50v60w_back1-60487820a5f64-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-50-60W back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/460/poe50v60w_front1-604878223f49f-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-50-60W front view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/460/poe50v60w_front_cable-6048880cc6297-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-50-60W with cable",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/460/poe50v60w_box-60488d7c89196-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-50-60W box",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 29.89,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage",
+        "Ehternet Ports",
+        "Ethernet Powering"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "1.2 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "50 V DC"
+        },
+        {
+          "name": "Ehternet Ports",
+          "value": "1 Gbps"
+        },
+        {
+          "name": "Ethernet Powering",
+          "value": "4-Pair"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "101 x 60 x 33  mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.192 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Gigabit Power Adapter POE-50-60W",
+      "url": "https://www.getic.com/https://dl.ubnt.com/datasheets/poe/PoE_Adapters_DS.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-48-24W-G",
+      "url": "/product/ubiquiti-poe-48-gigabit",
+      "price": 14.94,
+      "currency": "USD",
+      "mpn": "POE-48-24W-G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-24-12W-G",
+      "url": "/product/ubiquiti-poe-24-gigabit",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "POE-24-12W-G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 5XHD",
+      "url": "/product/airfiber-5xhd",
+      "price": 397.94,
+      "currency": "USD",
+      "mpn": "AF-5XHD",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

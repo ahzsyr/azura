@@ -1,0 +1,26 @@
+{
+  "id": "mikrotik-ethernet-routers",
+  "slug": "mikrotik-ethernet-routers",
+  "name": "MikroTik Ethernet Routers",
+  "description": "MikroTik offers a wide range of Ethernet routers running the powerful RouterOS operating system, catering to everything from compact home setups to massive carrier-grade infrastructure. Their hardware is known for providing professional-grade features—like advanced firewalls, VPN support, and deep packet management—at a much lower price point than competitors",
+  "badge": "Ethernet Routers",
+  "coverImage": "",
+  "parentSlug": "mikrotik",
+  "seo": {},
+  "conditions": {
+    "match": "any",
+    "rules": [
+      {
+        "field": "category",
+        "operator": "contains",
+        "value": "ethernet routers"
+      }
+    ]
+  },
+  "cardTemplate": "default",
+  "sortBy": "name-asc",
+  "visible": true,
+  "showInNav": false,
+  "updatedAt": "2026-05-07T10:04:51.750Z",
+  "_locale": "en-us"
+}

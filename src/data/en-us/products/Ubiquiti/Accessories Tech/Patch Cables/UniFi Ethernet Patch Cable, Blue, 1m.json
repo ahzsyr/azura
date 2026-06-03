@@ -1,0 +1,292 @@
+{
+  "slug": "unifi-ethernet-patch-cable-blue-1m",
+  "id": 2956,
+  "productTitle": "UniFi Ethernet Patch Cable, Blue, 1m",
+  "name": "UniFi Ethernet Patch Cable, Blue, 1m",
+  "title": "UniFi Ethernet Patch Cable, Blue, 1m",
+  "title_extended": "",
+  "short_description": "UniFi Ethernet Patch Cable, blue, 1 m",
+  "description": "Buy UniFi Ethernet Patch Cable, Blue, 1m. Price from 4.23 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "Durable cable for internet connections",
+      "text": "The UniFi Ethernet Patch Cables, offered by Ubiquiti, is a high-performance networking cable designed to provide reliable and high-speed connectivity for a wide range of Ubiquiti’s UniFi devices and other network equipment. Those cables are specifically crafted to meet the rigorous demands of both commercial and residential network environments."
+    },
+    {
+      "heading": "Durable cable for internet connections",
+      "text": "Constructed from high-quality materials, cables features Category 6 (Cat6) specifications, which support data transfer speeds of up to 1 Gbps (Gigabits per second) and a bandwidth of up to 250 MHz. This makes it suitable for applications such as high-speed data transfer, streaming, and online gaming where high bandwidth and lower latency are crucial."
+    },
+    {
+      "heading": "Durable cable for internet connections",
+      "text": "UniFi Ethernet Patch cables are available in lengths of 0.1, 0.3, 1, 2, 3, 5 or 8 meters and comes in a sleek black, blue and white color variations. The connectors on each end are RJ45 with an ultra-thin outer diameter of 3 mm, universally compatible with most Ethernet ports found on network devices. Additionally, the UniFi Ethernet Patch Cables are designed with a durable PVC (Polyvinyl Chloride) jacket that enhances the cable's longevity and resistance to various environmental factors like temperature variations and humidity. The cable is also flexible, facilitating easy installation and routing through tight spaces without risk of damaging the cable."
+    },
+    {
+      "heading": "Durable cable for internet connections",
+      "text": "Overall, the UniFi Ethernet Patch Cable is an ideal solution for networking needs within the Ubiquiti ecosystem and beyond, providing both durability and high performance to maintain stable and efficient network connections. The patch cables meet the technical standard for commercial building cabling for telecommunications products and services TIA-568 and passed the TIA-568-B.2 Cat6 channel test by Fluke Networks."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Patch Cables",
+  "categories": [
+    "Ubiquiti",
+    "Accessory Tech",
+    "Patch Cables"
+  ],
+  "mpn": "U-Cable-Patch-1M-RJ45-BL",
+  "manufacturer_part_number": "U-Cable-Patch-1M-RJ45-BL",
+  "ean": "0810010071552",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2956/ucpatchrj45bl_top-5f8f6846d5b5c-medium.jpeg",
+        "alt": "UniFi Ethernet Patch Cable, Blue, 1m front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2956/ucpatchrj45bl_top_angle_1024x1024_a8ca1f8eb8fc4af991d4605a3b5c0317-5f8f684b5a9aa-medium.jpeg",
+        "alt": "UniFi Ethernet Patch Cable, Blue, 1m angled view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2956/ucpatchrj45bl_front_1024x1024_c0d767dcd2be4995adb89acc1c750960-5f8f684f7b060-medium.jpeg",
+        "alt": "UniFi Ethernet Patch Cable, Blue, 1m connector detail",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2956/ucpatchrj45bl_top-5f8f6846d5b5c-tiny.jpeg",
+        "alt": "UniFi Ethernet Patch Cable, Blue, 1m front view"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2956/ucpatchrj45bl_top_angle_1024x1024_a8ca1f8eb8fc4af991d4605a3b5c0317-5f8f684b5a9aa-tiny.jpeg",
+        "alt": "UniFi Ethernet Patch Cable, Blue, 1m angled view"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2956/ucpatchrj45bl_front_1024x1024_c0d767dcd2be4995adb89acc1c750960-5f8f684f7b060-tiny.jpeg",
+        "alt": "UniFi Ethernet Patch Cable, Blue, 1m connector detail"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 4.23,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Color",
+      "options": [
+        "Black",
+        "White",
+        "Blue"
+      ],
+      "default": "Blue"
+    },
+    {
+      "type": "Package Contains",
+      "options": [
+        "0.1 m",
+        "0.3 m",
+        "1 m",
+        "2 m",
+        "3 m",
+        "5 m",
+        "8 m",
+        "0.1 m (50-pack)"
+      ],
+      "default": "1 m"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Cable Type",
+        "Connector",
+        "Max Data Rate",
+        "Insulation",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Cable Type",
+          "value": "Cat 6"
+        },
+        {
+          "name": "Connector",
+          "value": "(2) RJ45"
+        },
+        {
+          "name": "Max Data Rate",
+          "value": "1Gbps"
+        },
+        {
+          "name": "Insulation",
+          "value": "UTP"
+        },
+        {
+          "name": "Cable Length",
+          "value": "1 m"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Blue"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "delivery_days": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "delivery_days": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "delivery_days": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 13,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 13,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Edijs",
+        "date": "2024-05-30",
+        "text": "Best patch cables I used so far",
+        "photos": []
+      },
+      {
+        "name": "George",
+        "date": "2024-04-14",
+        "text": "Exactly what I saw on the website",
+        "photos": []
+      },
+      {
+        "name": "George",
+        "date": "2024-04-14",
+        "text": "Exactly as described",
+        "photos": []
+      },
+      {
+        "name": "Dmitrijs",
+        "date": "2024-03-29",
+        "text": "Great reliable cables for good price",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "UniFi Ethernet Patch Cable, White, 1m",
+      "url": "/product/unifi-ethernet-patch-cable-white-1m",
+      "price": 4.23,
+      "currency": "USD",
+      "mpn": "U-Cable-Patch-1M-RJ45",
+      "availability": "InStock"
+    },
+    {
+      "name": "UniFi Ethernet Patch Cable Black, 1m",
+      "url": "/product/unifi-ethernet-patch-cable-black-1m",
+      "price": 4.23,
+      "currency": "USD",
+      "mpn": "U-Cable-Patch-1M-RJ45-BK",
+      "availability": "InStock"
+    },
+    {
+      "name": "UniFi Ethernet Patch Cable, Blue, 0.3m",
+      "url": "/product/unifi-ethernet-patch-cable-blue-03m",
+      "price": 3.64,
+      "currency": "USD",
+      "mpn": "U-Cable-Patch-0.3M-RJ45-BL",
+      "availability": "InStock"
+    },
+    {
+      "name": "UniFi Ethernet Patch Cable, White, 0.3m",
+      "url": "/product/unifi-ethernet-patch-cable-white-03m",
+      "price": 3.64,
+      "currency": "USD",
+      "mpn": "U-Cable-Patch-0.3M-RJ45",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "1208 pcs in stock"
+}

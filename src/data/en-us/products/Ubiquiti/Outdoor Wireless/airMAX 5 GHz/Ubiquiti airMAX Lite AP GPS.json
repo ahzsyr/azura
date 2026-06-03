@@ -1,0 +1,392 @@
+{
+  "slug": "lite-ap-ac-gps",
+  "id": "1903",
+  "productTitle": "Ubiquiti airMAX Lite AP GPS",
+  "name": "Ubiquiti airMAX Lite AP GPS",
+  "title": "Ubiquiti airMAX Lite AP GPS",
+  "title_extended": "",
+  "short_description": "Access Point LiteAP GPS, Frequency 5 GHz, Throughput 450+ Mbps, Management Radio, GPS Sync, High-performance 90° antenna",
+  "description": "Access Point LiteAP GPS, Frequency 5 GHz, Throughput 450+ Mbps, Management Radio, GPS Sync, High-performance 90° antenna",
+  "detailed_description": [
+    {
+      "heading": "",
+      "text": "The airMAX Lite AP GPS is a distinguished product from Ubiquiti Networks, designed to deliver an advanced solution for wireless network deployments that require precise synchronization and enhanced performance. This device encapsulates Ubiquiti's commitment to innovation, offering network professionals a tool that combines the efficiency of GPS technology with the robust performance characteristics synonymous with the airMAX line of products."
+    },
+    {
+      "heading": "",
+      "text": "The airMAX Lite AP GPS  by Ubiquiti Networks is designed to be both a powerful standalone device and a harmonious component within a broader network ecosystem. As a standalone unit, it can serve as a robust access point, utilizing its GPS synchronization capabilities to reduce interference and enhance the efficiency of wireless communications within its coverage area. This makes it particularly suitable for applications where precise timing and coordination among multiple network devices are crucial, such as in densely populated network environments or in scenarios requiring high levels of data throughput and reliability across extensive areas."
+    },
+    {
+      "heading": "",
+      "text": "However, the true potential of the LAP-GPS is unlocked when it is integrated with other devices, especially those within the Ubiquiti airMAX ecosystem. The device is fully compatible with a wide range of Ubiquiti's airMAX antennas and accessories, allowing for seamless integration into existing Ubiquiti networks. This compatibility ensures that network operators can leverage the LAP-GPS's advanced features, such as GPS synchronization, to significantly improve network performance, reduce latency, and increase capacity, particularly in multi-point configurations where coordination among access points is critical to minimizing interference and optimizing airtime efficiency."
+    },
+    {
+      "heading": "",
+      "text": "At its core, the LAP-GPS operates within the 5 GHz frequency band, a choice that strategically balances the need for high throughput with the desire to minimize interference from congested wireless spaces. This operation band is particularly suitable for applications demanding significant bandwidth and where maintaining a high-quality, reliable connection is paramount. The integration of GPS technology is what sets the LAP-GPS apart, facilitating superior synchronization across multiple access points. This synchronization capability is crucial for reducing interference in dense network deployments, allowing for tighter channel reuse and enhanced overall network performance."
+    },
+    {
+      "heading": "",
+      "text": "The device boasts a compact and highly durable design, making it suitable for outdoor installations in various environmental conditions. Whether subjected to the blazing sun, heavy rain, or freezing temperatures, the LAP-GPS is built to withstand the elements, ensuring continuous operation and reliability. This durability, coupled with its discreet appearance, makes the LAP-GPS an ideal choice for deployment in areas where both performance and aesthetics are important considerations."
+    },
+    {
+      "heading": "",
+      "text": "Installation and network integration are streamlined with the LAP-GPS, thanks to its compatibility with a wide range of Ubiquiti's airMAX antennas and accessories. This compatibility ensures that network architects can easily incorporate the LAP-GPS into existing setups or new deployments, leveraging its GPS synchronization capabilities to enhance network efficiency and performance. The device's support for airMAX ac technology further enhances its utility, enabling high-capacity, multi-user environments to benefit from improved speeds and reduced latency."
+    },
+    {
+      "heading": "",
+      "text": "Ubiquiti's proprietary airOS software enhances the LAP-GPS's functionality, providing a user-friendly interface for device configuration, network management, and performance monitoring. This software platform includes features specifically designed to optimize the deployment of GPS-synchronized networks, such as detailed analytics, signal optimization tools, and advanced security settings. These features allow network administrators to fine-tune the LAP-GPS for optimal performance, ensuring that the wireless network meets the specific needs of its users."
+    },
+    {
+      "heading": "",
+      "text": "In summary, the airMAX Lite AP GPS (LAP-GPS) from Ubiquiti Networks represents a sophisticated blending of GPS technology with high-performance wireless networking capabilities. Designed for deployment in a variety of environments, from rural to urban and everything in between, the LAP-GPS excels in providing reliable, high-throughput connectivity. Its integration of GPS synchronization opens up new possibilities for network design, allowing for more efficient use of the wireless spectrum and reduced interference. Whether used as part of a larger Ubiquiti deployment or integrated with existing network infrastructure, the LAP-GPS is engineered to deliver enhanced network performance, stability, and scalability, making it an invaluable tool for network professionals seeking to elevate their wireless network deployments."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Ubiquiti",
+    "Outdoor Wireless",
+    "Integrated Antennas"
+  ],
+  "mpn": "LAP-GPS",
+  "manufacturer_part_number": "LAP-GPS",
+  "ean": "0817882025812",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1903/lapgps_front_angle-5fec5bcbced2b-medium.jpg",
+        "alt": "Ubiquiti airMAX Lite AP GPS",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1903/lapgps_front-5fec5bca77282-medium.jpg",
+        "alt": "Ubiquiti airMAX Lite AP GPS",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1903/lapgps_back_angle-5fec5bc8cc264-medium.jpg",
+        "alt": "Ubiquiti airMAX Lite AP GPS",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1903/lapgps_back-5fec5bc74cae2-medium.jpg",
+        "alt": "Ubiquiti airMAX Lite AP GPS",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1903/lapgps_side-5fec5bcec7b52-medium.jpg",
+        "alt": "Ubiquiti airMAX Lite AP GPS",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1903/lapgps_port-5fec5bcd5f3b4-medium.jpg",
+        "alt": "Ubiquiti airMAX Lite AP GPS",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 92.48,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "airMAX"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "450 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Distance"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Sector"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "5.150 - 5.875 (GHz) 17 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "120 ° Vertical"
+        },
+        {
+          "name": "Distance",
+          "value": "Up to 12 km"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Atheros MIPS 74Kc, 533 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "64 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "22 - 26 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "7 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.3 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "361 x 125 x 71 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.75 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX Lite AP GPS",
+      "url": "https://www.getic.com/files/catalogue/1903/liteap_ac_ds.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX Lite AP GPS",
+      "url": "https://www.getic.com/files/catalogue/1903/lap-gps.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "A.J.M.D.S",
+        "date": "2024-08-23",
+        "text": "Good product",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-24-7W-G-WH",
+      "url": "/product/ubiquiti-poe-24-7w-g-wh-gigabit",
+      "price": 7.52,
+      "currency": "USD",
+      "mpn": "POE-24-7W-G-WH",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX NanoStation 5AC Loco",
+      "url": "/product/nanostation-5-ac-loco",
+      "price": 48.09,
+      "currency": "USD",
+      "mpn": "Loco5AC",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti NanoSwitch",
+      "url": "/product/nano-switch",
+      "price": 43.46,
+      "currency": "USD",
+      "mpn": "N-SW",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

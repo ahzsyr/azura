@@ -1,0 +1,142 @@
+{
+  "slug": null,
+  "id": null,
+  "productTitle": "Alfa USB Ethernet Adapter AUE2500CA",
+  "name": "Alfa USB Ethernet Adapter AUE2500CA",
+  "title": "Alfa USB Ethernet Adapter AUE2500CA",
+  "title_extended": null,
+  "short_description": "The Alfa AUE2500CA is a compact and high performance USB Ethernet adapter designed to deliver fast and reliable wired network connectivity through a modern USB Type C interface. Built for flexibility and everyday convenience, it supports multi gigabit speeds of up to 2.5 Gbps, making it an ideal solution for users who require faster network performance than standard Gigabit Ethernet can provide. The adapter features automatic speed negotiation, allowing it to seamlessly adapt to network conditions and select the optimal connection speed, whether 2.5 GbE, 1 GbE, or lower. This ensures compatibility with a wide range of network infrastructures, including Cat5e, Cat6, or higher grade cabling.",
+  "description": "The Alfa AUE2500CA is a compact and high performance USB Ethernet adapter designed to deliver fast and reliable wired network connectivity through a modern USB Type C interface. Built for flexibility and everyday convenience, it supports multi gigabit speeds of up to 2.5 Gbps, making it an ideal solution for users who require faster network performance than standard Gigabit Ethernet can provide. The adapter features automatic speed negotiation, allowing it to seamlessly adapt to network conditions and select the optimal connection speed, whether 2.5 GbE, 1 GbE, or lower. This ensures compatibility with a wide range of network infrastructures, including Cat5e, Cat6, or higher grade cabling.",
+  "detailed_description": null,
+  "brand": "Alfa Network",
+  "category": "Ethernet Devices",
+  "categories": [
+    "Ethernet Devices",
+    "USB adapters"
+  ],
+  "mpn": "AUE2500CA",
+  "manufacturer_part_number": "AUE2500CA",
+  "ean": "4718050308361",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7170/1-69e0a2c70639b-medium.jpg",
+        "alt": "Alfa USB Ethernet Adapter AUE2500CA",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7170/3-69e0a2d04013c-medium.jpg",
+        "alt": "Alfa USB Ethernet Adapter AUE2500CA",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7170/4-69e0a2d6197d4-medium.jpg",
+        "alt": "Alfa USB Ethernet Adapter AUE2500CA",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7170/5-69e0a2d9c4293-medium.jpg",
+        "alt": "Alfa USB Ethernet Adapter AUE2500CA",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7170/6-69e0a2dd27ed6-medium.jpg",
+        "alt": "Alfa USB Ethernet Adapter AUE2500CA",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7170/2-69e0a31254e46-medium.jpg",
+        "alt": "Alfa USB Ethernet Adapter AUE2500CA",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 28.70,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": null,
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Alfa USB Ethernet Adapter AUE2500CA",
+      "url": "https://www.getic.com/files/catalogue/7170/aue2500ca_ds-69e0a2c1b1c7e.pdf"
+    }
+  ],
+  "shipping": null,
+  "delivery_options": [
+    {
+      "class": "Pickup point",
+      "price": 15.48,
+      "days": "18 business days"
+    },
+    {
+      "class": "Standard",
+      "price": 31.25,
+      "days": "5 business days"
+    },
+    {
+      "class": "Express",
+      "price": 42.59,
+      "days": "2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": null,
+    "distribution": null,
+    "breakdown": null,
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Alfa USB Adapter AWUS036AC",
+      "url": "/product/alfa-awus036ac",
+      "price": 28.05,
+      "currency": "USD",
+      "mpn": "AWUS036AC",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa Tube-U4Gv2 Global",
+      "url": "/product/alfa-tube-u4g-v2-g",
+      "price": 96.96,
+      "currency": "USD",
+      "mpn": "Tube-U4Gv2/G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACM",
+      "url": "/product/alfa-awus036acm",
+      "price": 34.45,
+      "currency": "USD",
+      "mpn": "AWUS036ACM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik wAP ax",
+      "url": "/product/mikrotik-wap-ax",
+      "price": 81.00,
+      "currency": "USD",
+      "mpn": "wAPG-5HaxD2HaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": null
+}

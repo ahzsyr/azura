@@ -1,0 +1,344 @@
+{
+  "slug": "mikrotik-hap-ax-lite",
+  "id": 4295,
+  "productTitle": "MikroTik hAP ax lite",
+  "name": "MikroTik hAP ax lite",
+  "title": "MikroTik hAP ax lite",
+  "title_extended": "MikroTik hAP ax lite",
+  "short_description": "Gen6 Wireless Router, 4x Gigabit Ethernet Ports, RouterOS V7, Dual-Chain 4.3dBi Antenna, 256 MB RAM",
+  "description": "Gen6 Wireless Router, 4x Gigabit Ethernet Ports, RouterOS V7, Dual-Chain 4.3dBi Antenna, 256 MB RAM",
+  "detailed_description": [
+    {
+      "heading": "Empowering Wi-Fi 6 Technology",
+      "text": "MikroTik's hAP ax router series is a collection of home Wi-Fi routers introduced in 2023, featuring Wi-Fi 6 technology support. Designed for small homes, apartments, and small offices, the series offers a range of models to cater to various needs. The devices come equipped with powerful wireless chips, providing increased speed and stronger signal in both 2.4 GHz and 5 GHz spectrums. They boast modern CPUs, ample memory, and multiple Ethernet ports, ensuring smooth and reliable connectivity for various tasks. With the addition of advanced encryption support, the series prioritizes security. Overall, the hAP router series delivers high performance, scalability, and affordability for home networking needs."
+    },
+    {
+      "heading": "Tiny Package & Advanced Performance",
+      "text": "Are you looking to optimize your network? Look no further than the hAP ax lite router! Designed with cost-effectiveness and performance in mind, this compact router leverages a Gen6 AX wireless chip to maximize the potential of the 2.4 GHz wireless spectrum. Experience an incredible increase in speed of up to 90%, leaving lag and slow connections in the past."
+    },
+    {
+      "heading": "Scalability for Growing Needs",
+      "text": "Whether managing a hotel or expanding office space, the hAP ax lite is your perfect networking companion. Its compelling price point, compact size, and robust feature set allow you to effortlessly add more devices as your network demands grow. Planning a vacation? Don't forget to pack the hAP ax lite! It occupies minimal space in your suitcase and ensures you stay connected wherever you go."
+    },
+    {
+      "heading": "Unbeatable Value",
+      "text": "A powerful combination of hardware and innovation is at the heart of the hAP ax lite. Equipped with 256 MB of RAM and a modern ARM CPU running at 800 MHz, this router effortlessly handles advanced configurations and ensures smooth operation. The inclusion of 4x Gigabit Ethernet ports enables lightning-fast data transfers over wired connections, providing a stable and reliable network for data-intensive tasks."
+    },
+    {
+      "heading": "Next-Level Connectivity",
+      "text": "With its Wi-Fi 6 standard, the hAP ax lite sets new standards for wireless connectivity. Enjoy a 573Mbps 2.4GHz Radio Rate that guarantees seamless and high-speed data transmission, catering to the needs of today's connected world. The dual-chain antenna gain, reaching up to 4.3 dBi, ensures extended coverage and strong signals throughout your space, leaving no room for dead zones. Featuring 128 MB of storage memory, the router provides ample space for essential configurations and updates, ensuring your network runs smoothly."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "WiFi Routers",
+  "categories": [
+    "hAP",
+    "WiFi Routers"
+  ],
+  "mpn": "L41G-2axD",
+  "manufacturer_part_number": "L41G-2axD",
+  "ean": "4752224008480",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4295/horizont-641b1087a8a88-medium.jpg",
+        "alt": "MikroTik hAP ax lite",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4295/midup-641afd834dc90-medium.jpg",
+        "alt": "MikroTik hAP ax lite",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4295/1-63db6f90aa776-medium.jpg",
+        "alt": "MikroTik hAP ax lite",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4295/3-63db6f93477b9-medium.jpg",
+        "alt": "MikroTik hAP ax lite",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4295/4-63db6f948bd02-medium.jpg",
+        "alt": "MikroTik hAP ax lite",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 47.44,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 6" },
+        { "name": "Standards", "value": "802.11n/ax" },
+        { "name": "MIMO", "value": "2.4GHz 2x2" },
+        { "name": "Frequency", "value": "2.4GHz" },
+        { "name": "2.4GHz Radio Rate", "value": "573 Mbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        { "name": "Antenna Design", "value": "Omni" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "2.4 - 2.483 (GHz) 4.3 (dBi)" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(4) 1 Gbps" },
+        { "name": "Management", "value": "Ethernet, Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "Dual-Core IPQ-5010 1 GHz" },
+        { "name": "RAM", "value": "256 MB" },
+        { "name": "Storage Memory", "value": "128 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "AC/DC Adapter" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Max Power Consumption", "value": "8 W" },
+        { "name": "Power Connector", "value": "DC Plug 2.1 x 5.5 mm" },
+        { "name": "PSU / POE adapter", "value": "5 V DC 2.4 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        { "name": "Dimensions", "value": "124 x 100 x 54 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Indoor" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 4" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik hAP ax lite",
+      "url": "https://www.getic.com/files/catalogue/4295/hapaxlite_brochure-63d0f84825573.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik hAP ax lite",
+      "url": "https://www.getic.com/files/catalogue/4295/quickguidehapaxlite-6509645604f84.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik hAP ax lite",
+      "url": "https://www.getic.com/files/catalogue/4295/usermanualshapaxlite-650bf71a33e18.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.9,
+    "count": 7,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 86,
+      "great": 14,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 6,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Rein",
+        "date": "2025-12-11",
+        "text": "Very good product for my needs.",
+        "photos": []
+      },
+      {
+        "name": "Gunārs",
+        "date": "2024-10-12",
+        "text": "This one s excellent home Access Point!",
+        "photos": []
+      },
+      {
+        "name": "Lugupeetud",
+        "date": "2024-08-26",
+        "text": "Comfortable delivery, good device in this price segment, works from the box. I'm pretty happy with it.",
+        "photos": []
+      },
+      {
+        "name": "Dimitris",
+        "date": "2024-04-17",
+        "text": "Very good product. Excellent service by Getic",
+        "photos": []
+      },
+      {
+        "name": "Hyeon",
+        "date": "2024-01-19",
+        "text": "I'm satisfied with the performance.\n good",
+        "photos": []
+      },
+      {
+        "name": "Laido",
+        "date": "2023-09-10",
+        "text": "Cheap and powerful device",
+        "photos": []
+      },
+      {
+        "name": "Aivars",
+        "date": "2023-05-22",
+        "text": "Nice small device, very fast boot time. Only problem was with my previous generation main router (chateau) and CapsMan (RouterOS v7.9). In moment of configuration it does not works with wifi6 (ax) devices out of box, so needed separate WIFI configuration for that.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hAP ax2",
+      "url": "/product/mikrotik-hap-ax2",
+      "price": 80.2,
+      "currency": "USD",
+      "mpn": "C52iG-5HaxD2HaxD-TC",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax3",
+      "url": "/product/mikrotik-hap-ax3",
+      "price": 113.42,
+      "currency": "USD",
+      "mpn": "C53UiG+5HPaxD2HPaxD",
+      "availability": "Preorder"
+    },
+    {
+      "name": "MikroTik cAP ax",
+      "url": "/product/mikrotik-cap-ax",
+      "price": 103.11,
+      "currency": "USD",
+      "mpn": "cAPGi-5HaxD2HaxD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik wAP ax",
+      "url": "/product/mikrotik-wap-ax",
+      "price": 81.0,
+      "currency": "USD",
+      "mpn": "wAPG-5HaxD2HaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik MTCNA Certificate",
+    "MikroTik Value Added Distributor"
+  ],
+  "stock_stat": ""
+}

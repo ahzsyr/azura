@@ -1,0 +1,193 @@
+{
+  "slug": "mikrotik-rackmount-kit",
+  "id": "4325",
+  "productTitle": "MikroTik Rackmount Kit",
+  "name": "MikroTik Rackmount Kit",
+  "title": "MikroTik Rackmount Kit",
+  "title_extended": "",
+  "short_description": "The kit of two rackmount ears and four screws",
+  "description": "The MikroTik Rackmount Kit, model RMK-2/10, is a specially designed accessory that enables the secure installation of MikroTik devices into standard 19-inch racks. This kit is ideal for network engineers and IT professionals looking to integrate MikroTik products into a structured server or networking rack, providing a seamless and secure fit for optimal operation and management.",
+  "detailed_description": [
+    {
+      "heading": "MikroTik Rackmount Kit",
+      "text": "The MikroTik Rackmount Kit, model RMK-2/10, is a specially designed accessory that enables the secure installation of MikroTik devices into standard 19-inch racks. This kit is ideal for network engineers and IT professionals looking to integrate MikroTik products into a structured server or networking rack, providing a seamless and secure fit for optimal operation and management."
+    },
+    {
+      "heading": "Compatibility and Deployment",
+      "text": "The RMK-2/10 is compatible with a variety of MikroTik router models, ensuring a wide range of applications. It is specifically designed to accommodate devices that do not come with rackmount options out of the box, transforming them into rack-ready units for enhanced organization and deployment efficiency. It also, allows installing two of the smaller MikroTik form-factor devices within MikroTik SR-10U rack or other traditional 19-inch racks. Alternatively, you can permanently remove a part of the bracket to install a single 200 mm device into a classic 10-inch rack."
+    },
+    {
+      "heading": "Compatible with",
+      "text": "CSS610-8G-2S+IN, CRS109-8G-1S-2HnD-IN, CRS112-8G-4S-IN, CRS310-1G-5S-4S+IN, CRS112-8P-4S-IN, and other 200mm units!"
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Mounts and Brackets",
+  "categories": [
+    "Mounts and Brackets"
+  ],
+  "mpn": "RMK-2/10",
+  "manufacturer_part_number": "RMK-2/10",
+  "ean": "4752224008688",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4325/main-6418479b8eb79-medium.jpg",
+        "alt": "MikroTik Rackmount Kit",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4325/main-6418479b8eb79-tiny.jpg",
+        "alt": "MikroTik Rackmount Kit"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/Zyw0HT7YEnM",
+        "type": "youtube"
+      }
+    ],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4325/rmk_2_10_ds-64009fd441afa.pdf",
+        "title": "Technical Specs / Datasheet - MikroTik Rackmount Kit"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 8.04,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Rackmount Kit",
+      "url": "https://www.getic.com/files/catalogue/4325/rmk_2_10_ds-64009fd441afa.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": null,
+        "weight": null,
+        "dimensions": null
+      },
+      {
+        "class": "Standard",
+        "origin": null,
+        "weight": null,
+        "dimensions": null
+      },
+      {
+        "class": "Express",
+        "origin": null,
+        "weight": null,
+        "dimensions": null
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CSS610-8G-2S+IN",
+      "url": "/product/cloud-smart-switch-610-8g-2s-in",
+      "price": 98.43,
+      "currency": "USD",
+      "mpn": "CSS610-8G-2S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Rackmount kit for RB5009/L009 series",
+      "url": "/product/mikrotik-kit-k79",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "K-79",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS310-1G-5S-4S+IN",
+      "url": "/product/mikrotik-crs310-1g-5s-4s-in",
+      "price": 159.25,
+      "currency": "USD",
+      "mpn": "CRS310-1G-5S-4S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS310-8G+2S+IN",
+      "url": "/product/mikrotik-crs310-8g-2s-in",
+      "price": 175.29,
+      "currency": "USD",
+      "mpn": "CRS310-8G+2S+IN",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

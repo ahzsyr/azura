@@ -1,0 +1,396 @@
+{
+  "slug": "alfa-4g-camp-pro-2-plus-global",
+  "id": "4GCampPro2+GLOBAL",
+  "productTitle": "Alfa 4G Camp-Pro 2+ Global",
+  "name": "Alfa 4G Camp-Pro 2+ Global",
+  "title": "Alfa 4G Camp-Pro 2+ Global",
+  "title_extended": "",
+  "short_description": "Cellular 4G data booster kit includes R36A + Tube-U4Gv2 + AOA-4G-5AM 5 dBi antenna, 5m USB cable, PSU for R36A router and cigar lighter charger",
+  "description": "Cellular 4G data booster kit includes R36A + Tube-U4Gv2 + AOA-4G-5AM 5 dBi antenna, 5m USB cable, PSU for R36A router and cigar lighter charger",
+  "detailed_description": [
+    {
+      "heading": "The new generation of Alfa Network 4G CampPro",
+      "text": "Share your 4G data plan even when 4G tower is far way. Ideal for mobile home, RV and boat."
+    },
+    {
+      "heading": null,
+      "text": "This is a special kit shipping in one retail box that features all of the equipment as shown on the product image designed to pick up a weak 4G signal and repeat it as your own personal hotspot. This is ideal for use during camping or in boats, RVs and campers."
+    },
+    {
+      "heading": null,
+      "text": "The best affordable solution for turning 4G to a Wifi Internet Hotspot\nUser Friendly – Mobile friendly web page supports QR code scanning for easy setup so you can enjoy Internet access in minutes\nVehicle Surge Protection – Special design to prevent accidental damage from vehicle spikes during ignition"
+    },
+    {
+      "heading": "Application Scenario",
+      "text": "Plug in Laptop/ Computer USB port and connect to 4G/LTE tower"
+    },
+    {
+      "heading": null,
+      "text": "4G Mobile Internet Sharing via R36A (Ideal solution for home, RV and boat for multiple-user Internet access)"
+    }
+  ],
+  "brand": "Alfa Network",
+  "category": "Wi-Fi Kits",
+  "categories": [
+    "Alfa",
+    "Wi-Fi Devices",
+    "Wi-Fi Kits"
+  ],
+  "mpn": "4GCampPro2+GLOBAL",
+  "manufacturer_part_number": "4GCampPro2+GLOBAL",
+  "ean": "4718050306763",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2847/4g-camp-pro2_12-medium.jpg",
+        "alt": "Alfa 4G Camp-Pro 2+ Global",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2847/4g-camp-pro2_01-medium.jpg",
+        "alt": "Alfa 4G Camp-Pro 2+ Global",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2847/4g-camp-pro2_02-medium.jpg",
+        "alt": "Alfa 4G Camp-Pro 2+ Global",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2847/4g-camp-pro2_03-medium.jpg",
+        "alt": "Alfa 4G Camp-Pro 2+ Global",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2847/4g-camp-pro2_04-medium.jpg",
+        "alt": "Alfa 4G Camp-Pro 2+ Global",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2847/4g-camp-pro2_14-medium.jpg",
+        "alt": "Alfa 4G Camp-Pro 2+ Global",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2847/4g-camp-pro2_17-medium.jpg",
+        "alt": "Alfa 4G Camp-Pro 2+ Global",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 200.55,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "LTE Category",
+        "FDD LTE Frequency Bands",
+        "TDD LTE Frequency Bands",
+        "SIM Card Slot"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "2G (GSM), 3G (UMTS), 4G (LTE)"
+        },
+        {
+          "name": "LTE Category",
+          "value": "Cat4 - 150Mbps/50Mbps"
+        },
+        {
+          "name": "FDD LTE Frequency Bands",
+          "value": "1 (2100MHz), 2 (1900MHz), 3 (1800MHz), 4 (1700MHz), 5 (850MHz), 7 (2600MHz), 8 (900MHz), 12 (700MHz), 13 (700MHz), 18 (850MHz), 19 (850MHz), 20 (800MHz), 25 (1900MHz), 26 (850MHz), 28 (700MHz)"
+        },
+        {
+          "name": "TDD LTE Frequency Bands",
+          "value": "38 (2600MHz), 39 (1900MHz), 40 (2300MHz), 41 (2500MHz)"
+        },
+        {
+          "name": "SIM Card Slot",
+          "value": "Mini-SIM"
+        }
+      ]
+    },
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "2.4GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 4"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "300 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Mobile Antenna Frequency Range & Gain",
+        "Mobile Antenna Gain",
+        "Beamwidth",
+        "Polarization",
+        "Cable Length",
+        "VSWR",
+        "Impedance"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.400 - 2.473 (GHz) 5 (dBi)"
+        },
+        {
+          "name": "Mobile Antenna Frequency Range & Gain",
+          "value": "0.698 - 0.960 (GHz) 1.5 (dBi), 1.710 - 2.170 (GHz) 0.9 (dBi), 2.300 - 2.700 (GHz) 0.35 (dBi)"
+        },
+        {
+          "name": "Mobile Antenna Gain",
+          "value": "1.5 dBi, 0.9 dBi, 0.35 dBi"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "360 °"
+        },
+        {
+          "name": "Polarization",
+          "value": "Vertical"
+        },
+        {
+          "name": "Cable Length",
+          "value": "7.5 m"
+        },
+        {
+          "name": "VSWR",
+          "value": "< 3.0"
+        },
+        {
+          "name": "Impedance",
+          "value": "50 Ω"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "USB Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 100 Mbps"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 2.0"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "RAM",
+          "value": "128 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 24 V DC"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Alfa 4G Camp-Pro 2+ Global",
+      "url": "https://www.getic.com/files/catalogue/2847/alfa_4g_camp_pro_2_ds-5f06c2d722136.pdf"
+    },
+    {
+      "title": "Installation Guide - Alfa 4G Camp-Pro 2+ Global",
+      "url": "https://www.getic.com/files/catalogue/2847/qig4gcamppro2_11_20190506-60363bdf0123e.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 25.85,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 36.66,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "4G LTE Outdoor Antenna 8dBi IP67 N-Male",
+      "url": "/product/4g-lte-outdoor-omni-antenna-8dbi-ip67-n-male",
+      "price": 35.58,
+      "currency": "USD",
+      "mpn": "AOA-4G-8M",
+      "availability": "InStock"
+    },
+    {
+      "name": "LTE MIMO Outdoor Antenna IP67 3m JCG305LM",
+      "url": "/product/lte-outdoor-antenna-ip67-jcg305lm",
+      "price": 14.28,
+      "currency": "USD",
+      "mpn": "JCG305LM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa 2.4/5GHz Outdoor Omni Antenna 7/9dBi N-Male",
+      "url": "/product/alfa-outdoor-omni-antenna-245ghz-79dbi-n-male-connector",
+      "price": 19.09,
+      "currency": "USD",
+      "mpn": "AOA-2458-79AM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Enterprise 8 PoE",
+      "url": "/product/unifi-switch-enterprise-8-poe",
+      "price": 483.38,
+      "currency": "USD",
+      "mpn": "USW-Enterprise-8-PoE",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

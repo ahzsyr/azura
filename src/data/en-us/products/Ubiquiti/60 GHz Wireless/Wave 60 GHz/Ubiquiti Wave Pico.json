@@ -1,0 +1,486 @@
+{
+  "slug": "wave-pico",
+  "id": 4700,
+  "productTitle": "Ubiquiti Wave Pico",
+  "name": "Ubiquiti Wave Pico",
+  "title": "Ubiquiti Wave Pico",
+  "title_extended": "",
+  "short_description": "Buy Ubiquiti Wave Pico. Price from 183.75 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "description": "Buy Ubiquiti Wave Pico. Price from 183.75 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "Compact 60 GHz PtMP Station",
+      "text": ""
+    },
+    {
+      "heading": "",
+      "text": "The Ubiquiti Wave Pico, designated as the Wave-Pico, is a highly compact and efficient 60 GHz Point-to-MultiPoint (PtMP) station, part of Ubiquiti's cutting-edge Wave Technology series. This device stands out due to its small form factor and robust capabilities, making it ideal for dense deployment environments where space and power efficiency are crucial. Whether you're connecting remote buildings, providing high-speed internet access in public spaces, or simply extending your network coverage, the Wave Pico delivers reliable and secure connectivity."
+    },
+    {
+      "heading": "",
+      "text": "Features:"
+    },
+    {
+      "heading": "",
+      "text": "5 GHz backup radio\nLink range with Wave AP: up to 1.3 km\nLink range with Wave AP Micro: up to 0.9 km\nBridge/ Router mode support\nIntegrated GPS antenna\nLink planning support via ISP Design Center"
+    },
+    {
+      "heading": "",
+      "text": "A key feature of the Wave Pico is its dual-mode functionality, supporting both PtMP and Point-to-Point (PtP) configurations. This versatility is enhanced by its integrated 5 GHz weatherproof backup radio, which provides additional reliability and connectivity resilience, maintaining service with a maximum throughput of 800 Mbps under challenging environmental conditions."
+    },
+    {
+      "heading": "",
+      "text": "",
+      "media": [
+        {
+          "url": "https://www.getic.com/images/catalogue/description/2077/pico-662121b4a45d0-1400x1418.jpg",
+          "type": "image"
+        }
+      ]
+    },
+    {
+      "heading": "",
+      "text": "With a maximum throughput of 2 Gbps (1 Gbps duplex), the Wave Pico ensures high-speed data transmission. It is capable of reaching a link range of up to 1.3 km when paired with the Wave AP and up to 0.9 km with the Wave AP Micro, making it suitable for both urban and rural applications. The device's build includes UV stabilized polycarbonate materials, ensuring long-term durability against UV exposure and other environmental factors. Its compact size does not compromise its performance or durability, as evidenced by its IPX6 weatherproof rating which protects it against harsh weather conditions."
+    },
+    {
+      "heading": "",
+      "text": "The Wave Pico is also equipped with a dual-core ARM Cortex-A53 processor clocked at 1 GHz and 512 MB of DDR3L memory, which are sufficient for handling multiple network tasks efficiently. Its power supply is versatile, supporting both 44–54V DC and 22–27V DC ranges through passive Power over Ethernet (PoE), which simplifies the cabling and power infrastructure."
+    },
+    {
+      "heading": "",
+      "text": "Installation and configuration are simplified with Bluetooth connectivity, allowing for straightforward setup through the UISP Mobile app. This feature, combined with comprehensive tools for antenna alignment and network diagnostics, ensures efficient deployment and maintenance.Thanks to UISP app you can centrally manage your networks and clients with ease. Simply organize your clients' plans, setup billing and invoicing, and grow your customer base. UISP application allows viewing network topology, advanced data analytics, quickly set up devices and manage them on the go with a powerful mobile app.",
+      "media": [
+        {
+          "url": "https://www.getic.com/images/catalogue/description/2077/uispsoftware202163be7cd30a1d7332x240-66212194e0451-332x240.jpg",
+          "type": "image"
+        }
+      ]
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Outdoor Wireless",
+  "categories": [
+    "Outdoor Wireless",
+    "Wave 60 GHz"
+  ],
+  "mpn": "Wave-Pico",
+  "manufacturer_part_number": "Wave-Pico",
+  "ean": "0810084693872",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/1-65cb00a215697-medium.jpg",
+        "alt": "Ubiquiti Wave Pico",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/2-65cb00a72d19a-medium.jpg",
+        "alt": "Ubiquiti Wave Pico",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/3-65cb00b21387b-medium.jpg",
+        "alt": "Ubiquiti Wave Pico",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/4-65cb00b5b94e2-medium.jpg",
+        "alt": "Ubiquiti Wave Pico",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/5-65cb00b9a1789-medium.jpg",
+        "alt": "Ubiquiti Wave Pico",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/6-65cb00c42ac54-medium.jpg",
+        "alt": "Ubiquiti Wave Pico",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/7-65cb00c9ac97f-medium.jpg",
+        "alt": "Ubiquiti Wave Pico",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/8-65cb00cf49de3-medium.jpg",
+        "alt": "Ubiquiti Wave Pico",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/9-65cb00d3168e0-medium.jpg",
+        "alt": "Ubiquiti Wave Pico",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/10-65cb00d6cbf64-medium.jpg",
+        "alt": "Ubiquiti Wave Pico",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/11-65cb00dacfd3a-medium.jpg",
+        "alt": "Ubiquiti Wave Pico",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/12-65cb00dfb427a-medium.jpg",
+        "alt": "Ubiquiti Wave Pico",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/1-65cb00a215697-tiny.jpg",
+        "alt": "Ubiquiti Wave Pico"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/2-65cb00a72d19a-tiny.jpg",
+        "alt": "Ubiquiti Wave Pico"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/3-65cb00b21387b-tiny.jpg",
+        "alt": "Ubiquiti Wave Pico"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/4-65cb00b5b94e2-tiny.jpg",
+        "alt": "Ubiquiti Wave Pico"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/5-65cb00b9a1789-tiny.jpg",
+        "alt": "Ubiquiti Wave Pico"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/6-65cb00c42ac54-tiny.jpg",
+        "alt": "Ubiquiti Wave Pico"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/7-65cb00c9ac97f-tiny.jpg",
+        "alt": "Ubiquiti Wave Pico"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/8-65cb00cf49de3-tiny.jpg",
+        "alt": "Ubiquiti Wave Pico"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/9-65cb00d3168e0-tiny.jpg",
+        "alt": "Ubiquiti Wave Pico"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/10-65cb00d6cbf64-tiny.jpg",
+        "alt": "Ubiquiti Wave Pico"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/11-65cb00dacfd3a-tiny.jpg",
+        "alt": "Ubiquiti Wave Pico"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4700/12-65cb00dfb427a-tiny.jpg",
+        "alt": "Ubiquiti Wave Pico"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 183.75,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "60GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ax, 802.11ad"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz, 60GHz"
+        },
+        {
+          "name": "60GHz Radio Rate",
+          "value": "2.0Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Wireless Antenna Frequency Range & Gain",
+        "Distance"
+      ],
+      "items": [
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "57 - 71 (GHz) 27.7 (dBi), 5.18 - 5.875 (GHz) 9 (dBi)"
+        },
+        {
+          "name": "Distance",
+          "value": "Up to 1.3 km"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Dual ARM® Cortex ® -A53 cores at 1GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "512 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "48V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "44 - 54 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "10 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "48 V DC 0.5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "UV-stabilized polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX6"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø152.1 x 55.8 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.409 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Wave Pico",
+      "url": "https://www.getic.com/files/catalogue/4700/wavepico_ds-65cb009b2d32b.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti Wave Pico",
+      "url": "https://dl.ui.com/qig/wave-pico/#index"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 25.88,
+        "delivery_time": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 34.76,
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.91,
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Wave Nano",
+      "url": "/product/ubiquiti-uisp-wave-nano",
+      "price": 286.75,
+      "currency": "USD",
+      "mpn": "Wave-Nano",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Wave AP Micro",
+      "url": "/product/wave-access-point-micro",
+      "price": 470.56,
+      "currency": "USD",
+      "mpn": "Wave-AP-Micro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Wave Pro",
+      "url": "/product/wave-professional",
+      "price": 619.14,
+      "currency": "USD",
+      "mpn": "Wave-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Wave AP Gen2",
+      "url": "/product/ubiquiti-wave-ap-gen2",
+      "price": 584.93,
+      "currency": "USD",
+      "mpn": "Wave-AP-Gen2",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

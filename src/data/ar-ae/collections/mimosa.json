@@ -1,0 +1,28 @@
+{
+  "id": "mimosa",
+  "slug": "mimosa",
+  "name": "ميموسا",
+  "description": "ميموسا تعيد تعريف الوصول إلى الإنترنت السريع عبر تقنية لاسلكية مبتكرة، مع تركيز على الجودة والسرعة والموثوقية.",
+  "badge": "",
+  "coverImage": "/images/placeholder.svg",
+  "seo": {},
+  "conditions": {
+    "match": "any",
+    "rules": [
+      {
+        "field": "brand",
+        "operator": "contains",
+        "value": "mimosa"
+      },
+      {
+        "field": "title",
+        "operator": "contains",
+        "value": "mimosa"
+      }
+    ]
+  },
+  "cardTemplate": "default",
+  "sortBy": "name-asc",
+  "visible": true,
+  "showInNav": false
+}

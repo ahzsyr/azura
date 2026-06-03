@@ -1,0 +1,232 @@
+{
+  "slug": "mikrotik-crs520-4xs-16xq-rm",
+  "id": "CRS520-4XS-16XQ-RM",
+  "productTitle": "MikroTik CRS520-4XS-16XQ+RM Switch – 100G QSFP28 Data Center",
+  "name": "MikroTik CRS520-4XS-16XQ-RM",
+  "title": "MikroTik CRS520-4XS-16XQ-RM",
+  "title_extended": "MikroTik CRS520-4XS-16XQ+RM Switch – 100G QSFP28 Data Center",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "An ultra-fast enterprise switch with extra processing power",
+      "text": "The MikroTik CRS520-4XS-16XQ-RM represents the pinnacle of network engineering, designed to cater to the most demanding enterprise networks, data centers, multimedia studios, and other advanced networking environments. This switch stands out not only for its high processing capabilities and capacity but also for offering an unparalleled price per 100 Gigabit port. The CRS520 is particularly suitable for settings where network uptime, capacity, and future scalability are critical. It excels in scenarios requiring massive data throughput and high-speed data processing."
+    },
+    {
+      "heading": "High-Capacity Network Interface",
+      "text": "Equipped with 16 QSFP28 ports, each capable of delivering 100 Gigabits per second, alongside 4 SFP28 ports for 25 Gigabit connections, and an additional 2 Ethernet ports that support 1G/2.5G/5G/10G speeds. This diverse range of connectivity options ensures that the CRS520 can handle the bandwidth requirements of large-scale operations, often replacing multiple devices with a single unit.\n\nAt the core of the CRS520 is a quad-core ARM CPU running at 2 GHz, complemented by 4 GB of DDR4 RAM, which facilitates smooth and efficient handling of complex routing protocols such as OSPF/BGP, VPNs, ACLs, and jumbo frames. The device's formidable processing power is designed not just for today’s demands but also anticipates future needs. Continuous software enhancements by MikroTik, leveraging the capabilities of the Marvell 98CX8410 switch chip, ensure that the CRS520 remains at the cutting edge without additional costs or subscriptions."
+    },
+    {
+      "heading": "Design and Build",
+      "text": "The CRS520's 1U rackmount design is perfect for seamless integration into existing setups, optimizing space and enhancing airflow with its efficient cooling system. This device meets CE, EAC, and ROHS certifications, adhering to strict safety and environmental standards. Furthermore, tested to perform within a temperature range of -20°C to 50°C, ensuring reliability in a variety of climatic conditions. The inclusion of CPU, PCB, and voltage monitoring tools helps maintain operational stability and provides insights into the health of the system."
+    },
+    {
+      "heading": "Robust Software and Operations",
+      "text": "The CRS520 runs on MikroTik’s RouterOS v7, which is pre-installed and licensed with no separate purchase necessary. This powerful OS enables advanced configurations and features, including hardware-offloaded L3 routing, ensuring that the switch can handle extensive data routing with ease.\n\nWith four fans and dual AC inputs supporting a range of 100-240V at 47-63 Hz, the CRS520 is built to operate reliably under various power conditions. It has a maximum power consumption of 183 watts, or 123 watts without attachments, ensuring efficiency even under full load. It is is an advanced networking switch that combines massive throughput capacity with robust processing power, making it an ideal solution for complex and demanding network environments. Its high port density, coupled with the versatility and forward-thinking design, ensures that it can serve as the backbone of modern, high-performance networks."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": ["Ethernet Routers", "Switches", "Cloud Router Switch 10G"],
+  "mpn": "CRS520-4XS-16XQ-RM",
+  "manufacturer_part_number": "CRS520-4XS-16XQ-RM",
+  "ean": "4752224009265",
+  "warranty": "12 months",
+  "condition_options": ["new", "used"],
+  "plug_options": ["EU", "UK", "US"],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4819/crs5204xs16xqrm_1-66824b323298c-medium.jpg",
+        "alt": "MikroTik CRS520-4XS-16XQ-RM",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4819/crs5204xs16xqrm_2-66824b3b0ced3-medium.jpg",
+        "alt": "MikroTik CRS520-4XS-16XQ-RM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4819/crs5204xs16xqrm_3-66824b418691c-medium.jpg",
+        "alt": "MikroTik CRS520-4XS-16XQ-RM",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4819/crs5204xs16xqrm_1-66824b323298c-tiny.jpg",
+        "alt": "MikroTik CRS520-4XS-16XQ-RM"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4819/crs5204xs16xqrm_2-66824b3b0ced3-tiny.jpg",
+        "alt": "MikroTik CRS520-4XS-16XQ-RM"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4819/crs5204xs16xqrm_3-66824b418691c-tiny.jpg",
+        "alt": "MikroTik CRS520-4XS-16XQ-RM"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/0mIfZYeGXmU",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 1764.38,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": ["EU", "UK", "US"],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": ["RJ45 Ports", "SFP Ports"],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(2) 10 Gbps" },
+        { "name": "SFP Ports", "value": "(4) 25G SFP28, (16) 100G QSFP28" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": ["Chipset", "RAM", "Storage Memory"],
+      "items": [
+        { "name": "Chipset", "value": "98CX8410, Quad-Core AL52400 2 GHz" },
+        { "name": "RAM", "value": "4 GB" },
+        { "name": "Storage Memory", "value": "128 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": ["Power Supply", "Supported Input Voltage", "Max Power Consumption"],
+      "items": [
+        { "name": "Power Supply", "value": "Internal x2 redundant PSU" },
+        { "name": "Supported Input Voltage", "value": "100 - 240 V AC" },
+        { "name": "Max Power Consumption", "value": "183 W" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": ["Color", "Material", "Dimensions", "Operating Temperature", "Environment", "Form Factor"],
+      "items": [
+        { "name": "Color", "value": "White" },
+        { "name": "Material", "value": "Metal" },
+        { "name": "Dimensions", "value": "443 x 367 x 44  mm" },
+        { "name": "Operating Temperature", "value": "-20 °C to 50 °C" },
+        { "name": "Environment", "value": "Indoor" },
+        { "name": "Form Factor", "value": "Rack-mounted 19\", Desktop" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": ["MikroTik"],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 5" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik CRS520-4XS-16XQ-RM",
+      "url": "https://www.getic.com/files/catalogue/4819/crs5204xs16xqrm2-66824b954c56a.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      { "class": "Pickup point", "origin": "", "weight": "", "dimensions": "" },
+      { "class": "Standard", "origin": "", "weight": "", "dimensions": "" },
+      { "class": "Express", "origin": "", "weight": "", "dimensions": "" }
+    ]
+  },
+  "delivery_options": [
+    {
+      "class": "Standard",
+      "price": 77.78,
+      "currency": "USD",
+      "description": "receive in 5 business days"
+    },
+    {
+      "class": "Express",
+      "price": 96.93,
+      "currency": "USD",
+      "description": "receive in 2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 40G/100G Direct Attach Cable 1m",
+      "url": "/product/mikrotik-qsfp28-direct-attach-cable-1m",
+      "price": 35.28,
+      "currency": "USD",
+      "mpn": "XQ+DA0001",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 40G/100G Direct Attach Cable 3m",
+      "url": "/product/mikrotik-qsfp28-direct-attach-cable-3m",
+      "price": 47.44,
+      "currency": "USD",
+      "mpn": "XQ+DA0003",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS518-16XS-2XQ-RM",
+      "url": "/product/mikrotik-crs518-16xs-2xq-rm",
+      "price": 1282.04,
+      "currency": "USD",
+      "mpn": "CRS518-16XS-2XQ-RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 100G QSFP28 to 25G SFP28 Adapter",
+      "url": "/product/mikrotik-xq-cm0000-xs-",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "XQ+CM0000-XS+",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

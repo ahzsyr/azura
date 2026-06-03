@@ -1,0 +1,354 @@
+{
+  "slug": "powerbox-pro",
+  "id": "RB960PGS-PB",
+  "productTitle": "MikroTik PowerBox Pro",
+  "name": "MikroTik PowerBox Pro",
+  "title": "MikroTik PowerBox Pro",
+  "title_extended": "",
+  "short_description": "5xGLAN Ethernet Ports, 4x PoE Ports, max current out is 1A per port, max total out is 2A",
+  "description": "5xGLAN Ethernet Ports, 4x PoE Ports, max current out is 1A per port, max total out is 2A",
+  "detailed_description": [
+    {
+      "heading": "Gigabit Ethernet Router with 4xPoE-out Ports, SFP Cage and Outdoor Enclosure",
+      "text": "The MikroTik PowerBox Pro RB960PGS-PB stands out as a highly robust outdoor router tailored for advanced networking needs. It features an integrated passive PoE out on four of its five Gigabit Ethernet ports, making it an ideal solution for powering multiple outdoor units like wireless access points without additional power sources."
+    },
+    {
+      "heading": "",
+      "text": "Powered by a QCA9557 processor with a core frequency of 800 MHz and built on a MIPSBE architecture, the PowerBox Pro ensures efficient data processing and network management. It comes equipped with 128 MB of RAM and 16 MB of flash storage, facilitating smooth operation of MikroTik's RouterOS which it runs, licensed at Level 4. This setup allows for sophisticated network configurations including routing, firewall settings, bandwidth management, and more. The MikroTik PowerBox Pro is particularly suited for Internet Service Providers (ISPs) and Wireless Internet Service Providers (WISPs) who require a durable, high-performance outdoor router capable of managing multiple devices with centralized power distribution."
+    },
+    {
+      "heading": "",
+      "text": "This outdoor router provides considerable flexibility in terms of connectivity. Alongside the five Gigabit Ethernet ports, it includes one SFP port for high-performance optical fiber connections. PoE capabilities are extensive, with passive PoE input supported over a wide voltage range of 12-57 V, and PoE output compliant with 802.3af/at standards on four ports. This setup allows for up to 1 A per port output when input voltage is between 18-30 V and up to 450 mA per port when input voltage is between 30-57 V, with a maximum total PoE output of 2 A."
+    },
+    {
+      "heading": "Monitoring and Safety Features",
+      "text": "The PowerBox Pro is equipped with onboard voltage and PCB temperature monitoring features, ensuring long-term reliability and performance. Its Mean Time Between Failures (MTBF) is rated at approximately 200,000 hours at 25°C, highlighting its durability. For power efficiency, the device has a maximum power consumption of 54 W, which reduces to 6 W without attachments. It is specifically engineered for outdoor environments, ensuring it can withstand various weather conditions. The PowerBox Pro operates reliably within a temperature range of -40°C to 70°C, thanks to its passive cooling system which maintains optimal operating temperatures without the need for mechanical cooling components."
+    },
+    {
+      "heading": "",
+      "text": "The router meets international standards of safety and quality, with certifications including CE, EAC, and ROHS, ensuring compliance with European and global regulations. Its extensive feature set ensures that it can handle the most demanding network tasks with ease, making it a top choice for outdoor networking needs."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Wired Routers",
+  "categories": [
+    "MikroTik",
+    "Ethernet Routers",
+    "PowerBox"
+  ],
+  "mpn": "RB960PGS-PB",
+  "manufacturer_part_number": "RB960PGS-PB",
+  "ean": "4752224003317",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1303/rb960pgspb_1-5fda04a4026a6-medium.jpg",
+        "alt": "MikroTik PowerBox Pro",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1303/rb960pgspb_2-5fda04a3634ae-medium.jpg",
+        "alt": "MikroTik PowerBox Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1303/rb960pgspb_3-5fda04a2883c9-medium.jpg",
+        "alt": "MikroTik PowerBox Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1303/rb960pgspb_4-5fda049f3ca53-medium.jpg",
+        "alt": "MikroTik PowerBox Pro",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/kcue8k4UQvA",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 88.22,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(5) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "4 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE), 802.3at (PoE+)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 1G SFP"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "QCA9557, 1 core, 800 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "128 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 24V Passive PoE, 48V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "9 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 2.5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "225 x 125 x 52 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 4"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik PowerBox Pro",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/powerbox_pro.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik PowerBox Pro",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/powerbox_pro_q.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Anzio",
+        "date": "2025-10-20",
+        "text": "OK . For the multiple POE Out and routeros capability",
+        "photos": []
+      },
+      {
+        "name": "Fabian",
+        "date": "2024-06-24",
+        "text": "Works good. I put it in to connect a Mikrotik RB260GS over a singlemode fiber.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "PSU Power Adapter 48V1.46A",
+      "url": "/product/psu-power-adapter-48pow",
+      "price": 16.11,
+      "currency": "USD",
+      "mpn": "48POW",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX PoE",
+      "url": "/product/routerboard-hex-poe",
+      "price": 74.71,
+      "currency": "USD",
+      "mpn": "RB960PGS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CubeSA 60 Pro ac",
+      "url": "/product/mikrotik-cubesa-60-pro-ac",
+      "price": 159.25,
+      "currency": "USD",
+      "mpn": "CubeG-5ac60ay-SA",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "CE",
+    "EAC",
+    "ROHS"
+  ],
+  "stock_stat": ""
+}

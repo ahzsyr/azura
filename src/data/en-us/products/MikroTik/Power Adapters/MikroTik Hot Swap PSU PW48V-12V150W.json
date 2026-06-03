@@ -1,0 +1,190 @@
+{
+  "slug": "mikrotik-hot-swap-psu-48v-12v150w",
+  "id": "PW48V-12V150W",
+  "productTitle": "MikroTik Hot Swap PSU PW48V-12V150W",
+  "name": "MikroTik Hot Swap PSU PW48V-12V150W",
+  "title": "MikroTik Hot Swap PSU PW48V-12V150W",
+  "title_extended": "MikroTik Hot Swap PSU PW48V-12V150W",
+  "short_description": "Hot Swap 48v 150W DC/DC power supplies",
+  "description": "MikroTik PW48V-12V150W Hot Swap PSU is a high-performance 48 V DC telecom power supply designed for reliable operation in demanding network environments. It is compatible with MikroTik devices such as CCR1072, CCR2216, CRS518, and CRS520, making it a perfect choice for professional installations that require continuous uptime. This hot-swappable module allows you to replace or install the power supply without turning off the device, ensuring uninterrupted network operation. It supports an input voltage range from –36 V to –57 V, providing flexibility for various telecom setups. Built for efficiency and stability, the PW48V-12V150W delivers consistent 12 V output power up to 150 W, meeting the needs of high-performance routers and switches. Its durable and compact design ensures long-term reliability while maintaining easy maintenance and quick replacement. Whether used as a main or backup unit, the MikroTik PW48V-12V150W offers dependable power and seamless integration for critical network infrastructure.",
+  "detailed_description": [
+    {
+      "heading": "General Description",
+      "text": "MikroTik PW48V-12V150W Hot Swap PSU is a high-performance 48 V DC telecom power supply designed for reliable operation in demanding network environments. It is compatible with MikroTik devices such as CCR1072, CCR2216, CRS518, and CRS520, making it a perfect choice for professional installations that require continuous uptime. This hot-swappable module allows you to replace or install the power supply without turning off the device, ensuring uninterrupted network operation. It supports an input voltage range from –36 V to –57 V, providing flexibility for various telecom setups. Built for efficiency and stability, the PW48V-12V150W delivers consistent 12 V output power up to 150 W, meeting the needs of high-performance routers and switches. Its durable and compact design ensures long-term reliability while maintaining easy maintenance and quick replacement. Whether used as a main or backup unit, the MikroTik PW48V-12V150W offers dependable power and seamless integration for critical network infrastructure."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters"
+  ],
+  "mpn": "PW48V-12V150W",
+  "manufacturer_part_number": "PW48V-12V150W",
+  "ean": "4752224002501",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2079/hot-swap-48v-dc-medium.jpg",
+        "alt": "MikroTik Hot Swap PSU PW48V-12V150W",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 83.01,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    },
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power",
+      "features": [
+        "Supported Input Voltage"
+      ],
+      "items": [
+        {
+          "name": "Supported Input Voltage",
+          "value": "36 - 57 V DC"
+        }
+      ]
+    },
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "12.5 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "12 V DC"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CCR2004-1G-12S+2XS",
+      "url": "/product/cloud-core-router-2004-1g-12s-2xs",
+      "price": 475.47,
+      "currency": "USD",
+      "mpn": "CCR2004-1G-12S+2XS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Open Frame PSU PW48V-12V85W",
+      "url": "/product/psu-open-frame-12v-7a-for-ccr-r2",
+      "price": 56.28,
+      "currency": "USD",
+      "mpn": "PW48V-12V85W",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CCR2216-1G-12XS-2XQ",
+      "url": "/product/mikrotik-ccr2216-1g-12xs-2xq",
+      "price": 2234.12,
+      "currency": "USD",
+      "mpn": "CCR2216-1G-12XS-2XQ",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS518-16XS-2XQ-RM",
+      "url": "/product/mikrotik-crs518-16xs-2xq-rm",
+      "price": 1282.04,
+      "currency": "USD",
+      "mpn": "CRS518-16XS-2XQ-RM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

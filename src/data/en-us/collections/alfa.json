@@ -1,0 +1,28 @@
+{
+  "id": "alfa",
+  "slug": "alfa",
+  "name": "ALFA",
+  "description": "ALFA Network Inc. is a prominent Taiwanese manufacturer specializing in high-performance wireless networking equipment. Founded in 2002, the company is widely recognized for its \"long-range\" wireless adapters and antennas, which are popular in the professional IT and cybersecurity communities",
+  "badge": "",
+  "coverImage": "/images/placeholder.svg",
+  "seo": {},
+  "conditions": {
+    "match": "any",
+    "rules": [
+      {
+        "field": "title",
+        "operator": "contains",
+        "value": "alfa"
+      },
+      {
+        "field": "brand",
+        "operator": "contains",
+        "value": "alfa"
+      }
+    ]
+  },
+  "cardTemplate": "default",
+  "sortBy": "name-asc",
+  "visible": true,
+  "showInNav": false
+}

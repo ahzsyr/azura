@@ -1,0 +1,276 @@
+{
+  "slug": "mikrotik-css318-16g-2s-in",
+  "id": "5364",
+  "productTitle": "MikroTik CSS318-16G-2S+IN Switch – 16x Gigabit, 2x SFP+ 10G Cloud Smart",
+  "name": "MikroTik CSS318-16G-2S+IN",
+  "title": "MikroTik CSS318-16G-2S+IN",
+  "title_extended": "MikroTik CSS318-16G-2S+IN Switch – 16x Gigabit, 2x SFP+ 10G Cloud Smart",
+  "short_description": "MikroTik CSS318-16G-2S+IN is a managed switch with 16 Gigabit Ethernet ports and two SFP+ 10G uplink ports. It features a fanless design and flexible mounting options.",
+  "description": "The MikroTik CSS318-16G-2S+IN is a managed switch designed to bridge the gap between small and large network setups. Featuring 16 Gigabit Ethernet ports, it provides high-speed connectivity for multiple devices, such as computers, printers, and access points. Additionally, the two SFP+ 10G uplink ports support seamless connections to higher-capacity backbone networks or additional switches, ensuring the device can adapt to growing demands. Its compact 10-inch form factor makes it an ideal solution for small to medium-sized offices, home networks, or rackmount environments where space and efficiency are paramount. The CSS318-16G-2S+IN proves itself as a cost-effective yet powerful tool for modern network requirements.",
+  "detailed_description": [
+    {
+      "heading": "Versatile Managed Switch",
+      "text": "The MikroTik CSS318-16G-2S+IN is a managed switch designed to bridge the gap between small and large network setups. Featuring 16 Gigabit Ethernet ports, it provides high-speed connectivity for multiple devices, such as computers, printers, and access points. Additionally, the two SFP+ 10G uplink ports support seamless connections to higher-capacity backbone networks or additional switches, ensuring the device can adapt to growing demands. Its compact 10-inch form factor makes it an ideal solution for small to medium-sized offices, home networks, or rackmount environments where space and efficiency are paramount. The CSS318-16G-2S+IN proves itself as a cost-effective yet powerful tool for modern network requirements."
+    },
+    {
+      "heading": "Silent and Efficient Operation",
+      "text": "The CSS318-16G-2S+IN is engineered with a fanless design, eliminating noise completely during operation. This makes it particularly suitable for deployment in environments where silence is crucial, such as office spaces, residential setups, or educational institutions. Despite its silent operation, the switch maintains impressive reliability and performance, ensuring consistent uptime and data throughput. Its energy-efficient design helps minimize power consumption, reducing operational costs over the long term. The switch incorporates intelligent power management features, optimizing power delivery to active devices while conserving energy when network traffic is low. The switch's reliability and quiet operation make it a practical choice for deployments where both performance and ambiance are considerations."
+    },
+    {
+      "heading": "Flexible Mounting Options",
+      "text": "The CSS318-16G-2S+IN offers unparalleled flexibility when it comes to installation, catering to various deployment scenarios. It is built to integrate effortlessly into 10-inch and standard 19-inch racks, supporting both compact and large-scale network configurations. For even greater space efficiency, two CSS318-16G-2S+IN switches can be mounted side by side in a single 1U slot in a 19-inch rack. This feature is especially valuable for maximizing rack space in data centers, server rooms, or shared IT cabinets. In addition to rack mounting, the switch can be placed on a desktop or mounted on a wall, offering users multiple options to fit their unique requirements. The durable build quality ensures it can handle a variety of environments while maintaining optimal performance."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Cloud Smart Switch"
+  ],
+  "mpn": "CSS318-16G-2S+IN",
+  "manufacturer_part_number": "CSS318-16G-2S+IN",
+  "ean": "4752224009227",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5364/css31816g2sin_2-675c3c57ac341-medium.jpg",
+        "alt": "MikroTik CSS318-16G-2S+IN",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5364/css31816g2sin_1-675c3c5f4d670-medium.jpg",
+        "alt": "MikroTik CSS318-16G-2S+IN",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5364/css31816g2sin_3-675c3c6550533-medium.jpg",
+        "alt": "MikroTik CSS318-16G-2S+IN",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5364/css31816g2sin_2-675c3c57ac341-tiny.jpg",
+        "alt": "MikroTik CSS318-16G-2S+IN"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5364/css31816g2sin_1-675c3c5f4d670-tiny.jpg",
+        "alt": "MikroTik CSS318-16G-2S+IN"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5364/css31816g2sin_3-675c3c6550533-tiny.jpg",
+        "alt": "MikroTik CSS318-16G-2S+IN"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 115.03,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(16) 1 Gbps"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "w/o PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "98DX2518"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "13 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "218 x 157 x 44 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik CSS318-16G-2S+IN",
+      "url": "https://www.getic.com/files/catalogue/5364/css31816g2sin-675c3c4c56157.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CSS610-8G-2S+IN",
+      "url": "/product/cloud-smart-switch-610-8g-2s-in",
+      "price": 98.43,
+      "currency": "USD",
+      "mpn": "CSS610-8G-2S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB5009UG+S+IN",
+      "url": "/product/mikrotik-rb5009ug-s-in",
+      "price": 175.29,
+      "currency": "USD",
+      "mpn": "RB5009UG+S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Rackmount Kit",
+      "url": "/product/mikrotik-rackmount-kit",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "RMK-2/10",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ax",
+      "url": "/product/mikrotik-cap-ax",
+      "price": 103.11,
+      "currency": "USD",
+      "mpn": "cAPGi-5HaxD2HaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

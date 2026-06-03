@@ -1,0 +1,413 @@
+{
+  "slug": "unifi-protect-g4-doorbell-pro",
+  "id": 4134,
+  "productTitle": "Ubiquiti G4 Doorbell Pro",
+  "name": "Ubiquiti G4 Doorbell Pro",
+  "title": "Ubiquiti G4 Doorbell Pro",
+  "title_extended": "",
+  "short_description": "Video Doorbell, 1080p HD video at 30 FPS, 5MP camera with IR LED, Motion detection sensor, IPX4-rated",
+  "description": "Video Doorbell, 1080p HD video at 30 FPS, 5MP camera with IR LED, Motion detection sensor, IPX4-rated",
+  "detailed_description": [
+    {
+      "heading": "Premium UniFi Doorbell",
+      "text": "The G4 Doorbell Professional from Ubiquiti is a state-of-the-art video doorbell designed to offer advanced security and surveillance capabilities for homes and businesses. This device is part of Ubiquiti's esteemed line of UniFi Protect video security systems, known for their high-quality construction, superior performance, and seamless integration with other Ubiquiti products."
+    },
+    {
+      "heading": "Features",
+      "text": "- Improved HDR and low-light performance\n- Programmable welcome display and secondary package-detection camera\n- 6 m (20 ft) IR night vision\n- AI event detections\n- Weather-resistant (outdoor covered)\n- Integrated 2-way audio\n- Wirelessly connected with UniFi WiFi Auto-Link*"
+    },
+    {
+      "heading": "Design and Durability",
+      "text": "Crafted with meticulous attention to detail, the G4 Doorbell Professional features a sleek, modern design that complements any exterior aesthetic. Its robust construction with IPX4 weatherproofing protection level is suited for outdoor use, ensuring durability against weather elements such as rain, dust, and temperature fluctuations. This resilience makes the G4 Doorbell Pro an ideal choice for users seeking a reliable security solution that can withstand the challenges of outdoor environments."
+    },
+    {
+      "heading": "High-Definition Video",
+      "text": "Equipped with a high-definition video camera (a primary 5MP camera and a secondary 8MP package camera) the G4 Doorbell Pro delivers crisp, clear video footage, capturing fine details with precision. This camera is enhanced with night vision capabilities, ensuring continuous monitoring and security around the clock. The device also incorporates advanced features such as motion detection and smart person recognition, enabling users to receive alerts and notifications directly on their smart devices whenever someone approaches their door, thereby enhancing security and convenience."
+    },
+    {
+      "heading": "Two-Way Audio",
+      "text": "For seamless communication, the G4 Doorbell Professional includes a two-way audio system, allowing homeowners to interact with visitors in real-time from anywhere. Whether it's greeting guests or deterring unwanted visitors, this feature provides an added layer of security and convenience."
+    },
+    {
+      "heading": "UniFi Protect Integration",
+      "text": "Integration with the UniFi Protect platform is a key highlight of the G4 Doorbell Pro, offering users intuitive and comprehensive control over their security setup. Through the UniFi Protect app, users can access live video feeds, review recorded footage, customize settings, and receive real-time alerts, all from the convenience of their smartphone or tablet. This integration ensures a unified and user-friendly experience across the entire UniFi Protect ecosystem."
+    },
+    {
+      "heading": "Installation",
+      "text": "Installation of the G4 Doorbell Professional is designed to be straightforward, with detailed instructions and necessary hardware included, making it accessible for DIY enthusiasts and professionals alike. The doorbell connects to the home's existing wiring for power, ensuring reliable operation without the need for frequent battery changes."
+    },
+    {
+      "heading": "A Comprehensive Security Solution",
+      "text": "G4 Doorbell Professional from Ubiquiti represents a fusion of advanced technology, superior design, and robust construction. With features such as high-definition video, night vision, motion detection, and smart integration, it stands out as a comprehensive security solution. Its compatibility with the UniFi Protect system further enhances its appeal, offering users a versatile, reliable, and easy-to-use video doorbell that elevates the security and convenience of any property."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Ubiquiti",
+    "Camera Security",
+    "Doorbells"
+  ],
+  "mpn": "UVC-G4-DoorBell-Pro",
+  "manufacturer_part_number": "UVC-G4-DoorBell-Pro",
+  "ean": "0810010078599",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4134/uvcg4doorbellpro_2-62c8208917845-medium.jpg",
+        "alt": "Ubiquiti G4 Doorbell Pro",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4134/uvcg4doorbellpro_1-62c82083ca182-medium.jpg",
+        "alt": "Ubiquiti G4 Doorbell Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4134/uvcg4doorbellpro_3-62c8208e42b47-medium.jpg",
+        "alt": "Ubiquiti G4 Doorbell Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4134/uvcg4doorbellpro_4-62c820929ea48-medium.jpg",
+        "alt": "Ubiquiti G4 Doorbell Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4134/uvcg4doorbellpro_5-62c820978afa6-medium.jpg",
+        "alt": "Ubiquiti G4 Doorbell Pro",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 290.68,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Video",
+      "features": [
+        "Resolution",
+        "Maximum Frame Rate",
+        "Video Compression"
+      ],
+      "items": [
+        {
+          "name": "Resolution",
+          "value": "1600 × 1200"
+        },
+        {
+          "name": "Maximum Frame Rate",
+          "value": "30 FPS"
+        },
+        {
+          "name": "Video Compression",
+          "value": "H.264"
+        }
+      ]
+    },
+    {
+      "technology": "Audio",
+      "features": [
+        "Microphone",
+        "Speaker"
+      ],
+      "items": [
+        {
+          "name": "Microphone",
+          "value": "Build-in"
+        },
+        {
+          "name": "Speaker",
+          "value": "Build-in"
+        }
+      ]
+    },
+    {
+      "technology": "Video Camera",
+      "features": [
+        "Sensor",
+        "Lens",
+        "Night Mode",
+        "Viewing Angle"
+      ],
+      "items": [
+        {
+          "name": "Sensor",
+          "value": "5 MP CMOS Sensor"
+        },
+        {
+          "name": "Lens",
+          "value": "Fixed Focal Length"
+        },
+        {
+          "name": "Night Mode",
+          "value": "IR LED Illumination and IR Cut Filter"
+        },
+        {
+          "name": "Viewing Angle",
+          "value": "138 ° (H) 114 ° (V)"
+        }
+      ]
+    },
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "Management",
+        "Bluetooth"
+      ],
+      "items": [
+        {
+          "name": "Management",
+          "value": "Wi-Fi, Bluetooth"
+        },
+        {
+          "name": "Bluetooth",
+          "value": "5.0"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad core Arm ® Cortex ® -A53 based chip"
+        },
+        {
+          "name": "RAM",
+          "value": "512 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "256 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Supported Input Voltage",
+        "Power Connector",
+        "Charging Method",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Supported Input Voltage",
+          "value": "16 - 24 V AC"
+        },
+        {
+          "name": "Power Connector",
+          "value": "USB Type-C"
+        },
+        {
+          "name": "Charging Method",
+          "value": "USB"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "5 V DC 2 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX4"
+        },
+        {
+          "name": "Dimensions",
+          "value": "160.6 x 51.7 x 28.7 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0253 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti G4 Doorbell Pro",
+      "url": "https://www.getic.com/files/catalogue/4134/g4doorbellprods-62c82012529fa.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti G4 Doorbell Pro",
+      "url": "https://www.getic.com/files/catalogue/4134/g4doorbellpro_instguide-62c8202f0a34b.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Mark",
+        "date": "2026-04-13",
+        "text": "Item arrived earlier then expected...excellent packaging.  Everything works like a charm.",
+        "photos": []
+      },
+      {
+        "name": "Javeria",
+        "date": "2025-11-26",
+        "text": "Highly recommended.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro 24 PoE",
+      "url": "/product/usw-pro-24-poe-gen-2",
+      "price": 702.24,
+      "currency": "USD",
+      "mpn": "USW-Pro-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti WiFi Smart Chime",
+      "url": "/product/unifi-protect-smart-chime",
+      "price": 67.82,
+      "currency": "USD",
+      "mpn": "UP-Chime",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Turret White",
+      "url": "/product/ubiquiti-camera-g6-turret",
+      "price": 199.76,
+      "currency": "USD",
+      "mpn": "UVC-G6-Turret-W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

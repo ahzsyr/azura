@@ -1,0 +1,213 @@
+{
+  "slug": "access-point-lite-arm-mount",
+  "id": "UACC-Lite-AP-AM",
+  "productTitle": "Ubiquiti Access Point Lite Arm Mount",
+  "name": "Ubiquiti Access Point Lite Arm Mount",
+  "title": "Ubiquiti Access Point Lite Arm Mount",
+  "title_extended": "",
+  "short_description": "Wall mount for an Access Point U6 Lite, nanoHD, or AC Lite.",
+  "description": "Wall mount for an Access Point U6 Lite, nanoHD, or AC Lite.",
+  "detailed_description": [
+    {
+      "heading": "Wall Mounting Solution",
+      "text": "The Ubiquiti Access Point Lite Arm Mount (UACC-Lite-AP-AM) is a purpose-built wall mounting accessory designed for compact UniFi flagship WiFi access points. It provides a clean, professional installation option for environments where ceiling mounting is not practical or where a wall-mounted position delivers better wireless coverage. The mount is fully compatible with popular UniFi models including U6-PLUS, U6-Lite, UAP-AC-LITE, and UAP-nanoHD, ensuring flexibility across multiple generations of access points."
+    },
+    {
+      "heading": "Wall Mounting Solution",
+      "text": "Its arm-style design allows the access point to be positioned slightly away from the wall, helping reduce signal obstruction and improving radio performance in rooms, corridors, and open spaces. This makes it particularly suitable for offices, hotels, apartments, classrooms, retail locations, and other indoor deployments that require reliable WiFi coverage without visible cabling or bulky hardware. With a compact footprint and lightweight construction, the mount integrates seamlessly into modern interiors. It maintains a minimal visual profile while ensuring the access point is securely fixed and correctly oriented for optimal wireless performance."
+    },
+    {
+      "heading": "Lightweight and Practical",
+      "text": "The UACC-Lite-AP-AM is designed with simplicity and ease of installation in mind. Constructed from durable plastic, the mount offers a balance of strength and low weight, weighing just 45 grams. Its compact dimensions of 149 × 89 × 29 mm make it unobtrusive once installed, allowing the access point to remain the visual focus rather than the mounting hardware itself. The mount is optimized for indoor use and supports straightforward wall installation, making it suitable for both new deployments and retrofit projects."
+    },
+    {
+      "heading": "Lightweight and Practical",
+      "text": "It allows installers to securely attach compatible UniFi access points while maintaining consistent alignment and spacing from the wall surface. This helps achieve a tidy installation with improved airflow around the device. By providing a dedicated mounting solution, the Lite Arm Mount helps protect access points from accidental movement or improper placement, contributing to long-term stability and performance. It is an ideal accessory for professional UniFi installations where aesthetics, reliability, and ease of deployment are equally important."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Mounting Accessories",
+  "categories": [
+    "Mounting Accessories",
+    "Accessories"
+  ],
+  "mpn": "UACC-Lite-AP-AM",
+  "manufacturer_part_number": "UACC-Lite-AP-AM",
+  "ean": "0810010078438",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4197/uaccliteapam1-632da82a68f31-medium.jpg",
+        "alt": "Ubiquiti Access Point Lite Arm Mount",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4197/uaccliteapam2-632da832b673f-medium.jpg",
+        "alt": "Ubiquiti Access Point Lite Arm Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4197/uaccliteapam3-632da838f2e8a-medium.jpg",
+        "alt": "Ubiquiti Access Point Lite Arm Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4197/uaccliteapam4-632da83e4d891-medium.jpg",
+        "alt": "Ubiquiti Access Point Lite Arm Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4197/uaccliteapam5-632da84339361-medium.jpg",
+        "alt": "Ubiquiti Access Point Lite Arm Mount",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 22.43,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "149 x 89 x 29 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.045 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Access Point Lite Arm Mount",
+      "url": "https://www.getic.com/files/catalogue/4197/uaccliteapam_ds-632da81c46d9a.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti PoE Adapter",
+      "url": "/product/ubiquiti-poe-af",
+      "price": 10.03,
+      "currency": "USD",
+      "mpn": "U-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Access Point Pro Arm Mount",
+      "url": "/product/access-point-pro-arm-mount",
+      "price": 27.17,
+      "currency": "USD",
+      "mpn": "UACC-Pro-AP-AM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik L009UiGS-RM",
+      "url": "/product/mikrotik-l009uigs-rm",
+      "price": 95.09,
+      "currency": "USD",
+      "mpn": "L009UiGS-RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": ""
+}

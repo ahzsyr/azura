@@ -1,0 +1,28 @@
+{
+  "id": "routerboards",
+  "slug": "routerboards",
+  "name": "RouterBoards",
+  "description": "RouterBoard (RB) is the foundation of MikroTik's hardware lineup. While \"RouterBoard\" originally referred to the physical circuit boards sold for DIY assembly, it now encompasses almost all MikroTik devices that run RouterOS.If the CCR series (which we just discussed) is the \"heavy-duty engine,\" the RouterBoard series is the \"versatile chassis\" that ranges from tiny home labs to rugged industrial controllers.",
+  "coverImage": "",
+  "parentSlug": "mikrotik-ethernet-routers",
+  "seo": {},
+  "conditions": {
+    "match": "any",
+    "rules": [
+      {
+        "field": "category",
+        "operator": "contains",
+        "value": "RouterBoards"
+      }
+    ]
+  },
+  "cardTemplate": "default",
+  "sortBy": "name-asc",
+  "visible": true,
+  "showInNav": false,
+  "featured": false,
+  "tags": [],
+  "createdAt": "2026-05-07T10:01:24.954Z",
+  "updatedAt": "2026-05-07T10:01:24.954Z",
+  "_locale": "en-us"
+}

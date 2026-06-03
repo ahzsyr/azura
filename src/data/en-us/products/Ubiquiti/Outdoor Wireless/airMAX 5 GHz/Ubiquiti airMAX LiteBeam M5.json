@@ -1,0 +1,372 @@
+{
+  "slug": "litebeam-m5-23dbi",
+  "id": 938,
+  "productTitle": "Ubiquiti airMAX LiteBeam M5",
+  "name": "Ubiquiti airMAX LiteBeam M5",
+  "title": "Ubiquiti airMAX LiteBeam M5",
+  "title_extended": "",
+  "short_description": "The LiteBeam™ is an ultra-lightweight and compact airMAX CPE device.",
+  "description": "The LiteBeam™ is an ultra-lightweight and compact airMAX CPE device.",
+  "detailed_description": [
+    {
+      "heading": "Overview and Compatibility",
+      "text": "The airMAX LiteBeam M5 is a compact, lightweight, and cost-effective wireless broadband solution developed by Ubiquiti Networks. This device is specifically designed to make high-speed, long-distance (15+ km) wireless communication accessible and reliable, fitting perfectly into the lineup of Ubiquiti's innovative airMAX technology products. Aimed at providing a solution for point-to-point (PtP) and point-to-multipoint (PtMP) applications, the LiteBeam M5 stands out for its simplicity, performance, and versatility. The LiteBeam M5 is fully compatible with other devices in the airMAX series, including both base stations and client devices that operate on the same 5 GHz frequency band. This compatibility is crucial for creating cohesive and high-performing wireless networks, whether for internet service provision, video surveillance backhaul, or connecting remote sites.  Its compatibility focuses on ensuring efficient and effective wireless network deployments, particularly for point-to-point (PtP) and point-to-multipoint (PtMP) configurations. In addition, utilizing Ubiquiti's airOS, the LiteBeam M5 benefits from seamless integration with network management and monitoring tools such as Ubiquiti's airControl. This allows network operators to efficiently manage and optimize their entire airMAX network, including LiteBeam M5 devices, from a centralized platform. Please note, that LiteBeam M5 does not natively integrate with Ubiquiti's UniFi series. While both airMAX and UniFi products are part of Ubiquiti Networks' portfolio, they serve different purposes and operate on separate management platforms. The LiteBeam M5, being an airMAX device, is managed through airOS and is not directly compatible with the UniFi Controller software, which is designed for managing UniFi devices."
+    },
+    {
+      "heading": "Performance and Technology",
+      "text": "At the core of the LiteBeam M5's design is its utilization of Ubiquiti's proprietary airMAX technology, which operates within the 5 GHz frequency band. This technology enables the device to deliver up to 100 Mbps throughput and low latency across wireless links, making it an ideal solution for a wide range of applications, including internet service provision, video surveillance transmission, and data communication between remote locations. The LBE-M5-23 model features a 23dBi directional antenna, which focuses the signal to enhance its range and reduce interference, allowing for clearer and more reliable connections over 15+ km distances. This high-gain antenna, combined with Ubiquiti's InnerFeed technology, integrates the radio and antenna into a single compact unit, eliminating the need for cables and reducing signal loss. This integration not only streamlines the device's design but also simplifies its installation and deployment, making it an attractive option for network operators of all sizes."
+    },
+    {
+      "heading": "Durability, Power, and Software",
+      "text": "Constructed with durability in mind, the LiteBeam M5 is housed in a weather-resistant enclosure, ensuring it can withstand harsh environmental conditions such as rain, wind, and extreme temperatures from -40 °C to 70 °C. This durability makes the LiteBeam M5 suitable for outdoor deployment in a variety of settings, from rural areas to urban environments, without compromising its performance or longevity. The LiteBeam M5's support for Power over Ethernet (PoE) simplifies its power supply, allowing both power and data to be transmitted over a single Ethernet cable. This feature facilitates flexible deployment options and reduces the complexity of the device's installation, making it easier to extend networks to locations where power access is limited or unavailable. The device is powered by Ubiquiti's airOS, a versatile and powerful operating system that provides advanced features for device configuration, network management, and system diagnostics. airOS includes tools for adjusting channel bandwidth, signal strength, and other critical parameters, giving network administrators the flexibility to optimize the network for specific deployment scenarios. Additionally, airOS supports Ubiquiti's airView spectrum analyzer and airControl network management application, tools that further enhance the device's performance and manageability."
+    },
+    {
+      "heading": "Ideal Use Cases and Conclusion",
+      "text": "The airMAX LiteBeam M5 is ideal for rural internet provision, connecting remote areas with high-speed access. It facilitates seamless corporate and campus connectivity over wide areas, supports high-definition video surveillance networks, and provides essential infrastructure for event broadcasting with its long-range, high-speed capabilities. Additionally, it's invaluable for establishing emergency communication networks in disaster-stricken or remote areas, ensuring reliable, quick-setup connectivity. Its versatility across various environments underscores its utility in bridging connectivity gaps and enhancing network performance. Also, during large outdoor events like concerts or sports competitions, organizers can rely on the LiteBeam M5 to provide temporary internet access or to stream live video content. In summary, the airMAX LiteBeam M5 (LBE-M5-23) from Ubiquiti Networks is a highly efficient, robust, and user-friendly wireless broadband device that offers exceptional performance for long-distance communication. Its integration of advanced airMAX technology, high-gain directional antenna, and durable design, combined with the power and flexibility of airOS, makes the LiteBeam M5 a versatile solution for a wide range of wireless networking applications, delivering reliable, high-speed connectivity where it's needed most. Moreover, a lightweight form factor contained within a ultra-compact packaging, the LiteBeamM is ideal for shipping and logistics."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Integrated Antennas",
+    "Outdoor Wireless",
+    "airMAX 5 GHz"
+  ],
+  "mpn": "LBE-M5-23",
+  "manufacturer_part_number": "LBE-M5-23",
+  "ean": "0810354022326",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/938/lbem523_left-5fec58e834eb3-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam M5 left view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/938/lbem523_back-5fec58efbc61e-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam M5 back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/938/lbem523_front-5fec58dc5d252-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam M5 front view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/938/lbem523_side-5fec58e50a786-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam M5 side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/938/lbem523_top-5fec58e17b7bb-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam M5 top view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/938/lbem523_bottom-5fec58ec469ed-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam M5 bottom view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/y1dYzV8pBKA",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 46.86,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 4"
+        },
+        {
+          "name": "Standards",
+          "value": "airMAX"
+        },
+        {
+          "name": "MIMO",
+          "value": "5GHz 1x1"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "150 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Polarization"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Grid"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "5.150 - 5.875 (GHz) 23 (dBi)"
+        },
+        {
+          "name": "Polarization",
+          "value": "Vertical"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 100 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Atheros MIPS 74Kc, 533 MHz"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "22 - 26 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "4 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.2 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Dimensions",
+          "value": "362 x 267 x 184 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.75 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX LiteBeam M5",
+      "url": "https://dl.ubnt.com/datasheets/LiteBeam/LiteBeam_ds.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX LiteBeam M5",
+      "url": "https://dl.ubnt.com/guides/litebeam/LiteBeam_LBE-M5-23_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Henrijs",
+        "date": "2022-11-22",
+        "text": "Ļoti kvalitatīva iekārta par atbilstošu cenu. Lietoju jau 8 gadus un strādā nevainojami. Traucējumu nav. Viegli uzstādāma un konfigurējama. Profesionāla kvalitāte.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX NanoStation M2 Loco",
+      "url": "/product/nanostation-loco-m2",
+      "price": 44.39,
+      "currency": "USD",
+      "mpn": "LOCOM2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Rocket AC Lite",
+      "url": "/product/rocket-ac-lite",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "R5AC-LITE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Ethernet Surge Protector",
+      "url": "/product/ethernet-surge-protector-gen-2",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "ETH-SP-G2",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,208 @@
+{
+  "slug": "sxt-lte-anti-noise-shield",
+  "id": "1718",
+  "productTitle": "Anti-Noise Shield for MikroTik SXT LTE",
+  "name": "Anti-Noise Shield for MikroTik SXT LTE",
+  "title": "Anti-Noise Shield for MikroTik SXT LTE",
+  "title_extended": "",
+  "short_description": "Paired with Mikrotik SXT-LTE antennas",
+  "description": "The Anti-Noise Shield for MikroTik SXT LTE (ANS-SXT-LTE) is a precision-engineered accessory designed to significantly improve the performance of MikroTik SXT LTE devices. By providing targeted shielding around the antenna, the shield minimizes unwanted interference from nearby devices and external sources. This reduction in background noise ensures cleaner signals, higher stability, and improved overall performance for your wireless network deployments. Manufactured from durable steel and finished with a high-quality light gray powder coating, the shield is built to withstand demanding outdoor conditions while maintaining a professional appearance. Each shield is crafted with CNC precision, resulting in consistent accuracy and reliable installation. The ANS-SXT-LTE is the ideal solution for anyone looking to enhance signal clarity and reliability in crowded radio environments.",
+  "detailed_description": [
+    {
+      "heading": "Anti-Noise Solution",
+      "text": "The Anti-Noise Shield for MikroTik SXT LTE (ANS-SXT-LTE) is a precision-engineered accessory designed to significantly improve the performance of MikroTik SXT LTE devices. By providing targeted shielding around the antenna, the shield minimizes unwanted interference from nearby devices and external sources. This reduction in background noise ensures cleaner signals, higher stability, and improved overall performance for your wireless network deployments. Manufactured from durable steel and finished with a high-quality light gray powder coating, the shield is built to withstand demanding outdoor conditions while maintaining a professional appearance. Each shield is crafted with CNC precision, resulting in consistent accuracy and reliable installation. The ANS-SXT-LTE is the ideal solution for anyone looking to enhance signal clarity and reliability in crowded radio environments."
+    }
+  ],
+  "brand": "Cyberteam",
+  "category": "Antenna Accessories",
+  "categories": [
+    "Antenna Accessories"
+  ],
+  "mpn": "ANS-SXT-LTE",
+  "manufacturer_part_number": "ANS-SXT-LTE",
+  "ean": "0708747436846",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com//images/catalogue/1718/ans-sxt-lte-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXT LTE",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1718/ans-sxt-lte_1-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXT LTE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1718/ans-sxt-lte_2-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXT LTE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1718/ans-sxt-lte_3-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXT LTE",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com//images/catalogue/1718/ans-sxt-lte-tiny.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXT LTE"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1718/ans-sxt-lte_1-tiny.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXT LTE"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1718/ans-sxt-lte_2-tiny.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXT LTE"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1718/ans-sxt-lte_3-tiny.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXT LTE"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 23.10,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "class": "Pickup point",
+      "price": 15.67,
+      "currency": "USD",
+      "description": "receive in 18 business days"
+    },
+    {
+      "class": "Standard",
+      "price": 31.70,
+      "currency": "USD",
+      "description": "receive in 5 business days"
+    },
+    {
+      "class": "Express",
+      "price": 52.64,
+      "currency": "USD",
+      "description": "receive in 2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik SXT SA5 ac",
+      "url": "/product/sxt-sa5-ac",
+      "price": 95.09,
+      "currency": "USD",
+      "mpn": "RBSXTG-5HPacD-SA",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB4011iGS+RM",
+      "url": "/product/routerboard-4011igs-plus-rm",
+      "price": 175.29,
+      "currency": "USD",
+      "mpn": "RB4011iGS+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Wireless Wire nRAY",
+      "url": "/product/mikrotik-wireless-wire-nray",
+      "price": 249.04,
+      "currency": "USD",
+      "mpn": "nRAYG-60adpair",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": "",
+  "compatible_products": [
+    {
+      "name": "MikroTik SXT LTE7 kit",
+      "url": "/product/mikrotik-sxt-lte7-kit",
+      "price": 95.48,
+      "currency": "USD",
+      "mpn": "SXTR&R11e-LTE7",
+      "availability": "InStock"
+    }
+  ]
+}

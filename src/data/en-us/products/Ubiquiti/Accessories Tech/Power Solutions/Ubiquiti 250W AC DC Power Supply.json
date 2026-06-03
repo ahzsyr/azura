@@ -1,0 +1,268 @@
+{
+  "slug": "250w-ac-dc-power-supply",
+  "id": "4508",
+  "productTitle": "Ubiquiti 250W AC/DC Power Supply",
+  "name": "Ubiquiti 250W AC/DC Power Supply",
+  "title": "Ubiquiti 250W AC/DC Power Supply",
+  "title_extended": "",
+  "short_description": "250W AC/DC power supply module for UISP-P-Pro",
+  "description": "UACC-PSU-27V-250W is a is a highly robust hot-swappable power supply designed for the UISP Power Professional (UISP-P-Pro). You can add the second power supply or remove the current power supply and replace it with the new one without turning off the device. AC power cord also included.",
+  "detailed_description": [
+    {
+      "heading": "Overview",
+      "text": "UACC-PSU-27V-250W is a is a highly robust hot-swappable power supply designed for the UISP Power Professional (UISP-P-Pro). You can add the second power supply or remove the current power supply and replace it with the new one without turning off the device. AC power cord also included."
+    },
+    {
+      "heading": "Durability and Protection",
+      "text": "This model is housed in an SECC (Steel, Electrogalvanized, Cold-rolled, Coil) steel enclosure, known for its durability and resistance to corrosion, ensuring that the unit is well-protected against physical and environmental challenges. This makes it particularly suitable for use in areas where equipment may be exposed to harsh conditions."
+    },
+    {
+      "heading": "Input and Output specifications",
+      "text": "The Ubiquiti UACC-PSU-27V-250W features meticulously engineered input and output specifications designed to cater to diverse and demanding power needs. Equipped with an IEC320 C14 connector, the power supply unit ensures a reliable and secure connection to power sources, enhancing its utility across various installations. It operates on a flexible input voltage range from 100–240V AC, making it adaptable for use worldwide and compatible with both 50 and 60Hz power grids, which allows seamless integration into different electrical environments.\n\nRegarding power handling, the unit draws 3.5A at full load, showcasing its capability to manage significant power requirements efficiently. On the output side, the PSU delivers a steady 27V DC, providing a robust current of 9.3A. With a total power output of 250 watts, it is well-suited to support multiple network devices or those that demand high power, ensuring reliable performance and stability for high-performance network equipment. This combination of advanced input and output features makes the Ubiquiti UACC-PSU-27V-250W a reliable power solution for a range of demanding network configurations."
+    },
+    {
+      "heading": "Safety and Environmental Features",
+      "text": "The unit is designed with an ESD/EMP protection rating of Air: ± 10kV, contact: ± 6kV, safeguarding the PSU and connected equipment from electrical surges and spikes.It operates efficiently within a temperature range of -20 to 50° C (-4 to 122° F) and can function at altitudes up to 5,000 meters, demonstrating its capability in diverse and challenging environments. Moreover, this power supply is certified with CE, FCC, and IC, indicating compliance with international safety and operational standards, which reassures its quality and safety for widespread use in both residential and commercial setups."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters",
+    "Ubiquiti",
+    "Accessory Tech",
+    "Power Solutions"
+  ],
+  "mpn": "UACC-PSU-27V-250W",
+  "manufacturer_part_number": "UACC-PSU-27V-250W",
+  "ean": "0810084691373",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4508/1-64ff004ce8d63-medium.jpg",
+        "alt": "Ubiquiti 250W AC/DC Power Supply",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4508/2-64ff0050e47a6-medium.jpg",
+        "alt": "Ubiquiti 250W AC/DC Power Supply",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4508/3-64ff0054b3449-medium.jpg",
+        "alt": "Ubiquiti 250W AC/DC Power Supply",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4508/4-64ff005815f82-medium.jpg",
+        "alt": "Ubiquiti 250W AC/DC Power Supply",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4508/5-64ff005bc3dd2-medium.jpg",
+        "alt": "Ubiquiti 250W AC/DC Power Supply",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4508/6-64ff00622d25d-medium.jpg",
+        "alt": "Ubiquiti 250W AC/DC Power Supply",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4508/uaccpsu27v250w_ds-64ff00466db2a.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti 250W AC/DC Power Supply"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 117.00,
+    "currency": "USD",
+    "discount": "-13%"
+  },
+  "old_price": 133.79,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        }
+      ]
+    },
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage",
+        "Output Power"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "9.3 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "27 V DC"
+        },
+        {
+          "name": "Output Power",
+          "value": "250 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Stainless steel"
+        },
+        {
+          "name": "Dimensions",
+          "value": "218 x 65 x 35 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "079 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 50 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti 250W AC/DC Power Supply",
+      "url": "https://www.getic.com/files/catalogue/4508/uaccpsu27v250w_ds-64ff00466db2a.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Ethernet Surge Protector",
+      "url": "/product/ethernet-surge-protector-gen-2",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "ETH-SP-G2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti NanoSwitch",
+      "url": "/product/nano-switch",
+      "price": 43.46,
+      "currency": "USD",
+      "mpn": "N-SW",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex Utility",
+      "url": "/product/unifi-flex-switch-adapter-kit",
+      "price": 52.98,
+      "currency": "USD",
+      "mpn": "USW-Flex-Utility",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    "CE",
+    "FCC",
+    "IC"
+  ],
+  "stock_stat": "In stock"
+}

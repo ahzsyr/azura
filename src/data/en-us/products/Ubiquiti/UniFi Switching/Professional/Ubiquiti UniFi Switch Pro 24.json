@@ -1,0 +1,288 @@
+{
+  "slug": "usw-pro-24-gen2",
+  "id": "USW-Pro-24",
+  "productTitle": "Ubiquiti UniFi Switch Pro 24",
+  "name": "Ubiquiti UniFi Switch Pro 24",
+  "title": "Ubiquiti UniFi Switch Pro 24",
+  "title_extended": "",
+  "short_description": "Fully Managed Layer 3 Switch, 24x GbE Ports, 2x 10G SFP+ Ports",
+  "description": "Fully Managed Layer 3 Switch, 24x GbE Ports, 2x 10G SFP+ Ports",
+  "detailed_description": [
+    {
+      "heading": "Network Interfaces",
+      "text": "The Ubiquiti UniFi Switch Pro 24 (USW-Pro-24) is a managed Layer 3 switch designed for enterprise, campus, and advanced SMB networks that require reliable high-density connectivity and scalable uplink capacity. The switch provides 24 Gigabit Ethernet RJ45 ports, each supporting 1G / 100M / 10M speeds, enabling seamless integration of modern and legacy network devices across access layers. For high-bandwidth aggregation and backbone connectivity, the unit includes two 10G SFP+ ports with support for both 10G and 1G fiber modules. These uplinks are ideal for connecting to core switches, servers, or storage systems, helping eliminate bottlenecks and maintain low-latency traffic flow between network segments.\n\nThe switch supports Layer 3 functionality, allowing it to perform routing tasks within local networks rather than acting purely as a Layer 2 device. This makes it suitable not only as an access switch but also as a distribution layer component in structured network designs. Housed in a rack-mountable 1U form factor, the USW-Pro-24 is engineered for clean installation in professional racks and cabinets. It supports rack depths from 400 to 1200 mm, making it compatible with most standard server and telecom racks. Built-in DC power backup support (USP RPS input) adds an additional layer of resilience for environments where uptime is critical. This combination of copper access ports, high-speed fiber uplinks, Layer 3 capability, and rack-optimized design makes the USW-Pro-24 a strong foundation for scalable, well-structured network infrastructures."
+    },
+    {
+      "heading": "Switching Performance",
+      "text": "The UniFi Switch Pro 24 delivers enterprise-class processing capacity to ensure smooth operation under heavy traffic loads. It features a switching capacity of 88 Gbps and total non-blocking throughput of 44 Gbps, allowing simultaneous full-speed communication across ports without internal congestion. With a forwarding rate of 65 Mpps, the switch can process very high packet volumes with minimal delay, which is essential for dense client environments and real-time applications. Network segmentation and scale are supported through up to 1,000 VLANs, enabling granular separation of departments, services, and tenants. A MAC address table size of 16,000 entries allows the switch to track large numbers of connected devices, while a 2 MB packet buffer helps absorb burst traffic and reduce packet loss.\n\nLayer 3 operation includes a local DHCP server, DHCP relay, inter-VLAN routing, and static routing for internal networks. The L3 table supports 768 ARP entries and 64 IPv4 routes, enabling efficient internal traffic routing without requiring every flow to pass through an external router. Access control is enforced using IPv4 ACLs and MAC-based ACLs, with 128 rules available for each type. Layer 2 functionality is extensive and designed for modern converged networks. Features include LACP port aggregation, STP and RSTP loop prevention, and DSCP-based QoS for traffic prioritization. Advanced multicast handling is provided through IGMP snooping and advanced IGMP configuration (querier, fast leave, router port). Built-in Pro AV profiles support platforms such as Dante, NDI, Q-SYS, SDVoE, Shure, AES67, and Crestron, which makes the switch well suited for professional audio, video, and broadcast networks."
+    },
+    {
+      "heading": "Power & Management",
+      "text": "The UniFi Switch Pro 24 is engineered for efficient operation and long-term reliability in professional environments. It uses an internal AC/DC power supply rated at 36W, with a maximum device power consumption of 30W, making it energy-efficient while still delivering full enterprise functionality. Power is supplied via universal AC input (100–240V, 50/60 Hz), and the switch also supports USP RPS DC backup input for redundant power scenarios. Thermal performance is predictable, with heat dissipation rated at 102.4 BTU/hr, helping administrators plan rack cooling accurately. The enclosure and mounting hardware are both constructed from durable SGCC steel, providing structural strength and vibration resistance in rack deployments.\n\nFor local monitoring and quick diagnostics, the switch includes a 1.3-inch touchscreen LCM display that shows device status and key operational data directly on the front panel. Management is performed via Ethernet using the UniFi Network application, with a minimum required version of 5.12.11 or later, enabling centralized configuration, monitoring, and firmware control across the UniFi ecosystem. Operational durability is enhanced by ESD protection rated at ±16kV air and ±12kV contact, reducing the risk of damage from static discharge during installation and servicing. The device is specified for operation at ambient temperatures from −5 to 45°C and 10–90% non-condensing humidity. The USW-Pro-24 is NDAA compliant and certified under CE, FCC, IC, and Anatel, confirming suitability for commercial, enterprise, and government procurement projects."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "UniFi Switching",
+    "Professional"
+  ],
+  "mpn": "USW-Pro-24",
+  "manufacturer_part_number": "USW-Pro-24",
+  "ean": "0810010070623",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2752/uswpro24_front_angle_a6bb6ecd625248579e33f61c0f1b63cf-603ce7aa74ac0-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 24",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2752/uswpro24_top_angle_6e015b9890fc42038ef401afc4b3b0dc-603ce7ad7b835-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 24",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2752/uswpro24_front_with_brackets_2863c1ee1359488587c5106f99b53409-603ce7ac52c85-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 24",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2752/uswpro24_back_7f28129eae704418af2d4a608826c19f-603ce7ab59d47-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 24",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2752/uswpro24_side_901fae903be8421ab6a566e5b3dffbb5-603ce7a992afa-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 24",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 400.28,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(24) 1 Gbps"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "w/o PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "USP RPS DC input"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "30 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442.4 x 285.4 x 43.7 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "3.59 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 45 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Pro 24",
+      "url": "https://www.getic.com/files/catalogue/2752/uswpro24_ds-653b8c28b8c56.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti UniFi Switch Pro 24",
+      "url": "https://dl.ubnt.com/qsg/USW-Pro-24-POE/USW-Pro-24-POE_EN.html"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi nanoHD",
+      "url": "/product/uap-nanohd",
+      "price": 152.49,
+      "currency": "USD",
+      "mpn": "UAP-nanoHD",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro 24 PoE",
+      "url": "/product/usw-pro-24-poe-gen-2",
+      "price": 702.24,
+      "currency": "USD",
+      "mpn": "USW-Pro-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Aggregation",
+      "url": "/product/usw-switch-aggregation",
+      "price": 269.19,
+      "currency": "USD",
+      "mpn": "USW-Aggregation",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

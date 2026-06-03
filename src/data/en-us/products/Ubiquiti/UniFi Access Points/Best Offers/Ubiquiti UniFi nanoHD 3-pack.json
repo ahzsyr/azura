@@ -1,0 +1,333 @@
+{
+  "slug": "uap-nanohd-3-pack",
+  "id": "UAP-nanoHD-3",
+  "productTitle": "Ubiquiti UniFi nanoHD 3-pack",
+  "name": "Ubiquiti UniFi nanoHD 3-pack",
+  "title": "Ubiquiti UniFi nanoHD 3-pack",
+  "title_extended": "",
+  "short_description": "2.4GHz 300Mbps & 5GHz 1733Mbps, 1xGLAN, 802.11 a/b/g/n/ac/ac-wave2. We recommend powering the UniFi APs with the UniFi PoE Switch, as PoE adapters are not included",
+  "description": "2.4GHz 300Mbps & 5GHz 1733Mbps, 1xGLAN, 802.11 a/b/g/n/ac/ac-wave2. We recommend powering the UniFi APs with the UniFi PoE Switch, as PoE adapters are not included",
+  "detailed_description": [
+    {
+      "heading": "Ideal Solution for Crowded Settings",
+      "text": "The UniFi nanoHD, part of the Ubiquiti lineup, is engineered to optimize enterprise Wi-Fi performance. This compact access point effectively manages high-traffic areas, delivering a total data throughput of up to 2 Gbps. It incorporates 4x4 MU-MIMO technology, but only on the 5 GHz band, while the 2.4 GHz band utilizes a 2x2 configuration. This setup allows it to communicate simultaneously with four devices using separate data streams on the 5 GHz band, enhancing network capacity and efficiency, especially in environments with many active users. The device adheres to the latest iteration of the 802.11ac standard, Wave2, which enhances its bandwidth capabilities to up to 300 Mbps at 2.4 GHz and 1733 Mbps at 5 GHz. These speeds make the nanoHD suitable for a variety of intensive online tasks, including high-definition video streaming and large-scale file transfers. The dual-band functionality of the nanoHD allows it to operate across both the 2.4 GHz and 5 GHz bands."
+    },
+    {
+      "heading": "Optimized Coverage & Network Management",
+      "text": "The UniFi nanoHD is designed with an advanced radio module delivering a robust output of 20 dBm (100 milliwatts), enabling stable connectivity and effective signal penetration through physical barriers within indoor environments. Equipped with antennas providing gains of 2.8 dBi at 2.4 GHz and 3 dBi at 5 GHz, the device optimizes signal strength and directionality. This facilitates extended reach and enhanced connection quality across a radius of up to 120 meters, covering substantial areas up to 140 square meters (1,500 ft²). With the capability to support over 200 simultaneous connections, the nanoHD is ideal for medium to large-scale deployments, such as corporate offices, educational campuses, and large retail spaces where consistent and reliable network performance is crucial."
+    },
+    {
+      "heading": "Seamless Management with UniFi Network",
+      "text": "The device leverages the UniFi Network, a comprehensive network management platform that offers centralized control over Ubiquiti’s UniFi devices, including routers, switches, and access points. This system simplifies the setup and ongoing management of network hardware, all accessible via the UniFi Network web application or mobile app. As a premier example of Software Defined Networking (SDN), this solution enables dynamic management of network resources, which is especially effective in both small and large-scale environments. The UniFi Controller software, which acts as the nerve center for the UniFi Network, provides an intuitive interface that allows network administrators to deploy, configure, manage, and monitor network devices seamlessly. This software simplifies complex tasks such as device detection and network visualization and offers detailed analytics that help in making informed decisions about network management and optimization."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Points",
+  "categories": [
+    "UniFi Access Points",
+    "Best Offers"
+  ],
+  "mpn": "UAP-nanoHD-3",
+  "manufacturer_part_number": "UAP-nanoHD-3",
+  "ean": "0817882025027",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1561/nanohd3pack-5ff45ca77d62a-medium.jpg",
+        "alt": "Ubiquiti UniFi nanoHD 3-pack",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1561/uapnanohd_front_angle-5ff45a7701aab-medium.jpg",
+        "alt": "Ubiquiti UniFi nanoHD 3-pack",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1561/uapnanohd_front-5ff45ba499e40-medium.jpg",
+        "alt": "Ubiquiti UniFi nanoHD 3-pack",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1561/uapnanohd_side-5ff45a7a27c31-medium.jpg",
+        "alt": "Ubiquiti UniFi nanoHD 3-pack",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1561/uapnanohd_top-5ff45a7b12c37-medium.jpg",
+        "alt": "Ubiquiti UniFi nanoHD 3-pack",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1561/uapnanohd_port-5ff45afe97fe3-medium.jpg",
+        "alt": "Ubiquiti UniFi nanoHD 3-pack",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 375.00,
+    "currency": "USD",
+    "discount": "-15%"
+  },
+  "old_price": 441.97,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 4x4"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "300 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "1.7 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.4 - 2.4 (GHz) 2.8 (dBi), 5 - 5 (GHz) 3 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "44 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "11 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "Ø160 x 32.65 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.315 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Ceilling Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units",
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "3 pcs"
+        },
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi nanoHD 3-pack",
+      "url": "http://dl.ubnt.com/datasheets/unifi/UniFi_nanoHD_AP_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti UniFi nanoHD 3-pack",
+      "url": "https://dl.ubnt.com/guides/UniFi/UAP-nanoHD_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "name": "Standard",
+      "price": 43.75,
+      "currency": "USD",
+      "days": 5
+    },
+    {
+      "name": "Express",
+      "price": 52.61,
+      "currency": "USD",
+      "days": 2
+    }
+  ],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "ibrahim",
+        "date": "2022-06-05",
+        "text": "bank charge should be see before processing for payment . product and services are v good",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi nanoHD",
+      "url": "/product/uap-nanohd",
+      "price": 123.30,
+      "currency": "USD",
+      "mpn": "UAP-nanoHD",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi FlexHD",
+      "url": "/product/ubiquiti-uap-flexhd",
+      "price": 149.99,
+      "currency": "USD",
+      "mpn": "UAP-FlexHD",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro 24 PoE",
+      "url": "/product/usw-pro-24-poe-gen-2",
+      "price": 702.24,
+      "currency": "USD",
+      "mpn": "USW-Pro-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

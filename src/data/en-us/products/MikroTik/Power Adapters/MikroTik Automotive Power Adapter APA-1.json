@@ -1,0 +1,220 @@
+{
+  "slug": "mikrotik-automotive-power-adapter-apa-1",
+  "id": 4665,
+  "productTitle": "MikroTik Automotive Power Adapter APA-1 – Car Power for RouterBOARD",
+  "name": "MikroTik Automotive Power Adapter APA-1",
+  "title": "MikroTik Automotive Power Adapter APA-1 – Car Power for RouterBOARD",
+  "title_extended": "MikroTik Automotive Power Adapter APA-1 – Car Power for RouterBOARD",
+  "short_description": "",
+  "description": "Multi-Layer Protection. The APA-1 Automotive Power Adapter safeguards your devices from aggressive vehicle environments, ensuring their safety and operational integrity. Its comprehensive protection features effectively neutralize voltage spikes, preventing damage caused by faulty car batteries, harness coupling, jump-starting, or even switching the AC unit. The built-in gas discharge tube serves as a key component in this protection system. When subjected to high voltage, the gas ionizes, creating a low-resistance path for the excess voltage to dissipate, effectively neutralizing the spike and shielding your devices from harm.\n\nThe inclusion of a transient voltage suppressor (TVS) semiconductor complements the gas discharge tube, providing an extra layer of defense against extreme voltage spikes. This combination ensures that your devices remain protected even from the most severe electrical hazards. In addition to these primary protection features, the APA-1 employs active polarity protection, preventing damage caused by accidental power reversal. This feature detects and corrects any polarity errors, ensuring that your devices are safeguarded even in instances of improper power connection. The output voltage can be easily modified via jumper position, but there’s also a pass-through mode – in case if you don’t need input voltage regulation.",
+  "detailed_description": [
+    {
+      "heading": "Multi-Layer Protection",
+      "text": "The APA-1 Automotive Power Adapter safeguards your devices from aggressive vehicle environments, ensuring their safety and operational integrity. Its comprehensive protection features effectively neutralize voltage spikes, preventing damage caused by faulty car batteries, harness coupling, jump-starting, or even switching the AC unit. The built-in gas discharge tube serves as a key component in this protection system. When subjected to high voltage, the gas ionizes, creating a low-resistance path for the excess voltage to dissipate, effectively neutralizing the spike and shielding your devices from harm."
+    },
+    {
+      "heading": "Advanced Protection Features",
+      "text": "The inclusion of a transient voltage suppressor (TVS) semiconductor complements the gas discharge tube, providing an extra layer of defense against extreme voltage spikes. This combination ensures that your devices remain protected even from the most severe electrical hazards. In addition to these primary protection features, the APA-1 employs active polarity protection, preventing damage caused by accidental power reversal. This feature detects and corrects any polarity errors, ensuring that your devices are safeguarded even in instances of improper power connection. The output voltage can be easily modified via jumper position, but there’s also a pass-through mode – in case if you don’t need input voltage regulation."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters"
+  ],
+  "mpn": "APA-1",
+  "manufacturer_part_number": "APA-1",
+  "ean": "4752224008947",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4665/apa1_1-65950956a6ed7-medium.jpg",
+        "alt": "MikroTik Automotive Power Adapter APA-1",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4665/apa1_2-6595095c37009-medium.jpg",
+        "alt": "MikroTik Automotive Power Adapter APA-1",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4665/apa1_3-6595096079e85-medium.jpg",
+        "alt": "MikroTik Automotive Power Adapter APA-1",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 26.85,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power",
+      "features": [
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector"
+      ],
+      "items": [
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 48 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "49 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "Terminal Block"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "86 x 16 x 31 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 85 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Automotive Power Adapter APA-1",
+      "url": "https://www.getic.com/files/catalogue/4665/apa1_ds-65854e7d549ed.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik GPeR-IP67-Case",
+      "url": "/product/mikrotik-gper-ip67-case",
+      "price": 6.43,
+      "currency": "USD",
+      "mpn": "GPeR-IP67-Case",
+      "availability": "InStock"
+    },
+    {
+      "name": "Mikrotik GESP+POE-IN",
+      "url": "/product/mikrotik-gesppoe-in",
+      "price": 15.28,
+      "currency": "USD",
+      "mpn": "GESP+POE-IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Rackmount kit for RB5009/L009 series",
+      "url": "/product/mikrotik-kit-k79",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "K-79",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Power Adapter 48V2A",
+      "url": "/product/psu-power-adapter-48v2a-96w",
+      "price": 30.93,
+      "currency": "USD",
+      "mpn": "48V2A96W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,489 @@
+{
+  "slug": "mikrotik-hap-ax2",
+  "id": 4176,
+  "productTitle": "MikroTik hAP ax2 WiFi 6 Router – Compact Dual-Band Home Router",
+  "name": "MikroTik hAP ax2",
+  "title": "MikroTik hAP ax2",
+  "title_extended": "MikroTik hAP ax2 WiFi 6 Router – Compact Dual-Band Home Router",
+  "short_description": "Wi-Fi 6 Router, Quad-Core ARM CPU, 802.11ax + Wave2, 5x Gigabit Ethernet Ports, WPA3",
+  "description": "MikroTik's hAP ax router series is a collection of home Wi-Fi routers introduced in 2023, featuring Wi-Fi 6 technology support. Designed for small homes, apartments, and small offices, the series offers a range of models to cater to various needs. The devices come equipped with powerful wireless chips, providing increased speed and stronger signal in both 2.4 GHz and 5 GHz spectrums. They boast modern CPUs, ample memory, and multiple Ethernet ports, ensuring smooth and reliable connectivity for various tasks.",
+  "detailed_description": [
+    {
+      "heading": "Empowering Wi-Fi 6 Technology",
+      "text": "MikroTik's hAP ax router series is a collection of home Wi-Fi routers introduced in 2023, featuring Wi-Fi 6 technology support. Designed for small homes, apartments, and small offices, the series offers a range of models to cater to various needs. The devices come equipped with powerful wireless chips, providing increased speed and stronger signal in both 2.4 GHz and 5 GHz spectrums. They boast modern CPUs, ample memory, and multiple Ethernet ports, ensuring smooth and reliable connectivity for various tasks. With the addition of advanced encryption support, the series prioritizes security. Overall, the hAP router series delivers high performance, scalability, and affordability for home networking needs."
+    },
+    {
+      "heading": "The Power of Generation 6 Wireless",
+      "text": "Are you ready to supercharge your home network? Meet the hAP ax², packed with everything you need in a primary home access point - and more! This router is a great match for 99% of homes. With the hAP ax², experience wireless signal strength like never before, thanks to its dual-band, dual-chain 4-4.5 dBi radio and the 802.11ax standard with Wave2 support. Enjoy up to 40% higher speed in the 5 GHz spectrum and up to 90% higher speed in the 2.4 GHz spectrum (compared to the previous generation)."
+    },
+    {
+      "heading": "Speed for Limitless Possibilities",
+      "text": "Wondering why higher wireless speeds matter? Countless use cases that were previously impossible or challenging to achieve are now within reach. Say goodbye to waiting for large media files to download and upload; with the hAP ax², working with such files over the wireless network becomes a breeze, saving you valuable time."
+    },
+    {
+      "heading": "Powerful Hardware for Heavy Operations",
+      "text": "With its quad-core CPU operating at 864 MHz and a reliable 1 GB of RAM, the hAP ax² demonstrates impressive capabilities in managing demanding tasks. From complex firewall rules to IPsec hardware encryption and the most advanced RouterOS features, this router handles it all with ease. Embrace the added security of WPA3 advanced encryption support, ensuring your data is safer than ever before."
+    },
+    {
+      "heading": "Designed for Your Needs",
+      "text": "With an overwhelming number of products and features on the market, even experienced users can become confused. However, there's a simple truth for a simple choice: you cannot go wrong with the hAP ax². Its unbeatable value, advanced Wi-Fi 6 standard, impressive 573 Mbps 2.4GHz Radio Rate, and fast 1.2 Gbps 5GHz Radio Rate make it the ultimate home networking solution."
+    },
+    {
+      "heading": "Ample Storage and Beyond",
+      "text": "The hAP ax² ensures smooth network operation by addressing your storage needs with 128 MB of storage memory, providing ample space for essential configurations and updates, all while delivering unrivalled performance. Much like its predecessors, the hAP ax² offers flexibility in placement. Mount it vertically, horizontally, or even on the wall, all while maintaining its strong signal and delivering consistent performance."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "WiFi Routers",
+  "categories": [
+    "WiFi Routers",
+    "hAP"
+  ],
+  "mpn": "C52iG-5HaxD2HaxD-TC",
+  "manufacturer_part_number": "C52iG-5HaxD2HaxD-TC",
+  "ean": "4752224007124",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4176/hap2ax2_vizheg_glaz-64005c3d43099-medium.jpg",
+        "alt": "MikroTik hAP ax2",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4176/hap2ax_corect-64005cb716e19-medium.jpg",
+        "alt": "MikroTik hAP ax2",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4176/hap2ax2_autotone-64005d32e438d-medium.jpg",
+        "alt": "MikroTik hAP ax2",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4176/hap2ax2_gorizont-64005e2f55b79-medium.jpg",
+        "alt": "MikroTik hAP ax2",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4176/hap2ax2_front1-64005ec029879-medium.jpg",
+        "alt": "MikroTik hAP ax2",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4176/hap2ax2_vizheg_glaz-64005c3d43099-tiny.jpg",
+        "alt": "MikroTik hAP ax2"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4176/hap2ax_corect-64005cb716e19-tiny.jpg",
+        "alt": "MikroTik hAP ax2"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4176/hap2ax2_autotone-64005d32e438d-tiny.jpg",
+        "alt": "MikroTik hAP ax2"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4176/hap2ax2_gorizont-64005e2f55b79-tiny.jpg",
+        "alt": "MikroTik hAP ax2"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4176/hap2ax2_front1-64005ec029879-tiny.jpg",
+        "alt": "MikroTik hAP ax2"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/aRPKUDvNyjM",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 80.20,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 2x2"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "573 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "1.2 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.4 - 2.483 (GHz) 4.5 (dBi), 5.15 - 5.875 (GHz) 4 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(5) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "QCN-5052, 4 core, 864 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "1 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "128 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 28 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "12 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 1.2 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "120 x 101 x 37 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 4"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik hAP ax2",
+      "url": "https://www.getic.com/files/catalogue/4176/hapax_ds-62ecac8f6c3ba.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik hAP ax2",
+      "url": "https://www.getic.com/files/catalogue/4176/quickguidehapax-650966478f8c4.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik hAP ax2",
+      "url": "https://www.getic.com/files/catalogue/4176/usermanualshapax-650bf8c0946e2.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "name": "Pickup point",
+      "price": 15.58,
+      "currency": "USD",
+      "duration": "18 business days"
+    },
+    {
+      "name": "Standard",
+      "price": 31.44,
+      "currency": "USD",
+      "duration": "5 business days"
+    },
+    {
+      "name": "Express",
+      "price": 42.86,
+      "currency": "USD",
+      "duration": "2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 4.9,
+    "count": 22,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 86,
+      "great": 14,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 19,
+      "4_star": 3,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Sergei",
+        "date": "2025-12-22",
+        "text": "nice router",
+        "photos": []
+      },
+      {
+        "name": "Chris",
+        "date": "2025-08-02",
+        "text": "Exactly what I wanted.  All Mikrotiks are not for beginners, this one included!",
+        "photos": []
+      },
+      {
+        "name": "Esa",
+        "date": "2025-07-12",
+        "text": "A good open router if it is need to change a operator",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik RB5009UPr+S+IN",
+      "url": "/product/mikrotik-rb5009upr-s-in",
+      "price": 239.45,
+      "currency": "USD",
+      "mpn": "RB5009UPr+S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax3",
+      "url": "/product/mikrotik-hap-ax3",
+      "price": 102.08,
+      "currency": "USD",
+      "mpn": "C53UiG+5HPaxD2HPaxD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax lite",
+      "url": "/product/mikrotik-hap-ax-lite",
+      "price": 47.44,
+      "currency": "USD",
+      "mpn": "L41G-2axD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ax",
+      "url": "/product/mikrotik-cap-ax",
+      "price": 103.11,
+      "currency": "USD",
+      "mpn": "cAPGi-5HaxD2HaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

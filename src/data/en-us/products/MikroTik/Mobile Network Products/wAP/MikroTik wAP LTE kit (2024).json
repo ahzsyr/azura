@@ -1,0 +1,386 @@
+{
+  "slug": "mikrotik-wap-lte-kit-2024",
+  "id": 4740,
+  "productTitle": "MikroTik wAP LTE kit (2024)",
+  "name": "MikroTik wAP LTE kit (2024)",
+  "title": "MikroTik wAP LTE kit (2024)",
+  "title_extended": "",
+  "short_description": "MikroTik wAP LTE kit (2024) - weatherproof outdoor wireless access point with built-in LTE modem, 2.4 GHz Wi-Fi, 1x 100 Mbps RJ45 port, miniPCI-e slot",
+  "description": "The MikroTik wAP LTE kit is a weatherproof wireless access point designed for outdoor use. It brings reliable connectivity to challenging environments like gardens, porches, or remote locations where wired connections are limited. Despite its compact size, the wAP LTE kit packs a powerful punch with a built-in LTE modem, offering cellular internet access alongside its 2.4 GHz Wi-Fi capabilities. This affordable access point boasts a compact design that blends seamlessly into most outdoor settings.",
+  "detailed_description": [
+    {
+      "heading": "Outdoor LTE & Wi-Fi",
+      "text": "The MikroTik wAP LTE kit is a weatherproof wireless access point designed for outdoor use. It brings reliable connectivity to challenging environments like gardens, porches, or remote locations where wired connections are limited. Despite its compact size, the wAP LTE kit packs a powerful punch with a built-in LTE modem, offering cellular internet access alongside its 2.4 GHz Wi-Fi capabilities. This affordable access point boasts a compact design that blends seamlessly into most outdoor settings."
+    },
+    {
+      "heading": "Reliable Connectivity",
+      "text": "The MikroTik wAP LTE kit boasts a MIPSBE CPU clocked at 650 MHz paired with 64 MB of RAM. This combination delivers sufficient processing power to handle wireless traffic and ensure smooth operation. The wAP LTE kit integrates a cellular modem, eliminating the need for a separate internet connection. It supports a wide range of cellular frequencies, including 2G (850/900 MHz), 3G (850/900/2100 MHz), and 4G LTE (multiple bands from 700 MHz to 2600 MHz), providing flexibility in connecting to various cellular networks."
+    },
+    {
+      "heading": "Functionality and Flexible Power Options",
+      "text": "On the wireless side, the wAP LTE kit operates on the 2.4 GHz band and utilizes 2x2 MIMO technology for enhanced signal strength and stability. It delivers speeds suitable for everyday internet activities like browsing, emailing, and video streaming. For power, the wAP LTE kit offers multiple options. It can be powered through passive PoE via an Ethernet cable, a DC jack, or even a car cigarette lighter adapter, making it adaptable to various deployment scenarios."
+    },
+    {
+      "heading": "Weatherproof Enclosure",
+      "text": "The wAP LTE kit is built to withstand the elements. Its weatherproof casing protects it from rain, dust, and extreme temperatures (ranging from -40°C to 60°C). For added security, the unit features a tamper-resistant design and a special anti-vandal screw on the bottom compartment. The MikroTik wAP LTE kit is a versatile solution for extending wireless internet access in demanding outdoor environments."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "4G Access Points",
+  "categories": [
+    "LTE Products",
+    "Mobile Network Products",
+    "wAP"
+  ],
+  "mpn": "wAPR-2nD&EC200A-EU",
+  "manufacturer_part_number": "wAPR-2nD&EC200A-EU",
+  "ean": "4752224009258",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4740/1-660bb05e48198-medium.jpg",
+        "alt": "MikroTik wAP LTE kit (2024) front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4740/2-660bb09a3823e-medium.jpg",
+        "alt": "MikroTik wAP LTE kit (2024) ports and back view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 80.20,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "LTE Category",
+        "FDD LTE Frequency Bands",
+        "TDD LTE Frequency Bands"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "2G (GSM), 3G (UMTS), 4G (LTE)"
+        },
+        {
+          "name": "LTE Category",
+          "value": "Cat4 - 150Mbps/50Mbps"
+        },
+        {
+          "name": "FDD LTE Frequency Bands",
+          "value": "1 (2100MHz), 3 (1800MHz), 5 (850MHz), 7 (2600MHz), 8 (900MHz), 20 (800MHz), 28 (700MHz)"
+        },
+        {
+          "name": "TDD LTE Frequency Bands",
+          "value": "38 (2600MHz), 40 (2300MHz), 41 (2500MHz)"
+        }
+      ]
+    },
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 4"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Wireless Antenna Frequency Range & Gain",
+        "Mobile Antenna Frequency Range & Gain",
+        "Mobile Antenna Gain"
+      ],
+      "items": [
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.412 - 2.484 (GHz) 2 (dBi)"
+        },
+        {
+          "name": "Mobile Antenna Frequency Range & Gain",
+          "value": "0.8 - 2.6 (GHz) 4 (dBi)"
+        },
+        {
+          "name": "Mobile Antenna Gain",
+          "value": "4 dBi"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management",
+        "PCI Express"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 100 Mbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Wi-Fi"
+        },
+        {
+          "name": "PCI Express",
+          "value": "(1) MiniPCI-e"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "QCA9531"
+        },
+        {
+          "name": "RAM",
+          "value": "64 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "9 - 30 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "7 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm, 4-pin, 3 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.8 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "185 x 85 x 30 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 4"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik wAP LTE kit (2024)",
+      "url": "https://www.getic.com/files/catalogue/4740/wapr2ndec200aeu_ds-660bb0012bd7b.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 0,
+      "great": 100,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Klāvs",
+        "date": "2025-08-19",
+        "text": "Works without problems. Came with all kinds of attachments, a power brick as well as a PoE injector. Works well, seems weatherproof, at least for now. Very difficult to inert SIM card.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CCR2004-1G-12S+2XS",
+      "url": "/product/cloud-core-router-2004-1g-12s-2xs",
+      "price": 475.47,
+      "currency": "USD",
+      "mpn": "CCR2004-1G-12S+2XS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB5009UG+S+IN",
+      "url": "/product/mikrotik-rb5009ug-s-in",
+      "price": 175.29,
+      "currency": "USD",
+      "mpn": "RB5009UG+S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "Huawei Brovi E3372-325 LTE USB Stick",
+      "url": "/product/huawei-brovi-e3372-325-lte-usb-stick",
+      "price": 35.16,
+      "currency": "USD",
+      "mpn": "E3372-325",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik wAP ac LTE kit (2024)",
+      "url": "/product/mikrotik-wap-ac-lte-kit-2024-",
+      "price": 119.00,
+      "currency": "USD",
+      "mpn": "wAPGR-5HacD2HnD&EC200A-EU",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

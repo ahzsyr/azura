@@ -1,0 +1,325 @@
+{
+  "slug": "routerboard-1100ahx4",
+  "id": "RB1100x4",
+  "productTitle": "MikroTik RB1100AHx4",
+  "name": "MikroTik RB1100AHx4",
+  "title": "MikroTik RB1100AHx4",
+  "title_extended": "MikroTik RB1100AHx4",
+  "short_description": "CPU AL21400 4 cores 1.4GHz, 1GB RAM, 13x Gbit LAN, RouterOS L6, Rackmount Case 1U.*Maximum order quantity per customer: 5 units",
+  "description": "The RB1100AHx4 series from MikroTik represents a powerful solution for individuals and organizations seeking a high-performance, reliable routing solution. These routers are designed to handle demanding networking tasks with ease, providing users with the flexibility and power they need to support complex networks and high-speed connectivity. The MikroTik RB1100AHx4 is a powerful router designed for demanding networking tasks. Like the Dude Edition, it is powered by the Annapurna Alpine AL21400 CPU with four Cortex A15 cores, each clocked at 1.4 GHz. The Cortex A15 processor core stands out for its high performance and energy efficiency. The inclusion of the Annapurna Alpine AL21400 CPU provides the router with a maximum throughput of up to 7.5 Gbps, which ensures fast and reliable connectivity, making it a perfect fit for environments that demand high-speed data transmission. The device also supports IPsec hardware acceleration, which boosts the performance of IPsec VPNs by using specialized hardware for encryption and decryption. This ensures secure and efficient IP communication. In tandem with IPsec hardware acceleration, the router supports AES128, an encryption algorithm widely adopted in various security protocols and systems. By striking a perfect balance between security and performance, AES128 ensures that your data remains confidential and secure while being transmitted efficiently across the network. The RB1100AHx4 is a versatile and powerful device, featuring 13 Gigabit Ethernet ports for high-speed network connections up to 1 Gbps. Housed in a 1U rackmount case, it fits neatly into a standard 19-inch server rack, taking up just 1.75 inches of vertical space. The device is equipped with an RS232 serial port, allowing for the connection of serial devices such as modems and printers. Its dual redundant power supplies provide an added layer of reliability, ensuring that the network remains operational even in the event of a power failure. Moreover, the device supports -48v DC telecom power, a standard used in telecommunications equipment; and the 802.3at/af Power over Ethernet (PoE) standards, delivering electrical power to devices over Ethernet cables, with up to 25.5 watts of power per port with PoE+ (802.3at) and up to 15.4 watts per port with 802.3af.",
+  "detailed_description": [
+    {
+      "heading": "The RB1100AHx4 Series",
+      "text": "The RB1100AHx4 series from MikroTik represents a powerful solution for individuals and organizations seeking a high-performance, reliable routing solution. These routers are designed to handle demanding networking tasks with ease, providing users with the flexibility and power they need to support complex networks and high-speed connectivity."
+    },
+    {
+      "heading": "High-Performance Routing",
+      "text": "The MikroTik RB1100AHx4 is a powerful router designed for demanding networking tasks. Like the Dude Edition, it is powered by the Annapurna Alpine AL21400 CPU with four Cortex A15 cores, each clocked at 1.4 GHz. The Cortex A15 processor core stands out for its high performance and energy efficiency. The inclusion of the Annapurna Alpine AL21400 CPU provides the router with a maximum throughput of up to 7.5 Gbps, which ensures fast and reliable connectivity, making it a perfect fit for environments that demand high-speed data transmission. The device also supports IPsec hardware acceleration, which boosts the performance of IPsec VPNs by using specialized hardware for encryption and decryption. This ensures secure and efficient IP communication. In tandem with IPsec hardware acceleration, the router supports AES128, an encryption algorithm widely adopted in various security protocols and systems. By striking a perfect balance between security and performance, AES128 ensures that your data remains confidential and secure while being transmitted efficiently across the network."
+    },
+    {
+      "heading": "Reliable and Versatile Connectivity",
+      "text": "The RB1100AHx4 is a versatile and powerful device, featuring 13 Gigabit Ethernet ports for high-speed network connections up to 1 Gbps. Housed in a 1U rackmount case, it fits neatly into a standard 19-inch server rack, taking up just 1.75 inches of vertical space. The device is equipped with an RS232 serial port, allowing for the connection of serial devices such as modems and printers. Its dual redundant power supplies provide an added layer of reliability, ensuring that the network remains operational even in the event of a power failure. Moreover, the device supports -48v DC telecom power, a standard used in telecommunications equipment; and the 802.3at/af Power over Ethernet (PoE) standards, delivering electrical power to devices over Ethernet cables, with up to 25.5 watts of power per port with PoE+ (802.3at) and up to 15.4 watts per port with 802.3af."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Wired Routers",
+  "categories": [
+    "Ethernet Routers",
+    "RouterBoard"
+  ],
+  "mpn": "RB1100x4",
+  "manufacturer_part_number": "RB1100x4",
+  "ean": "4752224002662",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1403/rb1100x4_1-5fda1262cf9a1-medium.jpg",
+        "alt": "MikroTik RB1100AHx4",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1403/rb1100x4_2-5fda125f6fad9-medium.jpg",
+        "alt": "MikroTik RB1100AHx4",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1403/rb1100x4_3-5fda125d06973-medium.jpg",
+        "alt": "MikroTik RB1100AHx4",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/-KDNh4eWNsI",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 246.33,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Communication Interface",
+        "Management",
+        "Memory card slots"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(13) 1 Gbps"
+        },
+        {
+          "name": "Communication Interface",
+          "value": "RS232"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        },
+        {
+          "name": "Memory card slots",
+          "value": "1 microSD"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "AL21400, 4 core, 1.4 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "1 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "128 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "20 - 57 V DC, 100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "20 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "443 x 148 x 44 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 6"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik RB1100AHx4",
+      "url": "/files/catalogue/mikrotik/rb1100dx4-tech.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik RB1100AHx4",
+      "url": "https://www.getic.com/files/catalogue/1403/quickguiderb1100ahx4-650c44987895e.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik RB1100AHx4",
+      "url": "https://www.getic.com/files/catalogue/1403/usermanualsrb1100series-650c44a7b33f2.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 0,
+      "great": 100,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Tonis",
+        "date": "2023-05-04",
+        "text": "Good value for money.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hEX",
+      "url": "/product/routerboard-hex",
+      "price": 44.77,
+      "currency": "USD",
+      "mpn": "RB750Gr3",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CSS326-24G-2S+RM",
+      "url": "/product/cloud-smart-switch-326-24g-2srm",
+      "price": 129.46,
+      "currency": "USD",
+      "mpn": "CSS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX S",
+      "url": "/product/routerboard-hex-s",
+      "price": 53.1,
+      "currency": "USD",
+      "mpn": "RB760iGS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB4011iGS+RM",
+      "url": "/product/routerboard-4011igs-plus-rm",
+      "price": 175.29,
+      "currency": "USD",
+      "mpn": "RB4011iGS+RM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik MTCNA Certificate",
+    "MikroTik Value Added Distributor"
+  ],
+  "stock_stat": ""
+}

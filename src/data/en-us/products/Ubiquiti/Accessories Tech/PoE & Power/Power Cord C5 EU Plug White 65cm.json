@@ -1,0 +1,214 @@
+{
+  "slug": "power-cord-eu-plug-white",
+  "id": "1939",
+  "productTitle": "Power Cord C5 EU Plug White 65cm",
+  "name": "Power Cord C5 EU Plug White 65cm",
+  "title": "Power Cord C5 EU Plug White 65cm",
+  "title_extended": "",
+  "short_description": "C5 Cloverleaf Power Cord, EU plug",
+  "description": "C5 Cloverleaf Power Cord, EU plug",
+  "detailed_description": [
+    {
+      "heading": "Description",
+      "text": "The EU-C5-1-W-65 is a power cord featuring a C5 connector and an EU plug, tailored for compatibility with electronic devices requiring a standard C5 (commonly referred to as the \"Mickey Mouse\" connector) power connection. This specific model is designed with a European-style plug, making it suitable for use in countries across Europe where this plug type is standard. The cord is white, which allows it to blend seamlessly with modern office or home décor, especially where a clean, uniform look is desired."
+    },
+    {
+      "heading": "Quality and Safety",
+      "text": "Constructed from high-quality materials, this power cord is built to withstand regular use while ensuring safety and reliability. It adheres to European safety standards for electrical devices, ensuring that it provides a secure and stable electrical connection."
+    }
+  ],
+  "brand": "OEM",
+  "category": "Electrical Equipment",
+  "categories": [
+    "Ubiquiti",
+    "Accessory Tech",
+    "PoE & Power"
+  ],
+  "mpn": "EU-C5-1-W-65",
+  "manufacturer_part_number": "EU-C5-1-W-65",
+  "ean": "0708747437911",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1939/power_cord_c5_eu_2-5f9a742da6d33-medium.jpeg",
+        "alt": "Power Cord C5 EU Plug White 65cm",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1939/power_cord_c5_eu_1-5f9a742e824c0-medium.jpeg",
+        "alt": "Power Cord C5 EU Plug White 65cm",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1939/euc51w65withwelcro-690b50ed044de-medium.jpg",
+        "alt": "Power Cord C5 EU Plug White 65cm",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1939/power_cord_c5_eu_2-5f9a742da6d33-tiny.jpeg",
+        "alt": "Power Cord C5 EU Plug White 65cm"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1939/power_cord_c5_eu_1-5f9a742e824c0-tiny.jpeg",
+        "alt": "Power Cord C5 EU Plug White 65cm"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1939/euc51w65withwelcro-690b50ed044de-tiny.jpg",
+        "alt": "Power Cord C5 EU Plug White 65cm"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 0.93,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Power Connectors",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Power Connectors",
+          "value": "C5, EU"
+        },
+        {
+          "name": "Cable Length",
+          "value": "0.65 m"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 12.74,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Alex",
+        "date": "2023-04-27",
+        "text": "Works well",
+        "photos": []
+      },
+      {
+        "name": "Eduard",
+        "date": "2023-01-14",
+        "text": "Very good, but black for this price would be better :)",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Power Cord C5 EU Plug Black 65cm",
+      "url": "/product/power-cord-eu-plug",
+      "price": 1.17,
+      "currency": "USD",
+      "mpn": "EU-C5-1-B-65",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti PoE Adapter",
+      "url": "/product/ubiquiti-poe-af",
+      "price": 10.03,
+      "currency": "USD",
+      "mpn": "U-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-24-30W-G-WH",
+      "url": "/product/ubiquiti-poe-24-30w-g-wh-gigabit",
+      "price": 14.94,
+      "currency": "USD",
+      "mpn": "POE-24-30W-G-WH",
+      "availability": "InStock"
+    },
+    {
+      "name": "Mimosa Gigabit PoE Adapter 24V 0.5A",
+      "url": "/product/mimosa-gigabit-poe-injector-05a-12w",
+      "price": 7.50,
+      "currency": "USD",
+      "mpn": "502-00025",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": "10546"
+}

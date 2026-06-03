@@ -1,0 +1,219 @@
+{
+  "slug": "ubiquiti-unifi-indoor-cable-cat6a-cmr",
+  "id": "6741",
+  "productTitle": "Ubiquiti UniFi Indoor Cable Cat6A CMR",
+  "name": "Ubiquiti UniFi Indoor Cable Cat6A CMR",
+  "title": "Ubiquiti UniFi Indoor Cable Cat6A CMR",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The Ubiquiti UniFi Indoor Cable Cat6A CMR (UACC‑Cable‑C6A‑CMR) is designed for high-speed data transmission in demanding indoor network environments. With a 305 m length, this cable provides excellent coverage for offices, data centers, and enterprise installations. It features a solid bare copper conductor (23 AWG) for superior conductivity and reliability, while the anti‑crosstalk divider minimizes signal interference for consistent 10 Gbps Ethernet performance. The unshielded twisted pair (UTP) design simplifies installation without sacrificing speed or stability. Built with a durable PVC jacket (7.05 ± 0.2 mm diameter) and integrated ripcord, it offers easy handling and robust protection during deployment. Rated CMR (riser) for flame resistance, it supports safe installations in vertical spaces. Suitable for installation temperatures between 0°C and 60°C, it delivers dependable performance for professional networking setups. The UACC‑Cable‑C6A‑CMR ensures reliable high‑bandwidth connectivity for modern UniFi deployments. Engineered to meet Category 6A standards, it supports 10 GbE connections across long distances while maintaining low signal loss. Its solid copper cores provide durability and excellent signal quality, ideal for powering critical applications like VoIP, video streaming, and large data transfers. The UTP structure, combined with the anti‑crosstalk divider, reduces electromagnetic interference between pairs, ensuring clean, uninterrupted data flow. Flame‑retardant CMR rating allows use in riser spaces, meeting stringent safety standards for indoor use. With a 305 m spool, installers can efficiently run structured cabling in large buildings. Easy to pull, flexible to work with, and designed for professional environments, this Cat6A cable is the ideal choice for upgrading enterprise networks to handle next‑generation bandwidth demands.",
+  "detailed_description": [
+    {
+      "heading": "High-Performance Cat6A Cable",
+      "text": "The Ubiquiti UniFi Indoor Cable Cat6A CMR (UACC‑Cable‑C6A‑CMR) is designed for high-speed data transmission in demanding indoor network environments. With a 305 m length, this cable provides excellent coverage for offices, data centers, and enterprise installations. It features a solid bare copper conductor (23 AWG) for superior conductivity and reliability, while the anti‑crosstalk divider minimizes signal interference for consistent 10 Gbps Ethernet performance. The unshielded twisted pair (UTP) design simplifies installation without sacrificing speed or stability. Built with a durable PVC jacket (7.05 ± 0.2 mm diameter) and integrated ripcord, it offers easy handling and robust protection during deployment. Rated CMR (riser) for flame resistance, it supports safe installations in vertical spaces. Suitable for installation temperatures between 0°C and 60°C, it delivers dependable performance for professional networking setups."
+    },
+    {
+      "heading": "Reliable High-Bandwidth Connectivity",
+      "text": "The UACC‑Cable‑C6A‑CMR ensures reliable high‑bandwidth connectivity for modern UniFi deployments. Engineered to meet Category 6A standards, it supports 10 GbE connections across long distances while maintaining low signal loss. Its solid copper cores provide durability and excellent signal quality, ideal for powering critical applications like VoIP, video streaming, and large data transfers. The UTP structure, combined with the anti‑crosstalk divider, reduces electromagnetic interference between pairs, ensuring clean, uninterrupted data flow. Flame‑retardant CMR rating allows use in riser spaces, meeting stringent safety standards for indoor use. With a 305 m spool, installers can efficiently run structured cabling in large buildings. Easy to pull, flexible to work with, and designed for professional environments, this Cat6A cable is the ideal choice for upgrading enterprise networks to handle next‑generation bandwidth demands."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Indoor Cables",
+  "categories": [
+    "Cabling",
+    "Indoor Cables"
+  ],
+  "mpn": "UACC-Cable-C6A-CMR",
+  "manufacturer_part_number": "UACC-Cable-C6A-CMR",
+  "ean": "0810084696200",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6741/1-68807a066e206-medium.jpg",
+        "alt": "Ubiquiti UniFi Indoor Cable Cat6A CMR",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6741/2-68807a0a46b12-medium.jpg",
+        "alt": "Ubiquiti UniFi Indoor Cable Cat6A CMR",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6741/3-68807a0e5af15-medium.jpg",
+        "alt": "Ubiquiti UniFi Indoor Cable Cat6A CMR",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 292.24,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Cable Type",
+        "Max Data Rate",
+        "Insulation",
+        "Cable Length",
+        "Conductor",
+        "Jacket",
+        "Jacket Diameter"
+      ],
+      "items": [
+        {
+          "name": "Cable Type",
+          "value": "Cat 6A"
+        },
+        {
+          "name": "Max Data Rate",
+          "value": "10Gbps"
+        },
+        {
+          "name": "Insulation",
+          "value": "UTP"
+        },
+        {
+          "name": "Cable Length",
+          "value": "305 m"
+        },
+        {
+          "name": "Conductor",
+          "value": "Pure Copper"
+        },
+        {
+          "name": "Jacket",
+          "value": "PVC"
+        },
+        {
+          "name": "Jacket Diameter",
+          "value": "7.05 ±0.2 mm"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Dimensions",
+          "value": "494 x 302 x 481 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "19.3 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 75 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Indoor Cable Cat6A CMR",
+      "url": "https://www.getic.com/files/catalogue/6741/uacccablec6acmr_ds-68807a012950f.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "UniFi Direct Attach Copper Cable 10Gbps 0.5m",
+      "url": "/product/ubiquiti-unifi-direct-attach-copper-cable-10gbps-0-5m",
+      "price": 14.94,
+      "currency": "USD",
+      "mpn": "UACC-DAC-SFP10-0.5M",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro Wall",
+      "url": "/product/ubiquiti-access-point-u7-pro-wall",
+      "price": 200.14,
+      "currency": "USD",
+      "mpn": "U7-Pro-Wall",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex 8 PoE 2.5G",
+      "url": "/product/ubiquiti-unifi-8-port-poe-switch-flex-2-5g",
+      "price": 210.86,
+      "currency": "USD",
+      "mpn": "USW-Flex-2.5G-8-PoE",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

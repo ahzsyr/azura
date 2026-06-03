@@ -1,0 +1,326 @@
+{
+  "slug": "unifi-video-camera-g4-pro",
+  "id": "1902",
+  "productTitle": "Ubiquiti Camera G4 Pro",
+  "name": "Ubiquiti Camera G4 Pro",
+  "title": "Ubiquiti Camera G4 Pro",
+  "title_extended": "Ubiquiti Camera G4 Pro",
+  "short_description": "4K (3840x2160 at 24 FPS) Indoor/Outdoor IP Camera with Infrared and Optical Zoom, Built-in Microphone",
+  "description": "4K (3840x2160 at 24 FPS) Indoor/Outdoor IP Camera with Infrared and Optical Zoom, Built-in Microphone",
+  "detailed_description": [
+    {
+      "heading": "Professional 4K Camera",
+      "text": "UniFi G4-PRO Camera Camera IP camera of UniFi series, equipped with 1/2\" sensor, varifocal lens with 3x optical zoom, powerful IR illumination, built-in microphone, motion sensor. Allows you to record detailed video with a resolution of 4K Ultra HD. Made of high quality, heat- and wear-resistant material, so it can be used both indoors and outdoors. Supports PoE 802.3af/at power supply."
+    },
+    {
+      "heading": "Main Features",
+      "text": "4K (8MP) video resolution, 3x optical zoom, 15 m (50 ft) IR night vision, Audio recording with an integrated microphone, Wirelessly connected with UniFi WiFi Auto-Link, AI event detections, Connect and power using PoE, Weatherproof (outdoor exposed)."
+    },
+    {
+      "heading": "General Description",
+      "text": "UniFi Protect G4-PRO Camera IP camera 4th generation IP camera set a standard for video surveillance. The degree of protection of the housing: IP-67. The camera is equipped with a high quality matrix, which broadcasts all that happens in maximum detail, even in difficult weather and the complete absence of light sources. The camera has an important feature, namely it supports broadcasting in Ultra HD (the highest definition of the new generation of 4K). At the same time the resolution is 3840x2160, which is simply incredible. Such a feature guarantees full detail of what is happening in the frame, and therefore full control. The 3x optical zoom allows you to set the area to be viewed as precisely as possible and there will be no loss of clarity with digital zoom."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Cameras",
+  "categories": [
+    "Cameras",
+    "Bullet"
+  ],
+  "mpn": "UVC-G4-PRO",
+  "manufacturer_part_number": "UVC-G4-PRO",
+  "ean": "0817882026260",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1902/uvcg4pro_top_angle-601bff1542aa7-medium.jpg",
+        "alt": "Ubiquiti Camera G4 Pro",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1902/uvcg4pro_side-601bff16a9626-medium.jpg",
+        "alt": "Ubiquiti Camera G4 Pro side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1902/uvcg4pro_mounted-601bff1826a52-medium.jpg",
+        "alt": "Ubiquiti Camera G4 Pro mounted",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1902/uvcg4pro_front_angle-601bff1a3d612-medium.jpg",
+        "alt": "Ubiquiti Camera G4 Pro front angle",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1902/uvcg4pro_front-601bff1b99d69-medium.jpg",
+        "alt": "Ubiquiti Camera G4 Pro front view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1902/uvcg4pro_back-601bff1c81a3f-medium.jpg",
+        "alt": "Ubiquiti Camera G4 Pro back view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 339.00,
+    "currency": "USD",
+    "discount": -20
+  },
+  "old_price": 424.10,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Video",
+      "features": [
+        "Megapixels",
+        "Resolution",
+        "Maximum Frame Rate",
+        "Video Compression"
+      ],
+      "items": [
+        {
+          "name": "Megapixels",
+          "value": "8MP"
+        },
+        {
+          "name": "Resolution",
+          "value": "3840 х 2160"
+        },
+        {
+          "name": "Maximum Frame Rate",
+          "value": "50 FPS"
+        },
+        {
+          "name": "Video Compression",
+          "value": "H.264"
+        }
+      ]
+    },
+    {
+      "technology": "Video Camera",
+      "features": [
+        "Sensor",
+        "Lens",
+        "Night Mode",
+        "Viewing Angle"
+      ],
+      "items": [
+        {
+          "name": "Sensor",
+          "value": "1/2\" 8MP sensor"
+        },
+        {
+          "name": "Lens",
+          "value": "Motorized focal 4.24-12.66 mm"
+        },
+        {
+          "name": "Night Mode",
+          "value": "IR LEDs with Mechanical IR Cut Filter, IR Range up to 15 m"
+        },
+        {
+          "name": "Viewing Angle",
+          "value": "110 ° (H) 60 ° (V)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "12.5 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP67"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø86 x 153 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.700 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Ceilling Mount, Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units",
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        },
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Camera G4 Pro",
+      "url": "https://dl.ubnt.com/datasheets/unifi/UVC-G4-PRO_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti Camera G4 Pro",
+      "url": "https://dl.ubnt.com/guides/unifivideo/UVC-G4-PRO_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "George",
+        "date": "2024-04-14",
+        "text": "Exactly as advertised",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Network Video Recorder",
+      "url": "/product/unifi-protect-network-video-recorder",
+      "price": 303.78,
+      "currency": "USD",
+      "mpn": "UNVR",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G4 Bullet",
+      "url": "/product/unifi-protect-g4-bullet-camera",
+      "price": 134.10,
+      "currency": "USD",
+      "mpn": "UVC-G4-BULLET",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G4 Bullet 3-pack",
+      "url": "/product/unifi-protect-g4-bullet-3pack",
+      "price": 399.00,
+      "currency": "USD",
+      "mpn": "UVC-G4-BULLET-3",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

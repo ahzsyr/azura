@@ -1,0 +1,28 @@
+{
+  "id": "mimosa",
+  "slug": "mimosa",
+  "name": "Mimosa",
+  "description": "Mimosa is redefining how people worldwide gain exceptional internet access through innovative wireless technology. To meet this ambitious goal, we are driven by a passion not just to connect more people to the internet, but to enhance the quality of that connection—making it better, faster, and more reliable than ever before.",
+  "badge": "",
+  "coverImage": "/images/placeholder.svg",
+  "seo": {},
+  "conditions": {
+    "match": "any",
+    "rules": [
+      {
+        "field": "brand",
+        "operator": "contains",
+        "value": "mimosa"
+      },
+      {
+        "field": "title",
+        "operator": "contains",
+        "value": "mimosa"
+      }
+    ]
+  },
+  "cardTemplate": "default",
+  "sortBy": "name-asc",
+  "visible": true,
+  "showInNav": false
+}

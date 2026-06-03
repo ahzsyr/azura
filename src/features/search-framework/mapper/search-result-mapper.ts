@@ -1,0 +1,108 @@
+import type { SearchEntityType } from "@prisma/client";
+import { adminPathFor } from "@/features/search/constants";
+import { searchRegistry } from "@/features/search-framework/registry/search-registry";
+import type { RankedHit } from "@/features/search-framework/ranking/search-ranking-engine";
+import type {
+  SearchResult,
+  SearchSuggestion,
+  SearchVisibility,
+} from "@/features/search-framework/types";
+import { excerpt } from "@/features/search/search-text";
+
+function metaOf(metadata: unknown): Record<string, unknown> {
+  return (metadata ?? {}) as Record<string, unknown>;
+}
+
+export class SearchResultMapper {
+  toSearchResult(hit: RankedHit, query: string): SearchResult {
+    const meta = metaOf(hit.metadata);
+    const kind = searchRegistry.kindForEntityType(hit.entityType, hit.metadata);
+    const visibility: SearchVisibility =
+      hit.entityType === "MEDIA" || meta.adminOnly === true ? "admin" : "public";
+
+    return {
+      id: hit.id,
+      entityType: hit.entityType,
+      entityId: hit.entityId,
+      locale: hit.locale,
+      kind,
+      contentTypeSlug: meta.contentTypeSlug as string | undefined,
+      title: hit.title,
+      snippet: excerpt(hit.body, query),
+      urlPath: hit.urlPath,
+      adminPath:
+        (meta.adminPath as string) || adminPathFor(hit.entityType, hit.entityId, meta),
+      score: hit.score,
+      visibility,
+      facets: (meta.facets as Record<string, string | string[] | number | boolean>) ?? {},
+    };
+  }
+
+  toSuggestion(row: {
+    title: string;
+    urlPath: string;
+    entityType: SearchEntityType;
+    entityId: string;
+    metadata?: unknown;
+    id?: string;
+    locale?: string;
+    body?: string;
+  }): SearchSuggestion {
+    const meta = metaOf(row.metadata);
+    return {
+      title: row.title,
+      urlPath: row.urlPath,
+      entityType: row.entityType,
+      kind: searchRegistry.kindForEntityType(row.entityType, row.metadata),
+      contentTypeSlug: meta.contentTypeSlug as string | undefined,
+      adminPath:
+        (meta.adminPath as string) ||
+        adminPathFor(row.entityType, row.entityId, meta),
+    };
+  }
+
+  toApiPayload(result: SearchResult) {
+    return {
+      id: result.id,
+      title: result.title,
+      snippet: result.snippet,
+      urlPath: result.urlPath,
+      entityType: result.entityType,
+      entityId: result.entityId,
+      kind: result.kind,
+      contentTypeSlug: result.contentTypeSlug,
+      score: result.score,
+      facets: result.facets,
+    };
+  }
+
+  toAdminApiPayload(result: SearchResult) {
+    return {
+      ...this.toApiPayload(result),
+      adminPath: result.adminPath,
+    };
+  }
+
+  groupByEntityType(results: SearchResult[]): Map<SearchEntityType, SearchResult[]> {
+    const map = new Map<SearchEntityType, SearchResult[]>();
+    for (const r of results) {
+      const list = map.get(r.entityType) ?? [];
+      list.push(r);
+      map.set(r.entityType, list);
+    }
+    return map;
+  }
+
+  groupByContentTypeSlug(results: SearchResult[]): Map<string, SearchResult[]> {
+    const map = new Map<string, SearchResult[]>();
+    for (const r of results) {
+      const key = r.contentTypeSlug ?? r.kind;
+      const list = map.get(key) ?? [];
+      list.push(r);
+      map.set(key, list);
+    }
+    return map;
+  }
+}
+
+export const searchResultMapper = new SearchResultMapper();

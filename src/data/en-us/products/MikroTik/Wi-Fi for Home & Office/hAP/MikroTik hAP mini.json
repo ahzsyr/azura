@@ -1,0 +1,383 @@
+{
+  "slug": "routerboard-hap-mini",
+  "id": 1296,
+  "productTitle": "MikroTik hAP mini",
+  "name": "MikroTik hAP mini",
+  "title": "MikroTik hAP mini",
+  "title_extended": "RB hAP Mini, Mikrotik hAP mini",
+  "short_description": "650MHz CPU, 32MB RAM, 3x 100Mbps, 802.11b/g/n, 2.4GHz dual-chain, RouterOS L4",
+  "description": "650MHz CPU, 32MB RAM, 3x 100Mbps, 802.11b/g/n, 2.4GHz dual-chain, RouterOS L4",
+  "detailed_description": [
+    {
+      "heading": "Tiny Size Home 2.4Ghz AP with Three LAN Ports",
+      "text": "The hAP mini is a small 2GHz wireless access point for home or small offices. It has three ports, which are configured as one Internet port and two LAN ports, but can be reconfigured as desired, using the powerful RouterOS configuration options."
+    },
+    {
+      "heading": "Performance and Hardware",
+      "text": "The unit is powered by microUSB and measures only 8 cm tall. Even with its small size, the hAP mini is still quite powerful, as it uses the QCA9533 CPU, just like the bigger units in the widely successful hAP series."
+    },
+    {
+      "heading": "Connectivity and Antenna",
+      "text": "The device has an omnidirectional antenna built-in, and does not have a strict limitation on number of connected clients. It works in 2.4 GHz and supports 802.11b/g/n standards."
+    },
+    {
+      "heading": "Setup and Operating System",
+      "text": "The powerful 650 MHz CPU gives you full access to the wide variety of features provided by the versatile RouterOS operating system, but if all you want is a simple access point - it is already configured out of the box. You simply need to open its web configuration page and set a password for it."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "WiFi Routers",
+  "categories": [
+    "WiFi Routers",
+    "hAP",
+    "WiFi 4"
+  ],
+  "mpn": "RB931-2nD",
+  "manufacturer_part_number": "RB931-2nD",
+  "ean": "4752224003065",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1296/rb9312nd_2-5fd9ca7091944-medium.jpg",
+        "alt": "MikroTik hAP mini",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1296/rb9312nd_1-5fd9ca71b93bb-medium.jpg",
+        "alt": "MikroTik hAP mini",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/-1vtvONihYE",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 20.90,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 4"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "300 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.4 - 2.4 (GHz) 1.5 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(3) 100 Mbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "QCA9533, 1 core, 650 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "32 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "5 - 5 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "3.5 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "MicroUSB"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "5 V DC 1 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "81 x 78 x 48 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 4"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik hAP mini",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/hap-mini-teh.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik hAP mini",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/hap-mini-wg.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Patrasca",
+        "date": "2023-08-08",
+        "text": "Qualité-prix malheur.",
+        "photos": []
+      },
+      {
+        "name": "Bernd",
+        "date": "2023-08-08",
+        "text": "good device",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hAP lite classic",
+      "url": "/product/routerboard-hap-lite",
+      "price": 22.54,
+      "currency": "USD",
+      "mpn": "RB941-2nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP lite",
+      "url": "/product/routerboard-hap-lite-tc",
+      "price": 22.54,
+      "currency": "USD",
+      "mpn": "RB941-2nD-TC",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 60.42,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik hAP ac2",
+      "url": "/product/mikrotik-hap-ac2",
+      "price": 58.70,
+      "currency": "USD",
+      "mpn": "RBD52G-5HacD2HnD-TC",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik Value Added Distributor",
+    "MikroTik MTCNA Certificate"
+  ],
+  "stock_stat": ""
+}

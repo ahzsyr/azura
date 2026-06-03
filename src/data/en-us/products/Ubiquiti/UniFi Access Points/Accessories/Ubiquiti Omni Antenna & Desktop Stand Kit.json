@@ -1,0 +1,270 @@
+{
+  "slug": "omni-antenna-desktop-stand-kit",
+  "id": 4716,
+  "productTitle": "Ubiquiti Omni Antenna & Desktop Stand Kit",
+  "name": "Ubiquiti Omni Antenna & Desktop Stand Kit",
+  "title": "Ubiquiti Omni Antenna & Desktop Stand Kit",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The Ubiquiti Omni Antenna & Desktop Stand Kit is a versatile solution designed to enhance the wireless capabilities and deployment options of your Swiss Army Knife Ultra. This kit combines an omnidirectional antenna for extended range with a convenient desktop stand, offering greater flexibility and improved performance. Experience a significant improvement in wireless signal strength with the high-efficiency omnidirectional radiation pattern of the antenna. This 360-degree coverage ensures reliable connectivity throughout your environment.",
+  "detailed_description": [
+    {
+      "heading": "Enhanced Coverage",
+      "text": "The Ubiquiti Omni Antenna & Desktop Stand Kit is a versatile solution designed to enhance the wireless capabilities and deployment options of your Swiss Army Knife Ultra. This kit combines an omnidirectional antenna for extended range with a convenient desktop stand, offering greater flexibility and improved performance. Experience a significant improvement in wireless signal strength with the high-efficiency omnidirectional radiation pattern of the antenna. This 360-degree coverage ensures reliable connectivity throughout your environment."
+    },
+    {
+      "heading": "Dual-Band Support",
+      "text": "The Omni Antenna operates seamlessly on both 2.4 GHz and 5 GHz frequencies, maximizing compatibility with your existing network and optimizing the potential of Swiss Army Knife Ultra. Enjoy a stronger, more stable connection in any environment thanks to the improved signal strength and eliminated dead zones. Invest in the Omni Antenna & Desktop Stand Kit and experience the combined benefits of extended range and reliable connectivity for your Swiss Army Knife Ultra."
+    },
+    {
+      "heading": "Desktop Deployment",
+      "text": "The included desktop stand provides a stable and convenient platform for placing your Swiss Army Knife Ultra. This allows for optimal placement and easy access in office environments or other desktop setups. The Omni Antenna and Desktop Stand Kit are both constructed with a weatherproof design. This ensures reliable performance and protection from the elements, making the kit suitable for various deployment scenarios, both indoors and outdoors."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Outdoor Wireless",
+  "categories": [
+    "Outdoor Wireless",
+    "UniFi Accessories"
+  ],
+  "mpn": "UACC-UK-Ultra-Omni-Antenna",
+  "manufacturer_part_number": "UACC-UK-Ultra-Omni-Antenna",
+  "ean": "0810084694091",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4716/1-65e5d1d40f937-medium.jpg",
+        "alt": "Ubiquiti Omni Antenna & Desktop Stand Kit",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4716/2-65e5d1d7f18c4-medium.jpg",
+        "alt": "Ubiquiti Omni Antenna & Desktop Stand Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4716/3-65e5d1db04644-medium.jpg",
+        "alt": "Ubiquiti Omni Antenna & Desktop Stand Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4716/4-65e5d1e0c18a0-medium.jpg",
+        "alt": "Ubiquiti Omni Antenna & Desktop Stand Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4716/5-65e5d1e51a1ff-medium.jpg",
+        "alt": "Ubiquiti Omni Antenna & Desktop Stand Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4716/6-65e5d1ed6473f-medium.jpg",
+        "alt": "Ubiquiti Omni Antenna & Desktop Stand Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4716/7-65e5d1f237bd3-medium.jpg",
+        "alt": "Ubiquiti Omni Antenna & Desktop Stand Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4716/8-65e5d1fa00050-medium.jpg",
+        "alt": "Ubiquiti Omni Antenna & Desktop Stand Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4716/9-65e5d1fd83884-medium.jpg",
+        "alt": "Ubiquiti Omni Antenna & Desktop Stand Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4716/10-65e5d2017a984-medium.jpg",
+        "alt": "Ubiquiti Omni Antenna & Desktop Stand Kit",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 20.38,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Thermoplastic Elastomer (TPE), Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "154 x 15 x 15 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.14 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Screw"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Omni Antenna & Desktop Stand Kit",
+      "url": "https://www.getic.com/files/catalogue/4716/uaccukultraomniantenna_ds-65e5d1c740703.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti PoE Adapter",
+      "url": "/product/ubiquiti-poe-af",
+      "price": 10.03,
+      "currency": "USD",
+      "mpn": "U-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Swiss Army Knife Ultra",
+      "url": "/product/swiss-army-knife-ultra11",
+      "price": 77.43,
+      "currency": "USD",
+      "mpn": "UK-Ultra",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Panel Antenna Ultra",
+      "url": "/product/panel-antenna-ultra",
+      "price": 43.46,
+      "currency": "USD",
+      "mpn": "UACC-UK-Ultra-Panel-Antenna",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": ""
+}

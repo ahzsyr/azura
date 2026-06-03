@@ -1,0 +1,268 @@
+{
+  "slug": "alfa-panel-indoor-antenna-apa-m25",
+  "id": "877",
+  "productTitle": "Alfa Panel Indoor Antenna APA-M25",
+  "name": "Alfa Panel Indoor Antenna APA-M25",
+  "title": "Alfa Panel Indoor Antenna APA-M25",
+  "title_extended": "Alfa APA-M25 2.4GHz Indoor Panel Antenna – Directional WiFi Antenna",
+  "short_description": "2.4GHz 8dBi & 5GHz 10dBi Directional Panel Antenna, RP-SMA Connector",
+  "description": "The Alfa Panel Indoor Antenna APA-M25 is a versatile and high-performance antenna designed to enhance the signal reception and transmission for wireless networks. Ideal for indoor use, this antenna is compatible with a range of devices and offers several features to improve network connectivity. Here is a detailed description with bullet points: It can be used with any dual band Wi-Fi receiver or router/AP that has an RP-SMA port. It is compatible with the latest 802.11ac. It operates over dual-band frequencies, supporting both 2.4 GHz and 5 GHz bands. This dual-band capability allows it to work with a wide range of wireless devices and supports various applications, from standard internet browsing to bandwidth-intensive tasks like streaming and gaming. The APA-M25 is a panel-type indoor antenna. Its sleek and flat design makes it suitable for mounting on walls or placing on flat surfaces, allowing for an unobtrusive setup in various indoor environments. The design of the antenna facilitates easy installation. It often includes mounting accessories or has provisions for being attached to walls or other surfaces, providing flexibility in placement for optimal signal coverage. The antenna offers a high gain, typically around 8 dBi for 2.4 GHz and 10 dBi for 5 GHz. Higher gain translates to improved signal strength and quality, which can significantly enhance the wireless coverage and performance. The antenna features linear polarization and has a directional radiation pattern. This allows for targeted signal enhancement in specific directions, which is more effective than omnidirectional antennas in certain scenarios. It comes equipped with an RP-SMA connector, a common connector type for wireless devices. This ensures easy and secure connection to a broad range of compatible wireless equipment without the need for additional adapters. This antenna is ideal for use in homes, offices, and other indoor areas where wireless signal strength is weak or needs improvement. It's particularly useful in large rooms, multi-story buildings, or areas with multiple walls and obstacles that can impede wireless signals. In summary, the Alfa Panel Indoor Antenna APA-M25 is a high-gain, dual-band antenna that offers improved wireless performance for a variety of indoor environments. Its compatibility with many devices, directional signal enhancement, and ease of installation make it a valuable addition to any wireless network looking to boost signal strength and quality.",
+  "detailed_description": [
+    {
+      "heading": "Technical Specs / Datasheet",
+      "text": ""
+    }
+  ],
+  "brand": "Alfa Network",
+  "category": "Home and Office Networks",
+  "categories": [
+    "Home and Office Networks",
+    "Alfa",
+    "Antennas",
+    "Wi-Fi Indoor"
+  ],
+  "mpn": "APA-M25",
+  "manufacturer_part_number": "APA-M25",
+  "ean": "4718050302390",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/877/apa25_devfrontmain-610bcac3defb2-medium.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M25",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/877/apa25_devfront-610bbfe6168ac-medium.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M25",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/877/apa25_devleft2-610bc2260a896-medium.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M25",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/877/apa25_devleft-610bbd7e6291b-medium.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M25",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/877/apa25_devcon-610bbd7d564d5-medium.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M25",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/877/apa25_boxfront-610bc74a82fdf-medium.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M25",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/877/apa25_boxback-610bc92af1520-medium.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M25",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 15.78,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Panel"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.4 - 2.5 (GHz) 8 (dBi), 5.150 - 5.875 (GHz) 10 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "16 ° Vertical, 66 ° Horizontal"
+        },
+        {
+          "name": "Polarization",
+          "value": "Linear"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) RP-SMA Male"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "167.3 x 66 x 18 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.072 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Alfa Panel Indoor Antenna APA-M25",
+      "url": "https://www.getic.com/files/catalogue/877/apam25alfa-64a665c46bce8.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Ritvars",
+        "date": "2025-10-01",
+        "text": "Seems to work fine, Since I use it for drone tthey have to be directed",
+        "photos": []
+      },
+      {
+        "name": "Raimonds",
+        "date": "2023-04-20",
+        "text": "Very good! Meet the technical parameters.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Alfa Panel Indoor Antenna APA-M04",
+      "url": "/product/alfa-panel-indoor-antenna-apa-m04",
+      "price": 6.08,
+      "currency": "USD",
+      "mpn": "APA-M04",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS1900",
+      "url": "/product/alfa-awus1900",
+      "price": 46.14,
+      "currency": "USD",
+      "mpn": "AWUS1900",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACM",
+      "url": "/product/alfa-awus036acm",
+      "price": 34.45,
+      "currency": "USD",
+      "mpn": "AWUS036ACM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACH v.2",
+      "url": "/product/alfa-awus036ach-c",
+      "price": 47.58,
+      "currency": "USD",
+      "mpn": "AWUS036ACH-C",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

@@ -1,0 +1,69 @@
+import type { MediaType } from "@prisma/client";
+
+/** Default image shown in admin previews and storefront fallbacks when no media is set. */
+export const DEFAULT_MEDIA_PLACEHOLDER = "/uploads/images/1780187853120-placeholder.png";
+
+export function hasMediaUrl(url?: string | null): boolean {
+  const trimmed = url?.trim();
+  return Boolean(trimmed && (trimmed.startsWith("http") || trimmed.startsWith("/")));
+}
+
+/** Returns the URL when set, otherwise the placeholder (does not mutate stored values). */
+export function resolveMediaUrl(
+  url?: string | null,
+  fallback: string = DEFAULT_MEDIA_PLACEHOLDER
+): string {
+  return hasMediaUrl(url) ? url!.trim() : fallback;
+}
+
+export const MEDIA_TYPE_LABELS: Record<MediaType, string> = {
+  IMAGE: "Images",
+  VIDEO: "Videos",
+  DOCUMENT: "Documents",
+  SVG: "SVG",
+};
+
+export const MEDIA_UPLOAD_ENDPOINTS: Record<
+  MediaType,
+  "imageUploader" | "videoUploader" | "documentUploader" | "svgUploader"
+> = {
+  IMAGE: "imageUploader",
+  VIDEO: "videoUploader",
+  DOCUMENT: "documentUploader",
+  SVG: "svgUploader",
+};
+
+export const MEDIA_USAGE_ENTITY_LABELS: Record<string, string> = {
+  POST: "Blog post",
+  CMS_PAGE: "CMS page",
+  PACKAGE: "Package",
+  GALLERY: "Gallery",
+  TESTIMONIAL: "Testimonial",
+  HOTEL: "Hotel",
+  THEME: "Theme",
+  HEADER: "Header builder",
+  BLOCK: "Page block",
+};
+
+export function usageAdminHref(entityType: string, entityId: string): string | null {
+  switch (entityType) {
+    case "POST":
+      return `/admin/posts/${entityId}`;
+    case "CMS_PAGE":
+      return `/admin/pages/${entityId}`;
+    case "PACKAGE":
+      return `/admin/packages/${entityId}`;
+    case "GALLERY":
+      return "/admin/gallery";
+    case "TESTIMONIAL":
+      return "/admin/testimonials";
+    case "HOTEL":
+      return "/admin/hotels";
+    case "THEME":
+      return "/admin/theme";
+    case "HEADER":
+      return "/admin/header";
+    default:
+      return null;
+  }
+}

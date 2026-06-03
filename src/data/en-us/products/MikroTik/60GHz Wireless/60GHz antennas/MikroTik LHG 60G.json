@@ -1,0 +1,380 @@
+{
+  "slug": "mikrotik-lhg-60g",
+  "id": 1956,
+  "productTitle": "MikroTik LHG 60G",
+  "name": "MikroTik LHG 60G",
+  "title": "MikroTik LHG 60G",
+  "title_extended": null,
+  "short_description": "60GHz 802.11ad, 1xGLAN, 802.3af/at, RouterOS L3",
+  "description": "60GHz 802.11ad, 1xGLAN, 802.3af/at, RouterOS L3",
+  "detailed_description": [
+    {
+      "heading": "Robust and Efficient Hardware",
+      "text": "The LHG 60G is built on an ARM 32bit architecture and powered by an IPQ-4019 CPU with four cores, ensuring robust performance with a nominal frequency of 716 MHz. The device is equipped with 256 MB of RAM and 16 MB of FLASH storage, supporting advanced operations under MikroTik's RouterOS. The system's durability is evidenced by its mean time between failures (MTBF) rating of approximately 200,000 hours at 25°C, making it a reliable choice for demanding applications."
+    },
+    {
+      "heading": "Specialized Features for Optimal Performance in PtP networks",
+      "text": "The LHG 60G operates effectively in environments where the 2 GHz and 5 GHz wireless spaces are congested and unreliable, offering a streamlined and powerful 60 GHz solution. The device can connect up to eight units to a single 60 GHz access point, providing a smooth and efficient networking experience over distances. The effective point-to-point distance capability reaches up to 1500 meters, while the point-to-multipoint configuration supports distances up to 800 meters."
+    },
+    {
+      "heading": "High-Speed Connectivity and Network Expansion in PtMP networks",
+      "text": "This device excels in delivering high-speed data transmission, supported by IPsec hardware acceleration that enhances security for encrypted links. The LHG 60G is not just for point-to-point setups; it serves as a 60GHz CPE in Point-to-Multipoint setups for connections up to 800 meters with 60GHz base stations like the MikroTik wAP60G AP or wAP 60Gx3 AP. It features a Gigabit Ethernet port that facilitates speeds up to 1 Gbps, ensuring rapid data transfer rates up to 2 Gbps when connected with multiple units."
+    },
+    {
+      "heading": "Designed for Outdoor Challenges",
+      "text": "Designed to withstand harsh environmental conditions, the LHG 60G operates reliably within a temperature range of -40°C to 70°C. Its IP55-rated enclosure provides protection against dust ingress and low-pressure water jets, ensuring continued performance in diverse outdoor settings. The grid design of the LHG 60G not only ensures protection against wind but also allows it to withstand extreme temperatures ranging from -40°C to +70°C. The integrated antenna element eliminates loss on cables, enhancing the unit’s overall efficiency and signal quality. In addition, each LHG 60G unit is shipped with an Aim tool for easy precision alignment and a strong metal mount, facilitating secure and optimal positioning."
+    },
+    {
+      "heading": "Powering and Connectivity",
+      "text": "The LHG 60G is powered through a single PoE-in (Power over Ethernet) port, which supports a voltage range of 12-57 V and adheres to the 802.3af/at standard. This feature simplifies installation by reducing cable clutter and eliminating the need for separate power sources. The device's maximum power consumption is an efficient 5 watts, thanks to its passive cooling system, which ensures it runs quietly and without thermal distractions."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Integrated Antennas",
+    "Antennas"
+  ],
+  "mpn": "RBLHGG-60ad",
+  "manufacturer_part_number": "RBLHGG-60ad",
+  "ean": "4752224004055",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1956/rblhgg60ad-5fae4e386fa02-medium.png",
+        "alt": "MikroTik LHG 60G",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1956/rblhgg-60ad_1-medium.jpg",
+        "alt": "MikroTik LHG 60G",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1956/rblhgg-60ad_2-medium.jpg",
+        "alt": "MikroTik LHG 60G",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1956/rblhgg-60ad_3-medium.jpg",
+        "alt": "MikroTik LHG 60G",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/1956/lhg_g60ad_200544-60a14bb990cf2.pdf",
+        "type": "datasheet",
+        "title": "Technical Specs / Datasheet - MikroTik LHG 60G"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/1956/lhg_60g_h_190848-60a14bea930bc.pdf",
+        "type": "guide",
+        "title": "Quick Start Guide - MikroTik LHG 60G"
+      }
+    ],
+    "3d_model": {
+      "enabled": true,
+      "path_low": "https://www.getic.com/3D/1956/model_low-65267fe009cfc.fbx",
+      "texture_ao": "https://www.getic.com/3D/1956/tex_ao-65267fe3befad.jpg",
+      "texture_base_colour": "https://www.getic.com/3D/1956/tex_default_material_base_color-65267fe7c2bba.jpg",
+      "texture_normal": "https://www.getic.com/3D/1956/tex_default_material_normal-652680d0414a2.jpg",
+      "texture_metallic": "https://www.getic.com/3D/1956/tex_default_material_metallic-652680e268a8e.jpg",
+      "texture_roughness": "https://www.getic.com/3D/1956/tex_default_material_roughness-652680e5c8ea0.jpg",
+      "texture_emission": "https://www.getic.com/3D/1956/tex_emission-652680ea8b556.jpg"
+    }
+  },
+  "price": {
+    "value": 120.30,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Standards",
+        "Frequency",
+        "60GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Standards",
+          "value": "802.11ad"
+        },
+        {
+          "name": "Frequency",
+          "value": "60GHz"
+        },
+        {
+          "name": "60GHz Radio Rate",
+          "value": "1Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Reflector"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "IPQ-4019, 4 core, 716 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "256 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "5 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.38 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP55"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø391 x 222 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 3"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik LHG 60G",
+      "url": "https://www.getic.com/files/catalogue/1956/lhg_g60ad_200544-60a14bb990cf2.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik LHG 60G",
+      "url": "https://www.getic.com/files/catalogue/1956/lhg_60g_h_190848-60a14bea930bc.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "estimated_days": 5,
+        "price": 43.51
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "estimated_days": 2,
+        "price": 96.93
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CRS112-8P-4S-IN",
+      "url": "/product/cloud-router-switch-112-8p-4s-in",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS112-8P-4S-IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik wAP 60G AP",
+      "url": "/product/routerboard-wap-60g-ap",
+      "price": 113.42,
+      "currency": "USD",
+      "mpn": "RBwAPG-60ad-A",
+      "availability": "InStock"
+    },
+    {
+      "name": "Mikrotik GESP+POE-IN",
+      "url": "/product/mikrotik-gesppoe-in",
+      "price": 15.28,
+      "currency": "USD",
+      "mpn": "GESP+POE-IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Cube 60 Pro ac",
+      "url": "/product/mikrotik-cube-60-pro-ac",
+      "price": 119.15,
+      "currency": "USD",
+      "mpn": "CubeG-5ac60ay",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "CE",
+    "FCC",
+    "IC",
+    "EAC",
+    "ROHS"
+  ],
+  "stock_stat": ""
+}

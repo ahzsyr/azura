@@ -1,0 +1,337 @@
+{
+  "slug": "unifi-switch-enterprise-24-poe",
+  "id": "USW-Enterprise-24-PoE",
+  "productTitle": "Ubiquiti UniFi Switch Enterprise 24 PoE",
+  "name": "Ubiquiti UniFi Switch Enterprise 24 PoE",
+  "title": "Ubiquiti UniFi Switch Enterprise 24 PoE",
+  "title_extended": "Ubiquiti UniFi Switch Enterprise 24 PoE",
+  "short_description": "Layer 3, PoE switch with (12) 2.5GbE, 802.3at PoE+ RJ45 ports, (12) GbE, 802.3at PoE+ RJ45 ports, and (2) 10G SFP+ ports.",
+  "description": "The UniFi Switch Enterprise 24 PoE is designed to serve as a powerful aggregation or access-layer switch for modern enterprise networks that demand high throughput, reliability, and flexibility.",
+  "detailed_description": [
+    {
+      "heading": "Enterprise-Class Switching Performance",
+      "text": "The UniFi Switch Enterprise 24 PoE is designed to serve as a powerful aggregation or access-layer switch for modern enterprise networks that demand high throughput, reliability, and flexibility. Combining 24 multi-speed Ethernet ports with high-speed uplinks, it supports a wide range of client devices—from legacy endpoints to next-generation Wi-Fi access points—within a single switching platform. The inclusion of both 1 GbE and 2.5 GbE PoE+ ports allows network administrators to optimize performance without replacing existing cabling, making it ideal for incremental network upgrades. With advanced Layer 3 capabilities, the switch enables intelligent traffic handling directly at the switching layer. Functions such as inter-VLAN routing, local DHCP services, and static routing reduce dependency on external routers and improve overall network efficiency. High switching capacity and non-blocking throughput ensure that data flows smoothly even during peak loads, supporting latency-sensitive applications such as voice, video, and real-time collaboration. Designed for rack-mount installation in professional environments, the switch integrates seamlessly into enterprise racks and network rooms. Its robust internal architecture ensures consistent performance for offices, campuses, hospitality deployments, and large-scale commercial networks where stability and scalability are critical."
+    },
+    {
+      "heading": "Reliable Power for Networked Devices",
+      "text": "The UniFi Switch Enterprise 24 PoE delivers extensive Power over Ethernet capabilities, enabling it to supply power and data over a single cable to a wide variety of devices. With full PoE+ support across all 24 Ethernet ports, the switch can reliably power access points, IP cameras, VoIP phones, building automation systems, and other PoE-enabled devices without the need for separate power adapters. A high total PoE power budget allows simultaneous operation of multiple power-hungry endpoints, making the switch suitable for dense deployments where consistent power delivery is essential. Per-port power management provides precise control, helping administrators allocate power efficiently and protect connected devices. To enhance operational reliability, the switch supports DC power backup via an external redundant power system. This redundancy minimizes downtime in the event of a primary power failure, which is especially important for mission-critical networks. Efficient internal power design keeps energy consumption under control while maintaining stable operation under heavy load. Together, these power features make the switch a dependable foundation for enterprise networks where uninterrupted connectivity and device availability are non-negotiable."
+    },
+    {
+      "heading": "Intelligent Traffic Management",
+      "text": "Built with enterprise requirements in mind, the UniFi Switch Enterprise 24 PoE offers a comprehensive set of Layer 2 and Layer 3 features that enable precise traffic control and strong network segmentation. Support for extensive VLAN configurations allows administrators to logically separate departments, services, or tenants while maintaining efficient data flow across the infrastructure. Advanced traffic management features such as link aggregation, quality of service, multicast optimization, and loop protection help maintain network stability and performance even in complex topologies. Integrated access control mechanisms enable device isolation, port-based restrictions, and authentication policies that strengthen overall network security. The switch also supports professional AV profiles and voice-optimized features, making it well suited for environments where audio-visual systems and IP telephony coexist with standard data traffic. These capabilities ensure predictable performance for time-sensitive applications. By combining performance, segmentation, and security features in a single platform, the switch simplifies network design while maintaining the level of control expected in enterprise-class deployments."
+    },
+    {
+      "heading": "Centralized Management",
+      "text": "The UniFi Switch Enterprise 24 PoE is managed through the UniFi Network application, providing centralized configuration, monitoring, and firmware management from a single interface. This unified approach simplifies daily administration, enables rapid deployment, and offers real-time visibility into network performance and device status. A built-in touchscreen display on the front panel provides quick access to key system information, making on-site diagnostics and monitoring more convenient. The rugged steel enclosure and rack-mount form factor ensure durability in professional IT environments, while controlled thermal characteristics support stable operation under continuous load. Compliance with NDAA requirements and international certifications makes the switch suitable for use in corporate, institutional, and government-related projects. Electrostatic discharge protection and strict environmental tolerances further enhance reliability. Overall, the UniFi Switch Enterprise 24 PoE combines advanced software control with solid hardware design, delivering a dependable and scalable switching solution for demanding enterprise networks."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Enterprise"
+  ],
+  "mpn": "USW-Enterprise-24-PoE",
+  "manufacturer_part_number": "USW-Enterprise-24-PoE",
+  "ean": "0810010073068",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3416/u6_s24_005-611f4afd2893e-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Enterprise 24 PoE front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3416/u6_s24_002-611f4aff9e9bb-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Enterprise 24 PoE ports and back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3416/u6_s24_001-611f4b007150a-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Enterprise 24 PoE detailed view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3416/u6_s24_004-611f4afe0cbe1-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Enterprise 24 PoE side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3416/u6_s24_003-611f4afed0ad9-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Enterprise 24 PoE top view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3416/u6_s24_006-611f4afc9a3e8-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Enterprise 24 PoE packaging",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/xWtS8Q8qrM8",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 804.06,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(12) 1 Gbps, (12) 2.5 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "24 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE), 802.3at (PoE+)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "USP RPS DC input"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "550 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Number of Rack Units",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Silver"
+        },
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442 x 44 x 325 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "5.2 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [],
+      "items": []
+    },
+    {
+      "technology": "Software",
+      "features": [],
+      "items": []
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Enterprise 24 PoE",
+      "url": "https://dl.ubnt.com/ds/usw-enterprise-24-poe_ds"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti UniFi Switch Enterprise 24 PoE",
+      "url": "https://dl.ubnt.com/qig/enterprise-24-poe"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "T-Prod",
+        "date": "2023-09-06",
+        "text": "Works like promised",
+        "photos": []
+      },
+      {
+        "name": "Kobe",
+        "date": "2023-05-07",
+        "text": "Very good price/value and again with fast delivery. Thanks",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ac3",
+      "url": "/product/mikrotik-hap-ac3",
+      "price": 88.22,
+      "currency": "USD",
+      "mpn": "RBD53iG-5HacD2HnD",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACH v.2",
+      "url": "/product/alfa-awus036ach-c",
+      "price": 52.87,
+      "currency": "USD",
+      "mpn": "AWUS036ACH-C",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Enterprise 48 PoE",
+      "url": "/product/unifi-switch-enterprise-48-poe",
+      "price": 1573.02,
+      "currency": "USD",
+      "mpn": "USW-Enterprise-48-PoE",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,329 @@
+{
+  "slug": "ubiquiti-unifi-u7-mesh",
+  "id": "U7-Mesh",
+  "productTitle": "Ubiquiti UniFi U7 Mesh",
+  "name": "Ubiquiti UniFi U7 Mesh",
+  "title": "Ubiquiti UniFi U7 Mesh",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The Ubiquiti U7 Mesh is a compact yet powerful access point designed to deliver next-generation wireless performance using the WiFi 7 (802.11be) standard. With a modern cylindrical design and dimensions of ⌀48.5 × 159.5 mm, it is suitable for both indoor and outdoor deployments while maintaining a minimal visual footprint. This model supports 4 spatial streams and operates with 2×2 DL/UL MU-MIMO on both the 5 GHz and 2.4 GHz bands, enabling efficient simultaneous communication with multiple devices. It achieves maximum data rates of up to 4.3 Gbps on the 5 GHz band (BW240) and up to 688 Mbps on the 2.4 GHz band (BW40), ensuring stable performance for high-bandwidth applications. The device also supports multiple WiFi standards, including 802.11be (WiFi 7), 802.11ax (WiFi 6) up to 2.4 Gbps, 802.11ac (WiFi 5) up to 1.7 Gbps, and 802.11n up to 300 Mbps, providing backward compatibility.",
+  "detailed_description": [
+    {
+      "heading": "WiFi 7 Performance",
+      "text": "The Ubiquiti U7 Mesh is a compact yet powerful access point designed to deliver next-generation wireless performance using the WiFi 7 (802.11be) standard. With a modern cylindrical design and dimensions of ⌀48.5 × 159.5 mm, it is suitable for both indoor and outdoor deployments while maintaining a minimal visual footprint. This model supports 4 spatial streams and operates with 2×2 DL/UL MU-MIMO on both the 5 GHz and 2.4 GHz bands, enabling efficient simultaneous communication with multiple devices. It achieves maximum data rates of up to 4.3 Gbps on the 5 GHz band (BW240) and up to 688 Mbps on the 2.4 GHz band (BW40), ensuring stable performance for high-bandwidth applications. The device also supports multiple WiFi standards, including 802.11be (WiFi 7), 802.11ax (WiFi 6) up to 2.4 Gbps, 802.11ac (WiFi 5) up to 1.7 Gbps, and 802.11n up to 300 Mbps, providing backward compatibility."
+    },
+    {
+      "heading": "WiFi 7 Performance",
+      "text": "The integrated antenna system is optimized for both coverage and signal strength. On the 5 GHz band, it features omnidirectional gain of 6 dBi and directional gain of up to 10 dBi, while the 2.4 GHz band operates with 3 dBi gain. Maximum transmit power reaches 24 dBm for 5 GHz and 23 dBm for 2.4 GHz, allowing consistent signal delivery across the coverage area. With an effective coverage of up to 140 m² and the ability to support more than 200 connected clients, the U7 Mesh is engineered for dense wireless environments requiring stable and high-speed connectivity."
+    },
+    {
+      "heading": "Advanced Network Features",
+      "text": "The Ubiquiti U7 Mesh integrates a comprehensive set of advanced networking features designed to optimize wireless performance and provide precise control over network behavior. Wireless meshing capability allows flexible network expansion without additional Ethernet cabling, making it suitable for scalable deployments. The device supports key roaming and optimization standards, including 802.11r Fast Roaming, 802.11k Radio Resource Management (RRM), and 802.11v BSS Transition Management. These technologies ensure seamless connectivity and efficient handoff between access points. Band steering dynamically assigns clients to the optimal frequency band to improve overall throughput and reduce congestion."
+    },
+    {
+      "heading": "Advanced Network Features",
+      "text": "For network segmentation and control, each radio supports up to 8 BSSIDs, enabling multiple SSIDs within a single deployment. Additional features include WiFi speed limiting, client device isolation, and configurable WiFi schedules, allowing administrators to tailor network access policies. Security and authentication capabilities include Private Pre-Shared Key (PPSK), RADIUS over TLS (RadSec), and dynamic VLAN assignment via RADIUS. Support for Passpoint (Hotspot 2.0) enhances user experience in managed environments. Device management is performed over Ethernet using the UniFi Network application (version 10.1.85 and later). Mobile management is available through UniFi applications for iOS (version 10.32.1 and later) and Android (version 10.35.1 and later), providing centralized configuration and monitoring."
+    },
+    {
+      "heading": "Durable Design",
+      "text": "The Ubiquiti U7 Mesh is engineered for durability and flexible installation across a wide range of environments. The enclosure is constructed from UV-stabilized polycarbonate, ensuring resistance to environmental exposure and long-term reliability. When installed using the included outdoor mount, the device meets IPX6 weatherproofing standards, providing protection against heavy rain. With a weight of 313 g, the access point remains lightweight and easy to handle during installation. It supports multiple mounting options, including wall mounting, pole mounting, and table placement using the included stand and mounting accessories, allowing adaptable deployment scenarios."
+    },
+    {
+      "heading": "Durable Design",
+      "text": "Power is supplied via Power over Ethernet (PoE), simplifying infrastructure requirements by combining power and data transmission through a single cable. The device operates within a supported voltage range of 42.5–57V DC and includes a PoE adapter in the package. Maximum power consumption is limited to 13W, ensuring energy-efficient operation. Networking is provided through a single 2.5 GbE RJ45 uplink port, delivering high-speed wired connectivity to support modern network demands. The device is NDAA compliant and certified according to CE, FCC, and IC standards, ensuring suitability for regulated and professional environments."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Points",
+  "categories": [
+    "Ubiquiti",
+    "UniFi Access Points",
+    "Flexible & Outdoor",
+    "Access Points",
+    "WiFi 7"
+  ],
+  "mpn": "U7-Mesh",
+  "manufacturer_part_number": "U7-Mesh",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7127/1-69b7de127de8a-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Mesh",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7127/2-69b7de15710f4-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Mesh",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7127/3-69b7de187214a-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Mesh",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7127/4-69b7de1b37437-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Mesh",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7127/5-69b7de1e254dd-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Mesh",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7127/6-69b7de21c88c4-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Mesh",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7127/7-69b7de2578fd0-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Mesh",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 190.78,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 7"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax/be"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 2x2"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "687 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "4.3 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 2.5 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "42.5 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "13 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "UV-stabilized polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX6"
+        },
+        {
+          "name": "Weight",
+          "value": "0.313 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Pole Mount, Tabletop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi U7 Mesh",
+      "url": "https://www.getic.com/files/catalogue/7127/u7mesh_ds-69b7de0ee222d.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex 8 PoE 2.5G",
+      "url": "/product/ubiquiti-unifi-8-port-poe-switch-flex-2-5g",
+      "price": 210.86,
+      "currency": "USD",
+      "mpn": "USW-Flex-2.5G-8-PoE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Enterprise Campus 48 PoE 2150W",
+      "url": "/product/ubiquiti-unifi-switch-enterprise-campus-48-poe",
+      "price": 3944.48,
+      "currency": "USD",
+      "mpn": "ECS-48-PoE",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out of stock"
+}

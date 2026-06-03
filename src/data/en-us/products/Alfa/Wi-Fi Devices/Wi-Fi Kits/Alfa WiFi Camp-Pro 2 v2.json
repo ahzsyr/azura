@@ -1,0 +1,319 @@
+{
+  "slug": "alfa-wifi-camp-pro-2-v2",
+  "id": "3407",
+  "productTitle": "Alfa WiFi Camp-Pro 2 v2",
+  "name": "Alfa WiFi Camp-Pro 2 v2",
+  "title": "Alfa WiFi Camp-Pro 2 v2",
+  "title_extended": "",
+  "short_description": "ALFA R36A + 5 dBi RP-SMA antenna + ALFA Tube-UNA + AOA-2409-TF 9dBi omni antenna + 8m USB cable",
+  "description": "ALFA Wi-Fi Camp Pro 2 v2- the long awaited 2nd generation long range Wi-Fi repeater kit from ALFA Network, Inc. includes the new ALFA R36A USB router/repeater, ALFA Tube-UNA outdoor Wi-Fi receiver with 9 dBi fiberglass encased outdoor Wi-Fi antenna (model AOA-2409-TF). This is a special kit shipping in one retail box featuring all of the above equipment designed to pick up a weak Wi-Fi signal and repeat it as your own personal hotspot. This is ideal for use on boats, RVs and campers, or larger properties.",
+  "detailed_description": [
+    {
+      "heading": "Wi-Fi Repeater Kit Contents",
+      "text": "ALFA Wi-Fi Camp Pro 2 v2- the long awaited 2nd generation long range Wi-Fi repeater kit from ALFA Network, Inc. includes the new ALFA R36A USB router/repeater, ALFA Tube-UNA outdoor Wi-Fi receiver with 9 dBi fiberglass encased outdoor Wi-Fi antenna (model AOA-2409-TF)."
+    },
+    {
+      "heading": "Kit Features",
+      "text": "This is a special kit shipping in one retail box featuring all of the above equipment designed to pick up a weak Wi-Fi signal and repeat it as your own personal hotspot. This is ideal for use on boats, RVs and campers, or larger properties."
+    },
+    {
+      "heading": "Package Includes",
+      "text": "- ALFA R36A USB Router\n- ALFA Tube-UNA outdoor USB Wi-Fi receiver+ 8m USB cable\n- AOA-2409TF outdoor fiberglass encased 9 dBi omni antenna (for signal receive)\n- 5 dBi RP-SMA antenna (for R36 signal transmit)\n- 12v power supply for R36\n- R36 car/vehicle power supply adapter"
+    }
+  ],
+  "brand": "Alfa Network",
+  "category": "Wi-Fi Kits",
+  "categories": [
+    "Wi-Fi Kits",
+    "Alfa",
+    "Wi-Fi Devices"
+  ],
+  "mpn": "WiFiCamp-Pro2-v2",
+  "manufacturer_part_number": "WiFiCamp-Pro2-v2",
+  "ean": "4718050306718",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3407/wifi_camppro_2v2__prod_01-611236a9b9c72-medium.jpg",
+        "alt": "Alfa WiFi Camp-Pro 2 v2",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3407/wifi_camppro_2v2__prod_02-611236a9397c7-medium.jpg",
+        "alt": "Alfa WiFi Camp-Pro 2 v2",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3407/wifi_camppro_2v2__prod_06_231ee8c92c144d2691bbe052bdc54920-611236a82ee15-medium.jpg",
+        "alt": "Alfa WiFi Camp-Pro 2 v2",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3407/wifi_camppro_2v2__prod_05_716931817e6247b6b00d362d9f3d3e4f-611236a8ac560-medium.jpg",
+        "alt": "Alfa WiFi Camp-Pro 2 v2",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 116.53,
+    "currency": "USD",
+    "discount": 24
+  },
+  "old_price": 153.27,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "2.4GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 4"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "300 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "VSWR",
+        "Impedance"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.412 - 2.472 (GHz) 9 (dBi), 2.142 - 2.472 (GHz) 5 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "360 °"
+        },
+        {
+          "name": "VSWR",
+          "value": "< 2"
+        },
+        {
+          "name": "Impedance",
+          "value": "50 Ω"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) N Male, (1) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "USB Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 100 Mbps"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 2.0"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Power Connector"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Alfa WiFi Camp-Pro 2 v2",
+      "url": "https://www.getic.com/files/catalogue/3407/wificamppro2spec-61123340c9a03.pdf"
+    },
+    {
+      "title": "User Manual - Alfa WiFi Camp-Pro 2 v2",
+      "url": "https://www.getic.com/files/catalogue/3407/wificamppro2usermanual2018-61123347de37e.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Ralph",
+        "date": "2023-05-30",
+        "text": "All perfect. Buy again.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Marine Mount for Tube TSM-B1",
+      "url": "/product/stainless-base-for-tube",
+      "price": 28.68,
+      "currency": "USD",
+      "mpn": "TSM-B1",
+      "availability": "InStock"
+    },
+    {
+      "name": "Stainless Mount TSM-UC1 for Tube series",
+      "url": "/product/alfa-stainless-mount-for-tube",
+      "price": 44.38,
+      "currency": "USD",
+      "mpn": "TSM-UC1",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa 2.4GHz Outdoor Omni Antenna 9dBi N-Female",
+      "url": "/product/alfa-2-4ghz-antenna-9dbi-n-female",
+      "price": 19.39,
+      "currency": "USD",
+      "mpn": "AOA-2409TFA",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa WiFi CampPro 3",
+      "url": "/product/alfa-wifi-camppro-3-wireless-extender-package",
+      "price": 167.11,
+      "currency": "USD",
+      "mpn": "WiFiCamp-Pro3",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": "out of stock"
+}

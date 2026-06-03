@@ -1,0 +1,396 @@
+{
+  "slug": "airfiber-60-xr",
+  "id": "AF60-XR",
+  "productTitle": "Ubiquiti airFiber 60 Xtreme-Range",
+  "name": "Ubiquiti airFiber 60 Xtreme-Range",
+  "title": "Ubiquiti airFiber 60 Xtreme-Range",
+  "title_extended": "",
+  "short_description": "Multi-gigabit 60 GHz bridge, 5 GHz backup radio, up to 15 km link, 5.4 Gbps total throughput, 1x 10G SFP+ port",
+  "description": "The Ubiquiti AirFiber 60 XR (AF60-XR) is a high-performance, 60 GHz bridge designed to enable multi-gigabit connectivity over long distances, specifically crafted for creating long-distance links with a remarkable throughput of 5.4 Gbps (2.7 Gbps duplex). This device is engineered to deliver reliable, low-interference, and low-latency wireless connectivity, making it an ideal solution for a wide range of applications, including backhaul for wireless internet service providers, enterprise networks, CCTV networks, and other scenarios requiring high-speed data transmission.",
+  "detailed_description": [
+    {
+      "heading": "High-Performance 60 GHz Bridge",
+      "text": "The Ubiquiti AirFiber 60 XR (AF60-XR) is a high-performance, 60 GHz bridge designed to enable multi-gigabit connectivity over long distances, specifically crafted for creating long-distance links with a remarkable throughput of 5.4 Gbps (2.7 Gbps duplex). This device is engineered to deliver reliable, low-interference, and low-latency wireless connectivity, making it an ideal solution for a wide range of applications, including backhaul for wireless internet service providers, enterprise networks, CCTV networks, and other scenarios requiring high-speed data transmission."
+    },
+    {
+      "heading": "Connectivity and Ports",
+      "text": "For connectivity, the AF60-XR is equipped with a Gigabit Ethernet (GbE) port and a 10G SFP+ port, providing flexible options for linking to other network devices or integrating into existing network infrastructures. These features enable the device to support a wide range of network architectures and ensure compatibility with various devices and setups."
+    },
+    {
+      "heading": "Key Features",
+      "text": "2.7 Gbps duplex, Link range: 15+ km, 5 GHz 800+ Mbps weather-resilient backup radio, (1) GbE and (1) 10G SFP+ port, Integrated GPS & Bluetooth, Link planning support via ISP Design Center, IPrecision alignment mount."
+    },
+    {
+      "heading": "Long-Range and Wave Technology",
+      "text": "One of the standout features of the AF60-XR is its long-range capability, with a reach of over 15 kilometers, powered by Wave Technology. This technology ensures optimal performance within the 60 GHz spectrum, even over extensive distances. The device includes a high-gain dish antenna integrated into the system to establish and maintain strong, stable point-to-point connections."
+    },
+    {
+      "heading": "Resilience and Redundancy",
+      "text": "An important aspect of the AF60-XR's design is its resilience and operational redundancy. It includes a backup radio, ensuring the network remains operational even in conditions that might affect the primary 60 GHz link, such as adverse weather. Additionally, the device incorporates a Bluetooth management radio, simplifying the setup and configuration process through the UISP® Mobile app, enhancing user convenience and reducing deployment time."
+    },
+    {
+      "heading": "Robust Construction",
+      "text": "The AF60-XR boasts robust construction, featuring an enclosure made of UV-stabilized polycarbonate and steel, ensuring durability and reliability even in harsh outdoor environments. Its design also includes a precision alignment mount to facilitate optimal alignment for maximum signal quality and performance. Furthermore, the device is designed to withstand significant wind loading and is weatherproofed to IPX6 standards, highlighting its suitability for outdoor deployment in a variety of climatic conditions."
+    },
+    {
+      "heading": "Bluetooth Setup and UISP App",
+      "text": "Bluetooth-powered setup via the UISP Mobile app is available. Thanks to UISP app you can centrally manage your networks and clients with ease. Simply organize your clients' plans, setup billing and invoicing, and grow your customer base. UISP application allows viewing network topology, advanced data analytics, quickly set up devices and manage them on the go with a powerful mobile app."
+    },
+    {
+      "heading": "airOS® and Management",
+      "text": "Ubiquiti's airOS® powers the AF60-XR, offering a rich set of features specifically tailored for point-to-point (PtP) operation. This includes Ubiquiti's proprietary technologies such as the integrated 60 GHz radio and Wave technology, alongside standard network services and management tools like UISP™, ping watchdog, and NTP client. The system supports bridge mode for seamless network integration and offers various tools for antenna alignment, network discovery, and performance testing."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Carrier Backhaul Radio",
+  "categories": [
+    "Ubiquiti",
+    "60 GHz Wireless",
+    "airFiber 60 GHz",
+    "Carrier Backhaul Radio"
+  ],
+  "mpn": "AF60-XR",
+  "manufacturer_part_number": "AF60-XR",
+  "ean": "0810010076106",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4280/1-63bea45dbf931-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 Xtreme-Range",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4280/2-63bea4619f602-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 Xtreme-Range",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4280/3-63bea464adbe0-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 Xtreme-Range",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4280/4-63bea467e1f61-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 Xtreme-Range",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4280/5-63bea46b74c9e-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 Xtreme-Range",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4280/6-63bea470b07d1-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 Xtreme-Range",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 1048.34,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency",
+        "60GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "5GHz, 60GHz"
+        },
+        {
+          "name": "60GHz Radio Rate",
+          "value": "5.4Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Wireless Antenna Frequency Range & Gain",
+        "Distance"
+      ],
+      "items": [
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "57 - 71 (GHz) 26 (dBi), 5.15 - 5.875 (GHz) 26 (dBi)"
+        },
+        {
+          "name": "Distance",
+          "value": "Up to 15 km"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-core ARM® Cortex®-A53 at 1.4 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "1 GB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "48V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "24 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "48 V DC 0.65 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Stainless steel, Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX6"
+        },
+        {
+          "name": "Dimensions",
+          "value": "779 x 664 x 383 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "8.6 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 55 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airFiber 60 Xtreme-Range",
+      "url": "https://www.getic.com/files/catalogue/4280/af60xr_ds-63bea456485de.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti airFiber 60 Xtreme-Range",
+      "url": "https://www.getic.com/files/catalogue/4280/af60xr_qsg-63bea47f8dd7d.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "TELCONOR",
+        "date": "2023-03-30",
+        "text": "We finished to install today this link, 9km and 2Gbps throughput, such amazing product!\nExcellent seller, very professional and quick shipment.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-50-60W",
+      "url": "/product/ubiquiti-poe-50-60w-gigabit",
+      "price": 29.89,
+      "currency": "USD",
+      "mpn": "POE-50-60W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-48-24W-G",
+      "url": "/product/ubiquiti-poe-48-gigabit",
+      "price": 14.94,
+      "currency": "USD",
+      "mpn": "POE-48-24W-G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-54-80W",
+      "url": "/product/ubiquiti-poe-54-80w",
+      "price": 29.89,
+      "currency": "USD",
+      "mpn": "POE-54V-80W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam M5",
+      "url": "/product/litebeam-m5-23dbi",
+      "price": 46.86,
+      "currency": "USD",
+      "mpn": "LBE-M5-23",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi AC Mesh",
+      "url": "/product/unifi-ac-mesh",
+      "price": 86.56,
+      "currency": "USD",
+      "mpn": "UAP-AC-M",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 60 Long-Range",
+      "url": "/product/airfiber-60-lr",
+      "price": 303.78,
+      "currency": "USD",
+      "mpn": "AF60-LR",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "9 pcs in stock"
+}

@@ -1,0 +1,228 @@
+{
+  "slug": "ubiquiti-g3-starter-kit",
+  "id": "UA-G3-SK",
+  "productTitle": "Ubiquiti G3 Starter Kit",
+  "name": "Ubiquiti G3 Starter Kit",
+  "title": "Ubiquiti G3 Starter Kit",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The Ubiquiti UniFi G3 Starter Kit (UA-G3-SK) is a complete access control system for managing a single door. It includes a UA-Hub-Door-Mini, a UA-G3 Reader, and two pocket keyfobs for secure, seamless authentication. Supporting NFC, Apple Touch Pass, and BLE 4.1, it enables flexible access methods. Powered by PoE, the system simplifies installation by eliminating the need for separate power supplies, reducing cable clutter. The UA-G3-SK seamlessly integrates with UniFi Access, offering centralized management through an intuitive interface. Designed for businesses, offices, and residential properties, the UA-G3-SK provides reliable, modern security with an easy-to-use interface and real-time access monitoring.",
+  "detailed_description": [
+    {
+      "heading": "All-in-One Access Control",
+      "text": "The Ubiquiti UniFi G3 Starter Kit (UA-G3-SK) is a complete access control system for managing a single door. It includes a UA-Hub-Door-Mini, a UA-G3 Reader, and two pocket keyfobs for secure, seamless authentication. Supporting NFC, Apple Touch Pass, and BLE 4.1, it enables flexible access methods. Powered by PoE, the system simplifies installation by eliminating the need for separate power supplies, reducing cable clutter. The UA-G3-SK seamlessly integrates with UniFi Access, offering centralized management through an intuitive interface. Designed for businesses, offices, and residential properties, the UA-G3-SK provides reliable, modern security with an easy-to-use interface and real-time access monitoring.\n\nThe UA-Hub-Door-Mini acts as the system’s control center, featuring three Gigabit RJ45 ports and supporting PoE++ (50V DC, 1A) for simplified installation. It delivers up to 31W of PoE output, ensuring reliable power for connected devices. Its polycarbonate and metal enclosure ensures durability. Also included are two NFC pocket keyfobs, offering users a simple, tap-to-unlock alternative to smartphones and keycards. This combination enhances security and convenience, making it ideal for multi-user environments."
+    },
+    {
+      "heading": "Effortless Integration",
+      "text": "The UA-G3-SK fully integrates with UniFi Access, enabling easy user management, real-time access monitoring, and credential configuration. Admins can assign NFC keyfobs, mobile credentials, or Apple Touch Pass for seamless authentication. The system offers robust encryption to protect access data and ensures smooth operation with PoE-powered components. With quick installation and multiple mounting options, the kit is ideal for offices, coworking spaces, and rental properties, delivering modern, flexible, and secure access control with minimal setup.\n\nThe UA-G3 Reader provides secure access through NFC, BLE, and Apple Touch Pass. It is PoE-powered with a maximum consumption of 5W, ensuring efficient operation. Built with a polycarbonate and glass enclosure, an aluminum alloy mount, and IP55 weatherproofing, it withstands outdoor conditions. The compact design supports wall and gangbox mounting (included), with optional angle and junction box mounts available. Its modern design blends seamlessly into any environment while providing secure, high-performance access control."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Starter kits"
+  ],
+  "mpn": "UA-G3-SK",
+  "manufacturer_part_number": "UA-G3-SK",
+  "ean": "0810084699416",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5564/1-67908c4deffaa-medium.jpg",
+        "alt": "Ubiquiti G3 Starter Kit",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5564/2-67908c5294b7f-medium.jpg",
+        "alt": "Ubiquiti G3 Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5564/3-67908c5675d6d-medium.jpg",
+        "alt": "Ubiquiti G3 Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5564/4-67908c5ca4518-medium.jpg",
+        "alt": "Ubiquiti G3 Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5564/5-67908c61ab1d6-medium.jpg",
+        "alt": "Ubiquiti G3 Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5564/6-67908c67c4076-medium.jpg",
+        "alt": "Ubiquiti G3 Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5564/7-67908c6e74842-medium.jpg",
+        "alt": "Ubiquiti G3 Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5564/8-67908c746787c-medium.jpg",
+        "alt": "Ubiquiti G3 Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5564/9-67908c78151c5-medium.jpg",
+        "alt": "Ubiquiti G3 Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5564/10-67908c7bc5d78-medium.jpg",
+        "alt": "Ubiquiti G3 Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5564/11-67908c803fe2b-medium.jpg",
+        "alt": "Ubiquiti G3 Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5564/12-67908c8524d1c-medium.jpg",
+        "alt": "Ubiquiti G3 Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5564/13-67908c8887b93-medium.jpg",
+        "alt": "Ubiquiti G3 Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5564/14-67908c8d98d99-medium.jpg",
+        "alt": "Ubiquiti G3 Starter Kit",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/5564/uag3sk_ds-67908c46aaaef.pdf",
+        "type": "datasheet",
+        "title": "Technical Specs / Datasheet - Ubiquiti G3 Starter Kit"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 267.85,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti G3 Starter Kit",
+      "url": "https://www.getic.com/files/catalogue/5564/uag3sk_ds-67908c46aaaef.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.60,
+        "currency": "USD",
+        "delivery_time": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.48,
+        "currency": "USD",
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.91,
+        "currency": "USD",
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Protect Viewport",
+      "url": "/product/unifi-protect-viewport",
+      "price": 204.90,
+      "currency": "USD",
+      "mpn": "UP-Viewport",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Pocket Keyfob",
+      "url": "/product/ubiquiti-unifi-pocket-keyfob",
+      "price": 97.41,
+      "currency": "USD",
+      "mpn": "UA-Pocket",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro Max",
+      "url": "/product/dream-machine-pro-max",
+      "price": 578.18,
+      "currency": "USD",
+      "mpn": "UDM-Pro-Max",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Bullet White",
+      "url": "/product/ubiquiti-camera-g6-bullet",
+      "price": 199.76,
+      "currency": "USD",
+      "mpn": "UVC-G6-Bullet-W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,305 @@
+{
+  "slug": "ubiquiti-unifi-e7",
+  "id": "E7",
+  "productTitle": "Ubiquiti UniFi E7",
+  "name": "Ubiquiti UniFi E7",
+  "title": "Ubiquiti UniFi E7",
+  "title_extended": "",
+  "short_description": "Tri-band WiFi 7 access point, 2.4GHz 2x2 MU-MIMO, 5GHz 4x4 MU-MIMO, 6GHz 4x4 MU-MIMO, max data rates: 2.4GHz 688 Mbps, 5GHz 8.6 Gbps, 6GHz 11.5 Gbps, 1x 10 GbE RJ45 port, 1x 1 GbE RJ45 port, PoE++, up to 43W consumption, 185m² coverage, internal antennas, wall/ceiling mount",
+  "description": "The Ubiquiti UniFi E7 is a next-generation indoor access point designed for ultra-high-performance wireless connectivity. Supporting the Wi-Fi 7 (802.11be) standard, it delivers outstanding speeds — up to 11.5 Gbps on the 6 GHz band, 8.6 Gbps on 5 GHz, and 688 Mbps on 2.4 GHz. With 4×4 MU-MIMO on both 5 GHz and 6 GHz radios and 2×2 MU-MIMO on 2.4 GHz, the device ensures superior throughput and reliability, even in dense environments. Covering up to 185 m² and supporting more than 1,000 simultaneous clients, it is ideal for offices, educational facilities, and enterprise networks. Advanced features such as OFDMA, band-steering, beamforming, and seamless roaming optimize efficiency and reduce latency. The E7’s Wi-Fi 7 technology enables minimal interference, improved responsiveness, and future-ready connectivity for modern digital applications, ensuring exceptional stability for streaming, collaboration, and IoT integrations. Its full backward compatibility with Wi-Fi 6 and Wi-Fi 5 ensures smooth transition within existing infrastructures.",
+  "detailed_description": [
+    {
+      "heading": "Ultra-Fast Wi-Fi 7",
+      "text": "The Ubiquiti UniFi E7 is a next-generation indoor access point designed for ultra-high-performance wireless connectivity. Supporting the Wi-Fi 7 (802.11be) standard, it delivers outstanding speeds — up to 11.5 Gbps on the 6 GHz band, 8.6 Gbps on 5 GHz, and 688 Mbps on 2.4 GHz. With 4×4 MU-MIMO on both 5 GHz and 6 GHz radios and 2×2 MU-MIMO on 2.4 GHz, the device ensures superior throughput and reliability, even in dense environments. Covering up to 185 m² and supporting more than 1,000 simultaneous clients, it is ideal for offices, educational facilities, and enterprise networks. Advanced features such as OFDMA, band-steering, beamforming, and seamless roaming optimize efficiency and reduce latency. The E7’s Wi-Fi 7 technology enables minimal interference, improved responsiveness, and future-ready connectivity for modern digital applications, ensuring exceptional stability for streaming, collaboration, and IoT integrations. Its full backward compatibility with Wi-Fi 6 and Wi-Fi 5 ensures smooth transition within existing infrastructures."
+    },
+    {
+      "heading": "Fast & Reliable Links",
+      "text": "Equipped with one 10 GbE RJ45 port and one 1 GbE RJ45 port, the UniFi E7 provides high-capacity wired uplinks for fast data transfer and network redundancy. It is powered via PoE++ (802.3bt) with an input voltage range of 42.5 V–57 V DC, consuming up to 43 W at peak operation. This ensures consistent power delivery and efficient performance even in high-load scenarios. The device features a sleek and durable housing that measures 250 × 250 × 43.5 mm and weighs 1.8 kg. Its construction combines a UV-stabilized polycarbonate body with an aluminum alloy frame, ensuring long-term strength and reliability. The E7 includes wall and ceiling mounting options, providing flexible installation for a variety of professional environments. Its advanced thermal design minimizes heat buildup for optimal performance. The integrated LED ring indicates device status and simplifies troubleshooting, and the fanless construction ensures silent operation, making it ideal for offices, schools, and enterprise spaces that require reliable, noise-free hardware."
+    },
+    {
+      "heading": "Centralized Management",
+      "text": "The UniFi E7 combines advanced enterprise functionality with intuitive management through the UniFi Network application. Supporting up to 1,000 concurrent clients and 8 BSSIDs per radio, it allows administrators to segment networks efficiently for staff, guests, and IoT devices. The device includes per-user bandwidth limits, guest access control, VLAN support, and traffic isolation for secure multi-tenant deployments. Real-time spectral analysis, dynamic frequency selection, and PRISM™ RF filtering minimize interference and maintain consistent wireless performance across large installations. The E7 can operate standalone or as part of a cloud-managed UniFi ecosystem, enabling centralized monitoring, firmware updates, and streamlined network management. Integrated security protocols such as WPA3 Enterprise and HTTPS management protect against unauthorized access. Combined with intelligent load balancing and automatic channel optimization, the UniFi E7 ensures maximum uptime, robust performance, and simplified administration for modern enterprise networks."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Points",
+  "categories": [
+    "Ubiquiti",
+    "UniFi Access Points",
+    "Enterprise"
+  ],
+  "mpn": "E7",
+  "manufacturer_part_number": "E7",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6863/1-69021950c0041-medium.jpg",
+        "alt": "Ubiquiti UniFi E7",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6863/2-6902195342417-medium.jpg",
+        "alt": "Ubiquiti UniFi E7",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6863/3-6902195601415-medium.jpg",
+        "alt": "Ubiquiti UniFi E7",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6863/4-69021958a3713-medium.jpg",
+        "alt": "Ubiquiti UniFi E7",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6863/5-6902195c58b3c-medium.jpg",
+        "alt": "Ubiquiti UniFi E7",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6863/6-6902195ef1558-medium.jpg",
+        "alt": "Ubiquiti UniFi E7",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6863/7-6902196261840-medium.jpg",
+        "alt": "Ubiquiti UniFi E7",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6863/8-690219657bef8-medium.jpg",
+        "alt": "Ubiquiti UniFi E7",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 562.14,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate",
+        "6GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 7"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax/be"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 4x4, 6GHz 4x4"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz, 6GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "687 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "8.64 Gbps"
+        },
+        {
+          "name": "6GHz Radio Rate",
+          "value": "11.52 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.400 - 2.483 (GHz) 5 (dBi), 5.150 - 5.725 (GHz) 6 (dBi), 5.925 - 7.125 (GHz) 6 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps, (1) 10 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3bt PoE++"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "42.5 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "43 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Stainless steel, SGCC steel, Aluminium, UV-stabilized polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "250 x 250 x 43.5 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Ceilling Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi E7",
+      "url": "https://www.getic.com/files/catalogue/6863/e7_ds-6902194bbc423.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi U6 In-Wall",
+      "url": "/product/unifi-6-in-wall",
+      "price": 191.95,
+      "currency": "USD",
+      "mpn": "U6-IW",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti PoE++ Adapter",
+      "url": "/product/poe-adapter",
+      "price": 31.25,
+      "currency": "USD",
+      "mpn": "U-POE++",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi E7 Campus",
+      "url": "/product/ubiquiti-unifi-e7-campus",
+      "price": 900.61,
+      "currency": "USD",
+      "mpn": "E7-Campus",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

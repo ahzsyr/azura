@@ -1,0 +1,224 @@
+{
+  "slug": "alfa-aue2500c-ethernet-adapter",
+  "id": "3225",
+  "productTitle": "Alfa USB Ethernet Adapter AUE2500C",
+  "name": "Alfa USB Ethernet Adapter AUE2500C",
+  "title": "Alfa USB Ethernet Adapter AUE2500C | Getic",
+  "title_extended": "",
+  "short_description": "Ethernet Adapter, IEEE 802.3bz 2.5G BASE-T, USB-C 3.1 interface, Support 802.1p and 802.1Q",
+  "description": "Buy Alfa USB Ethernet Adapter AUE2500C. Price from 37.40 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": null,
+      "text": "ALFA AUE2500C is USB-C 3.1 to 2.5G BASE-T Ethernet Adapter equipped with a 2.5G BASE-T RJ-45 port, providing up to 2.5Gbps using existing Cat5e or higher cable. ALFA AUE2500C features a USB-C 3. 1 interface that connects a USB-C enabled computer to a high-speed 2.5GBASE-T network. Please note this is not the same as a standard USB port, your computer must have a USB-C port to be compatible. This is compatible with Microsoft Windows 7, 8, and 10. It also works with Mac OS 10.13 or later, Chrome, Android, & Linux."
+    },
+    {
+      "heading": null,
+      "text": "",
+      "media": [
+        {
+          "url": "https://www.getic.com/images/catalogue/description/642/alfaaue2500cmultigigusbgallery6_2048x-6050a60fb5bdc-500x500.jpg",
+          "type": "image"
+        }
+      ]
+    }
+  ],
+  "brand": "Alfa Network",
+  "category": "Ethernet Devices",
+  "categories": [
+    "Alfa",
+    "Ethernet Devices",
+    "USB adapters"
+  ],
+  "mpn": "AUE2500C",
+  "manufacturer_part_number": "AUE2500C",
+  "ean": "4718050306558",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3225/alfausbethernetadapteraue2500c_4-6149c9384f35c-medium.jpg",
+        "alt": "Alfa USB Ethernet Adapter AUE2500C",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3225/alfausbethernetadapteraue2500c_22-6149ca208598b-medium.jpg",
+        "alt": "Alfa USB Ethernet Adapter AUE2500C",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3225/alfausbethernetadapteraue2500c_3-6149c9593b2de-medium.jpg",
+        "alt": "Alfa USB Ethernet Adapter AUE2500C",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3225/alfausbethernetadapteraue2500c-6149c94874bfe-medium.jpg",
+        "alt": "Alfa USB Ethernet Adapter AUE2500C",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3225/alfausbethernetadapteraue2500c_1-6149c94f40469-medium.jpg",
+        "alt": "Alfa USB Ethernet Adapter AUE2500C",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 37.40,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Connectors",
+      "features": [
+        "Ethernet Connector"
+      ],
+      "items": [
+        {
+          "name": "Ethernet Connector",
+          "value": "RJ45"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "USB Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 2.5 Gbps"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB Type C"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.48
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.25
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.59
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 10G Multi-Mode Module",
+      "url": "/product/mikrotik-sfp-transceiver-10g-850nm-300m-multi-mode",
+      "price": 47.44,
+      "currency": "USD",
+      "mpn": "S+85DLC03D",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX",
+      "url": "/product/routerboard-hex",
+      "price": 44.77,
+      "currency": "USD",
+      "mpn": "RB750Gr3",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+      "url": "/product/direct-attach-cable-xs-da0001",
+      "price": 26.85,
+      "currency": "USD",
+      "mpn": "XS+DA0001",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACH v.2",
+      "url": "/product/alfa-awus036ach-c",
+      "price": 47.58,
+      "currency": "USD",
+      "mpn": "AWUS036ACH-C",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

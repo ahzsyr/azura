@@ -1,0 +1,286 @@
+{
+  "slug": "ubiquiti-100gbps-sr4-multi-mode-optical-module",
+  "id": "6043",
+  "productTitle": "Ubiquiti 100Gbps SR4 Multi-Mode Optical Module",
+  "name": "Ubiquiti 100Gbps SR4 Multi-Mode Optical Module",
+  "title": "Ubiquiti 100Gbps SR4 Multi-Mode Optical Module",
+  "title_extended": "",
+  "short_description": "High-performance 100G QSFP28 SR4 optical transceiver for multi-mode fiber, up to 100m reach.",
+  "description": "The Ubiquiti UACC-OM-QSFP28-SR4 is a high-performance optical transceiver designed to deliver ultra-fast 100 Gbps data transmission over short-range multimode fiber (MMF) links. Utilizing the QSFP28 form factor, this module is engineered for high-density 100G Ethernet deployments in enterprise, data center, and carrier environments.",
+  "detailed_description": [
+    {
+      "heading": "High-Speed Optical Connectivity",
+      "text": "The Ubiquiti UACC-OM-QSFP28-SR4 is a high-performance optical transceiver designed to deliver ultra-fast 100 Gbps data transmission over short-range multimode fiber (MMF) links. Utilizing the QSFP28 form factor, this module is engineered for high-density 100G Ethernet deployments in enterprise, data center, and carrier environments. The module operates over an OM4 multimode fiber infrastructure with a reach of up to 100 meters, and up to 70 meters on OM3 fiber. It uses an MPO-12 interface and transmits over four lanes at 25 Gbps each, fully compliant with the IEEE 802.3bm 100GBASE-SR4 standard. The integrated digital diagnostics monitoring (DDM) allows real-time access to operating parameters such as temperature, voltage, and optical power, enabling proactive system maintenance."
+    },
+    {
+      "heading": "Seamless Integration",
+      "text": "The UACC-OM-QSFP28-SR4 ensures reliable performance across compatible Ubiquiti networking equipment supporting QSFP28 interfaces, particularly in high-throughput aggregation switches and core networking infrastructure. Its hot-swappable design allows easy deployment and replacement without service interruption, while its low power consumption (typically less than 3.5 W) contributes to efficient operation in dense rack environments. The module operates within a commercial temperature range (0°C to 70°C), making it suitable for climate-controlled installations. With precision manufacturing and compliance with MSA and RoHS standards, the UACC-OM-QSFP28-SR4 offers robust optical signal integrity and is ideal for bandwidth-intensive applications, including virtualization, large-scale storage systems, and data center interconnects."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "SFP Modules",
+  "categories": [
+    "Ubiquiti",
+    "Fiber",
+    "SFP Modules"
+  ],
+  "mpn": "UACC-OM-QSFP28-SR4",
+  "manufacturer_part_number": "UACC-OM-QSFP28-SR4",
+  "ean": "0810084690024",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6043/1-68402e0f624c7-medium.jpg",
+        "alt": "Ubiquiti 100Gbps SR4 Multi-Mode Optical Module",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6043/2-68402e12dd30b-medium.jpg",
+        "alt": "Ubiquiti 100Gbps SR4 Multi-Mode Optical Module",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6043/3-68402e165c9f4-medium.jpg",
+        "alt": "Ubiquiti 100Gbps SR4 Multi-Mode Optical Module",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6043/4-68402e1adf4d0-medium.jpg",
+        "alt": "Ubiquiti 100Gbps SR4 Multi-Mode Optical Module",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - Ubiquiti 100Gbps SR4 Multi-Mode Optical Module",
+        "url": "https://www.getic.com/files/catalogue/6043/uaccomqsfp28sr4_ds-6819ef80db0ca.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 67.82,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Data Rate",
+      "options": [
+        "1.25Gbps",
+        "10 Gbps",
+        "25 Gbps",
+        "100 Gbps"
+      ],
+      "default": "100 Gbps"
+    },
+    {
+      "type": "Units",
+      "options": [
+        "1 pcs"
+      ],
+      "default": "1 pcs"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Fiber Equipment",
+      "features": [
+        "SFP Type",
+        "Supported Media",
+        "Connector Type",
+        "TX Wavelength",
+        "RX Wavelength",
+        "Data Rate",
+        "Cable Distance"
+      ],
+      "items": [
+        {
+          "name": "SFP Type",
+          "value": "QSFP28"
+        },
+        {
+          "name": "Supported Media",
+          "value": "Multi-Mode"
+        },
+        {
+          "name": "Connector Type",
+          "value": "(1) MTP/MPO"
+        },
+        {
+          "name": "TX Wavelength",
+          "value": "850 nm"
+        },
+        {
+          "name": "RX Wavelength",
+          "value": "850 nm"
+        },
+        {
+          "name": "Data Rate",
+          "value": "100 Gbps"
+        },
+        {
+          "name": "Cable Distance",
+          "value": "100 m"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Max Power Consumption",
+          "value": "2.5 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti 100Gbps SR4 Multi-Mode Optical Module",
+      "url": "https://www.getic.com/files/catalogue/6043/uaccomqsfp28sr4_ds-6819ef80db0ca.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "Trustpilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "talansari",
+        "date": "2024-05-12",
+        "text": "Very Good",
+        "photos": []
+      },
+      {
+        "name": "Peter",
+        "date": "2024-02-09",
+        "text": "Wie üblich: Gut",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 19 dBi Sector",
+      "url": "/product/sector-airmax-5g19-120",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "AM-5G19-120",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 10 dBi Omni",
+      "url": "/product/omni-airmax-5g10",
+      "price": 110.98,
+      "currency": "USD",
+      "mpn": "AMO-5G10",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 13 dBi Omni",
+      "url": "/product/omni-airmax-5g13",
+      "price": 142.96,
+      "currency": "USD",
+      "mpn": "AMO-5G13",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti 10Gbps OM3 Duplex LC Cable 3m",
+      "url": "/product/unifi-odn-fiber-cable-3",
+      "price": 6.40,
+      "currency": "USD",
+      "mpn": "UACC-OFC-MM-3M",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

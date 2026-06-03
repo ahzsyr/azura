@@ -1,0 +1,331 @@
+{
+  "slug": "ubiquiti-camera-g5-dome-ultra-black",
+  "id": "4928",
+  "productTitle": "Ubiquiti Camera G5 Dome Ultra Black",
+  "name": "Ubiquiti Camera G5 Dome Ultra Black",
+  "title": "Ubiquiti Camera G5 Dome Ultra Black",
+  "title_extended": "Ubiquiti Camera G5 Dome Ultra Black",
+  "short_description": "Buy Ubiquiti Camera G5 Dome Ultra Black. Price from 86.32 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "description": "Buy Ubiquiti Camera G5 Dome Ultra Black. Price from 86.32 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "Superior Image Quality",
+      "text": "The Ubiquiti G5 Dome Ultra is a discreet and feature-rich security camera specifically designed for low-profile indoor monitoring. With its ultra-compact design, the Ubiquiti G5 Dome Ultra discreetly integrates into any indoor environment, making it ideal for homes, offices, retail spaces, and more. The G5 Dome Ultra provides powerful security features in a discreet package, offering peace of mind without compromising aesthetics. The G5 Dome Ultra Black camera is designed to deliver exceptional image quality with its 1/2.4\" CMOS sensor, capturing clear and detailed footage at a resolution of 4MP (2688 x 1512) in a 16:9 aspect ratio. With a fixed focal length lens and a wide viewing angle of 102.4° H, 54.9° V, and 120.6° D, this camera ensures comprehensive coverage of the monitored area, making it ideal for various surveillance applications."
+    },
+    {
+      "heading": "High-Definition Monitoring",
+      "text": "The UVC-G5-Dome-Ultra-B is equipped with advanced night vision capabilities, thanks to its built-in IR LED illumination and IR cut filter. This technology enables the camera to maintain clear visibility up to a distance of 20 meters in complete darkness, ensuring that no detail is missed even in low-light conditions. Whether it's day or night, the camera provides reliable surveillance with consistent image quality. Powered by a dual-core Arm® Cortex®-A7 based chip, the UVC-G5-Dome-Ultra-B ensures smooth and efficient processing of video streams, allowing for a maximum frame rate of 30 FPS. This high-performance processor supports the camera's robust feature set, enabling quick data processing and seamless integration with the UniFi Protect platform."
+    },
+    {
+      "heading": "Advanced Features",
+      "text": "The G5 Dome Ultra offers seamless installation and power delivery thanks to PoE (Power over Ethernet) connectivity. The UVC-G5-Dome-Ultra-B is fully compatible with the UniFi Protect platform, providing a seamless user experience across both web and mobile applications. The camera can be easily managed and monitored through the UniFi Protect web application or the mobile app available for iOS™ and Android™ devices. This integration offers users flexible access to their surveillance feeds, real-time alerts, and detailed video analytics, ensuring comprehensive security management from anywhere, at any time. For a truly discreet installation, consider the optional Flush Mount accessory for in-ceiling placement (sold separately)."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Cameras",
+  "categories": [
+    "Cameras",
+    "Dome & Turret"
+  ],
+  "mpn": "UVC-G5-Dome-Ultra-B",
+  "manufacturer_part_number": "UVC-G5-Dome-Ultra-B",
+  "ean": "0810084696989",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4928/temop-6711621e2df99-medium.jpg",
+        "alt": "Ubiquiti Camera G5 Dome Ultra Black",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4928/1-66b9ab2d927f2-medium.jpg",
+        "alt": "Ubiquiti Camera G5 Dome Ultra Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4928/2-66b9ab3aab2c1-medium.jpg",
+        "alt": "Ubiquiti Camera G5 Dome Ultra Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4928/3-66b9ab4054c46-medium.jpg",
+        "alt": "Ubiquiti Camera G5 Dome Ultra Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4928/4-66b9ab44be412-medium.jpg",
+        "alt": "Ubiquiti Camera G5 Dome Ultra Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4928/5-66b9ab4a4a53f-medium.jpg",
+        "alt": "Ubiquiti Camera G5 Dome Ultra Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4928/6-66b9ab50f1a8c-medium.jpg",
+        "alt": "Ubiquiti Camera G5 Dome Ultra Black",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4928/uvcg5domeultrab_ds-66b9ab24c1de6.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Camera G5 Dome Ultra Black"
+      }
+    ],
+    "3d_model": true
+  },
+  "price": {
+    "value": 86.32,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Color",
+      "options": [
+        "Black",
+        "White"
+      ],
+      "default": "Black"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Video",
+      "features": [
+        "Megapixels",
+        "Resolution",
+        "Maximum Frame Rate",
+        "Video Compression"
+      ],
+      "items": [
+        {
+          "name": "Megapixels",
+          "value": "4MP"
+        },
+        {
+          "name": "Resolution",
+          "value": "2688 x 1512"
+        },
+        {
+          "name": "Maximum Frame Rate",
+          "value": "30 FPS"
+        },
+        {
+          "name": "Video Compression",
+          "value": "H.264"
+        }
+      ]
+    },
+    {
+      "technology": "Video Camera",
+      "features": [
+        "Sensor",
+        "Lens",
+        "Night Mode",
+        "Viewing Angle"
+      ],
+      "items": [
+        {
+          "name": "Sensor",
+          "value": "1/2.4” CMOS"
+        },
+        {
+          "name": "Lens",
+          "value": "Fixed Focal Length"
+        },
+        {
+          "name": "Night Mode",
+          "value": "IR LED Illumination and IR Cut Filter, IR Range up to 20 m"
+        },
+        {
+          "name": "Viewing Angle",
+          "value": "102.4 ° (H) 54.9 ° (V)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 100 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Dual-core Arm® Cortex®-A7 based chip"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "48V Passive PoE"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "37 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "4.2 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Housing\tDurability",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Housing\tDurability",
+          "value": "Vandal-proof IK06"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø63.6 x 68.2 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.175 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 40 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Camera G5 Dome Ultra Black",
+      "url": "https://www.getic.com/files/catalogue/4928/uvcg5domeultrab_ds-66b9ab24c1de6.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.60
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.48
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.91
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Network Video Recorder",
+      "url": "/product/unifi-protect-network-video-recorder",
+      "price": 303.78,
+      "currency": "USD",
+      "mpn": "UNVR",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Hi-Capacity Aggregation",
+      "url": "/product/unifi-switch-pro-aggregation",
+      "price": 882.48,
+      "currency": "USD",
+      "mpn": "USW-Pro-Aggregation",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Outdoor",
+      "url": "/product/ubiquiti-access-point-u7-outdoor",
+      "price": 200.14,
+      "currency": "USD",
+      "mpn": "U7-Outdoor",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro HD 24",
+      "url": "/product/ubiquiti-unifi-switch-pro-hd-24",
+      "price": 614.46,
+      "currency": "USD",
+      "mpn": "USW-Pro-HD-24",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": "72"
+}

@@ -1,0 +1,226 @@
+{
+  "slug": "mikrotik-power-adapter-5v-1a",
+  "id": 7024,
+  "productTitle": "MikroTik Power Adapter 5V 1A",
+  "name": "MikroTik Power Adapter 5V 1A",
+  "title": "MikroTik Power Adapter 5V 1A",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The MikroTik Power Adapter 5V 1A (5VPOW) is a compact external power supply designed to deliver stable and regulated power to compatible MikroTik network devices. It provides a 5 V DC output with up to 1 A current via a standard microUSB connector, making it suitable for low-power routers, access points, and similar equipment. This adapter is ideal as a replacement or spare power source for devices that rely on a 5 V input for continuous operation. Thanks to its small form factor, the 5VPOW is easy to integrate into space-constrained installations such as home networks, compact offices, or test environments. Regulated voltage output helps protect connected equipment from power fluctuations, ensuring reliable long-term performance. The adapter is specifically recommended for devices like hAP mini, hAP lite, cAP lite, and other MikroTik products that require 5 V power through microUSB.",
+  "detailed_description": [
+    {
+      "heading": "Compact 5V Power Solution",
+      "text": "The MikroTik Power Adapter 5V 1A (5VPOW) is a compact external power supply designed to deliver stable and regulated power to compatible MikroTik network devices. It provides a 5 V DC output with up to 1 A current via a standard microUSB connector, making it suitable for low-power routers, access points, and similar equipment. This adapter is ideal as a replacement or spare power source for devices that rely on a 5 V input for continuous operation. Thanks to its small form factor, the 5VPOW is easy to integrate into space-constrained installations such as home networks, compact offices, or test environments. Regulated voltage output helps protect connected equipment from power fluctuations, ensuring reliable long-term performance. The adapter is specifically recommended for devices like hAP mini, hAP lite, cAP lite, and other MikroTik products that require 5 V power through microUSB."
+    },
+    {
+      "heading": "",
+      "text": "The MikroTik 5VPOW power adapter is designed for straightforward installation and dependable daily use. To power a device, simply connect the microUSB plug to the device’s power input and plug the adapter into a compatible AC mains socket. Before use, ensure that the connected device is rated for a 5 V, 1 A power supply to avoid potential damage. The adapter’s construction supports easy field replacement and makes it a practical solution for maintaining uptime in small network deployments. For safe and reliable operation, it is recommended to avoid exposure to moisture, extreme temperatures, or excessive mechanical stress on the cable. Proper cable routing without sharp bends helps reduce strain on the microUSB connector, especially in permanent installations. Once connected, users can quickly verify correct operation by confirming that the device powers on and functions normally."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters",
+    "Electrical Equipment"
+  ],
+  "mpn": "5VPOW",
+  "manufacturer_part_number": "5VPOW",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7024/1-6964eb312f504-medium.jpg",
+        "alt": "MikroTik Power Adapter 5V 1A",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7024/2-6964eb339dbf5-medium.jpg",
+        "alt": "MikroTik Power Adapter 5V 1A",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7024/3-6964eb36a1242-medium.jpg",
+        "alt": "MikroTik Power Adapter 5V 1A",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7024/1-6964eb312f504-tiny.jpg",
+        "alt": "MikroTik Power Adapter 5V 1A"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7024/2-6964eb339dbf5-tiny.jpg",
+        "alt": "MikroTik Power Adapter 5V 1A"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7024/3-6964eb36a1242-tiny.jpg",
+        "alt": "MikroTik Power Adapter 5V 1A"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 8.04,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Power Connector"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Power Connector",
+          "value": "MicroUSB"
+        }
+      ]
+    },
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage",
+        "Output Power"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "1 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "5 V DC"
+        },
+        {
+          "name": "Output Power",
+          "value": "5 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.66,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.61,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.08,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

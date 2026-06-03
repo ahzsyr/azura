@@ -1,0 +1,178 @@
+{
+  "slug": "mikrotik-wap-anti-noise-shield",
+  "id": "1580",
+  "productTitle": "Anti-Noise Shield for MikroTik wAP",
+  "name": "Anti-Noise Shield for MikroTik wAP",
+  "title": "Anti-Noise Shield for MikroTik wAP",
+  "title_extended": "",
+  "short_description": "Paired with MikroTik RouterBOARD wAP",
+  "description": "Paired with MikroTik RouterBOARD wAP",
+  "detailed_description": [
+    {
+      "heading": "Anti-Noise Solution",
+      "text": "The Anti-Noise Shield for MikroTik wAP (ANS-WAP) is a precision-engineered accessory designed to significantly improve the performance of MikroTik wAP devices. By providing targeted shielding around the antenna, the shield minimizes unwanted interference from nearby devices and external sources. This reduction in background noise ensures cleaner signals, higher stability, and improved overall performance for your wireless network deployments. Manufactured from durable steel and finished with a high-quality light gray powder coating, the shield is built to withstand demanding outdoor conditions while maintaining a professional appearance. Each shield is crafted with CNC precision, resulting in consistent accuracy and reliable installation. The ANS-WAP is the ideal solution for anyone looking to enhance signal clarity and reliability in crowded radio environments."
+    }
+  ],
+  "brand": "Cyberteam",
+  "category": "Antenna Accessories",
+  "categories": [
+    "Antenna Accessories",
+    "Outdoor Wireless"
+  ],
+  "mpn": "ANS-WAP",
+  "manufacturer_part_number": "ANS-WAP",
+  "ean": "5901225203748",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1580/cybertem_wap1-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik wAP",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1580/wap1-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik wAP",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1580/wap2-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik wAP",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1580/wap3-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik wAP",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1580/cybertem_wap2-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik wAP",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1580/cybertem_wap3-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik wAP",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1580/cybertem_wap4-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik wAP",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 17.19,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hEX PoE",
+      "url": "/product/routerboard-hex-poe",
+      "price": 74.71,
+      "currency": "USD",
+      "mpn": "RB960PGS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik wAP 60G AP",
+      "url": "/product/routerboard-wap-60g-ap",
+      "price": 113.42,
+      "currency": "USD",
+      "mpn": "RBwAPG-60ad-A",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX S",
+      "url": "/product/routerboard-hex-s",
+      "price": 53.10,
+      "currency": "USD",
+      "mpn": "RB760iGS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik wAP ac LTE6 kit",
+      "url": "/product/routerboard-wap-ac-lte-6-kit",
+      "price": 167.27,
+      "currency": "USD",
+      "mpn": "RBwAPGR-5HacD2HnD&R11e-LTE6",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": "8 pcs in stock"
+}

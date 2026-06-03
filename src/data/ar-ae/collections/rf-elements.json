@@ -1,0 +1,28 @@
+{
+  "id": "rf-elements",
+  "slug": "rf-elements",
+  "name": "آر إف إليمنتس",
+  "description": "شركة أوروبية متخصصة في تقنية الهوائيات عالية الأداء لمزودي الإنترنت اللاسلكي والشبكات الثابتة، معروفة بهوائيات القرن ونظام TwistPort™.",
+  "badge": "",
+  "coverImage": "/images/placeholder.svg",
+  "seo": {},
+  "conditions": {
+    "match": "any",
+    "rules": [
+      {
+        "field": "brand",
+        "operator": "contains",
+        "value": "RF elements"
+      },
+      {
+        "field": "title",
+        "operator": "contains",
+        "value": "RF elements"
+      }
+    ]
+  },
+  "cardTemplate": "default",
+  "sortBy": "name-asc",
+  "visible": true,
+  "showInNav": false
+}

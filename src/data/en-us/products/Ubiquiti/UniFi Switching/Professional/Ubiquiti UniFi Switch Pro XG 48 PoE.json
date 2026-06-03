@@ -1,0 +1,296 @@
+{
+  "slug": "ubiquiti-unifi-switch-pro-xg-48-poe",
+  "id": "USW-Pro-XG-48-PoE",
+  "productTitle": "Ubiquiti UniFi Switch Pro XG 48 PoE",
+  "name": "Ubiquiti UniFi Switch Pro XG 48 PoE",
+  "title": "Ubiquiti UniFi Switch Pro XG 48 PoE",
+  "title_extended": "Ubiquiti UniFi Switch Pro XG 48 PoE",
+  "short_description": "Professional Layer 3 switch with (32) 10GbE, (16) 2.5GbE, (4) 25G SFP28 ports, 720W PoE budget, 920 Gbps switching capacity, and Etherlighting™ technology.",
+  "description": "The Ubiquiti UniFi Switch Pro XG 48 PoE is a professional grade Layer 3 switch designed to deliver high performance connectivity and power distribution for modern enterprise networks. With a total of 48 Ethernet ports, including 32 ports supporting up to 10 GbE and 16 ports supporting up to 2.5 GbE with PoE capability, it provides flexible connectivity for a wide range of devices. In addition, four 25G SFP28 ports enable high speed uplinks for aggregation or core network integration.",
+  "detailed_description": [
+    {
+      "heading": "Enterprise PoE Switch",
+      "text": "The Ubiquiti UniFi Switch Pro XG 48 PoE is a professional grade Layer 3 switch designed to deliver high performance connectivity and power distribution for modern enterprise networks. With a total of 48 Ethernet ports, including 32 ports supporting up to 10 GbE and 16 ports supporting up to 2.5 GbE with PoE capability, it provides flexible connectivity for a wide range of devices. In addition, four 25G SFP28 ports enable high speed uplinks for aggregation or core network integration. The integrated Etherlighting feature enhances usability by providing visual port identification, simplifying installation and troubleshooting in complex deployments. This makes it easier to manage large numbers of connections in data centers or enterprise environments where clarity and efficiency are essential."
+    },
+    {
+      "heading": null,
+      "text": "Designed for high capacity workloads, the switch delivers a switching capacity of 920 Gbps and a non blocking throughput of 460 Gbps, ensuring smooth data flow even under heavy traffic conditions. With a forwarding rate of 684 million packets per second, it maintains low latency and consistent performance across all connected devices. Support for up to 1,000 VLANs and a MAC address table size of 128,000 entries enables advanced segmentation and efficient handling of large scale networks. This makes the UniFi Switch Pro XG 48 PoE a strong foundation for scalable and high density network infrastructures."
+    },
+    {
+      "heading": "Smart Traffic Management",
+      "text": "The UniFi Switch Pro XG 48 PoE integrates advanced Layer 3 capabilities that enable intelligent routing and efficient traffic management directly within the switch. It supports inter VLAN routing and static routing, allowing communication between different network segments without requiring additional routing devices. This simplifies network design while improving performance and efficiency. The device includes a built in DHCP server and DHCP relay functionality, streamlining network configuration and management. With support for up to 512 IPv4 static routes and extensive ARP and routing tables, it is well suited for complex network environments that require scalability and flexibility."
+    },
+    {
+      "heading": null,
+      "text": "Security features are comprehensive, including IP based and MAC based access control lists, device isolation, and DHCP snooping to prevent unauthorized activity. Additional protections such as port isolation, loop protection, and storm control help maintain network stability and prevent disruptions caused by abnormal traffic patterns. The switch also supports advanced Layer 2 features such as LACP port aggregation, spanning tree protocols, IGMP snooping, and multicast management. These capabilities allow administrators to optimize bandwidth usage, improve redundancy, and ensure efficient delivery of data across the network."
+    },
+    {
+      "heading": "Robust Design",
+      "text": "The UniFi Switch Pro XG 48 PoE is built with a focus on durability and reliable operation in professional environments. Its enclosure is constructed from SGCC steel, providing a solid and stable structure suitable for long term deployment. The device is designed for installation in standard 19 inch racks, supporting a wide range of rack depths from 600 to 1066 mm, ensuring compatibility with different infrastructure setups. The switch is powered by an internal AC and DC power supply rated at 300W and supports a universal input range of 100 to 240 volts. It also includes support for redundant power through an external backup system, improving reliability in critical environments. With a maximum power consumption of 250W, it balances performance with efficient energy use."
+    },
+    {
+      "heading": null,
+      "text": "For management and monitoring, the device features a 1.3 inch touchscreen display that provides quick access to system information and status updates. LED indicators and Ethernet based management ensure seamless integration into UniFi Network environments. The switch operates within a temperature range of -5 to 40° C and supports humidity levels from 10 to 90% noncondensing. Enhanced electrostatic discharge protection increases resilience in demanding environments. Overall, the UniFi Switch Pro XG 48 PoE delivers a reliable combination of performance, durability, and advanced functionality for enterprise networks."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "UniFi Switching",
+    "Professional"
+  ],
+  "mpn": "USW-Pro-XG-48-PoE",
+  "manufacturer_part_number": "USW-Pro-XG-48-PoE",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7158/uswproxg48poe1-69dcac77852e7-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG 48 PoE",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7158/uswproxg48poe2-69dcac7d06546-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG 48 PoE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7158/uswproxg48poe4-69dcac855b3b1-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG 48 PoE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7158/uswproxg48poe3-69dcac88a047a-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG 48 PoE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7158/uswproxg48poe5-69dcac8d93a3c-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG 48 PoE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7158/uswproxg48poe6-69dcac910b014-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG 48 PoE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7158/uswproxg48poe7-69dcac94e3276-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG 48 PoE",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/7158/uswproxg48poe_ds-69dcac6e946d7.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Pro XG 48 PoE"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 2512.85,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(16) 2.5 Gbps, (32) 10 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "48 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE), 802.3at (PoE+), 802.3bt (PoE++), 802.3bt (PoE+++)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(4) 25G SFP28"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "USP RPS DC input"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "1280 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Material",
+          "value": "SGCC steel"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442 x 480 x 44 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "8.8 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Pro XG 48 PoE",
+      "url": "https://www.getic.com/files/catalogue/7158/uswproxg48poe_ds-69dcac6e946d7.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "name": "Standard",
+      "price": 86.90,
+      "currency": "USD",
+      "days": 5
+    },
+    {
+      "name": "Express",
+      "price": 114.75,
+      "currency": "USD",
+      "days": 2
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "OutOfStock"
+}

@@ -1,0 +1,295 @@
+{
+  "slug": "unifi-protect-network-video-recorder-pro",
+  "id": null,
+  "productTitle": "Ubiquiti Network Video Recorder Pro",
+  "name": "Ubiquiti Network Video Recorder Pro",
+  "title": "Ubiquiti Network Video Recorder Pro",
+  "title_extended": "",
+  "short_description": "Network video recorder, 7x 2.5\"/3.5\" Drive bays, 1x 10G SFP+ port, 1x GbE RJ45 port, Pre-installed UniFi Protect application",
+  "description": "The Network Video Recorder Pro (UNVR Pro) by Ubiquiti is a top-of-the-line surveillance system designed to handle and store large amounts of video footage effectively. As an enterprise-grade network video recorder, the UNVR Pro stands out for its ability to sustain up to 60 days of 4K video from 20 cameras or Full HD video from 60 cameras.",
+  "detailed_description": [
+    {
+      "heading": "Adaptable Storage for Long-Term Retention",
+      "text": "The Network Video Recorder Pro (UNVR Pro) by Ubiquiti is a top-of-the-line surveillance system designed to handle and store large amounts of video footage effectively. As an enterprise-grade network video recorder, the UNVR Pro stands out for its ability to sustain up to 60 days of 4K video from 20 cameras or Full HD video from 60 cameras. It's designed to seamlessly integrate into large-scale surveillance systems, accommodating environments with up to 60 cameras, making it a robust solution for sectors such as finance, education, healthcare, and government where reliable and continuous surveillance is imperative. At the heart of the UNVR Pro's architecture is a seven-drive HDD bay, which supports both 2.5-inch and 3.5-inch drives, thereby maximizing storage versatility and scale. This feature not only provides the adaptability to meet various storage requirements but also aligns with the device's capability to facilitate long-term data retention, crucial for maintaining extensive video archives necessary for compliance, legal, or operational analysis.\n\nThe UNVR Pro's RAID configuration options, including RAID 1, 5, and 10, further bolster its data protection and system reliability. RAID 1 ensures data redundancy, mirroring data across drives for maximum security. RAID 5 combines efficient storage with redundancy, balancing performance with fault tolerance, and RAID 10 offers an optimal mix of high performance and redundancy, ensuring data integrity and quick recovery from any single drive failure. Embedded in the UniFi OS Console lineup, the UNVR Pro benefits from a unified management interface that simplifies the administration of both network and surveillance operations, offering an intuitive and integrated control experience. This integration proves essential for organizations aiming to streamline their IT and surveillance systems, providing a cohesive and efficient management solution."
+    },
+    {
+      "heading": "Essential for Detailed Footage Analysis",
+      "text": "The UNVR & UNVR Pro, equipped with high-performance hardware, are adept at managing continuous video recording from multiple cameras, accommodating both high-definition and ultra-high-definition video formats. Their capabilities are extended by features such as motion detection, which scans video frames to identify activity, thereby optimizing storage usage by recording only during periods of movement and enhancing security through immediate alert notifications. This function is particularly vital in sectors like retail and banking, where monitoring for unauthorized access or suspicious activities is paramount.\n\nEvent tagging in these NVRs further refines the surveillance experience, enabling precise marking of incidents within the video timeline, facilitating efficient retrieval of important events without the need to sift through extensive footage. This feature is a boon for legal, forensic, and compliance purposes, streamlining incident analysis and investigation processes. Sophisticated playback options extends the NVR's utility, offering functionalities like fast-forwarding, rewinding, and frame-by-frame analysis, which are essential for detailed examination and analysis of critical footage. These playback capabilities are indispensable in legal proceedings, security assessments, and operational reviews, allowing for a comprehensive understanding of recorded events."
+    },
+    {
+      "heading": "Tailored Surveillance Coverage",
+      "text": "The integration of the UniFi Protect application enhances the NVR's overall functionality, providing a centralized platform for managing video feeds, recording schedules, and storage settings. UniFi Protect simplifies the management of surveillance operations with its intuitive interface and remote access capabilities, allowing security personnel and administrators to control and monitor surveillance systems from anywhere. This aligns with the need for effective video feed management, ensuring optimized surveillance coverage and system performance tailored to specific security requirements. With the ability to create customized recording schedules, the device ensures efficient storage utilization, capturing crucial footage during peak activity times or specific events, which is beneficial for environments with fluctuating levels of activity. The comprehensive management of surveillance operations, including system health monitoring and user access management, underpins the UNVR's role in facilitating a coordinated and scalable security strategy."
+    },
+    {
+      "heading": "Critical for Advanced Business Networks",
+      "text": "The NVR is equipped with a 1 Gbps Ethernet port, delivering Gigabit Ethernet connectivity that supports up to 1 gigabit per second data speeds, facilitating efficient handling of bandwidth-intensive applications like high-resolution video streaming and large-scale data transfers. This feature is especially beneficial in environments where high data throughput and superior network performance are critical, such as in sophisticated business networks, data centers, and as a reliable backhaul for wireless infrastructure. Complementing the Gigabit Ethernet, the device also features a 10G SFP+ port, designed to accommodate high-speed network connections with support for 10 gigabits per second data rates. This port allows for flexible media support using interchangeable transceivers for either fiber optic or direct attach cables, making it an optimal choice for backbone network connections, data center aggregations, or linking high-speed network devices in environments demanding robust data transmission capabilities.\n\nThe management of the UniFi NVRs through its Ethernet interface enables comprehensive remote control and configuration, allowing network administrators to manage settings, perform firmware updates, and monitor the device's performance seamlessly from any location within the network. This remote management capability is crucial for maintaining streamlined network operations and ensuring continuous surveillance system integrity. Additionally, the NVR's support for Bluetooth facilitates effortless initial setup and configuration, leveraging wireless technology to provide a user-friendly and accessible approach, particularly beneficial in situations where physical access to the device is challenging. This Bluetooth support enhances the overall deployment flexibility and operational efficiency of the UNVR & UNVR Pro, making them highly adaptable and user-centric solutions in modern networked environments."
+    },
+    {
+      "heading": "Substantial Build for Enterprise Use",
+      "text": "In contrast to the UNVR, the UNVR Pro offers superior storage capabilities and connectivity options. With seven HDD bays compared to the UNVR's four, the UNVR Pro can accommodate more extensive storage requirements, essential for larger surveillance operations. These bays support both 2.5-inch and 3.5-inch hard drives, providing flexibility to match storage performance and capacity needs, thus facilitating scalable and efficient storage solutions suitable for various operational demands. Both the UNVR Pro and the UNVR maintain a consistent operating temperature range of -5 °C to 40 °C, guaranteeing dependable performance across diverse environmental conditions.\n\nThe UNVR Pro is also designed for ease of use and rapid deployment. With Bluetooth 4.1, setup is streamlined through the UniFi Protect App, allowing for quick and efficient system initialization. Its 2U rack-mountable design, complete with an included kit, ensures that it can be seamlessly integrated into existing network infrastructure, maintaining a professional and organized setup. The UNVR Pro's weight of 9.45 kg and its robust physical construction signify its role as a substantial, enterprise-level device capable of supporting comprehensive surveillance networks. With its pre-installed UniFi Protect application, users gain centralized, local, and remote access to live camera feeds and recordings, combining the best features of cloud and onsite surveillance systems."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "NVR",
+  "categories": [
+    "NVR",
+    "NVRs & Viewport"
+  ],
+  "mpn": "UNVR-Pro",
+  "manufacturer_part_number": "UNVR-Pro",
+  "ean": "0810010075574",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3233/unvrpro_002-605db330a74d9-medium.jpg",
+        "alt": "Ubiquiti Network Video Recorder Pro",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3233/unvrpro_001-605db33179c4d-medium.jpg",
+        "alt": "Ubiquiti Network Video Recorder Pro front view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3233/unvrpro_005-605db3324dcd8-medium.jpg",
+        "alt": "Ubiquiti Network Video Recorder Pro top view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3233/unvrpro_003-605db32fd8eb6-medium.jpg",
+        "alt": "Ubiquiti Network Video Recorder Pro back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3233/unvrpro_004-605db32f122b4-medium.jpg",
+        "alt": "Ubiquiti Network Video Recorder Pro side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3233/unvrpro_006-605db32e3a853-medium.jpg",
+        "alt": "Ubiquiti Network Video Recorder Pro installation",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://dl.ubnt.com/qig/nvr-pro",
+        "title": "Installation Guide - Ubiquiti Network Video Recorder Pro"
+      },
+      {
+        "url": "https://dl.ubnt.com/ds/unvr-pro_ds",
+        "title": "Technical Specs / Datasheet - Ubiquiti Network Video Recorder Pro"
+      }
+    ],
+    "3d_model": "https://www.getic.com/3D/3233/model_low-69ef2bb370200.glb"
+  },
+  "price": {
+    "value": 506.30,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": ["EU", "UK", "US"],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": ["RJ45 Ports", "SFP Ports", "Management", "Bluetooth"],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        },
+        {
+          "name": "Bluetooth",
+          "value": "4.1"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": ["Hard Drive Bay", "Hard Drive"],
+      "items": [
+        {
+          "name": "Hard Drive Bay",
+          "value": "(7) 2.5\" SATA, (7) 3.5\" SATA"
+        },
+        {
+          "name": "Hard Drive",
+          "value": "Not Included"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": ["Power Method", "Power Supply", "Supported Input Voltage", "Max Power Consumption"],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, USP RPS DC input"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "160 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": ["Number of Rack Units", "Dimensions", "Weight", "Operating Temperature", "Environment", "Mounting Method", "Form Factor"],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "2U"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442 x 325 x 87 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "9.45 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Installation Guide - Ubiquiti Network Video Recorder Pro",
+      "url": "https://dl.ubnt.com/qig/nvr-pro"
+    },
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Network Video Recorder Pro",
+      "url": "https://dl.ubnt.com/ds/unvr-pro_ds"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Protect Viewport",
+      "url": "/product/unifi-protect-viewport",
+      "price": 204.90,
+      "currency": "USD",
+      "mpn": "UP-Viewport",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Camera AI 360",
+      "url": "/product/unifi-video-camera-ai-360",
+      "price": 359.00,
+      "currency": "USD",
+      "mpn": "UVC-AI-360",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G5 Bullet",
+      "url": "/product/unifi-protect-g5-bullet-camera",
+      "price": 116.86,
+      "currency": "USD",
+      "mpn": "UVC-G5-Bullet",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G5 Dome",
+      "url": "/product/unifi-protect-g5-dome-camera",
+      "price": 181.08,
+      "currency": "USD",
+      "mpn": "UVC-G5-Dome",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

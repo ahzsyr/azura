@@ -1,0 +1,405 @@
+{
+  "slug": "unifi-lte-pro",
+  "id": "U-LTE-Backup Pro",
+  "productTitle": "Ubiquiti UniFi LTE Pro",
+  "name": "Ubiquiti UniFi LTE Pro",
+  "title": "Ubiquiti UniFi LTE Pro",
+  "title_extended": "",
+  "short_description": "UniFi LTE Pro provides backup channel",
+  "description": "UniFi LTE Pro provides backup channel",
+  "detailed_description": [
+    {
+      "heading": "Avoid internet downtime and lost productivity by adding a UniFi LTE Pro to your existing UniFi network.",
+      "text": "The UniFi LTE Pro (U-LTE-Pro) from Ubiquiti Networks is an advanced failover solution designed to provide unwavering internet connectivity, ensuring that businesses and critical services remain online even when primary wired connections fail. This cutting-edge device represents a pivotal component in Ubiquiti's comprehensive UniFi ecosystem, known for its robust performance, reliability, and seamless integration capabilities. The U-LTE-Pro is engineered to keep your network resilient, providing a secure and high-speed cellular LTE backup connection that automatically kicks in whenever your primary internet connection goes down."
+    },
+    {
+      "heading": "Performance and Hardware",
+      "text": "At the heart of the UniFi LTE Pro's design is its compatibility with LTE-Advanced, offering impressive data speeds that can support critical business operations without noticeable disruption. This capability ensures that operations such as point-of-sale transactions, VoIP communications, and remote access to network resources can continue to function efficiently, minimizing potential losses and downtime that can occur during an internet outage."
+    },
+    {
+      "heading": "Connectivity and PoE Features",
+      "text": "The device features dual SIM slots, providing an additional layer of redundancy. This design allows users to install SIM cards from different service providers, ensuring that if one carrier experiences an outage or poor coverage, the device can switch to an alternative carrier to maintain connectivity. This feature is particularly beneficial for locations prone to service interruptions or where network coverage is inconsistent."
+    },
+    {
+      "heading": "Storage, USB, and Value",
+      "text": "Installation and integration of the U-LTE-Pro into existing networks are remarkably straightforward, thanks to its seamless compatibility with the UniFi ecosystem. The device can be easily managed via the UniFi Network Controller, a centralized interface that allows for comprehensive control over your UniFi devices and network settings. This integration not only simplifies the deployment of the U-LTE-Pro but also enables network administrators to monitor the health and status of the LTE connection, set preferences for failover activation, and review data usage statistics in real-time."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "4G Routers",
+  "categories": [
+    "4G Routers",
+    "Mobile Network"
+  ],
+  "mpn": "U-LTE-Backup Pro",
+  "manufacturer_part_number": "U-LTE-Backup Pro",
+  "ean": "0810010073549",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3232/ultepro_002-605da6ce635b7-medium.jpg",
+        "alt": "Ubiquiti UniFi LTE Pro",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3232/ultepro_010-605da6ca48400-medium.jpg",
+        "alt": "Ubiquiti UniFi LTE Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3232/ultepro_012-605da6cb28b0a-medium.jpg",
+        "alt": "Ubiquiti UniFi LTE Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3232/ultepro_013-605da6cbe6e83-medium.jpg",
+        "alt": "Ubiquiti UniFi LTE Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3232/ultepro_008-605da6ccc52c5-medium.jpg",
+        "alt": "Ubiquiti UniFi LTE Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3232/ultepro_004-605da6cd8f1be-medium.jpg",
+        "alt": "Ubiquiti UniFi LTE Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3232/ultepro_003-605da6cf3acad-medium.jpg",
+        "alt": "Ubiquiti UniFi LTE Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3232/ultepro_007-605da6d004725-medium.jpg",
+        "alt": "Ubiquiti UniFi LTE Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3232/ultepro_009-605da6d0c0f4d-medium.jpg",
+        "alt": "Ubiquiti UniFi LTE Pro",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/G3OJ3wbQqIs",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 268.04,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "LTE Category",
+        "FDD LTE Frequency Bands",
+        "SIM Card Slot"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "2G (GSM), 3G (UMTS), 4G (LTE)"
+        },
+        {
+          "name": "LTE Category",
+          "value": "Cat4 – 150Mbps/50Mbps"
+        },
+        {
+          "name": "FDD LTE Frequency Bands",
+          "value": "1 (2100MHz), 3 (1800MHz), 7 (2600MHz), 8 (900MHz), 20 (800MHz), 28 (700MHz)"
+        },
+        {
+          "name": "SIM Card Slot",
+          "value": "Nano-SIM"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Mobile Antenna Gain"
+      ],
+      "items": [
+        {
+          "name": "Mobile Antenna Gain",
+          "value": "2 dBi"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "74 Kc MIPS Processor at 775 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "128 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "48V Passive PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "44 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "8.5 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "66 x 202 x 32 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.200 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Tabletop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi LTE Pro",
+      "url": "https://dl.ubnt.com/ds/u-lte-pro_ds"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti UniFi LTE Pro",
+      "url": "http://dl-origin.ubnt.com/qsg/U-LTE/U-LTE_EN.html"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "type": "Pickup point",
+      "price": 15.58,
+      "currency": "USD",
+      "delivery_time": "18 business days"
+    },
+    {
+      "type": "Standard",
+      "price": 31.52,
+      "currency": "USD",
+      "delivery_time": "5 business days"
+    },
+    {
+      "type": "Express",
+      "price": 42.86,
+      "currency": "USD",
+      "delivery_time": "2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 5,
+    "count": 3,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 3,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Anton",
+        "date": "2023-02-24",
+        "text": "Lieferung war ? ",
+        "photos": []
+      },
+      {
+        "name": "Fabrizio",
+        "date": "2023-01-19",
+        "text": "Fa quello che deve, se salta la connessione principale subentra in pochissimo tempo e il tutto continua a funzionare ?",
+        "photos": []
+      },
+      {
+        "name": "Siddharth",
+        "date": "2023-01-02",
+        "text": "Convenient device for setting up LTE based failovers on UDM Pro",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi nanoHD",
+      "url": "/product/uap-nanohd",
+      "price": 123.30,
+      "currency": "USD",
+      "mpn": "UAP-nanoHD",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex Mini",
+      "url": "/product/unifi-usw-flex-mini",
+      "price": 35.32,
+      "currency": "USD",
+      "mpn": "USW-Flex-Mini",
+      "availability": "InStock"
+    },
+    {
+      "name": "UniFi Ethernet Patch Cable, Blue, 0.1m",
+      "url": "/product/unifi-ethernet-patch-cable-blue-01m",
+      "price": 3.15,
+      "currency": "USD",
+      "mpn": "U-Cable-Patch-RJ45-BL",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

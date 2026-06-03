@@ -1,0 +1,250 @@
+{
+  "slug": "instant-802-3af--48v-poe-usb",
+  "id": "1471",
+  "productTitle": "Ubiquiti Instant PoE to USB Converter",
+  "name": "Ubiquiti Instant PoE to USB Converter",
+  "title": "Ubiquiti Instant PoE to USB Converter",
+  "title_extended": "",
+  "short_description": "802.3af PoE USB Type A Charger",
+  "description": "The Instant PoE to USB Converter from Ubiquiti, known by its manufacture part number INS-3AF-USB, is an innovative device designed to convert Power over Ethernet (PoE) to USB output, facilitating the power supply for USB-powered devices via an Ethernet cable. This converter is particularly useful for situations where traditional USB power sources are not available or convenient, enabling the deployment of USB devices in a variety of networking environments.",
+  "detailed_description": [
+    {
+      "heading": "Plug and Play",
+      "text": "This converter is designed for simplicity, requiring no software or complex configuration. It works out of the box by simply connecting it between a PoE injector or switch and the USB device. The output is a standard USB port, making it compatible with a wide range of devices that require up to 5V of power, which covers most common USB-powered gadgets."
+    },
+    {
+      "heading": "ESD/Surge Protection",
+      "text": "The INS-3AF-USB is equipped with advanced protection capabilities to guard against electrostatic discharges and electromagnetic pulses, crucial in maintaining the integrity and longevity of both the converter and the connected devices. The device features an ESD protection rating of air discharge: ±8kV, and contact discharge: ±4kV. These protections ensure the converter can withstand common static electricity levels and shield sensitive components from potential damage caused by EMP events, which are especially critical in unstable electrical environments or during stormy weather conditions"
+    },
+    {
+      "heading": "PoE Switch Compatibility",
+      "text": "The Instant 802.3af PoE to USB Converter integrates seamlessly with a variety of auto-sensing 802.3af PoE switches for remote power control applications. As you manage and monitor your network, you can conveniently power or power cycle your remote devices using your 802.3af switch."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "",
+  "categories": [
+    "Ubiquiti",
+    "Accessory Tech",
+    "PoE & Power"
+  ],
+  "mpn": "INS-3AF-USB",
+  "manufacturer_part_number": "INS-3AF-USB",
+  "ean": "0817882021685",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1471/ins3afusb_front_copy-603defd097e38-medium.jpg",
+        "alt": "Ubiquiti Instant PoE to USB Converter front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1471/ins3afusb_back_copy-603defcfecff2-medium.jpg",
+        "alt": "Ubiquiti Instant PoE to USB Converter back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1471/ins3afusb_poe_port_copy1-603defd0444bc-medium.jpg",
+        "alt": "Ubiquiti Instant PoE to USB Converter PoE port view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1471/ins-3af-usb_usb_port-medium.jpg",
+        "alt": "Ubiquiti Instant PoE to USB Converter USB port view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 17.66,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "USB Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 2.0"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "PSU / POE adapter",
+          "value": "48 V DC 0.26 A"
+        }
+      ]
+    },
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "2 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "5 V DC"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "Ø30.2 x 95.27 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.06 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Instant PoE to USB Converter",
+      "url": "https://dl.ubnt.com/datasheets/instant/Instant_INS-3AF-USB_DS.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Andres",
+        "date": "2025-11-20",
+        "text": "product ok",
+        "photos": []
+      },
+      {
+        "name": "Gintautas",
+        "date": "2024-01-15",
+        "text": "Good item.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Instant Indoor PoE Converter",
+      "url": "/product/instant-802-3af-indoor-48v-poe-gigabit",
+      "price": 20.38,
+      "currency": "USD",
+      "mpn": "INS-3AF-I-G",
+      "availability": "InStock"
+    },
+    {
+      "name": "UniFi Ethernet Patch Cable, Blue, 0.3m",
+      "url": "/product/unifi-ethernet-patch-cable-blue-03m",
+      "price": 3.64,
+      "currency": "USD",
+      "mpn": "U-Cable-Patch-0.3M-RJ45-BL",
+      "availability": "InStock"
+    },
+    {
+      "name": "UniFi Ethernet Patch Cable, White, 0.1m",
+      "url": "/product/unifi-ethernet-patch-cable-white-01m",
+      "price": 3.15,
+      "currency": "USD",
+      "mpn": "U-Cable-Patch-RJ45",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "UniFi Ethernet Patch Cable, White, 0.3m",
+      "url": "/product/unifi-ethernet-patch-cable-white-03m",
+      "price": 3.64,
+      "currency": "USD",
+      "mpn": "U-Cable-Patch-0.3M-RJ45",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

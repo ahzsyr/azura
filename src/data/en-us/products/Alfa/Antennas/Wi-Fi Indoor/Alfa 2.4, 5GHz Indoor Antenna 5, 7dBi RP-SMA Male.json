@@ -1,0 +1,228 @@
+{
+  "slug": "alfa-2-4ghz-5-ghz-antenna-5-7-dbi",
+  "id": "2871",
+  "productTitle": "Alfa 2.4/5GHz Indoor Antenna 5/7dBi RP-SMA Male",
+  "name": "Alfa 2.4/5GHz Indoor Antenna 5/7dBi RP-SMA Male",
+  "title": "Alfa 2.4/5GHz Indoor Antenna 5/7dBi RP-SMA Male",
+  "title_extended": "",
+  "short_description": "Dual-band 2.4GHz/ 5GHz indoor omni antenna, 5/7 dBi, RP-SMA male.",
+  "description": "This is a 7 dBi omni-directional paddle antenna. It can receive and transmit on both the 2.4 GHz and 5 GHz Wi-Fi bands. This can be used with any brand Wi-Fi adapter or wireless router that uses RP-SMA antenna ports. It can be used with dual band routers and adapters, or single band. It is compatible with all Wi-Fi standards including 802.11a, b, g, n and the newest standard 802.11ac.",
+  "detailed_description": [
+    {
+      "heading": "VSWR",
+      "text": ""
+    }
+  ],
+  "brand": "Alfa Network",
+  "category": "Home and Office Networks",
+  "categories": [
+    "Home and Office Networks",
+    "Alfa",
+    "Antennas",
+    "Wi-Fi Indoor"
+  ],
+  "mpn": "ARS-25-57A",
+  "manufacturer_part_number": "ARS-25-57A",
+  "ean": "4718050306954",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2871/ars2557a_035fae8dfcf389alarge-6363b538c3f8f-medium.jpg",
+        "alt": "Alfa 2.4/5GHz Indoor Antenna 5/7dBi RP-SMA Male",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2871/ars2557a_1-6142f1ef82d7a-medium.jpg",
+        "alt": "Alfa 2.4/5GHz Indoor Antenna 5/7dBi RP-SMA Male",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2871/ars2557a_2-6142f1ecc3bdf-medium.jpg",
+        "alt": "Alfa 2.4/5GHz Indoor Antenna 5/7dBi RP-SMA Male",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2871/ars2557a_02-5fae8dffe37f8-medium.jpeg",
+        "alt": "Alfa 2.4/5GHz Indoor Antenna 5/7dBi RP-SMA Male",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2871/ars2557a_01-5fae8df3390f3-medium.jpeg",
+        "alt": "Alfa 2.4/5GHz Indoor Antenna 5/7dBi RP-SMA Male",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2871/ars2557a_04-5fae8df9cd2df-medium.jpeg",
+        "alt": "Alfa 2.4/5GHz Indoor Antenna 5/7dBi RP-SMA Male",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2871/ars2557a_05-5fae8df6b51ed-medium.jpeg",
+        "alt": "Alfa 2.4/5GHz Indoor Antenna 5/7dBi RP-SMA Male",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 11.78,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "VSWR",
+        "Impedance"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.4 - 2.483 (GHz) 5 (dBi), 5.1 - 5.9 (GHz) 7 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "360 ° Vertical"
+        },
+        {
+          "name": "VSWR",
+          "value": "< 2.5"
+        },
+        {
+          "name": "Impedance",
+          "value": "50 Ω"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) RP-SMA Male"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "Ø18.5 x 231 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 55 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Alfa Panel Indoor Antenna APA-M25",
+      "url": "/product/alfa-panel-indoor-antenna-apa-m25",
+      "price": 15.78,
+      "currency": "USD",
+      "mpn": "APA-M25",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS1900",
+      "url": "/product/alfa-awus1900",
+      "price": 46.14,
+      "currency": "USD",
+      "mpn": "AWUS1900",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACM",
+      "url": "/product/alfa-awus036acm",
+      "price": 34.45,
+      "currency": "USD",
+      "mpn": "AWUS036ACM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACS",
+      "url": "/product/alfa-awus036acs-nc",
+      "price": 20.49,
+      "currency": "USD",
+      "mpn": "AWUS036ACS",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

@@ -1,0 +1,357 @@
+{
+  "slug": "ubiquiti-g6-pro-entry",
+  "id": "7171",
+  "productTitle": "Ubiquiti G6 Pro Entry",
+  "name": "Ubiquiti G6 Pro Entry",
+  "title": "Ubiquiti G6 Pro Entry",
+  "title_extended": "",
+  "short_description": "The Ubiquiti G6 Pro Entry is an intelligent door entry system designed for modern enterprise environments, combining advanced access control with high resolution video monitoring.",
+  "description": "The Ubiquiti G6 Pro Entry is an intelligent door entry system designed for modern enterprise environments, combining advanced access control with high resolution video monitoring. Built for seamless integration with UniFi Protect and UniFi Access platforms, it provides a unified solution for managing both surveillance and secure entry from a single ecosystem. At the core of the system is a powerful 12 MP main camera, capable of delivering highly detailed video with a maximum resolution of 3024 × 4096. The device also includes a secondary package camera with 8 MP resolution, enabling additional monitoring perspectives for enhanced situational awareness.",
+  "detailed_description": [
+    {
+      "heading": "Smart Entry System",
+      "text": "The Ubiquiti G6 Pro Entry is an intelligent door entry system designed for modern enterprise environments, combining advanced access control with high resolution video monitoring. Built for seamless integration with UniFi Protect and UniFi Access platforms, it provides a unified solution for managing both surveillance and secure entry from a single ecosystem. At the core of the system is a powerful 12 MP main camera, capable of delivering highly detailed video with a maximum resolution of 3024 × 4096. The device also includes a secondary package camera with 8 MP resolution, enabling additional monitoring perspectives for enhanced situational awareness.\n\nThe wide field of view, reaching up to 176.4° diagonally, ensures comprehensive coverage of entry points, reducing blind spots and improving overall security. Built in infrared night vision with a range of up to 5 meters allows the system to maintain visibility in low light conditions, ensuring reliable operation around the clock. The device also supports smart detection features, including recognition of people, vehicles, and animals, enhancing event accuracy and reducing unnecessary alerts. With its advanced imaging capabilities and intelligent detection, the G6 Pro Entry delivers a highly effective solution for monitoring and controlling access in professional environments."
+    },
+    {
+      "heading": "Advanced Access Features",
+      "text": "The G6 Pro Entry offers a comprehensive set of access control features designed to meet the needs of modern secure environments. It supports multiple authentication methods, including face recognition, NFC cards and key fobs, PIN codes, and mobile based unlocking through Apple and Google Wallet. This flexibility allows organizations to implement access strategies tailored to different user groups and security requirements. The system includes a responsive 3 inch capacitive multi touch display with a resolution of 480 × 854, providing a clear and intuitive interface for user interaction. With brightness levels up to 1000 nits, the display remains easily readable in various lighting conditions.\n\nTwo way audio functionality enables real time communication between visitors and occupants, supported by an integrated intercom and doorbell system. This allows users to verify and manage access remotely, improving both convenience and security. The device is powered via PoE+ and connects through a Gigabit Ethernet interface, ensuring stable network communication and simplified installation. To unlock full access features such as NFC and face recognition, an Access Hub and UniFi applications are required, ensuring seamless integration within the UniFi ecosystem."
+    },
+    {
+      "heading": "Durable Enterprise Design",
+      "text": "The Ubiquiti G6 Pro Entry is engineered with durability and reliability in mind, making it suitable for demanding enterprise deployments. Its enclosure is constructed from aluminum, while mounting components include stainless steel and SGCC steel, ensuring strong mechanical stability and long term performance. The device supports multiple mounting options, including wall mounting, gangbox installation, and a 20 degree wedge mount, all included for flexible deployment. An optional junction box provides additional installation versatility for different environments.\n\nDesigned to operate in challenging conditions, the system features IP55 weather resistance and IK07 impact protection, ensuring resilience against environmental factors and physical interference. It operates reliably within a temperature range of -30 to 50° C and humidity levels from 5 to 90% noncondensing. The device is powered by a quad core ARM Cortex A53 processor, ensuring smooth operation across video processing and access control functions. Additional hardware features include status LEDs, a ring button, factory reset button, and tamper detection switch, enhancing usability and security. With its robust construction and advanced capabilities, the G6 Pro Entry provides a dependable solution for modern access control systems."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Doorbells",
+    "Camera Security",
+    "Ubiquiti"
+  ],
+  "mpn": "UVC-G6-Pro-Entry",
+  "manufacturer_part_number": "UVC-G6-Pro-Entry",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7171/1-69e73a7021fcd-medium.jpg",
+        "alt": "Ubiquiti G6 Pro Entry",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7171/2-69e73a733b7e9-medium.jpg",
+        "alt": "Ubiquiti G6 Pro Entry",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7171/3-69e73a767300a-medium.jpg",
+        "alt": "Ubiquiti G6 Pro Entry",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7171/4-69e73a79f37ed-medium.jpg",
+        "alt": "Ubiquiti G6 Pro Entry",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7171/5-69e73a7d5878d-medium.jpg",
+        "alt": "Ubiquiti G6 Pro Entry",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7171/6-69e73a806eac5-medium.jpg",
+        "alt": "Ubiquiti G6 Pro Entry",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7171/7-69e73a8370bb7-medium.jpg",
+        "alt": "Ubiquiti G6 Pro Entry",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7171/8-69e73a874a2fc-medium.jpg",
+        "alt": "Ubiquiti G6 Pro Entry",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7171/9-69e73a8a1e42e-medium.jpg",
+        "alt": "Ubiquiti G6 Pro Entry",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/7171/uvcg6proentry_ds-69e73a6b98bc2.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti G6 Pro Entry"
+      }
+    ],
+    "3d_model": true
+  },
+  "price": {
+    "value": 368.70,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Display",
+      "features": [
+        "Display Size",
+        "Display Type"
+      ],
+      "items": [
+        {
+          "name": "Display Size",
+          "value": "3 inch"
+        },
+        {
+          "name": "Display Type",
+          "value": "Multi-touch"
+        }
+      ]
+    },
+    {
+      "technology": "Video",
+      "features": [
+        "Megapixels",
+        "Resolution",
+        "Maximum Frame Rate"
+      ],
+      "items": [
+        {
+          "name": "Megapixels",
+          "value": "8MP, 12MP"
+        },
+        {
+          "name": "Resolution",
+          "value": "3264 x 2448, 3024 x 4096 (3:4), 2160 x 3840 (9:16)"
+        },
+        {
+          "name": "Maximum Frame Rate",
+          "value": "30 FPS"
+        }
+      ]
+    },
+    {
+      "technology": "Audio",
+      "features": [
+        "Microphone",
+        "Speaker"
+      ],
+      "items": [
+        {
+          "name": "Microphone",
+          "value": "Build-in"
+        },
+        {
+          "name": "Speaker",
+          "value": "Build-in"
+        }
+      ]
+    },
+    {
+      "technology": "Video Camera",
+      "features": [
+        "Sensor",
+        "Lens",
+        "Night Mode"
+      ],
+      "items": [
+        {
+          "name": "Sensor",
+          "value": "8 MP CMOS Sensor, 12 MP CMOS Sensor"
+        },
+        {
+          "name": "Lens",
+          "value": "Fixed Focal Length"
+        },
+        {
+          "name": "Night Mode",
+          "value": "IR LED Illumination and IR Cut Filter, IR Range up to 5 m"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Bluetooth"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Bluetooth",
+          "value": "4.1"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3at PoE+"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "42 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "18 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Ingress Protection Code",
+        "Housing\tDurability",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Aluminium"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP55"
+        },
+        {
+          "name": "Housing\tDurability",
+          "value": "Vandal-proof IK07"
+        },
+        {
+          "name": "Dimensions",
+          "value": "220 x 49.3 x 29.6 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.36 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti G6 Pro Entry",
+      "url": "https://www.getic.com/files/catalogue/7171/uvcg6proentry_ds-69e73a6b98bc2.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.60,
+        "currency": "USD",
+        "days": 18
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.48,
+        "currency": "USD",
+        "days": 5
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.91,
+        "currency": "USD",
+        "days": 2
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti WiFi Smart Chime",
+      "url": "/product/unifi-protect-smart-chime",
+      "price": 67.82,
+      "currency": "USD",
+      "mpn": "UP-Chime",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Siren PoE",
+      "url": "/product/ubiquiti-siren-poe",
+      "price": 101.26,
+      "currency": "USD",
+      "mpn": "UP-Siren-PoE",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

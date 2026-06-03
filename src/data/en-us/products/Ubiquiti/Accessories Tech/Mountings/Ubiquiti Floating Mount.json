@@ -1,0 +1,220 @@
+{
+  "slug": "floating-mount",
+  "id": "UACC-FM",
+  "productTitle": "Ubiquiti Floating Mount",
+  "name": "Ubiquiti Floating Mount",
+  "title": "Ubiquiti Floating Mount",
+  "title_extended": "Ubiquiti Floating Mount – Discreet mounting solution for UniFi Express and Gateway Lite",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Discreet Mounting",
+      "text": "The Ubiquiti Floating Mount (UACC-FM) is a sleek and minimalist mounting solution designed specifically for the Ubiquiti UniFi Express and UniFi Gateway Lite devices. This low-profile mount allows the gateways to seemingly float on the wall, enhancing aesthetics while maintaining optimal functionality. The secure and functional design ensures perfect compatibility and maintains full functionality of the UniFi Express and UniFi Gateway Lite."
+    },
+    {
+      "heading": "",
+      "text": "",
+      "media": {
+        "url": "https://www.getic.com/images/catalogue/description/2138/deployment-6616902335049-1113x407.jpg",
+        "alt": "/images/catalogue/description/2138/deployment-6616902335049-1113x407.jpg"
+      }
+    },
+    {
+      "heading": "Effortless Installation",
+      "text": "The UACC-FM boasts a compact design that complements the sleek aesthetics of the UniFi gateways. It minimizes the visual footprint of the mounted device, ensuring a clean and professional look in any environment. The mount is designed for a straightforward and efficient installation process. The mount utilizes standard mounting techniques, allowing for quick and easy integration into your existing infrastructure."
+    },
+    {
+      "heading": "",
+      "text": "The UACC-FM minimizes the amount of wall space required for mounting the gateways. This space-saving design is ideal for areas with limited wall real estate or where maintaining a clean visual aesthetic is a priority. The floating mount allows for discreet cable management. By routing cables behind the mounted device, the UACC-FM helps maintain a clean and clutter-free appearance. This space-saving mount simplifies installation, ensures optimal functionality, and offers a clean and professional look for your Ubiquiti network."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Indoor Mounts",
+  "categories": [
+    "Indoor Mounts",
+    "Ubiquiti",
+    "Accessory Tech"
+  ],
+  "mpn": "UACC-FM",
+  "manufacturer_part_number": "UACC-FM",
+  "ean": "0810084693292",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4746/1-66168feb59cb1-medium.jpg",
+        "alt": "Ubiquiti Floating Mount",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4746/2-66168ff2076e1-medium.jpg",
+        "alt": "Ubiquiti Floating Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4746/3-66168ff5313fb-medium.jpg",
+        "alt": "Ubiquiti Floating Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4746/4-66168ff8acb0c-medium.jpg",
+        "alt": "Ubiquiti Floating Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4746/5-66168ffc89c5d-medium.jpg",
+        "alt": "Ubiquiti Floating Mount",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 32.25,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Rubber, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "83.4 x 83.4 x 4.8 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.058 kg"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Floating Mount",
+      "url": "https://www.getic.com/files/catalogue/4746/uaccfm_ds-66168fe698603.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "days": "18"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "days": "5"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "days": "2"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Alfa USB Adapter AWUS1900",
+      "url": "/product/alfa-awus1900",
+      "price": 46.14,
+      "currency": "USD",
+      "mpn": "AWUS1900",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036AXM",
+      "url": "/product/alfa-usb-adapter-awus036axm",
+      "price": 26.09,
+      "currency": "USD",
+      "mpn": "AWUS036AXM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G5 Dome Ultra White",
+      "url": "/product/camera-g5-dome-ultra",
+      "price": 85.08,
+      "currency": "USD",
+      "mpn": "UVC-G5-Dome-Ultra",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Floating Mount 17cm",
+      "url": "/product/ubiquiti-floating-mount-17cm",
+      "price": 30.54,
+      "currency": "USD",
+      "mpn": "UACC-FM-17cm",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

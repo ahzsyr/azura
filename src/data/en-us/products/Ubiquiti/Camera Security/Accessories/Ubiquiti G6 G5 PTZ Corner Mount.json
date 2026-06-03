@@ -1,0 +1,209 @@
+{
+  "slug": "ubiquiti-g5-ptz-corner-mount",
+  "id": "4851",
+  "productTitle": "Ubiquiti G6/G5 PTZ Corner Mount",
+  "name": "Ubiquiti G6/G5 PTZ Corner Mount",
+  "title": "Ubiquiti G6/G5 PTZ Corner Mount",
+  "title_extended": "",
+  "short_description": "The Ubiquiti G6/G5 PTZ Corner Mount (UACC-G5-PTZ-CM) is a purpose-built accessory designed to optimize the placement of your UniFi Protect G6 PTZ or G5 PTZ Camera. This compact and weatherproof mount allows you to strategically position your camera in corner locations, expanding your monitoring range and minimizing blind spots within your surveillance area.",
+  "description": "The Ubiquiti G6/G5 PTZ Corner Mount (UACC-G5-PTZ-CM) is a purpose-built accessory designed to optimize the placement of your UniFi Protect G6 PTZ or G5 PTZ Camera. The G6/G5 PTZ Corner Mount is constructed from lightweight yet durable polycarbonate, ensuring a strong and stable mounting solution. Its compact design minimizes the mount's footprint while maintaining the full functionality of the G6 or G5 PTZ Camera.",
+  "detailed_description": [
+    {
+      "heading": "Maximized Monitoring Range",
+      "text": "The Ubiquiti G6/G5 PTZ Corner Mount (UACC-G5-PTZ-CM) is a purpose-built accessory designed to optimize the placement of your UniFi Protect G6 PTZ or G5 PTZ Camera. This compact and weatherproof mount allows you to strategically position your camera in corner locations, expanding your monitoring range and minimizing blind spots within your surveillance area. The G6/G5 PTZ Corner Mount is constructed from lightweight yet durable polycarbonate, ensuring a strong and stable mounting solution. Its compact design minimizes the mount's footprint while maintaining the full functionality of the G6 or G5 PTZ Camera. This allows you to discreetly position the camera in corners while still maximizing its range of motion for comprehensive surveillance."
+    },
+    {
+      "heading": "Streamlined Installation and Weatherproof Design",
+      "text": "The Ubiquiti G6/G5 PTZ Corner Mount prioritizes a user-friendly installation process. The included mounting hardware facilitates a quick and secure attachment of the mount to your chosen corner location. Additionally, the pre-existing cable management slot on the mount simplifies cable routing, ensuring a clean and professional-looking installation. For reliable operation in various environments, the G6/G5 PTZ Corner Mount boasts a weatherproof design. Its IP67 rating signifies complete protection against dust ingress and water resistance. This ensures the mount can withstand outdoor exposure to rain, snow, and other weather elements, safeguarding your camera investment."
+    },
+    {
+      "heading": "Compatibility and Seamless Integration",
+      "text": "The Ubiquiti G6/G5 PTZ Corner Mount is designed for seamless compatibility with the UniFi Protect G6 or G5 PTZ Camera. The secure mounting design ensures stable camera positioning, while maintaining full access to the camera's pan, tilt, and zoom functionalities. This allows you to leverage the camera's comprehensive surveillance capabilities for optimal monitoring of corner areas within your environment. The G6/G5 PTZ Corner Mount integrates seamlessly with the UniFi Protect ecosystem. Through the intuitive UniFi Protect software, you can manage your camera settings, view live footage, and access recorded video – all from a centralized user interface. With its weatherproof design, user-friendly installation, and optimized corner placement capabilities, the Ubiquiti G6/G5 PTZ Corner Mount empowers you to extend the coverage of your UniFi Protect G6 or G5 PTZ Camera and achieve comprehensive video surveillance within your environment."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Camera Mounts",
+  "categories": [
+    "Camera Mounts",
+    "Ubiquiti",
+    "Camera Security"
+  ],
+  "mpn": "UACC-G5-PTZ-CM",
+  "manufacturer_part_number": "UACC-G5-PTZ-CM",
+  "ean": "0810084693964",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4851/1-669fadaa35a6c-medium.jpg",
+        "alt": "Ubiquiti G6/G5 PTZ Corner Mount",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4851/2-669fadaf741fa-medium.jpg",
+        "alt": "Ubiquiti G6/G5 PTZ Corner Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4851/3-669fadb51c0d3-medium.jpg",
+        "alt": "Ubiquiti G6/G5 PTZ Corner Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4851/4-669fadbd90f86-medium.jpg",
+        "alt": "Ubiquiti G6/G5 PTZ Corner Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4851/5-669fadc2ef078-medium.jpg",
+        "alt": "Ubiquiti G6/G5 PTZ Corner Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4851/6-669fadc7a4fa3-medium.jpg",
+        "alt": "Ubiquiti G6/G5 PTZ Corner Mount",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 21.03,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Stainless steel, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "91.1 x 42.2 x 48.2 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.074 kg"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti G6/G5 PTZ Corner Mount",
+      "url": "https://www.getic.com/files/catalogue/4851/uaccg5ptzcm_ds-669fac9d346a2.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Camera G5 PTZ White",
+      "url": "/product/ubiquiti-camera-g5-ptz",
+      "price": 245.00,
+      "currency": "USD",
+      "mpn": "UVC-G5-PTZ",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex 8 2.5G",
+      "url": "/product/ubiquiti-unifi-8-port-switch-flex-2-5g",
+      "price": 152.04,
+      "currency": "USD",
+      "mpn": "USW-Flex-2.5G-8",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Bullet White",
+      "url": "/product/ubiquiti-camera-g6-bullet",
+      "price": 199.76,
+      "currency": "USD",
+      "mpn": "UVC-G6-Bullet-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 PTZ White",
+      "url": "/product/ubiquiti-camera-g6-ptz-wt",
+      "price": 387.17,
+      "currency": "USD",
+      "mpn": "UVC-G6-PTZ-W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": ""
+}

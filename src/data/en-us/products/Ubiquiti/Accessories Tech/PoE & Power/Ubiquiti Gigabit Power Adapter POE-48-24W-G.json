@@ -1,0 +1,263 @@
+{
+  "slug": "ubiquiti-poe-48-gigabit",
+  "id": "POE-48-24W-G",
+  "productTitle": "Ubiquiti Gigabit Power Adapter POE-48-24W-G",
+  "name": "Ubiquiti Gigabit Power Adapter POE-48-24W-G",
+  "title": "Ubiquiti Gigabit Power Adapter POE-48-24W-G",
+  "title_extended": "Ubiquiti PoE 48 Gigabit Switch – 48-Port Managed PoE Network Switch for Business & Enterprise Networks",
+  "short_description": "Gigabit POE adapter 48V DC, 24W, 0.5A",
+  "description": "The Ubiquiti POE-48-24W-G is a 48V Power over Ethernet (PoE) adapter meticulously designed to provide power and data integration through a single Ethernet cable, primarily intended for use with PoE-compatible network devices. Equipped with a Gigabit LAN port, the adapter facilitates high-speed data transmission, ensuring that network devices can perform at their best without data throughput limitations.",
+  "detailed_description": [
+    {
+      "heading": "Features",
+      "text": "Surge protection, Clamping protection, Maximum surge discharge, Peak pulse current, AC cable with earth ground"
+    },
+    {
+      "heading": "Performance and Hardware",
+      "text": "The POE-48-24W-G delivers a stable 48V DC at 0.5A. This power specification is tailored to meet the demands of devices that require a higher voltage to ensure efficient operation, especially over extended cable lengths where voltage drop could be a concern. It accommodates a wide input voltage range from 100-240V AC, which enables it to be used in diverse electrical environments globally. This feature, coupled with its 50/60Hz frequency compatibility, allows the adapter to operate efficiently across different national power grids."
+    },
+    {
+      "heading": "Design and Safety",
+      "text": "The compact design of the POE-48-24W-G ensures that it does not require excessive space, making it easy to integrate into various network setups without clutter. The adapter's robust casing not only protects it from physical impacts but also helps in effective heat dissipation, which is essential for maintaining optimal performance during prolonged operational periods. It includes advanced safety features such as surge protection and overcurrent protection. These features are critical in preventing damage to connected devices during unexpected voltage spikes or electrical faults, thus ensuring continuous network uptime and reliability."
+    },
+    {
+      "heading": "Efficiency and Certification",
+      "text": "The adapter operates with an efficiency of over 80%, indicating a high rate of energy conversion with minimal loss. This high efficiency is crucial for reducing operational costs and enhancing the overall sustainability of the network system. The POE-48-24W-G is certified by leading safety and quality standards including CE, FCC, IC, and UL. These certifications affirm that the adapter meets rigorous compliance criteria for safety and operational reliability, making it suitable for deployment in a wide range of professional networking environments."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "PoE Adapters",
+  "categories": [
+    "PoE Adapters"
+  ],
+  "mpn": "POE-48-24W-G",
+  "manufacturer_part_number": "POE-48-24W-G",
+  "ean": "0810354023088",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/638/poe-48-24w-g_hero_1024x1024-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-48-24W-G",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/638/poe-48-24w-g_front_1024x1024-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-48-24W-G",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/638/poe-48-24w-g_front_topangle_1024x1024-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-48-24W-G",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/638/poe-48-24w-g_ports_1024x1024-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-48-24W-G",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/638/poe4824wg-608a9b90d297a-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-48-24W-G",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/638/poe4824wg_1-608a9b8faeecb-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-48-24W-G",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 14.94,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage",
+        "Ehternet Ports",
+        "Ethernet Powering"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "0.5 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "48 V DC"
+        },
+        {
+          "name": "Ehternet Ports",
+          "value": "1 Gbps"
+        },
+        {
+          "name": "Ethernet Powering",
+          "value": "2-Pair"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "96 x 62 x 35 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.166 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Gigabit Power Adapter POE-48-24W-G",
+      "url": "https://www.getic.com/https://dl.ubnt.com/datasheets/poe/PoE_Adapters_DS.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 3,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 3,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Michael",
+        "date": "2025-10-19",
+        "text": "Solid Power Injector, have been using them for over 3 years and can not recall one ever failing.",
+        "photos": []
+      },
+      {
+        "name": "Michael",
+        "date": "2023-08-17",
+        "text": "Very reliable",
+        "photos": []
+      },
+      {
+        "name": "Einars",
+        "date": "2023-06-09",
+        "text": "Great and compact product.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-24-12W-G",
+      "url": "/product/ubiquiti-poe-24-gigabit",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "POE-24-12W-G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi AC Pro",
+      "url": "/product/unifi-ac-pro",
+      "price": 135.81,
+      "currency": "USD",
+      "mpn": "UAP-AC-PRO",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

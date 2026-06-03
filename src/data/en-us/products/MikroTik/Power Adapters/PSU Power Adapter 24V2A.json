@@ -1,0 +1,220 @@
+{
+  "slug": "psu-power-adapter-24v2a",
+  "id": "1007",
+  "productTitle": "PSU Power Adapter 24V2A",
+  "name": "PSU Power Adapter 24V2A",
+  "title": "PSU Power Adapter 24V2A",
+  "title_extended": "",
+  "short_description": "Input: 110-240V AC 50/60Hz, Output: 24V DC 2A",
+  "description": "Input: 110-240V AC 50/60Hz, Output: 24V DC 2A",
+  "detailed_description": [
+    {
+      "heading": "Detailed description",
+      "text": "The PSU24V2A is a reliable 24V 2A (48W) power adapter designed to deliver stable and efficient power for a wide range of MikroTik devices. It provides a consistent 24V DC output, making it suitable for powering routers, switches, and other networking equipment that require dependable performance in both home and professional setups. With its universal input range of 100–240V AC at 50/60Hz, this power supply can be used worldwide without compatibility issues. The PSU24V2A is equipped with a built-in ferrite ring at the end of the power cord, which helps reduce electromagnetic interference and ensures clean, stable power delivery. Compact and durable, the PSU24V2A is designed for long-term reliability, providing safe and efficient operation even under continuous load. Whether you’re replacing an old adapter or setting up a new system, this power supply is a practical and trusted choice for all your MikroTik equipment."
+    }
+  ],
+  "brand": "OEM",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters",
+    "Electrical Equipment"
+  ],
+  "mpn": "PSU24V2A",
+  "manufacturer_part_number": "PSU24V2A",
+  "ean": "0708747432589",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1007/psu24v2afront-62cd71c72776d-medium.jpg",
+        "alt": "PSU Power Adapter 24V2A front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1007/psu24v2a-62cd5afc3fb6a-medium.jpg",
+        "alt": "PSU Power Adapter 24V2A side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1007/psu24v2af1-62cd71c5ba0ff-medium.jpg",
+        "alt": "PSU Power Adapter 24V2A angled view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1007/psu24v2afront-62cd71c72776d-tiny.jpg",
+        "alt": "PSU Power Adapter 24V2A thumbnail 1"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1007/psu24v2a-62cd5afc3fb6a-tiny.jpg",
+        "alt": "PSU Power Adapter 24V2A thumbnail 2"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1007/psu24v2af1-62cd71c5ba0ff-tiny.jpg",
+        "alt": "PSU Power Adapter 24V2A thumbnail 3"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 15.00,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "110 - 240 V AC"
+        }
+      ]
+    },
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage",
+        "Output Power"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "2 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "24 V DC"
+        },
+        {
+          "name": "Output Power",
+          "value": "48 W"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.66,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.61,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.08,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "PSU Power Adapter 24V1A",
+      "url": "/product/psu-power-adapter-24v1a",
+      "price": 6.20,
+      "currency": "USD",
+      "mpn": "24POW",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RBPOE",
+      "url": "/product/poe-injector",
+      "price": 0.99,
+      "currency": "USD",
+      "mpn": "RBPOE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Coaxial Adapter SMA Female / TS9",
+      "url": "/product/coaxial-adapter-sma-female-ts9",
+      "price": 3.20,
+      "currency": "USD",
+      "mpn": "CA-SF-TS9",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Power Adapter 24V 1.2A",
+      "url": "/product/psu-power-adapter-24v1-2a-for-mikrotik",
+      "price": 4.49,
+      "currency": "USD",
+      "mpn": "SAW30-240-1200GR2A",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

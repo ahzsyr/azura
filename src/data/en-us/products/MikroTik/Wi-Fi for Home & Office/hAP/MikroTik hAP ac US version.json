@@ -1,0 +1,312 @@
+{
+  "slug": "routerboard-hap-ac-us",
+  "id": "1965",
+  "productTitle": "MikroTik hAP ac US version",
+  "name": "MikroTik hAP ac US version",
+  "title": "MikroTik hAP ac US version",
+  "title_extended": "",
+  "short_description": "720MHz CPU, 128MB RAM, 5x GLAN ports, 802.11a/b/g/n/ac, 2.4GHz 3 chains + 5GHz 3 chains, RouterOS L4",
+  "description": "720MHz CPU, 128MB RAM, 5x GLAN ports, 802.11a/b/g/n/ac, 2.4GHz 3 chains + 5GHz 3 chains, RouterOS L4",
+  "detailed_description": [
+    {
+      "heading": "Universal Dual-Band Performance",
+      "text": "Explore comprehensive and affordable home and office wireless networking with the MikroTik hAP ac. The hAP ac's dual concurrent triple-chain feature ensures simultaneous data transmission and reception on both the 2.4GHz and 5GHz bands, significantly enhancing its potential data transfer rate. Operating as a 2.4/5GHz Access Point, it dynamically adapts to the optimal frequency, providing flexibility and superior performance in various network conditions. Leveraging 802.11ac technology, the hAP ac operates on the 5GHz band, delivering faster data rates compared to its predecessors, particularly the 802.11n standard."
+    },
+    {
+      "heading": "Powerful Hardware for Efficient Operation",
+      "text": "Driven by a 720 MHz CPU, the hAP ac sets up seamless networking operations. This central processing unit ensures efficient handling of networking tasks, swift data routing, and proficient management of diverse connections. Accompanying this, the device boasts 128 MB of RAM, a component that stores data temporarily, enabling quick access by the CPU. With this ample RAM capacity, the hAP ac adeptly manages concurrent tasks, delivering a responsive and dynamic networking experience. At its core, the hAP ac is driven by the QCA9558 chipset. This purpose-built core processing unit, designed by Qualcomm Atheros, is optimized for executing networking functions. Featuring 1 core and a clock speed of 720 MHz, the QCA9558 chipset ensures efficient data processing, forming the backbone of the hAP ac's advanced networking capabilities."
+    },
+    {
+      "heading": "Versatile Connectivity Options",
+      "text": "The inclusion of Gigabit Ethernet ports amplifies the hAP ac's connectivity capabilities. These ports, supporting data transfer rates up to 1 gigabit per second, guarantee high-speed wired connections. In the realm of networking, Gigabit Ethernet proves indispensable, providing low-latency and high-throughput communication for demanding applications. With passive PoE output on port 5, the device can power other RouterBOARD devices without the need for an extra power adapter. The hAP ac also features an SFP cage, accommodating Small Form-factor Pluggable modules. This feature allows for flexible connectivity options, including integrating fiber optic transceivers. The SFP modules enable the device to establish long-distance connections over optical fibers, expanding the networking possibilities. Additionally, the hAP ac incorporates a USB-A 2.0 port tailored for 3G/4G support. This port facilitates seamless connectivity with external devices, particularly designed to support 3G or 4G modems. This thoughtful addition empowers the device to establish a mobile broadband connection, catering to diverse networking scenarios."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "WiFi Routers",
+  "categories": [
+    "WiFi Routers",
+    "hAP"
+  ],
+  "mpn": "RB962UiGS-5HacT2HnT-US",
+  "manufacturer_part_number": "RB962UiGS-5HacT2HnT-US",
+  "ean": "4752224003362",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1965/rb962uigs5hact2hnt_1-5fd9cf4dd7ba4-medium.jpg",
+        "alt": "MikroTik hAP ac US version",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1965/rb962uigs5hact2hnt_1-5fd9cf4dd7ba4-small.jpg",
+        "alt": "MikroTik hAP ac US version",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/dkIYoZJrbd8",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 102.10,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 5" },
+        { "name": "Standards", "value": "802.11n/ac" },
+        { "name": "MIMO", "value": "2.4GHz 3x3, 5GHz 3x3" },
+        { "name": "Frequency", "value": "2.4GHz, 5GHz" },
+        { "name": "2.4GHz Radio Rate", "value": "450 Mbps" },
+        { "name": "5GHz Radio Rate", "value": "1.3 Gbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        { "name": "Antenna Design", "value": "Omni" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "2.412 - 2.462 (GHz) 2.5 (dBi), 5.170 - 5.250 (GHz) 2 (dBi), 5.725 - 5.835 (GHz) 2 (dBi)" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "USB Ports",
+        "Management"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(5) 1 Gbps" },
+        { "name": "Number of PoE Ports", "value": "1 pcs" },
+        { "name": "PoE Out Standards", "value": "Passive PoE" },
+        { "name": "SFP Ports", "value": "(1) 1G SFP" },
+        { "name": "USB Ports", "value": "(1) USB-A 2.0" },
+        { "name": "Management", "value": "Ethernet, Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "QCA9558, 1 core, 720 MHz" },
+        { "name": "RAM", "value": "128 MB" },
+        { "name": "Storage Memory", "value": "16 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "AC/DC Adapter, 24V Passive PoE, 48V Passive PoE" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Supported Input Voltage", "value": "12 - 57 V DC" },
+        { "name": "Max Power Consumption", "value": "17 W" },
+        { "name": "Power Connector", "value": "DC Plug 2.1 x 5.5 mm" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 1.2 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        { "name": "Color", "value": "White" },
+        { "name": "Ingress Protection Code", "value": "IP20" },
+        { "name": "Dimensions", "value": "137 x 114 x 29 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Indoor" },
+        { "name": "Mounting Method", "value": "Wall Mount, Tabletop" },
+        { "name": "Form Factor", "value": "Desktop" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 4" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik hAP ac US version",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-hap_ac.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik hAP ac US version",
+      "url": "https://www.getic.com/files/catalogue/1965/hapac_usermanual-665d77a4d2901.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 3,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 100,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 1,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Valdis",
+        "date": "2023-09-29",
+        "text": "Cpu 100% at 250mbs if advanced firewall configurarion activated",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hEX S",
+      "url": "/product/routerboard-hex-s",
+      "price": 65.22,
+      "currency": "USD",
+      "mpn": "RB760iGS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ac US version",
+      "url": "/product/routerboard-cap-ac-us",
+      "price": 73.89,
+      "currency": "USD",
+      "mpn": "RBcAPGi-5acD2nD-US",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ac3 US version",
+      "url": "/product/mikrotik-hap-ac3-us-version",
+      "price": 88.22,
+      "currency": "USD",
+      "mpn": "RBD53iG-5HacD2HnD-US",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik cAP XL ac US Version",
+      "url": "/product/mikrotik-cap-xl-ac-us-version",
+      "price": 80.20,
+      "currency": "USD",
+      "mpn": "RBcAPGi-5acD2nD-XL-US",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

@@ -1,0 +1,248 @@
+{
+  "slug": "mikrotik-routeros-level-5",
+  "id": "mikrotik-routeros-level-5",
+  "productTitle": "License RouterOS Level 5 / CHR P10",
+  "name": "License RouterOS Level 5 / CHR P10",
+  "title": "License RouterOS Level 5 / CHR P10",
+  "title_extended": "",
+  "short_description": "License can be used as RouterOS Level 5 or Cloud Hosted Router P10. Please write in the comment your Mikrotik ID (login) and license will be sent to you",
+  "description": "License can be used as RouterOS Level 5 or Cloud Hosted Router P10. Please write in the comment your Mikrotik ID (login) and license will be sent to you",
+  "detailed_description": [
+    {
+      "heading": "The Spectrum of RouterOS Capabilities",
+      "text": "MikroTik RouterOS is an advanced operating system tailored to transform any compatible hardware into a powerful network router. This platform is endowed with a broad spectrum of capabilities, crafted to cater to the diverse needs of modern networking. RouterOS is adept at handling complex network topologies and dynamic routing scenarios. It supports a wide array of routing protocols, including OSPF for dynamic routing within an autonomous system, BGP for internet routing and exchange of routing information between different autonomous systems, and RIP, a distance-vector protocol used for smaller networks. These capabilities allow RouterOS to efficiently manage and optimize data paths, ensuring reliable and high-performance network communication across various scales and topologies."
+    },
+    {
+      "heading": "Effective Network Traffic Management",
+      "text": "Bandwidth management in RouterOS is executed with precision, empowering administrators to allocate network resources judiciously through queueing, traffic prioritization, and traffic shaping mechanisms. This ensures optimal network performance by preventing bandwidth saturation, reducing latency, and maintaining quality of service (QoS). RouterOS provides tools to manage network traffic effectively, enabling administrators to enhance the user experience by ensuring critical applications receive the necessary bandwidth and resources."
+    },
+    {
+      "heading": "Tailored for Enterprises and ISPs",
+      "text": "RouterOS License Level 5, or CHR P10, stands as a premium tier in the MikroTik RouterOS licensing framework, tailored for larger enterprises and Internet service providers that demand high-capacity network solutions. This license level is crucial for handling more substantial network loads and providing more extensive network services, especially in environments where virtualization and high-speed connectivity are paramount. After acquiring the license, you will receive a key that must be inserted into the RouterOS device, either through direct input in the terminal or by utilizing the \"Paste key\" function in the Winbox License menu. The licensing process is anchored to the unique SoftwareID, which correlates with the device’s storage medium, ensuring a secure and proper application of the license. To activate and validate the license, a system reboot is necessary post-installation."
+    },
+    {
+      "heading": "",
+      "text": "With RouterOS Level 5, users gain access to a vast array of features. The license supports a 10 Gbit/s speed limit, making it ideal for operations that involve substantial data transfer rates. It can accommodate 500 users in PPPoE, PPTP, L2TP tunnels, and up to 500 active HotSpot users, with the User Manager handling 50 active sessions simultaneously. The offering of unlimited OVPN tunnels, EoIP tunnels, VLAN interfaces, bonding interfaces, and queue rules highlights the license’s capacity for extensive network configurations and robust management capabilities. This makes it perfectly suited for large-scale network environments that require robust throughput, high reliability, and comprehensive user connectivity."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Licenses",
+  "categories": [
+    "Licenses",
+    "MikroTik"
+  ],
+  "mpn": "SWL5",
+  "manufacturer_part_number": "SWL5",
+  "ean": "0733115908021",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/226/mt-license-medium.jpg",
+        "alt": "License RouterOS Level 5 / CHR P10",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/226/mt-license-tiny.jpg",
+        "alt": "License RouterOS Level 5 / CHR P10"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 52.00,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "License",
+      "features": [
+        "Level",
+        "Speed limit",
+        "Wireless AP (PtMP)",
+        "PPPoE tunnels",
+        "PPTP tunnels",
+        "L2TP tunnels",
+        "OVPN tunnels",
+        "EoIP tunnels",
+        "VLAN interfaces",
+        "Queue rules",
+        "HotSpot active users",
+        "User manager active sessions",
+        "Bonding interfaces"
+      ],
+      "items": [
+        { "name": "Level", "value": "5" },
+        { "name": "Speed limit", "value": "10 Gbit" },
+        { "name": "Wireless AP (PtMP)", "value": "Yes" },
+        { "name": "PPPoE tunnels", "value": "500" },
+        { "name": "PPTP tunnels", "value": "500" },
+        { "name": "L2TP tunnels", "value": "500" },
+        { "name": "OVPN tunnels", "value": "Unlimited" },
+        { "name": "EoIP tunnels", "value": "Unlimited" },
+        { "name": "VLAN interfaces", "value": "Unlimited" },
+        { "name": "Queue rules", "value": "Unlimited" },
+        { "name": "HotSpot active users", "value": "500" },
+        { "name": "User manager active sessions", "value": "50" },
+        { "name": "Bonding interfaces", "value": "Unlimited" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - License RouterOS Level 5 / CHR P10",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-mikrotik-routeros.pdf"
+    },
+    {
+      "title": "Quick Start Guide - License RouterOS Level 5 / CHR P10",
+      "url": "https://help.mikrotik.com/docs/display/ROS/RouterOS+license+keys"
+    }
+  ],
+  "shipping": {
+    "options": []
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 11,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 11,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Manjunathan",
+        "date": "2026-02-19",
+        "text": "Cheaper than mikrotik website and its working perfectly fine.",
+        "photos": []
+      },
+      {
+        "name": "Avi",
+        "date": "2026-02-19",
+        "text": "It works fine and you get the full Router OS functionality on a standard x86 hardware. (I used the bare metal version, not CHR) The only complaint I have is that the license is tied to the storage device (SSD), and it is impossible to transfer the license to another SSD.",
+        "photos": []
+      },
+      {
+        "name": "Tim",
+        "date": "2025-11-29",
+        "text": "Fast delivery!",
+        "photos": []
+      },
+      {
+        "name": "Emiliano",
+        "date": "2025-11-02",
+        "text": "Acquistata licenza Mikrotik CHR P10 al miglior prezzo di mercato.",
+        "photos": []
+      },
+      {
+        "name": "Marco",
+        "date": "2025-09-12",
+        "text": "Ho comprato una licenza ufficiale Mikrotik level 5 per il mio Mini PC. Tutto perfetto, funziona a dovere e ho risparmitato qualche euro rispetto all'acquisto fatto sul sito ufficiale.\nTempi di ricezione della licenza: 24/48 ore. Consigliato!",
+        "photos": []
+      },
+      {
+        "name": "Philipp",
+        "date": "2023-12-08",
+        "text": "Fast Delivery and nice Service as Always",
+        "photos": []
+      },
+      {
+        "name": "Bellier",
+        "date": "2023-10-27",
+        "text": "Rapide et efficace malgré mon erreur",
+        "photos": []
+      },
+      {
+        "name": "Ulrich",
+        "date": "2023-08-29",
+        "text": "Very affordable, easy and quick. :-)",
+        "photos": []
+      },
+      {
+        "name": "sven",
+        "date": "2023-08-28",
+        "text": "Microtik + Getic = 100 % pure love :)",
+        "photos": []
+      },
+      {
+        "name": "Kiplabatt",
+        "date": "2023-04-14",
+        "text": "Quick yet efficient dispatch",
+        "photos": []
+      },
+      {
+        "name": "Rob",
+        "date": "2022-11-11",
+        "text": "10Gbit routing for a cheap price!  Can't complain!",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "License RouterOS Level 4 / CHR P1",
+      "url": "/product/mikrotik-routeros-level-4",
+      "price": 28.00,
+      "currency": "USD",
+      "mpn": "SWL4",
+      "availability": "InStock"
+    },
+    {
+      "name": "License RouterOS Level 6 / CHR P-Unlimited",
+      "url": "/product/mikrotik-routeros-level-6",
+      "price": 139.00,
+      "currency": "USD",
+      "mpn": "SWL6",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB5009UG+S+IN",
+      "url": "/product/mikrotik-rb5009ug-s-in",
+      "price": 175.29,
+      "currency": "USD",
+      "mpn": "RB5009UG+S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ax",
+      "url": "/product/mikrotik-cap-ax",
+      "price": 103.11,
+      "currency": "USD",
+      "mpn": "cAPGi-5HaxD2HaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate"
+    }
+  ],
+  "stock_stat": "In stock"
+}

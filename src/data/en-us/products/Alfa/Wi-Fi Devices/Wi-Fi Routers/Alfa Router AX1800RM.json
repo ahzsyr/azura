@@ -1,0 +1,338 @@
+{
+  "slug": "alfa-router-ax1800rm",
+  "id": 4326,
+  "productTitle": "Alfa Router AX1800RM",
+  "name": "Alfa Router AX1800RM",
+  "title": "Alfa Router AX1800RM",
+  "title_extended": "",
+  "short_description": "Dual Band Wi-Fi 6 Mesh Router, data rate 1800 Mbps, MU-MIMO and OFDMA Support",
+  "description": "AX1800RM Dual Band WiFi 6 (802.11ax) Mesh Router supporting MU-MIMO and OFDMA technology for better coverage and throughput. This router supports one-key mesh, Beamforming and BSS coloring. The maximum data transfer rate is up to 1800 Mbps. The kit includes four external dual-band 5 dBi antennas.",
+  "detailed_description": [],
+  "brand": "Alfa Network",
+  "category": "WiFi Routers",
+  "categories": [
+    "Alfa",
+    "Wi-Fi Devices",
+    "Wi-Fi Routers"
+  ],
+  "mpn": "AX1800RM",
+  "manufacturer_part_number": "AX1800RM",
+  "ean": "4718050308491",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4326/alfarouterax1800rm-6401d3118c795-medium.jpg",
+        "alt": "Alfa Router AX1800RM",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4326/alfarouterax1800rm_1-6401d31111a0e-medium.jpg",
+        "alt": "Alfa Router AX1800RM",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4326/alfarouterax1800rm-6401d3118c795-tiny.jpg",
+        "alt": "Alfa Router AX1800RM"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4326/alfarouterax1800rm_1-6401d31111a0e-tiny.jpg",
+        "alt": "Alfa Router AX1800RM"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 54.09,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 2x2"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "573 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "1.2 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(4) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "MediatekMT7621A + MT7905 + MT7975"
+        },
+        {
+          "name": "RAM",
+          "value": "16 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "256 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "12 V DC 1 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "185 x 116 x 40 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.247 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-25 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Alfa Router AX1800RM",
+      "url": "https://www.getic.com/files/catalogue/4326/ax1800rm-6401d32c63f3f.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Alfa 8-Port Passive PoE Injector Gigabit",
+      "url": "/product/apoe08g",
+      "price": 32.18,
+      "currency": "USD",
+      "mpn": "APOE08G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS1900",
+      "url": "/product/alfa-awus1900",
+      "price": 46.14,
+      "currency": "USD",
+      "mpn": "AWUS1900",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACM",
+      "url": "/product/alfa-awus036acm",
+      "price": 34.45,
+      "currency": "USD",
+      "mpn": "AWUS036ACM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036AXER",
+      "url": "/product/alfa-usb-adapter-awus036axer",
+      "price": 24.79,
+      "currency": "USD",
+      "mpn": "AWUS036AXER",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

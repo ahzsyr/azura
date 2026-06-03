@@ -1,0 +1,287 @@
+{
+  "slug": "unifi-protect-viewport",
+  "id": "UP-Viewport",
+  "productTitle": "Ubiquiti Protect Viewport",
+  "name": "Ubiquiti Protect Viewport",
+  "title": "Ubiquiti Protect Viewport",
+  "title_extended": "Ubiquiti Protect Viewport – HDMI Adapter for IP cameras",
+  "short_description": "UniFi Protect ViewPort  - HDMI Adapter for IP cameras",
+  "description": "The Ubiquiti Protect Viewport (UP-Viewport) is a compact and easy-to-use hardware solution designed for displaying UniFi Protect camera feeds directly on an HDMI monitor or TV. It functions as a dedicated viewing hub, eliminating the need for a computer, browser, or additional software at the display location. This makes it ideal for security rooms, reception areas, retail stores, warehouses, and any environment where continuous video monitoring is required. The device connects to the network via a Gigabit Ethernet (GbE) RJ45 port, ensuring stable and high-bandwidth communication with the UniFi Protect system. Once connected, the Viewport provides immediate access to live camera streams through the UniFi Protect web interface or the UniFi Protect mobile applications for iOS and Android, delivering a consistent viewing experience across platforms.",
+  "detailed_description": [
+    {
+      "heading": "Effortless Camera Monitoring",
+      "text": "The Ubiquiti Protect Viewport (UP-Viewport) is a compact and easy-to-use hardware solution designed for displaying UniFi Protect camera feeds directly on an HDMI monitor or TV. It functions as a dedicated viewing hub, eliminating the need for a computer, browser, or additional software at the display location. This makes it ideal for security rooms, reception areas, retail stores, warehouses, and any environment where continuous video monitoring is required. The device connects to the network via a Gigabit Ethernet (GbE) RJ45 port, ensuring stable and high-bandwidth communication with the UniFi Protect system. Once connected, the Viewport provides immediate access to live camera streams through the UniFi Protect web interface or the UniFi Protect mobile applications for iOS and Android, delivering a consistent viewing experience across platforms."
+    },
+    {
+      "heading": "Compact and Durable Design",
+      "text": "With its compact dimensions of 157 × 52 × 37 mm, the UP-Viewport can be discreetly installed behind a display or placed near it without cluttering the workspace. The enclosure is made of durable polycarbonate, offering a balance of strength and lightweight construction. The device weighs 230 g without the mount and 252 g with the included TV mount, making installation quick and effortless. Operation is intentionally simplified. A single factory reset button allows easy recovery or redeployment when needed. Designed for reliability, the Viewport supports continuous operation in environments with ambient temperatures from 0 to 40 °C. By focusing exclusively on video display, the Ubiquiti Protect Viewport delivers a clean, stable, and purpose-built solution for real-time camera monitoring within the UniFi Protect ecosystem."
+    },
+    {
+      "heading": "Reliable Hardware Platform",
+      "text": "The Ubiquiti Protect Viewport is engineered for efficient deployment and long-term reliability. Power is supplied entirely through Power over Ethernet (PoE), allowing both data and power to be delivered over a single Ethernet cable. This simplifies installation, reduces cable clutter, and eliminates the need for a separate power adapter at the display location. Despite its compact form, the device is designed for stable, continuous operation with a maximum power consumption of only 9.5 W, making it energy-efficient even in 24/7 monitoring scenarios. Low power usage also contributes to reduced heat generation, supporting quiet and maintenance-free operation. The hardware platform includes built-in ESD and EMP protection, rated at ±8 kV air discharge and ±4 kV contact discharge, helping protect the device from electrostatic events and electrical disturbances commonly encountered in commercial installations."
+    },
+    {
+      "heading": "Compliance and Integration",
+      "text": "Both the enclosure and mounting components are manufactured from polycarbonate, ensuring durability while maintaining a lightweight structure suitable for wall or TV mounting. From a compliance perspective, the UP-Viewport meets the requirements of NDAA, making it suitable for corporate, educational, and government-related deployments. The device is certified to FCC, IC, CE, and Anatel standards, confirming conformity with international safety, electromagnetic compatibility, and regulatory requirements. The Viewport integrates seamlessly with the UniFi Protect software platform, using the web application for configuration and the UniFi Protect mobile apps for flexible monitoring. This tight integration ensures consistent updates, secure operation, and compatibility within UniFi-based surveillance infrastructures. Combining PoE power, robust hardware protection, international compliance, and compact design, the Ubiquiti Protect Viewport provides a dependable solution for professional video monitoring deployments."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Security Systems",
+  "categories": [
+    "Security Systems",
+    "NVRs & Viewport"
+  ],
+  "mpn": "UP-Viewport",
+  "manufacturer_part_number": "UP-Viewport",
+  "ean": "0817882029575",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2755/ufpviewport_top_angle_76ad21cc0c8f469da64f3cb2bca65068-5fbce5c40ee42-medium.jpg",
+        "alt": "Ubiquiti Protect Viewport",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2755/ufpviewport_front_angle_508ddd4646ee489d994ada7cf1a8cb20-5fbce5c4a7c58-medium.jpg",
+        "alt": "Ubiquiti Protect Viewport",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2755/ufpviewport_front_7c182b5fafe541bc81c2ea24b3197a07-5fbce5c54d51e-medium.jpg",
+        "alt": "Ubiquiti Protect Viewport",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2755/ufpviewport_back_3d3d8fb9d7d040f398170f4343c6016e-5fbce5c3696a5-medium.jpg",
+        "alt": "Ubiquiti Protect Viewport",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2755/ufpviewport_bottom_95946d9e364044b8878c4233d1716316-5fbce5c2bd4ec-medium.jpg",
+        "alt": "Ubiquiti Protect Viewport",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2755/ufpviewport_top_5376d6fa4c0447e59043d3066fad4932-5fbce5c218ea1-medium.jpg",
+        "alt": "Ubiquiti Protect Viewport",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2755/ufpviewport_package_contents_4d44baf604bb47739565c96fd2d035ee-5fbce5c16feaa-medium.jpg",
+        "alt": "Ubiquiti Protect Viewport",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2755/ufpviewport_diagram_956b9c7222f442ed9b7e5c3508840308-5fbce5c0e260d-medium.jpg",
+        "alt": "Ubiquiti Protect Viewport",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 204.90,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "Management",
+        "Video Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE)"
+        },
+        {
+          "name": "Management",
+          "value": "Bluetooth"
+        },
+        {
+          "name": "Video Ports",
+          "value": "HDMI"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "9.5 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "157 x 52 x 37 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.252 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Protect Viewport",
+      "url": "http://dl.ui.com/ds/ufp-viewport-ds.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Ahmed",
+        "date": "2025-01-23",
+        "text": "The product quality is consistently outstanding, exceeding my expectations",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Network Video Recorder",
+      "url": "/product/unifi-protect-network-video-recorder",
+      "price": 303.78,
+      "currency": "USD",
+      "mpn": "UNVR",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera AI 360",
+      "url": "/product/unifi-video-camera-ai-360",
+      "price": 359.00,
+      "currency": "USD",
+      "mpn": "UVC-AI-360",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G5 Dome",
+      "url": "/product/unifi-protect-g5-dome-camera",
+      "price": 181.08,
+      "currency": "USD",
+      "mpn": "UVC-G5-Dome",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

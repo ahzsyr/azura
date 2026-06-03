@@ -1,0 +1,320 @@
+{
+  "slug": "dream-machine-pro",
+  "id": "2539",
+  "productTitle": "Ubiquiti UniFi Dream Machine Pro",
+  "name": "Ubiquiti UniFi Dream Machine Pro",
+  "title": "Ubiquiti UniFi Dream Machine Pro",
+  "title_extended": "Ubiquiti UniFi Dream Machine Pro – Enterprise Gateway with UniFi OS",
+  "short_description": "Quad ARM Cortex-A57 Core 1.7 GHz, 4 GB DDR4, IDS/IPS Throughput: 3.5 Gbps, 10G SFP+ WAN, 10G SFP+ LAN",
+  "description": "Enterprise-grade UniFi OS Console with 1.7 GHz quad-core processor, 4GB RAM, built-in security gateway, 10G SFP+ support, 8-port Gigabit switch, and network video recorder with 3.5\" HDD bay. All-in-one networking console that runs every UniFi OS application.",
+  "detailed_description": [
+    {
+      "heading": "The Best Experience for Large Networks",
+      "text": "The Dream Machine Pro (UDM Pro) is an enterprise-grade UniFi OS Console that offers a scalable networking experience and comprehensive platform for multi-application use. UDM Pro is 1U-sized, rack-mountable console, and it is powered by a fast, 1.7 GHz quad-core processor. UniFi Dream Machine PRO is a multifunctional server designed to manage any UniFi equipment within the wireless networks and video surveillance devices of the series. In addition to management functions, the model also combines the capabilities of a switch and router USG, making the UDM-PRO ideal for deploying complex projects that include devices from different lines of UniFi."
+    },
+    {
+      "heading": "UniFi Enterprise Architecture Evolves with UniFi OS",
+      "text": "The new UniFi OS portal provides streamlined access to all of your UniFi OS consoles and applications. UDM Pro can also run the UniFi Protect application for convenient monitoring and complete management of your camera surveillance system. The UDM Pro is an all-in-one networking console that runs every UniFi OS application, like Network and Protect."
+    },
+    {
+      "heading": "Seamless Network Integration",
+      "text": "Use the UniFi Dream Machine Pro as your network appliance. It features a built-in security gateway, 10G SFP+ WAN support, an 8-port Gigabit switch, and network video recorder that supports compatible 3.5\" hard disk drives (HDDs). For traffic processing in UDM-PRO is responsible for a quad-core processor, built on ARM Cortex-A57 with a frequency of 1.7 GHz. The amount of RAM is 4 gigabytes of DDR 4, which allows the model to effectively cope with the task of traffic routing and network management."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Wired Routers",
+  "categories": [
+    "UniFi Cloud Gateways",
+    "Large Scale"
+  ],
+  "mpn": "UDM-Pro",
+  "manufacturer_part_number": "UDM-Pro",
+  "ean": "0817882027373",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2539/udmpro_fronttopangle-5ff83a33c730a-medium.jpg",
+        "alt": "Ubiquiti UniFi Dream Machine Pro",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2539/udmpro_back-5ff83a31b7efd-medium.jpg",
+        "alt": "Ubiquiti UniFi Dream Machine Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2539/udmpro_front-5ff83a32bd01d-medium.jpg",
+        "alt": "Ubiquiti UniFi Dream Machine Pro",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/2539/udm-pro.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti UniFi Dream Machine Pro"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/2539/udmpro-60799259011c6.pdf",
+        "title": "Quick Start Guide - Ubiquiti UniFi Dream Machine Pro"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 390.75,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(9) 1 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory",
+        "Hard Drive Bay",
+        "Hard Drive"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad ARM Cortex-A57 Core at 1.7 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "4 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 GB"
+        },
+        {
+          "name": "Hard Drive Bay",
+          "value": "(1) 3.5\" SATA"
+        },
+        {
+          "name": "Hard Drive",
+          "value": "Not Included"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, USP RPS DC input"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "33 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442.4 x 43.7 x 285.6 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "3.99 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Dream Machine Pro",
+      "url": "https://www.getic.com/files/catalogue/2539/udm-pro.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti UniFi Dream Machine Pro",
+      "url": "https://www.getic.com/files/catalogue/2539/udmpro-60799259011c6.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "George",
+        "date": "2024-04-14",
+        "text": "Exactly as advertised",
+        "photos": []
+      },
+      {
+        "name": "Roman",
+        "date": "2023-04-18",
+        "text": "Good product for fair price. Bought used item but there is not any signs of use.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Standard 24 PoE",
+      "url": "/product/usw-24-poe-gen-2",
+      "price": 364.54,
+      "currency": "USD",
+      "mpn": "USW-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro 24 PoE",
+      "url": "/product/usw-pro-24-poe-gen-2",
+      "price": 642.57,
+      "currency": "USD",
+      "mpn": "USW-Pro-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6 Pro",
+      "url": "/product/unifi-6-pro-access-point",
+      "price": 143.95,
+      "currency": "USD",
+      "mpn": "U6-Pro",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "In stock"
+}

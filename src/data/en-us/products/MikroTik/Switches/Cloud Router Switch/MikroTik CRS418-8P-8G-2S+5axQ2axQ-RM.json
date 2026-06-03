@@ -1,0 +1,284 @@
+{
+  "slug": "mikrotik-crs418-8p-8g-2s-5axq2axq-rm",
+  "id": "CRS418-8P-8G-2S+5axQ2axQ-RM",
+  "productTitle": "MikroTik CRS418-8P-8G-2S+5axQ2axQ-RM",
+  "name": "MikroTik CRS418-8P-8G-2S+5axQ2axQ-RM",
+  "title": "MikroTik CRS418-8P-8G-2S+5axQ2axQ-RM",
+  "title_extended": "MikroTik CRS418-8P-8G-2S+5AXQ+2AXQ+RM – WiFi PoE Switch with SFP+",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Powerful Performance",
+      "text": "The MikroTik CRS418-8P-8G-2S+5axQ2axQ-RM is a versatile and feature-rich switch designed to address the requirements of modern enterprises, service providers, and advanced network infrastructures. At its core, it is powered by a robust quad-core ARM 64-bit processor running at 1.8 GHz, complemented by 1 GB of RAM and 128 MB of NAND storage. This combination delivers the processing capacity necessary to handle complex switching, routing, and management tasks with speed and stability, even in high-demand environments. The device operates on RouterOS v7, which equips administrators with a comprehensive suite of Layer 2 and Layer 3 networking tools. These include VLAN segmentation for efficient traffic management, support for dynamic routing protocols to optimize data flow, Quality of Service (QoS) features for prioritizing critical applications, and advanced firewall capabilities for secure operations. With its solid hardware foundation and powerful software ecosystem, the CRS418 offers a balanced blend of performance, flexibility, and reliability."
+    },
+    {
+      "heading": "Versatile Connectivity Options",
+      "text": "Connectivity is where the CRS418-8P-8G-2S+5axQ2axQ-RM truly shines. The device offers eight Gigabit Ethernet ports with PoE-out support, ideal for powering IP cameras, access points, or VoIP phones directly from the switch. Alongside these, there are eight additional Gigabit Ethernet ports for high-speed local networking, and two SFP+ ports that deliver 10G uplink capability for backbone or aggregation scenarios. A dedicated management Gigabit Ethernet port connects directly to the CPU, providing isolated and fast configuration access. The switch supports PoE-Out based on 802.3af/at standards, providing up to 20 W of power per port with a total budget of 160 W. This flexibility makes it easy to connect and power different types of devices without external adapters. Its rack-mountable 1U design, combined with a wide operating temperature range, makes it suitable for various installation environments. Altogether, the CRS418 provides the flexibility needed to integrate both legacy and next-generation infrastructure without compromise, ensuring smooth scaling and adaptation to future requirements."
+    },
+    {
+      "heading": "Integrated Wireless",
+      "text": "Unlike traditional switches, the CRS418-8P-8G-2S+5axQ2axQ-RM integrates advanced wireless capabilities, making it a true all-in-one networking solution. It features dual-band Wi-Fi 6 radios (802.11ax), offering simultaneous 2.4 GHz and 5 GHz coverage. Both Wi-Fi radios are 4×4 MIMO: the 2.4 GHz radio (802.11b/g/n/ax) reaches up to 1148 Mbps with 5 dBi antennas, while the 5 GHz radio (802.11a/n/ac/ax) reaches up to 2400 Mbps with 6 dBi antennas. This setup ensures strong throughput, low latency, and excellent coverage, even in dense client environments. The inclusion of Wi-Fi 6 enables modern features such as OFDMA and MU-MIMO, which enhance efficiency and user experience in high-traffic scenarios. With wireless and wired networking combined in one unit, deployment becomes simpler and more cost-effective, reducing the need for separate access points. Managed via RouterOS v7, administrators gain unified control of wired, wireless, and routing features in a single platform. This makes the CRS418 both versatile and forward-looking for hybrid infrastructures."
+    },
+    {
+      "heading": "Technical Specs / Datasheet",
+      "text": "Download the technical specifications and user manual for the MikroTik CRS418-8P-8G-2S+5axQ2axQ-RM."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Cloud Router Switch"
+  ],
+  "mpn": "CRS418-8P-8G-2S+5axQ2axQ-RM",
+  "manufacturer_part_number": "CRS418-8P-8G-2S+5axQ2axQ-RM",
+  "ean": "4752224005175",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6823/1-68d29da53a4d6-medium.jpg",
+        "alt": "MikroTik CRS418-8P-8G-2S+5axQ2axQ-RM front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6823/2-68d29da9aaadf-medium.jpg",
+        "alt": "MikroTik CRS418-8P-8G-2S+5axQ2axQ-RM back and ports view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6823/3-68d29dac6e30b-medium.jpg",
+        "alt": "MikroTik CRS418-8P-8G-2S+5axQ2axQ-RM angle view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 385.82,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "USB Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(17) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "8 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE), 802.3at (PoE+)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 10G SFP+"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 3.0"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-Core IPQ-8072A 2208 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "1 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "128 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Supply",
+          "value": "Internal x2 redundant PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "43 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "210 x 250 x 443 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 70 °C"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 5"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik CRS418-8P-8G-2S+5axQ2axQ-RM",
+      "url": "https://www.getic.com/files/catalogue/6823/crs4188p8g2s5axq2axqrm-68d29d9b2507a.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik Mug",
+      "url": "/product/mikrotik-mug",
+      "price": 7.00,
+      "currency": "USD",
+      "mpn": "MTCP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX S (2025)",
+      "url": "/product/mikrotik-hex-s-2025-",
+      "price": 62.71,
+      "currency": "USD",
+      "mpn": "E60iUGS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS418-8P-8G-2S+RM",
+      "url": "/product/mikrotik-crs418-8p-8g-2s-rm",
+      "price": 372.37,
+      "currency": "USD",
+      "mpn": "CRS418-8P-8G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax S",
+      "url": "/product/mikrotik-hap-ax-s",
+      "price": 69.09,
+      "currency": "USD",
+      "mpn": "E62iUGS-2axD5axT",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik Value Added Distributor",
+    "MikroTik MTCNA Certificate"
+  ],
+  "stock_stat": ""
+}

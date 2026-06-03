@@ -1,0 +1,192 @@
+{
+  "slug": "sector-5g19-120-anti-noise-shield",
+  "id": 821,
+  "productTitle": "Anti-Noise Shield for AirMax Sector 5G19-120",
+  "name": "Anti-Noise Shield for AirMax Sector 5G19-120",
+  "title": "Anti-Noise Shield for AirMax Sector 5G19-120",
+  "title_extended": "",
+  "short_description": "Paired with Ubiquiti airMAX Sector 19/120 and 15/120 base station antennas",
+  "description": "The Anti-Noise Shield with the manufacture part number ANS-AM-19, is a specialized accessory developed by Ubiquiti Networks to address and mitigate the effects of radio frequency (RF) interference on the AirMax Sector 5G19-120 antennas. This product underscores Ubiquiti's dedication to enhancing the performance and reliability of wireless networks, especially in environments where RF noise can significantly impact the quality of communication.",
+  "detailed_description": [
+    {
+      "heading": "Overview",
+      "text": "The Anti-Noise Shield with the manufacture part number ANS-AM-19, is a specialized accessory developed by Ubiquiti Networks to address and mitigate the effects of radio frequency (RF) interference on the AirMax Sector 5G19-120 antennas. This product underscores Ubiquiti's dedication to enhancing the performance and reliability of wireless networks, especially in environments where RF noise can significantly impact the quality of communication."
+    },
+    {
+      "heading": "Noise Reduction",
+      "text": "ANS-AM-19 serves as a protective barrier that effectively reduces the intrusion of unwanted RF noise. In areas where the air is saturated with signals from numerous wireless devices, RF interference becomes a critical challenge, disrupting signal clarity and diminishing the operational efficiency of wireless networks. By significantly cutting down external noise, this anti-noise shield improves the signal-to-noise ratio, leading to enhanced network stability, increased throughput, and higher overall network reliability."
+    },
+    {
+      "heading": "Durability",
+      "text": "The ANS-AM-19 is constructed with durability and longevity in mind, utilizing materials that are resistant to corrosion, wear, and the impacts of harsh weather conditions. This ensures that the shield remains effective over time, protecting the investment made into network infrastructure and maintaining the quality of the wireless service."
+    },
+    {
+      "heading": "Installation",
+      "text": "Ease of installation is a key feature of the ANS-AM-19, reflecting Ubiquiti's commitment to creating solutions that are accessible and manageable for a wide range of users, from network professionals to individuals enhancing their personal or business networks. The shield is engineered for a quick and straightforward attachment process to the AirMax Sector 5G19-120 antennas, necessitating minimal tools and time. This design not only facilitates a rapid deployment but also minimizes potential downtime, making it an appealing option for network operators looking to swiftly upgrade their network's performance."
+    },
+    {
+      "heading": "Summary",
+      "text": "In summary, the Anti-Noise Shield for AirMax Sector 5G19-120 represents a critical innovation by Ubiquiti Networks to combat RF interference in wireless networks. By improving signal quality and boosting the performance of AirMax Sector 5G19-120 antennas, this shield not only extends the life of the network infrastructure but also ensures a consistent and reliable service for users. The combination of robust environmental protection, simple installation, and minimal impact on antenna functionality makes the ANS-AM-19 an essential accessory for any network using Ubiquiti's AirMax Sector 5G19-120 antennas in environments where mitigating interference is key to maintaining optimal connectivity and performance."
+    }
+  ],
+  "brand": "Cyberteam",
+  "category": "Antenna Accessories",
+  "categories": [
+    "Antenna Accessories",
+    "Accessory Tech",
+    "Anti-Noise Shield",
+    "Ubiquiti"
+  ],
+  "mpn": "ANS-AM-19",
+  "manufacturer_part_number": "ANS-AM-19",
+  "ean": "0708747431421",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/821/anti-noise-shield_am19_1-medium.jpg",
+        "alt": "Anti-Noise Shield for AirMax Sector 5G19-120",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/821/anti-noise-shield_am19_2-medium.jpg",
+        "alt": "Anti-Noise Shield for AirMax Sector 5G19-120",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/821/anti-noise-shield_am19_3-medium.jpg",
+        "alt": "Anti-Noise Shield for AirMax Sector 5G19-120",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/821/anti-noise-shield_am19_1-tiny.jpg",
+        "alt": "Anti-Noise Shield for AirMax Sector 5G19-120"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/821/anti-noise-shield_am19_2-tiny.jpg",
+        "alt": "Anti-Noise Shield for AirMax Sector 5G19-120"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/821/anti-noise-shield_am19_3-tiny.jpg",
+        "alt": "Anti-Noise Shield for AirMax Sector 5G19-120"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 52.18,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 36.66,
+        "currency": "USD",
+        "description": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 88.18,
+        "currency": "USD",
+        "description": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Bruce",
+        "date": "2025-09-07",
+        "text": "works well",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 19 dBi Sector",
+      "url": "/product/sector-airmax-5g19-120",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "AM-5G19-120",
+      "availability": "InStock"
+    },
+    {
+      "name": "Anti-Noise Shield for AirMax Sector 5G20-90",
+      "url": "/product/sector-5g20-90-anti-noise-shield",
+      "price": 52.18,
+      "currency": "USD",
+      "mpn": "ANS-AM-20",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Rocket Prism 5AC",
+      "url": "/product/rocket-ac-prism-gen2",
+      "price": 229.40,
+      "currency": "USD",
+      "mpn": "RP-5AC-Gen2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Ethernet Surge Protector",
+      "url": "/product/ethernet-surge-protector-gen-2",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "ETH-SP-G2",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": "",
+  "country_of_origin": "Poland",
+  "compatible_products": [
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 19 dBi Sector",
+      "url": "/product/sector-airmax-5g19-120",
+      "price": 117.94,
+      "currency": "USD",
+      "stock_status": "in_stock"
+    }
+  ]
+}

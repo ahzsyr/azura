@@ -1,0 +1,243 @@
+{
+  "slug": "ubiquiti-swiss-army-knife-omni-antenna",
+  "id": "6861",
+  "productTitle": "Ubiquiti Swiss Army Knife Omni Antenna",
+  "name": "Ubiquiti Swiss Army Knife Omni Antenna",
+  "title": "Ubiquiti Swiss Army Knife Omni Antenna",
+  "title_extended": "",
+  "short_description": "The Swiss Army Knife Omni Antenna delivers full 360-degree omnidirectional coverage, engineered to work seamlessly with Ubiquiti’s Ultra-series access points.",
+  "description": "The Swiss Army Knife Omni Antenna delivers full 360-degree omnidirectional coverage, engineered to work seamlessly with Ubiquiti’s Ultra-series access points. With an antenna gain of 4 dBi in the 5 GHz band and 3 dBi in the 2.4 GHz band, it enhances wireless signal strength and range for dual-band networks.",
+  "detailed_description": [
+    {
+      "heading": "360° Coverage",
+      "text": "The Swiss Army Knife Omni Antenna delivers full 360-degree omnidirectional coverage, engineered to work seamlessly with Ubiquiti’s Ultra-series access points. With an antenna gain of 4 dBi in the 5 GHz band and 3 dBi in the 2.4 GHz band, it enhances wireless signal strength and range for dual-band networks. The antenna measures 154 × 15 × 15 mm and weighs just 42 g per pair, making it discreet and easy to integrate. Constructed from durable thermoplastic polyester elastomer, polycarbonate, polybutylene terephthalate, and polyoxymethylene, it features an IPX6-rated weather-resistant enclosure suitable for outdoor deployment. Whether you’re extending coverage on a balcony, rooftop, or indoor open area, this accessory supplies reliable radiation pattern and solid performance for high-density Wi-Fi deployments. Designed specifically as an accessory for the Swiss Army Knife Ultra device, this antenna makes it straightforward to adapt your setup without replacing existing equipment."
+    },
+    {
+      "heading": "Dual-Band Design",
+      "text": "The Swiss Army Knife Omni Antenna is purpose-built to operate across both 2.4 GHz and 5 GHz frequency bands, providing consistent coverage and strong performance for environments with mixed wireless devices. Its dual-band capability ensures reliable connections for older 2.4 GHz equipment and modern high-speed 5 GHz clients alike, maintaining balanced network throughput and range. Designed as an accessory for the Ubiquiti Swiss Army Knife Ultra Access Point, it connects directly and integrates seamlessly within the UniFi ecosystem. The antenna’s lightweight structure and slim form make it ideal for installations where space is limited or aesthetics matter, such as offices, cafés, warehouses, or outdoor event areas. Crafted from weather-resistant materials and rated IPX6, it withstands rain, dust, and temperature changes, ensuring durable outdoor performance. Its omnidirectional radiation pattern provides uniform signal distribution, ensuring stable connections for multiple users. Whether expanding outdoor coverage or enhancing indoor reliability, the Swiss Army Knife Omni Antenna delivers balanced, long-term network performance."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Accessories",
+  "categories": [
+    "Ubiquiti",
+    "UniFi Access Points",
+    "Accessories"
+  ],
+  "mpn": "UACC-UK-Ultra-Omni-Antenna-AO",
+  "manufacturer_part_number": "UACC-UK-Ultra-Omni-Antenna-AO",
+  "ean": "0810084698433",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6861/1-6901ca95e3bba-medium.jpg",
+        "alt": "Ubiquiti Swiss Army Knife Omni Antenna",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6861/2-6901ca98e963a-medium.jpg",
+        "alt": "Ubiquiti Swiss Army Knife Omni Antenna",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6861/3-6901ca9b207d1-medium.jpg",
+        "alt": "Ubiquiti Swiss Army Knife Omni Antenna",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6861/4-6901ca9dd789c-medium.jpg",
+        "alt": "Ubiquiti Swiss Army Knife Omni Antenna",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 16.30,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Thermoplastic Elastomer (TPE), Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX6"
+        },
+        {
+          "name": "Dimensions",
+          "value": "154 x 15 x 15 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.042 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Screw"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "2 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Swiss Army Knife Omni Antenna",
+      "url": "https://www.getic.com/files/catalogue/6861/uaccukultraomniantennaao_ds-6901ca91ce12d.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Denys",
+        "date": "2024-05-31",
+        "text": "Nice AP if you don’t require extra performance. Fast delivery.",
+        "photos": []
+      },
+      {
+        "name": "Damir",
+        "date": "2025-03-25",
+        "text": "It works, quick delivery",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Swiss Army Knife Ultra",
+      "url": "/product/swiss-army-knife-ultra11",
+      "price": 77.43,
+      "currency": "USD",
+      "mpn": "UK-Ultra",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Turret White",
+      "url": "/product/ubiquiti-camera-g6-turret",
+      "price": 199.76,
+      "currency": "USD",
+      "mpn": "UVC-G6-Turret-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro XG 10 PoE",
+      "url": "/product/ubiquiti-unifi-switch-pro-xg-10-poe",
+      "price": 718.63,
+      "currency": "USD",
+      "mpn": "USW-Pro-XG-10-PoE",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

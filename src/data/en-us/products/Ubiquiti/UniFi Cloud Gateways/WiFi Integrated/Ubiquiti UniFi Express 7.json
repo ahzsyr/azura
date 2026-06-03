@@ -1,0 +1,335 @@
+{
+  "slug": "ubiquiti-unifi-express-7",
+  "id": "UX7",
+  "productTitle": "Ubiquiti UniFi Express 7",
+  "name": "Ubiquiti UniFi Express 7",
+  "title": "Ubiquiti UniFi Express 7",
+  "title_extended": "Ubiquiti UniFi Express 7 – Compact WiFi 7 Router with UniFi OS",
+  "short_description": "",
+  "description": "The Ubiquiti UniFi Express 7 (UX7) is a high-performance, compact networking device designed for both home and small business environments. With integrated 6-stream WiFi 7, including support for the 6 GHz band, the UX7 delivers ultra-fast, low-latency wireless connectivity with a total coverage area of up to 140 m² (1,500 ft²). This makes it an ideal choice for users who demand next-generation wireless performance. The UX7 is equipped with a high-speed 10 GbE RJ45 WAN port and a 2.5 GbE RJ45 LAN port, allowing for lightning-fast wired connections.",
+  "detailed_description": [
+    {
+      "heading": "Advanced Networking Features",
+      "text": "The Ubiquiti UniFi Express 7 (UX7) is a high-performance, compact networking device designed for both home and small business environments. With integrated 6-stream WiFi 7, including support for the 6 GHz band, the UX7 delivers ultra-fast, low-latency wireless connectivity with a total coverage area of up to 140 m² (1,500 ft²). This makes it an ideal choice for users who demand next-generation wireless performance. The UX7 is equipped with a high-speed 10 GbE RJ45 WAN port and a 2.5 GbE RJ45 LAN port, allowing for lightning-fast wired connections."
+    },
+    {
+      "heading": "Advanced Networking Features (Part 2)",
+      "text": "Powered by a quad-core ARM Cortex-A53 processor running at 1.5 GHz and equipped with 3 GB of system memory, the UX7 ensures seamless networking operations while efficiently managing up to 30+ UniFi devices and 300+ client connections. Its compact form factor (117 x 117 x 42.5 mm) and lightweight design (422 g) make it easy to integrate into any setup. The device supports VLAN and subnet-based traffic segmentation, advanced QoS, dynamic routing with OSPF, and an integrated RADIUS server for granular network control. Whether you're running a small office or a smart home, the UX7 delivers robust security and performance."
+    },
+    {
+      "heading": "User-Friendly Management",
+      "text": "Managing the UX7 is straightforward with the UniFi Network application, offering an intuitive interface for monitoring and configuring network settings. The device includes a 0.96\" status display for real-time information and supports Bluetooth for easy setup. Security features such as content filtering, ad blocking, and guest traffic isolation ensure a safe browsing experience for all users. The UX7's compact desktop form factor and polycarbonate enclosure make it a practical choice for modern networking needs."
+    },
+    {
+      "heading": "User-Friendly Management (Part 2)",
+      "text": "The UX7 offers flexibility in deployment, functioning as a standalone router, a wired UniFi access point, or a wireless mesh node to extend network coverage seamlessly. It supports license-free SD-WAN, site-to-site VPN with IPsec and OpenVPN, and zero-configuration VPN with Teleport, ensuring secure and efficient remote connectivity. The device also features advanced NAT configurations, policy-based WAN and VPN routing, and full IPv6 support, making it adaptable to various networking scenarios. Additionally, its robust security protocols, traffic management capabilities, and seamless UniFi ecosystem integration make it a versatile choice for both home and enterprise environments, providing reliable, high-performance networking with simplified management."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Wired Routers",
+  "categories": [
+    "Wired Routers",
+    "UniFi Cloud Gateways",
+    "Ubiquiti"
+  ],
+  "mpn": "UX7",
+  "manufacturer_part_number": "UX7",
+  "ean": "0810010074300",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5845/1-67c81dc101048-medium.jpg",
+        "alt": "Ubiquiti UniFi Express 7 front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5845/2-67c81dc4a63d3-medium.jpg",
+        "alt": "Ubiquiti UniFi Express 7 angled view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5845/3-67c81dc8906c6-medium.jpg",
+        "alt": "Ubiquiti UniFi Express 7 ports and back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5845/4-67c81dcc3141c-medium.jpg",
+        "alt": "Ubiquiti UniFi Express 7 side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5845/5-67c81dcfe2c63-medium.jpg",
+        "alt": "Ubiquiti UniFi Express 7 packaging",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5845/6-67c81dd371271-medium.jpg",
+        "alt": "Ubiquiti UniFi Express 7 top view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 191.80,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate",
+        "6GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 7"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax/be"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 2x2, 6GHz 2x2"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "687 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "4.3 Gbps"
+        },
+        {
+          "name": "6GHz Radio Rate",
+          "value": "5.7 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 2.5 Gbps, (1) 10 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "22 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "USB Type-C"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "5 V DC 5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "117 x 117 x 42.5 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.422 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Express 7",
+      "url": "https://www.getic.com/files/catalogue/5845/ux7_ds-67c81dae54a80.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Sylvain",
+        "date": "2025-05-23",
+        "text": "Very good product.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "/product/usw-lite-8-poe-eu",
+      "price": 110.98,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex Mini 2.5G",
+      "url": "/product/ubiquiti-unifi-switch-flex-mini-2-5g",
+      "price": 51.79,
+      "currency": "USD",
+      "mpn": "USW-Flex-2.5G-5",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Lite",
+      "url": "/product/ubiquiti-unifi-u7-lite",
+      "price": 95.30,
+      "currency": "USD",
+      "mpn": "U7-Lite",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Router 7",
+      "url": "/product/ubiquiti-unifi-dream-router-7",
+      "price": 268.04,
+      "currency": "USD",
+      "mpn": "UDR7",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "Ubiquiti Elite Distributor"
+  ],
+  "stock_stat": ""
+}
