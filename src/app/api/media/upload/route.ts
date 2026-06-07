@@ -1,17 +1,10 @@
-import { mkdir, writeFile } from "fs/promises";
-import { join, resolve } from "path";
 import { NextResponse } from "next/server";
 import type { MediaType } from "@prisma/client";
 import { auth } from "@/lib/auth";
 import { mediaRepository } from "@/repositories/media.repository";
 import { persistMediaUpload } from "@/features/media/persist-upload";
-import { deleteLocalUploadFile } from "@/lib/local-media-files";
-import {
-  safeFilename,
-  SUBDIR,
-  UPLOAD_ROOT,
-  validateUploadFile,
-} from "@/lib/local-media-storage";
+import { deleteStoredUpload, storeUploadedFile } from "@/lib/media-storage";
+import { validateUploadFile } from "@/lib/local-media-storage";
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -42,15 +35,9 @@ export async function POST(request: Request) {
     }
 
     const { mediaType } = validation;
-    const subDir = SUBDIR[mediaType];
-    const storedName = `${Date.now()}-${safeFilename(file.name)}`;
-    const dir = resolve(process.cwd(), UPLOAD_ROOT, subDir);
-    await mkdir(dir, { recursive: true });
-
     const buffer = Buffer.from(await file.arrayBuffer());
-    await writeFile(join(dir, storedName), buffer);
-
-    const url = `/uploads/${subDir}/${storedName}`;
+    const stored = await storeUploadedFile(file, buffer, mediaType);
+    const url = stored.url;
     const mimeType = file.type || "application/octet-stream";
 
     if (replaceId) {
@@ -68,7 +55,7 @@ export async function POST(request: Request) {
       });
 
       if (existing.url !== url) {
-        await deleteLocalUploadFile(existing.url);
+        await deleteStoredUpload(existing.url);
       }
 
       return NextResponse.json({
@@ -98,6 +85,20 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("[media/upload]", error);
+    // #region agent log
+    import("@/lib/debug-ingest").then(({ debugIngest }) =>
+      debugIngest(
+        "api/media/upload/route.ts:POST",
+        "upload failed",
+        {
+          code: (error as NodeJS.ErrnoException).code ?? null,
+          message: (error instanceof Error ? error.message : String(error)).slice(0, 240),
+          vercel: Boolean(process.env.VERCEL),
+        },
+        "H2",
+      ),
+    );
+    // #endregion
     const message =
       error instanceof Error && error.message.includes("MediaAsset")
         ? "Could not save media record. Try signing out and back in."

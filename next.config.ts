@@ -47,6 +47,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.uploadthing.com" },
       { protocol: "https", hostname: "uploadthing.com" },
       { protocol: "https", hostname: "developers.elementor.com" },
+      { protocol: "https", hostname: "*.supabase.co" },
     ],
   },
 };

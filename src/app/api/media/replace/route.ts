@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { mediaRepository } from "@/repositories/media.repository";
 import { mediaTypeFromMime } from "@/features/media/media.service";
 import { z } from "zod";
-import { deleteLocalUploadFile } from "@/lib/local-media-files";
+import { deleteStoredUpload } from "@/lib/media-storage";
 
 const replaceSchema = z.object({
   id: z.string().min(1),
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     });
 
     if (existing.url !== asset.url) {
-      await deleteLocalUploadFile(existing.url);
+      await deleteStoredUpload(existing.url);
     }
 
     return NextResponse.json({
