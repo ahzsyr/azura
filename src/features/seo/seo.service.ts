@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { SeoMeta } from "@prisma/client";
 import { buildMetadata, JsonLd } from "@/lib/seo";
+import { resolveSiteIdentityFromDb } from "@/lib/site-identity";
 import { seoRepository } from "@/repositories/seo.repository";
 import { localeService } from "@/features/i18n/locale.service";
 import { translationService } from "@/features/translation/translation.service";
@@ -82,7 +83,7 @@ async function loadSlugByLocale(entityType?: string, entityId?: string) {
 
 export const seoService = {
   async resolveMetadata(params: SeoResolveInput): Promise<Metadata> {
-    const [meta, enabledLocales, slugByLocaleFromDb] = await Promise.all([
+    const [meta, enabledLocales, slugByLocaleFromDb, siteIdentity] = await Promise.all([
       seoRepository.resolveMeta({
         pageKey: params.pageKey,
         entityType: params.entityType,
@@ -95,6 +96,7 @@ export const seoService = {
       params.slugByLocale
         ? Promise.resolve(undefined)
         : loadSlugByLocale(params.entityType, params.entityId),
+      resolveSiteIdentityFromDb().catch(() => null),
     ]);
     const slugByLocale = params.slugByLocale ?? slugByLocaleFromDb;
 
@@ -117,6 +119,7 @@ export const seoService = {
       enabledLocales,
       slugByLocale,
       htmlLang: activeLocale?.htmlLang,
+      siteName: siteIdentity?.brandName,
     });
   },
 

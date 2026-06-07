@@ -19,6 +19,8 @@ export type PageMeta = {
   robots?: string | null;
   focusKeywords?: string | null;
   twitterCard?: "summary" | "summary_large_image" | null;
+  /** Override sync default site name (e.g. from DB company + theme). */
+  siteName?: string;
   /** Dynamic hreflang support for N locales */
   enabledLocales?: PublicLocale[];
   slugByLocale?: Record<string, string>;
@@ -56,14 +58,21 @@ export function buildMetadata({
   enabledLocales,
   slugByLocale,
   htmlLang,
+  siteName,
 }: PageMeta): Metadata {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   const defaultUrl = buildCanonicalUrl(siteUrl, locale, path, slugByLocale?.[locale]);
   const url = canonicalUrl?.trim() || defaultUrl;
   const image = ogImage ?? `${siteUrl}/og-default.jpg`;
-  const siteName = getSiteName();
-  const displayTitle = `${title} | ${siteName}`;
-  const socialTitle = ogTitle?.trim() ? `${ogTitle} | ${siteName}` : displayTitle;
+  const resolvedSiteName = siteName?.trim() || getSiteName();
+  const trimmedTitle = title.trim();
+  const displayTitle = trimmedTitle
+    ? `${trimmedTitle} | ${resolvedSiteName}`
+    : resolvedSiteName;
+  const trimmedOgTitle = ogTitle?.trim();
+  const socialTitle = trimmedOgTitle
+    ? `${trimmedOgTitle} | ${resolvedSiteName}`
+    : displayTitle;
   const keywords = focusKeywords
     ?.split(",")
     .map((k) => k.trim())
@@ -93,7 +102,7 @@ export function buildMetadata({
       title: socialTitle,
       description,
       url,
-      siteName,
+      siteName: resolvedSiteName,
       locale: ogLocale,
       type: "website",
       images: [{ url: image, width: 1200, height: 630, alt: title }],

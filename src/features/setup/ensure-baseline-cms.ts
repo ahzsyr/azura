@@ -15,8 +15,23 @@ const EMPTY_BLOCKS: Prisma.InputJsonValue = [];
 
 const HOME_LANDING_BLOCKS = BUILTIN_PAGE_TEMPLATE_BLOCKS.landing as unknown as Prisma.InputJsonValue;
 
+const STARTER_HERO_TITLE = "Welcome to our website";
+
 function pageHasBlocks(blocks: unknown): boolean {
   return Array.isArray(blocks) && blocks.length > 0;
+}
+
+/** True when blocks are empty or still the generic blank-install landing hero. */
+function isStarterHomeBlocks(blocks: unknown): boolean {
+  if (!pageHasBlocks(blocks)) return true;
+  const hero = (
+    blocks as Array<{ type?: string; props?: Record<string, unknown> }>
+  ).find((block) => block?.type === "hero");
+  const titleEn = hero?.props?.titleEn ?? hero?.props?.title;
+  if (typeof titleEn === "string" && titleEn.trim() && titleEn !== STARTER_HERO_TITLE) {
+    return false;
+  }
+  return true;
 }
 
 const CMS_PAGE_SEEDS = [
@@ -91,7 +106,11 @@ export async function ensurePublishedHomePage(tx: Tx): Promise<{ updated: boolea
     return { updated: true };
   }
 
-  if (existing.status === "PUBLISHED" && pageHasBlocks(existing.blocks)) {
+  if (
+    existing.status === "PUBLISHED" &&
+    pageHasBlocks(existing.blocks) &&
+    !isStarterHomeBlocks(existing.blocks)
+  ) {
     return { updated: false };
   }
 

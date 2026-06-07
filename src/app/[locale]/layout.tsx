@@ -10,6 +10,7 @@ import { WhatsAppFab } from "@/components/layout/whatsapp-fab";
 import { DocumentAttributes } from "@/components/layout/document-attributes";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { themeService } from "@/features/theme/theme.service";
+import { resolveSiteIdentityFromDb } from "@/lib/site-identity";
 import { GlobalStructuredData } from "@/features/seo/components/global-structured-data";
 import { PersonalizationPanelLazy } from "@/components/personalization/personalization-panel-lazy";
 import { ScrollRevealObserver } from "@/components/motion/scroll-reveal-observer";
@@ -33,9 +34,17 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    const theme = await themeService.getPublished();
+    const [theme, identity] = await Promise.all([
+      themeService.getPublished(),
+      resolveSiteIdentityFromDb(),
+    ]);
+    const iconUrl = theme?.faviconUrl || theme?.logoUrl;
     return {
-      icons: theme?.faviconUrl ? { icon: theme.faviconUrl } : undefined,
+      title: {
+        default: identity.brandName,
+        template: `%s | ${identity.brandName}`,
+      },
+      icons: iconUrl ? { icon: iconUrl } : undefined,
     };
   } catch {
     return {};

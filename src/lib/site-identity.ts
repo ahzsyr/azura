@@ -55,3 +55,18 @@ export function resolveSiteIdentity(input: SiteIdentityInput = {}): SiteIdentity
 export function getDefaultSiteIdentity(): SiteIdentity {
   return resolveSiteIdentity();
 }
+
+/** Load brand name from company + published theme for metadata titles. */
+export async function resolveSiteIdentityFromDb() {
+  const { getCompanyInfo } = await import("@/lib/data");
+  const { themeService } = await import("@/features/theme/theme.service");
+  const [company, theme] = await Promise.all([
+    getCompanyInfo().catch(() => null),
+    themeService.getPublished().catch(() => null),
+  ]);
+  return resolveSiteIdentity({
+    companyName: company?.name,
+    themeBrandName: resolveThemeBrandName(theme?.brandConfig),
+    themeTagline: theme?.brandConfig?.tagline,
+  });
+}
