@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { SeoMeta } from "@prisma/client";
 import { buildMetadata, JsonLd } from "@/lib/seo";
-import { resolveSiteIdentityFromDb } from "@/lib/site-identity";
+import { resolveSiteIdentityFromDb } from "@/lib/site-identity.server";
 import { seoRepository } from "@/repositories/seo.repository";
 import { localeService } from "@/features/i18n/locale.service";
 import { translationService } from "@/features/translation/translation.service";

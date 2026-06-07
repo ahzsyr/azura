@@ -10,7 +10,7 @@ import { WhatsAppFab } from "@/components/layout/whatsapp-fab";
 import { DocumentAttributes } from "@/components/layout/document-attributes";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { themeService } from "@/features/theme/theme.service";
-import { resolveSiteIdentityFromDb } from "@/lib/site-identity";
+import { resolveSiteIdentityFromDb } from "@/lib/site-identity.server";
 import { GlobalStructuredData } from "@/features/seo/components/global-structured-data";
 import { PersonalizationPanelLazy } from "@/components/personalization/personalization-panel-lazy";
 import { ScrollRevealObserver } from "@/components/motion/scroll-reveal-observer";
