@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import type {
   HeaderAction,
@@ -10,14 +10,18 @@ import type {
   MobileNavStyle,
   MobileNavType,
 } from "@/features/navigation/types";
-import type { ResolvedMenuAppearance } from "@/features/navigation/header-menu-appearance";
+import type { ResolvedMobileMenuAppearance } from "@/features/navigation/header-menu-appearance";
 import {
+  getMobileAnimDuration,
   menuAppearanceDataAttributes,
   menuAppearanceStyle,
 } from "@/features/navigation/header-menu-appearance";
+import { NAV_MOBILE_MQ } from "@/features/navigation/nav-breakpoints";
 import { getItemHref } from "@/features/navigation/resolve-href";
 import type { HeaderRendererSurface } from "../HeaderRenderer";
 import { HeaderActions } from "../HeaderActions";
+
+type MnavAnimState = "closed" | "open" | "closing";
 
 interface Props {
   mobileType: MobileNavType;
@@ -30,17 +34,94 @@ interface Props {
   mobileNavStyle?: MobileNavStyle;
   mobileNavAnimation?: MobileNavAnimation;
   mobileNavDensity?: MobileNavDensity;
-  menuAppearance?: ResolvedMenuAppearance;
+  menuAppearance?: ResolvedMobileMenuAppearance;
+  showIcons?: boolean;
+  showArrows?: boolean;
+}
+
+function blockPreviewNav(e: React.MouseEvent, surface?: HeaderRendererSurface) {
+  if (surface === "preview") {
+    e.preventDefault();
+  }
+}
+
+function MnavIconSlot({
+  icon,
+  showIcons,
+  fallbackIcon = "fa-circle",
+}: {
+  icon?: string;
+  showIcons: boolean;
+  fallbackIcon?: string;
+}) {
+  if (!showIcons) return null;
+  const glyph = icon ?? fallbackIcon;
+  return (
+    <span className="mnav-row__icon" aria-hidden>
+      <i className={`fas ${glyph}`} />
+    </span>
+  );
+}
+
+function MnavLabel({ children }: { children: ReactNode }) {
+  return <span className="mnav-row__label">{children}</span>;
+}
+
+function MnavChevron({ show, isOpen }: { show: boolean; isOpen?: boolean }) {
+  if (!show) return null;
+  return (
+    <span className="mnav-row__chevron" aria-hidden>
+      <i className={`fas fa-chevron-${isOpen ? "up" : "down"}`} />
+    </span>
+  );
+}
+
+type MnavItemRowProps = {
+  icon?: string;
+  label: string;
+  showIcons: boolean;
+  showArrows?: boolean;
+  isOpen?: boolean;
+  variant?: "row" | "child";
+  className?: string;
+};
+
+function mnavRowClass(variant: "row" | "child", extra?: string) {
+  const base = variant === "child" ? "mnav-row mnav-row--child" : "mnav-row";
+  return extra ? `${base} ${extra}` : base;
+}
+
+function MnavItemRowContent({
+  icon,
+  label,
+  showIcons,
+  showArrows,
+  isOpen,
+  variant = "row",
+}: MnavItemRowProps) {
+  return (
+    <>
+      <MnavIconSlot icon={icon} showIcons={showIcons} />
+      <MnavLabel>{label}</MnavLabel>
+      {variant === "row" && showArrows != null ? (
+        <MnavChevron show={showArrows} isOpen={isOpen} />
+      ) : null}
+    </>
+  );
 }
 
 function NavRows({
   items,
   localeCode,
   surface,
+  showIcons,
+  showArrows,
 }: {
   items: MenuItem[];
   localeCode: string;
   surface?: HeaderRendererSurface;
+  showIcons: boolean;
+  showArrows: boolean;
 }) {
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
   const toggle = (id: string) =>
@@ -57,14 +138,15 @@ function NavRows({
           <div key={item.id} className="mnav-item-wrap">
             <button
               type="button"
-              className={`mnav-row mnav-row--parent${openIds.has(item.id) ? " is-open" : ""}`}
+              className={mnavRowClass("row", `mnav-row--parent${openIds.has(item.id) ? " is-open" : ""}`)}
               onClick={() => toggle(item.id)}
             >
-              {item.icon ? <i className={`fas ${item.icon}`} aria-hidden /> : null}
-              <span>{item.label}</span>
-              <i
-                className={`fas fa-chevron-${openIds.has(item.id) ? "up" : "down"} mnav-chevron`}
-                aria-hidden
+              <MnavItemRowContent
+                icon={item.icon}
+                label={item.label}
+                showIcons={showIcons}
+                showArrows={showArrows}
+                isOpen={openIds.has(item.id)}
               />
             </button>
             {openIds.has(item.id) ? (
@@ -73,11 +155,15 @@ function NavRows({
                   <a
                     key={child.id}
                     href={getItemHref(child, localeCode)}
-                    className="mnav-row mnav-row--child"
+                    className={mnavRowClass("child")}
                     onClick={(e) => blockPreviewNav(e, surface)}
                   >
-                    {child.icon ? <i className={`fas ${child.icon}`} aria-hidden /> : null}
-                    <span>{child.label}</span>
+                    <MnavItemRowContent
+                      icon={child.icon}
+                      label={child.label}
+                      showIcons={showIcons}
+                      variant="child"
+                    />
                   </a>
                 ))}
               </div>
@@ -87,11 +173,10 @@ function NavRows({
           <a
             key={item.id}
             href={getItemHref(item, localeCode)}
-            className="mnav-row"
+            className={mnavRowClass("row")}
             onClick={(e) => blockPreviewNav(e, surface)}
           >
-            {item.icon ? <i className={`fas ${item.icon}`} aria-hidden /> : null}
-            <span>{item.label}</span>
+            <MnavItemRowContent icon={item.icon} label={item.label} showIcons={showIcons} />
           </a>
         ),
       )}
@@ -107,12 +192,8 @@ interface OverlayProps {
   onClose: () => void;
   localeCode: string;
   surface?: HeaderRendererSurface;
-}
-
-function blockPreviewNav(e: React.MouseEvent, surface?: HeaderRendererSurface) {
-  if (surface === "preview") {
-    e.preventDefault();
-  }
+  showIcons: boolean;
+  showArrows: boolean;
 }
 
 function MobileNavActionsStrip({
@@ -139,6 +220,8 @@ function MobileNavOverlay({
   onClose,
   localeCode,
   surface = "site",
+  showIcons,
+  showArrows,
 }: OverlayProps) {
   const [activeTab, setActiveTab] = useState(0);
 
@@ -172,8 +255,8 @@ function MobileNavOverlay({
               className="mnav-fs-item"
               onClick={(e) => blockPreviewNav(e, surface)}
             >
-              {item.icon ? <i className={`fas ${item.icon}`} aria-hidden /> : null}
-              <span>{item.label}</span>
+              <MnavIconSlot icon={item.icon} showIcons={showIcons} fallbackIcon="fa-circle" />
+              <span className="mnav-fs-item__label">{item.label}</span>
             </a>
           ))}
         </nav>
@@ -213,11 +296,10 @@ function MobileNavOverlay({
               <a
                 key={item.id}
                 href={getItemHref(item, localeCode)}
-                className="mnav-row"
+                className={mnavRowClass("row")}
                 onClick={(e) => blockPreviewNav(e, surface)}
               >
-                {item.icon ? <i className={`fas ${item.icon}`} aria-hidden /> : null}
-                <span>{item.label}</span>
+                <MnavItemRowContent icon={item.icon} label={item.label} showIcons={showIcons} />
               </a>
             ))}
           </nav>
@@ -238,7 +320,9 @@ function MobileNavOverlay({
           </div>
           <MobileNavActionsStrip actions={actions} onActionClick={onActionClick} />
           <div className="mnav-search-bar">
-            <i className="fas fa-search" aria-hidden />
+            <span className="mnav-search-bar__icon" aria-hidden>
+              <i className="fas fa-search" />
+            </span>
             <input
               type="search"
               className="mnav-search-input"
@@ -253,7 +337,13 @@ function MobileNavOverlay({
             />
           </div>
           <nav className="mnav-body">
-            <NavRows items={items} localeCode={localeCode} surface={surface} />
+            <NavRows
+              items={items}
+              localeCode={localeCode}
+              surface={surface}
+              showIcons={showIcons}
+              showArrows={showArrows}
+            />
           </nav>
         </div>
       </div>
@@ -276,7 +366,13 @@ function MobileNavOverlay({
         </div>
         <MobileNavActionsStrip actions={actions} onActionClick={onActionClick} />
         <nav className="mnav-body">
-          <NavRows items={items} localeCode={localeCode} surface={surface} />
+          <NavRows
+            items={items}
+            localeCode={localeCode}
+            surface={surface}
+            showIcons={showIcons}
+            showArrows={showArrows}
+          />
         </nav>
       </div>
     </div>
@@ -289,7 +385,10 @@ type PortalShellProps = {
   mobileNavAnimation?: MobileNavAnimation;
   mobileNavDensity?: MobileNavDensity;
   surface?: HeaderRendererSurface;
-  menuAppearance?: ResolvedMenuAppearance;
+  menuAppearance?: ResolvedMobileMenuAppearance;
+  animState: MnavAnimState;
+  showIcons: boolean;
+  showArrows: boolean;
 };
 
 function MobileNavPortalShell({
@@ -299,14 +398,20 @@ function MobileNavPortalShell({
   mobileNavDensity = "comfortable",
   surface = "site",
   menuAppearance,
+  animState,
+  showIcons,
+  showArrows,
 }: PortalShellProps) {
   const menuAttrs = menuAppearance ? menuAppearanceDataAttributes(menuAppearance) : {};
   return (
     <div
       className="mnav-portal-root"
+      data-mnav-state={animState}
       data-mobile-nav-style={mobileNavStyle}
       data-mobile-nav-animation={mobileNavAnimation}
       data-mobile-nav-density={mobileNavDensity}
+      data-mobile-nav-show-icons={showIcons ? "true" : "false"}
+      data-mobile-nav-show-arrows={showArrows ? "true" : "false"}
       data-header-surface={surface}
       style={menuAppearance ? menuAppearanceStyle(menuAppearance) : undefined}
       {...menuAttrs}
@@ -328,44 +433,94 @@ export function MobileMenuPreview({
   mobileNavAnimation = "slide",
   mobileNavDensity = "comfortable",
   menuAppearance,
+  showIcons = true,
+  showArrows = true,
 }: Props) {
-  // Items have already been resolved for the mobile surface by HeaderRenderer;
-  // filter here is a safety net — only show items intended for mobile.
   const mobileItems = items.filter(
     (item) => item.placement === "both" || item.placement === "mobile",
   );
-  const [isOpen, setIsOpen] = useState(false);
+  const [portalVisible, setPortalVisible] = useState(false);
+  const [animState, setAnimState] = useState<MnavAnimState>("closed");
   const [mounted, setMounted] = useState(false);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const isMenuOpen = animState === "open";
+
+  const openMenu = useCallback(() => {
+    setPortalVisible(true);
+    setAnimState("closed");
+    onOpen?.();
+  }, [onOpen]);
+
+  const closeMenu = useCallback(() => {
+    if (!portalVisible) return;
+    setAnimState((prev) => (prev === "closing" ? prev : "closing"));
+  }, [portalVisible]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   useEffect(() => {
-    const close = () => setIsOpen(false);
-    document.addEventListener("azura:close-mobile-menu", close);
-    return () => document.removeEventListener("azura:close-mobile-menu", close);
-  }, []);
+    if (!portalVisible || animState !== "closed") return;
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setAnimState("open"));
+    });
+    return () => cancelAnimationFrame(id);
+  }, [portalVisible, animState]);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (animState !== "closing") return;
+    const ms = getMobileAnimDuration(mobileNavAnimation);
+    closeTimerRef.current = setTimeout(() => {
+      setPortalVisible(false);
+      setAnimState("closed");
+    }, ms);
+    return () => {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    };
+  }, [animState, mobileNavAnimation]);
+
+  useEffect(() => {
+    const close = () => closeMenu();
+    document.addEventListener("azura:close-mobile-menu", close);
+    return () => document.removeEventListener("azura:close-mobile-menu", close);
+  }, [closeMenu]);
+
+  useEffect(() => {
+    if (surface === "preview") return;
+    const mq = window.matchMedia(NAV_MOBILE_MQ);
+    const onChange = () => {
+      if (!mq.matches) closeMenu();
+    };
+    mq.addEventListener("change", onChange);
+    window.addEventListener("orientationchange", onChange, { passive: true });
+    return () => {
+      mq.removeEventListener("change", onChange);
+      window.removeEventListener("orientationchange", onChange);
+    };
+  }, [closeMenu, surface]);
+
+  useEffect(() => {
+    if (!portalVisible) return;
     const root = document.documentElement;
     root.classList.add("mnav-open");
     return () => root.classList.remove("mnav-open");
-  }, [isOpen]);
+  }, [portalVisible]);
 
   const toggle = () => {
-    setIsOpen((open) => {
-      const next = !open;
-      if (next) onOpen?.();
-      return next;
-    });
+    if (isMenuOpen) closeMenu();
+    else if (!portalVisible) openMenu();
   };
-  const close = () => setIsOpen(false);
 
   if (mobileType === "bottom") {
     return (
-      <nav className="mnav-bottom-bar" data-mobile-type="bottom" aria-label="Navigation">
+      <nav
+        className="mnav-bottom-bar"
+        data-mobile-type="bottom"
+        data-mobile-nav-show-icons={showIcons ? "true" : "false"}
+        aria-label="Navigation"
+      >
         {mobileItems.slice(0, 5).map((item) => (
           <a
             key={item.id}
@@ -373,8 +528,8 @@ export function MobileMenuPreview({
             className="mnav-bottom-item"
             onClick={surface === "preview" ? (e) => e.preventDefault() : undefined}
           >
-            <i className={`fas ${item.icon ?? "fa-circle"}`} aria-hidden />
-            <span>{item.label}</span>
+            <MnavIconSlot icon={item.icon} showIcons={showIcons} fallbackIcon="fa-circle" />
+            <span className="mnav-bottom-item__label">{item.label}</span>
           </a>
         ))}
       </nav>
@@ -392,15 +547,15 @@ export function MobileMenuPreview({
         id="mobileTriggerBtn"
         type="button"
         className={`mobile-trigger mobile-trigger--${mobileType}`}
-        aria-label={isOpen ? "Close menu" : "Open menu"}
-        aria-expanded={isOpen}
+        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        aria-expanded={isMenuOpen}
         aria-haspopup="dialog"
         data-mobile-type={mobileType}
         onClick={toggle}
       >
-        <i className={`fas ${isOpen ? "fa-times" : triggerIcon}`} aria-hidden />
+        <i className={`fas ${isMenuOpen ? "fa-times" : triggerIcon}`} aria-hidden />
       </button>
-      {isOpen && mounted
+      {portalVisible && mounted
         ? createPortal(
             <MobileNavPortalShell
               mobileNavStyle={mobileNavStyle}
@@ -408,15 +563,20 @@ export function MobileMenuPreview({
               mobileNavDensity={mobileNavDensity}
               surface={surface}
               menuAppearance={menuAppearance}
+              animState={animState}
+              showIcons={showIcons}
+              showArrows={showArrows}
             >
               <MobileNavOverlay
                 type={mobileType}
                 items={mobileItems}
                 actions={actions}
                 onActionClick={onActionClick}
-                onClose={close}
+                onClose={closeMenu}
                 localeCode={localeCode}
                 surface={surface}
+                showIcons={showIcons}
+                showArrows={showArrows}
               />
             </MobileNavPortalShell>,
             document.body

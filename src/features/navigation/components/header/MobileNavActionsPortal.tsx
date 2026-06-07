@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { HeaderAction } from "@/features/navigation/types";
 import { HeaderActions } from "./HeaderActions";
 
-const MOBILE_MQ = "(max-width: 968px)";
+import { NAV_MOBILE_MQ } from "@/features/navigation/nav-breakpoints";
 
 interface Props {
   actions: HeaderAction[];
@@ -16,7 +16,7 @@ export function MobileNavActionsPortal({ actions, onActionClick }: Props) {
   const [mobile, setMobile] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia(MOBILE_MQ);
+    const mq = window.matchMedia(NAV_MOBILE_MQ);
     const sync = () => setMobile(mq.matches);
     sync();
     mq.addEventListener("change", sync);

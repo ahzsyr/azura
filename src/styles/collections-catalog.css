@@ -1761,3 +1761,19 @@ body:has(.pl-root--filters-drawer-open) .pp-root {
   height: 100%;
   object-fit: cover;
 }
+
+@media (max-width: 968px) {
+  .catalog-page,
+  .pl-root--catalog,
+  .pl-root--collections-catalog {
+    padding-inline: clamp(0.75rem, 3vw, 1rem);
+  }
+
+  .pl-root--dock .pl-main .pl-catalog-grid-scroll {
+    padding-bottom: calc(var(--cl-dock-bottom-space, 8.5rem) + env(safe-area-inset-bottom, 0px) + 0.5rem);
+  }
+
+  .pl-catalog-dock--bottom {
+    padding-bottom: calc(0.55rem + env(safe-area-inset-bottom, 0px));
+  }
+}

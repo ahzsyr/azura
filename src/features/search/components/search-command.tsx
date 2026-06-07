@@ -101,21 +101,31 @@ function GlobalSearchModal({
     return types.filter((type) => adminMode || type !== "MEDIA");
   }, [discovery, adminMode]);
 
+  const openSearchModal = useCallback(() => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+    setOpen(true);
+  }, []);
+
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
         setOpen((o) => !o);
       }
     };
-    const openSearch = () => setOpen(true);
+    const openSearch = () => openSearchModal();
     document.addEventListener("keydown", down);
     document.addEventListener("sm:open-search", openSearch);
     return () => {
       document.removeEventListener("keydown", down);
       document.removeEventListener("sm:open-search", openSearch);
     };
-  }, []);
+  }, [openSearchModal]);
 
   const typesQuery = useMemo(
     () => (activeTypes.length ? `&types=${activeTypes.join(",")}` : ""),
@@ -268,7 +278,7 @@ function GlobalSearchModal({
     <>
       <SearchTriggerButton
         label={t.search}
-        onClick={() => setOpen(true)}
+        onClick={() => openSearchModal()}
         className={triggerClassName}
       />
       <SearchChrome

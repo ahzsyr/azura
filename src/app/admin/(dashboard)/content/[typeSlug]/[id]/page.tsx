@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { ContentEditPage } from "@/features/content/admin/content-edit-page";
 import { contentService } from "@/features/content/content.service";
@@ -34,13 +35,19 @@ export default async function AdminContentEditRoute({ params }: Props) {
   ]);
 
   return (
-    <ContentEditPage
-      item={item}
-      contentType={contentType}
-      collections={collections}
-      locales={locales}
-      initialBlockTranslations={initialBlockTranslations}
-      initialItemTranslations={initialItemTranslations}
-    />
+    <Suspense
+      fallback={
+        <div className="p-6 text-sm text-muted-foreground">Loading content editor…</div>
+      }
+    >
+      <ContentEditPage
+        item={item}
+        contentType={contentType}
+        collections={collections}
+        locales={locales}
+        initialBlockTranslations={initialBlockTranslations}
+        initialItemTranslations={initialItemTranslations}
+      />
+    </Suspense>
   );
 }

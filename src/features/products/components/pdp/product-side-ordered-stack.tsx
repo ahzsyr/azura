@@ -15,7 +15,7 @@ const PURCHASE_SECTION_KEYS: ProductPageSideOrderKey[] = [
   "condition",
   "delivery",
   "quantity",
-  "addToCart",
+  "buyNow",
   "keySpecs",
 ];
 

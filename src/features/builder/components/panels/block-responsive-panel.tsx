@@ -19,6 +19,7 @@ import {
   inferWidthPreset,
 } from "@/features/builder/styles/layout-preset-resolver";
 import { updateBlockResponsive } from "@/features/builder/components/block-style-utils";
+import { ContentOverflowFields } from "@/features/builder/components/panels/content-overflow-fields";
 
 type Props = {
   block: BlockNode;
@@ -113,6 +114,8 @@ function DevicePanel({
               patch({ sectionSpacingPreset: "custom", sectionSpacing })
             }
           />
+
+          <ContentOverflowFields block={block} device={device} onChange={onChange} />
 
           <div className="grid grid-cols-2 gap-2">
             <div>

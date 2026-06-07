@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,6 +31,10 @@ export function InquiryForm({
   packageSlug,
 }: InquiryFormProps) {
   const t = useTranslations("contact");
+  const sessionState = useSession();
+  const session = sessionState?.data;
+  const customer =
+    session?.user?.role === "CUSTOMER" ? session.user : null;
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
   const itemId = contentItemId ?? packageId;
@@ -40,6 +45,7 @@ export function InquiryForm({
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<InquiryInput>({
     resolver: zodResolver(inquirySchema),
@@ -47,9 +53,16 @@ export function InquiryForm({
       type: inquiryType,
       locale,
       contentItemId: itemId,
+      name: customer?.name ?? "",
+      email: customer?.email ?? "",
       message: itemSlug ? `Inquiry about: ${itemSlug}` : "",
     },
   });
+
+  useEffect(() => {
+    if (customer?.name) setValue("name", customer.name);
+    if (customer?.email) setValue("email", customer.email);
+  }, [customer?.name, customer?.email, setValue]);
 
   const onSubmit = async (data: InquiryInput) => {
     setStatus("idle");
@@ -72,7 +85,7 @@ export function InquiryForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+    <form onSubmit={handleSubmit(onSubmit)} className="az-form-surface space-y-5">
       <input type="hidden" {...register("contentItemId")} />
       <input type="hidden" {...register("type")} />
       <input type="hidden" {...register("locale")} />

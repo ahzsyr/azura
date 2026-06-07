@@ -5,23 +5,22 @@ import type { ContentBlockConfig, ContentCardData } from "@/features/content/typ
 import { contentRepository } from "@/features/content/content.repository";
 import { TYPE_TO_LEGACY_SOURCE } from "@/features/content/content-type.registry";
 
-export async function ensureBuiltinContentTypes() {
-  for (const def of BUILTIN_CONTENT_TYPES) {
-    await prisma.contentType.upsert({
-      where: { slug: def.slug },
-      update: {
-        nameEn: def.nameEn,
-        nameAr: def.nameAr,
-        labelSingularEn: def.labelSingularEn,
-        labelSingularAr: def.labelSingularAr,
-        labelPluralEn: def.labelPluralEn,
-        labelPluralAr: def.labelPluralAr,
-        icon: def.icon,
-        routePrefix: def.routePrefix,
-        fieldSchema: def.fields,
-        displaySchema: def.displayDefaults ?? {},
-      },
-      create: {
+const BUILTIN_SLUGS = BUILTIN_CONTENT_TYPES.map((d) => d.slug);
+
+let ensureBuiltinInflight: Promise<void> | null = null;
+
+async function syncMissingBuiltinContentTypes() {
+  const existing = await prisma.contentType.findMany({
+    where: { slug: { in: BUILTIN_SLUGS } },
+    select: { slug: true },
+  });
+  const have = new Set(existing.map((row) => row.slug));
+  const missing = BUILTIN_CONTENT_TYPES.filter((def) => !have.has(def.slug));
+  if (missing.length === 0) return;
+
+  for (const def of missing) {
+    await prisma.contentType.create({
+      data: {
         slug: def.slug,
         nameEn: def.nameEn,
         nameAr: def.nameAr,
@@ -37,6 +36,17 @@ export async function ensureBuiltinContentTypes() {
       },
     });
   }
+}
+
+/** Ensures built-in types exist once per process; avoids per-request upserts that slow every page. */
+export async function ensureBuiltinContentTypes() {
+  if (!ensureBuiltinInflight) {
+    ensureBuiltinInflight = syncMissingBuiltinContentTypes().catch((err) => {
+      ensureBuiltinInflight = null;
+      throw err;
+    });
+  }
+  await ensureBuiltinInflight;
 }
 
 function itemHref(item: ContentCardSourceItem & { contentType?: { slug: string; routePrefix: string | null } }) {

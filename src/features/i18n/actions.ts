@@ -6,6 +6,7 @@ import { messageFileExists, scaffoldMessageFile } from "@/i18n/message-files";
 import { prisma } from "@/lib/prisma";
 import { localeConfigSchema } from "@/schemas/locale";
 import { revalidateLocales } from "@/services/cache";
+import { scaffoldLocaleTranslationsAction } from "@/features/translation/actions";
 
 function parseLocaleForm(formData: FormData) {
   return localeConfigSchema.parse({
@@ -66,8 +67,17 @@ export async function upsertLocaleAction(formData: FormData): Promise<UpsertLoca
     }
   }
 
+  if (isCreate && parsed.code !== "en") {
+    try {
+      await scaffoldLocaleTranslationsAction(parsed.code);
+    } catch {
+      /* optional; admin can scaffold manually */
+    }
+  }
+
   revalidateLocales();
   revalidatePath("/admin/languages");
+  revalidatePath("/admin/translations");
 
   return {
     success: true,

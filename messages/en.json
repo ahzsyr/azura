@@ -2,6 +2,11 @@
   "nav": {
     "home": "Home",
     "about": "About Us",
+    "products": "Solutions",
+    "collections": "Collections",
+    "services": "Services",
+    "compare": "Compare",
+    "favorites": "Favorites",
     "packages": "Umrah Packages",
     "visa": "Visa Services",
     "hotels": "Hotels & Transport",
@@ -10,13 +15,13 @@
     "contact": "Contact",
     "blog": "Blog",
     "inquire": "Inquire Now",
-    "brandTagline": "Islamic Travel"
+    "brandTagline": "Wireless Solutions"
   },
   "hero": {
-    "badge": "Trusted Islamic Travel Companion",
-    "title": "Your Sacred Journey, Guided with Care",
-    "subtitle": "Premium Umrah packages and Islamic travel services — crafted with devotion, delivered with excellence.",
-    "ctaPrimary": "Explore Packages",
+    "badge": "BRT TRADING LLC",
+    "title": "Innovative Wireless Solutions",
+    "subtitle": "Connecting businesses and individuals through state-of-the-art wireless technology.",
+    "ctaPrimary": "Explore Products",
     "ctaSecondary": "Contact Us"
   },
   "trust": {
@@ -98,8 +103,8 @@
     "items": "questions"
   },
   "cta": {
-    "title": "Begin Your Sacred Journey",
-    "subtitle": "Let our team guide you every step of the way.",
+    "title": "Ready to connect with BRT?",
+    "subtitle": "info@brt-me.com  •  www.brt-me.com",
     "button": "Get in Touch"
   },
   "about": {
@@ -153,12 +158,75 @@
     "rights": "All rights reserved.",
     "followUs": "Follow us"
   },
+  "account": {
+    "hubTitle": "Account",
+    "hubDescription": "Sign in to manage saved items and inquiries, or create an account to get started.",
+    "signIn": "Sign in",
+    "register": "Register",
+    "registerTitle": "Create account",
+    "registerDescription": "A few quick steps to set up your profile and sign in.",
+    "registerStepOf": "Step {current} of {total}",
+    "sectionPersonalHint": "Tell us who you are.",
+    "sectionContactHint": "How we can reach you about bookings and inquiries.",
+    "sectionAddressHint": "Used for deliveries and travel documents when needed.",
+    "sectionAccountHint": "Choose a strong password to protect your account.",
+    "continue": "Continue",
+    "back": "Back",
+    "adminSeparateNotice": "You are signed in as an administrator. Customer accounts are separate from the admin panel.",
+    "adminPanelLink": "Go to admin panel",
+    "adminUseAdminLogin": "This login is for customers only. Please use the admin login at /admin/login.",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "newPassword": "New password",
+    "fullName": "Full name",
+    "phone": "Mobile number",
+    "dateOfBirth": "Date of birth",
+    "addressLine1": "Street address",
+    "addressLine2": "Apartment, suite, etc. (optional)",
+    "city": "City",
+    "state": "State / region",
+    "postalCode": "Postal code",
+    "country": "Country",
+    "sectionPersonal": "Personal",
+    "sectionContact": "Contact",
+    "sectionAddress": "Address",
+    "sectionAccount": "Account security",
+    "marketingOptIn": "Send me updates and offers by email",
+    "passwordMismatch": "Passwords do not match",
+    "registerFailed": "Registration failed",
+    "registerSignInFailed": "Account created but sign-in failed. Please sign in manually.",
+    "creating": "Creating account…",
+    "signingIn": "Signing in…",
+    "alreadyHaveAccount": "Already have an account?",
+    "noAccount": "No account?",
+    "forgotPasswordLink": "Forgot password?",
+    "forgotPasswordTitle": "Reset password",
+    "forgotPasswordDescription": "Enter your email and we will send you a link to reset your password.",
+    "sendResetLink": "Send reset link",
+    "sending": "Sending…",
+    "forgotPasswordSuccess": "If an account exists for that email, you will receive password reset instructions shortly.",
+    "forgotPasswordError": "Could not process your request. Try again later.",
+    "backToSignIn": "Back to sign in",
+    "resetPasswordTitle": "Choose a new password",
+    "resetPasswordDescription": "Enter a new password for your account.",
+    "resetPasswordSubmit": "Update password",
+    "resetPasswordError": "Could not reset password. Request a new link.",
+    "resetTokenMissing": "This reset link is invalid or missing. Request a new one.",
+    "saving": "Saving…"
+  },
   "widget": {
     "ariaLabel": "Personalize theme",
     "style": "Style",
     "personalize": "Personalize",
     "close": "Close",
-    "appearance": "Appearance"
+    "appearance": "Appearance",
+    "backToTop": "Top",
+    "language": "Language",
+    "changeLanguage": "Change",
+    "activeTheme": "Theme mode",
+    "activePreset": "Style preset",
+    "appearanceHint": "Light, dark, and system modes apply instantly without reloading the page."
   },
   "common": {
     "loading": "Loading...",
@@ -191,9 +259,11 @@
     "browseTypes": "Browse catalog types",
     "sameTypeOnly": "Compare within the same type only",
     "compareNow": "Compare now",
+    "viewComparison": "View comparison",
     "clearAll": "Clear all",
     "drawerEmpty": "No items selected for comparison.",
     "empty": "Comparison list is empty",
+    "typeNotComparable": "These items are saved for comparison, but this catalog type is not available on the compare page right now. Clear the list or try again after refreshing the page.",
     "allSpecs": "All attributes",
     "differences": "Differences only",
     "hideEqual": "Hide equal values",
@@ -211,5 +281,15 @@
     "allGroups": "All groups",
     "mobileView": "Mobile view",
     "tableView": "Table view"
+  },
+  "whatsapp": {
+    "fab": {
+      "ariaLabel": "Chat on WhatsApp"
+    },
+    "message": {
+      "default": "Assalamu Alaikum, I would like to get in touch with {brandName}.",
+      "contact": "Assalamu Alaikum, I would like to get in touch with {brandName}.",
+      "contentInquiry": "Assalamu Alaikum, I am interested in {itemTitle} from {brandName}."
+    }
   }
 }

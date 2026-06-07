@@ -11,11 +11,19 @@ import {
 import { CMS_WIRED_MARKETING_SLUGS } from "@/features/builder/constants";
 import { CmsStatusBadge } from "./cms-status-badge";
 import { Button } from "@/components/ui/button";
-import { Copy, ExternalLink, Trash2, Upload } from "lucide-react";
+import { Copy, ExternalLink, Pencil, Trash2, Upload } from "lucide-react";
 import type { PageBlocks } from "@/types/builder";
 
 function getBlockCount(blocks: unknown): number {
   return Array.isArray(blocks) ? blocks.length : 0;
+}
+
+function pageDisplayName(page: CmsPage): string {
+  return page.titleEn.trim() || page.slug;
+}
+
+function pageEditHref(pageId: string): string {
+  return `/admin/pages/${pageId}?tab=content`;
 }
 
 export function CmsPagesTable({ pages }: { pages: CmsPage[] }) {
@@ -24,14 +32,15 @@ export function CmsPagesTable({ pages }: { pages: CmsPage[] }) {
       {pages.map((page) => {
         const blockCount = getBlockCount(page.blocks as PageBlocks);
         const livePath = CMS_WIRED_MARKETING_SLUGS[page.slug];
+        const displayName = pageDisplayName(page);
         return (
         <div
           key={page.id}
           className="flex flex-wrap items-center justify-between gap-3 p-4 hover:bg-muted/40"
         >
           <div className="min-w-0">
-            <Link href={`/admin/pages/${page.id}`} className="font-medium hover:text-primary">
-              {page.titleEn}
+            <Link href={pageEditHref(page.id)} className="font-medium hover:text-primary">
+              {displayName}
             </Link>
             <p className="text-sm text-muted-foreground truncate">
               /en/pages/{page.slug} · /ar/pages/{page.slug}
@@ -46,6 +55,12 @@ export function CmsPagesTable({ pages }: { pages: CmsPage[] }) {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <CmsStatusBadge status={page.status} scheduledAt={page.scheduledAt} />
+            <Button variant="outline" size="sm" asChild title="Edit page content and blocks">
+              <Link href={pageEditHref(page.id)}>
+                <Pencil className="h-3 w-3 me-1" />
+                Edit
+              </Link>
+            </Button>
             {page.status === "PUBLISHED" && (
               <>
                 <Button variant="ghost" size="sm" asChild>
@@ -98,7 +113,7 @@ export function CmsPagesTable({ pages }: { pages: CmsPage[] }) {
               size="sm"
               className="text-destructive"
               onClick={() => {
-                if (confirm(`Delete "${page.titleEn}"?`)) deleteCmsPage(page.id);
+                if (confirm(`Delete "${displayName}"?`)) deleteCmsPage(page.id);
               }}
             >
               <Trash2 className="h-4 w-4" />

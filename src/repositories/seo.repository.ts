@@ -236,12 +236,18 @@ export const seoRepository = {
           home: "",
           about: "/about",
           packages: "/packages",
-          visa: "/visa",
+          products: "/products",
+          collections: "/collections",
+          services: "/services",
+          compare: "/compare",
+          favorites: "/favorites",
+          account: "/account",
           "hotels-transport": "/hotels-transport",
           gallery: "/gallery",
           testimonials: "/testimonials",
           contact: "/contact",
           blog: "/blog",
+          faq: "/faq",
         };
         if (m.pageKey in staticPaths) paths.add(staticPaths[m.pageKey]);
       }

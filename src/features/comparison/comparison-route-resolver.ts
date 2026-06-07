@@ -7,6 +7,8 @@ const LEGACY_SEGMENT_TO_SLUG: Record<string, string> = {
   product: "products",
   packages: "catalog-items",
   package: "catalog-items",
+  hotels: "listings",
+  services: "offerings",
   listings: "listings",
   listing: "listings",
   offerings: "offerings",
@@ -22,7 +24,15 @@ export function resolveCompareContentTypeSlug(segment: string): string {
   return LEGACY_SEGMENT_TO_SLUG[normalized] ?? normalized;
 }
 
-export function comparePagePath(locale: string, routePrefix: string): string {
-  const segment = routePrefix.trim() || routePrefix;
+/** Public compare page path — segment is canonical content type slug (legacy aliases work on inbound routes). */
+export function comparePagePath(locale: string, contentTypeSlug: string): string {
+  const segment = contentTypeSlug.trim() || contentTypeSlug;
   return `/${locale}/compare/${segment}`;
+}
+
+/** Compare hub with optional active type tab (query `type` = content type slug). */
+export function compareHubPath(locale: string, contentTypeSlug?: string): string {
+  const base = `/${locale}/compare`;
+  if (!contentTypeSlug?.trim()) return base;
+  return `${base}?type=${encodeURIComponent(contentTypeSlug.trim())}`;
 }

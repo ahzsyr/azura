@@ -2,18 +2,27 @@ import { getTranslations } from "next-intl/server";
 import { Mail, MapPin, Phone, Clock } from "lucide-react";
 import { PageHero, Section, SectionHeader } from "@/components/marketing/section";
 import { InquiryForm } from "@/components/forms/inquiry-form";
-import { getWhatsappDefaultMessage } from "@/config/site";
 import { getCompanyInfo } from "@/lib/data";
 import { resolveSiteIdentity } from "@/lib/site-identity";
-import { getLocalizedField, getWhatsAppUrl } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { getLocalizedField } from "@/lib/utils";
+import { WhatsAppLinkButton } from "@/features/whatsapp/components/whatsapp-link-button";
+import { whatsappService } from "@/features/whatsapp/whatsapp.service";
+import {
+  resolveWhatsAppPhone,
+} from "@/features/whatsapp/whatsapp-message";
 
 type Props = { locale: string };
 
 export async function ContactStatic({ locale }: Props) {
-  const t = await getTranslations({ locale, namespace: "contact" });
-  const company = await getCompanyInfo();
+  const [t, tWhatsapp, company, whatsappSettings] = await Promise.all([
+    getTranslations({ locale, namespace: "contact" }),
+    getTranslations({ locale, namespace: "whatsapp" }),
+    getCompanyInfo(),
+    whatsappService.get(),
+  ]);
   const { brandName } = resolveSiteIdentity({ companyName: company?.name });
+  const whatsappPhone = resolveWhatsAppPhone(company?.whatsapp);
+  const whatsappMessage = tWhatsapp("message.contact", { brandName });
 
   const mapsUrl =
     process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL ??
@@ -27,7 +36,9 @@ export async function ContactStatic({ locale }: Props) {
         <div className="grid gap-12 lg:grid-cols-2">
           <div>
             <SectionHeader title={t("form")} align="start" />
-            <InquiryForm locale={locale} type="CONTACT" />
+            <div className="az-form-surface rounded-xl border border-border/60 bg-card/95 p-6 shadow-sm">
+              <InquiryForm locale={locale} type="CONTACT" />
+            </div>
           </div>
 
           <div className="space-y-8">
@@ -56,18 +67,13 @@ export async function ContactStatic({ locale }: Props) {
                 </li>
               </ul>
             )}
-            <Button asChild variant="gold" className="w-full sm:w-auto">
-              <a
-                href={getWhatsAppUrl(
-                  company?.whatsapp ?? process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "",
-                  getWhatsappDefaultMessage(brandName)
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {t("whatsapp")}
-              </a>
-            </Button>
+            <WhatsAppLinkButton
+              phone={whatsappPhone}
+              message={whatsappMessage}
+              appearance={whatsappSettings.contactPage}
+              label={t("whatsapp")}
+              className="sm:w-auto"
+            />
           </div>
         </div>
       </Section>

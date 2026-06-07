@@ -56,13 +56,7 @@ export const testimonialsPropsSchema = z.object({
   autoplayIntervalMs: z.coerce.number().default(5000),
 });
 
-export const pricingPropsSchema = z.object({
-  titleEn: z.string().default(""),
-  titleAr: z.string().default(""),
-  packageCategorySlug: z.string().default(""),
-  limit: z.coerce.number().default(3),
-  showFeaturedOnly: z.boolean().default(false),
-});
+export { pricingPropsSchema } from "@/features/pricing-plans/schemas/pricing-blocks";
 
 export const ctaPropsSchema = z.object({
   titleEn: z.string().default(""),

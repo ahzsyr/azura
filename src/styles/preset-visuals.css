@@ -192,8 +192,8 @@ html[data-text-effect-theme="neon-glow"] [data-text-effect="inherit"] {
     0 0 20px color-mix(in srgb, var(--az-preset-glow-color, var(--primary)) 50%, transparent);
 }
 
-html[data-preset-text-effect="gradient-flow"] h1,
-html[data-preset-text-effect="gradient-flow"] h2,
+html[data-preset-text-effect="gradient-flow"] [data-hero-title],
+html[data-preset-text-effect="gradient-flow"] [data-text-effect-target="heading"],
 html[data-text-effect-theme="gradient-flow"] [data-text-effect="gradient-flow"] {
   background: var(--az-preset-gradient-accent);
   -webkit-background-clip: text;
@@ -232,8 +232,8 @@ html[data-preset-animated="on"] [data-reveal] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html[data-preset-text-effect="gradient-flow"] h1,
-  html[data-preset-text-effect="gradient-flow"] h2 {
+  html[data-preset-text-effect="gradient-flow"] [data-hero-title],
+  html[data-preset-text-effect="gradient-flow"] [data-text-effect-target="heading"] {
     animation: none !important;
   }
 }

@@ -399,7 +399,19 @@ export async function buildAllProductIndexes(options?: {
   const signatures: Record<string, string> = {};
 
   for (const locale of locales) {
+    const scanned = await scanLocaleProducts(locale);
     const signature = await computeLocaleSignature(locale);
+    const previousCount = existingManifest?.counts[locale] ?? 0;
+
+    if (scanned.length === 0 && previousCount > 0 && !options?.force) {
+      console.warn(
+        `[catalog:index] ${locale}: no product JSON found under src/data/${locale}/products — keeping existing index (${previousCount} products). Include catalog source in deploy zip.`,
+      );
+      counts[locale] = previousCount;
+      signatures[locale] = existingManifest!.signatures[locale] ?? signature;
+      continue;
+    }
+
     if (
       !options?.force &&
       existingManifest?.signatures[locale] === signature &&
@@ -428,18 +440,26 @@ export async function buildAllProductIndexes(options?: {
   };
   await writeJsonAtomic(root, "manifest.json", manifest);
 
-  // Also copy listing index gzip to public for CDN (optional static serve)
-  const publicIndexRoot = join(process.cwd(), "public", "data", "products-index");
-  await mkdir(publicIndexRoot, { recursive: true });
-  for (const locale of locales) {
-    const srcGz = join(localeIndexDir(locale), "product-listing-index.json.gz");
-    const destGz = join(publicIndexRoot, `${locale}.json.gz`);
-    try {
-      const { copyFile } = await import("node:fs/promises");
-      await copyFile(srcGz, destGz);
-    } catch {
-      /* gzip may not exist if disabled */
+  // Optional: copy listing index gzip to public/ for static CDN serve.
+  // Skipped on hosts where public/ is not writable during build (e.g. Hostinger).
+  try {
+    const publicIndexRoot = join(process.cwd(), "public", "data", "products-index");
+    await mkdir(publicIndexRoot, { recursive: true });
+    const { copyFile } = await import("node:fs/promises");
+    for (const locale of locales) {
+      const srcGz = join(localeIndexDir(locale), "product-listing-index.json.gz");
+      const destGz = join(publicIndexRoot, `${locale}.json.gz`);
+      try {
+        await copyFile(srcGz, destGz);
+      } catch {
+        /* gzip may not exist if disabled */
+      }
     }
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.warn(
+      `[catalog:index] public copy skipped (${message}). Indexes in src/data/products-index are used at runtime.`,
+    );
   }
 
   void legacyProductsDir;

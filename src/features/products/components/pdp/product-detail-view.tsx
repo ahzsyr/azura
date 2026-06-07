@@ -27,6 +27,7 @@ import {
 } from "@/features/products/lib/product-variation-pricing";
 import { normalizeProductDeliveryOptions } from "@/features/products/lib/product-delivery";
 import { normalizeProductCtaGlobal, resolveProductCta } from "@/features/products/lib/product-cta";
+import { buildBuyNowHref } from "@/features/products/lib/product-buy-now";
 import { getLocaleByPrefix, defaultLocaleConfig } from "@/features/products/lib/i18n/config";
 import { loadPdpLabels } from "../../pdp/load-pdp-labels";
 import { ProductGallery } from "./product-gallery";
@@ -116,12 +117,7 @@ export async function ProductDetailView({
   const globalCta = normalizeProductCtaGlobal(siteProductCta);
   const productCtaEffective = resolveProductCta(globalCta, product.product_cta);
 
-  const addToCartResolved = {
-    ...pageCtx.addToCart,
-    href: pageCtx.addToCart.href
-      ? resolveLocalizedHref(pageCtx.addToCart.href, locale)
-      : "",
-  };
+  const buyNowHref = buildBuyNowHref(pageCtx.buyNow, slug, pageCtx.buyNowSlugOverride);
 
   const promoResolved = {
     ...pageCtx.promo,
@@ -339,6 +335,7 @@ export async function ProductDetailView({
                   }}
                   variationsProps={{ product, priceMatrix }}
                   purchaseProps={{
+                    locale,
                     product,
                     productId,
                     deliveryOptions,
@@ -346,7 +343,8 @@ export async function ProductDetailView({
                     prices: purchasePrices,
                     initialSku: product.mpn || product.manufacturer_part_number,
                     display: pageCtx.display,
-                    addToCart: addToCartResolved,
+                    buyNow: pageCtx.buyNow,
+                    buyNowHref,
                     currencyCtx,
                     conditionInVariations,
                   }}

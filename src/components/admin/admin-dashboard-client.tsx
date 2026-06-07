@@ -1,16 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import { Package, MessageSquare, Star, Image } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
-  AdminPageHeader,
+  ArrowRight,
+  FileText,
+  Image,
+  LayoutDashboard,
+  MessageSquare,
+  Newspaper,
+  Package,
+  Palette,
+  Search,
+  Star,
+  UserCog,
+  Users,
+  EyeOff,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
   AdminCardGrid,
   AdminStaggerContainer,
   AdminStaggerItem,
 } from "@/components/admin/layout/admin-shell";
-import { getPublicBrandName } from "@/config/site";
+import { formatAdminDate } from "@/lib/admin-date-format";
+import { cn } from "@/lib/utils";
 
 type DashboardStats = {
   packages: number;
@@ -32,93 +47,227 @@ type Inquiry = {
   name: string;
   email: string;
   status: string;
+  createdAt: Date | string;
+};
+
+type Branding = {
+  brandName: string;
+  brandShort: string;
+  tagline: string;
 };
 
 type AdminDashboardClientProps = {
+  branding: Branding;
   stats: DashboardStats;
   platform: PlatformStats;
+  customerCount: number;
   recentInquiries: Inquiry[];
   rebuildSearchAction: () => void;
 };
 
+const QUICK_ACTIONS = [
+  { label: "Pages", href: "/admin/pages", icon: FileText, description: "CMS pages" },
+  { label: "New inquiry", href: "/admin/inquiries", icon: MessageSquare, description: "Lead inbox" },
+  { label: "Theme", href: "/admin/theme", icon: Palette, description: "Branding & colors" },
+  { label: "Site access", href: "/admin/settings/site", icon: EyeOff, description: "Coming soon mode" },
+  { label: "Visitor portal", href: "/admin/settings/portal", icon: UserCog, description: "Registration & reset" },
+  { label: "Customers", href: "/admin/users", icon: Users, description: "Visitor accounts" },
+  { label: "Search", href: "/admin/settings/search", icon: Search, description: "Index & ranking" },
+] as const;
+
+function StatCard({
+  label,
+  value,
+  icon: Icon,
+  href,
+  accent,
+}: {
+  label: string;
+  value: number;
+  icon: React.ComponentType<{ className?: string }>;
+  href: string;
+  accent?: boolean;
+}) {
+  return (
+    <Link href={href} className="block h-full">
+      <Card
+        className={cn(
+          "h-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md",
+          accent && "border-primary/30 bg-primary/[0.03]"
+        )}
+      >
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium text-muted-foreground">{label}</CardTitle>
+          <Icon className={cn("size-4", accent ? "text-primary" : "text-muted-foreground")} />
+        </CardHeader>
+        <CardContent>
+          <p className="text-3xl font-bold tabular-nums tracking-tight">{value}</p>
+        </CardContent>
+      </Card>
+    </Link>
+  );
+}
+
 export function AdminDashboardClient({
+  branding,
   stats,
   platform,
+  customerCount,
   recentInquiries,
   rebuildSearchAction,
 }: AdminDashboardClientProps) {
-  const cards = [
+  const { brandName, brandShort, tagline } = branding;
+
+  const catalogCards = [
     { label: "Packages", value: stats.packages, icon: Package, href: "/admin/packages" },
-    { label: "New Inquiries", value: stats.newInquiries, icon: MessageSquare, href: "/admin/inquiries" },
+    { label: "New inquiries", value: stats.newInquiries, icon: MessageSquare, href: "/admin/inquiries", accent: true },
     { label: "Testimonials", value: stats.testimonials, icon: Star, href: "/admin/testimonials" },
-    { label: "Gallery Items", value: stats.gallery, icon: Image, href: "/admin/gallery" },
+    { label: "Gallery", value: stats.gallery, icon: Image, href: "/admin/gallery" },
+  ];
+
+  const platformCards = [
+    { label: "CMS pages", value: platform.pages, icon: FileText, href: "/admin/pages" },
+    { label: "Blog posts", value: platform.posts, icon: Newspaper, href: "/admin/posts" },
+    { label: "Media assets", value: platform.media, icon: Image, href: "/admin/media" },
+    { label: "Customers", value: customerCount, icon: Users, href: "/admin/users" },
   ];
 
   return (
-    <div>
-      <AdminPageHeader
-        title="Dashboard"
-        description={`Welcome to ${getPublicBrandName()} admin panel.`}
-        actions={
-          <form action={rebuildSearchAction}>
-            <Button type="submit" variant="outline" size="sm">
-              Rebuild search index
+    <div className="space-y-8">
+      <Card
+        className="overflow-hidden border-primary/20 bg-gradient-to-br from-primary/8 via-background to-background"
+        data-scroll-reveal
+      >
+        <CardContent className="flex flex-col gap-6 p-6 md:flex-row md:items-center md:justify-between md:p-8">
+          <div className="flex min-w-0 items-start gap-4">
+            <div
+              className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-primary text-lg font-bold text-primary-foreground shadow-sm"
+              aria-hidden
+            >
+              {brandShort}
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                Admin dashboard
+              </p>
+              <h2 className="font-heading mt-1 truncate text-2xl font-semibold tracking-tight md:text-3xl">
+                {brandName}
+              </h2>
+              {tagline ? (
+                <p className="mt-1.5 text-sm text-muted-foreground md:text-base">{tagline}</p>
+              ) : null}
+              <p className="mt-2 text-sm text-muted-foreground">
+                Overview of content, leads, and platform activity.
+              </p>
+            </div>
+          </div>
+          <div className="flex shrink-0 flex-wrap gap-2">
+            <Button asChild variant="default" size="sm">
+              <Link href="/admin/inquiries">
+                View inquiries
+                <ArrowRight className="ms-2 size-4" aria-hidden />
+              </Link>
             </Button>
-          </form>
-        }
-      />
-
-      <p className="mb-6 text-sm text-muted-foreground">
-        CMS: {platform.pages} pages · {platform.posts} posts · {platform.media} media assets
-      </p>
+            <form action={rebuildSearchAction}>
+              <Button type="submit" variant="outline" size="sm">
+                Rebuild search
+              </Button>
+            </form>
+          </div>
+        </CardContent>
+      </Card>
 
       <AdminStaggerContainer>
-        <AdminCardGrid columns={4}>
-          {cards.map((card) => {
-            const Icon = card.icon;
-            return (
+        <section className="space-y-4" data-scroll-reveal style={{ ["--scroll-reveal-delay" as string]: "40ms" }}>
+          <div className="flex items-center gap-2">
+            <LayoutDashboard className="size-4 text-primary" aria-hidden />
+            <h3 className="text-sm font-semibold">Catalog & engagement</h3>
+          </div>
+          <AdminCardGrid columns={4}>
+            {catalogCards.map((card) => (
               <AdminStaggerItem key={card.label}>
-                <Link href={card.href} className="block h-full">
-                  <Card className="h-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                      <CardTitle className="text-sm font-medium text-muted-foreground">{card.label}</CardTitle>
-                      <Icon className="h-4 w-4 text-primary" />
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-3xl font-bold tabular-nums">{card.value}</p>
-                    </CardContent>
-                  </Card>
-                </Link>
+                <StatCard {...card} />
               </AdminStaggerItem>
-            );
-          })}
-        </AdminCardGrid>
+            ))}
+          </AdminCardGrid>
+        </section>
 
-        <AdminStaggerItem className="mt-8">
+        <section className="space-y-4" data-scroll-reveal style={{ ["--scroll-reveal-delay" as string]: "80ms" }}>
+          <div className="flex items-center gap-2">
+            <FileText className="size-4 text-primary" aria-hidden />
+            <h3 className="text-sm font-semibold">Platform</h3>
+          </div>
+          <AdminCardGrid columns={4}>
+            {platformCards.map((card) => (
+              <AdminStaggerItem key={card.label}>
+                <StatCard {...card} />
+              </AdminStaggerItem>
+            ))}
+          </AdminCardGrid>
+        </section>
+
+        <section className="space-y-4">
+          <h3 className="text-sm font-semibold">Quick actions</h3>
+          <AdminCardGrid columns={3}>
+            {QUICK_ACTIONS.map((action) => {
+              const Icon = action.icon;
+              return (
+                <AdminStaggerItem key={action.href}>
+                  <Link href={action.href} className="block h-full">
+                    <Card className="h-full transition-colors hover:bg-muted/40">
+                      <CardHeader className="pb-2">
+                        <div className="flex items-center gap-2">
+                          <Icon className="size-4 text-primary" aria-hidden />
+                          <CardTitle className="text-base">{action.label}</CardTitle>
+                        </div>
+                        <CardDescription>{action.description}</CardDescription>
+                      </CardHeader>
+                    </Card>
+                  </Link>
+                </AdminStaggerItem>
+              );
+            })}
+          </AdminCardGrid>
+        </section>
+
+        <AdminStaggerItem>
           <Card>
-            <CardHeader>
-              <CardTitle>Recent Inquiries</CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0">
+              <div>
+                <CardTitle>Recent inquiries</CardTitle>
+                <CardDescription>Latest contact and lead submissions</CardDescription>
+              </div>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/admin/inquiries">View all</Link>
+              </Button>
             </CardHeader>
             <CardContent>
               {recentInquiries.length === 0 ? (
                 <p className="text-sm text-muted-foreground">No inquiries yet.</p>
               ) : (
-                <div className="space-y-3">
+                <ul className="divide-y rounded-lg border">
                   {recentInquiries.map((inquiry) => (
-                    <div
-                      key={inquiry.id}
-                      className="flex items-center justify-between rounded-lg border p-3 transition-colors hover:bg-muted/50"
-                    >
-                      <div>
-                        <p className="font-medium">{inquiry.name}</p>
-                        <p className="text-sm text-muted-foreground">{inquiry.email}</p>
-                      </div>
-                      <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                        {inquiry.status}
-                      </span>
-                    </div>
+                    <li key={inquiry.id}>
+                      <Link
+                        href={`/admin/inquiries/${inquiry.id}`}
+                        className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-muted/50"
+                      >
+                        <div className="min-w-0">
+                          <p className="font-medium">{inquiry.name}</p>
+                          <p className="truncate text-sm text-muted-foreground">{inquiry.email}</p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs text-muted-foreground">
+                            {formatAdminDate(inquiry.createdAt)}
+                          </span>
+                          <Badge variant="outline" className="text-[10px]">
+                            {inquiry.status}
+                          </Badge>
+                        </div>
+                      </Link>
+                    </li>
                   ))}
-                </div>
+                </ul>
               )}
             </CardContent>
           </Card>

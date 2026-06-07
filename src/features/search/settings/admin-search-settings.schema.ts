@@ -11,6 +11,8 @@ import {
 } from "@/features/search/settings/search-filter-keys";
 import { searchSmartSchema } from "@/features/search/settings/search-smart.schema";
 
+const emptyToUndefined = (v: unknown) => (v === "" || v === null ? undefined : v);
+
 export const searchModeSchema = z.enum(["basic", "advanced", "fuzzy", "hybrid"]);
 export type SearchMode = z.infer<typeof searchModeSchema>;
 
@@ -25,13 +27,16 @@ export const searchGeneralSchema = z.object({
   enabled: z.boolean().default(true),
   globalSearchEnabled: z.boolean().default(true),
   searchPageEnabled: z.boolean().default(false),
-  searchPagePath: z.string().min(1).default("/search"),
+  searchPagePath: z.preprocess(
+    (v) => (typeof v === "string" && !v.trim() ? undefined : v),
+    z.string().min(1).default("/search"),
+  ),
   resultsPerPage: z.number().min(5).max(100).default(20),
   instantSearch: z.boolean().default(true),
   debounceMs: z.number().min(80).max(800).default(280),
   minQueryLength: z.number().min(1).max(6).default(2),
   maxResults: z.number().min(8).max(80).default(20),
-  mode: searchModeSchema.default("hybrid"),
+  mode: z.preprocess(emptyToUndefined, searchModeSchema.default("hybrid")),
 });
 
 export type SearchGeneralSettings = z.infer<typeof searchGeneralSchema>;
@@ -153,7 +158,7 @@ export type SearchAutocompleteSettings = z.infer<typeof searchAutocompleteSchema
 
 export const searchModalStyleSchema = z.object({
   /** Solid = opaque panel (readable). Glass = frosted panel using theme glass tokens. */
-  panelStyle: z.enum(["solid", "glass"]).default("solid"),
+  panelStyle: z.preprocess(emptyToUndefined, z.enum(["solid", "glass"]).default("solid")),
   /** Backdrop dim strength (30–95). Higher = less background bleed-through. */
   overlayOpacity: z.number().min(30).max(95).default(78),
   overlayBlurPx: z.number().min(0).max(32).default(16),
@@ -168,12 +173,18 @@ export const searchAppearanceSchema = z.object({
   /** When true, search UI uses global Theme System tokens (colors, preset glass, motion). */
   inheritGlobalTheme: z.boolean().default(true),
   modal: searchModalStyleSchema.default({}),
-  publicHeaderLayout: searchHeaderLayoutSchema.default("icon-floating"),
-  inputStyle: searchInputStyleSchema.default("minimal"),
-  panelWidth: searchPanelWidthSchema.default("lg"),
-  placeholder: z.string().default("Search catalog, blog, pages…"),
+  publicHeaderLayout: z.preprocess(
+    emptyToUndefined,
+    searchHeaderLayoutSchema.default("icon-floating"),
+  ),
+  inputStyle: z.preprocess(emptyToUndefined, searchInputStyleSchema.default("minimal")),
+  panelWidth: z.preprocess(emptyToUndefined, searchPanelWidthSchema.default("lg")),
+  placeholder: z.preprocess(
+    (v) => (typeof v === "string" && !v.trim() ? undefined : v),
+    z.string().default("Search catalog, blog, pages…"),
+  ),
   showShortcutBadge: z.boolean().default(true),
-  keyboardShortcut: searchShortcutSchema.default("/"),
+  keyboardShortcut: z.preprocess(emptyToUndefined, searchShortcutSchema.default("/")),
   showInHeader: z.boolean().default(true),
   showOnMobile: z.boolean().default(true),
 });

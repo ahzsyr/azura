@@ -1,5 +1,6 @@
 import "server-only";
 
+import type { Prisma } from "@prisma/client";
 import { readFile, writeFile, mkdir, stat } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import {
@@ -31,6 +32,7 @@ export const PATCHABLE_SITE_KEYS = [
   "productCardLayout",
   "productPageDisplay",
   "productPageAddToCart",
+  "productBuyNow",
   "productPagePromo",
   "productPageTrust",
   "productPageElementOrder",
@@ -40,6 +42,8 @@ export const PATCHABLE_SITE_KEYS = [
 ] as const;
 
 export type PatchableSiteKey = (typeof PATCHABLE_SITE_KEYS)[number];
+
+const SITE_SETTINGS_NAMESPACE = "site-settings";
 
 export function isPatchableSiteKey(key: string): key is PatchableSiteKey {
   return (PATCHABLE_SITE_KEYS as readonly string[]).includes(key);
@@ -53,31 +57,135 @@ function catalogLocaleFromParam(locale: string): CatalogLocale {
   return urlPrefixToCatalogLocale(locale);
 }
 
-let cache: { locale: string; mtime: number; data: Record<string, unknown> } | null = null;
+function deepMergeSettings(
+  base: Record<string, unknown>,
+  overlay: Record<string, unknown>,
+): Record<string, unknown> {
+  const out: Record<string, unknown> = { ...base };
+  for (const [key, value] of Object.entries(overlay)) {
+    const existing = out[key];
+    if (
+      value &&
+      typeof value === "object" &&
+      !Array.isArray(value) &&
+      existing &&
+      typeof existing === "object" &&
+      !Array.isArray(existing)
+    ) {
+      out[key] = deepMergeSettings(
+        existing as Record<string, unknown>,
+        value as Record<string, unknown>,
+      );
+    } else {
+      out[key] = value;
+    }
+  }
+  return out;
+}
+
+async function loadJsonStoreOverlay(
+  catalogLocale: CatalogLocale,
+): Promise<Record<string, unknown>> {
+  try {
+    const { jsonStoreService } = await import("@/features/storage/json-store.service");
+    const stored = await jsonStoreService.get<Record<string, unknown>>(
+      SITE_SETTINGS_NAMESPACE,
+      catalogLocale,
+    );
+    return stored ?? {};
+  } catch {
+    return {};
+  }
+}
+
+async function saveJsonStoreOverlay(
+  catalogLocale: CatalogLocale,
+  overlay: Record<string, unknown>,
+): Promise<void> {
+  const { jsonStoreService } = await import("@/features/storage/json-store.service");
+  // #region agent log
+  fetch("http://127.0.0.1:7498/ingest/1d86b498-7c2d-4481-a276-91bbb2186639", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "749a8d" },
+    body: JSON.stringify({
+      sessionId: "749a8d",
+      location: "site-settings.service.ts:saveJsonStoreOverlay",
+      message: "JsonStore overlay save",
+      data: { locale: catalogLocale, keyCount: Object.keys(overlay).length },
+      hypothesisId: "H1",
+      runId: "post-fix",
+      timestamp: Date.now(),
+    }),
+  }).catch(() => {});
+  // #endregion
+  await jsonStoreService.set(
+    SITE_SETTINGS_NAMESPACE,
+    catalogLocale,
+    overlay as Prisma.InputJsonValue,
+  );
+}
+
+async function readSiteSettingsFile(
+  catalogLocale: CatalogLocale,
+): Promise<{ data: Record<string, unknown>; mtime: number } | null> {
+  const path = getSiteSettingsPath(catalogLocale);
+  try {
+    const s = await stat(path);
+    const raw = await readFile(path, "utf-8");
+    return { data: JSON.parse(raw) as Record<string, unknown>, mtime: s.mtimeMs };
+  } catch {
+    return null;
+  }
+}
+
+let cache: {
+  locale: string;
+  mtime: number;
+  overlayKey: string;
+  data: Record<string, unknown>;
+} | null = null;
 
 export async function readSiteSettings(
   localeParam?: string,
 ): Promise<Record<string, unknown>> {
   const locale = resolveConfiguredLocaleCode(localeParam ?? "", adminLocale.code);
   const catalogLocale = catalogLocaleFromParam(locale);
-  const path = getSiteSettingsPath(catalogLocale);
+  const file = await readSiteSettingsFile(catalogLocale);
+  const overlay = await loadJsonStoreOverlay(catalogLocale);
+  const overlayKey = JSON.stringify(overlay);
+  const mtime = file?.mtime ?? 0;
+  const fileData = file?.data ?? {};
 
-  try {
-    const s = await stat(path);
-    if (cache && cache.locale === catalogLocale && cache.mtime === s.mtimeMs) {
-      return { ...cache.data };
-    }
-    const raw = await readFile(path, "utf-8");
-    const data = JSON.parse(raw) as Record<string, unknown>;
-    cache = { locale: catalogLocale, mtime: s.mtimeMs, data };
-    return { ...data };
-  } catch {
-    return {};
+  if (
+    cache &&
+    cache.locale === catalogLocale &&
+    cache.mtime === mtime &&
+    cache.overlayKey === overlayKey
+  ) {
+    return { ...cache.data };
   }
+
+  const data = deepMergeSettings(fileData, overlay);
+  cache = { locale: catalogLocale, mtime, overlayKey, data };
+  return { ...data };
 }
 
 export function invalidateSiteSettingsCache(): void {
   cache = null;
+}
+
+async function persistSiteSettingsToFile(
+  catalogLocale: CatalogLocale,
+  data: Record<string, unknown>,
+): Promise<boolean> {
+  const path = getSiteSettingsPath(catalogLocale);
+  try {
+    await mkdir(dirname(path), { recursive: true });
+    await writeFile(path, JSON.stringify(data, null, 2), "utf-8");
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export async function patchSiteSettingsKey(
@@ -87,15 +195,26 @@ export async function patchSiteSettingsKey(
 ): Promise<Record<string, unknown>> {
   const locale = resolveConfiguredLocaleCode(localeParam ?? "", adminLocale.code);
   const catalogLocale = catalogLocaleFromParam(locale);
-  const path = getSiteSettingsPath(catalogLocale);
 
-  const existing = await readSiteSettings(locale);
-  const next = { ...existing, [key]: value };
+  const file = await readSiteSettingsFile(catalogLocale);
+  const overlay = await loadJsonStoreOverlay(catalogLocale);
+  const fileData = file?.data ?? {};
+  const merged = deepMergeSettings(fileData, overlay);
+  const next = { ...merged, [key]: value };
+  const nextOverlay = { ...overlay, [key]: value };
 
-  await mkdir(dirname(path), { recursive: true });
-  await writeFile(path, JSON.stringify(next, null, 2), "utf-8");
+  const useJsonStore = Boolean(process.env.VERCEL);
+  let wroteFile = false;
+
+  if (!useJsonStore) {
+    wroteFile = await persistSiteSettingsToFile(catalogLocale, next);
+  }
+
+  if (useJsonStore || !wroteFile) {
+    await saveJsonStoreOverlay(catalogLocale, nextOverlay);
+  }
+
   invalidateSiteSettingsCache();
-
   return next;
 }
 
@@ -105,9 +224,17 @@ export async function writeSiteSettings(
 ): Promise<void> {
   const locale = resolveConfiguredLocaleCode(localeParam ?? "", adminLocale.code);
   const catalogLocale = catalogLocaleFromParam(locale);
-  const path = getSiteSettingsPath(catalogLocale);
 
-  await mkdir(dirname(path), { recursive: true });
-  await writeFile(path, JSON.stringify(data, null, 2), "utf-8");
+  const useJsonStore = Boolean(process.env.VERCEL);
+  let wroteFile = false;
+
+  if (!useJsonStore) {
+    wroteFile = await persistSiteSettingsToFile(catalogLocale, data);
+  }
+
+  if (useJsonStore || !wroteFile) {
+    await saveJsonStoreOverlay(catalogLocale, data);
+  }
+
   invalidateSiteSettingsCache();
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import type { SeoMeta } from "@prisma/client";
 import { upsertSeoMetaAction } from "@/features/seo/actions";
 import { ROBOTS_PRESETS } from "@/features/seo/constants";
@@ -12,7 +12,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { LocaleTabPanel } from "@/features/translation/components/locale-tab-panel";
+import { useAdminEditingLocale } from "@/features/translation/hooks/use-admin-editing-locale";
+import { getLegacyDefault } from "@/features/translation/components/localized-fields";
+
+type LocaleSeoSlice = {
+  title: string;
+  description: string;
+  ogTitle: string;
+};
 
 type Props = {
   meta?: SeoMeta | null;
@@ -24,7 +31,32 @@ type Props = {
   defaultTitleAr?: string;
   defaultDescEn?: string;
   defaultDescAr?: string;
+  /** When true, renders a div instead of form (for use inside another form). */
+  embedded?: boolean;
 };
+
+function buildInitialByLocale(
+  meta: SeoMeta | null | undefined,
+  defaults: {
+    titleEn: string;
+    titleAr: string;
+    descEn: string;
+    descAr: string;
+  }
+): Record<string, LocaleSeoSlice> {
+  return {
+    en: {
+      title: meta?.titleEn ?? defaults.titleEn,
+      description: meta?.descriptionEn ?? defaults.descEn,
+      ogTitle: meta?.ogTitleEn ?? "",
+    },
+    ar: {
+      title: meta?.titleAr ?? defaults.titleAr,
+      description: meta?.descriptionAr ?? defaults.descAr,
+      ogTitle: meta?.ogTitleAr ?? "",
+    },
+  };
+}
 
 export function SeoMetaForm({
   meta,
@@ -36,15 +68,19 @@ export function SeoMetaForm({
   defaultTitleAr = "",
   defaultDescEn = "",
   defaultDescAr = "",
+  embedded = false,
 }: Props) {
+  const { activeLocaleCode, activeLocale, defaultCode, isRtl } = useAdminEditingLocale();
+  const [isPending, startTransition] = useTransition();
   const [activeTab, setActiveTab] = useState<"edit" | "analysis">("edit");
-  const [previewLocale, setPreviewLocale] = useState<"en" | "ar">("en");
-  const [titleEn, setTitleEn] = useState(meta?.titleEn ?? defaultTitleEn);
-  const [titleAr, setTitleAr] = useState(meta?.titleAr ?? defaultTitleAr);
-  const [descriptionEn, setDescriptionEn] = useState(meta?.descriptionEn ?? defaultDescEn);
-  const [descriptionAr, setDescriptionAr] = useState(meta?.descriptionAr ?? defaultDescAr);
-  const [ogTitleEn, setOgTitleEn] = useState(meta?.ogTitleEn ?? "");
-  const [ogTitleAr, setOgTitleAr] = useState(meta?.ogTitleAr ?? "");
+  const [byLocale, setByLocale] = useState<Record<string, LocaleSeoSlice>>(() =>
+    buildInitialByLocale(meta, {
+      titleEn: defaultTitleEn,
+      titleAr: defaultTitleAr,
+      descEn: defaultDescEn,
+      descAr: defaultDescAr,
+    })
+  );
   const [ogImageUrl, setOgImageUrl] = useState(meta?.ogImageUrl ?? "");
   const [robots, setRobots] = useState(meta?.robots ?? "index, follow");
   const [focusKeywords, setFocusKeywords] = useState(meta?.focusKeywords ?? "");
@@ -52,6 +88,61 @@ export function SeoMetaForm({
   const [jsonLdStr, setJsonLdStr] = useState(
     meta?.jsonLd != null ? JSON.stringify(meta.jsonLd, null, 2) : ""
   );
+  const [twitterCard, setTwitterCard] = useState(meta?.twitterCard ?? "summary_large_image");
+
+  const activeSlice = byLocale[activeLocaleCode] ?? { title: "", description: "", ogTitle: "" };
+  const englishSlice = byLocale[defaultCode] ?? byLocale.en ?? { title: "", description: "", ogTitle: "" };
+
+  const patchActive = useCallback(
+    (patch: Partial<LocaleSeoSlice>) => {
+      setByLocale((prev) => {
+        const current = prev[activeLocaleCode] ?? { title: "", description: "", ogTitle: "" };
+        return {
+          ...prev,
+          [activeLocaleCode]: { ...current, ...patch },
+        };
+      });
+    },
+    [activeLocaleCode]
+  );
+
+  const buildFormData = () => {
+    const en = byLocale.en ?? englishSlice;
+    const ar = byLocale.ar ?? { title: "", description: "", ogTitle: "" };
+    const fd = new FormData();
+    if (pageKey) fd.set("pageKey", pageKey);
+    if (cmsPageId) fd.set("cmsPageId", cmsPageId);
+    if (postId) fd.set("postId", postId);
+    if (packageId) fd.set("packageId", packageId);
+    fd.set("titleEn", en.title);
+    fd.set("titleAr", ar.title);
+    fd.set("descriptionEn", en.description);
+    fd.set("descriptionAr", ar.description);
+    fd.set("focusKeywords", focusKeywords);
+    fd.set("canonicalUrl", canonicalUrl);
+    fd.set("robots", robots);
+    fd.set("ogTitleEn", en.ogTitle);
+    fd.set("ogTitleAr", ar.ogTitle);
+    fd.set("ogImageUrl", ogImageUrl);
+    fd.set("twitterCard", twitterCard);
+    fd.set("jsonLd", jsonLdStr);
+    return fd;
+  };
+
+  const handleEmbeddedSubmit = () => {
+    startTransition(async () => {
+      await upsertSeoMetaAction(buildFormData());
+    });
+  };
+
+  const fieldName = (name: string): string | undefined => (embedded ? undefined : name);
+
+  const titleEn = byLocale.en?.title ?? "";
+  const titleAr = byLocale.ar?.title ?? "";
+  const descriptionEn = byLocale.en?.description ?? "";
+  const descriptionAr = byLocale.ar?.description ?? "";
+  const ogTitleEn = byLocale.en?.ogTitle ?? "";
+  const ogTitleAr = byLocale.ar?.ogTitle ?? "";
 
   const analysis = useMemo(
     () =>
@@ -83,18 +174,35 @@ export function SeoMetaForm({
     ]
   );
 
+  const previewLocale = activeLocaleCode === "ar" ? "ar" : "en";
   const previewTitle =
-    previewLocale === "ar"
-      ? ogTitleAr || titleAr || defaultTitleAr
-      : ogTitleEn || titleEn || defaultTitleEn;
-  const previewDesc = previewLocale === "ar" ? descriptionAr : descriptionEn;
+    activeSlice.ogTitle ||
+    activeSlice.title ||
+    (activeLocaleCode === "ar" ? defaultTitleAr : defaultTitleEn) ||
+    englishSlice.title;
+  const previewDesc =
+    activeSlice.description ||
+    (activeLocaleCode === "ar" ? defaultDescAr : defaultDescEn) ||
+    englishSlice.description;
 
-  return (
-    <form action={upsertSeoMetaAction} className="space-y-6 rounded-xl border p-6">
-      {pageKey && <input type="hidden" name="pageKey" value={pageKey} />}
-      {cmsPageId && <input type="hidden" name="cmsPageId" value={cmsPageId} />}
-      {postId && <input type="hidden" name="postId" value={postId} />}
-      {packageId && <input type="hidden" name="packageId" value={packageId} />}
+  const titlePlaceholder = getLegacyDefault(
+    { titleEn: englishSlice.title, titleAr: byLocale.ar?.title },
+    "title",
+    activeLocaleCode
+  );
+  const descPlaceholder = getLegacyDefault(
+    { descriptionEn: englishSlice.description, descriptionAr: byLocale.ar?.description },
+    "description",
+    activeLocaleCode
+  );
+
+  const shellClassName = "space-y-6 rounded-xl border p-6";
+  const fields = (
+    <>
+      {!embedded && pageKey && <input type="hidden" name="pageKey" value={pageKey} />}
+      {!embedded && cmsPageId && <input type="hidden" name="cmsPageId" value={cmsPageId} />}
+      {!embedded && postId && <input type="hidden" name="postId" value={postId} />}
+      {!embedded && packageId && <input type="hidden" name="packageId" value={packageId} />}
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex gap-1 rounded-lg border p-0.5">
@@ -110,18 +218,10 @@ export function SeoMetaForm({
           ))}
         </div>
         {activeTab === "edit" && (
-          <div className="flex gap-1 rounded-lg border p-0.5">
-            {(["en", "ar"] as const).map((l) => (
-              <button
-                key={l}
-                type="button"
-                onClick={() => setPreviewLocale(l)}
-                className={`rounded-md px-2 py-1 text-xs ${previewLocale === l ? "bg-primary text-primary-foreground" : ""}`}
-              >
-                {l.toUpperCase()}
-              </button>
-            ))}
-          </div>
+          <p className="text-xs text-muted-foreground">
+            Editing SEO for {activeLocale.flag} {activeLocale.label} — use the language menu in the top bar
+            to switch.
+          </p>
         )}
       </div>
 
@@ -131,51 +231,68 @@ export function SeoMetaForm({
         <>
           <div className="grid gap-6 lg:grid-cols-2">
             <div className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Label>Meta title (EN)</Label>
-                  <Input name="titleEn" value={titleEn} onChange={(e) => setTitleEn(e.target.value)} required />
-                </div>
-                <div className="space-y-2">
-                  <Label>Meta title (AR)</Label>
-                  <Input name="titleAr" value={titleAr} onChange={(e) => setTitleAr(e.target.value)} dir="rtl" required />
-                </div>
-              </div>
               <div className="space-y-2">
-                <Label>Meta description (EN)</Label>
-                <Textarea
-                  name="descriptionEn"
-                  value={descriptionEn}
-                  onChange={(e) => setDescriptionEn(e.target.value)}
-                  rows={3}
-                  required
+                <Label>Meta title ({activeLocale.label})</Label>
+                <Input
+                  name={
+                    activeLocaleCode === "en"
+                      ? fieldName("titleEn")
+                      : activeLocaleCode === "ar"
+                        ? fieldName("titleAr")
+                        : undefined
+                  }
+                  value={activeSlice.title}
+                  onChange={(e) => patchActive({ title: e.target.value })}
+                  dir={isRtl ? "rtl" : undefined}
+                  placeholder={
+                    activeLocaleCode !== defaultCode && !activeSlice.title.trim()
+                      ? englishSlice.title || titlePlaceholder
+                      : undefined
+                  }
+                  required={activeLocaleCode === defaultCode}
                 />
               </div>
               <div className="space-y-2">
-                <Label>Meta description (AR)</Label>
+                <Label>Meta description ({activeLocale.label})</Label>
                 <Textarea
-                  name="descriptionAr"
-                  value={descriptionAr}
-                  onChange={(e) => setDescriptionAr(e.target.value)}
+                  name={
+                    activeLocaleCode === "en"
+                      ? fieldName("descriptionEn")
+                      : activeLocaleCode === "ar"
+                        ? fieldName("descriptionAr")
+                        : undefined
+                  }
+                  value={activeSlice.description}
+                  onChange={(e) => patchActive({ description: e.target.value })}
                   rows={3}
-                  dir="rtl"
-                  required
+                  dir={isRtl ? "rtl" : undefined}
+                  placeholder={
+                    activeLocaleCode !== defaultCode && !activeSlice.description.trim()
+                      ? englishSlice.description || descPlaceholder
+                      : undefined
+                  }
+                  required={activeLocaleCode === defaultCode}
                 />
               </div>
+              {activeLocaleCode !== defaultCode && englishSlice.title.trim() ? (
+                <p className="text-xs text-muted-foreground">
+                  Empty fields on the live site fall back to English.
+                </p>
+              ) : null}
               <div className="space-y-2">
                 <Label>Focus keywords</Label>
                 <Input
-                  name="focusKeywords"
+                  name={fieldName("focusKeywords")}
                   value={focusKeywords}
                   onChange={(e) => setFocusKeywords(e.target.value)}
                   placeholder="umrah, packages, madinah"
                 />
-                <p className="text-xs text-muted-foreground">Comma-separated</p>
+                <p className="text-xs text-muted-foreground">Comma-separated (shared across languages)</p>
               </div>
               <div className="space-y-2">
                 <Label>Canonical URL</Label>
                 <Input
-                  name="canonicalUrl"
+                  name={fieldName("canonicalUrl")}
                   type="url"
                   value={canonicalUrl}
                   onChange={(e) => setCanonicalUrl(e.target.value)}
@@ -185,7 +302,7 @@ export function SeoMetaForm({
               <div className="space-y-2">
                 <Label>Robots</Label>
                 <select
-                  name="robots"
+                  name={fieldName("robots")}
                   value={robots}
                   onChange={(e) => setRobots(e.target.value)}
                   className="w-full border rounded-md h-10 px-3"
@@ -207,19 +324,27 @@ export function SeoMetaForm({
             />
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2 border-t pt-4">
+          <div className="grid gap-4 border-t pt-4">
             <div className="space-y-2">
-              <Label>OG title override (EN)</Label>
-              <Input name="ogTitleEn" value={ogTitleEn} onChange={(e) => setOgTitleEn(e.target.value)} />
+              <Label>OG title override ({activeLocale.label})</Label>
+              <Input
+                name={
+                  activeLocaleCode === "en"
+                    ? fieldName("ogTitleEn")
+                    : activeLocaleCode === "ar"
+                      ? fieldName("ogTitleAr")
+                      : undefined
+                }
+                value={activeSlice.ogTitle}
+                onChange={(e) => patchActive({ ogTitle: e.target.value })}
+                dir={isRtl ? "rtl" : undefined}
+                placeholder={englishSlice.ogTitle || undefined}
+              />
             </div>
             <div className="space-y-2">
-              <Label>OG title override (AR)</Label>
-              <Input name="ogTitleAr" value={ogTitleAr} onChange={(e) => setOgTitleAr(e.target.value)} dir="rtl" />
-            </div>
-            <div className="space-y-2 md:col-span-2">
               <MediaPickerField
                 label="OG / social image"
-                urlFieldName="ogImageUrl"
+                urlFieldName={embedded ? "" : "ogImageUrl"}
                 url={ogImageUrl}
                 onChange={({ url }) => setOgImageUrl(url)}
                 trackMediaId={false}
@@ -229,8 +354,9 @@ export function SeoMetaForm({
             <div className="space-y-2">
               <Label>Twitter card</Label>
               <select
-                name="twitterCard"
-                defaultValue={meta?.twitterCard ?? "summary_large_image"}
+                name={fieldName("twitterCard")}
+                value={twitterCard}
+                onChange={(e) => setTwitterCard(e.target.value)}
                 className="w-full border rounded-md h-10 px-3"
               >
                 <option value="summary_large_image">Large image</option>
@@ -242,7 +368,7 @@ export function SeoMetaForm({
           <div className="space-y-2 border-t pt-4">
             <Label>JSON-LD (optional)</Label>
             <Textarea
-              name="jsonLd"
+              name={fieldName("jsonLd")}
               value={jsonLdStr}
               onChange={(e) => setJsonLdStr(e.target.value)}
               rows={8}
@@ -254,53 +380,25 @@ export function SeoMetaForm({
             </p>
           </div>
 
-          <Button type="submit">Save SEO</Button>
-
-          {meta?.id ? (
-            <LocaleTabPanel
-              entityType="SeoMeta"
-              entityId={meta.id}
-              sourceData={{
-                metaTitle: titleEn,
-                metaDescription: descriptionEn,
-                ogTitle: ogTitleEn,
-                focusKeywords,
-              }}
-            />
-          ) : pageKey ? (
-            <LocaleTabPanel
-              entityType="SeoSettings"
-              entityId={pageKey}
-              sourceData={{
-                siteTitle: titleEn,
-                siteDescription: descriptionEn,
-              }}
-            />
-          ) : cmsPageId ? (
-            <LocaleTabPanel
-              entityType="SeoMeta"
-              entityId={cmsPageId}
-              sourceData={{
-                metaTitle: titleEn,
-                metaDescription: descriptionEn,
-                ogTitle: ogTitleEn,
-                focusKeywords,
-              }}
-            />
-          ) : postId ? (
-            <LocaleTabPanel
-              entityType="SeoMeta"
-              entityId={postId}
-              sourceData={{
-                metaTitle: titleEn,
-                metaDescription: descriptionEn,
-                ogTitle: ogTitleEn,
-                focusKeywords,
-              }}
-            />
-          ) : null}
+          <Button
+            type={embedded ? "button" : "submit"}
+            onClick={embedded ? handleEmbeddedSubmit : undefined}
+            disabled={isPending}
+          >
+            Save SEO
+          </Button>
         </>
       )}
+    </>
+  );
+
+  if (embedded) {
+    return <div className={shellClassName}>{fields}</div>;
+  }
+
+  return (
+    <form action={upsertSeoMetaAction} className={shellClassName}>
+      {fields}
     </form>
   );
 }

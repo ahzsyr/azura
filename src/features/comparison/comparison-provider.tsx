@@ -11,6 +11,7 @@ import {
 } from "@/features/comparison/comparison-store";
 import type { CompareDrawerBucket } from "@/features/comparison/components/comparison-drawer";
 import { ComparisonDrawer } from "@/features/comparison/components/comparison-drawer";
+import { buildComparableTypeBySlugMap } from "@/features/comparison/resolve-comparable-type";
 import "@/features/comparison/comparison-shell.css";
 
 type ComparisonContextValue = {
@@ -42,6 +43,7 @@ type Props = {
     addMore: string;
     clearBucket: string;
     close: string;
+    viewComparison: string;
   };
   children: React.ReactNode;
 };
@@ -82,7 +84,7 @@ export function ComparisonProvider({ locale, comparableTypes, labels, children }
 
   const totalCount = buckets.reduce((n, b) => n + b.count, 0);
   const typeBySlug = useMemo(
-    () => new Map(comparableTypes.map((t) => [t.slug, t])),
+    () => buildComparableTypeBySlugMap(comparableTypes),
     [comparableTypes]
   );
 

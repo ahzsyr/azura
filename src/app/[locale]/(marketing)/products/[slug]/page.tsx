@@ -19,6 +19,8 @@ import { collectionMapFromList } from "@/features/collections/collection-navigat
 import { collectionsDataService } from "@/features/collections/collections-data.service";
 import { catalogProductToCollectionProduct } from "@/features/collections/engine";
 import { getDeepestMatchingCollectionSlug } from "@/features/products/product-collections";
+import { migrateProductCtaFromLegacyAddToCart } from "@/features/products/lib/product-cta-migrate";
+import { mergeProductCta, normalizeProductCtaGlobal } from "@/features/products/lib/product-cta";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -149,7 +151,14 @@ export default async function ProductDetailPage({ params }: Props) {
         product={p}
         pageLayout={pageLayout}
         pageCtx={pageCtx}
-        siteProductCta={site.productCta}
+        siteProductCta={(() => {
+          const migrated = migrateProductCtaFromLegacyAddToCart(
+            site.productCta,
+            site.productPageAddToCart,
+          );
+          if (!migrated) return site.productCta;
+          return mergeProductCta(normalizeProductCtaGlobal(site.productCta), migrated);
+        })()}
         compactDisplay={compactDisplay}
       />
     </>

@@ -6,7 +6,7 @@ import { getEffectiveMegaMenuType, getItemHref } from "@/features/navigation/res
 import { cn } from "@/lib/utils";
 import { MegaMenuSurface } from "./MegaMenu/MegaMenuSurface";
 
-const FLYOUT_CLOSE_DELAY_MS = 180;
+const FLYOUT_CLOSE_DELAY_MS = 220;
 
 interface Props {
   items: MenuItem[];
@@ -46,6 +46,15 @@ function NavFlyoutItem({
     closeTimer.current = setTimeout(() => setOpen(false), FLYOUT_CLOSE_DELAY_MS);
   }, [clearCloseTimer]);
 
+  const toggleFlyout = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault();
+      clearCloseTimer();
+      setOpen((prev) => !prev);
+    },
+    [clearCloseTimer],
+  );
+
   return (
     <li
       className={cn("nav-item", open && "is-flyout-open")}
@@ -64,6 +73,7 @@ function NavFlyoutItem({
         className="nav-link"
         aria-haspopup="true"
         aria-expanded={open}
+        onClick={toggleFlyout}
       >
         {glyph}
         {glyph ? " " : null}
@@ -75,6 +85,8 @@ function NavFlyoutItem({
         menuType={effectiveMega}
         localeCode={localeCode}
         isOpen={open}
+        onMouseEnter={openFlyout}
+        onMouseLeave={scheduleClose}
       />
     </li>
   );

@@ -1,8 +1,7 @@
 "use client";
 
-import { useStore } from "@nanostores/react";
-import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 import type { HeaderBuilderCatalog } from "@/features/navigation/types";
 import type { MenuItem, MenuItemType, MenuLayoutType, MenuPlacement } from "@/features/navigation/types";
 import {
@@ -12,10 +11,11 @@ import {
   megaFormToPersistedConfig,
   type MegaMenuFormState,
 } from "@/features/navigation/mega-menu-form";
-import { $workspace, addChildItem, addRootItem, replaceMenuItem } from "@/features/navigation/header-store";
+import { addChildItem, addRootItem, replaceMenuItem } from "@/features/navigation/header-store";
 import { saveWorkspaceToServer } from "@/features/navigation/header-workspace-api";
 import { newMenuItemFromForm } from "@/features/navigation/defaults";
 import { generateId, getItemSubtitle } from "@/features/navigation/menu-engine";
+import { DEFAULT_FLYOUT_MENU_TYPE } from "@/features/navigation/resolve-href";
 import { CollectionSelect, PageSelect, ProductSelect } from "./CatalogSelects";
 import { useHeaderBuilderCatalog } from "./HeaderBuilderCatalogContext";
 import { HeaderField, HeaderSelect, OptionButtonGroup } from "./header-builder-ui";
@@ -117,7 +117,6 @@ export function MenuItemModal({
   onClose,
 }: Props) {
   const catalog = useHeaderBuilderCatalog();
-  const workspace = useStore($workspace);
   const adminForm = useAdminFormOptional();
   const [form, setForm] = useState(() => buildFormState(editingItem, catalog, defaultPlacement));
   const [saving, setSaving] = useState(false);
@@ -131,9 +130,9 @@ export function MenuItemModal({
   const patchMega = (partial: Partial<MegaMenuFormState>) =>
     setForm((f) => ({ ...f, mega: { ...f.mega, ...partial } }));
 
-  const siteDefaultMenuType = workspace.settings.menuType;
-  const effectiveMegaType: MenuLayoutType = form.megaMenuType || siteDefaultMenuType;
+  const effectiveMegaType: MenuLayoutType = form.megaMenuType || DEFAULT_FLYOUT_MENU_TYPE;
   const childList = editingItem?.children ?? [];
+  const hasFlyoutChildren = (editingItem?.children?.length ?? 0) > 0;
   const type = form.type;
 
   const title =
@@ -141,11 +140,11 @@ export function MenuItemModal({
 
   const description =
     mode === "add-child" && parentItem
-      ? `Under “${parentItem.label}”`
+      ? `Under “${parentItem.label}”. The parent flyout defaults to a dropdown list — edit the parent to switch to grid mega or another layout.`
       : mode === "edit" && editingItem
         ? getItemSubtitle(editingItem)
         : mode === "add-root"
-          ? "Add a root-level link. After saving, use Add child on any row to build nested items and mega menus."
+          ? "Add a root-level link. Use Add child on any row to build nested items (dropdown list by default)."
           : undefined;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -374,30 +373,30 @@ export function MenuItemModal({
                 </HeaderField>
               </section>
 
-              {mode === "edit" ? (
+              {mode === "edit" && hasFlyoutChildren ? (
                 <>
                   <Separator />
                   <section className="hb-add-item-form hb-modal-form-top hb-mega-section space-y-4 !mt-0 !bg-transparent !p-0">
                     <div>
-                      <h3 className="text-sm font-semibold">Mega menu (this parent only)</h3>
+                      <h3 className="text-sm font-semibold">Flyout layout (this parent only)</h3>
                       <p className="hb-mega-hint mt-1">
-                        Used when this item has child links. Site default layout is{" "}
-                        <strong>{siteDefaultMenuType}</strong> — override below if needed.
+                        Controls how child links appear on desktop. New parents default to a{" "}
+                        <strong>dropdown list</strong> — choose grid mega or another type below if
+                        needed.
                       </p>
                     </div>
 
-                    <HeaderField label="Mega menu layout" htmlFor="m-mega-type">
+                    <HeaderField label="Flyout layout" htmlFor="m-mega-type">
                       <HeaderSelect
                         id="m-mega-type"
                         value={form.megaMenuType}
                         onChange={(v) => patch({ megaMenuType: v as MenuLayoutType | "" })}
                       >
-                        <option value="">Use site default ({siteDefaultMenuType})</option>
+                        <option value="">Dropdown list (default)</option>
                         <option value="grid">Grid mega</option>
                         <option value="mixed">Mixed content</option>
                         <option value="columns">Column based</option>
                         <option value="tabbed">Tabbed mega</option>
-                        <option value="dropdown">Dropdown list</option>
                       </HeaderSelect>
                     </HeaderField>
 

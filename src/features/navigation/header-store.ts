@@ -10,6 +10,7 @@ import type {
 } from "./types";
 import { createDefaultWorkspace, mergeWorkspaceImport } from "./defaults";
 import { normalizeBranding } from "./branding-defaults";
+import { DEFAULT_FLYOUT_MENU_TYPE } from "./resolve-href";
 import {
   addChildImmutable,
   deleteItemImmutable,
@@ -223,12 +224,17 @@ export function addChildItem(parentId: string, child: MenuItem): void {
   const menu = w.menusDatabase[w.activeMenuKey];
   if (!menu) return;
   if (!findItemById(menu.items, parentId)) return;
+  let items = addChildImmutable(menu.items, parentId, child);
+  items = updateItemImmutable(items, parentId, (parent) => ({
+    ...parent,
+    megaMenuType: parent.megaMenuType ?? DEFAULT_FLYOUT_MENU_TYPE,
+  }));
   patchWorkspace({
     menusDatabase: {
       ...w.menusDatabase,
       [w.activeMenuKey]: {
         ...menu,
-        items: addChildImmutable(menu.items, parentId, child),
+        items,
       },
     },
   });

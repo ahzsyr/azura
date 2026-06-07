@@ -1,21 +1,31 @@
 import type { Locale } from "@/i18n/routing";
+import type { BlockNode } from "@/types/builder";
+import { resolveContentOverflowCssFlags } from "@/features/builder/styles/content-overflow-resolver";
 import { ContentBlockRenderer } from "@/features/content/components/content-block-renderer";
 import { loadContentItems } from "@/features/content/content-data.service";
 import { mergeDisplaySettings } from "@/schemas/content/display-settings";
 import { getLocalizedField } from "@/lib/utils";
 import { prisma } from "@/lib/prisma";
-import { resolveFieldSchema } from "@/features/content/content-type.registry";
-import { getComparePropsForType } from "@/features/comparison/get-compare-props";
+import { loadComparePropsForContentType } from "@/features/comparison/load-compare-props";
 
 type Props = {
   locale: Locale;
   props: Record<string, unknown>;
   previewMode?: boolean;
+  block?: BlockNode;
+  previewDevice?: import("@/types/block-system").DeviceBreakpoint;
 };
 
-export async function ContentListBlockRenderer({ locale, props: p, previewMode }: Props) {
+export async function ContentListBlockRenderer({
+  locale,
+  props: p,
+  previewMode,
+  block,
+  previewDevice,
+}: Props) {
   const settings = mergeDisplaySettings(p.displaySettings as Record<string, unknown>);
-  const contentTypeSlug = (p.contentTypeSlug as string) || "catalog-items";
+  const rawTypeSlug = typeof p.contentTypeSlug === "string" ? p.contentTypeSlug.trim() : "";
+  const contentTypeSlug = rawTypeSlug || "catalog-items";
 
   const [items, contentTypeRow] = await Promise.all([
     loadContentItems({
@@ -30,20 +40,17 @@ export async function ContentListBlockRenderer({ locale, props: p, previewMode }
 
   if (items.length === 0 && !previewMode) return null;
 
-  const compare = contentTypeRow
-    ? getComparePropsForType({
-        slug: contentTypeRow.slug,
-        fieldSchema: resolveFieldSchema(
-          { fieldSchema: contentTypeRow.fieldSchema },
-          contentTypeRow.slug
-        ),
-        adminConfig:
-          contentTypeRow.adminConfig && typeof contentTypeRow.adminConfig === "object"
-            ? (contentTypeRow.adminConfig as Record<string, unknown>)
-            : {},
-        locale,
-      })
-    : undefined;
+  const compare =
+    rawTypeSlug && contentTypeRow
+      ? loadComparePropsForContentType({
+          slug: contentTypeRow.slug,
+          fieldSchema: contentTypeRow.fieldSchema,
+          adminConfig: contentTypeRow.adminConfig,
+          locale,
+        })
+      : undefined;
+
+  const overflowFlags = block ? resolveContentOverflowCssFlags(block) : undefined;
 
   return (
     <ContentBlockRenderer
@@ -58,6 +65,9 @@ export async function ContentListBlockRenderer({ locale, props: p, previewMode }
         (previewMode ? "No content items to display." : undefined)
       }
       compare={compare}
+      block={block}
+      overflowFlags={overflowFlags}
+      previewDevice={previewDevice}
     />
   );
 }

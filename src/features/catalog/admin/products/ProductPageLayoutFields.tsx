@@ -12,7 +12,7 @@ export function ProductPageLayoutFields({
     <fieldset className="apm-fieldset">
       <legend className="apm-fieldset__legend">Page layout &amp; chrome</legend>
       <p className="apm-fieldset__hint">
-        Controls the product detail template (gallery, buy box, tabs). Saved separately from the CTA button styling below on this tab.
+        Controls the product detail template (gallery, buy box, tabs). Button styling is on the Buy Now and Get Quote CTA tabs.
       </p>
       <div className="pm-cta-grid">
         <label className="pm-cta-field" htmlFor={`${id}-gal`}>

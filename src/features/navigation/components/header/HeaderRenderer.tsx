@@ -24,7 +24,9 @@ import {
   menuAppearanceDataAttributes,
   menuAppearanceStyle,
   resolveMenuAppearance,
+  resolveMobileMenuAppearance,
 } from "@/features/navigation/header-menu-appearance";
+import { NAV_MOBILE_MQ } from "@/features/navigation/nav-breakpoints";
 import "./header-builder.css";
 
 export type HeaderRendererSurface = "site" | "preview";
@@ -93,11 +95,13 @@ export function HeaderRenderer({
       }
     } else if (action.type === "language" && canSwitchLocale) {
       document.getElementById("locale-switcher-trigger")?.click();
+    } else if (action.type === "account") {
+      window.location.assign(localePath("/account", localeCode));
     } else if (action.type === "custom" && action.id === "action-cta") {
       window.location.assign(localePath("/contact", localeCode));
     }
 
-    if (typeof window !== "undefined" && window.matchMedia("(max-width: 968px)").matches) {
+    if (typeof window !== "undefined" && window.matchMedia(NAV_MOBILE_MQ).matches) {
       document.dispatchEvent(new CustomEvent("azura:close-mobile-menu", { bubbles: true }));
     }
   };
@@ -106,6 +110,7 @@ export function HeaderRenderer({
 
   const { settings, branding, headerActions } = workspace;
   const menuAppearance = resolveMenuAppearance(settings);
+  const mobileMenuAppearance = resolveMobileMenuAppearance(settings);
   const menuAttrs = menuAppearanceDataAttributes(menuAppearance);
   const isPreview = surface === "preview";
   const desktopModeForLayout = isPreview
@@ -127,6 +132,11 @@ export function HeaderRenderer({
   let actionsForRender = headerActions.map((a) =>
     a.type === "language" ? { ...a, label: localeLabel } : a
   );
+  if (surface === "site") {
+    actionsForRender = actionsForRender.filter(
+      (a) => a.type !== "language" && a.visible !== false,
+    );
+  }
   if (headerConfig?.showSearch === false) {
     actionsForRender = actionsForRender.filter((a) => a.type !== "search");
   }
@@ -147,7 +157,7 @@ export function HeaderRenderer({
         data-overlay-surface={settings.overlaySurface ?? "glass"}
         data-mobile-type={settings.mobileType}
         data-mobile-nav-style={settings.mobileNavStyle ?? "minimal"}
-        data-mobile-nav-animation={settings.mobileNavAnimation ?? "slide"}
+        data-mobile-nav-animation={mobileMenuAppearance.animation}
         data-mobile-nav-density={settings.mobileNavDensity ?? "comfortable"}
         data-header-desktop={desktopModeForLayout}
         data-header-radius={settings.headerBorderRadius ?? "lg"}
@@ -177,9 +187,11 @@ export function HeaderRenderer({
                 onActionClick={onHeaderAction}
                 localeCode={localeCode}
                 mobileNavStyle={settings.mobileNavStyle}
-                mobileNavAnimation={menuAppearance.animation}
+                mobileNavAnimation={mobileMenuAppearance.animation}
                 mobileNavDensity={settings.mobileNavDensity}
-                menuAppearance={menuAppearance}
+                menuAppearance={mobileMenuAppearance}
+                showIcons={settings.mobileNavShowIcons !== false}
+                showArrows={settings.mobileNavShowArrows !== false}
               />
             </div>
           </div>

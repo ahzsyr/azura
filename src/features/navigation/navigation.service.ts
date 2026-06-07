@@ -2,26 +2,35 @@ import { DEFAULT_BRAND_NAME } from "@/config/site";
 import { prisma } from "@/lib/prisma";
 import { contentPublicService } from "@/features/content/content-public.service";
 import { getLocalizedField } from "@/lib/utils";
-import { createDefaultWorkspace, mergeWorkspaceImport, mergeHeaderWorkspaceWithTheme } from "./defaults";
+import {
+  createDefaultWorkspace,
+  mergeWorkspaceImport,
+  mergeHeaderWorkspaceWithTheme,
+  migrateLegacyHeaderWorkspace,
+} from "./defaults";
 import { navigationRepository } from "./navigation.repository";
 import type { HeaderBuilderCatalog, HeaderWorkspace } from "./types";
 import { headerWorkspaceSchema } from "@/schemas/navigation";
-import { enrichHeaderWorkspaceWithMegaCardImages } from "./mega-menu-card-images";
+import { enrichHeaderWorkspaceForSiteCached, enrichFlyoutMenuImagesOnly } from "./mega-menu-card-images";
+import { cache } from "react";
 import { collectionsDataService } from "@/features/collections/collections-data.service";
 import { productsDataService } from "@/features/products/products-data.service";
 
 const STATIC_PAGES = [
   { slug: "home", title: "Home" },
   { slug: "about", title: "About" },
+  { slug: "products", title: "Products" },
+  { slug: "collections", title: "Collections" },
+  { slug: "services", title: "Services" },
   { slug: "packages", title: "Packages" },
-  { slug: "visa", title: "Visa" },
+  { slug: "compare", title: "Compare" },
+  { slug: "favorites", title: "Favorites" },
+  { slug: "account", title: "Account" },
   { slug: "hotels-transport", title: "Hotels & Transport" },
   { slug: "gallery", title: "Gallery" },
   { slug: "testimonials", title: "Testimonials" },
   { slug: "contact", title: "Contact" },
   { slug: "blog", title: "Blog" },
-  { slug: "collections", title: "Collections" },
-  { slug: "products", title: "Products" },
 ];
 
 export const navigationCatalogService = {
@@ -104,41 +113,55 @@ export const navigationCatalogService = {
 };
 
 export const navigationService = {
-  async getWorkspace(): Promise<HeaderWorkspace> {
+  getWorkspace: cache(async (): Promise<HeaderWorkspace> => {
     const raw = await navigationRepository.getCached();
     if (!raw) {
       const defaults = createDefaultWorkspace();
       await navigationRepository.save(defaults);
       return defaults;
     }
-    return mergeWorkspaceImport(raw);
-  },
+    const merged = mergeWorkspaceImport(raw);
+    const migrated = migrateLegacyHeaderWorkspace(merged);
+    if (migrated) {
+      await navigationRepository.save(migrated);
+      return migrated;
+    }
+    return merged;
+  }),
 
   async saveWorkspace(payload: unknown): Promise<HeaderWorkspace> {
     const merged = mergeWorkspaceImport(payload);
-    const parsed = headerWorkspaceSchema.parse(merged);
-    await navigationRepository.save(parsed as HeaderWorkspace);
-    return parsed as HeaderWorkspace;
+    const parsed = headerWorkspaceSchema.parse(merged) as HeaderWorkspace;
+    const enriched = await enrichFlyoutMenuImagesOnly(parsed, "en");
+    await navigationRepository.save(enriched);
+    return enriched;
   },
 
-  async getWorkspaceForSite(
-    theme?: {
-      logoUrl?: string | null;
-      brandConfig?: import("./types").BrandingState;
-      siteName?: string;
-      tagline?: string;
-    },
-    localePrefix: string = "en",
-  ): Promise<HeaderWorkspace> {
-    const ws = await this.getWorkspace();
-    const withTheme = theme
-      ? mergeHeaderWorkspaceWithTheme(ws, {
-          logoUrl: theme.logoUrl,
-          brandConfig: theme.brandConfig,
-          siteName: theme.siteName ?? theme.brandConfig?.brandName ?? DEFAULT_BRAND_NAME,
-          tagline: theme.tagline ?? theme.brandConfig?.tagline,
-        })
-      : ws;
-    return enrichHeaderWorkspaceWithMegaCardImages(withTheme, localePrefix);
-  },
+  getWorkspaceForSite: cache(
+    async (
+      theme?: {
+        logoUrl?: string | null;
+        brandConfig?: import("./types").BrandingState;
+        siteName?: string;
+        tagline?: string;
+      },
+      localePrefix: string = "en"
+    ): Promise<HeaderWorkspace> => {
+      const ws = await navigationService.getWorkspace();
+      const withTheme = theme
+        ? mergeHeaderWorkspaceWithTheme(ws, {
+            logoUrl: theme.logoUrl,
+            brandConfig: theme.brandConfig,
+            siteName: theme.siteName ?? theme.brandConfig?.brandName ?? DEFAULT_BRAND_NAME,
+            tagline: theme.tagline ?? theme.brandConfig?.tagline,
+          })
+        : ws;
+      try {
+        return await enrichHeaderWorkspaceForSiteCached(withTheme, localePrefix);
+      } catch (error) {
+        console.error("[navigation] header enrichment failed:", error);
+        return withTheme;
+      }
+    }
+  ),
 };

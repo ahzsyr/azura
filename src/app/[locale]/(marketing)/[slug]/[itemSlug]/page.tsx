@@ -12,7 +12,6 @@ import { getLocalizedField } from "@/lib/utils";
 const STATIC_SEGMENTS = new Set([
   "about",
   "packages",
-  "visa",
   "hotels-transport",
   "gallery",
   "testimonials",
@@ -20,6 +19,12 @@ const STATIC_SEGMENTS = new Set([
   "blog",
   "faq",
   "pages",
+  "collections",
+  "products",
+  "services",
+  "compare",
+  "favorites",
+  "account",
 ]);
 
 type Props = {

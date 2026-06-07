@@ -7,6 +7,7 @@ import {
   getLocaleVisibilityOverride,
 } from "@/features/builder/localization/block-localization";
 import { evaluateVisibility } from "@/features/builder/visibility/visibility-resolver";
+import { isBlockHidden } from "@/features/builder/lib/block-hidden";
 import {
   animationInlineStyle,
   resolveAnimationClasses,
@@ -47,6 +48,8 @@ export const BlockWrapper = memo(function BlockWrapper({
   const localeVisibility = getLocaleVisibilityOverride(block, ctx.locale);
   const siteTextEffect = ctx.siteTextEffect ?? ctx.theme?.textEffect ?? null;
   const headingTextEffect = resolveBlockHeadingTextEffect(block.visual, siteTextEffect);
+
+  if (isBlockHidden(block) && !ctx.previewMode) return null;
 
   const visible = evaluateVisibility(block.visibility, { ...ctx, device }, localeVisibility);
   if (!visible) return null;

@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { AdminCollapsibleSection } from "@/components/admin/layout/admin-shell";
+import { PriceFieldInput } from "@/features/content/admin/price-field-input";
 
 type Props = {
   fields: ContentFieldDefinition[];
@@ -48,6 +49,19 @@ function LocalizedAttributeField({
   defaultLocaleCode: string;
 }) {
   if (!field.localized) {
+    if (field.type === "price") {
+      const amount = getAttr(attrs, field.key, "en");
+      const currencyAttr = String(attrs.currency ?? "");
+      return (
+        <PriceFieldInput
+          label={field.labelEn}
+          amountName={field.key}
+          defaultAmount={amount === "" ? "" : String(amount)}
+          defaultCurrency={currencyAttr || undefined}
+          required={field.required}
+        />
+      );
+    }
     return (
       <div className="space-y-2">
         <Label>{field.labelEn}</Label>

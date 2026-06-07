@@ -9,7 +9,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getLocalizedField, cn } from "@/lib/utils";
 import type { PublicLocale } from "@/i18n/locale-config";
 import type { EntityTranslation } from "@prisma/client";
-import { AddToCompareButton } from "@/features/comparison/components/add-to-compare-button";
+import { CompareCardOverlay } from "@/features/comparison/components/compare-card-overlay";
+import type { CompareCardProps as CompareListingProps } from "@/features/comparison/get-compare-props";
 
 type Props = {
   item: ContentCardData;
@@ -19,11 +20,7 @@ type Props = {
   translations?: EntityTranslation[];
   enabledLocales?: PublicLocale[];
   defaultCode?: string;
-  compare?: {
-    contentTypeSlug: string;
-    maxItems: number;
-    label?: string;
-  };
+  compare?: CompareListingProps;
 };
 
 export function ContentCard({
@@ -50,29 +47,30 @@ export function ContentCard({
 
   const variant = display.cardVariant;
 
+  const compareOverlay = compare ? (
+    <CompareCardOverlay
+      contentTypeSlug={compare.contentTypeSlug}
+      itemId={item.id}
+      maxItems={compare.maxItems}
+      label={compare.label}
+      className={!image ? "!absolute top-2 end-2 z-10" : undefined}
+    />
+  ) : null;
+
   return (
     <Card
       className={cn(
-        "group overflow-hidden transition-shadow hover:shadow-md",
+        "group relative overflow-hidden transition-shadow hover:shadow-md",
         variant === "featured" && "ring-2 ring-primary/20",
         variant === "minimal" && "border-0 shadow-none",
         className
       )}
     >
+      {compare && !image ? compareOverlay : null}
       <Link href={href} className="block">
         {image ? (
           <div className={cn("relative bg-muted", variant === "compact" ? "aspect-[4/3]" : "aspect-video")}>
-            {compare ? (
-              <div className="cmp-card-compare-slot">
-                <AddToCompareButton
-                  contentTypeSlug={compare.contentTypeSlug}
-                  itemId={item.id}
-                  maxItems={compare.maxItems}
-                  label={compare.label}
-                  variant="card"
-                />
-              </div>
-            ) : null}
+            {compareOverlay}
             <img src={image.url} alt={image.altEn ?? title} className="h-full w-full object-cover" />
             {display.showFeaturedBadge && item.isFeatured ? (
               <Badge className="absolute top-2 start-2 gap-1 text-[10px]">

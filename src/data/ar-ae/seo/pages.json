@@ -1,37 +1,37 @@
 {
   "home": {
-    "metaTitle": "الرئيسية — بي آر تي للتجارة",
-    "metaDescription": "حلول شبكات المؤسسات والأمان والطاقة.",
-    "robots": "index, follow"
+    "metaTitle": "",
+    "metaDescription": "",
+    "robots": ""
   },
   "about": {
-    "metaTitle": "من نحن — بي آر تي للتجارة",
-    "metaDescription": "تعرّف على بي آر تي للتجارة، رسالتنا وفريقنا.",
-    "robots": "index, follow"
+    "metaTitle": "",
+    "metaDescription": "",
+    "robots": ""
   },
   "contact": {
-    "metaTitle": "اتصل بنا — بي آر تي للتجارة",
-    "metaDescription": "تواصل معنا للعروض والدعم والشراكات.",
-    "robots": "index, follow"
+    "metaTitle": "",
+    "metaDescription": "",
+    "robots": ""
   },
   "products": {
-    "metaTitle": "المنتجات — بي آر تي للتجارة",
-    "metaDescription": "تصفح حلول شبكات المؤسسات والأمان والطاقة.",
-    "robots": "index, follow"
+    "metaTitle": "",
+    "metaDescription": "",
+    "robots": ""
   },
   "projects": {
-    "metaTitle": "المشاريع — بي آر تي للتجارة",
-    "metaDescription": "نشرات مختارة ودراسات حالة.",
-    "robots": "index, follow"
+    "metaTitle": "",
+    "metaDescription": "",
+    "robots": ""
   },
   "collections": {
-    "metaTitle": "المجموعات — بي آر تي للتجارة",
-    "metaDescription": "تصفح مجموعات المنتجات المنسقة.",
-    "robots": "index, follow"
+    "metaTitle": "",
+    "metaDescription": "",
+    "robots": ""
   },
   "compare": {
-    "metaTitle": "مقارنة المنتجات",
-    "metaDescription": "قارن حتى ثلاثة منتجات جنباً إلى جنب.",
-    "robots": "noindex, follow"
+    "metaTitle": "",
+    "metaDescription": "",
+    "robots": ""
   }
 }

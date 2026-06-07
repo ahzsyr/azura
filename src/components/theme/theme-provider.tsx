@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { themeService } from "@/features/theme/theme.service";
 import { loadPresetJson } from "@/features/theme/preset-resolver";
 import { presetVisualToCssBlock, resolvePresetVisual } from "@/features/theme/presets";
@@ -8,35 +7,62 @@ import { ThemeEffectsClient } from "./theme-effects-client";
 import { ThemeEngineProvider } from "./theme-engine-provider";
 import { ThemePresetAttributes } from "./theme-preset-attributes";
 import { VisualExperienceProvider } from "./visual-experience-provider";
+import { getDefaultThemeTokens } from "@/features/theme/default-theme-tokens";
+import type { ThemeTokens } from "@/types/theme";
 
-export async function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const cookieStore = await cookies();
-  const previewDraft = cookieStore.get("theme-preview")?.value === "draft";
-  const tokens = await themeService.getForPreview(previewDraft);
-
-  let presetVisualCss = "";
-  if (tokens?.activePresetId) {
-    const preset = await loadPresetJson(tokens.activePresetId);
-    if (preset) {
-      presetVisualCss = presetVisualToCssBlock(resolvePresetVisual(preset));
-    }
+async function loadThemeTokens(previewDraft: boolean): Promise<ThemeTokens | null> {
+  try {
+    return await themeService.getForPreview(previewDraft);
+  } catch (error) {
+    console.error("[ThemeProvider] theme load failed:", error);
+    return null;
   }
+}
+
+async function loadPresetVisualCss(activePresetId: string | null | undefined): Promise<string> {
+  if (!activePresetId) return "";
+  try {
+    const preset = await loadPresetJson(activePresetId);
+    if (!preset) return "";
+    return presetVisualToCssBlock(resolvePresetVisual(preset));
+  } catch (error) {
+    console.error("[ThemeProvider] preset visual load failed:", error);
+    return "";
+  }
+}
+
+type ThemeProviderProps = {
+  children: React.ReactNode;
+  /** Preloaded theme from layout shell — avoids a duplicate DB fetch. */
+  tokens?: ThemeTokens | null;
+  previewDraft?: boolean;
+};
+
+export async function ThemeProvider({
+  children,
+  tokens: initialTokens,
+  previewDraft = false,
+}: ThemeProviderProps) {
+  const loaded =
+    initialTokens !== undefined
+      ? initialTokens
+      : await loadThemeTokens(previewDraft);
+  const tokens = loaded ?? getDefaultThemeTokens();
+  const presetVisualCss = await loadPresetVisualCss(tokens.activePresetId);
 
   return (
     <>
-      {tokens && <ThemeStyles tokens={tokens} presetVisualCss={presetVisualCss} />}
-      {tokens && (
-        <ThemePresetAttributes
-          cardStyle={tokens.cardStyle}
-          borderStyle={tokens.borderStyle}
-          activePresetId={tokens.activePresetId}
-        />
-      )}
+      <ThemeStyles tokens={tokens} presetVisualCss={presetVisualCss} />
+      <ThemePresetAttributes
+        cardStyle={tokens.cardStyle}
+        borderStyle={tokens.borderStyle}
+        activePresetId={tokens.activePresetId}
+      />
       <VisualExperienceProvider site={tokens}>
         <ThemeWrapper tokens={tokens}>
           <ThemeEngineProvider
             siteTheme={tokens}
-            defaultPresetId={tokens?.activePresetId ?? null}
+            defaultPresetId={tokens.activePresetId ?? null}
             defaultAppearance="system"
           >
             <ThemeEffectsClient tokens={tokens} />

@@ -11,9 +11,8 @@ export default async function AdminLanguagesPage() {
 
   await Promise.all(
     locales.map(async (locale) => {
-      completionByLocale[locale.code] = await translationService.getOverallCompletionForLocale(
-        locale.code
-      );
+      completionByLocale[locale.code] =
+        await translationService.getOverallCompletionForLocaleSafe(locale.code);
     })
   );
 

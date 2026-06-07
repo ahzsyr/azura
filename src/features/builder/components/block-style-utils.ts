@@ -45,3 +45,20 @@ export function updateBlockVisual(
 ): BlockNode {
   return { ...block, visual: { ...block.visual, ...visual } };
 }
+
+/** True when block Look & Feel section background should drive the outer wrapper. */
+export function hasActiveBlockVisualBackground(block: BlockNode): boolean {
+  const type = block.visual?.sectionBackground?.type;
+  return Boolean(type && type !== "none");
+}
+
+export function resolveMarketingBackgroundType(
+  block: BlockNode,
+  propsBackgroundType: string | undefined,
+  defaultType = "gradient"
+): string {
+  if (hasActiveBlockVisualBackground(block)) {
+    return "transparent";
+  }
+  return propsBackgroundType ?? defaultType;
+}

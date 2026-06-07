@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import type { HeaderWorkspace } from "@/features/navigation/types";
 import { HeaderRenderer } from "@/features/navigation/components/header/HeaderRenderer";
 import { setWorkspace } from "@/features/navigation/header-store";
-import { SearchCommand } from "@/features/search/components/search-lazy";
+import { DeferredSearchCommand } from "@/features/search/components/deferred-search-command";
 import { LocaleSwitcher, type LocaleOption } from "@/components/layout/locale-switcher";
 import type { HeaderThemeConfig } from "@/types/theme";
 import type { PublicLocale } from "@/i18n/locale-config";
@@ -47,11 +47,7 @@ export function SiteHeader({
           showNav: headerConfig?.showNav,
         }}
       />
-      {headerConfig?.showSearch !== false && (
-        <div className="sr-only">
-          <SearchCommand />
-        </div>
-      )}
+      {headerConfig?.showSearch !== false && <DeferredSearchCommand />}
     </>
   );
 }

@@ -150,10 +150,22 @@ export interface Product {
   product_cta?: ProductCtaPartial;
   page_display?: ProductPageDisplayPartial;
   add_to_cart?: ProductAddToCartPartial;
+  /** Optional slug segment override for Buy Now shop URL */
+  buy_now_slug?: string;
   promo?: ProductPromoPartial;
   trust?: ProductTrustPartial;
   variation_combinations?: ProductVariationCombination[];
   localization?: ProductLocalizationMeta;
+  /** Optional product FAQ entries for CMS productFaq blocks */
+  faq?: Array<{
+    id?: string;
+    questionEn?: string;
+    questionAr?: string;
+    answerEn?: string;
+    answerAr?: string;
+    question?: string;
+    answer?: string;
+  }>;
 }
 
 export interface ProductSummary {

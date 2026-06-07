@@ -19,7 +19,7 @@ function AdminShellInner({ children }: { children: React.ReactNode }) {
   }, [clearPageActions]);
 
   return (
-    <div className="admin-shell flex h-screen overflow-hidden bg-muted/30">
+    <div className="admin-shell az-scroll flex h-screen overflow-hidden bg-muted/30">
       <AdminSidebar />
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <AdminTopBar />

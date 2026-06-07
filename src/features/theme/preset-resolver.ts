@@ -58,6 +58,8 @@ export async function resolvePresetTheme(presetId?: string | null) {
     cursorEffect: preset.cursor ?? null,
     backgroundEffect: preset.backgroundEffect ?? null,
     textEffect: preset.textEffect ?? null,
+    cardStyle: preset.cardStyle ?? null,
+    borderStyle: preset.borderStyle ?? null,
     colors: preset.colors,
     fonts: preset.fonts,
     name: preset.name,

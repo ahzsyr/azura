@@ -2,7 +2,12 @@
  * Singleton Prisma client (dev hot-reload safe).
  * Use repositories for complex queries; import `prisma` only in thin services/actions.
  */
+import "server-only";
+
 import { PrismaClient } from "@prisma/client";
+import { getRuntimeDatabaseUrl } from "@/lib/database-url";
+import { isBuildWithoutDb } from "@/lib/build-db";
+import { createBuildStubPrismaClient } from "@/lib/build-prisma-stub";
 
 type PrismaGlobal = {
   prisma?: PrismaClient;
@@ -20,9 +25,32 @@ const REQUIRED_DELEGATES = ["testimonialCollection", "testimonialCollectionItem"
  */
 const PRISMA_CLIENT_VERSION = 2;
 
+function normalizeRuntimeDatabaseUrl(url: string): string {
+  return getRuntimeDatabaseUrl() || url;
+}
+
 function createPrismaClient() {
+  const rawUrl = process.env.DATABASE_URL?.trim() ?? "";
+  const datasourceUrl = normalizeRuntimeDatabaseUrl(rawUrl);
+  const limitMatch = datasourceUrl.match(/connection_limit=(\d+)/i);
+  // #region agent log
+  if (!isBuildWithoutDb()) {
+    import("@/lib/debug-ingest").then(({ debugIngest }) =>
+      debugIngest(
+        "lib/prisma.ts:createPrismaClient",
+        "prisma client init",
+        {
+          normalizedLimit: limitMatch?.[1] ?? "unset",
+          hadLimit1: /connection_limit=1(?:&|$)/i.test(rawUrl),
+        },
+        "H1",
+      ),
+    );
+  }
+  // #endregion
   return new PrismaClient({
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
+    ...(datasourceUrl ? { datasourceUrl } : {}),
   });
 }
 
@@ -35,6 +63,13 @@ function isStalePrismaClient(client: PrismaClient): boolean {
 }
 
 function getPrismaClient(): PrismaClient {
+  if (isBuildWithoutDb()) {
+    if (!globalForPrisma.prisma) {
+      globalForPrisma.prisma = createBuildStubPrismaClient();
+    }
+    return globalForPrisma.prisma;
+  }
+
   const cached = globalForPrisma.prisma;
   if (cached && isStalePrismaClient(cached)) {
     void cached.$disconnect();

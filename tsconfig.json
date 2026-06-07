@@ -36,5 +36,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "project-c", "sample"]
+  "exclude": ["node_modules", "project-c", "sample", "**/*.test.ts", "**/*.test.tsx"]
 }

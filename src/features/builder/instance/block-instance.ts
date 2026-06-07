@@ -49,6 +49,8 @@ export function normalizeBlockInstance(block: BlockNode): BlockInstanceV2 {
     visibility: block.visibility ?? {},
     seo: block.seo ?? {},
     animation: block.animation ?? def?.defaultAnimation ?? { enabled: false },
+    visual: block.visual,
+    hidden: block.hidden,
     children: block.children?.map(normalizeBlockInstance),
   };
 }
@@ -71,6 +73,8 @@ export function toPersistedBlockNode(instance: BlockInstanceV2): BlockNode {
     visibility: instance.visibility,
     seo: instance.seo,
     animation: instance.animation,
+    visual: instance.visual,
+    hidden: instance.hidden,
     children: instance.children?.map(toPersistedBlockNode),
   };
 }

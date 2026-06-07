@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { ComparisonPage } from "@/features/comparison/components/comparison-page";
-import { getComparableContentTypeBySlug } from "@/features/comparison/comparison-registry";
+import { CompareWorkspace } from "@/features/comparison/components/compare-workspace";
+import { getComparableContentTypeBySlug, listComparableContentTypes } from "@/features/comparison/comparison-registry";
 import { buildCompareTypePageConfig } from "@/features/comparison/build-compare-type-config";
 import { resolveCompareContentTypeSlug } from "@/features/comparison/comparison-route-resolver";
+import { getCompareWorkspaceLabels } from "@/features/comparison/get-compare-page-labels.server";
 import { getLocaleByPrefix } from "@/i18n/locale-registry.server";
 import "@/features/comparison/compare-page.css";
 
@@ -32,46 +34,34 @@ export default async function CatalogComparePage({ params }: Props) {
   if (!registered) notFound();
 
   const config = buildCompareTypePageConfig(registered, locale);
-  const t = await getTranslations({ locale, namespace: "compare" });
-  const entry = await getLocaleByPrefix(locale);
-  const pageTitle = entry?.code.startsWith("ar")
-    ? config.labelPluralAr
-    : config.labelPluralEn;
+  const [types, labels, entry, t] = await Promise.all([
+    listComparableContentTypes(),
+    getCompareWorkspaceLabels(locale),
+    getLocaleByPrefix(locale),
+    getTranslations({ locale, namespace: "compare" }),
+  ]);
+
+  const isAr = entry?.code.startsWith("ar") ?? false;
+  const workspaceTypes = types.map((type) => buildCompareTypePageConfig(type, locale));
+  const pageTitle = isAr ? config.labelPluralAr : config.labelPluralEn;
 
   return (
     <div className="cmp-wrap">
       <header className="cmp-header">
         <h1 className="cmp-title">{pageTitle}</h1>
+        <p className="text-muted-foreground mt-2 max-w-xl">{t("hubHint")}</p>
       </header>
 
-      <ComparisonPage
-        locale={locale}
-        localePrefix={locale}
-        contentTypeSlug={config.slug}
-        apiSegment={config.apiSegment}
-        comparisonMode={config.comparisonMode}
-        compareFields={config.compareFields}
-        maxItems={config.maxItems}
-        listHref={config.listHref}
-        labels={{
-          empty: t("empty"),
-          allSpecs: t("allSpecs"),
-          differences: t("differences"),
-          hideEqual: t("hideEqual"),
-          specifications: t("specifications"),
-          remove: t("remove"),
-          continueBrowsing: t("continueBrowsing"),
-          searchPlaceholder: t("searchPlaceholder"),
-          loading: t("loading"),
-          clearAll: t("clearBucket"),
-          quickAdd: t("quickAdd"),
-          quickAddPlaceholder: t("quickAddPlaceholder"),
-          filterGroups: t("filterGroups"),
-          allGroups: t("allGroups"),
-          mobileView: t("mobileView"),
-          tableView: t("tableView"),
-        }}
-      />
+      <Suspense fallback={<p className="cmp-empty-msg">{labels.loading}</p>}>
+        <CompareWorkspace
+          locale={locale}
+          localePrefix={locale}
+          isAr={isAr}
+          types={workspaceTypes}
+          labels={labels}
+          initialActiveSlug={config.slug}
+        />
+      </Suspense>
     </div>
   );
 }

@@ -22,6 +22,7 @@ export type WidgetSections = {
   showAppearance: boolean;
   showStyle: boolean;
   showFabThemeToggle: boolean;
+  showBackToTop: boolean;
 };
 
 export type PersonalizationSettings = {
@@ -35,6 +36,7 @@ const DEFAULT_WIDGET_SECTIONS: WidgetSections = {
   showAppearance: true,
   showStyle: true,
   showFabThemeToggle: true,
+  showBackToTop: true,
 };
 
 const DEFAULT_SETTINGS: PersonalizationSettings = {
@@ -75,6 +77,7 @@ function normalizeWidgetSections(raw: Partial<WidgetSections> | undefined): Widg
     showAppearance: raw.showAppearance !== false,
     showStyle: raw.showStyle !== false,
     showFabThemeToggle: raw.showFabThemeToggle !== false,
+    showBackToTop: raw.showBackToTop !== false,
   };
 }
 

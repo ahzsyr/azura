@@ -11,20 +11,61 @@ export type BlockParentType = "CmsPage" | "Post" | "ContentItem";
 
 /** Translatable text fields per block type */
 export const BLOCK_TRANSLATABLE_FIELDS: Partial<Record<BlockType, string[]>> = {
-  hero: ["title", "subtitle", "ctaLabel"],
+  hero: ["title", "subtitle", "badge", "ctaLabel", "secondaryCtaLabel"],
   text: ["content"],
   image: ["alt"],
   gallery: ["title"],
   faq: ["title"],
   testimonials: ["title"],
   pricing: ["title"],
-  cta: ["title", "button"],
+  cta: ["title", "subtitle", "button", "secondaryButton", "promoBadge", "promoText", "countdownLabel"],
   video: ["title", "caption"],
   richText: ["html"],
   customHtml: ["html"],
   catalog: ["title", "subtitle", "emptyMessage"],
   contentList: ["title", "subtitle"],
   inquiryForm: ["title"],
+  advancedRichText: ["content", "html"],
+  markdown: ["markdown"],
+  code: ["title"],
+  table: ["title"],
+  timeline: ["title"],
+  changelog: ["title"],
+  comparison: ["title"],
+  featureGrid: ["title", "subtitle"],
+  benefitsGrid: ["title", "subtitle"],
+  trustBadges: ["title", "subtitle"],
+  logoCloud: ["title", "subtitle"],
+  statsCounter: ["title", "subtitle"],
+  beforeAfter: ["title", "subtitle", "beforeLabel", "afterLabel"],
+  videoHero: ["title", "subtitle", "badge", "ctaLabel", "secondaryCtaLabel"],
+  videoGallery: ["title", "subtitle"],
+  interactiveHotspots: ["title", "subtitle"],
+  masonryGallery: ["title", "subtitle"],
+  productGrid: ["title", "subtitle", "badge", "emptyMessage"],
+  productCarousel: ["title", "subtitle", "emptyMessage"],
+  productComparison: ["title"],
+  productSpecifications: ["title"],
+  productReviews: ["title"],
+  productFaq: ["title"],
+  relatedProducts: ["title"],
+  searchBlock: ["title", "subtitle", "placeholder"],
+  advancedFilters: ["title", "subtitle"],
+  categoryExplorer: ["title", "subtitle"],
+  relatedContent: ["title", "subtitle"],
+  recentlyViewed: ["title", "subtitle", "emptyMessage"],
+  stickyCta: ["title", "message", "primaryButton"],
+  leadForm: ["title", "subtitle", "incentive"],
+  contactFormBuilder: ["title"],
+  multiStepForm: ["title"],
+  newsletterSignup: ["title", "subtitle", "incentive"],
+  downloadGate: ["title", "description"],
+  pricingCalculator: ["title", "subtitle"],
+  knowledgeBase: ["title", "subtitle"],
+  documentationNav: ["title", "subtitle"],
+  statusDashboard: ["title", "subtitle"],
+  teamDirectory: ["title", "subtitle"],
+  partnerDirectory: ["title", "subtitle"],
 };
 
 const ALL_BLOCK_FIELDS = [
@@ -32,11 +73,20 @@ const ALL_BLOCK_FIELDS = [
   "subtitle",
   "content",
   "ctaLabel",
+  "secondaryCtaLabel",
+  "badge",
   "button",
+  "secondaryButton",
+  "promoBadge",
+  "promoText",
+  "countdownLabel",
+  "beforeLabel",
+  "afterLabel",
   "caption",
   "html",
   "alt",
   "emptyMessage",
+  "markdown",
 ] as const;
 
 /** Stable 32-char id (fits EntityTranslation.entityId VarChar(36)) */
@@ -73,15 +123,22 @@ export function getTranslatableFieldsForBlockType(blockType: BlockType): string[
   return BLOCK_TRANSLATABLE_FIELDS[blockType] ?? [];
 }
 
+function normalizePageBlocks(blocks: unknown): PageBlocks {
+  return Array.isArray(blocks) ? (blocks as PageBlocks) : [];
+}
+
 export function walkBlocks(blocks: PageBlocks): BlockNode[] {
   const result: BlockNode[] = [];
-  function visit(nodes: BlockNode[]) {
+  function visit(nodes: PageBlocks) {
     for (const node of nodes) {
+      if (!node || typeof node !== "object") continue;
       result.push(node);
-      if (node.children?.length) visit(node.children);
+      if (Array.isArray(node.children) && node.children.length > 0) {
+        visit(node.children);
+      }
     }
   }
-  visit(blocks);
+  visit(normalizePageBlocks(blocks));
   return result;
 }
 

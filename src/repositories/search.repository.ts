@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { isPostgresDatabaseUrl } from "@/lib/database-url";
 import { Prisma } from "@prisma/client";
 import type { SearchEntityType } from "@prisma/client";
 import { purgeInvalidSearchDocuments } from "@/features/search-framework/indexer/purge-invalid-search-documents";
@@ -63,6 +64,92 @@ function mapLeanRow(
   };
 }
 
+type FullTextRow = {
+  id: string;
+  entityType: SearchEntityType;
+  entityId: string;
+  locale: string;
+  title: string;
+  body: string;
+  urlPath: string;
+  metadata: unknown;
+  relevance: number;
+};
+
+function toPostgresTsQuery(tokens: string[]): string {
+  return tokens.join(" ");
+}
+
+async function mysqlFullTextSearch(params: {
+  locale: string;
+  types?: SearchEntityType[];
+  limit: number;
+  booleanQ: string;
+}): Promise<FullTextRow[]> {
+  if (params.types?.length) {
+    return prisma.$queryRaw<FullTextRow[]>`
+      SELECT id, entityType, entityId, locale, title, urlPath, metadata,
+        SUBSTRING(body, 1, ${BODY_PREVIEW}) AS body,
+        MATCH(title, body) AGAINST (${params.booleanQ} IN BOOLEAN MODE) AS relevance
+      FROM SearchDocument
+      WHERE locale = ${params.locale}
+        AND entityType IN (${Prisma.join(params.types)})
+        AND MATCH(title, body) AGAINST (${params.booleanQ} IN BOOLEAN MODE)
+      ORDER BY relevance DESC
+      LIMIT ${params.limit}
+    `;
+  }
+
+  return prisma.$queryRaw<FullTextRow[]>`
+    SELECT id, entityType, entityId, locale, title, urlPath, metadata,
+      SUBSTRING(body, 1, ${BODY_PREVIEW}) AS body,
+      MATCH(title, body) AGAINST (${params.booleanQ} IN BOOLEAN MODE) AS relevance
+    FROM SearchDocument
+    WHERE locale = ${params.locale}
+      AND MATCH(title, body) AGAINST (${params.booleanQ} IN BOOLEAN MODE)
+    ORDER BY relevance DESC
+    LIMIT ${params.limit}
+  `;
+}
+
+async function postgresFullTextSearch(params: {
+  locale: string;
+  types?: SearchEntityType[];
+  limit: number;
+  tsQuery: string;
+}): Promise<FullTextRow[]> {
+  if (params.types?.length) {
+    return prisma.$queryRaw<FullTextRow[]>`
+      SELECT id, "entityType", "entityId", locale, title, "urlPath", metadata,
+        LEFT(body, ${BODY_PREVIEW}) AS body,
+        ts_rank(
+          to_tsvector('simple', title || ' ' || body),
+          plainto_tsquery('simple', ${params.tsQuery})
+        ) AS relevance
+      FROM "SearchDocument"
+      WHERE locale = ${params.locale}
+        AND "entityType" IN (${Prisma.join(params.types)})
+        AND to_tsvector('simple', title || ' ' || body) @@ plainto_tsquery('simple', ${params.tsQuery})
+      ORDER BY relevance DESC
+      LIMIT ${params.limit}
+    `;
+  }
+
+  return prisma.$queryRaw<FullTextRow[]>`
+    SELECT id, "entityType", "entityId", locale, title, "urlPath", metadata,
+      LEFT(body, ${BODY_PREVIEW}) AS body,
+      ts_rank(
+        to_tsvector('simple', title || ' ' || body),
+        plainto_tsquery('simple', ${params.tsQuery})
+      ) AS relevance
+    FROM "SearchDocument"
+    WHERE locale = ${params.locale}
+      AND to_tsvector('simple', title || ' ' || body) @@ plainto_tsquery('simple', ${params.tsQuery})
+    ORDER BY relevance DESC
+    LIMIT ${params.limit}
+  `;
+}
+
 export const searchRepository = {
   async fullTextSearch(params: {
     q: string;
@@ -72,62 +159,27 @@ export const searchRepository = {
     tokens?: string[];
   }): Promise<SearchRow[]> {
     const tokens = params.tokens?.length ? params.tokens : tokenize(params.q);
-    const booleanQ = toBooleanModeQuery(tokens);
-    if (!booleanQ) return [];
+    if (!tokens.length) return [];
 
     const limit = Math.min(params.limit, SEARCH_PERF_LIMITS.maxRetrievalCandidates);
+    const usePostgres = isPostgresDatabaseUrl();
 
     try {
-      const rows = params.types?.length
-        ? await prisma.$queryRaw<
-            Array<{
-              id: string;
-              entityType: SearchEntityType;
-              entityId: string;
-              locale: string;
-              title: string;
-              body: string;
-              urlPath: string;
-              metadata: unknown;
-              relevance: number;
-            }>
-          >`
-            SELECT id, entityType, entityId, locale, title, urlPath, metadata,
-              SUBSTRING(body, 1, ${BODY_PREVIEW}) AS body,
-              MATCH(title, body) AGAINST (${booleanQ} IN BOOLEAN MODE) AS relevance
-            FROM SearchDocument
-            WHERE locale = ${params.locale}
-              AND entityType IN (${Prisma.join(params.types)})
-              AND MATCH(title, body) AGAINST (${booleanQ} IN BOOLEAN MODE)
-            ORDER BY relevance DESC
-            LIMIT ${limit}
-          `
-        : await prisma.$queryRaw<
-            Array<{
-              id: string;
-              entityType: SearchEntityType;
-              entityId: string;
-              locale: string;
-              title: string;
-              body: string;
-              urlPath: string;
-              metadata: unknown;
-              relevance: number;
-            }>
-          >`
-            SELECT id, entityType, entityId, locale, title, urlPath, metadata,
-              SUBSTRING(body, 1, ${BODY_PREVIEW}) AS body,
-              MATCH(title, body) AGAINST (${booleanQ} IN BOOLEAN MODE) AS relevance
-            FROM SearchDocument
-            WHERE locale = ${params.locale}
-              AND MATCH(title, body) AGAINST (${booleanQ} IN BOOLEAN MODE)
-            ORDER BY relevance DESC
-            LIMIT ${limit}
-          `;
+      const rows = usePostgres
+        ? await postgresFullTextSearch({
+            locale: params.locale,
+            types: params.types,
+            limit,
+            tsQuery: toPostgresTsQuery(tokens),
+          })
+        : await mysqlFullTextSearch({
+            locale: params.locale,
+            types: params.types,
+            limit,
+            booleanQ: toBooleanModeQuery(tokens),
+          });
 
-      return rows.map((r) =>
-        mapLeanRow(r, Number(r.relevance) || 0)
-      );
+      return rows.map((r) => mapLeanRow(r, Number(r.relevance) || 0));
     } catch {
       return [];
     }

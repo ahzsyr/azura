@@ -1,29 +1,33 @@
 {
-  "siteName": "بي آر تي للتجارة",
-  "tagline": "تجربة رقمية من الجيل القادم",
-  "description": "حلول تقنية متميزة للمستقبل",
-  "logoText": "BRT",
+  "siteName": "AZURA solution",
+  "tagline": "",
+  "description": "",
+  "logoText": "AZURA",
   "contact": {
-    "email": "hello@azuraweb.com",
-    "phone": "+1 (000) 000-0000",
-    "address": "دبي، الإمارات العربية المتحدة"
+    "email": "",
+    "phone": "",
+    "address": ""
   },
   "social": {},
   "catalogBrands": [],
   "catalogTags": [],
   "catalogPageHero": {
-    "style": "minimal",
-    "titleScale": "md",
+    "style": "",
+    "titleScale": "",
     "showEyebrow": true,
     "showGlow": true,
     "bannerImage": ""
   },
   "productListingLayout": {
-    "sidebarMode": "pinned",
-    "chromeVariant": "chrome",
-    "viewModes": ["grid", "list", "table"],
-    "defaultViewMode": "grid",
-    "heroStyle": "minimal",
+    "sidebarMode": "",
+    "chromeVariant": "",
+    "viewModes": [
+      "",
+      "",
+      ""
+    ],
+    "defaultViewMode": "",
+    "heroStyle": "",
     "showCompare": true
   },
   "catalogToolbarDock": {
@@ -34,14 +38,45 @@
     "backgroundOpacity": 82
   },
   "productPageLayout": {
-    "galleryLayout": "wide_gallery",
-    "animationEntrance": "fade",
+    "galleryLayout": "",
+    "animationEntrance": "",
     "stickyBreadcrumb": true,
     "fixedBuyColumn": true,
-    "tabsMode": "underline"
+    "tabsMode": ""
   },
   "productCardLayout": {
     "showCompare": true
+  },
+  "productBuyNow": {
+    "enabled": true,
+    "label": "",
+    "shopBaseUrl": "",
+    "slugPathPrefix": "",
+    "openInNewTab": true,
+    "variant": "",
+    "size": "",
+    "fullWidth": false,
+    "placements": {
+      "page": true,
+      "card": true
+    }
+  },
+  "productCta": {
+    "enabled": true,
+    "label": "",
+    "icon": "",
+    "variant": "",
+    "linkType": "",
+    "internalPath": "",
+    "externalUrl": "",
+    "openInNewTab": false,
+    "placements": {
+      "inline": true,
+      "floating": false,
+      "card": false
+    },
+    "cardVisibility": "",
+    "cardLayout": ""
   },
   "search": {
     "debounceMs": 300,

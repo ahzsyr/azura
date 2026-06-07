@@ -18,6 +18,11 @@ export const BLOCK_CATEGORIES: { id: BlockCategory; label: string }[] = [
   { id: "content", label: "Content" },
   { id: "marketing", label: "Marketing" },
   { id: "data", label: "Data" },
+  { id: "commerce", label: "Commerce" },
+  { id: "conversion", label: "Conversion" },
+  { id: "portal", label: "Portal" },
+  { id: "discovery", label: "Discovery" },
+  { id: "media", label: "Media" },
 ];
 
 export const BLOCK_TYPES: BlockTypeMeta[] = blockRegistry.listMeta().map((m) => ({

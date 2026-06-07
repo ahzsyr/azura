@@ -1,7 +1,9 @@
 "use client";
 
 import type { RefObject } from "react";
+import Link from "next/link";
 import type { ComparableTypeMeta } from "@/features/comparison/types";
+import { compareHubPath } from "@/features/comparison/comparison-route-resolver";
 import { useDialogA11y } from "@/features/comparison/hooks/use-dialog-a11y";
 import { ComparisonDrawerBucket } from "@/features/comparison/components/comparison-drawer-bucket";
 
@@ -28,6 +30,7 @@ type Props = {
     addMore: string;
     clearBucket: string;
     close: string;
+    viewComparison: string;
   };
   onClearAll: () => void;
   onStoreChange: () => void;
@@ -87,6 +90,7 @@ export function ComparisonDrawer({
                 itemIds={bucket.itemIds}
                 meta={typeBySlug.get(bucket.contentTypeSlug)}
                 locale={locale}
+                totalBuckets={buckets.length}
                 labels={{
                   compareNow: labels.compareNow,
                   remove: labels.remove,
@@ -101,7 +105,14 @@ export function ComparisonDrawer({
         </div>
 
         {buckets.length > 0 ? (
-          <div className="cmp-drawer__actions">
+          <div className="cmp-drawer__actions cmp-drawer__actions--footer">
+            <Link
+              href={compareHubPath(locale)}
+              className="cmp-cta w-full text-center"
+              onClick={onClose}
+            >
+              {labels.viewComparison}
+            </Link>
             <button type="button" className="cmp-cta cmp-cta--ghost" onClick={onClearAll}>
               {labels.clearAll}
             </button>

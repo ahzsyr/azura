@@ -91,10 +91,22 @@ export function normalizeAction(action: Partial<HeaderAction> & { id?: string })
     type,
     label:
       action.label?.trim() ||
-      (type === "language" ? "EN" : type === "search" ? "Search" : "Action"),
+      (type === "language"
+        ? "EN"
+        : type === "search"
+          ? "Search"
+          : type === "account"
+            ? "Account"
+            : "Action"),
     icon:
       action.icon?.trim() ||
-      (type === "search" ? "fa-search" : type === "language" ? "fa-globe" : "fa-link"),
+      (type === "search"
+        ? "fa-search"
+        : type === "language"
+          ? "fa-globe"
+          : type === "account"
+            ? "fa-user"
+            : "fa-link"),
     style: action.style ?? "solid",
     outlined: !!action.outlined,
     visible: action.visible !== false,
@@ -155,5 +167,6 @@ export function resolveMenuForSurface(
 export function getActionTypeLabel(type: HeaderAction["type"]): string {
   if (type === "search") return "Search";
   if (type === "language") return "Language";
+  if (type === "account") return "Account";
   return "Custom";
 }

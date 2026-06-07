@@ -129,6 +129,7 @@ export function ActionsManager() {
                 onChange={(v) => setForm((f) => ({ ...f, type: v as HeaderActionType }))}
               >
                 <option value="search">Search</option>
+                <option value="account">Account</option>
                 <option value="language">Language</option>
                 <option value="custom">Custom button</option>
               </HeaderSelect>

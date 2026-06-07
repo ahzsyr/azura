@@ -22,7 +22,6 @@ import {
 import {
   DEFAULT_RESOLVED_PRODUCT_CTA,
   resolveProductCta,
-  serializeProductCtaForSite,
   validateProductCtaExternalUrl,
   type ProductCtaCardLayout,
   type ProductCtaPartial,
@@ -40,26 +39,40 @@ import { CtaLivePreview } from "./CtaLivePreview";
 import { CtaIconUploadControls } from "./CtaIconUploadControls";
 import {
   ADMIN_PRODUCT_TABS,
-  readHashTab,
   type AdminProductTabId,
 } from "@/features/catalog/admin/catalog-admin-tabs";
 import { CatalogAdminShell } from "@/features/catalog/admin/catalog-admin-shell";
 import { AdminSettingsLayout } from "@/components/admin/layout/admin-settings-layout";
 import { Button } from "@/components/ui/button";
-import { GlobalStorefrontCtaForm } from "./GlobalStorefrontCtaForm";
+import { ProductBuyNowSettingsPanel } from "./ProductBuyNowSettingsPanel";
+import { ProductQuoteCtaSettingsPanel } from "./ProductQuoteCtaSettingsPanel";
+import { ProductPromoSettingsPanel } from "./ProductPromoSettingsPanel";
+import { ProductTrustSettingsPanel } from "./ProductTrustSettingsPanel";
+import { AdminSaveFeedback } from "./AdminSaveFeedback";
 import { ProductPageAppearancePanel } from "./ProductPageAppearancePanel";
 import { ProductPageElementsPanel } from "./ProductPageElementsPanel";
 import { ProductPageDisplayFields } from "./ProductPageDisplayFields";
 import { ProductCardAppearancePanel } from "./ProductCardAppearancePanel";
+import {
+  DEFAULT_RESOLVED_PRODUCT_BUY_NOW,
+  type ResolvedProductBuyNow,
+} from "@/features/products/lib/product-buy-now";
 import type {
-  ResolvedProductAddToCart,
   ResolvedProductPageDisplay,
   ResolvedProductPageElementOrder,
   ResolvedProductPromo,
   ResolvedProductTrust,
 } from "@/features/products/lib/product-page-display";
 import { resolveProductPageDisplay, resolveProductPageElementOrder } from "@/features/products/lib/product-page-display";
-import { saveProductPageElementsSettings } from "./product-page-elements-save";
+import {
+  saveProductBuyNowSettings,
+  saveProductQuoteCtaSettings,
+  saveProductPageElementsOnlySettings,
+  saveProductPageLayoutOnlySettings,
+  saveProductCardLayoutOnlySettings,
+  saveProductPromoSettings,
+  saveProductTrustSettings,
+} from "./product-settings-save";
 import { useAdminFormState } from "@/hooks/use-admin-form";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { ProductVariationsEditor } from "./ProductVariationsEditor";
@@ -68,8 +81,6 @@ import { ProductBulkImportModal, type BulkImportSummary, type CatalogLocaleOptio
 import {
   resolveProductCardLayout,
   resolveProductPageLayout,
-  serializeProductCardLayoutForSite,
-  serializeProductPageLayoutForSite,
   type ResolvedProductCardLayout,
   type ResolvedProductPageLayout,
 } from "@/features/products/lib/product-storefront-layout";
@@ -431,7 +442,7 @@ type ProductManagerAppProps = {
   initialProductPageLayout?: ResolvedProductPageLayout;
   initialProductCardLayout?: ResolvedProductCardLayout;
   initialProductPageDisplay?: ResolvedProductPageDisplay;
-  initialProductPageAddToCart?: ResolvedProductAddToCart;
+  initialProductBuyNow?: ResolvedProductBuyNow;
   initialProductPagePromo?: ResolvedProductPromo;
   initialProductPageTrust?: ResolvedProductTrust;
   initialProductPageElementOrder?: ResolvedProductPageElementOrder;
@@ -450,7 +461,7 @@ export default function ProductManagerApp({
   initialProductPageLayout,
   initialProductCardLayout,
   initialProductPageDisplay,
-  initialProductPageAddToCart,
+  initialProductBuyNow,
   initialProductPagePromo,
   initialProductPageTrust,
   initialProductPageElementOrder,
@@ -493,35 +504,19 @@ export default function ProductManagerApp({
       ...(src.internalLink ? { internalLink: { ...src.internalLink } } : {}),
     };
   });
-  const [ctaSaving, setCtaSaving] = useState(false);
-  const [ctaFeedback, setCtaFeedback] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
   const [globalExternalHint, setGlobalExternalHint] = useState<string | null>(null);
   const [productExternalHint, setProductExternalHint] = useState<string | null>(null);
 
-  const [adminTab, setAdminTab] = useState<AdminProductTabId>(() =>
-    readHashTab(ADMIN_PRODUCT_TABS, "table"),
-  );
+  const [adminTab, setAdminTab] = useState<AdminProductTabId>("table");
   const [pageLayout, setPageLayout] = useState<ResolvedProductPageLayout>(() => initialProductPageLayout ?? resolveProductPageLayout());
   const [cardLayout, setCardLayout] = useState<ResolvedProductCardLayout>(() => initialProductCardLayout ?? resolveProductCardLayout());
   const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
-  const [layoutSaveBusy, setLayoutSaveBusy] = useState(false);
-  const [pageElementsSaveBusy, setPageElementsSaveBusy] = useState(false);
   const [layoutFeedback, setLayoutFeedback] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
   const [pageDisplay, setPageDisplay] = useState<ResolvedProductPageDisplay>(
     () => initialProductPageDisplay ?? resolveProductPageDisplay(),
   );
-  const [pageAddToCart, setPageAddToCart] = useState<ResolvedProductAddToCart>(
-    () =>
-      initialProductPageAddToCart ?? {
-        enabled: true,
-        label: "Add to Cart",
-        href: "",
-        openInNewTab: false,
-        behavior: "stub",
-        variant: "primary",
-        size: "md",
-        fullWidth: false,
-      },
+  const [globalBuyNow, setGlobalBuyNow] = useState<ResolvedProductBuyNow>(
+    () => initialProductBuyNow ?? { ...DEFAULT_RESOLVED_PRODUCT_BUY_NOW, placements: { ...DEFAULT_RESOLVED_PRODUCT_BUY_NOW.placements } },
   );
   const [pagePromo, setPagePromo] = useState<ResolvedProductPromo>(
     () =>
@@ -553,31 +548,67 @@ export default function ProductManagerApp({
     initialProductPageCompactDisplay ?? resolveProductPageCompactDisplay(),
   );
 
-  const savePageElementsSettings = useCallback(async () => {
-    setPageElementsSaveBusy(true);
+  const saveCurrentSettingsTab = useCallback(async () => {
     setLayoutFeedback(null);
+    const ok =
+      "Settings saved. Refresh the storefront (or restart dev) to pick up site.json changes.";
     try {
-      await saveProductPageElementsSettings(adminLocaleCode, {
-        pageDisplay,
-        elementOrder,
-        addToCart: pageAddToCart,
-        promo: pagePromo,
-        trust: pageTrust,
-        compactDisplay: pageCompactDisplay,
-      });
-      setLayoutFeedback({ kind: "ok", text: "Page element settings saved." });
+      switch (adminTab) {
+        case "buy-now":
+          await saveProductBuyNowSettings(adminLocaleCode, globalBuyNow);
+          setLayoutFeedback({ kind: "ok", text: ok });
+          break;
+        case "quote-cta":
+          await saveProductQuoteCtaSettings(adminLocaleCode, globalCta);
+          setLayoutFeedback({ kind: "ok", text: ok });
+          break;
+        case "page-elements":
+          await saveProductPageElementsOnlySettings(adminLocaleCode, {
+            pageDisplay,
+            elementOrder,
+            compactDisplay: pageCompactDisplay,
+          });
+          setLayoutFeedback({ kind: "ok", text: "Page element settings saved." });
+          break;
+        case "page-layout":
+          await saveProductPageLayoutOnlySettings(adminLocaleCode, pageLayout);
+          setLayoutFeedback({ kind: "ok", text: ok });
+          break;
+        case "card-appearance":
+          await saveProductCardLayoutOnlySettings(adminLocaleCode, cardLayout);
+          setLayoutFeedback({ kind: "ok", text: ok });
+          break;
+        case "promo-banner":
+          await saveProductPromoSettings(adminLocaleCode, pagePromo);
+          setLayoutFeedback({ kind: "ok", text: ok });
+          break;
+        case "trust-widget":
+          await saveProductTrustSettings(adminLocaleCode, pageTrust);
+          setLayoutFeedback({ kind: "ok", text: ok });
+          break;
+        default:
+          return;
+      }
     } catch (e) {
       setLayoutFeedback({ kind: "err", text: e instanceof Error ? e.message : "Save failed" });
       throw e;
-    } finally {
-      setPageElementsSaveBusy(false);
     }
-  }, [adminLocaleCode, pageDisplay, elementOrder, pageAddToCart, pagePromo, pageTrust, pageCompactDisplay]);
+  }, [
+    adminTab,
+    adminLocaleCode,
+    globalBuyNow,
+    globalCta,
+    pageDisplay,
+    elementOrder,
+    pageCompactDisplay,
+    pageLayout,
+    cardLayout,
+    pagePromo,
+    pageTrust,
+  ]);
 
   useAdminFormState(
-    view === "list" && adminTab === "page-elements"
-      ? { onSave: savePageElementsSettings }
-      : undefined,
+    view === "list" && adminTab !== "table" ? { onSave: saveCurrentSettingsTab } : undefined,
   );
 
   // ── Media Picker state ────────────────────────────────────────────────────
@@ -665,111 +696,6 @@ export default function ProductManagerApp({
   }, []);
 
   useEffect(() => { void loadProducts(); }, [adminLocaleCode]);
-
-  async function saveGlobalProductCta() {
-    setCtaSaving(true);
-    setCtaFeedback(null);
-    try {
-      const res = await fetch("/api/save-settings", {
-        ...API,
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          locale: adminLocaleCode,
-          key: "productCta",
-          value: serializeProductCtaForSite(globalCta),
-        }),
-      });
-      const json = (await res.json()) as { message?: string; error?: string };
-      if (!res.ok) throw new Error(json.error || "Save failed");
-      setCtaFeedback({
-        kind: "ok",
-        text: json.message ?? "Saved. Refresh the storefront (or restart dev) to pick up site.json changes.",
-      });
-    } catch (e) {
-      setCtaFeedback({ kind: "err", text: e instanceof Error ? e.message : "Save failed" });
-    } finally {
-      setCtaSaving(false);
-    }
-  }
-
-  async function saveProductPageLayoutSettings() {
-    setLayoutSaveBusy(true);
-    setLayoutFeedback(null);
-    try {
-      const res = await fetch("/api/save-settings", {
-        ...API,
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          locale: adminLocaleCode,
-          key: "productCta",
-          value: serializeProductCtaForSite(globalCta),
-        }),
-      });
-      const json = (await res.json()) as { message?: string; error?: string };
-      if (!res.ok) throw new Error(json.error || "Save productCta failed");
-      const res2 = await fetch("/api/save-settings", {
-        ...API,
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          locale: adminLocaleCode,
-          key: "productPageLayout",
-          value: serializeProductPageLayoutForSite(pageLayout),
-        }),
-      });
-      const json2 = (await res2.json()) as { message?: string; error?: string };
-      if (!res2.ok) throw new Error(json2.error || "Save productPageLayout failed");
-      setLayoutFeedback({
-        kind: "ok",
-        text: json2.message ?? "Saved product page layout and CTA appearance. Refresh the storefront to verify.",
-      });
-    } catch (e) {
-      setLayoutFeedback({ kind: "err", text: e instanceof Error ? e.message : "Save failed" });
-    } finally {
-      setLayoutSaveBusy(false);
-    }
-  }
-
-  async function saveProductCardLayoutSettings() {
-    setLayoutSaveBusy(true);
-    setLayoutFeedback(null);
-    try {
-      const res = await fetch("/api/save-settings", {
-        ...API,
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          locale: adminLocaleCode,
-          key: "productCta",
-          value: serializeProductCtaForSite(globalCta),
-        }),
-      });
-      const json = (await res.json()) as { message?: string; error?: string };
-      if (!res.ok) throw new Error(json.error || "Save productCta failed");
-      const res2 = await fetch("/api/save-settings", {
-        ...API,
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          locale: adminLocaleCode,
-          key: "productCardLayout",
-          value: serializeProductCardLayoutForSite(cardLayout),
-        }),
-      });
-      const json2 = (await res2.json()) as { message?: string; error?: string };
-      if (!res2.ok) throw new Error(json2.error || "Save productCardLayout failed");
-      setLayoutFeedback({
-        kind: "ok",
-        text: json2.message ?? "Saved product card layout and CTA appearance. Refresh the storefront to verify.",
-      });
-    } catch (e) {
-      setLayoutFeedback({ kind: "err", text: e instanceof Error ? e.message : "Save failed" });
-    } finally {
-      setLayoutSaveBusy(false);
-    }
-  }
 
   // ── Sync ──────────────────────────────────────────────────────────────────
 
@@ -1099,6 +1025,7 @@ export default function ProductManagerApp({
         >
           {(tab) => (
             <>
+          {tab !== "table" ? <AdminSaveFeedback feedback={layoutFeedback} /> : null}
           {tab === "table" && (
             <>
           <div className="pm-toolbar flex flex-wrap items-center gap-2 mb-4">
@@ -1299,19 +1226,23 @@ export default function ProductManagerApp({
             </>
           )}
 
-          {tab === "cta" && (
-            <>
-              <GlobalStorefrontCtaForm
-                locale={adminLocaleCode}
-                globalCta={globalCta}
-                setGlobalCta={setGlobalCta}
-                globalExternalHint={globalExternalHint}
-                setGlobalExternalHint={setGlobalExternalHint}
-                ctaSaving={ctaSaving}
-                ctaFeedback={ctaFeedback}
-                onSave={() => void saveGlobalProductCta()}
-              />
-            </>
+          {tab === "buy-now" && (
+            <ProductBuyNowSettingsPanel
+              buyNow={globalBuyNow}
+              setBuyNow={setGlobalBuyNow}
+              onDirty={() => markUnsaved()}
+            />
+          )}
+
+          {tab === "quote-cta" && (
+            <ProductQuoteCtaSettingsPanel
+              locale={adminLocaleCode}
+              cta={globalCta}
+              setCta={setGlobalCta}
+              externalHint={globalExternalHint}
+              setExternalHint={setGlobalExternalHint}
+              onDirty={() => markUnsaved()}
+            />
           )}
 
           {tab === "page-elements" && (
@@ -1320,45 +1251,43 @@ export default function ProductManagerApp({
               setPageDisplay={setPageDisplay}
               elementOrder={elementOrder}
               setElementOrder={setElementOrder}
-              addToCart={pageAddToCart}
-              setAddToCart={setPageAddToCart}
-              promo={pagePromo}
-              setPromo={setPagePromo}
-              trust={pageTrust}
-              setTrust={setPageTrust}
               compactDisplay={pageCompactDisplay}
               setCompactDisplay={setPageCompactDisplay}
-              feedback={layoutFeedback}
               onDirty={() => markUnsaved()}
             />
           )}
 
-          {tab === "page-appearance" && (
-            <>
-              <ProductPageAppearancePanel
-                globalCta={globalCta}
-                setGlobalCta={setGlobalCta}
-                pageLayout={pageLayout}
-                setPageLayout={setPageLayout}
-                busy={layoutSaveBusy}
-                feedback={layoutFeedback}
-                onSave={() => void saveProductPageLayoutSettings()}
-              />
-            </>
+          {tab === "page-layout" && (
+            <ProductPageAppearancePanel
+              pageLayout={pageLayout}
+              setPageLayout={setPageLayout}
+              onDirty={() => markUnsaved()}
+            />
           )}
 
           {tab === "card-appearance" && (
-            <>
-              <ProductCardAppearancePanel
-                globalCta={globalCta}
-                setGlobalCta={setGlobalCta}
-                cardLayout={cardLayout}
-                setCardLayout={setCardLayout}
-                busy={layoutSaveBusy}
-                feedback={layoutFeedback}
-                onSave={() => void saveProductCardLayoutSettings()}
-              />
-            </>
+            <ProductCardAppearancePanel
+              cardLayout={cardLayout}
+              setCardLayout={setCardLayout}
+              onDirty={() => markUnsaved()}
+            />
+          )}
+
+          {tab === "promo-banner" && (
+            <ProductPromoSettingsPanel
+              locale={adminLocaleCode}
+              promo={pagePromo}
+              setPromo={setPagePromo}
+              onDirty={() => markUnsaved()}
+            />
+          )}
+
+          {tab === "trust-widget" && (
+            <ProductTrustSettingsPanel
+              trust={pageTrust}
+              setTrust={setPageTrust}
+              onDirty={() => markUnsaved()}
+            />
           )}
             </>
         )}
@@ -1540,34 +1469,23 @@ export default function ProductManagerApp({
                 }
               />
               <fieldset className="apm-fieldset">
-                <legend className="apm-fieldset__legend">Add to cart override</legend>
-                <div className="pm-cta-grid">
-                  <label className="pm-cta-field">
-                    <span>Label</span>
-                    <input
-                      value={active.add_to_cart?.label ?? ""}
-                      placeholder="Inherit global"
-                      onChange={(e) =>
-                        patchActive((prev) => ({
-                          ...prev,
-                          add_to_cart: { ...(prev.add_to_cart ?? {}), label: readControlledInputValue(e) },
-                        }))
-                      }
-                    />
-                  </label>
-                  <label className="pm-cta-field">
-                    <span>Link</span>
-                    <input
-                      value={active.add_to_cart?.href ?? ""}
-                      onChange={(e) =>
-                        patchActive((prev) => ({
-                          ...prev,
-                          add_to_cart: { ...(prev.add_to_cart ?? {}), href: readControlledInputValue(e) },
-                        }))
-                      }
-                    />
-                  </label>
-                </div>
+                <legend className="apm-fieldset__legend">Buy Now slug override</legend>
+                <p className="apm-fieldset__hint">
+                  Optional. Leave empty to use this product&apos;s slug in the global shop URL path.
+                </p>
+                <label className="pm-cta-field pm-span-2">
+                  <span>Shop URL slug segment</span>
+                  <input
+                    value={active.buy_now_slug ?? ""}
+                    placeholder={active.slug || "Inherit product slug"}
+                    onChange={(e) =>
+                      patchActive((prev) => ({
+                        ...prev,
+                        buy_now_slug: readControlledInputValue(e) || undefined,
+                      }))
+                    }
+                  />
+                </label>
               </fieldset>
             </div>
           ) : null)}

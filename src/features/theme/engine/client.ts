@@ -177,7 +177,9 @@ export function applyLiveEffectsFromStorage(
   restorePresetColorsFromStorage(resolvedAppearance);
   const effects = readStoredPresetEffects();
   if (!effects && !readStoredPresetColors()) return null;
-  return buildLiveVisualExperience(site, effects, cursorPreference);
+  const experience = buildLiveVisualExperience(site, effects, cursorPreference);
+  applyVisualEffects(experience);
+  return experience;
 }
 
 export function notifyAppearanceChange(

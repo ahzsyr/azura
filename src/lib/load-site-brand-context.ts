@@ -4,6 +4,8 @@ import { resolveSiteIdentity } from "@/lib/site-identity";
 
 export type SiteBrandContext = {
   brandName: string;
+  brandShort: string;
+  tagline: string;
 };
 
 /** Resolves display brand from theme branding settings, then company / env defaults. */
@@ -13,11 +15,21 @@ export async function loadSiteBrandContext(): Promise<SiteBrandContext> {
     themeService.getPublished(),
   ]);
 
-  const { brandName } = resolveSiteIdentity({
+  const brand = theme?.brandConfig;
+  const identity = resolveSiteIdentity({
     companyName: company?.name,
-    themeBrandName: theme?.brandConfig?.brandName,
-    themeTagline: theme?.brandConfig?.tagline,
+    themeBrandName: brand?.brandName,
+    themeTagline: brand?.tagline,
   });
 
-  return { brandName };
+  const brandShort =
+    brand?.logoText?.trim() ||
+    identity.brandShort ||
+    identity.brandName.slice(0, 2).toUpperCase();
+
+  return {
+    brandName: identity.brandName,
+    brandShort,
+    tagline: identity.tagline,
+  };
 }

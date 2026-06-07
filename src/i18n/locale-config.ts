@@ -13,6 +13,26 @@ export type PublicLocale = {
   isDefault: boolean;
 };
 
+/** Admin dashboard locale (includes formatting for price fields). */
+export type AdminLocale = PublicLocale & {
+  currency: string;
+  numberLocale: string;
+  dateLocale: string;
+};
+
+export const DEFAULT_ADMIN_LOCALE: AdminLocale = {
+  code: "en",
+  urlPrefix: "en",
+  label: "English",
+  htmlLang: "en",
+  dir: "ltr",
+  flag: "🇺🇸",
+  isDefault: true,
+  currency: "USD",
+  numberLocale: "en-US",
+  dateLocale: "en-US",
+};
+
 /** Built-in fallback when DB has no enabled locales */
 export const FALLBACK_LOCALES: PublicLocale[] = [
   {
@@ -23,15 +43,6 @@ export const FALLBACK_LOCALES: PublicLocale[] = [
     dir: "ltr",
     flag: "🇺🇸",
     isDefault: true,
-  },
-  {
-    code: "ar",
-    urlPrefix: "ar",
-    label: "العربية",
-    htmlLang: "ar",
-    dir: "rtl",
-    flag: "🇸🇦",
-    isDefault: false,
   },
 ];
 

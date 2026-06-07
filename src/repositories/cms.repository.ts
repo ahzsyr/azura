@@ -1,3 +1,4 @@
+import { isBuildWithoutDb } from "@/lib/build-db";
 import { prisma } from "@/lib/prisma";
 import type { ContentStatus, Prisma } from "@prisma/client";
 import type { PageBlocks } from "@/types/builder";
@@ -196,17 +197,27 @@ export const cmsRepository = {
     return prisma.postAuthor.delete({ where: { id } });
   },
 
-  publishedPageSlugs() {
-    return prisma.cmsPage.findMany({
-      where: { status: "PUBLISHED" },
-      select: { slug: true },
-    });
+  async publishedPageSlugs() {
+    if (isBuildWithoutDb()) return [];
+    try {
+      return await prisma.cmsPage.findMany({
+        where: { status: "PUBLISHED" },
+        select: { slug: true },
+      });
+    } catch {
+      return [];
+    }
   },
 
-  publishedPostSlugs() {
-    return prisma.post.findMany({
-      where: { status: "PUBLISHED" },
-      select: { slug: true },
-    });
+  async publishedPostSlugs() {
+    if (isBuildWithoutDb()) return [];
+    try {
+      return await prisma.post.findMany({
+        where: { status: "PUBLISHED" },
+        select: { slug: true },
+      });
+    } catch {
+      return [];
+    }
   },
 };

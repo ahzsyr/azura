@@ -7,12 +7,14 @@ import {
   clearCompareList,
   removeFromCompareList,
 } from "@/features/comparison/comparison-store";
+import { compareHubPath } from "@/features/comparison/comparison-route-resolver";
 
 type Props = {
   contentTypeSlug: string;
   itemIds: string[];
   meta: ComparableTypeMeta | undefined;
   locale: string;
+  totalBuckets: number;
   labels: {
     compareNow: string;
     remove: string;
@@ -28,6 +30,7 @@ export function ComparisonDrawerBucket({
   itemIds,
   meta,
   locale,
+  totalBuckets,
   labels,
   onClose,
   onStoreChange,
@@ -43,8 +46,11 @@ export function ComparisonDrawerBucket({
 
   const listPrefix = meta?.routePrefix ?? contentTypeSlug;
   const listHref = `/${locale}/${listPrefix}`;
-  const apiSegment = listPrefix;
-  const compareHref = `/${locale}/compare/${apiSegment}`;
+  const apiSegment = contentTypeSlug;
+  const compareHref =
+    totalBuckets > 1
+      ? compareHubPath(locale, contentTypeSlug)
+      : `/${locale}/compare/${apiSegment}`;
 
   const loadItems = useCallback(async () => {
     if (itemIds.length === 0) {

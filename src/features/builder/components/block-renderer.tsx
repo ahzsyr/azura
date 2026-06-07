@@ -6,21 +6,26 @@ import type { BlockNode, PageBlocks } from "@/types/builder";
 import type { ResolvedHeaderOverlay } from "@/features/navigation/types";
 import { cn } from "@/lib/utils";
 import {
-  getPublishedPackages,
   getFaqSetBySlug,
   getGalleryBySlug,
   resolveTestimonialsForBlock,
 } from "@/lib/data";
 import { TestimonialsSection } from "@/components/marketing/testimonials-section";
-import { PackageCard } from "@/components/packages/package-card";
 import { CatalogBlockRenderer } from "@/features/catalog/components/catalog-block-renderer";
 import { getBlockSettings } from "@/features/builder/instance/block-instance";
 import { migrateBlocksToBlockSystem } from "@/features/builder/migration/upgrade-blocks";
 import { BlockWrapper } from "@/features/builder/components/block-wrapper";
 import { ContentListBlockRenderer } from "@/features/content/components/content-list-block-renderer";
 import { mergeDisplaySettings } from "@/schemas/catalog/display-settings";
+import { resolveContentOverflowCssFlags } from "@/features/builder/styles/content-overflow-resolver";
+import { resolveOverflowContextForBlock } from "@/features/builder/lib/block-overflow-context";
+import type { BlockOverflowContext } from "@/features/builder/components/marketing-items-overflow";
+import type { DeviceBreakpoint } from "@/types/block-system";
+import { FaqItemsOverflow } from "@/features/builder/components/faq-items-overflow";
+import { GalleryItemsOverflow } from "@/features/builder/components/gallery-items-overflow";
 import { FAQAccordion } from "@/components/marketing/faq-accordion";
 import { Section, SectionHeader } from "@/components/marketing/section";
+import { RowSectionView } from "@/features/builder/components/row-section-view";
 import { GalleryBlockGrid } from "@/components/marketing/gallery-block-grid";
 import { InquiryForm } from "@/components/forms/inquiry-form";
 import { getLocalizedField } from "@/lib/utils";
@@ -40,8 +45,77 @@ import type { TranslationBundle } from "@/features/translation/translation-bundl
 import { getBlockTranslationsFromBundle } from "@/features/translation/translation-bundle";
 import type { ThemeTokens } from "@/types/theme";
 import { resolveBlockHeadingTextEffect } from "@/features/theme/visual-experience-resolver";
-import { HeroAtmosphere } from "@/components/marketing/hero-atmosphere";
-import { presetHeroGradientClass } from "@/lib/theme/preset-surface-classes";
+import {
+  hasActiveBlockVisualBackground,
+  resolveMarketingBackgroundType,
+} from "@/features/builder/components/block-style-utils";
+import {
+  AdvancedRichTextView,
+  CodeBlockView,
+  MarkdownContent,
+  TableBlockIsland,
+  TimelineBlockView,
+} from "@/features/content-blocks/views";
+import {
+  ChangelogBlockRenderer,
+  ComparisonBlockRenderer,
+} from "@/features/content-blocks/renderers";
+import {
+  ProductGridBlockRenderer,
+  ProductCarouselBlockRenderer,
+  ProductComparisonBlockRenderer,
+  ProductSpecificationsBlockRenderer,
+  ProductReviewsBlockRenderer,
+  ProductFaqBlockRenderer,
+  RelatedProductsBlockRenderer,
+} from "@/features/product-blocks/renderers";
+import {
+  SearchBlockRenderer,
+  AdvancedFiltersBlockRenderer,
+  CategoryExplorerBlockRenderer,
+  RelatedContentBlockRenderer,
+  RecentlyViewedBlockRenderer,
+} from "@/features/discovery-blocks/renderers";
+import {
+  VideoHeroBlockRenderer,
+  VideoGalleryBlockRenderer,
+  InteractiveHotspotsBlockRenderer,
+  MasonryGalleryBlockRenderer,
+} from "@/features/media-blocks/renderers";
+import type { DiscoveryAnchorContext } from "@/features/discovery-blocks/lib/recently-viewed.types";
+import {
+  StickyCtaBlockRenderer,
+  LeadFormBlockRenderer,
+  ContactFormBuilderBlockRenderer,
+  MultiStepFormBlockRenderer,
+  NewsletterSignupBlockRenderer,
+  DownloadGateBlockRenderer,
+} from "@/features/conversion-blocks/renderers";
+import {
+  PricingCalculatorBlockRenderer,
+  KnowledgeBaseBlockRenderer,
+  DocumentationNavBlockRenderer,
+  StatusDashboardBlockRenderer,
+  TeamDirectoryBlockRenderer,
+  PartnerDirectoryBlockRenderer,
+  PricingTableBlockRenderer,
+} from "@/features/portal-blocks/renderers";
+import {
+  HeroProView,
+  CtaBannerView,
+  FeatureGridView,
+  BenefitsGridView,
+  TrustBadgesView,
+  LogoCloudView,
+  StatsCounterView,
+  BeforeAfterView,
+} from "@/features/marketing-blocks/views";
+import type {
+  GridItem,
+  TrustBadgeItem,
+  LogoItem,
+  StatItem,
+} from "@/features/marketing-blocks/schemas/marketing-blocks";
 
 type Props = {
   blocks: PageBlocks;
@@ -55,6 +129,9 @@ type Props = {
   theme?: ThemeTokens | null;
   siteTextEffect?: string | null;
   pageAnimationsEnabled?: boolean;
+  discoveryAnchor?: DiscoveryAnchorContext | null;
+  /** Builder device preview — applies per-device overflow layout */
+  previewDevice?: DeviceBreakpoint;
 };
 
 type RenderContext = {
@@ -66,9 +143,11 @@ type RenderContext = {
   theme?: ThemeTokens | null;
   siteTextEffect?: string | null;
   pageAnimationsEnabled?: boolean;
+  discoveryAnchor?: DiscoveryAnchorContext | null;
   tGallery: Awaited<ReturnType<typeof getTranslations>>;
   tPackages: Awaited<ReturnType<typeof getTranslations>>;
   tTestimonials: Awaited<ReturnType<typeof getTranslations>>;
+  previewDevice?: DeviceBreakpoint;
 };
 
 function blockLoc(
@@ -112,65 +191,66 @@ async function renderBlockContent(
     block.visual,
     options?.siteTextEffect ?? ctx.siteTextEffect ?? null,
   );
+  const overflow = resolveOverflowContextForBlock(block, ctx.previewDevice);
 
   switch (block.type) {
     case "hero": {
       const hasHeroImage = Boolean(p.imageUrl);
       const siteBgEffect =
         ctx.theme?.backgroundEffectEnabled !== false && ctx.theme?.backgroundEffect;
-      const useTransparentHero = !hasHeroImage && Boolean(siteBgEffect);
+      const bgType = (p.backgroundType as string) ?? (hasHeroImage ? "image" : "transparent");
+      const useTransparentHero = bgType === "transparent" && !hasHeroImage && Boolean(siteBgEffect);
+      const secondaryLabel = loc("secondaryCtaLabel");
       return (
-        <section
-          data-block-type="hero"
-          className={cn(
-            "relative min-h-[50vh] flex items-center justify-center overflow-hidden",
-            useTransparentHero ? "hero-overlay--transparent" : "hero-overlay",
-            useTransparentHero && presetHeroGradientClass(),
-            hasHeroImage ? "text-white" : "text-foreground",
-            overlayClass,
-          )}
-        >
-          <HeroAtmosphere showGlow={!useTransparentHero || hasHeroImage} />
-          {hasHeroImage && (
-            <Image
-              src={p.imageUrl as string}
-              alt=""
-              fill
-              className="object-cover -z-10"
-              priority={!lazyLoad}
-              loading={lazyLoad ? "lazy" : undefined}
-            />
-          )}
-          <div className="container-premium relative z-10 text-center py-20">
-            <h1
-              className="font-heading text-4xl md:text-5xl font-bold"
-              data-hero-title
-              data-text-effect-target="heading"
-              {...(headingEffect ? { "data-text-effect": headingEffect } : {})}
-            >
-              {loc("title")}
-            </h1>
-            {loc("subtitle") && (
-              <p className="mt-4 text-lg text-muted-foreground">{loc("subtitle")}</p>
-            )}
-            {typeof p.ctaHref === "string" && p.ctaHref && (
-              <Button asChild className="mt-8" size="lg">
-                <Link href={p.ctaHref}>{loc("ctaLabel") || "Learn more"}</Link>
-              </Button>
-            )}
-          </div>
-        </section>
+        <HeroProView
+          title={loc("title")}
+          subtitle={loc("subtitle") || undefined}
+          badge={loc("badge") || undefined}
+          imageUrl={(p.imageUrl as string) || undefined}
+          foregroundImageUrl={(p.foregroundImageUrl as string) || undefined}
+          videoUrl={(p.videoUrl as string) || undefined}
+          backgroundType={useTransparentHero ? "transparent" : bgType}
+          layout={(p.layout as string) ?? "centered"}
+          align={(p.align as string) ?? "center"}
+          minHeight={(p.minHeight as string) ?? "70vh"}
+          overlayOpacity={Number(p.overlayOpacity ?? 60)}
+          primaryCta={
+            loc("ctaLabel") && p.ctaHref
+              ? { label: loc("ctaLabel"), href: p.ctaHref as string }
+              : undefined
+          }
+          secondaryCta={
+            secondaryLabel && p.secondaryCtaHref
+              ? {
+                  label: secondaryLabel,
+                  href: p.secondaryCtaHref as string,
+                  variant: (p.secondaryCtaVariant as "outline" | "ghost" | "gold") ?? "outline",
+                }
+              : undefined
+          }
+          headingEffect={headingEffect}
+          overlayClass={overlayClass}
+          lazyLoad={lazyLoad}
+          useTransparentHero={useTransparentHero}
+        />
       );
     }
 
-    case "text":
+    case "text": {
+      const content = loc("content") || "";
+      const looksLikeHtml = /<[a-z][\s\S]*>/i.test(content);
       return (
-        <Section>
-          <div className="prose max-w-none mx-auto">
-            <p className="text-lg text-muted-foreground whitespace-pre-wrap">{loc("content")}</p>
+        <Section suppressAtmosphere variant="solid">
+          <div className="prose prose-zinc max-w-none mx-auto dark:prose-invert">
+            {looksLikeHtml ? (
+              <div className="text-lg leading-relaxed text-muted-foreground" dangerouslySetInnerHTML={{ __html: content }} />
+            ) : (
+              <p className="text-lg text-muted-foreground whitespace-pre-wrap">{content}</p>
+            )}
           </div>
         </Section>
       );
+    }
 
     case "gallery": {
       const slug = (p.gallerySlug as string) || "";
@@ -195,7 +275,25 @@ async function renderBlockContent(
         <Section>
           {sectionTitle && <SectionHeader title={sectionTitle} />}
           <div className={sectionTitle ? "mt-8" : undefined}>
-            <GalleryBlockGrid media={media} columns={cols} locale={locale} lazyLoad={lazyLoad} />
+            {overflow ? (
+              <GalleryItemsOverflow
+                media={media}
+                columns={cols}
+                locale={locale}
+                lazyLoad={lazyLoad}
+                variant={(p.variant as "grid" | "masonry") ?? "grid"}
+                block={block}
+                overflow={overflow}
+              />
+            ) : (
+              <GalleryBlockGrid
+                media={media}
+                columns={cols}
+                locale={locale}
+                lazyLoad={lazyLoad}
+                variant={(p.variant as "grid" | "masonry") ?? "grid"}
+              />
+            )}
           </div>
           {p.showViewAllLink !== false && slug && (
             <div className="mt-8 text-center">
@@ -208,22 +306,16 @@ async function renderBlockContent(
       );
     }
 
-    case "pricing": {
-      const packages = await getPublishedPackages((p.packageCategorySlug as string) || undefined);
-      const limit = (p.limit as number) ?? 3;
-      const featuredOnly = Boolean(p.showFeaturedOnly);
-      const filtered = (featuredOnly ? packages.filter((x) => x.isFeatured) : packages).slice(0, limit);
+    case "pricing":
       return (
-        <Section>
-          <SectionHeader title={loc("title") || ctx.tPackages("pricing")} />
-          <div className="grid gap-6 mt-8 md:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((pkg) => (
-              <PackageCard key={pkg.id} pkg={pkg} locale={locale} />
-            ))}
-          </div>
-        </Section>
+        <PricingTableBlockRenderer
+          locale={locale}
+          props={p}
+          loc={loc}
+          block={block}
+          overflow={overflow}
+        />
       );
-    }
 
     case "image": {
       const url = (p.url as string) || "";
@@ -264,6 +356,8 @@ async function renderBlockContent(
             viewAllHref={(p.viewAllHref as string) || undefined}
             emptyMessage={loc("emptyMessage") || undefined}
             previewMode={previewMode}
+            block={block}
+            previewDevice={ctx.previewDevice}
           />
         </Section>
       );
@@ -272,7 +366,13 @@ async function renderBlockContent(
     case "contentList":
       return (
         <Section>
-          <ContentListBlockRenderer locale={locale} props={p} previewMode={previewMode} />
+          <ContentListBlockRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            block={block}
+            previewDevice={ctx.previewDevice}
+          />
         </Section>
       );
 
@@ -307,6 +407,8 @@ async function renderBlockContent(
               autoplay={Boolean(p.autoplay)}
               autoplayIntervalMs={Number(p.autoplayIntervalMs ?? 5000)}
               showViewAllLink={p.showViewAllLink !== false}
+              block={block}
+              overflow={overflow}
             />
           </div>
         </Section>
@@ -323,27 +425,161 @@ async function renderBlockContent(
       return (
         <Section>
           {Boolean(p.titleEn || p.titleAr) && <SectionHeader title={loc("title")} />}
-          <FAQAccordion faqs={faqs} locale={locale} />
+          {overflow ? (
+            <FaqItemsOverflow faqs={faqs} locale={locale} block={block} overflow={overflow} />
+          ) : (
+            <FAQAccordion faqs={faqs} locale={locale} />
+          )}
         </Section>
       );
     }
 
-    case "cta":
+    case "cta": {
+      const useBlockVisualBg = hasActiveBlockVisualBackground(block);
       return (
-        <Section className="bg-primary/5">
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="font-heading text-3xl font-bold">{loc("title")}</h2>
-            <Button asChild className="mt-6" size="lg">
-              <Link href={(p.href as string) || "/contact"}>{loc("button")}</Link>
-            </Button>
-          </div>
+        <Section suppressAtmosphere={useBlockVisualBg}>
+          <CtaBannerView
+            title={loc("title")}
+            subtitle={loc("subtitle") || undefined}
+            promoBadge={loc("promoBadge") || undefined}
+            promoText={loc("promoText") || undefined}
+            layout={(p.layout as string) ?? "centered"}
+            size={(p.size as string) ?? "default"}
+            backgroundType={resolveMarketingBackgroundType(
+              block,
+              p.backgroundType as string | undefined
+            )}
+            backgroundImageUrl={(p.backgroundImageUrl as string) || undefined}
+            backgroundVideoUrl={(p.backgroundVideoUrl as string) || undefined}
+            backgroundColor={(p.backgroundColor as string) || undefined}
+            primaryButton={
+              loc("button")
+                ? { label: loc("button"), href: (p.href as string) || "/contact" }
+                : undefined
+            }
+            secondaryButton={
+              loc("secondaryButton") && p.secondaryHref
+                ? { label: loc("secondaryButton"), href: p.secondaryHref as string }
+                : undefined
+            }
+            countdownEnabled={Boolean(p.countdownEnabled)}
+            countdownTarget={(p.countdownTarget as string) || undefined}
+            countdownLabel={loc("countdownLabel") || undefined}
+          />
+        </Section>
+      );
+    }
+
+    case "featureGrid":
+      return (
+        <Section>
+          <FeatureGridView
+            title={loc("title") || undefined}
+            subtitle={loc("subtitle") || undefined}
+            columns={(p.columns as 2 | 3 | 4) ?? 3}
+            cardVariant={(p.cardVariant as "default" | "bordered" | "elevated" | "iconTop") ?? "default"}
+            showCategories={Boolean(p.showCategories)}
+            items={(p.items as GridItem[]) ?? []}
+            locale={locale}
+            block={block}
+            overflow={overflow}
+          />
+        </Section>
+      );
+
+    case "benefitsGrid":
+      return (
+        <Section>
+          <BenefitsGridView
+            title={loc("title") || undefined}
+            subtitle={loc("subtitle") || undefined}
+            layout={(p.layout as "cards" | "list" | "numbered" | "twoColumn") ?? "cards"}
+            emphasis={(p.emphasis as "outcome" | "metric") ?? "outcome"}
+            items={(p.items as GridItem[]) ?? []}
+            locale={locale}
+            block={block}
+            overflow={overflow}
+          />
+        </Section>
+      );
+
+    case "trustBadges":
+      return (
+        <Section>
+          <TrustBadgesView
+            title={loc("title") || undefined}
+            subtitle={loc("subtitle") || undefined}
+            layout={(p.layout as "grid" | "inlineStrip" | "compactRow") ?? "grid"}
+            registrationNo={(p.registrationNo as string) || undefined}
+            items={(p.items as TrustBadgeItem[]) ?? []}
+            locale={locale}
+            block={block}
+            overflow={overflow}
+          />
+        </Section>
+      );
+
+    case "logoCloud":
+      return (
+        <Section>
+          <LogoCloudView
+            title={loc("title") || undefined}
+            subtitle={loc("subtitle") || undefined}
+            displayMode={(p.displayMode as "grid" | "carousel" | "marquee") ?? "grid"}
+            columns={(p.columns as 3 | 4 | 5 | 6) ?? 5}
+            grayscale={p.grayscale !== false}
+            grayscaleHover={p.grayscaleHover !== false}
+            autoplay={p.autoplay !== false}
+            autoplayIntervalMs={Number(p.autoplayIntervalMs ?? 4000)}
+            logoSize={(p.logoSize as "sm" | "md" | "lg") ?? "md"}
+            groupByCategory={Boolean(p.groupByCategory)}
+            items={(p.items as LogoItem[]) ?? []}
+            locale={locale}
+            block={block}
+            overflow={overflow}
+          />
+        </Section>
+      );
+
+    case "statsCounter":
+      return (
+        <Section>
+          <StatsCounterView
+            title={loc("title") || undefined}
+            subtitle={loc("subtitle") || undefined}
+            layout={(p.layout as "row" | "grid" | "featuredCenter") ?? "grid"}
+            animateOnView={p.animateOnView !== false}
+            items={(p.items as StatItem[]) ?? []}
+            locale={locale}
+            block={block}
+            overflow={overflow}
+          />
+        </Section>
+      );
+
+    case "beforeAfter":
+      return (
+        <Section>
+          <BeforeAfterView
+            title={loc("title") || undefined}
+            subtitle={loc("subtitle") || undefined}
+            layout={(p.layout as "slider" | "sideBySide" | "stacked" | "overlay") ?? "slider"}
+            beforeLabel={loc("beforeLabel") || undefined}
+            afterLabel={loc("afterLabel") || undefined}
+            beforeImageUrl={(p.beforeImageUrl as string) || undefined}
+            afterImageUrl={(p.afterImageUrl as string) || undefined}
+            sliderPosition={Number(p.sliderPosition ?? 50)}
+            showLabels={p.showLabels !== false}
+          />
         </Section>
       );
 
     case "inquiryForm":
       return (
-        <Section>
-          {loc("title") ? <SectionHeader title={loc("title")} align="start" /> : null}
+        <Section suppressAtmosphere variant="solid">
+          {loc("title") ? (
+            <SectionHeader title={loc("title")} align="start" siteTextEffect={ctx.siteTextEffect} />
+          ) : null}
           <div className="mx-auto max-w-lg">
             <InquiryForm
               locale={locale}
@@ -358,6 +594,362 @@ async function renderBlockContent(
       return (
         <Section>
           <div className="prose max-w-none mx-auto" dangerouslySetInnerHTML={{ __html: loc("html") || "" }} />
+        </Section>
+      );
+
+    case "advancedRichText":
+      return (
+        <Section>
+          <AdvancedRichTextView
+            html={loc("html") || (locale.startsWith("ar") ? (p.htmlAr as string) : (p.htmlEn as string)) || ""}
+            maxWidth={(p.maxWidth as "full" | "contained" | "narrow" | "reading") ?? "reading"}
+            prose={p.prose !== false}
+          />
+        </Section>
+      );
+
+    case "markdown":
+      return (
+        <Section>
+          <MarkdownContent
+            source={loc("markdown") || (locale.startsWith("ar") ? (p.markdownAr as string) : (p.markdownEn as string)) || ""}
+            allowGfm={p.allowGfm !== false}
+            prose={p.prose !== false}
+          />
+        </Section>
+      );
+
+    case "code":
+      return (
+        <Section>
+          <CodeBlockView
+            code={(p.code as string) ?? ""}
+            language={(p.language as string) ?? "typescript"}
+            title={loc("title") || undefined}
+            showLineNumbers={p.showLineNumbers !== false}
+            showCopyButton={p.showCopyButton !== false}
+            highlightLines={(p.highlightLines as number[]) ?? []}
+          />
+        </Section>
+      );
+
+    case "table":
+      return (
+        <Section>
+          <TableBlockIsland
+            title={loc("title") || undefined}
+            columns={
+              (p.columns as {
+                id: string;
+                labelEn: string;
+                labelAr: string;
+                sortable: boolean;
+              }[]) ?? []
+            }
+            rows={(p.rows as { id: string; cells: Record<string, string> }[]) ?? []}
+            features={
+              (p.features as {
+                sortable: boolean;
+                filterable: boolean;
+                searchable: boolean;
+                paginated: boolean;
+                pageSize: number;
+              }) ?? {
+                sortable: true,
+                filterable: false,
+                searchable: true,
+                paginated: false,
+                pageSize: 10,
+              }
+            }
+            striped={p.striped !== false}
+            compact={Boolean(p.compact)}
+            locale={locale}
+          />
+        </Section>
+      );
+
+    case "timeline":
+      return (
+        <Section>
+          <TimelineBlockView
+            title={loc("title") || undefined}
+            layout={(p.layout as "vertical" | "horizontal" | "alternating") ?? "vertical"}
+            block={block}
+            overflow={overflow}
+            items={
+              (p.items as {
+                id: string;
+                date: string;
+                titleEn: string;
+                titleAr: string;
+                descriptionEn: string;
+                descriptionAr: string;
+                icon: string;
+                imageUrl: string;
+                categoryEn: string;
+                categoryAr: string;
+              }[]) ?? []
+            }
+            locale={locale}
+          />
+        </Section>
+      );
+
+    case "changelog":
+      return (
+        <Section>
+          <ChangelogBlockRenderer locale={locale} props={p} loc={loc} block={block} overflow={overflow} />
+        </Section>
+      );
+
+    case "productGrid":
+      return (
+        <Section>
+          <ProductGridBlockRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            block={block}
+            previewDevice={ctx.previewDevice}
+          />
+        </Section>
+      );
+
+    case "productCarousel":
+      return (
+        <Section>
+          <ProductCarouselBlockRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            block={block}
+            previewDevice={ctx.previewDevice}
+          />
+        </Section>
+      );
+
+    case "productComparison":
+      return (
+        <Section>
+          <ProductComparisonBlockRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            block={block}
+            overflow={overflow}
+          />
+        </Section>
+      );
+
+    case "productSpecifications":
+      return (
+        <Section>
+          <ProductSpecificationsBlockRenderer locale={locale} props={p} previewMode={previewMode} />
+        </Section>
+      );
+
+    case "productReviews":
+      return (
+        <Section>
+          <ProductReviewsBlockRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            block={block}
+            overflow={overflow}
+          />
+        </Section>
+      );
+
+    case "productFaq":
+      return (
+        <Section>
+          <ProductFaqBlockRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            block={block}
+            overflow={overflow}
+          />
+        </Section>
+      );
+
+    case "relatedProducts":
+      return (
+        <Section>
+          <RelatedProductsBlockRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            block={block}
+            previewDevice={ctx.previewDevice}
+          />
+        </Section>
+      );
+
+    case "searchBlock":
+      return (
+        <Section>
+          <SearchBlockRenderer locale={locale} props={p} previewMode={previewMode} />
+        </Section>
+      );
+
+    case "advancedFilters":
+      return (
+        <Section>
+          <AdvancedFiltersBlockRenderer locale={locale} props={p} />
+        </Section>
+      );
+
+    case "categoryExplorer":
+      return (
+        <Section>
+          <CategoryExplorerBlockRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            block={block}
+            overflow={overflow}
+          />
+        </Section>
+      );
+
+    case "relatedContent":
+      return (
+        <Section>
+          <RelatedContentBlockRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            discoveryAnchor={ctx.discoveryAnchor}
+            block={block}
+            overflow={overflow}
+          />
+        </Section>
+      );
+
+    case "recentlyViewed":
+      return (
+        <Section>
+          <RecentlyViewedBlockRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            block={block}
+            overflow={overflow}
+          />
+        </Section>
+      );
+
+    case "videoHero":
+      return <VideoHeroBlockRenderer locale={locale} props={p} overlayClass={overlayClass} />;
+
+    case "videoGallery":
+      return (
+        <Section>
+          <VideoGalleryBlockRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            block={block}
+            overflow={overflow}
+          />
+        </Section>
+      );
+
+    case "interactiveHotspots":
+      return (
+        <Section>
+          <InteractiveHotspotsBlockRenderer locale={locale} props={p} previewMode={previewMode} />
+        </Section>
+      );
+
+    case "masonryGallery":
+      return (
+        <Section>
+          <MasonryGalleryBlockRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            block={block}
+            overflow={overflow}
+          />
+        </Section>
+      );
+
+    case "stickyCta":
+      return <StickyCtaBlockRenderer locale={locale} props={p} loc={loc} />;
+
+    case "leadForm":
+      return (
+        <LeadFormBlockRenderer locale={locale} props={p} blockId={block.id} loc={loc} />
+      );
+
+    case "contactFormBuilder":
+      return (
+        <ContactFormBuilderBlockRenderer locale={locale} props={p} blockId={block.id} loc={loc} />
+      );
+
+    case "multiStepForm":
+      return (
+        <MultiStepFormBlockRenderer locale={locale} props={p} blockId={block.id} loc={loc} />
+      );
+
+    case "newsletterSignup":
+      return (
+        <NewsletterSignupBlockRenderer locale={locale} props={p} blockId={block.id} loc={loc} />
+      );
+
+    case "downloadGate":
+      return (
+        <DownloadGateBlockRenderer locale={locale} props={p} blockId={block.id} loc={loc} />
+      );
+
+    case "pricingCalculator":
+      return <PricingCalculatorBlockRenderer locale={locale} props={p} loc={loc} />;
+
+    case "knowledgeBase":
+      return <KnowledgeBaseBlockRenderer locale={locale} props={p} loc={loc} />;
+
+    case "documentationNav":
+      return <DocumentationNavBlockRenderer locale={locale} props={p} loc={loc} />;
+
+    case "statusDashboard":
+      return <StatusDashboardBlockRenderer locale={locale} props={p} loc={loc} />;
+
+    case "teamDirectory":
+      return <TeamDirectoryBlockRenderer locale={locale} props={p} loc={loc} />;
+
+    case "partnerDirectory":
+      return <PartnerDirectoryBlockRenderer locale={locale} props={p} loc={loc} />;
+
+    case "comparison":
+      return (
+        <Section>
+          <ComparisonBlockRenderer
+            locale={locale}
+            title={loc("title") || undefined}
+            source={(p.source as "manual" | "contentType" | "catalog") ?? "manual"}
+            layout={(p.layout as "table" | "cards" | "sideBySide") ?? "table"}
+            highlightDifferences={p.highlightDifferences !== false}
+            columns={
+              (p.columns as {
+                id: string;
+                labelEn: string;
+                labelAr: string;
+                highlighted: boolean;
+              }[]) ?? []
+            }
+            rows={(p.rows as { id: string; labelEn: string; labelAr: string; values: Record<string, string | boolean> }[]) ?? []}
+            contentTypeSlug={(p.contentTypeSlug as string) ?? ""}
+            itemIds={(p.itemIds as string[]) ?? []}
+            catalogSource={(p.catalogSource as "packages" | "hotels" | "services") ?? "packages"}
+            attributeKeys={(p.attributeKeys as string[]) ?? []}
+            previewMode={previewMode}
+            block={block}
+            overflow={overflow}
+          />
         </Section>
       );
 
@@ -402,6 +994,31 @@ async function renderBlockContent(
         </Section>
       );
 
+    case "rowSection": {
+      const maxColumns = (p.maxColumns as number) ?? 2;
+      const visibleChildren = (block.children ?? []).slice(0, maxColumns);
+      return (
+        <Section
+          variant={sectionVariant(p.background)}
+          className={sectionPaddingClass(p.padding)}
+        >
+          <RowSectionView
+            maxColumns={maxColumns}
+            columnLayout={(p.columnLayout as string) ?? "equal"}
+            gap={(p.gap as string) ?? "md"}
+            stackOnMobile={(p.stackOnMobile as boolean) ?? true}
+            verticalAlign={(p.verticalAlign as string) ?? "stretch"}
+          >
+            {visibleChildren.map((child) => (
+              <div key={child.id} className="row-section-grid__cell min-w-0">
+                <RenderBlock block={child} ctx={ctx} />
+              </div>
+            ))}
+          </RowSectionView>
+        </Section>
+      );
+    }
+
     default:
       return null;
   }
@@ -430,10 +1047,11 @@ async function RenderBlock({
       block={block}
       ctx={{
         locale: ctx.locale,
-        device: "desktop",
+        device: ctx.previewDevice ?? "desktop",
         theme: ctx.theme ?? undefined,
         siteTextEffect: ctx.siteTextEffect,
         pageAnimationsEnabled: ctx.pageAnimationsEnabled,
+        previewMode: ctx.previewMode,
       }}
       firstBlockOverlayActive={isFirstBlock && firstBlockOverlayActive}
       blockIndex={blockIndex}
@@ -455,6 +1073,8 @@ export async function BlockRenderer({
   theme = null,
   siteTextEffect = null,
   pageAnimationsEnabled,
+  discoveryAnchor = null,
+  previewDevice,
 }: Props) {
   const { blocks: migrated } = migrateBlocksToBlockSystem(blocks ?? []);
   if (!migrated.length) return null;
@@ -487,9 +1107,11 @@ export async function BlockRenderer({
     theme,
     siteTextEffect,
     pageAnimationsEnabled,
+    discoveryAnchor,
     tGallery,
     tPackages,
     tTestimonials,
+    previewDevice,
   };
 
   const overlayActive = Boolean(pageHeaderOverlay?.enabled);

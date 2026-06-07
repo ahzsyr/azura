@@ -17,6 +17,8 @@ import { SearchInputShell } from "@/features/search/components/search-ui/search-
 import { SearchPageSkeleton } from "@/features/search/components/search-ui/search-skeleton";
 import { SearchThemeRoot } from "@/features/search/components/search-ui/search-theme-root";
 import { trackSearchAnalytics } from "@/features/search/analytics/search-analytics.client";
+import { useGlobalSearch } from "@/features/search/hooks/use-global-search";
+import { SearchFilterChips } from "@/features/search/components/search-ui/search-filter-chips";
 
 type SearchHit = {
   id: string;
@@ -42,12 +44,40 @@ export function SearchPageView({ config }: Props) {
   const locale = useLocale() as SearchLocale;
   const searchParams = useSearchParams();
   const initialQ = searchParams.get("q") ?? "";
+
+  const discoverySearch = useGlobalSearch({
+    apiBase: "/api/search",
+    discoveryUrl: "/api/search/discovery",
+    locale,
+    config,
+    active: true,
+  });
+
   const [query, setQuery] = useState(initialQ);
   const [results, setResults] = useState<SearchHit[]>([]);
   const [pagination, setPagination] = useState<PaginationMeta | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const t = searchCopy(locale);
+
+  const facetsQuery = useMemo(() => {
+    const keys = Object.keys(discoverySearch.activeFacetFilters);
+    if (!keys.length) return "";
+    const payload: Record<string, string[]> = {};
+    for (const [k, v] of Object.entries(discoverySearch.activeFacetFilters)) {
+      if (v.length) payload[k] = v;
+    }
+    if (!Object.keys(payload).length) return "";
+    return `&facets=${encodeURIComponent(JSON.stringify(payload))}`;
+  }, [discoverySearch.activeFacetFilters]);
+
+  const typesQuery = useMemo(
+    () =>
+      discoverySearch.activeTypes.length
+        ? `&types=${discoverySearch.activeTypes.join(",")}`
+        : "",
+    [discoverySearch.activeTypes]
+  );
 
   const fetchPage = useCallback(
     async (q: string, offset: number, append: boolean) => {
@@ -60,7 +90,7 @@ export function SearchPageView({ config }: Props) {
       else setLoading(true);
       try {
         const res = await fetch(
-          `/api/search?q=${encodeURIComponent(q)}&locale=${locale}&limit=${config.resultsPerPage}&offset=${offset}`
+          `/api/search?q=${encodeURIComponent(q)}&locale=${locale}&limit=${config.resultsPerPage}&offset=${offset}${typesQuery}${facetsQuery}`
         );
         const data = await res.json();
         const hits = (data.results ?? []) as SearchHit[];
@@ -94,7 +124,7 @@ export function SearchPageView({ config }: Props) {
         setLoadingMore(false);
       }
     },
-    [config.minQueryLength, config.resultsPerPage, locale]
+    [config.minQueryLength, config.resultsPerPage, locale, typesQuery, facetsQuery]
   );
 
   const runSearch = useCallback(
@@ -165,6 +195,62 @@ export function SearchPageView({ config }: Props) {
             </p>
           </div>
         </header>
+
+        {(config.showEntityTypeChips !== false ||
+          discoverySearch.enabledFilters.some((f) =>
+            discoverySearch.facetValueOptions.get(f.id)?.size
+          )) && (
+          <div className="mb-6 space-y-3">
+            {config.showEntityTypeChips !== false ? (
+              <SearchFilterChips
+                chips={[
+                  {
+                    id: "all",
+                    label: t.all,
+                    active: discoverySearch.activeTypes.length === 0,
+                    onClick: () => discoverySearch.setActiveTypes([]),
+                  },
+                  ...discoverySearch.filterEntityTypes.map((type) => ({
+                    id: type,
+                    label: discoverySearch.entityLabel(type),
+                    active: discoverySearch.activeTypes.includes(type),
+                    onClick: () =>
+                      discoverySearch.setActiveTypes((prev) =>
+                        prev.includes(type)
+                          ? prev.filter((x) => x !== type)
+                          : [...prev, type]
+                      ),
+                  })),
+                ]}
+              />
+            ) : null}
+            {discoverySearch.enabledFilters
+              .filter((f) => f.id !== "contentType")
+              .map((filter) => {
+                const options = discoverySearch.facetValueOptions.get(filter.id);
+                if (!options?.size) return null;
+                const label =
+                  locale === "ar" && filter.labelAr ? filter.labelAr : filter.labelEn;
+                return (
+                  <div key={filter.id} className="space-y-1.5">
+                    <span className="text-[0.65rem] font-semibold uppercase tracking-wider text-muted-foreground">
+                      {label}
+                    </span>
+                    <SearchFilterChips
+                      chips={[...options].slice(0, 12).map((value) => ({
+                        id: `${filter.id}-${value}`,
+                        label: value,
+                        active: (discoverySearch.activeFacetFilters[filter.id] ?? []).includes(
+                          value
+                        ),
+                        onClick: () => discoverySearch.toggleFacetValue(filter.id, value),
+                      }))}
+                    />
+                  </div>
+                );
+              })}
+          </div>
+        )}
 
         <form onSubmit={onSubmit} className="space-y-2" role="search">
           <SearchInputShell

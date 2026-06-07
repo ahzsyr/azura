@@ -26,7 +26,6 @@ type Props = {
 
 const FALLBACK: LocaleOption[] = [
   { code: "en", urlPrefix: "en", label: "English", flag: "🇺🇸", isEnabled: true },
-  { code: "ar", urlPrefix: "ar", label: "العربية", flag: "🇸🇦", isEnabled: true },
 ];
 
 const MODAL_COPY_FALLBACK = "Select language";

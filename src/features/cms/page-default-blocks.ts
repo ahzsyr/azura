@@ -3,19 +3,11 @@ import {
   resolveBuiltinTemplate,
   resolveTemplateKey,
 } from "@/features/builder/constants";
+import { CMS_WIRED_PAGE_SLUGS } from "@/features/cms/cms-wired-pages";
 import enMessages from "../../../messages/en.json";
 import arMessages from "../../../messages/ar.json";
 
-export const CMS_PAGE_SLUGS = [
-  "home",
-  "about",
-  "contact",
-  "packages",
-  "visa",
-  "gallery",
-  "testimonials",
-  "hotels-transport",
-] as const;
+export const CMS_PAGE_SLUGS = CMS_WIRED_PAGE_SLUGS;
 
 type MessageTree = Record<string, unknown>;
 
@@ -119,11 +111,6 @@ function applyI18nForSlug(slug: string, blocks: PageBlocks, en: MessageTree, ar:
     case "testimonials":
       patchHero(blocks, en, ar, "testimonials.title", "testimonials.subtitle");
       patchBlockTitle(findBlock(blocks, "testimonials"), en, ar, "testimonials.title");
-      break;
-    case "visa":
-      patchHero(blocks, en, ar, "visa.title", "visa.subtitle");
-      patchBlockTitle(findBlock(blocks, "faq"), en, ar, "visa.faq");
-      patchBlockTitle(findBlock(blocks, "inquiryForm"), en, ar, "visa.inquire");
       break;
     case "hotels-transport":
       patchHero(blocks, en, ar, "hotels.title", "hotels.subtitle");

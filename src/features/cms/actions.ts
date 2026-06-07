@@ -7,6 +7,7 @@ import { cmsRepository } from "@/repositories/cms.repository";
 import { cmsPageSchema, postSchema, postCategorySchema, postTagSchema, postAuthorSchema } from "@/schemas/cms";
 import { searchIndexer } from "@/features/search/search-indexer.service";
 import { revalidateCmsPage, revalidatePost, revalidateMarketingHome } from "@/services/cache";
+import { revalidateWiredMarketingPaths } from "@/features/cms/revalidate-wired-marketing";
 import { parseScheduledAt } from "./scheduling-utils";
 import { processDueScheduled } from "./scheduling";
 import { syncCmsPageCache } from "./page-cache-sync";
@@ -17,6 +18,7 @@ import { prisma } from "@/lib/prisma";
 import { localeService } from "@/features/i18n/locale.service";
 import { syncEntityTranslationsFromForm, extractLegacyColumns } from "@/features/translation/form-sync";
 import { applyLegacyWritePolicy } from "@/features/translation/legacy-adapter";
+import { applyBilingualLegacyFallbacks } from "@/features/translation/bilingual-form-fallback";
 import { translationService } from "@/features/translation/translation.service";
 
 function parseStatus(s: string | null): ContentStatus {
@@ -97,6 +99,7 @@ export async function upsertCmsPage(formData: FormData) {
     await syncCmsPageCache(page);
     revalidateCmsPage(page.slug);
     revalidateMarketingHome();
+    revalidateWiredMarketingPaths(page.slug);
   } else {
     await syncCmsPageCache(page);
   }
@@ -116,7 +119,14 @@ export async function upsertCmsPage(formData: FormData) {
 
   await trackPageBlocksMedia(blocks, page.id);
   revalidatePath("/admin/pages");
-  redirect(`/admin/pages/${page.id}`);
+
+  const editorTab = (formData.get("editorTab") as string | null)?.trim() || "general";
+  const selectedBlockId = (formData.get("selectedBlockId") as string | null)?.trim();
+  const editorInspector = (formData.get("editorInspector") as string | null)?.trim();
+  const qs = new URLSearchParams({ tab: editorTab });
+  if (selectedBlockId) qs.set("block", selectedBlockId);
+  if (editorInspector) qs.set("inspector", editorInspector);
+  redirect(`/admin/pages/${page.id}?${qs.toString()}`);
 }
 
 async function trackPageBlocksMedia(blocks: PageBlocks, pageId: string) {
@@ -141,6 +151,7 @@ export async function publishCmsPage(id: string) {
   await syncCmsPageCache(page);
   revalidateCmsPage(page.slug);
   revalidateMarketingHome();
+  revalidateWiredMarketingPaths(page.slug);
   revalidatePath("/admin/pages");
   revalidatePath(`/admin/pages/${id}`);
 }
@@ -162,6 +173,7 @@ export async function unpublishCmsPage(id: string) {
     await searchIndexer.remove("CMS_PAGE", id);
     await syncCmsPageCache({ ...page, status: "DRAFT" });
     revalidateCmsPage(page.slug);
+    revalidateWiredMarketingPaths(page.slug);
   }
   revalidatePath("/admin/pages");
 }
@@ -215,18 +227,23 @@ export async function upsertPost(formData: FormData) {
   const excerptLegacy = extractLegacyColumns(formData, enabledLocales, "excerpt");
   const contentLegacy = extractLegacyColumns(formData, enabledLocales, "content");
 
-  const parsed = postSchema.parse({
-    slug: formData.get("slug"),
-    titleEn: titleLegacy.titleEn ?? formData.get("titleEn"),
-    titleAr: titleLegacy.titleAr ?? formData.get("titleAr"),
-    excerptEn: excerptLegacy.excerptEn ?? (formData.get("excerptEn") || undefined),
-    excerptAr: excerptLegacy.excerptAr ?? (formData.get("excerptAr") || undefined),
-    contentEn: contentLegacy.contentEn ?? (formData.get("contentEn") || undefined),
-    contentAr: contentLegacy.contentAr ?? (formData.get("contentAr") || undefined),
-    authorId: formData.get("authorId") || null,
-    featuredImageId: formData.get("featuredImageId") || null,
-    status: formData.get("status") ?? "DRAFT",
-  });
+  const parsed = postSchema.parse(
+    applyBilingualLegacyFallbacks(
+      {
+        slug: String(formData.get("slug") ?? ""),
+        titleEn: String(titleLegacy.titleEn ?? formData.get("titleEn") ?? ""),
+        titleAr: String(titleLegacy.titleAr ?? formData.get("titleAr") ?? ""),
+        excerptEn: String(excerptLegacy.excerptEn ?? formData.get("excerptEn") ?? ""),
+        excerptAr: String(excerptLegacy.excerptAr ?? formData.get("excerptAr") ?? ""),
+        contentEn: String(contentLegacy.contentEn ?? formData.get("contentEn") ?? ""),
+        contentAr: String(contentLegacy.contentAr ?? formData.get("contentAr") ?? ""),
+        authorId: formData.get("authorId") || null,
+        featuredImageId: formData.get("featuredImageId") || null,
+        status: (formData.get("status") as string | null) ?? "DRAFT",
+      },
+      enabledLocales
+    )
+  );
 
   await assertUniquePostSlug(parsed.slug, id ?? undefined);
 

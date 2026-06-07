@@ -29,6 +29,29 @@ describe("resolveComparisonForType", () => {
     });
     assert.equal(result.comparable, false);
   });
+
+  it("is comparable with compare fields when isComparable is unset", () => {
+    const result = resolveComparisonForType({
+      fieldSchema: [
+        { key: "price", type: "price", labelEn: "Price", compare: true },
+      ],
+      adminConfig: { comparisonSettings: { enabled: true, maxItems: 4, comparisonMode: "hybrid" } },
+    });
+    assert.equal(result.comparable, true);
+  });
+
+  it("is not comparable when isComparable is explicitly false", () => {
+    const result = resolveComparisonForType({
+      fieldSchema: [
+        { key: "price", type: "price", labelEn: "Price", compare: true },
+      ],
+      adminConfig: {
+        isComparable: false,
+        comparisonSettings: { enabled: true, maxItems: 4, comparisonMode: "hybrid" },
+      },
+    });
+    assert.equal(result.comparable, false);
+  });
 });
 
 describe("resolveCompareFields", () => {
@@ -55,17 +78,22 @@ describe("resolveCompareFields", () => {
 });
 
 describe("isContentTypeComparable", () => {
-  it("requires isComparable and enabled", () => {
+  it("allows enabled settings unless isComparable is explicitly false", () => {
     assert.equal(
       isContentTypeComparable({
-        isComparable: true,
         comparisonSettings: { enabled: true },
       }),
       true
     );
     assert.equal(
       isContentTypeComparable({
-        isComparable: true,
+        isComparable: false,
+        comparisonSettings: { enabled: true },
+      }),
+      false
+    );
+    assert.equal(
+      isContentTypeComparable({
         comparisonSettings: { enabled: false },
       }),
       false

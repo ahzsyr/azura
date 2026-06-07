@@ -44,6 +44,15 @@ function focusTrap(container: HTMLElement, e: KeyboardEvent) {
   }
 }
 
+function focusSearchInput(container: HTMLElement): boolean {
+  const input = container.querySelector<HTMLInputElement>(
+    'input[type="search"], input[cmdk-input], input:not([type="hidden"])',
+  );
+  if (!input) return false;
+  input.focus({ preventScroll: true });
+  return true;
+}
+
 export function SearchChrome({
   open,
   onOpenChange,
@@ -64,12 +73,6 @@ export function SearchChrome({
     const el = panelRef.current;
     const onKey = (e: KeyboardEvent) => focusTrap(el, e);
     document.addEventListener("keydown", onKey);
-    queueMicrotask(() => {
-      const input = el.querySelector<HTMLInputElement>(
-        'input[type="search"], input[cmdk-input], input:not([type="hidden"])'
-      );
-      input?.focus();
-    });
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
@@ -95,7 +98,14 @@ export function SearchChrome({
           )}
           data-search-theme={inheritGlobalTheme ? "inherit" : "standalone"}
           data-search-panel-style={modal.panelStyle}
-          onOpenAutoFocus={(e) => e.preventDefault()}
+          onOpenAutoFocus={(e) => {
+            e.preventDefault();
+            const container = e.currentTarget;
+            if (!(container instanceof HTMLElement)) return;
+            if (!focusSearchInput(container)) {
+              container.focus();
+            }
+          }}
           onCloseAutoFocus={(e) => e.preventDefault()}
           aria-describedby={undefined}
         >

@@ -7,6 +7,7 @@ import {
   isPageHeaderOverlayActive,
   resolvePageHeaderOverlay,
 } from "@/features/builder/header-overlay";
+import { createDefaultWorkspace } from "@/features/navigation/defaults";
 import { navigationService } from "@/features/navigation/navigation.service";
 import { themeService } from "@/features/theme/theme.service";
 import type { PageBlocks } from "@/types/builder";
@@ -38,10 +39,17 @@ export async function CmsPageRenderer({
   const page = pageProp ?? (await cmsService.getPublishedPageBySlug(slug));
   if (!page) notFound();
 
-  const [theme, headerWorkspace] = await Promise.all([
-    themeService.getPublished(),
-    navigationService.getWorkspaceForSite(undefined, locale),
-  ]);
+  let theme: Awaited<ReturnType<typeof themeService.getPublished>> = null;
+  let headerWorkspace = createDefaultWorkspace();
+  try {
+    [theme, headerWorkspace] = await Promise.all([
+      themeService.getPublished(),
+      navigationService.getWorkspaceForSite(undefined, locale),
+    ]);
+  } catch (error) {
+    const errMsg = error instanceof Error ? error.message : String(error);
+    console.warn(`[CmsPageRenderer] /${slug} theme/nav fallback:`, errMsg);
+  }
   const blocks = (page.blocks as PageBlocks) ?? [];
   const enabledLocales =
     translationBundle?.enabledLocales ?? (await localeService.listEnabled());
@@ -82,6 +90,7 @@ export async function CmsPageRenderer({
           theme={theme}
           siteTextEffect={resolved?.textEffect ?? null}
           pageAnimationsEnabled={resolved?.animationsEnabled}
+          discoveryAnchor={{ context: "page", slug: page.slug, id: page.id }}
         />
       ) : (
         <div className="section-padding container-premium">

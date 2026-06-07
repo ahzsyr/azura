@@ -9,6 +9,7 @@ type Props = {
   locale: string;
   lazyLoad?: boolean;
   variant?: "grid" | "masonry";
+  onItemClick?: (item: GalleryMediaPublic) => void;
 };
 
 function gridClass(columns: 2 | 3 | 4, variant: "grid" | "masonry") {
@@ -22,7 +23,14 @@ function gridClass(columns: 2 | 3 | 4, variant: "grid" | "masonry") {
   return "grid-cols-2 md:grid-cols-3";
 }
 
-export function GalleryBlockGrid({ media, columns, locale, lazyLoad = true, variant = "grid" }: Props) {
+export function GalleryBlockGrid({
+  media,
+  columns,
+  locale,
+  lazyLoad = true,
+  variant = "grid",
+  onItemClick,
+}: Props) {
   if (media.length === 0) return null;
 
   const isMasonry = variant === "masonry";
@@ -31,12 +39,27 @@ export function GalleryBlockGrid({ media, columns, locale, lazyLoad = true, vari
     <div className={isMasonry ? `${gridClass(columns, variant)} gap-4` : `grid gap-4 ${gridClass(columns, variant)}`}>
       {media.map((item) => {
         const alt = getLocalizedField(item, "title", locale) || "";
+        const clickable = Boolean(onItemClick);
         return (
           <div
             key={item.id}
+            role={clickable ? "button" : undefined}
+            tabIndex={clickable ? 0 : undefined}
+            onClick={clickable ? () => onItemClick?.(item) : undefined}
+            onKeyDown={
+              clickable
+                ? (e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      onItemClick?.(item);
+                    }
+                  }
+                : undefined
+            }
             className={cn(
               "relative overflow-hidden rounded-lg bg-muted",
-              isMasonry ? "mb-4 break-inside-avoid aspect-auto min-h-[180px]" : "aspect-square"
+              isMasonry ? "mb-4 break-inside-avoid aspect-auto min-h-[180px]" : "aspect-square",
+              clickable && "cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             )}
           >
             {item.mediaKind === "VIDEO" ? (

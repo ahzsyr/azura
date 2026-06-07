@@ -43,11 +43,16 @@ export { ComparisonPage } from "@/features/comparison/components/comparison-page
 export { parseComparisonConfig, mergeComparisonIntoAdminConfig } from "@/features/comparison/parse-comparison-config";
 export { fetchCompareItems, searchCompareCandidates } from "@/features/comparison/comparison-data.service";
 export { getComparePropsForType } from "@/features/comparison/get-compare-props";
+export {
+  loadComparePropsForContentType,
+  loadComparePropsFromContentTypeView,
+} from "@/features/comparison/load-compare-props";
 export type { ComparisonField } from "@/features/comparison/comparison-field";
 export { toComparisonField, buildComparisonAttributes } from "@/features/comparison/comparison-field";
 export {
   resolveCompareContentTypeSlug,
   comparePagePath,
+  compareHubPath,
   COMPARE_ROUTE_ALIASES,
 } from "@/features/comparison/comparison-route-resolver";
 export { loadCompareBundle, searchCompareItems } from "@/features/comparison/comparison-data-adapter";

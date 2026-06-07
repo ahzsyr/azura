@@ -86,7 +86,7 @@ export type ProductCtaPartial = Partial<{
 
 export const DEFAULT_RESOLVED_PRODUCT_CTA: ResolvedProductCtaConfig = {
   enabled: false,
-  label: "Shop now",
+  label: "Get Quote",
   icon: "fa-solid fa-bag-shopping",
   iconUrl: "",
   variant: "solid",

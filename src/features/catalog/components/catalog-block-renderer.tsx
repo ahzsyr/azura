@@ -8,7 +8,13 @@ import { Button } from "@/components/ui/button";
 import { mergeDisplaySettings, type DisplaySettings } from "@/schemas/catalog/display-settings";
 import { loadCatalogItems, type CatalogBlockConfig } from "@/features/catalog/catalog-data.service";
 import type { CatalogCardData } from "@/features/catalog/types";
-import { cn } from "@/lib/utils";
+import type { DeviceBreakpoint, ResolvedContentOverflow } from "@/types/block-system";
+import { CatalogItemsOverflowLayout } from "@/features/catalog/components/catalog-items-overflow-layout";
+import { resolveContentOverflowCssFlags } from "@/features/builder/styles/content-overflow-resolver";
+import type { BlockNode } from "@/types/builder";
+import { LEGACY_SOURCE_TO_TYPE } from "@/features/content/content-type.registry";
+import { loadComparePropsForContentType } from "@/features/comparison/load-compare-props";
+import { prisma } from "@/lib/prisma";
 
 type CatalogBlockProps = {
   locale: Locale;
@@ -19,6 +25,10 @@ type CatalogBlockProps = {
   viewAllHref?: string;
   emptyMessage?: string;
   previewMode?: boolean;
+  overflowFlags?: Record<DeviceBreakpoint, ResolvedContentOverflow>;
+  previewDevice?: DeviceBreakpoint;
+  /** When provided, resolves overflow flags from block responsive settings */
+  block?: BlockNode;
 };
 
 export async function CatalogBlockRenderer({
@@ -30,12 +40,28 @@ export async function CatalogBlockRenderer({
   viewAllHref,
   emptyMessage,
   previewMode,
+  overflowFlags,
+  previewDevice,
+  block,
 }: CatalogBlockProps) {
   const settings = mergeDisplaySettings(displaySettings);
-  const [items, t] = await Promise.all([
+  const typeSlug = LEGACY_SOURCE_TO_TYPE[config.source];
+  const [items, t, contentTypeRow] = await Promise.all([
     loadCatalogItems({ ...config, limit: settings.limit ?? config.limit }),
     getTranslations({ locale, namespace: "common" }),
+    typeSlug
+      ? prisma.contentType.findUnique({ where: { slug: typeSlug } })
+      : Promise.resolve(null),
   ]);
+
+  const compare = contentTypeRow
+    ? loadComparePropsForContentType({
+        slug: contentTypeRow.slug,
+        fieldSchema: contentTypeRow.fieldSchema,
+        adminConfig: contentTypeRow.adminConfig,
+        locale,
+      })
+    : undefined;
 
   if (items.length === 0) {
     if (previewMode) {
@@ -48,49 +74,41 @@ export async function CatalogBlockRenderer({
     return null;
   }
 
-  const colClass = {
-    2: "md:grid-cols-2",
-    3: "md:grid-cols-2 lg:grid-cols-3",
-    4: "md:grid-cols-2 lg:grid-cols-4",
-  }[settings.columns];
+  const flags = overflowFlags ?? (block ? resolveContentOverflowCssFlags(block) : undefined);
 
-  const grid = (
-    <div className={cn("grid gap-6", colClass)}>
-      {items.map((item: CatalogCardData) => (
-        <CatalogCard
-          key={item.id}
-          item={item}
-          locale={locale}
-          displaySettings={settings}
-          linkMode={previewMode ? "locale-path" : "i18n"}
-        />
-      ))}
-    </div>
-  );
+  const itemsLayout =
+    flags != null ? (
+      <CatalogItemsOverflowLayout
+        items={items}
+        locale={locale}
+        displaySettings={settings}
+        flags={flags}
+        previewMode={previewMode}
+        compare={compare}
+        previewDevice={previewDevice}
+      />
+    ) : (
+      <CatalogItemsOverflowLayout
+        items={items}
+        locale={locale}
+        displaySettings={settings}
+        flags={resolveContentOverflowCssFlags({
+          id: "catalog-fallback",
+          type: "catalog",
+          props: { displaySettings: settings },
+        })}
+        previewMode={previewMode}
+        compare={compare}
+        previewDevice={previewDevice}
+      />
+    );
 
   return (
     <div>
       {(title || subtitle) && (
         <SectionHeader title={title ?? ""} subtitle={subtitle} />
       )}
-      <div className={title || subtitle ? "mt-8" : undefined}>
-        {settings.layoutMode === "slider" ? (
-          <div className="flex gap-4 overflow-x-auto pb-4 snap-x">
-            {items.map((item: CatalogCardData) => (
-              <div key={item.id} className="min-w-[280px] max-w-sm snap-start shrink-0">
-                <CatalogCard
-                  item={item}
-                  locale={locale}
-                  displaySettings={settings}
-                  linkMode={previewMode ? "locale-path" : "i18n"}
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
-          grid
-        )}
-      </div>
+      <div className={title || subtitle ? "mt-8" : undefined}>{itemsLayout}</div>
       {settings.showViewAllLink && viewAllHref && (
         <div className="mt-8 text-center">
           <Button asChild variant="outline">

@@ -39,6 +39,35 @@ export async function deleteInquiry(id: string) {
   revalidatePath("/admin/inquiries");
 }
 
+export async function linkInquiryToCustomer(inquiryId: string, userId: string) {
+  await requireAdmin();
+  const [inquiry, user] = await Promise.all([
+    prisma.inquiry.findUnique({ where: { id: inquiryId }, select: { id: true } }),
+    prisma.user.findFirst({
+      where: { id: userId, role: "CUSTOMER" },
+      select: { id: true },
+    }),
+  ]);
+  if (!inquiry) throw new Error("Inquiry not found");
+  if (!user) throw new Error("Customer account not found");
+  await prisma.inquiry.update({
+    where: { id: inquiryId },
+    data: { userId: user.id },
+  });
+  revalidatePath("/admin/inquiries");
+  revalidatePath(`/admin/inquiries/${inquiryId}`);
+}
+
+export async function unlinkInquiryFromCustomer(inquiryId: string) {
+  await requireAdmin();
+  await prisma.inquiry.update({
+    where: { id: inquiryId },
+    data: { userId: null },
+  });
+  revalidatePath("/admin/inquiries");
+  revalidatePath(`/admin/inquiries/${inquiryId}`);
+}
+
 export async function updateCompanyInfo(formData: FormData) {
   await requireAdmin();
   const parsed = companyInfoSchema.parse({

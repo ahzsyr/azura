@@ -113,6 +113,19 @@ export const blockStyleSettingsSchema = blockLayoutStylesSchema
   .merge(blockPositionStylesSchema)
   .merge(blockCustomStylesSchema);
 
+export const contentOverflowModeSchema = z.enum(["inherit", "grid", "slider", "collapse"]);
+
+export const collapseVariantSchema = z.enum(["accordion", "show_more", "stack"]);
+
+export const blockContentOverflowSettingsSchema = z
+  .object({
+    mode: contentOverflowModeSchema.optional(),
+    sliderEnabled: z.boolean().optional(),
+    collapseVariant: collapseVariantSchema.optional(),
+    showMoreLimit: z.coerce.number().optional(),
+  })
+  .partial();
+
 export const blockResponsiveOverrideSchema = blockStyleSettingsSchema.extend({
   hide: z.boolean().optional(),
   grid: z
@@ -123,6 +136,7 @@ export const blockResponsiveOverrideSchema = blockStyleSettingsSchema.extend({
     .partial()
     .optional(),
   alignment: z.enum(["start", "center", "end", "stretch"]).optional(),
+  contentOverflow: blockContentOverflowSettingsSchema.optional(),
 });
 
 export const blockResponsiveSettingsSchema = z
@@ -223,6 +237,7 @@ export const blockInstanceV2Schema: z.ZodType<BlockInstanceV2> = z.lazy(() =>
     seo: blockSeoSettingsSchema.optional(),
     animation: blockAnimationSettingsSchema.optional(),
     visual: blockVisualSettingsSchema.optional(),
+    hidden: z.boolean().optional(),
     children: z.array(blockInstanceV2Schema).optional(),
   })
 ) as z.ZodType<BlockInstanceV2>;

@@ -4,6 +4,9 @@ import { prisma } from "@/lib/prisma";
 import { resolveEntityByLocalizedSlug } from "@/features/translation/translation-bundle";
 import { resolveFieldSchema } from "@/features/content/content-type.registry";
 import { ensureContentPlatformReady } from "@/features/content/content.service";
+import { createCached, CACHE_TAGS } from "@/services/cache";
+import { REVALIDATE } from "@/lib/config/performance";
+import { cache } from "react";
 import type {
   ContentCollectionView,
   ContentItemView,
@@ -140,6 +143,84 @@ const itemInclude = {
   },
 } satisfies Prisma.ContentItemInclude;
 
+function listItemsCacheKey(
+  typeSlug: string,
+  filters?: { collectionSlug?: string; featuredOnly?: boolean; city?: string; offeringType?: string }
+) {
+  return [
+    typeSlug,
+    filters?.collectionSlug ?? "",
+    filters?.featuredOnly ? "1" : "0",
+    filters?.city ?? "",
+    filters?.offeringType ?? "",
+  ];
+}
+
+async function listItemsByTypeSlugUncached(
+  typeSlug: string,
+  filters?: { collectionSlug?: string; featuredOnly?: boolean; city?: string; offeringType?: string }
+) {
+  const rows = await prisma.contentItem.findMany({
+    where: {
+      ...PUBLISHED_WHERE,
+      contentType: { slug: typeSlug, isEnabled: true },
+      ...(filters?.collectionSlug ? { collection: { slug: filters.collectionSlug } } : {}),
+      ...(filters?.featuredOnly ? { isFeatured: true } : {}),
+    },
+    include: {
+      ...itemInclude,
+      media: { where: { isPublished: true, isHidden: false }, orderBy: { sortOrder: "asc" }, take: 1 },
+    },
+    orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
+  });
+
+  let items = rows.map(serializeContentItem);
+  if (filters?.city) {
+    items = items.filter((i) => i.attributes.city === filters.city);
+  }
+  if (filters?.offeringType) {
+    items = items.filter((i) => i.attributes.offeringType === filters.offeringType);
+  }
+  return items;
+}
+
+const listItemsByTypeSlugRequestCached = cache(
+  (typeSlug: string, collectionSlug: string, featuredOnly: string, city: string, offeringType: string) =>
+    createCached(
+      () =>
+        listItemsByTypeSlugUncached(typeSlug, {
+          collectionSlug: collectionSlug || undefined,
+          featuredOnly: featuredOnly === "1" ? true : undefined,
+          city: city || undefined,
+          offeringType: offeringType || undefined,
+        }),
+      ["content-items", typeSlug, collectionSlug, featuredOnly, city, offeringType],
+      {
+        tags: [CACHE_TAGS.contentList(typeSlug, collectionSlug || undefined), CACHE_TAGS.marketing],
+        revalidate: REVALIDATE.packages,
+      }
+    )()
+);
+
+function fetchCollectionsForType(typeSlug: string): Promise<ContentCollectionView[]> {
+  return createCached(
+    async () => {
+      const type = await prisma.contentType.findUnique({ where: { slug: typeSlug } });
+      if (!type) return [];
+      return prisma.contentCollection.findMany({
+        where: { contentTypeId: type.id, isPublished: true },
+        select: { id: true, slug: true, nameEn: true, nameAr: true },
+        orderBy: { sortOrder: "asc" },
+      });
+    },
+    ["content-collections", typeSlug],
+    {
+      tags: [CACHE_TAGS.contentList(typeSlug), CACHE_TAGS.marketing],
+      revalidate: REVALIDATE.packages,
+    }
+  )();
+}
+
 export const contentPublicService = {
   async ensureReady() {
     await ensureContentPlatformReady();
@@ -210,28 +291,8 @@ export const contentPublicService = {
     typeSlug: string,
     filters?: { collectionSlug?: string; featuredOnly?: boolean; city?: string; offeringType?: string }
   ) {
-    const rows = await prisma.contentItem.findMany({
-      where: {
-        ...PUBLISHED_WHERE,
-        contentType: { slug: typeSlug, isEnabled: true },
-        ...(filters?.collectionSlug ? { collection: { slug: filters.collectionSlug } } : {}),
-        ...(filters?.featuredOnly ? { isFeatured: true } : {}),
-      },
-      include: {
-        ...itemInclude,
-        media: { where: { isPublished: true, isHidden: false }, orderBy: { sortOrder: "asc" }, take: 1 },
-      },
-      orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
-    });
-
-    let items = rows.map(serializeContentItem);
-    if (filters?.city) {
-      items = items.filter((i) => i.attributes.city === filters.city);
-    }
-    if (filters?.offeringType) {
-      items = items.filter((i) => i.attributes.offeringType === filters.offeringType);
-    }
-    return items;
+    const key = listItemsCacheKey(typeSlug, filters);
+    return listItemsByTypeSlugRequestCached(key[0], key[1], key[2], key[3], key[4]);
   },
 
   async listItemsByRoutePrefix(
@@ -244,13 +305,7 @@ export const contentPublicService = {
   },
 
   async listCollections(typeSlug: string): Promise<ContentCollectionView[]> {
-    const type = await prisma.contentType.findUnique({ where: { slug: typeSlug } });
-    if (!type) return [];
-    return prisma.contentCollection.findMany({
-      where: { contentTypeId: type.id, isPublished: true },
-      select: { id: true, slug: true, nameEn: true, nameAr: true },
-      orderBy: { sortOrder: "asc" },
-    });
+    return fetchCollectionsForType(typeSlug);
   },
 
   async resolveRoute(segments: string[], languageCode?: string): Promise<ContentRouteResolution> {

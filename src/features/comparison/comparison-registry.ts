@@ -8,6 +8,8 @@ import {
   PRODUCT_COMPARE_SLUG,
 } from "@/features/comparison/product-comparison.constants";
 import { resolveCompareContentTypeSlug } from "@/features/comparison/comparison-route-resolver";
+import { createCached, CACHE_TAGS } from "@/services/cache";
+import { REVALIDATE } from "@/lib/config/performance";
 
 export type RegisteredComparableType = ComparableTypeMeta & {
   fieldSchema: ContentFieldDefinition[];
@@ -19,7 +21,7 @@ function parseAdminConfig(raw: unknown): Record<string, unknown> {
   return {};
 }
 
-export async function listComparableContentTypes(): Promise<RegisteredComparableType[]> {
+async function listComparableContentTypesUncached(): Promise<RegisteredComparableType[]> {
   const rows = await prisma.contentType.findMany({
     where: { isEnabled: true },
     orderBy: { sortOrder: "asc" },
@@ -59,6 +61,16 @@ export async function listComparableContentTypes(): Promise<RegisteredComparable
         : 999;
     return pa - pb;
   });
+}
+
+const listComparableContentTypesCached = createCached(
+  listComparableContentTypesUncached,
+  ["comparable-content-types"],
+  { tags: [CACHE_TAGS.comparableTypes, CACHE_TAGS.marketing], revalidate: REVALIDATE.marketing }
+);
+
+export async function listComparableContentTypes(): Promise<RegisteredComparableType[]> {
+  return listComparableContentTypesCached();
 }
 
 function virtualProductComparableType(): RegisteredComparableType {

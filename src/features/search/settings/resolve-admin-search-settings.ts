@@ -1,5 +1,10 @@
+import { z } from "zod";
 import {
   adminSearchSettingsSchema,
+  searchHeaderLayoutSchema,
+  searchInputStyleSchema,
+  searchPanelWidthSchema,
+  searchShortcutSchema,
   type AdminSearchSettings,
 } from "@/features/search/settings/admin-search-settings.schema";
 import { resolveSearchSources } from "@/features/search/settings/search-sources";
@@ -8,6 +13,28 @@ import {
   normalizeRankingWeights,
 } from "@/features/search/settings/search-ranking-signals";
 import { migrateFiltersRaw } from "@/features/search/settings/resolve-search-filters";
+import { searchSemanticProviderSchema } from "@/features/search/settings/search-smart.schema";
+
+function coerceEnum<T extends z.ZodTypeAny>(
+  schema: T,
+  value: unknown,
+): z.infer<T> | undefined {
+  const parsed = schema.safeParse(value);
+  return parsed.success ? parsed.data : undefined;
+}
+
+function pickAppearanceField(
+  s: Record<string, unknown>,
+  key: string,
+): unknown {
+  const appearance =
+    s.appearance && typeof s.appearance === "object" && !Array.isArray(s.appearance)
+      ? (s.appearance as Record<string, unknown>)
+      : {};
+  const nested = appearance[key];
+  if (nested !== undefined && nested !== "") return nested;
+  return s[key];
+}
 
 function parseSearchRaw(site: Record<string, unknown>): Record<string, unknown> {
   const raw = site.search;
@@ -204,19 +231,43 @@ export function resolveAdminSearchSettings(site: Record<string, unknown>): Admin
           panelBlurPx: typeof m.panelBlurPx === "number" ? m.panelBlurPx : 0,
         };
       })(),
-      publicHeaderLayout: s.publicHeaderLayout,
-      inputStyle: s.inputStyle,
-      panelWidth: s.panelWidth,
-      placeholder: s.placeholder,
+      publicHeaderLayout: coerceEnum(
+        searchHeaderLayoutSchema,
+        pickAppearanceField(s, "publicHeaderLayout"),
+      ),
+      inputStyle: coerceEnum(searchInputStyleSchema, pickAppearanceField(s, "inputStyle")),
+      panelWidth: coerceEnum(searchPanelWidthSchema, pickAppearanceField(s, "panelWidth")),
+      placeholder:
+        typeof pickAppearanceField(s, "placeholder") === "string" &&
+        String(pickAppearanceField(s, "placeholder")).trim()
+          ? String(pickAppearanceField(s, "placeholder")).trim()
+          : undefined,
       showShortcutBadge: s.showShortcutBadge,
-      keyboardShortcut: s.keyboardShortcut,
+      keyboardShortcut: coerceEnum(searchShortcutSchema, pickAppearanceField(s, "keyboardShortcut")),
       showInHeader: s.showInHeader,
       showOnMobile: s.showOnMobile,
     },
-    smart:
-      typeof s.smart === "object" && s.smart && !Array.isArray(s.smart)
-        ? (s.smart as Record<string, unknown>)
-        : {},
+    smart: (() => {
+      const raw =
+        typeof s.smart === "object" && s.smart && !Array.isArray(s.smart)
+          ? (s.smart as Record<string, unknown>)
+          : {};
+      const semanticRaw =
+        raw.semantic && typeof raw.semantic === "object" && !Array.isArray(raw.semantic)
+          ? (raw.semantic as Record<string, unknown>)
+          : {};
+      return {
+        ...raw,
+        multiKeywordMode:
+          raw.multiKeywordMode === "all" || raw.multiKeywordMode === "any"
+            ? raw.multiKeywordMode
+            : undefined,
+        semantic: {
+          ...semanticRaw,
+          provider: coerceEnum(searchSemanticProviderSchema, semanticRaw.provider),
+        },
+      };
+    })(),
     adminSearch:
       s.adminSearch && typeof s.adminSearch === "object" && !Array.isArray(s.adminSearch)
         ? (s.adminSearch as Record<string, unknown>)
@@ -225,8 +276,17 @@ export function resolveAdminSearchSettings(site: Record<string, unknown>): Admin
     performance: s.performance,
   };
 
-  const parsed = adminSearchSettingsSchema.parse(merged);
-  return { ...parsed, enabled: parsed.general.enabled };
+  const parsed = adminSearchSettingsSchema.safeParse(merged);
+  if (parsed.success) {
+    return { ...parsed.data, enabled: parsed.data.general.enabled };
+  }
+
+  console.warn(
+    "[resolveAdminSearchSettings] Invalid site.json search config — using defaults:",
+    parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; "),
+  );
+  const fallback = adminSearchSettingsSchema.parse({});
+  return { ...fallback, enabled: fallback.general.enabled };
 }
 
 /** Persist shape written back to site.json `search`. */

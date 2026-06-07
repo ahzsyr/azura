@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
@@ -38,6 +38,11 @@ export function AdminSettingsRibbon({
   const scrollRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<Map<string, HTMLElement>>(new Map());
   const setSettingsActiveTab = useAdminUiStore((s) => s.setSettingsActiveTab);
+  const [motionReady, setMotionReady] = useState(false);
+
+  useEffect(() => {
+    setMotionReady(true);
+  }, []);
 
   useEffect(() => {
     setSettingsActiveTab(activeTab);
@@ -66,12 +71,18 @@ export function AdminSettingsRibbon({
       >
         {tabs.map((tab) => {
           const isActive = tab.id === activeTab;
+          const indicatorClass =
+            "absolute inset-x-1 -bottom-2 h-0.5 rounded-full bg-primary pointer-events-none";
           const indicator = isActive ? (
-            <motion.span
-              layoutId={layoutId}
-              className="absolute inset-x-1 -bottom-2 h-0.5 rounded-full bg-primary"
-              transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            />
+            motionReady ? (
+              <motion.span
+                layoutId={layoutId}
+                className={indicatorClass}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              />
+            ) : (
+              <span className={indicatorClass} aria-hidden />
+            )
           ) : null;
 
           if (linkNavigation && tab.href) {

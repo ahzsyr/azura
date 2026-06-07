@@ -1,29 +1,52 @@
 "use client";
 
-import { MessageCircle } from "lucide-react";
-import { getWhatsappDefaultMessage } from "@/config/site";
 import { getWhatsAppUrl } from "@/lib/utils";
+import { WhatsAppIcon } from "@/features/whatsapp/components/whatsapp-icon";
+import {
+  getFabPositionStyle,
+  getFabSizeClass,
+  getFabStyle,
+} from "@/features/whatsapp/components/whatsapp-styles";
+import type { WhatsAppFabSettings } from "@/features/whatsapp/whatsapp.schema";
+import { cn } from "@/lib/utils";
 
-type WhatsAppFabProps = {
+type Props = {
   phone: string;
-  message?: string;
+  message: string;
+  settings: WhatsAppFabSettings;
+  ariaLabel?: string;
 };
 
 export function WhatsAppFab({
   phone,
-  message = getWhatsappDefaultMessage(),
-}: WhatsAppFabProps) {
-  if (!phone) return null;
+  message,
+  settings,
+  ariaLabel = "Chat on WhatsApp",
+}: Props) {
+  if (!settings.enabled || !phone.trim()) return null;
 
   return (
     <a
       href={getWhatsAppUrl(phone, message)}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 end-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2"
-      aria-label="Chat on WhatsApp"
+      className={cn(
+        "fixed z-50 flex items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+        getFabSizeClass(settings.size),
+      )}
+      style={{
+        ...getFabPositionStyle(settings),
+        ...getFabStyle(settings),
+      }}
+      aria-label={ariaLabel}
     >
-      <MessageCircle className="h-7 w-7" />
+      {settings.showIcon ? (
+        <WhatsAppIcon
+          iconUrl={settings.iconUrl}
+          iconSize={settings.iconSize}
+          size={settings.size}
+        />
+      ) : null}
     </a>
   );
 }

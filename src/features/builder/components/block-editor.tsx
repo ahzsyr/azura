@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { BlockNode, PageBlocks } from "@/types/builder";
 import { createBlock, BLOCK_DEFAULTS } from "@/schemas/blocks";
 import { BlockTreeEditor, insertBlockInTree } from "./block-tree-editor";
@@ -31,6 +31,7 @@ import {
   useBlockTranslationsOptional,
 } from "@/features/builder/block-translation-context";
 import type { BlockParentType } from "@/features/translation/block-translation";
+import type { BlockInspectorTabId } from "@/features/builder/constants/block-inspector-tabs";
 
 type Revision = {
   id: string;
@@ -51,6 +52,11 @@ type BlockEditorProps = {
   embeddedHistory?: boolean;
   onGoToTemplates?: () => void;
   onSelectBlock?: (id: string | null) => void;
+  /** Controlled selection (e.g. restored from URL after save). */
+  selectedId?: string | null;
+  /** Controlled block inspector tab (e.g. Look & Feel from URL). */
+  inspectorTab?: BlockInspectorTabId;
+  onInspectorTabChange?: (tab: BlockInspectorTabId) => void;
   /** When false, parent form owns the blocks hidden input (e.g. tabbed page editor). */
   includeHiddenInput?: boolean;
   galleryOptions?: GalleryBuilderOption[];
@@ -74,6 +80,9 @@ export function BlockEditor({
   embeddedHistory = true,
   onGoToTemplates,
   onSelectBlock,
+  selectedId: controlledSelectedId,
+  inspectorTab,
+  onInspectorTabChange,
   includeHiddenInput = true,
   galleryOptions = [],
   faqSetOptions = [],
@@ -86,10 +95,23 @@ export function BlockEditor({
 }: BlockEditorProps) {
   const [internalBlocks, setInternalBlocks] = useState<PageBlocks>(initialBlocks ?? []);
   const blocks = controlledBlocks ?? internalBlocks;
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [internalSelectedId, setInternalSelectedId] = useState<string | null>(null);
+  const selectedId = controlledSelectedId !== undefined ? controlledSelectedId : internalSelectedId;
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerParentId, setPickerParentId] = useState<string | null>(null);
   const adminForm = useAdminFormOptional();
+
+  useEffect(() => {
+    if (controlledSelectedId === undefined) return;
+    setInternalSelectedId(controlledSelectedId);
+  }, [controlledSelectedId]);
+
+  const setSelectedId = (id: string | null) => {
+    if (controlledSelectedId === undefined) {
+      setInternalSelectedId(id);
+    }
+    onSelectBlock?.(id);
+  };
 
   const selectedBlock = selectedId != null ? findBlockById(blocks, selectedId) : null;
 
@@ -121,7 +143,6 @@ export function BlockEditor({
 
   const handleSelect = (id: string | null) => {
     setSelectedId(id);
-    onSelectBlock?.(id);
   };
 
   const handleLegacyPropUpdate = (
@@ -229,6 +250,8 @@ export function BlockEditor({
                 <BlockInspectorShell
                   block={selectedBlock}
                   onChange={updateSelectedBlock}
+                  activeTab={inspectorTab}
+                  onTabChange={onInspectorTabChange}
                   content={
                     <BlockFieldEditor
                       block={selectedBlock}

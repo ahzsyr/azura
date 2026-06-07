@@ -2,7 +2,7 @@
  * Desktop PDP: pin breadcrumb chrome + buy column (sample sticky-nav-offset parity).
  */
 
-const DESKTOP_MQ = "(min-width: 981px)";
+const DESKTOP_MQ = "(min-width: 969px)";
 const SIDE_FOOTER_GAP_PX = 16;
 
 function clearFixedEl(el: HTMLElement): void {

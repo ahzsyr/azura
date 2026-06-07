@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { Button } from "@/components/ui/button";
 import { Section } from "@/components/marketing/section";
 import { InquiryForm } from "@/components/forms/inquiry-form";
 import { BlockRenderer } from "@/features/builder/components/block-renderer";
@@ -13,10 +12,18 @@ import {
   loadEntityTranslations,
   loadPageTranslations,
 } from "@/features/i18n/public-locale-context";
-import { formatPrice, getLocalizedField, getWhatsAppUrl } from "@/lib/utils";
+import { formatPrice, getLocalizedField } from "@/lib/utils";
 import { DEFAULT_MEDIA_PLACEHOLDER } from "@/features/media/constants";
 import { resolveComparisonForType } from "@/features/comparison/comparison-schema-resolver";
 import { ContentDetailCompare } from "@/features/content/components/content-detail-compare";
+import { ContentFavoriteButton } from "@/components/account/content-favorite-button";
+import { WhatsAppLinkButton } from "@/features/whatsapp/components/whatsapp-link-button";
+import { whatsappService } from "@/features/whatsapp/whatsapp.service";
+import {
+  resolveWhatsAppPhone,
+} from "@/features/whatsapp/whatsapp-message";
+import { getCompanyInfo } from "@/lib/data";
+import { resolveSiteIdentity } from "@/lib/site-identity";
 
 type Props = {
   locale: string;
@@ -30,12 +37,16 @@ function showInquiryForm(adminConfig: Record<string, unknown>) {
 }
 
 export async function ContentDetailPage({ locale, contentType, item, path }: Props) {
-  const [t, pageBundleResult, collectionTranslations] = await Promise.all([
+  const [t, tWhatsapp, pageBundleResult, collectionTranslations, company, whatsappSettings] =
+    await Promise.all([
     getTranslations({ locale, namespace: "packages" }),
+    getTranslations({ locale, namespace: "whatsapp" }),
     loadPageTranslations("ContentItem", item.id, item.blocks),
     item.collection
       ? loadEntityTranslations("ContentCollection", item.collection.id)
       : Promise.resolve([]),
+    getCompanyInfo(),
+    whatsappService.get(),
   ]);
   const { bundle, translations: itemTranslations } = pageBundleResult;
   const fieldOpts = {
@@ -64,6 +75,12 @@ export async function ContentDetailPage({ locale, contentType, item, path }: Pro
     adminConfig: contentType.adminConfig,
   });
   const compareLabel = locale.startsWith("ar") ? "أضف للمقارنة" : "Add to Compare";
+  const { brandName } = resolveSiteIdentity({ companyName: company?.name });
+  const whatsappPhone = resolveWhatsAppPhone(company?.whatsapp);
+  const whatsappMessage = tWhatsapp("message.contentInquiry", {
+    brandName,
+    itemTitle: name,
+  });
 
   return (
     <>
@@ -112,14 +129,17 @@ export async function ContentDetailPage({ locale, contentType, item, path }: Pro
               {formatPrice(Number(price), currency, locale)}
             </p>
           ) : null}
-          {comparable ? (
-            <ContentDetailCompare
-              contentTypeSlug={contentType.slug}
-              itemId={item.id}
-              maxItems={config.comparisonSettings.maxItems}
-              label={compareLabel}
-            />
-          ) : null}
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            {comparable ? (
+              <ContentDetailCompare
+                contentTypeSlug={contentType.slug}
+                itemId={item.id}
+                maxItems={config.comparisonSettings.maxItems}
+                label={compareLabel}
+              />
+            ) : null}
+            <ContentFavoriteButton contentItemId={item.id} locale={locale} />
+          </div>
         </div>
       </div>
 
@@ -162,6 +182,14 @@ export async function ContentDetailPage({ locale, contentType, item, path }: Pro
                 parentType="ContentItem"
                 parentId={item.id}
                 translationBundle={bundle}
+                discoveryAnchor={{
+                  context: "contentItem",
+                  id: item.id,
+                  slug: item.slug ?? undefined,
+                  contentTypeSlug: contentType.slug,
+                  categorySlugs: (item.attributes?.categories as string[] | undefined) ?? [],
+                  tags: (item.attributes?.tags as string[] | undefined) ?? [],
+                }}
               />
             ) : (
               <AttributeSections
@@ -183,18 +211,12 @@ export async function ContentDetailPage({ locale, contentType, item, path }: Pro
                   </p>
                 ) : null}
                 <div className="mt-6 space-y-3">
-                  <Button asChild className="w-full" variant="gold">
-                    <a
-                      href={getWhatsAppUrl(
-                        process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "",
-                        `Assalamu Alaikum, I am interested in ${name}.`
-                      )}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {t("whatsappInquiry")}
-                    </a>
-                  </Button>
+                  <WhatsAppLinkButton
+                    phone={whatsappPhone}
+                    message={whatsappMessage}
+                    appearance={whatsappSettings.contentInquiry}
+                    label={t("whatsappInquiry")}
+                  />
                 </div>
                 <div className="mt-8">
                   <InquiryForm

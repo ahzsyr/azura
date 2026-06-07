@@ -179,7 +179,9 @@ function MenuItemRow({
                 </div>
                 <p className="truncate text-xs text-muted-foreground">
                   {getItemSubtitle(item)}
-                  {item.megaMenuType ? ` · Mega: ${item.megaMenuType}` : ""}
+                  {item.children?.length
+                    ? ` · Flyout: ${item.megaMenuType ?? "dropdown"}`
+                    : ""}
                 </p>
               </div>
             </div>

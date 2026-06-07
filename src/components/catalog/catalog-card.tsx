@@ -12,6 +12,8 @@ import { DEFAULT_MEDIA_PLACEHOLDER } from "@/features/media/constants";
 import type { CatalogCardData } from "@/features/catalog/types";
 import type { DisplaySettings } from "@/schemas/catalog/display-settings";
 import { cn } from "@/lib/utils";
+import { CompareCardOverlay } from "@/features/comparison/components/compare-card-overlay";
+import type { CompareCardProps as CompareListingProps } from "@/features/comparison/get-compare-props";
 
 type CatalogCardProps = {
   item: CatalogCardData;
@@ -20,6 +22,7 @@ type CatalogCardProps = {
   className?: string;
   /** Use locale-prefixed paths (admin preview). Default uses next-intl Link. */
   linkMode?: "i18n" | "locale-path";
+  compare?: CompareListingProps;
 };
 
 export function CatalogCard({
@@ -28,6 +31,7 @@ export function CatalogCard({
   displaySettings,
   className,
   linkMode = "i18n",
+  compare,
 }: CatalogCardProps) {
   const t = useTranslations("packages");
   const settings = {
@@ -64,10 +68,22 @@ export function CatalogCard({
   const resolvedHref = linkMode === "locale-path" ? `/${locale}${href}` : href;
   const ctaLabel = t("viewDetails");
 
+  const compareOverlay = compare ? (
+    <CompareCardOverlay
+      contentTypeSlug={compare.contentTypeSlug}
+      itemId={item.id}
+      maxItems={compare.maxItems}
+      label={compare.label}
+      className={variant === "minimal" ? "!absolute end-2 top-2 z-10" : undefined}
+    />
+  ) : null;
+
   return (
-    <Card className={cardClass}>
+    <Card className={cn(cardClass, compare && variant === "minimal" && "relative")}>
+      {compare && variant === "minimal" ? compareOverlay : null}
       {variant !== "minimal" && (
         <div className={cn("relative overflow-hidden bg-muted", variant === "compact" ? "aspect-[16/9]" : "aspect-[4/3]")}>
+          {compareOverlay}
           <OptimizedImage
             src={image}
             alt={name}

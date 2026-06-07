@@ -6,6 +6,9 @@ import type { CSSProperties } from "react";
 import type { ProductListingRecord } from "@/features/products/listing/types";
 import { CollectionCatalogCard } from "./collection-catalog-card";
 import { ProductListingCard } from "./product-listing-card";
+import type { ResolvedProductBuyNow } from "@/features/products/lib/product-buy-now";
+import type { ResolvedProductCtaConfig } from "@/features/products/lib/product-cta";
+import type { ResolvedProductCardLayout } from "@/features/products/lib/product-storefront-layout";
 
 type ListingViewMode = "grid" | "list" | "table";
 type ListingMode = "product" | "collection";
@@ -20,6 +23,9 @@ type Props = {
   numberLocale?: string;
   emptyMessage: string;
   cardLayoutCssVars?: Record<string, string>;
+  buyNow?: ResolvedProductBuyNow;
+  quoteCta?: ResolvedProductCtaConfig;
+  cardLayout?: ResolvedProductCardLayout;
   collectionCardVariant?: "default" | "catalog";
   collectionViewLabel?: string;
 };
@@ -32,6 +38,9 @@ export function ProductListingGrid({
   numberLocale = "en-US",
   emptyMessage,
   cardLayoutCssVars,
+  buyNow,
+  quoteCta,
+  cardLayout,
   collectionCardVariant = "default",
   collectionViewLabel = "View",
 }: Props) {
@@ -136,8 +145,12 @@ export function ProductListingGrid({
               key={product.slug}
               product={product}
               href={href}
+              localePrefix={localePrefix}
               numberLocale={numberLocale}
               cardStyle={cardLayoutCssVars as CSSProperties | undefined}
+              buyNow={buyNow}
+              quoteCta={quoteCta}
+              cardLayout={cardLayout}
               priority={cardPriority}
             />
           );

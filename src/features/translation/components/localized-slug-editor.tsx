@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { upsertLocalizedSlugAction } from "@/features/translation/actions";
+import { useAdminEditingLocale } from "@/features/translation/hooks/use-admin-editing-locale";
 import { useLocales } from "@/features/translation/hooks/use-locales";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -16,9 +17,13 @@ type Props = {
 };
 
 export function LocalizedSlugEditor({ entityType, entityId, defaultSlug, pathPrefix }: Props) {
-  const { targetLocales, loading } = useLocales();
+  const { targetLocales, defaultCode, loading: localesLoading } = useLocales();
+  const { activeLocaleCode, activeLocale, defaultCode: adminDefaultCode } = useAdminEditingLocale();
   const [values, setValues] = useState<Record<string, string>>({});
   const [pending, startTransition] = useTransition();
+
+  const editingDefault = activeLocaleCode === (adminDefaultCode || defaultCode);
+
   const localeCodes = useMemo(
     () => targetLocales.map((locale) => locale.code).join(","),
     [targetLocales]
@@ -31,7 +36,7 @@ export function LocalizedSlugEditor({ entityType, entityId, defaultSlug, pathPre
       let changed = codes.length !== Object.keys(prev).length;
 
       for (const code of codes) {
-        const value = prev[code] ?? defaultSlug;
+        const value = prev[code] ?? "";
         next[code] = value;
         if (prev[code] !== value) changed = true;
       }
@@ -40,55 +45,72 @@ export function LocalizedSlugEditor({ entityType, entityId, defaultSlug, pathPre
     });
   }, [defaultSlug, localeCodes]);
 
-  if (loading || targetLocales.length === 0) return null;
+  if (localesLoading) return null;
 
-  const saveSlug = (languageCode: string) => {
-    const slug = values[languageCode]?.trim();
+  if (editingDefault) {
+    return (
+      <Card className="border-dashed">
+        <CardHeader className="py-4">
+          <CardTitle className="text-base">URL slug</CardTitle>
+          <CardDescription>
+            Default slug for all locales unless you set a localized slug below (switch language in
+            the top bar).
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <p className="text-xs text-muted-foreground">
+            /{activeLocale.urlPrefix}
+            {pathPrefix}/{defaultSlug || "…"}
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const locale = targetLocales.find((l) => l.code === activeLocaleCode);
+  if (!locale) return null;
+
+  const saveSlug = () => {
+    const slug = values[locale.code]?.trim();
     if (!slug) return;
     startTransition(async () => {
-      await upsertLocalizedSlugAction(entityType, entityId, languageCode, slug);
+      await upsertLocalizedSlugAction(entityType, entityId, locale.code, slug);
     });
   };
 
   return (
     <Card className="border-dashed">
       <CardHeader className="py-4">
-        <CardTitle className="text-base">Localized URLs</CardTitle>
+        <CardTitle className="text-base">Localized URL ({locale.label})</CardTitle>
         <CardDescription>
-          Optional per-locale slugs. Leave blank to use the default English slug in all locales.
+          Optional slug for this language. Leave blank to use the English slug on the live site.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 pt-0">
-        {targetLocales.map((locale) => (
-          <div key={locale.code} className="grid gap-2 sm:grid-cols-[1fr_auto] sm:items-end">
-            <div className="space-y-1">
-              <Label>
-                {locale.label} ({locale.code})
-              </Label>
-              <Input
-                value={values[locale.code] ?? ""}
-                onChange={(e) =>
-                  setValues((prev) => ({ ...prev, [locale.code]: e.target.value }))
-                }
-                placeholder={defaultSlug}
-                dir={locale.dir}
-              />
-              <p className="text-xs text-muted-foreground">
-                /{locale.urlPrefix}
-                {pathPrefix}/{values[locale.code] || defaultSlug || "…"}
-              </p>
-            </div>
-            <Button
-              type="button"
-              size="sm"
-              variant="outline"
-              disabled={pending || !values[locale.code]?.trim()}
-              onClick={() => saveSlug(locale.code)}
-            >
-              Save
-            </Button>
+        <div className="grid gap-2 sm:grid-cols-[1fr_auto] sm:items-end">
+          <div className="space-y-1">
+            <Label>{locale.label}</Label>
+            <Input
+              value={values[locale.code] ?? ""}
+              onChange={(e) => setValues((prev) => ({ ...prev, [locale.code]: e.target.value }))}
+              placeholder={defaultSlug}
+              dir={locale.dir}
+            />
+            <p className="text-xs text-muted-foreground">
+              /{locale.urlPrefix}
+              {pathPrefix}/{values[locale.code] || defaultSlug || "…"}
+            </p>
           </div>
-        ))}
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            disabled={pending || !values[locale.code]?.trim()}
+            onClick={saveSlug}
+          >
+            Save slug
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );

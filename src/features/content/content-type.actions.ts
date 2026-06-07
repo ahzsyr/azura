@@ -7,6 +7,7 @@ import { contentTypeSchema } from "@/schemas/content/content-type";
 import { RESERVED_URL_PREFIXES } from "@/i18n/reserved-slugs";
 import { prisma } from "@/lib/prisma";
 import { searchIndexer } from "@/features/search/search-indexer.service";
+import { revalidateComparableTypes } from "@/services/cache";
 
 function formString(value: FormDataEntryValue | null): string {
   return typeof value === "string" ? value : "";
@@ -102,6 +103,7 @@ export async function upsertContentType(formData: FormData) {
   revalidatePath("/admin/content/types");
   if (routePrefix) revalidatePath(`/${routePrefix}`);
   revalidatePath(`/compare/${parsed.slug}`);
+  revalidateComparableTypes();
   await searchIndexer.reindexContentType(type.id);
   redirect(`/admin/content/types/${type.id}`);
 }

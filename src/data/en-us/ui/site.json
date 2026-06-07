@@ -1,33 +1,33 @@
 {
-  "siteName": "B R T Trading",
-  "tagline": "Next-Gen Digital Experience",
-  "description": "Premium technology solutions for the future",
-  "logoText": "BRT",
+  "siteName": "AZURA solution",
+  "tagline": "",
+  "description": "",
+  "logoText": "AZURA",
   "contact": {
-    "email": "hello@azuraweb.com",
-    "phone": "+1 (000) 000-0000",
-    "address": "Dubai, UAE"
+    "email": "",
+    "phone": "",
+    "address": ""
   },
   "social": {},
   "catalogBrands": [],
   "catalogTags": [],
   "catalogPageHero": {
-    "style": "minimal",
-    "titleScale": "md",
+    "style": "",
+    "titleScale": "",
     "showEyebrow": true,
     "showGlow": true,
     "bannerImage": ""
   },
   "productListingLayout": {
-    "sidebarMode": "pinned",
-    "chromeVariant": "chrome",
+    "sidebarMode": "",
+    "chromeVariant": "",
     "viewModes": [
-      "grid",
-      "list",
-      "table"
+      "",
+      "",
+      ""
     ],
-    "defaultViewMode": "grid",
-    "heroStyle": "minimal",
+    "defaultViewMode": "",
+    "heroStyle": "",
     "showCompare": true
   },
   "catalogToolbarDock": {
@@ -38,11 +38,11 @@
     "backgroundOpacity": 82
   },
   "productPageLayout": {
-    "galleryLayout": "wide_gallery",
-    "animationEntrance": "fade",
+    "galleryLayout": "",
+    "animationEntrance": "",
     "stickyBreadcrumb": true,
     "fixedBuyColumn": true,
-    "tabsMode": "underline"
+    "tabsMode": ""
   },
   "productCardLayout": {
     "showCompare": true
@@ -55,29 +55,99 @@
       "enabled": false
     }
   },
-  "productPageAddToCart": {
-    "label": "Get Quote",
-    "href": "#",
-    "openInNewTab": false,
-    "behavior": "link",
+  "productBuyNow": {
     "enabled": true,
-    "variant": "primary",
-    "size": "md",
-    "fullWidth": false
+    "label": "",
+    "shopBaseUrl": "",
+    "slugPathPrefix": "",
+    "openInNewTab": true,
+    "variant": "",
+    "size": "",
+    "fullWidth": false,
+    "placements": {
+      "page": true,
+      "card": true
+    }
+  },
+  "productCta": {
+    "enabled": true,
+    "label": "",
+    "icon": "",
+    "iconUrl": "",
+    "variant": "",
+    "linkType": "",
+    "internalPath": "",
+    "externalUrl": "",
+    "openInNewTab": false,
+    "placements": {
+      "inline": true,
+      "floating": true,
+      "card": true
+    },
+    "cardVisibility": "",
+    "cardLayout": "",
+    "appearance": {
+      "page": {
+        "buttonSize": "",
+        "borderRadiusPx": null,
+        "paddingBlock": "",
+        "paddingInline": "",
+        "fontSize": "",
+        "fontWeight": "",
+        "letterSpacing": "",
+        "textTransform": "",
+        "iconPosition": "",
+        "iconSize": "",
+        "fullWidth": false,
+        "shadow": "",
+        "hoverAnimation": "",
+        "transitionMs": 200,
+        "positionMode": "",
+        "alignment": "",
+        "mobileBehavior": "",
+        "inheritThemePreset": true,
+        "customPresetId": null,
+        "floatingOnScroll": false,
+        "buttonWidthCss": ""
+      },
+      "card": {
+        "buttonSize": "",
+        "borderRadiusPx": null,
+        "paddingBlock": "",
+        "paddingInline": "",
+        "fontSize": "",
+        "fontWeight": "",
+        "letterSpacing": "",
+        "textTransform": "",
+        "iconPosition": "",
+        "iconSize": "",
+        "fullWidth": false,
+        "shadow": "",
+        "hoverAnimation": "",
+        "transitionMs": 200,
+        "positionMode": "",
+        "alignment": "",
+        "mobileBehavior": "",
+        "inheritThemePreset": true,
+        "customPresetId": null,
+        "floatingOnScroll": false,
+        "buttonWidthCss": ""
+      }
+    }
   },
   "productPagePromo": {
     "enabled": false,
-    "eyebrow": "Events",
-    "title": "B R T Trading in Dubai 2026",
-    "subtitle": "Visit our booth for live demos, exclusive offers, and networking gear showcases.",
-    "ctaLabel": "Learn more",
-    "ctaHref": "/about",
+    "eyebrow": "",
+    "title": "",
+    "subtitle": "",
+    "ctaLabel": "",
+    "ctaHref": "",
     "openInNewTab": false
   },
   "productPageTrust": {
     "enabled": false,
-    "provider": "Trustpilot",
-    "label": "Excellent",
+    "provider": "",
+    "label": "",
     "rating": 4.6,
     "reviewCount": 0,
     "href": ""
@@ -87,7 +157,7 @@
     "general": {
       "enabled": true,
       "globalSearchEnabled": true,
-      "searchPageEnabled": false,
+      "searchPageEnabled": true,
       "searchPagePath": "/search",
       "resultsPerPage": 20,
       "instantSearch": true,
@@ -99,7 +169,7 @@
     "fuzziness": 0.35,
     "searchMode": "hybrid",
     "globalSearchEnabled": true,
-    "searchPageEnabled": false,
+    "searchPageEnabled": true,
     "searchPagePath": "/search",
     "resultsPerPage": 20,
     "instantSearch": true,
@@ -167,9 +237,25 @@
     },
     "filters": {
       "showEntityTypeChips": true,
-      "showContentTypeChips": true,
+      "showContentTypeChips": false,
       "defaultEntityTypes": [],
-      "builtin": {},
+      "builtin": {
+        "contentType": {
+          "enabled": false
+        },
+        "tags": {
+          "enabled": false
+        },
+        "price": {
+          "enabled": false
+        },
+        "status": {
+          "enabled": false
+        },
+        "date": {
+          "enabled": false
+        }
+      },
       "displayOrder": [
         "contentType",
         "category",
@@ -265,28 +351,33 @@
   },
   "productPageElementOrder": {
     "main": [
-      "gallery",
-      "tabs",
-      "frequentlyBought",
-      "crossLinks",
-      "promo",
-      "servicesBar",
-      "trust"
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
     ],
     "side": [
-      "linkedTags",
-      "shortDescription",
-      "inlineCta",
-      "variations",
-      "compare",
-      "saveToList",
-      "price",
-      "stock",
-      "condition",
-      "delivery",
-      "quantity",
-      "addToCart",
-      "keySpecs"
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
     ]
+  },
+  "productPageCompactDisplay": {
+    "elements": {
+      "inlineCta": true
+    }
   }
 }

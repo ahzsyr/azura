@@ -14,11 +14,70 @@ import { MediaPickerField } from "@/features/media/components/media-picker-field
 import { CatalogBlockFields } from "@/features/catalog/admin/catalog-block-fields";
 import { ContentBlockFields } from "@/features/content/admin/content-block-fields";
 import {
+  AdvancedRichTextBlockFields,
+  ChangelogBlockFields,
+  CodeBlockFields,
+  ComparisonBlockFields,
+  MarkdownBlockFields,
+  TableBlockFields,
+  TimelineBlockFields,
+} from "@/features/content-blocks/fields";
+import {
+  HeroProBlockFields,
+  CtaBannerBlockFields,
+  FeatureGridBlockFields,
+  BenefitsGridBlockFields,
+  TrustBadgesBlockFields,
+  LogoCloudBlockFields,
+  StatsCounterBlockFields,
+  BeforeAfterBlockFields,
+} from "@/features/marketing-blocks/fields";
+import {
+  ProductGridBlockFields,
+  ProductCarouselBlockFields,
+  ProductComparisonBlockFields,
+  ProductSpecificationsBlockFields,
+  ProductReviewsBlockFields,
+  ProductFaqBlockFields,
+  RelatedProductsBlockFields,
+} from "@/features/product-blocks/fields";
+import {
+  SearchBlockFields,
+  AdvancedFiltersBlockFields,
+  CategoryExplorerBlockFields,
+  RelatedContentBlockFields,
+  RecentlyViewedBlockFields,
+} from "@/features/discovery-blocks/fields";
+import {
+  VideoHeroBlockFields,
+  VideoGalleryBlockFields,
+  InteractiveHotspotsBlockFields,
+  MasonryGalleryBlockFields,
+} from "@/features/media-blocks/fields";
+import {
+  StickyCtaBlockFields,
+  LeadFormBlockFields,
+  ContactFormBuilderBlockFields,
+  MultiStepFormBlockFields,
+  NewsletterSignupBlockFields,
+  DownloadGateBlockFields,
+} from "@/features/conversion-blocks/fields";
+import {
+  PricingCalculatorBlockFields,
+  KnowledgeBaseBlockFields,
+  DocumentationNavBlockFields,
+  StatusDashboardBlockFields,
+  TeamDirectoryBlockFields,
+  PartnerDirectoryBlockFields,
+  PricingBlockFields,
+} from "@/features/portal-blocks/fields";
+import {
   LocalizedBlockInput,
   LocalizedBlockTextarea,
   LocalizedBlockTitle,
 } from "@/features/builder/block-translation-context";
 import { patchBlockSettings } from "@/features/builder/instance/block-instance";
+import { RowSectionBlockFields } from "./row-section-block-fields";
 
 type Props = {
   block: BlockNode;
@@ -44,32 +103,7 @@ export function BlockFieldEditor({
 
   switch (block.type) {
     case "hero":
-      return (
-        <div className="space-y-3">
-          <LocalizedBlockTitle block={block} />
-          <LocalizedBlockTextarea block={block} field="subtitle" label="Subtitle" rows={2} />
-          <MediaPickerField
-            label="Background image"
-            mediaTypes={["IMAGE", "SVG"]}
-            mediaId={(block.props.mediaAssetId as string) || null}
-            url={(block.props.imageUrl as string) ?? ""}
-            onChange={({ mediaId, url }) =>
-              onChange(
-                patchBlockSettings(block, {
-                  imageUrl: url,
-                  mediaAssetId: mediaId ?? "",
-                })
-              )
-            }
-          />
-          <LocalizedBlockInput block={block} field="ctaLabel" label="CTA label" />
-          <Input
-            placeholder="CTA link"
-            value={(block.props.ctaHref as string) ?? ""}
-            onChange={(e) => setProp("ctaHref", e.target.value)}
-          />
-        </div>
-      );
+      return <HeroProBlockFields block={block} onChange={onChange} />;
 
     case "text":
       return <LocalizedBlockTextarea block={block} field="content" label="Content" rows={5} />;
@@ -117,6 +151,17 @@ export function BlockFieldEditor({
             {galleryOptions.length === 0 && (
               <p className="mt-1 text-xs text-amber-600">No galleries yet. Create one in Galleries admin.</p>
             )}
+          </div>
+          <div>
+            <Label className="text-xs">Layout</Label>
+            <select
+              className="mt-1 w-full rounded-md border h-9 px-2 text-sm"
+              value={(block.props.variant as string) ?? "grid"}
+              onChange={(e) => setProp("variant", e.target.value)}
+            >
+              <option value="grid">Grid</option>
+              <option value="masonry">Masonry</option>
+            </select>
           </div>
           <div>
             <Label className="text-xs">Columns</Label>
@@ -353,43 +398,28 @@ export function BlockFieldEditor({
     }
 
     case "pricing":
-      return (
-        <div className="space-y-3">
-          <LocalizedBlockTitle block={block} />
-          <Input
-            placeholder="Package category slug (optional)"
-            value={(block.props.packageCategorySlug as string) ?? ""}
-            onChange={(e) => setProp("packageCategorySlug", e.target.value)}
-          />
-          <Input
-            type="number"
-            placeholder="Limit"
-            value={String(block.props.limit ?? 3)}
-            onChange={(e) => setProp("limit", Number(e.target.value))}
-          />
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={Boolean(block.props.showFeaturedOnly)}
-              onChange={(e) => setProp("showFeaturedOnly", e.target.checked)}
-            />
-            Featured packages only
-          </label>
-        </div>
-      );
+      return <PricingBlockFields block={block} onChange={onChange} />;
 
     case "cta":
-      return (
-        <div className="space-y-3">
-          <LocalizedBlockTitle block={block} />
-          <LocalizedBlockInput block={block} field="button" label="Button" />
-          <Input
-            placeholder="Link href"
-            value={(block.props.href as string) ?? ""}
-            onChange={(e) => setProp("href", e.target.value)}
-          />
-        </div>
-      );
+      return <CtaBannerBlockFields block={block} onChange={onChange} />;
+
+    case "featureGrid":
+      return <FeatureGridBlockFields block={block} onChange={onChange} />;
+
+    case "benefitsGrid":
+      return <BenefitsGridBlockFields block={block} onChange={onChange} />;
+
+    case "trustBadges":
+      return <TrustBadgesBlockFields block={block} onChange={onChange} />;
+
+    case "logoCloud":
+      return <LogoCloudBlockFields block={block} onChange={onChange} />;
+
+    case "statsCounter":
+      return <StatsCounterBlockFields block={block} onChange={onChange} />;
+
+    case "beforeAfter":
+      return <BeforeAfterBlockFields block={block} onChange={onChange} />;
 
     case "inquiryForm":
       return (
@@ -436,6 +466,111 @@ export function BlockFieldEditor({
       return (
         <ContentBlockFields block={block} onChange={onChange} />
       );
+
+    case "advancedRichText":
+      return <AdvancedRichTextBlockFields block={block} onChange={onChange} />;
+
+    case "markdown":
+      return <MarkdownBlockFields block={block} onChange={onChange} />;
+
+    case "code":
+      return <CodeBlockFields block={block} onChange={onChange} />;
+
+    case "table":
+      return <TableBlockFields block={block} onChange={onChange} />;
+
+    case "timeline":
+      return <TimelineBlockFields block={block} onChange={onChange} />;
+
+    case "changelog":
+      return <ChangelogBlockFields block={block} onChange={onChange} />;
+
+    case "comparison":
+      return <ComparisonBlockFields block={block} onChange={onChange} />;
+
+    case "productGrid":
+      return <ProductGridBlockFields block={block} onChange={onChange} />;
+
+    case "productCarousel":
+      return <ProductCarouselBlockFields block={block} onChange={onChange} />;
+
+    case "productComparison":
+      return <ProductComparisonBlockFields block={block} onChange={onChange} />;
+
+    case "productSpecifications":
+      return <ProductSpecificationsBlockFields block={block} onChange={onChange} />;
+
+    case "productReviews":
+      return <ProductReviewsBlockFields block={block} onChange={onChange} />;
+
+    case "productFaq":
+      return <ProductFaqBlockFields block={block} onChange={onChange} />;
+
+    case "relatedProducts":
+      return <RelatedProductsBlockFields block={block} onChange={onChange} />;
+
+    case "searchBlock":
+      return <SearchBlockFields block={block} onChange={onChange} />;
+
+    case "advancedFilters":
+      return <AdvancedFiltersBlockFields block={block} onChange={onChange} />;
+
+    case "categoryExplorer":
+      return <CategoryExplorerBlockFields block={block} onChange={onChange} />;
+
+    case "relatedContent":
+      return <RelatedContentBlockFields block={block} onChange={onChange} />;
+
+    case "recentlyViewed":
+      return <RecentlyViewedBlockFields block={block} onChange={onChange} />;
+
+    case "videoHero":
+      return <VideoHeroBlockFields block={block} onChange={onChange} />;
+
+    case "videoGallery":
+      return <VideoGalleryBlockFields block={block} onChange={onChange} galleryOptions={galleryOptions} />;
+
+    case "interactiveHotspots":
+      return <InteractiveHotspotsBlockFields block={block} onChange={onChange} />;
+
+    case "masonryGallery":
+      return <MasonryGalleryBlockFields block={block} onChange={onChange} galleryOptions={galleryOptions} />;
+
+    case "stickyCta":
+      return <StickyCtaBlockFields block={block} onChange={onChange} />;
+
+    case "leadForm":
+      return <LeadFormBlockFields block={block} onChange={onChange} />;
+
+    case "contactFormBuilder":
+      return <ContactFormBuilderBlockFields block={block} onChange={onChange} />;
+
+    case "multiStepForm":
+      return <MultiStepFormBlockFields block={block} onChange={onChange} />;
+
+    case "newsletterSignup":
+      return <NewsletterSignupBlockFields block={block} onChange={onChange} />;
+
+    case "downloadGate":
+      return <DownloadGateBlockFields block={block} onChange={onChange} />;
+
+    case "pricingCalculator":
+      return <PricingCalculatorBlockFields block={block} onChange={onChange} />;
+
+    case "knowledgeBase":
+      return <KnowledgeBaseBlockFields block={block} onChange={onChange} />;
+
+    case "documentationNav":
+      return <DocumentationNavBlockFields block={block} onChange={onChange} />;
+
+    case "statusDashboard":
+      return <StatusDashboardBlockFields block={block} onChange={onChange} />;
+
+    case "teamDirectory":
+      return <TeamDirectoryBlockFields block={block} onChange={onChange} />;
+
+    case "partnerDirectory":
+      return <PartnerDirectoryBlockFields block={block} onChange={onChange} />;
 
     case "spacer":
       return (
@@ -492,6 +627,9 @@ export function BlockFieldEditor({
           </p>
         </div>
       );
+
+    case "rowSection":
+      return <RowSectionBlockFields block={block} setProp={setProp} />;
 
     default:
       return <p className="text-xs text-muted-foreground">No fields for this block type.</p>;

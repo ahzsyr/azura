@@ -30,6 +30,11 @@ export const JSON_NAMESPACES = {
     description: "Low-priority site settings key-value store",
     category: "settings",
   },
+  "site-settings": {
+    label: "Site settings overlay",
+    description: "Vercel/serverless patches merged over bundled site.json",
+    category: "settings",
+  },
   "seo-global": {
     label: "SEO global",
     description: "Robots.txt and global SEO config",
@@ -55,10 +60,25 @@ export const JSON_NAMESPACES = {
     description: "Visitor preset panel settings",
     category: "theme",
   },
+  whatsapp: {
+    label: "WhatsApp",
+    description: "Floating button and page button appearance settings",
+    category: "settings",
+  },
+  account: {
+    label: "Account",
+    description: "Password reset email templates and visitor account settings",
+    category: "settings",
+  },
   "preview-tokens": {
     label: "Preview tokens",
     description: "CMS draft preview tokens",
     category: "cms",
+  },
+  "demo-profiles": {
+    label: "Demo profiles",
+    description: "Custom demo website profile bundles",
+    category: "settings",
   },
 } as const;
 
@@ -114,6 +134,9 @@ export const SCHEMA_MODELS = [
   { name: "ContentItem", kind: "relational", note: "Catalog items — /admin/content" },
   { name: "ContentCollection", kind: "relational", note: "Collections / categories" },
   { name: "Inquiry", kind: "relational", note: "CRM — /admin/inquiries" },
+  { name: "FormTemplate", kind: "relational", note: "Conversion forms — /admin/forms" },
+  { name: "FormSubmission", kind: "relational", note: "Form inbox — /admin/form-submissions" },
+  { name: "NewsletterSubscriber", kind: "relational", note: "Newsletter — /admin/newsletter" },
   { name: "Booking", kind: "relational", note: "FK to user + content item" },
   { name: "CmsPage", kind: "relational", note: "CMS — blocks in DB JSON column" },
   { name: "Post", kind: "relational", note: "Blog — /admin/posts" },

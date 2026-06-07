@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { revalidateUiMessages } from "@/services/cache";
+import { CACHE_TAGS, createCached, revalidateUiMessages } from "@/services/cache";
 import type { TranslationStatus } from "@prisma/client";
 
 type NestedDict = Record<string, unknown>;
@@ -63,15 +63,7 @@ export const uiMessageService = {
   },
 
   async getMessagesForLocale(languageCode: string): Promise<NestedDict> {
-    const rows = await prisma.uiMessage.findMany({
-      where: { languageCode, status: "PUBLISHED" },
-    });
-    const dict: NestedDict = {};
-    for (const row of rows) {
-      const fullKey = row.namespace === "root" ? row.key : `${row.namespace}.${row.key}`;
-      setNestedKey(dict, fullKey, row.value);
-    }
-    return dict;
+    return getCachedMessagesForLocale(languageCode);
   },
 
   async getAllGrouped() {
@@ -149,12 +141,35 @@ export const uiMessageService = {
   },
 };
 
+async function fetchMessagesForLocale(languageCode: string): Promise<NestedDict> {
+  const rows = await prisma.uiMessage.findMany({
+    where: { languageCode, status: "PUBLISHED" },
+  });
+  const dict: NestedDict = {};
+  for (const row of rows) {
+    const fullKey = row.namespace === "root" ? row.key : `${row.namespace}.${row.key}`;
+    setNestedKey(dict, fullKey, row.value);
+  }
+  return dict;
+}
+
+function getCachedMessagesForLocale(languageCode: string): Promise<NestedDict> {
+  return createCached(
+    () => fetchMessagesForLocale(languageCode),
+    ["ui-messages", languageCode],
+    {
+      tags: [CACHE_TAGS.uiMessages(languageCode), CACHE_TAGS.translations],
+      revalidate: 300,
+    },
+  )();
+}
+
 export async function getMergedMessages(
   languageCode: string,
   fileMessages: NestedDict
 ): Promise<NestedDict> {
   try {
-    const dbMessages = await uiMessageService.getMessagesForLocale(languageCode);
+    const dbMessages = await getCachedMessagesForLocale(languageCode);
     return deepMerge(fileMessages, dbMessages);
   } catch {
     return fileMessages;

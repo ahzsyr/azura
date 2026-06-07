@@ -4,7 +4,7 @@ import {
   DEFAULT_TAGLINE,
   isDefaultBrandName,
 } from "@/config/site";
-import type { HeaderDesktopMode, HeaderWorkspace, MenuItem, MenuItemType } from "./types";
+import type { HeaderAction, HeaderDesktopMode, HeaderWorkspace, MenuItem, MenuItemType } from "./types";
 import { normalizeBranding } from "./branding-defaults";
 import { generateId } from "./menu-engine";
 
@@ -23,67 +23,144 @@ function normalizeHeaderSettings(settings: HeaderWorkspace["settings"]): HeaderW
   return { ...settings, headerDesktopMode: "sticky" };
 }
 
-/** Seed nav from Devi's original hardcoded header links. */
-function buildDeviMainMenuItems(): MenuItem[] {
-  const staticNav: { href: string; key: string; label: string }[] = [
-    { href: "/", key: "home", label: "Home" },
-    { href: "/about", key: "about", label: "About" },
-    { href: "/packages", key: "packages", label: "Packages" },
-    { href: "/visa", key: "visa", label: "Visa" },
-    { href: "/hotels-transport", key: "hotels", label: "Hotels & Transport" },
-    { href: "/gallery", key: "gallery", label: "Gallery" },
-    { href: "/testimonials", key: "testimonials", label: "Testimonials" },
-    { href: "/contact", key: "contact", label: "Contact" },
-  ];
+const LEGACY_MENU_ITEM_ID = /^devi-nav-/;
 
-  return staticNav.map((item) => ({
-    id: `devi-nav-${item.key}`,
-    type: "link" as const,
-    label: item.label,
-    url: item.href,
-    icon: undefined,
-    placement: "both" as const,
-    children: [],
-  }));
+/** Blank-site main menu — add links in Header → Menu builder. */
+function buildDefaultMainMenuItems(): MenuItem[] {
+  return [];
 }
 
-export function buildDefaultHeaderActions() {
+function isLegacyMainMenuItems(items: MenuItem[]): boolean {
+  if (items.some((item) => LEGACY_MENU_ITEM_ID.test(item.id))) return true;
+  const legacyPaths = new Set(["/packages", "/visa", "/hotels-transport"]);
+  const legacyMatches = items.filter(
+    (item) => item.type === "link" && legacyPaths.has((item.url ?? "").trim()),
+  ).length;
+  return legacyMatches >= 2;
+}
+
+/** True when workspace branding is an old template seed that should be reset to factory defaults. */
+function isLegacyHeaderBranding(branding: HeaderWorkspace["branding"]): boolean {
+  const name = (branding.brandName ?? "").trim();
+  const logo = (branding.logoText ?? "").trim();
+  const tag = (branding.tagline ?? "").trim();
+  if (name === "AZURA" && tag.toLowerCase() === "solutions") return true;
+  if (logo === "AZ" && name === "AZURA" && tag.toLowerCase() === "solutions") return true;
+  if (name === "SAFEER MEDINA") return true;
+  return false;
+}
+
+function isOverridableBrandName(name: string): boolean {
+  const n = name.trim();
+  if (!n) return true;
+  return (
+    n === DEFAULT_BRAND_NAME ||
+    n === "AZURA" ||
+    n === "AZURA Solutions" ||
+    n === DEFAULT_BRAND_SHORT
+  );
+}
+
+function isOverridableTagline(tagline: string): boolean {
+  const t = tagline.trim();
+  if (!t) return true;
+  return t.toLowerCase() === "solutions";
+}
+
+/** Upgrade persisted workspaces from BRT / travel-agency template seeds. */
+export function migrateLegacyHeaderWorkspace(workspace: HeaderWorkspace): HeaderWorkspace | null {
+  const factory = createDefaultWorkspace();
+  let branding = workspace.branding;
+  let menusDatabase = workspace.menusDatabase;
+  let changed = false;
+
+  if (isLegacyHeaderBranding(workspace.branding)) {
+    branding = factory.branding;
+    changed = true;
+  }
+
+  const mainMenu = workspace.menusDatabase.mainMenu;
+  if (mainMenu && isLegacyMainMenuItems(mainMenu.items)) {
+    menusDatabase = {
+      ...workspace.menusDatabase,
+      mainMenu: { ...mainMenu, items: factory.menusDatabase.mainMenu.items },
+    };
+    changed = true;
+  }
+
+  if (!changed) return null;
+  return { ...workspace, branding, menusDatabase };
+}
+
+export function buildDefaultHeaderActions(): HeaderAction[] {
   return [
     {
       id: "action-search",
-      type: "search" as const,
+      type: "search",
       label: "Search",
       icon: "fa-search",
-      style: "icon" as const,
+      style: "icon",
       outlined: false,
       visible: true,
     },
     {
-      id: "action-language",
-      type: "language" as const,
-      label: "EN",
-      icon: "fa-globe",
-      style: "ghost" as const,
+      id: "action-account",
+      type: "account",
+      label: "Account",
+      icon: "fa-user",
+      style: "icon",
       outlined: false,
       visible: true,
     },
     {
       id: "action-cta",
-      type: "custom" as const,
+      type: "custom",
       label: "Inquire",
       icon: "fa-envelope",
-      style: "solid" as const,
+      style: "solid",
       outlined: false,
       visible: true,
     },
   ];
+}
+
+/** Inject account action and hide language in header bar (language lives in personalization widget). */
+export function migrateHeaderActions(actions: HeaderAction[]): HeaderAction[] {
+  let result = actions.map((a) =>
+    a.type === "language" ? { ...a, visible: false } : a,
+  );
+
+  const hasAccount = result.some((a) => a.type === "account" || a.id === "action-account");
+  if (!hasAccount) {
+    const accountAction: HeaderAction = {
+      id: "action-account",
+      type: "account",
+      label: "Account",
+      icon: "fa-user",
+      style: "icon",
+      outlined: false,
+      visible: true,
+    };
+    const searchIdx = result.findIndex((a) => a.type === "search");
+    if (searchIdx >= 0) {
+      result = [
+        ...result.slice(0, searchIdx + 1),
+        accountAction,
+        ...result.slice(searchIdx + 1),
+      ];
+    } else {
+      result = [accountAction, ...result];
+    }
+  }
+
+  return result;
 }
 
 export function createDefaultWorkspace(): HeaderWorkspace {
   return {
     version: 1,
     menusDatabase: {
-      mainMenu: { name: "Main Menu", items: buildDeviMainMenuItems(), globalApply: "Both" },
+      mainMenu: { name: "Main Menu", items: buildDefaultMainMenuItems(), globalApply: "Both" },
     },
     activeMenuKey: "mainMenu",
     branding: normalizeBranding({
@@ -93,7 +170,7 @@ export function createDefaultWorkspace(): HeaderWorkspace {
       logoImageDarkUrl: "",
       brandName: DEFAULT_BRAND_NAME,
       tagline: DEFAULT_TAGLINE,
-      showTagline: true,
+      showTagline: Boolean(DEFAULT_TAGLINE.trim()),
       areaStyle: "default",
       brandLayoutMobile: "logo-and-text",
       brandLayoutDesktop: "logo-and-text",
@@ -113,6 +190,12 @@ export function createDefaultWorkspace(): HeaderWorkspace {
       menuTransparency: 92,
       menuShadow: "strong",
       menuPanelAnimation: "slide",
+      mobileMenuSurface: "glass",
+      mobileMenuGlassEnabled: true,
+      mobileMenuBlurStrength: "medium",
+      mobileMenuTransparency: 96,
+      mobileMenuShadow: "strong",
+      mobileMenuAnimation: "slide",
     },
   };
 }
@@ -140,7 +223,9 @@ export function mergeWorkspaceImport(raw: unknown): HeaderWorkspace {
 
   let headerActions = base.headerActions;
   if (Array.isArray(o.headerActions)) {
-    headerActions = o.headerActions as typeof headerActions;
+    headerActions = migrateHeaderActions(o.headerActions as HeaderAction[]);
+  } else {
+    headerActions = migrateHeaderActions(headerActions);
   }
 
   const activeMenuKey =
@@ -152,7 +237,7 @@ export function mergeWorkspaceImport(raw: unknown): HeaderWorkspace {
   }
   settings = normalizeHeaderSettings(settings);
 
-  return {
+  const merged: HeaderWorkspace = {
     version: 1,
     menusDatabase: menus,
     activeMenuKey,
@@ -160,6 +245,8 @@ export function mergeWorkspaceImport(raw: unknown): HeaderWorkspace {
     headerActions,
     settings,
   };
+
+  return migrateLegacyHeaderWorkspace(merged) ?? merged;
 }
 
 export function newMenuItemFromForm(input: {
@@ -230,9 +317,27 @@ export function mergeHeaderWorkspaceWithTheme(
   const siteTag = typeof theme.tagline === "string" ? theme.tagline.trim() : "";
   const savedName = (branding.brandName ?? "").trim();
   const savedTag = (branding.tagline ?? "").trim();
-  if (name && !savedName) branding = { ...branding, brandName: name };
-  if (siteTag && !savedTag) {
+  const savedLogo = (branding.logoText ?? "").trim();
+
+  if (name && isOverridableBrandName(savedName)) {
+    branding = { ...branding, brandName: name };
+  }
+  if (siteTag && isOverridableTagline(savedTag)) {
     branding = { ...branding, tagline: siteTag, showTagline: true };
+  }
+  if (
+    name &&
+    (!savedLogo ||
+      isOverridableBrandName(savedLogo) ||
+      savedLogo === savedName ||
+      savedLogo === DEFAULT_BRAND_SHORT)
+  ) {
+    const short =
+      themeBranding?.logoText?.trim() ||
+      (name.length <= 6 ? name : name.split(/\s+/).map((w) => w[0]).join("").slice(0, 4).toUpperCase());
+    if (short && short !== name) {
+      branding = { ...branding, logoText: short };
+    }
   }
   if (logo && !branding.logoImageLightUrl && !branding.logoImageDarkUrl) {
     branding = {

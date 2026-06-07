@@ -1,7 +1,13 @@
 import type { MediaType } from "@prisma/client";
 
-/** Default image shown in admin previews and storefront fallbacks when no media is set. */
-export const DEFAULT_MEDIA_PLACEHOLDER = "/uploads/images/1780187853120-placeholder.png";
+/**
+ * Default image when no media is set.
+ * Source file: src/data/placeholder.svg (synced to public/images via npm run sync:placeholder).
+ */
+export const PLACEHOLDER_IMAGE_PATH = "/images/placeholder.svg";
+
+/** @deprecated Use PLACEHOLDER_IMAGE_PATH */
+export const DEFAULT_MEDIA_PLACEHOLDER = PLACEHOLDER_IMAGE_PATH;
 
 export function hasMediaUrl(url?: string | null): boolean {
   const trimmed = url?.trim();

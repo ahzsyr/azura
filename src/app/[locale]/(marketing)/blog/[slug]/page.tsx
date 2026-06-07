@@ -165,6 +165,13 @@ export default async function BlogPostPage({ params }: Props) {
           parentType="Post"
           parentId={post.id}
           translationBundle={bundle}
+          discoveryAnchor={{
+            context: "post",
+            id: post.id,
+            slug: post.slug,
+            categorySlugs: post.categories.map((c) => c.category.slug),
+            tags: post.tags.map((t) => t.tag.slug),
+          }}
         />
       ) : (
         <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: content }} />

@@ -57,7 +57,7 @@ export default async function SeoAuditPage() {
     rows.push({
       id: `static-${page.pageKey}`,
       label: page.label,
-      href: "/admin/seo",
+      href: `/admin/seo?tab=pages&page=${page.pageKey}`,
       score: result.score,
       grade: result.grade,
     });

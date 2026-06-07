@@ -10,6 +10,8 @@ import { Link } from "@/i18n/navigation";
 import { DEFAULT_MEDIA_PLACEHOLDER } from "@/features/media/constants";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getLocalizedField } from "@/lib/utils";
+import { CompareCardOverlay } from "@/features/comparison/components/compare-card-overlay";
+import type { CompareCardProps } from "@/features/comparison/get-compare-props";
 export type ServiceCardData = {
   id: string;
   type: string;
@@ -29,13 +31,30 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   shield: Shield,
 };
 
-export function ServiceCard({ service, locale }: { service: ServiceCardData; locale: string }) {
+export function ServiceCard({
+  service,
+  locale,
+  compare,
+}: {
+  service: ServiceCardData;
+  locale: string;
+  compare?: CompareCardProps;
+}) {
   const Icon = iconMap[service.icon] ?? Compass;
   const title = getLocalizedField(service, "title", locale);
   const description = getLocalizedField(service, "description", locale);
 
   return (
-    <Card className="h-full">
+    <Card className="relative h-full">
+      {compare ? (
+        <CompareCardOverlay
+          contentTypeSlug={compare.contentTypeSlug}
+          itemId={service.id}
+          maxItems={compare.maxItems}
+          label={compare.label}
+          className="!absolute end-2 top-2 z-10"
+        />
+      ) : null}
       <CardHeader>
         <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
           <Icon className="h-6 w-6" />
@@ -57,10 +76,10 @@ export function FeatureGrid({
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
       {items.map((item) => (
-        <div key={item.title} className="rounded-xl border border-border/60 p-6">
-          <h3 className="font-heading text-lg font-semibold">{item.title}</h3>
+        <div key={item.title} className="rounded-xl border border-border/60 bg-card p-6">
+          <h3 className="font-heading text-lg font-semibold text-card-foreground">{item.title}</h3>
           <div className="gold-divider my-3" />
-          <p className="text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
+          <p className="text-sm leading-relaxed text-card-foreground/75">{item.desc}</p>
         </div>
       ))}
     </div>

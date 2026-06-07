@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { ContentCard } from "@/components/content/content-card";
 import type { ContentBlockRenderProps } from "@/features/content/types";
-import { cn } from "@/lib/utils";
+import type { DeviceBreakpoint, ResolvedContentOverflow } from "@/types/block-system";
+import { ContentItemsOverflowLayout } from "@/features/content/components/content-items-overflow-layout";
+import { resolveContentOverflowCssFlags } from "@/features/builder/styles/content-overflow-resolver";
+import type { BlockNode } from "@/types/builder";
 
 export function ContentBlockRenderer({
   locale,
@@ -12,17 +14,23 @@ export function ContentBlockRenderer({
   viewAllHref,
   emptyMessage,
   compare,
-}: ContentBlockRenderProps) {
-  const columns = displaySettings.columns;
-  const gridClass =
-    displaySettings.layoutMode === "list"
-      ? "grid gap-4 grid-cols-1"
-      : cn(
-          "grid gap-6",
-          columns === 2 && "md:grid-cols-2",
-          columns === 3 && "md:grid-cols-2 lg:grid-cols-3",
-          columns === 4 && "md:grid-cols-2 lg:grid-cols-4"
-        );
+  overflowFlags,
+  previewDevice,
+  block,
+}: ContentBlockRenderProps & {
+  overflowFlags?: Record<DeviceBreakpoint, ResolvedContentOverflow>;
+  previewDevice?: DeviceBreakpoint;
+  block?: BlockNode;
+}) {
+  const flags =
+    overflowFlags ??
+    (block
+      ? resolveContentOverflowCssFlags(block)
+      : resolveContentOverflowCssFlags({
+          id: "content-fallback",
+          type: "contentList",
+          props: { displaySettings },
+        }));
 
   return (
     <div>
@@ -43,17 +51,14 @@ export function ContentBlockRenderer({
       {items.length === 0 ? (
         emptyMessage ? <p className="text-muted-foreground text-center py-8">{emptyMessage}</p> : null
       ) : (
-        <div className={gridClass}>
-          {items.map((item) => (
-            <ContentCard
-              key={item.id}
-              item={item}
-              locale={locale}
-              display={displaySettings}
-              compare={compare}
-            />
-          ))}
-        </div>
+        <ContentItemsOverflowLayout
+          items={items}
+          locale={locale}
+          displaySettings={displaySettings}
+          flags={flags}
+          compare={compare}
+          previewDevice={previewDevice}
+        />
       )}
     </div>
   );

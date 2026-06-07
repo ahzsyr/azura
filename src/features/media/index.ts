@@ -12,5 +12,12 @@ export {
 } from "./actions";
 export { formatBytes, mediaTypeFromMime } from "./media.service";
 export { mediaUsageScanner } from "./media-usage-scanner.service";
-export { MEDIA_TYPE_LABELS, MEDIA_USAGE_ENTITY_LABELS, DEFAULT_MEDIA_PLACEHOLDER, resolveMediaUrl, hasMediaUrl } from "./constants";
+export {
+  MEDIA_TYPE_LABELS,
+  MEDIA_USAGE_ENTITY_LABELS,
+  PLACEHOLDER_IMAGE_PATH,
+  DEFAULT_MEDIA_PLACEHOLDER,
+  resolveMediaUrl,
+  hasMediaUrl,
+} from "./constants";
 export { MediaPickerField } from "./components/media-picker-field";

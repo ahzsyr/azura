@@ -10,7 +10,7 @@ import type {
   MobileNavAnimation,
   MobileNavDensity,
 } from "@/features/navigation/types";
-import { resolveMenuAppearance } from "@/features/navigation/header-menu-appearance";
+import { resolveMenuAppearance, resolveMobileMenuAppearance } from "@/features/navigation/header-menu-appearance";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { setSettings } from "@/features/navigation/header-store";
@@ -30,6 +30,13 @@ export function HeaderSettingsPanel({ workspace, section }: Props) {
   const { settings } = workspace;
 
   if (section === "mobile") {
+    const mobileAppearance = resolveMobileMenuAppearance(settings);
+    const mobileSurface =
+      settings.mobileMenuSurface ??
+      settings.menuSurface ??
+      settings.overlaySurface ??
+      "glass";
+
     return (
       <div className="space-y-4">
         <AdminCollapsibleSection title="Mobile navigation type" defaultOpen>
@@ -64,21 +71,21 @@ export function HeaderSettingsPanel({ workspace, section }: Props) {
             <div>
               <p className="mb-2 text-sm font-medium">Animation</p>
               <OptionButtonGroup
-                value={settings.menuPanelAnimation ?? settings.mobileNavAnimation ?? "slide"}
-                options={(["slide", "fade", "scale"] as MobileNavAnimation[]).map((v) => ({
+                value={settings.mobileMenuAnimation ?? settings.mobileNavAnimation ?? "slide"}
+                options={(["slide", "fade", "scale", "spring"] as MobileNavAnimation[]).map((v) => ({
                   value: v,
                   label: v.charAt(0).toUpperCase() + v.slice(1),
                 }))}
                 onChange={(v) =>
                   setSettings({
-                    menuPanelAnimation: v,
+                    mobileMenuAnimation: v,
                     mobileNavAnimation: v,
                   })
                 }
-                columns={3}
+                columns={4}
               />
               <p className="mt-1 text-xs text-muted-foreground">
-                Same as panel animation under Header → Style (mega menu & mobile stay in sync).
+                Mobile-only open/close animation. Desktop mega menus use Header → Style.
               </p>
             </div>
             <div>
@@ -117,6 +124,105 @@ export function HeaderSettingsPanel({ workspace, section }: Props) {
             </div>
           </div>
         </AdminCollapsibleSection>
+
+        <AdminCollapsibleSection
+          title="Panel background"
+          description="These settings apply only to the mobile menu. Desktop mega menus use Header → Style → Mega menu panels."
+        >
+          <div className="space-y-4">
+            <div>
+              <p className="mb-2 text-sm font-medium">Background style</p>
+              <OptionButtonGroup
+                value={mobileSurface}
+                options={(
+                  [
+                    ["transparent", "Transparent"],
+                    ["glass", "Glass"],
+                    ["solid", "Solid"],
+                  ] as [MenuSurfaceStyle, string][]
+                ).map(([value, label]) => ({ value, label }))}
+                onChange={(v) =>
+                  setSettings({
+                    mobileMenuSurface: v as MenuSurfaceStyle,
+                    mobileMenuGlassEnabled: v === "glass",
+                  })
+                }
+                columns={3}
+              />
+              {mobileSurface === "transparent" ? (
+                <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">
+                  Transparent panels may reduce menu readability over busy hero sections.
+                </p>
+              ) : null}
+            </div>
+            {mobileSurface === "glass" && (
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={settings.mobileMenuGlassEnabled !== false}
+                  onChange={(e) => setSettings({ mobileMenuGlassEnabled: e.target.checked })}
+                />
+                Glass effect (backdrop blur)
+              </label>
+            )}
+            {mobileSurface === "glass" && (
+              <div>
+                <p className="mb-2 text-sm font-medium">Blur strength</p>
+                <OptionButtonGroup
+                  value={settings.mobileMenuBlurStrength ?? settings.menuBlurStrength ?? "medium"}
+                  options={(
+                    [
+                      ["light", "Light (8px)"],
+                      ["medium", "Medium (12px)"],
+                      ["strong", "Strong (20px)"],
+                    ] as [MenuBlurStrength, string][]
+                  ).map(([value, label]) => ({ value, label }))}
+                  onChange={(v) => setSettings({ mobileMenuBlurStrength: v })}
+                  columns={3}
+                />
+              </div>
+            )}
+            {mobileSurface !== "transparent" && (
+              <div>
+                <Label className="text-xs">
+                  Transparency ({mobileAppearance.transparency}% effective)
+                </Label>
+                <input
+                  type="range"
+                  min={40}
+                  max={98}
+                  step={1}
+                  value={settings.mobileMenuTransparency ?? mobileAppearance.transparency}
+                  onChange={(e) =>
+                    setSettings({ mobileMenuTransparency: Number(e.target.value) })
+                  }
+                  className="mt-2 w-full"
+                />
+                {mobileSurface === "glass" &&
+                settings.mobileMenuTransparency == null ? (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Glass defaults to at least 96% opacity for readability.
+                  </p>
+                ) : null}
+              </div>
+            )}
+            <div>
+              <p className="mb-2 text-sm font-medium">Shadow style</p>
+              <OptionButtonGroup
+                value={settings.mobileMenuShadow ?? settings.menuShadow ?? "strong"}
+                options={(
+                  [
+                    ["none", "None"],
+                    ["soft", "Soft"],
+                    ["strong", "Strong"],
+                  ] as [MenuShadowStyle, string][]
+                ).map(([value, label]) => ({ value, label }))}
+                onChange={(v) => setSettings({ mobileMenuShadow: v })}
+                columns={3}
+              />
+            </div>
+          </div>
+        </AdminCollapsibleSection>
       </div>
     );
   }
@@ -133,6 +239,9 @@ export function HeaderSettingsPanel({ workspace, section }: Props) {
 
     const isBoxed =
       settings.headerStyle === "boxed-compact" || settings.headerStyle === "boxed-minimal";
+    const menuAppearance = resolveMenuAppearance(settings);
+    const desktopMenuSurface =
+      settings.menuSurface ?? settings.overlaySurface ?? "glass";
 
     return (
       <div className="space-y-4">
@@ -168,15 +277,15 @@ export function HeaderSettingsPanel({ workspace, section }: Props) {
         </AdminCollapsibleSection>
 
         <AdminCollapsibleSection
-          title="Mega menu & mobile panels"
-          description="Dropdowns, mega menus, and mobile navigation inherit these styles from your header settings (radius, glass, colors, shadow, animation)."
+          title="Mega menu panels"
+          description="Dropdown and mega menu styles on desktop. Mobile menu has its own panel settings under Mobile → Panel background."
           defaultOpen
         >
           <div className="space-y-4">
             <div>
               <p className="mb-2 text-sm font-medium">Background style</p>
               <OptionButtonGroup
-                value={settings.menuSurface ?? settings.overlaySurface ?? "glass"}
+                value={desktopMenuSurface}
                 options={(
                   [
                     ["transparent", "Transparent"],
@@ -192,12 +301,18 @@ export function HeaderSettingsPanel({ workspace, section }: Props) {
                 }
                 columns={3}
               />
-              <p className="mt-1 text-xs text-muted-foreground">
-                Uses theme surface colors. Leave unset to match header overlay surface (
-                {settings.overlaySurface ?? "glass"}).
-              </p>
+              {desktopMenuSurface === "transparent" ? (
+                <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">
+                  Transparent panels may reduce menu readability over busy hero sections.
+                </p>
+              ) : (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Uses theme surface colors. When unset, matches header overlay surface (
+                  {settings.overlaySurface ?? "glass"}).
+                </p>
+              )}
             </div>
-            {(settings.menuSurface ?? settings.overlaySurface ?? "glass") === "glass" && (
+            {desktopMenuSurface === "glass" && (
               <label className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"
@@ -207,35 +322,39 @@ export function HeaderSettingsPanel({ workspace, section }: Props) {
                 Glass effect (backdrop blur)
               </label>
             )}
-            <div>
-              <p className="mb-2 text-sm font-medium">Blur strength</p>
-              <OptionButtonGroup
-                value={settings.menuBlurStrength ?? "medium"}
-                options={(
-                  [
-                    ["light", "Light (8px)"],
-                    ["medium", "Medium (12px)"],
-                    ["strong", "Strong (20px)"],
-                  ] as [MenuBlurStrength, string][]
-                ).map(([value, label]) => ({ value, label }))}
-                onChange={(v) => setSettings({ menuBlurStrength: v })}
-                columns={3}
-              />
-            </div>
-            <div>
-              <Label className="text-xs">
-                Transparency ({settings.menuTransparency ?? resolveMenuAppearance(settings).transparency}%)
-              </Label>
-              <input
-                type="range"
-                min={40}
-                max={98}
-                step={1}
-                value={settings.menuTransparency ?? 92}
-                onChange={(e) => setSettings({ menuTransparency: Number(e.target.value) })}
-                className="mt-2 w-full"
-              />
-            </div>
+            {desktopMenuSurface === "glass" && (
+              <div>
+                <p className="mb-2 text-sm font-medium">Blur strength</p>
+                <OptionButtonGroup
+                  value={settings.menuBlurStrength ?? "medium"}
+                  options={(
+                    [
+                      ["light", "Light (8px)"],
+                      ["medium", "Medium (12px)"],
+                      ["strong", "Strong (20px)"],
+                    ] as [MenuBlurStrength, string][]
+                  ).map(([value, label]) => ({ value, label }))}
+                  onChange={(v) => setSettings({ menuBlurStrength: v })}
+                  columns={3}
+                />
+              </div>
+            )}
+            {desktopMenuSurface === "glass" && (
+              <div>
+                <Label className="text-xs">
+                  Transparency ({menuAppearance.transparency}%)
+                </Label>
+                <input
+                  type="range"
+                  min={40}
+                  max={98}
+                  step={1}
+                  value={settings.menuTransparency ?? menuAppearance.transparency}
+                  onChange={(e) => setSettings({ menuTransparency: Number(e.target.value) })}
+                  className="mt-2 w-full"
+                />
+              </div>
+            )}
             <div>
               <p className="mb-2 text-sm font-medium">Shadow style</p>
               <OptionButtonGroup
@@ -254,7 +373,7 @@ export function HeaderSettingsPanel({ workspace, section }: Props) {
             <div>
               <p className="mb-2 text-sm font-medium">Panel animation</p>
               <OptionButtonGroup
-                value={settings.menuPanelAnimation ?? settings.mobileNavAnimation ?? "slide"}
+                value={settings.menuPanelAnimation ?? "slide"}
                 options={(["slide", "fade", "scale"] as MenuPanelAnimation[]).map((v) => ({
                   value: v,
                   label: v.charAt(0).toUpperCase() + v.slice(1),
@@ -262,13 +381,13 @@ export function HeaderSettingsPanel({ workspace, section }: Props) {
                 onChange={(v) =>
                   setSettings({
                     menuPanelAnimation: v,
-                    mobileNavAnimation: v as MobileNavAnimation,
                   })
                 }
                 columns={3}
               />
               <p className="mt-1 text-xs text-muted-foreground">
-                Corner radius uses the setting above ({settings.headerBorderRadius ?? "lg"}).
+                Desktop mega/dropdown animation. Corner radius uses the setting above (
+                {settings.headerBorderRadius ?? "lg"}).
               </p>
             </div>
           </div>

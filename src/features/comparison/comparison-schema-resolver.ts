@@ -9,8 +9,10 @@ import { parseComparisonConfig } from "@/features/comparison/parse-comparison-co
 export function isContentTypeComparable(
   adminConfig: Record<string, unknown> | null | undefined
 ): boolean {
-  const config = parseComparisonConfig(adminConfig);
-  return config.isComparable && config.comparisonSettings.enabled;
+  const raw = adminConfig ?? {};
+  if (raw.isComparable === false) return false;
+  const config = parseComparisonConfig(raw);
+  return config.comparisonSettings.enabled;
 }
 
 export function resolveCompareFields(
@@ -50,7 +52,10 @@ export function resolveComparisonForType(input: {
 } {
   const config = parseComparisonConfig(input.adminConfig);
   const fields = resolveCompareFields(input.fieldSchema, config);
-  const comparable = config.isComparable && config.comparisonSettings.enabled && fields.length > 0;
+  const hasCompareFields = fields.length > 0;
+  const explicitlyDisabled = input.adminConfig.isComparable === false;
+  const comparable =
+    config.comparisonSettings.enabled && hasCompareFields && !explicitlyDisabled;
   return { config, fields, comparable };
 }
 

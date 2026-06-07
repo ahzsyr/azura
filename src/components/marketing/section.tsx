@@ -6,78 +6,39 @@ type SectionProps = {
   children: React.ReactNode;
   className?: string;
   id?: string;
-  variant?: "default" | "muted" | "dark";
+  variant?: "default" | "muted" | "dark" | "solid";
+  /** Disable floating orbs (forms, readable content). */
+  suppressAtmosphere?: boolean;
 };
 
-export function Section({ children, className, id, variant = "default" }: SectionProps) {
+export function Section({
+  children,
+  className,
+  id,
+  variant = "default",
+  suppressAtmosphere = false,
+}: SectionProps) {
+  const showAtmosphere = !suppressAtmosphere && variant !== "dark" && variant !== "solid";
+
   return (
     <section
       id={id}
       className={cn(
         "section-padding relative overflow-hidden",
         variant === "muted" && "bg-muted/40",
+        variant === "solid" && "az-section--solid bg-card/95",
         variant === "dark" && "bg-foreground text-background",
         className
       )}
     >
-      {variant !== "dark" ? <SectionAtmosphere /> : null}
+      {showAtmosphere ? <SectionAtmosphere /> : null}
       <div className="container-premium relative z-[1]">{children}</div>
     </section>
   );
 }
 
-export function SectionHeader({
-  badge,
-  title,
-  subtitle,
-  align = "center",
-  dark = false,
-}: {
-  badge?: string;
-  title: string;
-  subtitle?: string;
-  align?: "center" | "start";
-  dark?: boolean;
-}) {
-  return (
-    <div
-      className={cn(
-        "mb-12 md:mb-16",
-        align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl"
-      )}
-    >
-      {badge && (
-        <span
-          className={cn(
-            "az-hero-badge mb-4 text-xs font-medium uppercase tracking-wider",
-            dark ? "text-accent" : "text-primary"
-          )}
-        >
-          {badge}
-        </span>
-      )}
-      <h2
-        className={cn(
-          "font-heading text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl",
-          dark ? "text-background" : "text-foreground"
-        )}
-      >
-        {title}
-      </h2>
-      <div className={cn("gold-divider my-4", align === "center" && "mx-auto")} />
-      {subtitle && (
-        <p
-          className={cn(
-            "text-base leading-relaxed md:text-lg",
-            dark ? "text-background/80" : "text-muted-foreground"
-          )}
-        >
-          {subtitle}
-        </p>
-      )}
-    </div>
-  );
-}
+export { SectionHeader } from "@/components/marketing/section-header";
+export type { SectionHeaderProps } from "@/components/marketing/section-header";
 
 export function PageHero({
   title,

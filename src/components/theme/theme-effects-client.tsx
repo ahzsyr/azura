@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import type { ThemeTokens } from "@/types/theme";
 import type { PageVisualSettings } from "@/schemas/visual-settings";
 import { resolveVisualExperience } from "@/features/theme/visual-experience-resolver";
-import { applyVisualEffects, clearVisualEffects } from "@/features/theme/effects-runtime";
+import { applyVisualEffects } from "@/features/theme/effects-runtime";
 import { applySiteBackground } from "@/features/theme/backgrounds/background-system";
 import { useResolvedVisualExperience } from "@/components/theme/visual-experience-context";
 import {
@@ -29,17 +29,26 @@ function readCursorPreference(): "custom" | "normal" {
   }
 }
 
+function resolveEffectAppearance(resolvedTheme: string | undefined): "light" | "dark" | null {
+  if (resolvedTheme === "dark" || resolvedTheme === "light") return resolvedTheme;
+  if (typeof document === "undefined") return null;
+  const fromDom = document.documentElement.dataset.theme;
+  if (fromDom === "dark" || fromDom === "light") return fromDom;
+  return null;
+}
+
 export function ThemeEffectsClient({ tokens }: Props) {
   const { resolvedTheme } = useTheme();
   const contextResolved = useResolvedVisualExperience();
   const siteResolved =
     contextResolved ?? (tokens ? resolveVisualExperience({ site: tokens }) : null);
+  const effectAppearance = resolveEffectAppearance(resolvedTheme);
 
   useEffect(() => {
-    if (!siteResolved || !tokens) return;
+    if (!siteResolved || !tokens || !effectAppearance) return;
 
     const apply = () => {
-      const mode = resolvedTheme === "dark" ? "dark" : "light";
+      const mode = resolveEffectAppearance(resolvedTheme) ?? effectAppearance;
       restorePresetColorsFromStorage(mode);
       const live = readStoredPresetEffects();
       const experience = live
@@ -55,11 +64,11 @@ export function ThemeEffectsClient({ tokens }: Props) {
 
     return () => {
       window.removeEventListener(THEME_CHANGE_EVENT, onThemeChange);
-      clearVisualEffects();
     };
   }, [
     tokens,
     siteResolved,
+    effectAppearance,
     resolvedTheme,
     siteResolved?.cursorEffect,
     siteResolved?.backgroundEffect,

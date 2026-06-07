@@ -1,37 +1,37 @@
 {
   "home": {
-    "metaTitle": "Home — B R T Trading",
-    "metaDescription": "Enterprise networking, security & power solutions.",
-    "robots": "index, follow"
+    "metaTitle": "",
+    "metaDescription": "",
+    "robots": ""
   },
   "about": {
-    "metaTitle": "About — B R T Trading",
-    "metaDescription": "Learn about B R T Trading, our mission and team.",
-    "robots": "index, follow"
+    "metaTitle": "",
+    "metaDescription": "",
+    "robots": ""
   },
   "contact": {
-    "metaTitle": "Contact — B R T Trading",
-    "metaDescription": "Get in touch for quotes, support, and partnerships.",
-    "robots": "index, follow"
+    "metaTitle": "",
+    "metaDescription": "",
+    "robots": ""
   },
   "products": {
-    "metaTitle": "Products — B R T Trading",
-    "metaDescription": "Browse enterprise networking, security, and power solutions.",
-    "robots": "index, follow"
+    "metaTitle": "",
+    "metaDescription": "",
+    "robots": ""
   },
   "projects": {
-    "metaTitle": "Projects — B R T Trading",
-    "metaDescription": "Selected deployments and case studies.",
-    "robots": "index, follow"
+    "metaTitle": "",
+    "metaDescription": "",
+    "robots": ""
   },
   "collections": {
-    "metaTitle": "Collections — B R T Trading",
-    "metaDescription": "Browse curated product collections.",
-    "robots": "index, follow"
+    "metaTitle": "",
+    "metaDescription": "",
+    "robots": ""
   },
   "compare": {
-    "metaTitle": "Product comparison",
-    "metaDescription": "Compare up to three products side by side.",
-    "robots": "noindex, follow"
+    "metaTitle": "",
+    "metaDescription": "",
+    "robots": ""
   }
 }

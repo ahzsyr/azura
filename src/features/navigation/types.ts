@@ -73,7 +73,7 @@ export type MobileNavType =
   | "search";
 
 export type MobileNavStyle = "minimal" | "card" | "divider" | "bordered";
-export type MobileNavAnimation = "slide" | "fade" | "scale";
+export type MobileNavAnimation = "slide" | "fade" | "scale" | "spring";
 export type MobileNavDensity = "compact" | "comfortable" | "spacious";
 export type MobileNavSubmenuBehavior = "expand" | "slide";
 
@@ -151,7 +151,7 @@ export interface BrandingState {
   brandTaglineTypography: BrandTaglineTypography;
 }
 
-export type HeaderActionType = "search" | "language" | "custom";
+export type HeaderActionType = "search" | "language" | "account" | "custom";
 
 export type ActionStyle = "icon" | "solid" | "outline" | "ghost";
 
@@ -204,6 +204,15 @@ export interface HeaderBuilderSettings {
   menuShadow?: MenuShadowStyle;
   /** Desktop mega + mobile panel animation (keeps menus in sync) */
   menuPanelAnimation?: MenuPanelAnimation;
+  /** Mobile-only panel surface; falls back to menuSurface → overlaySurface */
+  mobileMenuSurface?: MenuSurfaceStyle;
+  mobileMenuGlassEnabled?: boolean;
+  mobileMenuBlurStrength?: MenuBlurStrength;
+  /** Mobile panel opacity (40–98); default 96 when unset */
+  mobileMenuTransparency?: number;
+  mobileMenuShadow?: MenuShadowStyle;
+  /** Mobile-only open/close animation; independent of desktop mega menus */
+  mobileMenuAnimation?: MobileNavAnimation;
 }
 
 export interface HeaderWorkspace {

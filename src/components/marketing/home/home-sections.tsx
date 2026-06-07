@@ -11,16 +11,29 @@ import { GalleryMediaPreviewGrid } from "@/components/marketing/gallery-media-pr
 import { getMarketingHomeBatch } from "@/lib/data";
 import { loadSiteBrandContext } from "@/lib/load-site-brand-context";
 import { JsonLd, organizationJsonLd } from "@/lib/seo";
+import { contentPublicService } from "@/features/content/content-public.service";
+import { loadComparePropsFromContentTypeView } from "@/features/comparison/load-compare-props";
 
 type Props = { locale: string };
 
 export async function HomeSections({ locale }: Props) {
-  const [t, { brandName }, { company, packages, services, testimonials, gallery }] =
+  await contentPublicService.ensureReady();
+  const [t, { brandName }, { company, packages, services, testimonials, gallery }, catalogType, offeringsType] =
     await Promise.all([
       getTranslations({ locale }),
       loadSiteBrandContext(),
       getMarketingHomeBatch(),
+      contentPublicService.getTypeBySlug("catalog-items"),
+      contentPublicService.getTypeBySlug("offerings"),
     ]);
+
+  const packageCompare = catalogType
+    ? loadComparePropsFromContentTypeView(catalogType, locale)
+    : undefined;
+  const offeringCompare = offeringsType
+    ? loadComparePropsFromContentTypeView(offeringsType, locale)
+    : undefined;
+
   const brand = { brandName };
 
   const whyUsItems = [
@@ -54,7 +67,7 @@ export async function HomeSections({ locale }: Props) {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {packages.map((pkg, i) => (
             <AnimatedSection key={pkg.id} delay={i * 0.1}>
-              <PackageCard pkg={pkg} locale={locale} />
+              <PackageCard pkg={pkg} locale={locale} compare={packageCompare} />
             </AnimatedSection>
           ))}
         </div>
@@ -77,7 +90,7 @@ export async function HomeSections({ locale }: Props) {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {services.slice(0, 6).map((service, i) => (
             <AnimatedSection key={service.id} delay={i * 0.08}>
-              <ServiceCard service={service} locale={locale} />
+              <ServiceCard service={service} locale={locale} compare={offeringCompare} />
             </AnimatedSection>
           ))}
         </div>

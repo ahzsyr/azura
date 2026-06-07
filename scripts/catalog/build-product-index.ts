@@ -25,12 +25,15 @@ async function main() {
   }
   console.log(`  manifest: src/data/products-index/manifest.json`);
 
-  try {
-    const { frameworkSearchIndexer } = await import("@/features/search-framework");
-    await frameworkSearchIndexer.syncCatalogIndexes();
-    console.log("  search: catalog products/collections/categories synced to SearchDocument");
-  } catch (err) {
-    console.warn("  search: catalog sync skipped —", err);
+  if (process.env.SKIP_SEARCH_INDEX_SYNC !== "1") {
+    try {
+      const { frameworkSearchIndexer } = await import("@/features/search-framework");
+      await frameworkSearchIndexer.syncCatalogIndexes();
+      console.log("  search: catalog products/collections/categories synced to SearchDocument");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      console.warn("  search: catalog sync skipped —", message.split("\n")[0]);
+    }
   }
 }
 

@@ -14,7 +14,7 @@ import {
   loadPublicLocaleContext,
 } from "@/features/i18n/public-locale-context";
 import { cn } from "@/lib/utils";
-import { getComparePropsForType } from "@/features/comparison/get-compare-props";
+import { loadComparePropsFromContentTypeView } from "@/features/comparison/load-compare-props";
 
 type Props = {
   locale: string;
@@ -52,12 +52,7 @@ export async function ContentListPage({ locale, contentType, collectionSlug, chi
     localized(contentType as unknown as Record<string, unknown>, "excerpt", typeTranslations);
 
   const display = mergeDisplaySettings(contentType.adminConfig.displayDefaults as Record<string, unknown>);
-  const compareProps = getComparePropsForType({
-    slug: contentType.slug,
-    fieldSchema: contentType.fieldSchema,
-    adminConfig: contentType.adminConfig,
-    locale,
-  });
+  const compareProps = loadComparePropsFromContentTypeView(contentType, locale);
   const itemTranslationMap = await loadEntityTranslationsMap(
     "ContentItem",
     items.map((i) => i.id)

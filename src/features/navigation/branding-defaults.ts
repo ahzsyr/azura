@@ -65,10 +65,19 @@ export function resolveBrandFontFamily(
   return "var(--font-body, system-ui, sans-serif)";
 }
 
+type BrandingInput = Partial<BrandingState> & { name?: string; shortName?: string };
+
 export function normalizeBranding(
-  partial: Partial<BrandingState>,
+  partial: BrandingInput,
   base?: BrandingState
 ): BrandingState {
+  const raw = partial as Record<string, unknown>;
+  const mapped: Partial<BrandingState> = { ...partial };
+  const aliasName = typeof raw.name === "string" ? raw.name.trim() : "";
+  const aliasShort = typeof raw.shortName === "string" ? raw.shortName.trim() : "";
+  if (!mapped.brandName?.trim() && aliasName) mapped.brandName = aliasName;
+  if (!mapped.logoText?.trim() && aliasShort) mapped.logoText = aliasShort;
+
   const defaults: BrandingState = base ?? {
     logoMode: "text",
     logoText: DEFAULT_BRAND_SHORT,
@@ -102,12 +111,12 @@ export function normalizeBranding(
 
   return {
     ...defaults,
-    ...partial,
+    ...mapped,
     logoSizing,
     brandNameTypography,
     brandTaglineTypography,
-    brandLayoutMobile: partial.brandLayoutMobile ?? defaults.brandLayoutMobile,
-    brandLayoutDesktop: partial.brandLayoutDesktop ?? defaults.brandLayoutDesktop,
+    brandLayoutMobile: mapped.brandLayoutMobile ?? defaults.brandLayoutMobile,
+    brandLayoutDesktop: mapped.brandLayoutDesktop ?? defaults.brandLayoutDesktop,
   };
 }
 

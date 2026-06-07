@@ -1,7 +1,8 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { cmsService } from "@/features/cms/cms.service";
 import { cmsRepository } from "@/repositories/cms.repository";
+import { MarketingCmsPage } from "@/features/cms/components/marketing-cms-page";
 import { ContentListPage } from "@/features/content/components/content-list-page";
 import { contentPublicService } from "@/features/content/content-public.service";
 import { getEnabledUrlPrefixes } from "@/i18n/locale-registry.server";
@@ -15,7 +16,6 @@ import { getLocalizedField } from "@/lib/utils";
 const RESERVED_SLUGS = new Set([
   "about",
   "packages",
-  "visa",
   "hotels-transport",
   "gallery",
   "testimonials",
@@ -25,6 +25,13 @@ const RESERVED_SLUGS = new Set([
   "pages",
   "collections",
   "products",
+  "services",
+  "smart-home",
+  "security-solutions",
+  "enterprise-wireless",
+  "compare",
+  "favorites",
+  "account",
 ]);
 
 type Props = {
@@ -35,21 +42,26 @@ type Props = {
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  await cmsService.processDueScheduled();
-  const pages = await cmsRepository.publishedPageSlugs();
-  let locales: string[] = [];
   try {
-    locales = await getEnabledUrlPrefixes();
-  } catch {
-    locales = [...routing.locales];
-  }
-  if (locales.length === 0) locales = [...routing.locales];
+    await cmsService.processDueScheduled();
+    const pages = await cmsRepository.publishedPageSlugs();
+    let locales: string[] = [];
+    try {
+      locales = await getEnabledUrlPrefixes();
+    } catch {
+      locales = [...routing.locales];
+    }
+    if (locales.length === 0) locales = [...routing.locales];
 
-  return locales.flatMap((locale) =>
-    pages
-      .filter((p) => !RESERVED_SLUGS.has(p.slug))
-      .map((p) => ({ locale, slug: p.slug }))
-  );
+    return locales.flatMap((locale) =>
+      pages
+        .filter((p) => !RESERVED_SLUGS.has(p.slug))
+        .map((p) => ({ locale, slug: p.slug }))
+    );
+  } catch (error) {
+    console.error("[MarketingSlugRoute] generateStaticParams failed:", error);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params, searchParams }: Props) {
@@ -58,24 +70,42 @@ export async function generateMetadata({ params, searchParams }: Props) {
 
   if (RESERVED_SLUGS.has(slug)) return {};
 
-  const resolution = await contentPublicService.resolveRoute([slug]);
-  if (resolution.kind === "list") {
-    const type = resolution.contentType;
-    const path = collection ? `/${slug}?collection=${collection}` : `/${slug}`;
-    const title = getLocalizedField(type, "name", locale);
+  try {
+    const resolution = await contentPublicService.resolveRoute([slug]);
+    if (resolution.kind === "list") {
+      const type = resolution.contentType;
+      const path = collection ? `/${slug}?collection=${collection}` : `/${slug}`;
+      const title = getLocalizedField(type, "name", locale);
+      return seoService.resolveMetadata({
+        locale: locale as Locale,
+        path,
+        fallback: { title, description: title },
+      });
+    }
+
+    const page = await cmsService.getPublishedPageBySlug(slug);
+    if (!page) return {};
+
     return seoService.resolveMetadata({
       locale: locale as Locale,
-      path,
-      fallback: { title, description: title },
+      path: `/${slug}`,
+      entityType: "CMS_PAGE",
+      entityId: page.id,
+      seoMeta: page.seoMeta,
+      fallback: {
+        title: page.titleEn,
+        description: page.excerptEn ?? "",
+      },
     });
+  } catch (error) {
+    console.error(`[MarketingSlugRoute] generateMetadata failed for /${slug}:`, error);
+    return {};
   }
-
-  return {};
 }
 
 /**
  * Single-segment resolver:
- * - CMS short URL alias → /pages/[slug]
+ * - Published CMS page → render at clean URL
  * - ContentType routePrefix → generic list page
  */
 export default async function MarketingSlugRoute({ params, searchParams }: Props) {
@@ -87,21 +117,26 @@ export default async function MarketingSlugRoute({ params, searchParams }: Props
     notFound();
   }
 
-  const resolution = await contentPublicService.resolveRoute([slug]);
-  if (resolution.kind === "list") {
-    return (
-      <ContentListPage
-        locale={locale}
-        contentType={resolution.contentType}
-        collectionSlug={collection}
-      />
-    );
-  }
+  try {
+    const resolution = await contentPublicService.resolveRoute([slug]);
+    if (resolution.kind === "list") {
+      return (
+        <ContentListPage
+          locale={locale}
+          contentType={resolution.contentType}
+          collectionSlug={collection}
+        />
+      );
+    }
 
-  const page = await cmsService.getPublishedPageBySlug(slug);
-  if (!page) {
+    const page = await cmsService.getPublishedPageBySlug(slug);
+    if (!page) {
+      notFound();
+    }
+
+    return <MarketingCmsPage slug={slug} locale={locale as Locale} page={page} />;
+  } catch (error) {
+    console.error(`[MarketingSlugRoute] render failed for /${slug}:`, error);
     notFound();
   }
-
-  redirect(`/${locale}/pages/${slug}`);
 }

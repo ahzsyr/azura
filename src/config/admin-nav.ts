@@ -26,6 +26,18 @@ import {
   Database,
   Layers,
   Tags,
+  FormInput,
+  MailPlus,
+  Inbox,
+  DollarSign,
+  Calculator,
+  BookOpen,
+  Activity,
+  Users,
+  Handshake,
+  Rocket,
+  UserCog,
+  EyeOff,
 } from "lucide-react";
 
 export type AdminNavItem = {
@@ -114,6 +126,28 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         keywords: ["services", "content items"],
       },
       { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare, keywords: ["leads", "contacts"] },
+      { href: "/admin/forms", label: "Form Templates", icon: FormInput, keywords: ["forms", "builder", "lead", "contact"] },
+      { href: "/admin/form-submissions", label: "Form Submissions", icon: Inbox, keywords: ["submissions", "leads", "inbox"] },
+      { href: "/admin/newsletter", label: "Newsletter", icon: MailPlus, keywords: ["email", "subscribers", "signup"] },
+    ],
+  },
+  {
+    id: "portal",
+    label: "Portal",
+    items: [
+      { href: "/admin/pricing-plans", label: "Pricing Plans", icon: DollarSign, keywords: ["pricing", "plans"] },
+      { href: "/admin/releases", label: "Releases", icon: Rocket, keywords: ["changelog", "versions"] },
+      {
+        href: "/admin/pricing-calculators",
+        label: "Calculators",
+        icon: Calculator,
+        keywords: ["calculator", "pricing"],
+      },
+      { href: "/admin/knowledge-base", label: "Knowledge Base", icon: BookOpen, keywords: ["kb", "articles"] },
+      { href: "/admin/documentation", label: "Documentation", icon: FileText, keywords: ["docs", "portal"] },
+      { href: "/admin/status", label: "Status", icon: Activity, keywords: ["uptime", "incidents"] },
+      { href: "/admin/team", label: "Team", icon: Users, keywords: ["directory", "staff"] },
+      { href: "/admin/partners", label: "Partners", icon: Handshake, keywords: ["partners", "program"] },
     ],
   },
   {
@@ -126,6 +160,12 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
       { href: "/admin/theme", label: "Theme", icon: Palette, keywords: ["colors", "branding"] },
       { href: "/admin/presets", label: "Presets", icon: Sparkles, keywords: ["templates"] },
       { href: "/admin/personalization", label: "Personalization", icon: Wand2, keywords: ["customize"] },
+      {
+        href: "/admin/settings/whatsapp",
+        label: "WhatsApp",
+        icon: MessageSquare,
+        keywords: ["whatsapp", "fab", "chat", "inquiry", "button"],
+      },
     ],
   },
   {
@@ -145,10 +185,34 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
     label: "Settings",
     items: [
       {
+        href: "/admin/settings/site",
+        label: "Site access",
+        icon: EyeOff,
+        keywords: ["coming soon", "maintenance", "launch", "visibility", "public"],
+      },
+      {
         href: "/admin/settings/search",
         label: "Search",
         icon: Search,
         keywords: ["search", "index", "autocomplete", "ranking", "filters", "catalog"],
+      },
+      {
+        href: "/admin/settings/account",
+        label: "Admin account",
+        icon: UserCog,
+        keywords: ["password", "email", "credentials", "login"],
+      },
+      {
+        href: "/admin/users",
+        label: "Customer accounts",
+        icon: Users,
+        keywords: ["registration", "customers", "users", "password"],
+      },
+      {
+        href: "/admin/settings/portal",
+        label: "Visitor portal",
+        icon: UserCog,
+        keywords: ["registration", "signup", "password reset", "email"],
       },
     ],
   },
@@ -161,6 +225,12 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
       { href: "/admin/ui-messages", label: "UI Messages", icon: Languages, keywords: ["i18n", "strings", "ui"] },
       { href: "/admin/company", label: "Company Info", icon: Building2, keywords: ["about", "contact"] },
       { href: "/admin/database", label: "Database", icon: Database, keywords: ["storage", "backup"] },
+      {
+        href: "/admin/demo-profiles",
+        label: "Demo Profiles",
+        icon: Rocket,
+        keywords: ["demo", "template", "import", "seed"],
+      },
     ],
   },
 ];
@@ -170,12 +240,29 @@ export const ALL_ADMIN_NAV_ITEMS: AdminNavItem[] = [
   ...ADMIN_NAV_GROUPS.flatMap((g) => g.items),
 ];
 
+export const ADMIN_NAV_GROUP_IDS = ADMIN_NAV_GROUPS.map((g) => g.id);
+
+function navItemMatchesPath(pathname: string, href: string): boolean {
+  if (href === "/admin") return pathname === "/admin";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+/** Nav group containing the current route, if any. */
+export function findNavGroupIdByPath(pathname: string): string | null {
+  for (const group of ADMIN_NAV_GROUPS) {
+    if (group.items.some((item) => navItemMatchesPath(pathname, item.href))) {
+      return group.id;
+    }
+  }
+  return null;
+}
+
 export function findNavItemByPath(pathname: string): AdminNavItem | undefined {
   const exact = ALL_ADMIN_NAV_ITEMS.find((item) => item.href === pathname);
   if (exact) return exact;
 
   return ALL_ADMIN_NAV_ITEMS
-    .filter((item) => item.href !== "/admin" && pathname.startsWith(item.href))
+    .filter((item) => item.href !== "/admin" && navItemMatchesPath(pathname, item.href))
     .sort((a, b) => b.href.length - a.href.length)[0];
 }
 

@@ -127,6 +127,33 @@ function LocaleFormFields({
         <Label>Sort order</Label>
         <Input name="sortOrder" type="number" defaultValue={locale?.sortOrder ?? 0} />
       </div>
+      <div className="space-y-2">
+        <Label>Currency (ISO 4217)</Label>
+        <Input
+          name="currency"
+          placeholder="USD"
+          maxLength={3}
+          defaultValue={locale?.currency ?? "USD"}
+          className="uppercase"
+        />
+        <p className="text-xs text-muted-foreground">Default for price fields in the admin when this language is selected.</p>
+      </div>
+      <div className="space-y-2">
+        <Label>Number locale</Label>
+        <Input
+          name="numberLocale"
+          placeholder="en-US"
+          defaultValue={locale?.numberLocale ?? "en-US"}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label>Date locale</Label>
+        <Input
+          name="dateLocale"
+          placeholder="en-US"
+          defaultValue={locale?.dateLocale ?? "en-US"}
+        />
+      </div>
     </div>
   );
 }
@@ -179,6 +206,22 @@ export function LanguagesAdmin({ locales: initialLocales, completionByLocale }: 
 
   return (
     <div className="space-y-6">
+      <Card className="border-primary/20 bg-primary/5">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base flex items-center gap-2">
+            <Languages className="h-4 w-4" />
+            English-first content
+          </CardTitle>
+          <CardDescription className="text-sm leading-relaxed">
+            English is the default language for the live site. Use the language menu in the admin top bar to
+            edit other locales. Empty translations automatically fall back to English on the public site.
+            Set currency and number formatting per language below — price fields in the admin use these when
+            that language is selected. After adding a language, use &ldquo;Scaffold translations&rdquo; to copy
+            English content as drafts.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+
       {notice ? (
         <p className="text-sm text-amber-700 dark:text-amber-400 rounded-lg border border-amber-500/30 bg-amber-500/10 p-3">
           {notice}

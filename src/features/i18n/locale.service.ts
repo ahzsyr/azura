@@ -1,6 +1,11 @@
 import type { LocaleConfig } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { FALLBACK_LOCALES, type PublicLocale as ConfigPublicLocale } from "@/i18n/locale-config";
+import {
+  DEFAULT_ADMIN_LOCALE,
+  FALLBACK_LOCALES,
+  type AdminLocale,
+  type PublicLocale as ConfigPublicLocale,
+} from "@/i18n/locale-config";
 import { routing } from "@/i18n/routing";
 import { createCached, CACHE_TAGS } from "@/services/cache";
 
@@ -40,7 +45,24 @@ export const localeService = {
 
   async listEnabled(): Promise<PublicLocale[]> {
     const rows = await enabledRows();
-    return rows.map((row) => ({
+    return rows.map((row) => this.toPublicLocale(row));
+  },
+
+  async listForAdmin(): Promise<AdminLocale[]> {
+    try {
+      const rows = await prisma.localeConfig.findMany({
+        where: { isEnabled: true },
+        orderBy: [{ sortOrder: "asc" }, { code: "asc" }],
+      });
+      if (rows.length > 0) return rows.map((row) => this.toAdminLocale(row));
+    } catch {
+      /* fall through */
+    }
+    return [DEFAULT_ADMIN_LOCALE];
+  },
+
+  toPublicLocale(row: LocaleConfig | PublicLocale): PublicLocale {
+    return {
       code: row.code,
       urlPrefix: row.urlPrefix,
       label: row.label,
@@ -48,7 +70,16 @@ export const localeService = {
       dir: row.dir as "ltr" | "rtl",
       flag: row.flag,
       isDefault: row.isDefault,
-    }));
+    };
+  },
+
+  toAdminLocale(row: LocaleConfig): AdminLocale {
+    return {
+      ...this.toPublicLocale(row),
+      currency: row.currency,
+      numberLocale: row.numberLocale,
+      dateLocale: row.dateLocale,
+    };
   },
 
   async getEnabledUrlPrefixes(): Promise<string[]> {

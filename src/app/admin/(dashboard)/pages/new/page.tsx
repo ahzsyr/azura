@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { PageEditorForm } from "@/features/cms/components/page-editor-form";
 import { localeService } from "@/features/i18n/locale.service";
 import { fetchFaqSetsForBuilder } from "@/features/faq/actions";
@@ -27,12 +28,18 @@ export default async function NewPagePage() {
     // Builder option loaders fail closed to empty lists
   }
   return (
-    <PageEditorForm
-      locales={locales}
-      galleryOptions={galleryOptions}
-      faqSetOptions={faqSetOptions}
-      testimonialOptions={testimonialOptions}
-      testimonialCollectionOptions={testimonialCollectionOptions}
-    />
+    <Suspense
+      fallback={
+        <div className="p-6 text-sm text-muted-foreground">Loading page editor…</div>
+      }
+    >
+      <PageEditorForm
+        locales={locales}
+        galleryOptions={galleryOptions}
+        faqSetOptions={faqSetOptions}
+        testimonialOptions={testimonialOptions}
+        testimonialCollectionOptions={testimonialCollectionOptions}
+      />
+    </Suspense>
   );
 }

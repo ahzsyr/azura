@@ -86,7 +86,7 @@ export const headerWorkspaceSchema = z.object({
   headerActions: z.array(
     z.object({
       id: z.string(),
-      type: z.enum(["search", "language", "custom"]),
+      type: z.enum(["search", "language", "account", "custom"]),
       label: z.string(),
       icon: z.string(),
       style: z.enum(["icon", "solid", "outline", "ghost"]),
@@ -108,7 +108,7 @@ export const headerWorkspaceSchema = z.object({
       "absolute",
     ]),
     mobileNavStyle: z.enum(["minimal", "card", "divider", "bordered"]).optional(),
-    mobileNavAnimation: z.enum(["slide", "fade", "scale"]).optional(),
+    mobileNavAnimation: z.enum(["slide", "fade", "scale", "spring"]).optional(),
     mobileNavDensity: z.enum(["compact", "comfortable", "spacious"]).optional(),
     mobileNavSubmenuBehavior: z.enum(["expand", "slide"]).optional(),
     mobileNavShowIcons: z.boolean().optional(),
@@ -128,6 +128,12 @@ export const headerWorkspaceSchema = z.object({
     menuTransparency: z.number().min(40).max(98).optional(),
     menuShadow: z.enum(["none", "soft", "strong"]).optional(),
     menuPanelAnimation: z.enum(["fade", "slide", "scale"]).optional(),
+    mobileMenuSurface: z.enum(["transparent", "glass", "solid"]).optional(),
+    mobileMenuGlassEnabled: z.boolean().optional(),
+    mobileMenuBlurStrength: z.enum(["light", "medium", "strong"]).optional(),
+    mobileMenuTransparency: z.number().min(40).max(98).optional(),
+    mobileMenuShadow: z.enum(["none", "soft", "strong"]).optional(),
+    mobileMenuAnimation: z.enum(["slide", "fade", "scale", "spring"]).optional(),
   }),
 });
 

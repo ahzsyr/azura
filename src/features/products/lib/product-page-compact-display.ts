@@ -21,6 +21,7 @@ export const PRODUCT_PAGE_COMPACT_ELEMENT_KEYS = [
   "delivery",
   "quantity",
   "addToCart",
+  "buyNow",
   "keySpecs",
 ] as const;
 
@@ -57,6 +58,7 @@ const COMPACT_ELEMENT_DEFAULTS: Record<ProductPageCompactElementKey, boolean> = 
   delivery: false,
   quantity: false,
   addToCart: true,
+  buyNow: true,
   keySpecs: false,
 };
 
@@ -85,6 +87,7 @@ export const PRODUCT_PAGE_COMPACT_ELEMENT_LABELS: Record<ProductPageCompactEleme
   delivery: "Delivery options",
   quantity: "Quantity stepper",
   addToCart: "Add to cart / quote button",
+  buyNow: "Buy Now / Shop Now",
   keySpecs: "Key specs table",
 };
 
@@ -125,6 +128,12 @@ export function resolveProductPageCompactDisplay(
       if (typeof partial.elements[key] === "boolean") {
         elements[key] = partial.elements[key]!;
       }
+    }
+    if (
+      typeof partial.elements.addToCart === "boolean" &&
+      typeof partial.elements.buyNow !== "boolean"
+    ) {
+      elements.buyNow = partial.elements.addToCart;
     }
   }
   elements.title = true;

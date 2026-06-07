@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useScrollContainer } from "@/hooks/use-scroll-container";
 import { AdminPageTransition } from "./admin-motion";
 
 type AdminContentAreaProps = {
@@ -24,10 +25,18 @@ export function AdminContentArea({
   maxWidth = "xl",
 }: AdminContentAreaProps) {
   const pathname = usePathname();
+  const scrollRef = useScrollContainer<HTMLDivElement>();
 
   return (
-    <div className="flex-1 overflow-y-auto">
-      <AdminPageTransition routeKey={pathname} className={cn("mx-auto w-full p-4 md:p-6 lg:p-8", maxWidthClasses[maxWidth], className)}>
+    <div
+      ref={scrollRef}
+      className="az-scroll az-scroll-region flex-1 overflow-y-auto"
+      data-scrolling="false"
+    >
+      <AdminPageTransition
+        routeKey={pathname}
+        className={cn("mx-auto w-full p-4 md:p-6 lg:p-8", maxWidthClasses[maxWidth], className)}
+      >
         {children}
       </AdminPageTransition>
     </div>

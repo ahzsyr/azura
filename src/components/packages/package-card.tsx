@@ -10,6 +10,8 @@ import { HoverCard } from "@/components/motion/lazy-motion";
 import { formatPrice, getLocalizedField } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { DEFAULT_MEDIA_PLACEHOLDER } from "@/features/media/constants";
+import { CompareCardOverlay } from "@/features/comparison/components/compare-card-overlay";
+import type { CompareCardProps as CompareListingProps } from "@/features/comparison/get-compare-props";
 export type PackageCardData = {
   id: string;
   slug: string;
@@ -28,9 +30,10 @@ type PackageCardProps = {
   pkg: PackageWithRelations;
   locale: string;
   cardVariant?: "default" | "featured" | "minimal";
+  compare?: CompareListingProps;
 };
 
-export function PackageCard({ pkg, locale, cardVariant = "default" }: PackageCardProps) {
+export function PackageCard({ pkg, locale, cardVariant = "default", compare }: PackageCardProps) {
   const t = useTranslations("packages");
   const name = getLocalizedField(pkg, "name", locale);
   const image = pkg.images[0]?.url ?? DEFAULT_MEDIA_PLACEHOLDER;
@@ -46,6 +49,14 @@ export function PackageCard({ pkg, locale, cardVariant = "default" }: PackageCar
         )}
       >
         <div className="relative aspect-[4/3] overflow-hidden">
+          {compare ? (
+            <CompareCardOverlay
+              contentTypeSlug={compare.contentTypeSlug}
+              itemId={pkg.id}
+              maxItems={compare.maxItems}
+              label={compare.label}
+            />
+          ) : null}
           <OptimizedImage
             src={image}
             alt={name}

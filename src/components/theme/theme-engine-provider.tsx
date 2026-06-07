@@ -84,7 +84,11 @@ export function ThemeEngineProvider({
   const [hydrated, setHydrated] = useState(false);
 
   const resolvedAppearance: ResolvedAppearance =
-    resolvedTheme === "dark" ? "dark" : "light";
+    resolvedTheme === "dark"
+      ? "dark"
+      : resolvedTheme === "light"
+        ? "light"
+        : resolveAppearance(appearanceMode);
 
   const refreshUserPresets = useCallback(() => {
     setUserPresets(listUserPresets());
@@ -108,15 +112,26 @@ export function ThemeEngineProvider({
         : null);
     if (storedMode) setAppearanceModeState(storedMode);
 
-    const storedPreset = readStoredPresetId();
-    if (storedPreset) {
-      setActivePresetId(storedPreset);
-      setActivePresetSource(
-        storedPreset.startsWith("user-") ? "user" : "catalog",
-      );
-    } else if (defaultPresetId) {
-      setActivePresetId(defaultPresetId);
+    const needsThemeReset =
+      typeof document !== "undefined" &&
+      document.cookie.split("; ").some((c) => c === "theme-reset=1");
+
+    if (needsThemeReset) {
+      clearVisitorPresetOverrides();
+      setActivePresetId(defaultPresetId ?? siteTheme?.activePresetId ?? null);
       setActivePresetSource("site");
+      document.cookie = "theme-reset=; Max-Age=0; path=/";
+    } else {
+      const storedPreset = readStoredPresetId();
+      if (storedPreset) {
+        setActivePresetId(storedPreset);
+        setActivePresetSource(
+          storedPreset.startsWith("user-") ? "user" : "catalog",
+        );
+      } else if (defaultPresetId) {
+        setActivePresetId(defaultPresetId);
+        setActivePresetSource("site");
+      }
     }
 
     try {
@@ -130,7 +145,7 @@ export function ThemeEngineProvider({
 
     refreshUserPresets();
     setHydrated(true);
-  }, [storedTheme, defaultPresetId, refreshUserPresets]);
+  }, [storedTheme, defaultPresetId, siteTheme?.activePresetId, refreshUserPresets]);
 
   useEffect(() => {
     if (!hydrated || !siteTheme) return;
@@ -142,13 +157,14 @@ export function ThemeEngineProvider({
   }, [hydrated, siteTheme, appearanceMode, cursorPreference]);
 
   useEffect(() => {
-    if (!hydrated) return;
+    if (!hydrated || !siteTheme || resolvedTheme === undefined) return;
     const mode = appearanceMode;
-    const resolved = resolvedAppearance;
+    const resolved: ResolvedAppearance = resolvedTheme === "dark" ? "dark" : "light";
     syncThemeDataAttributes(mode, resolved);
     restorePresetColorsFromStorage(resolved);
     applyResolvedEffects(resolved);
-  }, [hydrated, resolvedAppearance, appearanceMode, applyResolvedEffects]);
+    notifyAppearanceChange(mode, resolved);
+  }, [hydrated, siteTheme, resolvedTheme, appearanceMode, applyResolvedEffects]);
 
   useEffect(() => {
     const onThemeChange = () => {

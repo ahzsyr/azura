@@ -3,8 +3,8 @@
 import { useState } from "react";
 import type { Post, PostAuthor, PostCategory, PostTag, SeoMeta, EntityTranslation } from "@prisma/client";
 import type { PublicLocale } from "@/i18n/locale-config";
-import { LocaleTabPanel } from "@/features/translation/components/locale-tab-panel";
 import { LocalizedSlugEditor } from "@/features/translation/components/localized-slug-editor";
+import { AdminLocalizedFormField } from "@/features/translation/components/admin-localized-form-field";
 import {
   BlockTranslationProvider,
   BlockTranslationsHiddenInput,
@@ -131,50 +131,33 @@ export function PostEditorForm({
           </select>
         </div>
         <div className="md:col-span-2 space-y-6">
-          <div>
-            <Label>Title EN</Label>
-            <Input name="titleEn" defaultValue={post?.titleEn ?? ""} required />
-          </div>
-          <div>
-            <Label>Title AR</Label>
-            <Input name="titleAr" defaultValue={post?.titleAr ?? ""} dir="rtl" required />
-          </div>
-          <div>
-            <Label>Excerpt EN</Label>
-            <Textarea name="excerptEn" defaultValue={post?.excerptEn ?? ""} rows={2} />
-          </div>
-          <div>
-            <Label>Excerpt AR</Label>
-            <Textarea name="excerptAr" defaultValue={post?.excerptAr ?? ""} dir="rtl" rows={2} />
-          </div>
-          <div>
-            <Label>Content EN</Label>
-            <Textarea name="contentEn" defaultValue={post?.contentEn ?? ""} rows={6} />
-          </div>
-          <div>
-            <Label>Content AR</Label>
-            <Textarea name="contentAr" defaultValue={post?.contentAr ?? ""} dir="rtl" rows={6} />
-          </div>
+          <AdminLocalizedFormField
+            fieldKey="title"
+            label="Title"
+            legacyEntity={post ?? undefined}
+            required
+          />
+          <AdminLocalizedFormField
+            fieldKey="excerpt"
+            label="Excerpt"
+            legacyEntity={post ?? undefined}
+            multiline
+            rows={2}
+          />
+          <AdminLocalizedFormField
+            fieldKey="content"
+            label="Content"
+            legacyEntity={post ?? undefined}
+            multiline
+            rows={6}
+          />
           {post?.id ? (
-            <>
-            <LocaleTabPanel
-              entityType="Post"
-              entityId={post.id}
-              sourceData={{
-                title: post.titleEn,
-                excerpt: post.excerptEn ?? "",
-                content: post.contentEn ?? "",
-                seoTitle: post.seoMeta?.titleEn ?? post.titleEn,
-                seoDescription: post.seoMeta?.descriptionEn ?? post.excerptEn ?? "",
-              }}
-            />
             <LocalizedSlugEditor
               entityType="Post"
               entityId={post.id}
               defaultSlug={post.slug}
               pathPrefix="/blog"
             />
-            </>
           ) : null}
         </div>
         <div>

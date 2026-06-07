@@ -176,6 +176,22 @@ export function PersonalizationAdminPanel() {
                   />
                   Style tab (industry preset grid)
                 </label>
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={settings.widgetSections.showBackToTop}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        widgetSections: {
+                          ...settings.widgetSections,
+                          showBackToTop: e.target.checked,
+                        },
+                      })
+                    }
+                  />
+                  Back to top button on FAB bar
+                </label>
                 <Button type="button" onClick={() => void save(settings)}>
                   Save widget sections
                 </Button>

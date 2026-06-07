@@ -1,8 +1,11 @@
+import { createHash } from "crypto";
+import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import {
   collectionMapFromList,
   resolveCollectionImages,
 } from "@/features/collections/collection-navigation";
+import type { Collection } from "@/features/collections/types";
 import { collectionsDataService } from "@/features/collections/collections-data.service";
 import { productsDataService } from "@/features/products/products-data.service";
 import type { HeaderWorkspace, MenuItem, MenuRecord } from "./types";
@@ -22,11 +25,12 @@ async function getCatalogItemImageUrlFromDb(slug: string): Promise<string | unde
   return item?.media[0]?.url ?? item?.featuredImageUrl ?? undefined;
 }
 
-async function getCollectionImageUrl(slug: string, localeCode: string): Promise<string | undefined> {
-  const col = await collectionsDataService.loadBySlug({ localePrefix: localeCode }, slug);
+function getCollectionImageUrlFromMap(
+  slug: string,
+  bySlug: Map<string, Collection>,
+): string | undefined {
+  const col = bySlug.get(slug);
   if (!col) return undefined;
-  const all = await collectionsDataService.loadAll({ localePrefix: localeCode });
-  const bySlug = collectionMapFromList(all.filter((c) => c.visible !== false));
   const media = resolveCollectionImages(col, bySlug);
   return media.coverImage ?? media.iconImage;
 }
@@ -43,6 +47,7 @@ async function getProductImageUrl(slug: string, localeCode: string): Promise<str
 export async function resolveCardImageUrlForMenuItem(
   item: MenuItem,
   localeCode: string,
+  collectionBySlug?: Map<string, Collection>,
 ): Promise<string | undefined> {
   if (item.imageUrl?.trim()) return item.imageUrl.trim();
   switch (item.type) {
@@ -50,7 +55,14 @@ export async function resolveCardImageUrlForMenuItem(
     case "packageCategory": {
       const slug = (item.collectionId ?? item.packageCategoryId ?? "").trim();
       if (!slug) return undefined;
-      return getCollectionImageUrl(slug, localeCode);
+      if (collectionBySlug) {
+        return getCollectionImageUrlFromMap(slug, collectionBySlug);
+      }
+      const col = await collectionsDataService.loadBySlug({ localePrefix: localeCode }, slug);
+      if (!col) return undefined;
+      const all = await collectionsDataService.loadAll({ localePrefix: localeCode });
+      const bySlug = collectionMapFromList(all.filter((c) => c.visible !== false));
+      return getCollectionImageUrlFromMap(slug, bySlug);
     }
     case "product":
     case "package": {
@@ -66,6 +78,77 @@ export async function resolveCardImageUrlForMenuItem(
     default:
       return item.imageUrl?.trim() || undefined;
   }
+}
+
+async function enrichFlyoutChild(
+  child: MenuItem,
+  localeCode: string,
+  collectionBySlug: Map<string, Collection>,
+): Promise<MenuItem> {
+  if (child.imageUrl?.trim()) return child;
+  const resolved = await resolveCardImageUrlForMenuItem(child, localeCode, collectionBySlug);
+  return {
+    ...child,
+    imageUrl: resolved ?? child.imageUrl,
+  };
+}
+
+async function enrichFlyoutMenuRecord(
+  record: MenuRecord,
+  localeCode: string,
+  collectionBySlug: Map<string, Collection>,
+): Promise<MenuRecord> {
+  const items = await Promise.all(
+    record.items.map(async (item) => {
+      if (!item.children?.length) return item;
+      const children = await Promise.all(
+        item.children.map((child) => enrichFlyoutChild(child, localeCode, collectionBySlug)),
+      );
+      return { ...item, children };
+    }),
+  );
+  return { ...record, items };
+}
+
+/** Enrich only top-level flyout children (Collection/Product cards) — not the full menu tree. */
+export async function enrichFlyoutMenuImagesOnly(
+  ws: HeaderWorkspace,
+  localeCode: string,
+): Promise<HeaderWorkspace> {
+  const allCollections = await collectionsDataService.loadAll({ localePrefix: localeCode });
+  const collectionBySlug = collectionMapFromList(
+    allCollections.filter((c) => c.visible !== false),
+  );
+
+  const menusDatabase = { ...ws.menusDatabase };
+  for (const key of Object.keys(menusDatabase)) {
+    menusDatabase[key] = await enrichFlyoutMenuRecord(
+      menusDatabase[key],
+      localeCode,
+      collectionBySlug,
+    );
+  }
+  return { ...ws, menusDatabase };
+}
+
+function workspaceFlyoutFingerprint(ws: HeaderWorkspace): string {
+  const payload = JSON.stringify({
+    activeMenuKey: ws.activeMenuKey,
+    menusDatabase: ws.menusDatabase,
+  });
+  return createHash("sha256").update(payload).digest("hex").slice(0, 24);
+}
+
+export async function enrichHeaderWorkspaceForSiteCached(
+  ws: HeaderWorkspace,
+  localeCode: string,
+): Promise<HeaderWorkspace> {
+  const fingerprint = workspaceFlyoutFingerprint(ws);
+  return unstable_cache(
+    () => enrichFlyoutMenuImagesOnly(ws, localeCode),
+    ["header-flyout-images", localeCode, fingerprint],
+    { tags: ["header-workspace", `header-flyout-${localeCode}`], revalidate: 300 },
+  )();
 }
 
 async function enrichMenuItem(item: MenuItem, localeCode: string): Promise<MenuItem> {

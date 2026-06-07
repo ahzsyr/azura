@@ -1,14 +1,27 @@
 import type { BlockNode, PageBlocks } from "@/types/builder";
 import { createBlock } from "@/schemas/blocks";
+import {
+  containerMaxChildren,
+  isContainerBlock,
+} from "@/features/builder/container-blocks";
 
 function cloneBlockWithNewIds(block: BlockNode): BlockNode {
   const cloned = createBlock(block.type, block.props) as BlockNode;
+  const next: BlockNode = {
+    ...block,
+    id: cloned.id,
+    type: block.type,
+    props: cloned.props,
+    settings: block.settings ?? cloned.settings,
+  };
   if (block.children?.length) {
-    cloned.children = block.children.map(cloneBlockWithNewIds);
-  } else if (block.type === "section") {
-    cloned.children = [];
+    next.children = block.children.map(cloneBlockWithNewIds);
+  } else if (isContainerBlock(block.type)) {
+    next.children = [];
+  } else {
+    delete next.children;
   }
-  return cloned;
+  return next;
 }
 
 export function cloneBlocks(blocks: PageBlocks): PageBlocks {
@@ -58,8 +71,10 @@ export function insertBlockInTree(
 ): PageBlocks {
   if (!parentId) return [...blocks, block];
   return updateBlockInTree(blocks, parentId, (parent) => {
-    if (parent.type !== "section") return parent;
+    if (!isContainerBlock(parent.type)) return parent;
     const children = parent.children ?? [];
+    const maxChildren = containerMaxChildren(parent.type, parent.props);
+    if (maxChildren != null && children.length >= maxChildren) return parent;
     return { ...parent, children: [...children, block] };
   });
 }

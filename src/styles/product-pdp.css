@@ -27,6 +27,14 @@ html[data-header-inset-active="true"] .prd-page:has(.prd-page__chrome-rail) > .p
         calc(var(--header-height, 76px) + var(--header-overlay-top-gap, 0px) + var(--header-content-gap, 16px))
       )
   );
+  padding-top: calc(var(--header-height, 76px) + var(--header-overlay-top-gap, 0px));
+}
+
+html[data-header-inset-active="true"] .prd-page:not(:has(.prd-page__chrome-rail)) {
+  padding-top: max(
+    clamp(0.85rem, 3vw, 1.25rem),
+    var(--header-content-gap, 16px)
+  );
 }
 
 .prd-page__chrome-rail {
@@ -86,7 +94,7 @@ html[data-header-inset-active="true"] .prd-page:has(.prd-page__chrome-rail) > .p
   align-items: start;
 }
 
-@media (min-width: 981px) {
+@media (min-width: 969px) {
   .prd-page__main:has(.prd-page__side-rail) {
     grid-template-columns: minmax(0, 1fr) minmax(min(280px, 100%), 360px);
   }
@@ -111,7 +119,7 @@ html[data-header-inset-active="true"] .prd-page:has(.prd-page__chrome-rail) > .p
   width: 100%;
 }
 
-@media (min-width: 981px) {
+@media (min-width: 969px) {
   .prd-page[data-prd-sticky-buy="true"] .prd-page__side-rail {
     position: sticky;
     top: var(--prd-side-top, var(--az-sticky-nav-top, var(--prd-crumb-top, 4rem)));
@@ -123,13 +131,13 @@ html[data-header-inset-active="true"] .prd-page:has(.prd-page__chrome-rail) > .p
   display: block;
 }
 
-@media (min-width: 981px) {
+@media (min-width: 969px) {
   .prd-page[data-prd-sticky-buy="true"] .prd-page__side {
     overflow: hidden;
   }
 }
 
-@media (min-width: 981px) {
+@media (min-width: 969px) {
   .prd-page[data-prd-sticky-buy="false"] .prd-page__side-rail {
     position: static;
   }
@@ -170,7 +178,7 @@ html[data-header-inset-active="true"] .prd-page:has(.prd-page__chrome-rail) > .p
   overflow-y: visible;
 }
 
-@media (min-width: 981px) {
+@media (min-width: 969px) {
   .prd-page[data-prd-sticky-buy="true"] .prd-page__side-stack {
     max-height: calc(100dvh - var(--prd-side-top, var(--az-sticky-nav-top, 5.5rem)) - 1rem);
     overflow-y: auto;
@@ -200,7 +208,12 @@ html[data-header-inset-active="true"] .prd-page:has(.prd-page__chrome-rail) > .p
   width: 100%;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 968px) {
+  .prd-page {
+    padding-inline: clamp(0.55rem, 3.5vw, 0.85rem);
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
   .prd-page__main,
   .prd-page[data-prd-fixed-buy="true"] .prd-page__main {
     grid-template-columns: 1fr;
@@ -211,17 +224,8 @@ html[data-header-inset-active="true"] .prd-page:has(.prd-page__chrome-rail) > .p
     backdrop-filter: none;
   }
 
-  .prd-page[data-prd-mobile-gallery="first"] .prd-page__scroll {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .prd-page[data-prd-mobile-gallery="first"] .prd-page__side-rail {
+  .prd-page[data-prd-mobile-gallery="natural"] .prd-page__side-rail {
     order: -1;
-  }
-
-  .prd-page[data-prd-mobile-gallery="first"] .prd-gallery-wrap {
-    order: 1;
   }
 
   .prd-page__side {
@@ -232,6 +236,32 @@ html[data-header-inset-active="true"] .prd-page:has(.prd-page__chrome-rail) > .p
   .prd-page__side-stack {
     max-height: none;
     overflow-y: visible;
+  }
+
+  .prd-info {
+    padding: 0.85rem 1rem;
+  }
+
+  .prd-purchase__cart-row {
+    grid-template-columns: 1fr;
+  }
+
+  .prd-purchase__add-cart {
+    width: 100%;
+  }
+
+  .prd-gallery__main {
+    aspect-ratio: 1 / 1;
+  }
+
+  .prd-gallery__thumb {
+    flex: 0 0 3.75rem;
+    width: 3.75rem;
+    height: 3.75rem;
+  }
+
+  .prd-cta-wrap--page-float {
+    bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -723,6 +753,23 @@ html[data-header-inset-active="true"] .prd-page:has(.prd-page__chrome-rail) > .p
 .prd-purchase__add-cart--full {
   flex: 1 1 100%;
   width: 100%;
+}
+
+.prd-purchase__actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.prd-purchase__actions-row .prd-purchase__add-cart {
+  flex: 1 1 auto;
+  min-width: min(100%, 8rem);
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .prd-purchase__cart-msg {
@@ -1587,7 +1634,7 @@ html[data-header-inset-active="true"] .prd-page:has(.prd-page__chrome-rail) > .p
 
 .prd-cta-wrap--page-float {
   position: fixed;
-  bottom: 1.25rem;
+  bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
   inset-inline-end: 1.25rem;
   z-index: 90;
 }

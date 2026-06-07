@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { replaceBrowserUrl } from "@/lib/editor-url-sync";
 import type { CmsPage, CmsPageRevision, ContentStatus, SeoMeta } from "@prisma/client";
 import { SeoMetaPanel } from "@/features/seo/components/seo-meta-panel";
 import {
@@ -29,7 +31,6 @@ import {
 import { getContentFieldSuffix, type PublicLocale } from "@/i18n/locale-config";
 import type { EntityTranslation } from "@prisma/client";
 import { LocalizedFields } from "@/features/translation/components/localized-fields";
-import { LocaleTabPanel } from "@/features/translation/components/locale-tab-panel";
 import { LocalizedSlugEditor } from "@/features/translation/components/localized-slug-editor";
 import { translationsToFieldValues } from "@/features/translation/block-translation";
 import {
@@ -57,6 +58,11 @@ import type { PageVisualSettings } from "@/schemas/visual-settings";
 import { parsePageVisualSettings } from "@/schemas/visual-settings";
 import { PageLookAndFeelPanel } from "@/features/cms/components/page-look-and-feel-panel";
 import { getPageFormValidationError } from "@/features/cms/page-form-validation";
+import {
+  isBlockInspectorTab,
+  type BlockInspectorTabId,
+} from "@/features/builder/constants/block-inspector-tabs";
+import { validatePageBlocks } from "@/features/builder/validate-page-blocks";
 
 const PAGE_TABS = [
   { id: "general", label: "General" },
@@ -67,6 +73,12 @@ const PAGE_TABS = [
   { id: "seo", label: "SEO" },
   { id: "history", label: "History" },
 ] as const;
+
+const PAGE_TAB_IDS = new Set<string>(PAGE_TABS.map((t) => t.id));
+
+function isPageTab(id: string | null): id is (typeof PAGE_TABS)[number]["id"] {
+  return id != null && PAGE_TAB_IDS.has(id);
+}
 
 type PageWithRevisions = CmsPage & { revisions?: CmsPageRevision[]; seoMeta?: SeoMeta | null };
 
@@ -229,6 +241,10 @@ function PageEditorFields({
   description,
   activeTab,
   setActiveTab,
+  selectedBlockId,
+  onSelectBlock,
+  inspectorTab,
+  onInspectorTabChange,
   formState,
   updateFormState,
   onSave,
@@ -245,6 +261,10 @@ function PageEditorFields({
   description: string;
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  selectedBlockId: string | null;
+  onSelectBlock: (id: string | null) => void;
+  inspectorTab: BlockInspectorTabId;
+  onInspectorTabChange: (tab: BlockInspectorTabId) => void;
   formState: PageFormState;
   updateFormState: (patch: Partial<PageFormState>) => void;
   onSave: () => void;
@@ -262,9 +282,8 @@ function PageEditorFields({
     value: string
   ) => void;
 }) {
-  const { setDirty } = useAdminForm();
+  const { setDirty, showToast } = useAdminForm();
   const defaultLocaleCode = locales?.find((l) => l.isDefault)?.code ?? "en";
-  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
 
   const selectedBlock =
     selectedBlockId != null ? findBlockById(formState.blocks, selectedBlockId) : null;
@@ -285,10 +304,11 @@ function PageEditorFields({
       };
       const suffix = getContentFieldSuffix(localeCode);
       const next: Partial<PageFormState> = { localeFields };
-      if (fieldKey === "title" && suffix === "En") next.titleEn = value;
-      if (fieldKey === "title" && suffix === "Ar") next.titleAr = value;
-      if (fieldKey === "excerpt" && suffix === "En") next.excerptEn = value;
-      if (fieldKey === "excerpt" && suffix === "Ar") next.excerptAr = value;
+      const legacyKey = `${fieldKey}${suffix}`;
+      if (legacyKey === "titleEn") next.titleEn = value;
+      else if (legacyKey === "titleAr") next.titleAr = value;
+      else if (legacyKey === "excerptEn") next.excerptEn = value;
+      else if (legacyKey === "excerptAr") next.excerptAr = value;
       patch(next);
     },
     [formState.localeFields, patch]
@@ -301,7 +321,7 @@ function PageEditorFields({
 
   const insertPresetBlock = (block: BlockNode) => {
     patch({ blocks: [...formState.blocks, block] });
-    setSelectedBlockId(block.id);
+    onSelectBlock(block.id);
     setActiveTab("content");
   };
 
@@ -309,9 +329,15 @@ function PageEditorFields({
   const recommendedTemplate = resolveBuiltinTemplate(formState.templateKey, formState.slug);
 
   const applyRecommendedTemplate = () => {
-    if (!recommendedTemplate) return;
+    if (!recommendedTemplate) {
+      showToast("No recommended template found for this page.", "error");
+      return;
+    }
     const blocks = buildDefaultPageBlocksFromTemplate(formState.templateKey, formState.slug);
-    if (blocks.length === 0) return;
+    if (blocks.length === 0) {
+      showToast("Template has no blocks. Try Browse templates or re-import demo content.", "error");
+      return;
+    }
     if (
       formState.blocks.length > 0 &&
       !confirm(`Replace all blocks with "${recommendedTemplate.name}"?`)
@@ -411,72 +437,31 @@ function PageEditorFields({
                       <option value="ARCHIVED">Archived</option>
                     </select>
                   </div>
-                  {locales && locales.length > 0 ? (
-                    <>
-                      <div className="md:col-span-2">
-                        <LocalizedFields
-                          field={{ field: "title", label: "Title", type: "text", required: true }}
-                          locales={locales}
-                          defaultLocaleCode={defaultLocaleCode}
-                          values={translationsToFieldValues(initialPageTranslations ?? [], "title")}
-                          legacyEntity={page ?? { titleEn: formState.titleEn, titleAr: formState.titleAr }}
-                          registerFieldNames={false}
-                          onFieldChange={(code, value) => patchLocaleField("title", code, value)}
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <LocalizedFields
-                          field={{ field: "excerpt", label: "Excerpt", type: "textarea" }}
-                          locales={locales}
-                          defaultLocaleCode={defaultLocaleCode}
-                          values={translationsToFieldValues(initialPageTranslations ?? [], "excerpt")}
-                          legacyEntity={{
-                            excerptEn: formState.excerptEn,
-                            excerptAr: formState.excerptAr,
-                          }}
-                          registerFieldNames={false}
-                          onFieldChange={(code, value) => patchLocaleField("excerpt", code, value)}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div>
-                        <Label>Title EN</Label>
-                        <Input
-                          value={formState.titleEn}
-                          onChange={(e) => patch({ titleEn: e.target.value })}
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label>Title AR</Label>
-                        <Input
-                          value={formState.titleAr}
-                          onChange={(e) => patch({ titleAr: e.target.value })}
-                          dir="rtl"
-                          required
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <Label>Excerpt EN</Label>
-                        <Textarea
-                          value={formState.excerptEn}
-                          onChange={(e) => patch({ excerptEn: e.target.value })}
-                          rows={2}
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <Label>Excerpt AR</Label>
-                        <Textarea
-                          value={formState.excerptAr}
-                          onChange={(e) => patch({ excerptAr: e.target.value })}
-                          dir="rtl"
-                          rows={2}
-                        />
-                      </div>
-                    </>
-                  )}
+                  <div className="md:col-span-2">
+                    <LocalizedFields
+                      field={{ field: "title", label: "Title", type: "text", required: true }}
+                      locales={locales.length > 0 ? locales : [{ code: "en", urlPrefix: "en", label: "English", htmlLang: "en", dir: "ltr", flag: "🇺🇸", isDefault: true }]}
+                      defaultLocaleCode={defaultLocaleCode}
+                      values={translationsToFieldValues(initialPageTranslations ?? [], "title")}
+                      legacyEntity={page ?? { titleEn: formState.titleEn, titleAr: formState.titleAr }}
+                      registerFieldNames={false}
+                      onFieldChange={(code, value) => patchLocaleField("title", code, value)}
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <LocalizedFields
+                      field={{ field: "excerpt", label: "Excerpt", type: "textarea" }}
+                      locales={locales.length > 0 ? locales : [{ code: "en", urlPrefix: "en", label: "English", htmlLang: "en", dir: "ltr", flag: "🇺🇸", isDefault: true }]}
+                      defaultLocaleCode={defaultLocaleCode}
+                      values={translationsToFieldValues(initialPageTranslations ?? [], "excerpt")}
+                      legacyEntity={{
+                        excerptEn: formState.excerptEn,
+                        excerptAr: formState.excerptAr,
+                      }}
+                      registerFieldNames={false}
+                      onFieldChange={(code, value) => patchLocaleField("excerpt", code, value)}
+                    />
+                  </div>
                   <div>
                     <Label>Template key</Label>
                     <Input
@@ -496,26 +481,12 @@ function PageEditorFields({
                 </CardContent>
               </Card>
               {page?.id ? (
-                <>
-                <LocaleTabPanel
-                  entityType="CmsPage"
-                  entityId={page.id}
-                  sourceData={{
-                    title: formState.titleEn,
-                    subtitle: formState.excerptEn ?? "",
-                    description: formState.excerptEn ?? "",
-                    content: "",
-                    seoTitle: page.seoMeta?.titleEn ?? formState.titleEn,
-                    seoDescription: page.seoMeta?.descriptionEn ?? formState.excerptEn ?? "",
-                  }}
-                />
                 <LocalizedSlugEditor
                   entityType="CmsPage"
                   entityId={page.id}
                   defaultSlug={formState.slug}
                   pathPrefix="/pages"
                 />
-                </>
               ) : null}
               </>
             )}
@@ -558,7 +529,10 @@ function PageEditorFields({
                 embeddedHistory={false}
                 includeHiddenInput={false}
                 onGoToTemplates={() => setActiveTab("templates")}
-                onSelectBlock={setSelectedBlockId}
+                selectedId={selectedBlockId}
+                onSelectBlock={onSelectBlock}
+                inspectorTab={inspectorTab}
+                onInspectorTabChange={onInspectorTabChange}
                 galleryOptions={galleryOptions}
                 faqSetOptions={faqSetOptions}
                 testimonialOptions={testimonialOptions}
@@ -637,6 +611,7 @@ function PageEditorFields({
 
             {tab === "seo" && page?.id && (
               <SeoMetaPanel
+                embedded
                 cmsPageId={page.id}
                 meta={page.seoMeta}
                 defaultTitleEn={formState.titleEn}
@@ -729,12 +704,113 @@ export function PageEditorForm({
   testimonialOptions?: TestimonialBuilderOption[];
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
 }) {
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get("tab");
+  const blockParam = searchParams.get("block");
+  const inspectorParam = searchParams.get("inspector");
+
   const formRef = useRef<HTMLFormElement>(null);
   const handleSaveRef = useRef<() => void>(() => {});
-  const [activeTab, setActiveTab] = useState<string>("general");
+  const [newPageTab, setNewPageTab] = useState<string>("general");
+  const [activeTab, setActiveTab] = useState<(typeof PAGE_TABS)[number]["id"]>(() => {
+    if (!page?.id) return "general";
+    return isPageTab(tabParam) ? tabParam : "general";
+  });
+
+  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(blockParam);
+  const [inspectorTab, setInspectorTab] = useState<BlockInspectorTabId>(() =>
+    isBlockInspectorTab(inspectorParam) ? inspectorParam : "content"
+  );
+
+  useEffect(() => {
+    if (page?.id && isPageTab(tabParam)) setActiveTab(tabParam);
+  }, [page?.id, tabParam]);
+
+  useEffect(() => {
+    setSelectedBlockId(blockParam);
+  }, [blockParam]);
+
+  useEffect(() => {
+    if (isBlockInspectorTab(inspectorParam)) setInspectorTab(inspectorParam);
+  }, [inspectorParam]);
+
+  const syncPageEditorUrl = useCallback(
+    (params: URLSearchParams) => {
+      if (!page?.id) return;
+      replaceBrowserUrl(`/admin/pages/${page.id}?${params.toString()}`);
+    },
+    [page?.id]
+  );
+
+  const handleTabChange = useCallback(
+    (tabId: string) => {
+      if (!page?.id) {
+        setNewPageTab(tabId);
+        return;
+      }
+      if (!isPageTab(tabId)) return;
+      setActiveTab(tabId);
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("tab", tabId);
+      if (tabId !== "content") {
+        params.delete("block");
+        params.delete("inspector");
+      } else if (selectedBlockId) {
+        params.set("block", selectedBlockId);
+        params.set("inspector", inspectorTab);
+      }
+      syncPageEditorUrl(params);
+    },
+    [inspectorTab, page?.id, searchParams, selectedBlockId, syncPageEditorUrl]
+  );
+
+  const handleSelectBlock = useCallback(
+    (id: string | null) => {
+      setSelectedBlockId(id);
+      if (!page?.id) return;
+      setActiveTab("content");
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("tab", "content");
+      if (id) params.set("block", id);
+      else params.delete("block");
+      params.set("inspector", inspectorTab);
+      syncPageEditorUrl(params);
+    },
+    [inspectorTab, page?.id, searchParams, syncPageEditorUrl]
+  );
+
+  const handleInspectorTabChange = useCallback(
+    (tab: BlockInspectorTabId) => {
+      setInspectorTab(tab);
+      if (!page?.id) return;
+      setActiveTab("content");
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("tab", "content");
+      params.set("inspector", tab);
+      if (selectedBlockId) params.set("block", selectedBlockId);
+      syncPageEditorUrl(params);
+    },
+    [page?.id, searchParams, selectedBlockId, syncPageEditorUrl]
+  );
+
+  const displayActiveTab = page?.id
+    ? activeTab
+    : isPageTab(newPageTab)
+      ? newPageTab
+      : "general";
+
   const [formState, setFormState] = useState<PageFormState>(() =>
     buildInitialFormState(page, initialPageTranslations)
   );
+
+  const pageBlocksKey = page ? JSON.stringify(page.blocks) : "";
+  useEffect(() => {
+    if (!page) return;
+    setFormState((prev) => ({
+      ...prev,
+      blocks: migrateLegacyCatalogBlocks((page.blocks as PageBlocks) ?? []),
+    }));
+  }, [page?.id, pageBlocksKey]);
 
   const updateFormState = useCallback((patch: Partial<PageFormState>) => {
     setFormState((prev) => ({ ...prev, ...patch }));
@@ -751,8 +827,8 @@ export function PageEditorForm({
   }, [page?.id]);
 
   const handlePreview = useCallback(() => {
-    setActiveTab("preview");
-  }, []);
+    handleTabChange("preview");
+  }, [handleTabChange]);
 
   const title = page ? `Edit: ${page.titleEn}` : "New Page";
   const description = page
@@ -785,10 +861,13 @@ export function PageEditorForm({
         formRef={formRef}
         formState={formState}
         handleSaveRef={handleSaveRef}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleTabChange}
       />
       <form ref={formRef} action={upsertCmsPage} data-page-editor className="contents">
         {page?.id && <input type="hidden" name="id" value={page.id} />}
+        <input type="hidden" name="editorTab" value={displayActiveTab} readOnly />
+        <input type="hidden" name="selectedBlockId" value={selectedBlockId ?? ""} readOnly />
+        <input type="hidden" name="editorInspector" value={inspectorTab} readOnly />
         <input type="hidden" name="slug" value={formState.slug} readOnly />
         <input type="hidden" name="status" value={formState.status} readOnly />
         <input type="hidden" name="templateKey" value={formState.templateKey} readOnly />
@@ -816,8 +895,12 @@ export function PageEditorForm({
         page={page}
         title={title}
         description={description}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        activeTab={displayActiveTab}
+        setActiveTab={handleTabChange}
+        selectedBlockId={selectedBlockId}
+        onSelectBlock={handleSelectBlock}
+        inspectorTab={inspectorTab}
+        onInspectorTabChange={handleInspectorTabChange}
         formState={formState}
         updateFormState={updateFormState}
         onSave={handleSave}
@@ -871,6 +954,13 @@ function PageEditorSaveGuard({
       if (error) {
         showToast(error, "error");
         setActiveTab("general");
+        return;
+      }
+      try {
+        validatePageBlocks(formState.blocks);
+      } catch (e) {
+        showToast(e instanceof Error ? e.message : "Block validation failed", "error");
+        setActiveTab("content");
         return;
       }
       formRef.current?.requestSubmit();

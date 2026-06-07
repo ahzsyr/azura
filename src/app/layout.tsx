@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { Plus_Jakarta_Sans, Amiri } from "next/font/google";
-import { ThemeInitInline } from "@/components/theme/theme-init-inline";
+import Script from "next/script";
+import { Amiri, Plus_Jakarta_Sans } from "next/font/google";
 import "@/app/globals.css";
 import "@/features/search/components/search-ui/search-ui.css";
 import "@/features/search/components/search-ui/search-theme.css";
@@ -12,7 +12,7 @@ const bodyFont = Plus_Jakarta_Sans({
 });
 
 const headingFont = Amiri({
-  subsets: ["latin", "arabic"],
+  subsets: ["arabic", "latin"],
   weight: ["400", "700"],
   variable: "--font-heading",
   display: "swap",
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: Props) {
       suppressHydrationWarning
     >
       <body className="min-h-full antialiased" suppressHydrationWarning>
-        <ThemeInitInline />
+        <Script src="/theme-init.js" strategy="beforeInteractive" />
         {children}
       </body>
     </html>

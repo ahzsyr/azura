@@ -15,30 +15,10 @@ import {
 } from "@/features/products/index/product-index-loader";
 import type { ProductListingQueryResult } from "@/features/products/index/product-index-types";
 import type { IndexedProductListingRecord } from "@/features/products/index/product-index-types";
+import { sortListingRecords, type CollectionSortKey } from "./sort-listing";
 
-export type CollectionSortKey = "name-asc" | "name-desc" | "price-asc" | "price-desc" | "newest";
-
-export function sortListingRecords(
-  records: ProductListingRecord[],
-  sortBy: CollectionSortKey = "name-asc",
-): ProductListingRecord[] {
-  const copy = [...records];
-  copy.sort((a, b) => {
-    switch (sortBy) {
-      case "price-asc":
-        return a.priceMin - b.priceMin;
-      case "price-desc":
-        return b.priceMax - a.priceMax;
-      case "name-desc":
-        return b.name.localeCompare(a.name);
-      case "newest":
-        return (b.id ?? b.slug).localeCompare(a.id ?? a.slug);
-      default:
-        return a.name.localeCompare(b.name);
-    }
-  });
-  return copy;
-}
+export type { CollectionSortKey };
+export { sortListingRecords };
 
 async function loadCollections(localePrefix: string): Promise<Collection[]> {
   const allCols = await collectionsDataService.loadAll({ localePrefix });

@@ -1,6 +1,6 @@
 import { jsonStoreService } from "@/features/storage/json-store.service";
 import type { Prisma } from "@prisma/client";
-import { pageBlocksSchema, createBlock } from "@/schemas/blocks";
+import { createBlock } from "@/schemas/blocks";
 import type { BlockNode, PageBlocks } from "@/types/builder";
 import {
   BLOCK_PRESETS_NAMESPACE,
@@ -11,13 +11,10 @@ import {
 } from "./constants";
 import { cloneBlocks } from "./block-tree";
 import { migrateBlocksToBlockSystem } from "./migration/upgrade-blocks";
+import { validatePageBlocks } from "./validate-page-blocks";
 
 export const builderService = {
-  validateBlocks(blocks: unknown): PageBlocks {
-    const raw = Array.isArray(blocks) ? (blocks as PageBlocks) : [];
-    const { blocks: migrated } = migrateBlocksToBlockSystem(raw);
-    return pageBlocksSchema.parse(migrated) as PageBlocks;
-  },
+  validateBlocks: validatePageBlocks,
 
   migrateBlocks(blocks: unknown) {
     return migrateBlocksToBlockSystem(blocks);

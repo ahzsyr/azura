@@ -3,15 +3,22 @@ import "server-only";
 import { adminLocale } from "@/features/catalog/admin/catalog-admin-config";
 import { normalizeTaxonomyList } from "@/features/catalog/admin/catalog-taxonomy";
 import { readSiteSettings } from "@/features/catalog/site-settings.service";
-import { normalizeProductCtaGlobal, type ResolvedProductCtaConfig } from "@/features/products/lib/product-cta";
+import {
+  mergeProductCta,
+  normalizeProductCtaGlobal,
+  type ResolvedProductCtaConfig,
+} from "@/features/products/lib/product-cta";
+import { migrateProductCtaFromLegacyAddToCart } from "@/features/products/lib/product-cta-migrate";
+import {
+  resolveProductBuyNow,
+  type ResolvedProductBuyNow,
+} from "@/features/products/lib/product-buy-now";
 import {
   resolveProductPageDisplay,
-  resolveProductAddToCart,
   resolveProductPromo,
   resolveProductTrust,
   resolveProductPageElementOrder,
   type ResolvedProductPageDisplay,
-  type ResolvedProductAddToCart,
   type ResolvedProductPromo,
   type ResolvedProductTrust,
   type ResolvedProductPageElementOrder,
@@ -32,7 +39,7 @@ export type ProductsAdminInitialProps = {
   initialProductPageLayout: ResolvedProductPageLayout;
   initialProductCardLayout: ResolvedProductCardLayout;
   initialProductPageDisplay: ResolvedProductPageDisplay;
-  initialProductPageAddToCart: ResolvedProductAddToCart;
+  initialProductBuyNow: ResolvedProductBuyNow;
   initialProductPagePromo: ResolvedProductPromo;
   initialProductPageTrust: ResolvedProductTrust;
   initialProductPageElementOrder: ResolvedProductPageElementOrder;
@@ -46,8 +53,16 @@ export type ProductsAdminInitialProps = {
 export async function loadProductsAdminInitialProps(): Promise<ProductsAdminInitialProps> {
   const site = await readSiteSettings(adminLocale.code);
 
+  const migratedCta = migrateProductCtaFromLegacyAddToCart(
+    site.productCta,
+    site.productPageAddToCart,
+  );
+  const initialProductCta = migratedCta
+    ? mergeProductCta(normalizeProductCtaGlobal(site.productCta), migratedCta)
+    : normalizeProductCtaGlobal(site.productCta);
+
   return {
-    initialProductCta: normalizeProductCtaGlobal(site.productCta),
+    initialProductCta,
     initialProductPageLayout: resolveProductPageLayout(
       site.productPageLayout as Parameters<typeof resolveProductPageLayout>[0],
     ),
@@ -57,8 +72,9 @@ export async function loadProductsAdminInitialProps(): Promise<ProductsAdminInit
     initialProductPageDisplay: resolveProductPageDisplay(
       site.productPageDisplay as Parameters<typeof resolveProductPageDisplay>[0],
     ),
-    initialProductPageAddToCart: resolveProductAddToCart(
-      site.productPageAddToCart as Parameters<typeof resolveProductAddToCart>[0],
+    initialProductBuyNow: resolveProductBuyNow(
+      site.productBuyNow as Parameters<typeof resolveProductBuyNow>[0],
+      site.productPageAddToCart as Parameters<typeof resolveProductBuyNow>[1],
     ),
     initialProductPagePromo: resolveProductPromo(
       site.productPagePromo as Parameters<typeof resolveProductPromo>[0],

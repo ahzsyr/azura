@@ -16,6 +16,7 @@ import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { AdminSearchCommand } from "@/features/search/components/search-command";
 import { AdminBreadcrumbs } from "./admin-breadcrumbs";
 import { AdminMobileMenuButton } from "./admin-sidebar";
+import { AdminLocaleSwitcher } from "@/components/admin/admin-locale-switcher";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -117,6 +118,8 @@ export function AdminTopBar() {
         </div>
 
         <SaveStatusIndicator />
+
+        <AdminLocaleSwitcher className="hidden sm:flex" />
 
         <Tooltip>
           <TooltipTrigger asChild>

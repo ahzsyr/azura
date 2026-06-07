@@ -5,7 +5,6 @@ import type { MenuItem, MenuLayoutType } from "./types";
 const STATIC_PAGES = new Set([
   "about",
   "packages",
-  "visa",
   "hotels-transport",
   "gallery",
   "testimonials",
@@ -13,6 +12,13 @@ const STATIC_PAGES = new Set([
   "blog",
   "collections",
   "products",
+  "services",
+  "compare",
+  "favorites",
+  "account",
+  "smart-home",
+  "security-solutions",
+  "enterprise-wireless",
 ]);
 
 /** Legacy travel-agency catalog route (packages remain for old menu items). */
@@ -32,8 +38,14 @@ export function getSyntheticChildren(item: MenuItem) {
   ];
 }
 
-export function getEffectiveMegaMenuType(item: MenuItem, workspaceDefault: MenuLayoutType): MenuLayoutType {
-  return item.megaMenuType ?? workspaceDefault;
+/** Default flyout for menu items with children when no per-item override is set. */
+export const DEFAULT_FLYOUT_MENU_TYPE: MenuLayoutType = "dropdown";
+
+export function getEffectiveMegaMenuType(
+  item: MenuItem,
+  _workspaceDefault?: MenuLayoutType,
+): MenuLayoutType {
+  return item.megaMenuType ?? DEFAULT_FLYOUT_MENU_TYPE;
 }
 
 export function getItemHref(item: MenuItem, localeCode: string = STATIC_DEFAULT_URL_PREFIX): string {

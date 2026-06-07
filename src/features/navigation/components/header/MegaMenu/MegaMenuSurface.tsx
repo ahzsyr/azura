@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type HTMLAttributes } from "react";
 import type { MegaMenuTabConfig, MenuItem, MenuItemType, MenuLayoutType } from "@/features/navigation/types";
 import { getItemHref } from "@/features/navigation/resolve-href";
+import { DEFAULT_MEDIA_PLACEHOLDER, resolveMediaUrl } from "@/features/media/constants";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -10,10 +11,20 @@ interface Props {
   menuType: MenuLayoutType;
   localeCode: string;
   isOpen?: boolean;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }
 
 function flyoutRootClass(base: string, isOpen?: boolean) {
   return cn(base, isOpen && "is-open");
+}
+
+function flyoutPointerProps(
+  onMouseEnter?: () => void,
+  onMouseLeave?: () => void,
+): Pick<HTMLAttributes<HTMLDivElement>, "onMouseEnter" | "onMouseLeave"> {
+  if (!onMouseEnter && !onMouseLeave) return {};
+  return { onMouseEnter, onMouseLeave };
 }
 
 type ChildRow = {
@@ -30,9 +41,23 @@ function NavGlyph({ icon }: { icon?: string }) {
   return <i className={`fas ${icon.trim()}`} aria-hidden />;
 }
 
+function isVisualCardType(type: MenuItemType): boolean {
+  return type === "collection" || type === "product" || type === "image";
+}
+
 function isVisualCardThumbnail(c: ChildRow): boolean {
   if (!c.imageUrl?.trim()) return false;
-  return c.type === "collection" || c.type === "product" || c.type === "image";
+  return isVisualCardType(c.type);
+}
+
+function shouldUseVisualCard(child: ChildRow, menuType: MenuLayoutType): boolean {
+  if (menuType === "grid") return isVisualCardType(child.type);
+  return isVisualCardThumbnail(child);
+}
+
+function isCompactTextGrid(rows: ChildRow[], menuType: MenuLayoutType): boolean {
+  if (menuType === "grid") return false;
+  return rows.length > 0 && rows.every((row) => !isVisualCardThumbnail(row));
 }
 
 function buildChildRows(item: MenuItem, localeCode: string): ChildRow[] {
@@ -60,16 +85,37 @@ function rowsForTabIndex(tabIdx: number, tabs: MegaMenuTabConfig[], rows: ChildR
   return rows.filter((r) => tab.childIds.includes(r.id));
 }
 
+function MegaMenuVisualImage({ src, alt }: { src?: string | null; alt: string }) {
+  const [imgSrc, setImgSrc] = useState(() => resolveMediaUrl(src));
+
+  useEffect(() => {
+    setImgSrc(resolveMediaUrl(src));
+  }, [src]);
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={imgSrc}
+      alt={alt}
+      decoding="async"
+      data-skip-img-fade=""
+      onError={() => setImgSrc(DEFAULT_MEDIA_PLACEHOLDER)}
+    />
+  );
+}
+
 function MegaMenuRowLink({
   child,
   cardClass,
   desc,
+  menuType,
 }: {
   child: ChildRow;
   cardClass: string;
   desc: string | null;
+  menuType: MenuLayoutType;
 }) {
-  const visual = isVisualCardThumbnail(child);
+  const visual = shouldUseVisualCard(child, menuType);
 
   if (visual) {
     return (
@@ -78,7 +124,7 @@ function MegaMenuRowLink({
         className={`${cardClass} hb-mega-card-link hb-mega-card hb-mega-card--visual`.trim()}
       >
         <div className="hb-mega-card__media">
-          <img src={child.imageUrl} alt="" decoding="async" data-skip-img-fade="" />
+          <MegaMenuVisualImage src={child.imageUrl} alt={child.label} />
           <div className="hb-mega-card__scrim" aria-hidden="true" />
           <div className="hb-mega-card__caption">
             <h4>{child.label}</h4>
@@ -98,7 +144,14 @@ function MegaMenuRowLink({
   );
 }
 
-export function MegaMenuSurface({ item, menuType, localeCode, isOpen }: Props) {
+export function MegaMenuSurface({
+  item,
+  menuType,
+  localeCode,
+  isOpen,
+  onMouseEnter,
+  onMouseLeave,
+}: Props) {
   const rows = buildChildRows(item, localeCode);
   const mega = item.megaMenu;
   const [activeTabIdx, setActiveTabIdx] = useState(0);
@@ -116,6 +169,9 @@ export function MegaMenuSurface({ item, menuType, localeCode, isOpen }: Props) {
     menuType === "tabbed" && tabsConfig?.length
       ? rowsForTabIndex(activeTabIdx, tabsConfig, rows)
       : rows;
+  const compactTextGrid = isCompactTextGrid(tabRows, menuType);
+  const gridClassName = cn("collections-grid", compactTextGrid && "collections-grid--compact");
+  const pointerProps = flyoutPointerProps(onMouseEnter, onMouseLeave);
 
   const cardDescription = (childId: string) => {
     const d = mega?.childDescriptions?.[childId];
@@ -124,18 +180,30 @@ export function MegaMenuSurface({ item, menuType, localeCode, isOpen }: Props) {
 
   if (menuType === "dropdown") {
     const hideIcons = mega?.dropdownShowIcons === false;
+    const showIconColumn =
+      !hideIcons && rows.some((row) => row.icon?.trim() || isVisualCardThumbnail(row));
     return (
-      <div className={flyoutRootClass("dropdown-menu", isOpen)} data-mega-menu="dropdown">
+      <div
+        className={flyoutRootClass("dropdown-menu", isOpen)}
+        data-mega-menu="dropdown"
+        {...pointerProps}
+      >
         {rows.map((child) => {
           const visual = isVisualCardThumbnail(child);
           return (
-            <a key={child.id} href={child.href} className={visual ? "hb-mega-dropdown-row--visual" : undefined}>
+            <a
+              key={child.id}
+              href={child.href}
+              className={cn("hb-mega-dropdown-row", visual && "hb-mega-dropdown-row--visual")}
+            >
               {visual ? (
                 <span className="hb-mega-dropdown-thumb" aria-hidden>
-                  <img src={child.imageUrl} alt="" width={40} height={40} decoding="async" />
+                  <MegaMenuVisualImage src={child.imageUrl} alt="" />
                 </span>
-              ) : !hideIcons ? (
-                <NavGlyph icon={child.icon} />
+              ) : showIconColumn ? (
+                <span className="hb-mega-dropdown-icon" aria-hidden>
+                  <NavGlyph icon={child.icon} />
+                </span>
               ) : null}
               <span className="hb-mega-dropdown-label">{child.label}</span>
             </a>
@@ -147,7 +215,11 @@ export function MegaMenuSurface({ item, menuType, localeCode, isOpen }: Props) {
 
   if (menuType === "columns") {
     return (
-      <div className={flyoutRootClass("mega-menu", isOpen)} data-mega-menu="columns">
+      <div
+        className={flyoutRootClass("mega-menu", isOpen)}
+        data-mega-menu="columns"
+        {...pointerProps}
+      >
         <div className="mega-inner">
           <div
             className="columns-grid"
@@ -159,6 +231,7 @@ export function MegaMenuSurface({ item, menuType, localeCode, isOpen }: Props) {
                 child={child}
                 cardClass="col-card"
                 desc={cardDescription(child.id)}
+                menuType={menuType}
               />
             ))}
           </div>
@@ -171,7 +244,11 @@ export function MegaMenuSurface({ item, menuType, localeCode, isOpen }: Props) {
     const left = mega?.mixed?.left;
     const right = mega?.mixed?.right;
     return (
-      <div className={flyoutRootClass("mega-menu", isOpen)} data-mega-menu="mixed">
+      <div
+        className={flyoutRootClass("mega-menu", isOpen)}
+        data-mega-menu="mixed"
+        {...pointerProps}
+      >
         <div className="mega-inner">
           <div className="mixed-grid">
             <div className="feature-panel">
@@ -190,7 +267,7 @@ export function MegaMenuSurface({ item, menuType, localeCode, isOpen }: Props) {
                   >
                     {visual ? (
                       <span className="hb-mega-mixed-thumb" aria-hidden>
-                        <img src={child.imageUrl} alt="" width={48} height={48} decoding="async" />
+                        <MegaMenuVisualImage src={child.imageUrl} alt="" />
                       </span>
                     ) : (
                       <NavGlyph icon={child.icon} />
@@ -216,7 +293,11 @@ export function MegaMenuSurface({ item, menuType, localeCode, isOpen }: Props) {
     const displayRows = hasCustomTabs ? tabRows : rows;
 
     return (
-      <div className={flyoutRootClass("mega-menu", isOpen)} data-mega-menu="tabbed">
+      <div
+        className={flyoutRootClass("mega-menu", isOpen)}
+        data-mega-menu="tabbed"
+        {...pointerProps}
+      >
         <div className="mega-inner">
           {hasCustomTabs ? (
             <div className="tab-head" role="tablist" aria-label="Mega menu sections">
@@ -235,10 +316,14 @@ export function MegaMenuSurface({ item, menuType, localeCode, isOpen }: Props) {
             </div>
           ) : null}
           <div
-            className="collections-grid"
-            style={{
-              gridTemplateColumns: `repeat(${gridCols}, minmax(min(100%, 200px), 1fr))`,
-            }}
+            className={gridClassName}
+            style={
+              compactTextGrid
+                ? undefined
+                : {
+                    gridTemplateColumns: `repeat(${gridCols}, minmax(min(100%, 200px), 1fr))`,
+                  }
+            }
           >
             {displayRows.map((child) => (
               <MegaMenuRowLink
@@ -246,6 +331,7 @@ export function MegaMenuSurface({ item, menuType, localeCode, isOpen }: Props) {
                 child={child}
                 cardClass="collection-card"
                 desc={cardDescription(child.id)}
+                menuType={menuType}
               />
             ))}
           </div>
@@ -255,13 +341,21 @@ export function MegaMenuSurface({ item, menuType, localeCode, isOpen }: Props) {
   }
 
   return (
-    <div className={flyoutRootClass("mega-menu", isOpen)} data-mega-menu="grid">
+    <div
+      className={flyoutRootClass("mega-menu", isOpen)}
+      data-mega-menu="grid"
+      {...pointerProps}
+    >
       <div className="mega-inner">
         <div
-          className="collections-grid"
-          style={{
-            gridTemplateColumns: `repeat(${gridCols}, minmax(min(100%, 200px), 1fr))`,
-          }}
+          className={gridClassName}
+          style={
+            compactTextGrid
+              ? undefined
+              : {
+                  gridTemplateColumns: `repeat(${gridCols}, minmax(min(100%, 200px), 1fr))`,
+                }
+          }
         >
           {tabRows.map((child) => (
             <MegaMenuRowLink
@@ -269,6 +363,7 @@ export function MegaMenuSurface({ item, menuType, localeCode, isOpen }: Props) {
               child={child}
               cardClass="collection-card"
               desc={cardDescription(child.id)}
+              menuType={menuType}
             />
           ))}
         </div>

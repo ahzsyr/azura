@@ -42,13 +42,47 @@ describe("comparison store", () => {
     store.clearCompareList();
   });
 
-  it("keeps selections separate per content type slug", () => {
+  it("normalizes legacy packages slug to catalog-items", () => {
     store.toggleCompareList("packages", "id-1", 4);
-    store.toggleCompareList("listings", "id-2", 4);
 
+    assert.deepEqual(store.getCompareIdsForType("catalog-items"), ["id-1"]);
     assert.deepEqual(store.getCompareIdsForType("packages"), ["id-1"]);
-    assert.deepEqual(store.getCompareIdsForType("listings"), ["id-2"]);
     assert.equal(store.isInCompareList("packages", "id-2"), false);
+
+    const raw = (globalThis.window as Window).localStorage.getItem(STORAGE_KEY);
+    assert.ok(raw);
+    const parsed = JSON.parse(raw!) as Record<string, string[]>;
+    assert.deepEqual(parsed["catalog-items"], ["id-1"]);
+    assert.equal(parsed.packages, undefined);
+  });
+
+  it("migrates pre-seeded legacy packages key on read", () => {
+    (globalThis.window as Window).localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ packages: ["legacy-id"] })
+    );
+
+    assert.deepEqual(store.getCompareIdsForType("catalog-items"), ["legacy-id"]);
+    const raw = (globalThis.window as Window).localStorage.getItem(STORAGE_KEY);
+    const parsed = JSON.parse(raw!) as Record<string, string[]>;
+    assert.deepEqual(parsed["catalog-items"], ["legacy-id"]);
+    assert.equal(parsed.packages, undefined);
+  });
+
+  it("isolates catalog-items and listings buckets", () => {
+    store.toggleCompareList("catalog-items", "pkg-1", 4);
+    store.toggleCompareList("catalog-items", "pkg-2", 4);
+    store.toggleCompareList("listings", "hotel-1", 4);
+
+    assert.deepEqual(store.getCompareIdsForType("catalog-items"), ["pkg-1", "pkg-2"]);
+    assert.deepEqual(store.getCompareIdsForType("listings"), ["hotel-1"]);
+    const summary = store.getCompareBucketsSummary();
+    assert.equal(summary.length, 2);
+  });
+
+  it("normalizes hotels legacy slug to listings", () => {
+    store.toggleCompareList("hotels", "h1", 4);
+    assert.deepEqual(store.getCompareIdsForType("listings"), ["h1"]);
   });
 
   it("enforces max items per type", () => {

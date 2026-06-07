@@ -3,8 +3,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Monitor, Moon, Sun, Palette } from "lucide-react";
+import { ArrowUp, Globe, Monitor, Moon, Sun, Palette } from "lucide-react";
 import { ALL_PRESETS, type PresetMeta } from "@/features/theme/presets-catalog";
+import type { LocaleOption } from "@/components/layout/locale-switcher";
 import type { PersonalizationSettings } from "@/features/personalization/personalization.service";
 import type { ThemeTokens } from "@/types/theme";
 import { useThemeEngine } from "@/components/theme/theme-engine-provider";
@@ -20,7 +21,185 @@ type Props = {
   settings: PersonalizationSettings;
   theme: ThemeTokens | null;
   locale?: string;
+  locales?: LocaleOption[];
 };
+
+function openLocaleDialog() {
+  document.getElementById("locale-switcher-trigger")?.click();
+}
+
+function getLocaleShortCode(locale: string, locales: LocaleOption[]): string {
+  const active = locales.find((l) => l.urlPrefix === locale || l.code === locale);
+  const raw = active?.urlPrefix ?? active?.code ?? locale;
+  return raw.slice(0, 2).toUpperCase();
+}
+
+function FabQuickControls({
+  engine,
+  locale,
+  locales,
+  showMode,
+  themeLabel,
+}: {
+  engine: ReturnType<typeof useThemeEngine>;
+  locale: string;
+  locales: LocaleOption[];
+  showMode: boolean;
+  themeLabel: string;
+}) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!showMode) return null;
+
+  const isDark = engine.resolvedAppearance === "dark";
+  const ThemeIcon = isDark ? Moon : Sun;
+
+  if (!mounted) {
+    return (
+      <div className="pp-fab-circles" aria-hidden>
+        {showMode ? <span className="pp-fab-circle pp-fab-circle--skeleton" /> : null}
+      </div>
+    );
+  }
+
+  return (
+    <div className="pp-fab-circles" role="group" aria-label={themeLabel}>
+      {showMode ? (
+        <button
+          type="button"
+          className="pp-fab-circle pp-fab-circle--active"
+          aria-label={themeLabel}
+          title={themeLabel}
+          onClick={() => engine.toggleLightDark()}
+          suppressHydrationWarning
+        >
+          <ThemeIcon className="h-4 w-4" strokeWidth={2} aria-hidden />
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
+function FabLanguageButton({
+  locale,
+  locales,
+  label,
+}: {
+  locale: string;
+  locales: LocaleOption[];
+  label: string;
+}) {
+  const activeLocale =
+    locales.find((l) => l.urlPrefix === locale || l.code === locale) ?? locales[0];
+  const localeCode = getLocaleShortCode(locale, locales);
+
+  return (
+    <button
+      type="button"
+      className="pp-language-fab-btn"
+      aria-label={label}
+      title={activeLocale?.label ?? label}
+      onClick={openLocaleDialog}
+    >
+      <Globe className="pp-language-fab-btn__icon h-3.5 w-3.5 shrink-0" strokeWidth={2} aria-hidden />
+      <span className="pp-language-fab-btn__code">{localeCode}</span>
+    </button>
+  );
+}
+
+function AppearanceStatusCircles({
+  engine,
+  locale,
+  locales,
+  onOpenStyleTab,
+  themeLabel,
+  localeLabel,
+  presetLabel,
+}: {
+  engine: ReturnType<typeof useThemeEngine>;
+  locale: string;
+  locales: LocaleOption[];
+  onOpenStyleTab: () => void;
+  themeLabel: string;
+  localeLabel: string;
+  presetLabel: string;
+}) {
+  const activeLocale =
+    locales.find((l) => l.urlPrefix === locale || l.code === locale) ?? locales[0];
+
+  const catalogPreset = engine.activePresetId
+    ? ALL_PRESETS.find((p) => p.id === engine.activePresetId)
+    : undefined;
+  const userPreset = engine.userPresets.find((p) => p.id === engine.activePresetId);
+  const presetPrimary =
+    catalogPreset?.tokens.primary ??
+    userPreset?.colors.primary ??
+    "color-mix(in srgb, var(--color-primary, var(--primary)) 40%, transparent)";
+  const presetAccent =
+    catalogPreset?.tokens.accent ??
+    userPreset?.colors.accent ??
+    presetPrimary;
+
+  const ThemeIcon =
+    engine.appearanceMode === "system"
+      ? Monitor
+      : engine.resolvedAppearance === "dark"
+        ? Moon
+        : Sun;
+
+  return (
+    <div className="pp-status-circles" role="group" aria-label={themeLabel}>
+      <button
+        type="button"
+        className="pp-status-circle pp-status-circle--active"
+        aria-label={themeLabel}
+        title={themeLabel}
+        onClick={() => engine.toggleLightDark()}
+      >
+        <ThemeIcon className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
+      </button>
+      {locales.length > 1 ? (
+        <button
+          type="button"
+          className="pp-status-circle pp-status-circle--active"
+          aria-label={localeLabel}
+          title={activeLocale?.label ?? localeLabel}
+          onClick={openLocaleDialog}
+        >
+          <span className="pp-status-circle__code" aria-hidden>
+            {getLocaleShortCode(locale, locales)}
+          </span>
+        </button>
+      ) : null}
+      <button
+        type="button"
+        className={cn(
+          "pp-status-circle",
+          engine.activePresetId && "pp-status-circle--active",
+        )}
+        aria-label={presetLabel}
+        title={
+          catalogPreset?.label ??
+          userPreset?.name ??
+          presetLabel
+        }
+        onClick={onOpenStyleTab}
+      >
+        <span
+          className="pp-status-circle__swatch"
+          style={{
+            background: `linear-gradient(135deg, ${presetPrimary}, ${presetAccent})`,
+          }}
+          aria-hidden
+        />
+      </button>
+    </div>
+  );
+}
 
 type PanelTab = "appearance" | "style";
 
@@ -102,7 +281,7 @@ function ThemePillSwitch({
   );
 }
 
-export function PersonalizationPanel({ settings, theme, locale = "en" }: Props) {
+export function PersonalizationPanel({ settings, theme, locale = "en", locales = [] }: Props) {
   const t = useTranslations("widget");
   const engine = useThemeEngine();
   const [open, setOpen] = useState(false);
@@ -112,11 +291,14 @@ export function PersonalizationPanel({ settings, theme, locale = "en" }: Props) 
   const reducedMotion = useReducedMotion();
   const dir = getDirection(locale);
 
-  const { showAppearance, showStyle, showFabThemeToggle } = settings.widgetSections ?? {
-    showAppearance: true,
-    showStyle: true,
-    showFabThemeToggle: true,
-  };
+  const {
+    showAppearance,
+    showStyle,
+    showFabThemeToggle,
+    showBackToTop,
+  } = settings.widgetSections;
+
+  const [canScrollTop, setCanScrollTop] = useState(false);
 
   const enabledTabs = useMemo<PanelTab[]>(() => {
     const tabs: PanelTab[] = [];
@@ -137,6 +319,43 @@ export function PersonalizationPanel({ settings, theme, locale = "en" }: Props) 
   }, [settings.presets]);
 
   const userPresetsInPanel = engine.userPresets;
+  const [resolvedLocales, setResolvedLocales] = useState<LocaleOption[]>(locales);
+
+  useEffect(() => {
+    if (locales.length > 1) {
+      setResolvedLocales(locales);
+      return;
+    }
+
+    let cancelled = false;
+    fetch("/api/locales")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled || !data?.items?.length) {
+          if (!cancelled && locales.length > 0) setResolvedLocales(locales);
+          return;
+        }
+        const fetched = data.items
+          .filter((item: LocaleOption) => item.isEnabled !== false)
+          .map((item: LocaleOption) => ({
+            code: item.code,
+            urlPrefix: item.urlPrefix,
+            label: item.label,
+            flag: item.flag,
+            isEnabled: true,
+          }));
+        setResolvedLocales(fetched.length > 0 ? fetched : locales);
+      })
+      .catch(() => {
+        if (!cancelled) setResolvedLocales(locales);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [locales]);
+
+  const hasMultipleLocales = resolvedLocales.length > 1;
 
   useEffect(() => {
     if (!enabledTabs.includes(activeTab)) {
@@ -169,8 +388,29 @@ export function PersonalizationPanel({ settings, theme, locale = "en" }: Props) 
     };
   }, [open]);
 
+  useEffect(() => {
+    if (!showBackToTop) {
+      setCanScrollTop(false);
+      return;
+    }
+    const threshold = 320;
+    const onScroll = () => setCanScrollTop(window.scrollY > threshold);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [showBackToTop]);
+
+  const showFabQuickControls = showFabThemeToggle || hasMultipleLocales;
+
   if (!settings.enabled) return null;
-  if (!showFabThemeToggle && !hasPanelContent) return null;
+  if (!showFabQuickControls && !hasPanelContent && !showBackToTop) return null;
+
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: reducedMotion ? "auto" : "smooth",
+    });
+  }
 
   async function selectPreset(preset: PresetMeta) {
     setApplyingPreset(preset.id);
@@ -229,6 +469,15 @@ export function PersonalizationPanel({ settings, theme, locale = "en" }: Props) 
       {showAppearance && activeTab === "appearance" && (
         <div className="space-y-3">
           <p className="pp-section-label mb-0">{t("appearance")}</p>
+          <AppearanceStatusCircles
+            engine={engine}
+            locale={locale}
+            locales={resolvedLocales}
+            onOpenStyleTab={() => setActiveTab("style")}
+            themeLabel={t("activeTheme")}
+            localeLabel={t("language")}
+            presetLabel={t("activePreset")}
+          />
           <div className="pp-mode-row">
             <ThemePillSwitch
               mode={engine.appearanceMode}
@@ -249,8 +498,27 @@ export function PersonalizationPanel({ settings, theme, locale = "en" }: Props) 
             </button>
           </div>
           <p className="text-[10px] text-muted-foreground">
-            Light, dark, and system modes apply instantly without reloading the page.
+            {t("appearanceHint")}
           </p>
+          {hasMultipleLocales ? (
+            <div className="border-t border-border/50 pt-3">
+              <p className="pp-section-label mb-2">{t("language")}</p>
+              <button
+                type="button"
+                className="pp-language-btn"
+                onClick={openLocaleDialog}
+              >
+                <Globe className="h-3.5 w-3.5 shrink-0 opacity-70" aria-hidden />
+                <span className="pp-language-btn__flag" aria-hidden>
+                  {resolvedLocales.find((l) => l.urlPrefix === locale || l.code === locale)?.flag ?? "🌐"}
+                </span>
+                <span className="min-w-0 flex-1 truncate text-start text-xs font-medium">
+                  {resolvedLocales.find((l) => l.urlPrefix === locale || l.code === locale)?.label ?? locale}
+                </span>
+                <span className="text-[10px] text-muted-foreground">{t("changeLanguage")}</span>
+              </button>
+            </div>
+          ) : null}
         </div>
       )}
 
@@ -378,13 +646,22 @@ export function PersonalizationPanel({ settings, theme, locale = "en" }: Props) 
       aria-label={t("ariaLabel")}
     >
       <div className="pp-float-bar">
-        {showFabThemeToggle && (
-          <ThemePillSwitch
-            mode={engine.appearanceMode}
-            resolved={engine.resolvedAppearance}
-            onToggle={() => engine.toggleLightDark()}
+        {showFabThemeToggle ? (
+          <FabQuickControls
+            engine={engine}
+            locale={locale}
+            locales={resolvedLocales}
+            showMode
+            themeLabel={t("activeTheme")}
           />
-        )}
+        ) : null}
+        {hasMultipleLocales ? (
+          <FabLanguageButton
+            locale={locale}
+            locales={resolvedLocales}
+            label={t("language")}
+          />
+        ) : null}
         {hasPanelContent && (
           <button
             type="button"
@@ -396,6 +673,19 @@ export function PersonalizationPanel({ settings, theme, locale = "en" }: Props) 
               {confirmFlash ? "✓" : "✦"}
             </span>
             <span className="hidden sm:inline">{t("style")}</span>
+          </button>
+        )}
+        {showBackToTop && (
+          <button
+            type="button"
+            className={cn("pp-back-top-btn", canScrollTop && "pp-back-top-btn--visible")}
+            onClick={scrollToTop}
+            disabled={!canScrollTop}
+            aria-label={t("backToTop")}
+            title={t("backToTop")}
+          >
+            <ArrowUp className="h-4 w-4" strokeWidth={2.25} aria-hidden />
+            <span className="hidden sm:inline">{t("backToTop")}</span>
           </button>
         )}
       </div>

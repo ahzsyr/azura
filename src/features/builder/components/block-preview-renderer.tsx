@@ -14,6 +14,31 @@ import { FALLBACK_LOCALES, resolvePrefixToCode } from "@/i18n/locale-config";
 import type { PublicLocale } from "@/i18n/locale-config";
 import { useBlockTranslationsOptional } from "@/features/builder/block-translation-context";
 import { getBlockFieldValue } from "@/features/translation/block-translation";
+import { resolveRowSectionGridTemplate } from "@/features/builder/container-blocks";
+import { isBlockHidden } from "@/features/builder/lib/block-hidden";
+import {
+  hasActiveBlockVisualBackground,
+  resolveMarketingBackgroundType,
+} from "@/features/builder/components/block-style-utils";
+import { sectionBackgroundToCss } from "@/features/theme/backgrounds/background-system";
+import { Badge } from "@/components/ui/badge";
+import type { DeviceBreakpoint } from "@/types/block-system";
+import { resolveContentOverflowForDevice } from "@/features/builder/styles/content-overflow-resolver";
+import { blockRegistry } from "@/features/builder/registry/block-registry-system";
+
+function overflowPreviewLabel(block: BlockNode, device: DeviceBreakpoint): string | null {
+  if (!blockRegistry.get(block.type)?.contentOverflowCapable) return null;
+  const o = resolveContentOverflowForDevice(block, device);
+  const mode =
+    o.effectiveMode === "slider"
+      ? o.sliderEnabled
+        ? "slider"
+        : "slider (grid fallback)"
+      : o.effectiveMode === "collapse"
+        ? `collapse (${o.collapseVariant})`
+        : "grid";
+  return mode;
+}
 
 function PreviewBlock({
   block,
@@ -23,6 +48,7 @@ function PreviewBlock({
   faqSetOptions = [],
   testimonialOptions = [],
   testimonialCollectionOptions = [],
+  previewDevice = "desktop",
 }: {
   block: BlockNode;
   locale: string;
@@ -31,6 +57,7 @@ function PreviewBlock({
   faqSetOptions?: FaqSetBuilderOption[];
   testimonialOptions?: TestimonialBuilderOption[];
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
+  previewDevice?: DeviceBreakpoint;
 }) {
   const p = block.props;
   const ctx = useBlockTranslationsOptional();
@@ -149,6 +176,9 @@ function PreviewBlock({
             {layout === "slider" ? (slider ? "Slider" : "Slider (grid fallback)") : "Grid"}
             {" · "}
             {(p.cardVariant as string) ?? "default"} cards
+            {overflowPreviewLabel(block, previewDevice)
+              ? ` · ${previewDevice} overflow: ${overflowPreviewLabel(block, previewDevice)}`
+              : ""}
           </p>
           <div className={slider ? "flex gap-2 overflow-hidden" : "grid grid-cols-2 gap-2"}>
             {Array.from({ length: Math.max(previewCount, 1) }).map((_, i) => (
@@ -169,25 +199,51 @@ function PreviewBlock({
     case "pricing":
       return (
         <div dir={dir} className="p-4">
-          <p className="font-medium text-sm mb-2">{loc("title") || "Pricing"}</p>
+          <p className="font-medium text-sm mb-2">{loc("title") || "Pricing Table"}</p>
+          <p className="text-xs text-muted-foreground mb-2">
+            Source: {(p.source as string) || "packages"}
+            {(p.planSetSlug as string) ? ` · ${p.planSetSlug as string}` : ""}
+          </p>
           <div className="grid grid-cols-2 gap-2">
-            {Array.from({ length: Math.min((p.limit as number) || 2, 2) }).map((_, i) => (
+            {Array.from({ length: 2 }).map((_, i) => (
               <div key={i} className="border rounded p-2 text-xs">
-                Package {i + 1}
+                Plan {i + 1}
               </div>
             ))}
           </div>
         </div>
       );
-    case "cta":
+    case "cta": {
+      const useBlockVisualBg = hasActiveBlockVisualBackground(block);
+      const bgType = resolveMarketingBackgroundType(
+        block,
+        p.backgroundType as string | undefined
+      );
+      const isDark =
+        bgType !== "transparent" &&
+        bgType !== "none" &&
+        (bgType === "gradient" || bgType === "image" || bgType === "video" || Boolean(p.backgroundColor));
       return (
-        <div dir={dir} className="p-6 bg-primary/10 text-center">
-          <p className="font-semibold text-sm">{loc("title")}</p>
-          <span className="inline-block mt-2 px-3 py-1 bg-primary text-white text-xs rounded">
+        <div
+          dir={dir}
+          className={cn(
+            "p-6 text-center rounded-2xl",
+            !useBlockVisualBg && "bg-primary/10"
+          )}
+          style={useBlockVisualBg ? sectionBackgroundToCss(block.visual?.sectionBackground) : undefined}
+        >
+          <p className={cn("font-semibold text-sm", isDark && "text-white")}>{loc("title")}</p>
+          <span
+            className={cn(
+              "inline-block mt-2 px-3 py-1 text-xs rounded",
+              isDark ? "bg-white/20 text-white" : "bg-primary text-white"
+            )}
+          >
             {loc("button") || "CTA"}
           </span>
         </div>
       );
+    }
     case "inquiryForm":
       return (
         <div dir={dir} className="p-4 border border-dashed rounded m-2 space-y-2">
@@ -214,6 +270,246 @@ function PreviewBlock({
           className="p-4 prose prose-sm max-w-none text-xs"
           dangerouslySetInnerHTML={{ __html: loc("html") || "<p>HTML content</p>" }}
         />
+      );
+    case "advancedRichText":
+      return (
+        <div
+          dir={dir}
+          className="p-4 prose prose-sm max-w-none text-xs border border-dashed rounded m-2"
+          dangerouslySetInnerHTML={{ __html: loc("html") || (p.htmlEn as string) || "<p>Advanced rich text</p>" }}
+        />
+      );
+    case "markdown":
+      return (
+        <div dir={dir} className="p-4 text-xs font-mono whitespace-pre-wrap border border-dashed rounded m-2 max-h-32 overflow-auto">
+          {loc("markdown") || (p.markdownEn as string) || "Markdown block"}
+        </div>
+      );
+    case "code":
+      return (
+        <div dir={dir} className="p-4 m-2 rounded border bg-muted/40 font-mono text-xs max-h-32 overflow-auto">
+          {(p.code as string)?.slice(0, 200) || "Code block"}
+        </div>
+      );
+    case "table":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Table · {((p.columns as unknown[]) ?? []).length} cols · {((p.rows as unknown[]) ?? []).length} rows
+        </div>
+      );
+    case "timeline":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Timeline · {((p.items as unknown[]) ?? []).length} events
+        </div>
+      );
+    case "changelog":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Release Notes · {(p.releaseSetSlug as string) || `${((p.releases as unknown[]) ?? []).length} inline releases`}
+        </div>
+      );
+    case "comparison":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Comparison · {(p.source as string) ?? "manual"}
+        </div>
+      );
+    case "featureGrid":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Feature Grid · {((p.items as unknown[]) ?? []).length} items
+        </div>
+      );
+    case "benefitsGrid":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Benefits Grid · {((p.items as unknown[]) ?? []).length} items
+        </div>
+      );
+    case "trustBadges":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Trust Badges · {((p.items as unknown[]) ?? []).length} badges
+        </div>
+      );
+    case "logoCloud":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Logo Cloud · {(p.displayMode as string) ?? "grid"} · {((p.items as unknown[]) ?? []).length} logos
+        </div>
+      );
+    case "statsCounter":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Stats · {((p.items as unknown[]) ?? []).length} metrics
+        </div>
+      );
+    case "beforeAfter":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Image Comparison · {(p.layout as string) ?? "slider"}
+        </div>
+      );
+    case "videoHero":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Video Hero · {(p.mediaMode as string) ?? "single"} · {(p.layout as string) ?? "fullBleed"}
+        </div>
+      );
+    case "videoGallery":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Video Gallery · {(p.source as string) ?? "inline"} · {((p.items as unknown[]) ?? []).length} items
+        </div>
+      );
+    case "interactiveHotspots":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Interactive Hotspots · {((p.hotspots as unknown[]) ?? []).length} points
+        </div>
+      );
+    case "masonryGallery":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Masonry Gallery · {(p.source as string) ?? "inline"}
+        </div>
+      );
+    case "productGrid":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Product Grid · {(p.source as string) ?? "collection"} · {(p.limit as number) ?? 8} items
+        </div>
+      );
+    case "productCarousel":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Product Carousel · {(p.limit as number) ?? 8} items
+        </div>
+      );
+    case "productComparison":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Product Comparison · {((p.productSlugs as string[]) ?? []).length} products
+        </div>
+      );
+    case "productSpecifications":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Product Specifications · {(p.productSlug as string) || "manual"}
+        </div>
+      );
+    case "productReviews":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Product Reviews · {(p.productSlug as string) || "—"}
+        </div>
+      );
+    case "productFaq":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Product FAQ · {(p.source as string) ?? "manual"}
+        </div>
+      );
+    case "relatedProducts":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Related Products · {(p.rule as string) ?? "collection"}
+        </div>
+      );
+    case "searchBlock":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Search Block · {(p.layout as string) ?? "inline"}
+        </div>
+      );
+    case "advancedFilters":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Advanced Filters · {(p.scope as string) ?? "products"}
+        </div>
+      );
+    case "categoryExplorer":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Category Explorer · {(p.source as string) ?? "collections"} · limit{" "}
+          {(p.pageSize as number) ?? 12}
+          {(p.enablePagination as boolean) !== false ? " · paginated" : " · truncated"}
+        </div>
+      );
+    case "relatedContent":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Related Content · {(p.rule as string) ?? "taxonomy"}
+        </div>
+      );
+    case "recentlyViewed":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Recently Viewed · limit {(p.limit as number) ?? 8}
+        </div>
+      );
+    case "stickyCta":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Sticky CTA · {(p.variant as string) ?? "bar"} / {(p.trigger as string) ?? "scroll"}
+        </div>
+      );
+    case "leadForm":
+    case "contactFormBuilder":
+    case "multiStepForm":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          {block.type} · template {(p.templateId as string) || "—"}
+        </div>
+      );
+    case "newsletterSignup":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Newsletter · segment {(p.segment as string) ?? "default"}
+        </div>
+      );
+    case "downloadGate":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Download Gate · {(p.unlockMethod as string) ?? "form"}
+        </div>
+      );
+    case "pricingCalculator":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Pricing Calculator · {(p.pricingCalculatorSlug as string) || "—"}
+        </div>
+      );
+    case "knowledgeBase":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Knowledge Base · {(p.knowledgeBaseSlug as string) || "—"}
+        </div>
+      );
+    case "documentationNav":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Documentation · {(p.docPortalSlug as string) || "—"}
+        </div>
+      );
+    case "statusDashboard":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Status Dashboard · {(p.statusBoardSlug as string) || "—"}
+        </div>
+      );
+    case "teamDirectory":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Team Directory · {(p.teamDirectorySlug as string) || "—"}
+        </div>
+      );
+    case "partnerDirectory":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Partner Directory · {(p.partnerProgramSlug as string) || "—"}
+        </div>
       );
     case "catalog":
       return (
@@ -260,6 +556,72 @@ function PreviewBlock({
           )}
         </div>
       );
+    case "rowSection": {
+      const maxColumns = (p.maxColumns as number) ?? 2;
+      const childCount = block.children?.length ?? 0;
+      const visibleChildren = (block.children ?? []).slice(0, maxColumns);
+      const extraCount = childCount - visibleChildren.length;
+      const gap = (p.gap as string) ?? "md";
+      const stackOnMobile = (p.stackOnMobile as boolean) ?? true;
+      const verticalAlign = (p.verticalAlign as string) ?? "stretch";
+      return (
+        <div
+          className={
+            p.background === "muted"
+              ? "bg-muted/50 p-2"
+              : p.background === "primary"
+                ? "bg-primary/5 p-2"
+                : "border border-dashed p-2"
+          }
+        >
+          <p className="text-[10px] text-muted-foreground uppercase tracking-wide px-1 mb-2">
+            Row · {Math.min(childCount, maxColumns)}/{maxColumns} columns
+          </p>
+          {extraCount > 0 && (
+            <p className="text-[10px] text-amber-600 mb-2 px-1">
+              {extraCount} extra block{extraCount > 1 ? "s" : ""} hidden (exceeds max columns)
+            </p>
+          )}
+          <div
+            className={[
+              "row-section-grid row-section-grid--preview",
+              gap === "sm" ? "row-section-grid--gap-sm" : gap === "lg" ? "row-section-grid--gap-lg" : "row-section-grid--gap-md",
+              verticalAlign === "start"
+                ? "row-section-grid--align-start"
+                : verticalAlign === "center"
+                  ? "row-section-grid--align-center"
+                  : "row-section-grid--align-stretch",
+              stackOnMobile ? "row-section-grid--stack-mobile" : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            style={{
+              gridTemplateColumns: resolveRowSectionGridTemplate(
+                (p.columnLayout as string) ?? "equal",
+                maxColumns
+              ),
+            }}
+          >
+            {visibleChildren.map((child) => (
+              <div key={child.id} className="row-section-grid__cell min-w-0 border border-dashed border-muted-foreground/30 rounded p-1">
+                <PreviewBlock
+                  block={child}
+                  locale={locale}
+                  locales={locales}
+                  galleryOptions={galleryOptions}
+                  faqSetOptions={faqSetOptions}
+                  testimonialOptions={testimonialOptions}
+                  testimonialCollectionOptions={testimonialCollectionOptions}
+                />
+              </div>
+            ))}
+          </div>
+          {!visibleChildren.length && (
+            <p className="text-xs text-center text-muted-foreground py-4">Empty row — add blocks to columns</p>
+          )}
+        </div>
+      );
+    }
     default:
       return null;
   }
@@ -273,6 +635,7 @@ type Props = {
   faqSetOptions?: FaqSetBuilderOption[];
   testimonialOptions?: TestimonialBuilderOption[];
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
+  previewDevice?: DeviceBreakpoint;
 };
 
 export function BlockPreviewRenderer({
@@ -283,6 +646,7 @@ export function BlockPreviewRenderer({
   faqSetOptions = [],
   testimonialOptions = [],
   testimonialCollectionOptions = [],
+  previewDevice = "desktop",
 }: Props) {
   const normalized = migrateLegacyCatalogBlocks(blocks);
   if (!normalized.length) {
@@ -290,18 +654,34 @@ export function BlockPreviewRenderer({
   }
   return (
     <div className="bg-background text-foreground text-start overflow-hidden">
-      {normalized.map((block) => (
-        <PreviewBlock
-          key={block.id}
-          block={block}
-          locale={locale}
-          locales={locales}
-          galleryOptions={galleryOptions}
-          faqSetOptions={faqSetOptions}
-          testimonialOptions={testimonialOptions}
-          testimonialCollectionOptions={testimonialCollectionOptions}
-        />
-      ))}
+      {normalized.map((block) => {
+        const hidden = isBlockHidden(block);
+        return (
+          <div
+            key={block.id}
+            className={cn("relative", hidden && "opacity-50 ring-1 ring-dashed ring-muted-foreground/40")}
+          >
+            {hidden ? (
+              <Badge
+                variant="secondary"
+                className="absolute top-2 end-2 z-20 text-[10px] pointer-events-none"
+              >
+                Hidden on site
+              </Badge>
+            ) : null}
+            <PreviewBlock
+              block={block}
+              locale={locale}
+              locales={locales}
+              galleryOptions={galleryOptions}
+              faqSetOptions={faqSetOptions}
+              testimonialOptions={testimonialOptions}
+              testimonialCollectionOptions={testimonialCollectionOptions}
+              previewDevice={previewDevice}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }

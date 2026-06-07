@@ -4,6 +4,7 @@ import {
   isBoxedHeaderStyle,
   readBlockHeaderOverlayActive,
 } from "@/features/navigation/header-overlay-utils";
+import { NAV_MOBILE_MQ } from "@/features/navigation/nav-breakpoints";
 import {
   boxedHeaderTopGapPx,
   resolveHeaderInsetActive,
@@ -92,7 +93,10 @@ function publishHeaderMetrics(root: HTMLElement, usesLayoutSpacer: boolean): voi
     html.style.setProperty("--header-overlay-total-inset", `${h + topGap}px`);
   } else {
     html.style.removeProperty("--header-overlay-total-inset");
+    const isMobile =
+      typeof window !== "undefined" && window.matchMedia(NAV_MOBILE_MQ).matches;
     if (
+      !isMobile &&
       !usesLayoutSpacer &&
       isBoxedHeaderStyle(headerStyle) &&
       !hasCmsPageHeaderOverlay()

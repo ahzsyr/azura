@@ -11,6 +11,7 @@ type Props = {
   defaultTitleAr?: string;
   defaultDescEn?: string;
   defaultDescAr?: string;
+  embedded?: boolean;
 };
 
 export function SeoMetaPanel(props: Props) {

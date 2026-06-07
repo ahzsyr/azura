@@ -26,6 +26,8 @@ import {
   Copy,
   ArrowUp,
   ArrowDown,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import type { BlockNode, PageBlocks } from "@/types/builder";
 import { getBlockMeta } from "../block-registry";
@@ -37,7 +39,10 @@ import {
   removeBlockFromTree,
   duplicateBlockInTree,
   moveBlockInTree,
+  updateBlockInTree,
 } from "../block-tree";
+import { isBlockHidden, setBlockHidden } from "@/features/builder/lib/block-hidden";
+import { containerMaxChildren, isContainerBlock } from "@/features/builder/container-blocks";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -74,8 +79,10 @@ function BlockActions({
   const canMoveDown = idx >= 0 && idx < siblings.length - 1;
 
   const remove = () => {
-    const hasChildren = block.type === "section" && (block.children?.length ?? 0) > 0;
-    if (hasChildren && !confirm("Delete this section and all its child blocks?")) return;
+    const hasChildren =
+      isContainerBlock(block.type) && (block.children?.length ?? 0) > 0;
+    const containerLabel = block.type === "rowSection" ? "row section" : "section";
+    if (hasChildren && !confirm(`Delete this ${containerLabel} and all its child blocks?`)) return;
     if (!hasChildren && !confirm("Delete this block?")) return;
     onChange(removeBlockFromTree(blocks, block.id));
     if (selectedId === block.id) onSelect(null);
@@ -91,8 +98,32 @@ function BlockActions({
     onChange(moveBlockInTree(blocks, block.id, direction));
   };
 
+  const hidden = isBlockHidden(block);
+  const toggleHidden = () => {
+    onChange(
+      updateBlockInTree(blocks, block.id, (b) => setBlockHidden(b, !isBlockHidden(b)))
+    );
+  };
+
   return (
     <div className="flex items-center gap-0.5 ms-auto shrink-0">
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            type="button"
+            variant={hidden ? "secondary" : "ghost"}
+            size="sm"
+            className="h-7 w-7 p-0"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleHidden();
+            }}
+          >
+            {hidden ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>{hidden ? "Show block on site" : "Hide block on site"}</TooltipContent>
+      </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
@@ -201,8 +232,13 @@ function SortableBlockItem({
   });
   const style = { transform: CSS.Transform.toString(transform), transition };
   const isSelected = selectedId === block.id;
+  const hidden = isBlockHidden(block);
   const meta = getBlockMeta(block.type);
   const label = meta?.label ?? block.type;
+  const isContainer = isContainerBlock(block.type);
+  const maxChildren = isContainer ? containerMaxChildren(block.type, block.props) : null;
+  const childCount = block.children?.length ?? 0;
+  const atChildCap = maxChildren != null && childCount >= maxChildren;
 
   return (
     <div ref={setNodeRef} style={style} className={cn("mb-2", isDragging && "opacity-50")}>
@@ -210,11 +246,15 @@ function SortableBlockItem({
         className={cn(
           "rounded-lg border bg-card overflow-hidden",
           isSelected && "ring-2 ring-primary",
+          hidden && "opacity-60 border-dashed",
           depth > 0 && "ms-4"
         )}
       >
         <div
-          className="flex items-center gap-2 p-2.5 cursor-pointer bg-muted/30"
+          className={cn(
+            "flex items-center gap-2 p-2.5 cursor-pointer",
+            hidden ? "bg-muted/50" : "bg-muted/30"
+          )}
           onClick={() => onSelect(isSelected ? null : block.id)}
         >
           <button type="button" className="cursor-grab touch-none shrink-0" {...attributes} {...listeners}>
@@ -225,7 +265,7 @@ function SortableBlockItem({
               {index + 1}
             </span>
           )}
-          {block.type === "section" && (
+          {isContainer && (
             <button
               type="button"
               className="shrink-0"
@@ -238,8 +278,15 @@ function SortableBlockItem({
             </button>
           )}
           <Badge variant="outline" className="text-[10px] shrink-0">
-            {label}
+            {block.type === "rowSection" && maxChildren != null
+              ? `Row · ${childCount}/${maxChildren} columns`
+              : label}
           </Badge>
+          {hidden ? (
+            <Badge variant="secondary" className="text-[10px] shrink-0">
+              Hidden
+            </Badge>
+          ) : null}
           <BlockActions
             block={block}
             blocks={blocks}
@@ -249,18 +296,24 @@ function SortableBlockItem({
             siblings={siblings}
           />
         </div>
-        {block.type === "section" && expanded && (
+        {isContainer && expanded && (
           <div className="p-3 border-t bg-muted/10 space-y-2">
             <Button
               type="button"
               variant="outline"
               size="sm"
               className="h-7 text-xs"
+              disabled={atChildCap}
               onClick={() => onAddToSection?.(block.id)}
             >
               <Plus className="h-3 w-3 me-1" />
-              Add block to section
+              {block.type === "rowSection" ? "Add block to column" : "Add block to section"}
             </Button>
+            {atChildCap && block.type === "rowSection" && (
+              <p className="text-[10px] text-muted-foreground">
+                Column limit reached ({maxChildren} max). Increase max columns in settings to add more.
+              </p>
+            )}
             {block.children && block.children.length > 0 && (
               <NestedBlockList
                 blocks={blocks}
@@ -270,6 +323,7 @@ function SortableBlockItem({
                 onSelect={onSelect}
                 onAddToSection={onAddToSection}
                 depth={depth + 1}
+                parentBlockId={block.id}
               />
             )}
           </div>
@@ -287,6 +341,7 @@ function NestedBlockList({
   onSelect,
   onAddToSection,
   depth,
+  parentBlockId,
 }: {
   blocks: PageBlocks;
   children: PageBlocks;
@@ -295,6 +350,7 @@ function NestedBlockList({
   onSelect: (id: string | null) => void;
   onAddToSection?: (sectionId: string) => void;
   depth: number;
+  parentBlockId: string;
 }) {
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -308,7 +364,12 @@ function NestedBlockList({
   };
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext
+      id={`cms-block-tree-nested-${parentBlockId}`}
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
       <SortableContext items={children.map((c) => c.id)} strategy={verticalListSortingStrategy}>
         {children.map((child) => (
           <SortableBlockItem
@@ -347,7 +408,12 @@ export function BlockTreeEditor({
   };
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext
+      id="cms-block-tree-root"
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
       <SortableContext items={blocks.map((b) => b.id)} strategy={verticalListSortingStrategy}>
         {blocks.map((block, index) => (
           <SortableBlockItem

@@ -1,5 +1,7 @@
 import { useMemo } from "react";
+import type { ProductCtaVariant } from "@/features/products/lib/product-cta";
 import type { ProductCtaAppearanceResolved } from "@/features/products/lib/product-cta-appearance";
+import { CtaStylePresets } from "./CtaStylePresets";
 import {
   type ProductCtaAlignment,
   type ProductCtaButtonSize,
@@ -14,6 +16,8 @@ type Props = {
   context: "page" | "card";
   value: ProductCtaAppearanceResolved;
   onChange: (next: ProductCtaAppearanceResolved) => void;
+  variant?: ProductCtaVariant;
+  onVariantChange?: (variant: ProductCtaVariant) => void;
 };
 
 type WidthMode = "auto" | "full" | "custom";
@@ -24,7 +28,13 @@ function widthModeOf(a: ProductCtaAppearanceResolved): WidthMode {
   return "auto";
 }
 
-export function ProductCtaAppearanceFields({ context, value: a, onChange }: Props) {
+export function ProductCtaAppearanceFields({
+  context,
+  value: a,
+  onChange,
+  variant = "solid",
+  onVariantChange,
+}: Props) {
   const id = context === "page" ? "cta-app-page" : "cta-app-card";
   const wm = useMemo(() => widthModeOf(a), [a]);
 
@@ -37,6 +47,17 @@ export function ProductCtaAppearanceFields({ context, value: a, onChange }: Prop
   return (
     <fieldset className="pm-cta-app">
       <legend className="pm-cta-app__legend">{context === "page" ? "Product page button" : "Product card button"}</legend>
+
+      {onVariantChange ? (
+        <CtaStylePresets
+          variant={variant}
+          appearance={a}
+          onApply={(v, next) => {
+            onVariantChange(v);
+            onChange(next);
+          }}
+        />
+      ) : null}
 
       <div className="cta-app__group">
         <div className="cta-app__group-title">Layout</div>

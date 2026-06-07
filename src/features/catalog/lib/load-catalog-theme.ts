@@ -20,7 +20,14 @@ import { urlPrefixToCatalogLocale } from "@/features/catalog/locales";
 import {
   productCardLayoutCssVars,
   resolveProductCardLayout,
+  type ResolvedProductCardLayout,
 } from "@/features/products/lib/product-storefront-layout";
+import { resolveProductBuyNow } from "@/features/products/lib/product-buy-now";
+import { normalizeProductCtaGlobal, resolveProductCta } from "@/features/products/lib/product-cta";
+import { migrateProductCtaFromLegacyAddToCart } from "@/features/products/lib/product-cta-migrate";
+import { mergeProductCta } from "@/features/products/lib/product-cta";
+import type { ResolvedProductBuyNow } from "@/features/products/lib/product-buy-now";
+import type { ResolvedProductCtaConfig } from "@/features/products/lib/product-cta";
 
 export type CatalogListingTheme = {
   hero: ResolvedCatalogPageHero;
@@ -29,6 +36,9 @@ export type CatalogListingTheme = {
   toolbarDock: ResolvedCatalogToolbarDock;
   toolbarDockCssVars: Record<string, string>;
   cardLayoutCssVars: Record<string, string>;
+  cardLayout: ResolvedProductCardLayout;
+  buyNow: ResolvedProductBuyNow;
+  quoteCta: ResolvedProductCtaConfig;
   searchDebounceMs: number;
   searchFuzziness: number;
 };
@@ -54,6 +64,18 @@ export async function loadCatalogListingTheme(
   const cardLayout = resolveProductCardLayout(
     site.productCardLayout as Parameters<typeof resolveProductCardLayout>[0],
   );
+  const buyNow = resolveProductBuyNow(
+    site.productBuyNow as Parameters<typeof resolveProductBuyNow>[0],
+    site.productPageAddToCart as Parameters<typeof resolveProductBuyNow>[1],
+  );
+  const migratedCta = migrateProductCtaFromLegacyAddToCart(
+    site.productCta,
+    site.productPageAddToCart,
+  );
+  const globalCta = migratedCta
+    ? mergeProductCta(normalizeProductCtaGlobal(site.productCta), migratedCta)
+    : normalizeProductCtaGlobal(site.productCta);
+  const quoteCta = resolveProductCta(globalCta, undefined);
 
   const search = (site.search ?? {}) as Record<string, unknown>;
   const searchDebounceMs =
@@ -72,6 +94,9 @@ export async function loadCatalogListingTheme(
     toolbarDock,
     toolbarDockCssVars: catalogToolbarDockCssVars(toolbarDock),
     cardLayoutCssVars: productCardLayoutCssVars(cardLayout),
+    cardLayout,
+    buyNow,
+    quoteCta,
     searchDebounceMs,
     searchFuzziness,
   };

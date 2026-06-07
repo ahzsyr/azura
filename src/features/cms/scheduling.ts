@@ -1,12 +1,40 @@
+import { isBuildWithoutDb } from "@/lib/build-db";
 import { prisma } from "@/lib/prisma";
 import { searchIndexer } from "@/features/search/search-indexer.service";
 import { syncCmsPageCache } from "./page-cache-sync";
 import { revalidateCmsPage, revalidatePost } from "@/services/cache";
+import { revalidateWiredMarketingPaths } from "@/features/cms/revalidate-wired-marketing";
 
 export { parseScheduledAt, formatScheduledInput } from "./scheduling-utils";
 
+const SCHEDULED_CHECK_MS = 60_000;
+let lastScheduledCheckAt = 0;
+let scheduledCheckInflight: Promise<{ pages: number; posts: number }> | null = null;
+
 /** Promote scheduled pages/posts whose time has passed to PUBLISHED. */
 export async function processDueScheduled() {
+  if (isBuildWithoutDb()) {
+    return { pages: 0, posts: 0 };
+  }
+
+  const nowMs = Date.now();
+  if (nowMs - lastScheduledCheckAt < SCHEDULED_CHECK_MS) {
+    return { pages: 0, posts: 0 };
+  }
+
+  if (scheduledCheckInflight) {
+    return scheduledCheckInflight;
+  }
+
+  scheduledCheckInflight = runDueScheduled().finally(() => {
+    scheduledCheckInflight = null;
+    lastScheduledCheckAt = Date.now();
+  });
+
+  return scheduledCheckInflight;
+}
+
+async function runDueScheduled() {
   const now = new Date();
 
   const duePages = await prisma.cmsPage.findMany({
@@ -26,6 +54,7 @@ export async function processDueScheduled() {
         await syncCmsPageCache(full);
       }
       revalidateCmsPage(page.slug);
+      revalidateWiredMarketingPaths(page.slug);
     }
   }
 

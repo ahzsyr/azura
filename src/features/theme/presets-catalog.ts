@@ -39,7 +39,7 @@ const PRESET_CATALOG_BASE: PresetCatalogItem[] = [
     text: "neon-glow",
     tokens: { primary: "#00d4ff", accent: "#00ffea", background: "#010409" },
     layout: { density: "default", hero: "center" },
-    blocks: ["hero", "features", "stats"],
+    blocks: ["hero", "featureGrid", "statsCounter"],
   },
   {
     id: "gaming",
@@ -67,7 +67,7 @@ const PRESET_CATALOG_BASE: PresetCatalogItem[] = [
     text: "gradient-flow",
     tokens: { primary: "#00ff87", accent: "#ffdd00", background: "#020f07" },
     layout: { density: "default", hero: "center" },
-    blocks: ["hero", "stats", "gallery"],
+    blocks: ["hero", "statsCounter", "gallery"],
   },
   {
     id: "luxury",
@@ -95,7 +95,7 @@ const PRESET_CATALOG_BASE: PresetCatalogItem[] = [
     text: "none",
     tokens: { primary: "#0ea5e9", accent: "#06b6d4", background: "#f8fafc" },
     layout: { density: "spacious", hero: "left" },
-    blocks: ["hero", "features", "faq"],
+    blocks: ["hero", "featureGrid", "faq"],
   },
   {
     id: "agency",
@@ -137,7 +137,7 @@ const PRESET_CATALOG_BASE: PresetCatalogItem[] = [
     text: "gradient-flow",
     tokens: { primary: "#6366f1", accent: "#8b5cf6", background: "#f8faff" },
     layout: { density: "default", hero: "left" },
-    blocks: ["hero", "features", "faq"],
+    blocks: ["hero", "featureGrid", "faq"],
   },
   {
     id: "realestate",
@@ -165,7 +165,7 @@ const PRESET_CATALOG_BASE: PresetCatalogItem[] = [
     text: "neon-glow",
     tokens: { primary: "#10b981", accent: "#34d399", background: "#020b07" },
     layout: { density: "default", hero: "left" },
-    blocks: ["hero", "stats", "features"],
+    blocks: ["hero", "statsCounter", "featureGrid"],
   },
   {
     id: "fashion",
@@ -193,7 +193,7 @@ const PRESET_CATALOG_BASE: PresetCatalogItem[] = [
     text: "gradient-flow",
     tokens: { primary: "#8b5cf6", accent: "#a78bfa", background: "#05020f" },
     layout: { density: "default", hero: "left" },
-    blocks: ["hero", "features", "cta"],
+    blocks: ["hero", "featureGrid", "cta"],
   },
   {
     id: "automotive",
@@ -207,7 +207,7 @@ const PRESET_CATALOG_BASE: PresetCatalogItem[] = [
     text: "glitch",
     tokens: { primary: "#e2e8f0", accent: "#ef4444", background: "#050505" },
     layout: { density: "dense", hero: "center" },
-    blocks: ["hero", "gallery", "stats"],
+    blocks: ["hero", "gallery", "statsCounter"],
   },
   {
     id: "travel",
@@ -235,7 +235,7 @@ const PRESET_CATALOG_BASE: PresetCatalogItem[] = [
     text: "neon-glow",
     tokens: { primary: "#3b82f6", accent: "#60a5fa", background: "#020918" },
     layout: { density: "default", hero: "left" },
-    blocks: ["hero", "features", "products-grid"],
+    blocks: ["hero", "featureGrid", "products-grid"],
   },
   {
     id: "wireless-isp",
@@ -249,7 +249,7 @@ const PRESET_CATALOG_BASE: PresetCatalogItem[] = [
     text: "gradient-flow",
     tokens: { primary: "#f97316", accent: "#a78bfa", background: "#030712" },
     layout: { density: "default", hero: "center" },
-    blocks: ["hero", "stats", "faq"],
+    blocks: ["hero", "statsCounter", "faq"],
   },
   {
     id: "datacenter",
@@ -263,7 +263,7 @@ const PRESET_CATALOG_BASE: PresetCatalogItem[] = [
     text: "typewriter",
     tokens: { primary: "#22d3ee", accent: "#34d399", background: "#020617" },
     layout: { density: "dense", hero: "left" },
-    blocks: ["hero", "stats", "features"],
+    blocks: ["hero", "statsCounter", "featureGrid"],
   },
   {
     id: "smart-home",
@@ -277,7 +277,7 @@ const PRESET_CATALOG_BASE: PresetCatalogItem[] = [
     text: "gradient-flow",
     tokens: { primary: "#14b8a6", accent: "#2dd4bf", background: "#020b0a" },
     layout: { density: "default", hero: "center" },
-    blocks: ["hero", "features", "cta"],
+    blocks: ["hero", "featureGrid", "cta"],
   },
   {
     id: "telecom",
@@ -291,7 +291,7 @@ const PRESET_CATALOG_BASE: PresetCatalogItem[] = [
     text: "neon-glow",
     tokens: { primary: "#6366f1", accent: "#818cf8", background: "#020617" },
     layout: { density: "default", hero: "left" },
-    blocks: ["hero", "products-grid", "stats"],
+    blocks: ["hero", "products-grid", "statsCounter"],
   },
   {
     id: "brt",
@@ -305,7 +305,7 @@ const PRESET_CATALOG_BASE: PresetCatalogItem[] = [
     text: "neon-glow",
     tokens: { primary: "#00e5ff", accent: "#7c3aed", background: "#020408" },
     layout: { density: "default", hero: "center" },
-    blocks: ["hero", "features", "stats", "products-grid", "cta"],
+    blocks: ["hero", "featureGrid", "statsCounter", "products-grid", "cta"],
   },
 ];
 

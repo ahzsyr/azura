@@ -21,6 +21,15 @@ export type SiteIdentityInput = {
   themeTagline?: string | null;
 };
 
+/** Read brand name from theme brandConfig (supports legacy `name` alias). */
+export function resolveThemeBrandName(
+  brandConfig?: { brandName?: string | null; name?: string | null } | null
+): string | undefined {
+  const canonical = brandConfig?.brandName?.trim();
+  if (canonical) return canonical;
+  return brandConfig?.name?.trim() || undefined;
+}
+
 /**
  * Resolve display identity: theme brand → company name → env → AZURA default.
  */

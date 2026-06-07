@@ -1,4 +1,13 @@
-import type { ResolvedSurfaces } from "@/features/theme/surfaces/theme-surfaces";
+import {
+  isLightBackground,
+  type ResolvedSurfaces,
+} from "@/features/theme/surfaces/theme-surfaces";
+
+const LIGHT_CARD_TEXT = "#0f172a";
+
+function cardForegroundForSurface(surfaces: ResolvedSurfaces): string {
+  return isLightBackground(surfaces.surface) ? LIGHT_CARD_TEXT : surfaces.text;
+}
 
 /** Apply resolved surfaces to `document.documentElement` (client-only). */
 export function applySurfaceCssVars(
@@ -6,9 +15,12 @@ export function applySurfaceCssVars(
   surfaces: ResolvedSurfaces,
   primary: string,
 ): void {
+  const cardFg = cardForegroundForSurface(surfaces);
+
   html.style.setProperty("--background", surfaces.background);
   html.style.setProperty("--foreground", surfaces.text);
   html.style.setProperty("--card", surfaces.surface);
+  html.style.setProperty("--card-foreground", cardFg);
   html.style.setProperty("--color-surface", surfaces.surface);
   html.style.setProperty("--sur", surfaces.surface);
   html.style.setProperty("--bg", surfaces.background);
@@ -67,7 +79,7 @@ export function surfaceCssBlock(surfaces: ResolvedSurfaces, mode: "light" | "dar
     `--background:${surfaces.background}`,
     `--foreground:${surfaces.text}`,
     `--card:${surfaces.surface}`,
-    `--card-foreground:${surfaces.text}`,
+    `--card-foreground:${cardForegroundForSurface(surfaces)}`,
     `--popover:${surfaces.surface}`,
     `--popover-foreground:${surfaces.text}`,
     `--muted:${surfaces.canvasWell}`,

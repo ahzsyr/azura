@@ -3,7 +3,7 @@ import { getDirectionSync } from "@/i18n/locale-config";
 
 /** Build-time fallback; runtime middleware uses DB-enabled urlPrefixes */
 export const routing = defineRouting({
-  locales: ["en", "ar"],
+  locales: ["en"],
   defaultLocale: "en",
   localePrefix: "always",
 });

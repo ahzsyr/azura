@@ -179,6 +179,11 @@
   border-top: 1px solid color-mix(in srgb, var(--p) 10%, transparent);
 }
 
+.cmp-drawer__actions--footer {
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .cmp-drawer-fab {
   position: fixed;
   bottom: 5.5rem;
@@ -225,7 +230,8 @@
 .cmp-card-compare-slot {
   position: absolute;
   top: 0.5rem;
-  inset-inline-start: 0.5rem;
+  inset-inline-end: 0.5rem;
+  inset-inline-start: auto;
   z-index: 10;
 }
 

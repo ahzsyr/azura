@@ -10,7 +10,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "./AdminCollectionsPanel.css";
 import {
   ADMIN_COLLECTION_TABS,
-  readHashTab,
   type AdminCollectionTabId,
 } from "@/features/catalog/admin/catalog-admin-tabs";
 import { CatalogAdminShell } from "@/features/catalog/admin/catalog-admin-shell";
@@ -615,9 +614,7 @@ type AdminCollectionsPanelProps = {
 export default function AdminCollectionsPanel({
   initialCollections,
 }: AdminCollectionsPanelProps = {}) {
-  const [tab, setTab] = useState<AdminCollectionTabId>(() =>
-    readHashTab(ADMIN_COLLECTION_TABS, "collections"),
-  );
+  const [tab, setTab] = useState<AdminCollectionTabId>("collections");
   const [collections, setCollections] = useState<Collection[]>(initialCollections ?? []);
   const [loading, setLoading] = useState(!initialCollections?.length);
   const [syncing, setSyncing] = useState(false);

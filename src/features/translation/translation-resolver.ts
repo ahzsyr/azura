@@ -97,7 +97,8 @@ export function resolveLocalizedRecord(
     const value = record[candidate] ?? record[candidate.toLowerCase()];
     if (typeof value === "string" && value.trim()) return value;
   }
-  return record.en ?? Object.values(record)[0] ?? "";
+  // Do not fall back to an arbitrary locale — callers use legacy `label` (English default).
+  return record.en ?? "";
 }
 
 export function toLocalizedRecord(

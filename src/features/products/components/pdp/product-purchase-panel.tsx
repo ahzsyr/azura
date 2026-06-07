@@ -6,8 +6,15 @@ import {
   resolveDeliveryOptionsForProduct,
   type NormalizedDeliveryOption,
 } from "../../lib/product-delivery";
-import { isInCompareList, isInSavedList, toggleCompareList, toggleSavedList } from "../../lib/product-lists";
-import type { ResolvedProductAddToCart, ResolvedProductPageDisplay, ProductPageSideOrderKey } from "../../lib/product-page-display";
+import { isInCompareList, toggleCompareList } from "../../lib/product-lists";
+import {
+  isInLocalProductFavorites,
+  syncFavoritesFromServer,
+  toggleFavorite,
+} from "@/features/account/lib/favorites-sync";
+import { useCustomerSession } from "@/features/account/lib/use-customer-session";
+import type { ResolvedProductPageDisplay, ProductPageSideOrderKey } from "../../lib/product-page-display";
+import type { ResolvedProductBuyNow } from "../../lib/product-buy-now";
 import type { ShopperCurrencyContext } from "../../lib/currency/types";
 import type { PdpLabels } from "../../pdp/load-pdp-labels";
 import { ProductPriceDisplay } from "./product-price-display";
@@ -20,6 +27,7 @@ export type ProductPurchasePanelPrices = {
 };
 
 type Props = {
+  locale: string;
   product: Product;
   productId: string;
   deliveryOptions: NormalizedDeliveryOption[];
@@ -27,7 +35,8 @@ type Props = {
   prices: ProductPurchasePanelPrices;
   initialSku?: string;
   display: ResolvedProductPageDisplay;
-  addToCart: ResolvedProductAddToCart;
+  buyNow: ResolvedProductBuyNow;
+  buyNowHref: string | null;
   currencyCtx: ShopperCurrencyContext;
   conditionInVariations?: boolean;
   sectionOrder?: ProductPageSideOrderKey[];
@@ -41,7 +50,7 @@ const DEFAULT_PURCHASE_ORDER: ProductPageSideOrderKey[] = [
   "condition",
   "delivery",
   "quantity",
-  "addToCart",
+  "buyNow",
   "keySpecs",
 ];
 
@@ -63,6 +72,7 @@ function discountPercent(sale: number, compare: number | null): number {
 }
 
 export function ProductPurchasePanel({
+  locale,
   product,
   productId,
   deliveryOptions,
@@ -70,7 +80,8 @@ export function ProductPurchasePanel({
   prices,
   initialSku,
   display,
-  addToCart,
+  buyNow,
+  buyNowHref,
   currencyCtx,
   conditionInVariations = false,
   sectionOrder,
@@ -86,10 +97,11 @@ export function ProductPurchasePanel({
   const [deliveryLoading, setDeliveryLoading] = useState(true);
   const [deliveryReady, setDeliveryReady] = useState<NormalizedDeliveryOption[]>([]);
   const [selectedDeliveryId, setSelectedDeliveryId] = useState("");
+  const { isLoggedIn } = useCustomerSession();
   const [compareOn, setCompareOn] = useState(false);
   const [savedOn, setSavedOn] = useState(false);
+  const [saveLoading, setSaveLoading] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
-  const [cartMessage, setCartMessage] = useState<string | null>(null);
   const [displaySku, setDisplaySku] = useState(
     initialSku ?? product.mpn ?? product.manufacturer_part_number ?? "-",
   );
@@ -97,14 +109,21 @@ export function ProductPurchasePanel({
   const [displayCompare, setDisplayCompare] = useState<number | null>(prices.compare);
 
   const showActions = display.compare.enabled || display.saveToList.enabled;
-  const cartLabel = addToCart.label || labels.addToCart;
-  const cartEnabled = display.addToCart.enabled && addToCart.enabled;
+  const cartLabel = buyNow.label || labels.addToCart;
+  const cartEnabled =
+    display.buyNow.enabled && buyNow.enabled && buyNow.placements.page && Boolean(buyNowHref);
   const pct = discountPercent(displaySale, displayCompare);
 
   useEffect(() => {
     setCompareOn(isInCompareList(productId));
-    setSavedOn(isInSavedList(productId));
-  }, [productId]);
+    if (isLoggedIn) {
+      void syncFavoritesFromServer().then(() => {
+        setSavedOn(isInLocalProductFavorites(productId));
+      });
+    } else {
+      setSavedOn(isInLocalProductFavorites(productId));
+    }
+  }, [productId, isLoggedIn]);
 
   useEffect(() => {
     if (!display.delivery.enabled) return;
@@ -158,20 +177,22 @@ export function ProductPurchasePanel({
     showToast(result === "added" ? labels.compareAdded : labels.compareRemoved);
   };
 
-  const onSave = () => {
-    const added = toggleSavedList(productId);
-    setSavedOn(added);
-    showToast(added ? labels.saveAdded : labels.saveRemoved);
-  };
-
-  const onAddToCartStub = (e: React.FormEvent) => {
-    e.preventDefault();
-    setCartMessage(labels.addToCartStub);
-    const cta = document.querySelector<HTMLElement>(
-      "[data-product-cta='inline'] a, .prd-info__cta-secondary a",
-    );
-    cta?.focus({ preventScroll: false });
-    cta?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  const onSave = async () => {
+    setSaveLoading(true);
+    try {
+      const added = await toggleFavorite({
+        entityType: "CATALOG_PRODUCT",
+        entityId: productId,
+        locale,
+        isLoggedIn,
+      });
+      setSavedOn(added);
+      showToast(added ? labels.saveAdded : labels.saveRemoved);
+    } catch {
+      showToast(labels.saveRemoved);
+    } finally {
+      setSaveLoading(false);
+    }
   };
 
   const conditionLabel = (opt: ProductConditionOption) => {
@@ -198,9 +219,9 @@ export function ProductPurchasePanel({
 
   const cartClassName = [
     "prd-purchase__add-cart",
-    addToCart.variant === "outline" ? "prd-purchase__add-cart--outline" : "",
-    addToCart.size === "lg" ? "prd-purchase__add-cart--lg" : "",
-    addToCart.fullWidth ? "prd-purchase__add-cart--full" : "",
+    buyNow.variant === "outline" ? "prd-purchase__add-cart--outline" : "",
+    buyNow.size === "lg" ? "prd-purchase__add-cart--lg" : "",
+    buyNow.fullWidth ? "prd-purchase__add-cart--full" : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -243,7 +264,8 @@ export function ProductPurchasePanel({
               type="button"
               className={`prd-purchase__action${savedOn ? " is-active" : ""}`}
               data-prd-compact-key="saveToList"
-              onClick={onSave}
+              onClick={() => void onSave()}
+              disabled={saveLoading}
               aria-pressed={savedOn}
               title={labels.saveList}
             >
@@ -405,38 +427,23 @@ export function ProductPurchasePanel({
       continue;
     }
 
-    if (key === "addToCart" && cartEnabled && !rendered.has("addToCart")) {
-      rendered.add("addToCart");
-      if (addToCart.behavior === "link" && addToCart.href) {
-        sections.push(
-          <a
-            key="addToCart"
-            href={addToCart.href}
-            className={cartClassName}
-            data-prd-compact-key="addToCart"
-            data-cart-variant={addToCart.variant}
-            data-cart-size={addToCart.size}
-            target={addToCart.openInNewTab ? "_blank" : undefined}
-            rel={addToCart.openInNewTab ? "noopener noreferrer" : undefined}
-          >
-            {cartLabel}
-          </a>,
-        );
-      } else {
-        sections.push(
-          <button
-            key="addToCart"
-            type="submit"
-            className={cartClassName}
-            data-prd-compact-key="addToCart"
-            data-cart-variant={addToCart.variant}
-            data-cart-size={addToCart.size}
-            disabled={outOfStock}
-          >
-            {cartLabel}
-          </button>,
-        );
-      }
+    if (key === "buyNow" && cartEnabled && !rendered.has("buyNow")) {
+      rendered.add("buyNow");
+      sections.push(
+        <a
+          key="buyNow"
+          href={buyNowHref!}
+          className={cartClassName}
+          data-prd-compact-key="buyNow"
+          data-buy-now
+          data-cart-variant={buyNow.variant}
+          data-cart-size={buyNow.size}
+          target={buyNow.openInNewTab ? "_blank" : undefined}
+          rel={buyNow.openInNewTab ? "noopener noreferrer" : undefined}
+        >
+          {cartLabel}
+        </a>,
+      );
       continue;
     }
 
@@ -497,7 +504,7 @@ export function ProductPurchasePanel({
       priceNodes.push(section);
       continue;
     }
-    if (k === "quantity" || k === "addToCart") {
+    if (k === "quantity" || k === "buyNow") {
       flushPrice();
       cartNodes.push(section);
       continue;
@@ -508,16 +515,6 @@ export function ProductPurchasePanel({
   }
   flushPrice();
   flushCart();
-
-  const cartInner = blocks.find((b) => b.kind === "cartRow");
-  const useStubForm =
-    cartEnabled &&
-    cartInner &&
-    cartInner.kind === "cartRow" &&
-    cartInner.nodes.some(
-      (n) => typeof n === "object" && n !== null && "key" in n && n.key === "addToCart",
-    ) &&
-    !(addToCart.behavior === "link" && addToCart.href);
 
   return (
     <div className="prd-purchase" data-product-purchase>
@@ -530,26 +527,14 @@ export function ProductPurchasePanel({
           );
         }
         if (block.kind === "cartRow") {
-          if (useStubForm) {
-            return (
-              <form key={`cart-row-${idx}`} className="prd-purchase__cart-row" onSubmit={onAddToCartStub}>
-                {block.nodes}
-              </form>
-            );
-          }
           return (
-            <div key={`cart-row-${idx}`} className="prd-purchase__cart-row">
+            <div key={`cart-row-${idx}`} className="prd-purchase__cart-row prd-purchase__actions-row">
               {block.nodes}
             </div>
           );
         }
         return <React.Fragment key={`node-${idx}`}>{block.node}</React.Fragment>;
       })}
-      {cartMessage ? (
-        <p className="prd-purchase__cart-msg" role="status">
-          {cartMessage}
-        </p>
-      ) : null}
       {toast ? (
         <div className="prd-purchase__toast" role="status" aria-live="polite">
           {toast}

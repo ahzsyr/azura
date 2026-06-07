@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, type ReactNode } from "react";
 import { AdminSettingsLayout, type SettingsRibbonTab } from "@/components/admin/layout/admin-settings-layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { readHashTab, writeHashTab } from "./catalog-admin-tabs";
@@ -23,6 +23,8 @@ export function CatalogAdminShell<T extends string>({
   className,
   children,
 }: CatalogAdminShellProps<T>) {
+  const hashBootstrapped = useRef(false);
+
   const handleTabChange = useCallback(
     (tabId: string) => {
       onTabChange(tabId as T);
@@ -32,9 +34,19 @@ export function CatalogAdminShell<T extends string>({
   );
 
   useEffect(() => {
+    if (!hashSync || hashBootstrapped.current) return;
+    hashBootstrapped.current = true;
+    const allowed = tabs as unknown as readonly { id: T }[];
+    const fallback = (allowed[0]?.id ?? activeTab) as T;
+    onTabChange(readHashTab(allowed, fallback));
+  }, [activeTab, hashSync, onTabChange, tabs]);
+
+  useEffect(() => {
     if (!hashSync) return;
+    const allowed = tabs as unknown as readonly { id: T }[];
+    const fallback = (allowed[0]?.id ?? activeTab) as T;
     const sync = () => {
-      const next = readHashTab(tabs as unknown as readonly { id: T }[], activeTab);
+      const next = readHashTab(allowed, fallback);
       if (next !== activeTab) onTabChange(next);
     };
     window.addEventListener("hashchange", sync);

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { isBuildWithoutDb } from "@/lib/build-db";
 import { prisma } from "@/lib/prisma";
 import { getEnabledUrlPrefixes } from "@/i18n/locale-registry.server";
 import { localeService } from "@/features/i18n/locale.service";
@@ -10,6 +11,16 @@ import { seoRepository } from "@/repositories/seo.repository";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 export async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
+  if (isBuildWithoutDb()) {
+    const prefixes = [...routing.locales];
+    return prefixes.flatMap((locale) =>
+      STATIC_SEO_PAGES.map((page) => ({
+        url: `${siteUrl}/${locale}${page.path}`,
+        lastModified: new Date(),
+      })),
+    );
+  }
+
   let contentItems: {
     id: string;
     slug: string | null;

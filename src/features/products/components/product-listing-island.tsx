@@ -63,6 +63,9 @@ type Props = {
   labels: ProductListingLabels;
   catalogToolbarLabels?: CatalogToolbarLabels;
   cardLayoutCssVars?: Record<string, string>;
+  buyNow?: import("@/features/products/lib/product-buy-now").ResolvedProductBuyNow;
+  quoteCta?: import("@/features/products/lib/product-cta").ResolvedProductCtaConfig;
+  cardLayout?: import("@/features/products/lib/product-storefront-layout").ResolvedProductCardLayout;
   catalogToolbarDock?: ResolvedCatalogToolbarDock;
   pageDir?: "ltr" | "rtl";
   /** When true, records are pre-filtered/paginated on the server; URL changes trigger RSC refresh. */
@@ -116,6 +119,9 @@ export function ProductListingIsland({
   labels,
   catalogToolbarLabels,
   cardLayoutCssVars,
+  buyNow,
+  quoteCta,
+  cardLayout,
   catalogToolbarDock,
   pageDir = "ltr",
   serverPaginated = false,
@@ -717,6 +723,9 @@ export function ProductListingIsland({
       numberLocale={numberLocale}
       emptyMessage={labels.noProducts}
       cardLayoutCssVars={cardLayoutCssVars}
+      buyNow={buyNow}
+      quoteCta={quoteCta}
+      cardLayout={cardLayout}
       collectionCardVariant={isCatalogLayout && isCollectionListing ? "catalog" : "default"}
       collectionViewLabel={catalogToolbarLabels?.viewCollection ?? "View"}
     />

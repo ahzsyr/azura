@@ -14,6 +14,7 @@ import { syncEntityTranslationsFromForm, extractLegacyColumns } from "@/features
 import { translationService } from "@/features/translation/translation.service";
 import type { PageBlocks } from "@/types/builder";
 import { prisma } from "@/lib/prisma";
+import { revalidateContentList } from "@/services/cache";
 
 function parseJson(raw: FormDataEntryValue | null, fallback: unknown) {
   if (!raw || typeof raw !== "string" || !raw.trim()) return fallback;
@@ -36,6 +37,7 @@ function revalidateContent(typeSlug: string, itemId?: string, routePrefix?: stri
   revalidatePath("/admin/content");
   revalidatePath(`/admin/content/${typeSlug}`);
   if (itemId) revalidatePath(`/admin/content/${typeSlug}/${itemId}`);
+  revalidateContentList(typeSlug);
   if (routePrefix) {
     revalidatePath(`/${routePrefix}`);
     if (slug) revalidatePath(`/${routePrefix}/${slug}`);
@@ -132,6 +134,10 @@ export async function upsertContentItem(formData: FormData) {
       ? (parseJson(attributesJson, {}) as Record<string, unknown>)
       : buildAttributesFromForm(formData, fields);
 
+  const blocksRaw = parseJson(parsed.blocks as string | undefined ?? null, []);
+  const { builderService } = await import("@/features/builder/builder.service");
+  const blocks = builderService.validateBlocks(blocksRaw);
+
   const data = {
     contentTypeId: type.id,
     collectionId: parsed.collectionId || null,
@@ -143,7 +149,7 @@ export async function upsertContentItem(formData: FormData) {
     descriptionEn: parsed.descriptionEn,
     descriptionAr: parsed.descriptionAr,
     attributes: attributesFromForm as object,
-    blocks: parseJson(parsed.blocks as string | undefined ?? null, []) as object,
+    blocks: blocks as object,
     displaySettings: parseJson(parsed.displaySettings as string | undefined ?? null, {}) as object,
     status: parsed.status as ContentStatus,
     isFeatured: checkbox(formData.get("isFeatured")),
@@ -196,11 +202,10 @@ export async function upsertContentItem(formData: FormData) {
 
   await syncEntityTranslationsFromForm(formData, "ContentItem", item.id, enabledLocales);
 
-  const pageBlocks = (data.blocks ?? []) as PageBlocks;
   await translationService.syncBlockTranslations(
     "ContentItem",
     item.id,
-    pageBlocks,
+    blocks,
     enabledLocales,
     formData.get("blockTranslations") as string | null,
     previousBlocks
@@ -208,7 +213,14 @@ export async function upsertContentItem(formData: FormData) {
 
   await indexItem(item);
   revalidateContent(typeSlug, item.id, item.contentType.routePrefix, item.slug);
-  redirect(`/admin/content/${typeSlug}/${item.id}`);
+
+  const editorTab = formString(formData.get("editorTab")) || "details";
+  const selectedBlockId = formString(formData.get("selectedBlockId"));
+  const editorInspector = formString(formData.get("editorInspector"));
+  const qs = new URLSearchParams({ tab: editorTab });
+  if (selectedBlockId) qs.set("block", selectedBlockId);
+  if (editorInspector) qs.set("inspector", editorInspector);
+  redirect(`/admin/content/${typeSlug}/${item.id}?${qs.toString()}`);
 }
 
 export async function duplicateContentItem(id: string) {

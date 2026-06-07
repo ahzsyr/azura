@@ -37,7 +37,7 @@ export function buildCompareTypePageConfig(
   return {
     slug: registered.slug,
     routePrefix,
-    apiSegment: routePrefix,
+    apiSegment: registered.slug,
     labelPluralEn: registered.labelPluralEn,
     labelPluralAr: registered.labelPluralAr,
     maxItems: config.comparisonSettings.maxItems,

@@ -4,6 +4,7 @@
  */
 
 import type { Product } from "@/features/products/types";
+import { resolveProductBuyNow, type ProductBuyNowPartial } from "./product-buy-now";
 
 export interface DisplayElementFlag {
   enabled: boolean;
@@ -26,6 +27,7 @@ export interface ProductPageDisplayPartial {
   delivery?: DisplayElementOverride;
   quantity?: DisplayElementOverride;
   addToCart?: DisplayElementOverride;
+  buyNow?: DisplayElementOverride;
   keySpecs?: DisplayElementOverride;
   inlineCta?: DisplayElementOverride;
   variations?: DisplayElementOverride;
@@ -57,6 +59,7 @@ export interface ResolvedProductPageDisplay {
   delivery: DisplayElementFlag;
   quantity: DisplayElementFlag;
   addToCart: DisplayElementFlag;
+  buyNow: DisplayElementFlag;
   keySpecs: DisplayElementFlag;
   inlineCta: DisplayElementFlag;
   variations: DisplayElementFlag;
@@ -170,7 +173,7 @@ export const PRODUCT_PAGE_SIDE_ORDER_KEYS = [
   "condition",
   "delivery",
   "quantity",
-  "addToCart",
+  "buyNow",
   "keySpecs",
 ] as const;
 
@@ -190,6 +193,7 @@ export interface ResolvedProductPageElementOrder {
 export interface SiteProductPageDefaults {
   productPageDisplay?: ProductPageDisplayPartial;
   productPageAddToCart?: ProductAddToCartPartial;
+  productBuyNow?: ProductBuyNowPartial;
   productPagePromo?: ProductPromoPartial;
   productPageTrust?: ProductTrustPartial;
   productPageElementOrder?: ProductPageElementOrderPartial;
@@ -207,6 +211,7 @@ const DISPLAY_KEYS = [
   "delivery",
   "quantity",
   "addToCart",
+  "buyNow",
   "keySpecs",
   "inlineCta",
   "variations",
@@ -270,11 +275,12 @@ function mergeFlag(
   globalPartial: ProductPageDisplayPartial | undefined,
   productPartial: ProductPageDisplayPartial | undefined,
 ): DisplayElementFlag {
-  const product = productPartial?.[key];
+  const legacyKey = key === "buyNow" ? ("addToCart" as const) : null;
+  const product = productPartial?.[key] ?? (legacyKey ? productPartial?.[legacyKey] : undefined);
   if (product && product.inherit === false && typeof product.enabled === "boolean") {
     return { enabled: product.enabled };
   }
-  const global = globalPartial?.[key];
+  const global = globalPartial?.[key] ?? (legacyKey ? globalPartial?.[legacyKey] : undefined);
   if (global && typeof global.enabled === "boolean") {
     return { enabled: global.enabled };
   }
@@ -307,6 +313,8 @@ export function resolveProductPageDisplay(
   for (const key of DISPLAY_KEYS) {
     out[key] = mergeFlag(key, g, p);
   }
+  out.buyNow = mergeFlag("buyNow", g, p);
+  out.addToCart = { enabled: out.buyNow.enabled };
   return out;
 }
 
@@ -318,14 +326,17 @@ function bool(v: unknown, fb: boolean): boolean {
   return typeof v === "boolean" ? v : fb;
 }
 
+const SIDE_ORDER_LEGACY_ALIASES: Record<string, string> = { addToCart: "buyNow" };
+
 function mergeOrderKeys<T extends string>(saved: string[] | undefined, allowed: readonly T[], defaults: T[]): T[] {
   const allowedSet = new Set<string>(allowed);
   const seen = new Set<string>();
   const out: T[] = [];
-  for (const key of saved ?? []) {
+  for (const rawKey of saved ?? []) {
+    const key = (SIDE_ORDER_LEGACY_ALIASES[rawKey] ?? rawKey) as T;
     if (!allowedSet.has(key) || seen.has(key)) continue;
     seen.add(key);
-    out.push(key as T);
+    out.push(key);
   }
   for (const key of defaults) {
     if (!seen.has(key)) out.push(key);
@@ -488,6 +499,7 @@ export function resolveProductPageContext(
     | {
         productPageDisplay?: ResolvedProductPageDisplay | ProductPageDisplayPartial;
         productPageAddToCart?: ResolvedProductAddToCart | ProductAddToCartPartial;
+        productBuyNow?: ProductBuyNowPartial;
         productPagePromo?: ResolvedProductPromo | ProductPromoPartial;
         productPageTrust?: ResolvedProductTrust | ProductTrustPartial;
         productPageElementOrder?: ProductPageElementOrderPartial;
@@ -496,18 +508,26 @@ export function resolveProductPageContext(
   product: Product & {
     page_display?: ProductPageDisplayPartial;
     add_to_cart?: ProductAddToCartPartial;
+    buy_now_slug?: string;
     promo?: ProductPromoPartial;
     trust?: ProductTrustPartial;
     variation_combinations?: ProductVariationCombination[];
   },
 ) {
   const display = resolveProductPageDisplay(site?.productPageDisplay, product.page_display);
+  const buyNow = resolveProductBuyNow(
+    site && "productBuyNow" in site ? site.productBuyNow : undefined,
+    site?.productPageAddToCart,
+  );
   return {
     display,
     elementOrder: resolveProductPageElementOrder(site?.productPageElementOrder),
-    addToCart: resolveProductAddToCart(site?.productPageAddToCart, product.add_to_cart),
+    buyNow,
+    /** @deprecated use buyNow */
+    addToCart: buyNow as unknown as ResolvedProductAddToCart,
     promo: resolveProductPromo(site?.productPagePromo, product.promo, display),
     trust: resolveProductTrust(site?.productPageTrust, product.trust, product.reviews, display),
+    buyNowSlugOverride: product.buy_now_slug?.trim() || undefined,
   };
 }
 
@@ -526,6 +546,7 @@ export const PRODUCT_PAGE_ELEMENT_LABELS: Partial<
   delivery: "Delivery options",
   quantity: "Quantity",
   addToCart: "Add to cart",
+  buyNow: "Buy Now / Shop Now",
   keySpecs: "Key specs table",
   inlineCta: "Inline CTA",
   variations: "Variation chips",

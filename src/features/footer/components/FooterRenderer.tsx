@@ -26,10 +26,18 @@ type Props = {
 export function FooterRenderer({ resolved, locale, brandConfig, company, compact }: Props) {
   const t = useTranslations("footer");
   const address = company ? getLocalizedField(company, "address", locale) : undefined;
-  const social =
+  const socialRaw =
     company?.socialLinks && typeof company.socialLinks === "object"
       ? (company.socialLinks as Record<string, string>)
       : null;
+  const social: Record<string, string> = { ...(socialRaw ?? {}) };
+  if (company?.email && !Object.values(social).some((u) => u?.includes("mailto:"))) {
+    social.email = `mailto:${company.email}`;
+  }
+  if (!social.website && !social.Website) {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+    if (siteUrl) social.website = siteUrl;
+  }
 
   const gapClass =
     resolved.design.columnGap === "tight"
@@ -83,6 +91,13 @@ export function FooterRenderer({ resolved, locale, brandConfig, company, compact
                 <h3 className="font-heading text-xl font-semibold text-accent">{brandName}</h3>
                 {tagline ? (
                   <p className="mt-3 text-sm leading-relaxed text-background/70">{tagline}</p>
+                ) : null}
+                {company?.email ? (
+                  <p className="mt-2 text-sm text-background/70">
+                    <a href={`mailto:${company.email}`} className="hover:text-accent">
+                      {company.email}
+                    </a>
+                  </p>
                 ) : null}
                 {col.body ? <p className="mt-2 text-sm text-background/60">{col.body}</p> : null}
               </div>

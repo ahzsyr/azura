@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -15,8 +16,8 @@ import { signOut } from "next-auth/react";
 import { motion } from "framer-motion";
 import {
   ADMIN_DASHBOARD,
-  ADMIN_NAV_GROUPS,
   filterNavItems,
+  findNavGroupIdByPath,
 } from "@/config/admin-nav";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { cn } from "@/lib/utils";
@@ -83,9 +84,17 @@ function SidebarContent({ collapsed }: { collapsed: boolean }) {
   const setNavSearchQuery = useAdminUiStore((s) => s.setNavSearchQuery);
   const expandedGroups = useAdminUiStore((s) => s.expandedGroups);
   const toggleGroupExpanded = useAdminUiStore((s) => s.toggleGroupExpanded);
+  const expandOnlyNavGroup = useAdminUiStore((s) => s.expandOnlyNavGroup);
 
+  const isSearching = Boolean(navSearchQuery.trim());
+  const activeGroupId = findNavGroupIdByPath(pathname);
   const filteredGroups = filterNavItems(navSearchQuery);
   const DashboardIcon = ADMIN_DASHBOARD.icon;
+
+  useEffect(() => {
+    if (isSearching) return;
+    expandOnlyNavGroup(activeGroupId);
+  }, [pathname, isSearching, activeGroupId, expandOnlyNavGroup]);
 
   return (
     <>
@@ -115,11 +124,16 @@ function SidebarContent({ collapsed }: { collapsed: boolean }) {
               className="h-8 ps-8 text-xs"
               aria-label="Filter navigation"
             />
+            {isSearching ? (
+              <p className="mt-1.5 text-[10px] text-muted-foreground">
+                Matching groups expanded
+              </p>
+            ) : null}
           </div>
         </div>
       )}
 
-      <ScrollArea className="flex-1 px-2">
+      <ScrollArea type="always" className="az-scroll-thin flex-1 px-2">
         <nav className="space-y-1 pb-4">
           <NavLink
             href={ADMIN_DASHBOARD.href}
@@ -132,18 +146,34 @@ function SidebarContent({ collapsed }: { collapsed: boolean }) {
           <Separator className="my-2" />
 
           {filteredGroups.map(({ group, items }) => {
-            const expanded = navSearchQuery ? true : expandedGroups[group.id] !== false;
+            const expanded = isSearching || expandedGroups[group.id] === true;
+            const hasActiveItem = items.some((item) => isActive(pathname, item.href));
 
             return (
               <div key={group.id} className="mb-1">
                 {!collapsed && (
                   <button
                     type="button"
-                    onClick={() => toggleGroupExpanded(group.id)}
-                    className="flex w-full items-center justify-between rounded-md px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
+                    onClick={() => {
+                      if (isSearching) return;
+                      toggleGroupExpanded(group.id);
+                    }}
+                    disabled={isSearching}
+                    className={cn(
+                      "flex w-full items-center justify-between rounded-md px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider transition-colors",
+                      expanded
+                        ? "bg-muted/60 text-foreground"
+                        : "text-muted-foreground hover:bg-muted/40 hover:text-foreground",
+                      isSearching && "cursor-default opacity-90"
+                    )}
                     aria-expanded={expanded}
                   >
-                    <span>{group.label}</span>
+                    <span className="flex items-center gap-2">
+                      {group.label}
+                      {hasActiveItem && !isSearching ? (
+                        <span className="size-1.5 rounded-full bg-primary" aria-hidden />
+                      ) : null}
+                    </span>
                     <motion.span
                       animate={{ rotate: expanded ? 0 : -90 }}
                       transition={{ duration: 0.15 }}
@@ -154,7 +184,7 @@ function SidebarContent({ collapsed }: { collapsed: boolean }) {
                 )}
 
                 <AdminAccordionContent open={expanded || collapsed}>
-                  <div className={cn("space-y-0.5", !collapsed && "ps-0")}>
+                  <div className={cn("space-y-0.5", !collapsed && expanded && "border-s border-muted/80 ps-2 ms-2")}>
                     {items.map((item) => (
                       <NavLink
                         key={item.href}

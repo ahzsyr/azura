@@ -1,35 +1,24 @@
 import { notFound } from "next/navigation";
-import { cookies } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { getHtmlLangSync } from "@/i18n/locale-config";
-import {
-  getDirectionByPrefix,
-  getEnabledLocales,
-  getEnabledUrlPrefixes,
-  getLocaleByPrefix,
-  isValidUrlPrefix,
-} from "@/i18n/locale-registry.server";
-import { localeService } from "@/features/i18n/locale.service";
+import { getEnabledUrlPrefixes, isValidUrlPrefix } from "@/i18n/locale-registry.server";
 import { SiteHeader } from "@/components/layout/site-header";
-import { navigationService } from "@/features/navigation/navigation.service";
 import { FooterRenderer } from "@/features/footer/components/FooterRenderer";
-import { footerService } from "@/features/footer/footer.service";
-import { resolveFooter } from "@/features/footer/resolve-footer";
-import { parseBrandConfig } from "@/features/theme/theme-config";
 import { WhatsAppFab } from "@/components/layout/whatsapp-fab";
 import { DocumentAttributes } from "@/components/layout/document-attributes";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import { getCompanyInfo } from "@/lib/data";
 import { themeService } from "@/features/theme/theme.service";
 import { GlobalStructuredData } from "@/features/seo/components/global-structured-data";
-import { personalizationService } from "@/features/personalization/personalization.service";
-import { PersonalizationPanel } from "@/components/personalization/personalization-panel";
-import { resolveSiteIdentity } from "@/lib/site-identity";
+import { PersonalizationPanelLazy } from "@/components/personalization/personalization-panel-lazy";
 import { ScrollRevealObserver } from "@/components/motion/scroll-reveal-observer";
 import { MarketingPageTransition } from "@/components/motion/marketing-page-transition";
 import { CatalogComparisonShell } from "@/components/comparison/catalog-comparison-shell";
+import { RecentlyViewedTracker } from "@/features/discovery-blocks/components/recently-viewed-tracker";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { AccountSessionProvider } from "@/components/account/account-session-provider";
+import { loadPublicShellContext } from "@/features/i18n/public-shell-context";
 import type { Metadata } from "next";
 
 export async function generateStaticParams() {
@@ -43,12 +32,14 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const cookieStore = await cookies();
-  const previewDraft = cookieStore.get("theme-preview")?.value === "draft";
-  const theme = await themeService.getForPreview(previewDraft);
-  return {
-    icons: theme?.faviconUrl ? { icon: theme.faviconUrl } : undefined,
-  };
+  try {
+    const theme = await themeService.getPublished();
+    return {
+      icons: theme?.faviconUrl ? { icon: theme.faviconUrl } : undefined,
+    };
+  } catch {
+    return {};
+  }
 }
 
 type Props = {
@@ -59,55 +50,38 @@ type Props = {
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
 
-  if (!(await isValidUrlPrefix(locale))) {
+  let validPrefix = false;
+  try {
+    validPrefix = await isValidUrlPrefix(locale);
+  } catch {
+    validPrefix = routing.locales.includes(locale as (typeof routing.locales)[number]);
+  }
+  if (!validPrefix) {
     notFound();
   }
 
   setRequestLocale(locale);
-  const localeEntry = await getLocaleByPrefix(locale);
-  const enabledLocales = await getEnabledLocales();
-  const htmlLang = localeEntry?.htmlLang ?? getHtmlLangSync(locale, enabledLocales);
-  const direction = await getDirectionByPrefix(locale);
   const messages = await getMessages();
-  const cookieStore = await cookies();
-  const previewDraft = cookieStore.get("theme-preview")?.value === "draft";
-  const [company, theme, personalizationSettings, footerWorkspace] = await Promise.all([
-    getCompanyInfo(),
-    themeService.getForPreview(previewDraft),
-    personalizationService.get(),
-    footerService.getWorkspace(),
-  ]);
-  const siteIdentity = resolveSiteIdentity({
-    companyName: company?.name,
-    themeBrandName: theme?.brandConfig?.brandName,
-    themeTagline: theme?.brandConfig?.tagline,
-  });
-  const headerWorkspace = await navigationService.getWorkspaceForSite(
-    {
-      logoUrl: theme?.logoUrl,
-      brandConfig: theme?.brandConfig,
-      siteName: siteIdentity.brandName,
-      tagline: siteIdentity.tagline,
-    },
-    locale,
-  );
-  const resolvedFooter = resolveFooter(footerWorkspace);
-  const brandConfig = theme ? parseBrandConfig(theme.brandConfig) : parseBrandConfig({});
+  const shell = await loadPublicShellContext(locale);
+  const htmlLang =
+    shell.htmlLang ?? getHtmlLangSync(locale, shell.enabledLocales);
 
   return (
     <div className="site-shell flex min-h-full flex-col">
-      <DocumentAttributes lang={htmlLang} dir={direction} />
+      <DocumentAttributes lang={htmlLang} dir={shell.direction} />
       <GlobalStructuredData />
-      <NextIntlClientProvider messages={messages}>
-        <ThemeProvider>
+      <NextIntlClientProvider locale={locale} messages={messages}>
+        <AccountSessionProvider>
+        <ThemeProvider tokens={shell.theme}>
+          <RecentlyViewedTracker />
           <ScrollRevealObserver />
           <SiteHeader
-            workspace={headerWorkspace}
+            workspace={shell.headerWorkspace}
             locale={locale}
-            locales={enabledLocales}
-            enabledLocales={enabledLocales}
-            themePreset={theme?.preset}
-            headerConfig={theme?.headerConfig}
+            locales={shell.enabledLocales}
+            enabledLocales={shell.enabledLocales}
+            themePreset={shell.theme?.preset}
+            headerConfig={shell.theme?.headerConfig}
           />
           <main className="site-main flex-1">
             <CatalogComparisonShell locale={locale}>
@@ -115,21 +89,35 @@ export default async function LocaleLayout({ children, params }: Props) {
             </CatalogComparisonShell>
           </main>
           <FooterRenderer
-            resolved={resolvedFooter}
+            resolved={shell.resolvedFooter}
             locale={locale}
-            brandConfig={brandConfig}
-            company={company}
+            brandConfig={shell.brandConfig}
+            company={shell.company}
           />
-          <WhatsAppFab phone={company?.whatsapp ?? process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? ""} />
-          <PersonalizationPanel settings={personalizationSettings} theme={theme} locale={locale} />
+          <WhatsAppFab
+            phone={shell.whatsappPhone}
+            message={shell.whatsappMessage}
+            settings={shell.whatsappSettings.fab}
+            ariaLabel={shell.whatsappAriaLabel}
+          />
+          <PersonalizationPanelLazy
+            settings={shell.personalizationSettings}
+            theme={shell.theme}
+            locale={locale}
+            locales={shell.enabledLocales.map((l) => ({
+              code: l.code,
+              urlPrefix: l.urlPrefix,
+              label: l.label,
+              flag: l.flag,
+              isEnabled: true,
+            }))}
+          />
         </ThemeProvider>
+        </AccountSessionProvider>
       </NextIntlClientProvider>
-      {process.env.NEXT_PUBLIC_GA_ID && (
-        <script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
-        />
-      )}
+      {process.env.NEXT_PUBLIC_GA_ID ? (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+      ) : null}
     </div>
   );
 }

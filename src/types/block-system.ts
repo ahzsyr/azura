@@ -8,7 +8,16 @@ export const BLOCK_LEGACY_VERSION = "1.0" as const;
 
 export type BlockSystemVersion = typeof BLOCK_SYSTEM_VERSION | typeof BLOCK_LEGACY_VERSION | string;
 
-export type BlockCategory = "layout" | "content" | "marketing" | "data";
+export type BlockCategory =
+  | "layout"
+  | "content"
+  | "marketing"
+  | "data"
+  | "commerce"
+  | "conversion"
+  | "portal"
+  | "discovery"
+  | "media";
 
 export type DeviceBreakpoint = "desktop" | "tablet" | "mobile";
 
@@ -99,6 +108,27 @@ export type BlockStyleSettings = BlockLayoutStyles &
     }>;
   };
 
+export type ContentOverflowMode = "inherit" | "grid" | "slider" | "collapse";
+
+export type CollapseVariant = "accordion" | "show_more" | "stack";
+
+export type BlockContentOverflowSettings = {
+  mode?: ContentOverflowMode;
+  /** When mode is slider; false falls back to grid */
+  sliderEnabled?: boolean;
+  collapseVariant?: CollapseVariant;
+  /** Items shown before expand when collapseVariant is show_more */
+  showMoreLimit?: number;
+};
+
+/** Resolved layout after inherit cascade and base-prop mapping */
+export type ResolvedContentOverflow = {
+  effectiveMode: "grid" | "slider" | "collapse";
+  sliderEnabled: boolean;
+  collapseVariant: CollapseVariant;
+  showMoreLimit: number;
+};
+
 export type BlockResponsiveOverride = Partial<BlockStyleSettings> & {
   hide?: boolean;
   grid?: {
@@ -106,6 +136,7 @@ export type BlockResponsiveOverride = Partial<BlockStyleSettings> & {
     gap?: CssLength;
   };
   alignment?: "start" | "center" | "end" | "stretch";
+  contentOverflow?: BlockContentOverflowSettings;
 };
 
 export type BlockResponsiveSettings = Partial<
@@ -211,6 +242,8 @@ export type BlockInstanceV2 = {
   seo?: BlockSeoSettings;
   animation?: BlockAnimationSettings;
   visual?: BlockVisualSettings;
+  /** Omitted on storefront when true; preserved in admin block list. */
+  hidden?: boolean;
   children?: BlockInstanceV2[];
 };
 
@@ -221,6 +254,8 @@ export type BlockDefinitionMeta = {
   name: string;
   description: string;
   icon: string;
+  /** Multi-item blocks that support grid/slider/collapse overflow in Responsive tab */
+  contentOverflowCapable?: boolean;
 };
 
 export type BlockDefinition<TSettings = Record<string, unknown>> = BlockDefinitionMeta & {
@@ -244,6 +279,8 @@ export type BlockRenderContext = {
   currentPath?: string;
   featureFlags?: string[];
   now?: Date;
+  /** When true, hidden blocks still render in builder previews. */
+  previewMode?: boolean;
 };
 
 export type ResolvedBlockStyles = {

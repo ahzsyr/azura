@@ -128,6 +128,9 @@ export default async function CollectionDetailPage({ params, searchParams }: Pro
             labels={listingCopy.labels}
             catalogToolbarLabels={listingCopy.catalogToolbarLabels}
             cardLayoutCssVars={theme.cardLayoutCssVars}
+            buyNow={theme.buyNow}
+            quoteCta={theme.quoteCta}
+            cardLayout={theme.cardLayout}
             catalogToolbarDock={theme.toolbarDock}
             pageDir={pageDir}
             serverPaginated

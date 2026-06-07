@@ -12,11 +12,15 @@ export type BlockInspectorTabId = (typeof BLOCK_INSPECTOR_TABS)[number]["id"];
 
 export const BLOCK_INSPECTOR_STORAGE_KEY = "block-inspector-active-tab";
 
+export function isBlockInspectorTab(id: string | null): id is BlockInspectorTabId {
+  return id != null && BLOCK_INSPECTOR_TABS.some((t) => t.id === id);
+}
+
 export function readSavedInspectorTab(): BlockInspectorTabId {
   try {
     const v = localStorage.getItem(BLOCK_INSPECTOR_STORAGE_KEY);
-    if (v && BLOCK_INSPECTOR_TABS.some((t) => t.id === v)) {
-      return v as BlockInspectorTabId;
+    if (isBlockInspectorTab(v)) {
+      return v;
     }
   } catch {
     /* ignore */

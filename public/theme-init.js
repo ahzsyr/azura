@@ -45,11 +45,13 @@
           root.style.setProperty("--az-border-subtle", border);
           root.style.setProperty("--az-color-border", border);
 
-          if (resolved === "dark" && c.background) {
+          if (c.background) {
             var bg = c.background;
             var surface = c.surface || bg;
-            var text = c.text || "#f4f4f5";
-            var muted = c.textMuted || "#a1a1aa";
+            var text =
+              c.text || (resolved === "dark" ? "#f4f4f5" : "#18181b");
+            var muted =
+              c.textMuted || (resolved === "dark" ? "#a1a1aa" : "#71717a");
             root.style.setProperty("--background", bg);
             root.style.setProperty("--foreground", text);
             root.style.setProperty("--card", surface);

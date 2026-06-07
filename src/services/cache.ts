@@ -24,6 +24,9 @@ export const CACHE_TAGS = {
   productListing: (locale: string) => `products-listing:${locale}`,
   productFacets: (locale: string) => `products-facets:${locale}`,
   productSlug: (locale: string, slug: string) => `product:${locale}:${slug}`,
+  contentList: (typeSlug: string, collectionSlug?: string) =>
+    `content-list:${typeSlug}:${collectionSlug ?? "all"}`,
+  comparableTypes: "comparable-content-types",
 } as const;
 
 const CACHE_PROFILE = "max" as const;
@@ -94,6 +97,16 @@ export function revalidateProductListing(locale: string) {
 export function revalidateProductSlug(locale: string, slug: string) {
   safeRevalidateTag(CACHE_TAGS.productSlug(locale, slug));
   revalidateProductListing(locale);
+}
+
+export function revalidateContentList(typeSlug: string, collectionSlug?: string) {
+  safeRevalidateTag(CACHE_TAGS.contentList(typeSlug, collectionSlug));
+  safeRevalidateTag(CACHE_TAGS.contentList(typeSlug));
+  safeRevalidateTag(CACHE_TAGS.marketing);
+}
+
+export function revalidateComparableTypes() {
+  safeRevalidateTag(CACHE_TAGS.comparableTypes);
 }
 
 export function createCached<T>(

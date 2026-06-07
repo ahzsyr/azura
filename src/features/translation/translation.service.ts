@@ -490,16 +490,13 @@ export const translationService = {
           prisma.contentItem.findMany({ select: { id: true, blocks: true } }),
         ]);
         for (const page of pages) {
-          const blocks = (page.blocks as PageBlocks) ?? [];
-          ids.push(...collectBlockEntityIds(blocks, "CmsPage", page.id));
+          ids.push(...collectBlockEntityIds(page.blocks as PageBlocks, "CmsPage", page.id));
         }
         for (const post of posts) {
-          const blocks = (post.blocks as PageBlocks) ?? [];
-          ids.push(...collectBlockEntityIds(blocks, "Post", post.id));
+          ids.push(...collectBlockEntityIds(post.blocks as PageBlocks, "Post", post.id));
         }
         for (const item of items) {
-          const blocks = (item.blocks as PageBlocks) ?? [];
-          ids.push(...collectBlockEntityIds(blocks, "ContentItem", item.id));
+          ids.push(...collectBlockEntityIds(item.blocks as PageBlocks, "ContentItem", item.id));
         }
         return ids;
       }
@@ -540,6 +537,15 @@ export const translationService = {
     return Math.round(
       withFields.reduce((sum, s) => sum + s.percentage, 0) / withFields.length
     );
+  },
+
+  async getOverallCompletionForLocaleSafe(languageCode: string): Promise<number> {
+    try {
+      return await this.getOverallCompletionForLocale(languageCode);
+    } catch (error) {
+      console.error(`Translation completion failed for locale ${languageCode}:`, error);
+      return 0;
+    }
   },
 
   async findPriorityMissing(limit = 30): Promise<MissingTranslation[]> {

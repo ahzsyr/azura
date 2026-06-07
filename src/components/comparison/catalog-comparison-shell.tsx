@@ -40,6 +40,7 @@ export async function CatalogComparisonShell({ locale, children }: Props) {
         addMore: t("addMore"),
         clearBucket: t("clearBucket"),
         close: t("close"),
+        viewComparison: t("viewComparison"),
       }}
     >
       {children}

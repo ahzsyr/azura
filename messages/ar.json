@@ -2,6 +2,11 @@
   "nav": {
     "home": "الرئيسية",
     "about": "من نحن",
+    "products": "الحلول",
+    "collections": "المجموعات",
+    "services": "الخدمات",
+    "compare": "مقارنة",
+    "favorites": "المفضلة",
     "packages": "باقات العمرة",
     "visa": "خدمات التأشيرة",
     "hotels": "الفنادق والنقل",
@@ -10,13 +15,13 @@
     "contact": "اتصل بنا",
     "blog": "المدونة",
     "inquire": "استفسر الآن",
-    "brandTagline": "سفير المدينة"
+    "brandTagline": "حلول لاسلكية"
   },
   "hero": {
-    "badge": "رفيق موثوق في السفر الإسلامي",
-    "title": "رحلتك المقدسة، برعاية واهتمام",
-    "subtitle": "باقات عمرة فاخرة وخدمات سفر إسلامية — مُعدّة بإخلاص، ومُقدَّمة بتميز.",
-    "ctaPrimary": "استكشف الباقات",
+    "badge": "بي آر تي للتجارة",
+    "title": "حلول لاسلكية مبتكرة",
+    "subtitle": "ربط الشركات والأفراد عبر تقنيات لاسلكية متطورة.",
+    "ctaPrimary": "استكشف المنتجات",
     "ctaSecondary": "تواصل معنا"
   },
   "trust": {
@@ -44,6 +49,8 @@
     "vip": "VIP",
     "vvip": "VVIP",
     "stickyCta": "تحتاج مساعدة في الاختيار؟ تحدث مع فريقنا.",
+    "overview": "نظرة عامة",
+    "photoGallery": "معرض الصور",
     "facilities": "المرافق",
     "features": "مميزات الباقة",
     "itinerary": "البرنامج الكامل",
@@ -151,12 +158,75 @@
     "rights": "جميع الحقوق محفوظة.",
     "followUs": "تابعنا"
   },
+  "account": {
+    "hubTitle": "الحساب",
+    "hubDescription": "سجّل الدخول لإدارة العناصر المحفوظة والاستفسارات، أو أنشئ حساباً للبدء.",
+    "signIn": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "registerTitle": "إنشاء حساب",
+    "registerDescription": "خطوات بسيطة لإعداد ملفك وتسجيل الدخول.",
+    "registerStepOf": "الخطوة {current} من {total}",
+    "sectionPersonalHint": "أخبرنا عن هويتك.",
+    "sectionContactHint": "كيف نتواصل معك بخصوص الحجوزات والاستفسارات.",
+    "sectionAddressHint": "يُستخدم للتوصيل ومستندات السفر عند الحاجة.",
+    "sectionAccountHint": "اختر كلمة مرور قوية لحماية حسابك.",
+    "continue": "متابعة",
+    "back": "رجوع",
+    "adminSeparateNotice": "أنت مسجّل كمسؤول. حسابات العملاء منفصلة عن لوحة الإدارة.",
+    "adminPanelLink": "الذهاب إلى لوحة الإدارة",
+    "adminUseAdminLogin": "هذا الدخول للعملاء فقط. يرجى استخدام دخول الإدارة على /admin/login.",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "newPassword": "كلمة مرور جديدة",
+    "fullName": "الاسم الكامل",
+    "phone": "رقم الجوال",
+    "dateOfBirth": "تاريخ الميلاد",
+    "addressLine1": "العنوان",
+    "addressLine2": "تفاصيل إضافية (اختياري)",
+    "city": "المدينة",
+    "state": "المنطقة",
+    "postalCode": "الرمز البريدي",
+    "country": "الدولة",
+    "sectionPersonal": "البيانات الشخصية",
+    "sectionContact": "التواصل",
+    "sectionAddress": "العنوان",
+    "sectionAccount": "أمان الحساب",
+    "marketingOptIn": "أرسل لي العروض والتحديثات بالبريد",
+    "passwordMismatch": "كلمتا المرور غير متطابقتين",
+    "registerFailed": "فشل التسجيل",
+    "registerSignInFailed": "تم إنشاء الحساب لكن فشل تسجيل الدخول.",
+    "creating": "جاري الإنشاء…",
+    "signingIn": "جاري تسجيل الدخول…",
+    "alreadyHaveAccount": "لديك حساب؟",
+    "noAccount": "لا تملك حساباً؟",
+    "forgotPasswordLink": "نسيت كلمة المرور؟",
+    "forgotPasswordTitle": "إعادة تعيين كلمة المرور",
+    "forgotPasswordDescription": "أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين.",
+    "sendResetLink": "إرسال رابط إعادة التعيين",
+    "sending": "جاري الإرسال…",
+    "forgotPasswordSuccess": "إذا وُجد حساب لهذا البريد، ستصلك التعليمات قريباً.",
+    "forgotPasswordError": "تعذّر معالجة الطلب. حاول لاحقاً.",
+    "backToSignIn": "العودة لتسجيل الدخول",
+    "resetPasswordTitle": "كلمة مرور جديدة",
+    "resetPasswordDescription": "أدخل كلمة مرور جديدة لحسابك.",
+    "resetPasswordSubmit": "تحديث كلمة المرور",
+    "resetPasswordError": "تعذّر إعادة التعيين. اطلب رابطاً جديداً.",
+    "resetTokenMissing": "رابط غير صالح. اطلب رابطاً جديداً.",
+    "saving": "جاري الحفظ…"
+  },
   "widget": {
     "ariaLabel": "تخصيص المظهر",
     "style": "المظهر",
     "personalize": "تخصيص",
     "close": "إغلاق",
-    "appearance": "الوضع"
+    "appearance": "الوضع",
+    "backToTop": "للأعلى",
+    "language": "اللغة",
+    "changeLanguage": "تغيير",
+    "activeTheme": "وضع المظهر",
+    "activePreset": "نمط التصميم",
+    "appearanceHint": "أوضاع الفاتح والداكن والنظام تُطبَّق فوراً دون إعادة تحميل الصفحة."
   },
   "common": {
     "loading": "جاري التحميل...",
@@ -175,9 +245,6 @@
   "locale": {
     "selectLanguage": "اختر اللغة"
   },
-  "gallery": {
-    "viewGallery": "عرض المعرض"
-  },
   "blog": {
     "title": "المدونة",
     "subtitle": "أخبار ونصائح السفر الإسلامي",
@@ -192,9 +259,11 @@
     "browseTypes": "تصفح أنواع الكتالوج",
     "sameTypeOnly": "مقارنة ضمن نفس النوع فقط",
     "compareNow": "قارن الآن",
+    "viewComparison": "عرض المقارنة",
     "clearAll": "مسح الكل",
     "drawerEmpty": "لا توجد عناصر في قائمة المقارنة.",
     "empty": "قائمة المقارنة فارغة",
+    "typeNotComparable": "هذه العناصر محفوظة للمقارنة، لكن نوع الكتالوج هذا غير متاح على صفحة المقارنة حالياً. امسح القائمة أو أعد المحاولة بعد تحديث الصفحة.",
     "allSpecs": "كل السمات",
     "differences": "الاختلافات فقط",
     "hideEqual": "إخفاء القيم المتطابقة",
@@ -212,5 +281,15 @@
     "allGroups": "كل المجموعات",
     "mobileView": "عرض الجوال",
     "tableView": "عرض الجدول"
+  },
+  "whatsapp": {
+    "fab": {
+      "ariaLabel": "تواصل عبر واتساب"
+    },
+    "message": {
+      "default": "السلام عليكم، أود التواصل مع {brandName}.",
+      "contact": "السلام عليكم، أود التواصل مع {brandName}.",
+      "contentInquiry": "السلام عليكم، أنا مهتم بـ {itemTitle} من {brandName}."
+    }
   }
 }

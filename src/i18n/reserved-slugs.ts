@@ -2,7 +2,6 @@
 export const RESERVED_URL_PREFIXES = new Set([
   "about",
   "packages",
-  "visa",
   "hotels-transport",
   "gallery",
   "testimonials",
@@ -12,7 +11,10 @@ export const RESERVED_URL_PREFIXES = new Set([
   "pages",
   "collections",
   "products",
+  "services",
   "compare",
+  "favorites",
+  "account",
   "search",
   "preview",
   "admin",

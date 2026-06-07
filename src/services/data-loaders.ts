@@ -374,3 +374,114 @@ export function getFaqSetBySlugCached(slug: string) {
     marketingCacheOpts()
   )();
 }
+
+export function getPricingPlanSetBySlugCached(slug: string) {
+  return createCached(
+    async () => {
+      const { pricingPlanSetService } = await import("@/features/pricing-plans/service");
+      return pricingPlanSetService.getBySlug(slug);
+    },
+    ["pricing-plan-set", slug],
+    marketingCacheOpts()
+  )();
+}
+
+export function getReleaseSetBySlugCached(slug: string) {
+  return createCached(
+    async () => {
+      const { releaseSetService } = await import("@/features/releases/service");
+      return releaseSetService.getBySlug(slug);
+    },
+    ["release-set", slug],
+    marketingCacheOpts()
+  )();
+}
+
+export function getPricingCalculatorBySlugCached(slug: string) {
+  return createCached(
+    async () => {
+      const { pricingCalculatorService } = await import("@/features/pricing-calculators/service");
+      return pricingCalculatorService.getBySlug(slug);
+    },
+    ["pricing-calculator", slug],
+    marketingCacheOpts()
+  )();
+}
+
+export function getKnowledgeBaseBySlugCached(
+  slug: string,
+  categorySlug?: string,
+  limit?: number
+) {
+  return createCached(
+    async () => {
+      const { knowledgeBaseService } = await import("@/features/knowledge-base/service");
+      return knowledgeBaseService.getBySlug(slug, { categorySlug, limit });
+    },
+    ["knowledge-base", slug, categorySlug ?? "all", String(limit ?? "all")],
+    marketingCacheOpts()
+  )();
+}
+
+export function getDocPortalBySlugCached(
+  slug: string,
+  versionSlug?: string,
+  rootSectionSlug?: string
+) {
+  return createCached(
+    async () => {
+      const { docPortalService } = await import("@/features/documentation/service");
+      return docPortalService.getBySlug(slug, { versionSlug, rootSectionSlug });
+    },
+    ["doc-portal", slug, versionSlug ?? "default", rootSectionSlug ?? "all"],
+    marketingCacheOpts()
+  )();
+}
+
+export function getStatusBoardBySlugCached(slug: string) {
+  return createCached(
+    async () => {
+      const { statusBoardService } = await import("@/features/status/service");
+      return statusBoardService.getBySlug(slug);
+    },
+    ["status-board", slug],
+    marketingCacheOpts()
+  )();
+}
+
+export function getTeamDirectoryBySlugCached(
+  slug: string,
+  departmentId?: string,
+  limit?: number
+) {
+  return createCached(
+    async () => {
+      const { teamDirectoryService } = await import("@/features/team/service");
+      return teamDirectoryService.getBySlug(slug, { departmentId, limit });
+    },
+    ["team-directory", slug, departmentId ?? "all", String(limit ?? "all")],
+    marketingCacheOpts()
+  )();
+}
+
+export function getPartnerProgramBySlugCached(
+  slug: string,
+  categorySlug?: string,
+  locationFilter?: string,
+  limit?: number
+) {
+  return createCached(
+    async () => {
+      const { partnerProgramService } = await import("@/features/partners/service");
+      return partnerProgramService.getBySlug(slug, { categorySlug, locationFilter, limit });
+    },
+    [
+      "partner-program",
+      slug,
+      categorySlug ?? "all",
+      locationFilter ?? "all",
+      String(limit ?? "all"),
+    ],
+    marketingCacheOpts()
+  )();
+}

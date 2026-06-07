@@ -20,14 +20,35 @@ type BlockInspectorShellProps = {
   block: BlockNode;
   onChange: (block: BlockNode) => void;
   content: ReactNode;
+  /** URL-driven inspector tab (CMS page / content item editors). */
+  activeTab?: BlockInspectorTabId;
+  onTabChange?: (tab: BlockInspectorTabId) => void;
 };
 
 export function BlockInspectorShell({
   block,
   onChange,
   content,
+  activeTab: controlledActiveTab,
+  onTabChange,
 }: BlockInspectorShellProps) {
-  const [activeTab, setActiveTab] = useState<BlockInspectorTabId>(() => readSavedInspectorTab());
+  const [internalTab, setInternalTab] = useState<BlockInspectorTabId>(() =>
+    readSavedInspectorTab()
+  );
+  const activeTab = controlledActiveTab ?? internalTab;
+
+  useEffect(() => {
+    if (controlledActiveTab !== undefined) {
+      setInternalTab(controlledActiveTab);
+    }
+  }, [controlledActiveTab]);
+
+  const setActiveTab = (id: BlockInspectorTabId) => {
+    if (controlledActiveTab === undefined) {
+      setInternalTab(id);
+    }
+    onTabChange?.(id);
+  };
 
   useEffect(() => {
     try {
@@ -51,9 +72,7 @@ export function BlockInspectorShell({
           case "lookAndFeel":
             return <BlockLookAndFeelPanel block={block} onChange={onChange} />;
           case "style":
-            return (
-              <BlockStylePanel block={block} onChange={onChange} />
-            );
+            return <BlockStylePanel block={block} onChange={onChange} />;
           case "responsive":
             return <BlockResponsivePanel block={block} onChange={onChange} />;
           case "animation":

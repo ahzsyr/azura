@@ -112,6 +112,7 @@ export function BlockDevicePreview({
             faqSetOptions={faqSetOptions}
             testimonialOptions={testimonialOptions}
             testimonialCollectionOptions={testimonialCollectionOptions}
+            previewDevice={device}
           />
         </div>
       </div>

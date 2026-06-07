@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { cmsRepository } from "@/repositories/cms.repository";
 import { PageEditorForm } from "@/features/cms/components/page-editor-form";
@@ -50,15 +51,21 @@ export default async function EditPagePage({ params }: Props) {
     // Builder option loaders fail closed to empty lists
   }
   return (
-    <PageEditorForm
-      page={page}
-      locales={locales}
-      initialBlockTranslations={initialBlockTranslations}
-      initialPageTranslations={initialPageTranslations}
-      galleryOptions={galleryOptions}
-      faqSetOptions={faqSetOptions}
-      testimonialOptions={testimonialOptions}
-      testimonialCollectionOptions={testimonialCollectionOptions}
-    />
+    <Suspense
+      fallback={
+        <div className="p-6 text-sm text-muted-foreground">Loading page editor…</div>
+      }
+    >
+      <PageEditorForm
+        page={page}
+        locales={locales}
+        initialBlockTranslations={initialBlockTranslations}
+        initialPageTranslations={initialPageTranslations}
+        galleryOptions={galleryOptions}
+        faqSetOptions={faqSetOptions}
+        testimonialOptions={testimonialOptions}
+        testimonialCollectionOptions={testimonialCollectionOptions}
+      />
+    </Suspense>
   );
 }
