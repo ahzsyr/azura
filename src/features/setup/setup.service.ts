@@ -54,9 +54,6 @@ function summarizeDatabaseProbeError(error: unknown): string {
   if (isDatabaseUrlMalformed()) {
     return 'DATABASE_URL is missing or invalid. In hPanel/Vercel set the value to a full postgresql://… URI (no DATABASE_URL= prefix, no quotes). Add PRISMA_SCHEMA=postgresql, redeploy, and restart.';
   }
-  if (hasFixableDatabaseUrlFormatting()) {
-    return "DATABASE_URL is set with extra quotes or a DATABASE_URL= prefix. The app can still connect after sanitization, but clean up hPanel/Vercel so the value is only the postgresql://… URI, then restart the app.";
-  }
   if (message.includes("Invalid `prisma.$queryRaw()`") || message.includes("Invalid `prisma.")) {
     return "Prisma client does not match DATABASE_URL (often MySQL client with a PostgreSQL URL). Set PRISMA_SCHEMA=postgresql, fix DATABASE_URL format, redeploy, and restart the app.";
   }
@@ -77,7 +74,8 @@ function summarizeDatabaseProbeError(error: unknown): string {
     message.includes("Tenant") ||
     message.includes("ENOTFOUND")
   ) {
-    return "Supabase pooler host or project ref is wrong. Copy the full DATABASE_URL from Supabase → Database → Connection string → URI (host varies by region, e.g. aws-1-ap-southeast-2).";
+    const info = getSanitizedDatabaseInfo();
+    return `Supabase pooler host or project ref is wrong (current host: ${info.host}, project: ${info.projectRef}). Copy the full transaction-pooler DATABASE_URL from Supabase → Connect → URI (region varies per project, e.g. aws-1-ap-northeast-1).`;
   }
   if (
     message.includes("Authentication failed") ||
@@ -91,7 +89,11 @@ function summarizeDatabaseProbeError(error: unknown): string {
     ) {
       return "DATABASE_URL host and project are correct, but the password does not match Supabase. In Supabase Dashboard → Database → Reset database password, copy the new connection URI into hPanel (@ as %40), then restart the app.";
     }
-    return "Database authentication failed. In hPanel set DATABASE_URL exactly from Supabase (pooler host aws-1-ap-southeast-2, project xxvvokguzrcrshplzqwp, password @ encoded as %40). Remove stale DATABASE_URL from .env/.env.local on the server.";
+    const info = getSanitizedDatabaseInfo();
+    return `Database authentication failed for project ${info.projectRef} on ${info.host}. Copy DATABASE_URL from Supabase → Connect (password @ encoded as %40), set PRISMA_SCHEMA=postgresql, redeploy, and restart.`;
+  }
+  if (hasFixableDatabaseUrlFormatting()) {
+    return "DATABASE_URL is set with extra quotes or a DATABASE_URL= prefix. The app can still connect after sanitization, but clean up hPanel/Vercel so the value is only the postgresql://… URI, then restart the app.";
   }
   return message.split("\n").map((line) => line.trim()).filter(Boolean)[0] ?? "Database connection failed";
 }

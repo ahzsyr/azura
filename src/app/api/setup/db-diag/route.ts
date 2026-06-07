@@ -47,9 +47,31 @@ export async function GET() {
 
   const configLooksValid =
     !dbInfo.urlMalformed &&
-    dbInfo.projectRef === "xxvvokguzrcrshplzqwp" &&
-    dbInfo.dbHost.includes("ap-southeast-2") &&
+    dbInfo.projectRef !== "unset" &&
+    dbInfo.projectRef !== "direct" &&
+    dbInfo.dbHost.includes("pooler.supabase.com") &&
     prismaProvider === expectedProvider;
+
+  // #region agent log
+  import("@/lib/debug-ingest").then(({ debugIngest }) =>
+    debugIngest(
+      "api/setup/db-diag/route.ts:GET",
+      "db diag probe",
+      {
+        probeOk,
+        urlMalformed: dbInfo.urlMalformed,
+        urlNeedsCleanup: dbInfo.urlNeedsCleanup,
+        dbHost: dbInfo.dbHost,
+        projectRef: dbInfo.projectRef,
+        prismaProvider,
+        providerMatch: prismaProvider === expectedProvider,
+        probeError: probeError.slice(0, 200),
+      },
+      "H2",
+      probeOk ? "post-fix" : "pre-fix",
+    ),
+  );
+  // #endregion
 
   const payload = {
     probeOk,

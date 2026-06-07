@@ -7,7 +7,7 @@ export function debugIngest(
   runId = "pre-fix",
 ): void {
   const payload = {
-    sessionId: "9a6b22",
+    sessionId: "1cd6a8",
     location,
     message,
     data,
@@ -17,14 +17,14 @@ export function debugIngest(
   };
 
   // Visible in Vercel/Hostinger server logs when local ingest is unreachable.
-  console.error("[debug-9a6b22]", JSON.stringify(payload));
+  console.error("[debug-1cd6a8]", JSON.stringify(payload));
 
   // #region agent log
-  fetch("http://127.0.0.1:7498/ingest/1d86b498-7c2d-4481-a276-91bbb2186639", {
+  fetch("http://127.0.0.1:7248/ingest/0b0335ed-bbbb-42da-af4f-1066617faf97", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-Debug-Session-Id": "9a6b22",
+      "X-Debug-Session-Id": "1cd6a8",
     },
     body: JSON.stringify(payload),
   }).catch(() => {});
