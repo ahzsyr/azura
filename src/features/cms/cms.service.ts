@@ -59,10 +59,10 @@ export const cmsService = {
 
     const draft = await cmsRepository.getPageBySlug("home", false);
     const templateBlocks = (resolveBuiltinTemplate("home")?.blocks ?? []) as PageBlocks;
-    const blocks = pageHasBlocks(draft?.blocks) ? draft.blocks : templateBlocks;
+    const resolvedBlocks = (pageHasBlocks(draft?.blocks) ? draft.blocks : templateBlocks) as CmsPage["blocks"];
 
     if (draft) {
-      return { ...draft, status: "PUBLISHED", blocks };
+      return { ...draft, status: "PUBLISHED", blocks: resolvedBlocks };
     }
 
     return {
@@ -74,7 +74,7 @@ export const cmsService = {
       excerptAr: "",
       templateKey: "home",
       status: "PUBLISHED",
-      blocks,
+      blocks: resolvedBlocks,
       publishedAt: new Date(),
       scheduledAt: null,
       createdAt: new Date(),
