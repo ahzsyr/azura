@@ -76,8 +76,23 @@ export function SearchChrome({
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
+  const handleOpenChange = (next: boolean) => {
+    // #region agent log
+    import("@/lib/debug-ingest").then(({ debugIngest }) =>
+      debugIngest(
+        "search-ui/search-chrome.tsx:handleOpenChange",
+        "search panel open change",
+        { next },
+        "H1",
+        next ? "open" : "close",
+      ),
+    );
+    // #endregion
+    onOpenChange(next);
+  };
+
   return (
-    <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
+    <DialogPrimitive.Root open={open} onOpenChange={handleOpenChange}>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
           className="sm-search-backdrop"
@@ -86,6 +101,8 @@ export function SearchChrome({
         <DialogPrimitive.Content
           ref={panelRef}
           style={modalVars}
+          onEscapeKeyDown={() => onOpenChange(false)}
+          onPointerDownOutside={() => onOpenChange(false)}
           className={cn(
             "sm-search-root sm-search-panel",
             inheritGlobalTheme && "sm-search-root--theme",

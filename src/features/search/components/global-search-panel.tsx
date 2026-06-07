@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { Command } from "cmdk";
-import { Clock, History, Search, Star, TrendingUp } from "lucide-react";
+import { Clock, History, Search, Star, TrendingUp, X } from "lucide-react";
 import { getDirection } from "@/i18n/routing";
 import type { PublicSearchConfig, PublicSearchFilterDef } from "@/features/search/settings/public-search-config";
 import type { PublicAutocompleteConfig } from "@/features/search/settings/search-autocomplete-config";
@@ -44,6 +44,7 @@ export type GlobalSearchPanelProps = {
   grouped: Map<SearchEntityType, AutocompleteHit[]>;
   onNavigate: (hit: { urlPath: string; adminPath?: string; title?: string }, searchQ?: string) => void;
   onApplyQuery: (q: string) => void;
+  onClose?: () => void;
   inputStyle?: "glass" | "solid" | "minimal";
   listboxId?: string;
 };
@@ -76,6 +77,7 @@ export function GlobalSearchPanel({
   grouped,
   onNavigate,
   onApplyQuery,
+  onClose,
   inputStyle = "glass",
   listboxId = "sm-search-listbox",
 }: GlobalSearchPanelProps) {
@@ -125,13 +127,25 @@ export function GlobalSearchPanel({
   );
 
   return (
-    <Command className="sm-search-panel-body flex min-h-0 flex-1 flex-col" shouldFilter={false} loop>
-      <div className="border-b px-3 py-3 sm:px-4">
+    <Command
+      className="sm-search-panel-body flex min-h-0 flex-1 flex-col"
+      shouldFilter={false}
+      loop
+      onKeyDown={(e) => {
+        if (e.key === "Escape" && onClose) {
+          e.preventDefault();
+          e.stopPropagation();
+          onClose();
+        }
+      }}
+    >
+      <div className="flex items-start gap-2 border-b px-3 py-3 sm:px-4">
         <SearchInputShell
           style={inputStyle}
           loading={loading}
           value={query}
           onClear={() => onQueryChange("")}
+          className="min-w-0 flex-1"
         >
           <Search className="h-4 w-4 shrink-0 text-primary/80" aria-hidden />
           <Command.Input
@@ -144,6 +158,12 @@ export function GlobalSearchPanel({
             aria-controls={listboxId}
             aria-busy={loading}
             onKeyDown={(e) => {
+              if (e.key === "Escape" && onClose) {
+                e.preventDefault();
+                e.stopPropagation();
+                onClose();
+                return;
+              }
               if (e.key === "Enter" && query.length >= minLen && results[0]) {
                 e.preventDefault();
                 onNavigate(results[0], query);
@@ -152,6 +172,16 @@ export function GlobalSearchPanel({
             className="flex h-10 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
           />
         </SearchInputShell>
+        {onClose ? (
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border/60 bg-muted/40 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            aria-label={locale === "ar" ? "إغلاق البحث" : "Close search"}
+          >
+            <X className="h-4 w-4" aria-hidden />
+          </button>
+        ) : null}
       </div>
 
       {(runtimeConfig.showEntityTypeChips !== false ||

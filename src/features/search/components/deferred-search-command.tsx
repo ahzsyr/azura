@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { markSearchOpenPending } from "@/features/search/components/search-open-bridge";
 
 const SearchCommand = dynamic(
   () => import("./search-command").then((m) => m.SearchCommand),
@@ -13,21 +14,23 @@ export function DeferredSearchCommand() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const open = () => {
-      setMounted(true);
-      requestAnimationFrame(() => {
-        document.dispatchEvent(new CustomEvent("sm:open-search", { bubbles: true }));
+    const onOpenRequest = () => {
+      setMounted((wasMounted) => {
+        if (!wasMounted) {
+          markSearchOpenPending();
+        }
+        return true;
       });
     };
     const onKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
-        open();
+        onOpenRequest();
       }
     };
-    document.addEventListener("sm:open-search", open);
+    document.addEventListener("sm:open-search", onOpenRequest);
     document.addEventListener("keydown", onKeyDown);
     return () => {
-      document.removeEventListener("sm:open-search", open);
+      document.removeEventListener("sm:open-search", onOpenRequest);
       document.removeEventListener("keydown", onKeyDown);
     };
   }, []);

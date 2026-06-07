@@ -28,6 +28,7 @@ import { SearchChrome } from "@/features/search/components/search-ui/search-chro
 import { SearchTriggerButton } from "@/features/search/components/search-ui/search-trigger-button";
 import { searchCopy, type SearchLocale } from "@/features/search/components/search-ui/search-copy";
 import { trackSearchAnalytics } from "@/features/search/analytics/search-analytics.client";
+import { consumeSearchOpenPending } from "@/features/search/components/search-open-bridge";
 
 function GlobalSearchModal({
   apiBase,
@@ -107,6 +108,17 @@ function GlobalSearchModal({
     }
     setOpen(true);
   }, []);
+
+  const closeSearchModal = useCallback(() => {
+    setOpen(false);
+    setQuery("");
+  }, []);
+
+  useEffect(() => {
+    if (consumeSearchOpenPending()) {
+      openSearchModal();
+    }
+  }, [openSearchModal]);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -295,6 +307,7 @@ function GlobalSearchModal({
           locale={locale}
           query={query}
           onQueryChange={setQuery}
+          onClose={closeSearchModal}
           loading={loading}
           runtimeConfig={runtimeConfig}
           ac={ac}
