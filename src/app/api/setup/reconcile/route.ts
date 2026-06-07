@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
+import { revalidateWiredMarketingPaths } from "@/features/cms/revalidate-wired-marketing";
 import { readSystemSettings } from "@/features/setup/setup.service";
+import { ensurePublishedHomePage } from "@/features/setup/ensure-baseline-cms";
 import {
   invalidateSetupStatusCache,
   setCachedSetupStatus,
@@ -9,6 +11,8 @@ import {
   setupCompleteCookieOptions,
   SETUP_COMPLETE_COOKIE,
 } from "@/features/setup/setup-cookie";
+import { prisma } from "@/lib/prisma";
+import { localeService } from "@/features/i18n/locale.service";
 
 /** Allow only same-origin relative paths (blocks open redirects). */
 function sanitizeReturnTo(returnTo: string | null): string | null {
@@ -51,6 +55,14 @@ export async function GET(request: Request) {
     confident: true,
   });
 
+  const { updated: homePublished } = await prisma.$transaction((tx) =>
+    ensurePublishedHomePage(tx),
+  );
+  if (homePublished) {
+    const locales = await localeService.getEnabledUrlPrefixes();
+    revalidateWiredMarketingPaths("home", locales.length > 0 ? locales : ["en"]);
+  }
+
   if (returnTo) {
     return applySetupCompleteCookie(NextResponse.redirect(new URL(returnTo, request.url)));
   }
@@ -60,7 +72,10 @@ export async function GET(request: Request) {
       {
         reconciled: true,
         setupComplete: true,
-        message: "Setup cookie and cache refreshed. Visit /admin/login to sign in.",
+        homePublished,
+        message: homePublished
+          ? "Setup cookie refreshed and homepage published."
+          : "Setup cookie and cache refreshed. Visit /admin/login to sign in.",
       },
       { headers: { "Cache-Control": "no-store, max-age=0" } },
     ),

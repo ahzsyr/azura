@@ -1,4 +1,5 @@
 import type { Prisma, PrismaClient } from "@prisma/client";
+import { BUILTIN_PAGE_TEMPLATE_BLOCKS } from "@/features/builder/builtin-page-template-blocks";
 
 type Tx = Omit<
   PrismaClient,
@@ -6,6 +7,12 @@ type Tx = Omit<
 >;
 
 const EMPTY_BLOCKS: Prisma.InputJsonValue = [];
+
+const HOME_LANDING_BLOCKS = BUILTIN_PAGE_TEMPLATE_BLOCKS.landing as unknown as Prisma.InputJsonValue;
+
+function pageHasBlocks(blocks: unknown): boolean {
+  return Array.isArray(blocks) && blocks.length > 0;
+}
 
 const CMS_PAGE_SEEDS = [
   { slug: "home", templateKey: "home", titleEn: "Home", titleAr: "الرئيسية" },
@@ -57,12 +64,51 @@ const LOCALE_SEEDS = [
   },
 ] as const;
 
+/** Publish homepage with starter landing blocks when missing or still draft. */
+export async function ensurePublishedHomePage(tx: Tx): Promise<{ updated: boolean }> {
+  const now = new Date();
+  const existing = await tx.cmsPage.findUnique({ where: { slug: "home" } });
+
+  if (!existing) {
+    await tx.cmsPage.create({
+      data: {
+        slug: "home",
+        titleEn: "Home",
+        titleAr: "الرئيسية",
+        excerptEn: "",
+        excerptAr: "",
+        templateKey: "home",
+        status: "PUBLISHED",
+        publishedAt: now,
+        blocks: HOME_LANDING_BLOCKS,
+      },
+    });
+    return { updated: true };
+  }
+
+  if (existing.status === "PUBLISHED" && pageHasBlocks(existing.blocks)) {
+    return { updated: false };
+  }
+
+  await tx.cmsPage.update({
+    where: { slug: "home" },
+    data: {
+      status: "PUBLISHED",
+      publishedAt: existing.publishedAt ?? now,
+      blocks: pageHasBlocks(existing.blocks) ? existing.blocks : HOME_LANDING_BLOCKS,
+    },
+  });
+  return { updated: true };
+}
+
 /** Ensures wired CMS pages and locale config exist after setup (blank or demo). */
 export async function ensureBaselineCmsAndLocales(tx: Tx): Promise<void> {
   const startedAt = Date.now();
   let pageIndex = 0;
 
   for (const page of CMS_PAGE_SEEDS) {
+    if (page.slug === "home") continue;
+
     await tx.cmsPage.upsert({
       where: { slug: page.slug },
       update: {},
@@ -79,6 +125,9 @@ export async function ensureBaselineCmsAndLocales(tx: Tx): Promise<void> {
     });
     pageIndex += 1;
   }
+
+  await ensurePublishedHomePage(tx);
+  pageIndex += 1;
 
   const { debugIngest } = await import("@/lib/debug-ingest");
   debugIngest(

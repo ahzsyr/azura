@@ -14,26 +14,11 @@ type Props = {
 };
 
 export async function MarketingCmsPage({ slug, locale, page: pageProp }: Props) {
-  const page = pageProp !== undefined ? pageProp : await cmsService.getPublishedPageBySlug(slug);
+  const page =
+    pageProp !== undefined && pageProp !== null
+      ? pageProp
+      : await cmsService.resolveMarketingPage(slug);
   if (!page) {
-    // #region agent log
-    const draft = await import("@/repositories/cms.repository").then(({ cmsRepository }) =>
-      cmsRepository.getPageBySlug(slug, false),
-    );
-    import("@/lib/debug-ingest").then(({ debugIngest }) =>
-      debugIngest(
-        "marketing-cms-page.tsx:not-found",
-        "Published CMS page missing for wired route",
-        {
-          slug,
-          locale,
-          draftStatus: draft?.status ?? null,
-          hasBlocks: Array.isArray(draft?.blocks) ? draft.blocks.length > 0 : false,
-        },
-        "H5",
-      ),
-    );
-    // #endregion
     notFound();
   }
   return <CmsPageRenderer slug={slug} locale={locale} page={page} />;
