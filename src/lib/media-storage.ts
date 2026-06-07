@@ -41,6 +41,61 @@ function getSupabaseAdmin() {
   });
 }
 
+function isBucketMissingError(message: string): boolean {
+  const lower = message.toLowerCase();
+  return lower.includes("bucket not found") || lower.includes("bucket does not exist");
+}
+
+async function ensureMediaBucket(
+  supabase: ReturnType<typeof getSupabaseAdmin>,
+  bucket: string,
+): Promise<void> {
+  const { data: buckets, error: listError } = await supabase.storage.listBuckets();
+  if (listError) {
+    throw new Error(`Supabase storage list buckets failed: ${listError.message}`);
+  }
+
+  if (buckets?.some((row) => row.id === bucket || row.name === bucket)) {
+    return;
+  }
+
+  const { error: createError } = await supabase.storage.createBucket(bucket, {
+    public: true,
+    fileSizeLimit: 64 * 1024 * 1024,
+  });
+
+  if (createError && !createError.message.toLowerCase().includes("already exists")) {
+    throw new Error(
+      `Supabase bucket "${bucket}" is missing and could not be created automatically (${createError.message}). In Supabase Dashboard → Storage → New bucket, create a public bucket named "${bucket}", or run database/postgres/03-storage-media.sql in the SQL Editor.`,
+    );
+  }
+
+  // #region agent log
+  import("@/lib/debug-ingest").then(({ debugIngest }) =>
+    debugIngest(
+      "lib/media-storage.ts:ensureMediaBucket",
+      "created media bucket",
+      { bucket },
+      "H4",
+      "post-fix",
+    ),
+  );
+  // #endregion
+}
+
+async function uploadToSupabase(
+  supabase: ReturnType<typeof getSupabaseAdmin>,
+  bucket: string,
+  objectPath: string,
+  buffer: Buffer,
+  contentType: string,
+) {
+  return supabase.storage.from(bucket).upload(objectPath, buffer, {
+    contentType,
+    upsert: false,
+  });
+}
+
 export async function storeUploadedFile(
   file: { name: string; type: string },
   buffer: Buffer,
@@ -80,10 +135,15 @@ export async function storeUploadedFile(
   const objectPath = `${subDir}/${storedName}`;
   const supabase = getSupabaseAdmin();
   const bucket = getMediaBucket();
-  const { error } = await supabase.storage.from(bucket).upload(objectPath, buffer, {
-    contentType: file.type || "application/octet-stream",
-    upsert: false,
-  });
+  const contentType = file.type || "application/octet-stream";
+
+  let { error } = await uploadToSupabase(supabase, bucket, objectPath, buffer, contentType);
+
+  if (error && isBucketMissingError(error.message)) {
+    await ensureMediaBucket(supabase, bucket);
+    ({ error } = await uploadToSupabase(supabase, bucket, objectPath, buffer, contentType));
+  }
+
   if (error) {
     // #region agent log
     import("@/lib/debug-ingest").then(({ debugIngest }) =>
