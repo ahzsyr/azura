@@ -1,10 +1,12 @@
 import { cmsRepository } from "@/repositories/cms.repository";
 import { pageCache } from "@/features/storage/page-cache";
 import { processDueScheduled } from "./scheduling";
-import type { CmsPage, ContentStatus } from "@prisma/client";
+import type { CmsPage, ContentStatus, Prisma } from "@prisma/client";
 import type { PageBlocks } from "@/types/builder";
 import { resolveBuiltinTemplate } from "@/features/builder/constants";
 import { resolveEntityByLocalizedSlug } from "@/features/translation/translation-bundle";
+
+export type CmsPageWithSeo = Prisma.CmsPageGetPayload<{ include: { seoMeta: true } }>;
 
 function pageHasBlocks(blocks: unknown): blocks is PageBlocks {
   return Array.isArray(blocks) && blocks.length > 0;
@@ -39,7 +41,7 @@ export const cmsService = {
     return this.getPublishedPostBySlug(slug);
   },
 
-  async getPublishedPageBySlug(slug: string) {
+  async getPublishedPageBySlug(slug: string): Promise<CmsPageWithSeo | null> {
     await processDueScheduled();
     const page = await cmsRepository.getPageBySlug(slug, true);
     if (!page) return null;
@@ -52,7 +54,7 @@ export const cmsService = {
   },
 
   /** Resolves a wired marketing page; falls back to landing template for unpublished home. */
-  async resolveMarketingPage(slug: string): Promise<CmsPage | null> {
+  async resolveMarketingPage(slug: string): Promise<CmsPageWithSeo | null> {
     const published = await this.getPublishedPageBySlug(slug);
     if (published) return published;
     if (slug !== "home") return null;
@@ -80,7 +82,8 @@ export const cmsService = {
       createdAt: new Date(),
       updatedAt: new Date(),
       visualSettings: {},
-    } as CmsPage;
+      seoMeta: null,
+    } as CmsPageWithSeo;
   },
 
   async getPublishedPostBySlug(slug: string) {
