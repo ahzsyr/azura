@@ -90,12 +90,16 @@ export async function ensurePublishedHomePage(tx: Tx): Promise<{ updated: boolea
     return { updated: false };
   }
 
+  const blocks: Prisma.InputJsonValue = pageHasBlocks(existing.blocks)
+    ? (existing.blocks as Prisma.InputJsonValue)
+    : HOME_LANDING_BLOCKS;
+
   await tx.cmsPage.update({
     where: { slug: "home" },
     data: {
       status: "PUBLISHED",
       publishedAt: existing.publishedAt ?? now,
-      blocks: pageHasBlocks(existing.blocks) ? existing.blocks : HOME_LANDING_BLOCKS,
+      blocks,
     },
   });
   return { updated: true };
