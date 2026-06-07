@@ -37,6 +37,7 @@ function GlobalSearchModal({
   config,
   adminMode,
   triggerClassName,
+  showTrigger = true,
   onNavigate,
   inputStyle,
   panelWidth,
@@ -48,6 +49,8 @@ function GlobalSearchModal({
   config: PublicSearchConfig;
   adminMode?: boolean;
   triggerClassName?: string;
+  /** False when header already provides a search button (DeferredSearchCommand). */
+  showTrigger?: boolean;
   onNavigate: (path: string) => void;
   inputStyle?: PublicSearchConfig["inputStyle"];
   panelWidth?: PublicSearchConfig["panelWidth"];
@@ -288,11 +291,13 @@ function GlobalSearchModal({
 
   return (
     <>
-      <SearchTriggerButton
-        label={t.search}
-        onClick={() => openSearchModal()}
-        className={triggerClassName}
-      />
+      {showTrigger ? (
+        <SearchTriggerButton
+          label={t.search}
+          onClick={() => openSearchModal()}
+          className={triggerClassName}
+        />
+      ) : null}
       <SearchChrome
         open={open}
         onOpenChange={setOpen}
@@ -382,7 +387,8 @@ const DEFAULT_PUBLIC_CONFIG: PublicSearchConfig = {
   autocomplete: resolvePublicAutocompleteConfig({}),
 };
 
-export function SearchCommand() {
+/** Public storefront search — modal only; header supplies the trigger. */
+export function SearchModalHost() {
   const locale = useLocale() as SearchLocale;
   const onNavigate = usePublicSearchNavigation(locale);
   return (
@@ -391,9 +397,15 @@ export function SearchCommand() {
       discoveryUrl="/api/search/discovery"
       locale={locale}
       config={DEFAULT_PUBLIC_CONFIG}
+      showTrigger={false}
       onNavigate={onNavigate}
     />
   );
+}
+
+/** @deprecated Prefer SearchModalHost for deferred/headerless mounts. */
+export function SearchCommand() {
+  return <SearchModalHost />;
 }
 
 export function AdminSearchCommand() {

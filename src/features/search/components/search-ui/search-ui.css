@@ -53,6 +53,13 @@
   animation: sm-search-backdrop-in var(--sm-search-duration-fast, 0.22s) var(--sm-search-ease-out, ease-out);
 }
 
+.sm-search-backdrop[data-state="closed"],
+.sm-search-panel[data-state="closed"] {
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
 .sm-search-panel {
   position: fixed;
   z-index: 10001;

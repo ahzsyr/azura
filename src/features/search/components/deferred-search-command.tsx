@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { markSearchOpenPending } from "@/features/search/components/search-open-bridge";
 
-const SearchCommand = dynamic(
-  () => import("./search-command").then((m) => m.SearchCommand),
+const SearchModalHost = dynamic(
+  () => import("./search-command").then((m) => m.SearchModalHost),
   { ssr: false },
 );
 
@@ -36,5 +36,5 @@ export function DeferredSearchCommand() {
   }, []);
 
   if (!mounted) return null;
-  return <SearchCommand />;
+  return <SearchModalHost />;
 }
