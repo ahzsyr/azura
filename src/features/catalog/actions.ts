@@ -9,6 +9,8 @@ import { prisma } from "@/lib/prisma";
 import { localeService } from "@/features/i18n/locale.service";
 import { syncEntityTranslationsFromForm } from "@/features/translation/form-sync";
 import { applyLegacyWritePolicy } from "@/features/translation/legacy-adapter";
+import { getFactoryCompanyInfoFields } from "@/config/factory-defaults";
+import type { CompanyInfo } from "@prisma/client";
 
 function parseJsonField<T>(raw: FormDataEntryValue | null, fallback: T): T {
   if (!raw || typeof raw !== "string" || !raw.trim()) return fallback;
@@ -68,32 +70,94 @@ export async function unlinkInquiryFromCustomer(inquiryId: string) {
   revalidatePath(`/admin/inquiries/${inquiryId}`);
 }
 
+function readCompanyFormValue(formData: FormData, key: string, fallback: string): string {
+  if (!formData.has(key)) return fallback;
+  const raw = formData.get(key);
+  if (raw === null) return fallback;
+  return String(raw);
+}
+
+function buildCompanyFormPayload(formData: FormData, existing: CompanyInfo | null) {
+  const defaults = getFactoryCompanyInfoFields();
+  const base = existing ?? defaults;
+  return {
+    name: readCompanyFormValue(formData, "name", base.name ?? defaults.name),
+    taglineEn: readCompanyFormValue(formData, "taglineEn", base.taglineEn ?? defaults.taglineEn),
+    taglineAr: readCompanyFormValue(formData, "taglineAr", base.taglineAr ?? defaults.taglineAr),
+    storyEn: readCompanyFormValue(formData, "storyEn", base.storyEn ?? defaults.storyEn),
+    storyAr: readCompanyFormValue(formData, "storyAr", base.storyAr ?? defaults.storyAr),
+    missionEn: readCompanyFormValue(formData, "missionEn", base.missionEn ?? defaults.missionEn),
+    missionAr: readCompanyFormValue(formData, "missionAr", base.missionAr ?? defaults.missionAr),
+    visionEn: readCompanyFormValue(formData, "visionEn", base.visionEn ?? defaults.visionEn),
+    visionAr: readCompanyFormValue(formData, "visionAr", base.visionAr ?? defaults.visionAr),
+    valuesEn: readCompanyFormValue(
+      formData,
+      "valuesEn",
+      JSON.stringify(base.valuesEn ?? defaults.valuesEn),
+    ),
+    valuesAr: readCompanyFormValue(
+      formData,
+      "valuesAr",
+      JSON.stringify(base.valuesAr ?? defaults.valuesAr),
+    ),
+    registrationNo: readCompanyFormValue(
+      formData,
+      "registrationNo",
+      base.registrationNo ?? defaults.registrationNo,
+    ),
+    licenseInfo: readCompanyFormValue(formData, "licenseInfo", base.licenseInfo ?? defaults.licenseInfo),
+    addressEn: readCompanyFormValue(formData, "addressEn", base.addressEn ?? defaults.addressEn),
+    addressAr: readCompanyFormValue(formData, "addressAr", base.addressAr ?? defaults.addressAr),
+    phone: readCompanyFormValue(formData, "phone", base.phone ?? defaults.phone),
+    whatsapp: readCompanyFormValue(formData, "whatsapp", base.whatsapp ?? defaults.whatsapp),
+    email: readCompanyFormValue(formData, "email", base.email ?? defaults.email),
+    officeHoursEn: readCompanyFormValue(
+      formData,
+      "officeHoursEn",
+      base.officeHoursEn ?? defaults.officeHoursEn,
+    ),
+    officeHoursAr: readCompanyFormValue(
+      formData,
+      "officeHoursAr",
+      base.officeHoursAr ?? defaults.officeHoursAr,
+    ),
+    socialLinks: readCompanyFormValue(
+      formData,
+      "socialLinks",
+      JSON.stringify(base.socialLinks ?? defaults.socialLinks),
+    ),
+    trustBadges: readCompanyFormValue(
+      formData,
+      "trustBadges",
+      JSON.stringify(base.trustBadges ?? defaults.trustBadges),
+    ),
+  };
+}
+
 export async function updateCompanyInfo(formData: FormData) {
   await requireAdmin();
-  const parsed = companyInfoSchema.parse({
-    name: formData.get("name"),
-    taglineEn: formData.get("taglineEn"),
-    taglineAr: formData.get("taglineAr"),
-    storyEn: formData.get("storyEn"),
-    storyAr: formData.get("storyAr"),
-    missionEn: formData.get("missionEn"),
-    missionAr: formData.get("missionAr"),
-    visionEn: formData.get("visionEn"),
-    visionAr: formData.get("visionAr"),
-    valuesEn: formData.get("valuesEn"),
-    valuesAr: formData.get("valuesAr"),
-    registrationNo: formData.get("registrationNo"),
-    licenseInfo: formData.get("licenseInfo"),
-    addressEn: formData.get("addressEn"),
-    addressAr: formData.get("addressAr"),
-    phone: formData.get("phone"),
-    whatsapp: formData.get("whatsapp"),
-    email: formData.get("email"),
-    officeHoursEn: formData.get("officeHoursEn"),
-    officeHoursAr: formData.get("officeHoursAr"),
-    socialLinks: formData.get("socialLinks"),
-    trustBadges: formData.get("trustBadges"),
-  });
+
+  try {
+  const existing = await prisma.companyInfo.findUnique({ where: { id: "default" } });
+  const payload = buildCompanyFormPayload(formData, existing);
+
+  // #region agent log
+  import("@/lib/debug-ingest").then(({ debugIngest }) =>
+    debugIngest(
+      "features/catalog/actions.ts:updateCompanyInfo",
+      "company save payload",
+      {
+        submittedKeys: [...formData.keys()],
+        missingStoryEn: !formData.has("storyEn"),
+        missingPhone: !formData.has("phone"),
+        name: payload.name.slice(0, 80),
+      },
+      "H1",
+    ),
+  );
+  // #endregion
+
+  const parsed = companyInfoSchema.parse(payload);
 
   await prisma.companyInfo.upsert({
     where: { id: "default" },
@@ -119,4 +183,23 @@ export async function updateCompanyInfo(formData: FormData) {
 
   revalidateMarketingHome();
   revalidatePath("/admin/company");
+  } catch (error) {
+    // #region agent log
+    import("@/lib/debug-ingest").then(({ debugIngest }) =>
+      debugIngest(
+        "features/catalog/actions.ts:updateCompanyInfo",
+        "company save failed",
+        {
+          message: (error instanceof Error ? error.message : String(error)).slice(0, 240),
+          isZod: error instanceof Error && error.name === "ZodError",
+        },
+        "H2",
+      ),
+    );
+    // #endregion
+    console.error("[updateCompanyInfo]", error);
+    throw error instanceof Error
+      ? error
+      : new Error("Could not save company info. Check required fields and try again.");
+  }
 }

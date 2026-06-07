@@ -140,18 +140,11 @@ export function AdminSettingsSection({
   children,
   className,
 }: AdminSettingsSectionProps) {
-  if (id !== activeTab) return null;
+  const isActive = id === activeTab;
 
   return (
-    <motion.div
-      key={id}
-      initial={{ opacity: 0, y: 4 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.15 }}
-      role="tabpanel"
-      className={className}
-    >
+    <div role="tabpanel" hidden={!isActive} aria-hidden={!isActive} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }

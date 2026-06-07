@@ -1,26 +1,41 @@
 import { z } from "zod";
 
+function formString(value: unknown): string {
+  if (value === null || value === undefined) return "";
+  return String(value);
+}
+
+const optionalFormString = z.preprocess(formString, z.string());
+
 export const companyInfoSchema = z.object({
-  name: z.string().min(1),
-  taglineEn: z.string().min(1),
-  taglineAr: z.string().min(1),
-  storyEn: z.string().min(1),
-  storyAr: z.string().min(1),
-  missionEn: z.string().min(1),
-  missionAr: z.string().min(1),
-  visionEn: z.string().min(1),
-  visionAr: z.string().min(1),
-  valuesEn: z.string().default("[]"),
-  valuesAr: z.string().default("[]"),
-  registrationNo: z.string().min(1),
-  licenseInfo: z.string().min(1),
-  addressEn: z.string().min(1),
-  addressAr: z.string().min(1),
-  phone: z.string().min(1),
-  whatsapp: z.string().min(1),
-  email: z.string().email(),
-  officeHoursEn: z.string().min(1),
-  officeHoursAr: z.string().min(1),
-  socialLinks: z.string().default("{}"),
-  trustBadges: z.string().default("[]"),
+  name: z.preprocess(formString, z.string().trim().min(1, "Company name is required")),
+  taglineEn: optionalFormString,
+  taglineAr: optionalFormString,
+  storyEn: optionalFormString,
+  storyAr: optionalFormString,
+  missionEn: optionalFormString,
+  missionAr: optionalFormString,
+  visionEn: optionalFormString,
+  visionAr: optionalFormString,
+  valuesEn: optionalFormString.default("[]"),
+  valuesAr: optionalFormString.default("[]"),
+  registrationNo: optionalFormString,
+  licenseInfo: optionalFormString,
+  addressEn: optionalFormString,
+  addressAr: optionalFormString,
+  phone: optionalFormString,
+  whatsapp: optionalFormString,
+  email: z.preprocess(
+    formString,
+    z
+      .string()
+      .trim()
+      .refine((value) => value === "" || z.string().email().safeParse(value).success, {
+        message: "Invalid email address",
+      }),
+  ),
+  officeHoursEn: optionalFormString,
+  officeHoursAr: optionalFormString,
+  socialLinks: optionalFormString.default("{}"),
+  trustBadges: optionalFormString.default("[]"),
 });

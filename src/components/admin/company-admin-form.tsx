@@ -65,11 +65,11 @@ function CompanyFormFields({ company, formRef }: Props & { formRef: React.RefObj
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
                       <Label>Registration No</Label>
-                      <Input name="registrationNo" defaultValue={company?.registrationNo} required />
+                      <Input name="registrationNo" defaultValue={company?.registrationNo} />
                     </div>
                     <div className="space-y-2">
                       <Label>License Info</Label>
-                      <Textarea name="licenseInfo" defaultValue={company?.licenseInfo} required />
+                      <Textarea name="licenseInfo" defaultValue={company?.licenseInfo} />
                     </div>
                   </div>
                   <input type="hidden" name="trustBadges" defaultValue={JSON.stringify(company?.trustBadges ?? ["Licensed", "Registered", "IATA Partner"])} />
@@ -88,36 +88,36 @@ function CompanyFormFields({ company, formRef }: Props & { formRef: React.RefObj
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
                       <Label>Tagline (EN)</Label>
-                      <Input name="taglineEn" defaultValue={company?.taglineEn} required />
+                      <Input name="taglineEn" defaultValue={company?.taglineEn} />
                     </div>
                     <div className="space-y-2">
                       <Label>Tagline (AR)</Label>
-                      <Input name="taglineAr" defaultValue={company?.taglineAr} required />
+                      <Input name="taglineAr" defaultValue={company?.taglineAr} />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label>Story (EN)</Label>
-                    <Textarea name="storyEn" rows={4} defaultValue={company?.storyEn} required />
+                    <Textarea name="storyEn" rows={4} defaultValue={company?.storyEn} />
                   </div>
                   <div className="space-y-2">
                     <Label>Story (AR)</Label>
-                    <Textarea name="storyAr" rows={4} defaultValue={company?.storyAr} required />
+                    <Textarea name="storyAr" rows={4} defaultValue={company?.storyAr} />
                   </div>
                   <div className="space-y-2">
                     <Label>Mission (EN)</Label>
-                    <Textarea name="missionEn" rows={3} defaultValue={company?.missionEn} required />
+                    <Textarea name="missionEn" rows={3} defaultValue={company?.missionEn} />
                   </div>
                   <div className="space-y-2">
                     <Label>Mission (AR)</Label>
-                    <Textarea name="missionAr" rows={3} defaultValue={company?.missionAr} required />
+                    <Textarea name="missionAr" rows={3} defaultValue={company?.missionAr} />
                   </div>
                   <div className="space-y-2">
                     <Label>Vision (EN)</Label>
-                    <Textarea name="visionEn" rows={3} defaultValue={company?.visionEn} required />
+                    <Textarea name="visionEn" rows={3} defaultValue={company?.visionEn} />
                   </div>
                   <div className="space-y-2">
                     <Label>Vision (AR)</Label>
-                    <Textarea name="visionAr" rows={3} defaultValue={company?.visionAr} required />
+                    <Textarea name="visionAr" rows={3} defaultValue={company?.visionAr} />
                   </div>
                   <input type="hidden" name="valuesEn" defaultValue={JSON.stringify(company?.valuesEn ?? ["Trust", "Excellence", "Devotion", "Care"])} />
                   <input type="hidden" name="valuesAr" defaultValue={JSON.stringify(company?.valuesAr ?? ["الثقة", "التميز", "الإخلاص", "الرعاية"])} />
@@ -147,15 +147,15 @@ function CompanyFormFields({ company, formRef }: Props & { formRef: React.RefObj
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
                       <Label>Phone</Label>
-                      <Input name="phone" defaultValue={company?.phone} required />
+                      <Input name="phone" defaultValue={company?.phone} />
                     </div>
                     <div className="space-y-2">
                       <Label>WhatsApp</Label>
-                      <Input name="whatsapp" defaultValue={company?.whatsapp} required />
+                      <Input name="whatsapp" defaultValue={company?.whatsapp} />
                     </div>
                     <div className="space-y-2">
                       <Label>Email</Label>
-                      <Input name="email" type="email" defaultValue={company?.email} required />
+                      <Input name="email" type="email" defaultValue={company?.email} />
                     </div>
                   </div>
                   <input type="hidden" name="socialLinks" defaultValue={JSON.stringify(company?.socialLinks ?? {})} />
@@ -172,20 +172,20 @@ function CompanyFormFields({ company, formRef }: Props & { formRef: React.RefObj
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label>Address (EN)</Label>
-                    <Textarea name="addressEn" defaultValue={company?.addressEn} required />
+                    <Textarea name="addressEn" defaultValue={company?.addressEn} />
                   </div>
                   <div className="space-y-2">
                     <Label>Address (AR)</Label>
-                    <Textarea name="addressAr" defaultValue={company?.addressAr} required />
+                    <Textarea name="addressAr" defaultValue={company?.addressAr} />
                   </div>
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
                       <Label>Office Hours (EN)</Label>
-                      <Input name="officeHoursEn" defaultValue={company?.officeHoursEn} required />
+                      <Input name="officeHoursEn" defaultValue={company?.officeHoursEn} />
                     </div>
                     <div className="space-y-2">
                       <Label>Office Hours (AR)</Label>
-                      <Input name="officeHoursAr" defaultValue={company?.officeHoursAr} required />
+                      <Input name="officeHoursAr" defaultValue={company?.officeHoursAr} />
                     </div>
                   </div>
                 </CardContent>
