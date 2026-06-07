@@ -83,13 +83,9 @@ function summarizeDatabaseProbeError(error: unknown): string {
     message.includes("password")
   ) {
     const info = getSanitizedDatabaseInfo();
-    if (
-      info.projectRef === "xxvvokguzrcrshplzqwp" &&
-      info.host.includes("ap-southeast-2")
-    ) {
-      return "DATABASE_URL host and project are correct, but the password does not match Supabase. In Supabase Dashboard → Database → Reset database password, copy the new connection URI into hPanel (@ as %40), then restart the app.";
+    if (info.host.includes("pooler.supabase.com") && info.projectRef !== "direct") {
+      return `DATABASE_URL host and project look correct (${info.projectRef} on ${info.host}), but the password does not match Supabase. Reset the database password in Supabase Dashboard → Connect, copy the new URI into Vercel (@ as %40), redeploy, and restart.`;
     }
-    const info = getSanitizedDatabaseInfo();
     return `Database authentication failed for project ${info.projectRef} on ${info.host}. Copy DATABASE_URL from Supabase → Connect (password @ encoded as %40), set PRISMA_SCHEMA=postgresql, redeploy, and restart.`;
   }
   if (hasFixableDatabaseUrlFormatting()) {
