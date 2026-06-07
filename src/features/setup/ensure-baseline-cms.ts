@@ -1,5 +1,10 @@
 import type { Prisma, PrismaClient } from "@prisma/client";
 import { BUILTIN_PAGE_TEMPLATE_BLOCKS } from "@/features/builder/builtin-page-template-blocks";
+import { fillEmptyMainMenu, mergeWorkspaceImport } from "@/features/navigation/defaults";
+import type { HeaderWorkspace } from "@/features/navigation/types";
+
+const HEADER_WORKSPACE_NS = "header-workspace";
+const HEADER_WORKSPACE_KEY = "default";
 
 type Tx = Omit<
   PrismaClient,
@@ -105,6 +110,34 @@ export async function ensurePublishedHomePage(tx: Tx): Promise<{ updated: boolea
   return { updated: true };
 }
 
+/** Seed starter header nav when the persisted workspace has an empty main menu. */
+export async function ensureDefaultHeaderWorkspace(tx: Tx): Promise<{ updated: boolean }> {
+  const row = await tx.jsonStore.findUnique({
+    where: {
+      namespace_key: { namespace: HEADER_WORKSPACE_NS, key: HEADER_WORKSPACE_KEY },
+    },
+  });
+
+  const workspace = mergeWorkspaceImport((row?.data as HeaderWorkspace | null) ?? null);
+  const filled = fillEmptyMainMenu(workspace);
+  if (!filled) return { updated: false };
+
+  await tx.jsonStore.upsert({
+    where: {
+      namespace_key: { namespace: HEADER_WORKSPACE_NS, key: HEADER_WORKSPACE_KEY },
+    },
+    create: {
+      namespace: HEADER_WORKSPACE_NS,
+      key: HEADER_WORKSPACE_KEY,
+      data: filled as unknown as Prisma.InputJsonValue,
+    },
+    update: {
+      data: filled as unknown as Prisma.InputJsonValue,
+    },
+  });
+  return { updated: true };
+}
+
 /** Ensures wired CMS pages and locale config exist after setup (blank or demo). */
 export async function ensureBaselineCmsAndLocales(tx: Tx): Promise<void> {
   const startedAt = Date.now();
@@ -131,6 +164,7 @@ export async function ensureBaselineCmsAndLocales(tx: Tx): Promise<void> {
   }
 
   await ensurePublishedHomePage(tx);
+  await ensureDefaultHeaderWorkspace(tx);
   pageIndex += 1;
 
   const { debugIngest } = await import("@/lib/debug-ingest");

@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { revalidateWiredMarketingPaths } from "@/features/cms/revalidate-wired-marketing";
 import { readSystemSettings } from "@/features/setup/setup.service";
-import { ensurePublishedHomePage } from "@/features/setup/ensure-baseline-cms";
+import {
+  ensureDefaultHeaderWorkspace,
+  ensurePublishedHomePage,
+} from "@/features/setup/ensure-baseline-cms";
+import { revalidateJsonNamespace } from "@/services/cache";
 import {
   invalidateSetupStatusCache,
   setCachedSetupStatus,
@@ -55,12 +59,17 @@ export async function GET(request: Request) {
     confident: true,
   });
 
-  const { updated: homePublished } = await prisma.$transaction((tx) =>
-    ensurePublishedHomePage(tx),
-  );
+  const { homePublished, headerSeeded } = await prisma.$transaction(async (tx) => {
+    const home = await ensurePublishedHomePage(tx);
+    const header = await ensureDefaultHeaderWorkspace(tx);
+    return { homePublished: home.updated, headerSeeded: header.updated };
+  });
   if (homePublished) {
     const locales = await localeService.getEnabledUrlPrefixes();
     revalidateWiredMarketingPaths("home", locales.length > 0 ? locales : ["en"]);
+  }
+  if (headerSeeded) {
+    revalidateJsonNamespace("header-workspace");
   }
 
   if (returnTo) {
@@ -73,9 +82,11 @@ export async function GET(request: Request) {
         reconciled: true,
         setupComplete: true,
         homePublished,
-        message: homePublished
-          ? "Setup cookie refreshed and homepage published."
-          : "Setup cookie and cache refreshed. Visit /admin/login to sign in.",
+        headerSeeded,
+        message:
+          homePublished || headerSeeded
+            ? "Setup cookie refreshed; homepage and/or header nav repaired."
+            : "Setup cookie and cache refreshed. Visit /admin/login to sign in.",
       },
       { headers: { "Cache-Control": "no-store, max-age=0" } },
     ),

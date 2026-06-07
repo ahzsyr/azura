@@ -4,6 +4,7 @@ import { contentPublicService } from "@/features/content/content-public.service"
 import { getLocalizedField } from "@/lib/utils";
 import {
   createDefaultWorkspace,
+  fillEmptyMainMenu,
   mergeWorkspaceImport,
   mergeHeaderWorkspaceWithTheme,
   migrateLegacyHeaderWorkspace,
@@ -122,11 +123,16 @@ export const navigationService = {
     }
     const merged = mergeWorkspaceImport(raw);
     const migrated = migrateLegacyHeaderWorkspace(merged);
-    if (migrated) {
-      await navigationRepository.save(migrated);
-      return migrated;
+    let workspace = migrated ?? merged;
+    const filled = fillEmptyMainMenu(workspace);
+    if (filled) {
+      workspace = filled;
     }
-    return merged;
+    if (migrated || filled) {
+      await navigationRepository.save(workspace);
+      return workspace;
+    }
+    return workspace;
   }),
 
   async saveWorkspace(payload: unknown): Promise<HeaderWorkspace> {

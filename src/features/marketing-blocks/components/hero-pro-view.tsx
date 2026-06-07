@@ -46,6 +46,12 @@ export function HeroProView({
 }: Props) {
   const hasHeroImage = Boolean(imageUrl);
   const isSplit = layout === "splitImageLeft" || layout === "splitImageRight";
+  const hasFilledBackground =
+    hasHeroImage ||
+    backgroundType === "video" ||
+    backgroundType === "gradient" ||
+    backgroundType === "image";
+  const isLightHero = useTransparentHero || (!hasFilledBackground && backgroundType !== "solid");
   const alignClass =
     align === "left" ? "text-left items-start" : align === "right" ? "text-right items-end" : "text-center items-center";
 
@@ -61,14 +67,20 @@ export function HeroProView({
         )}
         data-hero-title
         data-text-effect-target="heading"
-        {...(headingEffect ? { "data-text-effect": headingEffect } : {})}
+        {...(isLightHero ? { "data-text-effect-off": "true" } : {})}
+        {...(!isLightHero && headingEffect ? { "data-text-effect": headingEffect } : {})}
       >
         {title}
       </h1>
       {subtitle && (
         <>
           <div className="gold-divider my-6" />
-          <p className={cn("max-w-xl text-lg", hasHeroImage || backgroundType !== "transparent" ? "text-white/85" : "text-muted-foreground")}>
+          <p
+            className={cn(
+              "max-w-xl text-lg",
+              hasFilledBackground && !useTransparentHero ? "text-white/85" : "text-muted-foreground"
+            )}
+          >
             {subtitle}
           </p>
         </>
@@ -78,7 +90,7 @@ export function HeroProView({
           primary={primaryCta ?? { label: "", href: "" }}
           secondary={secondaryCta}
           className={cn("mt-10", align === "center" && "justify-center", align === "right" && "justify-end")}
-          dark={hasHeroImage || backgroundType === "video" || backgroundType === "image"}
+          dark={hasFilledBackground && !useTransparentHero}
         />
       )}
     </>
@@ -123,7 +135,7 @@ export function HeroProView({
         "relative flex items-center justify-center overflow-hidden",
         useTransparentHero && presetHeroGradientClass(),
         useTransparentHero ? "hero-overlay--transparent" : "hero-overlay",
-        hasHeroImage || backgroundType === "video" ? "text-white" : "text-foreground",
+        hasFilledBackground && !useTransparentHero ? "text-white" : "text-foreground",
         overlayClass
       )}
       style={{ minHeight }}

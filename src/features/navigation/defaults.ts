@@ -25,9 +25,28 @@ function normalizeHeaderSettings(settings: HeaderWorkspace["settings"]): HeaderW
 
 const LEGACY_MENU_ITEM_ID = /^devi-nav-/;
 
-/** Blank-site main menu — add links in Header → Menu builder. */
+function defaultMenuLink(id: string, label: string, url: string, labelAr: string): MenuItem {
+  return {
+    id,
+    type: "link",
+    label,
+    labels: { en: label, ar: labelAr },
+    placement: "both",
+    children: [],
+    url,
+  };
+}
+
+/** Starter nav for blank installs — customize in Header → Menu builder. */
 function buildDefaultMainMenuItems(): MenuItem[] {
-  return [];
+  return [
+    defaultMenuLink("nav-home", "Home", "/", "الرئيسية"),
+    defaultMenuLink("nav-about", "About", "/about", "من نحن"),
+    defaultMenuLink("nav-packages", "Packages", "/packages", "الباقات"),
+    defaultMenuLink("nav-products", "Products", "/products", "المنتجات"),
+    defaultMenuLink("nav-services", "Services", "/services", "الخدمات"),
+    defaultMenuLink("nav-contact", "Contact", "/contact", "اتصل بنا"),
+  ];
 }
 
 function isLegacyMainMenuItems(items: MenuItem[]): boolean {
@@ -154,6 +173,23 @@ export function migrateHeaderActions(actions: HeaderAction[]): HeaderAction[] {
   }
 
   return result;
+}
+
+/** Fill an empty main menu with starter links (blank DB seeds). */
+export function fillEmptyMainMenu(workspace: HeaderWorkspace): HeaderWorkspace | null {
+  const items = workspace.menusDatabase.mainMenu?.items ?? [];
+  if (items.length > 0) return null;
+  const factory = createDefaultWorkspace();
+  return {
+    ...workspace,
+    menusDatabase: {
+      ...workspace.menusDatabase,
+      mainMenu: {
+        ...workspace.menusDatabase.mainMenu,
+        items: factory.menusDatabase.mainMenu.items,
+      },
+    },
+  };
 }
 
 export function createDefaultWorkspace(): HeaderWorkspace {

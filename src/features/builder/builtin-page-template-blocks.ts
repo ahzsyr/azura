@@ -37,7 +37,7 @@ export const BUILTIN_PAGE_TEMPLATE_BLOCKS: Record<string, PageBlocks> = {
       secondaryCtaLabelEn: "View packages",
       secondaryCtaLabelAr: "عرض الباقات",
       secondaryCtaHref: "/packages",
-      layout: "fullBleed",
+      layout: "centered",
     }),
     featureGrid({
       titleEn: "Our services",
