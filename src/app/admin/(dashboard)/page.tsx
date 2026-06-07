@@ -1,0 +1,66 @@
+import { getDashboardStats } from "@/lib/data";
+import { getAdminDashboardStats } from "@/services/loaders";
+import { loadSiteBrandContext } from "@/lib/load-site-brand-context";
+import { rebuildSearchIndex } from "@/features/search/actions";
+import { prisma } from "@/lib/prisma";
+import { AdminDashboardClient } from "@/components/admin/admin-dashboard-client";
+
+export async function generateMetadata() {
+  try {
+    const { brandName } = await loadSiteBrandContext();
+    return {
+      title: `${brandName} · Dashboard`,
+    };
+  } catch {
+    return { title: "Dashboard" };
+  }
+}
+
+export default async function AdminDashboardPage() {
+  let stats = { packages: 0, newInquiries: 0, testimonials: 0, gallery: 0 };
+  let platform = { pages: 0, posts: 0, media: 0, packages: 0, newInquiries: 0 };
+  let recentInquiries: Awaited<ReturnType<typeof prisma.inquiry.findMany>> = [];
+  let customerCount = 0;
+  let branding = { brandName: "Site", brandShort: "SI", tagline: "" };
+
+  try {
+    const [statsResult, platformResult, brand, inquiries, customers] = await Promise.all([
+      getDashboardStats(),
+      getAdminDashboardStats(),
+      loadSiteBrandContext(),
+      prisma.inquiry.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 5,
+      }),
+      prisma.user.count({ where: { role: "CUSTOMER" } }),
+    ]);
+    stats = statsResult;
+    platform = platformResult;
+    branding = brand;
+    recentInquiries = inquiries;
+    customerCount = customers;
+  } catch (error) {
+    const errMsg = error instanceof Error ? error.message : String(error);
+    console.error("[admin/dashboard] load failed:", errMsg);
+    // #region agent log
+    const { debugIngest } = await import("@/lib/debug-ingest");
+    debugIngest("admin/dashboard/page.tsx", "dashboard data load failed", { error: errMsg.slice(0, 300) }, "H1");
+    // #endregion
+    try {
+      branding = await loadSiteBrandContext();
+    } catch {
+      // DB unavailable
+    }
+  }
+
+  return (
+    <AdminDashboardClient
+      branding={branding}
+      stats={stats}
+      platform={platform}
+      customerCount={customerCount}
+      recentInquiries={recentInquiries}
+      rebuildSearchAction={rebuildSearchIndex}
+    />
+  );
+}

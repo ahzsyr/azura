@@ -1,0 +1,10 @@
+export * from "@/features/marketing-blocks/schemas/marketing-blocks";
+export { LocalizedItemFields } from "@/features/marketing-blocks/admin/localized-item-fields";
+export { IconNameSelect } from "@/features/marketing-blocks/admin/icon-name-select";
+export { BlockBackgroundSettings } from "@/features/marketing-blocks/admin/block-background-settings";
+export { FeatureGridBlockFields, BenefitsGridBlockFields } from "@/features/marketing-blocks/admin/grid-block-fields";
+export { TrustBadgesBlockFields } from "@/features/marketing-blocks/admin/trust-badges-block-fields";
+export { LogoCloudBlockFields } from "@/features/marketing-blocks/admin/logo-cloud-block-fields";
+export { StatsCounterBlockFields } from "@/features/marketing-blocks/admin/stats-counter-block-fields";
+export { BeforeAfterBlockFields } from "@/features/marketing-blocks/admin/before-after-block-fields";
+export { HeroProBlockFields, CtaBannerBlockFields } from "@/features/marketing-blocks/admin/hero-cta-block-fields";
