@@ -4,11 +4,11 @@ export function deferUntilIdle(work: () => void, timeoutMs = 2500): () => void {
     return () => {};
   }
 
-  if ("requestIdleCallback" in window) {
-    const id = window.requestIdleCallback(work, { timeout: timeoutMs });
-    return () => window.cancelIdleCallback(id);
+  if (typeof requestIdleCallback === "function") {
+    const id = requestIdleCallback(work, { timeout: timeoutMs });
+    return () => cancelIdleCallback(id);
   }
 
-  const id = window.setTimeout(work, 1);
-  return () => window.clearTimeout(id);
+  const id = setTimeout(work, 1);
+  return () => clearTimeout(id);
 }
