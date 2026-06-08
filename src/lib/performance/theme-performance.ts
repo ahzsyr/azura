@@ -120,13 +120,13 @@ export function startThemePerformanceMonitoring(): () => void {
   try {
     const inpObs = new PerformanceObserver((list) => {
       const entries = list.getEntries() as PerformanceEventTiming[];
-      const last = entries.at(-1);
+      const last = entries.filter((e) => e.duration >= 40).at(-1);
       if (last) {
         snapshot.inp = Math.round(last.duration);
         publish();
       }
     });
-    inpObs.observe({ type: "event", buffered: true, durationThreshold: 40 });
+    inpObs.observe({ type: "event", buffered: true });
     disconnectors.push(() => inpObs.disconnect());
   } catch {
     /* unsupported */
