@@ -28,6 +28,7 @@ import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { SITE_PRODUCT_NAME } from "@/config/site";
 import { AdminAccordionContent } from "./admin-motion";
+import { useConstrainedMotion, ADMIN_MOTION_MOBILE } from "@/hooks/use-constrained-motion";
 
 function NavLink({
   href,
@@ -239,6 +240,14 @@ export function AdminSidebar() {
   const sidebarMobileOpen = useAdminUiStore((s) => s.sidebarMobileOpen);
   const toggleSidebarCollapsed = useAdminUiStore((s) => s.toggleSidebarCollapsed);
   const setSidebarMobileOpen = useAdminUiStore((s) => s.setSidebarMobileOpen);
+  const { shouldReduceMotion, shouldSimplifyMotion } = useConstrainedMotion();
+
+  const mobileDrawerTransition = shouldReduceMotion
+    ? { duration: 0 }
+    : {
+        duration: shouldSimplifyMotion ? ADMIN_MOTION_MOBILE.enterDuration : 0.22,
+        ease: [0.22, 1, 0.36, 1] as const,
+      };
 
   return (
     <TooltipProvider>
@@ -246,7 +255,7 @@ export function AdminSidebar() {
       <motion.aside
         initial={false}
         animate={{ width: sidebarCollapsed ? 56 : 256 }}
-        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{ duration: shouldSimplifyMotion ? 0.16 : 0.2, ease: [0.22, 1, 0.36, 1] }}
         className="relative hidden h-screen shrink-0 flex-col border-r admin-liquid-glass md:flex"
       >
         <Button
@@ -264,7 +273,7 @@ export function AdminSidebar() {
       {/* Mobile drawer overlay */}
       {sidebarMobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
+          className="admin-mobile-overlay fixed inset-0 z-40 bg-black/50 md:hidden"
           onClick={() => setSidebarMobileOpen(false)}
           aria-hidden
         />
@@ -273,8 +282,11 @@ export function AdminSidebar() {
       <motion.aside
         initial={false}
         animate={{ x: sidebarMobileOpen ? 0 : -280 }}
-        transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
-        className="admin-liquid-glass fixed inset-y-0 start-0 z-50 flex w-[280px] flex-col border-r shadow-xl md:hidden"
+        transition={mobileDrawerTransition}
+        className={cn(
+          "fixed inset-y-0 start-0 z-50 flex w-[280px] flex-col border-r bg-[var(--admin-surface)] shadow-xl md:hidden",
+          !shouldSimplifyMotion && "admin-liquid-glass",
+        )}
       >
         <div className="flex items-center justify-end p-2">
           <Button variant="ghost" size="icon" onClick={() => setSidebarMobileOpen(false)} aria-label="Close menu">

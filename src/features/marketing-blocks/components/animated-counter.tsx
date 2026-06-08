@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { animate, useMotionValue, useReducedMotion, useTransform } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { animate, useMotionValue, useReducedMotion } from "framer-motion";
 import { observeOnce } from "@/lib/performance/intersection-observer-hub";
 import { waitUntilVisible } from "@/lib/performance/wait-until-visible";
+import { useConstrainedMotion } from "@/hooks/use-constrained-motion";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -15,6 +16,10 @@ type Props = {
   className?: string;
 };
 
+function formatCounter(prefix: string, n: number, suffix: string): string {
+  return `${prefix}${n.toLocaleString()}${suffix}`;
+}
+
 export function AnimatedCounter({
   value,
   prefix = "",
@@ -23,27 +28,33 @@ export function AnimatedCounter({
   animateOnView = true,
   className,
 }: Props) {
-  const reduced = useReducedMotion();
-  const motionValue = useMotionValue(animateOnView && !reduced ? 0 : value);
-  const displayRounded = useTransform(motionValue, (v) => Math.round(v));
-  const [display, setDisplay] = useState(animateOnView && !reduced ? 0 : value);
+  const osReduced = useReducedMotion();
+  const { shouldReduceMotion, shouldSimplifyMotion } = useConstrainedMotion();
+  const motionValue = useMotionValue(value);
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
   const controlsRef = useRef<ReturnType<typeof animate> | null>(null);
 
-  useEffect(() => {
-    if (!animateOnView || reduced) {
-      motionValue.set(value);
-      setDisplay(value);
-      return;
-    }
+  const effectiveDuration = shouldSimplifyMotion ? duration * 0.7 : duration;
+  const skipAnimation = !animateOnView || shouldReduceMotion || osReduced;
 
+  useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
+    const write = (n: number) => {
+      el.textContent = formatCounter(prefix, n, suffix);
+    };
+
+    if (skipAnimation) {
+      motionValue.set(value);
+      write(value);
+      return;
+    }
+
     started.current = false;
     motionValue.set(0);
-    setDisplay(0);
+    write(0);
 
     let cancelled = false;
 
@@ -52,14 +63,15 @@ export function AnimatedCounter({
       () => {
         if (started.current || cancelled) return;
 
-        void waitUntilVisible(el).then(() => {
+        void waitUntilVisible(el, shouldSimplifyMotion ? 400 : 800).then(() => {
           if (started.current || cancelled) return;
           started.current = true;
 
           controlsRef.current?.stop();
           controlsRef.current = animate(motionValue, value, {
-            duration: duration / 1000,
+            duration: effectiveDuration / 1000,
             ease: [0.22, 1, 0.36, 1],
+            onUpdate: (v) => write(Math.round(v)),
           });
         });
       },
@@ -71,18 +83,20 @@ export function AnimatedCounter({
       off();
       controlsRef.current?.stop();
     };
-  }, [value, duration, animateOnView, reduced, motionValue]);
-
-  useEffect(() => {
-    const unsub = displayRounded.on("change", (v) => setDisplay(v));
-    return () => unsub();
-  }, [displayRounded]);
+  }, [
+    value,
+    effectiveDuration,
+    animateOnView,
+    skipAnimation,
+    motionValue,
+    prefix,
+    suffix,
+    shouldSimplifyMotion,
+  ]);
 
   return (
     <span ref={ref} className={cn("tabular-nums", className)}>
-      {prefix}
-      {display.toLocaleString()}
-      {suffix}
+      {formatCounter(prefix, skipAnimation ? value : 0, suffix)}
     </span>
   );
 }

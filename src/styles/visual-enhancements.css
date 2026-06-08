@@ -359,6 +359,12 @@ html[data-preset-animated="on"] .site-main .hover-lift {
   }
 }
 
+html[data-reduced-paint="true"] .az-hero-orb,
+html[data-reduced-paint="true"] .az-section-orb,
+html[data-reduced-paint="true"] .az-glass-shimmer::after {
+  animation: none !important;
+}
+
 @keyframes marquee {
   from {
     transform: translateX(0);

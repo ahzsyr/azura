@@ -89,6 +89,16 @@ html::-webkit-scrollbar-thumb:active,
   scroll-behavior: smooth;
 }
 
+@media (max-width: 768px) {
+  .az-scroll-region {
+    scroll-behavior: auto;
+  }
+}
+
+html[data-reduced-paint="true"] .az-scroll-region {
+  scroll-behavior: auto;
+}
+
 .az-scroll-region[data-scrolling="true"]::-webkit-scrollbar-thumb {
   box-shadow: 0 0 10px color-mix(in srgb, var(--primary) 45%, transparent);
 }

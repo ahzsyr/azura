@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, type RefObject } from "react";
 import { observeOnce } from "@/lib/performance/intersection-observer-hub";
+import { getConstrainedMotionSnapshot } from "@/hooks/use-constrained-motion";
 
 type Options = {
   /** ms to keep data-scrolling after scroll stops */
@@ -35,14 +36,14 @@ export function useScrollContainer<T extends HTMLElement>(
     const el = ref.current;
     if (!el) return;
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const { shouldReduceMotion } = getConstrainedMotionSnapshot();
     el.addEventListener("scroll", onScroll, { passive: true });
 
     const unobserveFns: Array<() => void> = [];
     const tracked = new WeakSet<Element>();
     let mutationTimer: ReturnType<typeof setTimeout> | null = null;
 
-    if (!reduced) {
+    if (!shouldReduceMotion) {
       const observeTarget = (node: Element) => {
         if (tracked.has(node) || node.classList.contains("az-in-view")) return;
         tracked.add(node);

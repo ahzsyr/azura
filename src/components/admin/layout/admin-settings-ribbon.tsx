@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
+import { useConstrainedMotion, ADMIN_MOTION_MOBILE } from "@/hooks/use-constrained-motion";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { cn } from "@/lib/utils";
 
@@ -37,7 +38,7 @@ export function AdminSettingsRibbon({
   layoutId = "settings-ribbon-indicator",
   linkNavigation = false,
 }: AdminSettingsRibbonProps) {
-  const reduced = useReducedMotion();
+  const { shouldReduceMotion, shouldSimplifyMotion } = useConstrainedMotion();
   const scrollRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<Map<string, HTMLElement>>(new Map());
   const setSettingsActiveTab = useAdminUiStore((s) => s.setSettingsActiveTab);
@@ -55,9 +56,13 @@ export function AdminSettingsRibbon({
   useEffect(() => {
     const el = tabRefs.current.get(activeTab);
     if (el && scrollRef.current) {
-      el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", inline: "center", block: "nearest" });
+      el.scrollIntoView({
+        behavior: shouldReduceMotion || shouldSimplifyMotion ? "auto" : "smooth",
+        inline: "center",
+        block: "nearest",
+      });
     }
-  }, [activeTab, reduced]);
+  }, [activeTab, shouldReduceMotion, shouldSimplifyMotion]);
 
   return (
     <div
@@ -77,7 +82,7 @@ export function AdminSettingsRibbon({
           const indicatorClass =
             "absolute inset-x-1 -bottom-2 h-0.5 rounded-full bg-primary pointer-events-none";
           const indicator = isActive ? (
-            motionReady && !reduced ? (
+            motionReady && !shouldReduceMotion && !shouldSimplifyMotion ? (
               <motion.span
                 layoutId={layoutId}
                 className={indicatorClass}
@@ -137,9 +142,10 @@ type AdminSettingsSectionProps = {
 };
 
 export function AdminSettingsSection({ id, children, className }: AdminSettingsSectionProps) {
-  const reduced = useReducedMotion();
+  const { shouldReduceMotion, shouldSimplifyMotion } = useConstrainedMotion();
+  const osReduced = useReducedMotion();
 
-  if (reduced) {
+  if (shouldReduceMotion || osReduced) {
     return (
       <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`} className={className}>
         {children}
@@ -156,7 +162,10 @@ export function AdminSettingsSection({ id, children, className }: AdminSettingsS
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -4 }}
-      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      transition={{
+        duration: shouldSimplifyMotion ? ADMIN_MOTION_MOBILE.enterDuration : 0.2,
+        ease: [0.22, 1, 0.36, 1],
+      }}
       className={className}
     >
       {children}

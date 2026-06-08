@@ -1,7 +1,11 @@
 "use client";
 
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import {
+  useConstrainedMotion,
+  ADMIN_MOTION_MOBILE,
+} from "@/hooks/use-constrained-motion";
 import { cn } from "@/lib/utils";
 
 export const ADMIN_MOTION = {
@@ -17,16 +21,6 @@ const pageVariants = {
   exit: { opacity: 0, y: -4 },
 };
 
-const pageTransition = {
-  duration: ADMIN_MOTION.enterDuration,
-  ease: ADMIN_MOTION.ease,
-};
-
-export const adminFadeUp = {
-  hidden: { opacity: 0, y: 8 },
-  visible: { opacity: 1, y: 0, transition: pageTransition },
-};
-
 type AdminPageTransitionProps = {
   children: React.ReactNode;
   className?: string;
@@ -34,14 +28,17 @@ type AdminPageTransitionProps = {
 };
 
 export function AdminPageTransition({ children, className, routeKey }: AdminPageTransitionProps) {
-  const reduced = useReducedMotion();
+  const { shouldReduceMotion, shouldSimplifyMotion } = useConstrainedMotion();
   const [animating, setAnimating] = useState(true);
+  const enterDuration = shouldSimplifyMotion
+    ? ADMIN_MOTION_MOBILE.enterDuration
+    : ADMIN_MOTION.enterDuration;
 
   useEffect(() => {
     setAnimating(true);
   }, [routeKey]);
 
-  if (reduced) {
+  if (shouldReduceMotion) {
     return <div className={className}>{children}</div>;
   }
 
@@ -54,11 +51,14 @@ export function AdminPageTransition({ children, className, routeKey }: AdminPage
         exit="exit"
         variants={pageVariants}
         transition={{
-          duration: ADMIN_MOTION.enterDuration,
+          duration: enterDuration,
           ease: ADMIN_MOTION.ease,
         }}
         onAnimationComplete={() => setAnimating(false)}
-        className={cn(animating && "will-change-[opacity,transform]", className)}
+        className={cn(
+          animating && !shouldSimplifyMotion && "will-change-[opacity,transform]",
+          className,
+        )}
       >
         {children}
       </motion.div>
@@ -72,14 +72,23 @@ type StaggerContainerProps = {
   stagger?: number;
 };
 
+export const adminFadeUp = {
+  hidden: { opacity: 0, y: 8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: ADMIN_MOTION.enterDuration, ease: ADMIN_MOTION.ease },
+  },
+};
+
 export function AdminStaggerContainer({
   children,
   className,
   stagger = ADMIN_MOTION.stagger,
 }: StaggerContainerProps) {
-  const reduced = useReducedMotion();
+  const { shouldReduceMotion, allowStagger, shouldSimplifyMotion } = useConstrainedMotion();
 
-  if (reduced) {
+  if (shouldReduceMotion || !allowStagger) {
     return <div className={className}>{children}</div>;
   }
 
@@ -89,7 +98,11 @@ export function AdminStaggerContainer({
       animate="visible"
       variants={{
         hidden: {},
-        visible: { transition: { staggerChildren: stagger } },
+        visible: {
+          transition: {
+            staggerChildren: shouldSimplifyMotion ? 0 : stagger,
+          },
+        },
       }}
       className={className}
     >
@@ -105,9 +118,9 @@ export function AdminStaggerItem({
   children: React.ReactNode;
   className?: string;
 }) {
-  const reduced = useReducedMotion();
+  const { shouldReduceMotion, allowStagger } = useConstrainedMotion();
 
-  if (reduced) {
+  if (shouldReduceMotion || !allowStagger) {
     return <div className={className}>{children}</div>;
   }
 
@@ -127,9 +140,12 @@ export function AdminAccordionContent({
   children: React.ReactNode;
   className?: string;
 }) {
-  const reduced = useReducedMotion();
+  const { shouldReduceMotion, shouldSimplifyMotion } = useConstrainedMotion();
+  const duration = shouldSimplifyMotion
+    ? ADMIN_MOTION_MOBILE.enterDuration
+    : ADMIN_MOTION.enterDuration;
 
-  if (reduced) {
+  if (shouldReduceMotion) {
     return open ? <div className={className}>{children}</div> : null;
   }
 
@@ -140,7 +156,7 @@ export function AdminAccordionContent({
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: ADMIN_MOTION.enterDuration, ease: ADMIN_MOTION.ease }}
+          transition={{ duration, ease: ADMIN_MOTION.ease }}
           className={cn("overflow-hidden", className)}
         >
           {children}

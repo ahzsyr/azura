@@ -216,6 +216,17 @@
   }
 }
 
+html[data-reduced-paint="true"] [data-animation],
+html[data-reduced-paint="true"] [data-reveal] {
+  transition:
+    opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transform: none !important;
+}
+
+html[data-reduced-paint="true"] [data-animation="slide-up"] {
+  transform: none !important;
+}
+
 @keyframes glowPulse {
   0%,
   100% {
@@ -312,6 +323,16 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+html[data-reduced-paint="true"] {
+  scroll-behavior: auto;
+}
+
+@media (max-width: 768px) {
   html {
     scroll-behavior: auto;
   }
@@ -715,6 +736,11 @@ body::after {
   ::view-transition-new(root) {
     animation: astroZoomIn 0.3s cubic-bezier(0.76, 0, 0.24, 1) both;
   }
+}
+
+html[data-reduced-paint="true"] ::view-transition-old(root),
+html[data-reduced-paint="true"] ::view-transition-new(root) {
+  animation: none !important;
 }
 
 /* Utility classes for above keyframes */

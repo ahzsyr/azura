@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAdminKeyboardShortcuts, useUnsavedChangesGuard } from "@/hooks/use-admin-form";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { AdminThemeProvider } from "./admin-theme-provider";
+import { AdminCapabilityInit } from "./admin-capability-init";
 import { AdminSurfaceProvider } from "./admin-surface-context";
 import { AdminSidebar } from "./admin-sidebar";
 import { AdminTopBar } from "./admin-top-bar";
@@ -33,6 +34,7 @@ function AdminShellInner({ children }: { children: React.ReactNode }) {
 export function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <AdminThemeProvider>
+      <AdminCapabilityInit />
       <AdminSurfaceProvider>
         <TooltipProvider delayDuration={200}>
           <AdminShellInner>{children}</AdminShellInner>

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { useConstrainedMotion } from "@/hooks/use-constrained-motion";
 import { cn } from "@/lib/utils";
 
 type AnimatedSectionProps = {
@@ -10,18 +11,23 @@ type AnimatedSectionProps = {
 };
 
 export function AnimatedSection({ children, className, delay = 0 }: AnimatedSectionProps) {
-  const shouldReduceMotion = useReducedMotion();
+  const osReduced = useReducedMotion();
+  const { shouldReduceMotion, shouldSimplifyMotion } = useConstrainedMotion();
 
-  if (shouldReduceMotion) {
+  if (shouldReduceMotion || osReduced) {
     return <div className={className}>{children}</div>;
   }
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: shouldSimplifyMotion ? 6 : 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{
+        duration: shouldSimplifyMotion ? 0.35 : 0.5,
+        delay,
+        ease: [0.22, 1, 0.36, 1],
+      }}
       className={className}
     >
       {children}
@@ -38,9 +44,10 @@ export function FadeIn({
   className?: string;
   delay?: number;
 }) {
-  const shouldReduceMotion = useReducedMotion();
+  const osReduced = useReducedMotion();
+  const { shouldReduceMotion, shouldSimplifyMotion } = useConstrainedMotion();
 
-  if (shouldReduceMotion) {
+  if (shouldReduceMotion || osReduced) {
     return <div className={className}>{children}</div>;
   }
 
@@ -48,7 +55,7 @@ export function FadeIn({
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay }}
+      transition={{ duration: shouldSimplifyMotion ? 0.3 : 0.5, delay }}
       className={className}
     >
       {children}
@@ -63,11 +70,16 @@ export function HoverCard({
   children: React.ReactNode;
   className?: string;
 }) {
-  const shouldReduceMotion = useReducedMotion();
+  const osReduced = useReducedMotion();
+  const { shouldReduceMotion, shouldSimplifyMotion } = useConstrainedMotion();
 
   return (
     <motion.div
-      whileHover={shouldReduceMotion ? undefined : { y: -4, scale: 1.01 }}
+      whileHover={
+        shouldReduceMotion || osReduced || shouldSimplifyMotion
+          ? undefined
+          : { y: -4, scale: 1.01 }
+      }
       transition={{ duration: 0.2 }}
       className={cn(className)}
     >

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { observeOnce } from "@/lib/performance/intersection-observer-hub";
+import { getConstrainedMotionSnapshot } from "@/hooks/use-constrained-motion";
 
 const REVEAL_SELECTOR =
   "[data-reveal]:not(.revealed), [data-animation]:not(.revealed)";
@@ -14,7 +15,8 @@ function getSiblingStagger(el: HTMLElement): number {
     parent.querySelectorAll<HTMLElement>(REVEAL_SELECTOR),
   );
   const idx = siblings.indexOf(el);
-  return idx > 0 ? Math.min(idx * 60, 360) : 0;
+  const maxStagger = getConstrainedMotionSnapshot().shouldSimplifyMotion ? 120 : 360;
+  return idx > 0 ? Math.min(idx * 60, maxStagger) : 0;
 }
 
 const IO_OPTIONS: IntersectionObserverInit = {
@@ -32,17 +34,16 @@ export function ScrollRevealObserver() {
       document.querySelector<HTMLElement>("main") ??
       document.body;
 
+    const { shouldReduceMotion } = getConstrainedMotionSnapshot();
+
     const revealTargets = root.querySelectorAll<HTMLElement>(REVEAL_SELECTOR);
     const lazyTargets = root.querySelectorAll<HTMLElement>(LAZY_BLOCK_SELECTOR);
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
 
     const unobserveFns: Array<() => void> = [];
     const trackedReveal = new WeakSet<Element>();
     const trackedLazy = new WeakSet<Element>();
 
-    if (prefersReduced) {
+    if (shouldReduceMotion) {
       revealTargets.forEach((el) => {
         el.classList.add("revealed");
         el.style.transition = "none";
@@ -98,6 +99,7 @@ export function ScrollRevealObserver() {
 
     let mutationTimer: ReturnType<typeof setTimeout> | null = null;
     const scan = () => {
+      if (getConstrainedMotionSnapshot().shouldReduceMotion) return;
       root
         .querySelectorAll<HTMLElement>(REVEAL_SELECTOR)
         .forEach((el) => {

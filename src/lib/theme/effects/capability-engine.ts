@@ -69,6 +69,8 @@ export function buildCapabilityPolicy(capabilities: DeviceCapabilities): Capabil
     allowCustomCursor: !touchOnly && !lowEndDevice && !smallScreen,
     allowAnimatedBackground: !constrained,
     allowTextAnimation: !prefersReducedMotion && !smallScreen,
+    allowMotion: !prefersReducedMotion && !lowEndDevice,
+    allowStagger: !prefersReducedMotion && !smallScreen && !touchOnly,
   };
 }
 

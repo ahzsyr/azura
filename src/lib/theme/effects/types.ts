@@ -69,6 +69,10 @@ export type CapabilityPolicy = {
   allowCustomCursor: boolean;
   allowAnimatedBackground: boolean;
   allowTextAnimation: boolean;
+  /** Light transform/opacity animations (disabled on low-end or reduced-motion). */
+  allowMotion: boolean;
+  /** Staggered child animations (disabled on touch/small screens). */
+  allowStagger: boolean;
 };
 
 export type EffectEngineWarning = {

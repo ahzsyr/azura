@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { observeOnce } from "@/lib/performance/intersection-observer-hub";
+import { getConstrainedMotionSnapshot } from "@/hooks/use-constrained-motion";
 import { cn } from "@/lib/utils";
 
 type LazyInViewProps = {
@@ -29,8 +30,8 @@ export function LazyInView({
     const el = ref.current;
     if (!el) return;
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
+    const { shouldReduceMotion } = getConstrainedMotionSnapshot();
+    if (shouldReduceMotion) {
       setVisible(true);
       return;
     }
