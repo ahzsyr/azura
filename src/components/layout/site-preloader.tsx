@@ -112,7 +112,7 @@ export function SitePreloader({ settings }: Props) {
     if (!preloaderShowsOnNavigation(settings.mode)) return;
 
     const onClick = (event: MouseEvent) => {
-      if (event.defaultPrevented || event.button !== 0) return;
+      if (event.button !== 0) return;
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
       const target = event.target;
@@ -128,8 +128,17 @@ export function SitePreloader({ settings }: Props) {
       showPreloader();
     };
 
+    const onPopState = () => {
+      navigationPendingRef.current = true;
+      showPreloader();
+    };
+
     document.addEventListener("click", onClick, true);
-    return () => document.removeEventListener("click", onClick, true);
+    window.addEventListener("popstate", onPopState);
+    return () => {
+      document.removeEventListener("click", onClick, true);
+      window.removeEventListener("popstate", onPopState);
+    };
   }, [mounted, pathname, settings.enabled, settings.mode, showPreloader]);
 
   useEffect(() => {

@@ -1,28 +1,40 @@
 "use client";
 
-import { useReducedMotion } from "framer-motion";
-import type { ReactNode } from "react";
+import { usePathname } from "@/i18n/navigation";
+import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, type ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
 };
 
+const pageTransition = {
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.28, ease: [0.25, 0.1, 0.25, 1] as const },
+};
+
 /**
- * Wraps marketing page content with a fade-in entrance animation.
- * Page-to-page transitions use the View Transitions API (configured in globals.css
- * via astroZoomIn/astroZoomOut keyframes). This component handles the initial
- * paint entrance for layout-level children.
+ * Smooth page entrance on route changes. Scrolls to top on internal navigation
+ * (unless a hash target is present). Respects reduced-motion preferences.
  */
 export function MarketingPageTransition({ children }: Props) {
+  const pathname = usePathname();
   const reducedMotion = useReducedMotion();
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.location.hash) return;
+    window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "instant" });
+  }, [pathname, reducedMotion]);
+
   if (reducedMotion) {
-    return <>{children}</>;
+    return <div key={pathname}>{children}</div>;
   }
 
   return (
-    <div className="animate-fade-in" style={{ animationDuration: "0.4s" }}>
+    <motion.div key={pathname} {...pageTransition}>
       {children}
-    </div>
+    </motion.div>
   );
 }

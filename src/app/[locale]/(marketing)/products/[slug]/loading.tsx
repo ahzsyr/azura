@@ -4,7 +4,7 @@ import { readSiteSettings } from "@/features/catalog/site-settings.service";
 import { resolveSitePreloader } from "@/features/preloader/resolve-site-preloader";
 import { preloaderShowsOnNavigation } from "@/features/preloader/site-preloader.schema";
 
-export default async function MarketingLoading() {
+export default async function ProductLoading() {
   const locale = await getLocale();
   const siteSettings = await readSiteSettings(locale);
   const preloader = resolveSitePreloader(siteSettings);
@@ -13,5 +13,5 @@ export default async function MarketingLoading() {
     return null;
   }
 
-  return <PageLoadingSkeleton />;
+  return <PageLoadingSkeleton variant="detail" />;
 }

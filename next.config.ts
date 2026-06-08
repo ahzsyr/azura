@@ -5,6 +5,11 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
   experimental: {
+    /** Keep recently visited routes warm in the client router cache for snappier back/forward nav */
+    staleTimes: {
+      dynamic: 30,
+      static: 300,
+    },
     optimizePackageImports: [
       "lucide-react",
       "framer-motion",

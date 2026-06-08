@@ -4,18 +4,14 @@ import "@/styles/personalization-panel.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowUp, Globe, Monitor, Moon, Sun, Palette } from "lucide-react";
+import { ArrowUp, Globe, Monitor, Moon, Smartphone, Sun, Palette } from "lucide-react";
 import { ALL_PRESETS, type PresetMeta } from "@/features/theme/presets-catalog";
 import type { LocaleOption } from "@/components/layout/locale-switcher";
 import type { PersonalizationSettings } from "@/features/personalization/personalization.service";
 import type { ThemeTokens } from "@/types/theme";
 import { useThemeEngine } from "@/components/theme/theme-engine-provider";
-import {
-  readStoredPresetColors,
-  readStoredPresetEffects,
-  readStoredPresetVisual,
-} from "@/features/theme/engine";
 import { getDirection } from "@/i18n/routing";
+import { useIsMobileViewport } from "@/lib/hooks/use-is-mobile-viewport";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -112,6 +108,12 @@ function FabLanguageButton({
   );
 }
 
+function SystemAppearanceIcon({ className }: { className?: string }) {
+  const isMobile = useIsMobileViewport();
+  const Icon = isMobile ? Smartphone : Monitor;
+  return <Icon className={className} strokeWidth={2} aria-hidden />;
+}
+
 function AppearanceStatusCircles({
   engine,
   locale,
@@ -129,6 +131,7 @@ function AppearanceStatusCircles({
   localeLabel: string;
   presetLabel: string;
 }) {
+  const isMobileViewport = useIsMobileViewport();
   const activeLocale =
     locales.find((l) => l.urlPrefix === locale || l.code === locale) ?? locales[0];
 
@@ -147,7 +150,9 @@ function AppearanceStatusCircles({
 
   const ThemeIcon =
     engine.appearanceMode === "system"
-      ? Monitor
+      ? isMobileViewport
+        ? Smartphone
+        : Monitor
       : engine.resolvedAppearance === "dark"
         ? Moon
         : Sun;
@@ -291,6 +296,7 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
   const widgetRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const dir = getDirection(locale);
+  const isMobileViewport = useIsMobileViewport();
 
   const {
     showAppearance,
@@ -494,7 +500,7 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
               aria-pressed={engine.appearanceMode === "system"}
               onClick={() => engine.setAppearanceMode("system")}
             >
-              <Monitor className="mx-auto mb-0.5 h-3.5 w-3.5" />
+              <SystemAppearanceIcon className="mx-auto mb-0.5 h-3.5 w-3.5" />
               System
             </button>
           </div>
@@ -578,33 +584,10 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
               Active: <span className="font-medium text-foreground">{engine.activePresetId}</span>
             </p>
           )}
-          <button
-            type="button"
-            className="w-full rounded-lg border border-dashed border-primary/30 px-2 py-2 text-[10px] font-semibold uppercase tracking-wide text-primary transition-colors hover:bg-primary/5"
-            onClick={() => {
-              const colors = readStoredPresetColors();
-              if (!colors) return;
-              const fx = readStoredPresetEffects();
-              const visual = readStoredPresetVisual();
-              const name = `My style ${engine.userPresets.length + 1}`;
-              const saved = engine.saveUserCreatedPreset({
-                name,
-                colors,
-                cursor: fx?.cursor,
-                backgroundEffect: fx?.backgroundEffect ?? visual?.backgroundEffect,
-                textEffect: fx?.textEffect ?? visual?.textEffect,
-                cardStyle: fx?.cardStyle ?? visual?.cardStyle,
-                borderStyle: fx?.borderStyle ?? visual?.borderStyle,
-              });
-              engine.applyUserPreset(saved);
-            }}
-          >
-            Save current look
-          </button>
         </div>
       )}
 
-      {theme?.cursorEffectEnabled !== false && (
+      {theme?.cursorEffectEnabled !== false && !isMobileViewport && (
         <div className="mt-3 border-t border-border/50 pt-3">
           <p className="pp-section-label">Pointer</p>
           <div className="pp-cursor-row" role="group" aria-label="Cursor style">

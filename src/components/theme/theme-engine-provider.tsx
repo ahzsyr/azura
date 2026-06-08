@@ -99,10 +99,14 @@ export function ThemeEngineProvider({
   }, []);
 
   const applyResolvedEffects = useCallback(
-    (resolved: ResolvedAppearance) => {
+    (resolved: ResolvedAppearance, cursorPref?: CursorPreference) => {
       if (!siteTheme) return;
       const live = readStoredPresetEffects();
-      const experience = buildLiveVisualExperience(siteTheme, live, cursorPreference);
+      const experience = buildLiveVisualExperience(
+        siteTheme,
+        live,
+        cursorPref ?? cursorPreference,
+      );
       applyVisualEffects(experience);
     },
     [siteTheme, cursorPreference],
@@ -306,7 +310,7 @@ export function ThemeEngineProvider({
         // ignore
       }
       const resolved = resolveAppearance(appearanceMode);
-      applyResolvedEffects(resolved);
+      applyResolvedEffects(resolved, pref);
     },
     [appearanceMode, applyResolvedEffects],
   );

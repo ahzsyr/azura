@@ -25,6 +25,7 @@ import { readSiteSettings } from "@/features/catalog/site-settings.service";
 import { resolveSitePreloader } from "@/features/preloader/resolve-site-preloader";
 import { preloaderShowsOnInitialLoad } from "@/features/preloader/site-preloader.schema";
 import { SitePreloader } from "@/components/layout/site-preloader";
+import { NavigationViewTransition } from "@/components/layout/navigation-view-transition";
 import { PreloaderBootScript } from "@/components/layout/preloader-boot-script";
 import type { Metadata } from "next";
 import "@/styles/routes/effects.css";
@@ -100,6 +101,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <NextIntlClientProvider locale={locale} messages={messages}>
         <AccountSessionProvider>
         <ThemeProvider>
+          <NavigationViewTransition />
           <SitePreloader settings={preloaderSettings} />
           <RecentlyViewedTracker />
           <ScrollRevealObserver />
