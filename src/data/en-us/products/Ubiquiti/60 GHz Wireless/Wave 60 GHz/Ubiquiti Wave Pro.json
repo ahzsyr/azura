@@ -1,0 +1,375 @@
+{
+  "slug": "wave-professional",
+  "id": "4606",
+  "productTitle": "Ubiquiti Wave Pro",
+  "name": "Ubiquiti Wave Pro",
+  "title": "Ubiquiti Wave Pro",
+  "title_extended": "",
+  "short_description": "60 GHz base station, 5 GHz backup radio, up to 15 km link, 5.4 Gbps total throughput, 2x 2.5 GbE ports, 1x 10G SFP+ port",
+  "description": "60 GHz base station, 5 GHz backup radio, up to 15 km link, 5.4 Gbps total throughput, 2x 2.5 GbE ports, 1x 10G SFP+ port",
+  "detailed_description": [
+    {
+      "heading": "High-capacity 60 GHz radio",
+      "text": "The Ubiquiti Wave Professional, also known as Wave-Pro, is a high-capacity 60 GHz radio designed for long-range outdoor networking applications. It supports both Point-to-Point (PtP) and Point-to-MultiPoint (PtMP) configurations, making it highly versatile for various networking scenarios. Equipped with a 60 GHz primary radio, the Wave-Pro offers a maximum throughput of 5.4 Gbps (2.7 Gbps duplex), ensuring robust, high-speed data transmission over distances up to 15 km in PtP mode and up to 8 km with a Wave AP in PtMP mode. This capability is particularly useful in setups requiring high bandwidth across extended distances without the need for extensive cabling."
+    },
+    {
+      "heading": "Features",
+      "text": "Operating frequency 57-71 GHz, 5 GHz backup radio, Link range in PtP links: up to 15 km, Link range in PtmP links: up to 8 km with Wave AP; up to 6 km with Wave AP Micro, 2x 2.5 GbE and 1x 10G SFP+ ports, Bridge/ Router mode support, Integrated GPS and Bluetooth, Precision alignment mount, Ergonomic transportation handle."
+    },
+    {
+      "heading": "Physical and Performance",
+      "text": "Physically, the Wave-Pro is robust, housed in an aluminum alloy and UV stabilized plastic enclosure, and comes with a stainless steel mount, ensuring durability and resistance to environmental challenges. The device is designed to withstand wind loadings of 369 N at 200 km/h and has an IPX6 weatherproofing rating, suitable for various outdoor settings. The device is also equipped with a powerful quad-core ARM® Cortex®-A53 processor that offers exceptional data processing capabilities, allowing it to handle multiple tasks simultaneously without compromising on performance."
+    },
+    {
+      "heading": "Connectivity and Reliability",
+      "text": "For added reliability, especially in adverse weather conditions, the device includes a 5 GHz backup radio with a throughput of up to 800 Mbps. This ensures continuous network service even when the primary 60 GHz channel experiences interference or other issues related to atmospheric conditions. Connectivity options include two 2.5 GbE RJ45 ports and one 10G SFP+ port, enhancing its integration into modern networks that require high-speed connections and flexibility in terms of network design. In addition, the Wave Professional also with multiple antennas that support beamforming technology. Beamforming is a technique that focuses Wi-Fi signals directly towards the client devices rather than broadcasting in all directions. This targeted approach significantly enhances signal strength, range, and reliability, providing users with a superior wireless experience."
+    },
+    {
+      "heading": "Installation and Management",
+      "text": "Installation and configuration are simplified with Bluetooth connectivity, allowing for straightforward setup through the UISP Mobile app. This feature, combined with comprehensive tools for antenna alignment and network diagnostics, ensures efficient deployment and maintenance. Thanks to UISP app you can centrally manage your networks and clients with ease. Simply organize your clients' plans, setup billing and invoicing, and grow your customer base. UISP application allows viewing network topology, advanced data analytics, quickly set up devices and manage them on the go with a powerful mobile app."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Outdoor Wireless",
+  "categories": [
+    "Outdoor Wireless",
+    "Wave 60 GHz"
+  ],
+  "mpn": "Wave-Pro",
+  "manufacturer_part_number": "Wave-Pro",
+  "ean": "0810084690284",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4606/2-6548c6ea7a825-medium.jpg",
+        "alt": "Ubiquiti Wave Pro",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4606/1-6548c6e5208e6-medium.jpg",
+        "alt": "Ubiquiti Wave Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4606/3-6548c6eef02eb-medium.jpg",
+        "alt": "Ubiquiti Wave Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4606/4-6548c6f27080e-medium.jpg",
+        "alt": "Ubiquiti Wave Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4606/5-6548c6f61b377-medium.jpg",
+        "alt": "Ubiquiti Wave Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4606/6-6548c6fa1c0b3-medium.jpg",
+        "alt": "Ubiquiti Wave Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4606/7-6548c6ffe22c3-medium.jpg",
+        "alt": "Ubiquiti Wave Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4606/8-6548c7049f8a2-medium.jpg",
+        "alt": "Ubiquiti Wave Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4606/9-6548c708cc45c-medium.jpg",
+        "alt": "Ubiquiti Wave Pro",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 619.14,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "60GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ax, 802.11ay"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz, 60GHz"
+        },
+        {
+          "name": "60GHz Radio Rate",
+          "value": "5.4Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Wireless Antenna Frequency Range & Gain",
+        "Distance"
+      ],
+      "items": [
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "57 - 71 (GHz) 46 (dBi)"
+        },
+        {
+          "name": "Distance",
+          "value": "Up to 15 km"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 2.5 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-core ARM® Cortex®-A53 at 1.4 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "512 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE, 48V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "44 - 54 V DC, 22 - 27 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "26 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "48 V DC 0.65 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Stainless steel, Aluminium, UV Plastic"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX6"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø424.4 x 166.2 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "4 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Wave Pro",
+      "url": "https://www.getic.com/files/catalogue/4606/wavepro_ds-6548c6d9549e9.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti Wave Pro",
+      "url": "https://dl.ui.com/qig/wave-pro/#index"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airFiber 60 Long-Range",
+      "url": "/product/airfiber-60-lr",
+      "price": 303.78,
+      "currency": "USD",
+      "mpn": "AF60-LR",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Wave Long-Range",
+      "url": "/product/ubiquiti-uisp-wave-long-range",
+      "price": 388.57,
+      "currency": "USD",
+      "mpn": "Wave-LR",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Wave AP Micro",
+      "url": "/product/wave-access-point-micro",
+      "price": 470.56,
+      "currency": "USD",
+      "mpn": "Wave-AP-Micro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Wave AP Gen2",
+      "url": "/product/ubiquiti-wave-ap-gen2",
+      "price": 584.93,
+      "currency": "USD",
+      "mpn": "Wave-AP-Gen2",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,413 @@
+{
+  "slug": "omnitik-5-poe-ac",
+  "id": "RBOmniTikPG-5HacD",
+  "productTitle": "MikroTik OmniTIK 5 PoE ac",
+  "name": "MikroTik OmniTIK 5 PoE ac",
+  "title": "MikroTik OmniTIK 5 PoE ac",
+  "title_extended": "",
+  "short_description": "5GHz 802.11ac, 720MHz CPU, 128MB RAM, 5x GLAN ports, RouterOS L4, POE output",
+  "description": "The MikroTik OmniTIK 5 PoE ac, identified by the manufacture part number RBOmniTikPG-5HacD, is a versatile and robust outdoor wireless access point designed for high-performance networking and PoE capabilities. This device is built on the MIPSBE architecture and powered by a QCA9557 CPU running at a nominal frequency of 720 MHz, ensuring reliable and efficient operation.",
+  "detailed_description": [
+    {
+      "heading": "OmniTIK 5 ac Series",
+      "text": "The MikroTik OmniTIK 5 PoE ac, identified by the manufacture part number RBOmniTikPG-5HacD, is a versatile and robust outdoor wireless access point designed for high-performance networking and PoE capabilities. This device is built on the MIPSBE architecture and powered by a QCA9557 CPU running at a nominal frequency of 720 MHz, ensuring reliable and efficient operation. It features a single-core processor and incorporates the QCA8337 switch chip for enhanced networking performance. and comes with a new design weatherproof outdoor enclosure, two integrated 7.5dBi 5GHz omni antennas, a power supply, a PoE injector and a mounting kit."
+    },
+    {
+      "heading": null,
+      "text": "The OmniTIK 5 PoE ac operates on MikroTik's RouterOS with a Level 4 license, offering a wide array of networking features and functionalities. It comes equipped with 128 MB of RAM and 16 MB of FLASH storage, providing ample space for firmware and configurations. The device's dimensions are 416 x 129 x 58 mm, making it a compact and powerful solution for various network setups. With an MTBF of approximately 200,000 hours at 25°C and a tested ambient temperature range of -40°C to 70°C, it promises long-term durability and reliability in diverse environmental conditions."
+    },
+    {
+      "heading": null,
+      "text": "The device includes a single DC input for PoE-IN, supporting an input voltage range of 12-57 V, and features a passive cooling system to maintain optimal operating temperatures without the need for mechanical cooling components. The maximum power consumption is 66 W, with a reduced consumption of 18 W when no attachments are connected."
+    },
+    {
+      "heading": null,
+      "text": "One of the standout features of the OmniTIK 5 PoE ac is its PoE-out capability on ports Ether2 through Ether5. It supports 802.3af/at standards, with a maximum output of 1 A per port when the input voltage is between 18-30 V, and 450 mA per port for input voltages between 30-57 V. The total maximum output across all ports is 2 A, making it an excellent choice for powering other devices on the network."
+    },
+    {
+      "heading": null,
+      "text": "The wireless capabilities of the OmniTIK 5 PoE ac are impressive, with a maximum data rate of 867 Mbit/s on the 5 GHz band. It adheres to the 802.11a/n/ac standards and features 2 chains for enhanced performance and reliability. The device is equipped with a QCA9892 wireless chip and offers an antenna gain of 7.5 dBi, utilizing Wi-Fi 5 technology for robust and efficient wireless communication."
+    },
+    {
+      "heading": null,
+      "text": "In terms of wired connectivity, the OmniTIK 5 PoE ac provides five 10/100/1000 Ethernet ports, facilitating high-speed connections for multiple devices. It also includes one USB port with USB Power Reset capability, a USB type A slot, and a maximum USB current of 1 A, enhancing its versatility for various applications. Additionally, it features a PCB temperature monitor, voltage monitor, and beeper for advanced monitoring and management."
+    },
+    {
+      "heading": null,
+      "text": "Overall, the MikroTik OmniTIK 5 PoE ac is a powerful and reliable solution for outdoor wireless networking with extensive PoE capabilities, high-speed connectivity, and robust design, making it an ideal choice for expanding and enhancing network infrastructure efficiently. The OmniTIK 5 PoE ac meets rigorous international standards, holding certifications from CE, FCC, IC, EAC, and ROHS. Its IP54 rating ensures protection against dust and water splashes, making it suitable for outdoor installations in a variety of environments."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Wireless Systems",
+  "categories": [
+    "MikroTik",
+    "Wireless Systems",
+    "OmniTik"
+  ],
+  "mpn": "RBOmniTikPG-5HacD",
+  "manufacturer_part_number": "RBOmniTikPG-5HacD",
+  "ean": "4752224004420",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1235/rbomnitikg5hacd_3-5f9fdae657c8d-medium.png",
+        "alt": "MikroTik OmniTIK 5 PoE ac",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1235/rbomnitikg5hacd-5f9fdae6c12b9-medium.png",
+        "alt": "MikroTik OmniTIK 5 PoE ac",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1235/rbomnitikg5hacd_4-5fd8c33393ab0-medium.jpg",
+        "alt": "MikroTik OmniTIK 5 PoE ac",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1235/rbomnitikpg5hacd_poe-5f9fdae51d2e3-medium.png",
+        "alt": "MikroTik OmniTIK 5 PoE ac",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/UOu8n-6WqbA",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 113.42,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac"
+        },
+        {
+          "name": "MIMO",
+          "value": "5GHz 2x2"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "867 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "5.150 - 5.875 (GHz) 7.5 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "360 °"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "USB Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(5) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "4 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 2.0"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "QCA9557, 1 core, 720 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "128 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE, 48V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "18 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP54"
+        },
+        {
+          "name": "Dimensions",
+          "value": "416 x 129 x 58 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 4"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik OmniTIK 5 PoE ac",
+      "url": "https://www.getic.com/files/catalogue/ubiquiti/datasheet-omnitik_5_ac.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik OmniTIK 5 PoE ac",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/quick-guide-omnitik-series.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq Lite5",
+      "url": "/product/sxt-sq-lite5",
+      "price": 35.59,
+      "currency": "USD",
+      "mpn": "RBSXTsq5nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq 5 ac",
+      "url": "/product/sxt-sq-5-ac",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "RBSXTsqG-5acD",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik QuickMOUNT X",
+      "url": "/product/mikrotik-qm-x",
+      "price": 3.22,
+      "currency": "USD",
+      "mpn": "QM-X",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

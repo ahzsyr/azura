@@ -1,0 +1,274 @@
+{
+  "slug": "ubiquiti-unifi-switch-pro-hd-24-poe",
+  "id": "5521",
+  "productTitle": "Ubiquiti UniFi Switch Pro HD 24 PoE",
+  "name": "Ubiquiti UniFi Switch Pro HD 24 PoE",
+  "title": "Ubiquiti UniFi Switch Pro HD 24 PoE",
+  "title_extended": "Ubiquiti UniFi Switch Pro HD 24 PoE - 2x 10GbE PoE++ ports, 22x 2.5GbE PoE++ ports, 4x 10G SFP+, 600W PoE budget, RouterOS L4",
+  "short_description": "2x 10GbE PoE++ ports, 22x 2.5GbE PoE++ ports, 4x 10G SFP+, 600W PoE budget, RouterOS L4",
+  "description": "2x 10GbE PoE++ ports, 22x 2.5GbE PoE++ ports, 4x 10G SFP+, 600W PoE budget, RouterOS L4",
+  "detailed_description": [
+    {
+      "heading": "High-Speed Connectivity",
+      "text": "The Ubiquiti UniFi Switch Pro HD 24 PoE (USW-Pro-HD-24-PoE) is a professional-grade Layer 3 switch designed to meet the demands of modern networks. It features two 10 Gigabit Ethernet (GbE) PoE++ ports, twenty-two 2.5 GbE PoE++ ports, and four 10G SFP+ ports, providing a total non-blocking throughput of 115 Gbps and a switching capacity of 230 Gbps. This robust configuration ensures rapid data transfer rates, accommodating bandwidth-intensive applications such as high-definition video streaming, online gaming, and large file transfers."
+    },
+    {
+      "heading": "Advanced Switching Features",
+      "text": "Beyond its impressive hardware capabilities, the USW-Pro-HD-24-PoE offers a suite of advanced Layer 3 switching features to enhance network performance and security. These include support for Spanning Tree Protocol (STP/RSTP) with configurable priorities and port-level disable options, storm control, multicast and broadcast rate limiting, flow control, jumbo frames, egress rate limiting, proprietary loop protection, port isolation, and port mirroring. These features empower network administrators to optimize traffic management, prevent network loops, and maintain a robust and secure networking environment."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "UniFi Switching",
+    "Professional"
+  ],
+  "mpn": "USW-Pro-HD-24-PoE",
+  "manufacturer_part_number": "USW-Pro-HD-24-PoE",
+  "ean": "0810084696606",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5521/uswprohd24poe5-678a6bb6d2496-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro HD 24 PoE front angle view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5521/uswprohd24poe1-678a6ba04023f-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro HD 24 PoE top angle view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5521/uswprohd24poe2-678a6ba54e1eb-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro HD 24 PoE front view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5521/uswprohd24poe3-678a6bab72aef-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro HD 24 PoE back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5521/uswprohd24poe4-678a6bb0e0133-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro HD 24 PoE side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5521/uswprohd24poe6-678a6bbb862e1-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro HD 24 PoE ports detail",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 1004.20,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(22) 2.5 Gbps, (2) 10 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "24 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3bt (PoE++)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(4) 10G SFP+"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "USP RPS DC input"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "56 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Galvanized steel"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442.4 x 400 x 44 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "6.5 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Pro HD 24 PoE",
+      "url": "https://www.getic.com/files/catalogue/5521/uswprohd24poe_ds-678a6b9b07e83.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro Max",
+      "url": "/product/dream-machine-pro-max",
+      "price": 578.18,
+      "currency": "USD",
+      "mpn": "UDM-Pro-Max",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro Wall",
+      "url": "/product/ubiquiti-access-point-u7-pro-wall",
+      "price": 200.14,
+      "currency": "USD",
+      "mpn": "U7-Pro-Wall",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 In-Wall",
+      "url": "/product/ubiquiti-unifi-u7-in-wall",
+      "price": 149.81,
+      "currency": "USD",
+      "mpn": "U7-IW",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro XGS White",
+      "url": "/product/ubiquiti-unifi-u7-pro-xgs",
+      "price": 303.13,
+      "currency": "USD",
+      "mpn": "U7-Pro-XGS",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

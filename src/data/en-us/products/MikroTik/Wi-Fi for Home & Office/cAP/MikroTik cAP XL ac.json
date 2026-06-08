@@ -1,0 +1,354 @@
+{
+  "slug": "mikrotik-cap-xl-ac",
+  "id": "3699",
+  "productTitle": "MikroTik cAP XL ac",
+  "name": "MikroTik cAP XL ac",
+  "title": "MikroTik cAP XL ac",
+  "title_extended": "",
+  "short_description": "Dual-band 2.4/5 GHz access point, 360 ° coverage, 802.3af/at PoE support",
+  "description": "Sleek & Discreet Design. Experience advanced wireless networking with the MikroTik cAP XL ac, a ceiling-mounted access point setting new performance standards...",
+  "detailed_description": [
+    {
+      "heading": "Sleek & Discreet Design",
+      "text": "Experience advanced wireless networking with the MikroTik cAP XL ac, a ceiling-mounted access point setting new performance standards. The cAP XL ac exemplifies a discreet networking solution designed for seamless integration into any environment. Its low-profile design ensures inconspicrous placement, resembling a smoke detector, making it virtually imperceptible to clients, guests, or colleagues. Whether your objective is an aesthetically pleasing, unobtrusive access point or effective network management in a bustling space, the ceiling emerges as the optimal location."
+    },
+    {
+      "heading": "Enhanced Antenna Design",
+      "text": "Experience a significant boost in coverage with the cAP XL ac's high-gain antenna, higher sensitivity, and built-in reflector - the improvements that contribute to expanding the covered area by up to 100%, surpassing the capabilities of previous cAP models. Engineered to focus signal strength, the high-gain antenna extends the reach of wireless signals, making it an ideal choice for expansive environments. Meanwhile, higher sensitivity enhances overall performance, particularly in challenging scenarios with obstacles or varying distances. Furthermore, the built-in reflector strategically redirects signals, minimizing loss and optimizing coverage, making it invaluable in crowded or reflective spaces. Additionally, the dual-band support on 2.4 GHz and 5 GHz frequencies provides flexibility for managing diverse wireless devices and reduces congestion in high-density areas. The cAP XL ac offers a 360-degree coverage that ensures a consistent and reliable wireless experience, eliminating concerns about signal absorption issues common in open spaces like lobbies or exhibition halls."
+    },
+    {
+      "heading": "Flexible Network Expansion",
+      "text": "Equipped with two Gigabit Ethernet ports, the cAP XL ac stands as a versatile networking solution, offering a blend of high-speed connectivity and advanced features. The Gigabit Ethernet ports facilitate rapid data transfer rates of up to 1 gigabit per second, ensuring a reliable wired connection. Incorporating repeater mode functionality, the cAP XL ac extends the coverage area of wireless networks, enhancing signal reach and performance. This feature proves invaluable in scenarios where additional cabling is impractical, ensuring an efficient solution for expanding wireless coverage. Furthermore, the cAP XL ac embraces Power over Ethernet (PoE) technology with its first port supporting 802.3af/at PoE input. This streamlines installations by enabling the simultaneous transmission of data and electrical power over a single Ethernet cable. The result is simplified deployment, reduced cable clutter, and enhanced flexibility, particularly in environments with limited access to power outlets. Adding to its versatility, the cAP XL ac's second port features passive PoE output, offering power flexibility with adjustable voltage levels (up to 57V). This feature caters to various networking devices and peripherals, allowing direct power supply to compatible equipment. The combination of Gigabit Ethernet ports, repeater mode, and PoE support positions the cAP XL ac as a cost-effective solution for expanding network coverage."
+    },
+    {
+      "heading": "Advanced Hardware for Optimal Performance",
+      "text": "At the heart of the cAP XL ac lies the IPQ-4018 chipset, designed by Qualcomm Atheros. This chipset boasts a quad-core processor, operating at 710 MHz. It adeptly manages multiple tasks simultaneously, ensuring a seamless and responsive user experience. With 128 MB of RAM, this chipset provides a capacious workspace for active processes and applications, enabling smooth multitasking and efficient operation. Further enhancing its capabilities, the IPQ-4018 chipset incorporates 16 MB of storage memory. This storage serves as a vital repository for the device's firmware, operating system, and configuration files. The non-volatile nature of this memory ensures data retention even during power-off situations, facilitating firmware upgrades and maintaining essential configuration data. The chipset excels in wireless connectivity, supporting both 2.4 GHz and 5 GHz bands for dual-band Wi-Fi networking. This dual-band support not only ensures flexibility for connected devices but also optimizes wireless performance by allowing connections to less congested frequency bands. The integration of various components into a single chip showcases the chipset's efficiency and compact design. In terms of performance optimization, the quad-core architecture ensures that the chipset is well-equipped to handle complex networking tasks. This efficiency translates into reduced latency and an overall enhancement of network performance."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Access Points",
+  "categories": [
+    "Access Points",
+    "cAP"
+  ],
+  "mpn": "RBcAPGi-5acD2nD-XL",
+  "manufacturer_part_number": "RBcAPGi-5acD2nD-XL",
+  "ean": "4752224007278",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3699/capxlac1-6343bc5ae2d85-medium.jpg",
+        "alt": "MikroTik cAP XL ac",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3699/capxlac2-6343bc6de4fc7-medium.jpg",
+        "alt": "MikroTik cAP XL ac",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3699/capxlac3-6343bc750b54e-medium.jpg",
+        "alt": "MikroTik cAP XL ac",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3699/capxlac4-6343bc7c88d5b-medium.jpg",
+        "alt": "MikroTik cAP XL ac",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3699/capxlac5-6343bc83915a5-medium.jpg",
+        "alt": "MikroTik cAP XL ac",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/yPAyuA6FljU",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 80.20,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 5" },
+        { "name": "Standards", "value": "802.11n/ac" },
+        { "name": "MIMO", "value": "2.4GHz 2x2, 5GHz 2x2" },
+        { "name": "Frequency", "value": "2.4GHz, 5GHz" },
+        { "name": "2.4GHz Radio Rate", "value": "300 Mbps" },
+        { "name": "5GHz Radio Rate", "value": "867 Mbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization"
+      ],
+      "items": [
+        { "name": "Antenna Design", "value": "Omni" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "2.412 - 2.484 (GHz) 6 (dBi), 5.150 - 5.875 (GHz) 5.5 (dBi)" },
+        { "name": "Beamwidth", "value": "360 °" },
+        { "name": "Polarization", "value": "Dual Linear" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "Management"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(2) 1 Gbps" },
+        { "name": "Number of PoE Ports", "value": "1 pcs" },
+        { "name": "PoE Out Standards", "value": "Passive PoE" },
+        { "name": "Management", "value": "Ethernet, Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "IPQ-4018, 4 core, 710 MHz" },
+        { "name": "RAM", "value": "128 MB" },
+        { "name": "Storage Memory", "value": "16 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "802.3af PoE, 802.3at PoE+" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Supported Input Voltage", "value": "18 - 57 V DC" },
+        { "name": "Max Power Consumption", "value": "11 W" },
+        { "name": "Power Connector", "value": "DC Plug 2.1 x 5.5 mm" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 1.2 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        { "name": "Color", "value": "White" },
+        { "name": "Dimensions", "value": "Ø191 x 42 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Indoor" },
+        { "name": "Mounting Method", "value": "Wall Mount, Ceilling Mount" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 4" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik cAP XL ac",
+      "url": "https://www.getic.com/files/catalogue/3699/cap_xl_ac_210927-613a007033bac.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik cAP XL ac",
+      "url": "https://www.getic.com/files/catalogue/3699/quickguidecapxlac-650ae69613653.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik cAP XL ac",
+      "url": "https://www.getic.com/files/catalogue/3699/usermanualscapxlac-650ae6a30a9c6.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.7,
+    "count": 6,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 66,
+      "great": 34,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 4,
+      "4_star": 2,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Joao",
+        "date": "2025-01-05",
+        "text": "It’s a great product! The only thing I wasn’t aware of (though it’s not a major issue) is that the lights keep blinking, which might be a bit distracting at night for someone sensitive, like my wife. ? Overall, still highly recommend it!",
+        "photos": []
+      },
+      {
+        "name": "Normunds",
+        "date": "2024-05-10",
+        "text": "All is very good",
+        "photos": []
+      },
+      {
+        "name": "Jānis",
+        "date": "2024-02-10",
+        "text": "Value item",
+        "photos": []
+      },
+      {
+        "name": "Aleksandrs",
+        "date": "2023-09-05",
+        "text": "excellent item.",
+        "photos": []
+      },
+      {
+        "name": "kai",
+        "date": "2022-08-25",
+        "text": "routeros is nice, however the cap ac wifi module is too old, it doesn't support wifi5 wave2",
+        "photos": []
+      },
+      {
+        "name": "Robert",
+        "date": "2022-08-15",
+        "text": "Works as advertised, could do with a refresh for Wifi6",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CSS326-24G-2S+RM",
+      "url": "/product/cloud-smart-switch-326-24g-2srm",
+      "price": 129.46,
+      "currency": "USD",
+      "mpn": "CSS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS326-24G-2S+RM",
+      "url": "/product/cloud-router-switch-326-24g-2srm",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ac",
+      "url": "/product/routerboard-cap-ac",
+      "price": 69.97,
+      "currency": "USD",
+      "mpn": "RBcAPGi-5acD2nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS328-24P-4S+RM",
+      "url": "/product/cloud-router-switch-328-24p-4s-rm",
+      "price": 434.22,
+      "currency": "USD",
+      "mpn": "CRS328-24P-4S+RM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik MTCNA Certificate",
+    "MikroTik Value Added Distributor"
+  ],
+  "stock_stat": ""
+}

@@ -141,21 +141,6 @@ export async function updateCompanyInfo(formData: FormData) {
   const existing = await prisma.companyInfo.findUnique({ where: { id: "default" } });
   const payload = buildCompanyFormPayload(formData, existing);
 
-  // #region agent log
-  import("@/lib/debug-ingest").then(({ debugIngest }) =>
-    debugIngest(
-      "features/catalog/actions.ts:updateCompanyInfo",
-      "company save payload",
-      {
-        submittedKeys: [...formData.keys()],
-        missingStoryEn: !formData.has("storyEn"),
-        missingPhone: !formData.has("phone"),
-        name: payload.name.slice(0, 80),
-      },
-      "H1",
-    ),
-  );
-  // #endregion
 
   const parsed = companyInfoSchema.parse(payload);
 
@@ -184,19 +169,6 @@ export async function updateCompanyInfo(formData: FormData) {
   revalidateMarketingHome();
   revalidatePath("/admin/company");
   } catch (error) {
-    // #region agent log
-    import("@/lib/debug-ingest").then(({ debugIngest }) =>
-      debugIngest(
-        "features/catalog/actions.ts:updateCompanyInfo",
-        "company save failed",
-        {
-          message: (error instanceof Error ? error.message : String(error)).slice(0, 240),
-          isZod: error instanceof Error && error.name === "ZodError",
-        },
-        "H2",
-      ),
-    );
-    // #endregion
     console.error("[updateCompanyInfo]", error);
     throw error instanceof Error
       ? error

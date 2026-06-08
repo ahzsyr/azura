@@ -1,0 +1,448 @@
+{
+  "slug": "routerboard-hex-s",
+  "id": "1595",
+  "productTitle": "MikroTik hEX S",
+  "name": "MikroTik hEX S",
+  "title": "MikroTik hEX S | Getic",
+  "title_extended": null,
+  "short_description": "Dual Core 880MHz CPU, 256MB RAM, 5x GIGABIT LAN, SFP cage, USB, RouterOS L4",
+  "description": "Designed for home and small office setups, these routers offer reliable wired connections via Ethernet cables. With PoE ports, you can power devices like access points and cameras through Ethernet. hEX S and hEX PoE also feature an SFP port for high-speed internet connections using optical cables. The RouterOS operating system by Mikrotik provides extensive network configuration and traffic management capabilities, ensuring a seamless and efficient networking experience.",
+  "detailed_description": [
+    {
+      "heading": "Introducing the hEX Series Routers",
+      "text": "Designed for home and small office setups, these routers offer reliable wired connections via Ethernet cables. With PoE ports, you can power devices like access points and cameras through Ethernet. hEX S and hEX PoE also feature an SFP port for high-speed internet connections using optical cables. The RouterOS operating system by Mikrotik provides extensive network configuration and traffic management capabilities, ensuring a seamless and efficient networking experience."
+    },
+    {
+      "heading": "Advanced Wired Solution",
+      "text": "The MikroTik hEX S Router is a powerful networking device designed to cater to the needs of home and small office installations. The hEX S router is the ultimate choice for users who want a reliable wired network setup without wireless connectivity. With its innovative features and high-performance hardware, this router delivers seamless network operation, making it the perfect fit for a wide range of networking applications."
+    },
+    {
+      "heading": "High-Performance Hardware",
+      "text": "Equipped with a dual-core 880MHz CPU and a generous 256MB of RAM, the hEX S router ensures exceptional performance. It effortlessly handles advanced configurations supported by the RouterOS operating system, developed by MikroTik. Whether you are a networking enthusiast, a tech-savvy professional, or a small business owner, the hEX S router's processing power guarantees smooth and efficient network operations, even during resource-intensive tasks."
+    },
+    {
+      "heading": "Data Transfer & PoE Capabilities",
+      "text": "The hEX S router boasts five Gigabit Ethernet ports, enabling fast and stable data transfer rates over wired connections. Connect computers, printers, and other compatible devices directly via Ethernet cables to experience a reliable and stable network environment. Furthermore, the hEX S router sets itself apart with its PoE output capability on Ethernet port #5. This feature facilitates convenient power supply through Ethernet cables to PoE-capable devices, such as access points and video cameras, streamlining your network setup while optimizing power management efficiency."
+    },
+    {
+      "heading": "SFP Port & MicroSD Slot",
+      "text": "Enhancing its connectivity options, the hEX S router comes with an SFP port, allowing you to easily add optical fiber connectivity to your network. This feature is especially useful for connecting to your internet service provider using optical cables, ensuring high-speed and reliable internet connections. Moreover, the hEX S router includes a MicroSD slot, elevating your file storage performance. Utilise this feature to enhance read/write speeds for file storage, providing better support for The Dude server package, and ensuring efficient network management."
+    },
+    {
+      "heading": "Affordability & Ease of Use",
+      "text": "Despite its powerful capabilities, the hEX S router remains affordable and user-friendly. Its compact design, clean aesthetics, and straightforward setup make it a perfect fit for any home or small office environment, accommodating both networking novices and experienced users. Ensuring the utmost security for your network is a top priority, and the hEX S router excels in this aspect. With support for IPsec hardware encryption, your sensitive data remains secure, and potential threats are kept at bay."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Ethernet Routers",
+  "categories": [
+    "MikroTik",
+    "Ethernet Routers",
+    "hEX",
+    "Wired Routers"
+  ],
+  "mpn": "RB760iGS",
+  "manufacturer_part_number": "RB760iGS",
+  "ean": "4752224002785",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1595/rb760igs_2-5fda009e1a40b-medium.jpg",
+        "alt": "MikroTik hEX S",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1595/rb760igs_1-5fda009ea34b2-medium.jpg",
+        "alt": "MikroTik hEX S",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1595/rb760igs_3-5fda01179dc46-medium.jpg",
+        "alt": "MikroTik hEX S",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1595/rb760igs_4-5fda00240c0f6-medium.jpg",
+        "alt": "MikroTik hEX S",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1595/rb760igs_2-5fda009e1a40b-tiny.jpg",
+        "alt": "MikroTik hEX S"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1595/rb760igs_1-5fda009ea34b2-tiny.jpg",
+        "alt": "MikroTik hEX S"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1595/rb760igs_3-5fda01179dc46-tiny.jpg",
+        "alt": "MikroTik hEX S"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1595/rb760igs_4-5fda00240c0f6-tiny.jpg",
+        "alt": "MikroTik hEX S"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/0XDdDj2eDto",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 59.00,
+    "currency": "USD",
+    "discount": 10
+  },
+  "old_price": 65.22,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "USB Ports",
+        "Management",
+        "Memory card slots"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(5) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 1G SFP"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 2.0"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        },
+        {
+          "name": "Memory card slots",
+          "value": "1 microSD"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "MT7621A, 2 core, 880 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "256 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "6 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 1.2 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "113 x 89 x 28 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 4"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik hEX S",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/rb760igs-datasheet.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik hEX S",
+      "url": "https://www.getic.com/files/catalogue/1595/quickguidehexs-65097bdf75691.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik hEX S",
+      "url": "https://www.getic.com/files/catalogue/1595/usermanualshexs-65097c38a4917.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "name": "Pickup point",
+      "price": 15.58,
+      "currency": "USD",
+      "info": "receive in 18 business days"
+    },
+    {
+      "name": "Standard",
+      "price": 31.45,
+      "currency": "USD",
+      "info": "receive in 5 business days"
+    },
+    {
+      "name": "Express",
+      "price": 42.86,
+      "currency": "USD",
+      "info": "receive in 2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 4.9,
+    "count": 7,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 86,
+      "great": 14,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 6,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Dudley",
+        "date": "2025-04-07",
+        "text": "I often use these as a backup router to the RB5009, in a VRRP config. Often powered via a POE switch. Great combination for small offices etc that want minimal downtime.",
+        "photos": []
+      },
+      {
+        "name": "Joseph",
+        "date": "2024-09-30",
+        "text": "Work as advertised",
+        "photos": []
+      },
+      {
+        "name": "Christian",
+        "date": "2023-08-23",
+        "text": "Geiles Teil",
+        "photos": []
+      },
+      {
+        "name": "Michail",
+        "date": "2023-03-12",
+        "text": "I'm satisfy with product.",
+        "photos": []
+      },
+      {
+        "name": "Juan",
+        "date": "2023-01-10",
+        "text": "Its the cheapest with SFP port of Mikrotik",
+        "photos": []
+      },
+      {
+        "name": "Fabian",
+        "date": "2022-10-24",
+        "text": "It works reliably and fast for my gigabit internet connection. I'm using it with CAPS MAN and 3 access points",
+        "photos": []
+      },
+      {
+        "name": "MATEUS",
+        "date": "2022-06-11",
+        "text": "i love so much",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hEX",
+      "url": "/product/routerboard-hex",
+      "price": 44.77,
+      "currency": "USD",
+      "mpn": "RB750Gr3",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CSS326-24G-2S+RM",
+      "url": "/product/cloud-smart-switch-326-24g-2srm",
+      "price": 129.46,
+      "currency": "USD",
+      "mpn": "CSS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ac",
+      "url": "/product/routerboard-cap-ac",
+      "price": 69.97,
+      "currency": "USD",
+      "mpn": "RBcAPGi-5acD2nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB4011iGS+RM",
+      "url": "/product/routerboard-4011igs-plus-rm",
+      "price": 175.29,
+      "currency": "USD",
+      "mpn": "RB4011iGS+RM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik MTCNA Certificate",
+    "MikroTik Value Added Distributor"
+  ],
+  "stock_stat": ""
+}

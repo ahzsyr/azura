@@ -1,0 +1,343 @@
+{
+  "slug": "mikrotik-netfiber-9",
+  "id": "CRS310-1G-5S-4S+OUT",
+  "productTitle": "MikroTik netFiber 9",
+  "name": "MikroTik netFiber 9",
+  "title": "MikroTik netFiber 9",
+  "title_extended": "MikroTik netFiber 9 – Outdoor Fiber Switch with SFP+ Ports",
+  "short_description": "netFiber 9 Outdoor Switch, ARM v7 CPU, 256 MB of RAM, 4x 10G SFP+ ports, Marvell switch-chip",
+  "description": "netFiber 9 Outdoor Switch, ARM v7 CPU, 256 MB of RAM, 4x 10G SFP+ ports, Marvell switch-chip",
+  "detailed_description": [
+    {
+      "heading": "Comprehensive Connectivity",
+      "text": "This switch boasts a diverse range of ports, including four 10G SFP+ ports for ultra-fast fiber optic connections and five SFP ports for standard fiber connectivity. Additionally, it includes a 10/100/1000 Ethernet port which is directly connected to the switch chip, enabling full gigabit speeds not only for networking but also for management purposes. This port supports PoE-in, offering flexibility in power sources, particularly in challenging installation locations. Designed with efficiency in mind, the netFiber 9 consumes a maximum of 16.3 W, with power consumption dropping to just 10 W without attachments. It supports both 802.3af/at PoE in and can operate with a DC input voltage range from 18-57 V, offering versatile powering options including PoE-IN and DC jack."
+    },
+    {
+      "heading": "Designed for Outdoor Use",
+      "text": "netFiber 9 excels in outdoor settings. The sturdy, IP54-rated case provides protection against dust and water splashes, making it suitable for areas with light coverage, such as under a roof overhang or within a protective cabinet. The unit features a large heatsink on the back that not only ensures excellent heat dissipation but also stabilizes the unit by shifting the center of mass towards the mounting options, ensuring a secure and durable installation. Furthermore, the design of the netFiber 9 includes thoughtful additions to aid in cable management and installation. Handy features on the bottom of the case help keep connections organized and tidy. The package comes with metal hose clamps and screws for immediate mounting to poles, walls, or masts, facilitating quick and secure deployment."
+    },
+    {
+      "heading": "Cost-Efficient and Easy to Manage",
+      "text": "This device runs on MikroTik’s RouterOS v7 / SwitchOS, providing a flexible and user-friendly interface for network management with a RouterOS license level 5. Despite its advanced features and durable construction, the netFiber 9 remains an affordable solution that simplifies network management. Its capabilities ensure that it can handle the needs of complex network environments, making it a valuable asset for any IT infrastructure. In addition, the model equipped with a CPU temperature monitor and voltage monitor, this switch provides real-time insights into its operational status, helping prevent potential issues before they impact network performance."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Cloud Router Switch 10G"
+  ],
+  "mpn": "CRS310-1G-5S-4S+OUT",
+  "manufacturer_part_number": "CRS310-1G-5S-4S+OUT",
+  "ean": "4752224007834",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3803/2109_hi_res-618260bab30d6-medium.jpg",
+        "alt": "MikroTik netFiber 9",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3803/2111_hi_res-618260c04ffdd-medium.jpg",
+        "alt": "MikroTik netFiber 9",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3803/2110_hi_res-618260c335591-medium.jpg",
+        "alt": "MikroTik netFiber 9",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3803/2112_hi_res-618260bd7b156-medium.jpg",
+        "alt": "MikroTik netFiber 9",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/xV_2rJoeBC4",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 206.35,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Communication Interface",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "w/o PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(5) 1G SFP, (4) 10G SFP+"
+        },
+        {
+          "name": "Communication Interface",
+          "value": "RJ45"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "98DX226S, 1 core, 800 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "256 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "18 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "16.3 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "48 V DC 0.95 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP54"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 5"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik netFiber 9",
+      "url": "https://www.getic.com/files/catalogue/3803/netfiber9-61715c9b59e48.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 1.25G Single-Mode Module 20km",
+      "url": "/product/mikrotik-sfp-transceiver-1-25g-1310nm-20km-single-mode",
+      "price": 20.90,
+      "currency": "USD",
+      "mpn": "S-31DLC20D",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX S",
+      "url": "/product/routerboard-hex-s",
+      "price": 59.00,
+      "currency": "USD",
+      "mpn": "RB760iGS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik netPower Lite 7R",
+      "url": "/product/cloud-smart-switch-610-1gi-7r-2s-out",
+      "price": 113.42,
+      "currency": "USD",
+      "mpn": "CSS610-1Gi-7R-2S+OUT",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+      "url": "/product/direct-attach-cable-xs-da0001",
+      "price": 26.85,
+      "currency": "USD",
+      "mpn": "XS+DA0001",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

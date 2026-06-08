@@ -1,0 +1,205 @@
+{
+  "slug": "mikrotik-rackmount-kit-2x10-19",
+  "id": "RMK-2x10/19",
+  "productTitle": "MikroTik Rackmount Kit 2x10/19",
+  "name": "MikroTik Rackmount Kit 2x10/19",
+  "title": "MikroTik Rackmount Kit 2x10/19",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": null,
+      "text": "MikroTik RMK-2x10/19 is a dedicated rackmount accessory designed specifically for mounting two CSS318-16G-2S+IN switches side-by-side within a single 1U slot of a standard 19-inch rack. This solution enables efficient use of rack space by consolidating compact devices into a clean, organized form factor. The bracket system is built to MikroTik's mechanical standards, ensuring a secure fit and easy installation with minimal effort — a simple one-click mounting mechanism allows for quick setup without the need for additional tools or custom modifications. The durable construction offers reliable support for both switches while maintaining proper front panel alignment and cable accessibility. Ideal for data centers, enterprise networking environments, or space-constrained telecom installations, the RMK-2x10/19 enhances system density without compromising accessibility or structural integrity."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Mounting Accessories",
+  "categories": [
+    "MikroTik",
+    "Switches",
+    "Cloud Smart Switch",
+    "Mounting Accessories"
+  ],
+  "mpn": "RMK-2x10/19",
+  "manufacturer_part_number": "RMK-2x10/19",
+  "ean": "4752224009838",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5918/1-67fe5a632c654-medium.jpg",
+        "alt": "MikroTik Rackmount Kit 2x10/19",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5918/2-67fe5a6d515d9-medium.jpg",
+        "alt": "MikroTik Rackmount Kit 2x10/19",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5918/1-67fe5a632c654-tiny.jpg",
+        "alt": "MikroTik Rackmount Kit 2x10/19"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5918/2-67fe5a6d515d9-tiny.jpg",
+        "alt": "MikroTik Rackmount Kit 2x10/19"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 3.22,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Rackmount Kit 2x10/19",
+      "url": "https://www.getic.com/files/catalogue/5918/rmk2x10_19-67fe5a5ed90c1.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.44
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "class": "Pickup point",
+      "price": 15.58,
+      "currency": "USD"
+    },
+    {
+      "class": "Standard",
+      "price": 31.44,
+      "currency": "USD"
+    },
+    {
+      "class": "Express",
+      "price": 42.86,
+      "currency": "USD"
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "4G LTE 9dBi Indoor Dual Omni Antenna SMA Male, 3m",
+      "url": "/product/3g4g-lte-9dbi-indoor-dual-omni-antenna-sma-male-3m",
+      "price": 18.54,
+      "currency": "USD",
+      "mpn": "LTE-9IN-SMAM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CCR2004-16G-2S+",
+      "url": "/product/mikrotik-ccr2004-16g-2s-plus",
+      "price": 372.35,
+      "currency": "USD",
+      "mpn": "CCR2004-16G-2S+",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Rackmount Kit",
+      "url": "/product/mikrotik-rackmount-kit",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "RMK-2/10",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CSS318-16G-2S+IN",
+      "url": "/product/mikrotik-css318-16g-2s-in",
+      "price": 115.03,
+      "currency": "USD",
+      "mpn": "CSS318-16G-2S+IN",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

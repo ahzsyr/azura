@@ -1,0 +1,244 @@
+{
+  "slug": "alfa-wifi-6e-pcie-card-with-panel-antenna",
+  "id": "3942",
+  "productTitle": "Alfa Wi-Fi 6E PCIe Card with Panel Antenna",
+  "name": "Alfa Wi-Fi 6E PCIe Card with Panel Antenna",
+  "title": "Alfa Wi-Fi 6E PCIe Card with Panel Antenna",
+  "title_extended": "",
+  "short_description": "Intel AX210 WiFi 6E and BT5 module, PCIe ×1 interface, ARS-WiFi6E-M2 Tri-band Panel 5dBi Antenna",
+  "description": "Intel AX210 WiFi 6E and BT5 module, PCIe ×1 interface, ARS-WiFi6E-M2 Tri-band Panel 5dBi Antenna",
+  "detailed_description": [
+    {
+      "heading": "Description",
+      "text": "The AIT-AX210-EZ is a WiFi 6E and Bluetooth 5 PCIe card based on the Intel AX210 module, designed for desktop PCs with a PCIe ×1 interface. It is equipped with ARS-WiFi6E-M2 tri-band panel 4dBi antenna with 2m long LMR-100 RF cable."
+    },
+    {
+      "heading": "Description",
+      "text": "AIT-AX210-EZ supports the latest WiFi 6E (IEEE 802.11ax) with special features like OFDMA, 1024QAM and MU-MIMO. Module includes also Bluetooth 5.2, is backward compatible and operates in 2.4, 5 and 6 GHz bands."
+    },
+    {
+      "heading": "Description",
+      "text": "AIT-AX210-EZ card has PCIe ×1 interface, which allows using this set in any desktop PC equipped with PCIe ×1, ×4, ×8 or ×16 slot."
+    }
+  ],
+  "brand": "Alfa Network",
+  "category": "Network Cards",
+  "categories": [
+    "Alfa",
+    "Ethernet Devices",
+    "Network Cards"
+  ],
+  "mpn": "AIT-AX210-EZ",
+  "manufacturer_part_number": "AIT-AX210-EZ",
+  "ean": "4718050308095",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3942/alfa_aitax210ez_prod_01-61e1835ab411f-medium.jpg",
+        "alt": "Alfa Wi-Fi 6E PCIe Card with Panel Antenna",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3942/alfa_aitax210ez_prod_02-61e1835a42a4e-medium.jpg",
+        "alt": "Alfa Wi-Fi 6E PCIe Card with Panel Antenna",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/3942/alfanetwork_aitax210ez_latest-6385de94c129c.pdf",
+        "title": "Technical Specs / Datasheet - Alfa Wi-Fi 6E PCIe Card with Panel Antenna"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 46.87,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz, 6GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "2.4 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Panel"
+        },
+        {
+          "name": "Cable Length",
+          "value": "2 m"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "Management",
+        "PCI Express",
+        "Bluetooth"
+      ],
+      "items": [
+        {
+          "name": "Management",
+          "value": "Wi-Fi, Bluetooth"
+        },
+        {
+          "name": "PCI Express",
+          "value": "(1) M.2 PCIe Slot"
+        },
+        {
+          "name": "Bluetooth",
+          "value": "5.2"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Intel AX210NGW"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "4G LTE 9dBi Indoor Dual Omni Antenna TS9 3m",
+      "url": "/product/3g4g-lte-9dbi-indoor-dual-omni-antenna-ts9-3m",
+      "price": 18.54,
+      "currency": "USD",
+      "mpn": "LTE-9IN-TS9",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACHM",
+      "url": "/product/alfa-awus036achm",
+      "price": 36.02,
+      "currency": "USD",
+      "mpn": "AWUS036ACHM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACS",
+      "url": "/product/alfa-awus036acs-nc",
+      "price": 20.49,
+      "currency": "USD",
+      "mpn": "AWUS036ACS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Power Adapter 24V 1.2A",
+      "url": "/product/psu-power-adapter-24v1-2a-for-mikrotik",
+      "price": 11.26,
+      "currency": "USD",
+      "mpn": "SAW30-240-1200GR2A",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

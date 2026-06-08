@@ -1,0 +1,285 @@
+{
+  "slug": "mikrotik-fiber-to-copper-converter",
+  "id": "4706",
+  "productTitle": "MikroTik Fiber-to-Copper Converter",
+  "name": "MikroTik Fiber-to-Copper Converter",
+  "title": "MikroTik Fiber-to-Copper Converter",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The FTC11XG is a powerful fiber-to-copper converter built to withstand the elements. Its IP55 weatherproof rating protects it from rain, dust, and other environmental challenges, making it ideal for outdoor deployments or harsh indoor environments. This versatile converter seamlessly transforms your 10 Gigabit SFP+ fiber connections into familiar RJ45 10 Gigabit Ethernet, bridging the gap between your fiber backbone and copper network devices. The FTC11XG boasts exceptional low power consumption (9-10 W) and flexible power options. Choose from a standard DC jack or 802.3 af/at/bt 43-57 V PoE-In for powering the converter. To simplify installation, the package includes a PoE injector, power supply, and even a mounting kit for easy ceiling installation. The converter runs a full version of SwOS Lite and features its own switch chip. FTC11XG has a range of advanced features, including Interface management and monitoring, VLAN support, SNMP reporting and Basic traffic shaping. The FTC11XG takes network security to the next level with its advanced packet filtering capabilities. The built-in Access Control List (ACL) acts as a powerful network tool, allowing you to filter packets based on various criteria like source/destination IP, port numbers, and protocols. You can track and account for network traffic, and also implement VLAN tagging for robust network segmentation.",
+  "detailed_description": [
+    {
+      "heading": "Rugged & Reliable",
+      "text": "The FTC11XG is a powerful fiber-to-copper converter built to withstand the elements. Its IP55 weatherproof rating protects it from rain, dust, and other environmental challenges, making it ideal for outdoor deployments or harsh indoor environments. This versatile converter seamlessly transforms your 10 Gigabit SFP+ fiber connections into familiar RJ45 10 Gigabit Ethernet, bridging the gap between your fiber backbone and copper network devices."
+    },
+    {
+      "heading": "Advanced Features",
+      "text": "The FTC11XG boasts exceptional low power consumption (9-10 W) and flexible power options. Choose from a standard DC jack or 802.3 af/at/bt 43-57 V PoE-In for powering the converter. To simplify installation, the package includes a PoE injector, power supply, and even a mounting kit for easy ceiling installation. The converter runs a full version of SwOS Lite and features its own switch chip. FTC11XG has a range of advanced features, including Interface management and monitoring, VLAN support, SNMP reporting and Basic traffic shaping."
+    },
+    {
+      "heading": "Powerful Security & Control",
+      "text": "The FTC11XG takes network security to the next level with its advanced packet filtering capabilities. The built-in Access Control List (ACL) acts as a powerful network tool, allowing you to filter packets based on various criteria like source/destination IP, port numbers, and protocols. You can track and account for network traffic, and also implement VLAN tagging for robust network segmentation."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Fiber Networks",
+  "categories": [
+    "Fiber Products",
+    "Converters",
+    "Fiber Networks"
+  ],
+  "mpn": "FTC11XG",
+  "manufacturer_part_number": "FTC11XG",
+  "ean": "4752224007964",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4706/ftc11xg_2-65d33d72a9d37-medium.jpg",
+        "alt": "MikroTik Fiber-to-Copper Converter",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4706/ftc11xg_1-65d33d7b1f837-medium.jpg",
+        "alt": "MikroTik Fiber-to-Copper Converter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4706/ftc11xg_3-65d33d8075228-medium.jpg",
+        "alt": "MikroTik Fiber-to-Copper Converter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4706/ftc11xg_4-65d33d9f70ff5-medium.jpg",
+        "alt": "MikroTik Fiber-to-Copper Converter",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4706/ftc11xg_2-65d33d72a9d37-tiny.jpg",
+        "alt": "MikroTik Fiber-to-Copper Converter"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4706/ftc11xg_1-65d33d7b1f837-tiny.jpg",
+        "alt": "MikroTik Fiber-to-Copper Converter"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4706/ftc11xg_3-65d33d8075228-tiny.jpg",
+        "alt": "MikroTik Fiber-to-Copper Converter"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4706/ftc11xg_4-65d33d9f70ff5-tiny.jpg",
+        "alt": "MikroTik Fiber-to-Copper Converter"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4706/ftc11xg4-65d33abe02df1.pdf",
+        "title": "Technical Specs / Datasheet - MikroTik Fiber-to-Copper Converter"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 111.13,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Fiber Equipment",
+      "features": [
+        "SFP Type",
+        "Data Rate"
+      ],
+      "items": [
+        {
+          "name": "SFP Type",
+          "value": "SFP+"
+        },
+        {
+          "name": "Data Rate",
+          "value": "10 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 802.3af PoE, 802.3at PoE+, 802.3bt PoE++"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "18 - 57 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "10 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "48 V DC 0.95 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP55"
+        },
+        {
+          "name": "Dimensions",
+          "value": "254 x 97 x 35 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Ceilling Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Fiber-to-Copper Converter",
+      "url": "https://www.getic.com/files/catalogue/4706/ftc11xg4-65d33abe02df1.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.66,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.61,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.08,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 1.25G Multi-Mode Module",
+      "url": "/product/sfp-transceiver-1-25g-850nm-550m-multi-mode",
+      "price": 15.68,
+      "currency": "USD",
+      "mpn": "S-85DLC05D",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 10G Multi-Mode Module",
+      "url": "/product/mikrotik-sfp-transceiver-10g-850nm-300m-multi-mode",
+      "price": 47.44,
+      "currency": "USD",
+      "mpn": "S+85DLC03D",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS354-48G-4S+2Q+RM",
+      "url": "/product/cloud-router-switch-354-48g-4s-2q-rm",
+      "price": 491.51,
+      "currency": "USD",
+      "mpn": "CRS354-48G-4S+2Q+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 100G Multi-Mode Module",
+      "url": "/product/mikrotik-xq-85mp01d",
+      "price": 73.53,
+      "currency": "USD",
+      "mpn": "XQ+85MP01D",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

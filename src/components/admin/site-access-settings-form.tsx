@@ -32,6 +32,7 @@ type Props = {
 export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride }: Props) {
   const router = useRouter();
   const [enabled, setEnabled] = useState(initial);
+  const [savedEnabled, setSavedEnabled] = useState(initial);
   const [error, setError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [resetDialogOpen, setResetDialogOpen] = useState(false);
@@ -61,8 +62,9 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
     if (!result.success) {
       setError(result.error);
       setSaveStatus("error");
-      return;
+      return false;
     }
+    setSavedEnabled(enabled);
     setFeedback(
       enabled
         ? "Coming soon mode is on. Public visitors only see the coming soon page."
@@ -70,6 +72,12 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
     );
     markSaved();
   }, [enabled, markSaved, setSaveStatus]);
+
+  const handleCancel = useCallback(() => {
+    setEnabled(savedEnabled);
+    setError(null);
+    setFeedback(null);
+  }, [savedEnabled]);
 
   const handleResetSetup = useCallback(async () => {
     setResetError(null);
@@ -88,9 +96,13 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
   }, [resetConfirmText, router]);
 
   useEffect(() => {
-    registerPageActions({ onSave: handleSave });
+    registerPageActions({
+      onSave: handleSave,
+      onCancel: handleCancel,
+      selfManagedSaveStatus: true,
+    });
     return () => clearPageActions();
-  }, [registerPageActions, clearPageActions, handleSave]);
+  }, [registerPageActions, clearPageActions, handleSave, handleCancel]);
 
   const envLocked = envOverride !== null;
 

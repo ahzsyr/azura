@@ -18,29 +18,6 @@ export async function MarketingCmsPage({ slug, locale, page: pageProp }: Props) 
     pageProp !== undefined && pageProp !== null
       ? pageProp
       : await cmsService.resolveMarketingPage(slug);
-  // #region agent log
-  const blocks = Array.isArray(page?.blocks) ? page.blocks : [];
-  const heroBlock = blocks.find((b) => b && typeof b === "object" && "type" in b && b.type === "hero");
-  const heroProps =
-    heroBlock && typeof heroBlock === "object" && "props" in heroBlock
-      ? (heroBlock.props as Record<string, unknown>)
-      : null;
-  import("@/lib/debug-ingest").then(({ debugIngest }) =>
-    debugIngest(
-      "marketing-cms-page.tsx:resolve",
-      "marketing page resolved",
-      {
-        slug,
-        locale,
-        status: page?.status ?? null,
-        blockCount: blocks.length,
-        heroBackgroundType: heroProps?.backgroundType ?? null,
-        heroLayout: heroProps?.layout ?? null,
-      },
-      "H2",
-    ),
-  );
-  // #endregion
   if (!page) {
     notFound();
   }

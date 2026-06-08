@@ -1,0 +1,189 @@
+{
+  "slug": "psu-of-power-adapter-12v-10-8a",
+  "id": "2758",
+  "productTitle": "MikroTik Open Frame PSU UP1302C-12",
+  "name": "MikroTik Open Frame PSU UP1302C-12",
+  "title": "MikroTik Open Frame PSU UP1302C-12",
+  "title_extended": "MikroTik Open Frame PSU UP1302C-12",
+  "short_description": "12V 10.8A internal power supply",
+  "description": "The MikroTik UP1302C-12 is a powerful and reliable 12V 10.8A internal power supply unit designed specifically for high-performance MikroTik networking devices. Delivering up to 130W of output power, this PSU ensures stable and efficient energy distribution, even under heavy network loads. The UP1302C-12 is compatible with CRS326-24S+2Q+RM switches, CCR1036 series routers (new r2 revisions with dual power supply support), and the CCR2116-12G-4S+ model. It can be used both as a primary and replacement power module for these and related MikroTik devices, including CCR1036-12G-4S, CCR1036-12G-4S-EM, CCR1036-8G-2S+, and CCR1036-8G-2S+EM. Built for reliability and long-term operation, this internal PSU helps maintain uninterrupted performance and protects your equipment from power fluctuations. Whether you’re replacing an old unit or performing regular maintenance, the UP1302C-12 delivers the quality, efficiency, and durability expected from MikroTik products, making it a dependable choice for professional network environments.",
+  "detailed_description": [
+    {
+      "heading": "Technical Specs / Datasheet - MikroTik Open Frame PSU UP1302C-12",
+      "text": "Quick Start Guide - MikroTik Open Frame PSU UP1302C-12"
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters"
+  ],
+  "mpn": "UP1302C-12",
+  "manufacturer_part_number": "UP1302C-12",
+  "ean": "0708747438888",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2758/up1302c12_1-5fdb54a900c02-medium.jpg",
+        "alt": "MikroTik Open Frame PSU UP1302C-12",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 53.57,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power Adapter",
+      "features": [],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "10.8 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "12 V DC"
+        },
+        {
+          "name": "Output Power",
+          "value": "130 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "160 x 55 x 34 mm"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Quick Start Guide - MikroTik Open Frame PSU UP1302C-12",
+      "url": "https://www.getic.com/files/catalogue/2758/up1302c12_191039-6098dc20c6587.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CCR1036-8G-2S+EM",
+      "url": "/product/cloud-core-router-1036-8g-2sem",
+      "price": 1078.42,
+      "currency": "USD",
+      "mpn": "CCR1036-8G-2S+EM",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik CRS312-4C+8XG-RM",
+      "url": "/product/cloud-smart-switch-312-4c-8xg-rm",
+      "price": 565.98,
+      "currency": "USD",
+      "mpn": "CRS312-4C+8XG-RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CCR2004-16G-2S+",
+      "url": "/product/mikrotik-ccr2004-16g-2s-plus",
+      "price": 372.35,
+      "currency": "USD",
+      "mpn": "CCR2004-16G-2S+",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CCR2116-12G-4S+",
+      "url": "/product/mikrotik-ccr2116-12g-4s-plus",
+      "price": 796.26,
+      "currency": "USD",
+      "mpn": "CCR2116-12G-4S+",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": "In stock"
+}

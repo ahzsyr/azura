@@ -13,7 +13,7 @@ import { translationService } from "@/features/translation/translation.service";
 import {
   collectBlockEntityIds,
 } from "@/features/translation/block-translation";
-import { migrateLegacyCatalogBlocks } from "@/features/builder/migrate-legacy-blocks";
+import { migrateBlocksToBlockSystem } from "@/features/builder/migration/upgrade-blocks";
 import type { PageBlocks } from "@/types/builder";
 
 type Props = { params: Promise<{ id: string }> };
@@ -30,7 +30,7 @@ export default async function EditPagePage({ params }: Props) {
     [];
 
   const locales = await localeService.listEnabled();
-  const blocks = migrateLegacyCatalogBlocks((page.blocks as PageBlocks) ?? []);
+  const blocks = migrateBlocksToBlockSystem((page.blocks as PageBlocks) ?? []).blocks;
   const blockEntityIds = collectBlockEntityIds(blocks, "CmsPage", page.id);
   const [initialBlockTranslations, initialPageTranslations] = await Promise.all([
     blockEntityIds.length > 0

@@ -548,6 +548,18 @@ export default function ProductManagerApp({
     initialProductPageCompactDisplay ?? resolveProductPageCompactDisplay(),
   );
 
+  const savedSettingsRef = useRef({
+    globalBuyNow: globalBuyNow,
+    globalCta: globalCta,
+    pageDisplay,
+    elementOrder,
+    pageCompactDisplay,
+    pageLayout,
+    cardLayout,
+    pagePromo,
+    pageTrust,
+  });
+
   const saveCurrentSettingsTab = useCallback(async () => {
     setLayoutFeedback(null);
     const ok =
@@ -556,10 +568,12 @@ export default function ProductManagerApp({
       switch (adminTab) {
         case "buy-now":
           await saveProductBuyNowSettings(adminLocaleCode, globalBuyNow);
+          savedSettingsRef.current.globalBuyNow = globalBuyNow;
           setLayoutFeedback({ kind: "ok", text: ok });
           break;
         case "quote-cta":
           await saveProductQuoteCtaSettings(adminLocaleCode, globalCta);
+          savedSettingsRef.current.globalCta = globalCta;
           setLayoutFeedback({ kind: "ok", text: ok });
           break;
         case "page-elements":
@@ -568,22 +582,29 @@ export default function ProductManagerApp({
             elementOrder,
             compactDisplay: pageCompactDisplay,
           });
+          savedSettingsRef.current.pageDisplay = pageDisplay;
+          savedSettingsRef.current.elementOrder = elementOrder;
+          savedSettingsRef.current.pageCompactDisplay = pageCompactDisplay;
           setLayoutFeedback({ kind: "ok", text: "Page element settings saved." });
           break;
         case "page-layout":
           await saveProductPageLayoutOnlySettings(adminLocaleCode, pageLayout);
+          savedSettingsRef.current.pageLayout = pageLayout;
           setLayoutFeedback({ kind: "ok", text: ok });
           break;
         case "card-appearance":
           await saveProductCardLayoutOnlySettings(adminLocaleCode, cardLayout);
+          savedSettingsRef.current.cardLayout = cardLayout;
           setLayoutFeedback({ kind: "ok", text: ok });
           break;
         case "promo-banner":
           await saveProductPromoSettings(adminLocaleCode, pagePromo);
+          savedSettingsRef.current.pagePromo = pagePromo;
           setLayoutFeedback({ kind: "ok", text: ok });
           break;
         case "trust-widget":
           await saveProductTrustSettings(adminLocaleCode, pageTrust);
+          savedSettingsRef.current.pageTrust = pageTrust;
           setLayoutFeedback({ kind: "ok", text: ok });
           break;
         default:
@@ -607,8 +628,42 @@ export default function ProductManagerApp({
     pageTrust,
   ]);
 
+  const cancelCurrentSettingsTab = useCallback(() => {
+    const saved = savedSettingsRef.current;
+    switch (adminTab) {
+      case "buy-now":
+        setGlobalBuyNow(saved.globalBuyNow);
+        break;
+      case "quote-cta":
+        setGlobalCta(saved.globalCta);
+        break;
+      case "page-elements":
+        setPageDisplay(saved.pageDisplay);
+        setElementOrder(saved.elementOrder);
+        setPageCompactDisplay(saved.pageCompactDisplay);
+        break;
+      case "page-layout":
+        setPageLayout(saved.pageLayout);
+        break;
+      case "card-appearance":
+        setCardLayout(saved.cardLayout);
+        break;
+      case "promo-banner":
+        setPagePromo(saved.pagePromo);
+        break;
+      case "trust-widget":
+        setPageTrust(saved.pageTrust);
+        break;
+      default:
+        break;
+    }
+    setLayoutFeedback(null);
+  }, [adminTab]);
+
   useAdminFormState(
-    view === "list" && adminTab !== "table" ? { onSave: saveCurrentSettingsTab } : undefined,
+    view === "list" && adminTab !== "table"
+      ? { onSave: saveCurrentSettingsTab, onCancel: cancelCurrentSettingsTab }
+      : undefined,
   );
 
   // ── Media Picker state ────────────────────────────────────────────────────

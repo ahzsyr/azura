@@ -1,0 +1,354 @@
+{
+  "slug": "ubiquiti-unifi-u7-pro-xgs",
+  "id": "U7-Pro-XGS",
+  "productTitle": "Ubiquiti UniFi U7 Pro XGS White",
+  "name": "Ubiquiti UniFi U7 Pro XGS White",
+  "title": "Ubiquiti UniFi U7 Pro XGS White",
+  "title_extended": "",
+  "short_description": "Tri-band WiFi 7 access point, 2.4GHz 2x2 MU-MIMO, 5GHz 4x4 MU-MIMO, 6GHz 2x2 MU-MIMO, max data rates: 2.4GHz 688 Mbps, 5GHz 8.6 Gbps, 6GHz 5.8 Gbps, 1x 10 GbE RJ45 port, PoE++, up to 29W consumption, 160m² coverage, internal antennas, wall/ceiling mount",
+  "description": "The Ubiquiti UniFi U7 Pro XGS access point leverages Wi-Fi 7 (802.11be) technology to deliver exceptional wireless performance across diverse environments. It operates on the 2.4 GHz, 5 GHz, and 6 GHz frequency bands, employing a 2x2 (DL/UL MU-MIMO) configuration for 2.4 GHz and 6 GHz, and an enhanced 4x4 (DL/UL MU-MIMO) setup for the 5 GHz band. This design facilitates maximum data rates of 688 Mbps on 2.4 GHz, 8.6 Gbps on 5 GHz, and 5.8 Gbps on 6 GHz, ensuring high-throughput connectivity for bandwidth-intensive applications. The device supports channel bandwidths up to 320 MHz, optimizing spectrum utilization and minimizing latency. With the capacity to manage over 500 concurrent clients and a coverage area of approximately 160 m², the U7 Pro XGS is well-suited for high-density deployments requiring robust and reliable wireless access.",
+  "detailed_description": [
+    {
+      "heading": "Cutting-Edge Wi-Fi 7 Capabilities",
+      "text": "The Ubiquiti UniFi U7 Pro XGS access point leverages Wi-Fi 7 (802.11be) technology to deliver exceptional wireless performance across diverse environments. It operates on the 2.4 GHz, 5 GHz, and 6 GHz frequency bands, employing a 2x2 (DL/UL MU-MIMO) configuration for 2.4 GHz and 6 GHz, and an enhanced 4x4 (DL/UL MU-MIMO) setup for the 5 GHz band. This design facilitates maximum data rates of 688 Mbps on 2.4 GHz, 8.6 Gbps on 5 GHz, and 5.8 Gbps on 6 GHz, ensuring high-throughput connectivity for bandwidth-intensive applications. The device supports channel bandwidths up to 320 MHz, optimizing spectrum utilization and minimizing latency. With the capacity to manage over 500 concurrent clients and a coverage area of approximately 160 m², the U7 Pro XGS is well-suited for high-density deployments requiring robust and reliable wireless access."
+    },
+    {
+      "heading": "Intelligent Management",
+      "text": "The U7 Pro XGS is equipped with a 10 GbE RJ45 port, providing high-speed wired connectivity that aligns with its advanced wireless capabilities. It supports Power over Ethernet (PoE++) with a maximum power consumption of 29W, simplifying installation by transmitting power and data through a single Ethernet cable. The access point integrates seamlessly with Ubiquiti's UniFi Network platform, offering centralized management and monitoring. Advanced features include wireless meshing, band steering, 802.11r fast roaming, and guest network isolation, enhancing network efficiency and security. The device also supports up to 8 BSSIDs per radio and offers advanced Quality of Service (QoS) settings, allowing for granular control over network traffic to ensure optimal performance for critical applications."
+    },
+    {
+      "heading": "Optimized Design",
+      "text": "Constructed with durability and efficiency in mind, the U7 Pro XGS features a compact design measuring Ø215 x 32.5 mm and weighing 800 grams. Its enclosure is composed of UV-stabilized polycarbonate and aluminum alloy, ensuring resilience in various environmental conditions. The access point is equipped with internal antennas offering gains of 4 dBi for 2.4 GHz and 6 dBi for both 5 GHz and 6 GHz bands. It supports maximum transmit power levels of 23 dBm for 2.4 GHz, 29 dBm for 5 GHz, and 24 dBm for 6 GHz, ensuring extensive coverage. The device operates efficiently within an ambient temperature range of -30 to 40°C and humidity levels between 5% to 95% non-condensing, making it suitable for diverse deployment scenarios."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Points",
+  "categories": [
+    "Ubiquiti",
+    "UniFi Access Points",
+    "Flagship"
+  ],
+  "mpn": "U7-Pro-XGS",
+  "manufacturer_part_number": "U7-Pro-XGS",
+  "ean": "0810084698341",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5869/1-67dd181b4a363-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro XGS White",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5869/2-67dd181f35042-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro XGS White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5869/3-67dd1822d548c-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro XGS White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5869/4-67dd1826450f2-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro XGS White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5869/5-67dd1829d0b82-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro XGS White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5869/6-67dd182d8f680-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro XGS White",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 303.13,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Color",
+      "options": [
+        "White",
+        "Black"
+      ],
+      "default": "White"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate",
+        "6GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 7"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax/be"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 4x4, 6GHz 2x2"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz, 6GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "687 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "8.64 Gbps"
+        },
+        {
+          "name": "6GHz Radio Rate",
+          "value": "5.7 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 10 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3bt PoE++"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "42.5 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "29 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø215 x 32.5 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.8 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Ceilling Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi U7 Pro XGS White",
+      "url": "https://www.getic.com/files/catalogue/5869/u7proxgs_ds-67dd181487ac3.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 3,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 3,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Dvir",
+        "date": "2026-01-22",
+        "text": "Fast delivery. Excellent Product",
+        "photos": []
+      },
+      {
+        "name": "Imre",
+        "date": "2025-07-24",
+        "text": "Cheapest network hardware store in Baltics, orders arrive quickly.",
+        "photos": []
+      },
+      {
+        "name": "Melvyn",
+        "date": "2025-06-30",
+        "text": "Better design",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro Max",
+      "url": "/product/dream-machine-pro-max",
+      "price": 578.18,
+      "currency": "USD",
+      "mpn": "UDM-Pro-Max",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro HD 24 PoE",
+      "url": "/product/ubiquiti-unifi-switch-pro-hd-24-poe",
+      "price": 1004.20,
+      "currency": "USD",
+      "mpn": "USW-Pro-HD-24-PoE",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Fiber",
+      "url": "/product/ubiquiti-unifi-cloud-gateway-fiber",
+      "price": 282.07,
+      "currency": "USD",
+      "mpn": "UCG-Fiber",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti 10G PoE++ Adapter (60W)",
+      "url": "/product/ubiquiti-10g-poe-adapter-60w-",
+      "price": 42.11,
+      "currency": "USD",
+      "mpn": "UACC-PoE++-10G",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,417 @@
+{
+  "slug": "mikrotik-ccr2116-12g-4s-plus",
+  "id": "CCR2116-12G-4S+",
+  "productTitle": "MikroTik CCR2116-12G-4S+",
+  "name": "MikroTik CCR2116-12G-4S+",
+  "title": "MikroTik CCR2116-12G-4S+ Router – High-Performance 16-Core Cloud Router",
+  "title_extended": "MikroTik CCR2116-12G-4S+ Router – High-Performance 16-Core Cloud Router",
+  "short_description": "Cloud Core Router, 16 cores, 4x 10G SFP+ ports, M.2 PCIe slot, 6x faster BGP Performance, dual-redundant power supply",
+  "description": "Consolidating Networks with CCR. MikroTik's Cloud Core Router series, introduced in early 2023, represents a cutting-edge lineup of high-capacity routers designed to connect and consolidate small computer networks into a single large network. These routers offer powerful single-core performance, making them ideal for handling heavy operations with per-connection processing. The series features a range of models with various port configurations and redundant power supplies, catering to diverse networking needs for businesses, ISPs, research facilities, and more. With their advanced features and affordability, MikroTik's Cloud Core Routers are a reliable choice for taking networking setups to the next level.",
+  "detailed_description": [
+    {
+      "heading": "Consolidating Networks with CCR",
+      "text": "MikroTik's Cloud Core Router series, introduced in early 2023, represents a cutting-edge lineup of high-capacity routers designed to connect and consolidate small computer networks into a single large network. These routers offer powerful single-core performance, making them ideal for handling heavy operations with per-connection processing. The series features a range of models with various port configurations and redundant power supplies, catering to diverse networking needs for businesses, ISPs, research facilities, and more. With their advanced features and affordability, MikroTik's Cloud Core Routers are a reliable choice for taking networking setups to the next level."
+    },
+    {
+      "heading": "Unleash Unmatched Performance",
+      "text": "Elevate your networking setup with the MikroTik CCR2116-12G-4S+ router, designed to eliminate CPU limitations. Featuring the powerful Amazon Annapurna Labs Alpine CPU, this router sets a new standard of single-core performance in the entire CCR product family. With an impressive 16 cores running at 2 GHz, it boosts single-core performance by at least 15%, ensuring smooth and efficient operations."
+    },
+    {
+      "heading": "Versatile Connectivity Options",
+      "text": "Equipped with four 10G SFP+ ports and twelve Gigabit Ethernet ports, the CCR2116-12G-4S+ offers seamless connectivity and unparalleled flexibility. The SFP+ ports feature separate, full-duplex lines connected to the Marvell Aldrin family switch chip, while each group of four Gigabit Ethernet ports has a dedicated full-duplex connection to the switch chip. Additionally, a Gigabit port is directly connected to the CPU for effective management purposes, ensuring switch-like throughput in most setups without any bottlenecks."
+    },
+    {
+      "heading": "Ideal for Demanding Environments",
+      "text": "Designed to meet the needs of large ISPs and handle dynamic routing, massive BGPs, complex firewall rules, and intricate quality of service configurations, the CCR2116-12G-4S+ is equipped with robust power and versatility. Its reliable 10G networking capabilities provide a solid foundation for handling heavy workloads seamlessly. With a dual-redundant power supply, the router ensures reliable and uninterrupted network connectivity, avoiding any unexpected downtime."
+    },
+    {
+      "heading": "Compact and Compatible Design",
+      "text": "Housed in a classic white 1U rackmount case, the CCR2116-12G-4S+ blends seamlessly into your existing network infrastructure. With 16 GB RAM and 128 MB storage memory, this router efficiently handles advanced configurations and updates, ensuring smooth and stable operation at all times. It is also compatible with 1 x CCR2004-1G-2XS-PCIe, enabling easy installation into the router for enhanced functionality."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Wired Routers",
+  "categories": [
+    "MikroTik",
+    "Ethernet Routers",
+    "Cloud Core Router"
+  ],
+  "mpn": "CCR2116-12G-4S+",
+  "manufacturer_part_number": "CCR2116-12G-4S+",
+  "ean": "4752224007919",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3920/2115_hi_res-61b1c5953ae23-medium.jpg",
+        "alt": "MikroTik CCR2116-12G-4S+",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3920/2116_hi_res-61b1c5a073ec3-medium.jpg",
+        "alt": "MikroTik CCR2116-12G-4S+",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3920/2117_hi_res-61b1c59ca6b13-medium.jpg",
+        "alt": "MikroTik CCR2116-12G-4S+",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3920/2118_hi_res-61b1c598e0d43-medium.jpg",
+        "alt": "MikroTik CCR2116-12G-4S+",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/Km-o6iEfGNY",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 796.26,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Communication Interface",
+        "Management",
+        "PCI Express"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(13) 1 Gbps"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "w/o PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(4) 10G SFP+"
+        },
+        {
+          "name": "Communication Interface",
+          "value": "RJ45"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        },
+        {
+          "name": "PCI Express",
+          "value": "(1) M.2 PCIe Slot"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "AL73400, 16-Core, 2GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "16 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "128 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal x2 redundant PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "60 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "12 V DC 10.8 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Number of Rack Units",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "443 x 199 x 44 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 6"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik CCR2116-12G-4S+",
+      "url": "https://www.getic.com/files/catalogue/3920/ccr211612g4s-61a5f0b2aa59e.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik CCR2116-12G-4S+",
+      "url": "https://www.getic.com/files/catalogue/3920/quickguideccr211612g4s-65083aa0bf88e.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik CCR2116-12G-4S+",
+      "url": "https://www.getic.com/files/catalogue/3920/usermanualsccr211612g4s-650bf290a7288.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.8,
+    "count": 11,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 82,
+      "great": 18,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 9,
+      "4_star": 2,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "client",
+        "date": "2025-10-09",
+        "text": "Excellent value for money. Many configuration options.",
+        "photos": []
+      },
+      {
+        "name": "good",
+        "date": "2025-10-06",
+        "text": "라우터의 성능이 매우 우수하며 제품 품질이 매우 좋습니다.",
+        "photos": [
+          "https://www.getic.com/assets/images/reviews/cbfd23e7-44c9-4f5c-bf51-a60c770a25fc/small/68e386caaf0d427ee299fc6d-68e4b3c370ed0.jpg"
+        ]
+      },
+      {
+        "name": "Valentinas",
+        "date": "2025-04-11",
+        "text": "+YYYYYYYYYYYY",
+        "photos": []
+      },
+      {
+        "name": "Uros",
+        "date": "2024-02-12",
+        "text": "Works ok. Used in 200 MB connection.",
+        "photos": []
+      },
+      {
+        "name": "Peter",
+        "date": "2024-01-01",
+        "text": "Very good price-performance ratio",
+        "photos": []
+      },
+      {
+        "name": "Ruslans",
+        "date": "2023-12-24",
+        "text": "RouterOS 7 have a many bugs.",
+        "photos": []
+      },
+      {
+        "name": "Ivan",
+        "date": "2023-12-15",
+        "text": "Its super OK",
+        "photos": []
+      },
+      {
+        "name": "Dario",
+        "date": "2023-08-01",
+        "text": "Ottimo router, un po' rumoroso per l'utilizzo domestico, ma accettabile",
+        "photos": []
+      },
+      {
+        "name": "KERK",
+        "date": "2023-06-11",
+        "text": "Excellent and the product offers great value.",
+        "photos": []
+      },
+      {
+        "name": "Pēteris",
+        "date": "2023-02-02",
+        "text": "Nice gadget!",
+        "photos": []
+      },
+      {
+        "name": "alexander",
+        "date": "2022-08-17",
+        "text": "длолтоооророро",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CRS326-24G-2S+RM",
+      "url": "/product/cloud-router-switch-326-24g-2srm",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS317-1G-16S+RM",
+      "url": "/product/cloud-router-switch-317-1g-16srm",
+      "price": 399.85,
+      "currency": "USD",
+      "mpn": "CRS317-1G-16S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+      "url": "/product/direct-attach-cable-xs-da0001",
+      "price": 26.85,
+      "currency": "USD",
+      "mpn": "XS+DA0001",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CCR2004-16G-2S+",
+      "url": "/product/mikrotik-ccr2004-16g-2s-plus",
+      "price": 372.35,
+      "currency": "USD",
+      "mpn": "CCR2004-16G-2S+",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

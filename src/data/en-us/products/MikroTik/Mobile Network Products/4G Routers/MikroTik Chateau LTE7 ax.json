@@ -1,0 +1,357 @@
+{
+  "slug": "mikrotik-chateau-lte7-ax",
+  "id": "6959",
+  "productTitle": "MikroTik Chateau LTE7 ax",
+  "name": "MikroTik Chateau LTE7 ax",
+  "title": "MikroTik Chateau LTE7 ax",
+  "title_extended": "MikroTik Chateau LTE7 ax",
+  "short_description": "Quad-core ARM CPU 1.8 GHz, 1 GB DDR3L RAM, 128 MB NAND, Wi-Fi 6 (802.11ax) dual-band, 2.5 Gigabit Ethernet port, R11e-LTE7 modem (LTE Cat7 up to 300 Mbps down / 100 Mbps up), RouterOS v7 L4.",
+  "description": "Quad-core ARM CPU 1.8 GHz, 1 GB DDR3L RAM, 128 MB NAND, Wi-Fi 6 (802.11ax) dual-band, 2.5 Gigabit Ethernet port, R11e-LTE7 modem (LTE Cat7 up to 300 Mbps down / 100 Mbps up), RouterOS v7 L4.",
+  "detailed_description": [
+    {
+      "heading": "High-Speed LTE Router",
+      "text": "Chateau LTE7 ax combines robust LTE performance with a quad-core ARM CPU running at 1.8 GHz, 1 GB of DDR3L RAM, and 128 MB of NAND storage. The built-in Wi-Fi 6 (802.11ax) dual-band wireless, along with a 2.5 Gigabit Ethernet port, ensures ultra-fast local connectivity for demanding applications. With the integrated R11e-LTE7 modem supporting LTE Category 7, you can achieve speeds up to 300 Mbps downstream and 100 Mbps upstream. Multiple secure VPN tunnels, advanced firewall rules, container setups, and complex routing are all supported while maintaining stable LTE performance. The router handles both LTE as a primary connection or as a reliable backup to fiber. Dual-chain 2.4 GHz and 5 GHz wireless, along with MIMO 2x2 DL and 1x1 UL, provide strong coverage and better signal stability, even in challenging network conditions, making it perfect for home offices, businesses, and hybrid deployments."
+    },
+    {
+      "heading": "Multiple Use Cases",
+      "text": "Chateau LTE7 ax is versatile for multiple use cases. With five Ethernet ports, including one 2.5G port, it accommodates high-speed local networks for home offices, small and medium businesses, or LTE-based ISPs. The router supports TR-069, allowing remote client management and easy monitoring, while also offering straightforward configuration for everyday users. The compact and sleek design fits in both professional and home environments. LTE carrier aggregation enables simultaneous use of multiple bands, providing better speeds and responsiveness in crowded areas or weak-signal rural locations. Depending on the provider, users have reported doubled internet speeds in rural areas due to carrier aggregation. This router is suitable for users seeking plug-and-play simplicity, as well as IT professionals requiring advanced RouterOS v7 features, including container setups, VPNs, and secure network configurations. Its combination of LTE flexibility, dual-band Wi-Fi 6, and 2.5G Ethernet makes it an all-in-one solution for modern networking needs."
+    },
+    {
+      "heading": "Connectivity & Specifications",
+      "text": "Chateau LTE7 ax provides wide LTE coverage, supporting multiple FDD and TDD bands (1/3/5/7/8/20/28/32 FDD, 38/40/41 TDD), ensuring compatibility with most global carriers. It features one micro SIM slot, one USB 2.0 Type A port, four 1G Ethernet ports, and a 2.5G Ethernet port for high-speed connections. The router supports 2x2 MIMO on downlink and 1x1 MIMO on uplink, enhancing LTE performance and stability. Wi-Fi antennas deliver 3 dBi gain at 2.4 GHz and 6 dBi at 5 GHz. Operating on RouterOS v7 with license level 4, it supports advanced networking features such as VLANs, firewall rules, VPNs, and containerization. Power input ranges from 12–28 V with a maximum consumption of 21.5 W. Its efficient design allows low energy consumption while providing reliable LTE and Wi-Fi performance, making Chateau LTE7 ax an ideal choice for home offices, business networks, and hybrid ISP setups where speed, stability, and versatility are crucial."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "4G Routers",
+  "categories": [
+    "4G Routers",
+    "LTE Products",
+    "Mobile Network Products"
+  ],
+  "mpn": "S53UG+5HaxD2HaxD-TC&R11e-LTE7",
+  "manufacturer_part_number": "S53UG+5HaxD2HaxD-TC&R11e-LTE7",
+  "ean": "4752224010094",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6959/1-6944f26c97865-medium.jpg",
+        "alt": "MikroTik Chateau LTE7 ax",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6959/2-6944f271f133f-medium.jpg",
+        "alt": "MikroTik Chateau LTE7 ax",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6959/3-6944f2752d726-medium.jpg",
+        "alt": "MikroTik Chateau LTE7 ax",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 135.19,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "LTE Category",
+        "FDD LTE Frequency Bands",
+        "TDD LTE Frequency Bands",
+        "SIM Card Slot"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "3G (UMTS), 4G (LTE)"
+        },
+        {
+          "name": "LTE Category",
+          "value": "Cat7 - 300Mbps/100Mbps"
+        },
+        {
+          "name": "FDD LTE Frequency Bands",
+          "value": "1 (2100MHz), 3 (1800MHz), 5 (850MHz), 7 (2600MHz), 8 (900MHz), 20 (800MHz), 28 (700MHz), 32 (1400MHz)"
+        },
+        {
+          "name": "TDD LTE Frequency Bands",
+          "value": "38 (2600MHz), 40 (2300MHz), 41 (2500MHz)"
+        },
+        {
+          "name": "SIM Card Slot",
+          "value": "Micro-SIM"
+        }
+      ]
+    },
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(4) 1 Gbps, (1) 2.5 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-Core IPQ-6010 1.8 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "1 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "128 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 28 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "21.5 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 1.2 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "240 x 156 x 44 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 4"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Chateau LTE7 ax",
+      "url": "https://www.getic.com/files/catalogue/6959/chateaulte7ax-6944f261c5fdd.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik Chateau LTE18 ax",
+      "url": "/product/mikrotik-chateau-lte18-ax",
+      "price": 229.14,
+      "currency": "USD",
+      "mpn": "S53UG+5HaxD2HaxD-TC&EG18-EA",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax3",
+      "url": "/product/mikrotik-hap-ax3",
+      "price": 102.08,
+      "currency": "USD",
+      "mpn": "C53UiG+5HPaxD2HPaxD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Chateau LTE12 (2025)",
+      "url": "/product/mikrotik-chateau-lte12-2025-",
+      "price": 147.80,
+      "currency": "USD",
+      "mpn": "D53G-5HacD2HnD-TC&EG120K-EA",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Chateau LTE7",
+      "url": "/product/mikrotik-chateau-lte7",
+      "price": 104.27,
+      "currency": "USD",
+      "mpn": "D53G-5HacD2HnD-TC&R11e-LTE7",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,6 +1,6 @@
 import { STATIC_DEFAULT_URL_PREFIX } from "@/i18n/locale-config";
 import { localePathFromPrefix, stripAnyLocalePrefix } from "@/i18n/url-helpers";
-import type { MenuItem, MenuLayoutType } from "./types";
+import type { HeaderAction, MenuItem, MenuLayoutType } from "./types";
 
 const STATIC_PAGES = new Set([
   "about",
@@ -88,4 +88,15 @@ export function getItemHref(item: MenuItem, localeCode: string = STATIC_DEFAULT_
     default:
       return "#";
   }
+}
+
+export function resolveActionHref(
+  action: HeaderAction,
+  localeCode: string = STATIC_DEFAULT_URL_PREFIX,
+): string | null {
+  if (action.type !== "custom") return null;
+  const url = action.href?.trim();
+  if (!url) return null;
+  if (url.startsWith("http") || url.startsWith("#") || url.startsWith("mailto:")) return url;
+  return localePath(url, localeCode);
 }

@@ -198,16 +198,18 @@ interface OverlayProps {
 
 function MobileNavActionsStrip({
   actions,
+  localeCode,
   onActionClick,
 }: {
   actions: HeaderAction[];
+  localeCode: string;
   onActionClick?: (action: HeaderAction) => void;
 }) {
   const visible = actions.some((a) => a.visible !== false);
   if (!visible) return null;
   return (
     <div className="mobile-nav-actions mnav-actions">
-      <HeaderActions actions={actions} onActionClick={onActionClick} />
+      <HeaderActions actions={actions} localeCode={localeCode} onActionClick={onActionClick} />
     </div>
   );
 }
@@ -246,7 +248,7 @@ function MobileNavOverlay({
         <button type="button" className="mnav-close mnav-close--fs" aria-label="Close menu" onClick={onClose}>
           <i className="fas fa-times" aria-hidden />
         </button>
-        <MobileNavActionsStrip actions={actions} onActionClick={onActionClick} />
+        <MobileNavActionsStrip actions={actions} localeCode={localeCode} onActionClick={onActionClick} />
         <nav className="mnav-fs-grid">
           {items.map((item) => (
             <a
@@ -278,7 +280,7 @@ function MobileNavOverlay({
               <i className="fas fa-times" aria-hidden />
             </button>
           </div>
-          <MobileNavActionsStrip actions={actions} onActionClick={onActionClick} />
+          <MobileNavActionsStrip actions={actions} localeCode={localeCode} onActionClick={onActionClick} />
           <div className="mnav-tabs-bar">
             {tabs.map((tab, idx) => (
               <button
@@ -318,7 +320,7 @@ function MobileNavOverlay({
               <i className="fas fa-times" aria-hidden />
             </button>
           </div>
-          <MobileNavActionsStrip actions={actions} onActionClick={onActionClick} />
+          <MobileNavActionsStrip actions={actions} localeCode={localeCode} onActionClick={onActionClick} />
           <div className="mnav-search-bar">
             <span className="mnav-search-bar__icon" aria-hidden>
               <i className="fas fa-search" />
@@ -364,7 +366,7 @@ function MobileNavOverlay({
             <i className="fas fa-times" aria-hidden />
           </button>
         </div>
-        <MobileNavActionsStrip actions={actions} onActionClick={onActionClick} />
+        <MobileNavActionsStrip actions={actions} localeCode={localeCode} onActionClick={onActionClick} />
         <nav className="mnav-body">
           <NavRows
             items={items}

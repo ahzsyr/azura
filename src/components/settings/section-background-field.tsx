@@ -4,7 +4,7 @@ import type { BlockSectionBackground } from "@/types/block-system";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { ColorPickerField } from "./color-picker-field";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { EffectSelectField } from "@/features/theme/components/visual-controls/effect-select-field";
 import { BACKGROUND_EFFECT_OPTIONS } from "@/features/theme/effect-options";
 
@@ -66,12 +66,16 @@ export function SectionBackgroundField({ value, onChange }: Props) {
 
       {type === "image" && (
         <>
-          <MediaPickerField
+          <UrlPrimaryMediaPickerField
             label="Background image"
             url={bg.imageUrl ?? ""}
-            trackMediaId={false}
-            idFieldName=""
-            onChange={({ url }) => onChange({ ...bg, imageUrl: url || undefined })}
+            onPick={({ url, mediaId }) =>
+              onChange({
+                ...bg,
+                imageUrl: url || undefined,
+                mediaAssetId: mediaId ?? undefined,
+              })
+            }
             previewSize={{ width: 200, height: 80 }}
           />
           <div>

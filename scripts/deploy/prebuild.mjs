@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Prebuild hook: rebuild product indexes when catalog source is present.
- * Skips on Hostinger when catalog product folders are missing but committed indexes exist.
+ * Skips when committed products-index manifest already has products.
  */
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -39,6 +39,15 @@ if (!hasCatalogSource && manifestCounts > 0) {
     "[prebuild] Catalog source folders missing; keeping committed products-index (" +
       `${manifestCounts} products in manifest).`,
   );
+  process.exit(0);
+}
+
+if (hasCatalogSource && manifestCounts > 0) {
+  console.log(
+    "[prebuild] Committed products-index manifest has " +
+      `${manifestCounts} products — skipping catalog:index (use catalog:index:force to rebuild).`,
+  );
+  process.exit(0);
 }
 
 const requiredMessages = ["messages/en.json", "messages/ar.json"];
@@ -53,14 +62,10 @@ if (missingMessages.length > 0) {
   process.exit(1);
 }
 
-if (!hasCatalogSource && manifestCounts > 0) {
-  process.exit(0);
-}
-
 const result = spawnSync("npm", ["run", "catalog:index"], {
   stdio: "inherit",
   shell: process.platform === "win32",
-  env: process.env,
+  env: { ...process.env, SKIP_SEARCH_INDEX_SYNC: "1" },
 });
 
 process.exit(result.status ?? 1);

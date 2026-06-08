@@ -1,0 +1,422 @@
+{
+  "slug": "routerboard-4011igs-plus-rm",
+  "id": "RB4011iGS+RM",
+  "productTitle": "MikroTik RB4011iGS+RM",
+  "name": "MikroTik RB4011iGS+RM",
+  "title": "MikroTik RB4011iGS+RM",
+  "title_extended": "MikroTik RB4011iGS+RM Router – High-Performance Gigabit Rackmount Router",
+  "short_description": "PoE in/out, 10xGLAN Ethernet Ports, 1xSFP+ cage and RouterOS L5",
+  "description": "Discover advanced networking with the MikroTik RB4011iGS+RM: with ten high-speed Gigabit ports and an additional cutting-edge 10Gbps SFP+ interface, plus hardware-accelerated IPsec capabilities for enhanced secure communications, this router delivers exceptional performance at a remarkable price. The RB4011iGS+RM harnesses the power of a quad-core Cortex A15 CPU, which brings heightened processing power, multitasking capabilities, and energy efficiency, making it a versatile and high-performance router suitable for a wide range of networking needs. RB4011iGS+RM has a precise design with a sleek matte black metal enclosure. This router excels when mounted on a pole, mast, or elevated structure, showcasing its connectivity capabilities. With the ability to provide PoE output on port #10, this device adapts to diverse networking setups. This feature unlocks a multitude of networking possibilities, making it ideal for scenarios where devices need both data and power simultaneously. Whether you're setting up a surveillance system, wireless access points, or IP phones, the RB4011iGS+RM seamlessly accommodates diverse networking setups, simplifying your network infrastructure and reducing the need for extra power sources or complex cabling arrangements. Elevate your network to new heights with the RB4011iGS+RM's exceptional 10G SFP+ port. This feature delivers unparalleled advantages, offering fast data transmission speeds that outperform traditional connections. With the 10G SFP+ port, you can effortlessly handle large data volumes, high-resolution multimedia streaming, and latency-sensitive applications. This means quicker backups, smoother video conferencing, and virtually lag-free online experiences. The RB4011iGS+RM's 10G SFP+ port empowers your network with unmatched speed and efficiency. The RB4011iGS+RM is equipped with the AL21400 chipset, a robust four-core processor operating at 1400 MHz. This powerful processing capability translates into a network router that can handle complex tasks with ease and speed. Whether you're managing a data-heavy network or running resource-intensive applications, this device provides the computing power required for smooth and efficient operations. Additionally, its 1 GB of RAM serves as a sturdy foundation, ensuring not only high-speed data processing but also overall system reliability. The device has 512 MB of storage memory for fast data access and smooth operations. Moreover, the device's support for multiple power methods, including AC/DC Adapter, 24V Passive PoE, and 48V Passive PoE, enhances its versatility significantly. This flexibility means you can adapt the device to various power conditions and installation environments, making it suitable for a wide range of network setups. The RB4011iGS+RM is remarkably efficient, consuming only 18 watts at maximum power, which, considering its impressive performance, is impressively low. This efficiency is achieved thanks to the ARM architecture used for the CPU, which not only lowers operational costs but also minimizes heat generation, contributing to a cooler and more energy-conscious networking setup. Additionally, the device's versatility extends to its power requirements. With a wide supported input voltage range of 12-57 V DC, it effortlessly adapts to varying environmental conditions and power configurations.",
+  "detailed_description": [
+    {
+      "heading": "Carrier-Grade Performance",
+      "text": "Discover advanced networking with the MikroTik RB4011iGS+RM: with ten high-speed Gigabit ports and an additional cutting-edge 10Gbps SFP+ interface, plus hardware-accelerated IPsec capabilities for enhanced secure communications, this router delivers exceptional performance at a remarkable price. The RB4011iGS+RM harnesses the power of a quad-core Cortex A15 CPU, which brings heightened processing power, multitasking capabilities, and energy efficiency, making it a versatile and high-performance router suitable for a wide range of networking needs."
+    },
+    {
+      "heading": "Streamlined Network Infrastructure",
+      "text": "RB4011iGS+RM has a precise design with a sleek matte black metal enclosure. This router excels when mounted on a pole, mast, or elevated structure, showcasing its connectivity capabilities. With the ability to provide PoE output on port #10, this device adapts to diverse networking setups. This feature unlocks a multitude of networking possibilities, making it ideal for scenarios where devices need both data and power simultaneously. Whether you're setting up a surveillance system, wireless access points, or IP phones, the RB4011iGS+RM seamlessly accommodates diverse networking setups, simplifying your network infrastructure and reducing the need for extra power sources or complex cabling arrangements."
+    },
+    {
+      "heading": "Advantages of 10G SFP+",
+      "text": "Elevate your network to new heights with the RB4011iGS+RM's exceptional 10G SFP+ port. This feature delivers unparalleled advantages, offering fast data transmission speeds that outperform traditional connections. With the 10G SFP+ port, you can effortlessly handle large data volumes, high-resolution multimedia streaming, and latency-sensitive applications. This means quicker backups, smoother video conferencing, and virtually lag-free online experiences. The RB4011iGS+RM's 10G SFP+ port empowers your network with unmatched speed and efficiency."
+    },
+    {
+      "heading": "Ideal for Data-Heavy Networks",
+      "text": "The RB4011iGS+RM is equipped with the AL21400 chipset, a robust four-core processor operating at 1400 MHz. This powerful processing capability translates into a network router that can handle complex tasks with ease and speed. Whether you're managing a data-heavy network or running resource-intensive applications, this device provides the computing power required for smooth and efficient operations. Additionally, its 1 GB of RAM serves as a sturdy foundation, ensuring not only high-speed data processing but also overall system reliability. The device has 512 MB of storage memory for fast data access and smooth operations. Moreover, the device's support for multiple power methods, including AC/DC Adapter, 24V Passive PoE, and 48V Passive PoE, enhances its versatility significantly. This flexibility means you can adapt the device to various power conditions and installation environments, making it suitable for a wide range of network setups."
+    },
+    {
+      "heading": "Remarkable Power Efficiency",
+      "text": "The RB4011iGS+RM is remarkably efficient, consuming only 18 watts at maximum power, which, considering its impressive performance, is impressively low. This efficiency is achieved thanks to the ARM architecture used for the CPU, which not only lowers operational costs but also minimizes heat generation, contributing to a cooler and more energy-conscious networking setup. Additionally, the device's versatility extends to its power requirements. With a wide supported input voltage range of 12-57 V DC, it effortlessly adapts to varying environmental conditions and power configurations."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Wired Routers",
+  "categories": [
+    "Ethernet Routers",
+    "RouterBoard"
+  ],
+  "mpn": "RB4011iGS+RM",
+  "manufacturer_part_number": "RB4011iGS+RM",
+  "ean": "4752224002730",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1669/rb4011igsrm_1-5fda110de7834-medium.jpg",
+        "alt": "MikroTik RB4011iGS+RM",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1669/rb4011igsrm_2-5fda110c72f50-medium.jpg",
+        "alt": "MikroTik RB4011iGS+RM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1669/rb4011igsrm_3-5fda110af1367-medium.jpg",
+        "alt": "MikroTik RB4011iGS+RM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1669/rb4011igsrm_4-5fda11098d17b-medium.jpg",
+        "alt": "MikroTik RB4011iGS+RM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1669/rb4011igsrm_6-5fda110754856-medium.jpg",
+        "alt": "MikroTik RB4011iGS+RM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1669/rb4011igsrm_5-5fda1108e46bf-medium.jpg",
+        "alt": "MikroTik RB4011iGS+RM",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/7Kj-rhQ7WRk",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 175.29,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Communication Interface",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(10) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 10G SFP+"
+        },
+        {
+          "name": "Communication Interface",
+          "value": "RJ45"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "AL21400, 4 core, 1400 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "1 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "512 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 24V Passive PoE, 48V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "18 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 1.5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "228 x 120 x 30 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount, Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\", Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 5"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik RB4011iGS+RM",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/rb4011igs_rm.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik RB4011iGS+RM",
+      "url": "https://www.getic.com/files/catalogue/1669/quickguiderb4011igsrm-650854b8f00a9.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik RB4011iGS+RM",
+      "url": "https://www.getic.com/files/catalogue/1669/usermanualsrb4011igsrm-6509967e67e28.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 8,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 8,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Simon",
+        "date": "2025-05-15",
+        "text": "Get's the job done perfectly. I can enjoy my gigabit connection now!",
+        "photos": []
+      },
+      {
+        "name": "Sven-Art",
+        "date": "2023-10-12",
+        "text": "Good router for good price",
+        "photos": []
+      },
+      {
+        "name": "Aleksandrs",
+        "date": "2023-09-05",
+        "text": "excellent router, fast ARM cpu, gbps ports and SFP+.",
+        "photos": []
+      },
+      {
+        "name": "Marko",
+        "date": "2023-08-15",
+        "text": "Thanks! Thanks!",
+        "photos": []
+      },
+      {
+        "name": "Henrik",
+        "date": "2023-01-30",
+        "text": "We've used RB3011 in our installations almost 10 years now and the RB4011 is even better. RB4011 can transport way more data than its predecessor, is smaller and suited for wall mounting (rack ears are also included). The best router I know of, even compared to more expensive hardware from Cisco and HP. Recommended!",
+        "photos": []
+      },
+      {
+        "name": "Joe",
+        "date": "2022-12-04",
+        "text": "Superb device for anyone with high speed internet (1Gbps) who needs more than a basic router. Easy to use firewall, and VPN concentrator (OpenVPN server). Can also highly recommend GETIC SIA for a painless online transaction.",
+        "photos": []
+      },
+      {
+        "name": "Andrews",
+        "date": "2022-12-01",
+        "text": "Excelente product, fast shipping...",
+        "photos": []
+      },
+      {
+        "name": "Andreas",
+        "date": "2022-06-05",
+        "text": "I really love it, it works like a charm and you can do just about anything with it.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CRS326-24G-2S+RM",
+      "url": "/product/cloud-router-switch-326-24g-2srm",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ac",
+      "url": "/product/routerboard-cap-ac",
+      "price": 69.97,
+      "currency": "USD",
+      "mpn": "RBcAPGi-5acD2nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS328-24P-4S+RM",
+      "url": "/product/cloud-router-switch-328-24p-4s-rm",
+      "price": 434.22,
+      "currency": "USD",
+      "mpn": "CRS328-24P-4S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX S",
+      "url": "/product/routerboard-hex-s",
+      "price": 53.1,
+      "currency": "USD",
+      "mpn": "RB760iGS",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik MTCNA Certificate",
+    "MikroTik Value Added Distributor"
+  ],
+  "stock_stat": ""
+}

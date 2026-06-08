@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import type { Testimonial } from "@prisma/client";
 import { upsertTestimonial } from "@/features/testimonials/actions";
 import { useAdminFormOptional } from "@/components/admin/layout/admin-form-provider";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -83,16 +83,14 @@ export function TestimonialEditPanel({ testimonial, embedded, formRef }: Props) 
           quote: testimonial.contentEn,
         }}
       />
-      <MediaPickerField
+      <UrlPrimaryMediaPickerField
         label="Photo"
-        urlFieldName="imageUrl"
-        mediaId={mediaAssetId}
         url={imageUrl}
-        onChange={({ mediaId, url }) => {
-          setMediaAssetId(mediaId);
-          setImageUrl(url);
-        }}
+        onChange={setImageUrl}
+        onMediaIdChange={(mediaId) => setMediaAssetId(mediaId)}
       />
+      <input type="hidden" name="imageUrl" value={imageUrl} readOnly />
+      <input type="hidden" name="mediaAssetId" value={mediaAssetId ?? ""} readOnly />
       <label className="flex items-center gap-2 text-sm">
         <input type="checkbox" name="isPublished" value="true" defaultChecked={testimonial.isPublished} />
         Published

@@ -1,0 +1,204 @@
+{
+  "slug": "u7-paintable-cover",
+  "id": "4776",
+  "productTitle": "Ubiquiti U7 Paintable Cover",
+  "name": "Ubiquiti U7 Paintable Cover",
+  "title": "Ubiquiti U7 Paintable Cover",
+  "title_extended": "",
+  "short_description": "The Ubiquiti U7 Paintable Cover (UACC-U7-Cover) is a decorative accessory designed to enhance the visual integration of U7 Pro and U7 Pro Max access points in indoor environments.",
+  "description": "The Ubiquiti U7 Paintable Cover (UACC-U7-Cover) is a decorative accessory designed to enhance the visual integration of U7 Pro and U7 Pro Max access points in indoor environments. It allows the device to blend naturally into its surroundings, making it ideal for offices, commercial spaces, and residential interiors where appearance is as important as performance.",
+  "detailed_description": [
+    {
+      "heading": "Paintable Protective Cover",
+      "text": "The Ubiquiti U7 Paintable Cover (UACC-U7-Cover) is a decorative accessory designed to enhance the visual integration of U7 Pro and U7 Pro Max access points in indoor environments. It allows the device to blend naturally into its surroundings, making it ideal for offices, commercial spaces, and residential interiors where appearance is as important as performance. The cover is specifically engineered to be paintable, giving installers and designers full freedom to match the access point to walls, ceilings, or architectural elements. It supports a wide range of coloring materials, including spray paint, acrylic paint, poster paint, and coloring pens, enabling both subtle finishes and custom color schemes. With its clean geometry and neutral surface, the cover maintains a professional and unobtrusive look while preserving the original design intent of the U7 series. It is an excellent solution for projects that require network equipment to remain discreet without compromising on consistency or aesthetics."
+    },
+    {
+      "heading": "Seamless Integration & Protection",
+      "text": "The Ubiquiti U7 Paintable Cover is designed exclusively for use with U7-Pro and U7-Pro-Max access points. It is manufactured from durable polycarbonate, a material selected for its strength, resistance to wear, and suitability for long-term indoor use. The cover has a diameter of Ø217.4 mm and a depth of 48.3 mm, providing a precise fit over the access point housing while maintaining proper installation and operation. With a total weight of 129 g, it remains lightweight and easy to handle during installation. Each unit is sold as a single pack and supplied in individual packaging, allowing flexible purchasing for both small installations and large-scale network deployments. The product is intended for indoor environments and serves as a finishing element that complements professional U7 installations. Its precise dimensions, durable construction, and model-specific compatibility ensure consistent results across multiple access points."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Accessories",
+  "categories": [
+    "Ubiquiti",
+    "UniFi Access Points",
+    "Accessories"
+  ],
+  "mpn": "UACC-U7-Cover",
+  "manufacturer_part_number": "UACC-U7-Cover",
+  "ean": "0810084694145",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4776/1-66433247015e1-medium.jpg",
+        "alt": "Ubiquiti U7 Paintable Cover",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4776/2-6643324dadabb-medium.jpg",
+        "alt": "Ubiquiti U7 Paintable Cover",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4776/3-66433251c052c-medium.jpg",
+        "alt": "Ubiquiti U7 Paintable Cover",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 39.33,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Accessories",
+      "features": [
+        "Cover"
+      ],
+      "items": [
+        {
+          "name": "Cover",
+          "value": "UniFi"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø217.4 x 48.3 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.129 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti U7 Paintable Cover",
+      "url": "https://www.getic.com/files/catalogue/4776/uaccu7cover_ds-6643324157c86.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Dream Machine Special Edition",
+      "url": "/product/ubiquiti-unifi-dream-machine-special-edition",
+      "price": 512.64,
+      "currency": "USD",
+      "mpn": "UDM-SE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 184.92,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro Max 16 PoE",
+      "url": "/product/switch-professional-max-16-poe",
+      "price": 401.45,
+      "currency": "USD",
+      "mpn": "USW-Pro-Max-16-PoE",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Fiber",
+      "url": "/product/ubiquiti-unifi-cloud-gateway-fiber",
+      "price": 282.07,
+      "currency": "USD",
+      "mpn": "UCG-Fiber",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

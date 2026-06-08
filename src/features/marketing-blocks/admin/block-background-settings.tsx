@@ -3,8 +3,9 @@
 import type { BlockNode } from "@/types/builder";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
-import { patchBlockSettings } from "@/features/builder/instance/block-instance";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
+import { IMAGE_PICKER_MEDIA_TYPES } from "@/features/media/constants";
+import { getBlockSettings, patchBlockMedia, patchBlockSettings } from "@/features/builder/instance/block-instance";
 
 type BackgroundKeys = {
   typeKey?: string;
@@ -18,6 +19,7 @@ type Props = {
   block: BlockNode;
   onChange: (block: BlockNode) => void;
   keys?: BackgroundKeys;
+  defaultType?: string;
 };
 
 const DEFAULT_KEYS: Required<BackgroundKeys> = {
@@ -28,10 +30,10 @@ const DEFAULT_KEYS: Required<BackgroundKeys> = {
   colorKey: "backgroundColor",
 };
 
-export function BlockBackgroundSettings({ block, onChange, keys = {} }: Props) {
+export function BlockBackgroundSettings({ block, onChange, keys = {}, defaultType = "gradient" }: Props) {
   const k = { ...DEFAULT_KEYS, ...keys };
-  const p = block.props;
-  const bgType = (p[k.typeKey!] as string) ?? "gradient";
+  const p = getBlockSettings(block);
+  const bgType = (p[k.typeKey!] as string) ?? defaultType;
 
   const setProp = (key: string, value: unknown) => {
     onChange(patchBlockSettings(block, { [key]: value }));
@@ -55,17 +57,21 @@ export function BlockBackgroundSettings({ block, onChange, keys = {} }: Props) {
         </select>
       </div>
       {bgType === "image" && (
-        <MediaPickerField
+        <UrlPrimaryMediaPickerField
           label="Background image"
-          mediaTypes={["IMAGE", "SVG"]}
-          mediaId={(p[k.imageMediaKey!] as string) || null}
+          mediaTypes={IMAGE_PICKER_MEDIA_TYPES}
           url={(p[k.imageUrlKey!] as string) ?? ""}
-          onChange={({ mediaId, url }) =>
+          onPick={({ url, mediaId }) =>
             onChange(
-              patchBlockSettings(block, {
-                [k.imageUrlKey!]: url,
-                [k.imageMediaKey!]: mediaId ?? "",
-              })
+              patchBlockMedia(
+                block,
+                {
+                  urlKey: k.imageUrlKey!,
+                  mediaIdKey: k.imageMediaKey,
+                  typeKey: k.typeKey,
+                },
+                { url, mediaId },
+              ),
             )
           }
         />

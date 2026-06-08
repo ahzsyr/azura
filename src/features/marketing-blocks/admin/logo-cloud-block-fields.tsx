@@ -3,7 +3,7 @@
 import type { BlockNode } from "@/types/builder";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { patchBlockSettings } from "@/features/builder/instance/block-instance";
 import { ItemCard, RepeatableSection } from "@/features/content-blocks/admin/shared/repeatable-section";
 import { LocalizedBlockTextarea, LocalizedBlockTitle } from "@/features/builder/block-translation-context";
@@ -79,12 +79,11 @@ export function LogoCloudBlockFields({ block, onChange }: Props) {
       >
         {items.map((item) => (
           <ItemCard key={item.id} onRemove={() => updateItems(items.filter((i) => i.id !== item.id))}>
-            <MediaPickerField
+            <UrlPrimaryMediaPickerField
               label="Logo image"
               mediaTypes={["IMAGE", "SVG"]}
-              mediaId={item.mediaAssetId || null}
               url={item.imageUrl}
-              onChange={({ mediaId, url }) =>
+              onPick={({ url, mediaId }) =>
                 updateItems(items.map((i) => (i.id === item.id ? { ...i, imageUrl: url, mediaAssetId: mediaId ?? "" } : i)))
               }
             />

@@ -1,0 +1,311 @@
+{
+  "slug": "cloud-key-enterprise",
+  "id": "4506",
+  "productTitle": "Ubiquiti CloudKey Enterprise",
+  "name": "Ubiquiti CloudKey Enterprise",
+  "title": "Ubiquiti CloudKey Enterprise",
+  "title_extended": "Ubiquiti CloudKey Enterprise – Network Console, 1x 10G SFP+, 1x GbE RJ45, 1.3\" touchscreen, 2x Hot-swappable AC/DC PSU",
+  "short_description": "Network Console, 1x 10G SFP+, 1x GbE RJ45, 1.3\" touchscreen, 2x Hot-swappable AC/DC PSU",
+  "description": "The CloudKey Enterprise, with its model manufacture part number CK-Enterprise, is a significant advancement in the realm of network management, especially designed by Ubiquiti to cater to large-scale UniFi Networks. This unit stands out due to its capacity to manage over 1,000 UniFi Network devices and 10,000+ clients, making it an essential tool for extensive enterprise, educational, or hospitality networks that demand robust and centralized control over their networking infrastructure.",
+  "detailed_description": [
+    {
+      "heading": "Enterprise-Grade Network Control",
+      "text": "The CloudKey Enterprise, with its model manufacture part number CK-Enterprise, is a significant advancement in the realm of network management, especially designed by Ubiquiti to cater to large-scale UniFi Networks. This unit stands out due to its capacity to manage over 1,000 UniFi Network devices and 10,000+ clients, making it an essential tool for extensive enterprise, educational, or hospitality networks that demand robust and centralized control over their networking infrastructure."
+    },
+    {
+      "heading": "Powerful Hardware",
+      "text": "At the heart of this robust device is its advanced processing power, derived from a 16-core Intel® Xeon®-SP Gold 5218 processor that runs at 2.3 GHz, complemented by 32GB (2x 16GB) of DDR4 ECC RDIMM memory. This formidable combination ensures seamless operation and the capability to handle the demands of managing and configuring thousands of network devices and clients without performance degradation."
+    },
+    {
+      "heading": "Connectivity and Management",
+      "text": "The CloudKey Enterprise's connectivity options are designed to support the backbone of modern, high-speed networks. It features one Gigabit Ethernet RJ45 LAN port and one 10G SFP+ port for management traffic, ensuring that the device can cater to the bandwidth requirements of next-generation network infrastructures. Its built-in Bluetooth facilitates effortless setup and configuration, providing a streamlined, user-friendly deployment process right from the start."
+    },
+    {
+      "heading": "Touchscreen Display",
+      "text": "The Ubiquiti CloudKey Enterprise is equipped with a sophisticated LED display that enhances the user experience by providing at-a-glance system information. This display is a 1.3\" touchscreen LCM (Liquid Crystal Module), which is designed to offer users quick and intuitive access to the device's status and core functionalities. This level of interactivity is particularly useful for network administrators who need to quickly verify the system's health, check network performance statistics, or initiate a factory reset without accessing the UniFi Controller software."
+    },
+    {
+      "heading": "Redundancy and Reliability",
+      "text": "Redundancy is another critical aspect of the CloudKey Enterprise, with two hot-swappable 550W AC/DC power supply units. This redundancy ensures that the network remains operational, even in the event of a power supply failure, which is indispensable for mission-critical environments that cannot afford any downtime."
+    },
+    {
+      "heading": "Rack-Mountable Design",
+      "text": "The CloudKey Enterprise is also notable for its physical design and connectivity options. It features a sleek, compact form factor that allows for easy integration into existing network racks or setups. Physically, the CloudKey Enterprise boasts a full 1U form factor, making it suitable for seamless integration into standard server racks. This design consideration not only optimizes space within data centers but also facilitates efficient cable management and air circulation, contributing to the device's overall reliability and longevity."
+    },
+    {
+      "heading": "Advanced Security",
+      "text": "Security is another cornerstone of the CK-Enterprise, featuring advanced security measures to protect network integrity and data. It supports the latest security protocols and encryption standards, ensuring that all communications between the device and the network remain secure against external threats. Security within the CloudKey Enterprise framework is robust, incorporating features like role-based access control, communication encryption, and user authentication to secure the network against unauthorized access. This comprehensive security suite is vital in safeguarding sensitive data and maintaining network integrity in an era where cybersecurity threats are rampant."
+    },
+    {
+      "heading": "UniFi Integration",
+      "text": "Ubiquiti's CK-Enterprise distinguishes itself with its ability to manage multiple network segments and devices simultaneously, thanks to its integration with the UniFi Network Controller software. This software platform is renowned for its intuitive user interface and powerful management capabilities, allowing network administrators to configure, monitor, and manage UniFi devices and network traffic with unprecedented ease. From advanced network configurations, such as VLAN setup and Wi-Fi network segmentation, to real-time monitoring and analytics, the CloudKey Enterprise provides a centralized control point for all network-related tasks."
+    },
+    {
+      "heading": "Summary",
+      "text": "In summary, the Ubiquiti CloudKey Enterprise CK-Enterprise model is a powerhouse of network management capabilities, setting new standards for managing sophisticated networks. Its massive-scale device and client management capacity, combined with high-speed connectivity, redundant power supply, and comprehensive security features, make it the ideal choice for organizations requiring centralized control over their UniFi deployments. Whether it's for enterprise networks, educational institutions, or hospitality and retail chains, the CloudKey Enterprise offers a solution that is both powerful and scalable, ready to meet the challenges of modern network management."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "UniFi OS Console",
+  "categories": [
+    "Home and Office Networks",
+    "UniFi OS Console"
+  ],
+  "mpn": "CK-Enterprise",
+  "manufacturer_part_number": "CK-Enterprise",
+  "ean": "0810084691861",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4506/4-654a424262fc8-medium.jpg",
+        "alt": "Ubiquiti CloudKey Enterprise",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4506/1-654a4246bff3d-medium.jpg",
+        "alt": "Ubiquiti CloudKey Enterprise",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4506/2-654a424a4449c-medium.jpg",
+        "alt": "Ubiquiti CloudKey Enterprise",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4506/3-654a424d2690c-medium.jpg",
+        "alt": "Ubiquiti CloudKey Enterprise",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4506/5-654a42509d596-medium.jpg",
+        "alt": "Ubiquiti CloudKey Enterprise",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4506/6-654a42540cc8b-medium.jpg",
+        "alt": "Ubiquiti CloudKey Enterprise",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 4957.94,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "16-core Intel® Xeon®-SP Gold 5218 at 2.3 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "32 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "256 GB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Supply",
+        "Supported Input Voltage"
+      ],
+      "items": [
+        {
+          "name": "Power Supply",
+          "value": "External x2 redundant PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Galvanized steel, Aluminium"
+        },
+        {
+          "name": "Dimensions",
+          "value": "787 x 43.7 x 482 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "13.1 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 35 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti CloudKey Enterprise",
+      "url": "https://www.getic.com/files/catalogue/4506/ckenterprise_ds-64f82a2e62ecc.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti CloudKey Enterprise",
+      "url": "https://dl.ui.com/qig/ck-enterprise/#index"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX PowerBeam M5 400",
+      "url": "/product/powerbeam-m5-400-25dbi",
+      "price": 90.02,
+      "currency": "USD",
+      "mpn": "PBE-M5-400",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX PowerBeam 5AC 500",
+      "url": "/product/powerbeam-ac-500-27dbi",
+      "price": 142.96,
+      "currency": "USD",
+      "mpn": "PBE-5AC-500",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX PowerBeam 5AC 620",
+      "url": "/product/powerbeam-ac-620-29dbi",
+      "price": 193.39,
+      "currency": "USD",
+      "mpn": "PBE-5AC-620",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

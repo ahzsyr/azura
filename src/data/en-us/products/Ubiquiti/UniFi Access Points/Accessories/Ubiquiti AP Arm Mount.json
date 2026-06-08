@@ -1,0 +1,205 @@
+{
+  "slug": "ubiquiti-ap-arm-mount",
+  "id": "UACC-AP-AM",
+  "productTitle": "Ubiquiti AP Arm Mount",
+  "name": "Ubiquiti AP Arm Mount",
+  "title": "Ubiquiti AP Arm Mount",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Versatile Mounting Solution",
+      "text": "The Ubiquiti AP Arm Mount (UACC-AP-AM) offers a flexible and efficient way to deploy your UniFi access points. This versatile mount offers a secure and adjustable solution for mounting your access point on walls or other vertical surfaces, optimizing wireless coverage and signal distribution within your network environment. The AP Arm Mount is designed to accommodate a wide range of Ubiquiti access points, providing compatibility and versatility for various network setups. In addition to its functional benefits, the AP Arm Mount contributes to a clean and professional appearance. Its sleek design complements the aesthetics of your network infrastructure, ensuring a visually appealing installation."
+    },
+    {
+      "heading": "Sturdy Construction and Easy Installation",
+      "text": "The Ubiquiti AP Arm Mount prioritizes durability and ease of installation. Constructed from high-quality materials, the mount offers a robust and secure platform for your access point. Its compact design and lightweight construction facilitate effortless mounting on walls or other suitable surfaces. The AP Arm Mount comes with all necessary hardware and instructions, simplifying the installation process. The included mounting template ensures accurate placement and alignment of the mount, minimizing installation time and effort. With its user-friendly design and secure construction, the AP Arm Mount provides a reliable and hassle-free solution for deploying your UniFi access points."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Mounting Accessories",
+  "categories": [
+    "Mounting Accessories",
+    "Accessories"
+  ],
+  "mpn": "UACC-AP-AM",
+  "manufacturer_part_number": "UACC-AP-AM",
+  "ean": "0810084696446",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4853/5-66a0b18d651ea-medium.jpg",
+        "alt": "Ubiquiti AP Arm Mount",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4853/1-66a0b17e512bc-medium.jpg",
+        "alt": "Ubiquiti AP Arm Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4853/2-66a0b18216840-medium.jpg",
+        "alt": "Ubiquiti AP Arm Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4853/3-66a0b185c29ef-medium.jpg",
+        "alt": "Ubiquiti AP Arm Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4853/4-66a0b1894afbd-medium.jpg",
+        "alt": "Ubiquiti AP Arm Mount",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 32.6,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "200.5 x 175.1 x 31.2 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.16 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti AP Arm Mount",
+      "url": "https://www.getic.com/files/catalogue/4853/uaccapam_ds-66a0b178d5f87.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Special Edition",
+      "url": "/product/ubiquiti-unifi-dream-machine-special-edition",
+      "price": 512.64,
+      "currency": "USD",
+      "mpn": "UDM-SE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 184.92,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Ultra",
+      "url": "/product/unifi-cloud-gateway-ultra",
+      "price": 110.98,
+      "currency": "USD",
+      "mpn": "UCG-Ultra",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,170 @@
+{
+  "slug": "pigtail-mmcx-male-rpsma-female-15cm",
+  "id": 831,
+  "productTitle": "Pigtail MMCX Male / RPSMA Female 15cm",
+  "name": "Pigtail MMCX Male / RPSMA Female 15cm",
+  "title": "Pigtail MMCX Male / RPSMA Female 15cm",
+  "title_extended": "",
+  "short_description": "High Quality MMCX Male to RPSMA Female Low Loss Pigtail RF174 15cm",
+  "description": "The Pigtail MMCX Male / RPSMA Female 15cm (P-MM-RSF-15) is designed to deliver stable and efficient connectivity between devices with MMCX connectors and external antennas or equipment that use RPSMA-type interfaces. With a practical length of 15 cm, it offers enough flexibility for installation while keeping signal loss at a minimum. This makes it an excellent choice for both home users and professionals who require reliable signal transmission.",
+  "detailed_description": [
+    {
+      "heading": "Stable and Efficient Connectivity",
+      "text": "The Pigtail MMCX Male / RPSMA Female 15cm (P-MM-RSF-15) is designed to deliver stable and efficient connectivity between devices with MMCX connectors and external antennas or equipment that use RPSMA-type interfaces. With a practical length of 15 cm, it offers enough flexibility for installation while keeping signal loss at a minimum. This makes it an excellent choice for both home users and professionals who require reliable signal transmission. Manufactured from high-quality materials, the pigtail provides long-lasting durability and consistent performance. The MMCX Male and RPSMA Female connectors ensure a secure and firm fit, minimizing the risk of accidental disconnections and guaranteeing stable operation even in demanding setups."
+    },
+    {
+      "heading": "Versatile Compatibility and Enhanced Performance",
+      "text": "The P-MM-RSF-15 is a versatile accessory that expands the compatibility of your networking and RF equipment. By enabling connections to high-gain or specialized external antennas, it helps enhance both signal reception and transmission for Wi-Fi, LTE, and other RF applications. This improvement in coverage and network stability makes it especially useful for wireless routers, access points, IoT devices, and custom projects. Its compact design ensures flexibility during installation while minimizing signal loss, providing dependable performance in a variety of scenarios. Whether you need better coverage at home, stronger connectivity for office use, or a reliable solution for professional setups, this pigtail offers a simple and effective way to upgrade your system."
+    }
+  ],
+  "brand": "OEM",
+  "category": "Antenna Accessories",
+  "categories": [
+    "Antenna Accessories",
+    "Pigtails"
+  ],
+  "mpn": "P-MM-RSF-15",
+  "manufacturer_part_number": "P-MM-RSF-15",
+  "ean": "0708747431513",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/831/mmcx-rpsma-female-15cm-90_angle_1-medium.jpg",
+        "alt": "Pigtail MMCX Male / RPSMA Female 15cm",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/831/mmcx-rpsma-female-15cm-90_angle_2-medium.jpg",
+        "alt": "Pigtail MMCX Male / RPSMA Female 15cm",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/831/mmcx-rpsma-female-15cm-90_angle_1-tiny.jpg",
+        "alt": "Pigtail MMCX Male / RPSMA Female 15cm"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/831/mmcx-rpsma-female-15cm-90_angle_2-tiny.jpg",
+        "alt": "Pigtail MMCX Male / RPSMA Female 15cm"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 2.65,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Connector",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Connector",
+          "value": "MMCX Male - RPSMA Female"
+        },
+        {
+          "name": "Cable Length",
+          "value": "0.15 m"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Pigtail MMCX Male / RPSMA Female 25cm",
+      "url": "/product/pigtail-mmcx-male-rpsma-female-25cm",
+      "price": 2.65,
+      "currency": "USD",
+      "mpn": "P-MM-RSF-25",
+      "availability": "InStock"
+    },
+    {
+      "name": "Pigtail U.fl Female / SMA Female 20cm",
+      "url": "/product/pigtail-u-fl-female-sma-female-20cm",
+      "price": 2.75,
+      "currency": "USD",
+      "mpn": "P-UF-SF-20",
+      "availability": "InStock"
+    },
+    {
+      "name": "Teltonika LTE/GPS/GLONASS/Wi-Fi Combo Antenn 3m",
+      "url": "/product/lte-gps-glonass-wifi-combo-outdoor-antenna-ip67-round-body",
+      "price": 37.80,
+      "currency": "USD",
+      "mpn": "PR1KCO28",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Dual-Band 2.4/5GHz Outdoor Wi-Fi Antenna",
+      "url": "/product/hgo-antenna-out",
+      "price": 9.65,
+      "currency": "USD",
+      "mpn": "HGO-antenna-OUT",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

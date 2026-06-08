@@ -164,7 +164,7 @@ export async function loadCollectionSlugIndex(
   if (!colIndex) return null;
 
   const slugs = colIndex.collections[collectionSlug];
-  return slugs ? new Set(slugs) : new Set();
+  return slugs?.length ? new Set(slugs) : null;
 }
 
 export async function searchTokenLookup(

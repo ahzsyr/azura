@@ -25,6 +25,11 @@ import { Badge } from "@/components/ui/badge";
 import type { DeviceBreakpoint } from "@/types/block-system";
 import { resolveContentOverflowForDevice } from "@/features/builder/styles/content-overflow-resolver";
 import { blockRegistry } from "@/features/builder/registry/block-registry-system";
+import { getBlockSettings } from "@/features/builder/instance/block-instance";
+import {
+  clampOverlayOpacity,
+  shouldShowBackgroundScrim,
+} from "@/features/marketing-blocks/lib/background-scrim";
 
 function overflowPreviewLabel(block: BlockNode, device: DeviceBreakpoint): string | null {
   if (!blockRegistry.get(block.type)?.contentOverflowCapable) return null;
@@ -68,11 +73,54 @@ function PreviewBlock({
   const dir = resolved?.dir === "rtl" ? "rtl" : "ltr";
 
   switch (block.type) {
-    case "hero":
+    case "hero": {
+      const settings = getBlockSettings(block);
+      const useBlockVisualBg = hasActiveBlockVisualBackground(block);
+      const bgType = resolveMarketingBackgroundType(
+        block,
+        settings.backgroundType as string | undefined,
+        "image"
+      );
+      const hasHeroImage = Boolean(settings.imageUrl);
+      const overlayOpacity = clampOverlayOpacity((settings.overlayOpacity as number) ?? 60);
+      const showPreviewScrim =
+        !useBlockVisualBg &&
+        shouldShowBackgroundScrim(bgType, {
+          imageUrl: settings.imageUrl as string | undefined,
+          videoUrl: settings.videoUrl as string | undefined,
+          overlayOpacity,
+        });
+      const isDark =
+        !useBlockVisualBg &&
+        bgType !== "transparent" &&
+        bgType !== "none" &&
+        (bgType === "gradient" || bgType === "image" || bgType === "video" || hasHeroImage);
       return (
-        <section dir={dir} className="relative min-h-[140px] flex items-center justify-center bg-emerald-800 text-white p-6 text-center">
-          {Boolean(p.imageUrl) && (
-            <Image src={p.imageUrl as string} alt="" fill className="object-cover opacity-40" sizes="400px" />
+        <section
+          dir={dir}
+          className={cn(
+            "relative min-h-[140px] flex items-center justify-center overflow-hidden p-6 text-center",
+            !useBlockVisualBg && !hasHeroImage && bgType === "gradient" && "bg-primary/20",
+            !useBlockVisualBg && !isDark && "bg-muted",
+            isDark && "text-white"
+          )}
+          style={useBlockVisualBg ? sectionBackgroundToCss(block.visual?.sectionBackground) : undefined}
+        >
+          {!useBlockVisualBg && hasHeroImage && bgType === "image" && (
+            <Image
+              src={settings.imageUrl as string}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="400px"
+            />
+          )}
+          {showPreviewScrim && (
+            <div
+              className="absolute inset-0 bg-black"
+              style={{ opacity: overlayOpacity / 100 }}
+              aria-hidden
+            />
           )}
           <div className="relative z-10">
             <h2 className="font-bold text-lg">{loc("title") || "Hero"}</h2>
@@ -80,6 +128,7 @@ function PreviewBlock({
           </div>
         </section>
       );
+    }
     case "text":
       return (
         <div dir={dir} className="p-4 text-sm text-muted-foreground whitespace-pre-wrap">

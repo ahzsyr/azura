@@ -1,0 +1,273 @@
+{
+  "slug": "airmax-ac-sector-22dbi",
+  "id": 836,
+  "productTitle": "Ubiquiti airMAX AC 5 GHz, 22 dBi, 45º Sector",
+  "name": "Ubiquiti airMAX AC 5 GHz, 22 dBi, 45º Sector",
+  "title": "Ubiquiti airMAX AC 5 GHz, 22 dBi, 45º Sector",
+  "title_extended": "",
+  "short_description": "Sector AirMax AC 22dBi 5GHz, dual polarity, beamwidth 45°, 2xRP-SMA Female Connectors",
+  "description": "The Sector AirMax AC 22dBi antenna stands as a testament to Ubiquiti Networks' innovation in the realm of wireless network technology. This model is intricately designed to cater to the demanding requirements of modern wireless networks, emphasizing high-speed data transmission and expansive coverage within the 5 GHz frequency band. The incorporation of the 802.11ac wireless standard underscores its capability to support the latest in high-throughput networking, setting a new benchmark for outdoor wireless communication.",
+  "detailed_description": [
+    {
+      "heading": "Outdoor Sector Antenna",
+      "text": "The Sector AirMax AC 22dBi antenna stands as a testament to Ubiquiti Networks' innovation in the realm of wireless network technology. This model is intricately designed to cater to the demanding requirements of modern wireless networks, emphasizing high-speed data transmission and expansive coverage within the 5 GHz frequency band. The incorporation of the 802.11ac wireless standard underscores its capability to support the latest in high-throughput networking, setting a new benchmark for outdoor wireless communication."
+    },
+    {
+      "heading": "For optimal performance, AM-5AC22-45 antenna, is designed to be integrated with Ubiquiti's Rocket Prism 5AC (sold separately).",
+      "text": "For optimal performance, AM-5AC22-45 antenna, is designed to be integrated with Ubiquiti's Rocket Prism 5AC (sold separately)."
+    },
+    {
+      "heading": "Integration with airMAX ac Technology",
+      "text": "Integration with Ubiquiti's airMAX ac technology is a cornerstone feature of the AM-5AC22-45, allowing it to seamlessly mesh with compatible airMAX Rocket M5 and Rocket Prism radio series that operating in the 5 GHz frequency band. This synergy unlocks the potential for gigabit-level wireless performance, a critical requirement for supporting data-heavy applications and services. The airMAX ac protocol, with its advanced modulation schemes and intelligent traffic management, dramatically reduces interference, ensuring superior throughput and reduced latency even in densely populated RF environments."
+    },
+    {
+      "heading": "High Gain Performance",
+      "text": "With an impressive gain of 22 dBi, the AM-5AC22-45 stands out for its exceptional ability to concentrate and project wireless signals over extended distances. This high gain is crucial for enhancing the network's reach and ensuring robust connectivity, making it possible to cover vast areas without necessitating an excessive proliferation of base stations. Such capability is not only cost-effective but also streamlines the deployment and maintenance of wireless networks."
+    },
+    {
+      "heading": "Targeted Sector Coverage",
+      "text": "Featuring a 45-degree beamwidth, the antenna offers targeted sector coverage, ideal for creating point-to-multipoint (PtMP) configurations. This focused coverage ensures that client devices within the sector receive a strong and stable signal, optimizing bandwidth usage and minimizing interference from outside the designated area. The 45-degree angle is particularly well-suited for environments where precise coverage is needed, allowing network operators to efficiently serve a specific sector with enhanced connectivity."
+    },
+    {
+      "heading": "Rugged Construction and Dual-Polarization",
+      "text": "Constructed to endure the rigors of outdoor deployment, the AM-5AC22-45 features a construction that is both rugged and weather-resistant. This durability is achieved through the use of high-quality materials engineered to withstand adverse weather conditions, including intense UV exposure, heavy rainfall, and strong winds. Such resilience guarantees the antenna's sustained performance and reliability over time, providing network operators with peace of mind regarding the longevity of their investment. Dual-polarization technology is a key attribute of the AM-5AC22-45, enabling simultaneous transmission and reception of signals in both vertical and horizontal orientations. This capability not only doubles the potential data throughput but also significantly mitigates interference, ensuring a stable and reliable network performance capable of supporting a high volume of data traffic and a large number of simultaneous users."
+    },
+    {
+      "heading": "Versatile Applications",
+      "text": "In terms of application, the AM-5AC22-45 is key for ISPs extending broadband in rural areas, enhancing connectivity across educational campuses and corporate environments, and providing robust WiFi for large events. Additionally, its long-range capabilities are crucial for setting up extensive video surveillance networks, ensuring security over broad areas without extensive cabling. This antenna's versatility and high performance make it suitable for a wide array of applications, from bridging the digital divide to facilitating seamless online experiences and bolstering security with efficient, reliable wireless coverage in diverse outdoor settings."
+    },
+    {
+      "heading": "Advanced Networking Solution",
+      "text": "In each of these scenarios, the Sector AirMax AC 22dBi antenna by Ubiquiti Networks embodies the cutting-edge of sector antenna technology, offering network operators an advanced solution for achieving widespread, reliable wireless coverage. With its high gain, targeted beamwidth, dual-polarization capabilities, durable construction, and seamless integration with leading-edge networking technologies, the AM-5AC22-45 is engineered to meet the comprehensive demands of contemporary wireless networking, providing an effective means of expanding and optimizing wireless broadband connectivity."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Wireless Antennas",
+  "categories": [
+    "Antennas",
+    "Outdoor Wireless",
+    "Ubiquiti"
+  ],
+  "mpn": "AM-5AC22-45",
+  "manufacturer_part_number": "AM-5AC22-45",
+  "ean": "0810354021404",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/836/am5ac2245_front-5feb3f499a155-medium.jpg",
+        "alt": "Ubiquiti airMAX AC 5 GHz, 22 dBi, 45º Sector",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/836/am5ac2245_back-5feb3f462a3b5-medium.jpg",
+        "alt": "Ubiquiti airMAX AC 5 GHz, 22 dBi, 45º Sector",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/836/am5ac2245_front-5feb3f499a155-tiny.jpg",
+        "alt": "Ubiquiti airMAX AC 5 GHz, 22 dBi, 45º Sector"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/836/am5ac2245_back-5feb3f462a3b5-tiny.jpg",
+        "alt": "Ubiquiti airMAX AC 5 GHz, 22 dBi, 45º Sector"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/https://dl.ubnt.com/datasheets/airMAX_ac_Sector/airMAX_ac_Sector_Antennas_DS.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti airMAX AC 5 GHz, 22 dBi, 45º Sector"
+      },
+      {
+        "url": "https://www.getic.com/https://dl.ubnt.com/guides/airMAX_ac_Sector/AM-5AC22-45_QSG.pdf",
+        "title": "Quick Start Guide - Ubiquiti airMAX AC 5 GHz, 22 dBi, 45º Sector"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 172.74,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization",
+        "VSWR"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Sector"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "5.100 - 5.850 (GHz) 22 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "45 °"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        },
+        {
+          "name": "VSWR",
+          "value": "< 1.5"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Mounting Method",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "750 x 215 x 94 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "6.0 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX AC 5 GHz, 22 dBi, 45º Sector",
+      "url": "https://www.getic.com/https://dl.ubnt.com/datasheets/airMAX_ac_Sector/airMAX_ac_Sector_Antennas_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX AC 5 GHz, 22 dBi, 45º Sector",
+      "url": "https://www.getic.com/https://dl.ubnt.com/guides/airMAX_ac_Sector/AM-5AC22-45_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": "84.74"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": "123.31"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX Rocket AC Lite",
+      "url": "/product/rocket-ac-lite",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "R5AC-LITE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX AC 5 GHz, 21 dBi, 60º Sector",
+      "url": "/product/airmax-ac-sector-21dbi",
+      "price": 172.74,
+      "currency": "USD",
+      "mpn": "AM-5AC21-60",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Rocket Prism 5AC",
+      "url": "/product/rocket-ac-prism-gen2",
+      "price": 229.40,
+      "currency": "USD",
+      "mpn": "RP-5AC-Gen2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 5XHD",
+      "url": "/product/airfiber-5xhd",
+      "price": 397.94,
+      "currency": "USD",
+      "mpn": "AF-5XHD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

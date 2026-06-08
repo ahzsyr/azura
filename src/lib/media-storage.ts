@@ -13,11 +13,107 @@ export type StoredUpload = {
   objectPath?: string;
 };
 
-/** Vercel/serverless cannot write to public/uploads — use Supabase Storage instead. */
+function usesSupabaseDatabase(): boolean {
+  const url = (process.env.DATABASE_URL ?? "").toLowerCase();
+  return url.includes("supabase.com");
+}
+
+function hasServiceRoleKey(): boolean {
+  return Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim());
+}
+
+import type { MediaStorageStatus } from "@/features/media/media-storage-status";
+
+export type { MediaStorageStatus } from "@/features/media/media-storage-status";
+
+export const MEDIA_STORAGE_SETUP_STEPS =
+  "Supabase Dashboard → Project Settings → API → copy the service_role secret (not anon). " +
+  "Add SUPABASE_SERVICE_ROLE_KEY to Hostinger/Vercel env, set MEDIA_STORAGE=supabase, run database/postgres/03-storage-media.sql once, then redeploy.";
+
+/** Whether CMS uploads use Supabase Storage (requires SUPABASE_SERVICE_ROLE_KEY). */
 export function useRemoteMediaStorage(): boolean {
   if (process.env.MEDIA_STORAGE === "local") return false;
+  if (hasServiceRoleKey()) return true;
   if (process.env.MEDIA_STORAGE === "supabase") return true;
-  return Boolean(process.env.VERCEL);
+  if (process.env.VERCEL) return true;
+  return false;
+}
+
+export function getMediaStorageStatus(): MediaStorageStatus {
+  const hasKey = hasServiceRoleKey();
+  const mediaStorageEnv = process.env.MEDIA_STORAGE?.trim() || null;
+  const vercel = Boolean(process.env.VERCEL);
+  const wantsSupabase =
+    mediaStorageEnv === "supabase" || vercel || (hasKey && mediaStorageEnv !== "local");
+  const remote = useRemoteMediaStorage();
+
+  const catalogSiteRemote = remote;
+  let catalogSiteMessage: string | null = null;
+  if (remote && !hasKey) {
+    catalogSiteMessage = `SUPABASE_SERVICE_ROLE_KEY is missing. Site media uploads and deletes require Supabase on serverless hosts. ${MEDIA_STORAGE_SETUP_STEPS}`;
+  } else if (vercel && remote) {
+    catalogSiteMessage =
+      "New uploads save to Supabase Storage. Bundled repo files can be hidden but not removed from the deployment.";
+  } else if (vercel && !remote) {
+    catalogSiteMessage =
+      "This server cannot write to disk. Configure SUPABASE_SERVICE_ROLE_KEY for Site media uploads.";
+  }
+
+  const catalogFields = { catalogSiteRemote, catalogSiteMessage };
+
+  if (mediaStorageEnv === "local") {
+    return {
+      backend: "local",
+      ready: true,
+      hasServiceRoleKey: hasKey,
+      mediaStorageEnv,
+      vercel,
+      message: null,
+      ...catalogFields,
+    };
+  }
+
+  if (remote && !hasKey) {
+    return {
+      backend: "supabase",
+      ready: false,
+      hasServiceRoleKey: false,
+      mediaStorageEnv,
+      vercel,
+      message: `SUPABASE_SERVICE_ROLE_KEY is missing. ${MEDIA_STORAGE_SETUP_STEPS}`,
+      ...catalogFields,
+    };
+  }
+
+  if (!remote && wantsSupabase && !vercel) {
+    return {
+      backend: "local",
+      ready: true,
+      hasServiceRoleKey: hasKey,
+      mediaStorageEnv,
+      vercel,
+      message:
+        "Uploads save to public/uploads on this server. For durable cloud storage, add SUPABASE_SERVICE_ROLE_KEY and MEDIA_STORAGE=supabase.",
+      ...catalogFields,
+    };
+  }
+
+  return {
+    backend: remote ? "supabase" : "local",
+    ready: remote ? hasKey : true,
+    hasServiceRoleKey: hasKey,
+    mediaStorageEnv,
+    vercel,
+    message: null,
+    ...catalogFields,
+  };
+}
+
+export function assertMediaStorageReady(): void {
+  const status = getMediaStorageStatus();
+  if (!status.ready && status.message) {
+    throw new Error(status.message);
+  }
 }
 
 function getMediaBucket(): string {
@@ -33,7 +129,7 @@ function getSupabaseAdmin() {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
   if (!url || !key) {
     throw new Error(
-      "Supabase media storage is not configured. In Vercel set SUPABASE_SERVICE_ROLE_KEY, create a public Storage bucket named media (or set SUPABASE_MEDIA_BUCKET), then redeploy.",
+      "Supabase media storage is not configured. In Vercel/Hostinger set SUPABASE_SERVICE_ROLE_KEY (Supabase → Settings → API → service_role), MEDIA_STORAGE=supabase, create a public Storage bucket named media (or run database/postgres/03-storage-media.sql), then redeploy.",
     );
   }
   return createClient(url, key, {
@@ -70,17 +166,6 @@ async function ensureMediaBucket(
     );
   }
 
-  // #region agent log
-  import("@/lib/debug-ingest").then(({ debugIngest }) =>
-    debugIngest(
-      "lib/media-storage.ts:ensureMediaBucket",
-      "created media bucket",
-      { bucket },
-      "H4",
-      "post-fix",
-    ),
-  );
-  // #endregion
 }
 
 async function uploadToSupabase(
@@ -103,24 +188,9 @@ export async function storeUploadedFile(
 ): Promise<StoredUpload> {
   const subDir = SUBDIR[mediaType];
   const storedName = `${Date.now()}-${safeFilename(file.name)}`;
+  assertMediaStorageReady();
   const remote = useRemoteMediaStorage();
 
-  // #region agent log
-  import("@/lib/debug-ingest").then(({ debugIngest }) =>
-    debugIngest(
-      "lib/media-storage.ts:storeUploadedFile",
-      "store upload",
-      {
-        remote,
-        vercel: Boolean(process.env.VERCEL),
-        mediaType,
-        subDir,
-        hasServiceRole: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()),
-      },
-      "H1",
-    ),
-  );
-  // #endregion
 
   if (!remote) {
     const dir = resolve(process.cwd(), UPLOAD_ROOT, subDir);
@@ -145,16 +215,6 @@ export async function storeUploadedFile(
   }
 
   if (error) {
-    // #region agent log
-    import("@/lib/debug-ingest").then(({ debugIngest }) =>
-      debugIngest(
-        "lib/media-storage.ts:storeUploadedFile",
-        "supabase upload failed",
-        { bucket, objectPath, code: error.name, message: error.message.slice(0, 200) },
-        "H3",
-      ),
-    );
-    // #endregion
     throw new Error(`Supabase storage upload failed: ${error.message}`);
   }
 

@@ -3,8 +3,8 @@
 import type { BlockNode } from "@/types/builder";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
-import { patchBlockSettings } from "@/features/builder/instance/block-instance";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
+import { patchBlockMedia, patchBlockSettings } from "@/features/builder/instance/block-instance";
 import { ItemCard, RepeatableSection } from "@/features/content-blocks/admin/shared/repeatable-section";
 import { LocalizedBlockInput, LocalizedBlockTextarea, LocalizedBlockTitle } from "@/features/builder/block-translation-context";
 import {
@@ -53,19 +53,25 @@ export function VideoHeroBlockFields({ block, onChange }: Props) {
 
       {mediaMode === "single" && (
         <>
-          <MediaPickerField
+          <UrlPrimaryMediaPickerField
             label="Background video"
             mediaTypes={["VIDEO"]}
-            mediaId={(p.videoMediaAssetId as string) || null}
             url={(p.videoUrl as string) ?? ""}
-            onChange={({ mediaId, url }) => onChange(patchBlockSettings(block, { videoUrl: url, videoMediaAssetId: mediaId ?? "" }))}
+            onPick={({ url, mediaId }) =>
+              onChange(
+                patchBlockMedia(
+                  block,
+                  { urlKey: "videoUrl", mediaIdKey: "videoMediaAssetId" },
+                  { url, mediaId },
+                ),
+              )
+            }
           />
-          <MediaPickerField
+          <UrlPrimaryMediaPickerField
             label="Poster image (fallback)"
             mediaTypes={["IMAGE"]}
-            mediaId={null}
             url={(p.posterUrl as string) ?? ""}
-            onChange={({ url }) => setProp("posterUrl", url)}
+            onChange={(url) => setProp("posterUrl", url)}
           />
           <div>
             <Label className="text-xs">Captions track URL (WebVTT)</Label>
@@ -82,12 +88,11 @@ export function VideoHeroBlockFields({ block, onChange }: Props) {
         >
           {slides.map((slide, index) => (
             <ItemCard key={slide.id} onRemove={() => setProp("slides", slides.filter((s) => s.id !== slide.id))}>
-              <MediaPickerField
+              <UrlPrimaryMediaPickerField
                 label="Video"
                 mediaTypes={["VIDEO"]}
-                mediaId={slide.videoMediaAssetId || null}
                 url={slide.videoUrl}
-                onChange={({ mediaId, url }) => {
+                onPick={({ url, mediaId }) => {
                   const next = [...slides];
                   next[index] = { ...slide, videoUrl: url, videoMediaAssetId: mediaId ?? "" };
                   setProp("slides", next);

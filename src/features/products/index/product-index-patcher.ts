@@ -1,7 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { catalogLocaleFromParam } from "@/features/products/fs/product-fs-scan";
-import type { CatalogLocale } from "@/features/catalog/locales";
+import { CATALOG_LOCALES, type CatalogLocale } from "@/features/catalog/locales";
 import {
   productsIndexRoot,
   writeLocaleProductIndexes,
@@ -45,6 +45,25 @@ async function updateManifest(locale: CatalogLocale, count: number, signature: s
   }
 
   await writeJsonAtomic(productsIndexRoot(), "manifest.json", manifest);
+}
+
+function catalogLocaleToUrlPrefix(locale: CatalogLocale): string {
+  return locale === "ar-ae" ? "ar" : "en";
+}
+
+export async function rebuildAllCatalogProductIndexes(): Promise<{
+  locales: Array<{ locale: CatalogLocale; count: number }>;
+}> {
+  const locales: Array<{ locale: CatalogLocale; count: number }> = [];
+
+  for (const locale of CATALOG_LOCALES) {
+    const prefix = catalogLocaleToUrlPrefix(locale);
+    const result = await rebuildProductIndexesForLocale(prefix);
+    revalidateProductListing(prefix);
+    locales.push({ locale, count: result.count });
+  }
+
+  return { locales };
 }
 
 export async function rebuildProductIndexesForLocale(

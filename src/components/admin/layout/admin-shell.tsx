@@ -43,7 +43,7 @@ export { AdminSettingsRibbon, AdminSettingsSection } from "./admin-settings-ribb
 export { AdminSettingsLayout } from "./admin-settings-layout";
 export type { SettingsRibbonTab } from "./admin-settings-ribbon";
 export { AdminPageHeader, AdminCardGrid } from "./admin-content-area";
-export { AdminFormProvider, useAdminForm, useAdminFormOptional } from "./admin-form-provider";
+export { AdminFormProvider, useAdminForm, useAdminFormOptional, AdminFormDirtySync } from "./admin-form-provider";
 export { AdminBreadcrumbs } from "./admin-breadcrumbs";
 export { AdminFloatingActions } from "./admin-floating-actions";
 export { AdminCollapsibleSection } from "./admin-collapsible-section";

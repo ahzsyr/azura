@@ -32,22 +32,6 @@ function normalizeRuntimeDatabaseUrl(url: string): string {
 function createPrismaClient() {
   const rawUrl = process.env.DATABASE_URL?.trim() ?? "";
   const datasourceUrl = normalizeRuntimeDatabaseUrl(rawUrl);
-  const limitMatch = datasourceUrl.match(/connection_limit=(\d+)/i);
-  // #region agent log
-  if (!isBuildWithoutDb()) {
-    import("@/lib/debug-ingest").then(({ debugIngest }) =>
-      debugIngest(
-        "lib/prisma.ts:createPrismaClient",
-        "prisma client init",
-        {
-          normalizedLimit: limitMatch?.[1] ?? "unset",
-          hadLimit1: /connection_limit=1(?:&|$)/i.test(rawUrl),
-        },
-        "H1",
-      ),
-    );
-  }
-  // #endregion
   return new PrismaClient({
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
     ...(datasourceUrl ? { datasourceUrl } : {}),

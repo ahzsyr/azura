@@ -1,0 +1,351 @@
+{
+  "slug": "ubiquiti-unifi-u7-long-range",
+  "id": "U7-LR",
+  "productTitle": "Ubiquiti UniFi U7 Long-Range",
+  "name": "Ubiquiti UniFi U7 Long-Range",
+  "title": "Ubiquiti UniFi U7 Long-Range",
+  "title_extended": "Ubiquiti UniFi U7 Long-Range Access Point – WiFi 7 Long-Range AP",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "WiFi 7 Performance",
+      "text": "The UniFi U7 Long-Range (U7-LR) is a high-performance tri-band access point powered by the latest WiFi 7 (802.11be) technology. Designed for next-generation wireless connectivity, the U7-LR delivers ultra-fast speeds and exceptional capacity, ideal for dense environments and bandwidth-intensive applications. It operates across 2.4 GHz, 5 GHz, and 6 GHz bands, enabling aggregate throughput of up to 9.3 Gbps. The 6 GHz band unlocks additional spectrum for less interference and greater performance. With support for Multi-Link Operation (MLO), the U7-LR allows devices to transmit across multiple bands simultaneously, ensuring low-latency, high-speed connections. The access point is powered via 802.3at PoE+, offering maximum deployment flexibility. U7-LR supports up to 600+ concurrent clients, making it a future-proof solution for enterprise, campus, or advanced smart home networks."
+    },
+    {
+      "heading": "Long-Range Coverage",
+      "text": "Engineered for extended coverage, the UniFi U7-LR features a high-gain antenna array that provides exceptional range and signal strength. It is capable of blanketing large areas with fast and stable WiFi, making it perfect for open office spaces, schools, warehouses, and public venues. The unit is designed with beamforming, MU-MIMO and OFDMA technologies to improve signal clarity, especially in high-density client environments. The access point is equipped with one 2.5 Gigabit Ethernet port, enabling high-speed wired backhaul or uplink to other networking devices. Its IP54-rated enclosure ensures resistance to dust and light splashes, making it suitable for semi-outdoor installations under eaves or sheltered areas. The compact, minimalist design allows for unobtrusive ceiling or wall mounting while maintaining optimal signal propagation across long distances."
+    },
+    {
+      "heading": "Seamless UniFi Integration",
+      "text": "The U7 Long-Range access point is fully managed through the UniFi Network Controller or UniFi Cloud Portal, offering an intuitive interface for centralized configuration, monitoring, and firmware management. IT administrators benefit from features like zero-touch provisioning, traffic analytics, VLAN support, and guest portal setup. You can easily manage user access, define SSIDs per frequency band, and monitor real-time traffic with detailed client-level insights. The U7-LR also supports advanced QoS policies, which prioritize latency-sensitive applications such as VoIP and video conferencing. With WiFi 7's enhanced spectral efficiency and the proven reliability of UniFi software, this access point provides a scalable, secure, and easy-to-manage wireless solution for growing network demands."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Points",
+  "categories": [
+    "UniFi Access Points",
+    "Flagship"
+  ],
+  "mpn": "U7-LR",
+  "manufacturer_part_number": "U7-LR",
+  "ean": "0810177161929",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6390/1-683edde6c1227-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Long-Range",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6390/2-683eddeb87a5d-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Long-Range",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6390/3-683eddef23dc7-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Long-Range",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6390/4-683ede1b658a2-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Long-Range",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6390/5-683ede1f45a47-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Long-Range",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6390/6-683ede232c9be-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Long-Range",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6390/7-683ede27039a7-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Long-Range",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 161.52,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 7"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax/be"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 3x3"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "687 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "4.3 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 2.5 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "42.5 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "14 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "175.7 x 175.7 x 43 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.448 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Ceilling Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi U7 Long-Range",
+      "url": "https://www.getic.com/files/catalogue/6390/u7lr_ds-683edde109575.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "name": "Pickup point",
+      "price": 15.66,
+      "currency": "USD",
+      "days": 18
+    },
+    {
+      "name": "Standard",
+      "price": 31.69,
+      "currency": "USD",
+      "days": 5
+    },
+    {
+      "name": "Express",
+      "price": 43.10,
+      "currency": "USD",
+      "days": 2
+    }
+  ],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Carlo",
+        "date": "2025-10-17",
+        "text": "very goof, a lot of controlling options, ability to define multiple lans.... amazing",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "/product/usw-lite-8-poe-eu",
+      "price": 118.38,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Ultra",
+      "url": "/product/unifi-cloud-gateway-ultra",
+      "price": 110.98,
+      "currency": "USD",
+      "mpn": "UCG-Ultra",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Outdoor",
+      "url": "/product/ubiquiti-access-point-u7-outdoor",
+      "price": 200.14,
+      "currency": "USD",
+      "mpn": "U7-Outdoor",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Lite",
+      "url": "/product/ubiquiti-unifi-u7-lite",
+      "price": 99.48,
+      "currency": "USD",
+      "mpn": "U7-Lite",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

@@ -1,0 +1,357 @@
+{
+  "slug": "uap-nanohd",
+  "id": "UAP-nanoHD",
+  "productTitle": "Ubiquiti UniFi nanoHD",
+  "name": "Ubiquiti UniFi nanoHD",
+  "title": "Ubiquiti UniFi nanoHD",
+  "title_extended": "",
+  "short_description": "140 m² coverage, 2.4GHz 300Mbps & 5GHz 1733Mbps, 1xGLAN, 802.11 a/b/g/n/ac/ac-wave2, skins sold separately",
+  "description": "140 m² coverage, 2.4GHz 300Mbps & 5GHz 1733Mbps, 1xGLAN, 802.11 a/b/g/n/ac/ac-wave2, skins sold separately",
+  "detailed_description": [
+    {
+      "heading": "Ideal Solution for Crowded Settings",
+      "text": "The UniFi nanoHD, part of the Ubiquiti lineup, is engineered to optimize enterprise Wi-Fi performance. This compact access point effectively manages high-traffic areas, delivering a total data throughput of up to 2 Gbps. It incorporates 4x4 MU-MIMO technology, but only on the 5 GHz band, while the 2.4 GHz band utilizes a 2x2 configuration. This setup allows it to communicate simultaneously with four devices using separate data streams on the 5 GHz band, enhancing network capacity and efficiency, especially in environments with many active users. The device adheres to the latest iteration of the 802.11ac standard, Wave2, which enhances its bandwidth capabilities to up to 300 Mbps at 2.4 GHz and 1733 Mbps at 5 GHz. These speeds make the nanoHD suitable for a variety of intensive online tasks, including high-definition video streaming and large-scale file transfers. The dual-band functionality of the nanoHD allows it to operate across both the 2.4 GHz and 5 GHz bands."
+    },
+    {
+      "heading": "Performance and Hardware",
+      "text": "The integration of MU-MIMO technology is particularly beneficial in crowded settings such as offices or public venues, where it helps reduce wait times and increase connection quality for each user. This makes the UniFi nanoHD an effective solution for businesses that require robust, high-capacity networking to support a large number of devices without sacrificing performance. The device's capacity to handle more connections simultaneously also makes it a practical choice for environments with a high density of wireless clients, such as tech companies, educational institutions, and large households."
+    },
+    {
+      "heading": "Optimized Coverage & Network Management",
+      "text": "The UniFi nanoHD is designed with an advanced radio module delivering a robust output of 20 dBm (100 milliwatts), enabling stable connectivity and effective signal penetration through physical barriers within indoor environments. Equipped with antennas providing gains of 2.8 dBi at 2.4 GHz and 3 dBi at 5 GHz, the device optimizes signal strength and directionality. This facilitates extended reach and enhanced connection quality across a radius of up to 120 meters, covering substantial areas up to 140 square meters (1,500 ft²). With the capability to support over 200 simultaneous connections, the nanoHD is ideal for medium to large-scale deployments, such as corporate offices, educational campuses, and large retail spaces where consistent and reliable network performance is crucial."
+    },
+    {
+      "heading": "Seamless Management with UniFi Network",
+      "text": "The device leverages the UniFi Network, a comprehensive network management platform that offers centralized control over Ubiquiti’s UniFi devices, including routers, switches, and access points. This system simplifies the setup and ongoing management of network hardware, all accessible via the UniFi Network web application or mobile app. As a premier example of Software Defined Networking (SDN), this solution enables dynamic management of network resources, which is especially effective in both small and large-scale environments. The UniFi Controller software, which acts as the nerve center for the UniFi Network, provides an intuitive interface that allows network administrators to deploy, configure, manage, and monitor network devices seamlessly. This software simplifies complex tasks such as device detection and network visualization and offers detailed analytics that help in making informed decisions about network management and optimization. Key features facilitated by the UniFi Controller include guest portal/hotspot support, which enables the creation of customized login pages for guests. This feature is particularly useful in commercial settings like hotels and cafes, enhancing the user experience by providing professional and customizable Wi-Fi access. Additionally, the platform supports detailed traffic analytics and performance metrics, giving insights into how the network is used and helping to maintain optimal performance. Moreover, this UniFi Acess Point allows for customizable Wi-Fi settings, which include the ability to adjust transmission power, set up multiple Wi-Fi networks (SSIDs), and apply VLANs for network segmentation. These features ensure that the network can be tailored to meet specific needs and usage requirements, enhancing network performance and security."
+    },
+    {
+      "heading": "Unparalleled Convenience in Installation",
+      "text": "The UniFi nanoHD is equipped with a single Ethernet port that supports Gigabit Ethernet capabilities, facilitating data transfer speeds of up to 1 Gbps. This high-speed connection is ideal for bandwidth-intensive applications such as video conferencing, large file transfers, and streaming high-definition video, thereby enhancing network efficiency and user experience. The Ethernet port provides a reliable, wired connection that is generally faster and more secure than wireless connections, making the nanoHD a dependable choice for environments ranging from office settings to tech-intensive industries. Additionally, this model incorporates Power over Ethernet (PoE) under the 802.3af standard, which simplifies the device installation by allowing both power and data to be carried over a single Ethernet cable. This feature eliminates the need for separate power adapters and reduces cable clutter, enabling flexible placement of the access point without the need for proximity to electrical outlets. Moreover, as the smallest UniFi Access Point currently available, the nanoHD is 30% smaller than the UAP AC Pro version. This compact size offers unparalleled convenience and space efficiency, making it especially suitable for installations where space is at a premium, yet high performance is required. This combination of advanced networking capabilities and compact, efficient design makes the UniFi nanoHD an excellent solution for a variety of deployment scenarios, from small businesses to larger, tech-focused environments."
+    },
+    {
+      "heading": "Customizable Skins for Any Environment",
+      "text": "The UniFi nanoHD Access Point not only offers robust performance but also aesthetic versatility with its range of optional skins, sold separately. These skins allow the device to seamlessly blend into any environment, enhancing the visual appeal without compromising functionality. Options include MarbleSkin, MatteBlack, ConcreteSkin, WoodSkin, FabricSkin, and CamoSkin. Each skin is designed to mimic the specific textures and colors of its namesake material, from the sleek and sophisticated appearance of MarbleSkin to the natural and warm tones of WoodSkin. This customization ability makes the UniFi nanoHD particularly suitable for spaces where technology should complement the design aesthetic, such as modern offices and retail spaces."
+    },
+    {
+      "heading": "Compare with similar products",
+      "text": "The UniFi nanoHD is compared with UniFi AC High Density, UniFi AC SHD, UniFi FlexHD, UniFi In-Wall HD, and UniFi WiFi BaseStation XG across Wireless Standard, MIMO, Radio Rates, Antenna Gain, Range, Ethernet Ports, Power Consumption, and Environment."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Points",
+  "categories": [
+    "Access Points",
+    "UniFi Access Points",
+    "Best Offers"
+  ],
+  "mpn": "UAP-nanoHD",
+  "manufacturer_part_number": "UAP-nanoHD",
+  "ean": "0817882025041",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1554/uapnanohd_front-5ff44fb1727d0-medium.jpg",
+        "alt": "Ubiquiti UniFi nanoHD",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1554/uapnanohd_front_angle-5ff44fb39f82e-medium.jpg",
+        "alt": "Ubiquiti UniFi nanoHD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1554/uapnanohd_side-5ff44fb6e2c1a-medium.jpg",
+        "alt": "Ubiquiti UniFi nanoHD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1554/uapnanohd_top-5ff44fb7d8f82-medium.jpg",
+        "alt": "Ubiquiti UniFi nanoHD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1554/uapnanohd_port-5ff44fb57bc7d-medium.jpg",
+        "alt": "Ubiquiti UniFi nanoHD",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - Ubiquiti UniFi nanoHD",
+        "url": "http://dl.ubnt.com/datasheets/unifi/UniFi_nanoHD_AP_DS.pdf"
+      },
+      {
+        "title": "Quick Start Guide - Ubiquiti UniFi nanoHD",
+        "url": "https://dl.ubnt.com/guides/UniFi/UAP-nanoHD_QSG.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 137.00,
+    "currency": "USD",
+    "discount": -10
+  },
+  "old_price": 152.49,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 4x4"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "300 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "1.7 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.4 - 2.4 (GHz) 2.8 (dBi), 5 - 5 (GHz) 3 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "44 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "11 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "Ø160 x 32.65 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.315 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Ceilling Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi nanoHD",
+      "url": "http://dl.ubnt.com/datasheets/unifi/UniFi_nanoHD_AP_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti UniFi nanoHD",
+      "url": "https://dl.ubnt.com/guides/UniFi/UAP-nanoHD_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "Trustpilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Mr",
+        "date": "2022-12-05",
+        "text": "A+ product!",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi AC Pro",
+      "url": "/product/unifi-ac-pro",
+      "price": 135.81,
+      "currency": "USD",
+      "mpn": "UAP-AC-PRO",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti SFP to RJ45 Adapter 1Gbps",
+      "url": "/product/u-fiber-rj45-1g",
+      "price": 19.02,
+      "currency": "USD",
+      "mpn": "UACC-CM-RJ45-1G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi nanoHD 3-pack",
+      "url": "/product/uap-nanohd-3-pack",
+      "price": 375.00,
+      "currency": "USD",
+      "mpn": "UAP-nanoHD-3",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

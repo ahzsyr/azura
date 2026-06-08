@@ -1,0 +1,239 @@
+{
+  "slug": "ubiquiti-m-2-ssd-tray",
+  "id": "UACC-SSD-Tray",
+  "productTitle": "Ubiquiti M.2 SSD Tray",
+  "name": "Ubiquiti M.2 SSD Tray",
+  "title": "Ubiquiti M.2 SSD Tray",
+  "title_extended": "Ubiquiti M.2 SSD Tray – Expand Your Storage Options",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Expand Your Storage Options",
+      "text": "The Ubiquiti M.2 SSD Tray (UACC-SSD-Tray) is a compact, high-quality storage accessory designed for the Cloud Gateway Max and Cloud Gateway Fiber. It allows you to integrate one M.2 NVMe SSD of sizes 2230, 2242, 2260, 2280, or 22110 to enhance your device’s storage capacity. With support for PCIe Gen3 x2 lanes, this tray ensures optimal performance for high-speed data operations. While all M.2 NVMe SSDs are supported, they will operate within the Gen3x2 performance limits of the host device. Constructed from durable aluminum alloy, polycarbonate, and stainless steel, the tray offers excellent heat dissipation and long-term reliability. Lightweight yet sturdy, the tray is an ideal solution for expanding storage without compromising space or performance."
+    },
+    {
+      "heading": "",
+      "text": "",
+      "media": {
+        "url": "https://www.getic.com/images/catalogue/description/2709/picture2-688088c47dfb4-1252x465.jpg",
+        "alt": "/images/catalogue/description/2709/picture2-688088c47dfb4-1252x465.jpg"
+      }
+    },
+    {
+      "heading": "Durable & Reliable",
+      "text": "Engineered for seamless integration, the UACC-SSD-Tray brings flexibility and simplicity to your storage expansion needs. Its robust aluminum alloy housing protects your NVMe SSD while maintaining a sleek and compact profile that fits neatly within your Cloud Gateway setup. The tray supports M.2 NVMe SSDs across multiple form factors, offering compatibility with 2230 through 22110 sizes. Designed to pair perfectly with Ubiquiti’s Cloud Gateway Max and Fiber devices, it enhances storage while ensuring consistent performance for data-intensive applications. Installation is straightforward, requiring no additional tools or complex setup. Whether you’re optimizing your network infrastructure or scaling storage for enterprise use, the UACC-SSD-Tray delivers a dependable and efficient solution. It is ideal for keeping server racks organized and professional."
+    },
+    {
+      "heading": "",
+      "text": "",
+      "media": {
+        "url": "https://www.getic.com/images/catalogue/description/2709/picture1-688088c196ee5-1252x465.jpg",
+        "alt": "/images/catalogue/description/2709/picture1-688088c196ee5-1252x465.jpg"
+      }
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Accessories",
+  "categories": [
+    "Accessories",
+    "Ubiquiti",
+    "Accessory Tech"
+  ],
+  "mpn": "UACC-SSD-Tray",
+  "manufacturer_part_number": "UACC-SSD-Tray",
+  "ean": "0810084699294",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6735/1-687f790021f9a-medium.jpg",
+        "alt": "Ubiquiti M.2 SSD Tray",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6735/2-687f79061d623-medium.jpg",
+        "alt": "Ubiquiti M.2 SSD Tray",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6735/3-687f7909e3433-medium.jpg",
+        "alt": "Ubiquiti M.2 SSD Tray",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6735/4-687f790def4b8-medium.jpg",
+        "alt": "Ubiquiti M.2 SSD Tray",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6735/5-687f79120f9af-medium.jpg",
+        "alt": "Ubiquiti M.2 SSD Tray",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6735/6-687f791631bf0-medium.jpg",
+        "alt": "Ubiquiti M.2 SSD Tray",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6735/7-687f7920edad5-medium.jpg",
+        "alt": "Ubiquiti M.2 SSD Tray",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6735/8-687f792574565-medium.jpg",
+        "alt": "Ubiquiti M.2 SSD Tray",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6735/9-687f792931f34-medium.jpg",
+        "alt": "Ubiquiti M.2 SSD Tray",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6735/10-687f792d3b4ba-medium.jpg",
+        "alt": "Ubiquiti M.2 SSD Tray",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 20.38,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Stainless steel, Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "123.4 x 31.1 x 11.2 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.053 kg"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti M.2 SSD Tray",
+      "url": "https://www.getic.com/files/catalogue/6735/uaccssdtray_ds-687f78fa8b8f7.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "days": "18"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "days": "5"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "days": "2"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Ultra 210W",
+      "url": "/product/switch-ultra-210w",
+      "price": 200.14,
+      "currency": "USD",
+      "mpn": "USW-Ultra-210W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti AC Adapter 210W",
+      "url": "/product/ubiquiti-ac-adapter-210w",
+      "price": 82.62,
+      "currency": "USD",
+      "mpn": "UACC-Adapter-AC-210W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Fiber",
+      "url": "/product/ubiquiti-unifi-cloud-gateway-fiber",
+      "price": 282.07,
+      "currency": "USD",
+      "mpn": "UCG-Fiber",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti AI Horn Speaker",
+      "url": "/product/ubiquiti-ai-horn-speaker",
+      "price": 288.29,
+      "currency": "USD",
+      "mpn": "UP-AI-Horn-Speaker-W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out of stock"
+}

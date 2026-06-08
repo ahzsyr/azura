@@ -1,0 +1,195 @@
+{
+  "slug": "mikrotik-qsfp56-200g-to-4-50g-break-out-cable-3m",
+  "id": "7111",
+  "productTitle": "MikroTik QSFP56 40G/100G/200G Break-Out Cable 3m",
+  "name": "MikroTik QSFP56 40G/100G/200G Break-Out Cable 3m",
+  "title": "MikroTik QSFP56 40G/100G/200G Break-Out Cable 3m",
+  "title_extended": "MikroTik QSFP56 200G to 4×50G Breakout Cable 3m – High Speed DAC",
+  "short_description": "High-Speed Connectivity. The MikroTik DQ+BC0003-DS+ QSFP56 200G to 4×50G Break-Out Cable is designed to deliver ultimate flexibility for modern high-performance networking environments.",
+  "description": "The MikroTik DQ+BC0003-DS+ QSFP56 200G to 4×50G Break-Out Cable is designed to deliver ultimate flexibility for modern high-performance networking environments. By converting a single 200 Gigabit QSFP56 port into four independent 50 Gigabit connections, this break-out cable allows network administrators to maximize port utilization and simplify infrastructure deployment without additional hardware. Ideal for data centers, server racks, and high-density network setups, the cable supports seamless high-speed interconnections for multiple devices simultaneously. In addition to supporting 200G split into four 50G connections, the cable retains backward compatibility with previous configurations, allowing 100G to be divided into four 25G channels and 40G into four 10G channels. This ensures smooth integration with existing MikroTik hardware and provides a future-proof solution as network demands grow.",
+  "detailed_description": [
+    {
+      "heading": "High-Speed Connectivity",
+      "text": "The MikroTik DQ+BC0003-DS+ QSFP56 200G to 4×50G Break-Out Cable is designed to deliver ultimate flexibility for modern high-performance networking environments. By converting a single 200 Gigabit QSFP56 port into four independent 50 Gigabit connections, this break-out cable allows network administrators to maximize port utilization and simplify infrastructure deployment without additional hardware. Ideal for data centers, server racks, and high-density network setups, the cable supports seamless high-speed interconnections for multiple devices simultaneously. In addition to supporting 200G split into four 50G connections, the cable retains backward compatibility with previous configurations, allowing 100G to be divided into four 25G channels and 40G into four 10G channels. This ensures smooth integration with existing MikroTik hardware and provides a future-proof solution as network demands grow."
+    },
+    {
+      "heading": "200G Split Solution",
+      "text": "The MikroTik QSFP56 200G to 4×50G Break-Out Cable (DQ+BC0003-DS+) is a high-quality, passive copper DAC (Direct Attach Cable) engineered for short-range high-speed connections. By splitting a single QSFP56 200G port into four independent SFP56 50G channels, it enables multiple 50G devices to connect simultaneously, significantly increasing the efficiency of your network deployment. This cable is particularly beneficial for environments requiring dense port utilization, such as high-capacity data centers and enterprise networks. Unlike traditional setups requiring additional switches or transceivers to expand connectivity, the DQ+BC0003-DS+ simplifies deployment with direct breakout functionality. It also supports legacy splits, dividing 100G into four 25G connections and 40G into four 10G connections, allowing seamless integration with a wide range of existing MikroTik platforms. The cable is specifically recommended for modern 200G/400G platforms, including the CRS812 DDQ and CRS804 DDQ, delivering flexible port configurations without compromising performance. Constructed with precision twinax copper and high-quality connectors, the 3-meter cable ensures minimal signal loss, excellent crosstalk suppression, and reliable high-speed transmission. Its plug-and-play design reduces setup time and complexity, while the robust build supports long-term reliability in demanding environments. The DQ+BC0003-DS+ represents an efficient, cost-effective, and future-proof solution for network engineers and IT professionals seeking optimized port utilization and high-speed interconnectivity."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "DAC Cables",
+  "categories": [
+    "Fiber Products",
+    "SFP Cables",
+    "DAC Cables"
+  ],
+  "mpn": "DQ+BC0003-DS+",
+  "manufacturer_part_number": "DQ+BC0003-DS+",
+  "ean": "6976499412401",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7111/1-699d4fc4c3a07-medium.jpg",
+        "alt": "MikroTik QSFP56 40G/100G/200G Break-Out Cable 3m",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7111/1-699d4fc4c3a07-tiny.jpg",
+        "alt": "MikroTik QSFP56 40G/100G/200G Break-Out Cable 3m"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/7111/dqbc0003ds-699d4fbdc2531.pdf",
+        "title": "Technical Specs / Datasheet - MikroTik QSFP56 40G/100G/200G Break-Out Cable 3m"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 69.09,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Cable Type",
+        "Connector",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Cable Type",
+          "value": "DAC"
+        },
+        {
+          "name": "Connector",
+          "value": "(1) QSFP56 - (4) SFP56"
+        },
+        {
+          "name": "Cable Length",
+          "value": "3 m"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik QSFP56 40G/100G/200G Break-Out Cable 3m",
+      "url": "https://www.getic.com/files/catalogue/7111/dqbc0003ds-699d4fbdc2531.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.66,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.68,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.08,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 40G/100G Direct Attach Cable 3m",
+      "url": "/product/mikrotik-qsfp28-direct-attach-cable-3m",
+      "price": 47.44,
+      "currency": "USD",
+      "mpn": "XQ+DA0003",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS418-8P-8G-2S+RM",
+      "url": "/product/mikrotik-crs418-8p-8g-2s-rm",
+      "price": 372.37,
+      "currency": "USD",
+      "mpn": "CRS418-8P-8G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 400G Direct Attach Cable 1m",
+      "url": "/product/mikrotik-400g-direct-attach-cable-1m",
+      "price": 63.01,
+      "currency": "USD",
+      "mpn": "DDQ+DA0001",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS812-8DS-2DQ-2DDQ-RM",
+      "url": "/product/mikrotik-crs812-8ds-2dq-2ddq-rm",
+      "price": 1029.98,
+      "currency": "USD",
+      "mpn": "CRS812-8DS-2DQ-2DDQ-RM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

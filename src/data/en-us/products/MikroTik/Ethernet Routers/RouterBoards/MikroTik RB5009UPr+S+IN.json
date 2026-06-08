@@ -1,0 +1,378 @@
+{
+  "slug": "mikrotik-rb5009upr-s-in",
+  "id": "4127",
+  "productTitle": "MikroTik RB5009UPr+S+IN Router – Gigabit Ethernet Router with PoE-Out",
+  "name": "MikroTik RB5009UPr+S+IN",
+  "title": "MikroTik RB5009UPr+S+IN",
+  "title_extended": "MikroTik RB5009UPr+S+IN Router – Gigabit Ethernet Router with PoE-Out",
+  "short_description": "7x GbE Ports, 1x 2.5GbE Port, 10G SFP+, Quad-Core CPU, 1GB DDR4 RAM, 1GB NAND",
+  "description": "7x GbE Ports, 1x 2.5GbE Port, 10G SFP+, Quad-Core CPU, 1GB DDR4 RAM, 1GB NAND",
+  "detailed_description": [
+    {
+      "heading": "From Home Labs to ISPs",
+      "text": "The MikroTik RB5009 series offers a range of high-performance, compact routers designed for various networking needs. The routers come with multiple Gigabit Ethernet ports, a 2.5 Gigabit Ethernet port, and a 10G SFP+ cage for fiber connectivity. All routers are also equipped with 1GB of RAM and 1GB of storage, providing nearly double the performance in CPU-heavy configurations compared to similar MikroTik models. Whether you're setting up a home lab, a small to medium-sized ISP, or even outdoor networking towers, the RB5009 series has got you covered. Plus, these routers are so compact that you can fit four of them in a single 1U server rack space."
+    },
+    {
+      "heading": "Efficient Local Networking",
+      "text": "Expand your capabilities with the MikroTik RB5009UPr+S+IN, a model that takes the features of its predecessor to new heights. One of its standout features is its array of ports designed for high-speed, high-capacity data transfer. With seven standard Gigabit Ethernet ports, you get reliable, fast connections for most of your networking needs. These are perfect for connecting multiple devices, ensuring that your local network is smooth and efficient, whether it's for file sharing, data backups, or video conferencing. In addition to the standard Gigabit Ethernet ports, there's also a specialized 2.5 Gigabit Ethernet port. If you're involved in tasks that demand higher data rates—like large file transfers or high-definition video streaming—this port has you covered. An SFP+ cage allows for 10 Gigabit fiber optic connections. Ideal for those looking to future-proof their networks, this port makes the device highly adaptable to the next generation of high-speed internet services. It's especially useful for ISPs looking to offer super-fast internet plans to their customers."
+    },
+    {
+      "heading": "Flexible Power Options",
+      "text": "The RB5009UPr+S+IN stands out for its flexible power options. All eight PoE ports can handle both PoE-in and PoE-out, — complemented by a 2-pin connector and a DC jack, this totals 10 separate powering pathways. Dual redundant power supplies further assure consistent, uninterrupted operation. With all power options supporting a wide voltage range of 24-57V, this router is designed to adapt to your specific needs. It smartly selects the highest voltage source for powering PoE-out devices. Should any of your primary power sources fail, the device seamlessly switches to the next highest voltage source, ensuring optimal uptime. You can also manually prioritize PoE-out ports, granting you full control over your power distribution."
+    },
+    {
+      "heading": "Resilient Build and Rack Compatibility",
+      "text": "The RB5009UPr+S+IN comes enclosed in a durable metallic case. Moreover, you can mount four of these power-packed routers in a single 1U rackmount space. This efficient use of space and robust construction makes it an excellent addition to the GPEN series, which aims to provide cost-effective alternatives to more expensive GPON solutions."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Ethernet Routers",
+  "categories": [
+    "Ethernet Routers",
+    "RouterBoard"
+  ],
+  "mpn": "RB5009UPr+S+IN",
+  "manufacturer_part_number": "RB5009UPr+S+IN",
+  "ean": "4752224007155",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4127/rb5009uprsin_2-62e2814b8dc20-medium.jpg",
+        "alt": "MikroTik RB5009UPr+S+IN",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4127/rb5009uprsin_1-62e2814d1d56b-medium.jpg",
+        "alt": "MikroTik RB5009UPr+S+IN",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4127/rb5009uprsin-62e2814f3e79a-medium.jpg",
+        "alt": "MikroTik RB5009UPr+S+IN",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/3NaomsfbE34",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 239.45,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "USB Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(7) 1 Gbps, (1) 2.5 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "8 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE), 802.3at (PoE+)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 10G SFP+"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 3.0"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "88F7040 (ARM 64bit), 4 core, 1.4 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "1 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "1 GB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "24 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "150 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm, 2-pin, 3 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "48 V DC 2 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "220 x 125 x 22 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik RB5009UPr+S+IN",
+      "url": "https://www.getic.com/files/catalogue/4127/rb5009uprsin_ds-62c424e2246c2.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik RB5009UPr+S+IN",
+      "url": "https://www.getic.com/files/catalogue/4127/quickguiderb5009uprsin-6509a23619f73.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik RB5009UPr+S+IN",
+      "url": "https://www.getic.com/files/catalogue/4127/usermanualsrb5009uprsin-6509a28a7432d.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.9,
+    "count": 15,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 93,
+      "great": 7,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 14,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "KANJU",
+        "date": "2025-04-20",
+        "text": "A powerful router. The included power adapter is 48V - not compatible with MikroTik's other passive POE devices. I used another generic 24V 2A adapter to power two other hAP ax2, works great!",
+        "photos": []
+      },
+      {
+        "name": "Damir",
+        "date": "2025-03-25",
+        "text": "Quick delivery, good price/performance",
+        "photos": []
+      },
+      {
+        "name": "Mike",
+        "date": "2024-10-07",
+        "text": "Needed a bit more horse power and flexibility than the usual consumer gear. Just be prepared to watch a few YouTube videos to help you set it up. Once you do. Bingo!",
+        "photos": []
+      },
+      {
+        "name": "Fabien",
+        "date": "2024-09-13",
+        "text": "Good performance, webinterface not very user friendly, but do the job correctly",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 10G RJ-45 Module",
+      "url": "/product/sfp-s-plus-rj10-module",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "S+RJ10",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Rackmount kit for RB5009/L009 series",
+      "url": "/product/mikrotik-kit-k79",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "K-79",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax2",
+      "url": "/product/mikrotik-hap-ax2",
+      "price": 80.20,
+      "currency": "USD",
+      "mpn": "C52iG-5HaxD2HaxD-TC",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ax",
+      "url": "/product/mikrotik-cap-ax",
+      "price": 103.11,
+      "currency": "USD",
+      "mpn": "cAPGi-5HaxD2HaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

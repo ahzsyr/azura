@@ -21,6 +21,7 @@ function emptyForm() {
     type: "custom" as HeaderActionType,
     label: "Store",
     icon: "fa-store",
+    href: "/products",
     style: "solid" as ActionStyle,
     outlined: false,
     visible: true,
@@ -32,6 +33,7 @@ export function ActionsManager() {
   const actions = workspace.headerActions;
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm());
+  const [formError, setFormError] = useState<string | null>(null);
 
   useEffect(() => {
     if (editingId) {
@@ -41,6 +43,7 @@ export function ActionsManager() {
           type: a.type,
           label: a.label,
           icon: a.icon,
+          href: a.href ?? "",
           style: a.style,
           outlined: a.outlined,
           visible: a.visible,
@@ -52,11 +55,17 @@ export function ActionsManager() {
   }, [editingId, actions]);
 
   const save = () => {
+    if (form.type === "custom" && !form.href.trim()) {
+      setFormError("Link URL is required for custom buttons.");
+      return;
+    }
+    setFormError(null);
     const payload: HeaderAction = normalizeAction({
       id: editingId ?? generateActionId(),
       type: form.type,
       label: form.label.trim(),
       icon: form.icon.trim(),
+      href: form.type === "custom" ? form.href.trim() : undefined,
       style: form.style,
       outlined: form.outlined,
       visible: form.visible,
@@ -69,6 +78,7 @@ export function ActionsManager() {
   const reset = () => {
     setEditingId(null);
     setForm(emptyForm());
+    setFormError(null);
   };
 
   return (
@@ -97,6 +107,7 @@ export function ActionsManager() {
                   <p className="mt-1 text-xs text-muted-foreground">
                     Icon: {action.icon}
                     {action.outlined ? " · outlined" : ""}
+                    {action.type === "custom" && action.href ? ` · Link: ${action.href}` : ""}
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -161,7 +172,21 @@ export function ActionsManager() {
                 <option value="ghost">Ghost</option>
               </HeaderSelect>
             </HeaderField>
+            {form.type === "custom" ? (
+              <HeaderField label="Link URL" htmlFor="act-href" className="sm:col-span-2">
+                <Input
+                  id="act-href"
+                  value={form.href}
+                  onChange={(e) => {
+                    setFormError(null);
+                    setForm((f) => ({ ...f, href: e.target.value }));
+                  }}
+                  placeholder="/products or https://example.com"
+                />
+              </HeaderField>
+            ) : null}
           </div>
+          {formError ? <p className="text-sm text-destructive">{formError}</p> : null}
           <div className="flex flex-wrap gap-4">
             <label className="flex items-center gap-2 text-sm">
               <input

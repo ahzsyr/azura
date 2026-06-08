@@ -1,0 +1,254 @@
+{
+  "slug": "ubiquiti-poe-af",
+  "id": "1593",
+  "productTitle": "Ubiquiti PoE Adapter",
+  "name": "Ubiquiti PoE Adapter",
+  "title": "Ubiquiti PoE Adapter",
+  "title_extended": "",
+  "short_description": "PoE Adapter, 48V DC, 0.32A, 15W",
+  "description": "The Ubiquiti U-POE-af is a highly functional Power over Ethernet (PoE) adapter, meticulously designed to deliver remote power to Ubiquiti devices compatible with the 802.3af PoE standard. This adapter enables the transmission of power alongside data over a single Ethernet cable, simplifying installations where electrical power accessibility is limited. The U-POE-af by Ubiquiti is tailored to facilitate the deployment of network hardware such as access points, IP cameras, and other network equipment, specifically in environments where minimizing cable clutter is crucial.",
+  "detailed_description": [
+    {
+      "heading": "Features",
+      "text": "Delivers up to 15W of PoE\nCompatible with the U6 Mesh, Camera G4 Pro, and other PoE devices\nSurge, peak pulse, and overcurrent protection\nAC cable with earth ground\nLED indicator for status monitoring"
+    },
+    {
+      "heading": "",
+      "text": "The adapter supports Gigabit Ethernet, a critical feature for maintaining maximum data throughput and ensuring that the delivery of power does not impede network performance. This capability is vital in environments demanding high-speed data transfer. The U-POE-af adheres to the 802.3af PoE standard, ensuring compatibility with a wide range of devices that also comply with this specification. It delivers up to 15 watts of power, suitable for operating efficient network devices. Moreover, to protect against voltage spikes and improve system reliability, the U-POE-af includes surge protection. This feature is critical for preventing damage to both the PoE adapter and the connected hardware during electrical surges and spikes."
+    },
+    {
+      "heading": "",
+      "text": "Designed for ease of use, the U-POE-af is a plug-and-play device, necessitating no software configuration and enabling rapid deployment. This straightforward setup is beneficial for users with varying levels of technical expertise."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "PoE Adapters",
+  "categories": [
+    "Ubiquiti",
+    "UniFi Access Points",
+    "Accessories"
+  ],
+  "mpn": "U-POE",
+  "manufacturer_part_number": "U-POE",
+  "ean": "0817882024976",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1593/upoeaf_006-60c8930431bc2-medium.jpg",
+        "alt": "Ubiquiti PoE Adapter front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1593/upoeaf_007-60c8930347326-medium.jpg",
+        "alt": "Ubiquiti PoE Adapter back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1593/upoeaf_002-60c89306a5d1b-medium.jpg",
+        "alt": "Ubiquiti PoE Adapter side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1593/upoeaf_003-60c893051b491-medium.jpg",
+        "alt": "Ubiquiti PoE Adapter ports view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1593/upoeaf_001-60c89305df8ad-medium.jpg",
+        "alt": "Ubiquiti PoE Adapter additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1593/upoeaf_004-60c89301a279c-medium.jpg",
+        "alt": "Ubiquiti PoE Adapter packaging view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1593/upoeaf_005-60c89302723be-medium.jpg",
+        "alt": "Ubiquiti PoE Adapter complete view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 10.03,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage",
+        "Ehternet Ports",
+        "Ethernet Powering"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "0.32 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "48 V DC"
+        },
+        {
+          "name": "Ehternet Ports",
+          "value": "1 Gbps"
+        },
+        {
+          "name": "Ethernet Powering",
+          "value": "2-Pair"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "86 x 46 x 33 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.100 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti PoE Adapter",
+      "url": "https://dl.ubnt.com/datasheets/poe/PoE_Adapters_DS.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Douda",
+        "date": "2025-10-24",
+        "text": "Good quality",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex Mini",
+      "url": "/product/unifi-usw-flex-mini",
+      "price": 35.32,
+      "currency": "USD",
+      "mpn": "USW-Flex-Mini",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti PoE+ Adapter",
+      "url": "/product/ubiquiti-poe-at",
+      "price": 16.98,
+      "currency": "USD",
+      "mpn": "U-POE+",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Lite",
+      "url": "/product/ubiquiti-unifi-u7-lite",
+      "price": 99.48,
+      "currency": "USD",
+      "mpn": "U7-Lite",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,361 @@
+{
+  "slug": "mikrotik-crs510-8xs-2xq-in",
+  "id": "4324",
+  "productTitle": "MikroTik CRS510-8XS-2XQ+IN Switch – 25G SFP28, 100G QSFP28 | Getic",
+  "name": "MikroTik CRS510-8XS-2XQ-IN",
+  "title": "MikroTik CRS510-8XS-2XQ+IN Switch – 25G SFP28, 100G QSFP28 | Getic",
+  "title_extended": "MikroTik CRS510-8XS-2XQ+IN Switch – 25G SFP28, 100G QSFP28",
+  "short_description": "100 Gigabit Indoor Switch, 2x 100 Gigabit QSFP28 Ports, 8x 25 Gigabit SFP28 Ports, 802.3bt PoE-in, dual hot-swap power supplies",
+  "description": "100 Gigabit Indoor Switch, 2x 100 Gigabit QSFP28 Ports, 8x 25 Gigabit SFP28 Ports, 802.3bt PoE-in, dual hot-swap power supplies",
+  "detailed_description": [
+    {
+      "heading": "Adaptable ISP Solutions",
+      "text": "The MikroTik CRS510-8XS-2XQ-IN is designed for modern, high-demand networking environments, such as expansive business networks and ISP infrastructures. With two 100 Gigabit QSFP28 ports, users are equipped for tasks that involve large data transfers, such as data backups, real-time analytics, and high-definition content delivery. In addition to this, 25 Gigabit SFP28 ports are ideal for high-resolution video streaming and cloud storage access, ensuring that businesses can maintain multiple high-speed connections simultaneously without compromising performance."
+    },
+    {
+      "heading": "Backward Compatibility",
+      "text": "Furthermore, its backward compatibility allows the switch to connect with older devices running at 40 Gigabit, 25 Gigabit, 10 Gigabit, and even standard Gigabit speeds. This ensures that as a business grows and evolves, there's no need to overhaul the entire network infrastructure. Instead, new devices can be integrated smoothly, while older ones remain functional, providing a cost-effective solution for expanding businesses or ISPs catering to a wide range of clients."
+    },
+    {
+      "heading": "Versatile Link Solutions",
+      "text": "The CRS510 switch is designed with a forward-thinking approach to connectivity, supporting a range of connection mediums. It uses direct attach cables for short-distance cost-effective links, active optical cables for consistent long-distance data transfers, and traditional copper RJ45s to integrate older devices. This versatility ensures high-speed interconnectivity between various devices, facilitates seamless real-time collaborations and large file transfers, and allows businesses to bridge the gap between old and new tech without facing high upgrade costs."
+    },
+    {
+      "heading": "Efficient Multi-Tasking",
+      "text": "The MikroTik CRS510 utilizes the robust QCA9531 chipset, operating at 650 MHz, complemented by 128 MB of RAM. This setup is tailored to efficiently manage multiple operations simultaneously, ensuring a smooth and responsive network experience. Furthermore, its integration of the Marvell Prestera switch chip, known for its outstanding speed and efficiency, promises swift and streamlined data transfers. Moreover, it's an ally in energy efficiency, with consumption standing at 27W without attachments and reaching 45W with them."
+    },
+    {
+      "heading": "Indoor Integration",
+      "text": "Crafted for indoor setups, the CRS510 is designed for RackMount installations, fitting effortlessly into your server room. Moreover, what stands out is its redundancy and power options. With dual hot-swap power supplies, it assures continuous operation even if one power source fails. Additionally, the device offers three distinct powering methods. The conventional DC jack provides a familiar power interface for many. In contrast, the 2-pin terminal offers a more direct and often robust connection, ideal for ensuring stability. The PoE-in stands out for its dual benefits: it not only powers the switch but also allows data transmission over a single cable, simplifying installations and reducing cable clutter."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Cloud Router Switch"
+  ],
+  "mpn": "CRS510-8XS-2XQ-IN",
+  "manufacturer_part_number": "CRS510-8XS-2XQ-IN",
+  "ean": "4752224008466",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "US",
+    "UK"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4324/1-6400952405dee-medium.jpg",
+        "alt": "MikroTik CRS510-8XS-2XQ-IN",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4324/2-64009528e2e30-medium.jpg",
+        "alt": "MikroTik CRS510-8XS-2XQ-IN",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4324/3-6400952f40f50-medium.jpg",
+        "alt": "MikroTik CRS510-8XS-2XQ-IN",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/RGD3szWCIGE",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 800.84,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "US",
+        "UK"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports",
+        "Communication Interface",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 100 Mbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(8) 25G SFP28, (2) 100G QSFP28"
+        },
+        {
+          "name": "Communication Interface",
+          "value": "RJ45"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "QCA9531, 1 core, 650 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "128 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "32 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 802.3bt PoE++"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal x2 redundant PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "36 - 57 V DC, 100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "45 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm, 2-pin, 3 mm"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Number of Rack Units",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "320 x 185 x 44 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 10\""
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 5"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik CRS510-8XS-2XQ-IN",
+      "url": "https://www.getic.com/files/catalogue/4324/crs5108xs2xqin_ds-6400951dcfe60.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik CRS510-8XS-2XQ-IN",
+      "url": "https://www.getic.com/files/catalogue/4324/quickguidecrs5108xs2xqin-650ac98927e0d.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik CRS510-8XS-2XQ-IN",
+      "url": "https://www.getic.com/files/catalogue/4324/usermanualcrs5108xs2xqin-650ac998509fb.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.51
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 52.32
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 10G RJ-45 Module",
+      "url": "/product/sfp-s-plus-rj10-module",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "S+RJ10",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+      "url": "/product/direct-attach-cable-xs-da0001",
+      "price": 26.85,
+      "currency": "USD",
+      "mpn": "XS+DA0001",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 3m",
+      "url": "/product/direct-attach-cable-xs-da0003",
+      "price": 30.93,
+      "currency": "USD",
+      "mpn": "XS+DA0003",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 40G/100G Break-Out Cable 3m",
+      "url": "/product/mikrotik-qsfp28-breakout-cable-3m",
+      "price": 65.22,
+      "currency": "USD",
+      "mpn": "XQ+BC0003-XS+",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

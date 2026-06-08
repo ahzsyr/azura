@@ -86,6 +86,10 @@ export function getItemSubtitle(item: MenuItem): string {
 
 export function normalizeAction(action: Partial<HeaderAction> & { id?: string }): HeaderAction {
   const type = action.type ?? "custom";
+  const href =
+    type === "custom" && typeof action.href === "string" && action.href.trim()
+      ? action.href.trim()
+      : undefined;
   return {
     id: action.id ?? generateId(),
     type,
@@ -110,6 +114,7 @@ export function normalizeAction(action: Partial<HeaderAction> & { id?: string })
     style: action.style ?? "solid",
     outlined: !!action.outlined,
     visible: action.visible !== false,
+    ...(href ? { href } : {}),
   };
 }
 

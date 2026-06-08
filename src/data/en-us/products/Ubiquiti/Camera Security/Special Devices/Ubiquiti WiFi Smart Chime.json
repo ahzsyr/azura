@@ -1,0 +1,296 @@
+{
+  "slug": "unifi-protect-smart-chime",
+  "id": 4202,
+  "productTitle": "Ubiquiti WiFi Smart Chime",
+  "name": "Ubiquiti WiFi Smart Chime",
+  "title": "Ubiquiti WiFi Smart Chime",
+  "title_extended": "",
+  "short_description": "Wireless Chime, paired with UniFi Protect Doorbell",
+  "description": "The Ubiquiti Protect WiFi Chime (UP-Chime) is a sophisticated device designed to enhance the functionality of your home's doorbell system, specifically tailored for integration with the UniFi Protect doorbell. It is a wireless chime that can be easily plugged into a standard AC outlet, eliminating the need for a wired chime system. This makes it particularly suitable for homes that either lack a pre-existing wired chime or have one that is not compatible with their Protect doorbell.",
+  "detailed_description": [
+    {
+      "heading": "Features",
+      "text": "Pairs with a UniFi Doorbell, Up to 80dB speaker sound, Direct plug-in to AC outlet, Wirelessly connected, Auto-Connect to UniFi WiFi, Multiple Chimes Per Doorbell)"
+    },
+    {
+      "heading": "Convenience and Performance",
+      "text": "The Protect WiFi Chime is designed with convenience and ease of use in mind. It automatically pairs with a UniFi Doorbell and is capable of delivering up to 80dB of speaker sound, ensuring that you never miss a visitor. It directly plugs into an AC outlet and connects wirelessly, supporting auto-connect to UniFi WiFi, with an option for third-party WiFi configuration during setup via the UniFi Protect mobile app."
+    },
+    {
+      "heading": "Technical Specifications",
+      "text": "Technical specifications highlight its compact and unobtrusive design, with dimensions tailored for  EU (Ø62 x 68.3 mm) models, and a lightweight build (135 g for the EU model). The chime's enclosure is made from a combination of polycarbonate and fabric, ensuring durability and a stylish appearance. It operates on WiFi 802.11 b/g/n, with a power consumption of just 3.7W. Additional features include a built-in speaker and buzzer, LED indicators, and factory reset button. It's designed to operate in temperatures ranging from 0 to 40°C  and can withstand humidity levels from 10 to 90% non-condensing. The Protect WiFi Chime is certified by FCC, IC, and CE, underscoring its compliance with international standards."
+    },
+    {
+      "heading": "Conclusion",
+      "text": "This device represents a blend of Ubiquiti's commitment to innovation, quality, and user convenience, offering a simple yet powerful solution for enhancing home security and visitor notification systems."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Security Systems",
+    "Access Control"
+  ],
+  "mpn": "UP-Chime",
+  "manufacturer_part_number": "UP-Chime",
+  "ean": "0810010077738",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4202/upchime1-63319c1ef3516-medium.jpg",
+        "alt": "Ubiquiti WiFi Smart Chime",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4202/upchime2-63319c2571799-medium.jpg",
+        "alt": "Ubiquiti WiFi Smart Chime",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4202/upchime3-63319c2abd7a6-medium.jpg",
+        "alt": "Ubiquiti WiFi Smart Chime",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4202/upchime4-63319c329ef66-medium.jpg",
+        "alt": "Ubiquiti WiFi Smart Chime",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4202/upchime_ds-63319c0432fa7.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti WiFi Smart Chime"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/4202/upchimeinstguide-63319c108a88b.pdf",
+        "title": "Installation Guide - Ubiquiti WiFi Smart Chime"
+      }
+    ],
+    "3d_model": {
+      "id": "f94812a7-3f65-4794-9aa0-ed4edecd1205",
+      "url": "https://www.getic.com/3D/4202/model_low-69f32340373eb.glb"
+    }
+  },
+  "price": {
+    "value": 67.82,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Audio",
+      "features": [
+        "Speaker"
+      ],
+      "items": [
+        {
+          "name": "Speaker",
+          "value": "Build-in"
+        }
+      ]
+    },
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 4"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Single/Dual-Core® Xtensa® 32 bit 400MIPS"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "3.7 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White, Gray"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate, Fabric"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø62 x 68.93 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.135 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti WiFi Smart Chime",
+      "url": "https://www.getic.com/files/catalogue/4202/upchime_ds-63319c0432fa7.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti WiFi Smart Chime",
+      "url": "https://www.getic.com/files/catalogue/4202/upchimeinstguide-63319c108a88b.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "price": 15.60,
+        "days": "18 business days",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "price": 31.48,
+        "days": "5 business days",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "price": 42.91,
+        "days": "2 business days",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Martynas",
+        "date": "2025-03-24",
+        "text": "As good as all Ubiquiti products.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti G4 Doorbell",
+      "url": "/product/unifi-protect-g4-doorbell",
+      "price": 189.42,
+      "currency": "USD",
+      "mpn": "UVC-G4-DoorBell",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti G4 Doorbell Pro",
+      "url": "/product/unifi-protect-g4-doorbell-pro",
+      "price": 290.68,
+      "currency": "USD",
+      "mpn": "UVC-G4-DoorBell-Pro",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6 In-Wall",
+      "url": "/product/unifi-6-in-wall",
+      "price": 191.95,
+      "currency": "USD",
+      "mpn": "U6-IW",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G5 Bullet",
+      "url": "/product/unifi-protect-g5-bullet-camera",
+      "price": 116.86,
+      "currency": "USD",
+      "mpn": "UVC-G5-Bullet",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "0"
+}

@@ -21,10 +21,40 @@ async function fileExists(path: string): Promise<boolean> {
   }
 }
 
+async function readBundledCollectionsFile(): Promise<Collection[]> {
+  const path = join(process.cwd(), "src", "data", "collections.json");
+  try {
+    const raw = JSON.parse(await readFile(path, "utf-8"));
+    return Array.isArray(raw) ? (raw as Collection[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+async function readHierarchyExportCollections(): Promise<Collection[]> {
+  const path = join(process.cwd(), "src", "data", "collections", "brt-networking-hierarchy.json");
+  const doc = await readJson<{ collections?: Collection[] }>(path);
+  return Array.isArray(doc?.collections) ? doc.collections : [];
+}
+
+async function tryLoadCollectionsFromPersistence(): Promise<Collection[]> {
+  try {
+    const { loadCollections } = await import("./collections-persistence");
+    return await loadCollections();
+  } catch {
+    return [];
+  }
+}
+
+/** Global collections for index build — JsonStore when available, else bundled/hierarchy files. */
 async function loadGlobalCollections(): Promise<Collection[]> {
-  const file = join(process.cwd(), "src", "data", "collections.json");
-  const raw = await readJson<unknown>(file);
-  return Array.isArray(raw) ? (raw as Collection[]) : [];
+  const fromPersistence = await tryLoadCollectionsFromPersistence();
+  if (fromPersistence.length > 0) return fromPersistence;
+
+  const fromFile = await readBundledCollectionsFile();
+  if (fromFile.length > 0) return fromFile;
+
+  return readHierarchyExportCollections();
 }
 
 async function loadLocaleOverride(

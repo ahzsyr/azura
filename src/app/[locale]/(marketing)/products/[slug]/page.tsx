@@ -1,6 +1,9 @@
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import type { Locale } from "@/i18n/routing";
+
+/** ISR: product detail pages revalidate every 5 minutes */
+export const revalidate = 300;
 import { buildCanonicalUrl } from "@/i18n/seo-helpers";
 import { seoService } from "@/features/seo/seo.service";
 import { localeService } from "@/features/i18n/locale.service";

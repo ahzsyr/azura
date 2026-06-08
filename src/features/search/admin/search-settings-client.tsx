@@ -57,6 +57,7 @@ export function SearchSettingsAdminClient({
   );
 
   const [settings, setSettings] = useState<AdminSearchSettings>(initial);
+  const [savedSettings, setSavedSettings] = useState<AdminSearchSettings>(initial);
   const [indexStats, setIndexStats] = useState({
     documentCount: discovery.documentCount,
     documentsByEntityType: discovery.documentsByEntityType ?? {},
@@ -122,6 +123,7 @@ export function SearchSettingsAdminClient({
     setSaveStatus("saving");
     const result = await saveAdminSearchSettings(settings, locale);
     if (result.ok) {
+      setSavedSettings(settings);
       setFeedback("Search settings saved.");
       markSaved();
     } else {
@@ -129,6 +131,12 @@ export function SearchSettingsAdminClient({
       setSaveStatus("error");
     }
   }, [settings, locale, markSaved, setSaveStatus]);
+
+  const handleCancel = useCallback(() => {
+    setSettings(savedSettings);
+    setError(null);
+    setFeedback(null);
+  }, [savedSettings]);
 
   const rebuild = useCallback(async () => {
     setError(null);
@@ -153,11 +161,13 @@ export function SearchSettingsAdminClient({
   useEffect(() => {
     registerPageActions({
       onSave: save,
+      onCancel: handleCancel,
       onRebuildIndex: rebuild,
       rebuildIndexLabel: "Rebuild index",
+      selfManagedSaveStatus: true,
     });
     return () => clearPageActions();
-  }, [registerPageActions, clearPageActions, save, rebuild]);
+  }, [registerPageActions, clearPageActions, save, handleCancel, rebuild]);
 
   return (
     <div className="space-y-6">

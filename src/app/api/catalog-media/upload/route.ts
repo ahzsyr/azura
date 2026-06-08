@@ -10,7 +10,10 @@ import {
   safeFilename,
   readMeta,
   writeMeta,
+  filenameFromStoredUrl,
 } from "@/features/media/fs/media-library.service";
+import { catalogExtToCmsMediaType } from "@/features/media/lib/media-type-map";
+import { storeUploadedFile, useRemoteMediaStorage } from "@/lib/media-storage";
 import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
 
 export async function POST(request: Request) {
@@ -34,20 +37,59 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: `File too large` }, { status: 400 });
     }
 
-    const filename = `${Date.now()}-${safeFilename(file.name)}`;
     const type = getMediaType(ext);
+    const now = new Date().toISOString();
+    const meta = await readMeta();
+
+    if (useRemoteMediaStorage()) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const cmsType = catalogExtToCmsMediaType(ext);
+      const stored = await storeUploadedFile(
+        { name: file.name, type: file.type || "application/octet-stream" },
+        buffer,
+        cmsType,
+      );
+      const filename = filenameFromStoredUrl(stored.url);
+      meta[filename] = {
+        id: filename,
+        originalName: file.name,
+        uploadedAt: now,
+        url: stored.url,
+        size: file.size,
+        ext,
+        type,
+      };
+      await writeMeta(meta);
+
+      return NextResponse.json({
+        item: {
+          id: filename,
+          filename,
+          originalName: file.name,
+          url: stored.url,
+          type,
+          ext,
+          size: file.size,
+          uploadedAt: now,
+        },
+      });
+    }
+
+    const filename = `${Date.now()}-${safeFilename(file.name)}`;
     const subDir = getSubDir(type);
     const dir = resolve(process.cwd(), `public/uploads/${subDir}`);
     await mkdir(dir, { recursive: true });
     await writeFile(resolve(dir, filename), Buffer.from(await file.arrayBuffer()));
 
     const url = `/uploads/${subDir}/${filename}`;
-    const now = new Date().toISOString();
-    const meta = await readMeta();
     meta[filename] = {
       id: filename,
       originalName: file.name,
       uploadedAt: now,
+      url,
+      size: file.size,
+      ext,
+      type,
     };
     await writeMeta(meta);
 

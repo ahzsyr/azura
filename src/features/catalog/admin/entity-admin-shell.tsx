@@ -15,10 +15,13 @@ type EntityAdminShellProps = {
   activeTab: string;
   onTabChange: (tabId: string) => void;
   onSave?: () => void;
+  onCancel?: () => void;
   onPreview?: () => void;
   onPublish?: () => void;
   canPreview?: boolean;
   canPublish?: boolean;
+  /** When set, input/change on this form id marks the top bar as unsaved. */
+  trackFormId?: string;
   children: (activeTab: string) => ReactNode;
 };
 
@@ -30,19 +33,23 @@ export function EntityAdminShell({
   activeTab,
   onTabChange,
   onSave,
+  onCancel,
   onPreview,
   onPublish,
   canPreview,
   canPublish,
+  trackFormId,
   children,
 }: EntityAdminShellProps) {
   return (
     <AdminFormProvider
       onSave={onSave}
+      onCancel={onCancel}
       onPreview={onPreview}
       onPublish={onPublish}
       canPreview={canPreview}
       canPublish={canPublish}
+      trackFormId={trackFormId}
     >
       <AdminPageHeader title={title} description={description} actions={headerActions} />
       <AdminSettingsLayout

@@ -1,5 +1,23 @@
 /* Shared site + catalog preloader */
 
+html.site-preloading .site-shell {
+  visibility: hidden;
+}
+
+html.site-preloading body {
+  overflow: hidden;
+}
+
+.preloader-preview-frame {
+  position: relative;
+  width: 100%;
+  min-height: 220px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--border, #334155) 65%, transparent);
+  background: var(--bg, #010409);
+}
+
 .az-preloader {
   position: relative;
   display: flex;

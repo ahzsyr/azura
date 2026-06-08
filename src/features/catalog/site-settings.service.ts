@@ -103,21 +103,6 @@ async function saveJsonStoreOverlay(
   overlay: Record<string, unknown>,
 ): Promise<void> {
   const { jsonStoreService } = await import("@/features/storage/json-store.service");
-  // #region agent log
-  fetch("http://127.0.0.1:7498/ingest/1d86b498-7c2d-4481-a276-91bbb2186639", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "749a8d" },
-    body: JSON.stringify({
-      sessionId: "749a8d",
-      location: "site-settings.service.ts:saveJsonStoreOverlay",
-      message: "JsonStore overlay save",
-      data: { locale: catalogLocale, keyCount: Object.keys(overlay).length },
-      hypothesisId: "H1",
-      runId: "post-fix",
-      timestamp: Date.now(),
-    }),
-  }).catch(() => {});
-  // #endregion
   await jsonStoreService.set(
     SITE_SETTINGS_NAMESPACE,
     catalogLocale,

@@ -4,9 +4,14 @@ import "server-only";
  * AZURA Collection Sync Engine — ported from Astro sample.
  */
 
-import { readFile, writeFile, mkdir, access } from "node:fs/promises";
+import { readFile, writeFile, access } from "node:fs/promises";
 import { resolve, join } from "node:path";
 import type { Collection, CollectionRule } from "./types";
+import {
+  isCatalogFsWriteError,
+  preferCatalogJsonStore,
+  safeMkdirCatalogDir,
+} from "./collections-persistence";
 import { catalogProductToCollectionProduct, type CollectionEngineProduct } from "./engine";
 import {
   getCollectionsMatchingProduct,
@@ -25,6 +30,7 @@ import {
   normalizeForMatch,
 } from "./normalization";
 import type { Product as CatalogProduct } from "@/features/products/types";
+import type { Prisma } from "@prisma/client";
 import {
   CATALOG_LOCALES,
   DEFAULT_CATALOG_LOCALE,
@@ -51,24 +57,28 @@ async function readJson<T>(path: string): Promise<T> {
 }
 
 async function writeJson(path: string, data: unknown): Promise<void> {
+  if (preferCatalogJsonStore()) return;
   const dir = resolve(path, "..");
-  await mkdir(dir, { recursive: true });
-  await writeFile(path, JSON.stringify(data, null, 2), "utf-8");
+  const ready = await safeMkdirCatalogDir(dir);
+  if (!ready) return;
+  try {
+    await writeFile(path, JSON.stringify(data, null, 2), "utf-8");
+  } catch (error) {
+    if (isCatalogFsWriteError(error)) return;
+    throw error;
+  }
 }
 
 // ── Collection loader ─────────────────────────────────────────────────────────
 
 export async function loadCollectionsFromDisk(): Promise<Collection[]> {
-  try {
-    const raw = await readJson<unknown[]>(COLLECTIONS_JSON);
-    return Array.isArray(raw) ? (raw as Collection[]) : [];
-  } catch {
-    return [];
-  }
+  const { loadCollections } = await import("./collections-persistence");
+  return loadCollections();
 }
 
 export async function saveCollectionsToDisk(collections: Collection[]): Promise<void> {
-  await writeJson(COLLECTIONS_JSON, collections);
+  const { saveCollections } = await import("./collections-persistence");
+  await saveCollections(collections);
 }
 
 function collectionToLocalized(c: Collection): LocalizedCollection {
@@ -161,7 +171,17 @@ export interface SyncReport {
   warnings: ValidationWarning[];
   productStatuses: ProductSyncStatus[];
   collectionCounts: Record<string, number>;
+  indexesRebuilt?: boolean;
+  indexRebuildCounts?: Record<string, number>;
 }
+
+/** Trimmed report persisted for admin product counts after page refresh. */
+export type PersistedSyncReport = Omit<SyncReport, "productStatuses"> & {
+  productStatuses?: never;
+};
+
+export const SYNC_REPORT_NAMESPACE = "catalog-collections-sync-report";
+export const SYNC_REPORT_KEY = "latest";
 
 // ── Cycle detection for hierarchy ─────────────────────────────────────────────
 
@@ -414,22 +434,64 @@ export async function writeLocaleCollectionFiles(
   collections: Collection[],
   locale: string,
 ): Promise<void> {
-  const dir = resolve(DATA_DIR, locale, "collections");
-  await mkdir(dir, { recursive: true });
+  if (preferCatalogJsonStore()) return;
 
-  for (const col of collections) {
-    const filePath = join(dir, `${col.slug}.json`);
-    if (await fileExists(filePath)) continue; // don't overwrite existing locale customizations
-    const localeData = {
-      ...col,
-      _locale: locale,
-      seo: {
-        metaTitle: col.name,
-        metaDescription: col.description?.slice(0, 160) || "",
-        canonicalPath: `/collections/${col.slug}`,
-      },
-    };
-    await writeJson(filePath, localeData);
+  const dir = resolve(DATA_DIR, locale, "collections");
+  try {
+    const ready = await safeMkdirCatalogDir(dir);
+    if (!ready) return;
+
+    for (const col of collections) {
+      const filePath = join(dir, `${col.slug}.json`);
+      if (await fileExists(filePath)) continue;
+      const localeData = {
+        ...col,
+        _locale: locale,
+        seo: {
+          metaTitle: col.name,
+          metaDescription: col.description?.slice(0, 160) || "",
+          canonicalPath: `/collections/${col.slug}`,
+        },
+      };
+      await writeJson(filePath, localeData);
+    }
+  } catch (error) {
+    if (isCatalogFsWriteError(error)) return;
+    throw error;
+  }
+}
+
+/** Writes locale collection files for every catalog locale (used on import). */
+export async function writeLocaleCollectionFilesForImport(collections: Collection[]): Promise<void> {
+  if (preferCatalogJsonStore()) return;
+
+  for (const locale of CATALOG_LOCALES) {
+    const dir = resolve(DATA_DIR, locale, "collections");
+    try {
+      const ready = await safeMkdirCatalogDir(dir);
+      if (!ready) return;
+
+      for (const col of collections) {
+        const localeData = {
+          ...col,
+          _locale: locale,
+          seo: {
+            metaTitle: col.name,
+            metaDescription: col.description?.slice(0, 160) || "",
+            canonicalPath: `/collections/${col.slug}`,
+          },
+        };
+        try {
+          await writeJson(join(dir, `${col.slug}.json`), localeData);
+        } catch (error) {
+          if (isCatalogFsWriteError(error)) return;
+          throw error;
+        }
+      }
+    } catch (error) {
+      if (isCatalogFsWriteError(error)) return;
+      throw error;
+    }
   }
 }
 
@@ -615,4 +677,40 @@ export async function validateSync(locale?: string): Promise<SyncReport> {
   const raw = locale?.trim().toLowerCase() ?? "";
   const loc: CatalogLocale = raw && isCatalogLocale(raw) ? raw : DEFAULT_CATALOG_LOCALE;
   return syncCollections({ locale: loc, autoCreate: false, dryRun: true });
+}
+
+// ── Persisted sync report (admin product counts) ─────────────────────────────
+
+export function trimSyncReportForPersistence(report: SyncReport): PersistedSyncReport {
+  const { productStatuses: _omit, ...trimmed } = report;
+  void _omit;
+  return trimmed;
+}
+
+export async function savePersistedSyncReport(report: SyncReport): Promise<void> {
+  const payload = trimSyncReportForPersistence(report);
+  const { jsonStoreService } = await import("@/features/storage/json-store.service");
+  await jsonStoreService.set(
+    SYNC_REPORT_NAMESPACE,
+    SYNC_REPORT_KEY,
+    payload as unknown as Prisma.InputJsonValue,
+  );
+}
+
+export async function loadPersistedSyncReport(): Promise<PersistedSyncReport | null> {
+  try {
+    const { jsonStoreService } = await import("@/features/storage/json-store.service");
+    const stored = await jsonStoreService.get<PersistedSyncReport>(
+      SYNC_REPORT_NAMESPACE,
+      SYNC_REPORT_KEY,
+    );
+    if (!stored || typeof stored !== "object" || !stored.generatedAt) return null;
+    return stored;
+  } catch {
+    return null;
+  }
+}
+
+export function persistedReportToSyncReport(report: PersistedSyncReport): SyncReport {
+  return { ...report, productStatuses: [] };
 }

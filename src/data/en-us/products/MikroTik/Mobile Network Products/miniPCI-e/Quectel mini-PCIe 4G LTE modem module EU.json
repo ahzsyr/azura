@@ -1,0 +1,234 @@
+{
+  "slug": "quectel-ec25-e-mini-pcie",
+  "id": "3800",
+  "productTitle": "Quectel mini-PCIe 4G LTE modem module EU",
+  "name": "Quectel mini-PCIe 4G LTE modem module EU",
+  "title": "Quectel mini-PCIe 4G LTE modem module EU",
+  "title_extended": "",
+  "short_description": "LTE Cat 4 module optimized specially for M2M and IoT applications",
+  "description": "LTE Cat 4 module optimized specially for M2M and IoT applications",
+  "detailed_description": [
+    {
+      "heading": "Overview",
+      "text": "The Quectel EC25-EUX is a mini-PCIe form factor 4G LTE modem module designed specifically for deployment within the European market. This powerful module is part of Quectel's EC25 series of LTE category 4 modules, providing optimal performance in wireless communication and broadband data transmission. It is engineered to be a highly reliable and scalable solution for IoT and M2M applications, including industrial routers, home gateways, set-top boxes, and surveillance systems. EC25 series is compatible with Quectel multimode LTE Standard EC21 series/EC20 R2.1/EG25-G/EG21-G modules and UMTS/HSPA+ UC200T series modules, which allows for flexible migration among them in design and manufacturing."
+    },
+    {
+      "heading": "Performance",
+      "text": "The EC25-EUX supports LTE Category 4, enabling fast data transmission rates with a maximum downlink speed of 150 Mbps and an uplink speed of 50 Mbps. This allows for robust internet browsing, streamlining of video streams, and quick file transfers, meeting the demands of a variety of applications. Adhering to the standard mini-PCIe form factor, the EC25-EUX is designed for easy integration into existing hardware with mini-PCIe slots. This widespread compatibility makes it suitable for upgrading various types of devices with advanced LTE capabilities."
+    },
+    {
+      "heading": "Connectivity and Features",
+      "text": "To ensure broad network coverage and compatibility across Europe, the EC25-EUX module supports multiple frequency bands including LTE FDD, LTE TDD, WCDMA, and GSM. This multi-band capability facilitates seamless connectivity even when devices move across different network zones. This module card also supports Qualcomm® IZat™ location technology Gen8C Lite (for GPS, GLONASS, BeiDou/Compass, Galileo and QZSS). The integrated GNSS greatly simplifies product design, and provides quicker, more accurate and more dependable positioning."
+    },
+    {
+      "heading": "Applications",
+      "text": "In addition, a rich set of Internet protocols, industry-standard interfaces and abundant functionalities (USB serial drivers for Windows 7/8/8.1/10, Linux, Android) extend the applicability of the module to a wide range of M2M and IoT applications such as industrial router, industrial PDA, rugged tablet PC, video surveillance, and digital signage."
+    }
+  ],
+  "brand": "Quectel",
+  "category": "LTE Products",
+  "categories": [
+    "LTE Products",
+    "miniPCI-e"
+  ],
+  "mpn": "EC25-EUX",
+  "manufacturer_part_number": "EC25-EUX",
+  "ean": "0708747440201",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3800/ec25_mini_pcie_layered12-617be9d8f1892-medium.jpg",
+        "alt": "Quectel mini-PCIe 4G LTE modem module EU",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3800/ec25_mini_pcie_layered12-617be9d8f1892-tiny.jpg",
+        "alt": "Quectel mini-PCIe 4G LTE modem module EU",
+        "type": "thumbnail"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - Quectel mini-PCIe 4G LTE modem module EU",
+        "url": "https://www.getic.com/files/catalogue/3800/quectel_ec25_series_lte_standard_specification_v21-61655e3289e67.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 42.92,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "LTE Category",
+        "FDD LTE Frequency Bands",
+        "TDD LTE Frequency Bands"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "2G (GSM), 3G (UMTS), 4G (LTE)"
+        },
+        {
+          "name": "LTE Category",
+          "value": "Cat4 - 150Mbps/50Mbps"
+        },
+        {
+          "name": "FDD LTE Frequency Bands",
+          "value": "1 (2100MHz), 3 (1800MHz), 7 (2600MHz), 8 (900MHz), 20 (800MHz), 28 (700MHz)"
+        },
+        {
+          "name": "TDD LTE Frequency Bands",
+          "value": "38 (2600MHz), 40 (2300MHz), 41 (2500MHz)"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "30.0 × 51.0 × 4.9 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-35 °C to 75 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Quectel mini-PCIe 4G LTE modem module EU",
+      "url": "https://www.getic.com/files/catalogue/3800/quectel_ec25_series_lte_standard_specification_v21-61655e3289e67.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.5,
+    "count": 2,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Manuel",
+        "date": "2026-01-11",
+        "text": "Works as expected regarding the 4G LTE capability. Unfortunately the GPS option is limited to GPS system. GLONASS, BeiDou and Galileo are not available. Tried activation with \"AT+QGPSCFG=\"gnssconfig\",x\", but no success.",
+        "photos": []
+      },
+      {
+        "name": "Sergej",
+        "date": "2023-09-15",
+        "text": "Works like charm with OpenWRT and Banana-PI R3.\nJust check the tutorials on the net.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Pigtail U.fl Female / SMA Female 10cm",
+      "url": "/product/pigtail-u-fl-female-sma-female-10cm",
+      "price": 2.75,
+      "currency": "USD",
+      "mpn": "P-UF-SF-10",
+      "availability": "InStock"
+    },
+    {
+      "name": "Pigtail U.fl Female / SMA Female 20cm",
+      "url": "/product/pigtail-u-fl-female-sma-female-20cm",
+      "price": 2.75,
+      "currency": "USD",
+      "mpn": "P-UF-SF-20",
+      "availability": "InStock"
+    },
+    {
+      "name": "Teltonika GPS/GNSS Antenna 2dBi adhesive type 3m",
+      "url": "/product/gpsgnss-antenna-for-teltonika-rut9xx",
+      "price": 6.26,
+      "currency": "USD",
+      "mpn": "PR1KSG30",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "LTE Antenna 5dBi Indoor Black (2pcs)",
+      "url": "/product/lte-antenna-5dbi-indoor-black",
+      "price": 6.09,
+      "currency": "USD",
+      "mpn": "LTE-IAB-5dBi",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

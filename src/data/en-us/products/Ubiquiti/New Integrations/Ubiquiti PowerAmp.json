@@ -1,0 +1,301 @@
+{
+  "slug": "ubiquiti-poweramp",
+  "id": "UPL-Amp-B",
+  "productTitle": "Ubiquiti PowerAmp",
+  "name": "Ubiquiti PowerAmp",
+  "title": "Ubiquiti PowerAmp",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Powerful Audio Performance",
+      "text": "The Ubiquiti PowerAmp (UPL-Amp-B) is a premium speaker amplifier specifically designed for high-fidelity audio streaming across multiple zones, providing users with an immersive sound experience. With an impressive output of 130 watts per channel at 8 ohms, it delivers powerful and clear audio that fills any room. This amplifier supports low-latency wireless audio streaming through Apple AirPlay 2 and Spotify Connect, making it easy to enjoy your favorite music or podcasts without interruptions. Its user-friendly design is perfect for both casual listeners and audio enthusiasts, ensuring that everyone can appreciate high-quality sound in any environment."
+    },
+    {
+      "heading": "Connectivity and Input Options",
+      "text": "Equipped with multiple connectivity options, the PowerAmp allows for versatile audio setups. It features two speaker terminal outputs, accompanied by custom-designed banana plugs, which simplify the connection process. Additionally, the amplifier includes an RCA analog subwoofer output, enhancing low-frequency response for a fuller sound. Two RCA analog inputs are provided for the left and right audio channels, allowing seamless integration with various audio sources. The HDMI eARC input supports immersive spatial sound powered by Dolby Atmos, enabling users to experience a cinema-like audio environment in their own homes."
+    },
+    {
+      "heading": "Smart Management",
+      "text": "For effortless setup and management, the Ubiquiti PowerAmp utilizes the UniFi Play mobile app, available for both iOS and Android devices. This app provides a comprehensive platform for group control and settings management, making it easier than ever to customize your audio experience. The amplifier is designed with a 1.43-inch rotary knob featuring a touchscreen for intuitive navigation, allowing users to adjust settings with ease. With two GbE RJ45 ports and support for WiFi standards 802.11 a/b/g/n/ac, it ensures stable and fast networking capabilities. Constructed from durable plastic, the PowerAmp is suitable for desktop mounting, fitting seamlessly into any audio setup."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Professional A/V",
+  "categories": [
+    "Professional A/V",
+    "Home and Office Networks"
+  ],
+  "mpn": "UPL-Amp-B",
+  "manufacturer_part_number": "UPL-Amp-B",
+  "ean": "0810084694275",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5144/1-66fa591721a18-medium.jpg",
+        "alt": "Ubiquiti PowerAmp",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5144/2-66fa591c14053-medium.jpg",
+        "alt": "Ubiquiti PowerAmp",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5144/3-66fa592000858-medium.jpg",
+        "alt": "Ubiquiti PowerAmp",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5144/4-66fa59241f44d-medium.jpg",
+        "alt": "Ubiquiti PowerAmp",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5144/5-66fa59284c10f-medium.jpg",
+        "alt": "Ubiquiti PowerAmp",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5144/7-66fa592c72878-medium.jpg",
+        "alt": "Ubiquiti PowerAmp",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5144/8-66fa593076d38-medium.jpg",
+        "alt": "Ubiquiti PowerAmp",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5144/1-66fa591721a18-tiny.jpg",
+        "alt": "Ubiquiti PowerAmp thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5144/2-66fa591c14053-tiny.jpg",
+        "alt": "Ubiquiti PowerAmp thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5144/3-66fa592000858-tiny.jpg",
+        "alt": "Ubiquiti PowerAmp thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5144/4-66fa59241f44d-tiny.jpg",
+        "alt": "Ubiquiti PowerAmp thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5144/5-66fa59284c10f-tiny.jpg",
+        "alt": "Ubiquiti PowerAmp thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5144/7-66fa592c72878-tiny.jpg",
+        "alt": "Ubiquiti PowerAmp thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5144/8-66fa593076d38-tiny.jpg",
+        "alt": "Ubiquiti PowerAmp thumbnail"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 616.55,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "17 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "217 x 236.8 x 63.7 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "2.4 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti PowerAmp",
+      "url": "https://www.getic.com/files/catalogue/5144/poweramp_ds-66fa58b828d76.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti G4 Doorbell Pro",
+      "url": "/product/unifi-protect-g4-doorbell-pro",
+      "price": 290.68,
+      "currency": "USD",
+      "mpn": "UVC-G4-DoorBell-Pro",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro Max 24 PoE",
+      "url": "/product/switch-professional-max-24-poe",
+      "price": 798.21,
+      "currency": "USD",
+      "mpn": "USW-Pro-Max-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi G3 Touch Enterprise",
+      "url": "/product/ubiquiti-unifi-g3-touch-enterprise",
+      "price": 294.71,
+      "currency": "USD",
+      "mpn": "UTP-G3-Touch-Enterprise",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

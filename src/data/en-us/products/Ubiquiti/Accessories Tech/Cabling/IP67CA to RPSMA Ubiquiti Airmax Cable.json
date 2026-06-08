@@ -1,0 +1,183 @@
+{
+  "slug": "pigtail-airmax-ip67ca-rpsma",
+  "id": "2537",
+  "productTitle": "IP67CA to RPSMA Ubiquiti Airmax Cable",
+  "name": "IP67CA to RPSMA Ubiquiti Airmax Cable",
+  "title": "IP67CA to RPSMA Ubiquiti Airmax Cable",
+  "title_extended": "",
+  "short_description": "Pigtail to connect the Ubiquiti Rocket to the dish or sector antenna",
+  "description": "Weatherproof coaxial Ubiquiti's IP67CA-RPSMA Airmax Cable is engineered to facilitate secure and durable connections between Ubiquiti networking Rocket device to a parabolic antenna or sector antenna, supporting data transmission in outdoor and industrial settings. The cable is equipped with excellent RF shielding properties, minimizing signal attenuation and interference from external RF sources. This ensures optimal performance and reliability in high-frequency transmission environments. Manufactured using premium materials, the cable features a rugged build that is resistant to UV radiation and extreme temperatures, which helps prevent degradation over time and maintains the integrity of the cable’s performance. In addition, this cable is constructed with an IP67-rated jacket that provides comprehensive protection against dust and water, ensuring performance stability even in adverse weather conditions like rain, snow, and fog.",
+  "detailed_description": [
+    {
+      "heading": "Weatherproof Design for Outdoor Use",
+      "text": "Weatherproof coaxial Ubiquiti's IP67CA-RPSMA Airmax Cable is engineered to facilitate secure and durable connections between Ubiquiti networking Rocket device to a parabolic antenna or sector antenna, supporting data transmission in outdoor and industrial settings. The cable is equipped with excellent RF shielding properties, minimizing signal attenuation and interference from external RF sources. This ensures optimal performance and reliability in high-frequency transmission environments."
+    },
+    {
+      "heading": "Durable Construction",
+      "text": "Manufactured using premium materials, the cable features a rugged build that is resistant to UV radiation and extreme temperatures, which helps prevent degradation over time and maintains the integrity of the cable’s performance. In addition, this cable is constructed with an IP67-rated jacket that provides comprehensive protection against dust and water, ensuring performance stability even in adverse weather conditions like rain, snow, and fog."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Coaxial Cables",
+  "categories": [
+    "Cabling",
+    "Coaxial Cables"
+  ],
+  "mpn": "IP67CA-RPSMA",
+  "manufacturer_part_number": "IP67CA-RPSMA",
+  "ean": "0817882025294",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2537/ip67carpsma_connektors-604243b1f38e0-medium.jpg",
+        "alt": "IP67CA to RPSMA Ubiquiti Airmax Cable",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2537/ip67carpsma_side-60423ac05a445-medium.jpg",
+        "alt": "IP67CA to RPSMA Ubiquiti Airmax Cable",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 6.94,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Connector",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Connector",
+          "value": "RP-SMA Male - RP-SMA Male"
+        },
+        {
+          "name": "Cable Length",
+          "value": "0.13 m"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX Rocket AC Lite",
+      "url": "/product/rocket-ac-lite",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "R5AC-LITE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Rocket Prism 5AC",
+      "url": "/product/rocket-ac-prism-gen2",
+      "price": 229.40,
+      "currency": "USD",
+      "mpn": "RP-5AC-Gen2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Ethernet Surge Protector",
+      "url": "/product/ethernet-surge-protector-gen-2",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "ETH-SP-G2",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

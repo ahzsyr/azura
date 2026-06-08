@@ -1,0 +1,311 @@
+{
+  "slug": "ubiquiti-unifi-u7-pro-outdoor",
+  "id": "U7-Pro-Outdoor",
+  "productTitle": "Ubiquiti UniFi U7 Pro Outdoor",
+  "name": "Ubiquiti UniFi U7 Pro Outdoor",
+  "title": "Ubiquiti UniFi U7 Pro Outdoor",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "WiFi 7 Performance",
+      "text": "The Ubiquiti UniFi U7 Pro Outdoor is engineered to deliver next-generation wireless performance in demanding outdoor environments. Built on the latest WiFi 7 standard, this access point provides a significant leap in speed, efficiency, and capacity compared to previous generations. With 6 spatial streams and advanced multi-user MIMO technology, it ensures smooth, simultaneous connectivity for many devices without performance degradation. Designed for high-density deployments, the device supports 300+ concurrent clients, making it ideal for public venues, campuses, industrial zones, and large outdoor spaces. It delivers exceptional throughput, with data rates reaching up to 8.6 Gbps on the 5 GHz band and 688 Mbps on 2.4 GHz, enabling bandwidth-intensive applications such as HD video streaming, real-time communication, and IoT operations.\n\nCoverage is equally impressive, spanning up to 465 m² with optimized signal distribution. The integrated directional antenna system enhances targeted coverage, ensuring strong and reliable connections in focused deployment scenarios. At the same time, optional omnidirectional antenna support provides flexibility for broader area coverage. A 2.5 GbE uplink ensures that the wired backbone keeps pace with the high wireless throughput, eliminating bottlenecks and maintaining consistent network performance. This combination of speed, capacity, and coverage makes the U7 Pro Outdoor a powerful solution for modern outdoor networking requirements, delivering enterprise-grade connectivity with future-ready technology."
+    },
+    {
+      "heading": "Advanced Network Features",
+      "text": "Beyond raw performance, the UniFi U7 Pro Outdoor integrates a comprehensive suite of intelligent networking features designed to optimize user experience and simplify network management. It supports a wide range of WiFi standards, from WiFi 7 (802.11be) to legacy protocols, ensuring seamless compatibility with both modern and older devices. Advanced technologies such as band steering, fast roaming (802.11r), and radio resource management (802.11k) work together to maintain stable connections as users move throughout the coverage area. These capabilities are especially valuable in dynamic environments where uninterrupted connectivity is critical. Additionally, BSS transition management (802.11v) helps devices automatically select the best available access point, improving overall network efficiency. For scalable deployments, the access point supports up to 8 BSSIDs per radio, enabling multiple SSIDs for segmented network environments.\n\nFeatures like wireless meshing allow flexible expansion without extensive cabling, making it ideal for complex outdoor installations. Security and access control are equally robust. The system includes guest network isolation, client device isolation, and support for dynamic VLAN assignment via RADIUS over TLS (RadSec). Businesses can implement secure and customizable authentication methods, including password-based access, vouchers, or payment-based systems. The built-in captive portal supports custom branding, providing a professional user experience for guest networks. Additional capabilities such as WiFi scheduling, speed limiting, and private pre-shared keys (PPSK) give administrators granular control over network usage and performance. Together, these features make the U7 Pro Outdoor a fully integrated wireless networking platform tailored for modern enterprise needs."
+    },
+    {
+      "heading": "Rugged Outdoor Design",
+      "text": "The UniFi U7 Pro Outdoor is purpose-built for reliability in challenging outdoor environments. Its enclosure combines UV-stabilized polycarbonate and aluminum alloy, ensuring long-term durability even under continuous exposure to sunlight, moisture, and temperature fluctuations. With IP67 weatherproofing (when using the cable-gland door kit), the device is protected against dust ingress and water immersion, making it suitable for year-round outdoor operation. The access point operates efficiently across a wide temperature range of -30°C to 60°C, maintaining stable performance. It is also designed to withstand harsh weather conditions, including strong winds, with a tested wind loading resistance suitable for high-exposure installations. Installation is streamlined with included wall and pole mounting options, supporting pole diameters from 25 to 63.5 mm. The adjustable mounting bracket allows precise positioning and alignment, ensuring optimal signal direction and coverage.\n\nDespite its robust construction, the device remains compact and manageable, weighing approximately 1.2 kg (1.33 kg with mount). Power is delivered via PoE+, simplifying deployment by eliminating the need for separate power infrastructure. The device also features a standard RJ45 Ethernet interface, enabling straightforward integration into existing network environments. Operational visibility is enhanced through intuitive LED indicators, including power status and mesh signal strength, allowing quick diagnostics in the field. Compliance with global standards and certifications further ensures reliability and compatibility across regions. Overall, the U7 Pro Outdoor combines rugged engineering with flexible deployment options, making it a dependable choice for professional outdoor wireless networks."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Points",
+  "categories": [
+    "Access Points",
+    "Flexible & Outdoor"
+  ],
+  "mpn": "U7-Pro-Outdoor",
+  "manufacturer_part_number": "U7-Pro-Outdoor",
+  "ean": "0810084698730",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7151/u7prooutdoorus1-69d8ec15189ce-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Outdoor",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7151/u7prooutdoorus2-69d8ec190ff79-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7151/u7prooutdoorus3-69d8ec1d4f358-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7151/u7prooutdoorus4-69d8ec2210517-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7151/u7prooutdoorus5-69d8ec259f414-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7151/u7prooutdoorus6-69d8ec2b1db23-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7151/u7prooutdoorus7-69d8ec2fafa9a-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7151/u7prooutdoorus8-69d8ec3450586-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7151/u7prooutdoorus9-69d8ec38cccb5-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7151/u7prooutdoorus10-69d8ec42bce2f-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7151/u7prooutdoorus11-69d8ec46bb4fb-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7151/u7prooutdoorus12-69d8ec4aae412-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7151/u7prooutdoorus13-69d8ec4e5fe9f-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Outdoor",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 297.18,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "MIMO",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 7"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 4x4"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "687 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "8.64 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 2.5 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3at PoE+"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "42.5 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "21 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Ingress Protection Code",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "UV-stabilized polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP67, IPX6"
+        },
+        {
+          "name": "Weight",
+          "value": "1.33 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Pole Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi U7 Pro Outdoor",
+      "url": "https://www.getic.com/files/catalogue/7151/u7prooutdoor_ds-69d8eb79ad9c4.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.75,
+        "currency": "USD",
+        "delivery_days": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 52.61,
+        "currency": "USD",
+        "delivery_days": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Alfa USB Adapter AWUS036ACHM",
+      "url": "/product/alfa-awus036achm",
+      "price": 36.02,
+      "currency": "USD",
+      "mpn": "AWUS036ACHM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Ultra 210W",
+      "url": "/product/switch-ultra-210w",
+      "price": 200.14,
+      "currency": "USD",
+      "mpn": "USW-Ultra-210W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa Panel Indoor Antenna APA-M25-6E",
+      "url": "/product/alfa-panel-indoor-antenna-apa-m25-6e",
+      "price": 16.79,
+      "currency": "USD",
+      "mpn": "APA-M25-6E",
+      "availability": "InStock"
+    },
+    {
+      "name": "Dahua 8MP Dual Light Eyeball Camera IPC-HDW2849T-ZS-IL",
+      "url": "/product/dahua-8mp-dual-light-eyeball-camera-ipc-hdw2849t-zs-il",
+      "price": 168.77,
+      "currency": "USD",
+      "mpn": "IPC-HDW2849T-ZS-IL",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

@@ -1,0 +1,229 @@
+{
+  "slug": "uisp-box",
+  "id": "UISP-Box",
+  "productTitle": "Ubiquiti UISP Box",
+  "name": "Ubiquiti UISP Box",
+  "title": "Ubiquiti UISP Box",
+  "title_extended": "Ubiquiti UISP Box - Weatherproof Enclosure for UISP Router and Switch",
+  "short_description": "A compact, weatherproof enclosure for UISP® Routers and Switches.",
+  "description": "The Ubiquiti UISP Box, identified by the manufacturer part number UISP-Box, is a highly robust and adaptable enclosure designed to securely house and protect critical networking equipment in challenging outdoor or industrial environments. This enclosure is especially suitable for Ubiquiti’s or UISP® Routers and Switches, ensuring that they remain operational under extreme conditions. Designed to house and protect the UISP-R and UISP-S models. Also, keep in mind, that UISP Power TransPort™ Cable required for operation (sold separately). The UISP Box is constructed from UV-stabilized polycarbonate, a material known for its strength, durability, and resistance to ultraviolet rays. This ensures long-term reliability without degradation due to sunlight exposure. Rated IP67, the enclosure offers complete protection against dust ingress and waterproof. Engineered to endure wind speeds of up to 200 km/hr (124.27 mph), the UISP Box is suitable for high-altitude or exposed locations where strong winds are a regular occurrence, ensuring stability and ongoing operation during severe weather conditions. The UISP Box supports a versatile mounting system that accommodates pole diameters from 35 to 60 mm (1.38 to 2.36 inches), facilitating easy and secure installation on a variety of pole sizes.",
+  "detailed_description": [
+    {
+      "heading": "Robust Outdoor Enclosure",
+      "text": "The Ubiquiti UISP Box, identified by the manufacturer part number UISP-Box, is a highly robust and adaptable enclosure designed to securely house and protect critical networking equipment in challenging outdoor or industrial environments. This enclosure is especially suitable for Ubiquiti’s or UISP® Routers and Switches, ensuring that they remain operational under extreme conditions."
+    },
+    {
+      "heading": "Compatibility and Requirements",
+      "text": "Designed to house and protect the UISP-R and UISP-S models. Also, keep in mind, that UISP Power TransPort™ Cable required for operation (sold separately)."
+    },
+    {
+      "heading": "Durable Construction and Protection",
+      "text": "The UISP Box is constructed from UV-stabilized polycarbonate, a material known for its strength, durability, and resistance to ultraviolet rays. This ensures long-term reliability without degradation due to sunlight exposure. Rated IP67, the enclosure offers complete protection against dust ingress and waterproof. Engineered to endure wind speeds of up to 200 km/hr (124.27 mph), the UISP Box is suitable for high-altitude or exposed locations where strong winds are a regular occurrence, ensuring stability and ongoing operation during severe weather conditions. The UISP Box supports a versatile mounting system that accommodates pole diameters from 35 to 60 mm (1.38 to 2.36 inches), facilitating easy and secure installation on a variety of pole sizes."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Boxes & Cases",
+  "categories": [
+    "Cables and Cabinets",
+    "Boxes & Cases",
+    "Outdoor Enclosures"
+  ],
+  "mpn": "UISP-Box",
+  "manufacturer_part_number": "UISP-Box",
+  "ean": "0810010078926",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4364/1-645c9399b072b-medium.jpg",
+        "alt": "Ubiquiti UISP Box front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4364/2-645c939ce582c-medium.jpg",
+        "alt": "Ubiquiti UISP Box angled view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4364/3-645c93a087004-medium.jpg",
+        "alt": "Ubiquiti UISP Box side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4364/4-645c93a558b05-medium.jpg",
+        "alt": "Ubiquiti UISP Box back view with mounting",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4364/5-645c93a9c7ed9-medium.jpg",
+        "alt": "Ubiquiti UISP Box interior view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4364/uispbox_ds-644b882b7d1ab.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti UISP Box"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/4364/uispbox_qig-644b886768899.pdf",
+        "title": "Installation Guide - Ubiquiti UISP Box"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 61.66,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "UV-stabilized polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "320 x 250 x 46 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.42 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UISP Box",
+      "url": "https://www.getic.com/files/catalogue/4364/uispbox_ds-644b882b7d1ab.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti UISP Box",
+      "url": "https://www.getic.com/files/catalogue/4364/uispbox_qig-644b886768899.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Gaik",
+        "date": "2024-12-05",
+        "text": "This is high level box",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi AC Mesh",
+      "url": "/product/unifi-ac-mesh",
+      "price": 86.56,
+      "currency": "USD",
+      "mpn": "UAP-AC-M",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex Utility",
+      "url": "/product/unifi-flex-switch-adapter-kit",
+      "price": 52.98,
+      "currency": "USD",
+      "mpn": "USW-Flex-Utility",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 60 Long-Range",
+      "url": "/product/airfiber-60-lr",
+      "price": 303.78,
+      "currency": "USD",
+      "mpn": "AF60-LR",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UISP Switch",
+      "url": "/product/ubiquiti-uisp-switch-for-micropop-applications",
+      "price": 111.98,
+      "currency": "USD",
+      "mpn": "UISP-S",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "6"
+}

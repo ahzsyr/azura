@@ -13,6 +13,7 @@ export {
   createBlockInstance,
   upgradePageBlocksToV2,
   patchBlockSettings,
+  patchBlockMedia,
 } from "./instance/block-instance";
 export { migrateBlocksToBlockSystem } from "./migration/upgrade-blocks";
 export { resolveBlockStyles } from "./styles/style-resolver";

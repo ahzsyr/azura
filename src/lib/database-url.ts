@@ -27,7 +27,7 @@ export function sanitizeDatabaseUrl(raw: string | undefined): string {
 /** Bump Supabase pooler limit when set too low for parallel SSR queries. */
 export function normalizeConnectionLimit(url: string): string {
   if (/connection_limit=1(?:&|$)/i.test(url)) {
-    return url.replace(/connection_limit=1/gi, "connection_limit=5");
+    return url.replace(/connection_limit=1/gi, "connection_limit=3");
   }
   return url;
 }

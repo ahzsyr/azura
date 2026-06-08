@@ -1,0 +1,257 @@
+{
+  "slug": "mikrotik-indoor-bluetooth-tag",
+  "id": "TG-BT5-IN",
+  "productTitle": "MikroTik Indoor Bluetooth Tag",
+  "name": "MikroTik Indoor Bluetooth Tag",
+  "title": "MikroTik Indoor Bluetooth Tag",
+  "title_extended": "",
+  "short_description": "The MikroTik Indoor Bluetooth Tag is a highly efficient and versatile device designed for indoor asset tracking, automation, and monitoring applications. This tag leverages Bluetooth 5.2 technology, ensuring robust and energy-efficient communication. The IP55 rating ensures protection against dust and low-pressure water jets, making it durable enough for various indoor environments.",
+  "description": "The MikroTik Indoor Bluetooth Tag, with the manufacture part number TG-BT5-IN, is a highly efficient and versatile device designed for indoor asset tracking, automation, and monitoring applications. This tag leverages Bluetooth 5.2 technology, ensuring robust and energy-efficient communication. The IP55 rating ensures protection against dust and low-pressure water jets, making it durable enough for various indoor environments. Bluetooth tags play a huge role in IoT setups, where Bluetooth used to broadcast the data over short distances. You can use these small devices for proximity-based tracking of various objects. They use so little power that a single built-in 220 mAh battery will last for years. The built-in accelerometers can detect acceleration (movement) and also register if the device was dropped or tilted (free-fall detection). The indoor version works best in a temperature range from 0° C to 70° C.",
+  "detailed_description": [
+    {
+      "heading": "Indoor Bluetooth tags for the MikroTik KNOT or other IoT asset-tracking/telemetry setups",
+      "text": "The MikroTik Indoor Bluetooth Tag, with the manufacture part number TG-BT5-IN, is a highly efficient and versatile device designed for indoor asset tracking, automation, and monitoring applications. This tag leverages Bluetooth 5.2 technology, ensuring robust and energy-efficient communication. The IP55 rating ensures protection against dust and low-pressure water jets, making it durable enough for various indoor environments."
+    },
+    {
+      "heading": "Bluetooth Tags in IoT",
+      "text": "Bluetooth tags play a huge role in IoT setups, where Bluetooth used to broadcast the data over short distances. You can use these small devices for proximity-based tracking of various objects. For example, if you have a KNOT gateway in different parts of a construction site, you can use these tags to locate construction tools, electrical equipment, and other assets."
+    },
+    {
+      "heading": "Long Battery Life",
+      "text": "Just attach the tags to the necessary items, and the nearest gateway will sense the tags in its proximity. Exceptionally useful in warehouse logistics — let your cargo inform you as soon as it enters the warehouse! They use so little power that a single built-in 220 mAh battery will last for years."
+    },
+    {
+      "heading": "Customizable Intervals and Sensors",
+      "text": "By default, advertisement packets are sent once every 5 seconds, but you can change this value to your liking. For example, if you set the interval to 1 second, the battery will typically last two years. The built-in accelerometers can not only detect acceleration (movement), but can also register if the device was dropped or tilted (free-fall detection). The indoor version of our BLE tags works best in a temperature range from 0° C to 70° C. It is splash-proof, and comes with a built-in accelerometer."
+    },
+    {
+      "heading": "Gateway Integration",
+      "text": "Once activated, the tag will broadcast iBeacon, Eddystone or MikroTik telemetry advertising packets to the gateway (such as the KNOT or any other BLE gateway). These packets contain MAC address used for ID, as well as telemetry data — such as acceleration, tilt and battery charge level. The gateway then pushes the data to the remote server utilizing MQTT or HTTP protocols."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Tags / Sensors",
+  "categories": [
+    "IoT Solutions",
+    "Tags / Sensors"
+  ],
+  "mpn": "TG-BT5-IN",
+  "manufacturer_part_number": "TG-BT5-IN",
+  "ean": "0708747440867",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3764/2078_hi_res-614f007668a0e-medium.jpg",
+        "alt": "MikroTik Indoor Bluetooth Tag",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3764/2078_hi_res-614f007668a0e-tiny.jpg",
+        "alt": "MikroTik Indoor Bluetooth Tag"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - MikroTik Indoor Bluetooth Tag",
+        "url": "https://www.getic.com/files/catalogue/3764/tg_bt5_in_out_210933-614efff3f3dc0.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 11.26,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Antenna",
+      "features": ["Beamwidth"],
+      "items": [
+        {
+          "name": "Beamwidth",
+          "value": "360 °"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": ["Bluetooth"],
+      "items": [
+        {
+          "name": "Bluetooth",
+          "value": "5.2"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": ["Battery", "Long Battery Life"],
+      "items": [
+        {
+          "name": "Battery",
+          "value": "220 mAh  V"
+        },
+        {
+          "name": "Long Battery Life",
+          "value": "6 years"
+        }
+      ]
+    },
+    {
+      "technology": "Sensor",
+      "features": ["Sensor Type"],
+      "items": [
+        {
+          "name": "Sensor Type",
+          "value": "Acceleration"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": ["Ingress Protection Code", "Dimensions", "Weight", "Operating Temperature", "Environment"],
+      "items": [
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP55"
+        },
+        {
+          "name": "Dimensions",
+          "value": "37 x 22 x 6 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.007 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Indoor Bluetooth Tag",
+      "url": "https://www.getic.com/files/catalogue/3764/tg_bt5_in_out_210933-614efff3f3dc0.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "class": "Pickup point",
+      "price": 15.58,
+      "currency": "USD",
+      "days": 18
+    },
+    {
+      "class": "Standard",
+      "price": 31.44,
+      "currency": "USD",
+      "days": 5
+    },
+    {
+      "class": "Express",
+      "price": 42.86,
+      "currency": "USD",
+      "days": 2
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik ACGPSA GPS Antenna with Cable 5m",
+      "url": "/product/mikrotik-acgpsa",
+      "price": 6.71,
+      "currency": "USD",
+      "mpn": "ACGPSA",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik KNOT",
+      "url": "/product/mikrotik-knot",
+      "price": 83.01,
+      "currency": "USD",
+      "mpn": "RB924i-2nD-BT5&BG77",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Outdoor Bluetooth Tag",
+      "url": "/product/mikrotik-outdoor-bluetooth-tag",
+      "price": 15.68,
+      "currency": "USD",
+      "mpn": "TG-BT5-OUT",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 868 Omni Antenna",
+      "url": "/product/mikrotik-868-omni-antenna",
+      "price": 37.00,
+      "currency": "USD",
+      "mpn": "868_Omni_antenna",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik MTCNA Certificate",
+    "MikroTik Value Added Distributor"
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,164 @@
+{
+  "slug": "mikrotik-nrayaim-dh1",
+  "id": 2971,
+  "productTitle": "MikroTik nRayAIM-DH1",
+  "name": "MikroTik nRayAIM-DH1",
+  "title": "MikroTik nRayAIM-DH1",
+  "title_extended": "",
+  "short_description": "An Alignment and Aiming Attachment for the nRAY.",
+  "description": "An Alignment and Aiming Attachment for the nRAY.",
+  "detailed_description": [
+    {
+      "heading": "Detailed description",
+      "text": "The MikroTik nRayAIM-DH1 is a precision alignment and aiming accessory designed specifically for the Wireless Wire nRAY. This attachment allows you to mount a scope of your choice, enabling more accurate alignment and simplifying the installation process of your nRAY devices. With its robust and practical design, the nRayAIM-DH1 ensures precise antenna positioning, which is essential for achieving optimal signal quality and stable long-distance wireless connections. Whether you’re setting up a new point-to-point link or fine-tuning an existing installation, this accessory makes the alignment process faster, easier, and more efficient. Built with reliability and usability in mind, the nRayAIM-DH1 is an indispensable tool for professional network installers and anyone aiming for the best possible performance from their Wireless Wire nRAY system."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Mounting Accessories",
+  "categories": [
+    "Mounting Accessories",
+    "Mounts and Brackets"
+  ],
+  "mpn": "nRayAIM-DH1",
+  "manufacturer_part_number": "nRayAIM-DH1",
+  "ean": "4752224007209",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2971/nrayaimdh1_1-5fdb4ee728bdf-medium.jpg",
+        "alt": "MikroTik nRayAIM-DH1",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2971/nrayaimdh1_2-5fdb4ee40a3ba-medium.jpg",
+        "alt": "MikroTik nRayAIM-DH1",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - MikroTik nRayAIM-DH1",
+        "url": "https://www.getic.com/files/catalogue/2971/wireless_wire_nray_200919-5f758754084db.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 4.82,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Plastic"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik nRayAIM-DH1",
+      "url": "https://www.getic.com/files/catalogue/2971/wireless_wire_nray_200919-5f758754084db.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 1.25G RJ-45 Module",
+      "url": "/product/sfp-rj45-copper-module",
+      "price": 23.72,
+      "currency": "USD",
+      "mpn": "S-RJ01",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Optical Data Transport",
+      "url": "/product/fiber-poe-g2",
+      "price": 31.25,
+      "currency": "USD",
+      "mpn": "F-POE-G2",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Wireless Wire nRAY",
+      "url": "/product/mikrotik-wireless-wire-nray",
+      "price": 249.04,
+      "currency": "USD",
+      "mpn": "nRAYG-60adpair",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB5009UG+S+IN",
+      "url": "/product/mikrotik-rb5009ug-s-in",
+      "price": 175.29,
+      "currency": "USD",
+      "mpn": "RB5009UG+S+IN",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik Value Added Distributor",
+    "MikroTik MTCNA Certificate"
+  ],
+  "stock_stat": "InStock"
+}

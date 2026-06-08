@@ -13,25 +13,6 @@ export default function LocaleError({
 }) {
   useEffect(() => {
     console.error("[locale] page error:", error);
-    // #region agent log
-    fetch("http://127.0.0.1:7296/ingest/be83af48-a38d-4332-bd14-ca24ef067ce8", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "846d9e" },
-      body: JSON.stringify({
-        sessionId: "846d9e",
-        location: "locale/error.tsx",
-        message: "locale page error boundary",
-        data: {
-          digest: error.digest ?? null,
-          name: error.name,
-          message: error.message?.slice(0, 300) ?? null,
-        },
-        hypothesisId: "H4",
-        runId: "pre-fix",
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
   }, [error]);
 
   return (

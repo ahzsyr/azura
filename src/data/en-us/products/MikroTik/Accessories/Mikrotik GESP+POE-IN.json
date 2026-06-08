@@ -1,0 +1,239 @@
+{
+  "slug": "mikrotik-gesppoe-in",
+  "id": "3374",
+  "productTitle": "Mikrotik GESP+POE-IN",
+  "name": "Mikrotik GESP+POE-IN",
+  "title": "Mikrotik GESP+POE-IN",
+  "title_extended": "Mikrotik GESP+POE-IN",
+  "short_description": "Mikrotik Indoor Gigabit Ethernet Surge Protector with Passive PoE",
+  "description": "Mikrotik Indoor Gigabit Ethernet Surge Protector with Passive PoE",
+  "detailed_description": [
+    {
+      "heading": "PoE Power with Protection",
+      "text": "The MikroTik GESP+POE-IN is a passive PoE injector with built-in surge protection, designed to safely deliver power to network devices while protecting sensitive equipment from voltage spikes, lightning-induced surges, and static discharge. It is part of the MikroTik GESP surge protection ecosystem, created for installations where long Ethernet runs and outdoor conditions increase electrical risks. By combining power injection and surge protection in a single compact unit, GESP+POE-IN helps reduce equipment failure, network downtime, and maintenance costs. When used together with other GESP devices, it provides protection for both data and power lines, ensuring stable operation even in harsh electrical environments. This makes GESP+POE-IN an essential component for wireless links, outdoor access points, and professional network deployments where reliability and safety are critical."
+    },
+    {
+      "heading": "PoE Power with Protection",
+      "text": "In a typical deployment, a GESP surge protector is installed near antennas or radios on a mast, enclosed in a weatherproof IP67 housing to protect outdoor equipment. The GESP+POE-IN injector is then placed below the mast, closer to switches and power sources, where it delivers passive PoE while protecting indoor equipment. Proper grounding is essential: the grounding wire must be securely connected to a rack, mast, or any grounded structure to ensure effective surge dissipation. For maximum protection, MikroTik recommends using surge protection on both ends of long Ethernet cables. GESP devices are designed to absorb multiple surge events, but should be inspected after each major incident. Installation is simple using PVC zip ties, and a K-73 fastening set is included."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Surge Protectors",
+  "categories": [
+    "Surge Protectors",
+    "Electrical Equipment",
+    "MikroTik",
+    "Accessories"
+  ],
+  "mpn": "GESP+POE-IN",
+  "manufacturer_part_number": "GESP+POE-IN",
+  "ean": "4752224007223",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3374/gesppoein-614894694681b-medium.jpg",
+        "alt": "Mikrotik GESP+POE-IN",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3374/gesppoein_2-6148948fed454-medium.jpg",
+        "alt": "Mikrotik GESP+POE-IN",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3374/gesppoein-614894694681b-tiny.jpg",
+        "alt": "Mikrotik GESP+POE-IN"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3374/gesppoein_2-6148948fed454-tiny.jpg",
+        "alt": "Mikrotik GESP+POE-IN"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/3374/gesppoe-60faae49f0cc1.pdf",
+        "title": "Technical Specs / Datasheet - Mikrotik GESP+POE-IN"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 15.28,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Connectors",
+      "features": [
+        "Ethernet Connector"
+      ],
+      "items": [
+        {
+          "name": "Ethernet Connector",
+          "value": "RJ45, RJ45 Jack"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Mikrotik GESP+POE-IN",
+      "url": "https://www.getic.com/files/catalogue/3374/gesppoe-60faae49f0cc1.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.66,
+        "days": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.61,
+        "days": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.08,
+        "days": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik GESP",
+      "url": "/product/mikrotik-gesp",
+      "price": 30.91,
+      "currency": "USD",
+      "mpn": "GESP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik GPeR-IP67-Case",
+      "url": "/product/mikrotik-gper-ip67-case",
+      "price": 6.43,
+      "currency": "USD",
+      "mpn": "GPeR-IP67-Case",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Rackmount kit for RB5009/L009 series",
+      "url": "/product/mikrotik-kit-k79",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "K-79",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Power Adapter 48V2A",
+      "url": "/product/psu-power-adapter-48v2a-96w",
+      "price": 30.93,
+      "currency": "USD",
+      "mpn": "48V2A96W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik MTCNA Certificate",
+    "MikroTik Value Added Distributor"
+  ],
+  "stock_stat": "in_stock"
+}

@@ -1,0 +1,226 @@
+{
+  "slug": "psu-open-frame-12v-7a-for-ccr-r2",
+  "id": "3760",
+  "productTitle": "MikroTik Open Frame PSU PW48V-12V85W",
+  "name": "MikroTik Open Frame PSU PW48V-12V85W",
+  "title": "MikroTik Open Frame PSU PW48V-12V85W",
+  "title_extended": "",
+  "short_description": "Professional open-frame power supply designed for telecom and enterprise environments requiring reliable ±48 V DC operation. Delivers 12 V output at up to 7 A (85 W). Compatible with Cloud Core Routers revision 'r2' and newer models.",
+  "description": "The MikroTik PW48V-12V85W is a professional open-frame power supply designed for telecom and enterprise environments that require reliable ±48 V DC operation. It delivers a steady 12 V output with a current of up to 7 A, providing a total power output of 85 W — ideal for powering high-performance MikroTik devices. This model is compatible with Cloud Core Routers starting from revision “r2”, as well as newer models such as the CCR2004-1G-12S+2XS and CRS326-24S+2Q+RM. The power supply can be easily installed by replacing one of the existing units, making it a convenient upgrade for ±48 V systems. Although optimized for -48 V telecom power setups, it supports a wide input voltage range from 36 V to 57 V, ensuring flexibility and reliability. Designed for stable operation and efficient energy conversion, the PW48V-12V85W ensures consistent performance in demanding professional network environments.",
+  "detailed_description": [
+    {
+      "heading": "Professional Open Frame PSU",
+      "text": "The MikroTik PW48V-12V85W is a professional open-frame power supply designed for telecom and enterprise environments that require reliable ±48 V DC operation. It delivers a steady 12 V output with a current of up to 7 A, providing a total power output of 85 W — ideal for powering high-performance MikroTik devices. This model is compatible with Cloud Core Routers starting from revision “r2”, as well as newer models such as the CCR2004-1G-12S+2XS and CRS326-24S+2Q+RM. The power supply can be easily installed by replacing one of the existing units, making it a convenient upgrade for ±48 V systems. Although optimized for -48 V telecom power setups, it supports a wide input voltage range from 36 V to 57 V, ensuring flexibility and reliability. Designed for stable operation and efficient energy conversion, the PW48V-12V85W ensures consistent performance in demanding professional network environments."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters",
+    "MikroTik"
+  ],
+  "mpn": "PW48V-12V85W",
+  "manufacturer_part_number": "PW48V-12V85W",
+  "ean": "4752224002518",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3760/1750_hi_res-61483792b0dfc-medium.jpg",
+        "alt": "MikroTik Open Frame PSU PW48V-12V85W",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3760/1748_hi_res-614837910c1b8-medium.jpg",
+        "alt": "MikroTik Open Frame PSU PW48V-12V85W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3760/1749_hi_res-6148378faa927-medium.jpg",
+        "alt": "MikroTik Open Frame PSU PW48V-12V85W",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3760/1750_hi_res-61483792b0dfc-tiny.jpg",
+        "alt": "MikroTik Open Frame PSU PW48V-12V85W"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3760/1748_hi_res-614837910c1b8-tiny.jpg",
+        "alt": "MikroTik Open Frame PSU PW48V-12V85W"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3760/1749_hi_res-6148378faa927-tiny.jpg",
+        "alt": "MikroTik Open Frame PSU PW48V-12V85W"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/3760/pw4812v85w_210558-614837a93f112.pdf",
+        "title": "Technical Specs / Datasheet - MikroTik Open Frame PSU PW48V-12V85W",
+        "type": "datasheet"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 56.28,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage",
+        "Output Power"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "7 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "12 V DC"
+        },
+        {
+          "name": "Output Power",
+          "value": "84 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "118 x 52 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 60 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Open Frame PSU PW48V-12V85W",
+      "url": "https://www.getic.com/files/catalogue/3760/pw4812v85w_210558-614837a93f112.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.66,
+        "currency": "USD",
+        "delivery_days": 18
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.61,
+        "currency": "USD",
+        "delivery_days": 5
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.08,
+        "currency": "USD",
+        "delivery_days": 2
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CRS317-1G-16S+RM",
+      "url": "/product/cloud-router-switch-317-1g-16srm",
+      "price": 399.85,
+      "currency": "USD",
+      "mpn": "CRS317-1G-16S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS328-24P-4S+RM",
+      "url": "/product/cloud-router-switch-328-24p-4s-rm",
+      "price": 434.22,
+      "currency": "USD",
+      "mpn": "CRS328-24P-4S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS328-4C-20S-4S+RM",
+      "url": "/product/cloud-router-switch-328-4c-20s-4s-rm",
+      "price": 359.75,
+      "currency": "USD",
+      "mpn": "CRS328-4C-20S-4S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CCR2004-1G-12S+2XS",
+      "url": "/product/cloud-core-router-2004-1g-12s-2xs",
+      "price": 475.47,
+      "currency": "USD",
+      "mpn": "CCR2004-1G-12S+2XS",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": "130 pcs expected"
+}

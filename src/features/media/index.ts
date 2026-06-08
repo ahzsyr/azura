@@ -21,3 +21,9 @@ export {
   hasMediaUrl,
 } from "./constants";
 export { MediaPickerField } from "./components/media-picker-field";
+export { UrlPrimaryMediaPickerField } from "./components/url-primary-media-picker-field";
+export {
+  UnifiedMediaPickerDialog,
+  UnifiedMediaPickerTriggerButton,
+  type UnifiedMediaPickResult,
+} from "./components/unified-media-picker-dialog";

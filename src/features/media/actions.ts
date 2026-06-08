@@ -3,12 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/features/auth/guards";
 import { mediaRepository } from "@/repositories/media.repository";
-import { searchIndexer } from "@/features/search/search-indexer.service";
 import { mediaTypeFromMime } from "./media.service";
 import type { MediaType } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { deleteLocalUploadFile } from "@/lib/local-media-files";
+import { deleteStoredUpload } from "@/lib/media-storage";
+import { revalidateSearch } from "@/services/cache";
 import { persistMediaUpload } from "@/features/media/persist-upload";
 const mediaQuerySchema = z.object({
   search: z.string().optional(),
@@ -95,25 +95,41 @@ export async function replaceMediaAsset(
     filename: data.filename,
   });
   if (existing?.url && existing.url !== data.url) {
-    await deleteLocalUploadFile(existing.url);
+    await deleteStoredUpload(existing.url);
   }
   revalidatePath("/admin/media");
   return { success: true };
 }
 
 export async function deleteMediaAssets(ids: string[]) {
-  await requireAdmin();
-  const assets = await prisma.mediaAsset.findMany({
-    where: { id: { in: ids } },
-    select: { id: true, url: true },
-  });
-  for (const id of ids) await searchIndexer.remove("MEDIA", id);
-  await mediaRepository.deleteAssets(ids);
-  for (const asset of assets) {
-    await deleteLocalUploadFile(asset.url);
+  try {
+    await requireAdmin();
+    if (!ids.length) return { success: true as const };
+
+    const assets = await prisma.mediaAsset.findMany({
+      where: { id: { in: ids } },
+      select: { id: true, url: true },
+    });
+
+    await prisma.searchDocument.deleteMany({
+      where: { entityType: "MEDIA", entityId: { in: ids } },
+    });
+    revalidateSearch();
+
+    await mediaRepository.deleteAssets(ids);
+
+    for (const asset of assets) {
+      const removed = await deleteStoredUpload(asset.url);
+    }
+
+    // Client updates local state; skip revalidatePath to avoid admin SSR reload under pool pressure.
+    return { success: true as const };
+  } catch (err) {
+    return {
+      success: false as const,
+      error: err instanceof Error ? err.message : "Failed to delete media",
+    };
   }
-  revalidatePath("/admin/media");
-  return { success: true };
 }
 
 export async function createMediaFolder(name: string, parentId?: string | null) {

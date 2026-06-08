@@ -24,11 +24,18 @@ import {
   adminSearchSettingsToSiteJson,
   resolveAdminSearchSettings,
 } from "@/features/search/settings/resolve-admin-search-settings";
+import type { AdminSearchSettings } from "@/features/search/settings/admin-search-settings.schema";
 
-/** Load site search config into framework caches (API routes, engine). */
-export async function ensureSearchRuntimeConfig(locale = "en-us") {
-  const site = await readSiteSettings(locale);
-  const admin = resolveAdminSearchSettings(site);
+const RUNTIME_CONFIG_TTL_MS = 10 * 60 * 1000;
+
+type RuntimeConfigCacheRow = {
+  admin: AdminSearchSettings;
+  expires: number;
+};
+
+const runtimeConfigCache = new Map<string, RuntimeConfigCacheRow>();
+
+function applySearchRuntimeConfig(admin: AdminSearchSettings) {
   const resolved = searchSettingsManager.resolve(adminSearchSettingsToSiteJson(admin));
   searchSettingsManager.setCache(resolved);
   setSearchRankingConfig(resolveSearchRankingConfig(admin.ranking));
@@ -41,10 +48,8 @@ export async function ensureSearchRuntimeConfig(locale = "en-us") {
           : undefined,
       listingFuzziness:
         typeof admin.listingFuzziness === "number" ? admin.listingFuzziness : undefined,
-    })
+    }),
   );
-  const discoveredFilters = await discoverSearchFilterFields();
-  resolveAndCacheSearchFilters(admin.filters, discoveredFilters);
   configureSearchAnalytics({
     enabled: admin.analytics.enabled || process.env.NODE_ENV === "development",
     logQueries: admin.analytics.logQueries,
@@ -55,5 +60,35 @@ export async function ensureSearchRuntimeConfig(locale = "en-us") {
     retentionDays: admin.analytics.retentionDays ?? 90,
   });
   setSearchAnalyticsRecording(admin.autocomplete.recordTrending !== false);
+}
+
+/** Load site search config into framework caches (API routes, engine). */
+export async function ensureSearchRuntimeConfig(locale = "en-us") {
+  const now = Date.now();
+  const cached = runtimeConfigCache.get(locale);
+  if (cached && cached.expires > now) {
+    applySearchRuntimeConfig(cached.admin);
+    return cached.admin;
+  }
+
+  const site = await readSiteSettings(locale);
+  const admin = resolveAdminSearchSettings(site);
+  const discoveredFilters = await discoverSearchFilterFields();
+  resolveAndCacheSearchFilters(admin.filters, discoveredFilters);
+  applySearchRuntimeConfig(admin);
+
+  runtimeConfigCache.set(locale, {
+    admin,
+    expires: now + RUNTIME_CONFIG_TTL_MS,
+  });
+
   return admin;
+}
+
+export function invalidateSearchRuntimeConfigCache(locale?: string) {
+  if (locale) {
+    runtimeConfigCache.delete(locale);
+    return;
+  }
+  runtimeConfigCache.clear();
 }

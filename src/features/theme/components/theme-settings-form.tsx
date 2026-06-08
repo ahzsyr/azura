@@ -178,6 +178,10 @@ function ThemeSettingsFormContent({
     window.open("/en", "_blank");
   }, []);
 
+  const onCancel = useCallback(() => {
+    setState(JSON.parse(savedSnapshot) as ThemeTokens);
+  }, [savedSnapshot]);
+
   const applyPresetColors = (preset: ThemeTokens["preset"]) => {
     const colors = THEME_PRESET_DEFAULTS[preset];
     if (preset !== "CUSTOM") {
@@ -755,7 +759,7 @@ function ThemeSettingsFormContent({
   };
 
   return (
-    <AdminFormProvider onSave={onSave} onPublish={onPublish} onPreview={onPreview}>
+    <AdminFormProvider onSave={onSave} onPublish={onPublish} onPreview={onPreview} onCancel={onCancel}>
       <ThemeDirtySync state={state} savedSnapshot={savedSnapshot} />
       <ThemeSaveNotifier />
       <DesignHubShell

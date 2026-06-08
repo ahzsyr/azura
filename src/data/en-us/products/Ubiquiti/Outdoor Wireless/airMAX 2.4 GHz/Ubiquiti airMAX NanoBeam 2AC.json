@@ -1,0 +1,313 @@
+{
+  "slug": "nanobeam-2ac-13dbi",
+  "id": 1467,
+  "productTitle": "Ubiquiti airMAX NanoBeam 2AC",
+  "name": "Ubiquiti airMAX NanoBeam 2AC",
+  "title": "Ubiquiti airMAX NanoBeam 2AC",
+  "title_extended": "",
+  "short_description": "2.4GHz, 13dBi dual pol. antenna, AirOS, POE-RJ-45, 802.11n, Throughput 330+ Mbps, Range 15+ km",
+  "description": "2.4GHz, 13dBi dual pol. antenna, AirOS, POE-RJ-45, 802.11n, Throughput 330+ Mbps, Range 15+ km",
+  "detailed_description": [
+    {
+      "heading": "Compact 2.4 GHz WiFi Radio",
+      "text": "The airMAX NanoBeam 2AC is a compact and high-performance wireless network bridge developed by Ubiquiti Networks, designed to provide an efficient and reliable solution for high-speed, long-distance wireless connectivity. As part of Ubiquiti's renowned airMAX series, the NanoBeam 2AC specifically targets applications that require robust point-to-point (PtP) or point-to-multipoint (PtMP) connections within the 2.4 GHz frequency band, leveraging advanced technology to overcome the challenges of interference and 15+ km distance."
+    },
+    {
+      "heading": "Performance and Hardware",
+      "text": "The NanoBeam 2AC excels when paired with other airMAX ac devices, facilitating robust and high-throughput point-to-point (PtP) and point-to-multipoint (PtMP) configurations. This includes compatibility with airMAX ac base stations and sector antennas, which, when combined with the NanoBeam 2AC's directional connectivity, can significantly extend the range and quality of wireless broadband services. Moreover, this model operates exclusively within the 2.4 GHz band, it is important to pair it with devices that can communicate within this spectrum for effective interoperability. This consideration is crucial when designing a network to avoid compatibility issues with devices operating on different frequency bands."
+    },
+    {
+      "heading": "Connectivity and Features",
+      "text": "In addition, please keep in mind that NanoBeam 2AC is designed to work seamlessly with devices within the airMAX series, integration with other Ubiquiti series, such as UniFi, might not be as straightforward. The UniFi series operates on a different management platform and is tailored towards managed indoor and semi-outdoor Wi-Fi networks, which could limit direct interoperability with airMAX devices focused on outdoor, long-range connectivity."
+    },
+    {
+      "heading": "Technology and Design",
+      "text": "At the heart of the NanoBeam 2AC's performance is Ubiquiti's proprietary airMAX ac technology. This technology incorporates a patented Time Division Multiple Access (TDMA) protocol, which significantly enhances network throughput and latency by effectively managing network access times and reducing collisions. This is particularly advantageous in densely populated areas where the wireless spectrum is congested, allowing the NanoBeam 2AC to deliver high-quality connectivity with minimal interference."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Outdoor Wireless",
+    "Integrated Antennas"
+  ],
+  "mpn": "NBE-2AC-13",
+  "manufacturer_part_number": "NBE-2AC-13",
+  "ean": "0810354023491",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1467/nbe5ac16_back_left_copy_75609e3ee08f401dbe25390f148c30f3-5fa2759248113-medium.png",
+        "alt": "Ubiquiti airMAX NanoBeam 2AC",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1467/nbe5ac16_front_angled_copy_597aaffa7d604fc495710e1ad8ef206b-5fa27591dcc5c-medium.png",
+        "alt": "Ubiquiti airMAX NanoBeam 2AC",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1467/nbe5ac16_front_copy_6efd74d43bf84ecf9ec76434322c41b7-5fa27591ab5ad-medium.png",
+        "alt": "Ubiquiti airMAX NanoBeam 2AC",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1467/nbe5ac16_back_right_bubble_copy_1fb7109baa944045bd2715e3fd2e3fb3-5fa2759218253-medium.png",
+        "alt": "Ubiquiti airMAX NanoBeam 2AC",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1467/nbe5ac16_front_right_copy_c88a26403a0346829706697b59a9baf7-5fa27590e7051-medium.png",
+        "alt": "Ubiquiti airMAX NanoBeam 2AC",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1467/nbe5ac16_back_copy_5f3d1463b2324192b0ac8f4aab96339a-5fa275927cd66-medium.png",
+        "alt": "Ubiquiti airMAX NanoBeam 2AC",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/OpE9ciFscH4",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 90.02,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "2.4GHz Radio Rate"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 5" },
+        { "name": "Standards", "value": "airMAX" },
+        { "name": "Frequency", "value": "2.4GHz" },
+        { "name": "2.4GHz Radio Rate", "value": "300 Mbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Polarization",
+        "VSWR"
+      ],
+      "items": [
+        { "name": "Antenna Design", "value": "Panel" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "2.412 - 2.472 (GHz) 13 (dBi)" },
+        { "name": "Polarization", "value": "Dual Linear" },
+        { "name": "VSWR", "value": "< 1.5" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 1 Gbps" },
+        { "name": "Management", "value": "Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "Atheros MIPS 74Kc, 533 MHz" },
+        { "name": "RAM", "value": "64 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "24V Passive PoE" },
+        { "name": "Power Supply", "value": "External PoE Adapter" },
+        { "name": "Supported Input Voltage", "value": "22 - 26 V DC" },
+        { "name": "Max Power Consumption", "value": "7.5 W" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 0.5 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        { "name": "Color", "value": "White" },
+        { "name": "Material", "value": "UV Plastic" },
+        { "name": "Dimensions", "value": "Ø189 x 125 mm" },
+        { "name": "Weight", "value": "0.530 kg" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Outdoor" },
+        { "name": "Mounting Method", "value": "Wall Mount, Pole Mount" },
+        { "name": "Rated Wind Velocity", "value": "200 km/h" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX NanoBeam 2AC",
+      "url": "https://dl.ubnt.com/datasheets/NanoBeam_ac/NanoBeam_2AC_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX NanoBeam 2AC",
+      "url": "https://dl.ubnt.com/guides/NanoBeam_Gen2/NanoBeam_2AC-13_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Joao",
+        "date": "2025-10-24",
+        "text": "Very good, thanks",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 19 dBi Sector",
+      "url": "/product/sector-airmax-5g19-120",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "AM-5G19-120",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX NanoBeam M5",
+      "url": "/product/nanobeam-m5-16dbi",
+      "price": 63.63,
+      "currency": "USD",
+      "mpn": "NBE-M5-16",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX NanoBeam 5AC",
+      "url": "/product/nanobeam-ac-gen2",
+      "price": 96.18,
+      "currency": "USD",
+      "mpn": "NBE-5AC-Gen2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 5XHD",
+      "url": "/product/airfiber-5xhd",
+      "price": 397.94,
+      "currency": "USD",
+      "mpn": "AF-5XHD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

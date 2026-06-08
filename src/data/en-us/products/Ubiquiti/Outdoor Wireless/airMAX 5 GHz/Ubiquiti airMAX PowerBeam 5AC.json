@@ -1,0 +1,371 @@
+{
+  "slug": "powerbeam-ac-gen2",
+  "id": "PBE-5AC-Gen2",
+  "productTitle": "Ubiquiti airMAX PowerBeam 5AC",
+  "name": "Ubiquiti airMAX PowerBeam 5AC",
+  "title": "Ubiquiti airMAX PowerBeam 5AC",
+  "title_extended": "",
+  "short_description": "5GHz, 25 dBi 2x2 Dual antenna, 1x GLAN, POE-RJ-45, 802.11ac, Throughput 450+ Mbps, Range 15+ km.",
+  "description": "The airMAX PowerBeam 5AC Gen2, bearing the model manufacture part number PBE-5AC-Gen2, is a cutting-edge wireless network bridge developed by Ubiquiti Networks. This device is engineered to deliver exceptional point-to-point (PtP) and point-to-multipoint (PtMP) connectivity, making it an integral component of modern high-speed wireless networks. Operating within the 5 GHz frequency band, the PowerBeam 5AC Gen2 utilizes Ubiquiti's proprietary airMAX ac technology to provide superior throughput, network stability, and scalability.",
+  "detailed_description": [
+    {
+      "heading": "High-Performance 5 GHz PtP Bridge",
+      "text": "The airMAX PowerBeam 5AC Gen2, bearing the model manufacture part number PBE-5AC-Gen2, is a cutting-edge wireless network bridge developed by Ubiquiti Networks. This device is engineered to deliver exceptional point-to-point (PtP) and point-to-multipoint (PtMP) connectivity, making it an integral component of modern high-speed wireless networks. Operating within the 5 GHz frequency band, the PowerBeam 5AC Gen2 utilizes Ubiquiti's proprietary airMAX ac technology to provide superior throughput, network stability, and scalability."
+    },
+    {
+      "heading": "Compatibility and Use Cases",
+      "text": "The PowerBeam 5AC Gen2 is fully compatible with other airMAX ac devices. This includes a wide variety of Ubiquiti's outdoor wireless access points, bridges, and customer premises equipment (CPE) that also utilize airMAX ac technology. Such compatibility ensures efficient point-to-point (PtP) and point-to-multipoint (PtMP) connections, enabling network operators to design flexible, high-capacity wireless networks that can be easily scaled or modified to meet evolving needs. Also, keep in mind that the PowerBeam 5AC can coexist in networks that also incorporate UniFi devices, especially when using separate network segments. However, it's important to note that the PowerBeam operates using airOS, and UniFi devices are managed through the UniFi Controller. Direct interaction is limited due to the different technologies and purposes these series serve, with UniFi focusing on managed indoor and semi-outdoor Wi-Fi networking and airMAX targeting long-distance outdoor wireless connectivity."
+    },
+    {
+      "heading": "Design and Antenna",
+      "text": "At the heart of the PowerBeam 5AC Gen2's design is its 25 dBi gain, directional antenna, integrated into a compact and aerodynamic form factor. This integration enhances the device's ability to focus the radio signal, significantly increasing range and reducing interference. The antenna's precision and directivity are critical for establishing 15+ km wireless links, ensuring that data transmission remains robust and reliable over kilometers, even in challenging environmental conditions."
+    },
+    {
+      "heading": "airMAX ac Technology",
+      "text": "Ubiquiti's airMAX ac technology underpins the PowerBeam 5AC Gen2's performance, incorporating a custom silicon chip that supports an advanced modulation scheme. This technology enables the device to achieve higher throughput rates compared to earlier standards, making it well-suited for bandwidth-intensive applications such as HD video streaming, VoIP communications, and large data transfers. The implementation of Time Division Multiple Access (TDMA) protocol within airMAX ac technology also reduces network latency and increases time efficiency by organizing data transmission, allowing for more concurrent data sessions and improved network performance."
+    },
+    {
+      "heading": "Innovative Features and Installation",
+      "text": "One of the standout features of the PowerBeam 5AC Gen2 is its innovative design aimed at maximizing ease of installation and flexibility in deployment. The device includes a proprietary mounting bracket, designed to offer both stability and adjustability, facilitating precise alignment and optimal signal reception. This mounting system, combined with the PowerBeam 5AC Gen2's all-weather enclosure, ensures that the device can be deployed in a wide range of outdoor environments, from rural settings to urban rooftops, without compromising on performance or durability. Additionally, Ubiquiti's InnerFeed® technology integrates the radio into the feedhorn of an antenna, so there is no need for cables to connect the radio to the antenna. This improves performance because it eliminates cable losses. The PowerBeam 5AC requires no tools for assembly; only a single wrench is required for pole-mounting."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Integrated Antennas",
+    "Ubiquiti",
+    "Outdoor Wireless",
+    "airMAX 5 GHz"
+  ],
+  "mpn": "PBE-5AC-Gen2",
+  "manufacturer_part_number": "PBE-5AC-Gen2",
+  "ean": "0810354026720",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1311/pbe5acgen2_left_angle-5fec7dfdd9903-medium.jpg",
+        "alt": "Ubiquiti airMAX PowerBeam 5AC",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1311/pbe5acgen2_front-5fec7f1e8c6fa-medium.jpg",
+        "alt": "Ubiquiti airMAX PowerBeam 5AC",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1311/pbe5acgen2_back_angle-5fec7e00895b2-medium.jpg",
+        "alt": "Ubiquiti airMAX PowerBeam 5AC",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1311/pbe5acgen2_side-5fec7dfcad105-medium.jpg",
+        "alt": "Ubiquiti airMAX PowerBeam 5AC",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1311/pbe5acgen2_back-5fec7eb2bedf9-medium.jpg",
+        "alt": "Ubiquiti airMAX PowerBeam 5AC",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 110.98,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "airMAX"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "450 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Parabolic Dish"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "5.150 - 5.875 (GHz) 25 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "MIPS 74Kc"
+        },
+        {
+          "name": "RAM",
+          "value": "64 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "20 - 26 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "8.5 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "UV Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø420 x 230 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "2.22 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX PowerBeam 5AC",
+      "url": "https://dl.ubnt.com/datasheets/PowerBeam_ac_ISO/PowerBeam_AC_Gen2_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX PowerBeam 5AC",
+      "url": "https://dl.ubnt.com/guides/PowerBeam_Gen2/PowerBeam_5AC-Gen2_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 57.29,
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 105.78,
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX Rocket AC Lite",
+      "url": "/product/rocket-ac-lite",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "R5AC-LITE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX NanoBeam 5AC",
+      "url": "/product/nanobeam-ac-gen2",
+      "price": 96.18,
+      "currency": "USD",
+      "mpn": "NBE-5AC-Gen2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Rocket Prism 5AC",
+      "url": "/product/rocket-ac-prism-gen2",
+      "price": 229.40,
+      "currency": "USD",
+      "mpn": "RP-5AC-Gen2",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

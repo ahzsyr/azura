@@ -1,0 +1,169 @@
+{
+  "slug": "ufiber-outdoor-terminal-box",
+  "id": "UF-Terminal-Box",
+  "productTitle": "Ubiquiti Fiber Outdoor Terminal Box",
+  "name": "Ubiquiti Fiber Outdoor Terminal Box",
+  "title": "Ubiquiti Fiber Outdoor Terminal Box",
+  "title_extended": "",
+  "short_description": "Weatherproof housing for UFiber devices, IPX5, pole mounting kit and fitting accessories included",
+  "description": "Buy Ubiquiti Fiber Outdoor Terminal Box. Price from 33.65 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [],
+  "brand": "Ubiquiti",
+  "category": "GPON",
+  "categories": [
+    "Ubiquiti",
+    "Fiber",
+    "GPON"
+  ],
+  "mpn": "UF-Terminal-Box",
+  "manufacturer_part_number": "UF-Terminal-Box",
+  "ean": "0810010078834",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4078/ufterminalbox6-628254c93c70f-medium.jpg",
+        "alt": "Ubiquiti Fiber Outdoor Terminal Box",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4078/ufterminalbox1-628254ba04d9d-medium.jpg",
+        "alt": "Ubiquiti Fiber Outdoor Terminal Box",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4078/ufterminalbox4-628254bf24b46-medium.jpg",
+        "alt": "Ubiquiti Fiber Outdoor Terminal Box",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4078/ufterminalbox2-628254c4b2076-medium.jpg",
+        "alt": "Ubiquiti Fiber Outdoor Terminal Box",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4078/ufterminalbox3-628254d27379e-medium.jpg",
+        "alt": "Ubiquiti Fiber Outdoor Terminal Box",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4078/ufterminalbox5-628254df83152-medium.jpg",
+        "alt": "Ubiquiti Fiber Outdoor Terminal Box",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4078/ufterminalbox_datasheet-6282549374c27.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Fiber Outdoor Terminal Box"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/4078/ufterminalbox_installationguide-6282549e19765.pdf",
+        "title": "Installation Guide - Ubiquiti Fiber Outdoor Terminal Box"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 33.65,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Fiber Outdoor Terminal Box",
+      "url": "https://www.getic.com/files/catalogue/4078/ufterminalbox_datasheet-6282549374c27.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti Fiber Outdoor Terminal Box",
+      "url": "https://www.getic.com/files/catalogue/4078/ufterminalbox_installationguide-6282549e19765.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 25.85,
+        "delivery_time": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 36.66,
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {},
+    "breakdown": {},
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "OS1 Simplex LC UPC Fiber Patch Cable 100ft",
+      "url": "/product/fiber-cable-single-mode-100ft",
+      "price": 60.42,
+      "currency": "USD",
+      "mpn": "FC-SM-100",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti GPON OLT SFP Module, Class B+",
+      "url": "/product/u-fiber-gpon-b-plus",
+      "price": 74.17,
+      "currency": "USD",
+      "mpn": "UF-GP-B+",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Fiber Instant",
+      "url": "/product/ufiber-instant-optical-transceiver",
+      "price": 43.47,
+      "currency": "USD",
+      "mpn": "UF-Instant",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G4 Bullet",
+      "url": "/product/unifi-protect-g4-bullet-camera",
+      "price": 134.10,
+      "currency": "USD",
+      "mpn": "UVC-G4-BULLET",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "Ubiquiti Elite Distributor"
+  ],
+  "stock_stat": "in_stock"
+}

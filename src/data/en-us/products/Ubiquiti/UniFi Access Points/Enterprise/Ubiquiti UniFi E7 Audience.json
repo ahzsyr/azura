@@ -1,0 +1,188 @@
+{
+  "slug": "ubiquiti-unifi-e7-audience",
+  "id": "6864",
+  "productTitle": "Ubiquiti UniFi E7 Audience",
+  "name": "Ubiquiti UniFi E7 Audience",
+  "title": "Ubiquiti UniFi E7 Audience",
+  "title_extended": "Ubiquiti UniFi E7 Audience - High-Capacity Wi-Fi 7 Access Point",
+  "short_description": "U7-Lite Access Point, 1x GbE RJ45 port, 2.4 & 5GHz, 802.11a/b/g/n/ac/ax, with coverage 140 m²",
+  "description": "U7-Lite Access Point, 1x GbE RJ45 port, 2.4 & 5GHz, 802.11a/b/g/n/ac/ax, with coverage 140 m²",
+  "detailed_description": [
+    {
+      "heading": "High‑Capacity Wi‑Fi7",
+      "text": "The UniFi E7 Audience is a flagship access point engineered for large‑scale deployments, supporting the Wi‑Fi 7 (802.11be) standard across 5 GHz and 6 GHz bands. It offers 12 spatial streams, enabling ultra‑high throughput and robust performance in congested environments. The max data rates reach up to 11.5 Gbps on the 6 GHz band and up to 8.6 Gbps on the 5 GHz band, making it ideal for demanding use cases such as stadiums, arenas, or high‑density enterprise venues. The device supports more than 1,500 concurrent clients, providing exceptional capacity for modern wireless networks. With selectable internal directional antenna patterns of 15 dBi (50° beam) or 11 dBi (90° beam), it allows flexible coverage design for either small cell dense deployment or large‑area coverage. Real‑time spectral analysis and PRISM™ RF filtering enhance channel selection, reducing interference and optimizing stability in challenging radio‑frequency conditions."
+    },
+    {
+      "heading": "Robust Connectivity & Power",
+      "text": "UniFi E7 Audience features a high‑speed uplink configuration with one 10 GbE RJ45 port and one 1 GbE RJ45 port for redundancy and high availability. It is powered via PoE++ (42.5‑57 V DC) with a maximum power consumption of 51 W. The heavy‑duty build supports outdoor and indoor use: the unit measures 474.1 × 265.5 × 42.2 mm, weighs 3.3 kg (4.3 kg with mount), and is housed in UV‑stabilized polycarbonate and aluminum alloy. It is rated IP68 for complete protection against dust and long‑term immersion, and can withstand wind‑loading forces up to 164.75 N at 200 km/h. It mounts on wall or pole with bracket included (supports poles 25–76 mm diameter). The advanced hardware design ensures long‑term reliability in extreme environments, making the E7 Audience ready for mission‑critical, high‑throughput wireless scenarios."
+    },
+    {
+      "heading": "Advanced Features",
+      "text": "The E7 Audience supports enterprise‑grade features such as directional beamforming, selectable antenna patterns, internal spectral analyzer radio, and full Wi‑Fi stacking with support for 802.11n, 802.11ac, 802.11ax, and 802.11be standards. It offers guest network isolation, virtual LAN (802.1Q), per‑user rate limiting, voucher authentication, and private pre‑shared keys (PPSK). With cloud‑managed deployment through UniFi Network, you can remotely monitor, configure and update firmware. The ruggedly designed enclosure is suitable for both indoor and outdoor installations and holds up under ambient temperatures from ‑40 °C to 60 °C and humidity from 5% to 95% non‑condensing. The UniFi E7 Audience is built for high‑density, high‑performance wireless networks that demand maximum capacity, seamless management, and future‑proof connectivity."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "UniFi Access Points",
+  "categories": [
+    "UniFi Access Points",
+    "Enterprise"
+  ],
+  "mpn": "E7-Audience",
+  "manufacturer_part_number": "E7-Audience",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": ["new", "used"],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6864/1-69021cd6ed0d0-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Audience",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6864/2-69021cd98686e-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Audience",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6864/3-69021cdc7326f-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Audience",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6864/4-69021cdee7868-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Audience",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6864/5-69021ce2005ea-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Audience",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6864/6-69021ce52675b-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Audience",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6864/7-69021ce7ecdff-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Audience",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 2254.49,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": ["Generation", "Standards", "MIMO", "5GHz Radio Rate", "6GHz Radio Rate"],
+      "items": [
+        { "name": "Generation", "value": "WiFi 7" },
+        { "name": "Standards", "value": "802.11n/ac/ax/be" },
+        { "name": "MIMO", "value": "5GHz 4x4, 6GHz 4x4" },
+        { "name": "5GHz Radio Rate", "value": "8.64 Gbps" },
+        { "name": "6GHz Radio Rate", "value": "11.52 Gbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": ["Antenna Design", "Wireless Antenna Frequency Range & Gain"],
+      "items": [
+        { "name": "Antenna Design", "value": "Panel" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "5.150 - 5.725 (GHz) 15 (dBi), 5.925 - 7.125 (GHz) 15 (dBi)" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": ["RJ45 Ports", "Management"],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 1 Gbps, (1) 10 Gbps" },
+        { "name": "Management", "value": "Ethernet" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": ["Power Method", "Supported Input Voltage", "Max Power Consumption"],
+      "items": [
+        { "name": "Power Method", "value": "802.3bt PoE++" },
+        { "name": "Supported Input Voltage", "value": "42.5 - 57 V DC" },
+        { "name": "Max Power Consumption", "value": "51 W" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": ["Material", "Dimensions", "Weight", "Operating Temperature", "Mounting Method"],
+      "items": [
+        { "name": "Material", "value": "Aluminium, UV-stabilized polycarbonate" },
+        { "name": "Dimensions", "value": "474.1 x 239.4 x 42.2 mm" },
+        { "name": "Weight", "value": "4.2 kg" },
+        { "name": "Operating Temperature", "value": "-40 °C to 60 °C" },
+        { "name": "Mounting Method", "value": "Wall Mount, Pole Mount" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi E7 Audience",
+      "url": "https://www.getic.com/files/catalogue/6864/e7audience_ds-69021cd18b95b.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

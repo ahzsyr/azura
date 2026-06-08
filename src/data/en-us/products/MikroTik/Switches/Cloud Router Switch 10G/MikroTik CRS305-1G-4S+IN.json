@@ -1,0 +1,415 @@
+{
+  "slug": "mikrotik-crs305-1g-4sin",
+  "id": "1703",
+  "productTitle": "MikroTik CRS305-1G-4S+IN Router – 4x SFP+ 10G",
+  "name": "MikroTik CRS305-1G-4S+IN",
+  "title": "MikroTik CRS305-1G-4S+IN",
+  "title_extended": "MikroTik CRS305-1G-4S+IN Router – 4x SFP+ 10G",
+  "short_description": "4x SFP+ Cage, 1x GLAN PoE-In, Metal Case, SwOS / RouterOS L5 (Dual Boot)",
+  "description": "Expand your network's capabilities with the MikroTik CRS305-1G-4S+IN. This compact and durable switch expands your connectivity potential, allowing for seamless data flow and efficient network management. Its reliable design ensures uninterrupted operation, minimizing downtime and contributing to a more dependable network experience.",
+  "detailed_description": [
+    {
+      "heading": "Elevate Your Network Performance",
+      "text": "Expand your network's capabilities with the MikroTik CRS305-1G-4S+IN. This compact and durable switch expands your connectivity potential, allowing for seamless data flow and efficient network management. Its reliable design ensures uninterrupted operation, minimizing downtime and contributing to a more dependable network experience."
+    },
+    {
+      "heading": "Unmatched Connectivity",
+      "text": "With four SFP+ ports, the CRS305 achieves data transfer rates of up to 10 Gbps per port, ensuring your network can handle demanding tasks effortlessly. Additionally, a dedicated Gigabit Ethernet port provides convenient management access, ensuring smooth control over your network operations."
+    },
+    {
+      "heading": "Reliable Performance & Operation",
+      "text": "Say goodbye to bottlenecks and performance constraints. The CRS305 boasts a non-blocking throughput of 41 Gbps and a switching capacity of 82 Gbps, allowing your network to thrive even under heavy workloads. With a forwarding rate of 61 Mpps, data flows effortlessly, ensuring your network remains consistently efficient. Reliability is essential for a strong network, and the CRS305 prioritizes it. Equipped with two DC jacks, this switch provides power redundancy, offering power backup to maintain seamless operation even during power fluctuations."
+    },
+    {
+      "heading": "Versatility & Convenience",
+      "text": "The CRS305 isn't just about performance; it's also designed with user experience in mind. The switch features a sleek metallic case and operates silently with no fans, which makes it suitable for various environments, including noise-sensitive spaces. Choose the operating system that matches your preferences. The CRS305 offers a \"Dual boot\" feature, enabling you to select between RouterOS and SwOS. Opt for SwOS if you prefer a streamlined interface focused on switch-specific functions, or go for RouterOS to tap into advanced routing and Layer 3 capabilities."
+    },
+    {
+      "heading": "Power Efficiency",
+      "text": "Operating efficiently is a priority. The CRS305 achieves this by consuming a maximum of 12 watts (18 watts with attachments), making it an energy-conscious choice that doesn't sacrifice performance. Moreover, the switch supports PoE+ IEEE 802.3at/af and passive (PoE 12-57 V), expanding your deployment options."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Cloud Router Switch 10G"
+  ],
+  "mpn": "CRS305-1G-4S+IN",
+  "manufacturer_part_number": "CRS305-1G-4S+IN",
+  "ean": "4752224002136",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1703/crs3051g4sin_1-5fda1432afd0b-medium.jpg",
+        "alt": "MikroTik CRS305-1G-4S+IN",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1703/crs3051g4sin_3-5fda14318aea5-medium.jpg",
+        "alt": "MikroTik CRS305-1G-4S+IN",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1703/crs3051g4sin_2-5fda143225f97-medium.jpg",
+        "alt": "MikroTik CRS305-1G-4S+IN",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1703/crs3051g4sin_1-5fda1432afd0b-tiny.jpg",
+        "alt": "MikroTik CRS305-1G-4S+IN"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1703/crs3051g4sin_3-5fda14318aea5-tiny.jpg",
+        "alt": "MikroTik CRS305-1G-4S+IN"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1703/crs3051g4sin_2-5fda143225f97-tiny.jpg",
+        "alt": "MikroTik CRS305-1G-4S+IN"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/NjKOHt-8-Wc",
+        "type": "youtube"
+      }
+    ],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/mikrotik/crs305-1g-4sin.pdf",
+        "title": "Technical Specs / Datasheet - MikroTik CRS305-1G-4S+IN"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/1703/quickguidecrs3051g4sin-6508514203b95.pdf",
+        "title": "Quick Start Guide - MikroTik CRS305-1G-4S+IN"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/1703/usermanualcrs3051g4sin-650ab6db1e11c.pdf",
+        "title": "User Manual - MikroTik CRS305-1G-4S+IN"
+      }
+    ],
+    "3d_model": true
+  },
+  "price": {
+    "value": 119.15,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "w/o PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(4) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "98DX3236, 1 core, 800 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "512 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 24V Passive PoE, 48V Passive PoE, 802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External x2 redundant PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "12 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.8 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Silver"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "141 x 115 x 28 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 5, SwitchOS"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik CRS305-1G-4S+IN",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/crs305-1g-4sin.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik CRS305-1G-4S+IN",
+      "url": "https://www.getic.com/files/catalogue/1703/quickguidecrs3051g4sin-6508514203b95.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik CRS305-1G-4S+IN",
+      "url": "https://www.getic.com/files/catalogue/1703/usermanualcrs3051g4sin-650ab6db1e11c.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": null,
+        "weight": null,
+        "dimensions": null
+      },
+      {
+        "class": "Standard",
+        "origin": null,
+        "weight": null,
+        "dimensions": null
+      },
+      {
+        "class": "Express",
+        "origin": null,
+        "weight": null,
+        "dimensions": null
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 11,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 11,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Adel",
+        "date": "2025-07-10",
+        "text": "Solid switch with an ASIC handling both the Ethernet layer and the switching at low power for a good price.",
+        "photos": []
+      },
+      {
+        "name": "Martin;",
+        "date": "2025-01-03",
+        "text": "Perfect, easy to install",
+        "photos": []
+      },
+      {
+        "name": "Anthony",
+        "date": "2024-09-28",
+        "text": "Simple to deploy, works out of the box.",
+        "photos": [
+          "https://www.getic.com/assets/images/reviews/3f0e25d9-30b0-4e7e-bbf3-2ee879566f35/small/66f7fbbc8675e58239405158-68935e1ca8728.jpg"
+        ]
+      },
+      {
+        "name": "Gunni",
+        "date": "2024-03-25",
+        "text": "Awesome little switch!",
+        "photos": [
+          "https://www.getic.com/assets/images/reviews/fc83db6f-7964-432f-8442-29981c97c62c/small/660167d34872be0fceb8575d-68935e1789359.jpg"
+        ]
+      },
+      {
+        "name": "JCE",
+        "date": "2023-05-17",
+        "text": "Great value for price. Also nice to test router functions even if it does not run at 10Gbps speed in this mode.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 1.25G RJ-45 Module",
+      "url": "/product/sfp-rj45-copper-module",
+      "price": 23.72,
+      "currency": "USD",
+      "mpn": "S-RJ01",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 10G RJ-45 Module",
+      "url": "/product/sfp-s-plus-rj10-module",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "S+RJ10",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX S",
+      "url": "/product/routerboard-hex-s",
+      "price": 53.10,
+      "currency": "USD",
+      "mpn": "RB760iGS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS309-1G-8S+IN",
+      "url": "/product/mikrotik-crs309-1g-8s-in",
+      "price": 217.68,
+      "currency": "USD",
+      "mpn": "CRS309-1G-8S+IN",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

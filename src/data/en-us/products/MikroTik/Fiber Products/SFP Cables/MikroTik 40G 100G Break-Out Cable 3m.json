@@ -1,0 +1,209 @@
+{
+  "slug": "mikrotik-qsfp28-breakout-cable-3m",
+  "id": "XQ+BC0003-XS+",
+  "productTitle": "MikroTik 40G/100G Break-Out Cable 3m",
+  "name": "MikroTik 40G/100G Break-Out Cable 3m",
+  "title": "MikroTik 40G/100G Break-Out Cable 3m",
+  "title_extended": "",
+  "short_description": "QSFP28 to 4x SFP28 break-out cable, connects 25Gbps devices to CCR2216/CRS504, length 3 m",
+  "description": "QSFP28 to 4x SFP28 break-out cable, connects 25Gbps devices to CCR2216/CRS504, length 3 m",
+  "detailed_description": [
+    {
+      "heading": "High-Speed Break-Out Cable",
+      "text": "The MikroTik XQ+BC0003-XS+ is a 3-meter QSFP28 to 4x SFP28 break-out cable designed to maximize your network flexibility and efficiency. It enables you to connect multiple 25G devices directly to MikroTik’s high-performance switches like the CRS504 or CCR2216, ensuring seamless integration in demanding environments. With integrated SFP28 modules, setting up connections is fast and effortless—no additional hardware required. This cable is also backward compatible, supporting the division of a 40G line into 4 x 10G lines for versatile network configurations. Its 3-meter length strikes the perfect balance, offering enough reach to organize your server racks while minimizing clutter. Whether upgrading existing infrastructure or building a new high-speed network, XQ+BC0003-XS+ is the ideal choice for data centers, enterprise setups, and service providers seeking reliable, high-bandwidth connections."
+    },
+    {
+      "heading": "High-Speed Break-Out Cable",
+      "text": "The XQ+BC0003-XS+ break-out cable brings unmatched convenience to your high-bandwidth infrastructure. Designed for 40G and 100G networks, it allows one QSFP+ or QSFP28 port to be split into four SFP+ or SFP28 connections. This flexibility makes it easy to connect multiple devices while maintaining top performance and reducing latency. Its robust build and efficient design ensure dependable operation in professional environments like data centers and enterprise server rooms. The 3-meter length provides optimal coverage across racks without excess cabling, supporting neat, organized installations. Whether you’re deploying new hardware or scaling your network, this break-out cable simplifies complex setups, making it a practical and cost-effective solution for high-speed connectivity requirements. Pair it with MikroTik’s cutting-edge switches for maximum performance and reliability."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "SFP Cables",
+  "categories": [
+    "MikroTik",
+    "Fiber Products",
+    "SFP Cables"
+  ],
+  "mpn": "XQ+BC0003-XS+",
+  "manufacturer_part_number": "XQ+BC0003-XS+",
+  "ean": "0708747440843",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4088/xqbc0003xs-62863c9862163-medium.jpg",
+        "alt": "MikroTik 40G/100G Break-Out Cable 3m",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4088/xqbc0003xs-62863c9862163-tiny.jpg",
+        "alt": "MikroTik 40G/100G Break-Out Cable 3m",
+        "type": "gallery"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4088/xqbc0003xs_datasheet-62863ca491c93.pdf",
+        "title": "Technical Specs / Datasheet - MikroTik 40G/100G Break-Out Cable 3m",
+        "type": "application/pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 65.22,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Cable Type",
+        "Connector",
+        "Max Data Rate",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Cable Type",
+          "value": "DAC"
+        },
+        {
+          "name": "Connector",
+          "value": "(1) QSFP28 - (4) SFP28"
+        },
+        {
+          "name": "Max Data Rate",
+          "value": "100Gbps"
+        },
+        {
+          "name": "Cable Length",
+          "value": "3 m"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 3m",
+      "url": "/product/direct-attach-cable-xs-da0003",
+      "price": 30.93,
+      "currency": "USD",
+      "mpn": "XS+DA0003",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS504-4XQ-IN",
+      "url": "/product/mikrotik-crs504-4xq-in",
+      "price": 640.45,
+      "currency": "USD",
+      "mpn": "CRS504-4XQ-IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 40G/100G Direct Attach Cable 1m",
+      "url": "/product/mikrotik-qsfp28-direct-attach-cable-1m",
+      "price": 35.28,
+      "currency": "USD",
+      "mpn": "XQ+DA0001",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 40G/100G Direct Attach Cable 3m",
+      "url": "/product/mikrotik-qsfp28-direct-attach-cable-3m",
+      "price": 47.44,
+      "currency": "USD",
+      "mpn": "XQ+DA0003",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

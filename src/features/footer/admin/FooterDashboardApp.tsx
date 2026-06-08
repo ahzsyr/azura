@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { DesignHubShell } from "@/components/admin/layout/design-hub-shell";
 import { AdminFormProvider } from "@/components/admin/layout/admin-form-provider";
 import { loadFooterWorkspaceFromServer } from "@/features/footer/footer-workspace-api";
@@ -57,8 +57,14 @@ function FooterDashboardContent() {
 
 export function FooterDashboardApp() {
   const onSave = useFooterWorkspaceSave();
+  const onCancel = useCallback(async () => {
+    const result = await loadFooterWorkspaceFromServer();
+    if (!result.ok) {
+      throw new Error("Could not reload footer workspace.");
+    }
+  }, []);
   return (
-    <AdminFormProvider onSave={onSave}>
+    <AdminFormProvider onSave={onSave} onCancel={onCancel}>
       <FooterDirtySync />
       <FooterDashboardContent />
     </AdminFormProvider>

@@ -196,10 +196,19 @@ async function renderBlockContent(
   switch (block.type) {
     case "hero": {
       const hasHeroImage = Boolean(p.imageUrl);
+      const useBlockVisualBg = hasActiveBlockVisualBackground(block);
       const siteBgEffect =
         ctx.theme?.backgroundEffectEnabled !== false && ctx.theme?.backgroundEffect;
-      const bgType = (p.backgroundType as string) ?? (hasHeroImage ? "image" : "transparent");
-      const useTransparentHero = bgType === "transparent" && !hasHeroImage && Boolean(siteBgEffect);
+      const resolvedBgType = resolveMarketingBackgroundType(
+        block,
+        (p.backgroundType as string) ?? (hasHeroImage ? "image" : "transparent"),
+        "image"
+      );
+      const useTransparentHero =
+        resolvedBgType === "transparent" &&
+        !hasHeroImage &&
+        !useBlockVisualBg &&
+        Boolean(siteBgEffect);
       const secondaryLabel = loc("secondaryCtaLabel");
       return (
         <HeroProView
@@ -209,7 +218,7 @@ async function renderBlockContent(
           imageUrl={(p.imageUrl as string) || undefined}
           foregroundImageUrl={(p.foregroundImageUrl as string) || undefined}
           videoUrl={(p.videoUrl as string) || undefined}
-          backgroundType={useTransparentHero ? "transparent" : bgType}
+          backgroundType={useTransparentHero ? "transparent" : resolvedBgType}
           layout={(p.layout as string) ?? "centered"}
           align={(p.align as string) ?? "center"}
           minHeight={(p.minHeight as string) ?? "70vh"}
@@ -232,6 +241,7 @@ async function renderBlockContent(
           overlayClass={overlayClass}
           lazyLoad={lazyLoad}
           useTransparentHero={useTransparentHero}
+          useBlockVisualBg={useBlockVisualBg}
         />
       );
     }

@@ -1,0 +1,370 @@
+{
+  "slug": "amplifi-alien-router",
+  "id": "AFi-ALN-R",
+  "productTitle": "AmpliFi Alien Router",
+  "name": "AmpliFi Alien Router",
+  "title": "AmpliFi Alien Router",
+  "title_extended": "AmpliFi Alien Router – WiFi 6 High-Performance Home Router",
+  "short_description": "Wi-Fi 6 Router, 2.4/5 GHz, 4 Gigabit Ethernet ports, 8х8 MU-MIMO",
+  "description": "Wi-Fi 6 Router, 2.4/5 GHz, 4 Gigabit Ethernet ports, 8х8 MU-MIMO",
+  "detailed_description": [
+    {
+      "heading": "4x Increase in Network Capacity",
+      "text": "Dive into cutting-edge home networking with the AmpliFi Alien Router—a dual-band Wi-Fi 6 powerhouse meticulously designed for exceptional performance. This router is crafted to deliver advanced functionality, going beyond typical routers in its capability and efficiency. With a sleek design, this router not only elevates the aesthetic of your home but also introduces a substantial 4x increase in network capacity and a remarkable 2x boost in coverage compared to its predecessor in the series. It also intelligently reduces battery drain in mobile devices, ensuring an energy-efficient online experience."
+    },
+    {
+      "heading": "Flexible Interfaces for Seamless Connectivity",
+      "text": "The AmpliFi Alien stands out not only for its powerful capabilities but also for its flexibility, making it a versatile solution for modern connectivity needs. Boasting a single Gigabit internet interface, an internal power supply, and an integrated LAN switch with 4 Gigabit Ethernet ports, it bridges the gap between wired and wireless connectivity. This unique combination provides the convenience of extending Gigabit Ethernet into any room without the need for intricate wire installations, catering to the demands of contemporary households seeking both performance and adaptability. Enhance your home office setup or ensure a seamless multimedia experience in various rooms — the AmpliFi Alien's flexibility opens up diverse use cases for a streamlined networking solution. Additionally, its automatic turn-off feature adds a layer of convenience, allowing for a hassle-free and energy-efficient operation tailored to your specific usage patterns."
+    },
+    {
+      "heading": "Simplicity with Rich Controls",
+      "text": "Harness the capabilities of the user-friendly yet feature-rich AmpliFi app for a smooth setup of the AmpliFi Alien. This app empowers you with intuitive controls and detailed statistics, placing the control of your network directly in your hands. From quick configurations to comprehensive insights, the AmpliFi app simplifies network management, ensuring a personalized and hassle-free experience."
+    },
+    {
+      "heading": "Smart Integration of Advanced Specifications",
+      "text": "The AmpliFi Alien excels thanks to a smart integration of specifications in its design. Operating on a spectrum of wireless standards, including 802.11a/b/g/n/ac/ax (Wi-Fi 6), this router ensures a forward-looking and optimized performance. Powered by a Quad-Core Cortex A53 chipset clocked at 2.2 GHz and boasting 1 GB of RAM, it guarantees swift and efficient processing for a responsive user experience. For enhanced connectivity, the AmpliFi Alien features 5 Ethernet ports, providing a versatile solution for wired connections in modern homes. These ports cater to devices requiring stable and high-speed wired connections, such as gaming consoles, smart TVs, or desktop computers."
+    }
+  ],
+  "brand": "AmpliFi",
+  "category": "WiFi Routers",
+  "categories": [
+    "WiFi Routers",
+    "Home and Office Networks"
+  ],
+  "mpn": "AFi-ALN-R",
+  "manufacturer_part_number": "AFi-ALN-R",
+  "ean": "0810010072559",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3411/ld0005888836_1-654a28c06d843-medium.jpg",
+        "alt": "AmpliFi Alien Router",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3411/ld0005888763_1-654a28bf7844d-medium.jpg",
+        "alt": "AmpliFi Alien Router",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3411/ld0005888837_1-654a28c30c22d-medium.jpg",
+        "alt": "AmpliFi Alien Router",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3411/ld0005888764_1-654a28c1358f1-medium.jpg",
+        "alt": "AmpliFi Alien Router",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3411/ld0005888765_1-654a28c2362ea-medium.jpg",
+        "alt": "AmpliFi Alien Router",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3411/ld0005888836_1-654a28c06d843-tiny.jpg",
+        "alt": "AmpliFi Alien Router thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3411/ld0005888763_1-654a28bf7844d-tiny.jpg",
+        "alt": "AmpliFi Alien Router thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3411/ld0005888837_1-654a28c30c22d-tiny.jpg",
+        "alt": "AmpliFi Alien Router thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3411/ld0005888764_1-654a28c1358f1-tiny.jpg",
+        "alt": "AmpliFi Alien Router thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3411/ld0005888765_1-654a28c2362ea-tiny.jpg",
+        "alt": "AmpliFi Alien Router thumbnail"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 128.18,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 4x4, 5GHz 8x8"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "1.15 Gbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "4.8 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.412 - 2.472 (GHz) 3 (dBi), 5.150 - 5.875 (GHz) 6 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(5) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-Core ® Cortex ® A53 at 2.2 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "1 GB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "35 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Dimensions",
+          "value": "110 x 110 x 250 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.2 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 45 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - AmpliFi Alien Router",
+      "url": "https://dl.ubnt.com/ds/afi-aln-r-eu-ds.pdf"
+    },
+    {
+      "title": "Quick Start Guide - AmpliFi Alien Router",
+      "url": "https://amplifi.com/qsg/AFi-ALN-R/"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Saulius",
+        "date": "2026-04-19",
+        "text": "Pasitvirtino",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-24-7W-G-WH",
+      "url": "/product/ubiquiti-poe-24-7w-g-wh-gigabit",
+      "price": 7.52,
+      "currency": "USD",
+      "mpn": "POE-24-7W-G-WH",
+      "availability": "InStock"
+    },
+    {
+      "name": "AmpliFi Alien Router and MeshPoint",
+      "url": "/product/amplifi-alien-router-and-meshpoint",
+      "price": 208.59,
+      "currency": "USD",
+      "mpn": "AFi-ALN",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6 In-Wall",
+      "url": "/product/unifi-6-in-wall",
+      "price": 191.95,
+      "currency": "USD",
+      "mpn": "U6-IW",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036AXML",
+      "url": "/product/alfa-usb-adapter-awus036axml",
+      "price": 44.88,
+      "currency": "USD",
+      "mpn": "AWUS036AXML",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

@@ -5,7 +5,7 @@ import type { GalleryBuilderOption } from "@/features/gallery/types";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "@/i18n/navigation";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { patchBlockSettings } from "@/features/builder/instance/block-instance";
 import { ItemCard, RepeatableSection } from "@/features/content-blocks/admin/shared/repeatable-section";
 import { LocalizedBlockTextarea, LocalizedBlockTitle } from "@/features/builder/block-translation-context";
@@ -76,23 +76,21 @@ export function VideoGalleryBlockFields({ block, onChange, galleryOptions = [] }
                 next[index] = { ...item, embedUrl: e.target.value };
                 setProp("items", next);
               }} />
-              <MediaPickerField
+              <UrlPrimaryMediaPickerField
                 label="Video file"
                 mediaTypes={["VIDEO"]}
-                mediaId={item.videoMediaAssetId || null}
                 url={item.videoUrl}
-                onChange={({ mediaId, url }) => {
+                onPick={({ url, mediaId }) => {
                   const next = [...items];
                   next[index] = { ...item, videoUrl: url, videoMediaAssetId: mediaId ?? "" };
                   setProp("items", next);
                 }}
               />
-              <MediaPickerField
+              <UrlPrimaryMediaPickerField
                 label="Thumbnail"
                 mediaTypes={["IMAGE"]}
-                mediaId={item.thumbnailMediaAssetId || null}
                 url={item.thumbnailUrl}
-                onChange={({ mediaId, url }) => {
+                onPick={({ url, mediaId }) => {
                   const next = [...items];
                   next[index] = { ...item, thumbnailUrl: url, thumbnailMediaAssetId: mediaId ?? "" };
                   setProp("items", next);

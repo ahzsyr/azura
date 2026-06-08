@@ -84,7 +84,11 @@ export function MediaDetailPanel({ assetId, folders, onClose, onUpdated }: Props
         : "Delete this file?";
     if (!confirm(msg)) return;
     startTransition(async () => {
-      await deleteMediaAssets([assetId]);
+      const result = await deleteMediaAssets([assetId]);
+      if (!result.success) {
+        alert(result.error ?? "Delete failed. Please try again.");
+        return;
+      }
       onUpdated();
       onClose();
     });

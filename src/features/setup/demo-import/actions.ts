@@ -171,15 +171,6 @@ export async function applyDemoProfileAction(input: {
 
     await importDemoProfileById(prisma, input.profileId, input.overrides ?? {});
 
-    // #region agent log
-    const { debugIngest } = await import("@/lib/debug-ingest");
-    debugIngest(
-      "demo-import/actions.ts:applyDemoProfileAction",
-      "demo apply import finished",
-      { profileId: input.profileId, elapsedMs: Date.now() - startedAt },
-      "H7",
-    );
-    // #endregion
 
     after(async () => {
       try {
@@ -206,16 +197,6 @@ export async function applyDemoProfileAction(input: {
     return ok();
   } catch (e) {
     const errMsg = e instanceof Error ? e.message : String(e);
-    // #region agent log
-    import("@/lib/debug-ingest").then(({ debugIngest }) =>
-      debugIngest(
-        "demo-import/actions.ts:applyDemoProfileAction",
-        "demo apply failed",
-        { profileId: input.profileId, error: errMsg.slice(0, 300), elapsedMs: Date.now() - startedAt },
-        "H7",
-      ),
-    );
-    // #endregion
     return fail(e instanceof Error ? e.message : "Failed to apply demo profile");
   }
 }

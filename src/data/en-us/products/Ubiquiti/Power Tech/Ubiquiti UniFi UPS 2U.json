@@ -1,0 +1,248 @@
+{
+  "slug": "ubiquiti-unifi-ups-2u",
+  "id": "UPS-2U",
+  "productTitle": "Ubiquiti UniFi UPS 2U",
+  "name": "Ubiquiti UniFi UPS 2U",
+  "title": "Ubiquiti UniFi UPS 2U",
+  "title_extended": "Ubiquiti UniFi UPS 2U - 1.5 kVA Rackmount UPS",
+  "short_description": "The Ubiquiti UniFi UPS 2U (UPS-2U) is a managed 1.5 kVA rackmount uninterruptible power supply designed to keep your UniFi and third-party network devices running during power interruptions.",
+  "description": "The Ubiquiti UniFi UPS 2U (UPS-2U) is a managed 1.5 kVA rackmount uninterruptible power supply designed to keep your UniFi and third-party network devices running during power interruptions. It provides 1,500 VA / 1,000 W of capacity and features four battery backup outlets plus four surge-protected outlets to safeguard critical systems. With a runtime of up to 8 minutes at half load (500 W) and 2.3 minutes at full load, it allows enough time for a controlled system shutdown or generator startup. The UPS includes an Ethernet port for network-based monitoring and supports Graceful Shutdown for UNVR and UNAS on UniFi OS version 4.4.3 or higher, preventing potential data loss.",
+  "detailed_description": [
+    {
+      "heading": "Backup Power Solution",
+      "text": "The Ubiquiti UniFi UPS 2U (UPS-2U) is a managed 1.5 kVA rackmount uninterruptible power supply designed to keep your UniFi and third-party network devices running during power interruptions. It provides 1,500 VA / 1,000 W of capacity and features four battery backup outlets plus four surge-protected outlets to safeguard critical systems. With a runtime of up to 8 minutes at half load (500 W) and 2.3 minutes at full load, it allows enough time for a controlled system shutdown or generator startup. The UPS includes an Ethernet port for network-based monitoring and supports Graceful Shutdown for UNVR and UNAS on UniFi OS version 4.4.3 or higher, preventing potential data loss. Its durable galvanized steel 2U rackmount chassis ensures stability and easy integration into enterprise racks, server rooms, or office setups. This UPS combines advanced protection, strong build quality, and reliable performance for uninterrupted network operation."
+    },
+    {
+      "heading": "Reliable Power Performance",
+      "text": "The UniFi UPS 2U ensures smooth and stable power delivery for sensitive electronics, maintaining safe operation even during power surges or voltage fluctuations. It operates within a 170–280 V AC input range and maintains output voltage between 220–240 V AC, with ±10% regulation while in battery mode. The fast transfer time of 6 ms typical (10 ms max) guarantees seamless power continuity during outages. It uses two 12 V 9 Ah lead-acid batteries that provide reliable energy backup, recharging to 90% capacity within 6–8 hours. Overload protection activates automatically, the UPS tolerates 110% load for up to 5 minutes and safely shuts down at 120%. Additional safeguards include short-circuit protection with a 250 V, 10 A breaker. Designed for altitudes up to 3,000 m and temperatures from 0 to 40°C, the UPS ensures dependable performance in offices, data centers, and enterprise environments."
+    },
+    {
+      "heading": "Easy Rack Integration",
+      "text": "The UniFi UPS 2U combines a compact 2U rackmount form factor with professional-grade design, making it easy to install in standard server racks. Its galvanized steel enclosure provides strength and durability, while the IP20 rating ensures protection in clean indoor environments. The power interface includes a C14 AC input with a 1.8 m (5.9 ft) power cord, four C13 battery backup/surge outlets, and four C13 surge-only outlets, giving flexibility for different devices. Networking options include one 10/100 Mb Ethernet management port and two GbE surge in/out ports for added connection safety. As a line-interactive UPS, it intelligently stabilizes power flow to maintain uptime and efficiency. Certified under CE and IEC 62040-1 standards, it meets global safety and reliability requirements. With strong management tools and stable power delivery, the UniFi UPS 2U ensures continuous protection for critical business equipment."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters",
+    "Electrical Equipment",
+    "Ubiquiti"
+  ],
+  "mpn": "UPS-2U",
+  "manufacturer_part_number": "UPS-2U",
+  "ean": "0810177161875",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6905/1-6911ab84874be-medium.jpg",
+        "alt": "Ubiquiti UniFi UPS 2U front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6905/2-6911ab8844c9b-medium.jpg",
+        "alt": "Ubiquiti UniFi UPS 2U rear view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6905/3-6911ab8b1f236-medium.jpg",
+        "alt": "Ubiquiti UniFi UPS 2U angled view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6905/4-6911ab8e780bc-medium.jpg",
+        "alt": "Ubiquiti UniFi UPS 2U display view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6905/5-6911ab91d487a-medium.jpg",
+        "alt": "Ubiquiti UniFi UPS 2U side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6905/6-6911ab951608d-medium.jpg",
+        "alt": "Ubiquiti UniFi UPS 2U rack view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 281.15,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 100 Mbps, (2) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Supply",
+        "Supported Input Voltage",
+        "Power Connector"
+      ],
+      "items": [
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "170 - 280 V AC"
+        },
+        {
+          "name": "Power Connector",
+          "value": "C14"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "2U"
+        },
+        {
+          "name": "Material",
+          "value": "Galvanized steel"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": " 442.4 x 300 x 87.4 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "13.7 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi UPS 2U",
+      "url": "https://www.getic.com/files/catalogue/6905/ups2u_ds-6911ab78d53ff.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": null,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Bullet White",
+      "url": "/product/ubiquiti-camera-g6-bullet",
+      "price": 199.76,
+      "currency": "USD",
+      "mpn": "UVC-G6-Bullet-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Instant",
+      "url": "/product/ubiquiti-camera-g6-instant",
+      "price": 178.80,
+      "currency": "USD",
+      "mpn": "UVC-G6-INS-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Turret White",
+      "url": "/product/ubiquiti-camera-g6-turret",
+      "price": 199.76,
+      "currency": "USD",
+      "mpn": "UVC-G6-Turret-W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

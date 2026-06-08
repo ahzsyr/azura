@@ -1,0 +1,237 @@
+{
+  "slug": "ubiquiti-gateway-enterprise",
+  "id": "UXG-Enterprise",
+  "productTitle": "Ubiquiti Gateway Enterprise",
+  "name": "Ubiquiti Gateway Enterprise",
+  "title": "Ubiquiti Gateway Enterprise",
+  "title_extended": "Ubiquiti Gateway Enterprise",
+  "short_description": "The Ubiquiti UXG-Enterprise is a powerful enterprise-class gateway designed to deliver exceptional network performance and security for medium to large organizations. Built with an 18-core ARM v8.2 processor running at 2 GHz and 16 GB of system memory, it handles high-throughput tasks with ease, including firewall inspection, VPN connections, and deep packet inspection.",
+  "description": "The Ubiquiti UXG-Enterprise is a powerful enterprise-class gateway designed to deliver exceptional network performance and security for medium to large organizations. Built with an 18-core ARM v8.2 processor running at 2 GHz and 16 GB of system memory, it handles high-throughput tasks with ease, including firewall inspection, VPN connections, and deep packet inspection. The device supports up to 1 million concurrent sessions and features IDS/IPS throughput of 12.5 Gbps, ensuring robust security without sacrificing speed. VPN performance includes up to 980 Mbps for WireGuard, 580 Mbps for IPsec, and 180 Mbps for OpenVPN, accommodating demanding remote access scenarios. With dual hot-swappable 150 W CRPS power supplies and full 1U rack-mount design, the UXG-Enterprise guarantees reliable, continuous operation in professional network environments. This combination of high processing power, extensive memory, and advanced security features makes it an ideal solution for organizations seeking both speed and protection in a unified gateway.",
+  "detailed_description": [
+    {
+      "heading": "Advanced Security Gateway",
+      "text": "The Ubiquiti UXG-Enterprise is a powerful enterprise-class gateway designed to deliver exceptional network performance and security for medium to large organizations. Built with an 18-core ARM v8.2 processor running at 2 GHz and 16 GB of system memory, it handles high-throughput tasks with ease, including firewall inspection, VPN connections, and deep packet inspection. The device supports up to 1 million concurrent sessions and features IDS/IPS throughput of 12.5 Gbps, ensuring robust security without sacrificing speed. VPN performance includes up to 980 Mbps for WireGuard, 580 Mbps for IPsec, and 180 Mbps for OpenVPN, accommodating demanding remote access scenarios. With dual hot-swappable 150 W CRPS power supplies and full 1U rack-mount design, the UXG-Enterprise guarantees reliable, continuous operation in professional network environments. This combination of high processing power, extensive memory, and advanced security features makes it an ideal solution for organizations seeking both speed and protection in a unified gateway."
+    },
+    {
+      "heading": "Flexible Connectivity",
+      "text": "The UXG-Enterprise offers versatile networking interfaces to meet the needs of modern enterprise networks. It includes two 25 GbE SFP28 ports for high-speed WAN connections, two 10 GbE SFP+ ports for LAN aggregation or uplinks, and two 2.5 GbE RJ45 ports that support multi-gigabit speeds of 2.5 G/1 G/100 M/10 M, including one dedicated WAN port. This combination ensures seamless connectivity for both high-bandwidth applications and legacy network devices. The device supports multiple VLANs, link aggregation, and advanced routing protocols to optimize traffic flow across complex network 150 W power supplies allow for easy integration into existing server rooms, data centers, and network cabinets while ensuring continuous uptime. Designed for organizations that demand reliable, high-speed networking, the UXG-Enterprise can handle multiple concurrent users and high-throughput workloads, providing stable, low-latency connections for cloud services, VoIP, video conferencing, and large-scale data transfers."
+    },
+    {
+      "heading": "Centralized Management",
+      "text": "UXG-Enterprise features a stateful Layer 7 firewall, intrusion detection and prevention system (IDS/IPS), SSL inspection, URL filtering and deep packet inspection (DPI), protecting networks against internal and external threats. Content filtering and application-aware traffic management allow administrators to prioritize business-critical applications while blocking unwanted traffic. The gateway also provides VPN support, including WireGuard, IPsec, OpenVPN, and Teleport, enabling secure remote connectivity for employees and branch offices. Centralized management is available through the UniFi Network application, allowing for real-time monitoring, configuration, firmware updates, and analytics. Administrators can manage device settings locally via Ethernet or remotely using cloud-enabled tools, ensuring operational efficiency and network visibility. With its high session capacity, multi-gigabit interfaces, and robust security architecture, the UXG-Enterprise provides enterprise organizations with a reliable, scalable, and secure gateway solution that protects critical assets while maintaining top-tier network performance."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Wired Routers",
+  "categories": [
+    "Wired Routers",
+    "Ubiquiti",
+    "Cloud Keys & Gateways"
+  ],
+  "mpn": "UXG-Enterprise",
+  "manufacturer_part_number": "UXG-Enterprise",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6866/1-6902231c87278-medium.jpg",
+        "alt": "Ubiquiti Gateway Enterprise",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6866/2-6902231f2a440-medium.jpg",
+        "alt": "Ubiquiti Gateway Enterprise",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6866/3-69022321b2c11-medium.jpg",
+        "alt": "Ubiquiti Gateway Enterprise",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6866/4-690223246a483-medium.jpg",
+        "alt": "Ubiquiti Gateway Enterprise",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6866/5-6902232759789-medium.jpg",
+        "alt": "Ubiquiti Gateway Enterprise",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 2349.73,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 2.5 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 10G SFP+, (2) 25G SFP28"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "18-core ARM® v8.2 at 2 GHz"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Supply",
+          "value": "Internal x2 redundant PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "82 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Material",
+          "value": "SGCC steel, Aluminium"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442.4 x 43.7 x 325 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "6.5 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Gateway Enterprise",
+      "url": "https://www.getic.com/files/catalogue/6866/uxgenterprise_ds-69022316cdc89.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "icon": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

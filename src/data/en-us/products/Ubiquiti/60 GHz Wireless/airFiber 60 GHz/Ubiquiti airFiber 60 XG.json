@@ -1,0 +1,406 @@
+{
+  "slug": "airfiber-60-xg",
+  "id": 3924,
+  "productTitle": "Ubiquiti airFiber 60 XG",
+  "name": "Ubiquiti airFiber 60 XG",
+  "title": "Ubiquiti airFiber 60 XG",
+  "title_extended": "60GHz PtP Bridge, 5 GHz backup radio, 4+ km range, integrated GPS, Bluetooth management",
+  "short_description": "60GHz PtP Bridge, 5 GHz backup radio, 4+ km range, integrated GPS, Bluetooth management",
+  "description": "60GHz PtP Bridge, 5 GHz backup radio, 4+ km range, integrated GPS, Bluetooth management",
+  "detailed_description": [
+    {
+      "heading": "High-Performance PtP Bridge",
+      "text": "The AirFiber 60 XG from Ubiquiti is a high-performance, point-to-point (PtP) bridge operating primarily in the 60 GHz spectrum, designed for short to mid-range links with a focus on delivering multi-gigabit throughput across distances exceeding 4 kilometers. Its notable features include support for SFP+ (Small Form-factor Pluggable Plus), enabling direct fiber connections that facilitate speeds up to 10 Gbps, which is essential for backhaul applications requiring high bandwidth."
+    },
+    {
+      "heading": "Features",
+      "text": "4+ km link range\n6 Gbps max. throughput\nTerragraph Certified\nIntegrated GPS & Bluetooth\n(1) GbE and (1) 10G SFP+ port\n5 GHz 800+ Mbps weather-resilient backup radio\nPrecision alignment mount"
+    },
+    {
+      "heading": "Important Note",
+      "text": "This product should be purchased in pairs in order to form links."
+    },
+    {
+      "heading": "60 GHz Operation",
+      "text": "The AF60-XG operates in the 60 GHz frequency band, which is less congested than the traditional bands, thereby offering lower interference and higher transmission efficiency. This model supports a maximum throughput of up to 6 Gbps, making it an excellent choice for applications requiring high-bandwidth data transfer, such as backhaul for wireless internet service providers (WISPs), enterprise use, or CCTV surveillance networks. Its ability to support channel bonding enables it to achieve such high data rates, setting a new standard for outdoor wireless connectivity."
+    },
+    {
+      "heading": "Connectivity Options",
+      "text": "Equipped with both a 1 Gigabit Ethernet port and a 10G SFP+ port, the AF60-XG offers versatile connectivity options for different network architectures, ensuring compatibility with a broad range of devices and network setups. The inclusion of an SFP+ port is particularly noteworthy as it allows for direct fiber connections, which can be crucial for backhaul applications demanding high throughput and low latency."
+    },
+    {
+      "heading": "Weather-Resilient Backup",
+      "text": "The device also features a 5 GHz backup radio. This secondary radio provides a weather-resilient failover connection, ensuring continuous operation even under adverse weather conditions that might affect the 60 GHz primary link. With a throughput of 800+ Mbps, the backup radio ensures that the link remains operational, albeit at a reduced rate, during periods of heavy rain or fog, which can attenuate 60 GHz signals."
+    },
+    {
+      "heading": "Precision Alignment and Durability",
+      "text": "For precise alignment and optimal signal quality, the AF60-XG comes with a precision alignment mount. This feature is critical for establishing and maintaining the high-speed links over long distances that this device is capable of. Additionally, the integrated GPS ensures accurate timing and synchronization for the network, which is particularly important in applications requiring coordinated timing across multiple devices. The AF60-XG is designed with durability in mind, featuring a robust build that can withstand harsh outdoor environments. Its UV stabilized polycarbonate and steel construction ensures longevity, while the device's wind loading capability makes it stable even in strong wind conditions. This durability, combined with the device's high performance, makes the AF60-XG a reliable choice for demanding outdoor applications."
+    },
+    {
+      "heading": "Terragraph Certification",
+      "text": "With support for the Terragraph protocol, the AF60-XG is at the forefront of wireless networking technology. Terragraph is a gigabit wireless technology designed to meet the growing demand for reliable, high-speed internet access in urban and suburban environments. The AF60-XG's certification for this protocol underscores its capability to provide high-density network coverage with fast and reliable connectivity."
+    },
+    {
+      "heading": "Bluetooth Setup and UISP Management",
+      "text": "Bluetooth-powered setup via the UISP Mobile app is available. Thanks to UISP app you can centrally manage your networks and clients with ease. Simply organize your clients' plans, setup billing and invoicing, and grow your customer base. UISP application allows viewing network topology, advanced data analytics, quickly set up devices and manage them on the go with a powerful mobile app."
+    },
+    {
+      "heading": "Summary",
+      "text": "In summary, the Ubiquiti AirFiber 60 XG model is a highly advanced, robust, and efficient wireless bridge solution designed for high-speed data transmission over long distances. Its combination of multi-gigabit throughput, fiber connectivity support, weather-resilient backup radio, precision alignment, and GPS synchronization, all housed in a durable outdoor enclosure, makes it an outstanding choice for a wide range of applications requiring reliable, high-capacity wireless connectivity"
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Carrier Backhaul Radio",
+  "categories": [
+    "Carrier Backhaul Radio",
+    "Ubiquiti",
+    "60 GHz Wireless",
+    "airFiber 60 GHz"
+  ],
+  "mpn": "AF60-XG",
+  "manufacturer_part_number": "AF60-XG",
+  "ean": "0810010076090",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3924/af60xg_001-61b0a6fa6dd3e-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 XG",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3924/af60xg_003-61b0a6f8b9d9d-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 XG",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3924/af60xg_002-61b0a6f991e5d-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 XG",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3924/af60xg_004-61b0a6f7e28a2-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 XG",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3924/af60xg_005-61b0a6f71688a-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 XG",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3924/af60xg_006-61b0a6f63ad9e-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 XG",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3924/af60xg_009-61b0a6f3afb9d-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 XG",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3924/af60xg_008-61b0a6f488352-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 XG",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3924/af60xg_007-61b0a6f561c06-medium.jpg",
+        "alt": "Ubiquiti airFiber 60 XG",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://dl.ui.com/ds/af60-xg_ds.pdf",
+        "type": "datasheet",
+        "title": "Technical Specs / Datasheet - Ubiquiti airFiber 60 XG"
+      },
+      {
+        "url": "https://dl.ui.com/qig/af60-xg",
+        "type": "guide",
+        "title": "Installation Guide - Ubiquiti airFiber 60 XG"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 1048.34,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "60GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "60GHz Radio Rate",
+          "value": "6.0Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Distance"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Reflector"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "57 - 66 (GHz) (dBi)"
+        },
+        {
+          "name": "Distance",
+          "value": "Up to 4 km"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 10G SFP+"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-Core ARM® Cortex® A72 1.6GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "2 GB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "48V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "31.2 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "48 V DC 0.65 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Mounting Method",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Galvanized steel, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "779 x 664 x 383 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "13 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 55 °C"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units",
+        "Radome",
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        },
+        {
+          "name": "Radome",
+          "value": "Included"
+        },
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airFiber 60 XG",
+      "url": "https://dl.ui.com/ds/af60-xg_ds.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti airFiber 60 XG",
+      "url": "https://dl.ui.com/qig/af60-xg"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX NanoBeam M5",
+      "url": "/product/nanobeam-m5-16dbi",
+      "price": 63.63,
+      "currency": "USD",
+      "mpn": "NBE-M5-16",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam M5",
+      "url": "/product/litebeam-m5-23dbi",
+      "price": 46.86,
+      "currency": "USD",
+      "mpn": "LBE-M5-23",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC Long-Range",
+      "url": "/product/litebeam-5ac-lr",
+      "price": 103.58,
+      "currency": "USD",
+      "mpn": "LBE-5AC-LR",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 60 Long-Range",
+      "url": "/product/airfiber-60-lr",
+      "price": 303.78,
+      "currency": "USD",
+      "mpn": "AF60-LR",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

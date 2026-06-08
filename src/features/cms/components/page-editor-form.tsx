@@ -1,13 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { replaceBrowserUrl } from "@/lib/editor-url-sync";
 import type { CmsPage, CmsPageRevision, ContentStatus, SeoMeta } from "@prisma/client";
 import { SeoMetaPanel } from "@/features/seo/components/seo-meta-panel";
 import {
   upsertCmsPage,
-  publishCmsPage,
   duplicateCmsPage,
   deleteCmsPage,
   restorePageRevision,
@@ -18,7 +17,8 @@ import { BlockEditor, BlockEditorHistory } from "@/features/builder/components/b
 import { BlockPresetPanel } from "@/features/builder/components/block-preset-panel";
 import { BlockDevicePreview } from "@/features/builder/components/block-device-preview";
 import { cloneBlocks, updateBlockInTree } from "@/features/builder/block-tree";
-import { migrateLegacyCatalogBlocks } from "@/features/builder/migrate-legacy-blocks";
+import { migrateBlocksToBlockSystem } from "@/features/builder/migration/upgrade-blocks";
+import { patchBlockSettings } from "@/features/builder/instance/block-instance";
 import {
   CMS_WIRED_MARKETING_SLUGS,
   resolveBuiltinTemplate,
@@ -63,6 +63,8 @@ import {
   type BlockInspectorTabId,
 } from "@/features/builder/constants/block-inspector-tabs";
 import { validatePageBlocks } from "@/features/builder/validate-page-blocks";
+import { buildPageEditorFormData } from "@/features/cms/lib/page-editor-form-data";
+import type { EntityTranslationInput } from "@/features/translation/types";
 
 const PAGE_TABS = [
   { id: "general", label: "General" },
@@ -186,7 +188,7 @@ function buildInitialFormState(
     templateKey: page?.templateKey ?? "",
     scheduledAt: formatScheduledInput(page?.scheduledAt),
     revisionMessage: "",
-    blocks: migrateLegacyCatalogBlocks((page?.blocks as PageBlocks) ?? []),
+    blocks: migrateBlocksToBlockSystem((page?.blocks as PageBlocks) ?? []).blocks,
     localeFields,
     visualSettings: parsePageVisualSettings(
       page && "visualSettings" in page ? (page as PageWithRevisions & { visualSettings?: unknown }).visualSettings : {},
@@ -194,17 +196,10 @@ function buildInitialFormState(
   };
 }
 
-function PageActions({ page }: { page: PageWithRevisions }) {
+function PageActions({ page, onPublishNow }: { page: PageWithRevisions; onPublishNow: () => void }) {
   return (
     <>
-      <Button
-        type="button"
-        variant="secondary"
-        onClick={async () => {
-          await publishCmsPage(page.id);
-          window.location.reload();
-        }}
-      >
+      <Button type="button" variant="secondary" onClick={onPublishNow}>
         Publish now
       </Button>
       <Button type="button" variant="outline" onClick={() => duplicateCmsPage(page.id)}>
@@ -247,7 +242,9 @@ function PageEditorFields({
   onInspectorTabChange,
   formState,
   updateFormState,
+  blocksRef,
   onSave,
+  onPublish,
   galleryOptions = [],
   faqSetOptions = [],
   testimonialOptions = [],
@@ -267,7 +264,9 @@ function PageEditorFields({
   onInspectorTabChange: (tab: BlockInspectorTabId) => void;
   formState: PageFormState;
   updateFormState: (patch: Partial<PageFormState>) => void;
-  onSave: () => void;
+  blocksRef: React.MutableRefObject<PageBlocks>;
+  onSave: () => void | Promise<boolean | void>;
+  onPublish?: () => void | Promise<boolean | void>;
   galleryOptions?: GalleryBuilderOption[];
   faqSetOptions?: FaqSetBuilderOption[];
   testimonialOptions?: TestimonialBuilderOption[];
@@ -315,8 +314,11 @@ function PageEditorFields({
   );
 
   const handleBlocksChange = useCallback(
-    (next: PageBlocks) => patch({ blocks: next }),
-    [patch]
+    (next: PageBlocks) => {
+      blocksRef.current = next;
+      patch({ blocks: next });
+    },
+    [blocksRef, patch],
   );
 
   const insertPresetBlock = (block: BlockNode) => {
@@ -525,6 +527,7 @@ function PageEditorFields({
                 <BlockEditor
                 blocks={formState.blocks}
                 onChange={handleBlocksChange}
+                blocksRef={blocksRef}
                 embeddedTemplates={false}
                 embeddedHistory={false}
                 includeHiddenInput={false}
@@ -663,7 +666,7 @@ function PageEditorFields({
                           : undefined
                       }
                       onPreviewBlocks={(revBlocks) => {
-                        handleBlocksChange(migrateLegacyCatalogBlocks(cloneBlocks(revBlocks)));
+                        handleBlocksChange(migrateBlocksToBlockSystem(cloneBlocks(revBlocks)).blocks);
                         setActiveTab("content");
                       }}
                     />
@@ -679,7 +682,7 @@ function PageEditorFields({
         <Button type="button" onClick={onSave}>
           Save
         </Button>
-        {page?.id && <PageActions page={page} />}
+        {page?.id && onPublish ? <PageActions page={page} onPublishNow={onPublish} /> : null}
       </div>
     </>
   );
@@ -710,7 +713,10 @@ export function PageEditorForm({
   const inspectorParam = searchParams.get("inspector");
 
   const formRef = useRef<HTMLFormElement>(null);
-  const handleSaveRef = useRef<() => void>(() => {});
+  const handleSaveRef = useRef<() => Promise<boolean>>(async () => false);
+  const handlePublishRef = useRef<() => Promise<boolean>>(async () => false);
+  const blocksRef = useRef<PageBlocks>([]);
+  const serializedInputsRef = useRef<(() => EntityTranslationInput[]) | null>(null);
   const [newPageTab, setNewPageTab] = useState<string>("general");
   const [activeTab, setActiveTab] = useState<(typeof PAGE_TABS)[number]["id"]>(() => {
     if (!page?.id) return "general";
@@ -799,32 +805,40 @@ export function PageEditorForm({
       ? newPageTab
       : "general";
 
-  const [formState, setFormState] = useState<PageFormState>(() =>
-    buildInitialFormState(page, initialPageTranslations)
-  );
+  const [formState, setFormState] = useState<PageFormState>(() => {
+    const initial = buildInitialFormState(page, initialPageTranslations);
+    blocksRef.current = initial.blocks;
+    return initial;
+  });
+
+  const formStateRef = useRef(formState);
+  formStateRef.current = formState;
 
   const pageBlocksKey = page ? JSON.stringify(page.blocks) : "";
   useEffect(() => {
     if (!page) return;
-    setFormState((prev) => ({
-      ...prev,
-      blocks: migrateLegacyCatalogBlocks((page.blocks as PageBlocks) ?? []),
-    }));
+    const migrated = migrateBlocksToBlockSystem((page.blocks as PageBlocks) ?? []).blocks;
+    setFormState((prev) => {
+      const next = { ...prev, blocks: migrated };
+      formStateRef.current = next;
+      blocksRef.current = migrated;
+      return next;
+    });
   }, [page?.id, pageBlocksKey]);
 
   const updateFormState = useCallback((patch: Partial<PageFormState>) => {
-    setFormState((prev) => ({ ...prev, ...patch }));
+    setFormState((prev) => {
+      const next = { ...prev, ...patch };
+      formStateRef.current = next;
+      if (patch.blocks) {
+        blocksRef.current = patch.blocks;
+      }
+      return next;
+    });
   }, []);
 
-  const handleSave = useCallback(() => {
-    handleSaveRef.current();
-  }, []);
-
-  const handlePublish = useCallback(async () => {
-    if (!page?.id) return;
-    await publishCmsPage(page.id);
-    window.location.reload();
-  }, [page?.id]);
+  const handleSave = useCallback(async () => handleSaveRef.current(), []);
+  const handlePublish = useCallback(async () => handlePublishRef.current(), []);
 
   const handlePreview = useCallback(() => {
     handleTabChange("preview");
@@ -839,15 +853,19 @@ export function PageEditorForm({
     (blockId: string, field: string, localeCode: string, value: string) => {
       const suffix = getContentFieldSuffix(localeCode);
       if (suffix !== "En" && suffix !== "Ar") return;
-      setFormState((prev) => ({
-        ...prev,
-        blocks: updateBlockInTree(prev.blocks, blockId, (block) => ({
-          ...block,
-          props: { ...block.props, [`${field}${suffix}`]: value },
-        })),
-      }));
+      setFormState((prev) => {
+        const next = {
+          ...prev,
+          blocks: updateBlockInTree(prev.blocks, blockId, (block) =>
+            patchBlockSettings(block, { [`${field}${suffix}`]: value }),
+          ),
+        };
+        formStateRef.current = next;
+        blocksRef.current = next.blocks;
+        return next;
+      });
     },
-    []
+    [],
   );
 
   const editorTree = (
@@ -858,12 +876,19 @@ export function PageEditorForm({
       canPublish={Boolean(page?.id)}
     >
       <PageEditorSaveGuard
-        formRef={formRef}
-        formState={formState}
+        formStateRef={formStateRef}
+        blocksRef={blocksRef}
+        serializedInputsRef={serializedInputsRef}
         handleSaveRef={handleSaveRef}
+        handlePublishRef={handlePublishRef}
         setActiveTab={handleTabChange}
+        pageId={page?.id}
+        locales={locales}
+        editorTab={displayActiveTab}
+        selectedBlockId={selectedBlockId}
+        editorInspector={inspectorTab}
       />
-      <form ref={formRef} action={upsertCmsPage} data-page-editor className="contents">
+      <form ref={formRef} action={upsertCmsPage} data-page-editor className="flex flex-col min-h-0 flex-1 w-full">
         {page?.id && <input type="hidden" name="id" value={page.id} />}
         <input type="hidden" name="editorTab" value={displayActiveTab} readOnly />
         <input type="hidden" name="selectedBlockId" value={selectedBlockId ?? ""} readOnly />
@@ -903,7 +928,9 @@ export function PageEditorForm({
         onInspectorTabChange={handleInspectorTabChange}
         formState={formState}
         updateFormState={updateFormState}
+        blocksRef={blocksRef}
         onSave={handleSave}
+        onPublish={page?.id ? handlePublish : undefined}
         galleryOptions={galleryOptions}
         faqSetOptions={faqSetOptions}
         testimonialOptions={testimonialOptions}
@@ -929,6 +956,7 @@ export function PageEditorForm({
       initialBlocks={formState.blocks}
       initialRows={initialBlockTranslations}
       onLegacyPropUpdate={handleLegacyPropUpdate}
+      serializedInputsRef={serializedInputsRef}
     >
       {editorTree}
     </BlockTranslationProvider>
@@ -936,36 +964,98 @@ export function PageEditorForm({
 }
 
 function PageEditorSaveGuard({
-  formRef,
-  formState,
+  formStateRef,
+  blocksRef,
+  serializedInputsRef,
   handleSaveRef,
+  handlePublishRef,
   setActiveTab,
+  pageId,
+  locales,
+  editorTab,
+  selectedBlockId,
+  editorInspector,
 }: {
-  formRef: React.RefObject<HTMLFormElement | null>;
-  formState: PageFormState;
-  handleSaveRef: React.MutableRefObject<() => void>;
+  formStateRef: React.MutableRefObject<PageFormState>;
+  blocksRef: React.MutableRefObject<PageBlocks>;
+  serializedInputsRef: React.MutableRefObject<(() => EntityTranslationInput[]) | null>;
+  handleSaveRef: React.MutableRefObject<() => Promise<boolean>>;
+  handlePublishRef: React.MutableRefObject<() => Promise<boolean>>;
   setActiveTab: (tab: string) => void;
+  pageId?: string;
+  locales: PublicLocale[];
+  editorTab: string;
+  selectedBlockId: string | null;
+  editorInspector: string;
 }) {
   const { showToast } = useAdminForm();
 
-  useEffect(() => {
-    handleSaveRef.current = () => {
-      const error = getPageFormValidationError(toValidationFields(formState));
+  useLayoutEffect(() => {
+    const submitForm = async (statusOverride?: ContentStatus): Promise<boolean> => {
+      const formState = formStateRef.current;
+      const error = getPageFormValidationError(toValidationFields(formState), locales);
       if (error) {
         showToast(error, "error");
         setActiveTab("general");
-        return;
+        return false;
       }
       try {
-        validatePageBlocks(formState.blocks);
+        validatePageBlocks(blocksRef.current);
       } catch (e) {
         showToast(e instanceof Error ? e.message : "Block validation failed", "error");
         setActiveTab("content");
-        return;
+        return false;
       }
-      formRef.current?.requestSubmit();
+
+      const blockTranslations = serializedInputsRef.current?.() ?? null;
+      const formData = buildPageEditorFormData(
+        formState,
+        {
+          pageId,
+          editorTab,
+          selectedBlockId,
+          editorInspector,
+          statusOverride,
+        },
+        {
+          locales,
+          blocks: blocksRef.current,
+          blockTranslations,
+        },
+      );
+
+      try {
+        await upsertCmsPage(formData);
+        return true;
+      } catch (e) {
+        showToast(e instanceof Error ? e.message : "Save failed", "error");
+        return false;
+      }
     };
-  }, [formRef, formState, handleSaveRef, setActiveTab, showToast]);
+
+    handleSaveRef.current = () => submitForm();
+    handlePublishRef.current = async () => {
+      if (!formStateRef.current.slug.trim()) {
+        showToast("Slug is required before publishing.", "error");
+        setActiveTab("general");
+        return false;
+      }
+      return submitForm("PUBLISHED");
+    };
+  }, [
+    blocksRef,
+    editorInspector,
+    editorTab,
+    formStateRef,
+    handlePublishRef,
+    handleSaveRef,
+    locales,
+    pageId,
+    selectedBlockId,
+    serializedInputsRef,
+    setActiveTab,
+    showToast,
+  ]);
 
   return null;
 }

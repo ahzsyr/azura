@@ -42,10 +42,6 @@ export default async function AdminDashboardPage() {
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
     console.error("[admin/dashboard] load failed:", errMsg);
-    // #region agent log
-    const { debugIngest } = await import("@/lib/debug-ingest");
-    debugIngest("admin/dashboard/page.tsx", "dashboard data load failed", { error: errMsg.slice(0, 300) }, "H1");
-    // #endregion
     try {
       branding = await loadSiteBrandContext();
     } catch {

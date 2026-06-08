@@ -33,6 +33,11 @@ export interface MediaLibraryMeta {
     alt?: string;
     description?: string;
     tags?: string[];
+    /** Remote-only entries (Supabase) not present on local disk scan */
+    url?: string;
+    size?: number;
+    ext?: string;
+    type?: MediaType;
   };
 }
 

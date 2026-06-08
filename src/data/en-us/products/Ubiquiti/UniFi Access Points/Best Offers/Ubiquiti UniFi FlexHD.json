@@ -1,0 +1,359 @@
+{
+  "slug": "ubiquiti-uap-flexhd",
+  "id": "UAP-FlexHD",
+  "productTitle": "Ubiquiti UniFi FlexHD",
+  "name": "Ubiquiti UniFi FlexHD",
+  "title": "Ubiquiti UniFi FlexHD",
+  "title_extended": "4x4 MIMO on 5GHz<br>2x2 MIMO on 2.4GHz<br>2.4GHz Radio Rate - 300 Mbps<br>5GHz Radio Rate - 1733 Mbps<br>Wi-Fi Users: 200+ Users",
+  "short_description": "115 m², 2.4GHz 300Mbps & 5GHz 1733Mbps, 1xGLAN, 802.11 a/b/g/n/ac/ac-wave2",
+  "description": "115 m², 2.4GHz 300Mbps & 5GHz 1733Mbps, 1xGLAN, 802.11 a/b/g/n/ac/ac-wave2",
+  "detailed_description": [
+    {
+      "heading": "Compact, Versatile & Powerful",
+      "text": "The UniFi FlexHD from Ubiquiti Networks is a uniquely designed, versatile dual-band access point that is ideal for deployment in a variety of settings, including conference halls, cafes, retail spaces, and outdoor areas. Its cylindrical form factor, slightly larger than a typical soda can, not only captures attention but also integrates seamlessly into any network environment, providing both aesthetic appeal and substantial functionality. Covering an area of up to 115 m² (1,250 ft²) and supporting over 200 connected devices, the UniFi FlexHD is an excellent choice for environments with a high density of users. The device utilizes WiFi 5 (802.11ac) technology, which is augmented by a differentiated MIMO configuration for each band it operates on. Specifically, it features a 2x2 MIMO setup on the 2.4 GHz band and a more robust 4x4 MIMO configuration on the 5 GHz band. This distinction allows the UniFi FlexHD to efficiently handle multiple data streams simultaneously across both frequency bands. The advanced MIMO configurations contribute to a total throughput of 2033 Mbps—300 Mbps on the 2.4 GHz band and a significantly higher 1733 Mbps on the less congested 5 GHz band. This capability ensures that the UniFi FlexHD can effectively cater to both high-speed demands, such as streaming high-definition videos and conducting large file transfers, as well as provide longer-range connectivity where needed."
+    },
+    {
+      "heading": "Flexible Installation & Robust Integration",
+      "text": "The UniFi FlexHD is designed to offer versatile mounting options that facilitate installation flush with wall or ceiling panels. This strategic placement is crucial for optimizing the distribution of the wireless signal across the designated area, thereby maximizing coverage and minimizing the impact of physical obstructions such as furniture and walls. Such installations blend seamlessly into the environment, preserving the aesthetic integrity of the space while enhancing wireless network functionality. This feature is particularly beneficial in settings like corporate offices and healthcare facilities, where maintaining a professional and unobtrusive appearance is essential while ensuring comprehensive Wi-Fi coverage."
+    },
+    {
+      "heading": "Seamless Management with UniFi Network",
+      "text": "The device leverages the UniFi Network, a comprehensive network management platform that offers centralized control over Ubiquiti’s UniFi devices, including routers, switches, and access points. This system simplifies the setup and ongoing management of network hardware, all accessible via the UniFi Network web application or mobile app. As a premier example of Software Defined Networking (SDN), this solution enables dynamic management of network resources, which is especially effective in both small and large-scale environments. The UniFi Controller software, which acts as the nerve center for the UniFi Network, provides an intuitive interface that allows network administrators to deploy, configure, manage, and monitor network devices seamlessly. This software simplifies complex tasks such as device detection and network visualization, and offers detailed analytics that help in making informed decisions about network management and optimization."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Points",
+  "categories": [
+    "WiFi Outdoor",
+    "Access Points"
+  ],
+  "mpn": "UAP-FlexHD",
+  "manufacturer_part_number": "UAP-FlexHD",
+  "ean": "0817882029667",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2065/uapflexhd_top_angle-5ff44d489f11a-medium.jpg",
+        "alt": "Ubiquiti UniFi FlexHD",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2065/uapflexhd_front-5ff44d44e9b5d-medium.jpg",
+        "alt": "Ubiquiti UniFi FlexHD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2065/uapflexhd_port-5ff44d46e0d87-medium.jpg",
+        "alt": "Ubiquiti UniFi FlexHD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2065/uapflexhd_back-5ff44d42f0b04-medium.jpg",
+        "alt": "Ubiquiti UniFi FlexHD",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/IdzXiwAHtx8",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 149.99,
+    "currency": "USD",
+    "discount": "-13%"
+  },
+  "old_price": 171.55,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 4x4"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "300 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "1.7 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.4 - 2.4 (GHz) 1.6 (dBi), 5 - 5 (GHz) 4 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "44 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "11 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "Ø48.50 x 159.49 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.315 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Ceilling Mount, Pole Mount, Tabletop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi FlexHD",
+      "url": "https://www.getic.com/files/catalogue/2065/unifi_flexhd_ap_ds.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti UniFi FlexHD",
+      "url": "https://www.getic.com/files/catalogue/2065/uap-flexhd.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "name": "Pickup point",
+      "price": 25.99,
+      "currency": "USD",
+      "days": 18
+    },
+    {
+      "name": "Standard",
+      "price": 34.91,
+      "currency": "USD",
+      "days": 5
+    },
+    {
+      "name": "Express",
+      "price": 43.10,
+      "currency": "USD",
+      "days": 2
+    }
+  ],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Andrii",
+        "date": "2023-06-26",
+        "text": "Great product.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi AC Pro",
+      "url": "/product/unifi-ac-pro",
+      "price": 135.81,
+      "currency": "USD",
+      "mpn": "UAP-AC-PRO",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi nanoHD",
+      "url": "/product/uap-nanohd",
+      "price": 123.30,
+      "currency": "USD",
+      "mpn": "UAP-nanoHD",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

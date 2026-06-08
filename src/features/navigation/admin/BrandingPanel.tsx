@@ -12,7 +12,7 @@ import {
   resolveBrandFontFamily,
 } from "@/features/navigation/branding-defaults";
 import { setBranding } from "@/features/navigation/header-store";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { GOOGLE_FONT_OPTIONS } from "@/features/theme/constants";
 import { AdminCollapsibleSection } from "@/components/admin/layout/admin-collapsible-section";
 import { Button } from "@/components/ui/button";
@@ -136,21 +136,17 @@ export function BrandingPanel({ branding, brandingSourceReady = true, onChange, 
 
         {form.logoMode === "image" ? (
           <div className="mt-4 grid gap-4 lg:grid-cols-2">
-            <MediaPickerField
+            <UrlPrimaryMediaPickerField
               label="Image — light theme"
               url={form.logoImageLightUrl}
-              trackMediaId={false}
-              idFieldName=""
               mediaTypes={["IMAGE", "SVG"]}
-              onChange={({ url }) => updateForm({ logoImageLightUrl: url, logoMode: "image" }, true)}
+              onChange={(url) => updateForm({ logoImageLightUrl: url, logoMode: "image" }, true)}
             />
-            <MediaPickerField
+            <UrlPrimaryMediaPickerField
               label="Image — dark theme"
               url={form.logoImageDarkUrl}
-              trackMediaId={false}
-              idFieldName=""
               mediaTypes={["IMAGE", "SVG"]}
-              onChange={({ url }) => updateForm({ logoImageDarkUrl: url, logoMode: "image" }, true)}
+              onChange={(url) => updateForm({ logoImageDarkUrl: url, logoMode: "image" }, true)}
             />
           </div>
         ) : null}

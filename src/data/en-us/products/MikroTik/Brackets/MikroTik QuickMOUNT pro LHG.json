@@ -1,0 +1,196 @@
+{
+  "slug": "quickmount-pro-lhg",
+  "id": "1102",
+  "productTitle": "MikroTik QuickMOUNT pro LHG",
+  "name": "MikroTik QuickMOUNT pro LHG",
+  "title": "MikroTik QuickMOUNT pro LHG",
+  "title_extended": "",
+  "short_description": "You can use the QuickMount Pro LHG with Mikrotik LHG antenna",
+  "description": "You can use the QuickMount Pro LHG with Mikrotik LHG antenna",
+  "detailed_description": [
+    {
+      "heading": "Flexible Mounting Adapter for LHG Antennas",
+      "text": "The MikroTik QuickMOUNT pro LHG (QMP-LHG) is a durable and versatile mounting adapter designed to provide flexible installation options for LHG series antennas. It allows you to easily attach devices such as MikroTik’s LHG models to walls or poles, ensuring secure and stable placement. The adapter supports both vertical and horizontal adjustments, offering precise alignment with fine-tuning up to 140° in both axes. This level of flexibility makes it possible to achieve the best possible signal quality and link stability, which is especially important in long-distance wireless connections. The QuickMOUNT pro is made of strong reinforced plastic, ensuring long-lasting durability in both indoor and outdoor environments. Compatible with any LHG product except the XL, it is ideal for wireless ISPs, network installers, or advanced home users, providing a reliable and cost-effective solution for mounting LHG antennas in offices, industrial facilities, remote sites, or residential properties."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Mounting Accessories",
+  "categories": [
+    "Mounting Accessories",
+    "Brackets"
+  ],
+  "mpn": "QMP-LHG",
+  "manufacturer_part_number": "QMP-LHG",
+  "ean": "4752224002563",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1102/qmplhg_1-5fdb4d9320a6b-medium.jpg",
+        "alt": "MikroTik QuickMOUNT pro LHG",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1102/qmplhg_1-5fdb4d9320a6b-tiny.jpg",
+        "alt": "MikroTik QuickMOUNT pro LHG"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 7.24,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "112 x 95 x 88 mm"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Pole Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik QuickMOUNT pro LHG",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-quickmount_pro.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 3,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 3,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Nico",
+        "date": "2025-07-25",
+        "text": "very useful for directing the antenna",
+        "photos": []
+      },
+      {
+        "name": "Francesco",
+        "date": "2023-11-20",
+        "text": "easy to mount and to adjust.",
+        "photos": []
+      },
+      {
+        "name": "Stingaciu",
+        "date": "2023-05-16",
+        "text": "Un pezzo aggiuntivo per l’antenna molto ben fatto e facile installazione",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Mini Wall Mount Bracket Ø38mm L110",
+      "url": "/product/mini-wall-mount-bracket",
+      "price": 4.37,
+      "currency": "USD",
+      "mpn": "06.001",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik solidMOUNT",
+      "url": "/product/mikrotik-solidmount",
+      "price": 26.13,
+      "currency": "USD",
+      "mpn": "solidMOUNT",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik LHG LTE18 kit",
+      "url": "/product/mikrotik-lhg-lte18-kit",
+      "price": 223.41,
+      "currency": "USD",
+      "mpn": "LHGGM&EG18-EA",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor",
+      "link": null
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate",
+      "link": null
+    }
+  ],
+  "stock_stat": "146 pcs"
+}

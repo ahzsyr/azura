@@ -1,0 +1,332 @@
+{
+  "slug": "ubiquiti-gateway-fiber",
+  "id": 5846,
+  "productTitle": "Ubiquiti UXG Gateway Fiber",
+  "name": "Ubiquiti UXG Gateway Fiber",
+  "title": "Ubiquiti UXG Gateway Fiber",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The Ubiquiti Gateway Fiber (UXG-Fiber) is designed to deliver exceptional networking performance, catering to the demands of modern enterprises. It features dual WAN ports—one 10G SFP+ and one 10 GbE RJ45—providing versatile connectivity options for high-speed internet access. On the LAN side, the device offers one 10G SFP+ port and an integrated 4-port switch with four 2.5 GbE RJ45 ports, including one PoE+ port.",
+  "detailed_description": [
+    {
+      "heading": "High-Performance Networking",
+      "text": "The Ubiquiti Gateway Fiber (UXG-Fiber) is designed to deliver exceptional networking performance, catering to the demands of modern enterprises. It features dual WAN ports—one 10G SFP+ and one 10 GbE RJ45—providing versatile connectivity options for high-speed internet access. On the LAN side, the device offers one 10G SFP+ port and an integrated 4-port switch with four 2.5 GbE RJ45 ports, including one PoE+ port. The UXG-Fiber offers extensive VPN and SD-WAN functionalities to meet the connectivity needs of distributed networks. It supports license-free SD-WAN, facilitating efficient and cost-effective site-to-site connectivity. This gateway ensures seamless integration into existing network infrastructures and supports high-bandwidth applications, making it ideal for businesses requiring robust and scalable networking solutions."
+    },
+    {
+      "heading": "Advanced Security Features",
+      "text": "The UXG-Fiber is designed with a strong focus on security. It incorporates a stateful firewall and an application-aware Layer 7 firewall, enabling granular control over network traffic. The device also supports deep packet inspection (DPI) and traffic identification, allowing for detailed monitoring and management of data flows. With intrusion prevention and detection systems (IPS/IDS) boasting over 55,000 signatures powered by CyberSecure, the UXG-Fiber provides robust protection against potential threats, ensuring the integrity and security of your network. The device is compatible with various VPN protocols, including IPsec, OpenVPN, WireGuard, and L2TP, providing flexible options for secure remote access. The Teleport zero-configuration VPN feature simplifies the setup process, enabling quick and secure connections between remote users and the central network."
+    },
+    {
+      "heading": "Robust Hardware Specifications",
+      "text": "Built with a quad-core ARM Cortex-A73 processor clocked at 2.2 GHz, ensuring seamless data processing and efficient traffic management even under high network loads. With 2 GB of system memory, the UXG-Fiber is well-equipped to handle complex networking tasks, multiple connections, and advanced security features without compromising speed or stability. It has a maximum power consumption of 25W (excluding PoE output) and includes a 54V DC/1.1A power adapter. The device supports management via Ethernet and Bluetooth, offering flexibility in configuration and monitoring. Its compact desktop form factor, combined with advanced features, makes the UXG-Fiber a versatile and powerful solution for enterprise networking needs."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Wired Routers",
+  "categories": [
+    "Ubiquiti",
+    "Cloud Keys & Gateways",
+    "Wired Routers"
+  ],
+  "mpn": "UXG-Fiber",
+  "manufacturer_part_number": "UXG-Fiber",
+  "ean": "0810177161530",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5846/1-67c82d617a34c-medium.jpg",
+        "alt": "Ubiquiti UXG Gateway Fiber",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5846/2-67c82d6f0d571-medium.jpg",
+        "alt": "Ubiquiti UXG Gateway Fiber",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5846/3-67c82d73a88d9-medium.jpg",
+        "alt": "Ubiquiti UXG Gateway Fiber",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5846/4-67c82d76e5477-medium.jpg",
+        "alt": "Ubiquiti UXG Gateway Fiber",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5846/5-67c82d7a6dcfe-medium.jpg",
+        "alt": "Ubiquiti UXG Gateway Fiber",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/5846/uxgfiber_ds-67c82d5aa6bd8.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti UXG Gateway Fiber",
+        "type": "datasheet"
+      }
+    ],
+    "3d_model": {
+      "id": "d57b8e6e-a0a0-403e-b2d7-5391f60d1cdd",
+      "url": "https://www.getic.com/3D/5846/model_low-69f1c4b2dc3e9.glb"
+    }
+  },
+  "price": {
+    "value": 263.34,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": ["EU", "UK", "US"],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(4) 2.5 Gbps, (1) 10 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3at (PoE+)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-core ARM Cortex-A73 at 2.2 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "2 GB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "50 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "30 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "54 V DC 1.1 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Dimensions",
+          "value": "212.8 x 127.6 x 30 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.605 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UXG Gateway Fiber",
+      "url": "https://www.getic.com/files/catalogue/5846/uxgfiber_ds-67c82d5aa6bd8.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "price": 25.88,
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "price": 34.76,
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "price": 42.91,
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [
+    "Pickup point",
+    "Standard",
+    "Express"
+  ],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Margus",
+        "date": "2025-10-23",
+        "text": "Fine works always",
+        "photos": []
+      },
+      {
+        "name": "kihyun",
+        "date": "2025-09-11",
+        "text": "매우 좋습니다. !!",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 184.92,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Outdoor",
+      "url": "/product/ubiquiti-access-point-u7-outdoor",
+      "price": 200.14,
+      "currency": "USD",
+      "mpn": "U7-Outdoor",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UNAS Pro",
+      "url": "/product/ubiquiti-unas-pro",
+      "price": 531.36,
+      "currency": "USD",
+      "mpn": "UNAS-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Lite",
+      "url": "/product/ubiquiti-unifi-u7-lite",
+      "price": 99.48,
+      "currency": "USD",
+      "mpn": "U7-Lite",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

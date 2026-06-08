@@ -1,7 +1,5 @@
-import { unlink } from "node:fs/promises";
-import { resolve } from "node:path";
 import { NextResponse } from "next/server";
-import { readMeta, writeMeta, scanFilesystem } from "@/features/media/fs/media-library.service";
+import { deleteCatalogMediaFile } from "@/features/media/fs/media-library.service";
 import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
 
 export async function POST(request: Request) {
@@ -13,19 +11,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid bulk action" }, { status: 400 });
   }
 
-  const fsFiles = await scanFilesystem();
-  const meta = await readMeta();
-  let deleted = 0;
+  const deleted: string[] = [];
+  const failed: string[] = [];
+  const tombstoned: string[] = [];
 
   for (const filename of body.filenames) {
-    const found = fsFiles.find((f) => f.filename === filename);
-    if (found) {
-      await unlink(resolve(process.cwd(), `public/uploads/${found.subDir}/${filename}`));
-      deleted++;
+    const result = await deleteCatalogMediaFile(filename);
+    if (result.ok) {
+      deleted.push(filename);
+      if (result.tombstoned) tombstoned.push(filename);
+    } else {
+      failed.push(filename);
     }
-    delete meta[filename];
   }
 
-  await writeMeta(meta);
-  return NextResponse.json({ deleted });
+  return NextResponse.json({ deleted, failed, tombstoned });
 }

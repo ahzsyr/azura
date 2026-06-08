@@ -1,0 +1,221 @@
+{
+  "slug": "uisp-fiber-coexistence-wdm-filter",
+  "id": "4479",
+  "productTitle": "Ubiquiti Fiber Coexistence WDM Filter",
+  "name": "Ubiquiti Fiber Coexistence WDM Filter",
+  "title": "Ubiquiti Fiber Coexistence WDM Filter",
+  "title_extended": "",
+  "short_description": "Buy Ubiquiti Fiber Coexistence WDM Filter. Price from 256.13 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "description": "Wavelength Division Multiplexing module that combines XGS/XG-PON and GPON services into a single fiber distribution system. The Ubiquiti Fiber Coexistence WDM Filter, bearing the model manufacture part number UACC-UF-WDM-XGS, is an essential optical component designed for integration within fiber optic networks that employ wavelength division multiplexing (WDM) technology. This device is specifically crafted to enable the coexistence of different services within the same fiber infrastructure, enhancing the utility and efficiency of existing network installations.",
+  "detailed_description": [
+    {
+      "heading": "Wavelength Division Multiplexing module that combines XGS/XG-PON and GPON services into a single fiber distribution system.",
+      "text": "The Ubiquiti Fiber Coexistence WDM Filter, bearing the model manufacture part number UACC-UF-WDM-XGS, is an essential optical component designed for integration within fiber optic networks that employ wavelength division multiplexing (WDM) technology. This device is specifically crafted to enable the coexistence of different services within the same fiber infrastructure, enhancing the utility and efficiency of existing network installations."
+    },
+    {
+      "heading": "Advanced Port Connectivity",
+      "text": "The filter is equipped with a total of 24 SC/UPC connectors, divided evenly among three types: 8 COM (common port) connectors, 8 GPON, and 8 XGS/XG-PON connectors. This configuration supports flexible connection setups and straightforward integration into existing network infrastructures. The device is housed in a robust metal enclosure, ensuring it remains durable under various environmental conditions, suitable for both indoor and outdoor setups. Its compact design allows for easy installation in a range of networking environments."
+    },
+    {
+      "heading": "Superior Performance",
+      "text": "For GPON to COM port transitions, the device supports a wavelength range of 1290—1330 nm and 1480—1500 nm with a maximum insertion loss of 1 dB and a minimum isolation of 25 dB, which helps maintain signal integrity and reduce potential transmission losses. In the context of XGS-PON to COM port operations, the wavelength range supported is 1260—1280 nm and 1575—1580 nm. Similar to the GPON setup, it also features a maximum insertion loss of 1 dB and a minimum isolation of 25 dB. Additionally, it boasts a minimum return loss of 50 dB and a maximum polarization dependent loss of 0.1 dB, further enhancing signal reliability and performance."
+    },
+    {
+      "heading": "Precise Wavelength Management",
+      "text": "The precise wavelength management ensures minimal signal loss and maximizes the effective use of the fiber's capacity. The device's design minimizes polarization dependent loss and ensures high return loss, which are critical for maintaining the quality and efficiency of the optical network."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "GPON",
+  "categories": [
+    "GPON",
+    "XGS-PON"
+  ],
+  "mpn": "UACC-UF-WDM-XGS",
+  "manufacturer_part_number": "UACC-UF-WDM-XGS",
+  "ean": "0810084692332",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4479/3-64e4a2e50bf3a-medium.jpg",
+        "alt": "Ubiquiti Fiber Coexistence WDM Filter",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4479/1-64e4a2dc27fc2-medium.jpg",
+        "alt": "Ubiquiti Fiber Coexistence WDM Filter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4479/4-64e4a2e837c3c-medium.jpg",
+        "alt": "Ubiquiti Fiber Coexistence WDM Filter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4479/5-64e4a2ebc1253-medium.jpg",
+        "alt": "Ubiquiti Fiber Coexistence WDM Filter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4479/6-64e4a2efdf272-medium.jpg",
+        "alt": "Ubiquiti Fiber Coexistence WDM Filter",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 256.13,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Fiber Equipment",
+      "features": [
+        "Supported Media",
+        "Connector Type"
+      ],
+      "items": [
+        {
+          "name": "Supported Media",
+          "value": "Single-Mode"
+        },
+        {
+          "name": "Connector Type",
+          "value": "(24) SC/UPC"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442 x 120 x 44 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.8 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Installation Guide - Ubiquiti Fiber Coexistence WDM Filter",
+      "url": "https://www.getic.com/files/catalogue/4479/uaccufwdmxgs_ig-64e4a2d7350f2.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-24-24W Black",
+      "url": "/product/ubiquiti-poe-24-24w-gigabit",
+      "price": 14.94,
+      "currency": "USD",
+      "mpn": "POE-24-24W-G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti 10Gbps Bidirectional Single-Mode Optical Module, 2-pack",
+      "url": "/product/u-fiber-single-mode-module-10g-bidi-2-pack",
+      "price": 160.83,
+      "currency": "USD",
+      "mpn": "UACC-OM-SM-10G-S-2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti GPON OLT SFP Module, Class C+",
+      "url": "/product/u-fiber-gpon-c-plus",
+      "price": 73.00,
+      "currency": "USD",
+      "mpn": "UF-GP-C+",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Fiber Splitter 1:16",
+      "url": "/product/ubiquiti-ufiber-splitter-16",
+      "price": 29.89,
+      "currency": "USD",
+      "mpn": "UF-SPLITTER-16",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

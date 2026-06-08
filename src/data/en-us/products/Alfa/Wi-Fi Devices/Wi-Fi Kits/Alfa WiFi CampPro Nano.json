@@ -1,0 +1,257 @@
+{
+  "slug": "alfa-wifi-camppro-nano",
+  "id": "4301",
+  "productTitle": "Alfa WiFi CampPro Nano",
+  "name": "Alfa WiFi CampPro Nano",
+  "title": "Alfa WiFi CampPro Nano",
+  "title_extended": "Alfa WiFi CampPro Nano – Compact Outdoor WiFi Extender Kit",
+  "short_description": "Wi-Fi Extender, 1x Indoor antenna, 1x Outdoor omni antenna, USB male to female cable, Pole mount kit, 8 m outdoor RF cable",
+  "description": "Wi-Fi Extender, 1x Indoor antenna, 1x Outdoor omni antenna, USB male to female cable, Pole mount kit, 8 m outdoor RF cable",
+  "detailed_description": [
+    {
+      "heading": "Description",
+      "text": "Wi-Fi CampPro Nano is a dual-radio designed for retrieving and extending internet access in your house, mobile home, RV, or yacht from remote Wi-Fi hotspots or home Wi-Fi. Power the CampPro Nano by a power bank or USB DC adapter with the USB Type-A male connector. Wi-Fi CampPro Nano has an extra USB port to support the 4G/5G USB modem."
+    },
+    {
+      "heading": "Features",
+      "text": "Long-range connection\nUp to 150 Mbps data rate\nHigh-gain Omnidirectional antenna\n8 meters low loss RF cable\nPowered by USB Type-A\nExtra USB port for 4G/5G USB modem\nPortable design"
+    }
+  ],
+  "brand": "Alfa Network",
+  "category": "Wi-Fi Kits",
+  "categories": [
+    "Alfa",
+    "Wi-Fi Devices",
+    "Wi-Fi Kits"
+  ],
+  "mpn": "WiFiCamp-Pro-Nano",
+  "manufacturer_part_number": "WiFiCamp-Pro-Nano",
+  "ean": "4718050308651",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4301/camppronano-64006a492c2e8-medium.jpg",
+        "alt": "Alfa WiFi CampPro Nano",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4301/1-63e0bdc40f330-medium.jpg",
+        "alt": "Alfa WiFi CampPro Nano",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4301/2-63e0bdc802f76-medium.jpg",
+        "alt": "Alfa WiFi CampPro Nano",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4301/3-63e0bdcb817bd-medium.jpg",
+        "alt": "Alfa WiFi CampPro Nano",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4301/4-63e0bdcf3cb22-medium.jpg",
+        "alt": "Alfa WiFi CampPro Nano",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4301/5-63e0bdd312456-medium.jpg",
+        "alt": "Alfa WiFi CampPro Nano",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 88.15,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "2.4GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 4"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "150 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) RP-SMA Male"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "USB Ports"
+      ],
+      "items": [
+        {
+          "name": "USB Ports",
+          "value": "(2) USB-A 2.0"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "AR9331 + AR9721"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "PSU / POE adapter",
+          "value": "5 V DC 2.4 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "110 x 46 x 17 mm"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Alfa USB Adapter AWUS036AC",
+      "url": "/product/alfa-awus036ac",
+      "price": 31.17,
+      "currency": "USD",
+      "mpn": "AWUS036AC",
+      "availability": "InStock"
+    },
+    {
+      "name": "Marine Mount for Tube TSM-B1",
+      "url": "/product/stainless-base-for-tube",
+      "price": 28.68,
+      "currency": "USD",
+      "mpn": "TSM-B1",
+      "availability": "InStock"
+    },
+    {
+      "name": "Stainless Mount TSM-UC1 for Tube series",
+      "url": "/product/alfa-stainless-mount-for-tube",
+      "price": 44.38,
+      "currency": "USD",
+      "mpn": "TSM-UC1",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACHM",
+      "url": "/product/alfa-awus036achm",
+      "price": 36.02,
+      "currency": "USD",
+      "mpn": "AWUS036ACHM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

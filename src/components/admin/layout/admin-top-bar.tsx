@@ -6,6 +6,7 @@ import { ThemeModeToggle } from "@/components/theme/theme-mode-toggle";
 import {
   Eye,
   Loader2,
+  PenLine,
   Redo2,
   RefreshCw,
   Save,
@@ -87,21 +88,80 @@ export function AdminTopBar() {
 
   const handleSave = useCallback(async () => {
     if (!pageActions.onSave || saveStatus === "saving") return;
+    if (!pageActions.selfManagedSaveStatus) {
+      setSaveStatus("saving");
+    }
+    try {
+      const ok = await pageActions.onSave();
+      if (pageActions.selfManagedSaveStatus) return;
+      if (ok === false) {
+        setSaveStatus("unsaved");
+        return;
+      }
+      if (pageActions.markSavedOnSaveSuccess !== false) {
+        markSaved();
+      } else {
+        setSaveStatus("saved");
+      }
+    } catch {
+      if (!pageActions.selfManagedSaveStatus) {
+        setSaveStatus("error");
+      }
+    }
+  }, [pageActions, saveStatus, setSaveStatus, markSaved]);
+
+  const handleCancel = useCallback(async () => {
+    if (!pageActions.onCancel || saveStatus === "saving") return;
+    const canCancel =
+      pageActions.canCancel ?? (saveStatus === "unsaved" || saveStatus === "error");
+    if (!canCancel) return;
+    try {
+      await pageActions.onCancel();
+      markSaved();
+    } catch {
+      /* keep unsaved */
+    }
+  }, [pageActions, saveStatus, markSaved]);
+
+  const handleUpdate = useCallback(async () => {
+    if (!pageActions.onUpdate || saveStatus === "saving") return;
     setSaveStatus("saving");
     try {
-      await pageActions.onSave();
+      await pageActions.onUpdate();
       markSaved();
     } catch {
       setSaveStatus("error");
     }
   }, [pageActions, saveStatus, setSaveStatus, markSaved]);
 
+  const handlePublish = useCallback(async () => {
+    if (!pageActions.onPublish || saveStatus === "saving") return;
+    setSaveStatus("saving");
+    try {
+      const ok = await pageActions.onPublish();
+      if (ok === false) {
+        setSaveStatus("unsaved");
+        return;
+      }
+      markSaved();
+    } catch {
+      setSaveStatus("error");
+    }
+  }, [pageActions, saveStatus, setSaveStatus, markSaved]);
+
+  const showCancel = Boolean(
+    pageActions.onCancel &&
+      (pageActions.canCancel ?? (saveStatus === "unsaved" || saveStatus === "error"))
+  );
+
   const hasActions = Boolean(
     pageActions.onSave ||
+      pageActions.onUpdate ||
       pageActions.onRebuildIndex ||
       pageActions.onPublish ||
       pageActions.onPreview ||
-      pageActions.onUndo
+      pageActions.onUndo ||
+      showCancel
   );
 
   return (
@@ -205,7 +265,29 @@ export function AdminTopBar() {
             </Tooltip>
           )}
 
-          {pageActions.onSave && (
+          {showCancel && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 gap-1.5"
+                  disabled={saveStatus === "saving"}
+                  onClick={() => void handleCancel()}
+                >
+                  <span className="hidden sm:inline">
+                    {pageActions.cancelLabel ?? "Cancel"}
+                  </span>
+                  <span className="sm:hidden">Cancel</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                Discard unsaved changes <ShortcutHint keys="Esc" />
+              </TooltipContent>
+            </Tooltip>
+          )}
+
+          {pageActions.onSave && pageActions.canSave !== false && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -220,11 +302,40 @@ export function AdminTopBar() {
                   ) : (
                     <Save className="h-3.5 w-3.5" />
                   )}
-                  <span className="hidden sm:inline">Save</span>
+                  <span className="hidden sm:inline">
+                    {pageActions.saveLabel ?? "Save"}
+                  </span>
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                Save <ShortcutHint keys="⌘S" />
+                {pageActions.saveTooltip ?? "Save"}{" "}
+                <ShortcutHint keys="⌘S" />
+              </TooltipContent>
+            </Tooltip>
+          )}
+
+          {pageActions.onUpdate && pageActions.canUpdate !== false && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 gap-1.5"
+                  disabled={saveStatus === "saving"}
+                  onClick={() => void handleUpdate()}
+                >
+                  {saveStatus === "saving" ? (
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  ) : (
+                    <PenLine className="h-3.5 w-3.5" />
+                  )}
+                  <span className="hidden sm:inline">
+                    {pageActions.updateLabel ?? "Update"}
+                  </span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                {pageActions.updateTooltip ?? "Save changes and keep editing"}
               </TooltipContent>
             </Tooltip>
           )}
@@ -232,12 +343,25 @@ export function AdminTopBar() {
           {pageActions.onPublish && pageActions.canPublish !== false && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button size="sm" className="h-8 gap-1.5" onClick={() => void pageActions.onPublish?.()}>
-                  <Send className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">Publish</span>
+                <Button
+                  size="sm"
+                  className="h-8 gap-1.5"
+                  disabled={saveStatus === "saving"}
+                  onClick={() => void handlePublish()}
+                >
+                  {saveStatus === "saving" ? (
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  ) : (
+                    <Send className="h-3.5 w-3.5" />
+                  )}
+                  <span className="hidden sm:inline">
+                    {pageActions.publishLabel ?? "Publish"}
+                  </span>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Publish changes live</TooltipContent>
+              <TooltipContent>
+                {pageActions.publishTooltip ?? "Publish changes live"}
+              </TooltipContent>
             </Tooltip>
           )}
 

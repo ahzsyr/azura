@@ -1,0 +1,259 @@
+{
+  "slug": "mikrotik-ftc-converter-ftc21",
+  "id": "5365",
+  "productTitle": "MikroTik Converter FTC21",
+  "name": "MikroTik Converter FTC21",
+  "title": "MikroTik Converter FTC21",
+  "title_extended": "",
+  "short_description": "",
+  "description": "Buy MikroTik Converter FTC21. Price from 53.57 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "Fiber-to-Copper Converter",
+      "text": "The MikroTik FTC21 is a robust Fiber-to-Copper converter designed for seamless integration into both indoor and outdoor network environments. Encased in a weatherproof IP55-rated enclosure, it is engineered to withstand harsh environmental conditions, ensuring reliable performance in diverse settings. This durability makes the FTC21 an ideal choice for extending network connectivity to outdoor locations without compromising on performance or reliability. Unlike traditional media converters, the FTC21 operates on MikroTik's SwOS, providing advanced management features that enhance network control and monitoring. With SwOS, users can perform interface monitoring and management, implement VLAN support, utilize SNMP reporting, and apply basic traffic shaping. Additionally, the system offers advanced packet filtering through Access Control Lists, allowing for precise packet filtering, accounting, and VLAN tagging."
+    },
+    {
+      "heading": "Connectivity and Power Options",
+      "text": "The FTC21 is equipped with one SFP port supporting up to 2.5 Gbps and two Gigabit Ethernet ports, facilitating flexible network integration and high-speed data transmission. It supports various SFP modules, accommodating both single-mode and multi-mode fiber connections to suit specific network requirements. Powering the device is versatile, with support for 24-57V input via PoE-in (802.3af/at) or a DC jack, simplifying installation across different network setups. Designed with energy efficiency in mind, the FTC21 consumes only 3W without attachments and up to 4W when fully loaded, contributing to reduced operational costs. The device comes complete with a 48V power adapter, PoE injector, and a ceiling mount and fastening set, ensuring a straightforward installation process. This comprehensive package allows for quick deployment, enabling users to establish reliable fiber-to-copper connections with minimal effort."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Convertors",
+  "categories": [
+    "Ethernet Routers",
+    "hEX"
+  ],
+  "mpn": "FTC21",
+  "manufacturer_part_number": "FTC21",
+  "ean": "4752224008343",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5365/ftc21_2-675c3eea45ed4-medium.jpg",
+        "alt": "MikroTik Converter FTC21",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5365/ftc21_3-675c3eefdd96c-medium.jpg",
+        "alt": "MikroTik Converter FTC21",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5365/ftc21_4-675c3ef4a9aaa-medium.jpg",
+        "alt": "MikroTik Converter FTC21",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5365/ftc21_1-675c3efb317b6-medium.jpg",
+        "alt": "MikroTik Converter FTC21",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 53.57,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 1 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 1G SFP"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "24 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "4 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "48 V DC 0.95 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "254 x 97 x 35 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Converter FTC21",
+      "url": "https://www.getic.com/files/catalogue/5365/ftc21-675c3e7fbfdeb.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CRS328-24P-4S+RM",
+      "url": "/product/cloud-router-switch-328-24p-4s-rm",
+      "price": 434.22,
+      "currency": "USD",
+      "mpn": "CRS328-24P-4S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti 1Gbps Bidirectional Single-Mode Optical Module, 2-pack",
+      "url": "/product/ubiquiti-u-fiber-single-mode-module-1g-bidi-2-pack",
+      "price": 26.21,
+      "currency": "USD",
+      "mpn": "UACC-OM-SM-1G-S-2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Reyee Wi-Fi 6 Outdoor Omni-directional Access Point",
+      "url": "/product/reyee-wi-fi-6-outdoor-omni-directional-access-point",
+      "price": 128.69,
+      "currency": "USD",
+      "mpn": "RG-RAP6262(G)",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik wAP ax",
+      "url": "/product/mikrotik-wap-ax",
+      "price": 81.00,
+      "currency": "USD",
+      "mpn": "wAPG-5HaxD2HaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

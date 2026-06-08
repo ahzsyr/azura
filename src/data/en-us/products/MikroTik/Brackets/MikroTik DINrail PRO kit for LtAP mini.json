@@ -1,0 +1,179 @@
+{
+  "slug": "drp-ltm",
+  "id": 1755,
+  "productTitle": "MikroTik DINrail PRO kit for LtAP mini",
+  "name": "MikroTik DINrail PRO kit for LtAP mini",
+  "title": "MikroTik DINrail PRO kit for LtAP mini",
+  "title_extended": "",
+  "short_description": "You can use the DIN rail mounting bracket for LtAP mini series",
+  "description": "You can use the DIN rail mounting bracket for LtAP mini series",
+  "detailed_description": [
+    {
+      "heading": "Detailed description",
+      "text": "The MikroTik DINrail PRO kit (DRP-LTM) is a sturdy and practical mounting bracket designed specifically for the LtAP mini series. It is compatible with standard 35 mm × 7.5 mm DIN rails, allowing for easy and secure installation of your LtAP mini device alongside industrial control equipment such as water meters, sensors, or in equipment racks. Made from durable metal, the DRP-LTM ensures a stable and long-lasting mount, even in demanding industrial environments. The kit also includes a metal ring for added installation flexibility and convenience. Ideal for professional and industrial network setups, this bracket provides a clean, organized, and space-efficient way to integrate your LtAP mini into existing systems. Whether used in monitoring stations, utility rooms, or automation cabinets, the DINrail PRO kit offers a reliable solution for mounting and managing your MikroTik equipment."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Mounting Accessories",
+  "categories": [
+    "Mounting Accessories",
+    "Mounts and Brackets"
+  ],
+  "mpn": "DRP-LTM",
+  "manufacturer_part_number": "DRP-LTM",
+  "ean": "0708747436877",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1755/drpltm_1-5fd9e9bf87969-medium.jpg",
+        "alt": "MikroTik DINrail PRO kit for LtAP mini",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1755/drpltm_2-5fd9e9bc655e4-medium.jpg",
+        "alt": "MikroTik DINrail PRO kit for LtAP mini",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1755/drpltm_3-5fd9e9b89dd03-medium.jpg",
+        "alt": "MikroTik DINrail PRO kit for LtAP mini",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - MikroTik DINrail PRO kit for LtAP mini",
+        "url": "https://www.getic.com/files/catalogue/mikrotik/drp_ltm.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 8.04,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Dimensions",
+          "value": "35 × 7.5 mm"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "DIN Rail"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik DINrail PRO kit for LtAP mini",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/drp_ltm.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Pigtail U.fl Female / SMA Female 10cm",
+      "url": "/product/pigtail-u-fl-female-sma-female-10cm",
+      "price": 2.75,
+      "currency": "USD",
+      "mpn": "P-UF-SF-10",
+      "availability": "InStock"
+    },
+    {
+      "name": "Pigtail U.fl Female / SMA Female 20cm",
+      "url": "/product/pigtail-u-fl-female-sma-female-20cm",
+      "price": 2.75,
+      "currency": "USD",
+      "mpn": "P-UF-SF-20",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik LtAP mini LTE kit",
+      "url": "/product/routerboard-ltap-mini-lte-kit",
+      "price": 119.15,
+      "currency": "USD",
+      "mpn": "RB912R-2nD-LTm&R11e-LTE",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik LtAP mini LTE kit (2024)",
+      "url": "/product/mikrotik-ltap-mini-lte-kit-2024-",
+      "price": 83.01,
+      "currency": "USD",
+      "mpn": "RB912R-2nD-LTm&EC200A-EU",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik Value Added Distributor",
+    "MikroTik MTCNA Certificate"
+  ],
+  "stock_stat": "InStock"
+}

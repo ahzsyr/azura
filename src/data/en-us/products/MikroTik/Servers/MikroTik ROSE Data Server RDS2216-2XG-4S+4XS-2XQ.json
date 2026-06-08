@@ -1,0 +1,338 @@
+{
+  "slug": "mikrotik-rds2216-2xg-4s-4xs-2xq",
+  "id": 5832,
+  "productTitle": "MikroTik ROSE Data Server RDS2216-2XG-4S+4XS-2XQ",
+  "name": "MikroTik ROSE Data Server RDS2216-2XG-4S+4XS-2XQ",
+  "title": "MikroTik ROSE Data Server RDS2216-2XG-4S+4XS-2XQ",
+  "title_extended": "",
+  "short_description": "",
+  "description": "Buy MikroTik ROSE Data Server RDS2216-2XG-4S+4XS-2XQ. Price from 1563.88 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "Unparalleled Performance",
+      "text": "The MikroTik RDS2216-2XG-4S+4XS-2XQ is designed for high-performance networking, storage, and virtualization. Powered by an AL73400 16-core 2.0 GHz ARM 64-bit CPU and 32GB DDR4 RAM, this device delivers exceptional processing capabilities for enterprise and data center environments. The integrated RouterOS v7 operating system provides an advanced modular networking solution with License Level 6, ensuring flexibility, security, and scalability. Whether handling virtual machines, containers, or intensive routing tasks, the RDS2216-2XG-4S+4XS-2XQ is built to perform with unmatched efficiency. Its two USB ports (USB 3.0 Type-A and USB 2.0 Type-A) allow additional connectivity options, further enhancing its versatility."
+    },
+    {
+      "heading": "High-Speed Connectivity",
+      "text": "With its cutting-edge networking architecture, the RDS2216-2XG-4S+4XS-2XQ offers unmatched connectivity for high-bandwidth applications. It features 2\u00d7 100G QSFP28, 4\u00d7 25G SFP28, 4\u00d7 10G SFP+, and 2\u00d7 10G Ethernet ports, providing the flexibility needed for modern enterprise networks, ISPs, and data-intensive environments. The additional SFF-8644 interface allows expanding NVMe storage or connecting to additional high-speed storage devices. Whether used for high-speed data transfers, backbone routing, or aggregation, this device ensures seamless, low-latency performance. The switch chip model 98DX4310 enhances packet forwarding efficiency, optimizing traffic management for mission-critical applications."
+    },
+    {
+      "heading": "Storage capabilities",
+      "text": "The RDS2216-2XG-4S+4XS-2XQ features 20 U.2 PCIe Gen3 slots for ultra-fast NVMe storage, making it ideal for cloud-based applications, data centers, and high-performance computing environments. Additionally, it includes two M.2 SATA slots, enabling further storage expansion for demanding workloads. Advanced storage capabilities such as NVMe-TCP support, encryption layers, and modular storage configurations provide the flexibility required for a scalable and secure infrastructure. Whether running databases, virtualization environments, or large-scale data analytics, this device delivers exceptional read/write speeds and low latency for mission-critical applications."
+    },
+    {
+      "heading": "Reliable Power",
+      "text": "Engineered for 24/7 operation, the RDS2216-2XG-4S+4XS-2XQ is equipped with dual hot-swappable power supplies, ensuring uninterrupted uptime and quick replacements without downtime. Its AC input range of 100-240V and maximum power consumption of 286W allow for an efficient power distribution system. Despite its high-performance capabilities, the RDS2216-2XG-4S+4XS-2XQ is designed with energy efficiency in mind, reducing heat output and power consumption without compromising performance. Its redundant power design and optimized cooling system make it an eco-friendly solution for data-heavy infrastructures, allowing businesses to lower operational costs while maintaining high-speed performance and reliability."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Servers",
+  "categories": [
+    "Home and Office Networks",
+    "Servers"
+  ],
+  "mpn": "RDS2216-2XG-4S+4XS-2XQ",
+  "manufacturer_part_number": "RDS2216-2XG-4S+4XS-2XQ",
+  "ean": "4752224009340",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5832/rds_4-67bc5843cb8bd-medium.jpg",
+        "alt": "MikroTik ROSE Data Server RDS2216-2XG-4S+4XS-2XQ",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5832/rds_1-67bc584a5cd4a-medium.jpg",
+        "alt": "MikroTik ROSE Data Server RDS2216-2XG-4S+4XS-2XQ",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5832/rds_3-67bc584f3012e-medium.jpg",
+        "alt": "MikroTik ROSE Data Server RDS2216-2XG-4S+4XS-2XQ",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5832/rds_2-67bc585ada064-medium.jpg",
+        "alt": "MikroTik ROSE Data Server RDS2216-2XG-4S+4XS-2XQ",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 1563.88,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports",
+        "Interface",
+        "USB Ports",
+        "Management",
+        "U.2 Support"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps, (2) 10 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(4) 10G SFP+, (4) 25G SFP28, (2) 100G QSFP28"
+        },
+        {
+          "name": "Interface",
+          "value": "(1) SFF-8644"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 2.0, (1) USB-A 3.0"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        },
+        {
+          "name": "U.2 Support",
+          "value": "20 PCIe gen3 trays"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory",
+        "M.2 SATA Slot"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "AL73400 16-Core 2000 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "32 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "32 MB"
+        },
+        {
+          "name": "M.2 SATA Slot",
+          "value": "2 pcs"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Nominal Voltage",
+        "Nominal Current"
+      ],
+      "items": [
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "286 W"
+        },
+        {
+          "name": "Nominal Voltage",
+          "value": "12 V"
+        },
+        {
+          "name": "Nominal Current",
+          "value": "45 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "476 x 443 x 29 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 6"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik ROSE Data Server RDS2216-2XG-4S+4XS-2XQ",
+      "url": "https://www.getic.com/files/catalogue/5832/rds22162xg4s4xs2xq_ds-67bc583fa47b5.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4,
+    "count": 2,
+    "source": "",
+    "distribution": {
+      "excellent": 50,
+      "great": 0,
+      "average": 50,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 1,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Michael",
+        "date": "2025-05-09",
+        "text": "I work in cloud native sales andi. needed a platform to demo some specific functionality. I needed NVMEoverTCP to connect to my Kubernetes cluster and found this server. I could not be happier with the quality, speed and functionality. The only thing i would love to see is some graphical interface to show the storage space and functionality around partitioning.",
+        "photos": []
+      },
+      {
+        "name": "Bryan",
+        "date": "2025-03-27",
+        "text": "Low cost entry to mass fast storage. RouterOS's storage features need more polishing to reach greater adoption. \n\nEven if you don't need to max out storage, it's a great alternative to the CCR2216 for routing.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CRS326-24G-2S+RM",
+      "url": "/product/cloud-router-switch-326-24g-2srm",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+      "url": "/product/direct-attach-cable-xs-da0001",
+      "price": 26.85,
+      "currency": "USD",
+      "mpn": "XS+DA0001",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS518-16XS-2XQ-RM",
+      "url": "/product/mikrotik-crs518-16xs-2xq-rm",
+      "price": 1282.04,
+      "currency": "USD",
+      "mpn": "CRS518-16XS-2XQ-RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS520-4XS-16XQ-RM",
+      "url": "/product/mikrotik-crs520-4xs-16xq-rm",
+      "price": 1764.38,
+      "currency": "USD",
+      "mpn": "CRS520-4XS-16XQ-RM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

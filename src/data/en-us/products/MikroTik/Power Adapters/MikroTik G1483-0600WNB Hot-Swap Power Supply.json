@@ -1,0 +1,181 @@
+{
+  "slug": "mikrotik-g1483-0600wnb-hot-swap-power-supply",
+  "id": "4817",
+  "productTitle": "MikroTik G1483-0600WNB Hot-Swap Power Supply",
+  "name": "MikroTik G1483-0600WNB Hot-Swap Power Supply",
+  "title": "MikroTik G1483-0600WNB Hot-Swap Power Supply",
+  "title_extended": "MikroTik G1483-0600WNB Hot-Swap Power Supply",
+  "short_description": "",
+  "description": "The MikroTik G1483-0600WNB is a high-performance hot-swap power supply unit (PSU) designed to provide reliable and continuous power delivery for MikroTik’s advanced networking products. Specifically engineered for the CRS320-8P-8B-4S+RM PoE++ switch, this PSU delivers a robust 600 watts of power, making it capable of supporting high-demand network environments and ensuring that your MikroTik routers and switches operate efficiently without interruption. This PSU is ideal for data centers, enterprise-level networking, and telecommunications infrastructure where consistent power delivery is critical. Advanced Hot-Swap Feature. Designed for uninterrupted service, this power supply allows for hot-swapping, which means it can be replaced or upgraded without shutting down the system. This is crucial for mission-critical network operations, minimizing downtime and maintaining network integrity during power supply replacements or upgrades. Built with high-quality components, the G1483-0600WNB is designed to last and endure the rigors of continuous operation in challenging environments. This PSU includes over-voltage, under-voltage, and short circuit protection, safeguarding your networking equipment from electrical anomalies. It provides a stable 54.5V and 10.35A supply, specifically tailored to meet the demands of high-performance PoE++ applications. Specifically designed for the MikroTik CRS320-8P-8B-4S+RM, the G1483-0600WNB is perfect for businesses that require uninterrupted network service and robust power solutions. It is especially beneficial for environments where equipment must remain operational 24/7, such as servers, data centers, and critical network infrastructure. This PSU not only delivers substantial power but also provides peace of mind with its robust design and comprehensive safety features.",
+  "detailed_description": [
+    {
+      "heading": "48 to 24V PoE Converter",
+      "text": "The MikroTik G1483-0600WNB is a high-performance hot-swap power supply unit (PSU) designed to provide reliable and continuous power delivery for MikroTik’s advanced networking products. Specifically engineered for the CRS320-8P-8B-4S+RM PoE++ switch, this PSU delivers a robust 600 watts of power, making it capable of supporting high-demand network environments and ensuring that your MikroTik routers and switches operate efficiently without interruption. This PSU is ideal for data centers, enterprise-level networking, and telecommunications infrastructure where consistent power delivery is critical."
+    },
+    {
+      "heading": "Advanced Hot-Swap Feature",
+      "text": "Designed for uninterrupted service, this power supply allows for hot-swapping, which means it can be replaced or upgraded without shutting down the system. This is crucial for mission-critical network operations, minimizing downtime and maintaining network integrity during power supply replacements or upgrades."
+    },
+    {
+      "heading": "Advanced Hot-Swap Feature",
+      "text": "Built with high-quality components, the G1483-0600WNB is designed to last and endure the rigors of continuous operation in challenging environments. This PSU includes over-voltage, under-voltage, and short circuit protection, safeguarding your networking equipment from electrical anomalies. It provides a stable 54.5V and 10.35A supply, specifically tailored to meet the demands of high-performance PoE++ applications."
+    },
+    {
+      "heading": "Advanced Hot-Swap Feature",
+      "text": "Specifically designed for the MikroTik CRS320-8P-8B-4S+RM, the G1483-0600WNB is perfect for businesses that require uninterrupted network service and robust power solutions. It is especially beneficial for environments where equipment must remain operational 24/7, such as servers, data centers, and critical network infrastructure. This PSU not only delivers substantial power but also provides peace of mind with its robust design and comprehensive safety features."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Electrical Equipment",
+  "categories": [
+    "Electrical Equipment"
+  ],
+  "mpn": "G1483-0600WNB",
+  "manufacturer_part_number": "G1483-0600WNB",
+  "ean": "6970749540027",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4817/2363_hi_res-6967a5b465556-medium.jpg",
+        "alt": "MikroTik G1483-0600WNB Hot-Swap Power Supply",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 115.03,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3bt PoE++"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "600 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "54.5 V DC 10.35 A"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik G1483-0600WNB Hot-Swap Power Supply",
+      "url": "https://www.getic.com/files/catalogue/4817/g14830600wnb-667eb33e60221.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CRS326-24G-2S+RM",
+      "url": "/product/cloud-router-switch-326-24g-2srm",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS328-24P-4S+RM",
+      "url": "/product/cloud-router-switch-328-24p-4s-rm",
+      "price": 434.22,
+      "currency": "USD",
+      "mpn": "CRS328-24P-4S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Rackmount kit for RB5009/L009 series",
+      "url": "/product/mikrotik-kit-k79",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "K-79",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS320-8P-8B-4S+RM",
+      "url": "/product/mikrotik-crs320-8p-8b-4s-rm",
+      "price": 434.22,
+      "currency": "USD",
+      "mpn": "CRS320-8P-8B-4S+RM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

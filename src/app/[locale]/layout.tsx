@@ -20,6 +20,11 @@ import { RecentlyViewedTracker } from "@/features/discovery-blocks/components/re
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { AccountSessionProvider } from "@/components/account/account-session-provider";
 import { loadPublicShellContext } from "@/features/i18n/public-shell-context";
+import { readSiteSettings } from "@/features/catalog/site-settings.service";
+import { resolveSitePreloader } from "@/features/preloader/resolve-site-preloader";
+import { preloaderShowsOnInitialLoad } from "@/features/preloader/site-preloader.schema";
+import { SitePreloader } from "@/components/layout/site-preloader";
+import { PreloaderBootScript } from "@/components/layout/preloader-boot-script";
 import type { Metadata } from "next";
 
 export async function generateStaticParams() {
@@ -71,17 +76,29 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   setRequestLocale(locale);
   const messages = await getMessages();
-  const shell = await loadPublicShellContext(locale);
+  const [shell, siteSettings] = await Promise.all([
+    loadPublicShellContext(locale),
+    readSiteSettings(locale),
+  ]);
+  const preloaderSettings = resolveSitePreloader(siteSettings, {
+    themeLogoUrl: shell.theme?.logoUrl,
+  });
   const htmlLang =
     shell.htmlLang ?? getHtmlLangSync(locale, shell.enabledLocales);
 
   return (
     <div className="site-shell flex min-h-full flex-col">
+      <PreloaderBootScript
+        active={
+          preloaderSettings.enabled && preloaderShowsOnInitialLoad(preloaderSettings.mode)
+        }
+      />
       <DocumentAttributes lang={htmlLang} dir={shell.direction} />
       <GlobalStructuredData />
       <NextIntlClientProvider locale={locale} messages={messages}>
         <AccountSessionProvider>
         <ThemeProvider tokens={shell.theme}>
+          <SitePreloader settings={preloaderSettings} />
           <RecentlyViewedTracker />
           <ScrollRevealObserver />
           <SiteHeader

@@ -29,6 +29,12 @@ export const MEDIA_TYPE_LABELS: Record<MediaType, string> = {
   SVG: "SVG",
 };
 
+/** Stable default for image pickers — avoids inline array churn in picker load effects */
+export const IMAGE_PICKER_MEDIA_TYPES: MediaType[] = ["IMAGE", "SVG"];
+
+/** All CMS media types shown when no filter is passed to the picker panel */
+export const ALL_PICKER_MEDIA_TYPES: MediaType[] = ["IMAGE", "VIDEO", "DOCUMENT", "SVG"];
+
 export const MEDIA_UPLOAD_ENDPOINTS: Record<
   MediaType,
   "imageUploader" | "videoUploader" | "documentUploader" | "svgUploader"

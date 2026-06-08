@@ -1,0 +1,269 @@
+{
+  "slug": "panel-antenna-ultra",
+  "id": 4715,
+  "productTitle": "Ubiquiti Panel Antenna Ultra",
+  "name": "Ubiquiti Panel Antenna Ultra",
+  "title": "Ubiquiti Panel Antenna Ultra",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The Ubiquiti Panel Antenna Ultra is a sleek external antenna designed to extend and focus wireless coverage for the Swiss Army Knife platform. Featuring a high-efficiency 90-degree directional radiation pattern, it concentrates the signal exactly where it is needed, reducing interference and improving link quality. This focused coverage makes it ideal for point-to-area deployments, outdoor corridors, campuses, parking lots, and other scenarios where omnidirectional antennas are less effective. Optimized for dual-band operation, the antenna delivers extended range and stable performance across both 2.4 GHz and 5 GHz frequencies. This allows installers to maintain reliable connectivity while benefiting from the flexibility of modern dual-band wireless networks. By shaping the signal into a defined coverage sector, the Panel Antenna Ultra helps maximize throughput, minimize noise, and improve overall network efficiency.",
+  "detailed_description": [
+    {
+      "heading": "Extended Coverage",
+      "text": "The Ubiquiti Panel Antenna Ultra is a sleek external antenna designed to extend and focus wireless coverage for the Swiss Army Knife platform. Featuring a high-efficiency 90-degree directional radiation pattern, it concentrates the signal exactly where it is needed, reducing interference and improving link quality. This focused coverage makes it ideal for point-to-area deployments, outdoor corridors, campuses, parking lots, and other scenarios where omnidirectional antennas are less effective. Optimized for dual-band operation, the antenna delivers extended range and stable performance across both 2.4 GHz and 5 GHz frequencies. This allows installers to maintain reliable connectivity while benefiting from the flexibility of modern dual-band wireless networks. By shaping the signal into a defined coverage sector, the Panel Antenna Ultra helps maximize throughput, minimize noise, and improve overall network efficiency."
+    },
+    {
+      "heading": "Simple Integration and Flexible Mounting",
+      "text": "The Panel Antenna Ultra is engineered for easy integration with the Swiss Army Knife, using a convenient clip-on attachment that supports all standard mounting methods of the device. This design allows installers to upgrade coverage directionality without replacing existing hardware or redesigning the installation. The antenna attaches securely and aligns cleanly with the device, maintaining a professional appearance. Support for pole mounting on 1–2 inch pipe diameters provides additional flexibility for outdoor deployments. Whether installed on walls, poles, or other mounting structures, the antenna adapts to a wide range of installation scenarios. Compatibility with the UK-Ultra ensures a consistent and predictable setup process across Ubiquiti outdoor solutions."
+    },
+    {
+      "heading": "Durable Design",
+      "text": "The enclosure is made from UV-stabilized polycarbonate and aluminum, providing durability while keeping the overall design lightweight and balanced. At 450 g, the antenna remains easy to handle during installation without placing excessive stress on mounting hardware. Every design detail focuses on simplifying deployment while ensuring long-term reliability in professional wireless networks. Designed for outdoor, exposed installations, the Panel Antenna Ultra delivers reliable performance in challenging weather conditions. With IPX6 weatherproofing, it is protected against heavy rain and water exposure, making it suitable for year-round outdoor use. The robust enclosure materials help resist UV radiation, temperature fluctuations, and environmental wear."
+    },
+    {
+      "heading": "High Gain and Regulatory Compliance",
+      "text": "The antenna is engineered to withstand strong winds, offering wind survivability of 75 N at speeds up to 200 km/h. This ensures stable operation even in high-wind environments such as rooftops, open fields, or coastal areas. Its internal antenna design provides consistent performance while maintaining structural integrity. High antenna gain enhances long-distance connectivity, delivering 15 dBi at 5 GHz and 10 dBi at 2.4 GHz, making it well suited for extended-range directional coverage. In addition, the antenna is NDAA compliant, meeting regulatory requirements for use in government and enterprise deployments. Together, these features make the Panel Antenna Ultra a dependable choice for professional outdoor wireless networks."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Outdoor Wireless",
+  "categories": [
+    "Outdoor Wireless",
+    "UniFi Accessories"
+  ],
+  "mpn": "UACC-UK-Ultra-Panel-Antenna",
+  "manufacturer_part_number": "UACC-UK-Ultra-Panel-Antenna",
+  "ean": "0810084694107",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4715/1-65e5d05ca6cde-medium.jpg",
+        "alt": "Ubiquiti Panel Antenna Ultra",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4715/2-65e5d064aec3c-medium.jpg",
+        "alt": "Ubiquiti Panel Antenna Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4715/3-65e5d0686507e-medium.jpg",
+        "alt": "Ubiquiti Panel Antenna Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4715/4-65e5d06e28147-medium.jpg",
+        "alt": "Ubiquiti Panel Antenna Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4715/5-65e5d07359aea-medium.jpg",
+        "alt": "Ubiquiti Panel Antenna Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4715/6-65e5d0783d894-medium.jpg",
+        "alt": "Ubiquiti Panel Antenna Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4715/7-65e5d07d57c7a-medium.jpg",
+        "alt": "Ubiquiti Panel Antenna Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4715/8-65e5d0830431a-medium.jpg",
+        "alt": "Ubiquiti Panel Antenna Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4715/9-65e5d087aeac7-medium.jpg",
+        "alt": "Ubiquiti Panel Antenna Ultra",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 43.46,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Panel"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, UV-stabilized polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX6"
+        },
+        {
+          "name": "Dimensions",
+          "value": "138 x 207 x 43 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.45 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Panel Antenna Ultra",
+      "url": "https://www.getic.com/files/catalogue/4715/uaccukultrapanelantenna_ds-65e5cda745c5f.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi AC Mesh",
+      "url": "/product/unifi-ac-mesh",
+      "price": 96.18,
+      "currency": "USD",
+      "mpn": "UAP-AC-M",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Swiss Army Knife Ultra",
+      "url": "/product/swiss-army-knife-ultra11",
+      "price": 77.43,
+      "currency": "USD",
+      "mpn": "UK-Ultra",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Omni Antenna & Desktop Stand Kit",
+      "url": "/product/omni-antenna-desktop-stand-kit",
+      "price": 18.34,
+      "currency": "USD",
+      "mpn": "UACC-UK-Ultra-Omni-Antenna",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Long-Range",
+      "url": "/product/ubiquiti-unifi-u7-long-range",
+      "price": 161.52,
+      "currency": "USD",
+      "mpn": "U7-LR",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": ""
+}

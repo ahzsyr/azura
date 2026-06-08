@@ -1,0 +1,254 @@
+{
+  "slug": "ubiquiti-siren-poe",
+  "id": "6809",
+  "productTitle": "Ubiquiti Siren PoE",
+  "name": "Ubiquiti Siren PoE",
+  "title": "Ubiquiti Siren PoE",
+  "title_extended": "Ubiquiti UniFi Siren PoE – High-performance security device with audible and visual alerts",
+  "short_description": "The Ubiquiti UniFi Siren PoE is a high-performance security device designed to provide immediate audible and visual alerts for your UniFi Protect system. Delivering a loud, attention-grabbing alarm and integrated LED emergency lighting, it ensures rapid notification in case of security breaches.",
+  "description": "The Ubiquiti UniFi Siren PoE is a high-performance security device designed to provide immediate audible and visual alerts for your UniFi Protect system. Delivering a loud, attention-grabbing alarm and integrated LED emergency lighting, it ensures rapid notification in case of security breaches. The siren is powered via Power over Ethernet (PoE), which simplifies installation as only one network cable is required for power and data transmission. Despite its robust functionality, the siren operates efficiently with maximal power consumption of only 5W. Its IP56-rated enclosure, crafted from durable aluminum alloy and polycarbonate, protects it from dust and water, allowing reliable operation in both indoor and outdoor environments. Additional security features include a tamper switch and a factory-reset button, helping prevent unauthorized interference. Built to endure extreme conditions, it functions reliably in a wide temperature range, making it suitable for industrial facilities, commercial buildings, or residential properties where consistent, high-quality performance is essential.",
+  "detailed_description": [
+    {
+      "heading": "Powerful Alarm System",
+      "text": "The Ubiquiti UniFi Siren PoE is a high-performance security device designed to provide immediate audible and visual alerts for your UniFi Protect system. Delivering a loud, attention-grabbing alarm and integrated LED emergency lighting, it ensures rapid notification in case of security breaches. The siren is powered via Power over Ethernet (PoE), which simplifies installation as only one network cable is required for power and data transmission. Despite its robust functionality, the siren operates efficiently with maximal power consumption of only 5W. Its IP56-rated enclosure, crafted from durable aluminum alloy and polycarbonate, protects it from dust and water, allowing reliable operation in both indoor and outdoor environments. Additional security features include a tamper switch and a factory-reset button, helping prevent unauthorized interference. Built to endure extreme conditions, it functions reliably in a wide temperature range, making it suitable for industrial facilities, commercial buildings, or residential properties where consistent, high-quality performance is essential."
+    },
+    {
+      "heading": "Seamless Integration",
+      "text": "The UniFi Siren PoE integrates smoothly with the UniFi Protect ecosystem, enhancing your security setup with immediate alerts and clear visual indicators. Its LED light ring can display multiple colors to provide visual cues during alarms or events, helping responders quickly identify the nature of a situation. Installation is flexible, supporting both wall and ceiling mounting, with a user-friendly mounting plate included for quick setup. Its compact and lightweight design ensures it blends unobtrusively into any environment while remaining highly effective. Compliance with international safety and regulatory standards guarantees reliable operation across regions. The siren is fully manageable via the UniFi Protect mobile app, allowing remote monitoring, real-time control, and configuration adjustments. This combination of smart integration, reliable alerts, and flexible installation makes the Siren PoE an essential addition to professional and residential security systems, ensuring enhanced protection wherever it is deployed."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Security Systems",
+    "Access Control"
+  ],
+  "mpn": "UP-Siren-PoE",
+  "manufacturer_part_number": "UP-Siren-PoE",
+  "ean": "0810177162117",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6809/8-68c3f11d8c5a7-medium.jpg",
+        "alt": "Ubiquiti Siren PoE",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6809/1-68c3f105e8ece-medium.jpg",
+        "alt": "Ubiquiti Siren PoE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6809/2-68c3f108de3e6-medium.jpg",
+        "alt": "Ubiquiti Siren PoE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6809/3-68c3f10bae949-medium.jpg",
+        "alt": "Ubiquiti Siren PoE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6809/4-68c3f10e9b1ee-medium.jpg",
+        "alt": "Ubiquiti Siren PoE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6809/5-68c3f111c10c3-medium.jpg",
+        "alt": "Ubiquiti Siren PoE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6809/6-68c3f1157c2bb-medium.jpg",
+        "alt": "Ubiquiti Siren PoE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6809/7-68c3f119723a1-medium.jpg",
+        "alt": "Ubiquiti Siren PoE",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 101.26,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 100 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "5 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP56"
+        },
+        {
+          "name": "Dimensions",
+          "value": "139.9 x 139.9 x 35 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.308 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Ceilling Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Siren PoE",
+      "url": "https://www.getic.com/files/catalogue/6809/upsirenpoe_ds-68c3f10122857.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Protect Floodlight",
+      "url": "/product/unifi-protect-smart-flood-light",
+      "price": 108.17,
+      "currency": "USD",
+      "mpn": "UP-FloodLight",
+      "availability": "InStock"
+    },
+    {
+      "name": "Dahua Junction Box PFA137 White",
+      "url": "/product/dahua-junction-box-pfa137",
+      "price": 10.91,
+      "currency": "USD",
+      "mpn": "PFA137",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Bullet White",
+      "url": "/product/ubiquiti-camera-g6-bullet",
+      "price": 199.76,
+      "currency": "USD",
+      "mpn": "UVC-G6-Bullet-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Dome White",
+      "url": "/product/ubiquiti-camera-g6-dome-white",
+      "price": 271.28,
+      "currency": "USD",
+      "mpn": "UVC-G6-Dome-W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

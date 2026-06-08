@@ -23,7 +23,7 @@ import {
   resolveAdminSearchSettings,
 } from "@/features/search/settings/resolve-admin-search-settings";
 import { searchIndexer } from "@/features/search/search-indexer.service";
-import { ensureSearchRuntimeConfig } from "@/features/search/settings/search-runtime";
+import { ensureSearchRuntimeConfig, invalidateSearchRuntimeConfigCache } from "@/features/search/settings/search-runtime";
 import { discoverSearchFilterFields } from "@/features/search/settings/discover-search-filters";
 import { syncCustomFieldFilters } from "@/features/search/settings/resolve-search-filters";
 
@@ -158,6 +158,7 @@ export async function saveAdminSearchSettings(
     const parsed = adminSearchSettingsSchema.parse(input);
     const locale = resolveConfiguredLocaleCode(localeParam ?? "", adminLocale.code);
     await patchSiteSettingsKey(locale, "search", adminSearchSettingsToSiteJson(parsed));
+    invalidateSearchRuntimeConfigCache(locale);
     await ensureSearchRuntimeConfig(locale);
     revalidatePath("/admin/settings/search");
     revalidatePath("/", "layout");

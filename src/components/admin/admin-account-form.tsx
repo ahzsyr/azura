@@ -73,7 +73,7 @@ export function AdminAccountForm({ currentEmail: initialEmail }: Props) {
     if (!currentPassword.trim()) {
       setError("Enter your current password on the Verify changes tab before saving.");
       setSaveStatus("error");
-      return;
+      return false;
     }
 
     const hasEmailChange = Boolean(newEmail.trim() && newEmail.trim() !== email);
@@ -82,13 +82,13 @@ export function AdminAccountForm({ currentEmail: initialEmail }: Props) {
     if (!hasEmailChange && !hasPasswordChange) {
       setError("Provide a new email and/or new password to update.");
       setSaveStatus("error");
-      return;
+      return false;
     }
 
     if (hasPasswordChange && newPassword !== confirmPassword) {
       setError("New password and confirmation do not match.");
       setSaveStatus("error");
-      return;
+      return false;
     }
 
     setSaveStatus("saving");
@@ -102,7 +102,7 @@ export function AdminAccountForm({ currentEmail: initialEmail }: Props) {
     if (!result.success) {
       setError(result.error);
       setSaveStatus("error");
-      return;
+      return false;
     }
 
     const nextEmail = result.data?.email ?? email;
@@ -125,10 +125,21 @@ export function AdminAccountForm({ currentEmail: initialEmail }: Props) {
     setSaveStatus,
   ]);
 
+  const handleCancel = useCallback(() => {
+    setNewEmail("");
+    clearSensitiveFields(setCurrentPassword, setNewPassword, setConfirmPassword);
+    setError(null);
+    setFeedback(null);
+  }, []);
+
   useEffect(() => {
-    registerPageActions({ onSave: handleSave });
+    registerPageActions({
+      onSave: handleSave,
+      onCancel: handleCancel,
+      selfManagedSaveStatus: true,
+    });
     return () => clearPageActions();
-  }, [registerPageActions, clearPageActions, handleSave]);
+  }, [registerPageActions, clearPageActions, handleSave, handleCancel]);
 
   const pendingEmailChange = Boolean(newEmail.trim() && newEmail.trim() !== email);
   const pendingPasswordChange = Boolean(newPassword.trim());

@@ -28,24 +28,12 @@ function getNestedValue(obj: Record<string, unknown>, dotPath: string): string {
 }
 
 export default async function WhatsAppSettingsPage() {
-  // #region agent log
-  const { debugIngest } = await import("@/lib/debug-ingest");
-  debugIngest("admin/settings/whatsapp/page.tsx:entry", "loading whatsapp settings", {}, "H2");
-  // #endregion
   try {
     const [company, enabledLocales, dbRows] = await Promise.all([
       getCompanyInfo(),
       localeService.listEnabled(),
       uiMessageService.getAllGrouped(),
     ]);
-    // #region agent log
-    debugIngest(
-      "admin/settings/whatsapp/page.tsx:success",
-      "whatsapp settings loaded",
-      { localeCount: enabledLocales.length },
-      "H2",
-    );
-    // #endregion
 
     const whatsappRows = dbRows.filter((row) => row.namespace === "whatsapp");
 
@@ -88,14 +76,6 @@ export default async function WhatsAppSettingsPage() {
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
     console.error("[admin/settings/whatsapp] load failed:", errMsg);
-    // #region agent log
-    debugIngest(
-      "admin/settings/whatsapp/page.tsx:error",
-      "whatsapp settings load failed",
-      { error: errMsg.slice(0, 300) },
-      "H1",
-    );
-    // #endregion
     return (
       <Card className="mx-auto max-w-lg">
         <CardHeader>

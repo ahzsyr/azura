@@ -1,0 +1,224 @@
+{
+  "slug": "sxtsq-lite5-anti-noise-shield",
+  "id": "1402",
+  "productTitle": "Anti-Noise Shield for MikroTik SXTsq",
+  "name": "Anti-Noise Shield for MikroTik SXTsq",
+  "title": "Anti-Noise Shield for MikroTik SXTsq",
+  "title_extended": "",
+  "short_description": "Paired with Mikrotik SXTsq Lite5 antennas",
+  "description": "The Anti-Noise Shield for MikroTik SXTsq (ANS-SXTsq) is a precision-engineered accessory designed to significantly improve the performance of MikroTik SXTsq Lite5 devices. By providing targeted shielding around the antenna, the shield minimizes unwanted interference from nearby devices and external sources. This reduction in background noise ensures cleaner signals, higher stability, and improved overall performance for your wireless network deployments. Manufactured from durable steel and finished with a high-quality light gray powder coating, the shield is built to withstand demanding outdoor conditions while maintaining a professional appearance. Each shield is crafted with CNC precision, resulting in consistent accuracy and reliable installation. The ANS-SXTsq is the ideal solution for anyone looking to enhance signal clarity and reliability in crowded radio environments.",
+  "detailed_description": [
+    {
+      "heading": "Anti-Noise Solution",
+      "text": "The Anti-Noise Shield for MikroTik SXTsq (ANS-SXTsq) is a precision-engineered accessory designed to significantly improve the performance of MikroTik SXTsq Lite5 devices. By providing targeted shielding around the antenna, the shield minimizes unwanted interference from nearby devices and external sources. This reduction in background noise ensures cleaner signals, higher stability, and improved overall performance for your wireless network deployments. Manufactured from durable steel and finished with a high-quality light gray powder coating, the shield is built to withstand demanding outdoor conditions while maintaining a professional appearance. Each shield is crafted with CNC precision, resulting in consistent accuracy and reliable installation. The ANS-SXTsq is the ideal solution for anyone looking to enhance signal clarity and reliability in crowded radio environments."
+    }
+  ],
+  "brand": "Cyberteam",
+  "category": "Antenna Accessories",
+  "categories": [
+    "Antenna Accessories"
+  ],
+  "mpn": "ANS-SXTsq",
+  "manufacturer_part_number": "ANS-SXTsq",
+  "ean": "5901225203687",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com//images/catalogue/1402/sxtsq-lite5-anti-noise-shield_1-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXTsq",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1402/sxtsq-lite5-anti-noise-shield_2-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXTsq",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1402/sxtsq-lite5-anti-noise-shield_3-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXTsq",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1402/sxtsq-lite5-anti-noise-shield_4-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXTsq",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1402/sxtsq-lite5-anti-noise-shield_5-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXTsq",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1402/sxtsq-lite5-anti-noise-shield_6-medium.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXTsq",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com//images/catalogue/1402/sxtsq-lite5-anti-noise-shield_1-tiny.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXTsq"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1402/sxtsq-lite5-anti-noise-shield_2-tiny.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXTsq"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1402/sxtsq-lite5-anti-noise-shield_3-tiny.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXTsq"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1402/sxtsq-lite5-anti-noise-shield_4-tiny.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXTsq"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1402/sxtsq-lite5-anti-noise-shield_5-tiny.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXTsq"
+      },
+      {
+        "url": "https://www.getic.com//images/catalogue/1402/sxtsq-lite5-anti-noise-shield_6-tiny.jpg",
+        "alt": "Anti-Noise Shield for MikroTik SXTsq"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 9.63,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "class": "Pickup point",
+      "price": 15.67,
+      "currency": "USD",
+      "description": "receive in 18 business days"
+    },
+    {
+      "class": "Standard",
+      "price": 31.63,
+      "currency": "USD",
+      "description": "receive in 5 business days"
+    },
+    {
+      "class": "Express",
+      "price": 43.11,
+      "currency": "USD",
+      "description": "receive in 2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 3.0,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 100,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 1,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Steve",
+        "date": "2023-03-03",
+        "text": "This was bought mainly to help mounting of the SXTsq2 as the SXT only has some funny pass-through clamp/ty-rap fixings that I do not find practical.\nA word of caution :\nThe 4 screws provided are too small in diameter to fix the SXTsq2 to the shield. I had to drill out the holes in the shield and use 3mm diameter screws (same length) that bit into the plastic at the back of the SXTsq2 to hold it in place.\n\nDifferent websites state that this shield is designed for the SXTsq series, but GETIC only state SXTsq5. I have used it on the SXTsq2 (with screw mod).\nI my case :\nTx/Rx Signal Strength -41 dBm (with shield) and -28dBm (without shield)\nNoise Floor -108 dBm both cases\nTx/Rx CCQ 100 %(with shield) and 75 to 85% without.\n\nTo resume with shield less strength but better quality, and without more strength but lesser quality.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq 5 ac",
+      "url": "/product/sxt-sq-5-ac",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "RBSXTsqG-5acD",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik SXTsq Lite2",
+      "url": "/product/sxt-sq-lite2",
+      "price": 35.28,
+      "currency": "USD",
+      "mpn": "RBSXTsq2nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Rackmount kit for RB5009/L009 series",
+      "url": "/product/mikrotik-kit-k79",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "K-79",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": "",
+  "compatible_products": []
+}

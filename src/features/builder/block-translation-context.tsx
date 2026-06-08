@@ -4,8 +4,10 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
+  type MutableRefObject,
   type ReactNode,
 } from "react";
 import type { EntityTranslation } from "@prisma/client";
@@ -63,6 +65,8 @@ type ProviderProps = {
     localeCode: string,
     value: string
   ) => void;
+  /** Ref populated with getSerializedInputs for programmatic form submit */
+  serializedInputsRef?: MutableRefObject<(() => EntityTranslationInput[]) | null>;
 };
 
 export function BlockTranslationProvider({
@@ -73,6 +77,7 @@ export function BlockTranslationProvider({
   initialBlocks = [],
   initialRows = [],
   onLegacyPropUpdate,
+  serializedInputsRef,
 }: ProviderProps) {
   const defaultLocaleCode = locales.find((l) => l.isDefault)?.code ?? locales[0]?.code ?? "en";
 
@@ -140,6 +145,14 @@ export function BlockTranslationProvider({
     (): EntityTranslationInput[] => overrideMapToInputs(overrides),
     [overrides]
   );
+
+  useEffect(() => {
+    if (!serializedInputsRef) return;
+    serializedInputsRef.current = getSerializedInputs;
+    return () => {
+      serializedInputsRef.current = null;
+    };
+  }, [getSerializedInputs, serializedInputsRef]);
 
   const value = useMemo(
     () => ({

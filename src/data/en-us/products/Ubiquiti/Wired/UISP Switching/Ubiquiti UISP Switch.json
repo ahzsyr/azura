@@ -1,0 +1,351 @@
+{
+  "slug": "ubiquiti-uisp-switch-for-micropop-applications",
+  "id": "4075",
+  "productTitle": "Ubiquiti UISP Switch",
+  "name": "Ubiquiti UISP Switch",
+  "title": "Ubiquiti UISP Switch",
+  "title_extended": "",
+  "short_description": "(8) GbE RJ45 ports with 27V passive PoE, (1) 1G SFP port, Layer 2 switching features, AC/DC adapter included, Wall-mountable kit included",
+  "description": "Ideal for wireless ISP (WISP) deployments, the UISP™ Switch is a fanless, Layer 2 PoE switch with (8) GbE RJ45 ports and (1) 1G SFP port for an additional fiber uplink option. The UISP Switch is a cost-effective solution for WISPs looking to quickly and inexpensively deliver Gigabit wireless speeds to their customers. With its hefty 110W total PoE supply, the UISP Switch delivers substantial power to every radio in your service network. For larger deployments, pair it with the UISP Console to create a cohesive routing and switching hub. The UISP Switch is managed with the UISP application, a centralized platform where you can monitor and manage all of your UISP devices. The device is fanless and using thermal cooling for silent operation.",
+  "detailed_description": [
+    {
+      "heading": "Gigabit PoE switch for MicroPoP applications",
+      "text": "Ideal for wireless ISP (WISP) deployments, the UISP™ Switch is a fanless, Layer 2 PoE switch with (8) GbE RJ45 ports and (1) 1G SFP port for an additional fiber uplink option. The UISP Switch is a cost-effective solution for WISPs looking to quickly and inexpensively deliver Gigabit wireless speeds to their customers. With its hefty 110W total PoE supply, the UISP Switch delivers substantial power to every radio in your service network. For larger deployments, pair it with the UISP Console to create a cohesive routing and switching hub. The UISP Switch is managed with the UISP application, a centralized platform where you can monitor and manage all of your UISP devices. The device is fanless and using thermal cooling for silent operation."
+    },
+    {
+      "heading": "UISP Switch Features",
+      "text": "Bluetooth-powered setup via the UISP Mobile app is available. Thanks to UISP app you can centrally manage your networks and clients with ease. Simply organize your clients' plans, setup billing and invoicing, and grow your customer base. UISP application allows viewing network topology, advanced data analytics, quickly set up devices and manage them on the go with a powerful mobile app. Managed with the UISP application: Version 1.4.0-beta.11 and later."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Ubiquiti"
+  ],
+  "mpn": "UISP-S",
+  "manufacturer_part_number": "UISP-S",
+  "ean": "0810010076595",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4075/f936759ca4f0406b98fe923e15a1e8f1-648034ffe1c0d-medium.jpg",
+        "alt": "Ubiquiti UISP Switch",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4075/2453fc2020cf4c48aee4c36240aa1590-648034f476489-medium.jpg",
+        "alt": "Ubiquiti UISP Switch",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4075/87be0e804a944586873421e78a8e365d-648034f7f0e5b-medium.jpg",
+        "alt": "Ubiquiti UISP Switch",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4075/bb1c10fbce9c4f0ca9afe47a3134e768-648034fc1754a-medium.jpg",
+        "alt": "Ubiquiti UISP Switch",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4075/e2b040dfe4b84c05888d00f521cd7dec-648035040dbd2-medium.jpg",
+        "alt": "Ubiquiti UISP Switch",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4075/648605fecb7b40478b15bd0dd6851f81-6480357674601-medium.jpg",
+        "alt": "Ubiquiti UISP Switch",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 111.98,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management",
+        "Bluetooth"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(8) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "8 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 1G SFP"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        },
+        {
+          "name": "Bluetooth",
+          "value": "5.0 LE"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "24 - 28 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "110 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "27 V DC 4.4 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "210.4 x 95 x 29 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.61 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UISP Switch",
+      "url": "https://www.getic.com/files/catalogue/4075/uispswitch_datasheet-627e1e63b5cbe.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti UISP Switch",
+      "url": "https://www.getic.com/files/catalogue/4075/uispswitch_installationguide-627e1e6ed8689.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "service": "Pickup point",
+      "price": 25.85,
+      "currency": "USD",
+      "description": "receive in 18 business days"
+    },
+    {
+      "service": "Standard",
+      "price": 34.72,
+      "currency": "USD",
+      "description": "receive in 5 business days"
+    },
+    {
+      "service": "Express",
+      "price": 42.86,
+      "currency": "USD",
+      "description": "receive in 2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Gaik",
+        "date": "2024-12-05",
+        "text": "This is wonderful device.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-24-12W-G",
+      "url": "/product/ubiquiti-poe-24-gigabit",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "POE-24-12W-G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airCube ISP AP",
+      "url": "/product/aircube-isp",
+      "price": 30.84,
+      "currency": "USD",
+      "mpn": "ACB-ISP",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX NanoStation 5AC Loco 5-pack",
+      "url": "/product/nanostation-5-ac-loco-5-pack",
+      "price": 225.89,
+      "currency": "USD",
+      "mpn": "Loco5AC-5",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UISP Router",
+      "url": "/product/ubiquiti-uisp-router-for-micropop-applications",
+      "price": 79.00,
+      "currency": "USD",
+      "mpn": "UISP-R",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "31 pcs in stock"
+}

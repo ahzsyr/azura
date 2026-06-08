@@ -1,0 +1,174 @@
+{
+  "slug": "u-fiber-loco",
+  "id": "UF-LOCO",
+  "productTitle": "Ubiquiti Fiber Loco",
+  "name": "Ubiquiti Fiber Loco",
+  "title": "Ubiquiti Fiber Loco",
+  "title_extended": "",
+  "short_description": "WAN: 1xGPON Port, LAN: 1xGigabit Ethernet Port, Micro-USB Power Adapter included",
+  "description": "Buy Ubiquiti Fiber Loco. Price from 45.62 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [],
+  "brand": "Ubiquiti",
+  "category": "GPON",
+  "categories": [
+    "Ubiquiti",
+    "Fiber",
+    "GPON"
+  ],
+  "mpn": "UF-LOCO",
+  "manufacturer_part_number": "UF-LOCO",
+  "ean": "0817882021777",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1572/ufloco_top-5ff85a4106a2e-medium.jpg",
+        "alt": "Ubiquiti Fiber Loco",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1572/ufloco_back-5ff85a3e31c4f-medium.jpg",
+        "alt": "Ubiquiti Fiber Loco",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1572/ufloco_front-5ff85a3eedb55-medium.jpg",
+        "alt": "Ubiquiti Fiber Loco",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1572/ufloco_front_angle-5ff85a3fa484a-medium.jpg",
+        "alt": "Ubiquiti Fiber Loco",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1572/ufloco_ports-5ff85a405a25d-medium.jpg",
+        "alt": "Ubiquiti Fiber Loco",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/https://dl.ubnt.com/datasheets/ufiber/UFiber_GPON_DS.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Fiber Loco"
+      },
+      {
+        "url": "https://www.getic.com/https://dl.ubnt.com/guides/ufiber/UF-LOCO_QSG.pdf",
+        "title": "Quick Start Guide - Ubiquiti Fiber Loco"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 45.62,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Units",
+      "options": [
+        "1 pcs",
+        "5 pcs",
+        "20 pcs"
+      ],
+      "default": "1 pcs"
+    }
+  ],
+  "specifications": [],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Fiber Loco",
+      "url": "https://www.getic.com/https://dl.ubnt.com/datasheets/ufiber/UFiber_GPON_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti Fiber Loco",
+      "url": "https://www.getic.com/https://dl.ubnt.com/guides/ufiber/UF-LOCO_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "delivery_time": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {},
+    "breakdown": {},
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hAP lite classic",
+      "url": "/product/routerboard-hap-lite",
+      "price": 22.54,
+      "currency": "USD",
+      "mpn": "RB941-2nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti GPON OLT SFP Module, Class C+",
+      "url": "/product/u-fiber-gpon-c-plus",
+      "price": 73.00,
+      "currency": "USD",
+      "mpn": "UF-GP-C+",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Fiber Instant",
+      "url": "/product/ufiber-instant-optical-transceiver",
+      "price": 43.47,
+      "currency": "USD",
+      "mpn": "UF-Instant",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "Ubiquiti Elite Distributor"
+  ],
+  "stock_stat": "out_of_stock"
+}

@@ -6,8 +6,9 @@ import {
   useState,
   useCallback,
   type ReactNode,
+  type RefObject,
 } from "react";
-import { useAdminFormState } from "@/hooks/use-admin-form";
+import { useAdminFormDirtySync, useAdminFormState } from "@/hooks/use-admin-form";
 
 type AdminFormContextValue = {
   isDirty: boolean;
@@ -21,45 +22,69 @@ const AdminFormContext = createContext<AdminFormContextValue | null>(null);
 
 type AdminFormProviderProps = {
   children: ReactNode;
-  onSave?: () => void | Promise<void>;
-  onPublish?: () => void | Promise<void>;
+  onSave?: () => boolean | void | Promise<boolean | void>;
+  onPublish?: () => boolean | void | Promise<boolean | void>;
   onPreview?: () => void;
+  onCancel?: () => void | Promise<void>;
   onUndo?: () => void;
   onRedo?: () => void;
   canUndo?: boolean;
   canRedo?: boolean;
   canPublish?: boolean;
   canPreview?: boolean;
+  canCancel?: boolean;
+  trackFormId?: string;
 };
+
+export function AdminFormDirtySync({
+  formId,
+  formRef,
+  enabled = true,
+}: {
+  formId?: string;
+  formRef?: RefObject<HTMLFormElement | null>;
+  enabled?: boolean;
+}) {
+  useAdminFormDirtySync(formId ?? formRef ?? null, enabled);
+  return null;
+}
 
 export function AdminFormProvider({
   children,
   onSave,
   onPublish,
   onPreview,
+  onCancel,
   onUndo,
   onRedo,
   canUndo,
   canRedo,
   canPublish,
   canPreview,
+  canCancel,
+  trackFormId,
 }: AdminFormProviderProps) {
   const [isDirty, setIsDirty] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
   const { markUnsaved, markSaved } = useAdminFormState({
     onSave: async () => {
-      await onSave?.();
-      setIsDirty(false);
+      const ok = await onSave?.();
+      if (ok !== false) setIsDirty(false);
     },
     onPublish,
     onPreview,
+    onCancel: async () => {
+      await onCancel?.();
+      setIsDirty(false);
+    },
     onUndo,
     onRedo,
     canUndo,
     canRedo,
     canPublish,
     canPreview,
+    canCancel,
   });
 
   const setDirty = useCallback(
@@ -80,6 +105,7 @@ export function AdminFormProvider({
 
   return (
     <AdminFormContext.Provider value={{ isDirty, setDirty, showToast, toast, dismissToast }}>
+      {trackFormId ? <AdminFormDirtySync formId={trackFormId} /> : null}
       {children}
       {toast && (
         <div

@@ -1,14 +1,15 @@
-import { unlink, rename } from "node:fs/promises";
-import { resolve } from "node:path";
 import { NextResponse } from "next/server";
 import {
   buildMediaItems,
   readMeta,
   writeMeta,
   scanFilesystem,
+  deleteCatalogMediaFile,
 } from "@/features/media/fs/media-library.service";
 import type { MediaSortField, MediaType } from "@/features/media/fs/types";
 import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
+import { rename } from "node:fs/promises";
+import { resolve } from "node:path";
 
 export async function GET(request: Request) {
   const unauthorized = await requireCatalogAdmin();
@@ -123,13 +124,10 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "filename required" }, { status: 400 });
   }
 
-  const fsFiles = await scanFilesystem();
-  const found = fsFiles.find((f) => f.filename === filename);
-  if (found) {
-    await unlink(resolve(process.cwd(), `public/uploads/${found.subDir}/${filename}`));
+  const result = await deleteCatalogMediaFile(filename);
+  if (!result.ok) {
+    return NextResponse.json({ error: result.error }, { status: result.status });
   }
-  const meta = await readMeta();
-  delete meta[filename];
-  await writeMeta(meta);
-  return NextResponse.json({ ok: true });
+
+  return NextResponse.json({ ok: true, tombstoned: result.tombstoned ?? false });
 }

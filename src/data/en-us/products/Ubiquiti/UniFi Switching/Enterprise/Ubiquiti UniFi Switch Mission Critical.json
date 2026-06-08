@@ -1,0 +1,266 @@
+{
+  "slug": "switch-mission-critical-120w",
+  "id": "4504",
+  "productTitle": "Ubiquiti UniFi Switch Mission Critical",
+  "name": "Ubiquiti UniFi Switch Mission Critical",
+  "title": "Ubiquiti UniFi Switch Mission Critical",
+  "title_extended": "Ubiquiti UniFi Switch Mission Critical",
+  "short_description": "Mission Critical Switch, 1x GbE RJ45, 4xGbE PoE+, 4x GbE PoE++, 1.3\" touchscreen, 368Wh Li-Ion battery",
+  "description": "Mission Critical Switch, 1x GbE RJ45, 4xGbE PoE+, 4x GbE PoE++, 1.3\" touchscreen, 368Wh Li-Ion battery",
+  "detailed_description": [
+    {
+      "heading": "Uninterrupted Power",
+      "text": "The Ubiquiti UniFi Switch Mission Critical (USW-Mission-Critical) combines advanced networking with integrated power backup to ensure your network stays online during power interruptions. Equipped with a built-in 368Wh lithium-ion battery, this switch delivers uninterrupted Power over Ethernet (PoE) to up to eight devices, including high-powered access points and surveillance cameras. Featuring 4 GbE PoE+ ports and 4 GbE PoE++ ports with a total PoE budget of 120W, it supports devices requiring up to 64W per port. Two 230V AC outputs provide additional power options for connected equipment. This switch includes a dedicated GbE uplink for seamless network integration. Designed for critical applications such as enterprise environments, emergency response, and service providers, it minimizes downtime and guarantees continuous connectivity even during outages, securing your essential network infrastructure."
+    },
+    {
+      "heading": "Powerful Layer 2 Features",
+      "text": "With a high switching capacity of 18 Gbps and non-blocking throughput of 9 Gbps, the USW-Mission-Critical delivers exceptional Layer 2 switching performance ideal for demanding network environments. It supports key features including VLAN tagging, port isolation, Storm Control to mitigate broadcast storms, IGMP Snooping for efficient multicast handling, and link aggregation to increase bandwidth and redundancy. The switch includes a 1.3\" touchscreen LCM display for easy monitoring and configuration on site. Full compatibility with UniFi Network software (version 6.2.26 and later) enables centralized management and detailed network visibility through a user-friendly dashboard. This powerful combination of hardware and software gives IT administrators full control over network traffic while ensuring reliability and scalability for mission-critical deployments."
+    },
+    {
+      "heading": "Rugged and Reliable Design",
+      "text": "Engineered to perform in challenging conditions, the USW-Mission-Critical operates reliably within a wide temperature range of -5°C to +40°C. It supports universal AC input from 100 to 240V and external 48V DC battery inputs for flexible power options and redundancy. The system can deliver a maximum power consumption of 240W including PoE and AC output, while consuming just 50W without PoE. Its rack-mount 1U form factor fits easily into existing infrastructure. This switch complies with NDAA requirements, ensuring security and reliability for government and enterprise use. The integrated battery backup and intelligent power management provide peace of mind by maintaining critical network devices and connected services even during extended power failures, making it a top choice for mission-critical networking environments."
+    },
+    {
+      "heading": "Compare with similar products",
+      "text": ""
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "UniFi Switching",
+    "Enterprise"
+  ],
+  "mpn": "USW-Mission-Critical",
+  "manufacturer_part_number": "USW-Mission-Critical",
+  "ean": "0810010079879",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4504/2-64f822e6110e5-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Mission Critical front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4504/1-64f822e31aa01-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Mission Critical ports and back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4504/3-64f822e93c102-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Mission Critical additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4504/4-64f822ec4b486-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Mission Critical additional view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 1004.20,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(9) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "8 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE), 802.3at (PoE+), 802.3bt (PoE++)"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Battery Type",
+        "Internal Battery Energy"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "240 W"
+        },
+        {
+          "name": "Battery Type",
+          "value": "Li-Ion"
+        },
+        {
+          "name": "Internal Battery Energy",
+          "value": "368 Wh"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Galvanized steel"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442 x 480 x 44 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "9 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Mission Critical",
+      "url": "https://www.getic.com/files/catalogue/4504/uswmissioncritical_ds-64f822df9748d.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti UniFi Switch Mission Critical",
+      "url": "https://dl.ui.com/qig/mission-critical/#index"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {},
+    "breakdown": {},
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Aggregation",
+      "url": "/product/usw-switch-aggregation",
+      "price": 269.19,
+      "currency": "USD",
+      "mpn": "USW-Aggregation",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Enterprise 8 PoE",
+      "url": "/product/unifi-switch-enterprise-8-poe",
+      "price": 483.38,
+      "currency": "USD",
+      "mpn": "USW-Enterprise-8-PoE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch EnterpriseXG 24",
+      "url": "/product/unifi-switch-enterprise-xg-24",
+      "price": 1271.05,
+      "currency": "USD",
+      "mpn": "USW-EnterpriseXG-24",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,164 @@
+{
+  "slug": "ubiquiti-u-fiber-wifi-6-gpon-cpe",
+  "id": "UF-WIFI6",
+  "productTitle": "Ubiquiti Fiber WiFi 6",
+  "name": "Ubiquiti Fiber WiFi 6",
+  "title": "Ubiquiti Fiber WiFi 6",
+  "title_extended": "",
+  "short_description": "U Fiber WiFi 6, (1) GPON WAN port, (4) GbE RJ45 LAN ports, 2.4 Gbps max downstream line rate, 1.2 Gbps max upstream line rate",
+  "description": "Buy Ubiquiti Fiber WiFi 6. Price from 101.11 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [],
+  "brand": "Ubiquiti",
+  "category": "GPON",
+  "categories": [
+    "Ubiquiti",
+    "Fiber",
+    "GPON"
+  ],
+  "mpn": "UF-WIFI6",
+  "manufacturer_part_number": "UF-WIFI6",
+  "ean": "0810010078384",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4066/ufwifi6_1-62790894951e8-medium.jpg",
+        "alt": "Ubiquiti Fiber WiFi 6",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4066/ufwifi6_2-62790898c44a2-medium.jpg",
+        "alt": "Ubiquiti Fiber WiFi 6",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4066/ufwifi6_3-6279089cd5e3d-medium.jpg",
+        "alt": "Ubiquiti Fiber WiFi 6",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4066/ufwifi6_4-627908a0c9d4e-medium.jpg",
+        "alt": "Ubiquiti Fiber WiFi 6",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4066/ufwifi6_5-627908a587bbc-medium.jpg",
+        "alt": "Ubiquiti Fiber WiFi 6",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4066/ufwifi6_ds-62790879d4a1f.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Fiber WiFi 6"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/4066/ufwifi6-627908870be54.pdf",
+        "title": "Installation Guide - Ubiquiti Fiber WiFi 6"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 101.11,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Fiber WiFi 6",
+      "url": "https://www.getic.com/files/catalogue/4066/ufwifi6_ds-62790879d4a1f.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti Fiber WiFi 6",
+      "url": "https://www.getic.com/files/catalogue/4066/ufwifi6-627908870be54.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "delivery_time": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {},
+    "breakdown": {},
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti GPON OLT SFP Module, Class B+",
+      "url": "/product/u-fiber-gpon-b-plus",
+      "price": 74.17,
+      "currency": "USD",
+      "mpn": "UF-GP-B+",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Fiber OLT",
+      "url": "/product/u-fiber-olt",
+      "price": 1429.56,
+      "currency": "USD",
+      "mpn": "UF-OLT",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti GPON OLT SFP Module, Class C+",
+      "url": "/product/u-fiber-gpon-c-plus",
+      "price": 73.00,
+      "currency": "USD",
+      "mpn": "UF-GP-C+",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Fiber WiFi",
+      "url": "/product/ubiquiti-u-fiber-wifi",
+      "price": 71.52,
+      "currency": "USD",
+      "mpn": "UF-WIFI",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "Ubiquiti Elite Distributor"
+  ],
+  "stock_stat": "in_stock"
+}

@@ -1,0 +1,325 @@
+{
+  "slug": "ubiquiti-entry-sensor",
+  "id": "6917",
+  "productTitle": "Ubiquiti Entry Sensor",
+  "name": "Ubiquiti Entry Sensor",
+  "title": "Ubiquiti Entry Sensor",
+  "title_extended": "",
+  "short_description": "The Ubiquiti Entry Sensor (USL-Entry) is a compact and precise SuperLink door and window sensor designed to provide dependable open/close monitoring in residential, commercial, or industrial environments.",
+  "description": "The Ubiquiti Entry Sensor (USL-Entry) is a compact and precise SuperLink door and window sensor designed to provide dependable open/close monitoring in residential, commercial, or industrial environments. Its main sensor unit measures 75.5 × 23.5 × 22.5 mm, while the magnet measures 39 × 15.1 × 12.9 mm, allowing the complete assembly to remain discreet when mounted on frames of different sizes. Built around a durable polycarbonate housing, the sensor delivers long-lasting performance and a clean, modern look that blends naturally with most interior surfaces. A built-in reed switch detects changes in door or window position and reports them instantly to the UniFi Protect system. Power is supplied by a replaceable CR123A lithium battery, which enables up to 6 years of battery life, minimizing maintenance needs. Installation is straightforward — you can use either adhesive mounting for simple placement or screws for added mechanical security. With its compact construction, long lifespan, and reliable triggering, the Entry Sensor is an effective and unobtrusive security add-on for any property.",
+  "detailed_description": [
+    {
+      "heading": "Reliable Door/Window Sensor",
+      "text": "The Ubiquiti Entry Sensor (USL-Entry) is a compact and precise SuperLink door and window sensor designed to provide dependable open/close monitoring in residential, commercial, or industrial environments. Its main sensor unit measures 75.5 × 23.5 × 22.5 mm, while the magnet measures 39 × 15.1 × 12.9 mm, allowing the complete assembly to remain discreet when mounted on frames of different sizes. Built around a durable polycarbonate housing, the sensor delivers long-lasting performance and a clean, modern look that blends naturally with most interior surfaces. A built-in reed switch detects changes in door or window position and reports them instantly to the UniFi Protect system. Power is supplied by a replaceable CR123A lithium battery, which enables up to 6 years of battery life, minimizing maintenance needs. Installation is straightforward — you can use either adhesive mounting for simple placement or screws for added mechanical security. With its compact construction, long lifespan, and reliable triggering, the Entry Sensor is an effective and unobtrusive security add-on for any property."
+    },
+    {
+      "heading": "Long-Range & Secure Wireless",
+      "text": "The Entry Sensor leverages Ubiquiti’s SuperLink low-power long-range wireless technology, which operates on region-specific frequency bands: 865.1–869.5 MHz in EU regions and 915.6–927.6 MHz in US regions. This optimized radio design allows the device to achieve a maximum line-of-sight communication range of up to 2 km, making it suitable for larger properties, detached buildings, warehouses, and long-distance entry points where traditional short-range sensors may fail. With a transmit power of 14 dBm and 0 dBi antenna gain, the sensor maintains stable connectivity while keeping energy consumption low. Its maximum power usage is only 27.7 mW, which further contributes to its extended battery life. The Entry Sensor is fully integrated into the UniFi Protect ecosystem, ensuring seamless pairing, fast event reporting, and secure data handling. It also meets CE, FCC, and IC certification requirements and is NDAA-compliant, ensuring suitability for professional installations. Combined with its low-maintenance battery operation and robust wireless performance, this sensor provides dependable long-range entry monitoring without additional wiring."
+    },
+    {
+      "heading": "Easy Integration & Maintenance",
+      "text": "Thanks to its simple setup process and minimal hardware requirements, the Entry Sensor integrates easily into doors and windows of various types. The main sensor unit weighs only 41 g, while the magnet weighs 22 g, making them light enough for adhesive mounting yet strong enough for screw installation when greater durability is preferred. A built-in function button supports quick pairing, signal testing, and device resets, while a multicolor LED indicator provides immediate feedback about operating status, connectivity, and configuration. Once installed, the sensor requires virtually no ongoing maintenance due to its long battery life and rugged polycarbonate enclosure. No external wiring or auxiliary modules are needed, and its wireless SuperLink connection ensures consistent performance with UniFi Protect controllers and door monitoring workflows. Because the device is designed for continuous 24/7 operation, it is ideal for homes, offices, retail environments, storage units, and other access-controlled locations. With its combination of simple installation, intuitive management, and reliable long-term performance, the Entry Sensor offers a practical and professional-grade solution for monitoring doors and windows."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Special Devices",
+    "Camera Security",
+    "Ubiquiti"
+  ],
+  "mpn": "USL-Entry",
+  "manufacturer_part_number": "USL-Entry",
+  "ean": "0810084699676",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/1-69245b8d74db7-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/2-69245b90a1cfc-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/3-69245b9950ec1-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/4-69245b9d91446-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/5-69245ba081793-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/6-69245ba437929-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/7-69245ba86d69f-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/8-69245bacf1336-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/9-69245baff2f2d-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/10-69245bb3121d3-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/11-69245bb5c9e8b-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/12-69245bb8a2dfd-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/13-69245bbb93eb3-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/14-69245bbfe1b17-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/15-69245bc2c6b2b-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/16-69245bc5d2546-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/17-69245bc85682a-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/18-69245bcb1ea3a-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6917/19-69245bcde87b8-medium.jpg",
+        "alt": "Ubiquiti Entry Sensor",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/6917/unifientrysensor_ds-69245b80b40d3.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Entry Sensor"
+      }
+    ],
+    "3d_model": true
+  },
+  "price": {
+    "value": 42.11,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Power",
+      "features": [
+        "Battery Type",
+        "Long Battery Life"
+      ],
+      "items": [
+        {
+          "name": "Battery Type",
+          "value": "CR123A"
+        },
+        {
+          "name": "Long Battery Life",
+          "value": "6 years"
+        }
+      ]
+    },
+    {
+      "technology": "Sensor",
+      "features": [
+        "Sensor Type"
+      ],
+      "items": [
+        {
+          "name": "Sensor Type",
+          "value": "Magnet Contact"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Weight",
+          "value": "0.063 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Magnetic, Screw"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Entry Sensor",
+      "url": "https://www.getic.com/files/catalogue/6917/unifientrysensor_ds-69245b80b40d3.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.60,
+        "currency": "USD",
+        "days": 18
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.48,
+        "currency": "USD",
+        "days": 5
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.91,
+        "currency": "USD",
+        "days": 2
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti PoE Smart Chime",
+      "url": "/product/ubiquiti-poe-smart-chime",
+      "price": 83.85,
+      "currency": "USD",
+      "mpn": "UACC-Chime-PoE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti SuperLink",
+      "url": "/product/ubiquiti-superlink",
+      "price": 122.70,
+      "currency": "USD",
+      "mpn": "UP-SuperLink",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Siren PoE",
+      "url": "/product/ubiquiti-siren-poe",
+      "price": 101.26,
+      "currency": "USD",
+      "mpn": "UP-Siren-PoE",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Environmental Sensor",
+      "url": "/product/ubiquiti-environmental-sensor",
+      "price": 46.46,
+      "currency": "USD",
+      "mpn": "USL-Environmental",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

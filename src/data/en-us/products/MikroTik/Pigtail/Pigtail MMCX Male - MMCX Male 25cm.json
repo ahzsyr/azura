@@ -1,0 +1,176 @@
+{
+  "slug": "pigtail-mmcx-male-mmcx-male-25cm",
+  "id": 541,
+  "productTitle": "Pigtail MMCX Male / MMCX Male 25cm",
+  "name": "Pigtail MMCX Male / MMCX Male 25cm",
+  "title": "Pigtail MMCX Male / MMCX Male 25cm",
+  "title_extended": "",
+  "short_description": "High Quality MMCX Male to MMCX Male Low Loss Pigtail RG316 25cm",
+  "description": "The Pigtail MMCX Male / MMCX Male 25cm (P-MM-MM-25) is designed to deliver stable and efficient connectivity between devices with MMCX connectors. With a practical length of 25 cm, it offers enough flexibility for installation while keeping signal loss at a minimum. This makes it an excellent choice for both home users and professionals who require reliable signal transmission. Manufactured from high-quality materials, the pigtail provides long-lasting durability and consistent performance. The dual MMCX male connectors ensure a secure and firm fit, minimizing the risk of accidental disconnections and guaranteeing stable operation even in demanding setups.",
+  "detailed_description": [
+    {
+      "heading": "Reliable Connectivity",
+      "text": "The Pigtail MMCX Male / MMCX Male 25cm (P-MM-MM-25) is designed to deliver stable and efficient connectivity between devices with MMCX connectors. With a practical length of 25 cm, it offers enough flexibility for installation while keeping signal loss at a minimum. This makes it an excellent choice for both home users and professionals who require reliable signal transmission. Manufactured from high-quality materials, the pigtail provides long-lasting durability and consistent performance. The dual MMCX male connectors ensure a secure and firm fit, minimizing the risk of accidental disconnections and guaranteeing stable operation even in demanding setups."
+    },
+    {
+      "heading": "Versatile Accessory",
+      "text": "The P-MM-MM-25 is a versatile accessory that expands the compatibility of your networking and RF equipment. By enabling connections to high-gain or specialized external antennas, it helps enhance both signal reception and transmission for Wi-Fi, LTE, and other RF applications. This improvement in coverage and network stability makes it especially useful for wireless routers, access points, IoT devices, and custom projects. Its compact design ensures flexibility during installation while minimizing signal loss, providing dependable performance in a variety of scenarios. Whether you need better coverage at home, stronger connectivity for office use, or a reliable solution for professional setups, this pigtail offers a simple and effective way to upgrade your system."
+    }
+  ],
+  "brand": "OEM",
+  "category": "Antenna Accessories",
+  "categories": [
+    "Outdoor Wireless",
+    "Antenna Accessories",
+    "Antenna Pigtails"
+  ],
+  "mpn": "P-MM-MM-25",
+  "manufacturer_part_number": "P-MM-MM-25",
+  "ean": "0701017581161",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/541/mmcx_mmcx_1-medium.jpg",
+        "alt": "Pigtail MMCX Male / MMCX Male 25cm",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/541/mmcx_mmcx_2-medium.jpg",
+        "alt": "Pigtail MMCX Male / MMCX Male 25cm",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/541/mmcx_mmcx_1-tiny.jpg",
+        "alt": "Pigtail MMCX Male / MMCX Male 25cm"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/541/mmcx_mmcx_2-tiny.jpg",
+        "alt": "Pigtail MMCX Male / MMCX Male 25cm"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 3.66,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Connector",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Connector",
+          "value": "MMCX Male - MMCX Male"
+        },
+        {
+          "name": "Cable Length",
+          "value": "0.25 m"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.66,
+        "days": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.61,
+        "days": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.08,
+        "days": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Pigtail MMCX Male / N Male 25cm",
+      "url": "/product/pigtail-mmcx-male-n-male-25cm",
+      "price": 3.66,
+      "currency": "USD",
+      "mpn": "P-MM-NM-25",
+      "availability": "InStock"
+    },
+    {
+      "name": "Pigtail MMCX Male / N Female 25cm",
+      "url": "/product/pigtail-mmcx-male-n-female-25cm",
+      "price": 3.66,
+      "currency": "USD",
+      "mpn": "P-MM-NF-25",
+      "availability": "InStock"
+    },
+    {
+      "name": "Pigtail MMCX Male / SMA Male 25cm",
+      "url": "/product/pigtail-mmcx-male-sma-male-25cm",
+      "price": 2.65,
+      "currency": "USD",
+      "mpn": "P-MM-SM-25",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

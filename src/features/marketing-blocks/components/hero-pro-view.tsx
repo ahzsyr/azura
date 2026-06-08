@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { HeroAtmosphere } from "@/components/marketing/hero-atmosphere";
 import { BlockBackgroundLayer } from "@/features/marketing-blocks/components/block-background-layer";
+import { clampOverlayOpacity } from "@/features/marketing-blocks/lib/background-scrim";
 import { BlockCtaButtons } from "@/features/marketing-blocks/components/block-cta-buttons";
 import { cn } from "@/lib/utils";
 import { presetHeroGradientClass } from "@/lib/theme/preset-surface-classes";
+import { shouldShowHeroOverlay } from "@/features/marketing-blocks/lib/hero-pro-overlay";
 
 type Props = {
   title: string;
@@ -23,6 +25,8 @@ type Props = {
   overlayClass?: string;
   lazyLoad?: boolean;
   useTransparentHero?: boolean;
+  /** When true, defer background to block Look & Feel section background */
+  useBlockVisualBg?: boolean;
 };
 
 export function HeroProView({
@@ -43,17 +47,26 @@ export function HeroProView({
   overlayClass,
   lazyLoad,
   useTransparentHero,
+  useBlockVisualBg = false,
 }: Props) {
   const hasHeroImage = Boolean(imageUrl);
   const isSplit = layout === "splitImageLeft" || layout === "splitImageRight";
   const hasFilledBackground =
-    hasHeroImage ||
-    backgroundType === "video" ||
-    backgroundType === "gradient" ||
-    backgroundType === "image";
+    !useBlockVisualBg &&
+    (hasHeroImage ||
+      backgroundType === "video" ||
+      backgroundType === "gradient" ||
+      backgroundType === "image");
   const isLightHero = useTransparentHero || (!hasFilledBackground && backgroundType !== "solid");
+  const showHeroOverlay = shouldShowHeroOverlay({
+    useTransparentHero,
+    useBlockVisualBg,
+    backgroundType,
+    imageUrl,
+  });
   const alignClass =
     align === "left" ? "text-left items-start" : align === "right" ? "text-right items-end" : "text-center items-center";
+  const scrimOpacity = clampOverlayOpacity(overlayOpacity);
 
   const content = (
     <>
@@ -110,14 +123,23 @@ export function HeroProView({
           )}
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
             {(foregroundImageUrl || imageUrl) && (
-              <Image
-                src={foregroundImageUrl || imageUrl!}
-                alt=""
-                fill
-                className="object-cover"
-                priority={!lazyLoad}
-                sizes="(max-width:768px) 100vw, 600px"
-              />
+              <>
+                <Image
+                  src={foregroundImageUrl || imageUrl!}
+                  alt=""
+                  fill
+                  className="object-cover"
+                  priority={!lazyLoad}
+                  sizes="(max-width:768px) 100vw, 600px"
+                />
+                {scrimOpacity > 0 && (
+                  <div
+                    className="absolute inset-0 bg-black"
+                    style={{ opacity: scrimOpacity / 100 }}
+                    aria-hidden
+                  />
+                )}
+              </>
             )}
           </div>
           {layout === "splitImageLeft" && (
@@ -134,7 +156,7 @@ export function HeroProView({
       className={cn(
         "relative flex items-center justify-center overflow-hidden",
         useTransparentHero && presetHeroGradientClass(),
-        useTransparentHero ? "hero-overlay--transparent" : "hero-overlay",
+        useTransparentHero && "hero-overlay--transparent",
         hasFilledBackground && !useTransparentHero ? "text-white" : "text-foreground",
         overlayClass
       )}
@@ -147,7 +169,7 @@ export function HeroProView({
         overlayOpacity={overlayOpacity}
         className="absolute inset-0"
       />
-      <HeroAtmosphere showGlow={!useTransparentHero || hasHeroImage} />
+      <HeroAtmosphere showGlow={!useTransparentHero && !useBlockVisualBg && (hasHeroImage || showHeroOverlay)} />
       <div className={cn("container-premium relative z-10 flex flex-col py-20", alignClass, "justify-center")}>
         {content}
       </div>

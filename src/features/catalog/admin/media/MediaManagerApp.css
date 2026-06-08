@@ -278,6 +278,23 @@
   font-family: var(--font-mono, monospace);
   font-size: 0.72rem;
 }
+.mm-storage-notice {
+  margin-bottom: 0.75rem;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+.mm-storage-notice--info {
+  background: color-mix(in srgb, var(--p, #4f8ef7) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--p, #4f8ef7) 28%, transparent);
+  color: var(--t, #e6edf3);
+}
+.mm-storage-notice--error {
+  background: color-mix(in srgb, #f87171 10%, transparent);
+  border: 1px solid color-mix(in srgb, #f87171 30%, transparent);
+  color: #f87171;
+}
 .mm-loading {
   display: flex;
   flex-direction: column;

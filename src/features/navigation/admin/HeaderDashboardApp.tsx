@@ -1,7 +1,7 @@
 "use client";
 
 import { useStore } from "@nanostores/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import type { HeaderBuilderCatalog } from "@/features/navigation/types";
 import { $workspace, setActiveMenuKey } from "@/features/navigation/header-store";
 import { loadHeaderCatalogFromServer } from "@/features/navigation/header-catalog-api";
@@ -102,6 +102,12 @@ function HeaderDashboardLoading() {
 
 export function HeaderDashboardApp() {
   const onSave = useHeaderWorkspaceSave();
+  const onCancel = useCallback(async () => {
+    const result = await loadWorkspaceFromServer();
+    if (!result.ok) {
+      throw new Error("Could not reload header workspace.");
+    }
+  }, []);
   const [catalog, setCatalog] = useState<HeaderBuilderCatalog>(emptyCatalog);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -149,7 +155,7 @@ export function HeaderDashboardApp() {
   }
 
   return (
-    <AdminFormProvider onSave={onSave}>
+    <AdminFormProvider onSave={onSave} onCancel={onCancel}>
       <HeaderDashboardContent catalog={catalog} />
     </AdminFormProvider>
   );

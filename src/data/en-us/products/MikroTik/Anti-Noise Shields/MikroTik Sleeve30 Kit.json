@@ -1,0 +1,205 @@
+{
+  "slug": "sleeve-for-mant30",
+  "id": "1027",
+  "productTitle": "MikroTik Sleeve30 Kit",
+  "name": "MikroTik Sleeve30 Kit",
+  "title": "MikroTik Sleeve30 Kit",
+  "title_extended": "",
+  "short_description": "Sleeve30 kit for mANT30 series parabolic antenna to enhance point-to-point link performance",
+  "description": "Sleeve30 kit for mANT30 series parabolic antenna to enhance point-to-point link performance",
+  "detailed_description": [
+    {
+      "heading": "Protective Antenna Kit",
+      "text": "The MikroTik Sleeve30 Kit (MPN: Sleeve30) is specifically designed for MikroTik mANT30 parabolic antennas, providing additional protection, durability, and improved performance in demanding outdoor conditions. By shielding the antenna feed, the sleeve minimizes the impact of environmental factors such as snow, rain, dust, and UV radiation, helping extend the lifespan of your equipment while maintaining consistent signal stability. It also reduces unwanted signal interference, ensuring better link quality and overall efficiency in long-distance wireless deployments. Beyond its functional advantages, the sleeve enhances the antenna’s durability and appearance, making it more resilient in harsh environments. Installation is straightforward and does not require special tools or advanced technical knowledge, allowing for quick and secure setup. Whether used in urban, rural, or coastal deployments, the MikroTik Sleeve30 Kit is a cost-effective solution for ensuring reliable performance and long-term protection of your mANT30 antennas."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Antenna Accessories",
+  "categories": [
+    "Antenna Accessories",
+    "Outdoor Wireless"
+  ],
+  "mpn": "Sleeve30",
+  "manufacturer_part_number": "Sleeve30",
+  "ean": "4752224001832",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1027/sleeve30_1-5fd8a0950dd93-medium.jpg",
+        "alt": "MikroTik Sleeve30 Kit",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-sleeve30.pdf",
+        "type": "Technical Specs / Datasheet"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/mikrotik/sleeve-assembly-instructions.pdf",
+        "type": "Quick Start Guide"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 124.52,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Aluminium"
+        },
+        {
+          "name": "Dimensions",
+          "value": "700 x 700 x 220 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "2.95 kg"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Sleeve30 Kit",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-sleeve30.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik Sleeve30 Kit",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/sleeve-assembly-instructions.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Hrvoje",
+        "date": "2023-08-02",
+        "text": "TOP      !",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik RPSMA Male to RPSMA Male 50cm Flex-Guide Cable",
+      "url": "/product/pigtail-rpsma-male-rpsma-male-50-cm-flex-guide",
+      "price": 4.50,
+      "currency": "USD",
+      "mpn": "ACRPSMA",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik mANT30 PA",
+      "url": "/product/mant30-pa",
+      "price": 180.26,
+      "currency": "USD",
+      "mpn": "MTAD-5G-30D3-PA",
+      "availability": "InStock"
+    },
+    {
+      "name": "NetMetal 5 triple",
+      "url": "/product/netmetal-5-rb922uags-5hpact-nm",
+      "price": 123.46,
+      "currency": "USD",
+      "mpn": "RB922UAGS-5HPacT-NM",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik hAP ac3",
+      "url": "/product/mikrotik-hap-ac3",
+      "price": 88.22,
+      "currency": "USD",
+      "mpn": "RBD53iG-5HacD2HnD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": "3 pcs in stock"
+}

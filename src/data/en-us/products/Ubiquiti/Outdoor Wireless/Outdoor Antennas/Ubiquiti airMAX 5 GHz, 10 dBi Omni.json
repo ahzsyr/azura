@@ -1,0 +1,257 @@
+{
+  "slug": "omni-airmax-5g10",
+  "id": 75,
+  "productTitle": "Ubiquiti airMAX 5 GHz, 10 dBi Omni",
+  "name": "Ubiquiti airMAX 5 GHz, 10 dBi Omni",
+  "title": "Ubiquiti airMAX 5 GHz, 10 dBi Omni",
+  "title_extended": "Ubiquiti airMAX 5 GHz 10 dBi Omni Antenna for Outdoor Wireless Networks",
+  "short_description": "Outdoor Omni Antenna 5Ghz, 10dBi, 2x2 MIMO, 360°",
+  "description": "Outdoor Omni Antenna 5Ghz, 10dBi, 2x2 MIMO, 360°",
+  "detailed_description": [
+    {
+      "heading": "High-Performance Omnidirectional Antenna",
+      "text": "The Omni AirMax 5G10 is a high-performance omnidirectional antenna engineered by Ubiquiti Networks, designed to significantly enhance the capabilities of wireless networking systems. This model is a testament to Ubiquiti's commitment to innovation in the field of wireless communications, offering a solution tailored for the 5 GHz frequency band, which is increasingly utilized for its capacity to support high-speed data transmission and reduced interference compared to the more congested 2.4 GHz band."
+    },
+    {
+      "heading": "Seamless Integration",
+      "text": "The Omni AirMax 5G10 antenna is explicitly designed to integrate seamlessly with Ubiquiti Networks' product line, particularly the RocketM and Rocket Prism series of base stations that operate within the 5 GHz frequency band."
+    },
+    {
+      "heading": "Dual-Linear Polarization",
+      "text": "The AMO-5G10's design features dual-linear polarization, which enhances its ability to transmit and receive signals more efficiently. This characteristic is crucial for reducing the potential for interference in environments where multiple devices may be operating within the same frequency band. By effectively managing signal polarization, the AMO-5G10 can deliver clearer and more reliable connections, which is particularly beneficial for networks that support a high volume of simultaneous users or data-intensive applications."
+    },
+    {
+      "heading": "Broad 360-Degree Coverage",
+      "text": "Crafted to deliver broad, 360-degree coverage, the AMO-5G10 is optimized for use in a variety of outdoor applications where wide-area wireless coverage is essential. It achieves this through its 10 dBi gain, which strikes a balance between extending signal reach and maintaining a wide coverage area. This omnidirectional pattern ensures that users located in different directions relative to the antenna can achieve reliable connectivity without the need for multiple directional antennas pointed towards each specific area."
+    },
+    {
+      "heading": "Durable Outdoor Construction",
+      "text": "Ubiquiti has engineered the AMO-5G10 with durability in mind, ensuring that it is capable of withstanding the harsh conditions often encountered in outdoor networking environments. This includes resistance to UV radiation, rain, and wind, allowing the antenna to maintain optimal performance over time without succumbing to environmental wear and tear. The inclusion of a robust mounting kit facilitates secure installation on poles or towers, providing network operators with the flexibility to position the antenna in the most effective location to maximize coverage and signal quality."
+    },
+    {
+      "heading": "Compatibility and Performance",
+      "text": "Compatibility is a key aspect of the AMO-5G10's design, with the antenna being specifically optimized for integration with Ubiquiti's line of RocketM and Rocket Prism radios. When paired with a RocketM or Rocket Prism, the AMO-5G10 transforms into a powerful base station capable of delivering wireless broadband services across extensive areas. This combination leverages Ubiquiti’s airMAX technology, which includes proprietary protocols designed to enhance throughput and reduce latency in point-to-multipoint networks."
+    },
+    {
+      "heading": "Diverse Applications",
+      "text": "The applications for the AMO-5G10 are diverse, ranging from providing internet access in rural communities where traditional broadband infrastructure may not be available, to establishing wide-coverage Wi-Fi networks in large public venues, parks, and recreational areas. Its omnidirectional coverage makes it an ideal choice for event setups, where temporary but comprehensive wireless access is needed. Additionally, the AMO-5G10 can serve as the backbone for surveillance systems, offering a reliable wireless connection to cameras distributed across a wide area like industrial complexes, farms, or large estates, the antenna can facilitate wireless connectivity for security cameras, allowing for real-time monitoring without the need for extensive cabling."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Wireless Antennas",
+  "categories": [
+    "Wireless Antennas",
+    "Ubiquiti",
+    "Outdoor Wireless"
+  ],
+  "mpn": "AMO-5G10",
+  "manufacturer_part_number": "AMO-5G10",
+  "ean": "0810354020988",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/75/amo5g10-5fec2a6c8bc2b-medium.jpg",
+        "alt": "Ubiquiti airMAX 5 GHz, 10 dBi Omni",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/75/amo5g10-5fec2a6c8bc2b-tiny.jpg",
+        "alt": "Ubiquiti airMAX 5 GHz, 10 dBi Omni"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/oLQB5IIUt7w",
+        "type": "youtube"
+      }
+    ],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - Ubiquiti airMAX 5 GHz, 10 dBi Omni",
+        "url": "https://www.getic.com/https://dl.ubnt.com/datasheets/airmaxomni/amo_ds_web.pdf"
+      },
+      {
+        "title": "Quick Start Guide - Ubiquiti airMAX 5 GHz, 10 dBi Omni",
+        "url": "https://www.getic.com/https://dl.ubnt.com/guides/omni/airMAX_Omni_AMO-5G10_QSG.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 110.98,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization",
+        "VSWR"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "5.45 - 5.85 (GHz) 10 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "360 °"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        },
+        {
+          "name": "VSWR",
+          "value": "< 1.6"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "582 x 90 x 65 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.68 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX 5 GHz, 10 dBi Omni",
+      "url": "https://www.getic.com/https://dl.ubnt.com/datasheets/airmaxomni/amo_ds_web.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX 5 GHz, 10 dBi Omni",
+      "url": "https://www.getic.com/https://dl.ubnt.com/guides/omni/airMAX_Omni_AMO-5G10_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 19 dBi Sector",
+      "url": "/product/sector-airmax-5g19-120",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "AM-5G19-120",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 16 dBi Sector",
+      "url": "/product/sector-airmax-5g16-120",
+      "price": 71.52,
+      "currency": "USD",
+      "mpn": "AM-5G16-120",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Rocket AC Lite",
+      "url": "/product/rocket-ac-lite",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "R5AC-LITE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Rocket Prism 5AC",
+      "url": "/product/rocket-ac-prism-gen2",
+      "price": 229.40,
+      "currency": "USD",
+      "mpn": "RP-5AC-Gen2",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

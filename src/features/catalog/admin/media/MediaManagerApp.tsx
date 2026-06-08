@@ -7,6 +7,10 @@ import type {
   MediaItem, MediaListResponse, MediaType,
   MediaSortField, MediaSortDir, MediaUsage,
 } from "./types";
+import {
+  catalogDeleteSuccessMessage,
+  formatCatalogDeleteError,
+} from "@/features/media/components/catalog-site-storage-notice";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -258,11 +262,17 @@ export function MediaManagerApp({
     if (!confirm(`Delete "${item.filename}"? This cannot be undone.`)) return;
     try {
       const res = await fetch(`/api/catalog-media?filename=${encodeURIComponent(item.filename)}`, { method: "DELETE" });
-      if (!res.ok) { const d = await res.json() as { error?: string }; throw new Error(d.error ?? "Delete failed"); }
+      const d = await res.json() as { error?: string; tombstoned?: boolean };
+      if (!res.ok) throw new Error(d.error ?? "Delete failed");
+      const tombstoneMsg = catalogDeleteSuccessMessage(Boolean(d.tombstoned));
+      if (tombstoneMsg) alert(tombstoneMsg);
       setDetailItem(null);
       setSelected((prev) => { const n = new Set(prev); n.delete(item.filename); return n; });
       void fetchMedia(page);
-    } catch (e: unknown) { alert(e instanceof Error ? e.message : "Delete failed"); }
+    } catch (e: unknown) {
+      const raw = e instanceof Error ? e.message : "Delete failed";
+      alert(formatCatalogDeleteError(raw));
+    }
   }, [fetchMedia, page]);
 
   const bulkDelete = useCallback(async () => {
@@ -274,12 +284,29 @@ export function MediaManagerApp({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "delete", filenames: Array.from(selected) }),
       });
-      const d = await res.json() as { deleted: string[]; failed: string[] };
-      if (d.failed?.length) alert(`Failed to delete: ${d.failed.join(", ")}`);
+      const d = await res.json() as { deleted?: string[]; failed?: string[]; tombstoned?: string[]; error?: string };
+      if (!res.ok) {
+        throw new Error(d.error ?? "Bulk delete failed");
+      }
+      if (d.failed?.length) {
+        alert(`Failed to delete: ${d.failed.join(", ")}`);
+      }
+      if (d.tombstoned?.length) {
+        alert(
+          `Hidden ${d.tombstoned.length} bundled file(s) from the library (cannot remove from deployment disk on this host).`,
+        );
+      }
+      if (!d.deleted?.length) {
+        alert("No files were deleted.");
+        return;
+      }
       setSelected(new Set());
       setDetailItem(null);
       void fetchMedia(page);
-    } catch (e: unknown) { alert(e instanceof Error ? e.message : "Bulk delete failed"); }
+    } catch (e: unknown) {
+      const raw = e instanceof Error ? e.message : "Bulk delete failed";
+      alert(formatCatalogDeleteError(raw));
+    }
   }, [selected, fetchMedia, page]);
 
   // ── Replace ───────────────────────────────────────────────────────────────

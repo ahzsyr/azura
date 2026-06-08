@@ -82,7 +82,11 @@ export function MediaManager({
         : `Delete ${selected.length} file(s)?`;
     if (!confirm(msg)) return;
     startTransition(async () => {
-      await deleteMediaAssets(selected);
+      const result = await deleteMediaAssets(selected);
+      if (!result.success) {
+        alert(result.error ?? "Delete failed. Please try again.");
+        return;
+      }
       setAssets(assets.filter((a) => !selected.includes(a.id)));
       setSelected([]);
       if (detailId && selected.includes(detailId)) setDetailId(null);

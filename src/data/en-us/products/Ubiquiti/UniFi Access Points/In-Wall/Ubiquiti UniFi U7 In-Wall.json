@@ -1,0 +1,343 @@
+{
+  "slug": "ubiquiti-unifi-u7-in-wall",
+  "id": "U7-IW",
+  "productTitle": "Ubiquiti UniFi U7 In-Wall",
+  "name": "Ubiquiti UniFi U7 In-Wall",
+  "title": "Ubiquiti UniFi U7 In-Wall Access Point – WiFi 7 Wall-Mounted AP",
+  "title_extended": "Ubiquiti UniFi U7 In-Wall Access Point – WiFi 7 Wall-Mounted AP",
+  "short_description": "",
+  "description": "The Ubiquiti UniFi U7 In-Wall (U7-IW) is a cutting-edge WiFi 7 access point designed for seamless in-wall installation, offering ultra-fast wireless connectivity and robust networking features. Equipped with 4 spatial streams, the U7-IW provides exceptional wireless performance with speeds of up to 4.3 Gbps in the 5 GHz band and 688 Mbps in the 2.4 GHz band. The 2x2 MU-MIMO and OFDMA technologies ensure efficient data transmission, reducing latency and enhancing network capacity. Internal antennas (8 dBi for 5 GHz, 4 dBi for 2.4 GHz) maximize signal strength, providing reliable coverage of up to 115 m².",
+  "detailed_description": [
+    {
+      "heading": "Exceptional Wireless Performance",
+      "text": "The Ubiquiti UniFi U7 In-Wall (U7-IW) is a cutting-edge WiFi 7 access point designed for seamless in-wall installation, offering ultra-fast wireless connectivity and robust networking features. Equipped with 4 spatial streams, the U7-IW provides exceptional wireless performance with speeds of up to 4.3 Gbps in the 5 GHz band and 688 Mbps in the 2.4 GHz band. The 2x2 MU-MIMO and OFDMA technologies ensure efficient data transmission, reducing latency and enhancing network capacity. Internal antennas (8 dBi for 5 GHz, 4 dBi for 2.4 GHz) maximize signal strength, providing reliable coverage of up to 115 m²."
+    },
+    {
+      "heading": "Exceptional Wireless Performance",
+      "text": "The device features internal antennas with gains of 8 dBi for 5 GHz and 4 dBi for 2.4 GHz frequencies, ensuring robust signal strength and reliable connectivity throughout the coverage area. Measuring 137 x 98.7 x 30.2 mm and weighing 400 grams, the U7-IW is tailored for indoor environments, blending effortlessly into any setting. With wireless meshing capabilities, fast roaming (802.11r), and band steering, the U7-IW optimizes connectivity in high-density environments. Its sleek design and robust performance make it an ideal solution for both residential and commercial applications."
+    },
+    {
+      "heading": "Advanced Features and Seamless Integration",
+      "text": "The U7-IW supports captive hotspot portals, VLAN-based traffic segmentation, and advanced QoS, making it an ideal solution for enterprise and hospitality environments. Managed via the UniFi Network application (version 9.0.114 and later), it allows for centralized configuration, monitoring, and optimization of your entire network. Its seamless compatibility with UniFi switches, gateways, and controllers ensures a scalable and future-proof networking solution. Whether expanding existing coverage or upgrading to WiFi 7, the U7-IW delivers unmatched performance and flexibility."
+    },
+    {
+      "heading": "Advanced Features and Seamless Integration",
+      "text": "The U7-IW features a 2.5 GbE uplink port for high-speed data transmission, ensuring maximum throughput for demanding applications. Additionally, it includes two front-facing 2.5 GbE LAN ports, with one supporting PoE output when powered by PoE+. This allows seamless integration with other PoE-enabled devices, reducing the need for extra power adapters. The device is powered via PoE or PoE+ (48V, 0.5A), with PoE+ required for single-port PoE output. Its energy-efficient design ensures maximum performance while keeping power consumption as low as 13W (excluding PoE output)."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Points",
+  "categories": [
+    "Ubiquiti",
+    "UniFi Access Points",
+    "In-Wall",
+    "Access Points"
+  ],
+  "mpn": "U7-IW",
+  "manufacturer_part_number": "U7-IW",
+  "ean": "0810084698754",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5844/3-67c81bc61969b-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 In-Wall",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5844/1-67c81bba95faa-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 In-Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5844/2-67c81bc19d9b5-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 In-Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5844/4-67c81bcc5c9b0-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 In-Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5844/5-67c81bd21e202-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 In-Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5844/6-67c81bd6f05dd-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 In-Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5844/7-67c81bdb22069-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 In-Wall",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 149.81,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 7"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax/be"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 2x2"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "687 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "4.3 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(3) 2.5 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE)"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "42.5 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "13 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "137 x 98.7 x 30.2 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.4 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi U7 In-Wall",
+      "url": "https://www.getic.com/files/catalogue/5844/u7iw_ds-67c81bb4909bd.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Mohammed",
+        "date": "2025-10-04",
+        "text": "I love how it replaces my Ethernet wall socket and gives acts like a switch by giving me two more (one of them is PoE) + the WiFi performance is great! Unifi is a 100 years ahead of the market",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "/product/usw-lite-8-poe-eu",
+      "price": 118.38,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 184.92,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Lite",
+      "url": "/product/ubiquiti-unifi-u7-lite",
+      "price": 99.48,
+      "currency": "USD",
+      "mpn": "U7-Lite",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Fiber",
+      "url": "/product/ubiquiti-unifi-cloud-gateway-fiber",
+      "price": 282.07,
+      "currency": "USD",
+      "mpn": "UCG-Fiber",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out of stock"
+}

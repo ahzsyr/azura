@@ -1,0 +1,329 @@
+{
+  "slug": "ubiquiti-uisp-console",
+  "id": "UISP-Console",
+  "productTitle": "Ubiquiti UISP Console",
+  "name": "Ubiquiti UISP Console",
+  "title": "Ubiquiti UISP Console",
+  "title_extended": "",
+  "short_description": "UISP Console, 2x 10G SFP+ ports, 9x GbE RJ45 ports, 4 GB DDR4, microSD Card slot",
+  "description": "UISP Console, 2x 10G SFP+ ports, 9x GbE RJ45 ports, 4 GB DDR4, microSD Card slot",
+  "detailed_description": [
+    {
+      "heading": "UISP console with integrated switch and gateway",
+      "text": "The UISP® Console is designed to support small to moderate UISP deployments with its built-in switch equipped with (8) GbE RJ45 LAN ports. The UISP Console also serves as a high-performance gateway with (1) 10G SFP+ LAN port and (2) WAN ports (10G SFP+ and GbE RJ45) that provide an ample connectivity range capable of supporting the most data-intensive deployments. The UISP Console is designed in a compact, durable metal casing and is suitable for mounting in 1U rack or on a wall (the mounting kit is included). The console is powered by an external AC/DC adapter, that is also included in packaging."
+    },
+    {
+      "heading": "UISP application support",
+      "text": "Bluetooth-powered setup via the UISP Mobile app is available. Thanks to UISP app you can centrally manage your networks and clients with ease. Simply organize your clients' plans, setup billing and invoicing, and grow your customer base. UISP application allows viewing network topology, advanced data analytics, quickly set up devices and manage them on the go with a powerful mobile app."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Home and Office Networks",
+  "categories": [
+    "Home and Office Networks",
+    "UISP Console",
+    "Wired"
+  ],
+  "mpn": "UISP-Console",
+  "manufacturer_part_number": "UISP-Console",
+  "ean": "0810010077752",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4304/1905fa429ec1419f81444015b4efadfe-6480182a759ac-medium.jpg",
+        "alt": "Ubiquiti UISP Console",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4304/859ca14e765f45c89f5af98bc2df6db0-648018354cc71-medium.jpg",
+        "alt": "Ubiquiti UISP Console",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4304/3-63e215bbbae80-medium.jpg",
+        "alt": "Ubiquiti UISP Console",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4304/5-63e215c2ea0b4-medium.jpg",
+        "alt": "Ubiquiti UISP Console",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4304/6-63e215c6d2a14-medium.jpg",
+        "alt": "Ubiquiti UISP Console",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 249.00,
+    "currency": "USD",
+    "discount": 302.59
+  },
+  "old_price": 302.59,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(9) 1 Gbps"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "w/o PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 1G SFP, (1) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-core ARM® Cortex®-A57 at 1.7 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "4 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 GB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, USP RPS DC input"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "24 - 28 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "30 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 2.5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Number of Rack Units",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Material",
+          "value": "Stainless steel, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "210.4 x 140.2 x 43.7 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.45 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount, Wall Mount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\", Desktop"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UISP Console",
+      "url": "https://www.getic.com/files/catalogue/4304/uispconsole_ds-63e21507d1b08.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti UISP Console",
+      "url": "https://www.getic.com/files/catalogue/4304/uispconsole_qsg-63e21922d2585.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "type": "Standard",
+      "price": 48.48,
+      "currency": "USD",
+      "delivery_time": "5 business days"
+    },
+    {
+      "type": "Express",
+      "price": 61.97,
+      "currency": "USD",
+      "delivery_time": "2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Ethernet Surge Protector",
+      "url": "/product/ethernet-surge-protector-gen-2",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "ETH-SP-G2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 5XHD",
+      "url": "/product/airfiber-5xhd",
+      "price": 397.94,
+      "currency": "USD",
+      "mpn": "AF-5XHD",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UISP Switch",
+      "url": "/product/ubiquiti-uisp-switch-for-micropop-applications",
+      "price": 111.98,
+      "currency": "USD",
+      "mpn": "UISP-S",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G5 Dome Ultra Black",
+      "url": "/product/ubiquiti-camera-g5-dome-ultra-black",
+      "price": 86.32,
+      "currency": "USD",
+      "mpn": "UVC-G5-Dome-Ultra-B",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

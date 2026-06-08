@@ -28,6 +28,28 @@ async function loadCollections(localePrefix: string): Promise<Collection[]> {
   return orderCollectionsHierarchy(allCols.filter((c) => c.visible !== false));
 }
 
+async function scopeRecordsToCollectionLive(
+  localePrefix: string,
+  collection: Collection,
+  collections: Collection[],
+): Promise<ProductListingRecord[]> {
+  const indexEntries = await getUniqueProductIndexEntries(localePrefix);
+  const matchedSlugs: string[] = [];
+  for (const entry of indexEntries) {
+    const engine = ruleMetaToCollectionProduct(entry.ruleMeta);
+    if (matchProductToCollection(engine, collection)) {
+      matchedSlugs.push(entry.slug);
+    }
+  }
+  const scopedRecords: ProductListingRecord[] = [];
+  for (const slug of matchedSlugs) {
+    const loaded = await productsDataService.getProduct(localePrefix, slug);
+    if (!loaded) continue;
+    scopedRecords.push(recordFromProduct(loaded.product, slug, collections));
+  }
+  return scopedRecords;
+}
+
 async function buildListingCatalogLegacy(
   localePrefix: string,
 ): Promise<ProductListingRecord[]> {
@@ -143,24 +165,15 @@ export async function buildProductListingCatalogForCollection(
   if (useIndex) {
     const slugSet = await loadCollectionSlugIndex(localePrefix, collectionSlug);
     const allRecords = await loadListingRecords(localePrefix);
-    scopedRecords = slugSet
-      ? allRecords.filter((r) => slugSet.has(r.slug))
-      : allRecords.filter((r) => r.collectionSlugs.includes(collectionSlug));
+    if (slugSet && slugSet.size > 0) {
+      scopedRecords = allRecords.filter((r) => slugSet.has(r.slug));
+    } else if (allRecords.some((r) => r.collectionSlugs.includes(collectionSlug))) {
+      scopedRecords = allRecords.filter((r) => r.collectionSlugs.includes(collectionSlug));
+    } else {
+      scopedRecords = await scopeRecordsToCollectionLive(localePrefix, collection, collections);
+    }
   } else {
-    const indexEntries = await getUniqueProductIndexEntries(localePrefix);
-    const matchedSlugs: string[] = [];
-    for (const entry of indexEntries) {
-      const engine = ruleMetaToCollectionProduct(entry.ruleMeta);
-      if (matchProductToCollection(engine, collection)) {
-        matchedSlugs.push(entry.slug);
-      }
-    }
-    scopedRecords = [];
-    for (const slug of matchedSlugs) {
-      const loaded = await productsDataService.getProduct(localePrefix, slug);
-      if (!loaded) continue;
-      scopedRecords.push(recordFromProduct(loaded.product, slug, collections));
-    }
+    scopedRecords = await scopeRecordsToCollectionLive(localePrefix, collection, collections);
   }
 
   const sortBy = collection.sortBy ?? "name-asc";
@@ -172,7 +185,6 @@ export async function buildProductListingCatalogForCollection(
       categories: [],
       brands: [],
       collections: [],
-      collectionScope: collectionSlug,
       tags: [],
       conditions: [],
       variations: {},
@@ -182,6 +194,7 @@ export async function buildProductListingCatalogForCollection(
       page: 1,
       per: 20,
       ...filter,
+      collectionScope: null,
     };
     const result = await queryProductListing(localePrefix, state, {
       prefilteredRecords: scopedRecords,

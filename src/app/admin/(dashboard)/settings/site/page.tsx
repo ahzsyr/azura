@@ -8,22 +8,10 @@ export const metadata = {
 };
 
 export default async function AdminSiteAccessSettingsPage() {
-  // #region agent log
-  const { debugIngest } = await import("@/lib/debug-ingest");
-  debugIngest("admin/settings/site/page.tsx:entry", "loading site settings", {}, "H2");
-  // #endregion
   try {
     const settings = await readSystemSettings();
     const envOverride = getComingSoonEnvOverrideForAdmin();
     const comingSoonEnabled = envOverride ?? settings.comingSoonEnabled;
-    // #region agent log
-    debugIngest(
-      "admin/settings/site/page.tsx:success",
-      "site settings loaded",
-      { comingSoonEnabled },
-      "H2",
-    );
-    // #endregion
     return (
       <Suspense
         fallback={
@@ -39,14 +27,6 @@ export default async function AdminSiteAccessSettingsPage() {
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
     console.error("[admin/settings/site] load failed:", errMsg);
-    // #region agent log
-    debugIngest(
-      "admin/settings/site/page.tsx:error",
-      "site settings load failed",
-      { error: errMsg.slice(0, 300) },
-      "H1",
-    );
-    // #endregion
     return (
       <Card className="mx-auto max-w-lg">
         <CardHeader>

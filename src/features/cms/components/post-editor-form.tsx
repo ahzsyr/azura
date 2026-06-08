@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import type { Post, PostAuthor, PostCategory, PostTag, SeoMeta, EntityTranslation } from "@prisma/client";
 import type { PublicLocale } from "@/i18n/locale-config";
 import { LocalizedSlugEditor } from "@/features/translation/components/localized-slug-editor";
@@ -12,14 +12,13 @@ import {
 import { SeoMetaPanel } from "@/features/seo/components/seo-meta-panel";
 import {
   upsertPost,
-  publishPost,
   duplicatePost,
   deletePost,
   unpublishPost,
 } from "@/features/cms/actions";
 import { formatScheduledInput } from "@/features/cms/scheduling-utils";
 import { BlockEditor } from "@/features/builder/components/block-editor";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { TaxonomySelect } from "./taxonomy-select";
 import { RelatedPostsSelect } from "./related-posts-select";
 import { CmsStatusBadge } from "./cms-status-badge";
@@ -81,7 +80,9 @@ export function PostEditorForm({
   initialTranslations = [],
   initialBlockTranslations = [],
 }: Props) {
-  const blocks = migrateLegacyCatalogBlocks((post?.blocks as PageBlocks) ?? []);
+  const migratedBlocks = migrateLegacyCatalogBlocks((post?.blocks as PageBlocks) ?? []);
+  const [editorBlocks, setEditorBlocks] = useState<PageBlocks>(migratedBlocks);
+  const blocksRef = useRef<PageBlocks>(migratedBlocks);
   const [categoryIds, setCategoryIds] = useState(post?.categories?.map((c) => c.categoryId) ?? []);
   const [tagIds, setTagIds] = useState(post?.tags?.map((t) => t.tagId) ?? []);
   const [relatedPostIds, setRelatedPostIds] = useState<string[]>(() => {
@@ -90,14 +91,44 @@ export function PostEditorForm({
   });
   const [featuredImageId, setFeaturedImageId] = useState(post?.featuredImageId ?? "");
   const [featuredImageUrl, setFeaturedImageUrl] = useState(post?.featuredImage?.url ?? "");
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const syncBlocksInput = useCallback(() => {
+    const form = formRef.current;
+    if (!form) return;
+    const blocksInput = form.querySelector('input[name="blocks"]') as HTMLInputElement | null;
+    if (blocksInput) {
+      blocksInput.value = JSON.stringify(blocksRef.current);
+    }
+  }, []);
+
+  const handleBlocksChange = useCallback((next: PageBlocks) => {
+    blocksRef.current = next;
+    setEditorBlocks(next);
+  }, []);
+
+  const handlePublishNow = () => {
+    const form = formRef.current;
+    if (!form) return;
+    syncBlocksInput();
+    const statusSelect = form.querySelector('select[name="status"]') as HTMLSelectElement | null;
+    if (statusSelect) statusSelect.value = "PUBLISHED";
+    form.requestSubmit();
+  };
 
   return (
     <div className="space-y-6 max-w-4xl">
-    <form action={upsertPost} className="space-y-6">
+    <form
+      ref={formRef}
+      action={upsertPost}
+      className="space-y-6"
+      onSubmit={() => syncBlocksInput()}
+    >
       {post?.id && <input type="hidden" name="id" value={post.id} />}
       <input type="hidden" name="categoryIds" value={JSON.stringify(categoryIds)} />
       <input type="hidden" name="tagIds" value={JSON.stringify(tagIds)} />
       <input type="hidden" name="relatedPostIds" value={JSON.stringify(relatedPostIds)} />
+      <input type="hidden" name="featuredImageId" value={featuredImageId} readOnly />
 
       {post && (
         <div className="flex items-center gap-2">
@@ -185,15 +216,11 @@ export function PostEditorForm({
           />
         </div>
         <div className="md:col-span-2">
-          <MediaPickerField
+          <UrlPrimaryMediaPickerField
             label="Featured image"
-            idFieldName="featuredImageId"
-            mediaId={featuredImageId || null}
             url={featuredImageUrl}
-            onChange={({ mediaId, url }) => {
-              setFeaturedImageId(mediaId ?? "");
-              setFeaturedImageUrl(url);
-            }}
+            onChange={setFeaturedImageUrl}
+            onMediaIdChange={(mediaId) => setFeaturedImageId(mediaId ?? "")}
           />
         </div>
       </div>
@@ -220,12 +247,14 @@ export function PostEditorForm({
         <BlockTranslationProvider
           locales={locales}
           initialRows={initialBlockTranslations}
-          initialBlocks={blocks}
+          initialBlocks={editorBlocks}
           parentType="Post"
           parentId={post?.id ?? "new"}
         >
           <BlockEditor
-            initialBlocks={blocks}
+            blocks={editorBlocks}
+            onChange={handleBlocksChange}
+            blocksRef={blocksRef}
             galleryOptions={galleryOptions}
             faqSetOptions={faqSetOptions}
             testimonialOptions={testimonialOptions}
@@ -239,14 +268,7 @@ export function PostEditorForm({
         <Button type="submit">Save</Button>
         {post?.id && (
           <>
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={async () => {
-                await publishPost(post.id);
-                window.location.reload();
-              }}
-            >
+            <Button type="button" variant="secondary" onClick={handlePublishNow}>
               Publish now
             </Button>
             <Button type="button" variant="outline" onClick={() => duplicatePost(post.id)}>

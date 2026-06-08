@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { BlockNode, PageBlocks } from "@/types/builder";
 import { createBlock, BLOCK_DEFAULTS } from "@/schemas/blocks";
 import { BlockTreeEditor, insertBlockInTree } from "./block-tree-editor";
@@ -59,6 +59,8 @@ type BlockEditorProps = {
   onInspectorTabChange?: (tab: BlockInspectorTabId) => void;
   /** When false, parent form owns the blocks hidden input (e.g. tabbed page editor). */
   includeHiddenInput?: boolean;
+  /** Optional ref synced on every block change (for pre-submit sync in native forms). */
+  blocksRef?: React.MutableRefObject<PageBlocks | null>;
   galleryOptions?: GalleryBuilderOption[];
   faqSetOptions?: FaqSetBuilderOption[];
   testimonialOptions?: TestimonialBuilderOption[];
@@ -84,6 +86,7 @@ export function BlockEditor({
   inspectorTab,
   onInspectorTabChange,
   includeHiddenInput = true,
+  blocksRef: externalBlocksRef,
   galleryOptions = [],
   faqSetOptions = [],
   testimonialOptions = [],
@@ -95,6 +98,10 @@ export function BlockEditor({
 }: BlockEditorProps) {
   const [internalBlocks, setInternalBlocks] = useState<PageBlocks>(initialBlocks ?? []);
   const blocks = controlledBlocks ?? internalBlocks;
+  const blocksRef = useRef(blocks);
+  blocksRef.current = blocks;
+  const internalBlocksRef = useRef(internalBlocks);
+  internalBlocksRef.current = internalBlocks;
   const [internalSelectedId, setInternalSelectedId] = useState<string | null>(null);
   const selectedId = controlledSelectedId !== undefined ? controlledSelectedId : internalSelectedId;
   const [pickerOpen, setPickerOpen] = useState(false);
@@ -116,6 +123,11 @@ export function BlockEditor({
   const selectedBlock = selectedId != null ? findBlockById(blocks, selectedId) : null;
 
   const updateBlocks = (next: PageBlocks) => {
+    blocksRef.current = next;
+    if (externalBlocksRef) externalBlocksRef.current = next;
+    if (!controlledOnChange) {
+      internalBlocksRef.current = next;
+    }
     if (controlledOnChange) {
       controlledOnChange(next);
     } else {
@@ -126,7 +138,7 @@ export function BlockEditor({
 
   const addBlock = (type: BlockNode["type"], parentId?: string | null) => {
     const block = createBlock(type, BLOCK_DEFAULTS[type] ?? {}) as BlockNode;
-    updateBlocks(insertBlockInTree(blocks, block, parentId));
+    updateBlocks(insertBlockInTree(blocksRef.current, block, parentId));
     setSelectedId(block.id);
     setPickerParentId(null);
   };
@@ -138,7 +150,7 @@ export function BlockEditor({
 
   const updateSelectedBlock = (updated: BlockNode) => {
     if (!selectedId) return;
-    updateBlocks(updateBlockInTree(blocks, selectedId, () => updated));
+    updateBlocks(updateBlockInTree(blocksRef.current, selectedId, () => updated));
   };
 
   const handleSelect = (id: string | null) => {
@@ -154,7 +166,7 @@ export function BlockEditor({
     const suffix = getContentFieldSuffix(localeCode);
     if (suffix !== "En" && suffix !== "Ar") return;
     updateBlocks(
-      updateBlockInTree(blocks, blockId, (block) =>
+      updateBlockInTree(blocksRef.current, blockId, (block) =>
         patchBlockSettings(block, { [`${field}${suffix}`]: value })
       )
     );

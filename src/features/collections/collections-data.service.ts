@@ -29,9 +29,8 @@ async function fileExists(path: string): Promise<boolean> {
 }
 
 async function loadGlobalCollections(): Promise<Collection[]> {
-  const file = join(process.cwd(), "src", "data", "collections.json");
-  const raw = await readJson<unknown>(file);
-  return Array.isArray(raw) ? (raw as Collection[]) : [];
+  const { loadCollections } = await import("./collections-persistence");
+  return loadCollections();
 }
 
 async function loadLocaleOverride(

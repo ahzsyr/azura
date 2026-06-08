@@ -1,0 +1,391 @@
+{
+  "slug": "cloud-router-switch-112-8p-4s-in",
+  "id": "CRS112-8P-4S-IN",
+  "productTitle": "MikroTik CRS112-8P-4S-IN",
+  "name": "MikroTik CRS112-8P-4S-IN",
+  "title": "MikroTik CRS112-8P-4S-IN",
+  "title_extended": "MikroTik CRS112-8P-4S-IN Switch – 8x PoE, 4x SFP",
+  "short_description": "8x Gbit PoE 802.3af/at, 4xSFP Cage, RouterOS L5",
+  "description": "8x Gbit PoE 802.3af/at, 4xSFP Cage, RouterOS L5",
+  "detailed_description": [
+    {
+      "heading": "Combining Router & Switch Functionality",
+      "text": "Introducing the MikroTik CRS112-8P-4S-IN, a high-powered networking solution. The CRS series, including the CRS112-8P-4S-IN, is driven by RouterOS, merging the capabilities of a fully functional router with those of a manageable switch enhanced with Layer 3 (L3) features. Within its interface, all the specific Switch configuration options are readily accessible through a dedicated Switch menu."
+    },
+    {
+      "heading": "High-Powered Connectivity",
+      "text": "The CRS112-8P-4S-IN features eight Gigabit Ethernet ports, each equipped with Power-over-Ethernet (PoE) capabilities. These ports offer the convenience of various power output options, including autosensing 802.3af/at PoE/PoE+ and Passive PoE. Additionally, it boasts four SFP (Small Form-Factor Pluggable) ports, providing versatile optical fiber connectivity options, and supporting uplinks with speeds of up to 1 Gbps. This array of ports ensures your network remains adaptable and ready to meet evolving needs."
+    },
+    {
+      "heading": "Advanced Networking Features",
+      "text": "The MikroTik CRS112-8P-4S-IN offers a host of advanced networking features that boost your network's performance and security. It ensures smooth data flow with non-blocking Layer 2 switching capacity, as well as efficient routing via a 16K host table. You can handle up to 4,000 VLANs simultaneously with IEEE 802.1Q VLAN support, and enhance security through port isolation, port security, and broadcast storm control."
+    },
+    {
+      "heading": "Power Supply Options",
+      "text": "The CRS112-8P-4S-IN features a secondary DC jack on the back of the enclosure, which supports a 48-57 V power supply (not included but available for purchase separately). When connected to 48-57 V DC input, the CRS112-8P-4S-IN can power 802.3af/at devices, automatically detecting and providing the correct power to devices."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Cloud Router Switch PoE"
+  ],
+  "mpn": "CRS112-8P-4S-IN",
+  "manufacturer_part_number": "CRS112-8P-4S-IN",
+  "ean": "4752224002105",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1526/crs1128p4sin_1-5fdb0be074426-medium.jpg",
+        "alt": "MikroTik CRS112-8P-4S-IN",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1526/crs1128p4sin_2-5fdb0bdf1b722-medium.jpg",
+        "alt": "MikroTik CRS112-8P-4S-IN",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/cXHcJa8gFJ0",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 170.71,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Communication Interface",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(8) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "8 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE, 802.3af (PoE), 802.3at (PoE+)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(4) 1G SFP"
+        },
+        {
+          "name": "Communication Interface",
+          "value": "RJ45"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "QCA8511, 1 core, 400 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "128 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "18 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "10 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "28 V DC 3.4 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Number of Rack Units",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "200 x 142 x 44 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount, Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\", Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 5"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik CRS112-8P-4S-IN",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/crs112-8p-4s-in-technical.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik CRS112-8P-4S-IN",
+      "url": "https://www.getic.com/files/catalogue/1526/quickguidecrs1128p4sin-650ad3f99df84.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik CRS112-8P-4S-IN",
+      "url": "https://www.getic.com/files/catalogue/1526/usermanualscrs1128p4sin-650ad40d5e1d1.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.8,
+    "count": 5,
+    "source": "Trustpilot",
+    "distribution": {
+      "excellent": 80,
+      "great": 20,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 4,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Saša-Stjepan",
+        "date": "2025-06-12",
+        "text": "It will be better to ship only with 48V power supply and 24V as optional. All my 24V POE devices are obsolete now.",
+        "photos": []
+      },
+      {
+        "name": "Gints",
+        "date": "2024-03-18",
+        "text": "Nice for controlled PoE.",
+        "photos": []
+      },
+      {
+        "name": "Aleksandrs",
+        "date": "2023-09-05",
+        "text": "excellent item.",
+        "photos": []
+      },
+      {
+        "name": "Thomas",
+        "date": "2023-07-22",
+        "text": "Wie erwartet",
+        "photos": []
+      },
+      {
+        "name": "Sīmanis",
+        "date": "2023-07-20",
+        "text": "Just what I needed for my home network setup with several POE devices.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "PSU Power Adapter 48V1.46A",
+      "url": "/product/psu-power-adapter-48pow",
+      "price": 16.11,
+      "currency": "USD",
+      "mpn": "48POW",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS326-24G-2S+RM",
+      "url": "/product/cloud-router-switch-326-24g-2srm",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS328-24P-4S+RM",
+      "url": "/product/cloud-router-switch-328-24p-4s-rm",
+      "price": 434.22,
+      "currency": "USD",
+      "mpn": "CRS328-24P-4S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Power Adapter 48V2A",
+      "url": "/product/psu-power-adapter-48v2a-96w",
+      "price": 30.93,
+      "currency": "USD",
+      "mpn": "48V2A96W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

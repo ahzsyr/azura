@@ -7,7 +7,7 @@ import { ROBOTS_PRESETS } from "@/features/seo/constants";
 import { scoreSeoInput } from "@/features/seo/scoring/seo-scoring.service";
 import { SeoAnalysisPanel } from "./seo-analysis-panel";
 import { SeoSocialPreview } from "./seo-social-preview";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -342,14 +342,12 @@ export function SeoMetaForm({
               />
             </div>
             <div className="space-y-2">
-              <MediaPickerField
+              <UrlPrimaryMediaPickerField
                 label="OG / social image"
-                urlFieldName={embedded ? "" : "ogImageUrl"}
                 url={ogImageUrl}
-                onChange={({ url }) => setOgImageUrl(url)}
-                trackMediaId={false}
-                idFieldName=""
+                onChange={(url) => setOgImageUrl(url)}
               />
+              {!embedded ? <input type="hidden" name="ogImageUrl" value={ogImageUrl} readOnly /> : null}
             </div>
             <div className="space-y-2">
               <Label>Twitter card</Label>

@@ -1,0 +1,239 @@
+{
+  "slug": "mikrotik-wap-lr8g-kit",
+  "id": "5366",
+  "productTitle": "MikroTik wAP LR8G kit",
+  "name": "MikroTik wAP LR8G kit",
+  "title": "MikroTik wAP LR8G kit",
+  "title_extended": "MikroTik wAP LR8G kit – LoRa Gateway, 868 MHz, 2.4 GHz WiFi, 1x 100Mbps, GPS, RouterOS L4",
+  "short_description": "Compact weatherproof LoRa gateway with 2.4 GHz WiFi (300 Mbps), 10/100 Ethernet port, GPS, and 868 MHz LoRa. Pre-installed UDP packet forwarder for public/private LoRa servers. RouterOS L4.",
+  "description": "The MikroTik wAP LR8G kit is a compact weatherproof wireless access point designed to serve as a reliable LoRa® gateway for IoT applications. Encased in a durable enclosure, it is built to withstand various environmental conditions, making it suitable for both indoor and outdoor deployments. The device operates on the 868 MHz LoRa® frequency, facilitating long-range communication with IoT sensors and devices. Its robust design ensures consistent performance in diverse settings, providing a dependable solution for expanding LoRa® network coverage. The wAP LR8G kit includes built-in GPS functionality, offering precise location tracking capabilities essential for applications such as asset tracking, fleet management, and geolocation services. This feature enables real-time monitoring of device locations, enhancing operational efficiency and security. The integration of GPS within the device simplifies deployment by eliminating the need for external GPS modules, reducing setup complexity and associated costs.",
+  "detailed_description": [
+    {
+      "heading": "Compact LoRa Gateway",
+      "text": "The MikroTik wAP LR8G kit is a compact, weatherproof wireless access point designed to serve as a reliable LoRa® gateway for IoT applications. Encased in a durable enclosure, it is built to withstand various environmental conditions, making it suitable for both indoor and outdoor deployments. The device operates on the 868 MHz LoRa® frequency, facilitating long-range communication with IoT sensors and devices. Its robust design ensures consistent performance in diverse settings, providing a dependable solution for expanding LoRa® network coverage. The wAP LR8G kit includes built-in GPS functionality, offering precise location tracking capabilities essential for applications such as asset tracking, fleet management, and geolocation services. This feature enables real-time monitoring of device locations, enhancing operational efficiency and security. The integration of GPS within the device simplifies deployment by eliminating the need for external GPS modules, reducing setup complexity and associated costs."
+    },
+    {
+      "heading": "Wi-Fi and Ethernet Connectivity",
+      "text": "Equipped with a 2.4 GHz Wi-Fi interface, the wAP LR8G kit supports wireless data rates up to 300 Mbps, ensuring stable and efficient connectivity for various devices. The dual-chain wireless technology enhances signal strength and reliability, accommodating multiple users simultaneously. Additionally, the device features a 10/100 Ethernet port, providing a wired connection option for seamless integration into existing network infrastructures. This combination of wireless and wired connectivity options ensures flexibility and adaptability in diverse networking environments. The wAP LR8G kit comes pre-installed with a UDP packet forwarder, facilitating straightforward integration with both public and private LoRa® servers. This feature simplifies the process of connecting IoT devices to network servers, enabling efficient data collection and management. The device's compatibility with various LoRa® network servers ensures flexibility in deployment, catering to a wide range of IoT applications. This ease of integration accelerates the implementation of IoT solutions, allowing for quicker time-to-market and enhanced scalability."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "LoRa Products",
+  "categories": [
+    "MikroTik",
+    "IoT Products",
+    "Gateways"
+  ],
+  "mpn": "RBwAPR-2nD&R11e-LR8G",
+  "manufacturer_part_number": "RBwAPR-2nD&R11e-LR8G",
+  "ean": "4752224009746",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5366/wapr2ndr11elr8g_2-675c40fa22980-medium.jpg",
+        "alt": "MikroTik wAP LR8G kit",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5366/wapr2ndr11elr8g_1-675c410135820-medium.jpg",
+        "alt": "MikroTik wAP LR8G kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5366/wapr2ndr11elr8g_4-675c410ca54be-medium.jpg",
+        "alt": "MikroTik wAP LR8G kit",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/5366/iotupdates-675c40f00c265.pdf",
+        "title": "Technical Specs / Datasheet - MikroTik wAP LR8G kit"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 117.40,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 4" },
+        { "name": "Standards", "value": "802.11n" },
+        { "name": "Frequency", "value": "2.4GHz" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth"
+      ],
+      "items": [
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "2.4 - 2.47 (GHz) 2 (dBi)" },
+        { "name": "Beamwidth", "value": "360 °" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 100 Mbps" },
+        { "name": "Management", "value": "Ethernet, Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "Single-core QCA9531 600 MHz" },
+        { "name": "RAM", "value": "64 MB" },
+        { "name": "Storage Memory", "value": "16 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "AC/DC Adapter, 24V Passive PoE" },
+        { "name": "Supported Input Voltage", "value": "9 - 28 V DC" },
+        { "name": "Max Power Consumption", "value": "7 W" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 0.8 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Operating Temperature"
+      ],
+      "items": [
+        { "name": "Color", "value": "White" },
+        { "name": "Material", "value": "Plastic" },
+        { "name": "Dimensions", "value": "185 x 85 x 30 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 60 °C" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 4" }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 3,
+    "count": 2,
+    "source": "Getic, TrustPilot",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 1,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Austris",
+        "date": "2026-02-17",
+        "text": "feels quality built, but consider the SWR if you intend to use for EU Lora frequencies. Decent SWR only above 900MHz :(\n(albeit manufacturer says <2, so it's almost w/in the spec). ",
+        "photos": []
+      },
+      {
+        "name": "Erik-jan",
+        "date": "2023-08-15",
+        "text": "weak connector, stable antenna",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

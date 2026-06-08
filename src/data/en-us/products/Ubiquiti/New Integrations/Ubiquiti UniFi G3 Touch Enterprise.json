@@ -1,0 +1,348 @@
+{
+  "slug": "ubiquiti-unifi-g3-touch-enterprise",
+  "id": "UTP-G3-Touch-Enterprise",
+  "productTitle": "Ubiquiti UniFi G3 Touch Enterprise",
+  "name": "Ubiquiti UniFi G3 Touch Enterprise",
+  "title": "Ubiquiti UniFi G3 Touch Enterprise",
+  "title_extended": "",
+  "short_description": "Premium Desktop VoIP Phone. The UniFi G3 Touch Enterprise is a sophisticated desktop VoIP phone designed for modern business environments. It features a large 7-inch multi-touch HD display with 1280 × 800 resolution and anti-glare coating for sharp visibility in any lighting. Fully supporting UniFi Talk and Talk Relay, it seamlessly integrates into UniFi’s communication ecosystem while also enabling connectivity with third-party PBX platforms for expanded flexibility.",
+  "description": "The UniFi G3 Touch Enterprise is a sophisticated desktop VoIP phone designed for modern business environments. It features a large 7-inch multi-touch HD display with 1280 × 800 resolution and anti-glare coating for sharp visibility in any lighting. Fully supporting UniFi Talk and Talk Relay, it seamlessly integrates into UniFi’s communication ecosystem while also enabling connectivity with third-party PBX platforms for expanded flexibility. The built-in 5 MP camera with a privacy shutter ensures secure and professional video conferencing. Its ergonomic handset includes a convenient mute button for quick audio control during calls. Constructed from durable polycarbonate and aluminum alloy materials, this phone combines strength with an elegant appearance. Its stable, non-slip base fits perfectly on any desk, and the intuitive user interface enhances efficiency, helping enterprise users manage calls, contacts, and apps effortlessly.",
+  "detailed_description": [
+    {
+      "heading": "Premium Desktop VoIP Phone",
+      "text": "The UniFi G3 Touch Enterprise is a sophisticated desktop VoIP phone designed for modern business environments. It features a large 7-inch multi-touch HD display with 1280 × 800 resolution and anti-glare coating for sharp visibility in any lighting. Fully supporting UniFi Talk and Talk Relay, it seamlessly integrates into UniFi’s communication ecosystem while also enabling connectivity with third-party PBX platforms for expanded flexibility. The built-in 5 MP camera with a privacy shutter ensures secure and professional video conferencing. Its ergonomic handset includes a convenient mute button for quick audio control during calls. Constructed from durable polycarbonate and aluminum alloy materials, this phone combines strength with an elegant appearance. Its stable, non-slip base fits perfectly on any desk, and the intuitive user interface enhances efficiency, helping enterprise users manage calls, contacts, and apps effortlessly."
+    },
+    {
+      "heading": "Advanced Connectivity and Clear Audio",
+      "text": "Designed for flexibility, the G3 Touch Enterprise offers multiple connectivity options to suit modern offices. It includes two Gigabit Ethernet ports, dual-band Wi-Fi (802.11a/b/g/n/ac) for reliable wireless connections, and Bluetooth 4.2 with additional support for Bluetooth 5.2, ideal for pairing accessories or the optional G3 Wireless Handset. NFC compatibility supports ISO/IEC 14443A/B, 15693, and 18092 standards, enabling fast and secure device pairing and integration with access systems. For professional audio, the phone integrates dual 3 W speakers and omnidirectional MEMS microphones for clear hands-free calls. The ergonomic handset features a wideband receiver, electret microphone, and mute button for improved control. A 3.5 mm headset jack allows connection of high-quality headsets. Power is provided via PoE (44–57 V DC) or USB-C (5 V, 3 A), with maximum power consumption of only 11 W for energy-efficient operation."
+    },
+    {
+      "heading": "High Performance and Reliability",
+      "text": "The G3 Touch Enterprise is powered by an octa-core ARM Cortex-A53 processor with 2 GB RAM and 32 GB of internal storage, ensuring fast, responsive operation for multitasking and advanced call management. It supports integration with UniFi Talk, Talk Relay, and third-party PBX systems for versatile deployment options. Designed for consistent enterprise use, the device operates reliably within 0 °C to 40 °C temperatures and up to 90% non-condensing humidity. A customizable RGBW LED indicator provides at-a-glance status notifications for users. Compliant with FCC, IC, CE, and NDAA standards, it meets rigorous security and performance requirements. The G3 Touch Enterprise is a robust, secure, and feature-rich VoIP phone for demanding professional environments, delivering reliable communication, advanced features, and an elegant design tailored for enterprise workspaces."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "IP Phones",
+  "categories": [
+    "Ubiquiti",
+    "New Integrations",
+    "IP Phones"
+  ],
+  "mpn": "UTP-G3-Touch-Enterprise",
+  "manufacturer_part_number": "UTP-G3-Touch-Enterprise",
+  "ean": "0810084698822",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6733/1a-686b8b074730c-medium.jpg",
+        "alt": "Ubiquiti UniFi G3 Touch Enterprise",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6733/1b-686b8b0f88d13-medium.jpg",
+        "alt": "Ubiquiti UniFi G3 Touch Enterprise",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6733/2-686b8b130eb1b-medium.jpg",
+        "alt": "Ubiquiti UniFi G3 Touch Enterprise",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6733/3-686b8b1687694-medium.jpg",
+        "alt": "Ubiquiti UniFi G3 Touch Enterprise",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6733/4-686b8b1a96a1f-medium.jpg",
+        "alt": "Ubiquiti UniFi G3 Touch Enterprise",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6733/5-686b8b1fdc52e-medium.jpg",
+        "alt": "Ubiquiti UniFi G3 Touch Enterprise",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6733/6-686b8b23b8ca4-medium.jpg",
+        "alt": "Ubiquiti UniFi G3 Touch Enterprise",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 294.71,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Product Type",
+      "features": [
+        "Gadgets"
+      ],
+      "items": [
+        {
+          "name": "Gadgets",
+          "value": "IP Phones"
+        }
+      ]
+    },
+    {
+      "technology": "Display",
+      "features": [
+        "Display Size",
+        "Display Type",
+        "Touch Screen"
+      ],
+      "items": [
+        {
+          "name": "Display Size",
+          "value": "7 inch"
+        },
+        {
+          "name": "Display Type",
+          "value": "Multi-touch"
+        },
+        {
+          "name": "Touch Screen",
+          "value": "yes"
+        }
+      ]
+    },
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Bluetooth"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 1 Gbps"
+        },
+        {
+          "name": "Bluetooth",
+          "value": "4.2, 5.2"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Octa-core ARM® Cortex®-A53"
+        },
+        {
+          "name": "RAM",
+          "value": "2 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "32 GB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 802.3af PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "44 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "11 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "USB Type-C"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "5 V DC 3 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "256.5 x 139.5 x 185.3 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.5 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi G3 Touch Enterprise",
+      "url": "https://www.getic.com/files/catalogue/6733/utpg3touchenterprise_ds-686b8b0156eca.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex Utility",
+      "url": "/product/unifi-flex-switch-adapter-kit",
+      "price": 52.98,
+      "currency": "USD",
+      "mpn": "USW-Flex-Utility",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "/product/usw-lite-8-poe-eu",
+      "price": 118.38,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi G3 Touch Pro",
+      "url": "/product/ubiquiti-unifi-g3-touch-pro",
+      "price": 203.46,
+      "currency": "USD",
+      "mpn": "UTP-G3-Touch-Pro",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

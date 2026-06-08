@@ -1,0 +1,258 @@
+{
+  "slug": "ubiquiti-poe-54-80w",
+  "id": "POE-54V-80W",
+  "productTitle": "Ubiquiti Gigabit Power Adapter POE-54-80W",
+  "name": "Ubiquiti Gigabit Power Adapter POE-54-80W",
+  "title": "Ubiquiti Gigabit Power Adapter POE-54-80W",
+  "title_extended": "Ubiquiti Gigabit Power Adapter POE-54-80W – 54V, 80W, 1.5A, Gigabit Ethernet Port, Surge Protection",
+  "short_description": "Gigabit POE adapter 54V DC, 80W, 1.5A",
+  "description": "Gigabit POE adapter 54V DC, 80W, 1.5A",
+  "detailed_description": [
+    {
+      "heading": "High-Power PoE Injector for Demanding Applications",
+      "text": "The Ubiquiti POE-54V-80W is a specialized EdgePoint PoE Injector, engineered to deliver high-voltage power and data connectivity to PoE-enabled devices. The POE-54V-80W is specifically tailored to support devices that require require a 54V power supply, making it ideal for high-performance network applications."
+    },
+    {
+      "heading": "Features",
+      "text": "• Surge protection\n• Clamping protection\n• Maximum surge discharge\n• Peak pulse current\n• AC cable with earth ground"
+    },
+    {
+      "heading": "High Power Output and Gigabit Connectivity",
+      "text": "The POE-54V-80W injector provides a high output of 54V DC with a current of 1.5A, resulting in a total power capacity of 80 watts. This significant power output is essential for supporting power-intensive devices like high-capacity wireless backhauls, advanced security systems, and other critical network equipment that operate beyond the typical power range of standard PoE solutions. Equipped with a Gigabit Ethernet port, the POE-54V-80W ensures that it does not become a bottleneck in data transfer speeds. This capability is crucial for maintaining optimal performance in networks that handle large volumes of data or require high-speed connectivity for applications like video surveillance or high-throughput wireless communications."
+    },
+    {
+      "heading": "Advanced Safety Features and Certifications",
+      "text": "This model includes advanced safety features such as over-voltage, over-current, and surge protection. These protections are vital for preventing damage to connected devices and ensuring continuous operation, even in unstable or fluctuating power conditions. The POE-54V-80W's comprehensive protective measures make it a safe choice for critical network infrastructure. In addition, the Ubiquiti POE-54V-80W holds certifications from CE, FCC, and IC, demonstrating compliance with strict safety and operational standards. These certifications affirm its quality and reliability for professional deployments."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "PoE Adapters",
+  "categories": [
+    "PoE Adapters",
+    "Accessory Tech",
+    "PoE & Power"
+  ],
+  "mpn": "POE-54V-80W",
+  "manufacturer_part_number": "POE-54V-80W",
+  "ean": "0810354024597",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1042/poe54v80w_top_angle-601d2c6ccac36-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-54-80W",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1042/pe54v80w_top_front_angle-601d2c6ad8df7-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-54-80W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1042/poe54v80w_front-601d2c7194745-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-54-80W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1042/poe54v80w_front_angle-601d2c6f8be97-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-54-80W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1042/poe54v80w_bottom-601d2c7378d82-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-54-80W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1042/poe54v80w_top-601d2c6ed9817-medium.jpg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-54-80W",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/https://dl.ubnt.com/datasheets/poe/PoE_Adapters_DS.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Gigabit Power Adapter POE-54-80W"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 29.89,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage",
+        "Ehternet Ports",
+        "Ethernet Powering"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "1.5 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "54 V DC"
+        },
+        {
+          "name": "Ehternet Ports",
+          "value": "1 Gbps"
+        },
+        {
+          "name": "Ethernet Powering",
+          "value": "4-Pair"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "123 x 65 x 34 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.299 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Gigabit Power Adapter POE-54-80W",
+      "url": "https://www.getic.com/https://dl.ubnt.com/datasheets/poe/PoE_Adapters_DS.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Thomas",
+        "date": "2024-12-12",
+        "text": "Does what it says on the tin.",
+        "photos": []
+      },
+      {
+        "name": "ABDULMOHSIN",
+        "date": "2023-03-28",
+        "text": "Thank you.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-50-60W",
+      "url": "/product/ubiquiti-poe-50-60w-gigabit",
+      "price": 29.89,
+      "currency": "USD",
+      "mpn": "POE-50-60W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-48-24W-G",
+      "url": "/product/ubiquiti-poe-48-gigabit",
+      "price": 14.94,
+      "currency": "USD",
+      "mpn": "POE-48-24W-G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-24-12W-G",
+      "url": "/product/ubiquiti-poe-24-gigabit",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "POE-24-12W-G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

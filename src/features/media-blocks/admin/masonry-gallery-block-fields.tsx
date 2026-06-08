@@ -4,7 +4,7 @@ import type { BlockNode } from "@/types/builder";
 import type { GalleryBuilderOption } from "@/features/gallery/types";
 import { Label } from "@/components/ui/label";
 import { Link } from "@/i18n/navigation";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { patchBlockSettings } from "@/features/builder/instance/block-instance";
 import { ItemCard, RepeatableSection } from "@/features/content-blocks/admin/shared/repeatable-section";
 import { LocalizedBlockTextarea, LocalizedBlockTitle } from "@/features/builder/block-translation-context";
@@ -84,24 +84,22 @@ export function MasonryGalleryBlockFields({ block, onChange, galleryOptions = []
                 </select>
               </div>
               {item.mediaKind === "IMAGE" ? (
-                <MediaPickerField
+                <UrlPrimaryMediaPickerField
                   label="Image"
                   mediaTypes={["IMAGE"]}
-                  mediaId={item.mediaAssetId || null}
                   url={item.imageUrl}
-                  onChange={({ mediaId, url }) => {
+                  onPick={({ url, mediaId }) => {
                     const next = [...items];
                     next[index] = { ...item, imageUrl: url, mediaAssetId: mediaId ?? "" };
                     setProp("items", next);
                   }}
                 />
               ) : (
-                <MediaPickerField
+                <UrlPrimaryMediaPickerField
                   label="Video"
                   mediaTypes={["VIDEO"]}
-                  mediaId={item.mediaAssetId || null}
                   url={item.videoUrl}
-                  onChange={({ mediaId, url }) => {
+                  onPick={({ url, mediaId }) => {
                     const next = [...items];
                     next[index] = { ...item, videoUrl: url, mediaAssetId: mediaId ?? "" };
                     setProp("items", next);

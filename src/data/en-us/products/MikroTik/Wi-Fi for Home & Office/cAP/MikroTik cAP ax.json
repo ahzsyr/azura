@@ -1,0 +1,399 @@
+{
+  "slug": "mikrotik-cap-ax",
+  "id": "4337",
+  "productTitle": "MikroTik cAP ax",
+  "name": "MikroTik cAP ax",
+  "title": "MikroTik cAP ax - WiFi 6 Ceiling Access Point Dual Band",
+  "title_extended": "MikroTik cAP ax – WiFi 6 Ceiling Access Point with 2x Gigabit Ethernet (1x PoE out), Quad-core CPU, 1GB RAM, RouterOS L4",
+  "short_description": "Wireless Access Point, 2.4GHz & 5GHz, 802.11a/b/n/ac/ax, 1x GbE Port, 802.3af/at PoE-in, RouterOS L4, 1.8GHz CPU",
+  "description": "Ceiling-mounted WiFi 6 access point with quad-core 1.8GHz CPU, 1GB RAM, 2x Gigabit Ethernet (1x PoE-out), dual-band 802.11ax, and RouterOS L4 for advanced networking.",
+  "detailed_description": [
+    {
+      "heading": "Seamless Integration & Placement",
+      "text": "Elevate your wireless experience with the MikroTik cAP ax, a cutting-edge ceiling-mounted access point that sets new standards for performance and design. The cAP ax combines advanced wireless capabilities with a sleek and discreet form factor, offering a networking solution that seamlessly integrates into any environment. Its low-profile design ensures inconspicuous placement, blending seamlessly into its surroundings rather than standing out as a networking device. This discreet appearance makes the cAP ax virtually imperceptible to clients, guests, or colleagues, catering to those seeking an aesthetically pleasing and unobtrusive access point. Whether your objective is a visually appealing environment or effective network management in a bustling space, the ceiling emerges as the optimal location for the cAP ax, ensuring both performance and style."
+    },
+    {
+      "heading": "Redefining Wireless Excellence",
+      "text": "Enjoy advanced wireless connectivity with the MikroTik cAP ax—an access point built on the Generation6 (Gen6) 802.11ax wireless standard. This device delivers elevated speeds, efficiency, and overall performance compared to its predecessors. Tailored for high-density environments, the cAP ax incorporates innovative features that enhance wireless networking capabilities. Experience a significant surge in speed as the cAP ax leverages Gen6 802.11ax, achieving up to 40% higher speeds in the 5 GHz spectrum. This advancement is made possible through cutting-edge techniques like Orthogonal Frequency Division Multiple Access (OFDMA), ensuring efficient bandwidth allocation to multiple devices simultaneously. The result is a user experience characterized by faster and more reliable connections, particularly in settings with numerous connected devices. The innovation extends to the 2.4 GHz spectrum, where the cAP ax showcases an astonishing 90% boost. Technologies such as Basic Service Set (BSS) Coloring play a pivotal role in reducing interference and enhancing signal efficiency in crowded environments, where the 2.4 GHz band is intensively utilized."
+    },
+    {
+      "heading": "Powerful Performance",
+      "text": "The cAP ax integrates a robust quad-core CPU running at 1.8 GHz, accompanied by NAND storage and a gigabyte of RAM. This hardware combination, working seamlessly with RouterOS v7, forms the backbone for an array of advanced networking capabilities. The quad-core CPU, clocked at 1.8 GHz, ensures efficient handling of intricate networking tasks, guaranteeing high-performance operation. Furthermore, the ample NAND storage serves as non-volatile memory, while the gigabyte of RAM optimizes multitasking for responsive functionality. RouterOS v7, MikroTik's latest operating system, equips the cAP ax with customizable networking features, spanning robust firewall rules for heightened security to IPsec hardware encryption for accelerated secure communication. The device supports modern VPN protocols like Wireguard and features BGP support for dynamic routing. Benefits encompass high-performance processing, reliable operation, secure communication, scalability, flexibility, efficient network management, and facilitation of remote work scenarios."
+    },
+    {
+      "heading": "Enhanced Connectivity with PoE-in and PoE-out",
+      "text": "Equipped with Power over Ethernet (PoE) capabilities, the cAP ax streamlines the installation process by consolidating both data and electrical power into a single Ethernet cable. This not only reduces cable clutter but also eliminates the need for separate power cables, contributing to a cost-effective and efficient network setup. The cAP ax further extends its utility with both PoE-In and PoE-Out functionalities. Through PoE-In, the access point can receive power over the Ethernet cable, typically from a PoE-enabled switch or injector. Simultaneously, PoE-Out allows the cAP ax to act as a power source for other devices, such as IP cameras, using additional Ethernet ports. This centralized power management enhances the overall network infrastructure, minimizing the need for multiple power sources and facilitating scalability. Adding to its versatility, the cAP ax includes a 48V Power Supply Unit (PSU) tailored for IP cameras. This feature ensures that IP cameras or additional cAP ax units can be powered straight out of the box, enhancing convenience in network setup, especially in surveillance systems."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Access Points",
+  "categories": [
+    "Access Points",
+    "cAP"
+  ],
+  "mpn": "cAPGi-5HaxD2HaxD",
+  "manufacturer_part_number": "cAPGi-5HaxD2HaxD",
+  "ean": "4752224008473",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4337/1-642a7824323eb-medium.jpg",
+        "alt": "MikroTik cAP ax front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4337/2-642a78295a9f6-medium.jpg",
+        "alt": "MikroTik cAP ax back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4337/3-642a782ed7c5e-medium.jpg",
+        "alt": "MikroTik cAP ax side view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4337/1-642a7824323eb-tiny.jpg",
+        "alt": "MikroTik cAP ax thumbnail",
+        "type": "thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4337/2-642a78295a9f6-tiny.jpg",
+        "alt": "MikroTik cAP ax thumbnail",
+        "type": "thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4337/3-642a782ed7c5e-tiny.jpg",
+        "alt": "MikroTik cAP ax thumbnail",
+        "type": "thumbnail"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/o-wYVPYhOU0",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 103.11,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 6" },
+        { "name": "Standards", "value": "802.11n/ac/ax" },
+        { "name": "Frequency", "value": "2.4GHz, 5GHz" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "2.412 - 2.484 (GHz) (dBi), 5.15 - 5.875 (GHz) (dBi)" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(2) 1 Gbps" },
+        { "name": "Number of PoE Ports", "value": "1 pcs" },
+        { "name": "PoE Out Standards", "value": "Passive PoE" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "Quad core IPQ-6010 1.8 GHz" },
+        { "name": "RAM", "value": "1 GB" },
+        { "name": "Storage Memory", "value": "128 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "802.3af PoE, 802.3at PoE+" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Supported Input Voltage", "value": "18 - 57 V DC" },
+        { "name": "Max Power Consumption", "value": "9 W" },
+        { "name": "PSU / POE adapter", "value": "48 V DC 0.95 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        { "name": "Dimensions", "value": "228 x 228 x 48 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Indoor" },
+        { "name": "Mounting Method", "value": "Ceilling Mount" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 4" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik cAP ax",
+      "url": "https://www.getic.com/files/catalogue/4337/capax-641d48254b5e1.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik cAP ax",
+      "url": "https://www.getic.com/files/catalogue/4337/quickguidecapax-650ae7cf2cf87.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik cAP ax",
+      "url": "https://www.getic.com/files/catalogue/4337/usermanualscapax-650ae7db9af48.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 25.85,
+        "delivery_time": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 36.65,
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.6,
+    "count": 12,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 75,
+      "great": 17,
+      "average": 0,
+      "poor": 8,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 9,
+      "4_star": 2,
+      "3_star": 0,
+      "2_star": 1,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "SP",
+        "date": "2025-12-28",
+        "text": "The stability and coverage of this AP is awesome. I would akin it to set it and forget type of ap. This is even more relevant with the ap being managed via CAPsMAN and Winbox. Great product.",
+        "photos": []
+      },
+      {
+        "name": "Alexander",
+        "date": "2025-11-20",
+        "text": "Excelent AP",
+        "photos": []
+      },
+      {
+        "name": "MIHAILS",
+        "date": "2025-04-30",
+        "text": "Legit device",
+        "photos": []
+      },
+      {
+        "name": "Budiyanto",
+        "date": "2025-03-26",
+        "text": "High chance that i have misconfiguration somewhere, and out of the box, the signal seems to be less powerful compare to similar class access point. It's still a good product, and no issue with ordering and shipment from Getic SIA. Thanks!",
+        "photos": []
+      },
+      {
+        "name": "John",
+        "date": "2024-12-21",
+        "text": "todo bien, envían inmediatamente",
+        "photos": []
+      },
+      {
+        "name": "Tarmo",
+        "date": "2024-03-01",
+        "text": "Pretty good device.",
+        "photos": []
+      },
+      {
+        "name": "Aldis",
+        "date": "2024-02-19",
+        "text": "Viss vienkārši darbojas. Default konfigs gan varētu būt set-up kā access point, nevis kā rūteris. Ar to pats netiku galā..",
+        "photos": []
+      },
+      {
+        "name": "Silver",
+        "date": "2023-12-11",
+        "text": "good staff",
+        "photos": []
+      },
+      {
+        "name": "Rain",
+        "date": "2023-10-08",
+        "text": "Family asked why I waited so long, perfect product, perfect result",
+        "photos": []
+      },
+      {
+        "name": "Guido",
+        "date": "2023-08-15",
+        "text": "Good quality, Good price, fast delivery. Thank you very much.",
+        "photos": []
+      },
+      {
+        "name": "DEFAYE",
+        "date": "2023-08-12",
+        "text": "Mikrotik quality at the best price",
+        "photos": []
+      },
+      {
+        "name": "Bernd",
+        "date": "2023-05-22",
+        "text": "Mikrotik Router a normally very good stuff with a lot of possibilities to configure. But the new generation AX with WifiWave2 does NOT support Capsman and Bridging. It can't be used as a repeater and so on. See Mikrotik Dokumentation WifiWave2-Lostfeatures Therefor a lot of functionality is lost. Regards Bernd Neumann",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CRS328-24P-4S+RM",
+      "url": "/product/cloud-router-switch-328-24p-4s-rm",
+      "price": 434.22,
+      "currency": "USD",
+      "mpn": "CRS328-24P-4S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB5009UPr+S+IN",
+      "url": "/product/mikrotik-rb5009upr-s-in",
+      "price": 239.45,
+      "currency": "USD",
+      "mpn": "RB5009UPr+S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax2",
+      "url": "/product/mikrotik-hap-ax2",
+      "price": 80.20,
+      "currency": "USD",
+      "mpn": "C52iG-5HaxD2HaxD-TC",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax3",
+      "url": "/product/mikrotik-hap-ax3",
+      "price": 102.08,
+      "currency": "USD",
+      "mpn": "C53UiG+5HPaxD2HPaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": "348 pcs in stock, 5 pcs used in stock"
+}

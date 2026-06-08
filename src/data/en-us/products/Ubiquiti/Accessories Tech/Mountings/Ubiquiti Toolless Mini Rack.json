@@ -1,0 +1,259 @@
+{
+  "slug": "ubiquiti-toolless-mini-rack",
+  "id": "4282",
+  "productTitle": "Ubiquiti Toolless Mini Rack",
+  "name": "Ubiquiti Toolless Mini Rack",
+  "title": "Ubiquiti Toolless Mini Rack",
+  "title_extended": "Ubiquiti Toolless Mini Rack - 6U-sized device rack with a 24-port blank patch panel that can be assembled without tools.",
+  "short_description": "Open Frame Toolless Mini Rack, 6U, Max. Weight Capacity 35 kg",
+  "description": "Open Frame Toolless Mini Rack, 6U, Max. Weight Capacity 35 kg",
+  "detailed_description": [
+    {
+      "heading": "6U-sized device rack with a 24-port blank patch panel that can be assembled without tools.",
+      "text": "The Ubiquiti Toolless Mini Rack, marked with the manufacture part number U-Rack-6U-TL, is an innovative, compact, and highly versatile rack solution designed to streamline the installation and maintenance of network equipment for both commercial and residential applications."
+    },
+    {
+      "heading": "Features",
+      "text": "6U-sized device rack\n24-port blank patch panel\nToolless assembly and device mounting\nLockable casters\nCombine two Mini Racks into a 12U rack with a Stacking Kit (purchased separately)"
+    },
+    {
+      "heading": "Construction and Durability",
+      "text": "Made from high-quality materials, the Mini Rack is built to withstand the rigors of both commercial and residential use. The frame or bracket is made of cold rolled carbon steel (SPCC), and the handle is made of stainless steel. This robust construction ensures stability and durability, safeguarding sensitive networking equipment against physical damage."
+    },
+    {
+      "heading": "Toolless Design and Capacity",
+      "text": "The standout feature of this rack is its toolless design, allowing for quick and easy setup, adjustments, and equipment mounting without the need for additional tools. This feature is particularly beneficial in dynamic environments where equipment needs frequently change. With a 6U capacity, the Mini Rack is compact enough to fit in various environments, from small closets to office spaces. Its modular design also supports vertical expansion or reconfiguration, adapting to evolving networking needs."
+    },
+    {
+      "heading": "Open-Frame Design and Cable Management",
+      "text": "The open-frame design enhances ventilation, promoting efficient air circulation to cool equipment naturally. This is crucial for maintaining optimal operating temperatures and prolonging the life of electronic components. The U-Rack-6U-TL also includes features to help manage and organize cables, reducing clutter and maintaining a tidy installation area. Proper cable management improves accessibility and minimizes the risk of accidental disconnections or cable damage."
+    },
+    {
+      "heading": "Compatible Accessory",
+      "text": "A good addition for this mini rack would be The Toolless Mini Rack Stacking Kit, identified by the manufacturer part number UACC-Rack-Stacking-Kit, which is an easy-to-install accessory that can be purchased separately. This kit enables users to seamlessly combine two Toolless Mini Racks, transforming them into a unified 12U network rack, thereby doubling the available rack space without the need for additional tools or complex procedures. This solution is ideal for efficiently expanding network infrastructure as your space or capacity requirements grow."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Mountings",
+  "categories": [
+    "Ubiquiti",
+    "Accessory Tech",
+    "Mountings"
+  ],
+  "mpn": "U-Rack-6U-TL",
+  "manufacturer_part_number": "U-Rack-6U-TL",
+  "ean": "0810010075390",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4282/1-63becb231febd-medium.jpg",
+        "alt": "Ubiquiti Toolless Mini Rack",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4282/2-63becb2682298-medium.jpg",
+        "alt": "Ubiquiti Toolless Mini Rack",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4282/3-63becb29b07e8-medium.jpg",
+        "alt": "Ubiquiti Toolless Mini Rack",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4282/4-63becb2d098ff-medium.jpg",
+        "alt": "Ubiquiti Toolless Mini Rack",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4282/5-63becb30aeb82-medium.jpg",
+        "alt": "Ubiquiti Toolless Mini Rack",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4282/1-63becb231febd-tiny.jpg",
+        "alt": "Ubiquiti Toolless Mini Rack"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4282/2-63becb2682298-tiny.jpg",
+        "alt": "Ubiquiti Toolless Mini Rack"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4282/3-63becb29b07e8-tiny.jpg",
+        "alt": "Ubiquiti Toolless Mini Rack"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4282/4-63becb2d098ff-tiny.jpg",
+        "alt": "Ubiquiti Toolless Mini Rack"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4282/5-63becb30aeb82-tiny.jpg",
+        "alt": "Ubiquiti Toolless Mini Rack"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4282/toollessminirackds-63becb1cdf4af.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Toolless Mini Rack",
+        "type": "datasheet"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/4282/urack6utl_qsg-63becb3f861c8.pdf",
+        "title": "Quick Start Guide - Ubiquiti Toolless Mini Rack",
+        "type": "guide"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 308.31,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "6U"
+        },
+        {
+          "name": "Material",
+          "value": "Metal, Stainless steel"
+        },
+        {
+          "name": "Dimensions",
+          "value": "519 x 460 x 485 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "10.27 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Toolless Mini Rack",
+      "url": "https://www.getic.com/files/catalogue/4282/toollessminirackds-63becb1cdf4af.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti Toolless Mini Rack",
+      "url": "https://www.getic.com/files/catalogue/4282/urack6utl_qsg-63becb3f861c8.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 125.78,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 153.09,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "UniFi Direct Attach Copper Cable 10Gbps 1m",
+      "url": "/product/direct-attach-copper-cable-1",
+      "price": 16.30,
+      "currency": "USD",
+      "mpn": "UACC-DAC-SFP10-1M",
+      "availability": "InStock"
+    },
+    {
+      "name": "UniFi Direct Attach Copper Cable 10Gbps 3m",
+      "url": "/product/direct-attach-copper-cable-3",
+      "price": 21.74,
+      "currency": "USD",
+      "mpn": "UACC-DAC-SFP10-3M",
+      "availability": "InStock"
+    },
+    {
+      "name": "UniFi Direct Attach Copper Cable 10Gbps 0.5m",
+      "url": "/product/ubiquiti-unifi-direct-attach-copper-cable-10gbps-0-5m",
+      "price": 14.94,
+      "currency": "USD",
+      "mpn": "UACC-DAC-SFP10-0.5M",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 184.92,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "8"
+}

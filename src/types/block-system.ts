@@ -173,6 +173,7 @@ export type BlockSectionBackground = {
   color?: string;
   gradient?: string;
   imageUrl?: string;
+  mediaAssetId?: string;
   pattern?: string;
   overlayOpacity?: number;
   glassBlur?: string;

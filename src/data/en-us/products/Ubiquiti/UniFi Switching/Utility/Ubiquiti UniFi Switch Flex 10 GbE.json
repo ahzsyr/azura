@@ -1,0 +1,326 @@
+{
+  "slug": "ubiquiti-unifi-switch-flex-xg",
+  "id": 3409,
+  "productTitle": "Ubiquiti UniFi Switch Flex 10 GbE",
+  "name": "Ubiquiti UniFi Switch Flex 10 GbE",
+  "title": "Ubiquiti UniFi Switch Flex 10 GbE",
+  "title_extended": "",
+  "short_description": "USW Flex XG, (4) 10GbE RJ45 ports and (1) GbE PoE 802.3at input.",
+  "description": "USW Flex XG, (4) 10GbE RJ45 ports and (1) GbE PoE 802.3at input.",
+  "detailed_description": [
+    {
+      "heading": "Compact 10GbE Switch",
+      "text": "The Ubiquiti UniFi Switch Flex 10 GbE (USW-Flex-XG) is a compact, high-performance Layer 2 switch designed to deliver multi-gigabit connectivity in space-constrained environments. It is ideal for modern networks that require 10 GbE speeds at the access layer without sacrificing flexibility or ease of deployment. The switch features a versatile 5-port Ethernet layout, consisting of four 10 GbE RJ45 ports for high-throughput devices and one 1 GbE RJ45 port for management or legacy connectivity. This combination makes the USW-Flex-XG well suited for connecting high-performance workstations, servers, NAS systems, Wi-Fi 6E or Wi-Fi 7 access points, and other bandwidth-intensive devices, while maintaining compatibility with existing Gigabit infrastructure. Designed with deployment flexibility in mind, the switch supports both desktop and wall mounting, allowing it to be installed in offices, studios, network closets, or edge locations where rack-mounted equipment is impractical."
+    },
+    {
+      "heading": null,
+      "text": "The polycarbonate enclosure provides a balance of durability and reduced weight, with the device weighing 1.2 kg, ensuring stability without excessive bulk. The compact form factor enables the USW-Flex-XG to function as a powerful aggregation or access switch close to end devices, reducing cable lengths and improving overall network efficiency. Integrated ESD protection, rated at ±16 kV for air discharge and ±12 kV for contact discharge, helps protect the switch from electrostatic events during installation and operation. By combining multiple 10 GbE ports in a compact, non-rack design, the UniFi Switch Flex 10 GbE offers a practical solution for bringing high-speed Ethernet closer to the network edge while maintaining a clean and professional installation."
+    },
+    {
+      "heading": "High Performance",
+      "text": "At the core of the UniFi Switch Flex 10 GbE is a powerful Layer 2 switching architecture engineered for demanding, high-bandwidth environments. The switch delivers an impressive switching capacity of 82 Gbps, ensuring that internal data flows remain unconstrained even under heavy traffic loads. With a total non-blocking throughput of 41 Gbps, all ports can operate simultaneously at full speed without packet loss. A forwarding rate of 61 million packets per second enables fast and responsive packet handling, making the switch suitable for latency-sensitive applications such as real-time collaboration, high-resolution media workflows, and virtualized environments. The USW-Flex-XG supports up to 1,000 VLANs, allowing extensive network segmentation for security, performance optimization, and traffic isolation. A large MAC address table with 16,000 entries, combined with a packet buffer size of 1.5 MB, ensures stable operation even in networks with many connected endpoints and bursty traffic patterns."
+    },
+    {
+      "heading": null,
+      "text": "The switch includes a comprehensive set of advanced Layer 2 features typically found in enterprise-class equipment. These include LACP port aggregation for increased bandwidth and redundancy, STP and RSTP for loop prevention, and loop protection for added network stability. Multicast environments are handled efficiently through IGMP snooping and advanced IGMP configuration options such as querier, fast leave, and router port support. Security and access control are enhanced through 802.1X authentication, MAC-based and IP-based ACLs, device isolation, MAC address blocking, and DHCP snooping and guarding. Traffic optimization tools include egress rate limiting, flow control, storm control, multicast and broadcast rate limiting, and support for jumbo frames. Additional enterprise features such as LLDP-MED, Voice VLAN, virtual network override, port mirroring, and MAC-based port restrictions provide granular control and visibility across the network."
+    },
+    {
+      "heading": "Flexible Power Options",
+      "text": "The UniFi Switch Flex 10 GbE is designed for flexible power deployment, supporting multiple input methods to adapt to different installation scenarios. The switch can be powered via PoE+ or through a USB Type-C connection rated at 5V DC and 5A, providing freedom to deploy the device in locations with or without PoE infrastructure. The supported voltage ranges include 44–57V when powered by PoE and 4.8–5.2V DC via USB-C, ensuring compatibility with common enterprise and consumer power sources. An external AC/DC power supply rated at 25W is used when USB-C power is selected, delivering stable and sufficient power for full switch operation. Despite its high performance, the switch maintains controlled energy usage with a maximum power consumption of 25W."
+    },
+    {
+      "heading": null,
+      "text": "Thermal output is rated at 85.3 BTU per hour, reflecting the processing capabilities required for sustained 10 GbE operation. This design ensures reliable performance while maintaining predictable thermal characteristics. Management is performed over Ethernet using the UniFi Network application version 6.1.67 or later, enabling centralized configuration, monitoring, firmware updates, and policy enforcement across the UniFi ecosystem. This unified management approach simplifies administration and ensures consistent network behavior from a single interface. The USW-Flex-XG is NDAA compliant and certified to CE, FCC, IC, and Anatel standards, confirming its suitability for commercial, enterprise, and regulated deployments. With its combination of flexible power input, centralized management, and regulatory compliance, the UniFi Switch Flex 10 GbE delivers a powerful and adaptable foundation for modern high-speed networks."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches"
+  ],
+  "mpn": "USW-Flex-XG",
+  "manufacturer_part_number": "USW-Flex-XG",
+  "ean": "0810010075864",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3409/uswflexxg_003_1e84c8b5022046dfad926334eef8ca45-6114e55de4312-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex 10 GbE",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3409/uswflexxg_001_1b903292ab7d4bbd874d16e745b3cfaa-6114e55d25327-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex 10 GbE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3409/uswflexxg_006_d3995e33bdab47d29954beb7d78faf4b-6114e5577a378-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex 10 GbE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3409/uswflexxg_005_349f51b6130047a1a33c13abfa69b7b4-6114e5592dac2-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex 10 GbE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3409/uswflexxg_004_b5c7c8bc14ca4e1f9269a792b353d98e-6114e55b84c38-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex 10 GbE",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/Augue64qizM",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 300.79,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps, (4) 10 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3at (PoE+)"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "50 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "25 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "USB Type-C"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "5 V DC 5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "135 x 185 x 32 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.2 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 45 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Flex 10 GbE",
+      "url": "https://dl.ubnt.com/ds/usw-flex-xg_ds"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti UniFi Switch Flex 10 GbE",
+      "url": "https://dl.ubnt.com/qig/flex-xg"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex Mini",
+      "url": "/product/unifi-usw-flex-mini",
+      "price": 35.32,
+      "currency": "USD",
+      "mpn": "USW-Flex-Mini",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Aggregation",
+      "url": "/product/usw-switch-aggregation",
+      "price": 269.19,
+      "currency": "USD",
+      "mpn": "USW-Aggregation",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Enterprise 8 PoE",
+      "url": "/product/unifi-switch-enterprise-8-poe",
+      "price": 483.38,
+      "currency": "USD",
+      "mpn": "USW-Enterprise-8-PoE",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

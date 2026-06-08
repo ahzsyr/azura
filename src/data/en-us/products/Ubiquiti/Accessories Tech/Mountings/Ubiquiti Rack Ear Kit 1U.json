@@ -1,0 +1,213 @@
+{
+  "slug": "ubiquiti-rack-ear-kit-1u",
+  "id": "UACC-Rack-Ear-1U",
+  "productTitle": "Ubiquiti Rack Ear Kit 1U",
+  "name": "Ubiquiti Rack Ear Kit 1U",
+  "title": "Ubiquiti Rack Ear Kit 1U",
+  "title_extended": "Ubiquiti Rack Ear Kit 1U – Secure Rack Integration",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Secure Rack Integration",
+      "text": "The Ubiquiti Rack Ear Kit 1U (UACC-Rack-Ear-1U) is designed to provide a robust and reliable mounting solution for Ubiquiti devices in a standard 19-inch rack. Constructed from durable, high-quality steel, this kit ensures long-lasting performance and stability for your rack-mounted equipment. The 1U design offers a sleek and space-efficient solution, making it suitable for compact installations while maintaining compatibility with professional-grade networking setups. With its precise engineering, the Rack Ear Kit provides secure fastening and minimizes vibration, ensuring optimal device protection and functionality in demanding environments such as data centers, server rooms, and enterprise networks."
+    },
+    {
+      "heading": "Easy Installation",
+      "text": "The UACC-Rack-Ear-1U is designed for user-friendly installation, featuring pre-drilled holes that align perfectly with compatible Ubiquiti devices, allowing for quick and hassle-free setup. Its universal 1U height ensures compatibility with a wide range of Ubiquiti network appliances, including switches, routers, and other rack-mountable devices. The kit includes all necessary mounting hardware, ensuring a seamless integration process without the need for additional tools or components. Whether you're expanding your existing infrastructure or setting up a new network, the Ubiquiti Rack Ear Kit 1U delivers a practical and professional mounting solution, combining functionality, durability, and ease of use to support your networking needs."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Rack Cabinets",
+  "categories": [
+    "Rack Cabinets",
+    "Ubiquiti",
+    "Accessory Tech"
+  ],
+  "mpn": "UACC-Rack-Ear-1U",
+  "manufacturer_part_number": "UACC-Rack-Ear-1U",
+  "ean": "0810084699805",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5373/1-677bb337385ed-medium.jpg",
+        "alt": "Ubiquiti Rack Ear Kit 1U",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5373/2-677bb33b7edd6-medium.jpg",
+        "alt": "Ubiquiti Rack Ear Kit 1U",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5373/3-677bb33fd03e8-medium.jpg",
+        "alt": "Ubiquiti Rack Ear Kit 1U",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5373/4-677bb34400657-medium.jpg",
+        "alt": "Ubiquiti Rack Ear Kit 1U",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5373/5-677bb347b87d3-medium.jpg",
+        "alt": "Ubiquiti Rack Ear Kit 1U",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5373/6-677bb34b95eb9-medium.jpg",
+        "alt": "Ubiquiti Rack Ear Kit 1U",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5373/7-677bb34fe2639-medium.jpg",
+        "alt": "Ubiquiti Rack Ear Kit 1U",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 10.05,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Galvanized steel"
+        },
+        {
+          "name": "Dimensions",
+          "value": "50 x 42.8 x 19.5 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.05 kg"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Rack Ear Kit 1U",
+      "url": "https://www.getic.com/files/catalogue/5373/uaccrackear_ds-677bb32f6b7ce.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "days": "18"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "days": "5"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "days": "2"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "19\" PDU Panel 9-port(EU), EU plug",
+      "url": "/product/19-1u-9v-power-socket-eu",
+      "price": 23.86,
+      "currency": "USD",
+      "mpn": "PDU09S",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Standard 24 PoE",
+      "url": "/product/usw-24-poe-gen-2",
+      "price": 383.89,
+      "currency": "USD",
+      "mpn": "USW-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Protect All-In-One Sensor",
+      "url": "/product/ubiquiti-smart-sensor",
+      "price": 60.42,
+      "currency": "USD",
+      "mpn": "UP-Sense",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 184.92,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out of stock"
+}

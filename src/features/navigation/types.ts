@@ -163,6 +163,8 @@ export interface HeaderAction {
   style: ActionStyle;
   outlined: boolean;
   visible: boolean;
+  /** Link destination for custom buttons (internal path or external URL). */
+  href?: string;
 }
 
 /** Site-wide: display boxed header over the first block on CMS pages */

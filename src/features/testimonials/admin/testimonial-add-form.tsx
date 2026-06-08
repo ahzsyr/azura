@@ -4,7 +4,7 @@ import { useEffect, useState, useTransition, type RefObject } from "react";
 import { useRouter } from "next/navigation";
 import { upsertTestimonial } from "@/features/testimonials/actions";
 import { useAdminFormOptional } from "@/components/admin/layout/admin-form-provider";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -87,16 +87,14 @@ export function TestimonialAddForm({ embedded = false, formRef, onSuccess }: Pro
         <Label htmlFor="contentAr">Content (AR)</Label>
         <Textarea id="contentAr" name="contentAr" rows={4} required />
       </div>
-      <MediaPickerField
+      <UrlPrimaryMediaPickerField
         label="Photo"
-        urlFieldName="imageUrl"
-        mediaId={mediaAssetId}
         url={imageUrl}
-        onChange={({ mediaId, url }) => {
-          setMediaAssetId(mediaId);
-          setImageUrl(url);
-        }}
+        onChange={setImageUrl}
+        onMediaIdChange={(mediaId) => setMediaAssetId(mediaId)}
       />
+      <input type="hidden" name="imageUrl" value={imageUrl} readOnly />
+      <input type="hidden" name="mediaAssetId" value={mediaAssetId ?? ""} readOnly />
       {!embedded && (
         <Button type="submit" disabled={pending}>
           {pending ? "Adding…" : "Add testimonial"}

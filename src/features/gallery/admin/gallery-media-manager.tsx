@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { addGalleryMediaQuick } from "@/features/gallery/actions";
 import { MediaPickerDialog, MediaPickerTriggerButton } from "@/features/media/components/media-picker-dialog";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { LocalUploadDropzone } from "@/features/media/components/local-upload-dropzone";
 import { Button } from "@/components/ui/button";
 
@@ -34,12 +34,10 @@ export function GalleryMediaManager({ galleryId }: Props) {
       <div className="space-y-3 rounded-lg border p-4">
         <p className="text-sm font-medium">Add from link</p>
         <p className="text-xs text-muted-foreground">Paste a direct photo or video URL.</p>
-        <MediaPickerField
+        <UrlPrimaryMediaPickerField
           label=""
           url={linkUrl}
-          trackMediaId={false}
-          idFieldName=""
-          onChange={({ url }) => setLinkUrl(url)}
+          onChange={setLinkUrl}
           mediaTypes={["IMAGE", "VIDEO", "SVG"]}
         />
         <Button type="button" size="sm" onClick={addFromLink} disabled={pending || !linkUrl.trim()}>

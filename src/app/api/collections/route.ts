@@ -1,28 +1,30 @@
-import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { NextResponse } from "next/server";
 import type { Collection } from "@/features/collections/types";
+import {
+  isCatalogFsWriteError,
+  loadCollections,
+  preferCatalogJsonStore,
+  safeMkdirCatalogDir,
+  saveCollections,
+} from "@/features/collections/collections-persistence";
 import {
   syncCollections,
   validateSync,
 } from "@/features/collections/collection-sync.service";
 import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
 import { CATALOG_LOCALES, isCatalogLocale } from "@/features/catalog/locales";
+import { rebuildAllCatalogProductIndexes } from "@/features/products/index/product-index-patcher";
 
-const COLLECTIONS_PATH = resolve(process.cwd(), "src/data/collections.json");
 const DATA_DIR = resolve(process.cwd(), "src/data");
 
-async function readCollections(): Promise<Collection[]> {
+async function rebuildProductIndexesAfterCollectionChange(): Promise<void> {
   try {
-    const raw = JSON.parse(await readFile(COLLECTIONS_PATH, "utf-8"));
-    return Array.isArray(raw) ? (raw as Collection[]) : [];
-  } catch {
-    return [];
+    await rebuildAllCatalogProductIndexes();
+  } catch (err) {
+    console.warn("[collections] product index rebuild after collection change failed", err);
   }
-}
-
-async function writeCollections(data: Collection[]): Promise<void> {
-  await writeFile(COLLECTIONS_PATH, JSON.stringify(data, null, 2), "utf-8");
 }
 
 function slugSet(cols: Array<{ slug?: string }>): Set<string> {
@@ -52,22 +54,30 @@ function resolveParentSlug(
 }
 
 async function syncLocaleCollectionFile(col: Collection): Promise<void> {
+  if (preferCatalogJsonStore()) return;
+
   for (const locale of CATALOG_LOCALES) {
     const dir = join(DATA_DIR, locale, "collections");
-    await mkdir(dir, { recursive: true });
-    const filePath = join(dir, `${col.slug}.json`);
-    await writeFile(
-      filePath,
-      JSON.stringify({ ...col, _locale: locale }, null, 2),
-      "utf-8",
-    );
+    try {
+      const ready = await safeMkdirCatalogDir(dir);
+      if (!ready) return;
+      const filePath = join(dir, `${col.slug}.json`);
+      await writeFile(
+        filePath,
+        JSON.stringify({ ...col, _locale: locale }, null, 2),
+        "utf-8",
+      );
+    } catch (error) {
+      if (isCatalogFsWriteError(error)) return;
+      throw error;
+    }
   }
 }
 
 export async function GET() {
   const unauthorized = await requireCatalogAdmin();
   if (unauthorized) return unauthorized;
-  const collections = await readCollections();
+  const collections = await loadCollections();
   return NextResponse.json({ collections });
 }
 
@@ -97,7 +107,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "slug and name are required" }, { status: 400 });
     }
 
-    const cols = await readCollections();
+    const cols = await loadCollections();
     if (cols.find((c) => c.slug === body.slug)) {
       return NextResponse.json({ error: "A collection with this slug already exists" }, { status: 400 });
     }
@@ -131,8 +141,9 @@ export async function POST(request: Request) {
     };
 
     cols.push(col);
-    await writeCollections(cols);
+    await saveCollections(cols);
     await syncLocaleCollectionFile(col);
+    await rebuildProductIndexesAfterCollectionChange();
     return NextResponse.json({ collection: col });
   } catch (e) {
     return NextResponse.json(
@@ -156,7 +167,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "slug or id required" }, { status: 400 });
     }
 
-    const cols = await readCollections();
+    const cols = await loadCollections();
     const key = body.originalSlug ?? body.id ?? body.slug;
     const idx = cols.findIndex((c) => c.slug === key || c.id === key);
     if (idx === -1) {
@@ -180,8 +191,9 @@ export async function PUT(request: Request) {
     delete (merged as { originalSlug?: string }).originalSlug;
 
     cols[idx] = merged;
-    await writeCollections(cols);
+    await saveCollections(cols);
     await syncLocaleCollectionFile(merged);
+    await rebuildProductIndexesAfterCollectionChange();
     return NextResponse.json({ collection: merged });
   } catch (e) {
     return NextResponse.json(
@@ -202,13 +214,14 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "slug or id required" }, { status: 400 });
     }
 
-    const cols = await readCollections();
+    const cols = await loadCollections();
     if (!cols.find((c) => c.slug === key || c.id === key)) {
       return NextResponse.json({ error: "Collection not found" }, { status: 404 });
     }
 
     const next = cols.filter((c) => c.slug !== key && c.id !== key);
-    await writeCollections(next);
+    await saveCollections(next);
+    await rebuildProductIndexesAfterCollectionChange();
     return NextResponse.json({ removedSlug: key });
   } catch (e) {
     return NextResponse.json(

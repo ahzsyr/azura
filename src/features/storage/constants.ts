@@ -25,6 +25,21 @@ export const JSON_NAMESPACES = {
     description: "Default card display settings for catalog blocks",
     category: "settings",
   },
+  "catalog-collections": {
+    label: "Catalog collections",
+    description: "Product catalog collections overlay (serverless / read-only FS)",
+    category: "settings",
+  },
+  "catalog-media": {
+    label: "Catalog media overlay",
+    description: "Site media metadata and tombstones for serverless deployments",
+    category: "settings",
+  },
+  "catalog-collections-sync-report": {
+    label: "Catalog collections sync report",
+    description: "Last collection sync report for admin product counts",
+    category: "settings",
+  },
   settings: {
     label: "App settings",
     description: "Low-priority site settings key-value store",

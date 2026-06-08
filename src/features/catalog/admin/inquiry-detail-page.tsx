@@ -42,7 +42,15 @@ export function InquiryDetailPage({ inquiry, suggestedCustomer }: Props) {
     notesFormRef.current?.requestSubmit();
   }, []);
 
+  const handleCancel = useCallback(() => {
+    router.refresh();
+  }, [router]);
+
   const onSave = useMemo(() => handleSave, [handleSave]);
+  const onCancel = useMemo(
+    () => (activeTab === "manage" ? handleCancel : undefined),
+    [activeTab, handleCancel]
+  );
 
   const setStatus = (status: "NEW" | "CONTACTED" | "CLOSED") => {
     startTransition(async () => {
@@ -86,7 +94,9 @@ export function InquiryDetailPage({ inquiry, suggestedCustomer }: Props) {
       tabs={[...TABS]}
       activeTab={activeTab}
       onTabChange={setActiveTab}
+      trackFormId={activeTab === "manage" ? "inquiry-notes-form" : undefined}
       onSave={activeTab === "manage" ? onSave : undefined}
+      onCancel={onCancel}
       headerActions={
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant={statusBadgeVariant(inquiry.status)}>{inquiry.status}</Badge>
@@ -180,6 +190,7 @@ export function InquiryDetailPage({ inquiry, suggestedCustomer }: Props) {
                 </div>
 
                 <form
+                  id="inquiry-notes-form"
                   ref={notesFormRef}
                   action={async (formData) => {
                     await updateInquiryNotes(inquiry.id, (formData.get("notes") as string) ?? "");

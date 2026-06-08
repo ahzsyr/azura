@@ -1,0 +1,218 @@
+{
+  "slug": "mikrotik-kit-k79",
+  "id": 3410,
+  "productTitle": "MikroTik Rackmount kit for RB5009/L009 series",
+  "name": "MikroTik Rackmount kit for RB5009/L009 series",
+  "title": "MikroTik Rackmount kit for RB5009/L009 series",
+  "title_extended": "",
+  "short_description": "Kit for mounting RB5009 devices in 1U rackmounts",
+  "description": "The MikroTik K-79 is a durable and precisely engineered rack ear kit designed to mount your MikroTik RB5009 or L009 series router securely into a standard 19-inch server rack. Made from high-quality metal, it ensures a reliable and stable installation while maintaining a clean, professional appearance in your network setup.",
+  "detailed_description": [
+    {
+      "heading": "Secure Rack Mounting for RB5009/L009 Series",
+      "text": "The MikroTik K-79 is a durable and precisely engineered rack ear kit designed to mount your MikroTik RB5009 or L009 series router securely into a standard 19-inch server rack. Made from high-quality metal, it ensures a reliable and stable installation while maintaining a clean, professional appearance in your network setup. The K-79 provides a simple and efficient way to integrate MikroTik devices into rack environments commonly used in data centers, offices, or structured home networks. Its straightforward design allows for quick installation and a perfect fit, ensuring that your equipment stays securely in place. Whether you are upgrading an existing rack system or setting up new network hardware, the K-79 offers a practical and space-saving solution for professional MikroTik mounting needs."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Mounting Accessories",
+  "categories": [
+    "Mounting Accessories",
+    "Brackets"
+  ],
+  "mpn": "K-79",
+  "manufacturer_part_number": "K-79",
+  "ean": "4752224009098",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3410/2070_hi_res-61165ecd5f4d3-medium.jpg",
+        "alt": "MikroTik Rackmount kit for RB5009/L009 series",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3410/2071_hi_res-61165ecec773d-medium.jpg",
+        "alt": "MikroTik Rackmount kit for RB5009/L009 series",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3410/2072_hi_res-61165ed01f61e-medium.jpg",
+        "alt": "MikroTik Rackmount kit for RB5009/L009 series",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3410/2070_hi_res-61165ecd5f4d3-tiny.jpg",
+        "alt": "MikroTik Rackmount kit for RB5009/L009 series"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3410/2071_hi_res-61165ecec773d-tiny.jpg",
+        "alt": "MikroTik Rackmount kit for RB5009/L009 series"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3410/2072_hi_res-61165ed01f61e-tiny.jpg",
+        "alt": "MikroTik Rackmount kit for RB5009/L009 series"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "title": "Design Guide - MikroTik Rackmount kit for RB5009/L009 series",
+        "url": "https://www.getic.com/files/catalogue/3410/rb5009rackmountkitk_210741-6124e34fb36f9.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 8.04,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Number of Rack Units",
+        "Material",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 3,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 3,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Janno",
+        "date": "2025-10-16",
+        "text": "Good if you don't have 3d printer and need to stack up some switches.",
+        "photos": []
+      },
+      {
+        "name": "Gregor",
+        "date": "2023-02-24",
+        "text": "Exactly what I needed.",
+        "photos": []
+      },
+      {
+        "name": "Dan",
+        "date": "2022-09-15",
+        "text": "This is an ingenious design for mounting brackets. The same kit will hold 1, 2, 3 or 4 units in a standard rack mount 19” design. Great for dense deployments where space is at a premium.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+      "url": "/product/direct-attach-cable-xs-da0001",
+      "price": 26.85,
+      "currency": "USD",
+      "mpn": "XS+DA0001",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB5009UG+S+IN",
+      "url": "/product/mikrotik-rb5009ug-s-in",
+      "price": 175.29,
+      "currency": "USD",
+      "mpn": "RB5009UG+S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB5009UPr+S+IN",
+      "url": "/product/mikrotik-rb5009upr-s-in",
+      "price": 239.45,
+      "currency": "USD",
+      "mpn": "RB5009UPr+S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ax",
+      "url": "/product/mikrotik-cap-ax",
+      "price": 103.11,
+      "currency": "USD",
+      "mpn": "cAPGi-5HaxD2HaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -119,20 +119,6 @@ export async function isSetupDatabaseReady(): Promise<boolean> {
 
     logSetupDbError("database probe failed", error);
     lastDatabaseProbeError = summarizeDatabaseProbeError(error);
-    // #region agent log
-    import("@/lib/debug-ingest").then(({ debugIngest }) =>
-      debugIngest(
-        "setup.service.ts:isSetupDatabaseReady",
-        "database probe failed",
-        {
-          malformed: isDatabaseUrlMalformed(),
-          needsCleanup: hasFixableDatabaseUrlFormatting(),
-          error: (lastDatabaseProbeError ?? "").slice(0, 200),
-        },
-        "H6",
-      ),
-    );
-    // #endregion
 
     return false;
 

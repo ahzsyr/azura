@@ -1,18 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import type { MediaType } from "@prisma/client";
 import { Link2, Upload, X } from "lucide-react";
-import { MediaPickerDialog, MediaPickerTriggerButton, type MediaPickResult } from "./media-picker-dialog";
+import {
+  UnifiedMediaPickerDialog,
+  UnifiedMediaPickerTriggerButton,
+  type UnifiedMediaPickResult,
+} from "./unified-media-picker-dialog";
 import { MediaFieldUploadButton } from "./media-field-upload-button";
-import { DEFAULT_MEDIA_PLACEHOLDER, hasMediaUrl, resolveMediaUrl } from "@/features/media/constants";
+import {
+  DEFAULT_MEDIA_PLACEHOLDER,
+  hasMediaUrl,
+  IMAGE_PICKER_MEDIA_TYPES,
+  resolveMediaUrl,
+} from "@/features/media/constants";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-type SourceMode = "link" | "upload";
+import {
+  initialMediaPickerMode,
+  type MediaPickerSourceMode,
+} from "@/features/media/lib/media-picker-mode";
 
 type Props = {
   label?: string;
@@ -31,12 +43,6 @@ type Props = {
   trackMediaId?: boolean;
 };
 
-function initialMode(mediaId?: string | null, url?: string): SourceMode {
-  if (mediaId) return "upload";
-  if (hasMediaUrl(url)) return "link";
-  return "link";
-}
-
 export function MediaPickerField({
   label = "Media",
   hint,
@@ -44,30 +50,38 @@ export function MediaPickerField({
   urlFieldName,
   mediaId,
   url = "",
-  mediaTypes = ["IMAGE", "SVG"],
+  mediaTypes = IMAGE_PICKER_MEDIA_TYPES,
   onChange,
   className,
   previewSize,
   trackMediaId = true,
 }: Props) {
-  const [mode, setMode] = useState<SourceMode>(() => initialMode(mediaId, url));
+  const [mode, setMode] = useState<MediaPickerSourceMode>("link");
+  const [mounted, setMounted] = useState(false);
   const preview = resolveMediaUrl(url);
   const showingPlaceholder = !hasMediaUrl(url);
   const previewBox = previewSize ?? { width: 112, height: 80 };
 
   useEffect(() => {
-    setMode(initialMode(mediaId, url));
+    setMounted(true);
+    setMode(initialMediaPickerMode(mediaId, url));
   }, [mediaId, url]);
 
-  const handlePick = (asset: MediaPickResult) => {
-    setMode("upload");
-    onChange({ mediaId: asset.id, url: asset.url });
-  };
+  const handlePick = useCallback(
+    (result: UnifiedMediaPickResult) => {
+      setMode("upload");
+      onChange({ mediaId: result.mediaId, url: result.url });
+    },
+    [onChange],
+  );
 
-  const handleUpload = (result: { url: string; mediaId: string | null }) => {
-    setMode("upload");
-    onChange({ mediaId: result.mediaId, url: result.url });
-  };
+  const handleUpload = useCallback(
+    (result: { url: string; mediaId: string | null }) => {
+      setMode("upload");
+      onChange({ mediaId: result.mediaId, url: result.url });
+    },
+    [onChange],
+  );
 
   const handleLinkChange = (nextUrl: string) => {
     onChange({ mediaId: null, url: nextUrl });
@@ -134,7 +148,7 @@ export function MediaPickerField({
             </button>
           </div>
 
-          {mode === "link" ? (
+          {!mounted || mode === "link" ? (
             <Input
               value={url}
               onChange={(e) => handleLinkChange(e.target.value)}
@@ -144,10 +158,10 @@ export function MediaPickerField({
           ) : (
             <div className="flex flex-wrap gap-2">
               <MediaFieldUploadButton mediaTypes={mediaTypes} onComplete={handleUpload} />
-              <MediaPickerDialog
+              <UnifiedMediaPickerDialog
                 mediaTypes={mediaTypes}
                 onSelect={handlePick}
-                trigger={<MediaPickerTriggerButton label="Media library" />}
+                trigger={<UnifiedMediaPickerTriggerButton label="Media library" />}
               />
             </div>
           )}
@@ -159,7 +173,7 @@ export function MediaPickerField({
                 Clear
               </Button>
             )}
-            {mediaId ? (
+            {mounted && mediaId ? (
               <p className="text-[10px] text-muted-foreground font-mono truncate">ID: {mediaId}</p>
             ) : null}
           </div>

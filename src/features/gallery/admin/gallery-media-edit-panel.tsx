@@ -4,7 +4,7 @@ import { useEffect, useState, useTransition, type RefObject } from "react";
 import { useRouter } from "next/navigation";
 import type { GalleryMediaAdmin } from "@/features/gallery/types";
 import { upsertGalleryMedia } from "@/features/gallery/actions";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { useAdminFormOptional } from "@/components/admin/layout/admin-form-provider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -81,14 +81,11 @@ export function GalleryMediaEditPanel({
         </div>
       </div>
 
-      <MediaPickerField
+      <UrlPrimaryMediaPickerField
         label="Photo or video"
-        idFieldName="mediaAssetId"
-        urlFieldName="mediaUrl"
-        mediaId={mediaAssetId}
         url={mediaUrl}
         mediaTypes={["IMAGE", "VIDEO", "SVG"]}
-        onChange={({ mediaId, url }) => {
+        onPick={({ url, mediaId }) => {
           setMediaAssetId(mediaId);
           setMediaUrl(url);
           adminForm?.setDirty(true);
@@ -99,6 +96,8 @@ export function GalleryMediaEditPanel({
           }
         }}
       />
+      <input type="hidden" name="mediaAssetId" value={mediaAssetId ?? ""} readOnly />
+      <input type="hidden" name="mediaUrl" value={mediaUrl} readOnly />
 
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">

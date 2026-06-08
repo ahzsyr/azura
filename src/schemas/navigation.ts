@@ -92,6 +92,7 @@ export const headerWorkspaceSchema = z.object({
       style: z.enum(["icon", "solid", "outline", "ghost"]),
       outlined: z.boolean(),
       visible: z.boolean(),
+      href: z.string().optional(),
     })
   ),
   settings: z.object({

@@ -1,0 +1,367 @@
+{
+  "slug": "airfiber-5xhd",
+  "id": "1532",
+  "productTitle": "Ubiquiti airFiber 5XHD",
+  "name": "Ubiquiti airFiber 5XHD",
+  "title": "Ubiquiti airFiber 5XHD",
+  "title_extended": "",
+  "short_description": "LTU radio, 5GHz, 4096 QAM Modulation, 100 km Range, Max PPS: 2+ Million, Throughput 1Gbps+",
+  "description": "LTU radio, 5GHz, 4096 QAM Modulation, 100 km Range, Max PPS: 2+ Million, Throughput 1Gbps+",
+  "detailed_description": [
+    {
+      "heading": "",
+      "text": "The AirFiber 5XHD, bearing the manufacture part number AF-5XHD, is a standout product from Ubiquiti Networks, designed to offer superior wireless backhaul capabilities. Ubiquiti, a leader in innovative network technology, has developed the AirFiber 5XHD to meet the demanding needs of modern high-capacity, long-distance wireless networks. This device is part of Ubiquiti's AirFiber series, which is renowned for providing high-performance networking solutions that combine robust durability with exceptional speed and efficiency."
+    },
+    {
+      "heading": "",
+      "text": "One of the key features of the AirFiber 5XHD is its compatibility with a wide range of Ubiquiti antennas, allowing for flexible deployment options to meet various network requirements. This versatility ensures that network designers can optimize the system for specific use cases, whether for short, high-capacity links within urban environments or long-distance connections that span several kilometers. Pair the AF-5XHD with a compatible Ubiquiti® airFiber X antenna or RocketDish™ antenna for a complete 5 GHz Point-to-Point (PtP) solution."
+    },
+    {
+      "heading": "",
+      "text": "Key Features:"
+    },
+    {
+      "heading": "",
+      "text": "• 5 GHz, 100+ km link range.\n• 1000+ Mbps throughput.\n• Dedicated spectral analysis radio.\n• Integrated GPS sync\n• 2+ Mpps processing"
+    },
+    {
+      "heading": "",
+      "text": "At its core, the AirFiber 5XHD is a radio frequency (RF) transceiver that operates in the 5 GHz frequency band, optimized for point-to-point (PtP) wireless bridging and backhaul applications. This model stands out for its use of Ubiquiti's proprietary INVICTUS™ silicon and radio architecture, which enhances its capabilities to deliver unparalleled throughput and spectral efficiency. The AF-5XHD is capable of achieving up to 1+ Gbps of real throughput, offering network operators the ability to transmit data over long distances without sacrificing speed or reliability."
+    },
+    {
+      "heading": "",
+      "text": "Ubiquiti has equipped the AF-5XHD with a user-friendly interface, providing network administrators with powerful tools to configure and manage their wireless links. The device includes detailed statistical reporting, real-time spectrum analysis, and comprehensive network management features, all accessible through Ubiquiti's intuitive web-based interface. This level of control enables precise tuning and optimization of the network, ensuring peak performance under varying conditions."
+    },
+    {
+      "heading": "",
+      "text": "Durability is another hallmark of the AirFiber 5XHD. Designed for outdoor use, it features a rugged exterior that can withstand harsh weather conditions, including rain, wind, and extreme temperatures. This resilience guarantees that the device can operate reliably in any environment, making it an ideal solution for critical infrastructure and remote deployments."
+    },
+    {
+      "heading": "",
+      "text": "An IP67 upgrade kit is included to provide enhanced protection from dust and water."
+    },
+    {
+      "heading": "",
+      "text": "The AF-5XHD also emphasizes security, incorporating advanced encryption standards to protect the data transmitted across the wireless link. This ensures that sensitive information remains secure from unauthorized access, providing peace of mind for network operators and end-users alike."
+    },
+    {
+      "heading": "",
+      "text": "AirFiber 5XHD from Ubiquiti Networks represents the pinnacle of wireless backhaul technology. With its combination of high-speed data transmission, spectral efficiency, flexible deployment options, and robust security measures, the AF-5XHD is perfectly suited for a wide range of applications, from ISP backhauls and corporate WANs to surveillance networks and emergency communication systems. Its design and performance reflect Ubiquiti's commitment to delivering cutting-edge networking solutions that meet the evolving needs of the industry."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Carrier Backhaul Radio",
+  "categories": [
+    "Ubiquiti",
+    "Outdoor Wireless",
+    "airFiber PtP"
+  ],
+  "mpn": "AF-5XHD",
+  "manufacturer_part_number": "AF-5XHD",
+  "ean": "0817882022828",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1532/af5xhd_front_angle-5feb204578e22-medium.jpg",
+        "alt": "Ubiquiti airFiber 5XHD",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1532/af5xhd_front-5feb2040e3c9f-medium.jpg",
+        "alt": "Ubiquiti airFiber 5XHD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1532/af5xhd_side-5feb204c16b8e-medium.jpg",
+        "alt": "Ubiquiti airFiber 5XHD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1532/af5xhd_back-5feb203c3cb5c-medium.jpg",
+        "alt": "Ubiquiti airFiber 5XHD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1532/af5xhd_ports-5feb2049a2c98-medium.jpg",
+        "alt": "Ubiquiti airFiber 5XHD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1532/af5xhd_top-5feb204faf9e5-medium.jpg",
+        "alt": "Ubiquiti airFiber 5XHD",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 397.94,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "1.3 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Distance"
+      ],
+      "items": [
+        {
+          "name": "Distance",
+          "value": "Up to 100 km"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) SMA Female, (2) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "18 - 54 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "12 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "224 x 82 x 48 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.35 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 55 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airFiber 5XHD",
+      "url": "https://www.getic.com/https://dl.ubnt.com/datasheets/airfiber/airFiber_5XHD_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airFiber 5XHD",
+      "url": "https://www.getic.com/https://dl.ubnt.com/guides/airfiber/airFiber_AF-5XHD_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Raul",
+        "date": "2024-09-16",
+        "text": "This is an excellent radio",
+        "photos": []
+      },
+      {
+        "name": "Richard",
+        "date": "2023-03-18",
+        "text": "Brilliant radio for PtP in congested areas",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airFiber X 5 GHz, 30 dBi, Slant 45",
+      "url": "/product/airfiber-5g30-s45",
+      "price": 109.75,
+      "currency": "USD",
+      "mpn": "AF-5G30-S45",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber X 5 GHz, 23 dBi, Slant 45",
+      "url": "/product/airfiber-5g23-s45",
+      "price": 92.48,
+      "currency": "USD",
+      "mpn": "AF-5G23-S45",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Rocket Prism 5AC",
+      "url": "/product/rocket-ac-prism-gen2",
+      "price": 229.40,
+      "currency": "USD",
+      "mpn": "RP-5AC-Gen2",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,194 @@
+{
+  "slug": "unifi-professional-mounting-system",
+  "id": "1475",
+  "productTitle": "Ubiquiti UniFi Professional Mounting System",
+  "name": "Ubiquiti UniFi Professional Mounting System",
+  "title": "Ubiquiti UniFi Professional Mounting System",
+  "title_extended": "",
+  "short_description": "Versatile mounting system for UAP-AC-PRO, HD & SHD",
+  "description": "The Ubiquiti Flagship AP Replacement Mounting System is a professional-grade mounting solution designed for secure and precise installation of UniFi access points. Manufactured from durable stainless steel, the mounting plate provides excellent structural strength, corrosion resistance, and long-term reliability in commercial and enterprise environments.",
+  "detailed_description": [
+    {
+      "heading": "Professional AP Mount",
+      "text": "The Ubiquiti Flagship AP Replacement Mounting System is a professional-grade mounting solution designed for secure and precise installation of UniFi access points. Manufactured from durable stainless steel, the mounting plate provides excellent structural strength, corrosion resistance, and long-term reliability in commercial and enterprise environments. With a diameter of 175.6 mm and a solid yet lightweight design, it ensures stable support without adding unnecessary bulk. The mounting system features a wide variety of pre-drilled holes, allowing it to accommodate multiple UniFi access point models using a single mounting plate. This versatility makes it ideal for upgrades, replacements, or standardizing installations across large deployments. Engineered for ceiling and wall installations, the mount ensures proper alignment, consistent positioning, and a clean professional appearance, making it well suited for offices, retail spaces, and other high-density wireless environments."
+    },
+    {
+      "heading": "Compatibility Details",
+      "text": "This mounting system is compatible with a wide range of UniFi flagship access points, including E7, U6 Enterprise, U7 Pro, U6 Pro, U7 Pro Max, U6 LR, and multiple UAP AC models. A clearly printed legend on the mounting plate identifies which holes correspond to each supported access point, significantly reducing installation time and minimizing errors. This feature is especially valuable for installers managing large-scale deployments or replacing older models with newer hardware. Weighing only 139 grams, the mount is easy to handle while remaining robust and secure once installed. Its stainless steel construction ensures long service life even in demanding environments. Whether used for maintenance, upgrades, or new installations, the U-PRO-MP provides a standardized and efficient mounting solution for professional UniFi wireless networks."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Mounting Accessories",
+  "categories": [
+    "Ubiquiti",
+    "UniFi Access Points",
+    "Accessories"
+  ],
+  "mpn": "U-PRO-MP",
+  "manufacturer_part_number": "U-PRO-MP",
+  "ean": "0817882023658",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1475/u-pro-mp-medium.jpg",
+        "alt": "Ubiquiti UniFi Professional Mounting System",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1475/u-pro-mp_1-medium.jpg",
+        "alt": "Ubiquiti UniFi Professional Mounting System",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1475/u-pro-mp_2-medium.jpg",
+        "alt": "Ubiquiti UniFi Professional Mounting System",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1475/u-pro-mp_3-medium.jpg",
+        "alt": "Ubiquiti UniFi Professional Mounting System",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1475/u-pro-mp_4-medium.jpg",
+        "alt": "Ubiquiti UniFi Professional Mounting System",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 10.30,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Ceilling Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Installation Guide - Ubiquiti UniFi Professional Mounting System",
+      "url": "https://www.getic.com/files/catalogue/1475/unifi_uapachd_qsg-607ec61cf108f.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "SANJAY",
+        "date": "2024-04-19",
+        "text": "VERY GOOD BUT OVER PRICE",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-48-24W-G",
+      "url": "/product/ubiquiti-poe-48-gigabit",
+      "price": 14.94,
+      "currency": "USD",
+      "mpn": "POE-48-24W-G",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS328-24P-4S+RM",
+      "url": "/product/cloud-router-switch-328-24p-4s-rm",
+      "price": 434.22,
+      "currency": "USD",
+      "mpn": "CRS328-24P-4S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti PoE+ Adapter",
+      "url": "/product/ubiquiti-poe-at",
+      "price": 16.98,
+      "currency": "USD",
+      "mpn": "U-POE+",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 184.92,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -16,6 +16,7 @@ import {
   Palette,
   Sparkles,
   Wand2,
+  Loader2,
   Search,
   Route,
   Bot,
@@ -160,6 +161,12 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
       { href: "/admin/theme", label: "Theme", icon: Palette, keywords: ["colors", "branding"] },
       { href: "/admin/presets", label: "Presets", icon: Sparkles, keywords: ["templates"] },
       { href: "/admin/personalization", label: "Personalization", icon: Wand2, keywords: ["customize"] },
+      {
+        href: "/admin/preloader",
+        label: "Preloader",
+        icon: Loader2,
+        keywords: ["loading", "splash", "spinner", "preload"],
+      },
       {
         href: "/admin/settings/whatsapp",
         label: "WhatsApp",

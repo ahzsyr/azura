@@ -139,6 +139,7 @@ export function buildDefaultHeaderActions(): HeaderAction[] {
       style: "solid",
       outlined: false,
       visible: true,
+      href: "/contact",
     },
   ];
 }
@@ -171,6 +172,13 @@ export function migrateHeaderActions(actions: HeaderAction[]): HeaderAction[] {
       result = [accountAction, ...result];
     }
   }
+
+  result = result.map((a) => {
+    if (a.type === "custom" && a.id === "action-cta" && !a.href?.trim()) {
+      return { ...a, href: "/contact" };
+    }
+    return a;
+  });
 
   return result;
 }

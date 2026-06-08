@@ -1,5 +1,11 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import {
+  clampOverlayOpacity,
+  shouldShowBackgroundScrim,
+} from "@/features/marketing-blocks/lib/background-scrim";
+
+export { clampOverlayOpacity, shouldShowBackgroundScrim } from "@/features/marketing-blocks/lib/background-scrim";
 
 type BackgroundProps = {
   backgroundType?: string;
@@ -23,11 +29,17 @@ export function BlockBackgroundLayer({
   const isTransparent = backgroundType === "transparent" || backgroundType === "none";
   const hasImage = !isTransparent && backgroundType === "image" && Boolean(imageUrl);
   const hasVideo = !isTransparent && backgroundType === "video" && Boolean(videoUrl);
+  const scrimOpacity = clampOverlayOpacity(overlayOpacity);
+  const showScrim = shouldShowBackgroundScrim(backgroundType, {
+    imageUrl,
+    videoUrl,
+    overlayOpacity: scrimOpacity,
+  });
 
   return (
     <div className={cn("relative overflow-hidden", className)}>
       {hasImage && (
-        <Image src={imageUrl!} alt="" fill className="object-cover -z-20" sizes="100vw" priority />
+        <Image src={imageUrl!} alt="" fill className="absolute inset-0 z-0 object-cover" sizes="100vw" priority />
       )}
       {hasVideo && (
         <video
@@ -35,23 +47,24 @@ export function BlockBackgroundLayer({
           muted
           loop
           playsInline
-          className="absolute inset-0 -z-20 h-full w-full object-cover"
+          className="absolute inset-0 z-0 h-full w-full object-cover"
           src={videoUrl}
         />
       )}
       {backgroundType === "solid" && backgroundColor && (
-        <div className="absolute inset-0 -z-20" style={{ backgroundColor }} />
+        <div className="absolute inset-0 z-0" style={{ backgroundColor }} />
       )}
       {!isTransparent && backgroundType === "gradient" && (
-        <div className="absolute inset-0 -z-20 bg-gradient-to-br from-primary to-primary/80" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary to-primary/80" />
       )}
-      {(hasImage || hasVideo) && (
+      {showScrim && (
         <div
-          className="absolute inset-0 -z-10 bg-black"
-          style={{ opacity: overlayOpacity / 100 }}
+          className="absolute inset-0 z-[1] bg-black"
+          style={{ opacity: scrimOpacity / 100 }}
+          aria-hidden
         />
       )}
-      <div className="relative z-0">{children}</div>
+      <div className="relative z-[2]">{children}</div>
     </div>
   );
 }

@@ -1,0 +1,307 @@
+{
+  "slug": "unifi-switch-flex",
+  "id": 2010,
+  "productTitle": "Ubiquiti UniFi Switch Flex",
+  "name": "Ubiquiti UniFi Switch Flex",
+  "title": "Ubiquiti UniFi Switch Flex",
+  "title_extended": "Ubiquiti UniFi Switch Flex",
+  "short_description": "5 Gigabit Ports, Managed, Layer 2 Gigabit Switch with auto-sensing 802.3af PoE support",
+  "description": "The Ubiquiti UniFi Switch Flex (USW-Flex) is a compact, five-port Layer 2 PoE switch designed for maximum deployment flexibility in both indoor and outdoor environments. Built to operate reliably in diverse conditions, it is an ideal solution for extending network connectivity to locations where space, power availability, or environmental exposure are limiting factors. The switch features five Gigabit Ethernet RJ45 ports, including four PoE+ ports for powering connected devices and one PoE++ port used for powering the switch itself. This design allows the USW-Flex to operate entirely over Ethernet power, eliminating the need for local AC power and simplifying installations on poles, walls, or remote outdoor locations. Power is delivered through PoE++, with support for a 50 to 57V PoE voltage range, ensuring compatibility with enterprise-grade PoE infrastructure.",
+  "detailed_description": [
+    {
+      "heading": "Compact PoE Switch",
+      "text": "The Ubiquiti UniFi Switch Flex (USW-Flex) is a compact, five-port Layer 2 PoE switch designed for maximum deployment flexibility in both indoor and outdoor environments. Built to operate reliably in diverse conditions, it is an ideal solution for extending network connectivity to locations where space, power availability, or environmental exposure are limiting factors. The switch features five Gigabit Ethernet RJ45 ports, including four PoE+ ports for powering connected devices and one PoE++ port used for powering the switch itself. This design allows the USW-Flex to operate entirely over Ethernet power, eliminating the need for local AC power and simplifying installations on poles, walls, or remote outdoor locations. Power is delivered through PoE++, with support for a 50 to 57V PoE voltage range, ensuring compatibility with enterprise-grade PoE infrastructure."
+    },
+    {
+      "heading": "Deployment Flexibility",
+      "text": "With its compact form factor, the USW-Flex supports desktop, wall, and pole mounting, making it easy to deploy in tight or unconventional spaces. The lightweight design, weighing only 230 g, reduces mounting stress and allows installation on a wide variety of surfaces and structures. The switch is engineered for outdoor readiness and durability. It supports extended ambient operating temperatures, operating from –40 to +55°C at 46W PoE output and up to +65°C at 25W PoE output. Integrated ESD protection rated at ±16 kV for air and contact discharge helps safeguard the device against electrostatic events common in outdoor and industrial environments. Designed for professional deployments, the USW-Flex is NDAA compliant and certified to CE, FCC, IC, and Anatel standards, making it suitable for corporate, municipal, and regulated network installations."
+    },
+    {
+      "heading": "Layer 2 Performance",
+      "text": "Despite its compact size, the UniFi Switch Flex delivers solid network performance through a robust Layer 2 switching architecture optimized for edge deployments. The switch provides a switching capacity of 10 Gbps, ensuring that connected devices can communicate efficiently without internal bottlenecks. With a total non-blocking throughput of 5 Gbps, the USW-Flex allows all ports to operate simultaneously at full duplex speeds under typical workloads. A forwarding rate of 7 million packets per second (Mpps) enables responsive packet handling, supporting applications such as IP surveillance, wireless access points, and real-time data services. The switch supports up to 1,000 VLANs, allowing advanced network segmentation for improved security, traffic isolation, and scalability. This makes the USW-Flex suitable not only for simple extensions but also for more structured network designs where logical separation of traffic is required."
+    },
+    {
+      "heading": "Traffic Control and Security",
+      "text": "A MAC address table capacity of 2,000 entries ensures stable operation in environments with numerous connected endpoints. To provide granular traffic control, the USW-Flex includes a set of essential Layer 2 features. Egress rate limiting allows administrators to control outbound bandwidth on a per-port basis, while flow control helps maintain stable communication under congestion. Port isolation enhances security by preventing direct communication between selected ports, and port mirroring simplifies troubleshooting and traffic analysis. Support for jumbo frames improves efficiency when transferring large volumes of data by reducing protocol overhead and CPU load. Together, these capabilities make the USW-Flex a reliable and capable switching solution for performance-sensitive edge network deployments."
+    },
+    {
+      "heading": "Efficient PoE Budget",
+      "text": "The UniFi Switch Flex is designed with a flexible PoE power model that adapts to different deployment scenarios while maintaining efficient energy usage. Each PoE-enabled port can deliver up to 25W of PoE+ power, making it suitable for powering wireless access points, IP cameras, and other network devices. The total available PoE budget depends on the power source. When powered via PoE++ or a 60W PoE adapter, the switch provides up to 46W of total PoE output. If powered via PoE+, the available PoE budget is 20W, while standard PoE input provides 8W. This tiered approach allows installers to scale power availability based on infrastructure capabilities."
+    },
+    {
+      "heading": "Energy Efficiency and Management",
+      "text": "The switch itself is energy efficient, with a maximum power consumption of just 5W excluding PoE output. Under full load, including powered devices, maximum total consumption reaches 51W. Heat output remains low, with heat dissipation rated at 17.1 BTU per hour excluding PoE output, supporting passive, fanless operation. The USW-Flex is fully managed via Ethernet using the UniFi Network application version 5.10.3 or later, enabling centralized configuration, monitoring, and firmware management alongside other UniFi devices. This seamless integration allows administrators to control PoE settings, monitor power usage, and manage network behavior from a single interface. By combining intelligent power delivery, low energy consumption, and unified management, the UniFi Switch Flex provides a scalable and efficient foundation for modern PoE network extensions."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "UniFi Switching",
+    "Utility"
+  ],
+  "mpn": "USW-Flex",
+  "manufacturer_part_number": "USW-Flex",
+  "ean": "0817882027595",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2010/1-669f4ea040b57-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2010/2-669f4ea3bb4ca-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2010/3-669f4ea730de9-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2010/4-669f4eaab06db-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2010/5-669f4eae78ee4-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2010/6-669f4eb20c4b2-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2010/8-669f4ec04ed11-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2010/9-669f4ec6868e7-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/kBqtBelsJEU",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 107.28,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(5) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "4 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3at (PoE+)"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "48V Passive PoE, 802.3af PoE, 802.3at PoE+, 802.3bt PoE++"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "44 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "5 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Dimensions",
+          "value": "122.5 x 107.1 x 28.0 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.230 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 55 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Quick Start Guide - Ubiquiti UniFi Switch Flex",
+      "url": "https://www.getic.com/files/catalogue/2010/usw-flex-qsg.pdf"
+    },
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Flex",
+      "url": "https://www.getic.com/files/catalogue/2010/uswflex_ds-61d307998cb52.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex Utility",
+      "url": "/product/unifi-flex-switch-adapter-kit",
+      "price": 52.98,
+      "currency": "USD",
+      "mpn": "USW-Flex-Utility",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex Mini",
+      "url": "/product/unifi-usw-flex-mini",
+      "price": 35.32,
+      "currency": "USD",
+      "mpn": "USW-Flex-Mini",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti PoE++ Adapter",
+      "url": "/product/poe-adapter",
+      "price": 31.25,
+      "currency": "USD",
+      "mpn": "U-POE++",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": "In stock"
+}

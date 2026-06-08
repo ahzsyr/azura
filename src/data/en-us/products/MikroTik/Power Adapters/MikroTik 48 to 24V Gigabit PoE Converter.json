@@ -1,0 +1,259 @@
+{
+  "slug": "48-to-24v-poe-converter",
+  "id": "479",
+  "productTitle": "MikroTik 48 to 24V Gigabit PoE Converter",
+  "name": "MikroTik 48 to 24V Gigabit PoE Converter",
+  "title": "MikroTik 48 to 24V Gigabit PoE Converter",
+  "title_extended": "MikroTik 48 to 24V Gigabit PoE Converter",
+  "short_description": "48 to 24V 10/100/1000Mbps PoE converter 802.3af support, 802.3at PoE+ support",
+  "description": "48 to 24V PoE Converter. This device lets you use any 48V PoE source (including Passive PoE, Telecom PoE, 802.3af and 802.3at) to power RouterBOARD devices. Simply plug any 48V PoE powered Ethernet cable into one port, and any 8-30V capable RouterBOARD device into the other. This device is capable to provide high power output - up to 24W (up to 1A at 24V). You can power it with virtually any 42-57V PoE solutions available on market today (Passive, Telecom, 802.3af and 802.3at PoE plus supported). The device is a rugged metallic design, with high quality components and integrated heat sink design. The case also has mounting holes, so you can attach it to a wall. Ethernet shield pins are inside the Ethernet connectors, so that shielded Ethernet can be used, to ground either at the converter itself, or at the devices at both ends. Supports 10/100/1000Mbps Ethernet. Note: In case if 803.3af compliant PSE is used, total output power should not exceed 12.95w (limited by the 803.3af standard).",
+  "detailed_description": [
+    {
+      "heading": "48 to 24V PoE Converter",
+      "text": "48 to 24V PoE Converter"
+    },
+    {
+      "heading": "48 to 24V PoE Converter",
+      "text": "This device lets you use any 48V PoE source (including Passive PoE, Telecom PoE, 802.3af and 802.3at) to power RouterBOARD devices. Simply plug any 48V PoE powered Ethernet cable into one port, and any 8-30V capable RouterBOARD device into the other. This device is capable to provide high power output - up to 24W (up to 1A at 24V). You can power it with virtually any 42-57V PoE solutions available on market today (Passive, Telecom, 802.3af and 802.3at PoE plus supported). The device is a rugged metallic design, with high quality components and integrated heat sink design. The case also has mounting holes, so you can attach it to a wall. Ethernet shield pins are inside the Ethernet connectors, so that shielded Ethernet can be used, to ground either at the converter itself, or at the devices at both ends. Supports 10/100/1000Mbps Ethernet."
+    },
+    {
+      "heading": "48 to 24V PoE Converter",
+      "text": "Note: In case if 803.3af compliant PSE is used, total output power should not exceed 12.95w (limited by the 803.3af standard)."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "PoE Adapters",
+  "categories": [
+    "Electrical Equipment",
+    "PoE Adapters"
+  ],
+  "mpn": "RBGPOE-CON-HP",
+  "manufacturer_part_number": "RBGPOE-CON-HP",
+  "ean": "4752224003584",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/479/rbgpoeconhp_1-5fdb57686a6de-medium.jpg",
+        "alt": "MikroTik 48 to 24V Gigabit PoE Converter",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/479/rbgpoeconhp_2-5fdb576675f5b-medium.jpg",
+        "alt": "MikroTik 48 to 24V Gigabit PoE Converter",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 28.74,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "48V Passive PoE, 802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "42 - 57 V DC"
+        }
+      ]
+    },
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "1 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "24 V DC"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "107 x 66 x 24 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-35 °C to 70 °C"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik 48 to 24V Gigabit PoE Converter",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-rb-poe-con-hp.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Caruncho",
+        "date": "2026-03-10",
+        "text": "Excelente producto, cumple con creces su función",
+        "photos": []
+      },
+      {
+        "name": "Andres",
+        "date": "2025-11-20",
+        "text": "product ok",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Instant Indoor PoE Converter",
+      "url": "/product/instant-802-3af-indoor-48v-poe-gigabit",
+      "price": 20.38,
+      "currency": "USD",
+      "mpn": "INS-3AF-I-G",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS326-24G-2S+RM",
+      "url": "/product/cloud-router-switch-326-24g-2srm",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS328-24P-4S+RM",
+      "url": "/product/cloud-router-switch-328-24p-4s-rm",
+      "price": 434.22,
+      "currency": "USD",
+      "mpn": "CRS328-24P-4S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS328-4C-20S-4S+RM",
+      "url": "/product/cloud-router-switch-328-4c-20s-4s-rm",
+      "price": 359.75,
+      "currency": "USD",
+      "mpn": "CRS328-4C-20S-4S+RM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

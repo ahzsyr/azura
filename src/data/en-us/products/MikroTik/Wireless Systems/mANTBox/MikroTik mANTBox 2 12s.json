@@ -1,0 +1,432 @@
+{
+  "slug": "mikrotik-mantbox-2-12s",
+  "id": "RB911G-2HPnD-12S",
+  "productTitle": "MikroTik mANTBox 2 12s",
+  "name": "MikroTik mANTBox 2 12s",
+  "title": "MikroTik mANTBox 2 12s",
+  "title_extended": "",
+  "short_description": "2.4GHz 120 degree 12dBi 2X2 MIMO Dual Polarization Sector Antenna, Built-in Wireless Router",
+  "description": "The MikroTik mANT series represents an advanced suite of high-performance sector antennas, engineered to optimize outdoor wireless networking. These antennas are distinguished by their sector-shaped radiation pattern, facilitating targeted coverage across specific areas. This strategic design minimizes interference and maximizes signal strength within the designated sector, making the mANT series ideal for establishing efficient point-to-multipoint networks in diverse settings such as mobile base stations, WISP networks, and expansive outdoor facilities.",
+  "detailed_description": [
+    {
+      "heading": "Introduction to the mANT Series",
+      "text": "The MikroTik mANT series represents an advanced suite of high-performance sector antennas, engineered to optimize outdoor wireless networking. These antennas are distinguished by their sector-shaped radiation pattern, facilitating targeted coverage across specific areas. This strategic design minimizes interference and maximizes signal strength within the designated sector, making the mANT series ideal for establishing efficient point-to-multipoint networks in diverse settings such as mobile base stations, WISP networks, and expansive outdoor facilities.\n\nCrafted for durability and adaptability, the mANT antennas incorporate dual-polarization technology, transmitting and receiving signals on both horizontal and vertical planes. This capability significantly enhances the use of the radio spectrum, improving signal quality, reducing environmental interference, and bolstering data throughput rates. Seamlessly integrated with MikroTik's robust QuickMOUNT systems, the mANT series ensures effortless installation and versatile deployment. The QuickMOUNT system, renowned for its user-friendly and adjustable design, enables precise alignment and stable mounting of antennas on various surfaces, from walls to poles, thus facilitating optimal signal direction and network performance."
+    },
+    {
+      "heading": "Integrated Base Station",
+      "text": "This model, functioning as a long-range base station, is equipped with a 12 dBi sector antenna and integrated with an RB911 router, making it exceptionally suited for extending 2.4 GHz wireless coverage. Long-range base stations are pivotal in areas where wired connectivity is limited, offering expansive coverage that is essential in rural or remote locations. The 12 dBi sector antenna, with its precise signal focus, provides targeted wireless coverage, significantly improving signal strength and quality within the designated sector. The RB911 router, recognized for its efficiency and cost-effectiveness, underpins this setup. The system ensures comprehensive connectivity in conjunction with the 2.4 GHz band, known for its broad compatibility and solid penetration through obstacles.\n\nThe 600 MHz CPU strikes a balance between performance and power efficiency. The support for 802.11 b/g/n standards further enhances the system's flexibility, ensuring compatibility with a wide range of devices, from older Wi-Fi equipment to more current models, and improving network performance in terms of speed and reliability."
+    },
+    {
+      "heading": "Routing, Firewall & Network Management",
+      "text": "The mANTBox 2 12s is a versatile network device that excels in providing efficient wireless and wired connectivity. Operating on the 2.4 GHz frequency band, it supports a radio rate of up to 300 Mbps. This speed is well-suited for various applications, from web browsing and streaming high-definition video to supporting the connectivity needs of Internet of Things (IoT) devices. Enhancing its connectivity capabilities, the device features a Gigabit Ethernet port, which allows for wired connections at speeds up to 1 Gbps. This high-speed port is ideal for tasks that demand rapid data transfer, such as downloading large files, streaming ultra-high-definition content, or supporting high-speed internet access for businesses and advanced home setups. The reliability and stability of wired connections also make this port a valuable asset for establishing steady network backbones in various environments.\n\nThe mANTBox 2 12s is equipped with 64 MB of RAM, providing sufficient memory to manage its operations and handle network traffic efficiently. This amount of RAM ensures that the device can perform essential routing, firewall, and network management functions effectively, making it suitable for basic to medium-level networking needs. Additionally, the inclusion of 128 MB of storage space allows for the safekeeping of the device's firmware, configuration settings, and some level of operational data, facilitating stable and consistent performance across network reboots and updates."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Integrated Antennas",
+    "MikroTik",
+    "Wireless Systems",
+    "mANTBox"
+  ],
+  "mpn": "RB911G-2HPnD-12S",
+  "manufacturer_part_number": "RB911G-2HPnD-12S",
+  "ean": "4752224002853",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1701/rb911g2hpnd12s_1-5fd89ac96ce55-medium.jpg",
+        "alt": "MikroTik mANTBox 2 12s",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1701/rb911g2hpnd12s_2-5fd89aca0d070-medium.jpg",
+        "alt": "MikroTik mANTBox 2 12s ports and back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1701/rb911g2hpnd12s_3-5fd89acad1a0b-medium.jpg",
+        "alt": "MikroTik mANTBox 2 12s",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1701/rb911g2hpnd12s_1-5fd89ac96ce55-tiny.jpg",
+        "alt": "MikroTik mANTBox 2 12s"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1701/rb911g2hpnd12s_2-5fd89aca0d070-tiny.jpg",
+        "alt": "MikroTik mANTBox 2 12s"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1701/rb911g2hpnd12s_3-5fd89acad1a0b-tiny.jpg",
+        "alt": "MikroTik mANTBox 2 12s"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - MikroTik mANTBox 2 12s",
+        "url": "https://www.getic.com/files/catalogue/mikrotik/mantbox_2_12s.pdf"
+      },
+      {
+        "title": "Quick Start Guide - MikroTik mANTBox 2 12s",
+        "url": "https://www.getic.com/files/catalogue/1701/quickguidemantbox212s-651a9e74121de.pdf"
+      },
+      {
+        "title": "User Manual - MikroTik mANTBox 2 12s",
+        "url": "https://www.getic.com/files/catalogue/1701/usermanualmantbox212s-651a9e81a4d59.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 83.01,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "2.4GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 4"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "300 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Sector"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.312 - 2.732 (GHz) 12 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "120 °"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "AR9342, 1 core, 600 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "64 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "128 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "8 - 30 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "11 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.8 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP54"
+        },
+        {
+          "name": "Dimensions",
+          "value": "348 x 140 x 82 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 4"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik mANTBox 2 12s",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/mantbox_2_12s.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik mANTBox 2 12s",
+      "url": "https://www.getic.com/files/catalogue/1701/quickguidemantbox212s-651a9e74121de.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik mANTBox 2 12s",
+      "url": "https://www.getic.com/files/catalogue/1701/usermanualmantbox212s-651a9e81a4d59.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.8,
+    "count": 4,
+    "source": "",
+    "distribution": {
+      "excellent": 75,
+      "great": 25,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 3,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "",
+        "date": "2023-11-27",
+        "text": "just works. package includes useful thingies for setting up.",
+        "photos": []
+      },
+      {
+        "name": "Juri",
+        "date": "2023-07-25",
+        "text": "Almost perfect",
+        "photos": []
+      },
+      {
+        "name": "Salomon",
+        "date": "2023-06-24",
+        "text": "good jobs.",
+        "photos": []
+      },
+      {
+        "name": "KOLAWOLE",
+        "date": "2023-03-19",
+        "text": "Idéal pour une extension en 2.4GHz pour un projet de wifi Public.",
+        "photos": [
+          "https://www.getic.com/assets/images/reviews/48162757-1565-4d17-9c17-db6367078f0a/small/64171b9b53562d10d1412c8f-68935de90e40c.jpg"
+        ]
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CSS326-24G-2S+RM",
+      "url": "/product/cloud-smart-switch-326-24g-2srm",
+      "price": 129.46,
+      "currency": "USD",
+      "mpn": "CSS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq 5 ac",
+      "url": "/product/sxt-sq-5-ac",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "RBSXTsqG-5acD",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik SXTsq Lite2",
+      "url": "/product/sxt-sq-lite2",
+      "price": 35.28,
+      "currency": "USD",
+      "mpn": "RBSXTsq2nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik mANTBox 52 15s",
+      "url": "/product/mikrotik-mantbox-52-15s",
+      "price": 139.46,
+      "currency": "USD",
+      "mpn": "RBD22UGS-5HPacD2HnD-15S",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    "CE",
+    "FCC",
+    "IC",
+    "EAC",
+    "ROHS"
+  ],
+  "stock_stat": "13 pcs in stock"
+}

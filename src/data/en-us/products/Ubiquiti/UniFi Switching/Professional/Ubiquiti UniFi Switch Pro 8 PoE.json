@@ -1,0 +1,282 @@
+{
+  "slug": "switch-professional-8-poe",
+  "id": "4601",
+  "productTitle": "Ubiquiti UniFi Switch Pro 8 PoE",
+  "name": "Ubiquiti UniFi Switch Pro 8 PoE",
+  "title": "Ubiquiti UniFi Switch Pro 8 PoE",
+  "title_extended": "Ubiquiti UniFi USW Pro 8 PoE – 8-Port Gigabit PoE++ Switch with 10G SFP+",
+  "short_description": "Professional PoE Switch, 2x 10G SFP+ ports, 6x PoE / PoE+ IEEE 802.3af/at output ports, 2x 60W PoE++ IEEE 802.3bt output ports",
+  "description": "Buy Ubiquiti UniFi Switch Pro 8 PoE. Price from 304.30 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "Enterprise-Class Performance",
+      "text": "The UniFi Switch Pro 8 PoE (USW-Pro-8-POE) is a compact yet powerful Power over Ethernet switch designed to deliver reliable performance and advanced functionality within the UniFi ecosystem. Engineered by Ubiquiti, it integrates seamlessly with UniFi Network, allowing centralized management, monitoring, and configuration alongside other UniFi devices. This makes it a strong choice for small to medium-sized businesses, enterprise edge deployments, and advanced home networks where stability and control are essential. Equipped with eight Gigabit Ethernet RJ45 ports, the switch provides flexible connectivity for a wide range of network devices. All eight ports support Power over Ethernet, enabling both data and power to be delivered over a single cable. Six ports support PoE/PoE+, while two ports provide higher power output via PoE++, making the switch suitable for demanding devices such as PTZ cameras, access control hardware, and high-performance wireless access points. This balanced PoE design allows multiple device types to be powered efficiently from a single switch. To support high-speed uplinks and reduce network bottlenecks, the switch includes two 10G SFP+ ports, ensuring fast and reliable connections to aggregation switches or core network infrastructure. With its advanced Layer 3 capabilities, the UniFi Switch Pro 8 PoE delivers enterprise-grade networking performance in a compact and versatile form factor."
+    },
+    {
+      "heading": "Efficient PoE Management",
+      "text": "The switch delivers a total non-blocking throughput of 28 Gbps and a switching capacity of 56 Gbps, with a forwarding rate of 41.664 Gbps, ensuring that traffic is managed efficiently without congestion. The hardware is managed via an Ethernet In-Band interface, and network configurations can be easily monitored and adjusted through this accessible management setup. Power is supplied through a universal AC input ranging from 100 to 240V, with the internal AC/DC power supply ensuring reliable operation. The maximum power consumption of the unit itself is 30W, excluding the power output for PoE. The switch has a total available PoE power budget of 120W, with maximum PoE wattage per port distributed as 15W for PoE, 30W for PoE+, and a robust 60W for PoE++ applications, adhering to various voltage ranges depending on the mode. Operating conditions are optimized for environments with temperatures ranging from -5 to 45°C and humidity levels from 10% to 90% non-condensing, ensuring stable performance in a variety of climatic conditions. It is made from durable polycarbonate and metal, with measures 200 x 248 x 44 mm and weighs 2.1 kg, making it both sturdy and suitable for rack-mounting in a variety of environments. The UniFi Switch Pro 8 PoE also holds certifications from CE, FCC, and IC, affirming its compliance with international safety and operational standards."
+    },
+    {
+      "heading": "Advanced Features",
+      "text": "Administrators can leverage the UniFi Network app and mobile app to manage and configure virtually every feature of the switch from anywhere, using an intuitive graphical interface. This flexibility allows IT teams to monitor network activity, adjust settings, and troubleshoot devices in real time, making management simple and highly efficient. The switch is fully compatible with UniFi Network app version 7.5.176 and higher, ensuring access to the latest features and updates. On the Layer 3 level, the switch supports essential routing functions for local networks, including a DHCP server, DHCP relay, inter-VLAN routing, and static routing. These capabilities allow seamless segmentation and routing of traffic between VLANs without relying on an external router. The Layer 2 features provide comprehensive control over network traffic and security. Administrators can use LACP port aggregation, STP/RSTP, IGMP snooping and advanced IGMP configuration, 802.1X control, MAC- and IP-based access control lists, and device isolation to optimize traffic, prevent loops, and ensure secure access. Additional tools such as port mirroring, flow control, egress rate limiting, jumbo frames, LLDP-MED, and Voice VLAN allow fine-grained network tuning for professional AV deployments, voice networks, and high-performance IT infrastructures. By combining intuitive management with advanced Layer 2 and Layer 3 capabilities, the UniFi Switch Pro 8 PoE enables administrators to maintain a secure, high-performance, and highly adaptable network, whether in enterprise, SMB, or demanding home environments."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": ["Switches", "Ubiquiti", "UniFi Switching", "Professional"],
+  "mpn": "USW-Pro-8-POE",
+  "manufacturer_part_number": "USW-Pro-8-POE",
+  "ean": "0810084692691",
+  "warranty": "12 months",
+  "condition_options": ["new", "used"],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4601/2-652d1b2f0c7cf-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 8 PoE front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4601/3-652d1b33200a0-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 8 PoE ports and back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4601/1-652d1b2a6b767-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 8 PoE top view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4601/4-652d1b36a7e54-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 8 PoE side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4601/5-652d1b3a91480-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 8 PoE accessories",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4601/2-652d1b2f0c7cf-tiny.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 8 PoE",
+        "type": "thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4601/3-652d1b33200a0-tiny.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 8 PoE",
+        "type": "thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4601/1-652d1b2a6b767-tiny.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 8 PoE",
+        "type": "thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4601/4-652d1b36a7e54-tiny.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 8 PoE",
+        "type": "thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4601/5-652d1b3a91480-tiny.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro 8 PoE",
+        "type": "thumbnail"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 304.30,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": ["RJ45 Ports", "Number of PoE Ports", "PoE Out Standards", "SFP Ports", "Management"],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(8) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "8 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE), 802.3at (PoE+), 802.3bt (PoE++)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": ["Power Method", "Power Supply", "Supported Input Voltage", "Max Power Consumption"],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "120 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": ["Material", "Dimensions", "Weight", "Operating Temperature", "Environment", "Mounting Method"],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Metal, Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "200 x 248 x 44 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "2.1 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 45 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Pro 8 PoE",
+      "url": "https://www.getic.com/files/catalogue/4601/uswpro8poe_ds-652d1b213580a.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti UniFi Switch Pro 8 PoE",
+      "url": "https://www.getic.com/files/catalogue/4601/uswpro8poe_qig-652d1bf572d7f.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "어진석",
+        "date": "2024-11-10",
+        "text": "Good switch, fast delivery",
+        "photos": []
+      },
+      {
+        "name": "talansari",
+        "date": "2024-05-12",
+        "text": "Very good L3 switch",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti 10Gbps Multi-Mode Optical Module, 2-Pack",
+      "url": "/product/u-fiber-multi-mode-module-10g-2-pack",
+      "price": 43.47,
+      "currency": "USD",
+      "mpn": "UACC-OM-MM-10G-D-2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro 24 PoE",
+      "url": "/product/usw-pro-24-poe-gen-2",
+      "price": 702.24,
+      "currency": "USD",
+      "mpn": "USW-Pro-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 184.92,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Outdoor",
+      "url": "/product/ubiquiti-access-point-u7-outdoor",
+      "price": 200.14,
+      "currency": "USD",
+      "mpn": "U7-Outdoor",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

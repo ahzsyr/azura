@@ -1,0 +1,417 @@
+{
+  "slug": "ubiquiti-mobile-router-ultra",
+  "id": "6734",
+  "productTitle": "Ubiquiti Mobile Router Ultra",
+  "name": "Ubiquiti Mobile Router Ultra",
+  "title": "Ubiquiti Mobile Router Ultra",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Ultra-Compact LTE Router",
+      "text": "The Ubiquiti UMR-Ultra is a highly versatile mobile router engineered for IoT and mobile network applications, offering advanced connectivity in an ultra-compact form factor. It integrates an LTE Cat 4 modem capable of download speeds up to 150 Mbps and upload speeds up to 50 Mbps, with support for a wide range of LTE bands (B1, B2, B3, B4, B5, B7, B8, B12, B13, B18, B19, B20, B25, B26, B28, B34, B38, B39, B40, B41, B66) to ensure broad regional and carrier compatibility. Equipped with two Fast Ethernet (10/100 Mbps) RJ45 ports, one of which is configurable as WAN or LAN, it enables seamless wired networking. The device also includes a WiFi 4 (802.11b/g/n) 2.4 GHz single-chain radio for local wireless access, supporting IoT environments where multiple connectivity methods are essential. With its compact and rugged design, the UMR-Ultra fits perfectly in space-constrained setups, while site-to-site VPN and VPN client routing provide secure remote access. Ideal for mobile deployments, edge networks, or as a backup router, it delivers reliable performance with minimal space requirements."
+    },
+    {
+      "heading": "Multi-WAN Connectivity",
+      "text": "The UMR-Ultra is engineered for dependable connectivity across diverse network environments, featuring automatic failover between LTE, wired WAN, and WiFi to ensure uninterrupted service. This multi-WAN capability makes it ideal for mission-critical IoT systems, remote monitoring, or mobile workstations. The dual Ethernet ports offer flexible wired connectivity options, while the device’s small footprint ensures seamless integration into diverse deployment scenarios. Designed with installation flexibility in mind, the UMR-Ultra supports wall and DIN rail mounting, making it suitable for industrial or commercial use cases. Power is supplied via USB Type-C (5 V DC/2 A) or a 4‑pin ATX DC input supporting 9–30 V DC, offering compatibility with various power systems. With a maximum power consumption of just 5.7 W, it is highly energy-efficient. Please note that a power adapter and cables are not included, allowing users to select the most appropriate power supply for their setup."
+    },
+    {
+      "heading": "Advanced Features",
+      "text": "Built to support secure and scalable network deployments, the UMR-Ultra includes site-to-site VPN and VPN client routing, enabling encrypted connections between remote sites or cloud services. The device supports optional Mobility Cloud subscription services for centralized management, monitoring, and advanced analytics, further streamlining network operations for large-scale IoT projects. Operating within a temperature range of –30 °C to 70 °C, the UMR-Ultra is well-suited for industrial environments and outdoor enclosures. Its lightweight form factor allows for easy integration into existing systems without compromising functionality. Fully NDAA compliant and designed to meet stringent network security requirements, it is an excellent choice for enterprises, logistics providers, and utilities seeking reliable LTE connectivity. With its combination of robust hardware, advanced software capabilities, and flexible installation options, the UMR-Ultra provides a future-proof solution for demanding mobile and IoT networking needs."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "4G Routers",
+  "categories": [
+    "Ubiquiti",
+    "Mobile Network",
+    "4G Routers"
+  ],
+  "mpn": "UMR-Ultra",
+  "manufacturer_part_number": "UMR-Ultra",
+  "ean": "0810084697146",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/1-6874a83ea1c1a-medium.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/2-6874a84253bcd-medium.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/3-6874a846aabb1-medium.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/4-6874a84a57f1b-medium.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/5-6874a84f1d108-medium.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/6-6874a8537f7ae-medium.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/7-6874a85701dd1-medium.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/8-6874a85d25dc8-medium.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/9-6874a8613831e-medium.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/1-6874a83ea1c1a-tiny.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/2-6874a84253bcd-tiny.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/3-6874a846aabb1-tiny.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/4-6874a84a57f1b-tiny.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/5-6874a84f1d108-tiny.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/6-6874a8537f7ae-tiny.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/7-6874a85701dd1-tiny.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/8-6874a85d25dc8-tiny.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6734/9-6874a8613831e-tiny.jpg",
+        "alt": "Ubiquiti Mobile Router Ultra"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/6734/umrultra_ds-6874a835ce3f2.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Mobile Router Ultra",
+        "type": "datasheet"
+      }
+    ],
+    "3d_model": true
+  },
+  "price": {
+    "value": 97.41,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "LTE Category",
+        "FDD LTE Frequency Bands",
+        "TDD LTE Frequency Bands",
+        "SIM Card Slot"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "4G (LTE)"
+        },
+        {
+          "name": "LTE Category",
+          "value": "Cat4 - 150Mbps/50Mbps"
+        },
+        {
+          "name": "FDD LTE Frequency Bands",
+          "value": "1 (2100MHz), 3 (1800MHz), 4 (1700MHz), 5 (850MHz), 7 (2600MHz), 8 (900MHz), 12 (700MHz), 13 (700MHz), 18 (850MHz), 19 (850MHz), 20 (800MHz), 25 (1900MHz), 26 (850MHz), 28 (700MHz), 66 (1700MHz)"
+        },
+        {
+          "name": "TDD LTE Frequency Bands",
+          "value": "34 (2100MHz), 38 (2600MHz), 39 (1900MHz), 40 (2300MHz), 41 (2500MHz)"
+        },
+        {
+          "name": "SIM Card Slot",
+          "value": "Nano-SIM"
+        }
+      ]
+    },
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "2.4GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 4"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "150 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) SMA Female, (1) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 100 Mbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "5.7 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "4-pin, 3 mm, USB Type-C"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "5 V DC 2 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "193.5 x 82 x 26 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.2 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "DIN Rail, Wall Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Mobile Router Ultra",
+      "url": "https://www.getic.com/files/catalogue/6734/umrultra_ds-6874a835ce3f2.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "price": 15.58,
+        "delivery_time": "receive in 18 business days",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "price": 31.45,
+        "delivery_time": "receive in 5 business days",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "price": 42.86,
+        "delivery_time": "receive in 2 business days",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hAP ax3",
+      "url": "/product/mikrotik-hap-ax3",
+      "price": 102.08,
+      "currency": "USD",
+      "mpn": "C53UiG+5HPaxD2HPaxD",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Ultra",
+      "url": "/product/unifi-cloud-gateway-ultra",
+      "price": 110.98,
+      "currency": "USD",
+      "mpn": "UCG-Ultra",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Lite",
+      "url": "/product/ubiquiti-unifi-u7-lite",
+      "price": 99.48,
+      "currency": "USD",
+      "mpn": "U7-Lite",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Router 7",
+      "url": "/product/ubiquiti-unifi-dream-router-7",
+      "price": 282.07,
+      "currency": "USD",
+      "mpn": "UDR7",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

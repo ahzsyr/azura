@@ -1,0 +1,197 @@
+{
+  "slug": "mikrotik-power-adapter-5v-2-4a",
+  "id": "4799",
+  "productTitle": "Mikrotik Power Adapter 5V 2.4A",
+  "name": "Mikrotik Power Adapter 5V 2.4A",
+  "title": "Mikrotik Power Adapter 5V 2.4A",
+  "title_extended": "Mikrotik Power Adapter 5V 2.4A",
+  "short_description": "",
+  "description": "The MikroTik MT13-052400-E15BG is a USB power supply designed to provide reliable power for your hAP ax lite router. This compact and user-friendly power supply ensures your router receives the necessary power to operate efficiently, delivering a seamless Wi-Fi experience. The MT13-052400-E15BG features a compact design that minimizes clutter in your workspace. Simply connect the USB cable to your router and plug the power supply into a wall outlet – no complex configuration is required.",
+  "detailed_description": [
+    {
+      "heading": "Power Up Your hAP ax lite",
+      "text": "The MikroTik MT13-052400-E15BG is a USB power supply designed to provide reliable power for your hAP ax lite router. This compact and user-friendly power supply ensures your router receives the necessary power to operate efficiently, delivering a seamless Wi-Fi experience. The MT13-052400-E15BG features a compact design that minimizes clutter in your workspace. Simply connect the USB cable to your router and plug the power supply into a wall outlet – no complex configuration is required."
+    },
+    {
+      "heading": "Technical Specs / Datasheet - Mikrotik Power Adapter 5V 2.4A",
+      "text": "Technical Specs / Datasheet - Mikrotik Power Adapter 5V 2.4A"
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters"
+  ],
+  "mpn": "MT13-052400-E15BG",
+  "manufacturer_part_number": "MT13-052400-E15BG",
+  "ean": "0765617907189",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4799/1-6659ad4d10c7a-medium.jpg",
+        "alt": "Mikrotik Power Adapter 5V 2.4A",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 8.04,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power",
+      "features": [],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        }
+      ]
+    },
+    {
+      "technology": "Power Adapter",
+      "features": [],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "2.4 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "5 V DC"
+        },
+        {
+          "name": "Output Power",
+          "value": "12 W"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Mikrotik Power Adapter 5V 2.4A",
+      "url": "https://www.getic.com/files/catalogue/4799/mt13052400e15bg_ds-6659ad4213620.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Indoor Cable CMR",
+      "url": "/product/unifi-cable-cat6-cmr",
+      "price": 190.61,
+      "currency": "USD",
+      "mpn": "U-Cable-C6-CMR",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Power Adapter 48V2A",
+      "url": "/product/psu-power-adapter-48v2a-96w",
+      "price": 30.93,
+      "currency": "USD",
+      "mpn": "48V2A96W",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CCR2004-1G-2XS-PCIe",
+      "url": "/product/mikrotik-ccr2004-1g-2xs-pcie",
+      "price": 159.25,
+      "currency": "USD",
+      "mpn": "CCR2004-1G-2XS-PCIe",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Automotive Power Adapter APA-1",
+      "url": "/product/mikrotik-automotive-power-adapter-apa-1",
+      "price": 26.85,
+      "currency": "USD",
+      "mpn": "APA-1",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": "In stock"
+}

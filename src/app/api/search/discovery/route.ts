@@ -32,10 +32,6 @@ export async function GET() {
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
     console.error("[api/search/discovery] failed:", errMsg);
-    // #region agent log
-    const { debugIngest } = await import("@/lib/debug-ingest");
-    debugIngest("api/search/discovery/route.ts", "discovery API failed", { error: errMsg.slice(0, 300) }, "H1");
-    // #endregion
     return NextResponse.json(emptyDiscoveryPayload(), {
       status: 200,
       headers: {

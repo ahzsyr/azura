@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useStore } from "@nanostores/react";
 import { routing } from "@/i18n/routing";
 import { FALLBACK_LOCALES, resolvePrefixToCode, type PublicLocale } from "@/i18n/locale-config";
-import { localePath } from "@/features/navigation/resolve-href";
+import { localePath, resolveActionHref } from "@/features/navigation/resolve-href";
 import { localizeMenuItems } from "@/features/navigation/localize-menu";
 import type { HeaderAction, HeaderWorkspace } from "@/features/navigation/types";
 import { $workspace } from "@/features/navigation/header-store";
@@ -97,8 +97,9 @@ export function HeaderRenderer({
       document.getElementById("locale-switcher-trigger")?.click();
     } else if (action.type === "account") {
       window.location.assign(localePath("/account", localeCode));
-    } else if (action.type === "custom" && action.id === "action-cta") {
-      window.location.assign(localePath("/contact", localeCode));
+    } else if (action.type === "custom") {
+      const href = resolveActionHref(action, localeCode);
+      if (href) window.location.assign(href);
     }
 
     if (typeof window !== "undefined" && window.matchMedia(NAV_MOBILE_MQ).matches) {
@@ -174,10 +175,18 @@ export function HeaderRenderer({
             <div className="nav-actions">
               {isPreview ? (
                 <div className="nav-actions__items">
-                  <HeaderActions actions={actionsForRender} onActionClick={onHeaderAction} />
+                  <HeaderActions
+                    actions={actionsForRender}
+                    localeCode={localeCode}
+                    onActionClick={onHeaderAction}
+                  />
                 </div>
               ) : (
-                <MobileNavActionsPortal actions={actionsForRender} onActionClick={onHeaderAction} />
+                <MobileNavActionsPortal
+                  actions={actionsForRender}
+                  localeCode={localeCode}
+                  onActionClick={onHeaderAction}
+                />
               )}
               <MobileMenuPreview
                 mobileType={settings.mobileType}

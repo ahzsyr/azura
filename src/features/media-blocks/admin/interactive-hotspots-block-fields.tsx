@@ -3,8 +3,8 @@
 import type { BlockNode } from "@/types/builder";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
-import { patchBlockSettings } from "@/features/builder/instance/block-instance";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
+import { patchBlockMedia, patchBlockSettings } from "@/features/builder/instance/block-instance";
 import { ItemCard, RepeatableSection } from "@/features/content-blocks/admin/shared/repeatable-section";
 import { LocalizedBlockTextarea, LocalizedBlockTitle } from "@/features/builder/block-translation-context";
 import {
@@ -37,12 +37,19 @@ export function InteractiveHotspotsBlockFields({ block, onChange }: Props) {
     <div className="space-y-3">
       <LocalizedBlockTitle block={block} />
       <LocalizedBlockTextarea block={block} field="subtitle" label="Subtitle" rows={2} />
-      <MediaPickerField
+      <UrlPrimaryMediaPickerField
         label="Base image"
         mediaTypes={["IMAGE"]}
-        mediaId={(p.mediaAssetId as string) || null}
         url={(p.imageUrl as string) ?? ""}
-        onChange={({ mediaId, url }) => onChange(patchBlockSettings(block, { imageUrl: url, mediaAssetId: mediaId ?? "" }))}
+        onPick={({ url, mediaId }) =>
+          onChange(
+            patchBlockMedia(
+              block,
+              { urlKey: "imageUrl", mediaIdKey: "mediaAssetId" },
+              { url, mediaId },
+            ),
+          )
+        }
       />
       <div>
         <Label className="text-xs">Interaction</Label>

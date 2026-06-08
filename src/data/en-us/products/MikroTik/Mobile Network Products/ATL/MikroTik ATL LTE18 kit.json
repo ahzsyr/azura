@@ -1,0 +1,388 @@
+{
+  "slug": "mikrotik-atl-lte18-kit",
+  "id": "4199",
+  "productTitle": "MikroTik ATL LTE18 Kit – Outdoor LTE Cat18 Directional Antenna",
+  "name": "MikroTik ATL LTE18 kit",
+  "title": "MikroTik ATL LTE18 kit",
+  "title_extended": "MikroTik ATL LTE18 Kit – Outdoor LTE Cat18 Directional Antenna",
+  "short_description": "Fast CAT 18 LTE Modem, Gigabit Ethernet with PoE-In, 64-Bit Dual-Core ARM CPU, High-Gain Antenna, Snow-Resistant, 4X4 MIMO Support, LTE Band 28, 700 MHz - 1 GHz Support",
+  "description": "ATL LTE18 kit is Mikrotik’s new LTE solution for connectivity in rural and urban areas. It’s designed to provide fast and stable internet, regardless of your phone signal or the weather. ATL features a Category 18 LTE modem and a Gigabit Ethernet port with PoE-in - in combination with the ARM CPU, it allows the speed up to 1 Gbps. One of the main features of the ATL LTE18 kit is the 4x4 MIMO (multiple-input, multiple-output support). Higher speed and better signal are provided by 4 high-gain middle bands (1.7 – 2.7 GHz) and 2 high-gain low band antennas (700 MHz – 1 GHz, LTE Band 28). Since most mobile operators in the world use the 700 and 800 MHz LTE, and, considering that the lower frequency can travel further - ATL will always be able to find some signal. The device is designed resistant to snow and water, which will prevent it from collecting water or freezing in low temperatures.",
+  "detailed_description": [
+    {
+      "heading": "Staying connected",
+      "text": "ATL LTE18 kit is Mikrotik’s new LTE solution for connectivity in rural and urban areas. It’s designed to provide fast and stable internet, regardless of your phone signal or the weather. ATL features a Category 18 LTE modem and a Gigabit Ethernet port with PoE-in - in combination with the ARM CPU, it allows the speed up to 1 Gbps."
+    },
+    {
+      "heading": "Extremely accessible",
+      "text": "One of the main features of the ATL LTE18 kit is the 4x4 MIMO (multiple-input, multiple-output support). Higher speed and better signal are provided by 4 high-gain middle bands (1.7 – 2.7 GHz) and 2 high-gain low band antennas (700 MHz – 1 GHz, LTE Band 28). Since most mobile operators in the world use the 700 and 800 MHz LTE, and, considering that the lower frequency can travel further - ATL will always be able to find some signal."
+    },
+    {
+      "heading": "Rain or Shine",
+      "text": "The device is designed resistant to snow and water, which will prevent it from collecting water or freezing in low temperatures. It will be an amazing fit for cold cities and rural areas with rough weather conditions, the ATL LTE18 kit will function perfectly even without cleaning the antenna. It’s also ensured that ATL will serve you for a long time, as the upgrades will not be necessary for the near future."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "4G/5G Integrated Antennas",
+  "categories": [
+    "4G/5G Integrated Antennas",
+    "LTE Products",
+    "Mobile Network Products",
+    "ATL"
+  ],
+  "mpn": "ATLGM&EG18-EA",
+  "manufacturer_part_number": "ATLGM&EG18-EA",
+  "ean": "4752224008312",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4199/atllte18kit_1-633157b3396ad-medium.jpg",
+        "alt": "MikroTik ATL LTE18 kit",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4199/atllte18kit_2-633157b8a1c0c-medium.jpg",
+        "alt": "MikroTik ATL LTE18 kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4199/atllte18kit_3-633157bd541ce-medium.jpg",
+        "alt": "MikroTik ATL LTE18 kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4199/atllte18kit_4-633157c1cb450-medium.jpg",
+        "alt": "MikroTik ATL LTE18 kit",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/rJ28eF_GvYg",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 223.41,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "LTE Category",
+        "FDD LTE Frequency Bands",
+        "TDD LTE Frequency Bands",
+        "SIM Card Slot"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "3G (UMTS), 4G (LTE)"
+        },
+        {
+          "name": "LTE Category",
+          "value": "Cat18 - 1.2Gbps/150Mbps"
+        },
+        {
+          "name": "FDD LTE Frequency Bands",
+          "value": "1 (2100MHz), 3 (1800MHz), 5 (850MHz), 7 (2600MHz), 8 (900MHz), 20 (800MHz), 28 (700MHz)"
+        },
+        {
+          "name": "TDD LTE Frequency Bands",
+          "value": "38 (2600MHz), 40 (2300MHz), 41 (2500MHz)"
+        },
+        {
+          "name": "SIM Card Slot",
+          "value": "Micro-SIM"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Parabolic Dish"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management",
+        "PCI Express"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        },
+        {
+          "name": "PCI Express",
+          "value": "(1) M.2 PCIe Slot"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Dual-core 88F3720 1.2 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "256 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "8 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.8 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP54"
+        },
+        {
+          "name": "Dimensions",
+          "value": "315 x 315 x 170 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 3"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik ATL LTE18 kit",
+      "url": "https://www.getic.com/files/catalogue/4199/atl_lte18_kit-6331573419ab3.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik ATL LTE18 kit",
+      "url": "https://www.getic.com/files/catalogue/4199/quickguideatllte18kit-650af6a2df8b3.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik ATL LTE18 kit",
+      "url": "https://www.getic.com/files/catalogue/4199/usermanualsatllte18kit-650af6bfc81b2.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.77,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 79.93,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 9,
+    "source": "Trustpilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 9,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "M.Stegenburgs",
+        "date": "2024-09-26",
+        "text": "Kvalitāte nevainojama. Pamata konfigurācijā produkts gatavs lietošanai. 2km attālumā no torņa ar traucētu tiešo redzamību strādā stabili.",
+        "rating": 5,
+        "photos": []
+      },
+      {
+        "name": "Carlo",
+        "date": "2024-09-12",
+        "text": "Great product",
+        "rating": 5,
+        "photos": []
+      },
+      {
+        "name": "Artur",
+        "date": "2024-03-08",
+        "text": "Grate product! Fast shipping! Works as expected.",
+        "rating": 5,
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik QuickMOUNT extra",
+      "url": "/product/quickmount-extra",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QME",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Power Adapter 24V 1.2A",
+      "url": "/product/psu-power-adapter-24v1-2a-for-mikrotik",
+      "price": 4.49,
+      "currency": "USD",
+      "mpn": "SAW30-240-1200GR2A",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax3",
+      "url": "/product/mikrotik-hap-ax3",
+      "price": 102.08,
+      "currency": "USD",
+      "mpn": "C53UiG+5HPaxD2HPaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik MTCNA Certificate",
+    "MikroTik Value Added Distributor"
+  ],
+  "stock_stat": ""
+}

@@ -23,6 +23,7 @@ export async function deleteLocalUploadFile(url: string): Promise<boolean> {
   } catch (error) {
     const code = (error as NodeJS.ErrnoException).code;
     if (code === "ENOENT") return false;
+    if (code === "EROFS" || code === "EPERM" || code === "EACCES") return false;
     throw error;
   }
 }

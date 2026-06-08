@@ -6,7 +6,7 @@ import type { EntityTranslation, Gallery } from "@prisma/client";
 import type { PublicLocale } from "@/i18n/locale-config";
 import { upsertGallery } from "@/features/gallery/actions";
 import { LocaleTabPanel } from "@/features/translation/components/locale-tab-panel";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { useAdminFormOptional } from "@/components/admin/layout/admin-form-provider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -124,17 +124,14 @@ export function GalleryAlbumForm({
         <Input id="slug" name="slug" defaultValue={album?.slug ?? ""} placeholder="auto-generated from title" />
       </div>
 
-      <MediaPickerField
+      <UrlPrimaryMediaPickerField
         label="Cover image"
-        idFieldName="coverMediaAssetId"
-        urlFieldName="coverUrl"
-        mediaId={coverMediaId}
         url={coverUrl}
-        onChange={({ mediaId, url }) => {
-          setCoverMediaId(mediaId);
-          setCoverUrl(url ?? "");
-        }}
+        onChange={(url) => setCoverUrl(url ?? "")}
+        onMediaIdChange={(mediaId) => setCoverMediaId(mediaId)}
       />
+      <input type="hidden" name="coverMediaAssetId" value={coverMediaId ?? ""} readOnly />
+      <input type="hidden" name="coverUrl" value={coverUrl} readOnly />
 
       <label className="flex items-center gap-2 text-sm">
         <input type="checkbox" name="isPublished" value="true" defaultChecked={album?.isPublished ?? true} />

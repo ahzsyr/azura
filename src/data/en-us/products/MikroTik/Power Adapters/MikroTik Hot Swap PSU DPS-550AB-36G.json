@@ -1,0 +1,196 @@
+{
+  "slug": "mikrotik-hot-swap-psu-dps-550ab-36g",
+  "id": 5919,
+  "productTitle": "MikroTik Hot Swap PSU DPS-550AB-36G",
+  "name": "MikroTik Hot Swap PSU DPS-550AB-36G",
+  "title": "MikroTik Hot Swap PSU DPS-550AB-36G",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The MikroTik DPS-550AB-36G is a high-efficiency, hot-swappable power supply unit engineered as a direct replacement for the RDS2216 Rose Data Server. Delivering 12V output at 550W, it ensures stable and reliable power delivery for demanding enterprise workloads while supporting the server’s modular and energy-conscious design. Specifically designed to complement the RDS2216’s low power consumption and minimal thermal footprint, this PSU plays a crucial role in maintaining system efficiency and uptime. The hot-swap capability allows for quick and uninterrupted replacement, making it ideal for high-availability environments where continuous operation is critical. Constructed with reliability and sustainability in mind, the DPS-550AB-36G aligns with MikroTik’s commitment to eco-friendly, high-performance infrastructure solutions. Whether used for redundancy or replacement, it helps maximize server uptime without compromising energy efficiency.",
+  "detailed_description": [
+    {
+      "heading": "Description",
+      "text": "The MikroTik DPS-550AB-36G is a high-efficiency, hot-swappable power supply unit engineered as a direct replacement for the RDS2216 Rose Data Server. Delivering 12V output at 550W, it ensures stable and reliable power delivery for demanding enterprise workloads while supporting the server’s modular and energy-conscious design. Specifically designed to complement the RDS2216’s low power consumption and minimal thermal footprint, this PSU plays a crucial role in maintaining system efficiency and uptime. The hot-swap capability allows for quick and uninterrupted replacement, making it ideal for high-availability environments where continuous operation is critical. Constructed with reliability and sustainability in mind, the DPS-550AB-36G aligns with MikroTik’s commitment to eco-friendly, high-performance infrastructure solutions. Whether used for redundancy or replacement, it helps maximize server uptime without compromising energy efficiency."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters"
+  ],
+  "mpn": "DPS-550AB-36G",
+  "manufacturer_part_number": "DPS-550AB-36G",
+  "ean": "4718018510157",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5919/1-67fe5c91c717c-medium.jpg",
+        "alt": "MikroTik Hot Swap PSU DPS-550AB-36G",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 129.34,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Voltage",
+        "Output Power"
+      ],
+      "items": [
+        {
+          "name": "Output Voltage",
+          "value": "12 V DC"
+        },
+        {
+          "name": "Output Power",
+          "value": "550 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Environment",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Embedded"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Hot Swap PSU DPS-550AB-36G",
+      "url": "https://www.getic.com/files/catalogue/5919/rose_parts_new-67fe5c8a388dc.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Alfa USB Adapter AWUS036AC",
+      "url": "/product/alfa-awus036ac",
+      "price": 31.17,
+      "currency": "USD",
+      "mpn": "AWUS036AC",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Alfa Wi-Fi 6E PCIe Card with Magnetic Antenna",
+      "url": "/product/alfa-wi-fi-6e-pcie-card-with-magnetic-antenna",
+      "price": 43.38,
+      "currency": "USD",
+      "mpn": "AIT-AX210-EX",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036AXER",
+      "url": "/product/alfa-usb-adapter-awus036axer",
+      "price": 24.79,
+      "currency": "USD",
+      "mpn": "AWUS036AXER",
+      "availability": "InStock"
+    },
+    {
+      "name": "QuMax Omni for TRB500",
+      "url": "/product/qumax-omni-for-trb500",
+      "price": 144.33,
+      "currency": "USD",
+      "mpn": "A500MO",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

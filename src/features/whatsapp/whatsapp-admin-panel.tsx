@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ExternalLink, MessageCircle, Phone } from "lucide-react";
 import type { PublicLocale } from "@/i18n/locale-config";
 import { upsertUiMessageAction } from "@/features/translation/actions";
@@ -105,11 +105,18 @@ export function WhatsAppAdminPanel({
   const registerPageActions = useAdminUiStore((s) => s.registerPageActions);
   const clearPageActions = useAdminUiStore((s) => s.clearPageActions);
   const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
+  const markSaved = useAdminUiStore((s) => s.markSaved);
+  const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
+
+  const savedSettingsRef = useRef<WhatsAppSettings | null>(null);
 
   useEffect(() => {
     fetch("/api/whatsapp-settings")
       .then((r) => r.json())
-      .then((data: WhatsAppSettings) => setSettings(data))
+      .then((data: WhatsAppSettings) => {
+        setSettings(data);
+        savedSettingsRef.current = data;
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -131,17 +138,31 @@ export function WhatsAppAdminPanel({
     if (!res.ok) {
       setStatusVariant("error");
       setStatus(data.error ?? "Save failed");
+      setSaveStatus("error");
       throw new Error(data.error ?? "Save failed");
     }
     setSettings(data.settings);
+    savedSettingsRef.current = data.settings;
     setStatusVariant("success");
     setStatus("WhatsApp settings saved.");
-  }, [settings]);
+    markSaved();
+  }, [settings, markSaved]);
+
+  const handleCancel = useCallback(() => {
+    if (savedSettingsRef.current) {
+      setSettings(savedSettingsRef.current);
+    }
+    setStatus(null);
+  }, []);
 
   useEffect(() => {
-    registerPageActions({ onSave: handleSave });
+    registerPageActions({
+      onSave: handleSave,
+      onCancel: handleCancel,
+      selfManagedSaveStatus: true,
+    });
     return () => clearPageActions();
-  }, [registerPageActions, clearPageActions, handleSave]);
+  }, [registerPageActions, clearPageActions, handleSave, handleCancel]);
 
   async function saveMessage(key: string, localeCode: string, value: string) {
     setStatus(null);

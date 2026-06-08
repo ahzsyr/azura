@@ -3,7 +3,7 @@ import type { MediaType } from "@prisma/client";
 import { auth } from "@/lib/auth";
 import { mediaRepository } from "@/repositories/media.repository";
 import { persistMediaUpload } from "@/features/media/persist-upload";
-import { deleteStoredUpload, storeUploadedFile } from "@/lib/media-storage";
+import { deleteStoredUpload, getMediaStorageStatus, storeUploadedFile } from "@/lib/media-storage";
 import { validateUploadFile } from "@/lib/local-media-storage";
 
 export async function POST(request: Request) {
@@ -13,6 +13,7 @@ export async function POST(request: Request) {
   }
 
   try {
+
     const formData = await request.formData();
     const file = formData.get("file");
     if (!(file instanceof File)) {
@@ -77,6 +78,7 @@ export async function POST(request: Request) {
       uploaderEmail: session.user.email,
     });
 
+
     return NextResponse.json({
       ok: true,
       id: asset.id,
@@ -85,20 +87,6 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("[media/upload]", error);
-    // #region agent log
-    import("@/lib/debug-ingest").then(({ debugIngest }) =>
-      debugIngest(
-        "api/media/upload/route.ts:POST",
-        "upload failed",
-        {
-          code: (error as NodeJS.ErrnoException).code ?? null,
-          message: (error instanceof Error ? error.message : String(error)).slice(0, 240),
-          vercel: Boolean(process.env.VERCEL),
-        },
-        "H2",
-      ),
-    );
-    // #endregion
     const message =
       error instanceof Error && error.message.includes("MediaAsset")
         ? "Could not save media record. Try signing out and back in."

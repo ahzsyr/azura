@@ -7,12 +7,26 @@ import {
 import { blockRegistry } from "@/features/builder/registry/block-registry-system";
 import { createBlock } from "@/schemas/blocks";
 
-/** Read effective settings (v2 settings or legacy props) */
+function isUnsetSettingValue(value: unknown): boolean {
+  return value === "" || value === null || value === undefined;
+}
+
+/** Read effective settings — merge legacy props with v2 settings (settings win on conflict). */
 export function getBlockSettings(block: BlockNode): Record<string, unknown> {
-  if (block.settings && Object.keys(block.settings).length > 0) {
-    return block.settings;
+  const props = block.props ?? {};
+  const settings = block.settings ?? {};
+  const merged = { ...props, ...settings };
+
+  // v2 defaults use empty strings; don't let those mask real values still in props
+  for (const key of Object.keys(settings)) {
+    const settingVal = settings[key];
+    const propVal = props[key];
+    if (isUnsetSettingValue(settingVal) && !isUnsetSettingValue(propVal)) {
+      merged[key] = propVal;
+    }
   }
-  return block.props ?? {};
+
+  return merged;
 }
 
 /** Dual-write settings + props so legacy and v2 readers stay in sync */
@@ -28,15 +42,31 @@ export function patchBlockSettings(
   };
 }
 
+/** Patch block media fields — URL is required; mediaId optional for usage tracking */
+export function patchBlockMedia(
+  block: BlockNode,
+  keys: { urlKey: string; mediaIdKey?: string; typeKey?: string },
+  pick: { url: string; mediaId?: string | null },
+): BlockNode {
+  const patch: Record<string, unknown> = {
+    [keys.urlKey]: pick.url,
+  };
+  if (keys.mediaIdKey) {
+    patch[keys.mediaIdKey] = pick.mediaId ?? "";
+  }
+  if (keys.typeKey && pick.url) {
+    patch[keys.typeKey] = "image";
+  }
+  return patchBlockSettings(block, patch);
+}
+
 /** Normalize any stored block to v2 shape in-memory (does not mutate input) */
 export function normalizeBlockInstance(block: BlockNode): BlockInstanceV2 {
   const def = blockRegistry.get(block.type);
-  const version =
-    block.version === BLOCK_SYSTEM_VERSION ? BLOCK_SYSTEM_VERSION : BLOCK_LEGACY_VERSION;
-  const settings =
-    version === BLOCK_SYSTEM_VERSION && block.settings
-      ? { ...(def?.defaultSettings ?? {}), ...block.settings }
-      : { ...(def?.defaultSettings ?? {}), ...getBlockSettings(block) };
+  const settings = {
+    ...(def?.defaultSettings ?? {}),
+    ...getBlockSettings(block),
+  };
 
   return {
     id: block.id,

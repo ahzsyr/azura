@@ -1,12 +1,19 @@
-import { readFile, writeFile, mkdir } from "fs/promises";
-import { resolve, extname, join } from "path";
+import { extname, join } from "path";
 import { readdir, stat } from "fs/promises";
 import "server-only";
 
+import { deleteStoredUpload } from "@/lib/media-storage";
+import { deleteLocalUploadFile, resolveLocalUploadDiskPath } from "@/lib/local-media-files";
+import {
+  addCatalogMediaTombstone,
+  preferCatalogMediaJsonStore,
+  readCatalogMediaMeta,
+  readCatalogMediaTombstones,
+  writeCatalogMediaMeta,
+} from "./catalog-media-persistence";
 import type { MediaLibraryMeta, MediaItem, MediaType } from "./types";
 
-const META_PATH = resolve(process.cwd(), "src/data/media-library.json");
-const UPLOADS_DIR = resolve(process.cwd(), "public/uploads");
+const UPLOADS_DIR = join(process.cwd(), "public/uploads");
 
 export const IMG_EXTS = new Set([".jpg", ".jpeg", ".png", ".gif", ".webp", ".avif"]);
 export const SVG_EXTS = new Set([".svg"]);
@@ -53,22 +60,16 @@ export const MAX_SIZES: Record<string, number> = {
 export const DEFAULT_MAX_SIZE = 20 * 1024 * 1024;
 
 export async function readMeta(): Promise<MediaLibraryMeta> {
-  try {
-    const raw = await readFile(META_PATH, "utf-8");
-    return JSON.parse(raw) as MediaLibraryMeta;
-  } catch {
-    return {};
-  }
+  return readCatalogMediaMeta();
 }
 
 export async function writeMeta(meta: MediaLibraryMeta): Promise<void> {
-  await mkdir(resolve(process.cwd(), "src/data"), { recursive: true });
-  await writeFile(META_PATH, JSON.stringify(meta, null, 2), "utf-8");
+  await writeCatalogMediaMeta(meta);
 }
 
 export async function scanFilesystem(): Promise<Array<{ filename: string; subDir: string; ext: string; size: number; url: string }>> {
   const results: Array<{ filename: string; subDir: string; ext: string; size: number; url: string }> = [];
-  const subDirs = ["images", "videos", "documents", "audio", "other"];
+  const subDirs = ["images", "videos", "documents", "audio", "svg", "other"];
 
   for (const sub of subDirs) {
     const dir = join(UPLOADS_DIR, sub);
@@ -95,27 +96,43 @@ export async function scanFilesystem(): Promise<Array<{ filename: string; subDir
   return results;
 }
 
+function metaEntryToItem(filename: string, m: MediaLibraryMeta[string], fsEntry?: { ext: string; size: number; url: string }): MediaItem {
+  const ext = m.ext ?? fsEntry?.ext ?? extname(filename).toLowerCase();
+  const type = m.type ?? getMediaType(ext);
+  return {
+    id: m.id ?? filename,
+    filename,
+    originalName: m.originalName ?? filename,
+    url: m.url ?? fsEntry?.url ?? `/uploads/${getSubDir(type)}/${filename}`,
+    type,
+    ext,
+    size: m.size ?? fsEntry?.size ?? 0,
+    uploadedAt: m.uploadedAt ?? new Date(0).toISOString(),
+    title: m.title,
+    alt: m.alt,
+    description: m.description,
+    tags: m.tags,
+  };
+}
+
 export async function buildMediaItems(meta: MediaLibraryMeta): Promise<MediaItem[]> {
+  const tombstones = await readCatalogMediaTombstones();
   const fsFiles = await scanFilesystem();
+  const fsByName = new Map(fsFiles.map((f) => [f.filename, f]));
   const items: MediaItem[] = [];
+  const seen = new Set<string>();
 
   for (const f of fsFiles) {
-    const m = meta[f.filename];
-    const type = getMediaType(f.ext);
-    items.push({
-      id: m?.id ?? f.filename,
-      filename: f.filename,
-      originalName: m?.originalName ?? f.filename,
-      url: f.url,
-      type,
-      ext: f.ext,
-      size: f.size,
-      uploadedAt: m?.uploadedAt ?? new Date(0).toISOString(),
-      title: m?.title,
-      alt: m?.alt,
-      description: m?.description,
-      tags: m?.tags,
-    });
+    if (tombstones.has(f.filename)) continue;
+    seen.add(f.filename);
+    items.push(metaEntryToItem(f.filename, meta[f.filename] ?? { id: f.filename, originalName: f.filename, uploadedAt: new Date(0).toISOString() }, f));
+  }
+
+  for (const [filename, entry] of Object.entries(meta)) {
+    if (seen.has(filename) || tombstones.has(filename)) continue;
+    if (!entry.url && !fsByName.has(filename)) continue;
+    if (fsByName.has(filename)) continue;
+    items.push(metaEntryToItem(filename, entry));
   }
 
   return items;
@@ -123,4 +140,79 @@ export async function buildMediaItems(meta: MediaLibraryMeta): Promise<MediaItem
 
 export function safeFilename(name: string): string {
   return name.replace(/[^a-zA-Z0-9._-]/g, "-").toLowerCase();
+}
+
+export function filenameFromStoredUrl(url: string): string {
+  const parts = url.split("/");
+  return parts[parts.length - 1] ?? url;
+}
+
+export type CatalogMediaDeleteResult =
+  | { ok: true; tombstoned?: boolean }
+  | { ok: false; error: string; status: number };
+
+/** Delete a catalog media file from storage and remove its metadata entry. */
+export async function deleteCatalogMediaFile(filename: string): Promise<CatalogMediaDeleteResult> {
+  const fsFiles = await scanFilesystem();
+  const found = fsFiles.find((f) => f.filename === filename);
+  const meta = await readMeta();
+  const entry = meta[filename];
+
+  if (!found && !entry) {
+    return { ok: false, error: "File not found", status: 404 };
+  }
+
+  const url = entry?.url ?? found?.url;
+  let tombstoned = false;
+
+  if (url) {
+    const deleted = await deleteStoredUpload(url);
+    if (!deleted && url.startsWith("/uploads/")) {
+      const diskPath = resolveLocalUploadDiskPath(url);
+      if (diskPath) {
+        try {
+          await stat(diskPath);
+          if (preferCatalogMediaJsonStore()) {
+            await addCatalogMediaTombstone(filename);
+            tombstoned = true;
+          } else {
+            return {
+              ok: false,
+              error: "Could not delete file. The server filesystem may be read-only.",
+              status: 503,
+            };
+          }
+        } catch {
+          /* file already removed */
+        }
+      }
+    } else if (!deleted && !url.startsWith("/uploads/")) {
+      return {
+        ok: false,
+        error: "Could not delete file from cloud storage.",
+        status: 503,
+      };
+    }
+  } else if (found && preferCatalogMediaJsonStore()) {
+    await addCatalogMediaTombstone(filename);
+    tombstoned = true;
+  }
+
+  delete meta[filename];
+
+  try {
+    await writeMeta(meta);
+  } catch (error) {
+    const code = (error as NodeJS.ErrnoException).code;
+    if (code === "EROFS" || code === "EACCES" || code === "EPERM") {
+      return {
+        ok: false,
+        error: "Cannot update media catalog on a read-only filesystem.",
+        status: 503,
+      };
+    }
+    throw error;
+  }
+
+  return { ok: true, tombstoned };
 }

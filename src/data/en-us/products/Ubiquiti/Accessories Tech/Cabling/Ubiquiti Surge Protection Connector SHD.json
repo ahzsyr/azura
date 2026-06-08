@@ -1,0 +1,193 @@
+{
+  "slug": "ubiquiti-surge-protection-connectors-100pcs",
+  "id": "4340",
+  "productTitle": "Ubiquiti Surge Protection Connector SHD",
+  "name": "Ubiquiti Surge Protection Connector SHD",
+  "title": "Ubiquiti Surge Protection Connector SHD",
+  "title_extended": "",
+  "short_description": "Shielded RJ45 connectors, 100 pcs",
+  "description": "The UISP-Connector-SHD, or Surge Protection Connector SHD, from Ubiquiti is a sophisticated device engineered to enhance the resilience and durability of network installations by providing robust surge protection. Designed to work seamlessly with Ubiquiti's networking products, this surge protector is essential for protecting sensitive equipment from the potentially damaging effects of electrical surges and spikes. Constructed with a rugged exterior, the UISP-Connector-SHD integrates state-of-the-art surge protection technology. It utilizes gas discharge tubes (GDT) for primary surge protection, which effectively dissipates a high voltage surge to the ground, safeguarding the connected equipment. For finer protection, it incorporates metal oxide varistors (MOVs) that absorb excess voltage and prevent it from reaching the network devices, thereby offering a secondary layer of defense against voltage spikes. This model features a modular design with easy-to-connect interfaces, ensuring quick installation and maintenance. It is equipped with shielded RJ45 connectors, which not only facilitate secure electrical connections but also enhance signal integrity by reducing electromagnetic interference (EMI). The connectors are designed to maintain a tight, waterproof seal, enhancing the device's durability and making it suitable for outdoor environments where exposure to elements such as rain and humidity is common.",
+  "detailed_description": [
+    {
+      "heading": "Shielded RJ45 connectors",
+      "text": "Shielded RJ45 connectors designed for UISP Ethernet cables (UISP Cable Pro and Cable Carrier). Each is outfitted with a hook that connects directly to the UISP cable drain wire."
+    },
+    {
+      "heading": "Features",
+      "text": "Protects Ethernet hardware from ESD damage\nEasy to install without soldering\n100 connectors per pack"
+    },
+    {
+      "heading": "Surge Protection Technology",
+      "text": "The UISP-Connector-SHD, or Surge Protection Connector SHD, from Ubiquiti is a sophisticated device engineered to enhance the resilience and durability of network installations by providing robust surge protection. Designed to work seamlessly with Ubiquiti's networking products, this surge protector is essential for protecting sensitive equipment from the potentially damaging effects of electrical surges and spikes."
+    },
+    {
+      "heading": "Construction and Protection",
+      "text": "Constructed with a rugged exterior, the UISP-Connector-SHD integrates state-of-the-art surge protection technology. It utilizes gas discharge tubes (GDT) for primary surge protection, which effectively dissipates a high voltage surge to the ground, safeguarding the connected equipment. For finer protection, it incorporates metal oxide varistors (MOVs) that absorb excess voltage and prevent it from reaching the network devices, thereby offering a secondary layer of defense against voltage spikes."
+    },
+    {
+      "heading": "Design and Installation",
+      "text": "This model features a modular design with easy-to-connect interfaces, ensuring quick installation and maintenance. It is equipped with shielded RJ45 connectors, which not only facilitate secure electrical connections but also enhance signal integrity by reducing electromagnetic interference (EMI). The connectors are designed to maintain a tight, waterproof seal, enhancing the device's durability and making it suitable for outdoor environments where exposure to elements such as rain and humidity is common."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Twisted Pair",
+  "categories": [
+    "Twisted Pair",
+    "Cables and Cabinets",
+    "Ubiquiti",
+    "Accessory Tech",
+    "Cabling"
+  ],
+  "mpn": "UISP-Connector-SHD",
+  "manufacturer_part_number": "UISP-Connector-SHD",
+  "ean": "0810010075796",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4340/1-64394e2d105dd-medium.jpg",
+        "alt": "Ubiquiti Surge Protection Connector SHD",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4340/2-64394e2fba5a2-medium.jpg",
+        "alt": "Ubiquiti Surge Protection Connector SHD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4340/3-64394e325adf6-medium.jpg",
+        "alt": "Ubiquiti Surge Protection Connector SHD",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 23.63,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Connector"
+      ],
+      "items": [
+        {
+          "name": "Connector",
+          "value": "(1) RJ45"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "100 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Ethernet Surge Protector",
+      "url": "/product/ethernet-surge-protector-gen-2",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "ETH-SP-G2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Crimping Tool for RJ45, RJ11 Connectors TOL-2008R",
+      "url": "/product/crimping-tool-for-rj45-rj11-connectors-8p-6p-blue",
+      "price": 11.84,
+      "currency": "USD",
+      "mpn": "TOL-2008R",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UISP Cable Pro",
+      "url": "/product/uisp-cable-pro",
+      "price": 126.28,
+      "currency": "USD",
+      "mpn": "UISP-Cable-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UISP Cable Carrier",
+      "url": "/product/uisp-cable-carrier",
+      "price": 170.36,
+      "currency": "USD",
+      "mpn": "UISP-Cable-Carrier",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "InStock"
+}

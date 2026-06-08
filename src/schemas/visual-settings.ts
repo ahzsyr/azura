@@ -31,6 +31,7 @@ export const sectionBackgroundSchema = z
     color: z.string().optional(),
     gradient: z.string().optional(),
     imageUrl: z.string().optional(),
+    mediaAssetId: z.string().optional(),
     /** Animated/static pattern id (grid, particles, circuit, aurora, …) */
     pattern: z.string().optional(),
     overlayOpacity: z.number().min(0).max(1).optional(),

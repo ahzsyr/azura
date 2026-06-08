@@ -1,0 +1,299 @@
+{
+  "slug": "mant30-pa",
+  "id": "708",
+  "productTitle": "MikroTik mANT30 PA",
+  "name": "MikroTik mANT30 PA",
+  "title": "MikroTik mANT30 PA",
+  "title_extended": "",
+  "short_description": "Professional Class 5GHz 30dBi Dish Antenna With a Precision Alignment Mount",
+  "description": "Buy MikroTik mANT30 PA. Price from 180.26 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "MikroTik mANT30 Series",
+      "text": "Explore wireless connectivity with the MikroTik mANT30 series, presenting professional-grade 5 GHz 30dBi dish antennas that surpass industry standards. Operating within the Wi-Fi spectrum, these antennas provide a powerful signal amplification with a 30dBi gain, making them ideal for long-distance point-to-point communication. Commonly employed by wireless internet service providers (WISPs), for backhaul connections, and in scenarios demanding high-throughput and extensive coverage, the mANT30 series sets a new benchmark for wireless networking."
+    },
+    {
+      "heading": "Installation Flexibility",
+      "text": "Take advantage of the versatility brought to you by the MikroTik mANT30 series with the inclusion of the FlexGuide cable. Purposefully included with the antennas, this cable serves as a flexible and reliable link between the antenna and networking equipment. Its length caters to the specific requirements of pole-mounted wireless devices, offering flexibility in installation and precise positioning of the antenna. Designed with durability in mind, the FlexGuide cable withstands outdoor conditions, ensuring resilience against varying temperatures and environmental elements."
+    },
+    {
+      "heading": null,
+      "text": "Both mANT30 products come packaged with all necessary accessories and cables, offering a complete and versatile wireless networking device. Moreover, the mANT30 series seamlessly accommodates MikroTik's Basebox series products and other RouterBOARD devices purchased separately, ensuring a harmonious pairing for enhanced wireless capabilities."
+    },
+    {
+      "heading": "Precision Engineering",
+      "text": "Fitted with 2 x RP-SMA Female RF connectors, the MikroTik mANT30 antennas establish strong connections, seamlessly aligning with wireless networking standards. They excel in focused signal transmission, thanks to the narrow 2.5° antenna beamwidth: perfect for precision in long-distance connections. Operating smoothly between -50 °C to 80 °C, the mANT30 series showcases versatility in various conditions and proves a reliable solution for cutting-edge wireless networking needs."
+    },
+    {
+      "heading": "mANT30 PA & The Alignment Mount",
+      "text": "The mANT30 PA variant takes wireless connectivity to the next level with a precision alignment mount. This mount is crafted to ensure high accuracy in aligning directional antennas. It facilitates fine-tuning adjustments, granting users precise control over elevation angles. This level of accuracy is pivotal for optimizing signal strength and maintaining a stable connection, especially in long-distance wireless links. The precision alignment mount of the mANT30 PA prioritizes stability and durability, demonstrating resilience in diverse environmental conditions for long-term reliability."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Wireless Antennas",
+  "categories": [
+    "Ethernet Routers",
+    "hEX"
+  ],
+  "mpn": "MTAD-5G-30D3-PA",
+  "manufacturer_part_number": "MTAD-5G-30D3-PA",
+  "ean": "4752224000255",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/708/mtad5g30d3_1-5fd89f9e01454-medium.jpg",
+        "alt": "MikroTik mANT30 PA",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/708/925_hi_res-60ec18d06ef70-medium.jpg",
+        "alt": "MikroTik mANT30 PA",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 180.26,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization",
+        "VSWR",
+        "Impedance",
+        "F/B ratio"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Parabolic Dish"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "4.700 - 5.875 (GHz) 30 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "2.5 °"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        },
+        {
+          "name": "VSWR",
+          "value": "< 1.8"
+        },
+        {
+          "name": "Impedance",
+          "value": "50 Ω"
+        },
+        {
+          "name": "F/B ratio",
+          "value": "> 30 dB"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Aluminium"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø700 x 450 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "5.7 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-50 °C to 80 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik mANT30 PA",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-mant30.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik mANT30 PA",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/quick-setup-guide-mtad-5g-30d3-pa.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik mANT30 PA",
+      "url": "https://www.getic.com/files/catalogue/708/dpaqsg4pa1_pid27427151126104517_151117-651570c80f758.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik Radome Cover Kit",
+      "url": "/product/radome-for-mant30",
+      "price": 40.50,
+      "currency": "USD",
+      "mpn": "MTRADC",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX",
+      "url": "/product/routerboard-hex",
+      "price": 44.77,
+      "currency": "USD",
+      "mpn": "RB750Gr3",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Sleeve30 Kit",
+      "url": "/product/sleeve-for-mant30",
+      "price": 124.52,
+      "currency": "USD",
+      "mpn": "Sleeve30",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS326-24G-2S+RM",
+      "url": "/product/cloud-router-switch-326-24g-2srm",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS326-24G-2S+RM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

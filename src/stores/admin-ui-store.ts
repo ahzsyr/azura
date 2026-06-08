@@ -7,10 +7,19 @@ import { ADMIN_NAV_GROUP_IDS } from "@/config/admin-nav";
 export type SaveStatus = "saved" | "unsaved" | "saving" | "error";
 
 export type PageActions = {
-  onSave?: () => void | Promise<void>;
+  onSave?: () => boolean | void | Promise<boolean | void>;
+  saveLabel?: string;
+  saveTooltip?: string;
+  canSave?: boolean;
+  onUpdate?: () => void | Promise<void>;
+  updateLabel?: string;
+  updateTooltip?: string;
+  canUpdate?: boolean;
   onRebuildIndex?: () => void | Promise<void>;
   rebuildIndexLabel?: string;
-  onPublish?: () => void | Promise<void>;
+  onPublish?: () => boolean | void | Promise<boolean | void>;
+  publishLabel?: string;
+  publishTooltip?: string;
   onPreview?: () => void;
   onUndo?: () => void;
   onRedo?: () => void;
@@ -18,6 +27,14 @@ export type PageActions = {
   canRedo?: boolean;
   canPublish?: boolean;
   canPreview?: boolean;
+  /** When false, onSave success does not set the top-bar status to Saved (e.g. preview-only Validate). */
+  markSavedOnSaveSuccess?: boolean;
+  /** When true, the page handler manages saveStatus; top bar will not overwrite after onSave. */
+  selfManagedSaveStatus?: boolean;
+  onCancel?: () => void | Promise<void>;
+  cancelLabel?: string;
+  /** When omitted, Cancel is shown only while saveStatus is unsaved or error. */
+  canCancel?: boolean;
 };
 
 type AdminUiState = {

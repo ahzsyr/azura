@@ -379,5 +379,22 @@
     "elements": {
       "inlineCta": true
     }
+  },
+  "sitePreloader": {
+    "enabled": true,
+    "mode": "both",
+    "animation": "pulse",
+    "centerType": "logo",
+    "centerText": "",
+    "centerEmoji": "✨",
+    "centerIcon": "Loader2",
+    "centerSvgUrl": "",
+    "message": "",
+    "backgroundColor": "",
+    "primaryColor": "",
+    "accentColor": "",
+    "animationSpeed": 1,
+    "minDurationMs": 400,
+    "maxDurationMs": 12000
   }
 }

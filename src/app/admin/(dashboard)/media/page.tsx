@@ -2,12 +2,20 @@ import { mediaRepository } from "@/repositories/media.repository";
 import { MediaAdminTabs } from "@/features/media/components/media-admin-tabs";
 
 export default async function MediaAdminPage() {
-  const [assets, folders, totalBytes, storageByType] = await Promise.all([
-    mediaRepository.listAssets(),
-    mediaRepository.listFolders(),
-    mediaRepository.totalStorageBytes(),
-    mediaRepository.storageStatsByType(),
-  ]);
+  let assets;
+  let folders;
+  let totalBytes;
+  let storageByType;
+  try {
+    [assets, folders, totalBytes, storageByType] = await Promise.all([
+      mediaRepository.listAssets(),
+      mediaRepository.listFolders(),
+      mediaRepository.totalStorageBytes(),
+      mediaRepository.storageStatsByType(),
+    ]);
+  } catch (err) {
+    throw err;
+  }
 
   return (
     <div className="space-y-6">

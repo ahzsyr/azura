@@ -1,6 +1,6 @@
 "use client";
 
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 
 type Props = {
   label: string;
@@ -12,13 +12,11 @@ type Props = {
 
 export function ThemeBrandUpload({ label, hint, value, onChange, previewSize }: Props) {
   return (
-    <MediaPickerField
+    <UrlPrimaryMediaPickerField
       label={label}
       hint={hint}
-      url={value}
-      trackMediaId={false}
-      idFieldName=""
-      onChange={({ url }) => onChange(url)}
+      value={value}
+      onChange={onChange}
       previewSize={previewSize}
       mediaTypes={["IMAGE", "SVG"]}
     />

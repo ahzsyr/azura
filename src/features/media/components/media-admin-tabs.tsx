@@ -29,6 +29,9 @@ export function MediaAdminTabs(props: Props) {
         <TabsTrigger value="cms">CMS (database)</TabsTrigger>
       </TabsList>
       <TabsContent value="site" className="mt-6">
+        <p className="mb-3 text-sm text-muted-foreground">
+          Site media files used by the catalog and block pickers. On serverless hosts, uploads and deletes use Supabase Storage.
+        </p>
         <CatalogMediaManager />
       </TabsContent>
       <TabsContent value="cms" className="mt-6">

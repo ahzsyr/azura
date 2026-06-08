@@ -27,6 +27,7 @@ function TypeIcon({ type }: { type: MediaAsset["mediaType"] }) {
 
 export function MediaAssetCard({ asset, selected, onSelect, onOpen }: Props) {
   const [copied, setCopied] = useState(false);
+  const [previewFailed, setPreviewFailed] = useState(false);
   const isVisual = asset.mediaType === "IMAGE" || asset.mediaType === "SVG";
 
   const copyUrl = (e: React.MouseEvent) => {
@@ -48,8 +49,21 @@ export function MediaAssetCard({ asset, selected, onSelect, onOpen }: Props) {
         onClick={onOpen}
         onDoubleClick={onSelect}
       >
-        {isVisual ? (
-          <Image src={asset.url} alt={asset.altEn || asset.filename} fill className="object-cover" sizes="200px" />
+        {isVisual && !previewFailed ? (
+          <Image
+            src={asset.url}
+            alt={asset.altEn || asset.filename}
+            fill
+            className="object-cover"
+            sizes="200px"
+            unoptimized={asset.url.startsWith("/uploads/")}
+            onError={() => setPreviewFailed(true)}
+          />
+        ) : isVisual ? (
+          <div className="flex flex-col items-center justify-center h-full gap-2 p-2">
+            <TypeIcon type={asset.mediaType} />
+            <span className="text-[10px] text-muted-foreground text-center px-1">Preview unavailable</span>
+          </div>
         ) : (
           <div className="flex flex-col items-center justify-center h-full gap-2 p-2">
             <TypeIcon type={asset.mediaType} />

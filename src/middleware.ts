@@ -45,6 +45,37 @@ type LocaleRoutingCache = {
 
 let localeRoutingCache: LocaleRoutingCache | null = null;
 
+type RedirectHit = { toPath: string; type: string } | null;
+
+type RedirectCacheRow = {
+  redirect: RedirectHit;
+  expires: number;
+};
+
+const REDIRECT_CACHE_TTL_MS = 60_000;
+const redirectLookupCache = new Map<string, RedirectCacheRow>();
+
+function isCatalogAdminApi(pathname: string): boolean {
+  return (
+    pathname === "/api/collections" ||
+    pathname.startsWith("/api/collections/") ||
+    pathname === "/api/sync-collections"
+  );
+}
+
+function resolveSetupStatusForCatalogApi(): SetupStatusCache {
+  const cached = getCachedSetupStatus();
+  if (cached) return cached;
+  const envFallback = statusFromEnvFallback();
+  if (envFallback) return envFallback;
+  return setCachedSetupStatus({
+    setupComplete: true,
+    registrationEnabled: true,
+    comingSoonEnabled: false,
+    confident: true,
+  });
+}
+
 function internalAppOrigin(): string {
   return (
     process.env.INTERNAL_APP_URL?.trim() ||
@@ -119,6 +150,20 @@ async function resolveSetupStatus(request: NextRequest) {
     return cached;
   }
 
+  const envFallback = statusFromEnvFallback();
+  if (envFallback) {
+    return envFallback;
+  }
+
+  if (hasSetupCompleteCookie(request.cookies.get(SETUP_COMPLETE_COOKIE)?.value)) {
+    return mergeSetupStatusWithEnvOverrides({
+      setupComplete: true,
+      registrationEnabled: true,
+      comingSoonEnabled: false,
+      confident: true,
+    });
+  }
+
   const origins = [
     request.nextUrl.origin,
     internalAppOrigin(),
@@ -134,18 +179,6 @@ async function resolveSetupStatus(request: NextRequest) {
     }
   }
 
-  if (hasSetupCompleteCookie(request.cookies.get(SETUP_COMPLETE_COOKIE)?.value)) {
-    return mergeSetupStatusWithEnvOverrides({
-      setupComplete: true,
-      registrationEnabled: true,
-      comingSoonEnabled: false,
-      confident: true,
-    });
-  }
-
-  const envFallback = statusFromEnvFallback();
-  if (envFallback) return envFallback;
-
   return {
     setupComplete: false,
     registrationEnabled: true,
@@ -153,6 +186,28 @@ async function resolveSetupStatus(request: NextRequest) {
     confident: false,
     expires: 0,
   };
+}
+
+async function lookupRedirect(pathname: string, request: NextRequest): Promise<RedirectHit> {
+  const now = Date.now();
+  const cached = redirectLookupCache.get(pathname);
+  if (cached && cached.expires > now) {
+    return cached.redirect;
+  }
+
+  const lookupUrl = new URL(`/api/redirects?path=${encodeURIComponent(pathname)}`, request.url);
+  const res = await fetch(lookupUrl, { headers: { "x-middleware": "1" } });
+  if (!res.ok) {
+    redirectLookupCache.set(pathname, { redirect: null, expires: now + REDIRECT_CACHE_TTL_MS });
+    return null;
+  }
+
+  const data = (await res.json()) as {
+    redirect?: { toPath: string; type: string } | null;
+  };
+  const redirect = data.redirect ?? null;
+  redirectLookupCache.set(pathname, { redirect, expires: now + REDIRECT_CACHE_TTL_MS });
+  return redirect;
 }
 
 /** Public marketing paths that should not be blocked when setup status is uncertain. */
@@ -345,7 +400,9 @@ async function runMiddleware(request: NextRequest) {
   const adminResponse = await handleAdminFastPath(request);
   if (adminResponse) return adminResponse;
 
-  const setupStatus = await resolveSetupStatus(request);
+  const setupStatus = isCatalogAdminApi(pathname) || pathname.startsWith("/admin")
+    ? resolveSetupStatusForCatalogApi()
+    : await resolveSetupStatus(request);
 
   if (pathname.startsWith("/api") || isPreviewRoute) {
     const comingSoonBlock = await enforceComingSoonMode(
@@ -418,15 +475,11 @@ async function runMiddleware(request: NextRequest) {
 
   if (!pathname.startsWith("/admin") && !isSetupPath) {
     try {
-      const lookupUrl = new URL(`/api/redirects?path=${encodeURIComponent(pathname)}`, request.url);
-      const res = await fetch(lookupUrl, { headers: { "x-middleware": "1" } });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.redirect) {
-          const url = request.nextUrl.clone();
-          url.pathname = data.redirect.toPath;
-          return NextResponse.redirect(url, data.redirect.type === "PERMANENT" ? 308 : 307);
-        }
+      const redirect = await lookupRedirect(pathname, request);
+      if (redirect) {
+        const url = request.nextUrl.clone();
+        url.pathname = redirect.toPath;
+        return NextResponse.redirect(url, redirect.type === "PERMANENT" ? 308 : 307);
       }
     } catch {
       // continue without redirect

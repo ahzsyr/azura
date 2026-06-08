@@ -6,7 +6,10 @@
  * Full collection management with DataTable engine, rule editor, hierarchy, sync report.
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
+import { useAdminFormState } from "@/hooks/use-admin-form";
+import { useAdminUiStore } from "@/stores/admin-ui-store";
+import type { PageActions } from "@/stores/admin-ui-store";
 import "./AdminCollectionsPanel.css";
 import {
   ADMIN_COLLECTION_TABS,
@@ -18,6 +21,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/features/catalog/admin/shared/DataTable";
 import type { BulkAction, ColumnDef, FilterDef, InlineEditSave } from "@/features/catalog/admin/shared/types";
 import { MediaPickerButton } from "@/features/catalog/admin/media/MediaPicker";
+import { CollectionBulkImportModal } from "./CollectionBulkImportModal";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -81,6 +85,8 @@ interface SyncReport {
   warnings: ValidationWarning[];
   productStatuses: ProductSyncStatus[];
   collectionCounts: Record<string, number>;
+  indexesRebuilt?: boolean;
+  indexRebuildCounts?: Record<string, number>;
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -369,19 +375,33 @@ function RuleEditor({
 
 // ── Collection form ───────────────────────────────────────────────────────────
 
-function CollectionForm({
+export type CollectionSaveMode = "save" | "update" | "publish";
+
+export type CollectionFormHandle = {
+  submit: (mode: CollectionSaveMode) => Promise<void>;
+};
+
+function CollectionFormInner({
   initial, collections, onSave, onCancel,
 }: {
   initial: Partial<Collection>;
   collections: Collection[];
-  onSave: (data: Partial<Collection>) => Promise<void>;
+  onSave: (data: Partial<Collection>, mode: CollectionSaveMode) => Promise<void>;
   onCancel: () => void;
-}) {
+}, ref: React.Ref<CollectionFormHandle>) {
+  const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
   const [form, setForm] = useState<Partial<Collection>>(initial);
-  const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  const set = (patch: Partial<Collection>) => setForm((prev) => ({ ...prev, ...patch }));
+  useEffect(() => {
+    setForm(initial);
+    setFormError(null);
+  }, [initial.slug, initial.updatedAt]);
+
+  const set = (patch: Partial<Collection>) => {
+    markUnsaved();
+    setForm((prev) => ({ ...prev, ...patch }));
+  };
 
   const setRule = (i: number, rule: CollectionRule) => {
     const rules = [...(form.conditions?.rules ?? [])];
@@ -397,15 +417,22 @@ function CollectionForm({
     set({ conditions: { match: form.conditions?.match ?? "any", rules } });
   };
 
-  const handleSubmit = async () => {
-    if (!form.slug?.trim()) { setFormError("Slug is required"); return; }
-    if (!form.name?.trim()) { setFormError("Name is required"); return; }
-    setSaving(true);
+  const handleSubmit = async (mode: CollectionSaveMode) => {
+    if (!form.slug?.trim()) {
+      setFormError("Slug is required");
+      throw new Error("Slug is required");
+    }
+    if (!form.name?.trim()) {
+      setFormError("Name is required");
+      throw new Error("Name is required");
+    }
     setFormError(null);
-    try { await onSave(form); }
-    catch (e) { setFormError(e instanceof Error ? e.message : "Save failed"); }
-    finally { setSaving(false); }
+    await onSave(form, mode);
   };
+
+  useImperativeHandle(ref, () => ({
+    submit: handleSubmit,
+  }), [form, onSave]);
 
   const availableParents = collections.filter((c) => c.slug !== form.slug);
 
@@ -564,14 +591,13 @@ function CollectionForm({
       {formError && <div className="acp-error">{formError}</div>}
 
       <div className="acp-form-actions">
-        <button className="acp-btn acp-btn-primary" onClick={() => void handleSubmit()} disabled={saving}>
-          {saving ? "Saving…" : "Save Collection"}
-        </button>
         <button className="acp-btn acp-btn-ghost" onClick={onCancel}>Cancel</button>
       </div>
     </div>
   );
 }
+
+const CollectionForm = forwardRef(CollectionFormInner);
 
 // ── Hierarchy node ────────────────────────────────────────────────────────────
 
@@ -614,15 +640,38 @@ type AdminCollectionsPanelProps = {
 export default function AdminCollectionsPanel({
   initialCollections,
 }: AdminCollectionsPanelProps = {}) {
+  const hasInitialProps = initialCollections !== undefined;
   const [tab, setTab] = useState<AdminCollectionTabId>("collections");
   const [collections, setCollections] = useState<Collection[]>(initialCollections ?? []);
-  const [loading, setLoading] = useState(!initialCollections?.length);
+  const [loading, setLoading] = useState(!hasInitialProps);
   const [syncing, setSyncing] = useState(false);
   const [report, setReport] = useState<SyncReport | null>(null);
   const [editTarget, setEditTarget] = useState<Collection | "new" | null>(null);
   const [globalError, setGlobalError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [importOpen, setImportOpen] = useState(false);
   const successTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const collectionFormRef = useRef<CollectionFormHandle>(null);
+
+  const downloadJson = (filename: string, data: unknown) => {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const exportCollections = (rows: Collection[]) => {
+    const stamp = new Date().toISOString().slice(0, 10);
+    downloadJson(`collections-export-${stamp}.json`, {
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      collectionCount: rows.length,
+      collections: rows,
+    });
+  };
 
   const showSuccess = (msg: string) => {
     setSuccessMsg(msg);
@@ -645,13 +694,29 @@ export default function AdminCollectionsPanel({
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [initialCollections]);
 
-  useEffect(() => { void fetchCollections(); }, [fetchCollections]);
+  useEffect(() => {
+    if (hasInitialProps) return;
+    void fetchCollections();
+  }, [fetchCollections, hasInitialProps]);
+
+  useEffect(() => {
+    void (async () => {
+      try {
+        const res = await fetch("/api/sync-collections?loadReport=1", API);
+        if (!res.ok) return;
+        const data = (await res.json()) as { report: SyncReport | null };
+        if (data.report) setReport(data.report);
+      } catch {
+        /* non-blocking */
+      }
+    })();
+  }, []);
 
   // ── Sync ──────────────────────────────────────────────────────────────────
 
-  const runValidate = async () => {
+  const runValidate = useCallback(async () => {
     setSyncing(true);
     setGlobalError(null);
     try {
@@ -662,13 +727,15 @@ export default function AdminCollectionsPanel({
       setTab("sync");
       showSuccess("Validation complete");
     } catch (e) {
-      setGlobalError(e instanceof Error ? e.message : "Validation failed");
+      const msg = e instanceof Error ? e.message : "Validation failed";
+      setGlobalError(msg);
+      throw new Error(msg);
     } finally {
       setSyncing(false);
     }
-  };
+  }, []);
 
-  const runSync = async (autoCreate = false) => {
+  const runSync = useCallback(async (autoCreate = false) => {
     setSyncing(true);
     setGlobalError(null);
     try {
@@ -683,23 +750,34 @@ export default function AdminCollectionsPanel({
       setReport(data.report);
       setTab("sync");
       if (data.report.newCollectionsCreated > 0) await fetchCollections();
-      showSuccess(
-        autoCreate && data.report.newCollectionsCreated > 0
-          ? `Sync complete — ${data.report.newCollectionsCreated} new collection(s) created`
-          : "Sync complete",
-      );
+      const parts: string[] = ["Sync complete"];
+      if (data.report.newCollectionsCreated > 0) {
+        parts.push(`${data.report.newCollectionsCreated} new collection(s) created`);
+      }
+      if (data.report.indexesRebuilt) {
+        const counts = data.report.indexRebuildCounts ?? {};
+        const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
+        parts.push(`indexes rebuilt (${total} products)`);
+      }
+      showSuccess(parts.join(" — "));
     } catch (e) {
-      setGlobalError(e instanceof Error ? e.message : "Sync failed");
+      const msg = e instanceof Error ? e.message : "Sync failed";
+      setGlobalError(msg);
+      throw new Error(msg);
     } finally {
       setSyncing(false);
     }
-  };
+  }, [fetchCollections]);
 
   // ── CRUD ──────────────────────────────────────────────────────────────────
 
-  const handleSave = async (data: Partial<Collection>) => {
+  const handleSave = async (data: Partial<Collection>, mode: CollectionSaveMode) => {
     const isNew = editTarget === "new";
-    const payload = isNew ? data : { ...data, originalSlug: (editTarget as Collection).slug };
+    const payloadData =
+      mode === "publish" ? { ...data, visible: true } : data;
+    const payload = isNew
+      ? payloadData
+      : { ...payloadData, originalSlug: (editTarget as Collection).slug };
     const res = await fetch("/api/collections", {
       ...API,
       method: isNew ? "POST" : "PUT",
@@ -709,9 +787,71 @@ export default function AdminCollectionsPanel({
     const json = (await res.json()) as { collection?: Collection; error?: string };
     if (!res.ok || json.error) throw new Error(json.error ?? "Save failed");
     await fetchCollections();
-    setEditTarget(null);
-    showSuccess(isNew ? "Collection created" : "Collection updated");
+    if (mode === "save") {
+      setEditTarget(null);
+    } else if (json.collection) {
+      setEditTarget(json.collection);
+    }
+    const messages: Record<CollectionSaveMode, string> = {
+      save: isNew ? "Collection created" : "Collection saved",
+      update: "Collection updated",
+      publish: "Collection published",
+    };
+    showSuccess(messages[mode]);
   };
+
+  const submitCollectionForm = useCallback(
+    async (mode: CollectionSaveMode) => {
+      if (!collectionFormRef.current) {
+        const msg = "Collection form is not ready";
+        setGlobalError(msg);
+        throw new Error(msg);
+      }
+      try {
+        await collectionFormRef.current.submit(mode);
+      } catch (e) {
+        setGlobalError(e instanceof Error ? e.message : "Save failed");
+        throw e;
+      }
+    },
+    [],
+  );
+
+  const collectionPageActions = useMemo((): PageActions => {
+    if (editTarget) {
+      const isExisting = editTarget !== "new";
+      return {
+        onSave: () => submitCollectionForm("save"),
+        onUpdate: isExisting ? () => submitCollectionForm("update") : undefined,
+        canUpdate: isExisting,
+        onPublish: () => submitCollectionForm("publish"),
+        saveTooltip: "Save collection and close editor",
+        updateTooltip: "Save changes and keep editing",
+        publishTooltip: "Make collection visible and save",
+      };
+    }
+    return {
+      onSave: () => runValidate(),
+      onUpdate: () => runSync(false),
+      onPublish: () => runSync(true),
+      saveLabel: "Validate",
+      updateLabel: "Sync",
+      publishLabel: "Sync + Create",
+      saveTooltip: "Preview collection rule matches — no writes",
+      updateTooltip: "Rebuild product indexes from collection rules",
+      publishTooltip: "Sync, auto-create missing collections, and rebuild indexes",
+      markSavedOnSaveSuccess: false,
+      canSave: !syncing,
+      canUpdate: !syncing,
+      canPublish: !syncing,
+    };
+  }, [editTarget, syncing, submitCollectionForm, runValidate, runSync]);
+
+  useAdminFormState(collectionPageActions);
+
+  const handleCancelEdit = useCallback(() => {
+    setEditTarget(null);
+  }, []);
 
   const handleDelete = async (collection: Collection) => {
     if (!window.confirm(`Delete collection "${collection.name}"? This cannot be undone.`)) return;
@@ -800,6 +940,15 @@ export default function AdminCollectionsPanel({
         await fetchCollections();
       },
     },
+    {
+      key: "export",
+      label: "Export JSON",
+      variant: "secondary",
+      handler: async (selected, clearSelection) => {
+        exportCollections(selected);
+        clearSelection();
+      },
+    },
   ], [fetchCollections]);
 
   // ── Computed ──────────────────────────────────────────────────────────────
@@ -847,14 +996,17 @@ export default function AdminCollectionsPanel({
           )}
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <Button type="button" variant="ghost" size="sm" onClick={() => void runValidate()} disabled={syncing}>
-            {syncing ? "…" : "Validate"}
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => exportCollections(collections)}
+            disabled={!collections.length}
+          >
+            Export all
           </Button>
-          <Button type="button" variant="outline" size="sm" onClick={() => void runSync(false)} disabled={syncing}>
-            {syncing ? "Syncing…" : "Sync Collections"}
-          </Button>
-          <Button type="button" variant="outline" size="sm" onClick={() => void runSync(true)} disabled={syncing}>
-            Sync + Auto-Create
+          <Button type="button" variant="outline" size="sm" onClick={() => setImportOpen(true)}>
+            Import
           </Button>
           <Button type="button" size="sm" onClick={() => setEditTarget("new")}>
             New collection
@@ -872,6 +1024,18 @@ export default function AdminCollectionsPanel({
       )}
       {successMsg && <div className="acp-alert acp-alert-success">{successMsg}</div>}
 
+      <CollectionBulkImportModal
+        open={importOpen}
+        onClose={() => setImportOpen(false)}
+        onDone={async (summary) => {
+          await fetchCollections();
+          showSuccess(
+            `Imported ${summary.aggregate.created} new, updated ${summary.aggregate.updated} collection(s)`,
+          );
+          setImportOpen(false);
+        }}
+      />
+
       {editTarget ? (
         <Card>
           <CardHeader>
@@ -881,10 +1045,12 @@ export default function AdminCollectionsPanel({
           </CardHeader>
           <CardContent>
             <CollectionForm
+              ref={collectionFormRef}
+              key={editTarget === "new" ? "new" : `${(editTarget as Collection).slug}-${(editTarget as Collection).updatedAt ?? ""}`}
               initial={editTarget === "new" ? emptyCollection() : { ...(editTarget as Collection) }}
               collections={collections}
               onSave={handleSave}
-              onCancel={() => setEditTarget(null)}
+              onCancel={handleCancelEdit}
             />
           </CardContent>
         </Card>
@@ -940,6 +1106,9 @@ export default function AdminCollectionsPanel({
                 Generated: {new Date(report.generatedAt).toLocaleString()} · Locale: {report.locale}
                 {report.newCollectionsCreated > 0 && (
                   <span className="acp-badge acp-badge--new"> +{report.newCollectionsCreated} created</span>
+                )}
+                {report.indexesRebuilt && (
+                  <span className="acp-badge acp-badge--new"> indexes rebuilt</span>
                 )}
               </div>
               <div className="acp-report-stats">

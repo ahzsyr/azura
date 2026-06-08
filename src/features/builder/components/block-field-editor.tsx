@@ -10,7 +10,9 @@ import type {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "@/i18n/navigation";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
+import { getBlockSettings, patchBlockMedia, patchBlockSettings } from "@/features/builder/instance/block-instance";
+import { IMAGE_PICKER_MEDIA_TYPES } from "@/features/media/constants";
 import { CatalogBlockFields } from "@/features/catalog/admin/catalog-block-fields";
 import { ContentBlockFields } from "@/features/content/admin/content-block-fields";
 import {
@@ -76,7 +78,6 @@ import {
   LocalizedBlockTextarea,
   LocalizedBlockTitle,
 } from "@/features/builder/block-translation-context";
-import { patchBlockSettings } from "@/features/builder/instance/block-instance";
 import { RowSectionBlockFields } from "./row-section-block-fields";
 
 type Props = {
@@ -108,21 +109,28 @@ export function BlockFieldEditor({
     case "text":
       return <LocalizedBlockTextarea block={block} field="content" label="Content" rows={5} />;
 
-    case "image":
+    case "image": {
+      const imageProps = getBlockSettings(block);
       return (
         <div className="space-y-3">
-          <MediaPickerField
+          <UrlPrimaryMediaPickerField
             label="Image"
-            mediaTypes={["IMAGE", "SVG"]}
-            mediaId={(block.props.mediaAssetId as string) || null}
-            url={(block.props.url as string) ?? ""}
-            onChange={({ mediaId, url }) =>
-              onChange(patchBlockSettings(block, { url, mediaAssetId: mediaId ?? "" }))
+            mediaTypes={IMAGE_PICKER_MEDIA_TYPES}
+            url={(imageProps.url as string) ?? ""}
+            onPick={({ url, mediaId }) =>
+              onChange(
+                patchBlockMedia(
+                  block,
+                  { urlKey: "url", mediaIdKey: "mediaAssetId" },
+                  { url, mediaId },
+                ),
+              )
             }
           />
           <LocalizedBlockInput block={block} field="alt" label="Alt text" />
         </div>
       );
+    }
 
     case "gallery":
       return (

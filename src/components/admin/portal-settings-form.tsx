@@ -41,6 +41,8 @@ export function PortalSettingsForm({ registrationEnabled: initial, passwordReset
 
   const [enabled, setEnabled] = useState(initial);
   const [resetSettings, setResetSettings] = useState(initialReset);
+  const [savedEnabled, setSavedEnabled] = useState(initial);
+  const [savedResetSettings, setSavedResetSettings] = useState(initialReset);
   const [error, setError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
 
@@ -83,21 +85,34 @@ export function PortalSettingsForm({ registrationEnabled: initial, passwordReset
     if (!portalResult.success) {
       setError(portalResult.error);
       setSaveStatus("error");
-      return;
+      return false;
     }
     if (!resetResult.success) {
       setError(resetResult.error);
       setSaveStatus("error");
-      return;
+      return false;
     }
+    setSavedEnabled(enabled);
+    setSavedResetSettings(resetSettings);
     setFeedback("Visitor portal settings saved.");
     markSaved();
   }, [enabled, resetSettings, markSaved, setSaveStatus]);
 
+  const handleCancel = useCallback(() => {
+    setEnabled(savedEnabled);
+    setResetSettings(savedResetSettings);
+    setError(null);
+    setFeedback(null);
+  }, [savedEnabled, savedResetSettings]);
+
   useEffect(() => {
-    registerPageActions({ onSave: handleSave });
+    registerPageActions({
+      onSave: handleSave,
+      onCancel: handleCancel,
+      selfManagedSaveStatus: true,
+    });
     return () => clearPageActions();
-  }, [registerPageActions, clearPageActions, handleSave]);
+  }, [registerPageActions, clearPageActions, handleSave, handleCancel]);
 
   return (
     <div className="space-y-6">

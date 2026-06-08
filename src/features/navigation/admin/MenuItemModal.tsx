@@ -19,7 +19,7 @@ import { DEFAULT_FLYOUT_MENU_TYPE } from "@/features/navigation/resolve-href";
 import { CollectionSelect, PageSelect, ProductSelect } from "./CatalogSelects";
 import { useHeaderBuilderCatalog } from "./HeaderBuilderCatalogContext";
 import { HeaderField, HeaderSelect, OptionButtonGroup } from "./header-builder-ui";
-import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { useAdminFormOptional } from "@/components/admin/layout/admin-form-provider";
 import { Button } from "@/components/ui/button";
 import {
@@ -318,12 +318,10 @@ export function MenuItemModal({
                   {type === "image" ? (
                     <>
                       <div className="sm:col-span-2">
-                        <MediaPickerField
+                        <UrlPrimaryMediaPickerField
                           label="Image"
                           url={form.imageUrl}
-                          trackMediaId={false}
-                          idFieldName=""
-                          onChange={({ url }) => patch({ imageUrl: url })}
+                          onChange={(url) => patch({ imageUrl: url })}
                           mediaTypes={["IMAGE", "SVG"]}
                         />
                       </div>

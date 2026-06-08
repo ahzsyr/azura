@@ -8,11 +8,12 @@ import { NAV_MOBILE_MQ } from "@/features/navigation/nav-breakpoints";
 
 interface Props {
   actions: HeaderAction[];
+  localeCode?: string;
   onActionClick?: (action: HeaderAction) => void;
 }
 
 /** Desktop bar actions; hidden on mobile via CSS (actions render inside mobile overlay). */
-export function MobileNavActionsPortal({ actions, onActionClick }: Props) {
+export function MobileNavActionsPortal({ actions, localeCode, onActionClick }: Props) {
   const [mobile, setMobile] = useState(false);
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export function MobileNavActionsPortal({ actions, onActionClick }: Props) {
 
   return (
     <div className="nav-actions__items">
-      <HeaderActions actions={actions} onActionClick={onActionClick} />
+      <HeaderActions actions={actions} localeCode={localeCode} onActionClick={onActionClick} />
     </div>
   );
 }

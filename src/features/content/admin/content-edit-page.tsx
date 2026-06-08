@@ -27,7 +27,8 @@ import {
 } from "@/features/builder/block-translation-context";
 import { getContentFieldSuffix } from "@/i18n/locale-config";
 import { updateBlockInTree } from "@/features/builder/block-tree";
-import { migrateLegacyCatalogBlocks } from "@/features/builder/migrate-legacy-blocks";
+import { migrateBlocksToBlockSystem } from "@/features/builder/migration/upgrade-blocks";
+import { patchBlockSettings } from "@/features/builder/instance/block-instance";
 import {
   isBlockInspectorTab,
   type BlockInspectorTabId,
@@ -39,6 +40,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label";
 import { LocaleTabPanel } from "@/features/translation/components/locale-tab-panel";
 import { LocalizedSlugEditor } from "@/features/translation/components/localized-slug-editor";
+import { useAdminUiStore } from "@/stores/admin-ui-store";
 
 const TABS = [
   { id: "details", label: "Details" },
@@ -81,6 +83,7 @@ export function ContentEditPage({
   initialItemTranslations = [],
 }: Props) {
   const router = useRouter();
+  const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
   const blockParam = searchParams.get("block");
@@ -119,7 +122,7 @@ export function ContentEditPage({
   const itemBlocksKey = item ? JSON.stringify(item.blocks) : "";
   useEffect(() => {
     if (!item) return;
-    setBlocks(migrateLegacyCatalogBlocks((item.blocks as PageBlocks) ?? []));
+    setBlocks(migrateBlocksToBlockSystem((item.blocks as PageBlocks) ?? []).blocks);
   }, [item?.id, itemBlocksKey]);
 
   const syncContentEditorUrl = useCallback(
@@ -189,13 +192,17 @@ export function ContentEditPage({
   ) => {
     const suffix = getContentFieldSuffix(localeCode);
     if (suffix !== "En" && suffix !== "Ar") return;
+    markUnsaved();
     setBlocks((prev) =>
-      updateBlockInTree(prev, blockId, (block) => ({
-        ...block,
-        props: { ...block.props, [`${field}${suffix}`]: value },
-      }))
+      updateBlockInTree(prev, blockId, (block) =>
+        patchBlockSettings(block, { [`${field}${suffix}`]: value }),
+      ),
     );
   };
+
+  const handleCancel = useCallback(() => {
+    router.refresh();
+  }, [router]);
 
   const [pending, startTransition] = useTransition();
   const fields = resolveFieldSchema(contentType, contentType.slug);
@@ -457,10 +464,12 @@ export function ContentEditPage({
       tabs={TABS.map((t) => ({ id: t.id, label: t.label }))}
       activeTab={displayActiveTab}
       onTabChange={handleTabChange}
+      trackFormId="content-item-form"
       onSave={() => {
         const form = document.getElementById("content-item-form") as HTMLFormElement | null;
         form?.requestSubmit();
       }}
+      onCancel={item ? handleCancel : undefined}
       onPreview={previewHref ? () => window.open(previewHref, "_blank") : undefined}
       onPublish={
         item

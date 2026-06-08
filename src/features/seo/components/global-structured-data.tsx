@@ -8,10 +8,6 @@ export async function GlobalStructuredData() {
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
     console.error("[GlobalStructuredData] load failed:", errMsg);
-    // #region agent log
-    const { debugIngest } = await import("@/lib/debug-ingest");
-    debugIngest("global-structured-data.tsx", "structured data load failed", { error: errMsg.slice(0, 300) }, "H4");
-    // #endregion
     return null;
   }
   const items: Record<string, unknown>[] = [];

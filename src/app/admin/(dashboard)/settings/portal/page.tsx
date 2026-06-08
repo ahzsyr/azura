@@ -9,19 +9,12 @@ export const metadata = {
 };
 
 export default async function AdminPortalSettingsPage() {
-  // #region agent log
-  const { debugIngest } = await import("@/lib/debug-ingest");
-  debugIngest("admin/settings/portal/page.tsx:entry", "loading portal settings", {}, "H2");
-  // #endregion
   try {
     const [settings, registrationEnabled, accountSettings] = await Promise.all([
       readSystemSettings(),
       isRegistrationEnabled(),
       accountSettingsService.get(),
     ]);
-    // #region agent log
-    debugIngest("admin/settings/portal/page.tsx:success", "portal settings loaded", {}, "H2");
-    // #endregion
     return (
       <Suspense
         fallback={<div className="p-6 text-sm text-muted-foreground">Loading visitor portal settings…</div>}
@@ -35,14 +28,6 @@ export default async function AdminPortalSettingsPage() {
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
     console.error("[admin/settings/portal] load failed:", errMsg);
-    // #region agent log
-    debugIngest(
-      "admin/settings/portal/page.tsx:error",
-      "portal settings load failed",
-      { error: errMsg.slice(0, 300) },
-      "H1",
-    );
-    // #endregion
     return (
       <Card className="mx-auto max-w-lg">
         <CardHeader>
