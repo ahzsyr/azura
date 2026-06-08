@@ -1,8 +1,11 @@
 import "server-only";
 
+import { cache } from "react";
 import type { Prisma } from "@prisma/client";
 import { readFile, writeFile, mkdir, stat } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { createCached, CACHE_TAGS, revalidateJsonNamespace } from "@/services/cache";
+import { REVALIDATE } from "@/lib/config/performance";
 import {
   adminLocale,
   resolveConfiguredLocaleCode,
@@ -123,40 +126,36 @@ async function readSiteSettingsFile(
   }
 }
 
-let cache: {
-  locale: string;
-  mtime: number;
-  overlayKey: string;
-  data: Record<string, unknown>;
-} | null = null;
-
-export async function readSiteSettings(
-  localeParam?: string,
+async function readSiteSettingsMerged(
+  catalogLocale: CatalogLocale,
 ): Promise<Record<string, unknown>> {
-  const locale = resolveConfiguredLocaleCode(localeParam ?? "", adminLocale.code);
-  const catalogLocale = catalogLocaleFromParam(locale);
   const file = await readSiteSettingsFile(catalogLocale);
   const overlay = await loadJsonStoreOverlay(catalogLocale);
-  const overlayKey = JSON.stringify(overlay);
-  const mtime = file?.mtime ?? 0;
   const fileData = file?.data ?? {};
-
-  if (
-    cache &&
-    cache.locale === catalogLocale &&
-    cache.mtime === mtime &&
-    cache.overlayKey === overlayKey
-  ) {
-    return { ...cache.data };
-  }
-
-  const data = deepMergeSettings(fileData, overlay);
-  cache = { locale: catalogLocale, mtime, overlayKey, data };
-  return { ...data };
+  return deepMergeSettings(fileData, overlay);
 }
 
+const readSiteSettingsByLocale = (catalogLocale: CatalogLocale) =>
+  createCached(
+    () => readSiteSettingsMerged(catalogLocale),
+    ["site-settings", catalogLocale],
+    {
+      tags: [CACHE_TAGS.json(SITE_SETTINGS_NAMESPACE), CACHE_TAGS.marketing],
+      revalidate: REVALIDATE.marketing,
+    },
+  );
+
+/** Request- and cross-request cached site settings per catalog locale. */
+export const readSiteSettings = cache(
+  async (localeParam?: string): Promise<Record<string, unknown>> => {
+    const locale = resolveConfiguredLocaleCode(localeParam ?? "", adminLocale.code);
+    const catalogLocale = catalogLocaleFromParam(locale);
+    return readSiteSettingsByLocale(catalogLocale)();
+  },
+);
+
 export function invalidateSiteSettingsCache(): void {
-  cache = null;
+  revalidateJsonNamespace(SITE_SETTINGS_NAMESPACE);
 }
 
 async function persistSiteSettingsToFile(

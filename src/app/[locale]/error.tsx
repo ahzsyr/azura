@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 
 export default function LocaleError({
@@ -26,7 +26,7 @@ export default function LocaleError({
           Try again
         </Button>
         <Button type="button" variant="outline" asChild>
-          <Link href="/en">Go to homepage</Link>
+          <Link href="/">Go to homepage</Link>
         </Button>
       </div>
     </div>

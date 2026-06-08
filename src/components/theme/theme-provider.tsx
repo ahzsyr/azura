@@ -1,4 +1,5 @@
 import { resolvePublishedSiteTheme, resolvePreviewSiteTheme } from "@/lib/theme/resolve-site-theme.server";
+import { resolveVisualExperience } from "@/features/theme/visual-experience-resolver";
 import { ThemeStyles } from "./theme-styles";
 import { ThemeWrapper } from "./theme-wrapper";
 import { ThemeEffectsClient } from "./theme-effects-client";
@@ -24,18 +25,21 @@ export async function ThemeProvider({
       ? await resolvePreviewSiteTheme()
       : await resolvePublishedSiteTheme());
 
+  const siteResolved = resolveVisualExperience({ site: resolved.tokens });
+
   return (
     <>
       <ThemeStyles resolved={resolved} />
-      <VisualExperienceProvider site={resolved.tokens}>
+      <VisualExperienceProvider site={resolved.tokens} siteResolved={siteResolved}>
         <ThemeWrapper resolved={resolved}>
           <ThemeEngineProvider
             siteTheme={resolved.tokens}
             defaultPresetId={resolved.preset.presetId}
             defaultAppearance={resolved.appearance.mode}
             ssrHtmlAttributes={resolved.htmlAttributes}
+            siteResolved={siteResolved}
           >
-            <ThemeEffectsClient tokens={resolved.tokens} />
+            <ThemeEffectsClient tokens={resolved.tokens} siteResolved={siteResolved} />
             {children}
           </ThemeEngineProvider>
         </ThemeWrapper>

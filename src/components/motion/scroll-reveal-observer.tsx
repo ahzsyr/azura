@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { observeOnce } from "@/lib/performance/intersection-observer-hub";
-import { getConstrainedMotionSnapshot } from "@/hooks/use-constrained-motion";
+import { getConstrainedMotionSnapshot } from "@/lib/motion/constrained-motion-snapshot";
 
 const REVEAL_SELECTOR =
   "[data-reveal]:not(.revealed), [data-animation]:not(.revealed), [data-scroll-item]:not(.revealed)";

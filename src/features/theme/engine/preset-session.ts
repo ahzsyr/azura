@@ -6,6 +6,13 @@ import {
 } from "./constants";
 import type { PresetVisualSnapshot } from "@/features/theme/presets/preset-visual.types";
 import type { ApplyPresetPayload, PresetColorTokens, PresetEffectsPayload } from "./types";
+import {
+  invalidateThemeStorageReadCache,
+  readStoredPresetColorsCached,
+  readStoredPresetEffectsCached,
+  readStoredPresetIdCached,
+  readStoredPresetVisualCached,
+} from "./storage-read-cache";
 
 export function persistPresetSession(payload: ApplyPresetPayload): void {
   if (typeof window === "undefined") return;
@@ -25,51 +32,26 @@ export function persistPresetSession(payload: ApplyPresetPayload): void {
     if (payload.visual) {
       localStorage.setItem(PRESET_VISUAL_STORAGE_KEY, JSON.stringify(payload.visual));
     }
+    invalidateThemeStorageReadCache();
   } catch {
     // ignore quota errors
   }
 }
 
 export function readStoredPresetId(): string | null {
-  if (typeof window === "undefined") return null;
-  try {
-    return localStorage.getItem(PRESET_STORAGE_KEY);
-  } catch {
-    return null;
-  }
+  return readStoredPresetIdCached();
 }
 
 export function readStoredPresetColors(): PresetColorTokens | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = localStorage.getItem(PRESET_COLORS_STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw) as PresetColorTokens;
-  } catch {
-    return null;
-  }
+  return readStoredPresetColorsCached();
 }
 
 export function readStoredPresetEffects(): PresetEffectsPayload | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = localStorage.getItem(PRESET_EFFECTS_STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw) as PresetEffectsPayload;
-  } catch {
-    return null;
-  }
+  return readStoredPresetEffectsCached();
 }
 
 export function readStoredPresetVisual(): PresetVisualSnapshot | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = localStorage.getItem(PRESET_VISUAL_STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw) as PresetVisualSnapshot;
-  } catch {
-    return null;
-  }
+  return readStoredPresetVisualCached();
 }
 
 export function clearPresetSession(): void {
@@ -79,6 +61,7 @@ export function clearPresetSession(): void {
     localStorage.removeItem(PRESET_COLORS_STORAGE_KEY);
     localStorage.removeItem(PRESET_EFFECTS_STORAGE_KEY);
     localStorage.removeItem(PRESET_VISUAL_STORAGE_KEY);
+    invalidateThemeStorageReadCache();
   } catch {
     // ignore
   }

@@ -48,6 +48,23 @@ export function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+function isConstrainedBackgroundEnvironment(): boolean {
+  if (typeof document === "undefined") return prefersReducedMotion();
+  const root = document.documentElement;
+  return (
+    prefersReducedMotion() ||
+    root.dataset.reducedPaint === "true" ||
+    root.dataset.lowEndDevice === "true" ||
+    root.dataset.effectsTier === "light"
+  );
+}
+
+function resolveConstrainedSiteEffect(effect: SiteBackgroundEffect): SiteBackgroundEffect {
+  if (effect === "none") return "none";
+  if (STATIC_SITE_EFFECTS.has(effect)) return effect;
+  return "grid";
+}
+
 let activeSiteEffect: string | null = null;
 let glassOverlayOn = false;
 
@@ -92,28 +109,25 @@ export function applySiteBackground(
 
   const normalized = normalizeSiteBackgroundEffect(effect);
   const animationsEnabled = options?.animationsEnabled !== false;
-  const reduced = prefersReducedMotion();
+  const constrained = isConstrainedBackgroundEnvironment();
+  const runtimeEffect = constrained ? resolveConstrainedSiteEffect(normalized) : normalized;
 
-  if (!options?.force && activeSiteEffect === normalized) {
+  if (!options?.force && activeSiteEffect === runtimeEffect) {
     return;
   }
 
-  activeSiteEffect = normalized;
-  document.body.dataset.bgEffect = normalized === "none" ? "" : normalized;
-  if (normalized === "none" || !normalized) {
+  activeSiteEffect = runtimeEffect;
+
+  if (runtimeEffect === "none" || !runtimeEffect) {
     document.body.removeAttribute("data-bg-effect");
     initBackground("none");
     return;
   }
 
-  document.body.dataset.bgEffect = normalized;
+  document.body.dataset.bgEffect = runtimeEffect;
 
-  if (reduced) {
-    if (STATIC_SITE_EFFECTS.has(normalized)) {
-      initBackground(normalized);
-    } else {
-      initBackground("none");
-    }
+  if (constrained) {
+    initBackground(runtimeEffect);
     return;
   }
 
@@ -165,7 +179,10 @@ export function mountSectionAnimatedBackground(
   container: HTMLElement,
   effect: SiteBackgroundEffect,
 ): () => void {
-  return initSectionBackgroundLayer(container, effect);
+  const runtimeEffect = isConstrainedBackgroundEnvironment()
+    ? resolveConstrainedSiteEffect(effect)
+    : effect;
+  return initSectionBackgroundLayer(container, runtimeEffect);
 }
 
 export { ANIMATED_SITE_EFFECTS, STATIC_SITE_EFFECTS };

@@ -75,7 +75,7 @@ function PreviewChrome({
           __html: `${themeCss}\n${presetCss}`,
         }}
       />
-      <ThemeEffectsClient tokens={tokens} />
+      <ThemeEffectsClient tokens={tokens} applyOnMount />
       {!tokens.animationsEnabled ? (
         <style>{`*{animation-duration:0.01ms!important;transition-duration:0.01ms!important}`}</style>
       ) : null}

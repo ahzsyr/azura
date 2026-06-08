@@ -15,11 +15,7 @@ import { DEFAULT_WHATSAPP_SETTINGS } from "@/features/whatsapp/whatsapp.schema";
 import { whatsappService } from "@/features/whatsapp/whatsapp.service";
 import type { WhatsAppSettings } from "@/features/whatsapp/whatsapp.schema";
 import { FALLBACK_LOCALES, type PublicLocale } from "@/i18n/locale-config";
-import {
-  getDirectionByPrefix,
-  getEnabledLocales,
-  getLocaleByPrefix,
-} from "@/i18n/locale-registry.server";
+import { getEnabledLocales } from "@/i18n/locale-registry.server";
 import { getCompanyInfo } from "@/lib/data";
 import type { CompanyInfo } from "@prisma/client";
 import { resolveSiteIdentity, resolveThemeBrandName } from "@/lib/site-identity";
@@ -70,44 +66,52 @@ async function safeLoad<T>(label: string, fn: () => Promise<T>, fallback: T): Pr
   }
 }
 
+type ShellLoadOptions = {
+  previewDraft: boolean;
+  /** Skip theme fetch when layout already resolved published theme. */
+  themeTokens?: ThemeTokens | null;
+};
+
+function resolveLocaleMeta(
+  locale: string,
+  enabledLocales: PublicLocale[],
+): { localeEntry: PublicLocale | undefined; direction: "ltr" | "rtl"; htmlLang: string } {
+  const localeEntry = enabledLocales.find((l) => l.urlPrefix === locale);
+  const direction =
+    localeEntry?.dir === "rtl"
+      ? "rtl"
+      : locale === "ar" || locale.startsWith("ar")
+        ? "rtl"
+        : "ltr";
+  const htmlLang = localeEntry?.htmlLang ?? locale;
+  return { localeEntry, direction, htmlLang };
+}
+
 async function loadPublicShellContextUncached(
   locale: string,
-  previewDraft: boolean,
+  options: ShellLoadOptions,
 ): Promise<PublicShellContext> {
-  const enabledLocales = await safeLoad(
-    "enabledLocales",
-    () => getEnabledLocales(),
-    FALLBACK_LOCALES,
-  );
-  const localeEntry = await safeLoad(
-    "localeEntry",
-    () => getLocaleByPrefix(locale),
-    enabledLocales.find((l) => l.urlPrefix === locale),
-  );
-  const direction = await safeLoad(
-    "direction",
-    () => getDirectionByPrefix(locale),
-    locale === "ar" ? "rtl" : "ltr",
-  );
-  const htmlLang = localeEntry?.htmlLang ?? locale;
+  const { previewDraft, themeTokens } = options;
 
-  const company = await getCompanyInfo();
-  const theme = await safeLoad("theme", () => themeService.getForPreview(previewDraft), null);
-  const personalizationSettings = await safeLoad(
-    "personalization",
-    () => personalizationService.get(),
-    DEFAULT_PERSONALIZATION,
-  );
-  const footerWorkspace = await safeLoad(
-    "footerWorkspace",
-    () => footerService.getWorkspace(),
-    createDefaultFooterWorkspace(),
-  );
-  const whatsappSettings = await safeLoad(
-    "whatsappSettings",
-    () => whatsappService.get(),
-    DEFAULT_WHATSAPP_SETTINGS,
-  );
+  const [
+    enabledLocales,
+    company,
+    theme,
+    personalizationSettings,
+    footerWorkspace,
+    whatsappSettings,
+  ] = await Promise.all([
+    safeLoad("enabledLocales", () => getEnabledLocales(), FALLBACK_LOCALES),
+    getCompanyInfo(),
+    themeTokens !== undefined
+      ? Promise.resolve(themeTokens)
+      : safeLoad("theme", () => themeService.getForPreview(previewDraft), null),
+    safeLoad("personalization", () => personalizationService.get(), DEFAULT_PERSONALIZATION),
+    safeLoad("footerWorkspace", () => footerService.getWorkspace(), createDefaultFooterWorkspace()),
+    safeLoad("whatsappSettings", () => whatsappService.get(), DEFAULT_WHATSAPP_SETTINGS),
+  ]);
+
+  const { localeEntry, direction, htmlLang } = resolveLocaleMeta(locale, enabledLocales);
 
   const siteIdentity = resolveSiteIdentity({
     companyName: company?.name,
@@ -115,20 +119,23 @@ async function loadPublicShellContextUncached(
     themeTagline: theme?.brandConfig?.tagline,
   });
 
-  const headerWorkspace = await safeLoad(
-    "headerWorkspace",
-    () =>
-      navigationService.getWorkspaceForSite(
-        {
-          logoUrl: theme?.logoUrl,
-          brandConfig: theme?.brandConfig,
-          siteName: siteIdentity.brandName,
-          tagline: siteIdentity.tagline,
-        },
-        locale,
-      ),
-    createDefaultWorkspace(),
-  );
+  const [headerWorkspace, tWhatsapp] = await Promise.all([
+    safeLoad(
+      "headerWorkspace",
+      () =>
+        navigationService.getWorkspaceForSite(
+          {
+            logoUrl: theme?.logoUrl,
+            brandConfig: theme?.brandConfig,
+            siteName: siteIdentity.brandName,
+            tagline: siteIdentity.tagline,
+          },
+          locale,
+        ),
+      createDefaultWorkspace(),
+    ),
+    getTranslations({ locale, namespace: "whatsapp" }).catch(() => null),
+  ]);
 
   const resolvedFooter = resolveFooter(footerWorkspace);
   const brandConfig = theme ? parseBrandConfig(theme.brandConfig) : parseBrandConfig({});
@@ -136,12 +143,13 @@ async function loadPublicShellContextUncached(
 
   let whatsappMessage = `Hello, I would like to get in touch with ${siteIdentity.brandName}.`;
   let whatsappAriaLabel = "Chat on WhatsApp";
-  try {
-    const tWhatsapp = await getTranslations({ locale, namespace: "whatsapp" });
-    whatsappMessage = tWhatsapp("message.default", { brandName: siteIdentity.brandName });
-    whatsappAriaLabel = tWhatsapp("fab.ariaLabel");
-  } catch (error) {
-    console.error("[public-shell] whatsappTranslations failed:", error);
+  if (tWhatsapp) {
+    try {
+      whatsappMessage = tWhatsapp("message.default", { brandName: siteIdentity.brandName });
+      whatsappAriaLabel = tWhatsapp("fab.ariaLabel");
+    } catch (error) {
+      console.error("[public-shell] whatsappTranslations failed:", error);
+    }
   }
 
   return {
@@ -166,7 +174,7 @@ async function loadPublicShellContextUncached(
 
 function getCachedPublicShellContext(locale: string): Promise<PublicShellContext> {
   return createCached(
-    () => loadPublicShellContextUncached(locale, false),
+    () => loadPublicShellContextUncached(locale, { previewDraft: false }),
     ["public-shell", locale],
     {
       tags: [
@@ -180,12 +188,21 @@ function getCachedPublicShellContext(locale: string): Promise<PublicShellContext
   )();
 }
 
+export type LoadPublicShellOptions = {
+  previewDraft?: boolean;
+  themeTokens?: ThemeTokens | null;
+};
+
 export async function loadPublicShellContext(
   locale: string,
-  previewDraft = false,
+  options: LoadPublicShellOptions = {},
 ): Promise<PublicShellContext> {
+  const previewDraft = options.previewDraft ?? false;
   if (previewDraft) {
-    return loadPublicShellContextUncached(locale, true);
+    return loadPublicShellContextUncached(locale, {
+      previewDraft: true,
+      themeTokens: options.themeTokens,
+    });
   }
   return getCachedPublicShellContext(locale);
 }

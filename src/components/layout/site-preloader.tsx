@@ -1,11 +1,7 @@
 "use client";
 
-import { usePathname } from "@/i18n/navigation";
 import { PreloaderView } from "@/features/preloader/preloader-view";
-import {
-  preloaderShowsOnInitialLoad,
-  preloaderShowsOnNavigation,
-} from "@/features/preloader/site-preloader.schema";
+import { preloaderShowsOnInitialLoad } from "@/features/preloader/site-preloader.schema";
 import type { ResolvedSitePreloader } from "@/features/preloader/resolve-site-preloader";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -13,28 +9,12 @@ type Props = {
   settings: ResolvedSitePreloader;
 };
 
-function isInternalNavigationLink(anchor: HTMLAnchorElement): boolean {
-  const href = anchor.getAttribute("href");
-  if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) {
-    return false;
-  }
-  if (anchor.target === "_blank" || anchor.hasAttribute("download")) return false;
-  try {
-    const url = new URL(href, window.location.origin);
-    return url.origin === window.location.origin;
-  } catch {
-    return href.startsWith("/");
-  }
-}
-
 export function SitePreloader({ settings }: Props) {
-  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
   const showStartRef = useRef(0);
   const dismissTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const maxTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const navigationPendingRef = useRef(false);
   const initialHandledRef = useRef(false);
   const reducedMotionRef = useRef(false);
 
@@ -57,7 +37,6 @@ export function SitePreloader({ settings }: Props) {
     clearTimers();
     setVisible(false);
     setShellPreloading(false);
-    navigationPendingRef.current = false;
   }, [clearTimers, setShellPreloading]);
 
   const showPreloader = useCallback(() => {
@@ -106,46 +85,6 @@ export function SitePreloader({ settings }: Props) {
       }
     }
   }, [mounted, scheduleDismiss, settings.enabled, settings.mode, showPreloader]);
-
-  useEffect(() => {
-    if (!mounted || !settings.enabled) return;
-    if (!preloaderShowsOnNavigation(settings.mode)) return;
-
-    const onClick = (event: MouseEvent) => {
-      if (event.button !== 0) return;
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-
-      const target = event.target;
-      if (!(target instanceof Element)) return;
-      const anchor = target.closest("a[href]");
-      if (!(anchor instanceof HTMLAnchorElement)) return;
-      if (!isInternalNavigationLink(anchor)) return;
-
-      const nextHref = anchor.getAttribute("href") ?? "";
-      if (nextHref === pathname || nextHref === `${pathname}/`) return;
-
-      navigationPendingRef.current = true;
-      showPreloader();
-    };
-
-    const onPopState = () => {
-      navigationPendingRef.current = true;
-      showPreloader();
-    };
-
-    document.addEventListener("click", onClick, true);
-    window.addEventListener("popstate", onPopState);
-    return () => {
-      document.removeEventListener("click", onClick, true);
-      window.removeEventListener("popstate", onPopState);
-    };
-  }, [mounted, pathname, settings.enabled, settings.mode, showPreloader]);
-
-  useEffect(() => {
-    if (!mounted || !settings.enabled) return;
-    if (!navigationPendingRef.current) return;
-    scheduleDismiss();
-  }, [mounted, pathname, scheduleDismiss, settings.enabled]);
 
   useEffect(() => {
     return () => {

@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect } from "react";
+import { DevPerformancePanel } from "@/components/performance/dev-performance-panel";
 import {
   markThemeRenderEnd,
   markThemeRenderStart,
   startThemePerformanceMonitoring,
 } from "@/lib/performance/theme-performance";
 
-/** Client vitals + theme render timing (window.__AZ_THEME_PERF__). */
+/** Client vitals + route metrics (window.__AZ_RUNTIME_METRICS__). */
 export function ThemePerformanceMonitor() {
   useEffect(() => {
     markThemeRenderStart();
@@ -16,10 +17,10 @@ export function ThemePerformanceMonitor() {
 
     if (process.env.NODE_ENV === "development") {
       const log = () => {
-        const snap = window.__AZ_THEME_PERF__;
-        if (snap) console.debug("[theme-perf]", snap);
+        const snap = window.__AZ_RUNTIME_METRICS__;
+        if (snap) console.debug("[runtime-perf]", snap);
       };
-      const id = window.setInterval(log, 15000);
+      const id = window.setInterval(log, 30000);
       return () => {
         window.clearInterval(id);
         stop();
@@ -28,6 +29,10 @@ export function ThemePerformanceMonitor() {
 
     return stop;
   }, []);
+
+  if (process.env.NODE_ENV === "development") {
+    return <DevPerformancePanel />;
+  }
 
   return null;
 }

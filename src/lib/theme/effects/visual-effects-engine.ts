@@ -100,7 +100,7 @@ export const visualEffectsEngine = {
     }
   },
 
-  /** Full teardown — route change, preset reset, theme reset. */
+  /** Full teardown — preset reset, theme reset, or app unmount. */
   destroy() {
     if (!initialized) return;
     runModules("destroy");

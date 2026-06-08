@@ -6,9 +6,11 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
+import type { ResolvedVisualExperience } from "@/features/theme/visual-experience-resolver";
 import { useTheme } from "next-themes";
 import type { ThemeTokens } from "@/types/theme";
 import { applyVisualEffects } from "@/features/theme/effects-runtime";
@@ -24,7 +26,6 @@ import {
   buildLiveVisualExperience,
   fetchAndApplyCatalogPreset,
   applyUserPresetToDocument,
-  applyLiveEffectsFromStorage,
   notifyAppearanceChange,
   readStoredAppearanceMode,
   readStoredPresetId,
@@ -66,6 +67,8 @@ type Props = {
   defaultAppearance?: AppearanceMode;
   /** SSR-resolved site defaults for post-hydration reconciliation. */
   ssrHtmlAttributes?: Record<string, string>;
+  /** Pre-resolved site visual experience from ThemeProvider. */
+  siteResolved?: ResolvedVisualExperience | null;
 };
 
 export function ThemeEngineProvider({
@@ -74,8 +77,10 @@ export function ThemeEngineProvider({
   defaultPresetId,
   defaultAppearance = "light",
   ssrHtmlAttributes,
+  siteResolved,
 }: Props) {
-  const { theme: storedTheme, resolvedTheme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const didInitRef = useRef(false);
   const [appearanceMode, setAppearanceModeState] = useState<AppearanceMode>(defaultAppearance);
   const [activePresetId, setActivePresetId] = useState<string | null>(
     defaultPresetId ?? siteTheme?.activePresetId ?? null,
@@ -100,24 +105,22 @@ export function ThemeEngineProvider({
 
   const applyResolvedEffects = useCallback(
     (resolved: ResolvedAppearance, cursorPref?: CursorPreference) => {
-      if (!siteTheme) return;
+      if (!siteTheme || !siteResolved) return;
+      restorePresetColorsFromStorage(resolved);
       const live = readStoredPresetEffects();
-      const experience = buildLiveVisualExperience(
-        siteTheme,
-        live,
-        cursorPref ?? cursorPreference,
-      );
+      const experience = live
+        ? buildLiveVisualExperience(siteTheme, live, cursorPref ?? cursorPreference)
+        : siteResolved;
       applyVisualEffects(experience);
     },
-    [siteTheme, cursorPreference],
+    [siteTheme, siteResolved, cursorPreference],
   );
 
   useEffect(() => {
-    const storedMode =
-      readStoredAppearanceMode(PUBLIC_THEME_KEY) ??
-      (storedTheme === "light" || storedTheme === "dark" || storedTheme === "system"
-        ? storedTheme
-        : null);
+    if (didInitRef.current) return;
+    didInitRef.current = true;
+
+    const storedMode = readStoredAppearanceMode(PUBLIC_THEME_KEY);
     if (storedMode) setAppearanceModeState(storedMode);
 
     const needsThemeReset =
@@ -154,32 +157,30 @@ export function ThemeEngineProvider({
     refreshUserPresets();
     reconcileSiteHtmlAttributes(ssrHtmlAttributes);
     setHydrated(true);
-  }, [
-    storedTheme,
-    defaultPresetId,
-    siteTheme?.activePresetId,
-    refreshUserPresets,
-    ssrHtmlAttributes,
-  ]);
+  }, [defaultPresetId, siteTheme?.activePresetId, refreshUserPresets, ssrHtmlAttributes]);
 
   useEffect(() => {
-    if (!hydrated || !siteTheme) return;
-    const mode = appearanceMode;
-    const resolved = resolveAppearance(mode);
-    syncThemeDataAttributes(mode, resolved);
-    restorePresetColorsFromStorage(resolved);
-    applyLiveEffectsFromStorage(siteTheme, resolved, cursorPreference);
-  }, [hydrated, siteTheme, appearanceMode, cursorPreference]);
+    if (!hydrated || !siteTheme || !siteResolved || resolvedTheme === undefined) return;
 
-  useEffect(() => {
-    if (!hydrated || !siteTheme || resolvedTheme === undefined) return;
     const mode = appearanceMode;
-    const resolved: ResolvedAppearance = resolvedTheme === "dark" ? "dark" : "light";
+    const resolved: ResolvedAppearance =
+      resolvedTheme === "dark"
+        ? "dark"
+        : resolvedTheme === "light"
+          ? "light"
+          : resolveAppearance(mode);
+
     syncThemeDataAttributes(mode, resolved);
-    restorePresetColorsFromStorage(resolved);
     applyResolvedEffects(resolved);
-    notifyAppearanceChange(mode, resolved);
-  }, [hydrated, siteTheme, resolvedTheme, appearanceMode, applyResolvedEffects]);
+  }, [
+    hydrated,
+    siteTheme,
+    siteResolved,
+    appearanceMode,
+    resolvedTheme,
+    cursorPreference,
+    applyResolvedEffects,
+  ]);
 
   useEffect(() => {
     const onThemeChange = () => {
@@ -294,12 +295,10 @@ export function ThemeEngineProvider({
     setActivePresetId(defaultPresetId ?? siteTheme?.activePresetId ?? null);
     setActivePresetSource("site");
     reconcileSiteHtmlAttributes(ssrHtmlAttributes);
-    if (siteTheme) {
-      applyVisualEffects(
-        buildLiveVisualExperience(siteTheme, null, cursorPreference),
-      );
+    if (siteTheme && siteResolved) {
+      applyVisualEffects(siteResolved);
     }
-  }, [defaultPresetId, siteTheme, cursorPreference, ssrHtmlAttributes]);
+  }, [defaultPresetId, siteTheme, siteResolved, cursorPreference, ssrHtmlAttributes]);
 
   const setCursorPreference = useCallback(
     (pref: CursorPreference) => {

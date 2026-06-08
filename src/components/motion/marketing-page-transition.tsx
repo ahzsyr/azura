@@ -1,40 +1,86 @@
 "use client";
 
 import { usePathname } from "@/i18n/navigation";
-import { motion, useReducedMotion } from "framer-motion";
-import { useEffect, type ReactNode } from "react";
+import { firstRouteSkeleton, isRouteSkeleton } from "@/lib/navigation/is-route-skeleton";
+import {
+  markNavigationSkeletonActive,
+  recordNavigationEnd,
+} from "@/lib/performance/runtime-metrics";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
 };
 
-const pageTransition = {
-  initial: { opacity: 0, y: 8 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.28, ease: [0.25, 0.1, 0.25, 1] as const },
-};
+const OVERLAY_DELAY_MS = 90;
+
+function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 /**
- * Smooth page entrance on route changes. Scrolls to top on internal navigation
- * (unless a hash target is present). Respects reduced-motion preferences.
+ * Progressive route loading without framer-motion on the critical path.
  */
 export function MarketingPageTransition({ children }: Props) {
   const pathname = usePathname();
-  const reducedMotion = useReducedMotion();
+  const committedChildrenRef = useRef(children);
+  const [displayChildren, setDisplayChildren] = useState(children);
+  const [overlaySkeleton, setOverlaySkeleton] = useState<ReactNode | null>(null);
+  const overlayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const skeletonActive = isRouteSkeleton(children);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.location.hash) return;
-    window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "instant" });
-  }, [pathname, reducedMotion]);
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? "auto" : "instant" });
+  }, [pathname]);
 
-  if (reducedMotion) {
-    return <div key={pathname}>{children}</div>;
-  }
+  useEffect(() => {
+    if (overlayTimerRef.current) {
+      clearTimeout(overlayTimerRef.current);
+      overlayTimerRef.current = null;
+    }
+
+    if (skeletonActive) {
+      markNavigationSkeletonActive();
+      const skeleton = firstRouteSkeleton(children);
+      overlayTimerRef.current = setTimeout(() => {
+        setOverlaySkeleton(skeleton);
+      }, OVERLAY_DELAY_MS);
+      return;
+    }
+
+    setOverlaySkeleton(null);
+    committedChildrenRef.current = children;
+    setDisplayChildren(children);
+    recordNavigationEnd(pathname, { success: true });
+  }, [children, skeletonActive, pathname]);
+
+  useEffect(() => {
+    return () => {
+      if (overlayTimerRef.current) clearTimeout(overlayTimerRef.current);
+    };
+  }, []);
 
   return (
-    <motion.div key={pathname} {...pageTransition}>
-      {children}
-    </motion.div>
+    <div className="marketing-page-content">
+      <div
+        className={
+          overlaySkeleton
+            ? "route-page-layer route-page-layer--stale"
+            : "route-page-layer route-page-layer--active"
+        }
+        aria-busy={Boolean(overlaySkeleton)}
+      >
+        {displayChildren}
+      </div>
+      {overlaySkeleton ? (
+        <div className="route-loading-overlay" aria-hidden="true">
+          {overlaySkeleton}
+        </div>
+      ) : null}
+    </div>
   );
 }

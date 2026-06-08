@@ -237,6 +237,12 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
       { href: "/admin/company", label: "Company Info", icon: Building2, keywords: ["about", "contact"] },
       { href: "/admin/database", label: "Database", icon: Database, keywords: ["storage", "backup"] },
       {
+        href: "/admin/performance",
+        label: "Performance",
+        icon: Activity,
+        keywords: ["vitals", "lcp", "cls", "inp", "bundle", "navigation", "metrics"],
+      },
+      {
         href: "/admin/demo-profiles",
         label: "Demo Profiles",
         icon: Rocket,

@@ -2,18 +2,18 @@
 
 import dynamic from "next/dynamic";
 
-/** Code-split framer-motion — keeps initial marketing bundle smaller */
+/** Code-split framer-motion — client-only to avoid SSR/hydration cost */
 export const AnimatedSection = dynamic(
   () => import("./animated-section").then((m) => m.AnimatedSection),
-  { ssr: true }
+  { ssr: false },
 );
 
 export const FadeIn = dynamic(
   () => import("./animated-section").then((m) => m.FadeIn),
-  { ssr: true }
+  { ssr: false },
 );
 
 export const HoverCard = dynamic(
   () => import("./animated-section").then((m) => m.HoverCard),
-  { ssr: true }
+  { ssr: false },
 );

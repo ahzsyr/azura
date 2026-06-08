@@ -1,17 +1,6 @@
-import { getLocale } from "next-intl/server";
 import { PageLoadingSkeleton } from "@/components/layout/page-loading-skeleton";
-import { readSiteSettings } from "@/features/catalog/site-settings.service";
-import { resolveSitePreloader } from "@/features/preloader/resolve-site-preloader";
-import { preloaderShowsOnNavigation } from "@/features/preloader/site-preloader.schema";
 
-export default async function MarketingLoading() {
-  const locale = await getLocale();
-  const siteSettings = await readSiteSettings(locale);
-  const preloader = resolveSitePreloader(siteSettings);
-
-  if (preloader.enabled && preloaderShowsOnNavigation(preloader.mode)) {
-    return null;
-  }
-
-  return <PageLoadingSkeleton />;
+/** Default fallback for marketing routes without a segment-specific loading.tsx */
+export default function MarketingLoading() {
+  return <PageLoadingSkeleton variant="cms" />;
 }

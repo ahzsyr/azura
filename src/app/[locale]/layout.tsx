@@ -1,34 +1,41 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { getHtmlLangSync } from "@/i18n/locale-config";
-import { getEnabledUrlPrefixes, isValidUrlPrefix } from "@/i18n/locale-registry.server";
+import { isValidUrlPrefix } from "@/i18n/locale-registry.server";
+import { getEnabledUrlPrefixes } from "@/i18n/locale-registry.server";
 import { SiteHeader } from "@/components/layout/site-header";
 import { FooterRenderer } from "@/features/footer/components/FooterRenderer";
-import { WhatsAppFab } from "@/components/layout/whatsapp-fab";
+import {
+  DeferredNavigationProgress,
+  DeferredNavigationViewTransition,
+  DeferredRecentlyViewedTracker,
+  DeferredScrollRevealObserver,
+  DeferredSitePreloaderHost,
+  DeferredWhatsAppFab,
+  ThemePerformanceMonitorDeferred,
+} from "@/components/layout/marketing-shell-deferred";
 import { DocumentAttributes } from "@/components/layout/document-attributes";
+import { DocumentLangScript } from "@/components/layout/document-lang-script";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import { themeService } from "@/features/theme/theme.service";
 import { resolveSiteIdentityFromDb } from "@/lib/site-identity.server";
+import { resolvePublishedSiteTheme } from "@/lib/theme/resolve-site-theme.server";
 import { GlobalStructuredData } from "@/features/seo/components/global-structured-data";
 import { PersonalizationPanelLazy } from "@/components/personalization/personalization-panel-lazy";
-import { ScrollRevealObserver } from "@/components/motion/scroll-reveal-observer";
-import { ThemePerformanceMonitor } from "@/components/performance/theme-performance-monitor";
 import { MarketingPageTransition } from "@/components/motion/marketing-page-transition";
 import { CatalogComparisonShell } from "@/components/comparison/catalog-comparison-shell";
-import { RecentlyViewedTracker } from "@/features/discovery-blocks/components/recently-viewed-tracker";
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { AccountSessionProvider } from "@/components/account/account-session-provider";
-import { loadPublicShellContext } from "@/features/i18n/public-shell-context";
-import { readSiteSettings } from "@/features/catalog/site-settings.service";
-import { resolveSitePreloader } from "@/features/preloader/resolve-site-preloader";
+import { loadLocaleLayoutData } from "@/features/i18n/load-locale-layout-data";
 import { preloaderShowsOnInitialLoad } from "@/features/preloader/site-preloader.schema";
-import { SitePreloader } from "@/components/layout/site-preloader";
-import { NavigationViewTransition } from "@/components/layout/navigation-view-transition";
 import { PreloaderBootScript } from "@/components/layout/preloader-boot-script";
 import type { Metadata } from "next";
 import "@/styles/routes/effects.css";
+import "@/styles/route-loading.css";
+
+/** ISR: locale shell (header/footer/theme) revalidates every 5 minutes */
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   try {
@@ -42,11 +49,11 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    const [theme, identity] = await Promise.all([
-      themeService.getPublished(),
+    const [resolved, identity] = await Promise.all([
+      resolvePublishedSiteTheme(),
       resolveSiteIdentityFromDb(),
     ]);
-    const iconUrl = theme?.faviconUrl || theme?.logoUrl;
+    const iconUrl = resolved.tokens?.faviconUrl || resolved.tokens?.logoUrl;
     return {
       title: {
         default: identity.brandName,
@@ -78,16 +85,8 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   setRequestLocale(locale);
-  const messages = await getMessages();
-  const [shell, siteSettings] = await Promise.all([
-    loadPublicShellContext(locale),
-    readSiteSettings(locale),
-  ]);
-  const preloaderSettings = resolveSitePreloader(siteSettings, {
-    themeLogoUrl: shell.theme?.logoUrl,
-  });
-  const htmlLang =
-    shell.htmlLang ?? getHtmlLangSync(locale, shell.enabledLocales);
+  const { messages, shell, resolvedTheme, preloaderSettings, htmlLang, comparison } =
+    await loadLocaleLayoutData(locale);
 
   return (
     <div className="site-shell flex min-h-full flex-col">
@@ -96,54 +95,58 @@ export default async function LocaleLayout({ children, params }: Props) {
           preloaderSettings.enabled && preloaderShowsOnInitialLoad(preloaderSettings.mode)
         }
       />
+      <DocumentLangScript lang={htmlLang} dir={shell.direction} />
       <DocumentAttributes lang={htmlLang} dir={shell.direction} />
-      <GlobalStructuredData />
+      <Suspense fallback={null}>
+        <GlobalStructuredData />
+      </Suspense>
       <NextIntlClientProvider locale={locale} messages={messages}>
         <AccountSessionProvider>
-        <ThemeProvider>
-          <NavigationViewTransition />
-          <SitePreloader settings={preloaderSettings} />
-          <RecentlyViewedTracker />
-          <ScrollRevealObserver />
-          <ThemePerformanceMonitor />
-          <SiteHeader
-            workspace={shell.headerWorkspace}
-            locale={locale}
-            locales={shell.enabledLocales}
-            enabledLocales={shell.enabledLocales}
-            themePreset={shell.theme?.preset}
-            headerConfig={shell.theme?.headerConfig}
-          />
-          <main className="site-main flex-1">
-            <CatalogComparisonShell locale={locale}>
-              <MarketingPageTransition>{children}</MarketingPageTransition>
-            </CatalogComparisonShell>
-          </main>
-          <FooterRenderer
-            resolved={shell.resolvedFooter}
-            locale={locale}
-            brandConfig={shell.brandConfig}
-            company={shell.company}
-          />
-          <WhatsAppFab
-            phone={shell.whatsappPhone}
-            message={shell.whatsappMessage}
-            settings={shell.whatsappSettings.fab}
-            ariaLabel={shell.whatsappAriaLabel}
-          />
-          <PersonalizationPanelLazy
-            settings={shell.personalizationSettings}
-            theme={shell.theme}
-            locale={locale}
-            locales={shell.enabledLocales.map((l) => ({
-              code: l.code,
-              urlPrefix: l.urlPrefix,
-              label: l.label,
-              flag: l.flag,
-              isEnabled: true,
-            }))}
-          />
-        </ThemeProvider>
+          <ThemeProvider resolved={resolvedTheme}>
+            <DeferredNavigationProgress />
+            <DeferredSitePreloaderHost settings={preloaderSettings} />
+            <DeferredNavigationViewTransition />
+            <DeferredRecentlyViewedTracker />
+            <DeferredScrollRevealObserver />
+            <ThemePerformanceMonitorDeferred />
+            <SiteHeader
+              workspace={shell.headerWorkspace}
+              locale={locale}
+              locales={shell.enabledLocales}
+              enabledLocales={shell.enabledLocales}
+              themePreset={shell.theme?.preset}
+              headerConfig={shell.theme?.headerConfig}
+            />
+            <main className="site-main flex-1">
+              <CatalogComparisonShell locale={locale} comparison={comparison}>
+                <MarketingPageTransition>{children}</MarketingPageTransition>
+              </CatalogComparisonShell>
+            </main>
+            <FooterRenderer
+              resolved={shell.resolvedFooter}
+              locale={locale}
+              brandConfig={shell.brandConfig}
+              company={shell.company}
+            />
+            <DeferredWhatsAppFab
+              phone={shell.whatsappPhone}
+              message={shell.whatsappMessage}
+              settings={shell.whatsappSettings.fab}
+              ariaLabel={shell.whatsappAriaLabel}
+            />
+            <PersonalizationPanelLazy
+              settings={shell.personalizationSettings}
+              theme={shell.theme}
+              locale={locale}
+              locales={shell.enabledLocales.map((l) => ({
+                code: l.code,
+                urlPrefix: l.urlPrefix,
+                label: l.label,
+                flag: l.flag,
+                isEnabled: true,
+              }))}
+            />
+          </ThemeProvider>
         </AccountSessionProvider>
       </NextIntlClientProvider>
       {process.env.NEXT_PUBLIC_GA_ID ? (

@@ -8,6 +8,8 @@ import {
   markEffectCostStart,
 } from "@/lib/performance/theme-performance";
 
+let lastAppliedEffectSignature: string | null = null;
+
 /** Theme surface DOM hooks (not part of the effects engine). */
 export function applyThemeSurfaceHooks(resolved: ResolvedVisualExperience): void {
   if (typeof document === "undefined") return;
@@ -28,13 +30,19 @@ export function applyThemeSurfaceHooks(resolved: ResolvedVisualExperience): void
 
 /** Apply pre-resolved visual experience via the isolated effects engine. */
 export function applyVisualEffects(resolved: ResolvedVisualExperience): void {
+  const config = mapVisualExperienceToEffectConfig(resolved);
+  const signature = JSON.stringify(config);
+  if (signature === lastAppliedEffectSignature) return;
+
   markEffectCostStart();
   applyThemeSurfaceHooks(resolved);
-  visualEffectsEngine.update(mapVisualExperienceToEffectConfig(resolved));
+  visualEffectsEngine.update(config);
+  lastAppliedEffectSignature = signature;
   markEffectCostEnd();
 }
 
 export function clearVisualEffects(): void {
+  lastAppliedEffectSignature = null;
   visualEffectsEngine.destroy();
   if (typeof document === "undefined") return;
   const html = document.documentElement;

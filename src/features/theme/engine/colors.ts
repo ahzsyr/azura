@@ -1,5 +1,6 @@
 import { applySurfaceCssVars } from "@/features/theme/tokens/surface-vars";
 import { resolveThemeSurfaces } from "@/features/theme/surfaces/theme-surfaces";
+import { invalidateThemeStorageReadCache } from "./storage-read-cache";
 import type { PresetColorTokens, ResolvedAppearance } from "./types";
 
 const SHARED_KEYS = [
@@ -80,4 +81,5 @@ export function clearPresetColorOverrides(): void {
   for (const key of [...SURFACE_OVERRIDE_KEYS, ...SHARED_KEYS]) {
     html.style.removeProperty(key);
   }
+  invalidateThemeStorageReadCache();
 }

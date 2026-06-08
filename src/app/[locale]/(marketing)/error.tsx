@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
+import { Link, usePathname } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { recordRouteFailure } from "@/lib/performance/runtime-metrics";
 
 export default function MarketingError({
   error,
@@ -11,9 +12,17 @@ export default function MarketingError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const pathname = usePathname();
+
   useEffect(() => {
     console.error("[marketing] page error:", error);
-  }, [error]);
+    recordRouteFailure({
+      pathname,
+      message: error.message,
+      kind: "render",
+      digest: error.digest,
+    });
+  }, [error, pathname]);
 
   return (
     <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4 p-6 text-center">
@@ -26,7 +35,7 @@ export default function MarketingError({
           Try again
         </Button>
         <Button type="button" variant="outline" asChild>
-          <Link href="/en">Go to homepage</Link>
+          <Link href="/">Go to homepage</Link>
         </Button>
       </div>
     </div>

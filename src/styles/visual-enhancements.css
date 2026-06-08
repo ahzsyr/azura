@@ -363,6 +363,20 @@ html[data-reduced-paint="true"] .az-hero-orb,
 html[data-reduced-paint="true"] .az-section-orb,
 html[data-reduced-paint="true"] .az-glass-shimmer::after {
   animation: none !important;
+  filter: none !important;
+}
+
+html[data-reduced-paint="true"] .az-hero-badge,
+html[data-effects-tier="light"] .az-hero-badge {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: var(--color-surface, var(--background)) !important;
+}
+
+html[data-effects-tier="light"] .az-hero-orb,
+html[data-effects-tier="light"] .az-section-orb {
+  filter: blur(32px);
+  opacity: 0.2;
 }
 
 @keyframes marquee {

@@ -1,70 +1,64 @@
 "use client";
 
-import { useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useMemo } from "react";
 import { useTheme } from "next-themes";
 import type { ThemeTokens } from "@/types/theme";
 import type { PageVisualSettings } from "@/schemas/visual-settings";
 import { resolveVisualExperience } from "@/features/theme/visual-experience-resolver";
-import { applyVisualEffects, visualEffectsEngine } from "@/features/theme/effects-runtime";
+import type { ResolvedVisualExperience } from "@/features/theme/visual-experience-resolver";
+import { applyVisualEffects } from "@/features/theme/effects-runtime";
 import { useResolvedVisualExperience } from "@/components/theme/visual-experience-context";
+import {
+  applySiteVisualEffects,
+  readCursorPreference,
+  resolveDomAppearance,
+} from "@/features/theme/apply-site-visual-effects";
 import {
   buildLiveVisualExperience,
   readStoredPresetEffects,
-  restorePresetColorsFromStorage,
   THEME_CHANGE_EVENT,
 } from "@/features/theme/engine";
-import { CURSOR_PREF_STORAGE_KEY } from "@/features/theme/engine/constants";
 import { deferUntilIdle } from "@/lib/performance/defer-until-idle";
 
 type Props = {
   tokens: ThemeTokens | null;
+  /** SSR-resolved site experience — avoids client recompute on every render. */
+  siteResolved?: ResolvedVisualExperience | null;
+  /** Apply effects on mount (theme studio preview without ThemeEngineProvider). */
+  applyOnMount?: boolean;
 };
-
-function readCursorPreference(): "custom" | "normal" {
-  try {
-    const pref = localStorage.getItem(CURSOR_PREF_STORAGE_KEY);
-    return pref === "normal" ? "normal" : "custom";
-  } catch {
-    return "custom";
-  }
-}
 
 function resolveEffectAppearance(resolvedTheme: string | undefined): "light" | "dark" | null {
   if (resolvedTheme === "dark" || resolvedTheme === "light") return resolvedTheme;
-  if (typeof document === "undefined") return null;
-  const fromDom = document.documentElement.dataset.theme;
-  if (fromDom === "dark" || fromDom === "light") return fromDom;
-  return null;
+  return resolveDomAppearance();
 }
 
-export function ThemeEffectsClient({ tokens }: Props) {
-  const pathname = usePathname();
+export function ThemeEffectsClient({ tokens, siteResolved, applyOnMount = false }: Props) {
   const { resolvedTheme } = useTheme();
   const contextResolved = useResolvedVisualExperience();
-  const siteResolved =
-    contextResolved ?? (tokens ? resolveVisualExperience({ site: tokens }) : null);
-  const effectAppearance = resolveEffectAppearance(resolvedTheme);
+  const baseResolved = useMemo(
+    () => siteResolved ?? contextResolved ?? null,
+    [siteResolved, contextResolved],
+  );
+
+  const applyFromStorage = useCallback(() => {
+    if (!tokens || !baseResolved) return;
+    const appearance = resolveEffectAppearance(resolvedTheme);
+    if (!appearance) return;
+    applySiteVisualEffects(tokens, baseResolved, appearance, readCursorPreference());
+  }, [tokens, baseResolved, resolvedTheme]);
 
   useEffect(() => {
-    if (!siteResolved || !tokens || !effectAppearance) return;
+    if (!applyOnMount) return;
+    const cancelIdle = deferUntilIdle(applyFromStorage);
+    return cancelIdle;
+  }, [applyOnMount, applyFromStorage]);
 
-    const apply = () => {
-      const mode = resolveEffectAppearance(resolvedTheme) ?? effectAppearance;
-      restorePresetColorsFromStorage(mode);
-      const live = readStoredPresetEffects();
-      const experience = live
-        ? buildLiveVisualExperience(tokens, live, readCursorPreference())
-        : siteResolved;
-      applyVisualEffects(experience);
-    };
-
-    const cancelIdle = deferUntilIdle(apply);
-
+  useEffect(() => {
     const onThemeChange = () => {
       document.documentElement.classList.add("theme-transitioning");
       deferUntilIdle(() => {
-        apply();
+        applyFromStorage();
         window.setTimeout(() => {
           document.documentElement.classList.remove("theme-transitioning");
         }, 400);
@@ -72,29 +66,8 @@ export function ThemeEffectsClient({ tokens }: Props) {
     };
 
     window.addEventListener(THEME_CHANGE_EVENT, onThemeChange);
-
-    return () => {
-      cancelIdle();
-      window.removeEventListener(THEME_CHANGE_EVENT, onThemeChange);
-      visualEffectsEngine.destroy();
-    };
-  }, [
-    tokens,
-    siteResolved,
-    effectAppearance,
-    resolvedTheme,
-    siteResolved?.cursorEffect,
-    siteResolved?.backgroundEffect,
-    siteResolved?.textEffect,
-    siteResolved?.animationsEnabled,
-    siteResolved?.cardStyle,
-  ]);
-
-  useEffect(() => {
-    return () => {
-      visualEffectsEngine.destroy();
-    };
-  }, [pathname]);
+    return () => window.removeEventListener(THEME_CHANGE_EVENT, onThemeChange);
+  }, [applyFromStorage]);
 
   return null;
 }
@@ -102,36 +75,45 @@ export function ThemeEffectsClient({ tokens }: Props) {
 type PageProps = {
   site: ThemeTokens;
   page: PageVisualSettings;
+  siteResolved?: ResolvedVisualExperience | null;
 };
 
-export function PageVisualEffects({ site, page }: PageProps) {
-  const pathname = usePathname();
-  const pageKey = JSON.stringify(page);
+export function PageVisualEffects({ site, page, siteResolved }: PageProps) {
+  const { resolvedTheme } = useTheme();
+  const pageKey = useMemo(() => JSON.stringify(page), [page]);
+  const baseSiteResolved = useMemo(
+    () => siteResolved ?? resolveVisualExperience({ site }),
+    [site, siteResolved],
+  );
 
   useEffect(() => {
-    const resolveExperience = () => {
+    const applyPageEffects = () => {
       const live = readStoredPresetEffects();
+      const appearance = resolveEffectAppearance(resolvedTheme) ?? resolveDomAppearance() ?? "light";
       if (live) {
-        return buildLiveVisualExperience(site, live, readCursorPreference());
+        applyVisualEffects(buildLiveVisualExperience(site, live, readCursorPreference()));
+        return;
       }
-      return resolveVisualExperience({ site, page });
+      applyVisualEffects(resolveVisualExperience({ site, page }));
     };
 
-    const apply = () => {
-      applyVisualEffects(resolveExperience());
-    };
+    const cancelIdle = deferUntilIdle(applyPageEffects);
 
-    const cancelIdle = deferUntilIdle(apply);
-
-    const onThemeChange = () => deferUntilIdle(apply);
+    const onThemeChange = () => deferUntilIdle(applyPageEffects);
     window.addEventListener(THEME_CHANGE_EVENT, onThemeChange);
 
     return () => {
       cancelIdle();
       window.removeEventListener(THEME_CHANGE_EVENT, onThemeChange);
-      visualEffectsEngine.destroy();
+      const appearance = resolveDomAppearance() ?? "light";
+      applySiteVisualEffects(site, baseSiteResolved, appearance, readCursorPreference());
     };
   }, [
+    site,
+    page,
+    pageKey,
+    baseSiteResolved,
+    resolvedTheme,
     site.cursorEffect,
     site.backgroundEffect,
     site.textEffect,
@@ -141,14 +123,7 @@ export function PageVisualEffects({ site, page }: PageProps) {
     site.animationsEnabled,
     site.cardStyle,
     site.borderStyle,
-    pageKey,
   ]);
-
-  useEffect(() => {
-    return () => {
-      visualEffectsEngine.destroy();
-    };
-  }, [pathname]);
 
   return null;
 }

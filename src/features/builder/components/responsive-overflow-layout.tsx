@@ -15,8 +15,6 @@ import { Button } from "@/components/ui/button";
 import type { DeviceBreakpoint, ResolvedContentOverflow } from "@/types/block-system";
 import { cn } from "@/lib/utils";
 
-import "@/styles/block-overflow.css";
-
 const DEVICE_SHELLS: DeviceBreakpoint[] = ["mobile", "tablet", "desktop"];
 
 export type ResponsiveOverflowLayoutProps<T> = {

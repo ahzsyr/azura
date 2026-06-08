@@ -3,10 +3,10 @@
 import { useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import {
-  getCapabilities,
+  readMotionState,
   subscribeCapabilityChanges,
-} from "@/lib/theme/effects/capability-engine";
-import type { CapabilityPolicy, DeviceCapabilities } from "@/lib/theme/effects/types";
+  type ConstrainedMotionState,
+} from "@/lib/motion/constrained-motion-snapshot";
 
 export const ADMIN_MOTION_MOBILE = {
   ease: [0.22, 1, 0.36, 1] as const,
@@ -14,29 +14,7 @@ export const ADMIN_MOTION_MOBILE = {
   exitDuration: 0.1,
 } as const;
 
-export type ConstrainedMotionState = {
-  shouldReduceMotion: boolean;
-  shouldSimplifyMotion: boolean;
-  allowStagger: boolean;
-  capabilities: DeviceCapabilities;
-  policy: CapabilityPolicy;
-};
-
-function readMotionState(osReduced: boolean): ConstrainedMotionState {
-  const { capabilities, policy } = getCapabilities();
-
-  const shouldSimplifyMotion = capabilities.smallScreen || capabilities.touchOnly;
-  const shouldReduceMotion =
-    osReduced || capabilities.prefersReducedMotion || !policy.allowMotion;
-
-  return {
-    shouldReduceMotion,
-    shouldSimplifyMotion,
-    allowStagger: policy.allowStagger && !shouldReduceMotion,
-    capabilities,
-    policy,
-  };
-}
+export type { ConstrainedMotionState };
 
 /** Capability-aware motion gating (OS reduced-motion + touch/small-screen + paint tier). */
 export function useConstrainedMotion(): ConstrainedMotionState {
@@ -79,19 +57,4 @@ export function useConstrainedMotion(): ConstrainedMotionState {
   return state;
 }
 
-/** Non-hook read for scroll observers and effects. */
-export function getConstrainedMotionSnapshot(): Pick<
-  ConstrainedMotionState,
-  "shouldReduceMotion" | "shouldSimplifyMotion" | "allowStagger"
-> {
-  if (typeof window === "undefined") {
-    return {
-      shouldReduceMotion: false,
-      shouldSimplifyMotion: false,
-      allowStagger: true,
-    };
-  }
-  const osReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const { shouldReduceMotion, shouldSimplifyMotion, allowStagger } = readMotionState(osReduced);
-  return { shouldReduceMotion, shouldSimplifyMotion, allowStagger };
-}
+export { getConstrainedMotionSnapshot } from "@/lib/motion/constrained-motion-snapshot";

@@ -8,6 +8,21 @@ import { getThemeColor } from "./color-helper";
 let animFrame: number | null = null;
 let cleanupFn: (() => void) | null = null;
 
+const CSS_ONLY_BG_EFFECTS = new Set(["none", "grid", "aurora"]);
+
+function shouldDowngradeCanvasEffect(type: string): string | null {
+  if (typeof document === "undefined" || CSS_ONLY_BG_EFFECTS.has(type)) return null;
+  const root = document.documentElement;
+  if (
+    root.dataset.reducedPaint === "true" ||
+    root.dataset.lowEndDevice === "true" ||
+    root.dataset.effectsTier === "light"
+  ) {
+    return "grid";
+  }
+  return null;
+}
+
 function ensureBgKeyframes() {
   if (document.getElementById("devi-bg-keyframes")) return;
   const style = document.createElement("style");
@@ -20,6 +35,9 @@ function ensureBgKeyframes() {
 }
 
 export function initBackground(type: string) {
+  const downgrade = shouldDowngradeCanvasEffect(type);
+  if (downgrade) type = downgrade;
+
   document.querySelectorAll("[data-bg-effect]").forEach((el) => {
     if (el === document.body || el === document.documentElement) return;
     el.remove();
@@ -560,7 +578,17 @@ function sectionLayerBase(): string {
   return "position:absolute;inset:0;pointer-events:none;z-index:0;width:100%;height:100%;overflow:hidden;";
 }
 
+function isConstrainedSectionBackground(): boolean {
+  if (typeof window === "undefined") return false;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return true;
+  const root = document.documentElement;
+  return root.dataset.reducedPaint === "true" || root.dataset.lowEndDevice === "true";
+}
+
 export function initSectionBackgroundLayer(container: HTMLElement, type: string): () => void {
+  const downgrade = shouldDowngradeCanvasEffect(type);
+  if (downgrade) type = downgrade;
+
   const prev = sectionCleanups.get(container);
   prev?.();
   container.querySelectorAll("[data-section-bg-effect]").forEach((el) => el.remove());
@@ -569,9 +597,7 @@ export function initSectionBackgroundLayer(container: HTMLElement, type: string)
     return () => {};
   }
 
-  const reduced =
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduced = isConstrainedSectionBackground();
 
   if (type === "grid") {
     const div = document.createElement("div");

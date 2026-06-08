@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
@@ -10,9 +11,16 @@ import {
   getCompareStore,
 } from "@/features/comparison/comparison-store";
 import type { CompareDrawerBucket } from "@/features/comparison/components/comparison-drawer";
-import { ComparisonDrawer } from "@/features/comparison/components/comparison-drawer";
 import { buildComparableTypeBySlugMap } from "@/features/comparison/resolve-comparable-type";
 import "@/features/comparison/comparison-shell.css";
+
+const ComparisonDrawer = dynamic(
+  () =>
+    import("@/features/comparison/components/comparison-drawer").then(
+      (m) => m.ComparisonDrawer,
+    ),
+  { ssr: false },
+);
 
 type ComparisonContextValue = {
   comparableTypes: ComparableTypeMeta[];
