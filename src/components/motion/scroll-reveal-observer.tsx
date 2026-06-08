@@ -14,9 +14,28 @@ function getIoOptions(): IntersectionObserverInit {
   const isMobile =
     typeof window !== "undefined" && window.matchMedia(MOBILE_MQ).matches;
   return {
-    threshold: isMobile ? 0.08 : 0.05,
-    rootMargin: isMobile ? "0px 0px 280px 0px" : "0px 0px 200px 0px",
+    threshold: isMobile ? 0.05 : 0.05,
+    rootMargin: isMobile ? "0px 0px 320px 0px" : "0px 0px 240px 0px",
   };
+}
+
+function isElementVisible(el: HTMLElement): boolean {
+  if (!el.isConnected) return false;
+
+  let node: HTMLElement | null = el;
+  while (node) {
+    const style = getComputedStyle(node);
+    if (style.display === "none" || style.visibility === "hidden") return false;
+    node = node.parentElement;
+  }
+  return true;
+}
+
+function isInViewport(el: HTMLElement): boolean {
+  const rect = el.getBoundingClientRect();
+  const vh = window.innerHeight || document.documentElement.clientHeight;
+  const vw = window.innerWidth || document.documentElement.clientWidth;
+  return rect.width > 0 && rect.height > 0 && rect.top < vh && rect.bottom > 0 && rect.left < vw && rect.right > 0;
 }
 
 function getSiblingStagger(el: HTMLElement): number {
@@ -57,23 +76,12 @@ export function ScrollRevealObserver() {
 
     const { shouldReduceMotion } = getConstrainedMotionSnapshot();
 
-    const revealTargets = root.querySelectorAll<HTMLElement>(REVEAL_SELECTOR);
-    const lazyTargets = root.querySelectorAll<HTMLElement>(LAZY_BLOCK_SELECTOR);
-
     const unobserveFns: Array<() => void> = [];
     const trackedReveal = new WeakSet<Element>();
     const trackedLazy = new WeakSet<Element>();
 
-    if (shouldReduceMotion) {
-      revealTargets.forEach((el) => {
-        el.classList.add("revealed");
-        el.style.transition = "none";
-      });
-      lazyTargets.forEach((el) => el.classList.add("az-lazy-revealed"));
-      return;
-    }
-
     const revealElement = (el: HTMLElement) => {
+      if (el.classList.contains("revealed")) return;
       const delay = resolveRevealDelay(el);
       if (delay > 0) {
         el.style.setProperty("--az-anim-delay", `${delay}ms`);
@@ -88,8 +96,16 @@ export function ScrollRevealObserver() {
     };
 
     const observeReveal = (el: HTMLElement) => {
+      if (!isElementVisible(el)) return;
       if (trackedReveal.has(el)) return;
+      if (el.classList.contains("revealed")) return;
       trackedReveal.add(el);
+
+      if (isInViewport(el)) {
+        revealElement(el);
+        return;
+      }
+
       unobserveFns.push(
         observeOnce(
           el,
@@ -102,46 +118,81 @@ export function ScrollRevealObserver() {
     };
 
     const observeLazy = (el: HTMLElement) => {
+      if (!isElementVisible(el)) return;
       if (trackedLazy.has(el)) return;
+      if (el.classList.contains("az-lazy-revealed")) return;
       trackedLazy.add(el);
+
+      const onLazyReveal = () => {
+        el.classList.add("az-lazy-revealed");
+        el.querySelectorAll<HTMLElement>(REVEAL_SELECTOR).forEach((child) => {
+          observeReveal(child);
+        });
+      };
+
+      if (isInViewport(el)) {
+        onLazyReveal();
+        return;
+      }
+
       unobserveFns.push(
         observeOnce(
           el,
           () => {
-            el.classList.add("az-lazy-revealed");
+            onLazyReveal();
           },
           getIoOptions(),
         ),
       );
     };
 
-    revealTargets.forEach(observeReveal);
-    lazyTargets.forEach(observeLazy);
-
-    let mutationTimer: ReturnType<typeof setTimeout> | null = null;
     const scan = () => {
       if (getConstrainedMotionSnapshot().shouldReduceMotion) return;
-      root
-        .querySelectorAll<HTMLElement>(REVEAL_SELECTOR)
-        .forEach((el) => {
-          if (!el.classList.contains("revealed")) observeReveal(el);
-        });
-      root
-        .querySelectorAll<HTMLElement>(LAZY_BLOCK_SELECTOR)
-        .forEach((el) => {
-          if (!el.classList.contains("az-lazy-revealed")) observeLazy(el);
-        });
+      root.querySelectorAll<HTMLElement>(REVEAL_SELECTOR).forEach((el) => {
+        if (!el.classList.contains("revealed")) observeReveal(el);
+      });
+      root.querySelectorAll<HTMLElement>(LAZY_BLOCK_SELECTOR).forEach((el) => {
+        if (!el.classList.contains("az-lazy-revealed")) observeLazy(el);
+      });
     };
 
+    if (shouldReduceMotion) {
+      root.querySelectorAll<HTMLElement>(REVEAL_SELECTOR).forEach((el) => {
+        el.classList.add("revealed");
+        el.style.transition = "none";
+      });
+      root.querySelectorAll<HTMLElement>(LAZY_BLOCK_SELECTOR).forEach((el) =>
+        el.classList.add("az-lazy-revealed"),
+      );
+      return;
+    }
+
+    scan();
+
+    let mutationTimer: ReturnType<typeof setTimeout> | null = null;
     const mo = new MutationObserver(() => {
       if (mutationTimer) clearTimeout(mutationTimer);
-      mutationTimer = setTimeout(scan, 100);
+      mutationTimer = setTimeout(scan, 80);
     });
     mo.observe(root, { childList: true, subtree: true });
 
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+    const onResize = () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(scan, 120);
+    };
+    window.addEventListener("resize", onResize);
+
+    const raf = requestAnimationFrame(() => {
+      scan();
+    });
+
     return () => {
+      cancelAnimationFrame(raf);
       mo.disconnect();
+      window.removeEventListener("resize", onResize);
       if (mutationTimer) clearTimeout(mutationTimer);
+      if (resizeTimer) clearTimeout(resizeTimer);
       for (const off of unobserveFns) off();
     };
   }, []);

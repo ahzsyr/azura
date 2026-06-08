@@ -32,6 +32,22 @@ describe("animation-resolver behavior", () => {
     });
   });
 
+  it("defaults to fade scroll reveal when enabled without entrance type", () => {
+    const enabledOnly: BlockAnimationSettings = { enabled: true, behavior: "once" };
+    assert.deepEqual(resolveScrollRevealAttributes(enabledOnly, undefined, 2), {
+      "data-animation": "fade",
+    });
+  });
+
+  it("respects explicit scroll none", () => {
+    const noScroll: BlockAnimationSettings = {
+      enabled: true,
+      behavior: "once",
+      scroll: { type: "none" },
+    };
+    assert.deepEqual(resolveScrollRevealAttributes(noScroll, undefined, 2), {});
+  });
+
   it("once mode does not stack keyframes with scroll reveal", () => {
     const classes = resolveAnimationClasses(enabledFade, undefined, 2);
     const scroll = resolveScrollRevealAttributes(enabledFade, undefined, 2);

@@ -8,7 +8,10 @@ import { resolveItemField } from "@/features/marketing-blocks/lib/resolve-item-l
 import type { StatItem } from "@/features/marketing-blocks/schemas/marketing-blocks";
 import type { BlockNode } from "@/types/builder";
 import type { BlockOverflowContext } from "@/features/builder/components/marketing-items-overflow";
-import { MarketingItemsOverflow } from "@/features/builder/components/marketing-items-overflow";
+import {
+  MarketingItemsOverflow,
+  shouldUseResponsiveOverflow,
+} from "@/features/builder/components/marketing-items-overflow";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -28,6 +31,34 @@ const columnClasses = {
   4: "sm:grid-cols-2 lg:grid-cols-4",
 } as const;
 
+function resolveLayoutClassName(
+  layout: "row" | "grid" | "featuredCenter",
+  colCount: 2 | 3 | 4,
+): string {
+  if (layout === "row") {
+    return "flex flex-wrap justify-center gap-6 sm:gap-8 md:gap-16";
+  }
+  if (layout === "featuredCenter") {
+    return cn(
+      "mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-8",
+    );
+  }
+  return cn("grid grid-cols-1 gap-6 sm:gap-8", columnClasses[colCount]);
+}
+
+function resolveOverflowGridClassName(
+  layout: "row" | "grid" | "featuredCenter",
+  colCount: 2 | 3 | 4,
+): string {
+  if (layout === "row") {
+    return "flex flex-wrap justify-center gap-6 sm:gap-8 md:gap-16";
+  }
+  if (layout === "featuredCenter") {
+    return "mx-auto max-w-4xl sm:grid-cols-3";
+  }
+  return columnClasses[colCount];
+}
+
 export function StatsCounterView({
   title,
   subtitle,
@@ -40,6 +71,8 @@ export function StatsCounterView({
 }: Props) {
   const featured = layout === "featuredCenter";
   const colCount = Math.min(Math.max(items.length, 2), 4) as 2 | 3 | 4;
+  const useOverflow =
+    Boolean(block && overflow && shouldUseResponsiveOverflow(overflow.flags));
 
   const renderStat = (item: StatItem) => (
     <StatCard
@@ -50,22 +83,20 @@ export function StatsCounterView({
     />
   );
 
+  const layoutClassName = resolveLayoutClassName(layout, colCount);
+
   return (
     <div>
       {title && <SectionHeader title={title} subtitle={subtitle} />}
-      {block && overflow ? (
+      {useOverflow ? (
         <MarketingItemsOverflow
-          block={block}
-          overflowFlags={overflow.flags}
-          previewDevice={overflow.previewDevice}
+          block={block!}
+          overflowFlags={overflow!.flags}
+          previewDevice={overflow!.previewDevice}
           items={items}
           columns={colCount}
-          gridClassName={cn(
-            "gap-8",
-            layout === "row" && "flex flex-wrap justify-center gap-8 md:gap-16 !grid-cols-none",
-            layout === "grid" && columnClasses[colCount],
-            layout === "featuredCenter" && "mx-auto max-w-4xl sm:grid-cols-3"
-          )}
+          gridClassName={resolveOverflowGridClassName(layout, colCount)}
+          sliderItemClassName="w-full min-w-0 max-w-full basis-full sm:min-w-[240px] sm:max-w-sm"
           getItemKey={(item) => item.id}
           renderItem={renderStat}
           accordionRender={(item) => {
@@ -75,13 +106,7 @@ export function StatsCounterView({
           }}
         />
       ) : (
-        <div
-          className={cn(
-            layout === "row" && "flex flex-wrap justify-center gap-8 md:gap-16",
-            layout === "grid" && cn("grid gap-8", columnClasses[4]),
-            layout === "featuredCenter" && "mx-auto grid max-w-4xl gap-8 sm:grid-cols-3"
-          )}
-        >
+        <div className={layoutClassName}>
           {items.map((item) => (
             <StatCard
               key={item.id}
@@ -119,16 +144,21 @@ function StatCard({
       data-scroll-item
       data-reveal="slide-up"
       className={cn(
-        "flex flex-col items-center text-center",
-        featured && "rounded-xl border border-border/60 bg-card p-6"
+        "flex w-full min-w-0 flex-col items-center px-2 text-center",
+        featured && "rounded-xl border border-border/60 bg-card p-4 sm:p-6",
       )}
     >
       {item.icon && (
-        <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+        <div className="mb-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
           <Icon className="h-5 w-5" />
         </div>
       )}
-      <p className={cn("font-heading font-bold text-primary", featured ? "text-5xl" : "text-4xl")}>
+      <p
+        className={cn(
+          "font-heading font-bold text-primary",
+          featured ? "text-3xl sm:text-5xl" : "text-3xl sm:text-4xl",
+        )}
+      >
         <AnimatedCounter
           value={item.value}
           prefix={item.prefix}

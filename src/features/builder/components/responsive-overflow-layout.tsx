@@ -38,7 +38,10 @@ export type ResponsiveOverflowLayoutProps<T> = {
 };
 
 function columnGridClass(columns: number | undefined, gridClassName?: string): string {
-  if (gridClassName) return cn("grid gap-6", gridClassName);
+  if (gridClassName?.includes("flex")) {
+    return cn("gap-6", gridClassName);
+  }
+  if (gridClassName) return cn("grid grid-cols-1 gap-6", gridClassName);
   const map: Record<number, string> = {
     2: "md:grid-cols-2",
     3: "md:grid-cols-2 lg:grid-cols-3",
@@ -46,7 +49,7 @@ function columnGridClass(columns: number | undefined, gridClassName?: string): s
     5: "md:grid-cols-2 lg:grid-cols-5",
     6: "md:grid-cols-3 lg:grid-cols-6",
   };
-  return cn("grid gap-6", columns ? map[columns] ?? "" : "md:grid-cols-2 lg:grid-cols-3");
+  return cn("grid grid-cols-1 gap-6", columns ? map[columns] ?? "" : "md:grid-cols-2 lg:grid-cols-3");
 }
 
 function OverflowSlider<T>({
@@ -103,7 +106,11 @@ function OverflowSlider<T>({
         : "basis-full";
 
   return (
-    <Carousel setApi={setApi} opts={{ align: "start", loop: true }} className="mx-auto w-full max-w-6xl px-10">
+    <Carousel
+      setApi={setApi}
+      opts={{ align: "start", loop: true }}
+      className="mx-auto w-full max-w-6xl px-0 sm:px-10"
+    >
       <CarouselContent className="-ms-4">
         {items.map((item, i) => (
           <CarouselItem key={getItemKey(item, i)} className={cn("ps-4", basis, sliderItemClassName)}>

@@ -76,8 +76,8 @@ export function AnimatedCounter({
         });
       },
       {
-        threshold: shouldSimplifyMotion ? 0.15 : 0.2,
-        rootMargin: shouldSimplifyMotion ? "0px 0px 120px 0px" : "0px 0px -5% 0px",
+        threshold: shouldSimplifyMotion ? 0.05 : 0.1,
+        rootMargin: shouldSimplifyMotion ? "0px 0px 280px 0px" : "0px 0px 160px 0px",
       },
     );
 

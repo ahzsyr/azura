@@ -97,19 +97,27 @@ export function resolveScrollRevealAttributes(
   if (blockIndex <= 1) return {};
 
   const scrollType = animation.scroll?.type;
-  if (!scrollType || scrollType === "none") {
+  if (scrollType === "none") return {};
+
+  let mapped: string;
+  let delay: number;
+
+  if (scrollType && scrollType !== "none") {
+    mapped = SCROLL_ANIMATION_MAP[scrollType] ?? "fade";
+    delay = animation.scroll?.delayMs ?? 0;
+  } else {
     const entrance = animation.entrance?.type;
-    if (!entrance || entrance === "none") return {};
-    const mapped = SCROLL_ANIMATION_MAP[entrance] ?? "fade";
-    const delay = animation.entrance?.delayMs ?? 0;
-    return {
-      "data-animation": mapped,
-      ...(delay > 0 ? { "data-reveal-delay": String(delay) } : {}),
-    };
+    if (entrance && entrance !== "none") {
+      mapped = SCROLL_ANIMATION_MAP[entrance] ?? "fade";
+      delay = animation.entrance?.delayMs ?? 0;
+    } else {
+      mapped = "fade";
+      delay = 0;
+    }
   }
 
-  const mapped = SCROLL_ANIMATION_MAP[scrollType] ?? "fade";
-  const delay = animation.scroll?.delayMs ?? 0;
+  if (!mapped) return {};
+
   return {
     "data-animation": mapped,
     ...(delay > 0 ? { "data-reveal-delay": String(delay) } : {}),
