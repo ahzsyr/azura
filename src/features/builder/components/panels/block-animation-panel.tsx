@@ -21,7 +21,12 @@ export function BlockAnimationPanel({ block, onChange }: Props) {
           type="checkbox"
           checked={Boolean(animation.enabled)}
           onChange={(e) =>
-            onChange(updateBlockAnimation(block, { enabled: e.target.checked }))
+            onChange(
+              updateBlockAnimation(block, {
+                enabled: e.target.checked,
+                ...(e.target.checked ? { behavior: animation.behavior ?? "once" } : {}),
+              })
+            )
           }
         />
         Enable animations

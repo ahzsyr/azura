@@ -16,40 +16,63 @@ function isLoopBehavior(animation: BlockAnimationSettings | undefined): boolean 
   return animation?.behavior === "loop";
 }
 
+/** Keyframe entrance runs on load; scroll reveal handles below-the-fold blocks in once mode. */
+function usesEntranceKeyframes(
+  animation: BlockAnimationSettings | undefined,
+  blockIndex: number,
+): boolean {
+  if (!animation?.enabled) return false;
+  if (isLoopBehavior(animation)) return true;
+  return blockIndex <= 1;
+}
+
+function hasEntranceType(animation: BlockAnimationSettings | undefined): boolean {
+  const entrance = animation?.entrance?.type ?? "none";
+  return entrance !== "none" && Boolean(ANIMATION_CLASS_MAP[entrance]);
+}
+
 export function resolveAnimationClasses(
   animation: BlockAnimationSettings | undefined,
-  theme?: ThemeTokens
+  theme?: ThemeTokens,
+  blockIndex = 0,
 ): string {
   if (theme?.animationsEnabled === false) return "";
   if (!animation?.enabled) return "";
 
   const classes: string[] = ["block-anim-root"];
+
   if (isLoopBehavior(animation)) {
     classes.push("block-anim-loop");
+  } else {
+    classes.push("block-anim-once");
   }
-  const entrance = animation.entrance?.type ?? "none";
-  if (entrance !== "none" && ANIMATION_CLASS_MAP[entrance]) {
+
+  if (usesEntranceKeyframes(animation, blockIndex) && hasEntranceType(animation)) {
+    const entrance = animation!.entrance!.type!;
     classes.push(ANIMATION_CLASS_MAP[entrance], "block-anim-entrance");
   }
-  if (animation.scroll?.type && animation.scroll.type !== "none") {
-    classes.push("block-anim-scroll", ANIMATION_CLASS_MAP[animation.scroll.type] ?? "");
-  }
+
   if (animation.hover?.type && animation.hover.type !== "none") {
     classes.push("block-anim-hover", ANIMATION_CLASS_MAP[animation.hover.type] ?? "");
   }
+
   return classes.filter(Boolean).join(" ");
 }
 
 export function animationInlineStyle(
-  animation: BlockAnimationSettings | undefined
+  animation: BlockAnimationSettings | undefined,
+  blockIndex = 0,
 ): CSSProperties {
-  const phase = animation?.entrance ?? animation?.scroll;
+  if (!usesEntranceKeyframes(animation, blockIndex)) return {};
+
+  const phase = animation?.entrance;
   if (!phase) return {};
+
   return {
     animationDuration: phase.durationMs ? `${phase.durationMs}ms` : undefined,
     animationDelay: phase.delayMs ? `${phase.delayMs}ms` : undefined,
     animationTimingFunction: phase.easing,
-    ...(isLoopBehavior(animation) ? { animationIterationCount: "infinite" } : {}),
+    animationIterationCount: isLoopBehavior(animation) ? "infinite" : 1,
   };
 }
 

@@ -71,8 +71,8 @@ export const BlockWrapper = memo(function BlockWrapper({
       ? { ...ctx.theme, animationsEnabled: false }
       : ctx.theme;
 
-  const animClasses = resolveAnimationClasses(block.animation, themeForAnim);
-  const animStyle = animationInlineStyle(block.animation);
+  const animClasses = resolveAnimationClasses(block.animation, themeForAnim, blockIndex);
+  const animStyle = animationInlineStyle(block.animation, blockIndex);
   const scrollAttrs = resolveScrollRevealAttributes(block.animation, themeForAnim, blockIndex);
   const seo = resolveBlockSeo(block.seo);
   const sectionBg = block.visual?.sectionBackground;

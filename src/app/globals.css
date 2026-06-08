@@ -968,11 +968,13 @@ body::after {
 
 .block-anim-root.block-anim-entrance.block-anim-fade {
   animation-name: block-anim-fade-in;
+  animation-duration: 600ms;
   animation-fill-mode: both;
 }
 
 .block-anim-root.block-anim-entrance.block-anim-slide {
   animation-name: block-anim-slide-up;
+  animation-duration: 600ms;
   animation-fill-mode: both;
 }
 
@@ -1014,22 +1016,31 @@ body::after {
 
 .block-anim-root.block-anim-entrance.block-anim-zoom {
   animation-name: block-anim-zoom-in;
+  animation-duration: 600ms;
   animation-fill-mode: both;
 }
 
 .block-anim-root.block-anim-entrance.block-anim-rotate {
   animation-name: block-anim-rotate-in;
+  animation-duration: 600ms;
   animation-fill-mode: both;
 }
 
 .block-anim-root.block-anim-entrance.block-anim-bounce {
   animation-name: block-anim-bounce-in;
+  animation-duration: 600ms;
   animation-fill-mode: both;
 }
 
 .block-anim-root.block-anim-entrance.block-anim-scale {
   animation-name: block-anim-zoom-in;
+  animation-duration: 600ms;
   animation-fill-mode: both;
+}
+
+.block-anim-root.block-anim-once.block-anim-entrance {
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 
 .block-anim-root.block-anim-loop.block-anim-entrance {
