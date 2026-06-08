@@ -27,6 +27,7 @@ import {
   COMING_SOON_PATH,
   getComingSoonBypassSecret,
   hasComingSoonBypassCookie,
+  isAnyComingSoonPath,
   isComingSoonExemptApi,
   isComingSoonExemptPage,
   isComingSoonPublicPath,
@@ -414,6 +415,17 @@ async function runMiddleware(request: NextRequest) {
     localeRouting.locales,
   );
   if (comingSoonBlock) return comingSoonBlock;
+
+  if (
+    !setupStatus.comingSoonEnabled &&
+    isAnyComingSoonPath(pathname, localeRouting.locales) &&
+    !(await canAccessSiteDuringComingSoon(request, getSession))
+  ) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${localeRouting.defaultLocale}`;
+    url.search = "";
+    return NextResponse.redirect(url);
+  }
 
   const comingSoonCanonical = resolveComingSoonCanonicalPath(pathname, localeRouting.locales);
   if (comingSoonCanonical) {

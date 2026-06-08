@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  isAnyComingSoonPath,
   isComingSoonExemptPage,
   isComingSoonPublicPath,
   resolveComingSoonCanonicalPath,
@@ -34,4 +35,10 @@ test("resolveComingSoonCanonicalPath maps locale-prefixed coming soon URLs", () 
   assert.equal(resolveComingSoonCanonicalPath("/ar/coming-soon", LOCALES), "/coming-soon");
   assert.equal(resolveComingSoonCanonicalPath("/coming-soon", LOCALES), null);
   assert.equal(resolveComingSoonCanonicalPath("/en/shop", LOCALES), null);
+});
+
+test("isAnyComingSoonPath matches canonical and locale-prefixed coming soon URLs", () => {
+  assert.equal(isAnyComingSoonPath("/coming-soon", LOCALES), true);
+  assert.equal(isAnyComingSoonPath("/en/coming-soon", LOCALES), true);
+  assert.equal(isAnyComingSoonPath("/en/shop", LOCALES), false);
 });

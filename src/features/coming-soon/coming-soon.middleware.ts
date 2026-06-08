@@ -18,6 +18,13 @@ export function isComingSoonPublicPath(pathname: string): boolean {
   return pathname === COMING_SOON_PATH || pathname.startsWith(`${COMING_SOON_PATH}/`);
 }
 
+export function isAnyComingSoonPath(pathname: string, locales: string[] = []): boolean {
+  return (
+    isComingSoonPublicPath(pathname) ||
+    resolveComingSoonCanonicalPath(pathname, locales) !== null
+  );
+}
+
 /** Maps /{locale}/coming-soon → /coming-soon (page is not under [locale]). */
 export function resolveComingSoonCanonicalPath(
   pathname: string,
