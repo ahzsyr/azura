@@ -54,7 +54,7 @@ type SectionProps = {
 export function OverviewSection({ studio, resolved, draft, published, onNavigate }: SectionProps) {
   const score = computePerformanceScore(resolved);
   const scoreTone =
-    score >= 80 ? "default" : score >= 60 ? "secondary" : "destructive";
+    score >= 80 ? "default" : score >= 60 ? "secondary" : "outline";
 
   return (
     <div className="space-y-6">
