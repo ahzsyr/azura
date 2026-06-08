@@ -102,7 +102,7 @@ export function resolveScrollRevealAttributes(
   let mapped: string;
   let delay: number;
 
-  if (scrollType && scrollType !== "none") {
+  if (scrollType) {
     mapped = SCROLL_ANIMATION_MAP[scrollType] ?? "fade";
     delay = animation.scroll?.delayMs ?? 0;
   } else {
