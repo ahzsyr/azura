@@ -90,7 +90,7 @@ export function useThemeStudio(base: SiteTheme) {
   const [historyTick, setHistoryTick] = useState(0);
   const syncHistory = useCallback(() => {
     setHistoryTick((n) => n + 1);
-  }, [syncHistory]);
+  }, []);
 
   const resolved = useResolvedThemePreview(state);
 
