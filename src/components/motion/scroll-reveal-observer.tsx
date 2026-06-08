@@ -5,24 +5,45 @@ import { observeOnce } from "@/lib/performance/intersection-observer-hub";
 import { getConstrainedMotionSnapshot } from "@/hooks/use-constrained-motion";
 
 const REVEAL_SELECTOR =
-  "[data-reveal]:not(.revealed), [data-animation]:not(.revealed)";
+  "[data-reveal]:not(.revealed), [data-animation]:not(.revealed), [data-scroll-item]:not(.revealed)";
 const LAZY_BLOCK_SELECTOR = "[data-lazy-block]:not(.az-lazy-revealed)";
+
+const MOBILE_MQ = "(max-width: 768px)";
+
+function getIoOptions(): IntersectionObserverInit {
+  const isMobile =
+    typeof window !== "undefined" && window.matchMedia(MOBILE_MQ).matches;
+  return {
+    threshold: isMobile ? 0.08 : 0.05,
+    rootMargin: isMobile ? "0px 0px 280px 0px" : "0px 0px 200px 0px",
+  };
+}
 
 function getSiblingStagger(el: HTMLElement): number {
   const parent = el.parentElement;
   if (!parent) return 0;
+  const { shouldSimplifyMotion, allowStagger } = getConstrainedMotionSnapshot();
+  if (!allowStagger) return 0;
+
   const siblings = Array.from(
     parent.querySelectorAll<HTMLElement>(REVEAL_SELECTOR),
   );
   const idx = siblings.indexOf(el);
-  const maxStagger = getConstrainedMotionSnapshot().shouldSimplifyMotion ? 120 : 360;
-  return idx > 0 ? Math.min(idx * 60, maxStagger) : 0;
+  const step = shouldSimplifyMotion ? 40 : 60;
+  const maxStagger = shouldSimplifyMotion ? 120 : 360;
+  return idx > 0 ? Math.min(idx * step, maxStagger) : 0;
 }
 
-const IO_OPTIONS: IntersectionObserverInit = {
-  threshold: 0.05,
-  rootMargin: "0px 0px 200px 0px",
-};
+function resolveRevealDelay(el: HTMLElement): number {
+  const raw =
+    el.dataset.revealDelay ??
+    el.dataset.delay ??
+    el.getAttribute("data-reveal-delay") ??
+    "";
+  const explicit = Number.parseInt(raw, 10);
+  if (!Number.isNaN(explicit)) return Math.max(0, explicit);
+  return getSiblingStagger(el);
+}
 
 /**
  * Single shared IntersectionObserver for reveal + lazy blocks.
@@ -53,10 +74,10 @@ export function ScrollRevealObserver() {
     }
 
     const revealElement = (el: HTMLElement) => {
-      const explicitDelay = Number.parseInt(el.dataset.revealDelay ?? "", 10);
-      const delay = Number.isNaN(explicitDelay)
-        ? getSiblingStagger(el)
-        : Math.max(0, explicitDelay);
+      const delay = resolveRevealDelay(el);
+      if (delay > 0) {
+        el.style.setProperty("--az-anim-delay", `${delay}ms`);
+      }
 
       const reveal = () => el.classList.add("revealed");
       if (delay > 0) {
@@ -75,7 +96,7 @@ export function ScrollRevealObserver() {
           () => {
             revealElement(el);
           },
-          IO_OPTIONS,
+          getIoOptions(),
         ),
       );
     };
@@ -89,7 +110,7 @@ export function ScrollRevealObserver() {
           () => {
             el.classList.add("az-lazy-revealed");
           },
-          IO_OPTIONS,
+          getIoOptions(),
         ),
       );
     };

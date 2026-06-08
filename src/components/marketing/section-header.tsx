@@ -28,6 +28,8 @@ export function SectionHeader({
 
   return (
     <div
+      data-scroll-item
+      data-reveal="slide-up"
       className={cn(
         "mb-12 md:mb-16",
         align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl"

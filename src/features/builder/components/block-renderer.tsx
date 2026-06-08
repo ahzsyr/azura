@@ -1065,6 +1065,7 @@ async function RenderBlock({
       }}
       firstBlockOverlayActive={isFirstBlock && firstBlockOverlayActive}
       blockIndex={blockIndex}
+      lazyLoad={ctx.lazyLoad}
     >
       {inner}
     </BlockWrapper>

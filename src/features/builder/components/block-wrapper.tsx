@@ -25,6 +25,7 @@ type BlockWrapperProps = {
   className?: string;
   firstBlockOverlayActive?: boolean;
   blockIndex?: number;
+  lazyLoad?: boolean;
 };
 
 function detectDevice(): DeviceBreakpoint {
@@ -42,6 +43,7 @@ export const BlockWrapper = memo(function BlockWrapper({
   className = "",
   firstBlockOverlayActive = false,
   blockIndex = 0,
+  lazyLoad = true,
 }: BlockWrapperProps) {
   const device = ctx.device ?? detectDevice();
   const localeStyles = getLocaleStyleOverride(block, ctx.locale);
@@ -74,6 +76,8 @@ export const BlockWrapper = memo(function BlockWrapper({
   const animClasses = resolveAnimationClasses(block.animation, themeForAnim, blockIndex);
   const animStyle = animationInlineStyle(block.animation, blockIndex);
   const scrollAttrs = resolveScrollRevealAttributes(block.animation, themeForAnim, blockIndex);
+  const lazyBlockAttrs =
+    lazyLoad && blockIndex > 1 && !ctx.previewMode ? { "data-lazy-block": "true" } : {};
   const seo = resolveBlockSeo(block.seo);
   const sectionBg = block.visual?.sectionBackground;
   const sectionStyle = sectionBackgroundStyle(sectionBg);
@@ -97,6 +101,7 @@ export const BlockWrapper = memo(function BlockWrapper({
       style={{ ...resolved.style, ...animStyle, ...sectionStyle }}
       {...resolved.dataAttributes}
       {...scrollAttrs}
+      {...lazyBlockAttrs}
       data-block-type={block.type}
       data-block-version={block.version ?? "1.0"}
       {...(firstBlockOverlayActive ? { "data-header-overlay-block": "true" } : {})}

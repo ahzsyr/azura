@@ -116,6 +116,8 @@ function StatCard({
 
   return (
     <div
+      data-scroll-item
+      data-reveal="slide-up"
       className={cn(
         "flex flex-col items-center text-center",
         featured && "rounded-xl border border-border/60 bg-card p-6"

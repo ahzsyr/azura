@@ -63,7 +63,7 @@ export function AnimatedCounter({
       () => {
         if (started.current || cancelled) return;
 
-        void waitUntilVisible(el, shouldSimplifyMotion ? 400 : 800).then(() => {
+        void waitUntilVisible(el, shouldSimplifyMotion ? 300 : 600).then(() => {
           if (started.current || cancelled) return;
           started.current = true;
 
@@ -75,7 +75,10 @@ export function AnimatedCounter({
           });
         });
       },
-      { threshold: 0.2, rootMargin: "0px 0px -5% 0px" },
+      {
+        threshold: shouldSimplifyMotion ? 0.15 : 0.2,
+        rootMargin: shouldSimplifyMotion ? "0px 0px 120px 0px" : "0px 0px -5% 0px",
+      },
     );
 
     return () => {

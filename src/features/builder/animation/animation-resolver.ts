@@ -104,7 +104,7 @@ export function resolveScrollRevealAttributes(
     const delay = animation.entrance?.delayMs ?? 0;
     return {
       "data-animation": mapped,
-      ...(delay > 0 ? { "data-delay": String(delay) } : {}),
+      ...(delay > 0 ? { "data-reveal-delay": String(delay) } : {}),
     };
   }
 
@@ -112,6 +112,6 @@ export function resolveScrollRevealAttributes(
   const delay = animation.scroll?.delayMs ?? 0;
   return {
     "data-animation": mapped,
-    ...(delay > 0 ? { "data-delay": String(delay) } : {}),
+    ...(delay > 0 ? { "data-reveal-delay": String(delay) } : {}),
   };
 }
