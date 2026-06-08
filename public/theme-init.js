@@ -1,10 +1,17 @@
 (function () {
   try {
+    var boot = window.__AZ_THEME_BOOT || {};
+    var sk = boot.storageKeys || {};
     var path = window.location.pathname;
     var isAdmin = path.indexOf("/admin") === 0;
-    var modeKey = isAdmin ? "admin-theme" : "devi-theme-mode";
+    var modeKey = isAdmin
+      ? sk.adminTheme || "admin-theme"
+      : sk.publicTheme || "devi-theme-mode";
+    var root = document.documentElement;
     var stored = localStorage.getItem(modeKey);
-    var resolved = "light";
+    var ssrMode = root.getAttribute("data-theme-mode");
+    var ssrTheme = root.getAttribute("data-theme");
+    var resolved = ssrTheme === "dark" || ssrTheme === "light" ? ssrTheme : "light";
 
     if (stored === "dark" || stored === "light") {
       resolved = stored;
@@ -12,19 +19,51 @@
       resolved = window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";
+    } else if (ssrMode === "system") {
+      resolved = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    } else if (ssrMode === "dark" || ssrMode === "light") {
+      resolved = ssrMode;
     }
 
-    var root = document.documentElement;
     root.classList.remove("light", "dark");
     if (resolved === "dark") {
       root.classList.add("dark");
     }
     root.style.colorScheme = resolved;
     root.setAttribute("data-theme", resolved);
-    root.setAttribute("data-theme-mode", stored || "light");
+    root.setAttribute("data-theme-mode", stored || ssrMode || "light");
 
     if (!isAdmin) {
-      var colorsRaw = localStorage.getItem("devi-user-preset-colors");
+      var metricsKeys = boot.metricsKeys || [];
+      var metricsFieldMap = boot.metricsFieldMap || {};
+
+      function applyMetricsFromSnapshot(metrics) {
+        if (!metrics) return;
+        for (var i = 0; i < metricsKeys.length; i++) {
+          var cssKey = metricsKeys[i];
+          var field = metricsFieldMap[cssKey];
+          if (field === "shadowAmbient") {
+            root.style.setProperty(
+              cssKey,
+              "var(--az-shadow-ambient, rgb(0 0 0 / 0.35))",
+            );
+          } else if (field && metrics[field] != null) {
+            root.style.setProperty(cssKey, String(metrics[field]));
+          }
+        }
+        if (metrics.particlesEnabled) {
+          root.setAttribute("data-preset-particles", "on");
+        }
+        if (metrics.animatedEffectsEnabled) {
+          root.setAttribute("data-preset-animated", "on");
+        }
+      }
+
+      var colorsRaw = localStorage.getItem(
+        sk.presetColors || "devi-user-preset-colors",
+      );
       if (colorsRaw) {
         var c = JSON.parse(colorsRaw);
         if (c && c.primary) {
@@ -35,6 +74,8 @@
 
           root.style.setProperty("--primary", primary);
           root.style.setProperty("--accent", accent);
+          root.style.setProperty("--p", primary);
+          root.style.setProperty("--a", accent);
           root.style.setProperty("--color-primary", primary);
           root.style.setProperty("--color-accent", accent);
           root.style.setProperty("--color-secondary", secondary);
@@ -55,6 +96,10 @@
             root.style.setProperty("--background", bg);
             root.style.setProperty("--foreground", text);
             root.style.setProperty("--card", surface);
+            root.style.setProperty("--bg", bg);
+            root.style.setProperty("--sur", surface);
+            root.style.setProperty("--t", text);
+            root.style.setProperty("--m", muted);
             root.style.setProperty("--az-bg-primary", bg);
             root.style.setProperty("--az-bg-secondary", surface);
             root.style.setProperty("--az-text-primary", text);
@@ -67,7 +112,9 @@
         }
       }
 
-      var visualRaw = localStorage.getItem("devi-user-preset-visual");
+      var visualRaw = localStorage.getItem(
+        sk.presetVisual || "devi-user-preset-visual",
+      );
       if (visualRaw) {
         var v = JSON.parse(visualRaw);
         if (v) {
@@ -80,40 +127,7 @@
             root.setAttribute("data-preset-text-effect", v.textEffect);
             root.setAttribute("data-text-effect-theme", v.textEffect);
           }
-          if (v.metrics) {
-            var m = v.metrics;
-            var map = {
-              "--az-preset-gradient-hero": m.gradientHero,
-              "--az-preset-gradient-accent": m.gradientAccent,
-              "--az-preset-gradient-surface": m.gradientSurface,
-              "--az-preset-radius-sm": m.radiusSm,
-              "--az-preset-radius-md": m.radiusMd,
-              "--az-preset-radius-lg": m.radiusLg,
-              "--az-preset-radius-card": m.radiusCard,
-              "--az-preset-shadow-sm": m.shadowSm,
-              "--az-preset-shadow-md": m.shadowMd,
-              "--az-preset-shadow-lg": m.shadowLg,
-              "--az-preset-shadow-card": m.shadowCard,
-              "--az-preset-shadow-glow": m.shadowGlow,
-              "--az-preset-blur-glass": m.blurGlass,
-              "--az-preset-blur-panel": m.blurPanel,
-              "--az-preset-blur-overlay": m.blurOverlay,
-              "--az-preset-glass-opacity": m.glassOpacity,
-              "--az-preset-glass-saturation": m.glassSaturation,
-              "--az-preset-glow-color": m.glowColor,
-              "--az-preset-glow-intensity": m.glowIntensity,
-              "--az-preset-glow-spread": m.glowSpread,
-              "--az-preset-border-width": m.borderWidth,
-              "--az-preset-border-glow": m.borderGlow,
-            };
-            for (var key in map) {
-              if (map[key] != null) root.style.setProperty(key, String(map[key]));
-            }
-            if (m.particlesEnabled)
-              root.setAttribute("data-preset-particles", "on");
-            if (m.animatedEffectsEnabled)
-              root.setAttribute("data-preset-animated", "on");
-          }
+          applyMetricsFromSnapshot(v.metrics);
           if (v.typography) {
             root.style.setProperty(
               "--az-font-display",
@@ -131,7 +145,9 @@
         }
       }
 
-      var fxRaw = localStorage.getItem("devi-user-preset-effects");
+      var fxRaw = localStorage.getItem(
+        sk.presetEffects || "devi-user-preset-effects",
+      );
       if (fxRaw) {
         var fx = JSON.parse(fxRaw);
         if (fx) {

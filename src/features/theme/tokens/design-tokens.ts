@@ -1,7 +1,11 @@
 import type { ThemePreset } from "@prisma/client";
+import { CANONICAL_SEMANTIC_TOKENS } from "@/lib/theme/tokens/semantic";
+
+/** Canonical semantic token names (see `src/lib/theme/tokens/semantic.ts`). */
+export { CANONICAL_SEMANTIC_TOKENS };
 
 /**
- * Canonical CSS custom property names — single source for SSR + client overrides.
+ * CSS custom property names — canonical semantic + legacy aliases for SSR/client.
  */
 export const DESIGN_TOKEN_VARS = {
   primary: "--primary",

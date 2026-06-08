@@ -68,7 +68,7 @@ type AdminDashboardClientProps = {
 const QUICK_ACTIONS = [
   { label: "Pages", href: "/admin/pages", icon: FileText, description: "CMS pages" },
   { label: "New inquiry", href: "/admin/inquiries", icon: MessageSquare, description: "Lead inbox" },
-  { label: "Theme", href: "/admin/theme", icon: Palette, description: "Branding & colors" },
+  { label: "Theme Studio", href: "/admin/theme", icon: Palette, description: "Look & feel, presets, preview" },
   { label: "Site access", href: "/admin/settings/site", icon: EyeOff, description: "Coming soon mode" },
   { label: "Visitor portal", href: "/admin/settings/portal", icon: UserCog, description: "Registration & reset" },
   { label: "Customers", href: "/admin/users", icon: Users, description: "Visitor accounts" },

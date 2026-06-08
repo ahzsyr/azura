@@ -1,0 +1,3 @@
+@import "../collections-catalog.css" layer(components);
+@import "../collection-hierarchy-chrome.css" layer(components);
+@import "../catalog-page.css" layer(components);

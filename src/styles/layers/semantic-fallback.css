@@ -1,0 +1,50 @@
+/**
+ * Static semantic fallbacks (pre-hydration / admin).
+ * Dynamic theme overrides via SSR pipeline @layer tokens.
+ */
+@layer tokens {
+  :root {
+    --background: light-dark(oklch(0.985 0 0), oklch(0.145 0 0));
+    --foreground: light-dark(oklch(0.145 0 0), oklch(0.985 0 0));
+    --card: light-dark(oklch(1 0 0), oklch(0.205 0 0));
+    --primary: light-dark(oklch(0.45 0.12 160), oklch(0.55 0.12 160));
+    --secondary: light-dark(oklch(0.97 0 0), oklch(0.27 0 0));
+    --accent: light-dark(oklch(0.75 0.12 85), oklch(0.75 0.12 85));
+    --muted: light-dark(oklch(0.97 0 0), oklch(0.27 0 0));
+    --border: light-dark(oklch(0.92 0 0), oklch(1 0 0 / 10%));
+    --ring: var(--primary);
+    --radius: 0.75rem;
+    --muted-foreground: light-dark(oklch(0.55 0 0), oklch(0.65 0 0));
+    --primary-foreground: oklch(0.985 0 0);
+    --accent-foreground: oklch(0.145 0 0);
+    --secondary-foreground: light-dark(oklch(0.145 0 0), oklch(0.985 0 0));
+    --card-foreground: var(--foreground);
+    --popover: var(--card);
+    --popover-foreground: var(--foreground);
+    --input: var(--border);
+
+    /* Legacy aliases → semantic (migration layer) */
+    --az-bg-primary: var(--background);
+    --az-bg-secondary: var(--card);
+    --az-text-primary: var(--foreground);
+    --az-text-secondary: var(--muted-foreground);
+    --az-color-primary: var(--primary);
+    --az-color-accent: var(--accent);
+    --az-color-bg: var(--background);
+    --az-color-surface: var(--card);
+    --az-color-text: var(--foreground);
+    --az-color-muted: var(--muted-foreground);
+    --az-color-border: var(--border);
+    --az-border-subtle: var(--border);
+    --bg: var(--background);
+    --sur: var(--card);
+    --t: var(--foreground);
+    --m: var(--muted-foreground);
+    --p: var(--primary);
+    --a: var(--accent);
+    --color-primary: var(--primary);
+    --color-accent: var(--accent);
+    --color-text: var(--foreground);
+    --color-surface: var(--card);
+  }
+}

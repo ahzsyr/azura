@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { observeIntersection } from "@/lib/performance/intersection-observer-hub";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -32,8 +33,9 @@ export function AnimatedCounter({
     const el = ref.current;
     if (!el) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
+    return observeIntersection(
+      el,
+      (entry) => {
         if (!entry.isIntersecting || started.current) return;
         started.current = true;
         const start = performance.now();
@@ -48,10 +50,8 @@ export function AnimatedCounter({
         };
         requestAnimationFrame(tick);
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
-    observer.observe(el);
-    return () => observer.disconnect();
   }, [value, duration, animateOnView]);
 
   return (

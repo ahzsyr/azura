@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, type RefObject } from "react";
+import { observeIntersection } from "@/lib/performance/intersection-observer-hub";
 
 type Options = {
   /** ms to keep data-scrolling after scroll stops */
@@ -12,7 +13,7 @@ type Options = {
  * reveals [data-scroll-reveal] children inside the root when they enter view.
  */
 export function useScrollContainer<T extends HTMLElement>(
-  options: Options = {}
+  options: Options = {},
 ): RefObject<T | null> {
   const { idleMs = 480 } = options;
   const ref = useRef<T | null>(null);
@@ -35,24 +36,27 @@ export function useScrollContainer<T extends HTMLElement>(
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     el.addEventListener("scroll", onScroll, { passive: true });
 
-    let revealObserver: IntersectionObserver | undefined;
+    const unobserveFns: Array<() => void> = [];
+    const tracked = new WeakSet<Element>();
+
     if (!reduced) {
-      revealObserver = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
+      const observeTarget = (node: Element) => {
+        if (tracked.has(node)) return;
+        tracked.add(node);
+        unobserveFns.push(
+          observeIntersection(
+            node,
+            (entry) => {
+              if (!entry.isIntersecting) return;
               entry.target.classList.add("az-in-view");
-              revealObserver?.unobserve(entry.target);
-            }
-          }
-        },
-        { root: el, rootMargin: "0px 0px -6% 0px", threshold: 0.06 }
-      );
+            },
+            { root: el, rootMargin: "0px 0px -6% 0px", threshold: 0.06 },
+          ),
+        );
+      };
 
       const observeTargets = () => {
-        el.querySelectorAll("[data-scroll-reveal]:not(.az-in-view)").forEach((node) => {
-          revealObserver?.observe(node);
-        });
+        el.querySelectorAll("[data-scroll-reveal]:not(.az-in-view)").forEach(observeTarget);
       };
 
       observeTargets();
@@ -62,7 +66,7 @@ export function useScrollContainer<T extends HTMLElement>(
       return () => {
         el.removeEventListener("scroll", onScroll);
         if (idleTimer.current) clearTimeout(idleTimer.current);
-        revealObserver?.disconnect();
+        for (const off of unobserveFns) off();
         mutation.disconnect();
       };
     }

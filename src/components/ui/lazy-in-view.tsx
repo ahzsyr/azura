@@ -1,21 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { observeIntersection } from "@/lib/performance/intersection-observer-hub";
 import { cn } from "@/lib/utils";
 
 type LazyInViewProps = {
   children: ReactNode;
   className?: string;
-  /** Placeholder height before content mounts */
   minHeight?: number | string;
   rootMargin?: string;
   reveal?: boolean;
   as?: "div" | "section" | "li" | "tr";
 };
 
-/**
- * Mounts children when near the viewport (lazy load). Optional scroll-reveal animation.
- */
 export function LazyInView({
   children,
   className,
@@ -37,28 +34,23 @@ export function LazyInView({
       return;
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
+    return observeIntersection(
+      el,
+      (entry) => {
+        if (entry.isIntersecting) setVisible(true);
       },
-      { rootMargin, threshold: 0.01 }
+      { rootMargin, threshold: 0.01 },
     );
-
-    observer.observe(el);
-    return () => observer.disconnect();
   }, [rootMargin]);
 
   return (
     <Tag
       ref={ref as never}
       className={cn(
-        "az-lazy-paint",
+        "az-lazy-paint az-content-auto",
         reveal && "data-scroll-reveal",
         visible && reveal && "az-in-view",
-        className
+        className,
       )}
       style={!visible ? { minHeight } : undefined}
       data-lazy-mounted={visible ? "true" : "false"}

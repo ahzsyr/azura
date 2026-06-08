@@ -158,8 +158,12 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
       { href: "/admin/studio", label: "Studio", icon: MonitorPlay, keywords: ["preview", "editor"] },
       { href: "/admin/header", label: "Header Builder", icon: PanelTop, keywords: ["navigation", "menu"] },
       { href: "/admin/footer", label: "Footer Builder", icon: PanelBottom, keywords: ["footer", "navigation"] },
-      { href: "/admin/theme", label: "Theme", icon: Palette, keywords: ["colors", "branding"] },
-      { href: "/admin/presets", label: "Presets", icon: Sparkles, keywords: ["templates"] },
+      {
+        href: "/admin/theme",
+        label: "Theme Studio",
+        icon: Palette,
+        keywords: ["theme", "colors", "branding", "presets", "typography", "motion", "effects"],
+      },
       { href: "/admin/personalization", label: "Personalization", icon: Wand2, keywords: ["customize"] },
       {
         href: "/admin/preloader",

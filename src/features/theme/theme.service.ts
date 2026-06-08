@@ -3,6 +3,11 @@ import { createCached, CACHE_TAGS } from "@/services/cache";
 import type { ThemeTokens } from "@/types/theme";
 import { parseFooterConfig, parseHeaderConfig, parseTypography, siteThemeToTokens } from "./theme-config";
 import { enrichTokensWithPreset } from "./preset-resolver";
+import type { ResolvedTheme } from "@/lib/theme/theme-resolver";
+import {
+  resolvePreviewSiteTheme,
+  resolvePublishedSiteTheme,
+} from "@/lib/theme/resolve-site-theme.server";
 import type { SiteTheme } from "@prisma/client";
 
 export { themeToCssVars } from "./theme-css";
@@ -32,6 +37,18 @@ const getPublishedCached = createCached(
 
 export const themeService = {
   getPublished: getPublishedCached,
+
+  /** Published theme fully resolved (tokens, CSS, html attributes). Request-cached. */
+  resolvePublished(): Promise<ResolvedTheme> {
+    return resolvePublishedSiteTheme();
+  },
+
+  /** Preview/draft theme fully resolved. Request-cached. */
+  resolveForPreview(previewDraft = false): Promise<ResolvedTheme> {
+    return previewDraft
+      ? resolvePreviewSiteTheme()
+      : resolvePublishedSiteTheme();
+  },
 
   async getForPreview(previewDraft: boolean): Promise<ThemeTokens | null> {
     if (previewDraft) {

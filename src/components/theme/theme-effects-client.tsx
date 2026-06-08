@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import type { ThemeTokens } from "@/types/theme";
 import type { PageVisualSettings } from "@/schemas/visual-settings";
 import { resolveVisualExperience } from "@/features/theme/visual-experience-resolver";
-import { applyVisualEffects } from "@/features/theme/effects-runtime";
-import { applySiteBackground } from "@/features/theme/backgrounds/background-system";
+import { applyVisualEffects, visualEffectsEngine } from "@/features/theme/effects-runtime";
 import { useResolvedVisualExperience } from "@/components/theme/visual-experience-context";
 import {
   buildLiveVisualExperience,
@@ -15,6 +15,7 @@ import {
   THEME_CHANGE_EVENT,
 } from "@/features/theme/engine";
 import { CURSOR_PREF_STORAGE_KEY } from "@/features/theme/engine/constants";
+import { deferUntilIdle } from "@/lib/performance/defer-until-idle";
 
 type Props = {
   tokens: ThemeTokens | null;
@@ -38,6 +39,7 @@ function resolveEffectAppearance(resolvedTheme: string | undefined): "light" | "
 }
 
 export function ThemeEffectsClient({ tokens }: Props) {
+  const pathname = usePathname();
   const { resolvedTheme } = useTheme();
   const contextResolved = useResolvedVisualExperience();
   const siteResolved =
@@ -57,13 +59,24 @@ export function ThemeEffectsClient({ tokens }: Props) {
       applyVisualEffects(experience);
     };
 
-    apply();
+    const cancelIdle = deferUntilIdle(apply);
 
-    const onThemeChange = () => apply();
+    const onThemeChange = () => {
+      document.documentElement.classList.add("theme-transitioning");
+      deferUntilIdle(() => {
+        apply();
+        window.setTimeout(() => {
+          document.documentElement.classList.remove("theme-transitioning");
+        }, 400);
+      });
+    };
+
     window.addEventListener(THEME_CHANGE_EVENT, onThemeChange);
 
     return () => {
+      cancelIdle();
       window.removeEventListener(THEME_CHANGE_EVENT, onThemeChange);
+      visualEffectsEngine.destroy();
     };
   }, [
     tokens,
@@ -77,6 +90,12 @@ export function ThemeEffectsClient({ tokens }: Props) {
     siteResolved?.cardStyle,
   ]);
 
+  useEffect(() => {
+    return () => {
+      visualEffectsEngine.destroy();
+    };
+  }, [pathname]);
+
   return null;
 }
 
@@ -86,6 +105,7 @@ type PageProps = {
 };
 
 export function PageVisualEffects({ site, page }: PageProps) {
+  const pathname = usePathname();
   const pageKey = JSON.stringify(page);
 
   useEffect(() => {
@@ -101,21 +121,15 @@ export function PageVisualEffects({ site, page }: PageProps) {
       applyVisualEffects(resolveExperience());
     };
 
-    apply();
+    const cancelIdle = deferUntilIdle(apply);
 
-    const onThemeChange = () => apply();
+    const onThemeChange = () => deferUntilIdle(apply);
     window.addEventListener(THEME_CHANGE_EVENT, onThemeChange);
 
     return () => {
+      cancelIdle();
       window.removeEventListener(THEME_CHANGE_EVENT, onThemeChange);
-      const fallback = resolveExperience();
-      applyVisualEffects(fallback);
-      if (fallback.backgroundEffect) {
-        applySiteBackground(fallback.backgroundEffect, {
-          animationsEnabled: fallback.animationsEnabled,
-          force: true,
-        });
-      }
+      visualEffectsEngine.destroy();
     };
   }, [
     site.cursorEffect,
@@ -129,6 +143,12 @@ export function PageVisualEffects({ site, page }: PageProps) {
     site.borderStyle,
     pageKey,
   ]);
+
+  useEffect(() => {
+    return () => {
+      visualEffectsEngine.destroy();
+    };
+  }, [pathname]);
 
   return null;
 }

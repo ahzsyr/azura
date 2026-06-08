@@ -1,5 +1,6 @@
 "use client";
 
+import "@/styles/personalization-panel.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";

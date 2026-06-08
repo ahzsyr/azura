@@ -1,5 +1,5 @@
-import { PresetsAdminClient } from "@/features/theme/components/presets-admin-client";
+import { redirect } from "next/navigation";
 
 export default function PresetsAdminPage() {
-  return <PresetsAdminClient />;
+  redirect("/admin/theme?section=presets");
 }

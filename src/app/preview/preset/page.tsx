@@ -44,7 +44,7 @@ export default async function PresetPreviewPage({ searchParams }: Props) {
   const params = await searchParams;
   const presetId = params.id?.trim() || "travel";
   const preset = await loadPresetJson(presetId);
-  if (!preset) redirect("/admin/presets");
+  if (!preset) redirect("/admin/theme?section=presets");
 
   const theme = await themeService.getPublished();
   const primary = preset.colors.primary;

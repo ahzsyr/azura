@@ -14,6 +14,7 @@ import { resolveSiteIdentityFromDb } from "@/lib/site-identity.server";
 import { GlobalStructuredData } from "@/features/seo/components/global-structured-data";
 import { PersonalizationPanelLazy } from "@/components/personalization/personalization-panel-lazy";
 import { ScrollRevealObserver } from "@/components/motion/scroll-reveal-observer";
+import { ThemePerformanceMonitor } from "@/components/performance/theme-performance-monitor";
 import { MarketingPageTransition } from "@/components/motion/marketing-page-transition";
 import { CatalogComparisonShell } from "@/components/comparison/catalog-comparison-shell";
 import { RecentlyViewedTracker } from "@/features/discovery-blocks/components/recently-viewed-tracker";
@@ -26,6 +27,7 @@ import { preloaderShowsOnInitialLoad } from "@/features/preloader/site-preloader
 import { SitePreloader } from "@/components/layout/site-preloader";
 import { PreloaderBootScript } from "@/components/layout/preloader-boot-script";
 import type { Metadata } from "next";
+import "@/styles/routes/effects.css";
 
 export async function generateStaticParams() {
   try {
@@ -97,10 +99,11 @@ export default async function LocaleLayout({ children, params }: Props) {
       <GlobalStructuredData />
       <NextIntlClientProvider locale={locale} messages={messages}>
         <AccountSessionProvider>
-        <ThemeProvider tokens={shell.theme}>
+        <ThemeProvider>
           <SitePreloader settings={preloaderSettings} />
           <RecentlyViewedTracker />
           <ScrollRevealObserver />
+          <ThemePerformanceMonitor />
           <SiteHeader
             workspace={shell.headerWorkspace}
             locale={locale}

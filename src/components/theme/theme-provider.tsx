@@ -1,71 +1,41 @@
-import { themeService } from "@/features/theme/theme.service";
-import { loadPresetJson } from "@/features/theme/preset-resolver";
-import { presetVisualToCssBlock, resolvePresetVisual } from "@/features/theme/presets";
+import { resolvePublishedSiteTheme, resolvePreviewSiteTheme } from "@/lib/theme/resolve-site-theme.server";
 import { ThemeStyles } from "./theme-styles";
 import { ThemeWrapper } from "./theme-wrapper";
 import { ThemeEffectsClient } from "./theme-effects-client";
 import { ThemeEngineProvider } from "./theme-engine-provider";
-import { ThemePresetAttributes } from "./theme-preset-attributes";
 import { VisualExperienceProvider } from "./visual-experience-provider";
-import { getDefaultThemeTokens } from "@/features/theme/default-theme-tokens";
-import type { ThemeTokens } from "@/types/theme";
-
-async function loadThemeTokens(previewDraft: boolean): Promise<ThemeTokens | null> {
-  try {
-    return await themeService.getForPreview(previewDraft);
-  } catch (error) {
-    console.error("[ThemeProvider] theme load failed:", error);
-    return null;
-  }
-}
-
-async function loadPresetVisualCss(activePresetId: string | null | undefined): Promise<string> {
-  if (!activePresetId) return "";
-  try {
-    const preset = await loadPresetJson(activePresetId);
-    if (!preset) return "";
-    return presetVisualToCssBlock(resolvePresetVisual(preset));
-  } catch (error) {
-    console.error("[ThemeProvider] preset visual load failed:", error);
-    return "";
-  }
-}
+import type { ResolvedTheme } from "@/lib/theme/theme-resolver";
 
 type ThemeProviderProps = {
   children: React.ReactNode;
-  /** Preloaded theme from layout shell — avoids a duplicate DB fetch. */
-  tokens?: ThemeTokens | null;
+  /** Pre-resolved theme — skips duplicate resolution when provided. */
+  resolved?: ResolvedTheme | null;
   previewDraft?: boolean;
 };
 
 export async function ThemeProvider({
   children,
-  tokens: initialTokens,
+  resolved: initialResolved,
   previewDraft = false,
 }: ThemeProviderProps) {
-  const loaded =
-    initialTokens !== undefined
-      ? initialTokens
-      : await loadThemeTokens(previewDraft);
-  const tokens = loaded ?? getDefaultThemeTokens();
-  const presetVisualCss = await loadPresetVisualCss(tokens.activePresetId);
+  const resolved =
+    initialResolved ??
+    (previewDraft
+      ? await resolvePreviewSiteTheme()
+      : await resolvePublishedSiteTheme());
 
   return (
     <>
-      <ThemeStyles tokens={tokens} presetVisualCss={presetVisualCss} />
-      <ThemePresetAttributes
-        cardStyle={tokens.cardStyle}
-        borderStyle={tokens.borderStyle}
-        activePresetId={tokens.activePresetId}
-      />
-      <VisualExperienceProvider site={tokens}>
-        <ThemeWrapper tokens={tokens}>
+      <ThemeStyles resolved={resolved} />
+      <VisualExperienceProvider site={resolved.tokens}>
+        <ThemeWrapper resolved={resolved}>
           <ThemeEngineProvider
-            siteTheme={tokens}
-            defaultPresetId={tokens.activePresetId ?? null}
-            defaultAppearance="system"
+            siteTheme={resolved.tokens}
+            defaultPresetId={resolved.preset.presetId}
+            defaultAppearance={resolved.appearance.mode}
+            ssrHtmlAttributes={resolved.htmlAttributes}
           >
-            <ThemeEffectsClient tokens={tokens} />
+            <ThemeEffectsClient tokens={resolved.tokens} />
             {children}
           </ThemeEngineProvider>
         </ThemeWrapper>

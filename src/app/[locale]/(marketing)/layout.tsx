@@ -1,3 +1,5 @@
+import "@/styles/routes/marketing.css";
+
 /** ISR: marketing pages revalidate every 5 minutes */
 export const revalidate = 300;
 

@@ -550,12 +550,15 @@ export default async function middleware(request: NextRequest) {
 
   try {
     const response = await runMiddleware(request);
-    if (supabaseResponse) {
-      return mergeSupabaseCookies(supabaseResponse, response);
-    }
-    return response;
+    const final = supabaseResponse
+      ? mergeSupabaseCookies(supabaseResponse, response)
+      : response;
+    final.headers.set("x-pathname", pathname);
+    return final;
   } catch (error) {
-    return middlewareFallback(request, error);
+    const fallback = middlewareFallback(request, error);
+    fallback.headers.set("x-pathname", pathname);
+    return fallback;
   }
 }
 

@@ -37,6 +37,7 @@ import {
   deleteUserPreset,
   clearVisitorPresetOverrides,
 } from "@/features/theme/engine";
+import { reconcileSiteHtmlAttributes } from "@/lib/theme/reconcile-html-attributes";
 type ThemeEngineContextValue = {
   appearanceMode: AppearanceMode;
   resolvedAppearance: ResolvedAppearance;
@@ -63,6 +64,8 @@ type Props = {
   siteTheme: ThemeTokens | null;
   defaultPresetId?: string | null;
   defaultAppearance?: AppearanceMode;
+  /** SSR-resolved site defaults for post-hydration reconciliation. */
+  ssrHtmlAttributes?: Record<string, string>;
 };
 
 export function ThemeEngineProvider({
@@ -70,6 +73,7 @@ export function ThemeEngineProvider({
   siteTheme,
   defaultPresetId,
   defaultAppearance = "light",
+  ssrHtmlAttributes,
 }: Props) {
   const { theme: storedTheme, resolvedTheme, setTheme } = useTheme();
   const [appearanceMode, setAppearanceModeState] = useState<AppearanceMode>(defaultAppearance);
@@ -144,8 +148,15 @@ export function ThemeEngineProvider({
     }
 
     refreshUserPresets();
+    reconcileSiteHtmlAttributes(ssrHtmlAttributes);
     setHydrated(true);
-  }, [storedTheme, defaultPresetId, siteTheme?.activePresetId, refreshUserPresets]);
+  }, [
+    storedTheme,
+    defaultPresetId,
+    siteTheme?.activePresetId,
+    refreshUserPresets,
+    ssrHtmlAttributes,
+  ]);
 
   useEffect(() => {
     if (!hydrated || !siteTheme) return;
@@ -278,12 +289,13 @@ export function ThemeEngineProvider({
     clearVisitorPresetOverrides();
     setActivePresetId(defaultPresetId ?? siteTheme?.activePresetId ?? null);
     setActivePresetSource("site");
+    reconcileSiteHtmlAttributes(ssrHtmlAttributes);
     if (siteTheme) {
       applyVisualEffects(
         buildLiveVisualExperience(siteTheme, null, cursorPreference),
       );
     }
-  }, [defaultPresetId, siteTheme, cursorPreference]);
+  }, [defaultPresetId, siteTheme, cursorPreference, ssrHtmlAttributes]);
 
   const setCursorPreference = useCallback(
     (pref: CursorPreference) => {

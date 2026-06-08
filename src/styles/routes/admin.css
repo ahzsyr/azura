@@ -1,0 +1,6 @@
+/* Admin route shell — feature CSS is colocated; this bundle is for shared admin chrome only. */
+@layer components {
+  .admin-route-root {
+    contain: layout style;
+  }
+}

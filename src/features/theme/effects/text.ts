@@ -1,3 +1,5 @@
+import { observeIntersection } from "@/lib/performance/intersection-observer-hub";
+
 /**
  * Text effects — applied to elements with [data-text-effect].
  * Hero auto-tagging is handled by effects-runtime (tagHeroHeadings).
@@ -307,18 +309,14 @@ function applyFlicker(el: HTMLElement) {
 function applyRevealClip(el: HTMLElement) {
   el.style.clipPath = "inset(0 100% 0 0)";
   el.style.transition = "clip-path 1s cubic-bezier(.77,0,.175,1)";
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          el.style.clipPath = "inset(0 0% 0 0)";
-          io.unobserve(el);
-        }
-      });
+  observeIntersection(
+    el,
+    (entry) => {
+      if (!entry.isIntersecting) return;
+      el.style.clipPath = "inset(0 0% 0 0)";
     },
     { threshold: 0.2 },
   );
-  io.observe(el);
 }
 
 function apply3DRotate(el: HTMLElement) {

@@ -1,5 +1,6 @@
 import type { AppearanceMode, ResolvedAppearance } from "./types";
 import { ADMIN_THEME_KEY, PUBLIC_THEME_KEY } from "./constants";
+import { runWithViewTransition } from "@/lib/theme/effects/transition-engine";
 
 export { ADMIN_THEME_KEY, PUBLIC_THEME_KEY };
 
@@ -16,12 +17,12 @@ export function setThemeWithTransition(
 ): void {
   const apply = () => setTheme(next);
 
-  if (prefersReducedMotion() || typeof document.startViewTransition !== "function") {
+  if (prefersReducedMotion()) {
     apply();
     return;
   }
 
-  document.startViewTransition(apply);
+  runWithViewTransition(apply);
 }
 
 export function resolveStoredTheme(
