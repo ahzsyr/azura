@@ -23,7 +23,7 @@ export function AdminCollapsibleSection({
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <section className={cn("rounded-xl border bg-card", className)}>
+    <section className={cn("admin-collapsible rounded-xl border", className)}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}

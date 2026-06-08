@@ -16,7 +16,6 @@ import {
   type ThemeStudioSectionId,
 } from "./theme-studio-shell";
 import { useThemeStudio } from "./use-theme-studio";
-import { ThemePreviewPanel } from "./theme-preview-panel";
 import {
   OverviewSection,
   PresetsSection,
@@ -155,22 +154,6 @@ function ThemeStudioFormContent({
     }
   };
 
-  const stickyPreview =
-    section !== "preview" ? (
-      <ThemePreviewPanel
-        tokens={studio.state}
-        resolved={studio.resolved}
-        savedTokens={JSON.parse(studio.savedSnapshot) as import("@/types/theme").ThemeTokens}
-        previewLocale={previewLocale}
-        onLocaleChange={setPreviewLocale}
-        compareMode={compareMode}
-        onCompareModeChange={setCompareMode}
-        previewAppearance={previewAppearance}
-        onPreviewAppearanceChange={setPreviewAppearance}
-        compact
-      />
-    ) : null;
-
   return (
     <AdminFormProvider
       onSave={onSave}
@@ -186,11 +169,8 @@ function ThemeStudioFormContent({
       <ThemeSaveNotifier />
       <DesignHubShell
         title="Theme Studio"
-        description="One place for presets, colors, typography, motion, effects, and live preview. Save draft, preview, then publish."
-        preview={stickyPreview}
-        previewDescription={
-          studio.isDirty ? "Unsaved changes — preview reflects the editor." : "Matches saved draft."
-        }
+        description="Configure presets, colors, typography, motion, and effects. Open the Preview tab for live preview, then save and publish."
+        preview={undefined}
       >
         {hasUnpublishedDraft ? (
           <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-700">

@@ -247,7 +247,7 @@ export function AdminSidebar() {
         initial={false}
         animate={{ width: sidebarCollapsed ? 56 : 256 }}
         transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-        className="relative hidden h-screen shrink-0 flex-col border-r bg-card md:flex"
+        className="relative hidden h-screen shrink-0 flex-col border-r admin-liquid-glass md:flex"
       >
         <Button
           variant="outline"
@@ -274,7 +274,7 @@ export function AdminSidebar() {
         initial={false}
         animate={{ x: sidebarMobileOpen ? 0 : -280 }}
         transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
-        className="fixed inset-y-0 start-0 z-50 flex w-[280px] flex-col border-r bg-card shadow-xl md:hidden"
+        className="admin-liquid-glass fixed inset-y-0 start-0 z-50 flex w-[280px] flex-col border-r shadow-xl md:hidden"
       >
         <div className="flex items-center justify-end p-2">
           <Button variant="ghost" size="icon" onClick={() => setSidebarMobileOpen(false)} aria-label="Close menu">

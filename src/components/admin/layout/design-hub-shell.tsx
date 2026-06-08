@@ -28,7 +28,7 @@ export function DesignHubShell({
       <AdminPageHeader title={title} description={description} actions={actions} />
 
       {preview ? (
-        <Card className="sticky top-12 z-10 overflow-hidden shadow-sm">
+        <Card className="admin-card sticky top-12 z-10 overflow-hidden shadow-md">
           <CardHeader className="pb-3">
             <CardTitle className="text-base">{previewTitle}</CardTitle>
             {previewDescription ? <CardDescription>{previewDescription}</CardDescription> : null}

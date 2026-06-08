@@ -135,8 +135,7 @@ export function AdminDashboardClient({
   return (
     <div className="space-y-8">
       <Card
-        className="overflow-hidden border-primary/20 bg-gradient-to-br from-primary/8 via-background to-background"
-        data-scroll-reveal
+        className="overflow-hidden border-primary/20 bg-gradient-to-br from-primary/8 via-[var(--admin-surface)] to-[var(--admin-surface)]"
       >
         <CardContent className="flex flex-col gap-6 p-6 md:flex-row md:items-center md:justify-between md:p-8">
           <div className="flex min-w-0 items-start gap-4">
@@ -178,8 +177,8 @@ export function AdminDashboardClient({
       </Card>
 
       <AdminStaggerContainer>
-        <section className="space-y-4" data-scroll-reveal style={{ ["--scroll-reveal-delay" as string]: "40ms" }}>
-          <div className="flex items-center gap-2">
+        <section className="space-y-4">
+          <div className="admin-section-heading flex items-center gap-2">
             <LayoutDashboard className="size-4 text-primary" aria-hidden />
             <h3 className="text-sm font-semibold">Catalog & engagement</h3>
           </div>
@@ -192,8 +191,8 @@ export function AdminDashboardClient({
           </AdminCardGrid>
         </section>
 
-        <section className="space-y-4" data-scroll-reveal style={{ ["--scroll-reveal-delay" as string]: "80ms" }}>
-          <div className="flex items-center gap-2">
+        <section className="space-y-4">
+          <div className="admin-section-heading flex items-center gap-2">
             <FileText className="size-4 text-primary" aria-hidden />
             <h3 className="text-sm font-semibold">Platform</h3>
           </div>
@@ -207,7 +206,7 @@ export function AdminDashboardClient({
         </section>
 
         <section className="space-y-4">
-          <h3 className="text-sm font-semibold">Quick actions</h3>
+          <h3 className="admin-section-heading text-sm font-semibold">Quick actions</h3>
           <AdminCardGrid columns={3}>
             {QUICK_ACTIONS.map((action) => {
               const Icon = action.icon;
@@ -245,7 +244,7 @@ export function AdminDashboardClient({
               {recentInquiries.length === 0 ? (
                 <p className="text-sm text-muted-foreground">No inquiries yet.</p>
               ) : (
-                <ul className="divide-y rounded-lg border">
+                <ul className="divide-y divide-[var(--admin-border)] rounded-lg border border-[var(--admin-border)]">
                   {recentInquiries.map((inquiry) => (
                     <li key={inquiry.id}>
                       <Link

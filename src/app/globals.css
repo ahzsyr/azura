@@ -5,6 +5,7 @@
 @import "../styles/layers/semantic-fallback.css" layer(tokens);
 @import "../styles/responsive-tokens.css" layer(tokens);
 @import "../styles/themed-scrollbars.css" layer(utilities);
+@import "../styles/liquid-glass.css" layer(components);
 @import "../styles/block-overflow.css" layer(utilities);
 
 @custom-variant dark (&:is(.dark *));

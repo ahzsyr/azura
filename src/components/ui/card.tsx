@@ -1,16 +1,27 @@
+"use client";
+
 import * as React from "react";
+import { useIsAdminSurface } from "@/components/admin/layout/admin-surface-context";
 import { cn } from "@/lib/utils";
 
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("card-premium az-card hover-lift text-card-foreground", className)}
-    {...props}
-  />
-));
+>(({ className, ...props }, ref) => {
+  const isAdmin = useIsAdminSurface();
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "rounded-xl border text-card-foreground",
+        isAdmin ? "admin-card shadow-sm" : "card-premium az-card hover-lift",
+        className
+      )}
+      {...props}
+    />
+  );
+});
 Card.displayName = "Card";
 
 const CardHeader = React.forwardRef<

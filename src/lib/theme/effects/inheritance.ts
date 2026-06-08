@@ -128,6 +128,6 @@ export function mapVisualExperienceToEffectConfig(input: {
       effectId: input.textEffect,
     },
     animationsEnabled: input.animationsEnabled,
-    glassOverlay: input.cardStyle === "glassmorphism",
+    glassOverlay: input.cardStyle === "glassmorphism" || input.cardStyle === "liquid-glass",
   };
 }

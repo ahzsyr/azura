@@ -31,7 +31,7 @@ export function resolveVisualExperience({ site, page }: ResolveInput): ResolvedV
       animationsEnabled: site.animationsEnabled,
     },
     page,
-    { glassOverlay: site.cardStyle === "glassmorphism" },
+    { glassOverlay: site.cardStyle === "glassmorphism" || site.cardStyle === "liquid-glass" },
   );
 
   return {

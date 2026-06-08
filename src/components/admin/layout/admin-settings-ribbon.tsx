@@ -24,7 +24,9 @@ type AdminSettingsRibbonProps = {
 const tabClassName = (isActive: boolean) =>
   cn(
     "relative shrink-0 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-    isActive ? "text-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground",
+    isActive
+      ? "admin-ribbon-tab-active text-foreground"
+      : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
   );
 
 export function AdminSettingsRibbon({
@@ -59,7 +61,7 @@ export function AdminSettingsRibbon({
   return (
     <div
       className={cn(
-        "sticky top-12 z-20 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80",
+        "sticky top-12 z-20 border-b admin-liquid-glass shadow-sm",
         className
       )}
     >

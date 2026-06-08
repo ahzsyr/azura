@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const pageVariants = {
@@ -22,6 +23,11 @@ type AdminPageTransitionProps = {
 
 export function AdminPageTransition({ children, className, routeKey }: AdminPageTransitionProps) {
   const reduced = useReducedMotion();
+  const [animating, setAnimating] = useState(true);
+
+  useEffect(() => {
+    setAnimating(true);
+  }, [routeKey]);
 
   if (reduced) {
     return <div className={className}>{children}</div>;
@@ -36,7 +42,8 @@ export function AdminPageTransition({ children, className, routeKey }: AdminPage
         exit="exit"
         variants={pageVariants}
         transition={pageTransition}
-        className={cn("will-change-[opacity,transform]", className)}
+        onAnimationComplete={() => setAnimating(false)}
+        className={cn(animating && "will-change-[opacity,transform]", className)}
       >
         {children}
       </motion.div>
@@ -50,7 +57,7 @@ type StaggerContainerProps = {
   stagger?: number;
 };
 
-export function AdminStaggerContainer({ children, className, stagger = 0.04 }: StaggerContainerProps) {
+export function AdminStaggerContainer({ children, className, stagger = 0.02 }: StaggerContainerProps) {
   const reduced = useReducedMotion();
 
   if (reduced) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { observeIntersection } from "@/lib/performance/intersection-observer-hub";
+import { observeOnce } from "@/lib/performance/intersection-observer-hub";
 import { cn } from "@/lib/utils";
 
 type LazyInViewProps = {
@@ -9,6 +9,7 @@ type LazyInViewProps = {
   className?: string;
   minHeight?: number | string;
   rootMargin?: string;
+  /** CSS scroll-reveal animation (skip when lazy-mounting children) */
   reveal?: boolean;
   as?: "div" | "section" | "li" | "tr";
 };
@@ -18,7 +19,7 @@ export function LazyInView({
   className,
   minHeight = 64,
   rootMargin = "120px 0px",
-  reveal = true,
+  reveal = false,
   as: Tag = "div",
 }: LazyInViewProps) {
   const ref = useRef<HTMLElement | null>(null);
@@ -34,10 +35,10 @@ export function LazyInView({
       return;
     }
 
-    return observeIntersection(
+    return observeOnce(
       el,
-      (entry) => {
-        if (entry.isIntersecting) setVisible(true);
+      () => {
+        setVisible(true);
       },
       { rootMargin, threshold: 0.01 },
     );

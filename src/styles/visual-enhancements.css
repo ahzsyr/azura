@@ -319,6 +319,19 @@ img[data-skip-img-fade] {
   opacity: 0.6;
 }
 
+html[data-card-style="liquid-glass"] .az-card.az-glass-shimmer::after,
+html[data-card-style="liquid-glass"] .az-liquid-glass-panel.az-glass-shimmer::after {
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    color-mix(in srgb, white 22%, transparent) 48%,
+    color-mix(in srgb, var(--color-primary, var(--primary)) 12%, transparent) 52%,
+    transparent 65%
+  );
+  animation-duration: 6s;
+  opacity: 0.75;
+}
+
 /* Preset-driven hover on marketing cards */
 .hover-glow-preset:hover {
   box-shadow: var(--az-preset-shadow-glow);

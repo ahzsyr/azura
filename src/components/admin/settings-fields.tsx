@@ -19,7 +19,7 @@ export function SettingsSection({
   return (
     <section className={cn("space-y-4", className)}>
       <div>
-        <h3 className="text-sm font-semibold">{title}</h3>
+        <h3 className="admin-label text-sm font-semibold">{title}</h3>
         {description ? (
           <p className="mt-1 text-sm text-muted-foreground">{description}</p>
         ) : null}
@@ -45,7 +45,7 @@ export function ToggleField({
   return (
     <label
       className={cn(
-        "flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors hover:bg-muted/50",
+        "admin-toggle-field flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors hover:bg-muted/50",
         disabled && "pointer-events-none opacity-60"
       )}
     >

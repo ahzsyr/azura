@@ -1,10 +1,37 @@
 import { useMemo } from "react";
+import { presetVisualToCssBlock } from "@/features/theme/presets/preset-visual-css";
+import { resolveSyntheticPresetVisual } from "@/features/theme/presets/resolve-preset-visual";
 import { buildResolvedThemeSync, type ResolvedTheme } from "@/lib/theme/theme-resolver";
 import type { ThemeTokens } from "@/types/theme";
 
 /** Client-side preview resolution from draft tokens (no preset JSON fetch). */
 export function resolveThemeForPreview(tokens: ThemeTokens): ResolvedTheme {
-  return buildResolvedThemeSync({ tokens });
+  const resolved = buildResolvedThemeSync({ tokens });
+
+  if (resolved.css.presetVisual) {
+    return resolved;
+  }
+
+  const synthetic = resolveSyntheticPresetVisual({
+    cardStyle: resolved.cardStyle,
+    borderStyle: resolved.borderStyle,
+    primaryColor: tokens.primaryColor,
+    secondaryColor: tokens.secondaryColor,
+    accentColor: tokens.presetColors?.accent ?? tokens.secondaryColor,
+  });
+
+  if (!synthetic) {
+    return resolved;
+  }
+
+  return {
+    ...resolved,
+    presetVisual: synthetic,
+    css: {
+      ...resolved.css,
+      presetVisual: presetVisualToCssBlock(synthetic),
+    },
+  };
 }
 
 export function useResolvedThemePreview(tokens: ThemeTokens): ResolvedTheme {
@@ -44,6 +71,7 @@ export function computePerformanceScore(resolved: ResolvedTheme): number {
   }
 
   if (config.cards.style === "glassmorphism") score -= 8;
+  if (config.cards.style === "liquid-glass") score -= 12;
 
   if (config.layout.spacingScale > 1.2) score -= 3;
 

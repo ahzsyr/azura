@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAdminKeyboardShortcuts, useUnsavedChangesGuard } from "@/hooks/use-admin-form";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { AdminThemeProvider } from "./admin-theme-provider";
+import { AdminSurfaceProvider } from "./admin-surface-context";
 import { AdminSidebar } from "./admin-sidebar";
 import { AdminTopBar } from "./admin-top-bar";
 import { AdminContentArea } from "./admin-content-area";
@@ -19,7 +20,7 @@ function AdminShellInner({ children }: { children: React.ReactNode }) {
   }, [clearPageActions]);
 
   return (
-    <div className="admin-shell az-scroll flex h-screen overflow-hidden bg-muted/30">
+    <div className="admin-shell az-scroll flex h-screen overflow-hidden">
       <AdminSidebar />
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <AdminTopBar />
@@ -32,9 +33,11 @@ function AdminShellInner({ children }: { children: React.ReactNode }) {
 export function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <AdminThemeProvider>
-      <TooltipProvider delayDuration={200}>
-        <AdminShellInner>{children}</AdminShellInner>
-      </TooltipProvider>
+      <AdminSurfaceProvider>
+        <TooltipProvider delayDuration={200}>
+          <AdminShellInner>{children}</AdminShellInner>
+        </TooltipProvider>
+      </AdminSurfaceProvider>
     </AdminThemeProvider>
   );
 }

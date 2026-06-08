@@ -28,6 +28,16 @@ const CARD_PROFILES: Record<string, Partial<PresetVisualMetrics>> = {
     glassOpacity: 0.72,
     glassSaturation: 1.35,
   },
+  "liquid-glass": {
+    radiusCard: "1.25rem",
+    shadowCard: "0 8px 32px -8px rgb(0 0 0 / 12%)",
+    blurGlass: "24px",
+    blurPanel: "28px",
+    blurOverlay: "16px",
+    glassOpacity: 0.78,
+    glassSaturation: 1.8,
+    glowIntensity: 1.05,
+  },
   "sharp-cut": {
     radiusCard: "0",
     radiusSm: "0",
@@ -183,5 +193,60 @@ export function resolvePresetVisual(preset: PresetDefinition): ResolvedPresetVis
     cursor,
     metrics,
     typography,
+  };
+}
+
+type SyntheticVisualInput = {
+  cardStyle: string | null;
+  borderStyle: string | null;
+  primaryColor: string;
+  secondaryColor?: string | null;
+  accentColor?: string | null;
+};
+
+/** Client-side preset visual when industry preset JSON is not loaded. */
+export function resolveSyntheticPresetVisual(
+  input: SyntheticVisualInput,
+): ResolvedPresetVisual | null {
+  const cardStyle = input.cardStyle ?? "";
+  if (!cardStyle || (!CARD_PROFILES[cardStyle] && !BORDER_PROFILES[input.borderStyle ?? ""])) {
+    if (!cardStyle) return null;
+  }
+
+  const colors = {
+    primary: input.primaryColor,
+    secondary: input.secondaryColor ?? input.primaryColor,
+    accent: input.accentColor ?? input.primaryColor,
+    background: "#0a0a0a",
+    surface: "#141414",
+  };
+
+  const base = defaultMetrics(colors);
+  const metrics = mergeMetrics(
+    base,
+    CARD_PROFILES[cardStyle],
+    BORDER_PROFILES[input.borderStyle ?? ""] ?? undefined,
+    {
+      borderGlow: `color-mix(in srgb, ${colors.primary} 32%, transparent)`,
+      glowColor: colors.accent,
+    },
+  );
+
+  return {
+    presetId: "synthetic",
+    name: "Preview",
+    colors,
+    cardStyle: cardStyle || "corner-bracket",
+    borderStyle: input.borderStyle ?? "neon-thin",
+    backgroundEffect: "none",
+    textEffect: "none",
+    cursor: "default",
+    metrics,
+    typography: {
+      display: "Inter",
+      body: "Inter",
+      mono: "JetBrains Mono",
+      scale: 1,
+    },
   };
 }

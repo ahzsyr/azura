@@ -126,8 +126,8 @@ function PreviewChrome({
           </p>
         </div>
         <div className="flex gap-2">
-          <div className="h-8 flex-1 rounded opacity-20" style={{ background: primary }} />
-          <div className="h-8 w-16 rounded" style={{ background: secondary }} />
+          <div className="az-card az-glass-shimmer relative h-8 flex-1 rounded-lg opacity-90" />
+          <div className="h-8 w-16 rounded-lg" style={{ background: secondary }} />
         </div>
         <p className="text-[10px] text-muted-foreground">
           {resolved.preset.presetId ?? tokens.preset} · {resolved.motion.level} motion ·{" "}

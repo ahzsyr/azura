@@ -11,7 +11,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { LazyInView } from "@/components/ui/lazy-in-view";
 import { formatAdminDate } from "@/lib/admin-date-format";
 import { cn } from "@/lib/utils";
 import {
@@ -204,15 +203,8 @@ export function InquiriesListPage({ inquiries }: Props) {
                       </td>
                     </tr>
                   ) : (
-                    filtered.map((inquiry, index) => (
-                      <LazyInView
-                        key={inquiry.id}
-                        as="tr"
-                        className="border-t align-top"
-                        minHeight={88}
-                        rootMargin="80px 0px"
-                        reveal={index < 12}
-                      >
+                    filtered.map((inquiry) => (
+                      <tr key={inquiry.id} className="border-t align-top">
                         <td className="px-4 py-3">
                           <p className="font-medium">{inquiry.name}</p>
                           <a
@@ -283,7 +275,7 @@ export function InquiriesListPage({ inquiries }: Props) {
                             <Link href={`/admin/inquiries/${inquiry.id}`}>Manage</Link>
                           </Button>
                         </td>
-                      </LazyInView>
+                      </tr>
                     ))
                   )}
                 </tbody>

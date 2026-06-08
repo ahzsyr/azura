@@ -35,7 +35,11 @@ export function AdminContentArea({
     >
       <AdminPageTransition
         routeKey={pathname}
-        className={cn("mx-auto w-full p-4 md:p-6 lg:p-8", maxWidthClasses[maxWidth], className)}
+        className={cn(
+          "admin-content mx-auto w-full p-4 md:p-6 lg:p-8",
+          maxWidthClasses[maxWidth],
+          className
+        )}
       >
         {children}
       </AdminPageTransition>

@@ -1,11 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useRef, type RefObject } from "react";
-import { observeIntersection } from "@/lib/performance/intersection-observer-hub";
+import { observeOnce } from "@/lib/performance/intersection-observer-hub";
 
 type Options = {
   /** ms to keep data-scrolling after scroll stops */
   idleMs?: number;
+  /** ms to debounce mutation rescans */
+  mutationDebounceMs?: number;
 };
 
 /**
@@ -15,7 +17,7 @@ type Options = {
 export function useScrollContainer<T extends HTMLElement>(
   options: Options = {},
 ): RefObject<T | null> {
-  const { idleMs = 480 } = options;
+  const { idleMs = 480, mutationDebounceMs = 100 } = options;
   const ref = useRef<T | null>(null);
   const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -38,17 +40,17 @@ export function useScrollContainer<T extends HTMLElement>(
 
     const unobserveFns: Array<() => void> = [];
     const tracked = new WeakSet<Element>();
+    let mutationTimer: ReturnType<typeof setTimeout> | null = null;
 
     if (!reduced) {
       const observeTarget = (node: Element) => {
-        if (tracked.has(node)) return;
+        if (tracked.has(node) || node.classList.contains("az-in-view")) return;
         tracked.add(node);
         unobserveFns.push(
-          observeIntersection(
+          observeOnce(
             node,
-            (entry) => {
-              if (!entry.isIntersecting) return;
-              entry.target.classList.add("az-in-view");
+            () => {
+              node.classList.add("az-in-view");
             },
             { root: el, rootMargin: "0px 0px -6% 0px", threshold: 0.06 },
           ),
@@ -60,22 +62,30 @@ export function useScrollContainer<T extends HTMLElement>(
       };
 
       observeTargets();
-      const mutation = new MutationObserver(observeTargets);
+      const mutation = new MutationObserver(() => {
+        if (mutationTimer) clearTimeout(mutationTimer);
+        mutationTimer = setTimeout(observeTargets, mutationDebounceMs);
+      });
       mutation.observe(el, { childList: true, subtree: true });
 
       return () => {
         el.removeEventListener("scroll", onScroll);
         if (idleTimer.current) clearTimeout(idleTimer.current);
+        if (mutationTimer) clearTimeout(mutationTimer);
         for (const off of unobserveFns) off();
         mutation.disconnect();
       };
     }
 
+    el.querySelectorAll("[data-scroll-reveal]").forEach((node) => {
+      node.classList.add("az-in-view");
+    });
+
     return () => {
       el.removeEventListener("scroll", onScroll);
       if (idleTimer.current) clearTimeout(idleTimer.current);
     };
-  }, [onScroll]);
+  }, [onScroll, mutationDebounceMs]);
 
   return ref;
 }

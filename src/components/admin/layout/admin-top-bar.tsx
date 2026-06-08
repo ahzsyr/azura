@@ -166,7 +166,7 @@ export function AdminTopBar() {
 
   return (
     <TooltipProvider delayDuration={300}>
-      <header className="sticky top-0 z-30 flex h-12 shrink-0 items-center gap-3 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <header className="admin-liquid-glass sticky top-0 z-30 flex h-12 shrink-0 items-center gap-3 border-b px-4 shadow-sm">
         <AdminMobileMenuButton />
 
         <div className="hidden min-w-0 md:block">

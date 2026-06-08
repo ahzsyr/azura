@@ -70,3 +70,24 @@ export function observeIntersection(
     }
   };
 }
+
+/**
+ * Observe an element once — auto-unsubscribes after the first intersecting callback.
+ */
+export function observeOnce(
+  element: Element,
+  handler: EntryHandler,
+  options: IntersectionObserverInit = {},
+): () => void {
+  let off: (() => void) | null = null;
+  off = observeIntersection(
+    element,
+    (entry) => {
+      if (!entry.isIntersecting) return;
+      handler(entry);
+      off?.();
+    },
+    options,
+  );
+  return () => off?.();
+}

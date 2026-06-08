@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { observeIntersection } from "@/lib/performance/intersection-observer-hub";
+import { observeOnce } from "@/lib/performance/intersection-observer-hub";
 
 const REVEAL_SELECTOR =
   "[data-reveal]:not(.revealed), [data-animation]:not(.revealed)";
@@ -27,8 +27,13 @@ const IO_OPTIONS: IntersectionObserverInit = {
  */
 export function ScrollRevealObserver() {
   useEffect(() => {
-    const revealTargets = document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR);
-    const lazyTargets = document.querySelectorAll<HTMLElement>(LAZY_BLOCK_SELECTOR);
+    const root =
+      document.querySelector<HTMLElement>("main.site-main") ??
+      document.querySelector<HTMLElement>("main") ??
+      document.body;
+
+    const revealTargets = root.querySelectorAll<HTMLElement>(REVEAL_SELECTOR);
+    const lazyTargets = root.querySelectorAll<HTMLElement>(LAZY_BLOCK_SELECTOR);
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -64,10 +69,9 @@ export function ScrollRevealObserver() {
       if (trackedReveal.has(el)) return;
       trackedReveal.add(el);
       unobserveFns.push(
-        observeIntersection(
+        observeOnce(
           el,
-          (entry) => {
-            if (!entry.isIntersecting) return;
+          () => {
             revealElement(el);
           },
           IO_OPTIONS,
@@ -79,10 +83,9 @@ export function ScrollRevealObserver() {
       if (trackedLazy.has(el)) return;
       trackedLazy.add(el);
       unobserveFns.push(
-        observeIntersection(
+        observeOnce(
           el,
-          (entry) => {
-            if (!entry.isIntersecting) return;
+          () => {
             el.classList.add("az-lazy-revealed");
           },
           IO_OPTIONS,
@@ -93,22 +96,29 @@ export function ScrollRevealObserver() {
     revealTargets.forEach(observeReveal);
     lazyTargets.forEach(observeLazy);
 
-    const mo = new MutationObserver(() => {
-      document
+    let mutationTimer: ReturnType<typeof setTimeout> | null = null;
+    const scan = () => {
+      root
         .querySelectorAll<HTMLElement>(REVEAL_SELECTOR)
         .forEach((el) => {
           if (!el.classList.contains("revealed")) observeReveal(el);
         });
-      document
+      root
         .querySelectorAll<HTMLElement>(LAZY_BLOCK_SELECTOR)
         .forEach((el) => {
           if (!el.classList.contains("az-lazy-revealed")) observeLazy(el);
         });
+    };
+
+    const mo = new MutationObserver(() => {
+      if (mutationTimer) clearTimeout(mutationTimer);
+      mutationTimer = setTimeout(scan, 100);
     });
-    mo.observe(document.body, { childList: true, subtree: true });
+    mo.observe(root, { childList: true, subtree: true });
 
     return () => {
       mo.disconnect();
+      if (mutationTimer) clearTimeout(mutationTimer);
       for (const off of unobserveFns) off();
     };
   }, []);
