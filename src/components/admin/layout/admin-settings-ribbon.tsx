@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { cn } from "@/lib/utils";
 
@@ -23,7 +23,7 @@ type AdminSettingsRibbonProps = {
 
 const tabClassName = (isActive: boolean) =>
   cn(
-    "relative shrink-0 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+    "relative shrink-0 rounded-md px-3 py-1.5 text-sm font-medium transition-colors duration-200",
     isActive
       ? "admin-ribbon-tab-active text-foreground"
       : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
@@ -37,6 +37,7 @@ export function AdminSettingsRibbon({
   layoutId = "settings-ribbon-indicator",
   linkNavigation = false,
 }: AdminSettingsRibbonProps) {
+  const reduced = useReducedMotion();
   const scrollRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<Map<string, HTMLElement>>(new Map());
   const setSettingsActiveTab = useAdminUiStore((s) => s.setSettingsActiveTab);
@@ -54,14 +55,14 @@ export function AdminSettingsRibbon({
   useEffect(() => {
     const el = tabRefs.current.get(activeTab);
     if (el && scrollRef.current) {
-      el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", inline: "center", block: "nearest" });
     }
-  }, [activeTab]);
+  }, [activeTab, reduced]);
 
   return (
     <div
       className={cn(
-        "sticky top-12 z-20 border-b admin-liquid-glass shadow-sm",
+        "admin-liquid-glass sticky top-12 z-20 border-b shadow-sm",
         className
       )}
     >
@@ -76,7 +77,7 @@ export function AdminSettingsRibbon({
           const indicatorClass =
             "absolute inset-x-1 -bottom-2 h-0.5 rounded-full bg-primary pointer-events-none";
           const indicator = isActive ? (
-            motionReady ? (
+            motionReady && !reduced ? (
               <motion.span
                 layoutId={layoutId}
                 className={indicatorClass}
@@ -131,22 +132,34 @@ export function AdminSettingsRibbon({
 
 type AdminSettingsSectionProps = {
   id: string;
-  activeTab: string;
   children: React.ReactNode;
   className?: string;
 };
 
-export function AdminSettingsSection({
-  id,
-  activeTab,
-  children,
-  className,
-}: AdminSettingsSectionProps) {
-  const isActive = id === activeTab;
+export function AdminSettingsSection({ id, children, className }: AdminSettingsSectionProps) {
+  const reduced = useReducedMotion();
+
+  if (reduced) {
+    return (
+      <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`} className={className}>
+        {children}
+      </div>
+    );
+  }
 
   return (
-    <div role="tabpanel" hidden={!isActive} aria-hidden={!isActive} className={className}>
+    <motion.div
+      key={id}
+      role="tabpanel"
+      id={`tabpanel-${id}`}
+      aria-labelledby={`tab-${id}`}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -4 }}
+      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
       {children}
-    </div>
+    </motion.div>
   );
 }

@@ -8,9 +8,17 @@ import {
   publishPost,
   unpublishPost,
 } from "@/features/cms/actions";
+import {
+  AdminList,
+  AdminListMeta,
+  AdminListMetaSmall,
+  AdminListRow,
+  AdminListTitle,
+} from "@/components/admin/layout/admin-list";
 import { CmsStatusBadge } from "./cms-status-badge";
 import { Button } from "@/components/ui/button";
 import { Copy, ExternalLink, Trash2, Upload } from "lucide-react";
+
 type PostRow = Post & {
   author: PostAuthor | null;
   featuredImage: MediaAsset | null;
@@ -18,25 +26,28 @@ type PostRow = Post & {
 };
 
 export function CmsPostsTable({ posts }: { posts: PostRow[] }) {
+  if (posts.length === 0) {
+    return (
+      <AdminList>
+        <p className="p-8 text-center text-muted-foreground">No posts yet.</p>
+      </AdminList>
+    );
+  }
+
   return (
-    <div className="border rounded-lg divide-y overflow-hidden">
+    <AdminList>
       {posts.map((post) => (
-        <div
-          key={post.id}
-          className="flex flex-wrap items-center justify-between gap-3 p-4 hover:bg-muted/40"
-        >
+        <AdminListRow key={post.id}>
           <div className="min-w-0 flex-1">
-            <Link href={`/admin/posts/${post.id}`} className="font-medium hover:text-primary">
-              {post.titleEn}
-            </Link>
-            <p className="text-sm text-muted-foreground">
+            <AdminListTitle href={`/admin/posts/${post.id}`}>{post.titleEn}</AdminListTitle>
+            <AdminListMeta>
               /blog/{post.slug}
               {post.author && ` · ${post.author.name}`}
-            </p>
+            </AdminListMeta>
             {post.categories.length > 0 && (
-              <p className="text-xs text-muted-foreground mt-1">
+              <AdminListMetaSmall>
                 {post.categories.map((c) => c.category.nameEn).join(", ")}
-              </p>
+              </AdminListMetaSmall>
             )}
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -90,11 +101,8 @@ export function CmsPostsTable({ posts }: { posts: PostRow[] }) {
               <Trash2 className="h-4 w-4" />
             </Button>
           </div>
-        </div>
+        </AdminListRow>
       ))}
-      {posts.length === 0 && (
-        <p className="p-8 text-center text-muted-foreground">No posts yet.</p>
-      )}
-    </div>
+    </AdminList>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { SectionHeader } from "@/components/marketing/section";
-import { AnimatedSection } from "@/components/motion/lazy-motion";
 import { AnimatedCounter } from "@/features/marketing-blocks/components/animated-counter";
 import { MiniStatChart } from "@/features/marketing-blocks/components/mini-stat-chart";
 import { resolveMarketingIcon } from "@/features/marketing-blocks/lib/icon-map";
@@ -52,7 +51,7 @@ export function StatsCounterView({
   );
 
   return (
-    <AnimatedSection>
+    <div>
       {title && <SectionHeader title={title} subtitle={subtitle} />}
       {block && overflow ? (
         <MarketingItemsOverflow
@@ -94,7 +93,7 @@ export function StatsCounterView({
           ))}
         </div>
       )}
-    </AnimatedSection>
+    </div>
   );
 }
 

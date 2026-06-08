@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { observeIntersection } from "@/lib/performance/intersection-observer-hub";
+import { animate, useMotionValue, useReducedMotion, useTransform } from "framer-motion";
+import { observeOnce } from "@/lib/performance/intersection-observer-hub";
+import { waitUntilVisible } from "@/lib/performance/wait-until-visible";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -21,38 +23,60 @@ export function AnimatedCounter({
   animateOnView = true,
   className,
 }: Props) {
-  const [display, setDisplay] = useState(animateOnView ? 0 : value);
+  const reduced = useReducedMotion();
+  const motionValue = useMotionValue(animateOnView && !reduced ? 0 : value);
+  const displayRounded = useTransform(motionValue, (v) => Math.round(v));
+  const [display, setDisplay] = useState(animateOnView && !reduced ? 0 : value);
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
+  const controlsRef = useRef<ReturnType<typeof animate> | null>(null);
 
   useEffect(() => {
-    if (!animateOnView) {
+    if (!animateOnView || reduced) {
+      motionValue.set(value);
       setDisplay(value);
       return;
     }
+
     const el = ref.current;
     if (!el) return;
 
-    return observeIntersection(
-      el,
-      (entry) => {
-        if (!entry.isIntersecting || started.current) return;
-        started.current = true;
-        const start = performance.now();
-        const from = 0;
-        const to = value;
+    started.current = false;
+    motionValue.set(0);
+    setDisplay(0);
 
-        const tick = (now: number) => {
-          const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          setDisplay(Math.round(from + (to - from) * eased));
-          if (progress < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
+    let cancelled = false;
+
+    const off = observeOnce(
+      el,
+      () => {
+        if (started.current || cancelled) return;
+
+        void waitUntilVisible(el).then(() => {
+          if (started.current || cancelled) return;
+          started.current = true;
+
+          controlsRef.current?.stop();
+          controlsRef.current = animate(motionValue, value, {
+            duration: duration / 1000,
+            ease: [0.22, 1, 0.36, 1],
+          });
+        });
       },
-      { threshold: 0.3 },
+      { threshold: 0.2, rootMargin: "0px 0px -5% 0px" },
     );
-  }, [value, duration, animateOnView]);
+
+    return () => {
+      cancelled = true;
+      off();
+      controlsRef.current?.stop();
+    };
+  }, [value, duration, animateOnView, reduced, motionValue]);
+
+  useEffect(() => {
+    const unsub = displayRounded.on("change", (v) => setDisplay(v));
+    return () => unsub();
+  }, [displayRounded]);
 
   return (
     <span ref={ref} className={cn("tabular-nums", className)}>

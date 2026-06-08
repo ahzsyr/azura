@@ -3,10 +3,12 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 const VARIANT: Record<ContentStatus, string> = {
-  PUBLISHED: "bg-emerald-600/10 text-emerald-700 border-emerald-200",
-  DRAFT: "bg-muted text-muted-foreground",
-  SCHEDULED: "bg-amber-500/10 text-amber-800 border-amber-200",
-  ARCHIVED: "bg-slate-500/10 text-slate-600",
+  PUBLISHED:
+    "border-[color-mix(in_oklch,var(--primary)_35%,transparent)] bg-[color-mix(in_oklch,var(--primary)_12%,var(--admin-surface))] text-[color-mix(in_oklch,var(--primary)_85%,var(--foreground))]",
+  DRAFT: "border-[var(--admin-border)] bg-muted/50 text-muted-foreground",
+  SCHEDULED:
+    "border-[color-mix(in_oklch,var(--accent,var(--primary))_35%,transparent)] bg-[color-mix(in_oklch,var(--accent,var(--primary))_12%,var(--admin-surface))] text-[color-mix(in_oklch,var(--accent,var(--primary))_80%,var(--foreground))]",
+  ARCHIVED: "border-[var(--admin-border)] bg-muted/30 text-muted-foreground",
 };
 
 type Props = {

@@ -58,8 +58,10 @@ export function AdminPageHeader({ title, description, actions, className }: Admi
   return (
     <div className={cn("mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between", className)}>
       <div className="min-w-0">
-        <h1 className="font-heading text-2xl font-semibold tracking-tight md:text-3xl">{title}</h1>
-        {description && <p className="mt-1.5 text-sm text-muted-foreground md:text-base">{description}</p>}
+        <h1 className="admin-page-title">{title}</h1>
+        {description && (
+          <p className="admin-field-hint mt-1.5 md:text-sm">{description}</p>
+        )}
       </div>
       {actions && <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div>}
     </div>

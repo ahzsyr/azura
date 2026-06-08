@@ -5,13 +5,15 @@
   }
 
   .admin-shell {
+    --admin-shadow-sm: 0 1px 3px oklch(0 0 0 / 6%), 0 1px 2px oklch(0 0 0 / 4%);
+    --admin-shadow-md: 0 4px 12px oklch(0 0 0 / 8%), 0 2px 4px oklch(0 0 0 / 4%);
+
+    /* Fallbacks before AdminThemeStyles injects published tokens */
     --admin-canvas: light-dark(oklch(0.94 0.008 260), oklch(0.12 0.012 260));
     --admin-surface: light-dark(oklch(0.995 0 0), oklch(0.19 0.01 260));
     --admin-border: light-dark(oklch(0.86 0.01 260), oklch(1 0 0 / 18%));
     --admin-input-bg: light-dark(oklch(1 0 0), oklch(0.16 0.01 260));
     --admin-label: light-dark(oklch(0.42 0.02 260), oklch(0.72 0.01 260));
-    --admin-shadow-sm: 0 1px 3px oklch(0 0 0 / 6%), 0 1px 2px oklch(0 0 0 / 4%);
-    --admin-shadow-md: 0 4px 12px oklch(0 0 0 / 8%), 0 2px 4px oklch(0 0 0 / 4%);
 
     position: relative;
     background-color: var(--admin-canvas);
@@ -74,5 +76,53 @@
   .admin-shell .admin-ribbon-tab-active {
     background-color: color-mix(in oklch, var(--primary) 12%, var(--admin-surface));
     color: var(--foreground);
+  }
+
+  .admin-page-title {
+    font-family: var(--font-heading, inherit);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    color: var(--foreground);
+  }
+
+  .admin-section-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--foreground);
+    border-bottom: 1px solid var(--admin-border);
+    padding-bottom: 0.5rem;
+  }
+
+  .admin-field-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--admin-label);
+  }
+
+  .admin-field-hint {
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+  }
+
+  .admin-shell a,
+  .admin-shell button,
+  .admin-shell input,
+  .admin-shell textarea,
+  .admin-shell select,
+  .admin-shell [role="tab"] {
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-shell a,
+  .admin-shell button,
+  .admin-shell input,
+  .admin-shell textarea,
+  .admin-shell select,
+  .admin-shell [role="tab"] {
+    transition-duration: 0.01ms !important;
   }
 }

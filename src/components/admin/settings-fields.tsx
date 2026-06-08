@@ -19,7 +19,7 @@ export function SettingsSection({
   return (
     <section className={cn("space-y-4", className)}>
       <div>
-        <h3 className="admin-label text-sm font-semibold">{title}</h3>
+        <h3 className="admin-field-label text-sm font-semibold">{title}</h3>
         {description ? (
           <p className="mt-1 text-sm text-muted-foreground">{description}</p>
         ) : null}

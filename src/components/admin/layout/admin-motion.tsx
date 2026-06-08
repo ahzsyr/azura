@@ -4,6 +4,13 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
+export const ADMIN_MOTION = {
+  ease: [0.22, 1, 0.36, 1] as const,
+  enterDuration: 0.22,
+  exitDuration: 0.16,
+  stagger: 0.02,
+} as const;
+
 const pageVariants = {
   initial: { opacity: 0, y: 6 },
   enter: { opacity: 1, y: 0 },
@@ -11,8 +18,13 @@ const pageVariants = {
 };
 
 const pageTransition = {
-  duration: 0.18,
-  ease: [0.25, 0.1, 0.25, 1] as const,
+  duration: ADMIN_MOTION.enterDuration,
+  ease: ADMIN_MOTION.ease,
+};
+
+export const adminFadeUp = {
+  hidden: { opacity: 0, y: 8 },
+  visible: { opacity: 1, y: 0, transition: pageTransition },
 };
 
 type AdminPageTransitionProps = {
@@ -41,7 +53,10 @@ export function AdminPageTransition({ children, className, routeKey }: AdminPage
         animate="enter"
         exit="exit"
         variants={pageVariants}
-        transition={pageTransition}
+        transition={{
+          duration: ADMIN_MOTION.enterDuration,
+          ease: ADMIN_MOTION.ease,
+        }}
         onAnimationComplete={() => setAnimating(false)}
         className={cn(animating && "will-change-[opacity,transform]", className)}
       >
@@ -57,7 +72,11 @@ type StaggerContainerProps = {
   stagger?: number;
 };
 
-export function AdminStaggerContainer({ children, className, stagger = 0.02 }: StaggerContainerProps) {
+export function AdminStaggerContainer({
+  children,
+  className,
+  stagger = ADMIN_MOTION.stagger,
+}: StaggerContainerProps) {
   const reduced = useReducedMotion();
 
   if (reduced) {
@@ -93,13 +112,7 @@ export function AdminStaggerItem({
   }
 
   return (
-    <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 8 },
-        visible: { opacity: 1, y: 0, transition: pageTransition },
-      }}
-      className={className}
-    >
+    <motion.div variants={adminFadeUp} className={className}>
       {children}
     </motion.div>
   );
@@ -127,7 +140,7 @@ export function AdminAccordionContent({
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: ADMIN_MOTION.enterDuration, ease: ADMIN_MOTION.ease }}
           className={cn("overflow-hidden", className)}
         >
           {children}
@@ -138,12 +151,5 @@ export function AdminAccordionContent({
 }
 
 export function AdminSkeleton({ className }: { className?: string }) {
-  return (
-    <div
-      className={cn(
-        "animate-pulse rounded-lg bg-muted",
-        className
-      )}
-    />
-  );
+  return <div className={cn("animate-pulse rounded-lg bg-muted", className)} />;
 }
