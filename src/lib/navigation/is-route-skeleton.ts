@@ -2,6 +2,18 @@ import { isValidElement, type ReactElement, type ReactNode } from "react";
 
 export const ROUTE_SKELETON_ATTR = "data-route-skeleton";
 
+type RouteSkeletonElementProps = {
+  children?: ReactNode;
+  [ROUTE_SKELETON_ATTR]?: boolean;
+};
+
+function toRouteSkeletonElement(
+  node: ReactNode,
+): ReactElement<RouteSkeletonElementProps> | null {
+  if (!isValidElement(node)) return null;
+  return node as ReactElement<RouteSkeletonElementProps>;
+}
+
 /** True when Next.js is rendering a route-level loading.tsx fallback. */
 export function isRouteSkeleton(node: ReactNode): boolean {
   if (node == null || typeof node === "boolean") return false;
@@ -10,9 +22,9 @@ export function isRouteSkeleton(node: ReactNode): boolean {
     return node.some((child) => isRouteSkeleton(child));
   }
 
-  if (!isValidElement(node)) return false;
+  const element = toRouteSkeletonElement(node);
+  if (!element) return false;
 
-  const element = node as ReactElement<{ children?: ReactNode; [ROUTE_SKELETON_ATTR]?: boolean }>;
   if (element.props[ROUTE_SKELETON_ATTR]) return true;
 
   const typeName =
@@ -29,7 +41,8 @@ export function isRouteSkeleton(node: ReactNode): boolean {
 
 export function firstRouteSkeleton(node: ReactNode): ReactNode | null {
   if (!isRouteSkeleton(node)) return null;
-  if (isValidElement(node) && node.props[ROUTE_SKELETON_ATTR]) return node;
+  const element = toRouteSkeletonElement(node);
+  if (element?.props[ROUTE_SKELETON_ATTR]) return node;
   if (Array.isArray(node)) {
     for (const child of node) {
       const found = firstRouteSkeleton(child);
@@ -37,8 +50,8 @@ export function firstRouteSkeleton(node: ReactNode): ReactNode | null {
     }
     return null;
   }
-  if (isValidElement(node)) {
-    return firstRouteSkeleton(node.props.children) ?? node;
+  if (element) {
+    return firstRouteSkeleton(element.props.children) ?? node;
   }
   return null;
 }
