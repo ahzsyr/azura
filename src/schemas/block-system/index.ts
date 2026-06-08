@@ -167,6 +167,8 @@ export const blockAnimationPhaseSchema = z
   })
   .partial();
 
+export const blockAnimationBehaviorSchema = z.enum(["once", "loop"]);
+
 export const blockAnimationSettingsSchema = z
   .object({
     entrance: blockAnimationPhaseSchema.optional(),
@@ -174,6 +176,7 @@ export const blockAnimationSettingsSchema = z
     hover: blockAnimationPhaseSchema.optional(),
     scroll: blockAnimationPhaseSchema.optional(),
     enabled: z.boolean().optional(),
+    behavior: blockAnimationBehaviorSchema.optional(),
   })
   .partial();
 

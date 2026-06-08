@@ -160,12 +160,16 @@ export type BlockAnimationPhase = {
   triggerPoint?: string;
 };
 
+export type BlockAnimationBehavior = "once" | "loop";
+
 export type BlockAnimationSettings = {
   entrance?: BlockAnimationPhase;
   exit?: BlockAnimationPhase;
   hover?: BlockAnimationPhase;
   scroll?: BlockAnimationPhase;
   enabled?: boolean;
+  /** `once` plays on initial load / scroll reveal; `loop` repeats the entrance animation. */
+  behavior?: BlockAnimationBehavior;
 };
 
 export type BlockSectionBackground = {

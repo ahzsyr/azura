@@ -1032,6 +1032,11 @@ body::after {
   animation-fill-mode: both;
 }
 
+.block-anim-root.block-anim-loop.block-anim-entrance {
+  animation-iteration-count: infinite;
+  animation-fill-mode: none;
+}
+
 :root {
   --header-content-gap: 16px;
 }

@@ -1,6 +1,8 @@
 "use client";
 
 import type { BlockNode } from "@/types/builder";
+import type { BlockAnimationBehavior } from "@/types/block-system";
+import { Label } from "@/components/ui/label";
 import { AnimationTypeField } from "@/features/builder/components/fields/animation-type-field";
 import { updateBlockAnimation } from "@/features/builder/components/block-style-utils";
 
@@ -27,6 +29,29 @@ export function BlockAnimationPanel({ block, onChange }: Props) {
 
       {animation.enabled && (
         <>
+          <div>
+            <Label>Animation behavior</Label>
+            <select
+              className="mt-1 flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm"
+              value={animation.behavior ?? "once"}
+              onChange={(e) =>
+                onChange(
+                  updateBlockAnimation(block, {
+                    behavior: e.target.value as BlockAnimationBehavior,
+                  })
+                )
+              }
+            >
+              <option value="once">Play once on initial load</option>
+              <option value="loop">Loop continuously</option>
+            </select>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {animation.behavior === "loop"
+                ? "Entrance animation repeats on this block."
+                : "Entrance animation runs once when the block loads or enters view."}
+            </p>
+          </div>
+
           <AnimationTypeField
             label="Entrance"
             phase={animation.entrance}

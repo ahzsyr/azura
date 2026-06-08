@@ -12,6 +12,10 @@ const ANIMATION_CLASS_MAP: Record<string, string> = {
   none: "",
 };
 
+function isLoopBehavior(animation: BlockAnimationSettings | undefined): boolean {
+  return animation?.behavior === "loop";
+}
+
 export function resolveAnimationClasses(
   animation: BlockAnimationSettings | undefined,
   theme?: ThemeTokens
@@ -20,6 +24,9 @@ export function resolveAnimationClasses(
   if (!animation?.enabled) return "";
 
   const classes: string[] = ["block-anim-root"];
+  if (isLoopBehavior(animation)) {
+    classes.push("block-anim-loop");
+  }
   const entrance = animation.entrance?.type ?? "none";
   if (entrance !== "none" && ANIMATION_CLASS_MAP[entrance]) {
     classes.push(ANIMATION_CLASS_MAP[entrance], "block-anim-entrance");
@@ -42,6 +49,7 @@ export function animationInlineStyle(
     animationDuration: phase.durationMs ? `${phase.durationMs}ms` : undefined,
     animationDelay: phase.delayMs ? `${phase.delayMs}ms` : undefined,
     animationTimingFunction: phase.easing,
+    ...(isLoopBehavior(animation) ? { animationIterationCount: "infinite" } : {}),
   };
 }
 
@@ -62,6 +70,7 @@ export function resolveScrollRevealAttributes(
 ): Record<string, string> {
   if (theme?.animationsEnabled === false) return {};
   if (!animation?.enabled) return {};
+  if (isLoopBehavior(animation)) return {};
   if (blockIndex <= 1) return {};
 
   const scrollType = animation.scroll?.type;
