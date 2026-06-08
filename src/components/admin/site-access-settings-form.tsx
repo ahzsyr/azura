@@ -104,7 +104,7 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
     return () => clearPageActions();
   }, [registerPageActions, clearPageActions, handleSave, handleCancel]);
 
-  const envLocked = envOverride !== null;
+  const hasEnvFallback = envOverride !== null;
 
   return (
     <div className="space-y-6">
@@ -146,9 +146,9 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
               </>
             )}
           </Badge>
-          {envLocked ? (
+          {hasEnvFallback ? (
             <Badge variant="outline">
-              Locked by COMING_SOON_ENABLED={envOverride ? "true" : "false"}
+              COMING_SOON_ENABLED fallback={envOverride ? "true" : "false"} (API failure only)
             </Badge>
           ) : null}
         </CardContent>
@@ -163,13 +163,12 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
             <ToggleField
               label="Show coming soon page to visitors"
               description={
-                envLocked
-                  ? "This toggle is overridden by the COMING_SOON_ENABLED environment variable."
+                hasEnvFallback
+                  ? "Saved to the database and used by middleware when /api/setup/status responds. COMING_SOON_ENABLED env applies only if that API is unreachable."
                   : "Redirects all public pages to /coming-soon and blocks public API access."
               }
-              checked={envLocked ? envOverride === true : enabled}
+              checked={enabled}
               onChange={patchEnabled}
-              disabled={envLocked}
             />
           </SettingsSection>
 

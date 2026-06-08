@@ -14,9 +14,10 @@ import {
   type SetupStatusCache,
 } from "@/features/setup/setup-middleware-cache";
 import {
-  getComingSoonEnvOverride,
-  getSetupCompleteEnvOverride,
-} from "@/features/setup/setup-env-overrides";
+  mergeSetupStatusWithEnvOverrides,
+  setupStatusFromCookieFallback,
+  statusFromEnvFallback,
+} from "@/features/setup/merge-setup-status";
 import {
   SETUP_COMPLETE_COOKIE,
   hasSetupCompleteCookie,
@@ -85,40 +86,6 @@ function internalAppOrigin(): string {
 
 const SETUP_STATUS_FETCH_TIMEOUT_MS = 8_000;
 
-function mergeSetupStatusWithEnvOverrides(
-  status: Omit<SetupStatusCache, "expires">,
-  options?: { fromApi?: boolean },
-): SetupStatusCache {
-  const setupEnv = getSetupCompleteEnvOverride();
-  const comingSoonEnv = getComingSoonEnvOverride();
-
-  let setupComplete = status.setupComplete;
-  if (options?.fromApi && !status.setupComplete) {
-    setupComplete = false;
-  } else if (setupEnv !== null) {
-    setupComplete = setupEnv;
-  }
-
-  return setCachedSetupStatus({
-    setupComplete,
-    registrationEnabled: status.registrationEnabled,
-    comingSoonEnabled: comingSoonEnv ?? status.comingSoonEnabled,
-    confident: status.confident,
-  });
-}
-
-function statusFromEnvFallback(): SetupStatusCache | null {
-  const setupEnv = getSetupCompleteEnvOverride();
-  const comingSoonEnv = getComingSoonEnvOverride();
-  if (setupEnv === null && comingSoonEnv === null) return null;
-  return setCachedSetupStatus({
-    setupComplete: setupEnv ?? false,
-    registrationEnabled: true,
-    comingSoonEnabled: comingSoonEnv ?? false,
-    confident: setupEnv !== null || comingSoonEnv !== null,
-  });
-}
-
 async function fetchSetupStatusFromApi(origin: string) {
   const url = new URL("/api/setup/status", origin);
   const res = await fetch(url, {
@@ -150,20 +117,6 @@ async function resolveSetupStatus(request: NextRequest) {
     return cached;
   }
 
-  const envFallback = statusFromEnvFallback();
-  if (envFallback) {
-    return envFallback;
-  }
-
-  if (hasSetupCompleteCookie(request.cookies.get(SETUP_COMPLETE_COOKIE)?.value)) {
-    return mergeSetupStatusWithEnvOverrides({
-      setupComplete: true,
-      registrationEnabled: true,
-      comingSoonEnabled: false,
-      confident: true,
-    });
-  }
-
   const origins = [
     request.nextUrl.origin,
     internalAppOrigin(),
@@ -177,6 +130,15 @@ async function resolveSetupStatus(request: NextRequest) {
     } catch {
       // try next origin (Hostinger self-fetch often needs localhost fallback)
     }
+  }
+
+  const envFallback = statusFromEnvFallback();
+  if (envFallback) {
+    return envFallback;
+  }
+
+  if (hasSetupCompleteCookie(request.cookies.get(SETUP_COMPLETE_COOKIE)?.value)) {
+    return setupStatusFromCookieFallback();
   }
 
   return {

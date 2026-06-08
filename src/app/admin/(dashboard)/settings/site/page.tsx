@@ -11,7 +11,6 @@ export default async function AdminSiteAccessSettingsPage() {
   try {
     const settings = await readSystemSettings();
     const envOverride = getComingSoonEnvOverrideForAdmin();
-    const comingSoonEnabled = envOverride ?? settings.comingSoonEnabled;
     return (
       <Suspense
         fallback={
@@ -19,7 +18,7 @@ export default async function AdminSiteAccessSettingsPage() {
         }
       >
         <SiteAccessSettingsForm
-          comingSoonEnabled={comingSoonEnabled}
+          comingSoonEnabled={settings.comingSoonEnabled}
           envOverride={envOverride}
         />
       </Suspense>

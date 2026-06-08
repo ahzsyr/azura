@@ -22,13 +22,14 @@ Copy from [`.env.brt`](../.env.brt) into **Websites → Node.js → Environment 
 
 | Variable | Value | Why |
 |----------|-------|-----|
-| `SETUP_COMPLETE` | `true` | Skips middleware `/api/setup/status` self-fetch |
-| `COMING_SOON_ENABLED` | `false` | Avoids 30s setup-status cache TTL |
-| `INTERNAL_APP_URL` | `http://127.0.0.1:3000` | Reliable loopback for any remaining internal fetches |
+| `SETUP_COMPLETE` | `true` | Marks setup complete when `/api/setup/status` is temporarily unreachable |
+| `INTERNAL_APP_URL` | `http://127.0.0.1:3000` | Reliable loopback for middleware `/api/setup/status` self-fetch |
 | `DATABASE_URL` | Supabase transaction pooler port **6543**, `?pgbouncer=true&connection_limit=3&sslmode=require` | Avoids connection pool exhaustion under SSR |
 | `NODE_ENV` | `production` | Enables ISR / caching |
 
-After deploy, server logs should **not** show repeated `/api/setup/status` on every page view.
+Coming soon mode is controlled in **Admin → Settings → Site**. Optional `COMING_SOON_ENABLED` env is only used as a fallback when middleware cannot reach `/api/setup/status` — it does not override the admin toggle when the API responds.
+
+After deploy, middleware caches setup status (30s when coming soon is on) so logs should not show `/api/setup/status` on every page view.
 
 ### Recommended deploy: prebuilt standalone (avoids server build worker storm)
 
