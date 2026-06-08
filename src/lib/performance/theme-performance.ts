@@ -1,3 +1,8 @@
+type LayoutShiftEntry = PerformanceEntry & {
+  hadRecentInput?: boolean;
+  value?: number;
+};
+
 export type ThemePerformanceSnapshot = {
   cls: number | null;
   lcp: number | null;
@@ -99,10 +104,7 @@ export function startThemePerformanceMonitoring(): () => void {
   try {
     let clsValue = 0;
     const clsObs = new PerformanceObserver((list) => {
-      for (const entry of list.getEntries() as PerformanceEntry & {
-        hadRecentInput?: boolean;
-        value?: number;
-      }[]) {
+      for (const entry of list.getEntries() as LayoutShiftEntry[]) {
         if (entry.hadRecentInput) continue;
         clsValue += entry.value ?? 0;
       }
