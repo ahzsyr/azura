@@ -1,5 +1,5 @@
 import type { Prisma } from "@prisma/client";
-import { resolvePresetTheme } from "@/features/theme/preset-resolver";
+import { resolvePresetTheme } from "@/features/theme/preset-resolver.server";
 import type { DemoThemeConfig } from "./types";
 
 type ThemeClient = {

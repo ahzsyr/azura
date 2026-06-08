@@ -4,7 +4,7 @@ import Script from "next/script";
 import { BlockRenderer } from "@/features/builder/components/block-renderer";
 import { PreviewPageClient } from "@/features/preview/preview-page-client";
 import { PreviewIntlProvider } from "@/features/preview/preview-intl-provider";
-import { loadPresetJson } from "@/features/theme/preset-resolver";
+import { loadPresetJson } from "@/features/theme/preset-resolver.server";
 import { themeService } from "@/features/theme/theme.service";
 import type { PageBlocks } from "@/types/builder";
 

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { loadPresetJson } from "@/features/theme/preset-resolver";
+import { loadPresetJson } from "@/features/theme/preset-resolver.server";
 import { resolvePresetVisual, toVisualSnapshot } from "@/features/theme/presets";
 
 /**

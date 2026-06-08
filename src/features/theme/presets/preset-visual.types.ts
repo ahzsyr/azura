@@ -1,4 +1,4 @@
-import type { PresetDefinition } from "@/features/theme/preset-resolver";
+import type { PresetDefinition } from "@/features/theme/preset-resolver.types";
 
 /** Computed visual tokens applied globally via CSS custom properties. */
 export type PresetVisualMetrics = {

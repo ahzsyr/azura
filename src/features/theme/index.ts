@@ -14,7 +14,9 @@ export {
 export { THEME_PRESET_LABELS, GOOGLE_FONT_OPTIONS, BASE_FONT_SIZE_OPTIONS } from "./constants";
 export * from "./engine";
 export * from "./presets";
-export { loadPresetJson, resolvePresetTheme, listPresetIds } from "./preset-resolver";
+export { loadPresetJson, resolvePresetTheme, enrichTokensWithPreset } from "./preset-resolver.server";
+export type { PresetDefinition } from "./preset-resolver.types";
+export { listPresetIds } from "./preset-resolver.types";
 export { CARD_STYLE_OPTIONS, BORDER_STYLE_OPTIONS } from "./card-style-options";
 export {
   applySiteBackground,

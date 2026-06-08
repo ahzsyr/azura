@@ -1,4 +1,4 @@
-import type { PresetDefinition } from "@/features/theme/preset-resolver";
+import type { PresetDefinition } from "@/features/theme/preset-resolver.types";
 import type { PresetVisualMetrics, PresetTypography, ResolvedPresetVisual } from "./preset-visual.types";
 
 const PARTICLE_BACKGROUNDS = new Set([

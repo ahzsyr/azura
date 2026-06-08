@@ -3,7 +3,8 @@ import "server-only";
 import { cache } from "react";
 import { themeService } from "@/features/theme/theme.service";
 import { getDefaultThemeTokens } from "@/features/theme/default-theme-tokens";
-import { buildResolvedTheme, type ResolvedTheme } from "./theme-resolver";
+import { buildResolvedTheme } from "./theme-resolver.server";
+import type { ResolvedTheme } from "./theme-resolver";
 
 /**
  * Request-scoped cached published theme resolution.

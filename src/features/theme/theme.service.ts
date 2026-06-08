@@ -2,7 +2,7 @@ import { themeRepository } from "@/repositories/theme.repository";
 import { createCached, CACHE_TAGS } from "@/services/cache";
 import type { ThemeTokens } from "@/types/theme";
 import { parseFooterConfig, parseHeaderConfig, parseTypography, siteThemeToTokens } from "./theme-config";
-import { enrichTokensWithPreset } from "./preset-resolver";
+import { enrichTokensWithPreset } from "./preset-resolver.server";
 import type { ResolvedTheme } from "@/lib/theme/theme-resolver";
 import {
   resolvePreviewSiteTheme,

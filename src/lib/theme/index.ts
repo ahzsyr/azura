@@ -1,5 +1,5 @@
+export { buildResolvedTheme } from "./theme-resolver.server";
 export {
-  buildResolvedTheme,
   buildResolvedThemeSync,
   generateHtmlAttributes,
   htmlAttributesToReactProps,

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { themeRepository } from "@/repositories/theme.repository";
-import { loadPresetJson, resolvePresetTheme } from "@/features/theme/preset-resolver";
+import { loadPresetJson, resolvePresetTheme } from "@/features/theme/preset-resolver.server";
 import { parseTypography } from "@/features/theme/theme-config";
 import { revalidateTheme } from "@/services/cache";
 

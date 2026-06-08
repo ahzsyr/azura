@@ -1,6 +1,5 @@
 import type { ThemePreset } from "@prisma/client";
-import type { PresetDefinition } from "@/features/theme/preset-resolver";
-import { loadPresetJson } from "@/features/theme/preset-resolver";
+import type { PresetDefinition } from "@/features/theme/preset-resolver.types";
 import {
   presetVisualToCssBlock,
   resolvePresetVisual as resolvePresetVisualFromDefinition,
@@ -396,25 +395,3 @@ export function buildResolvedThemeSync(
   };
 }
 
-/** Async resolver — loads preset JSON when needed. */
-export async function buildResolvedTheme(
-  tokens: ThemeTokens,
-  options?: {
-    visitor?: ThemeSourceInput["visitor"];
-    prefersDark?: boolean;
-    presetDefinition?: PresetDefinition | null;
-  },
-): Promise<ResolvedTheme> {
-  let presetDefinition = options?.presetDefinition ?? null;
-
-  if (!presetDefinition && tokens.activePresetId) {
-    presetDefinition = await loadPresetJson(tokens.activePresetId);
-  }
-
-  return buildResolvedThemeSync({
-    tokens,
-    presetDefinition,
-    visitor: options?.visitor,
-    prefersDark: options?.prefersDark,
-  });
-}
