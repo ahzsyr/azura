@@ -56,17 +56,8 @@ export async function POST(request: Request) {
 
     const passwordHash = await bcrypt.hash(data.adminPassword, 12);
     const completedAt = new Date().toISOString();
-    const setupTxStartedAt = Date.now();
 
     await prisma.$transaction(async (tx) => {
-      const { debugIngest } = await import("@/lib/debug-ingest");
-      debugIngest(
-        "setup/complete/route.ts:tx-start",
-        "Setup transaction started",
-        { installMode: data.installMode, txTimeoutMs: SETUP_COMPLETE_TX_OPTIONS.timeout },
-        "H1",
-      );
-
       const existingAdmin = await tx.user.findFirst({
         where: { role: "ADMIN" },
         orderBy: { createdAt: "asc" },
@@ -153,21 +144,7 @@ export async function POST(request: Request) {
         });
       }
 
-      debugIngest(
-        "setup/complete/route.ts:before-baseline-cms",
-        "About to seed baseline CMS pages",
-        { elapsedMs: Date.now() - setupTxStartedAt },
-        "H2",
-      );
-
       await ensureBaselineCmsAndLocales(tx);
-
-      debugIngest(
-        "setup/complete/route.ts:after-baseline-cms",
-        "Baseline CMS seed finished",
-        { elapsedMs: Date.now() - setupTxStartedAt },
-        "H1",
-      );
     }, SETUP_COMPLETE_TX_OPTIONS);
 
     if (data.installMode !== "blank") {
@@ -180,25 +157,9 @@ export async function POST(request: Request) {
     }
 
     revalidateTheme();
-    const revalidatedLocales = await revalidateAllWiredMarketingPaths();
+    await revalidateAllWiredMarketingPaths();
     const defaultLocale = await localeService.getDefaultUrlPrefix();
     const redirectTo = `/${defaultLocale}?setup=done`;
-
-    const publishedPageCount = await prisma.cmsPage.count({ where: { status: "PUBLISHED" } });
-    const { debugIngest } = await import("@/lib/debug-ingest");
-    debugIngest(
-      "setup/complete/route.ts:success",
-      "Setup complete",
-      {
-        installMode: data.installMode,
-        defaultLocale,
-        redirectTo,
-        revalidatedLocales,
-        publishedPageCount,
-      },
-      "H3",
-      "post-fix",
-    );
 
     const settings = await writeSystemSettings({
       setupComplete: true,
@@ -223,16 +184,6 @@ export async function POST(request: Request) {
     return response;
   } catch (error) {
     console.error("Setup complete error:", error);
-    import("@/lib/debug-ingest").then(({ debugIngest }) =>
-      debugIngest(
-        "setup/complete/route.ts:catch",
-        "Setup complete failed",
-        {
-          message: error instanceof Error ? error.message.slice(0, 300) : String(error),
-        },
-        "H1",
-      ),
-    );
     return NextResponse.json({ error: formatSetupError(error) }, { status: 400 });
   }
 }

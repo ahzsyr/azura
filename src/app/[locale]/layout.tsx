@@ -11,7 +11,7 @@ import {
   DeferredNavigationProgress,
   DeferredNavigationViewTransition,
   DeferredRecentlyViewedTracker,
-  DeferredScrollRevealObserver,
+  ScrollRevealObserverHost,
   DeferredSitePreloaderHost,
   DeferredWhatsAppFab,
   ThemePerformanceMonitorDeferred,
@@ -107,7 +107,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             <DeferredSitePreloaderHost settings={preloaderSettings} />
             <DeferredNavigationViewTransition />
             <DeferredRecentlyViewedTracker />
-            <DeferredScrollRevealObserver />
+            <ScrollRevealObserverHost />
             <ThemePerformanceMonitorDeferred />
             <SiteHeader
               workspace={shell.headerWorkspace}

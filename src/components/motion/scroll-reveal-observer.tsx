@@ -125,6 +125,7 @@ export function ScrollRevealObserver() {
 
       const onLazyReveal = () => {
         el.classList.add("az-lazy-revealed");
+        el.style.contentVisibility = "visible";
         el.querySelectorAll<HTMLElement>(REVEAL_SELECTOR).forEach((child) => {
           observeReveal(child);
         });
@@ -183,6 +184,14 @@ export function ScrollRevealObserver() {
     };
     window.addEventListener("resize", onResize);
 
+    let scrollTimer: ReturnType<typeof setTimeout> | null = null;
+    const onScroll = () => {
+      if (scrollTimer) clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(scan, 80);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("touchmove", onScroll, { passive: true });
+
     const raf = requestAnimationFrame(() => {
       scan();
     });
@@ -191,8 +200,11 @@ export function ScrollRevealObserver() {
       cancelAnimationFrame(raf);
       mo.disconnect();
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("touchmove", onScroll);
       if (mutationTimer) clearTimeout(mutationTimer);
       if (resizeTimer) clearTimeout(resizeTimer);
+      if (scrollTimer) clearTimeout(scrollTimer);
       for (const off of unobserveFns) off();
     };
   }, []);

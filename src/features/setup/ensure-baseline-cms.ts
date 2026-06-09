@@ -159,7 +159,6 @@ export async function ensureDefaultHeaderWorkspace(tx: Tx): Promise<{ updated: b
 
 /** Ensures wired CMS pages and locale config exist after setup (blank or demo). */
 export async function ensureBaselineCmsAndLocales(tx: Tx): Promise<void> {
-  const startedAt = Date.now();
   let pageIndex = 0;
 
   for (const page of CMS_PAGE_SEEDS) {
@@ -185,14 +184,6 @@ export async function ensureBaselineCmsAndLocales(tx: Tx): Promise<void> {
   await ensurePublishedHomePage(tx);
   await ensureDefaultHeaderWorkspace(tx);
   pageIndex += 1;
-
-  const { debugIngest } = await import("@/lib/debug-ingest");
-  debugIngest(
-    "ensure-baseline-cms.ts:cms-pages-done",
-    "CMS page upserts finished",
-    { pageCount: pageIndex, elapsedMs: Date.now() - startedAt },
-    "H3",
-  );
 
   for (const locale of LOCALE_SEEDS) {
     await tx.localeConfig.upsert({

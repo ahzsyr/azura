@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
+import { stripAnyLocalePrefix } from "@/i18n/url-helpers";
 import { findInternalNavAnchor, getInternalLinkPath } from "@/lib/navigation/internal-link";
 import { runWithViewTransition } from "@/lib/theme/effects/transition-engine";
 
@@ -20,14 +21,16 @@ export function NavigationViewTransition() {
       const anchor = findInternalNavAnchor(event);
       if (!anchor) return;
 
-      const href = anchor.getAttribute("href") ?? "";
       const pathPart = getInternalLinkPath(anchor);
-      if (!pathPart || pathPart === pathname || pathPart === `${pathname}/`) return;
+      if (!pathPart) return;
+
+      const neutralPath = stripAnyLocalePrefix(pathPart);
+      if (neutralPath === pathname || neutralPath === `${pathname}/`) return;
 
       event.preventDefault();
 
       runWithViewTransition(() => {
-        router.push(href);
+        router.push(neutralPath);
       });
     };
 

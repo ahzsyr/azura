@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { usePathname } from "@/i18n/navigation";
 import type {
   HeaderAction,
   MenuItem,
@@ -43,6 +44,15 @@ function blockPreviewNav(e: React.MouseEvent, surface?: HeaderRendererSurface) {
   if (surface === "preview") {
     e.preventDefault();
   }
+}
+
+function handleNavLinkClick(
+  e: React.MouseEvent,
+  surface: HeaderRendererSurface | undefined,
+  onClose?: () => void,
+) {
+  blockPreviewNav(e, surface);
+  if (surface !== "preview") onClose?.();
 }
 
 function MnavIconSlot({
@@ -116,12 +126,14 @@ function NavRows({
   surface,
   showIcons,
   showArrows,
+  onClose,
 }: {
   items: MenuItem[];
   localeCode: string;
   surface?: HeaderRendererSurface;
   showIcons: boolean;
   showArrows: boolean;
+  onClose?: () => void;
 }) {
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
   const toggle = (id: string) =>
@@ -156,7 +168,7 @@ function NavRows({
                     key={child.id}
                     href={getItemHref(child, localeCode)}
                     className={mnavRowClass("child")}
-                    onClick={(e) => blockPreviewNav(e, surface)}
+                    onClick={(e) => handleNavLinkClick(e, surface, onClose)}
                   >
                     <MnavItemRowContent
                       icon={child.icon}
@@ -174,7 +186,7 @@ function NavRows({
             key={item.id}
             href={getItemHref(item, localeCode)}
             className={mnavRowClass("row")}
-            onClick={(e) => blockPreviewNav(e, surface)}
+            onClick={(e) => handleNavLinkClick(e, surface, onClose)}
           >
             <MnavItemRowContent icon={item.icon} label={item.label} showIcons={showIcons} />
           </a>
@@ -255,7 +267,7 @@ function MobileNavOverlay({
               key={item.id}
               href={getItemHref(item, localeCode)}
               className="mnav-fs-item"
-              onClick={(e) => blockPreviewNav(e, surface)}
+              onClick={(e) => handleNavLinkClick(e, surface, onClose)}
             >
               <MnavIconSlot icon={item.icon} showIcons={showIcons} fallbackIcon="fa-circle" />
               <span className="mnav-fs-item__label">{item.label}</span>
@@ -299,7 +311,7 @@ function MobileNavOverlay({
                 key={item.id}
                 href={getItemHref(item, localeCode)}
                 className={mnavRowClass("row")}
-                onClick={(e) => blockPreviewNav(e, surface)}
+                onClick={(e) => handleNavLinkClick(e, surface, onClose)}
               >
                 <MnavItemRowContent icon={item.icon} label={item.label} showIcons={showIcons} />
               </a>
@@ -345,6 +357,7 @@ function MobileNavOverlay({
               surface={surface}
               showIcons={showIcons}
               showArrows={showArrows}
+              onClose={onClose}
             />
           </nav>
         </div>
@@ -374,6 +387,7 @@ function MobileNavOverlay({
             surface={surface}
             showIcons={showIcons}
             showArrows={showArrows}
+            onClose={onClose}
           />
         </nav>
       </div>
@@ -445,6 +459,8 @@ export function MobileMenuPreview({
   const [animState, setAnimState] = useState<MnavAnimState>("closed");
   const [mounted, setMounted] = useState(false);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pathname = usePathname();
+  const pathnameRef = useRef(pathname);
 
   const isMenuOpen = animState === "open";
 
@@ -488,6 +504,13 @@ export function MobileMenuPreview({
     document.addEventListener("azura:close-mobile-menu", close);
     return () => document.removeEventListener("azura:close-mobile-menu", close);
   }, [closeMenu]);
+
+  useEffect(() => {
+    if (surface === "preview") return;
+    if (pathnameRef.current === pathname) return;
+    pathnameRef.current = pathname;
+    closeMenu();
+  }, [pathname, closeMenu, surface]);
 
   useEffect(() => {
     if (surface === "preview") return;

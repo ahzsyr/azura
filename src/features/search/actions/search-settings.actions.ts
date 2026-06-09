@@ -59,7 +59,6 @@ export async function loadSearchSettingsPageData(
 ): Promise<SearchSettingsPageData> {
   await requireAdmin();
   const locale = resolveConfiguredLocaleCode(localeParam ?? "", adminLocale.code);
-  const { debugIngest } = await import("@/lib/debug-ingest");
 
   let discovery: Awaited<ReturnType<typeof discoverCatalogSearchSources>>;
   let allTypes: Awaited<ReturnType<typeof prisma.contentType.findMany>>;
@@ -69,16 +68,12 @@ export async function loadSearchSettingsPageData(
   try {
     discovery = await discoverCatalogSearchSources();
   } catch (error) {
-    const errMsg = error instanceof Error ? error.message : String(error);
-    debugIngest("search-settings.actions.ts", "discoverCatalogSearchSources failed", { error: errMsg.slice(0, 300) }, "H3");
     throw error;
   }
 
   try {
     allTypes = await prisma.contentType.findMany({ orderBy: { sortOrder: "asc" } });
   } catch (error) {
-    const errMsg = error instanceof Error ? error.message : String(error);
-    debugIngest("search-settings.actions.ts", "contentType.findMany failed", { error: errMsg.slice(0, 300) }, "H1");
     throw error;
   }
 
@@ -86,16 +81,12 @@ export async function loadSearchSettingsPageData(
     const { searchEngine } = await import("@/features/search-framework/engine/search-engine");
     statsResult = await searchEngine.statsByType();
   } catch (error) {
-    const errMsg = error instanceof Error ? error.message : String(error);
     console.error("[search-settings] statsByType failed:", error);
-    debugIngest("search-settings.actions.ts", "statsByType failed", { error: errMsg.slice(0, 300) }, "H3");
   }
 
   try {
     discoveredCustomFilters = await discoverSearchFilterFields();
   } catch (error) {
-    const errMsg = error instanceof Error ? error.message : String(error);
-    debugIngest("search-settings.actions.ts", "discoverSearchFilterFields failed", { error: errMsg.slice(0, 300) }, "H1");
     throw error;
   }
 

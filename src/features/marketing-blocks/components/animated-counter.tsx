@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { animate, useMotionValue, useReducedMotion } from "framer-motion";
 import { observeOnce } from "@/lib/performance/intersection-observer-hub";
-import { waitUntilVisible } from "@/lib/performance/wait-until-visible";
+import { waitForScrollReveal, waitUntilVisible } from "@/lib/performance/wait-until-visible";
 import { useConstrainedMotion } from "@/hooks/use-constrained-motion";
 import { cn } from "@/lib/utils";
 
@@ -63,7 +63,9 @@ export function AnimatedCounter({
       () => {
         if (started.current || cancelled) return;
 
-        void waitUntilVisible(el, shouldSimplifyMotion ? 300 : 600).then(() => {
+        void waitForScrollReveal(el).then(() =>
+          waitUntilVisible(el, shouldSimplifyMotion ? 300 : 600),
+        ).then(() => {
           if (started.current || cancelled) return;
           started.current = true;
 

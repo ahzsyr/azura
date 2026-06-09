@@ -3,6 +3,8 @@
 import dynamic from "next/dynamic";
 import type { ResolvedSitePreloader } from "@/features/preloader/resolve-site-preloader";
 
+export { ScrollRevealObserver as ScrollRevealObserverHost } from "@/components/motion/scroll-reveal-observer";
+
 export const DeferredScrollRevealObserver = dynamic(
   () =>
     import("@/components/motion/scroll-reveal-observer").then(
