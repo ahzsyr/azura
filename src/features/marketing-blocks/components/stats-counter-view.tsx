@@ -1,6 +1,7 @@
 "use client";
 
 import { SectionHeader } from "@/components/marketing/section";
+import { AnimatedSection } from "@/components/motion/lazy-motion";
 import { AnimatedCounter } from "@/features/marketing-blocks/components/animated-counter";
 import { MiniStatChart } from "@/features/marketing-blocks/components/mini-stat-chart";
 import { resolveMarketingIcon } from "@/features/marketing-blocks/lib/icon-map";
@@ -75,22 +76,21 @@ export function StatsCounterView({
   const useOverflow =
     Boolean(block && overflow && shouldUseResponsiveOverflow(overflow.flags));
   const resolved = useResolvedVisualExperience();
-  const scrollReveal = resolved?.animationsEnabled !== false;
+  const animationsEnabled = resolved?.animationsEnabled !== false;
 
   const renderStat = (item: StatItem) => (
     <StatCard
       item={item}
       locale={locale}
-      animateOnView={animateOnView && scrollReveal}
+      animateOnView={animateOnView}
       featured={featured}
-      scrollReveal={scrollReveal}
     />
   );
 
   const layoutClassName = resolveLayoutClassName(layout, colCount);
 
-  return (
-    <div>
+  const content = (
+    <>
       {title && <SectionHeader title={title} subtitle={subtitle} />}
       {useOverflow ? (
         <MarketingItemsOverflow
@@ -116,15 +116,20 @@ export function StatsCounterView({
               key={item.id}
               item={item}
               locale={locale}
-              animateOnView={animateOnView && scrollReveal}
+              animateOnView={animateOnView}
               featured={featured}
-              scrollReveal={scrollReveal}
             />
           ))}
         </div>
       )}
-    </div>
+    </>
   );
+
+  if (animationsEnabled) {
+    return <AnimatedSection>{content}</AnimatedSection>;
+  }
+
+  return <div>{content}</div>;
 }
 
 function StatCard({
@@ -132,13 +137,11 @@ function StatCard({
   locale,
   animateOnView,
   featured,
-  scrollReveal,
 }: {
   item: StatItem;
   locale: string;
   animateOnView: boolean;
   featured?: boolean;
-  scrollReveal: boolean;
 }) {
   const Icon = resolveMarketingIcon(item.icon);
   const label = resolveItemField(item, "label", locale);
@@ -148,7 +151,6 @@ function StatCard({
 
   return (
     <div
-      {...(scrollReveal ? { "data-scroll-item": true, "data-reveal": "slide-up" } : {})}
       className={cn(
         "flex w-full min-w-0 flex-col items-center px-2 text-center",
         featured && "rounded-xl border border-border/60 bg-card p-4 sm:p-6",

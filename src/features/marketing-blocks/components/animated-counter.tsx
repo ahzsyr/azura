@@ -1,10 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { animate, useMotionValue, useReducedMotion } from "framer-motion";
-import { observeOnce } from "@/lib/performance/intersection-observer-hub";
-import { waitForScrollReveal, waitUntilVisible } from "@/lib/performance/wait-until-visible";
-import { useConstrainedMotion } from "@/hooks/use-constrained-motion";
+import { useEffect, useRef, useState } from "react";
 import { useResolvedVisualExperience } from "@/components/theme/visual-experience-context";
 import { cn } from "@/lib/utils";
 
@@ -17,8 +13,9 @@ type Props = {
   className?: string;
 };
 
-function formatCounter(prefix: string, n: number, suffix: string): string {
-  return `${prefix}${n.toLocaleString()}${suffix}`;
+function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 export function AnimatedCounter({
@@ -29,85 +26,58 @@ export function AnimatedCounter({
   animateOnView = true,
   className,
 }: Props) {
-  const osReduced = useReducedMotion();
-  const { shouldReduceMotion, shouldSimplifyMotion } = useConstrainedMotion();
   const resolved = useResolvedVisualExperience();
-  const motionValue = useMotionValue(value);
+  const [display, setDisplay] = useState(value);
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
-  const controlsRef = useRef<ReturnType<typeof animate> | null>(null);
-
-  const effectiveDuration = shouldSimplifyMotion ? duration * 0.7 : duration;
-  const skipAnimation =
-    !animateOnView ||
-    shouldReduceMotion ||
-    osReduced ||
-    resolved?.animationsEnabled === false;
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const write = (n: number) => {
-      el.textContent = formatCounter(prefix, n, suffix);
-    };
+    const skipAnimation =
+      !animateOnView ||
+      prefersReducedMotion() ||
+      resolved?.animationsEnabled === false;
 
     if (skipAnimation) {
-      motionValue.set(value);
-      write(value);
+      started.current = true;
+      setDisplay(value);
       return;
     }
 
+    setDisplay(0);
     started.current = false;
-    motionValue.set(0);
-    write(0);
 
-    let cancelled = false;
+    const el = ref.current;
+    if (!el) return;
 
-    const off = observeOnce(
-      el,
-      () => {
-        if (started.current || cancelled) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting || started.current) return;
+        started.current = true;
 
-        void waitForScrollReveal(el).then(() =>
-          waitUntilVisible(el, shouldSimplifyMotion ? 300 : 600),
-        ).then(() => {
-          if (started.current || cancelled) return;
-          started.current = true;
+        const start = performance.now();
+        const from = 0;
+        const to = value;
 
-          controlsRef.current?.stop();
-          controlsRef.current = animate(motionValue, value, {
-            duration: effectiveDuration / 1000,
-            ease: [0.22, 1, 0.36, 1],
-            onUpdate: (v) => write(Math.round(v)),
-          });
-        });
+        const tick = (now: number) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          setDisplay(Math.round(from + (to - from) * eased));
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
       },
-      {
-        threshold: shouldSimplifyMotion ? 0.05 : 0.1,
-        rootMargin: shouldSimplifyMotion ? "0px 0px 280px 0px" : "0px 0px 160px 0px",
-      },
+      { threshold: 0.3 },
     );
 
-    return () => {
-      cancelled = true;
-      off();
-      controlsRef.current?.stop();
-    };
-  }, [
-    value,
-    effectiveDuration,
-    animateOnView,
-    skipAnimation,
-    motionValue,
-    prefix,
-    suffix,
-    shouldSimplifyMotion,
-  ]);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [value, duration, animateOnView, resolved?.animationsEnabled]);
 
   return (
     <span ref={ref} className={cn("tabular-nums", className)}>
-      {formatCounter(prefix, value, suffix)}
+      {prefix}
+      {display.toLocaleString()}
+      {suffix}
     </span>
   );
 }

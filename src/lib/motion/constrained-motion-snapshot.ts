@@ -19,13 +19,12 @@ export function readMotionState(osReduced: boolean): ConstrainedMotionState {
   const { capabilities, policy } = getCapabilities();
 
   const shouldSimplifyMotion = capabilities.smallScreen || capabilities.touchOnly;
-  const shouldReduceMotion =
-    osReduced || capabilities.prefersReducedMotion || !policy.allowMotion;
+  const shouldReduceMotion = osReduced || capabilities.prefersReducedMotion;
 
   return {
     shouldReduceMotion,
     shouldSimplifyMotion,
-    allowStagger: policy.allowStagger && !shouldReduceMotion,
+    allowStagger: !shouldReduceMotion,
     capabilities,
     policy,
   };

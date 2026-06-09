@@ -8,14 +8,10 @@ import { whenShellReady, RESCAN_REVEAL_EVENT } from "@/lib/motion/shell-ready";
 const REVEAL_SELECTOR =
   "[data-reveal]:not(.revealed), [data-animation]:not(.revealed), [data-scroll-item]:not(.revealed)";
 
-const MOBILE_MQ = "(max-width: 768px)";
-
 function getIoOptions(): IntersectionObserverInit {
-  const isMobile =
-    typeof window !== "undefined" && window.matchMedia(MOBILE_MQ).matches;
   return {
-    threshold: isMobile ? 0.05 : 0.05,
-    rootMargin: isMobile ? "0px 0px 320px 0px" : "0px 0px 240px 0px",
+    threshold: 0.05,
+    rootMargin: "0px 0px -100px 0px",
   };
 }
 
@@ -41,16 +37,14 @@ function isInViewport(el: HTMLElement): boolean {
 function getSiblingStagger(el: HTMLElement): number {
   const parent = el.parentElement;
   if (!parent) return 0;
-  const { shouldSimplifyMotion, allowStagger } = getConstrainedMotionSnapshot();
+  const { allowStagger } = getConstrainedMotionSnapshot();
   if (!allowStagger) return 0;
 
   const siblings = Array.from(
     parent.querySelectorAll<HTMLElement>(REVEAL_SELECTOR),
   );
   const idx = siblings.indexOf(el);
-  const step = shouldSimplifyMotion ? 40 : 60;
-  const maxStagger = shouldSimplifyMotion ? 120 : 360;
-  return idx > 0 ? Math.min(idx * step, maxStagger) : 0;
+  return idx > 0 ? Math.min(idx * 60, 360) : 0;
 }
 
 function resolveRevealDelay(el: HTMLElement): number {
