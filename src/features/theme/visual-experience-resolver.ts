@@ -76,6 +76,9 @@ export function resolveVisitorVisualExperience({
   const base = resolveVisualExperience({ site, page });
 
   if (!storedEffects || !hasLiveEffects(storedEffects)) {
+    if (cursorPreference === "normal") {
+      return { ...base, cursorEffect: null, cursorEnabled: false };
+    }
     return base;
   }
 

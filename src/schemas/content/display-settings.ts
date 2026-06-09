@@ -54,5 +54,6 @@ export type ContentBlockProps = z.infer<typeof contentBlockPropsSchema>;
 export function mergeDisplaySettings(
   partial?: Partial<DisplaySettings> | Record<string, unknown> | null
 ): DisplaySettings {
-  return displaySettingsSchema.parse({ ...DEFAULT_DISPLAY_SETTINGS, ...partial });
+  const result = displaySettingsSchema.safeParse({ ...DEFAULT_DISPLAY_SETTINGS, ...partial });
+  return result.success ? result.data : DEFAULT_DISPLAY_SETTINGS;
 }

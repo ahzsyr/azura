@@ -137,7 +137,7 @@ export function BlockEditor({
   };
 
   const addBlock = (type: BlockNode["type"], parentId?: string | null) => {
-    const block = createBlock(type, BLOCK_DEFAULTS[type] ?? {}) as BlockNode;
+    const block = createBlock(type, structuredClone(BLOCK_DEFAULTS[type] ?? {})) as BlockNode;
     updateBlocks(insertBlockInTree(blocksRef.current, block, parentId));
     setSelectedId(block.id);
     setPickerParentId(null);

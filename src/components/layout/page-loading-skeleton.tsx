@@ -14,7 +14,7 @@ type Props = {
 };
 
 function SkeletonBlock({ className }: { className: string }) {
-  return <div className={`animate-pulse rounded bg-muted ${className}`} />;
+  return <div className={`animate-pulse rounded bg-muted-foreground/15 ${className}`} />;
 }
 
 function GridSkeleton() {
@@ -22,7 +22,7 @@ function GridSkeleton() {
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {[0, 1, 2, 3, 4, 5].map((i) => (
         <div key={i} className="card-premium overflow-hidden">
-          <div className="aspect-[4/3] animate-pulse bg-muted" />
+          <div className="aspect-[4/3] animate-pulse bg-muted-foreground/15" />
           <div className="space-y-2 p-4">
             <SkeletonBlock className="h-4 w-3/4" />
             <SkeletonBlock className="h-3 w-1/2" />
