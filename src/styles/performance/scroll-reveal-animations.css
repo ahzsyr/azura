@@ -135,8 +135,11 @@
   html[data-motion="off"] [data-lazy-block] {
     opacity: 1 !important;
     transform: none !important;
-    content-visibility: visible !important;
     animation: none !important;
     transition: none !important;
+  }
+
+  html[data-motion="off"] [data-lazy-block]:not(.az-lazy-revealed) {
+    content-visibility: visible !important;
   }
 }

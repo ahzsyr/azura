@@ -3,10 +3,10 @@
 import { useEffect } from "react";
 import { observeOnce } from "@/lib/performance/intersection-observer-hub";
 import { getConstrainedMotionSnapshot } from "@/lib/motion/constrained-motion-snapshot";
+import { whenShellReady, RESCAN_REVEAL_EVENT } from "@/lib/motion/shell-ready";
 
 const REVEAL_SELECTOR =
   "[data-reveal]:not(.revealed), [data-animation]:not(.revealed), [data-scroll-item]:not(.revealed)";
-const LAZY_BLOCK_SELECTOR = "[data-lazy-block]:not(.az-lazy-revealed)";
 
 const MOBILE_MQ = "(max-width: 768px)";
 
@@ -65,7 +65,7 @@ function resolveRevealDelay(el: HTMLElement): number {
 }
 
 /**
- * Single shared IntersectionObserver for reveal + lazy blocks.
+ * Single shared IntersectionObserver for scroll-reveal elements.
  */
 export function ScrollRevealObserver() {
   useEffect(() => {
@@ -78,7 +78,6 @@ export function ScrollRevealObserver() {
 
     const unobserveFns: Array<() => void> = [];
     const trackedReveal = new WeakSet<Element>();
-    const trackedLazy = new WeakSet<Element>();
 
     const revealElement = (el: HTMLElement) => {
       if (el.classList.contains("revealed")) return;
@@ -117,95 +116,70 @@ export function ScrollRevealObserver() {
       );
     };
 
-    const observeLazy = (el: HTMLElement) => {
-      if (!isElementVisible(el)) return;
-      if (trackedLazy.has(el)) return;
-      if (el.classList.contains("az-lazy-revealed")) return;
-      trackedLazy.add(el);
-
-      const onLazyReveal = () => {
-        el.classList.add("az-lazy-revealed");
-        el.style.contentVisibility = "visible";
-        el.querySelectorAll<HTMLElement>(REVEAL_SELECTOR).forEach((child) => {
-          observeReveal(child);
-        });
-      };
-
-      if (isInViewport(el)) {
-        onLazyReveal();
-        return;
-      }
-
-      unobserveFns.push(
-        observeOnce(
-          el,
-          () => {
-            onLazyReveal();
-          },
-          getIoOptions(),
-        ),
-      );
-    };
-
     const scan = () => {
       if (getConstrainedMotionSnapshot().shouldReduceMotion) return;
       root.querySelectorAll<HTMLElement>(REVEAL_SELECTOR).forEach((el) => {
         if (!el.classList.contains("revealed")) observeReveal(el);
       });
-      root.querySelectorAll<HTMLElement>(LAZY_BLOCK_SELECTOR).forEach((el) => {
-        if (!el.classList.contains("az-lazy-revealed")) observeLazy(el);
-      });
     };
 
-    if (shouldReduceMotion) {
-      root.querySelectorAll<HTMLElement>(REVEAL_SELECTOR).forEach((el) => {
-        el.classList.add("revealed");
-        el.style.transition = "none";
-      });
-      root.querySelectorAll<HTMLElement>(LAZY_BLOCK_SELECTOR).forEach((el) =>
-        el.classList.add("az-lazy-revealed"),
-      );
-      return;
-    }
+    const start = () => {
+      if (shouldReduceMotion) {
+        root.querySelectorAll<HTMLElement>(REVEAL_SELECTOR).forEach((el) => {
+          el.classList.add("revealed");
+          el.style.transition = "none";
+        });
+        return;
+      }
 
-    scan();
-
-    let mutationTimer: ReturnType<typeof setTimeout> | null = null;
-    const mo = new MutationObserver(() => {
-      if (mutationTimer) clearTimeout(mutationTimer);
-      mutationTimer = setTimeout(scan, 80);
-    });
-    mo.observe(root, { childList: true, subtree: true });
-
-    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
-    const onResize = () => {
-      if (resizeTimer) clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(scan, 120);
-    };
-    window.addEventListener("resize", onResize);
-
-    let scrollTimer: ReturnType<typeof setTimeout> | null = null;
-    const onScroll = () => {
-      if (scrollTimer) clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(scan, 80);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("touchmove", onScroll, { passive: true });
-
-    const raf = requestAnimationFrame(() => {
       scan();
+
+      let mutationTimer: ReturnType<typeof setTimeout> | null = null;
+      const mo = new MutationObserver(() => {
+        if (mutationTimer) clearTimeout(mutationTimer);
+        mutationTimer = setTimeout(scan, 80);
+      });
+      mo.observe(root, { childList: true, subtree: true });
+
+      let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+      const onResize = () => {
+        if (resizeTimer) clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(scan, 120);
+      };
+      window.addEventListener("resize", onResize);
+
+      let scrollTimer: ReturnType<typeof setTimeout> | null = null;
+      const onScroll = () => {
+        if (scrollTimer) clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(scan, 80);
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("touchmove", onScroll, { passive: true });
+      document.addEventListener(RESCAN_REVEAL_EVENT, onScroll);
+
+      requestAnimationFrame(scan);
+
+      return () => {
+        mo.disconnect();
+        window.removeEventListener("resize", onResize);
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("touchmove", onScroll);
+        document.removeEventListener(RESCAN_REVEAL_EVENT, onScroll);
+        if (mutationTimer) clearTimeout(mutationTimer);
+        if (resizeTimer) clearTimeout(resizeTimer);
+        if (scrollTimer) clearTimeout(scrollTimer);
+        for (const off of unobserveFns) off();
+      };
+    };
+
+    let stopInner: (() => void) | undefined;
+    const stopShellWait = whenShellReady(() => {
+      stopInner = start();
     });
 
     return () => {
-      cancelAnimationFrame(raf);
-      mo.disconnect();
-      window.removeEventListener("resize", onResize);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("touchmove", onScroll);
-      if (mutationTimer) clearTimeout(mutationTimer);
-      if (resizeTimer) clearTimeout(resizeTimer);
-      if (scrollTimer) clearTimeout(scrollTimer);
-      for (const off of unobserveFns) off();
+      stopShellWait();
+      stopInner?.();
     };
   }, []);
 

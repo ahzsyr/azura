@@ -107,7 +107,7 @@ export function AnimatedCounter({
 
   return (
     <span ref={ref} className={cn("tabular-nums", className)}>
-      {formatCounter(prefix, skipAnimation ? value : 0, suffix)}
+      {formatCounter(prefix, value, suffix)}
     </span>
   );
 }

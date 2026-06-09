@@ -3,6 +3,7 @@
 import { PreloaderView } from "@/features/preloader/preloader-view";
 import { preloaderShowsOnInitialLoad } from "@/features/preloader/site-preloader.schema";
 import type { ResolvedSitePreloader } from "@/features/preloader/resolve-site-preloader";
+import { SHELL_READY_EVENT } from "@/lib/motion/shell-ready";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -38,6 +39,7 @@ export function SitePreloader({ settings }: Props) {
     clearTimers();
     setVisible(false);
     setShellPreloading(false);
+    document.dispatchEvent(new CustomEvent(SHELL_READY_EVENT));
   }, [clearTimers, setShellPreloading]);
 
   const showPreloader = useCallback(() => {
@@ -71,10 +73,22 @@ export function SitePreloader({ settings }: Props) {
   }, []);
 
   useEffect(() => {
-    if (!mounted || !settings.enabled) return;
+    if (!mounted || !settings.enabled) {
+      if (mounted) {
+        document.dispatchEvent(new CustomEvent(SHELL_READY_EVENT));
+      }
+      return;
+    }
 
     if (!initialHandledRef.current && preloaderShowsOnInitialLoad(settings.mode)) {
       initialHandledRef.current = true;
+
+      if (reducedMotionRef.current) {
+        document.documentElement.classList.remove("site-preloading");
+        document.dispatchEvent(new CustomEvent(SHELL_READY_EVENT));
+        return;
+      }
+
       showPreloader();
 
       const onReady = () => scheduleDismiss();
@@ -91,6 +105,7 @@ export function SitePreloader({ settings }: Props) {
     return () => {
       clearTimers();
       document.documentElement.classList.remove("site-preloading");
+      document.dispatchEvent(new CustomEvent(SHELL_READY_EVENT));
     };
   }, [clearTimers]);
 

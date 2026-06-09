@@ -10,7 +10,7 @@ export function PreloaderBootScript({ active, maxDurationMs = 12000 }: Props) {
   return (
     <script
       dangerouslySetInnerHTML={{
-        __html: `(function(){document.documentElement.classList.add('site-preloading');setTimeout(function(){document.documentElement.classList.remove('site-preloading');},${maxDurationMs});})();`,
+        __html: `(function(){document.documentElement.classList.add('site-preloading');setTimeout(function(){document.documentElement.classList.remove('site-preloading');document.dispatchEvent(new CustomEvent('azura:shell-ready'));},${maxDurationMs});})();`,
       }}
     />
   );
