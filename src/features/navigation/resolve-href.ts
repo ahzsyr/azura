@@ -1,25 +1,7 @@
+import { getCmsPagePublicPath } from "@/features/cms/cms-page-path";
 import { STATIC_DEFAULT_URL_PREFIX } from "@/i18n/locale-config";
 import { localePathFromPrefix, stripAnyLocalePrefix } from "@/i18n/url-helpers";
 import type { HeaderAction, MenuItem, MenuLayoutType } from "./types";
-
-const STATIC_PAGES = new Set([
-  "about",
-  "packages",
-  "hotels-transport",
-  "gallery",
-  "testimonials",
-  "contact",
-  "blog",
-  "collections",
-  "products",
-  "services",
-  "compare",
-  "favorites",
-  "account",
-  "smart-home",
-  "security-solutions",
-  "enterprise-wireless",
-]);
 
 /** Legacy travel-agency catalog route (packages remain for old menu items). */
 const LEGACY_PACKAGES_PREFIX = "packages";
@@ -57,9 +39,7 @@ export function getItemHref(item: MenuItem, localeCode: string = STATIC_DEFAULT_
     }
     case "page": {
       const slug = item.pageId ?? "home";
-      if (slug === "home") return localePath("/", localeCode);
-      if (STATIC_PAGES.has(slug)) return localePath(`/${slug}`, localeCode);
-      return localePath(`/pages/${slug}`, localeCode);
+      return localePath(getCmsPagePublicPath(slug), localeCode);
     }
     case "collection":
     case "packageCategory": {

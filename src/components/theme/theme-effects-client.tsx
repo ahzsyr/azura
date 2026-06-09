@@ -27,6 +27,8 @@ type Props = {
   siteResolved?: ResolvedVisualExperience | null;
   /** Apply effects on mount (theme studio preview without ThemeEngineProvider). */
   applyOnMount?: boolean;
+  /** Skip shell-ready / idle defer (theme studio preview). */
+  immediate?: boolean;
 };
 
 function resolveEffectAppearance(resolvedTheme: string | undefined): "light" | "dark" | null {
@@ -34,12 +36,20 @@ function resolveEffectAppearance(resolvedTheme: string | undefined): "light" | "
   return resolveDomAppearance();
 }
 
-export function ThemeEffectsClient({ tokens, siteResolved, applyOnMount = false }: Props) {
+export function ThemeEffectsClient({
+  tokens,
+  siteResolved,
+  applyOnMount = false,
+  immediate = false,
+}: Props) {
   const { resolvedTheme } = useTheme();
   const contextResolved = useResolvedVisualExperience();
   const baseResolved = useMemo(
-    () => siteResolved ?? contextResolved ?? null,
-    [siteResolved, contextResolved],
+    () =>
+      siteResolved ??
+      contextResolved ??
+      (tokens ? resolveVisualExperience({ site: tokens }) : null),
+    [siteResolved, contextResolved, tokens],
   );
 
   const applyFromStorage = useCallback(() => {
@@ -62,6 +72,11 @@ export function ThemeEffectsClient({ tokens, siteResolved, applyOnMount = false 
       }
     }
 
+    if (immediate) {
+      applyFromStorage();
+      return;
+    }
+
     let cancelIdle: (() => void) | undefined;
     const run = () => {
       cancelIdle?.();
@@ -76,7 +91,21 @@ export function ThemeEffectsClient({ tokens, siteResolved, applyOnMount = false 
       document.removeEventListener(SHELL_READY_EVENT, run);
       cancelIdle?.();
     };
-  }, [applyOnMount, applyFromStorage, tokens?.animationsEnabled, baseResolved]);
+  }, [
+    applyOnMount,
+    immediate,
+    applyFromStorage,
+    tokens?.animationsEnabled,
+    baseResolved,
+    baseResolved?.cursorEffect,
+    baseResolved?.backgroundEffect,
+    baseResolved?.textEffect,
+    baseResolved?.cursorEnabled,
+    baseResolved?.backgroundEnabled,
+    baseResolved?.textEnabled,
+    baseResolved?.animationsEnabled,
+    baseResolved?.cardStyle,
+  ]);
 
   useEffect(() => {
     const onThemeChange = () => {

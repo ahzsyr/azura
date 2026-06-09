@@ -1,3 +1,4 @@
+import { getCmsPagePublicPath } from "@/features/cms/cms-page-path";
 import { getLocalizedField } from "@/lib/utils";
 import { defineSearchProvider } from "@/features/search-framework/providers/search-provider";
 import type { SearchIndexRecord } from "@/features/search-framework/types";
@@ -144,7 +145,7 @@ export const cmsPageSearchProvider = defineSearchProvider<CmsPageIndexSource>({
         locale: ctx.urlPrefix,
         title,
         body,
-        urlPath: `/${ctx.urlPrefix}/pages/${page.slug}`,
+        urlPath: `/${ctx.urlPrefix}${getCmsPagePublicPath(page.slug)}`,
         kind: "cms_page",
         visibility: "public",
         boost: 1,

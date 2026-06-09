@@ -16,6 +16,7 @@ export const CMS_WIRED_PAGE_DEFINITIONS = [
   { slug: "smart-home", templateKey: "smart-home", titleEn: "Smart Home", titleAr: "المنزل الذكي" },
   { slug: "security-solutions", templateKey: "security-solutions", titleEn: "Security Solutions", titleAr: "حلول الأمن" },
   { slug: "enterprise-wireless", templateKey: "enterprise-wireless", titleEn: "Enterprise Wireless", titleAr: "شبكات المؤسسات" },
+  { slug: "why-choose-us", templateKey: "why-choose-us", titleEn: "Why Choose Us", titleAr: "لماذا نحن" },
 ] as const;
 
 export type CmsWiredPageSlug = (typeof CMS_WIRED_PAGE_DEFINITIONS)[number]["slug"];

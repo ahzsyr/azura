@@ -67,8 +67,8 @@ export function buildCapabilityPolicy(capabilities: DeviceCapabilities): Capabil
     allowHeavy: !prefersReducedMotion && !lowEndDevice && !mobileLike,
     allowMedium: !prefersReducedMotion && !lowEndDevice && !smallScreen,
     allowCustomCursor: !touchOnly && !lowEndDevice && !smallScreen,
-    allowAnimatedBackground: !prefersReducedMotion && !mobileLike,
-    allowTextAnimation: !prefersReducedMotion && !smallScreen,
+    allowAnimatedBackground: !prefersReducedMotion,
+    allowTextAnimation: !prefersReducedMotion,
     allowMotion: !prefersReducedMotion && !lowEndDevice,
     allowStagger: !prefersReducedMotion && !smallScreen && !touchOnly,
   };

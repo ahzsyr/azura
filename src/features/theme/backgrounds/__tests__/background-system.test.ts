@@ -99,4 +99,32 @@ describe("buildCapabilityPolicy desktop backgrounds", () => {
     assert.equal(policy.allowHeavy, false);
     assert.equal(downgradeSiteBackgroundForPolicy("waves", policy), "grid");
   });
+
+  it("allows text and animated backgrounds on mobile when motion is not reduced", () => {
+    const policy = buildCapabilityPolicy({
+      prefersReducedMotion: false,
+      lowEndDevice: false,
+      touchOnly: true,
+      smallScreen: true,
+      hardwareConcurrency: 8,
+      deviceMemoryGb: 8,
+      effectiveConnection: "4g",
+    });
+    assert.equal(policy.allowAnimatedBackground, true);
+    assert.equal(policy.allowTextAnimation, true);
+  });
+
+  it("blocks text and animated backgrounds when prefers-reduced-motion", () => {
+    const policy = buildCapabilityPolicy({
+      prefersReducedMotion: true,
+      lowEndDevice: false,
+      touchOnly: false,
+      smallScreen: false,
+      hardwareConcurrency: 8,
+      deviceMemoryGb: 8,
+      effectiveConnection: "4g",
+    });
+    assert.equal(policy.allowAnimatedBackground, false);
+    assert.equal(policy.allowTextAnimation, false);
+  });
 });

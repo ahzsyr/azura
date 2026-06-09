@@ -8,6 +8,7 @@ import { cmsService } from "@/features/cms/cms.service";
 import { cmsRepository } from "@/repositories/cms.repository";
 import { seoService } from "@/features/seo/seo.service";
 import { CMS_WIRED_MARKETING_SLUGS } from "@/features/builder/constants";
+import { getCmsPagePublicPath } from "@/features/cms/cms-page-path";
 
 export const revalidate = 60;
 
@@ -46,10 +47,6 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;
-  const canonicalPath = wiredMarketingPath(locale, slug);
-  if (canonicalPath) {
-    redirect(canonicalPath);
-  }
 
   try {
     const page = await cmsService.getPublishedPageBySlug(slug);
@@ -57,7 +54,7 @@ export async function generateMetadata({ params }: Props) {
 
     return seoService.resolveMetadata({
       locale: locale as Locale,
-      path: `/pages/${slug}`,
+      path: getCmsPagePublicPath(slug),
       entityType: "CMS_PAGE",
       entityId: page.id,
       seoMeta: page.seoMeta,

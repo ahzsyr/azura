@@ -38,6 +38,7 @@ import {
   mergeSupabaseCookies,
   updateSession,
 } from "@/utils/supabase/middleware";
+import { getWiredCmsPageRedirect } from "@/features/cms/cms-page-path";
 
 type LocaleRoutingCache = {
   locales: string[];
@@ -514,6 +515,13 @@ async function runMiddleware(request: NextRequest) {
       localePrefix: routing.localePrefix,
     });
     return intlMiddleware(request);
+  }
+
+  const wiredCmsRedirect = getWiredCmsPageRedirect(pathname, locales);
+  if (wiredCmsRedirect) {
+    const url = request.nextUrl.clone();
+    url.pathname = wiredCmsRedirect;
+    return NextResponse.redirect(url, 308);
   }
 
   const canonicalPath = normalizeStackedLocalePathname(pathname, locales);

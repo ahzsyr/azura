@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
+import { getCmsPagePublicPath } from "@/features/cms/cms-page-path";
 import { stripAnyLocalePrefix } from "@/i18n/url-helpers";
 import { findInternalNavAnchor, getInternalLinkPath } from "@/lib/navigation/internal-link";
 import { runWithViewTransition } from "@/lib/theme/effects/transition-engine";
@@ -24,7 +25,11 @@ export function NavigationViewTransition() {
       const pathPart = getInternalLinkPath(anchor);
       if (!pathPart) return;
 
-      const neutralPath = stripAnyLocalePrefix(pathPart);
+      let neutralPath = stripAnyLocalePrefix(pathPart);
+      const pagesMatch = neutralPath.match(/^\/pages\/([^/]+)\/?$/);
+      if (pagesMatch?.[1]) {
+        neutralPath = getCmsPagePublicPath(pagesMatch[1]);
+      }
       if (neutralPath === pathname || neutralPath === `${pathname}/`) return;
 
       event.preventDefault();

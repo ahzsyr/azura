@@ -5,6 +5,7 @@ import { getEnabledUrlPrefixes } from "@/i18n/locale-registry.server";
 import { localeService } from "@/features/i18n/locale.service";
 import { routing } from "@/i18n/routing";
 import { contentPublicService } from "@/features/content/content-public.service";
+import { getCmsPagePublicPath } from "@/features/cms/cms-page-path";
 import { STATIC_SEO_PAGES } from "./constants";
 import { seoRepository } from "@/repositories/seo.repository";
 
@@ -150,7 +151,7 @@ export async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
     }
 
     for (const p of cmsPages) {
-      const defaultPath = `/pages/${p.slug}`;
+      const defaultPath = getCmsPagePublicPath(p.slug);
       const path = localizedPath("CmsPage", cmsIdBySlug.get(p.slug) ?? "", languageCode, defaultPath);
       if (noIndexPaths.has(defaultPath)) continue;
       entries.push({

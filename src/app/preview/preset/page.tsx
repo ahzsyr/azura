@@ -7,6 +7,8 @@ import { PreviewIntlProvider } from "@/features/preview/preview-intl-provider";
 import { loadPresetJson } from "@/features/theme/preset-resolver.server";
 import { themeService } from "@/features/theme/theme.service";
 import type { PageBlocks } from "@/types/builder";
+import "@/styles/site-backgrounds.css";
+import "@/styles/preset-visuals.css";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },

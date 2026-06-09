@@ -8,6 +8,7 @@ import {
   unpublishCmsPage,
 } from "@/features/cms/actions";
 import { CMS_WIRED_MARKETING_SLUGS } from "@/features/builder/constants";
+import { getCmsPagePublicPath } from "@/features/cms/cms-page-path";
 import {
   AdminList,
   AdminListMeta,
@@ -54,7 +55,7 @@ export function CmsPagesTable({ pages }: { pages: CmsPage[] }) {
             <div className="min-w-0 flex-1">
               <AdminListTitle href={pageEditHref(page.id)}>{displayName}</AdminListTitle>
               <AdminListMeta>
-                /en/pages/{page.slug} · /ar/pages/{page.slug}
+                /en{getCmsPagePublicPath(page.slug)} · /ar{getCmsPagePublicPath(page.slug)}
                 {livePath != null && <> · live: /en{livePath || "/"}</>}
               </AdminListMeta>
               <AdminListMetaSmall>
@@ -73,7 +74,7 @@ export function CmsPagesTable({ pages }: { pages: CmsPage[] }) {
               {page.status === "PUBLISHED" && (
                 <>
                   <Button variant="ghost" size="sm" asChild>
-                    <Link href={`/en/pages/${page.slug}`} target="_blank" title="CMS page">
+                    <Link href={`/en${getCmsPagePublicPath(page.slug)}`} target="_blank" title="CMS page">
                       <ExternalLink className="h-4 w-4" />
                     </Link>
                   </Button>

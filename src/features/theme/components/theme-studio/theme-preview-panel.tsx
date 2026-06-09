@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Monitor, Moon, Smartphone, Sun, Tablet } from "lucide-react";
 import { ThemeEffectsClient } from "@/components/theme/theme-effects-client";
+import { resolveVisualExperience } from "@/features/theme/visual-experience-resolver";
 import { HeaderBrand } from "@/features/navigation/components/header/HeaderBrand";
 import { normalizeBranding } from "@/features/navigation/branding-defaults";
 import { cn } from "@/lib/utils";
@@ -71,6 +72,10 @@ function PreviewChrome({
 
   const themeCss = resolved.css.theme;
   const presetCss = resolved.css.presetVisual;
+  const previewResolved = useMemo(
+    () => resolveVisualExperience({ site: tokens }),
+    [tokens],
+  );
 
   return (
     <div
@@ -91,7 +96,12 @@ function PreviewChrome({
           __html: `${themeCss}\n${presetCss}`,
         }}
       />
-      <ThemeEffectsClient tokens={tokens} applyOnMount />
+      <ThemeEffectsClient
+        tokens={tokens}
+        siteResolved={previewResolved}
+        applyOnMount
+        immediate
+      />
       {!tokens.animationsEnabled ? (
         <style>{`*{animation-duration:0.01ms!important;transition-duration:0.01ms!important}`}</style>
       ) : null}

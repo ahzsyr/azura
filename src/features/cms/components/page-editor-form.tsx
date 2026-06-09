@@ -23,6 +23,7 @@ import {
   CMS_WIRED_MARKETING_SLUGS,
   resolveBuiltinTemplate,
 } from "@/features/builder/constants";
+import { getCmsPagePublicPath } from "@/features/cms/cms-page-path";
 import { buildDefaultPageBlocksFromTemplate } from "@/features/cms/page-default-blocks";
 import {
   BlockTranslationProvider,
@@ -362,14 +363,14 @@ function PageEditorFields({
               {page.status === "PUBLISHED" && (
                 <>
                   <Link
-                    href={`/en/pages/${page.slug}`}
+                    href={`/en${getCmsPagePublicPath(page.slug)}`}
                     target="_blank"
                     className="text-xs text-primary flex items-center gap-1"
                   >
                     <ExternalLink className="h-3 w-3" /> CMS EN
                   </Link>
                   <Link
-                    href={`/ar/pages/${page.slug}`}
+                    href={`/ar${getCmsPagePublicPath(page.slug)}`}
                     target="_blank"
                     className="text-xs text-primary flex items-center gap-1"
                   >

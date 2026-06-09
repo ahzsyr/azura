@@ -6,13 +6,20 @@ import {
   markNavigationSkeletonActive,
   recordNavigationEnd,
 } from "@/lib/performance/runtime-metrics";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { isValidElement, useEffect, useRef, useState, type ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
 };
 
 const OVERLAY_DELAY_MS = 90;
+
+function hasRenderableContent(node: ReactNode): boolean {
+  if (node == null || typeof node === "boolean") return false;
+  if (isRouteSkeleton(node)) return true;
+  if (Array.isArray(node)) return node.some((child) => hasRenderableContent(child));
+  return isValidElement(node);
+}
 
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;
@@ -49,6 +56,10 @@ export function MarketingPageTransition({ children }: Props) {
       overlayTimerRef.current = setTimeout(() => {
         setOverlaySkeleton(skeleton);
       }, OVERLAY_DELAY_MS);
+      return;
+    }
+
+    if (!hasRenderableContent(children)) {
       return;
     }
 
