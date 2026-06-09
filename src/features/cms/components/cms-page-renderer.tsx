@@ -93,9 +93,6 @@ export async function CmsPageRenderer({
       });
     } catch (error) {
       console.error(`[CmsPageRenderer] block render failed for /${slug}:`, error);
-      // #region agent log
-      fetch('http://127.0.0.1:7300/ingest/df4ee46a-c9a3-41ec-a748-5c05bd29eec9',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'183f3a'},body:JSON.stringify({sessionId:'183f3a',runId:'run1',hypothesisId:'C',location:'cms-page-renderer.tsx:blockRenderCatch',message:'BlockRenderer threw — server component crash source',data:{slug,errorMsg:error instanceof Error?error.message:String(error)},timestamp:Date.now()})}).catch(()=>{});
-      // #endregion
       blockContent = (
         <div className="section-padding container-premium">
           <h1 className="font-heading text-4xl font-bold">

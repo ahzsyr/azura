@@ -54,14 +54,6 @@ export const CATALOG_DISPLAY_DEFAULTS_KEY = "defaults";
 export function mergeDisplaySettings(
   partial?: Partial<DisplaySettings> | Record<string, unknown> | null
 ): DisplaySettings {
-  // #region agent log
-  const merged = { ...DEFAULT_DISPLAY_SETTINGS, ...partial };
-  const result = displaySettingsSchema.safeParse(merged);
-  if (!result.success) {
-    fetch('http://127.0.0.1:7300/ingest/df4ee46a-c9a3-41ec-a748-5c05bd29eec9',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'183f3a'},body:JSON.stringify({sessionId:'183f3a',runId:'run1',hypothesisId:'A',location:'catalog/display-settings.ts:mergeDisplaySettings',message:'safeParse FAILED — using DEFAULT_DISPLAY_SETTINGS fallback',data:{cardVariant:(partial as Record<string,unknown>)?.cardVariant,layoutMode:(partial as Record<string,unknown>)?.layoutMode,zodError:result.error.issues.map(i=>i.message).join('; ')},timestamp:Date.now()})}).catch(()=>{});
-  } else {
-    fetch('http://127.0.0.1:7300/ingest/df4ee46a-c9a3-41ec-a748-5c05bd29eec9',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'183f3a'},body:JSON.stringify({sessionId:'183f3a',runId:'run1',hypothesisId:'A',location:'catalog/display-settings.ts:mergeDisplaySettings',message:'safeParse OK',data:{cardVariant:result.data.cardVariant,layoutMode:result.data.layoutMode},timestamp:Date.now()})}).catch(()=>{});
-  }
-  // #endregion
+  const result = displaySettingsSchema.safeParse({ ...DEFAULT_DISPLAY_SETTINGS, ...partial });
   return result.success ? result.data : DEFAULT_DISPLAY_SETTINGS;
 }

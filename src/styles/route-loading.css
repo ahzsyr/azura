@@ -85,6 +85,11 @@ html.route-navigating.site-preloading .site-shell {
   backdrop-filter: none;
 }
 
+.route-loading-overlay--skeleton {
+  background: transparent;
+  backdrop-filter: none;
+}
+
 @keyframes route-overlay-in {
   from {
     opacity: 0;

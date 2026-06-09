@@ -88,7 +88,7 @@ export function MarketingPageTransition({ children }: Props) {
         {displayChildren}
       </div>
       {overlaySkeleton ? (
-        <div className="route-loading-overlay route-loading-overlay--minimal" aria-hidden="true">
+        <div className="route-loading-overlay route-loading-overlay--skeleton" aria-hidden="true">
           {overlaySkeleton}
         </div>
       ) : null}

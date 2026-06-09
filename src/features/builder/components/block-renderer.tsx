@@ -1061,9 +1061,6 @@ async function RenderBlock({
     });
   } catch (error) {
     console.error(`[BlockRenderer] block ${block.id} (${block.type}) failed:`, error);
-    // #region agent log
-    fetch('http://127.0.0.1:7300/ingest/df4ee46a-c9a3-41ec-a748-5c05bd29eec9',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'183f3a'},body:JSON.stringify({sessionId:'183f3a',runId:'run1',hypothesisId:'B',location:'block-renderer.tsx:RenderBlock:catch',message:'Individual block render threw',data:{blockId:block.id,blockType:block.type,errorMsg:error instanceof Error?error.message:String(error)},timestamp:Date.now()})}).catch(()=>{});
-    // #endregion
     if (ctx.previewMode) {
       inner = (
         <div className="section-padding container-premium">

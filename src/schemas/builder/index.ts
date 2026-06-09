@@ -820,14 +820,54 @@ export const BLOCK_DEFAULTS: Record<string, Record<string, unknown>> = {
   },
 };
 
-function blankDefaultStrings<T>(value: T): T {
-  if (typeof value === "string") return "" as T;
-  if (Array.isArray(value)) return value.map(blankDefaultStrings) as T;
+/** Keys whose string values are editor placeholder text — blank on load. */
+const BLANKABLE_DEFAULT_KEYS = new Set([
+  "title",
+  "subtitle",
+  "content",
+  "body",
+  "html",
+  "markdown",
+  "description",
+  "message",
+  "incentive",
+  "caption",
+  "alt",
+  "emptyMessage",
+  "badge",
+  "ctaLabel",
+  "secondaryCtaLabel",
+  "button",
+  "secondaryButton",
+  "promoBadge",
+  "promoText",
+  "countdownLabel",
+  "beforeLabel",
+  "afterLabel",
+  "label",
+  "name",
+  "placeholder",
+  "excerpt",
+  "primaryButton",
+]);
+
+function shouldBlankDefaultString(key: string): boolean {
+  if (key.endsWith("En") || key.endsWith("Ar")) return true;
+  return BLANKABLE_DEFAULT_KEYS.has(key);
+}
+
+function blankDefaultStrings<T>(value: T, key?: string): T {
+  if (typeof value === "string") {
+    return key && shouldBlankDefaultString(key) ? ("" as T) : value;
+  }
+  if (Array.isArray(value)) {
+    return value.map((entry) => blankDefaultStrings(entry)) as T;
+  }
   if (value && typeof value === "object") {
     return Object.fromEntries(
-      Object.entries(value as Record<string, unknown>).map(([key, entry]) => [
-        key,
-        blankDefaultStrings(entry),
+      Object.entries(value as Record<string, unknown>).map(([entryKey, entry]) => [
+        entryKey,
+        blankDefaultStrings(entry, entryKey),
       ])
     ) as T;
   }
