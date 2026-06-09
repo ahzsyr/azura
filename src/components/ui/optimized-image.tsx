@@ -15,6 +15,10 @@ type OptimizedImageProps = ImageProps & {
 /**
  * Wrapper around next/image with sensible defaults for LCP and CLS.
  * Lazy fade-in runs only after mount so SSR/hydration stay in sync.
+ *
+ * Chromium/Edge may log "[Intervention] Images loaded lazily and replaced with
+ * placeholders" for below-fold images using native loading="lazy". That is expected
+ * browser optimization, not an application error. Use aboveFold/priority for LCP images.
  */
 export function OptimizedImage({
   aboveFold = false,

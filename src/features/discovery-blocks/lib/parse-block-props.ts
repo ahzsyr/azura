@@ -1,3 +1,4 @@
+import { safeParseProps } from "@/lib/zod/safe-parse-props";
 import {
   advancedFiltersPropsSchema,
   categoryExplorerPropsSchema,
@@ -6,22 +7,53 @@ import {
   searchBlockPropsSchema,
 } from "@/features/discovery-blocks/schemas/discovery-blocks";
 
+const DEFAULT_SEARCH_BLOCK = searchBlockPropsSchema.parse({});
+const DEFAULT_ADVANCED_FILTERS = advancedFiltersPropsSchema.parse({});
+const DEFAULT_CATEGORY_EXPLORER = categoryExplorerPropsSchema.parse({});
+const DEFAULT_RELATED_CONTENT = relatedContentPropsSchema.parse({});
+const DEFAULT_RECENTLY_VIEWED = recentlyViewedPropsSchema.parse({});
+
 export function parseSearchBlockProps(raw: Record<string, unknown>) {
-  return searchBlockPropsSchema.parse(raw);
+  return safeParseProps(
+    searchBlockPropsSchema,
+    raw,
+    DEFAULT_SEARCH_BLOCK,
+    "parseSearchBlockProps",
+  );
 }
 
 export function parseAdvancedFiltersProps(raw: Record<string, unknown>) {
-  return advancedFiltersPropsSchema.parse(raw);
+  return safeParseProps(
+    advancedFiltersPropsSchema,
+    raw,
+    DEFAULT_ADVANCED_FILTERS,
+    "parseAdvancedFiltersProps",
+  );
 }
 
 export function parseCategoryExplorerProps(raw: Record<string, unknown>) {
-  return categoryExplorerPropsSchema.parse(raw);
+  return safeParseProps(
+    categoryExplorerPropsSchema,
+    raw,
+    DEFAULT_CATEGORY_EXPLORER,
+    "parseCategoryExplorerProps",
+  );
 }
 
 export function parseRelatedContentProps(raw: Record<string, unknown>) {
-  return relatedContentPropsSchema.parse(raw);
+  return safeParseProps(
+    relatedContentPropsSchema,
+    raw,
+    DEFAULT_RELATED_CONTENT,
+    "parseRelatedContentProps",
+  );
 }
 
 export function parseRecentlyViewedProps(raw: Record<string, unknown>) {
-  return recentlyViewedPropsSchema.parse(raw);
+  return safeParseProps(
+    recentlyViewedPropsSchema,
+    raw,
+    DEFAULT_RECENTLY_VIEWED,
+    "parseRecentlyViewedProps",
+  );
 }

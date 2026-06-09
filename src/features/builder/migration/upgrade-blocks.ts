@@ -6,6 +6,7 @@ import {
   stripBlocksWereMigrated,
 } from "@/features/builder/migration/migrate-legacy-strip-block";
 import { blockInstanceV2Schema, pageBlockInstancesSchema } from "@/schemas/block-system";
+import { logServerRenderDiagnostic } from "@/lib/debug/server-render-log";
 
 export type MigrationResult = {
   blocks: PageBlocks;
@@ -27,9 +28,15 @@ export function migrateBlocksToBlockSystem(blocks: unknown): MigrationResult {
     warnings.push("Migrated legacy packages/hotels/services blocks to catalog.");
   }
 
-  const stripMigrated = migrateLegacyStripBlocks(catalogMigrated);
-  if (stripBlocksWereMigrated(catalogMigrated, stripMigrated)) {
-    warnings.push("Migrated legacy strip-block entries to announcementBar.");
+  let stripMigrated = catalogMigrated;
+  try {
+    stripMigrated = migrateLegacyStripBlocks(catalogMigrated);
+    if (stripBlocksWereMigrated(catalogMigrated, stripMigrated)) {
+      warnings.push("Migrated legacy strip-block entries to announcementBar.");
+    }
+  } catch (error) {
+    logServerRenderDiagnostic("migrateLegacyStripBlocks", error);
+    warnings.push("Skipped legacy strip-block migration due to invalid data.");
   }
 
   const v2Upgraded = upgradePageBlocksToV2(stripMigrated);

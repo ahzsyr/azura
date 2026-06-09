@@ -15,6 +15,14 @@ import { DynamicFormView } from "@/features/conversion-blocks/components/dynamic
 import { NewsletterSignupView } from "@/features/conversion-blocks/components/newsletter-signup-view";
 import { DownloadGateView } from "@/features/conversion-blocks/components/download-gate-view";
 import { Section, SectionHeader } from "@/components/marketing/section";
+import { safeParseProps } from "@/lib/zod/safe-parse-props";
+
+const DEFAULT_STICKY_CTA = stickyCtaPropsSchema.parse({});
+const DEFAULT_LEAD_FORM = leadFormPropsSchema.parse({});
+const DEFAULT_CONTACT_FORM = contactFormBuilderPropsSchema.parse({});
+const DEFAULT_MULTI_STEP_FORM = multiStepFormPropsSchema.parse({});
+const DEFAULT_NEWSLETTER = newsletterSignupPropsSchema.parse({});
+const DEFAULT_DOWNLOAD_GATE = downloadGatePropsSchema.parse({});
 
 type RenderCtx = {
   locale: string;
@@ -25,7 +33,7 @@ type RenderCtx = {
 };
 
 export async function StickyCtaBlockRenderer({ locale, props, loc }: RenderCtx) {
-  const p = stickyCtaPropsSchema.parse(props);
+  const p = safeParseProps(stickyCtaPropsSchema, props, DEFAULT_STICKY_CTA, "StickyCtaBlockRenderer");
   return (
     <StickyCtaView
       {...p}
@@ -41,7 +49,7 @@ export async function StickyCtaBlockRenderer({ locale, props, loc }: RenderCtx) 
 }
 
 export async function LeadFormBlockRenderer({ locale, props, blockId, loc }: RenderCtx) {
-  const p = leadFormPropsSchema.parse(props);
+  const p = safeParseProps(leadFormPropsSchema, props, DEFAULT_LEAD_FORM, "LeadFormBlockRenderer");
   if (!p.templateId) {
     return (
       <Section>
@@ -78,7 +86,12 @@ export async function LeadFormBlockRenderer({ locale, props, blockId, loc }: Ren
 }
 
 export async function ContactFormBuilderBlockRenderer({ locale, props, blockId, loc }: RenderCtx) {
-  const p = contactFormBuilderPropsSchema.parse(props);
+  const p = safeParseProps(
+    contactFormBuilderPropsSchema,
+    props,
+    DEFAULT_CONTACT_FORM,
+    "ContactFormBuilderBlockRenderer",
+  );
   if (!p.templateId) {
     return (
       <Section>
@@ -112,7 +125,12 @@ export async function ContactFormBuilderBlockRenderer({ locale, props, blockId, 
 }
 
 export async function MultiStepFormBlockRenderer({ locale, props, blockId, loc, draftToken }: RenderCtx) {
-  const p = multiStepFormPropsSchema.parse(props);
+  const p = safeParseProps(
+    multiStepFormPropsSchema,
+    props,
+    DEFAULT_MULTI_STEP_FORM,
+    "MultiStepFormBlockRenderer",
+  );
   if (!p.templateId) {
     return (
       <Section>
@@ -151,7 +169,12 @@ export async function MultiStepFormBlockRenderer({ locale, props, blockId, loc, 
 }
 
 export async function NewsletterSignupBlockRenderer({ locale, props, blockId }: RenderCtx) {
-  const p = newsletterSignupPropsSchema.parse(props);
+  const p = safeParseProps(
+    newsletterSignupPropsSchema,
+    props,
+    DEFAULT_NEWSLETTER,
+    "NewsletterSignupBlockRenderer",
+  );
   return (
     <Section>
       <NewsletterSignupView {...p} locale={locale} blockId={blockId} />
@@ -160,7 +183,12 @@ export async function NewsletterSignupBlockRenderer({ locale, props, blockId }: 
 }
 
 export async function DownloadGateBlockRenderer({ locale, props, blockId, loc }: RenderCtx) {
-  const p = downloadGatePropsSchema.parse(props);
+  const p = safeParseProps(
+    downloadGatePropsSchema,
+    props,
+    DEFAULT_DOWNLOAD_GATE,
+    "DownloadGateBlockRenderer",
+  );
   if (!p.mediaAssetId) {
     return (
       <Section>

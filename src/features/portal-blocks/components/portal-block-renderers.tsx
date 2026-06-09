@@ -20,6 +20,7 @@ import {
   teamDirectoryPropsSchema,
 } from "@/features/portal-blocks/schemas/portal-blocks";
 import { pricingPropsSchema } from "@/features/pricing-plans/schemas/pricing-blocks";
+import { safeParseProps } from "@/lib/zod/safe-parse-props";
 import { PricingCalculatorView } from "@/features/portal-blocks/components/pricing-calculator-view";
 import { KnowledgeBaseView } from "@/features/portal-blocks/components/knowledge-base-view";
 import { DocumentationNavView } from "@/features/portal-blocks/components/documentation-nav-view";
@@ -45,8 +46,21 @@ function asLocale(locale: string): Locale {
   return (locale.startsWith("ar") ? "ar" : "en") as Locale;
 }
 
+const DEFAULT_PRICING_CALCULATOR = pricingCalculatorPropsSchema.parse({});
+const DEFAULT_KNOWLEDGE_BASE = knowledgeBasePropsSchema.parse({});
+const DEFAULT_DOCUMENTATION_NAV = documentationNavPropsSchema.parse({});
+const DEFAULT_STATUS_DASHBOARD = statusDashboardPropsSchema.parse({});
+const DEFAULT_TEAM_DIRECTORY = teamDirectoryPropsSchema.parse({});
+const DEFAULT_PARTNER_DIRECTORY = partnerDirectoryPropsSchema.parse({});
+const DEFAULT_PRICING_TABLE = pricingPropsSchema.parse({});
+
 export async function PricingCalculatorBlockRenderer({ locale, props, loc }: RenderCtx) {
-  const p = pricingCalculatorPropsSchema.parse(props);
+  const p = safeParseProps(
+    pricingCalculatorPropsSchema,
+    props,
+    DEFAULT_PRICING_CALCULATOR,
+    "PricingCalculatorBlockRenderer",
+  );
   const calculator = await resolveCalculatorForBlock({ pricingCalculatorSlug: p.pricingCalculatorSlug });
   if (!calculator) {
     return (
@@ -72,7 +86,12 @@ export async function PricingCalculatorBlockRenderer({ locale, props, loc }: Ren
 }
 
 export async function KnowledgeBaseBlockRenderer({ locale, props, loc }: RenderCtx) {
-  const p = knowledgeBasePropsSchema.parse(props);
+  const p = safeParseProps(
+    knowledgeBasePropsSchema,
+    props,
+    DEFAULT_KNOWLEDGE_BASE,
+    "KnowledgeBaseBlockRenderer",
+  );
   const kb = await resolveKnowledgeBaseForBlock({
     knowledgeBaseSlug: p.knowledgeBaseSlug,
     categorySlug: p.categorySlug || undefined,
@@ -102,7 +121,12 @@ export async function KnowledgeBaseBlockRenderer({ locale, props, loc }: RenderC
 }
 
 export async function DocumentationNavBlockRenderer({ locale, props, loc }: RenderCtx) {
-  const p = documentationNavPropsSchema.parse(props);
+  const p = safeParseProps(
+    documentationNavPropsSchema,
+    props,
+    DEFAULT_DOCUMENTATION_NAV,
+    "DocumentationNavBlockRenderer",
+  );
   const portal = await resolveDocumentationForBlock({
     docPortalSlug: p.docPortalSlug,
     versionSlug: p.versionSlug || undefined,
@@ -131,7 +155,12 @@ export async function DocumentationNavBlockRenderer({ locale, props, loc }: Rend
 }
 
 export async function StatusDashboardBlockRenderer({ locale, props, loc }: RenderCtx) {
-  const p = statusDashboardPropsSchema.parse(props);
+  const p = safeParseProps(
+    statusDashboardPropsSchema,
+    props,
+    DEFAULT_STATUS_DASHBOARD,
+    "StatusDashboardBlockRenderer",
+  );
   const board = await resolveStatusBoardForBlock({ statusBoardSlug: p.statusBoardSlug });
   if (!board) {
     return (
@@ -162,7 +191,12 @@ export async function StatusDashboardBlockRenderer({ locale, props, loc }: Rende
 }
 
 export async function TeamDirectoryBlockRenderer({ locale, props, loc }: RenderCtx) {
-  const p = teamDirectoryPropsSchema.parse(props);
+  const p = safeParseProps(
+    teamDirectoryPropsSchema,
+    props,
+    DEFAULT_TEAM_DIRECTORY,
+    "TeamDirectoryBlockRenderer",
+  );
   const directory = await resolveTeamDirectoryForBlock({
     teamDirectorySlug: p.teamDirectorySlug,
     departmentId: p.departmentId || undefined,
@@ -191,7 +225,12 @@ export async function TeamDirectoryBlockRenderer({ locale, props, loc }: RenderC
 }
 
 export async function PartnerDirectoryBlockRenderer({ locale, props, loc }: RenderCtx) {
-  const p = partnerDirectoryPropsSchema.parse(props);
+  const p = safeParseProps(
+    partnerDirectoryPropsSchema,
+    props,
+    DEFAULT_PARTNER_DIRECTORY,
+    "PartnerDirectoryBlockRenderer",
+  );
   const program = await resolvePartnerProgramForBlock({
     partnerProgramSlug: p.partnerProgramSlug,
     categorySlug: p.categorySlug || undefined,
@@ -221,7 +260,12 @@ export async function PartnerDirectoryBlockRenderer({ locale, props, loc }: Rend
 }
 
 export async function PricingTableBlockRenderer({ locale, props, loc, block, overflow }: RenderCtx) {
-  const p = pricingPropsSchema.parse(props);
+  const p = safeParseProps(
+    pricingPropsSchema,
+    props,
+    DEFAULT_PRICING_TABLE,
+    "PricingTableBlockRenderer",
+  );
   const title = loc("title") || pickLocale(p, "title", asLocale(locale));
 
   if (p.source === "planSet") {

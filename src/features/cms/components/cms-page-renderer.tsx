@@ -20,6 +20,8 @@ import { translationService } from "@/features/translation/translation.service";
 import { parsePageVisualSettings } from "@/schemas/visual-settings";
 import { resolveVisualExperience } from "@/features/theme/visual-experience-resolver";
 import { VisualExperienceProvider } from "@/components/theme/visual-experience-provider";
+import { FALLBACK_LOCALES } from "@/i18n/locale-config";
+import { logServerRenderDiagnostic } from "@/lib/debug/server-render-log";
 
 type Props = {
   slug: string;
@@ -59,14 +61,26 @@ export async function CmsPageRenderer({
     console.warn(`[CmsPageRenderer] /${slug} theme/nav fallback:`, errMsg);
   }
   const blocks = (page.blocks as PageBlocks) ?? [];
-  const enabledLocales =
-    translationBundle?.enabledLocales ?? (await localeService.listEnabled());
-  const pageTranslationsResolved = pageTranslationsProp !== undefined
-    ? pageTranslationsProp
-    : translationBundle
-      ? getBundleTranslations(translationBundle, "CmsPage", page.id)
-      : await translationService.getForEntity("CmsPage", page.id);
-  const pageTranslations = pageTranslationsResolved;
+  let enabledLocales = translationBundle?.enabledLocales ?? FALLBACK_LOCALES;
+  if (!translationBundle?.enabledLocales) {
+    try {
+      enabledLocales = await localeService.listEnabled();
+    } catch (error) {
+      logServerRenderDiagnostic("CmsPageRenderer.listEnabledLocales", error);
+    }
+  }
+  let pageTranslations: EntityTranslation[] = [];
+  if (pageTranslationsProp !== undefined) {
+    pageTranslations = pageTranslationsProp;
+  } else if (translationBundle) {
+    pageTranslations = getBundleTranslations(translationBundle, "CmsPage", page.id);
+  } else {
+    try {
+      pageTranslations = await translationService.getForEntity("CmsPage", page.id);
+    } catch (error) {
+      logServerRenderDiagnostic("CmsPageRenderer.pageTranslations", error);
+    }
+  }
   const pageHeaderOverlay = resolvePageHeaderOverlay(headerWorkspace.settings, blocks);
   const overlayActive = isPageHeaderOverlayActive(headerWorkspace.settings, blocks);
   const pageVisual = parsePageVisualSettings(

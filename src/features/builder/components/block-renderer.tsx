@@ -5,6 +5,7 @@ import type { Locale } from "@/i18n/routing";
 import type { BlockNode, PageBlocks } from "@/types/builder";
 import type { ResolvedHeaderOverlay } from "@/features/navigation/types";
 import { cn } from "@/lib/utils";
+import { logBlockRenderFailure } from "@/lib/debug/server-render-log";
 import {
   getFaqSetBySlug,
   getGalleryBySlug,
@@ -1060,7 +1061,7 @@ async function RenderBlock({
       siteTextEffect: ctx.siteTextEffect,
     });
   } catch (error) {
-    console.error(`[BlockRenderer] block ${block.id} (${block.type}) failed:`, error);
+    logBlockRenderFailure(block.id, block.type, error);
     if (ctx.previewMode) {
       inner = (
         <div className="section-padding container-premium">

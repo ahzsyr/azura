@@ -1,5 +1,9 @@
 import type { BlockNode, PageBlocks } from "@/types/builder";
-import { announcementBarPropsSchema } from "@/features/announcement-bar/announcement-bar.schema";
+import {
+  announcementBarPropsSchema,
+  DEFAULT_ANNOUNCEMENT_BAR_PROPS,
+} from "@/features/announcement-bar/announcement-bar.schema";
+import { safeParseProps } from "@/lib/zod/safe-parse-props";
 
 type LegacyDiscriminantBlock = {
   discriminant?: string;
@@ -50,7 +54,12 @@ function extractStripSettings(raw: Record<string, unknown>): Record<string, unkn
     ...rest,
   };
 
-  return announcementBarPropsSchema.parse(settings);
+  return safeParseProps(
+    announcementBarPropsSchema,
+    settings,
+    DEFAULT_ANNOUNCEMENT_BAR_PROPS,
+    "migrateLegacyStripBlock",
+  );
 }
 
 function migrateOneBlock(block: unknown): BlockNode | null {

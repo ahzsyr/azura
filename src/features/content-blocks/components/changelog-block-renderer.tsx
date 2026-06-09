@@ -9,6 +9,9 @@ import { ChangelogReleasesOverflow } from "@/features/content-blocks/components/
 import { pickLocaleField } from "@/features/content-blocks/lib/locale-field";
 import type { BlockNode } from "@/types/builder";
 import type { BlockOverflowContext } from "@/features/builder/components/marketing-items-overflow";
+import { safeParseProps } from "@/lib/zod/safe-parse-props";
+
+const DEFAULT_CHANGELOG = changelogPropsSchema.parse({});
 
 type Props = {
   locale: Locale;
@@ -19,7 +22,7 @@ type Props = {
 };
 
 export async function ChangelogBlockRenderer({ locale, props, loc, block, overflow }: Props) {
-  const p = changelogPropsSchema.parse(props);
+  const p = safeParseProps(changelogPropsSchema, props, DEFAULT_CHANGELOG, "ChangelogBlockRenderer");
   const title =
     (loc?.("title") ?? "") ||
     pickLocaleField(p as Record<string, unknown>, "title", locale);

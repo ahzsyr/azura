@@ -16,6 +16,9 @@ export default function MarketingError({
 
   useEffect(() => {
     console.error("[marketing] page error:", error);
+    if (process.env.NODE_ENV === "development" && error.digest) {
+      console.error("[marketing] error digest:", error.digest);
+    }
     recordRouteFailure({
       pathname,
       message: error.message,

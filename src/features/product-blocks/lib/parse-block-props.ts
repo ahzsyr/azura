@@ -8,6 +8,15 @@ import {
   productSpecificationsPropsSchema,
   relatedProductsPropsSchema,
 } from "@/features/product-blocks/schemas/product-blocks";
+import { safeParseProps } from "@/lib/zod/safe-parse-props";
+
+const DEFAULT_PRODUCT_GRID = productGridPropsSchema.parse({});
+const DEFAULT_PRODUCT_CAROUSEL = productCarouselPropsSchema.parse({});
+const DEFAULT_PRODUCT_COMPARISON = productComparisonPropsSchema.parse({});
+const DEFAULT_PRODUCT_SPECIFICATIONS = productSpecificationsPropsSchema.parse({});
+const DEFAULT_PRODUCT_REVIEWS = productReviewsPropsSchema.parse({});
+const DEFAULT_PRODUCT_FAQ = productFaqPropsSchema.parse({});
+const DEFAULT_RELATED_PRODUCTS = relatedProductsPropsSchema.parse({});
 
 export function parseProductSelection(raw: Record<string, unknown>): ProductSelectionConfig {
   return {
@@ -36,29 +45,64 @@ export function parseProductSelection(raw: Record<string, unknown>): ProductSele
 }
 
 export function parseProductGridProps(raw: Record<string, unknown>) {
-  return productGridPropsSchema.parse({ ...parseProductSelection(raw), ...raw });
+  return safeParseProps(
+    productGridPropsSchema,
+    { ...parseProductSelection(raw), ...raw },
+    DEFAULT_PRODUCT_GRID,
+    "parseProductGridProps",
+  );
 }
 
 export function parseProductCarouselProps(raw: Record<string, unknown>) {
-  return productCarouselPropsSchema.parse({ ...parseProductSelection(raw), ...raw });
+  return safeParseProps(
+    productCarouselPropsSchema,
+    { ...parseProductSelection(raw), ...raw },
+    DEFAULT_PRODUCT_CAROUSEL,
+    "parseProductCarouselProps",
+  );
 }
 
 export function parseProductComparisonProps(raw: Record<string, unknown>) {
-  return productComparisonPropsSchema.parse(raw);
+  return safeParseProps(
+    productComparisonPropsSchema,
+    raw,
+    DEFAULT_PRODUCT_COMPARISON,
+    "parseProductComparisonProps",
+  );
 }
 
 export function parseProductSpecificationsProps(raw: Record<string, unknown>) {
-  return productSpecificationsPropsSchema.parse(raw);
+  return safeParseProps(
+    productSpecificationsPropsSchema,
+    raw,
+    DEFAULT_PRODUCT_SPECIFICATIONS,
+    "parseProductSpecificationsProps",
+  );
 }
 
 export function parseProductReviewsProps(raw: Record<string, unknown>) {
-  return productReviewsPropsSchema.parse(raw);
+  return safeParseProps(
+    productReviewsPropsSchema,
+    raw,
+    DEFAULT_PRODUCT_REVIEWS,
+    "parseProductReviewsProps",
+  );
 }
 
 export function parseProductFaqProps(raw: Record<string, unknown>) {
-  return productFaqPropsSchema.parse(raw);
+  return safeParseProps(
+    productFaqPropsSchema,
+    raw,
+    DEFAULT_PRODUCT_FAQ,
+    "parseProductFaqProps",
+  );
 }
 
 export function parseRelatedProductsProps(raw: Record<string, unknown>) {
-  return relatedProductsPropsSchema.parse(raw);
+  return safeParseProps(
+    relatedProductsPropsSchema,
+    raw,
+    DEFAULT_RELATED_PRODUCTS,
+    "parseRelatedProductsProps",
+  );
 }
