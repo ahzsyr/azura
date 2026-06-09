@@ -10,6 +10,19 @@ import {
 
 let lastAppliedEffectSignature: string | null = null;
 
+function isInactiveEffectId(id: string | null | undefined): boolean {
+  return !id || id === "none";
+}
+
+function shouldSkipEffectsEngine(resolved: ResolvedVisualExperience): boolean {
+  if (resolved.animationsEnabled !== false) return false;
+  return (
+    isInactiveEffectId(resolved.cursorEffect) &&
+    isInactiveEffectId(resolved.backgroundEffect) &&
+    isInactiveEffectId(resolved.textEffect)
+  );
+}
+
 /** Theme surface DOM hooks (not part of the effects engine). */
 export function applyThemeSurfaceHooks(resolved: ResolvedVisualExperience): void {
   if (typeof document === "undefined") return;
@@ -30,12 +43,19 @@ export function applyThemeSurfaceHooks(resolved: ResolvedVisualExperience): void
 
 /** Apply pre-resolved visual experience via the isolated effects engine. */
 export function applyVisualEffects(resolved: ResolvedVisualExperience): void {
+  applyThemeSurfaceHooks(resolved);
+
   const config = mapVisualExperienceToEffectConfig(resolved);
   const signature = JSON.stringify(config);
   if (signature === lastAppliedEffectSignature) return;
 
+  if (shouldSkipEffectsEngine(resolved)) {
+    visualEffectsEngine.destroy();
+    lastAppliedEffectSignature = signature;
+    return;
+  }
+
   markEffectCostStart();
-  applyThemeSurfaceHooks(resolved);
   visualEffectsEngine.update(config);
   lastAppliedEffectSignature = signature;
   markEffectCostEnd();

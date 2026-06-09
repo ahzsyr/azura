@@ -12,6 +12,7 @@ import {
   MarketingItemsOverflow,
   shouldUseResponsiveOverflow,
 } from "@/features/builder/components/marketing-items-overflow";
+import { useResolvedVisualExperience } from "@/components/theme/visual-experience-context";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -73,13 +74,16 @@ export function StatsCounterView({
   const colCount = Math.min(Math.max(items.length, 2), 4) as 2 | 3 | 4;
   const useOverflow =
     Boolean(block && overflow && shouldUseResponsiveOverflow(overflow.flags));
+  const resolved = useResolvedVisualExperience();
+  const scrollReveal = resolved?.animationsEnabled !== false;
 
   const renderStat = (item: StatItem) => (
     <StatCard
       item={item}
       locale={locale}
-      animateOnView={animateOnView}
+      animateOnView={animateOnView && scrollReveal}
       featured={featured}
+      scrollReveal={scrollReveal}
     />
   );
 
@@ -112,8 +116,9 @@ export function StatsCounterView({
               key={item.id}
               item={item}
               locale={locale}
-              animateOnView={animateOnView}
+              animateOnView={animateOnView && scrollReveal}
               featured={featured}
+              scrollReveal={scrollReveal}
             />
           ))}
         </div>
@@ -127,11 +132,13 @@ function StatCard({
   locale,
   animateOnView,
   featured,
+  scrollReveal,
 }: {
   item: StatItem;
   locale: string;
   animateOnView: boolean;
   featured?: boolean;
+  scrollReveal: boolean;
 }) {
   const Icon = resolveMarketingIcon(item.icon);
   const label = resolveItemField(item, "label", locale);
@@ -141,8 +148,7 @@ function StatCard({
 
   return (
     <div
-      data-scroll-item
-      data-reveal="slide-up"
+      {...(scrollReveal ? { "data-scroll-item": true, "data-reveal": "slide-up" } : {})}
       className={cn(
         "flex w-full min-w-0 flex-col items-center px-2 text-center",
         featured && "rounded-xl border border-border/60 bg-card p-4 sm:p-6",

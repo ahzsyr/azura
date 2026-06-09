@@ -4,6 +4,7 @@ import { PreloaderView } from "@/features/preloader/preloader-view";
 import { preloaderShowsOnInitialLoad } from "@/features/preloader/site-preloader.schema";
 import type { ResolvedSitePreloader } from "@/features/preloader/resolve-site-preloader";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 type Props = {
   settings: ResolvedSitePreloader;
@@ -77,11 +78,11 @@ export function SitePreloader({ settings }: Props) {
       showPreloader();
 
       const onReady = () => scheduleDismiss();
-      if (document.readyState === "complete") {
+      if (document.readyState === "complete" || document.readyState === "interactive") {
         onReady();
       } else {
-        window.addEventListener("load", onReady, { once: true });
-        return () => window.removeEventListener("load", onReady);
+        document.addEventListener("DOMContentLoaded", onReady, { once: true });
+        return () => document.removeEventListener("DOMContentLoaded", onReady);
       }
     }
   }, [mounted, scheduleDismiss, settings.enabled, settings.mode, showPreloader]);
@@ -95,5 +96,8 @@ export function SitePreloader({ settings }: Props) {
 
   if (!settings.enabled || !mounted) return null;
 
-  return <PreloaderView settings={settings} hidden={!visible} />;
+  return createPortal(
+    <PreloaderView settings={settings} hidden={!visible} />,
+    document.body,
+  );
 }

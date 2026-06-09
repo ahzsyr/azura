@@ -5,6 +5,7 @@ import { animate, useMotionValue, useReducedMotion } from "framer-motion";
 import { observeOnce } from "@/lib/performance/intersection-observer-hub";
 import { waitForScrollReveal, waitUntilVisible } from "@/lib/performance/wait-until-visible";
 import { useConstrainedMotion } from "@/hooks/use-constrained-motion";
+import { useResolvedVisualExperience } from "@/components/theme/visual-experience-context";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -30,13 +31,18 @@ export function AnimatedCounter({
 }: Props) {
   const osReduced = useReducedMotion();
   const { shouldReduceMotion, shouldSimplifyMotion } = useConstrainedMotion();
+  const resolved = useResolvedVisualExperience();
   const motionValue = useMotionValue(value);
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
   const controlsRef = useRef<ReturnType<typeof animate> | null>(null);
 
   const effectiveDuration = shouldSimplifyMotion ? duration * 0.7 : duration;
-  const skipAnimation = !animateOnView || shouldReduceMotion || osReduced;
+  const skipAnimation =
+    !animateOnView ||
+    shouldReduceMotion ||
+    osReduced ||
+    resolved?.animationsEnabled === false;
 
   useEffect(() => {
     const el = ref.current;

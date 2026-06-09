@@ -50,9 +50,19 @@ export function ThemeEffectsClient({ tokens, siteResolved, applyOnMount = false 
 
   useEffect(() => {
     if (!applyOnMount) return;
+    if (tokens?.animationsEnabled === false && baseResolved) {
+      const inactive = (id: string | null | undefined) => !id || id === "none";
+      if (
+        inactive(baseResolved.cursorEffect) &&
+        inactive(baseResolved.backgroundEffect) &&
+        inactive(baseResolved.textEffect)
+      ) {
+        return;
+      }
+    }
     const cancelIdle = deferUntilIdle(applyFromStorage);
     return cancelIdle;
-  }, [applyOnMount, applyFromStorage]);
+  }, [applyOnMount, applyFromStorage, tokens?.animationsEnabled, baseResolved]);
 
   useEffect(() => {
     const onThemeChange = () => {

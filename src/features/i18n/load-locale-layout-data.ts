@@ -29,11 +29,12 @@ export type LocaleLayoutData = {
  */
 export const loadLocaleLayoutData = cache(
   async (locale: string): Promise<LocaleLayoutData> => {
-    const [messages, siteSettings, resolvedTheme, shell, comparison] = await Promise.all([
+    const resolvedTheme = await resolvePublishedSiteTheme();
+
+    const [messages, siteSettings, shell, comparison] = await Promise.all([
       getMessages(),
       readSiteSettings(locale),
-      resolvePublishedSiteTheme(),
-      loadPublicShellContext(locale),
+      loadPublicShellContext(locale, { themeTokens: resolvedTheme.tokens }),
       loadComparisonShellProps(locale),
     ]);
 

@@ -382,7 +382,7 @@
   },
   "sitePreloader": {
     "enabled": true,
-    "mode": "both",
+    "mode": "initialOnly",
     "animation": "pulse",
     "centerType": "logo",
     "centerText": "",
@@ -394,7 +394,7 @@
     "primaryColor": "",
     "accentColor": "",
     "animationSpeed": 1,
-    "minDurationMs": 400,
+    "minDurationMs": 200,
     "maxDurationMs": 12000
   }
 }

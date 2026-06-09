@@ -198,9 +198,9 @@ export async function loadPublicShellContext(
   options: LoadPublicShellOptions = {},
 ): Promise<PublicShellContext> {
   const previewDraft = options.previewDraft ?? false;
-  if (previewDraft) {
+  if (previewDraft || options.themeTokens !== undefined) {
     return loadPublicShellContextUncached(locale, {
-      previewDraft: true,
+      previewDraft,
       themeTokens: options.themeTokens,
     });
   }

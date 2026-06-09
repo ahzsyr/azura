@@ -41,7 +41,7 @@ export type SitePreloaderSettings = z.infer<typeof sitePreloaderSchema>;
 
 export const DEFAULT_SITE_PRELOADER: SitePreloaderSettings = {
   enabled: true,
-  mode: "both",
+  mode: "initialOnly",
   animation: "pulse",
   centerType: "logo",
   centerText: "",
@@ -53,7 +53,7 @@ export const DEFAULT_SITE_PRELOADER: SitePreloaderSettings = {
   primaryColor: "",
   accentColor: "",
   animationSpeed: 1,
-  minDurationMs: 400,
+  minDurationMs: 200,
   maxDurationMs: 12000,
 };
 

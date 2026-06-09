@@ -11,8 +11,8 @@ import {
   DeferredNavigationProgress,
   DeferredNavigationViewTransition,
   DeferredRecentlyViewedTracker,
-  ScrollRevealObserverHost,
-  DeferredSitePreloaderHost,
+  MotionRuntimeHost,
+  SitePreloaderHost,
   DeferredWhatsAppFab,
   ThemePerformanceMonitorDeferred,
 } from "@/components/layout/marketing-shell-deferred";
@@ -94,6 +94,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         active={
           preloaderSettings.enabled && preloaderShowsOnInitialLoad(preloaderSettings.mode)
         }
+        maxDurationMs={preloaderSettings.maxDurationMs}
       />
       <DocumentLangScript lang={htmlLang} dir={shell.direction} />
       <DocumentAttributes lang={htmlLang} dir={shell.direction} />
@@ -104,10 +105,10 @@ export default async function LocaleLayout({ children, params }: Props) {
         <AccountSessionProvider>
           <ThemeProvider resolved={resolvedTheme}>
             <DeferredNavigationProgress />
-            <DeferredSitePreloaderHost settings={preloaderSettings} />
+            <SitePreloaderHost settings={preloaderSettings} />
             <DeferredNavigationViewTransition />
             <DeferredRecentlyViewedTracker />
-            <ScrollRevealObserverHost />
+            <MotionRuntimeHost />
             <ThemePerformanceMonitorDeferred />
             <SiteHeader
               workspace={shell.headerWorkspace}
