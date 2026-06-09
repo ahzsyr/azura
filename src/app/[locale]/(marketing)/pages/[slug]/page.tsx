@@ -88,6 +88,6 @@ export default async function CmsPageRoute({ params }: Props) {
     return <MarketingCmsPage slug={slug} locale={locale as Locale} page={page} />;
   } catch (error) {
     console.error(`[CmsPageRoute] render failed for /pages/${slug}:`, error);
-    throw error;
+    notFound();
   }
 }

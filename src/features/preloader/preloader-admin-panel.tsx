@@ -47,17 +47,28 @@ const ICON_OPTIONS = [
 type Props = {
   initialSettings: SitePreloaderSettings;
   themeLogoUrl: string | null;
+  brandLogoLightUrl?: string | null;
+  brandLogoDarkUrl?: string | null;
 };
 
-export function PreloaderAdminPanel({ initialSettings, themeLogoUrl }: Props) {
+export function PreloaderAdminPanel({
+  initialSettings,
+  themeLogoUrl,
+  brandLogoLightUrl,
+  brandLogoDarkUrl,
+}: Props) {
   const [settings, setSettings] = useState<SitePreloaderSettings>(initialSettings);
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
   const previewSettings = useMemo(
-    () => resolveSitePreloader({ sitePreloader: settings }, { themeLogoUrl }),
-    [settings, themeLogoUrl],
+    () =>
+      resolveSitePreloader(
+        { sitePreloader: settings },
+        { themeLogoUrl, brandLogoLightUrl, brandLogoDarkUrl },
+      ),
+    [settings, themeLogoUrl, brandLogoLightUrl, brandLogoDarkUrl],
   );
 
   const patch = <K extends keyof SitePreloaderSettings>(key: K, value: SitePreloaderSettings[K]) => {

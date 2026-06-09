@@ -4,7 +4,7 @@ import {
   DEFAULT_TAGLINE,
   isDefaultBrandName,
 } from "@/config/site";
-import type { HeaderAction, HeaderDesktopMode, HeaderWorkspace, MenuItem, MenuItemType } from "./types";
+import type { BrandingState, HeaderAction, HeaderDesktopMode, HeaderWorkspace, MenuItem, MenuItemType } from "./types";
 import { normalizeBranding } from "./branding-defaults";
 import { generateId } from "./menu-engine";
 
@@ -84,6 +84,35 @@ function isOverridableTagline(tagline: string): boolean {
   const t = tagline.trim();
   if (!t) return true;
   return t.toLowerCase() === "solutions";
+}
+
+const FACTORY_BRANDING = normalizeBranding({});
+
+/** True when theme brandConfig has any non-factory branding field (layout, typography, logos, etc.). */
+function themeBrandConfigIsCustomized(branding: BrandingState): boolean {
+  if (!isDefaultBrandName(branding.brandName) && branding.brandName !== FACTORY_BRANDING.brandName) {
+    return true;
+  }
+  if (branding.logoImageLightUrl || branding.logoImageDarkUrl) return true;
+  if (branding.logoMode !== FACTORY_BRANDING.logoMode) return true;
+  if (branding.tagline.trim()) return true;
+  if (branding.brandLayoutMobile !== FACTORY_BRANDING.brandLayoutMobile) return true;
+  if (branding.brandLayoutDesktop !== FACTORY_BRANDING.brandLayoutDesktop) return true;
+  if (branding.areaStyle !== FACTORY_BRANDING.areaStyle) return true;
+  if (branding.showTagline !== FACTORY_BRANDING.showTagline) return true;
+  if (
+    branding.logoText !== FACTORY_BRANDING.logoText &&
+    !isOverridableBrandName(branding.logoText)
+  ) {
+    return true;
+  }
+  return (
+    JSON.stringify(branding.logoSizing) !== JSON.stringify(FACTORY_BRANDING.logoSizing) ||
+    JSON.stringify(branding.brandNameTypography) !==
+      JSON.stringify(FACTORY_BRANDING.brandNameTypography) ||
+    JSON.stringify(branding.brandTaglineTypography) !==
+      JSON.stringify(FACTORY_BRANDING.brandTaglineTypography)
+  );
 }
 
 /** Upgrade persisted workspaces from BRT / travel-agency template seeds. */
@@ -345,16 +374,10 @@ export function mergeHeaderWorkspaceWithTheme(
 ): HeaderWorkspace {
   const logo = typeof theme.logoUrl === "string" ? theme.logoUrl.trim() : "";
   const themeBranding = theme.brandConfig ? normalizeBranding(theme.brandConfig) : null;
-  const hasThemeBranding =
-    themeBranding &&
-    (!isDefaultBrandName(themeBranding.brandName) ||
-      themeBranding.logoImageLightUrl ||
-      themeBranding.logoImageDarkUrl ||
-      themeBranding.logoMode === "image" ||
-      themeBranding.tagline.trim());
+  const useThemeBranding = themeBranding && themeBrandConfigIsCustomized(themeBranding);
 
-  let branding = hasThemeBranding
-    ? themeBranding
+  let branding = useThemeBranding
+    ? normalizeBranding(theme.brandConfig!)
     : normalizeBranding({ ...workspace.branding });
 
   const name = typeof theme.siteName === "string" ? theme.siteName.trim() : "";

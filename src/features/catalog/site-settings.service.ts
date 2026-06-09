@@ -4,7 +4,13 @@ import { cache } from "react";
 import type { Prisma } from "@prisma/client";
 import { readFile, writeFile, mkdir, stat } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { createCached, CACHE_TAGS, revalidateJsonNamespace } from "@/services/cache";
+import { revalidatePath } from "next/cache";
+import {
+  createCached,
+  CACHE_TAGS,
+  revalidateJsonNamespace,
+  revalidateMarketingHome,
+} from "@/services/cache";
 import { REVALIDATE } from "@/lib/config/performance";
 import {
   adminLocale,
@@ -154,8 +160,21 @@ export const readSiteSettings = cache(
   },
 );
 
+function safeRevalidateLayout(path: string): void {
+  try {
+    revalidatePath(path, "layout");
+  } catch {
+    // revalidatePath requires Next.js static generation store
+  }
+}
+
 export function invalidateSiteSettingsCache(): void {
   revalidateJsonNamespace(SITE_SETTINGS_NAMESPACE);
+  revalidateMarketingHome();
+  // Bust locale shells so preloader + site settings props refresh immediately.
+  for (const prefix of ["en", "ar", "en-us", "ar-ae"]) {
+    safeRevalidateLayout(`/${prefix}`);
+  }
 }
 
 async function persistSiteSettingsToFile(

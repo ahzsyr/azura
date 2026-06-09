@@ -41,6 +41,7 @@ export const CMS_WIRED_MARKETING_SLUGS: Record<string, string> = {
   "smart-home": "/smart-home",
   "security-solutions": "/security-solutions",
   "enterprise-wireless": "/enterprise-wireless",
+  "why-choose-us": "/why-choose-us",
 };
 
 export function resolveTemplateKey(templateKey: string, slug?: string): string {

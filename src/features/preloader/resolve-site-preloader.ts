@@ -10,6 +10,8 @@ export type ResolvedSitePreloader = SitePreloaderSettings & {
 
 type ResolveOptions = {
   themeLogoUrl?: string | null;
+  brandLogoLightUrl?: string | null;
+  brandLogoDarkUrl?: string | null;
 };
 
 export function resolveSitePreloader(
@@ -23,7 +25,10 @@ export function resolveSitePreloader(
 
   const resolvedLogoUrl =
     settings.centerType === "logo"
-      ? options.themeLogoUrl?.trim() || null
+      ? options.themeLogoUrl?.trim() ||
+        options.brandLogoLightUrl?.trim() ||
+        options.brandLogoDarkUrl?.trim() ||
+        null
       : null;
 
   return {

@@ -7,15 +7,27 @@ import type { SitePreloaderSettings } from "@/features/preloader/site-preloader.
 type Props = {
   initialSettings: SitePreloaderSettings;
   themeLogoUrl: string | null;
+  brandLogoLightUrl?: string | null;
+  brandLogoDarkUrl?: string | null;
 };
 
-export function PreloaderAdminClient({ initialSettings, themeLogoUrl }: Props) {
+export function PreloaderAdminClient({
+  initialSettings,
+  themeLogoUrl,
+  brandLogoLightUrl,
+  brandLogoDarkUrl,
+}: Props) {
   return (
     <DesignHubShell
       title="Preloader"
       description="Fullscreen loading overlay for the public site. Hides header, footer, and skeleton placeholders while content loads."
     >
-      <PreloaderAdminPanel initialSettings={initialSettings} themeLogoUrl={themeLogoUrl} />
+      <PreloaderAdminPanel
+        initialSettings={initialSettings}
+        themeLogoUrl={themeLogoUrl}
+        brandLogoLightUrl={brandLogoLightUrl}
+        brandLogoDarkUrl={brandLogoDarkUrl}
+      />
     </DesignHubShell>
   );
 }

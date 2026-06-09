@@ -3,11 +3,13 @@
 import { useMemo, useState } from "react";
 import { Monitor, Moon, Smartphone, Sun, Tablet } from "lucide-react";
 import { ThemeEffectsClient } from "@/components/theme/theme-effects-client";
-import { DEFAULT_BRAND_NAME } from "@/config/site";
+import { HeaderBrand } from "@/features/navigation/components/header/HeaderBrand";
+import { normalizeBranding } from "@/features/navigation/branding-defaults";
 import { cn } from "@/lib/utils";
 import type { ResolvedTheme } from "@/lib/theme/theme-resolver";
 import type { ThemeTokens } from "@/types/theme";
 import { ThemeToggle } from "./controls";
+import "@/features/navigation/components/header/header-builder.css";
 
 type Viewport = "desktop" | "tablet" | "mobile";
 
@@ -53,6 +55,20 @@ function PreviewChrome({
       ? tokens.headerConfig.ctaLabelAr || "استفسر"
       : tokens.headerConfig.ctaLabelEn || "Inquire";
 
+  const previewBranding = useMemo(() => {
+    let branding = normalizeBranding(tokens.brandConfig ?? {});
+    const logo = tokens.logoUrl?.trim();
+    if (logo && !branding.logoImageLightUrl && !branding.logoImageDarkUrl) {
+      branding = {
+        ...branding,
+        logoMode: "image",
+        logoImageLightUrl: logo,
+        logoImageDarkUrl: logo,
+      };
+    }
+    return branding;
+  }, [tokens.brandConfig, tokens.logoUrl]);
+
   const themeCss = resolved.css.theme;
   const presetCss = resolved.css.presetVisual;
 
@@ -81,14 +97,7 @@ function PreviewChrome({
       ) : null}
       <header className="flex items-center justify-between gap-2 border-b px-4 py-3">
         {tokens.headerConfig.showLogo ? (
-          tokens.logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={tokens.logoUrl} alt="" className="h-8 max-w-[120px] object-contain" />
-          ) : (
-            <span className="text-sm font-bold" style={{ color: primary, fontFamily: "var(--font-heading)" }}>
-              {DEFAULT_BRAND_NAME}
-            </span>
-          )
+          <HeaderBrand branding={previewBranding} localeCode={previewLocale} />
         ) : (
           <span className="text-xs text-muted-foreground">Logo hidden</span>
         )}

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
 import type { Locale } from "@/i18n/routing";
 import type { CmsPage, EntityTranslation } from "@prisma/client";
 import { cmsService } from "@/features/cms/cms.service";
@@ -42,10 +43,18 @@ export async function CmsPageRenderer({
   let theme: Awaited<ReturnType<typeof themeService.getPublished>> = null;
   let headerWorkspace = createDefaultWorkspace();
   try {
-    [theme, headerWorkspace] = await Promise.all([
-      themeService.getPublished(),
-      navigationService.getWorkspaceForSite(undefined, locale),
-    ]);
+    theme = await themeService.getPublished();
+    headerWorkspace = await navigationService.getWorkspaceForSite(
+      theme
+        ? {
+            logoUrl: theme.logoUrl,
+            brandConfig: theme.brandConfig,
+            siteName: theme.brandConfig?.brandName,
+            tagline: theme.brandConfig?.tagline,
+          }
+        : undefined,
+      locale,
+    );
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
     console.warn(`[CmsPageRenderer] /${slug} theme/nav fallback:`, errMsg);
@@ -67,6 +76,43 @@ export async function CmsPageRenderer({
   const resolved =
     theme != null ? resolveVisualExperience({ site: theme, page: pageVisual }) : null;
 
+  let blockContent: ReactNode = null;
+  if (blocks.length > 0) {
+    try {
+      blockContent = await BlockRenderer({
+        blocks,
+        locale,
+        lazyLoad: theme?.lazyLoadEnabled ?? true,
+        parentType: "CmsPage",
+        parentId: page.id,
+        translationBundle,
+        pageHeaderOverlay,
+        theme,
+        siteTextEffect: resolved?.textEffect ?? null,
+        pageAnimationsEnabled: resolved?.animationsEnabled,
+        discoveryAnchor: { context: "page", slug: page.slug, id: page.id },
+      });
+    } catch (error) {
+      console.error(`[CmsPageRenderer] block render failed for /${slug}:`, error);
+      blockContent = (
+        <div className="section-padding container-premium">
+          <h1 className="font-heading text-4xl font-bold">
+            {getLocalizedField(page, "title", locale, {
+              enabledLocales,
+              translations: pageTranslations,
+            })}
+          </h1>
+          <p className="mt-4 text-lg text-muted-foreground">
+            {getLocalizedField(page, "excerpt", locale, {
+              enabledLocales,
+              translations: pageTranslations,
+            }) || "This page is temporarily unavailable. Please try again shortly."}
+          </p>
+        </div>
+      );
+    }
+  }
+
   return (
     <VisualExperienceProvider site={theme} page={pageVisual}>
       {theme ? <PageVisualEffects site={theme} page={pageVisual} /> : null}
@@ -79,19 +125,7 @@ export async function CmsPageRenderer({
         : {})}
     >
       {blocks.length > 0 ? (
-        <BlockRenderer
-          blocks={blocks}
-          locale={locale}
-          lazyLoad={theme?.lazyLoadEnabled ?? true}
-          parentType="CmsPage"
-          parentId={page.id}
-          translationBundle={translationBundle}
-          pageHeaderOverlay={pageHeaderOverlay}
-          theme={theme}
-          siteTextEffect={resolved?.textEffect ?? null}
-          pageAnimationsEnabled={resolved?.animationsEnabled}
-          discoveryAnchor={{ context: "page", slug: page.slug, id: page.id }}
-        />
+        blockContent
       ) : (
         <div className="section-padding container-premium">
           <h1 className="font-heading text-4xl font-bold">

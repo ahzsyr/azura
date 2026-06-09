@@ -29,6 +29,7 @@ const RESERVED_SLUGS = new Set([
   "smart-home",
   "security-solutions",
   "enterprise-wireless",
+  "why-choose-us",
   "compare",
   "favorites",
   "account",

@@ -38,8 +38,11 @@ export const loadLocaleLayoutData = cache(
       loadComparisonShellProps(locale),
     ]);
 
+    const brandConfig = shell.brandConfig ?? shell.theme?.brandConfig;
     const preloaderSettings = resolveSitePreloader(siteSettings, {
       themeLogoUrl: shell.theme?.logoUrl,
+      brandLogoLightUrl: brandConfig?.logoImageLightUrl ?? brandConfig?.logoImageUrl,
+      brandLogoDarkUrl: brandConfig?.logoImageDarkUrl,
     });
     const htmlLang =
       shell.htmlLang ?? getHtmlLangSync(locale, shell.enabledLocales);
