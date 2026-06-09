@@ -2,40 +2,42 @@ import {
   applyGlassSiteOverlay,
   applySiteBackground,
   clearSiteBackground,
+  downgradeSiteBackgroundForPolicy,
 } from "@/features/theme/backgrounds/background-system";
-import { getBackgroundTier } from "./effect-tiers";
+import { SHELL_READY_EVENT, whenShellReady } from "@/lib/motion/shell-ready";
 import type { CapabilityPolicy, EffectModule, EffectRuntimeConfig } from "./types";
 
 let activeEffectId: string | null = null;
+let shellReadyBound = false;
 
-function downgradeBackground(
-  effectId: string | null,
-  policy: CapabilityPolicy,
-): string | null {
-  if (!effectId || effectId === "none") return null;
+function isShellPreloading(): boolean {
+  if (typeof document === "undefined") return false;
+  return document.documentElement.classList.contains("site-preloading");
+}
 
-  const tier = getBackgroundTier(effectId);
-
-  if (!policy.allowAnimatedBackground) {
-    if (effectId === "grid" || effectId === "aurora") return effectId;
-    return null;
+function applySiteBackgroundWhenReady(effectId: string | null, options?: { force?: boolean }): void {
+  const run = () => applySiteBackground(effectId, options);
+  if (isShellPreloading()) {
+    whenShellReady(run);
+    return;
   }
+  run();
+}
 
-  if (tier === "heavy" && !policy.allowHeavy) {
-    if (effectId === "grid") return "grid";
-    return null;
-  }
-
-  if (tier === "medium" && !policy.allowMedium && effectId !== "grid") {
-    return null;
-  }
-
-  return effectId;
+function bindShellReadyRefresh(): void {
+  if (shellReadyBound || typeof document === "undefined") return;
+  shellReadyBound = true;
+  document.addEventListener(SHELL_READY_EVENT, () => {
+    if (activeEffectId) {
+      applySiteBackground(activeEffectId, { force: true });
+    }
+  });
 }
 
 export const backgroundEngine: EffectModule = {
   initialize() {
     activeEffectId = null;
+    bindShellReadyRefresh();
   },
 
   update(config: EffectRuntimeConfig, policy: CapabilityPolicy) {
@@ -44,18 +46,18 @@ export const backgroundEngine: EffectModule = {
     applyGlassSiteOverlay(config.glassOverlay);
 
     if (!config.background.enabled) {
-      applySiteBackground("none");
+      applySiteBackgroundWhenReady("none");
       activeEffectId = null;
       return;
     }
 
-    const effectId = downgradeBackground(config.background.effectId, policy);
+    const effectId = downgradeSiteBackgroundForPolicy(config.background.effectId, policy);
     if (effectId === activeEffectId) {
       return;
     }
 
     activeEffectId = effectId;
-    applySiteBackground(effectId, { animationsEnabled: config.animationsEnabled });
+    applySiteBackgroundWhenReady(effectId);
   },
 
   destroy() {

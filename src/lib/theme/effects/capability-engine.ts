@@ -61,13 +61,13 @@ export function detectDeviceCapabilities(): DeviceCapabilities {
 /** Derive what effect tiers are allowed for the current environment. */
 export function buildCapabilityPolicy(capabilities: DeviceCapabilities): CapabilityPolicy {
   const { prefersReducedMotion, lowEndDevice, touchOnly, smallScreen } = capabilities;
-  const constrained = prefersReducedMotion || lowEndDevice || smallScreen || touchOnly;
+  const mobileLike = smallScreen || touchOnly;
 
   return {
-    allowHeavy: !prefersReducedMotion && !lowEndDevice && !smallScreen && !touchOnly,
+    allowHeavy: !prefersReducedMotion && !lowEndDevice && !mobileLike,
     allowMedium: !prefersReducedMotion && !lowEndDevice && !smallScreen,
     allowCustomCursor: !touchOnly && !lowEndDevice && !smallScreen,
-    allowAnimatedBackground: !constrained,
+    allowAnimatedBackground: !prefersReducedMotion && !mobileLike,
     allowTextAnimation: !prefersReducedMotion && !smallScreen,
     allowMotion: !prefersReducedMotion && !lowEndDevice,
     allowStagger: !prefersReducedMotion && !smallScreen && !touchOnly,
@@ -83,7 +83,9 @@ export function applyCapabilityAttributes(
   const root = document.documentElement;
   const tier = policy.allowHeavy ? "full" : policy.allowMedium ? "medium" : "light";
   root.dataset.effectsTier = tier;
-  root.dataset.reducedPaint = String(!policy.allowHeavy);
+  root.dataset.reducedPaint = String(
+    capabilities.prefersReducedMotion || capabilities.smallScreen || capabilities.touchOnly,
+  );
   root.dataset.touchOnly = String(capabilities.touchOnly);
   root.dataset.lowEndDevice = String(capabilities.lowEndDevice);
 }

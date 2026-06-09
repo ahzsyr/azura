@@ -19,6 +19,7 @@ import {
   THEME_CHANGE_EVENT,
 } from "@/features/theme/engine";
 import { deferUntilIdle } from "@/lib/performance/defer-until-idle";
+import { SHELL_READY_EVENT, whenShellReady } from "@/lib/motion/shell-ready";
 
 type Props = {
   tokens: ThemeTokens | null;
@@ -60,8 +61,21 @@ export function ThemeEffectsClient({ tokens, siteResolved, applyOnMount = false 
         return;
       }
     }
-    const cancelIdle = deferUntilIdle(applyFromStorage);
-    return cancelIdle;
+
+    let cancelIdle: (() => void) | undefined;
+    const run = () => {
+      cancelIdle?.();
+      cancelIdle = deferUntilIdle(applyFromStorage);
+    };
+
+    const stopShell = whenShellReady(run);
+    document.addEventListener(SHELL_READY_EVENT, run);
+
+    return () => {
+      stopShell();
+      document.removeEventListener(SHELL_READY_EVENT, run);
+      cancelIdle?.();
+    };
   }, [applyOnMount, applyFromStorage, tokens?.animationsEnabled, baseResolved]);
 
   useEffect(() => {
@@ -97,9 +111,9 @@ export function PageVisualEffects({ site, page, siteResolved }: PageProps) {
   );
 
   useEffect(() => {
+    let cancelIdle: (() => void) | undefined;
     const applyPageEffects = () => {
       const live = readStoredPresetEffects();
-      const appearance = resolveEffectAppearance(resolvedTheme) ?? resolveDomAppearance() ?? "light";
       if (live) {
         applyVisualEffects(buildLiveVisualExperience(site, live, readCursorPreference()));
         return;
@@ -107,13 +121,21 @@ export function PageVisualEffects({ site, page, siteResolved }: PageProps) {
       applyVisualEffects(resolveVisualExperience({ site, page }));
     };
 
-    const cancelIdle = deferUntilIdle(applyPageEffects);
+    const run = () => {
+      cancelIdle?.();
+      cancelIdle = deferUntilIdle(applyPageEffects);
+    };
+
+    const stopShell = whenShellReady(run);
+    document.addEventListener(SHELL_READY_EVENT, run);
 
     const onThemeChange = () => deferUntilIdle(applyPageEffects);
     window.addEventListener(THEME_CHANGE_EVENT, onThemeChange);
 
     return () => {
-      cancelIdle();
+      stopShell();
+      document.removeEventListener(SHELL_READY_EVENT, run);
+      cancelIdle?.();
       window.removeEventListener(THEME_CHANGE_EVENT, onThemeChange);
       const appearance = resolveDomAppearance() ?? "light";
       applySiteVisualEffects(site, baseSiteResolved, appearance, readCursorPreference());

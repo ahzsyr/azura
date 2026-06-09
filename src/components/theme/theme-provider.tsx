@@ -39,7 +39,11 @@ export async function ThemeProvider({
             ssrHtmlAttributes={resolved.htmlAttributes}
             siteResolved={siteResolved}
           >
-            <ThemeEffectsClient tokens={resolved.tokens} siteResolved={siteResolved} />
+            <ThemeEffectsClient
+              tokens={resolved.tokens}
+              siteResolved={siteResolved}
+              applyOnMount
+            />
             {children}
           </ThemeEngineProvider>
         </ThemeWrapper>

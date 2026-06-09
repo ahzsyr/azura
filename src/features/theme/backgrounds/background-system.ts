@@ -1,5 +1,7 @@
 import type { CSSProperties } from "react";
 import { initBackground, initSectionBackgroundLayer } from "@/features/theme/effects/backgrounds";
+import { getBackgroundTier } from "@/lib/theme/effects/effect-tiers";
+import type { CapabilityPolicy } from "@/lib/theme/effects/types";
 import type { BlockSectionBackground } from "@/types/block-system";
 
 export type SiteBackgroundEffect =
@@ -59,10 +61,34 @@ function isConstrainedBackgroundEnvironment(): boolean {
   );
 }
 
-function resolveConstrainedSiteEffect(effect: SiteBackgroundEffect): SiteBackgroundEffect {
+/** Static CSS/canvas fallback when motion or GPU budget is limited — shared by site + block layers. */
+export function resolveConstrainedSiteEffect(effect: SiteBackgroundEffect): SiteBackgroundEffect {
   if (effect === "none") return "none";
   if (STATIC_SITE_EFFECTS.has(effect)) return effect;
   return "grid";
+}
+
+/** Policy-aware site background — never returns null for an active effect (falls back to grid). */
+export function downgradeSiteBackgroundForPolicy(
+  effectId: string | null | undefined,
+  policy: CapabilityPolicy,
+): SiteBackgroundEffect | null {
+  const normalized = normalizeSiteBackgroundEffect(effectId);
+  if (normalized === "none") return null;
+
+  if (prefersReducedMotion() || !policy.allowAnimatedBackground) {
+    return resolveConstrainedSiteEffect(normalized);
+  }
+
+  const tier = getBackgroundTier(normalized);
+  if (tier === "heavy" && !policy.allowHeavy) {
+    return resolveConstrainedSiteEffect(normalized);
+  }
+  if (tier === "medium" && !policy.allowMedium && normalized !== "grid") {
+    return resolveConstrainedSiteEffect(normalized);
+  }
+
+  return normalized;
 }
 
 let activeSiteEffect: string | null = null;
@@ -103,12 +129,11 @@ export function applyGlassSiteOverlay(enabled: boolean): void {
  */
 export function applySiteBackground(
   effect: string | null | undefined,
-  options?: { animationsEnabled?: boolean; force?: boolean },
+  options?: { force?: boolean },
 ): void {
   if (typeof document === "undefined") return;
 
   const normalized = normalizeSiteBackgroundEffect(effect);
-  const animationsEnabled = options?.animationsEnabled !== false;
   const constrained = isConstrainedBackgroundEnvironment();
   const runtimeEffect = constrained ? resolveConstrainedSiteEffect(normalized) : normalized;
 
@@ -125,22 +150,7 @@ export function applySiteBackground(
   }
 
   document.body.dataset.bgEffect = runtimeEffect;
-
-  if (constrained) {
-    initBackground(runtimeEffect);
-    return;
-  }
-
-  if (animationsEnabled || STATIC_SITE_EFFECTS.has(normalized)) {
-    initBackground(normalized);
-    return;
-  }
-
-  if (STATIC_SITE_EFFECTS.has(normalized)) {
-    initBackground(normalized);
-  } else {
-    initBackground("none");
-  }
+  initBackground(runtimeEffect);
 }
 
 export function clearSiteBackground(): void {

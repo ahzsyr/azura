@@ -22,4 +22,6 @@ export {
   applySiteBackground,
   applyGlassSiteOverlay,
   normalizeSiteBackgroundEffect,
+  resolveConstrainedSiteEffect,
+  downgradeSiteBackgroundForPolicy,
 } from "./backgrounds/background-system";

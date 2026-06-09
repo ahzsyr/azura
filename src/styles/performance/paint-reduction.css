@@ -8,10 +8,12 @@
     --az-preset-blur-overlay: 0px;
   }
 
-  html[data-reduced-paint="true"] body::before,
-  html[data-reduced-paint="true"] body::after {
-    opacity: 0 !important;
-    background: none !important;
+  @media (max-width: 768px) {
+    html[data-reduced-paint="true"] body::before,
+    html[data-reduced-paint="true"] body::after {
+      opacity: 0 !important;
+      background: none !important;
+    }
   }
 
   html[data-reduced-paint="true"] .site-header,
