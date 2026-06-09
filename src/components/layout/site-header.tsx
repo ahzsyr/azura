@@ -28,6 +28,9 @@ export function SiteHeader({
 }: Props) {
   useEffect(() => {
     setWorkspace(workspace);
+    document.querySelectorAll("[data-header-shell]").forEach((el) => {
+      el.remove();
+    });
   }, [workspace]);
 
   return (

@@ -157,14 +157,12 @@ export function buildSemanticCss(semantic: SemanticThemeInput, surfaces?: {
   const light = semanticSetToDeclarations(semantic.light, lightExtras).join(";");
   const dark = semanticSetToDeclarations(semantic.dark, darkExtras).join(";");
 
-  return `@layer tokens {
-  html {
+  return `html {
     ${light};
   }
   html.dark {
     ${dark};
-  }
-}`;
+  }`;
 }
 
 /** Map resolved surfaces to semantic tokens (client DOM updates). */

@@ -1,0 +1,133 @@
+{
+  "generatedAt": "2026-06-09T08:22:08.501Z",
+  "totalJsKb": 8420.6,
+  "chunkCount": 184,
+  "topChunks": [
+    {
+      "file": ".next/static/chunks/00x6t8-1k~jiq.js",
+      "bytes": 515133,
+      "kb": 503.1
+    },
+    {
+      "file": ".next/static/chunks/0zkd9.qz-4ab-.js",
+      "bytes": 515133,
+      "kb": 503.1
+    },
+    {
+      "file": ".next/static/chunks/13w88qmzjlw~~.js",
+      "bytes": 515133,
+      "kb": 503.1
+    },
+    {
+      "file": ".next/static/chunks/14ch.5o_7s-qg.js",
+      "bytes": 515133,
+      "kb": 503.1
+    },
+    {
+      "file": ".next/static/chunks/0ek_g-5~gwo4x.js",
+      "bytes": 388402,
+      "kb": 379.3
+    },
+    {
+      "file": ".next/static/chunks/155bi7ep2xvb5.js",
+      "bytes": 231723,
+      "kb": 226.3
+    },
+    {
+      "file": ".next/static/chunks/03n8r1itpofn..js",
+      "bytes": 199431,
+      "kb": 194.8
+    },
+    {
+      "file": ".next/static/chunks/089tgbn.duuf..js",
+      "bytes": 199431,
+      "kb": 194.8
+    },
+    {
+      "file": ".next/static/chunks/0owcastek9mhv.js",
+      "bytes": 199431,
+      "kb": 194.8
+    },
+    {
+      "file": ".next/static/chunks/02jevhn7f4~.f.js",
+      "bytes": 192422,
+      "kb": 187.9
+    },
+    {
+      "file": ".next/static/chunks/0go03bfi23esw.js",
+      "bytes": 192422,
+      "kb": 187.9
+    },
+    {
+      "file": ".next/static/chunks/033cj451.wv8y.js",
+      "bytes": 164675,
+      "kb": 160.8
+    },
+    {
+      "file": ".next/static/chunks/0.lgn_u5h~tdq.js",
+      "bytes": 136916,
+      "kb": 133.7
+    },
+    {
+      "file": ".next/static/chunks/03jhxv6ko4.~_.js",
+      "bytes": 136916,
+      "kb": 133.7
+    },
+    {
+      "file": ".next/static/chunks/03~yq9q893hmn.js",
+      "bytes": 112594,
+      "kb": 110
+    },
+    {
+      "file": ".next/static/chunks/0c8vof9bs9dee.js",
+      "bytes": 110030,
+      "kb": 107.5
+    },
+    {
+      "file": ".next/static/chunks/0fd-7qq5xzt3d.js",
+      "bytes": 102056,
+      "kb": 99.7
+    },
+    {
+      "file": ".next/static/chunks/0gc-us-572aw2.js",
+      "bytes": 87210,
+      "kb": 85.2
+    },
+    {
+      "file": ".next/static/chunks/127fan8j-566k.js",
+      "bytes": 87196,
+      "kb": 85.2
+    },
+    {
+      "file": ".next/static/chunks/0g_s.~08monrh.js",
+      "bytes": 78496,
+      "kb": 76.7
+    },
+    {
+      "file": ".next/static/chunks/17iqokw9k25g2.js",
+      "bytes": 72473,
+      "kb": 70.8
+    },
+    {
+      "file": ".next/static/chunks/0vvrvvu1gnl4o.js",
+      "bytes": 70641,
+      "kb": 69
+    },
+    {
+      "file": ".next/static/chunks/0v9clr.iv.uia.js",
+      "bytes": 68428,
+      "kb": 66.8
+    },
+    {
+      "file": ".next/static/chunks/0legretar3z8s.js",
+      "bytes": 64041,
+      "kb": 62.5
+    },
+    {
+      "file": ".next/static/chunks/10nim9x4jz_gs.js",
+      "bytes": 63669,
+      "kb": 62.2
+    }
+  ],
+  "routeEntrypoints": []
+}

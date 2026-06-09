@@ -185,9 +185,14 @@ export function applyLiveEffectsFromStorage(
 export function notifyAppearanceChange(
   mode: AppearanceMode,
   resolved: ResolvedAppearance,
+  options?: { appearanceOnly?: boolean },
 ): void {
   syncThemeDataAttributes(mode, resolved);
-  dispatchThemeChange({ appearanceMode: mode, resolvedAppearance: resolved });
+  dispatchThemeChange({
+    appearanceMode: mode,
+    resolvedAppearance: resolved,
+    appearanceOnly: options?.appearanceOnly,
+  });
 }
 
 /** Re-export session readers for client components (Turbopack resolves this module as the engine client entry). */

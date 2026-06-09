@@ -1,7 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import {
@@ -20,6 +19,7 @@ import {
   type SitePreloaderSettings,
 } from "@/features/preloader/site-preloader.schema";
 import { adminLocale } from "@/features/catalog/admin/catalog-admin-config";
+import { useDesignHubSaveActions } from "@/hooks/use-design-hub-save-actions";
 
 const MODE_OPTIONS = [
   { value: "both", label: "Both" },
@@ -60,7 +60,41 @@ export function PreloaderAdminPanel({
   const [settings, setSettings] = useState<SitePreloaderSettings>(initialSettings);
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [saving, setSaving] = useState(false);
+  const savedSettingsRef = useRef(initialSettings);
+
+  const handleSave = useCallback(async () => {
+    setStatus(null);
+    setError(null);
+    const res = await fetch("/api/save-settings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        key: "sitePreloader",
+        value: settings,
+        locale: adminLocale.code,
+      }),
+    });
+    const data = (await res.json()) as { error?: string };
+    if (!res.ok) {
+      const message = data.error ?? "Save failed";
+      setError(message);
+      throw new Error(message);
+    }
+    savedSettingsRef.current = settings;
+    setStatus("Preloader settings saved.");
+  }, [settings]);
+
+  const handleCancel = useCallback(() => {
+    setSettings(savedSettingsRef.current);
+    setStatus(null);
+    setError(null);
+  }, []);
+
+  const { markDirty } = useDesignHubSaveActions({
+    onSave: handleSave,
+    onCancel: handleCancel,
+    saveLabel: "Save",
+  });
 
   const previewSettings = useMemo(
     () =>
@@ -72,32 +106,9 @@ export function PreloaderAdminPanel({
   );
 
   const patch = <K extends keyof SitePreloaderSettings>(key: K, value: SitePreloaderSettings[K]) => {
+    markDirty();
     setSettings((prev) => ({ ...prev, [key]: value }));
   };
-
-  async function save() {
-    setSaving(true);
-    setStatus(null);
-    setError(null);
-    try {
-      const res = await fetch("/api/save-settings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          key: "sitePreloader",
-          value: settings,
-          locale: adminLocale.code,
-        }),
-      });
-      const data = (await res.json()) as { error?: string };
-      if (!res.ok) throw new Error(data.error ?? "Save failed");
-      setStatus("Preloader settings saved.");
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Save failed");
-    } finally {
-      setSaving(false);
-    }
-  }
 
   return (
     <div className="space-y-6">
@@ -281,10 +292,6 @@ export function PreloaderAdminPanel({
           />
         </CardContent>
       </Card>
-
-      <Button type="button" onClick={() => void save()} disabled={saving}>
-        {saving ? "Saving…" : "Save preloader settings"}
-      </Button>
     </div>
   );
 }

@@ -9,6 +9,20 @@ const ORIGINAL_TEXT_ATTR = "data-text-effect-original";
 const APPLIED_ATTR = "data-text-effect-applied";
 const INTERVAL_ATTR = "data-text-effect-interval-id";
 
+const effectCleanups = new WeakMap<HTMLElement, Array<() => void>>();
+
+function trackEffectCleanup(el: HTMLElement, fn: () => void): void {
+  const prev = effectCleanups.get(el) ?? [];
+  prev.push(fn);
+  effectCleanups.set(el, prev);
+}
+
+function runEffectCleanups(el: HTMLElement): void {
+  const fns = effectCleanups.get(el);
+  fns?.forEach((fn) => fn());
+  effectCleanups.delete(el);
+}
+
 const EFFECT_STYLE_PROPS = [
   "textShadow",
   "position",
@@ -85,9 +99,18 @@ function restoreOriginalText(el: HTMLElement): void {
 export function resetTextEffects(): void {
   if (typeof document === "undefined") return;
 
+  void import("gsap")
+    .then((mod) => {
+      document.querySelectorAll<HTMLElement>("[data-text-effect]").forEach((el) => {
+        mod.gsap.killTweensOf(el);
+      });
+    })
+    .catch(() => {});
+
   document.querySelectorAll<HTMLElement>("[data-text-effect]").forEach((el) => {
     if (isRootTextTarget(el)) return;
 
+    runEffectCleanups(el);
     clearElementInterval(el);
     restoreOriginalText(el);
     stripEffectInlineStyles(el);
@@ -233,7 +256,7 @@ function applyScramble(el: HTMLElement, original: string) {
   }, 40);
   trackInterval(el, scramble);
 
-  el.addEventListener("mouseenter", () => {
+  const onMouseEnter = () => {
     frame = 0;
     const hover = window.setInterval(() => {
       el.textContent = original
@@ -249,7 +272,9 @@ function applyScramble(el: HTMLElement, original: string) {
         window.clearInterval(hover);
       }
     }, 40);
-  });
+  };
+  el.addEventListener("mouseenter", onMouseEnter);
+  trackEffectCleanup(el, () => el.removeEventListener("mouseenter", onMouseEnter));
 }
 
 function applyGradientFlow(el: HTMLElement) {
@@ -322,18 +347,26 @@ function applyRevealClip(el: HTMLElement) {
 function apply3DRotate(el: HTMLElement) {
   el.style.transformStyle = "preserve-3d";
   el.style.perspective = "600px";
-  el.addEventListener("mouseenter", () => {
+  const onEnter = () => {
     el.style.transition = "transform .6s cubic-bezier(.23,1,.32,1)";
     el.style.transform = "rotateX(15deg) rotateY(-10deg)";
-  });
-  el.addEventListener("mouseleave", () => {
+  };
+  const onLeave = () => {
     el.style.transform = "rotateX(0) rotateY(0)";
-  });
-  el.addEventListener("mousemove", (e: MouseEvent) => {
+  };
+  const onMove = (e: MouseEvent) => {
     const r = el.getBoundingClientRect();
     const x = ((e.clientX - r.left) / r.width - 0.5) * 20;
     const y = ((e.clientY - r.top) / r.height - 0.5) * -15;
     el.style.transition = "transform .1s";
     el.style.transform = `rotateX(${y}deg) rotateY(${x}deg)`;
+  };
+  el.addEventListener("mouseenter", onEnter);
+  el.addEventListener("mouseleave", onLeave);
+  el.addEventListener("mousemove", onMove);
+  trackEffectCleanup(el, () => {
+    el.removeEventListener("mouseenter", onEnter);
+    el.removeEventListener("mouseleave", onLeave);
+    el.removeEventListener("mousemove", onMove);
   });
 }

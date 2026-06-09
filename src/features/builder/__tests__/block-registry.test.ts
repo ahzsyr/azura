@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { blockRegistry } from "@/features/builder/registry/block-registry-system";
 
 describe("blockRegistry", () => {
-  it("registers all 59 block types", () => {
-    assert.equal(blockRegistry.list().length, 59);
+  it("registers all 60 block types", () => {
+    assert.equal(blockRegistry.list().length, 60);
   });
 
   it("registers media blocks", () => {
@@ -62,5 +62,11 @@ describe("blockRegistry", () => {
     assert.ok(layout.some((b) => b.type === "section"));
     assert.ok(layout.some((b) => b.type === "rowSection"));
     assert.equal(blockRegistry.get("rowSection")?.name, "Row Section");
+  });
+
+  it("registers announcementBar in marketing category", () => {
+    const marketing = blockRegistry.byCategory("marketing");
+    assert.ok(marketing.some((b) => b.type === "announcementBar"));
+    assert.equal(blockRegistry.get("announcementBar")?.name, "Announcement Bar");
   });
 });

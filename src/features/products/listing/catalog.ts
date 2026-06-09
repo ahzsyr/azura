@@ -224,9 +224,22 @@ export async function buildProductListingCatalogForCollection(
 /** Collections index listing — one record per collection with product counts. */
 export async function buildCollectionListingCatalog(
   localePrefix: string,
+  filter?: Partial<ListingFilterState>,
 ): Promise<ProductListingCatalogPayload> {
   const collections = await loadCollections(localePrefix);
-  const products = await loadProductsForCollectionRules(localePrefix);
+  const useIndex = await hasProductListingIndex(localePrefix);
+
+  let indexCounts: Map<string, number> | null = null;
+  if (useIndex) {
+    const counts = new Map<string, number>();
+    for (const col of collections) {
+      const slugSet = await loadCollectionSlugIndex(localePrefix, col.slug);
+      counts.set(col.slug, slugSet?.size ?? 0);
+    }
+    indexCounts = counts;
+  }
+
+  const products = indexCounts ? [] : await loadProductsForCollectionRules(localePrefix);
   const bySlug = collectionMapFromList(collections);
   const collectionNames: Record<string, string> = {};
   for (const col of collections) {
@@ -234,7 +247,9 @@ export async function buildCollectionListingCatalog(
   }
 
   const records: ProductListingRecord[] = collections.map((col) => {
-    const matched = getCollectionProducts(col, products);
+    const matchedCount = indexCounts
+      ? (indexCounts.get(col.slug) ?? 0)
+      : getCollectionProducts(col, products).length;
     const parentName = col.parentSlug ? collectionNames[col.parentSlug] : undefined;
     const media = resolveCollectionImages(col, bySlug);
     const searchText = buildListingSearchText([
@@ -253,16 +268,16 @@ export async function buildCollectionListingCatalog(
       category: parentName,
       categories: parentName ? [parentName] : [],
       tags: col.tags ?? [],
-      price: { value: matched.length, currency: "USD" },
+      price: { value: matchedCount, currency: "USD" },
       old_price: undefined,
-      priceMin: matched.length,
-      priceMax: matched.length,
+      priceMin: matchedCount,
+      priceMax: matchedCount,
       short_description: col.description,
       availability: undefined,
       stock_status: undefined,
       mpn: undefined,
       rating: 0,
-      reviews_count: matched.length,
+      reviews_count: matchedCount,
       primary_image: media.coverImage,
       secondary_image: media.iconImage,
       in_stock: true,
@@ -273,6 +288,37 @@ export async function buildCollectionListingCatalog(
       searchText,
     };
   });
+
+  if (filter) {
+    const state: ListingFilterState = {
+      q: "",
+      categories: [],
+      brands: [],
+      collections: [],
+      collectionScope: null,
+      tags: [],
+      conditions: [],
+      variations: {},
+      priceMin: null,
+      priceMax: null,
+      stockOnly: false,
+      page: 1,
+      per: 20,
+      ...filter,
+    };
+    const result = await queryProductListing(localePrefix, state, {
+      prefilteredRecords: records,
+      listingMode: "collection",
+    });
+    return {
+      records: result.records,
+      facets: result.facets,
+      total: result.total,
+      page: result.page,
+      per: result.per,
+      totalPages: result.totalPages,
+    };
+  }
 
   return {
     records,

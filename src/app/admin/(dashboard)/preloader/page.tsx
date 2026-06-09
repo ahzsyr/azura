@@ -3,8 +3,6 @@ import { PreloaderAdminClient } from "@/features/preloader/preloader-admin-clien
 import { resolveSitePreloader } from "@/features/preloader/resolve-site-preloader";
 import { parseBrandConfig } from "@/features/theme/theme-config";
 import { themeService } from "@/features/theme/theme.service";
-import "@/styles/site-preloader.css";
-
 export const metadata = {
   title: "Preloader",
 };

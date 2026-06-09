@@ -13,10 +13,14 @@ export type VisualExperienceContextValue = {
 
 export const VisualExperienceContext = createContext<VisualExperienceContextValue | null>(null);
 
+/** Stable slice for motion/animation consumers — avoids re-renders from unrelated context updates. */
+export const VisualExperienceStaticContext =
+  createContext<ResolvedVisualExperience | null>(null);
+
 export function useVisualExperience(): VisualExperienceContextValue | null {
   return useContext(VisualExperienceContext);
 }
 
 export function useResolvedVisualExperience(): ResolvedVisualExperience | null {
-  return useContext(VisualExperienceContext)?.resolved ?? null;
+  return useContext(VisualExperienceStaticContext);
 }

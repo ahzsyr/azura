@@ -200,6 +200,8 @@ export {
   masonryGalleryPropsSchema,
 } from "@/features/media-blocks/schemas/media-blocks";
 
+export { announcementBarPropsSchema } from "@/features/announcement-bar/announcement-bar.schema";
+
 export {
   stickyCtaPropsSchema,
   leadFormPropsSchema,

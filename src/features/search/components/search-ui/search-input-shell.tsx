@@ -3,6 +3,7 @@
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SearchSpinner } from "./search-spinner";
+import { searchCopy, type SearchLocale } from "./search-copy";
 
 export type SearchInputStyle = "glass" | "solid" | "minimal";
 
@@ -13,6 +14,7 @@ type Props = {
   loading?: boolean;
   value?: string;
   onClear?: () => void;
+  locale?: SearchLocale;
 };
 
 export function SearchInputShell({
@@ -22,8 +24,10 @@ export function SearchInputShell({
   loading,
   value,
   onClear,
+  locale = "en",
 }: Props) {
-  const showClear = Boolean(value?.length && onClear);
+  const t = searchCopy(locale);
+  const showClear = Boolean(value?.trim().length && onClear);
 
   return (
     <div
@@ -42,7 +46,7 @@ export function SearchInputShell({
           type="button"
           onClick={onClear}
           className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-muted/80 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-          aria-label="Clear search"
+          aria-label={t.clear}
         >
           <X className="h-3.5 w-3.5" />
         </button>

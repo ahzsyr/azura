@@ -30,7 +30,7 @@ export function getDefaultThemeTokens(): ThemeTokens {
     animationsEnabled: true,
     animationSpeed: 1,
     lazyLoadEnabled: true,
-    darkModeEnabled: false,
+    darkModeEnabled: true,
     spacingScale: 1,
     customCss: null,
   };

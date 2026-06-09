@@ -88,6 +88,7 @@ export function resolveSearchIndexProfile(
       : {};
 
   const fields = defaultStandardProfile();
+  let customFieldsDisabled = false;
 
   const indexRaw = s.index;
   const legacyFields = s.fields;
@@ -98,6 +99,7 @@ export function resolveSearchIndexProfile(
       for (const [key, ruleRaw] of Object.entries(fieldOverrides as Record<string, unknown>)) {
         const rule = parseFieldRule(ruleRaw);
         if (!rule || rule.enabled === false) {
+          if (key === "custom_fields") customFieldsDisabled = true;
           fields.delete(key as SearchIndexFieldKey);
           continue;
         }
@@ -105,7 +107,10 @@ export function resolveSearchIndexProfile(
         fields.set(key as SearchIndexFieldKey, {
           enabled: true,
           weight: rule.weight ?? prev?.weight ?? 1,
-          facet: rule.facet ?? prev?.facet,
+          facet:
+            rule.facet !== undefined
+              ? rule.facet
+              : prev?.facet ?? facetDefaultFor(key as StandardSearchIndexFieldKey),
         });
       }
     }
@@ -126,6 +131,7 @@ export function resolveSearchIndexProfile(
     for (const [key, ruleRaw] of Object.entries(legacyFields as Record<string, unknown>)) {
       const rule = parseFieldRule(ruleRaw);
       if (!rule || rule.enabled === false) {
+        if (key === "custom_fields") customFieldsDisabled = true;
         fields.delete(key as SearchIndexFieldKey);
         continue;
       }
@@ -133,7 +139,10 @@ export function resolveSearchIndexProfile(
       fields.set(key as SearchIndexFieldKey, {
         enabled: true,
         weight: rule.weight ?? prev?.weight ?? 1,
-        facet: rule.facet ?? prev?.facet,
+        facet:
+          rule.facet !== undefined
+            ? rule.facet
+            : prev?.facet ?? facetDefaultFor(key as StandardSearchIndexFieldKey),
       });
     }
   }
@@ -150,8 +159,9 @@ export function resolveSearchIndexProfile(
         facet: cfg === true || (cfg && typeof cfg === "object" && cfg.facet === true),
       });
     }
-    if (fields.get("custom_fields")?.enabled) continue;
-    fields.set("custom_fields", { enabled: true, weight: 1, facet: false });
+    if (!customFieldsDisabled && !fields.has("custom_fields")) {
+      fields.set("custom_fields", { enabled: true, weight: 1, facet: false });
+    }
   }
 
   const activeKeys = [...fields.keys()].filter((k) => fields.get(k)?.enabled);

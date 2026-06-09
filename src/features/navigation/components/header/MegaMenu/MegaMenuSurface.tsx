@@ -13,6 +13,7 @@ interface Props {
   isOpen?: boolean;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
+  onLinkClick?: () => void;
 }
 
 function flyoutRootClass(base: string, isOpen?: boolean) {
@@ -109,11 +110,13 @@ function MegaMenuRowLink({
   cardClass,
   desc,
   menuType,
+  onLinkClick,
 }: {
   child: ChildRow;
   cardClass: string;
   desc: string | null;
   menuType: MenuLayoutType;
+  onLinkClick?: () => void;
 }) {
   const visual = shouldUseVisualCard(child, menuType);
 
@@ -122,6 +125,7 @@ function MegaMenuRowLink({
       <a
         href={child.href}
         className={`${cardClass} hb-mega-card-link hb-mega-card hb-mega-card--visual`.trim()}
+        onClick={() => onLinkClick?.()}
       >
         <div className="hb-mega-card__media">
           <MegaMenuVisualImage src={child.imageUrl} alt={child.label} />
@@ -136,7 +140,11 @@ function MegaMenuRowLink({
   }
 
   return (
-    <a href={child.href} className={`${cardClass} hb-mega-card-link hb-mega-card--text`.trim()}>
+    <a
+      href={child.href}
+      className={`${cardClass} hb-mega-card-link hb-mega-card--text`.trim()}
+      onClick={() => onLinkClick?.()}
+    >
       <NavGlyph icon={child.icon} />
       <h4>{child.label}</h4>
       {desc ? <p>{desc}</p> : null}
@@ -151,6 +159,7 @@ export function MegaMenuSurface({
   isOpen,
   onMouseEnter,
   onMouseLeave,
+  onLinkClick,
 }: Props) {
   const rows = buildChildRows(item, localeCode);
   const mega = item.megaMenu;
@@ -195,6 +204,7 @@ export function MegaMenuSurface({
               key={child.id}
               href={child.href}
               className={cn("hb-mega-dropdown-row", visual && "hb-mega-dropdown-row--visual")}
+              onClick={() => onLinkClick?.()}
             >
               {visual ? (
                 <span className="hb-mega-dropdown-thumb" aria-hidden>
@@ -232,6 +242,7 @@ export function MegaMenuSurface({
                 cardClass="col-card"
                 desc={cardDescription(child.id)}
                 menuType={menuType}
+                onLinkClick={onLinkClick}
               />
             ))}
           </div>
@@ -264,6 +275,7 @@ export function MegaMenuSurface({
                     key={child.id}
                     href={child.href}
                     className={visual ? "hb-mega-mixed-link hb-mega-mixed-link--visual" : undefined}
+                    onClick={() => onLinkClick?.()}
                   >
                     {visual ? (
                       <span className="hb-mega-mixed-thumb" aria-hidden>
@@ -332,6 +344,7 @@ export function MegaMenuSurface({
                 cardClass="collection-card"
                 desc={cardDescription(child.id)}
                 menuType={menuType}
+                onLinkClick={onLinkClick}
               />
             ))}
           </div>
@@ -364,6 +377,7 @@ export function MegaMenuSurface({
               cardClass="collection-card"
               desc={cardDescription(child.id)}
               menuType={menuType}
+              onLinkClick={onLinkClick}
             />
           ))}
         </div>

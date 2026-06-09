@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAdminKeyboardShortcuts, useUnsavedChangesGuard } from "@/hooks/use-admin-form";
-import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { AdminThemeProvider } from "./admin-theme-provider";
 import { AdminCapabilityInit } from "./admin-capability-init";
 import { AdminSurfaceProvider } from "./admin-surface-context";
@@ -14,11 +12,6 @@ import { AdminContentArea } from "./admin-content-area";
 function AdminShellInner({ children }: { children: React.ReactNode }) {
   useAdminKeyboardShortcuts();
   useUnsavedChangesGuard();
-  const clearPageActions = useAdminUiStore((s) => s.clearPageActions);
-
-  useEffect(() => {
-    return () => clearPageActions();
-  }, [clearPageActions]);
 
   return (
     <div className="admin-shell az-scroll flex h-screen overflow-hidden">

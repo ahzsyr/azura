@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState, type CSSProperties } from "react";
 import { useTheme } from "next-themes";
 import { defaultLocale } from "@/i18n/routing";
@@ -35,7 +36,15 @@ export function HeaderBrand({ branding, localeCode = defaultLocale.code }: Props
 
   const hasImage = branding.logoMode === "image" && activeLogoImage;
   const logoInner = hasImage ? (
-    <img src={activeLogoImage} alt="" suppressHydrationWarning />
+    <Image
+      src={activeLogoImage}
+      alt=""
+      width={120}
+      height={40}
+      priority
+      sizes="120px"
+      suppressHydrationWarning
+    />
   ) : (
     (branding.logoText || "").trim() || DEFAULT_BRAND_SHORT
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -58,6 +58,7 @@ export function SearchPageView({ config }: Props) {
   const [pagination, setPagination] = useState<PaginationMeta | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
+  const fetchAbortRef = useRef<AbortController | null>(null);
   const t = searchCopy(locale);
 
   const facetsQuery = useMemo(() => {
@@ -86,13 +87,19 @@ export function SearchPageView({ config }: Props) {
         setPagination(null);
         return;
       }
+      fetchAbortRef.current?.abort();
+      const controller = new AbortController();
+      fetchAbortRef.current = controller;
       if (append) setLoadingMore(true);
       else setLoading(true);
       try {
         const res = await fetch(
-          `/api/search?q=${encodeURIComponent(q)}&locale=${locale}&limit=${config.resultsPerPage}&offset=${offset}${typesQuery}${facetsQuery}`
+          `/api/search?q=${encodeURIComponent(q)}&locale=${locale}&limit=${config.resultsPerPage}&offset=${offset}${typesQuery}${facetsQuery}`,
+          { signal: controller.signal },
         );
+        if (!res.ok) return;
         const data = await res.json();
+        if (fetchAbortRef.current !== controller) return;
         const hits = (data.results ?? []) as SearchHit[];
         const page = data.pagination as PaginationMeta | undefined;
         if (append) {
@@ -119,9 +126,14 @@ export function SearchPageView({ config }: Props) {
             }
           );
         }
+      } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") return;
+        throw err;
       } finally {
-        setLoading(false);
-        setLoadingMore(false);
+        if (fetchAbortRef.current === controller) {
+          setLoading(false);
+          setLoadingMore(false);
+        }
       }
     },
     [config.minQueryLength, config.resultsPerPage, locale, typesQuery, facetsQuery]
@@ -140,9 +152,24 @@ export function SearchPageView({ config }: Props) {
 
   useEffect(() => {
     if (!config.instantSearch) return;
+    if (query.length < config.minQueryLength) {
+      if (query.length === 0) {
+        setResults([]);
+        setPagination(null);
+      }
+      return;
+    }
     const timer = setTimeout(() => void runSearch(query), config.debounceMs);
     return () => clearTimeout(timer);
-  }, [query, config.instantSearch, config.debounceMs, runSearch]);
+  }, [
+    query,
+    config.instantSearch,
+    config.debounceMs,
+    config.minQueryLength,
+    runSearch,
+    discoverySearch.activeTypes,
+    discoverySearch.activeFacetFilters,
+  ]);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -201,6 +228,22 @@ export function SearchPageView({ config }: Props) {
             discoverySearch.facetValueOptions.get(f.id)?.size
           )) && (
           <div className="mb-6 space-y-3">
+            {discoverySearch.activeFilterCount > 0 ? (
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    discoverySearch.clearAllFilters();
+                    setQuery("");
+                    setResults([]);
+                    setPagination(null);
+                  }}
+                  className="text-xs font-medium text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
+                >
+                  {locale === "ar" ? "مسح الكل" : "Clear all filters"}
+                </button>
+              </div>
+            ) : null}
             {config.showEntityTypeChips !== false ? (
               <SearchFilterChips
                 chips={[
@@ -257,7 +300,16 @@ export function SearchPageView({ config }: Props) {
             style={config.inputStyle}
             loading={loading}
             value={query}
-            onClear={() => setQuery("")}
+            onClear={() => {
+              if (discoverySearch.activeFilterCount > 0) {
+                discoverySearch.clearAllFilters();
+                setQuery("");
+                setResults([]);
+                setPagination(null);
+              } else {
+                setQuery("");
+              }
+            }}
           >
             <Search className="h-4 w-4 shrink-0 text-primary/80" aria-hidden />
             <input

@@ -128,7 +128,7 @@ const standardExtractors: Record<string, SearchIndexFieldExtractor> = {
     );
     const parts = [name, col.slug].filter(Boolean);
     const facet = fieldFacetEnabled(ctx.profile, "collections")
-      ? { collectionSlug: col.slug }
+      ? { collectionSlug: [col.slug] }
       : undefined;
     return {
       key: "collections",
@@ -172,8 +172,6 @@ const standardExtractors: Record<string, SearchIndexFieldExtractor> = {
   },
 };
 
-const customExtractors = new Map<string, SearchIndexFieldExtractor>();
-
 export class SearchIndexFieldRegistry {
   private readonly extra = new Map<SearchIndexFieldKey, SearchIndexFieldExtractor>();
 
@@ -185,7 +183,7 @@ export class SearchIndexFieldRegistry {
     if (isCustomFieldKey(key)) {
       return this.extractCustom(ctx, key);
     }
-    const custom = this.extra.get(key) ?? customExtractors.get(key);
+    const custom = this.extra.get(key);
     if (custom) return custom(ctx, key);
     const standard = standardExtractors[key as string];
     if (standard) return standard(ctx, key);

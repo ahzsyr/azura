@@ -1,23 +1,58 @@
 @import "tailwindcss";
 @import "../styles/layers/theme-layers.css";
-@import "@fortawesome/fontawesome-free/css/fontawesome.min.css" layer(base);
-@import "@fortawesome/fontawesome-free/css/solid.min.css" layer(base);
 @import "../styles/layers/semantic-fallback.css" layer(tokens);
 @import "../styles/responsive-tokens.css" layer(tokens);
+@import "../styles/preset-visuals.css";
+@import "../styles/site-backgrounds.css";
+@import "../styles/visual-enhancements.css";
 @import "../styles/themed-scrollbars.css" layer(utilities);
 
 @custom-variant dark (&:is(.dark *));
 
-@layer tokens {
 :root {
   --z-content: 1;
   --z-overlay: 200;
+  --background: #fafafa;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+  --primary: #047857;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f5f4;
+  --secondary-foreground: #0a0a0a;
+  --muted: #f5f5f4;
+  --muted-foreground: #737373;
+  --accent: #d4af37;
+  --accent-foreground: #0a0a0a;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --gold: var(--accent);
-  --emerald: var(--primary);
-  --emerald-dark: color-mix(in oklch, var(--primary) 85%, black);
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #047857;
+  --radius: 0.75rem;
+  --gold: #d4af37;
+  --emerald: #047857;
+  --emerald-dark: #065f46;
+  /* Header builder aliases — resolve from active light/dark tokens */
+  --color-surface: var(--background);
+  --sur: var(--background);
+  --bg: var(--background);
   --s1: var(--muted);
+  --t: var(--foreground);
+  --m: var(--muted-foreground);
+  --color-text: var(--foreground);
+  --color-text-muted: var(--muted-foreground);
+  --text-primary: var(--foreground);
+  --border-subtle: var(--border);
+  --az-border-subtle: var(--border);
+  --az-text-primary: var(--foreground);
+  --az-canvas-well: var(--muted);
+  --color-primary: var(--primary);
+  --p: var(--primary);
+  --color-accent: var(--accent);
+  --a: var(--accent);
   --header-shadow-soft: 0 2px 8px rgb(0 0 0 / 0.06);
   --header-shadow-strong: 0 8px 24px rgb(0 0 0 / 0.1);
 
@@ -47,7 +82,6 @@
   --az-gap-md: clamp(1rem, 2vw, 1.5rem);
   --az-gap-lg: clamp(1.5rem, 2.5vw, 2.5rem);
   --az-gap-xl: clamp(2rem, 3vw, 4rem);
-}
 }
 
 @theme inline {
@@ -379,15 +413,15 @@ body::after {
   }
 
   html.theme-transitioning,
-  html.theme-transitioning *,
-  html.theme-transitioning *::before,
-  html.theme-transitioning *::after {
+  html.theme-transitioning .site-shell,
+  html.theme-transitioning .site-header-shell,
+  html.theme-transitioning .site-footer-shell,
+  html.theme-transitioning .pp-root,
+  html.theme-transitioning .wa-fab-root {
     transition:
       background-color 0.35s ease,
       color 0.35s ease,
-      border-color 0.35s ease,
-      fill 0.35s ease,
-      stroke 0.35s ease;
+      border-color 0.35s ease;
   }
 
   ::view-transition-old(root),
@@ -592,12 +626,32 @@ body::after {
   }
 }
 
-/* Dark mode layout tokens — semantic colors come from SSR @layer tokens */
-@layer base {
+/* Dark mode — BRT ultra-dark palette (overridden per-preset via theme-css.ts) */
 .dark {
+  --background: #020408;
+  --foreground: #e8f4fd;
+  --card: #040d1a;
+  --card-foreground: #e8f4fd;
+  --popover: #040d1a;
+  --popover-foreground: #e8f4fd;
+  --primary: #00e5ff;
+  --primary-foreground: #020408;
+  --secondary: #041225;
+  --secondary-foreground: #e8f4fd;
+  --muted: #041225;
+  --muted-foreground: #4a6580;
+  --accent: #7c3aed;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: color-mix(in srgb, #00e5ff 15%, transparent);
+  --input: color-mix(in srgb, #00e5ff 12%, transparent);
+  --ring: #00e5ff;
+  --color-surface: #040d1a;
+  --sur: #040d1a;
+  --bg: #020408;
   --header-shadow-soft: 0 2px 12px rgb(0 0 0 / 0.6);
   --header-shadow-strong: 0 8px 28px rgb(0 0 0 / 0.75);
-}
 }
 
 /* Scrollbar theming: see themed-scrollbars.css */

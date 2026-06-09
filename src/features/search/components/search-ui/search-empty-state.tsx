@@ -9,12 +9,23 @@ type Props = {
   icon?: React.ReactNode;
   className?: string;
   children?: React.ReactNode;
+  actionLabel?: string;
+  onAction?: () => void;
 };
 
-export function SearchEmptyState({ title, description, icon, className, children }: Props) {
+export function SearchEmptyState({
+  title,
+  description,
+  icon,
+  className,
+  children,
+  actionLabel,
+  onAction,
+}: Props) {
   return (
     <div
       role="status"
+      aria-live="polite"
       className={cn(
         "flex flex-col items-center justify-center gap-2 px-6 py-10 text-center",
         className
@@ -29,6 +40,15 @@ export function SearchEmptyState({ title, description, icon, className, children
       <p className="text-sm font-medium tracking-tight text-foreground">{title}</p>
       {description ? (
         <p className="max-w-sm text-xs leading-relaxed text-muted-foreground">{description}</p>
+      ) : null}
+      {actionLabel && onAction ? (
+        <button
+          type="button"
+          onClick={onAction}
+          className="mt-2 rounded-full border border-border/60 bg-muted/40 px-4 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-muted"
+        >
+          {actionLabel}
+        </button>
       ) : null}
       {children}
     </div>

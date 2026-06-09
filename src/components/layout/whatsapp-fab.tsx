@@ -31,7 +31,7 @@ export function WhatsAppFab({
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "fixed z-50 flex items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+        "wa-fab-root fixed z-50 flex items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
         getFabSizeClass(settings.size),
       )}
       style={{

@@ -3,7 +3,6 @@ import { SEARCH_PERF_LIMITS } from "@/features/search-framework/performance/sear
 
 export type ResolvedSearchPerformanceConfig = {
   syncCatalogOnProductIndex: boolean;
-  skipLikeWhenFullText: boolean;
   mediaIndexLimit: number;
   maxRetrievalCandidates: number;
   indexBodyMaxChars: number;
@@ -14,7 +13,6 @@ export type ResolvedSearchPerformanceConfig = {
 
 const DEFAULT: ResolvedSearchPerformanceConfig = {
   syncCatalogOnProductIndex: true,
-  skipLikeWhenFullText: false,
   mediaIndexLimit: 500,
   maxRetrievalCandidates: SEARCH_PERF_LIMITS.maxRetrievalCandidates,
   indexBodyMaxChars: SEARCH_PERF_LIMITS.maxIndexBodyChars,
@@ -31,7 +29,6 @@ export function resolveSearchPerformanceConfig(
   if (!perf) return { ...DEFAULT };
   return {
     syncCatalogOnProductIndex: perf.syncCatalogOnProductIndex !== false,
-    skipLikeWhenFullText: perf.skipLikeWhenFullText === true,
     mediaIndexLimit:
       typeof perf.mediaIndexLimit === "number"
         ? Math.min(5000, Math.max(0, Math.floor(perf.mediaIndexLimit)))
@@ -63,6 +60,6 @@ export function setSearchPerformanceConfig(config: ResolvedSearchPerformanceConf
   cached = config;
 }
 
-export function getSearchPerformanceConfig(): ResolvedSearchPerformanceConfig {
-  return cached ?? { ...DEFAULT };
+export function getSearchPerformanceConfig(): Readonly<ResolvedSearchPerformanceConfig> {
+  return Object.freeze(cached ? { ...cached } : { ...DEFAULT });
 }

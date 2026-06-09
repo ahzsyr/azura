@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DEFAULT_ANNOUNCEMENT_BAR_PROPS } from "@/features/announcement-bar/announcement-bar.schema";
 import { catalogPropsSchema, DEFAULT_DISPLAY_SETTINGS } from "@/schemas/catalog/display-settings";
 import {
   blockAnimationSettingsSchema,
@@ -41,6 +42,7 @@ export const blockTypeSchema = z.enum([
   "featureGrid",
   "benefitsGrid",
   "trustBadges",
+  "announcementBar",
   "logoCloud",
   "statsCounter",
   "beforeAfter",
@@ -364,6 +366,7 @@ export const BLOCK_DEFAULTS: Record<string, Record<string, unknown>> = {
     registrationNo: "",
     items: [],
   },
+  announcementBar: DEFAULT_ANNOUNCEMENT_BAR_PROPS,
   logoCloud: {
     titleEn: "Our partners",
     titleAr: "شركاؤنا",

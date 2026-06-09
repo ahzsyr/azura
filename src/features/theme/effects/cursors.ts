@@ -26,6 +26,26 @@ function trackCleanup(fn: () => void) {
   cleanups.push(fn);
 }
 
+function positionCursor(el: HTMLElement, x: number, y: number, extraTransform = "") {
+  el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)${extraTransform}`;
+}
+
+function createIdleRafLoop(
+  tick: () => void,
+  getLastMove: () => number,
+  idleMs = 100,
+): number {
+  let rafId = 0;
+  const loop = () => {
+    if (performance.now() - getLastMove() < idleMs) {
+      tick();
+    }
+    rafId = requestAnimationFrame(loop);
+  };
+  rafId = requestAnimationFrame(loop);
+  return rafId;
+}
+
 export function initCursor(type: string) {
   removePrev();
   if (!type || type === "default" || type === "none") {
@@ -60,49 +80,51 @@ function cursorNeonDot() {
   const dot = el(
     "div",
     "dot",
-    `position:fixed;width:10px;height:10px;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);background:var(--color-primary,var(--primary));box-shadow:0 0 10px var(--color-primary,var(--primary)),0 0 20px var(--color-primary,var(--primary));transition:width .2s,height .2s;top:0;left:0`,
+    `position:fixed;top:0;left:0;width:10px;height:10px;border-radius:50%;pointer-events:none;z-index:9999;will-change:transform;background:var(--color-primary,var(--primary));box-shadow:0 0 10px var(--color-primary,var(--primary)),0 0 20px var(--color-primary,var(--primary));transition:transform .2s`,
   );
   const ring = el(
     "div",
     "ring",
-    `position:fixed;width:34px;height:34px;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);border:1px solid color-mix(in srgb,var(--color-primary,var(--primary)) 50%,transparent);top:0;left:0`,
+    `position:fixed;top:0;left:0;width:34px;height:34px;border-radius:50%;pointer-events:none;z-index:9998;will-change:transform;border:1px solid color-mix(in srgb,var(--color-primary,var(--primary)) 50%,transparent)`,
   );
   document.body.append(dot, ring);
 
   let rx = 0;
   let ry = 0;
+  let lastMove = performance.now();
+  let dotScale = 1;
   const move = (e: MouseEvent) => {
-    dot.style.left = `${e.clientX}px`;
-    dot.style.top = `${e.clientY}px`;
+    lastMove = performance.now();
+    positionCursor(dot, e.clientX, e.clientY, ` scale(${dotScale})`);
     rx += (e.clientX - rx) * 0.15;
     ry += (e.clientY - ry) * 0.15;
-    ring.style.left = `${rx}px`;
-    ring.style.top = `${ry}px`;
+    positionCursor(ring, rx, ry);
   };
-  let rafId = 0;
-  const raf = () => {
-    ring.style.left = `${rx}px`;
-    ring.style.top = `${ry}px`;
-    rafId = requestAnimationFrame(raf);
-  };
-  rafId = requestAnimationFrame(raf);
+  let rafId = createIdleRafLoop(
+    () => positionCursor(ring, rx, ry),
+    () => lastMove,
+  );
 
   const enter = () => {
-    dot.style.width = "18px";
-    dot.style.height = "18px";
+    dotScale = 1.8;
   };
   const leave = () => {
-    dot.style.width = "10px";
-    dot.style.height = "10px";
+    dotScale = 1;
   };
   document.addEventListener("mousemove", move);
-  document.querySelectorAll("a,button").forEach((e) => {
-    e.addEventListener("mouseenter", enter);
-    e.addEventListener("mouseleave", leave);
+  const linkTargets: Array<[Element, () => void, () => void]> = [];
+  document.querySelectorAll("a,button").forEach((target) => {
+    target.addEventListener("mouseenter", enter);
+    target.addEventListener("mouseleave", leave);
+    linkTargets.push([target, enter, leave]);
   });
   cleanup = () => {
     document.removeEventListener("mousemove", move);
     cancelAnimationFrame(rafId);
+    linkTargets.forEach(([target, onEnter, onLeave]) => {
+      target.removeEventListener("mouseenter", onEnter);
+      target.removeEventListener("mouseleave", onLeave);
+    });
   };
 }
 
@@ -125,8 +147,7 @@ function cursorCrosshair() {
   document.body.append(h, v, d);
   const move = (e: MouseEvent) => {
     [h, v, d].forEach((node) => {
-      node.style.left = `${e.clientX}px`;
-      node.style.top = `${e.clientY}px`;
+      positionCursor(node, e.clientX, e.clientY);
     });
   };
   document.addEventListener("mousemove", move);
@@ -146,23 +167,24 @@ function cursorRingTrail() {
   const pos = rings.map(() => ({ x: 0, y: 0 }));
   let mx = 0;
   let my = 0;
+  let lastMove = performance.now();
   const onMove = (e: MouseEvent) => {
     mx = e.clientX;
     my = e.clientY;
+    lastMove = performance.now();
   };
   document.addEventListener("mousemove", onMove);
-  let rafId = 0;
-  const raf = () => {
-    rings.forEach((r, i) => {
-      const prev = i === 0 ? { x: mx, y: my } : pos[i - 1];
-      pos[i].x += (prev.x - pos[i].x) * (0.3 - i * 0.04);
-      pos[i].y += (prev.y - pos[i].y) * (0.3 - i * 0.04);
-      r.style.left = `${pos[i].x}px`;
-      r.style.top = `${pos[i].y}px`;
-    });
-    rafId = requestAnimationFrame(raf);
-  };
-  rafId = requestAnimationFrame(raf);
+  let rafId = createIdleRafLoop(
+    () => {
+      rings.forEach((r, i) => {
+        const prev = i === 0 ? { x: mx, y: my } : pos[i - 1];
+        pos[i].x += (prev.x - pos[i].x) * (0.3 - i * 0.04);
+        pos[i].y += (prev.y - pos[i].y) * (0.3 - i * 0.04);
+        positionCursor(r, pos[i].x, pos[i].y);
+      });
+    },
+    () => lastMove,
+  );
   cleanup = () => {
     document.removeEventListener("mousemove", onMove);
     cancelAnimationFrame(rafId);
@@ -173,7 +195,7 @@ function cursorSpotlight() {
   const spot = el(
     "div",
     "spotlight",
-    `position:fixed;width:280px;height:280px;border-radius:50%;pointer-events:none;z-index:0;transform:translate(-50%,-50%);background:radial-gradient(circle,color-mix(in srgb,var(--color-primary,var(--primary)) 8%,transparent) 0%,transparent 70%);top:0;left:0;transition:left .3s ease,top .3s ease`,
+    `position:fixed;top:0;left:0;width:280px;height:280px;border-radius:50%;pointer-events:none;z-index:0;will-change:transform;background:radial-gradient(circle,color-mix(in srgb,var(--color-primary,var(--primary)) 8%,transparent) 0%,transparent 70%);transition:transform .3s ease`,
   );
   const dot = el(
     "div",
@@ -182,10 +204,8 @@ function cursorSpotlight() {
   );
   document.body.append(spot, dot);
   const move = (e: MouseEvent) => {
-    dot.style.left = `${e.clientX}px`;
-    dot.style.top = `${e.clientY}px`;
-    spot.style.left = `${e.clientX}px`;
-    spot.style.top = `${e.clientY}px`;
+    positionCursor(dot, e.clientX, e.clientY);
+    positionCursor(spot, e.clientX, e.clientY);
   };
   document.addEventListener("mousemove", move);
   cleanup = () => document.removeEventListener("mousemove", move);
@@ -195,36 +215,38 @@ function cursorMagnetic() {
   const dot = el(
     "div",
     "mag",
-    `position:fixed;width:12px;height:12px;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);background:var(--color-primary,var(--primary));box-shadow:0 0 15px var(--color-primary,var(--primary));mix-blend-mode:difference;top:0;left:0;transition:width .3s,height .3s,border-radius .3s`,
+    `position:fixed;top:0;left:0;width:12px;height:12px;border-radius:50%;pointer-events:none;z-index:9999;will-change:transform;background:var(--color-primary,var(--primary));box-shadow:0 0 15px var(--color-primary,var(--primary));mix-blend-mode:difference;transition:transform .3s,border-radius .3s`,
   );
   document.body.append(dot);
   let mx = 0;
   let my = 0;
+  let lastMove = performance.now();
   const onMove = (e: MouseEvent) => {
     mx = e.clientX;
     my = e.clientY;
+    lastMove = performance.now();
   };
   document.addEventListener("mousemove", onMove);
-  let rafId = 0;
-  const raf = () => {
-    dot.style.left = `${mx}px`;
-    dot.style.top = `${my}px`;
-    rafId = requestAnimationFrame(raf);
-  };
-  rafId = requestAnimationFrame(raf);
+  let rafId = createIdleRafLoop(
+    () => positionCursor(dot, mx, my),
+    () => lastMove,
+  );
   document.querySelectorAll<HTMLElement>("a,button").forEach((target) => {
     const enter = () => {
       const r = target.getBoundingClientRect();
-      dot.style.width = `${r.width + 10}px`;
-      dot.style.height = `${r.height + 10}px`;
+      const scaleX = (r.width + 10) / 12;
+      const scaleY = (r.height + 10) / 12;
       dot.style.borderRadius = "4px";
-      dot.style.left = `${r.left + r.width / 2}px`;
-      dot.style.top = `${r.top + r.height / 2}px`;
+      positionCursor(
+        dot,
+        r.left + r.width / 2,
+        r.top + r.height / 2,
+        ` scale(${scaleX}, ${scaleY})`,
+      );
     };
     const leave = () => {
-      dot.style.width = "12px";
-      dot.style.height = "12px";
       dot.style.borderRadius = "50%";
+      positionCursor(dot, mx, my);
     };
     target.addEventListener("mouseenter", enter);
     target.addEventListener("mouseleave", leave);
@@ -250,26 +272,26 @@ function cursorBlob() {
   let ty = 0;
   let cx = 0;
   let cy = 0;
+  let lastMove = performance.now();
   const onMove = (e: MouseEvent) => {
     tx = e.clientX;
     ty = e.clientY;
+    lastMove = performance.now();
   };
   document.addEventListener("mousemove", onMove);
-  let rafId = 0;
-  const raf = () => {
-    cx += (tx - cx) * 0.1;
-    cy += (ty - cy) * 0.1;
-    blob.style.left = `${cx}px`;
-    blob.style.top = `${cy}px`;
-    const dx = tx - cx;
-    const dy = ty - cy;
-    const d = Math.hypot(dx, dy);
-    const a = (Math.atan2(dy, dx) * 180) / Math.PI;
-    const s = Math.min(d * 0.3, 25);
-    blob.style.transform = `translate(-50%,-50%) rotate(${a}deg) scaleX(${1 + s / 50}) scaleY(${1 - s / 100})`;
-    rafId = requestAnimationFrame(raf);
-  };
-  rafId = requestAnimationFrame(raf);
+  let rafId = createIdleRafLoop(
+    () => {
+      cx += (tx - cx) * 0.1;
+      cy += (ty - cy) * 0.1;
+      const dx = tx - cx;
+      const dy = ty - cy;
+      const d = Math.hypot(dx, dy);
+      const a = (Math.atan2(dy, dx) * 180) / Math.PI;
+      const s = Math.min(d * 0.3, 25);
+      blob.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%,-50%) rotate(${a}deg) scaleX(${1 + s / 50}) scaleY(${1 - s / 100})`;
+    },
+    () => lastMove,
+  );
   document.querySelectorAll("a,button").forEach((e) => {
     const enter = () => {
       blob.style.borderRadius = "30% 70% 70% 30%/30% 30% 70% 70%";
@@ -298,8 +320,7 @@ function cursorPixel() {
   );
   document.body.append(px);
   const move = (e: MouseEvent) => {
-    px.style.left = `${e.clientX}px`;
-    px.style.top = `${e.clientY}px`;
+    positionCursor(px, e.clientX, e.clientY);
   };
   document.addEventListener("mousemove", move);
   cleanup = () => document.removeEventListener("mousemove", move);
@@ -316,9 +337,7 @@ function cursorNeonArrow() {
   let ly = 0;
   const move = (e: MouseEvent) => {
     const a = (Math.atan2(e.clientY - ly, e.clientX - lx) * 180) / Math.PI;
-    arrow.style.left = `${e.clientX}px`;
-    arrow.style.top = `${e.clientY - 8}px`;
-    arrow.style.transform = `rotate(${a}deg)`;
+    arrow.style.transform = `translate3d(${e.clientX}px, ${e.clientY - 8}px, 0) rotate(${a}deg)`;
     lx = e.clientX;
     ly = e.clientY;
   };

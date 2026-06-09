@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Collection } from "@/features/collections/types";
 import {
@@ -28,8 +29,14 @@ export function CollectionDetailHero({
     <header className={`col-banner${hasCover ? "" : " col-banner--no-cover"}`}>
       <div className="col-banner__media" aria-hidden={!hasCover}>
         {hasCover ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={media.coverImage} alt="" className="col-banner__img" />
+          <Image
+            src={media.coverImage!}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="col-banner__img"
+          />
         ) : (
           <div className="col-banner__mesh" />
         )}

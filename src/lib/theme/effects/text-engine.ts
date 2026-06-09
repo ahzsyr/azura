@@ -3,7 +3,6 @@ import {
   SITE_TEXT_EFFECT_SOURCE_ATTR,
   SITE_TEXT_EFFECT_SOURCE_VALUE,
 } from "@/features/theme/hero-heading-attrs";
-import { getTextTier } from "./effect-tiers";
 import type { CapabilityPolicy, EffectModule, EffectRuntimeConfig } from "./types";
 
 const SITE_TEXT_EFFECT_SOURCE = SITE_TEXT_EFFECT_SOURCE_ATTR;
@@ -62,11 +61,6 @@ function resolveTextEffect(
 ): string | null {
   if (!effectId || effectId === "none") return null;
   if (!policy.allowTextAnimation) return null;
-
-  const tier = getTextTier(effectId);
-  if (tier === "heavy" && !policy.allowHeavy) return null;
-  if (tier === "medium" && !policy.allowMedium) return null;
-
   return effectId;
 }
 

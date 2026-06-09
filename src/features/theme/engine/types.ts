@@ -48,4 +48,6 @@ export type ThemeEngineSnapshot = {
   activePresetSource: "site" | "catalog" | "user" | null;
   liveEffects: PresetEffectsPayload | null;
   cursorPreference: CursorPreference;
+  /** Appearance change already applied inline — skip deferred listeners. */
+  appearanceOnly?: boolean;
 };

@@ -2,8 +2,10 @@ import { resolvePublishedSiteTheme, resolvePreviewSiteTheme } from "@/lib/theme/
 import { resolveVisualExperience } from "@/features/theme/visual-experience-resolver";
 import { ThemeStyles } from "./theme-styles";
 import { ThemeWrapper } from "./theme-wrapper";
+import { CapabilityInit } from "./capability-init";
 import { ThemeEffectsClient } from "./theme-effects-client";
 import { ThemeEngineProvider } from "./theme-engine-provider";
+import { ThemePresetAttributes } from "./theme-preset-attributes";
 import { VisualExperienceProvider } from "./visual-experience-provider";
 import type { ResolvedTheme } from "@/lib/theme/theme-resolver";
 
@@ -30,7 +32,13 @@ export async function ThemeProvider({
   return (
     <>
       <ThemeStyles resolved={resolved} />
+      <ThemePresetAttributes
+        cardStyle={resolved.tokens.cardStyle}
+        borderStyle={resolved.tokens.borderStyle}
+        activePresetId={resolved.preset.presetId}
+      />
       <VisualExperienceProvider site={resolved.tokens} siteResolved={siteResolved}>
+        <CapabilityInit />
         <ThemeWrapper resolved={resolved}>
           <ThemeEngineProvider
             siteTheme={resolved.tokens}

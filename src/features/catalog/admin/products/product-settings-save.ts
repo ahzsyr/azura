@@ -34,6 +34,19 @@ async function postSettings(locale: string, key: string, value: unknown): Promis
   if (!res.ok) throw new Error(json.error || `Save ${key} failed`);
 }
 
+async function postSettingsBatch(
+  locale: string,
+  patches: Array<{ key: string; value: unknown }>,
+): Promise<void> {
+  const res = await fetch("/api/save-settings", {
+    ...API,
+    method: "POST",
+    body: JSON.stringify({ locale, patches }),
+  });
+  const json = (await res.json()) as { error?: string };
+  if (!res.ok) throw new Error(json.error || "Batch save failed");
+}
+
 export async function saveProductBuyNowSettings(
   locale: string,
   buyNow: ResolvedProductBuyNow,
@@ -56,13 +69,14 @@ export async function saveProductPageElementsOnlySettings(
     compactDisplay: ResolvedProductPageCompactDisplay;
   },
 ): Promise<void> {
-  await postSettings(locale, "productPageDisplay", serializeProductPageDisplayForSite(data.pageDisplay));
-  await postSettings(locale, "productPageElementOrder", data.elementOrder);
-  await postSettings(
-    locale,
-    "productPageCompactDisplay",
-    serializeProductPageCompactDisplayForSite(data.compactDisplay),
-  );
+  await postSettingsBatch(locale, [
+    { key: "productPageDisplay", value: serializeProductPageDisplayForSite(data.pageDisplay) },
+    { key: "productPageElementOrder", value: data.elementOrder },
+    {
+      key: "productPageCompactDisplay",
+      value: serializeProductPageCompactDisplayForSite(data.compactDisplay),
+    },
+  ]);
 }
 
 export async function saveProductPageLayoutOnlySettings(

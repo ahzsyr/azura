@@ -39,6 +39,8 @@ export type ContentItemSearchSource = {
   routePrefix?: string | null;
   contentTypeSlug?: string;
   fieldSchema?: unknown;
+  /** Pre-resolved searchable field definitions (avoids double resolution in composer). */
+  resolvedFieldSchema?: SearchableFieldDefinition[];
   searchEnabled?: boolean;
   searchBoost?: number;
   adminConfig?: unknown;

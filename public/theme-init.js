@@ -38,6 +38,22 @@
     if (!isAdmin) {
       var metricsKeys = boot.metricsKeys || [];
       var metricsFieldMap = boot.metricsFieldMap || {};
+      var visitorBootstrapped = false;
+
+      function markVisitorBootstrapped() {
+        visitorBootstrapped = true;
+        root.setAttribute("data-visitor-theme-bootstrapped", "true");
+      }
+
+      function injectVisitorThemeStyle(cssText) {
+        if (!cssText) return;
+        var existing = document.getElementById("az-visitor-theme");
+        if (existing) existing.remove();
+        var style = document.createElement("style");
+        style.id = "az-visitor-theme";
+        style.textContent = cssText;
+        (document.head || root).appendChild(style);
+      }
 
       function applyMetricsFromSnapshot(metrics) {
         if (!metrics) return;
@@ -61,6 +77,23 @@
         }
       }
 
+      function isLightBackground(hex) {
+        if (!hex || typeof hex !== "string") return false;
+        var n = hex.replace("#", "").trim();
+        if (n.length !== 6) return false;
+        var r = parseInt(n.slice(0, 2), 16) / 255;
+        var g = parseInt(n.slice(2, 4), 16) / 255;
+        var b = parseInt(n.slice(4, 6), 16) / 255;
+        var lin = function (c) {
+          return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+        };
+        var L = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+        return L > 0.55;
+      }
+
+      var presetIdRaw = localStorage.getItem("devi-user-preset");
+      if (presetIdRaw) markVisitorBootstrapped();
+
       var colorsRaw = localStorage.getItem(
         sk.presetColors || "devi-user-preset-colors",
       );
@@ -71,6 +104,34 @@
           var accent = c.accent || primary;
           var secondary = c.secondary || accent;
           var border = "color-mix(in srgb, " + primary + " 14%, transparent)";
+          var cssRules =
+            "html{--primary:" +
+            primary +
+            ";--accent:" +
+            accent +
+            ";--p:" +
+            primary +
+            ";--a:" +
+            accent +
+            ";--color-primary:" +
+            primary +
+            ";--color-accent:" +
+            accent +
+            ";--color-secondary:" +
+            secondary +
+            ";--az-color-primary:" +
+            primary +
+            ";--az-color-accent:" +
+            accent +
+            ";--az-color-secondary:" +
+            secondary +
+            ";--az-accent:" +
+            accent +
+            ";--az-border-subtle:" +
+            border +
+            ";--az-color-border:" +
+            border +
+            ";}";
 
           root.style.setProperty("--primary", primary);
           root.style.setProperty("--accent", accent);
@@ -89,26 +150,65 @@
           if (c.background) {
             var bg = c.background;
             var surface = c.surface || bg;
-            var text =
-              c.text || (resolved === "dark" ? "#f4f4f5" : "#18181b");
-            var muted =
-              c.textMuted || (resolved === "dark" ? "#a1a1aa" : "#71717a");
-            root.style.setProperty("--background", bg);
-            root.style.setProperty("--foreground", text);
-            root.style.setProperty("--card", surface);
-            root.style.setProperty("--bg", bg);
-            root.style.setProperty("--sur", surface);
-            root.style.setProperty("--t", text);
-            root.style.setProperty("--m", muted);
-            root.style.setProperty("--az-bg-primary", bg);
-            root.style.setProperty("--az-bg-secondary", surface);
-            root.style.setProperty("--az-text-primary", text);
-            root.style.setProperty("--az-text-secondary", muted);
-            root.style.setProperty("--az-color-bg", bg);
-            root.style.setProperty("--az-color-surface", surface);
-            root.style.setProperty("--az-color-text", text);
-            root.style.setProperty("--az-color-muted", muted);
+            var skipSurface = resolved === "dark" && isLightBackground(bg);
+            if (!skipSurface) {
+              var text =
+                c.text || (resolved === "dark" ? "#f4f4f5" : "#18181b");
+              var muted =
+                c.textMuted || (resolved === "dark" ? "#a1a1aa" : "#71717a");
+              cssRules =
+                cssRules.slice(0, -1) +
+                "--background:" +
+                bg +
+                ";--foreground:" +
+                text +
+                ";--card:" +
+                surface +
+                ";--bg:" +
+                bg +
+                ";--sur:" +
+                surface +
+                ";--t:" +
+                text +
+                ";--m:" +
+                muted +
+                ";--az-bg-primary:" +
+                bg +
+                ";--az-bg-secondary:" +
+                surface +
+                ";--az-text-primary:" +
+                text +
+                ";--az-text-secondary:" +
+                muted +
+                ";--az-color-bg:" +
+                bg +
+                ";--az-color-surface:" +
+                surface +
+                ";--az-color-text:" +
+                text +
+                ";--az-color-muted:" +
+                muted +
+                ";}";
+              root.style.setProperty("--background", bg);
+              root.style.setProperty("--foreground", text);
+              root.style.setProperty("--card", surface);
+              root.style.setProperty("--bg", bg);
+              root.style.setProperty("--sur", surface);
+              root.style.setProperty("--t", text);
+              root.style.setProperty("--m", muted);
+              root.style.setProperty("--az-bg-primary", bg);
+              root.style.setProperty("--az-bg-secondary", surface);
+              root.style.setProperty("--az-text-primary", text);
+              root.style.setProperty("--az-text-secondary", muted);
+              root.style.setProperty("--az-color-bg", bg);
+              root.style.setProperty("--az-color-surface", surface);
+              root.style.setProperty("--az-color-text", text);
+              root.style.setProperty("--az-color-muted", muted);
+            }
           }
+
+          injectVisitorThemeStyle(cssRules);
+          markVisitorBootstrapped();
         }
       }
 
@@ -128,6 +228,7 @@
             root.setAttribute("data-text-effect-theme", v.textEffect);
           }
           applyMetricsFromSnapshot(v.metrics);
+          markVisitorBootstrapped();
           if (v.typography) {
             root.style.setProperty(
               "--az-font-display",
@@ -161,6 +262,7 @@
           if (fx.backgroundEffect) {
             document.body.setAttribute("data-bg-effect", fx.backgroundEffect);
           }
+          markVisitorBootstrapped();
         }
       } else {
         var presetBg = root.getAttribute("data-preset-background");

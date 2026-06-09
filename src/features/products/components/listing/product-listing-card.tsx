@@ -1,5 +1,7 @@
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import Image from "next/image";
+import { memo, type CSSProperties } from "react";
+import { IMAGE_SIZES } from "@/lib/config/performance";
 import type { ProductListingRecord } from "@/features/products/listing/types";
 import { ProductAddToCompare } from "@/features/products/components/product-add-to-compare";
 import { ProductCtaButton } from "@/features/products/components/pdp/product-cta-button";
@@ -34,7 +36,7 @@ function formatPrice(amount: number, currency: string, locale: string): string {
   }
 }
 
-export function ProductListingCard({
+export const ProductListingCard = memo(function ProductListingCard({
   product,
   href,
   numberLocale = "en-US",
@@ -97,14 +99,15 @@ export function ProductListingCard({
       ) : null}
       <Link href={href} className="pl-card__media-link" aria-label={`${product.name} — view product`}>
         {product.primary_image ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             className="pl-card__media-img"
             src={product.primary_image}
             alt={product.name}
-            loading={priority ? "eager" : "lazy"}
-            {...(priority ? { fetchPriority: "high" as const } : {})}
-            decoding="async"
+            width={480}
+            height={480}
+            sizes={IMAGE_SIZES.card}
+            priority={priority}
+            loading={priority ? undefined : "lazy"}
             data-priority-img={priority ? "" : undefined}
           />
         ) : (
@@ -160,4 +163,4 @@ export function ProductListingCard({
       </section>
     </article>
   );
-}
+});

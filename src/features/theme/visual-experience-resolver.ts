@@ -1,6 +1,7 @@
 import type { PageVisualSettings } from "@/schemas/visual-settings";
 import type { ThemeTokens } from "@/types/theme";
 import { resolvePageEffectConfig } from "@/lib/theme/effects/inheritance";
+import type { CursorPreference, PresetEffectsPayload } from "@/features/theme/engine/types";
 
 export type ResolvedVisualExperience = {
   cursorEffect: string | null;
@@ -44,6 +45,70 @@ export function resolveVisualExperience({ site, page }: ResolveInput): ResolvedV
     cursorEnabled: effectConfig.cursor.enabled,
     backgroundEnabled: effectConfig.background.enabled,
     textEnabled: effectConfig.text.enabled,
+  };
+}
+
+function hasLiveEffects(e: PresetEffectsPayload | null | undefined): boolean {
+  if (!e) return false;
+  return Boolean(
+    e.cursor ||
+      e.backgroundEffect ||
+      e.textEffect ||
+      e.cardStyle ||
+      e.borderStyle,
+  );
+}
+
+type ResolveVisitorInput = {
+  site: ThemeTokens;
+  page?: PageVisualSettings | null;
+  storedEffects?: PresetEffectsPayload | null;
+  cursorPreference?: CursorPreference;
+};
+
+/** Visitor localStorage overrides > CMS page override > site theme defaults. */
+export function resolveVisitorVisualExperience({
+  site,
+  page,
+  storedEffects,
+  cursorPreference = "custom",
+}: ResolveVisitorInput): ResolvedVisualExperience {
+  const base = resolveVisualExperience({ site, page });
+
+  if (!storedEffects || !hasLiveEffects(storedEffects)) {
+    return base;
+  }
+
+  const visitorBackground =
+    storedEffects.backgroundEffect != null && storedEffects.backgroundEffect !== ""
+      ? storedEffects.backgroundEffect
+      : null;
+
+  const cursorEnabled = base.cursorEnabled && cursorPreference !== "normal";
+  const cursor = !cursorEnabled
+    ? null
+    : (storedEffects.cursor ?? base.cursorEffect);
+
+  const background = visitorBackground ?? base.backgroundEffect;
+  const backgroundEnabled = visitorBackground
+    ? Boolean(visitorBackground && visitorBackground !== "none")
+    : base.backgroundEnabled;
+
+  const text =
+    storedEffects.textEffect != null && storedEffects.textEffect !== ""
+      ? storedEffects.textEffect
+      : base.textEffect;
+
+  return {
+    cursorEffect: cursor,
+    backgroundEffect: background,
+    textEffect: text,
+    animationsEnabled: base.animationsEnabled,
+    cardStyle: storedEffects.cardStyle ?? base.cardStyle,
+    borderStyle: storedEffects.borderStyle ?? base.borderStyle,
+    cursorEnabled,
+    backgroundEnabled,
+    textEnabled: base.textEnabled,
   };
 }
 

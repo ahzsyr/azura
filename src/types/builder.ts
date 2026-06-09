@@ -27,6 +27,7 @@ export type BlockType =
   | "featureGrid"
   | "benefitsGrid"
   | "trustBadges"
+  | "announcementBar"
   | "logoCloud"
   | "statsCounter"
   | "beforeAfter"

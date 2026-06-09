@@ -34,6 +34,7 @@ import {
   StatsCounterBlockFields,
   BeforeAfterBlockFields,
 } from "@/features/marketing-blocks/fields";
+import { AnnouncementBarBlockFields } from "@/features/announcement-bar/admin/announcement-bar-block-fields";
 import {
   ProductGridBlockFields,
   ProductCarouselBlockFields,
@@ -416,6 +417,9 @@ export function BlockFieldEditor({
 
     case "benefitsGrid":
       return <BenefitsGridBlockFields block={block} onChange={onChange} />;
+
+    case "announcementBar":
+      return <AnnouncementBarBlockFields block={block} onChange={onChange} />;
 
     case "trustBadges":
       return <TrustBadgesBlockFields block={block} onChange={onChange} />;

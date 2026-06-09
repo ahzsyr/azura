@@ -133,6 +133,8 @@ export function SearchBlockIsland({ locale, config, blockProps: raw }: Props) {
         grouped={search.grouped}
         onNavigate={onNavigate}
         onApplyQuery={onApplyQuery}
+        onClearAll={search.clearAllFilters}
+        activeFilterCount={search.activeFilterCount}
         inputStyle={search.runtimeConfig.inputStyle}
         listboxId="discovery-search-block-listbox"
       />

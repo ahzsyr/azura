@@ -17,6 +17,7 @@ import {
   Sparkles,
   Wand2,
   Loader2,
+  Megaphone,
   Search,
   Route,
   Bot,
@@ -170,6 +171,12 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         label: "Preloader",
         icon: Loader2,
         keywords: ["loading", "splash", "spinner", "preload"],
+      },
+      {
+        href: "/admin/announcement-bar",
+        label: "Announcement Bar",
+        icon: Megaphone,
+        keywords: ["announcement", "marquee", "strip", "banner", "ticker"],
       },
       {
         href: "/admin/settings/whatsapp",

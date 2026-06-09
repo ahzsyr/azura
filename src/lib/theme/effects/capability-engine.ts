@@ -84,7 +84,7 @@ export function applyCapabilityAttributes(
   const tier = policy.allowHeavy ? "full" : policy.allowMedium ? "medium" : "light";
   root.dataset.effectsTier = tier;
   root.dataset.reducedPaint = String(
-    capabilities.prefersReducedMotion || capabilities.smallScreen || capabilities.touchOnly,
+    capabilities.prefersReducedMotion || capabilities.lowEndDevice,
   );
   root.dataset.touchOnly = String(capabilities.touchOnly);
   root.dataset.lowEndDevice = String(capabilities.lowEndDevice);

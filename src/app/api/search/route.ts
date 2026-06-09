@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  searchEngine,
-  searchQueryBuilder,
-  searchResultMapper,
-  searchSettingsManager,
-} from "@/features/search-framework";
+import { searchSettingsManager } from "@/features/search-framework";
 import { ensureSearchRuntimeConfig } from "@/features/search/settings/search-runtime";
+import { searchService } from "@/features/search/service";
+import {
+  parseTypesParam,
+  parseContentTypeSlugsParam,
+  parseKindsParam,
+  parseFacetsParam,
+} from "@/features/search/api/params";
+import type { SearchContentKind } from "@/features/search-framework/types";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -17,19 +20,17 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ results: [], suggestions: [] });
   }
   const mode = searchParams.get("mode") ?? "search";
-  const types = searchQueryBuilder.parseTypesParam(searchParams.get("types"));
-  const contentTypeSlugs = searchQueryBuilder.parseContentTypeSlugsParam(
-    searchParams.get("contentTypeSlugs")
-  );
-  const kinds = searchQueryBuilder.parseKindsParam(searchParams.get("kinds"));
-  const facetFilters = searchQueryBuilder.parseFacetsParam(searchParams.get("facets"));
+  const types = parseTypesParam(searchParams.get("types"));
+  const contentTypeSlugs = parseContentTypeSlugsParam(searchParams.get("contentTypeSlugs"));
+  const kinds = parseKindsParam(searchParams.get("kinds"));
+  const facetFilters = parseFacetsParam(searchParams.get("facets"));
 
   const baseInput = {
     q,
     locale,
-    entityTypes: types,
+    types,
     contentTypeSlugs,
-    kinds: kinds as import("@/features/search-framework").SearchContentKind[] | undefined,
+    kinds: kinds as SearchContentKind[] | undefined,
     facetFilters,
   };
 
@@ -37,19 +38,11 @@ export async function GET(request: NextRequest) {
     if (!runtime.globalSearchEnabled && !admin.general.searchPageEnabled) {
       return NextResponse.json({ suggestions: [] });
     }
-    const suggestions = await searchEngine.suggestions({
+    const suggestions = await searchService.suggestions({
       ...baseInput,
       limit: runtime.suggestLimit,
     });
-    return NextResponse.json({
-      suggestions: suggestions.map((s) => ({
-        title: s.title,
-        urlPath: s.urlPath,
-        entityType: s.entityType,
-        kind: s.kind,
-        contentTypeSlug: s.contentTypeSlug,
-      })),
-    });
+    return NextResponse.json({ suggestions });
   }
 
   const minLen = runtime.minQueryLength;
@@ -60,26 +53,15 @@ export async function GET(request: NextRequest) {
     : runtime.resultsPerPage;
 
   const [page, suggestions] = await Promise.all([
-    searchEngine.searchPage({ ...baseInput, limit, offset }),
+    searchService.searchPage({ ...baseInput, limit, offset }),
     q.length >= minLen && runtime.globalSearchEnabled
-      ? searchEngine.suggestions({ ...baseInput, limit: Math.min(5, runtime.suggestLimit) })
+      ? searchService.suggestions({ ...baseInput, limit: Math.min(5, runtime.suggestLimit) })
       : Promise.resolve([]),
   ]);
 
   return NextResponse.json({
-    results: page.results.map((r) => searchResultMapper.toApiPayload(r)),
-    pagination: {
-      offset: page.offset,
-      limit: page.limit,
-      hasMore: page.hasMore,
-      total: page.total,
-    },
-    suggestions: suggestions.map((s) => ({
-      title: s.title,
-      urlPath: s.urlPath,
-      entityType: s.entityType,
-      kind: s.kind,
-      contentTypeSlug: s.contentTypeSlug,
-    })),
+    results: page.results,
+    pagination: page.pagination,
+    suggestions,
   });
 }

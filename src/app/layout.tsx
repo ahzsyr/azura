@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
 import Script from "next/script";
 import "@/app/globals.css";
-import "@/features/search/components/search-ui/search-ui.css";
-import "@/features/search/components/search-ui/search-theme.css";
 import { loadThemeSsrPayload } from "@/lib/theme/theme-ssr";
+import { htmlAttributesToReactProps } from "@/lib/theme/theme-resolver";
 
 type Props = {
   children: ReactNode;
@@ -11,14 +10,16 @@ type Props = {
 
 export default async function RootLayout({ children }: Props) {
   const { htmlAttributes, bootScript } = await loadThemeSsrPayload();
+  const { className: themeClassName, ...restHtmlAttributes } =
+    htmlAttributesToReactProps(htmlAttributes);
 
   return (
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className="h-full"
+      className={["h-full", themeClassName].filter(Boolean).join(" ")}
       suppressHydrationWarning
-      {...htmlAttributes}
+      {...restHtmlAttributes}
     >
       <body className="min-h-full antialiased" suppressHydrationWarning>
         <Script

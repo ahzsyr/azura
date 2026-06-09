@@ -1,7 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { isAllowedNextImageSrc } from "@/lib/config/next-image";
+import { IMAGE_SIZES } from "@/lib/config/performance";
 import type { Product } from "../../types";
 import { normalizeProductCertifications } from "../../lib/product-certifications";
 
@@ -271,14 +274,16 @@ export function ProductGallery({ product, certHeading = "Certified partner" }: P
               >
                 {media.kind === "image" ? (
                   <>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <Image
                       className="prd-gallery__asset prd-gallery__asset--image"
                       src={media.url}
                       alt={media.alt}
-                      loading={index === active ? "eager" : "lazy"}
-                      fetchPriority={index === active ? "high" : "low"}
-                      decoding="async"
+                      width={960}
+                      height={960}
+                      sizes={IMAGE_SIZES.gallery}
+                      priority={index === active && index === 0}
+                      loading={index === active ? undefined : "lazy"}
+                      unoptimized={!isAllowedNextImageSrc(media.url)}
                       data-zoom-image
                       onClick={index === active ? openZoom : undefined}
                     />
@@ -384,8 +389,15 @@ export function ProductGallery({ product, certHeading = "Certified partner" }: P
                 onClick={() => setActive(index)}
               >
                 {media.kind === "image" ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={media.url} alt="" loading="lazy" decoding="async" />
+                  <Image
+                    src={media.url}
+                    alt=""
+                    width={96}
+                    height={96}
+                    sizes={IMAGE_SIZES.thumbnail}
+                    loading="lazy"
+                    unoptimized={!isAllowedNextImageSrc(media.url)}
+                  />
                 ) : (
                   <span className="prd-gallery__thumb-play" aria-hidden="true">
                     ▶

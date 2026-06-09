@@ -77,6 +77,7 @@ export function dbContentItemToSearchSource(
     routePrefix: item.contentType.routePrefix,
     contentTypeSlug: item.contentType.slug,
     fieldSchema: item.contentType.fieldSchema,
+    resolvedFieldSchema: fieldSchema,
     adminConfig: item.contentType.adminConfig,
     searchEnabled: extras?.searchEnabled ?? typeSearch.enabled,
     searchBoost: extras?.searchBoost ?? typeSearch.boost,

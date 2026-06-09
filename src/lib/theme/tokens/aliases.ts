@@ -69,11 +69,13 @@ export function buildAliasDeclarations(): string[] {
 
 /** SSR CSS block — legacy aliases generated from canonical semantic tokens. */
 export function buildAliasCss(): string {
-  return `@layer tokens {
-  html {
-    ${buildAliasDeclarations().join(";")};
+  const aliases = buildAliasDeclarations().join(";");
+  return `html {
+    ${aliases};
   }
-}`;
+  html.dark {
+    ${aliases};
+  }`;
 }
 
 /** Apply legacy aliases on an element from current semantic values (client). */

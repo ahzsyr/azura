@@ -226,7 +226,8 @@
     "changeLanguage": "Change",
     "activeTheme": "Theme mode",
     "activePreset": "Style preset",
-    "appearanceHint": "Light, dark, and system modes apply instantly without reloading the page."
+    "appearanceHint": "Light, dark, and system modes apply instantly without reloading the page.",
+    "resetToSiteDefault": "Reset to site default"
   },
   "common": {
     "loading": "Loading...",

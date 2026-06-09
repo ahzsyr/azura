@@ -1,7 +1,8 @@
 // @ts-nocheck — ported Astro admin panel; gradual strict typing in follow-ups.
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import "./ProductManagerApp.css";
 import type { ReactNode } from "react";
 import { MediaPicker } from "@/features/catalog/admin/media/MediaPicker";
@@ -39,6 +40,7 @@ import { CtaLivePreview } from "./CtaLivePreview";
 import { CtaIconUploadControls } from "./CtaIconUploadControls";
 import {
   ADMIN_PRODUCT_TABS,
+  readHashTab,
   type AdminProductTabId,
 } from "@/features/catalog/admin/catalog-admin-tabs";
 import { CatalogAdminShell } from "@/features/catalog/admin/catalog-admin-shell";
@@ -508,9 +510,16 @@ export default function ProductManagerApp({
   const [productExternalHint, setProductExternalHint] = useState<string | null>(null);
 
   const [adminTab, setAdminTab] = useState<AdminProductTabId>("table");
+
+  useLayoutEffect(() => {
+    setAdminTab(readHashTab(ADMIN_PRODUCT_TABS, "table"));
+  }, []);
   const [pageLayout, setPageLayout] = useState<ResolvedProductPageLayout>(() => initialProductPageLayout ?? resolveProductPageLayout());
   const [cardLayout, setCardLayout] = useState<ResolvedProductCardLayout>(() => initialProductCardLayout ?? resolveProductCardLayout());
   const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
+  const markSaved = useAdminUiStore((s) => s.markSaved);
+  const saveStatus = useAdminUiStore((s) => s.saveStatus);
+  const router = useRouter();
   const [layoutFeedback, setLayoutFeedback] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
   const [pageDisplay, setPageDisplay] = useState<ResolvedProductPageDisplay>(
     () => initialProductPageDisplay ?? resolveProductPageDisplay(),
@@ -560,7 +569,7 @@ export default function ProductManagerApp({
     pageTrust,
   });
 
-  const saveCurrentSettingsTab = useCallback(async () => {
+  const saveCurrentSettingsTab = useCallback(async (): Promise<boolean> => {
     setLayoutFeedback(null);
     const ok =
       "Settings saved. Refresh the storefront (or restart dev) to pick up site.json changes.";
@@ -608,8 +617,10 @@ export default function ProductManagerApp({
           setLayoutFeedback({ kind: "ok", text: ok });
           break;
         default:
-          return;
+          return false;
       }
+      router.refresh();
+      return true;
     } catch (e) {
       setLayoutFeedback({ kind: "err", text: e instanceof Error ? e.message : "Save failed" });
       throw e;
@@ -626,6 +637,7 @@ export default function ProductManagerApp({
     cardLayout,
     pagePromo,
     pageTrust,
+    router,
   ]);
 
   const cancelCurrentSettingsTab = useCallback(() => {
@@ -660,11 +672,27 @@ export default function ProductManagerApp({
     setLayoutFeedback(null);
   }, [adminTab]);
 
-  useAdminFormState(
-    view === "list" && adminTab !== "table"
-      ? { onSave: saveCurrentSettingsTab, onCancel: cancelCurrentSettingsTab }
-      : undefined,
+  const handleAdminTabChange = useCallback(
+    (nextTab: AdminProductTabId) => {
+      if (nextTab === adminTab) return;
+      if (
+        view === "list" &&
+        adminTab !== "table" &&
+        (saveStatus === "unsaved" || saveStatus === "error")
+      ) {
+        const discard = window.confirm(
+          "You have unsaved changes on this tab. Discard them and switch tabs?",
+        );
+        if (!discard) return;
+        cancelCurrentSettingsTab();
+        markSaved();
+      }
+      setAdminTab(nextTab);
+    },
+    [adminTab, view, saveStatus, cancelCurrentSettingsTab, markSaved],
   );
+
+  const savedActiveRef = useRef<ManagedProduct | null>(null);
 
   // ── Media Picker state ────────────────────────────────────────────────────
   const [pickerOpen, setPickerOpen] = useState(false);
@@ -729,6 +757,60 @@ export default function ProductManagerApp({
       setLoading(false);
     }
   }, [adminLocaleCode]);
+
+  const saveProductFromTopBar = useCallback(async (): Promise<boolean> => {
+    if (!active) return false;
+    setSaving(true);
+    setError(null);
+    setActiveSyncResult(null);
+    try {
+      const normalized = normalizeProductForSave(active);
+      const res = await fetch("/api/products", {
+        ...API,
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ locale: adminLocaleCode, slug: normalized.slug, product: normalized }),
+      });
+      const json = (await res.json()) as {
+        error?: string;
+        collectionSync?: { matchedCollections: CollectionMatch[]; isOrphan: boolean; warnings: SyncWarning[] } | null;
+      };
+      if (!res.ok) throw new Error(json.error || "Save failed");
+      if (json.collectionSync) {
+        setActiveSyncResult({
+          productSlug: normalized.slug,
+          matchedCollections: json.collectionSync.matchedCollections,
+          isOrphan: json.collectionSync.isOrphan,
+          warnings: json.collectionSync.warnings,
+        });
+      }
+      setActive(normalized);
+      savedActiveRef.current = normalized;
+      await loadProducts();
+      return true;
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Save failed");
+      throw e;
+    } finally {
+      setSaving(false);
+    }
+  }, [active, adminLocaleCode, loadProducts]);
+
+  const cancelProductEdit = useCallback(() => {
+    if (savedActiveRef.current) {
+      setActive({ ...savedActiveRef.current });
+    }
+    setError(null);
+    setActiveSyncResult(null);
+  }, []);
+
+  useAdminFormState(
+    view === "edit" && active
+      ? { onSave: saveProductFromTopBar, onCancel: cancelProductEdit, saveLabel: "Save product" }
+      : view === "list" && adminTab !== "table"
+        ? { onSave: saveCurrentSettingsTab, onCancel: cancelCurrentSettingsTab }
+        : undefined,
+  );
 
   const handleBulkImportDone = useCallback(async (summary: BulkImportSummary, dryRun: boolean) => {
     if (!dryRun) {
@@ -821,11 +903,15 @@ export default function ProductManagerApp({
       label: "Mark In Stock",
       variant: "secondary",
       handler: async (selected, clearSelection) => {
+        const failures: string[] = [];
         for (const item of selected) {
           const r = await fetch(`/api/products?locale=${encodeURIComponent(adminLocaleCode)}&slug=${encodeURIComponent(item.slug)}`, API);
-          const body = (await r.json()) as { product?: Product; slug?: string };
-          if (!r.ok || !body.product) continue;
-          await fetch("/api/products", {
+          const body = (await r.json()) as { product?: Product; slug?: string; error?: string };
+          if (!r.ok || !body.product) {
+            failures.push(item.slug);
+            continue;
+          }
+          const saveRes = await fetch("/api/products", {
             ...API,
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -835,6 +921,10 @@ export default function ProductManagerApp({
               product: { ...body.product, stock_status: "in_stock", availability: "InStock" },
             }),
           });
+          if (!saveRes.ok) failures.push(item.slug);
+        }
+        if (failures.length) {
+          setError(`Failed to update stock for: ${failures.join(", ")}`);
         }
         clearSelection();
         await loadProducts();
@@ -845,11 +935,15 @@ export default function ProductManagerApp({
       label: "Mark Out of Stock",
       variant: "secondary",
       handler: async (selected, clearSelection) => {
+        const failures: string[] = [];
         for (const item of selected) {
           const r = await fetch(`/api/products?locale=${encodeURIComponent(adminLocaleCode)}&slug=${encodeURIComponent(item.slug)}`, API);
-          const body = (await r.json()) as { product?: Product; slug?: string };
-          if (!r.ok || !body.product) continue;
-          await fetch("/api/products", {
+          const body = (await r.json()) as { product?: Product; slug?: string; error?: string };
+          if (!r.ok || !body.product) {
+            failures.push(item.slug);
+            continue;
+          }
+          const saveRes = await fetch("/api/products", {
             ...API,
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -859,12 +953,16 @@ export default function ProductManagerApp({
               product: { ...body.product, stock_status: "out_of_stock", availability: "OutOfStock" },
             }),
           });
+          if (!saveRes.ok) failures.push(item.slug);
+        }
+        if (failures.length) {
+          setError(`Failed to update stock for: ${failures.join(", ")}`);
         }
         clearSelection();
         await loadProducts();
       },
     },
-  ], [adminLocaleCode]);
+  ], [adminLocaleCode, loadProducts]);
 
   // ── Inline edit save ──────────────────────────────────────────────────────
 
@@ -944,12 +1042,15 @@ export default function ProductManagerApp({
     }
     const loaded = normalizeProductForSave({ ...(json.product as Product), slug: json.slug || slug });
     setActive(loaded);
+    savedActiveRef.current = loaded;
     setEditSection("basic");
     setView("edit");
   }, [adminLocaleCode]);
 
   function createNewProduct() {
-    setActive(getEmptyManagedProduct(`product-${Date.now()}`));
+    const empty = getEmptyManagedProduct(`product-${Date.now()}`);
+    setActive(empty);
+    savedActiveRef.current = empty;
     setEditSection("basic");
     setView("edit");
   }
@@ -1032,11 +1133,25 @@ export default function ProductManagerApp({
 
   function setField<K extends keyof ManagedProduct>(key: K, value: ManagedProduct[K]) {
     if (!active) return;
+    markUnsaved();
     setActive({ ...active, [key]: value });
   }
 
   function patchActive(mutator: (product: ManagedProduct) => ManagedProduct) {
+    markUnsaved();
     setActive((prev) => (prev ? mutator(prev) : prev));
+  }
+
+  function handleBackToList() {
+    if (saveStatus === "unsaved" || saveStatus === "error") {
+      const discard = window.confirm(
+        "You have unsaved product changes. Discard them and return to the list?",
+      );
+      if (!discard) return;
+      cancelProductEdit();
+      markSaved();
+    }
+    setView("list");
   }
 
   const relatedCandidates = useMemo(() => {
@@ -1076,7 +1191,7 @@ export default function ProductManagerApp({
         <CatalogAdminShell
           tabs={ADMIN_PRODUCT_TABS}
           activeTab={adminTab}
-          onTabChange={setAdminTab}
+          onTabChange={handleAdminTabChange}
         >
           {(tab) => (
             <>
@@ -1359,7 +1474,7 @@ export default function ProductManagerApp({
               <p className="text-sm text-muted-foreground mt-1">Slug: {active.slug}</p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <Button type="button" variant="outline" size="sm" onClick={() => setView("list")}>
+              <Button type="button" variant="outline" size="sm" onClick={handleBackToList}>
                 Back to list
               </Button>
               <Button

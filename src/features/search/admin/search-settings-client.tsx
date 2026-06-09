@@ -151,12 +151,17 @@ export function SearchSettingsAdminClient({
       const warn =
         result.warnings.length > 0 ? ` Warnings: ${result.warnings.join(" ")}` : "";
       setFeedback(`Search index rebuilt (${result.documents} documents).${warn}`);
-      markSaved();
+      const settingsMatchSaved = JSON.stringify(settings) === JSON.stringify(savedSettings);
+      if (settingsMatchSaved) {
+        markSaved();
+      } else {
+        setSaveStatus("unsaved");
+      }
     } else {
       setError(result.error);
       setSaveStatus("error");
     }
-  }, [markSaved, setSaveStatus]);
+  }, [markSaved, setSaveStatus, settings, savedSettings]);
 
   useEffect(() => {
     registerPageActions({

@@ -1,6 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
+import { memo } from "react";
+import { IMAGE_SIZES } from "@/lib/config/performance";
 import { Star } from "lucide-react";
 import type { ContentCardData } from "@/features/content/types";
 import type { DisplaySettings } from "@/schemas/content/display-settings";
@@ -23,7 +26,7 @@ type Props = {
   compare?: CompareListingProps;
 };
 
-export function ContentCard({
+export const ContentCard = memo(function ContentCard({
   item,
   locale,
   display,
@@ -71,7 +74,14 @@ export function ContentCard({
         {image ? (
           <div className={cn("relative bg-muted", variant === "compact" ? "aspect-[4/3]" : "aspect-video")}>
             {compareOverlay}
-            <img src={image.url} alt={image.altEn ?? title} className="h-full w-full object-cover" />
+            <Image
+              src={image.url}
+              alt={image.altEn ?? title}
+              fill
+              sizes={IMAGE_SIZES.card}
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
             {display.showFeaturedBadge && item.isFeatured ? (
               <Badge className="absolute top-2 start-2 gap-1 text-[10px]">
                 <Star className="h-3 w-3" />
@@ -122,4 +132,4 @@ export function ContentCard({
       </Link>
     </Card>
   );
-}
+});

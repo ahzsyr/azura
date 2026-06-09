@@ -17,8 +17,18 @@ function fuseThreshold(fuzziness: number): number {
   return 0.35;
 }
 
+function recordsFingerprint(records: ProductListingRecord[]): string {
+  if (records.length === 0) return "0";
+  let hash = records.length;
+  for (let i = 0; i < records.length; i++) {
+    const slug = records[i]?.slug ?? "";
+    hash = (hash * 31 + slug.charCodeAt(0) + slug.length) | 0;
+  }
+  return `${records.length}:${hash}`;
+}
+
 async function getListingFuse(records: ProductListingRecord[], fuzziness: number): Promise<ListingFuse> {
-  const key = `${records.length}:${fuzziness}`;
+  const key = `${recordsFingerprint(records)}:${fuzziness}`;
   if (fuseCache?.key === key) return fuseCache.fuse;
 
   const { default: Fuse } = await loadFuseModule();

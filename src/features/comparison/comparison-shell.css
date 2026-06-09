@@ -247,6 +247,12 @@
   inset-inline-end: 0.5rem;
 }
 
+.pl-card:has(.pl-card__quick-action) .pl-card__compare,
+.pl-card:has(.pl-card__cta-floating--buy) .pl-card__compare {
+  inset-inline-start: auto;
+  inset-inline-end: 0.5rem;
+}
+
 .cmp-add-btn-wrap {
   position: relative;
   display: inline-flex;

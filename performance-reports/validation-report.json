@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-06-09T08:22:08.806Z",
+  "rows": [
+    {
+      "metric": "Total JS",
+      "value": 8420.6,
+      "rating": "fail"
+    },
+    {
+      "metric": "Largest chunk",
+      "value": 503.1,
+      "rating": "fail"
+    }
+  ],
+  "failures": [
+    "Total JS",
+    "Largest chunk"
+  ]
+}

@@ -1,5 +1,6 @@
 import "server-only";
 
+import { cache } from "react";
 import { access, readFile } from "node:fs/promises";
 import { gunzip } from "node:zlib";
 import { promisify } from "node:util";
@@ -98,7 +99,7 @@ async function loadListingIndexUncached(
   return row;
 }
 
-export async function loadListingRecords(
+export const loadListingRecords = cache(async function loadListingRecords(
   localePrefix: string,
 ): Promise<IndexedProductListingRecord[]> {
   if (!useProductListingIndex()) return [];
@@ -109,7 +110,7 @@ export async function loadListingRecords(
 
   const row = await loadListingIndexUncached(localePrefix);
   return row?.records ?? [];
-}
+});
 
 export async function hasProductListingIndex(localePrefix: string): Promise<boolean> {
   const locale = localeKey(localePrefix);
@@ -193,7 +194,7 @@ export async function searchTokenLookup(
   let result: Set<string> | undefined;
   for (const token of tokens) {
     const hits = searchIndex.tokens[token];
-    if (!hits?.length) return null;
+    if (!hits?.length) continue;
     const hitSet = new Set(hits);
     if (!result) {
       result = hitSet;

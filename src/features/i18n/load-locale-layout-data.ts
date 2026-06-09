@@ -7,7 +7,9 @@ import { resolvePublishedSiteTheme } from "@/lib/theme/resolve-site-theme.server
 import { readSiteSettings } from "@/features/catalog/site-settings.service";
 import { loadPublicShellContext } from "@/features/i18n/public-shell-context";
 import { loadComparisonShellProps } from "@/features/comparison/load-comparison-shell-props";
+import { resolveSiteAnnouncementBar } from "@/features/announcement-bar/resolve-site-announcement-bar";
 import { resolveSitePreloader } from "@/features/preloader/resolve-site-preloader";
+import type { ResolvedSiteAnnouncementBar } from "@/features/announcement-bar/resolve-site-announcement-bar";
 import type { ResolvedSitePreloader } from "@/features/preloader/resolve-site-preloader";
 import type { PublicShellContext } from "@/features/i18n/public-shell-context";
 import type { ResolvedTheme } from "@/lib/theme/theme-resolver";
@@ -19,6 +21,7 @@ export type LocaleLayoutData = {
   siteSettings: Record<string, unknown>;
   resolvedTheme: ResolvedTheme;
   preloaderSettings: ResolvedSitePreloader;
+  announcementBarSettings: ResolvedSiteAnnouncementBar;
   htmlLang: string;
   comparison: ComparisonShellProps;
 };
@@ -44,6 +47,7 @@ export const loadLocaleLayoutData = cache(
       brandLogoLightUrl: brandConfig?.logoImageLightUrl ?? brandConfig?.logoImageUrl,
       brandLogoDarkUrl: brandConfig?.logoImageDarkUrl,
     });
+    const announcementBarSettings = resolveSiteAnnouncementBar(siteSettings);
     const htmlLang =
       shell.htmlLang ?? getHtmlLangSync(locale, shell.enabledLocales);
 
@@ -53,6 +57,7 @@ export const loadLocaleLayoutData = cache(
       resolvedTheme,
       shell,
       preloaderSettings,
+      announcementBarSettings,
       htmlLang,
       comparison,
     };

@@ -234,6 +234,15 @@ const BASE_META: Record<
     description: "Certifications, guarantees, and trust indicators",
     icon: "shield",
   },
+  announcementBar: {
+    type: "announcementBar",
+    version: BLOCK_SYSTEM_VERSION,
+    category: "marketing",
+    name: "Announcement Bar",
+    description:
+      "Scrolling marquee announcement strip with tone presets, icons, badges, dismiss, and responsive speed controls.",
+    icon: "megaphone",
+  },
   logoCloud: {
     type: "logoCloud",
     version: BLOCK_SYSTEM_VERSION,

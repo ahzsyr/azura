@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import type { SearchEntityType } from "@prisma/client";
 import { purgeInvalidSearchDocuments } from "@/features/search-framework/indexer/purge-invalid-search-documents";
 import { SEARCH_PERF_LIMITS } from "@/features/search-framework/performance/search-performance-limits";
-import { toBooleanModeQuery, tokenize } from "@/features/search/search-text";
+import { toBooleanModeQuery, tokenize } from "@/features/search/core/text";
 
 /** Row returned from list queries — body is a short preview, not full indexed text. */
 export type SearchRow = {
@@ -80,12 +80,15 @@ function toPostgresTsQuery(tokens: string[]): string {
   return tokens.join(" ");
 }
 
-async function mysqlFullTextSearch(params: {
+type FullTextParams = {
   locale: string;
   types?: SearchEntityType[];
   limit: number;
-  booleanQ: string;
-}): Promise<FullTextRow[]> {
+};
+
+async function mysqlFullTextSearch(
+  params: FullTextParams & { booleanQ: string }
+): Promise<FullTextRow[]> {
   if (params.types?.length) {
     return prisma.$queryRaw<FullTextRow[]>`
       SELECT id, entityType, entityId, locale, title, urlPath, metadata,
@@ -112,24 +115,21 @@ async function mysqlFullTextSearch(params: {
   `;
 }
 
-async function postgresFullTextSearch(params: {
-  locale: string;
-  types?: SearchEntityType[];
-  limit: number;
-  tsQuery: string;
-}): Promise<FullTextRow[]> {
+async function postgresFullTextSearch(
+  params: FullTextParams & { tsQuery: string }
+): Promise<FullTextRow[]> {
   if (params.types?.length) {
     return prisma.$queryRaw<FullTextRow[]>`
       SELECT id, "entityType", "entityId", locale, title, "urlPath", metadata,
         LEFT(body, ${BODY_PREVIEW}) AS body,
         ts_rank(
           to_tsvector('simple', title || ' ' || body),
-          plainto_tsquery('simple', ${params.tsQuery})
+          websearch_to_tsquery('simple', ${params.tsQuery})
         ) AS relevance
       FROM "SearchDocument"
       WHERE locale = ${params.locale}
         AND "entityType" IN (${Prisma.join(params.types)})
-        AND to_tsvector('simple', title || ' ' || body) @@ plainto_tsquery('simple', ${params.tsQuery})
+        AND to_tsvector('simple', title || ' ' || body) @@ websearch_to_tsquery('simple', ${params.tsQuery})
       ORDER BY relevance DESC
       LIMIT ${params.limit}
     `;
@@ -140,11 +140,11 @@ async function postgresFullTextSearch(params: {
       LEFT(body, ${BODY_PREVIEW}) AS body,
       ts_rank(
         to_tsvector('simple', title || ' ' || body),
-        plainto_tsquery('simple', ${params.tsQuery})
+        websearch_to_tsquery('simple', ${params.tsQuery})
       ) AS relevance
     FROM "SearchDocument"
     WHERE locale = ${params.locale}
-      AND to_tsvector('simple', title || ' ' || body) @@ plainto_tsquery('simple', ${params.tsQuery})
+      AND to_tsvector('simple', title || ' ' || body) @@ websearch_to_tsquery('simple', ${params.tsQuery})
     ORDER BY relevance DESC
     LIMIT ${params.limit}
   `;
@@ -180,7 +180,12 @@ export const searchRepository = {
           });
 
       return rows.map((r) => mapLeanRow(r, Number(r.relevance) || 0));
-    } catch {
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : String(error);
+      console.error("[search.repository] fullTextSearch failed:", msg, {
+        locale: params.locale,
+        tokenCount: tokens.length,
+      });
       return [];
     }
   },
@@ -238,8 +243,8 @@ export const searchRepository = {
     q: string;
     locale: string;
     limit: number;
-  }) {
-    return prisma.searchDocument.findMany({
+  }): Promise<SearchRow[]> {
+    const rows = await prisma.searchDocument.findMany({
       where: {
         locale: params.locale,
         OR: [
@@ -249,13 +254,15 @@ export const searchRepository = {
       },
       take: Math.min(params.limit, 20),
       select: {
-        title: true,
-        urlPath: true,
-        entityType: true,
-        entityId: true,
-        metadata: true,
+        ...leanSelect,
+        body: true,
       },
       orderBy: { title: "asc" },
+    });
+    return rows.map((r) => {
+      const body =
+        r.body.length > BODY_PREVIEW ? r.body.slice(0, BODY_PREVIEW) : r.body;
+      return mapLeanRow({ ...r, body });
     });
   },
 

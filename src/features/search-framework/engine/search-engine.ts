@@ -15,7 +15,9 @@ import {
   setCachedSearchResult,
 } from "@/features/search-framework/performance/search-query-cache";
 import type {
+  SearchFacetFilter,
   SearchQueryInput,
+  SearchQueryPlan,
   SearchResult,
   SearchSuggestion,
 } from "@/features/search-framework/types";
@@ -26,9 +28,21 @@ export type SearchPageResult = {
   limit: number;
   hasMore: boolean;
   total: number;
+  /** True when total is a heuristic (over-fetch pagination), not an exact count. */
+  isEstimate: boolean;
 };
 
 const RETRIEVAL_OVERFETCH = 8;
+
+function buildPlanFacetFilter(plan: SearchQueryPlan): SearchFacetFilter {
+  return searchFilterEngine.buildFacetFilter({
+    entityTypes: plan.entityTypes,
+    contentTypeSlugs: plan.contentTypeSlugs,
+    kinds: plan.kinds,
+    includeAdmin: plan.includeAdmin,
+    facetValues: plan.facetFilters,
+  });
+}
 
 export class SearchEngine {
   async search(input: SearchQueryInput): Promise<SearchResult[]> {
@@ -54,6 +68,7 @@ export class SearchEngine {
       limit: plan.limit,
       hasMore: false,
       total: 0,
+      isEstimate: false,
     };
     if (!plan.sanitizedQuery) return empty;
 
@@ -79,17 +94,12 @@ export class SearchEngine {
           limit: plan.limit,
           hasMore: cached.hasMore,
           total: cached.total,
+          isEstimate: cached.isEstimate ?? true,
         };
       }
     }
 
-    const facetFilter = searchFilterEngine.buildFacetFilter({
-      entityTypes: plan.entityTypes,
-      contentTypeSlugs: plan.contentTypeSlugs,
-      kinds: plan.kinds,
-      includeAdmin: plan.includeAdmin,
-      facetValues: plan.facetFilters,
-    });
+    const facetFilter = buildPlanFacetFilter(plan);
 
     const fetchLimit = Math.min(
       plan.offset + plan.limit + RETRIEVAL_OVERFETCH,
@@ -166,7 +176,7 @@ export class SearchEngine {
     if (perf.queryCacheEnabled && input.mode !== "suggest") {
       setCachedSearchResult(
         cacheKey,
-        { items: results, hasMore, total },
+        { items: results, hasMore, total, isEstimate: true },
         perf.queryCacheTtlSec
       );
     }
@@ -184,6 +194,7 @@ export class SearchEngine {
       limit: plan.limit,
       hasMore,
       total,
+      isEstimate: true,
     };
   }
 
@@ -192,13 +203,7 @@ export class SearchEngine {
     const settings = searchSettingsManager.getCached();
     if (plan.sanitizedQuery.length < settings.minQueryLength) return [];
 
-    const facetFilter = searchFilterEngine.buildFacetFilter({
-      entityTypes: plan.entityTypes,
-      contentTypeSlugs: plan.contentTypeSlugs,
-      kinds: plan.kinds,
-      includeAdmin: plan.includeAdmin,
-      facetValues: plan.facetFilters,
-    });
+    const facetFilter = buildPlanFacetFilter(plan);
 
     const prefixRows = await searchRepository.prefixSuggestions({
       q: plan.sanitizedQuery,

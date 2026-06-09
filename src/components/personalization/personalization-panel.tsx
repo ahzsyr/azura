@@ -498,7 +498,7 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
                 engine.appearanceMode === "system" && "pp-system-chip--active",
               )}
               aria-pressed={engine.appearanceMode === "system"}
-              onClick={() => engine.setAppearanceMode("system")}
+              onClick={() => engine.setAppearanceMode("system", { animate: true })}
             >
               <SystemAppearanceIcon className="mx-auto mb-0.5 h-3.5 w-3.5" />
               System
@@ -584,6 +584,17 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
               Active: <span className="font-medium text-foreground">{engine.activePresetId}</span>
             </p>
           )}
+          <button
+            type="button"
+            className="w-full rounded-md border border-border/60 px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:border-border hover:text-foreground"
+            onClick={() => {
+              engine.resetVisitorTheme();
+              setConfirmFlash(true);
+              window.setTimeout(() => setConfirmFlash(false), 1200);
+            }}
+          >
+            {t("resetToSiteDefault")}
+          </button>
         </div>
       )}
 

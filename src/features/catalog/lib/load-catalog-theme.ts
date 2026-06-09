@@ -28,6 +28,8 @@ import { migrateProductCtaFromLegacyAddToCart } from "@/features/products/lib/pr
 import { mergeProductCta } from "@/features/products/lib/product-cta";
 import type { ResolvedProductBuyNow } from "@/features/products/lib/product-buy-now";
 import type { ResolvedProductCtaConfig } from "@/features/products/lib/product-cta";
+import { resolveAdminSearchSettings } from "@/features/search/settings/resolve-admin-search-settings";
+import { resolveFuzzynessForListing } from "@/features/search/settings/resolve-fuzziness-for-listing";
 
 export type CatalogListingTheme = {
   hero: ResolvedCatalogPageHero;
@@ -77,15 +79,9 @@ export async function loadCatalogListingTheme(
     : normalizeProductCtaGlobal(site.productCta);
   const quoteCta = resolveProductCta(globalCta, undefined);
 
-  const search = (site.search ?? {}) as Record<string, unknown>;
-  const searchDebounceMs =
-    typeof search.debounceMs === "number" && Number.isFinite(search.debounceMs)
-      ? search.debounceMs
-      : 300;
-  const searchFuzziness =
-    typeof search.fuzziness === "number" && Number.isFinite(search.fuzziness)
-      ? search.fuzziness
-      : 0.35;
+  const adminSearch = resolveAdminSearchSettings(site);
+  const searchDebounceMs = adminSearch.general.debounceMs ?? 150;
+  const searchFuzziness = resolveFuzzynessForListing(adminSearch);
 
   return {
     hero,

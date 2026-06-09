@@ -237,11 +237,10 @@ export function resolveAdminSearchSettings(site: Record<string, unknown>): Admin
       ),
       inputStyle: coerceEnum(searchInputStyleSchema, pickAppearanceField(s, "inputStyle")),
       panelWidth: coerceEnum(searchPanelWidthSchema, pickAppearanceField(s, "panelWidth")),
-      placeholder:
-        typeof pickAppearanceField(s, "placeholder") === "string" &&
-        String(pickAppearanceField(s, "placeholder")).trim()
-          ? String(pickAppearanceField(s, "placeholder")).trim()
-          : undefined,
+      placeholder: (() => {
+        const raw = pickAppearanceField(s, "placeholder");
+        return typeof raw === "string" && raw.trim() ? raw.trim() : undefined;
+      })(),
       showShortcutBadge: s.showShortcutBadge,
       keyboardShortcut: coerceEnum(searchShortcutSchema, pickAppearanceField(s, "keyboardShortcut")),
       showInHeader: s.showInHeader,

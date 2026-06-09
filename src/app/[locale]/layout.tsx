@@ -5,14 +5,15 @@ import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { isValidUrlPrefix } from "@/i18n/locale-registry.server";
 import { getEnabledUrlPrefixes } from "@/i18n/locale-registry.server";
-import { SiteHeader } from "@/components/layout/site-header";
+import { SiteHeaderShell } from "@/components/layout/site-header-shell";
+import { DeferredSiteHeader } from "@/components/layout/site-header-deferred";
 import { FooterRenderer } from "@/features/footer/components/FooterRenderer";
 import {
   DeferredNavigationProgress,
   DeferredNavigationViewTransition,
   DeferredRecentlyViewedTracker,
   MotionRuntimeHost,
-  SitePreloaderHost,
+  DeferredSitePreloaderHost,
   DeferredWhatsAppFab,
   ThemePerformanceMonitorDeferred,
 } from "@/components/layout/marketing-shell-deferred";
@@ -30,10 +31,13 @@ import { AccountSessionProvider } from "@/components/account/account-session-pro
 import { loadLocaleLayoutData } from "@/features/i18n/load-locale-layout-data";
 import { preloaderShowsOnInitialLoad } from "@/features/preloader/site-preloader.schema";
 import { PreloaderBootScript } from "@/components/layout/preloader-boot-script";
+import { GlobalAnnouncementBar } from "@/features/announcement-bar/global-announcement-bar";
+import "@/styles/announcement-bar.css";
 import type { Metadata } from "next";
 import "@/styles/routes/effects.css";
 import "@/styles/route-loading.css";
 import "@/styles/site-preloader.css";
+import "@/styles/site-header-shell.css";
 
 /** ISR: locale shell (header/footer/theme) revalidates every 5 minutes */
 export const revalidate = 300;
@@ -86,7 +90,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   setRequestLocale(locale);
-  const { messages, shell, resolvedTheme, preloaderSettings, htmlLang, comparison } =
+  const { messages, shell, resolvedTheme, preloaderSettings, announcementBarSettings, htmlLang, comparison } =
     await loadLocaleLayoutData(locale);
 
   return (
@@ -106,12 +110,19 @@ export default async function LocaleLayout({ children, params }: Props) {
         <AccountSessionProvider>
           <ThemeProvider resolved={resolvedTheme}>
             <DeferredNavigationProgress />
-            <SitePreloaderHost settings={preloaderSettings} />
+            <DeferredSitePreloaderHost settings={preloaderSettings} />
             <DeferredNavigationViewTransition />
             <DeferredRecentlyViewedTracker />
             <MotionRuntimeHost />
             <ThemePerformanceMonitorDeferred />
-            <SiteHeader
+            <GlobalAnnouncementBar settings={announcementBarSettings} locale={locale} />
+            <SiteHeaderShell
+              workspace={shell.headerWorkspace}
+              locale={locale}
+              themePreset={shell.theme?.preset}
+              headerConfig={shell.theme?.headerConfig}
+            />
+            <DeferredSiteHeader
               workspace={shell.headerWorkspace}
               locale={locale}
               locales={shell.enabledLocales}

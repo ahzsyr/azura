@@ -3,9 +3,15 @@ import { SEARCH_ENTITY_TYPES } from "@/features/search/constants";
 import { searchRegistry } from "@/features/search-framework/registry/search-registry";
 import { searchSettingsManager } from "@/features/search-framework/settings/search-settings-manager";
 import type { SearchQueryInput, SearchQueryPlan } from "@/features/search-framework/types";
-import { analyzeSmartQuery } from "@/features/search-framework/query/search-smart-query";
+import { analyzeSmartQuery } from "@/features/search/core/query/smart-query";
 import { getSearchSmartConfig } from "@/features/search/settings/resolve-search-smart-config";
-import { hasArabicScript, sanitizeQuery, tokenize } from "@/features/search/search-text";
+import { hasArabicScript, sanitizeQuery, tokenize } from "@/features/search/core/text";
+import {
+  parseTypesParam,
+  parseContentTypeSlugsParam,
+  parseKindsParam,
+  parseFacetsParam,
+} from "@/features/search/api/params";
 
 const VALID_ENTITY_TYPES = new Set<string>(SEARCH_ENTITY_TYPES);
 
@@ -65,54 +71,17 @@ export class SearchQueryBuilder {
     return fromRegistry;
   }
 
-  /** Parse comma-separated API `types` param (legacy + current enum values only). */
-  parseTypesParam(typesParam: string | null): SearchEntityType[] | undefined {
-    if (!typesParam) return undefined;
-    const parsed = typesParam
-      .split(",")
-      .map((t) => t.trim())
-      .filter((t) => VALID_ENTITY_TYPES.has(t)) as SearchEntityType[];
-    return parsed.length ? parsed : undefined;
-  }
+  /** @deprecated Use `@/features/search/api/params` directly. */
+  parseTypesParam = parseTypesParam;
 
-  /** Parse `contentTypeSlugs` query param. */
-  parseContentTypeSlugsParam(param: string | null): string[] | undefined {
-    if (!param) return undefined;
-    const slugs = param
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
-    return slugs.length ? slugs : undefined;
-  }
+  /** @deprecated Use `@/features/search/api/params` directly. */
+  parseContentTypeSlugsParam = parseContentTypeSlugsParam;
 
-  /** Parse `kinds` query param for logical content kinds. */
-  parseKindsParam(param: string | null): string[] | undefined {
-    if (!param) return undefined;
-    return param
-      .split(",")
-      .map((k) => k.trim())
-      .filter(Boolean);
-  }
+  /** @deprecated Use `@/features/search/api/params` directly. */
+  parseKindsParam = parseKindsParam;
 
-  /** Parse `facets` JSON: `{ "category": ["tours"], "custom:packages:city": ["MAKKAH"] }` */
-  parseFacetsParam(param: string | null): Record<string, string[]> | undefined {
-    if (!param?.trim()) return undefined;
-    try {
-      const parsed = JSON.parse(param) as Record<string, unknown>;
-      const out: Record<string, string[]> = {};
-      for (const [key, value] of Object.entries(parsed)) {
-        if (Array.isArray(value)) {
-          const vals = value.map(String).filter(Boolean);
-          if (vals.length) out[key] = vals;
-        } else if (typeof value === "string" && value) {
-          out[key] = [value];
-        }
-      }
-      return Object.keys(out).length ? out : undefined;
-    } catch {
-      return undefined;
-    }
-  }
+  /** @deprecated Use `@/features/search/api/params` directly. */
+  parseFacetsParam = parseFacetsParam;
 }
 
 export const searchQueryBuilder = new SearchQueryBuilder();

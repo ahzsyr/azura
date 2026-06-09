@@ -68,6 +68,14 @@ export function IconEllipsis() {
   );
 }
 
+export function IconChevron({ up = false }: { up?: boolean }) {
+  return (
+    <svg {...iconSm}>
+      {up ? <path d="M18 15l-6-6-6 6" /> : <path d="M6 9l6 6 6-6" />}
+    </svg>
+  );
+}
+
 export function viewModeIcon(mode: "grid" | "list" | "table") {
   switch (mode) {
     case "list":

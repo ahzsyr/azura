@@ -9,10 +9,14 @@ export type SearchPaginatedPayload = {
   items: SearchResult[];
   hasMore: boolean;
   total: number;
+  isEstimate?: boolean;
 };
 
 const store = new Map<string, CacheEntry>();
 const MAX_ENTRIES = 200;
+
+let cacheHits = 0;
+let cacheMisses = 0;
 
 function prune(): void {
   if (store.size <= MAX_ENTRIES) return;
@@ -27,17 +31,27 @@ function prune(): void {
   }
 }
 
+/** Build a stable cache key with sorted object keys. */
 export function buildSearchCacheKey(parts: Record<string, unknown>): string {
-  return JSON.stringify(parts);
+  const sorted: Record<string, unknown> = {};
+  for (const key of Object.keys(parts).sort()) {
+    sorted[key] = parts[key];
+  }
+  return JSON.stringify(sorted);
 }
 
 export function getCachedSearchResult(key: string): SearchPaginatedPayload | null {
   const entry = store.get(key);
-  if (!entry) return null;
-  if (entry.expiresAt <= Date.now()) {
-    store.delete(key);
+  if (!entry) {
+    cacheMisses++;
     return null;
   }
+  if (entry.expiresAt <= Date.now()) {
+    store.delete(key);
+    cacheMisses++;
+    return null;
+  }
+  cacheHits++;
   return entry.payload;
 }
 
@@ -55,4 +69,10 @@ export function setCachedSearchResult(
 
 export function clearSearchQueryCache(): void {
   store.clear();
+  cacheHits = 0;
+  cacheMisses = 0;
+}
+
+export function getSearchCacheStats(): { hits: number; misses: number; size: number } {
+  return { hits: cacheHits, misses: cacheMisses, size: store.size };
 }

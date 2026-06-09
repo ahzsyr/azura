@@ -19,6 +19,12 @@ const payloadSchema = z.discriminatedUnion("type", [
     filterId: z.string().max(80),
     values: z.array(z.string().max(120)).max(12),
   }),
+  z.object({
+    type: z.literal("listing_query"),
+    locale: z.string().min(1).max(16),
+    q: z.string().max(200),
+    resultCount: z.number().int().min(0),
+  }),
 ]);
 
 export async function POST(request: NextRequest) {
@@ -54,6 +60,13 @@ export async function POST(request: NextRequest) {
       locale: event.locale,
       filterId: event.filterId,
       values: event.values,
+    });
+  } else if (event.type === "listing_query") {
+    searchAnalytics.trackQuery({
+      q: event.q,
+      locale: event.locale,
+      resultCount: event.resultCount,
+      durationMs: 0,
     });
   }
 

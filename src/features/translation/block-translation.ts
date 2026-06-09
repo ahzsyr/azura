@@ -35,6 +35,7 @@ export const BLOCK_TRANSLATABLE_FIELDS: Partial<Record<BlockType, string[]>> = {
   featureGrid: ["title", "subtitle"],
   benefitsGrid: ["title", "subtitle"],
   trustBadges: ["title", "subtitle"],
+  announcementBar: [],
   logoCloud: ["title", "subtitle"],
   statsCounter: ["title", "subtitle"],
   beforeAfter: ["title", "subtitle", "beforeLabel", "afterLabel"],

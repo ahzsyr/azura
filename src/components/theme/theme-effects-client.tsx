@@ -3,23 +3,22 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useTheme } from "next-themes";
 import type { ThemeTokens } from "@/types/theme";
-import type { PageVisualSettings } from "@/schemas/visual-settings";
-import { resolveVisualExperience } from "@/features/theme/visual-experience-resolver";
+import {
+  resolveVisitorVisualExperience,
+  resolveVisualExperience,
+} from "@/features/theme/visual-experience-resolver";
 import type { ResolvedVisualExperience } from "@/features/theme/visual-experience-resolver";
-import { applyVisualEffects } from "@/features/theme/effects-runtime";
-import { useResolvedVisualExperience } from "@/components/theme/visual-experience-context";
+import { useVisualExperience, useResolvedVisualExperience } from "@/components/theme/visual-experience-context";
 import {
-  applySiteVisualEffects,
-  readCursorPreference,
-  resolveDomAppearance,
-} from "@/features/theme/apply-site-visual-effects";
-import {
-  buildLiveVisualExperience,
   readStoredPresetEffects,
+  restorePresetColorsFromStorage,
   THEME_CHANGE_EVENT,
 } from "@/features/theme/engine";
+import type { ThemeEngineSnapshot } from "@/features/theme/engine/types";
+import { CURSOR_PREF_STORAGE_KEY } from "@/features/theme/engine/constants";
 import { deferUntilIdle } from "@/lib/performance/defer-until-idle";
 import { SHELL_READY_EVENT, whenShellReady } from "@/lib/motion/shell-ready";
+import { scheduleApplyVisualEffects } from "@/features/theme/visual-effects-coordinator";
 
 type Props = {
   tokens: ThemeTokens | null;
@@ -31,15 +30,37 @@ type Props = {
   immediate?: boolean;
 };
 
+function readCursorPreference(): "custom" | "normal" {
+  try {
+    const pref = localStorage.getItem(CURSOR_PREF_STORAGE_KEY);
+    return pref === "normal" ? "normal" : "custom";
+  } catch {
+    return "custom";
+  }
+}
+
 function resolveEffectAppearance(resolvedTheme: string | undefined): "light" | "dark" | null {
   if (resolvedTheme === "dark" || resolvedTheme === "light") return resolvedTheme;
-  return resolveDomAppearance();
+  if (typeof document === "undefined") return null;
+  const fromDom = document.documentElement.dataset.theme;
+  if (fromDom === "dark" || fromDom === "light") return fromDom;
+  return null;
+}
+
+function isVisitorThemeBootstrapped(): boolean {
+  if (typeof document === "undefined") return false;
+  return document.documentElement.dataset.visitorThemeBootstrapped === "true";
+}
+
+function isBackgroundLayerMounted(): boolean {
+  if (typeof document === "undefined") return false;
+  return !!document.querySelector("[data-bg-layer], canvas[data-bg-effect]");
 }
 
 export function ThemeEffectsClient({
   tokens,
   siteResolved,
-  applyOnMount = false,
+  applyOnMount = true,
   immediate = false,
 }: Props) {
   const { resolvedTheme } = useTheme();
@@ -51,17 +72,39 @@ export function ThemeEffectsClient({
       (tokens ? resolveVisualExperience({ site: tokens }) : null),
     [siteResolved, contextResolved, tokens],
   );
+  const effectAppearance = resolveEffectAppearance(resolvedTheme);
 
-  const applyFromStorage = useCallback(() => {
-    if (!tokens || !baseResolved) return;
-    const appearance = resolveEffectAppearance(resolvedTheme);
-    if (!appearance) return;
-    applySiteVisualEffects(tokens, baseResolved, appearance, readCursorPreference());
-  }, [tokens, baseResolved, resolvedTheme]);
+  const resolveExperience = useCallback((): ResolvedVisualExperience | null => {
+    if (!tokens || !baseResolved) return null;
+    return resolveVisitorVisualExperience({
+      site: tokens,
+      storedEffects: readStoredPresetEffects(),
+      cursorPreference: readCursorPreference(),
+    });
+  }, [tokens, baseResolved]);
+
+  const applyResolved = useCallback(
+    (options?: { immediate?: boolean; colorsOnly?: boolean; force?: boolean }) => {
+      const appearance = resolveEffectAppearance(resolvedTheme) ?? effectAppearance;
+      if (!appearance) return;
+
+      const bootstrapped = isVisitorThemeBootstrapped();
+      if (!bootstrapped || options?.colorsOnly) {
+        restorePresetColorsFromStorage(appearance);
+      }
+
+      const experience = resolveExperience();
+      if (!experience) return;
+      scheduleApplyVisualEffects(experience, options);
+    },
+    [resolveExperience, resolvedTheme, effectAppearance],
+  );
 
   useEffect(() => {
     if (!applyOnMount) return;
-    if (tokens?.animationsEnabled === false && baseResolved) {
+    if (!baseResolved || !tokens || !effectAppearance) return;
+
+    if (tokens.animationsEnabled === false) {
       const inactive = (id: string | null | undefined) => !id || id === "none";
       if (
         inactive(baseResolved.cursorEffect) &&
@@ -72,119 +115,114 @@ export function ThemeEffectsClient({
       }
     }
 
+    const bootstrapped = isVisitorThemeBootstrapped();
+    const bgMounted = isBackgroundLayerMounted();
+
     if (immediate) {
-      applyFromStorage();
+      applyResolved({ immediate: true });
       return;
     }
 
-    let cancelIdle: (() => void) | undefined;
-    const run = () => {
-      cancelIdle?.();
-      cancelIdle = deferUntilIdle(applyFromStorage);
-    };
+    if (!(bootstrapped && bgMounted)) {
+      applyResolved({ immediate: true });
+    }
 
-    const stopShell = whenShellReady(run);
-    document.addEventListener(SHELL_READY_EVENT, run);
+    const runOnShellReady = () => {
+      if (isVisitorThemeBootstrapped() && isBackgroundLayerMounted()) return;
+      applyResolved({ immediate: true });
+    };
+    const stopShell = whenShellReady(runOnShellReady);
+    document.addEventListener(SHELL_READY_EVENT, runOnShellReady);
 
     return () => {
       stopShell();
-      document.removeEventListener(SHELL_READY_EVENT, run);
-      cancelIdle?.();
+      document.removeEventListener(SHELL_READY_EVENT, runOnShellReady);
     };
   }, [
     applyOnMount,
     immediate,
-    applyFromStorage,
-    tokens?.animationsEnabled,
+    applyResolved,
+    tokens,
     baseResolved,
+    effectAppearance,
+    resolvedTheme,
     baseResolved?.cursorEffect,
     baseResolved?.backgroundEffect,
     baseResolved?.textEffect,
-    baseResolved?.cursorEnabled,
-    baseResolved?.backgroundEnabled,
-    baseResolved?.textEnabled,
     baseResolved?.animationsEnabled,
     baseResolved?.cardStyle,
   ]);
 
   useEffect(() => {
-    const onThemeChange = () => {
-      document.documentElement.classList.add("theme-transitioning");
-      deferUntilIdle(() => {
-        applyFromStorage();
-        window.setTimeout(() => {
-          document.documentElement.classList.remove("theme-transitioning");
-        }, 400);
-      });
+    const onThemeChange = (event: Event) => {
+      const detail = (event as CustomEvent<Partial<ThemeEngineSnapshot>>).detail;
+      if (detail?.appearanceOnly) return;
+      applyResolved({ colorsOnly: true, immediate: true });
     };
 
     window.addEventListener(THEME_CHANGE_EVENT, onThemeChange);
     return () => window.removeEventListener(THEME_CHANGE_EVENT, onThemeChange);
-  }, [applyFromStorage]);
+  }, [applyResolved]);
 
   return null;
 }
 
-type PageProps = {
-  site: ThemeTokens;
-  page: PageVisualSettings;
-  siteResolved?: ResolvedVisualExperience | null;
-};
-
-export function PageVisualEffects({ site, page, siteResolved }: PageProps) {
+/** Applies page-level visual settings when nested inside VisualExperienceProvider (CMS pages). */
+export function VisualExperienceSync() {
+  const visualCtx = useVisualExperience();
   const { resolvedTheme } = useTheme();
-  const pageKey = useMemo(() => JSON.stringify(page), [page]);
-  const baseSiteResolved = useMemo(
-    () => siteResolved ?? resolveVisualExperience({ site }),
-    [site, siteResolved],
-  );
+  const pageKey = useMemo(() => JSON.stringify(visualCtx?.page ?? {}), [visualCtx?.page]);
+  const effectAppearance = resolveEffectAppearance(resolvedTheme);
 
   useEffect(() => {
-    let cancelIdle: (() => void) | undefined;
-    const applyPageEffects = () => {
-      const live = readStoredPresetEffects();
-      if (live) {
-        applyVisualEffects(buildLiveVisualExperience(site, live, readCursorPreference()));
-        return;
-      }
-      applyVisualEffects(resolveVisualExperience({ site, page }));
-    };
+    if (!visualCtx?.site || !effectAppearance) return;
 
+    let cancelIdle: (() => void) | undefined;
     const run = () => {
       cancelIdle?.();
-      cancelIdle = deferUntilIdle(applyPageEffects);
+      cancelIdle = deferUntilIdle(() => {
+        restorePresetColorsFromStorage(effectAppearance);
+        const experience = resolveVisitorVisualExperience({
+          site: visualCtx.site,
+          page: visualCtx.page,
+          storedEffects: readStoredPresetEffects(),
+          cursorPreference: readCursorPreference(),
+        });
+        scheduleApplyVisualEffects(experience, { force: true });
+      });
     };
 
     const stopShell = whenShellReady(run);
     document.addEventListener(SHELL_READY_EVENT, run);
 
-    const onThemeChange = () => deferUntilIdle(applyPageEffects);
-    window.addEventListener(THEME_CHANGE_EVENT, onThemeChange);
-
     return () => {
       stopShell();
       document.removeEventListener(SHELL_READY_EVENT, run);
       cancelIdle?.();
-      window.removeEventListener(THEME_CHANGE_EVENT, onThemeChange);
-      const appearance = resolveDomAppearance() ?? "light";
-      applySiteVisualEffects(site, baseSiteResolved, appearance, readCursorPreference());
     };
-  }, [
-    site,
-    page,
-    pageKey,
-    baseSiteResolved,
-    resolvedTheme,
-    site.cursorEffect,
-    site.backgroundEffect,
-    site.textEffect,
-    site.cursorEffectEnabled,
-    site.backgroundEffectEnabled,
-    site.textEffectEnabled,
-    site.animationsEnabled,
-    site.cardStyle,
-    site.borderStyle,
-  ]);
+  }, [visualCtx?.site, visualCtx?.page, pageKey, effectAppearance, resolvedTheme]);
+
+  useEffect(() => {
+    if (!visualCtx?.site || !effectAppearance) return;
+
+    const onThemeChange = (event: Event) => {
+      const detail = (event as CustomEvent<Partial<ThemeEngineSnapshot>>).detail;
+      if (detail?.appearanceOnly) return;
+      deferUntilIdle(() => {
+        restorePresetColorsFromStorage(effectAppearance);
+        const experience = resolveVisitorVisualExperience({
+          site: visualCtx.site,
+          page: visualCtx.page,
+          storedEffects: readStoredPresetEffects(),
+          cursorPreference: readCursorPreference(),
+        });
+        scheduleApplyVisualEffects(experience, { colorsOnly: true });
+      });
+    };
+
+    window.addEventListener(THEME_CHANGE_EVENT, onThemeChange);
+    return () => window.removeEventListener(THEME_CHANGE_EVENT, onThemeChange);
+  }, [visualCtx?.site, visualCtx?.page, pageKey, effectAppearance, resolvedTheme]);
 
   return null;
 }

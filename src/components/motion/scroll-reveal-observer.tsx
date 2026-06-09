@@ -111,6 +111,7 @@ export function ScrollRevealObserver() {
     };
 
     const scan = () => {
+      if (document.hidden) return;
       if (getConstrainedMotionSnapshot().shouldReduceMotion) return;
       root.querySelectorAll<HTMLElement>(REVEAL_SELECTOR).forEach((el) => {
         if (!el.classList.contains("revealed")) observeReveal(el);
@@ -126,26 +127,35 @@ export function ScrollRevealObserver() {
         return;
       }
 
-      scan();
+      const runInitialScan = () => {
+        if (typeof requestIdleCallback === "function") {
+          requestIdleCallback(() => scan(), { timeout: 500 });
+        } else {
+          scan();
+        }
+      };
+      runInitialScan();
 
       let mutationTimer: ReturnType<typeof setTimeout> | null = null;
       const mo = new MutationObserver(() => {
+        if (document.hidden) return;
         if (mutationTimer) clearTimeout(mutationTimer);
-        mutationTimer = setTimeout(scan, 80);
+        mutationTimer = setTimeout(scan, 150);
       });
       mo.observe(root, { childList: true, subtree: true });
 
       let resizeTimer: ReturnType<typeof setTimeout> | null = null;
       const onResize = () => {
         if (resizeTimer) clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(scan, 120);
+        resizeTimer = setTimeout(scan, 150);
       };
       window.addEventListener("resize", onResize);
 
       let scrollTimer: ReturnType<typeof setTimeout> | null = null;
       const onScroll = () => {
+        if (document.hidden) return;
         if (scrollTimer) clearTimeout(scrollTimer);
-        scrollTimer = setTimeout(scan, 80);
+        scrollTimer = setTimeout(scan, 150);
       };
       window.addEventListener("scroll", onScroll, { passive: true });
       window.addEventListener("touchmove", onScroll, { passive: true });

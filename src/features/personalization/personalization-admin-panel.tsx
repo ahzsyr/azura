@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { ALL_PRESETS } from "@/features/theme/presets-catalog";
 import type {
@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { OptionButtonGroup } from "@/features/navigation/admin/header-builder-ui";
+import { useDesignHubSaveActions } from "@/hooks/use-design-hub-save-actions";
 
 const POSITIONS: { value: PersonalizationPosition; label: string; hint: string }[] = [
   { value: "bottom-end", label: "Bottom end", hint: "Mirrors for RTL (inline end)" },
@@ -31,13 +32,46 @@ export function PersonalizationAdminPanel() {
   const [status, setStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("settings");
+  const savedSettingsRef = useRef<PersonalizationSettings | null>(null);
 
   useEffect(() => {
     fetch("/api/personalization-settings")
       .then((r) => r.json())
-      .then((data: PersonalizationSettings) => setSettings(data))
+      .then((data: PersonalizationSettings) => {
+        setSettings(data);
+        savedSettingsRef.current = data;
+      })
       .finally(() => setLoading(false));
   }, []);
+
+  const handleSave = useCallback(async () => {
+    if (!settings) return;
+    setStatus(null);
+    const res = await fetch("/api/personalization-settings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(settings),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error ?? "Save failed");
+    setSettings(data.settings);
+    savedSettingsRef.current = data.settings;
+    setStatus("Personalization settings saved.");
+  }, [settings]);
+
+  const handleCancel = useCallback(() => {
+    if (savedSettingsRef.current) {
+      setSettings(savedSettingsRef.current);
+    }
+    setStatus(null);
+  }, []);
+
+  const { markDirty } = useDesignHubSaveActions({
+    onSave: handleSave,
+    onCancel: handleCancel,
+    saveLabel: "Save",
+    enabled: Boolean(settings),
+  });
 
   const visibilityMap = useMemo(() => {
     const map = new Map<string, boolean>();
@@ -45,28 +79,20 @@ export function PersonalizationAdminPanel() {
     return map;
   }, [settings]);
 
-  async function save(next: PersonalizationSettings) {
-    setStatus(null);
-    const res = await fetch("/api/personalization-settings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(next),
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      setStatus(data.error ?? "Save failed");
-      return;
-    }
-    setSettings(data.settings);
-    setStatus("Saved.");
-  }
+  const patchSettings = useCallback(
+    (next: PersonalizationSettings) => {
+      markDirty();
+      setSettings(next);
+    },
+    [markDirty],
+  );
 
   if (loading || !settings) {
     return <p className="text-sm text-muted-foreground">Loading widget settings…</p>;
   }
 
   function togglePreset(id: string, visible: boolean) {
-    setSettings({
+    patchSettings({
       ...settings!,
       presets: settings!.presets.map((p) => (p.id === id ? { ...p, visibleToUsers: visible } : p)),
     });
@@ -93,7 +119,7 @@ export function PersonalizationAdminPanel() {
                   <input
                     type="checkbox"
                     checked={settings.enabled}
-                    onChange={(e) => setSettings({ ...settings, enabled: e.target.checked })}
+                    onChange={(e) => patchSettings({ ...settings, enabled: e.target.checked })}
                   />
                   Show personalization widget on the public site
                 </label>
@@ -102,16 +128,13 @@ export function PersonalizationAdminPanel() {
                   <OptionButtonGroup
                     value={settings.position}
                     options={POSITIONS.map((p) => ({ value: p.value, label: p.label }))}
-                    onChange={(v) => setSettings({ ...settings, position: v })}
+                    onChange={(v) => patchSettings({ ...settings, position: v })}
                     columns={2}
                   />
                   <p className="text-xs text-muted-foreground">
                     {POSITIONS.find((p) => p.value === settings.position)?.hint}
                   </p>
                 </div>
-                <Button type="button" onClick={() => void save(settings)}>
-                  Save widget settings
-                </Button>
               </CardContent>
             </Card>
           ) : tab === "sections" ? (
@@ -133,7 +156,7 @@ export function PersonalizationAdminPanel() {
                     type="checkbox"
                     checked={settings.widgetSections.showFabThemeToggle}
                     onChange={(e) =>
-                      setSettings({
+                      patchSettings({
                         ...settings,
                         widgetSections: {
                           ...settings.widgetSections,
@@ -149,7 +172,7 @@ export function PersonalizationAdminPanel() {
                     type="checkbox"
                     checked={settings.widgetSections.showAppearance}
                     onChange={(e) =>
-                      setSettings({
+                      patchSettings({
                         ...settings,
                         widgetSections: {
                           ...settings.widgetSections,
@@ -165,7 +188,7 @@ export function PersonalizationAdminPanel() {
                     type="checkbox"
                     checked={settings.widgetSections.showStyle}
                     onChange={(e) =>
-                      setSettings({
+                      patchSettings({
                         ...settings,
                         widgetSections: {
                           ...settings.widgetSections,
@@ -181,7 +204,7 @@ export function PersonalizationAdminPanel() {
                     type="checkbox"
                     checked={settings.widgetSections.showBackToTop}
                     onChange={(e) =>
-                      setSettings({
+                      patchSettings({
                         ...settings,
                         widgetSections: {
                           ...settings.widgetSections,
@@ -192,9 +215,6 @@ export function PersonalizationAdminPanel() {
                   />
                   Back to top button on FAB bar
                 </label>
-                <Button type="button" onClick={() => void save(settings)}>
-                  Save widget sections
-                </Button>
               </CardContent>
             </Card>
           ) : (
@@ -233,7 +253,7 @@ export function PersonalizationAdminPanel() {
                     type="button"
                     variant="outline"
                     onClick={() =>
-                      setSettings({
+                      patchSettings({
                         ...settings,
                         presets: settings.presets.map((p) => ({ ...p, visibleToUsers: true })),
                       })
@@ -245,16 +265,13 @@ export function PersonalizationAdminPanel() {
                     type="button"
                     variant="outline"
                     onClick={() =>
-                      setSettings({
+                      patchSettings({
                         ...settings,
                         presets: settings.presets.map((p) => ({ ...p, visibleToUsers: false })),
                       })
                     }
                   >
                     Hide all
-                  </Button>
-                  <Button type="button" onClick={() => void save(settings)}>
-                    Save visibility
                   </Button>
                 </div>
               </CardContent>

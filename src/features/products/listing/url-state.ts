@@ -70,6 +70,30 @@ export function searchParamsFromFilterState(state: ListingFilterState, basePath:
   return `${basePath}${qs ? `?${qs}` : ""}`;
 }
 
+export function filterStateToApiSearchParams(state: ListingFilterState): URLSearchParams {
+  const params = new URLSearchParams();
+  const q = state.q.trim();
+  if (q) params.set("q", q);
+  for (const c of state.categories) params.append("category", c);
+  for (const b of state.brands) params.append("brand", b);
+  if (state.collectionScope?.trim()) {
+    params.set("scope", state.collectionScope.trim());
+  } else {
+    for (const col of state.collections) params.append("collection", col);
+  }
+  for (const tag of state.tags) params.append("tag", tag);
+  for (const cond of state.conditions) params.append("condition", cond);
+  for (const [type, opts] of Object.entries(state.variations)) {
+    for (const opt of opts) params.append("var", `${type}:${opt}`);
+  }
+  if (state.priceMin != null) params.set("price_min", String(state.priceMin));
+  if (state.priceMax != null) params.set("price_max", String(state.priceMax));
+  if (state.stockOnly) params.set("stock", "in_stock");
+  if (state.page > 1) params.set("page", String(state.page));
+  if (state.per !== DEFAULT_PER) params.set("per", String(state.per));
+  return params;
+}
+
 export function countActiveFilters(state: ListingFilterState): number {
   let n = 0;
   if (state.q.trim()) n += 1;

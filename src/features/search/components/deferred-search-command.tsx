@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import "@/features/search/components/search-ui/search-ui.css";
+import "@/features/search/components/search-ui/search-theme.css";
 import { markSearchOpenPending } from "@/features/search/components/search-open-bridge";
 
 const SearchModalHost = dynamic(

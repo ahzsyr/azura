@@ -18,6 +18,25 @@ describe("block migration", () => {
     assert.equal(blocks[0]?.version, "2.0");
   });
 
+  it("migrates legacy strip-block discriminant to announcementBar", () => {
+    const legacy = [
+      {
+        discriminant: "strip-block",
+        value: {
+          id: "strip-1",
+          barTone: "accent",
+          separator: "◈",
+          items: [{ message: "Test message" }],
+        },
+      },
+    ] as unknown as BlockNode[];
+    const { blocks, migrated } = migrateBlocksToBlockSystem(legacy);
+    assert.equal(migrated, true);
+    assert.equal(blocks[0]?.type, "announcementBar");
+    assert.equal(blocks[0]?.version, "2.0");
+    assert.equal((blocks[0]?.settings as { barTone?: string })?.barTone, "accent");
+  });
+
   it("is idempotent for v2 blocks", () => {
     const v2 = [
       {

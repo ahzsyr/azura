@@ -13,7 +13,7 @@ import {
   Send,
   Undo2,
 } from "lucide-react";
-import { useAdminUiStore } from "@/stores/admin-ui-store";
+import { applySaveResult, useAdminUiStore } from "@/stores/admin-ui-store";
 import { AdminSearchCommand } from "@/features/search/components/search-command";
 import { AdminBreadcrumbs } from "./admin-breadcrumbs";
 import { AdminMobileMenuButton } from "./admin-sidebar";
@@ -84,6 +84,7 @@ export function AdminTopBar() {
   const saveStatus = useAdminUiStore((s) => s.saveStatus);
   const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
   const markSaved = useAdminUiStore((s) => s.markSaved);
+  const consumePendingDirty = useAdminUiStore((s) => s.consumePendingDirty);
   const { resolvedTheme } = useAdminTheme();
 
   const handleSave = useCallback(async () => {
@@ -93,22 +94,17 @@ export function AdminTopBar() {
     }
     try {
       const ok = await pageActions.onSave();
-      if (pageActions.selfManagedSaveStatus) return;
-      if (ok === false) {
-        setSaveStatus("unsaved");
-        return;
-      }
-      if (pageActions.markSavedOnSaveSuccess !== false) {
-        markSaved();
-      } else {
-        setSaveStatus("saved");
-      }
+      applySaveResult(ok, pageActions, {
+        setSaveStatus,
+        markSaved,
+        consumePendingDirty,
+      });
     } catch {
       if (!pageActions.selfManagedSaveStatus) {
         setSaveStatus("error");
       }
     }
-  }, [pageActions, saveStatus, setSaveStatus, markSaved]);
+  }, [pageActions, saveStatus, setSaveStatus, markSaved, consumePendingDirty]);
 
   const handleCancel = useCallback(async () => {
     if (!pageActions.onCancel || saveStatus === "saving") return;
@@ -139,15 +135,15 @@ export function AdminTopBar() {
     setSaveStatus("saving");
     try {
       const ok = await pageActions.onPublish();
-      if (ok === false) {
-        setSaveStatus("unsaved");
-        return;
-      }
-      markSaved();
+      applySaveResult(ok, pageActions, {
+        setSaveStatus,
+        markSaved,
+        consumePendingDirty,
+      });
     } catch {
       setSaveStatus("error");
     }
-  }, [pageActions, saveStatus, setSaveStatus, markSaved]);
+  }, [pageActions, saveStatus, setSaveStatus, markSaved, consumePendingDirty]);
 
   const showCancel = Boolean(
     pageActions.onCancel &&

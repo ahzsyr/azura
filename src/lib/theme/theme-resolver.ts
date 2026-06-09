@@ -318,6 +318,10 @@ export function generateHtmlAttributes(input: HtmlAttributesInput): Record<strin
     visual.cursorEffect !== "none";
   attrs["data-site-cursor-effects"] = cursorOn ? "on" : "off";
 
+  if (appearance.resolved === "dark") {
+    attrs.class = "dark";
+  }
+
   return attrs;
 }
 
@@ -325,7 +329,11 @@ export function generateHtmlAttributes(input: HtmlAttributesInput): Record<strin
 export function htmlAttributesToReactProps(
   attrs: Record<string, string>,
 ): Record<string, string> {
-  return attrs;
+  const { class: themeClass, ...rest } = attrs;
+  if (themeClass) {
+    return { ...rest, className: themeClass };
+  }
+  return rest;
 }
 
 export type BuildResolvedThemeOptions = {

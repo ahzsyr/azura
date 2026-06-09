@@ -1,23 +1,23 @@
 /**
  * Static semantic fallbacks (pre-hydration / admin).
- * Dynamic theme overrides via SSR pipeline @layer tokens.
+ * Class-based light/dark — matches globals.css; dynamic overrides via SSR html.dark.
  */
 @layer tokens {
   :root {
-    --background: light-dark(oklch(0.985 0 0), oklch(0.145 0 0));
-    --foreground: light-dark(oklch(0.145 0 0), oklch(0.985 0 0));
-    --card: light-dark(oklch(1 0 0), oklch(0.205 0 0));
-    --primary: light-dark(oklch(0.45 0.12 160), oklch(0.55 0.12 160));
-    --secondary: light-dark(oklch(0.97 0 0), oklch(0.27 0 0));
-    --accent: light-dark(oklch(0.75 0.12 85), oklch(0.75 0.12 85));
-    --muted: light-dark(oklch(0.97 0 0), oklch(0.27 0 0));
-    --border: light-dark(oklch(0.92 0 0), oklch(1 0 0 / 10%));
-    --ring: var(--primary);
+    --background: #fafafa;
+    --foreground: #18181b;
+    --card: #ffffff;
+    --primary: #047857;
+    --secondary: #f5f5f4;
+    --accent: #d4af37;
+    --muted: #f5f5f4;
+    --border: #e5e5e5;
+    --ring: #047857;
     --radius: 0.75rem;
-    --muted-foreground: light-dark(oklch(0.55 0 0), oklch(0.65 0 0));
-    --primary-foreground: oklch(0.985 0 0);
-    --accent-foreground: oklch(0.145 0 0);
-    --secondary-foreground: light-dark(oklch(0.145 0 0), oklch(0.985 0 0));
+    --muted-foreground: #737373;
+    --primary-foreground: #ffffff;
+    --accent-foreground: #0a0a0a;
+    --secondary-foreground: #0a0a0a;
     --card-foreground: var(--foreground);
     --popover: var(--card);
     --popover-foreground: var(--foreground);
@@ -46,5 +46,25 @@
     --color-accent: var(--accent);
     --color-text: var(--foreground);
     --color-surface: var(--card);
+  }
+
+  .dark {
+    --background: #020408;
+    --foreground: #e8f4fd;
+    --card: #040d1a;
+    --primary: #00e5ff;
+    --secondary: #041225;
+    --accent: #7c3aed;
+    --muted: #041225;
+    --border: color-mix(in srgb, #00e5ff 15%, transparent);
+    --ring: #00e5ff;
+    --muted-foreground: #4a6580;
+    --primary-foreground: #020408;
+    --accent-foreground: #ffffff;
+    --secondary-foreground: #e8f4fd;
+    --card-foreground: var(--foreground);
+    --popover: var(--card);
+    --popover-foreground: var(--foreground);
+    --input: var(--border);
   }
 }

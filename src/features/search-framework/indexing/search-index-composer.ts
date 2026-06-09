@@ -16,10 +16,12 @@ export class SearchIndexComposer {
     source: ContentItemSearchSource,
     providerContext: SearchProviderContext
   ): SearchIndexBuildContext {
-    const fieldSchema = resolveFieldSchema(
-      { fieldSchema: source.fieldSchema ?? [] },
-      source.contentTypeSlug ?? ""
-    ) as SearchableFieldDefinition[];
+    const fieldSchema =
+      source.resolvedFieldSchema ??
+      (resolveFieldSchema(
+        { fieldSchema: source.fieldSchema ?? [] },
+        source.contentTypeSlug ?? ""
+      ) as SearchableFieldDefinition[]);
 
     const profile =
       source.indexProfile ??

@@ -20,28 +20,22 @@ export function buildMotionCss(tokens: ThemeTokens): string {
   const slow = `${Math.round(500 * factor)}ms`;
 
   if (!tokens.animationsEnabled) {
-    return `@layer tokens {
-  html { --motion-scale:0; --animation-speed:0; }
-}
-@layer utilities {
-  html[data-motion="off"] *,
-  html:not([data-motion]) * {
-    animation-duration:0.01ms !important;
-    animation-iteration-count:1 !important;
-    transition-duration:0.01ms !important;
-  }
+    return `html { --motion-scale:0; --animation-speed:0; }
+html[data-motion="off"] *,
+html:not([data-motion]) * {
+  animation-duration:0.01ms !important;
+  animation-iteration-count:1 !important;
+  transition-duration:0.01ms !important;
 }`;
   }
 
-  return `@layer tokens {
-  html {
-    --motion-scale:${tokens.animationSpeed};
-    --animation-speed:${tokens.animationSpeed};
-    --motion-duration-fast:${fast};
-    --motion-duration-normal:${normal};
-    --motion-duration-slow:${slow};
-    --motion-ease-standard:${EASE_STANDARD};
-    --motion-ease-emphasized:${EASE_EMPHASIZED};
-  }
+  return `html {
+  --motion-scale:${tokens.animationSpeed};
+  --animation-speed:${tokens.animationSpeed};
+  --motion-duration-fast:${fast};
+  --motion-duration-normal:${normal};
+  --motion-duration-slow:${slow};
+  --motion-ease-standard:${EASE_STANDARD};
+  --motion-ease-emphasized:${EASE_EMPHASIZED};
 }`;
 }

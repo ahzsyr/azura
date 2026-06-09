@@ -1,3 +1,2 @@
 @import "../portal-blocks.css" layer(components);
-@import "../site-preloader.css" layer(components);
 @import "./builder.css";

@@ -31,6 +31,7 @@ export const PATCHABLE_SITE_KEYS = [
   "mobileMenuAnimation",
   "search",
   "sitePreloader",
+  "siteAnnouncementBar",
   "pageTransitions",
   "headerNavUi",
   "languageSwitcher",
@@ -205,6 +206,44 @@ export async function patchSiteSettingsKey(
   const merged = deepMergeSettings(fileData, overlay);
   const next = { ...merged, [key]: value };
   const nextOverlay = { ...overlay, [key]: value };
+
+  const useJsonStore = Boolean(process.env.VERCEL);
+  let wroteFile = false;
+
+  if (!useJsonStore) {
+    wroteFile = await persistSiteSettingsToFile(catalogLocale, next);
+  }
+
+  if (useJsonStore || !wroteFile) {
+    await saveJsonStoreOverlay(catalogLocale, nextOverlay);
+  }
+
+  invalidateSiteSettingsCache();
+  return next;
+}
+
+export async function patchSiteSettingsKeys(
+  localeParam: string | undefined,
+  patches: ReadonlyArray<{ key: PatchableSiteKey; value: unknown }>,
+): Promise<Record<string, unknown>> {
+  if (patches.length === 0) {
+    throw new Error("No settings patches provided");
+  }
+
+  const locale = resolveConfiguredLocaleCode(localeParam ?? "", adminLocale.code);
+  const catalogLocale = catalogLocaleFromParam(locale);
+
+  const file = await readSiteSettingsFile(catalogLocale);
+  const overlay = await loadJsonStoreOverlay(catalogLocale);
+  const fileData = file?.data ?? {};
+  const merged = deepMergeSettings(fileData, overlay);
+
+  let next = { ...merged };
+  let nextOverlay = { ...overlay };
+  for (const { key, value } of patches) {
+    next = { ...next, [key]: value };
+    nextOverlay = { ...nextOverlay, [key]: value };
+  }
 
   const useJsonStore = Boolean(process.env.VERCEL);
   let wroteFile = false;

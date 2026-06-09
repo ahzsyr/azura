@@ -10,10 +10,29 @@ import { orderCollectionsHierarchy } from "@/features/collections/collection-hie
 import { buildCollectionListingCatalog } from "@/features/products/listing/catalog";
 import { loadListingLabels } from "@/features/products/listing/load-listing-labels";
 import { ProductListingIsland } from "@/features/products/components/product-listing-island";
+import { filterStateFromSearchParams } from "@/features/products/listing/url-state";
 
 export const revalidate = 60;
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+function toUrlSearchParams(
+  raw: Record<string, string | string[] | undefined>,
+): URLSearchParams {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(raw)) {
+    if (value == null) continue;
+    if (Array.isArray(value)) {
+      for (const item of value) params.append(key, item);
+    } else {
+      params.set(key, value);
+    }
+  }
+  return params;
+}
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
@@ -28,16 +47,18 @@ export async function generateMetadata({ params }: Props) {
   });
 }
 
-export default async function CollectionsIndexPage({ params }: Props) {
+export default async function CollectionsIndexPage({ params, searchParams }: Props) {
   const { locale } = await params;
+  const filterState = filterStateFromSearchParams(toUrlSearchParams(await searchParams));
   setRequestLocale(locale);
 
-  const [theme, { records, facets }, allCols, listingCopy] = await Promise.all([
+  const [theme, catalog, allCols, listingCopy] = await Promise.all([
     loadCatalogListingTheme(locale, "collections"),
-    buildCollectionListingCatalog(locale),
+    buildCollectionListingCatalog(locale, filterState),
     collectionsDataService.loadAll({ localePrefix: locale }),
     loadListingLabels("collection", locale),
   ]);
+  const { records, facets, total = records.length, totalPages = 1 } = catalog;
   const collections = orderCollectionsHierarchy(allCols.filter((c) => c.visible !== false));
   const pageDir = locale.startsWith("ar") ? "rtl" : "ltr";
 
@@ -72,6 +93,9 @@ export default async function CollectionsIndexPage({ params }: Props) {
           cardLayout={theme.cardLayout}
           catalogToolbarDock={theme.toolbarDock}
           pageDir={pageDir}
+          serverPaginated
+          total={total}
+          totalPages={totalPages}
         />
       </Suspense>
     </CatalogListingPageShell>

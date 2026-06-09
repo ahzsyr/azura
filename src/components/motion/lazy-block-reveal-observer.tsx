@@ -87,6 +87,7 @@ export function LazyBlockRevealObserver() {
     };
 
     const scan = () => {
+      if (document.hidden) return;
       root.querySelectorAll<HTMLElement>(LAZY_BLOCK_SELECTOR).forEach((el) => {
         if (!el.classList.contains("az-lazy-revealed")) observeLazy(el);
       });
@@ -94,18 +95,24 @@ export function LazyBlockRevealObserver() {
 
     let mutationTimer: ReturnType<typeof setTimeout> | null = null;
     const mo = new MutationObserver(() => {
+      if (document.hidden) return;
       if (mutationTimer) clearTimeout(mutationTimer);
-      mutationTimer = setTimeout(scan, 80);
+      mutationTimer = setTimeout(scan, 150);
     });
 
     let scrollTimer: ReturnType<typeof setTimeout> | null = null;
     const onScroll = () => {
+      if (document.hidden) return;
       if (scrollTimer) clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(scan, 80);
+      scrollTimer = setTimeout(scan, 150);
     };
 
     const start = () => {
-      scan();
+      if (typeof requestIdleCallback === "function") {
+        requestIdleCallback(() => scan(), { timeout: 500 });
+      } else {
+        scan();
+      }
       mo.observe(root, { childList: true, subtree: true });
       window.addEventListener("resize", onScroll);
       window.addEventListener("scroll", onScroll, { passive: true });

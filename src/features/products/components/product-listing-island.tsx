@@ -29,6 +29,9 @@ import {
 } from "@/features/products/listing/url-state";
 import { LISTING_PER_OPTIONS, type ListingPerPage } from "@/features/products/listing/types";
 import { fuzzyMatchListingSlugs } from "@/features/products/listing/search";
+import { trackListingSearchAnalytics } from "@/features/search/analytics/search-analytics.client";
+import { useCatalogListingFetch } from "@/features/products/listing/use-catalog-listing-fetch";
+import { useDebouncedValueWithFlush } from "@/hooks/use-debounced-value";
 import type {
   CatalogToolbarLabels,
   ProductListingLabels,
@@ -36,11 +39,15 @@ import type {
 import { ProductListingFilters } from "./listing/product-listing-filters";
 import { ProductListingGrid } from "./listing/product-listing-grid";
 import {
+  IconChevron,
   IconClose,
   IconEllipsis,
   IconSearch,
   viewModeIcon,
 } from "./listing/listing-ui-icons";
+
+const MOBILE_DOCK_MQ = "(max-width: 639px)";
+const DESKTOP_DEFAULT_PER: ListingPerPage = 20;
 
 export type CatalogSortKey = "name-asc" | "name-desc" | "items-desc";
 
@@ -112,7 +119,7 @@ export function ProductListingIsland({
   listingMode = "product",
   hierarchyLabels,
   hierarchyVariant = "chrome",
-  searchDebounceMs = 300,
+  searchDebounceMs = 150,
   searchFuzziness = 0.35,
   defaultViewMode = "grid",
   viewModes = ["grid", "list", "table"],
@@ -143,9 +150,11 @@ export function ProductListingIsland({
 
   const [pinnedSidebar, setPinnedSidebar] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [dockPanelOpen, setDockPanelOpen] = useState(true);
   const [searchOpen, setSearchOpen] = useState(false);
   const [qInput, setQInput] = useState("");
-  const [searching, setSearching] = useState(false);
+  const [debouncedQ, flushDebouncedQ] = useDebouncedValueWithFlush(qInput.trim(), searchDebounceMs);
+  const [fuzzySearching, setFuzzySearching] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>(defaultViewMode);
   const [catalogSort, setCatalogSort] = useState<CatalogSortKey>("name-asc");
   const fuzzySlugsRef = useRef<Set<string> | undefined>(undefined);
@@ -194,7 +203,8 @@ export function ProductListingIsland({
 
   useEffect(() => {
     setQInput(state.q);
-  }, [state.q]);
+    flushDebouncedQ(state.q.trim());
+  }, [state.q, flushDebouncedQ]);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
@@ -244,50 +254,102 @@ export function ProductListingIsland({
 
   useEffect(() => {
     if (serverPaginated) return;
-    const q = qInput.trim();
+    const q = debouncedQ;
     if (!q) {
       fuzzySlugsRef.current = undefined;
-      setSearching(false);
+      setFuzzySearching(false);
       setFuzzyVersion((v) => v + 1);
       return;
     }
-    setSearching(true);
-    const id = setTimeout(() => {
-      void fuzzyMatchListingSlugs(records, q, searchFuzziness).then((set) => {
-        fuzzySlugsRef.current = set.size > 0 ? set : undefined;
-        setSearching(false);
-        setFuzzyVersion((v) => v + 1);
-      });
-    }, searchDebounceMs);
-    return () => clearTimeout(id);
-  }, [qInput, records, searchFuzziness, searchDebounceMs, serverPaginated]);
+    setFuzzySearching(true);
+    void fuzzyMatchListingSlugs(records, q, searchFuzziness).then((set) => {
+      fuzzySlugsRef.current = set.size > 0 ? set : undefined;
+      setFuzzySearching(false);
+      setFuzzyVersion((v) => v + 1);
+    });
+  }, [debouncedQ, records, searchFuzziness, serverPaginated]);
 
-  const pushState = useCallback(
+  const replaceState = useCallback(
     (next: ListingFilterState) => {
       const href = searchParamsFromFilterState(next, pathname);
-      startTransition(() => router.push(href, { scroll: false }));
+      startTransition(() => router.replace(href, { scroll: false }));
     },
     [pathname, router],
   );
 
   const patchState = useCallback(
     (patch: Partial<ListingFilterState>) => {
-      pushState({ ...state, ...patch, page: patch.page ?? 1 });
+      replaceState({ ...state, ...patch, page: patch.page ?? 1 });
     },
-    [pushState, state],
+    [replaceState, state],
   );
 
   useEffect(() => {
-    if (!serverPaginated) return;
-    const trimmed = qInput.trim();
-    if (trimmed === state.q.trim()) return;
-    const id = setTimeout(() => {
-      pushState({ ...state, q: trimmed, page: 1 });
-    }, searchDebounceMs);
-    return () => clearTimeout(id);
-  }, [qInput, serverPaginated, state, pushState, searchDebounceMs]);
+    if (!dockEnabled) return;
+    const mq = window.matchMedia(MOBILE_DOCK_MQ);
+    const syncPer = () => {
+      if (mq.matches) {
+        if (state.per !== 10) patchState({ per: 10, page: 1 });
+        return;
+      }
+      if (state.per === 10) patchState({ per: DESKTOP_DEFAULT_PER, page: 1 });
+    };
+    syncPer();
+    mq.addEventListener("change", syncPer);
+    return () => mq.removeEventListener("change", syncPer);
+  }, [dockEnabled, patchState, state.per]);
 
-  const filterState = useMemo(() => ({ ...state, q: qInput }), [state, qInput]);
+  const pendingFilterState = useMemo(
+    () => ({ ...state, q: debouncedQ }),
+    [state, debouncedQ],
+  );
+
+  const listingFetch = useCatalogListingFetch({
+    locale,
+    filterState: pendingFilterState,
+    listingMode: mode,
+    collectionSlug: collectionScope ?? null,
+    enabled: serverPaginated,
+    initialRecords: records,
+    initialFacets: facetsProp,
+    initialTotal: totalProp ?? records.length,
+    initialTotalPages: totalPagesProp ?? Math.max(1, Math.ceil((totalProp ?? records.length) / state.per)),
+  });
+
+  useEffect(() => {
+    const trimmed = debouncedQ;
+    if (trimmed === state.q.trim()) return;
+    replaceState({ ...state, q: trimmed, page: 1 });
+  }, [debouncedQ, state.q, state, replaceState]);
+
+  const displayRecords = serverPaginated ? listingFetch.records : records;
+  const displayFacets = serverPaginated ? listingFetch.facets : facetsProp;
+  const displayTotal = serverPaginated ? listingFetch.total : undefined;
+  const displayTotalPages = serverPaginated ? listingFetch.totalPages : undefined;
+
+  useEffect(() => {
+    const q = debouncedQ.trim();
+    if (q.length < 2) return;
+    const resultCount = serverPaginated
+      ? (listingFetch.total ?? 0)
+      : records.filter((r) => r.searchText.includes(q.toLowerCase())).length;
+    trackListingSearchAnalytics({ locale, q, resultCount });
+  }, [debouncedQ, locale, serverPaginated, listingFetch.total, records]);
+
+  const resetSearchQuery = useCallback(() => {
+    setQInput("");
+    flushDebouncedQ("");
+    fuzzySlugsRef.current = undefined;
+    setFuzzyVersion((v) => v + 1);
+    listingFetch.abort();
+  }, [flushDebouncedQ, listingFetch.abort]);
+
+  const filterState = pendingFilterState;
+  const instantQuery = qInput.trim();
+  const clientFilterState = useMemo(
+    () => ({ ...state, q: instantQuery || debouncedQ }),
+    [state, instantQuery, debouncedQ],
+  );
 
   const filterOptions = useMemo(
     () => ({
@@ -300,7 +362,7 @@ export function ProductListingIsland({
   const scopeFilteredRecords = useMemo(() => {
     void fuzzyVersion;
     const scopeOnly: ListingFilterState = {
-      q: qInput,
+      q: debouncedQ,
       collectionScope: filterState.collectionScope,
       categories: [],
       brands: [],
@@ -315,34 +377,35 @@ export function ProductListingIsland({
       per: state.per,
     };
     return filterListingCatalog(
-      records,
+      displayRecords,
       scopeOnly,
       fuzzySlugsRef.current,
       filterOptions,
     );
-  }, [records, filterState.collectionScope, qInput, state.per, fuzzyVersion, filterOptions]);
+  }, [displayRecords, filterState.collectionScope, debouncedQ, state.per, fuzzyVersion, filterOptions]);
 
   const facetsForFilters = useMemo(() => {
-    if (serverPaginated) return facetsProp;
+    if (serverPaginated) return displayFacets;
     if (!hierarchyCollections.length || !scopeBySlug.size) return facetsProp;
-    const base = filterState.collectionScope?.trim() ? scopeFilteredRecords : records;
+    const base = filterState.collectionScope?.trim() ? scopeFilteredRecords : displayRecords;
     return aggregateFacets(base, hierarchyAsLocalized);
   }, [
     hierarchyCollections.length,
     scopeBySlug.size,
     filterState.collectionScope,
     scopeFilteredRecords,
-    records,
+    displayRecords,
     hierarchyAsLocalized,
     facetsProp,
     serverPaginated,
+    displayFacets,
   ]);
 
   const filtered = useMemo(() => {
-    if (serverPaginated) return records;
+    if (serverPaginated) return displayRecords;
     void fuzzyVersion;
-    return filterListingCatalog(records, filterState, fuzzySlugsRef.current, filterOptions);
-  }, [records, filterState, fuzzyVersion, filterOptions, serverPaginated]);
+    return filterListingCatalog(displayRecords, clientFilterState, fuzzySlugsRef.current, filterOptions);
+  }, [displayRecords, clientFilterState, fuzzyVersion, filterOptions, serverPaginated]);
 
   const sortedFiltered = useMemo(() => {
     if (serverPaginated) return filtered;
@@ -364,14 +427,14 @@ export function ProductListingIsland({
 
   const pagination = useMemo(() => {
     if (serverPaginated) {
-      const total = totalProp ?? records.length;
-      const totalPages = totalPagesProp ?? Math.max(1, Math.ceil(total / state.per));
+      const total = displayTotal ?? displayRecords.length;
+      const totalPages = displayTotalPages ?? Math.max(1, Math.ceil(total / state.per));
       const currentPage = Math.min(Math.max(1, state.page), totalPages);
       const start = (currentPage - 1) * state.per;
       const firstItem = total === 0 ? 0 : start + 1;
       const lastItem = Math.min(start + state.per, total);
       return {
-        items: records,
+        items: displayRecords,
         total,
         totalPages,
         firstItem,
@@ -384,9 +447,9 @@ export function ProductListingIsland({
     state.page,
     state.per,
     serverPaginated,
-    records,
-    totalProp,
-    totalPagesProp,
+    displayRecords,
+    displayTotal,
+    displayTotalPages,
   ]);
 
   useEffect(() => {
@@ -406,8 +469,8 @@ export function ProductListingIsland({
   const activeCount = countActiveFilters(filterState);
 
   const clearAll = () => {
-    setQInput("");
-    pushState({
+    resetSearchQuery();
+    replaceState({
       ...state,
       q: "",
       categories: [],
@@ -432,11 +495,11 @@ export function ProductListingIsland({
         key: "q",
         label: `"${q}"`,
         onRemove: () => {
-          setQInput("");
+          resetSearchQuery();
           patchState({ q: "", page: 1 });
         },
       });
-    if (filterState.collectionScope?.trim()) {
+    if (filterState.collectionScope?.trim() && !collectionScope) {
       const scopeSlug = filterState.collectionScope.trim();
       out.push({
         key: `scope-${scopeSlug}`,
@@ -517,6 +580,8 @@ export function ProductListingIsland({
     labels.inStockOnly,
     patchState,
     hierarchyCollections.length,
+    collectionScope,
+    resetSearchQuery,
   ]);
 
   const defaultHierarchyLabels: CollectionHierarchyChromeLabels = {
@@ -607,6 +672,8 @@ export function ProductListingIsland({
     </aside>
   );
 
+  const isSearching = fuzzySearching || listingFetch.loading || pending;
+
   const searchField = (
     <form
       className="pl-search-form pl-catalog-toolbar__search"
@@ -637,15 +704,15 @@ export function ProductListingIsland({
             className="pl-search-clear"
             aria-label="Clear search"
             onClick={() => {
-              setQInput("");
-              if (serverPaginated) patchState({ q: "", page: 1 });
+              resetSearchQuery();
+              patchState({ q: "", page: 1 });
             }}
           >
             <IconClose />
           </button>
         ) : null}
       </div>
-      {searching ? (
+      {isSearching ? (
         <span className="pl-search-loading" aria-live="polite">
           <IconEllipsis />
         </span>
@@ -675,7 +742,16 @@ export function ProductListingIsland({
 
   const paginationNav =
     pagination.totalPages > 1 ? (
-      <nav className="pl-pagination pl-catalog-pagination" aria-label="Pagination">
+      <nav
+        className={[
+          "pl-pagination",
+          "pl-catalog-pagination",
+          dockEnabled ? "pl-catalog-pagination--compact-mobile" : "",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+        aria-label="Pagination"
+      >
         <button
           type="button"
           className="pl-pg-btn"
@@ -684,6 +760,9 @@ export function ProductListingIsland({
         >
           {labels.prev}
         </button>
+        <span className="pl-pg-summary" aria-live="polite">
+          {state.page} / {pagination.totalPages}
+        </span>
         <span className="pl-pg-pages">
           {pgBtns.map((b, i) =>
             b === "ellipsis" ? (
@@ -740,10 +819,11 @@ export function ProductListingIsland({
     "pl-root--catalog",
     "pl-root--collections-catalog",
     dockEnabled ? "pl-root--dock" : "",
+    dockEnabled && !dockPanelOpen ? "pl-root--dock-collapsed" : "",
     drawerOpen && !pinnedSidebar ? "pl-root--filters-drawer-open" : "",
     "pl-root--sidebar-sticky",
     pinnedSidebar ? "pl-root--sidebar-pinned" : "",
-    pending ? "pl-root--pending" : "",
+    pending || listingFetch.loading ? "pl-root--pending" : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -752,7 +832,8 @@ export function ProductListingIsland({
     isCollectionListing &&
     !collectionScope &&
     hierarchyCollections.length > 0 &&
-    hierarchyVariant !== "sidebar";
+    hierarchyVariant !== "sidebar" &&
+    !(dockEnabled && pinnedSidebar);
 
   const catalogToolbar = (
     <div
@@ -760,7 +841,7 @@ export function ProductListingIsland({
         "pl-catalog-toolbar",
         "pl-catalog-toolbar--bar",
         dockEnabled ? "pl-catalog-toolbar--dock pl-catalog-toolbar--compact" : "pl-catalog-toolbar--sticky",
-        dockEnabled && searchOpen ? "pl-catalog-toolbar--search-open" : "",
+        !dockEnabled && searchOpen ? "pl-catalog-toolbar--search-open" : "",
       ]
         .filter(Boolean)
         .join(" ")}
@@ -785,18 +866,6 @@ export function ProductListingIsland({
         <div
           className={`pl-catalog-toolbar__actions${dockEnabled ? " pl-catalog-toolbar__actions--dock" : ""}`}
         >
-          {dockEnabled ? (
-            <button
-              type="button"
-              className={`pl-view-btn pl-catalog-control pl-catalog-search-toggle${searchOpen ? " pl-view-btn--active" : ""}`}
-              onClick={() => setSearchOpen((open) => !open)}
-              aria-expanded={searchOpen}
-              aria-controls="pl-catalog-search-expand"
-              aria-label={labels.searchPlaceholder}
-            >
-              <IconSearch />
-            </button>
-          ) : null}
           {!pinnedSidebar ? (
             <button
               type="button"
@@ -826,7 +895,7 @@ export function ProductListingIsland({
         </div>
       </div>
 
-      {chips.length > 0 ? (
+      {chips.length > 0 && !dockEnabled ? (
         <section className="pl-active-bar pl-catalog-toolbar__chips" aria-label={labels.activeFilters}>
           <div className="pl-active-bar__chips">
             {chips.map((chip) => (
@@ -892,10 +961,22 @@ export function ProductListingIsland({
 
           {dockEnabled ? (
             <div
+              id="pl-catalog-dock-panel"
               className="pl-catalog-dock pl-catalog-dock--bottom"
               role="region"
-              aria-label={labels.filters}
+              aria-label={labels.searchPlaceholder}
+              data-dock-open={dockPanelOpen ? "true" : "false"}
             >
+              <button
+                type="button"
+                className="pl-dock-panel-toggle"
+                onClick={() => setDockPanelOpen((open) => !open)}
+                aria-expanded={dockPanelOpen}
+                aria-controls="pl-catalog-dock-panel"
+                aria-label={dockPanelOpen ? "Collapse panel" : "Expand panel"}
+              >
+                <IconChevron up={dockPanelOpen} />
+              </button>
               {catalogToolbar}
             </div>
           ) : null}

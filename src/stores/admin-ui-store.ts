@@ -27,7 +27,7 @@ export type PageActions = {
   canRedo?: boolean;
   canPublish?: boolean;
   canPreview?: boolean;
-  /** When false, onSave success does not set the top-bar status to Saved (e.g. preview-only Validate). */
+  /** When false, onSave success does not change the top-bar status (e.g. preview-only Validate). */
   markSavedOnSaveSuccess?: boolean;
   /** When true, the page handler manages saveStatus; top bar will not overwrite after onSave. */
   selfManagedSaveStatus?: boolean;
@@ -46,6 +46,8 @@ type AdminUiState = {
   lastUpdated: Date | null;
   pageActions: PageActions;
   settingsActiveTab: string | null;
+  /** Set when markUnsaved is called while saveStatus is "saving". */
+  pendingDirty: boolean;
 
   setSidebarCollapsed: (collapsed: boolean) => void;
   toggleSidebarCollapsed: () => void;
@@ -59,9 +61,11 @@ type AdminUiState = {
   setLastUpdated: (date: Date | null) => void;
   registerPageActions: (actions: PageActions) => void;
   clearPageActions: () => void;
+  resetSaveStatus: () => void;
   setSettingsActiveTab: (tab: string | null) => void;
   markUnsaved: () => void;
   markSaved: () => void;
+  consumePendingDirty: () => boolean;
 };
 
 function closedGroupsState(): Record<string, boolean> {
@@ -79,6 +83,7 @@ export const useAdminUiStore = create<AdminUiState>()(
       lastUpdated: null,
       pageActions: {},
       settingsActiveTab: null,
+      pendingDirty: false,
 
       setSidebarCollapsed: (collapsed) => set({ sidebarCollapsed: collapsed }),
       toggleSidebarCollapsed: () => set((s) => ({ sidebarCollapsed: !s.sidebarCollapsed })),
@@ -107,12 +112,22 @@ export const useAdminUiStore = create<AdminUiState>()(
       setSaveStatus: (status) => set({ saveStatus: status }),
       setLastUpdated: (date) => set({ lastUpdated: date }),
       registerPageActions: (actions) => set({ pageActions: actions }),
-      clearPageActions: () => set({ pageActions: {}, saveStatus: "saved" }),
+      clearPageActions: () => set({ pageActions: {} }),
+      resetSaveStatus: () => set({ saveStatus: "saved", pendingDirty: false }),
       setSettingsActiveTab: (tab) => set({ settingsActiveTab: tab }),
       markUnsaved: () => {
-        if (get().saveStatus !== "saving") set({ saveStatus: "unsaved" });
+        if (get().saveStatus === "saving") {
+          set({ pendingDirty: true });
+          return;
+        }
+        set({ saveStatus: "unsaved" });
       },
-      markSaved: () => set({ saveStatus: "saved", lastUpdated: new Date() }),
+      markSaved: () => set({ saveStatus: "saved", lastUpdated: new Date(), pendingDirty: false }),
+      consumePendingDirty: () => {
+        const hadPending = get().pendingDirty;
+        if (hadPending) set({ pendingDirty: false });
+        return hadPending;
+      },
     }),
     {
       name: "admin-ui-v2",
@@ -123,3 +138,28 @@ export const useAdminUiStore = create<AdminUiState>()(
     }
   )
 );
+
+/** Apply top-bar save result to global save status. */
+export function applySaveResult(
+  ok: boolean | void,
+  pageActions: PageActions,
+  actions: {
+    setSaveStatus: (status: SaveStatus) => void;
+    markSaved: () => void;
+    consumePendingDirty: () => boolean;
+  }
+): void {
+  if (pageActions.selfManagedSaveStatus) return;
+  if (ok === false) {
+    actions.setSaveStatus("unsaved");
+    return;
+  }
+  if (pageActions.markSavedOnSaveSuccess === false) {
+    return;
+  }
+  if (actions.consumePendingDirty()) {
+    actions.setSaveStatus("unsaved");
+    return;
+  }
+  actions.markSaved();
+}

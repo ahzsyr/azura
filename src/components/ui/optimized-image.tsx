@@ -2,6 +2,7 @@
 
 import Image, { type ImageProps } from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { isAllowedNextImageSrc } from "@/lib/config/next-image";
 import { cn } from "@/lib/utils";
 
 type OptimizedImageProps = ImageProps & {
@@ -23,9 +24,13 @@ export function OptimizedImage({
   className,
   onLoad,
   skipFade = false,
+  unoptimized,
   ...props
 }: OptimizedImageProps) {
   const imgRef = useRef<HTMLImageElement>(null);
+  const resolvedUnoptimized =
+    unoptimized ??
+    (typeof props.src === "string" ? !isAllowedNextImageSrc(props.src) : false);
   const resolvedLoading = loading ?? (aboveFold ? undefined : "lazy");
   const shouldFade =
     !skipFade && !aboveFold && !props.priority && resolvedLoading === "lazy";
@@ -41,6 +46,7 @@ export function OptimizedImage({
     <Image
       ref={imgRef}
       {...props}
+      unoptimized={resolvedUnoptimized}
       quality={quality}
       sizes={sizes}
       loading={resolvedLoading}

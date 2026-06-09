@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import {
   isPatchableSiteKey,
   patchSiteSettingsKey,
+  patchSiteSettingsKeys,
   writeSiteSettings,
+  type PatchableSiteKey,
 } from "@/features/catalog/site-settings.service";
 import {
   adminLocale,
@@ -20,6 +22,7 @@ export async function POST(request: Request) {
       data?: Record<string, unknown>;
       key?: string;
       value?: unknown;
+      patches?: Array<{ key: string; value: unknown }>;
       locale?: string;
     };
 
@@ -33,6 +36,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "site settings saved successfully" });
     }
 
+    if (Array.isArray(body.patches) && body.patches.length > 0) {
+      const validated: Array<{ key: PatchableSiteKey; value: unknown }> = [];
+      for (const patch of body.patches) {
+        const key = String(patch.key);
+        if (!isPatchableSiteKey(key)) {
+          return NextResponse.json({ error: `Key '${key}' is not patchable` }, { status: 400 });
+        }
+        validated.push({ key, value: patch.value });
+      }
+      await patchSiteSettingsKeys(locale, validated);
+      return NextResponse.json({ message: "site settings updated successfully" });
+    }
+
     if (body.key !== undefined && body.value !== undefined) {
       const key = String(body.key);
       if (!isPatchableSiteKey(key)) {
@@ -43,7 +59,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json(
-      { error: "Missing required fields: provide { type: 'site', data } or { key, value }" },
+      { error: "Missing required fields: provide { type: 'site', data }, { key, value }, or { patches }" },
       { status: 400 },
     );
   } catch (e) {

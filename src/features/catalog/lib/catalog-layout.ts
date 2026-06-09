@@ -143,7 +143,7 @@ export function catalogToolbarDockCssVars(
     "--cl-dock-pad-x": `${clampNum(Math.round(0.85 * scale * 16), 10, 20) / 16}rem`,
     "--cl-dock-pad-y": `${clampNum(Math.round(0.65 * scale * 16), 8, 16) / 16}rem`,
     "--cl-dock-control-h": `${clampNum(Math.round(2.35 * scale * 16), 34, 48) / 16}rem`,
-    "--cl-dock-bottom-space": `${clampNum(Math.round(7.5 * scale * 16), 100, 140) / 16}rem`,
+    "--cl-dock-bottom-space": `${clampNum(Math.round(7.5 * scale * 16), 120, 140) / 16}rem`,
   };
 }
 

@@ -1,3 +1,6 @@
+@import "@fortawesome/fontawesome-free/css/fontawesome.min.css" layer(base);
+@import "@fortawesome/fontawesome-free/css/solid.min.css" layer(base);
+
 /* Admin route shell — tokens, surfaces, and chrome */
 @layer components {
   .admin-liquid-glass {
@@ -62,7 +65,8 @@
   }
 
   /* Opaque admin cards — no storefront glass opacity */
-  .admin-shell .admin-card {
+  .admin-shell .admin-card,
+  .admin-shell .az-ui-card {
     border: 1px solid var(--admin-border);
     border-radius: var(--radius, 0.75rem);
     background-color: var(--admin-surface);
@@ -70,7 +74,8 @@
     color: var(--card-foreground);
   }
 
-  .admin-shell .admin-card:hover {
+  .admin-shell .admin-card:hover,
+  .admin-shell .az-ui-card:hover {
     border-color: color-mix(in oklch, var(--admin-border) 70%, var(--primary));
     box-shadow: var(--admin-shadow-md);
   }

@@ -15,6 +15,23 @@ type ListingMode = "product" | "collection";
 
 const GRID_PRIORITY_CARD_COUNT = 4;
 
+const priceFormatters = new Map<string, Intl.NumberFormat>();
+
+function formatTablePrice(value: number, currency: string, locale: string): string {
+  const key = `${locale}:${currency}`;
+  let formatter = priceFormatters.get(key);
+  if (!formatter) {
+    formatter = new Intl.NumberFormat(locale, {
+      style: "currency",
+      currency,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: currency === "JPY" ? 0 : 2,
+    });
+    priceFormatters.set(key, formatter);
+  }
+  return formatter.format(value);
+}
+
 type Props = {
   products: ProductListingRecord[];
   localePrefix: string;
@@ -109,12 +126,11 @@ export function ProductListingGrid({
                 ) : (
                   <>
                     <td>
-                      {new Intl.NumberFormat(numberLocale, {
-                        style: "currency",
-                        currency: product.price.currency,
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: product.price.currency === "JPY" ? 0 : 2,
-                      }).format(product.price.value)}
+                      {formatTablePrice(
+                        product.price.value,
+                        product.price.currency,
+                        numberLocale,
+                      )}
                     </td>
                     <td>{product.in_stock ? "In stock" : "Out of stock"}</td>
                     <td>

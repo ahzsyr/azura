@@ -40,7 +40,7 @@
     "db:apply-customer-profile": "node scripts/apply-customer-profile-columns.mjs",
     "seo:validate": "node scripts/seo/validate-seo.mjs",
     "test:i18n": "tsx --test src/i18n/__tests__/url-helpers.test.ts src/features/translation/__tests__/i18n-core.test.ts",
-    "test:blocks": "tsx --test src/features/builder/__tests__/*.test.ts src/features/content-blocks/__tests__/*.test.ts src/features/marketing-blocks/__tests__/*.test.ts src/features/product-blocks/__tests__/*.test.ts src/features/conversion-blocks/__tests__/*.test.ts src/features/discovery-blocks/__tests__/*.test.ts src/features/media-blocks/__tests__/*.test.ts src/features/portal-blocks/__tests__/*.test.ts src/features/pricing-plans/__tests__/*.test.ts src/features/forms/__tests__/*.test.ts",
+    "test:blocks": "tsx --test src/features/announcement-bar/__tests__/*.test.ts src/features/builder/__tests__/*.test.ts src/features/content-blocks/__tests__/*.test.ts src/features/marketing-blocks/__tests__/*.test.ts src/features/product-blocks/__tests__/*.test.ts src/features/conversion-blocks/__tests__/*.test.ts src/features/discovery-blocks/__tests__/*.test.ts src/features/media-blocks/__tests__/*.test.ts src/features/portal-blocks/__tests__/*.test.ts src/features/pricing-plans/__tests__/*.test.ts src/features/forms/__tests__/*.test.ts",
     "test:comparison": "tsx --test src/features/comparison/__tests__/*.test.ts",
     "test:performance": "tsx --test src/lib/performance/__tests__/*.test.ts",
     "perf:bundle": "node scripts/performance/bundle-report.mjs",

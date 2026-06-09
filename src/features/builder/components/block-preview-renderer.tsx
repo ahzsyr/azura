@@ -376,6 +376,12 @@ function PreviewBlock({
           Benefits Grid · {((p.items as unknown[]) ?? []).length} items
         </div>
       );
+    case "announcementBar":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Announcement Bar · {(p.barTone as string) ?? "accent"} · {((p.items as unknown[]) ?? []).length} items
+        </div>
+      );
     case "trustBadges":
       return (
         <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">

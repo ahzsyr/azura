@@ -12,7 +12,10 @@ import type { SearchEntityType } from "@prisma/client";
 import { searchCopy, type SearchLocale } from "@/features/search/components/search-ui/search-copy";
 import { SearchEmptyState } from "@/features/search/components/search-ui/search-empty-state";
 import { SearchFilterChips } from "@/features/search/components/search-ui/search-filter-chips";
-import { SearchHitRow } from "@/features/search/components/search-ui/search-hit-row";
+import { SearchResultCard } from "@/features/search/components/panel/SearchResultCard";
+import { SearchResultGroup } from "@/features/search/components/panel/SearchResultGroup";
+import { SearchFilterBar } from "@/features/search/components/filters/SearchFilterBar";
+import { SearchFilterSection } from "@/features/search/components/filters/SearchFilterSection";
 import { SearchInputShell } from "@/features/search/components/search-ui/search-input-shell";
 import { SearchResultSkeleton } from "@/features/search/components/search-ui/search-skeleton";
 
@@ -21,6 +24,7 @@ export type GlobalSearchPanelProps = {
   query: string;
   onQueryChange: (q: string) => void;
   loading: boolean;
+  error?: string | null;
   runtimeConfig: PublicSearchConfig;
   ac: PublicAutocompleteConfig;
   minLen: number;
@@ -45,6 +49,8 @@ export type GlobalSearchPanelProps = {
   onNavigate: (hit: { urlPath: string; adminPath?: string; title?: string }, searchQ?: string) => void;
   onApplyQuery: (q: string) => void;
   onClose?: () => void;
+  onClearAll?: () => void;
+  activeFilterCount?: number;
   inputStyle?: "glass" | "solid" | "minimal";
   listboxId?: string;
 };
@@ -54,6 +60,7 @@ export function GlobalSearchPanel({
   query,
   onQueryChange,
   loading,
+  error,
   runtimeConfig,
   ac,
   minLen,
@@ -78,6 +85,8 @@ export function GlobalSearchPanel({
   onNavigate,
   onApplyQuery,
   onClose,
+  onClearAll,
+  activeFilterCount = 0,
   inputStyle = "glass",
   listboxId = "sm-search-listbox",
 }: GlobalSearchPanelProps) {
@@ -86,6 +95,7 @@ export function GlobalSearchPanel({
   const showFullResults = query.length >= minLen;
   const showSuggestBlock =
     ac.showSuggestions && query.length >= ac.suggestMinLength && suggestions.length > 0;
+  const hasResults = results.length > 0;
 
   const typeChips = useMemo(
     () => [
@@ -144,6 +154,7 @@ export function GlobalSearchPanel({
           style={inputStyle}
           loading={loading}
           value={query}
+          locale={locale}
           onClear={() => onQueryChange("")}
           className="min-w-0 flex-1"
         >
@@ -154,7 +165,7 @@ export function GlobalSearchPanel({
             placeholder={runtimeConfig.placeholder || t.placeholder}
             dir={getDirection(locale)}
             aria-autocomplete="list"
-            aria-expanded
+            aria-expanded={hasResults || showSuggestBlock}
             aria-controls={listboxId}
             aria-busy={loading}
             onKeyDown={(e) => {
@@ -162,11 +173,6 @@ export function GlobalSearchPanel({
                 e.preventDefault();
                 e.stopPropagation();
                 onClose();
-                return;
-              }
-              if (e.key === "Enter" && query.length >= minLen && results[0]) {
-                e.preventDefault();
-                onNavigate(results[0], query);
               }
             }}
             className="flex h-10 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
@@ -186,18 +192,23 @@ export function GlobalSearchPanel({
 
       {(runtimeConfig.showEntityTypeChips !== false ||
         (showContentTypeChips && discoveryContentTypes?.length) ||
-        enabledFilters.some((f) => facetValueOptions.get(f.id)?.size)) && (
+        enabledFilters.some((f) => facetValueOptions.get(f.id)?.size) ||
+        activeFilterCount > 0) && (
         <div className="space-y-2.5 border-b px-3 py-3 sm:px-4">
+          {activeFilterCount > 0 && onClearAll ? (
+            <SearchFilterBar locale={locale} count={activeFilterCount} onClearAll={onClearAll} />
+          ) : null}
           {runtimeConfig.showEntityTypeChips !== false ? (
-            <SearchFilterChips chips={typeChips} />
+            <SearchFilterChips chips={typeChips} groupLabel={t.results} />
           ) : null}
 
           {showContentTypeChips && discoveryContentTypes?.length ? (
             <div className="flex flex-wrap items-center gap-1.5">
               <span className="text-[0.65rem] font-semibold uppercase tracking-wider text-muted-foreground">
-                {locale === "ar" ? "النوع" : "Type"}
+                {t.contentType}
               </span>
               <SearchFilterChips
+                groupLabel={t.contentType}
                 chips={discoveryContentTypes.map((ct) => ({
                   id: ct.slug,
                   label: locale === "ar" ? ct.labelAr : ct.labelEn,
@@ -211,23 +222,19 @@ export function GlobalSearchPanel({
           {enabledFilters
             .filter((f) => f.id !== "contentType")
             .map((filter) => {
-              const options = facetValueOptions.get(filter.id);
-              if (!options?.size) return null;
+              const options = [...(facetValueOptions.get(filter.id) ?? [])];
+              if (!options.length) return null;
               const label = locale === "ar" && filter.labelAr ? filter.labelAr : filter.labelEn;
               return (
-                <div key={filter.id} className="flex flex-wrap items-center gap-1.5">
-                  <span className="text-[0.65rem] font-semibold uppercase tracking-wider text-muted-foreground">
-                    {label}
-                  </span>
-                  <SearchFilterChips
-                    chips={[...options].slice(0, 12).map((value) => ({
-                      id: `${filter.id}-${value}`,
-                      label: value,
-                      active: (activeFacetFilters[filter.id] ?? []).includes(value),
-                      onClick: () => onToggleFacet(filter.id, value),
-                    }))}
-                  />
-                </div>
+                <SearchFilterSection
+                  key={filter.id}
+                  locale={locale}
+                  filterId={filter.id}
+                  label={label}
+                  options={options}
+                  activeValues={activeFacetFilters[filter.id] ?? []}
+                  onToggle={(value) => onToggleFacet(filter.id, value)}
+                />
               );
             })}
         </div>
@@ -237,11 +244,16 @@ export function GlobalSearchPanel({
         id={listboxId}
         role="listbox"
         aria-label={t.results}
+        data-search-scroll-area
         className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 py-2 sm:px-3"
       >
+        {error ? (
+          <SearchEmptyState title={t.searchError} description={error} />
+        ) : null}
+
         {loading && query.length > 0 ? <SearchResultSkeleton rows={5} /> : null}
 
-        {showEmptyState && !loading && (
+        {showEmptyState && !loading && !error && (
           <>
             {ac.showRecent && recentQueries.length > 0 ? (
               <Command.Group heading={t.recent}>
@@ -315,10 +327,11 @@ export function GlobalSearchPanel({
                 onSelect={() => onNavigate(s, query)}
                 className="p-0 aria-selected:bg-transparent"
               >
-                <SearchHitRow
+                <SearchResultCard
                   as="div"
                   title={s.title}
                   meta={entityLabel(s.entityType)}
+                  entityType={s.entityType}
                   showPreview={false}
                   index={i}
                   className="w-full"
@@ -328,14 +341,12 @@ export function GlobalSearchPanel({
           </Command.Group>
         ) : null}
 
-        {showFullResults && results.length === 0 && !loading ? (
+        {showFullResults && results.length === 0 && !loading && !error ? (
           <SearchEmptyState
             title={t.emptyTitle}
-            description={
-              locale === "ar"
-                ? `لا توجد نتائج لـ «${query.trim()}».`
-                : `No results for "${query.trim()}". ${t.emptySub}`
-            }
+            description={`${locale === "ar" ? `لا توجد نتائج لـ «${query.trim()}».` : `No results for "${query.trim()}".`} ${t.tryRemovingFilters}`}
+            actionLabel={activeFilterCount > 0 ? t.clearAllFilters : undefined}
+            onAction={activeFilterCount > 0 ? onClearAll : undefined}
           />
         ) : null}
 
@@ -348,12 +359,14 @@ export function GlobalSearchPanel({
                 onSelect={() => onNavigate(r, query)}
                 className="p-0 aria-selected:bg-transparent"
               >
-                <SearchHitRow
+                <SearchResultCard
                   as="div"
                   title={r.title}
                   meta={entityLabel(r.entityType)}
                   snippet={r.snippet}
+                  query={query}
                   showPreview={ac.showResultPreviews}
+                  entityType={r.entityType}
                   index={i}
                   className="w-full"
                 />
@@ -364,25 +377,16 @@ export function GlobalSearchPanel({
 
         {showFullResults && !loading && ac.groupResults
           ? Array.from(grouped.entries()).map(([type, items]) => (
-              <Command.Group key={type} heading={entityLabel(type)}>
-                {items.map((r, i) => (
-                  <Command.Item
-                    key={r.id ?? r.urlPath}
-                    value={`result:${r.id ?? r.urlPath}`}
-                    onSelect={() => onNavigate(r, query)}
-                    className="p-0 aria-selected:bg-transparent"
-                  >
-                    <SearchHitRow
-                      as="div"
-                      title={r.title}
-                      snippet={r.snippet}
-                      showPreview={ac.showResultPreviews}
-                      index={i}
-                      className="w-full"
-                    />
-                  </Command.Item>
-                ))}
-              </Command.Group>
+              <SearchResultGroup
+                key={type}
+                locale={locale}
+                entityType={type}
+                label={entityLabel(type)}
+                items={items}
+                query={query}
+                showPreview={ac.showResultPreviews}
+                onNavigate={onNavigate}
+              />
             ))
           : null}
       </Command.List>

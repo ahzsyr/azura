@@ -20,7 +20,6 @@ import { translationService } from "@/features/translation/translation.service";
 import { parsePageVisualSettings } from "@/schemas/visual-settings";
 import { resolveVisualExperience } from "@/features/theme/visual-experience-resolver";
 import { VisualExperienceProvider } from "@/components/theme/visual-experience-provider";
-import { PageVisualEffects } from "@/components/theme/theme-effects-client";
 
 type Props = {
   slug: string;
@@ -115,7 +114,6 @@ export async function CmsPageRenderer({
 
   return (
     <VisualExperienceProvider site={theme} page={pageVisual}>
-      {theme ? <PageVisualEffects site={theme} page={pageVisual} /> : null}
       <article
       {...(overlayActive
         ? {

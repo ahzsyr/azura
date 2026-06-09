@@ -1,4 +1,4 @@
-import { PRESET_STORAGE_KEY } from "@/features/theme/engine/constants";
+import { hasVisitorThemeOverrides } from "@/features/theme/engine/preset-session";
 
 /** Re-apply SSR site defaults when no visitor preset override is stored. */
 export function reconcileSiteHtmlAttributes(
@@ -6,11 +6,7 @@ export function reconcileSiteHtmlAttributes(
 ): void {
   if (typeof document === "undefined" || !ssrAttributes) return;
 
-  try {
-    if (localStorage.getItem(PRESET_STORAGE_KEY)) return;
-  } catch {
-    return;
-  }
+  if (hasVisitorThemeOverrides()) return;
 
   const html = document.documentElement;
   for (const [key, value] of Object.entries(ssrAttributes)) {

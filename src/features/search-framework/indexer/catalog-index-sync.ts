@@ -15,12 +15,16 @@ import {
   contentTypeLandingSearchProvider,
 } from "@/features/search-framework/providers/catalog-providers";
 import type { SearchIndexer } from "@/features/search-framework/indexer/search-indexer";
+import type { SearchIndexRecord } from "@/features/search-framework/types";
+import { runWithConcurrency } from "@/features/search-framework/performance/index-concurrency";
+import { getSearchPerformanceConfig } from "@/features/search-framework/performance/search-performance-config";
 import {
   localeIndexDir,
   productsIndexRoot,
 } from "@/features/products/index/product-index-builder";
 import type {
   CategoryIndexFile,
+  FacetIndexFile,
   ProductListingIndexFile,
 } from "@/features/products/index/product-index-types";
 import { collectionsDataService } from "@/features/collections/collections-data.service";
@@ -35,6 +39,20 @@ async function readJson<T>(path: string): Promise<T | null> {
   }
 }
 
+async function upsertRecords(
+  indexer: SearchIndexer,
+  records: SearchIndexRecord[]
+): Promise<void> {
+  const perf = getSearchPerformanceConfig();
+  await runWithConcurrency(
+    records,
+    async (record) => {
+      await indexer.upsertRecord(record, { revalidate: false });
+    },
+    perf.indexConcurrency
+  );
+}
+
 export async function syncCatalogSearchIndexes(
   indexer: SearchIndexer,
   discovery?: CatalogSearchDiscovery
@@ -43,15 +61,17 @@ export async function syncCatalogSearchIndexes(
   for (const { urlPrefix, code } of resolved.indexerLocales) {
     const ctx = { urlPrefix, code };
 
-    for (const type of resolved.contentTypes) {
-      if (!resolved.sources.contentTypeLandings) continue;
-      if (!resolved.enabledContentTypeIds.has(type.id)) continue;
-      if (!contentTypeLandingSearchProvider.shouldIndex(type)) continue;
-      for (const record of contentTypeLandingSearchProvider.buildRecords(type, ctx)) {
-        await indexer.upsertRecord(record, { revalidate: false });
+    if (resolved.sources.contentTypeLandings) {
+      const landingRecords: SearchIndexRecord[] = [];
+      for (const type of resolved.contentTypes) {
+        if (!resolved.enabledContentTypeIds.has(type.id)) continue;
+        if (!contentTypeLandingSearchProvider.shouldIndex(type)) continue;
+        landingRecords.push(...contentTypeLandingSearchProvider.buildRecords(type, ctx));
       }
+      await upsertRecords(indexer, landingRecords);
     }
 
+    const collectionRecords: SearchIndexRecord[] = [];
     for (const col of resolved.contentCollections) {
       const type = resolved.contentTypes.find((t) => t.id === col.contentTypeId);
       const source = {
@@ -59,10 +79,9 @@ export async function syncCatalogSearchIndexes(
         routePrefix: type?.routePrefix ?? col.contentTypeSlug,
       };
       if (!contentCollectionSearchProvider.shouldIndex(source)) continue;
-      for (const record of contentCollectionSearchProvider.buildRecords(source, ctx)) {
-        await indexer.upsertRecord(record, { revalidate: false });
-      }
+      collectionRecords.push(...contentCollectionSearchProvider.buildRecords(source, ctx));
     }
+    await upsertRecords(indexer, collectionRecords);
   }
 
   if (
@@ -104,15 +123,15 @@ async function syncCatalogProducts(
     if (entry.ruleMeta.id) slugToId.set(slug, entry.ruleMeta.id);
   }
 
+  const allRecords: SearchIndexRecord[] = [];
   for (const record of records) {
     const source = {
       ...record,
       productId: slugToId.get(record.slug),
     };
-    for (const doc of catalogProductSearchProvider.buildRecords(source, ctx)) {
-      await indexer.upsertRecord(doc, { revalidate: false });
-    }
+    allRecords.push(...catalogProductSearchProvider.buildRecords(source, ctx));
   }
+  await upsertRecords(indexer, allRecords);
 }
 
 async function syncCatalogCollections(
@@ -121,12 +140,12 @@ async function syncCatalogCollections(
   ctx: { urlPrefix: string; code: string }
 ) {
   const cols = await collectionsDataService.loadAll({ localePrefix: urlPrefix });
+  const allRecords: SearchIndexRecord[] = [];
   for (const col of cols) {
     if (!catalogCollectionSearchProvider.shouldIndex(col)) continue;
-    for (const doc of catalogCollectionSearchProvider.buildRecords(col, ctx)) {
-      await indexer.upsertRecord(doc, { revalidate: false });
-    }
+    allRecords.push(...catalogCollectionSearchProvider.buildRecords(col, ctx));
   }
+  await upsertRecords(indexer, allRecords);
 }
 
 async function syncCatalogCategories(
@@ -135,38 +154,48 @@ async function syncCatalogCategories(
   urlPrefix: string,
   ctx: { urlPrefix: string; code: string }
 ) {
-  const path = join(localeIndexDir(catalogLocale as "en-us" | "ar-ae"), "category-index.json");
-  const categoryFile = await readJson<CategoryIndexFile>(path);
+  const dir = localeIndexDir(catalogLocale as "en-us" | "ar-ae");
+  const categoryFile = await readJson<CategoryIndexFile>(join(dir, "category-index.json"));
+  const facetFile = await readJson<FacetIndexFile>(join(dir, "facet-index.json"));
   const categories = categoryFile?.categories ?? {};
 
+  const labelBySlug = new Map<string, string>();
+  for (const cat of facetFile?.global?.categories ?? []) {
+    labelBySlug.set(cat.value, cat.label);
+  }
+
   const seen = new Set<string>();
+  const allRecords: SearchIndexRecord[] = [];
+
   for (const [slug, productSlugs] of Object.entries(categories)) {
     if (!slug || seen.has(slug)) continue;
     seen.add(slug);
     const source = {
       slug,
-      label: slug.replace(/-/g, " "),
+      label: labelBySlug.get(slug) ?? slug.replace(/-/g, " "),
       productCount: productSlugs.length,
     };
-    for (const doc of catalogCategorySearchProvider.buildRecords(source, ctx)) {
-      await indexer.upsertRecord(doc, { revalidate: false });
-    }
+    allRecords.push(...catalogCategorySearchProvider.buildRecords(source, ctx));
   }
 
-  const listingPath = join(localeIndexDir(catalogLocale as "en-us" | "ar-ae"), "product-listing-index.json");
+  const listingPath = join(dir, "product-listing-index.json");
   const listing = await readJson<ProductListingIndexFile>(listingPath);
   if (listing?.records) {
     for (const record of listing.records) {
       for (const cat of record.categories ?? []) {
         if (!cat || seen.has(cat)) continue;
         seen.add(cat);
-        const source = { slug: cat, label: cat, productCount: 0 };
-        for (const doc of catalogCategorySearchProvider.buildRecords(source, ctx)) {
-          await indexer.upsertRecord(doc, { revalidate: false });
-        }
+        const source = {
+          slug: cat,
+          label: labelBySlug.get(cat) ?? cat.replace(/-/g, " "),
+          productCount: 0,
+        };
+        allRecords.push(...catalogCategorySearchProvider.buildRecords(source, ctx));
       }
     }
   }
+
+  await upsertRecords(indexer, allRecords);
 }
 
 export async function removeCatalogProductIndexes(

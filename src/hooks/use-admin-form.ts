@@ -1,7 +1,11 @@
 "use client";
 
-import { useEffect, useRef, type RefObject } from "react";
-import { useAdminUiStore, type PageActions } from "@/stores/admin-ui-store";
+import { useCallback, useEffect, useRef, type RefObject } from "react";
+import {
+  applySaveResult,
+  useAdminUiStore,
+  type PageActions,
+} from "@/stores/admin-ui-store";
 import { useAdminFormOptional } from "@/components/admin/layout/admin-form-provider";
 
 function resolveFormElement(
@@ -45,6 +49,7 @@ export function useAdminKeyboardShortcuts() {
   const saveStatus = useAdminUiStore((s) => s.saveStatus);
   const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
   const markSaved = useAdminUiStore((s) => s.markSaved);
+  const consumePendingDirty = useAdminUiStore((s) => s.consumePendingDirty);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -59,16 +64,11 @@ export function useAdminKeyboardShortcuts() {
           void (async () => {
             try {
               const ok = await pageActions.onSave?.();
-              if (pageActions.selfManagedSaveStatus) return;
-              if (ok === false) {
-                setSaveStatus("unsaved");
-                return;
-              }
-              if (pageActions.markSavedOnSaveSuccess !== false) {
-                markSaved();
-              } else {
-                setSaveStatus("saved");
-              }
+              applySaveResult(ok, pageActions, {
+                setSaveStatus,
+                markSaved,
+                consumePendingDirty,
+              });
             } catch {
               if (!pageActions.selfManagedSaveStatus) {
                 setSaveStatus("error");
@@ -109,7 +109,7 @@ export function useAdminKeyboardShortcuts() {
 
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [pageActions, saveStatus, setSaveStatus, markSaved]);
+  }, [pageActions, saveStatus, setSaveStatus, markSaved, consumePendingDirty]);
 }
 
 export function useUnsavedChangesGuard(enabled = true) {
@@ -131,29 +131,58 @@ export function useUnsavedChangesGuard(enabled = true) {
   return { isDirty };
 }
 
+function hasHandler(fn: unknown): boolean {
+  return typeof fn === "function";
+}
+
 export function useAdminFormState(options?: PageActions) {
   const registerPageActions = useAdminUiStore((s) => s.registerPageActions);
   const clearPageActions = useAdminUiStore((s) => s.clearPageActions);
+  const resetSaveStatus = useAdminUiStore((s) => s.resetSaveStatus);
   const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
   const markSaved = useAdminUiStore((s) => s.markSaved);
   const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
   const optionsRef = useRef(options);
   optionsRef.current = options;
 
+  const dispatchSave = useCallback(async () => {
+    const fn = optionsRef.current?.onSave;
+    if (!fn) return false;
+    return fn();
+  }, []);
+
+  const dispatchCancel = useCallback(async () => {
+    await optionsRef.current?.onCancel?.();
+  }, []);
+
+  const dispatchUpdate = useCallback(async () => {
+    await optionsRef.current?.onUpdate?.();
+  }, []);
+
+  const dispatchPublish = useCallback(async () => {
+    const fn = optionsRef.current?.onPublish;
+    if (!fn) return false;
+    return fn();
+  }, []);
+
+  const dispatchRebuild = useCallback(async () => {
+    await optionsRef.current?.onRebuildIndex?.();
+  }, []);
+
   useEffect(() => {
     const current = optionsRef.current;
     registerPageActions({
-      onSave: current?.onSave,
+      onSave: hasHandler(current?.onSave) ? dispatchSave : undefined,
       saveLabel: current?.saveLabel,
       saveTooltip: current?.saveTooltip,
-      canSave: current?.canSave ?? Boolean(current?.onSave),
-      onUpdate: current?.onUpdate,
+      canSave: current?.canSave ?? hasHandler(current?.onSave),
+      onUpdate: hasHandler(current?.onUpdate) ? dispatchUpdate : undefined,
       updateLabel: current?.updateLabel,
       updateTooltip: current?.updateTooltip,
-      canUpdate: current?.canUpdate ?? Boolean(current?.onUpdate),
-      onRebuildIndex: current?.onRebuildIndex,
+      canUpdate: current?.canUpdate ?? hasHandler(current?.onUpdate),
+      onRebuildIndex: hasHandler(current?.onRebuildIndex) ? dispatchRebuild : undefined,
       rebuildIndexLabel: current?.rebuildIndexLabel,
-      onPublish: current?.onPublish,
+      onPublish: hasHandler(current?.onPublish) ? dispatchPublish : undefined,
       publishLabel: current?.publishLabel,
       publishTooltip: current?.publishTooltip,
       onPreview: current?.onPreview,
@@ -161,45 +190,57 @@ export function useAdminFormState(options?: PageActions) {
       onRedo: current?.onRedo,
       canUndo: current?.canUndo,
       canRedo: current?.canRedo,
-      canPublish: current?.canPublish ?? Boolean(current?.onPublish),
-      canPreview: current?.canPreview ?? Boolean(current?.onPreview),
+      canPublish: current?.canPublish ?? hasHandler(current?.onPublish),
+      canPreview: current?.canPreview ?? hasHandler(current?.onPreview),
       markSavedOnSaveSuccess: current?.markSavedOnSaveSuccess,
       selfManagedSaveStatus: current?.selfManagedSaveStatus,
-      onCancel: current?.onCancel,
+      onCancel: hasHandler(current?.onCancel) ? dispatchCancel : undefined,
       cancelLabel: current?.cancelLabel,
       canCancel: current?.canCancel,
     });
 
     return () => clearPageActions();
   }, [
-    options?.onSave,
+    Boolean(options?.onSave),
     options?.saveLabel,
     options?.saveTooltip,
     options?.canSave,
-    options?.onUpdate,
+    Boolean(options?.onUpdate),
     options?.updateLabel,
     options?.updateTooltip,
     options?.canUpdate,
-    options?.onRebuildIndex,
+    Boolean(options?.onRebuildIndex),
     options?.rebuildIndexLabel,
-    options?.onPublish,
+    Boolean(options?.onPublish),
     options?.publishLabel,
     options?.publishTooltip,
-    options?.onPreview,
-    options?.onUndo,
-    options?.onRedo,
+    Boolean(options?.onPreview),
+    Boolean(options?.onUndo),
+    Boolean(options?.onRedo),
     options?.canUndo,
     options?.canRedo,
     options?.canPublish,
     options?.canPreview,
     options?.markSavedOnSaveSuccess,
     options?.selfManagedSaveStatus,
-    options?.onCancel,
+    Boolean(options?.onCancel),
     options?.cancelLabel,
     options?.canCancel,
     registerPageActions,
     clearPageActions,
+    dispatchSave,
+    dispatchCancel,
+    dispatchUpdate,
+    dispatchPublish,
+    dispatchRebuild,
   ]);
+
+  useEffect(() => {
+    return () => {
+      clearPageActions();
+      resetSaveStatus();
+    };
+  }, [clearPageActions, resetSaveStatus]);
 
   return { markUnsaved, markSaved, setSaveStatus };
 }

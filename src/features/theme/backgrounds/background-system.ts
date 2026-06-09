@@ -1,7 +1,9 @@
 import type { CSSProperties } from "react";
 import { initBackground, initSectionBackgroundLayer } from "@/features/theme/effects/backgrounds";
+import { restorePresetColorsFromStorage } from "@/features/theme/engine";
 import { getBackgroundTier } from "@/lib/theme/effects/effect-tiers";
 import type { CapabilityPolicy } from "@/lib/theme/effects/types";
+import { SHELL_READY_EVENT } from "@/lib/motion/shell-ready";
 import type { BlockSectionBackground } from "@/types/block-system";
 
 export type SiteBackgroundEffect =
@@ -92,7 +94,18 @@ export function downgradeSiteBackgroundForPolicy(
 }
 
 let activeSiteEffect: string | null = null;
+let activeAnimationsEnabled = true;
 let glassOverlayOn = false;
+let shellReadyBound = false;
+
+function bindShellReadyRefresh(): void {
+  if (shellReadyBound || typeof document === "undefined") return;
+  shellReadyBound = true;
+  document.addEventListener(SHELL_READY_EVENT, () => {
+    // Canvas is already running — just re-sync colors for the now-visible shell.
+    reassertDarkSurfaces();
+  });
+}
 
 export function normalizeSiteBackgroundEffect(value: string | null | undefined): SiteBackgroundEffect {
   const v = value?.trim() || "none";
@@ -124,16 +137,35 @@ export function applyGlassSiteOverlay(enabled: boolean): void {
   }
 }
 
+function reassertDarkSurfaces(): void {
+  const resolved = document.documentElement.dataset.theme;
+  if (resolved === "dark" || resolved === "light") {
+    restorePresetColorsFromStorage(resolved);
+  }
+}
+
+function mountBackgroundEffect(normalized: SiteBackgroundEffect): void {
+  initBackground(normalized);
+  reassertDarkSurfaces();
+}
+
+function mountBackgroundEffectWhenReady(normalized: SiteBackgroundEffect): void {
+  bindShellReadyRefresh();
+  mountBackgroundEffect(normalized);
+}
+
 /**
  * Global site canvas background (fixed layer on body) — Astro site-layout-client parity.
  */
 export function applySiteBackground(
   effect: string | null | undefined,
-  options?: { force?: boolean },
+  options?: { animationsEnabled?: boolean; force?: boolean },
 ): void {
   if (typeof document === "undefined") return;
 
   const normalized = normalizeSiteBackgroundEffect(effect);
+  const animationsEnabled = options?.animationsEnabled !== false;
+  activeAnimationsEnabled = animationsEnabled;
   const constrained = isConstrainedBackgroundEnvironment();
   const runtimeEffect = constrained ? resolveConstrainedSiteEffect(normalized) : normalized;
 
@@ -142,15 +174,31 @@ export function applySiteBackground(
   }
 
   activeSiteEffect = runtimeEffect;
-
+  document.body.dataset.bgEffect = runtimeEffect === "none" ? "" : runtimeEffect;
   if (runtimeEffect === "none" || !runtimeEffect) {
     document.body.removeAttribute("data-bg-effect");
     initBackground("none");
+    reassertDarkSurfaces();
     return;
   }
 
   document.body.dataset.bgEffect = runtimeEffect;
-  initBackground(runtimeEffect);
+
+  if (constrained) {
+    mountBackgroundEffectWhenReady(runtimeEffect);
+    return;
+  }
+
+  if (animationsEnabled || STATIC_SITE_EFFECTS.has(runtimeEffect)) {
+    mountBackgroundEffectWhenReady(runtimeEffect);
+    return;
+  }
+
+  if (STATIC_SITE_EFFECTS.has(runtimeEffect)) {
+    mountBackgroundEffectWhenReady(runtimeEffect);
+  } else {
+    mountBackgroundEffectWhenReady(resolveConstrainedSiteEffect(runtimeEffect));
+  }
 }
 
 export function clearSiteBackground(): void {

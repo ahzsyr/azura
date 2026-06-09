@@ -1,5 +1,9 @@
 import createNextIntlPlugin from "next-intl/plugin";
 import type { NextConfig } from "next";
+import {
+  NEXT_IMAGE_LOCAL_PATTERNS,
+  NEXT_IMAGE_REMOTE_PATTERNS,
+} from "./src/lib/config/next-image";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
@@ -42,19 +46,8 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 1080, 1920],
     imageSizes: [32, 48, 64, 96, 128, 256],
     minimumCacheTTL: 86400,
-    /** Local catalog paths (/uploads, /assets) are served from public/ — no remotePatterns needed */
-    localPatterns: [
-      { pathname: "/uploads/**" },
-      { pathname: "/assets/**" },
-    ],
-    remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "utfs.io" },
-      { protocol: "https", hostname: "*.uploadthing.com" },
-      { protocol: "https", hostname: "uploadthing.com" },
-      { protocol: "https", hostname: "developers.elementor.com" },
-      { protocol: "https", hostname: "*.supabase.co" },
-    ],
+    localPatterns: NEXT_IMAGE_LOCAL_PATTERNS,
+    remotePatterns: NEXT_IMAGE_REMOTE_PATTERNS,
   },
 };
 

@@ -116,7 +116,10 @@ export function LocaleSwitcher({ className, locales: localesProp, showInline = t
       />
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-sm gap-4 sm:rounded-lg fixed bottom-0 sm:bottom-auto sm:top-[50%] sm:left-[50%] sm:translate-x-[-50%] sm:translate-y-[-50%] rounded-b-none sm:rounded-b-lg w-full sm:max-w-sm animate-in slide-in-from-bottom-8 sm:slide-in-from-bottom-0">
+        <DialogContent
+          className="max-w-sm gap-4 sm:rounded-lg fixed bottom-0 sm:bottom-auto sm:top-[50%] sm:left-[50%] sm:translate-x-[-50%] sm:translate-y-[-50%] rounded-b-none sm:rounded-b-lg w-full sm:max-w-sm animate-in slide-in-from-bottom-8 sm:slide-in-from-bottom-0"
+          aria-describedby={undefined}
+        >
           <DialogTitle>{modalTitle}</DialogTitle>
           <div className="grid gap-2 max-h-[60vh] overflow-y-auto">
             {locales.map((item) => {

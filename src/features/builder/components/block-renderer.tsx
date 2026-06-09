@@ -83,6 +83,7 @@ import {
   MasonryGalleryBlockRenderer,
 } from "@/features/media-blocks/renderers";
 import type { DiscoveryAnchorContext } from "@/features/discovery-blocks/lib/recently-viewed.types";
+import { AnnouncementBarBlockRenderer } from "@/features/announcement-bar/announcement-bar-block-renderer";
 import {
   StickyCtaBlockRenderer,
   LeadFormBlockRenderer,
@@ -511,6 +512,11 @@ async function renderBlockContent(
             overflow={overflow}
           />
         </Section>
+      );
+
+    case "announcementBar":
+      return (
+        <AnnouncementBarBlockRenderer locale={locale} props={p} blockId={block.id} />
       );
 
     case "trustBadges":

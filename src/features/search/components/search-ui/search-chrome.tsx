@@ -65,6 +65,7 @@ export function SearchChrome({
 }: Props) {
   const isMobile = useIsMobileSearch();
   const panelRef = useRef<HTMLDivElement>(null);
+  const dragStartY = useRef<number | null>(null);
   const modal = modalStyle ?? resolveSearchModalStyle();
   const modalVars = searchModalStyleToCssVars(modal);
 
@@ -75,6 +76,24 @@ export function SearchChrome({
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!isMobile) return;
+    dragStartY.current = e.touches[0]?.clientY ?? null;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isMobile || dragStartY.current == null) return;
+    const currentY = e.touches[0]?.clientY ?? 0;
+    if (currentY - dragStartY.current > 80) {
+      dragStartY.current = null;
+      onOpenChange(false);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    dragStartY.current = null;
+  };
 
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
@@ -87,7 +106,17 @@ export function SearchChrome({
           ref={panelRef}
           style={modalVars}
           onEscapeKeyDown={() => onOpenChange(false)}
-          onPointerDownOutside={() => onOpenChange(false)}
+          onPointerDownOutside={(e) => {
+            const target = e.target as HTMLElement;
+            if (target.closest("[data-search-scroll-area]")) {
+              e.preventDefault();
+              return;
+            }
+            onOpenChange(false);
+          }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
           className={cn(
             "sm-search-root sm-search-panel",
             inheritGlobalTheme && "sm-search-root--theme",

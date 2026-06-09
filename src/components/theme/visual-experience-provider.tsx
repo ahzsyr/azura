@@ -7,7 +7,11 @@ import {
   resolveVisualExperience,
   type ResolvedVisualExperience,
 } from "@/features/theme/visual-experience-resolver";
-import { VisualExperienceContext } from "@/components/theme/visual-experience-context";
+import {
+  VisualExperienceContext,
+  VisualExperienceStaticContext,
+} from "@/components/theme/visual-experience-context";
+import { VisualExperienceSync } from "@/components/theme/theme-effects-client";
 
 type Props = {
   site: ThemeTokens | null;
@@ -34,6 +38,11 @@ export function VisualExperienceProvider({ site, page, siteResolved, children }:
   }
 
   return (
-    <VisualExperienceContext.Provider value={value}>{children}</VisualExperienceContext.Provider>
+    <VisualExperienceStaticContext.Provider value={value.resolved}>
+      <VisualExperienceContext.Provider value={value}>
+        <VisualExperienceSync />
+        {children}
+      </VisualExperienceContext.Provider>
+    </VisualExperienceStaticContext.Provider>
   );
 }

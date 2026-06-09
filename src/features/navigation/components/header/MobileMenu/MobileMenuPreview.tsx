@@ -148,19 +148,33 @@ function NavRows({
       {items.map((item) =>
         item.children.length > 0 ? (
           <div key={item.id} className="mnav-item-wrap">
-            <button
-              type="button"
-              className={mnavRowClass("row", `mnav-row--parent${openIds.has(item.id) ? " is-open" : ""}`)}
-              onClick={() => toggle(item.id)}
+            <div
+              className={`mnav-parent-row${openIds.has(item.id) ? " is-open" : ""}`}
             >
-              <MnavItemRowContent
-                icon={item.icon}
-                label={item.label}
-                showIcons={showIcons}
-                showArrows={showArrows}
-                isOpen={openIds.has(item.id)}
-              />
-            </button>
+              <a
+                href={getItemHref(item, localeCode)}
+                className={mnavRowClass("row", "mnav-row--parent-link")}
+                onClick={(e) => handleNavLinkClick(e, surface, onClose)}
+              >
+                <MnavIconSlot icon={item.icon} showIcons={showIcons} />
+                <MnavLabel>{item.label}</MnavLabel>
+              </a>
+              {showArrows ? (
+                <button
+                  type="button"
+                  className="mnav-row__toggle"
+                  aria-expanded={openIds.has(item.id)}
+                  aria-label={
+                    openIds.has(item.id)
+                      ? `Collapse ${item.label}`
+                      : `Expand ${item.label}`
+                  }
+                  onClick={() => toggle(item.id)}
+                >
+                  <MnavChevron show isOpen={openIds.has(item.id)} />
+                </button>
+              ) : null}
+            </div>
             {openIds.has(item.id) ? (
               <div className="mnav-children">
                 {item.children.map((child) => (

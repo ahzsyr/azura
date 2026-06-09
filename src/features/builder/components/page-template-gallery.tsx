@@ -6,7 +6,7 @@ import { BUILTIN_PAGE_TEMPLATES } from "@/features/builder/constants";
 import { BlockPreviewRenderer } from "./block-preview-renderer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { Eye, LayoutTemplate } from "lucide-react";
 
@@ -127,14 +127,19 @@ export function PageTemplateGallery({
       )}
 
       <Dialog open={!!previewTemplate} onOpenChange={(open) => !open && setPreviewTemplate(null)}>
-        <DialogContent className="max-w-3xl max-h-[85vh] overflow-hidden flex flex-col gap-4">
+        <DialogContent
+          className="max-w-3xl max-h-[85vh] overflow-hidden flex flex-col gap-4"
+          aria-describedby={previewTemplate?.description ? "page-template-preview-description" : undefined}
+        >
           {previewTemplate && (
             <>
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold">{previewTemplate.name}</h2>
+                  <DialogTitle className="text-lg font-semibold">{previewTemplate.name}</DialogTitle>
                   {previewTemplate.description && (
-                    <p className="text-sm text-muted-foreground">{previewTemplate.description}</p>
+                    <DialogDescription id="page-template-preview-description" className="text-sm text-muted-foreground">
+                      {previewTemplate.description}
+                    </DialogDescription>
                   )}
                 </div>
                 <div className="flex rounded-md border p-0.5 text-xs shrink-0">

@@ -4,7 +4,6 @@ import {
 } from "@/features/theme/surfaces/theme-surfaces";
 import { buildAliasDeclarations } from "@/lib/theme/tokens/aliases";
 import { surfacesToSemanticRecord } from "@/lib/theme/tokens/semantic";
-import { toModernColor } from "@/lib/theme/tokens/color-utils";
 
 const LIGHT_CARD_TEXT = "#0f172a";
 
@@ -12,17 +11,51 @@ function cardForegroundForSurface(surfaces: ResolvedSurfaces): string {
   return isLightBackground(surfaces.surface) ? LIGHT_CARD_TEXT : surfaces.text;
 }
 
-/** @deprecated Pipeline sets semantic tokens directly. Kept for legacy callers. */
+/** SSR + client surface CSS declarations — hex literals (learn parity). */
 export function surfaceCssBlock(surfaces: ResolvedSurfaces, mode: "light" | "dark"): string {
-  const semantic = surfacesToSemanticRecord(
-    surfaces,
-    { primary: "var(--primary)", accent: "var(--accent)" },
-    "var(--radius)",
-    mode,
-  );
-  return Object.entries(semantic)
-    .map(([k, v]) => `${k}:${v}`)
-    .join(";");
+  const tertiary =
+    mode === "light"
+      ? "#a1a1aa"
+      : `color-mix(in srgb, ${surfaces.textMuted} 88%, ${surfaces.background})`;
+  const onAccent = mode === "light" ? "#fafafa" : "#0b1220";
+  const success = mode === "light" ? "#16a34a" : "#22c55e";
+  const warning = mode === "light" ? "#d97706" : "#f59e0b";
+  const danger = mode === "light" ? "#dc2626" : "#ef4444";
+  const dangerMuted = mode === "light" ? "#991b1b" : "#fecaca";
+  const cardFg = cardForegroundForSurface(surfaces);
+
+  return [
+    `--az-bg-primary:${surfaces.background}`,
+    `--az-bg-secondary:${surfaces.surface}`,
+    `--az-text-primary:${surfaces.text}`,
+    `--az-text-secondary:${surfaces.textMuted}`,
+    `--az-color-bg:${surfaces.background}`,
+    `--az-color-surface:${surfaces.surface}`,
+    `--az-color-text:${surfaces.text}`,
+    `--az-color-muted:${surfaces.textMuted}`,
+    `--az-text-on-accent:${onAccent}`,
+    `--az-text-tertiary:${tertiary}`,
+    `--az-canvas-well:${surfaces.canvasWell}`,
+    `--az-canvas-chrome:${surfaces.canvasChrome}`,
+    `--az-shadow-ambient:${surfaces.shadowAmbient}`,
+    `--az-success:${success}`,
+    `--az-warning:${warning}`,
+    `--az-danger:${danger}`,
+    `--az-danger-muted:${dangerMuted}`,
+    `--background:${surfaces.background}`,
+    `--foreground:${surfaces.text}`,
+    `--card:${surfaces.surface}`,
+    `--card-foreground:${cardFg}`,
+    `--popover:${surfaces.surface}`,
+    `--popover-foreground:${surfaces.text}`,
+    `--muted:${surfaces.canvasWell}`,
+    `--muted-foreground:${surfaces.textMuted}`,
+    `--border:${surfaces.border}`,
+    `--input:${surfaces.border}`,
+    `--color-surface:${surfaces.surface}`,
+    `--sur:${surfaces.surface}`,
+    `--bg:${surfaces.background}`,
+  ].join(";");
 }
 
 /** Apply resolved surfaces — canonical semantic tokens + generated aliases. */
@@ -53,11 +86,21 @@ export function applySurfaceCssVars(
     "--az-text-tertiary",
     mode === "light"
       ? "#a1a1aa"
-      : `color-mix(in oklch, ${surfaces.textMuted} 88%, ${surfaces.background})`,
+      : `color-mix(in srgb, ${surfaces.textMuted} 88%, ${surfaces.background})`,
   );
   html.style.setProperty("--az-canvas-well", surfaces.canvasWell);
   html.style.setProperty("--az-canvas-chrome", surfaces.canvasChrome);
   html.style.setProperty("--az-shadow-ambient", surfaces.shadowAmbient);
+  html.style.setProperty("--az-bg-primary", surfaces.background);
+  html.style.setProperty("--az-bg-secondary", surfaces.surface);
+  html.style.setProperty("--az-text-primary", surfaces.text);
+  html.style.setProperty("--az-text-secondary", surfaces.textMuted);
+  html.style.setProperty("--az-color-bg", surfaces.background);
+  html.style.setProperty("--az-color-surface", surfaces.surface);
+  html.style.setProperty("--az-color-text", surfaces.text);
+  html.style.setProperty("--az-color-muted", surfaces.textMuted);
+  html.style.setProperty("--bg", surfaces.background);
+  html.style.setProperty("--sur", surfaces.surface);
 
   for (const decl of buildAliasDeclarations()) {
     const idx = decl.indexOf(":");

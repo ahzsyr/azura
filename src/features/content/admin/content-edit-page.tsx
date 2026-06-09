@@ -11,7 +11,6 @@ import { EntityDisplayPreview } from "@/features/catalog/admin/entity-display-pr
 import { BlockEditor } from "@/features/builder/components/block-editor";
 import {
   duplicateContentItem,
-  setContentItemStatus,
   upsertContentItem,
 } from "@/features/content/actions";
 import { resolveFieldSchema } from "@/features/content/content-type.registry";
@@ -201,8 +200,37 @@ export function ContentEditPage({
   };
 
   const handleCancel = useCallback(() => {
+    if (!item) return;
+    setBlocks(migrateBlocksToBlockSystem((item.blocks as PageBlocks) ?? []).blocks);
+    setSelectedBlockId(blockParam);
+    setInspectorTab(isBlockInspectorTab(inspectorParam) ? inspectorParam : "content");
+    if (isContentTab(tabParam)) setActiveTab(tabParam);
     router.refresh();
-  }, [router]);
+  }, [item, blockParam, inspectorParam, tabParam, router]);
+
+  const handlePublish = useCallback(async (): Promise<boolean> => {
+    if (!item) return false;
+    const form = document.getElementById("content-item-form") as HTMLFormElement | null;
+    if (!form) return false;
+
+    const statusFields = form.querySelectorAll('[name="status"]');
+    if (statusFields.length > 0) {
+      statusFields.forEach((field) => {
+        if (field instanceof HTMLSelectElement || field instanceof HTMLInputElement) {
+          field.value = "PUBLISHED";
+        }
+      });
+    } else {
+      const override = document.createElement("input");
+      override.type = "hidden";
+      override.name = "status";
+      override.value = "PUBLISHED";
+      form.appendChild(override);
+    }
+
+    form.requestSubmit();
+    return true;
+  }, [item]);
 
   const [pending, startTransition] = useTransition();
   const fields = resolveFieldSchema(contentType, contentType.slug);
@@ -353,7 +381,10 @@ export function ContentEditPage({
           <CardContent>
             <BlockEditor
               blocks={blocks}
-              onChange={setBlocks}
+              onChange={(next) => {
+                markUnsaved();
+                setBlocks(next);
+              }}
               includeHiddenInput={false}
               selectedId={selectedBlockId}
               onSelectBlock={handleSelectBlock}
@@ -471,15 +502,7 @@ export function ContentEditPage({
       }}
       onCancel={item ? handleCancel : undefined}
       onPreview={previewHref ? () => window.open(previewHref, "_blank") : undefined}
-      onPublish={
-        item
-          ? () =>
-              startTransition(async () => {
-                await setContentItemStatus(item.id, "PUBLISHED");
-                router.refresh();
-              })
-          : undefined
-      }
+      onPublish={item ? handlePublish : undefined}
       canPreview={item?.status === "PUBLISHED"}
       headerActions={
         item ? (

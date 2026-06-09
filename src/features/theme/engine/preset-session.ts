@@ -54,6 +54,21 @@ export function readStoredPresetVisual(): PresetVisualSnapshot | null {
   return readStoredPresetVisualCached();
 }
 
+/** True when the visitor has any stored preset override in localStorage. */
+export function hasVisitorThemeOverrides(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return Boolean(
+      localStorage.getItem(PRESET_STORAGE_KEY) ||
+        localStorage.getItem(PRESET_COLORS_STORAGE_KEY) ||
+        localStorage.getItem(PRESET_EFFECTS_STORAGE_KEY) ||
+        localStorage.getItem(PRESET_VISUAL_STORAGE_KEY),
+    );
+  } catch {
+    return false;
+  }
+}
+
 export function clearPresetSession(): void {
   if (typeof window === "undefined") return;
   try {

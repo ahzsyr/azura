@@ -218,7 +218,7 @@ export function useTableState<T>(
   const setSearch = useCallback((v: string) => {
     setSearchRaw(v);
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => setDebouncedSearch(v.trim()), 180);
+    debounceRef.current = setTimeout(() => setDebouncedSearch(v.trim()), 100);
   }, []);
 
   const [filters, setFilters] = useState<FiltersState>(() => (saved.filters as FiltersState) ?? {});
@@ -267,16 +267,17 @@ export function useTableState<T>(
       }
     }
 
-    // Apply search
-    if (debouncedSearch) {
-      result = result.filter((row) => matchesSearch(row, debouncedSearch, searchFields));
+    // Apply search — instant on raw input for responsive filtering
+    const searchTerm = search.trim() || debouncedSearch;
+    if (searchTerm) {
+      result = result.filter((row) => matchesSearch(row, searchTerm, searchFields));
     }
 
     // Apply sort
     result = applySort(result, sortEntries, columns);
 
     return result;
-  }, [data, filters, debouncedSearch, sortEntries, filterDefs, columns, searchFields]);
+  }, [data, filters, search, debouncedSearch, sortEntries, filterDefs, columns, searchFields]);
 
   const totalRows = processedData.length;
   const totalPages = Math.max(1, Math.ceil(totalRows / pageSize));
@@ -294,17 +295,20 @@ export function useTableState<T>(
   }, []);
 
   const clearFilters = useCallback(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    setSearchRaw("");
+    setDebouncedSearch("");
     setFilters({});
     setPageRaw(1);
   }, []);
 
-  const activeFilterCount = useMemo(
-    () =>
-      Object.values(filters).filter(
-        (v) => v !== null && v !== "" && !(Array.isArray(v) && v.length === 0),
-      ).length,
-    [filters],
-  );
+  const activeFilterCount = useMemo(() => {
+    let count = search.trim() ? 1 : 0;
+    count += Object.values(filters).filter(
+      (v) => v !== null && v !== "" && !(Array.isArray(v) && v.length === 0),
+    ).length;
+    return count;
+  }, [search, filters]);
 
   const setPage = useCallback((p: number) => setPageRaw(Math.max(1, p)), []);
 

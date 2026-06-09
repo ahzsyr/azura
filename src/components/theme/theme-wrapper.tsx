@@ -7,7 +7,7 @@ import type { ResolvedTheme } from "@/lib/theme/theme-resolver";
 
 export function ThemeWrapper({
   children,
-  resolved,
+  resolved: _resolved,
 }: {
   children: React.ReactNode;
   resolved: ResolvedTheme;
@@ -15,7 +15,7 @@ export function ThemeWrapper({
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme={resolved.appearance.resolved}
+      defaultTheme="light"
       enableSystem
       enableColorScheme
       disableTransitionOnChange

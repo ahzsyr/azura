@@ -1,6 +1,10 @@
 import type { BlockNode, PageBlocks } from "@/types/builder";
 import { upgradeBlockToV2, upgradePageBlocksToV2 } from "@/features/builder/instance/block-instance";
 import { migrateLegacyCatalogBlocks } from "@/features/builder/migrate-legacy-blocks";
+import {
+  migrateLegacyStripBlocks,
+  stripBlocksWereMigrated,
+} from "@/features/builder/migration/migrate-legacy-strip-block";
 import { blockInstanceV2Schema, pageBlockInstancesSchema } from "@/schemas/block-system";
 
 export type MigrationResult = {
@@ -23,7 +27,12 @@ export function migrateBlocksToBlockSystem(blocks: unknown): MigrationResult {
     warnings.push("Migrated legacy packages/hotels/services blocks to catalog.");
   }
 
-  const v2Upgraded = upgradePageBlocksToV2(catalogMigrated);
+  const stripMigrated = migrateLegacyStripBlocks(catalogMigrated);
+  if (stripBlocksWereMigrated(catalogMigrated, stripMigrated)) {
+    warnings.push("Migrated legacy strip-block entries to announcementBar.");
+  }
+
+  const v2Upgraded = upgradePageBlocksToV2(stripMigrated);
   const hadV1Only = catalogMigrated.some(
     (b) => !b.version || b.version !== "2.0"
   );
@@ -34,7 +43,7 @@ export function migrateBlocksToBlockSystem(blocks: unknown): MigrationResult {
 
   return {
     blocks: v2Upgraded,
-    migrated: hadV1Only || catalogMigrated !== raw,
+    migrated: hadV1Only || catalogMigrated !== raw || stripMigrated !== catalogMigrated,
     version: "2.0",
     warnings,
   };

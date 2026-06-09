@@ -14,11 +14,47 @@ body > [data-bg-effect] {
   z-index: 0;
 }
 
+html.dark body {
+  background-color: var(--bg-primary, var(--background, #020408));
+}
+
 /* Glass site overlay — premium wash over canvas */
 html[data-glass-overlay="on"] body::before {
   opacity: 0.88;
   backdrop-filter: blur(var(--az-preset-blur-overlay, 12px)) saturate(1.2);
   -webkit-backdrop-filter: blur(var(--az-preset-blur-overlay, 12px)) saturate(1.2);
+}
+
+/* Light mode — slightly stronger static grid / aurora contrast on pale surfaces */
+:root:not(.dark) body > [data-bg-effect="grid"] {
+  background-image:
+    linear-gradient(
+      color-mix(in srgb, var(--color-primary, var(--primary)) 6%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-primary, var(--primary)) 6%, transparent) 1px,
+      transparent 1px
+    );
+}
+
+:root:not(.dark) body > [data-bg-effect="aurora"] > div {
+  filter: blur(36px) saturate(1.15);
+}
+
+:root:not(.dark) .az-section-bg-pattern,
+:root:not(.dark) .az-section-bg-layer.az-section-bg-grid {
+  background-image:
+    linear-gradient(
+      color-mix(in srgb, var(--color-primary, var(--primary)) 7%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-primary, var(--primary)) 7%, transparent) 1px,
+      transparent 1px
+    );
 }
 
 /* Section pattern (CSS-only) */

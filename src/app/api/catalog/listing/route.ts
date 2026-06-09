@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { REVALIDATE } from "@/lib/config/performance";
-import { buildProductListingCatalogForCollection, buildProductListingCatalog } from "@/features/products/listing/catalog";
+import {
+  buildCollectionListingCatalog,
+  buildProductListingCatalogForCollection,
+  buildProductListingCatalog,
+} from "@/features/products/listing/catalog";
 import { filterStateFromSearchParams } from "@/features/products/listing/url-state";
 
 export const revalidate = 300;
@@ -8,13 +12,17 @@ export const revalidate = 300;
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const locale = url.searchParams.get("locale")?.trim() || "en";
+  const mode = url.searchParams.get("mode")?.trim() || null;
   const collection = url.searchParams.get("collection")?.trim() || null;
   const filterState = filterStateFromSearchParams(url.searchParams);
 
   try {
-    const payload = collection
-      ? await buildProductListingCatalogForCollection(locale, collection, filterState)
-      : await buildProductListingCatalog(locale, filterState);
+    const payload =
+      mode === "collection"
+        ? await buildCollectionListingCatalog(locale, filterState)
+        : collection
+          ? await buildProductListingCatalogForCollection(locale, collection, filterState)
+          : await buildProductListingCatalog(locale, filterState);
 
     return NextResponse.json(payload, {
       headers: {
