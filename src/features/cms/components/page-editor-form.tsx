@@ -501,6 +501,25 @@ function PageEditorFields({
 
             {tab === "content" && (
               <div className="space-y-4">
+                {formState.status !== "PUBLISHED" && formState.blocks.length > 0 && (
+                  <Card className="border-amber-500/40 bg-amber-500/5">
+                    <CardContent className="py-4 text-sm text-muted-foreground">
+                      This page is <span className="font-medium text-foreground">{formState.status}</span>.
+                      Blocks are saved in the admin but{" "}
+                      <span className="font-medium text-foreground">will not appear on the public website</span>{" "}
+                      until you set status to Published and save, or use the Publish button.
+                      {page?.id && (
+                        <>
+                          {" "}
+                          Live URL when published:{" "}
+                          <span className="font-medium text-foreground">
+                            /[locale]{getCmsPagePublicPath(formState.slug)}
+                          </span>
+                        </>
+                      )}
+                    </CardContent>
+                  </Card>
+                )}
                 {liveMarketingPath != null && (
                   <Card className="border-primary/30 bg-primary/5">
                     <CardContent className="py-4 text-sm text-muted-foreground">
@@ -824,6 +843,8 @@ export function PageEditorForm({
   useEffect(() => {
     if (!page) return;
     const migrated = migrateBlocksToBlockSystem((page.blocks as PageBlocks) ?? []).blocks;
+    const migratedKey = JSON.stringify(migrated);
+    if (migratedKey === JSON.stringify(blocksRef.current)) return;
     setFormState((prev) => {
       const next = { ...prev, blocks: migrated };
       formStateRef.current = next;

@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { searchIndexer } from "@/features/search/search-indexer.service";
 import { syncCmsPageCache } from "./page-cache-sync";
 import { revalidateCmsPage, revalidatePost } from "@/services/cache";
-import { revalidateWiredMarketingPaths } from "@/features/cms/revalidate-wired-marketing";
+import { revalidateCmsPagePublicPaths } from "@/features/cms/revalidate-wired-marketing";
 
 export { parseScheduledAt, formatScheduledInput } from "./scheduling-utils";
 
@@ -54,7 +54,7 @@ async function runDueScheduled() {
         await syncCmsPageCache(full);
       }
       revalidateCmsPage(page.slug);
-      revalidateWiredMarketingPaths(page.slug);
+      revalidateCmsPagePublicPaths(page.slug);
     }
   }
 

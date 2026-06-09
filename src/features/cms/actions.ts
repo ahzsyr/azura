@@ -7,7 +7,7 @@ import { cmsRepository } from "@/repositories/cms.repository";
 import { cmsPageSchema, postSchema, postCategorySchema, postTagSchema, postAuthorSchema } from "@/schemas/cms";
 import { searchIndexer } from "@/features/search/search-indexer.service";
 import { revalidateCmsPage, revalidatePost, revalidateMarketingHome } from "@/services/cache";
-import { revalidateWiredMarketingPaths } from "@/features/cms/revalidate-wired-marketing";
+import { revalidateCmsPagePublicPaths } from "@/features/cms/revalidate-wired-marketing";
 import { parseScheduledAt } from "./scheduling-utils";
 import { processDueScheduled } from "./scheduling";
 import { syncCmsPageCache } from "./page-cache-sync";
@@ -99,7 +99,7 @@ export async function upsertCmsPage(formData: FormData) {
     await syncCmsPageCache(page);
     revalidateCmsPage(page.slug);
     revalidateMarketingHome();
-    revalidateWiredMarketingPaths(page.slug);
+    revalidateCmsPagePublicPaths(page.slug);
   } else {
     await syncCmsPageCache(page);
   }
@@ -151,7 +151,7 @@ export async function publishCmsPage(id: string) {
   await syncCmsPageCache(page);
   revalidateCmsPage(page.slug);
   revalidateMarketingHome();
-  revalidateWiredMarketingPaths(page.slug);
+  revalidateCmsPagePublicPaths(page.slug);
   revalidatePath("/admin/pages");
   revalidatePath(`/admin/pages/${id}`);
 }
@@ -173,7 +173,7 @@ export async function unpublishCmsPage(id: string) {
     await searchIndexer.remove("CMS_PAGE", id);
     await syncCmsPageCache({ ...page, status: "DRAFT" });
     revalidateCmsPage(page.slug);
-    revalidateWiredMarketingPaths(page.slug);
+    revalidateCmsPagePublicPaths(page.slug);
   }
   revalidatePath("/admin/pages");
 }
@@ -210,7 +210,15 @@ export async function restorePageRevision(pageId: string, revisionId: string) {
   await requireAdmin();
   const rev = await prisma.cmsPageRevision.findUnique({ where: { id: revisionId } });
   if (!rev || rev.pageId !== pageId) throw new Error("Revision not found");
-  await cmsRepository.updatePage(pageId, { blocks: rev.blocks as Prisma.InputJsonValue });
+  const page = await cmsRepository.updatePage(pageId, {
+    blocks: rev.blocks as Prisma.InputJsonValue,
+  });
+  if (page.status === "PUBLISHED") {
+    await syncCmsPageCache(page);
+    revalidateCmsPage(page.slug);
+    revalidateMarketingHome();
+    revalidateCmsPagePublicPaths(page.slug);
+  }
   revalidatePath(`/admin/pages/${pageId}`);
 }
 

@@ -37,7 +37,10 @@ export class BlockInspectorErrorBoundary extends Component<Props, State> {
   render() {
     const { error } = this.state;
     if (error) {
-      const message = error.message?.trim() || "Unknown render error";
+      const message =
+        error.message?.trim() ||
+        (error.name && error.name !== "Error" ? error.name : "") ||
+        "Unknown render error";
       return (
         <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-4 space-y-3">
           <p className="text-sm font-medium text-destructive">Block settings could not load</p>

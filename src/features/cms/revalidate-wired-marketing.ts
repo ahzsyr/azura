@@ -20,6 +20,24 @@ export function revalidateWiredMarketingPaths(slug: string, locales: string[] = 
   }
 }
 
+/**
+ * Revalidate all public URLs that render a CMS page slug (wired + /pages/[slug] + clean /[slug]).
+ * Call after publish, unpublish, or any published content save.
+ */
+export function revalidateCmsPagePublicPaths(
+  slug: string,
+  locales: string[] = [...routing.locales],
+) {
+  revalidateWiredMarketingPaths(slug, locales);
+
+  if (CMS_WIRED_MARKETING_SLUGS[slug]) return;
+
+  for (const locale of locales) {
+    revalidatePath(`/${locale}/pages/${slug}`);
+    revalidatePath(`/${locale}/${slug}`);
+  }
+}
+
 /** Revalidate every wired marketing route (e.g. after setup or demo import). */
 export async function revalidateAllWiredMarketingPaths(): Promise<string[]> {
   const { localeService } = await import("@/features/i18n/locale.service");

@@ -159,6 +159,7 @@ export const BLOCK_DEFAULTS: Record<string, Record<string, unknown>> = {
     titleEn: "Gallery",
     titleAr: "المعرض",
     gallerySlug: "",
+    variant: "grid",
     columns: 3,
     limit: 0,
     showViewAllLink: true,

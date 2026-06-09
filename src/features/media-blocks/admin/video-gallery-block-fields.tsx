@@ -4,7 +4,7 @@ import type { BlockNode } from "@/types/builder";
 import type { GalleryBuilderOption } from "@/features/gallery/types";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { patchBlockSettings } from "@/features/builder/instance/block-instance";
 import { ItemCard, RepeatableSection } from "@/features/content-blocks/admin/shared/repeatable-section";

@@ -9,7 +9,7 @@ import type {
 } from "@/features/testimonials/types";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { getBlockSettings, patchBlockMedia, patchBlockSettings } from "@/features/builder/instance/block-instance";
 import { IMAGE_PICKER_MEDIA_TYPES } from "@/features/media/constants";

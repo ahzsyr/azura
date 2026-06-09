@@ -266,27 +266,38 @@ async function renderBlockContent(
 
     case "gallery": {
       const slug = (p.gallerySlug as string) || "";
+      const sectionTitle = loc("title");
       if (!slug) {
-        if (previewMode) {
-          return (
-            <Section>
-              <p className="text-center text-sm text-muted-foreground">No gallery linked.</p>
-            </Section>
-          );
-        }
-        return null;
+        return (
+          <Section>
+            {sectionTitle ? <SectionHeader title={sectionTitle} /> : null}
+            <p className="text-center text-sm text-muted-foreground">
+              {previewMode ? "No gallery linked." : "Gallery content will appear here once a gallery album is selected in the page editor."}
+            </p>
+          </Section>
+        );
       }
       const album = await getGalleryBySlug(slug);
-      if (!album) return null;
+      if (!album) {
+        return (
+          <Section>
+            {sectionTitle ? <SectionHeader title={sectionTitle} /> : null}
+            <p className="text-center text-sm text-muted-foreground">
+              Gallery album &quot;{slug}&quot; is unavailable or not published.
+            </p>
+          </Section>
+        );
+      }
       const limit = Number(p.limit ?? 0);
       const media = limit > 0 ? album.media.slice(0, limit) : album.media;
       const cols = Number(p.columns ?? 3) as 2 | 3 | 4;
-      const sectionTitle = loc("title") || getLocalizedField(album, "title", locale, { enabledLocales });
+      const resolvedTitle =
+        loc("title") || getLocalizedField(album, "title", locale, { enabledLocales });
 
       return (
         <Section>
-          {sectionTitle && <SectionHeader title={sectionTitle} />}
-          <div className={sectionTitle ? "mt-8" : undefined}>
+          {resolvedTitle && <SectionHeader title={resolvedTitle} />}
+          <div className={resolvedTitle ? "mt-8" : undefined}>
             {overflow ? (
               <GalleryItemsOverflow
                 media={media}
