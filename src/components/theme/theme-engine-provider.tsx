@@ -98,6 +98,7 @@ export function ThemeEngineProvider({
 }: Props) {
   const { resolvedTheme, setTheme } = useTheme();
   const didInitRef = useRef(false);
+  const visitorEffectsBootRef = useRef(false);
   const [appearanceMode, setAppearanceModeState] = useState<AppearanceMode>(defaultAppearance);
   const [activePresetId, setActivePresetId] = useState<string | null>(
     defaultPresetId ?? siteTheme?.activePresetId ?? null,
@@ -177,6 +178,13 @@ export function ThemeEngineProvider({
     reconcileSiteHtmlAttributes(ssrHtmlAttributes);
     setHydrated(true);
   }, [defaultPresetId, siteTheme?.activePresetId, refreshUserPresets, ssrHtmlAttributes]);
+
+  useEffect(() => {
+    if (!hydrated || !siteTheme || visitorEffectsBootRef.current) return;
+    visitorEffectsBootRef.current = true;
+    const resolved = resolveAppearance(appearanceMode);
+    applyVisitorEffects(resolved, cursorPreference, { force: true, immediate: true });
+  }, [hydrated, siteTheme, appearanceMode, cursorPreference, applyVisitorEffects]);
 
   useEffect(() => {
     if (!hydrated || !siteTheme) return;

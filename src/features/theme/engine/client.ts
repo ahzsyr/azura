@@ -23,7 +23,17 @@ import type {
   ResolvedAppearance,
   UserCreatedPreset,
 } from "./types";
+import { CURSOR_PREF_STORAGE_KEY } from "./constants";
 import { syncThemeDataAttributes } from "./appearance";
+
+function readStoredCursorPreference(): CursorPreference {
+  try {
+    const pref = localStorage.getItem(CURSOR_PREF_STORAGE_KEY);
+    return pref === "normal" ? "normal" : "custom";
+  } catch {
+    return "custom";
+  }
+}
 
 function hasLiveEffects(e: PresetEffectsPayload | null): boolean {
   if (!e) return false;
@@ -74,8 +84,11 @@ export function applyPresetToDocument(
   persistPresetSession(payload);
 
   const body = document.body;
-  if (payload.cursor) {
+  const cursorPref = readStoredCursorPreference();
+  if (payload.cursor && cursorPref !== "normal") {
     body.dataset.cursor = payload.cursor;
+  } else {
+    delete body.dataset.cursor;
   }
   if (payload.backgroundEffect) {
     body.dataset.bgEffect = payload.backgroundEffect;

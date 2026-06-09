@@ -258,7 +258,10 @@
             root.setAttribute("data-text-effect-theme", fx.textEffect);
             root.setAttribute("data-preset-text-effect", fx.textEffect);
           }
-          if (fx.cursor) document.body.setAttribute("data-cursor", fx.cursor);
+          var cursorPref = localStorage.getItem("devi-cursor-pref");
+          if (fx.cursor && cursorPref !== "normal") {
+            document.body.setAttribute("data-cursor", fx.cursor);
+          }
           if (fx.backgroundEffect) {
             document.body.setAttribute("data-bg-effect", fx.backgroundEffect);
           }

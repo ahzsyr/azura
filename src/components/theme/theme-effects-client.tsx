@@ -157,7 +157,7 @@ export function ThemeEffectsClient({
     const onThemeChange = (event: Event) => {
       const detail = (event as CustomEvent<Partial<ThemeEngineSnapshot>>).detail;
       if (detail?.appearanceOnly) return;
-      applyResolved({ colorsOnly: true, immediate: true });
+      applyResolved({ immediate: true });
     };
 
     window.addEventListener(THEME_CHANGE_EVENT, onThemeChange);
@@ -216,7 +216,7 @@ export function VisualExperienceSync() {
           storedEffects: readStoredPresetEffects(),
           cursorPreference: readCursorPreference(),
         });
-        scheduleApplyVisualEffects(experience, { colorsOnly: true });
+        scheduleApplyVisualEffects(experience);
       });
     };
 

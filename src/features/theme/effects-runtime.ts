@@ -88,13 +88,14 @@ export function applyVisualEffects(
   const html = document.documentElement;
   const body = document.body;
   const {
-    cursorEffect,
     backgroundEffect,
     textEffect,
     animationsEnabled,
     cardStyle,
     backgroundEnabled,
+    cursorEnabled,
   } = resolved;
+  const cursorEffect = cursorEnabled ? resolved.cursorEffect : null;
 
   const appearance = currentDocumentAppearance();
   const appearanceChanged =

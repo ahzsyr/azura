@@ -1053,10 +1053,24 @@ async function RenderBlock({
   firstBlockOverlayActive?: boolean;
   blockIndex?: number;
 }) {
-  const inner = await renderBlockContent(block, ctx, {
-    firstBlockOverlayActive: isFirstBlock && firstBlockOverlayActive,
-    siteTextEffect: ctx.siteTextEffect,
-  });
+  let inner: ReactNode = null;
+  try {
+    inner = await renderBlockContent(block, ctx, {
+      firstBlockOverlayActive: isFirstBlock && firstBlockOverlayActive,
+      siteTextEffect: ctx.siteTextEffect,
+    });
+  } catch (error) {
+    console.error(`[BlockRenderer] block ${block.id} (${block.type}) failed:`, error);
+    if (ctx.previewMode) {
+      inner = (
+        <div className="section-padding container-premium">
+          <p className="text-sm text-muted-foreground">
+            Block <code className="text-xs">{block.type}</code> could not render in preview.
+          </p>
+        </div>
+      );
+    }
+  }
   if (inner == null) return null;
   return (
     <BlockWrapper

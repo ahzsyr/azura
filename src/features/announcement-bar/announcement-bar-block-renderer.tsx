@@ -10,7 +10,12 @@ type RenderCtx = {
 };
 
 export async function AnnouncementBarBlockRenderer({ locale, props, blockId }: RenderCtx) {
-  const p = announcementBarPropsSchema.parse(props);
+  const parsed = announcementBarPropsSchema.safeParse(props);
+  if (!parsed.success) {
+    console.error("[AnnouncementBarBlockRenderer] invalid props:", parsed.error.message);
+    return null;
+  }
+  const p = parsed.data;
   return (
     <AnnouncementBarView
       {...p}
