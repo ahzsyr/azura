@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { getNeutralPathnameForSwitch } from "@/i18n/url-helpers";
+import { switchLocalePath } from "@/i18n/url-helpers";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useTranslations } from "next-intl";
@@ -81,17 +81,37 @@ export function LocaleSwitcher({ className, locales: localesProp, showInline = t
     const fullPath =
       typeof window !== "undefined" ? window.location.pathname : pathname;
     const currentPrefix = activeEntry?.urlPrefix ?? locale;
-    const neutralPath = getNeutralPathnameForSwitch(
+    const newPath = switchLocalePath(
       fullPath,
       currentPrefix,
-      knownPrefixes
+      targetUrlPrefix,
+      knownPrefixes,
     );
     const search =
       typeof window !== "undefined" && window.location.search
         ? window.location.search
         : "";
-    const href = search ? `${neutralPath}${search}` : neutralPath;
-    router.replace(href, { locale: targetUrlPrefix });
+    const href = search ? `${newPath}${search}` : newPath;
+  // #region agent log
+    fetch("http://127.0.0.1:7300/ingest/df4ee46a-c9a3-41ec-a748-5c05bd29eec9", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "183f3a" },
+      body: JSON.stringify({
+        sessionId: "183f3a",
+        runId: "locale-switch-fix",
+        hypothesisId: "H1",
+        location: "locale-switcher.tsx:switchLocale",
+        message: "locale switch navigation",
+        data: { fullPath, currentPrefix, targetUrlPrefix, newPath, href },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+  // #endregion
+    if (typeof window !== "undefined") {
+      window.location.assign(href);
+    } else {
+      router.replace(href);
+    }
     setOpen(false);
     setTimeout(() => setFading(false), 300);
   };
