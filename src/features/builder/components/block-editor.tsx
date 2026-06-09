@@ -8,6 +8,7 @@ import { BlockPickerModal } from "./block-picker-modal";
 import { BlockPresetPanel } from "./block-preset-panel";
 import { BlockFieldEditor } from "./block-field-editor";
 import { BlockInspectorShell } from "./block-inspector-shell";
+import { BlockInspectorErrorBoundary } from "./block-inspector-error-boundary";
 import { BlockEditorToolbar } from "./block-editor-toolbar";
 import { patchBlockSettings } from "@/features/builder/instance/block-instance";
 import { findBlockById, updateBlockInTree, cloneBlocks } from "../block-tree";
@@ -259,22 +260,24 @@ export function BlockEditor({
                 />
               )}
               {selectedBlock ? (
-                <BlockInspectorShell
-                  block={selectedBlock}
-                  onChange={updateSelectedBlock}
-                  activeTab={inspectorTab}
-                  onTabChange={onInspectorTabChange}
-                  content={
-                    <BlockFieldEditor
-                      block={selectedBlock}
-                      onChange={updateSelectedBlock}
-                      galleryOptions={galleryOptions}
-                      faqSetOptions={faqSetOptions}
-                      testimonialOptions={testimonialOptions}
-                      testimonialCollectionOptions={testimonialCollectionOptions}
-                    />
-                  }
-                />
+                <BlockInspectorErrorBoundary block={selectedBlock}>
+                  <BlockInspectorShell
+                    block={selectedBlock}
+                    onChange={updateSelectedBlock}
+                    activeTab={inspectorTab}
+                    onTabChange={onInspectorTabChange}
+                    content={
+                      <BlockFieldEditor
+                        block={selectedBlock}
+                        onChange={updateSelectedBlock}
+                        galleryOptions={galleryOptions}
+                        faqSetOptions={faqSetOptions}
+                        testimonialOptions={testimonialOptions}
+                        testimonialCollectionOptions={testimonialCollectionOptions}
+                      />
+                    }
+                  />
+                </BlockInspectorErrorBoundary>
               ) : (
                 <p className="text-sm text-muted-foreground py-8 text-center">
                   Select a block from the list to edit its content.

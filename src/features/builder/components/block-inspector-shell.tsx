@@ -64,6 +64,7 @@ export function BlockInspectorShell({
       activeTab={activeTab}
       onTabChange={(id) => setActiveTab(id as BlockInspectorTabId)}
       className="space-y-4"
+      layoutId="block-inspector-ribbon"
     >
       {(tabId) => {
         switch (tabId) {

@@ -401,7 +401,12 @@ function PageEditorFields({
         }
       />
 
-      <AdminSettingsLayout tabs={[...PAGE_TABS]} activeTab={activeTab} onTabChange={setActiveTab}>
+      <AdminSettingsLayout
+        tabs={[...PAGE_TABS]}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        layoutId="page-editor-ribbon"
+      >
         {(tab) => (
           <>
             {tab === "general" && (

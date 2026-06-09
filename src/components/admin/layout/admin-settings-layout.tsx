@@ -12,6 +12,8 @@ type AdminSettingsLayoutProps = {
   onTabChange?: (tabId: string) => void;
   children: (activeTab: string) => ReactNode;
   className?: string;
+  /** Unique Framer Motion layoutId when multiple ribbons coexist on one page. */
+  layoutId?: string;
 };
 
 export function AdminSettingsLayout({
@@ -21,6 +23,7 @@ export function AdminSettingsLayout({
   onTabChange,
   children,
   className,
+  layoutId,
 }: AdminSettingsLayoutProps) {
   const [internalTab, setInternalTab] = useState(defaultTab ?? tabs[0]?.id ?? "");
   const activeTab = controlledTab ?? internalTab;
@@ -28,7 +31,12 @@ export function AdminSettingsLayout({
 
   return (
     <div className={cn("space-y-6", className)}>
-      <AdminSettingsRibbon tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
+      <AdminSettingsRibbon
+        tabs={tabs}
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        layoutId={layoutId}
+      />
       <div className="pt-2">
         <AnimatePresence mode="wait">
           <AdminSettingsSection key={activeTab} id={activeTab}>
