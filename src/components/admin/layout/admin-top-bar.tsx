@@ -27,6 +27,12 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 function SaveStatusIndicator() {
   const saveStatus = useAdminUiStore((s) => s.saveStatus);
   const lastUpdated = useAdminUiStore((s) => s.lastUpdated);
+  const pageActions = useAdminUiStore((s) => s.pageActions);
+
+  const showStatus = Boolean(
+    pageActions.onSave || pageActions.onUpdate || pageActions.onPublish
+  );
+  if (!showStatus) return null;
 
   const labels = {
     saved: "Saved",
@@ -50,7 +56,7 @@ function SaveStatusIndicator() {
     }).format(lastUpdated);
 
   return (
-    <div className="hidden items-center gap-2 text-xs lg:flex">
+    <div className="hidden items-center gap-2 text-xs sm:flex">
       <span className={cn("flex items-center gap-1.5 font-medium", colors[saveStatus])}>
         {saveStatus === "saving" && <Loader2 className="h-3 w-3 animate-spin" />}
         {saveStatus !== "saving" && (

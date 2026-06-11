@@ -1,7 +1,9 @@
 "use client";
 
-import { useMemo, useRef, useState, useTransition } from "react";
+import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { useAdminFormDirtySync } from "@/hooks/use-admin-form";
+import { useAdminUiStore } from "@/stores/admin-ui-store";
 import type { LocaleConfig } from "@prisma/client";
 import type { PublicLocale } from "@/i18n/locale-config";
 import {
@@ -158,6 +160,11 @@ function LocaleFormFields({
   );
 }
 
+function LocaleFormDirtySync({ formRef, enabled }: { formRef: React.RefObject<HTMLFormElement | null>; enabled: boolean }) {
+  useAdminFormDirtySync(formRef, enabled);
+  return null;
+}
+
 export function LanguagesAdmin({ locales: initialLocales, completionByLocale }: Props) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -166,8 +173,43 @@ export function LanguagesAdmin({ locales: initialLocales, completionByLocale }: 
   const [orderedLocales, setOrderedLocales] = useState(initialLocales);
   const [editId, setEditId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const addFormRef = useRef<HTMLFormElement>(null);
+  const editFormRef = useRef<HTMLFormElement>(null);
+  const registerPageActions = useAdminUiStore((s) => s.registerPageActions);
+  const clearPageActions = useAdminUiStore((s) => s.clearPageActions);
+  const markSaved = useAdminUiStore((s) => s.markSaved);
 
   const refresh = () => router.refresh();
+
+  const handleCancelForm = useCallback(() => {
+    if (editId) setEditId(null);
+    if (showAddForm) setShowAddForm(false);
+  }, [editId, showAddForm]);
+
+  const handleSaveForm = useCallback(async () => {
+    const form = editId ? editFormRef.current : showAddForm ? addFormRef.current : null;
+    form?.requestSubmit();
+  }, [editId, showAddForm]);
+
+  useEffect(() => {
+    if (!editId && !showAddForm) {
+      clearPageActions();
+      return;
+    }
+    registerPageActions({
+      onSave: handleSaveForm,
+      onCancel: handleCancelForm,
+      selfManagedSaveStatus: true,
+    });
+    return () => clearPageActions();
+  }, [
+    editId,
+    showAddForm,
+    registerPageActions,
+    clearPageActions,
+    handleSaveForm,
+    handleCancelForm,
+  ]);
 
   const moveLocale = (index: number, direction: -1 | 1) => {
     const next = [...orderedLocales];
@@ -275,10 +317,13 @@ export function LanguagesAdmin({ locales: initialLocales, completionByLocale }: 
         <CardContent className="space-y-4">
           {showAddForm ? (
             <form
+              ref={addFormRef}
+              id="locale-add-form"
               action={async (formData) => {
                 try {
                   await upsertLocaleAction(formData);
                   setShowAddForm(false);
+                  markSaved();
                   refresh();
                 } catch (err) {
                   setNotice(err instanceof Error ? err.message : "Failed to add locale");
@@ -286,11 +331,9 @@ export function LanguagesAdmin({ locales: initialLocales, completionByLocale }: 
               }}
               className="rounded-lg border border-dashed p-4 space-y-4"
             >
+              <LocaleFormDirtySync formRef={addFormRef} enabled />
               <input type="hidden" name="isEnabled" value="true" />
               <LocaleFormFields locale={{ sortOrder: orderedLocales.length }} />
-              <Button type="submit" disabled={pending}>
-                Create language
-              </Button>
             </form>
           ) : null}
 
@@ -344,10 +387,13 @@ export function LanguagesAdmin({ locales: initialLocales, completionByLocale }: 
 
                     {isEditing ? (
                       <form
+                        ref={editFormRef}
+                        id="locale-edit-form"
                         action={async (formData) => {
                           try {
                             await upsertLocaleAction(formData);
                             setEditId(null);
+                            markSaved();
                             refresh();
                           } catch (err) {
                             setNotice(err instanceof Error ? err.message : "Failed to update");
@@ -355,17 +401,10 @@ export function LanguagesAdmin({ locales: initialLocales, completionByLocale }: 
                         }}
                         className="space-y-3 border-t pt-3"
                       >
+                        <LocaleFormDirtySync formRef={editFormRef} enabled={isEditing} />
                         <input type="hidden" name="id" value={locale.id} />
                         <input type="hidden" name="isEnabled" value={locale.isEnabled ? "true" : "false"} />
                         <LocaleFormFields locale={locale} codeReadOnly />
-                        <div className="flex gap-2">
-                          <Button type="submit" size="sm" disabled={pending}>
-                            Save
-                          </Button>
-                          <Button type="button" size="sm" variant="outline" onClick={() => setEditId(null)}>
-                            Cancel
-                          </Button>
-                        </div>
                       </form>
                     ) : (
                       <div className="flex flex-wrap gap-2">

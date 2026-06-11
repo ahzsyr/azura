@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { TranslationStatus } from "@prisma/client";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,53 +21,36 @@ type Props = {
   englishValue: string;
   value: string;
   fileFallback: string;
-  dbStatus?: TranslationStatus;
+  status: TranslationStatus;
   density: "compact" | "normal";
   disabled?: boolean;
-  onSave: (
-    namespace: string,
-    key: string,
-    languageCode: string,
-    value: string,
-    status: TranslationStatus,
-  ) => void;
+  onChange: (value: string, status: TranslationStatus) => void;
 };
 
 export function UiMessageCell({
-  namespace,
-  messageKey,
+  namespace: _namespace,
+  messageKey: _messageKey,
   fullKey,
   role,
   localeCode,
   englishValue,
   value,
   fileFallback,
-  dbStatus,
+  status,
   density,
   disabled,
-  onSave,
+  onChange,
 }: Props) {
-  const [status, setStatus] = useState<TranslationStatus>(dbStatus ?? "PUBLISHED");
-
-  useEffect(() => {
-    setStatus(dbStatus ?? "PUBLISHED");
-  }, [dbStatus]);
-
   const editor = getEditorConfig(role, value || fileFallback || englishValue);
   const cellState = resolveCellState({
     localeCode,
     englishValue,
     dbValue: value,
-    dbStatus: dbStatus ?? (value ? status : undefined),
+    dbStatus: value.trim() ? status : undefined,
     fileFallback,
   });
-  const hasDbRow = Boolean(value.trim()) || Boolean(dbStatus);
+  const hasDbRow = Boolean(value.trim());
   const placeholder = String(fileFallback ?? "") || "—";
-
-  const handleBlur = (next: string) => {
-    if (next === value && status === (dbStatus ?? "PUBLISHED")) return;
-    onSave(namespace, messageKey, localeCode, next, status);
-  };
 
   const inputClass = cn(
     "text-xs",
@@ -86,13 +68,7 @@ export function UiMessageCell({
             className="border rounded h-6 px-1 text-[10px] bg-background"
             value={status}
             disabled={disabled}
-            onChange={(e) => {
-              const nextStatus = e.target.value as TranslationStatus;
-              setStatus(nextStatus);
-              if (value.trim()) {
-                onSave(namespace, messageKey, localeCode, value, nextStatus);
-              }
-            }}
+            onChange={(e) => onChange(value, e.target.value as TranslationStatus)}
             aria-label={`Status for ${fullKey} (${localeCode})`}
           >
             <option value="PUBLISHED">Published</option>
@@ -103,29 +79,29 @@ export function UiMessageCell({
 
       {editor.kind === "textarea" ? (
         <Textarea
-          defaultValue={value}
+          value={value}
           placeholder={placeholder}
           rows={editor.rows}
           disabled={disabled}
           className={cn(inputClass, "min-h-[72px] resize-y")}
-          onBlur={(e) => handleBlur(e.target.value)}
+          onChange={(e) => onChange(e.target.value, status)}
         />
       ) : (
         <Input
-          defaultValue={value}
+          value={value}
           placeholder={placeholder}
           disabled={disabled}
           className={inputClass}
-          onBlur={(e) => handleBlur(e.target.value)}
+          onChange={(e) => onChange(e.target.value, status)}
         />
       )}
 
-      {!hasDbRow && value.trim() === "" && (
+      {!hasDbRow && (
         <select
           className="border rounded h-6 px-1 text-[10px] bg-background w-full"
           value={status}
           disabled={disabled}
-          onChange={(e) => setStatus(e.target.value as TranslationStatus)}
+          onChange={(e) => onChange(value, e.target.value as TranslationStatus)}
           aria-label={`Default status for new ${fullKey} (${localeCode})`}
         >
           <option value="PUBLISHED">Save as Published</option>

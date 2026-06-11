@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAdminUiStore } from "@/stores/admin-ui-store";
 import {
   DndContext,
   closestCenter,
@@ -123,31 +124,50 @@ function SortableField({
 export function FormDesignerPage({ initial }: { initial: TemplateInput }) {
   const router = useRouter();
   const [form, setForm] = useState(initial);
-  const [saving, setSaving] = useState(false);
+  const [savedForm, setSavedForm] = useState(initial);
   const [error, setError] = useState<string | null>(null);
+  const registerPageActions = useAdminUiStore((s) => s.registerPageActions);
+  const clearPageActions = useAdminUiStore((s) => s.clearPageActions);
+  const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
+  const markSaved = useAdminUiStore((s) => s.markSaved);
+  const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
+
+  const patchForm = useCallback(
+    (updater: (prev: TemplateInput) => TemplateInput) => {
+      markUnsaved();
+      setForm((prev) => updater(prev));
+    },
+    [markUnsaved],
+  );
 
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
-  const updateField = useCallback((index: number, patch: Partial<FormDefinition["fields"][number]>) => {
-    setForm((prev) => {
-      const fields = [...prev.definition.fields];
-      fields[index] = { ...fields[index], ...patch };
-      return { ...prev, definition: { ...prev.definition, fields } };
-    });
-  }, []);
+  const updateField = useCallback(
+    (index: number, patch: Partial<FormDefinition["fields"][number]>) => {
+      patchForm((prev) => {
+        const fields = [...prev.definition.fields];
+        fields[index] = { ...fields[index], ...patch };
+        return { ...prev, definition: { ...prev.definition, fields } };
+      });
+    },
+    [patchForm],
+  );
 
-  const removeField = useCallback((index: number) => {
-    setForm((prev) => {
-      const fields = prev.definition.fields.filter((_, i) => i !== index);
-      return { ...prev, definition: { ...prev.definition, fields } };
-    });
-  }, []);
+  const removeField = useCallback(
+    (index: number) => {
+      patchForm((prev) => {
+        const fields = prev.definition.fields.filter((_, i) => i !== index);
+        return { ...prev, definition: { ...prev.definition, fields } };
+      });
+    },
+    [patchForm],
+  );
 
   const addField = () => {
-    setForm((prev) => ({
+    patchForm((prev) => ({
       ...prev,
       definition: {
         ...prev.definition,
@@ -168,7 +188,7 @@ export function FormDesignerPage({ initial }: { initial: TemplateInput }) {
   const onDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
-    setForm((prev) => {
+    patchForm((prev) => {
       const fields = [...prev.definition.fields];
       const oldIndex = fields.findIndex((f) => f.id === active.id);
       const newIndex = fields.findIndex((f) => f.id === over.id);
@@ -179,28 +199,59 @@ export function FormDesignerPage({ initial }: { initial: TemplateInput }) {
     });
   };
 
-  const handleSave = async () => {
-    setSaving(true);
+  const persistForm = useCallback(
+    async (nextForm: TemplateInput) => {
+      setError(null);
+      setSaveStatus("saving");
+      const res = await saveFormTemplateAction(nextForm.id, {
+        name: nextForm.name,
+        slug: nextForm.slug,
+        category: nextForm.category,
+        description: nextForm.description,
+        definitionJson: JSON.stringify(nextForm.definition),
+        isPublished: nextForm.isPublished,
+      });
+      if (!res.success) {
+        setError(res.error ?? "Save failed");
+        setSaveStatus("error");
+        return false;
+      }
+      const persisted = { ...nextForm, id: nextForm.id ?? res.data?.id ?? null };
+      setSavedForm(persisted);
+      setForm(persisted);
+      markSaved();
+      if (!nextForm.id && res.data?.id) {
+        router.replace(`/admin/forms/${res.data.id}`);
+      } else {
+        router.refresh();
+      }
+      return true;
+    },
+    [markSaved, router, setSaveStatus],
+  );
+
+  const handleSave = useCallback(async () => {
+    return persistForm(form);
+  }, [form, persistForm]);
+
+  const handlePublish = useCallback(async () => {
+    return persistForm({ ...form, isPublished: true });
+  }, [form, persistForm]);
+
+  const handleCancel = useCallback(() => {
+    setForm(savedForm);
     setError(null);
-    const res = await saveFormTemplateAction(form.id, {
-      name: form.name,
-      slug: form.slug,
-      category: form.category,
-      description: form.description,
-      definitionJson: JSON.stringify(form.definition),
-      isPublished: form.isPublished,
+  }, [savedForm]);
+
+  useEffect(() => {
+    registerPageActions({
+      onSave: handleSave,
+      onPublish: handlePublish,
+      onCancel: handleCancel,
+      selfManagedSaveStatus: true,
     });
-    setSaving(false);
-    if (!res.success) {
-      setError(res.error);
-      return;
-    }
-    if (!form.id && res.data?.id) {
-      router.replace(`/admin/forms/${res.data.id}`);
-    } else {
-      router.refresh();
-    }
-  };
+    return () => clearPageActions();
+  }, [registerPageActions, clearPageActions, handleSave, handlePublish, handleCancel]);
 
   const adminEmails = form.definition.notifications?.adminEmails?.join(", ") ?? "";
 
@@ -209,11 +260,6 @@ export function FormDesignerPage({ initial }: { initial: TemplateInput }) {
       <AdminPageHeader
         title={form.id ? `Edit: ${form.name}` : "New form template"}
         description="Drag fields to reorder. Configure notifications and webhooks below."
-        actions={
-          <Button onClick={handleSave} disabled={saving}>
-            {saving ? "Saving…" : "Save template"}
-          </Button>
-        }
       />
 
       {error && <p className="text-sm text-destructive mb-4">{error}</p>}
@@ -224,11 +270,17 @@ export function FormDesignerPage({ initial }: { initial: TemplateInput }) {
             <div className="grid gap-3 md:grid-cols-2">
               <div>
                 <Label>Name</Label>
-                <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+                <Input
+                  value={form.name}
+                  onChange={(e) => patchForm((prev) => ({ ...prev, name: e.target.value }))}
+                />
               </div>
               <div>
                 <Label>Slug</Label>
-                <Input value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} />
+                <Input
+                  value={form.slug}
+                  onChange={(e) => patchForm((prev) => ({ ...prev, slug: e.target.value }))}
+                />
               </div>
               <div>
                 <Label>Category</Label>
@@ -236,7 +288,10 @@ export function FormDesignerPage({ initial }: { initial: TemplateInput }) {
                   className="w-full border rounded-md h-10 px-2 text-sm"
                   value={form.category}
                   onChange={(e) =>
-                    setForm({ ...form, category: e.target.value as FormTemplateCategory })
+                    patchForm((prev) => ({
+                      ...prev,
+                      category: e.target.value as FormTemplateCategory,
+                    }))
                   }
                 >
                   <option value="LEAD">Lead</option>
@@ -249,7 +304,9 @@ export function FormDesignerPage({ initial }: { initial: TemplateInput }) {
                 <input
                   type="checkbox"
                   checked={form.isPublished}
-                  onChange={(e) => setForm({ ...form, isPublished: e.target.checked })}
+                  onChange={(e) =>
+                    patchForm((prev) => ({ ...prev, isPublished: e.target.checked }))
+                  }
                 />
                 Published
               </label>
@@ -258,7 +315,9 @@ export function FormDesignerPage({ initial }: { initial: TemplateInput }) {
               <Label>Description</Label>
               <Textarea
                 value={form.description}
-                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                onChange={(e) =>
+                  patchForm((prev) => ({ ...prev, description: e.target.value }))
+                }
                 rows={2}
               />
             </div>
@@ -300,19 +359,19 @@ export function FormDesignerPage({ initial }: { initial: TemplateInput }) {
                 className="mt-1"
                 value={adminEmails}
                 onChange={(e) =>
-                  setForm({
-                    ...form,
+                  patchForm((prev) => ({
+                    ...prev,
                     definition: {
-                      ...form.definition,
+                      ...prev.definition,
                       notifications: {
                         adminEmails: e.target.value
                           .split(",")
                           .map((s) => s.trim())
                           .filter(Boolean),
-                        sendToSubmitter: form.definition.notifications?.sendToSubmitter ?? false,
+                        sendToSubmitter: prev.definition.notifications?.sendToSubmitter ?? false,
                       },
                     },
-                  })
+                  }))
                 }
               />
             </div>
@@ -321,16 +380,16 @@ export function FormDesignerPage({ initial }: { initial: TemplateInput }) {
                 type="checkbox"
                 checked={form.definition.notifications?.sendToSubmitter ?? false}
                 onChange={(e) =>
-                  setForm({
-                    ...form,
+                  patchForm((prev) => ({
+                    ...prev,
                     definition: {
-                      ...form.definition,
+                      ...prev.definition,
                       notifications: {
-                        adminEmails: form.definition.notifications?.adminEmails ?? [],
+                        adminEmails: prev.definition.notifications?.adminEmails ?? [],
                         sendToSubmitter: e.target.checked,
                       },
                     },
-                  })
+                  }))
                 }
               />
               Send auto-reply to submitter
@@ -343,15 +402,15 @@ export function FormDesignerPage({ initial }: { initial: TemplateInput }) {
               placeholder="https://hooks.example.com/..."
               value={form.definition.webhooks?.[0]?.url ?? ""}
               onChange={(e) =>
-                setForm({
-                  ...form,
+                patchForm((prev) => ({
+                  ...prev,
                   definition: {
-                    ...form.definition,
+                    ...prev.definition,
                     webhooks: e.target.value
                       ? [{ url: e.target.value, events: ["submit"] as const }]
                       : [],
                   },
-                })
+                }))
               }
             />
           </Card>

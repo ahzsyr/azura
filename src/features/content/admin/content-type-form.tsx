@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Link from "next/link";
 import type { ContentType } from "@prisma/client";
 import type { ContentFieldDefinition } from "@/features/content/types";
@@ -15,7 +15,8 @@ import {
   parseComparisonConfig,
 } from "@/features/comparison/parse-comparison-config";
 import type { ContentTypeComparisonConfig } from "@/features/comparison/types";
-import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
+import { AdminFormProvider, AdminPageHeader } from "@/components/admin/layout/admin-shell";
+import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,6 +30,10 @@ type Props = {
 };
 
 export function ContentTypeForm({ contentType, isNew }: Props) {
+  const formRef = useRef<HTMLFormElement>(null);
+  const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
+  const markDirty = useCallback(() => markUnsaved(), [markUnsaved]);
+
   const initial = contentType ? parseContentTypeJson(contentType) : {
     fieldSchema: [] as ContentFieldDefinition[],
     displaySchema: {},
@@ -47,8 +52,56 @@ export function ContentTypeForm({ contentType, isNew }: Props) {
     2
   );
 
+  const handleSave = useCallback(async () => {
+    formRef.current?.requestSubmit();
+  }, []);
+
+  const updateFieldSchema = useCallback(
+    (next: ContentFieldDefinition[]) => {
+      markDirty();
+      setFieldSchema(next);
+    },
+    [markDirty],
+  );
+
+  const updateDisplaySchemaJson = useCallback(
+    (next: string) => {
+      markDirty();
+      setDisplaySchemaJson(next);
+    },
+    [markDirty],
+  );
+
+  const updateComparison = useCallback(
+    (next: ContentTypeComparisonConfig) => {
+      markDirty();
+      setComparison(next);
+    },
+    [markDirty],
+  );
+
+  const updateAdminConfigBase = useCallback(
+    (json: string) => {
+      markDirty();
+      try {
+        const parsed = JSON.parse(json || "{}") as Record<string, unknown>;
+        setAdminConfigBase(parsed);
+        setComparison(parseComparisonConfig(parsed));
+      } catch {
+        setAdminConfigBase({});
+      }
+    },
+    [markDirty],
+  );
+
   return (
-    <form action={upsertContentType} className="space-y-8">
+    <AdminFormProvider onSave={handleSave} trackFormId="content-type-form">
+    <form
+      id="content-type-form"
+      ref={formRef}
+      action={upsertContentType}
+      className="space-y-8"
+    >
       {contentType ? <input type="hidden" name="id" value={contentType.id} /> : null}
       <input type="hidden" name="fieldSchema" value={JSON.stringify(fieldSchema)} />
       <input type="hidden" name="displaySchema" value={displaySchemaJson} />
@@ -165,8 +218,8 @@ export function ContentTypeForm({ contentType, isNew }: Props) {
           <ContentTypeComparisonPanel
             fieldSchema={fieldSchema}
             comparison={comparison}
-            onComparisonChange={setComparison}
-            onFieldSchemaChange={setFieldSchema}
+            onComparisonChange={updateComparison}
+            onFieldSchemaChange={updateFieldSchema}
           />
         </CardContent>
       </Card>
@@ -180,24 +233,15 @@ export function ContentTypeForm({ contentType, isNew }: Props) {
             fieldSchema={fieldSchema}
             displaySchema={JSON.parse(displaySchemaJson || "{}")}
             adminConfig={adminConfigBase}
-            onFieldSchemaChange={setFieldSchema}
-            onDisplaySchemaChange={setDisplaySchemaJson}
-            onAdminConfigChange={(json) => {
-              try {
-                const parsed = JSON.parse(json || "{}") as Record<string, unknown>;
-                setAdminConfigBase(parsed);
-                setComparison(parseComparisonConfig(parsed));
-              } catch {
-                setAdminConfigBase({});
-              }
-            }}
+            onFieldSchemaChange={updateFieldSchema}
+            onDisplaySchemaChange={updateDisplaySchemaJson}
+            onAdminConfigChange={updateAdminConfigBase}
           />
         </CardContent>
       </Card>
 
-      <div className="flex gap-3">
-        <Button type="submit">{isNew ? "Create type" : "Save changes"}</Button>
-        {!isNew && contentType ? (
+      {!isNew && contentType ? (
+        <div className="flex gap-3">
           <Button
             type="button"
             variant="destructive"
@@ -209,9 +253,10 @@ export function ContentTypeForm({ contentType, isNew }: Props) {
           >
             Delete
           </Button>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
     </form>
+    </AdminFormProvider>
   );
 }
 

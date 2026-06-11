@@ -1,10 +1,11 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import type { CatalogTaxonomyAdminProps } from "@/features/catalog/admin/load-catalog-taxonomy-props";
+import { useAdminUiStore } from "@/stores/admin-ui-store";
 
 const API: RequestInit = { credentials: "include" };
 
@@ -86,37 +87,88 @@ export function CatalogTaxonomyPanel({
   const [tab, setTab] = useState<TabId>("brands");
   const [brands, setBrands] = useState(initialBrands);
   const [tags, setTags] = useState(initialTags);
-  const [busy, setBusy] = useState(false);
+  const [savedBrands, setSavedBrands] = useState(initialBrands);
+  const [savedTags, setSavedTags] = useState(initialTags);
   const [syncing, setSyncing] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const registerPageActions = useAdminUiStore((s) => s.registerPageActions);
+  const clearPageActions = useAdminUiStore((s) => s.clearPageActions);
+  const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
+  const markSaved = useAdminUiStore((s) => s.markSaved);
+  const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
+
+  const updateBrands = useCallback(
+    (next: string[]) => {
+      markUnsaved();
+      setBrands(next);
+    },
+    [markUnsaved],
+  );
+
+  const updateTags = useCallback(
+    (next: string[]) => {
+      markUnsaved();
+      setTags(next);
+    },
+    [markUnsaved],
+  );
 
   const saveKey = useCallback(
     async (key: "catalogBrands" | "catalogTags", value: string[]) => {
-      setBusy(true);
-      setError(null);
-      try {
-        const res = await fetch("/api/save-settings", {
-          ...API,
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            key,
-            value,
-            locale: initialAdminLocaleCode,
-          }),
-        });
-        const json = (await res.json()) as { error?: string };
-        if (!res.ok) throw new Error(json.error ?? "Save failed");
-        setFeedback(`${key === "catalogBrands" ? "Brands" : "Tags"} saved.`);
-      } catch (e) {
-        setError(e instanceof Error ? e.message : "Save failed");
-      } finally {
-        setBusy(false);
-      }
+      const res = await fetch("/api/save-settings", {
+        ...API,
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          key,
+          value,
+          locale: initialAdminLocaleCode,
+        }),
+      });
+      const json = (await res.json()) as { error?: string };
+      if (!res.ok) throw new Error(json.error ?? "Save failed");
+      return key;
     },
     [initialAdminLocaleCode],
   );
+
+  const handleSave = useCallback(async () => {
+    setError(null);
+    setFeedback(null);
+    setSaveStatus("saving");
+    try {
+      await Promise.all([
+        saveKey("catalogBrands", brands),
+        saveKey("catalogTags", tags),
+      ]);
+      setSavedBrands(brands);
+      setSavedTags(tags);
+      setFeedback("Brands and tags saved.");
+      markSaved();
+      return true;
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Save failed");
+      setSaveStatus("error");
+      return false;
+    }
+  }, [brands, tags, markSaved, saveKey, setSaveStatus]);
+
+  const handleCancel = useCallback(() => {
+    setBrands(savedBrands);
+    setTags(savedTags);
+    setError(null);
+    setFeedback(null);
+  }, [savedBrands, savedTags]);
+
+  useEffect(() => {
+    registerPageActions({
+      onSave: handleSave,
+      onCancel: handleCancel,
+      selfManagedSaveStatus: true,
+    });
+    return () => clearPageActions();
+  }, [registerPageActions, clearPageActions, handleSave, handleCancel]);
 
   const syncFromCatalog = async (mode: "merge" | "replace") => {
     setSyncing(true);
@@ -138,8 +190,14 @@ export function CatalogTaxonomyPanel({
         error?: string;
       };
       if (!res.ok) throw new Error(json.error ?? "Sync failed");
-      if (json.brands) setBrands(json.brands);
-      if (json.tags) setTags(json.tags);
+      if (json.brands) {
+        setBrands(json.brands);
+        markUnsaved();
+      }
+      if (json.tags) {
+        setTags(json.tags);
+        markUnsaved();
+      }
       setFeedback(
         mode === "merge"
           ? "Merged brands and tags from product catalog."
@@ -211,12 +269,9 @@ export function CatalogTaxonomyPanel({
             <ListEditor
               label="Brands"
               items={brands}
-              onChange={setBrands}
+              onChange={updateBrands}
               placeholder="Add brand name…"
             />
-            <Button type="button" disabled={busy} onClick={() => void saveKey("catalogBrands", brands)}>
-              {busy ? "Saving…" : "Save brands"}
-            </Button>
           </CardContent>
         </Card>
       ) : (
@@ -228,10 +283,7 @@ export function CatalogTaxonomyPanel({
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <ListEditor label="Tags" items={tags} onChange={setTags} placeholder="Add tag…" />
-            <Button type="button" disabled={busy} onClick={() => void saveKey("catalogTags", tags)}>
-              {busy ? "Saving…" : "Save tags"}
-            </Button>
+            <ListEditor label="Tags" items={tags} onChange={updateTags} placeholder="Add tag…" />
           </CardContent>
         </Card>
       )}

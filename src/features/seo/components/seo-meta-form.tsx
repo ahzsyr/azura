@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useMemo, useState, useTransition } from "react";
+import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
+import { useAdminUiStore } from "@/stores/admin-ui-store";
 import type { SeoMeta } from "@prisma/client";
 import { upsertSeoMetaAction } from "@/features/seo/actions";
 import { ROBOTS_PRESETS } from "@/features/seo/constants";
@@ -72,6 +73,11 @@ export function SeoMetaForm({
 }: Props) {
   const { activeLocaleCode, activeLocale, defaultCode, isRtl } = useAdminEditingLocale();
   const [isPending, startTransition] = useTransition();
+  const registerPageActions = useAdminUiStore((s) => s.registerPageActions);
+  const clearPageActions = useAdminUiStore((s) => s.clearPageActions);
+  const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
+  const markSaved = useAdminUiStore((s) => s.markSaved);
+  const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
   const [activeTab, setActiveTab] = useState<"edit" | "analysis">("edit");
   const [byLocale, setByLocale] = useState<Record<string, LocaleSeoSlice>>(() =>
     buildInitialByLocale(meta, {
@@ -93,8 +99,20 @@ export function SeoMetaForm({
   const activeSlice = byLocale[activeLocaleCode] ?? { title: "", description: "", ogTitle: "" };
   const englishSlice = byLocale[defaultCode] ?? byLocale.en ?? { title: "", description: "", ogTitle: "" };
 
+  const initialByLocale = useMemo(
+    () =>
+      buildInitialByLocale(meta, {
+        titleEn: defaultTitleEn,
+        titleAr: defaultTitleAr,
+        descEn: defaultDescEn,
+        descAr: defaultDescAr,
+      }),
+    [meta, defaultTitleEn, defaultTitleAr, defaultDescEn, defaultDescAr],
+  );
+
   const patchActive = useCallback(
     (patch: Partial<LocaleSeoSlice>) => {
+      if (!embedded) markUnsaved();
       setByLocale((prev) => {
         const current = prev[activeLocaleCode] ?? { title: "", description: "", ogTitle: "" };
         return {
@@ -103,10 +121,14 @@ export function SeoMetaForm({
         };
       });
     },
-    [activeLocaleCode]
+    [activeLocaleCode, embedded, markUnsaved],
   );
 
-  const buildFormData = () => {
+  const touch = useCallback(() => {
+    if (!embedded) markUnsaved();
+  }, [embedded, markUnsaved]);
+
+  const buildFormData = useCallback(() => {
     const en = byLocale.en ?? englishSlice;
     const ar = byLocale.ar ?? { title: "", description: "", ogTitle: "" };
     const fd = new FormData();
@@ -127,13 +149,61 @@ export function SeoMetaForm({
     fd.set("twitterCard", twitterCard);
     fd.set("jsonLd", jsonLdStr);
     return fd;
-  };
+  }, [
+    byLocale,
+    englishSlice,
+    pageKey,
+    cmsPageId,
+    postId,
+    packageId,
+    focusKeywords,
+    canonicalUrl,
+    robots,
+    ogImageUrl,
+    twitterCard,
+    jsonLdStr,
+  ]);
 
   const handleEmbeddedSubmit = () => {
     startTransition(async () => {
       await upsertSeoMetaAction(buildFormData());
     });
   };
+
+  const handleSave = useCallback(async () => {
+    setSaveStatus("saving");
+    try {
+      await upsertSeoMetaAction(buildFormData());
+      markSaved();
+      return true;
+    } catch {
+      setSaveStatus("error");
+      return false;
+    }
+  }, [buildFormData, markSaved, setSaveStatus]);
+
+  const handleCancel = useCallback(() => {
+    setByLocale(initialByLocale);
+    setOgImageUrl(meta?.ogImageUrl ?? "");
+    setRobots(meta?.robots ?? "index, follow");
+    setFocusKeywords(meta?.focusKeywords ?? "");
+    setCanonicalUrl(meta?.canonicalUrl ?? "");
+    setJsonLdStr(meta?.jsonLd != null ? JSON.stringify(meta.jsonLd, null, 2) : "");
+    setTwitterCard(meta?.twitterCard ?? "summary_large_image");
+  }, [initialByLocale, meta]);
+
+  useEffect(() => {
+    if (embedded || !pageKey) {
+      clearPageActions();
+      return;
+    }
+    registerPageActions({
+      onSave: handleSave,
+      onCancel: handleCancel,
+      selfManagedSaveStatus: true,
+    });
+    return () => clearPageActions();
+  }, [embedded, pageKey, registerPageActions, clearPageActions, handleSave, handleCancel]);
 
   const fieldName = (name: string): string | undefined => (embedded ? undefined : name);
 
@@ -284,7 +354,10 @@ export function SeoMetaForm({
                 <Input
                   name={fieldName("focusKeywords")}
                   value={focusKeywords}
-                  onChange={(e) => setFocusKeywords(e.target.value)}
+                  onChange={(e) => {
+                    touch();
+                    setFocusKeywords(e.target.value);
+                  }}
                   placeholder="umrah, packages, madinah"
                 />
                 <p className="text-xs text-muted-foreground">Comma-separated (shared across languages)</p>
@@ -295,7 +368,10 @@ export function SeoMetaForm({
                   name={fieldName("canonicalUrl")}
                   type="url"
                   value={canonicalUrl}
-                  onChange={(e) => setCanonicalUrl(e.target.value)}
+                  onChange={(e) => {
+                    touch();
+                    setCanonicalUrl(e.target.value);
+                  }}
                   placeholder="https://yoursite.com/en/page"
                 />
               </div>
@@ -304,7 +380,10 @@ export function SeoMetaForm({
                 <select
                   name={fieldName("robots")}
                   value={robots}
-                  onChange={(e) => setRobots(e.target.value)}
+                  onChange={(e) => {
+                    touch();
+                    setRobots(e.target.value);
+                  }}
                   className="w-full border rounded-md h-10 px-3"
                 >
                   {ROBOTS_PRESETS.map((p) => (
@@ -345,7 +424,10 @@ export function SeoMetaForm({
               <UrlPrimaryMediaPickerField
                 label="OG / social image"
                 url={ogImageUrl}
-                onChange={(url) => setOgImageUrl(url)}
+                onChange={(url) => {
+                  touch();
+                  setOgImageUrl(url);
+                }}
               />
               {!embedded ? <input type="hidden" name="ogImageUrl" value={ogImageUrl} readOnly /> : null}
             </div>
@@ -354,7 +436,10 @@ export function SeoMetaForm({
               <select
                 name={fieldName("twitterCard")}
                 value={twitterCard}
-                onChange={(e) => setTwitterCard(e.target.value)}
+                onChange={(e) => {
+                  touch();
+                  setTwitterCard(e.target.value);
+                }}
                 className="w-full border rounded-md h-10 px-3"
               >
                 <option value="summary_large_image">Large image</option>
@@ -368,7 +453,10 @@ export function SeoMetaForm({
             <Textarea
               name={fieldName("jsonLd")}
               value={jsonLdStr}
-              onChange={(e) => setJsonLdStr(e.target.value)}
+              onChange={(e) => {
+                touch();
+                setJsonLdStr(e.target.value);
+              }}
               rows={8}
               className="font-mono text-xs"
               placeholder='{"@context":"https://schema.org","@type":"WebPage",...}'
@@ -378,13 +466,11 @@ export function SeoMetaForm({
             </p>
           </div>
 
-          <Button
-            type={embedded ? "button" : "submit"}
-            onClick={embedded ? handleEmbeddedSubmit : undefined}
-            disabled={isPending}
-          >
-            Save SEO
-          </Button>
+          {embedded ? (
+            <Button type="button" onClick={handleEmbeddedSubmit} disabled={isPending}>
+              Save SEO
+            </Button>
+          ) : null}
         </>
       )}
     </>
@@ -394,9 +480,5 @@ export function SeoMetaForm({
     return <div className={shellClassName}>{fields}</div>;
   }
 
-  return (
-    <form action={upsertSeoMetaAction} className={shellClassName}>
-      {fields}
-    </form>
-  );
+  return <div className={shellClassName}>{fields}</div>;
 }

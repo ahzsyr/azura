@@ -1,15 +1,16 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Download, Play, Save } from "lucide-react";
+import { ArrowLeft, Download, Play } from "lucide-react";
 import {
   exportDemoProfileAction,
   saveCustomDemoProfileAction,
 } from "@/features/setup/demo-import/actions";
 import type { ProfileId } from "@/features/setup/demo-import/profile-id";
 import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
+import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ApplyDemoDialog } from "./apply-demo-dialog";
@@ -42,23 +43,51 @@ export function DemoProfileEditor({
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [json, setJson] = useState(initialJson);
+  const [savedJson, setSavedJson] = useState(initialJson);
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [applyOpen, setApplyOpen] = useState(false);
+  const registerPageActions = useAdminUiStore((s) => s.registerPageActions);
+  const clearPageActions = useAdminUiStore((s) => s.clearPageActions);
+  const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
+  const markSaved = useAdminUiStore((s) => s.markSaved);
+  const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
 
-  function handleSave() {
+  const handleSave = useCallback(async () => {
     setError(null);
     setStatus(null);
-    startTransition(async () => {
-      const result = await saveCustomDemoProfileAction(slug, json);
-      if (!result.success) {
-        setError(result.error);
-        return;
-      }
-      setStatus("Profile saved.");
-      router.refresh();
+    setSaveStatus("saving");
+    const result = await saveCustomDemoProfileAction(slug, json);
+    if (!result.success) {
+      setError(result.error);
+      setSaveStatus("error");
+      return false;
+    }
+    setSavedJson(json);
+    setStatus("Profile saved.");
+    markSaved();
+    router.refresh();
+    return true;
+  }, [json, markSaved, router, setSaveStatus, slug]);
+
+  const handleCancel = useCallback(() => {
+    setJson(savedJson);
+    setError(null);
+    setStatus(null);
+  }, [savedJson]);
+
+  useEffect(() => {
+    if (readOnly) {
+      clearPageActions();
+      return;
+    }
+    registerPageActions({
+      onSave: handleSave,
+      onCancel: handleCancel,
+      selfManagedSaveStatus: true,
     });
-  }
+    return () => clearPageActions();
+  }, [readOnly, registerPageActions, clearPageActions, handleSave, handleCancel]);
 
   function handleExport() {
     setError(null);
@@ -99,12 +128,6 @@ export function DemoProfileEditor({
               <Play className="mr-2 h-4 w-4" />
               Apply
             </Button>
-            {!readOnly && (
-              <Button size="sm" onClick={handleSave} disabled={pending}>
-                <Save className="mr-2 h-4 w-4" />
-                {pending ? "Saving…" : "Save"}
-              </Button>
-            )}
           </>
         }
       />
@@ -121,7 +144,10 @@ export function DemoProfileEditor({
 
       <Textarea
         value={json}
-        onChange={(e) => setJson(e.target.value)}
+        onChange={(e) => {
+          setJson(e.target.value);
+          if (!readOnly) markUnsaved();
+        }}
         readOnly={readOnly}
         rows={28}
         className="font-mono text-xs leading-relaxed"

@@ -23,8 +23,8 @@ import {
   UiMessagesPagination,
   type UiMessagePageSize,
 } from "@/features/translation/components/ui-messages-pagination";
-import { useAdminFormOptional } from "@/components/admin/layout/admin-form-provider";
 import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
+import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { AdminSettingsLayout } from "@/components/admin/layout/admin-settings-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -56,6 +56,23 @@ type ViewPreferences = {
   visibleLocales: Record<string, boolean>;
   density: "compact" | "normal";
 };
+
+type PendingEdit = {
+  namespace: string;
+  key: string;
+  languageCode: string;
+  value: string;
+  status: TranslationStatus;
+};
+
+function parseOverrideKey(key: string): { namespace: string; messageKey: string; languageCode: string } | null {
+  const parts = key.split(":");
+  if (parts.length < 3) return null;
+  const languageCode = parts.pop()!;
+  const messageKey = parts.pop()!;
+  const namespace = parts.join(":");
+  return { namespace, messageKey, languageCode };
+}
 
 type Props = {
   locales: LocaleConfig[];
@@ -128,8 +145,12 @@ export function UiMessagesAdmin({
   dbRows,
   fileMessagesByLocale,
 }: Props) {
-  const adminForm = useAdminFormOptional();
   const router = useRouter();
+  const registerPageActions = useAdminUiStore((s) => s.registerPageActions);
+  const clearPageActions = useAdminUiStore((s) => s.clearPageActions);
+  const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
+  const markSaved = useAdminUiStore((s) => s.markSaved);
+  const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
   const activeTab = useMemo(() => (isValidTab(tabParam) ? tabParam : "messages"), [tabParam]);
@@ -142,8 +163,10 @@ export function UiMessagesAdmin({
   const [page, setPage] = useState(1);
   const [pending, startTransition] = useTransition();
   const [localOverrides, setLocalOverrides] = useState<
-    Record<string, { value: string; status?: TranslationStatus }>
+    Record<string, { value: string; status: TranslationStatus }>
   >({});
+  const [saveFeedback, setSaveFeedback] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
   const importRef = useRef<HTMLInputElement>(null);
   const [importLocale, setImportLocale] = useState(enabledLocales[0]?.code ?? "en");
   const [prefs, setPrefs] = useState<ViewPreferences>(() => loadPreferences(enabledLocales));
@@ -209,7 +232,7 @@ export function UiMessagesAdmin({
       const dbEntry = db?.values[localeCode];
 
       const value = override?.value ?? dbEntry?.value ?? "";
-      const status = override?.status ?? dbEntry?.status;
+      const status = override?.status ?? dbEntry?.status ?? "PUBLISHED";
       const fileFallback = getFileFallback(fullKey, localeCode);
 
       return { value, status, fileFallback };
@@ -294,22 +317,108 @@ export function UiMessagesAdmin({
     return filteredKeys.slice(start, start + prefs.pageSize);
   }, [filteredKeys, safePage, prefs.pageSize]);
 
-  const saveCell = (
-    namespace: string,
-    key: string,
-    languageCode: string,
-    value: string,
-    status: TranslationStatus,
-  ) => {
-    startTransition(async () => {
-      try {
-        await upsertUiMessageAction(namespace, key, languageCode, value, status);
-        adminForm?.showToast("Message saved", "success");
-      } catch {
-        adminForm?.showToast("Failed to save message", "error");
-      }
+  const handleCellChange = useCallback(
+    (
+      namespace: string,
+      key: string,
+      languageCode: string,
+      nextValue: string,
+      nextStatus: TranslationStatus,
+    ) => {
+      const overrideKey = `${namespace}:${key}:${languageCode}`;
+      const db = dbMap.get(`${namespace}:${key}`);
+      const dbEntry = db?.values[languageCode];
+      const savedValue = dbEntry?.value ?? "";
+      const savedStatus = dbEntry?.status ?? "PUBLISHED";
+
+      setLocalOverrides((prev) => {
+        const next = { ...prev };
+        if (nextValue === savedValue && nextStatus === savedStatus) {
+          delete next[overrideKey];
+        } else {
+          next[overrideKey] = { value: nextValue, status: nextStatus };
+        }
+        return next;
+      });
+      markUnsaved();
+      setSaveFeedback(null);
+      setSaveError(null);
+    },
+    [dbMap, markUnsaved],
+  );
+
+  const handleSave = useCallback(async () => {
+    const edits: PendingEdit[] = [];
+    for (const [overrideKey, edit] of Object.entries(localOverrides)) {
+      const parsed = parseOverrideKey(overrideKey);
+      if (!parsed) continue;
+      edits.push({
+        namespace: parsed.namespace,
+        key: parsed.messageKey,
+        languageCode: parsed.languageCode,
+        value: edit.value,
+        status: edit.status,
+      });
+    }
+
+    if (edits.length === 0) {
+      markSaved();
+      return true;
+    }
+
+    setSaveError(null);
+    setSaveFeedback(null);
+    setSaveStatus("saving");
+
+    try {
+      await Promise.all(
+        edits.map((edit) =>
+          upsertUiMessageAction(
+            edit.namespace,
+            edit.key,
+            edit.languageCode,
+            edit.value,
+            edit.status,
+          ),
+        ),
+      );
+      setLocalOverrides({});
+      setSaveFeedback(`Saved ${edits.length} message${edits.length === 1 ? "" : "s"}.`);
+      markSaved();
+      router.refresh();
+      return true;
+    } catch {
+      setSaveError("Failed to save messages.");
+      setSaveStatus("error");
+      return false;
+    }
+  }, [localOverrides, markSaved, router, setSaveStatus]);
+
+  const handleCancel = useCallback(() => {
+    setLocalOverrides({});
+    setSaveFeedback(null);
+    setSaveError(null);
+    router.refresh();
+  }, [router]);
+
+  useEffect(() => {
+    if (activeTab !== "messages") {
+      clearPageActions();
+      return;
+    }
+    registerPageActions({
+      onSave: handleSave,
+      onCancel: handleCancel,
+      selfManagedSaveStatus: true,
     });
-  };
+    return () => clearPageActions();
+  }, [
+    activeTab,
+    registerPageActions,
+    clearPageActions,
+    handleSave,
+    handleCancel,
+  ]);
 
   const handleExport = (code: string) => {
     startTransition(async () => {
@@ -330,9 +439,10 @@ export function UiMessagesAdmin({
       startTransition(async () => {
         try {
           const count = await importUiMessagesJsonAction(importLocale, String(reader.result));
-          adminForm?.showToast(`Imported ${count.count} messages`, "success");
+          setSaveFeedback(`Imported ${count.count} messages.`);
+          router.refresh();
         } catch {
-          adminForm?.showToast("Import failed", "error");
+          setSaveError("Import failed.");
         }
       });
     };
@@ -355,6 +465,17 @@ export function UiMessagesAdmin({
           </Button>
         }
       />
+
+      {saveFeedback ? (
+        <p className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-800 dark:text-emerald-200">
+          {saveFeedback}
+        </p>
+      ) : null}
+      {saveError ? (
+        <p className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+          {saveError}
+        </p>
+      ) : null}
 
       <AdminSettingsLayout tabs={[...TABS]} activeTab={activeTab} onTabChange={handleTabChange}>
         {(tab) => {
@@ -621,7 +742,6 @@ export function UiMessagesAdmin({
                               return (
                                 <td key={l.code} className={rowPadding}>
                                   <UiMessageCell
-                                    key={`${mk.fullKey}:${l.code}:${value}:${status ?? "none"}`}
                                     namespace={mk.namespace}
                                     messageKey={mk.key}
                                     fullKey={mk.fullKey}
@@ -630,19 +750,18 @@ export function UiMessagesAdmin({
                                     englishValue={mk.englishValue}
                                     value={value}
                                     fileFallback={String(fileFallback ?? "")}
-                                    dbStatus={status}
+                                    status={status}
                                     density={prefs.density}
                                     disabled={pending}
-                                    onSave={(ns, key, locale, next, nextStatus) => {
-                                      setLocalOverrides((prev) => ({
-                                        ...prev,
-                                        [`${ns}:${key}:${locale}`]: {
-                                          value: next,
-                                          status: nextStatus,
-                                        },
-                                      }));
-                                      saveCell(ns, key, locale, next, nextStatus);
-                                    }}
+                                    onChange={(next, nextStatus) =>
+                                      handleCellChange(
+                                        mk.namespace,
+                                        mk.key,
+                                        l.code,
+                                        next,
+                                        nextStatus,
+                                      )
+                                    }
                                   />
                                 </td>
                               );
