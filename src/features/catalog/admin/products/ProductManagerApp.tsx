@@ -130,6 +130,41 @@ interface ImportValidationEntry {
 
 const API: RequestInit = { credentials: "include" };
 
+type ProductSaveSyncPayload = {
+  ok?: boolean;
+  collectionSync?: {
+    matchedCollections: CollectionMatch[];
+    isOrphan: boolean;
+    warnings: SyncWarning[];
+  } | null;
+  indexSync?: { count: number; mode: string } | null;
+  searchSync?: { upserted?: boolean; removed?: number } | null;
+  errors?: string[];
+  warnings?: string[];
+};
+
+function applyProductSaveSync(
+  json: { sync?: ProductSaveSyncPayload | null },
+  slug: string,
+  setActiveSyncResult: (v: ProductSyncResult | null) => void,
+  setError: (v: string | null) => void,
+): void {
+  const sync = json.sync;
+  if (sync?.collectionSync) {
+    setActiveSyncResult({
+      productSlug: slug,
+      matchedCollections: sync.collectionSync.matchedCollections,
+      isOrphan: sync.collectionSync.isOrphan,
+      warnings: sync.collectionSync.warnings,
+    });
+  }
+  if (sync?.errors?.length) {
+    setError(`Index/sync: ${sync.errors.join("; ")}`);
+  } else if (sync && sync.ok === false && sync.warnings?.length) {
+    setError(sync.warnings.join("; "));
+  }
+}
+
 // ── Utilities ─────────────────────────────────────────────────────────────────
 
 function readFileAsDataUrl(accept: string): Promise<string | null> {
@@ -490,6 +525,11 @@ export default function ProductManagerApp({
   const [syncReport, setSyncReport] = useState<SyncReport | null>(null);
   const [importValidation, setImportValidation] = useState<ImportValidationEntry[] | null>(null);
   const [activeSyncResult, setActiveSyncResult] = useState<ProductSyncResult | null>(null);
+  const [catalogSyncStatus, setCatalogSyncStatus] = useState<{
+    lastRunAt?: string;
+    ok?: boolean;
+    errors?: string[];
+  } | null>(null);
   const [showSyncPanel, setShowSyncPanel] = useState(false);
   const syncPanelRef = useRef<HTMLDivElement | null>(null);
 
@@ -774,17 +814,10 @@ export default function ProductManagerApp({
       });
       const json = (await res.json()) as {
         error?: string;
-        collectionSync?: { matchedCollections: CollectionMatch[]; isOrphan: boolean; warnings: SyncWarning[] } | null;
+        sync?: ProductSaveSyncPayload | null;
       };
       if (!res.ok) throw new Error(json.error || "Save failed");
-      if (json.collectionSync) {
-        setActiveSyncResult({
-          productSlug: normalized.slug,
-          matchedCollections: json.collectionSync.matchedCollections,
-          isOrphan: json.collectionSync.isOrphan,
-          warnings: json.collectionSync.warnings,
-        });
-      }
+      applyProductSaveSync(json, normalized.slug, setActiveSyncResult, setError);
       setActive(normalized);
       savedActiveRef.current = normalized;
       await loadProducts();
@@ -834,6 +867,15 @@ export default function ProductManagerApp({
   }, []);
 
   useEffect(() => { void loadProducts(); }, [adminLocaleCode]);
+
+  useEffect(() => {
+    void fetch("/api/catalog/sync-jobs", API)
+      .then((r) => r.json())
+      .then((j: { status?: { lastRunAt?: string; ok?: boolean; errors?: string[] } | null }) => {
+        setCatalogSyncStatus(j.status ?? null);
+      })
+      .catch(() => setCatalogSyncStatus(null));
+  }, []);
 
   // ── Sync ──────────────────────────────────────────────────────────────────
 
@@ -1071,17 +1113,10 @@ export default function ProductManagerApp({
       });
       const json = (await res.json()) as {
         error?: string;
-        collectionSync?: { matchedCollections: CollectionMatch[]; isOrphan: boolean; warnings: SyncWarning[] } | null;
+        sync?: ProductSaveSyncPayload | null;
       };
       if (!res.ok) throw new Error(json.error || "Save failed");
-      if (json.collectionSync) {
-        setActiveSyncResult({
-          productSlug: normalized.slug,
-          matchedCollections: json.collectionSync.matchedCollections,
-          isOrphan: json.collectionSync.isOrphan,
-          warnings: json.collectionSync.warnings,
-        });
-      }
+      applyProductSaveSync(json, normalized.slug, setActiveSyncResult, setError);
       setActive(normalized);
       await loadProducts();
       setView("list");
@@ -1305,6 +1340,15 @@ export default function ProductManagerApp({
                   )}
                 </div>
               )}
+            </div>
+          )}
+
+          {catalogSyncStatus && (
+            <div className={`pm-sync-status ${catalogSyncStatus.ok === false ? "pm-sync-status--err" : ""}`}>
+              Last catalog sync: {catalogSyncStatus.lastRunAt ? new Date(catalogSyncStatus.lastRunAt).toLocaleString() : "—"}
+              {catalogSyncStatus.ok === false && catalogSyncStatus.errors?.length ? (
+                <span className="pm-sync-status__err"> · {catalogSyncStatus.errors[0]}</span>
+              ) : null}
             </div>
           )}
 

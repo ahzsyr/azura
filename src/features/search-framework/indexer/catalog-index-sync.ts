@@ -10,6 +10,7 @@ import {
 import {
   catalogCategorySearchProvider,
   catalogCollectionSearchProvider,
+  catalogEntityId,
   catalogProductSearchProvider,
   contentCollectionSearchProvider,
   contentTypeLandingSearchProvider,
@@ -106,6 +107,170 @@ export async function syncCatalogSearchIndexes(
       await syncCatalogCategories(indexer, catalogLocale, urlPrefix, ctx);
     }
   }
+
+  await reconcileCatalogSearchIndexes(indexer, resolved);
+}
+
+type CatalogDocKey = `${string}:${string}:${string}`;
+
+function catalogDocKey(entityType: string, entityId: string, locale: string): CatalogDocKey {
+  return `${entityType}:${entityId}:${locale}`;
+}
+
+async function buildValidCatalogDocKeys(
+  resolved: CatalogSearchDiscovery,
+): Promise<Set<CatalogDocKey>> {
+  const valid = new Set<CatalogDocKey>();
+
+  for (const { urlPrefix } of resolved.indexerLocales) {
+    const catalogLocale = catalogLocaleForUrlPrefix(urlPrefix);
+
+    if (resolved.siteCatalog.products) {
+      const records = await loadListingRecords(urlPrefix);
+      for (const record of records) {
+        valid.add(
+          catalogDocKey(
+            "CATALOG_PRODUCT",
+            catalogEntityId("product", record.slug),
+            urlPrefix,
+          ),
+        );
+      }
+    }
+
+    if (resolved.siteCatalog.collections) {
+      const cols = await collectionsDataService.loadAll({ localePrefix: urlPrefix });
+      for (const col of cols) {
+        if (!catalogCollectionSearchProvider.shouldIndex(col)) continue;
+        valid.add(
+          catalogDocKey("CATALOG_COLLECTION", catalogEntityId("pcol", col.slug), urlPrefix),
+        );
+      }
+    }
+
+    if (resolved.siteCatalog.categories) {
+      const dir = localeIndexDir(catalogLocale as "en-us" | "ar-ae");
+      const categoryFile = await readJson<CategoryIndexFile>(join(dir, "category-index.json"));
+      const listing = await readJson<ProductListingIndexFile>(
+        join(dir, "product-listing-index.json"),
+      );
+      const seen = new Set<string>();
+      for (const slug of Object.keys(categoryFile?.categories ?? {})) {
+        if (!slug || seen.has(slug)) continue;
+        seen.add(slug);
+        valid.add(
+          catalogDocKey("CATALOG_CATEGORY", catalogEntityId("pcat", slug), urlPrefix),
+        );
+      }
+      if (listing?.records) {
+        for (const record of listing.records) {
+          for (const cat of record.categories ?? []) {
+            if (!cat || seen.has(cat)) continue;
+            seen.add(cat);
+            valid.add(
+              catalogDocKey("CATALOG_CATEGORY", catalogEntityId("pcat", cat), urlPrefix),
+            );
+          }
+        }
+      }
+    }
+  }
+
+  return valid;
+}
+
+/** Remove stale catalog rows from SearchDocument that no longer exist in JSON indexes. */
+export async function reconcileCatalogSearchIndexes(
+  indexer: SearchIndexer,
+  discovery?: CatalogSearchDiscovery,
+): Promise<{ removed: number }> {
+  const resolved = discovery ?? (await discoverCatalogSearchSources());
+  const valid = await buildValidCatalogDocKeys(resolved);
+  const { prisma } = await import("@/lib/prisma");
+
+  const catalogTypes: Array<"CATALOG_PRODUCT" | "CATALOG_COLLECTION" | "CATALOG_CATEGORY"> = [];
+  if (resolved.siteCatalog.products) catalogTypes.push("CATALOG_PRODUCT");
+  if (resolved.siteCatalog.collections) catalogTypes.push("CATALOG_COLLECTION");
+  if (resolved.siteCatalog.categories) catalogTypes.push("CATALOG_CATEGORY");
+
+  if (catalogTypes.length === 0) return { removed: 0 };
+
+  const localePrefixes = resolved.indexerLocales.map((l) => l.urlPrefix);
+  const existing = await prisma.searchDocument.findMany({
+    where: {
+      entityType: { in: catalogTypes },
+      locale: { in: localePrefixes },
+    },
+    select: { id: true, entityType: true, entityId: true, locale: true },
+  });
+
+  const staleIds: string[] = [];
+  for (const row of existing) {
+    const key = catalogDocKey(row.entityType, row.entityId, row.locale);
+    if (!valid.has(key)) staleIds.push(row.id);
+  }
+
+  if (staleIds.length === 0) return { removed: 0 };
+
+  const batchSize = 500;
+  for (let i = 0; i < staleIds.length; i += batchSize) {
+    const batch = staleIds.slice(i, i + batchSize);
+    await prisma.searchDocument.deleteMany({ where: { id: { in: batch } } });
+  }
+
+  void indexer;
+  return { removed: staleIds.length };
+}
+
+export async function upsertCatalogProductRecord(
+  indexer: SearchIndexer,
+  urlPrefix: string,
+  catalogLocale: string,
+  record: Awaited<ReturnType<typeof loadListingRecords>>[number],
+): Promise<void> {
+  const ctx = { urlPrefix, code: catalogLocale };
+  const catalogIndex = await getProductCatalogIndex(urlPrefix);
+  const entry = catalogIndex.get(record.slug);
+  const source = {
+    ...record,
+    productId: entry?.ruleMeta.id,
+  };
+  const built = catalogProductSearchProvider.buildRecords(source, ctx);
+  await upsertRecords(indexer, built);
+}
+
+export async function removeCatalogProduct(
+  indexer: SearchIndexer,
+  urlPrefix: string,
+  slug: string,
+): Promise<void> {
+  const entityId = catalogEntityId("product", slug);
+  const { prisma } = await import("@/lib/prisma");
+  await prisma.searchDocument.deleteMany({
+    where: {
+      entityType: "CATALOG_PRODUCT",
+      entityId,
+      locale: urlPrefix,
+    },
+  });
+  void indexer;
+}
+
+export async function removeCatalogCollection(
+  indexer: SearchIndexer,
+  urlPrefix: string,
+  slug: string,
+): Promise<void> {
+  const entityId = catalogEntityId("pcol", slug);
+  const { prisma } = await import("@/lib/prisma");
+  await prisma.searchDocument.deleteMany({
+    where: {
+      entityType: "CATALOG_COLLECTION",
+      entityId,
+      locale: urlPrefix,
+    },
+  });
+  void indexer;
 }
 
 async function syncCatalogProducts(

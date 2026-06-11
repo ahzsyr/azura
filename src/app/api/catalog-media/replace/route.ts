@@ -72,6 +72,18 @@ export async function POST(request: Request) {
 
       const { updatedProducts, updatedCollections } = await updateAllCatalogReferences(oldUrl, newUrl);
 
+      if (updatedProducts > 0) {
+        try {
+          const { catalogSyncOrchestrator } = await import(
+            "@/features/catalog/sync/catalog-sync-orchestrator"
+          );
+          const { adminLocale } = await import("@/features/catalog/admin/catalog-admin-config");
+          await catalogSyncOrchestrator.onBulkImportComplete([adminLocale.code]);
+        } catch (e) {
+          console.warn("[catalog-media] index sync after reference update failed", e);
+        }
+      }
+
       delete meta[oldFilename];
       meta[newFilename] = {
         ...(oldEntry ?? { id: newFilename, originalName: file.name, uploadedAt: now }),
@@ -110,6 +122,18 @@ export async function POST(request: Request) {
 
     const newUrl = `/uploads/${subDir}/${newFilename}`;
     const { updatedProducts, updatedCollections } = await updateAllCatalogReferences(oldUrl, newUrl);
+
+    if (updatedProducts > 0) {
+      try {
+        const { catalogSyncOrchestrator } = await import(
+          "@/features/catalog/sync/catalog-sync-orchestrator"
+        );
+        const { adminLocale } = await import("@/features/catalog/admin/catalog-admin-config");
+        await catalogSyncOrchestrator.onBulkImportComplete([adminLocale.code]);
+      } catch (e) {
+        console.warn("[catalog-media] index sync after reference update failed", e);
+      }
+    }
 
     if (meta[oldFilename]) {
       meta[newFilename] = {

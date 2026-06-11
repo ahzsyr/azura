@@ -1,14 +1,14 @@
-import { access, mkdir, readFile, rm, writeFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { access, mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
+import { basename } from "node:path";
 import { NextResponse } from "next/server";
 import type { Product } from "@/features/products/types";
-import { syncSingleProduct } from "@/features/collections/collection-sync.service";
 import {
   catalogLocaleFromParam,
   resolveProductJsonPath,
   localeProductsDir,
 } from "@/features/products/fs/product-fs-scan";
 import { productJsonPath } from "@/features/products/fs/product-fs-paths";
+import { slugFromProductJsonFilename } from "@/features/products/fs/product-fs-parse";
 import { normalizeProductPayload } from "@/features/products/lib/product-payload-normalize";
 import {
   adminLocale,
@@ -20,7 +20,9 @@ import { productsDataService } from "@/features/products/products-data.service";
 import {
   patchProductIndexesAfterDelete,
   patchProductIndexesAfterSave,
+  type CatalogSyncResult,
 } from "@/features/products/index/product-index-patcher";
+import { catalogSyncOrchestrator } from "@/features/catalog/sync/catalog-sync-orchestrator";
 
 function slugify(value: string): string {
   return value
@@ -41,6 +43,24 @@ async function fileExists(path: string): Promise<boolean> {
 
 function parseLocale(raw: string | null): string {
   return resolveConfiguredLocaleCode(raw || "", adminLocale.code);
+}
+
+function formatSyncResponse(sync: CatalogSyncResult | null) {
+  if (!sync) return null;
+  return {
+    ok: sync.ok,
+    indexSync: sync.indexSync,
+    searchSync: sync.searchSync,
+    errors: sync.errors,
+    warnings: sync.warnings,
+    collectionSync: sync.collectionSync
+      ? {
+          matchedCollections: sync.collectionSync.matchedCollections,
+          isOrphan: sync.collectionSync.isOrphan,
+          warnings: sync.collectionSync.warnings,
+        }
+      : null,
+  };
 }
 
 export async function GET(request: Request) {
@@ -99,6 +119,7 @@ export async function POST(request: Request) {
     const body = (await request.json()) as {
       locale?: string;
       slug?: string;
+      originalSlug?: string;
       product?: Product;
     };
 
@@ -122,34 +143,59 @@ export async function POST(request: Request) {
     const product = normalizeProductPayload(body.product, slug);
     const dir = localeProductsDir(catalogLocale);
     await mkdir(dir, { recursive: true });
-    const existingPath = await resolveProductJsonPath(catalogLocale, slug);
+
+    const originalSlugRaw = body.originalSlug ? slugify(body.originalSlug) : "";
+    const existingPath = await resolveProductJsonPath(catalogLocale, originalSlugRaw || slug);
+    const oldSlugFromPath =
+      existingPath != null
+        ? slugFromProductJsonFilename(basename(existingPath))
+        : originalSlugRaw || null;
+    const oldSlug =
+      oldSlugFromPath && oldSlugFromPath !== slug ? oldSlugFromPath : undefined;
+
     const targetPath = existingPath ?? productJsonPath(catalogLocale, slug);
     await writeFile(targetPath, JSON.stringify(product, null, 2), "utf-8");
-    productsDataService.invalidateIndex();
-    try {
-      await patchProductIndexesAfterSave(locale, slug, product);
-    } catch {
-      /* index patch is best-effort */
+
+    if (oldSlug && oldSlug !== slug) {
+      const oldPath = await resolveProductJsonPath(catalogLocale, oldSlug);
+      if (oldPath && oldPath !== targetPath && (await fileExists(oldPath))) {
+        await rm(oldPath);
+      }
     }
 
-    let syncResult = null;
+    let mtimeMs = Date.now();
     try {
-      syncResult = await syncSingleProduct(slug, product);
+      mtimeMs = (await stat(targetPath)).mtimeMs;
     } catch {
-      /* non-blocking */
+      /* ignore */
+    }
+
+    productsDataService.invalidateIndex();
+
+    let sync: CatalogSyncResult | null = null;
+    try {
+      sync = await patchProductIndexesAfterSave(locale, slug, product, {
+        relPath: catalogSyncOrchestrator.relPathFromAbs(targetPath),
+        mtimeMs,
+        oldSlug,
+      });
+    } catch (e) {
+      sync = {
+        ok: false,
+        collectionSync: null,
+        indexSync: null,
+        searchSync: null,
+        errors: [e instanceof Error ? e.message : String(e)],
+        warnings: [],
+      };
     }
 
     return NextResponse.json({
       slug,
       locale,
       product,
-      collectionSync: syncResult
-        ? {
-            matchedCollections: syncResult.matchedCollections,
-            isOrphan: syncResult.isOrphan,
-            warnings: syncResult.warnings,
-          }
-        : null,
+      ...(oldSlug ? { renamedFrom: oldSlug } : {}),
+      sync: formatSyncResponse(sync),
     });
   } catch (e) {
     return NextResponse.json(
@@ -173,15 +219,24 @@ export async function DELETE(request: Request) {
   try {
     const catalogLocale = catalogLocaleFromParam(locale);
     const resolved = await resolveProductJsonPath(catalogLocale, slug);
+    let sync: CatalogSyncResult | null = null;
+
     if (resolved) {
       await rm(resolved);
       productsDataService.invalidateIndex();
       try {
-        await patchProductIndexesAfterDelete(locale, slug);
-      } catch {
-        /* index patch is best-effort */
+        sync = await patchProductIndexesAfterDelete(locale, slug);
+      } catch (e) {
+        sync = {
+          ok: false,
+          collectionSync: null,
+          indexSync: null,
+          searchSync: null,
+          errors: [e instanceof Error ? e.message : String(e)],
+          warnings: [],
+        };
       }
-      return NextResponse.json({ removed: true, slug, locale });
+      return NextResponse.json({ removed: true, slug, locale, sync: formatSyncResponse(sync) });
     }
 
     const flatPath = productJsonPath(catalogLocale, slug);
@@ -189,11 +244,18 @@ export async function DELETE(request: Request) {
       await rm(flatPath);
       productsDataService.invalidateIndex();
       try {
-        await patchProductIndexesAfterDelete(locale, slug);
-      } catch {
-        /* index patch is best-effort */
+        sync = await patchProductIndexesAfterDelete(locale, slug);
+      } catch (e) {
+        sync = {
+          ok: false,
+          collectionSync: null,
+          indexSync: null,
+          searchSync: null,
+          errors: [e instanceof Error ? e.message : String(e)],
+          warnings: [],
+        };
       }
-      return NextResponse.json({ removed: true, slug, locale });
+      return NextResponse.json({ removed: true, slug, locale, sync: formatSyncResponse(sync) });
     }
 
     return NextResponse.json({ error: "Product not found" }, { status: 404 });

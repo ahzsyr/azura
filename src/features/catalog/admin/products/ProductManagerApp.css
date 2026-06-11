@@ -651,6 +651,20 @@
 
 .pm-sync-more { font-size: 12px; color: #6b7280; margin-top: 6px; }
 
+.pm-sync-status {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.pm-sync-status--err {
+  color: #b45309;
+}
+
+.pm-sync-status__err {
+  color: #dc2626;
+}
+
 .pm-sync-inline {
   display: flex;
   align-items: center;

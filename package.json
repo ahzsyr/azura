@@ -54,6 +54,7 @@
     "catalog:copy": "tsx scripts/catalog/copy-astro-data.ts",
     "catalog:copy:force": "tsx scripts/catalog/copy-astro-data.ts --force",
     "catalog:verify": "tsx scripts/catalog/verify-catalog.ts",
+    "search:verify": "tsx scripts/search/verify-search-index.ts",
     "catalog:index": "tsx scripts/catalog/build-product-index.ts",
     "catalog:index:force": "tsx scripts/catalog/build-product-index.ts --force",
     "collections:build-hierarchy": "tsx scripts/collections/build-brt-hierarchy-json.ts",

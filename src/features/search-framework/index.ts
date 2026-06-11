@@ -54,5 +54,11 @@ export {
   type CatalogSearchDiscovery,
 } from "./discovery/catalog-search-discovery";
 export { syncCatalogSearchIndexes } from "./indexer/catalog-index-sync";
+export {
+  removeCatalogProduct,
+  removeCatalogCollection,
+  reconcileCatalogSearchIndexes,
+  upsertCatalogProductRecord,
+} from "./indexer/catalog-index-sync";
 export { CATALOG_SEARCH_PROVIDERS } from "./providers/catalog-providers";
 export * from "./indexing";

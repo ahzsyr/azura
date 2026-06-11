@@ -3,6 +3,7 @@
  */
 import { access, readFile, readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
+import { validateCatalogConsistency } from "@/features/catalog/sync/catalog-validation";
 
 const ROOT = process.cwd();
 
@@ -111,6 +112,18 @@ async function main() {
 
   for (const w of warns) console.log(`WARN: ${w}`);
   for (const e of errors) console.log(`ERROR: ${e}`);
+
+  if (errors.length > 0) process.exit(1);
+
+  const deep = await validateCatalogConsistency();
+  for (const w of deep.warnings) {
+    console.log(`WARN: [${w.code}] ${w.message}`);
+    warns.push(w.message);
+  }
+  for (const e of deep.errors) {
+    console.log(`ERROR: [${e.code}] ${e.message}`);
+    errors.push(e.message);
+  }
 
   if (errors.length > 0) process.exit(1);
   console.log("\nCatalog verification passed.");

@@ -7,6 +7,12 @@ import {
 import { collectionMapFromList } from "@/features/collections/collection-navigation";
 import { collectionDepth } from "@/features/collections/collection-hierarchy";
 import { matchesExact } from "@/features/collections/normalization";
+import {
+  buildCollectionRuleIndex,
+  candidateCollectionSlugsFromIndex,
+  filterCollectionsByCandidates,
+  shouldUseCollectionRuleIndex,
+} from "@/features/collections/collection-rule-index";
 import type { Product as CatalogProduct } from "./types";
 
 export type ProductLinkedTag = { label: string; href?: string };
@@ -47,7 +53,14 @@ export function getCollectionsMatchingProduct(
   localesCols: Collection[],
   options: { includeParents?: boolean } = {},
 ): Collection[] {
-  const directMatches = localesCols.filter((lc) => {
+  let colsToEval = localesCols;
+  if (shouldUseCollectionRuleIndex(localesCols.length)) {
+    const index = buildCollectionRuleIndex(localesCols);
+    const candidates = candidateCollectionSlugsFromIndex(index, engineProduct);
+    colsToEval = filterCollectionsByCandidates(localesCols, candidates);
+  }
+
+  const directMatches = colsToEval.filter((lc) => {
     if (lc.visible === false) return false;
     return matchProductToCollection(engineProduct, localizedToEngineCollection(lc));
   });

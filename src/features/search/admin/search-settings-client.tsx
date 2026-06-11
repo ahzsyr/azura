@@ -62,6 +62,8 @@ export function SearchSettingsAdminClient({
     documentCount: discovery.documentCount,
     documentsByEntityType: discovery.documentsByEntityType ?? {},
   });
+  const [validateFeedback, setValidateFeedback] = useState<string | null>(null);
+  const [validating, setValidating] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
@@ -202,7 +204,7 @@ export function SearchSettingsAdminClient({
           </CardDescription>
         </CardHeader>
         {indexStats.documentCount != null && Object.keys(indexStats.documentsByEntityType).length > 0 ? (
-          <CardContent className="pt-0">
+          <CardContent className="pt-0 space-y-3">
             <ul className="flex flex-wrap gap-2 text-xs text-muted-foreground">
               {(Object.entries(indexStats.documentsByEntityType) as [SearchEntityType, number][])
                 .sort((a, b) => b[1] - a[1])
@@ -215,6 +217,44 @@ export function SearchSettingsAdminClient({
                   </li>
                 ))}
             </ul>
+            <div className="flex flex-wrap items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={validating}
+                onClick={() => {
+                  setValidating(true);
+                  setValidateFeedback(null);
+                  void fetch("/api/catalog/validate?fix=1", { credentials: "include" })
+                    .then((r) => r.json())
+                    .then((j: {
+                      search?: { staleCatalogDocs?: number; warnings?: { message: string }[] };
+                      reconcile?: { removed?: number };
+                    }) => {
+                      const stale = j.search?.staleCatalogDocs ?? 0;
+                      const removed = j.reconcile?.removed ?? 0;
+                      const warn = j.search?.warnings?.[0]?.message;
+                      setValidateFeedback(
+                        removed > 0
+                          ? `Removed ${removed} stale catalog search document(s).`
+                          : stale > 0
+                            ? warn ?? `${stale} stale catalog doc(s) remain.`
+                            : "Catalog and search indexes look consistent.",
+                      );
+                    })
+                    .catch((e) =>
+                      setValidateFeedback(e instanceof Error ? e.message : "Validation failed"),
+                    )
+                    .finally(() => setValidating(false));
+                }}
+              >
+                {validating ? "Validating…" : "Validate index"}
+              </Button>
+              {validateFeedback ? (
+                <span className="text-xs text-muted-foreground">{validateFeedback}</span>
+              ) : null}
+            </div>
           </CardContent>
         ) : null}
       </Card>

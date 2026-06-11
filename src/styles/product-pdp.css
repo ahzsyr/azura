@@ -902,6 +902,26 @@ html[data-header-inset-active="true"] .prd-page:not(:has(.prd-page__chrome-rail)
   font-size: inherit;
 }
 
+[data-product-reviews].prd-reviews--highlight {
+  animation: prd-reviews-highlight 2s ease-out;
+  border-radius: var(--radius-md, 0.5rem);
+}
+
+@keyframes prd-reviews-highlight {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--p, var(--color-primary)) 45%, transparent);
+    background: color-mix(in srgb, var(--p, var(--color-primary)) 8%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 8px transparent;
+    background: color-mix(in srgb, var(--p, var(--color-primary)) 4%, transparent);
+  }
+  100% {
+    box-shadow: none;
+    background: transparent;
+  }
+}
+
 .prd-info__short-desc {
   font-size: clamp(0.78rem, 2.5vw, 0.85rem);
   color: var(--m, var(--muted-foreground));

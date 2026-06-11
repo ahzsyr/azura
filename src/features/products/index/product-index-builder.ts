@@ -465,3 +465,180 @@ export async function buildAllProductIndexes(options?: {
   void legacyProductsDir;
   return manifest;
 }
+
+async function loadExistingListingIndex(
+  locale: CatalogLocale,
+): Promise<ProductListingIndexFile | null> {
+  const path = join(localeIndexDir(locale), "product-listing-index.json");
+  try {
+    return JSON.parse(await readFile(path, "utf-8")) as ProductListingIndexFile;
+  } catch {
+    return null;
+  }
+}
+
+function computePriceBounds(records: IndexedProductListingRecord[]): {
+  min: number;
+  max: number;
+  currency: string;
+} {
+  let priceMin = Infinity;
+  let priceMax = 0;
+  let currency = records[0]?.price.currency ?? "USD";
+  for (const record of records) {
+    if (record.priceMin < priceMin) priceMin = record.priceMin;
+    if (record.priceMax > priceMax) priceMax = record.priceMax;
+    currency = record.price.currency;
+  }
+  if (!Number.isFinite(priceMin)) priceMin = 0;
+  if (priceMax < priceMin) priceMax = priceMin;
+  return { min: priceMin, max: priceMax, currency };
+}
+
+function buildIndexesFromRecords(
+  locale: CatalogLocale,
+  records: IndexedProductListingRecord[],
+  collections: ReturnType<typeof orderCollectionsHierarchy>,
+  signature: string,
+  slugPaths?: Record<string, string>,
+): {
+  listingIndex: ProductListingIndexFile;
+  facetIndex: FacetIndexFile;
+  categoryIndex: CategoryIndexFile;
+  collectionIndex: CollectionIndexFile;
+  searchIndex: SearchTokenIndexFile;
+  slugPathIndex: SlugPathIndexFile;
+} {
+  const { min: priceMin, max: priceMax, currency } = computePriceBounds(records);
+  const listingIndex: ProductListingIndexFile = {
+    version: PRODUCT_INDEX_VERSION,
+    locale,
+    generatedAt: new Date().toISOString(),
+    sourceSignature: signature,
+    currency,
+    priceBounds: { min: priceMin, max: priceMax },
+    records,
+  };
+
+  return {
+    listingIndex,
+    facetIndex: buildFacetIndex(locale, records, collections),
+    categoryIndex: {
+      version: PRODUCT_INDEX_VERSION,
+      locale,
+      categories: buildCategoryIndex(records),
+    },
+    collectionIndex: {
+      version: PRODUCT_INDEX_VERSION,
+      locale,
+      collections: buildCollectionIndex(records),
+    },
+    searchIndex: {
+      version: PRODUCT_INDEX_VERSION,
+      locale,
+      tokens: buildSearchTokens(records),
+    },
+    slugPathIndex: {
+      version: PRODUCT_INDEX_VERSION,
+      locale,
+      paths: slugPaths ?? {},
+    },
+  };
+}
+
+async function writeBuiltIndexes(
+  locale: CatalogLocale,
+  built: ReturnType<typeof buildIndexesFromRecords>,
+  options?: { gzip?: boolean },
+): Promise<void> {
+  const dir = localeIndexDir(locale);
+  await writeJsonAtomic(dir, "product-listing-index.json", built.listingIndex);
+  await writeJsonAtomic(dir, "facet-index.json", built.facetIndex);
+  await writeJsonAtomic(dir, "category-index.json", built.categoryIndex);
+  await writeJsonAtomic(dir, "collection-index.json", built.collectionIndex);
+  await writeJsonAtomic(dir, "search-token-index.json", built.searchIndex);
+  await writeJsonAtomic(dir, "slug-path-index.json", built.slugPathIndex);
+  if (options?.gzip !== false) {
+    await writeGzipCopy(dir, "product-listing-index.json");
+  }
+}
+
+export type PatchLocaleProductIndexOptions = {
+  /** Full rebuild when listing index is missing or corrupt. */
+  forceFull?: boolean;
+  gzip?: boolean;
+  /** Relative path under src/data for slug-path index (on save). */
+  relPath?: string;
+  mtimeMs?: number;
+};
+
+export type PatchLocaleProductIndexResult = {
+  count: number;
+  signature: string;
+  mode: "patch" | "full";
+};
+
+/**
+ * Incrementally update locale product indexes for a single product save or delete.
+ * Falls back to full locale rebuild when no listing index exists.
+ */
+export async function patchLocaleProductIndex(
+  locale: CatalogLocale,
+  localePrefix: string,
+  action: "save" | "delete",
+  slug: string,
+  product?: Product,
+  options?: PatchLocaleProductIndexOptions,
+): Promise<PatchLocaleProductIndexResult> {
+  const prefix = localePrefix ?? (locale === "ar-ae" ? "ar" : "en");
+
+  if (options?.forceFull || (action === "save" && !product)) {
+    const result = await writeLocaleProductIndexes(locale, prefix, { gzip: options?.gzip });
+    return { ...result, mode: "full" };
+  }
+
+  const existing = await loadExistingListingIndex(locale);
+  if (!existing?.records || options?.forceFull) {
+    const result = await writeLocaleProductIndexes(locale, prefix, { gzip: options?.gzip });
+    return { ...result, mode: "full" };
+  }
+
+  const collections = orderCollectionsHierarchy(
+    (await loadCollectionsFromFs(prefix)).filter((c) => c.visible !== false),
+  );
+
+  let records = [...existing.records];
+  const slugKey = slug.toLowerCase();
+  records = records.filter((r) => r.slug.toLowerCase() !== slugKey);
+
+  if (action === "save" && product) {
+    const record = recordFromProduct(product, slug, collections);
+    records.push({
+      ...record,
+      updatedAt: new Date(options?.mtimeMs ?? Date.now()).toISOString(),
+    });
+  }
+
+  records.sort((a, b) => a.slug.localeCompare(b.slug, undefined, { sensitivity: "base" }));
+
+  const slugPathFile = join(localeIndexDir(locale), "slug-path-index.json");
+  let paths: Record<string, string> = {};
+  try {
+    const parsed = JSON.parse(await readFile(slugPathFile, "utf-8")) as SlugPathIndexFile;
+    paths = { ...parsed.paths };
+  } catch {
+    /* fresh paths */
+  }
+
+  if (action === "delete") {
+    delete paths[slug];
+  } else if (action === "save" && options?.relPath) {
+    paths[slug] = options.relPath;
+  }
+
+  const signature = await computeLocaleSignature(locale);
+  const built = buildIndexesFromRecords(locale, records, collections, signature, paths);
+  await writeBuiltIndexes(locale, built, { gzip: options?.gzip });
+
+  return { count: records.length, signature, mode: "patch" };
+}

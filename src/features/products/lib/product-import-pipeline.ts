@@ -325,3 +325,14 @@ export async function runProductImportPipeline(
     results,
   };
 }
+
+export async function finalizeProductImportSync(
+  localesWritten: string[],
+): Promise<void> {
+  const unique = [...new Set(localesWritten.map((l) => l.trim()).filter(Boolean))];
+  if (unique.length === 0) return;
+  const { catalogSyncOrchestrator } = await import(
+    "@/features/catalog/sync/catalog-sync-orchestrator"
+  );
+  await catalogSyncOrchestrator.onBulkImportComplete(unique);
+}

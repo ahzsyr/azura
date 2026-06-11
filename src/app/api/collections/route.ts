@@ -15,15 +15,37 @@ import {
 } from "@/features/collections/collection-sync.service";
 import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
 import { CATALOG_LOCALES, isCatalogLocale } from "@/features/catalog/locales";
-import { rebuildAllCatalogProductIndexes } from "@/features/products/index/product-index-patcher";
+import { catalogSyncOrchestrator } from "@/features/catalog/sync/catalog-sync-orchestrator";
+import { removeCatalogCollection } from "@/features/search-framework/indexer/catalog-index-sync";
+import { frameworkSearchIndexer } from "@/features/search-framework";
+import { getIndexerLocales } from "@/i18n/indexer-locales";
 
 const DATA_DIR = resolve(process.cwd(), "src/data");
 
 async function rebuildProductIndexesAfterCollectionChange(): Promise<void> {
   try {
-    await rebuildAllCatalogProductIndexes();
+    const result = await catalogSyncOrchestrator.onCollectionChanged(true);
+    if (result.jobId) {
+      const { after } = await import("next/server");
+      after(async () => {
+        await catalogSyncOrchestrator.runDeferredJob(result.jobId!);
+      });
+      return;
+    }
   } catch (err) {
     console.warn("[collections] product index rebuild after collection change failed", err);
+  }
+}
+
+async function removeCollectionFromSearch(slug: string): Promise<void> {
+  try {
+    const locales = await getIndexerLocales();
+    for (const { urlPrefix } of locales) {
+      await removeCatalogCollection(frameworkSearchIndexer, urlPrefix, slug);
+    }
+    await frameworkSearchIndexer.syncCatalogIndexes();
+  } catch (err) {
+    console.warn("[collections] search remove after collection delete failed", err);
   }
 }
 
@@ -221,6 +243,7 @@ export async function DELETE(request: Request) {
 
     const next = cols.filter((c) => c.slug !== key && c.id !== key);
     await saveCollections(next);
+    await removeCollectionFromSearch(String(key));
     await rebuildProductIndexesAfterCollectionChange();
     return NextResponse.json({ removedSlug: key });
   } catch (e) {

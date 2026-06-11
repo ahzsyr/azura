@@ -8,6 +8,7 @@ import type { ResolvedProductCtaConfig } from "../../lib/product-cta";
 import type { PdpLabels } from "../../pdp/load-pdp-labels";
 import type { ProductPageSideOrderKey } from "../../lib/product-page-display";
 import { ProductCtaButton } from "./product-cta-button";
+import { ProductReviewsLink } from "./product-reviews-link";
 
 type TagLink = { label: string; href?: string };
 
@@ -58,9 +59,7 @@ export function ProductInfoCore({ product, slug, labels, display }: CoreProps) {
             ★★★★★
           </span>
           <span className="prd-info__rating-value">{reviewRating.toFixed(1)}</span>
-          <button type="button" className="prd-info__review-count" data-scroll-to-reviews>
-            ({reviewCount} {labels.reviews})
-          </button>
+          <ProductReviewsLink reviewCount={reviewCount} reviewsLabel={labels.reviews} />
         </div>
       ) : null}
     </>

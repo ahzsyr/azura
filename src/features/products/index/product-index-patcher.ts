@@ -7,10 +7,12 @@ import {
   writeLocaleProductIndexes,
 } from "@/features/products/index/product-index-builder";
 import type { ProductIndexManifest } from "@/features/products/index/product-index-types";
-import { invalidateProductCatalogIndex } from "@/features/products/fs/product-catalog-index";
 import type { Product } from "@/features/products/types";
 import { revalidateProductListing, revalidateProductSlug } from "@/services/cache";
+import { catalogSyncOrchestrator } from "@/features/catalog/sync/catalog-sync-orchestrator";
 import { frameworkSearchIndexer } from "@/features/search-framework";
+import { invalidateProductCatalogIndex } from "@/features/products/fs/product-catalog-index";
+import { invalidateProductIndexLoaderCache } from "@/features/products/index/product-index-loader";
 
 async function writeJsonAtomic(dir: string, filename: string, data: unknown): Promise<void> {
   const { mkdir, rename } = await import("node:fs/promises");
@@ -40,9 +42,7 @@ async function updateManifest(locale: CatalogLocale, count: number, signature: s
   manifest.generatedAt = new Date().toISOString();
   manifest.counts[locale] = count;
   manifest.signatures[locale] = signature;
-  if (!manifest.locales.includes(locale)) {
-    manifest.locales.push(locale);
-  }
+  if (!manifest.locales.includes(locale)) manifest.locales.push(locale);
 
   await writeJsonAtomic(productsIndexRoot(), "manifest.json", manifest);
 }
@@ -74,6 +74,7 @@ export async function rebuildProductIndexesForLocale(
   const result = await writeLocaleProductIndexes(locale, prefix, { gzip: true });
   await updateManifest(locale, result.count, result.signature);
   invalidateProductCatalogIndex();
+  invalidateProductIndexLoaderCache();
   try {
     await frameworkSearchIndexer.syncCatalogIndexes();
   } catch (err) {
@@ -85,27 +86,30 @@ export async function rebuildProductIndexesForLocale(
 export async function patchProductIndexesAfterSave(
   localePrefix: string,
   slug: string,
-  _product?: Product,
-): Promise<void> {
-  void _product;
-  await rebuildProductIndexesForLocale(localePrefix);
-  revalidateProductListing(localePrefix);
-  revalidateProductSlug(localePrefix, slug);
+  product?: Product,
+  opts?: { relPath?: string; mtimeMs?: number; oldSlug?: string },
+): Promise<CatalogSyncResult> {
+  if (!product) {
+    return catalogSyncOrchestrator.onProductDeleted(localePrefix, slug);
+  }
+  return catalogSyncOrchestrator.onProductSaved(localePrefix, slug, product, opts);
 }
 
 export async function patchProductIndexesAfterDelete(
   localePrefix: string,
   slug: string,
-): Promise<void> {
-  await rebuildProductIndexesForLocale(localePrefix);
-  revalidateProductListing(localePrefix);
-  revalidateProductSlug(localePrefix, slug);
+  opts?: { oldSlug?: string },
+): Promise<CatalogSyncResult> {
+  return catalogSyncOrchestrator.onProductDeleted(localePrefix, slug, opts);
 }
 
 export async function patchProductIndexesFromProduct(
   localePrefix: string,
   slug: string,
   product: Product,
-): Promise<void> {
-  await patchProductIndexesAfterSave(localePrefix, slug, product);
+  opts?: { relPath?: string; mtimeMs?: number; oldSlug?: string },
+): Promise<CatalogSyncResult> {
+  return patchProductIndexesAfterSave(localePrefix, slug, product, opts);
 }
+
+export type { CatalogSyncResult } from "@/features/catalog/sync/catalog-sync-orchestrator";

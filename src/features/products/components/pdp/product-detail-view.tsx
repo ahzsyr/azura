@@ -259,13 +259,14 @@ export async function ProductDetailView({
     ) : null,
     tabs:
       pageCtx.display.tabs.enabled && tabDefs.length > 0 ? (
-        <ProductTabsSection
-          key="tabs"
-          tabs={tabDefs}
-          panels={panels}
-          layoutMode={pageLayout.tabsMode}
-          initialTab={firstTabKey}
-        />
+        <Suspense key="tabs" fallback={<RouteSuspenseFallback />}>
+          <ProductTabsSection
+            tabs={tabDefs}
+            panels={panels}
+            layoutMode={pageLayout.tabsMode}
+            initialTab={firstTabKey}
+          />
+        </Suspense>
       ) : null,
     frequentlyBought: null,
     crossLinks: null,
