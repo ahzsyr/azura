@@ -1,0 +1,383 @@
+{
+  "slug": "mikrotik-cube-60-pro-ac",
+  "id": 3963,
+  "productTitle": "MikroTik Cube 60Pro ac – 60 GHz PtP Bridge with 5 GHz Backup",
+  "name": "MikroTik Cube 60 Pro ac",
+  "title": "MikroTik Cube 60 Pro ac",
+  "title_extended": "MikroTik Cube 60Pro ac – 60 GHz PtP Bridge with 5 GHz Backup",
+  "short_description": "60 GHz 802.11ay, Gigabit Ethernet, Powerful quad-core CPU, 5 GHz failover, TDMA GPS sync",
+  "description": "60 GHz 802.11ay, Gigabit Ethernet, Powerful quad-core CPU, 5 GHz failover, TDMA GPS sync",
+  "detailed_description": [
+    {
+      "heading": "Advanced Hardware and Efficient Operation",
+      "text": "60 GHz solutions offer fiber-like speed and stability - while saving you plenty of time and money on installation and maintenance. The MikroTik Cube 60Pro series leverages the latest advancements in wireless technology to offer a cost-effective alternative to traditional cabling, combining the power of 60 GHz networking with the convenience of wireless solutions."
+    },
+    {
+      "heading": "Performance and Hardware",
+      "text": "The Cube 60Pro ac is a robust point-to-point 60 GHz 802.11ay Customer Premises Equipment (CPE) designed specifically for bridging distances up to 2.4 km. This technology brings the promise of fiber-like speeds and stability without the extensive costs and hassles associated with cable installations. The introduction of the 802.11ay standard in our latest Cube 60Pro product line pushes the boundaries of 60 GHz networking even further, enhancing stability, speed, and user convenience."
+    },
+    {
+      "heading": "Processing Power",
+      "text": "The Cube 60Pro ac is powered by an ARM 32bit IPQ-4019 CPU, which dynamically adjusts its frequency from 448 to 896 MHz depending on the task, ensuring optimal performance without excessive power consumption. The unit includes 256 MB of RAM and 64 MB of FLASH storage, providing substantial capacity to handle complex operations under RouterOS. The system's reliability is further underscored by a mean time between failures (MTBF) of approximately 200,000 hours at 25°C."
+    },
+    {
+      "heading": "Ultra-Fast Point-to-Point Links",
+      "text": "Designed to establish ultra-fast point-to-point connections, the Cube 60Pro ac can comfortably cover distances as far as 1 km with default settings. Furthermore, with added support for Channel 5*, this device can reach even greater distances, and in tests, it has reliably maintained connections over 2.4 km. This makes the Cube 60Pro ac an ideal solution for bridging two separate locations seamlessly and efficiently."
+    },
+    {
+      "heading": "Connectivity Features",
+      "text": "The device supports the 802.11a/n/ac standards on the 5 GHz band, achieving a maximum data rate of 433 Mbit/s. The wireless performance is bolstered by an 11.5 dBi antenna gain, optimizing signal strength and range. The Cube 60Pro ac utilizes a single chain on its Wi-Fi 5 (802.11ac) capable IPQ4019 wireless chip, ensuring efficient data transmission and reception."
+    },
+    {
+      "heading": "Power and Networking Features",
+      "text": "This model is equipped with one Gigabit Ethernet port, facilitating high-speed wired connections. It also supports Power over Ethernet (PoE) with an input voltage range of 18-48 V, compatible with 802.3af/at standards, which simplifies the installation process by allowing both power and data to be carried over a single cable. The device's maximum power consumption is capped at 10 watts, indicative of its energy efficiency. The Cube 60Pro ac also includes GPS functionality, enhancing its utility in applications that require location-based services. Moreover, the device meets several critical international standards, holding certifications from CE, FCC, IC, EAC, and ROHS, ensuring compliance with global regulations and safety standards."
+    },
+    {
+      "heading": "Preconfigured for Ease of Use",
+      "text": "For users seeking immediate deployment, the Cube 60Pro ac is available in a preconfigured kit known as the Wireless Wire Cube Pro. This kit includes two Cube 60Pro ac devices set to automatically form a fast, encrypted wireless connection upon activation. The plug-and-play setup ensures that even users with minimal technical background can quickly establish high-capacity links between locations."
+    },
+    {
+      "heading": "Enhanced Reliability and Backup Options",
+      "text": "Understanding the challenges posed by the 60 GHz frequency, particularly under adverse weather conditions, the Cube 60Pro ac includes an automatic 5 GHz backup connection. This failover capability is supported by a powerful directional antenna, ensuring that the 5 GHz backup can competently maintain connectivity even when the 60 GHz link faces disruption."
+    },
+    {
+      "heading": "Durable and Discreet Design",
+      "text": "The Cube 60Pro ac features an upgraded enclosure with a strong metal base, enhancing both mounting options and cooling efficiency. The compact, cube-shaped form factor is not only practical but also discreet, minimizing visual impact and reducing the chance of unwanted attention and offers an IP54 rating, ensuring protection against dust and water splashes. This design philosophy ensures that the device remains both durable and functional, integrating seamlessly into various outdoor settings, operating within a tested ambient temperature range of -40°C to 70°C.."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Integrated Antennas",
+    "60GHz Wireless",
+    "Antennas"
+  ],
+  "mpn": "CubeG-5ac60ay",
+  "manufacturer_part_number": "CubeG-5ac60ay",
+  "ean": "4752224000071",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3963/2138_hi_res-621be3c42b0e2-medium.jpg",
+        "alt": "MikroTik Cube 60 Pro ac",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3963/2139_hi_res-621be3c56fbf5-medium.jpg",
+        "alt": "MikroTik Cube 60 Pro ac",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/7MNdlO_msPY",
+        "type": "youtube"
+      }
+    ],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - MikroTik Cube 60 Pro ac",
+        "url": "https://www.getic.com/files/catalogue/3963/mikrotik80211ay1_220243-621be7b08403d.pdf"
+      },
+      {
+        "title": "Quick Start Guide - MikroTik Cube 60 Pro ac",
+        "url": "https://help.mikrotik.com/docs/display/QG/Quick+Guide+-+Cube+60Pro+Series"
+      },
+      {
+        "title": "User Manual - MikroTik Cube 60 Pro ac",
+        "url": "https://help.mikrotik.com/docs/display/UM/Wireless+Wire+Cube+Pro%2C+Cube+60Pro+ac"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 119.15,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac, 802.11ay"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz, 60GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Panel"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "60 - 65 (GHz) 11 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "4 core IPQ-4019 716 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "256 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "64 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "18 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "13 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.8 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "115 x 95 x 82 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 4"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Cube 60 Pro ac",
+      "url": "https://www.getic.com/files/catalogue/3963/mikrotik80211ay1_220243-621be7b08403d.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik Cube 60 Pro ac",
+      "url": "https://help.mikrotik.com/docs/display/QG/Quick+Guide+-+Cube+60Pro+Series"
+    },
+    {
+      "title": "User Manual - MikroTik Cube 60 Pro ac",
+      "url": "https://help.mikrotik.com/docs/display/UM/Wireless+Wire+Cube+Pro%2C+Cube+60Pro+ac"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 25.85,
+        "days": 18
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 34.71,
+        "days": 5
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "days": 2
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik PowerBox Pro",
+      "url": "/product/powerbox-pro",
+      "price": 88.22,
+      "currency": "USD",
+      "mpn": "RB960PGS-PB",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik hEX S",
+      "url": "/product/routerboard-hex-s",
+      "price": 53.10,
+      "currency": "USD",
+      "mpn": "RB760iGS",
+      "availability": "InStock",
+      "old_price": 65.22,
+      "discount_percent": 19
+    },
+    {
+      "name": "MikroTik CubeSA 60 Pro ac",
+      "url": "/product/mikrotik-cubesa-60-pro-ac",
+      "price": 159.25,
+      "currency": "USD",
+      "mpn": "CubeG-5ac60ay-SA",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB5009UPr+S+IN",
+      "url": "/product/mikrotik-rb5009upr-s-in",
+      "price": 239.45,
+      "currency": "USD",
+      "mpn": "RB5009UPr+S+IN",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "CE",
+    "FCC",
+    "IC",
+    "EAC",
+    "ROHS"
+  ],
+  "stock_stat": ""
+}

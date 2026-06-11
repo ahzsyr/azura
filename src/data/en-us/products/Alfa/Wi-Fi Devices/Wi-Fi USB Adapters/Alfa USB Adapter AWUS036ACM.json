@@ -1,0 +1,387 @@
+{
+  "slug": "alfa-awus036acm",
+  "id": "2879",
+  "productTitle": "Alfa USB Adapter AWUS036ACM",
+  "name": "Alfa USB Adapter AWUS036ACM",
+  "title": "Alfa USB Adapter AWUS036ACM",
+  "title_extended": "Alfa AWUS036ACM USB WiFi Adapter – Dual-Band AC1200 High Power",
+  "short_description": "Dual-band 2.4/5GHz 802.11ac WiFi USB adapter, 5dBi antenna, chipset MediaTek MT7612U.",
+  "description": "The Alfa AWUS036ACM USB adapter is a high-speed device engineered to leverage the 802.11ac WiFi standard, providing robust wireless connectivity for demanding internet activities. It supports dual-band operation with speeds up to 300 Mbps on the 2.4 GHz band and up to 867 Mbps on the 5 GHz band. The integration of the MediaTek MT7612U chipset underpins its performance, ensuring reliable and efficient WiFi communication. The device's capability to operate across a wide frequency range, from 2.412 GHz to 2.472 GHz and 5.15 GHz to 5.825 GHz, coupled with channel widths of 20, 40, and 80 MHz, allows for versatile and broad network compatibility. This flexibility facilitates optimal bandwidth usage, catering to various online activities from HD video streaming to extensive data transfers.",
+  "detailed_description": [
+    {
+      "heading": "Broad Network Compatibility",
+      "text": "The Alfa AWUS036ACM USB adapter is a high-speed device engineered to leverage the 802.11ac WiFi standard, providing robust wireless connectivity for demanding internet activities. It supports dual-band operation with speeds up to 300 Mbps on the 2.4 GHz band and up to 867 Mbps on the 5 GHz band. The integration of the MediaTek MT7612U chipset underpins its performance, ensuring reliable and efficient WiFi communication. The device's capability to operate across a wide frequency range, from 2.412 GHz to 2.472 GHz and 5.15 GHz to 5.825 GHz, coupled with channel widths of 20, 40, and 80 MHz, allows for versatile and broad network compatibility. This flexibility facilitates optimal bandwidth usage, catering to various online activities from HD video streaming to extensive data transfers."
+    },
+    {
+      "heading": "Optimized Workspace with Improved Usability",
+      "text": "Featuring two detachable external antennas with 5dBi gain each, the AWUS036ACM is designed for superior range and signal penetration. These antennas are equipped with RP-SMA female connectors, enabling easy customization or replacement to fit specific networking requirements. The adapter's enhanced signal capability is adept at navigating physical obstructions and mitigating WiFi dead zones within various environments."
+    },
+    {
+      "heading": "Stable Wireless Communication",
+      "text": "The AWUS036ACM's use of USB 3.0 technology ensures high-speed data transfer between the adapter and the host device, minimizing connection latency and maintaining stable wireless communication. The adapter's LED indicators provide immediate feedback on power status and WLAN activity, aiding in network management and troubleshooting."
+    },
+    {
+      "heading": "Operating System Compatibility",
+      "text": "Operating system compatibility extends to a broad spectrum, including Windows 2000 through Windows 10, Mac OS X 10.7 to 10.12, and various Linux distributions. This ensures that the AWUS036ACM can integrate seamlessly with a wide range of computer systems. Additionally, the adapter supports multiple wireless security protocols, including WEP, WPA, WPA2, and WPA Mixed, ensuring that the wireless network remains secure against unauthorized access."
+    }
+  ],
+  "brand": "Alfa Network",
+  "category": "WiFi USB Adapters",
+  "categories": [
+    "WiFi USB Adapters",
+    "Wi-Fi USB Adapters",
+    "Alfa",
+    "Wi-Fi Devices"
+  ],
+  "mpn": "AWUS036ACM",
+  "manufacturer_part_number": "AWUS036ACM",
+  "ean": "4718050307371",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2879/036acm_device1-60f12b83d5ab0-medium.jpg",
+        "alt": "Alfa USB Adapter AWUS036ACM",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2879/036acm_devicefront-60f12b82c620e-medium.jpg",
+        "alt": "Alfa USB Adapter AWUS036ACM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2879/awus036acm_connectors-60f12b873c28a-medium.jpg",
+        "alt": "Alfa USB Adapter AWUS036ACM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2879/awus036acm_kit1-60f12b884c08c-medium.jpg",
+        "alt": "Alfa USB Adapter AWUS036ACM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2879/awus036acm_boxfront-60f12b8618867-medium.jpg",
+        "alt": "Alfa USB Adapter AWUS036ACM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2879/awus036acm_boxback-60f12b84df225-medium.jpg",
+        "alt": "Alfa USB Adapter AWUS036ACM",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 34.45,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "300 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "867 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.412 - 2.483 (GHz) 5 (dBi), 5.1 - 5.9 (GHz) 5 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "360 °"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "USB Ports"
+      ],
+      "items": [
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 3.0"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "Output Power"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "MT7612U"
+        },
+        {
+          "name": "Output Power",
+          "value": "Up to 23 dBm"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "85 x 26 x 12 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.06 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Alfa USB Adapter AWUS036ACM",
+      "url": "https://www.getic.com/files/catalogue/2879/alfa_awus036acm-637232863ba2a.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.5,
+    "count": 11,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 82,
+      "great": 9,
+      "average": 0,
+      "poor": 0,
+      "bad": 9
+    },
+    "breakdown": {
+      "5_star": 9,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 1
+    },
+    "comments": [
+      {
+        "name": "Erika",
+        "date": "2025-12-08",
+        "text": "Premise: the product was second hand\nIt works great, also under extreme pressure, multichannel injection (max dB) while monitoring etc. \nThe legend wants that this dongle is plug and play, because the mediatek driver is native in the Linux kernel. Well, the legend is true. But if you want to use it at best you have to keep in mind two things: \n1 - The USB 3.0 produce an interference right on the spectrum of the 2.4 gHz, so you have to use an extension \n\n2 - If you want to scream in the ear of the antennas you have to check your country network laws \n\n**The only flaw** \nThe led is not working, but that's not so important \n\nThank you Getic! \nThis antenna was impossible to find",
+        "photos": []
+      },
+      {
+        "name": "Pekka",
+        "date": "2025-10-17",
+        "text": "Does what it says",
+        "photos": []
+      },
+      {
+        "name": "Melinda",
+        "date": "2025-05-15",
+        "text": "A truly excellent shop!",
+        "photos": []
+      },
+      {
+        "name": "Fariad",
+        "date": "2024-12-30",
+        "text": "Not capable with the latest MacOS 15!",
+        "photos": []
+      },
+      {
+        "name": "Dimitar",
+        "date": "2024-05-13",
+        "text": "Good adapter, works out of the box on modern Linux kernels.",
+        "photos": []
+      },
+      {
+        "name": "Mjasnik",
+        "date": "2023-09-28",
+        "text": "I specifically chose Alfa and this card for quality, I had spent way too much time (and money) fiddling with multiple, lets say - cheap, cards from other brands in the hope they will work as I want, I won’t do that anymore to the best of my abilities…\n\nAlfa just works from the moment I plugged it in and does exactly what I bought it for!",
+        "photos": []
+      },
+      {
+        "name": "Dieter",
+        "date": "2023-08-19",
+        "text": "This one was bought to work with a WiFi Pineapple in the 5 GHz Band. This works out of the Box.\nAlso allows Wireshark captures from a PC.",
+        "photos": []
+      },
+      {
+        "name": "Andreas",
+        "date": "2023-06-09",
+        "text": "Guter WiFi Adapter basierend auf etabliertem und vollkompatiblem Chipsatz.",
+        "photos": []
+      },
+      {
+        "name": "Mikko",
+        "date": "2023-05-17",
+        "text": "Good for older laptots to upgrade wiri connection\n",
+        "photos": []
+      },
+      {
+        "name": "Thorsten",
+        "date": "2023-04-19",
+        "text": "Works out of the box on Arch Linux with a 6.2.x kernel (I'm only using it as an ordinary wifi network interface)",
+        "photos": []
+      },
+      {
+        "name": "IKW",
+        "date": "2022-10-09",
+        "text": "This works \"out of the box\" with Linux Mint which is why I bought it. I also works well with Windows, but the installation is more complicated, but the instructions are clear.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Alfa USB Adapter AWUS1900",
+      "url": "/product/alfa-awus1900",
+      "price": 46.14,
+      "currency": "USD",
+      "mpn": "AWUS1900",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACH v.2",
+      "url": "/product/alfa-awus036ach-c",
+      "price": 47.58,
+      "currency": "USD",
+      "mpn": "AWUS036ACH-C",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACHM",
+      "url": "/product/alfa-awus036achm",
+      "price": 32.42,
+      "currency": "USD",
+      "mpn": "AWUS036ACHM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACS",
+      "url": "/product/alfa-awus036acs-nc",
+      "price": 20.49,
+      "currency": "USD",
+      "mpn": "AWUS036ACS",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": "in_stock"
+}

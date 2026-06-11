@@ -1,0 +1,305 @@
+{
+  "slug": "mikrotik-sxtsq-5-ax",
+  "id": "5921",
+  "productTitle": "MikroTik SXTsq 5 ax",
+  "name": "MikroTik SXTsq 5 ax",
+  "title": "MikroTik SXTsq 5 ax",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "High-Speed Outdoor Wi-Fi 6",
+      "text": "The MikroTik SXTsq 5 ax represents the next evolution in compact outdoor CPE design, now enhanced with Wi-Fi 6 (802.11ax) technology operating in the 5 GHz band. It retains the proven, weather-resistant form factor of the previous SXTsq models while significantly boosting performance, range, and reliability. Powered by a modern dual-core ARM processor running at 800 MHz and paired with 256 MB of RAM, the device ensures fast packet processing and efficient multitasking in busy wireless environments. The SXTsq 5 ax is engineered for high-performance wireless links, with a 16 dBi directional antenna supporting over 10 km in clear line-of-sight conditions and up to 3 km in dense urban interference. Despite the upgrade in wireless capabilities, it remains cost-effective and accessible."
+    },
+    {
+      "heading": null,
+      "text": "The SXTsq 5 ax includes a RouterOS Level 4 license, which unlocks advanced configuration capabilities beyond basic client operations. In addition to functioning as a high-performance CPE, the device can be configured as an Access Point, enabling flexible wireless infrastructure layouts. RouterOS provides a broad range of tools for network management, including firewall configuration, VPN support, bandwidth control, and detailed traffic monitoring. This flexibility makes the SXTsq 5 ax suitable for small business deployments or WISPs. With Wi-Fi 6 support, it delivers improved spectral efficiency, reduced latency, and higher throughput, particularly in environments with multiple devices or high levels of interference."
+    },
+    {
+      "heading": "Efficient and High-Performance Design",
+      "text": "The SXTsq 5 ax maintains a compact footprint, ideal for installations where space, visibility, or aesthetic impact is a concern. It features a single 10/100/1000 Mbps Ethernet port for high-speed wired connectivity, ensuring optimal performance when connected to your core network. The integrated 16 dBi directional antenna offers enhanced link quality and signal strength, enabling reliable connections even over long distances. This makes it especially well-suited for PtP and PtMP topologies in both rural and urban environments. Its 802.11a/n/ac/ax support ensures backward compatibility with older equipment, while delivering the benefits of next-generation wireless performance. For installers, IT admins, and service providers looking for a reliable, future-proof outdoor wireless solution, the MikroTik SXTsq 5 ax offers an exceptional balance of features, durability, and value."
+    },
+    {
+      "heading": null,
+      "text": "The SXTsq 5 ax has a robust, UV-resistant plastic enclosure designed to endure a wide range of environmental conditions, from intense sun exposure to heavy rain. It is compact and lightweight, making it easy to install in space-restricted scenarios. The enclosure supports three different hose clamp mounting positions, including a specialized option for horizontal railings, providing greater flexibility for placement on rooftops, towers, and masts. Its durability makes SXTsq 5 ax a reliable choice for outdoor infrastructure deployments, including ISPs, surveillance backhauls, and remote access points. The device also supports Passive PoE-in (10-28V) via Gigabit Ethernet port, allowing for simplified cabling and seamless integration into existing network infrastructure. Consuming only up to 7 watts, the device is designed for energy-efficient operation."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Integrated Antennas",
+    "Outdoor Wireless",
+    "MikroTik",
+    "Wireless Systems",
+    "SXT & DiscLite"
+  ],
+  "mpn": "SXTsq-5axD",
+  "manufacturer_part_number": "SXTsq-5axD",
+  "ean": "4752224009494",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "US",
+    "UK"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5921/1-67ff3b7b65d8d-medium.jpg",
+        "alt": "MikroTik SXTsq 5 ax",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5921/2-67ff3b813d397-medium.jpg",
+        "alt": "MikroTik SXTsq 5 ax",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5921/1-67ff3b7b65d8d-tiny.jpg",
+        "alt": "MikroTik SXTsq 5 ax"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5921/2-67ff3b813d397-tiny.jpg",
+        "alt": "MikroTik SXTsq 5 ax"
+      }
+    ],
+    "videos": null,
+    "files": [],
+    "3d_model": null
+  },
+  "price": {
+    "value": 53.37,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "US",
+        "UK"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 6" },
+        { "name": "Standards", "value": "802.11n/ac/ax" },
+        { "name": "Frequency", "value": "5GHz" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        { "name": "Antenna Design", "value": "Panel" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "5.150 - 5.875 (GHz) 16 (dBi)" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 1 Gbps" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "Dual-Core IPQ-5010 800 MHz" },
+        { "name": "RAM", "value": "256 MB" },
+        { "name": "Storage Memory", "value": "128 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "AC/DC Adapter, 24V Passive PoE" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Supported Input Voltage", "value": "12 - 28 V DC" },
+        { "name": "Max Power Consumption", "value": "6 W" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 0.38 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        { "name": "Color", "value": "White" },
+        { "name": "Material", "value": "Plastic" },
+        { "name": "Dimensions", "value": "129 x 129 x 34 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Outdoor" },
+        { "name": "Mounting Method", "value": "Pole Mount" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 4" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik SXTsq 5 ax",
+      "url": "https://www.getic.com/files/catalogue/5921/sxtsq5ax-67ff3b66e5170.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "days": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.44,
+        "days": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "days": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Nikos",
+        "date": "2025-05-16",
+        "text": "Fast, good packaging also 2 pencils.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax2",
+      "url": "/product/mikrotik-hap-ax2",
+      "price": 80.20,
+      "currency": "USD",
+      "mpn": "C52iG-5HaxD2HaxD-TC",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik mANTBox ax 15s",
+      "url": "/product/mikrotik-mantbox-ax-15s",
+      "price": 145.50,
+      "currency": "USD",
+      "mpn": "L22UGS-5HaxD2HaxD-15S",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq-mount",
+      "url": "/product/mikrotik-sxtsq-mount",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "SXTsq-mount",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": "318"
+}

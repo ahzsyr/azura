@@ -1,0 +1,352 @@
+{
+  "slug": "ubiquiti-unifi-dream-machine-special-edition",
+  "id": "4072",
+  "productTitle": "Ubiquiti UniFi Dream Machine Special Edition",
+  "name": "Ubiquiti UniFi Dream Machine Special Edition",
+  "title": "Ubiquiti UniFi Dream Machine Special Edition",
+  "title_extended": "Ubiquiti UniFi Dream Machine Special Edition – All-in-One Router with PoE & UniFi OS",
+  "short_description": "1.7 GHz quad-core processor, 10G SFP+ and 2.5GbE RJ45 WAN Ports, (8) GbE RJ45 ports, (1) 10G SFP+ LAN port, 1.3\" LCM color touchscreen, 802.3at/af PoE support",
+  "description": "Enterprise-grade UniFi OS Console with high-speed dual-WAN connectivity (10G SFP+ and 2.5GbE RJ45), Gigabit PoE switch, network video recorder with 128 GB internal storage, integrated Bluetooth for easy setup, and full UniFi OS application support.",
+  "detailed_description": [
+    {
+      "heading": "All-in-one router and security gateway with an integrated PoE switch and network video recorder.",
+      "text": "The Dream Machine Special Edition (UDM SE) is an enterprise-grade UniFi OS Console capable of helping home and business owners alike seamlessly scale and manage their networks with high-speed, dual-WAN connectivity (10G SFP+ and 2.5GbE RJ45 ports), a Gigabit, PoE switch, and a network video recorder (NVR) with 128 GB of internal storage. Powered by UniFi OS, the UDM SE gives you full control of all your UniFi devices, including access points, Protect cameras, Talk phones, and Access readers. It's also a future-proof console since it will be able to run all upcoming UniFi OS applications. Engineered for end-to-end simplicity, the UDM SE features an integrated Bluetooth radio that streamlines the initial setup and configuration process, which can be completed in minutes with the UniFI Network application (web or mobile)."
+    },
+    {
+      "heading": "Full UniFi OS Integration",
+      "text": "UniFi Dream Machine Special Edition runs current and future UniFi OS applications from a single, intuitive interface, providing remote access to your network from anywhere with the UniFi OS Portal. Tailor user, role, and group-level network use with a robust slate of management features."
+    },
+    {
+      "heading": "Seamless Network Integration",
+      "text": "For traffic processing in UniFi Dream Machine Special Edition is responsible for a quad-core processor, built on ARM Cortex-A57 with a frequency of 1.7 GHz. The amount of RAM is 4 gigabytes of DDR 4, which allows the model to effectively cope with the task of traffic routing and network management. In addition, UniFi Dream Machine Special Edition has 16 GB of on-board eMMC memory and 128 GB of on-board SSD storage for full operation of UniFi OS applications. UniFi Dream Machine Special Edition is based on the existing UDM Pro with a few new additions. Most notable is the upgrade to 2.5 Gigabit Ethernet, which provides improved connectivity. While the device still has eight Gigabit Ethernet ports, the SE version features PoE support to deliver up to 130W of power to connected cameras or access points. As before, the main feature of UniFi Dream Special Edition is maximum versatility. The model combines everything you need to route traffic, as well as for its switching and management of any product line UniFi, including video surveillance networks. The server running on the UniFi OS has on board pre-installed software products UniFi Controller / UniFi Protect."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Wired Routers",
+  "categories": [
+    "UniFi Cloud Gateways",
+    "Large Scale"
+  ],
+  "mpn": "UDM-SE",
+  "manufacturer_part_number": "UDM-SE",
+  "ean": "0810010077769",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4072/udmse_1-627b98aca93fe-medium.jpg",
+        "alt": "Ubiquiti UniFi Dream Machine Special Edition",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4072/udmse_2-627b98b1b2ee7-medium.jpg",
+        "alt": "Ubiquiti UniFi Dream Machine Special Edition",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4072/udmse_3-627b98b64dd68-medium.jpg",
+        "alt": "Ubiquiti UniFi Dream Machine Special Edition",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4072/udmse_4-627b98bab204c-medium.jpg",
+        "alt": "Ubiquiti UniFi Dream Machine Special Edition",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4072/udm_se_datasheet-627a4b904b62b.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti UniFi Dream Machine Special Edition"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/4072/udminstallationguide-627a4b9cc4a79.pdf",
+        "title": "Installation Guide - Ubiquiti UniFi Dream Machine Special Edition"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 487.24,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(8) 1 Gbps, (1) 2.5 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "8 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE), 802.3at (PoE+)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory",
+        "Hard Drive Bay",
+        "Hard Drive"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-Core ARM® Cortex ® - A57 at 1.7 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "4 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 GB"
+        },
+        {
+          "name": "Hard Drive Bay",
+          "value": "(1) 3.5\" SATA"
+        },
+        {
+          "name": "Hard Drive",
+          "value": "Not Included"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, USP RPS DC input"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "50 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Material",
+          "value": "Galvanized steel, Aluminium"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442.4 x 43.7 x 285.6 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "4.95 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Dream Machine Special Edition",
+      "url": "https://www.getic.com/files/catalogue/4072/udm_se_datasheet-627a4b904b62b.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti UniFi Dream Machine Special Edition",
+      "url": "https://www.getic.com/files/catalogue/4072/udminstallationguide-627a4b9cc4a79.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.8,
+    "count": 4,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 75,
+      "great": 25,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 3,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "alon97i",
+        "date": "2026-02-08",
+        "text": "very good",
+        "photos": []
+      },
+      {
+        "name": "Anna",
+        "date": "2023-10-06",
+        "text": "Good product",
+        "photos": []
+      },
+      {
+        "name": "Vladimir",
+        "date": "2023-10-06",
+        "text": "Excellent router and wi-fi controller",
+        "photos": []
+      },
+      {
+        "name": "T-Prod",
+        "date": "2023-09-06",
+        "text": "Works like promised",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "/product/usw-lite-8-poe-eu",
+      "price": 110.98,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6 Pro",
+      "url": "/product/unifi-6-pro-access-point",
+      "price": 143.95,
+      "currency": "USD",
+      "mpn": "U6-Pro",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 175.12,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "In stock"
+}

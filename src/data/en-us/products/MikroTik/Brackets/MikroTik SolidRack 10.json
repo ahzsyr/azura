@@ -1,0 +1,228 @@
+{
+  "slug": "mikrotik-rack-holder",
+  "id": "3807",
+  "productTitle": "MikroTik SolidRack 10",
+  "name": "MikroTik SolidRack 10",
+  "title": "MikroTik SolidRack 10",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Detailed description",
+      "text": "The MikroTik SolidRack 10, designated as SR-10U, is a robust and versatile 10U server cabinet designed specifically for housing and organizing MikroTik routers, switches, and other network equipment in a secure and structured manner. Ideal for both small business setups and larger enterprises, this rack unit provides a professional-grade solution for IT environments requiring high-density equipment installations. Mount it under the table or put it on the table. You can even attach a multi-plug extension cord to the back of this sturdy and lightweight  rack."
+    },
+    {
+      "heading": "Detailed description",
+      "text": "Compatible with all MikroTik (and other vendor!) devices that would fit in a standard 19” rack. But there’s more! With the small K-79 accessory kit, you can fit up to four RB5009UG+S+IN routers in a single 1U rackmount space, or up to 40 routers in total!"
+    },
+    {
+      "heading": "Detailed description",
+      "text": "The SolidRack 10 is designed for quick and easy assembly. It comes with all necessary mounting hardware and has adjustable mounting rails to accommodate different device depths, making it highly versatile for various installation needs. The package includes screws for 10 devices, as well as nuts and screws for mounting the rack itself. While this is not a revolutionary product, it can make the lives of system administrators, engineers, and testers a little easier."
+    },
+    {
+      "heading": "Detailed description",
+      "text": "The rack is finished with a professional-grade, black powder coating that not only adds to its durability but also provides a sleek, unobtrusive look that blends well in any server room or data center. Mount it under the table or put it on the table. You can even attach a multi-plug extension cord to the back of this sturdy and lightweight rack."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Mounts and Brackets",
+  "categories": [
+    "Mounts and Brackets",
+    "Brackets"
+  ],
+  "mpn": "SR-10U",
+  "manufacturer_part_number": "SR-10U",
+  "ean": "4752224008329",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3807/2107_hi_res-617d373f4a60b-medium.jpg",
+        "alt": "MikroTik SolidRack 10 front view",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/Zyw0HT7YEnM",
+        "type": "youtube"
+      }
+    ],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/3807/rackholdersr10u1-6172c4471d6df.pdf",
+        "type": "pdf",
+        "title": "Technical Specs / Datasheet - MikroTik SolidRack 10"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 45.73,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Number of Rack Units",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Number of Rack Units",
+          "value": "10U"
+        },
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Dimensions",
+          "value": "318 x 511 x 507 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.85 kg"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik SolidRack 10",
+      "url": "https://www.getic.com/files/catalogue/3807/rackholdersr10u1-6172c4471d6df.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 41.80,
+        "currency": "USD",
+        "days": 5
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 52.59,
+        "currency": "USD",
+        "days": 2
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 50,
+      "great": 50,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Matthew",
+        "date": "2023-04-08",
+        "text": "Nice construction. The only thing is that it is a bit fiddly to get the nuts into the profile with the rubber insert in place but it is a good idea which you get the benefit from later when using it. The quality is good and the value for money, when compared to other racks, is good.",
+        "rating": 4,
+        "photos": []
+      },
+      {
+        "name": "Dimitris",
+        "date": "2022-11-18",
+        "text": "Excellent quality product",
+        "rating": 5,
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "19\" PDU Panel 9-port(EU), EU plug",
+      "url": "/product/19-1u-9v-power-socket-eu",
+      "price": 23.98,
+      "currency": "USD",
+      "mpn": "PDU09S",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Rackmount kit for RB5009/L009 series",
+      "url": "/product/mikrotik-kit-k79",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "K-79",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB5009UPr+S+IN",
+      "url": "/product/mikrotik-rb5009upr-s-in",
+      "price": 239.45,
+      "currency": "USD",
+      "mpn": "RB5009UPr+S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Rackmount Kit",
+      "url": "/product/mikrotik-rackmount-kit",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "RMK-2/10",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

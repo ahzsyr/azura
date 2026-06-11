@@ -1,0 +1,265 @@
+{
+  "slug": "alfa-wi-fi-6e-pcie-card-with-magnetic-antenna",
+  "id": "AIT-AX210-EX",
+  "productTitle": "Alfa Wi-Fi 6E PCIe Card with Magnetic Antenna",
+  "name": "Alfa Wi-Fi 6E PCIe Card with Magnetic Antenna",
+  "title": "Alfa Wi-Fi 6E PCIe Card with Magnetic Antenna",
+  "title_extended": "Alfa WiFi 6E PCIe Card – Tri-Band AXE Adapter with Magnetic Antenna",
+  "short_description": "Intel AX210 WiFi 6E and BT5 Module, PCIe ×1 Interface, 2× Tri-band Dipole 5dBi Antenna, Magnetic Antenna Stand",
+  "description": "Intel AX210 WiFi 6E and BT5 Module, PCIe ×1 Interface, 2× Tri-band Dipole 5dBi Antenna, Magnetic Antenna Stand",
+  "detailed_description": [
+    {
+      "heading": null,
+      "text": "The AIT-AX210-EX is a WiFi 6E and Bluetooth 5 PCIe card based on the Intel AX210 module, designed for desktop PCs with a PCIe ×1 interface. It is equipped with dual RP-SMA female magnetic antenna stand with 2m long RG-174 RF cable."
+    },
+    {
+      "heading": null,
+      "text": "AIT-AX210-EX supports the latest WiFi 6E (IEEE 802.11ax) with special features like OFDMA, 1024QAM and MU-MIMO. Module includes also Bluetooth 5.2, is backward compatible and operates in 2.4, 5 and 6 GHz bands."
+    },
+    {
+      "heading": null,
+      "text": "AIT-AX210-EX card has PCIe ×1 interface, which allows using this set in any desktop PC equipped with PCIe ×1, ×4, ×8 or ×16 slot."
+    }
+  ],
+  "brand": "Alfa Network",
+  "category": "Network Cards",
+  "categories": [
+    "Alfa",
+    "Ethernet Devices",
+    "Network Cards"
+  ],
+  "mpn": "AIT-AX210-EX",
+  "manufacturer_part_number": "AIT-AX210-EX",
+  "ean": "4718050308088",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3941/alfa_aitax210ex_prod_01-61e1834428abe-medium.jpg",
+        "alt": "Alfa Wi-Fi 6E PCIe Card with Magnetic Antenna",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3941/alfa_aitax210ex_prod_02-61e18343a1122-medium.jpg",
+        "alt": "Alfa Wi-Fi 6E PCIe Card with Magnetic Antenna",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 43.38,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz, 6GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "2.4 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Cable Length",
+          "value": "2 m"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "Management",
+        "PCI Express",
+        "Bluetooth"
+      ],
+      "items": [
+        {
+          "name": "Management",
+          "value": "Wi-Fi, Bluetooth"
+        },
+        {
+          "name": "PCI Express",
+          "value": "(1) M.2 PCIe Slot"
+        },
+        {
+          "name": "Bluetooth",
+          "value": "5.2"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Intel AX210NGW"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Mounting Method",
+          "value": "Magnetic"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Alfa Wi-Fi 6E PCIe Card with Magnetic Antenna",
+      "url": "https://www.getic.com/files/catalogue/3941/alfanetwork_aitax210ex_latest-6385ddc9c321a.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "4G LTE 9dBi Indoor Dual Omni Antenna TS9 3m",
+      "url": "/product/3g4g-lte-9dbi-indoor-dual-omni-antenna-ts9-3m",
+      "price": 18.54,
+      "currency": "USD",
+      "mpn": "LTE-9IN-TS9",
+      "availability": "InStock"
+    },
+    {
+      "name": "Huawei E5783B-230a LTE7 Mobile WiFi Black",
+      "url": "/product/huawei-e5783b-230a-black",
+      "price": 56.35,
+      "currency": "USD",
+      "mpn": "E5783B-230a",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACS",
+      "url": "/product/alfa-awus036acs-nc",
+      "price": 20.49,
+      "currency": "USD",
+      "mpn": "AWUS036ACS",
+      "availability": "InStock"
+    },
+    {
+      "name": "Milesight 4G Industrial Router UR32 Lite PoE",
+      "url": "/product/milesight-4g-industrial-router-ur32-lite-poe",
+      "price": 123.30,
+      "currency": "USD",
+      "mpn": "UR32L-L04EU-P",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

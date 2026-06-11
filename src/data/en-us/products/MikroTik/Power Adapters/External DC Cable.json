@@ -1,0 +1,187 @@
+{
+  "slug": "external-dc-cable",
+  "id": 4312,
+  "productTitle": "External DC Cable",
+  "name": "External DC Cable",
+  "title": "External DC Cable",
+  "title_extended": "",
+  "short_description": "DC cable, 35cm length, DC Plug 2.1 x 5.5 mm",
+  "description": "This is a power supply cable with a standard DC plug 2.1 x 5.5 mm that is suitable for Mikrotik devices. The cable is 35cm long and has a stripped insulation on the end. It could be connected directly to the terminal block of the external power source with a voltage 8-30V.",
+  "detailed_description": [
+    {
+      "heading": "Description",
+      "text": "This is a power supply cable with a standard DC plug 2.1 x 5.5 mm that is suitable for Mikrotik devices. The cable is 35cm long and has a stripped insulation on the end. It could be connected directly to the terminal block of the external power source with a voltage 8-30V."
+    }
+  ],
+  "brand": "OEM",
+  "category": "Power Cords",
+  "categories": [
+    "Power Cords"
+  ],
+  "mpn": "EDCC",
+  "manufacturer_part_number": "EDCC",
+  "ean": "0708747441024",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4312/4-63fc59bc24209-medium.jpg",
+        "alt": "External DC Cable",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4312/1-63f8b23fcebef-medium.jpg",
+        "alt": "External DC Cable",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4312/2-63f8b2451e054-medium.jpg",
+        "alt": "External DC Cable",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 0.10,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Cable Length",
+          "value": "0.35 m"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik RBPOE",
+      "url": "/product/poe-injector",
+      "price": 0.99,
+      "currency": "USD",
+      "mpn": "RBPOE",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq 5 ac",
+      "url": "/product/sxt-sq-5-ac",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "RBSXTsqG-5acD",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik Power Adapter 24V 1.2A",
+      "url": "/product/psu-power-adapter-24v1-2a-for-mikrotik",
+      "price": 4.49,
+      "currency": "USD",
+      "mpn": "SAW30-240-1200GR2A",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax3 US version",
+      "url": "/product/mikrotik-hap-ax3-us-version",
+      "price": 113.42,
+      "currency": "USD",
+      "mpn": "C53UiG+5HPaxD2HPaxD-US",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

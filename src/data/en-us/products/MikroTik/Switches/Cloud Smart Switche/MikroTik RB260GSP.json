@@ -1,0 +1,395 @@
+{
+  "slug": "routerboard-260gsp",
+  "id": "CSS106-1G-4P-1S",
+  "productTitle": "MikroTik RB260GSP",
+  "name": "MikroTik RB260GSP",
+  "title": "MikroTik RB260GSP",
+  "title_extended": "MikroTik RB260GSP Switch – 5x Gigabit, PoE-Out, 1x SFP Smart Switch",
+  "short_description": "Smart Gigabit PoE Switch, 5xGLAN Ethernet Ports, 1xSFP cage and SwOS",
+  "description": "Smart Gigabit PoE Switch, 5xGLAN Ethernet Ports, 1xSFP cage and SwOS",
+  "detailed_description": [
+    {
+      "heading": "Compact PoE Switch with SFP",
+      "text": "The MikroTik RouterBOARD 260GSP, model CSS106-1G-4P-1S, is a compact and efficient network solution specifically designed for small office and home network environments. This model enhances connectivity and power delivery with integrated Power over Ethernet (PoE) capabilities, making it an excellent choice for powering PoE-capable devices such as IP cameras, wireless access points, and VoIP phones, alongside providing network connectivity."
+    },
+    {
+      "heading": null,
+      "text": "Enclosed in a compact frame measuring 113x139x28mm, the RB260GSP is engineered with the demanding needs of small office/home office environments in mind. Its sleek design incorporates a high-performance Atheros (QCA8337) switch chip that facilitates efficient packet switching and bandwidth management across its interfaces. This device supports passive PoE input and output, allowing it to not only receive power via Ethernet but also to power other PoE-capable devices connected to its ports 2-5. Each of these PoE-out ports can deliver up to 1 A per port with an input voltage of 18-30 V and a total power output capacity of 2 A, making it incredibly efficient for powering external devices such as IP cameras or wireless access points without the need for additional power sources."
+    },
+    {
+      "heading": null,
+      "text": "This switch is built to endure with a Mean Time Between Failures (MTBF) of approximately 100,000 hours at 25°C and is capable of operating in a wide range of temperatures from -20°C to 70°C. Its energy efficiency is noteworthy, with a maximum power consumption of 53 W when all functions are utilized, and a minimal 5 W when operating without attached devices, thanks to its effective passive cooling system."
+    },
+    {
+      "heading": null,
+      "text": "The MikroTik RouterBOARD 260GSP is perfect for users seeking a high-quality, manageable switch with PoE capability in compact areas or where space and power are at a premium. It excels in environments ranging from small offices to sophisticated home networks, where multiple devices require both power and network access."
+    },
+    {
+      "heading": "Advanced Control Features",
+      "text": "The RB260GSP is optimized for performance with 128 KB of FLASH storage, supporting MikroTik's tailored Switch Operating System (SwOS). SwOS is specifically designed for MikroTik switch products, offering an intuitive web interface for configuring essential switch functions such as VLAN, port-to-port forwarding, and traffic mirroring, alongside monitoring tools like PCB temperature and voltage levels. SwOS is configurable from your web browser."
+    },
+    {
+      "heading": null,
+      "text": "Besides its Ethernet capabilities, the RB260GSP includes one SFP port with DDMI support, allowing for extended network connections via fiber optics, which is ideal for applications requiring reliable, long-distance communications. Additionally, the device is equipped with a voltage monitor and a PCB temperature monitor, ensuring operational stability and longevity. The inclusion of an SFP cage allows for integration with fiber optic connections, significantly expanding network reach and uplink capabilities. The switch is tested and recommended for use with MikroTik SFP modules such as S-85DLC05D, S-31DLC20D, and S-35/53LC20D, though these modules are sold separately."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": [
+    "MikroTik",
+    "Switches",
+    "Cloud Smart Switch"
+  ],
+  "mpn": "CSS106-1G-4P-1S",
+  "manufacturer_part_number": "CSS106-1G-4P-1S",
+  "ean": "4752224002297",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/654/css1061g4p1s_2-5fda09adb4dc9-medium.jpg",
+        "alt": "MikroTik RB260GSP",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/654/css1061g4p1s_1-5fda09afd93cd-medium.jpg",
+        "alt": "MikroTik RB260GSP",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/654/css1061g4p1s_3-5fda08e208fd7-medium.jpg",
+        "alt": "MikroTik RB260GSP",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/654/css1061g4p1s_2-5fda09adb4dc9-tiny.jpg",
+        "alt": "MikroTik RB260GSP"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/654/css1061g4p1s_1-5fda09afd93cd-tiny.jpg",
+        "alt": "MikroTik RB260GSP"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/654/css1061g4p1s_3-5fda08e208fd7-tiny.jpg",
+        "alt": "MikroTik RB260GSP"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/Y12U4WuDFew",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 50.95,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(5) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "4 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 1G SFP"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Taifatech TF470"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "8 - 30 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "6 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 2.5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "138 x 113 x 28 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "SwitchOS"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik RB260GSP",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-rb260gsp.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.44
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "class": "Pickup point",
+      "price": 15.58,
+      "currency": "USD"
+    },
+    {
+      "class": "Standard",
+      "price": 31.44,
+      "currency": "USD"
+    },
+    {
+      "class": "Express",
+      "price": 42.86,
+      "currency": "USD"
+    }
+  ],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Iacopo",
+        "date": "2025-07-27",
+        "text": "All good the product was well shipped",
+        "photos": []
+      },
+      {
+        "name": "KOLAWOLE",
+        "date": "2023-03-19",
+        "text": "excellent switch thanks to MikroTik",
+        "photos": [
+          {
+            "url": "https://www.getic.com/assets/images/reviews/ce7f831e-bcbf-479f-b4df-12a8a167bee6/small/64171b8d53562d10d1412c8e-68935de2e3c71.jpg"
+          }
+        ]
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik RB260GS",
+      "url": "/product/routerboard-260gs",
+      "price": 39.13,
+      "currency": "USD",
+      "mpn": "CSS106-5G-1S",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CSS326-24G-2S+RM",
+      "url": "/product/cloud-smart-switch-326-24g-2srm",
+      "price": 129.46,
+      "currency": "USD",
+      "mpn": "CSS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ac",
+      "url": "/product/routerboard-cap-ac",
+      "price": 69.97,
+      "currency": "USD",
+      "mpn": "RBcAPGi-5acD2nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX S",
+      "url": "/product/routerboard-hex-s",
+      "price": 53.10,
+      "currency": "USD",
+      "mpn": "RB760iGS",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

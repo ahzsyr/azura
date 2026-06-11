@@ -1,0 +1,357 @@
+{
+  "slug": "rocket-ac-prism-gen2",
+  "id": "RP-5AC-Gen2",
+  "productTitle": "Ubiquiti airMAX Rocket Prism 5AC",
+  "name": "Ubiquiti airMAX Rocket Prism 5AC",
+  "title": "Ubiquiti airMAX Rocket Prism 5AC",
+  "title_extended": "",
+  "short_description": "5GHz, 2x RP-SMA Connectors, 1x GLAN, POE-RJ-45, 802.11ac, up to 500+ Mbps throughput",
+  "description": "5GHz, 2x RP-SMA Connectors, 1x GLAN, POE-RJ-45, 802.11ac, up to 500+ Mbps throughput",
+  "detailed_description": [
+    {
+      "heading": "Application scenarios",
+      "text": "The Ubiquiti airMAX Rocket Prism 5AC Gen2 (RP-5AC-Gen2) is tailored for a broad spectrum of application scenarios, excelling in delivering high-speed, reliable wireless connectivity across vast distances. In urban environments, its cutting-edge airPrism technology ensures that the device stands out by mitigating interference from other signals, which is a common challenge in densely populated areas. This makes it an ideal solution for ISPs and network operators looking to provide high-quality, uninterrupted internet service to customers in residential and commercial zones. The device's ability to support high-throughput, low-latency connections makes it perfect for applications requiring robust bandwidth, such as video streaming, VoIP, and online gaming. Furthermore, its dedicated management Wi-Fi radio simplifies setup and ongoing network adjustments, making it a breeze for network administrators to maintain optimal performance."
+    },
+    {
+      "heading": "Performance and Hardware",
+      "text": "In rural or remote areas, the Rocket Prism 5AC Gen2's capabilities are equally valuable. Its long-range connectivity, facilitated by the 5 GHz frequency band and high-gain antenna compatibility, offers a lifeline for communities and businesses located far from traditional wired internet infrastructures. For applications like remote surveillance, environmental monitoring, and providing internet access to distant research stations or agricultural sites, the RP-5AC-Gen2 provides a reliable, high-performance link. The device's rugged, weather-resistant design ensures consistent operation in diverse environmental conditions, from scorching deserts to freezing mountaintops, offering a versatile solution for connecting the unconnected and bridging digital divides across varied landscapes."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Wireless Network",
+  "categories": [
+    "Ubiquiti",
+    "Outdoor Wireless",
+    "airMAX 5 GHz"
+  ],
+  "mpn": "RP-5AC-Gen2",
+  "manufacturer_part_number": "RP-5AC-Gen2",
+  "ean": "0817882020268",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1312/rp5acg2_front-5ff2d9322a1c3-medium.jpg",
+        "alt": "Ubiquiti airMAX Rocket Prism 5AC",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1312/rp5acg2_side-5ff2d934a3fb7-medium.jpg",
+        "alt": "Ubiquiti airMAX Rocket Prism 5AC",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1312/rp5acg2_back-5ff2d9396775c-medium.jpg",
+        "alt": "Ubiquiti airMAX Rocket Prism 5AC",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1312/rp5acg2_port-5ff2d9a2af3d4-medium.jpg",
+        "alt": "Ubiquiti airMAX Rocket Prism 5AC",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/OFV4rG6a3Fc",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 229.40,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "airMAX"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "450 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) SMA Female, (2) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Atheros MIPS 74Kc"
+        },
+        {
+          "name": "RAM",
+          "value": "128 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "18 - 26 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "9.5 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Aluminium"
+        },
+        {
+          "name": "Dimensions",
+          "value": "88 x 40 x 230 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.4 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 80 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX Rocket Prism 5AC",
+      "url": "https://dl.ubnt.com/datasheets/RocketAC/Rocket_Prism_AC_Gen2_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX Rocket Prism 5AC",
+      "url": "https://dl.ubnt.com/guides/RocketPrism_Gen2/Rocket_Prism_5AC-Gen2_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 25.88,
+        "delivery_days": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 34.76,
+        "delivery_days": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.91,
+        "delivery_days": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 3,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 3,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "JULIO",
+        "date": "2024-02-29",
+        "text": "Excellent product, 5 star price/performance",
+        "photos": []
+      },
+      {
+        "name": "Winston",
+        "date": "2023-12-21",
+        "text": "Exactly what I ordered",
+        "photos": []
+      },
+      {
+        "name": "JOSH",
+        "date": "2022-05-23",
+        "text": "Great product!",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 19 dBi Sector",
+      "url": "/product/sector-airmax-5g19-120",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "AM-5G19-120",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 13 dBi Omni",
+      "url": "/product/omni-airmax-5g13",
+      "price": 142.96,
+      "currency": "USD",
+      "mpn": "AMO-5G13",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 5XHD",
+      "url": "/product/airfiber-5xhd",
+      "price": 397.94,
+      "currency": "USD",
+      "mpn": "AF-5XHD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

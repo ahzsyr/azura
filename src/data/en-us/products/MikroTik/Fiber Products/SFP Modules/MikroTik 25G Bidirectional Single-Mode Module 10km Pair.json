@@ -1,0 +1,221 @@
+{
+  "slug": "mikrotik-xs-2733lc15d-pair",
+  "id": "XS+2733LC15D",
+  "productTitle": "MikroTik 25G Bidirectional Single-Mode Module 10km Pair",
+  "name": "MikroTik 25G Bidirectional Single-Mode Module 10km Pair",
+  "title": "MikroTik 25G Bidirectional Single-Mode Module 10km Pair",
+  "title_extended": "",
+  "short_description": "Buy MikroTik 25G Bidirectional Single-Mode Module 10km Pair. Price from 289.36 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "description": "Buy MikroTik 25G Bidirectional Single-Mode Module 10km Pair. Price from 289.36 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "High-Speed 25G BiDi Optical Pair",
+      "text": "The MikroTik XS+2733LC15D is a powerful bidirectional module pair designed for high-performance networking over long distances. This kit includes two SFP/SFP+/SFP28 modules supporting data rates of 1G, 10G, and 25G, making it ideal for upgrading network backbones and interconnecting data centers or enterprise locations. Utilizing single-mode fiber with a range of up to 15 km, it operates on wavelengths of 1270 nm and 1330 nm. Its compact design with Single LC UPC connectors simplifies deployment in tight spaces while ensuring high reliability. Digital Diagnostic Monitoring (DDM) support allows real-time monitoring of key parameters like optical power and voltage, enabling proactive maintenance and optimal performance. With a maximum power consumption of only 1.5 W, the XS+2733LC15D is an energy-efficient and versatile solution for modern networks demanding speed and reliability."
+    },
+    {
+      "heading": null,
+      "text": "MikroTik XS+2733LC15D offers strong, consistent performance in critical infrastructures. This module pair allows bidirectional communication over a single optical fiber, reducing cabling complexity and costs while maintaining top-tier speeds up to 25 Gbps. It is fully compatible with MikroTik devices equipped with SFP, SFP+, or SFP28 ports, making it a future-proof choice for diverse applications. From data center interconnects to ISP infrastructure and large enterprise networks, this module meets the demands of high-bandwidth, long-range links. Its support for multiple data rates ensures seamless integration into existing setups, while the industrial-grade design guarantees stability in controlled environments. Compact, energy-conscious, and offering advanced monitoring features, the XS+2733LC15D is the ideal solution for creating reliable and high-speed fiber connections."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "SFP Modules",
+  "categories": [
+    "SFP Modules"
+  ],
+  "mpn": "XS+2733LC15D",
+  "manufacturer_part_number": "XS+2733LC15D",
+  "ean": "0708747439748",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3423/2054_hi_res-612376e568d80-medium.jpg",
+        "alt": "MikroTik 25G Bidirectional Single-Mode Module 10km Pair",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - MikroTik 25G Bidirectional Single-Mode Module 10km Pair",
+        "url": "https://www.getic.com/files/catalogue/3423/xs2733lc15d_brochure_210613-612376b6065ab.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 289.36,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Fiber Equipment",
+      "features": [
+        "SFP Type",
+        "Supported Media",
+        "Connector Type",
+        "Bi-Directional",
+        "TX Wavelength",
+        "RX Wavelength",
+        "Data Rate",
+        "Cable Distance"
+      ],
+      "items": [
+        {
+          "name": "SFP Type",
+          "value": "SFP"
+        },
+        {
+          "name": "SFP Type",
+          "value": "SFP+"
+        },
+        {
+          "name": "SFP Type",
+          "value": "SFP28"
+        },
+        {
+          "name": "Supported Media",
+          "value": "Single-Mode"
+        },
+        {
+          "name": "Connector Type",
+          "value": "(1) LC UPC"
+        },
+        {
+          "name": "Bi-Directional",
+          "value": "yes"
+        },
+        {
+          "name": "TX Wavelength",
+          "value": "1270 - 1330 nm"
+        },
+        {
+          "name": "RX Wavelength",
+          "value": "1330 - 1270 nm"
+        },
+        {
+          "name": "Data Rate",
+          "value": "25 Gbps"
+        },
+        {
+          "name": "Cable Distance",
+          "value": "15 km"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "2 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik 25G Bidirectional Single-Mode Module 10km Pair",
+      "url": "https://www.getic.com/files/catalogue/3423/xs2733lc15d_brochure_210613-612376b6065ab.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Olegs",
+        "date": "2023-10-13",
+        "text": "Great product, fast delivery",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 1.25G RJ-45 Module",
+      "url": "/product/sfp-rj45-copper-module",
+      "price": 23.72,
+      "currency": "USD",
+      "mpn": "S-RJ01",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 10G RJ-45 Module",
+      "url": "/product/sfp-s-plus-rj10-module",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "S+RJ10",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+      "url": "/product/direct-attach-cable-xs-da0001",
+      "price": 26.85,
+      "currency": "USD",
+      "mpn": "XS+DA0001",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 3m",
+      "url": "/product/direct-attach-cable-xs-da0003",
+      "price": 30.93,
+      "currency": "USD",
+      "mpn": "XS+DA0003",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

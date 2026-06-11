@@ -1,0 +1,330 @@
+{
+  "slug": "usw-24-poe-gen-2",
+  "id": "USW-24-POE",
+  "productTitle": "Ubiquiti UniFi Switch Standard 24 PoE",
+  "name": "Ubiquiti UniFi Switch Standard 24 PoE",
+  "title": "Ubiquiti UniFi Switch Standard 24 PoE",
+  "title_extended": "",
+  "short_description": "24x Gigabit Ethernet ports, 2 SFP Ports, 16x POE+ IEEE 802.3af/at output ports.",
+  "description": "The Ubiquiti Switch Standard 24 PoE is a cutting-edge network switch designed to deliver high-performance networking solutions with seamless power delivery capabilities. This product represents Ubiquiti's commitment to providing reliable and efficient networking infrastructure for both small-scale and enterprise-level environments.",
+  "detailed_description": [
+    {
+      "heading": null,
+      "text": "The Ubiquiti Switch Standard 24 PoE  is a cutting-edge network switch designed to deliver high-performance networking solutions with seamless power delivery capabilities. This product represents Ubiquiti's commitment to providing reliable and efficient networking infrastructure for both small-scale and enterprise-level environments."
+    },
+    {
+      "heading": null,
+      "text": "At the heart of the Ubiquiti Switch Standard 24 PoE is its robust hardware architecture, engineered to meet the demands of modern networking requirements. With a total of 24 Gigabit Ethernet ports, this switch offers ample connectivity options for various devices, including computers, servers, IP cameras, VoIP phones, access points, and other network peripherals. Each port supports auto-sensing IEEE 802.3af/at PoE/PoE+ standards, enabling the switch to deliver both data and power over a single Ethernet cable, thus simplifying installation and reducing cable clutter."
+    },
+    {
+      "heading": null,
+      "text": "Furthermore, the USW-24-POE boasts advanced Layer 2 switching capabilities, allowing for efficient data forwarding and network segmentation. With support for features such as VLAN (Virtual LAN), Link Aggregation, and QoS (Quality of Service), administrators have the flexibility to optimize network performance, prioritize traffic, and enhance security. VLAN support, for instance, enables the creation of isolated network segments, enhancing security and network efficiency by logically segmenting traffic. Moreover, the USW-24-POE is engineered for energy efficiency, featuring intelligent power management capabilities that help reduce power consumption during periods of low network activity. This not only lowers operational costs but also contributes to environmental sustainability."
+    },
+    {
+      "heading": null,
+      "text": "The model is designed with ease of use and management in mind. Managed and configured by the UniFi Network Application with UniFi mobile app support, the USW-24-POE offers an extensive suite of advanced Layer 2 switching protocols and features, including operation mode (switching, mirroring, or aggregate) per port. The UniFi Network application and mobile app allow admins to configure and monitor virtually all of the switch features in a graphical user interface from anywhere."
+    },
+    {
+      "heading": null,
+      "text": "Overall, the Ubiquiti Switch Standard 24 PoE (USW-24-POE) stands as a reliable and feature-rich networking solution, offering seamless power delivery, advanced management capabilities, and robust performance to meet the evolving needs of modern network environments. Whether it's for small businesses, educational institutions, or large enterprises, this switch delivers exceptional value and performance, making it an ideal choice for building reliable and scalable networks."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "UniFi Switching",
+    "Standard"
+  ],
+  "mpn": "USW-24-POE",
+  "manufacturer_part_number": "USW-24-POE",
+  "ean": "0817882028554",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2334/usw24poe5-692eda9196627-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Standard 24 PoE",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2334/usw24poe_top_angle_no_brackets-5ff6f77d46f74-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Standard 24 PoE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2334/usw24poe_front_no_brackets-5ff6f777ab9fc-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Standard 24 PoE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2334/usw24poe_back-5ff6f7752225b-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Standard 24 PoE",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2334/usw24poe_side-5ff6f77c2116e-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Standard 24 PoE",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/2334/usw_poe_ds.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Standard 24 PoE"
+      },
+      {
+        "url": "https://dl.ubnt.com/qsg/USW-24-POE/USW-24-POE_EN.html",
+        "title": "Quick Start Guide - Ubiquiti UniFi Switch Standard 24 PoE"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 383.89,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(24) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "16 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE), 802.3at (PoE+)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 1G SFP"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "120 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Number of Rack Units",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Silver"
+        },
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442.4 x 200 x 43.7 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "3.09 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Standard 24 PoE",
+      "url": "https://www.getic.com/files/catalogue/2334/usw_poe_ds.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti UniFi Switch Standard 24 PoE",
+      "url": "https://dl.ubnt.com/qsg/USW-24-POE/USW-24-POE_EN.html"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "name": "Standard",
+      "price": 57.40,
+      "currency": "USD",
+      "days": 5
+    },
+    {
+      "name": "Express",
+      "price": 79.72,
+      "currency": "USD",
+      "days": 2
+    }
+  ],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Anthony",
+        "date": "2023-05-16",
+        "text": "Great product and easy to configure",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Standard 16 PoE",
+      "url": "https://www.getic.com/product/usw-16-poe-gen2",
+      "price": 303.13,
+      "currency": "USD",
+      "mpn": "USW-16-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "https://www.getic.com/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "https://www.getic.com/product/usw-lite-8-poe-eu",
+      "price": 118.38,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "https://www.getic.com/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "InStock"
+}

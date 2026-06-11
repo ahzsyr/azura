@@ -1,0 +1,366 @@
+{
+  "slug": "ubiquiti-unifi-video-camera-g5-flex",
+  "id": "UVC-G5-Flex",
+  "productTitle": "Ubiquiti Camera G5 Flex",
+  "name": "Ubiquiti Camera G5 Flex",
+  "title": "Ubiquiti Camera G5 Flex",
+  "title_extended": "Ubiquiti Camera G5 Flex",
+  "short_description": "G5 Flex Video Camera, resolution 2688 x 1512, 5 MP CMOS sensor",
+  "description": "Experience advanced surveillance with the UniFi Protect G5 Camera, a 5th-gen device setting new standards for indoor and outdoor monitoring. This camera boasts a 2K HD resolution, ensuring each image is intricately detailed and crystal clear. The camera's 30 frames per second (FPS) capture rate provides a seamless and fluid video playback, essential for capturing fast-paced events and maintaining real-time surveillance. Powered by a high-quality 5MP CMOS sensor, this device contributes to superior low-light performance, dynamic range, and overall image clarity, ensuring a heightened level of visual precision.",
+  "detailed_description": [
+    {
+      "heading": "Advanced Surveillance Experience",
+      "text": "Experience advanced surveillance with the UniFi Protect G5 Camera, a 5th-gen device setting new standards for indoor and outdoor monitoring. This camera boasts a 2K HD resolution, ensuring each image is intricately detailed and crystal clear. The camera's 30 frames per second (FPS) capture rate provides a seamless and fluid video playback, essential for capturing fast-paced events and maintaining real-time surveillance. Powered by a high-quality 5MP CMOS sensor, this device contributes to superior low-light performance, dynamic range, and overall image clarity, ensuring a heightened level of visual precision."
+    },
+    {
+      "heading": "Introducing the G5 Flex",
+      "text": "Introducing the UniFi Protect G5 Flex Camera, an impressive variation of the G5 series, designed for seamless deployment in both indoor and outdoor settings. What distinguishes the G5 Flex is that the camera features advanced AI event detection. This intelligent technology empowers the camera to discern and analyze specific events or activities within its field of view. The significance of AI event detection lies in its capacity to differentiate routine movements from potential security threats, minimizing false alarms, and ensuring prompt notifications for genuinely significant events. Adding to its capabilities, the camera features an exceptional 102.4° horizontal and 54.9° vertical viewing angle, providing an expansive field of vision for comprehensive surveillance coverage. This wide perspective minimizes blind spots, ensuring effective monitoring of larger areas with just a single camera."
+    },
+    {
+      "heading": "Adaptive Design",
+      "text": "Operating seamlessly in temperatures ranging from -20 °C to 40 °C, the UniFi Protect G5 Camera adapts effortlessly to diverse environments. Suited for deployments in harsh environments with extreme temperature variations, it ensures reliable performance year-round. This wide operating range and cold start capability contribute to the camera's reliability, making it an ideal choice for surveillance in regions with extreme temperature fluctuations or for outdoor installations in exposed locations. Deploying the UniFi Protect G5 Camera is a versatile and efficient task, thanks to its Power over Ethernet (PoE) capability. With a single cable for both power and data, installation is simplified, and maintenance complexity is reduced, providing a practical and cost-effective solution for various surveillance needs."
+    },
+    {
+      "heading": "Impressive Night Vision & Resilience",
+      "text": "Featuring advanced IR (Infrared) LED illumination and an IR cut filter, the UVC-G5-Flex excels in the realm of surveillance cameras. With IR night vision technology, this camera ensures an impressive 6 m (20 ft) of visibility, day or night, capturing crisp and clear images effortlessly. In low-light or nighttime conditions, the IR LED illumination emits infrared light, invisible to the human eye but detected by the camera's sensor, enhancing visibility and enabling superior image capture. The IR cut filter seamlessly switches between day and night modes, ensuring accurate color reproduction during daylight and optimal image quality. Designed to endure the elements, the UVC-G5-Flex boasts a robust weatherproof IPX4 certification. This certification shields the camera from splashes and environmental challenges, making it a reliable choice for outdoor surveillance where exposure to rain or moisture is a concern. For added resilience, consider pairing the UVC-G5-Flex with the Professional Wall Mount (sold separately) for IK04-rated vandal resistance. The IK04 rating ensures the camera's durability, making it resilient against physical impact, vandalism, or tampering—particularly crucial in public spaces or areas where intentional damage is a potential threat. This feature guarantees that the camera remains operational, maintaining its surveillance capabilities even in challenging environments."
+    },
+    {
+      "heading": "Unified Command",
+      "text": "Effortlessly managing your surveillance environment is made possible with the UniFi Protect application. Designed for both web (Version 2.2.7 or 2.7.18 and later) and mobile (Version 1.10.0 and later), this application offers an intuitive interface for overseeing UniFi Protect devices seamlessly. The application serves as the control center within the broader UniFi Protect ecosystem, providing users with a user-friendly experience for centralized surveillance management. Its real-time monitoring capabilities enable users to observe connected cameras, access recorded footage, and receive timely alerts and notifications for specified events. One of the significant advantages of the UniFi Protect application is its remote access functionality. Users can monitor and manage their surveillance devices from anywhere, enhancing the flexibility and convenience of surveillance operations. Complementing the UniFi Protect application is the incorporation of a dual-core Arm® Cortex®-A7 chipset. This chipset ensures the smooth and efficient operation of the surveillance system. With enhanced processing capabilities, the dual-core architecture strikes a balance between performance and power efficiency, contributing to faster data processing and optimal functionality."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Cameras",
+  "categories": [
+    "Cameras",
+    "Compact"
+  ],
+  "mpn": "UVC-G5-Flex",
+  "manufacturer_part_number": "UVC-G5-Flex",
+  "ean": "0810084690222",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4395/uvcg5flex001_2c518c112e274dde92644db26c347a59_1500x3x-64898ec9291b5-medium.jpg",
+        "alt": "Ubiquiti Camera G5 Flex",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4395/uvcg5flex002_0e1e68f3a1cc4e5b8a5887797f5062e1_1500x3x-64898ed3dc3c8-medium.jpg",
+        "alt": "Ubiquiti Camera G5 Flex",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4395/uvcg5flex003_6be548e600954c05827af33c5ef773d7_1500x3x-64899142730c3-medium.jpg",
+        "alt": "Ubiquiti Camera G5 Flex",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4395/uvcg5flex004_b347f96f79dd44288daae42197a99209_1500x3x-64899148a6ee6-medium.jpg",
+        "alt": "Ubiquiti Camera G5 Flex",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4395/uvcg5flex005_cd4b559cbc924849a11c000303963a8a_1500x3x-6489914dea176-medium.jpg",
+        "alt": "Ubiquiti Camera G5 Flex",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/Wqq5uTQFoy8",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 131.04,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Video",
+      "features": [
+        "Megapixels",
+        "Resolution",
+        "Maximum Frame Rate",
+        "Video Compression"
+      ],
+      "items": [
+        {
+          "name": "Megapixels",
+          "value": "4MP"
+        },
+        {
+          "name": "Resolution",
+          "value": "2688 x 1512"
+        },
+        {
+          "name": "Maximum Frame Rate",
+          "value": "30 FPS"
+        },
+        {
+          "name": "Video Compression",
+          "value": "H.264, MJPEG"
+        }
+      ]
+    },
+    {
+      "technology": "Audio",
+      "features": [
+        "Microphone"
+      ],
+      "items": [
+        {
+          "name": "Microphone",
+          "value": "Build-in"
+        }
+      ]
+    },
+    {
+      "technology": "Video Camera",
+      "features": [
+        "Sensor",
+        "Lens",
+        "Night Mode",
+        "Viewing Angle"
+      ],
+      "items": [
+        {
+          "name": "Sensor",
+          "value": "5 MP CMOS Sensor"
+        },
+        {
+          "name": "Lens",
+          "value": "Fixed Focal Length"
+        },
+        {
+          "name": "Night Mode",
+          "value": "IR LED Illumination and IR Cut Filter, IR Range up to 6 m"
+        },
+        {
+          "name": "Viewing Angle",
+          "value": "102.4 ° (H) 54.9 ° (V)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 100 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Dual-core Arm® Cortex®-A7 based chip"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "37 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "4 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Ingress Protection Code",
+        "Housing\tDurability",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX4"
+        },
+        {
+          "name": "Housing\tDurability",
+          "value": "Vandal-proof IK04"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø48 x 107.5 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.170 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Ceilling Mount, Pole Mount, Tabletop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Camera G5 Flex",
+      "url": "https://www.getic.com/files/catalogue/4395/uvcg5flex_ds-64898bf922cf5.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti Camera G5 Flex",
+      "url": "https://www.getic.com/files/catalogue/4395/uvcg5flex-6489c39b3eb68.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G5 Bullet",
+      "url": "/product/unifi-protect-g5-bullet-camera",
+      "price": 129.85,
+      "currency": "USD",
+      "mpn": "UVC-G5-Bullet",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G5 Dome",
+      "url": "/product/unifi-protect-g5-dome-camera",
+      "price": 181.08,
+      "currency": "USD",
+      "mpn": "UVC-G5-Dome",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

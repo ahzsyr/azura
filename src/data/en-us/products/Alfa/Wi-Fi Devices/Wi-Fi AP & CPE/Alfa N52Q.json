@@ -1,0 +1,360 @@
+{
+  "slug": "alfa-n52q",
+  "id": "4322",
+  "productTitle": "Alfa N52Q",
+  "name": "Alfa N52Q",
+  "title": "Alfa N52Q",
+  "title_extended": "Alfa N52Q – Outdoor Dual-Band WiFi AP/CPE 1200Mbps",
+  "short_description": "Outdoor Dual Band AP/CPE, Data Rate up to 1200Mbps, 802.11n/ac",
+  "description": "Outdoor Dual Band AP/CPE, Data Rate up to 1200Mbps, 802.11n/ac",
+  "detailed_description": [
+    {
+      "heading": "Description",
+      "text": "N52Q is the outdoor dual-band / dual concurrent AP/CPE with built-in or external N type female connector. External antenna connector gives more options to meet different application. The unique software controlled PoE out helps to reduce the installation and maintain cost. N52Q is equipped with pre-installed the popular open source \"OpenWrt\" to give you freedom to modify for your needs."
+    },
+    {
+      "heading": "Description",
+      "text": "Thanks to the software controlled PoE out, you don't need an extra Ethernet cable to power another N52Q. You can use PoE out LAN port to provide 24VDC to power on. Make sure that connected device supports input passive PoE 24VDC before enable the pass through from the firmware."
+    },
+    {
+      "heading": "Features",
+      "text": "Dual-band 2.4 GHz + 5 GHz\nData transfer rate 1200 Mbps\nSoftware controlled PoE out\nExtra USB port\nOpenWrt firmware"
+    }
+  ],
+  "brand": "Alfa Network",
+  "category": "Wi-Fi AP / CPE",
+  "categories": [
+    "Alfa",
+    "Wi-Fi Devices",
+    "Wi-Fi AP / CPE"
+  ],
+  "mpn": "N52Q",
+  "manufacturer_part_number": "N52Q",
+  "ean": "4718050308521",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4322/n52q_00-69d4a7ad96467-medium.jpg",
+        "alt": "Alfa N52Q",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4322/n52q_04-69d4a7ad5124f-medium.jpg",
+        "alt": "Alfa N52Q",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4322/n52q_03-69d4a7ad682b6-medium.jpg",
+        "alt": "Alfa N52Q",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4322/n52q_01-69d4a7ad7fa26-medium.jpg",
+        "alt": "Alfa N52Q",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4322/n52q_02-69d4a7adad002-medium.jpg",
+        "alt": "Alfa N52Q",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4322/n52q_05-69d4a79f82b10-medium.jpg",
+        "alt": "Alfa N52Q",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4322/untitled1-6483153b53629-medium.jpg",
+        "alt": "Alfa N52Q",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4322/n52q__prod_01-63ff53cb45bc9-medium.jpg",
+        "alt": "Alfa N52Q",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 86.00,
+    "currency": "USD",
+    "discount": 23
+  },
+  "old_price": 111.94,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 2x2"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "300 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "867 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) N Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "USB Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 100 Mbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) Mini USB 2.0"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "QCA9531+QCA9886"
+        },
+        {
+          "name": "RAM",
+          "value": "128 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "300 x 80 x 30 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.5 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 95 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Alfa 2.4/5GHz Outdoor Panel Antenna 8dBi N-Female",
+      "url": "/product/alfa-2-4ghz-5ghz-panel-antenna-8dbi",
+      "price": 24.79,
+      "currency": "USD",
+      "mpn": "APA-L2458-08A",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACM",
+      "url": "/product/alfa-awus036acm",
+      "price": 34.45,
+      "currency": "USD",
+      "mpn": "AWUS036ACM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACHM",
+      "url": "/product/alfa-awus036achm",
+      "price": 36.02,
+      "currency": "USD",
+      "mpn": "AWUS036ACHM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036AX",
+      "url": "/product/alfa-usb-adapter-awus036ax",
+      "price": 25.37,
+      "currency": "USD",
+      "mpn": "AWUS036AX",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

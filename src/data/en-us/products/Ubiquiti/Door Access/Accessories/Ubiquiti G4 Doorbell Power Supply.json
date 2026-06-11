@@ -1,0 +1,197 @@
+{
+  "slug": "unifi-g4-doorbell-power-supply",
+  "id": "UVC-G4-Doorbell-PS",
+  "productTitle": "Ubiquiti G4 Doorbell Power Supply",
+  "name": "Ubiquiti G4 Doorbell Power Supply",
+  "title": "Ubiquiti G4 Doorbell Power Supply",
+  "title_extended": "Ubiquiti G4 Doorbell Power Supply - Power Supply for Doorbell",
+  "short_description": "UniFi G4 Doorbell Power Supply, Cable Length 6 m, 2x Spade Wire Connectors",
+  "description": "The Ubiquiti G4 Doorbell Power Supply, is an optional accessory for the UVC-G4-Doorbell and UVC-G4-Doorbell Pro, designed to provide power without the need for existing electrical wiring. The cable length extends to 6 meters (approximately 19' 8\"), ensuring flexibility in installation locations. The device itself is encased in a polycarbonate jacket, indicating durability and resistance to various environmental conditions. It operates efficiently within a temperature range of -10 to 40° C and can handle humidity levels from 0 to 95% noncondensing. Model comes with spade wire connectors for easy installation and are backed by certifications including CE, FCC, and IC, ensuring compliance with regulatory standards",
+  "detailed_description": [
+    {
+      "heading": "Power Supply for G4 Doorbell",
+      "text": "The Ubiquiti G4 Doorbell Power Supply is an optional accessory for the UVC-G4-Doorbell and UVC-G4-Doorbell Pro, designed to provide power without the need for existing electrical wiring."
+    },
+    {
+      "heading": "Cable Length and Durability",
+      "text": "The cable length extends to 6 meters (approximately 19' 8\"), ensuring flexibility in installation locations. The device itself is encased in a polycarbonate jacket, indicating durability and resistance to various environmental conditions."
+    },
+    {
+      "heading": "Specifications",
+      "text": "Input: 220-240VAC, 50 Hz, 1A Max. Output: 20VAC, 0.7A. Cable length: 6 m (19' 8\"). Two spade wire connectors."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Door Access",
+    "Accessories"
+  ],
+  "mpn": "UVC-G4-Doorbell-PS",
+  "manufacturer_part_number": "UVC-G4-Doorbell-PS",
+  "ean": "0810010075635",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3068/uvc_doorbell_ps_eu_001-610d185c07d41-medium.jpg",
+        "alt": "Ubiquiti G4 Doorbell Power Supply",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3068/uvc_doorbell_ps_eu_002-610d185b40a67-medium.jpg",
+        "alt": "Ubiquiti G4 Doorbell Power Supply",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3068/uvc_doorbell_ps_eu_003-610d185a522bf-medium.jpg",
+        "alt": "Ubiquiti G4 Doorbell Power Supply",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 32.25,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "Ø64.8 x 63.4 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.496 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 40 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Installation Guide - Ubiquiti G4 Doorbell Power Supply",
+      "url": "https://dl.ubnt.com/qig/doorbell-power-supply"
+    },
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti G4 Doorbell Power Supply",
+      "url": "https://dl.ui.com/ds/uvc-g4-doorbell-eu_ds"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Andrés",
+        "date": "2025-06-08",
+        "text": "Doorbell with transformer",
+        "photos": []
+      },
+      {
+        "name": "Gregory",
+        "date": "2023-11-19",
+        "text": "Aaaaaaaaaaa",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex Mini",
+      "url": "/product/unifi-usw-flex-mini",
+      "price": 35.32,
+      "currency": "USD",
+      "mpn": "USW-Flex-Mini",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Network Video Recorder",
+      "url": "/product/unifi-protect-network-video-recorder",
+      "price": 303.78,
+      "currency": "USD",
+      "mpn": "UNVR",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti G4 Doorbell",
+      "url": "/product/unifi-protect-g4-doorbell",
+      "price": 189.42,
+      "currency": "USD",
+      "mpn": "UVC-G4-DoorBell",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

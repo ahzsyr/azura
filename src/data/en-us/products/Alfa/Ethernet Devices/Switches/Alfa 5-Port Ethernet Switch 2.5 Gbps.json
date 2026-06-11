@@ -1,0 +1,284 @@
+{
+  "slug": "alfa-5-port-ethernet-switch-2-5-gbps",
+  "id": "AGS05-2.5GL",
+  "productTitle": "Alfa 5-Port Ethernet Switch 2.5 Gbps",
+  "name": "Alfa 5-Port Ethernet Switch 2.5 Gbps",
+  "title": "Alfa 5-Port Ethernet Switch 2.5 Gbps",
+  "title_extended": "",
+  "short_description": "Unmanaged switch with 5x 2.5GbE Ports, loop detection and fanless design",
+  "description": "Unmanaged switch with 5x 2.5GbE Ports, loop detection and fanless design",
+  "detailed_description": [
+    {
+      "heading": null,
+      "text": "AGS05-2.5GL is a 5-port 2.5 Gbps Ethernet switch with loop detection. This multi-gigabit unmanaged Ethernet switch is a plug and play device with enterprise-level quality features. As a cost-effective solution, it allows increasing network bandwidth by more than twice (from 1 to 2.5 Gbps), using existing Cat5e (or better) cabling infrastructure."
+    },
+    {
+      "heading": null,
+      "text": "Thanks to highly reliable internal components, features like auto-negotiation, non-blocking 25 Gbps switching capacity, flow control and fanless case design, this device will be perfect choice for SMB or home users."
+    }
+  ],
+  "brand": "Alfa Network",
+  "category": "Switches",
+  "categories": [
+    "Alfa",
+    "Ethernet Devices",
+    "Switches"
+  ],
+  "mpn": "AGS05-2.5GL",
+  "manufacturer_part_number": "AGS05-2.5GL",
+  "ean": "4718050307883",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4140/ags0525gl__prod_01-650d713f5fb4c-medium.jpg",
+        "alt": "Alfa 5-Port Ethernet Switch 2.5 Gbps",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4140/ags0525gl2-62cbcf98bd9c6-medium.jpg",
+        "alt": "Alfa 5-Port Ethernet Switch 2.5 Gbps",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4140/ags0525gl3-62cbcf9cbf238-medium.jpg",
+        "alt": "Alfa 5-Port Ethernet Switch 2.5 Gbps",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4140/ags0525gl4-62cbcfa0c6f33-medium.jpg",
+        "alt": "Alfa 5-Port Ethernet Switch 2.5 Gbps",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4140/ags0525gl5-62cbcfa54c57f-medium.jpg",
+        "alt": "Alfa 5-Port Ethernet Switch 2.5 Gbps",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4140/ags0525gl6-62cbcfa95eef5-medium.jpg",
+        "alt": "Alfa 5-Port Ethernet Switch 2.5 Gbps",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 86.75,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "PoE Out Standards"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(5) 2.5 Gbps"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "w/o PoE"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Realtek™ RTL8371 and 5× RTL8221B"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Power Connector"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Dimensions",
+          "value": "165 x 130 x 27 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Alfa 5-Port Ethernet Switch 2.5 Gbps",
+      "url": "https://www.getic.com/files/catalogue/4140/alfanetwork_ags0525glds-62cbcfcb1af8f.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 25.85,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 34.72,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+      "url": "/product/direct-attach-cable-xs-da0001",
+      "price": 26.85,
+      "currency": "USD",
+      "mpn": "XS+DA0001",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 3m",
+      "url": "/product/direct-attach-cable-xs-da0003",
+      "price": 30.93,
+      "currency": "USD",
+      "mpn": "XS+DA0003",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 25G Bidirectional Single-Mode Module 10km Pair",
+      "url": "/product/mikrotik-xs-2733lc15d-pair",
+      "price": 289.36,
+      "currency": "USD",
+      "mpn": "XS+2733LC15D",
+      "availability": "InStock"
+    },
+    {
+      "name": "LC-SC 1m/2mm Duplex SM Patch Cord",
+      "url": "/product/lc-sc-1m-2mm-duplex-sm-patch-cord",
+      "price": 4.06,
+      "currency": "USD",
+      "mpn": "PCLCSC9D1-2L",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

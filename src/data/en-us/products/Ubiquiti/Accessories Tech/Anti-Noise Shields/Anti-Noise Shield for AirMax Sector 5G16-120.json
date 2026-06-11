@@ -1,0 +1,164 @@
+{
+  "slug": "sector-5g16-120-anti-noise-shield",
+  "id": "ANS-AM-16",
+  "productTitle": "Anti-Noise Shield for AirMax Sector 5G16-120",
+  "name": "Anti-Noise Shield for AirMax Sector 5G16-120",
+  "title": "Anti-Noise Shield for AirMax Sector 5G16-120",
+  "title_extended": "",
+  "short_description": "Paired with Ubiquiti airMAX Sector 16/120 base station antennas",
+  "description": "Paired with Ubiquiti airMAX Sector 16/120 base station antennas",
+  "detailed_description": [
+    {
+      "heading": "General Description",
+      "text": "The Anti-Noise Shield for AirMax Sector 5G16-120, represents a specialized accessory designed to significantly enhance the performance of the AirMax Sector 5G16-120 antennas. This product is a testament to Ubiquiti's commitment to addressing and mitigating common challenges in wireless network deployment, specifically the issue of interference which can drastically affect network performance."
+    },
+    {
+      "heading": "RF Noise Reduction",
+      "text": "Constructed to perfectly complement Ubiquiti's AirMax Sector 5G16-120 antennas, the ANS-AM-16 serves as a dedicated shield that diminishes unwanted radio frequency (RF) noise. In the densely populated or highly congested wireless environments that are commonplace today, RF interference can severely degrade the quality and reliability of wireless communications. By effectively reducing external noise, this anti-noise shield significantly improves the signal integrity and operational efficiency of the AirMax Sector antennas, leading to enhanced network stability, increased data throughput, and improved overall network reliability."
+    },
+    {
+      "heading": "Design and Durability",
+      "text": "The design and construction of the ANS-AM-16 prioritize durability and resilience, ensuring that the shield can withstand various environmental challenges and continue to perform optimally over the long term. The shield's material and build quality are selected to resist corrosion, wear, and environmental impacts, thereby securing the investment in network infrastructure."
+    },
+    {
+      "heading": "Ease of Installation",
+      "text": "Ease of installation is another hallmark of the ANS-AM-16, reflecting Ubiquiti's philosophy of creating user-friendly, accessible technology solutions. This anti-noise shield is engineered for a straightforward, hassle-free attachment process to the AirMax Sector 5G16-120 antennas. This design consideration not only facilitates a quick and efficient setup but also minimizes downtime, making it an attractive option for network operators seeking immediate enhancements in network performance without extensive operational disruptions."
+    },
+    {
+      "heading": "Integration and Aesthetics",
+      "text": "The ANS-AM-16 integrates seamlessly with the AirMax Sector 5G16-120 antennas, designed to preserve the aesthetic and functional integrity of the original antenna setup. Despite its primary function as a protective and performance-enhancing accessory, the shield maintains the sleek, professional appearance characteristic of Ubiquiti products. Importantly, it does so without compromising the antenna’s directional capabilities or altering its radiation pattern, ensuring that the essential coverage area remains unaffected."
+    },
+    {
+      "heading": "Summary",
+      "text": "In summary, the Anti-Noise Shield for AirMax Sector 5G16-120 is a strategic addition to Ubiquiti's accessory offerings, designed to address the pervasive challenge of RF interference in wireless networks. By improving signal quality and network performance for the AirMax Sector 5G16-120 antennas, this shield not only extends the operational lifespan of the network infrastructure but also ensures a high level of service reliability and user satisfaction. Its combination of robust protection, ease of installation, and minimal impact on antenna function makes it a critical component for any network utilizing Ubiquiti's AirMax Sector 5G16-120 antennas in challenging RF environments."
+    }
+  ],
+  "brand": "Cyberteam",
+  "category": "Antenna Accessories",
+  "categories": [
+    "Outdoor Wireless",
+    "Antenna Accessories"
+  ],
+  "mpn": "ANS-AM-16",
+  "manufacturer_part_number": "ANS-AM-16",
+  "ean": "0708747433401",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1164/anti-noise-shield_am16_1-medium.jpg",
+        "alt": "Anti-Noise Shield for AirMax Sector 5G16-120",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1164/anti-noise-shield_am16_2-medium.jpg",
+        "alt": "Anti-Noise Shield for AirMax Sector 5G16-120",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1164/anti-noise-shield_am16_3-medium.jpg",
+        "alt": "Anti-Noise Shield for AirMax Sector 5G16-120",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 39.37,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 13 dBi Omni",
+      "url": "/product/omni-airmax-5g13",
+      "price": 142.96,
+      "currency": "USD",
+      "mpn": "AMO-5G13",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 16 dBi Sector",
+      "url": "/product/sector-airmax-5g16-120",
+      "price": 71.52,
+      "currency": "USD",
+      "mpn": "AM-5G16-120",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa 8-Port Passive PoE Injector Gigabit",
+      "url": "/product/apoe08g",
+      "price": 32.18,
+      "currency": "USD",
+      "mpn": "APOE08G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Anti-Noise Shield for LiteBeam 5AC-16-120 PRO",
+      "url": "/product/litebeam-ac-16dbi-120deg-anti-noise-shield-pro",
+      "price": 33.89,
+      "currency": "USD",
+      "mpn": "ANS-LB-AC16-PRO",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

@@ -1,0 +1,221 @@
+{
+  "slug": "mikrotik-psu-24v-0-38a-us-plug",
+  "id": 6955,
+  "productTitle": "Mikrotik PSU 24V 0.38A US Plug",
+  "name": "Mikrotik PSU 24V 0.38A US Plug",
+  "title": "Mikrotik PSU 24V 0.38A US Plug",
+  "title_extended": null,
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Reliable Power Adapter",
+      "text": ""
+    },
+    {
+      "heading": "Detailed description",
+      "text": "This MikroTik 24V 0.38A power supply is designed specifically for MikroTik equipment and is recommended for devices consuming up to 9W. With an input voltage range of 100–240V at 50/60Hz, it supports global use and can be connected to standard US outlets. The adapter delivers a stable 24V DC output with a maximum current of 0.38A, ensuring reliable operation of routers, switches, and access points that require low-power consumption. Its compact design makes it easy to install in small network cabinets or wall outlets without clutter. Built to withstand temperatures from -30°C to +50°C, this power supply performs reliably in both home and professional environments. If your MikroTik device requires up to 9W of power, this adapter is a suitable and efficient choice."
+    },
+    {
+      "heading": "Detailed description",
+      "text": "This MikroTik power adapter provides dependable and consistent power delivery, supporting stable network performance for small to medium installations. It is optimized for devices that require 24V DC power and consume up to 9W, making it suitable for many MikroTik routers and access points. The adapter is rated for continuous operation within a wide temperature range from -30°C to +50°C, which ensures stable performance in both warm and cold environments. With a maximum input current of 0.4A, it safely converts AC mains power to the required 24V DC output. This model is designed for US power sockets, simplifying installation without additional converters. For reliable operation and reduced risk of power interruptions, this power supply is an ideal accessory for maintaining stable MikroTik network equipment."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters",
+    "MikroTik"
+  ],
+  "mpn": "MKT-DC-24V-9W-US",
+  "manufacturer_part_number": "MKT-DC-24V-9W-US",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6955/24v038a_us_psu_2-694517127488d-medium.jpg",
+        "alt": "Mikrotik PSU 24V 0.38A US Plug",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6955/24v038a_us_psu_1-694517122ae10-medium.jpg",
+        "alt": "Mikrotik PSU 24V 0.38A US Plug",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6955/24v038a_us_psu_3-69451712bea04-medium.jpg",
+        "alt": "Mikrotik PSU 24V 0.38A US Plug",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6955/24v038a_us_psu_2-694517127488d-tiny.jpg",
+        "alt": "Mikrotik PSU 24V 0.38A US Plug"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6955/24v038a_us_psu_1-694517122ae10-tiny.jpg",
+        "alt": "Mikrotik PSU 24V 0.38A US Plug"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6955/24v038a_us_psu_3-69451712bea04-tiny.jpg",
+        "alt": "Mikrotik PSU 24V 0.38A US Plug"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 4.49,
+    "currency": "USD",
+    "discount": -40
+  },
+  "old_price": 7.45,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage",
+        "Output Power"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "0.38 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "24 V DC"
+        },
+        {
+          "name": "Output Power",
+          "value": "9.12 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "class": "Pickup point",
+      "price": 15.66,
+      "currency": "USD",
+      "description": "receive in 18 business days"
+    },
+    {
+      "class": "Standard",
+      "price": 31.61,
+      "currency": "USD",
+      "description": "receive in 5 business days"
+    },
+    {
+      "class": "Express",
+      "price": 43.08,
+      "currency": "USD",
+      "description": "receive in 2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

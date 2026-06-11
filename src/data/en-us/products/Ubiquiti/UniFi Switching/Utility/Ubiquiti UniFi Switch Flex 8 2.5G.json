@@ -1,0 +1,293 @@
+{
+  "slug": "ubiquiti-unifi-8-port-switch-flex-2-5g",
+  "id": 5519,
+  "productTitle": "Ubiquiti UniFi Switch Flex 8 2.5G",
+  "name": "Ubiquiti UniFi Switch Flex 8 2.5G",
+  "title": "Ubiquiti UniFi Switch Flex 8 2.5G",
+  "title_extended": "Ubiquiti UniFi Switch Flex 2.5G – 8-Port Multi-Gigabit Switch",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Advanced Switching Features",
+      "text": "The Ubiquiti UniFi Switch Flex 2.5G (USW-Flex-2.5G-8) is engineered to provide robust and high-speed networking solutions for both home and business environments. Equipped with eight 2.5 Gigabit Ethernet (GbE) RJ45 ports, it ensures rapid data transfer rates, accommodating bandwidth-intensive applications such as high-definition video streaming, online gaming, and large file transfers. Additionally, the switch features a versatile 10 Gigabit Ethernet RJ45/SFP+ combination uplink port, offering flexible connectivity options to integrate seamlessly with existing network infrastructures."
+    },
+    {
+      "heading": null,
+      "text": "Beyond its impressive hardware capabilities, the USW-Flex-2.5G-8 offers advanced Layer 2 switching features to enhance network performance and security. These include support for Spanning Tree Protocol (STP/RSTP) with configurable priorities and port-level disable options, storm control, multicast and broadcast rate limiting, flow control, jumbo frames, egress rate limiting, proprietary loop protection, port isolation, and port mirroring. These features empower network administrators to optimize traffic management, prevent network loops, and maintain a robust and secure networking environment, catering to the demands of modern network infrastructures."
+    },
+    {
+      "heading": "Flexible Power Options",
+      "text": "The USW-Flex-2.5G-8 offers multiple power input methods to suit various deployment scenarios. It can be powered via a 5V, 3A USB-C adapter, providing a straightforward and accessible power solution. Alternatively, the switch supports Power over Ethernet Plus (PoE+), allowing it to receive power through the 10 GbE RJ45 uplink port when connected to a compatible PoE+ source. This flexibility simplifies installation and reduces cable clutter, making it an ideal choice for diverse networking setups."
+    },
+    {
+      "heading": null,
+      "text": "The USW-Flex-2.5G-8 boasts a sleek and compact form factor, measuring 212.9 x 76 x 33.5 mm and weighing 420 grams. Its polycarbonate enclosure ensures durability while maintaining a lightweight profile. The switch is designed for versatile mounting options, including wall mounting (kit included) and DIN rail mounting (sold separately), allowing for flexible placement in various environments. Its compact size and flexible installation options make it suitable for both space-constrained and open areas, ensuring optimal network deployment."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches"
+  ],
+  "mpn": "USW-Flex-2.5G-8",
+  "manufacturer_part_number": "USW-Flex-2.5G-8",
+  "ean": "0810084696057",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5519/uswflex25g81-678a69c64bf7b-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex 8 2.5G",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5519/uswflex25g82-678a69c977cc2-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex 8 2.5G",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5519/uswflex25g83-678a69ce3b59f-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex 8 2.5G",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5519/uswflex25g84-678a69d1612b9-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex 8 2.5G",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5519/uswflex25g85-678a69d4b9458-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex 8 2.5G",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 168.93,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "PoE Out Standards",
+        "SFP Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(8) 2.5 Gbps"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "w/o PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 10G SFP+"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": " -  V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "14 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "5 V DC 3 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "212.9 x 76 x 33.5 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.42 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 45 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "DIN Rail, Wall Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Flex 8 2.5G",
+      "url": "https://www.getic.com/files/catalogue/5519/uswflex25g8_ds-678a69bfbdcee.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 184.92,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex Mini 2.5G",
+      "url": "/product/ubiquiti-unifi-switch-flex-mini-2-5g",
+      "price": 54.26,
+      "currency": "USD",
+      "mpn": "USW-Flex-2.5G-5",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex 8 PoE 2.5G",
+      "url": "/product/ubiquiti-unifi-8-port-poe-switch-flex-2-5g",
+      "price": 210.86,
+      "currency": "USD",
+      "mpn": "USW-Flex-2.5G-8-PoE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Fiber",
+      "url": "/product/ubiquiti-unifi-cloud-gateway-fiber",
+      "price": 282.07,
+      "currency": "USD",
+      "mpn": "UCG-Fiber",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

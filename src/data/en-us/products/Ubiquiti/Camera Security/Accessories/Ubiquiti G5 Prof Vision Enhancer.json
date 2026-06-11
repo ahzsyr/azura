@@ -1,0 +1,251 @@
+{
+  "slug": "g5-professional-vision-enhancer",
+  "id": "4451",
+  "productTitle": "Ubiquiti G5 Prof Vision Enhancer",
+  "name": "Ubiquiti G5 Prof Vision Enhancer",
+  "title": "Ubiquiti G5 Prof Vision Enhancer",
+  "title_extended": "Ubiquiti G5 Prof Vision Enhancer",
+  "short_description": "IR LED and FloodLight extender for UVC-G5-Pro, IR Range up to 40m, LED Spotlights 600 lumens",
+  "description": "IR LED and FloodLight extender for UVC-G5-Pro, IR Range up to 40m, LED Spotlights 600 lumens",
+  "detailed_description": [
+    {
+      "heading": "Extended Range and Illumination",
+      "text": "Expand your surveillance capabilities with the UACC-G5-Enhancer, a purposeful accessory elevating your G5 Professional camera's performance. This compact device integrates a potent 600-lumen floodlight, directly controlled by the camera, extending the infrared (IR) range impressively up to 40 meters (131 feet). In low light or complete darkness, this floodlight illuminates the camera's field of view. The enhancer becomes an extension of your G5 Professional camera, responding to its cues and commands."
+    },
+    {
+      "heading": "Extended Range and Illumination",
+      "text": "The UACC-G5-Enhancer provides illumination in outdoor spaces, including parking lots, building perimeters, and entryways. This controlled lighting ensures enhanced visibility for surveillance activities even during nighttime. Security involves both observation and deterring potential intruders: the controlled floodlight of the UACC-G5-Enhancer acts as a deterrent, discouraging unwanted activities through sudden, startling illumination."
+    },
+    {
+      "heading": "Durable in Rainy Conditions",
+      "text": "The IPX5 protection embedded in this enhancer signifies a robust defence against water splashes, rendering them suitable for outdoor installations where exposure to rain or splashes is a constant concern. This weather resistance ensures the device endures varying conditions, making it ideal for monitoring building exteriors, parking lots, or public spaces."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "IR Range",
+  "categories": [
+    "IR Range",
+    "Accessories"
+  ],
+  "mpn": "UACC-G5-Enhancer",
+  "manufacturer_part_number": "UACC-G5-Enhancer",
+  "ean": "0810084691731",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4451/1-64ba363717fe0-medium.jpg",
+        "alt": "Ubiquiti G5 Prof Vision Enhancer",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4451/2-64ba363b9ae1a-medium.jpg",
+        "alt": "Ubiquiti G5 Prof Vision Enhancer",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4451/3-64ba363f8450c-medium.jpg",
+        "alt": "Ubiquiti G5 Prof Vision Enhancer",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4451/4-64ba364278a99-medium.jpg",
+        "alt": "Ubiquiti G5 Prof Vision Enhancer",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4451/5-64ba364602553-medium.jpg",
+        "alt": "Ubiquiti G5 Prof Vision Enhancer",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4451/6-64ba36495fb9c-medium.jpg",
+        "alt": "Ubiquiti G5 Prof Vision Enhancer",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4451/7-64ba364ecf737-medium.jpg",
+        "alt": "Ubiquiti G5 Prof Vision Enhancer",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 85.00,
+    "currency": "USD",
+    "discount": "-14%"
+  },
+  "old_price": 98.65,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power",
+      "features": [
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Max Power Consumption",
+          "value": "4.5 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black, White"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX5"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø118.5 x 103.3 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.21 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Installation Guide - Ubiquiti G5 Prof Vision Enhancer",
+      "url": "https://www.getic.com/files/catalogue/4451/uaccg5enhancer_qig-64ba36319f214.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Protect Viewport",
+      "url": "/product/unifi-protect-viewport",
+      "price": 204.90,
+      "currency": "USD",
+      "mpn": "UP-Viewport",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Protect Floodlight",
+      "url": "/product/unifi-protect-smart-flood-light",
+      "price": 108.17,
+      "currency": "USD",
+      "mpn": "UP-FloodLight",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G5 Pro",
+      "url": "/product/camera-g5-professional",
+      "price": 299.00,
+      "currency": "USD",
+      "mpn": "UVC-G5-Pro",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

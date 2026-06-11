@@ -1,0 +1,211 @@
+{
+  "slug": "pigtail-rpsma-male-rpsma-male-50-cm-flex-guide",
+  "id": "652",
+  "productTitle": "MikroTik RPSMA Male to RPSMA Male 50cm Flex-Guide Cable",
+  "name": "MikroTik RPSMA Male to RPSMA Male 50cm Flex-Guide Cable",
+  "title": "MikroTik RPSMA Male to RPSMA Male 50cm Flex-Guide Cable",
+  "title_extended": "",
+  "short_description": "Mikrotik Flex-guide RPSMA Male / RPSMA Male Pigtail 50cm",
+  "description": "The MikroTik RPSMA Male to RPSMA Male 50cm Flex-Guide Cable (ACRPSMA) is a high-quality coaxial cable designed to provide a stable and low-loss connection between devices equipped with RPSMA connectors. RPSMA connectors are commonly used in wireless networking equipment, including Wi-Fi routers, access points, antennas, and adapters, which makes this cable especially useful in extending or adapting antenna connections. Whether you need to reposition an antenna for optimal coverage, connect a device to an external high-gain antenna, or integrate multiple components within a wireless setup, this cable delivers dependable performance. Manufactured from durable, high-quality materials, the ACRPSMA ensures long-term reliability, consistent performance, and secure connectivity in any networking environment.",
+  "detailed_description": [
+    {
+      "heading": "Extended Connectivity",
+      "text": "This cable is particularly useful in scenarios where external antennas are required to improve signal strength, coverage, or stability. For example, it can be used to connect outdoor antennas to MikroTik wireless devices, ensuring stronger and more stable Wi-Fi connections in offices, industrial facilities, or outdoor areas. It is also suitable for custom networking installations where flexibility in antenna placement is critical, such as in PtP wireless links or specialized IoT deployments. The robust build quality and professional-grade design of the ACRPSMA ensure resistance to wear and mechanical stress, making it suitable for permanent installations as well as temporary setups. By reducing signal attenuation, the MikroTik RPSMA Male to RPSMA Male Flex-Guide Cable helps maintain optimal data throughput and stable connectivity, offering a simple yet effective solution for upgrading and extending wireless infrastructure."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Coaxial Cables",
+  "categories": [
+    "MikroTik",
+    "Coaxial Cables"
+  ],
+  "mpn": "ACRPSMA",
+  "manufacturer_part_number": "ACRPSMA",
+  "ean": "0701017580966",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/652/685_hi_res-67f1a4c138b1d-medium.jpg",
+        "alt": "MikroTik RPSMA Male to RPSMA Male 50cm Flex-Guide Cable front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/652/686_hi_res-67f1a4c28fc81-medium.jpg",
+        "alt": "MikroTik RPSMA Male to RPSMA Male 50cm Flex-Guide Cable connectors view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/652/flex-guide_3-medium.jpg",
+        "alt": "MikroTik RPSMA Male to RPSMA Male 50cm Flex-Guide Cable flex view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 4.50,
+    "currency": "USD",
+    "discount": {
+      "percentage": 44,
+      "original_price": 8.06
+    }
+  },
+  "old_price": 8.06,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Connector",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Connector",
+          "value": "RP-SMA Male - RP-SMA Male"
+        },
+        {
+          "name": "Cable Length",
+          "value": "0.5 m"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Blue"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-55 °C to 125 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik RPSMA Male to RPSMA Male 50cm Flex-Guide Cable",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-flex-guide.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Anzio",
+        "date": "2025-10-20",
+        "text": "All is Ok , is a flex guide cable ! Please note, be very careful not to fold too tightly!",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik SXTsq 5 ac",
+      "url": "/product/sxt-sq-5-ac",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "RBSXTsqG-5acD",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "TwistPort Adapter with 2x RP-SMA Female Connectors",
+      "url": "/product/twistport-aluminium-adapter-with-sma-connectors",
+      "price": 38.56,
+      "currency": "USD",
+      "mpn": "TPA-SMA",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik Dual-Band 2.4/5GHz Outdoor Wi-Fi Antenna",
+      "url": "/product/hgo-antenna-out",
+      "price": 9.65,
+      "currency": "USD",
+      "mpn": "HGO-antenna-OUT",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ac3",
+      "url": "/product/mikrotik-hap-ac3",
+      "price": 88.22,
+      "currency": "USD",
+      "mpn": "RBD53iG-5HacD2HnD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik Value Added Distributor",
+    "MikroTik MTCNA Certificate"
+  ],
+  "stock_stat": ""
+}

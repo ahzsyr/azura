@@ -1,0 +1,202 @@
+{
+  "slug": "ns-loco-m2m5-anti-noise-shield",
+  "id": "1163",
+  "productTitle": "Anti-Noise Shield for NanoStation Loco M",
+  "name": "Anti-Noise Shield for NanoStation Loco M",
+  "title": "Anti-Noise Shield for NanoStation Loco M",
+  "title_extended": "",
+  "short_description": "Paired with NanoStation Loco M2 & M5",
+  "description": "The Anti-Noise Shield ANS-LOCO*, is a precision-engineered product designed by Ubiquiti Networks. This specialized accessory is aimed at enhancing the operational efficiency of the NanoStation Loco M series, a critical component within Ubiquiti's extensive range of wireless networking devices. Ubiquiti Networks, renowned for its innovative approach to network solutions, developed this anti-noise shield to address one of the most prevalent challenges in the field of wireless communication: the mitigation of radio frequency (RF) interference.",
+  "detailed_description": [
+    {
+      "heading": "Note",
+      "text": "* Nanostation Loco M, plastic bracket and pole are shown for demonstration purposes only and sold separately."
+    },
+    {
+      "heading": "RF Interference Mitigation",
+      "text": "In the increasingly congested RF environments of modern urban and suburban areas, wireless networks often suffer from interference caused by the myriad of signals emanating from various electronic devices. This interference can significantly impair wireless communication, leading to decreased signal quality, reduced data throughput, and overall instability of the network. The ANS-LOCO is meticulously crafted to tackle this issue by effectively reducing external noise, thereby ensuring that the NanoStation Loco M devices can perform at their peak. Enhancing the signal clarity is vital for maintaining stable and high-speed connectivity, which is indispensable for today's data-driven applications."
+    },
+    {
+      "heading": "Durable Construction",
+      "text": "Constructed with durability and longevity in mind, the ANS-LOCO employs materials selected for their ability to withstand adverse outdoor conditions. This includes resistance to corrosion, environmental wear, and the impacts of severe weather, all of which are essential for preserving the shield's effectiveness over time and safeguarding the network's investment in Ubiquiti's advanced technology."
+    },
+    {
+      "heading": "User-Friendly Installation",
+      "text": "Ubiquiti Networks places a strong emphasis on user-friendly installation for the ANS-LOCO, aligning with its commitment to making sophisticated technology accessible to a broad audience. This includes not only professional network administrators but also individuals looking to enhance their home or business networks. The shield is engineered for easy attachment to the NanoStation Loco M units, requiring minimal tools and effort. This simplicity in installation allows for a quick enhancement of network performance, reducing downtime and ensuring a more efficient networking experience."
+    },
+    {
+      "heading": "Seamless Integration",
+      "text": "Additionally, the ANS-LOCO is designed to seamlessly integrate with the NanoStation Loco M units, maintaining the operational aesthetics and functionality of the devices. The shield's design ensures that it does not obstruct the antenna's field of view or alter its radiation pattern, preserving the device's effective coverage area and signal strength."
+    },
+    {
+      "heading": "Complete Package",
+      "text": "The package comes complete with all necessary mounting hardware, providing a turnkey solution for immediate deployment. This all-inclusive approach enables users to swiftly install the anti-noise shield and benefit from the resultant improvements in signal clarity and network performance without unnecessary delays."
+    },
+    {
+      "heading": "Conclusion",
+      "text": "Anti-Noise Shield for NanoStation Loco M, with its part number ANS-LOCO, represents Ubiquiti Networks' proactive strategy to combat RF interference in wireless networks. By improving signal quality and boosting the performance of NanoStation Loco M devices, this shield not only prolongs the life of the network infrastructure but also ensures consistent and dependable service. The combination of robust environmental protection, straightforward installation, and minimal impact on device functionality establishes the ANS-LOCO as an indispensable accessory for networks employing NanoStation Loco M units, especially in settings where reducing interference is crucial for maintaining optimal connectivity and achieving superior network performance."
+    }
+  ],
+  "brand": "Cyberteam",
+  "category": "Antenna Accessories",
+  "categories": [
+    "Antenna Accessories",
+    "Accessory Tech",
+    "Anti-Noise Shield"
+  ],
+  "mpn": "ANS-LOCO",
+  "manufacturer_part_number": "ANS-LOCO",
+  "ean": "0708747433395",
+  "warranty": "12 months",
+  "condition_options": ["new", "used"],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1163/anti-noise_shield_loco_3-medium.jpg",
+        "alt": "Anti-Noise Shield for NanoStation Loco M",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1163/anti-noise_shield_loco_1-medium.jpg",
+        "alt": "Anti-Noise Shield for NanoStation Loco M",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1163/anti-noise_shield_loco_2-medium.jpg",
+        "alt": "Anti-Noise Shield for NanoStation Loco M",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1163/anti-noise_shield_loco_3-tiny.jpg",
+        "alt": "Anti-Noise Shield for NanoStation Loco M"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1163/anti-noise_shield_loco_1-tiny.jpg",
+        "alt": "Anti-Noise Shield for NanoStation Loco M"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1163/anti-noise_shield_loco_2-tiny.jpg",
+        "alt": "Anti-Noise Shield for NanoStation Loco M"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 9.42,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "General",
+      "features": ["Manufacturer part number", "EAN no.", "Country of Origin", "Warranty"],
+      "items": [
+        {
+          "name": "Manufacturer part number",
+          "value": "ANS-LOCO"
+        },
+        {
+          "name": "EAN no.",
+          "value": "0708747433395"
+        },
+        {
+          "name": "Country of Origin",
+          "value": "Poland"
+        },
+        {
+          "name": "Warranty",
+          "value": "12 months"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX NanoStation M5 Loco",
+      "url": "/product/nanostation-loco-m5",
+      "price": 60.42,
+      "currency": "USD",
+      "mpn": "LOCOM5",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX NanoStation M2 Loco",
+      "url": "/product/nanostation-loco-m2",
+      "price": 44.39,
+      "currency": "USD",
+      "mpn": "LOCOM2",
+      "availability": "InStock"
+    },
+    {
+      "name": "UbiBracket",
+      "url": "/product/ubibracket",
+      "price": 8.53,
+      "currency": "USD",
+      "mpn": "UBI-BR",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Anti-Noise Shield for NanoStation 5AC Loco",
+      "url": "/product/ns-5ac-loco-anti-noise-shield",
+      "price": 11.48,
+      "currency": "USD",
+      "mpn": "ANS-5AC-LOCO",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

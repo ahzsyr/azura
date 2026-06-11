@@ -1,0 +1,213 @@
+{
+  "slug": "ai-360-junction-box",
+  "id": "4737",
+  "productTitle": "Ubiquiti Camera AI 360 Junction Box",
+  "name": "Ubiquiti Camera AI 360 Junction Box",
+  "title": "Ubiquiti Camera AI 360 Junction Box",
+  "title_extended": "Ubiquiti Camera AI 360 Junction Box",
+  "short_description": "The Ubiquiti AI 360 Junction Box offers a secure and user-friendly solution for mounting your AI 360 camera. The tamper-resistant design discourages unauthorized access, protecting your camera and its vital recordings.",
+  "description": "The Ubiquiti AI 360 Junction Box offers a secure and user-friendly solution for mounting your AI 360 camera. The tamper-resistant design discourages unauthorized access, protecting your camera and its vital recordings. The high-quality construction ensures your camera withstands the elements while maintaining a clean, professional look that complements any environment. Strategically placed side and rear 3/4\" conduit entrances allow for effortless access to internal components, facilitating maintenance and cabling.",
+  "detailed_description": [
+    {
+      "heading": "Improved Durability",
+      "text": "The Ubiquiti AI 360 Junction Box offers a secure and user-friendly solution for mounting your AI 360 camera. The tamper-resistant design discourages unauthorized access, protecting your camera and its vital recordings. The high-quality construction ensures your camera withstands the elements while maintaining a clean, professional look that complements any environment. Strategically placed side and rear 3/4\" conduit entrances allow for effortless access to internal components, facilitating maintenance and cabling."
+    },
+    {
+      "heading": "Flexible Mounting Options",
+      "text": "The AI 360 Junction Box provides flexible installation options. You can securely mount your camera directly to a wall or ceiling for a straightforward setup or attach the junction box to a pole for elevated camera placement, ideal for capturing a wider area. Another option is to utilize a pendant mount (not included) for hanging the camera from a ceiling or overhang, providing a discreet and effective security solution."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Camera Mounts",
+  "categories": [
+    "Camera Mounts",
+    "Ubiquiti",
+    "Camera Security",
+    "Accessories"
+  ],
+  "mpn": "UACC-AI-360-JB",
+  "manufacturer_part_number": "UACC-AI-360-JB",
+  "ean": "0810084694343",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4737/6-6602b75f8efee-medium.jpg",
+        "alt": "Ubiquiti Camera AI 360 Junction Box",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4737/5-6602b75a36580-medium.jpg",
+        "alt": "Ubiquiti Camera AI 360 Junction Box",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4737/6-6602b75f8efee-tiny.jpg",
+        "alt": "Ubiquiti Camera AI 360 Junction Box"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4737/5-6602b75a36580-tiny.jpg",
+        "alt": "Ubiquiti Camera AI 360 Junction Box"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - Ubiquiti Camera AI 360 Junction Box",
+        "url": "https://www.getic.com/files/catalogue/4737/uaccai360jb_ds-6602b71bd60c3.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 59.77,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Ingress Protection Code",
+        "Housing Durability",
+        "Dimensions",
+        "Weight",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX6"
+        },
+        {
+          "name": "Housing Durability",
+          "value": "Vandal-proof IK08-rated"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø173.2 x 76 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.72 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Camera AI 360 Junction Box",
+      "url": "https://www.getic.com/files/catalogue/4737/uaccai360jb_ds-6602b71bd60c3.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 25.88,
+        "delivery_time": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 34.76,
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.91,
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Camera AI 360",
+      "url": "/product/unifi-video-camera-ai-360",
+      "price": 359.00,
+      "old_price": 405.04,
+      "currency": "USD",
+      "mpn": "UVC-AI-360",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik mANTBox ax 15s",
+      "url": "/product/mikrotik-mantbox-ax-15s",
+      "price": 145.50,
+      "currency": "USD",
+      "mpn": "L22UGS-5HaxD2HaxD-15S",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Turret White",
+      "url": "/product/ubiquiti-camera-g6-turret",
+      "price": 199.76,
+      "currency": "USD",
+      "mpn": "UVC-G6-Turret-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Pro 360 Black",
+      "url": "/product/ubiquiti-camera-g6-pro-360-black",
+      "price": 465.55,
+      "currency": "USD",
+      "mpn": "UVC-G6-Pro-360-B",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,368 @@
+{
+  "slug": "routerboard-hex-poe-lite",
+  "id": "RB750UPr2",
+  "productTitle": "MikroTik hEX PoE lite",
+  "name": "MikroTik hEX PoE lite",
+  "title": "MikroTik hEX PoE lite",
+  "title_extended": "",
+  "short_description": "CPU 650MHz, 64MB RAM, 5x LAN, 1x USB 2.0, Power Output On ports 2-5, Ourput: 1A max per port; 2A max total, RouterOS L4",
+  "description": "CPU 650MHz, 64MB RAM, 5x LAN, 1x USB 2.0, Power Output On ports 2-5, Ourput: 1A max per port; 2A max total, RouterOS L4",
+  "detailed_description": [
+    {
+      "heading": "Introducing the hEX Series Routers",
+      "text": ""
+    },
+    {
+      "heading": "",
+      "text": "Designed for home and small office setups, these routers offer reliable wired connections via Ethernet cables. With PoE ports, you can power devices like access points and cameras through Ethernet. hEX S and hEX PoE also feature an SFP port for high-speed internet connections using optical cables. The RouterOS operating system by Mikrotik provides extensive network configuration and traffic management capabilities, ensuring a seamless and efficient networking experience."
+    },
+    {
+      "heading": "Wired Solution with PoE Capabilities",
+      "text": "The MikroTik hEX PoE lite Router is a small yet powerful networking device designed for home and small office installations. Ideal for users who prioritise wired connectivity and do not require Wi-Fi. This router offers innovative features and impressive hardware performance, making it a great choice for various networking needs."
+    },
+    {
+      "heading": "High-Performance Hardware",
+      "text": "Equipped with a reliable single-core 650 MHz chipset and 64MB of RAM, the hEX PoE lite ensures seamless handling of configurations supported by the RouterOS operating system, developed by MikroTik. Whether you are a networking enthusiast, a tech-savvy professional, or a small business owner, the hEX PoE lite's processing power guarantees a smooth and efficient networking experience."
+    },
+    {
+      "heading": "Fast Data Transfer",
+      "text": "Featuring five 100 Mbps Ethernet ports, the hEX PoE lite router allows for fast and stable data transfer rates over wired connections. You can connect computers, printers, and other compatible devices directly through Ethernet cables, ensuring a reliable network environment for data-intensive tasks."
+    },
+    {
+      "heading": "",
+      "text": "Out of five Ethernet ports, four are Passive PoE out ports. This allows for easy power supply through Ethernet cables to PoE-capable devices like access points and video cameras. This innovative feature reduces the need for multiple power adapters and cables, simplifying your network setup and enhancing power management efficiency."
+    },
+    {
+      "heading": "Storage & USB Port",
+      "text": "With 16MB of storage memory and a USB-A 2.0 port, the hEX PoE lite router ensures ample space for essential configurations and updates. The USB port further facilitates easy file sharing, allowing you to connect external storage devices for additional data storage options, optimising your network's capabilities."
+    },
+    {
+      "heading": "Affordability & Ease of Use",
+      "text": "The hEX PoE lite router offers an affordable and user-friendly networking solution. Its compact design and clean aesthetics make it a perfect fit for any small office or home environment. Setting up and configuring the router is a breeze, making it accessible even for users new to networking."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Ethernet Routers",
+  "categories": [
+    "Ethernet Routers",
+    "hEX"
+  ],
+  "mpn": "RB750UPr2",
+  "manufacturer_part_number": "RB750UPr2",
+  "ean": "4752224000385",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/950/rb750upr2_1-5fda022516629-medium.jpg",
+        "alt": "MikroTik hEX PoE lite",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/950/rb750upr2_2-5fda0223e1bbe-medium.jpg",
+        "alt": "MikroTik hEX PoE lite",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/8KGkPZgGOs4",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 49.75,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "USB Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(5) 100 Mbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "4 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 2.0"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "QCA9531, 1 core, 650 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "64 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "8 - 30 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "3 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 2.5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "113 x 89 x 28 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 4"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik hEX PoE lite",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-hex_poe_lite.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik hEX PoE lite",
+      "url": "https://www.getic.com/files/catalogue/950/quickguidehexpoelite-65097ac806892.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik hEX PoE lite",
+      "url": "https://www.getic.com/files/catalogue/950/usermanualshexpoelite-65097b2818aba.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Kunde",
+        "date": "2023-07-26",
+        "text": "top Quality",
+        "photos": []
+      },
+      {
+        "name": "Madis",
+        "date": "2023-06-06",
+        "text": "Good product, highly configurable.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hEX lite",
+      "url": "/product/routerboard-hex-lite",
+      "price": 39.13,
+      "currency": "USD",
+      "mpn": "RB750r2",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP",
+      "url": "/product/routerboard-hap",
+      "price": 36.76,
+      "currency": "USD",
+      "mpn": "RB951Ui-2nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX",
+      "url": "/product/routerboard-hex",
+      "price": 49.75,
+      "currency": "USD",
+      "mpn": "RB750Gr3",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ac2",
+      "url": "/product/mikrotik-hap-ac2",
+      "price": 65.22,
+      "currency": "USD",
+      "mpn": "RBD52G-5HacD2HnD-TC",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik MTCNA Certificate",
+    "MikroTik Value Added Distributor"
+  ],
+  "stock_stat": ""
+}

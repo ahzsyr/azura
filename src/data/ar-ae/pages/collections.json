@@ -1,0 +1,28 @@
+{
+  "title": "المجموعات",
+  "blocks": [
+    {
+      "discriminant": "banner",
+      "value": {
+        "heading": "{{collection.name}}",
+        "subheading": "{{collection.description}}",
+        "badge": "{{collection.badge}}",
+        "height": "sm",
+        "align": "left",
+        "overlayOpacity": 55,
+        "showPattern": true
+      }
+    },
+    {
+      "discriminant": "collections-grid",
+      "value": {
+        "heading": "تصفح المجموعة",
+        "badge": "الكتالوج",
+        "cardTemplate": "featured",
+        "limit": 12,
+        "showFilter": true,
+        "showViewAll": false
+      }
+    }
+  ]
+}

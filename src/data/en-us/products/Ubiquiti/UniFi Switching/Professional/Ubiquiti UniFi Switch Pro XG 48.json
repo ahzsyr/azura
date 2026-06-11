@@ -1,0 +1,236 @@
+{
+  "slug": "ubiquiti-unifi-switch-pro-xg-48",
+  "id": "USW-Pro-XG-48",
+  "productTitle": "Ubiquiti UniFi Switch Pro XG 48",
+  "name": "Ubiquiti UniFi Switch Pro XG 48",
+  "title": "Ubiquiti UniFi Switch Pro XG 48",
+  "title_extended": "",
+  "short_description": "The Ubiquiti UniFi Switch Pro XG 48 is designed to serve as a high-performance backbone for modern enterprise networks, delivering exceptional port density and ultra-fast connectivity.",
+  "description": "The Ubiquiti UniFi Switch Pro XG 48 is designed to serve as a high-performance backbone for modern enterprise networks, delivering exceptional port density and ultra-fast connectivity. With a total of 48 Ethernet ports, including 32 ports supporting up to 10 GbE and 16 ports supporting up to 2.5 GbE, the switch provides flexible high-speed connectivity for a wide range of devices. In addition, four 25G SFP28 uplink ports enable seamless integration with high-capacity aggregation or core network layers.",
+  "detailed_description": [
+    {
+      "heading": "Ultra-Fast Switching",
+      "text": "The Ubiquiti UniFi Switch Pro XG 48 is designed to serve as a high-performance backbone for modern enterprise networks, delivering exceptional port density and ultra-fast connectivity. With a total of 48 Ethernet ports, including 32 ports supporting up to 10 GbE and 16 ports supporting up to 2.5 GbE, the switch provides flexible high-speed connectivity for a wide range of devices. In addition, four 25G SFP28 uplink ports enable seamless integration with high-capacity aggregation or core network layers. This professional grade switch is built with advanced switching capabilities, offering a switching capacity of 920 Gbps and a total non-blocking throughput of 460 Gbps. These specifications ensure efficient handling of large volumes of data traffic without bottlenecks.\n\nWith a forwarding rate of 684 million packets per second, the switch maintains low latency and fast data delivery even under heavy load conditions. Its ability to support up to 1,000 VLANs and a MAC address table size of 128,000 entries allows for extensive network segmentation and efficient device management. Designed in a 1U rack mount form factor, the UniFi Switch Pro XG 48 combines high density connectivity with space efficient deployment, making it a powerful foundation for scalable and future ready network infrastructures."
+    },
+    {
+      "heading": "Smart Traffic Management",
+      "text": "The UniFi Switch Pro XG 48 integrates advanced Layer 3 functionality, enabling intelligent routing and traffic management directly within the switch. It supports inter VLAN routing and static routing for local networks, allowing efficient communication between segmented network environments without requiring additional routing hardware. The device also includes a built in DHCP server and DHCP relay capabilities, simplifying network configuration and management. With support for up to 512 IPv4 static routes and extensive ARP and routing table capacity, the switch is capable of handling complex network topologies with ease.\n\nAdvanced security and control features ensure reliable and protected network operation. These include access control lists based on both IP and MAC addresses, device isolation, and DHCP snooping to prevent unauthorized network activity. Additional protections such as port isolation, loop protection, and storm control help maintain network stability and prevent disruptions caused by abnormal traffic behavior. The switch also supports features such as LACP port aggregation, spanning tree protocols, and multicast management through IGMP snooping and configuration. Together, these capabilities provide a comprehensive toolkit for administrators to optimize performance, improve redundancy, and maintain full control over network traffic flow."
+    },
+    {
+      "heading": "Robust Design",
+      "text": "The UniFi Switch Pro XG 48 is built with a focus on durability, reliability, and efficient operation. Its enclosure is constructed from SGCC steel, providing a strong and stable structure suitable for long term use in professional environments. The device is designed for installation in standard 19 inch racks, supporting a wide range of rack depths from 600 to 1066 mm, ensuring compatibility with various infrastructure setups. Powering the system is an internal AC and DC power supply rated at 300W, with support for a universal input range of 100 to 240 volts. The switch also includes DC power backup capability through an external redundant power system, enhancing reliability in mission critical deployments. Despite its high performance, the device maintains efficient energy usage with a maximum power consumption of 250W.\n\nFor monitoring and management, the switch features a 1.3 inch touchscreen display that provides quick access to system information and status updates. LED indicators and support for Ethernet based management ensure straightforward integration into UniFi Network environments. The device operates reliably within a temperature range of -5 to 40° C and supports humidity levels from 10 to 90 percent without condensation. Enhanced electrostatic discharge protection further improves resilience. With its combination of solid construction, advanced power design, and practical management features, the UniFi Switch Pro XG 48 is a dependable solution for high performance networking."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "UniFi Switching",
+    "Professional"
+  ],
+  "mpn": "USW-Pro-XG-48",
+  "manufacturer_part_number": "USW-Pro-XG-48",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7157/uswproxg481-69dca796796a2-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG 48",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7157/uswproxg482-69dca79a0f22c-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG 48",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7157/uswproxg484-69dca7a418ddc-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG 48",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7157/uswproxg485-69dca7a956268-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG 48",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7157/uswproxg483-69dca7b23e635-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG 48",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7157/uswproxg486-69dca7b5f2985-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG 48",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7157/uswproxg487-69dca7ba1d178-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro XG 48",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 2009.58,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(16) 2.5 Gbps, (32) 10 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(4) 25G SFP28"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "USP RPS DC input"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "250 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Material",
+          "value": "SGCC steel"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442 x 480 x 44 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "7.6 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Pro XG 48",
+      "url": "https://www.getic.com/files/catalogue/7157/uswproxg48_ds-69dca78f52393.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

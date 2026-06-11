@@ -1,0 +1,319 @@
+{
+  "slug": "connect-display",
+  "id": "4513",
+  "productTitle": "Ubiquiti Connect Display",
+  "name": "Ubiquiti Connect Display",
+  "title": "Ubiquiti Connect Display",
+  "title_extended": "",
+  "short_description": "Touchscreen display for UniFi Connect, 21.5\", PoE++ in",
+  "description": "Touchscreen display for UniFi Connect, 21.5\", PoE++ in",
+  "detailed_description": [
+    {
+      "heading": "Interactive Signage Hub",
+      "text": "The Ubiquiti Connect Display (UC-Display) is a 21.5-inch Full HD touchscreen designed for modern interactive digital signage environments. Built to enhance communication and engagement in offices, retail spaces, hospitality venues, and public areas, this PoE++ powered display combines functionality with a sleek professional appearance. The capacitive multi-touch technology enables smooth and responsive interaction, making it ideal for wayfinding, announcements, booking systems, dashboards, or customer-facing information points. The 1920 x 1080 Full HD resolution with a 16:9 aspect ratio delivers clear visuals, while the typical brightness of 250 nits ensures readability in most indoor lighting conditions."
+    },
+    {
+      "heading": "Smart Processing",
+      "text": "UC-Display is powered by an octa-core ARM Cortex-A53 processor operating at 2.2 GHz, providing reliable performance for interactive applications and dynamic content delivery. The system is equipped with 3 GB of RAM to support stable multitasking and efficient application performance. In addition, 32 GB of internal storage provides ample space for media files, layouts, and locally stored data, reducing dependence on constant streaming and improving reliability. Power is delivered via PoE++, allowing both data and power to be supplied through a single Ethernet cable. This simplifies installation by eliminating the need for separate power wiring while maintaining a maximum power consumption of 27W. For connectivity, UC-Display features a Gigabit Ethernet RJ45 port that ensures reliable network communication and seamless integration with centralized management systems."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Professional A/V",
+  "categories": [
+    "Ubiquiti",
+    "New Integrations",
+    "Professional A/V"
+  ],
+  "mpn": "UC-Display",
+  "manufacturer_part_number": "UC-Display",
+  "ean": "0810010075345",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4513/1-650961818b2c3-medium.jpg",
+        "alt": "Ubiquiti Connect Display front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4513/2-6509618537ce7-medium.jpg",
+        "alt": "Ubiquiti Connect Display back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4513/3-65096188e9fe2-medium.jpg",
+        "alt": "Ubiquiti Connect Display side angle view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4513/4-6509618f22f89-medium.jpg",
+        "alt": "Ubiquiti Connect Display detailed view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4513/1-650961818b2c3-tiny.jpg",
+        "alt": "Ubiquiti Connect Display thumbnail 1"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4513/2-6509618537ce7-tiny.jpg",
+        "alt": "Ubiquiti Connect Display thumbnail 2"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4513/3-65096188e9fe2-tiny.jpg",
+        "alt": "Ubiquiti Connect Display thumbnail 3"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4513/4-6509618f22f89-tiny.jpg",
+        "alt": "Ubiquiti Connect Display thumbnail 4"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 702.87,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Display",
+      "features": [
+        "Display Size",
+        "Touch Screen"
+      ],
+      "items": [
+        {
+          "name": "Display Size",
+          "value": "21.5 inch"
+        },
+        {
+          "name": "Touch Screen",
+          "value": "yes"
+        }
+      ]
+    },
+    {
+      "technology": "Video",
+      "features": [
+        "Resolution"
+      ],
+      "items": [
+        {
+          "name": "Resolution",
+          "value": "1920 x 1080"
+        }
+      ]
+    },
+    {
+      "technology": "Audio",
+      "features": [
+        "Microphone",
+        "Speaker"
+      ],
+      "items": [
+        {
+          "name": "Microphone",
+          "value": "Build-in"
+        },
+        {
+          "name": "Speaker",
+          "value": "Build-in"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "USB Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB Type C"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Octa-core ARM® Cortex®-A53 at 2.2 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "3 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "32 GB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3bt PoE++"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "27 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Aluminium, Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "538.3 x 330 x 37 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "4.9 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Connect Display",
+      "url": "https://www.getic.com/files/catalogue/4513/ucdisplay21_ds-6509617c583d4.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 91.50,
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 145.54,
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Display Cast Pro",
+      "url": "/product/ubiquiti-display-cast-pro",
+      "price": 260.89,
+      "currency": "USD",
+      "mpn": "UC-Cast-Pro",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 PTZ White",
+      "url": "/product/ubiquiti-camera-g6-ptz-wt",
+      "price": 387.17,
+      "currency": "USD",
+      "mpn": "UVC-G6-PTZ-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Broadbe Slim Patch Cable 5G Purple 2m",
+      "url": "/product/broadbe-slim-patch-cable-5g-purple-2m",
+      "price": 1.97,
+      "currency": "USD",
+      "mpn": "BTP-I32C6-PR-2M",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

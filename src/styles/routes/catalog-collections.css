@@ -1,0 +1,4 @@
+@import "../product-listing.css" layer(components);
+@import "../collections-catalog.css" layer(components);
+@import "../collection-hierarchy-chrome.css" layer(components);
+@import "../catalog-page.css" layer(components);

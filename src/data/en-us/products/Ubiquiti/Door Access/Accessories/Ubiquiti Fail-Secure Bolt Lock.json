@@ -1,0 +1,162 @@
+{
+  "slug": "ubiquiti-fail-secure-bolt-lock",
+  "id": "UACC-Lock-Bolt-Secure",
+  "productTitle": "Ubiquiti Fail-Secure Bolt Lock",
+  "name": "Ubiquiti Fail-Secure Bolt Lock",
+  "title": "Ubiquiti Fail-Secure Bolt Lock",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Fail-Secure Protection",
+      "text": "The Ubiquiti Fail-Secure Bolt Lock (UACC-Lock-Bolt-Secure) delivers exceptional mechanical reliability and long-lasting performance for single doors, whether wooden or metal. Designed as a fail-secure lock, it ensures the door remains securely locked during power interruptions, preventing unauthorized access in critical areas. The lock body, door frame plate, and door plate are crafted from high-quality aluminum alloy, offering durability, corrosion resistance, and a professional appearance. Its compact form allows a seamless recess mount in the door frame, maintaining a clean and tamper-resistant installation while preserving the aesthetics of your space. Installation is straightforward with the included hardware, and the lock integrates smoothly into single-door configurations."
+    },
+    {
+      "heading": "",
+      "text": "The device features a visible LED indicator that clearly communicates status: red indicates the door is locked, and green signals the lock is open and powered. This instant visual feedback ensures both security personnel and end-users can quickly verify the door’s status. The fail-secure design, combined with robust aluminum construction, ensures that even under heavy daily use, the lock maintains consistent performance and resists physical wear. Ideal applications include offices, server rooms, storage areas, laboratories, and other high-security points requiring dependable mechanical locking. By focusing on mechanical reliability, construction quality, and clean integration, this lock provides a professional-grade access control solution that is both durable and visually unobtrusive. Its materials and mounting method make it a versatile choice for a variety of door types while offering peace of mind in any controlled-access environment."
+    },
+    {
+      "heading": "Power & Monitoring",
+      "text": "The Ubiquiti Fail-Secure Bolt Lock (UACC-Lock-Bolt-Secure) features advanced electronic control and integration capabilities for modern access control systems. Equipped with embedded Door Position Sensing (DPS), the lock provides real-time monitoring of door status. Using a dry contact system, DPS/+ and DPS/- indicate when a door is open, while a shorted connection indicates closed. The DPS is rated up to 30V DC and 0.5A, allowing reliable reporting without additional circuitry. Power is supplied via 12V DC with a ±10% tolerance. During activation, the lock draws 600mA ±10%, and in standby mode, consumption is just 12mA ±10%, combining energy efficiency with dependable performance."
+    },
+    {
+      "heading": "",
+      "text": "Wiring is clearly defined, with five dedicated connections: Lock 12V/NO (red), Lock 12V/COM (black), Lock 12V/NC (blue), DPS/- (white), and DPS/+ (orange), simplifying installation and minimizing wiring errors. The lock is fully compliant with NDAA requirements and certified under FCC, IC, and CE standards, making it suitable for regulated environments. LED indicators provide clear feedback: green shows power and unlocked status, while red confirms that the lock is engaged. This combination of intelligent sensing, fail-secure operation, and standardized wiring allows seamless integration with modern access control systems, monitoring platforms, and building automation solutions. The lock is ideal for server rooms, laboratories, offices, and other controlled-access spaces where security, energy efficiency, and reliable reporting are essential."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Ubiquiti",
+    "Door Access",
+    "Accessories"
+  ],
+  "mpn": "UACC-Lock-Bolt-Secure",
+  "manufacturer_part_number": "UACC-Lock-Bolt-Secure",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7128/uacclockboltsecure1-69b7ea9829f77-medium.jpg",
+        "alt": "Ubiquiti Fail-Secure Bolt Lock",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7128/uacclockboltsecure2-69b7ea9b60388-medium.jpg",
+        "alt": "Ubiquiti Fail-Secure Bolt Lock",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 100.05,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": ["Material", "Operating Temperature", "Environment", "Form Factor"],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Aluminium"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Embedded"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Fail-Secure Bolt Lock",
+      "url": "https://www.getic.com/files/catalogue/7128/uacclockboltsecure_ds-69b7e6d617eb3.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.60,
+        "currency": "USD",
+        "delivery_days": 18
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.48,
+        "currency": "USD",
+        "delivery_days": 5
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.91,
+        "currency": "USD",
+        "delivery_days": 2
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

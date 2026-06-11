@@ -1,0 +1,290 @@
+{
+  "slug": "switch-ultra-60w",
+  "id": "USW-Ultra-60W",
+  "productTitle": "Ubiquiti UniFi Switch Ultra 60W",
+  "name": "Ubiquiti UniFi Switch Ultra 60W",
+  "title": "Ubiquiti UniFi Switch Ultra 60W",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The Ubiquiti UniFi Switch Ultra 60W (USW-Ultra-60W) is a compact yet highly capable Layer 2 switch designed for modern, space-constrained network environments. With 8 Gigabit Ethernet RJ45 ports, it provides reliable wired connectivity for offices, retail spaces, and smart home installations. The switch features seven PoE+ ports for powering compatible devices such as access points, IP cameras, and VoIP phones, along with one PoE++ input port that enables flexible power delivery to the switch itself. Designed with adaptability in mind, the USW-Ultra-60W supports multiple power input methods, including DC input, PoE++, and an external AC/DC adapter (included). It operates within a supported voltage range of 50–57V DC/PoE, allowing seamless integration into existing UniFi infrastructures. Its compact form factor supports desktop, wall, and magnetic mounting, making it easy to deploy in cabinets, under desks, or directly on metal surfaces. The durable polycarbonate enclosure keeps the device lightweight at just 320 g, while still offering long-term reliability. Built for real-world conditions, the switch supports extended ambient operating temperatures, reaching -30 to 60°C with PoE++ input and -20 to 45°C when powered by a 60W AC adapter. This makes it suitable for both indoor and semi-industrial environments where temperature tolerance matters. Note: PoE input is supported for switch operation, but PoE+/PoE++ input or AC power is required for PoE output, ensuring predictable and stable power behavior across deployments. At its core, the UniFi Switch Ultra 60W delivers consistent and efficient data handling through a powerful non-blocking Layer 2 switching architecture. With a switching capacity of 16 Gbps and total non-blocking throughput of 8 Gbps, the switch ensures smooth, congestion-free communication across all connected devices, even in traffic-dense environments. The switch achieves a forwarding rate of 12 million packets per second (Mpps), enabling fast packet processing for latency-sensitive applications such as video streaming, IP telephony, and real-time collaboration tools. Support for up to 256 VLANs allows for precise network segmentation, improving security and performance by isolating traffic between departments, devices, or applications. A MAC address table size of 4,000 entries ensures stable operation in growing networks with numerous endpoints. The USW-Ultra-60W is engineered with a rich set of Layer 2 features commonly found in enterprise-class switches. These include STP and RSTP for loop prevention, loop protection, and storm control to safeguard against broadcast, multicast, or unknown unicast traffic spikes. Traffic management capabilities such as egress rate limiting, flow control, and multicast and broadcast rate limiting help administrators fine-tune bandwidth usage. Port isolation enhances security by restricting direct communication between selected ports, while port mirroring simplifies troubleshooting and network analysis. Support for jumbo frames improves efficiency in data-intensive applications by reducing protocol overhead. Collectively, these features make the USW-Ultra-60W an excellent choice for users who require enterprise-grade network stability and granular traffic control in a compact, cost-effective device. Power delivery is one of the key strengths of the UniFi Switch Ultra 60W, offering flexible and scalable PoE availability to match a wide range of deployment scenarios. Each PoE-capable port can deliver up to 30W (PoE+), making it suitable for demanding devices such as Wi-Fi access points and PTZ cameras. The total PoE budget varies depending on the power source: 42W with PoE++ input, 16W with PoE+ input, 42W with a 60W PoE adapter, 52W with a 60W AC adapter, and up to an impressive 202W when powered by a 210W AC adapter. This modular approach allows installers to scale power capacity without replacing the switch. Despite its capabilities, the switch remains energy-efficient. Maximum power consumption excluding PoE output is just 9W with PoE input or 8W with adapter input, while maximum consumption including PoE output reaches 210W when using a 210W AC adapter. Heat output is minimal, with 15 BTU/hr excluding PoE output, supporting silent, fanless operation. The switch is fully managed via Ethernet using the UniFi Network application (version 8.0.7 or later), enabling centralized configuration, monitoring, and firmware updates. It is NDAA compliant and certified for global deployment, including CE, FCC, IC, and Anatel approvals. Together, intelligent power management, compliance readiness, and seamless UniFi integration make the USW-Ultra-60W a dependable foundation for scalable, professionally managed networks.",
+  "detailed_description": [
+    {
+      "heading": "Compact PoE Switch",
+      "text": "The Ubiquiti UniFi Switch Ultra 60W (USW-Ultra-60W) is a compact yet highly capable Layer 2 switch designed for modern, space-constrained network environments. With 8 Gigabit Ethernet RJ45 ports, it provides reliable wired connectivity for offices, retail spaces, and smart home installations. The switch features seven PoE+ ports for powering compatible devices such as access points, IP cameras, and VoIP phones, along with one PoE++ input port that enables flexible power delivery to the switch itself. Designed with adaptability in mind, the USW-Ultra-60W supports multiple power input methods, including DC input, PoE++, and an external AC/DC adapter (included). It operates within a supported voltage range of 50–57V DC/PoE, allowing seamless integration into existing UniFi infrastructures. Its compact form factor supports desktop, wall, and magnetic mounting, making it easy to deploy in cabinets, under desks, or directly on metal surfaces. The durable polycarbonate enclosure keeps the device lightweight at just 320 g, while still offering long-term reliability. Built for real-world conditions, the switch supports extended ambient operating temperatures, reaching -30 to 60°C with PoE++ input and -20 to 45°C when powered by a 60W AC adapter. This makes it suitable for both indoor and semi-industrial environments where temperature tolerance matters. Note: PoE input is supported for switch operation, but PoE+/PoE++ input or AC power is required for PoE output, ensuring predictable and stable power behavior across deployments."
+    },
+    {
+      "heading": "Reliable Network Performance",
+      "text": "At its core, the UniFi Switch Ultra 60W delivers consistent and efficient data handling through a powerful non-blocking Layer 2 switching architecture. With a switching capacity of 16 Gbps and total non-blocking throughput of 8 Gbps, the switch ensures smooth, congestion-free communication across all connected devices, even in traffic-dense environments. The switch achieves a forwarding rate of 12 million packets per second (Mpps), enabling fast packet processing for latency-sensitive applications such as video streaming, IP telephony, and real-time collaboration tools. Support for up to 256 VLANs allows for precise network segmentation, improving security and performance by isolating traffic between departments, devices, or applications. A MAC address table size of 4,000 entries ensures stable operation in growing networks with numerous endpoints. The USW-Ultra-60W is engineered with a rich set of Layer 2 features commonly found in enterprise-class switches. These include STP and RSTP for loop prevention, loop protection, and storm control to safeguard against broadcast, multicast, or unknown unicast traffic spikes. Traffic management capabilities such as egress rate limiting, flow control, and multicast and broadcast rate limiting help administrators fine-tune bandwidth usage. Port isolation enhances security by restricting direct communication between selected ports, while port mirroring simplifies troubleshooting and network analysis. Support for jumbo frames improves efficiency in data-intensive applications by reducing protocol overhead. Collectively, these features make the USW-Ultra-60W an excellent choice for users who require enterprise-grade network stability and granular traffic control in a compact, cost-effective device."
+    },
+    {
+      "heading": "UniFi Management",
+      "text": "Power delivery is one of the key strengths of the UniFi Switch Ultra 60W, offering flexible and scalable PoE availability to match a wide range of deployment scenarios. Each PoE-capable port can deliver up to 30W (PoE+), making it suitable for demanding devices such as Wi-Fi access points and PTZ cameras. The total PoE budget varies depending on the power source: 42W with PoE++ input, 16W with PoE+ input, 42W with a 60W PoE adapter, 52W with a 60W AC adapter, and up to an impressive 202W when powered by a 210W AC adapter. This modular approach allows installers to scale power capacity without replacing the switch. Despite its capabilities, the switch remains energy-efficient. Maximum power consumption excluding PoE output is just 9W with PoE input or 8W with adapter input, while maximum consumption including PoE output reaches 210W when using a 210W AC adapter. Heat output is minimal, with 15 BTU/hr excluding PoE output, supporting silent, fanless operation. The switch is fully managed via Ethernet using the UniFi Network application (version 8.0.7 or later), enabling centralized configuration, monitoring, and firmware updates. It is NDAA compliant and certified for global deployment, including CE, FCC, IC, and Anatel approvals. Together, intelligent power management, compliance readiness, and seamless UniFi integration make the USW-Ultra-60W a dependable foundation for scalable, professionally managed networks."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Utility"
+  ],
+  "mpn": "USW-Ultra-60W",
+  "manufacturer_part_number": "USW-Ultra-60W",
+  "ean": "0810084693728",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4644/1-656f268c22135-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Ultra 60W",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4644/2-656f268f1ba61-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Ultra 60W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4644/3-656f26921cd10-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Ultra 60W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4644/4-656f269526fae-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Ultra 60W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4644/5-656f26989b4d7-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Ultra 60W",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 141.62,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(8) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "7 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE), 802.3at (PoE+)"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 802.3bt PoE++"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "44 - 57 V DC"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "54 V DC 3.9 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "202.9 x 76 x 33 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.7 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-15 °C to 45 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Tabletop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Ultra 60W",
+      "url": "https://www.getic.com/files/catalogue/4644/uswultra60w_ds-656f268710cd4.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti PoE++ Adapter",
+      "url": "/product/poe-adapter",
+      "price": 31.25,
+      "currency": "USD",
+      "mpn": "U-POE++",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Ultra",
+      "url": "/product/unifi-cloud-gateway-ultra",
+      "price": 110.98,
+      "currency": "USD",
+      "mpn": "UCG-Ultra",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Outdoor",
+      "url": "/product/ubiquiti-access-point-u7-outdoor",
+      "price": 200.14,
+      "currency": "USD",
+      "mpn": "U7-Outdoor",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Lite",
+      "url": "/product/ubiquiti-unifi-u7-lite",
+      "price": 99.48,
+      "currency": "USD",
+      "mpn": "U7-Lite",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

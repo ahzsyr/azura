@@ -1,0 +1,270 @@
+{
+  "slug": "ubiquiti-unifi-building-bridge",
+  "id": "ubiquiti-unifi-building-bridge",
+  "productTitle": "Ubiquiti UniFi Building Bridge",
+  "name": "Ubiquiti UniFi Building Bridge",
+  "title": "Ubiquiti UniFi Building Bridge",
+  "title_extended": "",
+  "short_description": "60GHz Gigabit+ Wireless Bridge Kit, 5GHz Radio for Backup, Pre-Paired Radios for Quick Setup Using UniFi App",
+  "description": "The Ubiquiti UniFi Building Bridge, identified by the model manufacture part number UBB, represents a significant leap forward in the realm of wireless networking, engineered by Ubiquiti Networks. This device is specifically designed to facilitate seamless, high-throughput, wireless connectivity between buildings, making it an indispensable solution for campuses, enterprise complexes, and any scenario where physical cabling is impractical or undesirable.",
+  "detailed_description": [
+    {
+      "heading": "A 60 GHz wireless point-to-point bridge",
+      "text": "The Ubiquiti UniFi Building Bridge, identified by the model manufacture part number UBB, represents a significant leap forward in the realm of wireless networking, engineered by Ubiquiti Networks. This device is specifically designed to facilitate seamless, high-throughput, wireless connectivity between buildings, making it an indispensable solution for campuses, enterprise complexes, and any scenario where physical cabling is impractical or undesirable.\n\nCannot be set up standalone and must be managed by a UniFi Console, Official UniFi Hosting, or a Self-Hosted UniFi Network Server.\n\nCentral to the UniFi Building Bridge's prowess is its incorporation of leading-edge 60 GHz radio technology, complemented by a 5 GHz radio backup. This dual-band approach ensures robust, gigabit-level performance across distances of up to 500 meters, with the 60 GHz band providing the primary, high-speed link, and the 5 GHz band serving as a failover to maintain connectivity in adverse weather conditions that might impact the 60 GHz signal. This redundancy is crucial in maintaining uninterrupted network services, particularly in critical applications requiring consistent data transmission.\n\nThe UBB boasts an integrated high-gain antenna system, precision-engineered to focus the wireless signal and enhance the device's capacity to establish and maintain high-bandwidth connections over extended distances. This focus not only maximizes throughput but also significantly reduces interference, ensuring a clean, dedicated link between points of connectivity. The device's performance is further augmented by Ubiquiti's proprietary airMAX technology, which employs a Time Division Multiple Access (TDMA) protocol to optimize bandwidth utilization and reduce latency, thereby enhancing the efficiency and reliability of data transmission.\n\nFrom a design perspective, the UniFi Building Bridge showcases a sleek, industrial form factor that encapsulates its advanced technology in a compact, weather-resistant enclosure. This design ethos ensures that the device can withstand the rigors of outdoor deployment, from extreme temperatures to precipitation, without compromising on aesthetic appeal or functionality. Furthermore, the UBB is designed for ease of installation, featuring a mounting kit that facilitates rapid deployment on poles, walls, or rooftops, alongside visual and software tools to aid in optimal alignment and commissioning. Use the LED indicator to adjust the UBB position for optimal signal to the other bridge device.\n\nManagement and configuration of the UniFi Building Bridge are seamlessly integrated into Ubiquiti's UniFi Network Controller software, providing a user-friendly interface for device setup, monitoring, and management. This platform allows network administrators to access real-time analytics, adjust device parameters, and receive alerts, all within a unified management ecosystem that can encompass other UniFi devices and services. The integration with UniFi Controller simplifies network management, enabling administrators to efficiently deploy, configure, and maintain their wireless networks from a centralized interface."
+    },
+    {
+      "heading": "Package Contents",
+      "text": "UniFi Building-to-Building Bridge (x2)\nBall joint mount (x2)\nLock ring (x2)\nMetal strap (x2)\nGigabit PoE (48V, 0.32A) with mounting bracket (x2)\nPower cord (x2)"
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "",
+  "categories": [],
+  "mpn": "UBB",
+  "manufacturer_part_number": "UBB",
+  "ean": "0817882029674",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2398/ubb_2pack_41d2336b14ad4d0caa78b1db644c99ea-602fced694bb2-medium.jpg",
+        "alt": "Ubiquiti UniFi Building Bridge",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2398/ubb_back_angle_b3e200d5b0894f2891a77bc416436d81-602fced5085aa-medium.jpg",
+        "alt": "Ubiquiti UniFi Building Bridge",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2398/ubb_front_1843887805444c18b114a88fe90bc19c-602fced4414dc-medium.jpg",
+        "alt": "Ubiquiti UniFi Building Bridge",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2398/ubb_top_angle_4ff369358cab4c5db8c0f4c536c9be97-602fced202dec-medium.jpg",
+        "alt": "Ubiquiti UniFi Building Bridge",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2398/ubb_side_00fd8585ced84862946df9eb45fc1be4-602fced2c1116-medium.jpg",
+        "alt": "Ubiquiti UniFi Building Bridge",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2398/ubb_back_20df249ba8794141a602147a2878035d-602fced5c69d4-medium.jpg",
+        "alt": "Ubiquiti UniFi Building Bridge",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2398/ubb_ports_41c1b6ab56b04800b91a0e6620d15a5a-602fced37dc8e-medium.jpg",
+        "alt": "Ubiquiti UniFi Building Bridge",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://www.getic.com/images/catalogue/description/615/c274736e804c4805ab2779bfeaf8b118-65438eeadbf4a.mp4",
+        "type": "mp4"
+      }
+    ],
+    "files": [
+      {
+        "url": "https://dl.ubnt.com/ds/ubb_ds.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti UniFi Building Bridge",
+        "type": "datasheet"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/ubiquiti/ubb-quick-start-guide.pdf",
+        "title": "Quick Start Guide - Ubiquiti UniFi Building Bridge",
+        "type": "guide"
+      }
+    ],
+    "3d_model": true
+  },
+  "price": {
+    "value": 502.10,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": ["EU", "UK", "US"],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [],
+      "items": [
+        { "name": "Generation", "value": "WiFi 5" },
+        { "name": "Standards", "value": "802.11n/ac, 802.11ad" },
+        { "name": "Frequency", "value": "5GHz, 60GHz" },
+        { "name": "60GHz Radio Rate", "value": "1.7Gbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [],
+      "items": [
+        { "name": "Antenna Design", "value": "Parabolic Dish" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "57 - 66 (GHz) 17.2 (dBi), 5.150 - 5.875 (GHz) 10 (dBi)" },
+        { "name": "Beamwidth", "value": "30 ° Vertical, 30 ° Horizontal" },
+        { "name": "Distance", "value": "Up to 500 m" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 1 Gbps" },
+        { "name": "Management", "value": "Ethernet, Bluetooth" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [],
+      "items": [
+        { "name": "Power Method", "value": "48V Passive PoE, 802.3af PoE" },
+        { "name": "Power Supply", "value": "External PoE Adapter" },
+        { "name": "Supported Input Voltage", "value": "44 - 57 V DC" },
+        { "name": "Max Power Consumption", "value": "11 W" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [],
+      "items": [
+        { "name": "Color", "value": "White" },
+        { "name": "Material", "value": "UV Plastic" },
+        { "name": "Dimensions", "value": "Ø140 x 90 mm" },
+        { "name": "Weight", "value": "0.38 kg" },
+        { "name": "Operating Temperature", "value": "-40 °C to 60 °C" },
+        { "name": "Environment", "value": "Outdoor" },
+        { "name": "Mounting Method", "value": "Pole Mount" },
+        { "name": "Rated Wind Velocity", "value": "200 km/h" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [],
+      "items": [
+        { "name": "Units", "value": "2 pcs" },
+        { "name": "External Power Supply", "value": "Not Included" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Building Bridge",
+      "url": "https://dl.ubnt.com/ds/ubb_ds.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti UniFi Building Bridge",
+      "url": "https://www.getic.com/files/catalogue/ubiquiti/ubb-quick-start-guide.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "price": 25.99,
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "price": 36.86,
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "price": 43.10,
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Dr.med.",
+        "date": "2023-05-26",
+        "text": "Easy to use, good description, easy to install together with Dreammachine",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi AC Pro",
+      "url": "/product/unifi-ac-pro",
+      "price": 135.81,
+      "currency": "USD",
+      "mpn": "UAP-AC-PRO",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Ethernet Surge Protector",
+      "url": "/product/ethernet-surge-protector-gen-2",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "ETH-SP-G2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex Utility",
+      "url": "/product/unifi-flex-switch-adapter-kit",
+      "price": 52.98,
+      "currency": "USD",
+      "mpn": "USW-Flex-Utility",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

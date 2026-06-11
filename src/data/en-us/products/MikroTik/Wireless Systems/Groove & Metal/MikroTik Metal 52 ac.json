@@ -1,0 +1,297 @@
+{
+  "slug": "metal-52-ac",
+  "id": 1065,
+  "productTitle": "MikroTik Metal 52 ac",
+  "name": "MikroTik Metal 52 ac",
+  "title": "MikroTik Metal 52 ac",
+  "title_extended": "",
+  "short_description": "720MHz QCA9556, 64MB RAM, 1 GLAN, 2.4GHz 802.11 b/g/n, 5GHz 802.11ac/n/a, RouterOS L4, POE Adapter and Omni Antenna Included",
+  "description": "720MHz QCA9556, 64MB RAM, 1 GLAN, 2.4GHz 802.11 b/g/n, 5GHz 802.11ac/n/a, RouterOS L4, POE Adapter and Omni Antenna Included",
+  "detailed_description": [
+    {
+      "heading": "Adaptable Roles: AP, Backbone, CPE",
+      "text": "Enjoy the wireless performance of MikroTik Metal 52 ac, a device offering a blend of cutting-edge technology and adaptability. As a versatile 2.4/5GHz Software Selectable AP/Backbone/CPE, the Metal 52 ac stands out for its ability to surpass traditional limitations. This device not only supports the high-performance 802.11ac standard but also provides a Gigabit Ethernet port for fast data transfer. What sets the Metal 52 ac apart is its \"Software Selectable\" feature, enabling users to dynamically configure or switch between the 2.4GHz and 5GHz bands using intuitive software settings. The Metal 52 ac, functioning as an Access Point (AP), Backbone, or Customer Premises Equipment (CPE), showcases its multifaceted capabilities. In AP mode, it serves as a central hub for wireless clients, facilitating seamless network access and communication. In a backbone configuration, it establishes high-speed connections between network segments, elevating overall network performance. As a CPE, the device operates as a receiver or endpoint, connecting to a central access point or backbone infrastructure."
+    },
+    {
+      "heading": "Routing Excellence with RouterOS",
+      "text": "Encased in a robust, fully sealed, industrial-design metal case with an IP55 protection rating, the MikroTik Metal 52 ac stands as a testament to durability. The RouterBOARD, a specialized router device, lays the foundation for the Metal 52 ac. Meanwhile, RouterOS, MikroTik’s operating system, conducts seamless routing and network management, offering a comprehensive suite of features such as routing, firewall, bandwidth management, and wireless communication."
+    },
+    {
+      "heading": "Precision in Wireless Optimization",
+      "text": "At its core, the Metal 52 ac is equipped with a game-changing Dual Band 2.4/5 GHz Omni-directional antenna. The dual-band capability empowers the device to operate seamlessly across the 2.4 GHz and 5 GHz bands, providing unparalleled flexibility in wireless communication. Complementing this, the antenna ensures a 360-degree coverage pattern, making it ideal for scenarios demanding signals to reach devices in various directions, particularly in open areas or environments with varying client device locations. Delving into the specifics, the antenna's gains boast a 6dBi gain for the 2.4 GHz band and an impressive 8dBi for the 5 GHz band. These gains signify the antenna's capability to focus and amplify signals in their respective bands, a crucial attribute for optimizing wireless connections."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": null,
+  "categories": [
+    "Groove & Metal",
+    "Wireless Systems"
+  ],
+  "mpn": "RBMetalG-52SHPacn",
+  "manufacturer_part_number": "RBMetalG-52SHPacn",
+  "ean": "4752224004338",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1065/metal-64b6ec570bc3b-medium.jpg",
+        "alt": "MikroTik Metal 52 ac",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1065/metal_antenna-medium.jpg",
+        "alt": "MikroTik Metal 52 ac",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1065/rbmetalg52shpacn_1-5fd9aed4cd2da-medium.jpg",
+        "alt": "MikroTik Metal 52 ac",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1065/rbmetalg52shpacn_2-5fd9aed683edd-medium.jpg",
+        "alt": "MikroTik Metal 52 ac",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1065/rbmetalg52shpacn_3-5fd9aed782fa6-medium.jpg",
+        "alt": "MikroTik Metal 52 ac",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/LWDh_D11GT8",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 95.09,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": ["EU", "UK", "US"],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": ["Generation", "Standards", "MIMO", "Frequency", "2.4GHz Radio Rate", "5GHz Radio Rate"],
+      "items": [
+        { "name": "Generation", "value": "WiFi 5" },
+        { "name": "Standards", "value": "802.11n/ac" },
+        { "name": "MIMO", "value": "5GHz 1x1" },
+        { "name": "Frequency", "value": "2.4GHz, 5GHz" },
+        { "name": "2.4GHz Radio Rate", "value": "150 Mbps" },
+        { "name": "5GHz Radio Rate", "value": "433 Mbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": ["Antenna Design", "Wireless Antenna Frequency Range & Gain", "Beamwidth", "Polarization"],
+      "items": [
+        { "name": "Antenna Design", "value": "Omni" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "2.412 - 2.484 (GHz) 6 (dBi), 5.150 - 5.875 (GHz) 8 (dBi)" },
+        { "name": "Beamwidth", "value": "360 °" },
+        { "name": "Polarization", "value": "Linear" }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": ["RF Connectors"],
+      "items": [
+        { "name": "RF Connectors", "value": "(1) N Male" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": ["RJ45 Ports", "Management"],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 1 Gbps" },
+        { "name": "Management", "value": "Ethernet, Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": ["Chipset", "RAM", "Storage Memory"],
+      "items": [
+        { "name": "Chipset", "value": "QCA9556, 1 core, 720 MHz" },
+        { "name": "RAM", "value": "64 MB" },
+        { "name": "Storage Memory", "value": "16 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": ["Power Method", "Power Supply", "Supported Input Voltage", "Max Power Consumption", "PSU / POE adapter"],
+      "items": [
+        { "name": "Power Method", "value": "24V Passive PoE" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Supported Input Voltage", "value": "10 - 30 V DC" },
+        { "name": "Max Power Consumption", "value": "11 W" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 0.8 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": ["Material", "Ingress Protection Code", "Dimensions", "Weight", "Operating Temperature", "Environment", "Mounting Method"],
+      "items": [
+        { "name": "Material", "value": "Metal" },
+        { "name": "Ingress Protection Code", "value": "IP55" },
+        { "name": "Dimensions", "value": "215 x 60 x 38 mm" },
+        { "name": "Weight", "value": "0.3 kg" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Outdoor" },
+        { "name": "Mounting Method", "value": "Pole Mount" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": ["External Power Supply"],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": ["MikroTik"],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 4" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Metal 52 ac",
+      "url": "https://www.getic.com/files/catalogue/1065/metal_52_ac_190120-65bba9b5f3617.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik Metal 52 ac",
+      "url": "https://www.getic.com/files/catalogue/1065/quickguidemetal52ac-6513ea5f36290.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik Metal 52 ac",
+      "url": "https://www.getic.com/files/catalogue/1065/usermanualmetal52ac-6513ea71391d9.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Douda",
+        "date": "2025-10-24",
+        "text": "Good product",
+        "photos": []
+      },
+      {
+        "name": "Pedro",
+        "date": "2025-10-20",
+        "text": "Easy to use. A lot of features!\nReliable product. Used in the center of a big indoor space (120x70mt) and had a perfect coverage!",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX NanoStation M2",
+      "url": "/product/nanostation-m2",
+      "price": 80.15,
+      "currency": "USD",
+      "mpn": "NSM2",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB2011UiAS-2HnD-IN",
+      "url": "/product/routerboard-2011uias-2hnd-in",
+      "price": 69.00,
+      "currency": "USD",
+      "mpn": "RB2011UiAS-2HnD-IN",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Rocket Prism 5AC",
+      "url": "/product/rocket-ac-prism-gen2",
+      "price": 230.82,
+      "currency": "USD",
+      "mpn": "RP-5AC-Gen2",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB4011iGS+RM",
+      "url": "/product/routerboard-4011igs-plus-rm",
+      "price": 175.29,
+      "currency": "USD",
+      "mpn": "RB4011iGS+RM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

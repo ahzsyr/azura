@@ -1,0 +1,343 @@
+{
+  "slug": "ubiquiti-display-cast-pro",
+  "id": "UC-Cast-Pro",
+  "productTitle": "Ubiquiti Display Cast Pro",
+  "name": "Ubiquiti Display Cast Pro",
+  "title": "Ubiquiti Display Cast Pro",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Versatile Digital Signage Solution",
+      "text": "The Ubiquiti Display Cast Pro (UC-Cast-Pro) is a cutting-edge wireless presentation device designed to facilitate seamless content sharing in professional environments. This cutting-edge digital signage player designed to transform any HDMI display into an engaging information hub. The device allows users to effortlessly cast their screens from laptops, tablets, or smartphones to any compatible display. Ubiquiti Display Cast Pro seamlessly presents media content, websites, and even functions as a web browser, providing exceptional customization and versatility. With its sleek design and advanced technology, the UC-Cast-Pro is an ideal solution for enhancing collaboration and presentations in meeting rooms, classrooms, and other professional settings."
+    },
+    {
+      "heading": "High-Performance Playback and Connectivity",
+      "text": "Experience stunning visuals with the Display Cast Pro's support for 4K resolution content. Its powerful hardware ensures smooth playback of videos, images, and presentations. With multiple connectivity options including Ethernet, Wi-Fi, and USB-C, this device offers seamless integration into your network infrastructure. Additionally, the USB-C port allows for convenient connection of peripherals like keyboards and mice. The Ubiquiti Display Cast Pro offers high-definition wireless casting, ensuring that presentations, videos, and other visual content are displayed with exceptional clarity and minimal latency. This device supports multiple casting protocols, making it compatible with a wide range of devices and operating systems. Whether you're using Windows, macOS, Android, or iOS, the UC-Cast-Pro provides a reliable and high-quality casting experience, making it easier to share content during meetings or collaborative sessions."
+    },
+    {
+      "heading": "Seamless Integration and Centralized Management",
+      "text": "UC-Cast-Pro integrates seamlessly with existing networks and display systems. Its plug-and-play setup means that users can start casting content within minutes, without the need for complex configurations. The device also features intuitive controls and a user-friendly interface, making it simple for anyone to use, regardless of technical expertise. This ease of integration and operation makes the UC-Cast-Pro a versatile tool for any professional environment. Easily manage and control multiple Display Cast Pro devices through the UniFi Connect platform. Create dynamic playlists, schedule content, and monitor device performance from a centralized location. This centralized management simplifies content updates and ensures consistent messaging across all displays."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Professional A/V",
+  "categories": [
+    "Professional A/V",
+    "Home and Office Networks"
+  ],
+  "mpn": "UC-Cast-Pro",
+  "manufacturer_part_number": "UC-Cast-Pro",
+  "ean": "0810084694169",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4929/5-66b9becfc590e-medium.jpg",
+        "alt": "Ubiquiti Display Cast Pro",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4929/4-66b9becbed215-medium.jpg",
+        "alt": "Ubiquiti Display Cast Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4929/1-66b9bebbe3a9e-medium.jpg",
+        "alt": "Ubiquiti Display Cast Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4929/3-66b9bec298194-medium.jpg",
+        "alt": "Ubiquiti Display Cast Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4929/2-66b9bec683a89-medium.jpg",
+        "alt": "Ubiquiti Display Cast Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4929/6-66b9bed3b442e-medium.jpg",
+        "alt": "Ubiquiti Display Cast Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4929/7-66b9bed7869dd-medium.jpg",
+        "alt": "Ubiquiti Display Cast Pro",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4929/5-66b9becfc590e-tiny.jpg",
+        "alt": "Ubiquiti Display Cast Pro thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4929/4-66b9becbed215-tiny.jpg",
+        "alt": "Ubiquiti Display Cast Pro thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4929/1-66b9bebbe3a9e-tiny.jpg",
+        "alt": "Ubiquiti Display Cast Pro thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4929/3-66b9bec298194-tiny.jpg",
+        "alt": "Ubiquiti Display Cast Pro thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4929/2-66b9bec683a89-tiny.jpg",
+        "alt": "Ubiquiti Display Cast Pro thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4929/6-66b9bed3b442e-tiny.jpg",
+        "alt": "Ubiquiti Display Cast Pro thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4929/7-66b9bed7869dd-tiny.jpg",
+        "alt": "Ubiquiti Display Cast Pro thumbnail"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 260.89,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "USB Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(2) USB Type C"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Octa-core CPU including (2) ARM® Cortex®-A78 and (6) ARM® Cortex®-A55 Integrated Mali-G57 GPU"
+        },
+        {
+          "name": "RAM",
+          "value": "8 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "32 GB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "PSU / POE adapter",
+          "value": "5 V DC 3 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "125.1 x 56.3 x 40.8 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.26 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Display Cast Pro",
+      "url": "https://www.getic.com/files/catalogue/4929/uccastpro_ds-66b9beb66f579.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Max",
+      "url": "/product/ubiquiti-cloud-gateway-max",
+      "price": 287.92,
+      "currency": "USD",
+      "mpn": "UCG-Max",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Display Cast Lite",
+      "url": "/product/ubiquiti-display-cast-lite",
+      "price": 166.78,
+      "currency": "USD",
+      "mpn": "UC-Cast-Lite",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

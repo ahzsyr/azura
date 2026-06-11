@@ -1,0 +1,251 @@
+{
+  "slug": "ubiquiti-cwdm-mux-demux-8",
+  "id": "5187",
+  "productTitle": "Ubiquiti CWDM Mux Demux 8",
+  "name": "Ubiquiti CWDM Mux Demux 8",
+  "title": "Ubiquiti CWDM Mux Demux 8",
+  "title_extended": "",
+  "short_description": "Buy Ubiquiti CWDM Mux Demux 8. Price from 345.27 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "description": "The Ubiquiti CWDM Mux Demux 8 (UACC-CWDM-8) is a rack-mountable solution designed to enhance the capacity of existing fiber optic infrastructure by multiplexing and demultiplexing four separate data channels. By utilizing Coarse Wavelength Division Multiplexing (CWDM) technology, this device enables the transmission of multiple data channels (1450, 1470, 1490, 1510, 1530, 1550, 1570 and 1590 nm) over a single fiber optic cable.",
+  "detailed_description": [
+    {
+      "heading": "Maximized Fiber Capacity",
+      "text": "The Ubiquiti CWDM Mux Demux 8 (UACC-CWDM-8) is a rack-mountable solution designed to enhance the capacity of existing fiber optic infrastructure by multiplexing and demultiplexing four separate data channels. By utilizing Coarse Wavelength Division Multiplexing (CWDM) technology, this device enables the transmission of multiple data channels (1450, 1470, 1490, 1510, 1530, 1550, 1570 and 1590 nm) over a single fiber optic cable. This allows network administrators to expand the bandwidth of their fiber networks without the need to lay additional cables, making it a cost-effective solution for high-capacity data transfer in enterprise and data center environments. Ideal for applications that demand high-bandwidth connections, the CWDM Mux Demux ensures seamless integration with Ubiquiti's aggregation switches, such as the USW-Aggregation and USW-Pro-Aggregation."
+    },
+    {
+      "heading": "Advanced Port Connectivity",
+      "text": "This CWDM Mux Demux 8 comes equipped with an array of connectivity options to ensure smooth integration and scalability. It features one Duplex LC UPC communication port, enabling users to link it with another CWDM Mux Demux 8 device via a pair of single-mode fiber cables, effectively doubling the number of channels available. Additionally, there is a Duplex LC UPC monitor port, which allows real-time network performance observation using a power meter or optical spectrum analyzer. For further expansion, the unit also includes a Duplex LC UPC expansion port, which can be connected to a CWDM Mux Demux 4 to accommodate even more channels."
+    },
+    {
+      "heading": "Superior Performance",
+      "text": "Designed for reliability, the CWDM Mux Demux 8 supports single-mode fiber type (SMF-28e) and offers a maximum power handling capacity of 500 mW. Its eight Mux/Demux channels allow precise data channeling with channel center wavelengths between 1450 and 1590 nm. With an ambient operating temperature range of -30 to 75°C, this unit is well-suited for various indoor environments, providing the robust performance necessary for critical applications. Its compact, rack-mountable design ensures that it integrates seamlessly into existing fiber setups in data centers or enterprises. Whether you're expanding a corporate data center or optimizing fiber use in an enterprise environment, the CWDM Mux Demux 8 provides the flexibility and scalability needed for modern high-speed network demands."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Fiber Products",
+  "categories": [
+    "Fiber Products",
+    "CWDM"
+  ],
+  "mpn": "UACC-CWDM-8",
+  "manufacturer_part_number": "UACC-CWDM-8",
+  "ean": "0810084694824",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5187/1-670f914eceffd-medium.jpg",
+        "alt": "Ubiquiti CWDM Mux Demux 8",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5187/2-670f91529bfcf-medium.jpg",
+        "alt": "Ubiquiti CWDM Mux Demux 8",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5187/3-670f915661998-medium.jpg",
+        "alt": "Ubiquiti CWDM Mux Demux 8",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5187/4-670f915a07664-medium.jpg",
+        "alt": "Ubiquiti CWDM Mux Demux 8",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5187/5-670f915d687e6-medium.jpg",
+        "alt": "Ubiquiti CWDM Mux Demux 8",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5187/6-670f9160cc4bc-medium.jpg",
+        "alt": "Ubiquiti CWDM Mux Demux 8",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 345.27,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Fiber Equipment",
+      "features": [
+        "Connector Type",
+        "TX Wavelength",
+        "RX Wavelength"
+      ],
+      "items": [
+        {
+          "name": "Connector Type",
+          "value": "(3) LC UPC"
+        },
+        {
+          "name": "TX Wavelength",
+          "value": "1270 - 1330 nm"
+        },
+        {
+          "name": "RX Wavelength",
+          "value": "1330 - 1270 nm"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442 x 120 x 43.7 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.4 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 75 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti CWDM Mux Demux 8",
+      "url": "https://www.getic.com/files/catalogue/5187/uacccwdm8_ds-670f914928571.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 19 dBi Sector",
+      "url": "/product/sector-airmax-5g19-120",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "AM-5G19-120",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 2.4 GHz, 10 dBi Omni",
+      "url": "/product/omni-airmax-2g10",
+      "price": 151.30,
+      "currency": "USD",
+      "mpn": "AMO-2G10",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 10 dBi Omni",
+      "url": "/product/omni-airmax-5g10",
+      "price": 110.98,
+      "currency": "USD",
+      "mpn": "AMO-5G10",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 13 dBi Omni",
+      "url": "/product/omni-airmax-5g13",
+      "price": 142.96,
+      "currency": "USD",
+      "mpn": "AMO-5G13",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

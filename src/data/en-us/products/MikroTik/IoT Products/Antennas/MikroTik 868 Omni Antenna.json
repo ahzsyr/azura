@@ -1,0 +1,214 @@
+{
+  "slug": "mikrotik-868-omni-antenna",
+  "id": "3805",
+  "productTitle": "MikroTik 868 Omni Antenna",
+  "name": "MikroTik 868 Omni Antenna",
+  "title": "MikroTik 868 Omni Antenna",
+  "title_extended": "MikroTik 868 Omni Antenna – 868 MHz Outdoor Omni-Directional Antenna",
+  "short_description": "Kit for LoRa®: 6.5 dBi Omni antenna + SMA cable 1m + mechanical holder",
+  "description": "This MikroTik Antenna Kit, well known as a 868 Omni Antenna - is a sophisticated solution designed to enhance your LoRa and Helium network performance with its robust and high-performing features. This kit includes an upgraded to 6.5 dBi Omni antenna, specifically tuned for a frequency range of 824 - 960 MHz, ensuring broad compatibility and superior signal strength. The antenna is complemented by a 1-meter long SMA cable and a mechanical holder, facilitating quick and easy attachment to masts or walls.",
+  "detailed_description": [
+    {
+      "heading": "The most waited upgrade of antenna for LoRa and Helium Performance",
+      "text": "This MikroTik Antenna Kit, well known as a 868 Omni Antenna - is a sophisticated solution designed to enhance your LoRa and Helium network performance with its robust and high-performing features. This kit includes an upgraded to 6.5 dBi Omni antenna, specifically tuned for a frequency range of 824 - 960 MHz, ensuring broad compatibility and superior signal strength. The antenna is complemented by a 1-meter long SMA cable and a mechanical holder, facilitating quick and easy attachment to masts or walls."
+    },
+    {
+      "heading": "Mounting and Coverage",
+      "text": "Mounting this antenna on a 25-50 mm mast or directly on a wall is straightforward, thanks to the included mechanical holder. This flexibility in installation allows users to position the antenna at the optimal height and location for maximum coverage and signal strength. The antenna operates efficiently within the 824 - 960 MHz frequency range, providing reliable connectivity for various LoRa and Helium applications. Its 6.5 dBi gain ensures a balanced boost in signal strength and coverage, suitable for both urban environments with dense building structures and open rural areas. Equipped with a 360° horizontal beamwidth and a 30° vertical beamwidth, the 868 Omni Antenna provides extensive and even coverage in all horizontal directions. This feature makes it an excellent choice for installations where comprehensive area coverage is required, reducing the number of antennas needed for sufficient network performance."
+    },
+    {
+      "heading": "Improved Durability in Compact Form",
+      "text": "The new edition of this antenna kit boasts significantly improved durability while maintaining a compact form factor. This redesign does not compromise on performance, making it an excellent choice for for expanding the reach of wireless IoT networks and their demanding environments. One of the standout features of this kit is its enhanced cable durability, which ensures long-lasting performance even in challenging conditions. Additionally, the kit is rated IP66, offering protection against dust ingress and high-pressure water jets from any direction, making it suitable for both indoor and outdoor environments. The robust construction ensures that the antenna can withstand harsh weather conditions, providing reliable performance regardless of rain, wind, or dust."
+    },
+    {
+      "heading": "Design and Installation",
+      "text": "The 868 Omni Antenna is designed for easy installation, compatible with standard mounting systems. Its lightweight and durable design allows for mounting on various structures without special tools or complicated procedures, facilitating quick deployment and integration into existing network infrastructures. Once installed, the antenna provides superb coverage thanks to its 360-degree horizontal beamwidth and 30-degree vertical beamwidth, ensuring a wide area of signal reception. The nominal impedance of 50 ohms and the built-in DC ground lightning protection further enhance the reliability and safety of this antenna, making it a dependable component for your LoRa or Helium network. Weighing just 0.6 kg and with dimensions of 42 x 68 x 495 mm, the MikroTik Antenna Kit is both lightweight and compact, allowing for versatile installation options without imposing significant load or space requirements. The SMA female connector ensures secure and stable connections to your devices."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "LoRa Products",
+  "categories": [
+    "MikroTik",
+    "IoT Products",
+    "Antennas"
+  ],
+  "mpn": "868_Omni_antenna",
+  "manufacturer_part_number": "868_Omni_antenna",
+  "ean": "4752224007841",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3805/2104_hi_res-633ed40eb4a63-medium.jpg",
+        "alt": "MikroTik 868 Omni Antenna",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3805/2105_hi_res-633ed41798a58-medium.jpg",
+        "alt": "MikroTik 868 Omni Antenna",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3805/2106_hi_res-633ed41f7b725-medium.jpg",
+        "alt": "MikroTik 868 Omni Antenna",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/3805/868_omni_antenna_dsold-6965f307edb97.pdf",
+        "title": "Technical Specs / Datasheet - MikroTik 868 Omni Antenna"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 37.00,
+    "currency": "USD",
+    "discount": {
+      "old_price": 40.10,
+      "percentage": "-8%"
+    }
+  },
+  "old_price": 40.10,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Impedance"
+      ],
+      "items": [
+        { "name": "Antenna Design", "value": "Omni" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "0.824 - 0.960 (GHz) 6.5 (dBi)" },
+        { "name": "Beamwidth", "value": "30 ° Vertical, 360 ° Horizontal" },
+        { "name": "Impedance", "value": "50 Ω" }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        { "name": "RF Connectors", "value": "(1) SMA Female" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Mounting Method"
+      ],
+      "items": [
+        { "name": "Ingress Protection Code", "value": "IP66" },
+        { "name": "Dimensions", "value": "495 x 68 x 42 mm" },
+        { "name": "Weight", "value": "0.6 kg" },
+        { "name": "Mounting Method", "value": "Wall Mount, Pole Mount" }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Coaxial Adapter SMA Female / RPSMA Male",
+      "url": "/product/coaxial-adapter-rpsma-male-sma-female",
+      "price": 3.20,
+      "currency": "USD",
+      "mpn": "CA-SF-RSM",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik wAP LoRa8 kit",
+      "url": "/product/routerboard-wap-lora8-kit",
+      "price": 119.95,
+      "currency": "USD",
+      "mpn": "RBwAPR-2nD&R11e-LR8",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Alfa LoRa/HaLow 868MHz Antenna 5dBi N-Male",
+      "url": "/product/alfa-lora-halow-antenna-868mhz-5-dbi",
+      "price": 10.00,
+      "currency": "USD",
+      "mpn": "AOA-868-5ACM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Omni LoRa / Helium HSA-0809-FBG Antenna 10dBi SMA Female",
+      "url": "/product/omni-lora-antenna-10dbi-sma-male",
+      "price": 32.97,
+      "currency": "USD",
+      "mpn": "HSA-0809-FBG",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

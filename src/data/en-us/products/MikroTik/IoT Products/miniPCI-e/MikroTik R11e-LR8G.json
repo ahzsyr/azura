@@ -1,0 +1,208 @@
+{
+  "slug": "mikrotik-r11e-lr8g",
+  "id": "R11e-LR8G",
+  "productTitle": "MikroTik R11e-LR8G",
+  "name": "MikroTik R11e-LR8G",
+  "title": "MikroTik R11e-LR8G",
+  "title_extended": "",
+  "short_description": "Long-Range LoRa Gateway. The MikroTik R11e-LR8G is a compact mini PCIe card designed to add full LoRaWAN gateway functionality to any compatible RouterOS device equipped with a mini PCIe slot.",
+  "description": "The MikroTik R11e-LR8G is a compact mini PCIe card designed to add full LoRaWAN gateway functionality to any compatible RouterOS device equipped with a mini PCIe slot. Operating in the 863–870 MHz frequency range, it supports 8 independent LoRa channels. The module is built on a high-performance LoRa chipset that provides excellent receive sensitivity down to –141 dBm. Its RF output power reaches up to 27 dBm. A built-in GPS receiver adds position and timestamp capabilities. Low power consumption (approximately 1.3 W maximum) and broad –40 °C to +70 °C operating temperature range.",
+  "detailed_description": [
+    {
+      "heading": "Long-Range LoRa Gateway",
+      "text": "The MikroTik R11e-LR8G is a compact mini PCIe card designed to add full LoRaWAN gateway functionality to any compatible RouterOS device equipped with a mini PCIe slot. Operating in the 863–870 MHz frequency range, it supports 8 independent LoRa channels, allowing efficient handling of large numbers of LoRa sensors and end-devices. The module is built on a high-performance LoRa chipset that provides excellent receive sensitivity down to –141 dBm, ensuring stable long-distance communication even in challenging environments. Its RF output power reaches up to 27 dBm, enabling strong uplink and downlink coverage for industrial, agricultural, and smart-city applications. A built-in GPS receiver adds position and timestamp capabilities for packet synchronization and location-based functionality. With its low power consumption (approximately 1.3 W maximum) and broad –40 °C to +70 °C operating temperature range, the R11e-LR8G integrates easily into indoor routers, industrial gateways, and other protected enclosures. Its compact design makes integration simple, turning compatible devices into reliable long-range LoRaWAN gateways."
+    },
+    {
+      "heading": "Flexible IoT Integration",
+      "text": "The R11e-LR8G is engineered for seamless integration into a wide range of IoT and industrial networking systems. As a modular mini PCIe card, it can be easily installed into routers, gateways, or custom hardware designs, enabling fast deployment without hardware redesign. The card uses the Semtech SX1302 LoRa chipset and supports standard LoRaWAN protocol classes A and C, ensuring strong compatibility with existing private and public LoRaWAN networks. This flexibility makes it ideal for applications such as environmental monitoring, smart metering, precision agriculture, logistics tracking, building automation, and many other sensor-driven solutions. The device’s robust long-range performance, combined with its multi-channel capability, allows stable communication with many sensors spread across large areas. Its low power profile makes it suitable for energy-efficient installations, including remote or solar-powered gateway setups. With reliable hardware, extended temperature tolerance, and modular deployment options, the R11e-LR8G provides a versatile foundation for building scalable IoT networks."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "LoRa Products",
+  "categories": [
+    "IoT Products",
+    "MiniPCI-e Cards",
+    "LoRa Products"
+  ],
+  "mpn": "R11e-LR8G",
+  "manufacturer_part_number": "R11e-LR8G",
+  "ean": "4752224009739",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6924/1-6926df8e3989b-medium.jpg",
+        "alt": "MikroTik R11e-LR8G",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6924/1-6926df8e3989b-tiny.jpg",
+        "alt": "MikroTik R11e-LR8G"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - MikroTik R11e-LR8G",
+        "url": "https://www.getic.com/files/catalogue/6924/r11elr8g_ds-6926df8a1dbaa.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 52.76,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "863 - 870 MHz"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Max Power Consumption",
+          "value": "1.3 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik R11e-LR8G",
+      "url": "https://www.getic.com/files/catalogue/6924/r11elr8g_ds-6926df8a1dbaa.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "class": "Pickup point",
+      "price": 15.58,
+      "currency": "USD",
+      "days": 18
+    },
+    {
+      "class": "Standard",
+      "price": 31.44,
+      "currency": "USD",
+      "days": 5
+    },
+    {
+      "class": "Express",
+      "price": 42.86,
+      "currency": "USD",
+      "days": 2
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Pigtail U.fl Female / SMA Female 10cm",
+      "url": "/product/pigtail-u-fl-female-sma-female-10cm",
+      "price": 2.75,
+      "currency": "USD",
+      "mpn": "P-UF-SF-10",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 868 Omni Antenna",
+      "url": "/product/mikrotik-868-omni-antenna",
+      "price": 37.00,
+      "currency": "USD",
+      "mpn": "868_Omni_antenna",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik Value Added Distributor",
+    "MikroTik MTCNA Certificate"
+  ],
+  "stock_stat": "7 pcs in stock"
+}

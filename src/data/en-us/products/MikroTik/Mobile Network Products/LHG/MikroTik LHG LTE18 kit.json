@@ -1,0 +1,413 @@
+{
+  "slug": "mikrotik-lhg-lte18-kit",
+  "id": "4033",
+  "productTitle": "MikroTik LHG LTE18 kit",
+  "name": "MikroTik LHG LTE18 kit",
+  "title": "MikroTik LHG LTE18 kit",
+  "title_extended": "",
+  "short_description": "800MHz CPU, 256 MB RAM, PoE in 802.3af/at, 1xMiniSIM slot, CAT18 LTE modem, 2G/3G/4G/LTE, 17dBi",
+  "description": "Introducing the LHG LTE18 Kit – a remarkable solution designed to provide high-speed internet in the most remote areas. In situations where even your phone struggles to find a signal, this last-mile internet solution ensures exceptional connectivity. With the power of an ultra-fast LTE Category 18 modem, this kit offers download speeds of up to 1 Gbps, making it ideal for great distances. Equipped with a cutting-edge Category 18 LTE modem, this kit guarantees the fastest mobile internet, no matter where you are. The large high-gain 17 dBi antenna empowers the LHG LTE18 kit to connect with cell towers in extreme rural locations, providing last-mile internet access where it was previously unattainable.",
+  "detailed_description": [
+    {
+      "heading": "Introducing the LGH LTE Series",
+      "text": "Welcome to the LGH LTE Series, a lineup of smart solutions designed to improve access in remote areas. In a world where staying connected is crucial, these devices offer reliable internet even in challenging locations. Imagine being in a remote wilderness or a distant village without modern amenities: the LGH LTE devices turn isolation into seamless connectivity."
+    },
+    {
+      "heading": "Last-Mile Internet Access",
+      "text": "Introducing the LHG LTE18 Kit – a remarkable solution designed to provide high-speed internet in the most remote areas. In situations where even your phone struggles to find a signal, this last-mile internet solution ensures exceptional connectivity. With the power of an ultra-fast LTE Category 18 modem, this kit offers download speeds of up to 1 Gbps, making it ideal for great distances. Just like its predecessors, the LHG LTE18 Kit brings connectivity to the most challenging environments. Equipped with a cutting-edge Category 18 LTE modem, this kit guarantees the fastest mobile internet, no matter where you are. The large high-gain 17 dBi antenna empowers the LHG LTE18 kit to connect with cell towers in extreme rural locations, providing last-mile internet access where it was previously unattainable."
+    },
+    {
+      "heading": "Cutting-Edge Technology",
+      "text": "The LHG LTE18 Kit features a 1.2 Gbps CAT18 LTE modem, boasting carrier aggregation capabilities that allow the use of multiple bands simultaneously. This is particularly valuable in areas with many LTE users, for enhanced responsiveness and efficiency - both in crowded and weak signal environments. By incorporating carrier aggregation, the LHG LTE18 Kit ensures you stay ahead even in locations with poor connectivity, delivering impressive speeds. At its core, the LHG LTE18 Kit features a powerful 64-bit dual-core ARM CPU, driving its impressive performance. With a Gigabit Ethernet port and PoE-In capability, you can power the device from an Ethernet switch. Finally, the kit features a standard Micro-SIM slot for LTE connectivity."
+    },
+    {
+      "heading": "Adaptability for Tough Conditions",
+      "text": "Designed to withstand harsh weather conditions, the LHG LTE18 Kit boasts a solid grid antenna design that can be mounted in various ways, including poles and masts. A massive heat sink ensures worry-free operation, preventing overheating and enabling consistent performance. This kit supports a range of LTE bands: from lower frequencies that can travel long distances, - which makes it an ideal choice for remote locations with varying signal strengths, - and up to 2.7 GHz."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "LTE Products",
+  "categories": [
+    "LTE Products",
+    "Mobile Network Products",
+    "LHG"
+  ],
+  "mpn": "LHGGM&EG18-EA",
+  "manufacturer_part_number": "LHGGM&EG18-EA",
+  "ean": "4752224007414",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4033/lhgg_lte_1-624c90e162800-medium.jpg",
+        "alt": "MikroTik LHG LTE18 kit",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4033/lhgg_lte_2-624c90e2d78f7-medium.jpg",
+        "alt": "MikroTik LHG LTE18 kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4033/lhgg_lte_3-624c90e4492ee-medium.jpg",
+        "alt": "MikroTik LHG LTE18 kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4033/lhgg_lte_4-624c90e5c9fbb-medium.jpg",
+        "alt": "MikroTik LHG LTE18 kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4033/lhgg_lte_5-624c90e730b07-medium.jpg",
+        "alt": "MikroTik LHG LTE18 kit",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/84UYxfht8CA",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 223.41,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "LTE Category",
+        "FDD LTE Frequency Bands",
+        "TDD LTE Frequency Bands",
+        "SIM Card Slot"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "3G (UMTS), 4G (LTE)"
+        },
+        {
+          "name": "LTE Category",
+          "value": "Cat18 - 1.2Gbps/150Mbps"
+        },
+        {
+          "name": "FDD LTE Frequency Bands",
+          "value": "1 (2100MHz), 3 (1800MHz), 5 (850MHz), 7 (2600MHz), 8 (900MHz), 20 (800MHz), 28 (700MHz)"
+        },
+        {
+          "name": "TDD LTE Frequency Bands",
+          "value": "38 (2600MHz), 40 (2300MHz), 41 (2500MHz)"
+        },
+        {
+          "name": "SIM Card Slot",
+          "value": "Micro-SIM"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Mobile Antenna Frequency Range & Gain",
+        "Mobile Antenna Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Reflector"
+        },
+        {
+          "name": "Mobile Antenna Frequency Range & Gain",
+          "value": "0.700 - 2.600 (GHz) 17 (dBi)"
+        },
+        {
+          "name": "Mobile Antenna Gain",
+          "value": "17 dBi"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management",
+        "PCI Express"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        },
+        {
+          "name": "PCI Express",
+          "value": "(1) M.2 PCIe Slot"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "88F3720, 2 core, 800 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "256 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "8 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.8 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP54"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø391 x 227 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 3"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Quick Start Guide - MikroTik LHG LTE18 kit",
+      "url": "https://www.getic.com/files/catalogue/4033/quickguidelhglte18kit-65098744ace05.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik LHG LTE18 kit",
+      "url": "https://www.getic.com/files/catalogue/4033/usermanualslhglte18kit-6509874ede865.pdf"
+    },
+    {
+      "title": "Technical Specs / Datasheet - MikroTik LHG LTE18 kit",
+      "url": "https://www.getic.com/files/catalogue/4033/lhglte18kit_ds-66fe6a9c8edbf.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.77,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 97.52,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.8,
+    "count": 24,
+    "source": "Trustpilot",
+    "distribution": {
+      "excellent": 88,
+      "great": 8,
+      "average": 4,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 21,
+      "4_star": 2,
+      "3_star": 1,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "izabel",
+        "date": "2025-12-08",
+        "text": "Thanks... Thanks.",
+        "rating": 5,
+        "photos": []
+      },
+      {
+        "name": "Nico",
+        "date": "2025-07-25",
+        "text": "Excellente performance",
+        "rating": 5,
+        "photos": []
+      },
+      {
+        "name": "Andrea",
+        "date": "2025-04-17",
+        "text": "Very good product. RouterOS is very complicated, but it's also complete.",
+        "rating": 5,
+        "photos": []
+      },
+      {
+        "name": "Alessio",
+        "date": "2024-10-11",
+        "text": "Except for the lack of 5g support, I'm very satisfied. Top.",
+        "rating": 5,
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik QuickMOUNT pro LHG",
+      "url": "/product/quickmount-pro-lhg",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP-LHG",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik solidMOUNT",
+      "url": "/product/mikrotik-solidmount",
+      "price": 26.13,
+      "currency": "USD",
+      "mpn": "solidMOUNT",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax2",
+      "url": "/product/mikrotik-hap-ax2",
+      "price": 80.20,
+      "currency": "USD",
+      "mpn": "C52iG-5HaxD2HaxD-TC",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik hAP ax3",
+      "url": "/product/mikrotik-hap-ax3",
+      "price": 102.08,
+      "currency": "USD",
+      "mpn": "C53UiG+5HPaxD2HPaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik MTCNA Certificate",
+    "MikroTik Value Added Distributor"
+  ],
+  "stock_stat": ""
+}

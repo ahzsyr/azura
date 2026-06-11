@@ -1,0 +1,179 @@
+{
+  "slug": "psu-power-adapter-48pow",
+  "id": "34",
+  "productTitle": "PSU Power Adapter 48V1.46A",
+  "name": "PSU Power Adapter 48V1.46A",
+  "title": "PSU Power Adapter 48V1.46A",
+  "title_extended": "",
+  "short_description": "Input: 110-240V AC 50/60Hz, Output: 48V DC 1.46A 70W",
+  "description": "The MikroTik 48V1.46A Power Adapter (48POW) is a reliable and compact power supply designed to provide stable and consistent energy to MikroTik devices and other compatible network equipment. It supports a wide input range of 110–240V AC at 50/60Hz, making it suitable for use in most regions worldwide. The adapter delivers a 48V DC output with a maximum current of 1,46A, providing up to 70W of power, which is ideal for smaller networking devices or setups with moderate power requirements. Its compact design makes it easy to install in both home and office environments, while ensuring safe and uninterrupted operation. Built with durability and efficiency in mind, the 48POW helps maintain stable performance of your network equipment and reduces the risk of downtime due to power fluctuations. This adapter is a practical and essential solution for keeping your devices powered and reliable.",
+  "detailed_description": [
+    {
+      "heading": "Detailed description",
+      "text": "The MikroTik 48V1.46A Power Adapter (48POW) is a reliable and compact power supply designed to provide stable and consistent energy to MikroTik devices and other compatible network equipment. It supports a wide input range of 110–240V AC at 50/60Hz, making it suitable for use in most regions worldwide. The adapter delivers a 48V DC output with a maximum current of 1,46A, providing up to 70W of power, which is ideal for smaller networking devices or setups with moderate power requirements. Its compact design makes it easy to install in both home and office environments, while ensuring safe and uninterrupted operation. Built with durability and efficiency in mind, the 48POW helps maintain stable performance of your network equipment and reduces the risk of downtime due to power fluctuations. This adapter is a practical and essential solution for keeping your devices powered and reliable."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Electrical Equipment",
+  "categories": [
+    "Electrical Equipment",
+    "Power Adapters"
+  ],
+  "mpn": "48POW",
+  "manufacturer_part_number": "48POW",
+  "ean": "0733115906911",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/34/1476_hi_res-6333f8acb6afc-medium.jpg",
+        "alt": "PSU Power Adapter 48V1.46A",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/34/1476_hi_res-6333f8acb6afc-tiny.jpg",
+        "alt": "PSU Power Adapter 48V1.46A"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 16.11,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage",
+        "Output Power"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "1.46 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "48 V DC"
+        },
+        {
+          "name": "Output Power",
+          "value": "70 W"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.66,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.61,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.08,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hEX PoE",
+      "url": "/product/routerboard-hex-poe",
+      "price": 74.71,
+      "currency": "USD",
+      "mpn": "RB960PGS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS112-8P-4S-IN",
+      "url": "/product/cloud-router-switch-112-8p-4s-in",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS112-8P-4S-IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB4011iGS+RM",
+      "url": "/product/routerboard-4011igs-plus-rm",
+      "price": 175.29,
+      "currency": "USD",
+      "mpn": "RB4011iGS+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik netPower 16P",
+      "url": "/product/cloud-router-switch-318-16p-2s-out",
+      "price": 231.25,
+      "currency": "USD",
+      "mpn": "CRS318-16P-2S+OUT",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

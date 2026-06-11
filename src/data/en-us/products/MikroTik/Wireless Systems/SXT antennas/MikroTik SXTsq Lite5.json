@@ -1,0 +1,303 @@
+{
+  "slug": "sxt-sq-lite5",
+  "id": 1373,
+  "productTitle": "MikroTik SXTsq Lite5",
+  "name": "MikroTik SXTsq Lite5",
+  "title": "MikroTik SXTsq Lite5",
+  "title_extended": "",
+  "short_description": "5GHz, 16dBi, 1xLAN, 802.11a/n, RouterOS L3",
+  "description": "5GHz, 16dBi, 1xLAN, 802.11a/n, RouterOS L3",
+  "detailed_description": [
+    {
+      "heading": "Affordable Long-Distance Connectivity",
+      "text": "The MikroTik SXTsq Lite5 is an outdoor wireless device designed for both point-to-point (P2P) links, capable of covering distances up to 12 kilometres, and as Customer Premises Equipment (CPE). It features a compact and weatherproof design, suitable for various outdoor networking applications. Utilizing the 802.11a/n wireless standards, the SXTsq Lite5 supports a 300Mbps 5GHz radio rate. This specification allows for reliable connections, benefiting from the less congested 5GHz band known for reduced interference and improved signal quality. The device's performance is in line with the capabilities of 802.11n technology, which includes MIMO technology to enhance network stability and extend coverage."
+    },
+    {
+      "heading": "Enhanced Antenna Design",
+      "text": "The SXTsq Lite5, enhanced with a 16dBi directional antenna, marks a significant advancement in long-distance wireless connectivity, building upon the foundation laid by the SXT Lite5. This antenna's 16dBi gain, a measure of its ability to focus signal strength in a specific direction, optimizes the device for superior reach and signal quality over extended distances. Such a design is particularly effective for point-to-point communications, enabling the SXTsq Lite5 to provide reliable connections between distant points without the need for increased power output. This model's antenna technology not only extends the wireless signal range significantly, making it ideal for connecting remote locations or facilitating communication across expansive outdoor settings but also enhances signal quality by minimizing interference from outside its focused transmission path. Consequently, the SXTsq Lite5 excels in applications ranging from establishing robust outdoor wireless networks and surveillance system links to ensuring solid telecommunications links in rural or underserved areas. Moreover, the SXTsq Lite5's design evolution includes a reduction in physical size to half of its predecessor, resulting in a device that is two times thinner. This sleeker, more efficient profile allows for easier installation and integration into a variety of settings while maintaining the enhanced performance capabilities provided by its 16dBi antenna."
+    },
+    {
+      "heading": "Seamless Connectivity Solutions",
+      "text": "This device is engineered to address a diverse array of networking needs across various scenarios, making it an invaluable asset in both urban and remote settings. Its adeptness at establishing Point-to-Point (PtP) links makes it perfect for creating direct wireless connections between two locations, eliminating the need for impractical cabling over distances. As Customer Premises Equipment (CPE), it excels, connecting end-users to wider Internet service provider networks with ease and reliability, especially in settings where it's mounted externally to capture the strongest signal. For outdoor Wi-Fi coverage, this device shines by offering extended connectivity to parks, venues, and rural areas, bringing internet access where traditional methods fall short. In the realm of security, it serves as a robust backhaul for video surveillance systems, ensuring steady and reliable transmission of critical surveillance footage from remote locations to central monitoring stations. Its utility extends to providing emergency internet access in situations demanding rapid deployment, such as events, disaster recovery, or temporary construction sites, ensuring continuity of communication when it's needed most. Furthermore, its capability for network bridging showcases its flexibility, seamlessly connecting separate network segments and expanding network reach without the physical constraints of wiring. Across these applications, the device stands out for its adaptability, performance, and ease of deployment, catering to a wide spectrum of networking challenges."
+    },
+    {
+      "heading": "Processing for Seamless Performance",
+      "text": "The SXTsq Lite5, powered by the AR9344 chipset from Qualcomm Atheros, integrates a single-core processor clocked at 600 MHz and is supported by 64 MB of RAM, striking a balance between power efficiency and performance for wireless networking tasks. This configuration ensures that the device can efficiently manage standard networking functions such as routing and firewall management, alongside basic data processing for wireless communications, making it a suitable candidate for cost-effective outdoor networking setups. Considering the AR9344 chipset's application in wireless routers, access points, and CPE units, the SXTsq Lite5 is optimized for environments where moderate data throughput and power efficiency are key considerations. The device's performance and hardware specifications render it a practical solution for outdoor wireless networking, providing stable internet access and network services without significantly compromising on power consumption or performance. Equipped with a 100 Mbps Ethernet port, the SXTsq Lite5 facilitates reliable and consistent connectivity for a variety of applications. While the Ethernet port supports speeds up to 100 Mbps—sufficient for internet browsing, file sharing, and streaming standard definition content—it's important to note that this may not cater to environments demanding higher data throughput, such as those requiring gigabit connections for HD streaming or extensive file transfers."
+    },
+    {
+      "heading": "Versatile Mounting Options",
+      "text": "Mounting the SXTsq Lite5 accurately is crucial for achieving the best possible performance and network coverage, particularly in outdoor settings where distances and environmental factors can impact signal strength and quality. The device's design facilitates easy installation on both horizontal and vertical poles and masts, catering to a variety of outdoor scenarios and deployment challenges. For installations requiring precision, the availability of the QuickMount Pro accessory is a significant advantage. This mounting solution is designed to offer flexibility in adjusting the SXTsq Lite5's positioning. With the QuickMount Pro, the device can be oriented and locked at virtually any angle, whether for elevation, declination, or azimuth adjustments. This level of control is essential for point-to-point (P2P) links or when the SXTsq Lite5 is used as a Customer Premises Equipment (CPE) unit, as even minor misalignments can lead to significant performance degradation over long distances. Proper alignment ensures that the directional antenna of the SXTsq Lite5 is focused precisely towards the receiving end, maximizing signal strength and minimizing interference. This is particularly crucial in environments with potential physical obstructions or where devices operate in crowded frequency bands."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Integrated Antennas",
+    "Outdoor Wireless"
+  ],
+  "mpn": "RBSXTsq5nD",
+  "manufacturer_part_number": "RBSXTsq5nD",
+  "ean": "4752224004659",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1373/1374_hi_res1-62f206f13a802-medium.jpg",
+        "alt": "MikroTik SXTsq Lite5",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1373/1375_hi_res1-62f206e2a52e8-medium.jpg",
+        "alt": "MikroTik SXTsq Lite5",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1373/rbsxtsq5nd_5-5fd870ead1655-medium.jpg",
+        "alt": "MikroTik SXTsq Lite5",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1373/rbsxtsq5nd_7-5fd870ef30d81-medium.jpg",
+        "alt": "MikroTik SXTsq Lite5",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1373/rbsxtsq5nd_6-5fd870ed4b616-medium.jpg",
+        "alt": "MikroTik SXTsq Lite5",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/lAFcV5TBF5o",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 35.59,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": ["EU", "UK", "US"],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": ["Generation", "Standards", "MIMO", "Frequency", "5GHz Radio Rate"],
+      "items": [
+        { "name": "Generation", "value": "WiFi 4" },
+        { "name": "Standards", "value": "802.11n" },
+        { "name": "MIMO", "value": "5GHz 2x2" },
+        { "name": "Frequency", "value": "5GHz" },
+        { "name": "5GHz Radio Rate", "value": "300 Mbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": ["Antenna Design", "Wireless Antenna Frequency Range & Gain", "Beamwidth", "Polarization"],
+      "items": [
+        { "name": "Antenna Design", "value": "Panel" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "5.150 - 5.875 (GHz) 16 (dBi)" },
+        { "name": "Beamwidth", "value": "23 °" },
+        { "name": "Polarization", "value": "Dual Linear" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": ["RJ45 Ports", "Management"],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 100 Mbps" },
+        { "name": "Management", "value": "Ethernet, Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": ["Chipset", "RAM", "Storage Memory"],
+      "items": [
+        { "name": "Chipset", "value": "AR9344, 1 core, 600 MHz" },
+        { "name": "RAM", "value": "64 MB" },
+        { "name": "Storage Memory", "value": "16 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": ["Power Method", "Power Supply", "Supported Input Voltage", "Max Power Consumption", "PSU / POE adapter"],
+      "items": [
+        { "name": "Power Method", "value": "24V Passive PoE" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Supported Input Voltage", "value": "10 - 30 V DC" },
+        { "name": "Max Power Consumption", "value": "6 W" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 0.38 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": ["Color", "Material", "Ingress Protection Code", "Dimensions", "Operating Temperature", "Environment", "Mounting Method"],
+      "items": [
+        { "name": "Color", "value": "White" },
+        { "name": "Material", "value": "Plastic" },
+        { "name": "Ingress Protection Code", "value": "IP54" },
+        { "name": "Dimensions", "value": "129 x 129 x 34 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Outdoor" },
+        { "name": "Mounting Method", "value": "Pole Mount" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": ["External Power Supply"],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": ["MikroTik"],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 3" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik SXTsq Lite5",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/sxtsq_lite5-tehnical.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik SXTsq Lite5",
+      "url": "https://www.getic.com/files/catalogue/1373/quickguidesxtsqlite5-651135412e431.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik SXTsq Lite5",
+      "url": "https://www.getic.com/files/catalogue/1373/usermanualsxtsqseries-6511355279a8e.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 3,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 3,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Suleyman",
+        "date": "2025-01-23",
+        "text": "Best client device for short to mid-range access at 5GHz.",
+        "photos": []
+      },
+      {
+        "name": "Darko",
+        "date": "2024-10-14",
+        "text": "Stabil and chep",
+        "photos": []
+      },
+      {
+        "name": "Aigars",
+        "date": "2024-10-14",
+        "text": "Works as expected.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq 5 ac",
+      "url": "/product/sxt-sq-5-ac",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "RBSXTsqG-5acD",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik SXTsq 5 hp",
+      "url": "/product/sxt-sq-5-hp",
+      "price": 38.93,
+      "currency": "USD",
+      "mpn": "RBSXTsq5HPnD",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik SXTsq Lite2",
+      "url": "/product/sxt-sq-lite2",
+      "price": 35.28,
+      "currency": "USD",
+      "mpn": "RBSXTsq2nD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,354 @@
+{
+  "slug": "ubiquiti-uisp-router-for-micropop-applications",
+  "id": "UISP-R",
+  "productTitle": "Ubiquiti UISP Router",
+  "name": "Ubiquiti UISP Router",
+  "title": "Ubiquiti UISP Router",
+  "title_extended": "Ubiquiti UISP Router – ISP/WISP Router for MicroPoP Applications",
+  "short_description": "(8) GbE RJ45 ports, (1) 1G SFP port, 110W PoE supply, AC/DC adapter included, Wall-mountable kit included",
+  "description": "Ideal for wireless ISP (WISP) deployments, the UISP™ Router is a fanless PoE router featuring (8) GbE RJ45 ports and (1) 1G SFP port for an additional fiber uplink option. The UISP Router provides a cost-effective routing solution for WISPs looking to quickly and inexpensively deliver Gigabit wireless speeds to their customers. With its hefty 110W total PoE supply, the UISP Router delivers substantial power to every radio in your service network. The UISP Router is managed with the UISP application, a centralized platform where you can monitor and manage all of your UISP devices. The device is fanless and using thermal cooling for silent operation.",
+  "detailed_description": [
+    {
+      "heading": "Gigabit PoE router for MicroPoP applications",
+      "text": "Ideal for wireless ISP (WISP) deployments, the UISP™ Router is a fanless PoE router featuring (8) GbE RJ45 ports and (1) 1G SFP port for an additional fiber uplink option. The UISP Router provides a cost-effective routing solution for WISPs looking to quickly and inexpensively deliver Gigabit wireless speeds to their customers. With its hefty 110W total PoE supply, the UISP Router delivers substantial power to every radio in your service network. The UISP Router is managed with the UISP application, a centralized platform where you can monitor and manage all of your UISP devices. The device is fanless and using thermal cooling for silent operation."
+    },
+    {
+      "heading": "UISP application support",
+      "text": "Bluetooth-powered setup via the UISP Mobile app is available. Thanks to UISP app you can centrally manage your networks and clients with ease. Simply organize your clients' plans, setup billing and invoicing, and grow your customer base. UISP application allows viewing network topology, advanced data analytics, quickly set up devices and manage them on the go with a powerful mobile app. Managed with the UISP application: Version 1.4.0-beta.11 and later."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Wired Routers",
+  "categories": [
+    "Wired Routers",
+    "UISP Routing",
+    "Ubiquiti"
+  ],
+  "mpn": "UISP-R",
+  "manufacturer_part_number": "UISP-R",
+  "ean": "0810010076588",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4074/6e5a6144d95147d8aed62f4dd104cfb5-648035bb75191-medium.jpg",
+        "alt": "Ubiquiti UISP Router front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4074/19612724b7b34a5dbe644be9dfccee6f-648035c1c90ab-medium.jpg",
+        "alt": "Ubiquiti UISP Router angle view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4074/dfca7cbc836743dcaa7a40e79f7fb88f-648035c5ad278-medium.jpg",
+        "alt": "Ubiquiti UISP Router back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4074/b111dcd2258b4eb4a78099c42e1d9b7f-648035c9ae57c-medium.jpg",
+        "alt": "Ubiquiti UISP Router side view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4074/uispr_datasheet-627d10bd0f631.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti UISP Router",
+        "type": "datasheet"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/4074/uispr_installationguide-627d10ca4187c.pdf",
+        "title": "Installation Guide - Ubiquiti UISP Router",
+        "type": "guide"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 79.00,
+    "currency": "USD",
+    "discount": {
+      "percentage": 49,
+      "original_price": 156.06
+    }
+  },
+  "old_price": 156.06,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(8) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "8 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 1G SFP"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Dual-core 880 MHz, MIPS1004Kc"
+        },
+        {
+          "name": "RAM",
+          "value": "512 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "512 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "24 - 28 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "10 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "27 V DC 4.4 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "210.4 x 95 x 29 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.600 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UISP Router",
+      "url": "https://www.getic.com/files/catalogue/4074/uispr_datasheet-627d10bd0f631.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti UISP Router",
+      "url": "https://www.getic.com/files/catalogue/4074/uispr_installationguide-627d10ca4187c.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "price": 25.85,
+        "delivery_time": "receive in 18 business days",
+        "origin": "Latvia"
+      },
+      {
+        "class": "Standard",
+        "price": 34.72,
+        "delivery_time": "receive in 5 business days",
+        "origin": "Latvia"
+      },
+      {
+        "class": "Express",
+        "price": 42.86,
+        "delivery_time": "receive in 2 business days",
+        "origin": "Latvia"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Aviv",
+        "date": "2023-07-22",
+        "text": "Great product, the software for device control can be improved but all in all it is exactly what i needed.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 13 dBi Omni",
+      "url": "/product/omni-airmax-5g13",
+      "price": 142.96,
+      "currency": "USD",
+      "mpn": "AMO-5G13",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Rocket Prism 5AC",
+      "url": "/product/rocket-ac-prism-gen2",
+      "price": 229.40,
+      "currency": "USD",
+      "mpn": "RP-5AC-Gen2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airCube ISP AP",
+      "url": "/product/aircube-isp",
+      "price": 30.84,
+      "currency": "USD",
+      "mpn": "ACB-ISP",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UISP Switch",
+      "url": "/product/ubiquiti-uisp-switch-for-micropop-applications",
+      "price": 111.98,
+      "currency": "USD",
+      "mpn": "UISP-S",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

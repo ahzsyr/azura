@@ -1,0 +1,316 @@
+{
+  "slug": "unifi-usw-24",
+  "id": 3134,
+  "productTitle": "Ubiquiti UniFi Switch Standard 24",
+  "name": "Ubiquiti UniFi Switch Standard 24",
+  "title": "Ubiquiti UniFi Switch Standard 24",
+  "title_extended": "",
+  "short_description": "UniFi Switch 24 is a fully managed Layer 2 switch with (24) Gigabit Ethernet ports and (2) Gigabit SFP ports for fiber connectivity",
+  "description": "UniFi Switch 24 is a fully managed Layer 2 switch with (24) Gigabit Ethernet ports and (2) Gigabit SFP ports for fiber connectivity",
+  "detailed_description": [
+    {
+      "heading": "Gigabit Network Switch",
+      "text": "The Ubiquiti UniFi Switch 24 (USW-24) is a professional Layer 2 managed switch designed to serve as a reliable access or aggregation layer in modern business networks. It features 24 Gigabit Ethernet RJ45 ports, providing high-speed wired connectivity for workstations, servers, network storage, printers, and other IP devices. For uplink or backbone connections, the switch includes two 1G SFP ports, allowing flexible integration with fiber infrastructure or core switching equipment. Built in a standard 1U rack-mount form factor, the USW-24 is engineered for deployment in server rooms, wiring closets, and data cabinets. With compact dimensions of 442 × 200 × 44 mm, it fits easily into standard racks and enclosures with supported depths from 400 to 1200 mm, making it suitable for both centralized and distributed installations. The robust SGCC steel enclosure ensures mechanical durability and long-term reliability in professional environments."
+    },
+    {
+      "heading": null,
+      "text": "A key advantage of the UniFi Switch 24 is its fanless cooling design, which enables completely silent operation. This makes the switch an excellent choice for noise-sensitive locations such as offices, classrooms, meeting rooms, and retail spaces, where active cooling would be undesirable. Performance is optimized for enterprise workloads. The switch delivers a switching capacity of 52 Gbps, with 26 Gbps of total non-blocking throughput and a forwarding rate of 39 million packets per second, ensuring smooth handling of simultaneous data streams across all ports. Support for up to 1,000 VLANs and a MAC address table of 8,000 entries allows efficient traffic segmentation and stable operation in networks with multiple user groups, departments, or services."
+    },
+    {
+      "heading": "Advanced Layer 2 Features",
+      "text": "The UniFi Switch 24 offers an extensive set of advanced Layer 2 features that provide precise control over traffic flow, security, and network stability. LACP port aggregation enables administrators to combine multiple physical links into a single logical connection, increasing available bandwidth and improving link resilience. STP and RSTP protocols help prevent switching loops and ensure fast network recovery in complex topologies. For networks that distribute video or data streams to multiple devices, the switch supports advanced IGMP functions, including IGMP Snooping, Querier, Fast Leave, and Router Port. These features ensure that multicast traffic is forwarded only to ports with interested receivers, reducing unnecessary load and improving efficiency in IPTV systems, video surveillance deployments, and professional IP-based media networks."
+    },
+    {
+      "heading": null,
+      "text": "Security is a key focus of the USW-24. The switch supports 802.1X port-based authentication, MAC-based access control lists, MAC address blocking, and MAC-based port restrictions, helping administrators ensure that only authorized devices can access the network. Additional protection is provided through DHCP Snooping and Guarding, IP-based ACLs, and network isolation, mitigating common Layer 2 attack vectors. Traffic optimization and quality of service are handled through features such as Voice VLAN, LLDP-MED, egress rate limiting, flow control, storm control, and broadcast and multicast traffic limiting. The switch also supports jumbo frames, port mirroring for diagnostics, port isolation, loop protection, and virtual network override, giving network administrators powerful tools to tailor network behavior to specific operational requirements."
+    },
+    {
+      "heading": "UniFi Management System",
+      "text": "The UniFi Switch 24 is designed for efficient, reliable operation with minimal maintenance. Its internal AC/DC power supply rated at 36 W operates from a universal 100–240 V AC input at 50/60 Hz, ensuring compatibility with electrical systems worldwide. Maximum power consumption is limited to 25 W, making the switch energy-efficient and well suited for continuous operation. Thanks to its fanless architecture, the switch dissipates heat passively, with heat dissipation rated at 85.3 BTU/hr, eliminating moving parts and reducing the risk of mechanical failure. This design contributes to long service life and consistent performance, even in environments where silence and reliability are critical."
+    },
+    {
+      "heading": null,
+      "text": "The USW-24 is managed through the UniFi Network application, requiring UniFi Network version 7.2.94 or later. Centralized management is available over Ethernet or AR, allowing administrators to configure ports, monitor traffic, manage VLANs, and view device status from a single interface. A built-in 1.3-inch touchscreen LCM display on the front panel provides immediate access to system information, simplifying installation, monitoring, and on-site troubleshooting. The switch is NDAA compliant and certified for global deployment, holding CE, FCC, IC, and Anatel certifications. Combined with its silent operation, solid steel construction, and deep integration into the UniFi ecosystem, the UniFi Switch 24 is a dependable solution for building secure, scalable, and centrally managed enterprise networks."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches"
+  ],
+  "mpn": "USW-24",
+  "manufacturer_part_number": "USW-24",
+  "ean": "0810010071385",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3134/usw24_front_top_angle_46e99056af1241689cdbc5e075aae7d6-5ffc501a8e732-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Standard 24",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3134/usw24_top_angle_f9787e9456ab4937b1cf0345d3dc0249-5ffc5019ccd99-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Standard 24",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3134/usw24_front_angle_9137dc80126a4c8fa162c7483b6829a4-5ffc5019166bb-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Standard 24",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3134/usw24_side_811a04d469264391adb22e583e429616-5ffc50169c3ef-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Standard 24",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3134/usw24_back_angle_08165a1a6b2348869afa30d620021a58-5ffc50177f624-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Standard 24",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3134/usw24_back_b3b97da9a44c423ebab68e59c7a57f16-5ffc501853de6-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Standard 24",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 229.40,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(24) 1 Gbps"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "w/o PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 1G SFP"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "25 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Number of Rack Units",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Silver"
+        },
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Dimensions",
+          "value": "443 x 200 x 44 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "2.79 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Standard 24",
+      "url": "https://dl.ubnt.com/ds/usw-24_ds.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti UniFi Switch Standard 24",
+      "url": "https://dl.ubnt.com/qsg/USW-24/"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Standard 24 PoE",
+      "url": "/product/usw-24-poe-gen-2",
+      "price": 383.89,
+      "currency": "USD",
+      "mpn": "USW-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Standard 48",
+      "url": "/product/unifi-usw-48",
+      "price": 406.13,
+      "currency": "USD",
+      "mpn": "USW-48",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Special Edition",
+      "url": "/product/ubiquiti-unifi-dream-machine-special-edition",
+      "price": 512.64,
+      "currency": "USD",
+      "mpn": "UDM-SE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

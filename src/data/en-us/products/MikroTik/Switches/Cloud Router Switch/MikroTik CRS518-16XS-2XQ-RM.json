@@ -1,0 +1,364 @@
+{
+  "slug": "mikrotik-crs518-16xs-2xq-rm",
+  "id": "4129",
+  "productTitle": "MikroTik CRS518-16XS-2XQ+RM Switch – 25G SFP28, 100G QSFP28 | Getic",
+  "name": "MikroTik CRS518-16XS-2XQ-RM",
+  "title": "MikroTik CRS518-16XS-2XQ+RM Switch – 25G SFP28, 100G QSFP28 | Getic",
+  "title_extended": "MikroTik CRS518-16XS-2XQ+RM Switch – 25G SFP28, 100G QSFP28",
+  "short_description": "100 Gigabit Switch, 2X 100G QSFP28 Ports, 16X 25G SFP28 Ports, Hot-Swap Fans and Power supplies, Ultra Fast Switch-Chip",
+  "description": "100 Gigabit Switch, 2X 100G QSFP28 Ports, 16X 25G SFP28 Ports, Hot-Swap Fans and Power supplies, Ultra Fast Switch-Chip",
+  "detailed_description": [
+    {
+      "heading": "Multi-Device Connectivity",
+      "text": "The MikroTik CRS518-16XS-2XQ-RM is a modern networking tool designed for large data centres and enterprises. Building on the CRS504's features, the CRS518 boasts 2x 100 Gigabit QSFP28 ports essential for tasks such as cloud syncing and real-time analytics. Additionally, the switch has 16x 25 Gigabit SFP28 ports, making it suitable for connecting a variety of devices, from servers to workstations. With 100 Gigabit speeds, users can experience reduced latency and faster access to services. This can be particularly useful for tasks like large data uploads, streaming, and real-time communication. For instance, data centres can manage servers more efficiently, and ISPs can deliver better internet services. The switch is also beneficial for businesses wanting efficient intra-office networks or private cloud setups."
+    },
+    {
+      "heading": "Future-Proof Networking",
+      "text": "The CRS518 offers more than just high-speed connectivity; it brings versatility to your network setup. One of its standout features is its backward compatibility, which allows the 25 Gigabit ports to connect seamlessly with 10 Gigabit and 1 Gigabit SFP devices. This adaptability means that, whether you're integrating newer devices or continuing to utilize older equipment, the switch serves as a unifying hub, ensuring all parts of your network remain functional and relevant. For businesses, this translates to cost savings, as there's no immediate need to replace older equipment, and it facilitates smoother transitions during tech upgrades."
+    },
+    {
+      "heading": "From Basics to Complex Tasks",
+      "text": "The QCA9531 chipset acts as the device's main processor. Operating at a speed of 650 MHz and backed by 64 MB of RAM, this System-on-Chip (SoC) is tailored specifically for networking tasks. It manages the overall operations of the CRS518, from basic functions like interface communications to more intricate tasks like executing network protocols and managing system-level functions. The Marvell Prestera Aldrin2 switch chip specializes in the swift and precise handling and optimization of data packets. While the QCA9531 manages the overarching system functions, the Prestera Aldrin2 chip focuses on data traffic management. It ensures that data packets are routed or switched with utmost accuracy and speed, offering rapid data transfers within the CRS518."
+    },
+    {
+      "heading": "Robust Build & Advanced Features",
+      "text": "The CRS518 is crafted specifically for indoor environments and is optimized for RackMount installations, ensuring it integrates effortlessly into professional settings. It is equipped with dual hot-swap power supplies, which handle a broad input voltage range of 100-240V. This feature ensures continuous power and minimal downtime. Additionally, the CRS518 is characterized by its energy efficiency, consuming up to 45W and extending to 77W when fully equipped. The CRS518 stands out for its advanced networking capabilities. It supports VLAN, offering enhanced security and traffic segmentation. L3 hardware offloaded routing accelerates packet processing, ensuring swift data movement. The device also incorporates ACL for advanced network security, LACP for improved connection speeds, MLAG for redundancy and data flow optimization, Jumbo frames for enhanced data transfer rates, and IGMP/MLD snooping for optimized multicast traffic delivery."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Cloud Router Switch"
+  ],
+  "mpn": "CRS518-16XS-2XQ-RM",
+  "manufacturer_part_number": "CRS518-16XS-2XQ-RM",
+  "ean": "4752224007438",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4129/crs51816xs2xqrm-62e27786a9635-medium.jpg",
+        "alt": "MikroTik CRS518-16XS-2XQ-RM",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4129/crs51816xs2xqrm_2-62e27784c7c06-medium.jpg",
+        "alt": "MikroTik CRS518-16XS-2XQ-RM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4129/crs51816xs2xqrm_1-62e27785cede2-medium.jpg",
+        "alt": "MikroTik CRS518-16XS-2XQ-RM",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/nlhEcesjxiw",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 1282.04,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports",
+        "USB Ports",
+        "Communication Interface",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 100 Mbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(16) 25G SFP28, (2) 100G QSFP28"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 2.0"
+        },
+        {
+          "name": "Communication Interface",
+          "value": "RJ45"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "QCA9531, 1 core, 650 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "64 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal x2 redundant PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "45 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Number of Rack Units",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "443 x 265 x 44.5 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 6"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik CRS518-16XS-2XQ-RM",
+      "url": "https://www.getic.com/files/catalogue/4129/crs51816xs2xqrm_ds-62c56f356397e.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik CRS518-16XS-2XQ-RM",
+      "url": "https://www.getic.com/files/catalogue/4129/quickguidecrs51816xs2xqrm-650acb0a4ead3.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik CRS518-16XS-2XQ-RM",
+      "url": "https://www.getic.com/files/catalogue/4129/usermanualcrs51816xs2xqrm-650acb15de5fc.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 57.21
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 70.70
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Pero",
+        "date": "2026-01-03",
+        "text": "Xyz abcd efg h…",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+      "url": "/product/direct-attach-cable-xs-da0001",
+      "price": 26.85,
+      "currency": "USD",
+      "mpn": "XS+DA0001",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 3m",
+      "url": "/product/direct-attach-cable-xs-da0003",
+      "price": 30.93,
+      "currency": "USD",
+      "mpn": "XS+DA0003",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CCR2216-1G-12XS-2XQ",
+      "url": "/product/mikrotik-ccr2216-1g-12xs-2xq",
+      "price": 2234.12,
+      "currency": "USD",
+      "mpn": "CCR2216-1G-12XS-2XQ",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 40G/100G Direct Attach Cable 1m",
+      "url": "/product/mikrotik-qsfp28-direct-attach-cable-1m",
+      "price": 35.28,
+      "currency": "USD",
+      "mpn": "XQ+DA0001",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

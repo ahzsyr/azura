@@ -1,0 +1,277 @@
+{
+  "slug": "mikrotik-chateau-lte12-2025-",
+  "id": "D53G-5HacD2HnD-TC&EG120K-EA",
+  "productTitle": "MikroTik Chateau LTE12 (2025)",
+  "name": "MikroTik Chateau LTE12 (2025)",
+  "title": "MikroTik Chateau LTE12 2025 Router – Dual Band WiFi, LTE Cat12 High Speed",
+  "title_extended": "MikroTik Chateau LTE12 2025 Router – Dual Band WiFi, LTE Cat12 High Speed",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "High-Speed Wireless Performance",
+      "text": "The MikroTik Chateau LTE12 (2025) is a high-performance dual-band home access point designed to deliver fast and reliable internet connectivity. It supports both 2.4 GHz and 5 GHz wireless frequencies, with maximum data rates of 300 Mbps and 867 Mbps respectively. Equipped with dual-chain technology and compliant with 802.11b/g/n and 802.11a/n/ac standards, the Chateau LTE12 ensures robust wireless coverage and minimal interference, making it ideal for streaming high-definition videos, online gaming, and handling multiple devices simultaneously."
+    },
+    {
+      "heading": null,
+      "text": "One of the standout features of the Chateau LTE12 is its integrated LTE Category 12 modem, capable of achieving download speeds up to 600 Mbps and upload speeds up to 150 Mbps. This modem supports carrier aggregation, allowing the device to utilize multiple LTE bands simultaneously for improved performance, especially in areas with heavy network traffic or weaker signals. The supported LTE FDD bands include 1, 3, 5, 7, 8, 20, and 28, while the TDD bands include 38, 40, and 41, ensuring broad compatibility with various network providers."
+    },
+    {
+      "heading": "Secure and Flexible Networking",
+      "text": "Beyond its wireless capabilities, the Chateau LTE12 offers extensive wired connectivity options. It features five Gigabit Ethernet ports, providing high-speed wired connections for devices such as desktop computers, gaming consoles, and smart TVs. Additionally, the device includes a USB Type-A port, allowing for the connection of external storage devices or other peripherals. The presence of a micro SIM slot facilitates seamless LTE connectivity, making the Chateau LTE12 a versatile solution for both urban and rural settings."
+    },
+    {
+      "heading": null,
+      "text": "Security is a paramount consideration in the design of the Chateau LTE12. It operates on MikroTik's RouterOS, renowned for its robust security features and comprehensive networking capabilities. Users can configure advanced firewall settings, VPNs, and various network management tools to tailor the device to their specific needs. The intuitive web-based interface and detailed documentation make it accessible for both networking professionals and home users seeking to enhance their network security and performance."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "4G Routers",
+  "categories": [
+    "4G Routers",
+    "MikroTik"
+  ],
+  "mpn": "D53G-5HacD2HnD-TC&EG120K-EA",
+  "manufacturer_part_number": "D53G-5HacD2HnD-TC&EG120K-EA",
+  "ean": "4752224009623",
+  "warranty": "12 months",
+  "condition_options": ["new", "used"],
+  "plug_options": ["US", "EU", "UK"],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5835/1-67c56ceaa8b46-medium.jpg",
+        "alt": "MikroTik Chateau LTE12 (2025)",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5835/2-67c56ceeefb88-medium.jpg",
+        "alt": "MikroTik Chateau LTE12 (2025)",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5835/3-67c56cf5cd6c6-medium.jpg",
+        "alt": "MikroTik Chateau LTE12 (2025)",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 147.80,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": ["US", "EU", "UK"],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "LTE Category",
+        "FDD LTE Frequency Bands",
+        "TDD LTE Frequency Bands",
+        "SIM Card Slot"
+      ],
+      "items": [
+        { "name": "Mobile Network Generation", "value": "3G (UMTS), 4G (LTE)" },
+        { "name": "LTE Category", "value": "Cat12 - 600Mbps/100Mbps" },
+        { "name": "FDD LTE Frequency Bands", "value": "1 (2100MHz), 3 (1800MHz), 5 (850MHz), 7 (2600MHz), 8 (900MHz), 20 (800MHz), 28 (700MHz), 32 (1400MHz)" },
+        { "name": "TDD LTE Frequency Bands", "value": "38 (2600MHz), 40 (2300MHz), 41 (2500MHz)" },
+        { "name": "SIM Card Slot", "value": "Micro-SIM" }
+      ]
+    },
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 5" },
+        { "name": "Standards", "value": "802.11n/ac" },
+        { "name": "Frequency", "value": "2.4GHz, 5GHz" },
+        { "name": "2.4GHz Radio Rate", "value": "300 Mbps" },
+        { "name": "5GHz Radio Rate", "value": "867 Mbps" }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": ["RF Connectors"],
+      "items": [
+        { "name": "RF Connectors", "value": "(2) SMA Female" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": ["RJ45 Ports", "USB Ports", "Management"],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(5) 1 Gbps" },
+        { "name": "USB Ports", "value": "(1) USB-A 2.0" },
+        { "name": "Management", "value": "Ethernet, Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": ["Chipset", "RAM", "Storage Memory"],
+      "items": [
+        { "name": "Chipset", "value": "IPQ-4019, 4 core, 448-896 (auto) MHz" },
+        { "name": "RAM", "value": "256 MB" },
+        { "name": "Storage Memory", "value": "32 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "AC/DC Adapter" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Supported Input Voltage", "value": "12 - 28 V DC" },
+        { "name": "Max Power Consumption", "value": "24 W" },
+        { "name": "Power Connector", "value": "DC Plug 2.1 x 5.5 mm" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 1.2 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        { "name": "Ingress Protection Code", "value": "IP20" },
+        { "name": "Dimensions", "value": "240 x 156 x 44 mm" },
+        { "name": "Operating Temperature", "value": "-20 °C to 70 °C" },
+        { "name": "Environment", "value": "Indoor" },
+        { "name": "Mounting Method", "value": "Tabletop" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": ["External Power Supply"],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": ["MikroTik"],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 4" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Chateau LTE12 (2025)",
+      "url": "https://www.getic.com/files/catalogue/5835/chateaulte12_ds-67c56bdea1516.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      { "class": "Pickup point", "origin": "", "weight": "", "dimensions": "" },
+      { "class": "Standard", "origin": "", "weight": "", "dimensions": "" },
+      { "class": "Express", "origin": "", "weight": "", "dimensions": "" }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Vladimir",
+        "date": "2025-12-19",
+        "text": "The Chateau LTE12 is arguably the best prosumer LTE gateway on the market.\nPros:\nLTE Cat12 Modem: Supports 3-carrier aggregation, which significantly boosted my download speeds compared to a standard Cat4/Cat6 router.\nRouterOS v7: The power of MikroTik is legendary. You can configure everything from complex VPNs to advanced firewall rules.\nBuild Quality: It feels solid and looks great on a desk—no more industrial-looking grey boxes.\nGigabit Ports: 5x Gigabit Ethernet ports are a big plus for a home lab or office setup.\nCons: * There is a learning curve if you are new to RouterOS, but it’s worth the effort.\nOverall, it's a solid 5/5 for anyone who needs reliable 4G internet as a primary or backup connection.",
+        "photos": [
+          "https://www.getic.com/assets/images/reviews/cfed5f04-fe57-46c6-a0b1-3a1a1ee258a5/small/6944fdb9fa0eb94e8491b095-6945120196c7e.jpg"
+        ]
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CSS326-24G-2S+RM",
+      "url": "/product/cloud-smart-switch-326-24g-2srm",
+      "price": 129.46,
+      "currency": "USD",
+      "mpn": "CSS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "LTE Antenna 5dBi Indoor Black (2pcs)",
+      "url": "/product/lte-antenna-5dbi-indoor-black",
+      "price": 6.09,
+      "currency": "USD",
+      "mpn": "LTE-IAB-5dBi",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CCR2004-16G-2S+",
+      "url": "/product/mikrotik-ccr2004-16g-2s-plus",
+      "price": 372.35,
+      "currency": "USD",
+      "mpn": "CCR2004-16G-2S+",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Rackmount kit for RB5009/L009 series",
+      "url": "/product/mikrotik-kit-k79",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "K-79",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

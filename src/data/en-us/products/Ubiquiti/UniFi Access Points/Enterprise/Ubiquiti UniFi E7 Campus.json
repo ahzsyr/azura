@@ -1,0 +1,258 @@
+{
+  "slug": "ubiquiti-unifi-e7-campus",
+  "id": "6865",
+  "productTitle": "Ubiquiti UniFi E7 Campus",
+  "name": "Ubiquiti UniFi E7 Campus",
+  "title": "Ubiquiti UniFi E7 Campus",
+  "title_extended": "Ubiquiti UniFi E7 Campus - Enterprise Access Point, Wi-Fi 7, 2x GbE (1x 10 GbE, 1x 1 GbE), PoE++",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Premium Wi‑Fi 7 Performance",
+      "text": "The UniFi E7 Campus is a next-generation enterprise access point delivering ultra-fast Wi‑Fi 7 (802.11be) connectivity across 2.4 GHz, 5 GHz, and 6 GHz bands. With advanced multi-user MIMO support (2×2 on 2.4 GHz and 4×4 on 5 GHz and 6 GHz) it provides maximum data rates of 688 Mbps on 2.4 GHz, 8.6 Gbps on 5 GHz, and 11.5 Gbps on 6 GHz, ensuring seamless wireless performance in high-density environments. The device can simultaneously handle over 1,000 clients, making it ideal for large enterprise offices, educational campuses, and stadiums. Advanced features such as band steering, zero-wait DFS, 802.11r fast roaming, 802.11k radio resource management, and real-time spectral analysis help optimise performance while minimising interference from neighboring networks. Whether installed indoors on ceilings or walls, or outdoors on poles, the E7 Campus provides reliable, high-speed connectivity for demanding applications such as video conferencing, cloud services, and large-scale wireless networks, ensuring consistent and stable Wi-Fi coverage throughout the deployment area."
+    },
+    {
+      "heading": "Robust Connectivity & Power",
+      "text": "The UniFi E7 Campus is engineered with exceptional connectivity flexibility and power efficiency to meet the demands of enterprise and campus-wide Wi-Fi deployments. It features two high-performance Ethernet interfaces: one 10 GbE RJ45 port for ultra-fast data uplink and one 1 GbE RJ45 port for additional networking or management functions. Both ports support PoE++ (42.5 – 57 V DC), enabling data and power delivery through a single cable, simplifying installation and reducing infrastructure costs. With a maximum power consumption of 44 W, the E7 Campus remains energy-efficient even under full load. The device is built from a combination of aluminium alloy and UV-stabilised polycarbonate for durability in challenging environments. Its housing is rated IPX6 and can reach IP67 protection when the waterproof door kit is installed, ensuring resistance to rain and dust. The access point can be mounted indoors or outdoors on a wall, ceiling or pole (25 – 63.5 mm diameter), and withstands wind forces up to 164.75 N at speeds of 200 km/h."
+    },
+    {
+      "heading": "Advanced Features",
+      "text": "The UniFi E7 Campus delivers enterprise-grade management tools and advanced radio technologies to ensure reliable network performance in high-density environments. It supports over 1,000 concurrent clients and up to eight BSSIDs per radio, allowing administrators to segment traffic for different user groups such as employees, guests, or IoT devices. The access point includes built-in PRISM™ RF filtering and a dedicated spectral-analysis radio to monitor and mitigate interference, maintaining optimal throughput across all bands. Additional capabilities, including intelligent load balancing, airtime fairness, and adaptive transmit power control, help sustain stable connections even in crowded networks. Administrators can manage the device locally via the web interface or remotely using the UniFi Network application for unified configuration, monitoring, and over-the-air firmware updates. Combined with robust security features and real-time performance analytics, the E7 Campus provides flexible, scalable, and reliable Wi-Fi infrastructure suitable for universities, corporate campuses, and large public venues."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Points",
+  "categories": [
+    "Access Points",
+    "UniFi Access Points",
+    "Enterprise"
+  ],
+  "mpn": "E7-Campus",
+  "manufacturer_part_number": "E7-Campus",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": ["new", "used"],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/1-6902200a102fe-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/2-6902200c57025-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/3-6902200f2a0f1-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/4-69022011dbc1f-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/5-690220149cd13-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/6-6902201708545-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/7-6902201bd7a24-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/8-6902201e9a83e-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/9-69022020e8ffe-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/10-690220236a6ad-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/11-69022026615b5-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/12-69022029294f7-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/13-6902202cdadcf-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/14-6902202fa2ddc-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/15-690220343f065-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/16-6902203739391-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6865/17-6902203a74d4c-medium.jpg",
+        "alt": "Ubiquiti UniFi E7 Campus",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 900.61,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": ["Generation", "Standards", "MIMO", "Frequency", "2.4GHz Radio Rate", "5GHz Radio Rate"],
+      "items": [
+        { "name": "Generation", "value": "WiFi 7" },
+        { "name": "Standards", "value": "802.11n/ac/ax/be" },
+        { "name": "MIMO", "value": "2.4GHz 2x2, 5GHz 4x4" },
+        { "name": "Frequency", "value": "2.4GHz, 5GHz" },
+        { "name": "2.4GHz Radio Rate", "value": "687 Mbps" },
+        { "name": "5GHz Radio Rate", "value": "8.64 Gbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": ["Antenna Design", "Wireless Antenna Frequency Range & Gain"],
+      "items": [
+        { "name": "Antenna Design", "value": "Panel" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "2.400 - 2.483 (GHz) 9 (dBi), 5.150 - 5.725 (GHz) 12 (dBi)" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": ["RJ45 Ports", "Management"],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 1 Gbps, (1) 10 Gbps" },
+        { "name": "Management", "value": "Ethernet" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": ["Supported Input Voltage", "Max Power Consumption"],
+      "items": [
+        { "name": "Supported Input Voltage", "value": "42.5 - 57 V DC" },
+        { "name": "Max Power Consumption", "value": "44 W" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": ["Material", "Ingress Protection Code", "Dimensions", "Weight", "Operating Temperature", "Environment", "Mounting Method"],
+      "items": [
+        { "name": "Material", "value": "Stainless steel, Aluminium, UV-stabilized polycarbonate, Polycarbonate" },
+        { "name": "Ingress Protection Code", "value": "IP67, IPX6" },
+        { "name": "Dimensions", "value": "250 x 250 x 45.5 mm" },
+        { "name": "Weight", "value": "2.2 kg" },
+        { "name": "Operating Temperature", "value": "-30 °C to 60 °C" },
+        { "name": "Environment", "value": "Outdoor" },
+        { "name": "Mounting Method", "value": "Wall Mount, Pole Mount" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi E7 Campus",
+      "url": "https://www.getic.com/files/catalogue/6865/e7campus_ds-690220054251c.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi U6 In-Wall",
+      "url": "/product/unifi-6-in-wall",
+      "price": 191.95,
+      "currency": "USD",
+      "mpn": "U6-IW",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi E7",
+      "url": "/product/ubiquiti-unifi-e7",
+      "price": 562.14,
+      "currency": "USD",
+      "mpn": "E7",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

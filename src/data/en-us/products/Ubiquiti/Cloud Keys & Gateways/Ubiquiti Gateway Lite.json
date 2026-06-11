@@ -1,0 +1,307 @@
+{
+  "slug": "unifi-next-generation-gateway-lite",
+  "id": 4633,
+  "productTitle": "Ubiquiti UniFi Next-Generation Gateway Lite – Compact UniFi Gateway",
+  "name": "Ubiquiti Gateway Lite",
+  "title": "Ubiquiti Gateway Lite",
+  "title_extended": "Ubiquiti UniFi Next-Generation Gateway Lite – Compact UniFi Gateway",
+  "short_description": "The UniFi Gateway Lite (UXG-Lite) is a compact yet powerful networking device from Ubiquiti, designed to provide advanced routing and security features for your network. It offers a significant upgrade in performance compared to its predecessor, the USG, with up to 10 times the routing performance when tested with features such as IPS/IDS, QoS, and Smart Queues.",
+  "description": "The UniFi Gateway Lite (UXG-Lite) is a compact yet powerful networking device from Ubiquiti, designed to provide advanced routing and security features for your network.",
+  "detailed_description": [
+    {
+      "heading": "Next-Generation Gateway",
+      "text": "The UXG-Lite is equipped with a dual-core ARM Cortex-A53 processor clocked at 1 GHz and has 1 GB DDR3L memory, ensuring that it can handle demanding network tasks efficiently. It features one Gigabit Ethernet (GbE) WAN port and one GbE LAN port, offering high-speed connectivity options. The device is powered via a USB Type-C connection, supporting a voltage range of 100–240V, and has a maximum power consumption of 3.83W, making it energy efficient."
+    },
+    {
+      "heading": "Advanced Security and Networking",
+      "text": "For networking, the UXG-Lite introduces next-generation security with application-aware firewall rules, signature-based IPS/IDS threat detection, and comprehensive content filtering capabilities. It supports advanced networking features like license-free SD-WAN, multiple VPN options (WireGuard, L2TP, OpenVPN), and customizable DHCP servers, among others. The device is designed to work seamlessly with UniFi APs to provide WiFi QoS and supports additional internet failover with LTE Backup, enhancing reliability and performance."
+    },
+    {
+      "heading": "Compact and Durable Design",
+      "text": "Physically, the UXG-Lite has a compact footprint with dimensions of 98 x 98 x 30 mm and is housed in a polycarbonate enclosure, emphasizing its sleek and durable design. It operates within a temperature range of -10 to 40°C and can withstand humidity levels from 5 to 95% noncondensing, certifying its robustness for various operating environments."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Wired Routers",
+  "categories": [
+    "Ubiquiti",
+    "Cloud Keys & Gateways",
+    "Wired Routers"
+  ],
+  "mpn": "UXG-Lite",
+  "manufacturer_part_number": "UXG-Lite",
+  "ean": "0810084692042",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4633/1-65670477b46b9-medium.jpg",
+        "alt": "Ubiquiti Gateway Lite",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4633/2-6567047af18c0-medium.jpg",
+        "alt": "Ubiquiti Gateway Lite",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4633/3-6567047e31b54-medium.jpg",
+        "alt": "Ubiquiti Gateway Lite",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4633/4-656704811ad9f-medium.jpg",
+        "alt": "Ubiquiti Gateway Lite",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4633/5-6567048a43861-medium.jpg",
+        "alt": "Ubiquiti Gateway Lite",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4633/uxglite_ds-656703451f486.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Gateway Lite",
+        "type": "datasheet"
+      }
+    ],
+    "3d_model": {
+      "id": "cddb9454-800e-44b4-92b5-53efab88e40b",
+      "url": "https://www.getic.com/3D/4633/model_low-69f3060f56c98.glb"
+    }
+  },
+  "price": {
+    "value": 99.00,
+    "currency": "USD",
+    "discount": {
+      "value": 124.06,
+      "percentage": 20
+    }
+  },
+  "old_price": 124.06,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "USB Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 1 Gbps"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB Type C"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Dual-core ARM Cortex-A53 at 1 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "1 GB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "3.83 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "USB Type-C"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "98 x 98 x 30 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.32 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Gateway Lite",
+      "url": "https://www.getic.com/files/catalogue/4633/uxglite_ds-656703451f486.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "price": 15.60,
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "price": 31.48,
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "price": 42.91,
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [
+    "Pickup point",
+    "Standard",
+    "Express"
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Standard 24 PoE",
+      "url": "/product/usw-24-poe-gen-2",
+      "price": 383.89,
+      "currency": "USD",
+      "mpn": "USW-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "/product/usw-lite-8-poe-eu",
+      "price": 118.38,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Swiss Army Knife Ultra",
+      "url": "/product/swiss-army-knife-ultra11",
+      "price": 77.43,
+      "currency": "USD",
+      "mpn": "UK-Ultra",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

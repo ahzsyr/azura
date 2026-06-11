@@ -1,0 +1,185 @@
+{
+  "slug": "ubiquiti-in-wall-hd-cover-black",
+  "id": 6943,
+  "productTitle": "Ubiquiti In-Wall HD Cover Black",
+  "name": "Ubiquiti In-Wall HD Cover Black",
+  "title": "Ubiquiti In-Wall HD Cover Black",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The Ubiquiti In-Wall HD Cover is a high-quality protective faceplate designed specifically for the UniFi In-Wall HD Access Point. Crafted to provide a clean, modern, and professional finish, it allows the device to blend seamlessly into any interior environment. Whether used for residential, commercial, or hospitality installations, the cover enhances both aesthetics and durability without affecting wireless performance. Engineered with precision, the cover fits securely over the access point, ensuring a stable hold while maintaining full access to ports, indicators, and airflow.",
+  "detailed_description": [
+    {
+      "heading": "Decorative Access Point Cover",
+      "text": "The Ubiquiti In-Wall HD Cover is a high-quality protective faceplate designed specifically for the UniFi In-Wall HD Access Point. Crafted to provide a clean, modern, and professional finish, it allows the device to blend seamlessly into any interior environment. Whether used for residential, commercial, or hospitality installations, the cover enhances both aesthetics and durability without affecting wireless performance. Engineered with precision, the cover fits securely over the access point, ensuring a stable hold while maintaining full access to ports, indicators, and airflow."
+    },
+    {
+      "heading": "Durable Construction and Design Options",
+      "text": "Its durable construction offers long-lasting protection against scratches, dust, and everyday wear, keeping your network equipment looking new and discreet. Available in multiple finishes, such as classic black or a natural wood-style design, the cover allows you to match the access point to your room’s interior and achieve a more harmonious visual appearance. Ideal for design-sensitive spaces, the Ubiquiti In-Wall HD Cover offers an elegant way to maintain both style and functionality in your UniFi installation."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Accessories",
+  "categories": [
+    "Accessories",
+    "UniFi Accessories"
+  ],
+  "mpn": "IW-HD-BK",
+  "manufacturer_part_number": "IW-HD-BK",
+  "ean": "0817882027137",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6943/iwhdcover1-69382cc526603-medium.jpg",
+        "alt": "Ubiquiti In-Wall HD Cover Black",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6943/iwhdcover2-69382cc7c756f-medium.jpg",
+        "alt": "Ubiquiti In-Wall HD Cover Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6943/iwhdcover3-69382ccac8660-medium.jpg",
+        "alt": "Ubiquiti In-Wall HD Cover Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6943/iwhdcover4-69382ccd2b3a3-medium.jpg",
+        "alt": "Ubiquiti In-Wall HD Cover Black",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 12.28,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Color",
+      "options": [
+        "Black",
+        "Wood"
+      ],
+      "default": "Black"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Accessories",
+      "features": [
+        "Cover"
+      ],
+      "items": [
+        {
+          "name": "Cover",
+          "value": "UniFi"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "145.6 x 93.6 x 27.7 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.056 kg"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": ""
+}

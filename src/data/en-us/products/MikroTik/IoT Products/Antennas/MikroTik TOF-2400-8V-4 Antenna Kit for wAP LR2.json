@@ -1,0 +1,215 @@
+{
+  "slug": "mikrotik-antenna-kit-for-wap-lr2",
+  "id": "3917",
+  "productTitle": "MikroTik TOF-2400-8V-4 Antenna Kit for wAP LR2",
+  "name": "MikroTik TOF-2400-8V-4 Antenna Kit for wAP LR2",
+  "title": "MikroTik TOF-2400-8V-4 Antenna Kit for wAP LR2",
+  "title_extended": "MikroTik TOF-2400-8V-4 Antenna Kit for wAP LR2 – 8 dBi Omni Antenna + SMA Cable + Mechanical Holder",
+  "short_description": "Kit for wAP LR2: 8 dBi Omni antenna + SMA cable 1m + mechanical holder",
+  "description": "The MikroTik Antenna Kit for wAP LR2 is designed to significantly extend your network coverage, offering robust performance for a range of applications, especially where MikroTik wAP LR2 device is used. This kit includes an external 8dBi Omni antenna, model TOF-2400-8V-4, which can enhance network coverage up to 3-4 kilometers in line of sight. Versatile and powerful, this antenna operates within the 2.4 GHz frequency range, making it suitable for both 2.4 GHz LoRa® connectivity and standard 2.4 GHz WLAN.",
+  "detailed_description": [
+    {
+      "heading": "Enhances Coverage Up to 4 Kilometers",
+      "text": "The MikroTik Antenna Kit for wAP LR2 is designed to significantly extend your network coverage, offering robust performance for a range of applications, especially where MikroTik wAP LR2 device is used. This kit includes an external 8dBi Omni antenna, model TOF-2400-8V-4, which can enhance network coverage up to 3-4 kilometers in line of sight. Versatile and powerful, this antenna operates within the 2.4 GHz frequency range, making it suitable for both 2.4 GHz LoRa® connectivity and standard 2.4 GHz WLAN."
+    },
+    {
+      "heading": "Broad Compatibility and Easy Installation",
+      "text": "One of the key features of this antenna is its broad compatibility with various 2.4 GHz devices, providing seamless integration and enhanced network performance. The antenna comes with a 1-meter long SMA cable and a mechanical holder, ensuring quick and easy attachment to masts or walls, depending on your installation needs. This flexibility allows you to place the antenna in the optimal position for maximum coverage and signal strength."
+    },
+    {
+      "heading": "Compact Yet Durable Design",
+      "text": "Despite its compact size, the MikroTik Antenna Kit does not compromise on durability or power. It is designed to withstand the rigors of outdoor use while delivering consistent, high-quality performance. The antenna boasts an 18° vertical beamwidth and a 360° horizontal beamwidth, ensuring comprehensive coverage in all directions. With a nominal impedance of 50 ohms, the antenna is engineered to provide reliable and efficient signal transmission."
+    },
+    {
+      "heading": "Technical Specifications",
+      "text": "Physically, the antenna measures Ø25 x 550 mm and weighs 0.6 kg, making it both lightweight and easy to handle. The RF connectors include one SMA Female and one RP-SMA Female, providing versatility in connection options. The antenna can be mounted on a wall or a pole, offering flexibility in installation to suit different environments and requirements."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "LoRa Products",
+  "categories": [
+    "MikroTik",
+    "IoT Products",
+    "Antennas"
+  ],
+  "mpn": "TOF-2400-8V-4",
+  "manufacturer_part_number": "TOF-2400-8V-4",
+  "ean": "0708747440256",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3917/tof24008v4-633ed3ad57458-medium.jpg",
+        "alt": "MikroTik TOF-2400-8V-4 Antenna Kit for wAP LR2",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/3917/iotproducts_20213_211238-669f85375f2d2.pdf",
+        "title": "Technical Specs / Datasheet - MikroTik TOF-2400-8V-4 Antenna Kit for wAP LR2"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/3917/mountinginstruction_211250-669f85654e910.pdf",
+        "title": "Installation Guide - MikroTik TOF-2400-8V-4 Antenna Kit for wAP LR2"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 45.73,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Cable Length",
+        "Impedance"
+      ],
+      "items": [
+        { "name": "Antenna Design", "value": "Omni" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "2.4 - 2.5 (GHz) 8 (dBi)" },
+        { "name": "Beamwidth", "value": "18 ° Vertical, 360 ° Horizontal" },
+        { "name": "Cable Length", "value": "1 m" },
+        { "name": "Impedance", "value": "50 Ω" }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        { "name": "RF Connectors", "value": "(1) SMA Female, (1) RP-SMA Female" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Mounting Method"
+      ],
+      "items": [
+        { "name": "Dimensions", "value": "Ø25 x 550 mm" },
+        { "name": "Weight", "value": "0.6 kg" },
+        { "name": "Mounting Method", "value": "Wall Mount, Pole Mount" }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Coaxial Adapter SMA Male / RPSMA Female",
+      "url": "/product/coaxial-adapter-sma-male-rpsma-female",
+      "price": 2.50,
+      "currency": "USD",
+      "mpn": "CA-SM-RSF",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik ACGPSA GPS Antenna with Cable 5m",
+      "url": "/product/mikrotik-acgpsa",
+      "price": 6.71,
+      "currency": "USD",
+      "mpn": "ACGPSA",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 868 Omni Antenna",
+      "url": "/product/mikrotik-868-omni-antenna",
+      "price": 37.00,
+      "currency": "USD",
+      "mpn": "868_Omni_antenna",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik wAP LR2 kit",
+      "url": "/product/mikrotik-wap-lr2-kit",
+      "price": 123.33,
+      "currency": "USD",
+      "mpn": "RBwAPR-2nD&R11e-LR2",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

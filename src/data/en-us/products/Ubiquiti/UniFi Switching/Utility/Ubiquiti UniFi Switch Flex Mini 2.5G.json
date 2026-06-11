@@ -1,0 +1,285 @@
+{
+  "slug": "ubiquiti-unifi-switch-flex-mini-2-5g",
+  "id": 5143,
+  "productTitle": "Ubiquiti UniFi Switch Flex Mini 2.5G",
+  "name": "Ubiquiti UniFi Switch Flex Mini 2.5G",
+  "title": "Ubiquiti UniFi Switch Flex Mini 2.5G",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "High-Speed Network Switching",
+      "text": "The Ubiquiti Flex Mini 2.5G (USW-Flex-2.5G-5) is a compact and efficient 5-port switch that brings high-speed networking capabilities to any environment. With four 2.5 GbE ports, this switch ensures faster data transmission, making it an excellent choice for modern networking applications that require quick and reliable connectivity. The 2.5 GbE PoE input port facilitates effortless power sourcing via Power over Ethernet, eliminating the need for additional power adapters or outlets. For added versatility, the switch can also be powered using the included 5V, 1A USB-C adapter, making it easy to integrate into various environments. This flexibility in power options ensures that the Flex Mini can be placed in various locations, making it a versatile addition to your network."
+    },
+    {
+      "heading": "Optimized Performance",
+      "text": "Designed for seamless performance, the Ubiquiti Flex Mini offers a total non-blocking throughput of 12.5 Gbps and a switching capacity of 25 Gbps. These specifications ensure that data can flow freely without bottlenecks, even under heavy load. The forwarding rate of 18.6 million packets per second (Mpps) allows the switch to handle high traffic volumes efficiently, making it suitable for demanding applications such as video streaming, online gaming, and large file transfers. Additionally, its support for Layer 2 switching features enhances network performance and stability, including Spanning Tree Protocol (STP), Rapid Spanning Tree Protocol (RSTP), port isolation, and storm control, which help manage and optimize network traffic effectively."
+    },
+    {
+      "heading": "Easy Management",
+      "text": "The Flex Mini prioritizes user convenience, offering an Ethernet In-Band management interface that simplifies both setup and configuration tasks. This functionality allows users to manage the switch directly through their existing network without the need for additional software or equipment. The application requirements specify compatibility with UniFi Network version 8.4.62 and later, ensuring that users can take advantage of the latest features and enhancements. Whether used in a home office, a small business, or an enterprise setting, the Ubiquiti Flex Mini 2.5G provides a reliable and powerful networking solution tailored to meet the demands of today’s digital landscape."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches"
+  ],
+  "mpn": "USW-Flex-2.5G-5",
+  "manufacturer_part_number": "USW-Flex-2.5G-5",
+  "ean": "0810084696040",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5143/1-66f6aa95a7fc3-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex Mini 2.5G",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5143/2-66f6aa9c42098-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex Mini 2.5G",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5143/3-66f6aaa02a527-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex Mini 2.5G",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5143/4-66f6aaa4a5427-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex Mini 2.5G",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 54.26,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "PoE Out Standards",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "() 1 Gbps, (5) 2.5 Gbps"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "w/o PoE"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "44 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "6.4 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "USB Type-C"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "5 V DC 1 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "117.1 x 90 x 21.2 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.206 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 45 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Flex Mini 2.5G",
+      "url": "https://www.getic.com/files/catalogue/5143/uswflex25g5_ds-66f6aa900d1c3.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Woo",
+        "date": "2025-01-26T13:27:01+02:00",
+        "text": "Great. 2.5G gen is coming",
+        "photos": []
+      },
+      {
+        "name": "Anton",
+        "date": "2025-01-24T13:16:21+02:00",
+        "text": "Best value 2.5G switch that you can get for home - and it integrates nicely into Ubiquiti Network App too.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex Mini",
+      "url": "/product/unifi-usw-flex-mini",
+      "price": 35.32,
+      "currency": "USD",
+      "mpn": "USW-Flex-Mini",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex 8 PoE 2.5G",
+      "url": "/product/ubiquiti-unifi-8-port-poe-switch-flex-2-5g",
+      "price": 210.86,
+      "currency": "USD",
+      "mpn": "USW-Flex-2.5G-8-PoE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Lite",
+      "url": "/product/ubiquiti-unifi-u7-lite",
+      "price": 99.48,
+      "currency": "USD",
+      "mpn": "U7-Lite",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Fiber",
+      "url": "/product/ubiquiti-unifi-cloud-gateway-fiber",
+      "price": 282.07,
+      "currency": "USD",
+      "mpn": "UCG-Fiber",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

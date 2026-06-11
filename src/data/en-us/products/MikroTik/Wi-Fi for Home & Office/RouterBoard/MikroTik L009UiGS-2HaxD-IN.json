@@ -1,0 +1,412 @@
+{
+  "slug": "mikrotik-l009uigs-2haxd-in",
+  "id": "L009UiGS-2HaxD-IN",
+  "productTitle": "MikroTik L009UiGS-2HaxD-IN",
+  "name": "MikroTik L009UiGS-2HaxD-IN",
+  "title": "MikroTik L009UiGS-2HaxD-IN",
+  "title_extended": "",
+  "short_description": "Dual-Core ARM CPU 800 MHz, 2.4 GHz 802.11ax, 8x Gigabit Ethernet Ports, 1G SFP Cage, USB 3.0, PoE-in & PoE-out, 512MB RAM, Console Port",
+  "description": "Moving from the popular RB2011 series, the MikroTik L009UiGS-2HaxD-IN is more than an upgrade. It's a leap forward in Wi-Fi and performance, offering advanced features like a strong processor and support for Wi-Fi 6, also known as the ax standard. Wi-Fi 6 brings performance improvement of up to 90% on the 2.4 GHz spectrum. Capable of delivering speeds of up to 574 Mbps, the standard effortlessly handles data-heavy tasks. This is a game-changer for homes with multiple smart devices and streaming services, as well as businesses needing quick data exchange for immediate decision-making. Conduct multiple video calls, stream 4K videos, and transfer large files—all simultaneously and without any issues.",
+  "detailed_description": [
+    {
+      "heading": "Superior Range and Stability",
+      "text": "Moving from the popular RB2011 series, the MikroTik L009UiGS-2HaxD-IN is more than an upgrade. It's a leap forward in Wi-Fi and performance, offering advanced features like a strong processor and support for Wi-Fi 6, also known as the ax standard. Wi-Fi 6 brings performance improvement of up to 90% on the 2.4 GHz spectrum. Capable of delivering speeds of up to 574 Mbps, the standard effortlessly handles data-heavy tasks. This is a game-changer for homes with multiple smart devices and streaming services, as well as businesses needing quick data exchange for immediate decision-making. Conduct multiple video calls, stream 4K videos, and transfer large files—all simultaneously and without any issues."
+    },
+    {
+      "heading": "CPU-Powered Performance",
+      "text": "At the core of the L009UiGS-2HaxD-IN is its advanced dual-core ARM processor, which brings significant advantages when compared to older devices based on MIPS architecture. The ARM architecture enables the device to deliver exceptional CPU performance and optimise a wide array of RouterOS features. This capability translates into lightning-fast routing, precise filtering, and the seamless implementation of intricate firewall rules, resulting in a responsive and secure network.\n\nThe router's high-performance CPU also offers IPsec hardware encryption, for modern businesses that rely on VPNs for secure, remote data access. The router's hardware encryption keeps your data safe without slowing down performance, unlike software-based options. This is particularly beneficial for remote teams who need to access sensitive company data without sacrificing speed or security."
+    },
+    {
+      "heading": "8-Port Ethernet Flexibility",
+      "text": "The MikroTik L009UiGS-2HaxD-IN has 8 fast Ethernet ports for more than just quick data transfer. The first port supports PoE-in, allowing the device to be powered through the Ethernet connection itself. This is useful in tough setups like outdoor surveillance or remote work where regular power outlets are hard to find. The last port can also power other devices if the router is plugged into a DC jack, which makes your network setup easier. For instance, you could power a secondary device like a security camera, access point, or even another router, directly from this router without needing separate power supplies for each device. The router's SFP cage supports current and future speed needs, so you can boost your network without getting a new router."
+    },
+    {
+      "heading": "Zero Interference Networking",
+      "text": "Boost your data speeds with the fast Marvell Peridot Switch chip, offering 2.5 Gigabit connections to the CPU for all ports except Ether1. Whether you're a business needing fast file transfers between departments, or a content creator handling large multimedia files, the Marvell Peridot Switch chip ensures your data reaches its destination quickly and smoothly. Ether1 has its own dedicated Gigabit full-duplex line to the CPU: this separate channel ensures that specific tasks or services you may designate to this port, like a connection to your Internet Service Provider, can operate without interference from other network activities."
+    },
+    {
+      "heading": "Reliable & Space-Efficient Design",
+      "text": "The router's case acts as a large heat sink, helping to keep the device cool and lower the risk of overheating — a router that can effectively dissipate heat is crucial for long-term reliability and performance. This router is excellent at making the most of the available space. Up to four of these power-packed devices can fit into a single 1U rackmount space. This lets you boost your network's power fourfold while keeping things neat and efficient. This is especially beneficial for data centers, server rooms, or any high-density networking environment."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "WiFi Routers",
+  "categories": [
+    "WiFi Routers",
+    "MikroTik",
+    "RouterBoard"
+  ],
+  "mpn": "L009UiGS-2HaxD-IN",
+  "manufacturer_part_number": "L009UiGS-2HaxD-IN",
+  "ean": "4752224008596",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4367/mikrotikl009uigs2haxdin2-645777dc10ed1-medium.jpg",
+        "alt": "MikroTik L009UiGS-2HaxD-IN",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4367/mikrotikl009uigs2haxdin3-645777da49453-medium.jpg",
+        "alt": "MikroTik L009UiGS-2HaxD-IN",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4367/mikrotikl009uigs2haxdin-645777dae995e-medium.jpg",
+        "alt": "MikroTik L009UiGS-2HaxD-IN",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4367/mikrotikl009uigs2haxdin1-645777db831a5-medium.jpg",
+        "alt": "MikroTik L009UiGS-2HaxD-IN",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/rIxkkNxsEhs",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 103.11,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ax"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "573 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "USB Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(8) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 1G SFP"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 3.0"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Dual-Core IPQ-5018 800 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "512 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "128 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 802.3af PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "24 - 56 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "45 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 1.5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "220 x 125 x 22 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 5"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik L009UiGS-2HaxD-IN",
+      "url": "https://www.getic.com/files/catalogue/4367/l009uigs_2haxd_in_ds-6452161decbcc.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik L009UiGS-2HaxD-IN",
+      "url": "https://www.getic.com/files/catalogue/4367/quickguidel009uigs2haxdin-650991cd11da3.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 10,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 10,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Richard",
+        "date": "2026-04-05",
+        "text": "It's a great router board. I have ordered 2 pcs in Liberia for clients using it for hotspot. No complain",
+        "photos": []
+      },
+      {
+        "name": "Kristaps",
+        "date": "2025-05-26",
+        "text": "Little bit tricky initial setup but huge difference in operational speed. My old ASUS was at 90-100% CPU load while this one is no more than 20% with more active clients and no random disconnects..",
+        "photos": []
+      },
+      {
+        "name": "Andreas",
+        "date": "2024-12-19",
+        "text": "Great product with amazing features at this pricepoint",
+        "photos": []
+      },
+      {
+        "name": "Kai",
+        "date": "2024-01-14",
+        "text": "A really great successor of the legacy 2011 item!",
+        "photos": []
+      },
+      {
+        "name": "Jerry",
+        "date": "2023-12-10",
+        "text": "Excellent product",
+        "photos": []
+      },
+      {
+        "name": "Evgheni",
+        "date": "2023-10-13",
+        "text": "excellent router, fast delivery, thanks getic!!",
+        "photos": []
+      },
+      {
+        "name": "Fatulla",
+        "date": "2023-10-13",
+        "text": "Excellent! Recommended!",
+        "photos": []
+      },
+      {
+        "name": "Andrei",
+        "date": "2023-10-01",
+        "text": "intuitive simple to use",
+        "photos": []
+      },
+      {
+        "name": "Osvaldo",
+        "date": "2023-09-29",
+        "text": "Excellent Router. Mikrotik doesn't disapoint!",
+        "photos": []
+      },
+      {
+        "name": "Siim",
+        "date": "2023-09-21",
+        "text": "Works well!",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik Rackmount kit for RB5009/L009 series",
+      "url": "/product/mikrotik-kit-k79",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "K-79",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB5009UPr+S+IN",
+      "url": "/product/mikrotik-rb5009upr-s-in",
+      "price": 239.45,
+      "currency": "USD",
+      "mpn": "RB5009UPr+S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax2",
+      "url": "/product/mikrotik-hap-ax2",
+      "price": 80.2,
+      "currency": "USD",
+      "mpn": "C52iG-5HaxD2HaxD-TC",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik L009UiGS-RM",
+      "url": "/product/mikrotik-l009uigs-rm",
+      "price": 95.09,
+      "currency": "USD",
+      "mpn": "L009UiGS-RM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

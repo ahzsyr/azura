@@ -1,0 +1,294 @@
+{
+  "slug": "ubiquiti-camera-ai-dome",
+  "id": null,
+  "productTitle": "Ubiquiti Camera AI Dome",
+  "name": "Ubiquiti Camera AI Dome",
+  "title": "Ubiquiti Camera AI Dome",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The Ubiquiti UniFi AI Dome (UVC-AI-Dome-B) is equipped with a 1/1.8\" 8MP image sensor, delivering 4K Ultra HD video resolution of 3840 x 2160 pixels in a 16:9 aspect ratio. This high-resolution capability ensures exceptionally detailed and clear video capture.",
+  "detailed_description": [
+    {
+      "heading": "High-Resolution Imaging",
+      "text": "The Ubiquiti UniFi AI Dome (UVC-AI-Dome-B) is equipped with a 1/1.8\" 8MP image sensor, delivering 4K Ultra HD video resolution of 3840 x 2160 pixels in a 16:9 aspect ratio. This high-resolution capability ensures exceptionally detailed and clear video capture. The camera features a fixed focal length lens with an ultra-wide horizontal field of view of 109.9°, vertical field of view of 56.7°, and diagonal field of view of 134.1°. This expansive coverage reduces the need for multiple cameras in wide-area monitoring scenarios. Advanced image settings, including color, brightness, sharpness, contrast, white balance, exposure control, 2D and 3D noise reduction (2DNR, 3DNR), motion-based noise reduction, masking, and High Dynamic Range (HDR), allow adapting to various lighting conditions and surveillance requirements."
+    },
+    {
+      "heading": "Advanced Night Vision",
+      "text": "Designed for round-the-clock surveillance, the UniFi AI Dome integrates built-in infrared (IR) LED illumination complemented by an IR cut filter, enabling effective night vision capabilities. It provides clear and detailed imagery in low-light conditions with an IR illumination range extending up to 40 meters. The camera's advanced artificial intelligence features include facial and license plate recognition, enhancing security operations through automated identification and alerting mechanisms. These AI-driven functionalities facilitate proactive threat detection and efficient monitoring of critical areas, making the UniFi AI Dome a robust solution for intelligent surveillance systems. The AI Dome can distinguish between human and vehicle movements, significantly reducing false alarms caused by non-relevant activity such as animals or weather-related motion."
+    },
+    {
+      "heading": "Seamless Integration",
+      "text": "The UniFi AI Dome features a Gigabit Ethernet (GbE) RJ45 port for high-speed network connectivity, facilitating efficient data transmission essential for high-resolution video streams. It supports Power over Ethernet (PoE) with a voltage range of 42.5–57V DC, allowing for simplified installation by transmitting power and data over a single cable. The camera's maximum power consumption is rated at 10W, promoting energy efficiency without compromising performance. Integrated with the UniFi Protect software platform, the UniFi AI Dome offers a user-friendly interface accessible via web applications and mobile apps for iOS™ and Android™, enabling comprehensive remote management and monitoring capabilities. This seamless integration ensures that the camera can be effectively incorporated into existing network infrastructures, providing a scalable and efficient surveillance solution."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Cameras",
+  "categories": [
+    "Cameras",
+    "Dome & Turret"
+  ],
+  "mpn": "UVC-AI-Dome-B",
+  "manufacturer_part_number": "UVC-AI-Dome-B",
+  "ean": "0810084698488",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5878/1-67ea4d10905b0-medium.jpg",
+        "alt": "Ubiquiti Camera AI Dome",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5878/2-67ea4d189b21b-medium.jpg",
+        "alt": "Ubiquiti Camera AI Dome front view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5878/5-67ea4d1de8fbc-medium.jpg",
+        "alt": "Ubiquiti Camera AI Dome side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5878/3-67ea4d22453f4-medium.jpg",
+        "alt": "Ubiquiti Camera AI Dome back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5878/4-67ea4d26c513c-medium.jpg",
+        "alt": "Ubiquiti Camera AI Dome installation",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/5878/uvcaidome_ds-67ea4d0728796.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Camera AI Dome"
+      }
+    ],
+    "3d_model": "https://www.getic.com/3D/5878/model_low-69f1c3040e7b6.glb"
+  },
+  "price": {
+    "value": 339.00,
+    "currency": "USD",
+    "discount": 11
+  },
+  "old_price": 381.22,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Video",
+      "features": ["Megapixels", "Resolution", "Maximum Frame Rate"],
+      "items": [
+        {
+          "name": "Megapixels",
+          "value": "8MP"
+        },
+        {
+          "name": "Resolution",
+          "value": "3840 х 2160"
+        },
+        {
+          "name": "Maximum Frame Rate",
+          "value": "30 FPS"
+        }
+      ]
+    },
+    {
+      "technology": "Video Camera",
+      "features": ["Sensor", "Lens", "Night Mode", "Viewing Angle"],
+      "items": [
+        {
+          "name": "Sensor",
+          "value": "1/1.8\" 8MP sensor"
+        },
+        {
+          "name": "Lens",
+          "value": "Fixed Focal Length"
+        },
+        {
+          "name": "Night Mode",
+          "value": "IR LED Illumination and IR Cut Filter, IR Range up to 40 m"
+        },
+        {
+          "name": "Viewing Angle",
+          "value": "109.9 ° (H) 56.7 ° (V)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": ["RJ45 Ports"],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": ["Chipset"],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-core Arm® Cortex®-A53 based chip"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": ["Power Method", "Supported Input Voltage", "Max Power Consumption"],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "42.5 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "10 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": ["Material", "Ingress Protection Code", "Housing\tDurability", "Dimensions", "Weight", "Operating Temperature", "Environment", "Mounting Method"],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP66"
+        },
+        {
+          "name": "Housing\tDurability",
+          "value": "Vandal-proof IK10-rated"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø20 x 70.6 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.7 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Ceilling Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Camera AI Dome",
+      "url": "https://www.getic.com/files/catalogue/5878/uvcaidome_ds-67ea4d0728796.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Network Video Recorder",
+      "url": "/product/unifi-protect-network-video-recorder",
+      "price": 303.78,
+      "currency": "USD",
+      "mpn": "UNVR",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera AI 360",
+      "url": "/product/unifi-video-camera-ai-360",
+      "price": 359.00,
+      "currency": "USD",
+      "mpn": "UVC-AI-360",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera AI Pro Black",
+      "url": "/product/camera-ai-professional",
+      "price": 429.00,
+      "currency": "USD",
+      "mpn": "UVC-AI-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Access Ultra",
+      "url": "/product/ubiquiti-access-ultra",
+      "price": 99.88,
+      "currency": "USD",
+      "mpn": "UA-Ultra",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

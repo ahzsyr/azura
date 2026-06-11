@@ -1,0 +1,273 @@
+{
+  "slug": "ubiquiti-unifi-patch-cable-outdoor-2m-black",
+  "id": "7098",
+  "productTitle": "Ubiquiti UniFi Patch Cable Outdoor 2m Black",
+  "name": "Ubiquiti UniFi Patch Cable Outdoor 2m Black",
+  "title": "Ubiquiti UniFi Patch Cable Outdoor 2m Black",
+  "title_extended": "",
+  "short_description": "The Ubiquiti UniFi Patch Cable Outdoor (UACC-Cable-Patch-Outdoor) is a rugged Ethernet patch cable engineered to maintain stable network connectivity in demanding outdoor conditions. Designed specifically for external installations, it ensures reliable performance in environments exposed to moisture, UV radiation, temperature fluctuations, and mechanical stress. The cable features a durable thermoplastic elastomer (TPE) jacket with a diameter of 6.3 mm, providing excellent flexibility while maintaining mechanical strength. Its insulated, weatherproof outer layer protects internal conductors against environmental exposure, making it ideal for rooftop deployments, pole-mounted devices, outdoor enclosures, and industrial sites.",
+  "description": "The Ubiquiti UniFi Patch Cable Outdoor (UACC-Cable-Patch-Outdoor) is a rugged Ethernet patch cable engineered to maintain stable network connectivity in demanding outdoor conditions. Designed specifically for external installations, it ensures reliable performance in environments exposed to moisture, UV radiation, temperature fluctuations, and mechanical stress. The cable features a durable thermoplastic elastomer (TPE) jacket with a diameter of 6.3 mm, providing excellent flexibility while maintaining mechanical strength. Its insulated, weatherproof outer layer protects internal conductors against environmental exposure, making it ideal for rooftop deployments, pole-mounted devices, outdoor enclosures, and industrial sites.",
+  "detailed_description": [
+    {
+      "heading": "Weatherproof Patch Cable",
+      "text": "The Ubiquiti UniFi Patch Cable Outdoor (UACC-Cable-Patch-Outdoor) is a rugged Ethernet patch cable engineered to maintain stable network connectivity in demanding outdoor conditions. Designed specifically for external installations, it ensures reliable performance in environments exposed to moisture, UV radiation, temperature fluctuations, and mechanical stress. The cable features a durable thermoplastic elastomer (TPE) jacket with a diameter of 6.3 mm, providing excellent flexibility while maintaining mechanical strength. Its insulated, weatherproof outer layer protects internal conductors against environmental exposure, making it ideal for rooftop deployments, pole-mounted devices, outdoor enclosures, and industrial sites."
+    },
+    {
+      "heading": null,
+      "text": "Certified for UV resistance according to ASTM G151/154, the jacket withstands prolonged sunlight exposure without degradation. The cable also meets VW-1 (UL1581) flame rating, offering enhanced fire safety for professional installations. Installation flexibility is supported by a wide installation temperature range of -20 to 60°C, while operational stability is maintained within an ambient operating temperature range of -30 to 75°C. This ensures dependable performance across diverse climates. Manufactured in compliance with TIA/EIA-568-B.2 and ISO/IEC 11801 standards, the cable adheres to recognized international structured cabling specifications. Available in single-unit pack options, it is suitable for both targeted deployments and infrastructure upgrades requiring professional-grade outdoor Ethernet connectivity."
+    },
+    {
+      "heading": "Advanced Shielded Design",
+      "text": "Engineered for high-performance networking, the UACC-Cable-Patch-Outdoor supports Gigabit Ethernet (GbE) data rates, ensuring stable high-speed transmission for cameras, access points, and other UniFi devices. It is fully compatible with PoE, PoE+, and up to PoE+++, allowing both data and high-power delivery over a single cable run. The cable utilizes a shielded S/FTP construction, combining overall braided shielding with individually foil-shielded twisted pairs. This advanced shielding design significantly reduces electromagnetic interference (EMI) and enhances signal integrity in electrically noisy outdoor environments. Internal foil shielding and an integrated drain wire provide increased protection against electrostatic discharge (ESD), safeguarding connected equipment from potential surge-related damage."
+    },
+    {
+      "heading": null,
+      "text": "The use of 24 AWG stranded copper conductors ensures excellent conductivity and flexibility, simplifying routing in tight spaces. Both ends are terminated with shielded RJ45 connectors, designed to maintain continuous grounding and signal stability across the entire link. The stranded conductor construction improves cable flexibility and durability compared to solid-core alternatives, making it suitable for patching and dynamic installations. With a minimum bend radius of 50.4 mm, the cable maintains performance integrity even when routed through corners or constrained pathways. This combination of shielding technology, power support, and mechanical resilience makes it a dependable solution for outdoor network infrastructure requiring consistent performance and enhanced protection."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Patch Cable",
+  "categories": [
+    "Ubiquiti",
+    "Accessory Tech",
+    "Patch Cables"
+  ],
+  "mpn": "UACC-Cable-Patch-Outdoor-2M-BK",
+  "manufacturer_part_number": "UACC-Cable-Patch-Outdoor-2M-BK",
+  "ean": "0810010077400",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7098/1-69946498207ca-medium.jpg",
+        "alt": "Ubiquiti UniFi Patch Cable Outdoor 2m Black",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7098/2-6994649b5e702-medium.jpg",
+        "alt": "Ubiquiti UniFi Patch Cable Outdoor 2m Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7098/3-6994649ee4110-medium.jpg",
+        "alt": "Ubiquiti UniFi Patch Cable Outdoor 2m Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7098/4-699464a20dd8e-medium.jpg",
+        "alt": "Ubiquiti UniFi Patch Cable Outdoor 2m Black",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/7098/uacccablepatchoutdoor_ds-6994649326fba.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti UniFi Patch Cable Outdoor 2m Black",
+        "type": "datasheet"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 5.57,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Cable Length",
+      "options": ["2 m", "3 m", "5 m", "8 m"],
+      "default": "2 m"
+    },
+    {
+      "type": "Color",
+      "options": ["Black", "White"],
+      "default": "Black"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Connector",
+        "Max Data Rate",
+        "Insulation",
+        "Cable Length",
+        "Conductor",
+        "Jacket",
+        "Jacket Diameter"
+      ],
+      "items": [
+        {
+          "name": "Connector",
+          "value": "(2) RJ45"
+        },
+        {
+          "name": "Max Data Rate",
+          "value": "1Gbps"
+        },
+        {
+          "name": "Insulation",
+          "value": "SFTP"
+        },
+        {
+          "name": "Cable Length",
+          "value": "2 m"
+        },
+        {
+          "name": "Conductor",
+          "value": "Stranded Copper"
+        },
+        {
+          "name": "Jacket",
+          "value": "TPE"
+        },
+        {
+          "name": "Jacket Diameter",
+          "value": "6.3 mm"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 75 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": ["Units"],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Patch Cable Outdoor 2m Black",
+      "url": "https://www.getic.com/files/catalogue/7098/uacccablepatchoutdoor_ds-6994649326fba.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Ethernet Surge Protector",
+      "url": "/product/ethernet-surge-protector-gen-2",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "ETH-SP-G2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Patch Cable Outdoor 5m Black",
+      "url": "/product/ubiquiti-unifi-patch-cable-outdoor-5m-black",
+      "price": 8.97,
+      "currency": "USD",
+      "mpn": "UACC-Cable-Patch-Outdoor-5M-BK",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Patch Cable Outdoor 2m White",
+      "url": "/product/ubiquiti-unifi-patch-cable-outdoor-2m-white",
+      "price": 5.57,
+      "currency": "USD",
+      "mpn": "UACC-Cable-Patch-Outdoor-2M-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Patch Cable Outdoor 8m White",
+      "url": "/product/ubiquiti-unifi-patch-cable-outdoor-8m-white",
+      "price": 12.23,
+      "currency": "USD",
+      "mpn": "UACC-Cable-Patch-Outdoor-8M-W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

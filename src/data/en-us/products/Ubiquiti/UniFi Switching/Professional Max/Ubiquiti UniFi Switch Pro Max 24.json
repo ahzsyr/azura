@@ -1,0 +1,277 @@
+{
+  "slug": "switch-professional-max-24",
+  "id": "4680",
+  "productTitle": "Ubiquiti UniFi Switch Pro Max 24",
+  "name": "Ubiquiti UniFi Switch Pro Max 24",
+  "title": "Ubiquiti UniFi Switch Pro Max 24",
+  "title_extended": "Ubiquiti UniFi Switch Pro Max 24",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Unmatched Connectivity",
+      "text": "The Switch Pro Max 24 boasts a versatile port configuration, featuring eight 2.5 GbE RJ45 ports, sixteen GbE RJ45 ports, and two 10G SFP+ ports. This comprehensive range ensures seamless connectivity for your network devices, from high-speed workstations to legacy devices. With its versatile port configuration, advanced Layer 3 functionality, and unwavering reliability, the Ubiquiti Switch Pro Max 24 is the ideal solution for demanding enterprise environments. Elevate your network infrastructure and ensure smooth, reliable connectivity for your critical applications."
+    },
+    {
+      "heading": "Effortless Management",
+      "text": "The Etherlighting™ ports illuminate to indicate port location, speed/link, and native VLAN/network, providing an intuitive visual representation of your network topology. This innovative feature simplifies port identification and troubleshooting. You can effortlessly manage your Switch Pro Max 24 using the UniFi Network controller, a centralized platform that provides comprehensive monitoring and configuration capabilities. Gain real-time visibility into network traffic, troubleshoot issues, and optimize performance with ease. The Switch Pro Max 24 requires a UniFi Network controller running version 8.0.24 and later."
+    },
+    {
+      "heading": "Powerful Functionality",
+      "text": "Leverage the Layer 3 switching capabilities to create advanced network segmentation and routing configurations. Dynamic routing protocols, including OSPF, BGP, and RIP, enable efficient traffic management and network scalability. The DC power backup readiness ensures continuous network operation even in the event of a power outage. This critical feature protects your network from downtime and ensures business continuity."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "UniFi Switching",
+    "Professional Max"
+  ],
+  "mpn": "USW-Pro-Max-24",
+  "manufacturer_part_number": "USW-Pro-Max-24",
+  "ean": "0810084692738",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4680/2-65a1243d7b157-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro Max 24 front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4680/1-65a124381e730-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro Max 24 ports and back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4680/3-65a1244139210-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro Max 24 additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4680/4-65a1244496859-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro Max 24 additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4680/5-65a12447d6990-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro Max 24 additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4680/6-65a1244c8013c-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro Max 24 additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4680/7-65a124513a7af-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro Max 24 additional view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 451.77,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(16) 1 Gbps, (8) 2.5 Gbps"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "w/o PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "USP RPS DC input"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "50 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442.4 x 325 x 43.7 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "4.3 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Pro Max 24",
+      "url": "https://www.getic.com/files/catalogue/4680/uswpromax24_ds-65a124309c2a8.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {},
+    "breakdown": {},
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Aggregation",
+      "url": "/product/usw-switch-aggregation",
+      "price": 269.19,
+      "currency": "USD",
+      "mpn": "USW-Aggregation",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "UniFi Direct Attach Copper Cable 10Gbps 0.5m",
+      "url": "/product/ubiquiti-unifi-direct-attach-copper-cable-10gbps-0-5m",
+      "price": 14.94,
+      "currency": "USD",
+      "mpn": "UACC-DAC-SFP10-0.5M",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro Max 16 PoE",
+      "url": "/product/switch-professional-max-16-poe",
+      "price": 401.45,
+      "currency": "USD",
+      "mpn": "USW-Pro-Max-16-PoE",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro Wall",
+      "url": "/product/ubiquiti-access-point-u7-pro-wall",
+      "price": 200.14,
+      "currency": "USD",
+      "mpn": "U7-Pro-Wall",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

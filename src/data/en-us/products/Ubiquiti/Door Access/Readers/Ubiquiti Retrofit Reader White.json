@@ -1,0 +1,270 @@
+{
+  "slug": "ubiquiti-retrofit-reader-white",
+  "id": "UA-Retrofit-Reader-W",
+  "productTitle": "Ubiquiti Retrofit Reader White",
+  "name": "Ubiquiti Retrofit Reader White",
+  "title": "Ubiquiti Retrofit Reader White",
+  "title_extended": "",
+  "short_description": "The UniFi Retrofit Reader (UA-Retrofit-Reader) is a modern access control reader designed for both indoor and outdoor use, allowing organizations to upgrade existing door access systems without replacing legacy cabling. It connects to the UniFi Retrofit Hub using secure OSDP v2 communication, significantly improving protection against interception and tampering compared to older protocols.",
+  "description": "The UniFi Retrofit Reader (UA-Retrofit-Reader) is a modern access control reader designed for both indoor and outdoor use, allowing organizations to upgrade existing door access systems without replacing legacy cabling. It connects to the UniFi Retrofit Hub using secure OSDP v2 communication, significantly improving protection against interception and tampering compared to older protocols. The reader supports NFC cards and keyfobs, as well as mobile credentials, including Apple Wallet, Google Wallet, and UniFi Mobile Unlock, giving users flexible and convenient access options.",
+  "detailed_description": [
+    {
+      "heading": "Secure Access Reader",
+      "text": "The UniFi Retrofit Reader (UA-Retrofit-Reader) is a modern access control reader designed for both indoor and outdoor use, allowing organizations to upgrade existing door access systems without replacing legacy cabling. It connects to the UniFi Retrofit Hub using secure OSDP v2 communication, significantly improving protection against interception and tampering compared to older protocols. The reader supports NFC cards and keyfobs, as well as mobile credentials, including Apple Wallet, Google Wallet, and UniFi Mobile Unlock, giving users flexible and convenient access options. Visual and audio feedback is provided through multi-color LED indicators and an integrated speaker, helping users clearly understand access status. Secure communication via RS-485, combined with strong encryption, ensures reliable operation in professional environments. Compact dimensions and a clean design allow the reader to blend naturally into modern offices, educational institutions, and commercial facilities while delivering enterprise-grade access control capabilities."
+    },
+    {
+      "heading": "Durable Construction",
+      "text": "The UniFi Retrofit Reader is engineered for reliable operation in both indoor and outdoor environments, featuring a robust IP55-rated enclosure that protects against dust, rain, and environmental exposure. The housing is constructed from a combination of polycarbonate and aluminum alloy, while the mounting plate is made of stainless steel, ensuring long-term durability and resistance to wear, corrosion, and mechanical stress. The device operates consistently in a wide temperature range from –30°C to +50°C and in humidity levels of up to 90% non-condensing, making it suitable for entrances, corridors, warehouses, and exterior doors. Multiple mounting options are included, supporting wall installation and standard gang boxes, with optional junction box compatibility for added flexibility. Thanks to its slim profile and lightweight design, the reader can be installed discreetly without compromising aesthetics, even in architecturally sensitive spaces."
+    },
+    {
+      "heading": "Easy Integration",
+      "text": "Designed for efficiency and scalability, the UA-Retrofit-Reader consumes up to 2.5 W from a 12V DC power source, making it ideal for large access control deployments. It supports RS-485 connectivity, NFC, and Bluetooth Low Energy (BLE 4.1), enabling both physical credentials and mobile-based access methods. Advanced ESD and EMP protection helps safeguard the device from electrical disturbances commonly found in real-world installations. The reader is fully managed through the UniFi Access application, allowing administrators to centrally configure users, credentials, schedules, and access rules. Compliance with NDAA, along with CE, FCC, and IC certifications, makes it suitable for enterprise, government, and regulated environments. By combining modern authentication methods, secure communication, and easy integration, the UniFi Retrofit Reader offers a future-proof solution for upgrading access control systems with minimal disruption."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Ubiquiti",
+    "Door Access",
+    "Readers"
+  ],
+  "mpn": "UA-Retrofit-Reader-W",
+  "manufacturer_part_number": "UA-Retrofit-Reader-W",
+  "ean": "0810177161684",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7017/2-6960f5ea9f392-medium.jpg",
+        "alt": "Ubiquiti Retrofit Reader White front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7017/1-6960f5e548426-medium.jpg",
+        "alt": "Ubiquiti Retrofit Reader White side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7017/3-6960f5ee17a70-medium.jpg",
+        "alt": "Ubiquiti Retrofit Reader White angle view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7017/4-6960f5f1a9c3f-medium.jpg",
+        "alt": "Ubiquiti Retrofit Reader White installation view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7017/5-6960f5f5246f5-medium.jpg",
+        "alt": "Ubiquiti Retrofit Reader White back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7017/6-6960f5f830b34-medium.jpg",
+        "alt": "Ubiquiti Retrofit Reader White component view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7017/7-6960f5fc8869e-medium.jpg",
+        "alt": "Ubiquiti Retrofit Reader White wiring diagram",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7017/8-6960f601da2dd-medium.jpg",
+        "alt": "Ubiquiti Retrofit Reader White dimension view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7017/9-6960f604650b1-medium.jpg",
+        "alt": "Ubiquiti Retrofit Reader White side angle",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7017/10-6960f60717693-medium.jpg",
+        "alt": "Ubiquiti Retrofit Reader White packaging",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7017/11-6960f60a1a0c7-medium.jpg",
+        "alt": "Ubiquiti Retrofit Reader White accessories",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 159.82,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Color",
+      "options": [
+        "Black",
+        "White"
+      ],
+      "default": "White"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power",
+      "features": [
+        "Max Power Consumption",
+        "Nominal Voltage"
+      ],
+      "items": [
+        {
+          "name": "Max Power Consumption",
+          "value": "2.5 W"
+        },
+        {
+          "name": "Nominal Voltage",
+          "value": "12 V"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Stainless steel, Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP55"
+        },
+        {
+          "name": "Dimensions",
+          "value": "117 x 45 x 13.3 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.082 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Retrofit Reader White",
+      "url": "https://www.getic.com/files/catalogue/7017/uaretrofitreader_ds-6960f5dacab30.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Camera G6 PTZ White",
+      "url": "/product/ubiquiti-camera-g6-ptz-wt",
+      "price": 387.17,
+      "currency": "USD",
+      "mpn": "UVC-G6-PTZ-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Pro Dome White",
+      "url": "/product/ubiquiti-camera-g6-pro-dome-white",
+      "price": 465.55,
+      "currency": "USD",
+      "mpn": "UVC-G6-Pro-Dome-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Retrofit Hub",
+      "url": "/product/ubiquiti-retrofit-hub",
+      "price": 225.16,
+      "currency": "USD",
+      "mpn": "UA-Retrofit-Hub-2",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "74 pcs in stock"
+}

@@ -1,0 +1,347 @@
+{
+  "slug": "ubiquiti-display-cast-lite",
+  "id": "5718",
+  "productTitle": "Ubiquiti Display Cast Lite",
+  "name": "Ubiquiti Display Cast Lite",
+  "title": "Ubiquiti Display Cast Lite",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Digital Signage Solution",
+      "text": "The Ubiquiti Display Cast Lite (UC-Cast-Lite) is a streamlined digital signage player designed to deliver high-quality media content to any HDMI-compatible display. With support for media playback up to 1080p resolution, it ensures crisp and clear visuals for various applications, including advertising, informational displays, and interactive kiosks. The device connects effortlessly to displays via its HDMI port, transforming standard screens into dynamic digital signage platforms. Its compact dimensions of 90 x 52 x 31 mm (without mount) and lightweight design (160 g) allow for unobtrusive installation, making it suitable for a variety of environments."
+    },
+    {
+      "heading": "Seamless Integration and Control",
+      "text": "The Display Cast Lite integrates seamlessly with UniFi Connect (version 3.17.0 and later), allowing users to manage and schedule content remotely. This centralized management platform enables the creation of multimedia playlists and dynamic digital signage layouts, enhancing the versatility of the display content. The device also supports HDMI Consumer Electronics Control (CEC), allowing it to automatically power the connected display on or off, further simplifying operation and reducing energy consumption."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Professional A/V",
+  "categories": [
+    "Ubiquiti",
+    "New Integrations",
+    "Professional A/V"
+  ],
+  "mpn": "UC-Cast-Lite",
+  "manufacturer_part_number": "UC-Cast-Lite",
+  "ean": "0810084698297",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5718/5-67a1feb2d7f8a-medium.jpg",
+        "alt": "Ubiquiti Display Cast Lite front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5718/1-67a1fea4b2788-medium.jpg",
+        "alt": "Ubiquiti Display Cast Lite alternate view 1",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5718/3-67a1feab797e3-medium.jpg",
+        "alt": "Ubiquiti Display Cast Lite alternate view 2",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5718/2-67a1fea84ba84-medium.jpg",
+        "alt": "Ubiquiti Display Cast Lite alternate view 3",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5718/4-67a1feaf0938c-medium.jpg",
+        "alt": "Ubiquiti Display Cast Lite alternate view 4",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5718/6-67a1feb66de49-medium.jpg",
+        "alt": "Ubiquiti Display Cast Lite alternate view 5",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5718/7-67a1feba22259-medium.jpg",
+        "alt": "Ubiquiti Display Cast Lite alternate view 6",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5718/5-67a1feb2d7f8a-tiny.jpg",
+        "alt": "Ubiquiti Display Cast Lite thumbnail 1"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5718/1-67a1fea4b2788-tiny.jpg",
+        "alt": "Ubiquiti Display Cast Lite thumbnail 2"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5718/3-67a1feab797e3-tiny.jpg",
+        "alt": "Ubiquiti Display Cast Lite thumbnail 3"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5718/2-67a1fea84ba84-tiny.jpg",
+        "alt": "Ubiquiti Display Cast Lite thumbnail 4"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5718/4-67a1feaf0938c-tiny.jpg",
+        "alt": "Ubiquiti Display Cast Lite thumbnail 5"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5718/6-67a1feb66de49-tiny.jpg",
+        "alt": "Ubiquiti Display Cast Lite thumbnail 6"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5718/7-67a1feba22259-tiny.jpg",
+        "alt": "Ubiquiti Display Cast Lite thumbnail 7"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 166.78,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "USB Ports",
+        "Video Ports"
+      ],
+      "items": [
+        {
+          "name": "USB Ports",
+          "value": "(1) USB Type C"
+        },
+        {
+          "name": "Video Ports",
+          "value": "HDMI"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-Core Arm® Cortex®-A55, 1.9 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "2 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 GB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Power Connector",
+          "value": "USB Type-C"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "5 V DC 1 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "92.1 x 56.3 x 40.8 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.18 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Display Cast Lite",
+      "url": "https://www.getic.com/files/catalogue/5718/uccastlite_ds-67a1fe7346df0.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "delivery_time": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Protect Viewport",
+      "url": "/product/unifi-protect-viewport",
+      "price": 204.90,
+      "currency": "USD",
+      "mpn": "UP-Viewport",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UISP Console",
+      "url": "/product/ubiquiti-uisp-console",
+      "price": 249.00,
+      "currency": "USD",
+      "mpn": "UISP-Console",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Max",
+      "url": "/product/ubiquiti-cloud-gateway-max",
+      "price": 287.92,
+      "currency": "USD",
+      "mpn": "UCG-Max",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Display Cast Pro",
+      "url": "/product/ubiquiti-display-cast-pro",
+      "price": 260.89,
+      "currency": "USD",
+      "mpn": "UC-Cast-Pro",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

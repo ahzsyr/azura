@@ -1,0 +1,284 @@
+{
+  "slug": "ubiquiti-unifi-next-generation-gateway-pro",
+  "id": 4073,
+  "productTitle": "Ubiquiti Gateway Pro",
+  "name": "Ubiquiti Gateway Pro",
+  "title": "Ubiquiti Gateway Pro",
+  "title_extended": "",
+  "short_description": "1.7 GHz quad-core processor, (2) WAN Ports GbE RJ45 and 10G SFP+, (2) LAN ports GbE RJ45 and 10G SFP+, 1U-size, rack-mountable",
+  "description": "Dual-WAN security gateway designed to protect medium to large-sized networks with enterprise-class firewall configuration and threat management features.",
+  "detailed_description": [
+    {
+      "heading": "Multi-WAN Security Gateway",
+      "text": "Dual-WAN security gateway designed to protect medium to large-sized networks with enterprise-class firewall configuration and threat management features. The UniFi Next-generation Gateway Pro (UXG Pro) is a powerful security gateway that delivers a versatile networking interface and enterprise-class threat management functionality to medium to large-sized networks. The UXG Pro is equipped with (2) WAN ports (GbE RJ45 and 10G SFP+) that provide failover support, as well as (2) LAN ports (GbE RJ45 and 10G SFP+) to provide the high-speed connectivity needed to support the most bandwidth-intensive applications."
+    },
+    {
+      "heading": "Reliable and Redundant Design",
+      "text": "Designed with reliability in mind, the UXG-PRO features a sleek, rack-mountable chassis that fits seamlessly into server environments. Its redundant power system ensures continuous operation, minimizing downtime and maintaining network stability in the event of power supply issues. The device is equipped with SmartPower outlet (200~240VAC/1.25A) for an external modem. It also supports power redundancy when connected to the UniFi SmartPower RPS (sold separately)."
+    },
+    {
+      "heading": "Complete Network Security Solution",
+      "text": "It also excels as a complete network security solution, offering a full suite of threat mitigation features, including deep packet inspection (DPI), intrusion detection and prevention systems (IDS/IPS), and layered firewall configuration. Powered by a quad-core processor, the UXG-Pro provides advanced threat management through integrated Intrusion Detection and Prevention Systems (IDS/IPS), capable of handling data throughput rates exceeding 3.5 Gbps. This ensures optimal performance even under heavy traffic conditions. In addition, the UXG Pro can be paired with a Cloud Key Gen2 Plus to create a highly powerful and secure deployment that can be fully managed with the UniFi Network application (web/mobile)."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Wired Routers",
+  "categories": [
+    "Ubiquiti",
+    "Cloud Keys & Gateways",
+    "Wired Routers"
+  ],
+  "mpn": "UXG-PRO",
+  "manufacturer_part_number": "UXG-PRO",
+  "ean": "0810010073525",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4073/uxgproeu1-627bbdcfc7afd-medium.jpg",
+        "alt": "Ubiquiti Gateway Pro",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4073/uxgproeu2-627bbdd4ae306-medium.jpg",
+        "alt": "Ubiquiti Gateway Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4073/uxgproeu3-627bbdd9f214f-medium.jpg",
+        "alt": "Ubiquiti Gateway Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4073/uxgproeu4-627bbdde1974e-medium.jpg",
+        "alt": "Ubiquiti Gateway Pro",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4073/uxgpro_datasheet-627bbdad8fe46.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Gateway Pro",
+        "type": "datasheet"
+      },
+      {
+        "url": "https://www.getic.com/files/catalogue/4073/uxgproinstallationguide-627bbdbe6e498.pdf",
+        "title": "Installation Guide - Ubiquiti Gateway Pro",
+        "type": "guide"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 502.10,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": ["EU", "UK", "US"],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 1 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-core ARM Cortex -A57 at 1.7 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "2 GB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Supported Input Voltage",
+          "value": "200 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "30 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442.4 x 43.7 x 285.6 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "3.42 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Gateway Pro",
+      "url": "https://www.getic.com/files/catalogue/4073/uxgpro_datasheet-627bbdad8fe46.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti Gateway Pro",
+      "url": "https://www.getic.com/files/catalogue/4073/uxgproinstallationguide-627bbdbe6e498.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "price": 64.15,
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "price": 88.28,
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": ["Standard", "Express"],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro 24 PoE",
+      "url": "/product/usw-pro-24-poe-gen-2",
+      "price": 702.24,
+      "currency": "USD",
+      "mpn": "USW-Pro-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Aggregation",
+      "url": "/product/usw-switch-aggregation",
+      "price": 269.19,
+      "currency": "USD",
+      "mpn": "USW-Aggregation",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

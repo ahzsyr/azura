@@ -1,0 +1,333 @@
+{
+  "slug": "mikrotik-lhgg-lte7-kit",
+  "id": "LHGGR&R11e-LTE7",
+  "productTitle": "MikroTik LHGG LTE7 kit",
+  "name": "MikroTik LHGG LTE7 kit",
+  "title": "MikroTik LHGG LTE7 kit",
+  "title_extended": "",
+  "short_description": "The MikroTik LHGG LTE7 kit is engineered to provide high-speed Internet access in remote and underserved areas where traditional wired networks are unavailable and even mobile phones struggle to maintain signal. Designed specifically for reliable last mile connectivity, this outdoor LTE solution combines a high-gain 17 dBi directional grid antenna with a powerful LTE Category 7 modem to ensure stable and responsive broadband performance over long distances.",
+  "description": "The MikroTik LHGG LTE7 kit (LHGGR&R11e-LTE7) is engineered to provide high-speed Internet access in remote and underserved areas where traditional wired networks are unavailable and even mobile phones struggle to maintain signal. Designed specifically for reliable last mile connectivity, this outdoor LTE solution combines a high-gain 17 dBi directional grid antenna with a powerful LTE Category 7 modem to ensure stable and responsive broadband performance over long distances. With LTE Cat7 technology delivering download speeds up to 300 Mbps and upload speeds up to 100 Mbps, the LHGG LTE7 kit significantly improves uplink capacity compared to previous generations. This makes it especially suitable for video surveillance systems, VPN connections, cloud backups, remote work setups, and multi-user rural deployments where upload performance is critical. The integrated R11e-LTE7 modem supports 2x2 MIMO for downlink and 1x1 MIMO for uplink, ensuring efficient spectrum utilization and improved signal stability. The LHGG LTE7 kit is built to withstand harsh outdoor environments while maintaining high-performance connectivity. Its lightweight grid antenna design reduces wind load without compromising the 17 dBi gain, making it suitable for installation in exposed and elevated locations. The device measures 391 x 391 x 227 mm and is optimized for pole and mast mounting. It receives power via PoE-In (802.3af/at) with an input voltage range of 12–57 V. Maximum power consumption is only 8 W. At the core of the LHGG LTE7 kit is a dual-core 88F3720 CPU running at 800 MHz, based on ARM 64-bit architecture, delivering stable processing power for routing, firewall management, and VPN connectivity. The system includes 256 MB DDR3L RAM and 16 MB Flash storage, providing sufficient resources for advanced RouterOS v7 functionality with License level 3.",
+  "detailed_description": [
+    {
+      "heading": "Powerful Outdoor LTE",
+      "text": "The MikroTik LHGG LTE7 kit (LHGGR&R11e-LTE7) is engineered to provide high-speed Internet access in remote and underserved areas where traditional wired networks are unavailable and even mobile phones struggle to maintain signal. Designed specifically for reliable “last mile” connectivity, this outdoor LTE solution combines a high-gain 17 dBi directional grid antenna with a powerful LTE Category 7 modem to ensure stable and responsive broadband performance over long distances. With LTE Cat7 technology delivering download speeds up to 300 Mbps and upload speeds up to 100 Mbps, the LHGG LTE7 kit significantly improves uplink capacity compared to previous generations. This makes it especially suitable for video surveillance systems, VPN connections, cloud backups, remote work setups, and multi-user rural deployments where upload performance is critical."
+    },
+    {
+      "heading": "Integrated LTE Modem",
+      "text": "The integrated R11e-LTE7 modem supports 2x2 MIMO for downlink and 1x1 MIMO for uplink, ensuring efficient spectrum utilization and improved signal stability. The device supports a wide range of LTE FDD and TDD bands, as well as 3G fallback, enabling flexible deployment across various regions and mobile operators. Whether installed on a pole or mast, the LHGG LTE7 kit allows you to establish reliable broadband connectivity without waiting for fiber or cable infrastructure. It is an ideal solution for rural homes, farms, construction sites, remote offices, and industrial facilities requiring dependable long-range LTE connectivity."
+    },
+    {
+      "heading": "Built for Harsh Conditions",
+      "text": "The LHGG LTE7 kit is built to withstand harsh outdoor environments while maintaining high-performance connectivity. Its lightweight grid antenna design reduces wind load without compromising the 17 dBi gain, making it suitable for installation in exposed and elevated locations. The open grid structure minimizes air resistance, ensuring stable mounting even in strong winds. A durable enclosure protects internal components, while the operating temperature range from -40°C to +70°C guarantees reliable functionality in extreme climates, from freezing winters to hot summers. A massive integrated heat sink ensures thermal stability and consistent performance under continuous load, making it ideal for 24/7 operation in demanding environments."
+    },
+    {
+      "heading": "Powered by RouterOS",
+      "text": "At the core of the LHGG LTE7 kit is a dual-core 88F3720 CPU running at 800 MHz, based on ARM 64-bit architecture, delivering stable processing power for routing, firewall management, and VPN connectivity. The system includes 256 MB DDR3L RAM and 16 MB Flash storage, providing sufficient resources for advanced RouterOS v7 functionality with License level 3. The device features one Gigabit Ethernet port for wired connectivity and a MiniPCIe slot populated with the R11e-LTE7 modem. RouterOS v7 offers a full networking stack, including advanced routing, firewall configuration, bandwidth management, VPN support, monitoring tools, and remote management capabilities."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "4G/5G Integrated Antennas",
+  "categories": [
+    "LTE Products",
+    "4G/5G Integrated Antennas",
+    "MikroTik",
+    "Wireless Systems",
+    "LHG"
+  ],
+  "mpn": "LHGGR&R11e-LTE7",
+  "manufacturer_part_number": "LHGGR&R11e-LTE7",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7113/lhgg_lte7_3-699d69aa68e1b-medium.jpg",
+        "alt": "MikroTik LHGG LTE7 kit",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7113/lhgg_lte7_2-699d69adbff00-medium.jpg",
+        "alt": "MikroTik LHGG LTE7 kit",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7113/lhgg_lte7_3-699d69aa68e1b-tiny.jpg",
+        "alt": "MikroTik LHGG LTE7 kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7113/lhgg_lte7_2-699d69adbff00-tiny.jpg",
+        "alt": "MikroTik LHGG LTE7 kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7113/lhgg_lte7_1-699d69b084547-tiny.jpg",
+        "alt": "MikroTik LHGG LTE7 kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7113/lhgg_lte7_5-699d69b9cfc0c-tiny.jpg",
+        "alt": "MikroTik LHGG LTE7 kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7113/lhgg_lte7_6-699d69bd0e337-tiny.jpg",
+        "alt": "MikroTik LHGG LTE7 kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7113/lhgg_lte7_4-699d69c1289a7-tiny.jpg",
+        "alt": "MikroTik LHGG LTE7 kit"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - MikroTik LHGG LTE7 kit",
+        "url": "https://www.getic.com/files/catalogue/7113/lhgglte7kit-699d699d85763.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 130.45,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": ["EU"],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "MIMO",
+        "LTE Category",
+        "FDD LTE Frequency Bands",
+        "TDD LTE Frequency Bands"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "3G (UMTS), 4G (LTE)"
+        },
+        {
+          "name": "MIMO",
+          "value": "2x2"
+        },
+        {
+          "name": "LTE Category",
+          "value": "Cat7 - 300Mbps/100Mbps"
+        },
+        {
+          "name": "FDD LTE Frequency Bands",
+          "value": "1 (2100MHz), 3 (1800MHz), 5 (850MHz), 7 (2600MHz), 8 (900MHz), 20 (800MHz), 28 (700MHz), 32 (1400MHz)"
+        },
+        {
+          "name": "TDD LTE Frequency Bands",
+          "value": "38 (2600MHz), 40 (2300MHz), 41 (2500MHz)"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Reflector"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "PCI Express"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "PCI Express",
+          "value": "(1) MiniPCI-e"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Dual-core 88F3720 800 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "256 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "8 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.8 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "391 x 391 x 227 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 3"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik LHGG LTE7 kit",
+      "url": "https://www.getic.com/files/catalogue/7113/lhgglte7kit-699d699d85763.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "class": "Standard",
+      "price": 43.51,
+      "currency": "USD",
+      "days": 5
+    },
+    {
+      "class": "Express",
+      "price": 96.93,
+      "currency": "USD",
+      "days": 2
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    "MikroTik Value Added Distributor",
+    "MikroTik MTCNA Certificate"
+  ],
+  "stock_stat": ""
+}

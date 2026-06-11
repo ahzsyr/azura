@@ -1,0 +1,410 @@
+{
+  "slug": "routerboard-cap-ac",
+  "id": 1510,
+  "productTitle": "MikroTik cAP ac",
+  "name": "MikroTik cAP ac",
+  "title": "MikroTik cAP ac",
+  "title_extended": "",
+  "short_description": "716MHz CPU, 4 Cores, 128MB RAM, 2.4GHz-802.11b/g/n, 5GHz-802.11ac RouterOS L4",
+  "description": "716MHz CPU, 4 Cores, 128MB RAM, 2.4GHz-802.11b/g/n, 5GHz-802.11ac RouterOS L4",
+  "detailed_description": [
+    {
+      "heading": "Sleek Design with Customizable Features",
+      "text": "Elevate your networking experience with the MikroTik cAP ac, a dual-band wireless access point designed for seamless integration on ceilings or walls. This device is crafted for discreet placement, making it ideal for visually sensitive environments like offices, hotels, and airports. The low-profile design ensures a clean and professional appearance, strategically optimizing coverage in open spaces and reducing signal interference. The cAP ac combines power with aesthetics, featuring a sleek enclosure that seamlessly blends into any environment. The customizable mode button allows you to tailor the device to your preferences – from turning off all lights and sounds to launching specific RouterOS scripts. Additionally, the package includes two enclosures, giving you the freedom to choose the design that best suits your taste."
+    },
+    {
+      "heading": "Diverse Connectivity Requirements",
+      "text": "The dual-band support in the 2.4GHz and 5GHz bands, combined with 360-degree coverage, offers flexibility and improved performance. This allows devices to connect based on bandwidth requirements, providing a consistent and reliable wireless experience throughout the coverage area. Whether in offices, where diverse connectivity requirements exist, or in public spaces where users move freely, the cAP ac ensures an uninterrupted and seamless wireless ecosystem. Furthermore, the cAP ac supports the 802.11ac wireless standard operating in the 5GHz frequency band. This ensures faster data rates and improved performance with features like beamforming and multi-user MIMO, making it ideal for high-density environments such as conference rooms and auditoriums. Additionally, the device incorporates IPsec hardware encryption, enhancing the security of data transmissions and ensuring compliance with privacy regulations in industries like financial institutions and healthcare."
+    },
+    {
+      "heading": "Dual Ethernet Ports for Extended Connectivity",
+      "text": "Equipped with two Gigabit Ethernet ports, including one with PoE output, the cAP ac facilitates high-speed wired connectivity for efficient data transfer between the access point and connected devices. This feature is crucial for streaming high-definition content, supporting multimedia applications, and accommodating devices with high bandwidth requirements. The inclusion of Power over Ethernet (PoE) output streamlines installations, providing power to other connected devices like IP cameras or additional access points through the same cable, eliminating clutter and enhancing flexibility in device placement."
+    },
+    {
+      "heading": "Centralized Network Management",
+      "text": "Your network management will benefit from the cAP ac's advanced capability to integrate into a centralized hEX PoE setup. Utilizing the Power over Ethernet (PoE) technology, the cAP ac eliminates the need for separate power sources, paving the way for simplified installations and reduced cable clutter. In conjunction with the hEX PoE serving as a CAPsMAN server, the cAP ac takes network control to new heights. CAPsMAN (Controlled Access Point system Manager) in MikroTik RouterOS provides centralized management and configuration for multiple wireless access points (CAPs). With CAPsMAN's centralized management, network administrators gain efficient control over all access points, enabling the synchronization of configurations and settings across the network. This efficient configuration management, along with CAPsMAN's traffic control features like load balancing, ensures optimal wireless network performance. Furthermore, the integration of streamlined configurations enhances the user experience by simplifying the setup and management of network devices. With user-friendly interfaces, automation tools, and centralized control facilitated by CAPsMAN, network administrators can efficiently manage and configure multiple devices from a central location. Streamlined configurations not only reduce the manual effort required for configuration but also optimize features and settings for efficient network performance, minimizing the likelihood of errors or misconfigurations."
+    },
+    {
+      "heading": "Powerful Hardware Specifications",
+      "text": "Beneath its sleek exterior, the cAP ac is powered by the IPQ-4018 chipset, designed by Qualcomm Atheros for optimal performance in networking devices, specifically wireless routers and access points. The IPQ-4018 chipset is renowned for its wireless capabilities, seamlessly supporting both the 2.4 GHz and 5 GHz bands, thus enabling dual-band Wi-Fi networking. At the heart of this chipset is a quad-core processor clocked at 716 MHz. The integration prowess of the IPQ-4018 chipset is a key feature, consolidating essential components such as processor cores, networking interfaces, and security features into a single, compact chip. This integration not only contributes to the device's efficiency but also results in a streamlined and space-efficient design. Complementing the chipset's processing capabilities, the cAP ac is equipped with 128 MB of RAM, providing a spacious workspace for actively running processes and applications. This ample memory capacity allows the device to smoothly handle multiple concurrent operations, ensuring a responsive and efficient networking experience in indoor environments. Further enhancing its capabilities, the cAP ac incorporates 16 MB of storage memory, functioning as flash storage for the device. This storage space is dedicated to storing essential elements such as firmware, operating system data, and configuration files. This non-volatile memory ensures that critical data is retained even when the device is powered off, facilitating firmware upgrades and preserving configuration data."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Access Points",
+  "categories": [
+    "Access Points",
+    "cAP",
+    "WiFi 5"
+  ],
+  "mpn": "RBcAPGi-5acD2nD",
+  "manufacturer_part_number": "RBcAPGi-5acD2nD",
+  "ean": "4752224003416",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1510/rbcapgi5acd2nd_1-5fd9dafb0aeb9-medium.jpg",
+        "alt": "MikroTik cAP ac",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1510/rbcapgi5acd2nd_2-5fd9daf8ddab0-medium.jpg",
+        "alt": "MikroTik cAP ac",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1510/rbcapgi5acd2nd_4-5fd9daf44a4dc-medium.jpg",
+        "alt": "MikroTik cAP ac",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1510/rbcapgi5acd2nd_3-5fd9daf6b47d5-medium.jpg",
+        "alt": "MikroTik cAP ac",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/R5bPl2hsaBY",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 69.97,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "300 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "867 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization"
+      ],
+      "items": [
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.412 - 2.484 (GHz) 2 (dBi), 5.150 - 5.875 (GHz) 2.5 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "360 °"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "IPQ-4018, 4 core, 716 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "128 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "17 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "13 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "Ø136 x 30 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 4"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik cAP ac",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/cap_ac-technical.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik cAP ac",
+      "url": "https://www.getic.com/files/catalogue/1510/quickguidecapac-650ae37eaea26.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik cAP ac",
+      "url": "https://www.getic.com/files/catalogue/1510/usermanualscapac-650ae395927ca.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.7,
+    "count": 6,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 67,
+      "great": 33,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 4,
+      "4_star": 2,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Joao",
+        "date": "2025-01-05",
+        "text": "It’s a great product! The only thing I wasn’t aware of (though it’s not a major issue) is that the lights keep blinking, which might be a bit distracting at night for someone sensitive, like my wife. ? Overall, still highly recommend it!",
+        "photos": []
+      },
+      {
+        "name": "Normunds",
+        "date": "2024-05-10",
+        "text": "All is very good",
+        "photos": []
+      },
+      {
+        "name": "Jānis",
+        "date": "2024-02-10",
+        "text": "Value item",
+        "photos": []
+      },
+      {
+        "name": "Aleksandrs",
+        "date": "2023-09-05",
+        "text": "excellent item.",
+        "photos": []
+      },
+      {
+        "name": "kai",
+        "date": "2022-08-25",
+        "text": "routeros is nice, however the cap ac wifi module is too old, it doesn't support wifi5 wave2",
+        "photos": []
+      },
+      {
+        "name": "Robert",
+        "date": "2022-08-15",
+        "text": "Works as advertised, could do with a refresh for Wifi6",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CRS326-24G-2S+RM",
+      "url": "/product/cloud-router-switch-326-24g-2srm",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ac2",
+      "url": "/product/mikrotik-hap-ac2",
+      "price": 58.70,
+      "currency": "USD",
+      "mpn": "RBD52G-5HacD2HnD-TC",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX S",
+      "url": "/product/routerboard-hex-s",
+      "price": 53.10,
+      "currency": "USD",
+      "mpn": "RB760iGS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB4011iGS+RM",
+      "url": "/product/routerboard-4011igs-plus-rm",
+      "price": 175.29,
+      "currency": "USD",
+      "mpn": "RB4011iGS+RM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik MTCNA Certificate",
+    "MikroTik Value Added Distributor"
+  ],
+  "stock_stat": ""
+}

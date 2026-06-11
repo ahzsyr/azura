@@ -1,0 +1,243 @@
+{
+  "slug": "cloud-smart-switch-312-4c-8xg-rm",
+  "id": "CRS312-4C+8XG-RM",
+  "productTitle": "MikroTik CSS312-4C+8XG+RM Switch – 10G Ethernet, 4x Combo, Rackmount",
+  "name": "MikroTik CRS312-4C+8XG-RM",
+  "title": "MikroTik CRS312-4C+8XG-RM",
+  "title_extended": "MikroTik CSS312-4C+8XG+RM Switch – 10G Ethernet, 4x Combo, Rackmount",
+  "short_description": "8x 10G RJ45, 4x 10G combo ports, RouterOS L3 or SwOS, dual power supply",
+  "description": "8x 10G RJ45, 4x 10G combo ports, RouterOS L3 or SwOS, dual power supply",
+  "detailed_description": [
+    {
+      "heading": "A Professional's Choice",
+      "text": "The MikroTik CRS312 offers enhanced connectivity features suitable for data-intensive tasks. Designed for professionals, this switch provides fast speeds and flexibility, making it ideal for industries that handle large data volumes, including multimedia processing, game development, and scientific research."
+    },
+    {
+      "heading": "High-Caliber Connections",
+      "text": "This switch addresses diverse networking demands with its design. It features 8 x 10G RJ45 Ethernet ports commonly used for short to medium-distance connections within local area networks, such as offices. These ports ensure reliable high-speed connections for everyday tasks. In addition, it offers 4 x 10G combo ports, enhancing its versatility. These ports can utilize either RJ45 Ethernet for usual connections or 10G SFP+ for fiber optic connections. The latter is beneficial for long-range communication and is especially resilient against electromagnetic interference, ensuring data integrity over longer distances.\n\nCombined with RouterOS scripting, users gain the flexibility to activate specific combo ports. This gives the ability to tailor the switch's performance to the network's precise needs, whether connecting devices in a single room or across different buildings."
+    },
+    {
+      "heading": "Peak Performance",
+      "text": "The MikroTik CRS312 is a high-performance switch equipped with a non-blocking throughput of 120 Gbps, a switching capacity of 240 Gbps, and a forwarding rate of 178 Mpps. These specifications ensure efficient data traffic management, allowing all ports to operate at peak speeds without causing bottlenecks. Suited for intensive data tasks, it can process large volumes of data and packets at high speeds, making it ideal for applications like real-time analytics. Compared to similar devices, the MikroTik CRS312 stands out as a top choice for environments demanding rapid and consistent data handling, such as enterprise networks or financial hubs."
+    },
+    {
+      "heading": "Designed with Precision",
+      "text": "The device is designed for those requiring reliable performance. One of its standout features is the dual power supply, which acts as a fail-safe, ensuring continuous operation even if one power source fails. This redundancy is crucial for mission-critical applications where downtime can have significant implications, such as in data centers or enterprise networks. Additionally, the inclusion of a full-sized USB port offers flexibility for storage, software upgrades, or configuration backups. The accessible console port streamlines configurations and troubleshooting, enabling administrators to directly interface with the device without the need for additional tools or software. With a 1U rackmount design, it efficiently fits standard racks.\n\nDespite its robust capabilities, it draws up to 60W of power, which is relatively low for switches in its class. This efficiency not only leads to cost savings on electricity but also indicates a reduced heat output, which can extend the lifespan of the device and minimize the need for extensive cooling solutions."
+    },
+    {
+      "heading": "Built for Intensive Networking",
+      "text": "The MikroTik CRS312 incorporates the QCA9531 chipset, a single-core processor operating at 650 MHz. This chipset offers a good mix of performance and energy efficiency, suitable for intensive networking tasks. Supported by 64 MB of RAM, the device can efficiently manage multiple tasks at once. It comes with 16 MB of storage, enough for necessary firmware and configurations. Users can opt between two operating systems: RouterOS Level 5, which offers detailed network controls, or the simpler SwitchOS for quick setups."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": ["Ethernet Routers", "Switches", "Cloud Router Switch 10G"],
+  "mpn": "CRS312-4C+8XG-RM",
+  "manufacturer_part_number": "CRS312-4C+8XG-RM",
+  "ean": "4752224002150",
+  "warranty": "12 months",
+  "condition_options": ["new", "used"],
+  "plug_options": ["EU", "UK", "US"],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1989/crs3124c8xgrm_1-5fda164070647-medium.jpg",
+        "alt": "MikroTik CRS312-4C+8XG-RM",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1989/crs3124c8xgrm_1-5fda164070647-tiny.jpg",
+        "alt": "MikroTik CRS312-4C+8XG-RM"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/T8u8u2kGGpE",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 565.98,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": ["EU", "UK", "US"],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": ["RJ45 Ports", "SFP Ports", "USB Ports", "Communication Interface", "Management"],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(8) 10 Gbps" },
+        { "name": "PoE Out Standards", "value": "w/o PoE" },
+        { "name": "SFP Ports", "value": "(4) 10G SFP+/ETH Combo" },
+        { "name": "USB Ports", "value": "(1) USB-A 2.0" },
+        { "name": "Communication Interface", "value": "RJ45" },
+        { "name": "Management", "value": "Ethernet" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": ["Chipset", "RAM", "Storage Memory"],
+      "items": [
+        { "name": "Chipset", "value": "QCA9531, 1 core, 650 MHz" },
+        { "name": "RAM", "value": "64 MB" },
+        { "name": "Storage Memory", "value": "16 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": ["Power Supply", "Supported Input Voltage", "Max Power Consumption"],
+      "items": [
+        { "name": "Power Supply", "value": "Internal x2 redundant PSU" },
+        { "name": "Supported Input Voltage", "value": "100 - 240 V AC" },
+        { "name": "Max Power Consumption", "value": "60 W" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": ["Number of Rack Units", "Dimensions", "Operating Temperature", "Environment", "Mounting Method", "Form Factor"],
+      "items": [
+        { "name": "Number of Rack Units", "value": "1U" },
+        { "name": "Dimensions", "value": "443 x 183 x 44 mm" },
+        { "name": "Operating Temperature", "value": "-30 °C to 70 °C" },
+        { "name": "Environment", "value": "Indoor" },
+        { "name": "Mounting Method", "value": "RackMount" },
+        { "name": "Form Factor", "value": "Rack-mounted 19\"" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": ["MikroTik"],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 5, SwitchOS" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik CRS312-4C+8XG-RM",
+      "url": "https://www.getic.com/files/catalogue/1989/crs312-4cplus8xg-rm-datasheet.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik CRS312-4C+8XG-RM",
+      "url": "https://www.getic.com/files/catalogue/1989/quickguidecrs3124c8xgrm-651be585b8838.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik CRS312-4C+8XG-RM",
+      "url": "https://www.getic.com/files/catalogue/1989/usermanualcrs3124c8xgrm-651be59d96161.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      { "class": "Pickup point", "origin": "", "weight": "", "dimensions": "" },
+      { "class": "Standard", "origin": "", "weight": "", "dimensions": "" },
+      { "class": "Express", "origin": "", "weight": "", "dimensions": "" }
+    ]
+  },
+  "delivery_options": [
+    {
+      "class": "Standard",
+      "price": 43.51,
+      "currency": "USD",
+      "description": "receive in 5 business days"
+    },
+    {
+      "class": "Express",
+      "price": 52.32,
+      "currency": "USD",
+      "description": "receive in 2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 4.5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Tetsuharu",
+        "date": "2025-04-28",
+        "text": "I previously purchased a product that supported SwOS, but the product I purchased this time only supports RouterOS and SwOS is not available.",
+        "photos": []
+      },
+      {
+        "name": "Pavlo",
+        "date": "2023-06-27",
+        "text": "Overall the switch is great, but less noisy fans would be great.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CRS326-24G-2S+RM",
+      "url": "/product/cloud-router-switch-326-24g-2srm",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 10G RJ-45 Module",
+      "url": "/product/sfp-s-plus-rj10-module",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "S+RJ10",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+      "url": "/product/direct-attach-cable-xs-da0001",
+      "price": 26.85,
+      "currency": "USD",
+      "mpn": "XS+DA0001",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CCR2116-12G-4S+",
+      "url": "/product/mikrotik-ccr2116-12g-4s-plus",
+      "price": 796.26,
+      "currency": "USD",
+      "mpn": "CCR2116-12G-4S+",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

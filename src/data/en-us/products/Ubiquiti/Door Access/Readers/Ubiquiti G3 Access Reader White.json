@@ -1,0 +1,267 @@
+{
+  "slug": "ubiquiti-g3-access-reader-white",
+  "id": "5560",
+  "productTitle": "Ubiquiti G3 Access Reader White",
+  "name": "Ubiquiti G3 Access Reader White",
+  "title": "Ubiquiti G3 Access Reader White",
+  "title_extended": "",
+  "short_description": "The Ubiquiti G3 Access Reader White (UA-G3-W) is an access control device designed to enhance security and streamline entry management.",
+  "description": "The Ubiquiti G3 Access Reader White (UA-G3-W) is an access control device designed to enhance security and streamline entry management. It supports multiple authentication methods, including NFC cards, the UniFi Identity mobile app, and Apple Touch Pass, providing flexible and secure access options. Additionally, the reader features a proximity sensor for hand-wave unlocking, facilitating touchless entry and improving user convenience. This versatility ensures that the UA-G3-W can be seamlessly integrated into various security systems, offering a comprehensive solution for modern access control needs.",
+  "detailed_description": [
+    {
+      "heading": "Advanced Access Control",
+      "text": "The Ubiquiti G3 Access Reader White (UA-G3-W) is an access control device designed to enhance security and streamline entry management. It supports multiple authentication methods, including NFC cards, the UniFi Identity mobile app, and Apple Touch Pass, providing flexible and secure access options. Additionally, the reader features a proximity sensor for hand-wave unlocking, facilitating touchless entry and improving user convenience. This versatility ensures that the UA-G3-W can be seamlessly integrated into various security systems, offering a comprehensive solution for modern access control needs."
+    },
+    {
+      "heading": "Seamless Integration and Management",
+      "text": "The G3 Access Reader integrates seamlessly with the UniFi Access Hub via Power over Ethernet (PoE), simplifying installation and reducing the need for additional power sources. This integration allows for centralized management and monitoring through the UniFi Access application, enabling administrators to configure access permissions, monitor entry logs, and receive real-time alerts. The user-friendly interface of the UniFi Access application enhances the overall management experience, providing a comprehensive solution for access control needs."
+    },
+    {
+      "heading": "Robust Performance and User Feedback",
+      "text": "The UA-G3-W is engineered to provide a seamless and user-friendly experience, ensuring that every access attempt is met with clear and immediate feedback. Equipped with an 8-ohm, 0.7W speaker, the reader produces crisp and audible notifications. In addition to the audio signals, the G3 Access Reader features multi-color LEDs (Red, Green, Blue, and White) that visually indicate the access status. The LED lights offer intuitive guidance, with green typically indicating access granted, red signaling a denied attempt, and blue or white providing system status or additional cues. This visual feedback is crucial in high-traffic areas or environments with high noise levels."
+    },
+    {
+      "heading": "Durable Construction",
+      "text": "The G3 Access Reader is built to withstand diverse environmental conditions. Its IP55-rated enclosure ensures reliable performance in outdoor settings, withstanding temperatures ranging from -30°C to 45°C. The polycarbonate and glass construction, combined with aluminum alloy mounting materials, provides a sturdy and weather-resistant design suitable for various installation environments. This robust build guarantees the reader's longevity and consistent operation, even in challenging weather conditions."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control"
+  ],
+  "mpn": "UA-G3-W",
+  "manufacturer_part_number": "UA-G3-W",
+  "ean": "0810084697597",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5560/uag310-678fa455448a7-medium.jpg",
+        "alt": "Ubiquiti G3 Access Reader White",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5560/uag39-678fa4517901f-medium.jpg",
+        "alt": "Ubiquiti G3 Access Reader White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5560/uag311-678fa4590342d-medium.jpg",
+        "alt": "Ubiquiti G3 Access Reader White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5560/uag312-678fa45ca2842-medium.jpg",
+        "alt": "Ubiquiti G3 Access Reader White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5560/uag313-678fa46028c13-medium.jpg",
+        "alt": "Ubiquiti G3 Access Reader White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5560/uag314-678fa463a9fd8-medium.jpg",
+        "alt": "Ubiquiti G3 Access Reader White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5560/uag315-678fa46c1da4f-medium.jpg",
+        "alt": "Ubiquiti G3 Access Reader White",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/5560/uag3b_ds-678fa44a3eb2d.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti G3 Access Reader White"
+      }
+    ],
+    "3d_model": true
+  },
+  "price": {
+    "value": 138.49,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Color",
+      "options": [
+        "White",
+        "Black"
+      ],
+      "default": "White"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 100 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Max Power Consumption",
+          "value": "5 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, Glass, Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP55"
+        },
+        {
+          "name": "Dimensions",
+          "value": "93 x 40 x 36.5 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.082 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 45 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Recessed"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti G3 Access Reader White",
+      "url": "https://www.getic.com/files/catalogue/5560/uag3b_ds-678fa44a3eb2d.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "price": 15.60,
+        "delivery_days": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "price": 31.48,
+        "delivery_days": "5 business days"
+      },
+      {
+        "class": "Express",
+        "price": 42.91,
+        "delivery_days": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Access Door Hub",
+      "url": "/product/ubiquiti-access-door-hub",
+      "price": 200.18,
+      "currency": "USD",
+      "mpn": "UA-Hub-Door",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro HD 24 PoE",
+      "url": "/product/ubiquiti-unifi-switch-pro-hd-24-poe",
+      "price": 1004.20,
+      "currency": "USD",
+      "mpn": "USW-Pro-HD-24-PoE",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti G3 Access Reader Pro White",
+      "url": "/product/ubiquiti-g3-access-reader-pro-white",
+      "price": 358.81,
+      "currency": "USD",
+      "mpn": "UA-G3-Pro-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Network Video Recorder Instant",
+      "url": "/product/ubiquiti-network-video-recorder-instant",
+      "price": 192.99,
+      "currency": "USD",
+      "mpn": "UNVR-Instant",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

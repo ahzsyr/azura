@@ -1,0 +1,256 @@
+/**
+ * Search ↔ Global Theme System bridge.
+ * Maps site theme tokens (--az-preset-*, --radius, --font-*, --motion-scale) to search UI.
+ */
+
+.sm-search-root--theme {
+  --sm-search-color-primary: var(--color-primary, var(--primary, var(--az-color-primary)));
+  --sm-search-color-accent: var(--color-accent, var(--accent, var(--az-color-accent)));
+  --sm-search-color-bg: var(--color-bg, var(--background, var(--az-bg-primary)));
+  --sm-search-color-surface: var(--color-surface, var(--card, var(--az-bg-secondary)));
+  --sm-search-color-text: var(--color-text, var(--foreground, var(--az-text-primary)));
+  --sm-search-color-muted: var(--color-text-muted, var(--muted-foreground, var(--az-text-secondary)));
+  --sm-search-color-border: var(--color-border, var(--border, var(--az-color-border)));
+
+  --sm-search-font-body: var(--font-body, var(--az-font-body), ui-sans-serif, system-ui, sans-serif);
+  --sm-search-font-display: var(--font-heading, var(--font-display, var(--az-font-display)), ui-serif, Georgia, serif);
+  --sm-search-font-mono: var(--font-mono, var(--az-font-mono), ui-monospace, monospace);
+  --sm-search-font-size-base: var(--font-size-base, var(--font-size-root, 1rem));
+  --sm-search-heading-scale: var(--heading-scale, 1.15);
+
+  --sm-search-radius-sm: var(--az-preset-radius-sm, calc(var(--radius, 0.75rem) * 0.65));
+  --sm-search-radius-md: var(--az-preset-radius-md, var(--radius, 0.75rem));
+  --sm-search-radius-lg: var(--az-preset-radius-lg, calc(var(--radius, 0.75rem) * 1.15));
+  --sm-search-radius-panel: var(--az-preset-radius-card, var(--az-preset-radius-lg, var(--radius, 1rem)));
+  --sm-search-radius-hit: var(--az-preset-radius-md, 0.65rem);
+  --sm-search-radius-pill: 999px;
+
+  --sm-search-blur-backdrop: var(--az-preset-blur-overlay, 8px);
+  --sm-search-blur-glass: var(--az-preset-blur-glass, 12px);
+  --sm-search-blur-panel: var(--az-preset-blur-panel, 16px);
+  --sm-search-glass-opacity: var(--az-preset-glass-opacity, 0.88);
+  --sm-search-glass-saturation: var(--az-preset-glass-saturation, 1.2);
+
+  --sm-search-border-width: var(--az-preset-border-width, 1px);
+  --sm-search-border-glow: var(
+    --az-preset-border-glow,
+    color-mix(in srgb, var(--sm-search-color-primary) 18%, transparent)
+  );
+  --sm-search-shadow-panel: var(
+    --az-preset-shadow-lg,
+    0 24px 48px color-mix(in srgb, #000 28%, transparent)
+  );
+  --sm-search-shadow-card: var(--az-preset-shadow-card, var(--az-preset-shadow-md));
+  --sm-search-shadow-glow: var(--az-preset-shadow-glow, var(--az-preset-shadow-md));
+  --sm-search-glow-spread: var(--az-preset-glow-spread, 0 0 12px);
+  --sm-search-glow-color: var(--az-preset-glow-color, var(--sm-search-color-primary));
+
+  --sm-search-gradient-hero: var(
+    --az-preset-gradient-hero,
+    radial-gradient(
+      ellipse 80% 60% at 50% -10%,
+      color-mix(in srgb, var(--sm-search-color-primary) 16%, transparent),
+      transparent 70%
+    )
+  );
+  --sm-search-gradient-accent: var(--az-preset-gradient-accent);
+
+  --sm-search-motion-scale: var(--motion-scale, var(--animation-speed, 1));
+  --sm-search-duration-fast: calc(0.18s * var(--sm-search-motion-scale));
+  --sm-search-duration-panel: calc(0.28s * var(--sm-search-motion-scale));
+  --sm-search-duration-drawer: calc(0.32s * var(--sm-search-motion-scale));
+  --sm-search-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  font-family: var(--sm-search-font-body);
+  font-size: var(--sm-search-font-size-base);
+  color: var(--sm-search-color-text);
+}
+
+.sm-search-root--theme .sm-search-panel {
+  border-width: var(--sm-search-border-width);
+  border-color: var(--sm-search-border-glow);
+  border-radius: var(--sm-search-radius-panel);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--sm-search-color-text) 4%, transparent) inset,
+    var(--sm-search-shadow-panel);
+}
+
+/* Modal overlay — admin-tunable opacity & blur */
+.sm-search-backdrop {
+  background: color-mix(
+    in srgb,
+    hsl(var(--background)) calc(var(--sm-search-overlay-opacity, 0.78) * 100%),
+    #000 calc((1 - var(--sm-search-overlay-opacity, 0.78)) * 55%)
+  );
+  backdrop-filter: blur(var(--sm-search-overlay-blur, var(--sm-search-blur-backdrop, 16px)));
+  -webkit-backdrop-filter: blur(var(--sm-search-overlay-blur, var(--sm-search-blur-backdrop, 16px)));
+}
+
+.sm-search-root--theme .sm-search-backdrop {
+  background: color-mix(
+    in srgb,
+    var(--sm-search-color-bg) calc(var(--sm-search-overlay-opacity, 0.78) * 100%),
+    #000 calc((1 - var(--sm-search-overlay-opacity, 0.78)) * 50%)
+  );
+}
+
+/* Solid modal panel — opaque, readable */
+.sm-search-panel--solid {
+  background: color-mix(
+    in srgb,
+    hsl(var(--background)) calc(var(--sm-search-panel-opacity, 0.98) * 100%),
+    hsl(var(--background))
+  ) !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.sm-search-root--theme .sm-search-panel--solid {
+  background: color-mix(
+    in srgb,
+    var(--sm-search-color-surface) calc(var(--sm-search-panel-opacity, 0.98) * 100%),
+    var(--sm-search-color-bg)
+  ) !important;
+}
+
+/* Glass modal panel — optional frosted style */
+.sm-search-panel--glass.az-glass-panel,
+.sm-search-root--theme .sm-search-panel--glass.az-glass-panel {
+  background: color-mix(
+    in srgb,
+    var(--sm-search-color-surface, hsl(var(--background)))
+      calc(var(--sm-search-panel-opacity, 0.92) * 100%),
+    transparent
+  ) !important;
+  backdrop-filter: blur(var(--sm-search-panel-blur, var(--sm-search-blur-panel, 12px)))
+    saturate(var(--sm-search-glass-saturation, 1.2));
+  -webkit-backdrop-filter: blur(var(--sm-search-panel-blur, var(--sm-search-blur-panel, 12px)))
+    saturate(var(--sm-search-glass-saturation, 1.2));
+}
+
+.sm-search-root--theme .sm-search-panel--glass.az-glass-panel {
+  background: color-mix(
+    in srgb,
+    var(--sm-search-color-surface) calc(var(--sm-search-panel-opacity, 0.92) * 100%),
+    transparent
+  ) !important;
+}
+
+.sm-search-root--theme .sm-search-page-hero {
+  background: var(--sm-search-gradient-hero);
+}
+
+.sm-search-root--theme [cmdk-group-heading],
+.sm-search-root--theme .sm-search-meta-label {
+  font-family: var(--sm-search-font-body);
+  color: var(--sm-search-color-muted);
+}
+
+.sm-search-root--theme h1,
+.sm-search-root--theme .sm-search-title {
+  font-family: var(--sm-search-font-display);
+  letter-spacing: calc((var(--sm-search-heading-scale) - 1) * 0.02em);
+}
+
+.sm-search-root--theme [cmdk-input],
+.sm-search-root--theme input[type="search"] {
+  font-family: var(--sm-search-font-body);
+}
+
+.sm-search-root--theme [cmdk-item] {
+  border-radius: var(--sm-search-radius-hit);
+}
+
+.sm-search-root--theme .sm-search-hit {
+  border-radius: var(--sm-search-radius-hit);
+}
+
+.sm-search-root--theme .sm-search-hit[aria-selected="true"],
+.sm-search-root--theme [cmdk-item][aria-selected="true"] {
+  background: color-mix(in srgb, var(--sm-search-color-primary) 10%, var(--sm-search-color-surface));
+  border-color: color-mix(in srgb, var(--sm-search-color-primary) 28%, transparent);
+  box-shadow: var(--sm-search-glow-spread)
+    color-mix(in srgb, var(--sm-search-glow-color) 22%, transparent);
+}
+
+.sm-search-root--theme .sm-search-shell--glass {
+  border-color: color-mix(in srgb, var(--sm-search-color-primary) 22%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--sm-search-color-bg) calc(var(--sm-search-glass-opacity) * 100%),
+    transparent
+  );
+  backdrop-filter: blur(var(--sm-search-blur-glass)) saturate(var(--sm-search-glass-saturation));
+  -webkit-backdrop-filter: blur(var(--sm-search-blur-glass)) saturate(var(--sm-search-glass-saturation));
+  border-radius: var(--sm-search-radius-pill);
+  box-shadow: var(--sm-search-shadow-card);
+}
+
+.sm-search-root--theme .sm-search-shell--glass:focus-within {
+  border-color: color-mix(in srgb, var(--sm-search-color-primary) 48%, transparent);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--sm-search-color-primary) 18%, transparent),
+    var(--sm-search-shadow-glow);
+}
+
+.sm-search-root--theme .sm-search-shell--solid {
+  border-color: var(--sm-search-color-border);
+  border-radius: var(--sm-search-radius-md);
+}
+
+.sm-search-root--theme .sm-search-shell--solid:focus-within {
+  border-color: var(--sm-search-color-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--sm-search-color-primary) 20%, transparent);
+}
+
+.sm-search-root--theme .sm-search-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 0%,
+    color-mix(in srgb, var(--sm-search-color-muted) 12%, transparent) 50%,
+    hsl(var(--muted)) 100%
+  );
+}
+
+/* Panel width modifiers (appearance.panelWidth) */
+.sm-search-root--width-sm .sm-search-panel:not(.sm-search-panel--drawer) {
+  width: min(96vw, 32rem);
+}
+
+.sm-search-root--width-md .sm-search-panel:not(.sm-search-panel--drawer) {
+  width: min(96vw, 36rem);
+}
+
+.sm-search-root--width-lg .sm-search-panel:not(.sm-search-panel--drawer) {
+  width: min(96vw, 42rem);
+  max-height: min(88vh, 720px);
+}
+
+.sm-search-root--width-xl .sm-search-panel:not(.sm-search-panel--drawer) {
+  width: min(96vw, 52rem);
+  max-height: min(90vh, 780px);
+}
+
+/* Filter chips — less transparent on dark pages */
+.sm-search-root .sm-search-chip {
+  border-color: color-mix(in srgb, hsl(var(--border)) 90%, transparent);
+}
+
+.sm-search-root .sm-search-chip:not([aria-pressed="true"]) {
+  background: color-mix(in srgb, hsl(var(--background)) 94%, hsl(var(--muted)) 6%);
+  color: hsl(var(--muted-foreground));
+}
+
+.sm-search-root .sm-search-chip[aria-pressed="true"] {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border-color: hsl(var(--primary));
+}
+
+.sm-search-root--theme .sm-search-panel-body {
+  background: color-mix(
+    in srgb,
+    var(--sm-search-color-surface) calc(var(--sm-search-panel-opacity, 0.98) * 100%),
+    var(--sm-search-color-bg)
+  );
+}

@@ -1,0 +1,409 @@
+{
+  "slug": "airfiber-af-11-complete-lb",
+  "id": "AF11-Complete-LB",
+  "productTitle": "Ubiquiti airFiber 11 Low-Band Backhaul Radio with Dish Antenna",
+  "name": "Ubiquiti airFiber 11 Low-Band Backhaul Radio with Dish Antenna",
+  "title": "Ubiquiti airFiber 11 Low-Band Backhaul Radio with Dish Antenna",
+  "title_extended": "",
+  "short_description": "Integrates with AF-11G35 11GHz antenna, up to 1.2Gbps throughput, full duplex point-to-point radio, includes one low-band duplexer for SISO mode.",
+  "description": "Integrates with AF-11G35 11GHz antenna, up to 1.2Gbps throughput, full duplex point-to-point radio, includes one low-band duplexer for SISO mode.",
+  "detailed_description": [
+    {
+      "heading": "High-Capacity Low-Band Backhaul",
+      "text": "The AirFiber AF11-Complete-LB is a high-capacity, wireless low-band backhaul radio system designed for long-distance, point-to-point network links with boasting capabilities such as a link range of over 300 kilometers and a throughput exceeding 1.2 Gbps. This product is part of Ubiquiti's renowned AirFiber series, which is specifically tailored to exploit the 11 GHz frequency band. The choice of this band is strategic, as it often faces less congestion compared to more commonly used frequencies, making the AF11-Complete-LB a powerful option for network administrators seeking efficient and reliable connectivity solutions in areas where the 11 GHz band is accessible for unlicensed or lightly licensed use."
+    },
+    {
+      "heading": "Features",
+      "text": "Full duplex point-to-point radio\n11 GHz frequency operation\n300+ km link range\nUp to 1.2+ Gbps throughput\nIncludes one low-band duplexer for SISO mode\nIntegrates with AF-11G35 11 GHz antenna\nSupports separate TX/RX frequencies\nAccepts PoE or DC power"
+    },
+    {
+      "heading": "Package Contents",
+      "text": "The AF11-Complete-LB package includes the airFiber AF-11 backhaul radio and a high-gain dish antenna, specifically tailored for low-band frequencies within the 10.7 to 11.7 GHz allocation. Its modular design allows for flexible frequency configuration by changing the duplexers enabling users to optimize the system for specific high-band or low-band use within the available spectrum. This particular LB package, Comes with 1 Low-Band Duplexer pre-installed for SISO mode. For MIMO mode, a second Duplexer is also available, duplexer model AF-11-DUP-L."
+    },
+    {
+      "heading": "Technical Specifications",
+      "text": "Technical specifications of the device highlight its robust build and advanced features. The hardware includes networking interfaces with one Gigabit Ethernet (GbE) RJ45 port and a secondary 10/100 MbE RJ45 port, offering versatile connectivity options. Power is supplied through Passive PoE or a DC power block, with a 50V DC, 1.2A PoE Gigabit Adapter included. For outdoor durability, the unit is designed to operate in temperatures ranging from -40 to 55°C, ensuring reliable performance in a variety of environmental conditions."
+    },
+    {
+      "heading": "airFiber Technology",
+      "text": "Ubiquiti Networks has integrated its proprietary airFiber technology into the AF11-Complete-LB, enabling it to achieve impressive throughput speeds exceeding 1.2 Gbps. This feat is accomplished through sophisticated signal processing and modulation techniques that not only optimize the use of the 11 GHz band but also ensure minimal interference, facilitating stable and consistent connections over 300 km. Such capabilities make the AirFiber AF11-Complete-LB an ideal solution for applications requiring high-speed data transfer, including internet service provider backhauls, corporate campus networks, and remote surveillance systems."
+    },
+    {
+      "heading": "Durability",
+      "text": "Durability is another key attribute of the AirFiber AF11-Complete-LB, engineered to withstand the rigors of outdoor installation. The device is encased in a robust, weather-resistant housing that protects it from extreme environmental conditions, including severe temperatures, precipitation, and wind. This resilience ensures reliable operation year-round, reducing the need for frequent maintenance and prolonging the lifespan of the system."
+    },
+    {
+      "heading": "Installation and Management",
+      "text": "Ubiquiti Networks has also emphasized ease of installation and management in the design of the AF11-Complete-LB. The AF11-Complete-LB package is comprehensive, ensuring that users have everything needed for a high-band point-to-point radio link setup. It includes the airFiber AF-11 backhaul radio, designed with a sleek and durable exterior to withstand the elements and the rigors of outdoor deployment. The kit also comes with a high-gain dish antenna with 1 low-band duplexer, specifically tuned to operate in the low-band frequencies of the 11 GHz spectrum. Essential accessories like a 50V DC, 1.2A PoE Gigabit Adapter for power, mounting hardware compatible with the AF-11G35 mount, and weatherproof RF connectors for secure outdoor installation are part of the package. This setup ensures a seamless installation process and reliable operation in diverse environmental conditions. The package is rounded off with a quick start guide and documentation to facilitate easy setup and optimal use of the system, ensuring everything needed for a seamless installation is at hand. Once deployed, the system can be efficiently managed through a user-friendly web interface, offering administrators the ability to configure settings, monitor performance, and conduct firmware updates with ease."
+    },
+    {
+      "heading": "Device Application Scenarios",
+      "text": "The AF11-Complete-LB is particularly suited for applications where high-speed, long-distance communication is critical. This makes it an ideal solution for wireless internet service providers (WISPs) looking to extend their network coverage or create backbone links between network segments separated by considerable distances. Additionally, the device finds application in enterprise networks for connecting remote offices or facilities, ensuring high-speed data transfer capabilities that are often required for modern business operations. Its high bandwidth and long-range capabilities also make it suitable for public safety networks, emergency communication systems, and large-scale event broadcasting, where reliability and performance over wide areas are non-negotiable."
+    },
+    {
+      "heading": "Summary",
+      "text": "The Ubiquiti AirFiber AF11-Complete-LB is a sophisticated communications solution designed to cater to the needs of modern high-speed networks. This device is part of Ubiquiti's renowned airFiber series, known for its robust performance in wireless communication. The AF11-Complete-LB, with its operation in the 11 GHz licensed frequency band, is engineered to address the congestion found in more common bands like the 5 GHz, offering a clear pathway for high-capacity data transmission over long distances. Overall, it is an ideal choice for establishing ISP backbones, connecting remote locations, supporting corporate campus networks, facilitating high-definition video streaming for surveillance systems, and deploying emergency communication networks. Its high throughput and low latency characteristics ensure that it can handle the most demanding data, voice, and video applications with ease."
+    },
+    {
+      "heading": "Compare with similar products",
+      "text": "Comparison table of AirFiber AF11-Complete-LB and AirFiber AF11-Complete-HB",
+      "media": [
+        {
+          "url": "https://www.getic.com/images/catalogue/description/23/airfiberaf11complete-6523d587c1de8-225x225.jpg",
+          "alt": "AirFiber AF11-Complete-LB",
+          "type": "comparison"
+        },
+        {
+          "url": "https://www.getic.com/images/catalogue/description/23/airfiberaf11complete-6523d587c1de8-225x225.jpg",
+          "alt": "AirFiber AF11-Complete-HB",
+          "type": "comparison"
+        }
+      ]
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Carrier Backhaul Radio",
+  "categories": [
+    "Carrier Backhaul Radio",
+    "airFiber PtP"
+  ],
+  "mpn": "AF11-Complete-LB",
+  "manufacturer_part_number": "AF11-Complete-LB",
+  "ean": "0817882027632",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2436/af11g35_front_374e7a3f780c421394583a3191c1a564_1024x1024-602f97ddbbede-medium.jpg",
+        "alt": "Ubiquiti airFiber 11 Low-Band Backhaul Radio with Dish Antenna front",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2436/af11g35_front_angle_82e444a1ef634bdc818a363380c0576c_1024x1024-602f97debc7a5-medium.jpg",
+        "alt": "Ubiquiti airFiber 11 Low-Band Backhaul Radio with Dish Antenna front angle",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2436/af11completehb_lb_back_angle_a45e675715fd443b88805c87af33a32f_1024x1024-602f97dd3bd50-medium.jpg",
+        "alt": "Ubiquiti airFiber 11 Low-Band Backhaul Radio with Dish Antenna back angle",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2436/af11completehb_lb_back_ed6aa03c2c0741a0a5fe5d668eed1292_1024x1024-602f97de3e6ad-medium.jpg",
+        "alt": "Ubiquiti airFiber 11 Low-Band Backhaul Radio with Dish Antenna back",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2436/af11completehb_lb_side_51a2305298ab4a06acd38ea0dee00fe7_1024x1024-602f9f0804c96-medium.jpg",
+        "alt": "Ubiquiti airFiber 11 Low-Band Backhaul Radio with Dish Antenna side",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 1459.34,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency",
+        "11GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "11GHz"
+        },
+        {
+          "name": "11GHz Radio Rate",
+          "value": "1.2Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization",
+        "Distance",
+        "VSWR",
+        "F/B ratio"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Parabolic Dish"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "10.3 - 11.70 (GHz) 35 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "2.5 °"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        },
+        {
+          "name": "Distance",
+          "value": "Up to 300 km"
+        },
+        {
+          "name": "VSWR",
+          "value": "< 2"
+        },
+        {
+          "name": "F/B ratio",
+          "value": "> 60 dB"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 100 Mbps, (1) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "48V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "38 - 56 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "36 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Metal, ABS Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø811 x 460 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "14.2 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 55 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units",
+        "Radome",
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        },
+        {
+          "name": "Radome",
+          "value": "Included"
+        },
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airFiber 11 Low-Band Backhaul Radio with Dish Antenna",
+      "url": "https://www.getic.com/files/catalogue/2436/airfiber_af-11g35_ds.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airFiber 11 Low-Band Backhaul Radio with Dish Antenna",
+      "url": "https://dl.ubnt.com/qsg/AF11-Complete/AF11-Complete_EN.html"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 1043.67,
+        "currency": "USD",
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 763.12,
+        "currency": "USD",
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airFiber Low-Band Duplexer",
+      "url": "/product/airfiber-11-low-band-duplexer",
+      "price": 181.08,
+      "currency": "USD",
+      "mpn": "AF-11-DUP-L",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 5XHD",
+      "url": "/product/airfiber-5xhd",
+      "price": 397.94,
+      "currency": "USD",
+      "mpn": "AF-5XHD",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 11 High-Band Backhaul Radio with Dish Antenna",
+      "url": "/product/airfiber-af-11-complete-hb",
+      "price": 1459.34,
+      "currency": "USD",
+      "mpn": "AF11-Complete-HB",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 60 Long-Range",
+      "url": "/product/airfiber-60-lr",
+      "price": 303.78,
+      "currency": "USD",
+      "mpn": "AF60-LR",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

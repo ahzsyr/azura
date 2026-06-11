@@ -1,0 +1,244 @@
+{
+  "slug": "gigabit-poe-injector",
+  "id": "37",
+  "productTitle": "MikroTik RBGPOE",
+  "name": "MikroTik RBGPOE",
+  "title": "MikroTik RBGPOE",
+  "title_extended": "",
+  "short_description": "For using with any RouterBOARD that supports 9-48V PoE powering",
+  "description": "For using with any RouterBOARD that supports 9-48V PoE powering",
+  "detailed_description": [
+    {
+      "heading": "Gigabit PoE Powering",
+      "text": "The MikroTik RBGPOE is a Gigabit PoE adapter designed to power MikroTik RouterBOARD devices over Gigabit Ethernet. It allows power and data to be transmitted through a single Ethernet cable, helping to reduce cable complexity and simplify installations, especially in tower, mast, and other elevated or remote deployment scenarios. The adapter is easy to use: connect a compatible DC power source to the injector, then connect it to the RouterBOARD device using a standard Ethernet cable. The RBGPOE supports passive PoE power delivery over Gigabit Ethernet and is suitable for any RouterBOARD device that supports an input voltage range of 18–57 V, using pins 4 and 5 for power and pins 7 and 8 for return. Shielded connectors ensure reliable signal integrity and stable operation in professional networking environments."
+    },
+    {
+      "heading": "Reliable and Durable Design",
+      "text": "The RBGPOE operates with an input voltage range of 18–57 V and delivers the same voltage at the output without conversion, ensuring compatibility with supported RouterBOARD devices. This direct voltage pass-through design provides stable power delivery and minimizes potential points of failure in the system. Built for long-term and demanding use, the adapter has an MTBF of approximately 100,000 hours at 25°C, making it suitable for continuous operation. It is tested to operate reliably in ambient temperatures ranging from -40°C to +70°C, allowing deployment in different conditions. Combined with its shielded Ethernet connectors, the RBGPOE offers dependable performance, durability, and electrical stability. It is a practical solution for network professionals who require a robust and efficient PoE adapter for powering MikroTik RouterBOARD devices in Gigabit Ethernet installations."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "PoE Adapters",
+  "categories": [
+    "Electrical Equipment",
+    "PoE Adapters"
+  ],
+  "mpn": "RBGPOE",
+  "manufacturer_part_number": "RBGPOE",
+  "ean": "4752224006509",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/37/rbgpoe_1-5fdb59f4ef529-medium.jpg",
+        "alt": "MikroTik RBGPOE",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/37/rbgpoe_2-5fdb5a05358cf-medium.jpg",
+        "alt": "MikroTik RBGPOE",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/37/rbgpoe_1-5fdb59f4ef529-tiny.jpg",
+        "alt": "MikroTik RBGPOE"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/37/rbgpoe_2-5fdb5a05358cf-tiny.jpg",
+        "alt": "MikroTik RBGPOE"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 6.43,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Supported Input Voltage"
+      ],
+      "items": [
+        {
+          "name": "Supported Input Voltage",
+          "value": "18 - 57 V DC"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.7,
+    "count": 3,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 67,
+      "great": 33,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "RK",
+        "date": "2026-03-12",
+        "text": "Works! :)",
+        "photos": []
+      },
+      {
+        "name": "Domhnall",
+        "date": "2025-09-05",
+        "text": "Great product for a low budget POE option",
+        "photos": []
+      },
+      {
+        "name": "Normunds",
+        "date": "2025-06-12",
+        "text": "A good powerful device meets the necessary requirements",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik RBPOE",
+      "url": "/product/poe-injector",
+      "price": 0.99,
+      "currency": "USD",
+      "mpn": "RBPOE",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Power Adapter 24V 1.2A",
+      "url": "/product/psu-power-adapter-24v1-2a-for-mikrotik",
+      "price": 4.49,
+      "currency": "USD",
+      "mpn": "SAW30-240-1200GR2A",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax2",
+      "url": "/product/mikrotik-hap-ax2",
+      "price": 80.20,
+      "currency": "USD",
+      "mpn": "C52iG-5HaxD2HaxD-TC",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik cAP ax",
+      "url": "/product/mikrotik-cap-ax",
+      "price": 103.11,
+      "currency": "USD",
+      "mpn": "cAPGi-5HaxD2HaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "CE",
+    "EAC",
+    "RoHS"
+  ],
+  "stock_stat": ""
+}

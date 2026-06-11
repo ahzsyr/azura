@@ -1,0 +1,1456 @@
+// AZURA — Prisma schema (MySQL 8+)
+//
+// Layers:
+//   • Core — packages, hotels, inquiries, company, legacy SeoSettings
+//   • Platform upgrade — SiteTheme, JsonStore, media, CMS/posts, SearchDocument, SeoMeta/redirects
+//
+// Migrations: prisma/migrations/ (init → platform_upgrade → search_fulltext)
+// Docs: docs/DELIVERABLES.md
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  CUSTOMER
+}
+
+enum FavoriteEntityType {
+  CATALOG_PRODUCT
+  CONTENT_ITEM
+}
+
+enum InquiryType {
+  GENERAL
+  PACKAGE
+  CONTENT
+  VISA
+  CONTACT
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum GalleryMediaKind {
+  IMAGE
+  VIDEO
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  SCHEDULED
+  ARCHIVED
+}
+
+enum ThemePreset {
+  CLASSIC
+  MODERN
+  LUXURY
+  CUSTOM
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+  SVG
+}
+
+enum SearchEntityType {
+  CONTENT_ITEM
+  CONTENT_COLLECTION
+  CONTENT_TYPE
+  CATALOG_PRODUCT
+  CATALOG_COLLECTION
+  CATALOG_CATEGORY
+  POST
+  CMS_PAGE
+  FAQ
+  MEDIA
+  TESTIMONIAL
+}
+
+enum RedirectType {
+  PERMANENT
+  TEMPORARY
+}
+
+enum TranslationStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  passwordHash    String
+  name            String
+  role            UserRole  @default(ADMIN)
+  phone           String?
+  dateOfBirth     DateTime? @db.Date
+  addressLine1    String?
+  addressLine2    String?
+  city            String?
+  state           String?
+  postalCode      String?
+  country         String?
+  marketingOptIn  Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  bookings        Booking[]
+  mediaAssets     MediaAsset[]
+  postAuthors     PostAuthor[]
+  pageRevisions   CmsPageRevision[]
+  favorites       UserFavorite[]
+  inquiries       Inquiry[]
+  passwordResets  PasswordResetToken[]
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model UserFavorite {
+  id         String             @id @default(cuid())
+  userId     String
+  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entityType FavoriteEntityType
+  entityId   String
+  locale     String             @default("en")
+  createdAt  DateTime           @default(now())
+
+  @@unique([userId, entityType, entityId])
+  @@index([userId])
+}
+
+model Gallery {
+  id            String         @id @default(cuid())
+  slug          String         @unique
+  titleEn       String
+  titleAr       String
+  excerptEn     String?        @db.Text
+  excerptAr     String?        @db.Text
+  descriptionEn String         @default("") @db.Text
+  descriptionAr String         @default("") @db.Text
+  infoEn        String?        @db.Text
+  infoAr        String?        @db.Text
+  coverUrl      String?
+  sortOrder     Int            @default(0)
+  isPublished   Boolean        @default(true)
+  media         GalleryMedia[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model GalleryMedia {
+  id            String           @id @default(cuid())
+  galleryId     String
+  gallery       Gallery          @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  titleEn       String
+  titleAr       String
+  excerptEn     String?          @db.Text
+  excerptAr     String?          @db.Text
+  descriptionEn String           @default("") @db.Text
+  descriptionAr String           @default("") @db.Text
+  infoEn        String?          @db.Text
+  infoAr        String?          @db.Text
+  mediaUrl      String
+  mediaKind     GalleryMediaKind @default(IMAGE)
+  sortOrder     Int              @default(0)
+  isPublished   Boolean          @default(true)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([galleryId])
+  @@index([galleryId, sortOrder])
+}
+
+model Testimonial {
+  id             String                      @id @default(cuid())
+  name           String
+  location       String
+  rating         Int                         @default(5)
+  contentEn      String                      @db.Text
+  contentAr      String                      @db.Text
+  videoUrl       String?
+  imageUrl       String?
+  isPublished    Boolean                     @default(true)
+  sortOrder      Int                         @default(0)
+  createdAt      DateTime                    @default(now())
+  updatedAt      DateTime                    @updatedAt
+  collectionItems TestimonialCollectionItem[]
+}
+
+model TestimonialCollection {
+  id        String                      @id @default(cuid())
+  slug      String                      @unique
+  titleEn   String
+  titleAr   String
+  excerptEn String?                     @db.Text
+  excerptAr String?                     @db.Text
+  sortOrder Int                         @default(0)
+  isPublished Boolean                   @default(true)
+  items     TestimonialCollectionItem[]
+  createdAt DateTime                    @default(now())
+  updatedAt DateTime                    @updatedAt
+}
+
+model TestimonialCollectionItem {
+  id             String                @id @default(cuid())
+  collectionId   String
+  collection     TestimonialCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  testimonialId  String
+  testimonial    Testimonial           @relation(fields: [testimonialId], references: [id], onDelete: Cascade)
+  sortOrder      Int                   @default(0)
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+
+  @@index([collectionId])
+  @@index([collectionId, sortOrder])
+}
+
+model Inquiry {
+  id            String        @id @default(cuid())
+  type          InquiryType   @default(GENERAL)
+  name          String
+  email         String
+  phone         String?
+  message       String        @db.Text
+  notes         String?       @db.Text
+  contentItemId String?       @db.VarChar(36)
+  contentItem   ContentItem?  @relation(fields: [contentItemId], references: [id], onDelete: SetNull)
+  userId        String?
+  user          User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  status        InquiryStatus @default(NEW)
+  locale        String        @default("en")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([contentItemId])
+  @@index([userId])
+}
+
+model Booking {
+  id            String        @id @default(cuid())
+  contentItemId String        @db.VarChar(36)
+  contentItem   ContentItem   @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+  userId        String?
+  user          User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  status        BookingStatus @default(PENDING)
+  metadata      Json          @default("{}")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([contentItemId])
+}
+
+model FaqSet {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  titleEn       String
+  titleAr       String
+  excerptEn     String?   @db.Text
+  excerptAr     String?   @db.Text
+  descriptionEn String    @default("") @db.Text
+  descriptionAr String    @default("") @db.Text
+  sortOrder     Int       @default(0)
+  isPublished   Boolean   @default(true)
+  items         FaqItem[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model FaqItem {
+  id          String   @id @default(cuid())
+  faqSetId    String
+  faqSet      FaqSet   @relation(fields: [faqSetId], references: [id], onDelete: Cascade)
+  questionEn  String
+  questionAr  String
+  answerEn    String   @db.Text
+  answerAr    String   @db.Text
+  sortOrder   Int      @default(0)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([faqSetId])
+  @@index([faqSetId, sortOrder])
+}
+
+model CompanyInfo {
+  id             String   @id @default("default")
+  name           String   @default("AZURA")
+  taglineEn      String   @db.Text
+  taglineAr      String   @db.Text
+  storyEn        String   @db.Text
+  storyAr        String   @db.Text
+  missionEn      String   @db.Text
+  missionAr      String   @db.Text
+  visionEn       String   @db.Text
+  visionAr       String   @db.Text
+  valuesEn       Json     @default("[]")
+  valuesAr       Json     @default("[]")
+  registrationNo String
+  licenseInfo    String   @db.Text
+  addressEn      String   @db.Text
+  addressAr      String   @db.Text
+  phone          String
+  whatsapp       String
+  email          String
+  officeHoursEn  String
+  officeHoursAr  String
+  socialLinks    Json     @default("{}")
+  trustBadges    Json     @default("[]")
+  updatedAt      DateTime @updatedAt
+}
+
+model SeoSettings {
+  id            String   @id @default(cuid())
+  pageKey       String   @unique
+  titleEn       String
+  titleAr       String
+  descriptionEn String   @db.Text
+  descriptionAr String   @db.Text
+  ogImageUrl    String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// --- Platform upgrade models ---
+
+model SiteTheme {
+  id                String      @id
+  preset            ThemePreset @default(CLASSIC)
+  activePresetId    String?
+  primaryColor      String      @default("#047857")
+  secondaryColor    String      @default("#d4af37")
+  typography        Json        @default("{}")
+  faviconUrl        String?
+  logoUrl           String?
+  brandConfig       Json        @default("{}")
+  headerConfig      Json        @default("{}")
+  footerConfig      Json        @default("{}")
+  animationsEnabled Boolean     @default(true)
+  animationSpeed    Float       @default(1)
+  lazyLoadEnabled   Boolean     @default(true)
+  darkModeEnabled   Boolean     @default(false)
+  spacingScale      Float       @default(1)
+  customCss         String?     @db.Text
+  cursorEffect      String?
+  backgroundEffect  String?
+  textEffect        String?
+  cursorEffectEnabled Boolean @default(true)
+  backgroundEffectEnabled Boolean @default(true)
+  textEffectEnabled Boolean @default(true)
+  backgroundEffectSettings Json @default("{}")
+  cardStyle         String?
+  borderStyle       String?
+  updatedAt         DateTime    @updatedAt
+}
+
+model JsonStore {
+  id        String   @id @default(cuid())
+  namespace String   @db.VarChar(64)
+  key       String   @db.VarChar(128)
+  data      Json
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([namespace, key])
+  @@index([namespace])
+}
+
+model MediaFolder {
+  id        String        @id @default(cuid())
+  name      String
+  parentId  String?
+  parent    MediaFolder?  @relation("FolderTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children  MediaFolder[] @relation("FolderTree")
+  assets    MediaAsset[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([parentId])
+}
+
+model MediaAsset {
+  id           String        @id @default(cuid())
+  filename     String
+  url          String
+  mimeType     String
+  mediaType    MediaType
+  sizeBytes    Int           @default(0)
+  width        Int?
+  height       Int?
+  altEn        String        @default("")
+  altAr        String        @default("")
+  folderId     String?
+  folder       MediaFolder?  @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  uploadedById String?
+  uploadedBy   User?         @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  usages              MediaUsage[]
+  posts               Post[]
+  downloadGateUnlocks DownloadGateUnlock[]
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
+
+  @@index([folderId])
+  @@index([mediaType])
+}
+
+model MediaUsage {
+  id         String   @id @default(cuid())
+  mediaId    String
+  media      MediaAsset @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  entityType String   @db.VarChar(32)
+  entityId   String   @db.VarChar(128)
+  field      String   @default("default")
+  createdAt  DateTime @default(now())
+
+  @@index([mediaId])
+  @@index([entityType, entityId])
+}
+
+model CmsPage {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  titleEn     String
+  titleAr     String
+  excerptEn   String?       @db.Text
+  excerptAr   String?       @db.Text
+  templateKey String?
+  status      ContentStatus @default(DRAFT)
+  blocks      Json          @default("[]")
+  visualSettings Json       @default("{}")
+  publishedAt DateTime?
+  scheduledAt DateTime?
+  revisions   CmsPageRevision[]
+  seoMeta     SeoMeta?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([status])
+  @@index([slug, status])
+}
+
+model CmsPageRevision {
+  id        String   @id @default(cuid())
+  pageId    String
+  page      CmsPage  @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  version   Int
+  blocks    Json
+  message   String?
+  createdById String?
+  createdBy User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+
+  @@index([pageId])
+}
+
+model PostCategory {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  nameEn    String
+  nameAr    String
+  sortOrder Int      @default(0)
+  posts     PostCategoryOnPost[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PostTag {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  nameEn    String
+  nameAr    String
+  posts     PostTagOnPost[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PostAuthor {
+  id        String   @id @default(cuid())
+  name      String
+  bioEn     String?  @db.Text
+  bioAr     String?  @db.Text
+  avatarUrl String?
+  userId    String?  @unique
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  posts     Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id              String        @id @default(cuid())
+  slug            String        @unique
+  titleEn         String
+  titleAr         String
+  excerptEn       String?       @db.Text
+  excerptAr       String?       @db.Text
+  contentEn       String?       @db.Text
+  contentAr       String?       @db.Text
+  blocks          Json          @default("[]")
+  status          ContentStatus @default(DRAFT)
+  featuredImageId String?
+  featuredImage   MediaAsset?   @relation(fields: [featuredImageId], references: [id], onDelete: SetNull)
+  authorId        String?
+  author          PostAuthor?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  publishedAt     DateTime?
+  scheduledAt     DateTime?
+  categories      PostCategoryOnPost[]
+  tags            PostTagOnPost[]
+  relatedPostIds  Json             @default("[]")
+  seoMeta         SeoMeta?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([status])
+  @@index([slug, status])
+}
+
+model PostCategoryOnPost {
+  postId     String       @db.VarChar(36)
+  categoryId String       @db.VarChar(36)
+  post       Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  category   PostCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([postId, categoryId])
+}
+
+model PostTagOnPost {
+  postId String    @db.VarChar(36)
+  tagId  String    @db.VarChar(36)
+  post   Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    PostTag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+}
+
+model SearchDocument {
+  id         String           @id @default(cuid())
+  entityType SearchEntityType
+  entityId   String           @db.VarChar(36)
+  locale     String           @db.VarChar(5)
+  title      String
+  body       String           @db.Text
+  urlPath    String
+  metadata   Json             @default("{}")
+  updatedAt  DateTime         @updatedAt
+
+  @@unique([entityType, entityId, locale])
+  @@index([locale])
+  @@index([locale, entityType])
+  @@index([title])
+}
+
+model SeoMeta {
+  id            String   @id @default(cuid())
+  pageKey       String?  @unique @db.VarChar(128)
+  entityType    String?  @db.VarChar(32)
+  entityId      String?  @db.VarChar(128)
+  titleEn       String
+  titleAr       String
+  descriptionEn String   @db.Text
+  descriptionAr String   @db.Text
+  canonicalUrl  String?
+  robots        String?
+  focusKeywords String?
+  ogTitleEn     String?
+  ogTitleAr     String?
+  ogImageUrl    String?
+  twitterCard   String?
+  jsonLd        Json?
+  cmsPageId     String?  @unique
+  cmsPage       CmsPage? @relation(fields: [cmsPageId], references: [id], onDelete: Cascade)
+  postId        String?  @unique
+  post          Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([entityType, entityId])
+}
+
+model SeoRedirect {
+  id        String       @id @default(cuid())
+  fromPath  String       @unique
+  toPath    String
+  type      RedirectType @default(PERMANENT)
+  isActive  Boolean      @default(true)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model Custom404 {
+  id        String   @id @default(cuid())
+  locale    String
+  titleEn   String
+  titleAr   String
+  bodyEn    String   @db.Text
+  bodyAr    String   @db.Text
+  blocks    Json     @default("[]")
+  updatedAt DateTime @updatedAt
+
+  @@unique([locale])
+}
+
+model LocaleConfig {
+  id           String   @id @default(cuid())
+  code         String   @unique @db.VarChar(16)
+  urlPrefix    String   @unique @db.VarChar(16)
+  label        String
+  htmlLang     String   @default("en") @db.VarChar(10)
+  dir          String   @default("ltr") @db.VarChar(3)
+  flag         String   @default("🌐")
+  dateLocale   String   @default("en-US") @db.VarChar(16)
+  currency     String   @default("USD") @db.VarChar(3)
+  numberLocale String   @default("en-US") @db.VarChar(16)
+  isEnabled    Boolean  @default(true)
+  isDefault    Boolean  @default(false)
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isEnabled, sortOrder])
+}
+
+// --- Generic content platform (industry-agnostic catalog) ---
+
+model ContentType {
+  id              String              @id @default(cuid())
+  slug            String              @unique @db.VarChar(64)
+  nameEn          String
+  nameAr          String
+  labelSingularEn String              @default("Item")
+  labelSingularAr String              @default("عنصر")
+  labelPluralEn   String              @default("Items")
+  labelPluralAr   String              @default("عناصر")
+  icon            String              @default("box")
+  routePrefix     String?             @db.VarChar(64)
+  fieldSchema     Json                @default("[]")
+  displaySchema   Json                @default("{}")
+  adminConfig     Json                @default("{}")
+  sortOrder       Int                 @default(0)
+  isEnabled       Boolean             @default(true)
+  collections     ContentCollection[]
+  items           ContentItem[]
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+}
+
+model ContentCollection {
+  id              String                    @id @default(cuid())
+  slug            String                    @unique @db.VarChar(64)
+  contentTypeId   String                    @db.VarChar(36)
+  contentType     ContentType               @relation(fields: [contentTypeId], references: [id], onDelete: Cascade)
+  nameEn          String
+  nameAr          String
+  excerptEn       String?                   @db.Text
+  excerptAr       String?                   @db.Text
+  displayProfile  Json                      @default("{}")
+  sortOrder       Int                       @default(0)
+  isPublished     Boolean                   @default(true)
+  items           ContentItem[]
+  memberships     ContentCollectionItem[]
+  createdAt       DateTime                  @default(now())
+  updatedAt       DateTime                  @updatedAt
+
+  @@index([contentTypeId])
+}
+
+model ContentItem {
+  id               String                  @id @default(cuid())
+  contentTypeId    String                  @db.VarChar(36)
+  contentType      ContentType             @relation(fields: [contentTypeId], references: [id], onDelete: Cascade)
+  collectionId     String?                 @db.VarChar(36)
+  collection       ContentCollection?      @relation(fields: [collectionId], references: [id], onDelete: SetNull)
+  slug             String?                 @db.VarChar(128)
+  titleEn          String
+  titleAr          String
+  excerptEn        String                  @default("") @db.Text
+  excerptAr        String                  @default("") @db.Text
+  descriptionEn    String                  @default("") @db.Text
+  descriptionAr    String                  @default("") @db.Text
+  attributes       Json                    @default("{}")
+  blocks           Json                    @default("[]")
+  displaySettings  Json                    @default("{}")
+  metadata         Json                    @default("{}")
+  status           ContentStatus           @default(DRAFT)
+  isFeatured       Boolean                 @default(false)
+  isVisible        Boolean                 @default(true)
+  sortOrder        Int                     @default(0)
+  publishedAt      DateTime?
+  archivedAt       DateTime?
+  deletedAt        DateTime?
+  featuredImageUrl String?
+  media            ContentItemMedia[]
+  collectionLinks  ContentCollectionItem[]
+  inquiries        Inquiry[]
+  bookings         Booking[]
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+
+  @@unique([contentTypeId, slug])
+  @@index([contentTypeId, status, isFeatured])
+  @@index([collectionId])
+  @@index([deletedAt])
+}
+
+model ContentCollectionItem {
+  id           String            @id @default(cuid())
+  collectionId String            @db.VarChar(36)
+  collection   ContentCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  itemId       String            @db.VarChar(36)
+  item         ContentItem       @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  sortOrder    Int               @default(0)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@unique([collectionId, itemId])
+  @@index([collectionId, sortOrder])
+}
+
+model ContentItemMedia {
+  id          String      @id @default(cuid())
+  itemId      String      @db.VarChar(36)
+  item        ContentItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  url         String
+  altEn       String      @default("")
+  altAr       String      @default("")
+  captionEn   String      @default("") @db.Text
+  captionAr   String      @default("") @db.Text
+  sortOrder   Int         @default(0)
+  isPublished Boolean     @default(true)
+  isCover     Boolean     @default(false)
+  isHidden    Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([itemId, sortOrder])
+}
+
+// --- Scalable i18n translation layer ---
+
+model EntityTranslation {
+  id           String             @id @default(cuid())
+  entityType   String             @db.VarChar(64)
+  entityId     String             @db.VarChar(36)
+  field        String             @db.VarChar(64)
+  languageCode String             @db.VarChar(16)
+  value        String             @db.Text
+  status       TranslationStatus  @default(PUBLISHED)
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  versions     EntityTranslationVersion[]
+
+  @@unique([entityType, entityId, field, languageCode])
+  @@index([entityType, entityId])
+  @@index([languageCode, entityType])
+  @@index([entityType, languageCode, status])
+}
+
+model EntityTranslationVersion {
+  id            String            @id @default(cuid())
+  translationId String
+  translation   EntityTranslation @relation(fields: [translationId], references: [id], onDelete: Cascade)
+  value         String            @db.Text
+  status        TranslationStatus
+  changedBy     String?           @db.VarChar(36)
+  createdAt     DateTime          @default(now())
+
+  @@index([translationId, createdAt])
+}
+
+model LocalizedSlug {
+  id           String   @id @default(cuid())
+  entityType   String   @db.VarChar(64)
+  entityId     String   @db.VarChar(36)
+  languageCode String   @db.VarChar(16)
+  slug         String   @db.VarChar(128)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([entityType, entityId, languageCode])
+  @@unique([entityType, slug, languageCode])
+  @@index([entityType, slug])
+}
+
+enum FormSubmissionStatus {
+  NEW
+  REVIEWED
+  ARCHIVED
+}
+
+enum FormTemplateCategory {
+  LEAD
+  CONTACT
+  MULTI_STEP
+  GENERAL
+}
+
+enum NewsletterSubscriberStatus {
+  PENDING
+  CONFIRMED
+  UNSUBSCRIBED
+}
+
+enum DownloadUnlockMethod {
+  FORM
+  NEWSLETTER
+  EXTERNAL
+}
+
+enum FormWebhookDeliveryStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum TranslationJobStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+model TranslationJob {
+  id             String               @id @default(cuid())
+  entityType     String?              @db.VarChar(64)
+  languageCode   String               @db.VarChar(16)
+  status         TranslationJobStatus @default(PENDING)
+  totalEntities  Int                  @default(0)
+  processedCount Int                  @default(0)
+  errorMessage   String?              @db.Text
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  completedAt    DateTime?
+
+  @@index([status, createdAt])
+}
+
+model UiMessage {
+  id           String            @id @default(cuid())
+  namespace    String            @db.VarChar(64)
+  key          String            @db.VarChar(128)
+  languageCode String            @db.VarChar(16)
+  value        String            @db.Text
+  status       TranslationStatus @default(PUBLISHED)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@unique([namespace, key, languageCode])
+  @@index([languageCode, namespace])
+}
+
+// --- Conversion & forms platform ---
+
+model FormTemplate {
+  id          String               @id @default(cuid())
+  name        String
+  slug        String               @unique @db.VarChar(64)
+  category    FormTemplateCategory @default(GENERAL)
+  description String?              @db.Text
+  definition  Json                 @default("{}")
+  isPublished Boolean              @default(true)
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  submissions FormSubmission[]
+  drafts      FormDraft[]
+
+  @@index([category, isPublished])
+}
+
+model FormSubmission {
+  id           String               @id @default(cuid())
+  templateId   String?
+  template     FormTemplate?        @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  blockType    String?              @db.VarChar(64)
+  blockId      String?              @db.VarChar(64)
+  pageId       String?              @db.VarChar(36)
+  pageSlug     String?              @db.VarChar(256)
+  locale       String               @default("en") @db.VarChar(16)
+  payload      Json                 @default("{}")
+  score        Int                  @default(0)
+  status       FormSubmissionStatus @default(NEW)
+  utm          Json                 @default("{}")
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  webhooks     FormWebhookDelivery[]
+
+  @@index([templateId, createdAt])
+  @@index([status, createdAt])
+  @@index([blockType])
+}
+
+model FormDraft {
+  id          String       @id @default(cuid())
+  token       String       @unique @db.VarChar(64)
+  templateId  String
+  template    FormTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  payload     Json         @default("{}")
+  currentStep Int          @default(0)
+  expiresAt   DateTime
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([templateId])
+  @@index([expiresAt])
+}
+
+model NewsletterSubscriber {
+  id           String                     @id @default(cuid())
+  email        String                     @db.VarChar(120)
+  name         String?
+  segment      String                     @default("default") @db.VarChar(64)
+  status       NewsletterSubscriberStatus @default(PENDING)
+  confirmToken String?                    @unique @db.VarChar(64)
+  confirmedAt  DateTime?
+  locale       String                     @default("en") @db.VarChar(16)
+  metadata     Json                       @default("{}")
+  createdAt    DateTime                   @default(now())
+  updatedAt    DateTime                   @updatedAt
+
+  @@unique([email, segment])
+  @@index([status, segment])
+  @@index([createdAt])
+}
+
+model DownloadGateUnlock {
+  id            String               @id @default(cuid())
+  token         String               @unique @db.VarChar(64)
+  mediaAssetId  String
+  mediaAsset    MediaAsset           @relation(fields: [mediaAssetId], references: [id], onDelete: Cascade)
+  email         String?
+  unlockMethod  DownloadUnlockMethod @default(FORM)
+  expiresAt     DateTime
+  usedAt        DateTime?
+  createdAt     DateTime             @default(now())
+
+  @@index([mediaAssetId])
+  @@index([expiresAt])
+}
+
+model FormWebhookDelivery {
+  id           String                    @id @default(cuid())
+  submissionId String
+  submission   FormSubmission            @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  url          String                    @db.VarChar(512)
+  status       FormWebhookDeliveryStatus @default(PENDING)
+  responseCode Int?
+  error        String?                   @db.Text
+  createdAt    DateTime                  @default(now())
+
+  @@index([submissionId])
+}
+
+// --- Portal & support platform ---
+
+enum ReleaseStatus {
+  RELEASED
+  BETA
+  DEPRECATED
+}
+
+enum ReleaseEntryCategory {
+  FEATURES
+  IMPROVEMENTS
+  FIXES
+  BREAKING
+}
+
+enum PricingCalculatorFieldType {
+  NUMBER
+  SELECT
+  TOGGLE
+}
+
+enum ServiceHealthStatus {
+  OPERATIONAL
+  DEGRADED
+  PARTIAL_OUTAGE
+  MAJOR_OUTAGE
+  MAINTENANCE
+}
+
+enum IncidentStatus {
+  INVESTIGATING
+  IDENTIFIED
+  MONITORING
+  RESOLVED
+}
+
+model PricingPlanSet {
+  id            String             @id @default(cuid())
+  slug          String             @unique @db.VarChar(64)
+  titleEn       String
+  titleAr       String
+  descriptionEn String             @default("") @db.Text
+  descriptionAr String             @default("") @db.Text
+  currency      String             @default("USD") @db.VarChar(3)
+  sortOrder     Int                @default(0)
+  isPublished   Boolean            @default(true)
+  plans         PricingPlan[]
+  features      PricingPlanFeature[]
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+}
+
+model PricingPlan {
+  id              String         @id @default(cuid())
+  planSetId       String         @db.VarChar(36)
+  planSet         PricingPlanSet @relation(fields: [planSetId], references: [id], onDelete: Cascade)
+  nameEn          String
+  nameAr          String
+  descriptionEn   String         @default("") @db.Text
+  descriptionAr   String         @default("") @db.Text
+  priceMonthly    Decimal        @default(0) @db.Decimal(12, 2)
+  priceYearly     Decimal        @default(0) @db.Decimal(12, 2)
+  discountPercent Int            @default(0)
+  badgeEn         String         @default("")
+  badgeAr         String         @default("")
+  isHighlighted   Boolean        @default(false)
+  ctaLabelEn      String         @default("Get started")
+  ctaLabelAr      String         @default("ابدأ الآن")
+  ctaHref         String         @default("/contact")
+  featureValues   Json           @default("{}")
+  sortOrder       Int            @default(0)
+  isPublished     Boolean        @default(true)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([planSetId, sortOrder])
+}
+
+model PricingPlanFeature {
+  id        String         @id @default(cuid())
+  planSetId String         @db.VarChar(36)
+  planSet   PricingPlanSet @relation(fields: [planSetId], references: [id], onDelete: Cascade)
+  labelEn   String
+  labelAr   String
+  sortOrder Int            @default(0)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@index([planSetId, sortOrder])
+}
+
+model ReleaseSet {
+  id            String    @id @default(cuid())
+  slug          String    @unique @db.VarChar(64)
+  titleEn       String
+  titleAr       String
+  descriptionEn String    @default("") @db.Text
+  descriptionAr String    @default("") @db.Text
+  sortOrder     Int       @default(0)
+  isPublished   Boolean   @default(true)
+  releases      Release[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Release {
+  id           String         @id @default(cuid())
+  releaseSetId String         @db.VarChar(36)
+  releaseSet   ReleaseSet     @relation(fields: [releaseSetId], references: [id], onDelete: Cascade)
+  version      String         @db.VarChar(64)
+  releaseDate  DateTime?
+  status       ReleaseStatus  @default(RELEASED)
+  tags         Json           @default("[]")
+  sortOrder    Int            @default(0)
+  isPublished  Boolean        @default(true)
+  entries      ReleaseEntry[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@index([releaseSetId, sortOrder])
+}
+
+model ReleaseEntry {
+  id        String               @id @default(cuid())
+  releaseId String               @db.VarChar(36)
+  release   Release              @relation(fields: [releaseId], references: [id], onDelete: Cascade)
+  category  ReleaseEntryCategory @default(FEATURES)
+  textEn    String               @db.Text
+  textAr    String               @db.Text
+  sortOrder Int                  @default(0)
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  @@index([releaseId, category, sortOrder])
+}
+
+model PricingCalculator {
+  id            String                   @id @default(cuid())
+  slug          String                   @unique @db.VarChar(64)
+  titleEn       String
+  titleAr       String
+  descriptionEn String                   @default("") @db.Text
+  descriptionAr String                   @default("") @db.Text
+  currency      String                   @default("USD") @db.VarChar(3)
+  basePrice     Decimal                  @default(0) @db.Decimal(12, 2)
+  sortOrder     Int                      @default(0)
+  isPublished   Boolean                  @default(true)
+  fields        PricingCalculatorField[]
+  rules         PricingCalculatorRule[]
+  createdAt     DateTime                 @default(now())
+  updatedAt     DateTime                 @updatedAt
+}
+
+model PricingCalculatorField {
+  id           String                   @id @default(cuid())
+  calculatorId String                   @db.VarChar(36)
+  calculator   PricingCalculator        @relation(fields: [calculatorId], references: [id], onDelete: Cascade)
+  key          String                   @db.VarChar(64)
+  labelEn      String
+  labelAr      String
+  fieldType    PricingCalculatorFieldType @default(NUMBER)
+  options      Json                     @default("[]")
+  defaultValue String                   @default("")
+  sortOrder    Int                      @default(0)
+  createdAt    DateTime                 @default(now())
+  updatedAt    DateTime                 @updatedAt
+
+  @@unique([calculatorId, key])
+  @@index([calculatorId, sortOrder])
+}
+
+model PricingCalculatorRule {
+  id           String            @id @default(cuid())
+  calculatorId String                   @db.VarChar(36)
+  calculator   PricingCalculator @relation(fields: [calculatorId], references: [id], onDelete: Cascade)
+  fieldKey     String            @db.VarChar(64)
+  operator     String            @default("eq") @db.VarChar(16)
+  value        String            @default("")
+  priceDelta   Decimal           @default(0) @db.Decimal(12, 2)
+  multiplier   Decimal           @default(1) @db.Decimal(8, 4)
+  sortOrder    Int               @default(0)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@index([calculatorId, sortOrder])
+}
+
+model KnowledgeBase {
+  id            String              @id @default(cuid())
+  slug          String              @unique @db.VarChar(64)
+  titleEn       String
+  titleAr       String
+  descriptionEn String              @default("") @db.Text
+  descriptionAr String              @default("") @db.Text
+  sortOrder     Int                 @default(0)
+  isPublished   Boolean             @default(true)
+  categories    KnowledgeCategory[]
+  articles      KnowledgeArticle[]
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+}
+
+model KnowledgeCategory {
+  id              String            @id @default(cuid())
+  knowledgeBaseId String             @db.VarChar(36)
+  knowledgeBase   KnowledgeBase     @relation(fields: [knowledgeBaseId], references: [id], onDelete: Cascade)
+  parentId        String?           @db.VarChar(36)
+  slug            String            @db.VarChar(64)
+  titleEn         String
+  titleAr         String
+  sortOrder       Int               @default(0)
+  isPublished     Boolean           @default(true)
+  articles        KnowledgeArticle[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@unique([knowledgeBaseId, slug])
+  @@index([knowledgeBaseId, parentId, sortOrder])
+}
+
+model KnowledgeArticle {
+  id              String             @id @default(cuid())
+  knowledgeBaseId String             @db.VarChar(36)
+  knowledgeBase   KnowledgeBase      @relation(fields: [knowledgeBaseId], references: [id], onDelete: Cascade)
+  categoryId      String?            @db.VarChar(36)
+  category        KnowledgeCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  slug            String             @db.VarChar(64)
+  titleEn         String
+  titleAr         String
+  excerptEn       String             @default("") @db.Text
+  excerptAr       String             @default("") @db.Text
+  bodyEn          String             @default("") @db.Text
+  bodyAr          String             @default("") @db.Text
+  ratingSum       Int                @default(0)
+  ratingCount     Int                @default(0)
+  sortOrder       Int                @default(0)
+  isPublished     Boolean            @default(true)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@unique([knowledgeBaseId, slug])
+  @@index([knowledgeBaseId, categoryId, sortOrder])
+}
+
+model DocPortal {
+  id            String       @id @default(cuid())
+  slug          String       @unique @db.VarChar(64)
+  titleEn       String
+  titleAr       String
+  descriptionEn String       @default("") @db.Text
+  descriptionAr String       @default("") @db.Text
+  sortOrder     Int          @default(0)
+  isPublished   Boolean      @default(true)
+  versions      DocVersion[]
+  sections      DocSection[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model DocVersion {
+  id          String       @id @default(cuid())
+  portalId    String       @db.VarChar(36)
+  portal      DocPortal    @relation(fields: [portalId], references: [id], onDelete: Cascade)
+  slug        String       @db.VarChar(64)
+  labelEn     String
+  labelAr     String
+  isDefault   Boolean      @default(false)
+  sortOrder   Int          @default(0)
+  isPublished Boolean      @default(true)
+  sections    DocSection[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@unique([portalId, slug])
+  @@index([portalId, sortOrder])
+}
+
+model DocSection {
+  id          String      @id @default(cuid())
+  portalId    String       @db.VarChar(36)
+  portal      DocPortal   @relation(fields: [portalId], references: [id], onDelete: Cascade)
+  versionId   String?     @db.VarChar(36)
+  version     DocVersion? @relation(fields: [versionId], references: [id], onDelete: SetNull)
+  parentId    String?     @db.VarChar(36)
+  slug        String      @db.VarChar(64)
+  titleEn     String
+  titleAr     String
+  href        String      @default("")
+  contentEn   String      @default("") @db.Text
+  contentAr   String      @default("") @db.Text
+  sortOrder   Int         @default(0)
+  isPublished Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@unique([portalId, slug])
+  @@index([portalId, versionId, parentId, sortOrder])
+}
+
+model StatusBoard {
+  id            String              @id @default(cuid())
+  slug          String              @unique @db.VarChar(64)
+  titleEn       String
+  titleAr       String
+  descriptionEn String              @default("") @db.Text
+  descriptionAr String              @default("") @db.Text
+  sortOrder     Int                 @default(0)
+  isPublished   Boolean             @default(true)
+  services      StatusService[]
+  incidents     StatusIncident[]
+  maintenance   StatusMaintenance[]
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+}
+
+model StatusService {
+  id          String              @id @default(cuid())
+  boardId     String              @db.VarChar(36)
+  board       StatusBoard         @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  nameEn      String
+  nameAr      String
+  descriptionEn String            @default("") @db.Text
+  descriptionAr String            @default("") @db.Text
+  status      ServiceHealthStatus @default(OPERATIONAL)
+  uptimePercent Decimal           @default(100) @db.Decimal(5, 2)
+  sortOrder   Int                 @default(0)
+  isPublished Boolean             @default(true)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  @@index([boardId, sortOrder])
+}
+
+model StatusIncident {
+  id          String         @id @default(cuid())
+  boardId     String              @db.VarChar(36)
+  board       StatusBoard    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  titleEn     String
+  titleAr     String
+  messageEn   String         @db.Text
+  messageAr   String         @db.Text
+  status      IncidentStatus @default(INVESTIGATING)
+  startedAt   DateTime       @default(now())
+  resolvedAt  DateTime?
+  sortOrder   Int            @default(0)
+  isPublished Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([boardId, sortOrder])
+}
+
+model StatusMaintenance {
+  id          String      @id @default(cuid())
+  boardId     String              @db.VarChar(36)
+  board       StatusBoard @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  titleEn     String
+  titleAr     String
+  messageEn   String      @db.Text
+  messageAr   String      @db.Text
+  startsAt    DateTime
+  endsAt      DateTime
+  sortOrder   Int         @default(0)
+  isPublished Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([boardId, startsAt])
+}
+
+model TeamDirectory {
+  id            String           @id @default(cuid())
+  slug          String           @unique @db.VarChar(64)
+  titleEn       String
+  titleAr       String
+  descriptionEn String           @default("") @db.Text
+  descriptionAr String           @default("") @db.Text
+  sortOrder     Int              @default(0)
+  isPublished   Boolean          @default(true)
+  departments   TeamDepartment[]
+  members       TeamMember[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+}
+
+model TeamDepartment {
+  id          String        @id @default(cuid())
+  directoryId String        @db.VarChar(36)
+  directory   TeamDirectory @relation(fields: [directoryId], references: [id], onDelete: Cascade)
+  nameEn      String
+  nameAr      String
+  sortOrder   Int           @default(0)
+  members     TeamMember[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([directoryId, sortOrder])
+}
+
+model TeamMember {
+  id           String          @id @default(cuid())
+  directoryId  String          @db.VarChar(36)
+  directory    TeamDirectory   @relation(fields: [directoryId], references: [id], onDelete: Cascade)
+  departmentId String?         @db.VarChar(36)
+  department   TeamDepartment? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  nameEn       String
+  nameAr       String
+  roleEn       String          @default("")
+  roleAr       String          @default("")
+  bioEn        String          @default("") @db.Text
+  bioAr        String          @default("") @db.Text
+  email        String          @default("")
+  phone        String          @default("")
+  locationEn   String          @default("")
+  locationAr   String          @default("")
+  skills       Json            @default("[]")
+  imageUrl     String          @default("")
+  sortOrder    Int             @default(0)
+  isPublished  Boolean         @default(true)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  @@index([directoryId, departmentId, sortOrder])
+}
+
+model PartnerProgram {
+  id            String            @id @default(cuid())
+  slug          String            @unique @db.VarChar(64)
+  titleEn       String
+  titleAr       String
+  descriptionEn String            @default("") @db.Text
+  descriptionAr String            @default("") @db.Text
+  sortOrder     Int               @default(0)
+  isPublished   Boolean           @default(true)
+  categories    PartnerCategory[]
+  partners      Partner[]
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+model PartnerCategory {
+  id        String         @id @default(cuid())
+  programId String         @db.VarChar(36)
+  program   PartnerProgram @relation(fields: [programId], references: [id], onDelete: Cascade)
+  slug      String         @db.VarChar(64)
+  nameEn    String
+  nameAr    String
+  sortOrder Int            @default(0)
+  partners  Partner[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@unique([programId, slug])
+  @@index([programId, sortOrder])
+}
+
+model Partner {
+  id              String           @id @default(cuid())
+  programId       String           @db.VarChar(36)
+  program         PartnerProgram   @relation(fields: [programId], references: [id], onDelete: Cascade)
+  categoryId      String?          @db.VarChar(36)
+  category        PartnerCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  nameEn          String
+  nameAr          String
+  descriptionEn   String           @default("") @db.Text
+  descriptionAr   String           @default("") @db.Text
+  logoUrl         String           @default("")
+  websiteUrl      String           @default("")
+  profileUrl      String           @default("")
+  email           String           @default("")
+  phone           String           @default("")
+  locationEn      String           @default("")
+  locationAr      String           @default("")
+  latitude        Decimal?         @db.Decimal(10, 7)
+  longitude       Decimal?         @db.Decimal(10, 7)
+  certifications  Json             @default("[]")
+  sortOrder       Int              @default(0)
+  isPublished     Boolean          @default(true)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([programId, categoryId, sortOrder])
+}

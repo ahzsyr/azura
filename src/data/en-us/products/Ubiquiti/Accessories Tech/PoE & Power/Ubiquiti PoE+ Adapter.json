@@ -1,0 +1,263 @@
+{
+  "slug": "ubiquiti-poe-at",
+  "id": "4514",
+  "productTitle": "Ubiquiti PoE+ Adapter",
+  "name": "Ubiquiti PoE+ Adapter",
+  "title": "Ubiquiti PoE+ Adapter",
+  "title_extended": "",
+  "short_description": "PoE adapter for UniFi PoE+ devices, 48V DC 0.65A, 802.3at, RJ45 data input",
+  "description": "PoE adapter for UniFi PoE+ devices, 48V DC 0.65A, 802.3at, RJ45 data input",
+  "detailed_description": [
+    {
+      "heading": "Ubiquiti PoE+ Adapter",
+      "text": "The Ubiquiti U-POE+ Adapter is designed to enhance network installations by providing both power and data through a single Ethernet cable to devices that support the IEEE 802.3at PoE+ standard. This powerful adapter is capable of delivering up to 30 watts of power, accommodating the needs of more demanding network devices such as advanced access points, surveillance cameras, and VoIP systems. The U-POE+ from Ubiquiti simplifies the deployment of network hardware by eliminating the need for separate power cables, thereby reducing both cost and installation complexity. Its capacity to deliver up to 30 watts makes it an essential tool for supporting high-power devices in a network setup."
+    },
+    {
+      "heading": "Features",
+      "text": "Delivers up to 30W of PoE+\nCompatible with U6 LR, U6 Enterprise, Camera DSLR, and other PoE+ devices\nSurge, peak pulse, and overcurrent protection\nContains RJ45 data input, AC cable with earth ground, and PoE+ output\nLED indicator for status monitoring"
+    },
+    {
+      "heading": "Durability and Design",
+      "text": "Constructed from industrial-grade materials, the U-POE+ is both durable and reliable. Its compact design facilitates easy integration into various environments without occupying excessive space, making it a versatile choice for many network configurations. Moreover, with support for data rates up to 1 Gbps, the U-POE+ ensures that network speeds are maintained, which is critical for applications requiring high bandwidth such as video streaming or large file transfers."
+    },
+    {
+      "heading": "Protection and Monitoring",
+      "text": "The adapter also includes integrated surge protection and intelligent power management to safeguard against electrical spikes and surges. These features help prevent damage to both the power supply and connected devices, enhancing overall network reliability. Equipped with LED indicators, the U-POE+ provides visual cues about power, connectivity, and activity. These indicators are essential for system monitoring and troubleshooting, helping users to quickly identify and resolve any issues."
+    },
+    {
+      "heading": "Installation and Performance",
+      "text": "The U-POE+ is designed for easy and quick installation. It is a plug-and-play device that requires no software configuration, making it accessible for users of all technical levels and significantly reducing setup time. Its comprehensive features and strong performance make it an indispensable component of any network demanding power efficiency and high data throughput."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "PoE Adapters",
+  "categories": [
+    "Ubiquiti",
+    "Accessory Tech",
+    "PoE & Power"
+  ],
+  "mpn": "U-POE+",
+  "manufacturer_part_number": "U-POE+",
+  "ean": "0817882027205",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4514/3-6512d61e56aaa-medium.jpg",
+        "alt": "Ubiquiti PoE+ Adapter",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4514/4-6512d621cc15c-medium.jpg",
+        "alt": "Ubiquiti PoE+ Adapter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4514/2-6512d61b1b155-medium.jpg",
+        "alt": "Ubiquiti PoE+ Adapter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4514/1-6512d6154ca01-medium.jpg",
+        "alt": "Ubiquiti PoE+ Adapter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4514/5-6512d6255a0f6-medium.jpg",
+        "alt": "Ubiquiti PoE+ Adapter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4514/6-6512d628c4cd5-medium.jpg",
+        "alt": "Ubiquiti PoE+ Adapter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4514/7-6512d62cd4900-medium.jpg",
+        "alt": "Ubiquiti PoE+ Adapter",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 16.98,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage",
+        "Ehternet Ports",
+        "Ethernet Powering"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "0.65 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "48 V DC"
+        },
+        {
+          "name": "Ehternet Ports",
+          "value": "2.5 Gbps"
+        },
+        {
+          "name": "Ethernet Powering",
+          "value": "2-Pair"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "93 x 62 x 35 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.156 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti PoE+ Adapter",
+      "url": "https://www.getic.com/files/catalogue/4514/upoeat_ds-6512d61232ee7.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "Trustpilot",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti PoE Adapter",
+      "url": "/product/ubiquiti-poe-af",
+      "price": 10.03,
+      "currency": "USD",
+      "mpn": "U-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti PoE++ Adapter",
+      "url": "/product/poe-adapter",
+      "price": 31.25,
+      "currency": "USD",
+      "mpn": "U-POE++",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 184.92,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "282"
+}

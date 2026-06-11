@@ -1,0 +1,269 @@
+{
+  "slug": "ubiquiti-g3-access-reader-pro-white",
+  "id": "UA-G3-Pro-W",
+  "productTitle": "Ubiquiti G3 Access Reader Pro White",
+  "name": "Ubiquiti G3 Access Reader Pro White",
+  "title": "Ubiquiti G3 Access Reader Pro White",
+  "title_extended": "",
+  "short_description": "The Ubiquiti G3 Access Reader Pro White (UA-G3-Pro-W) is a high-performance access control device designed for secure and efficient entry management. Featuring a Gigabit Ethernet RJ45 port and supporting PoE power input (48V DC), this reader ensures seamless connectivity and hassle-free installation. Its advanced BLE 4.2 and NFC connectivity enables smooth authentication through mobile devices and NFC-enabled access cards.",
+  "description": "The Ubiquiti G3 Access Reader Pro White (UA-G3-Pro-W) is a high-performance access control device designed for secure and efficient entry management. Featuring a Gigabit Ethernet RJ45 port and supporting PoE power input (48V DC), this reader ensures seamless connectivity and hassle-free installation. Its advanced BLE 4.2 and NFC connectivity enables smooth authentication through mobile devices and NFC-enabled access cards. Additionally, the built-in proximity sensor enhances security by detecting nearby movement, allowing for quick and automated authentication. With a maximum power consumption of just 6W, the UA-G3-Pro-W is an energy-efficient solution for modern access control systems.",
+  "detailed_description": [
+    {
+      "heading": "Advanced Access Control",
+      "text": "The Ubiquiti G3 Access Reader Pro White (UA-G3-Pro-W) is a high-performance access control device designed for secure and efficient entry management. Featuring a Gigabit Ethernet RJ45 port and supporting PoE power input (48V DC), this reader ensures seamless connectivity and hassle-free installation. Its advanced BLE 4.2 and NFC connectivity enables smooth authentication through mobile devices and NFC-enabled access cards. Additionally, the built-in proximity sensor enhances security by detecting nearby movement, allowing for quick and automated authentication. With a maximum power consumption of just 6W, the UA-G3-Pro-W is an energy-efficient solution for modern access control systems."
+    },
+    {
+      "heading": "High-Quality Camera and Audio",
+      "text": "Equipped with a high-quality camera, the UA-G3-Pro-W provides clear visual monitoring of entry points. Its wide-angle lens offers a 96.67° horizontal, 123.15° vertical, and 153.11° diagonal field of view, ensuring a broad and detailed image capture. The built-in microphone allows for audio interaction, enhancing security by enabling real-time communication at access points. These features integrate seamlessly with the UniFi Access platform (Version 3.0.15 and later), providing administrators with advanced control over user access, monitoring, and event logging."
+    },
+    {
+      "heading": "Easy Installation",
+      "text": "The UA-G3-Pro-W offers multiple mounting options to suit different installation needs. It comes with wall mount and gangbox mount hardware included, while angle mounts and junction box mounts are available as optional accessories. This flexibility allows for optimal positioning to enhance user convenience and security. Whether deployed at corporate offices, residential buildings, or industrial facilities, the device integrates effortlessly into new or existing UniFi Access setups, offering a powerful and scalable access control solution."
+    },
+    {
+      "heading": "Durable Design for Outdoor Use",
+      "text": "Designed for outdoor use, the UA-G3-Pro-W is built to withstand various environmental conditions. Its polycarbonate and glass enclosure, combined with a sturdy aluminum alloy mounting system, ensures durability and longevity. With an IP55 weatherproof rating, the device is resistant to dust, water, and temperature fluctuations, making it suitable for diverse installation environments. This robust construction guarantees reliability in high-traffic areas, ensuring consistent operation in different climates and weather conditions."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Ubiquiti",
+    "Door Access",
+    "Readers"
+  ],
+  "mpn": "UA-G3-Pro-W",
+  "manufacturer_part_number": "UA-G3-Pro-W",
+  "ean": "0810084697573",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5579/2-6790d11948f5d-medium.jpg",
+        "alt": "Ubiquiti G3 Access Reader Pro White front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5579/1-6790d114d60eb-medium.jpg",
+        "alt": "Ubiquiti G3 Access Reader Pro White side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5579/3-6790d11cc408a-medium.jpg",
+        "alt": "Ubiquiti G3 Access Reader Pro White angle view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5579/4-6790d120591d2-medium.jpg",
+        "alt": "Ubiquiti G3 Access Reader Pro White installation view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5579/5-6790d124113c6-medium.jpg",
+        "alt": "Ubiquiti G3 Access Reader Pro White back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5579/6-6790d127c3d3c-medium.jpg",
+        "alt": "Ubiquiti G3 Access Reader Pro White box view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5579/7-6790d12c146eb-medium.jpg",
+        "alt": "Ubiquiti G3 Access Reader Pro White packaging",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 358.81,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Color",
+      "options": [
+        "Black",
+        "White"
+      ],
+      "default": "White"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Max Power Consumption",
+          "value": "6 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, Glass, Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP55"
+        },
+        {
+          "name": "Dimensions",
+          "value": "160 x 40.4 x 40.55 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.136 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 45 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Recessed"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti G3 Access Reader Pro White",
+      "url": "https://www.getic.com/files/catalogue/5579/uag3pro_ds-6790d10289e63.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Access Ultra",
+      "url": "/product/ubiquiti-access-ultra",
+      "price": 99.88,
+      "currency": "USD",
+      "mpn": "UA-Ultra",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Access Door Hub",
+      "url": "/product/ubiquiti-access-door-hub",
+      "price": 200.18,
+      "currency": "USD",
+      "mpn": "UA-Hub-Door",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti G5 Dome Ultra Flush Mount",
+      "url": "/product/ubiquiti-g5-dome-ultra-flush-mount",
+      "price": 39.45,
+      "currency": "USD",
+      "mpn": "UACC-G5-Dome-Ultra-FM-SB-W",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti G3 Access Reader Flex White",
+      "url": "/product/ubiquiti-g3-access-reader-flex-white",
+      "price": 176.26,
+      "currency": "USD",
+      "mpn": "UA-G3-Flex-W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "33 pcs in stock"
+}

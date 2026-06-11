@@ -1,0 +1,312 @@
+{
+  "slug": "ubiquiti-device-bridge-switch",
+  "id": "7018",
+  "productTitle": "Ubiquiti Device Bridge Switch",
+  "name": "Ubiquiti Device Bridge Switch",
+  "title": "Ubiquiti Device Bridge Switch",
+  "title_extended": "Ubiquiti Device Bridge Switch",
+  "short_description": "The Ubiquiti Device Bridge Switch (UDB-Switch) is a compact yet powerful PoE+ switch designed for modern high-capacity networks that require both wired performance and wireless flexibility.",
+  "description": "The Ubiquiti Device Bridge Switch (UDB-Switch) is a compact yet powerful PoE+ switch designed for modern high-capacity networks that require both wired performance and wireless flexibility. It features one 10 GbE Ethernet port and seven 2.5 GbE ports, enabling fast aggregation of access points, cameras, workstations, and other network devices. What sets the UDB-Switch apart is its integrated WiFi 7 (6 GHz-ready) wireless bridge, allowing it to establish a high-throughput wireless uplink to UniFi WiFi infrastructure without running fiber or Ethernet.",
+  "detailed_description": [
+    {
+      "heading": "High-Speed Switching",
+      "text": "The Ubiquiti Device Bridge Switch (UDB-Switch) is a compact yet powerful PoE+ switch designed for modern high-capacity networks that require both wired performance and wireless flexibility. It features one 10 GbE Ethernet port and seven 2.5 GbE ports, enabling fast aggregation of access points, cameras, workstations, and other network devices. What sets the UDB-Switch apart is its integrated WiFi 7 (6 GHz-ready) wireless bridge, allowing it to establish a high-throughput wireless uplink to UniFi WiFi infrastructure without running fiber or Ethernet. With support for wide channel bandwidths up to 320 MHz and data rates of up to 5.8 Gbps on the 6 GHz band, the device delivers low-latency, high-capacity links suitable for demanding enterprise and campus deployments. This combination of multi-gig switching and advanced wireless bridging makes the UDB-Switch an ideal solution for locations where cabling is limited or impractical."
+    },
+    {
+      "heading": "Efficient Power Management",
+      "text": "The UDB-Switch is designed to simplify deployments by combining switching, wireless bridging, and power delivery in a single compact device. All eight Ethernet ports support PoE+, providing up to 30 W per port to power UniFi access points, IP cameras, and other PoE-enabled devices. With the included 60 W power adapter, the switch offers a total PoE budget of 35 W, ideal for smaller installations. For more demanding environments, an optional 210 W adapter increases the total PoE availability to an impressive 185 W, supporting multiple high-power devices simultaneously. The switch itself consumes up to 25 W excluding PoE output, ensuring efficient operation. Designed for desktop or wall mounting, the UDB-Switch fits easily into offices, retail spaces, warehouses, or remote network nodes. This scalability allows the same device to be used in small setups today and expanded later as network requirements grow."
+    },
+    {
+      "heading": "Enterprise-Grade Reliability",
+      "text": "Built for professional environments, the UDB-Switch integrates seamlessly into the UniFi ecosystem and is managed through the UniFi Network application (version 10.0.156 or later). It supports management over Ethernet or WiFi, includes a built-in 0.96-inch status display for quick diagnostics, and features WPA3-SAE wireless security enabled by default. The internal high-gain antennas (8 dBi on both 5 GHz and 6 GHz) and advanced MIMO support ensure stable wireless performance even in challenging RF conditions. The device operates reliably in temperatures from –30 to +40 °C, making it suitable for indoor and semi-protected environments. NDAA compliance and CE, FCC, and IC certifications allow deployment in corporate, public sector, and regulated installations. Combining compact design, advanced security, and multi-gig performance, the UDB-Switch serves as a dependable building block for modern UniFi networks."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Home and Office Networks",
+    "Switches"
+  ],
+  "mpn": "UDB-Switch",
+  "manufacturer_part_number": "UDB-Switch",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7018/1-6960f89e9ab35-medium.jpg",
+        "alt": "Ubiquiti Device Bridge Switch",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7018/2-6960f8a180799-medium.jpg",
+        "alt": "Ubiquiti Device Bridge Switch",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7018/3-6960f8a46f6fe-medium.jpg",
+        "alt": "Ubiquiti Device Bridge Switch",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7018/4-6960f8a73491e-medium.jpg",
+        "alt": "Ubiquiti Device Bridge Switch",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7018/5-6960f8aaa93f5-medium.jpg",
+        "alt": "Ubiquiti Device Bridge Switch",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 323.07,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "5GHz Radio Rate",
+        "6GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 7"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax/be"
+        },
+        {
+          "name": "MIMO",
+          "value": "5GHz 2x2"
+        },
+        {
+          "name": "MIMO",
+          "value": "6GHz 2x2"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        },
+        {
+          "name": "Frequency",
+          "value": "6GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "4.3 Gbps"
+        },
+        {
+          "name": "6GHz Radio Rate",
+          "value": "5.7 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "5.15 - 5.875 (GHz) 8 (dBi)"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "5.945 - 7.125 (GHz) 8 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(7) 2.5 Gbps"
+        },
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 10 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "8 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3at (PoE+)"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "42.5 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "25 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "54 V DC 1.1 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Dimensions",
+          "value": "212.9 x 113 x 32.5 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.548 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Device Bridge Switch",
+      "url": "https://www.getic.com/files/catalogue/7018/udbswitch_ds-6960f88f79973.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [],
+  "stock_stat": ""
+}

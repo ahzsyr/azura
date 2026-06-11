@@ -1,0 +1,305 @@
+{
+  "slug": "ubiquiti-access-button",
+  "id": "4930",
+  "productTitle": "Ubiquiti Access Button",
+  "name": "Ubiquiti Access Button",
+  "title": "Ubiquiti Access Button",
+  "title_extended": "",
+  "short_description": "Metal and polycarbonate construction, wall mount, indoor use, -10°C to 40°C operating temperature",
+  "description": "The Ubiquiti Access Button (UA-Button) is an advanced access control device designed to seamlessly integrate with Ubiquiti's UniFi Access system. This elegantly designed button provides a secure and user-friendly solution for controlling entry points in various environments, including offices, commercial spaces, and residential buildings. With its modern design and reliable performance, the UA-Button enhances both security and convenience, making it an essential component of any comprehensive access control system. The Ubiquiti Access Button offers a simple yet effective method for controlling door access with a single press. It is ideal for environments where secure and controlled entry is crucial. The UA-Button is designed to work seamlessly with the UniFi Access system, ensuring that access is granted only to authorized users.",
+  "detailed_description": [
+    {
+      "heading": "Durable and Stylish Design",
+      "text": "Built to withstand daily use, the Access Button is constructed with high-quality materials to ensure durability and longevity. Its reliable performance and responsive button mechanism guarantee a seamless user experience. With its robust design, the Access Button is suitable for both indoor and outdoor environments, providing versatile deployment options. Its minimalist design ensures that it fits aesthetically into any modern environment, whether it’s a corporate office, retail store, or residential building. The button’s robust construction ensures long-lasting performance, providing reliable access control over time without compromising on style or functionality."
+    },
+    {
+      "heading": "Easy Integration and Management",
+      "text": "The UA-Button is designed for seamless integration with the UniFi Access system, making setup and management straightforward. The button’s quick and responsive operation allows for smooth and efficient management of entry points, enhancing the overall security of the premises. The UA-Button connects effortlessly to the system, allowing administrators to manage access permissions and monitor usage through the intuitive UniFi Access software. This easy integration simplifies the deployment of access control solutions across multiple entry points, providing a cohesive and centrally managed system that enhances both security and operational efficiency."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Door Access",
+    "Ubiquiti"
+  ],
+  "mpn": "UA-Button",
+  "manufacturer_part_number": "UA-Button",
+  "ean": "0810084697542",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/2-66b9c5fc551f0-medium.jpg",
+        "alt": "Ubiquiti Access Button",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/1-66b9c5f6ace37-medium.jpg",
+        "alt": "Ubiquiti Access Button",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/4-66b9c60466706-medium.jpg",
+        "alt": "Ubiquiti Access Button",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/3-66b9c60046848-medium.jpg",
+        "alt": "Ubiquiti Access Button",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/5-66b9c607b004c-medium.jpg",
+        "alt": "Ubiquiti Access Button",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/6-66b9c60bae42c-medium.jpg",
+        "alt": "Ubiquiti Access Button",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/7-66b9c6118255e-medium.jpg",
+        "alt": "Ubiquiti Access Button",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/8-66b9c61761b6b-medium.jpg",
+        "alt": "Ubiquiti Access Button",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/9-66b9c61b9df01-medium.jpg",
+        "alt": "Ubiquiti Access Button",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/10-66b9c61f46352-medium.jpg",
+        "alt": "Ubiquiti Access Button",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/11-66b9c6239a024-medium.jpg",
+        "alt": "Ubiquiti Access Button",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/12-66b9c62ace54e-medium.jpg",
+        "alt": "Ubiquiti Access Button",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/2-66b9c5fc551f0-tiny.jpg",
+        "alt": "Ubiquiti Access Button"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/1-66b9c5f6ace37-tiny.jpg",
+        "alt": "Ubiquiti Access Button"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/4-66b9c60466706-tiny.jpg",
+        "alt": "Ubiquiti Access Button"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/3-66b9c60046848-tiny.jpg",
+        "alt": "Ubiquiti Access Button"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/5-66b9c607b004c-tiny.jpg",
+        "alt": "Ubiquiti Access Button"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/6-66b9c60bae42c-tiny.jpg",
+        "alt": "Ubiquiti Access Button"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/7-66b9c6118255e-tiny.jpg",
+        "alt": "Ubiquiti Access Button"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/8-66b9c61761b6b-tiny.jpg",
+        "alt": "Ubiquiti Access Button"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/9-66b9c61b9df01-tiny.jpg",
+        "alt": "Ubiquiti Access Button"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/10-66b9c61f46352-tiny.jpg",
+        "alt": "Ubiquiti Access Button"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/11-66b9c6239a024-tiny.jpg",
+        "alt": "Ubiquiti Access Button"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4930/12-66b9c62ace54e-tiny.jpg",
+        "alt": "Ubiquiti Access Button"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4930/uabutton_ds-66b9c5ed7be50.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Access Button",
+        "type": "datasheet"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 43.47,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black, White"
+        },
+        {
+          "name": "Material",
+          "value": "Metal, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "137 x 88 x 38.1 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.18 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Access Button",
+      "url": "https://www.getic.com/files/catalogue/4930/uabutton_ds-66b9c5ed7be50.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.60
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.48
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.91
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Pocket Keyfob",
+      "url": "/product/ubiquiti-unifi-pocket-keyfob",
+      "price": 97.41,
+      "currency": "USD",
+      "mpn": "UA-Pocket",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Access Door Hub",
+      "url": "/product/ubiquiti-access-door-hub",
+      "price": 200.18,
+      "currency": "USD",
+      "mpn": "UA-Hub-Door",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Access G3 Intercom",
+      "url": "/product/ubiquiti-access-g3-intercom",
+      "price": 381.48,
+      "currency": "USD",
+      "mpn": "UA-G3-Intercom",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Magnetic Lock 270kg",
+      "url": "/product/ubiquiti-magnetic-lock-270kg",
+      "price": 146.82,
+      "currency": "USD",
+      "mpn": "UACC-Lock-Magnetic-270kg",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

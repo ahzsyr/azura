@@ -1,0 +1,212 @@
+{
+  "slug": "mikrotik-psu-48v-095a",
+  "id": "MT48-480095-11DG",
+  "productTitle": "Mikrotik PSU 48V 0.95A",
+  "name": "Mikrotik PSU 48V 0.95A",
+  "title": "Mikrotik PSU 48V 0.95A",
+  "title_extended": "",
+  "short_description": "48 V, 0.95 A, 45.6 W power supply for long Ethernet cable runs",
+  "description": "MikroTik PSU 48V 0.95A (MT48-480095-11DG) is a reliable and efficient power adapter designed for stable operation of MikroTik network devices. It provides a 48 V DC output with a current of 0.95 A, offering a total power of 45.6 W — perfect for powering devices that require consistent performance over long Ethernet connections. This model is compatible with MikroTik Gigabit Passive Ethernet Repeater (GpER) and NetPower Switch, forming part of the GPEN concept, which delivers all the advantages of GPON technology while using simple, cost-effective Ethernet solutions. The MT48-480095-11DG power adapter ensures stable voltage supply for extended cable runs and supports multiple connected GpER units without signal or power loss. Its compact and durable design makes it ideal for both home and professional installations. With its dependable performance and energy-efficient operation, this power supply is a practical choice for expanding and maintaining reliable Ethernet networks.",
+  "detailed_description": [
+    {
+      "heading": "Description",
+      "text": "MikroTik PSU 48V 0.95A (MT48-480095-11DG) is a reliable and efficient power adapter designed for stable operation of MikroTik network devices. It provides a 48 V DC output with a current of 0.95 A, offering a total power of 45.6 W — perfect for powering devices that require consistent performance over long Ethernet connections. This model is compatible with MikroTik Gigabit Passive Ethernet Repeater (GpER) and NetPower Switch, forming part of the GPEN concept, which delivers all the advantages of GPON technology while using simple, cost-effective Ethernet solutions. The MT48-480095-11DG power adapter ensures stable voltage supply for extended cable runs and supports multiple connected GpER units without signal or power loss. Its compact and durable design makes it ideal for both home and professional installations. With its dependable performance and energy-efficient operation, this power supply is a practical choice for expanding and maintaining reliable Ethernet networks."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters",
+    "MikroTik"
+  ],
+  "mpn": "MT48-480095-11DG",
+  "manufacturer_part_number": "MT48-480095-11DG",
+  "ean": "0708747437690",
+  "warranty": "12 months",
+  "condition_options": ["new", "used"],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2626/psu-48-095-medium.jpg",
+        "alt": "Mikrotik PSU 48V 0.95A",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2626/psu-48-095-tiny.jpg",
+        "alt": "Mikrotik PSU 48V 0.95A"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - Mikrotik PSU 48V 0.95A",
+        "url": "https://www.getic.com/files/catalogue/2626/gpen_concept-1582127824.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 12.86,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": ["EU", "UK", "US"],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power Adapter",
+      "features": ["Output Current", "Output Voltage", "Output Power"],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "0.95 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "48 V DC"
+        },
+        {
+          "name": "Output Power",
+          "value": "45.6 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": ["Color", "Material", "Environment"],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": ["Units"],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Mikrotik PSU 48V 0.95A",
+      "url": "https://www.getic.com/files/catalogue/2626/gpen_concept-1582127824.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik RBPOE",
+      "url": "/product/poe-injector",
+      "price": 0.99,
+      "currency": "USD",
+      "mpn": "RBPOE",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RBGPOE",
+      "url": "/product/gigabit-poe-injector",
+      "price": 6.43,
+      "currency": "USD",
+      "mpn": "RBGPOE",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Power Adapter 57V 0.8A",
+      "url": "/product/mikrotik-psu-57v-08a",
+      "price": 12.86,
+      "currency": "USD",
+      "mpn": "MT48-570080-11DG",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Power Adapter 48V2A",
+      "url": "/product/psu-power-adapter-48v2a-96w",
+      "price": 30.93,
+      "currency": "USD",
+      "mpn": "48V2A96W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,239 @@
+{
+  "slug": "alfa-wifi-6e-pcie-card-with-dipole-antenna",
+  "id": "3940",
+  "productTitle": "Alfa Wi-Fi 6E PCIe Card with Dipole Antenna",
+  "name": "Alfa Wi-Fi 6E PCIe Card with Dipole Antenna",
+  "title": "Alfa Wi-Fi 6E PCIe Card with Dipole Antenna",
+  "title_extended": "Alfa WiFi 6E PCIe Card – Tri-Band AXE Adapter with Dipole Antennas",
+  "short_description": "Intel AX210 WiFi 6E and BT5 Module, PCIe ×1 Interface, 2× Tri-band Dipole 5dBi Antenna",
+  "description": "Intel AX210 WiFi 6E and BT5 Module, PCIe ×1 Interface, 2× Tri-band Dipole 5dBi Antenna",
+  "detailed_description": [
+    {
+      "heading": "Description",
+      "text": "The AIT-AX210 is a WiFi 6E and Bluetooth 5 PCIe card based on the Intel AX210 module, designed for desktop PCs with a PCIe ×1 interface. Two dipole 5dBi antennas are included."
+    },
+    {
+      "heading": "Description",
+      "text": "AIT-AX210 supports the latest WiFi 6E (IEEE 802.11ax) with special features like OFDMA, 1024QAM and MU-MIMO. Module includes also Bluetooth 5.2, and is backward compatible and operates in 2.4, 5 and 6 GHz bands."
+    },
+    {
+      "heading": "Description",
+      "text": "AIT-AX210 card has PCIe ×1 interface, which allows using this set in any desktop PC equipped with PCIe ×1, ×4, ×8 or ×16 slot."
+    }
+  ],
+  "brand": "Alfa Network",
+  "category": "Network Cards",
+  "categories": [
+    "Alfa",
+    "Ethernet Devices",
+    "Network Cards"
+  ],
+  "mpn": "AIT-AX210",
+  "manufacturer_part_number": "AIT-AX210",
+  "ean": "4718050308071",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3940/alfa_aitax210_01-61e1831e5a4f9-medium.jpg",
+        "alt": "Alfa Wi-Fi 6E PCIe Card with Dipole Antenna",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3940/alfa_aitax210_02-61e1831ecd442-medium.jpg",
+        "alt": "Alfa Wi-Fi 6E PCIe Card with Dipole Antenna",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/3940/alfanetwork_aitax210_latest-6385dd39d3471.pdf",
+        "title": "Technical Specs / Datasheet - Alfa Wi-Fi 6E PCIe Card with Dipole Antenna"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 33.58,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz, 6GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "2.4 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "Management",
+        "PCI Express",
+        "Bluetooth"
+      ],
+      "items": [
+        {
+          "name": "Management",
+          "value": "Wi-Fi, Bluetooth"
+        },
+        {
+          "name": "PCI Express",
+          "value": "(1) M.2 PCIe Slot"
+        },
+        {
+          "name": "Bluetooth",
+          "value": "5.2"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Intel AX210NGW"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hEX",
+      "url": "/product/routerboard-hex",
+      "price": 49.75,
+      "currency": "USD",
+      "mpn": "RB750Gr3",
+      "availability": "InStock"
+    },
+    {
+      "name": "UniFi Ethernet Patch Cable Black, 0.3m",
+      "url": "/product/unifi-ethernet-patch-cable-black-03m",
+      "price": 3.64,
+      "currency": "USD",
+      "mpn": "U-Cable-Patch-0.3M-RJ45-BK",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACS",
+      "url": "/product/alfa-awus036acs-nc",
+      "price": 20.49,
+      "currency": "USD",
+      "mpn": "AWUS036ACS",
+      "availability": "InStock"
+    },
+    {
+      "name": "Haylou GT1 Earbuds (black)",
+      "url": "/product/haylou-gt1-earbuds-black",
+      "price": 13.84,
+      "currency": "USD",
+      "mpn": "HL-GT1-BK",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

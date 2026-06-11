@@ -1,0 +1,223 @@
+{
+  "slug": "direct-attach-cable-xs-da0001",
+  "id": "XS+DA0001",
+  "productTitle": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+  "name": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+  "title": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+  "title_extended": "",
+  "short_description": "Direct Attach Cable SFP /SFP+ /SFP28, 1m",
+  "description": "Direct Attach Cable SFP /SFP+ /SFP28, 1m",
+  "detailed_description": [
+    {
+      "heading": "High-Speed Connectivity",
+      "text": "The MikroTik XS+DA0001 is a direct attach cable designed to provide a fast, reliable, and cost-effective way to connect devices with SFP, SFP+, or SFP28 interfaces. Supporting speeds of 1G, 10G, and 25G, it offers a versatile solution for short-distance, high-bandwidth networking needs within racks or between adjacent racks. Unlike optical transceivers that require separate fiber modules, this cable integrates everything into a simple plug-and-play design, reducing both costs and power consumption. With its low-latency performance and full compliance with the SFP+ MSA specification, it is perfectly suited for enterprise networks, data centers, and environments that demand efficient and stable high-speed links. The XS+DA0001 delivers professional-grade connectivity while keeping deployment straightforward and affordable."
+    },
+    {
+      "heading": "High-Speed Connectivity",
+      "text": "The MikroTik XS+DA0001 is an optimized networking solution for businesses looking to expand or upgrade their infrastructure without unnecessary complexity. It enables a secure and stable connection between compatible MikroTik devices, such as the CCR2004-1G-12S+2XS, making it ideal for linking switches, routers, and servers in high-density rack setups. By eliminating the need for additional optical modules, the cable reduces equipment costs, installation time, and power usage, making it an eco-friendly alternative for short-range connectivity. Despite its simplicity, it provides excellent durability and consistent performance, ensuring networks can handle growing data demands. The XS+DA0001 is the perfect balance between affordability, efficiency, and next-generation networking speed."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "SFP Cables",
+  "categories": [
+    "MikroTik",
+    "Fiber Products",
+    "SFP Cables"
+  ],
+  "mpn": "XS+DA0001",
+  "manufacturer_part_number": "XS+DA0001",
+  "ean": "0708747439601",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3055/xsda0001_1-5fdb34638f64b-medium.jpg",
+        "alt": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3055/xsda0001_1-5fdb34638f64b-tiny.jpg",
+        "alt": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+        "type": "gallery"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 26.85,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Cable Type",
+        "Connector",
+        "Max Data Rate",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Cable Type",
+          "value": "DAC"
+        },
+        {
+          "name": "Connector",
+          "value": "(2) SFP28"
+        },
+        {
+          "name": "Max Data Rate",
+          "value": "1-25Gbps"
+        },
+        {
+          "name": "Cable Length",
+          "value": "1 m"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 4,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 4,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Thomas",
+        "date": "2024-06-17",
+        "text": "Absolute hassle free connection",
+        "photos": []
+      },
+      {
+        "name": "Gints",
+        "date": "2024-03-18",
+        "text": "Some manual configuration necessary between S port(1G) & S+ port(10G).\nAutomaticaly not made connection: MikroTik CRS112-8P-4S-IN & MikroTik CRS326-24G-2S+RM\nBoth ports must bee manualy set to 1G.",
+        "photos": []
+      },
+      {
+        "name": "Matej",
+        "date": "2023-10-23",
+        "text": "Works perfectly with RB4011 series router.",
+        "photos": []
+      },
+      {
+        "name": "Jurgen",
+        "date": "2023-06-26",
+        "text": "All these products have a good quality and a very good price",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CRS326-24G-2S+RM",
+      "url": "/product/cloud-router-switch-326-24g-2srm",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 10G RJ-45 Module",
+      "url": "/product/sfp-s-plus-rj10-module",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "S+RJ10",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS328-24P-4S+RM",
+      "url": "/product/cloud-router-switch-328-24p-4s-rm",
+      "price": 434.22,
+      "currency": "USD",
+      "mpn": "CRS328-24P-4S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 3m",
+      "url": "/product/direct-attach-cable-xs-da0003",
+      "price": 30.93,
+      "currency": "USD",
+      "mpn": "XS+DA0003",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

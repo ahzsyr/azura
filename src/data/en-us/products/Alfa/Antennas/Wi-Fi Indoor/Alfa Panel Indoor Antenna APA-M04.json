@@ -1,0 +1,433 @@
+{
+  "plug_options": [],
+  "old_price": null,
+  "variations": [],
+  "delivery_options": [],
+  "certifications": [],
+  "faq": [],
+  "slug": "alfa-panel-indoor-antenna-apa-m04",
+  "getic_uid": "alfa-panel-indoor-antenna-apa-m04",
+  "id": "477",
+  "productTitle": "Alfa Panel Indoor Antenna APA-M04",
+  "name": "Alfa Panel Indoor Antenna APA-M04",
+  "title": "Alfa Panel Indoor Antenna APA-M04",
+  "title_extended": "Alfa APA-M04 Indoor Panel Antenna – Directional WiFi Antenna",
+  "short_description": "2.4GHz 7dBi Directonal Panel Antenna, RP-SMA Connector",
+  "description": "2.4GHz 7dBi Directonal Panel Antenna, RP-SMA Connector",
+  "detailed_description": [
+    {
+      "heading": "",
+      "text": "The APA-M04 is a directional panel antenna from ALFA Network for indoor use. It operates in the 2400~2500 MHz SISO 1x1 frequency range and has a 7 dBi gain. Equipped with an antenna connector RP-SMA Male. Antenna improves signal quality and increases the range of the access point or router indoors."
+    }
+  ],
+  "brand": "Alfa Network",
+  "category": "WiFi Indoor Antennas",
+  "categories": [
+    "Home and Office Networks",
+    "WiFi Indoor Antennas"
+  ],
+  "tags": [
+    "Alfa Network",
+    "APA-M04",
+    "Home and Office Networks",
+    "WiFi Indoor Antennas"
+  ],
+  "mpn": "APA-M04",
+  "manufacturer_part_number": "APA-M04",
+  "ean": "4718050300419",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/477/apam04_03-611a61f15465a-medium.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M04",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/477/apam04_06-611a62b22b1c3-medium.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M04",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/477/apam04_02-611a61f25a29c-medium.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M04",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/477/apam04_01-611a61f363292-medium.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M04",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/477/apam04_04-611a61f03eabf-medium.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M04",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/477/apam04_05-611a61ef165a8-medium.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M04",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/477/apam04_03-611a61f15465a-tiny.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M04"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/477/apam04_06-611a62b22b1c3-tiny.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M04"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/477/apam04_02-611a61f25a29c-tiny.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M04"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/477/apam04_01-611a61f363292-tiny.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M04"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/477/apam04_04-611a61f03eabf-tiny.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M04"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/477/apam04_05-611a61ef165a8-tiny.jpg",
+        "alt": "Alfa Panel Indoor Antenna APA-M04"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 6.08,
+    "currency": "USD",
+    "discount": null
+  },
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variation_combinations": [
+    {
+      "sku": "brt-4718050300419",
+      "Condition": "new",
+      "price": 6.08,
+      "old_price": null
+    },
+    {
+      "sku": "brt-4718050300419",
+      "Condition": "used",
+      "price": 6.08,
+      "old_price": null
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "2.4GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Polarization",
+        "Impedance"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Panel"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.4 - 2.5 (GHz) 7 (dBi)"
+        },
+        {
+          "name": "Polarization",
+          "value": "Linear"
+        },
+        {
+          "name": "Impedance",
+          "value": "50 Ω"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) RP-SMA Male"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "173 x 145 x 61 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.045 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 55 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs \\/ Datasheet - Alfa Panel Indoor Antenna APA-M04",
+      "url": "https://www.getic.com/files/catalogue/477/apam04datasheet-60360845c27c5.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "Taiwan",
+        "weight": "0.045 kg",
+        "dimensions": "17.3 x 14.5 x 6.1 cm"
+      }
+    ]
+  },
+  "reviews": {
+    "rating": 0.0,
+    "count": 0,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Alfa Indoor 9dBi Omni Antenna ARS-N19 Black",
+      "url": "/product/alfa-ars-n19",
+      "price": 6.41,
+      "currency": "USD",
+      "mpn": "ARS-N19",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa Panel Indoor Antenna APA-M25",
+      "url": "/product/alfa-panel-indoor-antenna-apa-m25",
+      "price": 15.78,
+      "currency": "USD",
+      "mpn": "APA-M25",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS1900",
+      "url": "/product/alfa-awus1900",
+      "price": 51.27,
+      "currency": "USD",
+      "mpn": "AWUS1900",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACH v.2",
+      "url": "/product/alfa-awus036ach-c",
+      "price": 52.87,
+      "currency": "USD",
+      "mpn": "AWUS036ACH-C",
+      "availability": "OutOfStock"
+    }
+  ],
+  "localization": {
+    "canonical_slug": "alfa-panel-indoor-antenna-apa-m04",
+    "source_locale": "en",
+    "translation_status": "complete",
+    "uses_source_fallback": false
+  },
+  "page_display": {
+    "breadcrumb": {
+      "enabled": true,
+      "inherit": true
+    },
+    "gallery": {
+      "enabled": true,
+      "inherit": true
+    },
+    "sideBuyBox": {
+      "enabled": true,
+      "inherit": true
+    },
+    "compare": {
+      "enabled": true,
+      "inherit": true
+    },
+    "saveToList": {
+      "enabled": true,
+      "inherit": true
+    },
+    "price": {
+      "enabled": true,
+      "inherit": true
+    },
+    "stock": {
+      "enabled": true,
+      "inherit": true
+    },
+    "condition": {
+      "enabled": true,
+      "inherit": true
+    },
+    "delivery": {
+      "enabled": true,
+      "inherit": true
+    },
+    "quantity": {
+      "enabled": true,
+      "inherit": true
+    },
+    "addToCart": {
+      "enabled": true,
+      "inherit": true
+    },
+    "buyNow": {
+      "enabled": true,
+      "inherit": true
+    },
+    "keySpecs": {
+      "enabled": true,
+      "inherit": true
+    },
+    "inlineCta": {
+      "enabled": true,
+      "inherit": true
+    },
+    "variations": {
+      "enabled": true,
+      "inherit": true
+    },
+    "linkedTags": {
+      "enabled": true,
+      "inherit": true
+    },
+    "shortDescription": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabs": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabDescription": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabSpecs": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabDocuments": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabShipping": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabReviews": {
+      "enabled": true,
+      "inherit": true
+    },
+    "frequentlyBought": {
+      "enabled": true,
+      "inherit": true
+    },
+    "crossLinks": {
+      "enabled": true,
+      "inherit": true
+    },
+    "promo": {
+      "enabled": true,
+      "inherit": true
+    },
+    "servicesBar": {
+      "enabled": true,
+      "inherit": true
+    },
+    "trust": {
+      "enabled": true,
+      "inherit": true
+    },
+    "floatingCta": {
+      "enabled": true,
+      "inherit": true
+    }
+  },
+  "product_cta": {
+    "enabled": false,
+    "placements": {
+      "inline": false,
+      "floating": false,
+      "card": false
+    }
+  },
+  "add_to_cart": {
+    "enabled": true,
+    "behavior": "stub",
+    "variant": "primary",
+    "size": "lg",
+    "fullWidth": true
+  },
+  "buy_now_slug": "alfa-panel-indoor-antenna-apa-m04",
+  "promo": {
+    "enabled": false
+  },
+  "trust": {
+    "enabled": false
+  }
+}

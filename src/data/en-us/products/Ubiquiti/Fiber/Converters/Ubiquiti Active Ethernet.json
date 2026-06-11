@@ -1,0 +1,306 @@
+{
+  "slug": "u-fiber-ae",
+  "id": "2067",
+  "productTitle": "Ubiquiti Active Ethernet",
+  "name": "Ubiquiti Active Ethernet",
+  "title": "Ubiquiti Active Ethernet",
+  "title_extended": "Ubiquiti Active Ethernet",
+  "short_description": "Fiber-to-Ethernet Converter, WAN: 1xSFP Port, LAN: 1xGigabit Ethernet Port",
+  "description": "UFiber AE Converter is a fiber-to-copper media module that allows wireless equipment without SFP ports to support fiber uplinks up to 1 Gbps. UFiber Active Ethernet provides fiber connectivity to an RJ45 Ethernet device, which in turn provides 802.3af or 24V passive PoE to UFiber AE.",
+  "detailed_description": [
+    {
+      "heading": "The Convenience of Fiber",
+      "text": "UFiber AE Converter is a fiber-to-copper media module that allows wireless equipment without SFP ports to support fiber uplinks up to 1 Gbps. UFiber Active Ethernet provides fiber connectivity to an RJ45 Ethernet device, which in turn provides 802.3af or 24V passive PoE to UFiber AE."
+    },
+    {
+      "heading": "Durable Design",
+      "text": "Encased in UV-stabilized polycarbonate (PC110U), the UF-AE device ensures durability and resilience against environmental factors, making it suitable for deployment in diverse networking environments. Engineered to meet stringent industry standards, the UF-AE device holds certifications including CE, FCC, and IC, guaranteeing compliance with regulatory requirements and ensuring reliability and performance consistency. Its wide ambient operating temperature range of -40 to 60°C (-40 to 140°F) and ambient operating humidity of 10 to 90% noncondensing further demonstrate its suitability for deployment in challenging environmental conditions."
+    },
+    {
+      "heading": "Active Fiber to Customer’s Premise",
+      "text": "UFiber Active Ethernet provides data over long distances at high speed using fiber. The UFiber ActiveEthernet is a 1Gbps fiber-to-copper media converter which allows ISPs to bring active fiber to customers' premises and connect it to affordable SOHO network equipment lacking SFP ports. The versatile UFiber ActiveEthernet supports all UFiber SFP/SFP+ modules and connects any SFP or SFP+ module at the maximum speed of 1 Gbps."
+    },
+    {
+      "heading": "Designed for Indoor Use",
+      "text": "UFiber Active Ethernet can be powered with 24V Passive PoE or 802.3af and is compatible with all UFiber SFP Modules (power supply and SFP modules not included). The hot-swappable SFP port supports a 1 Gbps connection (you can use an SFP+ module, however, the maximum speed is 1 Gbps). Use the included bracket to easily mount UFiber Active Ethernet on a wall."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Fiber Networks",
+  "categories": [
+    "Fiber Networks",
+    "Converters"
+  ],
+  "mpn": "UACC-AE",
+  "manufacturer_part_number": "UACC-AE",
+  "ean": "0817882026734",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2067/ufae_top_left_angle_3fc0ecea81d4483bb22ed1cfca460310-603de837b4b72-medium.jpg",
+        "alt": "Ubiquiti Active Ethernet",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2067/ufae_left_angle_case_93a26cc85466400e9eddc1fabebde383-603de835b1aa8-medium.jpg",
+        "alt": "Ubiquiti Active Ethernet",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2067/ufae_topangle_e495018baf1543d3b279332d92e215d9-603de836b35b7-medium.jpg",
+        "alt": "Ubiquiti Active Ethernet",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2067/ufae_ports_07523498e6f14832a016a1b8a37c7fe1-603de8363c6fc-medium.jpg",
+        "alt": "Ubiquiti Active Ethernet",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2067/ufae_top_1214083f98114fbca161fe1c02ceb673-603de83738083-medium.jpg",
+        "alt": "Ubiquiti Active Ethernet",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2067/ufae_back_0bd58892975b43f79e7b4045606ce428-603de835301b7-medium.jpg",
+        "alt": "Ubiquiti Active Ethernet",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/2067/uf-ae.pdf",
+        "type": "datasheet",
+        "title": "Technical Specs / Datasheet - Ubiquiti Active Ethernet"
+      },
+      {
+        "url": "https://dl.ui.com/qsg/UF-AE/UF-AE_EN.html",
+        "type": "guide",
+        "title": "Quick Start Guide - Ubiquiti Active Ethernet"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 26.21,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Fiber Equipment",
+      "features": [
+        "Data Rate"
+      ],
+      "items": [
+        {
+          "name": "Data Rate",
+          "value": "1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE, 802.3af PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "16 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "1.5 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units",
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        },
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Active Ethernet",
+      "url": "https://www.getic.com/files/catalogue/2067/uf-ae.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti Active Ethernet",
+      "url": "https://dl.ui.com/qsg/UF-AE/UF-AE_EN.html"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "currency": "USD",
+        "delivery_days": 18
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "currency": "USD",
+        "delivery_days": 5
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "currency": "USD",
+        "delivery_days": 2
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Peter",
+        "date": "2024-02-09",
+        "text": "Wie üblich: gut",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti 1Gbps Multi-Mode Optical Module, 2-Pack",
+      "url": "/product/u-fiber-multi-mode-module-1g-2-pack",
+      "price": 19.02,
+      "currency": "USD",
+      "mpn": "UACC-OM-MM-1G-D-2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "/product/usw-lite-8-poe-eu",
+      "price": 118.38,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti 1Gbps Bidirectional Single-Mode Optical Module, 2-pack",
+      "url": "/product/ubiquiti-u-fiber-single-mode-module-1g-bidi-2-pack",
+      "price": 26.21,
+      "currency": "USD",
+      "mpn": "UACC-OM-SM-1G-S-2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Ultra",
+      "url": "/product/switch-ultra",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Ultra",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

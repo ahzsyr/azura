@@ -1,0 +1,281 @@
+{
+  "slug": "ubiquiti-retrofit-hub",
+  "id": "UA-Retrofit-Hub-2",
+  "productTitle": "Ubiquiti Retrofit Hub",
+  "name": "Ubiquiti Retrofit Hub",
+  "title": "Ubiquiti Retrofit Hub",
+  "title_extended": "",
+  "short_description": "Secure Ethernet-based access control for doors, gates, and elevators, featuring flexible unlock mechanisms.",
+  "description": "The UniFi Retrofit Hub (UA-Retrofit-Hub-2) is a DC-powered access control hub designed to manage up to two doors with maximum security and efficiency. It seamlessly integrates with the UniFi Access application, providing a unified interface for controlling doors, gates, and elevators. The hub supports up to 10,000 users, offering flexible unlocking methods and real-time monitoring of entry and exit events.",
+  "detailed_description": [
+    {
+      "heading": "Centralized Access Control",
+      "text": "The UniFi Retrofit Hub (UA-Retrofit-Hub-2) is a DC-powered access control hub designed to manage up to two doors with maximum security and efficiency. It seamlessly integrates with the UniFi Access application, providing a unified interface for controlling doors, gates, and elevators. The hub supports up to 10,000 users, offering flexible unlocking methods and real-time monitoring of entry and exit events. Its two 10/100 Mbps RJ45 ports allow reliable network communication, while the polycarbonate and SGCC steel enclosure ensures durability and indoor safety. Designed for easy DIN-rail mounting, it is compact yet robust at 140 x 120 x 45 mm and weighing only 420 grams. Factory reset and power configuration buttons allow quick setup and adjustments, while NDAA compliance guarantees it meets stringent security standards for professional environments. This hub provides reliable and centralized access management for small to medium installations, making it ideal for offices, commercial buildings, and secure areas."
+    },
+    {
+      "heading": "Reader Compatibility",
+      "text": "The Retrofit Hub supports various access hardware, including third-party Wiegand readers, UniFi Retrofit readers, and multiple electric and magnetic locks. It features two digital input terminals for readers, two for door exit requests, and two for door position monitoring, along with one emergency input for instant lock release. The hub offers dry relay outputs rated up to 30V DC/1A and powered relay outputs of 12V DC/1A or 24V DC/0.5A, accommodating most common door locking mechanisms. Recommended cable lengths depend on lock type, wire gauge, and UACC door relay cable configuration, ensuring optimal signal and lock performance. The hub provides reliable control for diverse access hardware setups while maintaining safe and stable operation, making it ideal for modern workplaces, schools, or commercial premises that require secure entry systems without sacrificing flexibility."
+    },
+    {
+      "heading": "Reliable Indoor Operation",
+      "text": "The UA-Retrofit-Hub-2 is designed for reliable indoor use, operating in ambient temperatures from –10°C to 40°C with up to 90% non-condensing humidity. Its DC 12/24V power input ensures compatibility with standard power supplies, while the hub consumes up to 50W at full load, delivering stable performance for connected readers and locks. The compact design allows easy placement in electrical closets, control rooms, or network cabinets. Built with a polycarbonate body and SGCC steel mounting plate, the hub is durable and secure. Simple DIN-rail installation and intuitive reset/power selection buttons reduce setup time, while CE, FCC, and IC certifications guarantee compliance with international safety and network standards. Whether deployed in small office buildings, multi-tenant commercial properties, or secure facilities, the UniFi Retrofit Hub ensures smooth operation of door access systems, protecting both users and property with professional-grade reliability."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Ubiquiti"
+  ],
+  "mpn": "UA-Retrofit-Hub-2",
+  "manufacturer_part_number": "UA-Retrofit-Hub-2",
+  "ean": "0810177161677",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7015/1-6960ee31e3924-medium.jpg",
+        "alt": "Ubiquiti Retrofit Hub",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7015/2-6960ee34c42f9-medium.jpg",
+        "alt": "Ubiquiti Retrofit Hub",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7015/3-6960ee3783b76-medium.jpg",
+        "alt": "Ubiquiti Retrofit Hub",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7015/4-6960ee3b9e24d-medium.jpg",
+        "alt": "Ubiquiti Retrofit Hub",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7015/5-6960ee3ee605b-medium.jpg",
+        "alt": "Ubiquiti Retrofit Hub",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7015/6-6960ee42433a2-medium.jpg",
+        "alt": "Ubiquiti Retrofit Hub",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7015/7-6960ee46189c4-medium.jpg",
+        "alt": "Ubiquiti Retrofit Hub",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7015/1-6960ee31e3924-tiny.jpg",
+        "alt": "Ubiquiti Retrofit Hub"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7015/2-6960ee34c42f9-tiny.jpg",
+        "alt": "Ubiquiti Retrofit Hub"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7015/3-6960ee3783b76-tiny.jpg",
+        "alt": "Ubiquiti Retrofit Hub"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7015/4-6960ee3b9e24d-tiny.jpg",
+        "alt": "Ubiquiti Retrofit Hub"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7015/5-6960ee3ee605b-tiny.jpg",
+        "alt": "Ubiquiti Retrofit Hub"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7015/6-6960ee42433a2-tiny.jpg",
+        "alt": "Ubiquiti Retrofit Hub"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7015/7-6960ee46189c4-tiny.jpg",
+        "alt": "Ubiquiti Retrofit Hub"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 225.16,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "Interface"
+      ],
+      "items": [
+        {
+          "name": "Interface",
+          "value": "(7) Digital Input"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Max Power Consumption",
+          "value": "50 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "SGCC steel, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "140 x 120 x 45 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.42 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "DIN Rail"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Retrofit Hub",
+      "url": "https://www.getic.com/files/catalogue/7015/uaretrofithub2_ds-6960ede1ca5e9.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.60,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.48,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.91,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Pocket Keyfob",
+      "url": "/product/ubiquiti-unifi-pocket-keyfob",
+      "price": 97.41,
+      "currency": "USD",
+      "mpn": "UA-Pocket",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Reader Junction Box Black",
+      "url": "/product/ubiquiti-reader-junction-box-black",
+      "price": 33.65,
+      "currency": "USD",
+      "mpn": "UACC-Reader-JB-B",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Access Button",
+      "url": "/product/ubiquiti-access-button",
+      "price": 43.47,
+      "currency": "USD",
+      "mpn": "UA-Button",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Magnetic Lock 270kg",
+      "url": "/product/ubiquiti-magnetic-lock-270kg",
+      "price": 146.82,
+      "currency": "USD",
+      "mpn": "UACC-Lock-Magnetic-270kg",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

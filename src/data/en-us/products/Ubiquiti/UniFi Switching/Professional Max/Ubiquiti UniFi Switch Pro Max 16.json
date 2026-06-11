@@ -1,0 +1,271 @@
+{
+  "slug": "switch-professional-max-16",
+  "id": "4775",
+  "productTitle": "Ubiquiti UniFi Switch Pro Max 16",
+  "name": "Ubiquiti UniFi Switch Pro Max 16",
+  "title": "Ubiquiti UniFi Switch Pro Max 16",
+  "title_extended": "Ubiquiti UniFi Switch Pro Max 16",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "High-Performance Networking",
+      "text": "The Ubiquiti Switch Pro Max 16 is a high-performance Layer 3 Etherlighting™ switch designed to meet the demanding needs of businesses and prosumers. This feature-rich device delivers exceptional performance, flexible connectivity options, and advanced management capabilities, making it ideal for users seeking a reliable and scalable networking solution. Experience exceptional data transfer rates with a total non-blocking throughput of 42 Gbps and a switching capacity of 84 Gbps for smooth and efficient network operation, even under heavy traffic loads."
+    },
+    {
+      "heading": "Future-Proof Architecture",
+      "text": "The Switch Pro Max 16 provides a robust foundation for your network, allowing you to connect a wide range of devices and accommodate future growth. Four of the Gigabit Ethernet ports offer 2.5 Gigabit speeds, allowing you to connect bandwidth-hungry devices like high-performance workstations or NAS units for faster data transfer. Optimize network performance and improve security by efficiently segmenting your network and managing traffic flow with built-in Layer 3 routing."
+    },
+    {
+      "heading": "Effortless Management and Security",
+      "text": "Manage your network easily through the user-friendly UniFi Network application (version 8.1.127 and later). This intuitive platform allows for centralized configuration, monitoring, and troubleshooting of your network devices from anywhere. Safeguard your network with a comprehensive suite of security features, including VLANs, port security, and access control lists (ACLs). These features help prevent unauthorized access, isolate network traffic, and enhance overall network security."
+    },
+    {
+      "heading": "Easy Deployment and Use",
+      "text": "Mount the Switch Pro Max 16 on a desktop, wall, or in a rack using the included mounting kit. This provides flexibility for various deployment scenarios, allowing you to optimize space utilization. The switch operates silently without a fan, making it ideal for noise-sensitive environments like offices, conference rooms, or even home offices. Mount the Switch Pro Max 16 supports seamless integration with other Ubiquiti UniFi devices such as access points and security cameras for a unified network management experience. The UniFi Network application offers a user-friendly interface that simplifies network management, even for users with limited technical expertise."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "UniFi Switching",
+    "Professional Max"
+  ],
+  "mpn": "USW-Pro-Max-16",
+  "manufacturer_part_number": "USW-Pro-Max-16",
+  "ean": "0810084694565",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4775/1-6643208812e57-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro Max 16 front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4775/4-6643208cb1d9a-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro Max 16 back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4775/2-6643209002d82-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro Max 16 ports view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4775/3-66432094694fc-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro Max 16 additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4775/6-664320982fc9e-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro Max 16 additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4775/5-6643209bb58ca-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro Max 16 additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4775/7-6643209f4ac60-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Pro Max 16 additional view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 282.07,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "PoE Out Standards",
+        "SFP Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(12) 1 Gbps, (4) 2.5 Gbps"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "w/o PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 10G SFP+"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "25 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Galvanized steel"
+        },
+        {
+          "name": "Dimensions",
+          "value": "325.1 x 160 x 43.7 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.95 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount, Wall Mount, Tabletop"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Pro Max 16",
+      "url": "https://www.getic.com/files/catalogue/4775/uswpromax16_ds-66432080403b0.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {},
+    "breakdown": {},
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "/product/usw-lite-8-poe-eu",
+      "price": 118.38,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Aggregation",
+      "url": "/product/usw-switch-aggregation",
+      "price": 269.19,
+      "currency": "USD",
+      "mpn": "USW-Aggregation",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro Max 16 PoE",
+      "url": "/product/switch-professional-max-16-poe",
+      "price": 401.45,
+      "currency": "USD",
+      "mpn": "USW-Pro-Max-16-PoE",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,298 @@
+{
+  "slug": "nanostation-5-ac-loco-5-pack",
+  "id": 1546,
+  "productTitle": "Ubiquiti airMAX NanoStation 5AC Loco 5-pack",
+  "name": "Ubiquiti airMAX NanoStation 5AC Loco 5-pack",
+  "title": "Ubiquiti airMAX NanoStation 5AC Loco 5-pack",
+  "title_extended": "",
+  "short_description": "5GHz, 13dBi antenna, Up to 450+ Mbps, 10+ km, AirOS ** POE injector sold separately.",
+  "description": "5GHz, 13dBi antenna, Up to 450+ Mbps, 10+ km, AirOS ** POE injector sold separately.",
+  "detailed_description": [
+    {
+      "heading": "Wireless Outdoor CPE / Bridge",
+      "text": "The airMAX NanoStation 5AC Loco, with the manufacture part number Loco5AC-5, stands as a testament to Ubiquiti Networks' commitment to providing compact, cost-effective, and powerful wireless broadband solutions. This device is specifically engineered to deliver high-performance and reliable wireless connectivity over long distances, leveraging Ubiquiti's proprietary airMAX ac technology. It is designed for point-to-point (PtP) and point-to-multipoint (PtMP) applications, making it a versatile choice for a wide range of wireless networking needs."
+    },
+    {
+      "heading": "Performance and Hardware",
+      "text": "For a PtP setup, you would need at least two NanoStation 5AC Loco units. One unit acts as the transmitter (sending data from its location), and the other acts as the receiver (receiving data at a remote location). This setup is commonly used to connect two separate networks or to extend the internet access from one building to another that is not physically wired. In a PtMP setup, one NanoStation 5AC Loco could serve as a central access point, connecting to multiple receiver devices over a wide area. This is often used by internet service providers (ISPs) to distribute internet service to multiple clients or by large campuses to provide network access across different buildings."
+    },
+    {
+      "heading": "Connectivity and PoE Features",
+      "text": "At the heart of the NanoStation 5AC Loco is Ubiquiti's airMAX engine with custom IC, significantly improving TDMA latency and network scalability. The inclusion of the airMAX ac technology enables this device to support high data throughput, up to 450+ Mbps in real-world environments, a significant leap forward in the capabilities of compact wireless broadband devices. This technology utilizes a Time Division Multiple Access (TDMA) protocol, which allows the NanoStation 5AC Loco to communicate with multiple devices without interference, ensuring efficient use of the available bandwidth and reducing latency."
+    },
+    {
+      "heading": "Storage, USB, and Value",
+      "text": "The device operates in the 5 GHz frequency band, providing access to cleaner frequency bands with less interference compared to the more congested 2.4 GHz band. This choice of frequency, combined with advanced noise filtration and antenna gain control, ensures optimal performance even in areas with high radio congestion, making it an ideal solution for urban and rural applications alike. The NanoStation 5AC Loco features an integrated antenna and radio in a sleek and compact form factor. The antenna offers a gain of 13 dBi, which is optimized for directional transmission, ensuring focused energy in a specific direction to enhance signal strength and reduce interference. This makes the NanoStation 5AC Loco particularly effective for establishing long-distance wireless links."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Integrated Antennas",
+    "Ubiquiti"
+  ],
+  "mpn": "Loco5AC-5",
+  "manufacturer_part_number": "Loco5AC-5",
+  "ean": "0817882027267",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1546/loco5ac51-601d4ec2e3d53-medium.jpg",
+        "alt": "Ubiquiti airMAX NanoStation 5AC Loco 5-pack",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1546/ns5acl_front-601d4c85b16c3-medium.jpg",
+        "alt": "Ubiquiti airMAX NanoStation 5AC Loco 5-pack",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1546/ns5acl_front_angle-601d4c83e1e64-medium.jpg",
+        "alt": "Ubiquiti airMAX NanoStation 5AC Loco 5-pack",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1546/ns5acl_back-601d4c87dc5a0-medium.jpg",
+        "alt": "Ubiquiti airMAX NanoStation 5AC Loco 5-pack",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1546/ns5acl_side-601d4c811d1d3-medium.jpg",
+        "alt": "Ubiquiti airMAX NanoStation 5AC Loco 5-pack",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1546/ns5acl_ports-601d4c82735b2-medium.jpg",
+        "alt": "Ubiquiti airMAX NanoStation 5AC Loco 5-pack",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/3slQfMR01gs",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 225.89,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 5" },
+        { "name": "Standards", "value": "airMAX" },
+        { "name": "Frequency", "value": "5GHz" },
+        { "name": "5GHz Radio Rate", "value": "450 Mbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization",
+        "VSWR"
+      ],
+      "items": [
+        { "name": "Antenna Design", "value": "Panel" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "5.150 - 5.875 (GHz) 13 (dBi)" },
+        { "name": "Beamwidth", "value": "45 °" },
+        { "name": "Polarization", "value": "Dual Linear" },
+        { "name": "VSWR", "value": "< 1.8" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 1 Gbps" },
+        { "name": "Management", "value": "Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "Atheros MIPS 74Kc, 560 MHz" },
+        { "name": "RAM", "value": "64 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "24V Passive PoE" },
+        { "name": "Power Supply", "value": "External PoE Adapter" },
+        { "name": "Supported Input Voltage", "value": "22 - 26 V DC" },
+        { "name": "Max Power Consumption", "value": "7 W" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 0.3 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        { "name": "Color", "value": "White" },
+        { "name": "Material", "value": "UV Plastic" },
+        { "name": "Dimensions", "value": "179 x 77.5 x 59.1 mm" },
+        { "name": "Weight", "value": "0.18 kg" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Outdoor" },
+        { "name": "Mounting Method", "value": "Pole Mount" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": ["Units", "External Power Supply"],
+      "items": [
+        { "name": "Units", "value": "5 pcs" },
+        { "name": "External Power Supply", "value": "Not Included" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX NanoStation 5AC Loco 5-pack",
+      "url": "https://dl.ubnt.com/datasheets/NanoStation_AC/NanoStation_AC_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX NanoStation 5AC Loco 5-pack",
+      "url": "https://dl.ubnt.com/guides/NanoStation_ac/NS-5ACL_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "TMM",
+        "date": "2025-01-24",
+        "text": "Brst supplier",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 57.71,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-24-7W-G-WH",
+      "url": "/product/ubiquiti-poe-24-7w-g-wh-gigabit",
+      "price": 7.52,
+      "currency": "USD",
+      "mpn": "POE-24-7W-G-WH",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Lite AP",
+      "url": "/product/lite-ap-ac-120",
+      "price": 80.15,
+      "currency": "USD",
+      "mpn": "LAP-120",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Lite AP GPS",
+      "url": "/product/lite-ap-ac-gps",
+      "price": 92.48,
+      "currency": "USD",
+      "mpn": "LAP-GPS",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

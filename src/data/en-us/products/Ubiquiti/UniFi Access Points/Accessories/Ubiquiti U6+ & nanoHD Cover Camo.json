@@ -1,0 +1,197 @@
+{
+  "slug": "ubiquiti-u6-nanohd-cover-camo",
+  "id": 6948,
+  "productTitle": "Ubiquiti U6+ & nanoHD Cover Camo",
+  "name": "Ubiquiti U6+ & nanoHD Cover Camo",
+  "title": "Ubiquiti U6+ & nanoHD Cover Camo",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Decorative Access Point Cover",
+      "text": "The Ubiquiti U6+ & nanoHD Cover (nHD-cover) is a stylish and practical accessory created to elevate both the look and longevity of your UniFi U6+ or nanoHD access point. Designed with meticulous attention to detail, the cover ensures a flawless, secure fit that preserves airflow, LED visibility, and radio performance. This makes it an ideal enhancement for installations where both functionality and aesthetics are equally important. Constructed from durable, high-grade materials, the cover protects the access point from dust, scratches, and everyday wear, helping maintain a consistently clean and professional appearance even in high-traffic environments. Its tool-free snap-on mounting system enables quick installation and easy replacement, offering a seamless upgrade for existing infrastructure. Whether used in offices, hotels, retail spaces, or residential settings, this cover ensures the device blends effortlessly with its surroundings while maintaining optimal performance."
+    },
+    {
+      "heading": "Refined Finishes",
+      "text": "What truly distinguishes the U6+ & nanoHD Cover is its wide selection of refined finishes designed to complement a range of interior styles. Available options include understated black for a sleek, modern aesthetic; elegant marble for a premium architectural look; camo for creative or industrial-themed environments; fabric for a softer, decor-friendly texture; and wood for warm, natural spaces. This variety allows integrators, designers, and homeowners to match the access point precisely to the visual identity of any room. By reducing the visual prominence of network hardware, the cover contributes to a more cohesive and discreet installation, especially in locations with strict design requirements. Its combination of practical protection, visual refinement, and simple installation makes it an excellent choice for projects seeking a balance between technology performance and interior harmony. The cover seamlessly enhances the appearance of any UniFi deployment without compromising device efficiency."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Accessories",
+  "categories": [
+    "Home and Office Networks",
+    "Accessories"
+  ],
+  "mpn": "nHD-cover-Camo",
+  "manufacturer_part_number": "nHD-cover-Camo",
+  "ean": "0817882026024",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6948/camo1-693951063d219-medium.jpg",
+        "alt": "Ubiquiti U6+ & nanoHD Cover Camo",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6948/camo2-693951096b34b-medium.jpg",
+        "alt": "Ubiquiti U6+ & nanoHD Cover Camo",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 14.65,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Color",
+      "options": [
+        "Black",
+        "Wood",
+        "Marble",
+        "Camo",
+        "Fabric"
+      ],
+      "default": "Camo"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Accessories",
+      "features": [
+        "Cover"
+      ],
+      "items": [
+        {
+          "name": "Cover",
+          "value": "UniFi"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Camo"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø169.3 x 34.2 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.07 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

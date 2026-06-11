@@ -1,0 +1,370 @@
+{
+  "slug": "mikrotik-chateau-pro-ax",
+  "id": "H53UiG-5HaxQ2HaxQ",
+  "productTitle": "MikroTik Chateau PRO ax",
+  "name": "MikroTik Chateau PRO ax",
+  "title": "MikroTik Chateau PRO ax",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The MikroTik Chateau PRO ax (H53UiG-5HaxQ2HaxQ) is designed for high-performance home networking, featuring the latest Wi-Fi 6 technology with a combined speed of up to AX3600. Equipped with a powerful ARM IPQ-8072A CPU clocked at 2208 MHz and supported by 1GB RAM, this access point ensures seamless connectivity and efficient data processing, even for the most data-intensive applications. With RouterOS Level 6, you gain access to advanced network management features, making it ideal for users who require both performance and configurability. Whether you’re gaming, streaming, or managing a smart home, the Chateau PRO ax can handle it all with ease.",
+  "detailed_description": [
+    {
+      "heading": "Maximum Speed and Coverage",
+      "text": "The MikroTik Chateau PRO ax (H53UiG-5HaxQ2HaxQ) is designed for high-performance home networking, featuring the latest Wi-Fi 6 technology with a combined speed of up to AX3600. Equipped with a powerful ARM IPQ-8072A CPU clocked at 2208 MHz and supported by 1GB RAM, this access point ensures seamless connectivity and efficient data processing, even for the most data-intensive applications. With RouterOS Level 6, you gain access to advanced network management features, making it ideal for users who require both performance and configurability. Whether you’re gaming, streaming, or managing a smart home, the Chateau PRO ax can handle it all with ease.\n\nThe Chateau PRO ax operates on both 2.4 GHz and 5 GHz bands, delivering exceptional data rates and signal strength. The 2.4 GHz band, with a max speed of 1148 Mbps and a 5 dBi antenna, is perfect for covering larger areas at slightly lower speeds. Meanwhile, the 5 GHz band, capable of up to 2400 Mbps and equipped with a 6 dBi antenna, offers faster speeds for bandwidth-heavy applications like 4K streaming or online gaming. Both bands ensure compatibility and top-tier performance with Wi-Fi 6 devices."
+    },
+    {
+      "heading": "Versatile Connectivity Options",
+      "text": "This access point is equipped with five 10/100/1000 Ethernet ports with passive PoE-out capabilities on Ether5 port, enabling flexible connections for wired devices or extending power to other PoE-enabled devices. The fifth Ethernet port supports PoE-out up to 57V, allowing you to power other compatible devices directly from the router, making installation more flexible. The device includes a USB 3.0 port for added connectivity and expansion options, as well as a 48V 1.35A power adapter and a 1.5-meter UTP flat cable for quick setup. These features ensure that the Chateau PRO ax meets the demands of even the most sophisticated network setups.\n\nBuilt on MikroTik’s powerful RouterOS operating system, the Chateau PRO ax provides a high level of customization and control over your network. RouterOS License Level 6 enables advanced routing, firewall, VPN, and QoS features, making it suitable for both home and office environments. With this setup, you gain a robust, secure platform that helps prevent unauthorized access, ensures data safety, and optimizes bandwidth allocation for the best possible network performance. The Chateau PRO ax stands as a future-proof solution for demanding users who value speed, reliability, and security."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Chateau",
+  "categories": [
+    "Wi-Fi for Home & Office",
+    "MikroTik",
+    "Chateau"
+  ],
+  "mpn": "H53UiG-5HaxQ2HaxQ",
+  "manufacturer_part_number": "H53UiG-5HaxQ2HaxQ",
+  "ean": "4752224009135",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "US",
+    "UK"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5229/chateauproax_2-67179cef18303-medium.jpg",
+        "alt": "MikroTik Chateau PRO ax",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5229/chateauproax_1-67179cec9b2ca-medium.jpg",
+        "alt": "MikroTik Chateau PRO ax",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5229/chateauproax_3-67179cf22a8da-medium.jpg",
+        "alt": "MikroTik Chateau PRO ax",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/O02u4qprWjA",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 164.84,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "US",
+        "UK"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 4x4, 5GHz 4x4"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "1.15 Gbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "2.4 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.4 - 2.4 (GHz) 5 (dBi), 5 - 5 (GHz) 6 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "USB Ports"
+      ],
+      "items": [
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 3.0"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Storage Memory",
+          "value": "128 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "18 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "18 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "48 V DC 1.35 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "240 x 156 x 44 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 6"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Chateau PRO ax",
+      "url": "https://www.getic.com/files/catalogue/5229/chateauproax-67179cc28960a.pdf"
+    },
+    {
+      "title": "EU Declaration of Conformity / CE DOC - MikroTik Chateau PRO ax",
+      "url": "https://www.getic.com/files/catalogue/5229/h53uig5haxq2haxq_doc-6729e13191579.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Pieter",
+        "date": "2024-11-14",
+        "text": "So Mikrotik is not necessarily the best WiFi company out there. With this router, this has changed. I had a use-case for broadcasting multiple SSIDs that are connected to different VLANs and have about 45 clients over those networks. The space is also crowded, as it is a shared office with everyone having their own router. This is where the hAP ax2 struggles to maintain all those connections. With this Router I have a 100% connection quality on 2.4 GHz and a good enough 5 GHz connection with 67% link quality. The speeds could be better on the 5 GHz band. There was a learning-curve, as is usually true with Mikrotik, to set everything up, but the end-result is better then expected.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hAP ax2",
+      "url": "/product/mikrotik-hap-ax2",
+      "price": 80.2,
+      "currency": "USD",
+      "mpn": "C52iG-5HaxD2HaxD-TC",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax3",
+      "url": "/product/mikrotik-hap-ax3",
+      "price": 113.42,
+      "currency": "USD",
+      "mpn": "C53UiG+5HPaxD2HPaxD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ax",
+      "url": "/product/mikrotik-cap-ax",
+      "price": 103.11,
+      "currency": "USD",
+      "mpn": "cAPGi-5HaxD2HaxD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik wAP ax",
+      "url": "/product/mikrotik-wap-ax",
+      "price": 81.0,
+      "currency": "USD",
+      "mpn": "wAPG-5HaxD2HaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

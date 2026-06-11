@@ -1,0 +1,214 @@
+{
+  "slug": "universal-arm-bracket",
+  "id": "133",
+  "productTitle": "Ubiquiti Universal Antenna Mount",
+  "name": "Ubiquiti Universal Antenna Mount",
+  "title": "Ubiquiti Universal Antenna Mount",
+  "title_extended": "Universal Antenna Mount Bracket for Ubiquiti Wireless Devices",
+  "short_description": "Universal mounting bracket for wall-mount flexibility.",
+  "description": "Universal mounting bracket for wall-mount flexibility.",
+  "detailed_description": [
+    {
+      "heading": "Versatile and Robust Mounting Solution",
+      "text": "The Universal Antenna Mount produced by Ubiquiti and known by its manufacture part number UB-AM, is is a versatile and robust mounting solution designed to provide a reliable and stable platform for wide range of Ubiquiti devices, particularly those used in wireless point-to-point and point-to-multipoint configurations. The mount features adjustable tilt and swivel capabilities, enabling precise alignment of the antenna or other radio device for optimal signal reception and broadcast. This adjustability is critical for achieving the highest network performance and reducing interference."
+    },
+    {
+      "heading": "Durable Construction and Easy Installation",
+      "text": "This universal bracket is made from powder-coated steel to withstand harsh environmental conditions including wind, rain, and extreme temperatures. This durability ensures long-lasting performance and reliability and designed for easy installation, requiring minimal tools. Also, the UB-AM is designed with multiple mounting options, allowing it to be installed on walls or roofs. This versatility ensures that it can be used in a variety of locations to maximize line of sight and signal strength."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Mounting Accessories",
+  "categories": [
+    "Ubiquiti",
+    "Accessory Tech",
+    "Mountings"
+  ],
+  "mpn": "UB-AM",
+  "manufacturer_part_number": "UB-AM",
+  "ean": "0810354021374",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/133/universal_arm_bracket_nsm5_front_angle-601d09994e0ac-medium.jpg",
+        "alt": "Ubiquiti Universal Antenna Mount",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/133/1-6440e31936a13-medium.jpg",
+        "alt": "Ubiquiti Universal Antenna Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/133/2-6440e31a5823c-medium.jpg",
+        "alt": "Ubiquiti Universal Antenna Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/133/3-6440e31b75d85-medium.jpg",
+        "alt": "Ubiquiti Universal Antenna Mount",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/133/universal_arm_bracket_nsm5_front_angle-601d09994e0ac-tiny.jpg",
+        "alt": "Ubiquiti Universal Antenna Mount"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/133/1-6440e31936a13-tiny.jpg",
+        "alt": "Ubiquiti Universal Antenna Mount"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/133/2-6440e31a5823c-tiny.jpg",
+        "alt": "Ubiquiti Universal Antenna Mount"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/133/3-6440e31b75d85-tiny.jpg",
+        "alt": "Ubiquiti Universal Antenna Mount"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/ubiquiti/installation-guide-ubam.pdf",
+        "title": "Installation Guide - Ubiquiti Universal Antenna Mount",
+        "type": "guide"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 7.73,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Installation Guide - Ubiquiti Universal Antenna Mount",
+      "url": "https://www.getic.com/files/catalogue/ubiquiti/installation-guide-ubam.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 25.85,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 36.66,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 52.33,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX NanoStation M5",
+      "url": "/product/nanostation-m5",
+      "price": 80.15,
+      "currency": "USD",
+      "mpn": "NSM5",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX NanoStation M2 Loco",
+      "url": "/product/nanostation-loco-m2",
+      "price": 44.39,
+      "currency": "USD",
+      "mpn": "LOCOM2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airMAX NanoStation 5AC Loco",
+      "url": "/product/nanostation-5-ac-loco",
+      "price": 48.09,
+      "currency": "USD",
+      "mpn": "Loco5AC",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "56"
+}
