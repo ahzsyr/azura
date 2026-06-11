@@ -14,18 +14,28 @@ const DEBUG_ENDPOINT = "http://127.0.0.1:7300/ingest/df4ee46a-c9a3-41ec-a748-5c0
 const DEBUG_SESSION_ID = "51ee47";
 
 function debugLog(hypothesisId: string, location: string, message: string, data: Record<string, unknown>) {
+  const payload = {
+    sessionId: DEBUG_SESSION_ID,
+    runId: "ui-messages-admin-initial",
+    hypothesisId,
+    location,
+    message,
+    data,
+    timestamp: Date.now(),
+  };
+
+  // #region agent log
+  try {
+    console.error("[debug-51ee47]", JSON.stringify(payload));
+  } catch {
+    console.error("[debug-51ee47]", hypothesisId, location, message);
+  }
+  // #endregion
+
   fetch(DEBUG_ENDPOINT, {
     method: "POST",
     headers: { "Content-Type": "application/json", "X-Debug-Session-Id": DEBUG_SESSION_ID },
-    body: JSON.stringify({
-      sessionId: DEBUG_SESSION_ID,
-      runId: "ui-messages-admin-initial",
-      hypothesisId,
-      location,
-      message,
-      data,
-      timestamp: Date.now(),
-    }),
+    body: JSON.stringify(payload),
   }).catch(() => {});
 }
 
