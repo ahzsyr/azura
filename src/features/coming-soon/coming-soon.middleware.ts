@@ -59,6 +59,7 @@ export function isComingSoonExemptApi(pathname: string): boolean {
     pathname.startsWith("/api/auth") ||
     pathname.startsWith("/api/setup") ||
     pathname.startsWith("/api/coming-soon") ||
+    pathname.startsWith("/api/debug/") ||
     pathname === "/api/collections" ||
     pathname.startsWith("/api/collections/") ||
     pathname === "/api/sync-collections"

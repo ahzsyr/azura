@@ -1,6 +1,6 @@
 const DEBUG_ENDPOINT =
-  "http://127.0.0.1:7876/ingest/6e6c5bde-6579-4633-b8e0-f055b7efa2da";
-const DEBUG_SESSION_ID = "bd4a08";
+  "http://127.0.0.1:7300/ingest/df4ee46a-c9a3-41ec-a748-5c05bd29eec9";
+const DEBUG_SESSION_ID = "695504";
 const DEBUG_TAG = `[debug-${DEBUG_SESSION_ID}]`;
 
 type AgentLogPayload = {

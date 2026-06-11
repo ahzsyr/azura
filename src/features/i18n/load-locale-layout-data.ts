@@ -18,6 +18,7 @@ import type { ResolvedPageTransitions } from "@/features/preloader/resolve-page-
 import type { PublicShellContext } from "@/features/i18n/public-shell-context";
 import type { ResolvedTheme } from "@/lib/theme/theme-resolver";
 import type { ComparisonShellProps } from "@/features/comparison/load-comparison-shell-props";
+import { agentLog, agentLogError } from "@/lib/debug/agent-log";
 
 export type LocaleLayoutData = {
   messages: Awaited<ReturnType<typeof getMessages>>;
@@ -61,7 +62,16 @@ export const loadLocaleLayoutData = cache(
       shell.htmlLang ?? getHtmlLangSync(locale, shell.enabledLocales);
 
       // #region agent log
-      fetch('http://127.0.0.1:7876/ingest/6e6c5bde-6579-4633-b8e0-f055b7efa2da',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a14bff'},body:JSON.stringify({sessionId:'a14bff',runId:'build-fail-debug',hypothesisId:'E',location:'src/features/i18n/load-locale-layout-data.ts:62',message:'loadLocaleLayoutData succeeded',data:{locale,messagesCount:Object.keys(messages ?? {}).length,enabledLocales:shell.enabledLocales?.length ?? 0},timestamp:Date.now()})}).catch(()=>{});
+      agentLog({
+        location: "load-locale-layout-data.ts",
+        message: "loadLocaleLayoutData succeeded",
+        hypothesisId: "H1",
+        data: {
+          locale,
+          messagesCount: Object.keys(messages ?? {}).length,
+          enabledLocales: shell.enabledLocales?.length ?? 0,
+        },
+      });
       // #endregion
 
       return {
@@ -78,7 +88,7 @@ export const loadLocaleLayoutData = cache(
       };
     } catch (error) {
       // #region agent log
-      fetch('http://127.0.0.1:7876/ingest/6e6c5bde-6579-4633-b8e0-f055b7efa2da',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a14bff'},body:JSON.stringify({sessionId:'a14bff',runId:'build-fail-debug',hypothesisId:'E',location:'src/features/i18n/load-locale-layout-data.ts:74',message:'loadLocaleLayoutData failed',data:{locale,name:error instanceof Error ? error.name : 'unknown',message:error instanceof Error ? error.message : String(error)},timestamp:Date.now()})}).catch(()=>{});
+      agentLogError("load-locale-layout-data.ts", error, "H1", { locale });
       // #endregion
       throw error;
     }

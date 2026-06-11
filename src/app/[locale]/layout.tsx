@@ -37,6 +37,7 @@ import { PreloaderBootScript } from "@/components/layout/preloader-boot-script";
 import { PageTransitionAttributes } from "@/components/layout/page-transition-attributes";
 import { PageTransitionBootScript } from "@/components/layout/page-transition-boot-script";
 import { SessionDebugInstrumentation } from "@/components/debug/session-debug-instrumentation";
+import { agentLog, agentLogError } from "@/lib/debug/agent-log";
 import { GlobalAnnouncementBar } from "@/features/announcement-bar/global-announcement-bar";
 import { DeferredGlobalPopupHost } from "@/features/popups/components/deferred-global-popup-host";
 import "@/styles/announcement-bar.css";
@@ -105,17 +106,53 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   setRequestLocale(locale);
-  const {
-    messages,
-    shell,
-    resolvedTheme,
-    preloaderSettings,
-    pageTransitionSettings,
-    announcementBarSettings,
-    popupSettings,
-    htmlLang,
-    comparison,
-  } = await loadLocaleLayoutData(locale);
+  // #region agent log
+  agentLog({
+    location: "app/[locale]/layout.tsx:LocaleLayout",
+    message: "loadLocaleLayoutData start",
+    hypothesisId: "H1",
+    data: { locale },
+  });
+  // #endregion
+  let messages;
+  let shell;
+  let resolvedTheme;
+  let preloaderSettings;
+  let pageTransitionSettings;
+  let announcementBarSettings;
+  let popupSettings;
+  let htmlLang;
+  let comparison;
+  try {
+    ({
+      messages,
+      shell,
+      resolvedTheme,
+      preloaderSettings,
+      pageTransitionSettings,
+      announcementBarSettings,
+      popupSettings,
+      htmlLang,
+      comparison,
+    } = await loadLocaleLayoutData(locale));
+    // #region agent log
+    agentLog({
+      location: "app/[locale]/layout.tsx:LocaleLayout",
+      message: "loadLocaleLayoutData ok",
+      hypothesisId: "H1",
+      data: {
+        locale,
+        enabledLocales: shell.enabledLocales?.length ?? 0,
+        messagesCount: Object.keys(messages ?? {}).length,
+      },
+    });
+    // #endregion
+  } catch (error) {
+    // #region agent log
+    agentLogError("app/[locale]/layout.tsx:LocaleLayout", error, "H1", { locale });
+    // #endregion
+    throw error;
+  }
 
   return (
     <div className="site-shell flex min-h-full flex-col">

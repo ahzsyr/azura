@@ -5,6 +5,7 @@ import { loadCachedHomePage } from "@/features/cms/load-home-page";
 import { seoService } from "@/features/seo/seo.service";
 import type { Locale } from "@/i18n/routing";
 import { MarketingCmsPage } from "@/features/cms/components/marketing-cms-page";
+import { agentLog, agentLogError } from "@/lib/debug/agent-log";
 
 /** ISR: serve cached home HTML; regen at most every 60s (avoids force-dynamic 504 on Hostinger). */
 export const revalidate = 60;
@@ -42,7 +43,31 @@ export default async function HomePage({ params }: Props) {
     return <main className="min-h-[40vh]" aria-hidden="true" data-build-shell="true" />;
   }
 
-  const page = await loadCachedHomePage();
+  // #region agent log
+  agentLog({
+    location: "app/[locale]/(marketing)/page.tsx:HomePage",
+    message: "loadCachedHomePage start",
+    hypothesisId: "H4",
+    data: { locale },
+  });
+  // #endregion
+  let page;
+  try {
+    page = await loadCachedHomePage();
+    // #region agent log
+    agentLog({
+      location: "app/[locale]/(marketing)/page.tsx:HomePage",
+      message: "loadCachedHomePage ok",
+      hypothesisId: "H4",
+      data: { locale, hasPage: page != null, pageId: page?.id ?? null },
+    });
+    // #endregion
+  } catch (error) {
+    // #region agent log
+    agentLogError("app/[locale]/(marketing)/page.tsx:HomePage", error, "H4", { locale });
+    // #endregion
+    throw error;
+  }
   if (!page) notFound();
 
   return <MarketingCmsPage slug="home" locale={locale as Locale} page={page} />;
