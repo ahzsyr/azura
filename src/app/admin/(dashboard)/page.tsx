@@ -1,4 +1,5 @@
 import { getDashboardStats } from "@/lib/data";
+import { loadSiteBrandContext } from "@/lib/load-site-brand-context";
 import { getAdminDashboardStats } from "@/services/loaders";
 import { rebuildSearchIndex } from "@/features/search/actions";
 import { prisma } from "@/lib/prisma";

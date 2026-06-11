@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -25,11 +24,11 @@ import { DocumentLangScript } from "@/components/layout/document-lang-script";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { resolveSiteIdentityFromDb } from "@/lib/site-identity.server";
 import { resolvePublishedSiteTheme } from "@/lib/theme/resolve-site-theme.server";
-import { GlobalStructuredData } from "@/features/seo/components/global-structured-data";
+import { GlobalStructuredDataSync } from "@/features/seo/components/global-structured-data";
 import { PersonalizationPanelLazy } from "@/components/personalization/personalization-panel-lazy";
 import { MarketingPageTransition } from "@/components/motion/marketing-page-transition";
 import { CatalogComparisonShell } from "@/components/comparison/catalog-comparison-shell";
-import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { ProductionHostingProbe } from "@/components/debug/production-hosting-probe";
 import { AccountSessionProvider } from "@/components/account/account-session-provider";
 import { loadLocaleLayoutData } from "@/features/i18n/load-locale-layout-data";
 import { preloaderShowsOnInitialLoad } from "@/features/preloader/site-preloader.schema";
@@ -115,10 +114,12 @@ export default async function LocaleLayout({ children, params }: Props) {
     popupSettings,
     htmlLang,
     comparison,
+    globalStructured,
   } = await loadLocaleLayoutData(locale);
 
   return (
     <div className="site-shell flex min-h-full flex-col">
+      <ProductionHostingProbe />
       <PreloaderBootScript
         active={
           preloaderSettings.enabled && preloaderShowsOnInitialLoad(preloaderSettings.mode)
@@ -130,9 +131,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <DocumentLangScript lang={htmlLang} dir={shell.direction} />
       <DocumentAttributes lang={htmlLang} dir={shell.direction} />
       <PageTransitionAttributes settings={pageTransitionSettings} />
-      <Suspense fallback={null}>
-        <GlobalStructuredData />
-      </Suspense>
+      <GlobalStructuredDataSync config={globalStructured} />
       <NextIntlClientProvider locale={locale} messages={messages}>
         <AccountSessionProvider>
           <ThemeProvider resolved={resolvedTheme}>
@@ -192,9 +191,6 @@ export default async function LocaleLayout({ children, params }: Props) {
           </ThemeProvider>
         </AccountSessionProvider>
       </NextIntlClientProvider>
-      {process.env.NEXT_PUBLIC_GA_ID ? (
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
-      ) : null}
     </div>
   );
 }

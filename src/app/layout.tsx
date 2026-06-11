@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Script from "next/script";
 import "@/app/globals.css";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { generateThemeBootInlineScript } from "@/lib/theme/theme-boot";
 
 type Props = {
@@ -25,6 +26,9 @@ export default function RootLayout({ children }: Props) {
         />
         <Script src="/theme-init.js" strategy="beforeInteractive" />
         {children}
+        {process.env.NEXT_PUBLIC_GA_ID ? (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+        ) : null}
       </body>
     </html>
   );
