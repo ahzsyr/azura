@@ -9,7 +9,10 @@ import {
 import type { ProductIndexManifest } from "@/features/products/index/product-index-types";
 import type { Product } from "@/features/products/types";
 import { revalidateProductListing, revalidateProductSlug } from "@/services/cache";
-import { catalogSyncOrchestrator } from "@/features/catalog/sync/catalog-sync-orchestrator";
+import {
+  catalogSyncOrchestrator,
+  type CatalogSyncResult,
+} from "@/features/catalog/sync/catalog-sync-orchestrator";
 import { frameworkSearchIndexer } from "@/features/search-framework";
 import { invalidateProductCatalogIndex } from "@/features/products/fs/product-catalog-index";
 import { invalidateProductIndexLoaderCache } from "@/features/products/index/product-index-loader";
