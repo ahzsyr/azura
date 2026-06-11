@@ -1,0 +1,266 @@
+{
+  "slug": "ubiquiti-wifiman-wizard-spectrum-analyzer",
+  "id": "4345",
+  "productTitle": "Ubiquiti WiFiMan Wizard",
+  "name": "Ubiquiti WiFiMan Wizard",
+  "title": "Ubiquiti WiFiMan Wizard",
+  "title_extended": "",
+  "short_description": "WiFiMan Wizard Spectrum Analyzer, 2.4 GHz and 5 GHz Band Scanning, 240-min Scanning Battery Life",
+  "description": "WiFiMan Wizard Spectrum Analyzer, 2.4 GHz and 5 GHz Band Scanning, 240-min Scanning Battery Life",
+  "detailed_description": [
+    {
+      "heading": "Portable WiFi Analyzer",
+      "text": "The Ubiquiti WiFiMan Wizard (WM-W) is a compact, portable spectrum analyzer designed to work seamlessly with the WiFiMan mobile app for iOS and Android. It allows network professionals, installers, and advanced users to analyze wireless environments directly from their smartphone, making WiFi troubleshooting faster and more accessible than ever. The device scans the 2.4 GHz and 5 GHz unlicensed frequency bands, helping identify interference, congestion, and channel usage in real time. With support for SSID scanning and detailed signal strength measurement from –96 dBm to 0 dBm, the WiFiMan Wizard provides clear insights into network conditions that are difficult to detect with software-only tools."
+    },
+    {
+      "heading": "Compact and Reliable",
+      "text": "The WiFiMan Wizard is engineered for everyday field use, combining durability with an ultra-compact form factor. Its polycarbonate enclosure and IP55 weather resistance protect the device from dust and light water exposure, allowing it to be used confidently in a variety of indoor and outdoor environments. Integrated LED indicators provide clear visual feedback on device status, while physical power and factory-reset buttons ensure simple operation. Charging is handled via a USB-C port, and the built-in 3.7 V 300 mAh rechargeable lithium-ion battery offers excellent efficiency with minimal power consumption. For iPhone users, the device supports MagSafe attachment when used with a compatible MagSafe case, enabling convenient one-handed operation during site surveys. The WiFiMan Wizard operates reliably within a temperature range of 0 to 40 °C and is certified to CE, FCC, IC, and Anatel standards. Fully integrated with the UniFi WiFiMan app, it delivers professional-grade wireless analysis in a simple, portable form factor suitable for technicians, integrators, and advanced home users."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Accessories",
+  "categories": [
+    "Accessories",
+    "UniFi Accessories"
+  ],
+  "mpn": "WM-W",
+  "manufacturer_part_number": "WM-W",
+  "ean": "0810010079695",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4345/10818443ed34496e87bf4cea65d90853-64803a84334a9-medium.jpg",
+        "alt": "Ubiquiti WiFiMan Wizard",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4345/1cbfe5c0a2a843dabe8c2e015c379758-64803a8c42256-medium.jpg",
+        "alt": "Ubiquiti WiFiMan Wizard",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4345/7f980107ea6f4c3795b629ac1dda6211-64803a945618c-medium.jpg",
+        "alt": "Ubiquiti WiFiMan Wizard",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4345/513b26777cfa43b691970677e5392a6a-64803a98a67bd-medium.jpg",
+        "alt": "Ubiquiti WiFiMan Wizard",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4345/2cb145fd46a04764ad436b36b5474997-64803a9fe684b-medium.jpg",
+        "alt": "Ubiquiti WiFiMan Wizard",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4345/6ce8e5a37aae473ba495d1a6206aa525-64803aa37d0b0-medium.jpg",
+        "alt": "Ubiquiti WiFiMan Wizard",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4345/a687d23d53d4446194217f930b6f689f-64803acccb82a-medium.jpg",
+        "alt": "Ubiquiti WiFiMan Wizard",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/KHOWJ8Z8TE0",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 98.65,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "Management",
+          "value": "Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Battery Type",
+        "Battery"
+      ],
+      "items": [
+        {
+          "name": "Battery Type",
+          "value": "Li-Ion"
+        },
+        {
+          "name": "Battery",
+          "value": "300 mAh 3.7 V"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP55"
+        },
+        {
+          "name": "Dimensions",
+          "value": "79 x 51 x 8 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.032 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti WiFiMan Wizard",
+      "url": "https://www.getic.com/files/catalogue/4345/wmw_ds-643d2c999fd65.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti WiFiMan Wizard",
+      "url": "https://www.getic.com/files/catalogue/4345/wmw_qsg-643d2cdcd0d34.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "Trustpilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "T-Prod",
+        "date": "2023-09-06",
+        "text": "Works like promised",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "/product/usw-lite-8-poe-eu",
+      "price": 118.38,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti PoE+ Adapter",
+      "url": "/product/ubiquiti-poe-at",
+      "price": 16.98,
+      "currency": "USD",
+      "mpn": "U-POE+",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Swiss Army Knife Ultra",
+      "url": "/product/swiss-army-knife-ultra11",
+      "price": 77.43,
+      "currency": "USD",
+      "mpn": "UK-Ultra",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

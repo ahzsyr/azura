@@ -1,0 +1,260 @@
+{
+  "slug": "mikrotik-routeros-level-4",
+  "id": "mikrotik-routeros-level-4",
+  "productTitle": "License RouterOS Level 4 / CHR P1",
+  "name": "License RouterOS Level 4 / CHR P1",
+  "title": "License RouterOS Level 4 / CHR P1",
+  "title_extended": "",
+  "short_description": "License can be used as RouterOS Level 4 or Cloud Hosted Router P1. Please write in the comment your Mikrotik ID (login) and license will be sent to you",
+  "description": "License can be used as RouterOS Level 4 or Cloud Hosted Router P1. Please write in the comment your Mikrotik ID (login) and license will be sent to you",
+  "detailed_description": [
+    {
+      "heading": "Advanced Networking Functions",
+      "text": "MikroTik RouterOS is a robust operating system based on the Linux kernel, designed for use with MikroTik's own hardware devices, including routers and switches. This operating system harnesses the hardware's capabilities to offer a myriad of advanced networking functions such as routing, firewall, bandwidth management, and more. RouterOS is adept in routing, employing routing tables and protocols like OSPF, BGP, and RIP to direct data packets efficiently across various networks, thereby enhancing network scalability and operational efficiency. Its integrated firewall acts as a protective barrier, monitoring and controlling incoming and outgoing traffic based on established security rules to shield the internal network from external threats."
+    },
+    {
+      "heading": "Traffic Shaping and Policing",
+      "text": "In the realm of bandwidth management, RouterOS demonstrates its prowess by employing traffic shaping and policing techniques to manage network resources effectively, thus ensuring optimal quality of service (QoS) for different applications. Its functionality as a wireless access point bridges the gap between wired and wireless network segments, facilitating seamless communication and resource access. RouterOS also plays a crucial role in backhaul link management, a vital component for connecting remote network edges to the central network infrastructure, often utilizing fiber-optic, microwave, or satellite links for data transport."
+    },
+    {
+      "heading": "Extensive Configuration Options",
+      "text": "Featuring a user-friendly interface, accessible through the Winbox graphical utility or the command-line interface, RouterOS affords significant flexibility and power to its users. It is celebrated for its stability, comprehensive support, and extensive configuration possibilities, making it a preferred choice among network engineers and technology enthusiasts. MikroTik RouterOS stands out as a leading solution in network management, catering to a broad spectrum of networking needs, from straightforward residential setups to complex corporate infrastructures."
+    },
+    {
+      "heading": "Scalability and Performance Optimization",
+      "text": "Upon purchasing, the license key is provided through your MikroTik account or email, which then must be pasted into the router using the Winbox License menu or directly in the terminal. The license is linked to the SoftwareID of the device, a unique identifier tied to the storage media, ensuring security and proper allocation of the license. A reboot is necessary to activate the license after installation."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Licenses",
+  "categories": [
+    "Licenses",
+    "MikroTik"
+  ],
+  "mpn": "SWL4",
+  "manufacturer_part_number": "SWL4",
+  "ean": "0733115908014",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/224/mt-license-medium.jpg",
+        "alt": "License RouterOS Level 4 / CHR P1",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/224/mt-license-tiny.jpg",
+        "alt": "License RouterOS Level 4 / CHR P1"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 28.00,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "License",
+      "features": [
+        "Level",
+        "Speed limit",
+        "Wireless AP (PtMP)",
+        "PPPoE tunnels",
+        "PPTP tunnels",
+        "L2TP tunnels",
+        "OVPN tunnels",
+        "EoIP tunnels",
+        "VLAN interfaces",
+        "Queue rules",
+        "HotSpot active users",
+        "User manager active sessions",
+        "Bonding interfaces"
+      ],
+      "items": [
+        { "name": "Level", "value": "4" },
+        { "name": "Speed limit", "value": "1 Gbit" },
+        { "name": "Wireless AP (PtMP)", "value": "Yes" },
+        { "name": "PPPoE tunnels", "value": "200" },
+        { "name": "PPTP tunnels", "value": "200" },
+        { "name": "L2TP tunnels", "value": "200" },
+        { "name": "OVPN tunnels", "value": "200" },
+        { "name": "EoIP tunnels", "value": "Unlimited" },
+        { "name": "VLAN interfaces", "value": "Unlimited" },
+        { "name": "Queue rules", "value": "Unlimited" },
+        { "name": "HotSpot active users", "value": "200" },
+        { "name": "User manager active sessions", "value": "20" },
+        { "name": "Bonding interfaces", "value": "Unlimited" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - License RouterOS Level 4 / CHR P1",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-mikrotik-routeros.pdf"
+    },
+    {
+      "title": "Quick Start Guide - License RouterOS Level 4 / CHR P1",
+      "url": "https://help.mikrotik.com/docs/display/ROS/RouterOS+license+keys"
+    }
+  ],
+  "shipping": {
+    "options": []
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 13,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 13,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Alen",
+        "date": "2026-01-03",
+        "text": "***** Perfect !!! *****",
+        "photos": []
+      },
+      {
+        "name": "Maksim",
+        "date": "2025-08-14",
+        "text": "Very good.",
+        "photos": []
+      },
+      {
+        "name": "Anh",
+        "date": "2024-05-27",
+        "text": "Good and very fast",
+        "photos": []
+      },
+      {
+        "name": "Mohamed",
+        "date": "2023-12-25",
+        "text": "\"Getic is a one-stop destination! Seamless, user-friendly, and packed with diverse services. It's my go-to for everything I need online for networking. Highly recommended!\"",
+        "photos": []
+      },
+      {
+        "name": "Lalyo",
+        "date": "2023-08-18",
+        "text": "Using it with my home esxi powered by a modern x86_64 CPU instead of monolitic boards with weak CPUs. It works fine!",
+        "photos": []
+      },
+      {
+        "name": "Mohammed",
+        "date": "2023-06-09",
+        "text": "Trust and interest",
+        "photos": []
+      },
+      {
+        "name": "Anand",
+        "date": "2023-05-04",
+        "text": "better way to purchase and better place to purchase",
+        "photos": []
+      },
+      {
+        "name": "Zs",
+        "date": "2023-04-06",
+        "text": "It was very easy to purchase this license, next day the license was in my mikrotic account.",
+        "photos": []
+      },
+      {
+        "name": "mohamed",
+        "date": "2023-01-30",
+        "text": "Very good product as sold in mikrotik official site",
+        "photos": []
+      },
+      {
+        "name": "Andrey",
+        "date": "2022-12-09",
+        "text": "Works well! Quickly received on the account!",
+        "photos": []
+      },
+      {
+        "name": "GIOT",
+        "date": "2022-11-29",
+        "text": "Quick delivery !",
+        "photos": []
+      },
+      {
+        "name": "Antonio",
+        "date": "2022-10-08",
+        "text": "Satisfecho con el proceso de compra. Buen servicio postventa.",
+        "photos": []
+      },
+      {
+        "name": "Igor",
+        "date": "2022-08-12",
+        "text": "Unlimited amount of reinstalls, you can run it wherever you want, I adore Mikrotik CHR. And Getic has the lowest price for it in the whole world.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hAP ac2",
+      "url": "/product/mikrotik-hap-ac2",
+      "price": 58.70,
+      "currency": "USD",
+      "mpn": "RBD52G-5HacD2HnD-TC",
+      "availability": "InStock"
+    },
+    {
+      "name": "License RouterOS Level 5 / CHR P10",
+      "url": "/product/mikrotik-routeros-level-5",
+      "price": 52.00,
+      "currency": "USD",
+      "mpn": "SWL5",
+      "availability": "InStock"
+    },
+    {
+      "name": "License RouterOS Level 6 / CHR P-Unlimited",
+      "url": "/product/mikrotik-routeros-level-6",
+      "price": 139.00,
+      "currency": "USD",
+      "mpn": "SWL6",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate"
+    }
+  ],
+  "stock_stat": "In stock"
+}

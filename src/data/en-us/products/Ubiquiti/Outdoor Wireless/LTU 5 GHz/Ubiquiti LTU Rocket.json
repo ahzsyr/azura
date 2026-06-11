@@ -1,0 +1,378 @@
+{
+  "slug": "ubiquiti-ltu-rocket",
+  "id": "2509",
+  "productTitle": "Ubiquiti LTU Rocket",
+  "name": "Ubiquiti LTU Rocket",
+  "title": "Ubiquiti LTU Rocket",
+  "title_extended": "",
+  "short_description": "AP PtMP 5GHz, RF module paired with AirMax Sector&Omni antennas, up to 64 client connections, up to 2+ MPPS performance, max throughput 675.84 Mbps, GPS sync",
+  "description": "AP PtMP 5GHz, RF module paired with AirMax Sector&Omni antennas, up to 64 client connections, up to 2+ MPPS performance, max throughput 675.84 Mbps, GPS sync",
+  "detailed_description": [
+    {
+      "heading": "High-Performance Point-to-MultiPoint Base Station",
+      "text": "The LTU Rocket is a cornerstone product in Ubiquiti Networks' innovative lineup of wireless broadband solutions, designed to serve as a high-performance Point-to-MultiPoint (PtMP) base station in the LTU product series. This device harnesses Ubiquiti's proprietary LTU technology, which represents a significant advancement over traditional wireless communication protocols, providing unparalleled performance, scalability, and flexibility for wireless networking applications."
+    },
+    {
+      "heading": "Compatibility",
+      "text": "Compatible with LTU devices only. LTU Rocket functions in a PtMP environment using the LTU Pro, LTU Lite, or LTU LR as Clients."
+    },
+    {
+      "heading": "Design and Integration",
+      "text": "The LTU Rocket is designed for compatibility within Ubiquiti's LTU series, functioning as a PtMP base station. It primarily communicates with LTU client devices (CPEs) for broadband distribution. Operating on the 5 GHz band, it avoids congestion typical in lower bands but requires careful channel selection to minimize interference. While it integrates seamlessly with Ubiquiti's Network Management System (UNMS) for centralized management, it doesn't directly interface with non-LTU or legacy airMAX devices, necessitating a homogeneous LTU environment for optimal performance."
+    },
+    {
+      "heading": "Performance and Technology",
+      "text": "Engineered for superior performance, the LTU Rocket leverages custom LTU silicon, allowing it to operate with a wide range of frequency bandwidths, from 10 MHz to 50 MHz and up to 100 MHz will be available with future firmware upgrade. This flexibility is crucial for optimizing spectral efficiency and throughput in diverse deployment scenarios. The device supports an advanced modulation scheme up to 1024QAM, enabling it to achieve high data rates and efficiently utilize the wireless spectrum, thereby delivering faster, more reliable internet connectivity over 100+km range."
+    },
+    {
+      "heading": "5 GHz Operation and GPS Synchronization",
+      "text": "Operating in the 5 GHz frequency band, the LTU Rocket minimizes interference from other devices, a common challenge in densely populated or congested areas. This strategic choice of frequency band ensures cleaner signal transmission and reception, enhancing network reliability and performance. The device is equipped with a GPS synchronization feature, which allows for precise timing across multiple units in a network. This synchronization is critical for reducing interference in PtMP deployments, enabling more efficient utilization of the available spectrum, and increasing the overall capacity of the wireless network."
+    },
+    {
+      "heading": "Durability and Installation",
+      "text": "The LTU Rocket is designed with flexibility and ease of deployment in mind. It features a robust, rated IP67 weather-resistant construction, making it suitable for outdoor installation in various environmental conditions. The device supports Power over Ethernet (PoE) for simplified installation, allowing both power and data to be transmitted over a single Ethernet cable, reducing complexity and installation costs."
+    },
+    {
+      "heading": "Security",
+      "text": "Security is a paramount concern in wireless networking, and the LTU Rocket addresses this with advanced encryption and authentication protocols, protecting the network against unauthorized access and ensuring the integrity and confidentiality of data transmissions. This comprehensive approach to security makes the LTU Rocket an ideal solution for critical network applications where data security cannot be compromised."
+    },
+    {
+      "heading": "Network Management",
+      "text": "For network management and optimization, the LTU Rocket integrates seamlessly with Ubiquiti's Network Management System (UNMS), providing administrators with a powerful and intuitive platform for configuring, monitoring, and managing the network. This system enables detailed performance analytics, real-time adjustments, and firmware updates, ensuring that the network operates at peak efficiency and reliability."
+    },
+    {
+      "heading": "Applications and Use Cases",
+      "text": "In rural and remote areas, the LTU Rocket addresses the challenge of providing high-speed internet access where traditional wired infrastructures are impractical or too costly to deploy. Its long-range capabilities enable ISPs to extend broadband coverage to these underserved locations, bridging the digital divide and fostering economic and social development by connecting communities to digital resources and opportunities.Moreover, for urban environments, the LTU Rocket supports city-wide Wi-Fi networks, serving as the backbone for municipal wireless infrastructure. It enables cities to offer public internet access, support smart city initiatives, and improve municipal services through enhanced connectivity. The device's high throughput and efficient spectrum use are key in densely populated areas, where managing interference and maintaining service quality are critical."
+    },
+    {
+      "heading": "Additional Use Cases",
+      "text": "Educational campuses and large corporate facilities benefit from the LTU Rocket for creating seamless and high-speed network links between buildings or across campus grounds. It ensures that students, faculty, and professionals have reliable access to digital resources and collaboration tools, facilitating learning and business operations without the limitations of physical network infrastructures. Also, in the realm of event broadcasting and temporary setups, such as outdoor concerts or sports events, the LTU Rocket provides a dependable solution for high-capacity, temporary internet access and live streaming. Its ease of deployment and ability to handle high traffic volumes make it ideal for meeting the connectivity demands of large gatherings and ensuring a high-quality viewer experience."
+    },
+    {
+      "heading": "Summary",
+      "text": "In summary, the LTU Rocket stands out as a high-capacity, long-range PtMP base station, embodying Ubiquiti's commitment to innovation and excellence in wireless networking. Its use of proprietary LTU technology, combined with advanced features such as GPS synchronization, flexible frequency bandwidth operation, and integration with UNMS for network management, makes it a powerful solution for ISPs, enterprises, and network administrators looking to deploy scalable, high-performance wireless networks. Whether for connecting remote rural areas, creating a wireless backbone for a municipal network, or providing broadband access in challenging environments, the LTU Rocket offers a reliable, efficient, and secure wireless connectivity solution."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Outdoor Wireless",
+  "categories": [
+    "Outdoor Wireless",
+    "LTU 5 GHz"
+  ],
+  "mpn": "LTU-Rocket",
+  "manufacturer_part_number": "LTU-Rocket",
+  "ean": "0817882029438",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2509/lturocket_front_angle_0a7f737b012848d48002a6bea17f7f5f-6033aef5933a1-medium.jpg",
+        "alt": "Ubiquiti LTU Rocket",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2509/lturocket_front_e05ea7ccc5384fe78c377f930486edf0-6033aef613f9c-medium.jpg",
+        "alt": "Ubiquiti LTU Rocket",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2509/lturocket_side_3b90ce6b7a114d4690f7702b878ea6d9-6033aef51a3e9-medium.jpg",
+        "alt": "Ubiquiti LTU Rocket",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2509/lturocket_ports_c612bc1fcad642118aa47334076df8c5-6033aef41beeb-medium.jpg",
+        "alt": "Ubiquiti LTU Rocket",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2509/lturocket_top_angle_e5c0176ac97541a995154f3d6f0bfd78-6033aef496986-medium.jpg",
+        "alt": "Ubiquiti LTU Rocket",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2509/lturocket_top_9449e408d5544803ab6dbd01540f599e-6033aef37ba88-medium.jpg",
+        "alt": "Ubiquiti LTU Rocket",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2509/lturocket_bottom_04029f1ae9554ca88339fc49ff13672b-6033aef3bd0c6-medium.jpg",
+        "alt": "Ubiquiti LTU Rocket",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 369.30,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "LTU"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "600 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Distance"
+      ],
+      "items": [
+        {
+          "name": "Distance",
+          "value": "Up to 100 km"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) SMA Female, (2) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "18 - 54 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "15 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP67"
+        },
+        {
+          "name": "Dimensions",
+          "value": "244 x 82 x 48 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.468 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 55 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti LTU Rocket",
+      "url": "https://www.getic.com/files/catalogue/2509/ltu-rocket.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti LTU Rocket",
+      "url": "http://dl-origin.ubnt.com/qsg/LTU-Rocket/LTU-Rocket_EN.html"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 0,
+      "great": 100,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "MILAN",
+        "date": "2022-12-27",
+        "text": "Great operation, performance. brilliant development. It takes your network performance to a new level. We use it a lot in our network!\n\nDisadvantages: unfinished firmware, irreparability in the event of a lightning strike, high replacement costs in the event of failure. High-priced products should be cost-effectively repaired, the structure of the device should enable such a thing",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airFiber 5XHD",
+      "url": "/product/airfiber-5xhd",
+      "price": 397.94,
+      "currency": "USD",
+      "mpn": "AF-5XHD",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti LTU Lite",
+      "url": "/product/ubiquiti-ltu-lite",
+      "price": 100.05,
+      "currency": "USD",
+      "mpn": "LTU-Lite",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti LTU Pro",
+      "url": "/product/ubiquiti-ltu-pro",
+      "price": 166.78,
+      "currency": "USD",
+      "mpn": "LTU-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti LTU Long-Range",
+      "url": "/product/ubiquiti-ltu-lr",
+      "price": 131.04,
+      "currency": "USD",
+      "mpn": "LTU-LR",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": ""
+}

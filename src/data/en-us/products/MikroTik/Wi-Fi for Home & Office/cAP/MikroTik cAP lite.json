@@ -1,0 +1,345 @@
+{
+  "slug": "routerboard-cap-lite",
+  "id": "1281",
+  "productTitle": "MikroTik cAP lite",
+  "name": "MikroTik cAP lite",
+  "title": "MikroTik cAP lite",
+  "title_extended": "MikroTik cAP lite - Compact Ceiling Mount AP, 2.4GHz, 100Mbps Ethernet, RouterOS L4",
+  "short_description": "650MHz CPU, 64MB RAM, 1x LAN ports, 802.11b/g/n, RouterOS L4",
+  "description": "Compact ceiling-mountable 2.4GHz access point with 650MHz CPU, 64MB RAM, 1x Fast Ethernet port, Micro USB port, Omni antenna, and RouterOS L4.",
+  "detailed_description": [
+    {
+      "heading": "Compact Elegance in Wireless Connectivity",
+      "text": "Introducing the MikroTik cAP lite, a dual-chain 2.4GHz access point designed with simplicity and efficiency for public spaces and hospitality environments. Operating seamlessly in the 2.4GHz frequency band, the cAP lite's dual-chain configuration enhances signal strength and performance, making it ideal for high-density scenarios. From airports to hotels, its streamlined installation and user-friendly design ensure optimal coverage and interference resilience. The cAP lite features a tiny form factor with a clean design that effortlessly blends into its surroundings. Perfect for locations where aesthetics matter, this access point comes with two interchangeable cases, allowing you to customize its appearance or keep it discreetly out of sight. The device's unobtrusive design makes it an excellent choice for environments where a seamless and inconspicuous networking solution is essential."
+    },
+    {
+      "heading": "Versatile Connectivity Options",
+      "text": "Compact yet powerful, the cAP lite offers a versatile networking solution tailored for diverse needs. Boasting a 100 Mbps Ethernet port, this access point provides great wired connectivity, accommodating devices that demand stable, high-speed connections. The Ethernet port's inclusion caters to scenarios where a wired connection is preferred for its reliability and speed, providing a flexible solution. Adding to its adaptability, the cAP lite incorporates a Micro USB port, enhancing connectivity options and functionality. This port serves multiple purposes, acting as a power input for scenarios where traditional power sources are unavailable, providing an alternative energy solution. Additionally, the Micro USB port facilitates configuration, firmware updates, and management tasks, offering administrators a convenient interface for efficient device maintenance. In certain cases, it supports the connection of peripherals, expanding the access point's capabilities to include external storage, additional network interfaces, or other compatible accessories. The cAP lite adheres to 802.11b/g/n standards, affirming its compatibility with an extensive array of wireless devices. These standards, defining protocols for communication in the 2.4 GHz frequency band, ensure backward compatibility, fostering inclusivity by accommodating older devices that support these standards. The support for varying data transfer rates within the standards, with 802.11n providing higher speeds, guarantees efficient wireless communication, especially in environments teeming with multiple connected devices."
+    },
+    {
+      "heading": "Ideal Companion for CAPsMAN",
+      "text": "The cAP lite by MikroTik seamlessly complements the advanced functionality of MikroTik's Controlled Access Point system Manager (CAPsMAN) within the RouterOS software. CAPsMAN is a robust feature designed for centralized management and configuration of multiple wireless access points (CAPs) from a single server, offering streamlined network administration. Particularly advantageous in dynamic environments such as hospitality or public settings, CAPsMAN ensures efficient oversight of networks by providing a centralized platform for configuration, efficient updates, traffic control, and seamless client roaming. Additionally, the cAP lite can function as a stand-alone access point, harnessing the full potential of RouterOS for standalone operation with ease. This mode is suitable for smaller-scale deployments where the centralized management features of CAPsMAN are unnecessary, providing flexibility and simplicity in network administration. The choice between CAPsMAN and standalone operation depends on the scale, complexity, and specific requirements of the wireless network deployment."
+    },
+    {
+      "heading": "Power-Efficient Performance",
+      "text": "The cAP lite operates on the QCA9533 chipset, a system-on-chip (SoC) by Qualcomm Atheros, emphasizing efficiency and reliability in networking. This SoC boasts a 1-core processor clocked at 650 MHz, ensuring adept handling of networking tasks in various environments. Accompanied by 64 MB of RAM and 16 MB of storage memory, the chipset integrates crucial components into a single chip, promoting compact and efficient designs for networking devices. The 1-core processor, operating at 650 MHz, may not match the power of multi-core processors, but it excels in handling networking tasks, making it an optimal choice for smaller-scale devices. The 64 MB of RAM enables smooth operation by managing concurrent processes, crucial for networking devices handling multiple connections simultaneously. Additionally, the 16 MB of storage memory serves as flash storage, storing firmware, operating systems, and configuration files, retaining data even when the device is powered off."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Access Points",
+  "categories": [
+    "Access Points",
+    "cAP"
+  ],
+  "mpn": "RBcAPL-2nD",
+  "manufacturer_part_number": "RBcAPL-2nD",
+  "ean": "4752224003423",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1281/rbcapl2nd_1-5fd9d9b33673d-medium.jpg",
+        "alt": "MikroTik cAP lite front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1281/rbcapl2nd_2-5fd9d9b1527b9-medium.jpg",
+        "alt": "MikroTik cAP lite back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1281/rbcapl2nd_3-5fd9d9b0bd233-medium.jpg",
+        "alt": "MikroTik cAP lite side view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1281/rbcapl2nd_1-5fd9d9b33673d-tiny.jpg",
+        "alt": "MikroTik cAP lite thumbnail",
+        "type": "thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1281/rbcapl2nd_2-5fd9d9b1527b9-tiny.jpg",
+        "alt": "MikroTik cAP lite thumbnail",
+        "type": "thumbnail"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1281/rbcapl2nd_3-5fd9d9b0bd233-tiny.jpg",
+        "alt": "MikroTik cAP lite thumbnail",
+        "type": "thumbnail"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/27Z0YPtSRd8",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 26.13,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "2.4GHz Radio Rate"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 4" },
+        { "name": "Standards", "value": "802.11n" },
+        { "name": "Frequency", "value": "2.4GHz" },
+        { "name": "2.4GHz Radio Rate", "value": "300 Mbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization"
+      ],
+      "items": [
+        { "name": "Antenna Design", "value": "Omni" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "2.412 - 2.484 (GHz) 1.5 (dBi)" },
+        { "name": "Beamwidth", "value": "360 °" },
+        { "name": "Polarization", "value": "Dual Linear" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "USB Ports",
+        "Management"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 100 Mbps" },
+        { "name": "USB Ports", "value": "(1) Micro USB" },
+        { "name": "Management", "value": "Ethernet, Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "QCA9533, 1 core, 650 MHz" },
+        { "name": "RAM", "value": "64 MB" },
+        { "name": "Storage Memory", "value": "16 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "24V Passive PoE, 48V Passive PoE, 802.3af PoE, 802.3at PoE+" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Supported Input Voltage", "value": "5 - 60 V DC" },
+        { "name": "Max Power Consumption", "value": "4 W" },
+        { "name": "Power Connector", "value": "MicroUSB" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 0.2 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        { "name": "Dimensions", "value": "Ø88 x 20 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Indoor" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 4" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik cAP lite",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-cap-lite.pdf"
+    },
+    {
+      "title": "3D Print - MikroTik cAP lite",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/3d-print-caplite.zip"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik cAP lite",
+      "url": "https://www.getic.com/files/catalogue/1281/quickguidecaplite-650ae20e3f6c6.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik cAP lite",
+      "url": "https://www.getic.com/files/catalogue/1281/usermanualscaplite-650ae21b2d1b5.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "delivery_time": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.44,
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 0,
+      "great": 100,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "MATEUS",
+        "date": "2022-06-11",
+        "text": "very good all item",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik SXTsq 5 ac",
+      "url": "/product/sxt-sq-5-ac",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "RBSXTsqG-5acD",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik cAP ac",
+      "url": "/product/routerboard-cap-ac",
+      "price": 69.97,
+      "currency": "USD",
+      "mpn": "RBcAPGi-5acD2nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq Lite2",
+      "url": "/product/sxt-sq-lite2",
+      "price": 35.28,
+      "currency": "USD",
+      "mpn": "RBSXTsq2nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ax",
+      "url": "/product/mikrotik-cap-ax",
+      "price": 103.11,
+      "currency": "USD",
+      "mpn": "cAPGi-5HaxD2HaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": "38 pcs in stock, 1 pc used in stock"
+}

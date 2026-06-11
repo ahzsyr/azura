@@ -1,0 +1,275 @@
+{
+  "slug": "ubiquiti-sfp-wizard",
+  "id": "7106",
+  "productTitle": "Ubiquiti SFP Wizard",
+  "name": "Ubiquiti SFP Wizard",
+  "title": "Ubiquiti SFP Wizard",
+  "title_extended": "",
+  "short_description": "Universal SFP Programmer and Tester with touchscreen, BLE connectivity, and real-time diagnostics.",
+  "description": "The Ubiquiti SFP Wizard (UACC-SFP-Wizard) is a compact yet powerful field tool designed to instantly reprogram, test, and unlock universal compatibility for optical transceivers. Built for network engineers, integrators, and service providers, it allows you to copy optical module profiles, write new configurations, or restore original settings to Ubiquiti optical modules within seconds.",
+  "detailed_description": [
+    {
+      "heading": "Universal SFP Programmer",
+      "text": "The Ubiquiti SFP Wizard (UACC-SFP-Wizard) is a compact yet powerful field tool designed to instantly reprogram, test, and unlock universal compatibility for optical transceivers. Built for network engineers, integrators, and service providers, it allows you to copy optical module profiles, write new configurations, or restore original settings to Ubiquiti optical modules within seconds. Supporting SFP, SFP+, SFP28, QSFP+, and QSFP28 form factors, the device eliminates compatibility barriers and simplifies inventory management. Instead of stocking multiple vendor-specific modules, technicians can configure modules on demand directly at deployment sites. The built-in 1.9” touchscreen LCM display provides intuitive operation, while the single power button ensures quick startup in the field. Connectivity is handled via BLE (Bluetooth Low Energy), allowing seamless communication with the UniFi mobile application for extended control and firmware management."
+    },
+    {
+      "heading": "Real-Time Diagnostics",
+      "text": "The UACC-SFP-Wizard goes beyond programming — it delivers comprehensive real-time diagnostics for optical modules. Using Digital Diagnostic Monitoring (DDM), technicians can monitor critical transceiver parameters such as laser status and overall module health directly from the touchscreen interface or via the UniFi mobile app. The integrated rechargeable 3.7V DC, 300mAh Li-ion battery provides up to 75 minutes of continuous SFP diagnostics with laser enabled, or up to 35 minutes when testing QSFP transceivers. The device operates within an ambient temperature range of 0 to 40°C, ensuring reliable performance in standard enterprise and data center environments."
+    },
+    {
+      "heading": "Seamless Mobile Integration",
+      "text": "The Ubiquiti SFP Wizard integrates seamlessly with the UniFi mobile application (UniFi iOS™ version 10.29.1 and later / UniFi Android™ version 10.30.2 and later), enabling wireless control, firmware updates, and expanded diagnostics via BLE connectivity. With built-in over-the-air (OTA) update capability, the device ensures long-term adaptability and compatibility with new optical module profiles and firmware enhancements. Profile writing and restoration to Ubiquiti optical modules is completed instantly, minimizing service interruption and eliminating the need for return-to-lab procedures. The UACC-SFP-Wizard is an essential tool for network infrastructure specialists who demand speed, flexibility, and total control over optical transceivers."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Fiber Products",
+  "categories": [
+    "Ubiquiti",
+    "Fiber",
+    "SFP Modules",
+    "Fiber Products"
+  ],
+  "mpn": "UACC-SFP-Wizard",
+  "manufacturer_part_number": "UACC-SFP-Wizard",
+  "ean": "0810084699614",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7106/1-69947d40077bd-medium.jpg",
+        "alt": "Ubiquiti SFP Wizard",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7106/2-69947d4224a89-medium.jpg",
+        "alt": "Ubiquiti SFP Wizard",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7106/3-69947d44e0be4-medium.jpg",
+        "alt": "Ubiquiti SFP Wizard",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7106/4-69947d47802a4-medium.jpg",
+        "alt": "Ubiquiti SFP Wizard",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7106/5-69947d4adac5e-medium.jpg",
+        "alt": "Ubiquiti SFP Wizard",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7106/6-69947d4daff5c-medium.jpg",
+        "alt": "Ubiquiti SFP Wizard",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7106/7-69947d50e59c1-medium.jpg",
+        "alt": "Ubiquiti SFP Wizard",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7106/8-69947d54936b5-medium.jpg",
+        "alt": "Ubiquiti SFP Wizard",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7106/9-69947d572475d-medium.jpg",
+        "alt": "Ubiquiti SFP Wizard",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7106/10-69947d59e34dc-medium.jpg",
+        "alt": "Ubiquiti SFP Wizard",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - Ubiquiti SFP Wizard",
+        "url": "https://www.getic.com/files/catalogue/7106/unifisfpwizard_ds-69947d3bf0f16.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 70.35,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "USB Ports"
+      ],
+      "items": [
+        {
+          "name": "USB Ports",
+          "value": "(1) USB Type C"
+        }
+      ]
+    },
+    {
+      "technology": "Fiber Equipment",
+      "features": [
+        "SFP Type"
+      ],
+      "items": [
+        {
+          "name": "SFP Type",
+          "value": "SFP, SFP+, SFP28, QSFP+, QSFP28"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Max Power Consumption",
+        "Battery Type",
+        "Battery",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Max Power Consumption",
+          "value": "0.6 W"
+        },
+        {
+          "name": "Battery Type",
+          "value": "Li-Ion"
+        },
+        {
+          "name": "Battery",
+          "value": "300 mAh 3.7 V"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "5 V DC 0.5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti SFP Wizard",
+      "url": "https://www.getic.com/files/catalogue/7106/unifisfpwizard_ds-69947d3bf0f16.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "Trustpilot",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Alfa USB Adapter AWUS036ACHM",
+      "url": "/product/alfa-awus036achm",
+      "price": 32.42,
+      "currency": "USD",
+      "mpn": "AWUS036ACHM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Zyxel Nebula 5G Outdoor Router FWA710",
+      "url": "/product/zyxel-nebula-5g-outdoor-router-fwa710",
+      "price": 427.11,
+      "currency": "USD",
+      "mpn": "FWA710",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 PTZ White",
+      "url": "/product/ubiquiti-camera-g6-ptz-wt",
+      "price": 387.17,
+      "currency": "USD",
+      "mpn": "UVC-G6-PTZ-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Dahua 8MP WizSense Eyeball Camera IPC-HDW3841EM-AS Black",
+      "url": "/product/dahua-8mp-wizsense-eyeball-camera-ipc-hdw3841em-as-black",
+      "price": 171.29,
+      "currency": "USD",
+      "mpn": "IPC-HDW3841EM-AS-B",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

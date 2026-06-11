@@ -1,0 +1,351 @@
+{
+  "slug": "mikrotik-knot-embedded-lte4",
+  "id": "6930",
+  "productTitle": "Mikrotik KNOT Embedded LTE4",
+  "name": "Mikrotik KNOT Embedded LTE4",
+  "title": "Mikrotik KNOT Embedded LTE4",
+  "title_extended": "MikroTik KNOT LTE4 IoT Gateway – GPS, Bluetooth, LoRa Support",
+  "short_description": "Compact industrial gateway with LTE Cat4, dual SIM (Nano-SIM + eSIM), 1x Gigabit Ethernet port, PoE-in, 2x2 MIMO, external antenna support (LTE, GNSS, Bluetooth), GPIO header, GNSS (GPS, GLONASS, Galileo, BeiDou), RouterOS L3. Requires external antennas (not included).",
+  "description": "The MikroTik KNOT Embedded LTE4 (EC25-EU&KNe) is a compact industrial gateway designed for integrators, automation engineers, and IoT system builders who need reliable connectivity in constrained or embedded installations. Equipped with LTE Cat4 mobile connectivity, it supports high-quality cellular uplinks across a broad selection of LTE FDD and TDD bands used throughout Europe and many global regions. The device integrates a Gigabit Ethernet port for high-speed LAN connectivity and offers PoE-in support, simplifying power delivery through a single cable in cabinet, rack, or industrial automation systems. A key feature is its dual SIM system (Nano-SIM + eSIM), ensuring network redundancy and uninterrupted service in mission-critical deployments. The unit includes 2×2 MIMO LTE for enhanced radio performance and stable signal handling. Because it is designed for embedded and industrial projects, it is delivered without internal antennas and requires external LTE, GNSS, and Bluetooth antennas, offering installation flexibility and optimal RF performance inside metal cabinets, automation housings, or machinery. With solid build quality, small physical dimensions, and industrial mounting support, the KNOT Embedded LTE4 integrates seamlessly into compact automation panels, distributed control systems, small cabinets, and IoT edge nodes.",
+  "detailed_description": [
+    {
+      "heading": "Compact Industrial Gateway",
+      "text": "The MikroTik KNOT Embedded LTE4 (EC25-EU&KNe) is a compact industrial gateway designed for integrators, automation engineers, and IoT system builders who need reliable connectivity in constrained or embedded installations. Equipped with LTE Cat4 mobile connectivity, it supports high-quality cellular uplinks across a broad selection of LTE FDD and TDD bands used throughout Europe and many global regions. The device integrates a Gigabit Ethernet port for high-speed LAN connectivity and offers PoE-in support, simplifying power delivery through a single cable in cabinet, rack, or industrial automation systems. A key feature is its dual SIM system (Nano-SIM + eSIM), ensuring network redundancy and uninterrupted service in mission-critical deployments. The unit includes 2×2 MIMO LTE for enhanced radio performance and stable signal handling. Because it is designed for embedded and industrial projects, it is delivered without internal antennas and requires external LTE, GNSS, and Bluetooth antennas, offering installation flexibility and optimal RF performance inside metal cabinets, automation housings, or machinery. With solid build quality, small physical dimensions, and industrial mounting support, the KNOT Embedded LTE4 integrates seamlessly into compact automation panels, distributed control systems, small cabinets, and IoT edge nodes."
+    },
+    {
+      "heading": "Industrial Integration Tools",
+      "text": "Beyond basic networking, the KNOT Embedded LTE4 is engineered as a powerful IoT and telemetry node. Its built-in Bluetooth interface (BLE support) enables connection to low-power IoT sensors, asset tags, beacons, and environmental monitoring devices, simplifying wireless data collection in industrial and commercial environments. Integration with GNSS services is enabled through its onboard positioning system, supporting major standards such as GPS, GLONASS, Galileo, and BeiDou, making it suitable for tracking, time synchronization, and mobile installations. The device includes a sensor-ready GPIO header with digital input, analog input, and open-drain output, all 24V tolerant, allowing direct interfacing with switches, sensors, relays, counters, automation signals, and external controllers. Wireless communication is further improved by the flexible external antenna system, which ensures the strongest possible performance in electrically noisy or metallic environments. With built-in 2×2 MIMO, the LTE connection maintains robust throughput even under suboptimal signal conditions. Combined, these features allow the KNOT Embedded LTE4 to function as an IoT concentrator for warehouses, machinery, transport assets, factories, smart buildings, and industrial telemetry applications."
+    },
+    {
+      "heading": "Power & Mounting Options",
+      "text": "The KNOT Embedded LTE4 is built on the proven RouterOS operating system, giving system integrators extensive configuration possibilities, scripting options, tunneling protocols, firewall control, advanced routing, VPN support, and monitoring tools suitable for enterprise-grade automation workflows. Powering flexibility is ensured through its PoE-in capability and DC input options, providing compatibility with a wide range of industrial power systems. The device maintains low energy consumption compliant with embedded applications, allowing operation in small enclosures or energy-constrained environments. Its compact hardware is engineered for reliability, offering stable performance in installations exposed to electrical noise, vibration, or temperature variation, as typical in automation panels or manufacturing equipment. Since it supports external GNSS, LTE, and Bluetooth antennas, installers can position antennas for maximum signal quality without compromising electrical safety or enclosure integrity. The combination of lightweight hardware, minimal footprint, DIN rail compatibility, and software flexibility makes this gateway well-suited for applications such as industrial automation, remote equipment monitoring, backup connectivity, smart city nodes, sensor collection hubs, or LTE-based out-of-band management."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "4G Gateways",
+  "categories": [
+    "MikroTik",
+    "Mobile Network Products",
+    "4G Routers"
+  ],
+  "mpn": "EC25-EU&KNe",
+  "manufacturer_part_number": "EC25-EU&KNe",
+  "ean": "4752224009883",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6930/knot_embedded_lte4_1-6929af9d96fc4-medium.jpg",
+        "alt": "Mikrotik KNOT Embedded LTE4",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6930/knot_embedded_lte4_2-6929afa044793-medium.jpg",
+        "alt": "Mikrotik KNOT Embedded LTE4",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6930/knot_embedded_lte4_3-6929afa35cbca-medium.jpg",
+        "alt": "Mikrotik KNOT Embedded LTE4",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6930/knot_embedded_lte4_4-6929afa669c14-medium.jpg",
+        "alt": "Mikrotik KNOT Embedded LTE4",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+        {
+            "title": "Technical Specs / Datasheet - Mikrotik KNOT Embedded LTE4",
+            "url": "https://www.getic.com/files/catalogue/6930/knotembeddedlte4-6929af9987179.pdf"
+        }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 69.09,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "MIMO",
+        "LTE Category",
+        "FDD LTE Frequency Bands",
+        "TDD LTE Frequency Bands",
+        "SIM Card Slot"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "2G (GSM), 3G (UMTS), 4G (LTE)"
+        },
+        {
+          "name": "MIMO",
+          "value": "2x2"
+        },
+        {
+          "name": "LTE Category",
+          "value": "Cat4 - 150Mbps/50Mbps"
+        },
+        {
+          "name": "FDD LTE Frequency Bands",
+          "value": "1 (2100MHz), 3 (1800MHz), 7 (2600MHz), 8 (900MHz), 20 (800MHz), 28a (703-718MHz)"
+        },
+        {
+          "name": "TDD LTE Frequency Bands",
+          "value": "38 (2600MHz), 40 (2300MHz), 41 (2500MHz)"
+        },
+        {
+          "name": "SIM Card Slot",
+          "value": "Nano-SIM, eSIM"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "ARM 32-bit Cortex A7 up to 1.2 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "256 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "512 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Tracking",
+      "features": [
+        "GNSS"
+      ],
+      "items": [
+        {
+          "name": "GNSS",
+          "value": "GPS, GLONASS, BeiDou, Galileo"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "7 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "USB Type-C"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "5 V DC 0.8 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "90 x 70 x 22 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "DIN Rail"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 3"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Mikrotik KNOT Embedded LTE4",
+      "url": "https://www.getic.com/files/catalogue/6930/knotembeddedlte4-6929af9987179.pdf"
+    }
+  ],
+  "shipping": {
+    "options": []
+  },
+  "delivery_options": [
+    {
+      "class": "Pickup point",
+      "price": 15.67,
+      "currency": "USD",
+      "duration": "18 business days"
+    },
+    {
+      "class": "Standard",
+      "price": 31.63,
+      "currency": "USD",
+      "duration": "5 business days"
+    },
+    {
+      "class": "Express",
+      "price": 43.11,
+      "currency": "USD",
+      "duration": "2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "4G LTE 5dBi Indoor Omni Antenna",
+      "url": "/product/3g4g-lte-5dbi-indoor-omni-antenna",
+      "price": 7.46,
+      "currency": "USD",
+      "mpn": "JCG024",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik mANT LTE 5o",
+      "url": "/product/mant-lte-5o",
+      "price": 16.98,
+      "currency": "USD",
+      "mpn": "MTAO-LTE-5D-SQ",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik ACGPSA GPS Antenna with Cable 5m",
+      "url": "/product/mikrotik-acgpsa",
+      "price": 6.71,
+      "currency": "USD",
+      "mpn": "ACGPSA",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik LTE 5G and LoRa IoT Antenna",
+      "url": "/product/mikrotik-iot-antenna-for-lte-lora",
+      "price": 9.65,
+      "currency": "USD",
+      "mpn": "HGO-LTE-W",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

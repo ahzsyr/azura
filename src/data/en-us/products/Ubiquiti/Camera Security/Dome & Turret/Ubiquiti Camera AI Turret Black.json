@@ -1,0 +1,366 @@
+{
+  "slug": "ubiquiti-camera-ai-turret-black",
+  "id": "5375",
+  "productTitle": "Ubiquiti Camera AI Turret Black",
+  "name": "Ubiquiti Camera AI Turret Black",
+  "title": "Ubiquiti Camera AI Turret Black",
+  "title_extended": "Ubiquiti Camera AI Turret Black",
+  "short_description": "Buy Ubiquiti Camera AI Turret Black. Price from 381.22 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "description": "Buy Ubiquiti Camera AI Turret Black. Price from 381.22 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "High-Resolution Monitoring",
+      "text": "The Ubiquiti Camera AI Turret (UVC-AI-Turret) is an intelligent surveillance solution equipped with advanced AI-powered features to enhance security and monitoring. Featuring an 8 MP 3840 x 2160 (16:9) resolution and a 1/1.8\" 8MP sensor, this camera delivers high-resolution video with crisp detail and clear image quality. It supports AI-based object detection, classification, and tracking, allowing it to identify people, vehicles, and other objects with high accuracy. This advanced detection helps reduce false alarms and improves situational awareness, making the UVC-AI-Turret suitable for modern security systems in residential, commercial, and many industrial environments. Designed to integrate seamlessly with the UniFi Protect ecosystem, the UVC-AI-Turret offers intuitive management and monitoring. With UniFi Protect’s user-friendly interface, you can easily view live feeds, analyze recorded footage, and customize settings to meet your specific security requirements."
+    },
+    {
+      "heading": "Exceptional Performance",
+      "text": "Engineered with superior imaging technology, the UVC-AI-Turret excels in challenging lighting conditions. It supports night vision with its integrated infrared (IR) LEDs, offering visibility up to 15 meters in complete darkness. Additionally, its advanced Wide Dynamic Range (WDR) technology ensures balanced exposure in scenes with high contrast, enabling the camera to capture critical details even in backlit conditions or low light. Whether monitoring outdoor spaces at night or indoor areas with variable lighting, the AI Turret consistently provides high-quality video footage for reliable surveillance. The camera supports Power over Ethernet (PoE), simplifying installation by requiring only a single cable for both power and data. With scalable integration capabilities, the UVC-AI-Turret fits effortlessly into existing UniFi networks, providing a cutting-edge security solution for businesses and homes."
+    },
+    {
+      "heading": "Robust Design",
+      "text": "The UVC-AI-Turret features a compact, weatherproof, and vandal-resistant design, making it suitable for both indoor and outdoor installations. Its IP67-rated enclosure protects against dust and water, while its IK10-rated construction ensures resistance to impacts and tampering. The camera operates effectively in a wide temperature range of -30°C to 60°C (-22°F to 140°F), ensuring consistent performance in both freezing winters and scorching summers. The versatile mounting options and 3-axis adjustment make it easy to position the camera for optimal coverage. This robust design, combined with its advanced AI features, makes the AI Turret ideal for diverse applications, including storefronts, parking lots, offices, and industrial facilities."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Cameras",
+  "categories": [
+    "Cameras",
+    "Dome & Turret"
+  ],
+  "mpn": "UVC-AI-Turret-B",
+  "manufacturer_part_number": "UVC-AI-Turret-B",
+  "ean": "0810084698464",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5375/1-677bc134b126d-medium.jpg",
+        "alt": "Ubiquiti Camera AI Turret Black",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5375/2-677bc14153597-medium.jpg",
+        "alt": "Ubiquiti Camera AI Turret Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5375/3-677bc145cd3ff-medium.jpg",
+        "alt": "Ubiquiti Camera AI Turret Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5375/4-677bc149cfd2b-medium.jpg",
+        "alt": "Ubiquiti Camera AI Turret Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5375/5-677bc14eb56a8-medium.jpg",
+        "alt": "Ubiquiti Camera AI Turret Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5375/6-677bc15379433-medium.jpg",
+        "alt": "Ubiquiti Camera AI Turret Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5375/7-677bc15982609-medium.jpg",
+        "alt": "Ubiquiti Camera AI Turret Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5375/8-677bc165a41e6-medium.jpg",
+        "alt": "Ubiquiti Camera AI Turret Black",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/5375/uvcaiturretb_ds-677bc12bca8e4.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Camera AI Turret Black"
+      }
+    ],
+    "3d_model": true
+  },
+  "price": {
+    "value": 381.22,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Video",
+      "features": [
+        "Megapixels",
+        "Resolution",
+        "Maximum Frame Rate"
+      ],
+      "items": [
+        {
+          "name": "Megapixels",
+          "value": "8MP"
+        },
+        {
+          "name": "Resolution",
+          "value": "3840 х 2160"
+        },
+        {
+          "name": "Maximum Frame Rate",
+          "value": "30 FPS"
+        }
+      ]
+    },
+    {
+      "technology": "Audio",
+      "features": [
+        "Microphone",
+        "Speaker"
+      ],
+      "items": [
+        {
+          "name": "Microphone",
+          "value": "Build-in"
+        },
+        {
+          "name": "Speaker",
+          "value": "Build-in"
+        }
+      ]
+    },
+    {
+      "technology": "Video Camera",
+      "features": [
+        "Sensor",
+        "Lens",
+        "Night Mode",
+        "Viewing Angle"
+      ],
+      "items": [
+        {
+          "name": "Sensor",
+          "value": "1/1.8\" 8MP sensor"
+        },
+        {
+          "name": "Lens",
+          "value": "Fixed Focal Length"
+        },
+        {
+          "name": "Night Mode",
+          "value": "IR LED Illumination and IR Cut Filter, IR Range up to 40 m"
+        },
+        {
+          "name": "Viewing Angle",
+          "value": "109.9 ° (H) 56.7 ° (V)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-core Arm® Cortex®-A53 based chip"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3at PoE+"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "42.5 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "20 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Ingress Protection Code",
+        "Housing\tDurability",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP66"
+        },
+        {
+          "name": "Housing\tDurability",
+          "value": "Vandal-proof IK08-rated"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø118 x 111 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.99 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Ceilling Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Camera AI Turret Black",
+      "url": "https://www.getic.com/files/catalogue/5375/uvcaiturretb_ds-677bc12bca8e4.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 25.88
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 34.76
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.91
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Protect Viewport",
+      "url": "/product/unifi-protect-viewport",
+      "price": 204.90,
+      "currency": "USD",
+      "mpn": "UP-Viewport",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Network Video Recorder",
+      "url": "/product/unifi-protect-network-video-recorder",
+      "price": 303.78,
+      "currency": "USD",
+      "mpn": "UNVR",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Special Edition",
+      "url": "/product/ubiquiti-unifi-dream-machine-special-edition",
+      "price": 512.64,
+      "currency": "USD",
+      "mpn": "UDM-SE",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro HD 24 PoE",
+      "url": "/product/ubiquiti-unifi-switch-pro-hd-24-poe",
+      "price": 1004.20,
+      "currency": "USD",
+      "mpn": "USW-Pro-HD-24-PoE",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": "6"
+}

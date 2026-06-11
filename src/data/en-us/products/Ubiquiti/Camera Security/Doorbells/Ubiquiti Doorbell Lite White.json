@@ -1,0 +1,327 @@
+{
+  "slug": "ubiquiti-doorbell-lite-white",
+  "id": "UVC-Doorbell-Lite-W",
+  "productTitle": "Ubiquiti Doorbell Lite White",
+  "name": "Ubiquiti Doorbell Lite White",
+  "title": "Ubiquiti Doorbell Lite White",
+  "title_extended": "Ubiquiti Doorbell Lite White",
+  "short_description": "",
+  "description": "The UniFi Doorbell Lite delivers detailed 5-megapixel video using a 1/2.7\" image sensor and a fixed-focus 4:3 optical setup that outputs up to 1920 × 2560 resolution. Its wide field of view captures entrances effectively (95.8° horizontal, 131.2° vertical and 175.9° diagonal), so a single unit covers a typical doorway and surrounding approach. For low-light conditions, the doorbell uses an IR-cut filter plus built-in IR LEDs to provide night vision up to 5 meters, preserving recognizable detail after dark. The doorbell also features built-in two-way audio through an onboard microphone and speaker, allowing seamless communication with visitors via UniFi Protect. The camera uses a progressive scan design to reduce motion artifacts and preserve clarity when subjects approach the door. These characteristics make the Doorbell Lite a dependable, day-and-night entry-monitoring solution for both residential and light commercial environments.",
+  "detailed_description": [
+    {
+      "heading": "Clear Video & Audio",
+      "text": "The UniFi Doorbell Lite delivers detailed 5-megapixel video using a 1/2.7\" image sensor and a fixed-focus 4:3 optical setup that outputs up to 1920 × 2560 resolution. Its wide field of view captures entrances effectively (95.8° horizontal, 131.2° vertical and 175.9° diagonal), so a single unit covers a typical doorway and surrounding approach. For low-light conditions, the doorbell uses an IR-cut filter plus built-in IR LEDs to provide night vision up to 5 meters, preserving recognizable detail after dark. The doorbell also features built-in two-way audio through an onboard microphone and speaker, allowing seamless communication with visitors via UniFi Protect. The camera uses a progressive scan design to reduce motion artifacts and preserve clarity when subjects approach the door. These characteristics make the Doorbell Lite a dependable, day-and-night entry-monitoring solution for both residential and light commercial environments."
+    },
+    {
+      "heading": "Power & Connectivity",
+      "text": "The Doorbell Lite is powered via PoE and supports a voltage range of 37–57 V DC, with a maximum power draw of up to 8 W. A single Ethernet cable provides both power and data, simplifying installation and eliminating the need for an external power supply. The network interface is 10/100 MbE for stable, wired Ethernet connectivity. The weather-resistant enclosure carries an IPX5 rating, protecting the unit from water jets and outdoor exposure when mounted as recommended. The housing combines polycarbonate and metal for durability and thermal performance. The sturdy design and the device’s operational power ensure continuous operation within the specified ambient range. For integration, the Doorbell Lite operates natively within the UniFi Protect ecosystem for live view, recording, alerting and centralized management through UniFi software and mobile apps."
+    },
+    {
+      "heading": "Installation & Integration",
+      "text": "Installation is straightforward and supplied with standard mounting hardware: a wall mount and a 20° wedge for angled placements. The compact footprint (137 × 40 × 26.4 mm) and light weight (approximately 142 g) allow unobtrusive wall, door-frame or junction-box mounting while keeping a professional finish. The mechanical design accommodates common mounting patterns and hides network cabling behind the bracket for a tidy installation. The unit is intended for outdoor use, where IPX5 protection and the recommended mounting accessories provide reliable operation in exposed environments. In the UniFi Protect environment, the Doorbell Lite supports device provisioning, live monitoring, motion-based alerting and firmware updates from the controller or cloud manager, enabling centralized configuration and event management across multiple devices. The combination of compact physical design, PoE power and UniFi integration makes this doorbell a practical choice for homes and small businesses seeking a modern, managed entry camera."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Doorbells"
+  ],
+  "mpn": "UVC-Doorbell-Lite-W",
+  "manufacturer_part_number": "UVC-Doorbell-Lite-W",
+  "ean": "0810177161950",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6916/1-69244db9c0b65-medium.jpg",
+        "alt": "Ubiquiti Doorbell Lite White",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6916/3-69244dbc565d5-medium.jpg",
+        "alt": "Ubiquiti Doorbell Lite White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6916/4-69244dbf6b1f1-medium.jpg",
+        "alt": "Ubiquiti Doorbell Lite White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6916/5-69244dc280463-medium.jpg",
+        "alt": "Ubiquiti Doorbell Lite White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6916/6-69244dc5694ec-medium.jpg",
+        "alt": "Ubiquiti Doorbell Lite White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6916/7-69244dc8588c4-medium.jpg",
+        "alt": "Ubiquiti Doorbell Lite White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6916/8-69244dcb60958-medium.jpg",
+        "alt": "Ubiquiti Doorbell Lite White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6916/9-69244dd045f79-medium.jpg",
+        "alt": "Ubiquiti Doorbell Lite White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6916/10-69244dd45e7e2-medium.jpg",
+        "alt": "Ubiquiti Doorbell Lite White",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 96.5,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Color",
+      "options": [
+        "Black",
+        "White"
+      ],
+      "default": "White"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Video",
+      "features": [
+        "Megapixels",
+        "Resolution",
+        "Maximum Frame Rate"
+      ],
+      "items": [
+        {
+          "name": "Megapixels",
+          "value": "5MP"
+        },
+        {
+          "name": "Resolution",
+          "value": "1920 x 2560 (3:4)"
+        },
+        {
+          "name": "Maximum Frame Rate",
+          "value": "24 FPS"
+        }
+      ]
+    },
+    {
+      "technology": "Video Camera",
+      "features": [
+        "Sensor",
+        "Lens",
+        "Night Mode",
+        "Viewing Angle"
+      ],
+      "items": [
+        {
+          "name": "Sensor",
+          "value": "5 MP 1/2.7\" CMOS"
+        },
+        {
+          "name": "Lens",
+          "value": "Fixed Focal Length"
+        },
+        {
+          "name": "Night Mode",
+          "value": "IR LED Illumination and IR Cut Filter, IR Range up to 5 m"
+        },
+        {
+          "name": "Viewing Angle",
+          "value": "95.8 ° (H) 131.2 ° (V)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 100 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "37 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "8 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Metal, Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX5"
+        },
+        {
+          "name": "Dimensions",
+          "value": "137 x 40 x 26.4 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.142 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 50 °C"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Doorbell Lite White",
+      "url": "https://www.getic.com/files/catalogue/6916/unifidoorbelllite_ds-69244db536ad3.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Network Video Recorder",
+      "url": "/product/unifi-protect-network-video-recorder",
+      "price": 303.78,
+      "currency": "USD",
+      "mpn": "UNVR",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Protect Floodlight",
+      "url": "/product/unifi-protect-smart-flood-light",
+      "price": 108.17,
+      "currency": "USD",
+      "mpn": "UP-FloodLight",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti PoE Smart Chime",
+      "url": "/product/ubiquiti-poe-smart-chime",
+      "price": 83.85,
+      "currency": "USD",
+      "mpn": "UACC-Chime-PoE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex 8 PoE 2.5G",
+      "url": "/product/ubiquiti-unifi-8-port-poe-switch-flex-2-5g",
+      "price": 210.86,
+      "currency": "USD",
+      "mpn": "USW-Flex-2.5G-8-PoE",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

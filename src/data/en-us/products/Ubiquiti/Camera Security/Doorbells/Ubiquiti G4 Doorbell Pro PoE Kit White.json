@@ -1,0 +1,316 @@
+{
+  "slug": "g4-doorbell-professional-poe-kit-white",
+  "id": "UVC-G4-DoorBell-Pro-Poe-Kit-White",
+  "productTitle": "Ubiquiti G4 Doorbell Pro PoE Kit White",
+  "name": "Ubiquiti G4 Doorbell Pro PoE Kit White",
+  "title": "Ubiquiti G4 Doorbell Pro PoE Kit White",
+  "title_extended": "Ubiquiti G4 Doorbell Pro PoE Kit White",
+  "short_description": "",
+  "description": "The G4 Doorbell Professional PoE Kit from Ubiquiti is a comprehensive solution designed to enhance the installation and performance of the G4 Doorbell Professional by providing Power over Ethernet (PoE) capabilities. This kit is tailored for users who seek a reliable, high-performance power and data connection for their video doorbell system, leveraging the advanced technology and quality Ubiquiti is known for.",
+  "detailed_description": [
+    {
+      "heading": "Professional UniFi Doorbell kit",
+      "text": "The G4 Doorbell Professional PoE Kit from Ubiquiti is a comprehensive solution designed to enhance the installation and performance of the G4 Doorbell Professional by providing Power over Ethernet (PoE) capabilities. This kit is tailored for users who seek a reliable, high-performance power and data connection for their video doorbell system, leveraging the advanced technology and quality Ubiquiti is known for."
+    },
+    {
+      "heading": "Key Features:",
+      "text": "Improved HDR and low-light performance\nConnect and power using PoE\nProgrammable welcome display and secondary package-detection camera\n6 m (20 ft) IR night vision\nAI event detections\nWeather-resistant (outdoor covered)\nIntegrated 2-way audio"
+    },
+    {
+      "heading": null,
+      "text": "At the heart of this kit a doorbell high-definition video camera (a primary 5MP camera and a secondary 8MP package camera sensors) the G4 Doorbell Pro delivers crisp, clear video footage, capturing fine details with precision. This camera is enhanced with night vision capabilities, ensuring continuous monitoring and security around the clock. The device also incorporates advanced features such as motion detection and smart person recognition, enabling users to receive alerts and notifications directly on their smart devices whenever someone approaches their door, thereby enhancing security and convenience."
+    },
+    {
+      "heading": null,
+      "text": "The G4 Doorbell Professional PoE Kit is constructed with durability and reliability in mind. The components are housed in robust materials that can withstand various environmental conditions, weatherproof IPX4-rated enclosure ensuring long-lasting performance whether installed indoors or outdoors. This resilience is crucial for maintaining the integrity of the connection and ensuring that the doorbell remains operational in all weather conditions."
+    },
+    {
+      "heading": null,
+      "text": "Installation of the kit is straightforward, making it accessible for both professionals and DIY enthusiasts. The kit includes all necessary mounting hardware and a detailed instruction manual, guiding users through each step of the setup process. This ease of installation, combined with the comprehensive nature of the kit, makes it a convenient option for enhancing the G4 Doorbell Professional's connectivity and power supply."
+    },
+    {
+      "heading": null,
+      "text": "The PoE capability introduced by this kit not only simplifies the installation process but also enhances the overall performance of the G4 Doorbell Professional. By providing a stable and reliable power source, the doorbell can operate more efficiently, ensuring high-quality video and audio transmission without interruptions. The Ethernet connection also offers a higher data transfer rate compared to traditional Wi-Fi connections, which is beneficial for streaming high-definition video and facilitating faster communication between the doorbell and the network."
+    },
+    {
+      "heading": null,
+      "text": "Furthermore, the G4 Doorbell Professional PoE Kit is designed to seamlessly integrate with the broader Ubiquiti ecosystem, including the UniFi Protect app. This integration allows users to easily manage and monitor their doorbell alongside other Ubiquiti security devices, offering a unified security solution that can be controlled from a single interface."
+    },
+    {
+      "heading": null,
+      "text": "G4 Doorbell Professional PoE Kit from Ubiquiti is an essential accessory for users looking to maximize the performance and reliability of their entrance. Offering a simplified installation process, durable construction, and enhanced network performance, this kit provides a comprehensive solution for powering and connecting the doorbell in a variety of networking environments. Its compatibility with the UniFi Protect system further enhances its value, making it an ideal choice for users seeking a cohesive and efficient security setup."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Doorbells"
+  ],
+  "mpn": "UVC-G4-DoorBell-Pro-Poe-Kit-White",
+  "manufacturer_part_number": "UVC-G4-DoorBell-Pro-Poe-Kit-White",
+  "ean": "0810084692660",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4631/1-6566f5c86ffc7-medium.jpg",
+        "alt": "Ubiquiti G4 Doorbell Pro PoE Kit White",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 381.22,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Color",
+      "options": [
+        "Black",
+        "White"
+      ],
+      "default": "White"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Video",
+      "features": [
+        "Resolution",
+        "Maximum Frame Rate",
+        "Video Compression"
+      ],
+      "items": [
+        {
+          "name": "Resolution",
+          "value": "1600 × 1200"
+        },
+        {
+          "name": "Maximum Frame Rate",
+          "value": "30 FPS"
+        },
+        {
+          "name": "Video Compression",
+          "value": "H.264"
+        }
+      ]
+    },
+    {
+      "technology": "Audio",
+      "features": [
+        "Microphone",
+        "Speaker"
+      ],
+      "items": [
+        {
+          "name": "Microphone",
+          "value": "Build-in"
+        },
+        {
+          "name": "Speaker",
+          "value": "Build-in"
+        }
+      ]
+    },
+    {
+      "technology": "Video Camera",
+      "features": [
+        "Sensor",
+        "Lens",
+        "Night Mode",
+        "Viewing Angle"
+      ],
+      "items": [
+        {
+          "name": "Sensor",
+          "value": "5 MP CMOS Sensor"
+        },
+        {
+          "name": "Lens",
+          "value": "Fixed Focal Length"
+        },
+        {
+          "name": "Night Mode",
+          "value": "IR LED Illumination and IR Cut Filter"
+        },
+        {
+          "name": "Viewing Angle",
+          "value": "138 ° (H) 114 ° (V)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "48V Passive PoE"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "37 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "7 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX4"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 40 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti G4 Doorbell Pro PoE Kit White",
+      "url": "https://www.getic.com/files/catalogue/4631/g4doorbellprofessionalpoekit_ds-6566f5c23578f.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 0,
+      "great": 100,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Zenon",
+        "date": "2025-10-26T15:58:31+02:00",
+        "text": "It is a very good product.  Picks up motion and notifies me very well.  Setting up the zone was easy and avoids unnecessary alerts.  Only thing is I wish the speaker was louder because it's very quiet and the person at the door must come very close the be able to hear my voice.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Protect Viewport",
+      "url": "/product/unifi-protect-viewport",
+      "price": 204.9,
+      "currency": "USD",
+      "mpn": "UP-Viewport",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Special Edition",
+      "url": "/product/ubiquiti-unifi-dream-machine-special-edition",
+      "price": 512.64,
+      "currency": "USD",
+      "mpn": "UDM-SE",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti WiFi Smart Chime",
+      "url": "/product/unifi-protect-smart-chime",
+      "price": 67.82,
+      "currency": "USD",
+      "mpn": "UP-Chime",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti G4 Doorbell Pro PoE Gang Box White",
+      "url": "/product/g4-doorbell-pro-poe-gang-box-white",
+      "price": 47.55,
+      "currency": "USD",
+      "mpn": "UACC-G4 Doorbell Pro PoE-Gang Box-White",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

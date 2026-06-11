@@ -1,0 +1,257 @@
+{
+  "slug": "ubiquiti-poe-adapter-for-protect-wifi-cameras",
+  "id": "4341",
+  "productTitle": "Ubiquiti PoE to USB-C Adapter",
+  "name": "Ubiquiti PoE to USB-C Adapter",
+  "title": "Ubiquiti PoE to USB-C Adapter",
+  "title_extended": "Ubiquiti PoE to USB-C Adapter",
+  "short_description": "PoE Adapter for WiFi Protect cameras",
+  "description": "PoE Adapter for WiFi Protect cameras",
+  "detailed_description": [
+    {
+      "heading": "PoE to USB-C Power",
+      "text": "The Ubiquiti PoE to USB-C Adapter from Ubiquiti is a versatile solution designed to deliver both power and connectivity to USB-C devices using a single Ethernet cable. It is ideal for professional installations where reliability, simplified cabling, and centralized power management are essential. The adapter features one Gigabit Ethernet (GbE) PoE input and one USB-C output, allowing compatible USB-C devices to be powered directly from a PoE-enabled network switch or injector. This design eliminates the need for local power adapters and makes deployment cleaner and more efficient."
+    },
+    {
+      "heading": "PoE to USB-C Power",
+      "text": "When paired with the appropriate PoE to USB-C cables (sold separately), the adapter can transform compatible Protect WiFi cameras into fully wired PoE devices, enabling stable operation and centralized power delivery. It can also provide Gigabit Ethernet connectivity to USB-C devices, such as notebooks or other supported hardware, combining data and power in a compact form factor. Network performance over USB-C depends on the maximum data transfer rate supported by the connected USB-C cable, offering flexibility for different deployment scenarios. This makes the adapter suitable not only for camera installations but also for professional workspaces requiring PoE-powered USB-C connectivity."
+    },
+    {
+      "heading": "Reliable Industrial Design",
+      "text": "The Ubiquiti PoE to USB-C Adapter is engineered for long-term reliability in professional environments. Its enclosure is made from durable polycarbonate, providing strong mechanical protection while maintaining a compact and lightweight profile suitable for discreet installations. Power is supplied exclusively via PoE, with an input rating of 48V DC at 0.25A, ensuring compatibility with standard PoE infrastructure. The adapter delivers a stable 5V DC output at up to 2A, optimized for USB-C devices that require consistent and regulated power."
+    },
+    {
+      "heading": "Reliable Industrial Design",
+      "text": "For enhanced protection in electrically demanding environments, the adapter includes ESD and EMP protection, rated at ±8 kV air discharge and ±4 kV contact discharge. This helps safeguard connected equipment from electrostatic interference and power anomalies. The device operates reliably within an ambient temperature range of –10°C to +40°C, making it suitable for indoor and controlled outdoor installations. It is fully NDAA compliant and certified to CE, FCC, and IC standards, meeting international regulatory requirements for commercial and enterprise deployments. With a dedicated Gigabit RJ45 data port, professional-grade electrical protection, and certified compliance, the adapter is a dependable component for modern PoE-based USB-C installations."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Electrical Equipment",
+  "categories": [
+    "Electrical Equipment",
+    "Accessories"
+  ],
+  "mpn": "UACC-Adapter-PoE-USBC",
+  "manufacturer_part_number": "UACC-Adapter-PoE-USBC",
+  "ean": "0810084690161",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4341/1-6439557aa61c0-medium.jpg",
+        "alt": "Ubiquiti PoE to USB-C Adapter",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4341/2-6439557dea484-medium.jpg",
+        "alt": "Ubiquiti PoE to USB-C Adapter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4341/3-64395580f3453-medium.jpg",
+        "alt": "Ubiquiti PoE to USB-C Adapter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4341/4-643955842f6d2-medium.jpg",
+        "alt": "Ubiquiti PoE to USB-C Adapter",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 54.26,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "USB Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB Type C"
+        }
+      ]
+    },
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "2 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "5 V DC"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø30.4 x 95 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.085 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti PoE to USB-C Adapter",
+      "url": "https://www.getic.com/files/catalogue/4341/uaccadapterpoeusbc_ds-643954e127946.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Pro 24 PoE",
+      "url": "/product/usw-pro-24-poe-gen-2",
+      "price": 702.24,
+      "currency": "USD",
+      "mpn": "USW-Pro-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Protect Floodlight",
+      "url": "/product/unifi-protect-smart-flood-light",
+      "price": 108.17,
+      "currency": "USD",
+      "mpn": "UP-FloodLight",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti G4 Instant PoE-to-USB Cable 4.5m",
+      "url": "/product/usb-cable-for-g4-instant-camera-4-5m",
+      "price": 23.09,
+      "currency": "USD",
+      "mpn": "UACC-G4-INS-Cable-USB-4.5M",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Instant",
+      "url": "/product/ubiquiti-camera-g6-instant",
+      "price": 178.80,
+      "currency": "USD",
+      "mpn": "UVC-G6-INS-W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

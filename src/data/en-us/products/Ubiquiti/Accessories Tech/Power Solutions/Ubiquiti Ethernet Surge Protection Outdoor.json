@@ -1,0 +1,286 @@
+{
+  "slug": "ubiquiti-ethernet-surge-protection-outdoor",
+  "id": "ubiquiti-ethernet-surge-protection-outdoor",
+  "productTitle": "Ubiquiti Ethernet Surge Protection Outdoor",
+  "name": "Ubiquiti Ethernet Surge Protection Outdoor",
+  "title": "Ubiquiti Ethernet Surge Protection Outdoor",
+  "title_extended": "Ubiquiti Ethernet Surge Protection Outdoor",
+  "short_description": "The Ubiquiti Ethernet Surge Protection Outdoor (UACC-ETH-SP-Pro) is designed to protect outdoor Ethernet equipment from electrical surges caused by lightning strikes, electrostatic discharge, and transient overvoltage events.",
+  "description": "The Ubiquiti Ethernet Surge Protection Outdoor (UACC-ETH-SP-Pro) is designed to protect outdoor Ethernet equipment from electrical surges caused by lightning strikes, electrostatic discharge, and transient overvoltage events. Outdoor network deployments are especially vulnerable to these risks, and even short electrical spikes can permanently damage connected devices. This surge protector acts as a critical defensive layer between outdoor cabling and sensitive network hardware. The device is intended for use with outdoor access points, wireless bridges, cameras, and other Ethernet-based equipment installed on rooftops, poles, or exterior walls. By diverting excessive electrical energy away from connected devices, it helps prevent costly failures, downtime, and replacement expenses. Protection is applied directly to Ethernet data lines, ensuring network continuity without impacting normal operation. Designed for modern networks, the UACC-ETH-SP-Pro supports high-speed Ethernet connections and Power over Ethernet, making it suitable for both data-only and PoE-powered installations. Its passive design allows it to be inserted inline without configuration or software, providing immediate protection once installed. For any outdoor Ethernet deployment where reliability and equipment safety are priorities, this device is a practical and essential component.",
+  "detailed_description": [
+    {
+      "heading": "Reliable Surge Protection",
+      "text": "The Ubiquiti Ethernet Surge Protection Outdoor (UACC-ETH-SP-Pro) is designed to protect outdoor Ethernet equipment from electrical surges caused by lightning strikes, electrostatic discharge, and transient overvoltage events. Outdoor network deployments are especially vulnerable to these risks, and even short electrical spikes can permanently damage connected devices. This surge protector acts as a critical defensive layer between outdoor cabling and sensitive network hardware. The device is intended for use with outdoor access points, wireless bridges, cameras, and other Ethernet-based equipment installed on rooftops, poles, or exterior walls.\n\nBy diverting excessive electrical energy away from connected devices, it helps prevent costly failures, downtime, and replacement expenses. Protection is applied directly to Ethernet data lines, ensuring network continuity without impacting normal operation. Designed for modern networks, the UACC-ETH-SP-Pro supports high-speed Ethernet connections and Power over Ethernet, making it suitable for both data-only and PoE-powered installations. Its passive design allows it to be inserted inline without configuration or software, providing immediate protection once installed. For any outdoor Ethernet deployment where reliability and equipment safety are priorities, this device is a practical and essential component."
+    },
+    {
+      "heading": "Engineered for Electrical Safety",
+      "text": "The UACC-ETH-SP-Pro is engineered to deliver strong electrical protection while maintaining signal integrity for high-speed Ethernet connections. It is capable of handling extreme surge events by absorbing and redirecting transient currents before they reach connected equipment. This makes it suitable for environments with frequent electrical disturbances or exposed cabling. Protection is applied symmetrically across Ethernet pairs, ensuring that data transmission remains stable even during surge conditions. The device is compatible with modern high-bandwidth networks, allowing Ethernet links to operate at full performance without added latency or signal degradation.\n\nThis is especially important for applications such as video surveillance, wireless backhaul, and enterprise networking, where data quality is critical. The internal design minimizes electrical capacitance on the data lines, which helps preserve clean signal transmission at higher speeds. At the same time, insulation characteristics ensure strong electrical isolation under normal operating conditions. Together, these characteristics allow the surge protector to remain electrically transparent during everyday operation while reacting instantly to abnormal voltage events. This balance between protection and performance makes the UACC-ETH-SP-Pro suitable for professional outdoor networking environments."
+    },
+    {
+      "heading": "Weather-Resistant Design",
+      "text": "The UACC-ETH-SP-Pro features a compact, lightweight enclosure designed for outdoor installation in exposed environments. Its weather-resistant housing protects internal components from rain and moisture, allowing it to be deployed on poles, walls, or within outdoor network enclosures. The durable polycarbonate construction ensures long-term reliability even under constant environmental stress. Installation is straightforward and requires no special tools or configuration. Two passive RJ45 ports allow the device to be placed inline between the outdoor Ethernet cable and the protected device.\n\nThis simplicity reduces installation time and minimizes the risk of wiring errors, making it suitable for both new deployments and retrofits of existing outdoor networks. The surge protector is designed to operate across a wide range of temperatures and humidity levels, ensuring consistent performance in different climates. Compliance with recognized shock and vibration standards further confirms its suitability for demanding outdoor and industrial installations. With its combination of durability, ease of use, and professional-grade protection, the UACC-ETH-SP-Pro is a reliable solution for safeguarding outdoor Ethernet infrastructure."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Surge Protectors",
+  "categories": [
+    "Surge Protectors",
+    "Ubiquiti"
+  ],
+  "mpn": "UACC-ETH-SP-Pro",
+  "manufacturer_part_number": "UACC-ETH-SP-Pro",
+  "ean": "0810177161837",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7048/1-6973721358a89-medium.jpg",
+        "alt": "Ubiquiti Ethernet Surge Protection Outdoor",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7048/2-697372164c9e3-medium.jpg",
+        "alt": "Ubiquiti Ethernet Surge Protection Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7048/3-6973721968ca3-medium.jpg",
+        "alt": "Ubiquiti Ethernet Surge Protection Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7048/4-6973721c04114-medium.jpg",
+        "alt": "Ubiquiti Ethernet Surge Protection Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7048/5-6973721f2b353-medium.jpg",
+        "alt": "Ubiquiti Ethernet Surge Protection Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7048/6-69737222501fb-medium.jpg",
+        "alt": "Ubiquiti Ethernet Surge Protection Outdoor",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7048/7-6973722647b40-medium.jpg",
+        "alt": "Ubiquiti Ethernet Surge Protection Outdoor",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7048/1-6973721358a89-tiny.jpg",
+        "alt": "Ubiquiti Ethernet Surge Protection Outdoor"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7048/2-697372164c9e3-tiny.jpg",
+        "alt": "Ubiquiti Ethernet Surge Protection Outdoor"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7048/3-6973721968ca3-tiny.jpg",
+        "alt": "Ubiquiti Ethernet Surge Protection Outdoor"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7048/4-6973721c04114-tiny.jpg",
+        "alt": "Ubiquiti Ethernet Surge Protection Outdoor"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7048/5-6973721f2b353-tiny.jpg",
+        "alt": "Ubiquiti Ethernet Surge Protection Outdoor"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7048/6-69737222501fb-tiny.jpg",
+        "alt": "Ubiquiti Ethernet Surge Protection Outdoor"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7048/7-6973722647b40-tiny.jpg",
+        "alt": "Ubiquiti Ethernet Surge Protection Outdoor"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - Ubiquiti Ethernet Surge Protection Outdoor",
+        "url": "https://www.getic.com/files/catalogue/7048/uaccethsppro_ds-6973720e367c7.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 19.02,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 10 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE)"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX5"
+        },
+        {
+          "name": "Dimensions",
+          "value": "91 x 61 x 32.5 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.095 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 65 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Ethernet Surge Protection Outdoor",
+      "url": "https://www.getic.com/files/catalogue/7048/uaccethsppro_ds-6973720e367c7.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "currency": "USD",
+        "days": 18
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "currency": "USD",
+        "days": 5
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "currency": "USD",
+        "days": 2
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Dream Machine Special Edition",
+      "url": "/product/ubiquiti-unifi-dream-machine-special-edition",
+      "price": 512.64,
+      "currency": "USD",
+      "mpn": "UDM-SE",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Pro Max 24 PoE",
+      "url": "/product/switch-professional-max-24-poe",
+      "price": 798.21,
+      "currency": "USD",
+      "mpn": "USW-Pro-Max-24-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex 8 PoE 2.5G",
+      "url": "/product/ubiquiti-unifi-8-port-poe-switch-flex-2-5g",
+      "price": 210.86,
+      "currency": "USD",
+      "mpn": "USW-Flex-2.5G-8-PoE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro XG White",
+      "url": "/product/ubiquiti-unifi-u7-pro-xg",
+      "price": 201.31,
+      "currency": "USD",
+      "mpn": "U7-Pro-XG",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    "Ubiquiti Elite Distributor"
+  ],
+  "stock_stat": ""
+}

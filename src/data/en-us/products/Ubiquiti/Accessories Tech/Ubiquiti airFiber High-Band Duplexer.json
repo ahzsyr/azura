@@ -1,0 +1,180 @@
+{
+  "slug": "airfiber-11-high-band-duplexer",
+  "id": 1407,
+  "productTitle": "Ubiquiti airFiber High-Band Duplexer",
+  "name": "Ubiquiti airFiber High-Band Duplexer",
+  "title": "Ubiquiti airFiber High-Band Duplexer",
+  "title_extended": "",
+  "short_description": "Low Channel 10.940-11.200GHz, High Channel 11.440-11.700GHz",
+  "description": "Buy Ubiquiti airFiber High-Band Duplexer. Price from 181.08 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": null,
+      "text": "The AirFiber 11 High Band Duplexer, carrying the manufacture part number AF-11-DUP-H, is a specialized component engineered by Ubiquiti Networks. This product is meticulously designed to augment the capabilities of Ubiquiti's AirFiber 11 series, a lineup renowned for its exceptional performance in wireless backhaul applications. Ubiquiti Networks, a leading innovator in the field of high-performance networking technology, introduces the AF-11-DUP-H as a solution aimed at enhancing the operational flexibility and efficiency of the AirFiber 11 radio systems, specifically tailored for use in high-frequency bands."
+    },
+    {
+      "heading": null,
+      "text": "The AF-11-DUP-H duplexer serves a critical function in the realm of wireless communication by enabling simultaneous transmission and reception of radio signals through a single antenna, effectively doubling the efficiency of the frequency usage. This capability is crucial for point-to-point (PtP) links that require high capacity and reliability over long distances, making it an indispensable tool for service providers, enterprise networks, and critical infrastructure communications."
+    },
+    {
+      "heading": null,
+      "text": "Constructed with precision and utilizing high-quality materials, the AF-11-DUP-H is designed to withstand the rigors of outdoor deployment. Its robust build ensures durability and longevity, offering resistance to environmental challenges such as extreme weather conditions, corrosion, and UV exposure. This resilience is vital for maintaining the integrity and performance of the AirFiber 11 radio systems in various deployment scenarios, from urban rooftops to remote locations."
+    },
+    {
+      "heading": null,
+      "text": "One of the key features of the AF-11-DUP-H is its high-band operation. It is specifically optimized for the upper portion of the 11 GHz spectrum, where it can leverage the cleaner and less congested frequency bands to deliver superior performance. This focus on the high band allows for enhanced signal clarity, reduced interference, and improved link stability, which are essential for achieving the gigabit throughput and low-latency communication that the AirFiber 11 series promises."
+    },
+    {
+      "heading": null,
+      "text": "The integration of the AF-11-DUP-H with the AirFiber 11 radio systems is seamless, designed to ensure ease of installation and compatibility. It attaches directly to the radio unit, requiring no additional tools or complex procedures, thereby simplifying the setup process and reducing deployment time. This ease of use is aligned with Ubiquiti's commitment to providing accessible, high-performance networking solutions that can be deployed efficiently across a wide range of environments."
+    },
+    {
+      "heading": null,
+      "text": "Furthermore, the AF-11-DUP-H includes features designed to optimize the performance of the AirFiber 11 series. These include precise filtering to minimize out-of-band noise and interference, as well as the ability to handle high power levels, ensuring reliable operation even under demanding conditions. This meticulous attention to detail ensures that the AirFiber 11 radio systems can deliver unparalleled performance, meeting the needs of the most bandwidth-intensive applications."
+    },
+    {
+      "heading": null,
+      "text": "AirFiber 11 High Band Duplexer, model AF-11-DUP-H, exemplifies Ubiquiti Networks' dedication to advancing wireless networking technology. By providing a robust, high-performance solution for frequency duplexing in the high band of the 11 GHz spectrum, this product enhances the capabilities of the AirFiber 11 series, enabling service providers and network operators to achieve more efficient, reliable, and high-capacity wireless backhaul connections. The AF-11-DUP-H is a testament to Ubiquiti's commitment to innovation, quality, and user accessibility, making it an essential component for any deployment aiming to leverage the advanced capabilities of the AirFiber 11 radio systems."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Carrier Backhaul Radio",
+  "categories": [
+    "Ubiquiti",
+    "Accessory Tech",
+    "Other"
+  ],
+  "mpn": "AF-11-DUP-H",
+  "manufacturer_part_number": "AF-11-DUP-H",
+  "ean": "0810354026539",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1407/af11duph-602faa7e19b8c-medium.jpg",
+        "alt": "Ubiquiti airFiber High-Band Duplexer front view",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1407/af11duph-602faa7e19b8c-tiny.jpg",
+        "alt": "Ubiquiti airFiber High-Band Duplexer front view"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 181.08,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airFiber High-Band Duplexer",
+      "url": "https://www.getic.com/files/catalogue/1407/af-11_ds.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "delivery_days": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "delivery_days": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "delivery_days": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airFiber Low-Band Duplexer",
+      "url": "/product/airfiber-11-low-band-duplexer",
+      "price": 181.08,
+      "currency": "USD",
+      "mpn": "AF-11-DUP-L",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 5XHD",
+      "url": "/product/airfiber-5xhd",
+      "price": 397.94,
+      "currency": "USD",
+      "mpn": "AF-5XHD",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 11 High-Band Backhaul Radio with Dish Antenna",
+      "url": "/product/airfiber-af-11-complete-hb",
+      "price": 1459.34,
+      "currency": "USD",
+      "mpn": "AF11-Complete-HB",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 11 (no duplexers)",
+      "url": "/product/airfiber-11",
+      "price": 976.87,
+      "currency": "USD",
+      "mpn": "AF-11",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "2 pcs in stock"
+}

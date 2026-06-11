@@ -1,0 +1,260 @@
+{
+  "slug": "unifi-intercom-viewer",
+  "id": "UA-Intercom-Viewer",
+  "productTitle": "Ubiquiti Intercom Viewer",
+  "name": "Ubiquiti Intercom Viewer",
+  "title": "Ubiquiti Intercom Viewer",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Remote Access Control",
+      "text": "The Ubiquiti Intercom Viewer is a valuable companion to the Ubiquiti Access Intercom, empowering you with remote access control and visitor screening capabilities. Utilize the two-way audio feature to converse with visitors before granting access, ensuring clear communication and enhanced security. Gain instant live video access through the 5\" touch display, allowing you to keep an eye on your entry points from anywhere. Connect and power the UA-Intercom-Viewer using a PoE switch, eliminating the need for separate power adapters and simplifying installation."
+    },
+    {
+      "heading": "Centralized Management",
+      "text": "The UA-Intercom-Viewer seamlessly integrates with the Ubiquiti Access Intercom and UniFi Network ecosystem. You can easily configure and manage multiple UA-Intercom-Viewer units from a single platform, optimizing your security setup for larger buildings. Manage the Intercom Viewer and other UniFi devices through the intuitive UniFi Network software, offering a centralized platform for configuration, monitoring, and maintenance. Track entry logs and monitor past visitor activity for improved security and accountability."
+    },
+    {
+      "heading": "Versatile Placement",
+      "text": "The UA-Intercom-Viewer's compact design and wall-mountable form factor make it ideal for placement in various locations throughout your building. This allows building managers, security personnel, or even residents (in residential settings) to monitor entry points and manage access control from convenient locations. By combining the Ubiquiti Intercom with the UA-Intercom-Viewer, you gain a comprehensive solution for secure and efficient visitor management, remote access control, and enhanced security for your residential or commercial building."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Intercom",
+  "categories": [
+    "Intercom",
+    "Ubiquiti",
+    "Door Access"
+  ],
+  "mpn": "UA-Intercom-Viewer",
+  "manufacturer_part_number": "UA-Intercom-Viewer",
+  "ean": "0810084693216",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4714/1-65e1a7b358c52-medium.jpg",
+        "alt": "Ubiquiti Intercom Viewer",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4714/2-65e1a7b846142-medium.jpg",
+        "alt": "Ubiquiti Intercom Viewer",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 142.96,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Display",
+      "features": ["Display Size", "Touch Screen"],
+      "items": [
+        {
+          "name": "Display Size",
+          "value": "5 inch"
+        },
+        {
+          "name": "Touch Screen",
+          "value": "yes"
+        }
+      ]
+    },
+    {
+      "technology": "Video",
+      "features": ["Resolution"],
+      "items": [
+        {
+          "name": "Resolution",
+          "value": "720 x 1280"
+        }
+      ]
+    },
+    {
+      "technology": "Audio",
+      "features": ["Microphone", "Speaker"],
+      "items": [
+        {
+          "name": "Microphone",
+          "value": "Build-in"
+        },
+        {
+          "name": "Speaker",
+          "value": "Build-in"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": ["RJ45 Ports"],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 100 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": ["Power Method", "Max Power Consumption"],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "48V Passive PoE"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "5 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": ["Material", "Dimensions", "Weight", "Operating Temperature", "Environment", "Mounting Method"],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Aluminium, Glass, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "135 x 72 x 31.8 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.168 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Intercom Viewer",
+      "url": "https://www.getic.com/files/catalogue/4714/uaintercomviewer_ds-65e1a7ae4d19f.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.60,
+        "currency": "USD",
+        "delivery_days": 18
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.48,
+        "currency": "USD",
+        "delivery_days": 5
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.91,
+        "currency": "USD",
+        "delivery_days": 2
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Access Door Hub",
+      "url": "/product/ubiquiti-access-door-hub",
+      "price": 200.18,
+      "currency": "USD",
+      "mpn": "UA-Hub-Door",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Access Door Hub Mini",
+      "url": "/product/ubiquiti-access-door-hub-mini",
+      "price": 104.81,
+      "currency": "USD",
+      "mpn": "UA-Hub-Door-Mini",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Access G3 Intercom",
+      "url": "/product/ubiquiti-access-g3-intercom",
+      "price": 381.48,
+      "currency": "USD",
+      "mpn": "UA-G3-Intercom",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

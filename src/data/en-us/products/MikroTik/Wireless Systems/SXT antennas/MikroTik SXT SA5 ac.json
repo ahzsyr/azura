@@ -1,0 +1,357 @@
+{
+  "slug": "sxt-sa5-ac",
+  "id": "722",
+  "productTitle": "MikroTik SXT SA5 ac",
+  "name": "MikroTik SXT SA5 ac",
+  "title": "MikroTik SXT SA5 ac",
+  "title_extended": "",
+  "short_description": "Dual. pol. 5GHz 90deg., 13dBi, 31dBm 1300mW TX Power, 1xGLAN, 802.11aс, RouterOS L4",
+  "description": "Dual. pol. 5GHz 90deg., 13dBi, 31dBm 1300mW TX Power, 1xGLAN, 802.11aс, RouterOS L4",
+  "detailed_description": [
+    {
+      "heading": "High-Performance Wireless Connectivity",
+      "text": "The MikroTik SXT SA5 ac marks a significant advancement in MikroTik's 802.11ac portfolio, designed to ensure comprehensive compatibility with existing RouterBOARD infrastructure, including the support for proprietary Nstream and Nv2 wireless protocols. This integration allows network administrators to tailor the device to meet specific networking requirements, enhancing the customizability and efficiency of wireless networks. The integration of Nstream and Nv2 protocols further optimizes wireless performance, particularly in point-to-point and point-to-multipoint configurations, by improving throughput, reducing latency, and mitigating interference in densely populated network environments."
+    },
+    {
+      "heading": null,
+      "text": "Leveraging the capabilities of 802.11a/n/ac wireless standards, the SXT SA5 ac achieves a high-speed 867Mbps radio rate on the 5GHz band. This performance is indicative of its ability to provide a high-speed, reliable wireless connection, suitable for a wide array of applications ranging from home networking to demanding enterprise environments. The device's adeptness at operating across these standards not only ensures backward compatibility with older devices but also paves the way for future-proofing network installations by accommodating the latest in wireless technology advancements."
+    },
+    {
+      "heading": "Impressive Antenna Technology",
+      "text": "The SXT SA5 ac, featuring a 14dBi sector antenna and supporting the 5.150 - 5.875 GHz frequency range, is engineered for optimal performance in extended and reliable wireless connections. With its 14dBi gain, this device efficiently directs radio waves across a broad area, significantly enhancing signal strength and the quality of the wireless link within its coverage zone. This capability is crucial for networks that span large outdoor spaces, such as educational campuses, public parks, or rural areas, where maintaining strong and consistent connectivity over wide areas is essential."
+    },
+    {
+      "heading": null,
+      "text": "Its sector antenna configuration, with a 90-degree wide beam width, is specifically designed to balance range with expansive coverage, making it exceptionally well-suited for both point-to-point and point-to-multipoint network deployments. This model is particularly advantageous for creating point-to-multipoint configurations, where a single, centrally located antenna disseminates wireless connectivity to multiple client devices scattered throughout its coverage area. It is also ideal for Wireless Internet Service Providers (WISPs) looking to efficiently distribute internet access to subscribers within a defined sector of their service area and for establishing comprehensive outdoor wireless networks that demand broad coverage."
+    },
+    {
+      "heading": "Diverse Applications of Wireless Technology",
+      "text": "The MikroTik SXT SA5 ac stands as a device designed to cater to a broad spectrum of networking demands. Its proficiency in establishing Point-to-Point (PtP) links makes it an exemplary choice for crafting high-speed wireless connections between disparate locations, effectively linking buildings within a campus, connecting distant areas, or enhancing network reach in environments where laying physical cables proves challenging. As a pivotal component in wireless Internet service provider (WISP) networks, the SXT SA5 ac excels as a Customer Premises Equipment (CPE) unit, affixed externally to buildings to forge a reliable conduit to the ISP’s network, thereby ensuring seamless Internet service delivery to various premises."
+    },
+    {
+      "heading": null,
+      "text": "In the realm of outdoor surveillance, the SXT SA5 ac proves indispensable, enabling the wireless backhaul of video surveillance data from cameras to central monitoring stations in scenarios where installing cables is not viable. This adaptability not only underscores the device's utility in modern surveillance networks but also highlights its role in enhancing security measures across varied locations."
+    },
+    {
+      "heading": "Robust Hardware for Optimal Performance",
+      "text": "The SXT SA5 ac, utilizing the advanced QCA9557 chipset from Qualcomm Atheros, exemplifies a sophisticated balance of performance and functionality for wireless networking. This device integrates a single-core CPU clocked at 720 MHz, supported by 128 MB of RAM, enabling it to adeptly manage high-throughput networking tasks. The inclusion of 128 MB of storage memory further ensures that the SXT SA5 ac operates efficiently, facilitating seamless data transfers and robust operational capabilities."
+    },
+    {
+      "heading": null,
+      "text": "Equipped with a Gigabit Ethernet port, the SXT SA5 ac is designed to provide fast and stable wired connections, supporting network speeds up to 1 Gbps. This capability is essential for environments requiring rapid data exchange, including streaming high-definition content, facilitating large file transfers, and maintaining high-speed internet access without the limitation of network bottlenecks. The addition of a USB-A 2.0 port significantly extends the versatility of the SXT SA5 ac, enabling the connection of a wide array of peripherals such as external storage devices, printers, and other USB-compatible hardware. This feature not only broadens the device's application range but also enhances its functionality, allowing it to serve as a central node for network-attached storage (NAS), media servers, or direct printer connectivity within a network setting."
+    },
+    {
+      "heading": "Temperature Range & Power Flexibility",
+      "text": "The SXT SA5 ac is engineered for optimal functionality across a broad spectrum of environmental conditions, demonstrated by its remarkable operating temperature range of -30°C to +80°C. This extensive range ensures the device's reliability and performance in environments from the cold well below zero degrees Celsius to the heat that can exceed 80°C, making it ideal for deployment in both challenging outdoor settings and demanding industrial applications."
+    },
+    {
+      "heading": null,
+      "text": "In terms of power flexibility, the SXT SA5 ac is equipped to handle various PoE configurations, supporting both passive PoE for simple, cost-effective installations and the more sophisticated 802.3af/at PoE standards which allow for power input ranging from 15 to 60 volts. The integration of passive PoE provides a straightforward power solution without the need for active power negotiation, suitable for scenarios where power sources are fixed and compatibility is assured. On the other hand, the inclusion of 802.3af/at PoE input signifies the device's capability to engage in intelligent power negotiation, ensuring compatibility across a wider range of power sources and preventing potential damage from voltage mismatches. This dual PoE support enables the SXT SA5 ac to adapt to various deployment needs, from simple setups in locations lacking power infrastructure to complex networks requiring precise power management."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Integrated Antennas",
+    "Outdoor Wireless",
+    "MikroTik",
+    "Wireless Systems",
+    "SXT & DiscLite"
+  ],
+  "mpn": "RBSXTG-5HPacD-SA",
+  "manufacturer_part_number": "RBSXTG-5HPacD-SA",
+  "ean": "4752224004499",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/722/rbsxtg5hpacdsa_1-5fd86bcd535f2-medium.jpg",
+        "alt": "MikroTik SXT SA5 ac",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/722/rbsxtg5hpacdsa_1-5fd86bcd535f2-tiny.jpg",
+        "alt": "MikroTik SXT SA5 ac"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/WLxVTxbe6dw",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": {
+      "id": "3cb22746-f9fe-42a5-8ff0-ec6f6a1ad145",
+      "pathModelLow": "https://www.getic.com/3D/722/model_low-620e169666814.fbx",
+      "pathModelMid": null,
+      "pathModelHigh": null,
+      "pathTextureAO": "https://www.getic.com/3D/722/tex_ao-62221ef30a0ac.jpg",
+      "pathTextureBaseColour": "https://www.getic.com/3D/722/tex_default_material_base_color-62221ef87302d.jpg",
+      "pathTextureNormal": "https://www.getic.com/3D/722/tex_default_material_normal-62221f026d926.jpg",
+      "pathTextureMetallic": "https://www.getic.com/3D/722/tex_default_material_metallic-62221f0734c35.jpg",
+      "pathTextureRoughness": "https://www.getic.com/3D/722/tex_default_material_roughness-62221f0cb40af.jpg",
+      "pathTextureHeight": "https://www.getic.com/3D/722/tex_height-62221f1358248.jpg",
+      "pathTextureEmission": "https://www.getic.com/3D/722/tex_emission-62221f19bc6f7.jpg"
+    }
+  },
+  "price": {
+    "value": 95.09,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 5" },
+        { "name": "Standards", "value": "802.11n/ac" },
+        { "name": "MIMO", "value": "5GHz 2x2" },
+        { "name": "Frequency", "value": "5GHz" },
+        { "name": "5GHz Radio Rate", "value": "867 Mbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization"
+      ],
+      "items": [
+        { "name": "Antenna Design", "value": "Sector" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "5.150 - 5.875 (GHz) 14 (dBi)" },
+        { "name": "Beamwidth", "value": "90 °" },
+        { "name": "Polarization", "value": "Dual Linear" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "USB Ports",
+        "Management"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 1 Gbps" },
+        { "name": "USB Ports", "value": "(1) USB-A 2.0" },
+        { "name": "Management", "value": "Ethernet, Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "QCA9557, 1 core, 720 MHz" },
+        { "name": "RAM", "value": "128 MB" },
+        { "name": "Storage Memory", "value": "128 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "802.3af PoE, 802.3at PoE+" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Supported Input Voltage", "value": "15 - 60 V DC" },
+        { "name": "Max Power Consumption", "value": "12 W" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 0.8 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        { "name": "Ingress Protection Code", "value": "IP54" },
+        { "name": "Dimensions", "value": "Ø140 x 56 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Outdoor" },
+        { "name": "Mounting Method", "value": "Pole Mount" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 4" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik SXT SA5 ac",
+      "url": "https://www.getic.com/files/catalogue/722/sxt_ac.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik SXT SA5 ac",
+      "url": "https://www.getic.com/files/catalogue/722/quickguidesxtsa5ac-65113739444c5.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik SXT SA5 ac",
+      "url": "https://www.getic.com/files/catalogue/722/usermanualssxtsa5-65113747ea940.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "days": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.51,
+        "days": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "days": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 7,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 7,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Fabrizio",
+        "date": "2025-04-13",
+        "text": "Excellent product purchased for PtP connection between two buildings, excellent experience. TOP N.1",
+        "photos": []
+      },
+      {
+        "name": "customer",
+        "date": "2024-11-19",
+        "text": "Good product.",
+        "photos": []
+      },
+      {
+        "name": "Jouko",
+        "date": "2024-11-14",
+        "text": "Great range and speed.",
+        "photos": []
+      },
+      {
+        "name": "Viktors",
+        "date": "2024-11-10",
+        "text": "Good quality, good price",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq Lite5",
+      "url": "/product/sxt-sq-lite5",
+      "price": 35.59,
+      "currency": "USD",
+      "mpn": "RBSXTsq5nD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": "30"
+}

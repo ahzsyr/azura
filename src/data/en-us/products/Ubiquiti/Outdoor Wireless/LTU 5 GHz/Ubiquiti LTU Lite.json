@@ -1,0 +1,374 @@
+{
+  "slug": "ubiquiti-ltu-lite",
+  "id": "2510",
+  "productTitle": "Ubiquiti LTU Lite",
+  "name": "Ubiquiti LTU Lite",
+  "title": "Ubiquiti LTU Lite",
+  "title_extended": "",
+  "short_description": "5 GHz PtMP LTU™ Client radio, proprietary Ubiquiti® LTU processor, 13dBi antenna, throughput up to 600+ Mbps, 10/20/30/40/50 MHz channel width flexibility",
+  "description": "5 GHz PtMP LTU™ Client radio, proprietary Ubiquiti® LTU processor, 13dBi antenna, throughput up to 600+ Mbps, 10/20/30/40/50 MHz channel width flexibility",
+  "detailed_description": [
+    {
+      "heading": "",
+      "text": "The Ubiquiti LTU Lite is a compact yet powerful wireless radio designed for Point-to-MultiPoint (PtMP) applications within the Ubiquiti Networks ecosystem. It represents a significant evolution in the field of wireless broadband communication, incorporating Ubiquiti's proprietary LTU technology to offer unprecedented performance and flexibility."
+    },
+    {
+      "heading": "",
+      "text": "Compatible with LTU devices only. LTU Lite functions in a PtMP environment with the LTU-Rocket as the BaseStation."
+    },
+    {
+      "heading": "",
+      "text": "LTU Lite utilizes Ubiquiti's proprietary LTU technology, which is a departure from the more common Wi-Fi standards used in many wireless devices. This means that for point-to-multipoint (PtMP) applications, the LTU Lite is specifically designed to work with other LTU series devices. It functions as a client (or CPE - Customer Premises Equipment) in an LTU-based network and requires an LTU-compatible base station, such as the LTU-Pro, LTU-Rocket, or other LTU series base stations, to establish a network connection. This ensures that users can leverage the full advantages of LTU technology, including its high-performance throughput, spectral efficiency, and advanced modulation techniques."
+    },
+    {
+      "heading": "",
+      "text": "This model integrates an advanced antenna system designed to provide optimal gain and directivity for PtMP configurations. The integrated antenna enhances signal reliability and coverage, ensuring consistent performance across various deployment scenarios. This feature is pivotal for achieving the desired network reach and quality of service in diverse environments.The LTU Lite operates in the 5 GHz frequency band, optimizing its use for high-speed wireless communication with less susceptibility to interference found in more congested bands like the 2.4 GHz. Providing 10+ km of coverage with a bandwidth of 900+ Mbps this device boasts an impressive transmit power, enabling it to maintain strong and stable connections over long distances."
+    },
+    {
+      "heading": "",
+      "text": "The device is equipped with a user-friendly interface for straightforward setup and management, accessible via Ubiquiti's network management software. Administrators can easily configure device settings, monitor network performance metrics, and troubleshoot issues from a centralized platform. This ease of management is essential for maintaining optimal network health and performance."
+    },
+    {
+      "heading": "",
+      "text": "Ubiquiti designs its products for durability, and the LTU Lite is no exception. Its rugged construction ensures reliable operation in outdoor environments, resistant to harsh weather conditions, including rain, wind, and extreme temperatures. This durability is crucial for deploying the LTU Lite in remote or challenging locations where maintenance access may be limited. With its integrated high-gain antenna, the LTU Lite ensures robust signal strength and coverage, making it an ideal choice for rural internet service provision, campus connectivity, surveillance network backbones, event broadcasting, wireless ISP backhauls, and emergency services connectivity."
+    },
+    {
+      "heading": "",
+      "text": "In summary, the Ubiquiti LTU Lite is engineered for network operators seeking a high-performance, flexible, and durable solution for extending wireless broadband coverage. Its integration of advanced LTU technology, customizable channel bandwidths, integrated high-gain antenna, and robust construction, coupled with sophisticated network management capabilities and GPS synchronization, makes it an ideal choice for a wide range of PtMP applications. Whether for internet service provision, CCTV backhaul, or extending WiFi coverage, the LTU Lite offers an efficient and scalable solution to meet the demands of modern wireless networking."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Outdoor Wireless",
+    "Integrated Antennas"
+  ],
+  "mpn": "LTU-Lite",
+  "manufacturer_part_number": "LTU-Lite",
+  "ean": "0817882029872",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2510/ltelite_front_angle-6033bb34a8858-medium.jpg",
+        "alt": "Ubiquiti LTU Lite",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2510/ltelite_back_angle-6033bb31dfc0a-medium.jpg",
+        "alt": "Ubiquiti LTU Lite",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2510/ltelite_back-6033bb30f161c-medium.jpg",
+        "alt": "Ubiquiti LTU Lite",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2510/ltulite_side_2ca73d6600d24d56bbb9e194f9d6c670-6033bb32cfac2-medium.jpg",
+        "alt": "Ubiquiti LTU Lite",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2510/ltelite_ports-6033bb33ba892-medium.jpg",
+        "alt": "Ubiquiti LTU Lite",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 100.05,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "LTU"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "600 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization",
+        "VSWR"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Panel"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "4.8 - 6.2 (GHz) 13 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "45 ° Vertical, 45 ° Horizontal"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        },
+        {
+          "name": "VSWR",
+          "value": "< 1.8"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "22 - 26 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "8.5 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "UV Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "153 x 84 x 39.5 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.25 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 55 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Pole Mount"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti LTU Lite",
+      "url": "https://www.getic.com/https://dl.ubnt.com/ds/ltu-lite"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti LTU Lite",
+      "url": "https://www.getic.com/http://dl-origin.ubnt.com/qsg/LTU-Lite/LTU-Lite_EN.html"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti LTU Rocket",
+      "url": "/product/ubiquiti-ltu-rocket",
+      "price": 369.30,
+      "currency": "USD",
+      "mpn": "LTU-Rocket",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti LTU Pro",
+      "url": "/product/ubiquiti-ltu-pro",
+      "price": 166.78,
+      "currency": "USD",
+      "mpn": "LTU-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti LTU Long-Range",
+      "url": "/product/ubiquiti-ltu-lr",
+      "price": 131.04,
+      "currency": "USD",
+      "mpn": "LTU-LR",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

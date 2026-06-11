@@ -1,0 +1,251 @@
+{
+  "slug": "ubiquiti-poe-integrated-ac-adapter",
+  "id": "UACC-PoE+-USBC",
+  "productTitle": "Ubiquiti PoE Integrated AC Adapter",
+  "name": "Ubiquiti PoE Integrated AC Adapter",
+  "title": "Ubiquiti PoE Integrated AC Adapter",
+  "title_extended": "Ubiquiti PoE Integrated AC Adapter – Power and PoE in One Adapter",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Power and PoE in One Adapter",
+      "text": "The Ubiquiti PoE Integrated AC Adapter (UACC-PoE+-USBC) is an all-in-one power solution designed for UniFi Cloud Gateway devices. It delivers reliable power while enabling PoE+ output on a single Ethernet port, supporting up to 30W for connected devices. This adapter features dual outputs, providing USB Type‑C (5 V/5 A) and PoE+ (48 V/0.65 A) to efficiently power your network and connected hardware efficiently. Built with surge protection (1.5kA power, 36A data), it safeguards against voltage spikes and surges. Designed for maximum flexibility, it supports wall, DIN rail, and floating mounting options (DIN rail and floating mounts sold separately). The lockable latch ensures a secure power cord connection, even in high-traffic or critical environments. Compatible with UXG-Lite, UX, UXG-Max, UCG-Max, UCG-Ultra, and UX7, it’s ideal for businesses looking to simplify installations without sacrificing reliability."
+    },
+    {
+      "heading": "Robust and Versatile Design",
+      "text": "Engineered for professional environments, the UACC-PoE+-USBC features a durable build with smart cable management. The included 1.5 m cable (30 cm split Type-C/Ethernet ends) and 1.8 m power cord offer generous reach for clean setups in racks or cabinets. Its 4-pair powering (Pins 1,2,4,5 + / 3,6,7,8 -) ensures stable PoE delivery for demanding devices like access points and cameras. The adapter operates quietly at a 65 kHz switching frequency and maintains peak performance within ambient temperatures from 0° to 40°C. ESD and surge protection in both differential and common mode ensure network safety in dynamic power conditions. This compact, yet powerful accessory is the perfect addition to any UniFi deployment requiring seamless PoE+ integration and safe, efficient power distribution."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "PoE Adapters",
+  "categories": [
+    "PoE Adapters",
+    "Accessory Tech",
+    "PoE & Power"
+  ],
+  "mpn": "UACC-PoE+-USBC",
+  "manufacturer_part_number": "UACC-PoE+-USBC",
+  "ean": "0810084699843",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6739/1-687f9085f3ca6-medium.jpg",
+        "alt": "Ubiquiti PoE Integrated AC Adapter",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6739/2-687f90891f3b0-medium.jpg",
+        "alt": "Ubiquiti PoE Integrated AC Adapter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6739/3-687f908c1dd8f-medium.jpg",
+        "alt": "Ubiquiti PoE Integrated AC Adapter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6739/4-687f908fed50c-medium.jpg",
+        "alt": "Ubiquiti PoE Integrated AC Adapter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6739/5-687f9093e057d-medium.jpg",
+        "alt": "Ubiquiti PoE Integrated AC Adapter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6739/6-687f9097c77e9-medium.jpg",
+        "alt": "Ubiquiti PoE Integrated AC Adapter",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6739/7-687f909b39fcf-medium.jpg",
+        "alt": "Ubiquiti PoE Integrated AC Adapter",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/6739/uaccpoeusbc_ds-687f90817c19e.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti PoE Integrated AC Adapter"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 52.98,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "PoE Out Standards",
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3at (PoE+)"
+        },
+        {
+          "name": "RJ45 Ports",
+          "value": "1 pcs"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Supported Input Voltage"
+      ],
+      "items": [
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": " 46 x 62 x 42 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.358 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti PoE Integrated AC Adapter",
+      "url": "https://www.getic.com/files/catalogue/6739/uaccpoeusbc_ds-687f90817c19e.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti PoE Adapter",
+      "url": "/product/ubiquiti-poe-af",
+      "price": 10.03,
+      "currency": "USD",
+      "mpn": "U-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Swiss Army Knife Ultra",
+      "url": "/product/swiss-army-knife-ultra11",
+      "price": 77.43,
+      "currency": "USD",
+      "mpn": "UK-Ultra",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Ultra",
+      "url": "/product/unifi-cloud-gateway-ultra",
+      "price": 110.98,
+      "currency": "USD",
+      "mpn": "UCG-Ultra",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Panel Antenna Ultra",
+      "url": "/product/panel-antenna-ultra",
+      "price": 43.46,
+      "currency": "USD",
+      "mpn": "UACC-UK-Ultra-Panel-Antenna",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

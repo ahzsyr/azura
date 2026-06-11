@@ -1,0 +1,226 @@
+{
+  "slug": "ubiquiti-device-bridge-pro-sector",
+  "id": "ubiquiti-device-bridge-pro-sector",
+  "productTitle": "Ubiquiti Device Bridge Pro Sector",
+  "name": "Ubiquiti Device Bridge Pro Sector",
+  "title": "Ubiquiti Device Bridge Pro Sector",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The Ubiquiti Device Bridge Pro Sector (UDB-Pro-Sector) is a high-performance wireless backhaul device designed for enterprise-grade point-to-point and point-to-multipoint connectivity over the 5 GHz frequency band.",
+  "detailed_description": [
+    {
+      "heading": "High-Performance Wireless Connectivity",
+      "text": "The Ubiquiti Device Bridge Pro Sector (UDB-Pro-Sector) is a high-performance wireless backhaul device designed for enterprise-grade point-to-point and point-to-multipoint connectivity over the 5 GHz frequency band. It utilizes advanced 802.11a/n/ac Wi-Fi standards with a 2x2 MIMO antenna system to deliver real data rates of up to 867 Mbps, supporting distances exceeding 5 kilometers with stable throughput and minimal latency. Its built-in 19 dBi directional antenna provides focused signal transmission, improving interference rejection and link quality. This makes the device ideal for inter-building links, remote site integration, and infrastructure bridging in both urban and rural settings. Seamless integration is achieved through UniFi Auto-Link technology, which automates device pairing with UniFi gateways, switches, and controllers, streamlining deployment. All system operations, from configuration to monitoring, are handled via the UniFi Network Controller, allowing for unified, scalable management of all network components."
+    },
+    {
+      "heading": "Deployment Flexibility",
+      "text": "The UDB-Pro-Sector offers dual Gigabit Ethernet RJ45 ports that enable both network connectivity and power delivery, supporting 802.3af/at PoE input on one port and passive PoE output on the other. This design allows for powering external devices such as IP cameras or additional access points directly from the unit, minimizing cabling complexity and infrastructure costs. The device operates with a maximum power consumption of 9 watts, offering energy-efficient performance even in continuous 24/7 deployments. This capability makes it particularly suitable for installations where electrical infrastructure is limited or where efficient power distribution is required. The device supports flexible mounting options using an included pole-mount bracket that accommodates diameters from 20 to 53.1 mm. This mechanical versatility helps optimize antenna alignment and positioning to ensure line-of-sight transmission and maximum link stability, even across difficult terrain or dense installations."
+    },
+    {
+      "heading": "Durable Construction",
+      "text": "Purpose-built for outdoor applications, the UDB-Pro-Sector is enclosed in a UV-resistant polycarbonate housing rated IPX6, which provides protection against heavy rain, dust ingress, and harsh environmental exposure. It is capable of operating in temperatures ranging from -40°C to +60°C, ensuring year-round reliability in extreme climates. The device is also rated to withstand wind loads of up to 69 N at wind speeds of 200 km/h, making it suitable for deployment on rooftops, towers, and exposed locations. These mechanical and environmental protections safeguard the internal electronics against moisture, solar radiation, and mechanical stress. Furthermore, integrated diagnostic tools such as signal strength visualization and spectrum analysis are accessible through the UniFi Controller, allowing IT administrators to perform fine-tuned optimizations. Combined, these features make the UDB-Pro-Sector an ideal choice for high-availability networking in mission-critical or industrial outdoor environments."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Integrated Antennas"
+  ],
+  "mpn": "UDB-Pro-Sector",
+  "manufacturer_part_number": "UDB-Pro-Sector",
+  "ean": "0810084698037",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5880/1-67ea62b0eb434-medium.jpg",
+        "alt": "Ubiquiti Device Bridge Pro Sector",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5880/2-67ea62b49548f-medium.jpg",
+        "alt": "Ubiquiti Device Bridge Pro Sector",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5880/3-67ea62b900bb2-medium.jpg",
+        "alt": "Ubiquiti Device Bridge Pro Sector",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5880/4-67ea62bd011ef-medium.jpg",
+        "alt": "Ubiquiti Device Bridge Pro Sector",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5880/5-67ea62c0415ea-medium.jpg",
+        "alt": "Ubiquiti Device Bridge Pro Sector",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5880/6-67ea62c373ca0-medium.jpg",
+        "alt": "Ubiquiti Device Bridge Pro Sector",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5880/7-67ea62c6dbd5f-medium.jpg",
+        "alt": "Ubiquiti Device Bridge Pro Sector",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/5880/udbprosector_ds-67ea554420c58.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Device Bridge Pro Sector",
+        "type": "datasheet"
+      }
+    ],
+    "3d_model": true
+  },
+  "price": {
+    "value": 214.56,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [],
+      "items": [
+        { "name": "Generation", "value": "WiFi 5" },
+        { "name": "Standards", "value": "802.11n/ac" },
+        { "name": "MIMO", "value": "5GHz 2x2" },
+        { "name": "Frequency", "value": "5GHz" },
+        { "name": "5GHz Radio Rate", "value": "400 Mbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [],
+      "items": [
+        { "name": "Antenna Design", "value": "Sector" },
+        { "name": "Distance", "value": "Up to 5 km" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 1 Gbps" },
+        { "name": "Management", "value": "Ethernet, Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [],
+      "items": [
+        { "name": "Power Method", "value": "802.3af PoE" },
+        { "name": "Supported Input Voltage", "value": "42.5 - 57 V DC" },
+        { "name": "Max Power Consumption", "value": "6 W" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [],
+      "items": [
+        { "name": "Material", "value": "UV-stabilized polycarbonate" },
+        { "name": "Ingress Protection Code", "value": "IPX6" },
+        { "name": "Dimensions", "value": "360.9 x 129.6 x 71.4 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 60 °C" },
+        { "name": "Mounting Method", "value": "Pole Mount" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Device Bridge Pro Sector",
+      "url": "https://www.getic.com/files/catalogue/5880/udbprosector_ds-67ea554420c58.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "price": 25.99,
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "price": 36.86,
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "price": 43.10,
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {},
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Device Bridge",
+      "url": "/product/ubiquiti-device-bridge",
+      "price": 100.65,
+      "currency": "USD",
+      "mpn": "UDB",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Device Bridge Pro",
+      "url": "/product/ubiquiti-device-bridge-pro",
+      "price": 203.65,
+      "currency": "USD",
+      "mpn": "UDB-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti 10G PoE++ Adapter (60W)",
+      "url": "/product/ubiquiti-10g-poe-adapter-60w-",
+      "price": 42.11,
+      "currency": "USD",
+      "mpn": "UACC-PoE++-10G",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

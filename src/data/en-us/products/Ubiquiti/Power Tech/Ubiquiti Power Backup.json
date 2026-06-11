@@ -1,0 +1,269 @@
+{
+  "slug": "unifi-usp-rps",
+  "id": 2754,
+  "productTitle": "Ubiquiti Power Backup",
+  "name": "Ubiquiti Power Backup",
+  "title": "Ubiquiti Power Backup",
+  "title_extended": "USP-RPS The UniFi® SmartPower Redundant Power System",
+  "short_description": "USP-RPS The UniFi® SmartPower Redundant Power System",
+  "description": "USP-RPS The UniFi® SmartPower Redundant Power System",
+  "detailed_description": [
+    {
+      "heading": "Redundant Power System",
+      "text": "The UniFi® SmartPower Redundant Power System, model USP-RPS, is a proprietary redundant power system designed to protect up to six UniFi SmartPower supported devices from sudden power supply module failure."
+    },
+    {
+      "heading": "Automatic Failover",
+      "text": "The USP-RPS continually monitors all attached devices. In the event of an internal AC/DC power supply failure, failover is automatic so your network continues to operate with no interruption in service. With a 950W DC power budget, the USP-RPS can protect a variety of high-power devices, including UniFi PoE switches. An integrated 1.3\" color touchscreen LCM displays system information for convenient monitoring."
+    },
+    {
+      "heading": "Features",
+      "text": "(6) USP DC output ports\n(1) Ethernet port\n1U Rackmountable (kit included)\n1.3\" Touchscreen display with status information\n(1) UniFi SmartPower Cable\nManaged by UniFi Network application version: 5.12.11 or later"
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Power Adapters",
+  "categories": [
+    "Power Adapters",
+    "Ubiquiti",
+    "Power Tech"
+  ],
+  "mpn": "USP-RPS",
+  "manufacturer_part_number": "USP-RPS",
+  "ean": "0817882029186",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2754/usprps_left_angle_b914266a747a4b7abfea13d6652a0571-603ca7c5e2571-medium.jpg",
+        "alt": "Ubiquiti Power Backup",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2754/usprps_top_angle_ed37023dad4d44d28bb4ceb808d12399-603ca7c666e01-medium.jpg",
+        "alt": "Ubiquiti Power Backup",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2754/usprps_front_755176acf0ac468ba4a6a60e618fe9a7-603ca7c578811-medium.jpg",
+        "alt": "Ubiquiti Power Backup",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2754/usprps_left_side_b3bf487be0684e29b1132ccffda699df-603ca7c399494-medium.jpg",
+        "alt": "Ubiquiti Power Backup",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2754/usprps_right_side_fb89331955994e8e981c51207c323f98-603ca7c3f2d44-medium.jpg",
+        "alt": "Ubiquiti Power Backup",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2754/usprps_back_46db326ed5a5404fb27b876afa874ae3-603ca7c32faea-medium.jpg",
+        "alt": "Ubiquiti Power Backup",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2754/usprps_back_with_cover_ccd6a27637de48ae86053f4778b35d65-603ca7c45f3f6-medium.jpg",
+        "alt": "Ubiquiti Power Backup",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2754/topology_diagram_2_ec6b895a423541ed817c898461d1f69d-603ca7c4c6387-medium.jpg",
+        "alt": "Ubiquiti Power Backup",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/2754/usp-rps_ds.pdf",
+        "type": "datasheet",
+        "title": "Technical Specs / Datasheet - Ubiquiti Power Backup"
+      },
+      {
+        "url": "https://dl.ui.com/qsg/USP-RPS/USP-RPS_EN.html",
+        "type": "guide",
+        "title": "Quick Start Guide - Ubiquiti Power Backup"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 424.86,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "995 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "442.40 x 325.60 x 43.70 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "5.59 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 45 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Power Backup",
+      "url": "https://www.getic.com/files/catalogue/2754/usp-rps_ds.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti Power Backup",
+      "url": "https://dl.ui.com/qsg/USP-RPS/USP-RPS_EN.html"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti SmartPower Cable",
+      "url": "/product/unifi-smartpower-cable",
+      "price": 33.96,
+      "currency": "USD",
+      "mpn": "USP-Cable",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro Max",
+      "url": "/product/dream-machine-pro-max",
+      "price": 578.18,
+      "currency": "USD",
+      "mpn": "UDM-Pro-Max",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

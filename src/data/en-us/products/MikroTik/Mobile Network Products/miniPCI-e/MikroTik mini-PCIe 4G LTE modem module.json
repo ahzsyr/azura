@@ -1,0 +1,224 @@
+{
+  "slug": "mikrotik-mini-pcie-modem-r11el-ec200a-eu",
+  "id": "4623",
+  "productTitle": "MikroTik mini-PCIe 4G LTE modem module",
+  "name": "MikroTik mini-PCIe 4G LTE modem module",
+  "title": "MikroTik mini-PCIe 4G LTE modem module",
+  "title_extended": "",
+  "short_description": "The MikroTik R11e-LTE6 is a mini-PCIe form factor 4G LTE modem module designed to provide LTE connectivity for a wide range of applications.",
+  "description": "The MikroTik R11e-LTE6 is a mini-PCIe form factor 4G LTE modem module designed to provide LTE connectivity for a wide range of applications. As a high-performance cellular modem, this model specifically targets EMEA/APAC/Australia regions, and the supported frequencies include the popular B28 band. It integrates seamlessly into compatible router devices that offer mini-PCIe slots, enhancing them with powerful 4G LTE capabilities.",
+  "detailed_description": [
+    {
+      "heading": "Performance and Compatibility",
+      "text": "The R11e-LTE6 is compatible with any MikroTik device that has a mini-PCIe slot with an active SIM slot interface. This makes it exceptionally versatile for use in a variety of network environments, including remote, mobile, and backup applications. This module supports LTE Category 4, enabling faster data rates and more reliable cellular connections compared to lower-category LTE devices. LTE Cat 4 can provide download speeds up to 150 Mbps and upload speeds up to 50 Mbps, although actual speeds may vary based on network conditions and carrier implementations."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "LTE Products",
+  "categories": [
+    "MikroTik",
+    "Mobile Network Products",
+    "miniPCI-e"
+  ],
+  "mpn": "R11eL-EC200A-EU",
+  "manufacturer_part_number": "R11eL-EC200A-EU",
+  "ean": "4752224009319",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4623/front_right-6564768f12346-medium.jpg",
+        "alt": "MikroTik mini-PCIe 4G LTE modem module front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4623/back_right-65647691b0aa7-medium.jpg",
+        "alt": "MikroTik mini-PCIe 4G LTE modem module back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4623/front-6564768dade98-medium.jpg",
+        "alt": "MikroTik mini-PCIe 4G LTE modem module front view 2",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4623/back-65647690615f8-medium.jpg",
+        "alt": "MikroTik mini-PCIe 4G LTE modem module back view 2",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 58.79,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "LTE Category",
+        "FDD LTE Frequency Bands",
+        "TDD LTE Frequency Bands"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "2G (GSM), 3G (UMTS), 4G (LTE)"
+        },
+        {
+          "name": "LTE Category",
+          "value": "Cat4 - 150Mbps/50Mbps"
+        },
+        {
+          "name": "FDD LTE Frequency Bands",
+          "value": "1 (2100MHz), 3 (1800MHz), 5 (850MHz), 7 (2600MHz), 8 (900MHz), 20 (800MHz), 28 (700MHz)"
+        },
+        {
+          "name": "TDD LTE Frequency Bands",
+          "value": "38 (2600MHz), 40 (2300MHz), 41 (2500MHz)"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Max Power Consumption",
+          "value": "3 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Operating Temperature",
+          "value": "-35 °C to 70 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik mini-PCIe 4G LTE modem module",
+      "url": "https://www.getic.com/files/catalogue/4623/r11elec200aeu1_231110-664709cf48da9.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Pigtail U.fl Female / SMA Female 10cm",
+      "url": "/product/pigtail-u-fl-female-sma-female-10cm",
+      "price": 2.75,
+      "currency": "USD",
+      "mpn": "P-UF-SF-10",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik mANT LTE 5o",
+      "url": "/product/mant-lte-5o",
+      "price": 16.98,
+      "currency": "USD",
+      "mpn": "MTAO-LTE-5D-SQ",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik LHGG LTE6 kit (2024)",
+      "url": "/product/mikrotik-lhgg-lte6-kit-with-fg621-modem",
+      "price": 128.00,
+      "currency": "USD",
+      "mpn": "LHGGR&FG621-EA",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik NetMetal ax",
+      "url": "/product/netmetal-ax",
+      "price": 135.19,
+      "currency": "USD",
+      "mpn": "L23UGSR-5HaxD2HaxD-NM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik Value Added Distributor",
+    "MikroTik MTCNA Certificate"
+  ],
+  "stock_stat": ""
+}

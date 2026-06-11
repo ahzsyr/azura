@@ -1,0 +1,233 @@
+{
+  "slug": "ubiquiti-reader-junction-box-white",
+  "id": "4823",
+  "productTitle": "Ubiquiti Reader Junction Box White",
+  "name": "Ubiquiti Reader Junction Box White",
+  "title": "Ubiquiti Reader Junction Box White",
+  "title_extended": "",
+  "short_description": "Specifically engineered to support installations of Ubiquiti's UniFi Access Readers and Intercom Viewers. Ensures a secure, clean, and aesthetically pleasing installation.",
+  "description": "The Ubiquiti Reader Junction Box, model UACC-Reader-JB-W, is specifically engineered to support installations of Ubiquiti's UniFi Access Readers and Intercom Viewers. Designed to enhance the setup of access control systems, this junction box ensures a secure, clean, and aesthetically pleasing installation in a variety of environments. This junction box is designed to complement modern architectural styles and interior designs, maintaining a professional appearance across various installation settings.",
+  "detailed_description": [
+    {
+      "heading": "Compatibility and Versatility",
+      "text": "This junction box is compatible with the UniFi Access Reader G2 (UA-G2), UniFi Access Intercom Viewer (UA-Intercom-Viewer), and the UniFi Access Ultra (UA-Ultra), ensuring a perfect fit and seamless integration with these devices. Constructed from high-quality polycarbonate, with additional components made from sponge and rubber, the UACC-Reader-JB-W is built to endure both physical impacts and environmental factors. Its durable composition extends the lifespan of the mounted devices and ensures stable installations. The UACC-Reader-JB-W supports versatile mounting options. It can be installed on flat surfaces or walls and is compatible with VESA mounts, as well as being attachable to 3/4\" conduit. This range of options facilitates installations in diverse settings, from office walls to more complex mounting scenarios."
+    },
+    {
+      "heading": "Robust Construction and Materials",
+      "text": "The junction box acts as a robust protective enclosure, safeguarding the device's electronic components and connections against dust, moisture, and potential tampering, crucial for the long-term reliability of access control systems. Furthermore, it is designed with optimal cable management in mind, the junction box helps organize and route cables efficiently, preserving the installation's aesthetic integrity and enhancing safety by reducing the risk of cable damage."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Ubiquiti",
+    "Door Access",
+    "Accessories"
+  ],
+  "mpn": "UACC-Reader-JB-W",
+  "manufacturer_part_number": "UACC-Reader-JB-W",
+  "ean": "0810084694480",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4823/1-66850a13373b7-medium.jpg",
+        "alt": "Ubiquiti Reader Junction Box White",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4823/2-66850baf1a6a9-medium.jpg",
+        "alt": "Ubiquiti Reader Junction Box White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4823/3-66850bb35f52e-medium.jpg",
+        "alt": "Ubiquiti Reader Junction Box White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4823/4-66850bb7574d3-medium.jpg",
+        "alt": "Ubiquiti Reader Junction Box White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4823/5-66850bbb8ae84-medium.jpg",
+        "alt": "Ubiquiti Reader Junction Box White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4823/6-66850bbf72a19-medium.jpg",
+        "alt": "Ubiquiti Reader Junction Box White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4823/7-66850bc3d5efd-medium.jpg",
+        "alt": "Ubiquiti Reader Junction Box White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4823/8-66850bc9c8f6e-medium.jpg",
+        "alt": "Ubiquiti Reader Junction Box White",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/4823/uaccreaderjbb_ds-668509be4ab20.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Reader Junction Box White"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 33.65,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Color",
+      "options": ["Black", "White"],
+      "default": "White"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": ["Color", "Material", "Dimensions", "Weight", "Environment", "Mounting Method"],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Rubber, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "145 x 88 x 50 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.22 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Reader Junction Box White",
+      "url": "https://www.getic.com/files/catalogue/4823/uaccreaderjbb_ds-668509be4ab20.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "price": 15.60,
+        "duration": "18 business days",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "price": 31.48,
+        "duration": "5 business days",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "price": 42.91,
+        "duration": "2 business days",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Access Rescue KeySwitch",
+      "url": "/product/unifi-access-rescue-keyswitch",
+      "price": 80.15,
+      "currency": "USD",
+      "mpn": "UA-Rescue",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Access Ultra",
+      "url": "/product/ubiquiti-access-ultra",
+      "price": 99.88,
+      "currency": "USD",
+      "mpn": "UA-Ultra",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Reader Pro Junction Box White",
+      "url": "/product/ubiquiti-reader-pro-junction-box-white",
+      "price": 34.88,
+      "currency": "USD",
+      "mpn": "UACC-Reader-Pro-JB-W",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Access Door Hub",
+      "url": "/product/ubiquiti-access-door-hub",
+      "price": 200.18,
+      "currency": "USD",
+      "mpn": "UA-Hub-Door",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

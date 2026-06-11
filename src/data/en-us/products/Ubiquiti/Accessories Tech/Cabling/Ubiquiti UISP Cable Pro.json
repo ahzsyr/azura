@@ -1,0 +1,233 @@
+{
+  "slug": "uisp-cable-pro",
+  "id": "3244",
+  "productTitle": "Ubiquiti UISP Cable Pro",
+  "name": "Ubiquiti UISP Cable Pro",
+  "title": "Ubiquiti UISP Cable Pro",
+  "title_extended": "",
+  "short_description": "CAT5e, Shielded cable, 305 m, Solid Bare Copper Conductor, Solid Polyethylene Insulation",
+  "description": "The UISP Cable Pro, distinguished by the model manufacture part number UISP-Cable-Pro, represents a pinnacle of excellence in network cabling solutions, meticulously engineered to deliver uncompromising performance and reliability in a wide range of networking applications. It is a Category 5e cable with a highly insulating, weatherproof jacket that prevents damage from rain, snow, and other extreme climatic conditions. The cable is also fortified with internal foil shielding and a drain wire that collectively shield it from electrostatic discharge (ESD) and allow it to maintain Gigabit Ethernet link rates even when electromagnetic interference is present. At the core of the UISP Cable Pro lies a meticulously crafted cable structure optimized for high-speed Ethernet connectivity. With a length of 305 meters (1,000 feet), this cable provides ample coverage for various network installations, ensuring seamless data transmission over extended distances. The use of solid bare copper conductors with a conductor wire gauge of 24 AWG ensures minimal signal attenuation and maximum conductivity, enabling Ethernet support of up to 1 Gbps. The cable's construction features solid polyethylene insulation, offering exceptional electrical insulation properties and protection against environmental factors. The insulation thickness, ranging from an average of 0.26 mm to a minimum of 0.25 mm, provides reliable insulation while maintaining flexibility and ease of installation. Additionally, the insulation diameter of 1.04 ± 0.03 mm ensures precise dimensions for consistent performance. To further enhance signal integrity, the UISP Cable Pro incorporates a robust aluminum foil shield with a thickness of 0.060 mm, providing superior protection against electromagnetic interference (EMI) and external noise. The inclusion of a rip cord facilitates easy cable stripping and termination, streamlining installation processes and reducing labor time. Encased in a durable polyethylene jacket with an average thickness of 0.50 mm, the UISP Cable Pro offers exceptional durability and resistance to abrasion, moisture, and UV exposure. The jacket's outer diameter of 6.0 ± 0.30 mm ensures compatibility with standard cable management systems and installation practices. With a sleek black color, the cable maintains a professional appearance suitable for various indoor and outdoor environments. Compliant with industry standards such as ANSI/TIA-568-C.2 (2009) and ISO/IEC 11801 (Edition 2.2), the UISP Cable Pro ensures compatibility and interoperability with existing network infrastructure. Its wide operating temperature range, from -40 to 80°C, makes it suitable for deployment in diverse environmental conditions, providing reliable performance in demanding network environments.",
+  "detailed_description": [
+    {
+      "heading": "Industrial-grade Ethernet cable that protects your network from weathering and electrostatic damage",
+      "text": "The UISP Cable Pro, distinguished by the model manufacture part number UISP-Cable-Pro, represents a pinnacle of excellence in network cabling solutions, meticulously engineered to deliver uncompromising performance and reliability in a wide range of networking applications. It is a Category 5e cable with a highly insulating, weatherproof jacket that prevents damage from rain, snow, and other extreme climatic conditions. The cable is also fortified with internal foil shielding and a drain wire that collectively shield it from electrostatic discharge (ESD) and allow it to maintain Gigabit Ethernet link rates even when electromagnetic interference is present."
+    },
+    {
+      "heading": "Features",
+      "text": "1,000 ft (305 m) Category 5e cable\n24 AWG solid copper conductor pairings\nInsulated, weatherproof cable jacket\nInternal foil shielding and drain wire for increased ESD damage protection"
+    },
+    {
+      "heading": "High-Speed Ethernet Connectivity",
+      "text": "At the core of the UISP Cable Pro lies a meticulously crafted cable structure optimized for high-speed Ethernet connectivity. With a length of 305 meters (1,000 feet), this cable provides ample coverage for various network installations, ensuring seamless data transmission over extended distances. The use of solid bare copper conductors with a conductor wire gauge of 24 AWG ensures minimal signal attenuation and maximum conductivity, enabling Ethernet support of up to 1 Gbps."
+    },
+    {
+      "heading": "Construction and Insulation",
+      "text": "The cable's construction features solid polyethylene insulation, offering exceptional electrical insulation properties and protection against environmental factors. The insulation thickness, ranging from an average of 0.26 mm to a minimum of 0.25 mm, provides reliable insulation while maintaining flexibility and ease of installation. Additionally, the insulation diameter of 1.04 ± 0.03 mm ensures precise dimensions for consistent performance."
+    },
+    {
+      "heading": "Signal Integrity and Shielding",
+      "text": "To further enhance signal integrity, the UISP Cable Pro incorporates a robust aluminum foil shield with a thickness of 0.060 mm, providing superior protection against electromagnetic interference (EMI) and external noise. The inclusion of a rip cord facilitates easy cable stripping and termination, streamlining installation processes and reducing labor time."
+    },
+    {
+      "heading": "Jacket Durability",
+      "text": "Encased in a durable polyethylene jacket with an average thickness of 0.50 mm, the UISP Cable Pro offers exceptional durability and resistance to abrasion, moisture, and UV exposure. The jacket's outer diameter of 6.0 ± 0.30 mm ensures compatibility with standard cable management systems and installation practices. With a sleek black color, the cable maintains a professional appearance suitable for various indoor and outdoor environments."
+    },
+    {
+      "heading": "Compliance and Operating Environment",
+      "text": "Compliant with industry standards such as ANSI/TIA-568-C.2 (2009) and ISO/IEC 11801 (Edition 2.2), the UISP Cable Pro ensures compatibility and interoperability with existing network infrastructure. Its wide operating temperature range, from -40 to 80°C, makes it suitable for deployment in diverse environmental conditions, providing reliable performance in demanding network environments."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Twisted Pair",
+  "categories": [
+    "Twisted Pair",
+    "Cables and Cabinets",
+    "Ubiquiti",
+    "Accessory Tech",
+    "Cabling"
+  ],
+  "mpn": "UISP-Cable-Pro",
+  "manufacturer_part_number": "UISP-Cable-Pro",
+  "ean": "0810010075819",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3244/uispcablepro_001_1024x1024-6075718fa662d-medium.jpg",
+        "alt": "Ubiquiti UISP Cable Pro",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3244/uispcablepro_003_1024x1024-60757190386d1-medium.jpg",
+        "alt": "Ubiquiti UISP Cable Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3244/uispcablepro_002_1024x1024-60757190be0c4-medium.jpg",
+        "alt": "Ubiquiti UISP Cable Pro",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 126.28,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Cable Type",
+        "Max Data Rate",
+        "Insulation",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Cable Type",
+          "value": "Cat 5e"
+        },
+        {
+          "name": "Max Data Rate",
+          "value": "1Gbps"
+        },
+        {
+          "name": "Insulation",
+          "value": "FTP"
+        },
+        {
+          "name": "Cable Length",
+          "value": "304.8 m"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UISP Cable Pro",
+      "url": "https://dl.ubnt.com/ds/uisp-cable_ds"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Deniss",
+        "date": "2024-12-19",
+        "text": "okokokokok",
+        "photos": []
+      },
+      {
+        "name": "Luks",
+        "date": "2024-11-12",
+        "text": "Thanks Спасибо",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-50-60W",
+      "url": "/product/ubiquiti-poe-50-60w-gigabit",
+      "price": 29.89,
+      "currency": "USD",
+      "mpn": "POE-50-60W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UISP Cable Carrier",
+      "url": "/product/uisp-cable-carrier",
+      "price": 170.36,
+      "currency": "USD",
+      "mpn": "UISP-Cable-Carrier",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Surge Protection Connector SHD",
+      "url": "/product/ubiquiti-surge-protection-connectors-100pcs",
+      "price": 23.63,
+      "currency": "USD",
+      "mpn": "UISP-Connector-SHD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "InStock"
+}

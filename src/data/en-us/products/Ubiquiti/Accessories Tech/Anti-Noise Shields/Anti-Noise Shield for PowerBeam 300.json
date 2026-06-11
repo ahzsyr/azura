@@ -1,0 +1,198 @@
+{
+  "slug": "powerbeam-300-anti-noise-shield",
+  "id": "744",
+  "productTitle": "Anti-Noise Shield for PowerBeam 300",
+  "name": "Anti-Noise Shield for PowerBeam 300",
+  "title": "Anti-Noise Shield for PowerBeam 300",
+  "title_extended": "",
+  "short_description": "Paired with PowerBeam M5 300",
+  "description": "The Anti-Noise Shield ANS-PB-300, is an expertly crafted accessory produced by Ubiquiti Networks. This product is specifically designed to enhance the performance of the PowerBeam 300, a pivotal component in Ubiquiti's extensive selection of wireless networking devices. Ubiquiti Networks, renowned for its innovation in developing high-performance network solutions, offers this anti-noise shield to address a critical challenge in wireless communication: the mitigation of radio frequency (RF) interference.",
+  "detailed_description": [
+    {
+      "heading": "RF Interference Mitigation",
+      "text": "In the contemporary landscape of wireless networking, where the airwaves are increasingly congested with signals from a vast array of devices, RF interference has become a significant obstacle. Such interference can drastically reduce the quality of wireless communication, leading to diminished signal strength, lower data throughput, and general network instability. The ANS-PB-300 is engineered to confront this challenge directly by significantly reducing external noise. This capability is vital for ensuring that the PowerBeam 300 devices can operate at their highest efficiency, facilitating stable, high-speed connectivity crucial for modern applications that demand significant bandwidth."
+    },
+    {
+      "heading": "Durable Construction",
+      "text": "Constructed with an emphasis on durability, the ANS-PB-300 utilizes materials known for their robustness and ability to withstand adverse environmental conditions. This includes resistance to corrosion, wear, and the effects of extreme weather, ensuring the anti-noise shield's longevity and continuous protection of the PowerBeam 300 units against the degradative effects of outdoor deployment. The durability of the ANS-PB-300 is fundamental to maintaining the network infrastructure's integrity and protecting the investment in Ubiquiti's networking technology."
+    },
+    {
+      "heading": "User-Friendly Installation",
+      "text": "Ease of installation is a hallmark of the ANS-PB-300, reflecting Ubiquiti Networks' dedication to creating user-friendly, accessible technology solutions. The shield is designed for straightforward attachment to PowerBeam 300 units, requiring minimal tools and effort, allowing both network professionals and laypersons to enhance their network's performance efficiently. This ease of installation is crucial for rapid deployment and minimizing network downtime, enabling users to quickly reap the benefits of improved network efficiency."
+    },
+    {
+      "heading": "Seamless Integration",
+      "text": "Furthermore, the ANS-PB-300 is meticulously designed to integrate seamlessly with the PowerBeam 300 devices, ensuring that the addition of the shield does not detract from the devices' operational aesthetics or functionality. The shield is crafted to prevent obstruction of the antenna's field of view or alteration of its radiation pattern, preserving the device's coverage area and signal strength. This careful consideration ensures that the network's performance enhancements are achieved without compromising the original capabilities of the PowerBeam 300 units."
+    },
+    {
+      "heading": "Complete Package",
+      "text": "The package includes all necessary mounting hardware, providing a complete solution for immediate implementation. This comprehensive approach enables users to effortlessly install the anti-noise shield and experience enhanced signal clarity and network performance without delay."
+    },
+    {
+      "heading": "Conclusion",
+      "text": "Anti-Noise Shield ANS-PB-300, signifies Ubiquiti Networks' strategic response to the pervasive issue of RF interference in wireless networks. By improving signal quality and boosting the performance of PowerBeam 300 devices, this shield not only prolongs the operational lifespan of network infrastructure but also ensures consistent, reliable service delivery. The combination of robust environmental protection, straightforward installation, and minimal impact on device functionality renders the ANS-PB-300 an indispensable accessory for networks utilizing PowerBeam 300 units, especially in settings where reducing interference is crucial for maintaining optimal connectivity and achieving superior network performance."
+    }
+  ],
+  "brand": "Cyberteam",
+  "category": "Antenna Accessories",
+  "categories": [
+    "Antenna Accessories",
+    "Accessory Tech",
+    "Anti-Noise Shield"
+  ],
+  "mpn": "ANS-PB-300",
+  "manufacturer_part_number": "ANS-PB-300",
+  "ean": "0701017581451",
+  "warranty": "12 months",
+  "condition_options": ["new", "used"],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/744/rf-shield-nbe-300_1-medium.jpg",
+        "alt": "Anti-Noise Shield for PowerBeam 300",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/744/rf-shield-nbe-300_2-medium.jpg",
+        "alt": "Anti-Noise Shield for PowerBeam 300",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/744/rf-shield-nbe-300_3-medium.jpg",
+        "alt": "Anti-Noise Shield for PowerBeam 300",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/744/rf-shield-nbe-300_1-tiny.jpg",
+        "alt": "Anti-Noise Shield for PowerBeam 300"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/744/rf-shield-nbe-300_2-tiny.jpg",
+        "alt": "Anti-Noise Shield for PowerBeam 300"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/744/rf-shield-nbe-300_3-tiny.jpg",
+        "alt": "Anti-Noise Shield for PowerBeam 300"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 21.66,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "General",
+      "features": ["Manufacturer part number", "EAN no.", "Country of Origin", "Warranty"],
+      "items": [
+        {
+          "name": "Manufacturer part number",
+          "value": "ANS-PB-300"
+        },
+        {
+          "name": "EAN no.",
+          "value": "0701017581451"
+        },
+        {
+          "name": "Country of Origin",
+          "value": "Poland"
+        },
+        {
+          "name": "Warranty",
+          "value": "12 months"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 19 dBi Sector",
+      "url": "/product/sector-airmax-5g19-120",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "AM-5G19-120",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 2.4 GHz, 10 dBi Omni",
+      "url": "/product/omni-airmax-2g10",
+      "price": 151.30,
+      "currency": "USD",
+      "mpn": "AMO-2G10",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 10 dBi Omni",
+      "url": "/product/omni-airmax-5g10",
+      "price": 110.98,
+      "currency": "USD",
+      "mpn": "AMO-5G10",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 13 dBi Omni",
+      "url": "/product/omni-airmax-5g13",
+      "price": 142.96,
+      "currency": "USD",
+      "mpn": "AMO-5G13",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

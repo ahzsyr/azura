@@ -1,0 +1,22 @@
+/** Marketing route segments and CMS patterns that must not be used as locale urlPrefix */
+export const RESERVED_URL_PREFIXES = new Set([
+  "about",
+  "packages",
+  "hotels-transport",
+  "gallery",
+  "testimonials",
+  "contact",
+  "blog",
+  "faq",
+  "pages",
+  "collections",
+  "products",
+  "services",
+  "compare",
+  "favorites",
+  "account",
+  "search",
+  "preview",
+  "admin",
+  "api",
+]);

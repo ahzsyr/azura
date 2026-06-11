@@ -1,0 +1,393 @@
+/**
+ * Premium visual layer — Astro /sample parity.
+ * Atmosphere, hero depth, glass, glow, hover, and micro-interactions.
+ */
+
+/* ── Floating hero atmosphere ─────────────────────────────────────────────── */
+.az-hero-atmosphere {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.az-hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+  opacity: 0.32;
+  animation: az-float-orb 14s ease-in-out infinite;
+}
+
+.az-hero-orb--1 {
+  width: min(420px, 55vw);
+  height: min(420px, 55vw);
+  top: -12%;
+  inset-inline-end: -8%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-primary, var(--primary)) 55%, transparent) 0%, transparent 70%);
+}
+
+.az-hero-orb--2 {
+  width: min(320px, 45vw);
+  height: min(320px, 45vw);
+  bottom: -10%;
+  inset-inline-start: -6%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-accent, var(--accent)) 45%, transparent) 0%, transparent 70%);
+  animation-delay: -5s;
+}
+
+.az-hero-orb--3 {
+  width: min(260px, 38vw);
+  height: min(260px, 38vw);
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-secondary, var(--gold)) 35%, transparent) 0%, transparent 70%);
+  animation-delay: -9s;
+}
+
+@keyframes az-float-orb {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(28px, -32px) scale(1.08);
+  }
+}
+
+.az-hero-orb--3 {
+  animation-name: az-float-orb-center;
+}
+
+@keyframes az-float-orb-center {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(calc(-50% + 24px), calc(-50% - 28px)) scale(1.06);
+  }
+}
+
+/* Hero glow scrim (catalog parity) */
+.az-hero-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(
+    ellipse 80% 55% at 50% 0%,
+    color-mix(in srgb, var(--color-primary, var(--primary)) 28%, transparent),
+    transparent 68%
+  );
+  opacity: 0.9;
+}
+
+/* Transparent hero — site animated background shows through */
+.hero-overlay--transparent {
+  background: transparent !important;
+}
+
+.hero-overlay--transparent::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(
+    --az-preset-gradient-hero,
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--color-primary, var(--primary)) 18%, transparent) 0%,
+      transparent 55%
+    )
+  );
+  opacity: 0.75;
+}
+
+[data-block-type="hero"] {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glass hero badge / chip */
+.az-hero-badge {
+  display: inline-block;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-accent, var(--accent)) 45%, transparent);
+  background: color-mix(in srgb, var(--color-surface, var(--background)) 55%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 24px color-mix(in srgb, var(--color-primary, var(--primary)) 12%, transparent);
+}
+
+/* Section floating accents (features parity) */
+.az-section-atmosphere {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.az-section-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(64px);
+  opacity: 0.1;
+  animation: az-float-orb 16s ease-in-out infinite;
+}
+
+/* Readable content surface — sits above site hexagon/circuit canvas */
+.az-section--solid {
+  isolation: isolate;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--border) 40%, transparent);
+}
+
+/* Marketing forms: always dark text on light fields (BRT preset uses light --foreground) */
+.az-form-surface input,
+.az-form-surface textarea,
+.az-form-surface select {
+  background-color: #ffffff !important;
+  color: #18181b !important;
+  border-color: color-mix(in srgb, var(--border, #e5e5e5) 85%, #a1a1aa) !important;
+}
+
+.az-form-surface input::placeholder,
+.az-form-surface textarea::placeholder {
+  color: #737373 !important;
+}
+
+.az-form-surface label {
+  color: var(--color-primary, var(--primary)) !important;
+}
+
+/* CMS blocks — readable text on light section/card surfaces (BRT preset can set light --foreground globally) */
+:root:not(.dark) .site-main [data-block-type]:not([data-block-type="hero"]) {
+  --az-block-heading: #0f172a;
+  --az-block-body: #27272a;
+  --az-block-muted: #52525b;
+  color: var(--az-block-body);
+}
+
+:root:not(.dark) .site-main [data-block-type]:not([data-block-type="hero"]) :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--az-block-heading);
+}
+
+:root:not(.dark) .site-main [data-block-type] .text-muted-foreground {
+  color: var(--az-block-muted) !important;
+}
+
+:root:not(.dark) .site-main [data-block-type] .bg-card,
+:root:not(.dark) .site-main [data-block-type] [class*="from-card"] {
+  color: var(--az-block-body);
+}
+
+:root:not(.dark) .site-main [data-block-type] .bg-card :is(h1, h2, h3, h4),
+:root:not(.dark) .site-main [data-block-type] [class*="from-card"] :is(h1, h2, h3, h4),
+:root:not(.dark) .site-main [data-block-type] [class*="rounded-xl"][class*="border"] :is(h1, h2, h3, h4) {
+  color: var(--az-block-heading) !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+}
+
+html.dark .site-main [data-block-type] .bg-card,
+html.dark .site-main [data-block-type] [class*="from-card"] {
+  color: var(--card-foreground, var(--foreground));
+}
+
+html.dark .site-main [data-block-type] .bg-card :is(h1, h2, h3, h4),
+html.dark .site-main [data-block-type] [class*="from-card"] :is(h1, h2, h3, h4) {
+  color: var(--card-foreground, var(--foreground)) !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+}
+
+:root:not(.dark) .site-main [data-block-type] .font-medium:not(.text-primary):not(.text-accent),
+:root:not(.dark) .site-main [data-block-type] .font-semibold:not(.text-primary):not(.text-accent) {
+  color: var(--az-block-heading);
+}
+
+:root:not(.dark) .site-main [data-block-type="statsCounter"] .text-primary {
+  color: color-mix(in srgb, var(--primary, #0891b2) 50%, var(--az-block-heading, #0f172a)) !important;
+}
+
+.dark .az-form-surface input,
+.dark .az-form-surface textarea {
+  background-color: var(--card, #0f172a) !important;
+  color: var(--card-foreground, #f8fafc) !important;
+}
+
+.dark .az-form-surface input::placeholder,
+.dark .az-form-surface textarea::placeholder {
+  color: var(--muted-foreground, #94a3b8) !important;
+}
+
+.az-section-orb--primary {
+  width: 280px;
+  height: 280px;
+  top: -60px;
+  inset-inline-end: -40px;
+  background: radial-gradient(circle, var(--color-primary, var(--primary)), transparent 70%);
+}
+
+.az-section-orb--accent {
+  width: 220px;
+  height: 220px;
+  bottom: -50px;
+  inset-inline-start: -30px;
+  background: radial-gradient(circle, var(--color-accent, var(--accent)), transparent 70%);
+  animation-delay: -7s;
+}
+
+/* Site-wide premium surfaces */
+.site-main .card:not(.az-card):not([class*="border-none"]),
+.site-main [data-slot="card"]:not(.az-card) {
+  transition:
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.site-main .card:not(.az-card):hover,
+.site-main [data-slot="card"]:not(.az-card):hover {
+  transform: translateY(-4px);
+  box-shadow: var(--az-preset-shadow-glow, 0 12px 32px color-mix(in srgb, var(--color-primary, var(--primary)) 14%, transparent));
+}
+
+.site-main a[href]:not(.btn-primary):not(.action-pill) {
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+
+/* Interactive glow on primary actions */
+.site-main button:not(:disabled),
+.site-main .btn-primary,
+.site-main [data-slot="button"] {
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.28s ease,
+    background-color 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.site-main button:not(:disabled):hover,
+.site-main .btn-primary:hover {
+  box-shadow: 0 6px 22px color-mix(in srgb, var(--color-primary, var(--primary)) 28%, transparent);
+}
+
+/* Image lazy fade-in — class set by OptimizedImage after hydration */
+img.img-fade-pending {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+img.img-fade-loaded,
+img[loading="eager"],
+img[data-skip-img-fade] {
+  opacity: 1;
+}
+
+/* Shimmer accent for glass panels */
+@keyframes az-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.az-glass-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    color-mix(in srgb, var(--color-primary, var(--primary)) 8%, transparent) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: az-shimmer 8s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+html[data-card-style="liquid-glass"] .az-card.az-glass-shimmer::after,
+html[data-card-style="liquid-glass"] .az-liquid-glass-panel.az-glass-shimmer::after {
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    color-mix(in srgb, white 22%, transparent) 48%,
+    color-mix(in srgb, var(--color-primary, var(--primary)) 12%, transparent) 52%,
+    transparent 65%
+  );
+  animation-duration: 6s;
+  opacity: 0.75;
+}
+
+/* Preset-driven hover on marketing cards */
+.hover-glow-preset:hover {
+  box-shadow: var(--az-preset-shadow-glow);
+}
+
+html[data-preset-animated="on"] .site-main .az-card,
+html[data-preset-animated="on"] .site-main .hover-lift {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .az-hero-orb,
+  .az-section-orb,
+  .az-glass-shimmer::after {
+    animation: none !important;
+  }
+
+  .site-main .card:hover,
+  .site-main [data-slot="card"]:hover {
+    transform: none;
+  }
+
+  .animate-marquee {
+    animation: none !important;
+  }
+}
+
+html[data-reduced-paint="true"] .az-hero-orb,
+html[data-reduced-paint="true"] .az-section-orb,
+html[data-reduced-paint="true"] .az-glass-shimmer::after {
+  animation: none !important;
+  filter: none !important;
+}
+
+html[data-reduced-paint="true"] .az-hero-badge,
+html[data-effects-tier="light"] .az-hero-badge {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: var(--color-surface, var(--background)) !important;
+}
+
+html[data-effects-tier="light"] .az-hero-orb,
+html[data-effects-tier="light"] .az-section-orb {
+  filter: blur(32px);
+  opacity: 0.2;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}

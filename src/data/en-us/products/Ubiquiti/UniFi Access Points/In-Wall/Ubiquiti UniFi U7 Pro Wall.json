@@ -1,0 +1,324 @@
+{
+  "slug": "ubiquiti-access-point-u7-pro-wall",
+  "id": "U7-Pro-Wall",
+  "productTitle": "Ubiquiti UniFi U7 Pro Wall",
+  "name": "Ubiquiti UniFi U7 Pro Wall",
+  "title": "Ubiquiti UniFi U7 Pro Wall",
+  "title_extended": "",
+  "short_description": "Tri-band WiFi 7 access point, 2.4GHz 2x2 MU-MIMO, 5GHz 2x2 MU-MIMO, 6GHz 2x2 MU-MIMO, max data rates: 2.4GHz 688 Mbps, 5GHz 4.3 Gbps, 6GHz 5.7 Gbps, 1x 2.5 GbE RJ45 port, PoE+, up to 22W consumption, 140m² coverage, internal antennas, wall mount",
+  "description": "The Ubiquiti U7 Pro Wall is a revolutionary wall-mounted access point designed to deliver blazing-fast Wi-Fi 7 connectivity to your home. Leveraging cutting-edge Wi-Fi 7 technology with support for the 6 GHz band, it offers exceptional performance, ultra-low latency, and the capacity to handle numerous devices simultaneously. Whether you're streaming high-definition content, participating in online gaming, or managing a smart home network, the U7 Pro Wall ensures seamless connectivity for all your devices. The access point offers exceptional throughput rates: 688 Mbps on 2.4 GHz, 4324 Mbps on 5 GHz, and a staggering 5764 Mbps on the newly introduced 6 GHz band. This allows you to enjoy unmatched Wi-Fi speeds for even the most demanding applications.",
+  "detailed_description": [
+    {
+      "heading": "Unleash Next-Gen Wi-Fi 7",
+      "text": "The Ubiquiti U7 Pro Wall is a revolutionary wall-mounted access point designed to deliver blazing-fast Wi-Fi 7 connectivity to your home. Leveraging cutting-edge Wi-Fi 7 technology with support for the 6 GHz band, it offers exceptional performance, ultra-low latency, and the capacity to handle numerous devices simultaneously. Whether you're streaming high-definition content, participating in online gaming, or managing a smart home network, the U7 Pro Wall ensures seamless connectivity for all your devices. The access point offers exceptional throughput rates: 688 Mbps on 2.4 GHz, 4324 Mbps on 5 GHz, and a staggering 5764 Mbps on the newly introduced 6 GHz band. This allows you to enjoy unmatched Wi-Fi speeds for even the most demanding applications."
+    },
+    {
+      "heading": "High-Performance Access Point",
+      "text": "The U7 Pro Wall boasts impressive technical specifications that contribute to its outstanding performance. It features 6 spatial streams (utilizing MU-MIMO and OFDMA technologies) for efficient data transmission, ensuring smooth streaming, lag-free gaming, and efficient multitasking for all your connected devices. The Ubiquiti U7 Pro Wall is designed to provide extensive wireless coverage, reaching up to 140 square meters in optimal conditions. This makes it suitable for a variety of home layouts, from single-story apartments to larger houses with multiple floors. The access point itself is designed for wall mounting and comes with all the necessary installation hardware."
+    },
+    {
+      "heading": "Effortless Management",
+      "text": "The Ubiquiti U7 Pro Wall integrates seamlessly with the UniFi Network Controller software (version 8.1 and later) or UniFi OS (version 3.2 and later), allowing for centralized configuration, monitoring, and management of your entire network. Powered using PoE+, the U7 Pro Wall simplifies installation by eliminating the need for separate power adapters. With its future-proof Wi-Fi 7 technology, exceptional performance, and user-friendly features, the Ubiquiti U7 Pro Wall is the ideal solution for homeowners seeking to create a robust and scalable Wi-Fi network that can keep pace with their ever-growing digital demands."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Points",
+  "categories": [
+    "Ubiquiti",
+    "UniFi Access Points",
+    "In-Wall"
+  ],
+  "mpn": "U7-Pro-Wall",
+  "manufacturer_part_number": "U7-Pro-Wall",
+  "ean": "0810084695548",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4802/2-6659cdbc8e4cb-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4802/1-6659cdb6a1141-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4802/3-6659cdc143f67-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4802/4-6659cdc6db542-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4802/5-6659cdcb103a3-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4802/6-6659cdceece53-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4802/7-6659cdd320039-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4802/8-6659cdd8d16b8-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 200.14,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate",
+        "6GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 7"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax/be"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 2x2, 6GHz 2x2"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz, 6GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "687 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "4.3 Gbps"
+        },
+        {
+          "name": "6GHz Radio Rate",
+          "value": "5.7 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 2.5 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3at PoE+"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "44 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "22 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "150 x 103 x 36 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.58 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi U7 Pro Wall",
+      "url": "https://www.getic.com/files/catalogue/4802/u7prowall_ds-6659cdaec097a.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 184.92,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Outdoor",
+      "url": "/product/ubiquiti-access-point-u7-outdoor",
+      "price": 200.14,
+      "currency": "USD",
+      "mpn": "U7-Outdoor",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro Wall Table Stand",
+      "url": "/product/ubiquiti-u7-pro-wall-table-stand",
+      "price": 43.67,
+      "currency": "USD",
+      "mpn": "UACC-U7-Pro-Wall-TS",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Fiber",
+      "url": "/product/ubiquiti-unifi-cloud-gateway-fiber",
+      "price": 282.07,
+      "currency": "USD",
+      "mpn": "UCG-Fiber",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

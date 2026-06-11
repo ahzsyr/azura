@@ -1,0 +1,174 @@
+{
+  "slug": "mikrotik-k-65",
+  "id": 1877,
+  "productTitle": "MikroTik Rackmount ears for RB4011 series",
+  "name": "MikroTik Rackmount ears for RB4011 series",
+  "title": "MikroTik Rackmount ears for RB4011 series",
+  "title_extended": "",
+  "short_description": "Rackmount ears for RB4011 series, for installing units in standard rack",
+  "description": "Rackmount ears for RB4011 series, for installing units in standard rack",
+  "detailed_description": [
+    {
+      "heading": "Detailed description",
+      "text": "The MikroTik K-65 rackmount ears are a reliable and practical mounting solution designed specifically for the RB4011 series routers. Made from high-quality, durable metal, these rack ears allow you to securely install your RB4011 device into a standard 19-inch server rack, ensuring a clean, professional look for your network setup. The precise design guarantees a perfect fit and stable support, keeping your equipment safely in place even in demanding environments. Ideal for use in data centers, offices, or advanced home networks, the K-65 rackmount ears make it easy to integrate your MikroTik device into an organized and efficient rack system. Whether you are expanding your existing infrastructure or setting up a new installation, the K-65 provides a simple, space-saving, and long-lasting solution for mounting your RB4011 router securely and neatly."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Mounting Accessories",
+  "categories": [
+    "Mounting Accessories",
+    "Mounts and Brackets"
+  ],
+  "mpn": "K-65",
+  "manufacturer_part_number": "K-65",
+  "ean": "0708747437096",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1877/k65_1-5fdb5584cc1b8-medium.jpg",
+        "alt": "MikroTik Rackmount ears for RB4011 series",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1877/k65_3-5fdb5581ee8ac-medium.jpg",
+        "alt": "MikroTik Rackmount ears for RB4011 series",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1877/k65_4-5fdb558075f23-medium.jpg",
+        "alt": "MikroTik Rackmount ears for RB4011 series",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1877/k65_2-5fdb558364b8b-medium.jpg",
+        "alt": "MikroTik Rackmount ears for RB4011 series",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 4.82,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Material",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik RB4011iGS+RM",
+      "url": "/product/routerboard-4011igs-plus-rm",
+      "price": 175.29,
+      "currency": "USD",
+      "mpn": "RB4011iGS+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB4011iGS+5HacQ2HnD-IN",
+      "url": "/product/routerboard-4011igs-plus-5hacq2hnd-in",
+      "price": 225.70,
+      "currency": "USD",
+      "mpn": "RB4011iGS+5HacQ2HnD-IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB4011 Wall Mount kit",
+      "url": "/product/mikrotik-rb4011-wall-mount-kit",
+      "price": 12.86,
+      "currency": "USD",
+      "mpn": "WMK4011",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Rackmount kit for RB5009/L009 series",
+      "url": "/product/mikrotik-kit-k79",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "K-79",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik Value Added Distributor",
+    "MikroTik MTCNA Certificate"
+  ],
+  "stock_stat": "InStock"
+}

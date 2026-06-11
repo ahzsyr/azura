@@ -1,0 +1,279 @@
+{
+  "slug": "mant-lte-5o",
+  "id": "1577",
+  "productTitle": "MikroTik mANT LTE 5o",
+  "name": "MikroTik mANT LTE 5o",
+  "title": "MikroTik mANT LTE 5o",
+  "title_extended": "",
+  "short_description": "Omnidirectional antenna, 5 dBi gain, 699 - 2690 MHz, 2 x SMA connectors",
+  "description": "Buy MikroTik mANT LTE 5o. Price from 16.98 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "5dBi LTE Antenna with 2 x SMA Connectors",
+      "text": "The MikroTik mANT LTE 5o, bearing the manufacture part number MTAO-LTE-5D-SQ, is a high-quality directional LTE antenna designed to improve signal reception and broadband efficiency in diverse networking environments. This device is specifically engineered to enhance the connectivity of LTE-capable devices, making it an ideal solution for extending mobile network coverage in remote or signal-challenged locations. It is an excellent companion to Mikrotik LTE devices, such as the wAP LTE and LtAP series. The antenna has a 5 dBi gain, improving your connection in the areas with inadequate LTE service coverage, allowing you to increase your connection speed."
+    },
+    {
+      "heading": null,
+      "text": "The mANT LTE 5o operates across a wide frequency range of 699 to 2690 MHz, ensuring compatibility with a broad spectrum of LTE bands. This wide-ranging support makes it highly versatile and capable of enhancing network performance for nearly any LTE user. This antenna achieves a 360-degree beamwidth, directing and focusing the LTE signal in a precise manner to maximize the coverage and efficiency of the transmission. It's equipped with two SMA female connectors, allowing for easy and secure connection to LTE devices such as routers and modems that support external antennas."
+    },
+    {
+      "heading": null,
+      "text": "Measuring at a compact size, the mANT LTE 5o is designed for durability and robust performance, the mANT LTE 5o measures 129 x 129 x 34 mm, demonstrating a compact and efficient form factor suitable for outdoor installations. The build quality is enhanced with an IP54 outdoor rating, signifying its capability to withstand dust ingress and water splashes, making it suitable for various environmental conditions. It can operate in a wide range of ambient temperatures, from -40°C to +70°C, ensuring reliable performance in extreme weather conditions, from freezing cold to sweltering heat. Additionally, the mANT LTE 5o is certified with CE, EAC, and ROHS, which indicates compliance with strict European and international standards for safety and environmental impact. This certification reassures users of its quality and safety in a wide array of operational contexts."
+    },
+    {
+      "heading": "Applications and Installations",
+      "text": "The device housing is a flat design for easy mounting, but the antenna itself is omnidirectional and does not have to be accurately pointed, allowing simple installation to walls, poles, or other structures. This user-friendly installation process enables rapid deployment to enhance network coverage without the need for extensive technical support."
+    },
+    {
+      "heading": null,
+      "text": "The mANT LTE 5o is particularly effective in rural areas, remote locations, or anywhere LTE signals are weak or inconsistent. It can be employed in diverse settings, including residential homes, commercial offices, agricultural lands, and recreational areas, providing dependable internet access where it might not otherwise be available."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "4G Antennas",
+  "categories": [
+    "Ethernet Routers",
+    "hEX"
+  ],
+  "mpn": "MTAO-LTE-5D-SQ",
+  "manufacturer_part_number": "MTAO-LTE-5D-SQ",
+  "ean": "4752224002389",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1577/mtaolte5dsq_2-5fd8967d62c11-medium.jpg",
+        "alt": "MikroTik mANT LTE 5o",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1577/mtaolte5dsq_1-5fd8967b2e8b3-medium.jpg",
+        "alt": "MikroTik mANT LTE 5o",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 16.98,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "4G (LTE)"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Mobile Antenna Frequency Range & Gain",
+        "Mobile Antenna Gain",
+        "Beamwidth"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Mobile Antenna Frequency Range & Gain",
+          "value": "0.699 - 2.690 (GHz) 5 (dBi)"
+        },
+        {
+          "name": "Mobile Antenna Gain",
+          "value": "5 dBi"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "360 °"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Dimensions",
+          "value": "129 x 129 x 34 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik mANT LTE 5o",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/mant_lte_5o-data.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Torsten",
+        "date": "2024-06-21",
+        "text": "Connectors cover is a bit tricky to handle with thick cables",
+        "photos": []
+      },
+      {
+        "name": "Edgars",
+        "date": "2022-11-21",
+        "text": "Good for use",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Pigtail U.fl Female / SMA Female 10cm",
+      "url": "/product/pigtail-u-fl-female-sma-female-10cm",
+      "price": 2.75,
+      "currency": "USD",
+      "mpn": "P-UF-SF-10",
+      "availability": "InStock"
+    },
+    {
+      "name": "Pigtail U.fl Female / SMA Female 20cm",
+      "url": "/product/pigtail-u-fl-female-sma-female-20cm",
+      "price": 2.75,
+      "currency": "USD",
+      "mpn": "P-UF-SF-20",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SMA Male to SMA Male 1m Cable",
+      "url": "/product/mikrotik-cable-sma-male-sma-male-1-m",
+      "price": 8.04,
+      "currency": "USD",
+      "mpn": "SMASMA",
+      "availability": "InStock"
+    },
+    {
+      "name": "SMA Male to SMA Female 5m Twin Coaxial Cable",
+      "url": "/product/coaxial-cable-sma-male-sma-female-5m-duplex",
+      "price": 13.65,
+      "currency": "USD",
+      "mpn": "CC-SM-SF-5-D",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

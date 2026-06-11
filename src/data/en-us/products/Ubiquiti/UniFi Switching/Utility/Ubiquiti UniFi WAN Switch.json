@@ -1,0 +1,240 @@
+{
+  "slug": "ubiquiti-unifi-wan-switch",
+  "id": "USW-WAN",
+  "productTitle": "Ubiquiti UniFi WAN Switch",
+  "name": "Ubiquiti UniFi WAN Switch",
+  "title": "Ubiquiti UniFi WAN Switch",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The Ubiquiti UniFi WAN Switch is purpose-built to ensure reliable and uninterrupted connectivity in high-availability network environments. Designed to link two UniFi Gateways operating in Shadow Mode to a single internet service provider, it enables seamless failover and consistent WAN access. This architecture is ideal for organizations that require continuous uptime and cannot afford disruptions in connectivity. By acting as a dedicated WAN aggregation point, the switch simplifies the deployment of redundant gateway configurations. It allows both primary and backup gateways to maintain simultaneous connectivity to the ISP, ensuring immediate transition in the event of a failure. This design minimizes downtime and enhances overall network resilience without adding unnecessary complexity. The device integrates three 10G SFP+ ports, providing high speed uplink capability for modern gateway connections. These interfaces support both 10G and 1G operation, offering flexibility for different deployment scenarios. In addition, a dedicated 1 GbE RJ45 port is included for management connectivity, allowing administrators to monitor and configure the device efficiently. With its focused functionality and streamlined design, the UniFi WAN Switch is a key component for building robust WAN infrastructures. It is especially suited for enterprise environments, service providers, and mission critical networks where redundancy and stability are essential requirements. The UniFi WAN Switch is engineered to deliver efficient data handling and consistent performance under demanding network conditions. With a switching capacity of 20 Gbps and a total non blocking throughput of 10 Gbps, it ensures smooth data transmission between connected gateways and external networks. This performance level supports high bandwidth applications and maintains stability even during peak traffic periods. Its forwarding rate of 15 million packets per second enables fast and accurate packet processing, reducing latency and improving responsiveness across the network. This is particularly important in high availability environments where rapid data exchange is critical for maintaining synchronization between active and standby systems. The switch is also designed with energy efficiency in mind, consuming a maximum of just 13 watts. This low power consumption makes it suitable for continuous operation without significantly increasing operational costs. Combined with dual internal power supplies, the device provides an additional layer of reliability by ensuring consistent operation even if one power source is interrupted. Overall, the UniFi WAN Switch offers a balanced combination of performance and efficiency, making it a dependable solution for maintaining stable WAN connectivity in professional network environments. The UniFi WAN Switch features a robust rack-mountable 1U form factor that integrates easily into standard network cabinets. Its enclosure is constructed from SGCC steel, providing strength and protection for long-term operation in professional environments. The device is equipped with dual AC power inputs supporting a wide voltage range of 100 to 240 volts, ensuring compatibility with various power infrastructures. This redundant power design enhances operational reliability and supports continuous uptime in critical applications. Internal power supplies rated at 36 watts further contribute to stable and efficient performance. The switch operates within a temperature range of minus 5 to 40° C and supports humidity levels from 10 to 90 % without condensation. Enhanced electrostatic discharge protection helps safeguard the device against electrical disturbances, increasing overall resilience in diverse environments. For monitoring and management, the device includes LED indicators for Ethernet, SFP+, and system status, providing quick visual feedback. It is managed through the UniFi Network platform, ensuring seamless integration into existing UniFi ecosystems. With its compact size, solid construction, and reliable performance, the UniFi WAN Switch is a practical and dependable component for modern network infrastructures.",
+  "detailed_description": [
+    {
+      "heading": "WAN Redundancy Switch",
+      "text": "The Ubiquiti UniFi WAN Switch is purpose-built to ensure reliable and uninterrupted connectivity in high-availability network environments. Designed to link two UniFi Gateways operating in Shadow Mode to a single internet service provider, it enables seamless failover and consistent WAN access. This architecture is ideal for organizations that require continuous uptime and cannot afford disruptions in connectivity. By acting as a dedicated WAN aggregation point, the switch simplifies the deployment of redundant gateway configurations. It allows both primary and backup gateways to maintain simultaneous connectivity to the ISP, ensuring immediate transition in the event of a failure. This design minimizes downtime and enhances overall network resilience without adding unnecessary complexity. The device integrates three 10G SFP+ ports, providing high speed uplink capability for modern gateway connections. These interfaces support both 10G and 1G operation, offering flexibility for different deployment scenarios. In addition, a dedicated 1 GbE RJ45 port is included for management connectivity, allowing administrators to monitor and configure the device efficiently. With its focused functionality and streamlined design, the UniFi WAN Switch is a key component for building robust WAN infrastructures. It is especially suited for enterprise environments, service providers, and mission critical networks where redundancy and stability are essential requirements."
+    },
+    {
+      "heading": "High Performance",
+      "text": "The UniFi WAN Switch is engineered to deliver efficient data handling and consistent performance under demanding network conditions. With a switching capacity of 20 Gbps and a total non blocking throughput of 10 Gbps, it ensures smooth data transmission between connected gateways and external networks. This performance level supports high bandwidth applications and maintains stability even during peak traffic periods. Its forwarding rate of 15 million packets per second enables fast and accurate packet processing, reducing latency and improving responsiveness across the network. This is particularly important in high availability environments where rapid data exchange is critical for maintaining synchronization between active and standby systems. The switch is also designed with energy efficiency in mind, consuming a maximum of just 13 watts. This low power consumption makes it suitable for continuous operation without significantly increasing operational costs. Combined with dual internal power supplies, the device provides an additional layer of reliability by ensuring consistent operation even if one power source is interrupted. Overall, the UniFi WAN Switch offers a balanced combination of performance and efficiency, making it a dependable solution for maintaining stable WAN connectivity in professional network environments."
+    },
+    {
+      "heading": "Durable Rack Design",
+      "text": "The UniFi WAN Switch features a robust rack-mountable 1U form factor that integrates easily into standard network cabinets. Its enclosure is constructed from SGCC steel, providing strength and protection for long-term operation in professional environments. The device is equipped with dual AC power inputs supporting a wide voltage range of 100 to 240 volts, ensuring compatibility with various power infrastructures. This redundant power design enhances operational reliability and supports continuous uptime in critical applications. Internal power supplies rated at 36 watts further contribute to stable and efficient performance. The switch operates within a temperature range of minus 5 to 40° C and supports humidity levels from 10 to 90 % without condensation. Enhanced electrostatic discharge protection helps safeguard the device against electrical disturbances, increasing overall resilience in diverse environments. For monitoring and management, the device includes LED indicators for Ethernet, SFP+, and system status, providing quick visual feedback. It is managed through the UniFi Network platform, ensuring seamless integration into existing UniFi ecosystems. With its compact size, solid construction, and reliable performance, the UniFi WAN Switch is a practical and dependable component for modern network infrastructures."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Utility"
+  ],
+  "mpn": "USW-WAN",
+  "manufacturer_part_number": "USW-WAN",
+  "ean": "0810177160113",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7156/uswwan1-69dca07533eef-medium.jpg",
+        "alt": "Ubiquiti UniFi WAN Switch",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7156/uswwan2-69dca0785898d-medium.jpg",
+        "alt": "Ubiquiti UniFi WAN Switch",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7156/uswwan4-69dca07f7dece-medium.jpg",
+        "alt": "Ubiquiti UniFi WAN Switch",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7156/uswwan5-69dca082dac56-medium.jpg",
+        "alt": "Ubiquiti UniFi WAN Switch",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7156/uswwan6-69dca0896a5f4-medium.jpg",
+        "alt": "Ubiquiti UniFi WAN Switch",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7156/uswwan3-69dca08d4bb0b-medium.jpg",
+        "alt": "Ubiquiti UniFi WAN Switch",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 268.82,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(3) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "13 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442.4 x 120 x 43.7 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "2.3 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi WAN Switch",
+      "url": "https://www.getic.com/files/catalogue/7156/uswwan_ds-69dca06320745.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

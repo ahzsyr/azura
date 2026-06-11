@@ -1,0 +1,324 @@
+{
+  "slug": "ubiquiti-cloudkey-ssd",
+  "id": "UCK-G2-SSD",
+  "productTitle": "Ubiquiti CloudKey+ SSD",
+  "name": "Ubiquiti CloudKey+ SSD",
+  "title": "Ubiquiti CloudKey+ SSD",
+  "title_extended": "Ubiquiti CloudKey SSD – UniFi Controller with Built-In Storage",
+  "short_description": "UniFi hybrid cloud controller with 1TB SSD storage, 8-core ARM Cortex-A53 processor, 3GB RAM, 802.3af PoE, and backup battery.",
+  "description": "UniFi hybrid cloud controller with 1TB SSD storage, 8-core ARM Cortex-A53 processor, 3GB RAM, 802.3af PoE, and backup battery.",
+  "detailed_description": [
+    {
+      "heading": "Unified Management and Data Protection",
+      "text": "The Ubiquiti UniFi Cloud Key Gen2 Plus (UCK-G2-SSD) is a powerful hybrid cloud appliance that centralizes the management of UniFi devices and video surveillance infrastructure. Designed for seamless integration with both UniFi Network and UniFi Protect applications, it allows IT administrators to configure, monitor, and manage multiple systems from a single interface. The device is pre-installed with a 1 TB 2.5\" SATA hard drive (upgradeable up to 5 TB), providing ample storage for surveillance video recordings when used with UniFi cameras. It supports simultaneous operation of UniFi Network for routers, switches, and wireless access points, and UniFi Protect for managing video feeds, motion detection alerts, and camera configurations."
+    },
+    {
+      "heading": "Operational Resilience",
+      "text": "The Cloud Key Gen2 Plus is designed for operational resilience and data protection in demanding environments. It includes an internal backup battery that enables graceful shutdown in the event of power loss, reducing the risk of data corruption and system failure. Automatic, scheduled backups ensure that system configurations and surveillance data are safeguarded against accidental loss. Ideal for small- to medium-scale environments, the UCK-G2-SSD reduces the need for separate servers and simplifies remote access with integrated hybrid cloud capabilities and end-to-end encrypted communication."
+    },
+    {
+      "heading": "High Performance",
+      "text": "Engineered with enterprise-class specifications, the UCK-G2-SSD delivers exceptional performance in a compact, low-power form factor. It is powered by an 8-core ARM Cortex-A53 processor and equipped with 3 GB of LPDDR4 RAM, ensuring responsive operation and support for concurrent applications without lag. The device features a Gigabit Ethernet port with 802.3af Power over Ethernet (PoE), enabling both power and network data to be delivered over a single cable, simplifying deployment and reducing cable clutter. Its compact dimensions and desktop or rack-mount installation options make it highly versatile for varied environments including branch offices, retail spaces, and SMB server rooms."
+    },
+    {
+      "heading": "Smart Integration",
+      "text": "When integrated into a UniFi system, the UCK-G2-SSD allows remote management via Ubiquiti's secure hybrid cloud portal, eliminating the need for direct VPN access. Administrators can monitor site performance, user activity, and camera footage from anywhere through the UniFi mobile or web interface. The device also features a quick-release drive bay for easy HDD replacement and supports encrypted storage for enhanced security. Passive cooling ensures silent operation without compromising performance, while the durable aluminum chassis offers structural integrity and heat dissipation. A front-mounted status display provides real-time information, including system health, IP address, and operational status, facilitating maintenance and diagnostics."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "UniFi OS Console",
+  "categories": [
+    "UniFi OS Console",
+    "NVRs & Viewport"
+  ],
+  "mpn": "UCK-G2-SSD",
+  "manufacturer_part_number": "UCK-G2-SSD",
+  "ean": "0810084698426",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6045/1-681a04d2f328e-medium.jpg",
+        "alt": "Ubiquiti CloudKey+ SSD",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6045/2-681a04d70c2c6-medium.jpg",
+        "alt": "Ubiquiti CloudKey+ SSD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6045/3-681a04da5f873-medium.jpg",
+        "alt": "Ubiquiti CloudKey+ SSD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6045/4-681a04de248eb-medium.jpg",
+        "alt": "Ubiquiti CloudKey+ SSD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6045/5-681a04e1e6c2c-medium.jpg",
+        "alt": "Ubiquiti CloudKey+ SSD",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 215.00,
+    "currency": "USD",
+    "discount": {
+      "value": 16,
+      "original_price": 256.32
+    }
+  },
+  "old_price": 256.32,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory",
+        "Hard Drive Bay",
+        "Hard Drive",
+        "Number of Hard Drives",
+        "Max Capacity for Each HDD"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Octa-core Arm® Cortex®-A53 based chip"
+        },
+        {
+          "name": "RAM",
+          "value": "3 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "32 GB"
+        },
+        {
+          "name": "Hard Drive Bay",
+          "value": "(1) 2.5\" SATA"
+        },
+        {
+          "name": "Hard Drive",
+          "value": "Included"
+        },
+        {
+          "name": "Number of Hard Drives",
+          "value": "1 pcs"
+        },
+        {
+          "name": "Max Capacity for Each HDD",
+          "value": "1 TB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 802.3af PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "9.6 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "USB Type-C"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "9 V DC 2 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Aluminium"
+        },
+        {
+          "name": "Dimensions",
+          "value": "131.2 x 27.1 x 134.2 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.56 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 35 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti CloudKey+ SSD",
+      "url": "https://www.getic.com/files/catalogue/6045/uckg2ssd_ds-681a049eb8432.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "/product/usw-lite-8-poe-eu",
+      "price": 118.38,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 184.92,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Long-Range",
+      "url": "/product/ubiquiti-unifi-u7-long-range",
+      "price": 161.52,
+      "currency": "USD",
+      "mpn": "U7-LR",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "32 pcs in stock"
+}

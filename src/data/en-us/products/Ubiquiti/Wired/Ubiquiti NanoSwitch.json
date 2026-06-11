@@ -1,0 +1,353 @@
+{
+  "slug": "nano-switch",
+  "id": "N-SW",
+  "productTitle": "Ubiquiti NanoSwitch",
+  "name": "Ubiquiti NanoSwitch",
+  "title": "Ubiquiti NanoSwitch",
+  "title_extended": "Ubiquiti NanoSwitch – Outdoor 4-port Gigabit switch with PoE passthrough. **POE injector sold separately",
+  "short_description": "Outdoor 4-port Gigabit switch with PoE passthrough. **POE injector sold separately",
+  "description": "Outdoor 4-port Gigabit switch with PoE passthrough. **POE injector sold separately",
+  "detailed_description": [
+    {
+      "heading": "Outdoor 4-Port PoE Passthrough Switch",
+      "text": "Outdoor 4-Port PoE Passthrough Switch"
+    },
+    {
+      "heading": "",
+      "text": "The NanoSwitch is an outdoor, 4-port Gigabit switch with PoE pass-through. It is powered by 24V Passive PoE and provides up to 24W of power on three PoE out ports. The NanoSwitch is designed for outdoor deployment and supports up to 4 Gbps total, non-blocking line rate."
+    },
+    {
+      "heading": "",
+      "text": "Features"
+    },
+    {
+      "heading": "",
+      "text": "- (1) Gigabit 24V Passive PoE In Port\n- (3) Gigabit 24V Passive PoE Out Ports\n- Outdoor, Weather-Resistant Enclosure"
+    },
+    {
+      "heading": "Designed for Outdoor Durability",
+      "text": "Designed for Outdoor Durability"
+    },
+    {
+      "heading": "The NanoSwitch features an outdoor weatherproof form factor.\nOperating Temperature: -30 to 70° C (-22 to 158° F)",
+      "text": "The NanoSwitch features an outdoor weatherproof form factor.\nOperating Temperature: -30 to 70° C (-22 to 158° F)",
+      "media": [
+        {
+          "url": "https://www.getic.com/images/catalogue/description/668/nanoswitchfeatureoutdoordurability-60769cea67e39-645x410.jpg",
+          "alt": ""
+        }
+      ]
+    },
+    {
+      "heading": "Power Strip Simplicity for 24V Devices",
+      "text": "Power Strip Simplicity for 24V Devices"
+    },
+    {
+      "heading": "Simply providing 24V 2-pair input makes NanoSwitch an outdoor 4-port unmanaged switch with \"always on\" 24V 2-pair output on three ports.",
+      "text": "Simply providing 24V 2-pair input makes NanoSwitch an outdoor 4-port unmanaged switch with \"always on\" 24V 2-pair output on three ports."
+    },
+    {
+      "heading": "PoE Passthrough",
+      "text": "PoE Passthrough"
+    },
+    {
+      "heading": "",
+      "text": "PoE In — RJ45 port supports 10/100/1000 Ethernet connections, and supports passive 24V, 2-pair PoE to power the switch."
+    },
+    {
+      "heading": "",
+      "text": "PoE Out — RJ45 ports support 10/100/1000 Ethernet connections, and the three passive 24V, 2-pair PoE ports provide up to 30W PoE output."
+    },
+    {
+      "heading": "",
+      "text": "",
+      "media": [
+        {
+          "url": "https://www.getic.com/images/catalogue/description/668/nanoswitchfeatureoutdoorpoe1-60769f6754c5d-1300x345.jpg",
+          "alt": ""
+        }
+      ]
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Electrical Equipment",
+  "categories": [
+    "Ubiquiti",
+    "Wired",
+    "Other",
+    "Electrical Equipment"
+  ],
+  "mpn": "N-SW",
+  "manufacturer_part_number": "N-SW",
+  "ean": "0817882021708",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1498/nsw_front_angle-5ff5a3e4d8c6c-medium.jpg",
+        "alt": "Ubiquiti NanoSwitch angled view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1498/nsw_front-5ff5a3e076242-medium.jpg",
+        "alt": "Ubiquiti NanoSwitch front view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1498/nsw_left_side-5ff5a3e8400b2-medium.jpg",
+        "alt": "Ubiquiti NanoSwitch left side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1498/nsw_back-5ff5a3dc19160-medium.jpg",
+        "alt": "Ubiquiti NanoSwitch back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1498/nsw_ports-5ff5a3e5486fc-medium.jpg",
+        "alt": "Ubiquiti NanoSwitch ports view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 43.46,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(4) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "3 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "22 - 30 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "30 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "196.4 x 93.5 x 32.4 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.271 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Pole Mount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti NanoSwitch",
+      "url": "https://dl.ubnt.com/datasheets/NanoSwitch/NanoSwitch_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti NanoSwitch",
+      "url": "https://dl.ubnt.com/guides/NanoSwitch/NanoSwitch_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": "15.58"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": "31.45"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": "42.86"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "A.J.M.D.S",
+        "date": "2024-08-23",
+        "text": "Good product",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Ethernet Surge Protector",
+      "url": "/product/ethernet-surge-protector-gen-2",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "ETH-SP-G2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Lite AP GPS",
+      "url": "/product/lite-ap-ac-gps",
+      "price": 92.48,
+      "currency": "USD",
+      "mpn": "LAP-GPS",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-24-30W-G-WH",
+      "url": "/product/ubiquiti-poe-24-30w-g-wh-gigabit",
+      "price": 14.94,
+      "currency": "USD",
+      "mpn": "POE-24-30W-G-WH",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

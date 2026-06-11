@@ -1,0 +1,338 @@
+{
+  "slug": "mikrotik-crs320-8p-8b-4s-rm",
+  "id": "CRS320-8P-8B-4S+RM",
+  "productTitle": "MikroTik CRS320-8P-8B-4S+RM",
+  "name": "MikroTik CRS320-8P-8B-4S+RM",
+  "title": "MikroTik CRS320-8P-8B-4S+RM",
+  "title_extended": "MikroTik CRS320-8P-8B-4S+RM Switch – 16x Gigabit PoE, 4x SFP+",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "High-Power PoE++ Switch for Demanding Networks",
+      "text": "The MikroTik Cloud Router Switch CRS320-8P-8B-4S+RM is engineered to streamline the most complex and power-intensive networking needs. As MikroTik's first PoE++ or 802.3bt switch, the CRS320 excels in environments demanding high power output and robust performance, such as hotels, conference halls, office buildings, and high-rise facilities. It is an ideal solution for powering devices like 4K security cameras with heating elements, LED advertisement screens, and PoE-powered light fixtures, offering up to 90W per port."
+    },
+    {
+      "heading": "High-Capacity Networking",
+      "text": "This switch includes 17 Gigabit Ethernet ports and 4 ten-gigabit SFP+ ports, powered by the high-performance Marvel 98DX226S switch chip, renowned for handling extensive data loads including VLAN-filtering and hardware-offloaded Layer-3 routing. The CRS320 is equipped with a formidable dual-core 800 MHz ARM 32-bit processor complemented by 256 MB of DDR3 RAM and 32 MB of flash storage, ensuring quick and efficient handling of network tasks. It also comes with a reliable 600W power supply unit (PSU) and an expansion slot for an additional PSU to increase the total power output to 1150W, accommodating the most power-hungry devices. Additional G1483-0600WNB, hot-swap 600 W power supply, available for purchase separately!"
+    },
+    {
+      "heading": "PoE Capabilities",
+      "text": "Implementing full 802.3af/at/bt PoE standards, the CRS320 can power a wide range of devices, supporting isolated power delivery for high-voltage devices while also being capable of powering low-voltage and compatible PoE devices across all 16 PoE-out ports. The switch manages up to 90W per port with specific ports (Ether9-Ether16) dedicated to higher PoE standards (802.3bt), ensuring that even the most demanding devices are adequately powered."
+    },
+    {
+      "heading": "Advanced Management Features",
+      "text": "RouterOS v7, with a license level 5, provides advanced management capabilities and full control over routing and switching configurations. It supports numerous protocols and service configurations, making it an adaptable solution for any networking requirement. Furthermore, The smart PoE controller on the CRS320 enables dynamic power management, ensuring efficient distribution of power to connected devices without wasting energy."
+    },
+    {
+      "heading": "Maximized Safety and Efficiency",
+      "text": "Smart cable management facilitated by the CRS320 reduces the clutter and hazards associated with traditional power setups, promoting a clean and efficient network environment. In addition, passive cooling elements built into the design help maintain optimal performance without the additional noise or energy consumption of active cooling solutions. The switch is ideal for IT professionals in sectors like hospitality, corporate IT, security, and property management who require a high-density, power-efficient network management solution."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Cloud Router Switch PoE"
+  ],
+  "mpn": "CRS320-8P-8B-4S+RM",
+  "manufacturer_part_number": "CRS320-8P-8B-4S+RM",
+  "ean": "4752224008831",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4816/crs3208p8b4srm_1-667e570ea3291-medium.jpg",
+        "alt": "MikroTik CRS320-8P-8B-4S+RM",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4816/crs3208p8b4srm_2-667e5714cbb00-medium.jpg",
+        "alt": "MikroTik CRS320-8P-8B-4S+RM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4816/crs3208p8b4srm_3-667e5719d6900-medium.jpg",
+        "alt": "MikroTik CRS320-8P-8B-4S+RM",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/Du8OOHgL05w",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 434.22,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "US",
+        "UK"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(17) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "16 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE), 802.3at (PoE+), 802.3bt (PoE++)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(4) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "98DX226S, Dual-Core 800 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "256 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "32 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE, 802.3at PoE+, 802.3bt PoE++"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "1150 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Metal"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "444 x 235 x 44 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount, Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik CRS320-8P-8B-4S+RM",
+      "url": "https://www.getic.com/files/catalogue/4816/crs3208p8b4srm-667e60422e8d3.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik CRS320-8P-8B-4S+RM",
+      "url": "https://help.mikrotik.com/docs/pages/viewpage.action?pageId=250708058"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+      "url": "/product/direct-attach-cable-xs-da0001",
+      "price": 26.85,
+      "currency": "USD",
+      "mpn": "XS+DA0001",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB5009UPr+S+IN",
+      "url": "/product/mikrotik-rb5009upr-s-in",
+      "price": 239.45,
+      "currency": "USD",
+      "mpn": "RB5009UPr+S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik G1483-0600WNB Hot-Swap Power Supply",
+      "url": "/product/mikrotik-g1483-0600wnb-hot-swap-power-supply",
+      "price": 115.03,
+      "currency": "USD",
+      "mpn": "G1483-0600WNB",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik wAP ax",
+      "url": "/product/mikrotik-wap-ax",
+      "price": 81.00,
+      "currency": "USD",
+      "mpn": "wAPG-5HaxD2HaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

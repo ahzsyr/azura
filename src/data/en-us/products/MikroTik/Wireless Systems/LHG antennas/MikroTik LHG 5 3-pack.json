@@ -1,0 +1,323 @@
+{
+  "slug": "lhg-5-3-pack",
+  "id": null,
+  "productTitle": "MikroTik LHG 5 3-pack",
+  "name": "MikroTik LHG 5 3-pack",
+  "title": "MikroTik LHG 5 3-pack",
+  "title_extended": null,
+  "short_description": "5GHz, 24.5dBi, TX Power 25dBm, 1xLAN, 802.11a/n, RouterOS L3",
+  "description": "MikroTik LHG 5 3-pack description. 5GHz, 24.5dBi, TX Power 25dBm, 1xLAN, 802.11a/n, RouterOS L3",
+  "detailed_description": [
+    {
+      "heading": "Mitigating Interference & Amplifying Capacity",
+      "text": "The MikroTik LHG series consists of compact and lightweight wireless devices, each featuring a dual polarization grid antenna. These antennas are engineered to transmit and receive signals across both horizontal and vertical polarizations, significantly enhancing signal quality and bandwidth efficiency. The feature is paramount in areas prone to interference or in situations where network capacity needs to be amplified without additional frequency allocation. The series' design, characterized by its grid structure, not only mitigates wind load but also sharpens signal directionality, a critical factor for maintaining robust connections over extensive distances."
+    },
+    {
+      "heading": "Connecting Remote Locations",
+      "text": "As Customer Premises Equipment (CPE), the LHG 5 series is poised to transform long-distance wireless communications, providing customers with high-gain antenna solutions that facilitate reliable, long-range connectivity. This makes the series an ideal endpoint for PtP links or a robust means to connect remote locales to the main network infrastructure. Utilizing dual polarization grid antennas, the LHG 5 series not only ensures improved signal stability—countering multipath interference typical in long-distance wireless links—but also doubles the communication channel’s capacity, enhancing data throughput. The series represents a cost-effective, scalable, and flexible networking solution, particularly suited to environments where laying physical cables is challenging or prohibitively expensive, thus delivering high-value networking capabilities for rural deployments, urban network backhauls, extensive campus environments, and rapid deployment scenarios like events or emergency response setups."
+    },
+    {
+      "heading": "Signal Strength Maintenance",
+      "text": "The antenna's grid design is functional, offering wind resistance and eliminating cable loss by integrating the antenna directly with the wireless unit. This integration is crucial for maintaining signal strength over distances. The device operates on the 802.11a/n wireless standards, supporting a 5GHz radio rate of up to 300Mbps. It features a frequency range of 5.150 to 5.875 GHz with a gain of 24.5 dBi, and a narrow beamwidth of 7 degrees, focusing the signal for better directional control.\nAssembly of the LHG 5 series is engineered for simplicity, facilitating easy shipping and handling, while a user-friendly grounding point ensures safe installation. At the core of the device's functionality is the Qualcomm Atheros AR9344 chipset, a robust component acclaimed for its reliable performance in wireless networking equipment. This chipset combines essential networking functionalities, including processing power, memory management, and connectivity options, tailored to support the demands of high-speed wireless communication prevalent in routers, access points, and similar network devices. The AR9344's 600 MHz single-core processor is the driving force behind the LHG 5 series, providing ample processing capability to manage standard networking tasks like traffic routing, wireless connection management, and basic security protocols efficiently. This processor achieves an optimal balance between power consumption and operational efficiency, ensuring the device's dependable performance in a diverse array of networking environments over the long term."
+    },
+    {
+      "heading": "Balancing Cost & Connectivity Needs",
+      "text": "Complemented by 64 MB of RAM, the LHG 5 series is adept at handling multiple processes simultaneously, maintaining performance stability even with a moderate load of connected devices. The included 16 MB of storage memory is adequately provisioned for the device's firmware and essential operational data, ensuring a streamlined and focused networking experience.\nConnectivity is adeptly handled by a 100 Mbps Ethernet port, providing a competent wired link suitable for most setups, and matching the device's focus on efficient wireless networking. Despite its limitations for high-bandwidth tasks, this Ethernet connection is well-aligned with the device's operational scope, combining the need for cost-effective connectivity with the practical demands of daily network use. Coupled with its low energy consumption of 6W, the LHG 5 series stands out as a well-rounded, efficient solution for reliable wireless networking in various settings."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Integrated Antennas",
+  "categories": [
+    "MikroTik",
+    "Wireless Systems",
+    "LHG"
+  ],
+  "mpn": "RBLHG5kit",
+  "manufacturer_part_number": "RBLHG5kit",
+  "ean": "4752224003867",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1236/lhg5_3pack-medium.jpg",
+        "alt": "MikroTik LHG 5 3-pack",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1236/rblhg2nd_3-5fd88db51f4af-medium.jpg",
+        "alt": "MikroTik LHG 5 3-pack",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1236/rblhg5nd_3-5fd88db649410-medium.jpg",
+        "alt": "MikroTik LHG 5 3-pack",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - MikroTik LHG 5 3-pack",
+        "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-lhg.pdf"
+      },
+      {
+        "title": "Quick Start Guide - MikroTik LHG 5 3-pack",
+        "url": "https://www.getic.com/files/catalogue/1236/quickguidelhg5-6512dc902aa6b.pdf"
+      },
+      {
+        "title": "User Manual - MikroTik LHG 5 3-pack",
+        "url": "https://www.getic.com/files/catalogue/1236/usermanuallhgseries-6512dca4073ea.pdf"
+      }
+    ],
+    "3d_model": true
+  },
+  "price": {
+    "value": 161.54,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 4" },
+        { "name": "Standards", "value": "802.11n" },
+        { "name": "MIMO", "value": "5GHz 2x2" },
+        { "name": "Frequency", "value": "5GHz" },
+        { "name": "5GHz Radio Rate", "value": "300 Mbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization"
+      ],
+      "items": [
+        { "name": "Antenna Design", "value": "Reflector" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "5.150 - 5.875 (GHz) 24.5 (dBi)" },
+        { "name": "Beamwidth", "value": "7 °" },
+        { "name": "Polarization", "value": "Dual Linear" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 100 Mbps" },
+        { "name": "Management", "value": "Ethernet, Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "AR9344, 1 core, 600 MHz" },
+        { "name": "RAM", "value": "64 MB" },
+        { "name": "Storage Memory", "value": "16 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "24V Passive PoE" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Supported Input Voltage", "value": "11 - 30 V DC" },
+        { "name": "Max Power Consumption", "value": "6 W" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 0.38 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        { "name": "Ingress Protection Code", "value": "IP54" },
+        { "name": "Dimensions", "value": "Ø391 x 222 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Outdoor" },
+        { "name": "Mounting Method", "value": "Pole Mount" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units",
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "Units", "value": "3 pcs" },
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 3" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik LHG 5 3-pack",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/datasheet-lhg.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik LHG 5 3-pack",
+      "url": "https://www.getic.com/files/catalogue/1236/quickguidelhg5-6512dc902aa6b.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik LHG 5 3-pack",
+      "url": "https://www.getic.com/files/catalogue/1236/usermanuallhgseries-6512dca4073ea.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Darko",
+        "date": "2025-05-26",
+        "text": "brza im kvalitetna usluga ",
+        "photos": []
+      },
+      {
+        "name": "Alberto",
+        "date": "2023-12-15",
+        "text": "Ottimo prodotto, spedizione veloce. Venditore consigliato.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik mANTBox 15s",
+      "url": "/product/mantbox-15s",
+      "price": 99.00,
+      "currency": "USD",
+      "mpn": "RB921GS-5HPacD-15S",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik CSS326-24G-2S+RM",
+      "url": "/product/cloud-smart-switch-326-24g-2srm",
+      "price": 129.46,
+      "currency": "USD",
+      "mpn": "CSS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq Lite5",
+      "url": "/product/sxt-sq-lite5",
+      "price": 35.59,
+      "currency": "USD",
+      "mpn": "RBSXTsq5nD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX S",
+      "url": "/product/routerboard-hex-s",
+      "price": 53.10,
+      "currency": "USD",
+      "mpn": "RB760iGS",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik MTCNA Certificate",
+    "MikroTik Value Added Distributor"
+  ],
+  "stock_stat": ""
+}

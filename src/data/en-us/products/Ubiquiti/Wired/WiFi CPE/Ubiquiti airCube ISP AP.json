@@ -1,0 +1,363 @@
+{
+  "slug": "aircube-isp",
+  "id": "1466",
+  "productTitle": "Ubiquiti airCube ISP AP",
+  "name": "Ubiquiti airCube ISP AP",
+  "title": "Ubiquiti airCube ISP AP",
+  "title_extended": "",
+  "short_description": "2.4GHz, AirMax, 4xLAN, 802.11n 2x2, ** PSU adapter sold separately",
+  "description": "The Ubiquiti airCube ISP AP is a compact and cost-effective wireless access point designed to deliver efficient and reliable Wi-Fi connectivity for Internet Service Providers (ISPs) and their customers. Part of Ubiquiti Networks' innovative lineup of networking products, the airCube ISP is engineered to provide a seamless internet experience in a home or small office setting, combining performance with simplicity in a sleek, modern design. Operating on the 2.4 GHz band, the airCube ISP supports the 802.11n Wi-Fi standard, ensuring compatibility with a wide range of wireless devices while providing speeds of up to 300 Mbps. This level of performance is suitable for everyday internet activities such as web browsing, email, and social media access, as well as streaming media content. Its single-band operation is optimized to minimize interference in environments densely populated with wireless networks, making it an ideal solution for areas with a high concentration of Wi-Fi devices. One of the airCube ISP's distinguishing features is its integrated four-port Ethernet switch, which facilitates the direct connection of wired devices for enhanced performance and reliability. This capability allows users to easily connect desktop computers, gaming consoles, and other Ethernet-enabled devices directly to the access point, ensuring stable and fast connections for activities that demand higher bandwidth or lower latency. The airCube ISP is designed for effortless setup and deployment, making it accessible for users with limited technical knowledge. It can be powered through Power over Ethernet (PoE) for a cleaner and more efficient installation, reducing the need for additional power cables and outlets. This feature also enables the airCube ISP to be installed in locations where power outlets are scarce or inconveniently located, providing greater flexibility in positioning the device to optimize Wi-Fi coverage. Management of the airCube ISP is streamlined through the intuitive Ubiquiti Network Management Software (UNMS) app, available for both iOS and Android platforms. This application allows users to easily configure and monitor their network settings from a mobile device, offering features such as Wi-Fi network setup, device management, and performance analytics. The user-friendly interface ensures that maintaining and optimizing the home network is straightforward and hassle-free. Security is a priority for the airCube ISP, which includes advanced features to protect the network and connected devices from unauthorized access and cyber threats. It supports WPA2 encryption to secure wireless communications and comes equipped with firewall capabilities to manage and monitor access to the network. Also, despite its compact size, the airCube ISP does not compromise on design or build quality. Its stylish, cube-shaped enclosure is not only aesthetically pleasing but also durable, making it a discreet yet powerful addition to any setting. Ubiquiti airCube ISP AP (ACB-ISP) is an ideal wireless solution for ISPs looking to offer their customers an affordable, reliable, and easy-to-manage Wi-Fi access point. With its straightforward setup, integrated Ethernet switch, mobile management app, and robust security features, the airCube ISP provides a solid foundation for a seamless and secure home networking experience, catering to the needs of modern internet users.",
+  "detailed_description": [
+    {
+      "heading": "Compact and Cost-Effective Design",
+      "text": "The Ubiquiti airCube ISP AP is a compact and cost-effective wireless access point designed to deliver efficient and reliable Wi-Fi connectivity for Internet Service Providers (ISPs) and their customers. Part of Ubiquiti Networks' innovative lineup of networking products, the airCube ISP is engineered to provide a seamless internet experience in a home or small office setting, combining performance with simplicity in a sleek, modern design."
+    },
+    {
+      "heading": "2.4 GHz Performance",
+      "text": "Operating on the 2.4 GHz band, the airCube ISP supports the 802.11n Wi-Fi standard, ensuring compatibility with a wide range of wireless devices while providing speeds of up to 300 Mbps. This level of performance is suitable for everyday internet activities such as web browsing, email, and social media access, as well as streaming media content. Its single-band operation is optimized to minimize interference in environments densely populated with wireless networks, making it an ideal solution for areas with a high concentration of Wi-Fi devices."
+    },
+    {
+      "heading": "Integrated Four-Port Ethernet Switch",
+      "text": "One of the airCube ISP's distinguishing features is its integrated four-port Ethernet switch, which facilitates the direct connection of wired devices for enhanced performance and reliability. This capability allows users to easily connect desktop computers, gaming consoles, and other Ethernet-enabled devices directly to the access point, ensuring stable and fast connections for activities that demand higher bandwidth or lower latency."
+    },
+    {
+      "heading": "Effortless Setup and PoE",
+      "text": "The airCube ISP is designed for effortless setup and deployment, making it accessible for users with limited technical knowledge. It can be powered through Power over Ethernet (PoE) for a cleaner and more efficient installation, reducing the need for additional power cables and outlets. This feature also enables the airCube ISP to be installed in locations where power outlets are scarce or inconveniently located, providing greater flexibility in positioning the device to optimize Wi-Fi coverage."
+    },
+    {
+      "heading": "Management with UNMS App",
+      "text": "Management of the airCube ISP is streamlined through the intuitive Ubiquiti Network Management Software (UNMS) app, available for both iOS and Android platforms. This application allows users to easily configure and monitor their network settings from a mobile device, offering features such as Wi-Fi network setup, device management, and performance analytics. The user-friendly interface ensures that maintaining and optimizing the home network is straightforward and hassle-free."
+    },
+    {
+      "heading": "Security and Build Quality",
+      "text": "Security is a priority for the airCube ISP, which includes advanced features to protect the network and connected devices from unauthorized access and cyber threats. It supports WPA2 encryption to secure wireless communications and comes equipped with firewall capabilities to manage and monitor access to the network. Also, despite its compact size, the airCube ISP does not compromise on design or build quality. Its stylish, cube-shaped enclosure is not only aesthetically pleasing but also durable, making it a discreet yet powerful addition to any setting."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "WiFi Routers",
+  "categories": [
+    "Ubiquiti",
+    "Wired",
+    "WiFi CPE"
+  ],
+  "mpn": "ACB-ISP",
+  "manufacturer_part_number": "ACB-ISP",
+  "ean": "0817882020350",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1466/acbisp_angle-601cfdca6d12d-medium.jpg",
+        "alt": "Ubiquiti airCube ISP AP",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1466/acbisp_front-601cfdc835f01-medium.jpg",
+        "alt": "Ubiquiti airCube ISP AP",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1466/acbisp_back-601cfdc94fc76-medium.jpg",
+        "alt": "Ubiquiti airCube ISP AP",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 30.84,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 4"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "300 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.4 - 2.4 (GHz) 4 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(4) 100 Mbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "4.95 - 5.05 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "5 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "MicroUSB"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "90 x 90 x 88 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.215 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airCube ISP AP",
+      "url": "https://dl.ubnt.com/datasheets/aircube/airCube_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airCube ISP AP",
+      "url": "https://dl.ubnt.com/guides/airCube/airCube_ISP_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "method": "Pickup point",
+      "price": 15.58,
+      "currency": "USD",
+      "description": "receive in 18 business days"
+    },
+    {
+      "method": "Standard",
+      "price": 31.45,
+      "currency": "USD",
+      "description": "receive in 5 business days"
+    },
+    {
+      "method": "Express",
+      "price": 42.86,
+      "currency": "USD",
+      "description": "receive in 2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "Trustpilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Winston",
+        "date": "2025-06-06T13:22:57+03:00",
+        "text": "i love them i only use aircubes in my network",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airCube Home WiFi AP",
+      "url": "/product/aircube-ac",
+      "price": 71.52,
+      "currency": "USD",
+      "mpn": "ACB-AC",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-24-7W-G-WH",
+      "url": "/product/ubiquiti-poe-24-7w-g-wh-gigabit",
+      "price": 7.52,
+      "currency": "USD",
+      "mpn": "POE-24-7W-G-WH",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UISP Switch",
+      "url": "/product/ubiquiti-uisp-switch-for-micropop-applications",
+      "price": 111.98,
+      "currency": "USD",
+      "mpn": "UISP-S",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

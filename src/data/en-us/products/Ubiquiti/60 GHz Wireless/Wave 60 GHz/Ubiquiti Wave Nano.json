@@ -1,0 +1,366 @@
+{
+  "slug": "ubiquiti-uisp-wave-nano",
+  "id": "Wave-Nano",
+  "productTitle": "Ubiquiti Wave Nano",
+  "name": "Ubiquiti Wave Nano",
+  "title": "Ubiquiti Wave Nano",
+  "title_extended": "",
+  "short_description": "60 GHz PtMP station, 5 GHz backup radio, up to 5 km link, 2Gbps total throughput",
+  "description": "60 GHz PtMP station, 5 GHz backup radio, up to 5 km link, 2Gbps total throughput",
+  "detailed_description": [
+    {
+      "heading": "60 GHz PtMP Access Point",
+      "text": "The Ubiquiti Wave-Nano, identified by its model part number as Wave-Nano, is a 60 GHz Point-to-Multipoint (PtMP) station that excels in delivering high-speed, reliable wireless connectivity. This device is powered by Ubiquiti's Wave Technology, ensuring efficient performance with a total throughput capability of 2 Gbps (1 Gbps duplex). It's particularly designed for scenarios requiring extended range connectivity, offering a maximum link range of up to 5 km when paired with the Wave AP and up to 4 km with the Wave AP Micro."
+    },
+    {
+      "heading": "Features",
+      "text": "5 GHz backup radio, Link range with Wave AP: up to 5 km, Link range with Wave AP Micro: up to 4 km, Bridge/ Router mode support, Integrated GPS antenna, Link planning support via ISP Design Center"
+    },
+    {
+      "heading": "Hardware",
+      "text": "The hardware configuration of the Wave-Nano includes a dual-core ARM Cortex-A53 processor operating at 1 GHz, accompanied by 512 MB of DDR3L memory, which is adequate for handling the demands of modern wireless communications. Networking interfaces include a single Gigabit Ethernet RJ45 port, suitable for high-speed wired connections."
+    },
+    {
+      "heading": "Rugged Outdoor Design",
+      "text": "The Wave-Nano is built to endure harsh outdoor environments, boasting an IPX6 weatherproof rating, which makes it resistant to heavy rain and water splashes. It is housed in an enclosure made from aluminum alloy and UV-stabilized plastic, ensuring durability and stability in various environmental conditions. The device also features a pole mounting option, with a diameter allowance of 25 to 63.5 mm, making installation versatile and straightforward."
+    },
+    {
+      "heading": "Advanced Network Control",
+      "text": "For network management and device setup, the Wave-Nano is equipped with integrated GPS and Bluetooth capabilities. The Bluetooth function simplifies the setup process through the UISP Mobile app, enhancing user convenience. Additionally, the device contains a high-performance 5 GHz backup radio, which ensures continued connectivity even if the primary channel encounters interference or other issues. Installation and configuration are simplified with Bluetooth connectivity, allowing for straightforward setup through the UISP Mobile app. This feature, combined with comprehensive tools for antenna alignment and network diagnostics, ensures efficient deployment and maintenance.Thanks to UISP app you can centrally manage your networks and clients with ease. Simply organize your clients' plans, setup billing and invoicing, and grow your customer base. UISP application allows viewing network topology, advanced data analytics, quickly set up devices and manage them on the go with a powerful mobile app."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Outdoor Wireless",
+  "categories": [
+    "Ubiquiti",
+    "60 GHz Wireless",
+    "Wave 60 GHz"
+  ],
+  "mpn": "Wave-Nano",
+  "manufacturer_part_number": "Wave-Nano",
+  "ean": "0810010078988",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4277/1-63be6c7f379d7-medium.jpg",
+        "alt": "Ubiquiti Wave Nano",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4277/2-63be6c833d889-medium.jpg",
+        "alt": "Ubiquiti Wave Nano",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4277/3-63be6c8847d52-medium.jpg",
+        "alt": "Ubiquiti Wave Nano",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4277/4-63be6c8bd3a87-medium.jpg",
+        "alt": "Ubiquiti Wave Nano",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4277/5-63be6c8f35cfb-medium.jpg",
+        "alt": "Ubiquiti Wave Nano",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4277/6-63be6c9255d21-medium.jpg",
+        "alt": "Ubiquiti Wave Nano",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/KxC5RJ_3B3E",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 286.75,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "60GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ax, 802.11ad"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz, 60GHz"
+        },
+        {
+          "name": "60GHz Radio Rate",
+          "value": "2.0Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Wireless Antenna Frequency Range & Gain",
+        "Polarization",
+        "Distance"
+      ],
+      "items": [
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "57 - 71 (GHz) 41 (dBi), 5.15 - 5.785 (GHz) 19 (dBi)"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        },
+        {
+          "name": "Distance",
+          "value": "Up to 5 km"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Dual ARM® Cortex®-A53 cores at 1 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "512 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE, 48V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "18 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "48 V DC 0.65 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, UV Plastic"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IPX6"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø257 x 114 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.932 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Wave Nano",
+      "url": "https://www.getic.com/files/catalogue/4277/wavenano_ds-63be6af0ac3a0.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti Wave Nano",
+      "url": "https://www.getic.com/files/catalogue/4277/wavenano_instguide-63be6ca1bef60.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Wave AP",
+      "url": "/product/ubiquiti-uisp-wave-access-point",
+      "price": 495.58,
+      "currency": "USD",
+      "mpn": "Wave-AP",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Wave Long-Range",
+      "url": "/product/ubiquiti-uisp-wave-long-range",
+      "price": 388.57,
+      "currency": "USD",
+      "mpn": "Wave-LR",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Wave AP Micro",
+      "url": "/product/wave-access-point-micro",
+      "price": 470.56,
+      "currency": "USD",
+      "mpn": "Wave-AP-Micro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Wave Pro",
+      "url": "/product/wave-professional",
+      "price": 619.14,
+      "currency": "USD",
+      "mpn": "Wave-Pro",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

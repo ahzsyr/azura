@@ -1,0 +1,265 @@
+{
+  "slug": "horn-5-45",
+  "id": 1379,
+  "productTitle": "Ubiquiti airMAX PrismStation Horn 45°",
+  "name": "Ubiquiti airMAX PrismStation Horn 45°",
+  "title": "Ubiquiti airMAX PrismStation Horn 45°",
+  "title_extended": "Ubiquiti airMAX PrismStation Horn 45°",
+  "short_description": "5GHz, 15.5 dBi, Beam Width 45°, pair with PrismStation AC or IsoStation",
+  "description": "5GHz, 15.5 dBi, Beam Width 45°, pair with PrismStation AC or IsoStation",
+  "detailed_description": [
+    {
+      "heading": "5 GHz Beamwidth Horn antenna with 45° precise radiation angles for specific beam shaping.",
+      "text": "The airMAX PrismStation Horn 5 45° is an integral component of Ubiquiti Networks' sophisticated array of wireless network solutions, specifically crafted to augment the capabilities of the airMAX PrismStation series. This horn antenna is engineered to deliver a highly focused and direct beam pattern, making it an essential tool for constructing efficient and interference-resistant point-to-point (PtP) and point-to-multipoint (PtMP) wireless networks. The Horn-5-45 operates within the 5 GHz frequency spectrum, offering a unique combination of enhanced RF isolation and a 45° beamwidth to significantly curtail interference from extraneous signals."
+    },
+    {
+      "heading": "Compatibility",
+      "text": "Compatible with airFiber, LTU and airMAX radios."
+    },
+    {
+      "heading": "Integration and Design",
+      "text": "Integration with the PrismStation series is straightforward, thanks to the antenna's twist-lock mechanism, which ensures a secure and simple connection without the need for specialized tools or extensive installation procedures. This design not only facilitates rapid deployment and system scalability but also allows network operators to easily swap or upgrade antenna components as network requirements evolve. Moreover, the Horn-5-45 is also designed with compatibility in mind, seamlessly working with other Ubiquiti airMAX or LTU devices that support the same frequency band and connection interface. This interoperability allows for the creation of highly customized network deployments, catering to the specific coverage and performance needs of each installation."
+    },
+    {
+      "heading": "Precise Beam Shaping and RF Isolation",
+      "text": "A defining characteristic of the Horn-5-45 is its ability to shape the broadcast beam with great precision, thanks to its 45° beamwidth. This precise beam shaping is instrumental in focusing the radio signal directly towards the intended receivers, thereby minimizing the potential for interference and signal degradation over long distances. Such targeted transmission is particularly beneficial in densely populated areas or complex radio environments, where maintaining signal clarity and strength is challenging due to the plethora of competing wireless signals. Also, 30° and 45° versions offer breakthrough scalability options for wireless systems. Unique beam performance and great co‐location characteristics allow for a higher density of sectors than traditional sector technology. The Horn-5-45 distinguishes itself through its superior RF isolation capabilities, derived from its specialized horn antenna architecture. This design inherently limits the reception of off-angle signals, which are often a source of noise and disruptive interference in wireless communication systems. The result is a cleaner signal path with reduced noise, enhancing the overall performance and reliability of the network, especially in areas where the RF spectrum is congested with signals from various sources."
+    },
+    {
+      "heading": "Durability and Construction",
+      "text": "Constructed to endure the rigors of outdoor deployment, the Horn-5-45 is built with materials that resist weather-induced wear and tear. Its robust, weatherproof construction guarantees sustained performance in the face of environmental challenges such as rain, wind, and extreme temperature fluctuations. This durability is critical for ensuring the continuous operation of outdoor wireless networks, where equipment is continuously exposed to harsh conditions."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Wireless Antennas",
+  "categories": [
+    "Wireless Antennas",
+    "Antennas",
+    "Outdoor Wireless",
+    "Ubiquiti"
+  ],
+  "mpn": "Horn-5-45",
+  "manufacturer_part_number": "Horn-5-45",
+  "ean": "0817882022712",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1379/horn530_front-6033871ec364a-medium.jpg",
+        "alt": "Ubiquiti airMAX PrismStation Horn 45° front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1379/horn545_back-603392ef126fb-medium.jpg",
+        "alt": "Ubiquiti airMAX PrismStation Horn 45° back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1379/horn545_front_angle-603392f0aa56a-medium.jpg",
+        "alt": "Ubiquiti airMAX PrismStation Horn 45° front angle view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1379/horn545_back_angle-603392ee3bdab-medium.jpg",
+        "alt": "Ubiquiti airMAX PrismStation Horn 45° back angle view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1379/horn545_side_holes-603392efe1c20-medium.jpg",
+        "alt": "Ubiquiti airMAX PrismStation Horn 45° side with holes view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 71.52,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Horn"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "5.15 - 5.85 (GHz) 15.5 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "45 ° Vertical, 45 ° Horizontal"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) HornConnector"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "Ø175 x 96 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.34 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX PrismStation Horn 45°",
+      "url": "https://www.getic.com/https://dl.ubnt.com/datasheets/horn_5/Horn_Antennas_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX PrismStation Horn 45°",
+      "url": "https://www.getic.com/https://dl.ubnt.com/guides/horn_5/Horn-5-45_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX PrismStation Horn 30°",
+      "url": "/product/horn-5-30",
+      "price": 71.52,
+      "currency": "USD",
+      "mpn": "Horn-5-30",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX PrismStation Horn 60°",
+      "url": "/product/horn-5-60",
+      "price": 71.52,
+      "currency": "USD",
+      "mpn": "Horn-5-60",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX PrismStation Horn 90°",
+      "url": "/product/horn-5-90",
+      "price": 71.52,
+      "currency": "USD",
+      "mpn": "Horn-5-90",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX PrismStation 5AC",
+      "url": "/product/prismstation-ac",
+      "price": 264.47,
+      "currency": "USD",
+      "mpn": "PS-5AC",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

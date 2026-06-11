@@ -1,0 +1,329 @@
+{
+  "slug": "ubiquiti-device-bridge",
+  "id": "5189",
+  "productTitle": "Ubiquiti Device Bridge",
+  "name": "Ubiquiti Device Bridge",
+  "title": "Ubiquiti Device Bridge",
+  "title_extended": "Ubiquiti Device Bridge",
+  "short_description": "The Ubiquiti Device Bridge (UDB) is a compact wireless PoE adapter designed to simplify network expansion and device connectivity.",
+  "description": "The Ubiquiti Device Bridge (UDB) is a compact wireless PoE adapter designed to simplify network expansion and device connectivity. UniFi Wi-Fi Auto-Link technology simplifies wireless bridge deployment, allowing for quick setup without complex configuration. The UDB allows you to quickly create a reliable, high-speed wireless connection between devices, making it an ideal solution for extending networks to hard-to-reach locations.",
+  "detailed_description": [
+    {
+      "heading": "Effortless Wireless Bridging",
+      "text": "The Ubiquiti Device Bridge (UDB) is a compact wireless PoE adapter designed to simplify network expansion and device connectivity. UniFi Wi-Fi Auto-Link technology simplifies wireless bridge deployment, allowing for quick setup without complex configuration. The UDB allows you to quickly create a reliable, high-speed wireless connection between devices, making it an ideal solution for extending networks to hard-to-reach locations. This device is perfectly suited for UniFi Protect PoE cameras, UniFi Talk phones, and a wide range of IoT devices, enabling seamless integration into existing UniFi environments. By eliminating the need for additional cabling, the UDB helps reduce installation time and costs while maintaining a clean and flexible network setup. Whether deployed in residential or business environments, the Ubiquiti Device Bridge delivers the performance and reliability expected from modern networking equipment. It is especially well suited for applications that demand stable connectivity, quick deployment, and minimal maintenance. For users looking to extend their network wirelessly without sacrificing speed or dependability, the UDB provides a streamlined, practical, and highly efficient solution."
+    },
+    {
+      "heading": "High-Speed Connectivity",
+      "text": "Operating on the 5 GHz frequency band, the Ubiquiti Device Bridge delivers fast and stable wireless performance with a maximum throughput of up to 867 Mbps. It supports 802.11a/n/ac Wi-Fi standards and utilizes 2×2 MIMO technology, ensuring efficient data transmission and reliable connectivity even in bandwidth-demanding scenarios. The UDB is equipped with both an internal 5 dBi antenna and an external 4 dBi omnidirectional antenna, working together to maintain a strong signal over longer distances. This antenna configuration improves coverage and helps ensure consistent performance in environments where physical cabling is impractical. With its high data rates and stable wireless link, the UDB is well suited for applications such as video surveillance, VoIP communication, and connected IoT systems, where uninterrupted performance is essential. Whether streaming high-resolution video or supporting real-time voice traffic, the Device Bridge ensures that connected devices operate smoothly and efficiently. Its combination of speed, reliability, and range makes it an excellent choice for expanding networks without compromising performance."
+    },
+    {
+      "heading": "Powerful Performance",
+      "text": "Designed with Ubiquiti’s focus on reliability and quality, the Device Bridge combines a compact form factor with powerful networking capabilities. Its durable construction is built for continuous operation, making it suitable for demanding environments where stable connectivity is essential. The UDB features a Gigabit Ethernet LAN port and supports up to 15W of Passive PoE output, allowing it to power compatible devices directly without the need for an additional power adapter. This makes installation cleaner and more efficient, especially when connecting PoE cameras, phones, or other network devices. For added flexibility, the Device Bridge supports a wide input voltage range of 100–240 VAC, ensuring compatibility with various power environments worldwide. The combination of internal and external antennas provides consistent coverage and reliable wireless performance, even in challenging installations. With its versatile power options, strong wireless capabilities, and seamless UniFi integration, the Ubiquiti Device Bridge is a practical and powerful tool for network expansion. It offers a dependable solution for connecting remote devices while maintaining the performance and reliability expected in professional network setups."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "WiFi Bridges / CPE",
+  "categories": [
+    "Home and Office Networks",
+    "WiFi Bridges / CPE"
+  ],
+  "mpn": "UDB",
+  "manufacturer_part_number": "UDB",
+  "ean": "0810084695883",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5189/2-6712417dd9e72-medium.jpg",
+        "alt": "Ubiquiti Device Bridge",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5189/1-6712412a4bca6-medium.jpg",
+        "alt": "Ubiquiti Device Bridge",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5189/3-67124181ba7ce-medium.jpg",
+        "alt": "Ubiquiti Device Bridge",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5189/4-671241853a9bc-medium.jpg",
+        "alt": "Ubiquiti Device Bridge",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5189/5-6712418998681-medium.jpg",
+        "alt": "Ubiquiti Device Bridge",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5189/6-6712418d5c838-medium.jpg",
+        "alt": "Ubiquiti Device Bridge",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5189/7-671241911fda4-medium.jpg",
+        "alt": "Ubiquiti Device Bridge",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5189/8-671241961e773-medium.jpg",
+        "alt": "Ubiquiti Device Bridge",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 100.65,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac"
+        },
+        {
+          "name": "MIMO",
+          "value": "5GHz 2x2"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "867 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "25 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "130 x 55 x 34 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.2 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Device Bridge",
+      "url": "https://www.getic.com/files/catalogue/5189/udbeu_ds-67124121dc741.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Camera G5 Flex",
+      "url": "/product/ubiquiti-unifi-video-camera-g5-flex",
+      "price": 131.04,
+      "currency": "USD",
+      "mpn": "UVC-G5-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G5 Dome Ultra Black",
+      "url": "/product/ubiquiti-camera-g5-dome-ultra-black",
+      "price": 86.32,
+      "currency": "USD",
+      "mpn": "UVC-G5-Dome-Ultra-B",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex Mini 2.5G",
+      "url": "/product/ubiquiti-unifi-switch-flex-mini-2-5g",
+      "price": 54.26,
+      "currency": "USD",
+      "mpn": "USW-Flex-2.5G-5",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 In-Wall",
+      "url": "/product/ubiquiti-unifi-u7-in-wall",
+      "price": 149.81,
+      "currency": "USD",
+      "mpn": "U7-IW",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

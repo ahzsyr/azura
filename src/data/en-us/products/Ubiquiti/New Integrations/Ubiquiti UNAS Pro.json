@@ -1,0 +1,315 @@
+{
+  "slug": "ubiquiti-unas-pro",
+  "id": "UNAS-Pro",
+  "productTitle": "Ubiquiti UNAS Pro",
+  "name": "Ubiquiti UNAS Pro",
+  "title": "Ubiquiti UNAS Pro",
+  "title_extended": "",
+  "short_description": "Robust Network Storage Solution. The Ubiquiti UNAS Pro (UNAS-Pro) is engineered for enterprises and large-scale storage requirements. It features seven 2.5/3.5\" drive bays, offering users the flexibility to install both HDDs and SSDs. This NAS device supports a wide range of storage solutions, accommodating both traditional hard drives and high-speed solid-state drives.",
+  "description": "The Ubiquiti UNAS Pro (UNAS-Pro) is engineered for enterprises and large-scale storage requirements. It features seven 2.5/3.5\" drive bays, offering users the flexibility to install both HDDs and SSDs. This NAS device supports a wide range of storage solutions, accommodating both traditional hard drives and high-speed solid-state drives. Its 10 Gbps performance ensures seamless file transfers, making it a reliable choice for demanding tasks. The NAS device also incorporates a Bluetooth 4.1 interface for easy management and integration with wireless devices. The 1.3\" touchscreen display provides an intuitive interface for managing and monitoring the system, offering a user-friendly experience. These connectivity options make it ideal for environments that require fast and consistent network performance, such as media companies, businesses with large file servers, or IT departments managing extensive data storage.",
+  "detailed_description": [
+    {
+      "heading": "Robust Network Storage Solution",
+      "text": "The Ubiquiti UNAS Pro (UNAS-Pro) is engineered for enterprises and large-scale storage requirements. It features seven 2.5/3.5\" drive bays, offering users the flexibility to install both HDDs and SSDs. This NAS device supports a wide range of storage solutions, accommodating both traditional hard drives and high-speed solid-state drives. Its 10 Gbps performance ensures seamless file transfers, making it a reliable choice for demanding tasks. The NAS device also incorporates a Bluetooth 4.1 interface for easy management and integration with wireless devices. The 1.3\" touchscreen display provides an intuitive interface for managing and monitoring the system, offering a user-friendly experience. These connectivity options make it ideal for environments that require fast and consistent network performance, such as media companies, businesses with large file servers, or IT departments managing extensive data storage."
+    },
+    {
+      "heading": "Reliable Performance",
+      "text": "Powered by a Quad-Core ARM® Cortex®-A57 processor at 1.7 GHz, the Ubiquiti UNAS Pro delivers exceptional performance for large-scale file storage, sharing, and management. Its 8 GB of system memory ensures efficient multitasking and fast processing, making it suitable for demanding applications and workloads. The Ubiquiti UNAS Pro addresses the growing importance of data security in the digital era by integrating RAID storage technology, which lets users customize the balance between redundancy and performance. With RAID protection, your data is safeguarded against hardware failure, ensuring continuous uptime and minimizing the risk of data loss."
+    },
+    {
+      "heading": "Durability and Easy Installation",
+      "text": "The Ubiquiti UNAS Pro comes with a robust SGCC steel enclosure that ensures long-lasting performance in a variety of environments. It can be mounted both as a rack-mountable 2U device or as a desktop unit, providing flexibility for different setups. The system supports a wide voltage range (100-240V AC) and operates within an optimal temperature range of -5 to 40°C, making it suitable for use in diverse operating conditions. With a power consumption of just 160W (without drives) and a maximum drive power budget of 135W, the UNAS Pro offers both high performance and energy efficiency for your business or personal use. Whether you need to deploy it in a server room or a remote location, the UNAS Pro's compact form factor and reliable construction make it an excellent choice for any environment where uptime and storage capacity are critical."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Network Storage",
+  "categories": [
+    "Ubiquiti",
+    "New Integrations",
+    "Network Storage"
+  ],
+  "mpn": "UNAS-Pro",
+  "manufacturer_part_number": "UNAS-Pro",
+  "ean": "0810010079251",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5315/3-67320d10a434c-medium.jpg",
+        "alt": "Ubiquiti UNAS Pro",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5315/1-67320cfe9d05c-medium.jpg",
+        "alt": "Ubiquiti UNAS Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5315/2-67320d0297723-medium.jpg",
+        "alt": "Ubiquiti UNAS Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5315/4-67320e086eba0-medium.jpg",
+        "alt": "Ubiquiti UNAS Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5315/5-67320e0c67a81-medium.jpg",
+        "alt": "Ubiquiti UNAS Pro",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5315/6-67320e108835d-medium.jpg",
+        "alt": "Ubiquiti UNAS Pro",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 531.36,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports",
+        "Management",
+        "Bluetooth"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        },
+        {
+          "name": "Bluetooth",
+          "value": "4.1"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "Storage Memory",
+        "Hard Drive Bay",
+        "Hard Drive"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-Core ARM® Cortex®-A57 at 1.7 GHz"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "8 GB"
+        },
+        {
+          "name": "Hard Drive Bay",
+          "value": "(7) 2.5\" / 3.5\" SATA"
+        },
+        {
+          "name": "Hard Drive",
+          "value": "Not Included"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "USP RPS DC input"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "160 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "2U"
+        },
+        {
+          "name": "Material",
+          "value": "Stainless steel"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442 x 325 x 87 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "9.5 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UNAS Pro",
+      "url": "https://www.getic.com/files/catalogue/5315/unaspro_ds-67320cf9ae870.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "/product/usw-lite-8-poe-eu",
+      "price": 118.38,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Aggregation",
+      "url": "/product/usw-switch-aggregation",
+      "price": 269.19,
+      "currency": "USD",
+      "mpn": "USW-Aggregation",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro Max",
+      "url": "/product/dream-machine-pro-max",
+      "price": 578.18,
+      "currency": "USD",
+      "mpn": "UDM-Pro-Max",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UXG Gateway Fiber",
+      "url": "/product/ubiquiti-gateway-fiber",
+      "price": 263.34,
+      "currency": "USD",
+      "mpn": "UXG-Fiber",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

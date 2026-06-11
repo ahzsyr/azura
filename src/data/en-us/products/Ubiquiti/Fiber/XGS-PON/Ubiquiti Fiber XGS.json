@@ -1,0 +1,291 @@
+{
+  "slug": "uisp-fiber-xgs",
+  "id": "UISP-FIBER-XGS",
+  "productTitle": "Ubiquiti Fiber XGS",
+  "name": "Ubiquiti Fiber XGS",
+  "title": "Ubiquiti Fiber XGS",
+  "title_extended": "",
+  "short_description": "Optical Network Unit, 1x XGS-PON port, 1x 10GbE RJ45 LAN port",
+  "description": "The Ubiquiti Fiber XGS, designated by the manufacturer part number UISP-FIBER-XGS, is a cutting-edge fiber optic networking device built to deliver high-speed internet connectivity for demanding network environments. This device is part of Ubiquiti's UISP (Ubiquiti ISP) series, crafted to provide scalable and efficient network solutions for ISPs and extensive network operations.",
+  "detailed_description": [
+    {
+      "heading": "XGS-PON Technology",
+      "text": "The core functionality of the Fiber XGS revolves around its implementation of XGS-PON (10 Gigabit Capable Passive Optical Network) technology. This state-of-the-art technology adopts a point-to-multipoint setup utilizing passive splitters, enabling a single feeding fiber to serve numerous endpoints such as homes and businesses. The symmetric 10 Gbps upstream and downstream bandwidth capability is particularly suitable for high-demand applications including HD video streaming and large file transfers."
+    },
+    {
+      "heading": "Hardware and Connectivity",
+      "text": "The device is encased in a UV-stabilized polycarbonate housing, ensuring durability and resistance to environmental factors. It includes a networking interface comprised of one SC/APC ITU-G.9807 XGSPON WAN port for upstream connections and a versatile RJ45 LAN port that supports speeds from 100 MbE to 10,000 MbE, catering to diverse network requirements. The management of the device is facilitated via an Ethernet in-band interface. Internally, the UISP-FIBER-XGS is equipped with 256 MB DDR memory and 32 MB NOR flash storage, adequate for robust network management and operational stability."
+    },
+    {
+      "heading": "Power and Environmental Specifications",
+      "text": "The maximum power consumption of the device is modest at 8W, with a power method through USB-C at 5V DC, 3A. It is supplied with a 5V DC, 3A power adapter, ensuring efficient power usage while maintaining high performance. Also, the device operates optimally within an ambient temperature range of -15 to 45° C (5 to 113° F) and can handle humidity from 10% to 95% non-condensing. This makes it well-suited for a variety of environmental conditions. The device meets multiple certifications, including CE, FCC, and IC, which underscore its compliance with international standards."
+    },
+    {
+      "heading": "Performance Specifications",
+      "text": "It boasts a total non-blocking line rate with downstream and upstream speeds reaching up to 9.95 Gbit/s. The normal transmission (TX) range of the optical module is between 4 to 9 dBm, and the normal reception (RX) range is from -9 to -26 dBm, indicating robust signal handling capabilities. In terms of fiber optics, the UISP-FIBER-XGS operates with a transmission wavelength of 1,270 nm and a reception wavelength of 1,577 nm. The line code utilized is Scrambled NRZ, with a physical reach extending up to 20 km, allowing for expansive network setups."
+    },
+    {
+      "heading": "Management and Integration",
+      "text": "The management of the device is conveniently handled through an Ethernet in-band interface, simplifying configuration and monitoring. Furthermore, the UISP-FIBER-XG integrates flawlessly with Ubiquiti’s UISP (formerly UNMS) platform, providing comprehensive network management capabilities that include configuration, monitoring, and optimization tools."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "GPON",
+  "categories": [
+    "Fiber Networks",
+    "SFP Modules",
+    "XGS-PON"
+  ],
+  "mpn": "UISP-FIBER-XGS",
+  "manufacturer_part_number": "UISP-FIBER-XGS",
+  "ean": "0810084691236",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4480/1-64e4a66a94960-medium.jpg",
+        "alt": "Ubiquiti Fiber XGS",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4480/2-64e4a66f31e33-medium.jpg",
+        "alt": "Ubiquiti Fiber XGS",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4480/3-64e4a672e3e34-medium.jpg",
+        "alt": "Ubiquiti Fiber XGS",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4480/4-64e4a6763d081-medium.jpg",
+        "alt": "Ubiquiti Fiber XGS",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4480/5-64e4a67a11afb-medium.jpg",
+        "alt": "Ubiquiti Fiber XGS",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 148.91,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 10 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Fiber Equipment",
+      "features": [
+        "Connector Type"
+      ],
+      "items": [
+        {
+          "name": "Connector Type",
+          "value": "(1) SC/APC"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "8 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "USB Type-C"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "5 V DC 3 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "UV-stabilized polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "100 x 100 x 27 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.22 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-15 °C to 45 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Fiber XGS",
+      "url": "https://www.getic.com/files/catalogue/4480/uispfiberxgs_ds-64e4a66673ea5.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti Fiber XGS",
+      "url": "https://www.getic.com/files/catalogue/4480/uispfiberxgs_ig-64e4a785d2cd1.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti GPON OLT SFP Module, Class C+",
+      "url": "/product/u-fiber-gpon-c-plus",
+      "price": 73.00,
+      "currency": "USD",
+      "mpn": "UF-GP-C+",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Fiber Instant",
+      "url": "/product/ufiber-instant-optical-transceiver",
+      "price": 43.47,
+      "currency": "USD",
+      "mpn": "UF-Instant",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Fiber WiFi 6",
+      "url": "/product/ubiquiti-u-fiber-wifi-6-gpon-cpe",
+      "price": 101.11,
+      "currency": "USD",
+      "mpn": "UF-WIFI6",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Fiber XG",
+      "url": "/product/uisp-fiber-xg",
+      "price": 107.41,
+      "currency": "USD",
+      "mpn": "UISP-FIBER-XG",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

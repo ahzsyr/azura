@@ -1,0 +1,266 @@
+{
+  "slug": "netmetal-ax",
+  "id": 4779,
+  "productTitle": "MikroTik NetMetal ax",
+  "name": "MikroTik NetMetal ax",
+  "title": "MikroTik NetMetal ax",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "The MikroTik NetMetal Series",
+      "text": "The MikroTik NetMetal series represents a versatile and robust suite of outdoor wireless solutions designed to excel as Access Points (AP), Backbone links, or Customer Premises Equipment (CPE). Each model is equipped with features that support a wide range of applications and network configurations, tailored to meet the demands of complex and dynamic network environments. As Access Points, the NetMetal series is ideal for providing high-capacity wireless coverage. Equipped with powerful radios and dual-band capabilities, these devices can serve high-density areas with reduced interference and optimal bandwidth distribution. This makes them perfect for deploying in busy urban settings or large public venues where reliable, high-speed wireless access is crucial."
+    },
+    {
+      "heading": "Long-Range Connectivity",
+      "text": "The MikroTik NetMetal ax is a revolutionary outdoor wireless access point built to conquer even the most challenging environments.  This rugged device delivers exceptional Wi-Fi 6 performance, exceptional durability, and advanced features. Connect remote buildings, warehouses, or outdoor spaces with reliable Wi-Fi coverage. The NetMetal ax boasts powerful dual-band radios and the ability to connect external antennas for extended range of up to 30 kilometers with compatible antennas."
+    },
+    {
+      "heading": "Superior Performance",
+      "text": "Experience next-generation Wi-Fi 6 connectivity with the NetMetal 5 ax. It supports both 2.4 GHz and 5 GHz bands, delivering exceptional speeds and improved network stability for connected devices. The NetMetal ax offers a Gigabit Ethernet port for standard wired connections and an SFP+ port for fiber optic connectivity for high-bandwidth applications where distance is a factor. A modern dual-core ARM CPU ensures smooth operation under heavy loads, efficiently handling complex network tasks, routing, and security features."
+    },
+    {
+      "heading": "Enhanced Functionality",
+      "text": "Expand the functionality of NetMetal ax by adding an optional LTE modem for cellular internet backup or other miniPCIe cards, depending on your specific needs. Safeguard your network with features like VLANs, port security, and access control lists (ACLs) to prevent unauthorized access, isolate network traffic, and enhance overall network security. The NetMetal 5 ax runs on MikroTik's RouterOS, a powerful operating system offering granular control over routing, security, and network management. You can configure and manage the device easily through the intuitive RouterOS interface or the convenient MikroTik mobile app."
+    },
+    {
+      "heading": "Unmatched Durability and Flexibility",
+      "text": "Engineered to withstand harsh environments, the NetMetal ax features an IP66 weatherproof rating, protecting it from dust, rain, snow, and extreme temperatures (-40°C to 70°C). Its robust metal casing and high-quality components ensure reliable operation in demanding situations. Despite its robust build, the access point features a convenient one-handed opening mechanism for effortless setup and maintenance. With two RP-SMA connectors, the NetMetal ax allows you to connect external antennas for extending your network reach. If necessary, you can adapt the NetMetal ax for lower range use with such antennas as HGO-antenna-OUT (sold separately). It provides 3.3 dBi gain for the 2.4 GHz band and 5.5-7.1 dBi gain for the 5 GHz band."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": null,
+  "categories": [
+    "NetMetal",
+    "Wireless Systems"
+  ],
+  "mpn": "L23UGSR-5HaxD2HaxD-NM",
+  "manufacturer_part_number": "L23UGSR-5HaxD2HaxD-NM",
+  "ean": "4752224009234",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4779/2-664752fb64a35-medium.jpg",
+        "alt": "MikroTik NetMetal ax",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4779/1-66475306f1c52-medium.jpg",
+        "alt": "MikroTik NetMetal ax",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4779/3-6647530fa22ca-medium.jpg",
+        "alt": "MikroTik NetMetal ax",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4779/4-6647532703eeb-medium.jpg",
+        "alt": "MikroTik NetMetal ax",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4779/5-6647532e98a80-medium.jpg",
+        "alt": "MikroTik NetMetal ax",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 135.19,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": ["EU", "UK", "US"],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": ["SIM Card Slot"],
+      "items": [
+        { "name": "SIM Card Slot", "value": "Nano-SIM" }
+      ]
+    },
+    {
+      "technology": "Wireless Network",
+      "features": ["Generation", "Standards", "Frequency", "2.4GHz Radio Rate", "5GHz Radio Rate"],
+      "items": [
+        { "name": "Generation", "value": "WiFi 6" },
+        { "name": "Standards", "value": "802.11n/ac/ax" },
+        { "name": "Frequency", "value": "2.4GHz, 5GHz" },
+        { "name": "2.4GHz Radio Rate", "value": "573 Mbps" },
+        { "name": "5GHz Radio Rate", "value": "2.4 Gbps" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": ["RJ45 Ports", "SFP Ports", "USB Ports", "PCI Express"],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 1 Gbps" },
+        { "name": "SFP Ports", "value": "(1) 1G SFP" },
+        { "name": "USB Ports", "value": "(1) USB-A 2.0" },
+        { "name": "PCI Express", "value": "(1) MiniPCI-e" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": ["Chipset", "RAM", "Storage Memory"],
+      "items": [
+        { "name": "Chipset", "value": "IPQ-5010, 2 core, 800 MHz" },
+        { "name": "RAM", "value": "256 MB" },
+        { "name": "Storage Memory", "value": "128 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": ["Power Method", "Supported Input Voltage", "Max Power Consumption", "PSU / POE adapter"],
+      "items": [
+        { "name": "Power Method", "value": "AC/DC Adapter, 24V Passive PoE" },
+        { "name": "Supported Input Voltage", "value": "12 - 28 V DC" },
+        { "name": "Max Power Consumption", "value": "25 W" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 1.2 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": ["Ingress Protection Code", "Dimensions", "Operating Temperature", "Environment"],
+      "items": [
+        { "name": "Ingress Protection Code", "value": "IP66" },
+        { "name": "Dimensions", "value": "143 x 247 x 48 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Outdoor" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": ["External Power Supply"],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik NetMetal ax",
+      "url": "https://www.getic.com/files/catalogue/4779/netmetalaxax_ds-66475120022ca.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Torsten",
+        "date": "2024-06-21",
+        "text": "Good product, access to internal pcie slot tricky and drilling for 4G/5G/LoraWAN antennas needed",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik Dual-Band 2.4/5GHz Outdoor Wi-Fi Antenna",
+      "url": "/product/hgo-antenna-out",
+      "price": 9.65,
+      "currency": "USD",
+      "mpn": "HGO-antenna-OUT",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik mANTBox ax 15s",
+      "url": "/product/mikrotik-mantbox-ax-15s",
+      "price": 145.50,
+      "currency": "USD",
+      "mpn": "L22UGS-5HaxD2HaxD-15S",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik wAP ax",
+      "url": "/product/mikrotik-wap-ax",
+      "price": 81.00,
+      "currency": "USD",
+      "mpn": "wAPG-5HaxD2HaxD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq 5 ax",
+      "url": "/product/mikrotik-sxtsq-5-ax",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "SXTsq-5axD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

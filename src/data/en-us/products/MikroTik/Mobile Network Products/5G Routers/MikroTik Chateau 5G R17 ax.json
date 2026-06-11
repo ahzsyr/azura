@@ -1,0 +1,326 @@
+{
+  "slug": "mikrotik-chateau-5g-r17-ax",
+  "id": "mikrotik-chateau-5g-r17-ax",
+  "productTitle": "MikroTik Chateau 5G R17 ax",
+  "name": "MikroTik Chateau 5G R17 ax",
+  "title": "MikroTik Chateau 5G R17 ax",
+  "title_extended": "MikroTik Chateau 5G R17 ax – 5G WiFi 6 Router",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Dual-Band Wi‑Fi 6 Performance",
+      "text": "The Chateau 5G R17 ax features a next-generation 5G modem (Release 17, model RG650E) capable of ultra-fast connectivity with peak speeds reaching up to 7.01 Gbps downlink and 1.25 Gbps uplink in 5G standalone mode. It also supports 5.47 Gbps downlink and 730 Mbps uplink in non-standalone (NSA) mode, offering broad compatibility with various 5G bands including FDD: B1/B3/B5/B7/B8/B20/B26/B28/B67/B75/B76 and TDD: B38/B40/B41/B77/B78. For fallback, it provides LTE Cat 20 connectivity with download speed up to 2.0 Gbps and upload speed up to 200 Mbps, along with 3G support. On the wireless side, dual-band Wi-Fi 6 (802.11ax) delivers up to 1.2 Gbps on the 5 GHz band and 574 Mbps on 2.4 GHz, powered by dual 2×2 MIMO chains. Built-in 6 dBi antennas for 5 GHz and 3 dBi for 2.4 GHz ensure wide coverage and strong signal performance throughout the home or office."
+    },
+    {
+      "heading": "Robust Hardware",
+      "text": "The Chateau 5G R17 ax is equipped with a powerful quad-core ARM IPQ-6010 processor running at 1.8 GHz, paired with 1 GB DDR3L RAM and 128 MB NAND flash storage. This setup ensures smooth handling of advanced routing features like VPN, VLANs, quality of service (QoS), hardware-accelerated IPsec encryption, and dynamic firewall configurations. The device includes four Gigabit Ethernet (1 GbE) and one 2.5 GbE port for fast wired connections, plus a USB 2.0 Type-A port for additional peripherals. It supports dual SIM functionality through one micro-SIM slot and an integrated eSIM, allowing for seamless carrier switching and mobile data redundancy. There's also an M.2 slot, front-panel mode and sync buttons for rapid configuration, and real-time voltage and temperature monitoring. This versatile hardware design is ideal for users who require powerful network management with maximum reliability and flexibility."
+    },
+    {
+      "heading": "Advanced Durability and Security",
+      "text": "Designed for demanding environments, the Chateau 5G R17 ax operates in extreme temperatures from –40 °C to +70 °C, housed in a compact IP20-rated plastic enclosure ideal for indoor desktop or shelf installation. It includes two external high-gain 5G/LTE antennas and a flat 1.5 m Ethernet cable for easy deployment. Power is supplied via the included 24 V 1.2 A adapter, with operating voltage ranging from 12 V to 28 V DC and maximum power consumption at 26 W (16 W typical without peripherals). This device meets global standards and certifications including CE, FCC, IC, EAC, and RoHS. On the software side, it runs RouterOS v7 with a Level 4 license, supporting advanced security protocols such as WPA3 for Wi-Fi, SSL encryption, VPN tunneling, IP filtering, 802.1X authentication, and regular firmware updates for optimal protection. Whether used in homes, offices, or mobile setups, this router delivers carrier-grade stability and security."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "5G Routers",
+  "categories": [
+    "5G Routers",
+    "MikroTik"
+  ],
+  "mpn": "S53UG+5HaxD2HaxD-TC&RG650E-EU",
+  "manufacturer_part_number": "S53UG+5HaxD2HaxD-TC&RG650E-EU",
+  "ean": "4752224009852",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6720/chateau_5g_r17_ax_2-6855348d14956-medium.jpg",
+        "alt": "MikroTik Chateau 5G R17 ax",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6720/chateau_5g_r17_ax_1-68553493efa23-medium.jpg",
+        "alt": "MikroTik Chateau 5G R17 ax",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6720/chateau5gr17ax_3-6855349f63d6b-medium.jpg",
+        "alt": "MikroTik Chateau 5G R17 ax",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6720/chateau_5g_r17_ax_2-6855348d14956-tiny.jpg",
+        "alt": "MikroTik Chateau 5G R17 ax"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6720/chateau_5g_r17_ax_1-68553493efa23-tiny.jpg",
+        "alt": "MikroTik Chateau 5G R17 ax"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6720/chateau5gr17ax_3-6855349f63d6b-tiny.jpg",
+        "alt": "MikroTik Chateau 5G R17 ax"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 296.74,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "LTE Category",
+        "5G Category",
+        "NR SA Frequency Bands",
+        "NR NSA Frequency Bands",
+        "SIM Card Slot"
+      ],
+      "items": [
+        { "name": "Mobile Network Generation", "value": "3G (UMTS), 4G (LTE), 5G (NR)" },
+        { "name": "LTE Category", "value": "Cat20 - 2.0Gbps/300Mbps" },
+        { "name": "5G Category", "value": "SA - 7.01 Gbps / 1.25 Gbps, NSA - 5.47 Gbps / 730 Mbps" },
+        { "name": "NR SA Frequency Bands", "value": "n1, n3, n5, n7, n8, n20, n26, n28, n38, n40, n41, n75, n76, n77, n78" },
+        { "name": "NR NSA Frequency Bands", "value": "n1, n3, n5, n7, n8, n20, n26, n28, n38, n40, n41, n75, n76, n77, n78" },
+        { "name": "SIM Card Slot", "value": "Micro-SIM, eSIM" }
+      ]
+    },
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 6" },
+        { "name": "Standards", "value": "802.11n/ac/ax" },
+        { "name": "Frequency", "value": "2.4GHz, 5GHz" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "USB Ports"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(4) 1 Gbps, (1) 2.5 Gbps" },
+        { "name": "USB Ports", "value": "(1) USB-A 2.0" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "Quad-Core IPQ-6010 Frequency range - auto (864-1800MHz)" },
+        { "name": "RAM", "value": "1 GB" },
+        { "name": "Storage Memory", "value": "128 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "AC/DC Adapter" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Supported Input Voltage", "value": "12 - 28 V DC" },
+        { "name": "Max Power Consumption", "value": "26 W" },
+        { "name": "Power Connector", "value": "DC Plug 2.1 x 5.5 mm" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 1.2 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Operating Temperature"
+      ],
+      "items": [
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 4" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Chateau 5G R17 ax",
+      "url": "https://www.getic.com/files/catalogue/6720/chateau5gr17ax-685534801578f.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.7,
+    "count": 6,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 67,
+      "great": 33,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 4,
+      "4_star": 2,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Ilirjan",
+        "date": "2026-04-02",
+        "text": "the best router for e-sim",
+        "photos": []
+      },
+      {
+        "name": "Artūrs",
+        "date": "2026-01-22",
+        "text": "All I need was in this.",
+        "photos": []
+      },
+      {
+        "name": "Andris",
+        "date": "2025-12-21",
+        "text": "No antena port",
+        "photos": []
+      },
+      {
+        "name": "Ingus",
+        "date": "2025-08-24",
+        "text": "Nebija īsti ko gaidīju, bet strādā labi.",
+        "photos": []
+      },
+      {
+        "name": "Juris",
+        "date": "2025-08-12",
+        "text": "Very good!",
+        "photos": []
+      },
+      {
+        "name": "Jan",
+        "date": "2025-08-04",
+        "text": "Best router I ever had. \nDefault setup is pretty neat - basic settings are done under minute and as far as I was able to see there were no flaws in configuration, operational on first glance.\nMore to configuration - you can configure anything you can think of here. It is insane how many options you have from various VPN protocols, VLANs, SSH, interface settings, DHCPs. I think you can even run your own CA there if it is something you wish for. It basically gives you enterprise grade lvl of customisation into you hand.\nCLI may look scary but when you dig around a bit you find that CLI is just text representation of GUI settings and learning curve is not that high as I thought it would be. \nGreat product! I know it probably sounds like paid marketing but I am really happy with this one.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CCR2004-16G-2S+",
+      "url": "/product/mikrotik-ccr2004-16g-2s-plus",
+      "price": 372.35,
+      "currency": "USD",
+      "mpn": "CCR2004-16G-2S+",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB5009UPr+S+IN",
+      "url": "/product/mikrotik-rb5009upr-s-in",
+      "price": 239.45,
+      "currency": "USD",
+      "mpn": "RB5009UPr+S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ax",
+      "url": "/product/mikrotik-cap-ax",
+      "price": 103.11,
+      "currency": "USD",
+      "mpn": "cAPGi-5HaxD2HaxD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq 5 ax",
+      "url": "/product/mikrotik-sxtsq-5-ax",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "SXTsq-5axD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor"
+    }
+  ],
+  "stock_stat": "In stock"
+}

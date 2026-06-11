@@ -1,0 +1,414 @@
+{
+  "slug": "routerboard-wireless-wire",
+  "id": 1412,
+  "productTitle": "MikroTik Wireless Wire",
+  "name": "MikroTik Wireless Wire",
+  "title": "MikroTik Wireless Wire",
+  "title_extended": "",
+  "short_description": "QCA9533-BL3A CPU, 256MB RAM, 802.11ad, RouterOS L3",
+  "description": "QCA9533-BL3A CPU, 256MB RAM, 802.11ad, RouterOS L3",
+  "detailed_description": [
+    {
+      "heading": "Wireless Revolution: MikroTik Wireless Wire",
+      "text": "Discover high-speed networking with the MikroTik Wireless Wire – a solution that breaks free from traditional cables by delivering a seamless 1 Gbps full-duplex link over a 60 GHz wireless connection. The MikroTik Wireless Wire ensures rapid data transfers, freeing networks from the bottlenecks associated with traditional cables. The device's technology unlocks the full potential of network bandwidth, enhancing overall performance. Its adaptability makes the Wireless Wire suitable for diverse use cases, whether establishing connections in urban environments or ensuring reliable links in remote locations."
+    },
+    {
+      "heading": "Swift and Secure Connectivity",
+      "text": "The Wireless Wire redefines connectivity by establishing a secure AES-encrypted 60 GHz wireless link, liberating itself from the limitations of crowded Wi-Fi spectrums. Offering an impressive antenna range of 200 meters or more, this device guarantees stable and fast links. Engineered to effortlessly penetrate windows it ensures a seamless connection. Whether establishing secure connections in environments with Wi-Fi spectrum congestion or creating stable links over considerable distances, this device proves to be a versatile solution."
+    },
+    {
+      "heading": "Powerful Performance",
+      "text": "Beneath the surface, the Wireless Wire reveals an IPQ-4019 chipset, housing a quad-core processor clocked at 716 MHz. This robust configuration guarantees seamless operations, showcasing MikroTik's dedication to providing cutting-edge networking solutions. With a substantial 256 MB of RAM and 16 MB of storage memory, the Wireless Wire exceeds expectations in handling diverse networking tasks. The device achieves a remarkable 1 Gbps full-duplex link through the implementation of the 802.11ad wireless standards. This feature redefines the possibilities of high-speed wireless connections, offering users a level of performance that was once reserved for wired networks."
+    },
+    {
+      "heading": "Versatility in Deployment",
+      "text": "The pre-paired wAP60G devices ensure a hassle-free setup, eliminating the complexities associated with manual pairing. The pre-paired configuration simplifies the installation process, reducing setup time and minimizing potential errors. Combined with the included wall-mounting kit, pole-mounting straps, and table stands, it offers users great flexibility in choosing the most suitable deployment method for their specific environment. The inclusion of a wall mounting kit facilitates easy placement on vertical surfaces, while the pole-mounting straps offer a secure and flexible option for outdoor installations. Additionally, the table stands to cater to indoor scenarios, providing a convenient alternative for placement on flat surfaces."
+    },
+    {
+      "heading": "",
+      "text": "Beyond its immediate benefits, the Wireless Wire's versatility extends to scalable connectivity solutions. As a cable replacement, it adapts to the dynamic needs of evolving networks, making it suitable for expanding network coverage in large spaces or creating reliable point-to-point links over extended distances."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Outdoor Wireless",
+  "categories": [
+    "Outdoor Wireless",
+    "60GHz Wireless",
+    "Wireless Wire"
+  ],
+  "mpn": "RBwAPG-60adkit",
+  "manufacturer_part_number": "RBwAPG-60adkit",
+  "ean": "4752224004826",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1412/rbwapg60adkit_2-5fd8b2809ad85-medium.jpg",
+        "alt": "MikroTik Wireless Wire",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1412/rbwapg60adkit_3-5fd8b282a2ced-medium.jpg",
+        "alt": "MikroTik Wireless Wire",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1412/rbwapg60adkit_1-5fd8b312bd4a9-medium.jpg",
+        "alt": "MikroTik Wireless Wire",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/1ArN6tXbxng",
+        "type": "youtube"
+      }
+    ],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - MikroTik Wireless Wire",
+        "url": "https://www.getic.com/files/catalogue/mikrotik/wap60.pdf"
+      },
+      {
+        "title": "Quick Start Guide - MikroTik Wireless Wire",
+        "url": "https://www.getic.com/files/catalogue/1412/quickguidewirelesswire-650d7ffa54cab.pdf"
+      },
+      {
+        "title": "User Manual - MikroTik Wireless Wire",
+        "url": "https://www.getic.com/files/catalogue/1412/usermanualswirelesswirerbwapg60adkit-650d80083df34.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 185.60,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Standards",
+        "Frequency",
+        "60GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Standards",
+          "value": "802.11ad"
+        },
+        {
+          "name": "Frequency",
+          "value": "60GHz"
+        },
+        {
+          "name": "60GHz Radio Rate",
+          "value": "1Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Beamwidth",
+        "Distance"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Panel"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "60 °"
+        },
+        {
+          "name": "Distance",
+          "value": "Up to 200 m"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "IPQ-4019, 4 core, 716 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "256 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "16 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "11 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "5 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.38 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP55"
+        },
+        {
+          "name": "Dimensions",
+          "value": "185 x 85 x 30 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Pole Mount, Tabletop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units",
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "2 pcs"
+        },
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 3"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik Wireless Wire",
+      "url": "https://www.getic.com/files/catalogue/mikrotik/wap60.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik Wireless Wire",
+      "url": "https://www.getic.com/files/catalogue/1412/quickguidewirelesswire-650d7ffa54cab.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik Wireless Wire",
+      "url": "https://www.getic.com/files/catalogue/1412/usermanualswirelesswirerbwapg60adkit-650d80083df34.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 25.85,
+        "days": 18
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 34.71,
+        "days": 5
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "days": 2
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Normunds",
+        "date": "2025-06-12",
+        "text": "A good powerful device meets the necessary requirements",
+        "photos": []
+      },
+      {
+        "name": "Måns",
+        "date": "2023-05-10",
+        "text": "Easy set up, just unpack and plug in. Works as I expected and how they advertised it. I'm a no-tech and I had it working on first try. I get a better link with free view between the units, but works nice behind closed windows too. The attached screen-dump is from measuring with units behind closed windows, at ~35 meters distance (to another house across the street). My normal ISP speed is about 950/950Mbit at the router (Asus XT8) in the main house. This is good stuff!",
+        "photos": [
+          "https://www.getic.com/assets/images/reviews/efd70121-9b6c-42f1-93b3-23a3d31d5695/xml/645b8e0dd126b1b7b53a9b73-68935df054534.jpg"
+        ]
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hEX PoE",
+      "url": "/product/routerboard-hex-poe",
+      "price": 74.71,
+      "currency": "USD",
+      "mpn": "RB960PGS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ac2",
+      "url": "/product/mikrotik-hap-ac2",
+      "price": 58.70,
+      "currency": "USD",
+      "mpn": "RBD52G-5HacD2HnD-TC",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ac",
+      "url": "/product/routerboard-cap-ac",
+      "price": 69.97,
+      "currency": "USD",
+      "mpn": "RBcAPGi-5acD2nD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

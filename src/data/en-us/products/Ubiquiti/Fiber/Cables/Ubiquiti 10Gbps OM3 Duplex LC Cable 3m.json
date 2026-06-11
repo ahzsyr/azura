@@ -1,0 +1,269 @@
+{
+  "slug": "unifi-odn-fiber-cable-3",
+  "id": "1387",
+  "productTitle": "Ubiquiti 10Gbps OM3 Duplex LC Cable 3m",
+  "name": "Ubiquiti 10Gbps OM3 Duplex LC Cable 3m",
+  "title": "Ubiquiti 10Gbps OM3 Duplex LC Cable 3m",
+  "title_extended": "",
+  "short_description": "Multi-Mode Fiber Patch Cable, LC-LC, OM3, 3 m",
+  "description": "Multi-Mode Fiber Patch Cable, LC-LC, OM3, 3 m",
+  "detailed_description": [
+    {
+      "heading": "Scale your fiber network using flexible and lightweight fiber patch cables.",
+      "text": "Scale your fiber network using flexible and lightweight fiber patch cables."
+    },
+    {
+      "heading": null,
+      "text": "The Ubiquiti UOC is a high-quality OM3 Duplex LC Fiber Cable designed to ensure reliable and efficient data transmission in networking environments. Tailored for high-speed connectivity applications, this cable features LC connectors on both ends, enabling seamless integration with networking devices such as switches, routers, and servers. Constructed with premium-grade optical fibers, the cable delivers exceptional performance and reliability, making it suitable for both short and medium-range data transmission applications"
+    },
+    {
+      "heading": "Features",
+      "text": "Features:"
+    },
+    {
+      "heading": null,
+      "text": "10 Gbps throughput\nLC to LC connector\nFiber mode: 50 / 125 μm\nFiber type: Duplex"
+    },
+    {
+      "heading": null,
+      "text": "Engineered with precision, the UOC cable supports a fiber mode of 50/125 µm and a duplex fiber type, providing optimal performance for data transmission. Its PVC jacket enhances durability and protects the internal optical fibers while maintaining flexibility and ease of handling. The jacket's aqua color aids in easy identification and cable management within network installations. Available in lengths ranging from 0.5 to 5 meters, the UOC-0.5 cable offers flexibility in network deployment, allowing for efficient cable management and optimized routing within rack-mounted systems or data center environments."
+    },
+    {
+      "heading": null,
+      "text": "With a jacket outer diameter (OD) of 2.0 mm, the UOC cables provide a balance of compactness and durability, making it suitable for various deployment scenarios. Its robust construction ensures durability, with a durability specification of ≤ 0.2 dB after 1,000 mating cycles."
+    },
+    {
+      "heading": null,
+      "text": "Meeting OM3 optical fiber standards, the UOC cables offers low insertion loss of ≤ 0.3 dB and high repeatability of ≤ 0.1 dB, ensuring reliable signal transmission over its length. The UPC to UPC polish of the connectors further enhances signal integrity, optimizing performance at wavelengths of 850 and 1310 nm. Additionally, the UOC cables exhibit excellent return loss of ≤ 50 dB, minimizing signal reflection and ensuring efficient data transmission. It operates reliably in ambient temperatures ranging from -40 to 75°C (-40 to 167°F), making it suitable for deployment in diverse environmental conditions."
+    },
+    {
+      "heading": null,
+      "text": "Ubiquiti UOC OM3 Duplex LC Cables offer a premium solution for high-speed data transmission, characterized by exceptional performance, durability, and compatibility. Whether deployed in data centers, enterprise networks, or telecommunications systems, these cables deliver consistent and reliable connectivity, meeting the evolving needs of modern networking infrastructures."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Fiber",
+  "categories": [
+    "Ubiquiti",
+    "Fiber",
+    "Cables"
+  ],
+  "mpn": "UACC-OFC-MM-3M",
+  "manufacturer_part_number": "UACC-OFC-MM-3M",
+  "ean": "0817882020459",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1387/uoc3-601bcaae0c3a9-medium.jpg",
+        "alt": "Ubiquiti 10Gbps OM3 Duplex LC Cable 3m",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1387/uoc3-601bcaae0c3a9-tiny.jpg",
+        "alt": "Ubiquiti 10Gbps OM3 Duplex LC Cable 3m"
+      }
+    ],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - Ubiquiti 10Gbps OM3 Duplex LC Cable 3m",
+        "url": "https://www.getic.com/https://dl.ubnt.com/datasheets/fiber/U_Fiber_Modules_FiberCable_DS.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 6.4,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": 9.95,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Cable Length",
+      "options": [
+        "1 m",
+        "3 m",
+        "5 m"
+      ],
+      "default": "3 m"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Cable Type",
+        "Connector",
+        "Fiber Type",
+        "Max Data Rate",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Cable Type",
+          "value": "Fiber-Optic"
+        },
+        {
+          "name": "Connector",
+          "value": "(2) LC UPC"
+        },
+        {
+          "name": "Fiber Type",
+          "value": "Multi Mode"
+        },
+        {
+          "name": "Max Data Rate",
+          "value": "10Gbps"
+        },
+        {
+          "name": "Cable Length",
+          "value": "3 m"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Blue"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 75 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "class": "Pickup point",
+      "price": 15.58,
+      "currency": "USD",
+      "days": 18
+    },
+    {
+      "class": "Standard",
+      "price": 31.45,
+      "currency": "USD",
+      "days": 5
+    },
+    {
+      "class": "Express",
+      "price": 42.86,
+      "currency": "USD",
+      "days": 2
+    }
+  ],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "talansari",
+        "date": "2024-05-12",
+        "text": "Very good",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti 10Gbps Multi-Mode Optical Module, 2-Pack",
+      "url": "/product/u-fiber-multi-mode-module-10g-2-pack",
+      "price": 43.47,
+      "currency": "USD",
+      "mpn": "UACC-OM-MM-10G-D-2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti 10Gbps OM3 Duplex LC Cable 1m",
+      "url": "/product/unifi-odn-fiber-cable-1",
+      "price": 7.19,
+      "currency": "USD",
+      "mpn": "UACC-OFC-MM-1M",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti 10Gbps OM3 Duplex LC Cable 5m",
+      "url": "/product/unifi-odn-fiber-cable-5",
+      "price": 11.20,
+      "currency": "USD",
+      "mpn": "UACC-OFC-MM-5M",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Hi-Capacity Aggregation",
+      "url": "/product/unifi-switch-pro-aggregation",
+      "price": 882.48,
+      "currency": "USD",
+      "mpn": "USW-Pro-Aggregation",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

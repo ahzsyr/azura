@@ -1,0 +1,274 @@
+{
+  "slug": "mikrotik-wap-ax-us-version",
+  "id": "5541",
+  "productTitle": "MikroTik wAP ax US version",
+  "name": "MikroTik wAP ax US version",
+  "title": "MikroTik wAP ax US version",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The MikroTik wAP ax is a compact and versatile Wi-Fi 6 access point, engineered to deliver high-speed connectivity in both indoor and outdoor environments. It leverages an ARM IPQ-5010 processor with 800 MHz, supported by 256 MB RAM and 128 MB NAND storage, ensuring stable, high-performance networking for even the most demanding setups. With the latest Wi-Fi 6 technology, this device provides robust coverage and increased capacity, ideal for busy homes, small businesses, and more challenging installation sites. The wAP ax offers fast, efficient, and secure networking, elevating your internet experience with smooth, uninterrupted connections.",
+  "detailed_description": [
+    {
+      "heading": "High-Performance Wi-Fi 6",
+      "text": "The MikroTik wAP ax is a compact and versatile Wi-Fi 6 access point, engineered to deliver high-speed connectivity in both indoor and outdoor environments. It leverages an ARM IPQ-5010 processor with 800 MHz, supported by 256 MB RAM and 128 MB NAND storage, ensuring stable, high-performance networking for even the most demanding setups. With the latest Wi-Fi 6 technology, this device provides robust coverage and increased capacity, ideal for busy homes, small businesses, and more challenging installation sites. The wAP ax offers fast, efficient, and secure networking, elevating your internet experience with smooth, uninterrupted connections. The wAP ax operates on dual frequencies, enhancing flexibility and performance. The 2.4 GHz band supports speeds up to 574 Mbps, following the 802.11b/g/n/ax standards, and is powered by a 2.5 dBi gain antenna, making it ideal for broader, lower-speed coverage. Meanwhile, the 5 GHz band features Wi-Fi 6, offering up to 2400 Mbps under the 802.11a/n/ac/ax standards, with a high-gain 7 dBi antenna for faster, shorter-range connections. This dual-band system ensures balanced and reliable connections across different types of devices, even in network-heavy environments."
+    },
+    {
+      "heading": "Power Options and Weatherproof Design",
+      "text": "Equipped with two 10/100/1000 Ethernet ports, the wAP ax provides versatile wired connection options to support your network layout. The device supports multiple power input methods, including a DC Jack and 802.3af/at PoE-In, simplifying deployment and installation. A standard 24V 0.38A power adapter is also included for added convenience. This flexibility in power and connectivity makes the wAP ax ideal for both standalone setups and complex networks requiring seamless integration with other devices. The MikroTik wAP ax is built for durability and resilience, suitable for both indoor and outdoor use. Its discreet, minimalist design seamlessly blends into various environments, while its robust casing withstands exposure to dust, rain, and extreme temperatures. This makes it perfect for challenging installation sites, ensuring consistent, high-quality Wi-Fi access in any location. With its high-grade construction and advanced Wi-Fi capabilities, the wAP ax is a reliable solution for uninterrupted connectivity, no matter where you need it. The US version is specifically configured to adhere to the FCC regulations, restricting its operation to frequencies permitted within the United States."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Access Points",
+  "categories": [
+    "Access Points",
+    "wAP"
+  ],
+  "mpn": "wAPG-5HaxD2HaxD-US",
+  "manufacturer_part_number": "wAPG-5HaxD2HaxD-US",
+  "ean": "4752224009692",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5541/1-678f43cb4d66f-medium.jpg",
+        "alt": "MikroTik wAP ax US version",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5541/2-678f43df8e2cc-medium.jpg",
+        "alt": "MikroTik wAP ax US version",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5541/4-678f43ed9a779-medium.jpg",
+        "alt": "MikroTik wAP ax US version",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 81.00,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "US"
+      ],
+      "default": "US"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 6" },
+        { "name": "Standards", "value": "802.11n/ac/ax" },
+        { "name": "Frequency", "value": "2.4GHz, 5GHz USA" },
+        { "name": "2.4GHz Radio Rate", "value": "573 Mbps" },
+        { "name": "5GHz Radio Rate", "value": "2.4 Gbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design"
+      ],
+      "items": [
+        { "name": "Antenna Design", "value": "Omni" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(2) 1 Gbps" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "ARM 64bit, Dual-Core IPQ-5010 800 MHz" },
+        { "name": "RAM", "value": "256 MB" },
+        { "name": "Storage Memory", "value": "128 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "AC/DC Adapter, 802.3af PoE, 802.3at PoE+" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Supported Input Voltage", "value": "18 - 57 V DC" },
+        { "name": "Max Power Consumption", "value": "9 W" },
+        { "name": "Power Connector", "value": "DC Plug 2.1 x 5.5 mm" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 0.8 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Mounting Method"
+      ],
+      "items": [
+        { "name": "Color", "value": "White" },
+        { "name": "Ingress Protection Code", "value": "IP54" },
+        { "name": "Dimensions", "value": "185 x 85 x 30 mm" },
+        { "name": "Weight", "value": " kg" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Mounting Method", "value": "Wall Mount, Ceilling Mount, Pole Mount" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 4" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik wAP ax US version",
+      "url": "https://www.getic.com/files/catalogue/5541/wapaxus_ds-678f43ba78207.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik wAP ax US version",
+      "url": "https://www.getic.com/files/catalogue/5541/wapaxus_usermanual-678f43c2b0998.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik RB5009UPr+S+IN",
+      "url": "/product/mikrotik-rb5009upr-s-in",
+      "price": 239.45,
+      "currency": "USD",
+      "mpn": "RB5009UPr+S+IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax2 US version",
+      "url": "/product/mikrotik-hap-ax2-us-version",
+      "price": 74.71,
+      "currency": "USD",
+      "mpn": "C52iG-5HaxD2HaxD-TC-US",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax3 US version",
+      "url": "/product/mikrotik-hap-ax3-us-version",
+      "price": 113.42,
+      "currency": "USD",
+      "mpn": "C53UiG+5HPaxD2HPaxD-US",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik cAP ax US version",
+      "url": "/product/mikrotik-cap-ax-us-version",
+      "price": 103.11,
+      "currency": "USD",
+      "mpn": "cAPGi-5HaxD2HaxD-US",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik Value Added Distributor",
+    "MikroTik MTCNA Certificate"
+  ],
+  "stock_stat": ""
+}

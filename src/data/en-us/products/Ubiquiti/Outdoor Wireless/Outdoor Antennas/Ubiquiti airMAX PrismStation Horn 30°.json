@@ -1,0 +1,242 @@
+{
+  "slug": "horn-5-30",
+  "id": 1378,
+  "productTitle": "Ubiquiti airMAX PrismStation Horn 30°",
+  "name": "Ubiquiti airMAX PrismStation Horn 30°",
+  "title": "Ubiquiti airMAX PrismStation Horn 30°",
+  "title_extended": "",
+  "short_description": "5GHz, 19 dBi, Beam Width 30°, pair with PrismStation AC or IsoStation",
+  "description": "The airMAX PrismStation Horn 5 30° is a pivotal component in Ubiquiti Networks' innovative suite of wireless networking solutions, specifically designed to enhance the performance and flexibility of the airMAX PrismStation series...",
+  "brand": "Ubiquiti",
+  "category": "Wireless Antennas",
+  "categories": [
+    "Ubiquiti",
+    "Outdoor Wireless",
+    "Antennas"
+  ],
+  "mpn": "Horn-5-30",
+  "manufacturer_part_number": "Horn-5-30",
+  "ean": "0817882020060",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1378/horn530_front-5fec435d455d0-medium.jpg",
+        "alt": "Ubiquiti airMAX PrismStation Horn 30° front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1378/horn530_front_angle-5fa259f24e99d-medium.png",
+        "alt": "Ubiquiti airMAX PrismStation Horn 30° front angle view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1378/horn530_back_angle-5fa259f1357b3-medium.png",
+        "alt": "Ubiquiti airMAX PrismStation Horn 30° back angle view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1378/horn530_back-5fa259f1ba3d1-medium.png",
+        "alt": "Ubiquiti airMAX PrismStation Horn 30° back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1378/horn530_side_holes-5fa259f2cda89-medium.png",
+        "alt": "Ubiquiti airMAX PrismStation Horn 30° side view with holes",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 71.52,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Horn"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "5.15 - 5.85 (GHz) 19 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "30 ° Vertical, 30 ° Horizontal"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) HornConnector"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "Ø221.4 x 184.2 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.1 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX PrismStation Horn 30°",
+      "url": "https://dl.ubnt.com/datasheets/horn_5/Horn_Antennas_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX PrismStation Horn 30°",
+      "url": "https://dl.ubnt.com/guides/horn_5/Horn-5-30_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX NanoBeam 5AC",
+      "url": "/product/nanobeam-ac-gen2",
+      "price": 96.18,
+      "currency": "USD",
+      "mpn": "NBE-5AC-Gen2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX PrismStation Horn 60°",
+      "url": "/product/horn-5-60",
+      "price": 71.52,
+      "currency": "USD",
+      "mpn": "Horn-5-60",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX PrismStation Horn 90°",
+      "url": "/product/horn-5-90",
+      "price": 71.52,
+      "currency": "USD",
+      "mpn": "Horn-5-90",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX PrismStation 5AC",
+      "url": "/product/prismstation-ac",
+      "price": 264.47,
+      "currency": "USD",
+      "mpn": "PS-5AC",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

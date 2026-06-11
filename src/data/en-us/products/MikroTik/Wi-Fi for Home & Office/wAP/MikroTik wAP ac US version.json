@@ -1,0 +1,322 @@
+{
+  "slug": "routerboard-wap-ac-us-version-new",
+  "id": "RBwAPG-5HacD2HnD-US",
+  "productTitle": "MikroTik wAP ac US version",
+  "name": "MikroTik wAP ac US version",
+  "title": "MikroTik wAP ac US version",
+  "title_extended": "",
+  "short_description": "Wireless 2.4/5 GHz Access Point, 2x GbE Ports, quad-core CPU IPQ-4018, 128MB RAM, US version",
+  "description": "Wireless 2.4/5 GHz Access Point, 2x GbE Ports, quad-core CPU IPQ-4018, 128MB RAM, US version",
+  "detailed_description": [
+    {
+      "heading": "Reliable Connection for All Your Devices",
+      "text": "The wAP ac is a small weatherproof wireless access point for your mobile devices, perfect for installation outside your house, in the garden, on your porch, or anywhere else where you need a capable wireless connection. The new revision features 2x Gigabit Ethernet ports, enhanced wireless antenna performance, more RAM, and a powerful quad-core CPU! Strong dual-chain dual-band 2.4/5 GHz wireless for concurrent coverage will solve most interference issues in a crowded environment. This is a must-have these days! You can use the 2.4 GHz channel for older devices and the 5 GHz channel for everything else since this frequency is less cluttered."
+    },
+    {
+      "heading": "Improved Enclosure - Looks Good, Works Even Better",
+      "text": "The wAP ac is weatherproof and can be fixed to any external wall from the inside of the case – for extra security and less visible attachments. The bottom part can also be secured with a special anti-vandal screw, which can only be opened by the owner. There is an opening in the back of the case, allowing you to run the Ethernet cable directly behind the unit and through the wall. This way the wAP ac attracts less attention and blends into any environment. It looks unobtrusive and sleek, available in two colors - black (RBwAPG-5HacD2HnD-BE) and white (RBwAPG-5HacD2HnD). With the new revision, Mikrotik significantly improved the thermal properties of the enclosure – you don’t have to worry about any overheating!"
+    },
+    {
+      "heading": "RouterOS – Extreme Versatility",
+      "text": "Run a secure VPN from the office directly to your home, enable parental control, Quality of Service (traffic prioritization for certain needs, such as streaming), specific firewall rules, IPsec hardware acceleration, VLAN, DHCP, e-mail or SMS notifications, and so on. With RouterOS scripting you can automate a lot: modify queues based on bandwidth usage, complex trigger notifications, backups and setup of additional devices, and so much more! Mikrotik include a free handy tool for centralized management of all your wireless MikroTik devices – the CAPsMAN. Unlike traditional controller software, CAPsMAN doesn’t require a separate device to run, it can use any existing RouterOS device in your network. Mikrotik is making their own software since 1996. With each new version, the manufacturer's priority remained the same: to provide users with the freedom to explore different setups and always have the right tools for the job. Without unnecessary paywalls."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Access Points",
+  "categories": [
+    "Wi-Fi for Home & Office",
+    "wAP"
+  ],
+  "mpn": "RBwAPG-5HacD2HnD-US",
+  "manufacturer_part_number": "RBwAPG-5HacD2HnD-US",
+  "ean": "4752224001825",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3136/1988_hi_res-5ff5bed2ab0d8-medium.jpg",
+        "alt": "MikroTik wAP ac US version",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3136/1989_hi_res-5ff5bed09a983-medium.jpg",
+        "alt": "MikroTik wAP ac US version",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3136/1990_hi_res-5ff5bece1951e-medium.jpg",
+        "alt": "MikroTik wAP ac US version",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3136/1991_hi_res-5ff5becb50491-medium.jpg",
+        "alt": "MikroTik wAP ac US version",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3136/1992_hi_res-5ff5bead1b0fe-medium.jpg",
+        "alt": "MikroTik wAP ac US version",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/3136/wapac_201219-5ff5bef7037b6.pdf",
+        "type": "datasheet",
+        "title": "Technical Specs / Datasheet - MikroTik wAP ac US version"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 73.96,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "US"
+      ],
+      "default": "US"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        { "name": "Generation", "value": "WiFi 5" },
+        { "name": "Standards", "value": "802.11n/ac" },
+        { "name": "Frequency", "value": "2.4GHz, 5GHz USA" },
+        { "name": "2.4GHz Radio Rate", "value": "300 Mbps" },
+        { "name": "5GHz Radio Rate", "value": "867 Mbps" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth"
+      ],
+      "items": [
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "2.400 - 2.473 (GHz) 2.5 (dBi), 5.100 - 5.900 (GHz) 2.5 (dBi)" },
+        { "name": "Beamwidth", "value": "360 °" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(2) 1 Gbps" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "IPQ-4018, 4 core, 488-896 (auto) MHz" },
+        { "name": "RAM", "value": "128 MB" },
+        { "name": "Storage Memory", "value": "16 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "AC/DC Adapter, 802.3af PoE, 802.3at PoE+" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Supported Input Voltage", "value": "10 - 57 V DC" },
+        { "name": "Max Power Consumption", "value": "10 W" },
+        { "name": "Power Connector", "value": "DC Plug 2.1 x 5.5 mm" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 0.8 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        { "name": "Ingress Protection Code", "value": "IP54" },
+        { "name": "Dimensions", "value": "185 x 85 x 30 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Indoor, Outdoor" },
+        { "name": "Mounting Method", "value": "Wall Mount, Ceilling Mount, Pole Mount" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        { "name": "MikroTik", "value": "RouterOS Level 4" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik wAP ac US version",
+      "url": "https://www.getic.com/files/catalogue/3136/wapac_201219-5ff5bef7037b6.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "delivery_time": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.44,
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 3,
+    "source": "Trustpilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 3,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Aigars",
+        "date": "2026-04-09",
+        "text": "Excellent performance/cost ratio.",
+        "photos": []
+      },
+      {
+        "name": "Vadim",
+        "date": "2023-05-22",
+        "text": "Good quality. No any issue .",
+        "photos": []
+      },
+      {
+        "name": "Andreas",
+        "date": "2022-10-25",
+        "text": "Not much to say, installed a lot of them already. Working perfectly in CapsMan environment.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik hEX S",
+      "url": "/product/routerboard-hex-s",
+      "price": 59.00,
+      "currency": "USD",
+      "mpn": "RB760iGS",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ac US version",
+      "url": "/product/routerboard-cap-ac-us",
+      "price": 73.89,
+      "currency": "USD",
+      "mpn": "RBcAPGi-5acD2nD-US",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ac3 US version",
+      "url": "/product/mikrotik-hap-ac3-us-version",
+      "price": 88.22,
+      "currency": "USD",
+      "mpn": "RBD53iG-5HacD2HnD-US",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik cAP XL ac US Version",
+      "url": "/product/mikrotik-cap-xl-ac-us-version",
+      "price": 80.20,
+      "currency": "USD",
+      "mpn": "RBcAPGi-5acD2nD-XL-US",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

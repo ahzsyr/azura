@@ -1,0 +1,394 @@
+{
+  "slug": "litebeam-ac-gen2",
+  "id": 1309,
+  "productTitle": "Ubiquiti airMAX LiteBeam 5AC",
+  "name": "Ubiquiti airMAX LiteBeam 5AC",
+  "title": "Ubiquiti LiteBeam AC Gen2 – 5GHz airMAX Point-to-Point Wireless Bridge",
+  "title_extended": "Ubiquiti LiteBeam AC Gen2 – 5GHz airMAX Point-to-Point Wireless Bridge",
+  "short_description": "LiteBeam AC Gen2, Gain 26dBi, Throughput 450+ Mbps, 2x2 MIMO Antenna, Management Wi-Fi Radio",
+  "description": "LiteBeam AC Gen2, Gain 26dBi, Throughput 450+ Mbps, 2x2 MIMO Antenna, Management Wi-Fi Radio",
+  "detailed_description": [
+    {
+      "heading": "Overview and Integration",
+      "text": "The LiteBeam AC Gen2 is a compact, high-performance airMAX ac product from Ubiquiti Networks, designed to deliver efficient, reliable wireless broadband connectivity over long distances (15+ km). This device is a part of Ubiquiti's LiteBeam range, known for its affordability and effectiveness in various applications, including point-to-point (PtP) and point-to-multipoint (PtMP) setups. Engineered for the modern internet service provider, the LiteBeam AC Gen2 integrates advanced technology to offer enhanced networking capabilities. The LiteBeam AC Gen2 (LBE-5AC-Gen2) is designed to seamlessly integrate into Ubiquiti Networks' broader ecosystem, particularly within setups utilizing Ubiquiti's airMAX ac technology. The LiteBeam AC Gen2 is fully compatible with other airMAX ac devices, including both sector and dish antennas, as well as other PtP and PtMP radios within the airMAX ac series. This interoperability is crucial for creating cohesive, high-throughput wireless networks that can serve as backhauls or connect remote locations. Please also note that compatibility with older airMAX devices (those using the 802.11n standard) might be limited. For optimal performance, it is recommended to use devices within the same technological generation. In addition, please keep in mind that LiteBeam AC Gen2 does not natively integrate with Ubiquiti's UniFi series, as UniFi devices are managed through the UniFi Controller software and are based on a different technology platform aimed more at managed indoor Wi-Fi networks than long-range outdoor links."
+    },
+    {
+      "heading": "Performance and Technology",
+      "text": "At its core, the LiteBeam AC Gen2 operates on the 5 GHz frequency band, utilizing Ubiquiti's proprietary airMAX ac technology to ensure high throughput and superior performance across wireless links. This technology allows for significant improvements in bandwidth and signal fidelity by employing a more sophisticated modulation scheme, thereby enabling faster data transmission rates that are essential for high-demand applications such as HD video streaming, VOIP, and online gaming. The device features a highly directional, gain antenna that focuses the wireless signal in a specific direction, drastically reducing interference and increasing the efficiency and range of the communication link. The model provides 23 dBi of gain for 15+ km connectivity and uses a directional antenna pattern for improved noise immunity. This makes the LiteBeam AC Gen2 an ideal solution for establishing long-distance wireless connections that require a direct line of sight between the network nodes."
+    },
+    {
+      "heading": "Software, Security, and Durability",
+      "text": "One of the standout features of the LiteBeam AC Gen2 is its incorporation of Ubiquiti's airOS 8, a sophisticated operating system that provides powerful features for network management. airOS 8 includes an intuitive graphical user interface (GUI), making it easier for users to configure and manage the device. The system supports advanced RF analytics, real-time reporting, and analytics to assist in diagnosing and optimizing network performance. These tools are invaluable for network administrators looking to maximize the efficiency and reliability of their wireless networks. Ubiquiti's attention to integration is evident in the LiteBeam AC Gen2's design, as the device seamlessly works within the broader Ubiquiti network ecosystem. It can be managed using the Ubiquiti Network Management System (UNMS), allowing for centralized control over multiple devices across the network. For security, the LiteBeam AC Gen2 supports WPA2 AES encryption, ensuring that wireless transmissions remain secure from unauthorized access. This level of security is critical for maintaining the integrity and privacy of the data flowing through the network. The physical design of the LiteBeam AC Gen2 emphasizes durability and ease of installation. The device comes with a lightweight form factor and includes a mounting kit for easy attachment to various surfaces. Its construction is weather-resistant, ensuring reliable operation in diverse environmental conditions (-40 to 70° C), from heavy rainfall to intense sunlight. This resilience makes the LiteBeam AC Gen2 suitable for deployment in a wide range of outdoor settings, from rural areas to urban rooftops."
+    },
+    {
+      "heading": "Ideal Use Cases",
+      "text": "The airMAX LiteBeam AC Gen2 is ideal for rural internet provision, connecting remote areas with high-speed access. It facilitates seamless corporate and campus connectivity over wide areas, supports high-definition video surveillance networks, and provides essential infrastructure for event broadcasting with its long-range, high-speed capabilities. Moreover, it's invaluable for establishing emergency communication networks in disaster-stricken or remote areas, ensuring reliable, quick-setup connectivity. Its versatility across various environments underscores its utility in bridging connectivity gaps and enhancing network performance. Also, during large outdoor events like concerts or sports competitions, organizers can rely on the LiteBeam AC Gen2 to provide temporary internet access or to stream live video content."
+    },
+    {
+      "heading": "Conclusion",
+      "text": "In conclusion, the LiteBeam AC Gen2 LBE-5AC-Gen2 from Ubiquiti Networks stands out as a highly efficient, reliable wireless broadband solution designed for long-distance communication. With its advanced airMAX ac technology, highly directional antenna, robust operating system, and comprehensive management features, this device provides an ideal combination of performance, durability, and ease of use for various networking applications. Whether for connecting remote locations, streaming high-definition content, or extending network coverage, the LiteBeam AC Gen2 offers a compelling solution for today's connectivity challenges. Moreover, a lightweight form factor contained within a ultra-compact packaging, the LiteBeam AC Gen2 is ideal for shipping and logistics."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Integrated Antennas",
+    "Outdoor Wireless",
+    "airMAX 5 GHz"
+  ],
+  "mpn": "LBE-5AC-Gen2",
+  "manufacturer_part_number": "LBE-5AC-Gen2",
+  "ean": "0810354026317",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1309/lbe5acgen2_angle-5fec4a0a131cf-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam 5AC",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1309/lbe5ac_gen2_front-5fec4a08c5869-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam 5AC front view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1309/lbe5ac_gen2_side-5fec4a0ad6f75-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam 5AC side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1309/lbe5acgen2_backangle_view-5fec4a0944eba-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam 5AC back angle view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/uiH0j2yvKFc",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 64.12,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "airMAX"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "450 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Polarization"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Grid"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "5.150 - 5.875 (GHz) 23 (dBi)"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "MIPS 74Kc"
+        },
+        {
+          "name": "RAM",
+          "value": "64 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "22 - 26 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "7 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.3 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Aluminium, Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "358 x 272 x 272 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.98 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX LiteBeam 5AC",
+      "url": "https://dl.ubnt.com/datasheets/LiteBeam/LiteBeam_AC_Gen2_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX LiteBeam 5AC",
+      "url": "https://dl.ubnt.com/guides/LiteBeam_Gen2/LiteBeam_5AC-Gen2_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 4.8,
+    "count": 4,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 3,
+      "4_star": 1,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Besleaga",
+        "date": "2025-06-24",
+        "text": "Best product from Ubiquiti",
+        "photos": []
+      },
+      {
+        "name": "Margus",
+        "date": "2025-01-13",
+        "text": "Fast and East to use",
+        "photos": []
+      },
+      {
+        "name": "Viktors",
+        "date": "2023-06-14",
+        "text": "Отличный продукт. Опыт работы с ним более 4-х лет. Никаких претензий. Работает стабильно.",
+        "photos": []
+      },
+      {
+        "name": "Vladimir",
+        "date": "2023-06-02",
+        "text": "Good equipment!!!",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX Rocket AC Lite",
+      "url": "/product/rocket-ac-lite",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "R5AC-LITE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Rocket Prism 5AC",
+      "url": "/product/rocket-ac-prism-gen2",
+      "price": 229.40,
+      "currency": "USD",
+      "mpn": "RP-5AC-Gen2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX NanoStation 5AC Loco",
+      "url": "/product/nanostation-5-ac-loco",
+      "price": 48.09,
+      "currency": "USD",
+      "mpn": "Loco5AC",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Lite AP GPS",
+      "url": "/product/lite-ap-ac-gps",
+      "price": 92.48,
+      "currency": "USD",
+      "mpn": "LAP-GPS",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

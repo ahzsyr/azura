@@ -1,0 +1,225 @@
+{
+  "slug": "ubiquiti-g5-dome-ultra-flush-mount",
+  "id": "5377",
+  "productTitle": "Ubiquiti G5 Dome Ultra Flush Mount",
+  "name": "Ubiquiti G5 Dome Ultra Flush Mount",
+  "title": "Ubiquiti G5 Dome Ultra Flush Mount",
+  "title_extended": "",
+  "short_description": "The Ubiquiti G5 Dome Ultra Flush Mount (UACC-G5-Dome-Ultra-FM-SB-W) is designed to blend seamlessly into any environment, offering a modern, low-profile aesthetic.",
+  "description": "The Ubiquiti G5 Dome Ultra Flush Mount is designed to blend seamlessly into any environment, offering a modern, low-profile aesthetic. Built with high-quality materials, the Ultra Flush Mount ensures long-lasting durability, even in challenging conditions.",
+  "detailed_description": [
+    {
+      "heading": "Low-Profile Design",
+      "text": "The Ubiquiti G5 Dome Ultra Flush Mount (UACC-G5-Dome-Ultra-FM-SB-W) is designed to blend seamlessly into any environment, offering a modern, low-profile aesthetic. This flush mount is specifically engineered for the G5 Dome, ensuring a perfect fit that minimizes visibility and maximizes functionality. The mount’s elegant white finish complements various architectural styles, making it an ideal choice for professional office spaces, retail environments, or residential installations. The UACC-G5-Dome-Ultra-FM-SB-W is designed for hassle-free installation, featuring a user-friendly design that simplifies the mounting process. The flush-mount system securely holds the G5 Dome camera in place, preventing tampering and ensuring optimal alignment for surveillance. Its subtle design does not compromise on durability, providing a secure and sturdy mounting solution for optimal camera performance."
+    },
+    {
+      "heading": "Durable Construction",
+      "text": "Built with high-quality materials, the Ultra Flush Mount ensures long-lasting durability, even in challenging conditions. Its robust construction protects the camera while maintaining its sleek appearance, making it suitable for indoor and outdoor deployments. The mount’s precision engineering ensures easy installation and enhanced protection against environmental factors such as dust, humidity, and UV exposure. Its design also allows for easy access to the camera for maintenance or adjustments while keeping the unit securely mounted. The enhanced level of security and convenience makes the Ultra Flush Mount an excellent choice for businesses and homeowners looking to integrate advanced surveillance solutions discreetly and effectively."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Mounting Accessories",
+  "categories": [
+    "Mounting Accessories",
+    "Ubiquiti",
+    "Camera Security"
+  ],
+  "mpn": "UACC-G5-Dome-Ultra-FM-SB-W",
+  "manufacturer_part_number": "UACC-G5-Dome-Ultra-FM-SB-W",
+  "ean": "0810084699386",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5377/1-677bcdba9987b-medium.jpg",
+        "alt": "Ubiquiti G5 Dome Ultra Flush Mount",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5377/2-677bcdbfc0818-medium.jpg",
+        "alt": "Ubiquiti G5 Dome Ultra Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5377/3-677bcdc3ae08b-medium.jpg",
+        "alt": "Ubiquiti G5 Dome Ultra Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5377/4-677bcdc83729f-medium.jpg",
+        "alt": "Ubiquiti G5 Dome Ultra Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5377/5-677bcdcf5cf83-medium.jpg",
+        "alt": "Ubiquiti G5 Dome Ultra Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5377/6-677bcdd33bbe7-medium.jpg",
+        "alt": "Ubiquiti G5 Dome Ultra Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5377/7-677bcdd742832-medium.jpg",
+        "alt": "Ubiquiti G5 Dome Ultra Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5377/8-677bcddc0d9e8-medium.jpg",
+        "alt": "Ubiquiti G5 Dome Ultra Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5377/9-677bcde0bc66e-medium.jpg",
+        "alt": "Ubiquiti G5 Dome Ultra Flush Mount",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 39.45,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "Ø100 x 88 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.13 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Recessed"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti G5 Dome Ultra Flush Mount",
+      "url": "https://www.getic.com/files/catalogue/5377/uaccg5domeultrafmsbw_ds-677bcdb25d1ae.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Camera G5 Dome Ultra White",
+      "url": "/product/camera-g5-dome-ultra",
+      "price": 85.08,
+      "currency": "USD",
+      "mpn": "UVC-G5-Dome-Ultra",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti G3 Access Reader Pro White",
+      "url": "/product/ubiquiti-g3-access-reader-pro-white",
+      "price": 358.81,
+      "currency": "USD",
+      "mpn": "UA-G3-Pro-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera AI LPR Black",
+      "url": "/product/ubiquiti-camera-ai-lpr-black",
+      "price": 482.48,
+      "currency": "USD",
+      "mpn": "UVC-AI-LPR-B",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Special Edition",
+      "url": "/product/ubiquiti-unifi-dream-machine-special-edition",
+      "price": 512.64,
+      "currency": "USD",
+      "mpn": "UDM-SE",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": ""
+}

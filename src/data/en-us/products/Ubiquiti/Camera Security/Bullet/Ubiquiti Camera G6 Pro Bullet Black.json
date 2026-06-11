@@ -1,0 +1,346 @@
+{
+  "slug": "ubiquiti-camera-g6-pro-bullet-black",
+  "id": "6810",
+  "productTitle": "Ubiquiti Camera G6 Pro Bullet Black",
+  "name": "Ubiquiti Camera G6 Pro Bullet Black",
+  "title": "Ubiquiti Camera G6 Pro Bullet Black",
+  "title_extended": "Ubiquiti Camera G6 Pro Bullet Black",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "High image clarity",
+      "text": "The UniFi G6 Pro Bullet Camera brings professional-grade clarity to any surveillance setup with sharp 4K resolution (8 MP / 3840 × 2160). Its large 1/1.2\" CMOS sensor captures more light for excellent image quality during both day and night. With a 2.36× optical zoom, the camera allows you to adjust the viewing angle as needed, from covering wide, open areas to focusing closely on a specific object or detail. The camera is equipped with a high-quality 5.9–13.8 mm lens (f/1.5–f/2.9) that delivers sharp images with excellent light sensitivity, even in low-light conditions. With field-of-view angles ranging from 113.8° wide to 45.5° narrow, it adapts perfectly to different scenarios. Integrated infrared LEDs deliver night vision up to 40 meters, ensuring clear visibility in low-light environments. HDR, adaptive exposure, and advanced 2D/3D noise reduction keep images sharp, while masking and white balance controls allow fine adjustments. Whether guarding entrances, parking spaces, or perimeters, this camera ensures crisp visuals around the clock."
+    },
+    {
+      "heading": "Intelligent Security Features",
+      "text": "Beyond high-quality video, the G6 Pro Bullet Camera offers intelligent features to improve security monitoring. Built-in AI capabilities enable face recognition, license plate recognition, and accurate detection of people, vehicles, or animals, helping operators focus on relevant events while reducing false alarms. The camera is engineered for outdoor use, with a durable IP66-rated weatherproof housing and IK04 tamper resistance for reliable performance in demanding environments. Two-way audio allows real-time interaction with on-site personnel or visitors, adding versatility to its functionality. Installation is highly flexible with support for wall, ceiling, and pole mounts (standard kit included, optional junction box and angled base available). Measuring 85.8 mm in diameter and 106.2 mm in depth (210 mm with wall mount), and built from a robust aluminum alloy and polycarbonate body, the G6 Pro combines resilience, practicality, and advanced features in a compact form."
+    },
+    {
+      "heading": "Energy-Efficient Performance",
+      "text": "Designed for simple integration into professional networks, the G6 Pro Bullet Camera is powered through PoE+, supporting 37–57 V DC input with a maximum consumption of 15 W. This allows power and data transfer over a single cable, reducing installation complexity. The device includes a Gigabit RJ45 port for high-speed connectivity and is powered by a quad-core Arm Cortex-A53 processor, ensuring smooth video streaming and reliable performance. Built for tough environments, it operates in temperatures from −20 °C to +50 °C and humidity levels up to 90% (non-condensing). Compliance with NDAA, CE, FCC, and IC standards ensures suitability for regulated installations worldwide. Front indicators and a reset button simplify maintenance, while optional microSD storage expands recording capabilities. Combining reliable hardware, smart features, and energy-efficient operation, the G6 Pro Bullet is a dependable choice for modern surveillance networks."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Cameras",
+  "categories": [
+    "Cameras",
+    "Bullet"
+  ],
+  "mpn": "UVC-G6-Pro-Bullet-B",
+  "manufacturer_part_number": "UVC-G6-Pro-Bullet-B",
+  "ean": "0810177164449",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6810/1-68c3f53117c50-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Bullet Black",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6810/2-68c3f534093b6-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Bullet Black side view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6810/3-68c3f536966ff-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Bullet Black angled view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6810/4-68c3f54119b75-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Bullet Black component view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6810/5-68c3f54408b1f-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Bullet Black front view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6810/6-68c3f546ab7ac-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Bullet Black back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6810/7-68c3f54997829-medium.jpg",
+        "alt": "Ubiquiti Camera G6 Pro Bullet Black installation view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 464.61,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Color",
+      "options": [
+        "Black",
+        "White"
+      ],
+      "default": "Black"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Video",
+      "features": [
+        "Megapixels",
+        "Resolution",
+        "Maximum Frame Rate"
+      ],
+      "items": [
+        {
+          "name": "Megapixels",
+          "value": "8MP"
+        },
+        {
+          "name": "Resolution",
+          "value": "3840 х 2160"
+        },
+        {
+          "name": "Maximum Frame Rate",
+          "value": "30 FPS"
+        }
+      ]
+    },
+    {
+      "technology": "Audio",
+      "features": [
+        "Microphone",
+        "Speaker"
+      ],
+      "items": [
+        {
+          "name": "Microphone",
+          "value": "Build-in"
+        },
+        {
+          "name": "Speaker",
+          "value": "Build-in"
+        }
+      ]
+    },
+    {
+      "technology": "Video Camera",
+      "features": [
+        "Sensor",
+        "Lens",
+        "Night Mode",
+        "Viewing Angle"
+      ],
+      "items": [
+        {
+          "name": "Sensor",
+          "value": "1/1.2\" 8MP"
+        },
+        {
+          "name": "Lens",
+          "value": "F 5.9 - 13.8 mm; f/1.5–f/2.9"
+        },
+        {
+          "name": "Night Mode",
+          "value": "IR LED Illumination and IR Cut Filter, IR Range up to 40 m"
+        },
+        {
+          "name": "Viewing Angle",
+          "value": "113.8 ° (H) 61.9 ° (V)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Memory card slots"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Memory card slots",
+          "value": "1 microSD"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad core Arm® Cortex®-A53 based chip"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3at PoE+"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "37 - 57 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "15 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP66"
+        },
+        {
+          "name": "Dimensions",
+          "value": "85.8 x 85.8 x 106.2 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.98 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Pole Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Camera G6 Pro Bullet Black",
+      "url": "https://www.getic.com/files/catalogue/6810/uvcg6probullet_ds-68c3f52c7ad52.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Enterprise Access Hub",
+      "url": "/product/enterprise-access-hub",
+      "price": 951.85,
+      "currency": "USD",
+      "mpn": "EAH-8",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Intercom Viewer",
+      "url": "/product/unifi-intercom-viewer",
+      "price": 142.96,
+      "currency": "USD",
+      "mpn": "UA-Intercom-Viewer",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Access Ultra",
+      "url": "/product/ubiquiti-access-ultra",
+      "price": 99.88,
+      "currency": "USD",
+      "mpn": "UA-Ultra",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G5 Dome Ultra Black",
+      "url": "/product/ubiquiti-camera-g5-dome-ultra-black",
+      "price": 86.32,
+      "currency": "USD",
+      "mpn": "UVC-G5-Dome-Ultra-B",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "39 pcs in stock"
+}

@@ -1,0 +1,357 @@
+{
+  "slug": "unifi-ac-high-density",
+  "id": "UAP-AC-HD",
+  "productTitle": "Ubiquiti UniFi AC HD",
+  "name": "Ubiquiti UniFi AC HD",
+  "title": "Ubiquiti UniFi AC HD",
+  "title_extended": "Ubiquiti UniFi AC HD – Enterprise Gateway with UniFi OS",
+  "short_description": "140 m² coverage Indoor / Outdoor 2.4GHz 800Mbps & 5GHz 1733Mbps, 2xGLAN, 802.11ac Dual-Band 4x4,",
+  "description": "140 m² coverage Indoor / Outdoor 2.4GHz 800Mbps & 5GHz 1733Mbps, 2xGLAN, 802.11ac Dual-Band 4x4,",
+  "detailed_description": [
+    {
+      "heading": "Unmatched Performance for High-Traffic Areas",
+      "text": "Designed for environments requiring high-density connectivity, such as large offices, event spaces, and educational campuses, the UniFi AC High Density (UAP-AC-HD) from Ubiquiti Networks stands as the most advanced access point in the UniFi series. It integrates enterprise technology with management features to handle high volumes of traffic. Managing numerous simultaneous connections effectively, the UAP-AC-HD maintains stability and performance even under heavy usage. Its dual-band capability reduces interference and supports data-intensive applications such as streaming high-definition video and transferring large files, common in corporate and educational settings."
+    },
+    {
+      "heading": "Performance and Hardware",
+      "text": "Supporting a total throughput of up to 2.53 Gbps across its dual 2.4 GHz and 5 GHz bands, the UAP-AC-HD meets the needs of environments with significant data requirements. It delivers a robust 800 Mbps at the 2.4 GHz band, which is particularly impressive for handling high-demand tasks over a broader range, and an even higher 1733 Mbps at the 5 GHz band, ideal for high-speed applications and less congested traffic. Equipped with Power over Ethernet (PoE), the UAP-AC-HD simplifies installation by allowing both power and data transmission through a single cable, thereby reducing cable clutter. This feature also enables flexible device placement since it does not depend on proximity to power outlets—an advantage in large or complex physical layouts where strategic positioning is crucial for optimal coverage and performance."
+    },
+    {
+      "heading": "Connectivity and PoE Features",
+      "text": "Featuring five 100 Mbps Ethernet ports, the hEX PoE lite router allows for fast and stable data transfer rates over wired connections. You can connect computers, printers, and other compatible devices directly through Ethernet cables, ensuring a reliable network environment for data-intensive tasks. Out of five Ethernet ports, four are Passive PoE out ports. This allows for easy power supply through Ethernet cables to PoE-capable devices like access points and video cameras. This innovative feature reduces the need for multiple power adapters and cables, simplifying your network setup and enhancing power management efficiency."
+    },
+    {
+      "heading": "Optimized Coverage & Network Management",
+      "text": "The UniFi AC High Density features antennas with gains of 3 dBi at 2.4 GHz and 4 dBi at 5 GHz, which enhance signal strength and improve directionality. This improvement helps extend the reach and boosts the quality of connections across a radius of up to 120 meters, effectively covering areas as large as 140 square meters (1,500 ft²). Capable of supporting over 500 simultaneous connections, the UniFi AC High Density is well-suited for medium to large-scale deployments in settings like corporate offices, educational campuses, and expansive retail environments where dependable and consistent network performance is essential."
+    },
+    {
+      "heading": "Durability Meets Advanced Technology",
+      "text": "The UAP-AC-HD is designed to integrate seamlessly into various environments, from sleek, modern offices to traditional spaces, featuring a durable, weather-resistant enclosure suitable for both indoor and outdoor applications. This ensures consistent performance even in adverse environmental conditions, and its design does not sacrifice functionality for aesthetic appeal, maintaining the high durability standards Ubiquiti is known for. Utilizing 802.11ac Wave 2 Wi-Fi technology, this access point includes advanced features such as Multi-User MIMO (MU-MIMO), extended channel bandwidth up to 160 MHz, additional spatial streams, and enhanced beamforming. These improvements allow the UAP-AC-HD to communicate with multiple devices simultaneously, rather than sequentially, which significantly boosts network throughput and enhances user experience. This capability is crucial in high-density settings such as conference centers, stadiums, and large public venues where network traffic is intense and simultaneous connections are numerous."
+    },
+    {
+      "heading": "Seamless Management with UniFi Network",
+      "text": "The device leverages the UniFi Network, a comprehensive network management platform that offers centralized control over Ubiquiti’s UniFi devices, including routers, switches, and access points. This system simplifies the setup and ongoing management of network hardware, all accessible via the UniFi Network web application or mobile app. As a premier example of Software Defined Networking (SDN), this solution enables dynamic management of network resources, which is especially effective in both small and large-scale environments. The UniFi Controller software, which acts as the nerve center for the UniFi Network, provides an intuitive interface that allows network administrators to deploy, configure, manage, and monitor network devices seamlessly. This software simplifies complex tasks such as device detection and network visualization and offers detailed analytics that help in making informed decisions about network management and optimization."
+    },
+    {
+      "heading": "Compare with similar products",
+      "text": "The UniFi AC High Density (UAP-AC-HD) is compared with UniFi nanoHD, UniFi AC SHD, UniFi FlexHD, UniFi In-Wall HD, and UniFi WiFi BaseStation XG across Wireless Standard, MIMO, Radio Rates, Antenna Gain, Range, Ethernet Ports, Power Consumption, and Environment."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Points",
+  "categories": [
+    "Access Points",
+    "UniFi Access Points",
+    "Best Offers"
+  ],
+  "mpn": "UAP-AC-HD",
+  "manufacturer_part_number": "UAP-AC-HD",
+  "ean": "0810354026126",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1282/1-69295c0d61faf-medium.jpg",
+        "alt": "Ubiquiti UniFi AC HD",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1282/2-69295c10a223d-medium.jpg",
+        "alt": "Ubiquiti UniFi AC HD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1282/3-69295c13311e5-medium.jpg",
+        "alt": "Ubiquiti UniFi AC HD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1282/4-69295c1675fdc-medium.jpg",
+        "alt": "Ubiquiti UniFi AC HD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1282/5-69295c1951b9f-medium.jpg",
+        "alt": "Ubiquiti UniFi AC HD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1282/6-69295c1c17ea5-medium.jpg",
+        "alt": "Ubiquiti UniFi AC HD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1282/7-69295c1f31f59-medium.jpg",
+        "alt": "Ubiquiti UniFi AC HD",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1282/8-69295c235709d-medium.jpg",
+        "alt": "Ubiquiti UniFi AC HD",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/s_sypZHFDXs",
+        "type": "youtube"
+      }
+    ],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - Ubiquiti UniFi AC HD",
+        "url": "https://www.getic.com/files/catalogue/1282/unifiachd_ds-69295c2e8ed35.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 229.00,
+    "currency": "USD",
+    "discount": -22
+  },
+  "old_price": 294.25,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 4x4, 5GHz 4x4"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "800 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "1.7 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.4 - 2.4 (GHz) 3 (dBi), 5.0 - 5.0 (GHz) 4 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 1 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "802.3at PoE+"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "44 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "17 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "Ø220 x 48.1 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.83 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor, Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Ceilling Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi AC HD",
+      "url": "https://www.getic.com/files/catalogue/1282/unifiachd_ds-69295c2e8ed35.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi AC Pro",
+      "url": "/product/unifi-ac-pro",
+      "price": 135.81,
+      "currency": "USD",
+      "mpn": "UAP-AC-PRO",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi AC Mesh Pro",
+      "url": "/product/unifi-ac-mesh-pro",
+      "price": 175.12,
+      "currency": "USD",
+      "mpn": "UAP-AC-M-PRO",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi nanoHD",
+      "url": "/product/uap-nanohd",
+      "price": 123.30,
+      "currency": "USD",
+      "mpn": "UAP-nanoHD",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

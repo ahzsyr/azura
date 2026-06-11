@@ -1,0 +1,269 @@
+{
+  "slug": "mikrotik-lhg-xl-5-ax",
+  "id": null,
+  "productTitle": "MikroTik LHG XL 5 ax",
+  "name": "MikroTik LHG XL 5 ax",
+  "title": "MikroTik LHG XL 5 ax",
+  "title_extended": null,
+  "short_description": null,
+  "description": "MikroTik LHG XL 5 ax description.",
+  "detailed_description": [
+    {
+      "heading": "Advanced Wireless Performance",
+      "text": "The MikroTik XL LHG 5 ax (LHG-5axD-XL) is a high-performance outdoor wireless device designed for long-distance PtP connections and as CPE (Customer Premises Equipment) in wireless ISP setups. Equipped with a powerful quad-core IPQ-6010 CPU clocked at 864 MHz and 256 MB RAM, the device runs RouterOS v7 with full support for advanced routing, firewall, and wireless configurations. Operating in the 5 GHz frequency band, it supports the latest Wi-Fi 6 (802.11ax) standard, providing superior speed, stability, and spectral efficiency compared to legacy standards. With its integrated 27 dBi high-gain dual-polarized antenna and a Gigabit Ethernet port, it delivers both exceptional throughput and extended coverage, even in noisy RF environments. Its robust enclosure and precision-designed grid ensure optimal alignment and stable links in harsh outdoor conditions."
+    },
+    {
+      "heading": "Designed for Distance",
+      "text": "Engineered for reliable outdoor connectivity, the LHG XL 5 ax features a lightweight, grid-based antenna design optimized for long-range transmissions, making it ideal for rural broadband or inter-building links. The 27 dBi antenna gain and beam-forming efficiency help achieve link distances well beyond 15 kilometers, depending on environmental conditions. Its parabolic reflector ensures high directional focus and reduced interference, crucial for maintaining performance in crowded 5 GHz spectrums. The device operates on the 5 GHz band using 2x2 MIMO and OFDMA technologies, delivering speeds of up to 600 Mbps. Thanks to its lightweight, UV-resistant enclosure and rugged mounting system, it is highly reliable in harsh outdoor conditions, with operational temperature support from -40°C to +70°C. Power is delivered via 802.3af/at PoE-in for simplified installation and cabling."
+    },
+    {
+      "heading": "Scalable and Secure",
+      "text": "The LHG XL 5 ax offers excellent scalability for both ISP-grade networks and enterprise outdoor wireless applications. Advanced RouterOS v7 features—such as dynamic routing, firewall, VPN, bandwidth management, and real-time monitoring—allow for full control over network architecture. Wi-Fi 6 features like MU-MIMO and beamforming enable better performance in multi-user environments and reduce latency under load. The compact grid design ensures low wind resistance, while the included precision alignment hardware helps achieve optimal signal direction with ease. Compliant with international standards (CE, FCC), it ensures broad compatibility and legal use in various regions. Perfect for ISPs or industrial links, the LHG XL 5 ax offers reliable, high-value performance."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Integrated Antennas",
+  "categories": [
+    "MikroTik",
+    "Wireless Systems",
+    "LHG"
+  ],
+  "mpn": "LHG-5axD-XL",
+  "manufacturer_part_number": "LHG-5axD-XL",
+  "ean": "4752224009661",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6336/1-68359e69c598b-medium.jpg",
+        "alt": "MikroTik LHG XL 5 ax",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6336/2-68359e6f0085b-medium.jpg",
+        "alt": "MikroTik LHG XL 5 ax",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6336/3-68359e7451fc2-medium.jpg",
+        "alt": "MikroTik LHG XL 5 ax",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "title": "Technical Specs / Datasheet - MikroTik LHG XL 5 ax",
+        "url": "https://www.getic.com/files/catalogue/6336/lhgxl5axandlhg5ax-68359e63ddb10.pdf"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 97.24,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Standards",
+        "Frequency"
+      ],
+      "items": [
+        { "name": "Standards", "value": "802.11n/ac/ax" },
+        { "name": "Frequency", "value": "5GHz" }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        { "name": "Antenna Design", "value": "Reflector" },
+        { "name": "Wireless Antenna Frequency Range & Gain", "value": "5.15 - 5.875 (GHz) 27 (dBi)" }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        { "name": "RJ45 Ports", "value": "(1) 1 Gbps" },
+        { "name": "Management", "value": "Ethernet, Wi-Fi" }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        { "name": "Chipset", "value": "Dual-Core IPQ-5010 800 MHz" },
+        { "name": "RAM", "value": "256 MB" },
+        { "name": "Storage Memory", "value": "128 MB" }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        { "name": "Power Method", "value": "AC/DC Adapter, 24V Passive PoE" },
+        { "name": "Power Supply", "value": "External AC/DC Adapter" },
+        { "name": "Supported Input Voltage", "value": "12 - 28 V DC" },
+        { "name": "Max Power Consumption", "value": "5 W" },
+        { "name": "Power Connector", "value": "DC Plug 2.1 x 5.5 mm" },
+        { "name": "PSU / POE adapter", "value": "24 V DC 0.38 A" }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        { "name": "Dimensions", "value": "550 x 550 x 245 mm" },
+        { "name": "Operating Temperature", "value": "-40 °C to 70 °C" },
+        { "name": "Environment", "value": "Outdoor" },
+        { "name": "Mounting Method", "value": "Pole Mount" }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        { "name": "External Power Supply", "value": "Included" }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik LHG XL 5 ax",
+      "url": "https://www.getic.com/files/catalogue/6336/lhgxl5axandlhg5ax-68359e63ddb10.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik GrooveA 52 ac",
+      "url": "/product/groovea-52-ac",
+      "price": 80.20,
+      "currency": "USD",
+      "mpn": "RBGrooveGA-52HPacn",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik RB4011iGS+5HacQ2HnD-IN",
+      "url": "/product/routerboard-4011igs-plus-5hacq2hnd-in",
+      "price": 225.70,
+      "currency": "USD",
+      "mpn": "RB4011iGS+5HacQ2HnD-IN",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik mANTBox ax 15s",
+      "url": "/product/mikrotik-mantbox-ax-15s",
+      "price": 145.50,
+      "currency": "USD",
+      "mpn": "L22UGS-5HaxD2HaxD-15S",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik wAP ax",
+      "url": "/product/mikrotik-wap-ax",
+      "price": 81.00,
+      "currency": "USD",
+      "mpn": "wAPG-5HaxD2HaxD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    "MikroTik MTCNA Certificate",
+    "MikroTik Value Added Distributor"
+  ],
+  "stock_stat": ""
+}

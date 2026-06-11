@@ -1,0 +1,365 @@
+{
+  "slug": "unifi-6-in-wall",
+  "id": "U6-IW",
+  "productTitle": "Ubiquiti UniFi U6 In-Wall",
+  "name": "Ubiquiti UniFi U6 In-Wall",
+  "title": "Ubiquiti UniFi U6 In-Wall",
+  "title_extended": "",
+  "short_description": "Wall-mounted Wi-Fi 6 access point, with coverage 115 m² and a built-in PoE switch",
+  "description": "The Ubiquiti U6 In-Wall Access Point is at the forefront of networking technology... (Full description from first block)",
+  "detailed_description": [
+    {
+      "heading": "In-Wall Wi-Fi 6 Access Point",
+      "text": "The Ubiquiti U6 In-Wall Access Point is at the forefront of networking technology... (Full text from first content block)"
+    },
+    {
+      "heading": "Sophisticated Design with Integrated PoE Switch",
+      "text": "The U6 In-Wall combines a sophisticated, unobtrusive design with powerful networking capabilities... (Full text from second content block)"
+    },
+    {
+      "heading": "Management with UniFi Network Application",
+      "text": "Managing a network of U6 In-Wall access points is streamlined through the UniFi Network application... (Full text from third content block)"
+    },
+    {
+      "heading": "Dual-Band Wi-Fi 6 Connectivity",
+      "text": "The U6 In-Wall access point’s dual-band Wi-Fi 6 connectivity ensures robust performance and extensive coverage... (Full text from fourth content block)"
+    },
+    {
+      "heading": "Advanced Antenna Technology",
+      "text": "Equipped with advanced dual-band antennas, the U6 In-Wall covers frequency ranges from 2.4 - 2.475 GHz and 5.1 - 5.9 GHz... (Full text from fifth content block)"
+    },
+    {
+      "heading": "Temperature-Resilient Operation",
+      "text": "The U6 In-Wall is designed to perform reliably in a wide range of environmental conditions... (Full text from sixth content block)"
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Points",
+  "categories": [
+    "Ubiquiti",
+    "UniFi Access Points",
+    "In-Wall",
+    "Access Points"
+  ],
+  "mpn": "U6-IW",
+  "manufacturer_part_number": "U6-IW",
+  "ean": "0810010077493",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4204/cac2e05e2e464d4784b27e3bb7d7ca1a-647dc33ce8174-medium.jpg",
+        "alt": "Ubiquiti UniFi U6 In-Wall",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4204/345280c44ebf48179603d04fe0fce1a5-647dc38b32afb-medium.jpg",
+        "alt": "Ubiquiti UniFi U6 In-Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4204/u6iw_3-6332d5cc09721-medium.jpg",
+        "alt": "Ubiquiti UniFi U6 In-Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4204/u6iw_4-6332d5cf3236f-medium.jpg",
+        "alt": "Ubiquiti UniFi U6 In-Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4204/u6iw_6-6332d5d35c6a9-medium.jpg",
+        "alt": "Ubiquiti UniFi U6 In-Wall",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4204/u6iw_7-6332d5da8acd9-medium.jpg",
+        "alt": "Ubiquiti UniFi U6 In-Wall",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/0lR3V5FGJaI",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 191.95,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "MIMO",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax"
+        },
+        {
+          "name": "MIMO",
+          "value": "2.4GHz 2x2, 5GHz 4x4"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "573 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "4.8 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.4 - 2.475 (GHz) 5 (dBi), 5.1 - 5.9 (GHz) 5.9 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(4) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet, Bluetooth"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "48V Passive PoE"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "44 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "13.5 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "48 V DC 0.5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "140 x 96 x 32 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.46 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Recessed"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Not Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi U6 In-Wall",
+      "url": "https://www.getic.com/files/catalogue/4204/u6iw_ds-6332d5ba6fb9a.pdf"
+    },
+    {
+      "title": "Installation Guide - Ubiquiti UniFi U6 In-Wall",
+      "url": "https://www.getic.com/files/catalogue/4204/u6iw-6332f678645db.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "JNasser",
+        "date": "2023-05-11",
+        "text": "Good but pricy",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "/product/usw-lite-8-poe-eu",
+      "price": 118.38,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Lite 16 PoE",
+      "url": "/product/usw-lite-16-poe-eu",
+      "price": 205.99,
+      "currency": "USD",
+      "mpn": "USW-Lite-16-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Special Edition",
+      "url": "/product/ubiquiti-unifi-dream-machine-special-edition",
+      "price": 512.64,
+      "currency": "USD",
+      "mpn": "UDM-SE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U6+",
+      "url": "/product/unifi-6-access-point",
+      "price": 92.32,
+      "currency": "USD",
+      "mpn": "U6+",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "In stock"
+}

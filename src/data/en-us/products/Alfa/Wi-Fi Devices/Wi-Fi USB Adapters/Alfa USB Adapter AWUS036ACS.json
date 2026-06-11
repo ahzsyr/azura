@@ -1,0 +1,335 @@
+{
+  "slug": "alfa-awus036acs-nc",
+  "id": "3195",
+  "productTitle": "Alfa USB Adapter AWUS036ACS",
+  "name": "Alfa USB Adapter AWUS036ACS",
+  "title": "Alfa USB Adapter AWUS036ACS",
+  "title_extended": "Alfa AWUS036ACS USB WiFi Adapter – Dual-Band AC600 with External Antenna",
+  "short_description": "Buy Alfa USB Adapter AWUS036ACS. Price from 20.49 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "description": "Buy Alfa USB Adapter AWUS036ACS. Price from 20.49 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "Signal Penetration & Interference Reduction",
+      "text": "The Alfa AWUS036ACS USB antenna stands out as a compact yet powerful wireless adapter, incorporating the 802.11ac standard for enhanced network performance. With the Realtek RTL8811AU chipset at its core, this adapter delivers dual-band WiFi connectivity, offering speeds of up to 150 Mbps on the 2.4 GHz band and 433 Mbps on the 5 GHz band, which suits the AC750 rating. This performance level is suitable for handling various online activities, including streaming HD content, online gaming, and seamless internet browsing, especially in environments where network speed and reliability are crucial."
+    },
+    {
+      "heading": "Antenna and Connectivity",
+      "text": "Featuring a single RP-SMA female connector, the AWUS036ACS comes with a 2dBi dual-band dipole antenna, optimized for both 2.4 GHz and 5 GHz frequencies, ensuring broad coverage and improved signal penetration. This design helps in maintaining robust connections even in areas prone to signal interference or physical barriers that typically impede wireless communication."
+    },
+    {
+      "heading": "Compact Design with Powerful Connectivity",
+      "text": "In terms of compatibility, the AWUS036ACS supports a wide array of wireless standards (IEEE 802.11ac/a/b/g/n), making it versatile for connecting with various devices and networks. Security protocols like WEP, WPA, WPA2, and WPA Mixed, along with WPS support, are integral to this adapter, providing safe and secure access to wireless networks. The USB 2.0 interface with a type A male connector facilitates easy connection to computers and other compatible devices, ensuring a straightforward setup process."
+    },
+    {
+      "heading": "Wide OS Support",
+      "text": "Operating system support for this adapter is extensive, including compatibility with Windows XP through Windows 10, macOS 10.5 to 10.14, and various Linux distributions, making the AWUS036ACS a flexible option for users with different computing platforms. This adapter's balance of speed, connectivity, and compact design makes it a practical choice for enhancing wireless network capabilities in both personal and professional settings."
+    }
+  ],
+  "brand": "Alfa Network",
+  "category": "WiFi USB Adapters",
+  "categories": [
+    "WiFi USB Adapters",
+    "Wi-Fi USB Adapters",
+    "Wi-Fi Devices"
+  ],
+  "mpn": "AWUS036ACS",
+  "manufacturer_part_number": "AWUS036ACS",
+  "ean": "4718050307654",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/3195/awus036acsnc_deviceanten-60f12d30ad81a-medium.jpg",
+        "alt": "Alfa USB Adapter AWUS036ACS",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3195/awus036acsnc_deviceconn-60f12d31b9eba-medium.jpg",
+        "alt": "Alfa USB Adapter AWUS036ACS",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3195/awus036acsnc_boxfront-60f12d2f76024-medium.jpg",
+        "alt": "Alfa USB Adapter AWUS036ACS",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/3195/awus036csnc_boxback-60f12d32ca11b-medium.jpg",
+        "alt": "Alfa USB Adapter AWUS036ACS",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 20.49,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "150 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "433 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.412 - 2.483 (GHz) 2 (dBi), 5.1 - 5.9 (GHz) 2 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(1) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "USB Ports"
+      ],
+      "items": [
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 2.0"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "RTL8811AU"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "5.5 x 1.0 x 2.5 cm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.08 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "User Guide - Alfa USB Adapter AWUS036ACS",
+      "url": "https://www.getic.com/files/catalogue/3195/ugrt-6036480c378fb.pdf"
+    },
+    {
+      "title": "Technical Specs / Datasheet - Alfa USB Adapter AWUS036ACS",
+      "url": "https://www.getic.com/files/catalogue/3195/awus036acs_ds-6809cad373439.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 6,
+    "source": "Trustpilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 6,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Tibor",
+        "date": "2024-08-18",
+        "text": "Nagyon jó áron jutottam a termékhez az önök üzletében Tökéletesen müködik mind a kettő adapter",
+        "photos": []
+      },
+      {
+        "name": "SLASH",
+        "date": "2024-04-05",
+        "text": "Delivery to the US was done very fast I must say. The delivery arrived at a timely manner, allowing us to fulfill our needs. Also, the packing was done very professionally so no products were damaged. Thank you",
+        "photos": []
+      },
+      {
+        "name": "CHAUDHARY",
+        "date": "2023-09-25",
+        "text": "Getic Sia Trusted.",
+        "photos": []
+      },
+      {
+        "name": "Istvan",
+        "date": "2023-07-07",
+        "text": "Good product for WiFi pentesting with good price. Getic webshop is the best! ??",
+        "photos": []
+      },
+      {
+        "name": "Damir",
+        "date": "2023-02-17",
+        "text": "Wifi adapter is easy to install and work flowless",
+        "photos": []
+      },
+      {
+        "name": "Vanja",
+        "date": "2022-05-19",
+        "text": "Great product, cheap but of high quality.",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Alfa USB Adapter AWUS1900",
+      "url": "/product/alfa-awus1900",
+      "price": 46.14,
+      "currency": "USD",
+      "mpn": "AWUS1900",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACM",
+      "url": "/product/alfa-awus036acm",
+      "price": 34.45,
+      "currency": "USD",
+      "mpn": "AWUS036ACM",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACH v.2",
+      "url": "/product/alfa-awus036ach-c",
+      "price": 47.58,
+      "currency": "USD",
+      "mpn": "AWUS036ACH-C",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa USB Adapter AWUS036ACHM",
+      "url": "/product/alfa-awus036achm",
+      "price": 32.42,
+      "currency": "USD",
+      "mpn": "AWUS036ACHM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": "in_stock"
+}

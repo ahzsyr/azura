@@ -1,0 +1,357 @@
+{
+  "slug": "mikrotik-hap-ax-s-us-version",
+  "id": "6934",
+  "productTitle": "MikroTik hAP ax S US version",
+  "name": "MikroTik hAP ax S US version",
+  "title": "MikroTik hAP ax S US version",
+  "title_extended": "MikroTik hAP ax S US version - High-Performance SOHO Router with Wi-Fi 6, 5x Gigabit Ethernet, 2.5 Gigabit SFP, USB 2.0, RouterOS L4",
+  "short_description": "Dual-Core ARM CPU 950MHz, 512MB RAM, 128MB Storage, 5x Gigabit LAN, 1x USB 2.0, 2.4/5 GHz Wi-Fi 6, RouterOS L4",
+  "description": "The MikroTik hAP ax S is a high-performance SOHO router that combines advanced Wi-Fi 6 capability with exceptional value. Powered by a dual-core ARM CPU, it integrates a dual-band 2.4/5 GHz Wi-Fi 6 radio system, five Gigabit Ethernet ports, a 2.5 Gigabit SFP cage, and a USB port for expanded connectivity. Designed for modern households and small offices, the hAP ax S supports both DC input and PoE-in for flexible power options, with an additional passive PoE-out port to energize companion devices.",
+  "detailed_description": [
+    {
+      "heading": "High-Performance Connectivity",
+      "text": "The MikroTik hAP ax S is a high-performance SOHO router that combines advanced Wi-Fi 6 capability with exceptional value. Powered by a dual-core ARM CPU, it integrates a dual-band 2.4/5 GHz Wi-Fi 6 radio system, five Gigabit Ethernet ports, a 2.5 Gigabit SFP cage, and a USB port for expanded connectivity. Its triple-chain 5 GHz radio achieves real-world throughput of up to 900 Mbit/s, ensuring smooth streaming, fast file transfers, and consistent performance across multiple clients. Designed for modern households and small offices, the hAP ax S supports both DC input and PoE-in for flexible power options, with an additional passive PoE-out port to energize companion devices. Whether used as a standalone gateway or an access point within a larger network, it delivers enterprise-class wireless stability, gigabit-class performance, and reliable wired uplinks, making it an ideal solution for high-density SOHO environments requiring both speed and scalability."
+    },
+    {
+      "heading": "Wi-Fi 6 Reliability",
+      "text": "The hAP ax S sets a new standard in compact Wi-Fi 6 solutions, offering triple-chain 5 GHz and dual-chain 2.4 GHz radios for superior coverage, lower latency, and greater efficiency under load. Its high-gain antennas and multi-user MIMO technology deliver stable connections across numerous simultaneous clients. In practical use, the 5 GHz band achieves 800–900 Mbit/s throughput, maintaining gigabit-class wireless speeds even in congested networks. This makes it especially suited for VR streaming, 4K video, and cloud gaming where low latency and consistency are critical. The device can also serve as a dedicated wireless bridge or access point for performance-sensitive applications. Compact in design and engineered for efficiency, the hAP ax S offers quiet, low-power operation without compromising reliability. Combined with its advanced antennas, intelligent RF optimization, and robust throughput management, it provides a future-proof foundation for next-generation wireless networks supporting Wi-Fi 6 and beyond."
+    },
+    {
+      "heading": "Advanced RouterOS Control",
+      "text": "Despite its compact form and affordable price, the hAP ax S runs RouterOS v7, MikroTik’s comprehensive network operating system trusted by professionals worldwide. This platform enables complete network customization and enterprise-grade security without subscriptions or feature restrictions. Users can configure VLANs, firewall rules, VPN tunnels, traffic prioritization, and advanced routing policies with ease. Automation via scripts or SMS commands further enhances network management and response flexibility. For home and SOHO environments, RouterOS v7 allows isolation of IoT devices into separate subnets, protecting core networks from unauthorized access. Configuration can be performed through the intuitive MikroTik mobile app or via a full RouterOS interface for advanced administration. Combined with its high-performance hardware and Wi-Fi 6 capability, the hAP ax S offers a professional-grade solution for users who demand complete control, efficiency, and security in their network infrastructure."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "WiFi Routers",
+  "categories": [
+    "WiFi Routers",
+    "hAP"
+  ],
+  "mpn": "E62iUGS-2axD5axT-US",
+  "manufacturer_part_number": "E62iUGS-2axD5axT-US",
+  "ean": "4752224010186",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6934/hap_ax_s_1-692ec6d243d75-medium.jpg",
+        "alt": "MikroTik hAP ax S US version front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6934/hap_ax_s_2-692ec6d4c7aea-medium.jpg",
+        "alt": "MikroTik hAP ax S US version ports and back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6934/hap_ax_s_3-692ec6d7f195b-medium.jpg",
+        "alt": "MikroTik hAP ax S US version side view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 69.09,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "US"
+      ],
+      "default": "US"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 6"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Omni"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "2.412 - 2.462 (GHz) 5.5 (dBi), 5.15 - 5.25 (GHz) 8 (dBi), 5.725 - 5.85 (GHz) 8 (dBi)"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "USB Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(5) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "1 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "Passive PoE"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(1) 1G / 2.5G SFP"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) USB-A 2.0"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Dual-Core EN7562CT 950 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "512 MB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "128 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 24V Passive PoE"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "12 - 28 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "34 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Dimensions",
+          "value": "156 x 127 x 36 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Desktop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 4"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik hAP ax S US version",
+      "url": "https://www.getic.com/files/catalogue/6934/hapaxs-692ec6c889e40.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik RB4011iGS+RM",
+      "url": "/product/routerboard-4011igs-plus-rm",
+      "price": 175.29,
+      "currency": "USD",
+      "mpn": "RB4011iGS+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik hAP ax3 US version",
+      "url": "/product/mikrotik-hap-ax3-us-version",
+      "price": 113.42,
+      "currency": "USD",
+      "mpn": "C53UiG+5HPaxD2HPaxD-US",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "MikroTik Power Adapter 24V 1.2A - US plug",
+      "url": "/product/psu-power-adapter-24v1-2a-us-version",
+      "price": 4.99,
+      "currency": "USD",
+      "mpn": "SAW30-240-1200GR2A-US",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik cAP ax US version",
+      "url": "/product/mikrotik-cap-ax-us-version",
+      "price": 103.11,
+      "currency": "USD",
+      "mpn": "cAPGi-5HaxD2HaxD-US",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

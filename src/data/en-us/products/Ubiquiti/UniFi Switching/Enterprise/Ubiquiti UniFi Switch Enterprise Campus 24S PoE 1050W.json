@@ -1,0 +1,238 @@
+{
+  "slug": "ubiquiti-unifi-switch-enterprise-campus-24s-poe",
+  "id": "ECS-24S-PoE",
+  "productTitle": "Ubiquiti UniFi Switch Enterprise Campus 24S PoE 1050W",
+  "name": "Ubiquiti UniFi Switch Enterprise Campus 24S PoE 1050W",
+  "title": "Ubiquiti UniFi Switch Enterprise Campus 24S PoE 1050W",
+  "title_extended": "",
+  "short_description": "The UniFi Switch Enterprise Campus 24S PoE is engineered for demanding enterprise and campus networks that require both high throughput and large-scale device connectivity. It provides a non-blocking switching capacity of 460 Gbps, a forwarding rate of 342 Mpps, and support for up to 1,000 VLANs, making it suitable for multi-department environments, building-to-building aggregation, and large access layers.",
+  "description": "Buy Ubiquiti UniFi Switch Enterprise Campus 24S PoE 1050W. Price from 3186.79 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "Enterprise Switching",
+      "text": "The UniFi Switch Enterprise Campus 24S PoE is engineered for demanding enterprise and campus networks that require both high throughput and large-scale device connectivity. It provides a non-blocking switching capacity of 460 Gbps, a forwarding rate of 342 Mpps, and support for up to 1,000 VLANs, making it suitable for multi-department environments, building-to-building aggregation, and large access layers. The switch features an extensive port configuration that includes 8× 2.5GbE RJ45 PoE+++ ports, 16× 10GbE RJ45 PoE+++ ports, 1× GbE RJ45 port for management or uplink, 4× 25G SFP28 ports, and 2× 100G QSFP28 uplink/stacking ports, enabling flexible deployment topologies and high-bandwidth uplinks to distribution or core switches. Layer 3 capabilities include DHCP Server, DHCP Relay, Static Routing, and Inter-VLAN Routing, ensuring advanced traffic segmentation and routing within local networks. The chassis, built from SGCC steel with an aluminum mounting frame, fits standard 19-inch four-post racks at depths of 650–1000 mm. These features make the ECS-24S-PoE a reliable high-performance switching platform for enterprise campuses and high-density environments that require both speed and scalability."
+    },
+    {
+      "heading": "PoE Performance",
+      "text": "The ECS-24S-PoE provides powerful and flexible PoE delivery across its 8× 2.5GbE RJ45 ports and 16× 10GbE RJ45 ports, each supporting PoE++ (IEEE 802.3bt) with up to 90 W per port, powering high-consumption devices such as Wi-Fi 6/6E/7 access points, PTZ cameras, smart lighting, and industrial endpoints. Total PoE power availability is designed for large-scale deployments: the switch offers 1,850 W PoE budget in Shared Mode (100–120 V AC) and 2,250 W PoE budget in Shared Mode (200–240 V AC). When using the redundant configuration, the switch provides 850 W PoE budget at 100–120 V AC and 1,050 W PoE budget at 200–240 V AC, enabling continuous power to critical devices even during maintenance or PSU replacement. Power redundancy is ensured via two hot-swappable 600 W AC/DC power modules, and cooling reliability is provided through four hot-swappable fan modules, both of which allow component replacement without service interruption. Power is supplied using a universal 100–240 V AC input, making the ECS-24S-PoE suitable for international deployment. Together, these features deliver a robust power architecture optimized for enterprise networks with extensive PoE requirements."
+    },
+    {
+      "heading": "Advanced Features",
+      "text": "Beyond switching performance and PoE delivery, the ECS-24S-PoE includes a comprehensive suite of enterprise management features designed for scalable installations. The switch supports high-speed stacking using its 2× 100G QSFP28 ports, allowing multiple Enterprise Campus switches to operate as a single logical system for simplified management and unified configuration. On the Layer 2 side, the ECS-24S-PoE offers LACP link aggregation, STP/RSTP, IGMP Snooping, Advanced IGMP settings (Querier, Fast Leave, Router Port), QoS with DSCP, Port Isolation, Jumbo Frames, 802.1X port authentication, and MAC-based ACLs. Layer 3 functionality includes DHCP Server, DHCP Relay, Static Routing, and Inter-VLAN Routing. Operational visibility is enhanced with Etherlighting™ port indicators and a 1.3-inch touchscreen LCM display for quick diagnostics and configuration checks. The switch operates within a temperature range of –5 °C to 40 °C and 10–95% non-condensing humidity, supporting stable performance in equipment rooms and data-center environments. Integrating seamlessly into UniFi’s centralized management ecosystem, the ECS-24S-PoE provides advanced control, high-availability operation, and scalable architecture suitable for large enterprise networks."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Enterprise"
+  ],
+  "mpn": "ECS-24S-PoE",
+  "manufacturer_part_number": "ECS-24S-PoE",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6935/01-692edd0b310f6-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Enterprise Campus 24S PoE 1050W",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6935/1-692edcdf19b44-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Enterprise Campus 24S PoE 1050W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6935/2-692edce1e4ece-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Enterprise Campus 24S PoE 1050W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6935/3-692edce4c1342-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Enterprise Campus 24S PoE 1050W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6935/4-692edce7998f3-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Enterprise Campus 24S PoE 1050W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6935/5-692edceaac794-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Enterprise Campus 24S PoE 1050W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6935/6-692edcdc79cff-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Enterprise Campus 24S PoE 1050W",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6935/7-692edcede32dc-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Enterprise Campus 24S PoE 1050W",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 3186.79,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps, (8) 2.5 Gbps, (16) 10 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "24 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3bt (PoE+++)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(4) 25G SFP28, (2) 100G QSFP28"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Supply",
+          "value": "Internal x2 redundant PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "2400 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Number of Rack Units",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Dimensions",
+          "value": "442.4 x 44 x 496 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "9.2 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Enterprise Campus 24S PoE 1050W",
+      "url": "https://www.getic.com/files/catalogue/6935/ecs24spoe_ds-692ed40325af9.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor"
+    }
+  ],
+  "stock_stat": ""
+}

@@ -1,0 +1,268 @@
+{
+  "slug": "ubiquiti-poe-24-24w-gigabit-white",
+  "id": "POE-24-24W-G-WH",
+  "productTitle": "Ubiquiti Gigabit Power Adapter POE-24-24W White",
+  "name": "Ubiquiti Gigabit Power Adapter POE-24-24W White",
+  "title": "Ubiquiti Gigabit Power Adapter POE-24-24W White",
+  "title_extended": "",
+  "short_description": "Gigabit POE adapter, 24V, 24W, 1A, DC",
+  "description": "The Ubiquiti POE-24-24W-G-WH is a specialized 24V Power over Ethernet (PoE) adapter that provides a seamless and efficient way to deliver both power and data through a single Ethernet cable to compatible Ubiquiti devices. Crafted with a sleek, compact design, this PoE adapter seamlessly integrates into a variety of network setups without taking up much space.",
+  "detailed_description": [
+    {
+      "heading": "Feature",
+      "text": "Surge protection, Clamping protection, Maximum surge discharge, Peak pulse current, AC cable with earth ground"
+    },
+    {
+      "heading": "Performance and Hardware",
+      "text": "The Ubiquiti 24V PoE Adapter, model POE-24-24W-G-WH, is a versatile and efficient solution designed to power Ubiquiti devices while facilitating data transfer over a single Ethernet cable. This adapter delivers a stable 24V DC output at 1.0A and supports a wide input voltage range from 100-240V AC at 50/60Hz, making it suitable for international use across various electrical standards. Moreover, the adapter equipped with a gigabit LAN port, the POE-24-24W-G-WH ensures high-speed data connectivity, essential for modern networking environments."
+    },
+    {
+      "heading": "Safety and Protection",
+      "text": "Constructed from high-quality materials, the POE-24-24W-G-WH is built to withstand daily operational stresses and environmental factors. Its robust design ensures longevity and reliable performance in various conditions. The compact form factor allows for easy integration into any network setup, and the lightweight design makes it convenient to handle during installation. Moreover, this adapter incorporates multiple safety features, including surge protection and overcurrent protection, to safeguard both the PoE adapter and the connected devices. These features are crucial for preventing damage caused by power surges, spikes, and other electrical anomalies."
+    },
+    {
+      "heading": "ESD Protection",
+      "text": "Electrostatic discharge (ESD) is the leading cause for outdoor device failures. You can effectively protect against ESD damage using a grounded Ubiquiti PoE Adapter, special cables and cable connectors."
+    },
+    {
+      "heading": "Installation and Compatibility",
+      "text": "Installation of the POE-24-24W-G-WH is straightforward, thanks to its plug-and-play design. Users simply need to connect the adapter to an AC power source and link the Ethernet cable from the PoE port to the Ubiquiti device requiring power. The second Ethernet port can be used to connect to the network, facilitating both power and data connectivity through a single cable. This adapter is compatible with a wide range of Ubiquiti devices that support 24V passive PoE, making it a versatile addition to any network deployment."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "PoE Adapters",
+  "categories": [
+    "PoE Adapters"
+  ],
+  "mpn": "POE-24-24W-G-WH",
+  "manufacturer_part_number": "POE-24-24W-G-WH",
+  "ean": "0817882022545",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2921/poe2424w5p_front_top_angle-5f91730e7d01f-medium.jpeg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-24-24W White",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2921/poe2424w5p_front_angle-5f91731753a98-medium.jpeg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-24-24W White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2921/poe2424w5p_front-5f91731ad96eb-medium.jpeg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-24-24W White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2921/poe2424w5p_back-5f91731f750bc-medium.jpeg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-24-24W White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2921/poe2424w5p_set-5f9173295b909-medium.jpeg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-24-24W White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2921/poe2424w5p_top_angle-5f91732e9da53-medium.jpeg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-24-24W White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2921/poe2424w5p_ports-5f9173347160e-medium.jpeg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-24-24W White",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2921/poe2424w5p_bottom-5f917337f2a65-medium.jpeg",
+        "alt": "Ubiquiti Gigabit Power Adapter POE-24-24W White",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 15.05,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Power Adapter",
+      "features": [
+        "Output Current",
+        "Output Voltage",
+        "Ehternet Ports",
+        "Ethernet Powering",
+        "Reset Button"
+      ],
+      "items": [
+        {
+          "name": "Output Current",
+          "value": "1 A"
+        },
+        {
+          "name": "Output Voltage",
+          "value": "24 V DC"
+        },
+        {
+          "name": "Ehternet Ports",
+          "value": "1 Gbps"
+        },
+        {
+          "name": "Ethernet Powering",
+          "value": "2-Pair"
+        },
+        {
+          "name": "Reset Button",
+          "value": "yes"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Dimensions",
+          "value": "96 x 62 x 35 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.166 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "0 °C to 40 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Gigabit Power Adapter POE-24-24W White",
+      "url": "https://www.getic.com/files/catalogue/2921/poe_adapters_ds1-5f576a2440254.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-24-12W-G",
+      "url": "/product/ubiquiti-poe-24-gigabit",
+      "price": 15.05,
+      "currency": "USD",
+      "mpn": "POE-24-12W-G",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Gigabit Power Adapter POE-24-7W-G-WH",
+      "url": "/product/ubiquiti-poe-24-7w-g-wh-gigabit",
+      "price": 7.52,
+      "currency": "USD",
+      "mpn": "POE-24-7W-G-WH",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX NanoStation 5AC Loco",
+      "url": "/product/nanostation-5-ac-loco",
+      "price": 48.09,
+      "currency": "USD",
+      "mpn": "Loco5AC",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

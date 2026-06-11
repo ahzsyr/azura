@@ -1,0 +1,359 @@
+{
+  "slug": "mikrotik-css610-8p-2s-in",
+  "id": "4128",
+  "productTitle": "MikroTik CSS610-8P-2S+IN Switch – 8x PoE, 2x SFP+ 10G Cloud Smart",
+  "name": "MikroTik CSS610-8P-2S+IN",
+  "title": "MikroTik CSS610-8P-2S+IN",
+  "title_extended": "MikroTik CSS610-8P-2S+IN Switch – 8x PoE, 2x SFP+ 10G Cloud Smart",
+  "short_description": "2x 10G SFP+ Ports, 8x GbE PoE-out Ports, 56 GB Switching Capacity, 802.3af/at, PoE-out budget of 140 W",
+  "description": "2x 10G SFP+ Ports, 8x GbE PoE-out Ports, 56 GB Switching Capacity, 802.3af/at, PoE-out budget of 140 W",
+  "detailed_description": [
+    {
+      "heading": "Networking for Various Environments",
+      "text": "Elevate your networking with the MikroTik CSS610-8P-2S+IN, a true powerhouse designed to cater to diverse setups, from home networks and small offices to larger establishments like hotels and call centers. This switch boasts an impressive combination of features, scalability potential, and affordability, making it a game-changer in the world of networking."
+    },
+    {
+      "heading": "High-Performance Connectivity",
+      "text": "Featuring two 10 Gigabit SFP+ ports and eight Gigabit Ethernet ports with 802.3af/at PoE-out capability, the CSS610-8P-2S+IN provides a versatile solution for various networking requirements.\n\nThe SFP+ ports offer fast data transfer rates of 10 gigabits per second (10 Gbps), making it perfect for bandwidth-intensive applications. What's more, these ports enable the use of fiber optic connections, ensuring high-speed and long-distance data transmission. Versatility is key here, as SFP+ ports support various types of transceivers to meet different network requirements. Whether it's in an enterprise data center, a multimedia production setting, or for long-distance connectivity, these ports provide exceptional speed and adaptability."
+    },
+    {
+      "heading": "User-Friendly SwOS",
+      "text": "The CSS610-8P-2S+IN is powered by SwOS (SwitchOS), a lightweight and user-friendly operating system. SwOS simplifies network management, offering an intuitive web browser interface that allows users to configure and monitor their network with ease. This user-friendliness is particularly beneficial for users with varying levels of networking expertise.\n\nSwOS also equips the switch with an array of advanced features, including port-to-port forwarding, broadcast storm control, MAC filtering, VLAN configuration, traffic mirroring, bandwidth control, and the ability to adjust certain MAC and IP header fields. These features empower network administrators to customize their network, optimize performance, and enhance security effortlessly."
+    },
+    {
+      "heading": "Exceptional PoE Capability",
+      "text": "One of the standout features of the CSS610-8P-2S+IN is its robust Power-over-Ethernet (PoE) capability. With a total PoE-out budget of 140 watts, this switch can power a multitude of PoE-enabled devices, making it perfect for demanding scenarios like hotels, conference halls, and call centers. The advantages of PoE are numerous—it simplifies device installation, offers flexibility in device placement, and allows for centralized power management. You can power IP phones, security cameras, access points, and more, all through PoE, eliminating the need for separate power cables. With centralized power management, network administrators can monitor and control PoE-powered devices remotely, enhancing overall network management."
+    },
+    {
+      "heading": "Cost-Effective Scalability",
+      "text": "Scalability is no longer a concern with the CSS610-8P-2S+IN. Its affordability allows you to expand your network without straining your budget. Whether you need switches on every floor of a building or want to connect various devices without compromising on performance, this switch offers a cost-effective solution."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": [
+    "MikroTik",
+    "Switches",
+    "Cloud Smart Switch"
+  ],
+  "mpn": "CSS610-8P-2S+IN",
+  "manufacturer_part_number": "CSS610-8P-2S+IN",
+  "ean": "4752224007216",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4128/2194_hi_res_2-62e2707ecc1fb-medium.jpg",
+        "alt": "MikroTik CSS610-8P-2S+IN",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4128/css6108p2sin_1-62e2705dc12a3-medium.jpg",
+        "alt": "MikroTik CSS610-8P-2S+IN",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4128/css6108p2sin-62e2705f4a96d-medium.jpg",
+        "alt": "MikroTik CSS610-8P-2S+IN",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/_1AWSxk9cqM",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 188.56,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Number of PoE Ports",
+        "PoE Out Standards",
+        "SFP Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(8) 1 Gbps"
+        },
+        {
+          "name": "Number of PoE Ports",
+          "value": "8 pcs"
+        },
+        {
+          "name": "PoE Out Standards",
+          "value": "802.3af (PoE), 802.3at (PoE+)"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(2) 10G SFP+"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "88E6193X"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter"
+        },
+        {
+          "name": "Power Supply",
+          "value": "Internal PSU, External AC/DC Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "48 - 57 V DC, 100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "12 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Number of Rack Units",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Number of Rack Units",
+          "value": "1U"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP20"
+        },
+        {
+          "name": "Dimensions",
+          "value": "272 x 216 x 50 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount, Tabletop"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Rack-mounted 19\""
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "SwitchOS"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik CSS610-8P-2S+IN",
+      "url": "https://www.getic.com/files/catalogue/4128/css6108p2sin-62c54631c2ecb.pdf"
+    },
+    {
+      "title": "Quick Start Guide - MikroTik CSS610-8P-2S+IN",
+      "url": "https://www.getic.com/files/catalogue/4128/quickguidecss6108p2sin-650ad6d18f66e.pdf"
+    },
+    {
+      "title": "User Manual - MikroTik CSS610-8P-2S+IN",
+      "url": "https://www.getic.com/files/catalogue/4128/usermanualscss6108p2sin-650ad6dc0091f.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 41.58,
+        "currency": "USD",
+        "delivery_time": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 52.32,
+        "currency": "USD",
+        "delivery_time": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 2,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 2,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Hisato",
+        "date": "2022-12-31",
+        "text": "GOOD PRODUCT",
+        "photos": []
+      },
+      {
+        "name": "Angelo",
+        "date": "2022-11-07",
+        "text": "One of the most versatile switch I ever used!",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik CSS326-24G-2S+RM",
+      "url": "/product/cloud-smart-switch-326-24g-2srm",
+      "price": 129.46,
+      "currency": "USD",
+      "mpn": "CSS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 10G RJ-45 Module",
+      "url": "/product/sfp-s-plus-rj10-module",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "S+RJ10",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS328-24P-4S+RM",
+      "url": "/product/cloud-router-switch-328-24p-4s-rm",
+      "price": 434.22,
+      "currency": "USD",
+      "mpn": "CRS328-24P-4S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 1G/10G/25G Direct Attach Cable 1m",
+      "url": "/product/direct-attach-cable-xs-da0001",
+      "price": 26.85,
+      "currency": "USD",
+      "mpn": "XS+DA0001",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

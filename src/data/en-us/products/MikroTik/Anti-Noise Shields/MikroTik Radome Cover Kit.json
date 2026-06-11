@@ -1,0 +1,192 @@
+{
+  "slug": "radome-for-mant30",
+  "id": "775",
+  "productTitle": "MikroTik Radome Cover Kit",
+  "name": "MikroTik Radome Cover Kit",
+  "title": "MikroTik Radome Cover Kit",
+  "title_extended": "",
+  "short_description": "Radome Cover for Mikrotik mANT 30dBi parabolic antennas",
+  "description": "The MikroTik Radome Cover Kit (MTRADC) is specifically designed for MikroTik mANT 30dBi parabolic antennas, providing enhanced performance, durability, and a professional finish. By reducing wind load, the radome ensures greater stability and reliability in demanding outdoor conditions. The device withstands wind speeds of up to 125 mph, with a load of up to 50 kg at 40 m/s and 28 kg at 30 m/s. It protects the antenna feed from environmental elements such as snow, rain, dust, and UV exposure, helping extend the operational lifespan of your equipment while minimizing signal fluctuations. In addition to its functional benefits, the cover improves the overall appearance of large parabolic antennas, making them less obtrusive in both residential and commercial settings. Installation is quick and simple, requiring no special tools or advanced technical skills. Whether deployed in urban, rural, or coastal environments, the MikroTik Radome Cover Kit offers a cost-effective solution to maintain consistent signal quality and long-term protection for your mANT 30dBi antennas.",
+  "detailed_description": [
+    {
+      "heading": "Protective Antenna Kit",
+      "text": "The MikroTik Radome Cover Kit (MTRADC) is specifically designed for MikroTik mANT 30dBi parabolic antennas, providing enhanced performance, durability, and a professional finish. By reducing wind load, the radome ensures greater stability and reliability in demanding outdoor conditions. The device withstands wind speeds of up to 125 mph, with a load of up to 50 kg at 40 m/s and 28 kg at 30 m/s. It protects the antenna feed from environmental elements such as snow, rain, dust, and UV exposure, helping extend the operational lifespan of your equipment while minimizing signal fluctuations. In addition to its functional benefits, the cover improves the overall appearance of large parabolic antennas, making them less obtrusive in both residential and commercial settings. Installation is quick and simple, requiring no special tools or advanced technical skills. Whether deployed in urban, rural, or coastal environments, the MikroTik Radome Cover Kit offers a cost-effective solution to maintain consistent signal quality and long-term protection for your mANT 30dBi antennas."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Antenna Accessories",
+  "categories": [
+    "Antenna Accessories"
+  ],
+  "mpn": "MTRADC",
+  "manufacturer_part_number": "MTRADC",
+  "ean": "4752224000217",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com//images/catalogue/775/mtradc_1-5fd8a0140b723-medium.jpg",
+        "alt": "MikroTik Radome Cover Kit",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com//images/catalogue/775/mtradc_1-5fd8a0140b723-tiny.jpg",
+        "alt": "MikroTik Radome Cover Kit"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 40.50,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "class": "Standard",
+      "price": 43.77,
+      "currency": "USD",
+      "description": "receive in 5 business days"
+    },
+    {
+      "class": "Express",
+      "price": 184.18,
+      "currency": "USD",
+      "description": "receive in 2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik mANT30 PA",
+      "url": "/product/mant30-pa",
+      "price": 180.26,
+      "currency": "USD",
+      "mpn": "MTAD-5G-30D3-PA",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik QuickMOUNT pro",
+      "url": "/product/quickmount-pro",
+      "price": 7.24,
+      "currency": "USD",
+      "mpn": "QMP",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS326-24G-2S+RM",
+      "url": "/product/cloud-router-switch-326-24g-2srm",
+      "price": 170.71,
+      "currency": "USD",
+      "mpn": "CRS326-24G-2S+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik SXTsq Lite5",
+      "url": "/product/sxt-sq-lite5",
+      "price": 35.59,
+      "currency": "USD",
+      "mpn": "RBSXTsq5nD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": "",
+  "compatible_products": [
+    {
+      "name": "MikroTik mANT30 PA",
+      "url": "/product/mant30-pa",
+      "price": 180.26,
+      "currency": "USD",
+      "mpn": "MTAD-5G-30D3-PA",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik mANT30",
+      "url": "/product/mant30",
+      "price": 136.38,
+      "currency": "USD",
+      "mpn": "MTAD-5G-30D3",
+      "availability": "InStock"
+    }
+  ]
+}

@@ -1,0 +1,395 @@
+{
+  "slug": "litebeam-5ac-lr",
+  "id": "1904",
+  "productTitle": "Ubiquiti airMAX LiteBeam 5AC Long-Range",
+  "name": "Ubiquiti airMAX LiteBeam 5AC Long-Range",
+  "title": "Ubiquiti airMAX LiteBeam 5AC Long-Range",
+  "title_extended": "",
+  "short_description": "The LiteBeam AC LR is a long-range, high-performance airMAX ac device from Ubiquiti Networks, designed to provide a cost-effective solution for high-speed, wireless broadband connectivity.",
+  "description": "The LiteBeam AC LR is a long-range, high-performance airMAX ac device from Ubiquiti Networks, designed to provide a cost-effective solution for high-speed, wireless broadband connectivity.",
+  "detailed_description": [
+    {
+      "heading": "",
+      "text": "The LiteBeam AC LR  is a long-range, high-performance airMAX ac device from Ubiquiti Networks, designed to provide a cost-effective solution for high-speed, wireless broadband connectivity. Catering to the needs of both internet service providers and individual users seeking to extend network coverage over large distances(25+ km), the LiteBeam AC LR embodies the innovation and reliability Ubiquiti is known for. This device is engineered to optimize performance, enhance signal strength, and increase the range of wireless communications without compromising on speed or quality."
+    },
+    {
+      "heading": "",
+      "text": "The LiteBeam AC LR is designed to seamlessly integrate within Ubiquiti Networks' airMAX ecosystem, particularly focusing on compatibility with other airMAX ac series devices. This includes various models of Ubiquiti's outdoor wireless access points, bridges, and CPE devices that also use the airMAX ac technology. When paired with these devices, the LiteBeam AC LR can create high-throughput, long-distance wireless links, making it suitable for a wide range of applications, from broadband internet service provision to connecting remote locations.This harmonization ensures that when deployed in a network, the LiteBeam AC LR can communicate effectively with other devices that support the airMAX ac protocol, enabling robust point-to-point (PtP) and point-to-multipoint (PtMP) configurations. Please also note, that compatibility with older airMAX devices (those using the 802.11n standard) might be limited. For optimal performance, it is recommended to use devices within the same technological generation."
+    },
+    {
+      "heading": "",
+      "text": "In addition, please keep in mind that LiteBeam AC LR does not natively integrate with the UniFi series, which is managed through the UniFi Controller software. UniFi products target indoor and managed Wi-Fi applications rather than long-distance outdoor links, and they operate on a different management platform."
+    },
+    {
+      "heading": "",
+      "text": "At the core of the LiteBeam AC LR's design is its utilization of Ubiquiti's proprietary airMAX ac technology. This technology leverages a patented protocol design, Time Division Multiple Access (TDMA), which significantly improves network performance in PtMP configurations by reducing node interference. The device operates in the 5 GHz frequency band, which is less congested than the more commonly used 2.4 GHz band, providing cleaner signal paths and higher throughput levels. This is particularly advantageous in areas where wireless spectrum is heavily utilized, allowing the LiteBeam AC LR to deliver superior performance."
+    },
+    {
+      "heading": "",
+      "text": "One of the standout features of the LiteBeam AC LR is its integrated high-gain antenna. With a gain of 26 dBi, this directional antenna focuses the signal, substantially increasing its range over and reducing interference from other sources. This makes the LiteBeam AC LR particularly suited for long-distance wireless links, capable of maintaining high-quality connections over 25+ km."
+    },
+    {
+      "heading": "",
+      "text": "The device's physical design emphasizes both functionality and durability. Its lightweight, compact form factor simplifies installation and deployment, allowing for quick and easy setup on poles, walls, or other structures. The LiteBeam AC LR is built to withstand harsh environmental conditions (-40 °C to 70 °C), featuring a weather-resistant enclosure that ensures continued operation in climates ranging from hot and sunny to wet and windy."
+    },
+    {
+      "heading": "",
+      "text": "Ease of installation and management is further facilitated by the LiteBeam AC LR's use of Power over Ethernet (PoE). This feature allows the device to receive both power and data over a single Ethernet cable, eliminating the need for separate power sources and reducing cable clutter. For network management, the device runs Ubiquiti's airOS 8, an intuitive, web-based interface that provides powerful features for configuring, monitoring, and optimizing network performance. airOS 8 includes advanced RF analytics, allowing administrators to assess signal quality, identify potential interference, and make real-time adjustments to improve network stability and throughput."
+    },
+    {
+      "heading": "",
+      "text": "Additionally, the LiteBeam AC LR supports airMAX ac technology's enhanced security features, including WPA2 encryption to protect network communications from unauthorized access. This ensures that data transmitted across the network remains secure, an essential consideration for businesses and individuals alike."
+    },
+    {
+      "heading": "",
+      "text": "The airMAX LiteBeam AC LR is ideal for rural internet provision, connecting remote areas with high-speed access. It facilitates seamless corporate and campus connectivity over wide areas, supports high-definition video surveillance networks, and provides essential infrastructure for event broadcasting with its long-range, high-speed capabilities. Moreover, it's invaluable for establishing emergency communication networks in disaster-stricken or remote areas, ensuring reliable, quick-setup connectivity. Its versatility across various environments underscores its utility in bridging connectivity gaps and enhancing network performance. Also, during large outdoor events like concerts or sports competitions, organizers can rely on the LiteBeam AC LR to provide temporary internet access or to stream live video content."
+    },
+    {
+      "heading": "",
+      "text": "In summary, the Ubiquiti LiteBeam AC LR (LBE-5AC-LR) is a technologically advanced, long-range wireless broadband device that offers exceptional performance, durability, and ease of use. With its high-gain antenna, robust airMAX ac technology, and comprehensive management features, the LiteBeam AC LR is an ideal solution for establishing high-speed, reliable wireless connections over extended distances, providing users with the connectivity they need to thrive in today's digital world. Moreover, a lightweight form factor contained within a ultra-compact packaging, the  LiteBeam AC LR is ideal for shipping and logistics."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Integrated Antennas",
+  "categories": [
+    "Ubiquiti",
+    "Outdoor Wireless",
+    "Integrated Antennas"
+  ],
+  "mpn": "LBE-5AC-LR",
+  "manufacturer_part_number": "LBE-5AC-LR",
+  "ean": "0817882027403",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/1904/lbe5aclr_front_angle-5fec54b332089-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam 5AC Long-Range",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1904/lbe5aclr_front-5fec54950ddcd-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam 5AC Long-Range",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1904/lbe5aclr_side-5fec550953c17-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam 5AC Long-Range",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1904/lbe5aclr_port-5fec54e8628c4-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam 5AC Long-Range",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1904/lbe5aclr_back-5fec53975af74-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam 5AC Long-Range",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/1904/lbe5aclr_back_withmount-5fec541162cc2-medium.jpg",
+        "alt": "Ubiquiti airMAX LiteBeam 5AC Long-Range",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 103.58,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "5GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 5"
+        },
+        {
+          "name": "Standards",
+          "value": "airMAX"
+        },
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "450 Mbps"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Polarization"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Grid"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "5.150 - 5.875 (GHz) 26 (dBi)"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "Management"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 1 Gbps"
+        },
+        {
+          "name": "Management",
+          "value": "Wi-Fi"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "MIPS 74Kc"
+        },
+        {
+          "name": "RAM",
+          "value": "64 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "24V Passive PoE"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External PoE Adapter"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "22 - 26 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "7 W"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 0.3 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "513 x 386 x 258 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.74 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-40 °C to 70 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX LiteBeam 5AC Long-Range",
+      "url": "https://www.getic.com/files/catalogue/1904/litebeam_ac_gen2_ds.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX LiteBeam 5AC Long-Range",
+      "url": "https://www.getic.com/files/catalogue/1904/lbe-5ac-lr-qsg.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Winston",
+        "date": "2024-09-12",
+        "text": "great prices except for shipping",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 13 dBi Omni",
+      "url": "/product/omni-airmax-5g13",
+      "price": 142.96,
+      "currency": "USD",
+      "mpn": "AMO-5G13",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Rocket AC Lite",
+      "url": "/product/rocket-ac-lite",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "R5AC-LITE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX LiteBeam 5AC",
+      "url": "/product/litebeam-ac-gen2",
+      "price": 64.12,
+      "currency": "USD",
+      "mpn": "LBE-5AC-Gen2",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Lite AP GPS",
+      "url": "/product/lite-ap-ac-gps",
+      "price": 92.48,
+      "currency": "USD",
+      "mpn": "LAP-GPS",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

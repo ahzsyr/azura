@@ -1,0 +1,231 @@
+{
+  "slug": "rocketdish-5g30",
+  "id": 118,
+  "productTitle": "Ubiquiti airMAX AC 5 GHz, 30 dBi RocketDish",
+  "name": "Ubiquiti airMAX AC 5 GHz, 30 dBi RocketDish",
+  "title": "Ubiquiti airMAX AC 5 GHz, 30 dBi RocketDish",
+  "title_extended": "Ubiquiti airMAX AC 5 GHz 30 dBi RocketDish RD-5G30 for Long-Range PtP Wireless Links",
+  "short_description": "5GHz, 26\", 30dBi dual pol. antenna, pair with Rocket M5",
+  "description": "The airMAX AC 5 GHz, 30 dBi RocketDish, with the model manufacture part number RD-5G30, is a high-performance parabolic dish antenna designed by Ubiquiti Networks...",
+  "brand": "Ubiquiti",
+  "category": "Wireless Antennas",
+  "categories": [
+    "Ubiquiti",
+    "Outdoor Wireless",
+    "Antennas"
+  ],
+  "mpn": "RD-5G30",
+  "manufacturer_part_number": "RD-5G30",
+  "ean": "0810354021282",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/118/1-657953099207d-medium.jpg",
+        "alt": "Ubiquiti airMAX AC 5 GHz, 30 dBi RocketDish",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 121.51,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization",
+        "VSWR",
+        "F/B ratio"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Parabolic Dish"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "49 - 5.8 (GHz) 30 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "5 ° Vertical, 5 ° Horizontal"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        },
+        {
+          "name": "VSWR",
+          "value": "< 1.4"
+        },
+        {
+          "name": "F/B ratio",
+          "value": "> 34 dB"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Mounting Method",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "Ø650 x 304 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "9.8 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX AC 5 GHz, 30 dBi RocketDish",
+      "url": "https://dl.ubnt.com/datasheets/rocketdish/rd_ds_web.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX AC 5 GHz, 30 dBi RocketDish",
+      "url": "https://dl.ubnt.com/guides/rocketdish/RocketDish_RD-5G30_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 5,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 19 dBi Sector",
+      "url": "/product/sector-airmax-5g19-120",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "AM-5G19-120",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 13 dBi Omni",
+      "url": "/product/omni-airmax-5g13",
+      "price": 142.96,
+      "currency": "USD",
+      "mpn": "AMO-5G13",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber X 5 GHz, 30 dBi, Slant 45",
+      "url": "/product/airfiber-5g30-s45",
+      "price": 109.75,
+      "currency": "USD",
+      "mpn": "AF-5G30-S45",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airFiber 5XHD",
+      "url": "/product/airfiber-5xhd",
+      "price": 397.94,
+      "currency": "USD",
+      "mpn": "AF-5XHD",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

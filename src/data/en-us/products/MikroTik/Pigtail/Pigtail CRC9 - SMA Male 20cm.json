@@ -1,0 +1,171 @@
+{
+  "slug": "pigtail-crc9-sma-male-20cm",
+  "id": 789,
+  "productTitle": "Pigtail CRC9 / SMA Male 20cm",
+  "name": "Pigtail CRC9 / SMA Male 20cm",
+  "title": "Pigtail CRC9 / SMA Male 20cm",
+  "title_extended": "",
+  "short_description": "Suitable for Huawei and other 3G/4G LTE modems",
+  "description": "The Pigtail CRC9 / SMA Male 20 cm (P-C9-SM-20) is designed to provide a stable and efficient connection between devices with CRC9 connectors and external antennas or equipment using SMA interfaces. CRC9 connectors are commonly found in LTE/4G/5G USB modems, portable routers, and mobile hotspots, while SMA connectors are widely used in high-performance external antennas for cellular, Wi-Fi, and GPS applications. This pigtail is an excellent solution for boosting wireless signal strength by enabling the use of external antennas with your modem, router, or hotspot. With a compact length of 20 cm, it ensures minimal signal loss while offering flexibility for installation in tight spaces. The P-C9-SM-20 is a versatile accessory that expands the compatibility of your networking and RF equipment. By enabling connections to high-gain or specialized external antennas, it helps enhance both signal reception and transmission for Wi-Fi, LTE, and other RF applications. This improvement in coverage and network stability makes it especially useful for mobile hotspots, LTE/5G modems, portable routers, and custom projects. Its compact design ensures flexibility during installation while minimizing signal loss, providing dependable performance in a variety of scenarios. Whether you need better coverage at home, stronger connectivity for office use, or a reliable solution for professional setups, this pigtail offers a simple and effective way to upgrade your system.",
+  "detailed_description": [
+    {
+      "heading": "Cable & Connector",
+      "text": "The Pigtail CRC9 / SMA Male 20 cm (P-C9-SM-20) is designed to provide a stable and efficient connection between devices with CRC9 connectors and external antennas or equipment using SMA interfaces. CRC9 connectors are commonly found in LTE/4G/5G USB modems, portable routers, and mobile hotspots, while SMA connectors are widely used in high-performance external antennas for cellular, Wi-Fi, and GPS applications. This pigtail is an excellent solution for boosting wireless signal strength by enabling the use of external antennas with your modem, router, or hotspot. With a compact length of 20 cm, it ensures minimal signal loss while offering flexibility for installation in tight spaces."
+    },
+    {
+      "heading": "Versatile Compatibility",
+      "text": "The P-C9-SM-20 is a versatile accessory that expands the compatibility of your networking and RF equipment. By enabling connections to high-gain or specialized external antennas, it helps enhance both signal reception and transmission for Wi-Fi, LTE, and other RF applications. This improvement in coverage and network stability makes it especially useful for mobile hotspots, LTE/5G modems, portable routers, and custom projects. Its compact design ensures flexibility during installation while minimizing signal loss, providing dependable performance in a variety of scenarios. Whether you need better coverage at home, stronger connectivity for office use, or a reliable solution for professional setups, this pigtail offers a simple and effective way to upgrade your system."
+    }
+  ],
+  "brand": "OEM",
+  "category": "Accessories",
+  "categories": [
+    "LTE Products",
+    "Accessories",
+    "Coaxial Pigtails"
+  ],
+  "mpn": "P-C9-SM-20",
+  "manufacturer_part_number": "P-C9-SM-20",
+  "ean": "0708747431209",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/789/pc9sm20-6124a656ad70a-medium.jpg",
+        "alt": "Pigtail CRC9 / SMA Male 20cm",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/789/pc9sm20_con-6124a8af76ab2-medium.jpg",
+        "alt": "Pigtail CRC9 / SMA Male 20cm",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/789/pc9sm20-6124a656ad70a-tiny.jpg",
+        "alt": "Pigtail CRC9 / SMA Male 20cm"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/789/pc9sm20_con-6124a8af76ab2-tiny.jpg",
+        "alt": "Pigtail CRC9 / SMA Male 20cm"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 4.25,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Cable & Connector",
+      "features": [
+        "Connector",
+        "Cable Length"
+      ],
+      "items": [
+        {
+          "name": "Connector",
+          "value": "CRC9 - SMA Male"
+        },
+        {
+          "name": "Cable Length",
+          "value": "0.2 m"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "RJ45 Connector Cat5e 100-pack",
+      "url": "/product/rj45-connector-cat5e-100-pack",
+      "price": 5.90,
+      "currency": "USD",
+      "mpn": "RJ45-Cat5e",
+      "availability": "InStock"
+    },
+    {
+      "name": "Pigtail CRC9 / SMA Female 15cm",
+      "url": "/product/pigtail-crc9-sma-female-15cm",
+      "price": 2.65,
+      "currency": "USD",
+      "mpn": "P-C9-SF-15",
+      "availability": "InStock"
+    },
+    {
+      "name": "Pigtail TS9 / SMA Female 15cm",
+      "url": "/product/pigtail-ts9-sma-female-15cm",
+      "price": 2.75,
+      "currency": "USD",
+      "mpn": "P-T9-SF-15",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik mANT LTE 5o",
+      "url": "/product/mant-lte-5o",
+      "price": 16.98,
+      "currency": "USD",
+      "mpn": "MTAO-LTE-5D-SQ",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}

@@ -1,0 +1,257 @@
+{
+  "slug": "ubiquiti-access-ultra",
+  "id": "UA-Ultra",
+  "productTitle": "Ubiquiti Access Ultra",
+  "name": "Ubiquiti Access Ultra",
+  "title": "Ubiquiti Access Ultra",
+  "title_extended": "Ubiquiti Access Ultra – Enterprise Gateway with UniFi OS",
+  "short_description": "The Ubiquiti Access Ultra (UA-Ultra) is a revolutionary access reader designed to streamline and secure single-door entry control. This innovative device combines a tamper-resistant reader with a built-in hub, eliminating the need for separate controllers and simplifying installation.",
+  "description": "The Ubiquiti Access Ultra (UA-Ultra) is a revolutionary access reader designed to streamline and secure single-door entry control. This innovative device combines a tamper-resistant reader with a built-in hub, eliminating the need for separate controllers and simplifying installation. Additionally, the UA-Ultra features one lock terminal (12V/1A) for direct connection to electric strikes or locks, eliminating the need for separate power supplies for these devices. The UA-Ultra boasts a sleek and robust design, making it ideal for a wide range of environments, from office buildings and residential complexes to restricted areas and data centers.",
+  "detailed_description": [
+    {
+      "heading": "Secure Entry Control",
+      "text": "The Ubiquiti Access Ultra (UA-Ultra) is a revolutionary access reader designed to streamline and secure single-door entry control. This innovative device combines a tamper-resistant reader with a built-in hub, eliminating the need for separate controllers and simplifying installation. Additionally, the UA-Ultra features one lock terminal (12V/1A) for direct connection to electric strikes or locks, eliminating the need for separate power supplies for these devices. The UA-Ultra boasts a sleek and robust design, making it ideal for a wide range of environments, from office buildings and residential complexes to restricted areas and data centers."
+    },
+    {
+      "heading": "Versatile Access Options",
+      "text": "The UA-Ultra empowers you to manage access credentials with ease. Users can unlock doors using either NFC cards or the convenient UniFi Identity mobile app. The reader supports a wide range of NFC technologies, including MIFARE Classic, MIFARE Plus, Mifare Ultralight, and MIFARE DESFire, ensuring compatibility with various existing access control cards. Additionally, the UA-Ultra is built with robust security features in mind. Its tamper-resistant design safeguards against unauthorized access attempts, while ESD/EMP protection safeguards the device from electrostatic discharge and electromagnetic pulse threats."
+    },
+    {
+      "heading": "Flexible Deployment Options",
+      "text": "The Ubiquiti Access Ultra prioritizes ease of use and adaptability. Powered using PoE+, it eliminates the need for separate power supplies, simplifying installation and reducing cabling requirements. Furthermore, the UA-Ultra boasts versatile mounting options, allowing for wall mounting or integration into existing gang boxes for a seamless integration into your environment. With its IP55 weather resistance rating, the UA-Ultra is built to withstand various weather conditions, making it suitable for both indoor and outdoor deployments (operating temperature range: -30 to 40° C). The enclosure is crafted from a combination of polycarbonate and aluminum alloy, offering a balance of durability and aesthetics."
+    },
+    {
+      "heading": "Reliable operations",
+      "text": "The Ubiquiti Access Ultra offers a powerful and user-friendly solution for single-door access control. By combining a built-in hub with secure NFC reading capabilities, the UA-Ultra simplifies access management while maintaining robust security measures. Its versatile design, weatherproof construction, and adoption of various credential technologies make it an ideal choice for businesses and organizations seeking to streamline access control and enhance the security of their premises."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Ubiquiti"
+  ],
+  "mpn": "UA-Ultra",
+  "manufacturer_part_number": "UA-Ultra",
+  "ean": "0810084694305",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4811/2-666308fe1dc58-medium.jpg",
+        "alt": "Ubiquiti Access Ultra",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4811/1-666308fa2cdd5-medium.jpg",
+        "alt": "Ubiquiti Access Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4811/2a-6663090174fe4-medium.jpg",
+        "alt": "Ubiquiti Access Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4811/4-6663090573452-medium.jpg",
+        "alt": "Ubiquiti Access Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4811/5-666309089279c-medium.jpg",
+        "alt": "Ubiquiti Access Ultra",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4811/6-6663090cdb416-medium.jpg",
+        "alt": "Ubiquiti Access Ultra",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4811/2-666308fe1dc58-tiny.jpg",
+        "alt": "Ubiquiti Access Ultra"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4811/1-666308fa2cdd5-tiny.jpg",
+        "alt": "Ubiquiti Access Ultra"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4811/2a-6663090174fe4-tiny.jpg",
+        "alt": "Ubiquiti Access Ultra"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4811/4-6663090573452-tiny.jpg",
+        "alt": "Ubiquiti Access Ultra"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4811/5-666309089279c-tiny.jpg",
+        "alt": "Ubiquiti Access Ultra"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4811/6-6663090cdb416-tiny.jpg",
+        "alt": "Ubiquiti Access Ultra"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 99.88,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Ingress Protection Code",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "White"
+        },
+        {
+          "name": "Material",
+          "value": "Aluminium, Polycarbonate"
+        },
+        {
+          "name": "Ingress Protection Code",
+          "value": "IP55"
+        },
+        {
+          "name": "Dimensions",
+          "value": "126 x 45 x 37.45 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.14 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount, Recessed"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.60,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.48,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.91,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Pocket Keyfob",
+      "url": "/product/ubiquiti-unifi-pocket-keyfob",
+      "price": 97.41,
+      "currency": "USD",
+      "mpn": "UA-Pocket",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro Max",
+      "url": "/product/dream-machine-pro-max",
+      "price": 578.18,
+      "currency": "USD",
+      "mpn": "UDM-Pro-Max",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Camera G5 Dome Ultra Black",
+      "url": "/product/ubiquiti-camera-g5-dome-ultra-black",
+      "price": 86.32,
+      "currency": "USD",
+      "mpn": "UVC-G5-Dome-Ultra-B",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Access Door Hub",
+      "url": "/product/ubiquiti-access-door-hub",
+      "price": 200.18,
+      "currency": "USD",
+      "mpn": "UA-Hub-Door",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

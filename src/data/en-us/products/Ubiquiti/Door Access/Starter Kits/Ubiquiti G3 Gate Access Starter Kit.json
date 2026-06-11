@@ -1,0 +1,282 @@
+{
+  "slug": "ubiquiti-g3-gate-access-starter-kit",
+  "id": "UA-G3-SK-Gate",
+  "productTitle": "Ubiquiti G3 Gate Access Starter Kit",
+  "name": "Ubiquiti G3 Gate Access Starter Kit",
+  "title": "Ubiquiti G3 Gate Access Starter Kit",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The Ubiquiti G3 Gate Access Starter Kit (UA-G3-SK-Gate) is a complete solution for managing a single gate and an auxiliary side door. The kit includes the Gate Hub, G3 Intercom, PoE++ adapter, two retrofit 2-wire extenders, and mounting hardware for professional installation. The Gate Hub, measuring 175 × 126 × 26 mm, mounts easily on a DIN rail and features a durable polycarbonate enclosure for indoor use. For outdoor installations, a waterproof junction box is recommended. The included PoE++ adapter powers both the Gate Hub and downstream devices. The retrofit extenders allow integration with existing wiring, while the G3 Intercom provides visual and audio verification for visitors. With 10 free Touch Pass licenses, mobile credential management is ready out of the box. Designed for residential, commercial, or gated environments, this kit offers secure, modern, and flexible access control with professional-grade reliability.",
+  "detailed_description": [
+    {
+      "heading": "All-in-One Gate Control",
+      "text": "The Ubiquiti G3 Gate Access Starter Kit (UA-G3-SK-Gate) is a complete solution for managing a single gate and an auxiliary side door. The kit includes the Gate Hub, G3 Intercom, PoE++ adapter, two retrofit 2-wire extenders, and mounting hardware for professional installation. The Gate Hub, measuring 175 × 126 × 26 mm, mounts easily on a DIN rail and features a durable polycarbonate enclosure for indoor use. For outdoor installations, a waterproof junction box is recommended. The included PoE++ adapter powers both the Gate Hub and downstream devices. The retrofit extenders allow integration with existing wiring, while the G3 Intercom provides visual and audio verification for visitors. With 10 free Touch Pass licenses, mobile credential management is ready out of the box. Designed for residential, commercial, or gated environments, this kit offers secure, modern, and flexible access control with professional-grade reliability."
+    },
+    {
+      "heading": "Powerful Access Features",
+      "text": "The G3 Intercom included in the kit provides advanced access control features, making it a versatile replacement for traditional gateside intercoms. It includes a built-in camera for visual verification, supports NFC cards, keyfobs, PIN codes, and Apple/Google Wallet credentials for mobile-first access. Users can unlock via mobile, tap, or code, ensuring convenience and security. The intercom is IP65 rated, providing protection against rain and dust, and is suitable for outdoor mounting in covered or sheltered areas. It also supports two-way audio communication and functions as a doorbell, allowing users to interact with visitors directly. Connectivity is provided via Bluetooth Low Energy 4.2 (BLE) and NFC, ensuring smooth pairing with mobile devices. The intercom is NDAA compliant, making it suitable for residential and commercial deployments that require high reliability, secure operation, and mobile-enabled access management."
+    },
+    {
+      "heading": "Reliable System Operation",
+      "text": "The Gate Hub powers and manages the system, providing reliable PoE++ (50 V DC, 1 A) delivery to downstream devices. It features four PoE output ports rated at 30 W per port with aggregate limits, enabling the intercom and other devices to operate without separate power sources. Maximum power consumption is 22 W without PoE outputs and 60 W when driving full PoE. It offers dry relay outputs (30 V DC, 1 A) and a wet powered output for side-door locks (12 V DC, 1 A). Digital and sensor inputs monitor gate position, exit requests, side-door status, and emergency overrides. The system operates across a broad temperature range from –30 °C to 60 °C and humidity from 5% to 90% non-condensing, making it suitable for varied climates. Combined with the retrofit extenders, the Hub ensures integration with existing wiring, reliable operation, and seamless management. With these features, the kit delivers secure, modern, and professional-grade gate control for mobile-enabled environments."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Ubiquiti"
+  ],
+  "mpn": "UA-G3-SK-Gate",
+  "manufacturer_part_number": "UA-G3-SK-Gate",
+  "ean": "0810177162001",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/1-68f0e237ebd0e-medium.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/2-68f0e23ba8deb-medium.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/4-68f0e240cc46d-medium.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/6-68f0e244bf3ec-medium.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/8-68f0e24ac169b-medium.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/7-68f0e24df41e5-medium.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/10-68f0e251041b0-medium.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/11-68f0e255094ff-medium.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/14-68f0e259d06eb-medium.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/15-68f0e25d25b38-medium.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/16-68f0e2601e2d9-medium.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/17-68f0e26336f1e-medium.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/18-68f0e2663df48-medium.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/19-68f0e2693f62a-medium.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/1-68f0e237ebd0e-tiny.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/2-68f0e23ba8deb-tiny.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/4-68f0e240cc46d-tiny.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/6-68f0e244bf3ec-tiny.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/8-68f0e24ac169b-tiny.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/7-68f0e24df41e5-tiny.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/10-68f0e251041b0-tiny.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/11-68f0e255094ff-tiny.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/14-68f0e259d06eb-tiny.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/15-68f0e25d25b38-tiny.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/16-68f0e2601e2d9-tiny.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/17-68f0e26336f1e-tiny.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/18-68f0e2663df48-tiny.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6850/19-68f0e2693f62a-tiny.jpg",
+        "alt": "Ubiquiti G3 Gate Access Starter Kit"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 637.29,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti G3 Gate Access Starter Kit",
+      "url": "https://www.getic.com/files/catalogue/6850/uag3skgate_ds-68f0dfc01086f.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": null,
+        "currency": null,
+        "delivery_time": null
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 57.29,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 70.79,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 184.92,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Intercom Viewer",
+      "url": "/product/unifi-intercom-viewer",
+      "price": 142.96,
+      "currency": "USD",
+      "mpn": "UA-Intercom-Viewer",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti PoE Smart Chime",
+      "url": "/product/ubiquiti-poe-smart-chime",
+      "price": 83.85,
+      "currency": "USD",
+      "mpn": "UACC-Chime-PoE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Access Button",
+      "url": "/product/ubiquiti-access-button",
+      "price": 43.47,
+      "currency": "USD",
+      "mpn": "UA-Button",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

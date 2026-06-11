@@ -1,0 +1,313 @@
+{
+  "slug": "ubiquiti-unas-4-black",
+  "id": "UNAS-4-B",
+  "productTitle": "Ubiquiti UNAS 4 Black",
+  "name": "Ubiquiti UNAS 4 Black",
+  "title": "Ubiquiti UNAS 4 Black",
+  "title_extended": "",
+  "short_description": "High Capacity NAS. Built in a desktop form factor, it combines high capacity storage options with efficient performance. Features four drive bays compatible with both 2.5 inch and 3.5 inch hard drives, two dedicated M.2 NVMe slots, and a 2.5 GbE Ethernet interface.",
+  "description": "The Ubiquiti UNAS 4 is a compact and powerful network attached storage solution designed to deliver reliable data management for both professional and advanced home environments. Built in a desktop form factor, it combines high capacity storage options with efficient performance, making it suitable for centralized file storage, backups, and media management. The device features four drive bays compatible with both 2.5 inch and 3.5 inch hard drives, allowing users to configure storage based on their performance and capacity needs. In addition, two dedicated M.2 NVMe slots enable high speed SSD caching, significantly improving data access times and overall system responsiveness. This hybrid storage approach ensures a balance between large capacity and fast performance.",
+  "detailed_description": [
+    {
+      "heading": "High Capacity NAS",
+      "text": "The Ubiquiti UNAS 4 is a compact and powerful network attached storage solution designed to deliver reliable data management for both professional and advanced home environments. Built in a desktop form factor, it combines high capacity storage options with efficient performance, making it suitable for centralized file storage, backups, and media management. The device features four drive bays compatible with both 2.5 inch and 3.5 inch hard drives, allowing users to configure storage based on their performance and capacity needs. In addition, two dedicated M.2 NVMe slots enable high speed SSD caching, significantly improving data access times and overall system responsiveness. This hybrid storage approach ensures a balance between large capacity and fast performance."
+    },
+    {
+      "heading": "Smart Data Management",
+      "text": "The UNAS 4 is powered by a robust software platform that enables advanced data management and protection features. It supports multiple RAID configurations, including RAID 5, RAID 6, RAID 10, and single drive setups, allowing users to balance redundancy, performance, and storage capacity based on their specific needs. The system is designed to support both personal and shared storage environments, making it suitable for collaborative workflows as well as individual use. Built in file sharing capabilities allow users to generate secure share links, while support for user groups ensures controlled access to stored data."
+    },
+    {
+      "heading": "Reliable Hardware Design",
+      "text": "The Ubiquiti UNAS 4 is built on a reliable hardware platform designed for consistent performance and efficient operation. It is powered by a quad core ARM Cortex A55 processor running at 1.7 GHz, combined with 4 GB of system memory. This configuration enables smooth handling of multiple tasks, including file transfers, backups, and application services. The device operates using PoE+++ as its primary power method, with a 90W adapter included for easy deployment. With a maximum power consumption of 90W, it maintains an efficient balance between performance and energy usage. The compact enclosure, constructed from durable polycarbonate, ensures long term reliability while keeping the overall footprint minimal."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Network Storage",
+  "categories": [
+    "Network Storage",
+    "New Integrations"
+  ],
+  "mpn": "UNAS-4-B",
+  "manufacturer_part_number": "UNAS-4-B",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7164/unas42-69dcdce38c2a1-medium.jpg",
+        "alt": "Ubiquiti UNAS 4 Black front view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7164/unas43-69dcdce862c78-medium.jpg",
+        "alt": "Ubiquiti UNAS 4 Black ports and back view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7164/unas44-69dcdcef18568-medium.jpg",
+        "alt": "Ubiquiti UNAS 4 Black additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7164/unas45-69dcdcf52c9f6-medium.jpg",
+        "alt": "Ubiquiti UNAS 4 Black additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7164/unas46-69dcdcf8c8eec-medium.jpg",
+        "alt": "Ubiquiti UNAS 4 Black additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7164/unas47-69dcdcfc5ec21-medium.jpg",
+        "alt": "Ubiquiti UNAS 4 Black additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7164/unas48-69dcdd04170e4-medium.jpg",
+        "alt": "Ubiquiti UNAS 4 Black additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7164/unas49-69dcdd0a7b39e-medium.jpg",
+        "alt": "Ubiquiti UNAS 4 Black additional view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/7164/unas410-69dcdd0eaa817-medium.jpg",
+        "alt": "Ubiquiti UNAS 4 Black additional view",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": true
+  },
+  "price": {
+    "value": 382.26,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Color",
+      "options": [
+        "Black",
+        "White"
+      ],
+      "default": "Black"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "USB Ports",
+        "Management",
+        "Bluetooth"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(1) 2.5 Gbps"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(1) 5 Gbps USB-C"
+        },
+        {
+          "name": "Management",
+          "value": "Ethernet"
+        },
+        {
+          "name": "Bluetooth",
+          "value": "4.1"
+        }
+      ]
+    },
+    {
+      "technology": "Data Storage",
+      "features": [
+        "Interface",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Interface",
+          "value": "SATA, M.2"
+        },
+        {
+          "name": "Form Factor",
+          "value": "3.5-inch"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Hard Drive Bay",
+        "Hard Drive"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-Core ARM® Cortex®-A55 at 1.7 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "4 GB"
+        },
+        {
+          "name": "Hard Drive Bay",
+          "value": "(4) 3.5\" SATA, (2) M.2 NVMe SSD"
+        },
+        {
+          "name": "Hard Drive",
+          "value": "Not Included"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Power Supply",
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, PoE+++"
+        },
+        {
+          "name": "Power Supply",
+          "value": "External AC/DC Adapter"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "60 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "135 x 129 x 223.7 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.3 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-5 °C to 40 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Tabletop"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UNAS 4 Black",
+      "url": "https://www.getic.com/files/catalogue/7164/unas4w_ds-69dcdcde5d18c.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 50.37,
+        "days": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 61.97,
+        "days": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

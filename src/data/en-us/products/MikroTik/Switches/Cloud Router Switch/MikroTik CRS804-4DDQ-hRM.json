@@ -1,0 +1,295 @@
+{
+  "slug": "mikrotik-crs804-4ddq-hrm",
+  "id": "6958",
+  "productTitle": "MikroTik CRS804-4DDQ+RM Switch – 400G QSFP-DD Data Center | Getic",
+  "name": "MikroTik CRS804-4DDQ-hRM",
+  "title": "MikroTik CRS804-4DDQ+RM Switch – 400G QSFP-DD Data Center | Getic",
+  "title_extended": "MikroTik CRS804-4DDQ+RM Switch – 400G QSFP-DD Data Center",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "High-Density 400G Switching",
+      "text": "The MikroTik CRS804-4DDQ-hRM is a compact yet extremely capable 400 Gigabit switch designed for modern AI workloads, high-speed storage networks, and next-generation infrastructure upgrades. It features four 400G QSFP-DD ports and two multi-speed 1G/2.5G/5G/10G Ethernet ports, delivering exceptional bandwidth density in a quiet and efficient 1U rackmount form factor. Each QSFP-DD interface is built from eight independent data lanes, enabling flexible breakout configurations such as dual 200G links or multiple 100G, 50G, 40G, 25G, or even 10G connections. This makes the CRS804-4DDQ-hRM highly adaptable to both new and existing network environments. You can deploy it today using lower-speed optics and gradually transition to higher speeds without replacing the switch. With full wire-speed switching and predictable low latency, the CRS804 is well suited for AI clusters, media production pipelines, scientific workloads, and any environment where fast, reliable data movement is critical."
+    },
+    {
+      "heading": "Reliable System Architecture",
+      "text": "At the core of the CRS804-4DDQ-hRM is a powerful Marvell 98DX7335 switch chip, paired with a quad-core 2.0 GHz ARM64 CPU, 4 GB of DDR4 RAM, and RouterOS v7 with license level 6. This combination provides advanced traffic control, flexible routing capabilities, and a familiar MikroTik management experience trusted by network professionals worldwide. The hardware platform is designed for long-term reliability and low operational costs. Dual hot-swap power supplies are included for redundancy, ensuring uninterrupted operation in critical environments. Efficient cooling and optimized power design keep energy usage low, with maximum consumption reaching only 123 W even under full load with optics installed. The switch operates reliably in ambient temperatures from -10°C to +60°C, making it suitable for data centers, research labs, and edge deployments. This balanced architecture delivers enterprise-grade performance while maintaining quiet operation and excellent energy efficiency."
+    },
+    {
+      "heading": "Scalable Deployment Flexibility",
+      "text": "The CRS804-4DDQ-hRM is an ideal building block for scalable network architectures, from compact AI labs to small and medium-sized data centers. Native 400G ports can be used for high-speed storage uplinks or split into multiple lower-speed links, allowing precise bandwidth allocation based on application requirements. This flexibility enables the switch to function as a core, aggregation, or spine device within a modern network fabric. Despite its high performance, the switch maintains a compact and quiet 1U design, making it suitable for environments where traditional 400G equipment would be too large, noisy, or power-hungry. With the included RMK-2x10/19 accessory, two CRS804 switches can be mounted side-by-side in a single 1U slot of a standard 19-inch rack, maximizing rack space efficiency. Whether upgrading existing infrastructure or building a future-ready backbone, the CRS804-4DDQ-hRM delivers scalability, adaptability, and long-term investment protection."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Switches",
+  "categories": [
+    "Switches",
+    "Cloud Router Switch"
+  ],
+  "mpn": "CRS804-4DDQ-hRM",
+  "manufacturer_part_number": "CRS804-4DDQ-hRM",
+  "ean": "4752224009876",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6958/1-694410c011040-medium.jpg",
+        "alt": "MikroTik CRS804-4DDQ-hRM",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6958/ddq_back-699c268cd8747-medium.jpg",
+        "alt": "MikroTik CRS804-4DDQ-hRM",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6958/3-694410c5b38b5-medium.jpg",
+        "alt": "MikroTik CRS804-4DDQ-hRM",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 993.84,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "SFP Ports"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(2) 10 Gbps"
+        },
+        {
+          "name": "SFP Ports",
+          "value": "(4) 400G QSFP56-DD"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-Core AL52400 2000 MHz"
+        },
+        {
+          "name": "RAM",
+          "value": "4 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "512 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Supply",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Nominal Voltage",
+        "Nominal Current"
+      ],
+      "items": [
+        {
+          "name": "Power Supply",
+          "value": "Internal x2 redundant PSU"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "100 - 240 V AC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "123 W"
+        },
+        {
+          "name": "Nominal Voltage",
+          "value": "12 V"
+        },
+        {
+          "name": "Nominal Current",
+          "value": "27.5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Operating Temperature",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 60 °C"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "RackMount"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 6"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik CRS804-4DDQ-hRM",
+      "url": "https://www.getic.com/files/catalogue/6958/crs8044ddqhrm-69440fe78b615.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 55.35
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 70.70
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti PoE+ Adapter",
+      "url": "/product/ubiquiti-poe-at",
+      "price": 16.98,
+      "currency": "USD",
+      "mpn": "U-POE+",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 175.12,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Access Door Hub Mini",
+      "url": "/product/ubiquiti-access-door-hub-mini",
+      "price": 104.81,
+      "currency": "USD",
+      "mpn": "UA-Hub-Door-Mini",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 400G Direct Attach Cable 1m",
+      "url": "/product/mikrotik-400g-direct-attach-cable-1m",
+      "price": 63.01,
+      "currency": "USD",
+      "mpn": "DDQ+DA0001",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": ""
+}

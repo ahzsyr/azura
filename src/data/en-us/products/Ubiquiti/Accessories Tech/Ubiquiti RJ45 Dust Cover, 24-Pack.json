@@ -1,0 +1,240 @@
+{
+  "slug": "ubiquiti-rj45-dust-cover-24-pack",
+  "id": 6044,
+  "productTitle": "Ubiquiti RJ45 Dust Cover, 24-Pack",
+  "name": "Ubiquiti RJ45 Dust Cover, 24-Pack",
+  "title": "Ubiquiti RJ45 Dust Cover, 24-Pack",
+  "title_extended": "",
+  "short_description": "",
+  "description": "Buy Ubiquiti RJ45 Dust Cover, 24-Pack. Price from 21.74 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "Protective Port Sealing",
+      "text": "The Ubiquiti RJ45 Dust Cover (UACC-RJ45-Cover) is designed to safeguard unused RJ45 Ethernet ports on network equipment from environmental contaminants such as dust, moisture, and debris. Each cover is made from high-quality polycarbonate with a painted finish, ensuring durability and a professional look. With compact dimensions of 15.8 x 13.8 x 10.6 mm and weighing just 0.6 grams each, the dust covers offer a non-intrusive solution for preserving port integrity. The snap-in design enables quick, tool-free installation and removal, making them ideal for dynamic environments such as data centers, server racks, and IT closets. By protecting unused ports, these covers help maintain optimal device performance and reduce the risk of port degradation over time."
+    },
+    {
+      "heading": "Protective Port Sealing",
+      "text": "Tailored for compatibility with Ubiquiti UniFi rack-mounted devices, the UACC-RJ45-Cover set includes 24 individual dust caps, providing comprehensive coverage for large or multi-device setups. These covers contribute to a clean, uniform appearance across your installation while offering real functional benefits in terms of equipment protection. They are particularly valuable in deployments where ports may remain inactive for extended periods, such as during phased installations or hardware reconfiguration. Covering unused RJ45 ports, the dust covers help protect internal contacts from contamination, ensuring long-term signal integrity and device durability. Whether used in enterprise networks, commercial environments, or critical infrastructure, this simple accessory plays a vital role in enhancing network reliability and aesthetic consistency."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Accessories",
+  "categories": [
+    "Ubiquiti",
+    "Accessory Tech",
+    "Other"
+  ],
+  "mpn": "UACC-RJ45-Cover",
+  "manufacturer_part_number": "UACC-RJ45-Cover",
+  "ean": "0810084692288",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6044/1-6819fa719c002-medium.jpg",
+        "alt": "Ubiquiti RJ45 Dust Cover, 24-Pack main view",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6044/2-6819fa7564f59-medium.jpg",
+        "alt": "Ubiquiti RJ45 Dust Cover, 24-Pack alternate view",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6044/3-6819fa78d7ee3-medium.jpg",
+        "alt": "Ubiquiti RJ45 Dust Cover, 24-Pack details",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6044/4-6819fa8114178-medium.jpg",
+        "alt": "Ubiquiti RJ45 Dust Cover, 24-Pack packaging",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6044/5-6819fa8534331-medium.jpg",
+        "alt": "Ubiquiti RJ45 Dust Cover, 24-Pack on device",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6044/6-6819fa896a622-medium.jpg",
+        "alt": "Ubiquiti RJ45 Dust Cover, 24-Pack installed",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6044/1-6819fa719c002-tiny.jpg",
+        "alt": "Ubiquiti RJ45 Dust Cover, 24-Pack main view"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6044/2-6819fa7564f59-tiny.jpg",
+        "alt": "Ubiquiti RJ45 Dust Cover, 24-Pack alternate view"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6044/3-6819fa78d7ee3-tiny.jpg",
+        "alt": "Ubiquiti RJ45 Dust Cover, 24-Pack details"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6044/4-6819fa8114178-tiny.jpg",
+        "alt": "Ubiquiti RJ45 Dust Cover, 24-Pack packaging"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6044/5-6819fa8534331-tiny.jpg",
+        "alt": "Ubiquiti RJ45 Dust Cover, 24-Pack on device"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6044/6-6819fa896a622-tiny.jpg",
+        "alt": "Ubiquiti RJ45 Dust Cover, 24-Pack installed"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 21.74,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "15.8 x 13.8 x 10.6 mm"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "24 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti RJ45 Dust Cover, 24-Pack",
+      "url": "https://www.getic.com/files/catalogue/6044/uaccrj45cover_ds-6819fa6db2d7f.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "delivery_days": "receive in 18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "delivery_days": "receive in 5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "delivery_days": "receive in 2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "UniFi Direct Attach Copper Cable 10Gbps 1m",
+      "url": "/product/direct-attach-copper-cable-1",
+      "price": 16.30,
+      "currency": "USD",
+      "mpn": "UACC-DAC-SFP10-1M",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Network Video Recorder",
+      "url": "/product/unifi-protect-network-video-recorder",
+      "price": 303.78,
+      "currency": "USD",
+      "mpn": "UNVR",
+      "availability": "InStock"
+    },
+    {
+      "name": "UniFi Direct Attach Copper Cable 10Gbps 0.5m",
+      "url": "/product/ubiquiti-unifi-direct-attach-copper-cable-10gbps-0-5m",
+      "price": 14.94,
+      "currency": "USD",
+      "mpn": "UACC-DAC-SFP10-0.5M",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Instant",
+      "url": "/product/ubiquiti-camera-g6-instant",
+      "price": 178.80,
+      "currency": "USD",
+      "mpn": "UVC-G6-INS-W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "7 pcs in stock"
+}

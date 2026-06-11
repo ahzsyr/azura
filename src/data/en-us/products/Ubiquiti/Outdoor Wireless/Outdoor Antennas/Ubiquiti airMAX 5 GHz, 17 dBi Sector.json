@@ -1,0 +1,254 @@
+{
+  "slug": "sector-airmax-5g17-90",
+  "id": "107",
+  "productTitle": "Ubiquiti airMAX 5 GHz, 17 dBi Sector",
+  "name": "Ubiquiti airMAX 5 GHz, 17 dBi Sector",
+  "title": "Ubiquiti airMAX 5 GHz, 17 dBi Sector",
+  "title_extended": "Ubiquiti airMAX 5 GHz 17 dBi Sector Antenna for PtMP Wireless Networks",
+  "short_description": "Sector AirMax Antenna 5 Ghz, 90°, 17 dBi",
+  "description": "The Sector AirMax 5G17-90 is a sector antenna meticulously engineered by Ubiquiti Networks to address the sophisticated demands of contemporary wireless networking. Tailored for the 5 GHz frequency band, this model is an integral component of the revered AirMax series, known for its exceptional capability to deliver high-speed, reliable wireless broadband connectivity across expansive areas.",
+  "detailed_description": [
+    {
+      "heading": "Seamless Integration with Ubiquiti airMAX Technology",
+      "text": "Ubiquiti Networks has designed the AM-5G17-90 for seamless integration with its Rocket M and Rocket Prism series of base stations that operate in the 5 GHz frequency band. When paired, for example, with a compatible Rocket Prism 5AC unit, the antenna becomes part of a powerful PtMP network solution capable of delivering high-speed internet access across expansive areas. This integration is facilitated by Ubiquiti’s airMAX technology, which employs intelligent QoS and TDMA protocols to significantly improve network throughput, reduce latency, and support a high density of users."
+    },
+    {
+      "heading": "High-Gain Performance for Extended Range",
+      "text": "Designed with a gain of 17 dBi, the AM-5G17-90 significantly amplifies the ability of networks to transmit and receive data over extended distances with remarkable efficiency. This elevated gain is pivotal for enhancing the reach and quality of wireless network connectivity, making it possible to cover larger areas with fewer base stations, thereby optimizing the deployment's cost-effectiveness and efficiency."
+    },
+    {
+      "heading": "Focused 90-Degree Beamwidth for PtMP Networks",
+      "text": "Featuring a precise 90-degree beamwidth, the antenna is adept at providing focused coverage across wide sectors. This characteristic is essential for point-to-multipoint (PtMP) network configurations, facilitating efficient communication with multiple client devices located within the coverage area. By concentrating the signal in a specific direction, the AM-5G17-90 maximizes network performance and capacity."
+    },
+    {
+      "heading": "Dual-Polarization & Robust Outdoor Design",
+      "text": "The inclusion of dual-polarization technology further enhances the AM-5G17-90's performance by enabling simultaneous transmission and reception of data streams in both vertical and horizontal orientations. This feature not only doubles the potential data throughput but also plays a critical role in minimizing interference, ensuring a stable and reliable connection. Constructed to endure the challenges of outdoor deployment, the antenna boasts a durable, weather-resistant design for long-term reliability."
+    },
+    {
+      "heading": "Versatile Applications",
+      "text": "Ideal for a wide array of applications, from extending broadband access to rural communities and enhancing connectivity across educational or corporate campuses, to providing reliable wireless service at public events or within large-scale surveillance networks. Its 90-degree beamwidth and 17 dBi gain make it an ideal choice for creating point-to-multipoint (PtMP) networks, serving as a central communication hub connecting multiple client devices spread out over large areas."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Wireless Antennas",
+  "categories": [
+    "Antennas",
+    "Outdoor Wireless",
+    "Ubiquiti"
+  ],
+  "mpn": "AM-5G17-90",
+  "manufacturer_part_number": "AM-5G17-90",
+  "ean": "0810354020902",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/107/base_5_90_120-5feb3a9940037-medium.jpg",
+        "alt": "Ubiquiti airMAX 5 GHz, 17 dBi Sector",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [
+      {
+        "url": "https://youtube.com/embed/zOApMp9VVQE",
+        "type": "youtube"
+      }
+    ],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 71.52,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Frequency"
+      ],
+      "items": [
+        {
+          "name": "Frequency",
+          "value": "5GHz"
+        }
+      ]
+    },
+    {
+      "technology": "Antenna",
+      "features": [
+        "Antenna Design",
+        "Wireless Antenna Frequency Range & Gain",
+        "Beamwidth",
+        "Polarization"
+      ],
+      "items": [
+        {
+          "name": "Antenna Design",
+          "value": "Sector"
+        },
+        {
+          "name": "Wireless Antenna Frequency Range & Gain",
+          "value": "4.9 - 5.85 (GHz) 17 (dBi)"
+        },
+        {
+          "name": "Beamwidth",
+          "value": "93 ° Vertical, 72 ° Horizontal"
+        },
+        {
+          "name": "Polarization",
+          "value": "Dual Linear"
+        }
+      ]
+    },
+    {
+      "technology": "Connectors",
+      "features": [
+        "RF Connectors"
+      ],
+      "items": [
+        {
+          "name": "RF Connectors",
+          "value": "(2) RP-SMA Female"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Dimensions",
+        "Weight",
+        "Environment",
+        "Mounting Method",
+        "Rated Wind Velocity"
+      ],
+      "items": [
+        {
+          "name": "Dimensions",
+          "value": "367 x 63 x 41 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.1 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        },
+        {
+          "name": "Rated Wind Velocity",
+          "value": "200 km/h"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti airMAX 5 GHz, 17 dBi Sector",
+      "url": "https://dl.ubnt.com/datasheets/airmaxsector/airMAX_Sector_Antennas_DS.pdf"
+    },
+    {
+      "title": "Quick Start Guide - Ubiquiti airMAX 5 GHz, 17 dBi Sector",
+      "url": "https://dl.ubnt.com/guides/sector/airMAX_Sector_AM-5G16-120_AM-5G17-90_QSG.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 19 dBi Sector",
+      "url": "/product/sector-airmax-5g19-120",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "AM-5G19-120",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 13 dBi Omni",
+      "url": "/product/omni-airmax-5g13",
+      "price": 142.96,
+      "currency": "USD",
+      "mpn": "AMO-5G13",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX 5 GHz, 16 dBi Sector",
+      "url": "/product/sector-airmax-5g16-120",
+      "price": 71.52,
+      "currency": "USD",
+      "mpn": "AM-5G16-120",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti airMAX Rocket AC Lite",
+      "url": "/product/rocket-ac-lite",
+      "price": 117.94,
+      "currency": "USD",
+      "mpn": "R5AC-LITE",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "In stock"
+}

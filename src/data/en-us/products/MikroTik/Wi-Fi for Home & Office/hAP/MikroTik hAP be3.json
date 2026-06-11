@@ -1,0 +1,414 @@
+{
+  "slug": "mikrotik-hap-be3",
+  "id": 6957,
+  "productTitle": "MikroTik hAP be3 WiFi 7 Router – High-Speed Home & Office Router",
+  "name": "MikroTik hAP be3",
+  "title": "MikroTik hAP be3",
+  "title_extended": "MikroTik hAP be3 WiFi 7 Router – High-Speed Home & Office Router",
+  "short_description": "",
+  "description": "The MikroTik hAP be³ Media delivers true Wi-Fi 7 performance across the 2.4 GHz, 5 GHz, and 6 GHz bands, providing higher throughput, lower latency, improved security, and superior spectral efficiency. The addition of the wide 6 GHz band unlocks more clean spectrum, significantly reducing interference and congestion in busy environments. With support for Wi-Fi 7 Multi-Link Operation (MLO) in MLSR mode, the router can intelligently utilize multiple frequency bands at the same time, resulting in smoother performance and more reliable connections.",
+  "detailed_description": [
+    {
+      "heading": "Wi-Fi 7 Performance",
+      "text": "The MikroTik hAP be³ Media delivers true Wi-Fi 7 performance across the 2.4 GHz, 5 GHz, and 6 GHz bands, providing higher throughput, lower latency, improved security, and superior spectral efficiency. The addition of the wide 6 GHz band unlocks more clean spectrum, significantly reducing interference and congestion in busy environments. With support for Wi-Fi 7 Multi-Link Operation (MLO) in MLSR mode, the router can intelligently utilize multiple frequency bands at the same time, resulting in smoother performance and more reliable connections. This makes it ideal for modern homes packed with connected devices, from workstations and NAS systems to VR headsets and high-resolution media streaming. Multiple active devices can operate simultaneously without competing for airtime. The result is a fast, responsive wireless experience that keeps pace with demanding workloads, real-time applications, and bandwidth-intensive tasks in today’s connected environments."
+    },
+    {
+      "heading": "Home Media Hub",
+      "text": "With USB-C, two USB-A 3.0 ports, and a microSD card slot, the hAP be³ Media functions as a centralized hub for local storage and media services. Connect external drives or flash storage to create backups, store photos, archive home surveillance footage, or build a private family cloud that stays entirely under your control. Local storage enables privacy-focused workflows, such as self-hosted password managers, document repositories, automation data, and lightweight services without relying on third-party cloud platforms. Everything remains fast, local, and secure. Using the MikroTik BackToHome app and improved file sharing in WinBox, large files can be shared easily without concerns about expired links, delays, or data exposure. With Wi-Fi 7, Bluetooth 5.4, RouterOS v7, and a built-in Thread radio, the device provides a strong foundation for modern smart homes. Support for containers and Matter-over-Thread solutions enables flexible, local, and customizable automation deployments."
+    },
+    {
+      "heading": "Quad-Core Power",
+      "text": "Powered by a 1.5 GHz quad-core IPQ-5322 CPU based on an efficient ARM64 architecture, the hAP be³ Media is built for far more than basic networking. It handles advanced routing, complex firewall rules, encryption, multiple VPNs, BGP, and containerized workloads with ease, all on a single compact device. With 2 GB DDR4 RAM, 512 MB NAND storage, and five 2.5 Gigabit Ethernet ports (including PoE-in), it delivers the performance and connectivity required for demanding home labs and creative workflows. Full container support allows users to deploy dashboards, network monitoring tools, lightweight web services, or experimental local applications. A simplified one-click container setup in WinBox lowers the barrier to entry, making advanced features accessible without subscriptions or licensing restrictions. You buy the device once and retain full access to its capabilities—performance and flexibility designed to remain relevant for years to come."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "WiFi Routers",
+  "categories": [
+    "WiFi Routers",
+    "hAP"
+  ],
+  "mpn": "MA53UG+HbeH",
+  "manufacturer_part_number": "MA53UG+HbeH",
+  "ean": "",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6957/1-694409372acf2-medium.jpg",
+        "alt": "MikroTik hAP be3",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6957/2-6944093a4a742-medium.jpg",
+        "alt": "MikroTik hAP be3",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6957/3-6944093d60e81-medium.jpg",
+        "alt": "MikroTik hAP be3",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6957/4-694409405a3ac-medium.jpg",
+        "alt": "MikroTik hAP be3",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6957/5-694409449af6b-medium.jpg",
+        "alt": "MikroTik hAP be3",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6957/6-69440949ed004-medium.jpg",
+        "alt": "MikroTik hAP be3",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6957/1-694409372acf2-tiny.jpg",
+        "alt": "MikroTik hAP be3"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6957/2-6944093a4a742-tiny.jpg",
+        "alt": "MikroTik hAP be3"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6957/3-6944093d60e81-tiny.jpg",
+        "alt": "MikroTik hAP be3"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6957/4-694409405a3ac-tiny.jpg",
+        "alt": "MikroTik hAP be3"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6957/5-694409449af6b-tiny.jpg",
+        "alt": "MikroTik hAP be3"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6957/6-69440949ed004-tiny.jpg",
+        "alt": "MikroTik hAP be3"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 147.80,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    },
+    {
+      "type": "Condition",
+      "options": [
+        "new",
+        "used"
+      ],
+      "default": "new"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Wireless Network",
+      "features": [
+        "Generation",
+        "Standards",
+        "Frequency",
+        "2.4GHz Radio Rate",
+        "5GHz Radio Rate",
+        "6GHz Radio Rate"
+      ],
+      "items": [
+        {
+          "name": "Generation",
+          "value": "WiFi 7"
+        },
+        {
+          "name": "Standards",
+          "value": "802.11n/ac/ax/be"
+        },
+        {
+          "name": "Frequency",
+          "value": "2.4GHz, 5GHz, 6GHz"
+        },
+        {
+          "name": "2.4GHz Radio Rate",
+          "value": "687 Mbps"
+        },
+        {
+          "name": "5GHz Radio Rate",
+          "value": "2.88 Gbps"
+        },
+        {
+          "name": "6GHz Radio Rate",
+          "value": "5.7 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Interfaces",
+      "features": [
+        "RJ45 Ports",
+        "USB Ports",
+        "Bluetooth",
+        "Memory card slots"
+      ],
+      "items": [
+        {
+          "name": "RJ45 Ports",
+          "value": "(5) 2.5 Gbps"
+        },
+        {
+          "name": "USB Ports",
+          "value": "(2) USB-A 3.0, (1) USB Type C"
+        },
+        {
+          "name": "Bluetooth",
+          "value": "5.4"
+        },
+        {
+          "name": "Memory card slots",
+          "value": "1 microSD"
+        }
+      ]
+    },
+    {
+      "technology": "System Specification",
+      "features": [
+        "Chipset",
+        "RAM",
+        "Storage Memory"
+      ],
+      "items": [
+        {
+          "name": "Chipset",
+          "value": "Quad-core IPQ-5322 up to 1.5 GHz"
+        },
+        {
+          "name": "RAM",
+          "value": "2 GB"
+        },
+        {
+          "name": "Storage Memory",
+          "value": "512 MB"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Power Method",
+        "Supported Input Voltage",
+        "Max Power Consumption",
+        "Power Connector",
+        "PSU / POE adapter"
+      ],
+      "items": [
+        {
+          "name": "Power Method",
+          "value": "AC/DC Adapter, 802.3af PoE, 802.3at PoE+"
+        },
+        {
+          "name": "Supported Input Voltage",
+          "value": "24 - 57 V DC"
+        },
+        {
+          "name": "Max Power Consumption",
+          "value": "29 W"
+        },
+        {
+          "name": "Power Connector",
+          "value": "DC Plug 2.1 x 5.5 mm"
+        },
+        {
+          "name": "PSU / POE adapter",
+          "value": "24 V DC 1.5 A"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Dimensions",
+        "Operating Temperature",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Dimensions",
+          "value": "187 x 142 x 95 mm"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units",
+        "External Power Supply"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        },
+        {
+          "name": "External Power Supply",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "technology": "Software",
+      "features": [
+        "MikroTik"
+      ],
+      "items": [
+        {
+          "name": "MikroTik",
+          "value": "RouterOS Level 6"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik hAP be3",
+      "url": "https://www.getic.com/files/catalogue/6957/hapbemedia-6944093157b5d.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [
+    {
+      "name": "Pickup point",
+      "price": 15.58,
+      "currency": "USD",
+      "duration": "18 business days"
+    },
+    {
+      "name": "Standard",
+      "price": 31.51,
+      "currency": "USD",
+      "duration": "5 business days"
+    },
+    {
+      "name": "Express",
+      "price": 42.86,
+      "currency": "USD",
+      "duration": "2 business days"
+    }
+  ],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik cAP ax",
+      "url": "/product/mikrotik-cap-ax",
+      "price": 103.11,
+      "currency": "USD",
+      "mpn": "cAPGi-5HaxD2HaxD",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik Power Adapter 24V 1.5A",
+      "url": "/product/mikrotik-power-adapter-24v-1-5a",
+      "price": 12.86,
+      "currency": "USD",
+      "mpn": "SAW36-240-1500",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Mikrotik KNOT Embedded LTE4",
+      "url": "/product/mikrotik-knot-embedded-lte4",
+      "price": 69.09,
+      "currency": "USD",
+      "mpn": "EC25-EU&KNe",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

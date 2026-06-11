@@ -1,0 +1,197 @@
+{
+  "slug": "ubiquiti-magnetic-lock-270kg",
+  "id": "6801",
+  "productTitle": "Ubiquiti Magnetic Lock 270kg",
+  "name": "Ubiquiti Magnetic Lock 270kg",
+  "title": "Ubiquiti Magnetic Lock 270kg",
+  "title_extended": "",
+  "short_description": "Fail-safe magnetic lock with 270kg holding force for secure door access control. Compatible with wooden, metal, and glass doors. Includes multiple mounting brackets.",
+  "description": "The Ubiquiti UniFi Magnetic Lock is designed to deliver strong, reliable door security with a holding force of up to 270 kg. This makes it suitable for offices, commercial spaces, and secure facilities where dependable access control is essential. Built as a fail-safe lock, it automatically unlocks if power is cut, allowing safe exit during emergencies such as power outages or fire alarms. The lock is compatible with a wide range of door types, including wooden, metal, and full-glass doors, and it ships with multiple brackets for flexible installation: L-bracket for outward-swinging doors up to 42 mm thick, Z-bracket for inward-swinging doors, and U-bracket for glass doors up to 17 mm thick. A durable aluminum housing and steel armature plate ensure long-term stability, while integrated LED indicators (red and green) provide clear visual confirmation of lock status at a glance.",
+  "detailed_description": [
+    {
+      "heading": "Strong & Secure Lock",
+      "text": "The Ubiquiti UniFi Magnetic Lock is designed to deliver strong, reliable door security with a holding force of up to 270 kg. This makes it suitable for offices, commercial spaces, and secure facilities where dependable access control is essential. Built as a fail-safe lock, it automatically unlocks if power is cut, allowing safe exit during emergencies such as power outages or fire alarms. The lock is compatible with a wide range of door types, including wooden, metal, and full-glass doors, and it ships with multiple brackets for flexible installation: L-bracket for outward-swinging doors up to 42 mm thick, Z-bracket for inward-swinging doors, and U-bracket for glass doors up to 17 mm thick. A durable aluminum housing and steel armature plate ensure long-term stability, while integrated LED indicators (red and green) provide clear visual confirmation of lock status at a glance."
+    },
+    {
+      "heading": "Easy Setup & Integration",
+      "text": "The UniFi Magnetic Lock is engineered for smooth integration into the UniFi Access ecosystem. It operates on 12 V DC power and requires about 500 mA (±10%), keeping power consumption efficient for continuous daily operation. Installation is straightforward thanks to its four clear connection terminals: Lock 12 V/NC, Lock 12 V/COM, DPS+, and DPS–, which connect directly to the UniFi Door Hub without the need for complex wiring. Compact yet durable, it can operate reliably in temperatures from –10 °C to 50 °C and withstand humidity levels up to 90% (non-condensing). The lock is NDAA-compliant and certified under CE, FCC, and IC standards, guaranteeing safe use in global projects. With robust construction, flexible mounting options, clear LED status feedback, and international compliance, the UniFi Magnetic Lock provides a secure and professional solution for enterprise, retail, and residential access control needs."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Access Control",
+  "categories": [
+    "Access Control",
+    "Ubiquiti",
+    "Door Access",
+    "Accessories"
+  ],
+  "mpn": "UACC-Lock-Magnetic-270kg",
+  "manufacturer_part_number": "UACC-Lock-Magnetic-270kg",
+  "ean": "0810010076502",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/6801/3-68b9683e7fb2c-medium.jpg",
+        "alt": "Ubiquiti Magnetic Lock 270kg",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6801/1-68b96838a9048-medium.jpg",
+        "alt": "Ubiquiti Magnetic Lock 270kg",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6801/2-68b9683b97143-medium.jpg",
+        "alt": "Ubiquiti Magnetic Lock 270kg",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/6801/4-68b96841aa43b-medium.jpg",
+        "alt": "Ubiquiti Magnetic Lock 270kg",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/6801/ualockmagnetic270kg_ds-68b96833501c4.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Magnetic Lock 270kg"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 146.82,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Holding Force",
+      "options": ["270 kg", "540 kg"],
+      "default": "270 kg"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": ["Material", "Operating Temperature", "Environment", "Holding Force"],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Stainless steel, Aluminium"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 50 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        },
+        {
+          "name": "Holding Force",
+          "value": "270 kg"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Magnetic Lock 270kg",
+      "url": "https://www.getic.com/files/catalogue/6801/ualockmagnetic270kg_ds-68b96833501c4.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "price": 55.42,
+        "duration": "5 business days",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "price": 70.79,
+        "duration": "2 business days",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Access Button",
+      "url": "/product/ubiquiti-access-button",
+      "price": 43.47,
+      "currency": "USD",
+      "mpn": "UA-Button",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti G3 Starter Kit Pro",
+      "url": "/product/ubiquiti-g3-starter-kit-pro",
+      "price": 522.31,
+      "currency": "USD",
+      "mpn": "UA-G3-SK-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti G3 Access Reader Pro White",
+      "url": "/product/ubiquiti-g3-access-reader-pro-white",
+      "price": 358.81,
+      "currency": "USD",
+      "mpn": "UA-G3-Pro-W",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Access Card Black 10-pack",
+      "url": "/product/ubiquiti-access-card-black-10-pack",
+      "price": 32.60,
+      "currency": "USD",
+      "mpn": "UA-Card-B-10",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

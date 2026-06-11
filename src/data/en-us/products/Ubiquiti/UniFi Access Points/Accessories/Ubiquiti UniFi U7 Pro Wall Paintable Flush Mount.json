@@ -1,0 +1,224 @@
+{
+  "slug": "ubiquiti-u7-pro-wall-paintable-flush-mount",
+  "id": 4804,
+  "productTitle": "Ubiquiti UniFi U7 Pro Wall Paintable Flush Mount",
+  "name": "Ubiquiti UniFi U7 Pro Wall Paintable Flush Mount",
+  "title": "Ubiquiti UniFi U7 Pro Wall Paintable Flush Mount",
+  "title_extended": "",
+  "short_description": "",
+  "description": "",
+  "detailed_description": [
+    {
+      "heading": "Minimalistic Design",
+      "text": "The Ubiquiti U7 Pro Wall Paintable Flush Mount makes your U7 Pro Wall access point virtually invisible to others and protects your Wi-Fi network. This innovative mounting kit enables you to embed your access point into a wall or ceiling, providing a clean and aesthetically pleasing look. No more bulky devices protruding above the surface - the U7 Pro Wall Paintable Flush Mount allows you to provide exceptional Wi-Fi coverage while maintaining a minimalistic design style."
+    },
+    {
+      "heading": "Effortless Customization",
+      "text": "The Ubiquiti U7 Pro Wall Paintable Flush Mount is crafted from white polycarbonate, a lightweight and paintable material. This allows you to customize the flush mount to perfectly match your existing wall or ceiling paint color, ensuring the access point blends effortlessly into your surroundings. With a low-profile design measuring 190 x 142 x 49 mm and weighing only 213 grams, the flush mount offers a discreet solution for maximizing Wi-Fi coverage without compromising on aesthetics."
+    },
+    {
+      "heading": "Enhanced Functionality",
+      "text": "While providing a discreet installation option, the Ubiquiti U7 Pro Wall Paintable Flush Mount prioritizes both aesthetics and functionality. The flush mount design maintains optimal Wi-Fi signal distribution throughout your space. This low-profile solution offers a user-friendly way to achieve exceptional Wi-Fi coverage without compromising the visual appeal of your environment. With its combination of functionality, customization options, and ease of use, the Ubiquiti U7 Pro Wall Paintable Flush Mount is the ideal solution for integrating your U7 Pro access point into your home or office seamlessly, all while maintaining a clean and minimalist aesthetic."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Mounting Accessories",
+  "categories": [
+    "Mounts and Brackets",
+    "Mounting Accessories"
+  ],
+  "mpn": "UACC-U7-Pro-Wall-FM",
+  "manufacturer_part_number": "UACC-U7-Pro-Wall-FM",
+  "ean": "0810084695920",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [
+    "EU",
+    "UK",
+    "US"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4804/1a-665d6c7e42a17-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall Paintable Flush Mount",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4804/1-665d6c791c837-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall Paintable Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4804/2-665d6c821d36a-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall Paintable Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4804/3a-665d6c8678de2-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall Paintable Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4804/4-665d6c8aa63af-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall Paintable Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4804/6-665d6c9b07deb-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall Paintable Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4804/7-665d6c9f4aa6a-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall Paintable Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4804/8-665d6ca48ee3a-medium.jpg",
+        "alt": "Ubiquiti UniFi U7 Pro Wall Paintable Flush Mount",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 43.25,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [
+    {
+      "type": "Plug",
+      "options": [
+        "EU",
+        "UK",
+        "US"
+      ],
+      "default": "EU"
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "190 x 142 x 49 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.213 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Network Video Recorder",
+      "url": "/product/unifi-protect-network-video-recorder",
+      "price": 303.78,
+      "currency": "USD",
+      "mpn": "UNVR",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro",
+      "url": "/product/access-point-u7-pro",
+      "price": 184.92,
+      "currency": "USD",
+      "mpn": "U7-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi U7 Pro Wall",
+      "url": "/product/ubiquiti-access-point-u7-pro-wall",
+      "price": 200.14,
+      "currency": "USD",
+      "mpn": "U7-Pro-Wall",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Uplink Cable 0.15m",
+      "url": "/product/ubiquiti-uplink-cable-0-15m",
+      "price": 28.36,
+      "currency": "USD",
+      "mpn": "UACC-Uplink-SFP28-0.15m",
+      "availability": "OutOfStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

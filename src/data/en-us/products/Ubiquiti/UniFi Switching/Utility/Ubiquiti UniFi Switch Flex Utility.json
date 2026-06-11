@@ -1,0 +1,220 @@
+{
+  "slug": "unifi-flex-switch-adapter-kit",
+  "id": "USW-Flex-Utility",
+  "productTitle": "Ubiquiti UniFi Flex Switch Adapter Kit – Power Supply & Mounting Kit",
+  "name": "Ubiquiti UniFi Switch Flex Utility",
+  "title": "Ubiquiti UniFi Switch Flex Utility",
+  "title_extended": "Ubiquiti UniFi Flex Switch Adapter Kit – Power Supply & Mounting Kit",
+  "short_description": "USW-Flex-Utility outdoor weatherproof enclosure for use with UniFi Switch Flex",
+  "description": "The Ubiquiti UniFi Switch Flex Utility (USW-Flex-Utility) is a purpose-built outdoor weatherproof enclosure designed specifically for use with the UniFi Switch Flex. It provides a secure, durable, and professional solution for deploying the switch in exposed or semi-industrial environments where protection from weather, dust, and mechanical impact is essential. Engineered for long-term outdoor use, the enclosure allows the Switch Flex to be installed in locations such as building exteriors, poles, warehouses, parking structures, and industrial sites. The enclosure and included components are optimized for practical installation. The enclosure weight of 740 g provides mechanical stability without excessive load on mounting surfaces, while the included power adapter weighs 206 g, keeping the overall installation compact and manageable. This balance makes the USW-Flex-Utility ideal for wall or pole mounting scenarios where space and weight constraints matter. By housing both the switch and power components in a single protected unit, the Flex Utility enclosure simplifies cable management and reduces the need for additional external protection. It enables cleaner installations, minimizes exposure to moisture and contaminants, and extends the operational lifespan of the network hardware. Designed to meet enterprise and government deployment requirements, the USW-Flex-Utility is NDAA compliant and certified to CE, FCC, and IC standards, ensuring regulatory compliance across multiple regions. For network installers and system integrators, it provides a reliable and standardized solution for outdoor UniFi Switch Flex deployments. Note: UniFi Switch Flex sold separately",
+  "detailed_description": [
+    {
+      "heading": "Weatherproof Flex Housing",
+      "text": "The Ubiquiti UniFi Switch Flex Utility (USW-Flex-Utility) is a purpose-built outdoor weatherproof enclosure designed specifically for use with the UniFi Switch Flex. It provides a secure, durable, and professional solution for deploying the switch in exposed or semi-industrial environments where protection from weather, dust, and mechanical impact is essential. Engineered for long-term outdoor use, the enclosure allows the Switch Flex to be installed in locations such as building exteriors, poles, warehouses, parking structures, and industrial sites. The enclosure and included components are optimized for practical installation. The enclosure weight of 740 g provides mechanical stability without excessive load on mounting surfaces, while the included power adapter weighs 206 g, keeping the overall installation compact and manageable."
+    },
+    {
+      "heading": "Integrated Power Module",
+      "text": "A key component of the UniFi Switch Flex Utility is its integrated AC/DC power supply, engineered to deliver stable and efficient power for outdoor network deployments. The power system converts standard mains electricity into a regulated 54V DC output at 1.11 A, providing consistent energy delivery suitable for PoE-based installations. The power supply supports a rated input voltage range of 100 to 240V AC, enabling global compatibility without the need for regional power converters. With a maximum input current of 1.5 A, it ensures safe operation under varying load conditions while maintaining electrical stability. Power is delivered using 4-pair PoE powering, utilizing pins 1, 2, 4, 5 for positive polarity and 3, 6, 7, 8 for negative polarity, which supports higher power transmission efficiency and reduced cable losses. This configuration is ideal for demanding PoE scenarios where reliability and voltage consistency are critical. The unit is designed for high electrical performance, achieving an efficiency of over 86 percent, which reduces energy loss and heat generation. Output quality is tightly controlled, with output ripple limited to 200 mV peak-to-peak, line regulation at or below 1 percent, and load regulation within 3 percent, ensuring clean and stable power delivery even under fluctuating input conditions. To protect connected equipment, the power system includes robust surge protection rated at 4 kV in both differential and common modes, safeguarding the installation against electrical transients and lightning-induced surges. Combined with its certifications and compliance standards, the USW-Flex-Utility power module provides a dependable foundation for outdoor PoE network infrastructure."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Boxes & Cases",
+  "categories": [
+    "Boxes & Cases",
+    "Utility"
+  ],
+  "mpn": "USW-Flex-Utility",
+  "manufacturer_part_number": "USW-Flex-Utility",
+  "ean": "0810010070531",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/2540/uswflexutility_front_wproducts_mounted_fc93b78089284072b770463a2756eb8f-603ce0d31a778-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex Utility",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2540/uswflexutility_tower_c002e3f4bb2a4b889ea2c2e559a08a19-603ce0d25cf92-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex Utility",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2540/uswflexutility_front_51511f4aaca342a6bb1c653c6c2be2e3-603ce0ce93c78-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex Utility",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2540/uswflexutility_contents_9e38b776d49c481fa027413e75f93ae1-603ce0cdc6580-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex Utility",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2540/uswflexutility_front_angle_mounted_c2c2cd6780d24f1681df3f0940d0e6b4-603ce0cf6159e-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex Utility",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2540/uswflexutility_right_side_mounted_47bb7851979d4f44b925eb9d074aaee7-603ce0d19a01b-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex Utility",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2540/uswflexutility_front_top_angle_0db5dcf2701445d484bb2a83cb7267e3-603ce0d0dbf00-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex Utility",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/2540/uswflexutility_bottom_efcea8d5e413498c80dd93238d22af52-603ce0d02d059-medium.jpg",
+        "alt": "Ubiquiti UniFi Switch Flex Utility",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 52.98,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Plastic"
+        },
+        {
+          "name": "Dimensions",
+          "value": "249 x 218 x 60 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.74 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Pole Mount"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti UniFi Switch Flex Utility",
+      "url": "https://www.getic.com/files/catalogue/2540/uswflex_ds-61d30870cfc65.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi AC Mesh",
+      "url": "/product/unifi-ac-mesh",
+      "price": 96.18,
+      "currency": "USD",
+      "mpn": "UAP-AC-M",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex",
+      "url": "/product/unifi-switch-flex",
+      "price": 107.28,
+      "currency": "USD",
+      "mpn": "USW-Flex",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Dream Machine Pro",
+      "url": "/product/dream-machine-pro",
+      "price": 409.64,
+      "currency": "USD",
+      "mpn": "UDM-Pro",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Flex Mini",
+      "url": "/product/unifi-usw-flex-mini",
+      "price": 35.32,
+      "currency": "USD",
+      "mpn": "USW-Flex-Mini",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

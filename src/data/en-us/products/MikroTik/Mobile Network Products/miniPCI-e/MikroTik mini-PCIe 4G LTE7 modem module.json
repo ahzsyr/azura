@@ -1,0 +1,223 @@
+{
+  "slug": "mikrotik-r11e-lte7",
+  "id": "7116",
+  "productTitle": "MikroTik mini-PCIe 4G LTE7 modem module",
+  "name": "MikroTik mini-PCIe 4G LTE7 modem module",
+  "title": "MikroTik mini-PCIe 4G LTE7 modem module",
+  "title_extended": "",
+  "short_description": "",
+  "description": "Buy MikroTik mini-PCIe 4G LTE7 modem module. Price from 56.53 USD. Worldwide delivery! Full description, specifications, reviews, extended warranty option. ☎ +371 60 000 888.",
+  "detailed_description": [
+    {
+      "heading": "LTE Upgrade Solution",
+      "text": "The MikroTik R11e-LTE7 is a miniPCIe LTE CAT7 modem designed to deliver a seamless mobile connectivity upgrade for your RouterBOARD devices. Its compact form factor allows easy installation in units such as LtAP, RBM33G, or any miniPCIe-enabled system, replacing older FG621-EA modules without modifying your setup. This makes it ideal for mobile integrators and integrators working with compact or embedded devices. The modem offers a highly efficient 2x2 MIMO downlink, providing better data reception and performance in areas with fluctuating LTE signals. Its small size and reduced internal footprint make it easier to fit inside tight enclosures, ensuring professional-grade LTE upgrades even where space is limited. The R11e-LTE7 is compatible with RouterOS, allowing integrators to manage LTE settings, monitor signal quality, and configure advanced network parameters without replacing existing devices. Beyond speed, this modem is optimized for integration in mobile and IoT projects, providing reliable upstream and downstream performance while maintaining low power consumption. Its maximum consumption of just 5 W ensures minimal impact on system resources, making it suitable for devices powered via PoE or limited DC sources. R11e-LTE7 supports professional-grade RF connectivity with dual uUFL connectors, ensuring stable antenna integration and signal integrity in demanding deployments. The compact miniPCIe design and high integration capabilities of the R11e-LTE7 allow users to upgrade LTE connectivity without extensive rewiring or hardware modifications. Combined with support for advanced RouterOS monitoring and management tools, it guarantees professional performance for mobile networks, remote locations, and embedded systems that require reliable, high-quality LTE access."
+    },
+    {
+      "heading": "Reliable Mobile Integration",
+      "text": "The R11e-LTE7 is designed for rugged and versatile mobile installations, extending the LTE capabilities of existing RouterBOARD systems without altering the device’s original design. The operating temperature range of -10°C to +55°C ensures stable performance in a variety of conditions, providing reliable LTE connectivity. This modem is ideal for applications that require continuous LTE service for IoT, M2M, or mobile office setups, supporting multiple active clients simultaneously when integrated with compatible RouterBOARD devices. By separating its function from Wi-Fi or routing tasks, R11e-LTE7 ensures LTE performance remains reliable even under high network load, avoiding the bottlenecks common with older LTE modules. Installation is simple and flexible: the miniPCIe interface and 2 uUFL RF connectors provide secure mounting and professional-grade antenna connection. Unlike its predecessor, this version has a smaller physical footprint, which improves compatibility with enclosures and embedded designs. Additionally, the low-profile design contributes to better airflow and thermal stability inside compact devices. Engineers and integrators benefit from seamless integration with RouterOS, which allows real-time monitoring, LTE diagnostics, and automated network management. With this approach, mobile units, vehicular systems, or small embedded networks gain a reliable and upgradeable LTE backbone, ensuring users receive consistent mobile connectivity without the need for full device replacement. The R11e-LTE7 combines professional mobile integration, efficient power usage, and compact design, making it an ideal LTE solution for integrators seeking fast deployment, stable performance, and minimal hardware changes. It is particularly suitable for remote installations, mobile hotspots, and embedded applications where reliability, durability, and LTE efficiency are essential."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "miniPCI-e Cards",
+  "categories": [
+    "miniPCI-e Cards",
+    "miniPCI-e"
+  ],
+  "mpn": "R11e-LTE7",
+  "manufacturer_part_number": "R11e-LTE7",
+  "ean": "4752224009982",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7116/1-699d8043d85ba-medium.jpg",
+        "alt": "MikroTik mini-PCIe 4G LTE7 modem module",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/7116/1-699d8043d85ba-tiny.jpg",
+        "alt": "MikroTik mini-PCIe 4G LTE7 modem module"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 56.53,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Mobile Network",
+      "features": [
+        "Mobile Network Generation",
+        "MIMO",
+        "LTE Category",
+        "FDD LTE Frequency Bands",
+        "TDD LTE Frequency Bands"
+      ],
+      "items": [
+        {
+          "name": "Mobile Network Generation",
+          "value": "3G (UMTS), 4G (LTE)"
+        },
+        {
+          "name": "MIMO",
+          "value": "2x2"
+        },
+        {
+          "name": "LTE Category",
+          "value": "Cat7 - 300Mbps/100Mbps"
+        },
+        {
+          "name": "FDD LTE Frequency Bands",
+          "value": "1 (2100MHz), 3 (1800MHz), 5 (850MHz), 7 (2600MHz), 8 (900MHz), 20 (800MHz), 28 (700MHz), 32 (1400MHz)"
+        },
+        {
+          "name": "TDD LTE Frequency Bands",
+          "value": "38 (2600MHz), 40 (2300MHz), 41 (2500MHz)"
+        }
+      ]
+    },
+    {
+      "technology": "Power",
+      "features": [
+        "Max Power Consumption"
+      ],
+      "items": [
+        {
+          "name": "Max Power Consumption",
+          "value": "5 W"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Operating Temperature",
+          "value": "-10 °C to 55 °C"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - MikroTik mini-PCIe 4G LTE7 modem module",
+      "url": "https://www.getic.com/files/catalogue/7116/r11elte7_ds-699d803f85c45.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.67,
+        "currency": "USD",
+        "days": 18
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.63,
+        "currency": "USD",
+        "days": 5
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.11,
+        "currency": "USD",
+        "days": 2
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Pigtail U.fl Female / SMA Female 20cm",
+      "url": "/product/pigtail-u-fl-female-sma-female-20cm",
+      "price": 2.75,
+      "currency": "USD",
+      "mpn": "P-UF-SF-20",
+      "availability": "InStock"
+    },
+    {
+      "name": "4G LTE 14dBi Outdoor Panel Antenna 800-2600MHz",
+      "url": "/product/3g4g-lte-14dbi-outdoor-panel-antenna",
+      "price": 65.51,
+      "currency": "USD",
+      "mpn": "L14-8-26-NF2",
+      "availability": "InStock"
+    },
+    {
+      "name": "Alfa Surge Protector N-Female / N-Male",
+      "url": "/product/alfa-0-6ghz-surge-protector-n-female-n-male",
+      "price": 14.25,
+      "currency": "USD",
+      "mpn": "ALR06",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik LtAP LTE7 kit",
+      "url": "/product/mikrotik-ltap-lte7-kit",
+      "price": 139.94,
+      "currency": "USD",
+      "mpn": "LtAP-2HnD&R11e-LTE7",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    },
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    }
+  ],
+  "stock_stat": "out_of_stock"
+}

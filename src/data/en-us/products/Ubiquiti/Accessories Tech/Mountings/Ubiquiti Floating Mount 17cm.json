@@ -1,0 +1,202 @@
+{
+  "slug": "ubiquiti-floating-mount-17cm",
+  "id": 5185,
+  "productTitle": "Ubiquiti Floating Mount 17cm",
+  "name": "Ubiquiti Floating Mount 17cm",
+  "title": "Ubiquiti Floating Mount 17cm",
+  "title_extended": null,
+  "short_description": "The Ubiquiti Floating Mount 17cm (UACC-FM-17cm) is a magnetic wall mount designed specifically for the Cloud Gateway Max, Cloud Gateway Ultra, and Gateway Max devices. This versatile mount allows for easy installation on any metal surface, thanks to its magnetic features, making it an ideal solution for environments where quick deployment or reconfiguration is necessary. The strong magnets ensure that your device stays securely attached, even in high-traffic or industrial areas.",
+  "description": "The Floating Mount not only provides a sturdy and reliable way to secure your Ubiquiti Cloud Gateway devices but also enhances the overall aesthetics of your setup. Its sleek, minimalist design complements modern interiors while ensuring that the device is optimally positioned for maximum performance. Measuring 17 cm, this mount is compact enough to blend seamlessly with your equipment without being obtrusive.",
+  "detailed_description": [
+    {
+      "heading": "Seamless Mounting",
+      "text": "The Ubiquiti Floating Mount 17cm (UACC-FM-17cm) is a magnetic wall mount designed specifically for the Cloud Gateway Max, Cloud Gateway Ultra, and Gateway Max devices. This versatile mount allows for easy installation on any metal surface, thanks to its magnetic features, making it an ideal solution for environments where quick deployment or reconfiguration is necessary. The strong magnets ensure that your device stays securely attached, even in high-traffic or industrial areas. For those who prefer a more permanent setup, the Floating Mount can also be securely fixed onto a wall using four screws, offering flexibility for both temporary and long-term installations."
+    },
+    {
+      "heading": "Sleek Design",
+      "text": "The Floating Mount not only provides a sturdy and reliable way to secure your Ubiquiti Cloud Gateway devices but also enhances the overall aesthetics of your setup. Its sleek, minimalist design complements modern interiors while ensuring that the device is optimally positioned for maximum performance. Measuring 17 cm, this mount is compact enough to blend seamlessly with your equipment without being obtrusive. Whether you are looking to attach your device to a metal wall or securely fix it with screws, the UACC-FM-17cm offers an efficient, durable, and visually appealing mounting solution for various applications."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Mounting Accessories",
+  "categories": [
+    "Ubiquiti",
+    "Mounts and Brackets"
+  ],
+  "mpn": "UACC-FM-17cm",
+  "manufacturer_part_number": "UACC-FM-17cm",
+  "ean": "0810084696415",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/5185/1-670f72c2858f2-medium.jpg",
+        "alt": "Ubiquiti Floating Mount 17cm",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5185/2-670f72c70fcc8-medium.jpg",
+        "alt": "Ubiquiti Floating Mount 17cm",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5185/3-670f72cbac209-medium.jpg",
+        "alt": "Ubiquiti Floating Mount 17cm",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/5185/4-670f72ce40937-medium.jpg",
+        "alt": "Ubiquiti Floating Mount 17cm",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [
+      {
+        "url": "https://www.getic.com/files/catalogue/5185/uaccfm17cm_ds-670f72baa2ae8.pdf",
+        "title": "Technical Specs / Datasheet - Ubiquiti Floating Mount 17cm",
+        "type": "datasheet"
+      }
+    ],
+    "3d_model": false
+  },
+  "price": {
+    "value": 30.54,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Environment"
+      ],
+      "items": [
+        {
+          "name": "Material",
+          "value": "Rubber, Polycarbonate, Silicone"
+        },
+        {
+          "name": "Dimensions",
+          "value": "127.7 x 113.5 x 5.1 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "0.125 kg"
+        },
+        {
+          "name": "Environment",
+          "value": "Indoor"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Floating Mount 17cm",
+      "url": "https://www.getic.com/files/catalogue/5185/uaccfm17cm_ds-670f72baa2ae8.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.58,
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.45,
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 42.86,
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 0,
+    "count": 0,
+    "source": "",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti UniFi Switch Lite 8 PoE",
+      "url": "/product/usw-lite-8-poe-eu",
+      "price": 118.38,
+      "currency": "USD",
+      "mpn": "USW-Lite-8-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Switch Lite 16 PoE",
+      "url": "/product/usw-lite-16-poe-eu",
+      "price": 205.99,
+      "currency": "USD",
+      "mpn": "USW-Lite-16-POE",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Ultra",
+      "url": "/product/unifi-cloud-gateway-ultra",
+      "price": 110.98,
+      "currency": "USD",
+      "mpn": "UCG-Ultra",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti UniFi Cloud Gateway Max",
+      "url": "/product/ubiquiti-cloud-gateway-max",
+      "price": 287.92,
+      "currency": "USD",
+      "mpn": "UCG-Max",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Ubiquiti Elite Distributor",
+      "type": "ubiquiti_elite_distributor"
+    }
+  ],
+  "stock_stat": "in_stock"
+}

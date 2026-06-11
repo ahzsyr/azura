@@ -1,0 +1,207 @@
+{
+  "slug": "mikrotik-xq-cm0000-xs-",
+  "id": "4703",
+  "productTitle": "MikroTik 100G QSFP28 to 25G SFP28 Adapter",
+  "name": "MikroTik 100G QSFP28 to 25G SFP28 Adapter",
+  "title": "MikroTik 100G QSFP28 to 25G SFP28 Adapter",
+  "title_extended": "",
+  "short_description": "",
+  "description": "The MikroTik XQ+CM0000-XS+ is a versatile QSFP28 to SFP28 adapter designed to help you get the most out of your existing hardware. Ideal for CRS504, CRS518, and CRS510 setups, this compact solution allows you to connect SFP, SFP+, or SFP28 modules directly to 100G QSFP28 ports. It’s the perfect choice for expanding network capacity without investing in entirely new infrastructure. Supporting data rates of 1G, 10G, and 25G, it provides maximum flexibility for a wide range of applications, from enterprise networks to data centers. Tested to perform reliably in ambient temperatures from -20°C to +85°C, this adapter is built for demanding environments while keeping energy consumption low. Perfect for service providers, enterprise networks, and data center environments, it offers a simple yet powerful way to scale your connectivity. Whether upgrading or extending your network, the XQ+CM0000-XS+ delivers performance and reliability in a cost-effective package.",
+  "detailed_description": [
+    {
+      "heading": "Cost-Effective QSFP28 to SFP28 Converter",
+      "text": "The MikroTik XQ+CM0000-XS+ is a versatile QSFP28 to SFP28 adapter designed to help you get the most out of your existing hardware. Ideal for CRS504, CRS518, and CRS510 setups, this compact solution allows you to connect SFP, SFP+, or SFP28 modules directly to 100G QSFP28 ports. It’s the perfect choice for expanding network capacity without investing in entirely new infrastructure. Supporting data rates of 1G, 10G, and 25G, it provides maximum flexibility for a wide range of applications, from enterprise networks to data centers. Tested to perform reliably in ambient temperatures from -20°C to +85°C, this adapter is built for demanding environments while keeping energy consumption low. Perfect for service providers, enterprise networks, and data center environments, it offers a simple yet powerful way to scale your connectivity. Whether upgrading or extending your network, the XQ+CM0000-XS+ delivers performance and reliability in a cost-effective package."
+    }
+  ],
+  "brand": "MikroTik",
+  "category": "Fiber Networks",
+  "categories": [
+    "Fiber Products",
+    "Converters",
+    "Fiber Networks"
+  ],
+  "mpn": "XQ+CM0000-XS+",
+  "manufacturer_part_number": "XQ+CM0000-XS+",
+  "ean": "6976499414200",
+  "warranty": "12 months",
+  "condition_options": [
+    "new",
+    "used"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4703/xqcm0000xs-65cf11a7d3538-medium.jpg",
+        "alt": "MikroTik 100G QSFP28 to 25G SFP28 Adapter",
+        "type": "main"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4703/xqcm0000xs-65cf11a7d3538-tiny.jpg",
+        "alt": "MikroTik 100G QSFP28 to 25G SFP28 Adapter"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 53.37,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Fiber Equipment",
+      "features": [
+        "SFP Type",
+        "Data Rate"
+      ],
+      "items": [
+        {
+          "name": "SFP Type",
+          "value": "QSFP28"
+        },
+        {
+          "name": "Data Rate",
+          "value": "1 Gbps, 10 Gbps, 25 Gbps"
+        }
+      ]
+    },
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Operating Temperature"
+      ],
+      "items": [
+        {
+          "name": "Operating Temperature",
+          "value": "-20 °C to 85 °C"
+        }
+      ]
+    },
+    {
+      "technology": "Package Contains",
+      "features": [
+        "Units"
+      ],
+      "items": [
+        {
+          "name": "Units",
+          "value": "1 pcs"
+        }
+      ]
+    }
+  ],
+  "documents": [],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 15.66,
+        "currency": "USD",
+        "delivery_time": "18 business days"
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 31.61,
+        "currency": "USD",
+        "delivery_time": "5 business days"
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": "",
+        "price": 43.08,
+        "currency": "USD",
+        "delivery_time": "2 business days"
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 1,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "Joseph",
+        "date": "2025-07-12",
+        "text": "Worked great for my switch! ",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "MikroTik 10G RJ-45 Module",
+      "url": "/product/sfp-s-plus-rj10-module",
+      "price": 53.37,
+      "currency": "USD",
+      "mpn": "S+RJ10",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik 40G/100G Direct Attach Cable 3m",
+      "url": "/product/mikrotik-qsfp28-direct-attach-cable-3m",
+      "price": 47.44,
+      "currency": "USD",
+      "mpn": "XQ+DA0003",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS326-4C+20G+2Q+RM",
+      "url": "/product/mikrotik-crs326-4c-20g-2q-rm",
+      "price": 800.84,
+      "currency": "USD",
+      "mpn": "CRS326-4C+20G+2Q+RM",
+      "availability": "InStock"
+    },
+    {
+      "name": "MikroTik CRS520-4XS-16XQ-RM",
+      "url": "/product/mikrotik-crs520-4xs-16xq-rm",
+      "price": 1764.38,
+      "currency": "USD",
+      "mpn": "CRS520-4XS-16XQ-RM",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "MikroTik MTCNA Certificate",
+      "type": "mikrotik_mtcna_certificate"
+    },
+    {
+      "name": "MikroTik Value Added Distributor",
+      "type": "mikrotik_value_added_distributor"
+    }
+  ],
+  "stock_stat": ""
+}

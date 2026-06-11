@@ -1,0 +1,223 @@
+{
+  "slug": "intercom-flush-mount",
+  "id": "UACC-Intercom-FM",
+  "productTitle": "Ubiquiti Intercom Flush Mount",
+  "name": "Ubiquiti Intercom Flush Mount",
+  "title": "Ubiquiti Intercom Flush Mount",
+  "title_extended": "Ubiquiti Intercom Flush Mount - Flush Mount Enclosure for Intercom",
+  "short_description": "Flush mount enclosure for Ubiquiti Intercom system. Weatherproof, UV-stabilized polycarbonate.",
+  "description": "The Ubiquiti Intercom Flush Mount is a low-profile mounting solution designed specifically for the Ubiquiti Intercom system. This weatherproof enclosure allows for a seamless integration of the intercom into any wall, enhancing aesthetics while protecting the device from the elements. Constructed with UV-stabilized polycarbonate with a PU coating, the enclosure safeguards the intercom from dust, dirt, and moisture. This weatherproof design ensures reliable operation even in harsh outdoor conditions. Whether you're installing the intercom in a residential hallway, a commercial office, or even an outdoor setting, the flush-mount design ensures a clean and unobtrusive integration.",
+  "detailed_description": [
+    {
+      "heading": "Seamless Integration",
+      "text": "The Ubiquiti Intercom Flush Mount is a low-profile mounting solution designed specifically for the Ubiquiti Intercom system. This weatherproof enclosure allows for a seamless integration of the intercom into any wall, enhancing aesthetics while protecting the device from the elements. Constructed with UV-stabilized polycarbonate with a PU coating, the enclosure safeguards the intercom from dust, dirt, and moisture. This weatherproof design ensures reliable operation even in harsh outdoor conditions. Whether you're installing the intercom in a residential hallway, a commercial office, or even an outdoor setting, the flush-mount design ensures a clean and unobtrusive integration."
+    },
+    {
+      "heading": "Effortless Installation",
+      "text": "The UACC-Intercom-FM is designed for a straightforward installation process. The enclosure uses standard mounting techniques, allowing for quick and easy integration into your existing infrastructure. The enclosure perfectly accommodates the intercom's dimensions and connection points, ensuring a secure and functional fit. Installing the intercom with the UACC-Intercom-FM does not compromise its core functionalities. You can continue to enjoy all the communication features and benefits offered by the Ubiquiti Intercom system."
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Mounts and Brackets",
+  "categories": [
+    "Mounts and Brackets",
+    "Door Access",
+    "Accessories"
+  ],
+  "mpn": "UACC-Intercom-FM",
+  "manufacturer_part_number": "UACC-Intercom-FM",
+  "ean": "0810084694015",
+  "warranty": "12 months",
+  "condition_options": [
+    "new"
+  ],
+  "plug_options": [],
+  "media": {
+    "images": [
+      {
+        "url": "https://www.getic.com/images/catalogue/4742/1-660c0511247b6-medium.jpg",
+        "alt": "Ubiquiti Intercom Flush Mount",
+        "type": "main"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4742/2-660c0517d10ef-medium.jpg",
+        "alt": "Ubiquiti Intercom Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4742/3-660c051b252e3-medium.jpg",
+        "alt": "Ubiquiti Intercom Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4742/4-660c051ecb3b8-medium.jpg",
+        "alt": "Ubiquiti Intercom Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4742/5-660c05236ee76-medium.jpg",
+        "alt": "Ubiquiti Intercom Flush Mount",
+        "type": "gallery"
+      },
+      {
+        "url": "https://www.getic.com/images/catalogue/4742/6-660c052b83d2d-medium.jpg",
+        "alt": "Ubiquiti Intercom Flush Mount",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 54.41,
+    "currency": "USD",
+    "discount": null
+  },
+  "old_price": null,
+  "availability": "OutOfStock",
+  "stock_status": "out_of_stock",
+  "variations": [],
+  "specifications": [
+    {
+      "technology": "Physical Parameters",
+      "features": [
+        "Color",
+        "Material",
+        "Dimensions",
+        "Weight",
+        "Operating Temperature",
+        "Environment",
+        "Mounting Method",
+        "Form Factor"
+      ],
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black"
+        },
+        {
+          "name": "Material",
+          "value": "Galvanized steel, UV-stabilized polycarbonate"
+        },
+        {
+          "name": "Dimensions",
+          "value": "375.3 x 164.2 x 46 mm"
+        },
+        {
+          "name": "Weight",
+          "value": "1.15 kg"
+        },
+        {
+          "name": "Operating Temperature",
+          "value": "-30 °C to 60 °C"
+        },
+        {
+          "name": "Environment",
+          "value": "Outdoor"
+        },
+        {
+          "name": "Mounting Method",
+          "value": "Wall Mount"
+        },
+        {
+          "name": "Form Factor",
+          "value": "Embedded"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "title": "Technical Specs / Datasheet - Ubiquiti Intercom Flush Mount",
+      "url": "https://www.getic.com/files/catalogue/4742/intercomflushmount_ds-660c050c333fd.pdf"
+    }
+  ],
+  "shipping": {
+    "options": [
+      {
+        "class": "Pickup point",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      },
+      {
+        "class": "Express",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "delivery_options": [],
+  "reviews": {
+    "rating": 5,
+    "count": 1,
+    "source": "",
+    "distribution": {
+      "excellent": 100,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": [
+      {
+        "name": "David",
+        "date": "2025-08-18",
+        "text": "Product is great. Get was excellent",
+        "photos": []
+      }
+    ]
+  },
+  "bought_together": [
+    {
+      "name": "Ubiquiti Intercom Viewer",
+      "url": "/product/unifi-intercom-viewer",
+      "price": 142.96,
+      "currency": "USD",
+      "mpn": "UA-Intercom-Viewer",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Intercom Sunshield",
+      "url": "/product/intercom-sunshield",
+      "price": 54.41,
+      "currency": "USD",
+      "mpn": "UACC-Intercom-Sunshield",
+      "availability": "OutOfStock"
+    },
+    {
+      "name": "Ubiquiti Access G3 Intercom",
+      "url": "/product/ubiquiti-access-g3-intercom",
+      "price": 381.48,
+      "currency": "USD",
+      "mpn": "UA-G3-Intercom",
+      "availability": "InStock"
+    },
+    {
+      "name": "Ubiquiti Camera G6 Turret White",
+      "url": "/product/ubiquiti-camera-g6-turret",
+      "price": 199.76,
+      "currency": "USD",
+      "mpn": "UVC-G6-Turret-W",
+      "availability": "InStock"
+    }
+  ],
+  "certifications": [],
+  "stock_stat": ""
+}
