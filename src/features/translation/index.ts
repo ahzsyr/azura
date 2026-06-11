@@ -15,6 +15,8 @@ export { UniversalTranslationEditor, LocaleCompletionTabs } from "./components/u
 export { LocaleTabPanel } from "./components/locale-tab-panel";
 export { TranslatableStringList } from "./components/translatable-string-list";
 export { UiMessagesAdmin } from "./components/ui-messages-admin";
+export * from "./ui-message-meta";
+export * from "./ui-messages-utils";
 export { useLocales } from "./hooks/use-locales";
 export { useEntityTranslations } from "./hooks/use-entity-translations";
 export { getCompletionTier, completionTierClass } from "./completion-utils";

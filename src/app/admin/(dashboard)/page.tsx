@@ -1,20 +1,12 @@
 import { getDashboardStats } from "@/lib/data";
 import { getAdminDashboardStats } from "@/services/loaders";
-import { loadSiteBrandContext } from "@/lib/load-site-brand-context";
 import { rebuildSearchIndex } from "@/features/search/actions";
 import { prisma } from "@/lib/prisma";
 import { AdminDashboardClient } from "@/components/admin/admin-dashboard-client";
 
-export async function generateMetadata() {
-  try {
-    const { brandName } = await loadSiteBrandContext();
-    return {
-      title: `${brandName} · Dashboard`,
-    };
-  } catch {
-    return { title: "Dashboard" };
-  }
-}
+export const metadata = {
+  title: "Dashboard",
+};
 
 export default async function AdminDashboardPage() {
   let stats = { packages: 0, newInquiries: 0, testimonials: 0, gallery: 0 };
