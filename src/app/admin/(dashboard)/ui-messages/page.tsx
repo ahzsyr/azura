@@ -2,10 +2,8 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { localeService } from "@/features/i18n/locale.service";
 import { uiMessageService } from "@/features/translation/ui-message.service";
-import {
-  UiMessagesAdmin,
-  flattenMessages,
-} from "@/features/translation/components/ui-messages-admin";
+import { UiMessagesAdmin } from "@/features/translation/components/ui-messages-admin";
+import { flattenMessages } from "@/features/translation/ui-messages-utils";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
