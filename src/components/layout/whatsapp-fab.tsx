@@ -39,7 +39,7 @@ export function WhatsAppFab({
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "wa-fab-anchor fixed flex items-center justify-center rounded-full focus-visible:outline-none",
+        "wa-fab-anchor flex items-center justify-center rounded-full focus-visible:outline-none",
         getFabClassName(settings.size),
         getFabPositionClassName(settings),
         entered && "wa-fab-root--enter",

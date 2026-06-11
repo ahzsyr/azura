@@ -383,7 +383,7 @@ export function WhatsAppAdminPanel({
                   description="Approximate placement in the corner of the viewport."
                   minHeight={260}
                 >
-                  <div className="relative h-52">
+                  <div className="wa-fab-preview relative h-52">
                     <WhatsAppFab
                       phone={previewPhone}
                       message={previewMessage}

@@ -477,8 +477,15 @@ html[data-site-cursor-effects="on"] #theme-toggle {
 }
 
 .wa-fab-anchor {
+  position: fixed;
   z-index: 8990;
   overflow: visible;
+  pointer-events: auto;
+}
+
+/* Admin preview frames use a local positioning context */
+.wa-fab-preview .wa-fab-anchor {
+  position: absolute;
 }
 
 /* Keep FAB above footer on marketing pages without catalog dock */
@@ -518,7 +525,6 @@ body:has(.pp-side-toggle--start) .wa-fab-root--pos-start.wa-fab-root--anchor-bot
 }
 
 .wa-fab-root--interactive {
-  position: relative;
   isolation: isolate;
   overflow: visible;
   transition:
