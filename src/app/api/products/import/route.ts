@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       const targets = opts.targetLocales ?? ["en-us"];
       if (targets === "all") {
         const { configuredLocaleCodes } = await import("@/features/products/lib/i18n/config");
-        for (const code of configuredLocaleCodes()) locales.add(code);
+        for (const code of configuredLocaleCodes) locales.add(code);
       } else {
         for (const t of targets) locales.add(t);
       }
