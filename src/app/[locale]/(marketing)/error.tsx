@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { cardSessionDebugLog } from "@/lib/debug/agent-log";
 import { recordRouteFailure } from "@/lib/performance/runtime-metrics";
 
 export default function MarketingError({
@@ -19,6 +20,20 @@ export default function MarketingError({
     if (process.env.NODE_ENV === "development" && error.digest) {
       console.error("[marketing] error digest:", error.digest);
     }
+    // #region agent log
+    cardSessionDebugLog(
+      "marketing/error.tsx",
+      "Marketing error boundary caught error",
+      {
+        pathname,
+        errorMessage: error.message,
+        errorName: error.name,
+        digest: error.digest,
+        stackTop: error.stack?.split("\n").slice(0, 6).join("\n"),
+      },
+      "H4",
+    );
+    // #endregion
     recordRouteFailure({
       pathname,
       message: error.message,

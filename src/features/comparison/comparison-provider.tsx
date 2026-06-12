@@ -12,6 +12,8 @@ import {
 } from "@/features/comparison/comparison-store";
 import type { CompareDrawerBucket } from "@/features/comparison/components/comparison-drawer";
 import { buildComparableTypeBySlugMap } from "@/features/comparison/resolve-comparable-type";
+import { COMPARE_OPEN_DRAWER_EVENT } from "@/features/comparison/components/compare-widget-fab";
+import { ComparisonStickyBar } from "@/features/comparison/components/comparison-sticky-bar";
 import "@/features/comparison/comparison-shell.css";
 
 const ComparisonDrawer = dynamic(
@@ -90,6 +92,12 @@ export function ComparisonProvider({ locale, comparableTypes, labels, children }
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    const openFromWidget = () => setDrawerOpen(true);
+    window.addEventListener(COMPARE_OPEN_DRAWER_EVENT, openFromWidget);
+    return () => window.removeEventListener(COMPARE_OPEN_DRAWER_EVENT, openFromWidget);
+  }, []);
+
   const totalCount = buckets.reduce((n, b) => n + b.count, 0);
   const typeBySlug = useMemo(
     () => buildComparableTypeBySlugMap(comparableTypes),
@@ -100,51 +108,34 @@ export function ComparisonProvider({ locale, comparableTypes, labels, children }
 
   const isComparePage = Boolean(pathname?.match(/\/compare(\/|$)/));
 
-  const showFab = comparableTypes.length > 0 && totalCount > 0 && !isComparePage;
+  const showStickyBar = comparableTypes.length > 0 && totalCount > 0 && !isComparePage;
 
   const overlay =
-    mounted && (showFab || drawerOpen)
+    mounted && drawerOpen
       ? createPortal(
-          <>
-            {showFab ? (
-              <button
-                type="button"
-                className="cmp-drawer-fab"
-                onClick={() => setDrawerOpen(true)}
-                aria-expanded={drawerOpen}
-                aria-controls="catalog-compare-drawer"
-                aria-label={`${labels.drawerTitle} (${totalCount})`}
-              >
-                <span>{labels.drawerTitle}</span>
-                <span className="cmp-drawer-fab__badge" aria-hidden="true">
-                  {totalCount}
-                </span>
-              </button>
-            ) : null}
-
-            <ComparisonDrawer
-              id="catalog-compare-drawer"
-              open={drawerOpen}
-              onClose={() => setDrawerOpen(false)}
-              locale={locale}
-              buckets={buckets}
-              typeBySlug={typeBySlug}
-              totalCount={totalCount}
-              labels={labels}
-              onClearAll={() => {
-                clearCompareList();
-                refresh();
-              }}
-              onStoreChange={refresh}
-            />
-          </>,
-          document.body
+          <ComparisonDrawer
+            id="catalog-compare-drawer"
+            open={drawerOpen}
+            onClose={() => setDrawerOpen(false)}
+            locale={locale}
+            buckets={buckets}
+            typeBySlug={typeBySlug}
+            totalCount={totalCount}
+            labels={labels}
+            onClearAll={() => {
+              clearCompareList();
+              refresh();
+            }}
+            onStoreChange={refresh}
+          />,
+          document.body,
         )
       : null;
 
   return (
     <ComparisonContext.Provider value={value}>
       {children}
+      {showStickyBar ? <ComparisonStickyBar locale={locale} /> : null}
       {overlay}
     </ComparisonContext.Provider>
   );

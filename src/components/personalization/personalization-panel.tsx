@@ -13,6 +13,7 @@ import type { ThemeTokens } from "@/types/theme";
 import { useThemeEngine } from "@/components/theme/theme-engine-provider";
 import { getDirection } from "@/i18n/routing";
 import { useIsMobileViewport } from "@/lib/hooks/use-is-mobile-viewport";
+import { CompareWidgetFab, useCompareFabState } from "@/features/comparison/components/compare-widget-fab";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -326,6 +327,7 @@ function ThemePillSwitch({
 
 export function PersonalizationPanel({ settings, theme, locale = "en", locales = [] }: Props) {
   const t = useTranslations("widget");
+  const tCompare = useTranslations("compare");
   const engine = useThemeEngine();
   const [open, setOpen] = useState(false);
   const [applyingPreset, setApplyingPreset] = useState<string | null>(null);
@@ -343,6 +345,7 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
   } = settings.widgetSections;
 
   const [canScrollTop, setCanScrollTop] = useState(false);
+  const { visible: showCompareFab } = useCompareFabState();
 
   const enabledTabs = useMemo<PanelTab[]>(() => {
     const tabs: PanelTab[] = [];
@@ -446,8 +449,10 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
 
   const showFabQuickControls = showFabThemeToggle || hasMultipleLocales;
 
+  const showBackToTopControl = showBackToTop && canScrollTop;
+
   if (!settings.enabled) return null;
-  if (!showFabQuickControls && !hasPanelContent && !showBackToTop) return null;
+  if (!showFabQuickControls && !hasPanelContent && !showBackToTopControl && !showCompareFab) return null;
 
   function scrollToTop() {
     window.scrollTo({
@@ -677,7 +682,7 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
           ))}
       </AnimatePresence>
 
-      {(showFabQuickControls || hasPanelContent || showBackToTop) && (
+      {(showFabQuickControls || hasPanelContent || showBackToTopControl || showCompareFab) && (
         <div className="pp-float-bar">
           {showFabThemeToggle ? (
             <FabQuickControls
@@ -688,6 +693,7 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
               themeLabel={t("activeTheme")}
             />
           ) : null}
+          <CompareWidgetFab label={tCompare("drawerTitle")} />
           {hasMultipleLocales ? (
             <FabLanguageButton
               locale={locale}
@@ -709,19 +715,18 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
               <span className="hidden sm:inline">{t("style")}</span>
             </button>
           )}
-          {showBackToTop && (
+          {showBackToTopControl ? (
             <button
               type="button"
-              className={cn("pp-back-top-btn", canScrollTop && "pp-back-top-btn--visible")}
+              className="pp-back-top-btn pp-back-top-btn--visible"
               onClick={scrollToTop}
-              disabled={!canScrollTop}
               aria-label={t("backToTop")}
               title={t("backToTop")}
             >
               <ArrowUp className="h-4 w-4" strokeWidth={2.25} aria-hidden />
               <span className="hidden sm:inline">{t("backToTop")}</span>
             </button>
-          )}
+          ) : null}
         </div>
       )}
     </div>

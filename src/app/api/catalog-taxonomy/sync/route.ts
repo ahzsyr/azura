@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
 import {
+  mergeBrandProfiles,
   mergeTaxonomyLists,
+  readCatalogBrandProfiles,
   readCatalogTaxonomy,
   scanTaxonomyFromCatalog,
 } from "@/features/catalog/admin/catalog-taxonomy";
+import { syncBrandNamesFromProfiles } from "@/features/catalog/types/catalog-brand-profile";
 import {
   adminLocale,
   resolveConfiguredLocaleCode,
@@ -42,13 +45,18 @@ export async function POST(request: Request) {
 
     const brands = mergeTaxonomyLists(current.brands, scanned.brands, mode);
     const tags = mergeTaxonomyLists(current.tags, tagSource, mode);
+    const existingProfiles = await readCatalogBrandProfiles(locale);
+    const brandProfiles = mergeBrandProfiles(existingProfiles, scanned.brands, mode);
+    const syncedBrands = syncBrandNamesFromProfiles(brandProfiles);
 
-    await patchSiteSettingsKey(locale, "catalogBrands", brands);
+    await patchSiteSettingsKey(locale, "catalogBrands", syncedBrands.length > 0 ? syncedBrands : brands);
     await patchSiteSettingsKey(locale, "catalogTags", tags);
+    await patchSiteSettingsKey(locale, "catalogBrandProfiles", brandProfiles);
 
     return NextResponse.json({
-      brands,
+      brands: syncedBrands.length > 0 ? syncedBrands : brands,
       tags,
+      brandProfiles,
       scanned: {
         brands: scanned.brands.length,
         tags: scanned.tags.length,

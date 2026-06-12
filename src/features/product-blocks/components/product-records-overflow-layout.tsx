@@ -45,10 +45,11 @@ export function ProductRecordsOverflowLayout({
     ),
     gridClassName:
       columns === 2
-        ? "md:grid-cols-2"
+        ? "pl-grid pl-grid--block-cols-2"
         : columns === 4
-          ? "md:grid-cols-2 lg:grid-cols-4"
-          : "md:grid-cols-2 lg:grid-cols-3",
+          ? "pl-grid pl-grid--block-cols-4"
+          : "pl-grid pl-grid--block-cols-3",
+    sliderItemClassName: "pl-block-slider-item",
   };
 
   if (previewDevice) {

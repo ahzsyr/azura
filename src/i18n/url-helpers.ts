@@ -9,7 +9,9 @@ export function stripAnyLocalePrefix(
   pathname: string,
   urlPrefixes: string[] = FALLBACK_LOCALES.map((l) => l.urlPrefix)
 ): string {
-  const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  const path =
+    typeof pathname === "string" ? pathname : pathname == null ? "/" : String(pathname);
+  const normalized = path.startsWith("/") ? path : `/${path}`;
   for (const prefix of urlPrefixes) {
     const segment = `/${prefix}`;
     if (normalized === segment) return "/";

@@ -391,3 +391,36 @@ html[data-effects-tier="light"] .az-section-orb {
 .animate-marquee {
   animation: marquee 30s linear infinite;
 }
+
+.az-brand-marquee__track {
+  animation: az-brand-marquee var(--az-brand-marquee-dur, 28s) linear infinite;
+  will-change: transform;
+}
+
+.az-brand-marquee__track--rtl {
+  animation-direction: reverse;
+}
+
+.az-brand-marquee[data-pause-hover="true"]:hover .az-brand-marquee__track {
+  animation-play-state: paused;
+}
+
+.az-brand-marquee--fade .az-brand-marquee__viewport {
+  mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+}
+
+@keyframes az-brand-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .az-brand-marquee__track {
+    animation: none !important;
+  }
+}

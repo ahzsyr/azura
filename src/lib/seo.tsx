@@ -83,7 +83,6 @@ export function buildMetadata({
       ? buildHreflangAlternates(path, enabledLocales, siteUrl, slugByLocale)
       : {
           en: `${siteUrl}/en${path}`,
-          ar: `${siteUrl}/ar${path}`,
         };
 
   const ogLocale =

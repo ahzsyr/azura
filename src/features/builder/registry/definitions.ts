@@ -412,6 +412,60 @@ const BASE_META: Record<
       "Show items the visitor recently viewed from session history with customizable layouts.",
     icon: "history",
   },
+  categoryShowcase: {
+    type: "categoryShowcase",
+    version: BLOCK_SYSTEM_VERSION,
+    category: "commerce",
+    name: "Category Showcase",
+    description:
+      "Visual category navigation with grid, carousel, masonry, icons, banners, and nested tree layouts.",
+    icon: "layout-grid",
+  },
+  brandShowcase: {
+    type: "brandShowcase",
+    version: BLOCK_SYSTEM_VERSION,
+    category: "commerce",
+    name: "Brand Showcase",
+    description:
+      "Display brand logos, cards, carousels, and directories powered by catalog brand profiles.",
+    icon: "badge-check",
+  },
+  productShowcase: {
+    type: "productShowcase",
+    version: BLOCK_SYSTEM_VERSION,
+    category: "commerce",
+    name: "Product Showcase",
+    description:
+      "Featured, best sellers, new arrivals, trending, sale, and tabbed product collections.",
+    icon: "shopping-bag",
+  },
+  taxonomyProductTabs: {
+    type: "taxonomyProductTabs",
+    version: BLOCK_SYSTEM_VERSION,
+    category: "commerce",
+    name: "Taxonomy Product Tabs",
+    description:
+      "Category or brand tabs with AJAX-loaded product grids and carousels.",
+    icon: "panel-top",
+  },
+  megaCollectionShowcase: {
+    type: "megaCollectionShowcase",
+    version: BLOCK_SYSTEM_VERSION,
+    category: "commerce",
+    name: "Mega Collection",
+    description:
+      "Three-column layout with category navigation, products, and promotional sidebar.",
+    icon: "columns-3",
+  },
+  productDiscovery: {
+    type: "productDiscovery",
+    version: BLOCK_SYSTEM_VERSION,
+    category: "commerce",
+    name: "Product Discovery",
+    description:
+      "AJAX product discovery with filters, grid layouts, and load-more pagination.",
+    icon: "scan-search",
+  },
   stickyCta: {
     type: "stickyCta",
     version: BLOCK_SYSTEM_VERSION,
@@ -549,6 +603,12 @@ export const CONTENT_OVERFLOW_CAPABLE_TYPES = new Set<BlockType>([
   "categoryExplorer",
   "relatedContent",
   "recentlyViewed",
+  "categoryShowcase",
+  "brandShowcase",
+  "productShowcase",
+  "taxonomyProductTabs",
+  "megaCollectionShowcase",
+  "productDiscovery",
 ]);
 
 function def(type: BlockType): BlockDefinition {

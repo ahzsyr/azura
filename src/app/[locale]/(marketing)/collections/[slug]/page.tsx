@@ -163,11 +163,7 @@ export default async function CollectionDetailPage({ params }: Props) {
             viewModes={theme.listingLayout.viewModes}
             labels={listingCopy.labels}
             catalogToolbarLabels={listingCopy.catalogToolbarLabels}
-            cardLayoutCssVars={theme.cardLayoutCssVars}
-            buyNow={theme.buyNow}
-            quoteCta={theme.quoteCta}
-            cardLayout={theme.cardLayout}
-            pageDisplay={theme.pageDisplay}
+            cardTheme={theme}
             catalogToolbarDock={theme.toolbarDock}
             pageDir={pageDir}
             serverPaginated

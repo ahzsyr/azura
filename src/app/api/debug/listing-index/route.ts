@@ -3,6 +3,10 @@ import type { Locale } from "@/i18n/routing";
 import { seoService } from "@/features/seo/seo.service";
 import { cmsService } from "@/features/cms/cms.service";
 import { loadCatalogListingTheme } from "@/features/catalog/lib/load-catalog-theme";
+import { collectionsDataService } from "@/features/collections/collections-data.service";
+import { orderCollectionsHierarchy } from "@/features/collections/collection-hierarchy";
+import { loadListingLabels } from "@/features/products/listing/load-listing-labels";
+import { sanitizeSharedElementId } from "@/lib/navigation/shared-elements/names";
 import {
   buildCollectionListingCatalog,
   buildProductListingCatalog,
@@ -62,9 +66,9 @@ export async function GET(request: Request) {
       detail: { hasPage: Boolean(cmsPage), blockCount: blocks.length },
     });
 
-    await runStep("loadCatalogListingTheme", () =>
+    const theme = (await runStep("loadCatalogListingTheme", () =>
       loadCatalogListingTheme(locale, pageKey as "products" | "collections"),
-    );
+    )) as Awaited<ReturnType<typeof loadCatalogListingTheme>>;
 
     const catalog = (await runStep(
       mode === "collection" ? "buildCollectionListingCatalog" : "buildProductListingCatalog",
@@ -73,6 +77,108 @@ export async function GET(request: Request) {
           ? buildCollectionListingCatalog(locale, filterState)
           : buildProductListingCatalog(locale, filterState),
     )) as Awaited<ReturnType<typeof buildProductListingCatalog>>;
+
+    const listingCopy = (await runStep("loadListingLabels", () =>
+      loadListingLabels(mode, locale),
+    )) as Awaited<ReturnType<typeof loadListingLabels>>;
+
+    const allCols = (await runStep("collectionsDataService.loadAll", () =>
+      collectionsDataService.loadAll({ localePrefix: locale }),
+    )) as Awaited<ReturnType<typeof collectionsDataService.loadAll>>;
+
+    const collections = orderCollectionsHierarchy(allCols.filter((c) => c.visible !== false));
+
+    const slugProbe = catalog.records.map((record) => ({
+      slug: record.slug,
+      typeofSlug: typeof record.slug,
+      sanitized: sanitizeSharedElementId(record.slug as string),
+    }));
+    const badSlugs = slugProbe.filter((row) => row.typeofSlug !== "string");
+    steps.push({
+      step: "probeSanitizeSlugs",
+      ok: badSlugs.length === 0,
+      detail: {
+        recordCount: slugProbe.length,
+        badSlugCount: badSlugs.length,
+        badSlugs: badSlugs.slice(0, 5),
+      },
+    });
+
+    try {
+      const tpl = listingCopy.labels.resultsCount;
+      tpl
+        .replace("{first}", "1")
+        .replace("{last}", "20")
+        .replace("{total}", String(catalog.total ?? catalog.records.length));
+      steps.push({
+        step: "probeResultsCountReplace",
+        ok: true,
+        detail: { typeofResultsCount: typeof tpl },
+      });
+    } catch (error) {
+      steps.push({
+        step: "probeResultsCountReplace",
+        ok: false,
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
+
+    try {
+      listingCopy.hierarchyLabels.levelUnder.replace("{parent}", "Sample");
+      steps.push({
+        step: "probeLevelUnderReplace",
+        ok: true,
+        detail: { typeofLevelUnder: typeof listingCopy.hierarchyLabels.levelUnder },
+      });
+    } catch (error) {
+      steps.push({
+        step: "probeLevelUnderReplace",
+        ok: false,
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
+
+    const islandProps = {
+      locale,
+      records: catalog.records,
+      facets: catalog.facets,
+      collections,
+      layoutVariant: "catalog",
+      listingMode: mode,
+      hierarchyLabels: listingCopy.hierarchyLabels,
+      hierarchyVariant: theme.listingLayout.chromeVariant,
+      searchDebounceMs: theme.searchDebounceMs,
+      searchFuzziness: theme.searchFuzziness,
+      defaultViewMode: theme.listingLayout.defaultViewMode,
+      viewModes: theme.listingLayout.viewModes,
+      labels: listingCopy.labels,
+      catalogToolbarLabels: listingCopy.catalogToolbarLabels,
+      cardLayoutCssVars: theme.cardLayoutCssVars,
+      buyNow: theme.buyNow,
+      quoteCta: theme.quoteCta,
+      cardLayout: theme.cardLayout,
+      pageDisplay: theme.pageDisplay,
+      catalogToolbarDock: theme.toolbarDock,
+      pageDir: locale.startsWith("ar") ? "rtl" : "ltr",
+      serverPaginated: true,
+      total: catalog.total ?? catalog.records.length,
+      totalPages: catalog.totalPages ?? 1,
+    };
+
+    try {
+      const payload = JSON.stringify(islandProps);
+      steps.push({
+        step: "serializeCollectionsIndexProps",
+        ok: true,
+        detail: { bytes: payload.length, collectionCount: collections.length },
+      });
+    } catch (error) {
+      steps.push({
+        step: "serializeCollectionsIndexProps",
+        ok: false,
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
 
     return NextResponse.json({
       locale,

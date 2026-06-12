@@ -48,6 +48,17 @@ export const FALLBACK_LOCALES: PublicLocale[] = [
 
 export const STATIC_DEFAULT_URL_PREFIX = "en";
 
+/** Locale URL prefixes retired from public routing (e.g. Arabic not launched). */
+export const RETIRED_URL_PREFIXES = new Set(["ar"]);
+
+export function isRetiredUrlPrefix(urlPrefix: string): boolean {
+  return RETIRED_URL_PREFIXES.has(urlPrefix.trim().toLowerCase());
+}
+
+export function filterActivePublicLocales<T extends PublicLocale>(locales: T[]): T[] {
+  return locales.filter((locale) => !isRetiredUrlPrefix(locale.urlPrefix));
+}
+
 const CONTENT_SUFFIX_BY_CODE: Record<string, string> = {
   en: "En",
   ar: "Ar",

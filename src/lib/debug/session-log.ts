@@ -1,6 +1,6 @@
 const DEBUG_ENDPOINT =
   "http://127.0.0.1:7876/ingest/6e6c5bde-6579-4633-b8e0-f055b7efa2da";
-const SESSION_ID = "1563f6";
+const SESSION_ID = "154a8e";
 
 /** Debug ingest only works from localhost — never call from production origins. */
 export function isLocalDebugLoggingEnabled(): boolean {

@@ -38,8 +38,12 @@ import type {
 } from "@/features/products/listing/listing-labels";
 import { ProductListingFilters } from "./listing/product-listing-filters";
 import { ProductListingGrid } from "./listing/product-listing-grid";
+import { ProductCardThemeProvider } from "./listing/product-card-theme-context";
 import {
-  IconChevron,
+  productCardThemeFromLegacyProps,
+  type ProductCardTheme,
+} from "@/features/products/lib/product-card-theme";
+import {
   IconClose,
   IconEllipsis,
   IconSearch,
@@ -74,6 +78,7 @@ type Props = {
   quoteCta?: import("@/features/products/lib/product-cta").ResolvedProductCtaConfig;
   cardLayout?: import("@/features/products/lib/product-storefront-layout").ResolvedProductCardLayout;
   pageDisplay?: import("@/features/products/lib/product-page-display").ResolvedProductPageDisplay;
+  cardTheme?: ProductCardTheme;
   catalogToolbarDock?: ResolvedCatalogToolbarDock;
   pageDir?: "ltr" | "rtl";
   /** When true, records are pre-filtered/paginated on the server; URL changes trigger RSC refresh. */
@@ -131,6 +136,7 @@ export function ProductListingIsland({
   quoteCta,
   cardLayout,
   pageDisplay,
+  cardTheme: cardThemeProp,
   catalogToolbarDock,
   pageDir = "ltr",
   serverPaginated = false,
@@ -142,6 +148,19 @@ export function ProductListingIsland({
   const searchParams = useSearchParams();
   const [pending, startTransition] = useTransition();
 
+  const cardTheme = useMemo(
+    () =>
+      cardThemeProp ??
+      productCardThemeFromLegacyProps({
+        cardLayout,
+        cardLayoutCssVars,
+        pageDisplay,
+        buyNow,
+        quoteCta,
+      }),
+    [cardThemeProp, cardLayout, cardLayoutCssVars, pageDisplay, buyNow, quoteCta],
+  );
+
   const dock = catalogToolbarDock;
   const dockEnabled = dock?.enabled !== false;
   const dockStyle = dock ? catalogToolbarDockCssVars(dock) : undefined;
@@ -152,7 +171,10 @@ export function ProductListingIsland({
 
   const [pinnedSidebar, setPinnedSidebar] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [dockPanelOpen, setDockPanelOpen] = useState(true);
+  const [dockPanelOpen, setDockPanelOpen] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(min-width: 640px)").matches;
+  });
   const [searchOpen, setSearchOpen] = useState(false);
   const [qInput, setQInput] = useState("");
   const [debouncedQ, flushDebouncedQ] = useDebouncedValueWithFlush(qInput.trim(), searchDebounceMs);
@@ -611,10 +633,34 @@ export function ProductListingIsland({
     [patchState],
   );
 
+  const resultsCountTemplate =
+    typeof labels.resultsCount === "string"
+      ? labels.resultsCount
+      : "{first}–{last} of {total} items";
+  // #region agent log
+  if (
+    typeof labels.resultsCount !== "string" &&
+    typeof window !== "undefined" &&
+    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+  ) {
+    fetch("http://127.0.0.1:7876/ingest/6e6c5bde-6579-4633-b8e0-f055b7efa2da", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "1b5707" },
+      body: JSON.stringify({
+        sessionId: "1b5707",
+        hypothesisId: "H9",
+        location: "product-listing-island.tsx:resultsLabel",
+        message: "coerced non-string resultsCount label",
+        data: { typeofResultsCount: typeof labels.resultsCount },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+  }
+  // #endregion
   const resultsLabel =
     pagination.total === 0
       ? labels.noProducts
-      : labels.resultsCount
+      : resultsCountTemplate
           .replace("{first}", String(pagination.firstItem))
           .replace("{last}", String(pagination.lastItem))
           .replace("{total}", String(pagination.total));
@@ -814,11 +860,6 @@ export function ProductListingIsland({
       viewMode={viewMode}
       numberLocale={numberLocale}
       emptyMessage={labels.noProducts}
-      cardLayoutCssVars={cardLayoutCssVars}
-      buyNow={buyNow}
-      quoteCta={quoteCta}
-      cardLayout={cardLayout}
-      pageDisplay={pageDisplay}
       collectionCardVariant={isCatalogLayout && isCollectionListing ? "catalog" : "default"}
       collectionViewLabel={catalogToolbarLabels?.viewCollection ?? "View"}
     />
@@ -948,7 +989,8 @@ export function ProductListingIsland({
   );
 
   return (
-    <div className={rootClass} style={dockStyle as CSSProperties | undefined} dir={pageDir}>
+    <ProductCardThemeProvider theme={cardTheme}>
+      <div className={rootClass} style={dockStyle as CSSProperties | undefined} dir={pageDir}>
       <section className="pl-workspace">
         {!pinnedSidebar ? (
           <button
@@ -982,16 +1024,18 @@ export function ProductListingIsland({
               data-dock-open={dockPanelOpen ? "true" : "false"}
             >
               <div className="pl-catalog-dock-shell">
-                <button
-                  type="button"
-                  className="pl-dock-panel-toggle"
-                  onClick={() => setDockPanelOpen((open) => !open)}
-                  aria-expanded={dockPanelOpen}
-                  aria-controls="pl-catalog-dock-content"
-                  aria-label={dockPanelOpen ? "Collapse panel" : "Expand panel"}
-                >
-                  <IconChevron up={dockPanelOpen} />
-                </button>
+                <div className="pl-catalog-dock-header">
+                  <button
+                    type="button"
+                    className="pl-dock-panel-toggle"
+                    onClick={() => setDockPanelOpen((open) => !open)}
+                    aria-expanded={dockPanelOpen}
+                    aria-controls="pl-catalog-dock-content"
+                    aria-label={dockPanelOpen ? "Collapse panel" : "Expand panel"}
+                  >
+                    <span className="pl-dock-panel-handle" aria-hidden="true" />
+                  </button>
+                </div>
                 <div
                   id="pl-catalog-dock-content"
                   className="pl-catalog-dock-content"
@@ -1005,5 +1049,6 @@ export function ProductListingIsland({
         </div>
       </section>
     </div>
+    </ProductCardThemeProvider>
   );
 }

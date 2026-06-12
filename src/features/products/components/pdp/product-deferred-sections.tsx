@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Product } from "../../types";
 import { resolveProductPageContext } from "../../lib/product-page-display";
 import type { ResolvedProductCtaConfig } from "@/features/products/lib/product-cta";
-import type { ResolvedProductCardLayout } from "@/features/products/lib/product-storefront-layout";
+import type { ProductCardTheme } from "@/features/products/lib/product-card-theme";
 import { ProductFrequentlyBought } from "./product-frequently-bought";
 import { ProductCrossLinks } from "./product-cross-links";
 import { ProductPromoBanner } from "./product-promo-banner";
@@ -35,8 +35,7 @@ type Props = {
     servicesWarrantyDesc: string;
   };
   mainOrderKeys: DeferredMainKey[];
-  cardLayout?: ResolvedProductCardLayout;
-  cardLayoutCssVars?: Record<string, string>;
+  cardTheme?: ProductCardTheme;
   quoteCta?: ResolvedProductCtaConfig;
 };
 
@@ -50,9 +49,8 @@ export async function ProductDeferredSections({
   trustResolved,
   labels,
   mainOrderKeys,
-  cardLayout,
-  cardLayoutCssVars,
-  quoteCta,
+  cardTheme,
+  quoteCta: _quoteCta,
 }: Props) {
   const blocks: Record<string, ReactNode> = {
     frequentlyBought: pageCtx.display.frequentlyBought.enabled ? (
@@ -62,11 +60,7 @@ export async function ProductDeferredSections({
         slug={slug}
         product={product}
         title={labels.frequentlyBought}
-        pageDisplay={pageCtx.display}
-        cardLayout={cardLayout}
-        cardLayoutCssVars={cardLayoutCssVars}
-        buyNow={pageCtx.buyNow}
-        quoteCta={quoteCta}
+        cardTheme={cardTheme}
       />
     ) : null,
     crossLinks: pageCtx.display.crossLinks.enabled ? (

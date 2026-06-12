@@ -16,6 +16,10 @@ import {
   contactFormBuilder,
   richText,
   beforeAfter,
+  productShowcase,
+  categoryShowcase,
+  brandShowcase,
+  taxonomyProductTabs,
 } from "@/features/setup/demo-import/block-factory";
 
 export const brtPages: DemoPageDefinition[] = [
@@ -75,6 +79,32 @@ export const brtPages: DemoPageDefinition[] = [
         subtitleAr: "حلول تقنية شاملة مصممة لاحتياجاتك",
         limit: 6,
         viewAllHref: "/services",
+      }),
+      categoryShowcase({
+        titleEn: "Shop by category",
+        titleAr: "تسوق حسب الفئة",
+        subtitleEn: "Browse our product categories",
+        subtitleAr: "تصفح فئات منتجاتنا",
+        layout: "grid",
+        source: "collections",
+      }),
+      productShowcase({
+        titleEn: "Featured products",
+        titleAr: "منتجات مميزة",
+        subtitleEn: "Hand-picked technology for your business",
+        subtitleAr: "تقنيات مختارة لأعمالك",
+        source: "featured",
+        layout: "carousel",
+      }),
+      taxonomyProductTabs({
+        titleEn: "Explore by category",
+        titleAr: "استكشف حسب الفئة",
+        taxonomy: "category",
+      }),
+      brandShowcase({
+        titleEn: "Trusted brands",
+        titleAr: "علامات موثوقة",
+        layout: "logoCarousel",
       }),
       testimonialsBlock({
         titleEn: "What Our Clients Say",

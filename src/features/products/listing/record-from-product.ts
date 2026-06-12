@@ -6,6 +6,7 @@ import {
 } from "@/features/products/product-collections";
 import type { Product, ProductVariationCombination } from "@/features/products/types";
 import type { IndexedProductListingRecord } from "@/features/products/index/product-index-types";
+import { normalizeRemoteImageUrl } from "@/lib/config/next-image";
 import type { ProductListingRecord } from "./types";
 
 function normTag(s: string): string {
@@ -97,6 +98,11 @@ export function recordFromProduct(
   const images = product.media?.images ?? [];
   const primaryImage = images.find((img) => img.type === "main")?.url || images[0]?.url;
   const secondaryImage = images.find((img) => img.url && img.type !== "main")?.url;
+  const gallery_images = images
+    .map((img) => img.url)
+    .filter((url): url is string => Boolean(url))
+    .slice(0, 4)
+    .map((url) => normalizeRemoteImageUrl(url) ?? url);
   const out =
     product.stock_status === "out_of_stock" || product.availability === "OutOfStock";
 
@@ -157,8 +163,9 @@ export function recordFromProduct(
     mpn: product.mpn || product.manufacturer_part_number,
     rating,
     reviews_count,
-    primary_image: primaryImage,
-    secondary_image: secondaryImage,
+    primary_image: normalizeRemoteImageUrl(primaryImage),
+    secondary_image: normalizeRemoteImageUrl(secondaryImage),
+    gallery_images: gallery_images.length > 1 ? gallery_images : undefined,
     in_stock: !out,
     conditions: collectConditionsFromProduct(product),
     variationFacets: collectVariationFacetsFromProduct(product),

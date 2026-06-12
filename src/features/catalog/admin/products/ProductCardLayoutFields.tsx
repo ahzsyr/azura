@@ -12,7 +12,9 @@ export function ProductCardLayoutFields({
     <fieldset className="apm-fieldset">
       <legend className="apm-fieldset__legend">Card chrome &amp; grid behavior</legend>
       <p className="apm-fieldset__hint">
-        Applies to catalog product cards (product index, collections, frequently-bought). CTA chip styling is configured in the section below.
+        <p className="apm-fieldset__hint">
+          Applies to product cards everywhere: catalog listings, CMS blocks, frequently bought, discovery blocks, and related rows. Quote CTA styling is on the Get Quote CTA tab. Save from the top bar.
+        </p>
       </p>
       <div className="pm-cta-grid">
         <label className="pm-cta-field" htmlFor={`${id}-hover`}>
@@ -163,6 +165,22 @@ export function ProductCardLayoutFields({
             onChange={(e) => onChange({ ...value, showCompare: e.target.checked })}
           />
           Show compare icon on cards
+        </label>
+        <label className="pm-cta-field pm-inline-check">
+          <input
+            type="checkbox"
+            checked={value.showBrand}
+            onChange={(e) => onChange({ ...value, showBrand: e.target.checked })}
+          />
+          Show brand line on cards
+        </label>
+        <label className="pm-cta-field pm-inline-check">
+          <input
+            type="checkbox"
+            checked={value.showDiscountBadge}
+            onChange={(e) => onChange({ ...value, showDiscountBadge: e.target.checked })}
+          />
+          Show discount badge on cards
         </label>
         <label className="pm-cta-field pm-inline-check">
           <input

@@ -4,6 +4,9 @@ import { getLocalizedField } from "@/lib/utils";
 import { resolveRelatedContent } from "@/features/discovery-blocks/lib/resolve-related-content";
 import { parseRelatedContentProps } from "@/features/discovery-blocks/lib/parse-block-props";
 import { RelatedContentView } from "@/features/discovery-blocks/components/related-content-view";
+import { DiscoveryBlockCardShell } from "@/features/discovery-blocks/components/discovery-block-card-shell";
+import { hydrateDiscoveryCardRecords } from "@/features/products/lib/hydrate-discovery-card-records";
+import { blockPropsToCardDisplayOverrides } from "@/features/products/lib/product-card-display";
 import type { DiscoveryAnchorContext } from "@/features/discovery-blocks/lib/recently-viewed.types";
 import type { BlockNode } from "@/types/builder";
 import type { BlockOverflowContext } from "@/features/builder/components/marketing-items-overflow";
@@ -39,20 +42,24 @@ export async function RelatedContentBlockRenderer({
     return null;
   }
 
+  const cards = await hydrateDiscoveryCardRecords(locale, items);
   const title = getLocalizedField(p, "title", locale);
+  const displayOverrides = blockPropsToCardDisplayOverrides(p);
 
   return (
-    <div>
-      {title ? <SectionHeader title={title} /> : null}
-      <div className={title ? "mt-8" : undefined}>
-        <RelatedContentView
-          locale={locale}
-          items={items}
-          blockProps={raw}
-          block={block}
-          overflow={overflow}
-        />
+    <DiscoveryBlockCardShell locale={locale} displayOverrides={displayOverrides}>
+      <div>
+        {title ? <SectionHeader title={title} /> : null}
+        <div className={title ? "mt-8" : undefined}>
+          <RelatedContentView
+            locale={locale}
+            cards={cards}
+            blockProps={raw}
+            block={block}
+            overflow={overflow}
+          />
+        </div>
       </div>
-    </div>
+    </DiscoveryBlockCardShell>
   );
 }

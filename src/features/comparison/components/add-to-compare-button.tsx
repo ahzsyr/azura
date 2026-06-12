@@ -6,6 +6,7 @@ import {
   isInCompareList,
   toggleCompareList,
 } from "@/features/comparison/comparison-store";
+import { ArrowLeftRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -85,7 +86,7 @@ export function AddToCompareButton({
         aria-label={isCard ? title : undefined}
       >
         <span className="cmp-add-btn__icon" aria-hidden="true">
-          ⇄
+          <ArrowLeftRight size={16} strokeWidth={2} />
         </span>
         {!isCard ? <span className="cmp-add-btn__label">{label}</span> : null}
       </button>

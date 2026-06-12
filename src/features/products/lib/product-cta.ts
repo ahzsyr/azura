@@ -100,7 +100,7 @@ export const DEFAULT_RESOLVED_PRODUCT_CTA: ResolvedProductCtaConfig = {
     card: false,
   },
   cardVisibility: "always",
-  cardLayout: "floating_corner",
+  cardLayout: "bottom_bar",
   appearance: {
     page: { ...DEFAULT_PRODUCT_CTA_APPEARANCE_PAGE },
     card: { ...DEFAULT_PRODUCT_CTA_APPEARANCE_CARD },

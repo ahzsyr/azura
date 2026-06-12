@@ -72,10 +72,14 @@ import {
   saveProductQuoteCtaSettings,
   saveProductPageElementsOnlySettings,
   saveProductPageLayoutOnlySettings,
-  saveProductCardLayoutOnlySettings,
+  saveProductCardDesignSettings,
   saveProductPromoSettings,
   saveProductTrustSettings,
 } from "./product-settings-save";
+import {
+  resolveProductCardDesign,
+  type ResolvedProductCardDesign,
+} from "@/features/products/card-design";
 import { useAdminFormState } from "@/hooks/use-admin-form";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { ProductVariationsEditor } from "./ProductVariationsEditor";
@@ -479,6 +483,7 @@ type ProductManagerAppProps = {
   initialProductCta?: ResolvedProductCtaConfig;
   initialProductPageLayout?: ResolvedProductPageLayout;
   initialProductCardLayout?: ResolvedProductCardLayout;
+  initialProductCardDesign?: ResolvedProductCardDesign;
   initialProductPageDisplay?: ResolvedProductPageDisplay;
   initialProductBuyNow?: ResolvedProductBuyNow;
   initialProductPagePromo?: ResolvedProductPromo;
@@ -498,6 +503,7 @@ export default function ProductManagerApp({
   initialProductCta,
   initialProductPageLayout,
   initialProductCardLayout,
+  initialProductCardDesign,
   initialProductPageDisplay,
   initialProductBuyNow,
   initialProductPagePromo,
@@ -557,6 +563,10 @@ export default function ProductManagerApp({
   }, []);
   const [pageLayout, setPageLayout] = useState<ResolvedProductPageLayout>(() => initialProductPageLayout ?? resolveProductPageLayout());
   const [cardLayout, setCardLayout] = useState<ResolvedProductCardLayout>(() => initialProductCardLayout ?? resolveProductCardLayout());
+  const [cardDesign, setCardDesign] = useState<ResolvedProductCardDesign>(() =>
+    initialProductCardDesign ??
+    resolveProductCardDesign({ legacyLayout: initialProductCardLayout ?? resolveProductCardLayout() }),
+  );
   const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
   const markSaved = useAdminUiStore((s) => s.markSaved);
   const saveStatus = useAdminUiStore((s) => s.saveStatus);
@@ -606,6 +616,7 @@ export default function ProductManagerApp({
     pageCompactDisplay,
     pageLayout,
     cardLayout,
+    cardDesign,
     pagePromo,
     pageTrust,
   });
@@ -643,8 +654,9 @@ export default function ProductManagerApp({
           setLayoutFeedback({ kind: "ok", text: ok });
           break;
         case "card-appearance":
-          await saveProductCardLayoutOnlySettings(adminLocaleCode, cardLayout);
+          await saveProductCardDesignSettings(adminLocaleCode, cardDesign, cardLayout);
           savedSettingsRef.current.cardLayout = cardLayout;
+          savedSettingsRef.current.cardDesign = cardDesign;
           setLayoutFeedback({ kind: "ok", text: ok });
           break;
         case "promo-banner":
@@ -676,6 +688,7 @@ export default function ProductManagerApp({
     pageCompactDisplay,
     pageLayout,
     cardLayout,
+    cardDesign,
     pagePromo,
     pageTrust,
     router,
@@ -700,6 +713,7 @@ export default function ProductManagerApp({
         break;
       case "card-appearance":
         setCardLayout(saved.cardLayout);
+        setCardDesign(saved.cardDesign);
         break;
       case "promo-banner":
         setPagePromo(saved.pagePromo);
@@ -1484,6 +1498,8 @@ export default function ProductManagerApp({
             <ProductCardAppearancePanel
               cardLayout={cardLayout}
               setCardLayout={setCardLayout}
+              cardDesign={cardDesign}
+              setCardDesign={setCardDesign}
               onDirty={() => markUnsaved()}
             />
           )}

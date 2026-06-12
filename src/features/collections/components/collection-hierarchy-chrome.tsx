@@ -108,10 +108,14 @@ export function CollectionHierarchyChrome({
     onChange(nextSlug);
   };
 
+  const formatLevelUnder = (parentName: string) => {
+    const template =
+      typeof labels.levelUnder === "string" ? labels.levelUnder : "Under {parent}";
+    return template.replace("{parent}", parentName);
+  };
+
   const levelAria = (parentName?: string) =>
-    parentName
-      ? labels.levelUnder.replace("{parent}", parentName)
-      : labels.levelRoot;
+    parentName ? formatLevelUnder(parentName) : labels.levelRoot;
 
   const cascadeSelects = (layout: "select" | "sidebar") => (
     <div
@@ -293,7 +297,7 @@ export function CollectionHierarchyChrome({
       <span className="col-hierarchy-chrome__edge col-hierarchy-chrome__edge--start" aria-hidden="true" />
       <div className="col-hierarchy-chrome__track">
         {levels.map((level, i) => (
-          <div className="col-hierarchy-chrome__segment" key={i} role="group" aria-label={i === 0 ? labels.levelRoot : labels.levelUnder.replace("{parent}", bySlug.get(pathSlugs[i - 1] ?? "")?.name ?? "")}>
+          <div className="col-hierarchy-chrome__segment" key={i} role="group" aria-label={i === 0 ? labels.levelRoot : formatLevelUnder(bySlug.get(pathSlugs[i - 1] ?? "")?.name ?? "")}>
             {i > 0 ? (
               <span className="col-hierarchy-chrome__divider" aria-hidden="true">
                 /

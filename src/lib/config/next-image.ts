@@ -24,14 +24,43 @@ const LOCAL_PREFIXES = ["/uploads/", "/assets/", "/images/"] as const;
 
 const REMOTE_HOSTS = new Set(["www.getic.com", "getic.com"]);
 
-/** Whether `src` is allowed by next/image config (otherwise use unoptimized or <img>). */
-export function isAllowedNextImageSrc(src: string): boolean {
-  if (!src || src.startsWith("data:") || src.startsWith("blob:")) return false;
-  if (src.startsWith("/")) {
-    return LOCAL_PREFIXES.some((prefix) => src.startsWith(prefix));
+/**
+ * Next.js image optimizer returns 400 for URLs like `https://host//path`.
+ * Catalog imports occasionally contain duplicate slashes after the hostname.
+ */
+export function normalizeRemoteImageUrl(url: string | undefined | null): string | undefined {
+  if (url == null) return undefined;
+  const trimmed = url.trim();
+  if (!trimmed) return undefined;
+  if (
+    trimmed.startsWith("/") ||
+    trimmed.startsWith("data:") ||
+    trimmed.startsWith("blob:")
+  ) {
+    return trimmed;
   }
   try {
-    const u = new URL(src);
+    const u = new URL(trimmed);
+    const normalizedPath = u.pathname.replace(/\/{2,}/g, "/");
+    if (normalizedPath === u.pathname) return trimmed;
+    u.pathname = normalizedPath;
+    return u.toString();
+  } catch {
+    return trimmed;
+  }
+}
+
+/** Whether `src` is allowed by next/image config (otherwise use unoptimized or <img>). */
+export function isAllowedNextImageSrc(src: string): boolean {
+  const normalized = normalizeRemoteImageUrl(src) ?? src;
+  if (!normalized || normalized.startsWith("data:") || normalized.startsWith("blob:")) {
+    return false;
+  }
+  if (normalized.startsWith("/")) {
+    return LOCAL_PREFIXES.some((prefix) => normalized.startsWith(prefix));
+  }
+  try {
+    const u = new URL(normalized);
     if (u.protocol !== "https:" && u.protocol !== "http:") return false;
     const host = u.hostname.toLowerCase();
     if (REMOTE_HOSTS.has(host)) return true;

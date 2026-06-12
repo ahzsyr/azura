@@ -55,7 +55,7 @@ export function CmsPagesTable({ pages }: { pages: CmsPage[] }) {
             <div className="min-w-0 flex-1">
               <AdminListTitle href={pageEditHref(page.id)}>{displayName}</AdminListTitle>
               <AdminListMeta>
-                /en{getCmsPagePublicPath(page.slug)} · /ar{getCmsPagePublicPath(page.slug)}
+                /en{getCmsPagePublicPath(page.slug)}
                 {livePath != null && <> · live: /en{livePath || "/"}</>}
               </AdminListMeta>
               <AdminListMetaSmall>

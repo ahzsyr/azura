@@ -23,6 +23,8 @@ export type ProductListingRecord = {
   reviews_count?: number;
   primary_image?: string;
   secondary_image?: string;
+  /** Up to 4 gallery URLs for card hover/swipe (excludes duplicate of primary). */
+  gallery_images?: string[];
   in_stock: boolean;
   conditions: string[];
   variationFacets: Record<string, string[]>;

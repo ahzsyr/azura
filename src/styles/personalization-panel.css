@@ -235,6 +235,28 @@
   opacity: 0.5;
 }
 
+.pp-compare-fab {
+  position: relative;
+}
+
+.pp-compare-fab__badge {
+  position: absolute;
+  top: -0.22rem;
+  inset-inline-end: -0.18rem;
+  min-width: 1rem;
+  height: 1rem;
+  padding: 0 0.2rem;
+  font-size: 0.58rem;
+  font-weight: 700;
+  line-height: 1rem;
+  text-align: center;
+  border-radius: 999px;
+  background: var(--color-primary, var(--primary));
+  color: var(--primary-foreground, #fff);
+  border: 1.5px solid color-mix(in srgb, var(--color-surface, var(--card)) 92%, transparent);
+  pointer-events: none;
+}
+
 .pp-fab-circle__code {
   font-size: 0.62rem;
   font-weight: 700;

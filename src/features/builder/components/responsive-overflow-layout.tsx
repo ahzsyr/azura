@@ -36,6 +36,9 @@ export type ResponsiveOverflowLayoutProps<T> = {
 };
 
 function columnGridClass(columns: number | undefined, gridClassName?: string): string {
+  if (gridClassName?.includes("pl-grid")) {
+    return gridClassName;
+  }
   if (gridClassName?.includes("flex")) {
     return cn("gap-6", gridClassName);
   }

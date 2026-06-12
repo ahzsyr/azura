@@ -21,19 +21,23 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
-  const [t, { brandName }] = await Promise.all([
-    getTranslations({ locale, namespace: "blog" }),
-    loadSiteBrandContext(),
-  ]);
-  return seoService.resolveMetadata({
-    locale: locale as Locale,
-    path: "/blog",
-    pageKey: "blog",
-    fallback: {
-      title: t("title"),
-      description: t("subtitle", { brandName }),
-    },
-  });
+  try {
+    const [t, { brandName }] = await Promise.all([
+      getTranslations({ locale, namespace: "blog" }),
+      loadSiteBrandContext(),
+    ]);
+    return seoService.resolveMetadata({
+      locale: locale as Locale,
+      path: "/blog",
+      pageKey: "blog",
+      fallback: {
+        title: t("title"),
+        description: t("subtitle", { brandName }),
+      },
+    });
+  } catch {
+    return { title: "Blog", description: "Latest news and updates." };
+  }
 }
 
 export default async function BlogListingPage({ params, searchParams }: Props) {
@@ -41,12 +45,26 @@ export default async function BlogListingPage({ params, searchParams }: Props) {
   const { category: categorySlug } = await searchParams;
   setRequestLocale(locale);
 
-  const [posts, categories, ctx, t] = await Promise.all([
-    cmsService.listPublishedPosts(categorySlug),
-    cmsRepository.listCategories(),
-    loadPublicLocaleContext(locale),
-    getTranslations({ locale, namespace: "blog" }),
-  ]);
+  let posts: Awaited<ReturnType<typeof cmsService.listPublishedPosts>> = [];
+  let categories: Awaited<ReturnType<typeof cmsRepository.listCategories>> = [];
+  let ctx = await loadPublicLocaleContext(locale);
+  const t = await getTranslations({ locale, namespace: "blog" });
+
+  try {
+    [posts, categories, ctx] = await Promise.all([
+      cmsService.listPublishedPosts(categorySlug),
+      cmsRepository.listCategories(),
+      loadPublicLocaleContext(locale),
+    ]);
+  } catch (error) {
+    console.error("[blog] listing load failed:", error);
+    ctx = await loadPublicLocaleContext(locale).catch(() => ({
+      urlPrefix: locale,
+      languageCode: "en",
+      enabledLocales: [],
+      defaultCode: "en",
+    }));
+  }
 
   const categoryIds = categories.map((cat) => cat.id);
   const categoryTranslations = await loadEntityTranslationsMap("PostCategory", categoryIds);

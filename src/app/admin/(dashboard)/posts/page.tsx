@@ -13,7 +13,7 @@ export default async function PostsAdminPage() {
         <div>
           <h1 className="text-2xl font-bold">Blog Posts</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Public URLs: /en/blog/[slug] and /ar/blog/[slug]
+            Public URLs: /en/blog/[slug]
           </p>
         </div>
         <div className="flex flex-wrap gap-2">

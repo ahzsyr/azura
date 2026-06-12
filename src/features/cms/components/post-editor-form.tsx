@@ -37,6 +37,11 @@ import type {
   TestimonialBuilderOption,
   TestimonialCollectionBuilderOption,
 } from "@/features/testimonials/types";
+import type {
+  CollectionBuilderOption,
+  ProductBuilderOption,
+} from "@/features/product-blocks/types";
+import type { BrandBuilderOption } from "@/features/commerce-showcase/types";
 
 type PostFull = Post & {
   categories: { categoryId: string }[];
@@ -62,6 +67,9 @@ type Props = {
   faqSetOptions?: FaqSetBuilderOption[];
   testimonialOptions?: TestimonialBuilderOption[];
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
+  collectionOptions?: CollectionBuilderOption[];
+  productOptions?: ProductBuilderOption[];
+  brandOptions?: BrandBuilderOption[];
   locales?: PublicLocale[];
   initialTranslations?: EntityTranslation[];
   initialBlockTranslations?: EntityTranslation[];
@@ -77,6 +85,9 @@ export function PostEditorForm({
   faqSetOptions = [],
   testimonialOptions = [],
   testimonialCollectionOptions = [],
+  collectionOptions = [],
+  productOptions = [],
+  brandOptions = [],
   locales = [],
   initialTranslations = [],
   initialBlockTranslations = [],
@@ -181,14 +192,7 @@ export function PostEditorForm({
                     target="_blank"
                     className="text-xs text-primary flex items-center gap-1"
                   >
-                    <ExternalLink className="h-3 w-3" /> EN
-                  </Link>
-                  <Link
-                    href={`/ar/blog/${post.slug}`}
-                    target="_blank"
-                    className="text-xs text-primary flex items-center gap-1"
-                  >
-                    <ExternalLink className="h-3 w-3" /> AR
+                    <ExternalLink className="h-3 w-3" /> View post
                   </Link>
                 </>
               )}
@@ -331,6 +335,9 @@ export function PostEditorForm({
                 faqSetOptions={faqSetOptions}
                 testimonialOptions={testimonialOptions}
                 testimonialCollectionOptions={testimonialCollectionOptions}
+                collectionOptions={collectionOptions}
+                productOptions={productOptions}
+                brandOptions={brandOptions}
               />
               <BlockTranslationsHiddenInput />
             </BlockTranslationProvider>

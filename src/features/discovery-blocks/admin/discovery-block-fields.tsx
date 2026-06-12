@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LocalizedBlockTitle } from "@/features/builder/block-translation-context";
 import { patchBlockSettings } from "@/features/builder/instance/block-instance";
+import { ProductCardDisplayOverrideFields } from "@/features/product-blocks/admin/product-card-display-override-fields";
 import { SearchEntityType } from "@prisma/client";
 
 type Props = {
@@ -217,6 +218,10 @@ export function RelatedContentBlockFields({ block, onChange }: Props) {
           <option value="list">List</option>
         </select>
       </div>
+      <ProductCardDisplayOverrideFields
+        block={block}
+        onChange={(key, value) => setProp(block, onChange, key, value)}
+      />
     </div>
   );
 }
@@ -250,6 +255,10 @@ export function RecentlyViewedBlockFields({ block, onChange }: Props) {
           <option value="list">List</option>
         </select>
       </div>
+      <ProductCardDisplayOverrideFields
+        block={block}
+        onChange={(key, value) => setProp(block, onChange, key, value)}
+      />
     </div>
   );
 }

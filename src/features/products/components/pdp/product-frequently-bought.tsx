@@ -1,10 +1,8 @@
-import type { CSSProperties } from "react";
 import { ProductListingCard } from "@/features/products/components/listing/product-listing-card";
+import { ProductCardThemeSection } from "@/features/products/components/listing/product-card-theme-section";
 import type { Product } from "@/features/products/types";
-import type { ResolvedProductBuyNow } from "@/features/products/lib/product-buy-now";
-import type { ResolvedProductCtaConfig } from "@/features/products/lib/product-cta";
-import type { ResolvedProductPageDisplay } from "@/features/products/lib/product-page-display";
-import type { ResolvedProductCardLayout } from "@/features/products/lib/product-storefront-layout";
+import type { ProductCardTheme } from "@/features/products/lib/product-card-theme";
+import { defaultProductCardTheme } from "@/features/products/lib/product-card-theme";
 import { ProductRelatedSection } from "./product-related-section";
 import { queryListingRecordsByIdentifiers } from "@/features/products/listing/query-listing";
 
@@ -20,11 +18,7 @@ type Props = {
   slug: string;
   product: Product;
   title: string;
-  pageDisplay: ResolvedProductPageDisplay;
-  cardLayout?: ResolvedProductCardLayout;
-  cardLayoutCssVars?: Record<string, string>;
-  buyNow?: ResolvedProductBuyNow;
-  quoteCta?: ResolvedProductCtaConfig;
+  cardTheme?: ProductCardTheme;
 };
 
 export async function ProductFrequentlyBought({
@@ -32,22 +26,14 @@ export async function ProductFrequentlyBought({
   slug,
   product,
   title,
-  pageDisplay,
-  cardLayout,
-  cardLayoutCssVars,
-  buyNow,
-  quoteCta,
+  cardTheme = defaultProductCardTheme(),
 }: Props) {
   const relatedProps = {
     locale,
     slug,
     product,
     title,
-    pageDisplay,
-    cardLayout,
-    cardLayoutCssVars,
-    buyNow,
-    quoteCta,
+    cardTheme,
   };
 
   const items = (product.bought_together ?? []) as BoughtTogetherItem[];
@@ -62,27 +48,24 @@ export async function ProductFrequentlyBought({
   }
 
   return (
-    <section className="prd-fbt" data-product-fbt>
-      <h2>{title}</h2>
-      <div className="prd-fbt__carousel" tabIndex={0} aria-label={title}>
-        <div className="prd-fbt__track">
-          {cards.map((item) => (
-            <article key={item.slug} className="prd-fbt__slide">
-              <ProductListingCard
-                product={item}
-                href={`/${locale}/products/${item.slug}`}
-                numberLocale={locale.startsWith("ar") ? "ar-AE" : "en-US"}
-                localePrefix={locale}
-                pageDisplay={pageDisplay}
-                cardLayout={cardLayout}
-                cardStyle={cardLayoutCssVars as CSSProperties | undefined}
-                buyNow={buyNow}
-                quoteCta={quoteCta}
-              />
-            </article>
-          ))}
+    <ProductCardThemeSection theme={cardTheme}>
+      <section className="prd-fbt" data-product-fbt>
+        <h2>{title}</h2>
+        <div className="prd-fbt__carousel" tabIndex={0} aria-label={title}>
+          <div className="prd-fbt__track">
+            {cards.map((item) => (
+              <article key={item.slug} className="prd-fbt__slide">
+                <ProductListingCard
+                  product={item}
+                  href={`/${locale}/products/${item.slug}`}
+                  numberLocale={locale.startsWith("ar") ? "ar-AE" : "en-US"}
+                  localePrefix={locale}
+                />
+              </article>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </ProductCardThemeSection>
   );
 }

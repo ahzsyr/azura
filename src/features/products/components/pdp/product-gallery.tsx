@@ -2,9 +2,10 @@
 
 import { SharedElementMarker } from "@/components/motion/shared-element-marker";
 import Image from "next/image";
+import { ZoomIn } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import { isAllowedNextImageSrc } from "@/lib/config/next-image";
+import { isAllowedNextImageSrc, normalizeRemoteImageUrl } from "@/lib/config/next-image";
 import { IMAGE_SIZES } from "@/lib/config/performance";
 import type { Product } from "../../types";
 import { normalizeProductCertifications } from "../../lib/product-certifications";
@@ -65,7 +66,12 @@ export function ProductGallery({ slug, product, certHeading = "Certified partner
     const items: MediaItem[] = [];
     images.forEach((img, i) => {
       if (img.url?.trim()) {
-        items.push({ kind: "image", url: img.url, alt: img.alt || title, index: i });
+        items.push({
+          kind: "image",
+          url: normalizeRemoteImageUrl(img.url) ?? img.url,
+          alt: img.alt || title,
+          index: i,
+        });
       }
     });
     videos.forEach((vid, i) => {
@@ -318,12 +324,7 @@ export function ProductGallery({ slug, product, certHeading = "Certified partner
                         aria-label="Zoom image"
                         onClick={openZoom}
                       >
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
-                          <circle cx="11" cy="11" r="8" />
-                          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                          <line x1="11" y1="8" x2="11" y2="14" />
-                          <line x1="8" y1="11" x2="14" y2="11" />
-                        </svg>
+                        <ZoomIn size={18} strokeWidth={2.25} aria-hidden="true" />
                       </button>
                     ) : null}
                   </>

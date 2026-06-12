@@ -5,7 +5,8 @@ type Props = {
 
 /** Sets html lang/dir before hydration to avoid SSR/client mismatch on locale routes. */
 export function DocumentLangScript({ lang, dir }: Props) {
-  const safeLang = lang.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+  const langText = typeof lang === "string" ? lang : lang == null ? "en" : String(lang);
+  const safeLang = langText.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
   const safeDir = dir === "rtl" ? "rtl" : "ltr";
 
   return (

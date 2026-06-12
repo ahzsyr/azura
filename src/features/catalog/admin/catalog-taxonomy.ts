@@ -1,6 +1,11 @@
 import "server-only";
 
 import { readSiteSettings } from "@/features/catalog/site-settings.service";
+import {
+  normalizeCatalogBrandProfiles,
+  seedProfilesFromBrandNames,
+  type CatalogBrandProfile,
+} from "@/features/catalog/types/catalog-brand-profile";
 import { getUniqueProductIndexEntries } from "@/features/products/fs/product-catalog-index";
 import { productsDataService } from "@/features/products/products-data.service";
 import type { CatalogLocale } from "@/features/catalog/locales";
@@ -38,6 +43,22 @@ export async function readCatalogTaxonomy(locale: string): Promise<{
     brands: normalizeTaxonomyList(site.catalogBrands),
     tags: normalizeTaxonomyList(site.catalogTags),
   };
+}
+
+export async function readCatalogBrandProfiles(locale: string): Promise<CatalogBrandProfile[]> {
+  const site = await readSiteSettings(locale);
+  return normalizeCatalogBrandProfiles(site.catalogBrandProfiles);
+}
+
+export function mergeBrandProfiles(
+  existing: CatalogBrandProfile[],
+  incoming: string[],
+  mode: "merge" | "replace",
+): CatalogBrandProfile[] {
+  if (mode === "replace") {
+    return seedProfilesFromBrandNames([], incoming);
+  }
+  return seedProfilesFromBrandNames(existing, incoming);
 }
 
 /** Scan on-disk products for distinct brand / tags / categories. */

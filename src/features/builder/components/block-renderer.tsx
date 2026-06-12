@@ -79,6 +79,14 @@ import {
   RecentlyViewedBlockRenderer,
 } from "@/features/discovery-blocks/renderers";
 import {
+  ProductShowcaseBlockRenderer,
+  CategoryShowcaseBlockRenderer,
+  BrandShowcaseBlockRenderer,
+  TaxonomyProductTabsRenderer,
+  MegaCollectionBlockRenderer,
+  ProductDiscoveryBlockRenderer,
+} from "@/features/commerce-showcase/renderers";
+import {
   VideoHeroBlockRenderer,
   VideoGalleryBlockRenderer,
   InteractiveHotspotsBlockRenderer,
@@ -877,6 +885,66 @@ async function renderBlockContent(
             block={block}
             overflow={overflow}
           />
+        </Section>
+      );
+
+    case "categoryShowcase":
+      return (
+        <Section>
+          <CategoryShowcaseBlockRenderer locale={locale} props={p} previewMode={previewMode} />
+        </Section>
+      );
+
+    case "brandShowcase":
+      return (
+        <Section>
+          <BrandShowcaseBlockRenderer locale={locale} props={p} previewMode={previewMode} />
+        </Section>
+      );
+
+    case "productShowcase":
+      return (
+        <Section>
+          <ProductShowcaseBlockRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            block={block}
+            previewDevice={ctx.previewDevice}
+          />
+        </Section>
+      );
+
+    case "taxonomyProductTabs":
+      return (
+        <Section>
+          <TaxonomyProductTabsRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            block={block}
+            previewDevice={ctx.previewDevice}
+          />
+        </Section>
+      );
+
+    case "megaCollectionShowcase":
+      return (
+        <Section>
+          <MegaCollectionBlockRenderer
+            locale={locale}
+            props={p}
+            previewMode={previewMode}
+            block={block}
+            previewDevice={ctx.previewDevice}
+          />
+        </Section>
+      );
+
+    case "productDiscovery":
+      return (
+        <Section>
+          <ProductDiscoveryBlockRenderer locale={locale} props={p} previewMode={previewMode} />
         </Section>
       );
 

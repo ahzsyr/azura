@@ -5,6 +5,7 @@ import { ProductListingGrid } from "@/features/products/components/listing/produ
 import { resolveRelatedForBlock } from "@/features/product-blocks/lib/resolve-related-for-block";
 import { parseRelatedProductsProps } from "@/features/product-blocks/lib/parse-block-props";
 import { ProductRecordsOverflowLayout } from "@/features/product-blocks/components/product-records-overflow-layout";
+import { ProductBlockCardShell } from "@/features/product-blocks/components/product-block-card-shell";
 import type { BlockNode } from "@/types/builder";
 import type { DeviceBreakpoint } from "@/types/block-system";
 import { resolveContentOverflowCssFlags } from "@/features/builder/styles/content-overflow-resolver";
@@ -49,42 +50,44 @@ export async function RelatedProductsBlockRenderer({
   const title = getLocalizedField(p, "title", locale);
 
   return (
-    <div>
-      {title ? <SectionHeader title={title} /> : null}
-      <div className={title ? "mt-8" : undefined}>
-        {block ? (
-          <ProductRecordsOverflowLayout
-            products={records}
-            localePrefix={locale}
-            flags={resolveContentOverflowCssFlags(block)}
-            previewDevice={previewDevice}
-            columns={p.slidesPerView as 2 | 3 | 4}
-            autoplay={p.autoplay}
-            autoplayIntervalMs={p.autoplayIntervalMs}
-          />
-        ) : p.layout === "carousel" ? (
-          <ProductRecordsOverflowLayout
-            products={records}
-            localePrefix={locale}
-            flags={resolveContentOverflowCssFlags({
-              id: "related-fallback",
-              type: "relatedProducts",
-              props: raw,
-            })}
-            columns={p.slidesPerView as 2 | 3 | 4}
-            autoplay={p.autoplay}
-            autoplayIntervalMs={p.autoplayIntervalMs}
-          />
-        ) : (
-          <ProductListingGrid
-            products={records}
-            localePrefix={locale}
-            viewMode="grid"
-            numberLocale={locale.startsWith("ar") ? "ar" : "en-US"}
-            emptyMessage=""
-          />
-        )}
+    <ProductBlockCardShell locale={locale}>
+      <div>
+        {title ? <SectionHeader title={title} /> : null}
+        <div className={title ? "mt-8" : undefined}>
+          {block ? (
+            <ProductRecordsOverflowLayout
+              products={records}
+              localePrefix={locale}
+              flags={resolveContentOverflowCssFlags(block)}
+              previewDevice={previewDevice}
+              columns={p.slidesPerView as 2 | 3 | 4}
+              autoplay={p.autoplay}
+              autoplayIntervalMs={p.autoplayIntervalMs}
+            />
+          ) : p.layout === "carousel" ? (
+            <ProductRecordsOverflowLayout
+              products={records}
+              localePrefix={locale}
+              flags={resolveContentOverflowCssFlags({
+                id: "related-fallback",
+                type: "relatedProducts",
+                props: raw,
+              })}
+              columns={p.slidesPerView as 2 | 3 | 4}
+              autoplay={p.autoplay}
+              autoplayIntervalMs={p.autoplayIntervalMs}
+            />
+          ) : (
+            <ProductListingGrid
+              products={records}
+              localePrefix={locale}
+              viewMode="grid"
+              numberLocale={locale.startsWith("ar") ? "ar" : "en-US"}
+              emptyMessage=""
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </ProductBlockCardShell>
   );
 }

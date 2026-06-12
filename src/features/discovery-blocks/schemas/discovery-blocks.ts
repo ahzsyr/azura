@@ -122,6 +122,10 @@ export const relatedContentPropsSchema = z.object({
   showDots: z.boolean().default(false),
   loop: z.boolean().default(true),
   slidesPerView: z.coerce.number().min(1).max(4).default(3),
+  showPrice: z.boolean().default(true),
+  showRating: z.boolean().default(true),
+  showStock: z.boolean().default(true),
+  showCompare: z.boolean().default(true),
 });
 
 export const recentlyViewedPropsSchema = z.object({
@@ -131,6 +135,10 @@ export const recentlyViewedPropsSchema = z.object({
   layout: z.enum(["grid", "carousel", "list"]).default("grid"),
   columns: z.union([z.literal(2), z.literal(3), z.literal(4)]).default(4),
   excludeCurrentPage: z.boolean().default(true),
+  showPrice: z.boolean().default(true),
+  showRating: z.boolean().default(true),
+  showStock: z.boolean().default(true),
+  showCompare: z.boolean().default(true),
   emptyMessageEn: z.string().default(""),
   emptyMessageAr: z.string().default(""),
 });

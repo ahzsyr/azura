@@ -46,17 +46,33 @@ export function runWithViewTransition(update: () => void, options?: ViewTransiti
     update();
   });
 
-  void transition.finished.finally(() => {
-    sessionDebugLog(
-      "transition-engine.ts:viewTransition-finished",
-      "view transition finished",
-      { pathname: window.location.pathname },
-      "A",
-    );
-    document.documentElement.classList.remove("theme-transitioning");
-    transitionClassApplied = false;
-    options?.onFinished?.();
-  });
+  void transition.finished
+    .catch((error: unknown) => {
+      // Browsers reject with AbortError when a newer navigation skips this transition.
+      const isSkipped =
+        error instanceof DOMException && error.name === "AbortError";
+      sessionDebugLog(
+        "transition-engine.ts:viewTransition-aborted",
+        isSkipped ? "view transition skipped" : "view transition failed",
+        {
+          pathname: window.location.pathname,
+          name: error instanceof Error ? error.name : typeof error,
+          message: error instanceof Error ? error.message : String(error),
+        },
+        "A",
+      );
+    })
+    .finally(() => {
+      sessionDebugLog(
+        "transition-engine.ts:viewTransition-finished",
+        "view transition finished",
+        { pathname: window.location.pathname },
+        "A",
+      );
+      document.documentElement.classList.remove("theme-transitioning");
+      transitionClassApplied = false;
+      options?.onFinished?.();
+    });
 }
 
 export const transitionEngine: EffectModule = {

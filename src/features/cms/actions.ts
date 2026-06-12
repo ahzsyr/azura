@@ -13,7 +13,7 @@ import { processDueScheduled } from "./scheduling";
 import { syncCmsPageCache } from "./page-cache-sync";
 import { parseCmsPageFormData } from "./page-form-validation";
 import type { PageBlocks } from "@/types/builder";
-import type { ContentStatus, Prisma } from "@prisma/client";
+import type { CmsPage, ContentStatus, Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { localeService } from "@/features/i18n/locale.service";
 import { syncEntityTranslationsFromForm, extractLegacyColumns } from "@/features/translation/form-sync";
@@ -36,7 +36,38 @@ async function assertUniquePostSlug(slug: string, excludeId?: string) {
   if (existing) throw new Error(`Post slug "${slug}" already exists`);
 }
 
-export type UpsertCmsPageResult = { ok: true; redirectTo: string };
+export type UpsertCmsPageResult =
+  | { ok: true; redirectTo: string }
+  | { ok: false; step: string; error: string };
+
+type UpsertCmsPageFailure = { ok: false; step: string; error: string };
+
+class CmsPageSaveStepError extends Error {
+  readonly step: string;
+
+  constructor(step: string, cause: unknown) {
+    const message =
+      cause instanceof Error ? cause.message : typeof cause === "string" ? cause : "Save failed";
+    super(message);
+    this.name = "CmsPageSaveStepError";
+    this.step = step;
+  }
+}
+
+async function runCmsPageStep<T>(
+  step: string,
+  pageId: string | null,
+  fn: () => Promise<T> | T,
+): Promise<T> {
+  try {
+    return await fn();
+  } catch (error) {
+    // #region agent log
+    agentLogError(`cms/actions.ts:upsertCmsPage:${step}`, error, "D", { pageId, step });
+    // #endregion
+    throw new CmsPageSaveStepError(step, error);
+  }
+}
 
 async function upsertCmsPageCore(
   formData: FormData,
@@ -117,7 +148,9 @@ async function upsertCmsPageCore(
       }
     }
 
-    await assertUniquePageSlug(parsed.slug, id ?? undefined);
+    await runCmsPageStep("assertUniquePageSlug", id, () =>
+      assertUniquePageSlug(parsed.slug, id ?? undefined),
+    );
 
     const status = parseStatus(parsed.status);
     const data: Prisma.CmsPageUpdateInput = applyLegacyWritePolicy({
@@ -135,12 +168,12 @@ async function upsertCmsPageCore(
         status === "PUBLISHED" ? new Date() : status === "DRAFT" ? null : undefined,
     }) as Prisma.CmsPageUpdateInput;
 
-    let page;
+    let page: CmsPage;
     let previousBlocks: PageBlocks | undefined;
     if (id) {
-      const existing = await cmsRepository.getPageById(id);
+      const existing = await runCmsPageStep("getPageById", id, () => cmsRepository.getPageById(id));
       previousBlocks = (existing?.blocks as PageBlocks) ?? undefined;
-      page = await cmsRepository.updatePage(id, data);
+      page = await runCmsPageStep("updatePage", id, () => cmsRepository.updatePage(id, data));
       // #region agent log
       agentLog({
         location: "cms/actions.ts:upsertCmsPage:dbUpdated",
@@ -149,11 +182,13 @@ async function upsertCmsPageCore(
         data: { pageId: id },
       });
       // #endregion
-      await cmsRepository.saveRevision(
-        id,
-        blocks,
-        session.user.id,
-        (formData.get("revisionMessage") as string) || "Saved",
+      await runCmsPageStep("saveRevision", id, () =>
+        cmsRepository.saveRevision(
+          id,
+          blocks,
+          session.user.id,
+          (formData.get("revisionMessage") as string) || "Saved",
+        ),
       );
       // #region agent log
       agentLog({
@@ -164,18 +199,22 @@ async function upsertCmsPageCore(
       });
       // #endregion
     } else {
-      page = await cmsRepository.createPage(data as Prisma.CmsPageCreateInput);
-      await cmsRepository.saveRevision(page.id, blocks, session.user.id, "Initial");
+      page = await runCmsPageStep("createPage", null, () =>
+        cmsRepository.createPage(data as Prisma.CmsPageCreateInput),
+      );
+      await runCmsPageStep("saveRevision", page.id, () =>
+        cmsRepository.saveRevision(page.id, blocks, session.user.id, "Initial"),
+      );
     }
 
     if (page.status === "PUBLISHED") {
-      await searchIndexer.indexCmsPage(page);
-      await syncCmsPageCache(page);
+      await runCmsPageStep("indexCmsPage", page.id, () => searchIndexer.indexCmsPage(page));
+      await runCmsPageStep("syncCmsPageCache", page.id, () => syncCmsPageCache(page));
       revalidateCmsPage(page.slug);
       revalidateMarketingHome();
       revalidateCmsPagePublicPaths(page.slug);
     } else {
-      await syncCmsPageCache(page);
+      await runCmsPageStep("syncCmsPageCache", page.id, () => syncCmsPageCache(page));
     }
 
     // #region agent log
@@ -187,10 +226,12 @@ async function upsertCmsPageCore(
     });
     // #endregion
 
-    await syncEntityTranslationsFromForm(formData, "CmsPage", page.id, enabledLocales, [
-      "title",
-      "excerpt",
-    ]);
+    await runCmsPageStep("syncEntityTranslations", page.id, () =>
+      syncEntityTranslationsFromForm(formData, "CmsPage", page.id, enabledLocales, [
+        "title",
+        "excerpt",
+      ]),
+    );
 
     // #region agent log
     agentLog({
@@ -201,13 +242,29 @@ async function upsertCmsPageCore(
     });
     // #endregion
 
-    await translationService.syncBlockTranslations(
-      "CmsPage",
-      page.id,
-      blocks,
-      enabledLocales,
-      formData.get("blockTranslations") as string | null,
-      previousBlocks,
+    const blockTranslationsRaw = formData.get("blockTranslations") as string | null;
+    // #region agent log
+    agentLog({
+      location: "cms/actions.ts:upsertCmsPage:beforeBlockTranslations",
+      message: "syncing block translations",
+      hypothesisId: "H3",
+      data: {
+        pageId: page.id,
+        blockCount: blocks.length,
+        blockTranslationsLength: blockTranslationsRaw?.length ?? 0,
+      },
+    });
+    // #endregion
+
+    await runCmsPageStep("syncBlockTranslations", page.id, () =>
+      translationService.syncBlockTranslations(
+        "CmsPage",
+        page.id,
+        blocks,
+        enabledLocales,
+        blockTranslationsRaw,
+        previousBlocks,
+      ),
     );
 
     // #region agent log
@@ -219,7 +276,9 @@ async function upsertCmsPageCore(
     });
     // #endregion
 
-    await trackPageBlocksMedia(blocks, page.id);
+    await runCmsPageStep("trackPageBlocksMedia", page.id, () =>
+      trackPageBlocksMedia(blocks, page.id),
+    );
     revalidatePath("/admin/pages");
 
     const editorTab = (formData.get("editorTab") as string | null)?.trim() || "general";
@@ -257,12 +316,41 @@ export async function upsertCmsPage(formData: FormData): Promise<void> {
   await upsertCmsPageCore(formData, false);
 }
 
+function toUpsertFailure(error: unknown, step = "unknown"): UpsertCmsPageFailure {
+  if (error instanceof CmsPageSaveStepError) {
+    return { ok: false, step: error.step, error: error.message };
+  }
+  const message =
+    error instanceof Error
+      ? error.message
+      : typeof error === "string"
+        ? error
+        : "Save failed";
+  return { ok: false, step, error: message };
+}
+
 /** Editor toolbar save — returns redirect URL for client-side navigation. */
 export async function saveCmsPageFromEditor(
   formData: FormData,
 ): Promise<UpsertCmsPageResult> {
-  const redirectTo = await upsertCmsPageCore(formData, true);
-  return { ok: true, redirectTo };
+  try {
+    const redirectTo = await upsertCmsPageCore(formData, true);
+    return { ok: true, redirectTo };
+  } catch (error) {
+    const err =
+      error instanceof Error
+        ? { name: error.name, message: error.message }
+        : { value: String(error) };
+    // #region agent log
+    agentLogError("cms/actions.ts:saveCmsPageFromEditor", error, "D", {
+      pageId: formData.get("id"),
+      blocksRawLength: String(formData.get("blocks") ?? "").length,
+      blockTranslationsLength: String(formData.get("blockTranslations") ?? "").length,
+      err,
+    });
+    // #endregion
+    return toUpsertFailure(error);
+  }
 }
 
 async function trackPageBlocksMedia(blocks: PageBlocks, pageId: string) {

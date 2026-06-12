@@ -13,6 +13,10 @@ import type {
   TestimonialBuilderOption,
   TestimonialCollectionBuilderOption,
 } from "@/features/testimonials/types";
+import type {
+  CollectionBuilderOption,
+  ProductBuilderOption,
+} from "@/features/product-blocks/types";
 import { FALLBACK_LOCALES, type PublicLocale } from "@/i18n/locale-config";
 
 type Device = "mobile" | "tablet" | "desktop";
@@ -30,6 +34,8 @@ type Props = {
   faqSetOptions?: FaqSetBuilderOption[];
   testimonialOptions?: TestimonialBuilderOption[];
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
+  collectionOptions?: CollectionBuilderOption[];
+  productOptions?: ProductBuilderOption[];
   locales?: PublicLocale[];
 };
 
@@ -40,6 +46,8 @@ export function BlockDevicePreview({
   faqSetOptions = [],
   testimonialOptions = [],
   testimonialCollectionOptions = [],
+  collectionOptions = [],
+  productOptions = [],
   locales = FALLBACK_LOCALES,
 }: Props) {
   const [locale, setLocale] = useState(locales[0]?.urlPrefix ?? "en");

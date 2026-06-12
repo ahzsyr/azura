@@ -163,6 +163,7 @@ html[data-header-inset-active="true"] .prd-page:not(:has(.prd-page__chrome-rail)
   display: grid;
   gap: var(--prd-section-gap, 0.8rem);
   min-width: 0;
+  scroll-margin-top: calc(var(--prd-side-top, var(--az-sticky-nav-top, 5.5rem)) + 0.75rem);
 }
 
 .prd-tab-panels > div {
@@ -224,8 +225,36 @@ html[data-header-inset-active="true"] .prd-page:not(:has(.prd-page__chrome-rail)
     backdrop-filter: none;
   }
 
-  .prd-page[data-prd-mobile-gallery="natural"] .prd-page__side-rail {
-    order: -1;
+  .prd-page__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--prd-hero-gap, clamp(0.85rem, 2.5vw, 1.25rem));
+  }
+
+  .prd-page__scroll,
+  .prd-page__side-rail,
+  .prd-page__side,
+  .prd-page__side-stack {
+    display: contents;
+  }
+
+  .prd-page__hero {
+    order: 1;
+  }
+
+  .prd-info {
+    order: 2;
+    padding: 0.85rem 1rem;
+  }
+
+  .prd-var,
+  .prd-purchase {
+    order: 3;
+  }
+
+  .prd-page__tabs {
+    order: 4;
+    margin-top: 0;
   }
 
   .prd-page__side {
@@ -236,10 +265,6 @@ html[data-header-inset-active="true"] .prd-page:not(:has(.prd-page__chrome-rail)
   .prd-page__side-stack {
     max-height: none;
     overflow-y: visible;
-  }
-
-  .prd-info {
-    padding: 0.85rem 1rem;
   }
 
   .prd-purchase__cart-row {
@@ -1078,6 +1103,54 @@ html[data-header-inset-active="true"] .prd-page:not(:has(.prd-page__chrome-rail)
   padding: clamp(0.75rem, 3vw, 1rem);
 }
 
+.prd-desc--collapsible {
+  padding: 0;
+  gap: 0;
+}
+
+.prd-desc__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.75rem clamp(0.75rem, 3vw, 1rem);
+  font-family: var(--font-display, inherit);
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--p, var(--color-primary));
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.prd-desc__summary::-webkit-details-marker {
+  display: none;
+}
+
+.prd-desc__summary::after {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-inline-end: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  margin-top: -0.15rem;
+}
+
+.prd-desc--collapsible[open] .prd-desc__summary::after {
+  transform: rotate(-135deg);
+  margin-top: 0.15rem;
+}
+
+.prd-desc__body {
+  display: grid;
+  gap: 1rem;
+  padding: 0 clamp(0.75rem, 3vw, 1rem) clamp(0.75rem, 3vw, 1rem);
+  border-top: 1px solid color-mix(in srgb, var(--p, var(--color-primary)) 10%, transparent);
+}
+
 .prd-desc__block {
   padding-bottom: 1rem;
   border-bottom: 1px solid color-mix(in srgb, var(--p, var(--color-primary)) 8%, transparent);
@@ -1190,12 +1263,15 @@ html[data-header-inset-active="true"] .prd-page:not(:has(.prd-page__chrome-rail)
   aspect-ratio: 16 / 10;
   border-radius: var(--az-radius-lg, var(--prd-radius));
   overflow: hidden;
-  background: color-mix(in srgb, var(--m, var(--muted-foreground)) 12%, transparent);
+  background: color-mix(in srgb, var(--sur, #fff) 94%, var(--m, var(--muted-foreground)) 6%);
 }
 
 .prd-gallery__asset-wrapper {
   position: absolute;
   inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
@@ -1206,26 +1282,55 @@ html[data-header-inset-active="true"] .prd-page:not(:has(.prd-page__chrome-rail)
   pointer-events: auto;
 }
 
+.prd-gallery__asset-shared {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
 .prd-gallery__asset {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   border: none;
+}
+
+.prd-gallery__asset--image {
+  object-fit: contain;
+  object-position: center;
+}
+
+.prd-gallery__asset--video {
+  object-fit: cover;
 }
 
 .prd-gallery__zoom-btn {
   position: absolute;
   bottom: 0.65rem;
   right: 0.65rem;
+  z-index: 3;
   width: 2.25rem;
   height: 2.25rem;
   border-radius: 50%;
-  border: none;
-  background: color-mix(in srgb, var(--t, #000) 55%, transparent);
-  color: white;
+  border: 1px solid color-mix(in srgb, #fff 35%, transparent);
+  background: color-mix(in srgb, #000 58%, transparent);
+  color: #fff;
   cursor: pointer;
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 10px color-mix(in srgb, #000 28%, transparent);
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.prd-gallery__zoom-btn:hover {
+  background: color-mix(in srgb, #000 72%, transparent);
+  transform: scale(1.05);
 }
 
 .prd-gallery__toolbar {

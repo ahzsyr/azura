@@ -6,13 +6,24 @@ import { Label } from "@/components/ui/label";
 import { LocalizedBlockTitle } from "@/features/builder/block-translation-context";
 import { patchBlockSettings } from "@/features/builder/instance/block-instance";
 import { ProductSelectionFields } from "@/features/product-blocks/admin/product-selection-fields";
+import type {
+  CollectionBuilderOption,
+  ProductBuilderOption,
+} from "@/features/product-blocks/types";
 
 type Props = {
   block: BlockNode;
   onChange: (block: BlockNode) => void;
+  collectionOptions?: CollectionBuilderOption[];
+  productOptions?: ProductBuilderOption[];
 };
 
-export function ProductCarouselBlockFields({ block, onChange }: Props) {
+export function ProductCarouselBlockFields({
+  block,
+  onChange,
+  collectionOptions = [],
+  productOptions = [],
+}: Props) {
   const setProp = (key: string, value: unknown) => {
     onChange(patchBlockSettings(block, { [key]: value }));
   };
@@ -20,7 +31,12 @@ export function ProductCarouselBlockFields({ block, onChange }: Props) {
   return (
     <div className="space-y-4">
       <LocalizedBlockTitle block={block} />
-      <ProductSelectionFields block={block} onChange={onChange} />
+      <ProductSelectionFields
+        block={block}
+        onChange={onChange}
+        collectionOptions={collectionOptions}
+        productOptions={productOptions}
+      />
       <div className="grid grid-cols-2 gap-2">
         <label className="flex items-center gap-2 text-sm">
           <input

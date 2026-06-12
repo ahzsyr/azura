@@ -30,6 +30,10 @@ import {
   type ResolvedProductCardLayout,
 } from "@/features/products/lib/product-storefront-layout";
 import {
+  buildProductCardDesignFromSite,
+  type ResolvedProductCardDesign,
+} from "@/features/products/card-design";
+import {
   resolveProductPageCompactDisplay,
   type ResolvedProductPageCompactDisplay,
 } from "@/features/products/lib/product-page-compact-display";
@@ -38,6 +42,7 @@ export type ProductsAdminInitialProps = {
   initialProductCta: ResolvedProductCtaConfig;
   initialProductPageLayout: ResolvedProductPageLayout;
   initialProductCardLayout: ResolvedProductCardLayout;
+  initialProductCardDesign: ResolvedProductCardDesign;
   initialProductPageDisplay: ResolvedProductPageDisplay;
   initialProductBuyNow: ResolvedProductBuyNow;
   initialProductPagePromo: ResolvedProductPromo;
@@ -69,6 +74,12 @@ export async function loadProductsAdminInitialProps(): Promise<ProductsAdminInit
     initialProductCardLayout: resolveProductCardLayout(
       site.productCardLayout as Parameters<typeof resolveProductCardLayout>[0],
     ),
+    initialProductCardDesign: buildProductCardDesignFromSite(
+      site as Record<string, unknown>,
+      resolveProductCardLayout(
+        site.productCardLayout as Parameters<typeof resolveProductCardLayout>[0],
+      ),
+    ).design,
     initialProductPageDisplay: resolveProductPageDisplay(
       site.productPageDisplay as Parameters<typeof resolveProductPageDisplay>[0],
     ),

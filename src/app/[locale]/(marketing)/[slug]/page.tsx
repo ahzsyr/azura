@@ -14,6 +14,7 @@ import { getLocalizedField } from "@/lib/utils";
 
 /** Marketing routes with dedicated `page.tsx` files — never handled here. */
 const RESERVED_SLUGS = new Set([
+  "ar",
   "about",
   "packages",
   "hotels-transport",

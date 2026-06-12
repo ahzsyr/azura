@@ -10,6 +10,7 @@ describe("shared-elements", () => {
   it("sanitizes ids for CSS view-transition-name", () => {
     assert.equal(sanitizeSharedElementId("foo/bar"), "foo-bar");
     assert.equal(sanitizeSharedElementId("  "), "item");
+    assert.equal(sanitizeSharedElementId(42 as unknown as string), "42");
   });
 
   it("builds deterministic transition names", () => {

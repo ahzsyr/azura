@@ -56,6 +56,11 @@ import type {
   TestimonialBuilderOption,
   TestimonialCollectionBuilderOption,
 } from "@/features/testimonials/types";
+import type {
+  CollectionBuilderOption,
+  ProductBuilderOption,
+} from "@/features/product-blocks/types";
+import type { BrandBuilderOption } from "@/features/commerce-showcase/types";
 import type { PageVisualSettings } from "@/schemas/visual-settings";
 import { parsePageVisualSettings } from "@/schemas/visual-settings";
 import { PageLookAndFeelPanel } from "@/features/cms/components/page-look-and-feel-panel";
@@ -253,6 +258,9 @@ function PageEditorFields({
   faqSetOptions = [],
   testimonialOptions = [],
   testimonialCollectionOptions = [],
+  collectionOptions = [],
+  productOptions = [],
+  brandOptions = [],
   locales = [],
   initialBlockTranslations = [],
   initialPageTranslations = [],
@@ -275,6 +283,9 @@ function PageEditorFields({
   faqSetOptions?: FaqSetBuilderOption[];
   testimonialOptions?: TestimonialBuilderOption[];
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
+  collectionOptions?: CollectionBuilderOption[];
+  productOptions?: ProductBuilderOption[];
+  brandOptions?: BrandBuilderOption[];
   locales?: PublicLocale[];
   initialBlockTranslations?: EntityTranslation[];
   initialPageTranslations?: EntityTranslation[];
@@ -370,32 +381,16 @@ function PageEditorFields({
                     target="_blank"
                     className="text-xs text-primary flex items-center gap-1"
                   >
-                    <ExternalLink className="h-3 w-3" /> CMS EN
-                  </Link>
-                  <Link
-                    href={`/ar${getCmsPagePublicPath(page.slug)}`}
-                    target="_blank"
-                    className="text-xs text-primary flex items-center gap-1"
-                  >
-                    <ExternalLink className="h-3 w-3" /> CMS AR
+                    <ExternalLink className="h-3 w-3" /> View CMS page
                   </Link>
                   {CMS_WIRED_MARKETING_SLUGS[page.slug] != null && (
-                    <>
-                      <Link
-                        href={`/en${CMS_WIRED_MARKETING_SLUGS[page.slug]}`}
-                        target="_blank"
-                        className="text-xs text-primary flex items-center gap-1"
-                      >
-                        <ExternalLink className="h-3 w-3" /> Live EN
-                      </Link>
-                      <Link
-                        href={`/ar${CMS_WIRED_MARKETING_SLUGS[page.slug]}`}
-                        target="_blank"
-                        className="text-xs text-primary flex items-center gap-1"
-                      >
-                        <ExternalLink className="h-3 w-3" /> Live AR
-                      </Link>
-                    </>
+                    <Link
+                      href={`/en${CMS_WIRED_MARKETING_SLUGS[page.slug]}`}
+                      target="_blank"
+                      className="text-xs text-primary flex items-center gap-1"
+                    >
+                      <ExternalLink className="h-3 w-3" /> Live site
+                    </Link>
                   )}
                 </>
               )}
@@ -568,6 +563,9 @@ function PageEditorFields({
                 faqSetOptions={faqSetOptions}
                 testimonialOptions={testimonialOptions}
                 testimonialCollectionOptions={testimonialCollectionOptions}
+                collectionOptions={collectionOptions}
+                productOptions={productOptions}
+                brandOptions={brandOptions}
                 locales={locales}
                 blockParentType="CmsPage"
                 blockParentId={page?.id ?? null}
@@ -635,6 +633,8 @@ function PageEditorFields({
                     faqSetOptions={faqSetOptions}
                     testimonialOptions={testimonialOptions}
                     testimonialCollectionOptions={testimonialCollectionOptions}
+                    collectionOptions={collectionOptions}
+                    productOptions={productOptions}
                   />
                 </CardContent>
               </Card>
@@ -725,6 +725,9 @@ export function PageEditorForm({
   faqSetOptions = [],
   testimonialOptions = [],
   testimonialCollectionOptions = [],
+  collectionOptions = [],
+  productOptions = [],
+  brandOptions = [],
 }: {
   page?: PageWithRevisions;
   locales?: PublicLocale[];
@@ -734,6 +737,9 @@ export function PageEditorForm({
   faqSetOptions?: FaqSetBuilderOption[];
   testimonialOptions?: TestimonialBuilderOption[];
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
+  collectionOptions?: CollectionBuilderOption[];
+  productOptions?: ProductBuilderOption[];
+  brandOptions?: BrandBuilderOption[];
 }) {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
@@ -965,6 +971,9 @@ export function PageEditorForm({
         faqSetOptions={faqSetOptions}
         testimonialOptions={testimonialOptions}
         testimonialCollectionOptions={testimonialCollectionOptions}
+        collectionOptions={collectionOptions}
+        productOptions={productOptions}
+        brandOptions={brandOptions}
         locales={locales}
         initialBlockTranslations={initialBlockTranslations}
         initialPageTranslations={initialPageTranslations}
@@ -1063,14 +1072,51 @@ function PageEditorSaveGuard({
         },
       );
 
+      const blocksJson = JSON.stringify(blocksRef.current);
+      const blockTranslationsJson =
+        blockTranslations != null ? JSON.stringify(blockTranslations) : "";
+      const payloadBytes =
+        blocksJson.length +
+        blockTranslationsJson.length +
+        formState.slug.length +
+        (formState.revisionMessage?.length ?? 0);
+      // #region agent log
+      agentLog({
+        location: "page-editor-form.tsx:submitForm:payload",
+        message: "save payload prepared",
+        hypothesisId: "H1",
+        data: {
+          pageId,
+          blockCount: blocksRef.current.length,
+          blocksBytes: blocksJson.length,
+          blockTranslationsBytes: blockTranslationsJson.length,
+          payloadBytes,
+          blockTypes: blocksRef.current.map((b) => b.type),
+        },
+      });
+      // #endregion
+
       try {
         const result = await saveCmsPageFromEditor(formData);
+        if (!result.ok) {
+          // #region agent log
+          agentLogError(
+            "page-editor-form.tsx:submitForm:saveFailed",
+            new Error(result.error),
+            "D",
+            { pageId, step: result.step, payloadBytes },
+          );
+          // #endregion
+          console.error("[debug-1b5707] save failed", result);
+          showToast(`Save failed at ${result.step}: ${result.error}`, "error");
+          return false;
+        }
         // #region agent log
         agentLog({
           location: "page-editor-form.tsx:submitForm:success",
           message: "upsertCmsPage returned",
           hypothesisId: "D",
-          data: { pageId, redirectTo: result?.redirectTo ?? null },
+          data: { pageId, redirectTo: result.redirectTo },
         });
         // #endregion
         if (result.redirectTo) {
@@ -1080,8 +1126,9 @@ function PageEditorSaveGuard({
       } catch (e) {
         if (isRedirectError(e)) throw e;
         // #region agent log
-        agentLogError("page-editor-form.tsx:submitForm:upsertCmsPage", e, "D", { pageId });
+        agentLogError("page-editor-form.tsx:submitForm:upsertCmsPage", e, "D", { pageId, payloadBytes });
         // #endregion
+        console.error("[debug-1b5707] save threw", e);
         showToast(e instanceof Error ? e.message : "Save failed", "error");
         return false;
       }

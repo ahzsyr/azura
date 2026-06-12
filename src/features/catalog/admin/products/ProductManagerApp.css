@@ -2804,3 +2804,72 @@ tr.pm-row--catalog-issue td:first-child {
 .apm-preview-path code {
   font-size: 0.65rem;
 }
+
+.apm-card-builder__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.apm-card-builder__tab {
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--t) 12%, transparent);
+  background: transparent;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.apm-card-builder__tab.is-active {
+  border-color: color-mix(in srgb, var(--p) 40%, transparent);
+  background: color-mix(in srgb, var(--p) 12%, transparent);
+  color: var(--p);
+}
+
+.apm-order-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.apm-order-list__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--t) 8%, transparent);
+}
+
+.apm-card-live-preview__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.apm-card-live-preview__devices button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.72rem;
+  border: 1px solid color-mix(in srgb, var(--t) 12%, transparent);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.apm-card-live-preview__devices button.is-active {
+  border-color: color-mix(in srgb, var(--p) 35%, transparent);
+  color: var(--p);
+}
+
+.apm-card-live-preview__frame {
+  padding: 0.75rem;
+  border: 1px dashed color-mix(in srgb, var(--t) 15%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--sur) 90%, transparent);
+}
+
+.apm-card-live-preview__frame--mobile {
+  max-width: 320px;
+  margin-inline: auto;
+}

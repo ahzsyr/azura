@@ -13,14 +13,12 @@ import {
   getDeepestMatchingCollectionSlug,
 } from "@/features/products/product-collections";
 import type { Product } from "../../types";
-import type {
-  ResolvedProductCardLayout,
-  ResolvedProductPageLayout,
-} from "@/features/products/lib/product-storefront-layout";
+import type { ProductCardTheme } from "@/features/products/lib/product-card-theme";
 import type { ResolvedProductCtaConfig } from "@/features/products/lib/product-cta";
 import {
   productPageLayoutCssVars,
   productPageLayoutDataAttrs,
+  type ResolvedProductPageLayout,
 } from "@/features/products/lib/product-storefront-layout";
 import {
   enabledProductTabs,
@@ -79,8 +77,7 @@ type Props = {
   siteProductCta?: unknown;
   compactDisplay: ResolvedProductPageCompactDisplay;
   allCollections: Collection[];
-  cardLayout?: ResolvedProductCardLayout;
-  cardLayoutCssVars?: Record<string, string>;
+  cardTheme?: ProductCardTheme;
   quoteCta?: ResolvedProductCtaConfig;
 };
 
@@ -117,8 +114,7 @@ export async function ProductDetailView({
   siteProductCta,
   compactDisplay,
   allCollections,
-  cardLayout,
-  cardLayoutCssVars,
+  cardTheme,
   quoteCta,
 }: Props) {
   agentLog({
@@ -223,6 +219,7 @@ export async function ProductDetailView({
         description={product.description}
         shortDescription={product.short_description}
         emptyLabel={labels.noDescription}
+        collapseLabel={labels.description}
       />
     ),
     specs: <ProductSpecsTable product={product} emptyLabel={labels.noSpecs} />,
@@ -354,8 +351,7 @@ export async function ProductDetailView({
                   mainOrderKeys={deferredMainKeys.filter((key): key is DeferredMainKey =>
                     DEFERRED_MAIN_KEYS.has(key),
                   )}
-                  cardLayout={cardLayout}
-                  cardLayoutCssVars={cardLayoutCssVars}
+                  cardTheme={cardTheme}
                   quoteCta={quoteCta}
                 />
               </DeferredSectionShell>

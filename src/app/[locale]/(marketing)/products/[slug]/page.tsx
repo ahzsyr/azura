@@ -11,11 +11,8 @@ import { readSiteSettings } from "@/features/catalog/site-settings.service";
 import { urlPrefixToCatalogLocale } from "@/features/catalog/locales";
 import { ProductDetailView } from "@/features/products/components/pdp/product-detail-view";
 import { resolveProductPageContext } from "@/features/products/lib/product-page-display";
-import {
-  productCardLayoutCssVars,
-  resolveProductCardLayout,
-  resolveProductPageLayout,
-} from "@/features/products/lib/product-storefront-layout";
+import { buildProductCardThemeFromSite } from "@/features/products/lib/product-card-theme";
+import { resolveProductPageLayout } from "@/features/products/lib/product-storefront-layout";
 import { resolveProductCta } from "@/features/products/lib/product-cta";
 import { resolveProductPageCompactDisplay } from "@/features/products/lib/product-page-compact-display";
 import { ProductJsonLd } from "@/features/products/components/pdp/product-json-ld";
@@ -216,10 +213,7 @@ export default async function ProductDetailPage({ params }: Props) {
     const compactDisplay = resolveProductPageCompactDisplay(
       site.productPageCompactDisplay as Parameters<typeof resolveProductPageCompactDisplay>[0],
     );
-    const cardLayout = resolveProductCardLayout(
-      site.productCardLayout as Parameters<typeof resolveProductCardLayout>[0],
-    );
-    const cardLayoutCssVars = productCardLayoutCssVars(cardLayout);
+    const cardTheme = buildProductCardThemeFromSite(site as Record<string, unknown>);
     const migratedCta = migrateProductCtaFromLegacyAddToCart(
       site.productCta,
       site.productPageAddToCart,
@@ -258,8 +252,7 @@ export default async function ProductDetailPage({ params }: Props) {
           allCollections={allCols}
           siteProductCta={globalCta}
           compactDisplay={compactDisplay}
-          cardLayout={cardLayout}
-          cardLayoutCssVars={cardLayoutCssVars}
+          cardTheme={cardTheme}
           quoteCta={quoteCta}
         />
       </>

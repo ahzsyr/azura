@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { BlockNode, PageBlocks } from "@/types/builder";
 import { createBlock, BLOCK_DEFAULTS } from "@/schemas/blocks";
+import { mergeShowcasePresetProps } from "@/features/commerce-showcase/lib/showcase-block-presets";
 import { BlockTreeEditor, insertBlockInTree } from "./block-tree-editor";
 import { BlockPickerModal } from "./block-picker-modal";
 import { BlockPresetPanel } from "./block-preset-panel";
@@ -23,6 +24,11 @@ import type {
   TestimonialBuilderOption,
   TestimonialCollectionBuilderOption,
 } from "@/features/testimonials/types";
+import type {
+  CollectionBuilderOption,
+  ProductBuilderOption,
+} from "@/features/product-blocks/types";
+import type { BrandBuilderOption } from "@/features/commerce-showcase/types";
 import type { EntityTranslation } from "@prisma/client";
 import { FALLBACK_LOCALES, type PublicLocale } from "@/i18n/locale-config";
 import { getContentFieldSuffix } from "@/i18n/locale-config";
@@ -67,6 +73,9 @@ type BlockEditorProps = {
   faqSetOptions?: FaqSetBuilderOption[];
   testimonialOptions?: TestimonialBuilderOption[];
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
+  collectionOptions?: CollectionBuilderOption[];
+  productOptions?: ProductBuilderOption[];
+  brandOptions?: BrandBuilderOption[];
   locales?: PublicLocale[];
   blockParentType?: BlockParentType | null;
   blockParentId?: string | null;
@@ -93,6 +102,9 @@ export function BlockEditor({
   faqSetOptions = [],
   testimonialOptions = [],
   testimonialCollectionOptions = [],
+  collectionOptions = [],
+  productOptions = [],
+  brandOptions = [],
   locales = [],
   blockParentType = null,
   blockParentId = null,
@@ -138,8 +150,15 @@ export function BlockEditor({
     adminForm?.setDirty(true);
   };
 
-  const addBlock = (type: BlockNode["type"], parentId?: string | null) => {
-    const block = createBlock(type, structuredClone(BLOCK_DEFAULTS[type] ?? {})) as BlockNode;
+  const addBlock = (
+    type: BlockNode["type"],
+    parentId?: string | null,
+    propsPatch?: Record<string, unknown>,
+  ) => {
+    const props = propsPatch
+      ? mergeShowcasePresetProps(type, propsPatch)
+      : structuredClone(BLOCK_DEFAULTS[type] ?? {});
+    const block = createBlock(type, props) as BlockNode;
     // #region agent log
     agentLog({
       location: "block-editor.tsx:addBlock",
@@ -283,6 +302,9 @@ export function BlockEditor({
                         faqSetOptions={faqSetOptions}
                         testimonialOptions={testimonialOptions}
                         testimonialCollectionOptions={testimonialCollectionOptions}
+                        collectionOptions={collectionOptions}
+                        productOptions={productOptions}
+                        brandOptions={brandOptions}
                       />
                     }
                   />
@@ -309,6 +331,7 @@ export function BlockEditor({
         open={pickerOpen}
         onOpenChange={setPickerOpen}
         onAdd={addBlock}
+        onAddWithProps={(type, props, parentId) => addBlock(type, parentId, props)}
         parentId={pickerParentId}
         title={pickerParentId ? "Add block to section" : "Add block"}
       />

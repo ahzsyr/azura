@@ -504,6 +504,42 @@ function PreviewBlock({
           Recently Viewed · limit {(p.limit as number) ?? 8}
         </div>
       );
+    case "categoryShowcase":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Category Showcase · {(p.layout as string) ?? "grid"}
+        </div>
+      );
+    case "brandShowcase":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Brand Showcase · {(p.layout as string) ?? "logoGrid"}
+        </div>
+      );
+    case "productShowcase":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Product Showcase · {(p.mode as string) ?? "single"} / {(p.layout as string) ?? "grid"}
+        </div>
+      );
+    case "taxonomyProductTabs":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Taxonomy Tabs · {(p.taxonomy as string) ?? "category"}
+        </div>
+      );
+    case "megaCollectionShowcase":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Mega Collection
+        </div>
+      );
+    case "productDiscovery":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Product Discovery · {(p.layout as string) ?? "grid"}
+        </div>
+      );
     case "stickyCta":
       return (
         <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">

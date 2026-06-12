@@ -8,6 +8,11 @@ import {
   fetchTestimonialCollectionsForBuilder,
   fetchTestimonialsForBuilder,
 } from "@/features/testimonials/actions";
+import {
+  fetchCollectionsForBuilder,
+  fetchProductsForBuilder,
+} from "@/features/product-blocks/actions";
+import { fetchBrandsForBuilder } from "@/features/commerce-showcase/actions";
 import { localeService } from "@/features/i18n/locale.service";
 import { translationService } from "@/features/translation/translation.service";
 import {
@@ -56,6 +61,9 @@ export default async function EditPagePage({ params }: Props) {
     let testimonialCollectionOptions: Awaited<
       ReturnType<typeof fetchTestimonialCollectionsForBuilder>
     > = [];
+    let collectionOptions: Awaited<ReturnType<typeof fetchCollectionsForBuilder>> = [];
+    let productOptions: Awaited<ReturnType<typeof fetchProductsForBuilder>> = [];
+    let brandOptions: Awaited<ReturnType<typeof fetchBrandsForBuilder>> = [];
 
     const locales = await localeService.listEnabled();
     const migration = migrateBlocksToBlockSystem((page.blocks as PageBlocks) ?? []);
@@ -98,13 +106,23 @@ export default async function EditPagePage({ params }: Props) {
     // #endregion
 
     try {
-      [galleryOptions, faqSetOptions, testimonialOptions, testimonialCollectionOptions] =
-        await Promise.all([
-          fetchGalleriesForBuilder(),
-          fetchFaqSetsForBuilder(),
-          fetchTestimonialsForBuilder(),
-          fetchTestimonialCollectionsForBuilder(),
-        ]);
+      [
+        galleryOptions,
+        faqSetOptions,
+        testimonialOptions,
+        testimonialCollectionOptions,
+        collectionOptions,
+        productOptions,
+        brandOptions,
+      ] = await Promise.all([
+        fetchGalleriesForBuilder(),
+        fetchFaqSetsForBuilder(),
+        fetchTestimonialsForBuilder(),
+        fetchTestimonialCollectionsForBuilder(),
+        fetchCollectionsForBuilder(),
+        fetchProductsForBuilder(),
+        fetchBrandsForBuilder(),
+      ]);
     } catch (builderErr) {
       // #region agent log
       agentLogError(
@@ -146,6 +164,9 @@ export default async function EditPagePage({ params }: Props) {
         faqSetOptions={faqSetOptions}
         testimonialOptions={testimonialOptions}
         testimonialCollectionOptions={testimonialCollectionOptions}
+        collectionOptions={collectionOptions}
+        productOptions={productOptions}
+        brandOptions={brandOptions}
       />
     </Suspense>
     );

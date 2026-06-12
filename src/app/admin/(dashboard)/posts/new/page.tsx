@@ -7,6 +7,11 @@ import {
   fetchTestimonialCollectionsForBuilder,
   fetchTestimonialsForBuilder,
 } from "@/features/testimonials/actions";
+import {
+  fetchCollectionsForBuilder,
+  fetchProductsForBuilder,
+} from "@/features/product-blocks/actions";
+import { fetchBrandsForBuilder } from "@/features/commerce-showcase/actions";
 
 export default async function NewPostPage() {
   const [categories, tags, authors, locales] = await Promise.all([
@@ -21,15 +26,28 @@ export default async function NewPostPage() {
   let testimonialOptions: Awaited<ReturnType<typeof fetchTestimonialsForBuilder>> = [];
   let testimonialCollectionOptions: Awaited<ReturnType<typeof fetchTestimonialCollectionsForBuilder>> =
     [];
+  let collectionOptions: Awaited<ReturnType<typeof fetchCollectionsForBuilder>> = [];
+  let productOptions: Awaited<ReturnType<typeof fetchProductsForBuilder>> = [];
+  let brandOptions: Awaited<ReturnType<typeof fetchBrandsForBuilder>> = [];
 
   try {
-    [galleryOptions, faqSetOptions, testimonialOptions, testimonialCollectionOptions] =
-      await Promise.all([
-        fetchGalleriesForBuilder(),
-        fetchFaqSetsForBuilder(),
-        fetchTestimonialsForBuilder(),
-        fetchTestimonialCollectionsForBuilder(),
-      ]);
+    [
+      galleryOptions,
+      faqSetOptions,
+      testimonialOptions,
+      testimonialCollectionOptions,
+      collectionOptions,
+      productOptions,
+      brandOptions,
+    ] = await Promise.all([
+      fetchGalleriesForBuilder(),
+      fetchFaqSetsForBuilder(),
+      fetchTestimonialsForBuilder(),
+      fetchTestimonialCollectionsForBuilder(),
+      fetchCollectionsForBuilder(),
+      fetchProductsForBuilder(),
+      fetchBrandsForBuilder(),
+    ]);
   } catch {
     // Builder option loaders fail closed to empty lists
   }
@@ -45,6 +63,9 @@ export default async function NewPostPage() {
         faqSetOptions={faqSetOptions}
         testimonialOptions={testimonialOptions}
         testimonialCollectionOptions={testimonialCollectionOptions}
+        collectionOptions={collectionOptions}
+        productOptions={productOptions}
+        brandOptions={brandOptions}
         locales={locales}
       />
     </div>

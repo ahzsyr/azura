@@ -12,12 +12,7 @@ export function highlightProductReviews(): void {
   window.setTimeout(() => el.classList.remove(HIGHLIGHT_CLASS), HIGHLIGHT_MS);
 }
 
-export async function navigateToProductReviews(): Promise<void> {
-  window.dispatchEvent(
-    new CustomEvent("product:tab-change", { detail: { key: "reviews" } }),
-  );
-  document.getElementById("prd-tab-reviews")?.focus({ preventScroll: true });
-
+export async function scrollToProductReviews(): Promise<void> {
   const tabs = document.querySelector(".prd-page__tabs");
   const reviews = document.querySelector("[data-product-reviews]");
   const target = tabs ?? reviews;
@@ -26,6 +21,29 @@ export async function navigateToProductReviews(): Promise<void> {
     target.scrollIntoView({ behavior: "smooth", block: "start" });
   }
   highlightProductReviews();
+}
+
+type NavigateToReviewsOptions = {
+  /** When false, only scroll/highlight (tab already switched by caller). */
+  switchTab?: boolean;
+};
+
+export async function navigateToProductReviews(
+  opts: NavigateToReviewsOptions = {},
+): Promise<void> {
+  const { switchTab = true } = opts;
+
+  if (switchTab) {
+    window.dispatchEvent(
+      new CustomEvent("product:tab-change", { detail: { key: "reviews" } }),
+    );
+    document.getElementById("prd-tab-reviews")?.focus({ preventScroll: true });
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    });
+  }
+
+  await scrollToProductReviews();
 }
 
 type ProductReviewsLinkProps = {

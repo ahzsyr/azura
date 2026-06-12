@@ -53,12 +53,22 @@ export const cmsRepository = {
       orderBy: { version: "desc" },
     });
     const version = (last?.version ?? 0) + 1;
+
+    let revisionAuthorId: string | undefined;
+    if (createdById) {
+      const author = await prisma.user.findUnique({
+        where: { id: createdById },
+        select: { id: true },
+      });
+      revisionAuthorId = author?.id;
+    }
+
     return prisma.cmsPageRevision.create({
       data: {
         pageId,
         version,
         blocks: blocks as Prisma.InputJsonValue,
-        createdById,
+        createdById: revisionAuthorId,
         message,
       },
     });

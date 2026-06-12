@@ -28,6 +28,7 @@ import { GlobalStructuredDataSync } from "@/features/seo/components/global-struc
 import { PersonalizationPanelLazy } from "@/components/personalization/personalization-panel-lazy";
 import { MarketingPageTransition } from "@/components/motion/marketing-page-transition";
 import { CatalogComparisonShell } from "@/components/comparison/catalog-comparison-shell";
+import { ProductQuickViewProvider } from "@/features/products/quick-view/product-quick-view-provider";
 import { ProductionHostingProbe } from "@/components/debug/production-hosting-probe";
 import { AccountSessionProvider } from "@/components/account/account-session-provider";
 import { loadLocaleLayoutData } from "@/features/i18n/load-locale-layout-data";
@@ -159,7 +160,9 @@ export default async function LocaleLayout({ children, params }: Props) {
             />
             <main className="site-main flex-1">
               <CatalogComparisonShell locale={locale} comparison={comparison}>
-                <MarketingPageTransition>{children}</MarketingPageTransition>
+                <ProductQuickViewProvider>
+                  <MarketingPageTransition>{children}</MarketingPageTransition>
+                </ProductQuickViewProvider>
               </CatalogComparisonShell>
             </main>
             <FooterRenderer

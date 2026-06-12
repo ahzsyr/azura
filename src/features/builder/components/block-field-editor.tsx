@@ -7,6 +7,11 @@ import type {
   TestimonialBuilderOption,
   TestimonialCollectionBuilderOption,
 } from "@/features/testimonials/types";
+import type {
+  CollectionBuilderOption,
+  ProductBuilderOption,
+} from "@/features/product-blocks/types";
+import type { BrandBuilderOption } from "@/features/commerce-showcase/types";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
@@ -52,6 +57,14 @@ import {
   RecentlyViewedBlockFields,
 } from "@/features/discovery-blocks/fields";
 import {
+  ProductShowcaseBlockFields,
+  CategoryShowcaseBlockFields,
+  BrandShowcaseBlockFields,
+  TaxonomyProductTabsBlockFields,
+  MegaCollectionBlockFields,
+  ProductDiscoveryBlockFields,
+} from "@/features/commerce-showcase/fields";
+import {
   VideoHeroBlockFields,
   VideoGalleryBlockFields,
   InteractiveHotspotsBlockFields,
@@ -88,6 +101,9 @@ type Props = {
   faqSetOptions?: FaqSetBuilderOption[];
   testimonialOptions?: TestimonialBuilderOption[];
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
+  collectionOptions?: CollectionBuilderOption[];
+  productOptions?: ProductBuilderOption[];
+  brandOptions?: BrandBuilderOption[];
 };
 
 export function BlockFieldEditor({
@@ -97,6 +113,9 @@ export function BlockFieldEditor({
   faqSetOptions = [],
   testimonialOptions = [],
   testimonialCollectionOptions = [],
+  collectionOptions = [],
+  productOptions = [],
+  brandOptions = [],
 }: Props) {
 
   const setProp = (key: string, value: unknown) => {
@@ -501,25 +520,64 @@ export function BlockFieldEditor({
       return <ComparisonBlockFields block={block} onChange={onChange} />;
 
     case "productGrid":
-      return <ProductGridBlockFields block={block} onChange={onChange} />;
+      return (
+        <ProductGridBlockFields
+          block={block}
+          onChange={onChange}
+          collectionOptions={collectionOptions}
+          productOptions={productOptions}
+        />
+      );
 
     case "productCarousel":
-      return <ProductCarouselBlockFields block={block} onChange={onChange} />;
+      return (
+        <ProductCarouselBlockFields
+          block={block}
+          onChange={onChange}
+          collectionOptions={collectionOptions}
+          productOptions={productOptions}
+        />
+      );
 
     case "productComparison":
       return <ProductComparisonBlockFields block={block} onChange={onChange} />;
 
     case "productSpecifications":
-      return <ProductSpecificationsBlockFields block={block} onChange={onChange} />;
+      return (
+        <ProductSpecificationsBlockFields
+          block={block}
+          onChange={onChange}
+          productOptions={productOptions}
+        />
+      );
 
     case "productReviews":
-      return <ProductReviewsBlockFields block={block} onChange={onChange} />;
+      return (
+        <ProductReviewsBlockFields
+          block={block}
+          onChange={onChange}
+          productOptions={productOptions}
+        />
+      );
 
     case "productFaq":
-      return <ProductFaqBlockFields block={block} onChange={onChange} />;
+      return (
+        <ProductFaqBlockFields
+          block={block}
+          onChange={onChange}
+          productOptions={productOptions}
+        />
+      );
 
     case "relatedProducts":
-      return <RelatedProductsBlockFields block={block} onChange={onChange} />;
+      return (
+        <RelatedProductsBlockFields
+          block={block}
+          onChange={onChange}
+          collectionOptions={collectionOptions}
+          productOptions={productOptions}
+        />
+      );
 
     case "searchBlock":
       return <SearchBlockFields block={block} onChange={onChange} />;
@@ -535,6 +593,55 @@ export function BlockFieldEditor({
 
     case "recentlyViewed":
       return <RecentlyViewedBlockFields block={block} onChange={onChange} />;
+
+    case "categoryShowcase":
+      return <CategoryShowcaseBlockFields block={block} onChange={onChange} />;
+
+    case "brandShowcase":
+      return (
+        <BrandShowcaseBlockFields
+          block={block}
+          onChange={onChange}
+          brandOptions={brandOptions}
+        />
+      );
+
+    case "productShowcase":
+      return (
+        <ProductShowcaseBlockFields
+          block={block}
+          onChange={onChange}
+          collectionOptions={collectionOptions}
+          productOptions={productOptions}
+        />
+      );
+
+    case "taxonomyProductTabs":
+      return (
+        <TaxonomyProductTabsBlockFields
+          block={block}
+          onChange={onChange}
+          brandOptions={brandOptions}
+        />
+      );
+
+    case "megaCollectionShowcase":
+      return (
+        <MegaCollectionBlockFields
+          block={block}
+          onChange={onChange}
+          collectionOptions={collectionOptions}
+        />
+      );
+
+    case "productDiscovery":
+      return (
+        <ProductDiscoveryBlockFields
+          block={block}
+          onChange={onChange}
+          collectionOptions={collectionOptions}
+        />
+      );
 
     case "videoHero":
       return <VideoHeroBlockFields block={block} onChange={onChange} />;

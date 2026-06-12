@@ -62,17 +62,18 @@ function LineContent({
     );
 
   if (line.href) {
+    const href = typeof line.href === "string" ? line.href : String(line.href ?? "");
     const className = cn("az-ab__link", blink && "blink-effect");
-    if (isInternalHref(line.href)) {
+    if (isInternalHref(href)) {
       return (
-        <Link href={line.href} className={className} style={linkStyle} tabIndex={tabIndex}>
+        <Link href={href} className={className} style={linkStyle} tabIndex={tabIndex}>
           {text}
         </Link>
       );
     }
     return (
       <a
-        href={line.href}
+        href={href}
         className={className}
         style={linkStyle}
         tabIndex={tabIndex}
@@ -110,23 +111,26 @@ export function AnnouncementBarChunk({
 }: ChunkProps) {
   const badgeClass = (style: AnnouncementBarVisual["badgeStyle"]) =>
     cn("az-ab__badge", style === "rounded" ? "rounded" : style === "pill" ? "pill" : "default");
+  const separatorStyle = { color: visual.separatorColor || "var(--color-primary)" };
+
+  const chunkStyle: CSSProperties = {
+    ...textStyles,
+    gap: visual.iconPosition === "right" ? 0 : "0.5rem",
+    ...(visual.letterSpacing
+      ? { ["--az-ab-letter-spacing" as string]: visual.letterSpacing }
+      : {}),
+  };
 
   return (
     <div
       className="az-ab__chunk"
       aria-hidden={ariaHidden || undefined}
-      style={{
-        ...textStyles,
-        gap: visual.iconPosition === "right" ? 0 : "0.5rem",
-      }}
+      style={chunkStyle}
     >
       {lines.map((line, i) => (
         <span key={`${ariaHidden ? "dup" : "main"}-${i}-${line.message}`} className="az-ab__item-wrapper">
           {i > 0 && (
-            <span
-              className="az-ab__sep"
-              style={{ color: visual.separatorColor || "var(--color-primary)" }}
-            >
+            <span className="az-ab__sep" style={separatorStyle}>
               {sep}
             </span>
           )}
@@ -161,6 +165,11 @@ export function AnnouncementBarChunk({
           )}
         </span>
       ))}
+      {lines.length > 0 && (
+        <span className="az-ab__sep" style={separatorStyle}>
+          {sep}
+        </span>
+      )}
     </div>
   );
 }

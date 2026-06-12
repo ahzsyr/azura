@@ -66,7 +66,9 @@ export const loadLocaleLayoutData = cache(
       shell.htmlLang ?? getHtmlLangSync(locale, shell.enabledLocales);
 
       // #region agent log
+      if (process.env.NODE_ENV === "development") {
       fetch('http://127.0.0.1:7300/ingest/df4ee46a-c9a3-41ec-a748-5c05bd29eec9',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'3353e0'},body:JSON.stringify({sessionId:'3353e0',runId:'pre-fix',hypothesisId:'H2',location:'src/features/i18n/load-locale-layout-data.ts:68',message:'loadLocaleLayoutData succeeded',data:{locale,messagesCount:Object.keys(messages ?? {}).length,enabledLocales:shell.enabledLocales?.length ?? 0,hasGlobalStructured:Boolean(globalStructured?.organization || globalStructured?.website)},timestamp:Date.now()})}).catch(()=>{});
+      }
       // #endregion
 
       return {
@@ -84,7 +86,9 @@ export const loadLocaleLayoutData = cache(
       };
     } catch (error) {
       // #region agent log
+      if (process.env.NODE_ENV === "development") {
       fetch('http://127.0.0.1:7300/ingest/df4ee46a-c9a3-41ec-a748-5c05bd29eec9',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'3353e0'},body:JSON.stringify({sessionId:'3353e0',runId:'pre-fix',hypothesisId:'H2',location:'src/features/i18n/load-locale-layout-data.ts:86',message:'loadLocaleLayoutData failed',data:{locale,name:error instanceof Error ? error.name : 'unknown',message:error instanceof Error ? error.message : String(error)},timestamp:Date.now()})}).catch(()=>{});
+      }
       // #endregion
       throw error;
     }

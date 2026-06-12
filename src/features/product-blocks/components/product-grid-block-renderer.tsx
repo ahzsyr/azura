@@ -9,6 +9,8 @@ import { resolveProductsForBlock } from "@/features/product-blocks/lib/resolve-p
 import { parseProductGridProps } from "@/features/product-blocks/lib/parse-block-props";
 import { ProductGridBlockIsland } from "@/features/product-blocks/components/product-grid-block-island";
 import { ProductRecordsOverflowLayout } from "@/features/product-blocks/components/product-records-overflow-layout";
+import { ProductBlockCardShell } from "@/features/product-blocks/components/product-block-card-shell";
+import { blockPropsToCardDisplayOverrides } from "@/features/products/lib/product-card-display";
 import type { BlockNode } from "@/types/builder";
 import type { DeviceBreakpoint } from "@/types/block-system";
 import { resolveContentOverflowCssFlags } from "@/features/builder/styles/content-overflow-resolver";
@@ -29,6 +31,7 @@ export async function ProductGridBlockRenderer({
   previewDevice,
 }: Props) {
   const p = parseProductGridProps(raw);
+  const displayOverrides = blockPropsToCardDisplayOverrides(p);
   const selection = {
     source: p.source,
     collectionSlug: p.collectionSlug,
@@ -84,20 +87,22 @@ export async function ProductGridBlockRenderer({
   );
 
   return (
-    <div>
-      {(title || subtitle || badge) && (
-        <SectionHeader title={title || ""} subtitle={subtitle} badge={badge} />
-      )}
-      <div className={title || subtitle || badge ? "mt-8" : undefined}>
-        {gridContent}
-      </div>
-      {p.viewAllHref ? (
-        <div className="mt-8 text-center">
-          <Button asChild variant="outline">
-            <Link href={p.viewAllHref}>View all</Link>
-          </Button>
+    <ProductBlockCardShell locale={locale} displayOverrides={displayOverrides}>
+      <div>
+        {(title || subtitle || badge) && (
+          <SectionHeader title={title || ""} subtitle={subtitle} badge={badge} />
+        )}
+        <div className={title || subtitle || badge ? "mt-8" : undefined}>
+          {gridContent}
         </div>
-      ) : null}
-    </div>
+        {p.viewAllHref ? (
+          <div className="mt-8 text-center">
+            <Button asChild variant="outline">
+              <Link href={p.viewAllHref}>View all</Link>
+            </Button>
+          </div>
+        ) : null}
+      </div>
+    </ProductBlockCardShell>
   );
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactNode } from "react";
 import { CatalogPageHero } from "@/features/catalog/components/catalog-page-hero";
 import type { ResolvedCatalogPageHero } from "@/features/catalog/lib/catalog-layout";

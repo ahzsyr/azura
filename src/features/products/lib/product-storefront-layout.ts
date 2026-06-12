@@ -71,6 +71,10 @@ export interface ProductCardLayoutPartial {
   badgePosition?: ProductCardBadgePosition;
   /** Show compare action on product cards */
   showCompare?: boolean;
+  /** Show brand line on product cards */
+  showBrand?: boolean;
+  /** Show discount percentage badge on product cards */
+  showDiscountBadge?: boolean;
   titleFontSize?: string;
   priceFontSize?: string;
   shadow?: ProductCardShadow;
@@ -124,6 +128,8 @@ const CARD_DEFAULTS: ResolvedProductCardLayout = {
   imageAspectRatio: "auto",
   badgePosition: "top-left",
   showCompare: true,
+  showBrand: true,
+  showDiscountBadge: true,
   titleFontSize: "",
   priceFontSize: "",
   shadow: "sm",
@@ -229,6 +235,8 @@ export function normalizeProductCardLayoutPartial(raw: unknown): ProductCardLayo
   if (isPrimaryAction(o.cardPrimaryAction)) out.cardPrimaryAction = o.cardPrimaryAction;
   if (isActionArrangement(o.cardActionArrangement)) out.cardActionArrangement = o.cardActionArrangement;
   if (typeof o.showCompare === "boolean") out.showCompare = o.showCompare;
+  if (typeof o.showBrand === "boolean") out.showBrand = o.showBrand;
+  if (typeof o.showDiscountBadge === "boolean") out.showDiscountBadge = o.showDiscountBadge;
   if (typeof o.inheritThemePreset === "boolean") out.inheritThemePreset = o.inheritThemePreset;
   return Object.keys(out).length ? out : undefined;
 }
@@ -275,6 +283,8 @@ export function resolveProductCardLayout(partial?: ProductCardLayoutPartial | nu
     cardPrimaryAction: p.cardPrimaryAction ?? CARD_DEFAULTS.cardPrimaryAction,
     cardActionArrangement: p.cardActionArrangement ?? CARD_DEFAULTS.cardActionArrangement,
     showCompare: p.showCompare ?? CARD_DEFAULTS.showCompare,
+    showBrand: p.showBrand ?? CARD_DEFAULTS.showBrand,
+    showDiscountBadge: p.showDiscountBadge ?? CARD_DEFAULTS.showDiscountBadge,
     inheritThemePreset: p.inheritThemePreset ?? CARD_DEFAULTS.inheritThemePreset,
   };
 }
@@ -322,6 +332,8 @@ export function serializeProductCardLayoutForSite(r: ResolvedProductCardLayout):
     o.cardActionArrangement = r.cardActionArrangement;
   }
   if (r.showCompare !== CARD_DEFAULTS.showCompare) o.showCompare = r.showCompare;
+  if (r.showBrand !== CARD_DEFAULTS.showBrand) o.showBrand = r.showBrand;
+  if (r.showDiscountBadge !== CARD_DEFAULTS.showDiscountBadge) o.showDiscountBadge = r.showDiscountBadge;
   if (r.inheritThemePreset !== CARD_DEFAULTS.inheritThemePreset) o.inheritThemePreset = r.inheritThemePreset;
   return o;
 }

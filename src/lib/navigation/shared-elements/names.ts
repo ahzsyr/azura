@@ -16,7 +16,8 @@ export type SharedElementKind = (typeof SHARED_ELEMENT_KINDS)[number];
 
 /** Sanitize slug/id for valid CSS view-transition-name identifiers. */
 export function sanitizeSharedElementId(id: string): string {
-  const cleaned = id
+  const raw = typeof id === "string" ? id : id == null ? "" : String(id);
+  const cleaned = raw
     .replace(/[^a-zA-Z0-9_-]/g, "-")
     .replace(/-+/g, "-")
     .replace(/^-+|-+$/g, "");

@@ -4,6 +4,7 @@ import { getLocalizedField } from "@/lib/utils";
 import { resolveProductsForBlock } from "@/features/product-blocks/lib/resolve-products-for-block";
 import { parseProductCarouselProps } from "@/features/product-blocks/lib/parse-block-props";
 import { ProductRecordsOverflowLayout } from "@/features/product-blocks/components/product-records-overflow-layout";
+import { ProductBlockCardShell } from "@/features/product-blocks/components/product-block-card-shell";
 import type { BlockNode } from "@/types/builder";
 import type { DeviceBreakpoint } from "@/types/block-system";
 import { resolveContentOverflowCssFlags } from "@/features/builder/styles/content-overflow-resolver";
@@ -50,29 +51,31 @@ export async function ProductCarouselBlockRenderer({
   const subtitle = getLocalizedField(p, "subtitle", locale);
 
   return (
-    <div>
-      {(title || subtitle) && (
-        <SectionHeader title={title || ""} subtitle={subtitle} />
-      )}
-      <div className={title || subtitle ? "mt-8" : undefined}>
-        <ProductRecordsOverflowLayout
-          products={records}
-          localePrefix={locale}
-          flags={
-            block
-              ? resolveContentOverflowCssFlags(block)
-              : resolveContentOverflowCssFlags({
-                  id: "carousel-fallback",
-                  type: "productCarousel",
-                  props: raw,
-                })
-          }
-          previewDevice={previewDevice}
-          columns={p.slidesPerView as 2 | 3 | 4}
-          autoplay={p.autoplay}
-          autoplayIntervalMs={p.autoplayIntervalMs}
-        />
+    <ProductBlockCardShell locale={locale} cardVariant={p.cardVariant}>
+      <div>
+        {(title || subtitle) && (
+          <SectionHeader title={title || ""} subtitle={subtitle} />
+        )}
+        <div className={title || subtitle ? "mt-8" : undefined}>
+          <ProductRecordsOverflowLayout
+            products={records}
+            localePrefix={locale}
+            flags={
+              block
+                ? resolveContentOverflowCssFlags(block)
+                : resolveContentOverflowCssFlags({
+                    id: "carousel-fallback",
+                    type: "productCarousel",
+                    props: raw,
+                  })
+            }
+            previewDevice={previewDevice}
+            columns={p.slidesPerView as 2 | 3 | 4}
+            autoplay={p.autoplay}
+            autoplayIntervalMs={p.autoplayIntervalMs}
+          />
+        </div>
       </div>
-    </div>
+    </ProductBlockCardShell>
   );
 }

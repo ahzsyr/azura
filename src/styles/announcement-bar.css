@@ -153,8 +153,16 @@
   padding-inline: var(--stripAbViewportPadX, 0);
 }
 
+.az-ab__measure {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
 .az-ab__track {
   display: flex;
+  gap: 0;
   width: max-content;
   animation: az-ab-marquee var(--az-ab-dur, 28s) linear infinite;
   will-change: transform;
@@ -169,8 +177,12 @@
 }
 
 @keyframes az-ab-marquee {
+  from {
+    transform: translateX(0);
+  }
+
   to {
-    transform: translateX(-50%);
+    transform: translateX(var(--az-ab-shift, -50%));
   }
 }
 
@@ -208,12 +220,14 @@
 .az-ab__chunk {
   display: flex;
   flex-wrap: nowrap;
+  flex-shrink: 0;
   align-items: center;
   gap: 0;
-  padding-inline-end: 2.5rem;
+  padding-inline-end: 0;
+  margin-inline-end: calc(-1 * var(--az-ab-letter-spacing, 0.1em));
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: var(--az-ab-letter-spacing, 0.1em);
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -326,9 +340,10 @@
   }
 
   .az-ab__chunk {
-    padding-inline-end: 1.5rem;
+    padding-inline-end: 0;
     font-size: var(--stripMobFont, 0.65rem);
-    letter-spacing: 0.08em;
+    letter-spacing: var(--az-ab-letter-spacing, 0.08em);
+    margin-inline-end: calc(-1 * var(--az-ab-letter-spacing, 0.08em));
     padding-top: var(--stripMobPad, 0.35rem);
     padding-bottom: var(--stripMobPad, 0.35rem);
   }

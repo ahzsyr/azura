@@ -12,7 +12,7 @@ export default async function PagesAdminPage() {
     <div className="space-y-6">
       <AdminPageHeader
         title="CMS Pages"
-        description="CMS URLs: /en/pages/[slug] and /ar/pages/[slug]. Wired pages (home, about, contact, etc.) also drive live marketing routes when published with blocks."
+        description="CMS URLs: /en/pages/[slug]. Wired pages (home, about, contact, etc.) also drive live marketing routes when published with blocks."
         actions={
           <Button asChild>
             <Link href="/admin/pages/new">

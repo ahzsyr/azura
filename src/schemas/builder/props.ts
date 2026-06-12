@@ -194,6 +194,15 @@ export {
 } from "@/features/discovery-blocks/schemas/discovery-blocks";
 
 export {
+  categoryShowcasePropsSchema,
+  brandShowcasePropsSchema,
+  productShowcasePropsSchema,
+  taxonomyProductTabsPropsSchema,
+  megaCollectionShowcasePropsSchema,
+  productDiscoveryPropsSchema,
+} from "@/features/commerce-showcase/schemas/showcase-blocks";
+
+export {
   videoHeroPropsSchema,
   videoGalleryPropsSchema,
   interactiveHotspotsPropsSchema,

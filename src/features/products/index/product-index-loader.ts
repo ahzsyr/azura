@@ -19,6 +19,7 @@ import type {
   SlugPathIndexFile,
 } from "@/features/products/index/product-index-types";
 import type { ListingFacets } from "@/features/products/listing/types";
+import { normalizeRemoteImageUrl } from "@/lib/config/next-image";
 
 const gunzipAsync = promisify(gunzip);
 
@@ -75,6 +76,17 @@ function localeKey(localePrefix: string): CatalogLocale {
   return urlPrefixToCatalogLocale(localePrefix);
 }
 
+function normalizeIndexedListingRecord(
+  record: IndexedProductListingRecord,
+): IndexedProductListingRecord {
+  const primary_image = normalizeRemoteImageUrl(record.primary_image);
+  const secondary_image = normalizeRemoteImageUrl(record.secondary_image);
+  if (primary_image === record.primary_image && secondary_image === record.secondary_image) {
+    return record;
+  }
+  return { ...record, primary_image, secondary_image };
+}
+
 async function loadListingIndexFile(locale: CatalogLocale): Promise<ProductListingIndexFile | null> {
   const dir = localeIndexDir(locale);
   const jsonPath = join(dir, "product-listing-index.json");
@@ -91,7 +103,7 @@ async function loadListingIndexUncached(
 
   const row: ListingCacheRow = {
     signature: parsed.sourceSignature,
-    records: parsed.records,
+    records: parsed.records.map(normalizeIndexedListingRecord),
     currency: parsed.currency,
     priceBounds: parsed.priceBounds,
   };

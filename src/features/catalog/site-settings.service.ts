@@ -41,6 +41,8 @@ export const PATCHABLE_SITE_KEYS = [
   "catalogToolbarDock",
   "productPageLayout",
   "productCardLayout",
+  "productCardDesign",
+  "productCardDesignResponsive",
   "productPageDisplay",
   "productPageAddToCart",
   "productBuyNow",
@@ -50,6 +52,7 @@ export const PATCHABLE_SITE_KEYS = [
   "productPageCompactDisplay",
   "catalogBrands",
   "catalogTags",
+  "catalogBrandProfiles",
 ] as const;
 
 export type PatchableSiteKey = (typeof PATCHABLE_SITE_KEYS)[number];

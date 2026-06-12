@@ -3,7 +3,6 @@
 import { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
-import { DiscoveryItemCard } from "@/features/discovery-blocks/components/discovery-item-card";
 import { getRecentlyViewed } from "@/features/discovery-blocks/lib/recently-viewed.storage";
 import { parseRecentlyViewedProps } from "@/features/discovery-blocks/lib/parse-block-props";
 import type { DiscoveryItem } from "@/features/discovery-blocks/lib/recently-viewed.types";
@@ -11,7 +10,8 @@ import type { SearchEntityType } from "@prisma/client";
 import type { BlockNode } from "@/types/builder";
 import type { BlockOverflowContext } from "@/features/builder/components/marketing-items-overflow";
 import { DiscoveryItemsOverflow } from "@/features/discovery-blocks/components/discovery-items-overflow";
-import { cn } from "@/lib/utils";
+import { DiscoveryCardGrid } from "@/features/discovery-blocks/components/discovery-card-grid";
+import { useHydratedDiscoveryCards } from "@/features/discovery-blocks/hooks/use-hydrated-discovery-cards";
 
 type Props = {
   blockProps: Record<string, unknown>;
@@ -30,7 +30,7 @@ export function RecentlyViewedBlockIsland({ blockProps: raw, emptyMessage, block
 
   const entries = useMemo(
     () => getRecentlyViewed(locale, p.limit + (p.excludeCurrentPage ? 1 : 0), entityTypes),
-    [locale, p.limit, p.excludeCurrentPage, entityTypes]
+    [locale, p.limit, p.excludeCurrentPage, entityTypes],
   );
 
   const items: DiscoveryItem[] = useMemo(() => {
@@ -51,6 +51,8 @@ export function RecentlyViewedBlockIsland({ blockProps: raw, emptyMessage, block
     return list.slice(0, p.limit);
   }, [entries, p.excludeCurrentPage, p.limit, pathname, locale]);
 
+  const cards = useHydratedDiscoveryCards(locale, items);
+
   if (items.length === 0) {
     return (
       <p className="text-center text-sm text-muted-foreground py-8">
@@ -59,17 +61,10 @@ export function RecentlyViewedBlockIsland({ blockProps: raw, emptyMessage, block
     );
   }
 
-  const colClass =
-    p.columns === 2
-      ? "grid-cols-1 sm:grid-cols-2"
-      : p.columns === 3
-        ? "grid-cols-1 sm:grid-cols-3"
-        : "grid-cols-2 sm:grid-cols-4";
-
   if (block && overflow) {
     return (
       <DiscoveryItemsOverflow
-        items={items}
+        cards={cards}
         locale={locale}
         columns={p.columns}
         block={block}
@@ -78,23 +73,13 @@ export function RecentlyViewedBlockIsland({ blockProps: raw, emptyMessage, block
     );
   }
 
-  if (p.layout === "list") {
-    return (
-      <ul className="space-y-2" role="list">
-        {items.map((item) => (
-          <li key={item.id}>
-            <DiscoveryItemCard item={item} locale={locale} layout="list" />
-          </li>
-        ))}
-      </ul>
-    );
-  }
-
   return (
-    <div className={cn("grid gap-4", colClass)}>
-      {items.map((item) => (
-        <DiscoveryItemCard key={item.id} item={item} locale={locale} layout="grid" />
-      ))}
-    </div>
+    <DiscoveryCardGrid
+      cards={cards}
+      locale={locale}
+      layout={p.layout}
+      columns={p.columns}
+      personalizationHighlight="recent"
+    />
   );
 }

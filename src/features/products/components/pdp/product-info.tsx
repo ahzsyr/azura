@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect } from "react";
 import type { Product } from "../../types";
 import type { ResolvedProductPageDisplay } from "../../lib/product-page-display";
 import type { ResolvedProductCtaConfig } from "../../lib/product-cta";
@@ -29,17 +27,6 @@ export function ProductInfo({
   productCta,
   linkedTags,
 }: Props) {
-  useEffect(() => {
-    const btn = document.querySelector("[data-scroll-to-reviews]");
-    const handler = () => {
-      window.dispatchEvent(new CustomEvent("product:tab-change", { detail: { key: "reviews" } }));
-      document.getElementById("prd-tab-reviews")?.focus({ preventScroll: true });
-      document.querySelector("[data-product-reviews]")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    };
-    btn?.addEventListener("click", handler);
-    return () => btn?.removeEventListener("click", handler);
-  }, []);
-
   return (
     <aside className="prd-info" data-product-info>
       <ProductInfoCore product={product} slug={slug} labels={labels} display={display} />

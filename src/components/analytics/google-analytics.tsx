@@ -9,7 +9,10 @@ const DEBUG_ENDPOINT =
 
 function probeGaLog(message: string, data: Record<string, unknown>, hypothesisId: string) {
   // #region agent log
-  if (typeof window !== "undefined") {
+  if (
+    typeof window !== "undefined" &&
+    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+  ) {
     fetch(DEBUG_ENDPOINT, {
       method: "POST",
       headers: {

@@ -6,6 +6,24 @@ import type {
   AnnouncementBarResponsive,
   AnnouncementBarVisual,
 } from "@/features/announcement-bar/announcement-bar.schema";
+import type { NormalizedAnnouncementLine } from "@/features/announcement-bar/normalize-announcement-items";
+
+export function repeatAnnouncementLines(
+  lines: NormalizedAnnouncementLine[],
+  times: number,
+): NormalizedAnnouncementLine[] {
+  if (lines.length === 0 || times <= 1) return lines;
+  return Array.from({ length: times }, () => lines).flat();
+}
+
+export function computeMarqueeRepeatCount(
+  cycleWidth: number,
+  viewportWidth: number,
+  minViewportCoverage = 2,
+): number {
+  if (cycleWidth <= 0 || viewportWidth <= 0) return 1;
+  return Math.max(1, Math.ceil((viewportWidth * minViewportCoverage) / cycleWidth));
+}
 
 export function resolveBarTone(barToneRaw: AnnouncementBarProps["barTone"]) {
   if (barToneRaw === "gold") return "accent";
@@ -90,6 +108,9 @@ export function buildCssVars(props: {
   return {
     ["--az-ab-dur" as string]: `${durationSec}s`,
     ["--az-ab-mobile-dur" as string]: `${mobileDurationSec}s`,
+    ...(visual.letterSpacing
+      ? { ["--az-ab-letter-spacing" as string]: visual.letterSpacing }
+      : {}),
     ["--stripLinkHoverTransform" as string]: animations.hoverScale ? "scale(1.05)" : "none",
     ["--stripBlinkDuration" as string]: `${animations.blinkSpeed ?? 1}s`,
     ["--stripBpTablet" as string]: responsive.breakpointTablet ?? "768px",

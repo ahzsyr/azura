@@ -5,18 +5,35 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LocalizedBlockTitle } from "@/features/builder/block-translation-context";
 import { patchBlockSettings } from "@/features/builder/instance/block-instance";
+import type {
+  CollectionBuilderOption,
+  ProductBuilderOption,
+} from "@/features/product-blocks/types";
+import {
+  CollectionBuilderSelect,
+  ProductBuilderMultiSelect,
+  ProductBuilderSelect,
+} from "@/features/product-blocks/admin/builder-catalog-selects";
 
 type Props = {
   block: BlockNode;
   onChange: (block: BlockNode) => void;
+  collectionOptions?: CollectionBuilderOption[];
+  productOptions?: ProductBuilderOption[];
 };
 
-export function RelatedProductsBlockFields({ block, onChange }: Props) {
+export function RelatedProductsBlockFields({
+  block,
+  onChange,
+  collectionOptions = [],
+  productOptions = [],
+}: Props) {
   const setProp = (key: string, value: unknown) => {
     onChange(patchBlockSettings(block, { [key]: value }));
   };
 
   const rule = (block.props.rule as string) ?? "collection";
+  const blockId = block.id ?? "related-products";
 
   return (
     <div className="space-y-4">
@@ -32,59 +49,77 @@ export function RelatedProductsBlockFields({ block, onChange }: Props) {
           <option value="anchor">Related to anchor product</option>
           <option value="brand">Same brand</option>
           <option value="tags">Matching tags</option>
-          <option value="manual">Manual slugs</option>
+          <option value="manual">Manual products</option>
         </select>
       </div>
       {rule === "anchor" && (
-        <Input
-          placeholder="Anchor product slug"
-          value={(block.props.anchorSlug as string) ?? ""}
-          onChange={(e) => setProp("anchorSlug", e.target.value)}
-        />
+        <div>
+          <Label className="text-xs">Anchor product</Label>
+          <div className="mt-1">
+            <ProductBuilderSelect
+              id={`${blockId}-anchor`}
+              products={productOptions}
+              value={(block.props.anchorSlug as string) ?? ""}
+              onChange={(slug) => setProp("anchorSlug", slug)}
+            />
+          </div>
+        </div>
       )}
       {rule === "collection" && (
-        <Input
-          placeholder="Collection slug"
-          value={(block.props.collectionSlug as string) ?? ""}
-          onChange={(e) => setProp("collectionSlug", e.target.value)}
-        />
+        <div>
+          <Label className="text-xs">Collection</Label>
+          <div className="mt-1">
+            <CollectionBuilderSelect
+              id={`${blockId}-collection`}
+              collections={collectionOptions}
+              value={(block.props.collectionSlug as string) ?? ""}
+              onChange={(slug) => setProp("collectionSlug", slug)}
+            />
+          </div>
+        </div>
       )}
       {rule === "brand" && (
-        <Input
-          placeholder="Brand name"
-          value={(block.props.brand as string) ?? ""}
-          onChange={(e) => setProp("brand", e.target.value)}
-        />
+        <div>
+          <Label className="text-xs">Brand name</Label>
+          <Input
+            className="mt-1"
+            placeholder="Brand name"
+            value={(block.props.brand as string) ?? ""}
+            onChange={(e) => setProp("brand", e.target.value)}
+          />
+        </div>
       )}
       {rule === "tags" && (
-        <Input
-          placeholder="Tags (comma-separated)"
-          value={((block.props.tags as string[]) ?? []).join(", ")}
-          onChange={(e) =>
-            setProp(
-              "tags",
-              e.target.value
-                .split(",")
-                .map((s) => s.trim())
-                .filter(Boolean),
-            )
-          }
-        />
+        <div>
+          <Label className="text-xs">Tags (comma-separated)</Label>
+          <Input
+            className="mt-1"
+            placeholder="tag-one, tag-two"
+            value={((block.props.tags as string[]) ?? []).join(", ")}
+            onChange={(e) =>
+              setProp(
+                "tags",
+                e.target.value
+                  .split(",")
+                  .map((s) => s.trim())
+                  .filter(Boolean),
+              )
+            }
+          />
+        </div>
       )}
       {rule === "manual" && (
-        <Input
-          placeholder="Product slugs (comma-separated)"
-          value={((block.props.productSlugs as string[]) ?? []).join(", ")}
-          onChange={(e) =>
-            setProp(
-              "productSlugs",
-              e.target.value
-                .split(",")
-                .map((s) => s.trim())
-                .filter(Boolean),
-            )
-          }
-        />
+        <div>
+          <Label className="text-xs">Products</Label>
+          <div className="mt-1">
+            <ProductBuilderMultiSelect
+              id={`${blockId}-manual`}
+              products={productOptions}
+              value={(block.props.productSlugs as string[]) ?? []}
+              onChange={(slugs) => setProp("productSlugs", slugs)}
+            />
+          </div>
+        </div>
       )}
       <div>
         <Label className="text-xs">Layout</Label>

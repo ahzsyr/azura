@@ -235,20 +235,7 @@
   z-index: 10;
 }
 
-.pl-card__compare {
-  position: absolute;
-  top: 0.5rem;
-  inset-inline-start: 0.5rem;
-  z-index: 8;
-}
-
-.pl-card[data-pl-discount-start="true"] .pl-card__compare {
-  inset-inline-start: auto;
-  inset-inline-end: 0.5rem;
-}
-
-.pl-card:has(.pl-card__quick-action) .pl-card__compare,
-.pl-card:has(.pl-card__cta-floating--buy) .pl-card__compare {
+.pl-card[data-pl-discount-start="true"] .pl-card__overlay-actions {
   inset-inline-start: auto;
   inset-inline-end: 0.5rem;
 }
@@ -287,18 +274,34 @@
   padding: 0;
   justify-content: center;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--sur, var(--background)) 88%, transparent);
-  color: var(--t, var(--foreground));
-  backdrop-filter: blur(var(--glass-blur, 8px));
+  background: color-mix(in srgb, var(--sur, #fff) 94%, transparent);
+  color: var(--p, var(--primary));
+  border: 1px solid color-mix(in srgb, var(--p) 38%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 12px color-mix(in srgb, #000 22%, transparent);
 }
 
 .cmp-add-btn--card .cmp-add-btn__icon {
-  font-size: 0.85rem;
-  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  color: var(--p, var(--primary));
+}
+
+.cmp-add-btn--card .cmp-add-btn__icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.cmp-add-btn--card.is-active .cmp-add-btn__icon {
+  color: var(--sur, var(--primary-foreground, #fff));
 }
 
 .cmp-add-btn--card:hover {
   border-color: var(--p);
+  background: color-mix(in srgb, var(--p) 12%, var(--sur, #fff));
   color: var(--p);
 }
 
@@ -361,6 +364,33 @@
   75% {
     transform: translateX(3px);
   }
+}
+
+.cmp-sticky-bar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 4.5rem;
+  z-index: 890;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: color-mix(in srgb, var(--sur, #fff) 92%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--t) 10%, transparent);
+  box-shadow: 0 -8px 24px -12px rgba(0, 0, 0, 0.2);
+}
+
+.cmp-sticky-bar__count {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.cmp-sticky-bar__link {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--p, var(--color-primary));
+  text-decoration: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

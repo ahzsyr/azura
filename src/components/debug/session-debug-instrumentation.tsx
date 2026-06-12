@@ -39,6 +39,21 @@ export function SessionDebugInstrumentation() {
     }
 
     const onError = (event: ErrorEvent) => {
+      if (event.message?.includes("replace is not a function")) {
+        sessionDebugLog(
+          "window.error",
+          "uncaught replace-related error",
+          {
+            message: event.message,
+            filename: event.filename,
+            lineno: event.lineno,
+            colno: event.colno,
+            stack: event.error instanceof Error ? event.error.stack?.slice(0, 1200) : undefined,
+          },
+          "H1",
+        );
+        return;
+      }
       if (!event.message?.includes("selectNode")) return;
       sessionDebugLog(
         "window.error",

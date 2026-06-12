@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from "react";
 import type { BlockNode } from "@/types/builder";
-import { BLOCK_CATEGORIES, BLOCK_TYPES } from "../block-registry";
+import { BLOCK_CATEGORIES, BLOCK_TYPES, getBlockMeta } from "../block-registry";
+import { SHOWCASE_BLOCK_PRESETS } from "@/features/commerce-showcase/lib/showcase-block-presets";
 import { BlockTypeIcon } from "./block-type-icon";
 import {
   Dialog,
@@ -18,6 +19,11 @@ type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onAdd: (type: BlockNode["type"], parentId?: string | null) => void;
+  onAddWithProps?: (
+    type: BlockNode["type"],
+    props: Record<string, unknown>,
+    parentId?: string | null,
+  ) => void;
   parentId?: string | null;
   title?: string;
 };
@@ -26,24 +32,44 @@ export function BlockPickerModal({
   open,
   onOpenChange,
   onAdd,
+  onAddWithProps,
   parentId,
   title = "Add block",
 }: Props) {
   const [query, setQuery] = useState("");
 
-  const filtered = useMemo(() => {
+  const filteredBlocks = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return BLOCK_TYPES;
     return BLOCK_TYPES.filter(
       (b) =>
         b.label.toLowerCase().includes(q) ||
         b.description.toLowerCase().includes(q) ||
-        b.type.toLowerCase().includes(q)
+        b.type.toLowerCase().includes(q),
     );
   }, [query]);
 
+  const filteredPresets = useMemo(() => {
+    if (!onAddWithProps) return [];
+    const q = query.trim().toLowerCase();
+    if (!q) return SHOWCASE_BLOCK_PRESETS;
+    return SHOWCASE_BLOCK_PRESETS.filter(
+      (preset) =>
+        preset.label.toLowerCase().includes(q) ||
+        preset.description.toLowerCase().includes(q) ||
+        preset.type.toLowerCase().includes(q),
+    );
+  }, [query, onAddWithProps]);
+
   const handleSelect = (type: BlockNode["type"]) => {
     onAdd(type, parentId);
+    onOpenChange(false);
+    setQuery("");
+  };
+
+  const handlePresetSelect = (preset: (typeof SHOWCASE_BLOCK_PRESETS)[number]) => {
+    if (!onAddWithProps) return;
+    onAddWithProps(preset.type, preset.propsPatch, parentId);
     onOpenChange(false);
     setQuery("");
   };
@@ -72,27 +98,61 @@ export function BlockPickerModal({
 
         <div className="overflow-y-auto p-6 pt-4 flex-1">
           {query.trim() ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {filtered.map((block) => (
-                <BlockTile key={block.type} block={block} onSelect={handleSelect} />
-              ))}
-              {filtered.length === 0 && (
-                <p className="col-span-full text-sm text-muted-foreground text-center py-8">
-                  No blocks match your search.
-                </p>
-              )}
+            <div className="space-y-6">
+              {filteredPresets.length > 0 ? (
+                <div>
+                  <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
+                    Commerce presets
+                  </h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {filteredPresets.map((preset) => (
+                      <PresetBlockTile
+                        key={preset.id}
+                        preset={preset}
+                        onSelect={handlePresetSelect}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              <div>
+                {filteredPresets.length > 0 ? (
+                  <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
+                    All blocks
+                  </h3>
+                ) : null}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {filteredBlocks.map((block) => (
+                    <BlockTile key={block.type} block={block} onSelect={handleSelect} />
+                  ))}
+                  {filteredBlocks.length === 0 && filteredPresets.length === 0 && (
+                    <p className="col-span-full text-sm text-muted-foreground text-center py-8">
+                      No blocks match your search.
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           ) : (
             <div className="space-y-6">
               {BLOCK_CATEGORIES.map((cat) => {
                 const items = BLOCK_TYPES.filter((b) => b.category === cat.id);
-                if (items.length === 0) return null;
+                const presets =
+                  cat.id === "commerce" && onAddWithProps ? SHOWCASE_BLOCK_PRESETS : [];
+                if (items.length === 0 && presets.length === 0) return null;
                 return (
                   <div key={cat.id}>
                     <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
                       {cat.label}
                     </h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {presets.map((preset) => (
+                        <PresetBlockTile
+                          key={preset.id}
+                          preset={preset}
+                          onSelect={handlePresetSelect}
+                        />
+                      ))}
                       {items.map((block) => (
                         <BlockTile key={block.type} block={block} onSelect={handleSelect} />
                       ))}
@@ -121,7 +181,7 @@ function BlockTile({
       onClick={() => onSelect(block.type)}
       className={cn(
         "flex flex-col items-start gap-2 rounded-lg border bg-card p-4 text-start",
-        "hover:border-primary hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors"
+        "hover:border-primary hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors",
       )}
     >
       <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
@@ -130,6 +190,37 @@ function BlockTile({
       <div>
         <p className="text-sm font-medium">{block.label}</p>
         <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{block.description}</p>
+      </div>
+    </button>
+  );
+}
+
+function PresetBlockTile({
+  preset,
+  onSelect,
+}: {
+  preset: (typeof SHOWCASE_BLOCK_PRESETS)[number];
+  onSelect: (preset: (typeof SHOWCASE_BLOCK_PRESETS)[number]) => void;
+}) {
+  const meta = getBlockMeta(preset.type);
+  const icon = meta?.icon ?? "layout-grid";
+  const description = preset.description || meta?.description || "";
+
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(preset)}
+      className={cn(
+        "flex flex-col items-start gap-2 rounded-lg border bg-card p-4 text-start",
+        "hover:border-primary hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors",
+      )}
+    >
+      <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
+        <BlockTypeIcon icon={icon} />
+      </div>
+      <div>
+        <p className="text-sm font-medium">{preset.label}</p>
+        <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{description}</p>
       </div>
     </button>
   );

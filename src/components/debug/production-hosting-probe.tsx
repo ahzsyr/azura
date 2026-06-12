@@ -6,6 +6,12 @@ const DEBUG_ENDPOINT =
   "http://127.0.0.1:7300/ingest/df4ee46a-c9a3-41ec-a748-5c05bd29eec9";
 const SESSION_ID = "3353e0";
 
+function isLocalDebugHost(): boolean {
+  if (typeof window === "undefined") return false;
+  const host = window.location.hostname;
+  return host === "localhost" || host === "127.0.0.1";
+}
+
 function probeLog(
   location: string,
   message: string,
@@ -13,6 +19,7 @@ function probeLog(
   hypothesisId: string,
   runId = "pre-fix",
 ): void {
+  if (!isLocalDebugHost()) return;
   // #region agent log
   fetch(DEBUG_ENDPOINT, {
     method: "POST",

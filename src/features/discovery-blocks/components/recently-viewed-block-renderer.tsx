@@ -3,6 +3,8 @@ import { SectionHeader } from "@/components/marketing/section";
 import { getLocalizedField } from "@/lib/utils";
 import { parseRecentlyViewedProps } from "@/features/discovery-blocks/lib/parse-block-props";
 import { RecentlyViewedBlockIsland } from "@/features/discovery-blocks/components/recently-viewed-block-island";
+import { DiscoveryBlockCardShell } from "@/features/discovery-blocks/components/discovery-block-card-shell";
+import { blockPropsToCardDisplayOverrides } from "@/features/products/lib/product-card-display";
 import type { BlockNode } from "@/types/builder";
 import type { BlockOverflowContext } from "@/features/builder/components/marketing-items-overflow";
 
@@ -17,7 +19,7 @@ type Props = {
 export async function RecentlyViewedBlockRenderer({
   locale,
   props: raw,
-  previewMode,
+  previewMode: _previewMode,
   block,
   overflow,
 }: Props) {
@@ -26,19 +28,22 @@ export async function RecentlyViewedBlockRenderer({
   const subtitle = getLocalizedField(p, "subtitle", locale);
   const emptyMessage =
     getLocalizedField(p, "emptyMessage", locale) ||
-    (previewMode ? "Recently viewed items will appear here after browsing." : "");
+    "Recently viewed items will appear here after browsing.";
+  const displayOverrides = blockPropsToCardDisplayOverrides(p);
 
   return (
-    <div>
-      {(title || subtitle) && <SectionHeader title={title || ""} subtitle={subtitle} />}
-      <div className={title || subtitle ? "mt-6" : undefined}>
-        <RecentlyViewedBlockIsland
-          blockProps={raw}
-          emptyMessage={emptyMessage || undefined}
-          block={block}
-          overflow={overflow}
-        />
+    <DiscoveryBlockCardShell locale={locale} displayOverrides={displayOverrides}>
+      <div>
+        {(title || subtitle) && <SectionHeader title={title || ""} subtitle={subtitle} />}
+        <div className={title || subtitle ? "mt-6" : undefined}>
+          <RecentlyViewedBlockIsland
+            blockProps={raw}
+            emptyMessage={emptyMessage || undefined}
+            block={block}
+            overflow={overflow}
+          />
+        </div>
       </div>
-    </div>
+    </DiscoveryBlockCardShell>
   );
 }

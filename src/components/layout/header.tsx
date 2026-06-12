@@ -42,7 +42,10 @@ export function Header({ logoUrl, headerConfig = DEFAULT_HEADER_CONFIG }: Header
 
   const ctaLabel =
     getLocalizedField(headerConfig, "ctaLabel", locale) || t("inquire");
-  const ctaHref = headerConfig.ctaHref || "/contact";
+  const ctaHref =
+    typeof headerConfig.ctaHref === "string" && headerConfig.ctaHref
+      ? headerConfig.ctaHref
+      : "/contact";
 
   return (
     <header

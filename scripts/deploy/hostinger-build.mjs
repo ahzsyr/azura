@@ -8,6 +8,7 @@ import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { platform } from "node:os";
 import { buildPrismaEnv, sanitizeDatabaseUrl } from "./load-database-url.mjs";
+import { runPrismaOrExit } from "./run-prisma.mjs";
 
 function resolvePrismaSchemaFromEnv(env) {
   if (env.PRISMA_SCHEMA === "postgresql") {
@@ -23,15 +24,7 @@ function resolvePrismaSchemaFromEnv(env) {
 function generatePrismaClient(env = buildPrismaEnv()) {
   const schema = resolvePrismaSchemaFromEnv(env);
   console.log(`[hostinger-build] prisma generate --schema ${schema}`);
-  const result = spawnSync("npx", ["prisma", "generate", "--schema", schema], {
-    stdio: "inherit",
-    shell: false,
-    env,
-  });
-  if ((result.status ?? 1) !== 0) {
-    console.error("[hostinger-build] prisma generate failed");
-    process.exit(result.status ?? 1);
-  }
+  runPrismaOrExit(["generate", "--schema", schema], { env });
 }
 
 async function probeDatabase(env = buildPrismaEnv()) {

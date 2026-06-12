@@ -38,44 +38,56 @@ export function ProductTabsSection({
     tabFromUrl ?? initialTab ?? tabs[0]?.key ?? "description",
   );
 
-  const setActiveTab = useCallback(
-    (key: ProductTabKey, opts?: { syncUrl?: boolean; scrollReviews?: boolean }) => {
-      if (!tabs.some((t) => t.key === key)) return;
-      setActive(key);
-      window.dispatchEvent(new CustomEvent("product:tab-change", { detail: { key } }));
-      if (opts?.syncUrl !== false) {
-        const params = new URLSearchParams(searchParams.toString());
-        if (key === tabs[0]?.key) params.delete("tab");
-        else params.set("tab", key);
-        const qs = params.toString();
-        router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
-      }
-      if (key === "reviews" && opts?.scrollReviews) {
-        void navigateToProductReviews();
-      }
+  const syncUrlForTab = useCallback(
+    (key: ProductTabKey) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (key === tabs[0]?.key) params.delete("tab");
+      else params.set("tab", key);
+      const qs = params.toString();
+      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
     },
     [pathname, router, searchParams, tabs],
   );
 
+  const activateTab = useCallback(
+    (key: ProductTabKey, opts?: { syncUrl?: boolean; scrollReviews?: boolean }) => {
+      if (!tabs.some((t) => t.key === key)) return;
+      setActive(key);
+      if (opts?.syncUrl !== false) syncUrlForTab(key);
+      if (key === "reviews" && opts?.scrollReviews) {
+        void navigateToProductReviews({ switchTab: false });
+      }
+    },
+    [syncUrlForTab, tabs],
+  );
+
+  const setActiveTab = useCallback(
+    (key: ProductTabKey, opts?: { syncUrl?: boolean; scrollReviews?: boolean }) => {
+      activateTab(key, opts);
+      window.dispatchEvent(
+        new CustomEvent("product:tab-change", { detail: { key, from: "tabs" } }),
+      );
+    },
+    [activateTab],
+  );
+
   useEffect(() => {
     const onTab = (event: Event) => {
-      const key = (event as CustomEvent<{ key?: ProductTabKey }>).detail?.key;
+      const detail = (event as CustomEvent<{ key?: ProductTabKey; from?: string }>).detail;
+      if (detail?.from === "tabs") return;
+      const key = detail?.key;
       if (key && tabs.some((t) => t.key === key)) {
-        setActiveTab(key, { syncUrl: true, scrollReviews: key === "reviews" });
+        activateTab(key, { syncUrl: true, scrollReviews: key === "reviews" });
       }
     };
     window.addEventListener("product:tab-change", onTab);
     return () => window.removeEventListener("product:tab-change", onTab);
-  }, [setActiveTab, tabs]);
+  }, [activateTab, tabs]);
 
   useEffect(() => {
-    if (tabFromUrl) {
-      setActive(tabFromUrl);
-      if (tabFromUrl === "reviews") {
-        void navigateToProductReviews();
-      }
-    }
-  }, [tabFromUrl]);
+    if (!tabFromUrl) return;
+    activateTab(tabFromUrl, { syncUrl: false, scrollReviews: tabFromUrl === "reviews" });
+  }, [activateTab, tabFromUrl]);
 
   if (tabs.length === 0) return null;
 

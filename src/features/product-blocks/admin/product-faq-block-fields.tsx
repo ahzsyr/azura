@@ -1,8 +1,9 @@
 "use client";
 
 import type { BlockNode } from "@/types/builder";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import type { ProductBuilderOption } from "@/features/product-blocks/types";
+import { ProductBuilderSelect } from "@/features/product-blocks/admin/builder-catalog-selects";
 import { LocalizedBlockTitle } from "@/features/builder/block-translation-context";
 import { patchBlockSettings } from "@/features/builder/instance/block-instance";
 import { newId } from "@/features/product-blocks/schemas/product-blocks";
@@ -20,6 +21,7 @@ type FaqItem = {
 type Props = {
   block: BlockNode;
   onChange: (block: BlockNode) => void;
+  productOptions?: ProductBuilderOption[];
 };
 
 function emptyFaqItem(): FaqItem {
@@ -29,7 +31,7 @@ function emptyFaqItem(): FaqItem {
   };
 }
 
-export function ProductFaqBlockFields({ block, onChange }: Props) {
+export function ProductFaqBlockFields({ block, onChange, productOptions = [] }: Props) {
   const items = (block.props.items as FaqItem[]) ?? [];
 
   const setProp = (key: string, value: unknown) => {
@@ -61,12 +63,15 @@ export function ProductFaqBlockFields({ block, onChange }: Props) {
       </div>
       {(block.props.source === "product" || block.props.source === "productSections") && (
         <div>
-          <Label className="text-xs">Product slug</Label>
-          <Input
-            className="mt-1"
-            value={(block.props.productSlug as string) ?? ""}
-            onChange={(e) => setProp("productSlug", e.target.value)}
-          />
+          <Label className="text-xs">Product</Label>
+          <div className="mt-1">
+            <ProductBuilderSelect
+              id={`${block.id ?? "product-faq"}-product`}
+              products={productOptions}
+              value={(block.props.productSlug as string) ?? ""}
+              onChange={(slug) => setProp("productSlug", slug)}
+            />
+          </div>
         </div>
       )}
       <label className="flex items-center gap-2 text-sm">

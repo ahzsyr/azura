@@ -464,6 +464,69 @@ export function inquiryForm(props: {
   });
 }
 
+export function productShowcase(props: {
+  titleEn: string;
+  titleAr: string;
+  subtitleEn?: string;
+  subtitleAr?: string;
+  source?: string;
+  layout?: string;
+  mode?: string;
+}): BlockNode {
+  return makeBlock("productShowcase", {
+    titleEn: props.titleEn,
+    titleAr: props.titleAr,
+    subtitleEn: props.subtitleEn ?? "",
+    subtitleAr: props.subtitleAr ?? "",
+    source: props.source ?? "featured",
+    layout: props.layout ?? "carousel",
+    mode: props.mode ?? "single",
+  });
+}
+
+export function categoryShowcase(props: {
+  titleEn: string;
+  titleAr: string;
+  subtitleEn?: string;
+  subtitleAr?: string;
+  layout?: string;
+  source?: string;
+}): BlockNode {
+  return makeBlock("categoryShowcase", {
+    titleEn: props.titleEn,
+    titleAr: props.titleAr,
+    subtitleEn: props.subtitleEn ?? "",
+    subtitleAr: props.subtitleAr ?? "",
+    layout: props.layout ?? "grid",
+    source: props.source ?? "collections",
+  });
+}
+
+export function brandShowcase(props: {
+  titleEn: string;
+  titleAr: string;
+  layout?: string;
+}): BlockNode {
+  return makeBlock("brandShowcase", {
+    titleEn: props.titleEn,
+    titleAr: props.titleAr,
+    layout: props.layout ?? "logoCarousel",
+  });
+}
+
+export function taxonomyProductTabs(props: {
+  titleEn: string;
+  titleAr: string;
+  taxonomy?: "category" | "brand";
+}): BlockNode {
+  return makeBlock("taxonomyProductTabs", {
+    titleEn: props.titleEn,
+    titleAr: props.titleAr,
+    taxonomy: props.taxonomy ?? "category",
+    navStyle: "pills",
+  });
+}
+
 export function beforeAfter(props: {
   titleEn: string;
   titleAr: string;

@@ -12,7 +12,7 @@ export default function AdminError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error("[admin] page error:", error);
+    console.error("[admin] page error:", error.message || error, error.stack);
   }, [error]);
 
   const message = error.message ?? "";

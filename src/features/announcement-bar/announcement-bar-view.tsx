@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   DEFAULT_ANNOUNCEMENT_BAR_PROPS,
@@ -10,9 +10,11 @@ import { normalizeAnnouncementItems } from "@/features/announcement-bar/normaliz
 import { AnnouncementBarChunk } from "@/features/announcement-bar/announcement-bar-chunk";
 import {
   buildCssVars,
+  computeMarqueeRepeatCount,
   getBarStyles,
   getEntranceClass,
   getTextStyles,
+  repeatAnnouncementLines,
   resolveBarTone,
   scrollDurationSec,
 } from "@/features/announcement-bar/announcement-bar-utils";
@@ -66,7 +68,7 @@ export function AnnouncementBarView({
 
   const barTone = resolveBarTone(barToneRaw);
   const lines = normalizeAnnouncementItems(items, locale);
-  const rows = lines.length > 0 ? lines : [FALLBACK_LINE];
+  const baseRows = lines.length > 0 ? lines : [FALLBACK_LINE];
   const sep = typeof separator === "string" && separator.length > 0 ? separator : " · ";
 
   const durationSec = scrollDurationSec(scrollSpeed, animations.scrollSpeedCustom);
@@ -79,8 +81,12 @@ export function AnnouncementBarView({
   const barRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const measureRef = useRef<HTMLDivElement>(null);
   const [closed, setClosed] = useState(false);
   const [suppressed, setSuppressed] = useState(false);
+  const [marqueeRows, setMarqueeRows] = useState(baseRows);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const heightClass = variant === "comfortable" ? "az-ab--comfortable" : "az-ab--slim";
   const entranceClass = getEntranceClass(animations);
@@ -166,7 +172,47 @@ export function AnnouncementBarView({
     return () => {
       handlers.forEach(({ el, fn }) => el.removeEventListener("click", fn));
     };
-  }, [advanced.analyticsEvents, fireAnalytics, rows]);
+  }, [advanced.analyticsEvents, fireAnalytics, marqueeRows]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setPrefersReducedMotion(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (prefersReducedMotion) {
+      setMarqueeRows(baseRows);
+      return;
+    }
+
+    const viewport = viewportRef.current;
+    const measure = measureRef.current;
+    if (!viewport || !measure) return;
+
+    const syncMarqueeRows = () => {
+      const viewportWidth = viewport.clientWidth;
+      const cycleWidth = measure.getBoundingClientRect().width;
+      const repeatCount = computeMarqueeRepeatCount(cycleWidth, viewportWidth);
+      const nextRows = repeatAnnouncementLines(baseRows, repeatCount);
+      setMarqueeRows((current) =>
+        current.length === nextRows.length &&
+        current.every((line, index) => line.message === nextRows[index]?.message)
+          ? current
+          : nextRows,
+      );
+    };
+
+    syncMarqueeRows();
+
+    const ro = new ResizeObserver(syncMarqueeRows);
+    ro.observe(viewport);
+    ro.observe(measure);
+
+    return () => ro.disconnect();
+  }, [baseRows, sep, visual, textStyles, variant, showCloseButton, prefersReducedMotion]);
 
   useEffect(() => {
     const progressBar = progressRef.current;
@@ -189,6 +235,30 @@ export function AnnouncementBarView({
     track.addEventListener("animationiteration", onIteration);
     return () => track.removeEventListener("animationiteration", onIteration);
   }, [interactive.showProgress, durationSec]);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const syncShift = () => {
+      const chunk = track.querySelector<HTMLElement>(".az-ab__chunk");
+      if (!chunk) return;
+      const width = chunk.getBoundingClientRect().width;
+      track.style.setProperty("--az-ab-shift", `-${width}px`);
+    };
+
+    syncShift();
+
+    const chunk = track.querySelector<HTMLElement>(".az-ab__chunk");
+    if (!chunk) return;
+
+    const ro = new ResizeObserver(syncShift);
+    ro.observe(chunk);
+
+    void document.fonts?.ready.then(syncShift);
+
+    return () => ro.disconnect();
+  }, [marqueeRows, sep, visual, textStyles, variant, showCloseButton]);
 
   useEffect(() => {
     if (!layout.stickyOnScroll) return;
@@ -282,14 +352,26 @@ export function AnnouncementBarView({
           </button>
         )}
 
-        <div className="az-ab__viewport" style={viewportStyle}>
+        <div ref={viewportRef} className="az-ab__viewport" style={viewportStyle}>
+          <div ref={measureRef} className="az-ab__measure" aria-hidden="true">
+            <AnnouncementBarChunk
+              lines={baseRows}
+              sep={sep}
+              visual={visual}
+              interactive={interactive}
+              animations={animations}
+              textStyles={textStyles}
+              ariaHidden
+              tabIndexLinks={-1}
+            />
+          </div>
           <div
             ref={trackRef}
             className={cn("az-ab__track", direction === "right" && "az-ab__track--rtl")}
             style={trackStyle}
           >
             <AnnouncementBarChunk
-              lines={rows}
+              lines={marqueeRows}
               sep={sep}
               visual={visual}
               interactive={interactive}
@@ -298,7 +380,7 @@ export function AnnouncementBarView({
               blinkLinks
             />
             <AnnouncementBarChunk
-              lines={rows}
+              lines={marqueeRows}
               sep={sep}
               visual={visual}
               interactive={interactive}
@@ -306,6 +388,7 @@ export function AnnouncementBarView({
               textStyles={textStyles}
               ariaHidden
               tabIndexLinks={-1}
+              blinkLinks
             />
           </div>
         </div>

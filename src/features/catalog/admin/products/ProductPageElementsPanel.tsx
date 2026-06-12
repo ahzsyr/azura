@@ -61,9 +61,11 @@ export function ProductPageElementsPanel({
       <header className="apm-dash-intro">
         <h2 className="apm-dash-intro__title">Product page elements</h2>
         <p className="apm-dash-intro__sub">
-          Reorder and toggle blocks on the product detail page. Configure Buy Now, promo, and trust content on their
-          dedicated tabs. Per-product visibility overrides live in each product&apos;s Page Display editor. Save from the
-          top bar.
+          Reorder and toggle blocks on the product detail page. Price, stock, compare, short
+          description, trust (rating), and buy now also affect product cards in listings and CMS
+          blocks. Configure Buy Now, promo, and trust content on their dedicated tabs. Per-product
+          visibility overrides live in each product&apos;s Page Display editor. Save from the top
+          bar.
         </p>
       </header>
 

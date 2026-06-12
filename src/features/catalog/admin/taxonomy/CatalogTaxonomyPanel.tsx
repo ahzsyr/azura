@@ -5,11 +5,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import type { CatalogTaxonomyAdminProps } from "@/features/catalog/admin/load-catalog-taxonomy-props";
+import { BrandProfilesEditor } from "@/features/catalog/admin/taxonomy/BrandProfilesEditor";
+import {
+  syncBrandNamesFromProfiles,
+  type CatalogBrandProfile,
+} from "@/features/catalog/types/catalog-brand-profile";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 
 const API: RequestInit = { credentials: "include" };
 
-type TabId = "brands" | "tags";
+type TabId = "brands" | "brandProfiles" | "tags";
 
 function ListEditor({
   label,
@@ -82,13 +87,17 @@ function ListEditor({
 export function CatalogTaxonomyPanel({
   initialBrands,
   initialTags,
+  initialBrandProfiles,
   initialAdminLocaleCode,
 }: CatalogTaxonomyAdminProps) {
-  const [tab, setTab] = useState<TabId>("brands");
+  const [tab, setTab] = useState<TabId>("brandProfiles");
   const [brands, setBrands] = useState(initialBrands);
   const [tags, setTags] = useState(initialTags);
+  const [brandProfiles, setBrandProfiles] = useState<CatalogBrandProfile[]>(initialBrandProfiles);
   const [savedBrands, setSavedBrands] = useState(initialBrands);
   const [savedTags, setSavedTags] = useState(initialTags);
+  const [savedBrandProfiles, setSavedBrandProfiles] =
+    useState<CatalogBrandProfile[]>(initialBrandProfiles);
   const [syncing, setSyncing] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -114,8 +123,17 @@ export function CatalogTaxonomyPanel({
     [markUnsaved],
   );
 
+  const updateBrandProfiles = useCallback(
+    (next: CatalogBrandProfile[]) => {
+      markUnsaved();
+      setBrandProfiles(next);
+      setBrands(syncBrandNamesFromProfiles(next));
+    },
+    [markUnsaved],
+  );
+
   const saveKey = useCallback(
-    async (key: "catalogBrands" | "catalogTags", value: string[]) => {
+    async (key: "catalogBrands" | "catalogTags" | "catalogBrandProfiles", value: unknown) => {
       const res = await fetch("/api/save-settings", {
         ...API,
         method: "POST",
@@ -138,13 +156,17 @@ export function CatalogTaxonomyPanel({
     setFeedback(null);
     setSaveStatus("saving");
     try {
+      const syncedBrands = syncBrandNamesFromProfiles(brandProfiles);
       await Promise.all([
-        saveKey("catalogBrands", brands),
+        saveKey("catalogBrands", syncedBrands.length > 0 ? syncedBrands : brands),
         saveKey("catalogTags", tags),
+        saveKey("catalogBrandProfiles", brandProfiles),
       ]);
-      setSavedBrands(brands);
+      setBrands(syncedBrands.length > 0 ? syncedBrands : brands);
+      setSavedBrands(syncedBrands.length > 0 ? syncedBrands : brands);
       setSavedTags(tags);
-      setFeedback("Brands and tags saved.");
+      setSavedBrandProfiles(brandProfiles);
+      setFeedback("Brands, profiles, and tags saved.");
       markSaved();
       return true;
     } catch (e) {
@@ -152,14 +174,15 @@ export function CatalogTaxonomyPanel({
       setSaveStatus("error");
       return false;
     }
-  }, [brands, tags, markSaved, saveKey, setSaveStatus]);
+  }, [brandProfiles, brands, tags, markSaved, saveKey, setSaveStatus]);
 
   const handleCancel = useCallback(() => {
     setBrands(savedBrands);
     setTags(savedTags);
+    setBrandProfiles(savedBrandProfiles);
     setError(null);
     setFeedback(null);
-  }, [savedBrands, savedTags]);
+  }, [savedBrands, savedTags, savedBrandProfiles]);
 
   useEffect(() => {
     registerPageActions({
@@ -187,11 +210,16 @@ export function CatalogTaxonomyPanel({
       const json = (await res.json()) as {
         brands?: string[];
         tags?: string[];
+        brandProfiles?: CatalogBrandProfile[];
         error?: string;
       };
       if (!res.ok) throw new Error(json.error ?? "Sync failed");
       if (json.brands) {
         setBrands(json.brands);
+        markUnsaved();
+      }
+      if (json.brandProfiles) {
+        setBrandProfiles(json.brandProfiles);
         markUnsaved();
       }
       if (json.tags) {
@@ -215,11 +243,19 @@ export function CatalogTaxonomyPanel({
       <div className="flex flex-wrap gap-2">
         <Button
           type="button"
+          variant={tab === "brandProfiles" ? "default" : "outline"}
+          size="sm"
+          onClick={() => setTab("brandProfiles")}
+        >
+          Brand profiles
+        </Button>
+        <Button
+          type="button"
           variant={tab === "brands" ? "default" : "outline"}
           size="sm"
           onClick={() => setTab("brands")}
         >
-          Brands
+          Brand list
         </Button>
         <Button
           type="button"
@@ -256,7 +292,20 @@ export function CatalogTaxonomyPanel({
       {feedback && <p className="text-sm text-emerald-600 dark:text-emerald-400">{feedback}</p>}
       {error && <p className="text-sm text-destructive">{error}</p>}
 
-      {tab === "brands" ? (
+      {tab === "brandProfiles" ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>Brand profiles</CardTitle>
+            <CardDescription>
+              Logos, descriptions, and landing URLs for brand showcase blocks. Names sync to the brand
+              filter list on save.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <BrandProfilesEditor profiles={brandProfiles} onChange={updateBrandProfiles} />
+          </CardContent>
+        </Card>
+      ) : tab === "brands" ? (
         <Card>
           <CardHeader>
             <CardTitle>Brand list</CardTitle>

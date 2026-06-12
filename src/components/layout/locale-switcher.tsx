@@ -93,6 +93,10 @@ export function LocaleSwitcher({ className, locales: localesProp, showInline = t
         : "";
     const href = search ? `${newPath}${search}` : newPath;
   // #region agent log
+    if (
+      typeof window !== "undefined" &&
+      (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+    ) {
     fetch("http://127.0.0.1:7300/ingest/df4ee46a-c9a3-41ec-a748-5c05bd29eec9", {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "183f3a" },
@@ -106,6 +110,7 @@ export function LocaleSwitcher({ className, locales: localesProp, showInline = t
         timestamp: Date.now(),
       }),
     }).catch(() => {});
+    }
   // #endregion
     if (typeof window !== "undefined") {
       window.location.assign(href);

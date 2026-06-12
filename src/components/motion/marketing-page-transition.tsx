@@ -11,6 +11,7 @@ import { containsPartialRouteContent } from "@/lib/navigation/is-partial-route-c
 import { emitRouteContentReady } from "@/lib/motion/shell-ready";
 import { recordNavigationEnd } from "@/lib/performance/runtime-metrics";
 import { clearSharedElementHandoff } from "@/lib/navigation/shared-elements";
+import { cardSessionDebugLog } from "@/lib/debug/agent-log";
 import { runWithViewTransition } from "@/lib/theme/effects/transition-engine";
 import { PUBLIC_MOTION } from "@/lib/motion/public-motion";
 import {
@@ -118,13 +119,21 @@ export function MarketingPageTransition({ children }: Props) {
       document.documentElement.dataset.pageTransitionEnabled !== "false";
 
     if (shouldAnimate) {
+      // #region agent log
+      cardSessionDebugLog(
+        "marketing-page-transition.tsx:view-transition",
+        "Route commit with view transition",
+        { pathname, layerState, pending },
+        "H5",
+      );
+      // #endregion
       runWithViewTransition(commit, { onFinished: clearSharedElementHandoff });
       return;
     }
 
     commit();
     clearSharedElementHandoff();
-  }, [children, pending, pathname]);
+  }, [children, pending, pathname, layerState]);
 
   let renderContent: ReactNode;
 

@@ -7,6 +7,7 @@ import { authConfig } from "@/lib/auth.config";
 
 const { auth } = NextAuth(authConfig);
 import { routing } from "@/i18n/routing";
+import { isRetiredUrlPrefix } from "@/i18n/locale-config";
 import { normalizeStackedLocalePathname } from "@/i18n/url-helpers";
 import {
   getCachedSetupStatus,
@@ -47,6 +48,66 @@ type LocaleRoutingCache = {
 };
 
 let localeRoutingCache: LocaleRoutingCache | null = null;
+
+const LOCALE_ROUTING_FETCH_TIMEOUT_MS = 5_000;
+
+async function fetchLocaleRoutingFromApi(origin: string): Promise<LocaleRoutingCache | null> {
+  const url = new URL("/api/locales", origin);
+  const res = await fetch(url, {
+    headers: { "x-middleware": "1" },
+    cache: "no-store",
+    signal: AbortSignal.timeout(LOCALE_ROUTING_FETCH_TIMEOUT_MS),
+  });
+  if (!res.ok) return null;
+  const data = (await res.json()) as {
+    locales?: string[];
+    defaultLocale?: string;
+  };
+  const locales = Array.isArray(data.locales)
+    ? data.locales.filter((l): l is string => typeof l === "string" && l.length > 0)
+    : [];
+  if (locales.length === 0) return null;
+  return {
+    locales,
+    defaultLocale:
+      typeof data.defaultLocale === "string" && locales.includes(data.defaultLocale)
+        ? data.defaultLocale
+        : locales[0] ?? routing.defaultLocale,
+    expires: Date.now() + 60_000,
+  };
+}
+
+async function resolveLocaleRouting(request: NextRequest): Promise<LocaleRoutingCache> {
+  const now = Date.now();
+  if (localeRoutingCache && localeRoutingCache.expires > now) {
+    return localeRoutingCache;
+  }
+
+  const origins = [
+    request.nextUrl.origin,
+    internalAppOrigin(),
+    `http://127.0.0.1:${process.env.PORT ?? 3000}`,
+  ].filter((origin, index, list) => origin && list.indexOf(origin) === index);
+
+  for (const origin of origins) {
+    try {
+      const routingFromApi = await fetchLocaleRoutingFromApi(origin);
+      if (routingFromApi) {
+        localeRoutingCache = routingFromApi;
+        return routingFromApi;
+      }
+    } catch {
+      /* try next origin */
+    }
+  }
+
+  localeRoutingCache = {
+    locales: [...routing.locales],
+    defaultLocale: routing.defaultLocale,
+    expires: now + 60_000,
+  };
+  return localeRoutingCache;
+}
 
 type RedirectHit = { toPath: string; type: string } | null;
 
@@ -205,20 +266,6 @@ function parseAccountPath(pathname: string, locales: string[]) {
   return null;
 }
 
-function resolveLocaleRouting() {
-  const now = Date.now();
-  if (localeRoutingCache && localeRoutingCache.expires > now) {
-    return localeRoutingCache;
-  }
-
-  localeRoutingCache = {
-    locales: [...routing.locales],
-    defaultLocale: routing.defaultLocale,
-    expires: now + 60_000,
-  };
-  return localeRoutingCache;
-}
-
 /** Setup lives at /setup (not under [locale]). Detect /{locale}/setup from pathname shape only. */
 function resolveSetupPath(pathname: string): { isSetup: boolean; canonical: string | null } {
   if (pathname === "/setup" || pathname.startsWith("/setup/")) {
@@ -361,6 +408,27 @@ async function runMiddleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  const retiredLocaleMatch = pathname.match(/^\/([a-z]{2}(?:-[a-z]{2})?)(\/.*)?$/i);
+  if (retiredLocaleMatch) {
+    const prefix = retiredLocaleMatch[1]!.toLowerCase();
+    if (isRetiredUrlPrefix(prefix)) {
+      const rest = retiredLocaleMatch[2] ?? "";
+      const url = request.nextUrl.clone();
+      url.pathname = rest ? `/en${rest}` : "/en";
+      url.search = request.nextUrl.search;
+      return NextResponse.redirect(url, 308);
+    }
+  }
+
+  const stackedRetiredLocale = pathname.match(/^\/en\/(ar)(\/.*)?$/i);
+  if (stackedRetiredLocale) {
+    const rest = stackedRetiredLocale[2] ?? "";
+    const url = request.nextUrl.clone();
+    url.pathname = rest ? `/en${rest}` : "/en";
+    url.search = request.nextUrl.search;
+    return NextResponse.redirect(url, 308);
+  }
+
   const adminResponse = await handleAdminFastPath(request);
   if (adminResponse) return adminResponse;
 
@@ -380,7 +448,7 @@ async function runMiddleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const localeRouting = resolveLocaleRouting();
+  const localeRouting = await resolveLocaleRouting(request);
 
   const { isSetup: isSetupPath, canonical: setupCanonical } = resolveSetupPath(pathname);
 

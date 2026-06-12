@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import {
   DEFAULT_ADMIN_LOCALE,
   FALLBACK_LOCALES,
+  filterActivePublicLocales,
   type AdminLocale,
   type PublicLocale as ConfigPublicLocale,
 } from "@/i18n/locale-config";
@@ -44,8 +45,10 @@ export const localeService = {
   },
 
   async listEnabled(): Promise<PublicLocale[]> {
-    const rows = await enabledRows();
-    return rows.map((row) => this.toPublicLocale(row));
+    const rows = enabledRows();
+    const resolved = (await rows).map((row) => this.toPublicLocale(row));
+    const active = filterActivePublicLocales(resolved);
+    return active.length > 0 ? active : FALLBACK_LOCALES;
   },
 
   async listForAdmin(): Promise<AdminLocale[]> {

@@ -21,6 +21,11 @@ import {
   serializeProductCardLayoutForSite,
   type ResolvedProductCardLayout,
 } from "@/features/products/lib/product-storefront-layout";
+import {
+  serializeProductCardDesignForSite,
+  type ResolvedProductCardDesign,
+} from "@/features/products/card-design";
+import { designToLegacyLayoutPatch } from "@/features/products/card-design/migrate-legacy-card-layout";
 
 const API: RequestInit = { credentials: "include", headers: { "Content-Type": "application/json" } };
 
@@ -91,6 +96,20 @@ export async function saveProductCardLayoutOnlySettings(
   cardLayout: ResolvedProductCardLayout,
 ): Promise<void> {
   await postSettings(locale, "productCardLayout", serializeProductCardLayoutForSite(cardLayout));
+}
+
+/** Save v2 card design + dual-write legacy productCardLayout subset for compat. */
+export async function saveProductCardDesignSettings(
+  locale: string,
+  design: ResolvedProductCardDesign,
+  cardLayout: ResolvedProductCardLayout,
+): Promise<void> {
+  const legacyPatch = designToLegacyLayoutPatch(design, cardLayout);
+  const mergedLegacy = { ...cardLayout, ...legacyPatch };
+  await postSettingsBatch(locale, [
+    { key: "productCardDesign", value: serializeProductCardDesignForSite(design) },
+    { key: "productCardLayout", value: serializeProductCardLayoutForSite(mergedLegacy) },
+  ]);
 }
 
 export async function saveProductPromoSettings(
