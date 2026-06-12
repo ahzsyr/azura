@@ -392,6 +392,12 @@ html[data-effects-tier="light"] .az-section-orb {
   animation: marquee 30s linear infinite;
 }
 
+.az-brand-marquee__measure {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .az-brand-marquee__track {
   animation: az-brand-marquee var(--az-brand-marquee-dur, 28s) linear infinite;
   will-change: transform;
@@ -415,12 +421,16 @@ html[data-effects-tier="light"] .az-section-orb {
     transform: translateX(0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translateX(var(--az-brand-marquee-shift, -50%));
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .az-brand-marquee__track {
     animation: none !important;
+  }
+
+  .az-brand-marquee__chunk[aria-hidden="true"] {
+    display: none;
   }
 }

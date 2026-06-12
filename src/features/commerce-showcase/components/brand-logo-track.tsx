@@ -3,7 +3,7 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { CarouselApi } from "@/components/ui/carousel";
 import {
   Carousel,
@@ -12,7 +12,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { scrollDurationSec } from "@/features/announcement-bar/announcement-bar-utils";
+import {
+  computeMarqueeRepeatCount,
+  scrollDurationSec,
+} from "@/features/announcement-bar/announcement-bar-utils";
 import { cn } from "@/lib/utils";
 
 export type BrandLogoItem = {
@@ -135,6 +138,46 @@ function BrandLogoCarousel({
   );
 }
 
+function repeatBrandItems(items: BrandLogoItem[], times: number): BrandLogoItem[] {
+  if (items.length === 0 || times <= 1) return items;
+  return Array.from({ length: times }, () => items).flat();
+}
+
+function BrandLogoMarqueeChunk({
+  chunkItems,
+  sep,
+  grayscale,
+  grayscaleHover,
+  logoSize,
+  ariaHidden,
+}: {
+  chunkItems: BrandLogoItem[];
+  sep: string;
+  grayscale: boolean;
+  grayscaleHover: boolean;
+  logoSize: "sm" | "md" | "lg";
+  ariaHidden?: boolean;
+}) {
+  return (
+    <div
+      className="az-brand-marquee__chunk flex shrink-0 items-center gap-12"
+      aria-hidden={ariaHidden || undefined}
+    >
+      {chunkItems.map((item, i) => (
+        <div key={`${item.id}-${i}`} className="flex shrink-0 items-center gap-12">
+          <BrandLogoCell
+            item={item}
+            grayscale={grayscale}
+            grayscaleHover={grayscaleHover}
+            logoSize={logoSize}
+          />
+          {sep ? <span className="text-muted-foreground/50 text-sm select-none">{sep}</span> : null}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function BrandLogoMarquee({
   items,
   grayscale,
@@ -149,11 +192,90 @@ function BrandLogoMarquee({
 }: Omit<Props, "mode" | "autoplay" | "autoplayIntervalMs" | "showArrows" | "slidesPerView">) {
   const durationSec = scrollDurationSec(scrollSpeed ?? "medium", scrollSpeedCustom);
   const sep = separator?.trim() ? separator : "";
-  const doubled = [...items, ...items];
+  const resolvedGrayscale = grayscale ?? true;
+  const resolvedGrayscaleHover = grayscaleHover ?? true;
+  const resolvedLogoSize = logoSize ?? "md";
+
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const measureRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [marqueeItems, setMarqueeItems] = useState(items);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const cssVars = {
     ["--az-brand-marquee-dur" as string]: `${durationSec}s`,
   } as CSSProperties;
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setPrefersReducedMotion(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (prefersReducedMotion) {
+      setMarqueeItems(items);
+      return;
+    }
+
+    const viewport = viewportRef.current;
+    const measure = measureRef.current;
+    if (!viewport || !measure) return;
+
+    const syncMarqueeItems = () => {
+      const viewportWidth = viewport.clientWidth;
+      const cycleWidth = measure.getBoundingClientRect().width;
+      const repeatCount = computeMarqueeRepeatCount(cycleWidth, viewportWidth);
+      const nextItems = repeatBrandItems(items, repeatCount);
+      setMarqueeItems((current) =>
+        current.length === nextItems.length &&
+        current.every((item, index) => item.id === nextItems[index]?.id)
+          ? current
+          : nextItems,
+      );
+    };
+
+    syncMarqueeItems();
+
+    const ro = new ResizeObserver(syncMarqueeItems);
+    ro.observe(viewport);
+    ro.observe(measure);
+
+    return () => ro.disconnect();
+  }, [items, sep, resolvedLogoSize, resolvedGrayscale, resolvedGrayscaleHover, prefersReducedMotion]);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const syncShift = () => {
+      const chunk = track.querySelector<HTMLElement>(".az-brand-marquee__chunk");
+      if (!chunk) return;
+      const width = chunk.getBoundingClientRect().width;
+      track.style.setProperty("--az-brand-marquee-shift", `-${width}px`);
+    };
+
+    syncShift();
+
+    const chunk = track.querySelector<HTMLElement>(".az-brand-marquee__chunk");
+    if (!chunk) return;
+
+    const ro = new ResizeObserver(syncShift);
+    ro.observe(chunk);
+
+    void document.fonts?.ready.then(syncShift);
+
+    return () => ro.disconnect();
+  }, [marqueeItems, sep, resolvedLogoSize, resolvedGrayscale, resolvedGrayscaleHover]);
+
+  const chunkProps = {
+    sep,
+    grayscale: resolvedGrayscale,
+    grayscaleHover: resolvedGrayscaleHover,
+    logoSize: resolvedLogoSize,
+  };
 
   return (
     <div
@@ -161,24 +283,19 @@ function BrandLogoMarquee({
       style={cssVars}
       data-pause-hover={pauseOnHover !== false ? "true" : undefined}
     >
-      <div className="az-brand-marquee__viewport overflow-hidden">
+      <div ref={viewportRef} className="az-brand-marquee__viewport overflow-hidden">
+        <div ref={measureRef} className="az-brand-marquee__measure" aria-hidden="true">
+          <BrandLogoMarqueeChunk chunkItems={items} {...chunkProps} />
+        </div>
         <div
+          ref={trackRef}
           className={cn(
-            "az-brand-marquee__track flex w-max items-center gap-12",
+            "az-brand-marquee__track flex w-max items-center",
             scrollDirection === "right" && "az-brand-marquee__track--rtl",
           )}
         >
-          {doubled.map((item, i) => (
-            <div key={`${item.id}-${i}`} className="flex shrink-0 items-center gap-12">
-              <BrandLogoCell
-                item={item}
-                grayscale={grayscale ?? true}
-                grayscaleHover={grayscaleHover ?? true}
-                logoSize={logoSize ?? "md"}
-              />
-              {sep ? <span className="text-muted-foreground/50 text-sm select-none">{sep}</span> : null}
-            </div>
-          ))}
+          <BrandLogoMarqueeChunk chunkItems={marqueeItems} {...chunkProps} />
+          <BrandLogoMarqueeChunk chunkItems={marqueeItems} {...chunkProps} ariaHidden />
         </div>
       </div>
     </div>
