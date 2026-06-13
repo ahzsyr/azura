@@ -45,6 +45,32 @@ function slugFromPath(path: string): string {
   return name.replace(/\.json$/i, "");
 }
 
+export async function countOrphanIndexEntries(
+  locale: string,
+): Promise<{ orphans: string[]; indexCount: number; filesystemCount: number }> {
+  const root = join(process.cwd(), "src", "data");
+  const productsDir = join(root, locale, "products");
+  const jsonPaths = await walkProductJsonPaths(productsDir);
+  const fsSlugs = new Set(jsonPaths.map(slugFromPath));
+
+  const listingPath = join(localeIndexDir(locale as "en-us" | "ar-ae"), "product-listing-index.json");
+  let listing: ProductListingIndexFile | null = null;
+  try {
+    listing = JSON.parse(await readFile(listingPath, "utf-8")) as ProductListingIndexFile;
+  } catch {
+    return { orphans: [], indexCount: 0, filesystemCount: fsSlugs.size };
+  }
+
+  const indexSlugs = (listing.records ?? []).map((r) => r.slug);
+  const orphans = indexSlugs.filter((slug) => !fsSlugs.has(slug));
+
+  return {
+    orphans,
+    indexCount: indexSlugs.length,
+    filesystemCount: fsSlugs.size,
+  };
+}
+
 export async function validateCatalogConsistency(
   locales: string[] = ["en-us", "ar-ae"],
 ): Promise<CatalogValidationReport> {

@@ -50,7 +50,14 @@ export function PreloaderCenterContent({
       if (settings.centerText.trim()) {
         return <span className="pre-text">{settings.centerText}</span>;
       }
-      return <span className="pre-text">Loading</span>;
+      {
+        const Icon = ICON_MAP[settings.centerIcon] ?? Loader2;
+        return (
+          <span className="pre-icon" aria-hidden>
+            <Icon size={48} strokeWidth={1.75} />
+          </span>
+        );
+      }
     case "text":
       return <span className="pre-text">{settings.centerText.trim() || "Loading"}</span>;
     case "emoji":

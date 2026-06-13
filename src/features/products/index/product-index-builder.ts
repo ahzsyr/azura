@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { existsSync } from "node:fs";
 import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { join, relative } from "node:path";
 import { gzip } from "node:zlib";
@@ -403,9 +404,12 @@ export async function buildAllProductIndexes(options?: {
     const signature = await computeLocaleSignature(locale);
     const previousCount = existingManifest?.counts[locale] ?? 0;
 
-    if (scanned.length === 0 && previousCount > 0 && !options?.force) {
+    const productsRoot = localeProductsDir(locale);
+    const catalogDirPresent = existsSync(productsRoot);
+
+    if (scanned.length === 0 && previousCount > 0 && !options?.force && !catalogDirPresent) {
       console.warn(
-        `[catalog:index] ${locale}: no product JSON found under src/data/${locale}/products — keeping existing index (${previousCount} products). Include catalog source in deploy zip.`,
+        `[catalog:index] ${locale}: products folder missing from deploy — keeping existing index (${previousCount} products). Include catalog source in deploy zip.`,
       );
       counts[locale] = previousCount;
       signatures[locale] = existingManifest!.signatures[locale] ?? signature;

@@ -123,6 +123,13 @@ interface SyncReport {
     hasAmbiguity: boolean;
   }>;
   collectionCounts: Record<string, number>;
+  indexesRebuilt?: boolean;
+  indexRebuildError?: string | null;
+  indexRebuildCounts?: Record<string, number>;
+  indexRebuildDetails?: Record<
+    string,
+    { count: number; previousCount: number; orphansRemoved: number }
+  >;
 }
 interface ImportValidationEntry {
   slug: string;
@@ -1338,7 +1345,24 @@ export default function ProductManagerApp({
                     {syncReport.ambiguousMatches > 0 && <span className="pm-sync-stat pm-sync-stat--warn">{syncReport.ambiguousMatches} ambiguous</span>}
                     {syncReport.newCollectionsCreated > 0 && <span className="pm-sync-stat pm-sync-stat--ok">+{syncReport.newCollectionsCreated} created</span>}
                     {syncReport.warnings.length > 0 && <span className="pm-sync-stat pm-sync-stat--warn">{syncReport.warnings.length} warning(s)</span>}
+                    {syncReport.indexesRebuilt === false && (
+                      <span className="pm-sync-stat pm-sync-stat--warn">Index rebuild failed</span>
+                    )}
                   </div>
+                  {syncReport.indexRebuildDetails &&
+                    Object.entries(syncReport.indexRebuildDetails).map(([loc, detail]) => (
+                      <p key={loc} className="pm-sync-index-rebuild">
+                        Index {loc}: {detail.previousCount} → {detail.count} products
+                        {detail.orphansRemoved > 0
+                          ? ` (${detail.orphansRemoved} orphan${detail.orphansRemoved === 1 ? "" : "s"} removed)`
+                          : ""}
+                      </p>
+                    ))}
+                  {syncReport.indexRebuildError && (
+                    <p className="pm-sync-index-rebuild pm-sync-index-rebuild--err">
+                      Index rebuild error: {syncReport.indexRebuildError}
+                    </p>
+                  )}
                   {syncReport.warnings.length > 0 && (
                     <div className="pm-sync-warnings">
                       {syncReport.warnings.slice(0, 10).map((w, i) => (

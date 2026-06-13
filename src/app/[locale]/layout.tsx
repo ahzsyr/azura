@@ -126,6 +126,8 @@ export default async function LocaleLayout({ children, params }: Props) {
         active={
           preloaderSettings.enabled && preloaderShowsOnInitialLoad(preloaderSettings.mode)
         }
+        settings={preloaderSettings}
+        logoUrl={preloaderSettings.resolvedLogoUrl}
         maxDurationMs={preloaderSettings.maxDurationMs}
       />
       <PageTransitionBootScript settings={pageTransitionSettings} />

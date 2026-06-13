@@ -3,7 +3,7 @@
  * Prebuild hook: rebuild product indexes when catalog source is present.
  * Skips when committed products-index manifest already has products.
  */
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 
@@ -18,7 +18,28 @@ if (process.env.VERCEL) {
 }
 
 const catalogDirs = ["src/data/en-us/products", "src/data/ar-ae/products"];
-const hasCatalogSource = catalogDirs.some((dir) => existsSync(join(process.cwd(), dir)));
+
+function countProductJsonFiles(dir) {
+  let count = 0;
+  if (!existsSync(dir)) return 0;
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      count += countProductJsonFiles(full);
+    } else if (entry.isFile() && entry.name.endsWith(".json")) {
+      count += 1;
+    }
+  }
+  return count;
+}
+
+const catalogDirPaths = catalogDirs.map((dir) => join(process.cwd(), dir));
+const hasCatalogSource = catalogDirPaths.some((dir) => existsSync(dir));
+const catalogDirsExist = catalogDirPaths.every((dir) => existsSync(dir));
+const totalProductJsonFiles = catalogDirPaths.reduce(
+  (sum, dir) => sum + countProductJsonFiles(dir),
+  0,
+);
 
 const manifestPath = join(process.cwd(), "src/data/products-index/manifest.json");
 let manifestCounts = 0;
@@ -40,6 +61,19 @@ if (!hasCatalogSource && manifestCounts > 0) {
       `${manifestCounts} products in manifest).`,
   );
   process.exit(0);
+}
+
+if (catalogDirsExist && totalProductJsonFiles === 0 && manifestCounts > 0) {
+  console.log(
+    "[prebuild] Catalog dirs exist but contain 0 product JSON files — forcing catalog:index to clear stale index (" +
+      `${manifestCounts} products in manifest).`,
+  );
+  const result = spawnSync("npm", ["run", "catalog:index:force"], {
+    stdio: "inherit",
+    shell: process.platform === "win32",
+    env: { ...process.env, SKIP_SEARCH_INDEX_SYNC: "1" },
+  });
+  process.exit(result.status ?? 1);
 }
 
 if (hasCatalogSource && manifestCounts > 0) {

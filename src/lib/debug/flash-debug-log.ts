@@ -10,9 +10,15 @@ type FlashDebugPayload = {
   runId?: string;
 };
 
+function isLocalDebugHost(): boolean {
+  if (typeof window === "undefined") return false;
+  const host = window.location.hostname;
+  return host === "localhost" || host === "127.0.0.1";
+}
+
 /** Page-flash debug session — localhost ingest only. */
 export function flashDebugLog(payload: FlashDebugPayload): void {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || !isLocalDebugHost()) return;
 
   const body = {
     sessionId: FLASH_DEBUG_SESSION,

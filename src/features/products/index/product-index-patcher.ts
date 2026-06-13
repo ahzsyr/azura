@@ -16,6 +16,7 @@ import {
 import { frameworkSearchIndexer } from "@/features/search-framework";
 import { invalidateProductCatalogIndex } from "@/features/products/fs/product-catalog-index";
 import { invalidateProductIndexLoaderCache } from "@/features/products/index/product-index-loader";
+import { countOrphanIndexEntries } from "@/features/catalog/sync/catalog-validation";
 
 async function writeJsonAtomic(dir: string, filename: string, data: unknown): Promise<void> {
   const { mkdir, rename } = await import("node:fs/promises");
@@ -55,15 +56,31 @@ function catalogLocaleToUrlPrefix(locale: CatalogLocale): string {
 }
 
 export async function rebuildAllCatalogProductIndexes(): Promise<{
-  locales: Array<{ locale: CatalogLocale; count: number }>;
+  locales: Array<{
+    locale: CatalogLocale;
+    count: number;
+    previousCount: number;
+    orphansRemoved: number;
+  }>;
 }> {
-  const locales: Array<{ locale: CatalogLocale; count: number }> = [];
+  const locales: Array<{
+    locale: CatalogLocale;
+    count: number;
+    previousCount: number;
+    orphansRemoved: number;
+  }> = [];
 
   for (const locale of CATALOG_LOCALES) {
     const prefix = catalogLocaleToUrlPrefix(locale);
+    const before = await countOrphanIndexEntries(locale);
     const result = await rebuildProductIndexesForLocale(prefix);
     revalidateProductListing(prefix);
-    locales.push({ locale, count: result.count });
+    locales.push({
+      locale,
+      count: result.count,
+      previousCount: before.indexCount,
+      orphansRemoved: before.orphans.length,
+    });
   }
 
   return { locales };

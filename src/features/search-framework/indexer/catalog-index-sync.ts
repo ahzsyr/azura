@@ -280,23 +280,24 @@ async function syncCatalogProducts(
   ctx: { urlPrefix: string; code: string }
 ) {
   const records = await loadListingRecords(urlPrefix);
-  if (!records?.length) return;
 
-  const catalogIndex = await getProductCatalogIndex(urlPrefix);
-  const slugToId = new Map<string, string>();
-  for (const [slug, entry] of catalogIndex) {
-    if (entry.ruleMeta.id) slugToId.set(slug, entry.ruleMeta.id);
-  }
+  if (records.length > 0) {
+    const catalogIndex = await getProductCatalogIndex(urlPrefix);
+    const slugToId = new Map<string, string>();
+    for (const [slug, entry] of catalogIndex) {
+      if (entry.ruleMeta.id) slugToId.set(slug, entry.ruleMeta.id);
+    }
 
-  const allRecords: SearchIndexRecord[] = [];
-  for (const record of records) {
-    const source = {
-      ...record,
-      productId: slugToId.get(record.slug),
-    };
-    allRecords.push(...catalogProductSearchProvider.buildRecords(source, ctx));
+    const allRecords: SearchIndexRecord[] = [];
+    for (const record of records) {
+      const source = {
+        ...record,
+        productId: slugToId.get(record.slug),
+      };
+      allRecords.push(...catalogProductSearchProvider.buildRecords(source, ctx));
+    }
+    await upsertRecords(indexer, allRecords);
   }
-  await upsertRecords(indexer, allRecords);
 }
 
 async function syncCatalogCollections(

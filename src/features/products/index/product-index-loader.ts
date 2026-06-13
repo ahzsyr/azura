@@ -4,7 +4,7 @@ import { cache } from "react";
 import { access, readFile } from "node:fs/promises";
 import { gunzip } from "node:zlib";
 import { promisify } from "node:util";
-import { join } from "node:path";
+import { join, sep } from "node:path";
 import { urlPrefixToCatalogLocale, type CatalogLocale } from "@/features/catalog/locales";
 import {
   localeIndexDir,
@@ -94,6 +94,49 @@ async function loadListingIndexFile(locale: CatalogLocale): Promise<ProductListi
   return readMaybeGzippedJson<ProductListingIndexFile>(jsonPath, gzPath);
 }
 
+async function filterListingRecordsToFilesystem(
+  locale: CatalogLocale,
+  records: IndexedProductListingRecord[],
+): Promise<IndexedProductListingRecord[]> {
+  if (records.length === 0) return records;
+
+  const pathIndex = await loadSlugPathIndexInternal(locale);
+  const dataRoot = join(process.cwd(), "src", "data");
+  const filtered: IndexedProductListingRecord[] = [];
+
+  for (const record of records) {
+    const relPath =
+      pathIndex?.paths[record.slug] ?? `${locale}/products/${record.slug}.json`;
+    const absPath = join(dataRoot, relPath.replace(/\//g, sep));
+    if (await fileExists(absPath)) {
+      filtered.push(record);
+    }
+  }
+
+  if (
+    process.env.NODE_ENV === "development" &&
+    filtered.length !== records.length
+  ) {
+    console.warn(
+      `[catalog:index] ${locale}: filtered ${records.length - filtered.length} orphan listing index entries at runtime`,
+    );
+  }
+
+  return filtered;
+}
+
+async function loadSlugPathIndexInternal(
+  locale: CatalogLocale,
+): Promise<SlugPathIndexFile | null> {
+  let pathIndex = slugPathCache.get(locale);
+  if (!pathIndex) {
+    const path = join(localeIndexDir(locale), "slug-path-index.json");
+    pathIndex = (await readJsonFile<SlugPathIndexFile>(path)) ?? undefined;
+    if (pathIndex) slugPathCache.set(locale, pathIndex);
+  }
+  return pathIndex ?? null;
+}
+
 async function loadListingIndexUncached(
   localePrefix: string,
 ): Promise<ListingCacheRow | null> {
@@ -101,9 +144,12 @@ async function loadListingIndexUncached(
   const parsed = await loadListingIndexFile(locale);
   if (!parsed?.records) return null;
 
+  const rawRecords = parsed.records.map(normalizeIndexedListingRecord);
+  const records = await filterListingRecordsToFilesystem(locale, rawRecords);
+
   const row: ListingCacheRow = {
     signature: parsed.sourceSignature,
-    records: parsed.records.map(normalizeIndexedListingRecord),
+    records,
     currency: parsed.currency,
     priceBounds: parsed.priceBounds,
   };
@@ -227,13 +273,7 @@ export async function loadSlugPathIndex(
   if (!useProductListingIndex()) return null;
 
   const locale = localeKey(localePrefix);
-  let pathIndex = slugPathCache.get(locale);
-  if (!pathIndex) {
-    const path = join(localeIndexDir(locale), "slug-path-index.json");
-    pathIndex = (await readJsonFile<SlugPathIndexFile>(path)) ?? undefined;
-    if (pathIndex) slugPathCache.set(locale, pathIndex);
-  }
-  return pathIndex ?? null;
+  return loadSlugPathIndexInternal(locale);
 }
 
 export function invalidateProductIndexLoaderCache(): void {

@@ -51,22 +51,35 @@ export async function POST(request: Request) {
     });
 
     let indexesRebuilt = false;
+    let indexRebuildError: string | null = null;
     const indexRebuildCounts: Record<string, number> = {};
+    const indexRebuildDetails: Record<
+      string,
+      { count: number; previousCount: number; orphansRemoved: number }
+    > = {};
 
     try {
       const rebuild = await rebuildAllCatalogProductIndexes();
       indexesRebuilt = true;
-      for (const { locale: loc, count } of rebuild.locales) {
-        indexRebuildCounts[loc] = count;
+      for (const item of rebuild.locales) {
+        indexRebuildCounts[item.locale] = item.count;
+        indexRebuildDetails[item.locale] = {
+          count: item.count,
+          previousCount: item.previousCount,
+          orphansRemoved: item.orphansRemoved,
+        };
       }
     } catch (err) {
+      indexRebuildError = err instanceof Error ? err.message : String(err);
       console.warn("[collections] product index rebuild after sync failed", err);
     }
 
     const enrichedReport = {
       ...report,
       indexesRebuilt,
+      indexRebuildError,
       indexRebuildCounts,
+      indexRebuildDetails,
     };
 
     try {
