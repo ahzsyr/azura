@@ -251,23 +251,6 @@ export function AdminSearchCommand() {
     },
     [router]
   );
-  // #region agent log
-  useEffect(() => {
-    fetch("http://127.0.0.1:7300/ingest/df4ee46a-c9a3-41ec-a748-5c05bd29eec9", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "9fed69" },
-      body: JSON.stringify({
-        sessionId: "9fed69",
-        runId: "post-fix",
-        hypothesisId: "H1",
-        location: "search-command.tsx:AdminSearchCommand",
-        message: "AdminSearchCommand mounted without i18n useRouter",
-        data: { adminMode: true },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-  }, []);
-  // #endregion
   return (
     <GlobalSearchModal
       apiBase="/api/admin/search"

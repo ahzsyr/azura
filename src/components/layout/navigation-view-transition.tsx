@@ -17,6 +17,20 @@ function normalizeNavPath(pathPart: string): string {
   return neutralPath;
 }
 
+function safeRouterPush(router: ReturnType<typeof useRouter>, href: string): void {
+  try {
+    const result = router.push(href) as void | Promise<void>;
+    if (result && typeof (result as Promise<void>).catch === "function") {
+      void (result as Promise<void>).catch((err: unknown) => {
+        // Next.js aborts in-flight RSC navigations when a newer link is clicked.
+        if (err instanceof DOMException && err.name === "AbortError") return;
+      });
+    }
+  } catch {
+    /* navigation race */
+  }
+}
+
 /**
  * Intercepts same-origin link clicks for client-side navigation.
  * View transitions run when MarketingPageTransition commits new content.
@@ -51,7 +65,7 @@ export function NavigationViewTransition() {
         "B",
       );
       event.preventDefault();
-      router.push(neutralPath);
+      safeRouterPush(router, neutralPath);
     };
 
     document.addEventListener("click", onClick, true);

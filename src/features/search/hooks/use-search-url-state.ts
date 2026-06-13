@@ -63,8 +63,17 @@ export function useSearchUrlState(options?: {
       }
       const qs = params.toString();
       const href = qs ? `${pathname}?${qs}` : pathname;
-      if (replace) router.replace(href);
-      else router.push(href);
+      const navigate = replace ? router.replace.bind(router) : router.push.bind(router);
+      try {
+        const result = navigate(href) as void | Promise<void>;
+        if (result && typeof (result as Promise<void>).catch === "function") {
+          void (result as Promise<void>).catch((err: unknown) => {
+            if (err instanceof DOMException && err.name === "AbortError") return;
+          });
+        }
+      } catch {
+        /* navigation race */
+      }
     },
     [pathname, router, searchParams]
   );
