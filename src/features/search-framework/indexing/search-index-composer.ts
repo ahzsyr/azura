@@ -10,6 +10,7 @@ import type {
   SearchIndexBuildContext,
 } from "@/features/search-framework/indexing/search-index-types";
 import { SEARCH_INDEX_PROFILE_VERSION } from "@/features/search-framework/indexing/search-index-types";
+import { resolveIndexTitle } from "@/features/search/lib/resolve-index-title";
 
 export class SearchIndexComposer {
   buildContentItemContext(
@@ -56,6 +57,12 @@ export class SearchIndexComposer {
       const titleSlice = slices.find((s) => s.key === "title" || s.key === "name");
       title = titleSlice?.text ?? slices[0]?.text ?? "";
     }
+    const slug = typeof ctx.source.slug === "string" ? ctx.source.slug : ctx.source.id;
+    title = resolveIndexTitle(title, slug, {
+      entityType: "CONTENT_ITEM",
+      entityId: ctx.source.id,
+      locale: ctx.providerContext.urlPrefix,
+    });
 
     const bodyParts: { text: string; weight: number }[] = [];
     const facets: Record<string, string | string[]> = {};

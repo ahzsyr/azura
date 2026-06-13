@@ -36,6 +36,8 @@ export type UseSearchStateOptions = {
   entityTypePreset?: SearchEntityType[];
   /** Initial query (e.g. from URL on search page). */
   initialQuery?: string;
+  /** command mode skips facet mining for performance */
+  panelMode?: "command" | "discovery";
 };
 
 export function useSearchState({
@@ -47,12 +49,14 @@ export function useSearchState({
   active = true,
   entityTypePreset,
   initialQuery = "",
+  panelMode = "discovery",
 }: UseSearchStateOptions) {
   const [query, setQuery] = useState(initialQuery);
   const [results, setResults] = useState<AutocompleteHit[]>([]);
   const [suggestions, setSuggestions] = useState<AutocompleteHit[]>([]);
   const [popular, setPopular] = useState<string[]>([]);
   const [trending, setTrending] = useState<string[]>([]);
+  const [relatedTerms, setRelatedTerms] = useState<string[]>([]);
   const [apiGrouped, setApiGrouped] = useState<Record<string, AutocompleteHit[]> | undefined>();
   const [recentQueries, setRecentQueries] = useState<string[]>([]);
   const [historyEntries, setHistoryEntries] = useState<SearchHistoryEntry[]>([]);
@@ -146,6 +150,7 @@ export function useSearchState({
         setSuggestions(data.suggestions ?? []);
         setResults(data.results ?? []);
         setApiGrouped(data.grouped);
+        setRelatedTerms(data.relatedTerms ?? []);
       } catch (err) {
         if (err instanceof DOMException && err.name === "AbortError") return;
         setError(t.searchError);
@@ -185,6 +190,8 @@ export function useSearchState({
   }, [query, fetchAutocomplete, debounceMs, active]);
 
   const facetValueOptions = useMemo(() => {
+    if (panelMode === "command") return new Map<string, Set<string>>();
+
     const map = new Map<string, Set<string>>();
 
     for (const filter of enabledFilters) {
@@ -213,7 +220,31 @@ export function useSearchState({
       }
     }
     return map;
-  }, [results, enabledFilters, discovery?.contentTypes]);
+  }, [results, enabledFilters, discovery?.contentTypes, panelMode]);
+
+  const buildSearchPageUrl = useCallback(
+    (q: string, filters?: { types?: SearchEntityType[]; facets?: Record<string, string[]> }) => {
+      const base = runtimeConfig.searchPagePath || "/search";
+      const params = new URLSearchParams();
+      if (q.trim()) params.set("q", q.trim());
+      const types = filters?.types ?? activeTypes;
+      if (types.length) params.set("types", types.join(","));
+      const facets = filters?.facets ?? activeFacetFilters;
+      const facetKeys = Object.keys(facets);
+      if (facetKeys.length) {
+        const payload: Record<string, string[]> = {};
+        for (const [k, v] of Object.entries(facets)) {
+          if (v.length) payload[k] = v;
+        }
+        if (Object.keys(payload).length) {
+          params.set("facets", JSON.stringify(payload));
+        }
+      }
+      const qs = params.toString();
+      return qs ? `${base}?${qs}` : base;
+    },
+    [runtimeConfig.searchPagePath, activeTypes, activeFacetFilters]
+  );
 
   const toggleFacetValue = useCallback(
     (filterId: string, value: string) => {
@@ -321,6 +352,7 @@ export function useSearchState({
     filterEntityTypes,
     activeTypes,
     setActiveTypes,
+    setActiveFacetFilters,
     toggleType,
     activeFacetFilters,
     toggleFacetValue,
@@ -335,6 +367,9 @@ export function useSearchState({
     refreshLocalHistory,
     clearAllFilters,
     activeFilterCount,
+    relatedTerms,
+    buildSearchPageUrl,
+    panelMode,
   };
 }
 

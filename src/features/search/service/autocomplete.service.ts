@@ -6,6 +6,7 @@ import {
 import type { SearchContentKind } from "@/features/search-framework/types";
 import type { AdminSearchSettings } from "@/features/search/settings/admin-search-settings.schema";
 import { resolvePublicAutocompleteConfig } from "@/features/search/settings/search-autocomplete-config";
+import { buildRelatedSearchTerms } from "@/features/search/lib/search-related-terms";
 import { getTrendingSearchQueries } from "@/features/search/analytics/search-analytics-store.service";
 import {
   parseTypesParam,
@@ -105,6 +106,7 @@ export async function handleSearchAutocomplete(
     suggestions: suggestions.map((s) => mapSuggestion(s, includeAdmin)),
     results: resultPayloads,
     grouped: ac.groupResults ? grouped : undefined,
+    relatedTerms: params.q.length >= runtime.minQueryLength ? buildRelatedSearchTerms(params.q) : [],
   };
 }
 
@@ -158,5 +160,6 @@ function mapResult(
     facets: r.facets,
     kind: r.kind,
     contentTypeSlug: r.contentTypeSlug,
+    card: (r as { card?: unknown }).card,
   };
 }

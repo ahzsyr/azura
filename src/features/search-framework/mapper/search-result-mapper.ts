@@ -1,4 +1,5 @@
 import type { SearchEntityType } from "@prisma/client";
+import type { SearchCardPayload } from "@/features/search/types/search-card";
 import { adminPathFor } from "@/features/search/constants";
 import { searchRegistry } from "@/features/search-framework/registry/search-registry";
 import type { RankedHit } from "@/features/search-framework/ranking/search-ranking-engine";
@@ -35,6 +36,7 @@ export class SearchResultMapper {
       score: hit.score,
       visibility,
       facets: (meta.facets as Record<string, string | string[] | number | boolean>) ?? {},
+      card: meta.card as SearchCardPayload | undefined,
     };
   }
 
@@ -73,6 +75,7 @@ export class SearchResultMapper {
       contentTypeSlug: result.contentTypeSlug,
       score: result.score,
       facets: result.facets,
+      card: result.card,
     };
   }
 

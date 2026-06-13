@@ -21,6 +21,7 @@ export type AutocompletePayload = {
   suggestions: AutocompleteHit[];
   results: AutocompleteHit[];
   grouped?: Record<string, AutocompleteHit[]>;
+  relatedTerms?: string[];
 };
 
 export type SearchDiscoveryPayload = {

@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { getLocalizedField } from "@/lib/utils";
+import type { SearchCardPayload } from "@/features/search/types/search-card";
 import { defineSearchProvider } from "@/features/search-framework/providers/search-provider";
 import type { SearchIndexRecord } from "@/features/search-framework/types";
 import type {
@@ -116,6 +117,21 @@ export const catalogProductSearchProvider = defineSearchProvider<CatalogProductI
       .filter(Boolean)
       .join(" ");
 
+    const card: SearchCardPayload = {
+      slug: record.slug,
+      imageUrl: record.primary_image,
+      brand: record.brand,
+      inStock: record.in_stock,
+      price: {
+        min: record.priceMin,
+        max: record.priceMax !== record.priceMin ? record.priceMax : undefined,
+        currency: record.price?.currency,
+      },
+      ...(record.rating != null
+        ? { rating: { value: record.rating, count: record.reviews_count ?? 0 } }
+        : {}),
+    };
+
     return [
       {
         entityType: "CATALOG_PRODUCT",
@@ -131,11 +147,15 @@ export const catalogProductSearchProvider = defineSearchProvider<CatalogProductI
           brand: record.brand ?? "",
           categories: record.categories,
           tags: record.tags,
+          price: record.priceMin,
+          priceMin: record.priceMin,
+          priceMax: record.priceMax,
         },
         metadata: {
           slug: record.slug,
           ...(catalogProductId ? { catalogProductId } : {}),
           adminPath: "/admin/products",
+          card,
         },
       },
     ];
@@ -152,6 +172,10 @@ export const catalogCollectionSearchProvider = defineSearchProvider<CatalogColle
   shouldIndex: (col) => col.visible !== false,
   buildRecords(col, ctx) {
     const entityId = catalogEntityId("pcol", col.slug);
+    const card: SearchCardPayload = {
+      slug: col.slug,
+      imageUrl: col.coverImage ?? col.iconImage,
+    };
     return [
       {
         entityType: "CATALOG_COLLECTION",
@@ -169,6 +193,7 @@ export const catalogCollectionSearchProvider = defineSearchProvider<CatalogColle
         metadata: {
           slug: col.slug,
           adminPath: "/admin/products",
+          card,
         },
       },
     ];
@@ -189,6 +214,10 @@ export const catalogCategorySearchProvider = defineSearchProvider<CatalogCategor
   shouldIndex: () => true,
   buildRecords(cat, ctx) {
     const entityId = catalogEntityId("pcat", cat.slug);
+    const card: SearchCardPayload = {
+      slug: cat.slug,
+      productCount: cat.productCount,
+    };
     return [
       {
         entityType: "CATALOG_CATEGORY",
@@ -204,6 +233,7 @@ export const catalogCategorySearchProvider = defineSearchProvider<CatalogCategor
         metadata: {
           slug: cat.slug,
           adminPath: "/admin/products",
+          card,
         },
       },
     ];

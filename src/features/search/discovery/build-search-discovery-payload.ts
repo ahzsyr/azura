@@ -4,6 +4,7 @@ import type { CatalogSearchDiscovery } from "@/features/search-framework/discove
 import type { AdminSearchSettings } from "@/features/search/settings/admin-search-settings.schema";
 import { toPublicSearchConfig } from "@/features/search/settings/public-search-config";
 import { resolvePublicAutocompleteConfig } from "@/features/search/settings/search-autocomplete-config";
+import { buildSearchAnalyticsReport } from "@/features/search/analytics/search-analytics-report.service";
 
 export type SearchDiscoveryPayload = {
   contentTypes: {
@@ -21,12 +22,15 @@ export type SearchDiscoveryPayload = {
   config: ReturnType<typeof toPublicSearchConfig>;
   autocomplete: ReturnType<typeof resolvePublicAutocompleteConfig>;
   audience: "public" | "admin";
+  popularQueries?: string[];
+  trendingQueries?: string[];
 };
 
 export function buildSearchDiscoveryPayload(
   admin: AdminSearchSettings,
   discovery: CatalogSearchDiscovery,
-  audience: "public" | "admin"
+  audience: "public" | "admin",
+  analyticsLocale = "en"
 ): SearchDiscoveryPayload {
   const contentTypeFilters = discovery.contentTypes.map((t) => ({
     slug: t.slug,
@@ -62,6 +66,10 @@ export function buildSearchDiscoveryPayload(
     entityTypes.map((et) => [et, ENTITY_LABELS[et]])
   ) as Record<SearchEntityType, { en: string; ar: string }>;
 
+  const autocomplete = resolvePublicAutocompleteConfig(admin.autocomplete);
+  let popularQueries = autocomplete.popularQueries.slice(0, autocomplete.recentLimit);
+  let trendingQueries = admin.autocomplete.trendingQueries?.slice(0, autocomplete.recentLimit) ?? [];
+
   return {
     contentTypes: contentTypeFilters,
     entityTypes,
@@ -69,7 +77,33 @@ export function buildSearchDiscoveryPayload(
     kinds: discovery.kinds,
     siteCatalog: discovery.siteCatalog,
     config: toPublicSearchConfig(admin),
-    autocomplete: resolvePublicAutocompleteConfig(admin.autocomplete),
+    autocomplete,
     audience,
+    popularQueries,
+    trendingQueries,
   };
+}
+
+export async function buildSearchDiscoveryPayloadAsync(
+  admin: AdminSearchSettings,
+  discovery: CatalogSearchDiscovery,
+  audience: "public" | "admin",
+  analyticsLocale = "en"
+): Promise<SearchDiscoveryPayload> {
+  const base = buildSearchDiscoveryPayload(admin, discovery, audience, analyticsLocale);
+  try {
+    const report = await buildSearchAnalyticsReport(analyticsLocale);
+    if (report.topSearchTerms.length) {
+      base.popularQueries = report.topSearchTerms.slice(0, 8).map((t) => t.term);
+    }
+    if (report.noResultSearches.length) {
+      base.trendingQueries = report.topSearchTerms
+        .slice(0, 5)
+        .map((t) => t.term)
+        .filter((t) => !base.popularQueries?.includes(t));
+    }
+  } catch {
+    /* keep admin defaults */
+  }
+  return base;
 }

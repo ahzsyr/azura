@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { discoverCatalogSearchSources } from "@/features/search-framework/discovery/catalog-search-discovery";
-import { buildSearchDiscoveryPayload } from "@/features/search/discovery/build-search-discovery-payload";
+import {
+  buildSearchDiscoveryPayload,
+  buildSearchDiscoveryPayloadAsync,
+} from "@/features/search/discovery/build-search-discovery-payload";
 import { ensureSearchRuntimeConfig } from "@/features/search/settings/search-runtime";
 import { resolveAdminSearchSettings } from "@/features/search/settings/resolve-admin-search-settings";
 import { resolveCatalogSearchSiteConfig } from "@/features/search-framework/schema/content-type-search-config";
@@ -20,14 +23,14 @@ function emptyDiscoveryPayload() {
     indexerLocales: [] as Awaited<ReturnType<typeof discoverCatalogSearchSources>>["indexerLocales"],
     kinds: [] as SearchContentKind[],
   };
-  return buildSearchDiscoveryPayload(admin, discovery, "public");
+  return buildSearchDiscoveryPayload(admin, discovery, "public", "en");
 }
 
 export async function GET() {
   try {
     const admin = await ensureSearchRuntimeConfig("en-us");
     const discovery = await discoverCatalogSearchSources();
-    const payload = buildSearchDiscoveryPayload(admin, discovery, "public");
+    const payload = await buildSearchDiscoveryPayloadAsync(admin, discovery, "public", "en");
     return NextResponse.json(payload);
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);

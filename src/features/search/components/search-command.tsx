@@ -42,6 +42,8 @@ function GlobalSearchModal({
   const [open, setOpen] = useState(false);
   const t = searchCopy(locale);
 
+  const router = useRouter();
+
   const search = useSearchState({
     apiBase,
     discoveryUrl,
@@ -49,6 +51,7 @@ function GlobalSearchModal({
     config,
     adminMode,
     active: open,
+    panelMode: "command",
   });
 
   const resolvedInputStyle = inputStyle ?? search.runtimeConfig.inputStyle ?? "glass";
@@ -67,6 +70,14 @@ function GlobalSearchModal({
     setOpen(false);
     search.setQuery("");
   }, [search]);
+
+  const navigateToSearchPage = useCallback(
+    (q: string) => {
+      closeSearchModal();
+      router.push(search.buildSearchPageUrl(q));
+    },
+    [closeSearchModal, router, search]
+  );
 
   const navigate = useCallback(
     (
@@ -134,6 +145,7 @@ function GlobalSearchModal({
       >
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden pt-0 sm:pt-0">
           <GlobalSearchPanel
+            mode="command"
             locale={locale}
             query={search.query}
             onQueryChange={search.setQuery}
@@ -141,7 +153,7 @@ function GlobalSearchModal({
             loading={search.loading}
             error={search.error}
             runtimeConfig={search.runtimeConfig}
-            ac={search.ac}
+            ac={{ ...search.ac, groupResults: true }}
             minLen={search.minLen}
             results={search.results}
             suggestions={search.suggestions}
@@ -154,17 +166,18 @@ function GlobalSearchModal({
             onToggleType={search.toggleType}
             onClearTypes={() => search.setActiveTypes([])}
             entityLabel={search.entityLabel}
-            enabledFilters={search.enabledFilters}
-            facetValueOptions={search.facetValueOptions}
-            activeFacetFilters={search.activeFacetFilters}
+            enabledFilters={[]}
+            facetValueOptions={new Map()}
+            activeFacetFilters={{}}
             onToggleFacet={search.toggleFacetValue}
             discoveryContentTypes={search.discoveryContentTypes}
-            showContentTypeChips={search.showContentTypeChips}
+            showContentTypeChips={false}
             grouped={search.grouped}
             onNavigate={navigate}
             onApplyQuery={search.setQuery}
-            onClearAll={search.clearAllFilters}
-            activeFilterCount={search.activeFilterCount}
+            relatedTerms={search.relatedTerms}
+            onViewAllResults={navigateToSearchPage}
+            totalResultCount={search.results.length}
             inputStyle={resolvedInputStyle}
           />
         </div>

@@ -12,11 +12,13 @@ export const localizedTitleFields = {
 
 export const searchBlockLayoutSchema = z.enum(["inline", "hero", "compact"]);
 export const searchBlockResultsModeSchema = z.enum(["dropdown", "redirect"]);
+export const searchBlockPanelModeSchema = z.enum(["command", "discovery"]);
 
 export const searchBlockPropsSchema = z.object({
   ...localizedTitleFields,
   layout: searchBlockLayoutSchema.default("inline"),
   resultsMode: searchBlockResultsModeSchema.default("dropdown"),
+  panelMode: searchBlockPanelModeSchema.default("command"),
   placeholderEn: z.string().default(""),
   placeholderAr: z.string().default(""),
   showPopular: z.boolean().default(true),

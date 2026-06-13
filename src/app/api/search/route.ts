@@ -9,6 +9,13 @@ import {
   parseFacetsParam,
 } from "@/features/search/api/params";
 import type { SearchContentKind } from "@/features/search-framework/types";
+import {
+  buildRelatedSearchTerms,
+  buildSearchSections,
+} from "@/features/search/lib/search-related-terms";
+import { analyzeSmartQuery } from "@/features/search/core/query/smart-query";
+import { getSearchSmartConfig } from "@/features/search/settings/resolve-search-smart-config";
+import { sanitizeQuery } from "@/features/search/core/text";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -52,16 +59,33 @@ export async function GET(request: NextRequest) {
     ? Math.min(80, Math.max(1, Number(limitParam) || runtime.resultsPerPage))
     : runtime.resultsPerPage;
 
-  const [page, suggestions] = await Promise.all([
+  const [page, suggestions, sections] = await Promise.all([
     searchService.searchPage({ ...baseInput, limit, offset }),
     q.length >= minLen && runtime.globalSearchEnabled
       ? searchService.suggestions({ ...baseInput, limit: Math.min(5, runtime.suggestLimit) })
       : Promise.resolve([]),
+    q.length >= minLen
+      ? buildSearchSections({
+          q,
+          locale,
+          types: searchParams.get("types"),
+          facets: searchParams.get("facets"),
+        })
+      : Promise.resolve([]),
   ]);
+
+  const sanitized = sanitizeQuery(q);
+  const smart = analyzeSmartQuery(sanitized, getSearchSmartConfig());
+  const relatedTerms = buildRelatedSearchTerms(q);
+  const expandedQuery =
+    smart.expandedQuery && smart.expandedQuery !== sanitized ? smart.expandedQuery : null;
 
   return NextResponse.json({
     results: page.results,
     pagination: page.pagination,
     suggestions,
+    sections,
+    relatedTerms,
+    expandedQuery,
   });
 }

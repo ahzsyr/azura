@@ -33,6 +33,7 @@ export function SearchBlockIsland({ locale, config, blockProps: raw }: Props) {
     config,
     active: true,
     entityTypePreset: presetTypes,
+    panelMode: p.panelMode,
   });
 
   const placeholder =
@@ -97,6 +98,7 @@ export function SearchBlockIsland({ locale, config, blockProps: raw }: Props) {
       className="w-full"
     >
       <GlobalSearchPanel
+        mode={p.panelMode}
         locale={locale}
         query={search.query}
         onQueryChange={search.setQuery}
@@ -104,8 +106,11 @@ export function SearchBlockIsland({ locale, config, blockProps: raw }: Props) {
         runtimeConfig={{
           ...search.runtimeConfig,
           placeholder,
-          showEntityTypeChips: p.showEntityTypeChips && search.runtimeConfig.showEntityTypeChips,
-          filters: p.showFacetChips ? search.runtimeConfig.filters : [],
+          showEntityTypeChips:
+            p.panelMode === "discovery" &&
+            p.showEntityTypeChips &&
+            search.runtimeConfig.showEntityTypeChips,
+          filters: p.panelMode === "discovery" && p.showFacetChips ? search.runtimeConfig.filters : [],
         }}
         ac={search.ac}
         minLen={search.minLen}
@@ -124,12 +129,14 @@ export function SearchBlockIsland({ locale, config, blockProps: raw }: Props) {
         }
         onClearTypes={() => search.setActiveTypes([])}
         entityLabel={search.entityLabel}
-        enabledFilters={p.showFacetChips ? search.enabledFilters : []}
+        enabledFilters={p.panelMode === "discovery" && p.showFacetChips ? search.enabledFilters : []}
         facetValueOptions={search.facetValueOptions}
         activeFacetFilters={search.activeFacetFilters}
         onToggleFacet={search.toggleFacetValue}
         discoveryContentTypes={search.discoveryContentTypes}
-        showContentTypeChips={search.showContentTypeChips && p.showEntityTypeChips}
+        showContentTypeChips={
+          p.panelMode === "discovery" && search.showContentTypeChips && p.showEntityTypeChips
+        }
         grouped={search.grouped}
         onNavigate={onNavigate}
         onApplyQuery={onApplyQuery}

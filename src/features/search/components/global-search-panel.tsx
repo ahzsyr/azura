@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { Command } from "cmdk";
-import { Clock, History, Search, Star, TrendingUp, X } from "lucide-react";
+import { ArrowRight, Clock, History, Search, Star, TrendingUp, X } from "lucide-react";
 import { getDirection } from "@/i18n/routing";
 import type { PublicSearchConfig, PublicSearchFilterDef } from "@/features/search/settings/public-search-config";
 import type { PublicAutocompleteConfig } from "@/features/search/settings/search-autocomplete-config";
@@ -18,6 +18,10 @@ import { SearchFilterBar } from "@/features/search/components/filters/SearchFilt
 import { SearchFilterSection } from "@/features/search/components/filters/SearchFilterSection";
 import { SearchInputShell } from "@/features/search/components/search-ui/search-input-shell";
 import { SearchResultSkeleton } from "@/features/search/components/search-ui/search-skeleton";
+import {
+  COMMAND_QUICK_RESULTS_PER_TYPE,
+  type SearchPanelMode,
+} from "@/features/search/types/search-panel-mode";
 
 export type GlobalSearchPanelProps = {
   locale: SearchLocale;
@@ -53,6 +57,11 @@ export type GlobalSearchPanelProps = {
   activeFilterCount?: number;
   inputStyle?: "glass" | "solid" | "minimal";
   listboxId?: string;
+  /** command = navigation palette; discovery = full filters */
+  mode?: SearchPanelMode;
+  relatedTerms?: string[];
+  onViewAllResults?: (query: string) => void;
+  totalResultCount?: number;
 };
 
 export function GlobalSearchPanel({
@@ -89,13 +98,24 @@ export function GlobalSearchPanel({
   activeFilterCount = 0,
   inputStyle = "glass",
   listboxId = "sm-search-listbox",
+  mode = "discovery",
+  relatedTerms = [],
+  onViewAllResults,
+  totalResultCount,
 }: GlobalSearchPanelProps) {
   const t = searchCopy(locale);
+  const isCommand = mode === "command";
   const showEmptyState = query.trim().length === 0;
   const showFullResults = query.length >= minLen;
   const showSuggestBlock =
     ac.showSuggestions && query.length >= ac.suggestMinLength && suggestions.length > 0;
   const hasResults = results.length > 0;
+  const showViewAll =
+    isCommand &&
+    showFullResults &&
+    hasResults &&
+    onViewAllResults &&
+    runtimeConfig.searchPageEnabled;
 
   const typeChips = useMemo(
     () => [
@@ -115,6 +135,22 @@ export function GlobalSearchPanel({
     [activeTypes, entityLabel, filterEntityTypes, onClearTypes, onToggleType, t.all]
   );
 
+  const commandGrouped = useMemo(() => {
+    if (!isCommand) return grouped;
+    const capped = new Map<SearchEntityType, AutocompleteHit[]>();
+    for (const [type, items] of grouped.entries()) {
+      capped.set(type, items.slice(0, COMMAND_QUICK_RESULTS_PER_TYPE));
+    }
+    return capped;
+  }, [grouped, isCommand]);
+
+  const showFilters =
+    !isCommand &&
+    (runtimeConfig.showEntityTypeChips !== false ||
+      (showContentTypeChips && discoveryContentTypes?.length) ||
+      enabledFilters.some((f) => facetValueOptions.get(f.id)?.size) ||
+      activeFilterCount > 0);
+
   const QueryPill = ({
     value,
     icon: Icon,
@@ -127,10 +163,10 @@ export function GlobalSearchPanel({
     <Command.Item
       value={`${prefix}:${value}`}
       onSelect={() => onApplyQuery(value)}
-      className="flex cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm aria-selected:bg-muted/70"
+      className="flex cursor-pointer items-center gap-2 rounded-lg px-2.5 py-2 text-sm aria-selected:bg-muted/70"
     >
-      <span className="flex h-7 w-7 items-center justify-center rounded-full bg-muted/70">
-        <Icon className="h-3.5 w-3.5 text-muted-foreground" aria-hidden />
+      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted/70">
+        <Icon className="h-3 w-3 text-muted-foreground" aria-hidden />
       </span>
       <span className="truncate font-medium">{value}</span>
     </Command.Item>
@@ -190,10 +226,7 @@ export function GlobalSearchPanel({
         ) : null}
       </div>
 
-      {(runtimeConfig.showEntityTypeChips !== false ||
-        (showContentTypeChips && discoveryContentTypes?.length) ||
-        enabledFilters.some((f) => facetValueOptions.get(f.id)?.size) ||
-        activeFilterCount > 0) && (
+      {showFilters ? (
         <div className="space-y-2.5 border-b px-3 py-3 sm:px-4">
           {activeFilterCount > 0 && onClearAll ? (
             <SearchFilterBar locale={locale} count={activeFilterCount} onClearAll={onClearAll} />
@@ -238,7 +271,7 @@ export function GlobalSearchPanel({
               );
             })}
         </div>
-      )}
+      ) : null}
 
       <Command.List
         id={listboxId}
@@ -251,10 +284,10 @@ export function GlobalSearchPanel({
           <SearchEmptyState title={t.searchError} description={error} />
         ) : null}
 
-        {loading && query.length > 0 ? <SearchResultSkeleton rows={5} /> : null}
+        {loading && query.length > 0 ? <SearchResultSkeleton rows={isCommand ? 4 : 5} /> : null}
 
         {showEmptyState && !loading && !error && (
-          <>
+          <div className={isCommand ? "space-y-1 py-1" : undefined}>
             {ac.showRecent && recentQueries.length > 0 ? (
               <Command.Group heading={t.recent}>
                 {recentQueries.map((q) => (
@@ -284,15 +317,12 @@ export function GlobalSearchPanel({
                     value={`history:${entry.q}`}
                     onSelect={() => {
                       if (entry.urlPath) {
-                        onNavigate(
-                          { urlPath: entry.urlPath, title: entry.title },
-                          entry.q
-                        );
+                        onNavigate({ urlPath: entry.urlPath, title: entry.title }, entry.q);
                       } else {
                         onApplyQuery(entry.q);
                       }
                     }}
-                    className="flex cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm aria-selected:bg-muted/70"
+                    className="flex cursor-pointer items-center gap-2 rounded-lg px-2.5 py-2 text-sm aria-selected:bg-muted/70"
                   >
                     <History className="h-3.5 w-3.5 shrink-0 text-muted-foreground" aria-hidden />
                     <span className="flex-1 truncate font-medium">{entry.q}</span>
@@ -311,11 +341,11 @@ export function GlobalSearchPanel({
             !historyEntries.length ? (
               <SearchEmptyState title={t.startTitle} description={t.startSub} />
             ) : null}
-          </>
+          </div>
         )}
 
         {!showEmptyState && query.length > 0 && query.length < minLen && !loading ? (
-          <p className="px-3 py-6 text-center text-xs text-muted-foreground">{t.typeMin(minLen)}</p>
+          <p className="px-3 py-4 text-center text-xs text-muted-foreground">{t.typeMin(minLen)}</p>
         ) : null}
 
         {!loading && showSuggestBlock ? (
@@ -341,16 +371,33 @@ export function GlobalSearchPanel({
           </Command.Group>
         ) : null}
 
+        {isCommand && relatedTerms.length > 0 && showFullResults && !loading ? (
+          <Command.Group heading={t.relatedSearches}>
+            <div className="flex flex-wrap gap-1.5 px-2 py-1">
+              {relatedTerms.map((term) => (
+                <button
+                  key={term}
+                  type="button"
+                  onClick={() => onApplyQuery(term)}
+                  className="rounded-full border border-border/60 bg-muted/40 px-2.5 py-1 text-xs font-medium hover:bg-muted"
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
+          </Command.Group>
+        ) : null}
+
         {showFullResults && results.length === 0 && !loading && !error ? (
           <SearchEmptyState
             title={t.emptyTitle}
-            description={`${locale === "ar" ? `لا توجد نتائج لـ «${query.trim()}».` : `No results for "${query.trim()}".`} ${t.tryRemovingFilters}`}
-            actionLabel={activeFilterCount > 0 ? t.clearAllFilters : undefined}
-            onAction={activeFilterCount > 0 ? onClearAll : undefined}
+            description={`${locale === "ar" ? `لا توجد نتائج لـ «${query.trim()}».` : `No results for "${query.trim()}".`} ${isCommand ? t.emptySub : t.tryRemovingFilters}`}
+            actionLabel={!isCommand && activeFilterCount > 0 ? t.clearAllFilters : undefined}
+            onAction={!isCommand && activeFilterCount > 0 ? onClearAll : undefined}
           />
         ) : null}
 
-        {showFullResults && !loading && !ac.groupResults ? (
+        {showFullResults && !loading && !ac.groupResults && !isCommand ? (
           <Command.Group heading={t.results}>
             {results.map((r, i) => (
               <Command.Item
@@ -375,8 +422,8 @@ export function GlobalSearchPanel({
           </Command.Group>
         ) : null}
 
-        {showFullResults && !loading && ac.groupResults
-          ? Array.from(grouped.entries()).map(([type, items]) => (
+        {showFullResults && !loading && (ac.groupResults || isCommand)
+          ? Array.from(commandGrouped.entries()).map(([type, items]) => (
               <SearchResultGroup
                 key={type}
                 locale={locale}
@@ -384,12 +431,24 @@ export function GlobalSearchPanel({
                 label={entityLabel(type)}
                 items={items}
                 query={query}
-                showPreview={ac.showResultPreviews}
+                showPreview={!isCommand && ac.showResultPreviews}
                 onNavigate={onNavigate}
+                maxItems={isCommand ? COMMAND_QUICK_RESULTS_PER_TYPE : undefined}
               />
             ))
           : null}
       </Command.List>
+
+      {showViewAll ? (
+        <button
+          type="button"
+          onClick={() => onViewAllResults(query.trim())}
+          className="flex w-full items-center justify-center gap-2 border-t px-4 py-3 text-sm font-medium text-primary hover:bg-muted/40"
+        >
+          {t.viewAllResults(totalResultCount ?? results.length)}
+          <ArrowRight className="h-4 w-4" aria-hidden />
+        </button>
+      ) : null}
 
       {ac.keyboardNavigation ? (
         <div

@@ -96,6 +96,7 @@ export type SearchResult = {
   score: number;
   visibility: SearchVisibility;
   facets: Record<string, string | string[] | number | boolean>;
+  card?: import("@/features/search/types/search-card").SearchCardPayload;
 };
 
 export type SearchSuggestion = {

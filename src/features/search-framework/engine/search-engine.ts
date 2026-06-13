@@ -8,6 +8,10 @@ import { searchSettingsManager } from "@/features/search-framework/settings/sear
 import { resolveSearchModeExecution } from "@/features/search-framework/query/search-mode";
 import { searchSemanticProvider } from "@/features/search-framework/semantic/search-semantic-provider";
 import { getSearchSmartConfig } from "@/features/search/settings/resolve-search-smart-config";
+import {
+  analyticsBoostForEntity,
+  getSearchAnalyticsEntityScores,
+} from "@/features/search/analytics/search-analytics-ranking";
 import { getSearchPerformanceConfig } from "@/features/search-framework/performance/search-performance-config";
 import {
   buildSearchCacheKey,
@@ -147,13 +151,25 @@ export class SearchEngine {
       facetFilter
     );
 
+    const semanticCandidates = [...filteredFt, ...filteredLike].map((r) => ({
+      key: `${r.entityType}:${r.entityId}:${r.locale}`,
+      text: [r.title, r.body].filter(Boolean).join(" ").trim(),
+    }));
     const semanticBoost = await searchSemanticProvider.semanticScores(
       plan.phraseQuery,
-      [...filteredFt, ...filteredLike].map(
-        (r) => `${r.entityType}:${r.entityId}:${r.locale}`
-      ),
+      semanticCandidates,
       smartConfig.semantic
     );
+
+    const analyticsScores = await getSearchAnalyticsEntityScores(plan.locale);
+    const analyticsBoost = new Map<string, number>();
+    for (const row of [...filteredFt, ...filteredLike]) {
+      const key = `${row.entityType}:${row.entityId}:${row.locale}`;
+      analyticsBoost.set(
+        key,
+        analyticsBoostForEntity(row.entityType, row.entityId, analyticsScores)
+      );
+    }
 
     const ranked = searchRankingEngine.mergeRanked(
       filteredFt,
@@ -162,7 +178,8 @@ export class SearchEngine {
       undefined,
       undefined,
       plan,
-      semanticBoost
+      semanticBoost,
+      analyticsBoost
     );
 
     const pageEnd = plan.offset + plan.limit;

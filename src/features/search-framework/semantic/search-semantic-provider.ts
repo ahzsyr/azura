@@ -2,10 +2,18 @@ import "server-only";
 
 import type { ResolvedSearchSmartConfig } from "@/features/search/settings/resolve-search-smart-config";
 
+export type SemanticCandidate = {
+  key: string;
+  text: string;
+};
+
+const SEMANTIC_TOP_N = 25;
+const EMBEDDING_MODEL = "text-embedding-3-small";
+
 /**
  * Optional semantic / AI-assisted search layer.
  * - AI assist: rewrite natural-language queries to keyword phrases (OpenAI when configured).
- * - Semantic re-rank: placeholder for vector similarity when embeddings are indexed on documents.
+ * - Semantic re-rank: embedding similarity on top-N candidates when enabled.
  */
 export class SearchSemanticProvider {
   isAvailable(config: ResolvedSearchSmartConfig["semantic"]): boolean {
@@ -58,16 +66,73 @@ export class SearchSemanticProvider {
   }
 
   /**
-   * Semantic re-rank boost per document key (0–1). Returns empty until embeddings exist on SearchDocument.
+   * Semantic re-rank boost per document key (0–1) via OpenAI embeddings on query + candidate text.
    */
   async semanticScores(
-    _query: string,
-    _keys: string[],
+    query: string,
+    candidates: SemanticCandidate[],
     config: ResolvedSearchSmartConfig["semantic"]
   ): Promise<Map<string, number>> {
     if (!config.enabled || config.provider === "none") return new Map();
-    return new Map();
+    const apiKey = process.env.OPENAI_API_KEY?.trim();
+    if (!apiKey || !query.trim() || candidates.length === 0) return new Map();
+
+    const slice = candidates.slice(0, SEMANTIC_TOP_N);
+    const inputs = [
+      query.trim(),
+      ...slice.map((c) => c.text.trim().slice(0, 512)),
+    ].filter(Boolean);
+
+    try {
+      const embeddings = await this.fetchEmbeddings(apiKey, inputs);
+      if (embeddings.length < 2) return new Map();
+
+      const queryEmb = embeddings[0];
+      const map = new Map<string, number>();
+      for (let i = 0; i < slice.length; i++) {
+        const candidateEmb = embeddings[i + 1];
+        if (!candidateEmb) continue;
+        const sim = cosineSimilarity(queryEmb, candidateEmb);
+        map.set(slice[i].key, Math.max(0, Math.min(1, sim)));
+      }
+      return map;
+    } catch {
+      return new Map();
+    }
   }
+
+  private async fetchEmbeddings(apiKey: string, inputs: string[]): Promise<number[][]> {
+    const res = await fetch("https://api.openai.com/v1/embeddings", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: EMBEDDING_MODEL,
+        input: inputs,
+      }),
+    });
+    if (!res.ok) return [];
+    const data = (await res.json()) as {
+      data?: { embedding?: number[] }[];
+    };
+    return (data.data ?? []).map((row) => row.embedding ?? []);
+  }
+}
+
+function cosineSimilarity(a: number[], b: number[]): number {
+  if (a.length !== b.length || a.length === 0) return 0;
+  let dot = 0;
+  let normA = 0;
+  let normB = 0;
+  for (let i = 0; i < a.length; i++) {
+    dot += a[i] * b[i];
+    normA += a[i] * a[i];
+    normB += b[i] * b[i];
+  }
+  const denom = Math.sqrt(normA) * Math.sqrt(normB);
+  return denom > 0 ? dot / denom : 0;
 }
 
 export const searchSemanticProvider = new SearchSemanticProvider();

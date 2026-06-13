@@ -44,7 +44,8 @@ export class SearchRankingEngine {
     boostByKey?: Map<string, number>,
     config = getSearchRankingConfig(),
     plan?: SearchQueryPlan,
-    semanticBoostByKey?: Map<string, number>
+    semanticBoostByKey?: Map<string, number>,
+    analyticsBoostByKey?: Map<string, number>
   ): RankedHit[] {
     const map = new Map<string, RankedHit>();
     const smartConfig = getSearchSmartConfig();
@@ -54,6 +55,7 @@ export class SearchRankingEngine {
       const boost = boostByKey?.get(key) ?? this.readBoost(row);
       let score = this.scoreFullTextRow(row, query, boost, config, plan, smartConfig);
       score += this.semanticBonus(key, semanticBoostByKey, smartConfig.semantic.hybridWeight);
+      score += analyticsBoostByKey?.get(key) ?? 0;
       map.set(key, { ...row, score });
     }
 
@@ -63,6 +65,7 @@ export class SearchRankingEngine {
       const boost = boostByKey?.get(key) ?? this.readBoost(row);
       let score = this.scoreLikeRow(row, query, boost, config, plan, smartConfig);
       score += this.semanticBonus(key, semanticBoostByKey, smartConfig.semantic.hybridWeight);
+      score += analyticsBoostByKey?.get(key) ?? 0;
       map.set(key, { ...row, score });
     }
 

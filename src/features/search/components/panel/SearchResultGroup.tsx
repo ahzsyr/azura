@@ -14,6 +14,7 @@ type Props = {
   query: string;
   showPreview: boolean;
   onNavigate: (hit: AutocompleteHit, searchQ?: string) => void;
+  maxItems?: number;
 };
 
 export function SearchResultGroup({
@@ -24,9 +25,11 @@ export function SearchResultGroup({
   query,
   showPreview,
   onNavigate,
+  maxItems,
 }: Props) {
   const t = searchCopy(locale);
-  if (!items.length) return null;
+  const visible = maxItems ? items.slice(0, maxItems) : items;
+  if (!visible.length) return null;
 
   return (
     <Command.Group
@@ -34,12 +37,12 @@ export function SearchResultGroup({
         <span className="flex items-center justify-between gap-2">
           <span>{label}</span>
           <span className="text-[0.65rem] font-normal normal-case tracking-normal text-muted-foreground">
-            {t.resultCount(items.length)}
+            {t.resultCount(visible.length)}
           </span>
         </span>
       }
     >
-      {items.map((r, i) => (
+      {visible.map((r, i) => (
         <Command.Item
           key={r.id ?? r.urlPath}
           value={`result:${r.id ?? r.urlPath}`}

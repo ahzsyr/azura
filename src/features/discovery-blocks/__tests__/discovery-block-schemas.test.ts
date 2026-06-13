@@ -19,6 +19,7 @@ describe("discovery block schemas", () => {
     const p = searchBlockPropsSchema.parse({});
     assert.equal(p.layout, "inline");
     assert.equal(p.resultsMode, "dropdown");
+    assert.equal(p.panelMode, "command");
   });
 
   it("parses advancedFilters scope", () => {

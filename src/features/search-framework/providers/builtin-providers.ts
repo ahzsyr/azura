@@ -1,4 +1,7 @@
 import { getCmsPagePublicPath } from "@/features/cms/cms-page-path";
+import { estimateReadTimeMinutes } from "@/features/search/lib/humanize-slug";
+import { resolveIndexTitle } from "@/features/search/lib/resolve-index-title";
+import type { SearchCardPayload } from "@/features/search/types/search-card";
 import { getLocalizedField } from "@/lib/utils";
 import { defineSearchProvider } from "@/features/search-framework/providers/search-provider";
 import type { SearchIndexRecord } from "@/features/search-framework/types";
@@ -34,15 +37,20 @@ export const contentItemSearchProvider = defineSearchProvider<ContentItemIndexSo
       : `/admin/content`;
 
     const composed = item.composed;
-    const { title, body } = composed
-      ? composedPayloadToIndexText(composed)
-      : {
-          title: getLocalizedField(item, "title", ctx.urlPrefix),
-          body:
-            getLocalizedField(item, "excerpt", ctx.urlPrefix) ||
-            getLocalizedField(item, "description", ctx.urlPrefix) ||
-            "",
-        };
+    const composedText = composed ? composedPayloadToIndexText(composed) : null;
+    const rawTitle = composedText
+      ? composedText.title
+      : getLocalizedField(item, "title", ctx.urlPrefix);
+    const title = resolveIndexTitle(rawTitle, item.slug ?? item.id, {
+      entityType: "CONTENT_ITEM",
+      entityId: item.id,
+      locale: ctx.urlPrefix,
+    });
+    const body =
+      composedText?.body ??
+      getLocalizedField(item, "excerpt", ctx.urlPrefix) ||
+      getLocalizedField(item, "description", ctx.urlPrefix) ||
+      "";
 
     const record: SearchIndexRecord = {
       entityType: "CONTENT_ITEM",
@@ -97,8 +105,16 @@ export const postSearchProvider = defineSearchProvider<PostIndexSource>({
   buildRecords(post, ctx) {
     const excerpt = getLocalizedField(post, "excerpt", ctx.urlPrefix);
     const content = getLocalizedField(post, "content", ctx.urlPrefix);
-    const title = getLocalizedField(post, "title", ctx.urlPrefix);
+    const title = resolveIndexTitle(getLocalizedField(post, "title", ctx.urlPrefix), post.slug, {
+      entityType: "POST",
+      entityId: post.id,
+      locale: ctx.urlPrefix,
+    });
     const body = excerpt || content || "";
+    const card: SearchCardPayload = {
+      slug: post.slug,
+      readTimeMinutes: estimateReadTimeMinutes(body),
+    };
     return [
       {
         entityType: "POST",
@@ -113,6 +129,7 @@ export const postSearchProvider = defineSearchProvider<PostIndexSource>({
         facets: {},
         metadata: {
           rankingSignals: buildRankingSignalsFromRow({ title, body }),
+          card,
         },
       },
     ];
@@ -136,8 +153,17 @@ export const cmsPageSearchProvider = defineSearchProvider<CmsPageIndexSource>({
   defaultBoost: 1,
   shouldIndex: (page) => !page.status || page.status === "PUBLISHED",
   buildRecords(page, ctx) {
-    const title = getLocalizedField(page, "title", ctx.urlPrefix);
+    const localizedTitle = getLocalizedField(page, "title", ctx.urlPrefix);
+    const title = resolveIndexTitle(localizedTitle, page.slug, {
+      entityType: "CMS_PAGE",
+      entityId: page.id,
+      locale: ctx.urlPrefix,
+    });
     const body = getLocalizedField(page, "excerpt", ctx.urlPrefix) || "";
+    const card: SearchCardPayload = {
+      slug: page.slug,
+      readTimeMinutes: estimateReadTimeMinutes(body),
+    };
     return [
       {
         entityType: "CMS_PAGE",
@@ -152,6 +178,7 @@ export const cmsPageSearchProvider = defineSearchProvider<CmsPageIndexSource>({
         facets: {},
         metadata: {
           rankingSignals: buildRankingSignalsFromRow({ title, body }),
+          card,
         },
       },
     ];
