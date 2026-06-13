@@ -2,8 +2,10 @@
 
 import { useLayoutEffect, useRef } from "react";
 import type { HeroAnimationsConfig } from "@/features/marketing-blocks/lib/hero-animations";
+import { flashDebugLog } from "@/lib/debug/flash-debug-log";
 import { getConstrainedMotionSnapshot } from "@/lib/motion/constrained-motion-snapshot";
 import { bindParallaxElement } from "@/lib/motion/parallax-scroll";
+import { whenShellReady } from "@/lib/motion/shell-ready";
 import { PUBLIC_MOTION } from "@/lib/motion/public-motion";
 
 type Props = {
@@ -11,8 +13,6 @@ type Props = {
   imagePosition?: string;
   hasParallaxBg?: boolean;
 };
-
-const HERO_MOTION_ARMED_CLASS = "hero-motion-armed";
 
 function revealEntrances(root: HTMLElement) {
   root.querySelectorAll<HTMLElement>(".hero-anim-entrance").forEach((el) => {
@@ -33,93 +33,111 @@ export function HeroMotionClient({ animations, imagePosition, hasParallaxBg }: P
     if (!root) return;
 
     const cleanups: Array<() => void> = [];
-    const html = document.documentElement;
     const { shouldReduceMotion, shouldSimplifyMotion } = getConstrainedMotionSnapshot();
     const skipMotion = shouldReduceMotion || shouldSimplifyMotion;
 
-    if (skipMotion) {
-      html.classList.remove(HERO_MOTION_ARMED_CLASS);
-      revealEntrances(root);
-      return;
-    }
-
-    const headingEffect = animations?.headingEffect;
-    const staggerDelay = animations?.staggerDelay ?? 0.15;
-    const duration = shouldSimplifyMotion
-      ? PUBLIC_MOTION.enterDuration
-      : (animations?.animationDuration ?? 0.8);
-    const entrances = [...root.querySelectorAll<HTMLElement>(".hero-anim-entrance")];
-
-    if (headingEffect === "typewriter") {
-      const heading = root.querySelector<HTMLElement>(".hero-anim-heading");
-      if (heading?.textContent) {
-        const text = heading.textContent;
-        const speed = window.innerWidth < 640 ? 60 : 100;
-        const timer = window.setTimeout(() => {
-          heading.textContent = "";
-          let i = 0;
-          const typeTimer = window.setInterval(() => {
-            if (i < text.length) {
-              heading.textContent += text.charAt(i);
-              i += 1;
-            } else {
-              window.clearInterval(typeTimer);
-            }
-          }, speed);
-          cleanups.push(() => window.clearInterval(typeTimer));
-        }, 120);
-        cleanups.push(() => window.clearTimeout(timer));
+    const runMotion = () => {
+      if (skipMotion) {
+        revealEntrances(root);
+        return;
       }
-    } else if (headingEffect !== "glitch" && entrances.length > 0) {
-      html.classList.add(HERO_MOTION_ARMED_CLASS);
 
-      let cancelled = false;
-      void import("gsap")
-        .then((mod) => {
-          if (cancelled) return;
-          mod.gsap.to(entrances, {
-            opacity: 1,
-            y: 0,
-            x: 0,
-            duration,
-            stagger: staggerDelay,
-            ease: PUBLIC_MOTION.gsapEase,
-            delay: 0.08,
-            onComplete: () => {
-              html.classList.remove(HERO_MOTION_ARMED_CLASS);
-              entrances.forEach((el) => {
-                el.style.willChange = "auto";
-              });
-            },
-          });
-        })
-        .catch(() => {
-          html.classList.remove(HERO_MOTION_ARMED_CLASS);
-          revealEntrances(root);
-        });
+      const headingEffect = animations?.headingEffect;
+      const staggerDelay = animations?.staggerDelay ?? 0.15;
+      const duration = shouldSimplifyMotion
+        ? PUBLIC_MOTION.enterDuration
+        : (animations?.animationDuration ?? 0.8);
+      const entrances = [...root.querySelectorAll<HTMLElement>(".hero-anim-entrance")];
 
-      cleanups.push(() => {
-        cancelled = true;
-        html.classList.remove(HERO_MOTION_ARMED_CLASS);
+      // #region agent log
+      flashDebugLog({
+        location: "hero-motion-client.tsx:runMotion",
+        message: "Hero motion starting",
+        hypothesisId: "H6",
+        runId: "post-fix",
+        data: {
+          headingEffect,
+          entranceCount: entrances.length,
+          perfNow: performance.now(),
+        },
       });
-    }
+      // #endregion
 
-    const parallaxSpeed = animations?.parallaxSpeed;
-    if (
-      parallaxSpeed &&
-      parallaxSpeed > 0 &&
-      imagePosition === "parallax" &&
-      hasParallaxBg &&
-      !shouldSimplifyMotion
-    ) {
-      const bg = root.querySelector<HTMLElement>(".parallax-bg");
-      if (bg) {
-        cleanups.push(bindParallaxElement(bg, parallaxSpeed));
+      if (headingEffect === "typewriter") {
+        const heading = root.querySelector<HTMLElement>(".hero-anim-heading");
+        if (heading?.textContent) {
+          const text = heading.textContent;
+          const speed = window.innerWidth < 640 ? 60 : 100;
+          const timer = window.setTimeout(() => {
+            heading.textContent = "";
+            let i = 0;
+            const typeTimer = window.setInterval(() => {
+              if (i < text.length) {
+                heading.textContent += text.charAt(i);
+                i += 1;
+              } else {
+                window.clearInterval(typeTimer);
+              }
+            }, speed);
+            cleanups.push(() => window.clearInterval(typeTimer));
+          }, 120);
+          cleanups.push(() => window.clearTimeout(timer));
+        }
+      } else if (headingEffect !== "glitch" && entrances.length > 0) {
+        let cancelled = false;
+        void import("gsap")
+          .then((mod) => {
+            if (cancelled) return;
+            mod.gsap.from(entrances, {
+              opacity: 0,
+              y: (_index, el) => {
+                const node = el as HTMLElement;
+                return node.classList.contains("hero-anim-fade-up") ? 40 : 0;
+              },
+              x: (_index, el) => {
+                const node = el as HTMLElement;
+                if (!node.classList.contains("hero-anim-slide-in")) return 0;
+                return node.classList.contains("hero-anim-subheading") ? 40 : -40;
+              },
+              duration,
+              stagger: staggerDelay,
+              ease: PUBLIC_MOTION.gsapEase,
+              delay: 0.08,
+              onComplete: () => {
+                entrances.forEach((el) => {
+                  el.style.willChange = "auto";
+                });
+              },
+            });
+          })
+          .catch(() => {
+            revealEntrances(root);
+          });
+
+        cleanups.push(() => {
+          cancelled = true;
+        });
       }
-    }
+
+      const parallaxSpeed = animations?.parallaxSpeed;
+      if (
+        parallaxSpeed &&
+        parallaxSpeed > 0 &&
+        imagePosition === "parallax" &&
+        hasParallaxBg &&
+        !shouldSimplifyMotion
+      ) {
+        const bg = root.querySelector<HTMLElement>(".parallax-bg");
+        if (bg) {
+          cleanups.push(bindParallaxElement(bg, parallaxSpeed));
+        }
+      }
+    };
+
+    const offShellReady = whenShellReady(runMotion);
 
     return () => {
-      html.classList.remove(HERO_MOTION_ARMED_CLASS);
+      offShellReady();
       for (const off of cleanups) off();
     };
   }, [animations, imagePosition, hasParallaxBg]);

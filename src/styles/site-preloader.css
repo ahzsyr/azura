@@ -4,6 +4,11 @@ html.site-preloading body {
   overflow: hidden;
 }
 
+html.site-preloading .marketing-page-content > .route-page-layer:not([data-route-content-ready="true"]) {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .preloader-preview-frame {
   position: relative;
   width: 100%;

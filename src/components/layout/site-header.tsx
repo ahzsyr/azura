@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import type { HeaderWorkspace } from "@/features/navigation/types";
 import { HeaderRenderer } from "@/features/navigation/components/header/HeaderRenderer";
 import { setWorkspace } from "@/features/navigation/header-store";
@@ -26,7 +26,7 @@ export function SiteHeader({
   themePreset,
   headerConfig,
 }: Props) {
-  useEffect(() => {
+  useLayoutEffect(() => {
     setWorkspace(workspace);
     document.querySelectorAll("[data-header-shell]").forEach((el) => {
       el.remove();

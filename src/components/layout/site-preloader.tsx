@@ -12,6 +12,8 @@ import {
   ROUTE_CONTENT_READY_EVENT,
   SHELL_READY_EVENT,
 } from "@/lib/motion/shell-ready";
+import { flashDebugLog } from "@/lib/debug/flash-debug-log";
+import { removeBootPreloader } from "@/lib/preloader/boot-preloader";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -47,9 +49,19 @@ export function SitePreloader({ settings }: Props) {
   }, []);
 
   const hidePreloader = useCallback(() => {
+    // #region agent log
+    flashDebugLog({
+      location: "site-preloader.tsx:hidePreloader",
+      message: "Hiding preloader",
+      hypothesisId: "H3",
+      runId: "post-fix",
+      data: { perfNow: performance.now(), contentReady: isRouteContentReady() },
+    });
+    // #endregion
     clearTimers();
     setVisible(false);
     setShellPreloading(false);
+    removeBootPreloader();
     navPreloaderActiveRef.current = false;
     document.dispatchEvent(new CustomEvent(SHELL_READY_EVENT));
   }, [clearTimers, setShellPreloading]);
@@ -58,6 +70,19 @@ export function SitePreloader({ settings }: Props) {
     (forNavigation = false) => {
       if (!settings.enabled) return;
       if (reducedMotionRef.current) return;
+      // #region agent log
+      flashDebugLog({
+        location: "site-preloader.tsx:showPreloader",
+        message: "Showing preloader",
+        hypothesisId: "H3",
+        runId: "post-fix",
+        data: {
+          forNavigation,
+          perfNow: performance.now(),
+          contentReady: isRouteContentReady(),
+        },
+      });
+      // #endregion
       navPreloaderActiveRef.current = forNavigation;
       showStartRef.current = performance.now();
       setVisible(true);
@@ -84,11 +109,25 @@ export function SitePreloader({ settings }: Props) {
   }, [clearTimers, hidePreloader, settings.minDurationMs]);
 
   useEffect(() => {
+    // #region agent log
+    flashDebugLog({
+      location: "site-preloader.tsx:mount",
+      message: "SitePreloader mounted",
+      hypothesisId: "H3",
+      runId: "post-fix",
+      data: {
+        perfNow: performance.now(),
+        contentReady: isRouteContentReady(),
+        sitePreloading: document.documentElement.classList.contains("site-preloading"),
+      },
+    });
+    // #endregion
     setMounted(true);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     reducedMotionRef.current = reduced;
     if (reduced) {
       document.documentElement.classList.remove("site-preloading");
+      removeBootPreloader();
       document.dispatchEvent(new CustomEvent(SHELL_READY_EVENT));
     }
   }, []);
@@ -97,6 +136,7 @@ export function SitePreloader({ settings }: Props) {
     if (!mounted || !settings.enabled) {
       if (mounted) {
         document.documentElement.classList.remove("site-preloading");
+        removeBootPreloader();
         document.dispatchEvent(new CustomEvent(SHELL_READY_EVENT));
       }
       return;
@@ -109,16 +149,28 @@ export function SitePreloader({ settings }: Props) {
 
       if (reducedMotionRef.current) {
         document.documentElement.classList.remove("site-preloading");
+        removeBootPreloader();
+        document.dispatchEvent(new CustomEvent(SHELL_READY_EVENT));
+        return;
+      }
+
+      if (isRouteContentReady()) {
+        // #region agent log
+        flashDebugLog({
+          location: "site-preloader.tsx:initialSkip",
+          message: "Skipping preloader — content already ready on mount",
+          hypothesisId: "H2",
+          runId: "post-fix",
+          data: { perfNow: performance.now() },
+        });
+        // #endregion
+        document.documentElement.classList.remove("site-preloading");
+        removeBootPreloader();
         document.dispatchEvent(new CustomEvent(SHELL_READY_EVENT));
         return;
       }
 
       showPreloader(false);
-
-      if (isRouteContentReady()) {
-        scheduleDismiss();
-        return;
-      }
 
       const onContentReady = () => scheduleDismiss();
       document.addEventListener(ROUTE_CONTENT_READY_EVENT, onContentReady, { once: true });
@@ -143,6 +195,7 @@ export function SitePreloader({ settings }: Props) {
 
     initialHandledRef.current = true;
     document.documentElement.classList.remove("site-preloading");
+    removeBootPreloader();
     document.dispatchEvent(new CustomEvent(SHELL_READY_EVENT));
   }, [mounted, scheduleDismiss, settings.enabled, settings.mode, showPreloader, hidePreloader]);
 
@@ -191,6 +244,7 @@ export function SitePreloader({ settings }: Props) {
     return () => {
       clearTimers();
       document.documentElement.classList.remove("site-preloading");
+      removeBootPreloader();
       document.dispatchEvent(new CustomEvent(SHELL_READY_EVENT));
     };
   }, [clearTimers]);

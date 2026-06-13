@@ -46,6 +46,7 @@ import "@/styles/routes/effects.css";
 import "@/styles/route-loading.css";
 import "@/styles/site-preloader.css";
 import "@/styles/site-header-shell.css";
+import "@/features/navigation/components/header/header-builder.css";
 
 /** ISR: locale shell (header/footer/theme) revalidates every 5 minutes */
 export const revalidate = 300;

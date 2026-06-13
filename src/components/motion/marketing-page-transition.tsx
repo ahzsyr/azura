@@ -12,6 +12,7 @@ import { emitRouteContentReady } from "@/lib/motion/shell-ready";
 import { recordNavigationEnd } from "@/lib/performance/runtime-metrics";
 import { clearSharedElementHandoff } from "@/lib/navigation/shared-elements";
 import { cardSessionDebugLog } from "@/lib/debug/agent-log";
+import { flashDebugLog } from "@/lib/debug/flash-debug-log";
 import { runWithViewTransition } from "@/lib/theme/effects/transition-engine";
 import { PUBLIC_MOTION } from "@/lib/motion/public-motion";
 import {
@@ -136,18 +137,51 @@ export function MarketingPageTransition({ children }: Props) {
   }, [children, pending, pathname, layerState]);
 
   let renderContent: ReactNode;
+  let renderBranch = "unknown";
 
   if (isNavigating) {
+    renderBranch = pending ? "navigating-pending-committed" : "navigating-children";
     renderContent = pending ? committedRef.current : children;
   } else if (!pending) {
+    renderBranch = "ready-children";
     renderContent = children;
   } else if (hasCommittedRef.current && committedRef.current != null) {
+    renderBranch = "pending-committed";
     renderContent = committedRef.current;
   } else if (isShellPreloading()) {
-    renderContent = null;
+    renderBranch = "preloading-keep-dom";
+    renderContent = children;
   } else {
+    renderBranch = "first-load-fallback";
     renderContent = firstLoadFallback(children);
   }
+
+  useLayoutEffect(() => {
+    // #region agent log
+    flashDebugLog({
+      location: "marketing-page-transition.tsx:render",
+      message: "Render branch resolved",
+      hypothesisId: "H1",
+      runId: "post-fix",
+      data: {
+        renderBranch,
+        pending,
+        realContent,
+        skeletonActive,
+        isShellPreloading: isShellPreloading(),
+        hasCommitted: hasCommittedRef.current,
+        layerState,
+        renderContentType:
+          renderContent == null
+            ? "null"
+            : Array.isArray(renderContent)
+              ? "array"
+              : typeof renderContent,
+        perfNow: performance.now(),
+      },
+    });
+    // #endregion
+  });
 
   const layerClass =
     layerState === "stale" || (isNavigating && pending)

@@ -1,3 +1,5 @@
+import { buildPreloaderBootScript } from "@/lib/preloader/boot-preloader";
+
 type Props = {
   active: boolean;
   /** Hard cap (ms) — removes site-preloading if client preloader never mounts. */
@@ -7,10 +9,12 @@ type Props = {
 export function PreloaderBootScript({ active, maxDurationMs = 12000 }: Props) {
   if (!active) return null;
 
+  const debug = process.env.NODE_ENV === "development";
+
   return (
     <script
       dangerouslySetInnerHTML={{
-        __html: `(function(){var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;if(reduced){document.dispatchEvent(new CustomEvent("azura:shell-ready"));return;}document.documentElement.classList.add("site-preloading");var cleared=false;var clear=function(){if(cleared)return;cleared=true;document.documentElement.classList.remove("site-preloading");document.dispatchEvent(new CustomEvent("azura:shell-ready"));};document.addEventListener("azura:route-content-ready",clear,{once:true});setTimeout(clear,${maxDurationMs});})();`,
+        __html: buildPreloaderBootScript(maxDurationMs, debug),
       }}
     />
   );
