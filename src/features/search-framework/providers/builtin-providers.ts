@@ -48,9 +48,9 @@ export const contentItemSearchProvider = defineSearchProvider<ContentItemIndexSo
     });
     const body =
       composedText?.body ??
-      getLocalizedField(item, "excerpt", ctx.urlPrefix) ||
-      getLocalizedField(item, "description", ctx.urlPrefix) ||
-      "";
+      (getLocalizedField(item, "excerpt", ctx.urlPrefix) ||
+        getLocalizedField(item, "description", ctx.urlPrefix) ||
+        "");
 
     const record: SearchIndexRecord = {
       entityType: "CONTENT_ITEM",
