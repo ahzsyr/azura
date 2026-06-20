@@ -9,20 +9,34 @@ const cssPath = path.join(
 );
 
 describe("header sticky overlay CSS guards", () => {
-  it("keeps sticky glass reinforcement disabled for overlay headers", async () => {
+  it("keeps sticky glass reinforcement guarded for non-overlay headers", async () => {
     const css = await readFile(cssPath, "utf8");
     const stickySelector =
-      /html:not\(:has\(\[data-page-header-overlay="true"\]\)\) \.header-root\[data-header-desktop="sticky"\]:not\(\[data-block-header-overlay="true"\]\):not\(\[data-header-overlay="true"\]\)\.header--sticking \.site-header/;
+      /\.header-root\[data-header-desktop="sticky"\]:not\(\[data-block-header-overlay="true"\]\):not\(\[data-header-overlay="true"\]\)\.header--sticking \.site-header/;
     const shrinkSelector =
-      /html:not\(:has\(\[data-page-header-overlay="true"\]\)\) \.header-root\[data-header-desktop="shrink-scroll"\]:not\(\[data-block-header-overlay="true"\]\):not\(\[data-header-overlay="true"\]\)\.header--sticking \.site-header/;
+      /\.header-root\[data-header-desktop="shrink-scroll"\]:not\(\[data-block-header-overlay="true"\]\):not\(\[data-header-overlay="true"\]\)\.header--sticking \.site-header/;
     const darkStickySelector =
-      /\.dark:not\(:has\(\[data-page-header-overlay="true"\]\)\) \.header-root\[data-header-desktop="sticky"\]:not\(\[data-block-header-overlay="true"\]\):not\(\[data-header-overlay="true"\]\)\.header--sticking \.site-header/;
+      /\.dark \.header-root\[data-header-desktop="sticky"\]:not\(\[data-block-header-overlay="true"\]\):not\(\[data-header-overlay="true"\]\)\.header--sticking \.site-header/;
     const darkShrinkSelector =
-      /\.dark:not\(:has\(\[data-page-header-overlay="true"\]\)\) \.header-root\[data-header-desktop="shrink-scroll"\]:not\(\[data-block-header-overlay="true"\]\):not\(\[data-header-overlay="true"\]\)\.header--sticking \.site-header/;
+      /\.dark \.header-root\[data-header-desktop="shrink-scroll"\]:not\(\[data-block-header-overlay="true"\]\):not\(\[data-header-overlay="true"\]\)\.header--sticking \.site-header/;
 
     assert.match(css, stickySelector);
     assert.match(css, shrinkSelector);
     assert.match(css, darkStickySelector);
     assert.match(css, darkShrinkSelector);
+  });
+
+  it("re-applies first-block overlay surfaces while sticky", async () => {
+    const css = await readFile(cssPath, "utf8");
+    const transparentSticky =
+      /\.header-root\[data-block-header-overlay="true"\]\.header--sticking\[data-overlay-surface="transparent"\] \.site-header/;
+    const glassSticky =
+      /\.header-root\[data-block-header-overlay="true"\]\.header--sticking\[data-overlay-surface="glass"\] \.site-header/;
+    const solidSticky =
+      /\.header-root\[data-block-header-overlay="true"\]\.header--sticking\[data-overlay-surface="solid"\] \.site-header/;
+
+    assert.match(css, transparentSticky);
+    assert.match(css, glassSticky);
+    assert.match(css, solidSticky);
   });
 });

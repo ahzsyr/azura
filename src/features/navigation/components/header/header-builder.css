@@ -1948,8 +1948,8 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
  * When the header becomes sticky (header--sticking), upgrade to full glass:
  * 96% opaque surface + 20px blur + stronger shadow + border fade.
  */
-html:not(:has([data-page-header-overlay="true"])) .header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
-html:not(:has([data-page-header-overlay="true"])) .header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header {
+.header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
+.header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header {
   background: color-mix(in srgb, var(--color-surface, var(--background)) 96%, transparent);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -1963,10 +1963,39 @@ html:not(:has([data-page-header-overlay="true"])) .header-root[data-header-deskt
 }
 
 /* Dark mode: even stronger glass for sticky header */
-.dark:not(:has([data-page-header-overlay="true"])) .header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
-.dark:not(:has([data-page-header-overlay="true"])) .header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header {
+.dark .header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
+.dark .header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header {
   background: color-mix(in srgb, var(--color-surface, var(--background)) 90%, transparent);
   border-color: color-mix(in srgb, var(--color-primary, var(--primary)) 18%, transparent);
+}
+
+/* Keep selected first-block overlay surface when sticky class is active. */
+.header-root[data-block-header-overlay="true"].header--sticking[data-overlay-surface="transparent"] .site-header,
+html:has([data-page-header-overlay="true"]) #headerRoot.header-style-boxed-compact.header--sticking[data-overlay-surface="transparent"] .site-header,
+html:has([data-page-header-overlay="true"]) #headerRoot.header-style-boxed-minimal.header--sticking[data-overlay-surface="transparent"] .site-header {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.header-root[data-block-header-overlay="true"].header--sticking[data-overlay-surface="glass"] .site-header,
+html:has([data-page-header-overlay="true"]) #headerRoot.header-style-boxed-compact.header--sticking[data-overlay-surface="glass"] .site-header,
+html:has([data-page-header-overlay="true"]) #headerRoot.header-style-boxed-minimal.header--sticking[data-overlay-surface="glass"] .site-header {
+  background: color-mix(in srgb, var(--color-surface, var(--background)) 55%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-color: color-mix(in srgb, var(--cg2) 35%, transparent);
+}
+
+.header-root[data-block-header-overlay="true"].header--sticking[data-overlay-surface="solid"] .site-header,
+html:has([data-page-header-overlay="true"]) #headerRoot.header-style-boxed-compact.header--sticking[data-overlay-surface="solid"] .site-header,
+html:has([data-page-header-overlay="true"]) #headerRoot.header-style-boxed-minimal.header--sticking[data-overlay-surface="solid"] .site-header {
+  background: var(--color-surface, var(--background));
+  border-color: color-mix(in srgb, var(--cg2) 35%, transparent);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* ── Mega/dropdown open transition (synced with data-menu-animation) ───── */
