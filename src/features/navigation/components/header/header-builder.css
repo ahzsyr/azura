@@ -1948,8 +1948,8 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
  * When the header becomes sticky (header--sticking), upgrade to full glass:
  * 96% opaque surface + 20px blur + stronger shadow + border fade.
  */
-.header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
-.header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header {
+html:not(:has([data-page-header-overlay="true"])) .header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
+html:not(:has([data-page-header-overlay="true"])) .header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header {
   background: color-mix(in srgb, var(--color-surface, var(--background)) 96%, transparent);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -1963,8 +1963,8 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
 }
 
 /* Dark mode: even stronger glass for sticky header */
-.dark .header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
-.dark .header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header {
+.dark:not(:has([data-page-header-overlay="true"])) .header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
+.dark:not(:has([data-page-header-overlay="true"])) .header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header {
   background: color-mix(in srgb, var(--color-surface, var(--background)) 90%, transparent);
   border-color: color-mix(in srgb, var(--color-primary, var(--primary)) 18%, transparent);
 }
