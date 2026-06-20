@@ -1,0 +1,20 @@
+{
+  "id": "saas",
+  "name": "SaaS & Software",
+  "description": "Electric violet on dark — modern, scalable and conversion-focused for SaaS products",
+  "colors": {
+    "primary": "#8b5cf6",
+    "accent": "#a78bfa",
+    "secondary": "#06b6d4",
+    "background": "#05020f",
+    "surface": "#0d0720",
+    "text": "#f5f3ff",
+    "textMuted": "#6d6a85"
+  },
+  "fonts": { "display": "Space Grotesk", "body": "Inter", "mono": "Fira Code" },
+  "cursor": "neon-dot",
+  "backgroundEffect": "hexagons",
+  "textEffect": "gradient-flow",
+  "cardStyle": "glassmorphism",
+  "borderStyle": "violet-glow"
+}

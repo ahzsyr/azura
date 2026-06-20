@@ -1,0 +1,693 @@
+import createMiddleware from "next-intl/middleware";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import type { Session } from "next-auth";
+import { isRetiredUrlPrefix } from "@/i18n/locale-config";
+import { FALLBACK_LOCALES } from "@/i18n/locale-config";
+import { augmentLocalesFromPathname, normalizeStackedLocalePathname } from "@/i18n/url-helpers";
+import {
+  getCachedSetupStatus,
+  setCachedSetupStatus,
+  type SetupStatusCache,
+} from "@/features/setup/setup-middleware-cache";
+import {
+  mergeSetupStatusWithEnvOverrides,
+  setupStatusFromCookieFallback,
+  statusFromEnvFallback,
+} from "@/features/setup/merge-setup-status";
+import {
+  getMiddlewareManifestRedirect,
+  getMiddlewareManifestRouting,
+  getMiddlewareManifestSetup,
+} from "@/features/setup/middleware-manifest";
+import { getSetupCompleteEnvOverride } from "@/features/setup/setup-env-overrides";
+import {
+  SETUP_COMPLETE_COOKIE,
+  hasSetupCompleteCookie,
+} from "@/features/setup/setup-cookie";
+import {
+  COMING_SOON_BYPASS_COOKIE,
+  COMING_SOON_PATH,
+  getComingSoonBypassSecret,
+  hasComingSoonBypassCookie,
+  isAnyComingSoonPath,
+  isComingSoonExemptApi,
+  isComingSoonExemptPage,
+  isComingSoonPublicPath,
+  resolveComingSoonCanonicalPath,
+} from "@/features/coming-soon/coming-soon.middleware";
+import { getWiredCmsPageRedirect } from "@/features/cms/cms-page-path";
+import {
+  getAuthToken,
+  isAdminToken,
+  tokenToSession,
+} from "@/lib/auth.middleware";
+
+const LOCALE_PREFIX_ALWAYS = "always" as const;
+
+type LocaleRoutingCache = {
+  locales: string[];
+  defaultLocale: string;
+  expires: number;
+};
+
+const FALLBACK_LOCALE_PREFIXES = FALLBACK_LOCALES.map((locale) => locale.urlPrefix);
+const FALLBACK_DEFAULT_LOCALE =
+  FALLBACK_LOCALES.find((locale) => locale.isDefault)?.urlPrefix ?? FALLBACK_LOCALES[0]!.urlPrefix;
+
+let localeRoutingCache: LocaleRoutingCache | null = null;
+
+const LOCALE_ROUTING_FETCH_TIMEOUT_MS = 5_000;
+const REDIRECT_LOOKUP_FETCH_TIMEOUT_MS = 3_000;
+
+async function fetchLocaleRoutingFromApi(origin: string): Promise<LocaleRoutingCache | null> {
+  const url = new URL("/api/locales", origin);
+  const res = await fetch(url, {
+    headers: { "x-middleware": "1" },
+    cache: "no-store",
+    signal: AbortSignal.timeout(LOCALE_ROUTING_FETCH_TIMEOUT_MS),
+  });
+  if (!res.ok) return null;
+  const data = (await res.json()) as {
+    locales?: string[];
+    defaultLocale?: string;
+  };
+  const locales = Array.isArray(data.locales)
+    ? data.locales.filter((l): l is string => typeof l === "string" && l.length > 0)
+    : [];
+  if (locales.length === 0) return null;
+  return {
+    locales,
+    defaultLocale:
+      typeof data.defaultLocale === "string" && locales.includes(data.defaultLocale)
+        ? data.defaultLocale
+        : locales[0] ?? FALLBACK_DEFAULT_LOCALE,
+    expires: Date.now() + 60_000,
+  };
+}
+
+async function resolveLocaleRouting(request: NextRequest): Promise<LocaleRoutingCache> {
+  const now = Date.now();
+  const pathname = request.nextUrl.pathname;
+  const pathSegments = pathname.split("/").filter(Boolean);
+
+  if (localeRoutingCache && localeRoutingCache.expires > now) {
+    const cachedLocales = localeRoutingCache.locales;
+    const needsRefresh = pathSegments.some(
+      (segment) =>
+        /^[a-z]{2}(?:-[a-z]{2})?$/i.test(segment) &&
+        !cachedLocales.includes(segment.toLowerCase())
+    );
+    if (!needsRefresh) {
+      return localeRoutingCache;
+    }
+    localeRoutingCache = null;
+  }
+
+  const manifestRouting = getMiddlewareManifestRouting();
+  if (manifestRouting) {
+    localeRoutingCache = {
+      ...manifestRouting,
+      expires: Number.POSITIVE_INFINITY,
+    };
+    return localeRoutingCache;
+  }
+
+  for (const origin of internalFetchOrigins(request)) {
+    try {
+      const routingFromApi = await fetchLocaleRoutingFromApi(origin);
+      if (routingFromApi) {
+        localeRoutingCache = routingFromApi;
+        return routingFromApi;
+      }
+    } catch {
+      /* try next origin */
+    }
+  }
+
+  localeRoutingCache = {
+    locales: [...FALLBACK_LOCALE_PREFIXES],
+    defaultLocale: FALLBACK_DEFAULT_LOCALE,
+    expires: now + 60_000,
+  };
+  return localeRoutingCache;
+}
+
+type RedirectHit = { toPath: string; type: string } | null;
+
+type RedirectCacheRow = {
+  redirect: RedirectHit;
+  expires: number;
+};
+
+const REDIRECT_CACHE_TTL_MS = 60_000;
+const redirectLookupCache = new Map<string, RedirectCacheRow>();
+
+function isCatalogAdminApi(pathname: string): boolean {
+  return (
+    pathname === "/api/collections" ||
+    pathname.startsWith("/api/collections/") ||
+    pathname === "/api/sync-collections"
+  );
+}
+
+function resolveSetupStatusForCatalogApi(): SetupStatusCache {
+  const cached = getCachedSetupStatus();
+  if (cached) return cached;
+  const envFallback = statusFromEnvFallback();
+  if (envFallback) return envFallback;
+  return setCachedSetupStatus({
+    setupComplete: true,
+    registrationEnabled: true,
+    comingSoonEnabled: false,
+    confident: true,
+  });
+}
+
+function internalAppOrigin(): string {
+  return (
+    process.env.INTERNAL_APP_URL?.trim() ||
+    `http://127.0.0.1:${process.env.PORT ?? 3000}`
+  );
+}
+
+function internalFetchOrigins(request: NextRequest): string[] {
+  return [
+    request.nextUrl.origin,
+    internalAppOrigin(),
+    `http://127.0.0.1:${process.env.PORT ?? 3000}`,
+  ].filter((origin, index, list) => origin && list.indexOf(origin) === index);
+}
+
+const SETUP_STATUS_FETCH_TIMEOUT_MS = 8_000;
+
+async function fetchSetupStatusFromApi(origin: string) {
+  const url = new URL("/api/setup/status", origin);
+  const res = await fetch(url, {
+    headers: { "x-middleware": "1" },
+    cache: "no-store",
+    signal: AbortSignal.timeout(SETUP_STATUS_FETCH_TIMEOUT_MS),
+  });
+  if (!res.ok) return null;
+  const data = (await res.json()) as {
+    setupComplete?: boolean;
+    registrationEnabled?: boolean;
+    comingSoonEnabled?: boolean;
+  };
+  return mergeSetupStatusWithEnvOverrides(
+    {
+      setupComplete: Boolean(data.setupComplete),
+      registrationEnabled: data.registrationEnabled !== false,
+      comingSoonEnabled: Boolean(data.comingSoonEnabled),
+      confident: true,
+    },
+    { fromApi: true },
+  );
+}
+
+async function resolveSetupStatus(request: NextRequest) {
+  const now = Date.now();
+  const cached = getCachedSetupStatus(now);
+  if (cached) {
+    return cached;
+  }
+
+  const setupEnv = getSetupCompleteEnvOverride();
+  if (setupEnv !== null) {
+    const envFallback = statusFromEnvFallback();
+    if (envFallback) return envFallback;
+  }
+
+  const manifestStatus = getMiddlewareManifestSetup();
+  if (manifestStatus) {
+    return mergeSetupStatusWithEnvOverrides({
+      ...manifestStatus,
+      confident: true,
+    });
+  }
+
+  for (const origin of internalFetchOrigins(request)) {
+    try {
+      const status = await fetchSetupStatusFromApi(origin);
+      if (status) return status;
+    } catch {
+      // try next origin (Hostinger self-fetch often needs localhost fallback)
+    }
+  }
+
+  const envFallback = statusFromEnvFallback();
+  if (envFallback) {
+    return envFallback;
+  }
+
+  if (hasSetupCompleteCookie(request.cookies.get(SETUP_COMPLETE_COOKIE)?.value)) {
+    return setupStatusFromCookieFallback();
+  }
+
+  return {
+    setupComplete: false,
+    registrationEnabled: true,
+    comingSoonEnabled: false,
+    confident: false,
+    expires: 0,
+  };
+}
+
+async function lookupRedirect(pathname: string, request: NextRequest): Promise<RedirectHit> {
+  const now = Date.now();
+  const cached = redirectLookupCache.get(pathname);
+  if (cached && cached.expires > now) {
+    return cached.redirect;
+  }
+
+  const manifestRedirect = getMiddlewareManifestRedirect(pathname);
+  if (manifestRedirect.generated) {
+    redirectLookupCache.set(pathname, {
+      redirect: manifestRedirect.redirect,
+      expires: Number.POSITIVE_INFINITY,
+    });
+    return manifestRedirect.redirect;
+  }
+
+  for (const origin of internalFetchOrigins(request)) {
+    try {
+      const lookupUrl = new URL(
+        `/api/redirects?path=${encodeURIComponent(pathname)}`,
+        origin,
+      );
+      const res = await fetch(lookupUrl, {
+        headers: { "x-middleware": "1" },
+        signal: AbortSignal.timeout(REDIRECT_LOOKUP_FETCH_TIMEOUT_MS),
+      });
+      if (!res.ok) continue;
+
+      const data = (await res.json()) as {
+        redirect?: { toPath: string; type: string } | null;
+      };
+      const redirect = data.redirect ?? null;
+      redirectLookupCache.set(pathname, { redirect, expires: now + REDIRECT_CACHE_TTL_MS });
+      return redirect;
+    } catch {
+      // try next origin
+    }
+  }
+
+  redirectLookupCache.set(pathname, { redirect: null, expires: now + REDIRECT_CACHE_TTL_MS });
+  return null;
+}
+
+/** Public marketing paths that should not be blocked when setup status is uncertain. */
+function isPublicMarketingPath(pathname: string, locales: string[]): boolean {
+  if (pathname === "/") return true;
+  for (const locale of locales) {
+    if (pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/** Paths reachable before setup is marked complete (avoids /setup ↔ /admin loops). */
+function isSetupExemptPath(pathname: string): boolean {
+  if (pathname.startsWith("/admin")) return true;
+  if (pathname.startsWith("/api/setup")) return true;
+  return false;
+}
+
+/** e.g. /en/account, /en/account/login */
+function parseAccountPath(pathname: string, locales: string[]) {
+  for (const locale of locales) {
+    const prefix = `/${locale}/account`;
+    if (pathname === prefix || pathname.startsWith(`${prefix}/`)) {
+      const rest = pathname.slice(prefix.length) || "/";
+      const sub = rest === "/" ? "" : rest.replace(/^\//, "");
+      return { locale, sub };
+    }
+  }
+  return null;
+}
+
+/** Setup lives at /setup (not under [locale]). Detect /{locale}/setup from pathname shape only. */
+function resolveSetupPath(pathname: string): { isSetup: boolean; canonical: string | null } {
+  if (pathname === "/setup" || pathname.startsWith("/setup/")) {
+    return { isSetup: true, canonical: pathname };
+  }
+  const match = pathname.match(/^\/([a-z0-9-]+)\/setup(\/.*)?$/i);
+  if (match) {
+    return { isSetup: true, canonical: `/setup${match[2] ?? ""}` };
+  }
+  return { isSetup: false, canonical: null };
+}
+
+function applyComingSoonBypassCookie(response: NextResponse, secret: string) {
+  response.cookies.set(COMING_SOON_BYPASS_COOKIE, secret, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 30,
+    path: "/",
+  });
+}
+
+type MiddlewareSession = Session | null;
+
+async function canAccessSiteDuringComingSoon(
+  request: NextRequest,
+  getSession: () => Promise<MiddlewareSession>,
+): Promise<boolean> {
+  const bypassCookie = request.cookies.get(COMING_SOON_BYPASS_COOKIE)?.value;
+  if (hasComingSoonBypassCookie(bypassCookie)) return true;
+
+  const session = await getSession();
+  return session?.user?.role === "ADMIN";
+}
+
+/** Skip setup/locale probes — admin uses JWT auth, not Supabase. */
+async function handleAdminFastPath(request: NextRequest): Promise<NextResponse | null> {
+  const { pathname } = request.nextUrl;
+  if (!pathname.startsWith("/admin")) return null;
+  if (pathname === "/admin/login") return NextResponse.next();
+
+  try {
+    const token = await getAuthToken(request);
+    if (!token) {
+      const loginUrl = new URL("/admin/login", request.url);
+      loginUrl.searchParams.set("callbackUrl", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    if (!isAdminToken(token)) {
+      return NextResponse.redirect(new URL("/admin/login", request.url));
+    }
+    return NextResponse.next();
+  } catch (error) {
+    console.error("[middleware] admin auth check failed:", error);
+    return NextResponse.redirect(new URL("/admin/login", request.url));
+  }
+}
+
+function middlewareFallback(request: NextRequest, error: unknown): NextResponse {
+  console.error("[middleware] unhandled error:", error);
+  const { pathname } = request.nextUrl;
+  if (pathname.startsWith("/admin")) {
+    return NextResponse.redirect(new URL("/admin/login", request.url));
+  }
+  return NextResponse.next();
+}
+
+async function enforceComingSoonMode(
+  request: NextRequest,
+  setupStatus: { comingSoonEnabled: boolean },
+  isPreviewRoute: boolean,
+  getSession: () => Promise<MiddlewareSession>,
+  locales: string[] = [],
+): Promise<NextResponse | null> {
+  if (!setupStatus.comingSoonEnabled) return null;
+
+  const { pathname } = request.nextUrl;
+  const bypassSecret = getComingSoonBypassSecret();
+  const bypassParam = request.nextUrl.searchParams.get("bypass");
+
+  if (bypassSecret && bypassParam === bypassSecret) {
+    const destination = isComingSoonPublicPath(pathname)
+      ? COMING_SOON_PATH
+      : pathname;
+    const url = request.nextUrl.clone();
+    url.pathname = destination;
+    url.searchParams.delete("bypass");
+    const response = NextResponse.redirect(url);
+    applyComingSoonBypassCookie(response, bypassSecret);
+    return response;
+  }
+
+  if (await canAccessSiteDuringComingSoon(request, getSession)) {
+    return null;
+  }
+
+  if (pathname.startsWith("/api")) {
+    if (isComingSoonExemptApi(pathname)) return null;
+    return NextResponse.json({ error: "Site is not available yet." }, { status: 503 });
+  }
+
+  if (isComingSoonExemptPage(pathname, isPreviewRoute, locales)) {
+    return null;
+  }
+
+  const url = request.nextUrl.clone();
+  url.pathname = COMING_SOON_PATH;
+  url.search = "";
+  return NextResponse.redirect(url);
+}
+
+function needsSupabaseSession(pathname: string): boolean {
+  return pathname.includes("/account") && !pathname.startsWith("/admin");
+}
+
+async function runMiddleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const isPreviewRoute = pathname === "/preview" || pathname.startsWith("/preview/");
+  let sessionCache: MiddlewareSession | null = null;
+  let sessionLoaded = false;
+  const getSession = async () => {
+    if (!sessionLoaded) {
+      sessionCache = tokenToSession(await getAuthToken(request));
+      sessionLoaded = true;
+    }
+    return sessionCache;
+  };
+
+  // Internal lookups invoked by middleware — must bypass to avoid recursive fetches.
+  if (
+    pathname === "/api/setup/status" ||
+    pathname === "/api/setup/reconcile" ||
+    pathname === "/api/locales" ||
+    pathname.startsWith("/api/redirects")
+  ) {
+    return NextResponse.next();
+  }
+
+  if (pathname.startsWith("/_next") || pathname.includes(".")) {
+    return NextResponse.next();
+  }
+
+  const retiredLocaleMatch = pathname.match(/^\/([a-z]{2}(?:-[a-z]{2})?)(\/.*)?$/i);
+  if (retiredLocaleMatch) {
+    const prefix = retiredLocaleMatch[1]!.toLowerCase();
+    if (isRetiredUrlPrefix(prefix)) {
+      const rest = retiredLocaleMatch[2] ?? "";
+      const url = request.nextUrl.clone();
+      url.pathname = rest ? `/${FALLBACK_DEFAULT_LOCALE}${rest}` : `/${FALLBACK_DEFAULT_LOCALE}`;
+      url.search = request.nextUrl.search;
+      return NextResponse.redirect(url, 308);
+    }
+  }
+
+  const adminResponse = await handleAdminFastPath(request);
+  if (adminResponse) return adminResponse;
+
+  const setupStatusPromise = Promise.resolve(
+    isCatalogAdminApi(pathname) || pathname.startsWith("/admin")
+      ? resolveSetupStatusForCatalogApi()
+      : resolveSetupStatus(request),
+  );
+  const localeRoutingPromise =
+    pathname.startsWith("/api") || isPreviewRoute ? null : resolveLocaleRouting(request);
+  const setupStatus = await setupStatusPromise;
+
+  if (pathname.startsWith("/api") || isPreviewRoute) {
+    const comingSoonBlock = await enforceComingSoonMode(
+      request,
+      setupStatus,
+      isPreviewRoute,
+      getSession,
+      localeRoutingCache?.locales ?? [...FALLBACK_LOCALE_PREFIXES],
+    );
+    if (comingSoonBlock) return comingSoonBlock;
+    return NextResponse.next();
+  }
+
+  const localeRouting = await localeRoutingPromise!;
+  const { defaultLocale } = localeRouting;
+  const locales = augmentLocalesFromPathname(pathname, localeRouting.locales);
+  const pathSegments = pathname.split("/").filter(Boolean);
+  const localeLikeDuplicate =
+    pathSegments.length >= 2 &&
+    pathSegments[0] === pathSegments[1] &&
+    locales.includes(pathSegments[0]!.toLowerCase());
+  const canonicalPath = normalizeStackedLocalePathname(pathname, locales);
+  const intlMiddleware = createMiddleware({
+    locales,
+    defaultLocale,
+    localePrefix: LOCALE_PREFIX_ALWAYS,
+  });
+
+  const { isSetup: isSetupPath, canonical: setupCanonical } = resolveSetupPath(pathname);
+
+  if (!setupStatus.setupComplete) {
+    if (!isSetupPath && !isSetupExemptPath(pathname)) {
+      const blockSetup =
+        setupStatus.confident || !isPublicMarketingPath(pathname, localeRouting.locales);
+      if (blockSetup) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/setup";
+        url.search = "";
+        return NextResponse.redirect(url);
+      }
+    }
+  } else if (isSetupPath) {
+    const session = await getSession();
+    const url = request.nextUrl.clone();
+    if (session?.user?.role === "ADMIN") {
+      url.pathname = "/admin";
+      url.search = "";
+    } else {
+      url.pathname = `/${localeRouting.defaultLocale}`;
+      url.search = "";
+    }
+    return NextResponse.redirect(url);
+  }
+
+  const comingSoonBlock = await enforceComingSoonMode(
+    request,
+    setupStatus,
+    isPreviewRoute,
+    getSession,
+    localeRouting.locales,
+  );
+  if (comingSoonBlock) return comingSoonBlock;
+
+  if (
+    !setupStatus.comingSoonEnabled &&
+    isAnyComingSoonPath(pathname, localeRouting.locales) &&
+    !(await canAccessSiteDuringComingSoon(request, getSession))
+  ) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${localeRouting.defaultLocale}`;
+    url.search = "";
+    return NextResponse.redirect(url);
+  }
+
+  const comingSoonCanonical = resolveComingSoonCanonicalPath(pathname, localeRouting.locales);
+  if (comingSoonCanonical) {
+    const url = request.nextUrl.clone();
+    url.pathname = comingSoonCanonical;
+    return NextResponse.redirect(url, 308);
+  }
+
+  if (isComingSoonPublicPath(pathname)) {
+    return NextResponse.next();
+  }
+
+  if (setupCanonical) {
+    if (setupCanonical !== pathname) {
+      const url = request.nextUrl.clone();
+      url.pathname = setupCanonical;
+      return NextResponse.redirect(url);
+    }
+    return NextResponse.next();
+  }
+
+  if (!pathname.startsWith("/admin") && !isSetupPath) {
+    try {
+      const redirect = await lookupRedirect(pathname, request);
+      if (redirect) {
+        const url = request.nextUrl.clone();
+        url.pathname = redirect.toPath;
+        return NextResponse.redirect(url, redirect.type === "PERMANENT" ? 308 : 307);
+      }
+    } catch {
+      // continue without redirect
+    }
+  }
+
+  const accountPath = parseAccountPath(pathname, locales);
+  if (accountPath) {
+    const { sub } = accountPath;
+    const isAuthPage =
+      sub === "login" ||
+      sub === "register" ||
+      sub === "forgot-password" ||
+      sub === "reset-password";
+
+    if (sub === "register" && !setupStatus.registrationEnabled) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/${accountPath.locale}/account/login`;
+      return NextResponse.redirect(url);
+    }
+
+    const session = await getSession();
+
+    if (isAuthPage) {
+      if (session?.user) {
+        const dest = `/${accountPath.locale}/account`;
+        return NextResponse.redirect(new URL(dest, request.url));
+      }
+      return intlMiddleware(request);
+    }
+
+    const isPublicAccountHub = sub === "";
+
+    if (!session?.user) {
+      if (isPublicAccountHub) {
+        return intlMiddleware(request);
+      }
+      const loginUrl = new URL(`/${accountPath.locale}/account/login`, request.url);
+      loginUrl.searchParams.set("callbackUrl", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    return intlMiddleware(request);
+  }
+
+  const wiredCmsRedirect = getWiredCmsPageRedirect(pathname, locales);
+  if (wiredCmsRedirect) {
+    const url = request.nextUrl.clone();
+    url.pathname = wiredCmsRedirect;
+    return NextResponse.redirect(url, 308);
+  }
+
+  if (canonicalPath) {
+    const url = request.nextUrl.clone();
+    url.pathname = canonicalPath;
+    return NextResponse.redirect(url, 308);
+  }
+
+  return intlMiddleware(request);
+}
+
+export default async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const skipSupabase =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/api/auth") ||
+    !needsSupabaseSession(pathname);
+
+  let supabaseResponse: NextResponse | null = null;
+  let supabaseModule: typeof import("@/utils/supabase/middleware") | null = null;
+  if (!skipSupabase) {
+    try {
+      supabaseModule = await import("@/utils/supabase/middleware");
+      if (supabaseModule.isSupabaseConfigured()) {
+        supabaseResponse = await supabaseModule.updateSession(request);
+      }
+    } catch (error) {
+      console.error("[middleware] supabase session skipped:", error);
+    }
+  }
+
+  try {
+    const response = await runMiddleware(request);
+    const final = supabaseResponse && supabaseModule
+      ? supabaseModule.mergeSupabaseCookies(supabaseResponse, response)
+      : response;
+    final.headers.set("x-pathname", pathname);
+    return final;
+  } catch (error) {
+    const fallback = middlewareFallback(request, error);
+    fallback.headers.set("x-pathname", pathname);
+    return fallback;
+  }
+}
+
+export const config = {
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/auth|.*\\..*).*)"],
+};
