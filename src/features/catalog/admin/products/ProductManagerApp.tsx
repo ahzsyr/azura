@@ -1481,7 +1481,7 @@ export default function ProductManagerApp({
                 </button>
               </div>
               <p className="pm-catalog-alert__hint">
-                Invalid JSON or missing required fields under <code>src/data/</code>. Fix files locally or use{" "}
+                Invalid JSON or missing required fields under <code>seeds/catalog/</code>. Fix files locally or use{" "}
                 <Link href="/admin?view=json-editor">JSON Editor</Link>.
               </p>
               <ul className="pm-catalog-alert__list">

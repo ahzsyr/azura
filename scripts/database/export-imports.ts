@@ -30,9 +30,21 @@ type SeedMode = "blank" | "demo-brt" | "demo-safar";
 
 const prisma = new PrismaClient();
 
+const MYSQL_SCHEMA_DIR = join(ROOT, "prisma/schema/mysql");
+const PG_SCHEMA_DIR = join(ROOT, "prisma/schema/postgresql");
+
+function readMultiFileSchema(schemaDir: string): string {
+  return readdirSync(schemaDir)
+    .filter((file) => file.endsWith(".prisma"))
+    .sort()
+    .map((file) => readFileSync(join(schemaDir, file), "utf-8"))
+    .join("\n\n");
+}
+
+const MYSQL_SCHEMA_DATAMODEL = readMultiFileSchema(MYSQL_SCHEMA_DIR);
+
 /** Prisma model names (= MySQL table names on Linux / Hostinger). */
-const PRISMA_TABLES = readFileSync(join(ROOT, "prisma/schema.prisma"), "utf-8")
-  .match(/^model (\w+)/gm)
+const PRISMA_TABLES = MYSQL_SCHEMA_DATAMODEL.match(/^model (\w+)/gm)
   ?.map((line) => line.replace("model ", "")) ?? [];
 
 const SKIP_SEED_TABLES = new Set(["_prisma_migrations"]);
@@ -52,7 +64,7 @@ const DEFAULT_COLUMN_META: ColumnMeta = {
 };
 
 function parseColumnTypes(): Map<string, Map<string, ColumnMeta>> {
-  const schema = readFileSync(join(ROOT, "prisma/schema.prisma"), "utf-8");
+  const schema = MYSQL_SCHEMA_DATAMODEL;
   const map = new Map<string, Map<string, ColumnMeta>>();
   let currentModel: string | null = null;
 
@@ -172,7 +184,7 @@ function ensureDirs() {
 
 function wrapMysqlSchema(raw: string): string {
   return [
-    "-- AZURA — MySQL 8+ schema (generated from prisma/schema.prisma)",
+    "-- AZURA — MySQL 8+ schema (generated from prisma/schema/mysql/)",
     "-- Import via phpMyAdmin: select database → Import → choose this file",
     "",
     "SET NAMES utf8mb4;",
@@ -187,7 +199,7 @@ function wrapMysqlSchema(raw: string): string {
 
 function wrapPostgresSchema(raw: string): string {
   return [
-    "-- AZURA — PostgreSQL schema for Supabase (generated from prisma/schema.prisma)",
+    "-- AZURA — PostgreSQL schema for Supabase (generated from prisma/schema/postgresql/)",
     "-- Run in Supabase SQL Editor before importing CSV data",
     "",
     raw.trim(),
@@ -198,23 +210,15 @@ function wrapPostgresSchema(raw: string): string {
 function generateSchemas() {
   console.log("Generating MySQL schema…");
   run(
-    "npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script -o database/mysql/01-schema.raw.sql"
+    "npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema/mysql --script -o database/mysql/01-schema.raw.sql"
   );
   const mysqlRaw = readFileSync(join(MYSQL_DIR, "01-schema.raw.sql"), "utf-8");
   writeFileSync(join(MYSQL_DIR, "01-schema.sql"), wrapMysqlSchema(mysqlRaw));
   rmSync(join(MYSQL_DIR, "01-schema.raw.sql"), { force: true });
 
   console.log("Generating PostgreSQL schema…");
-  const pgSchemaPath = join(ROOT, "prisma/schema.postgresql.prisma");
-  if (!existsSync(pgSchemaPath)) {
-    const mysqlSchema = readFileSync(join(ROOT, "prisma/schema.prisma"), "utf-8");
-    writeFileSync(
-      pgSchemaPath,
-      mysqlSchema.replace('provider = "mysql"', 'provider = "postgresql"')
-    );
-  }
   run(
-    "npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.postgresql.prisma --script -o database/postgres/01-schema.raw.sql"
+    "npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema/postgresql --script -o database/postgres/01-schema.raw.sql"
   );
   const pgRaw = readFileSync(join(PG_DIR, "01-schema.raw.sql"), "utf-8");
   writeFileSync(join(PG_DIR, "01-schema.sql"), wrapPostgresSchema(pgRaw));

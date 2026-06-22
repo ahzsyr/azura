@@ -1054,7 +1054,8 @@ Copy into PRs, RFCs, and `platform-boundaries.md`.
 | `src/ARCHITECTURE.md` | Outdated — replace pointers with constitution after Phase 0 |
 | `docs/unified-i18n-architecture.md` | Align with Localization Core + Capability AI |
 | `docs/i18n-admin-audit.md` | Input for Phase 6 translation consolidation |
-| `Guide/project-description.md` | Update after product-vision.md |
+| `docs/product-vision.md` | Product overview and architecture summary |
+| `docs/deployment/` | Host setup, env templates (`database/env/`), sizing |
 | `prisma/schema.prisma` header | Still says travel/packages — update after domain model frozen |
 
 ---

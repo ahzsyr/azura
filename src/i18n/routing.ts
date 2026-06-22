@@ -14,7 +14,7 @@ export type Locale = string;
 /** Full routing config for next-intl navigation APIs (createNavigation). */
 export const sharedRoutingConfig = routing;
 
-/** Alias for project-c header builder compatibility */
+/** Alias for header builder compatibility */
 export const defaultLocale = { code: routing.defaultLocale };
 
 export function getDirection(locale: string) {

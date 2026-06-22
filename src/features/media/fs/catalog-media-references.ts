@@ -136,7 +136,7 @@ export async function findCatalogMediaUsages(filename: string): Promise<MediaUsa
             type: "product",
             id: row.canonicalSlug,
             label: row.canonicalSlug,
-            url: `/admin/catalog-products?slug=${row.canonicalSlug}`,
+            url: `/admin/products?slug=${row.canonicalSlug}`,
           });
         }
       }
@@ -149,7 +149,7 @@ export async function findCatalogMediaUsages(filename: string): Promise<MediaUsa
           type: "collection",
           id: row.slug,
           label: row.slug,
-          url: "/admin/catalog-collections",
+          url: "/admin/collections",
         });
       }
     }
@@ -174,7 +174,7 @@ export async function findCatalogMediaUsages(filename: string): Promise<MediaUsa
           type: "product",
           id: slug,
           label: slug,
-          url: `/admin/catalog-products?slug=${slug}`,
+          url: `/admin/products?slug=${slug}`,
         });
       }
     } catch {
@@ -187,7 +187,7 @@ export async function findCatalogMediaUsages(filename: string): Promise<MediaUsa
     type: "collection",
     id: "collections.json",
     label: "Collections registry",
-    url: "/admin/catalog-collections",
+    url: "/admin/collections",
   });
 
   return usages;

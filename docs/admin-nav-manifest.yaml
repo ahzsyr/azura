@@ -625,24 +625,24 @@ items:
 
   # --- Deprecated / merge targets (Phase 3) ---
   - id: catalog-products-deprecated
-    label: Catalog Products (deprecated)
+    label: Catalog Products (redirect)
     group: system
     icon: Package
     href_current: /admin/catalog-products
     href_target: /admin/products
     profiles: []
     keywords: []
-    status: deprecated
+    status: redirected
 
   - id: catalog-collections-deprecated
-    label: Catalog Collections (deprecated)
+    label: Catalog Collections (redirect)
     group: system
     icon: Layers
     href_current: /admin/catalog-collections
     href_target: /admin/collections
     profiles: []
     keywords: []
-    status: deprecated
+    status: redirected
 
   # --- Legacy nav-only (removed from target tree) ---
   - id: catalog-hub-legacy

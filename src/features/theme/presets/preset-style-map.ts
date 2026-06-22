@@ -1,4 +1,4 @@
-/** Card & border styles per catalog preset — synced from `/sample/src/presets/*.json`. */
+/** Card & border styles per catalog preset — synced from `seeds/catalog/presets/*.json`. */
 export const PRESET_STYLE_MAP: Record<
   string,
   { cardStyle: string; borderStyle: string }

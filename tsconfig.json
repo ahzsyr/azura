@@ -39,5 +39,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "project-c", "sample", "learn", "**/*.test.ts", "**/*.test.tsx"]
+  "exclude": ["node_modules", "**/*.test.ts", "**/*.test.tsx", "scripts/i18n/archive/**", "scripts/catalog/archive/**"]
 }

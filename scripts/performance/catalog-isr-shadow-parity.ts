@@ -22,9 +22,6 @@ function installRequireCacheMock(resolvedPath: string, exports: unknown): void {
 
 try {
   const serverOnlyPath = require.resolve("server-only");
-  // #region agent log
-  void fetch("http://127.0.0.1:7249/ingest/39015276-3520-45ed-aa0e-f49ed49423a8", { method: "POST", headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "12383e" }, body: JSON.stringify({ sessionId: "12383e", runId: "pre-fix", hypothesisId: "H1,H2", location: "scripts/performance/catalog-isr-shadow-parity.ts:12", message: "installing server-only require cache shim", data: { serverOnlyPath }, timestamp: Date.now() }) }).catch(() => {});
-  // #endregion
   installRequireCacheMock(serverOnlyPath, {});
 } catch {
   /* server-only is optional in script context */
@@ -33,9 +30,6 @@ try {
 try {
   const fontGooglePath = require.resolve("next/font/google");
   const fontMock = () => ({ className: "", variable: "" });
-  // #region agent log
-  void fetch("http://127.0.0.1:7249/ingest/39015276-3520-45ed-aa0e-f49ed49423a8", { method: "POST", headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "12383e" }, body: JSON.stringify({ sessionId: "12383e", runId: "pre-fix", hypothesisId: "H2,H5", location: "scripts/performance/catalog-isr-shadow-parity.ts:27", message: "installing next/font/google require cache shim", data: { fontGooglePath }, timestamp: Date.now() }) }).catch(() => {});
-  // #endregion
   installRequireCacheMock(fontGooglePath, {
     Amiri: fontMock,
     Plus_Jakarta_Sans: fontMock,

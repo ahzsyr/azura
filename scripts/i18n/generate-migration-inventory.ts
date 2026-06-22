@@ -11,7 +11,7 @@ import { listRegistryEntityTypes, ENTITY_TABLE_NAMES } from "./migration-utils";
 const LEGACY_COLUMN_TABLES: { table: string; columns: string[] }[] = (() => {
   try {
     const sql = fs.readFileSync(
-      path.join(process.cwd(), "scripts/i18n/generate-migration-sql.ts"),
+      path.join(process.cwd(), "scripts/i18n/archive/generate-migration-sql.ts"),
       "utf-8"
     );
     const match = sql.match(/const enArColumns[\s\S]*?^\];/m);

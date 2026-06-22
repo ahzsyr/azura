@@ -377,8 +377,8 @@ Implementation: Phase 8 with [`getBreadcrumbs`](src/config/admin-nav.ts) refacto
 | `/admin/hotels` | Properties | content | Redirects to listings |
 | `/admin/services` | Services | content | Redirects to offerings |
 | `/admin/presets` | Theme Presets | system | Theme preset manager |
-| `/admin/catalog-products` | *(deprecated)* | — | Merge into Products Phase 3 |
-| `/admin/catalog-collections` | *(deprecated)* | — | Merge into Collections Phase 3 |
+| `/admin/catalog-products` | *(redirect)* | — | Redirects to `/admin/products` |
+| `/admin/catalog-collections` | *(redirect)* | — | Redirects to `/admin/collections` |
 | `/admin/settings` | Settings hub | settings | Optional landing; children in nav |
 
 ---

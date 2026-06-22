@@ -12,8 +12,8 @@
 
 Use one of these templates:
 
-- `Guide/.env.mysql`
-- `Guide/.env.postgres`
+- [`database/env/.env.mysql`](../../database/env/.env.mysql)
+- [`database/env/.env.postgres`](../../database/env/.env.postgres)
 
 At minimum, you must set:
 
@@ -33,14 +33,10 @@ For file manager in hosted setups, set Supabase storage keys:
 
 ## Database bootstrapping
 
-- MySQL:
-  - Run `Guide/mysql-create-tables.sql`
-  - Import `database/mysql/01-schema.sql`
-- PostgreSQL:
-  - Run `Guide/postgres-create-tables.sql`
-  - Import `database/postgres/01-schema.sql`
+- MySQL: import [`database/mysql/01-schema.sql`](../../database/mysql/01-schema.sql)
+- PostgreSQL: import [`database/postgres/01-schema.sql`](../../database/postgres/01-schema.sql)
 
-For first deployment, blank seed is recommended (`02-seed-blank.sql` or `import-blank.sql`).
+For first deployment, blank seed is recommended (`02-seed-blank.sql` or `import-blank.sql`). See [`database/README.md`](../../database/README.md).
 
 ## Build and run
 

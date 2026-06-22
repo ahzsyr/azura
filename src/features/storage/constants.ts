@@ -179,6 +179,6 @@ export const SCHEMA_MODELS = [
   { name: "CompanyInfo", kind: "relational", note: "Singleton settings row" },
   { name: "SiteSettings", kind: "relational", note: "Per-locale site config payload" },
   { name: "SearchAnalyticsSnapshot", kind: "relational", note: "Per-locale search analytics" },
-  { name: "Product", kind: "relational", note: "Catalog products — /admin/catalog-products" },
+  { name: "Product", kind: "relational", note: "Catalog products — /admin/products" },
   { name: "CatalogCollection", kind: "relational", note: "Catalog collections" },
 ] as const;

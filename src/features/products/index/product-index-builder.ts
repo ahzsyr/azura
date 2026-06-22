@@ -488,7 +488,7 @@ export async function buildAllProductIndexes(options?: {
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.warn(
-      `[catalog:index] public copy skipped (${message}). Indexes in src/data/products-index are used at runtime.`,
+      `[catalog:index] public copy skipped (${message}). Indexes in seeds/catalog/products-index are used at runtime.`,
     );
   }
 
@@ -614,7 +614,7 @@ export type PatchLocaleProductIndexOptions = {
   /** Full rebuild when listing index is missing or corrupt. */
   forceFull?: boolean;
   gzip?: boolean;
-  /** Relative path under src/data for slug-path index (on save). */
+  /** Relative path under seeds/catalog for slug-path index (on save). */
   relPath?: string;
   mtimeMs?: number;
 };
@@ -692,7 +692,7 @@ export async function patchLocaleProductIndex(
   return { count: records.length, signature, mode: "patch" };
 }
 
-/** True when product index JSON can be written under src/data/products-index. */
+/** True when product index JSON can be written under seeds/catalog/products-index. */
 export async function canWriteProductIndexes(): Promise<boolean> {
   if (process.env.VERCEL === "1") return false;
   if (useCatalogProductsDb()) return false;

@@ -1,4 +1,4 @@
-// AZURA — Prisma schema (MySQL 8+)
+// AZURA — Prisma schema (PostgreSQL / Supabase)
 //
 // Layers:
 //   • Core — packages, hotels, inquiries, company, legacy SeoSettings

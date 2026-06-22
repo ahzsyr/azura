@@ -1,5 +1,5 @@
 /**
- * Header Builder workspace types — adapted from project-c for Devi travel CMS.
+ * Header Builder workspace types for the travel CMS.
  */
 
 export type MenuItemType =

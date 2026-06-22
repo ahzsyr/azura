@@ -13,17 +13,17 @@ Choose one:
 
 - MySQL:
   - Create empty DB (example: `azura`)
-  - Run `Guide/mysql-create-tables.sql`
-  - Import `database/mysql/01-schema.sql`
+  - Import [`database/mysql/01-schema.sql`](../../database/mysql/01-schema.sql)
 - PostgreSQL/Supabase:
   - Create project/database
-  - Run `Guide/postgres-create-tables.sql`
-  - Import `database/postgres/01-schema.sql`
+  - Import [`database/postgres/01-schema.sql`](../../database/postgres/01-schema.sql)
+
+See [`database/README.md`](../../database/README.md) for seed bundles and regeneration.
 
 ## 3) Configure environment variables
 
-- For MySQL: start from `Guide/.env.mysql`
-- For PostgreSQL/Supabase: start from `Guide/.env.postgres`
+- For MySQL: start from [`database/env/.env.mysql`](../../database/env/.env.mysql)
+- For PostgreSQL/Supabase: start from [`database/env/.env.postgres`](../../database/env/.env.postgres)
 
 Set all required secrets and URLs before build/start.
 
