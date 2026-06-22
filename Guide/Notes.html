@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AZURA 2.0 — Environment &amp; Database Reference</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --surface-2: #243044;
+      --text: #e7ecf3;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dim: #0ea5e9;
+      --border: #334155;
+      --required: #4ade80;
+      --optional: #fbbf24;
+      --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+      --mono: "Cascadia Code", "Consolas", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    nav.toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    nav.toc strong { display: block; margin-bottom: 0.5rem; }
+
+    nav.toc a {
+      color: var(--accent);
+      text-decoration: none;
+      margin-right: 1rem;
+      font-size: 0.9rem;
+    }
+
+    nav.toc a:hover { text-decoration: underline; }
+
+    section {
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      margin: 0 0 1rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      margin: 1.5rem 0 0.75rem;
+      color: var(--accent);
+    }
+
+    p, li { color: var(--text); }
+
+    .muted { color: var(--muted); font-size: 0.9rem; }
+
+    .callout {
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      padding: 0.85rem 1rem;
+      margin: 1rem 0;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.92rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 0.5rem 0 1rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--surface-2);
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) td { background: rgba(255, 255, 255, 0.02); }
+
+    code, .var {
+      font-family: var(--mono);
+      font-size: 0.82em;
+      background: var(--surface-2);
+      padding: 0.12em 0.35em;
+      border-radius: 4px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.15em 0.45em;
+      border-radius: 4px;
+      margin-left: 0.35rem;
+      vertical-align: middle;
+    }
+
+    .badge-required { background: #14532d; color: var(--required); }
+    .badge-build { background: #422006; color: var(--optional); }
+    .badge-optional { background: var(--surface-2); color: var(--muted); }
+
+    .table-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0.5rem 0 1rem;
+    }
+
+    .table-chip {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+    }
+
+    .count {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    footer a { color: var(--accent); }
+
+    @media (max-width: 640px) {
+      table { font-size: 0.8rem; }
+      th, td { padding: 0.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>AZURA 2.0 — Environment &amp; Database Reference</h1>
+      <p class="subtitle">
+        Deployment variables and Supabase PostgreSQL tables for the AZURA platform.
+        Companion to <a href="azura-v2.md">azura-v2.md</a> · Phases 0–9 complete.
+      </p>
+    </header>
+
+    <nav class="toc" aria-label="Contents">
+      <strong>On this page</strong>
+      <a href="#overview">Overview</a>
+      <a href="#env-required">Required env</a>
+      <a href="#env-all">All variables</a>
+      <a href="#database">Database tables</a>
+      <a href="#supabase">Supabase extras</a>
+      <a href="#deploy">Deploy checklist</a>
+    </nav>
+
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>
+        AZURA connects to <strong>Supabase PostgreSQL</strong> via Prisma (<code>DATABASE_URL</code>).
+        Media files may use <strong>Supabase Storage</strong> (<code>storage.objects</code>), separate from Prisma tables.
+        Admin authentication uses <strong>NextAuth / Auth.js</strong> with the <code>User</code> table — not Supabase Auth by default.
+      </p>
+      <div class="callout">
+        <strong>Templates:</strong> Full env template → <code>Guide/.env.postgres</code> ·
+        Minimal committed example → <code>.env.example</code> (only <code>AZURA_PROFILE</code>) ·
+        Hostinger notes → <code>.env.hostinger</code> (local, not committed).
+      </div>
+      <p class="muted">
+        Schema source: <code>prisma/schema/postgresql/</code> · Apply migrations: <code>npm run db:deploy</code> ·
+        Verify: <code>npm run platform:verify</code>, <code>npm run custom-entity-types:verify</code>
+      </p>
+    </section>
+
+    <section id="env-required">
+      <h2>Minimum production environment</h2>
+      <table>
+        <thead>
+          <tr><th>Variable</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>DATABASE_URL</code> <span class="badge badge-required">required</span></td>
+            <td>Supabase pooler URI — use transaction pooler <code>:6543</code> with <code>pgbouncer=true</code> on shared hosting</td>
+          </tr>
+          <tr>
+            <td><code>PRISMA_SCHEMA</code></td>
+            <td>Set to <code>postgresql</code> for Supabase</td>
+          </tr>
+          <tr>
+            <td><code>AUTH_SECRET</code> / <code>NEXTAUTH_SECRET</code> <span class="badge badge-required">required</span></td>
+            <td>Long random secret for session signing</td>
+          </tr>
+          <tr>
+            <td><code>NEXTAUTH_URL</code> <span class="badge badge-required">required</span></td>
+            <td>Public site URL (auth callbacks)</td>
+          </tr>
+          <tr>
+            <td><code>AUTH_TRUST_HOST</code></td>
+            <td><code>true</code> on Vercel / Hostinger</td>
+          </tr>
+          <tr>
+            <td><code>NEXT_PUBLIC_SITE_URL</code> <span class="badge badge-required">required</span></td>
+            <td>Canonical public URL (SEO, sitemap, emails)</td>
+          </tr>
+          <tr>
+            <td><code>NEXT_PUBLIC_SUPABASE_URL</code></td>
+            <td>Supabase project URL</td>
+          </tr>
+          <tr>
+            <td><code>NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY</code></td>
+            <td>Client / anon key</td>
+          </tr>
+          <tr>
+            <td><code>SUPABASE_SERVICE_ROLE_KEY</code></td>
+            <td>Required when <code>MEDIA_STORAGE=supabase</code></td>
+          </tr>
+          <tr>
+            <td><code>MEDIA_STORAGE</code></td>
+            <td><code>supabase</code> for cloud deploys</td>
+          </tr>
+          <tr>
+            <td><code>AZURA_PROFILE</code> <span class="badge badge-build">build</span></td>
+            <td><code>marketing</code> | <code>showroom</code> | <code>agency</code> | <code>tourism</code> | <code>documentation</code> | <code>enterprise</code> (default)</td>
+          </tr>
+          <tr>
+            <td><code>INTERNAL_APP_URL</code></td>
+            <td>e.g. <code>http://127.0.0.1:3000</code> for middleware self-fetch on Node hosts</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="env-all">
+      <h2>All environment variables</h2>
+
+      <h3>Core runtime</h3>
+      <table>
+        <thead><tr><th>Variable</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>NODE_ENV</code></td><td><code>development</code> or <code>production</code></td></tr>
+          <tr><td><code>PORT</code></td><td>HTTP port (default <code>3000</code>)</td></tr>
+          <tr><td><code>INTERNAL_APP_URL</code></td><td>Origin for middleware internal API fetches</td></tr>
+          <tr><td><code>SETUP_COMPLETE</code></td><td>Treat setup wizard as done when status API unreachable</td></tr>
+          <tr><td><code>SETUP_TOKEN</code></td><td>Protect one-time setup wizard</td></tr>
+          <tr><td><code>SETUP_FRESH_INSTALL</code></td><td>Force seed on Hostinger DB setup</td></tr>
+          <tr><td><code>COMING_SOON_ENABLED</code></td><td>Fallback coming-soon flag</td></tr>
+          <tr><td><code>COMING_SOON_BYPASS_SECRET</code></td><td>Bypass cookie secret for coming-soon gate</td></tr>
+          <tr><td><code>NEXT_PUBLIC_REGISTRATION_ENABLED</code></td><td>Public user registration toggle</td></tr>
+          <tr><td><code>MIDDLEWARE_MANIFEST_REFRESH</code></td><td>Set <code>0</code> to skip manifest refresh</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Database</h3>
+      <table>
+        <thead><tr><th>Variable</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>DATABASE_URL</code></td><td>Prisma connection string (Supabase Postgres)</td></tr>
+          <tr><td><code>PRISMA_SCHEMA</code></td><td><code>postgresql</code> or <code>mysql</code></td></tr>
+          <tr><td><code>BUILD_WITHOUT_DB</code></td><td><code>1</code> during Vercel build when DB unavailable</td></tr>
+          <tr><td><code>SKIP_PRESTART_PRISMA</code></td><td>Skip Prisma steps at container start</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Auth</h3>
+      <table>
+        <thead><tr><th>Variable</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>AUTH_SECRET</code></td><td>Auth.js / NextAuth secret</td></tr>
+          <tr><td><code>NEXTAUTH_SECRET</code></td><td>Alias for <code>AUTH_SECRET</code></td></tr>
+          <tr><td><code>AUTH_URL</code></td><td>Canonical auth URL (optional)</td></tr>
+          <tr><td><code>AUTH_TRUST_HOST</code></td><td><code>true</code> on hosted platforms</td></tr>
+          <tr><td><code>NEXTAUTH_URL</code></td><td>Public URL for auth callbacks</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Public site metadata</h3>
+      <table>
+        <thead><tr><th>Variable</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>NEXT_PUBLIC_SITE_URL</code></td><td>Canonical site URL</td></tr>
+          <tr><td><code>NEXT_PUBLIC_SITE_NAME</code></td><td>Site display name</td></tr>
+          <tr><td><code>NEXT_PUBLIC_SITE_SHORT_NAME</code></td><td>Short name / PWA</td></tr>
+          <tr><td><code>NEXT_PUBLIC_SITE_TAGLINE</code></td><td>Tagline</td></tr>
+          <tr><td><code>NEXT_PUBLIC_WHATSAPP_NUMBER</code></td><td>WhatsApp CTA number</td></tr>
+          <tr><td><code>NEXT_PUBLIC_WHATSAPP_MESSAGE</code></td><td>WhatsApp message template (<code>{brandName}</code>)</td></tr>
+          <tr><td><code>NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL</code></td><td>Contact page map embed</td></tr>
+          <tr><td><code>NEXT_PUBLIC_GA_ID</code></td><td>Google Analytics ID</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Supabase storage</h3>
+      <table>
+        <thead><tr><th>Variable</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>MEDIA_STORAGE</code></td><td><code>supabase</code> or <code>local</code></td></tr>
+          <tr><td><code>SUPABASE_MEDIA_BUCKET</code></td><td>Bucket name (default <code>media</code>)</td></tr>
+          <tr><td><code>NEXT_PUBLIC_SUPABASE_URL</code></td><td>Supabase project URL</td></tr>
+          <tr><td><code>NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY</code></td><td>Publishable / anon key</td></tr>
+          <tr><td><code>SUPABASE_URL</code></td><td>Server-side URL (optional)</td></tr>
+          <tr><td><code>SUPABASE_ANON_KEY</code></td><td>Anon key alias</td></tr>
+          <tr><td><code>SUPABASE_SERVICE_ROLE_KEY</code></td><td>Server uploads to storage</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Catalog &amp; data mode</h3>
+      <table>
+        <thead><tr><th>Variable</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>CATALOG_DATA_SOURCE</code></td><td><code>db</code> vs <code>filesystem</code></td></tr>
+          <tr><td><code>CATALOG_PRODUCTS_SOURCE</code></td><td><code>db</code> vs <code>filesystem</code></td></tr>
+          <tr><td><code>CATALOG_USE_JSON_STORE</code></td><td><code>1</code> — use JsonStore on serverless</td></tr>
+          <tr><td><code>NEXT_PUBLIC_CATALOG_DB_ONLY</code></td><td>Hide filesystem media in admin picker</td></tr>
+          <tr><td><code>CATALOG_FACET_ENGINE</code></td><td><code>inverted</code> for inverted facet engine</td></tr>
+          <tr><td><code>CATALOG_FACET_ENGINE_SHADOW</code></td><td>Shadow-compare facet engines</td></tr>
+          <tr><td><code>USE_PRODUCT_LISTING_INDEX</code></td><td><code>false</code> disables listing index</td></tr>
+          <tr><td><code>COLLECTION_RULE_INDEX_THRESHOLD</code></td><td>Collection rule index tuning</td></tr>
+          <tr><td><code>CATALOG_SYNC_ASYNC_THRESHOLD</code></td><td>Async catalog sync threshold</td></tr>
+          <tr><td><code>SKIP_CATALOG_PREBUILD</code></td><td>Skip catalog prebuild step</td></tr>
+          <tr><td><code>SKIP_SEARCH_INDEX_SYNC</code></td><td>Skip search index sync in scripts</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Client catalog limits (<code>NEXT_PUBLIC_*</code>)</h3>
+      <p class="muted">
+        <code>NEXT_PUBLIC_CATALOG_CLIENT_MAX_PRODUCTS</code>,
+        <code>NEXT_PUBLIC_CATALOG_CLIENT_MAX_PAYLOAD_MB</code>,
+        <code>NEXT_PUBLIC_CATALOG_CLIENT_INTERACTIVE</code>,
+        <code>NEXT_PUBLIC_CATALOG_CLIENT_SHADOW</code>,
+        <code>NEXT_PUBLIC_CATALOG_INTERACTIVE_DEBUG</code>,
+        plus <code>_PRODUCTS</code> / <code>_COLLECTIONS</code> variants.
+      </p>
+
+      <h3>Entity migration flags</h3>
+      <table>
+        <thead><tr><th>Variable</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>AZURA_ENTITY_DUAL_WRITE</code></td><td>Mirror Product ↔ ContentItem</td></tr>
+          <tr><td><code>AZURA_ENTITY_WRITE_PRIMARY</code></td><td>ContentItem as write primary</td></tr>
+          <tr><td><code>AZURA_ENTITY_READ_CONTENT</code></td><td>Prefer ContentItem reads</td></tr>
+          <tr><td><code>AZURA_PRODUCT_TABLE_READONLY</code></td><td>Block Product table writes</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Deployment profile <span class="badge badge-build">build time</span></h3>
+      <table>
+        <thead><tr><th>Variable</th><th>Values</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>AZURA_PROFILE</code></td>
+            <td>
+              <code>marketing</code> · <code>showroom</code> · <code>agency</code> ·
+              <code>tourism</code> · <code>documentation</code> · <code>enterprise</code> (default)
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Email</h3>
+      <p class="muted">
+        <code>EMAIL_FROM</code>, <code>RESEND_API_KEY</code>,
+        <code>SMTP_HOST</code>, <code>SMTP_PORT</code>, <code>SMTP_USER</code>, <code>SMTP_PASS</code>
+      </p>
+
+      <h3>Setup seeds</h3>
+      <p class="muted">
+        <code>SEED_ADMIN_EMAIL</code>, <code>SEED_ADMIN_PASSWORD</code>, <code>SEED_COMPANY_EMAIL</code>
+      </p>
+
+      <h3>Webhooks, cron &amp; jobs</h3>
+      <p class="muted">
+        <code>WEBHOOK_SIGNING_SECRET</code>, <code>CRON_SECRET</code>,
+        <code>SEARCH_INDEX_RUN_SECRET</code>, <code>SEO_INTEGRATION_RUN_SECRET</code>,
+        <code>SEO_ANALYTICS_RUN_SECRET</code>, <code>SEO_INTEGRATION_SECRET</code>
+      </p>
+
+      <h3>AI, translation &amp; SEO integrations</h3>
+      <p class="muted">
+        <code>OPENAI_API_KEY</code>, <code>TRANSLATION_PROVIDER_API_KEY</code>,
+        <code>GOOGLE_SEARCH_CONSOLE_CLIENT_ID</code>, <code>GOOGLE_SEARCH_CONSOLE_CLIENT_SECRET</code>
+      </p>
+
+      <h3>UploadThing <span class="badge badge-optional">optional</span></h3>
+      <p class="muted"><code>UPLOADTHING_TOKEN</code>, <code>UPLOADTHING_APP_ID</code></p>
+
+      <h3>Search tokenizer</h3>
+      <p class="muted"><code>TOKENIZER_VERSION</code>, <code>NEXT_PUBLIC_TOKENIZER_VERSION</code></p>
+
+      <h3>Platform / CI (usually auto-set)</h3>
+      <p class="muted">
+        <code>VERCEL</code>, <code>VERCEL_URL</code>, <code>VERCEL_GIT_COMMIT_SHA</code>,
+        <code>NEXT_PHASE</code>, <code>STAGING_URL</code>, <code>PERF_*</code>,
+        <code>ALLOW_ARCHIVED_I18N_CODEMODS</code>
+      </p>
+    </section>
+
+    <section id="database">
+      <h2>Supabase PostgreSQL tables (Prisma)</h2>
+      <p>
+        <strong>84 models</strong> in <code>prisma/schema/postgresql/</code> map to tables in the
+        <code>public</code> schema (model name = table name). Apply with <code>npm run db:deploy</code>.
+      </p>
+
+      <h3>Entities / content <span class="count">(5)</span></h3>
+      <div class="table-grid">
+        <span class="table-chip">ContentType</span>
+        <span class="table-chip">ContentCollection</span>
+        <span class="table-chip">ContentItem</span>
+        <span class="table-chip">ContentCollectionItem</span>
+        <span class="table-chip">ContentItemMedia</span>
+      </div>
+
+      <h3>i18n / translation <span class="count">(5)</span></h3>
+      <div class="table-grid">
+        <span class="table-chip">EntityTranslation</span>
+        <span class="table-chip">EntityTranslationVersion</span>
+        <span class="table-chip">LocalizedSlug</span>
+        <span class="table-chip">TranslationJob</span>
+        <span class="table-chip">TranslationMemory</span>
+      </div>
+
+      <h3>Core / legacy <span class="count">(14)</span></h3>
+      <div class="table-grid">
+        <span class="table-chip">User</span>
+        <span class="table-chip">PasswordResetToken</span>
+        <span class="table-chip">UserFavorite</span>
+        <span class="table-chip">Gallery</span>
+        <span class="table-chip">GalleryMedia</span>
+        <span class="table-chip">Testimonial</span>
+        <span class="table-chip">TestimonialCollection</span>
+        <span class="table-chip">TestimonialCollectionItem</span>
+        <span class="table-chip">Inquiry</span>
+        <span class="table-chip">Booking</span>
+        <span class="table-chip">FaqSet</span>
+        <span class="table-chip">FaqItem</span>
+        <span class="table-chip">CompanyInfo</span>
+        <span class="table-chip">SeoSettings</span>
+      </div>
+
+      <h3>Platform / CMS / catalog / search / SEO <span class="count">(29)</span></h3>
+      <div class="table-grid">
+        <span class="table-chip">SiteTheme</span>
+        <span class="table-chip">JsonStore</span>
+        <span class="table-chip">MediaFolder</span>
+        <span class="table-chip">MediaAsset</span>
+        <span class="table-chip">MediaUsage</span>
+        <span class="table-chip">CmsPage</span>
+        <span class="table-chip">CmsPageRevision</span>
+        <span class="table-chip">PostCategory</span>
+        <span class="table-chip">PostTag</span>
+        <span class="table-chip">PostAuthor</span>
+        <span class="table-chip">Post</span>
+        <span class="table-chip">PostCategoryOnPost</span>
+        <span class="table-chip">PostTagOnPost</span>
+        <span class="table-chip">Product</span>
+        <span class="table-chip">CatalogCollection</span>
+        <span class="table-chip">SiteSettings</span>
+        <span class="table-chip">SearchAnalyticsSnapshot</span>
+        <span class="table-chip">SearchDocument</span>
+        <span class="table-chip">SeoMeta</span>
+        <span class="table-chip">SeoRedirect</span>
+        <span class="table-chip">SeoSubmissionJob</span>
+        <span class="table-chip">SeoRunnerLock</span>
+        <span class="table-chip">SeoProviderTelemetry</span>
+        <span class="table-chip">SeoHealthSnapshot</span>
+        <span class="table-chip">SeoCrawlIssue</span>
+        <span class="table-chip">SeoSearchMetric</span>
+        <span class="table-chip">SeoRichResultIssue</span>
+        <span class="table-chip">Custom404</span>
+        <span class="table-chip">LocaleConfig</span>
+      </div>
+
+      <h3>Portal presets <span class="count">(25)</span></h3>
+      <div class="table-grid">
+        <span class="table-chip">PricingPlanSet</span>
+        <span class="table-chip">PricingPlan</span>
+        <span class="table-chip">PricingPlanFeature</span>
+        <span class="table-chip">ReleaseSet</span>
+        <span class="table-chip">Release</span>
+        <span class="table-chip">ReleaseEntry</span>
+        <span class="table-chip">PricingCalculator</span>
+        <span class="table-chip">PricingCalculatorField</span>
+        <span class="table-chip">PricingCalculatorRule</span>
+        <span class="table-chip">KnowledgeBase</span>
+        <span class="table-chip">KnowledgeCategory</span>
+        <span class="table-chip">KnowledgeArticle</span>
+        <span class="table-chip">DocPortal</span>
+        <span class="table-chip">DocVersion</span>
+        <span class="table-chip">DocSection</span>
+        <span class="table-chip">StatusBoard</span>
+        <span class="table-chip">StatusService</span>
+        <span class="table-chip">StatusIncident</span>
+        <span class="table-chip">StatusMaintenance</span>
+        <span class="table-chip">TeamDirectory</span>
+        <span class="table-chip">TeamDepartment</span>
+        <span class="table-chip">TeamMember</span>
+        <span class="table-chip">PartnerProgram</span>
+        <span class="table-chip">PartnerCategory</span>
+        <span class="table-chip">Partner</span>
+      </div>
+
+      <h3>Forms / leads <span class="count">(6)</span></h3>
+      <div class="table-grid">
+        <span class="table-chip">FormTemplate</span>
+        <span class="table-chip">FormSubmission</span>
+        <span class="table-chip">FormDraft</span>
+        <span class="table-chip">NewsletterSubscriber</span>
+        <span class="table-chip">DownloadGateUnlock</span>
+        <span class="table-chip">FormWebhookDelivery</span>
+      </div>
+    </section>
+
+    <section id="supabase">
+      <h2>Supabase (outside Prisma)</h2>
+      <table>
+        <thead><tr><th>Area</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>auth.*</code></td>
+            <td>Supabase Auth tables — app uses NextAuth + <code>User</code> by default</td>
+          </tr>
+          <tr>
+            <td><code>storage.objects</code></td>
+            <td>Media bucket (<code>SUPABASE_MEDIA_BUCKET</code>, default <code>media</code>)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="muted">
+        List live tables in Supabase: Table Editor, or SQL —
+        <code>SELECT tablename FROM pg_tables WHERE schemaname = 'public' ORDER BY tablename;</code>
+      </p>
+    </section>
+
+    <section id="deploy">
+      <h2>Deploy checklist</h2>
+      <ol>
+        <li>Set env vars (minimum table above) on host or Vercel project settings</li>
+        <li>Set <code>AZURA_PROFILE</code> at build time</li>
+        <li><code>npm run db:deploy</code> against Supabase</li>
+        <li><code>npm run build</code> (or <code>build:vercel</code> / <code>build:hostinger</code>)</li>
+        <li>Run setup wizard or set <code>SETUP_COMPLETE=true</code> after first admin login</li>
+        <li>Verify: <code>npm run platform:verify</code>, <code>npm run profiles:verify</code></li>
+      </ol>
+      <div class="callout">
+        <strong>Phase 9 (custom entity types):</strong> optional post-deploy smoke —
+        create types at <code>/admin/content/types/new</code>, publish items, confirm public routes and search.
+        See <a href="azura-v2.md#phase-9--custom-entitytypes-optional-post-20-">Phase 9 checklist</a> in azura-v2.md.
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        Generated reference for AZURA 2.0 ·
+        <a href="azura-v2.md">Master plan (markdown)</a> ·
+        <a href="deployment-profiles.md">Deployment profiles</a> ·
+        <a href="constitution.md">Constitution</a>
+      </p>
+      <p>Do not commit secrets. Use <code>Guide/.env.postgres</code> as the env template.</p>
+    </footer>
+  </div>
+</body>
+</html>
