@@ -1,0 +1,458 @@
+// // --- Platform upgrade models ---
+
+// --- Platform upgrade models ---
+
+model SiteTheme {
+  id                String      @id
+  preset            ThemePreset @default(CLASSIC)
+  siteDefaultPresetId String?
+  activePresetId    String?
+  primaryColor      String      @default("#047857")
+  secondaryColor    String      @default("#d4af37")
+  typography        Json        @default("{}")
+  faviconUrl        String?
+  logoUrl           String?
+  brandConfig       Json        @default("{}")
+  headerConfig      Json        @default("{}")
+  footerConfig      Json        @default("{}")
+  animationsEnabled Boolean     @default(true)
+  animationSpeed    Float       @default(1)
+  lazyLoadEnabled   Boolean     @default(true)
+  darkModeEnabled   Boolean     @default(false)
+  spacingScale      Float       @default(1)
+  customCss         String?     @db.Text
+  cursorEffect      String?
+  backgroundEffect  String?
+  textEffect        String?
+  cursorEffectEnabled Boolean @default(true)
+  backgroundEffectEnabled Boolean @default(true)
+  textEffectEnabled Boolean @default(true)
+  backgroundEffectSettings Json @default("{}")
+  cardStyle         String?
+  borderStyle       String?
+  themeProvenance   Json        @default("{}")
+  updatedAt         DateTime    @updatedAt
+}
+
+model JsonStore {
+  id        String   @id @default(cuid())
+  namespace String   @db.VarChar(64)
+  key       String   @db.VarChar(128)
+  data      Json
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([namespace, key])
+  @@index([namespace])
+}
+
+model MediaFolder {
+  id        String        @id @default(cuid())
+  name      String
+  parentId  String?
+  parent    MediaFolder?  @relation("FolderTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children  MediaFolder[] @relation("FolderTree")
+  assets    MediaAsset[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([parentId])
+}
+
+model MediaAsset {
+  id           String        @id @default(cuid())
+  filename     String
+  url          String
+  mimeType     String
+  mediaType    MediaType
+  assetScope   String        @default("CMS") @db.VarChar(16)
+  sizeBytes    Int           @default(0)
+  width        Int?
+  height       Int?
+  folderId     String?
+  folder       MediaFolder?  @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  uploadedById String?
+  uploadedBy   User?         @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  usages              MediaUsage[]
+  posts               Post[]
+  downloadGateUnlocks DownloadGateUnlock[]
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
+
+  @@index([folderId])
+  @@index([mediaType])
+  @@index([assetScope])
+}
+
+model MediaUsage {
+  id         String   @id @default(cuid())
+  mediaId    String
+  media      MediaAsset @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  entityType String   @db.VarChar(32)
+  entityId   String   @db.VarChar(128)
+  field      String   @default("default")
+  createdAt  DateTime @default(now())
+
+  @@index([mediaId])
+  @@index([entityType, entityId])
+}
+
+model CmsPage {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  templateKey String?
+  status      ContentStatus @default(DRAFT)
+  blocks      Json          @default("[]")
+  visualSettings Json       @default("{}")
+  publishedAt DateTime?
+  scheduledAt DateTime?
+  revisions   CmsPageRevision[]
+  seoMeta     SeoMeta?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([status])
+  @@index([slug, status])
+}
+
+model CmsPageRevision {
+  id        String   @id @default(cuid())
+  pageId    String
+  page      CmsPage  @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  version   Int
+  blocks    Json
+  message   String?
+  createdById String?
+  createdBy User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+
+  @@index([pageId])
+}
+
+model PostCategory {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  sortOrder Int      @default(0)
+  posts     PostCategoryOnPost[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PostTag {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  posts     PostTagOnPost[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PostAuthor {
+  id        String   @id @default(cuid())
+  name      String
+  avatarUrl String?
+  userId    String?  @unique
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  posts     Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id              String        @id @default(cuid())
+  slug            String        @unique
+  blocks          Json          @default("[]")
+  status          ContentStatus @default(DRAFT)
+  featuredImageId String?
+  featuredImage   MediaAsset?   @relation(fields: [featuredImageId], references: [id], onDelete: SetNull)
+  authorId        String?
+  author          PostAuthor?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  publishedAt     DateTime?
+  scheduledAt     DateTime?
+  categories      PostCategoryOnPost[]
+  tags            PostTagOnPost[]
+  relatedPostIds  Json             @default("[]")
+  seoMeta         SeoMeta?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([status])
+  @@index([slug, status])
+}
+
+model PostCategoryOnPost {
+  postId     String       @db.VarChar(36)
+  categoryId String       @db.VarChar(36)
+  post       Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  category   PostCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([postId, categoryId])
+}
+
+model PostTagOnPost {
+  postId String    @db.VarChar(36)
+  tagId  String    @db.VarChar(36)
+  post   Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    PostTag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+}
+
+model Product {
+  id              String   @id @default(cuid())
+  canonicalSlug   String   @unique @db.VarChar(255)
+  sku             String?  @unique @db.VarChar(64)
+
+  priceValue      Decimal? @db.Decimal(12, 2)
+  priceCurrency   String?  @db.VarChar(3)
+
+  availability    String?  @db.VarChar(32)
+  stockStatus     String?  @db.VarChar(32)
+
+  brand           String?  @db.VarChar(128)
+  category        String?  @db.VarChar(128)
+  categories      Json?
+  tags            Json?
+
+  collectionSlugs Json?
+
+  status          String   @default("published") @db.VarChar(32)
+  sourceType      String?  @db.VarChar(16)
+  sourceFile      String?  @db.VarChar(512)
+
+  payload         Json
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([canonicalSlug])
+  @@index([brand])
+  @@index([category])
+  @@index([status])
+  @@index([stockStatus])
+  @@index([priceValue])
+}
+
+model CatalogCollection {
+  id          String   @id @default(cuid())
+  slug        String   @unique @db.VarChar(128)
+  parentSlug  String?  @db.VarChar(128)
+  sortOrder   Int      @default(0)
+  visible     Boolean  @default(true)
+  conditions  Json     @default("{}")
+  metadata    Json     @default("{}")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@index([parentSlug])
+  @@index([visible])
+}
+
+model SiteSettings {
+  locale    String   @id @db.VarChar(10)
+  payload   Json
+  version   Int      @default(1)
+  updatedAt DateTime @updatedAt
+}
+
+model SearchAnalyticsSnapshot {
+  locale    String   @id @db.VarChar(10)
+  data      Json
+  updatedAt DateTime @updatedAt
+}
+
+model SearchDocument {
+  id         String           @id @default(cuid())
+  entityType SearchEntityType
+  entityId   String           @db.VarChar(36)
+  locale     String           @db.VarChar(5)
+  title      String
+  body       String           @db.Text
+  urlPath    String
+  metadata   Json             @default("{}")
+  updatedAt  DateTime         @updatedAt
+
+  @@unique([entityType, entityId, locale])
+  @@index([locale])
+  @@index([locale, entityType])
+  @@index([title])
+}
+
+model SeoMeta {
+  id            String   @id @default(cuid())
+  pageKey       String?  @unique @db.VarChar(128)
+  entityType    String?  @db.VarChar(32)
+  entityId      String?  @db.VarChar(128)
+  canonicalUrl  String?
+  robots        String?
+  focusKeywords String?
+  ogImageUrl    String?
+  twitterCard   String?
+  jsonLd        Json?
+  cmsPageId     String?  @unique
+  cmsPage       CmsPage? @relation(fields: [cmsPageId], references: [id], onDelete: Cascade)
+  postId        String?  @unique
+  post          Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([entityType, entityId])
+}
+
+model SeoRedirect {
+  id        String       @id @default(cuid())
+  fromPath  String       @unique
+  toPath    String
+  type      RedirectType @default(PERMANENT)
+  isActive  Boolean      @default(true)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model SeoSubmissionJob {
+  id             String                 @id @default(cuid())
+  provider       String                 @db.VarChar(32)
+  kind           String                 @db.VarChar(16)
+  reason         String                 @db.VarChar(64)
+  url            String                 @db.VarChar(512)
+  status         SeoSubmissionJobStatus @default(PENDING)
+  attemptCount   Int                    @default(0)
+  responseStatus Int?
+  lastError      String?                @db.Text
+  metadata       Json                   @default("{}")
+  scheduledAt    DateTime               @default(now())
+  completedAt    DateTime?
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+
+  @@unique([provider, kind, url])
+  @@index([status, scheduledAt])
+  @@index([provider, status])
+}
+
+model SeoRunnerLock {
+  key         String   @id @db.VarChar(64)
+  lockedUntil DateTime
+  owner       String?  @db.VarChar(128)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SeoProviderTelemetry {
+  id            String                @id @default(cuid())
+  provider      String                @db.VarChar(32)
+  eventType     SeoTelemetryEventType
+  status        SeoTelemetryStatus
+  responseCode  Int?
+  latencyMs     Int?
+  attemptCount  Int                   @default(0)
+  errorClass    String?               @db.VarChar(64)
+  jobId         String?               @db.VarChar(128)
+  url           String?               @db.VarChar(512)
+  metadata      Json                  @default("{}")
+  createdAt     DateTime              @default(now())
+
+  @@index([provider, createdAt])
+  @@index([eventType, createdAt])
+  @@index([status, createdAt])
+}
+
+model SeoHealthSnapshot {
+  id                 String   @id @default(cuid())
+  score              Int
+  componentBreakdown Json     @default("{}")
+  generatedAt        DateTime @default(now())
+  createdAt          DateTime @default(now())
+
+  @@index([generatedAt])
+}
+
+model SeoCrawlIssue {
+  id              String                @id @default(cuid())
+  issueKey        String                @unique @db.VarChar(256)
+  type            String                @db.VarChar(64)
+  severity        SeoCrawlIssueSeverity
+  url             String                @db.VarChar(512)
+  details         Json                  @default("{}")
+  source          String?               @db.VarChar(64)
+  firstDetectedAt DateTime              @default(now())
+  lastDetectedAt  DateTime              @default(now())
+  resolvedAt      DateTime?
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@index([severity, resolvedAt])
+  @@index([type, resolvedAt])
+  @@index([lastDetectedAt])
+}
+
+model SeoSearchMetric {
+  id          String   @id @default(cuid())
+  date        DateTime @db.Date
+  url         String   @db.VarChar(512)
+  query       String   @default("") @db.VarChar(512)
+  country     String   @default("") @db.VarChar(8)
+  device      String   @default("") @db.VarChar(32)
+  source      String   @db.VarChar(32)
+  clicks      Int      @default(0)
+  impressions Int      @default(0)
+  ctr         Float    @default(0)
+  position    Float    @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([source, date, url, query, country, device])
+  @@index([date, source])
+  @@index([url, date])
+  @@index([query, date])
+}
+
+model SeoRichResultIssue {
+  id          String                   @id @default(cuid())
+  issueKey    String                   @unique @db.VarChar(256)
+  type        String                   @db.VarChar(64)
+  category    SeoRichResultCategory
+  url         String                   @db.VarChar(512)
+  details     Json                     @default("{}")
+  eligibility SeoRichResultEligibility
+  source      String                   @default("internal") @db.VarChar(64)
+  detectedAt  DateTime                 @default(now())
+  resolvedAt  DateTime?
+  createdAt   DateTime                 @default(now())
+  updatedAt   DateTime                 @updatedAt
+
+  @@index([type, eligibility])
+  @@index([category, resolvedAt])
+  @@index([detectedAt])
+}
+
+model Custom404 {
+  id        String   @id @default(cuid())
+  locale    String
+  blocks    Json     @default("[]")
+  updatedAt DateTime @updatedAt
+
+  @@unique([locale])
+}
+
+model LocaleConfig {
+  id           String   @id @default(cuid())
+  code         String   @unique @db.VarChar(16)
+  urlPrefix    String   @unique @db.VarChar(16)
+  label        String
+  htmlLang     String   @default("en") @db.VarChar(10)
+  dir          String   @default("ltr") @db.VarChar(3)
+  flag         String   @default("🌐")
+  dateLocale   String   @default("en-US") @db.VarChar(16)
+  currency     String   @default("USD") @db.VarChar(3)
+  numberLocale String   @default("en-US") @db.VarChar(16)
+  isEnabled    Boolean  @default(true)
+  isDefault    Boolean  @default(false)
+  sortOrder    Int      @default(0)
+  fallbackLocaleCode String?  @db.VarChar(16)
+  completionPercent  Int      @default(0)
+  lastTranslationSyncAt DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isEnabled, sortOrder])
+}

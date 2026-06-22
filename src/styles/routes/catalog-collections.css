@@ -1,0 +1,9 @@
+@import "../product-listing.css" layer(components);
+@import "../product-card-styles.css" layer(components);
+@import "../product-card-layouts.css" layer(components);
+@import "../product-card-motion.css" layer(components);
+@import "../product-card-effects.css" layer(components);
+@import "../product-quick-view.css" layer(components);
+@import "../collections-catalog.css" layer(components);
+@import "../collection-hierarchy-chrome.css" layer(components);
+@import "../catalog-page.css" layer(components);
