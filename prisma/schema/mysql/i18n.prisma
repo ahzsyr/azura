@@ -1,0 +1,115 @@
+// // --- Scalable i18n translation layer ---
+
+// --- Scalable i18n translation layer ---
+
+model EntityTranslation {
+  id           String             @id @default(cuid())
+  entityType   String             @db.VarChar(64)
+  entityId     String             @db.VarChar(36)
+  field        String             @db.VarChar(64)
+  localeCode String             @db.VarChar(16)
+  value        String             @db.Text
+  version      Int                @default(1)
+  status       TranslationStatus  @default(PUBLISHED)
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  versions     EntityTranslationVersion[]
+
+  @@unique([entityType, entityId, field, localeCode])
+  @@index([entityType, entityId])
+  @@index([localeCode, entityType])
+  @@index([entityType, localeCode, status])
+}
+
+model EntityTranslationVersion {
+  id            String            @id @default(cuid())
+  translationId String
+  translation   EntityTranslation @relation(fields: [translationId], references: [id], onDelete: Cascade)
+  value         String            @db.Text
+  status        TranslationStatus
+  changedBy     String?           @db.VarChar(36)
+  createdAt     DateTime          @default(now())
+
+  @@index([translationId, createdAt])
+}
+
+model LocalizedSlug {
+  id           String   @id @default(cuid())
+  entityType   String   @db.VarChar(64)
+  entityId     String   @db.VarChar(36)
+  localeCode String   @db.VarChar(16)
+  slug         String   @db.VarChar(128)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([entityType, entityId, localeCode])
+  @@unique([entityType, slug, localeCode])
+  @@index([entityType, slug])
+}
+
+enum FormSubmissionStatus {
+  NEW
+  REVIEWED
+  ARCHIVED
+}
+
+enum FormTemplateCategory {
+  LEAD
+  CONTACT
+  MULTI_STEP
+  GENERAL
+}
+
+enum NewsletterSubscriberStatus {
+  PENDING
+  CONFIRMED
+  UNSUBSCRIBED
+}
+
+enum DownloadUnlockMethod {
+  FORM
+  NEWSLETTER
+  EXTERNAL
+}
+
+enum FormWebhookDeliveryStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum TranslationJobStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+model TranslationJob {
+  id             String               @id @default(cuid())
+  entityType     String?              @db.VarChar(64)
+  localeCode   String               @db.VarChar(16)
+  status         TranslationJobStatus @default(PENDING)
+  totalEntities  Int                  @default(0)
+  processedCount Int                  @default(0)
+  errorMessage   String?              @db.Text
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  completedAt    DateTime?
+
+  @@index([status, createdAt])
+}
+
+model TranslationMemory {
+  id           String @id @default(cuid())
+  sourceLocale String @db.VarChar(16)
+  targetLocale String @db.VarChar(16)
+  sourceHash   String @db.VarChar(64)
+  sourceText   String @db.Text
+  targetText   String @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([sourceHash, targetLocale])
+  @@index([sourceLocale, targetLocale])
+}

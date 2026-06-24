@@ -1,0 +1,49 @@
+# Deployment profile: Showroom
+# Product / service showcase without commerce
+id: showroom
+label: Product Showroom
+description: Marketing plus product showcase, collections, search, personalization.
+
+core: [cms, builder, seo, media, localization, leads]
+capabilities: [search, ai, personalization]
+experience: [entities, templates, collections]
+presets: [product, service]
+modules: []
+
+admin:
+  groups: [dashboard, content, media, marketing, design, seo, settings]
+  items:
+    dashboard: [dashboard]
+    content:
+      - pages
+      - blog
+      - products
+      - services
+      - collections
+      - brands-tags
+      - gallery
+      - faqs
+      - testimonials
+      - partners
+    media: [media-library]
+    marketing: [form-templates, form-submissions, inquiries, newsletter]
+    design:
+      - studio
+      - header
+      - footer
+      - theme
+      - personalization
+      - preloader
+      - announcement-bar
+      - popups
+      - whatsapp
+    seo: [seo-overview, seo-redirects, seo-robots, seo-structured-data]
+    settings:
+      - languages
+      - translations
+      - site-access
+      - search-settings
+      - admin-account
+      - customer-accounts
+      - visitor-portal
+      - company-info

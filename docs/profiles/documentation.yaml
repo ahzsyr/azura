@@ -1,0 +1,34 @@
+# Deployment profile: Documentation
+# Knowledge base + documentation portal module
+id: documentation
+label: Documentation
+description: Marketing site plus knowledge articles and documentation portal.
+
+core: [cms, builder, seo, media, localization, leads]
+capabilities: [search, versioning, workflow]
+experience: [entities, templates, collections]
+presets: [knowledge]
+modules: [documentation]
+
+admin:
+  groups: [dashboard, content, media, marketing, design, seo, modules, settings]
+  items:
+    dashboard: [dashboard]
+    content:
+      - pages
+      - blog
+      - knowledge-base
+      - gallery
+      - faqs
+    media: [media-library]
+    marketing: [form-templates, form-submissions, inquiries, newsletter]
+    design: [studio, header, footer, theme, announcement-bar, whatsapp]
+    seo: [seo-overview, seo-redirects, seo-robots, seo-structured-data]
+    modules: [documentation]
+    settings:
+      - languages
+      - translations
+      - site-access
+      - search-settings
+      - admin-account
+      - company-info

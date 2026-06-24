@@ -1,0 +1,27 @@
+# Deployment profile: Marketing
+# Minimal brochure / campaign site — no entity presets
+id: marketing
+label: Marketing
+description: Pages, blog, forms, SEO. No structured showcase presets.
+
+core: [cms, builder, seo, media, localization, leads]
+capabilities: [ai]
+experience: []
+presets: []
+modules: []
+
+admin:
+  groups: [dashboard, content, media, marketing, design, seo, settings]
+  items:
+    dashboard: [dashboard]
+    content: [pages, blog, gallery, faqs, testimonials]
+    media: [media-library]
+    marketing: [form-templates, form-submissions, inquiries, newsletter]
+    design: [studio, header, footer, theme, announcement-bar, whatsapp]
+    seo: [seo-overview, seo-redirects, seo-robots, seo-structured-data]
+    settings:
+      - languages
+      - translations
+      - site-access
+      - admin-account
+      - company-info
