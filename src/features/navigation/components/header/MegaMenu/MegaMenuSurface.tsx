@@ -43,7 +43,14 @@ function NavGlyph({ icon }: { icon?: string }) {
 }
 
 function isVisualCardType(type: MenuItemType): boolean {
-  return type === "collection" || type === "brand" || type === "product" || type === "image";
+  return (
+    type === "collection" ||
+    type === "packageCategory" ||
+    type === "brand" ||
+    type === "product" ||
+    type === "package" ||
+    type === "image"
+  );
 }
 
 function isVisualCardThumbnail(c: ChildRow): boolean {

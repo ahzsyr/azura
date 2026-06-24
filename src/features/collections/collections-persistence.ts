@@ -9,6 +9,7 @@ import {
   assertFilesystemPersistenceAllowed,
   isCloudNativeProduction,
 } from "@/lib/cloud-native-guard";
+import { revalidateHeaderFlyoutImages } from "@/services/cache";
 import { catalogSeedRoot } from "@/lib/catalog-seed-paths";
 
 export const CATALOG_COLLECTIONS_NAMESPACE = "catalog-collections";
@@ -153,6 +154,7 @@ export async function saveCollections(collections: Collection[]): Promise<void> 
   if (preferJsonStore || !wroteFile) {
     await saveJsonStoreCollections(collections);
   }
+  revalidateHeaderFlyoutImages();
 }
 
 /** Upsert a single collection without rewriting the full catalog (fast path for admin edits). */
@@ -181,10 +183,12 @@ export async function upsertCatalogCollection(
         col,
         order,
       );
+      revalidateHeaderFlyoutImages();
       return { reparentedChildren };
     }
 
     await catalogCollectionRepository.upsert(col, order);
+    revalidateHeaderFlyoutImages();
     return { reparentedChildren: 0 };
   }
 
@@ -227,6 +231,7 @@ export async function deleteCatalogCollection(slug: string): Promise<void> {
     );
     const deleted = await catalogCollectionRepository.deleteBySlug(key);
     if (!deleted) throw new Error("Collection not found");
+    revalidateHeaderFlyoutImages();
     return;
   }
 

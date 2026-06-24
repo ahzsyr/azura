@@ -16,6 +16,13 @@ import {
   localizeHeaderWorkspaceWithBundle,
 } from "./localize-menu-translations";
 import type { HeaderWorkspace, MenuItem, MenuRecord } from "./types";
+import { shouldPreferStoredMenuImageUrl } from "./mega-menu-linked-images";
+
+export {
+  shouldPreferStoredMenuImageUrl,
+  stripLinkedMenuImagesFromWorkspace,
+  usesLinkedMenuImageSource,
+} from "./mega-menu-linked-images";
 
 async function getCatalogItemImageUrlFromDb(slug: string): Promise<string | undefined> {
   const item = await prisma.contentItem.findFirst({
@@ -63,7 +70,9 @@ export async function resolveCardImageUrlForMenuItem(
   localeCode: string,
   collectionBySlug?: Map<string, Collection>,
 ): Promise<string | undefined> {
-  if (item.imageUrl?.trim()) return item.imageUrl.trim();
+  if (shouldPreferStoredMenuImageUrl(item)) {
+    return item.imageUrl?.trim();
+  }
   switch (item.type) {
     case "collection":
     case "packageCategory": {
@@ -104,7 +113,7 @@ async function enrichFlyoutChild(
   localeCode: string,
   collectionBySlug: Map<string, Collection>,
 ): Promise<MenuItem> {
-  if (child.imageUrl?.trim()) return child;
+  if (shouldPreferStoredMenuImageUrl(child)) return child;
   const resolved = await resolveCardImageUrlForMenuItem(child, localeCode, collectionBySlug);
   return {
     ...child,
@@ -185,6 +194,9 @@ export async function enrichHeaderWorkspaceForSiteCached(
 
 async function enrichMenuItem(item: MenuItem, localeCode: string): Promise<MenuItem> {
   const children = await Promise.all((item.children ?? []).map((c) => enrichMenuItem(c, localeCode)));
+  if (shouldPreferStoredMenuImageUrl(item)) {
+    return children === item.children ? item : { ...item, children };
+  }
   const resolved = await resolveCardImageUrlForMenuItem(item, localeCode);
   return {
     ...item,

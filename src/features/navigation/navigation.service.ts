@@ -12,7 +12,7 @@ import {
 import { navigationRepository } from "./navigation.repository";
 import type { HeaderBuilderCatalog, HeaderWorkspace } from "./types";
 import { headerWorkspaceSchema } from "@/schemas/navigation";
-import { enrichHeaderWorkspaceForSiteCached, enrichFlyoutMenuImagesOnly } from "./mega-menu-card-images";
+import { enrichHeaderWorkspaceForSiteCached, enrichFlyoutMenuImagesOnly, stripLinkedMenuImagesFromWorkspace } from "./mega-menu-card-images";
 import { collectionsDataService } from "@/features/collections/collections-data.service";
 import { productsDataService } from "@/features/products/products-data.service";
 import { localeService } from "@/features/i18n/locale.service";
@@ -214,13 +214,18 @@ export const navigationService = {
     return workspace;
   },
 
+  async getWorkspaceForBuilder(localePrefix: string = "en"): Promise<HeaderWorkspace> {
+    const ws = await navigationService.getWorkspace();
+    return enrichFlyoutMenuImagesOnly(ws, localePrefix);
+  },
+
   async saveWorkspace(payload: unknown): Promise<HeaderWorkspace> {
     const workspace = resolveWorkspaceFromRaw(payload);
     const parsed = headerWorkspaceSchema.parse(workspace) as HeaderWorkspace;
-    const enriched = await enrichFlyoutMenuImagesOnly(parsed, "en");
-    await navigationRepository.save(enriched);
+    const stripped = stripLinkedMenuImagesFromWorkspace(parsed);
+    await navigationRepository.save(stripped);
     revalidateHeaderWorkspace();
-    return enriched;
+    return enrichFlyoutMenuImagesOnly(stripped, "en");
   },
 
   async patchWorkspace(changes: Record<string, unknown>): Promise<HeaderWorkspace> {

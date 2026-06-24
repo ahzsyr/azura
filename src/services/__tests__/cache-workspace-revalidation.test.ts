@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   CACHE_TAGS,
+  getHeaderFlyoutImageCacheTags,
   getHeaderWorkspaceRevalidationTags,
   getWorkspaceTranslationRevalidationTags,
 } from "@/services/cache";
@@ -33,4 +34,9 @@ test("getHeaderWorkspaceRevalidationTags covers shell and json cache keys", () =
   assert.ok(tags.includes("header-workspace"));
   assert.ok(tags.includes(CACHE_TAGS.json("header-workspace")));
   assert.ok(tags.includes(CACHE_TAGS.marketing));
+});
+
+test("getHeaderFlyoutImageCacheTags normalizes locale codes", () => {
+  const tags = getHeaderFlyoutImageCacheTags(["en", " AR ", "en"]);
+  assert.deepEqual(tags, ["header-flyout-en", "header-flyout-ar"]);
 });

@@ -11,6 +11,7 @@ import {
   revalidateJsonNamespace,
   revalidateMarketingHome,
   revalidateProductListing,
+  revalidateHeaderFlyoutImages,
 } from "@/services/cache";
 import { REVALIDATE } from "@/lib/config/performance";
 import {
@@ -209,12 +210,15 @@ function revalidateEnabledLocaleLayouts(): void {
   void (async () => {
     try {
       const enabled = await localeService.listEnabled();
+      const localePrefixes = enabled.map((locale) => locale.urlPrefix);
+      revalidateHeaderFlyoutImages(localePrefixes);
       for (const locale of enabled) {
         safeRevalidateLayout(`/${locale.urlPrefix}`);
         safeRevalidateLayout(`/${locale.urlPrefix}/products`);
         revalidateProductListing(locale.urlPrefix);
       }
     } catch {
+      revalidateHeaderFlyoutImages(["en", "en-us", "ar"]);
       for (const prefix of ["en", "en-us", "ar"]) {
         safeRevalidateLayout(`/${prefix}`);
         safeRevalidateLayout(`/${prefix}/products`);

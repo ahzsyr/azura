@@ -134,10 +134,29 @@ export function getHeaderWorkspaceRevalidationTags(): string[] {
   return ["header-workspace", CACHE_TAGS.json("header-workspace"), CACHE_TAGS.marketing];
 }
 
-export function revalidateHeaderWorkspace() {
+export function getHeaderFlyoutImageCacheTags(localeCodes: string[]): string[] {
+  return [
+    ...new Set(
+      localeCodes
+        .map((code) => code.trim().toLowerCase())
+        .filter(Boolean)
+        .map((code) => `header-flyout-${code}`),
+    ),
+  ];
+}
+
+export function revalidateHeaderFlyoutImages(localeCodes?: string[]): void {
+  const codes = localeCodes?.length ? localeCodes : ["en"];
   for (const tag of getHeaderWorkspaceRevalidationTags()) {
     safeRevalidateTag(tag);
   }
+  for (const tag of getHeaderFlyoutImageCacheTags(codes)) {
+    safeRevalidateTag(tag);
+  }
+}
+
+export function revalidateHeaderWorkspace(localeCodes?: string[]) {
+  revalidateHeaderFlyoutImages(localeCodes);
 }
 
 export function revalidateMarketingHome() {
@@ -162,6 +181,7 @@ export function revalidateProductListing(locale: string) {
 export function revalidateProductSlug(locale: string, slug: string) {
   safeRevalidateTag(CACHE_TAGS.productSlug(locale, slug));
   revalidateProductListing(locale);
+  revalidateHeaderFlyoutImages([locale]);
 }
 
 export function revalidateContentList(typeSlug: string, collectionSlug?: string) {

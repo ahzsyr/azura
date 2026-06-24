@@ -3,13 +3,15 @@ import { auth } from "@/lib/auth";
 import { navigationService } from "@/features/navigation/navigation.service";
 import { stripInlineImagesFromBranding } from "@/features/navigation/workspace-transport";
 
-export async function GET() {
+export async function GET(request: Request) {
   const session = await auth();
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const workspace = await navigationService.getWorkspace();
+  const { searchParams } = new URL(request.url);
+  const locale = searchParams.get("locale")?.trim() || "en";
+  const workspace = await navigationService.getWorkspaceForBuilder(locale);
   const branding = stripInlineImagesFromBranding(workspace.branding);
   return NextResponse.json({
     menusDatabase: workspace.menusDatabase,
