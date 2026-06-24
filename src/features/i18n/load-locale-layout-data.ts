@@ -26,6 +26,10 @@ import type { PublicShellContext } from "@/features/i18n/public-shell-context";
 import type { ResolvedTheme } from "@/lib/theme/theme-resolver";
 import { seoService } from "@/features/seo/seo.service";
 import type { SeoStructuredConfig } from "@/features/seo/types";
+import {
+  headerWorkspaceFingerprint,
+  logRenderPropagation,
+} from "@/services/publish-propagation";
 
 function logRecoverableLayoutError(label: string, error: unknown) {
   console.error(`[locale-layout] ${label} failed:`, error);
@@ -59,6 +63,7 @@ export type LocaleLayoutData = {
  */
 export const loadLocaleLayoutData = cache(
   async (locale: string, previewDraft = false): Promise<LocaleLayoutData> => {
+    const loaderStartedAt = Date.now();
     const resolvedTheme = await resolveSiteThemeWithFallback(previewDraft);
 
     const [messages, siteSettings, shell, globalStructured] =
@@ -77,6 +82,13 @@ export const loadLocaleLayoutData = cache(
         }),
         seoService.getGlobalStructured().catch(() => null),
       ]);
+
+    logRenderPropagation({
+      renderedAt: new Date().toISOString(),
+      locale,
+      durationMs: Date.now() - loaderStartedAt,
+      fingerprint: headerWorkspaceFingerprint(shell.headerWorkspace),
+    });
 
 
     const brandConfig = shell.brandConfig ?? shell.theme?.brandConfig;

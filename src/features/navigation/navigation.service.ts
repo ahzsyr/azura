@@ -1,6 +1,6 @@
 import { DEFAULT_BRAND_NAME } from "@/config/site";
 import { prisma } from "@/lib/prisma";
-import { revalidateHeaderWorkspace } from "@/services/cache";
+import { invalidateLocaleLayoutsAfterHeaderPublish } from "@/services/publish-propagation";
 import { contentPublicService } from "@/features/content/content-public.service";
 import { loadTranslationsMap } from "@/features/translation/bilingual-serialize";
 import { resolveTranslation } from "@/features/translation/translation-resolver";
@@ -224,7 +224,7 @@ export const navigationService = {
     const parsed = headerWorkspaceSchema.parse(workspace) as HeaderWorkspace;
     const stripped = stripLinkedMenuImagesFromWorkspace(parsed);
     await navigationRepository.save(stripped);
-    revalidateHeaderWorkspace();
+    await invalidateLocaleLayoutsAfterHeaderPublish(stripped);
     return enrichFlyoutMenuImagesOnly(stripped, "en");
   },
 
