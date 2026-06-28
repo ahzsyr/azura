@@ -22,7 +22,6 @@ import { resolveVisualExperience } from "@/features/theme/visual-experience-reso
 import { VisualExperienceProvider } from "@/components/theme/visual-experience-provider";
 import { FALLBACK_LOCALES } from "@/i18n/locale-config";
 import { logServerRenderDiagnostic } from "@/lib/debug/server-render-log";
-import { logAgentDebug } from "@/lib/debug/agent-session-log.server";
 import { getErrorMessage, isRecoverableDbError } from "@/lib/debug/recoverable-db-error";
 import { renderCmsDegradationResponse } from "@/features/cms/components/cms-degradation-response";
 
@@ -60,15 +59,6 @@ export async function CmsPageRenderer({
   translationBundle,
   pageTranslations: pageTranslationsProp,
 }: Props) {
-  // #region agent log
-  logAgentDebug({
-    location: "cms-page-renderer.tsx:entry",
-    message: "CmsPageRenderer render start",
-    data: { slug, locale, hasPageProp: pageProp != null },
-    hypothesisId: "C",
-    runId: "post-fix",
-  });
-  // #endregion
   try {
     let page: CmsPage;
     try {
@@ -78,15 +68,6 @@ export async function CmsPageRenderer({
     } catch (error) {
       if (isRecoverableDbError(error)) {
         const message = getErrorMessage(error);
-        // #region agent log
-        logAgentDebug({
-          location: "cms-page-renderer.tsx:page-load",
-          message: "CmsPageRenderer page load failed (recoverable)",
-          data: { slug, locale, errorMessage: message },
-          hypothesisId: "C",
-          runId: "post-fix",
-        });
-        // #endregion
         console.warn(`[CmsPageRenderer] /${slug} page load fallback:`, message);
         return renderCmsDegradationResponse(slug, locale, { skipLive: true });
       }
@@ -243,15 +224,6 @@ export async function CmsPageRenderer({
   } catch (error) {
     const message = getErrorMessage(error);
     const recoverable = isRecoverableDbError(error);
-    // #region agent log
-    logAgentDebug({
-      location: "cms-page-renderer.tsx:catch",
-      message: "CmsPageRenderer uncaught failure",
-      data: { slug, locale, errorMessage: message, recoverable },
-      hypothesisId: "C",
-      runId: "post-fix",
-    });
-    // #endregion
     console.error(`[CmsPageRenderer] /${slug} uncaught failure:`, message);
     if (recoverable) {
       return renderCmsDegradationResponse(slug, locale, { skipLive: true });

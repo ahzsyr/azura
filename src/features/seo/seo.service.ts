@@ -7,8 +7,6 @@ import { resolvePageSeoContext } from "@/features/seo/resolve-page-seo-context";
 import { resolveEffectiveSeoForLocale } from "@/features/seo/resolve-page-seo-for-locale";
 import { prisma } from "@/lib/prisma";
 import type { SeoResolveInput, SeoStructuredConfig } from "./types";
-import { logAgentDebug } from "@/lib/debug/agent-session-log.server";
-import { getErrorMessage } from "@/lib/debug/recoverable-db-error";
 
 const SEO_ENTITY_TO_SLUG_TYPE: Record<string, string> = {
   CMS_PAGE: "CmsPage",
@@ -78,21 +76,6 @@ export const seoService = {
         siteName: siteIdentity?.brandName,
       });
     } catch (error) {
-      const message = getErrorMessage(error);
-      // #region agent log
-      logAgentDebug({
-        location: "seo.service.ts:resolveMetadata",
-        message: "resolveMetadata failed",
-        data: {
-          errorMessage: message,
-          pageKey: params.pageKey,
-          cmsPageId: params.cmsPageId,
-          locale: params.locale,
-        },
-        hypothesisId: "B",
-        runId: "post-fix",
-      });
-      // #endregion
       console.error("[seoService.resolveMetadata] failed:", error);
       return {
         title: params.fallback?.title || "",

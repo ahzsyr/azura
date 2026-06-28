@@ -5,7 +5,6 @@ import { seoService } from "@/features/seo/seo.service";
 import type { Locale } from "@/i18n/routing";
 import { MarketingCmsPage } from "@/features/cms/components/marketing-cms-page";
 import { HomeFallbackLanding } from "@/components/marketing/home/home-fallback-landing";
-import { logAgentDebug } from "@/lib/debug/agent-session-log.server";
 import { getErrorMessage, isRecoverableDbError } from "@/lib/debug/recoverable-db-error";
 
 /** ISR: serve cached home HTML; regen at most every 60s (avoids force-dynamic 504 on Hostinger). */
@@ -25,30 +24,12 @@ export async function generateMetadata({ params }: Props) {
       pageKey: "home",
     });
   } catch (error) {
-    const message = getErrorMessage(error);
-    // #region agent log
-    logAgentDebug({
-      location: "marketing/page.tsx:generateMetadata",
-      message: "home metadata load failed",
-      data: { errorMessage: message, recoverable: isRecoverableDbError(error) },
-      hypothesisId: "B",
-      runId: "post-fix",
-    });
-    // #endregion
+    console.error("[marketing/home] metadata load failed:", error);
     return { title: "Home" };
   }
 }
 
 export default async function HomePage({ params }: Props) {
-  // #region agent log
-  logAgentDebug({
-    location: "marketing/page.tsx:HomePage:entry",
-    message: "HomePage render start",
-    hypothesisId: "G",
-    runId: "post-fix",
-  });
-  // #endregion
-
   try {
     const { locale } = await params;
     setRequestLocale(locale);
@@ -73,15 +54,6 @@ export default async function HomePage({ params }: Props) {
     return <HomeFallbackLanding locale={locale} />;
   } catch (error) {
     const message = getErrorMessage(error);
-    // #region agent log
-    logAgentDebug({
-      location: "marketing/page.tsx:HomePage:outer-catch",
-      message: "HomePage uncaught failure",
-      data: { errorMessage: message, recoverable: isRecoverableDbError(error) },
-      hypothesisId: "G",
-      runId: "post-fix",
-    });
-    // #endregion
     console.error("[marketing/home] render failed:", message);
     if (isRecoverableDbError(error)) {
       const { locale } = await params;

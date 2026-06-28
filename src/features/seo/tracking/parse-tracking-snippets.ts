@@ -26,10 +26,20 @@ export function extractHeadScriptContent(snippet: string): string | undefined {
   const trimmed = snippet.trim();
   if (!trimmed) return undefined;
 
-  const scriptMatch = trimmed.match(/<script[^>]*>([\s\S]*?)<\/script>/i);
-  if (scriptMatch?.[1]?.trim()) return scriptMatch[1].trim();
+  const scriptRegex = /<script([^>]*)>([\s\S]*?)<\/script>/gi;
+  let match: RegExpExecArray | null;
+  while ((match = scriptRegex.exec(trimmed)) !== null) {
+    const attrs = match[1] ?? "";
+    const body = match[2]?.trim() ?? "";
+    if (/\bsrc\s*=/.test(attrs) && !body) continue;
+    if (body) return body;
+  }
 
-  if (trimmed.startsWith("(function") || trimmed.includes("dataLayer")) {
+  if (trimmed.startsWith("(function") || trimmed.startsWith("window.")) {
+    return trimmed;
+  }
+
+  if (!trimmed.includes("<") && trimmed.includes("dataLayer")) {
     return trimmed;
   }
 

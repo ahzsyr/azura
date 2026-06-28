@@ -83,22 +83,6 @@ export function buildMetadata({
   const image = sanitizeMetadataAbsoluteUrl(rawImage, siteUrl) ?? `${siteUrl}/og-default.jpg`;
   const safeTwitterCard = normalizeTwitterCard(twitterCard);
 
-  if (rawCanonical !== url || rawImage !== image) {
-    // #region agent log
-    console.error(
-      "[agent-debug]",
-      JSON.stringify({
-        sessionId: "faeff3",
-        location: "seo.tsx:buildMetadata",
-        message: "sanitized invalid metadata URLs",
-        data: { path, locale, rawCanonical, url, rawImage, image, twitterCard, safeTwitterCard },
-        hypothesisId: "F",
-        runId: "post-fix",
-        timestamp: Date.now(),
-      }),
-    );
-    // #endregion
-  }
   const resolvedSiteName = siteName?.trim() || getSiteName();
   const trimmedTitle = title.trim();
   const displayTitle = trimmedTitle

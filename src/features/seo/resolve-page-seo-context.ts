@@ -28,8 +28,6 @@ import { isNoIndex } from "@/lib/seo";
 import { legacyShapeFromTranslations } from "@/features/portal/lib/portal-translation";
 import { seoRepository } from "@/repositories/seo.repository";
 import { translationService } from "@/features/translation/translation.service";
-import { logAgentDebug } from "@/lib/debug/agent-session-log.server";
-import { getErrorMessage } from "@/lib/debug/recoverable-db-error";
 
 const SEO_FIELDS = ["metaTitle", "metaDescription", "ogTitle", "ogDescription"] as const;
 
@@ -352,96 +350,47 @@ export async function resolvePageSeoContext(
 ): Promise<PageSeoContext> {
   const originContext = input.originContext ?? "admin-preview";
   const allowWrites = isSeoWriteAllowed(input);
-  // #region agent log
-  logAgentDebug({
-    location: "resolve-page-seo-context.ts:entry",
-    message: "resolvePageSeoContext called",
-    data: {
-      pageKey: input.pageKey,
-      cmsPageId: input.cmsPageId,
-      slug: input.slug,
-      originContext,
-      allowWrites,
-    },
-    hypothesisId: "A",
-    runId: "post-fix",
-  });
-  // #endregion
-  let origin: string;
-  try {
-    origin = await resolveSiteOrigin(originContext);
-  } catch (error) {
-    const message = getErrorMessage(error);
-    // #region agent log
-    logAgentDebug({
-      location: "resolve-page-seo-context.ts:resolveSiteOrigin",
-      message: "resolveSiteOrigin failed",
-      data: { errorMessage: message, originContext },
-      hypothesisId: "B",
-      runId: "post-fix",
-    });
-    // #endregion
-    throw error;
+  const origin = await resolveSiteOrigin(originContext);
+
+  if (input.pageKey && isStaticSeoPageKey(input.pageKey)) {
+    return await resolveWiredPageKeyContext(input.pageKey, origin, undefined, allowWrites);
   }
 
-  try {
-    if (input.pageKey && isStaticSeoPageKey(input.pageKey)) {
-      return await resolveWiredPageKeyContext(input.pageKey, origin, undefined, allowWrites);
-    }
-
-    if (input.pageKey) {
-      return await resolveEntityContext(input.entityType ?? "", input.entityId ?? "", input.pageKey, origin);
-    }
-
-    if (input.cmsPageId) {
-      return await resolveCmsPageIdContext(input.cmsPageId, origin, allowWrites);
-    }
-
-    if (input.postId) {
-      return await resolvePostContext(input.postId, origin);
-    }
-
-    if (input.packageId) {
-      return await resolvePackageContext(input.packageId, origin);
-    }
-
-    if (input.entityType && input.entityId) {
-      return await resolveEntityContext(input.entityType, input.entityId, undefined, origin);
-    }
-
-    if (input.slug) {
-      const cmsPage = await prisma.cmsPage.findFirst({
-        where: { slug: input.slug },
-        select: { id: true },
-      });
-      if (cmsPage) {
-        return await resolveCmsPageIdContext(cmsPage.id, origin);
-      }
-      const wiredKey = getCmsPageSeoPageKey(input.slug);
-      if (wiredKey) {
-        return await resolveWiredPageKeyContext(wiredKey, origin, undefined, allowWrites);
-      }
-    }
-
-    return emptyContext({}, {}, "", origin);
-  } catch (error) {
-    const message = getErrorMessage(error);
-    // #region agent log
-    logAgentDebug({
-      location: "resolve-page-seo-context.ts:resolve",
-      message: "resolvePageSeoContext failed",
-      data: {
-        errorMessage: message,
-        pageKey: input.pageKey,
-        cmsPageId: input.cmsPageId,
-        slug: input.slug,
-      },
-      hypothesisId: "A",
-      runId: "post-fix",
-    });
-    // #endregion
-    throw error;
+  if (input.pageKey) {
+    return await resolveEntityContext(input.entityType ?? "", input.entityId ?? "", input.pageKey, origin);
   }
+
+  if (input.cmsPageId) {
+    return await resolveCmsPageIdContext(input.cmsPageId, origin, allowWrites);
+  }
+
+  if (input.postId) {
+    return await resolvePostContext(input.postId, origin);
+  }
+
+  if (input.packageId) {
+    return await resolvePackageContext(input.packageId, origin);
+  }
+
+  if (input.entityType && input.entityId) {
+    return await resolveEntityContext(input.entityType, input.entityId, undefined, origin);
+  }
+
+  if (input.slug) {
+    const cmsPage = await prisma.cmsPage.findFirst({
+      where: { slug: input.slug },
+      select: { id: true },
+    });
+    if (cmsPage) {
+      return await resolveCmsPageIdContext(cmsPage.id, origin);
+    }
+    const wiredKey = getCmsPageSeoPageKey(input.slug);
+    if (wiredKey) {
+      return await resolveWiredPageKeyContext(wiredKey, origin, undefined, allowWrites);
+    }
+  }
+
+  return emptyContext({}, {}, "", origin);
 }
 
 /** Batch static page contexts — parallel resolvePageSeoContext, no separate coalesce path. */

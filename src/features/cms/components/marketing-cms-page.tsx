@@ -4,7 +4,6 @@ import type { CmsPage } from "@prisma/client";
 import { cmsService } from "@/features/cms/cms.service";
 import { CmsPageRenderer } from "./cms-page-renderer";
 import { renderCmsDegradationResponse } from "./cms-degradation-response";
-import { logAgentDebug } from "@/lib/debug/agent-session-log.server";
 import { getErrorMessage, isRecoverableDbError } from "@/lib/debug/recoverable-db-error";
 
 type Props = {
@@ -17,16 +16,6 @@ type Props = {
 };
 
 export async function MarketingCmsPage({ slug, locale, page: pageProp }: Props) {
-  // #region agent log
-  logAgentDebug({
-    location: "marketing-cms-page.tsx:entry",
-    message: "MarketingCmsPage render start",
-    data: { slug, locale, hasPageProp: pageProp != null },
-    hypothesisId: "C",
-    runId: "post-fix",
-  });
-  // #endregion
-
   try {
     const page =
       pageProp !== undefined && pageProp !== null
@@ -42,15 +31,6 @@ export async function MarketingCmsPage({ slug, locale, page: pageProp }: Props) 
   } catch (error) {
     const message = getErrorMessage(error);
     const recoverable = isRecoverableDbError(error);
-    // #region agent log
-    logAgentDebug({
-      location: "marketing-cms-page.tsx:catch",
-      message: "MarketingCmsPage render failed",
-      data: { slug, locale, errorMessage: message, recoverable },
-      hypothesisId: "C",
-      runId: "post-fix",
-    });
-    // #endregion
     console.error(`[MarketingCmsPage] /${slug} render failed:`, message);
     if (recoverable) {
       return renderCmsDegradationResponse(slug, locale, { skipLive: true });

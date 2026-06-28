@@ -65,6 +65,14 @@ test("extractHeadScriptContent returns inline script body", () => {
   assert.match(script ?? "", /GTM-WT7PVPZK/);
 });
 
+test("extractHeadScriptContent skips external gtag script and returns inline init", () => {
+  const script = extractHeadScriptContent(GTAG_HEAD);
+  assert.ok(script);
+  assert.doesNotMatch(script ?? "", /<script/i);
+  assert.match(script ?? "", /dataLayer/);
+  assert.match(script ?? "", /G-FT9BLK7W1T/);
+});
+
 test("extractGtmNoscriptIframeSrc parses iframe src", () => {
   const body = `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WT7PVPZK"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`;

@@ -67,30 +67,6 @@ export function ProductCardMedia({ ctx }: Props) {
 
   const onImageError = useCallback(() => {
     if (!resolvedSrc) return;
-    // #region agent log
-    fetch("http://127.0.0.1:7876/ingest/f81b0e3d-321d-4cf5-b5cc-dd5430760f2f", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "4569cd" },
-      body: JSON.stringify({
-        sessionId: "4569cd",
-        location: "product-card-media.tsx:onImageError",
-        message: "product card image error",
-        data: {
-          slug: product.slug,
-          resolvedSrc,
-          imageSrc,
-          showGallery,
-          activeIndex,
-          failedCount: failedSrcs.size,
-          imageUnoptimized,
-          showSkeleton: design.media.showSkeleton,
-        },
-        timestamp: Date.now(),
-        hypothesisId: "H3-H5",
-        runId: "post-fix",
-      }),
-    }).catch(() => {});
-    // #endregion
     setFailedSrcs((prev) => {
       if (prev.has(resolvedSrc)) return prev;
       const next = new Set(prev);

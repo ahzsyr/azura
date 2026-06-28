@@ -19,25 +19,6 @@ export default function MarketingError({
     if (process.env.NODE_ENV === "development" && error.digest) {
       console.error("[marketing] error digest:", error.digest);
     }
-    // #region agent log
-    fetch("http://127.0.0.1:7876/ingest/f81b0e3d-321d-4cf5-b5cc-dd5430760f2f", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "faeff3" },
-      body: JSON.stringify({
-        sessionId: "faeff3",
-        location: "marketing/error.tsx",
-        message: "marketing error boundary caught",
-        data: {
-          errorMessage: error.message,
-          digest: error.digest,
-          pathname,
-        },
-        timestamp: Date.now(),
-        hypothesisId: "E",
-        runId: "post-fix",
-      }),
-    }).catch(() => {});
-    // #endregion
     recordRouteFailure({
       pathname,
       message: error.message,
