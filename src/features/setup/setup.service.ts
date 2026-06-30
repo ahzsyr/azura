@@ -21,7 +21,6 @@ import {
 } from "@/features/setup/system-settings.schema";
 import { getComingSoonEnvOverride } from "@/features/setup/setup-env-overrides";
 import {
-  getDatabaseUrlProtocol,
   hasFixableDatabaseUrlFormatting,
   isDatabaseUrlMalformed,
   isMysqlDatabaseUrl,
@@ -37,7 +36,7 @@ function logSetupDbError(context: string, error: unknown) {
 
 }
 
-function getDatabaseUrlProtocol() {
+function getDatabaseProtocolLabel() {
   const url = sanitizeDatabaseUrl(process.env.DATABASE_URL);
   return url.match(/^([a-z][a-z0-9+.-]*):/i)?.[1] ?? "unset";
 }
@@ -47,7 +46,7 @@ function getSanitizedDatabaseInfo() {
   const host = url.match(/@([^/:?]+)/)?.[1] ?? "unset";
   const user = url.match(/\/\/([^:]+):/)?.[1] ?? "unset";
   const projectRef = user.includes(".") ? user.split(".")[1] : user.replace(/^postgres$/, "direct");
-  return { dbProtocol: getDatabaseUrlProtocol(), host, projectRef };
+  return { dbProtocol: getDatabaseProtocolLabel(), host, projectRef };
 }
 
 let lastDatabaseProbeError: string | null = null;
