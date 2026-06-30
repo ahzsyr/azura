@@ -21,8 +21,11 @@ import {
 } from "@/features/setup/system-settings.schema";
 import { getComingSoonEnvOverride } from "@/features/setup/setup-env-overrides";
 import {
+  getDatabaseUrlProtocol,
   hasFixableDatabaseUrlFormatting,
   isDatabaseUrlMalformed,
+  isMysqlDatabaseUrl,
+  isPostgresDatabaseUrl,
   sanitizeDatabaseUrl,
 } from "@/lib/database-url";
 
@@ -51,17 +54,30 @@ let lastDatabaseProbeError: string | null = null;
 
 function summarizeDatabaseProbeError(error: unknown): string {
   const message = error instanceof Error ? error.message : String(error);
+  const mysql = isMysqlDatabaseUrl() || process.env.PRISMA_SCHEMA === "mysql";
   if (isDatabaseUrlMalformed()) {
+    if (mysql) {
+      return 'DATABASE_URL is missing or invalid. In hPanel set PRISMA_SCHEMA=mysql and a full mysql://… URI (no DATABASE_URL= prefix, no quotes), then restart the app.';
+    }
     return 'DATABASE_URL is missing or invalid. In hPanel/Vercel set the value to a full postgresql://… URI (no DATABASE_URL= prefix, no quotes). Add PRISMA_SCHEMA=postgresql, redeploy, and restart.';
   }
   if (message.includes("Invalid `prisma.$queryRaw()`") || message.includes("Invalid `prisma.")) {
+    if (mysql) {
+      return "Prisma client does not match DATABASE_URL (often PostgreSQL client with a MySQL URL). Set PRISMA_SCHEMA=mysql, run npm run db:generate, redeploy, and restart.";
+    }
     return "Prisma client does not match DATABASE_URL (often MySQL client with a PostgreSQL URL). Set PRISMA_SCHEMA=postgresql, fix DATABASE_URL format, redeploy, and restart the app.";
   }
   if (message.includes("Can't reach database server")) {
+    if (mysql) {
+      return "Cannot reach MySQL. On Hostinger, set HOSTINGER_MYSQL_LOCALHOST=1 (or DATABASE_MYSQL_HOST=localhost), verify the database exists, and import database/mysql/import-blank.sql in phpMyAdmin.";
+    }
     return "Cannot reach Supabase PostgreSQL. Restore/unpause the project in Supabase Dashboard, then verify DATABASE_URL in hPanel.";
   }
-  if (message.includes("postgresql://") || message.includes("postgres://")) {
+  if (!mysql && (message.includes("postgresql://") || message.includes("postgres://"))) {
     return "DATABASE_URL must use postgresql:// (not mysql://). Regenerate Prisma: npm run db:generate";
+  }
+  if (mysql && message.includes("mysql://")) {
+    return "DATABASE_URL must use mysql://. Set PRISMA_SCHEMA=mysql and run npm run db:generate.";
   }
   if (message.includes("EMAXCONNSESSION") || message.includes("max clients reached")) {
     return "Supabase connection pool exhausted. Use BUILD_WITHOUT_DB during deploy build, or switch DATABASE_URL to transaction pooler (port 6543, ?pgbouncer=true).";
@@ -83,12 +99,18 @@ function summarizeDatabaseProbeError(error: unknown): string {
     message.includes("password")
   ) {
     const info = getSanitizedDatabaseInfo();
+    if (mysql) {
+      return `MySQL authentication failed (host: ${info.host}, user: ${info.projectRef}). Verify username, password, and database name in hPanel → Databases, then update DATABASE_URL (URL-encode special characters in the password).`;
+    }
     if (info.host.includes("pooler.supabase.com") && info.projectRef !== "direct") {
       return `DATABASE_URL host and project look correct (${info.projectRef} on ${info.host}), but the password does not match Supabase. Reset the database password in Supabase Dashboard → Connect, copy the new URI into Vercel (@ as %40), redeploy, and restart.`;
     }
     return `Database authentication failed for project ${info.projectRef} on ${info.host}. Copy DATABASE_URL from Supabase → Connect (password @ encoded as %40), set PRISMA_SCHEMA=postgresql, redeploy, and restart.`;
   }
   if (hasFixableDatabaseUrlFormatting()) {
+    if (mysql) {
+      return "DATABASE_URL is set with extra quotes or a DATABASE_URL= prefix. Remove quotes in hPanel so the value is only mysql://…, then restart the app.";
+    }
     return "DATABASE_URL is set with extra quotes or a DATABASE_URL= prefix. The app can still connect after sanitization, but clean up hPanel/Vercel so the value is only the postgresql://… URI, then restart the app.";
   }
   return message.split("\n").map((line) => line.trim()).filter(Boolean)[0] ?? "Database connection failed";
@@ -246,6 +268,13 @@ export async function getSetupStatus() {
 
   const comingSoonEnabled = await isComingSoonEnabled();
 
+  const databaseKind =
+    process.env.PRISMA_SCHEMA === "mysql" || isMysqlDatabaseUrl()
+      ? "mysql"
+      : process.env.PRISMA_SCHEMA === "postgresql" || isPostgresDatabaseUrl()
+        ? "postgresql"
+        : "unknown";
+
   return {
 
     setupComplete: complete,
@@ -261,6 +290,8 @@ export async function getSetupStatus() {
     databaseReady,
 
     databaseError: databaseReady ? null : lastDatabaseProbeError,
+
+    databaseKind,
 
   };
 

@@ -1,6 +1,25 @@
+const SUPPORTED_DATABASE_URL_RE = /^(postgres(ql)?|mysql):\/\//i;
+
 /** True when DATABASE_URL points at PostgreSQL (e.g. Supabase). */
 export function isPostgresDatabaseUrl(url = process.env.DATABASE_URL ?? ""): boolean {
   return /^postgres(ql)?:\/\//i.test(sanitizeDatabaseUrl(url));
+}
+
+/** True when DATABASE_URL points at MySQL (e.g. Hostinger). */
+export function isMysqlDatabaseUrl(url = process.env.DATABASE_URL ?? ""): boolean {
+  return /^mysql:\/\//i.test(sanitizeDatabaseUrl(url));
+}
+
+/** mysql or postgresql after sanitization. */
+export function getDatabaseUrlProtocol(url = process.env.DATABASE_URL ?? ""): "mysql" | "postgresql" | null {
+  const sanitized = sanitizeDatabaseUrl(url);
+  if (/^postgres(ql)?:\/\//i.test(sanitized)) return "postgresql";
+  if (/^mysql:\/\//i.test(sanitized)) return "mysql";
+  return null;
+}
+
+function isSupportedDatabaseUrl(url: string): boolean {
+  return SUPPORTED_DATABASE_URL_RE.test(url);
 }
 
 /**
@@ -19,6 +38,11 @@ export function sanitizeDatabaseUrl(raw: string | undefined): string {
   const postgresMatch = url.match(/(postgres(?:ql)?:\/\/[^\s"'<>]+)/i);
   if (postgresMatch) {
     return postgresMatch[1];
+  }
+
+  const mysqlMatch = url.match(/(mysql:\/\/[^\s"'<>]+)/i);
+  if (mysqlMatch) {
+    return mysqlMatch[1];
   }
 
   return url.trim();
@@ -66,12 +90,12 @@ export function getRuntimeDatabaseUrl(): string {
   return normalizeConnectionLimit(applyMysqlHostOverride(sanitized));
 }
 
-/** True when env is set but no valid postgresql:// URL can be parsed. */
+/** True when env is set but no valid mysql:// or postgresql:// URL can be parsed. */
 export function isDatabaseUrlMalformed(raw = process.env.DATABASE_URL): boolean {
   const trimmed = raw?.trim() ?? "";
   if (!trimmed) return false;
   const sanitized = sanitizeDatabaseUrl(trimmed);
-  return !sanitized || !/^postgres(ql)?:\/\//i.test(sanitized);
+  return !sanitized || !isSupportedDatabaseUrl(sanitized);
 }
 
 /** Raw env has copy-paste noise but sanitization yields a usable URL. */
@@ -79,5 +103,5 @@ export function hasFixableDatabaseUrlFormatting(raw = process.env.DATABASE_URL):
   const trimmed = raw?.trim() ?? "";
   if (!trimmed) return false;
   const sanitized = sanitizeDatabaseUrl(trimmed);
-  return sanitized !== trimmed && /^postgres(ql)?:\/\//i.test(sanitized);
+  return sanitized !== trimmed && isSupportedDatabaseUrl(sanitized);
 }

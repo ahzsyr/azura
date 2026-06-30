@@ -17,6 +17,7 @@ export default async function SetupPage({ searchParams }: Props) {
         setupToken={token}
         databaseReady={setupStatus.databaseReady}
         databaseError={setupStatus.databaseError}
+        databaseKind={setupStatus.databaseKind}
         setupAlreadyComplete={setupStatus.setupComplete}
       />
     </div>

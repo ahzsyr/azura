@@ -15,6 +15,7 @@ type SetupWizardProps = {
   setupToken?: string;
   databaseReady?: boolean;
   databaseError?: string | null;
+  databaseKind?: "mysql" | "postgresql" | "unknown";
   setupAlreadyComplete?: boolean;
 };
 
@@ -22,6 +23,7 @@ export function SetupWizard({
   setupToken,
   databaseReady = true,
   databaseError = null,
+  databaseKind = "unknown",
   setupAlreadyComplete = false,
 }: SetupWizardProps) {
   const [step, setStep] = useState<Step>(1);
@@ -142,10 +144,24 @@ export function SetupWizard({
         {!databaseReady ? (
           <div className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive space-y-2">
             <p>
-              Database connection failed. In hPanel, set a valid Supabase{" "}
-              <code className="text-xs">DATABASE_URL</code> (postgresql://…, password URL-encoded), then
-              import <code className="text-xs">database/postgres/import-blank.sql</code> in the Supabase
-              SQL Editor. Rebuild/restart the app after saving env vars.
+              {databaseKind === "mysql" ? (
+                <>
+                  Database connection failed. In hPanel, set{" "}
+                  <code className="text-xs">PRISMA_SCHEMA=mysql</code> and a valid{" "}
+                  <code className="text-xs">DATABASE_URL</code> (mysql://…, no quotes). Import{" "}
+                  <code className="text-xs">database/mysql/import-blank.sql</code> in phpMyAdmin.
+                  On the same Hostinger server, use{" "}
+                  <code className="text-xs">HOSTINGER_MYSQL_LOCALHOST=1</code>. Rebuild/restart after
+                  saving env vars.
+                </>
+              ) : (
+                <>
+                  Database connection failed. In hPanel, set a valid Supabase{" "}
+                  <code className="text-xs">DATABASE_URL</code> (postgresql://…, password URL-encoded),
+                  then import <code className="text-xs">database/postgres/import-blank.sql</code> in the
+                  Supabase SQL Editor. Rebuild/restart the app after saving env vars.
+                </>
+              )}
             </p>
             {databaseError ? (
               <p className="text-xs">
