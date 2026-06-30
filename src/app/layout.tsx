@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Script from "next/script";
 import "@/app/globals.css";
 import { generateThemeBootInlineScript } from "@/lib/theme/theme-boot";
+import { ChunkLoadDiagnostics } from "@/components/debug/chunk-load-diagnostics";
 
 type Props = {
   children: ReactNode;
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: Props) {
           dangerouslySetInnerHTML={{ __html: bootScript }}
         />
         <Script src="/theme-init.js" strategy="beforeInteractive" />
+        {process.env.DEBUG_SESSION === "57e90f" ? <ChunkLoadDiagnostics /> : null}
         {children}
       </body>
     </html>

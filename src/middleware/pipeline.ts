@@ -44,6 +44,42 @@ export async function runMiddleware(request: NextRequest) {
   const isPreviewRoute = pathname === "/preview" || pathname.startsWith("/preview/");
   const getSession = createSessionGetter(request);
 
+  if (process.env.DEBUG_SESSION === "57e90f" && pathname === "/") {
+    // #region agent log
+    fetch("http://127.0.0.1:7548/ingest/3dff00bc-b4aa-4542-b4d1-e43b9965d611", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Debug-Session-Id": "57e90f",
+      },
+      body: JSON.stringify({
+        sessionId: "57e90f",
+        timestamp: Date.now(),
+        location: "pipeline.ts:runMiddleware",
+        message: "home request host diagnostics",
+        hypothesisId: "C",
+        runId: "pre-fix",
+        data: {
+          host: request.headers.get("host"),
+          forwardedHost: request.headers.get("x-forwarded-host"),
+          forwardedProto: request.headers.get("x-forwarded-proto"),
+          nodeEnv: process.env.NODE_ENV,
+          siteUrlConfigured: Boolean(process.env.NEXT_PUBLIC_SITE_URL?.trim()),
+          siteUrlHost: (() => {
+            try {
+              return process.env.NEXT_PUBLIC_SITE_URL
+                ? new URL(process.env.NEXT_PUBLIC_SITE_URL).host
+                : null;
+            } catch {
+              return "invalid";
+            }
+          })(),
+        },
+      }),
+    }).catch(() => {});
+    // #endregion
+  }
+
   if (
     pathname === "/api/setup/status" ||
     pathname === "/api/setup/reconcile" ||
