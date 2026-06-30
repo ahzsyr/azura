@@ -4,9 +4,19 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { authConfig } from "@/lib/auth.config";
 import { DatabaseUnavailableError } from "@/lib/auth-errors";
+import { resolveAuthSecret } from "@/lib/auth-secret.server";
+
+const authSecret = await resolveAuthSecret();
+
+if (!authSecret && process.env.NODE_ENV === "production") {
+  console.error(
+    "[auth] AUTH_SECRET is missing or placeholder. Set AUTH_SECRET in env or complete /setup.",
+  );
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  secret: authSecret ?? authConfig.secret,
   providers: [
     Credentials({
       name: "credentials",

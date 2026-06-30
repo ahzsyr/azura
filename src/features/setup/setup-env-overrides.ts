@@ -1,9 +1,9 @@
 /** Env overrides for setup/coming-soon — safe for middleware (no server-only). */
 
+/** Only `SETUP_COMPLETE=true` forces complete. `false` defers to DB/API (template default). */
 export function getSetupCompleteEnvOverride(): boolean | null {
   const env = process.env.SETUP_COMPLETE?.trim().toLowerCase();
   if (env === "true" || env === "1") return true;
-  if (env === "false" || env === "0") return false;
   return null;
 }
 

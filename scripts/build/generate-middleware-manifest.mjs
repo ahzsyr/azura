@@ -19,8 +19,34 @@ function parseBooleanEnv(name) {
   return null;
 }
 
+function parseForceCompleteEnv() {
+  const value = process.env.SETUP_COMPLETE?.trim().toLowerCase();
+  if (value === "true" || value === "1") return true;
+  return null;
+}
+
+const PLACEHOLDER_AUTH_SECRETS = new Set([
+  "CHANGE_TO_LONG_RANDOM_SECRET",
+  "your-stable-auth-secret",
+  "local-development-seo-integrations-secret",
+]);
+
+function isUsableAuthSecret(value) {
+  const trimmed = typeof value === "string" ? value.trim() : "";
+  if (trimmed.length < 16) return false;
+  return !PLACEHOLDER_AUTH_SECRETS.has(trimmed);
+}
+
+function resolveAuthSecretFromEnv() {
+  const candidates = [process.env.AUTH_SECRET, process.env.NEXTAUTH_SECRET];
+  for (const candidate of candidates) {
+    if (isUsableAuthSecret(candidate)) return candidate.trim();
+  }
+  return null;
+}
+
 function fallbackManifest(partial = {}) {
-  const setupEnv = parseBooleanEnv("SETUP_COMPLETE");
+  const setupForceComplete = parseForceCompleteEnv();
   const comingSoonEnv = parseBooleanEnv("COMING_SOON_ENABLED");
   const registrationEnv = parseBooleanEnv("NEXT_PUBLIC_REGISTRATION_ENABLED");
 
@@ -29,13 +55,14 @@ function fallbackManifest(partial = {}) {
     manifestVersion: Date.now(),
     buildTimestamp: new Date().toISOString(),
     setup:
-      setupEnv === null && comingSoonEnv === null && registrationEnv === null
+      setupForceComplete === null && comingSoonEnv === null && registrationEnv === null
         ? null
         : {
-            setupComplete: setupEnv ?? false,
+            setupComplete: setupForceComplete ?? false,
             registrationEnabled: registrationEnv ?? true,
             comingSoonEnabled: comingSoonEnv ?? false,
           },
+    authSecret: null,
     locales: {
       locales: ["en"],
       defaultLocale: "en",
@@ -80,7 +107,7 @@ async function main() {
       typeof systemSettings?.data === "object" && systemSettings.data !== null
         ? systemSettings.data
         : {};
-    const setupEnv = parseBooleanEnv("SETUP_COMPLETE");
+    const setupForceComplete = parseForceCompleteEnv();
     const comingSoonEnv = parseBooleanEnv("COMING_SOON_ENABLED");
     const registrationEnv = parseBooleanEnv("NEXT_PUBLIC_REGISTRATION_ENABLED");
     const locales = localeRows
@@ -88,11 +115,15 @@ async function main() {
       .filter((prefix) => typeof prefix === "string" && prefix.length > 0);
     const defaultLocale =
       localeRows.find((row) => row.isDefault)?.urlPrefix ?? locales[0] ?? "en";
+    const authSecretFromEnv = resolveAuthSecretFromEnv();
+    const authSecretFromSettings =
+      typeof settings.authSecret === "string" ? settings.authSecret : null;
 
     manifest = fallbackManifest({
       setup: {
         setupComplete:
-          setupEnv ?? (typeof settings.setupComplete === "boolean" ? settings.setupComplete : false),
+          setupForceComplete ??
+          (typeof settings.setupComplete === "boolean" ? settings.setupComplete : false),
         registrationEnabled:
           registrationEnv ??
           (typeof settings.registrationEnabled === "boolean"
@@ -104,6 +135,9 @@ async function main() {
             ? settings.comingSoonEnabled
             : false),
       },
+      authSecret:
+        authSecretFromEnv ??
+        (isUsableAuthSecret(authSecretFromSettings) ? authSecretFromSettings.trim() : null),
       locales: {
         locales: locales.length > 0 ? locales : ["en"],
         defaultLocale,

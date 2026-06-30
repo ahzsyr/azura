@@ -18,6 +18,7 @@ import {
 } from "@/features/setup/setup-cookie";
 import { prisma } from "@/lib/prisma";
 import { localeService } from "@/features/i18n/locale.service";
+import { ensureAuthSecretAtSetup } from "@/lib/auth-secret.server";
 
 /** Allow only same-origin relative paths (blocks open redirects). */
 function sanitizeReturnTo(returnTo: string | null): string | null {
@@ -60,6 +61,7 @@ export async function GET(request: Request) {
     confident: true,
   });
   await refreshMiddlewareManifestBestEffort("setup reconcile");
+  await ensureAuthSecretAtSetup();
 
   const { homePublished, headerSeeded } = await prisma.$transaction(async (tx) => {
     const home = await ensurePublishedHomePage(tx);

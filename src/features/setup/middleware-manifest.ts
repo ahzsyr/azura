@@ -16,6 +16,7 @@ type MiddlewareManifest = {
   manifestVersion: number;
   buildTimestamp: string;
   setup: MiddlewareManifestSetup | null;
+  authSecret?: string | null;
   locales: {
     locales: string[];
     defaultLocale: string;
@@ -39,6 +40,12 @@ export function getMiddlewareManifestMeta() {
 export function getMiddlewareManifestSetup(): MiddlewareManifestSetup | null {
   if (!isMiddlewareManifestGenerated()) return null;
   return manifest.setup;
+}
+
+export function getMiddlewareManifestAuthSecret(): string | undefined {
+  if (!isMiddlewareManifestGenerated()) return undefined;
+  const secret = manifest.authSecret;
+  return typeof secret === "string" && secret.trim().length >= 16 ? secret.trim() : undefined;
 }
 
 export function getMiddlewareManifestRouting() {

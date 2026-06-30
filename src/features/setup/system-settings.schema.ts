@@ -8,6 +8,8 @@ export const systemSettingsSchema = z.object({
   completedAt: z.string().optional(),
   registrationEnabled: z.boolean().default(true),
   comingSoonEnabled: z.boolean().default(false),
+  /** Auto-generated at setup when AUTH_SECRET env is missing or placeholder. */
+  authSecret: z.string().min(16).optional(),
 });
 
 export type SystemSettings = z.infer<typeof systemSettingsSchema>;

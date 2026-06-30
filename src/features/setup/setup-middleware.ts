@@ -70,9 +70,28 @@ export async function resolveSetupStatus(request: NextRequest) {
   }
 
   const setupEnv = getSetupCompleteEnvOverride();
-  if (setupEnv !== null) {
+  if (setupEnv === true) {
     const envFallback = statusFromEnvFallback();
     if (envFallback) return envFallback;
+  }
+
+  for (const origin of internalFetchOrigins(request)) {
+    try {
+      const status = await fetchSetupStatusFromApi(origin);
+      if (status?.setupComplete) return status;
+      if (status) {
+        if (hasSetupCompleteCookie(request.cookies.get(SETUP_COMPLETE_COOKIE)?.value)) {
+          return setupStatusFromCookieFallback();
+        }
+        return status;
+      }
+    } catch {
+      // try next origin (Hostinger self-fetch often needs localhost fallback)
+    }
+  }
+
+  if (hasSetupCompleteCookie(request.cookies.get(SETUP_COMPLETE_COOKIE)?.value)) {
+    return setupStatusFromCookieFallback();
   }
 
   const manifestStatus = getMiddlewareManifestSetup();
@@ -83,22 +102,9 @@ export async function resolveSetupStatus(request: NextRequest) {
     });
   }
 
-  for (const origin of internalFetchOrigins(request)) {
-    try {
-      const status = await fetchSetupStatusFromApi(origin);
-      if (status) return status;
-    } catch {
-      // try next origin (Hostinger self-fetch often needs localhost fallback)
-    }
-  }
-
   const envFallback = statusFromEnvFallback();
   if (envFallback) {
     return envFallback;
-  }
-
-  if (hasSetupCompleteCookie(request.cookies.get(SETUP_COMPLETE_COOKIE)?.value)) {
-    return setupStatusFromCookieFallback();
   }
 
   return {

@@ -62,6 +62,23 @@ test("statusFromEnvFallback uses SETUP_COMPLETE env for setup only", () => {
   assert.equal(fallback.comingSoonEnabled, false);
 });
 
+test("SETUP_COMPLETE=false does not force incomplete over DB complete", () => {
+  process.env.SETUP_COMPLETE = "false";
+
+  const merged = mergeSetupStatusWithEnvOverrides(
+    {
+      setupComplete: true,
+      registrationEnabled: true,
+      comingSoonEnabled: false,
+      confident: true,
+    },
+    { fromApi: true },
+  );
+
+  assert.equal(merged.setupComplete, true);
+  assert.equal(statusFromEnvFallback(), null);
+});
+
 test("setupStatusFromCookieFallback does not force coming soon off", () => {
   const fallback = setupStatusFromCookieFallback();
   assert.equal(fallback.setupComplete, true);

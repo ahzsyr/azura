@@ -26,6 +26,7 @@ import { revalidateAllWiredMarketingPaths } from "@/features/cms/revalidate-wire
 import { revalidateJsonNamespace } from "@/services/cache";
 import { publishShellChange } from "@/services/publish-propagation";
 import { localeService } from "@/features/i18n/locale.service";
+import { ensureAuthSecretAtSetup } from "@/lib/auth-secret.server";
 
 /** Remote Supabase pooler latency can exceed Prisma's default 5s interactive transaction limit. */
 const SETUP_COMPLETE_TX_OPTIONS = { maxWait: 30_000, timeout: 120_000 };
@@ -179,6 +180,8 @@ export async function POST(request: Request) {
     await revalidateAllWiredMarketingPaths();
     const defaultLocale = await localeService.getDefaultUrlPrefix();
     const redirectTo = `/${defaultLocale}?setup=done`;
+
+    await ensureAuthSecretAtSetup();
 
     const settings = await writeSystemSettings({
       setupComplete: true,

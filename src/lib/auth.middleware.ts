@@ -1,8 +1,7 @@
 import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 import type { Session } from "next-auth";
-
-const authSecret = process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET;
+import { getAuthSecretForMiddleware } from "@/lib/auth-secret.edge";
 
 /** Auth.js v5 session cookie — must match sign-in cookie name and salt. */
 function resolveSessionCookieName(): string {
@@ -13,6 +12,7 @@ function resolveSessionCookieName(): string {
 }
 
 export async function getAuthToken(request: NextRequest) {
+  const authSecret = getAuthSecretForMiddleware();
   if (!authSecret) return null;
 
   const cookieName = resolveSessionCookieName();

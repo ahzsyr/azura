@@ -19,10 +19,10 @@ export function mergeSetupStatusWithEnvOverrides(
   const registrationEnv = getRegistrationEnabledEnvOverride();
 
   let setupComplete = status.setupComplete;
-  if (options?.fromApi && !status.setupComplete) {
+  if (setupEnv === true) {
+    setupComplete = true;
+  } else if (options?.fromApi && !status.setupComplete) {
     setupComplete = false;
-  } else if (setupEnv !== null) {
-    setupComplete = setupEnv;
   }
 
   const comingSoonEnabled = options?.fromApi
@@ -42,10 +42,10 @@ export function statusFromEnvFallback(): SetupStatusCache | null {
   const comingSoonEnv = getComingSoonEnvOverride();
   if (setupEnv === null && comingSoonEnv === null) return null;
   return setCachedSetupStatus({
-    setupComplete: setupEnv ?? false,
+    setupComplete: setupEnv === true,
     registrationEnabled: getRegistrationEnabledEnvOverride() ?? true,
     comingSoonEnabled: comingSoonEnv ?? false,
-    confident: setupEnv !== null || comingSoonEnv !== null,
+    confident: setupEnv === true || comingSoonEnv !== null,
   });
 }
 
