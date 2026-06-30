@@ -1,0 +1,94 @@
+/**
+ * Reduce paint cost on constrained devices (set via data-reduced-paint on <html>).
+ */
+@layer effects {
+  html[data-reduced-paint="true"] {
+    --az-preset-blur-glass: 0px;
+    --az-preset-blur-panel: 0px;
+    --az-preset-blur-overlay: 0px;
+  }
+
+  @media (max-width: 768px) {
+    html[data-reduced-paint="true"] body::before,
+    html[data-reduced-paint="true"] body::after {
+      opacity: 0 !important;
+      background: none !important;
+    }
+  }
+
+  html[data-reduced-paint="true"] .site-header,
+  html[data-reduced-paint="true"] [class*="backdrop"],
+  html[data-reduced-paint="true"] [class*="backdrop-blur"],
+  html[data-reduced-paint="true"] .az-glass,
+  html[data-reduced-paint="true"] .preset-glass,
+  html[data-reduced-paint="true"] .admin-liquid-glass,
+  html[data-reduced-paint="true"] .az-liquid-glass,
+  html[data-reduced-paint="true"] .az-hero-badge,
+  html[data-reduced-paint="true"] .mnav-panel,
+  html[data-reduced-paint="true"] .route-loading-overlay {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  html[data-reduced-paint="true"] .route-loading-overlay {
+    background: color-mix(in srgb, var(--background, #fff) 92%, transparent) !important;
+  }
+
+  html[data-reduced-paint="true"] .site-header {
+    background: var(--color-surface, var(--background)) !important;
+  }
+
+  html[data-reduced-paint="true"] .az-ambient-blur,
+  html[data-reduced-paint="true"] [data-bg-blur],
+  html[data-reduced-paint="true"] .az-hero-orb,
+  html[data-reduced-paint="true"] .az-section-orb {
+    filter: none !important;
+    animation: none !important;
+  }
+
+  html[data-reduced-paint="true"] .pl-card,
+  html[data-reduced-paint="true"] .pl-card:hover,
+  html[data-reduced-paint="true"] .cl-catalog-card__link:hover {
+    transform: none !important;
+  }
+
+  html[data-effects-tier="light"] .az-hero-orb,
+  html[data-effects-tier="light"] .az-section-orb {
+    filter: blur(24px);
+    opacity: 0.18;
+    animation-duration: 20s;
+  }
+
+  @media (max-width: 768px) {
+    html[data-effects-tier="light"] body::before,
+    html[data-effects-tier="light"] body::after {
+      opacity: 0.15;
+    }
+  }
+}
+
+@layer utilities {
+  [data-lazy-block] {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 360px;
+    contain: layout style paint;
+  }
+
+  .az-content-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 480px;
+  }
+
+  .marketing-page-content {
+    contain: layout style;
+  }
+
+  .pl-grid > .pl-card,
+  .pl-grid > li > .pl-card,
+  .cl-catalog-card,
+  .card-premium {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 300px;
+    contain: layout style paint;
+  }
+}

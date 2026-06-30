@@ -1,0 +1,190 @@
+// Domain: core travel CMS models
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  passwordHash    String
+  name            String
+  role            UserRole  @default(ADMIN)
+  phone           String?
+  dateOfBirth     DateTime? @db.Date
+  addressLine1    String?
+  addressLine2    String?
+  city            String?
+  state           String?
+  postalCode      String?
+  country         String?
+  marketingOptIn  Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  bookings        Booking[]
+  mediaAssets     MediaAsset[]
+  postAuthors     PostAuthor[]
+  pageRevisions   CmsPageRevision[]
+  favorites       UserFavorite[]
+  inquiries       Inquiry[]
+  passwordResets  PasswordResetToken[]
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model UserFavorite {
+  id         String             @id @default(cuid())
+  userId     String
+  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entityType FavoriteEntityType
+  entityId   String
+  locale     String             @default("en")
+  createdAt  DateTime           @default(now())
+
+  @@unique([userId, entityType, entityId])
+  @@index([userId])
+}
+
+model Gallery {
+  id            String         @id @default(cuid())
+  slug          String         @unique
+  coverUrl      String?
+  sortOrder     Int            @default(0)
+  isPublished   Boolean        @default(true)
+  media         GalleryMedia[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model GalleryMedia {
+  id            String           @id @default(cuid())
+  galleryId     String
+  gallery       Gallery          @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  mediaUrl      String
+  mediaKind     GalleryMediaKind @default(IMAGE)
+  sortOrder     Int              @default(0)
+  isPublished   Boolean          @default(true)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([galleryId])
+  @@index([galleryId, sortOrder])
+}
+
+model Testimonial {
+  id             String                      @id @default(cuid())
+  name           String
+  location       String
+  rating         Int                         @default(5)
+  videoUrl       String?
+  imageUrl       String?
+  isPublished    Boolean                     @default(true)
+  sortOrder      Int                         @default(0)
+  createdAt      DateTime                    @default(now())
+  updatedAt      DateTime                    @updatedAt
+  collectionItems TestimonialCollectionItem[]
+}
+
+model TestimonialCollection {
+  id        String                      @id @default(cuid())
+  slug      String                      @unique
+  sortOrder Int                         @default(0)
+  isPublished Boolean                   @default(true)
+  items     TestimonialCollectionItem[]
+  createdAt DateTime                    @default(now())
+  updatedAt DateTime                    @updatedAt
+}
+
+model TestimonialCollectionItem {
+  id             String                @id @default(cuid())
+  collectionId   String
+  collection     TestimonialCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  testimonialId  String
+  testimonial    Testimonial           @relation(fields: [testimonialId], references: [id], onDelete: Cascade)
+  sortOrder      Int                   @default(0)
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+
+  @@index([collectionId])
+  @@index([collectionId, sortOrder])
+}
+
+model Inquiry {
+  id            String        @id @default(cuid())
+  type          InquiryType   @default(GENERAL)
+  name          String
+  email         String
+  phone         String?
+  message       String        @db.Text
+  notes         String?       @db.Text
+  contentItemId String?       @db.VarChar(36)
+  contentItem   ContentItem?  @relation(fields: [contentItemId], references: [id], onDelete: SetNull)
+  userId        String?
+  user          User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  status        InquiryStatus @default(NEW)
+  locale        String        @default("en")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([contentItemId])
+  @@index([userId])
+}
+
+model Booking {
+  id            String        @id @default(cuid())
+  contentItemId String        @db.VarChar(36)
+  contentItem   ContentItem   @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+  userId        String?
+  user          User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  status        BookingStatus @default(PENDING)
+  metadata      Json          @default("{}")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([contentItemId])
+}
+
+model FaqSet {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  sortOrder     Int       @default(0)
+  isPublished   Boolean   @default(true)
+  items         FaqItem[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model FaqItem {
+  id          String   @id @default(cuid())
+  faqSetId    String
+  faqSet      FaqSet   @relation(fields: [faqSetId], references: [id], onDelete: Cascade)
+  sortOrder   Int      @default(0)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([faqSetId])
+  @@index([faqSetId, sortOrder])
+}
+
+model CompanyInfo {
+  id             String   @id @default("default")
+  name           String   @default("AZURA")
+  registrationNo String
+  licenseInfo    String   @db.Text
+  phone          String
+  whatsapp       String
+  email          String
+  socialLinks    Json     @default("{}")
+  trustBadges    Json     @default("[]")
+  updatedAt      DateTime @updatedAt
+}
