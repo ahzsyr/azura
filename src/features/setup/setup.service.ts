@@ -255,7 +255,11 @@ export function isValidSetupToken(token: string | null | undefined): boolean {
 
 
 
-export async function getSetupStatus() {
+import type { SetupDatabaseKind, SetupStatusResult } from "@/features/setup/setup.types";
+
+export type { SetupDatabaseKind, SetupStatusResult } from "@/features/setup/setup.types";
+
+export async function getSetupStatus(): Promise<SetupStatusResult> {
 
   const databaseReady = await isSetupDatabaseReady();
 
@@ -267,7 +271,7 @@ export async function getSetupStatus() {
 
   const comingSoonEnabled = await isComingSoonEnabled();
 
-  const databaseKind =
+  const databaseKind: SetupDatabaseKind =
     process.env.PRISMA_SCHEMA === "mysql" || isMysqlDatabaseUrl()
       ? "mysql"
       : process.env.PRISMA_SCHEMA === "postgresql" || isPostgresDatabaseUrl()

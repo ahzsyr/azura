@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { SITE_PRODUCT_NAME } from "@/config/site";
 import { DEMO_PROFILE_META } from "@/features/setup/demo-import/profiles";
 import type { InstallMode } from "@/features/setup/demo-import/types";
+import type { SetupDatabaseKind } from "@/features/setup/setup.types";
 
 type Step = 1 | 2 | 3;
 
@@ -15,7 +16,7 @@ type SetupWizardProps = {
   setupToken?: string;
   databaseReady?: boolean;
   databaseError?: string | null;
-  databaseKind?: "mysql" | "postgresql" | "unknown";
+  databaseKind?: SetupDatabaseKind;
   setupAlreadyComplete?: boolean;
 };
 
