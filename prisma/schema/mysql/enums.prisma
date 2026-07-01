@@ -1,0 +1,124 @@
+// Domain: shared enums
+
+enum UserRole {
+  ADMIN
+  CUSTOMER
+}
+
+enum FavoriteEntityType {
+  CATALOG_PRODUCT
+  CONTENT_ITEM
+}
+
+enum InquiryType {
+  GENERAL
+  PACKAGE
+  CONTENT
+  VISA
+  CONTACT
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum GalleryMediaKind {
+  IMAGE
+  VIDEO
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  SCHEDULED
+  ARCHIVED
+}
+
+enum ThemePreset {
+  CLASSIC
+  MODERN
+  LUXURY
+  CUSTOM
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+  SVG
+}
+
+enum SearchEntityType {
+  CONTENT_ITEM
+  CONTENT_COLLECTION
+  CONTENT_TYPE
+  CATALOG_PRODUCT
+  CATALOG_COLLECTION
+  CATALOG_CATEGORY
+  POST
+  CMS_PAGE
+  FAQ
+  MEDIA
+  TESTIMONIAL
+  TEAM_MEMBER
+  PARTNER
+}
+
+enum RedirectType {
+  PERMANENT
+  TEMPORARY
+}
+
+enum TranslationStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+}
+
+enum SeoSubmissionJobStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+  EXHAUSTED
+}
+
+enum SeoTelemetryEventType {
+  QUEUED
+  STARTED
+  COMPLETED
+  FAILED
+  EXHAUSTED
+  SKIPPED
+}
+
+enum SeoTelemetryStatus {
+  SUCCESS
+  FAILURE
+  INFO
+}
+
+enum SeoCrawlIssueSeverity {
+  CRITICAL
+  WARNING
+  INFO
+}
+
+enum SeoRichResultCategory {
+  ERROR
+  WARNING
+}
+
+enum SeoRichResultEligibility {
+  ELIGIBLE
+  ELIGIBLE_WITH_WARNINGS
+  NOT_ELIGIBLE
+}
