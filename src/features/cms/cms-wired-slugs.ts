@@ -1,0 +1,20 @@
+/** CMS slugs wired to live marketing routes (not /pages/[slug]). Edge-safe — no builder imports. */
+export const CMS_WIRED_MARKETING_SLUGS: Record<string, string> = {
+  home: "/",
+  about: "/about",
+  contact: "/contact",
+  packages: "/packages",
+  gallery: "/gallery",
+  testimonials: "/testimonials",
+  "hotels-transport": "/hotels-transport",
+  products: "/products",
+  collections: "/collections",
+  services: "/services",
+  compare: "/compare",
+  favorites: "/favorites",
+  account: "/account",
+  "smart-home": "/smart-home",
+  "security-solutions": "/security-solutions",
+  "enterprise-wireless": "/enterprise-wireless",
+  "why-choose-us": "/why-choose-us",
+};

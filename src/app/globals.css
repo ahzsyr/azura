@@ -1,0 +1,1357 @@
+@import "tailwindcss";
+@import "../styles/layers/theme-layers.css";
+@import "../styles/layers/semantic-fallback.css" layer(tokens);
+@import "../styles/responsive-tokens.css" layer(tokens);
+@import "../styles/preset-visuals.css";
+@import "../styles/site-backgrounds.css";
+@import "../styles/visual-enhancements.css";
+@import "../styles/themed-scrollbars.css" layer(utilities);
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --z-content: 1;
+  --z-overlay: 200;
+  --background: #fafafa;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+  --primary: #047857;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f5f4;
+  --secondary-foreground: #0a0a0a;
+  --muted: #f5f5f4;
+  --muted-foreground: #737373;
+  --accent: #d4af37;
+  --accent-foreground: #0a0a0a;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #047857;
+  --radius: 0.75rem;
+  --gold: #d4af37;
+  --emerald: #047857;
+  --emerald-dark: #065f46;
+  /* Header builder aliases — resolve from active light/dark tokens */
+  --color-surface: var(--background);
+  --sur: var(--background);
+  --bg: var(--background);
+  --s1: var(--muted);
+  --t: var(--foreground);
+  --m: var(--muted-foreground);
+  --color-text: var(--foreground);
+  --color-text-muted: var(--muted-foreground);
+  --text-primary: var(--foreground);
+  --border-subtle: var(--border);
+  --az-border-subtle: var(--border);
+  --az-text-primary: var(--foreground);
+  --az-canvas-well: var(--muted);
+  --color-primary: var(--primary);
+  --p: var(--primary);
+  --color-accent: var(--accent);
+  --a: var(--accent);
+  --header-shadow-soft: 0 2px 8px rgb(0 0 0 / 0.06);
+  --header-shadow-strong: 0 8px 24px rgb(0 0 0 / 0.1);
+
+  /*
+   * Astro parity tokens (Azura) — used by migrated storefront/components.
+   * These are additive and should not affect existing Tailwind tokens directly.
+   */
+  --az-fs-hero: clamp(2.4rem, 6vw, 5.5rem);
+  --az-fs-h1: clamp(2rem, 4.5vw, 4rem);
+  --az-fs-h2: clamp(1.5rem, 3vw, 2.75rem);
+  --az-fs-h3: clamp(1.2rem, 2vw, 1.875rem);
+  --az-fs-h4: clamp(1rem, 1.5vw, 1.375rem);
+  --az-fs-body: clamp(0.9rem, 1.2vw, 1.0625rem);
+  --az-fs-small: clamp(0.72rem, 1vw, 0.84rem);
+  --az-fs-mono: clamp(0.65rem, 0.9vw, 0.78rem);
+  --az-fs-label: clamp(0.6rem, 0.8vw, 0.72rem);
+
+  --az-sp-xs: clamp(0.25rem, 0.5vw, 0.5rem);
+  --az-sp-sm: clamp(0.5rem, 1vw, 0.75rem);
+  --az-sp-md: clamp(0.75rem, 1.5vw, 1.25rem);
+  --az-sp-lg: clamp(1rem, 2vw, 2rem);
+  --az-sp-xl: clamp(1.5rem, 3vw, 3.5rem);
+  --az-sp-2xl: clamp(2rem, 4.5vw, 6rem);
+  --az-sp-3xl: clamp(3rem, 6vw, 9rem);
+
+  --az-gap-sm: clamp(0.5rem, 1.5vw, 1rem);
+  --az-gap-md: clamp(1rem, 2vw, 1.5rem);
+  --az-gap-lg: clamp(1.5rem, 2.5vw, 2.5rem);
+  --az-gap-xl: clamp(2rem, 3vw, 4rem);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-emerald: var(--emerald);
+  --color-emerald-dark: var(--emerald-dark);
+  /* Astro-ported aliases (catalog admin media, etc.) */
+  --color-text: var(--foreground);
+  --color-surface: var(--card);
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-heading);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+* {
+  border-color: var(--border);
+}
+
+/* ── Astro parity: container utilities (used by migrated layouts) ──────────── */
+.az-container {
+  width: min(100% - 2rem, var(--site-page-max-width));
+  margin-inline: auto;
+}
+.az-container-sm {
+  width: min(100% - 2rem, 960px);
+  margin-inline: auto;
+}
+.az-container-md {
+  width: min(100% - 2rem, 1100px);
+  margin-inline: auto;
+}
+.az-container-lg {
+  width: min(100% - 2rem, var(--site-page-max-width));
+  margin-inline: auto;
+}
+.az-container-wide {
+  width: min(100% - 2rem, 1600px);
+  margin-inline: auto;
+}
+.az-container-full {
+  width: min(100% - 2rem, 1920px);
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .az-container,
+  .az-container-sm,
+  .az-container-md,
+  .az-container-lg,
+  .az-container-wide,
+  .az-container-full {
+    width: min(100% - 3rem, var(--_az-cw));
+  }
+  .az-container {
+    --_az-cw: var(--site-page-max-width);
+  }
+  .az-container-sm {
+    --_az-cw: 960px;
+  }
+  .az-container-md {
+    --_az-cw: 1100px;
+  }
+  .az-container-lg {
+    --_az-cw: var(--site-page-max-width);
+  }
+  .az-container-wide {
+    --_az-cw: 1600px;
+  }
+  .az-container-full {
+    --_az-cw: 1920px;
+  }
+}
+
+@media (min-width: 1080px) {
+  .az-container,
+  .az-container-sm,
+  .az-container-md,
+  .az-container-lg,
+  .az-container-wide,
+  .az-container-full {
+    width: min(100% - 4rem, var(--_az-cw));
+  }
+}
+
+@media (min-width: 1920px) {
+  .az-container {
+    --_az-cw: 1440px;
+    width: min(100% - 8rem, 1440px);
+  }
+  .az-container-lg {
+    --_az-cw: 1600px;
+    width: min(100% - 8rem, 1600px);
+  }
+  .az-container-wide {
+    --_az-cw: 1800px;
+    width: min(100% - 8rem, 1800px);
+  }
+  .az-container-full {
+    --_az-cw: 2100px;
+    width: min(100% - 8rem, 2100px);
+  }
+}
+
+@media (min-width: 2560px) {
+  .az-container {
+    width: min(100% - 12rem, 1600px);
+  }
+  .az-container-lg {
+    width: min(100% - 12rem, 1920px);
+  }
+  .az-container-wide {
+    width: min(100% - 12rem, 2200px);
+  }
+  .az-container-full {
+    width: min(100% - 12rem, 2600px);
+  }
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.6;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.15);
+  }
+}
+
+/* BRT: enhanced float with 20px travel (matches sample) */
+@keyframes floatFar {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+.animate-float-far {
+  animation: floatFar 6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-far {
+    animation: none !important;
+  }
+}
+
+/* Industry preset card style — corner brackets (Astro parity) */
+.corner-bracket,
+html[data-card-style="corner-bracket"] .corner-bracket,
+html[data-card-style="corner-bracket"] [data-card-style="corner-bracket"] {
+  position: relative;
+}
+.corner-bracket::before,
+.corner-bracket::after,
+html[data-card-style="corner-bracket"] .corner-bracket::before,
+html[data-card-style="corner-bracket"] .corner-bracket::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  border-color: color-mix(in srgb, var(--color-primary, var(--primary)) 35%, transparent);
+  transition: border-color 0.25s ease;
+}
+.corner-bracket::before,
+html[data-card-style="corner-bracket"] .corner-bracket::before {
+  top: 0;
+  inset-inline-start: 0;
+  border-width: 2px 0 0 2px;
+}
+.corner-bracket::after,
+html[data-card-style="corner-bracket"] .corner-bracket::after {
+  bottom: 0;
+  inset-inline-end: 0;
+  border-width: 0 2px 2px 0;
+}
+.corner-bracket:hover::before,
+.corner-bracket:hover::after,
+html[data-card-style="corner-bracket"] .corner-bracket:hover::before,
+html[data-card-style="corner-bracket"] .corner-bracket:hover::after {
+  border-color: var(--color-primary, var(--primary));
+}
+
+/* Mobile scroll tuning */
+@media (max-width: 768px) {
+  html,
+  body,
+  .site-main {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+html[data-reduced-paint="true"] {
+  scroll-behavior: auto;
+}
+
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--bg-primary, var(--background));
+  color: var(--text-primary, var(--foreground));
+  font-family: var(--font-body), system-ui, sans-serif;
+  position: relative;
+}
+
+/* Ambient gradient wash — sample parity, sits beneath canvas bg effects */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      ellipse 90% 70% at 50% -10%,
+      color-mix(in srgb, var(--color-primary, var(--primary)) 22%, transparent),
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 50% 45% at 95% 15%,
+      color-mix(in srgb, var(--color-accent, var(--accent)) 14%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 40% 35% at 5% 85%,
+      color-mix(in srgb, var(--color-secondary, var(--gold)) 10%, transparent),
+      transparent 50%
+    );
+}
+
+.dark body::before {
+  background:
+    radial-gradient(
+      ellipse 75% 55% at 50% 25%,
+      color-mix(in srgb, var(--color-primary, var(--primary)) 10%, transparent),
+      transparent 68%
+    ),
+    radial-gradient(
+      ellipse 45% 40% at 85% 8%,
+      color-mix(in srgb, var(--color-accent, var(--accent)) 7%, transparent),
+      transparent 52%
+    );
+}
+
+/* Decorative accents — faint rings / glow dots (sample light-mode parity) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.28;
+  background-image:
+    radial-gradient(
+      circle at 78% 22%,
+      color-mix(in srgb, var(--color-accent, var(--accent)) 22%, transparent) 0,
+      transparent 8px
+    ),
+    radial-gradient(
+      circle at 82% 18%,
+      color-mix(in srgb, var(--color-primary, var(--primary)) 6%, transparent) 0,
+      transparent 120px
+    );
+}
+
+:root:not(.dark) body::after {
+  opacity: 0.1;
+}
+
+.site-shell,
+.site-main {
+  position: relative;
+  z-index: var(--z-content);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.site-main {
+  contain: layout style;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+/* Fixed theme mode FAB — Astro Layout #theme-toggle parity */
+body:has(#az-pp) #theme-toggle {
+  display: none !important;
+}
+
+#theme-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  inset-inline-end: 1.5rem;
+  z-index: 9000;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 40%, transparent);
+  background: color-mix(in srgb, var(--bg-primary, var(--background)) 80%, transparent);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease,
+    transform 0.2s ease;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+}
+
+#theme-toggle:hover {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  transform: scale(1.05);
+}
+
+html[data-site-cursor-effects="on"] #theme-toggle {
+  cursor: none;
+}
+
+/* Theme transitions — only while switching appearance (html.theme-transitioning) */
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-transitioning body,
+  html.theme-transitioning body::before,
+  html.theme-transitioning body::after {
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease,
+      opacity 0.35s ease;
+  }
+
+  html.theme-transitioning,
+  html.theme-transitioning .site-shell,
+  html.theme-transitioning .site-header-shell,
+  html.theme-transitioning .site-footer-shell,
+  html.theme-transitioning .pp-root,
+  html.theme-transitioning .wa-fab-root {
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease,
+      border-color 0.35s ease;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.15s;
+    animation-timing-function: ease-out;
+  }
+}
+
+:root {
+  --az-fab-float-size-sm: 2.25rem;
+  --az-fab-float-size: 2.75rem;
+  --az-fab-float-size-lg: 3.25rem;
+  --az-fab-edge-gap: 1rem;
+  --az-fab-safe-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  --az-fab-safe-side: calc(1rem + env(safe-area-inset-left, 0px));
+}
+
+.wa-fab-root--size-sm {
+  width: var(--az-fab-float-size-sm);
+  height: var(--az-fab-float-size-sm);
+  min-width: var(--az-fab-float-size-sm);
+  min-height: var(--az-fab-float-size-sm);
+}
+
+.wa-fab-root--size-md {
+  width: var(--az-fab-float-size);
+  height: var(--az-fab-float-size);
+  min-width: var(--az-fab-float-size);
+  min-height: var(--az-fab-float-size);
+}
+
+.wa-fab-root--size-lg {
+  width: var(--az-fab-float-size-lg);
+  height: var(--az-fab-float-size-lg);
+  min-width: var(--az-fab-float-size-lg);
+  min-height: var(--az-fab-float-size-lg);
+}
+
+.wa-fab-anchor {
+  position: fixed;
+  z-index: 8990;
+  overflow: visible;
+  pointer-events: auto;
+}
+
+/* Admin preview frames use a local positioning context */
+.wa-fab-preview .wa-fab-anchor {
+  position: absolute;
+}
+
+/* Keep FAB above footer on all pages; catalog mobile dock overrides in collections-catalog.css */
+.wa-fab-root--anchor-bottom {
+  bottom: max(
+    calc(var(--wa-offset-bottom, 28px) + env(safe-area-inset-bottom, 0px)),
+    var(--az-fab-safe-bottom)
+  ) !important;
+}
+
+/* Avoid overlap with personalize side tab when both are on the start edge */
+body:has(.pp-side-toggle--start) .wa-fab-root--pos-start.wa-fab-root--anchor-bottom {
+  bottom: max(
+    calc(var(--wa-offset-bottom, 28px) + env(safe-area-inset-bottom, 0px) + 4.5rem),
+    var(--az-fab-safe-bottom)
+  ) !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wa-fab-root--interactive.wa-fab-root--enter {
+    animation: wa-fab-enter 0.55s ease-out 1;
+  }
+}
+
+@keyframes wa-fab-enter {
+  0% {
+    transform: scale(0.88);
+    opacity: 0.72;
+  }
+  70% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.wa-fab-root--interactive {
+  isolation: isolate;
+  overflow: visible;
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s ease,
+    filter 0.28s ease;
+}
+
+.wa-fab-root--interactive::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  border: 2px solid var(--wa-fab-ring, rgba(37, 211, 102, 0.35));
+  opacity: 0.65;
+  pointer-events: none;
+  transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+.wa-fab-root--interactive:hover {
+  transform: translateY(-2px) scale(1.06);
+  filter: brightness(1.04);
+}
+
+.wa-fab-root--interactive:hover::before {
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+.wa-fab-root--interactive:active {
+  transform: translateY(0) scale(0.96);
+}
+
+.wa-fab-root--interactive:focus-visible {
+  outline: 2px solid var(--wa-fab-ring, rgba(37, 211, 102, 0.55));
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-fab-root--interactive,
+  .wa-fab-root--interactive::before {
+    transition-duration: 0.01ms !important;
+  }
+
+  .wa-fab-root--interactive:hover {
+    transform: none;
+    filter: none;
+  }
+}
+
+.font-heading {
+  font-family: var(--font-heading), serif;
+}
+
+.section-padding {
+  @apply py-20 md:py-28;
+}
+
+.container-premium {
+  width: 100%;
+  max-width: var(--site-page-max-width);
+  margin-inline: auto;
+  padding-inline: var(--site-page-padding-inline);
+  box-sizing: border-box;
+}
+
+.site-page-width {
+  width: 100%;
+  max-width: var(--site-page-max-width);
+  margin-inline: auto;
+}
+
+.gold-divider {
+  @apply h-px w-16 bg-accent;
+}
+
+.card-premium {
+  @apply rounded-xl border border-border/60 bg-card shadow-sm;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #d4af37 0%, #f5e6a3 50%, #d4af37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-overlay {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--primary) 75%, #000000) 0%,
+    rgba(10, 10, 10, 0.7) 100%
+  );
+}
+
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.55s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in {
+    animation: none;
+  }
+}
+
+/* Astro parity: marketing / catalog motion utilities */
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.85;
+    filter: brightness(1.15);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes grid-move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-glow-pulse,
+  .animate-float {
+    animation: none !important;
+  }
+}
+
+/* PDP entrance (Astro parity) */
+@keyframes prd-hero-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes prd-hero-slide {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.prd-hero-animate {
+  animation: prd-hero-slide 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .prd-hero-animate {
+    animation: none;
+  }
+}
+
+@keyframes dialog-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-overlay-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-content-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes dialog-content-out {
+  from {
+    opacity: 1;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+.dialog-overlay[data-state="open"] {
+  animation: dialog-overlay-in 200ms ease-out;
+}
+
+.dialog-overlay[data-state="closed"] {
+  animation: dialog-overlay-out 150ms ease-in;
+}
+
+.dialog-content[data-state="open"] {
+  animation: dialog-content-in 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dialog-content[data-state="closed"] {
+  animation: dialog-content-out 150ms ease-in;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog-overlay[data-state="open"],
+  .dialog-overlay[data-state="closed"],
+  .dialog-content[data-state="open"],
+  .dialog-content[data-state="closed"] {
+    animation: none;
+  }
+}
+
+/* Dark mode — BRT ultra-dark palette (overridden per-preset via theme-css.ts) */
+.dark {
+  --background: #020408;
+  --foreground: #e8f4fd;
+  --card: #040d1a;
+  --card-foreground: #e8f4fd;
+  --popover: #040d1a;
+  --popover-foreground: #e8f4fd;
+  --primary: #00e5ff;
+  --primary-foreground: #020408;
+  --secondary: #041225;
+  --secondary-foreground: #e8f4fd;
+  --muted: #041225;
+  --muted-foreground: #4a6580;
+  --accent: #7c3aed;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: color-mix(in srgb, #00e5ff 15%, transparent);
+  --input: color-mix(in srgb, #00e5ff 12%, transparent);
+  --ring: #00e5ff;
+  --color-surface: #040d1a;
+  --sur: #040d1a;
+  --bg: #020408;
+  --header-shadow-soft: 0 2px 12px rgb(0 0 0 / 0.6);
+  --header-shadow-strong: 0 8px 28px rgb(0 0 0 / 0.75);
+}
+
+/* Scrollbar theming: see themed-scrollbars.css */
+::selection {
+  background: color-mix(in srgb, var(--primary) 32%, transparent);
+  color: var(--foreground);
+}
+
+/* ── BRT keyframes — ported from sample/src/styles/global.css ─────────────── */
+@keyframes scanLine {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+@keyframes glowPulseText {
+  0%,
+  100% {
+    text-shadow:
+      0 0 10px var(--color-primary, #00e5ff),
+      0 0 20px var(--color-primary, #00e5ff),
+      0 0 40px var(--color-primary, #00e5ff);
+  }
+  50% {
+    text-shadow:
+      0 0 20px var(--color-accent, #7c3aed),
+      0 0 40px var(--color-accent, #7c3aed),
+      0 0 80px var(--color-accent, #7c3aed);
+  }
+}
+
+@keyframes auroraMove {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(3%, 2%) rotate(2deg);
+  }
+  66% {
+    transform: translate(-2%, 4%) rotate(-1deg);
+  }
+  100% {
+    transform: translate(2%, -3%) rotate(1.5deg);
+  }
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes astroZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes astroZoomOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+/* Page transition — root layer (route-content uses preset CSS in route-loading.css) */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-page-transition-enabled="true"] ::view-transition-old(root),
+  html[data-page-transition-enabled="true"] ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+@keyframes route-root-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes route-root-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+html[data-reduced-paint="true"] ::view-transition-old(root),
+html[data-reduced-paint="true"] ::view-transition-new(root) {
+  animation: none !important;
+}
+
+/* Utility classes for above keyframes */
+.animate-scan-line {
+  animation: scanLine 4s linear infinite;
+}
+.animate-glow-text {
+  animation: glowPulseText 3s ease-in-out infinite;
+}
+.animate-gradient-flow {
+  background-size: 200% auto;
+  animation: gradientFlow 4s linear infinite;
+}
+.animate-aurora {
+  animation: auroraMove 12s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-scan-line,
+  .animate-glow-text,
+  .animate-gradient-flow,
+  .animate-aurora {
+    animation: none !important;
+  }
+}
+
+/* ── Lazy block reveal ─────────────────────────────────────────────────────── */
+@keyframes az-lazy-fadein {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+[data-lazy-block] {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 300px;
+}
+
+[data-lazy-block].az-lazy-revealed {
+  content-visibility: visible;
+  animation: az-lazy-fadein 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-lazy-block].az-lazy-revealed {
+    animation: none;
+  }
+}
+
+/* ── Card utilities — preset-driven (see preset-visuals.css) ───────────────── */
+.az-card {
+  border: var(--az-preset-border-width, 1px) solid
+    var(--az-preset-border-glow, color-mix(in srgb, var(--color-primary, var(--primary)) 15%, transparent));
+  background: color-mix(
+    in srgb,
+    var(--card) calc(var(--az-preset-glass-opacity, 0.5) * 100%),
+    transparent
+  );
+  border-radius: var(--az-preset-radius-card, var(--radius, 0.75rem));
+  box-shadow: var(--az-preset-shadow-card, none);
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    transform 0.3s ease;
+}
+.az-card:hover {
+  border-color: color-mix(in srgb, var(--color-primary, var(--primary)) 40%, transparent);
+  box-shadow: var(--az-preset-shadow-glow, var(--az-preset-shadow-md));
+}
+
+/* ── Hover utility classes — BRT parity ────────────────────────────────────── */
+.hover-lift {
+  transition: transform 0.3s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-6px);
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s ease;
+}
+.hover-glow:hover {
+  box-shadow: 0 0 20px color-mix(in srgb, var(--color-primary, var(--primary)) 20%, transparent);
+}
+
+.hover-border {
+  transition: border-color 0.3s ease;
+}
+.hover-border:hover {
+  border-color: color-mix(in srgb, var(--color-primary, var(--primary)) 40%, transparent);
+}
+
+/* ── Button base utilities — BRT parity ─────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: var(--color-primary, var(--primary));
+  color: var(--primary-foreground, #020408);
+  font-family: var(--font-display, var(--font-heading, inherit));
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: var(--radius, 0.75rem);
+  cursor: pointer;
+  transition:
+    background 200ms ease,
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+.btn-primary:hover {
+  background: var(--color-accent, var(--accent));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--color-primary, var(--primary)) 30%, transparent);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: transparent;
+  color: var(--color-primary, var(--primary));
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid color-mix(in srgb, var(--color-primary, var(--primary)) 50%, transparent);
+  border-radius: var(--radius, 0.75rem);
+  cursor: pointer;
+  transition:
+    background 200ms ease,
+    border-color 200ms ease,
+    transform 200ms ease;
+}
+.btn-outline:hover {
+  background: color-mix(in srgb, var(--color-primary, var(--primary)) 10%, transparent);
+  border-color: var(--color-primary, var(--primary));
+  transform: translateY(-2px);
+}
+
+/* ── Text gradient utility — BRT brand gradient ─────────────────────────────── */
+.text-gradient-primary {
+  background: linear-gradient(135deg, var(--color-primary, var(--primary)), var(--color-accent, var(--accent)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.admin-shell {
+  --admin-sidebar-width: 256px;
+  --admin-sidebar-collapsed: 56px;
+  --admin-topbar-height: 48px;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Block builder entrance / scroll animations */
+@keyframes block-anim-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes block-anim-slide-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.block-anim-root.block-anim-entrance.block-anim-fade {
+  animation-name: block-anim-fade-in;
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+.block-anim-root.block-anim-entrance.block-anim-slide {
+  animation-name: block-anim-slide-up;
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+@keyframes block-anim-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes block-anim-rotate-in {
+  from {
+    opacity: 0;
+    transform: rotate(-4deg) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+@keyframes block-anim-bounce-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.block-anim-root.block-anim-entrance.block-anim-zoom {
+  animation-name: block-anim-zoom-in;
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+.block-anim-root.block-anim-entrance.block-anim-rotate {
+  animation-name: block-anim-rotate-in;
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+.block-anim-root.block-anim-entrance.block-anim-bounce {
+  animation-name: block-anim-bounce-in;
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+.block-anim-root.block-anim-entrance.block-anim-scale {
+  animation-name: block-anim-zoom-in;
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+.block-anim-root.block-anim-once.block-anim-entrance {
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.block-anim-root.block-anim-loop.block-anim-entrance {
+  animation-iteration-count: infinite;
+  animation-fill-mode: none;
+}
+
+:root {
+  --header-content-gap: 16px;
+  --site-page-max-width: 1440px;
+  --site-page-padding-inline: clamp(1rem, 3vw, 1.75rem);
+}
+
+@media (max-width: 968px) {
+  :root {
+    --site-page-padding-inline: clamp(0.75rem, 3vw, 1rem);
+  }
+}
+
+html {
+  scroll-padding-top: var(
+    --az-sticky-nav-top,
+    calc(var(--header-height, 76px) + var(--header-content-gap, 16px))
+  );
+}
+
+/* Dynamic top inset when header is out of document flow */
+html[data-header-inset-active="true"] .site-main {
+  padding-top: var(
+    --site-content-top-inset,
+    calc(var(--header-height, 76px) + var(--header-overlay-top-gap, 0px) + var(--header-content-gap, 16px))
+  );
+}
+
+html[data-header-inset-active="true"]:has([data-page-header-overlay="true"]) .site-main {
+  padding-top: 0;
+}
+
+.block-header-underlay {
+  position: relative;
+  z-index: 0;
+}
+
+/* First block pulls under fixed header; hero background fills the inset zone */
+.block-first-with-header-overlay {
+  margin-top: calc(-1 * (var(--header-height, 76px) + var(--header-overlay-top-gap, 12px)));
+  padding-top: calc(var(--header-height, 76px) + var(--header-overlay-top-gap, 12px));
+  min-height: calc(50vh + var(--header-height, 76px) + var(--header-overlay-top-gap, 12px));
+}
+
+html:has([data-page-header-overlay="true"]) main {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+html[data-block-header-overlay="true"]:not(:has([data-page-header-overlay="true"])) .site-main {
+  padding-top: var(
+    --site-content-top-inset,
+    calc(var(--header-height, 76px) + var(--header-overlay-top-gap, 0px) + var(--header-content-gap, 16px))
+  );
+}
+
+html:has([data-page-header-overlay="true"]) {
+  --header-overlay-top-gap: 12px;
+}
+
+@media (max-width: 968px) {
+  html:has([data-page-header-overlay="true"]) {
+    --header-overlay-top-gap: 0px;
+  }
+}
+
+.block-anim-root.block-anim-hover:hover {
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.block-anim-root.block-anim-hover.block-anim-scale:hover {
+  transform: scale(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .block-anim-root {
+    animation: none !important;
+  }
+
+  .admin-shell * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Site footer stacks above fixed PDP buy rail (z-index 15 from sticky layout JS). */
+.site-footer {
+  position: relative;
+  z-index: 20;
+}
+
+/* Row Section multi-column grid */
+.row-section-grid {
+  display: grid;
+  width: 100%;
+}
+
+.row-section-grid--gap-sm {
+  gap: 0.75rem;
+}
+
+.row-section-grid--gap-md {
+  gap: 1.25rem;
+}
+
+.row-section-grid--gap-lg {
+  gap: 2rem;
+}
+
+.row-section-grid--align-start {
+  align-items: start;
+}
+
+.row-section-grid--align-center {
+  align-items: center;
+}
+
+.row-section-grid--align-stretch {
+  align-items: stretch;
+}
+
+.row-section-grid--align-stretch .row-section-grid__cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.row-section-grid--align-stretch .row-section-grid__cell > * {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .row-section-grid--stack-mobile {
+    grid-template-columns: 1fr !important;
+  }
+}
