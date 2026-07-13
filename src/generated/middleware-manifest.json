@@ -1,0 +1,14 @@
+{
+  "generated": true,
+  "manifestVersion": 1783953130386,
+  "buildTimestamp": "2026-07-13T14:32:10.386Z",
+  "setup": null,
+  "authSecret": null,
+  "locales": {
+    "locales": [
+      "en"
+    ],
+    "defaultLocale": "en"
+  },
+  "redirects": {}
+}

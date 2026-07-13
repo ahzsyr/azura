@@ -1,0 +1,457 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Product Schema",
+  "description": "Complete product data structure for the Visual Product Manager. Mirror: sample-product/product-schema.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique product identifier (auto-generated)"
+    },
+    "productTitle": {
+      "type": "string",
+      "description": "Main product name/title (synced with name and title fields)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Product name (synced with productTitle)"
+    },
+    "title": {
+      "type": "string",
+      "description": "Product title (synced with productTitle)"
+    },
+    "title_extended": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Extended/SEO title"
+    },
+    "short_description": {
+      "type": "string",
+      "description": "Brief product description"
+    },
+    "description": {
+      "type": "string",
+      "description": "SEO description"
+    },
+    "detailed_description": {
+      "type": "array",
+      "description": "Long-form product description as heading + text sections",
+      "items": {
+        "type": "object",
+        "properties": {
+          "heading": {
+            "type": "string",
+            "description": "Section heading"
+          },
+          "text": {
+            "type": "string",
+            "description": "Section body (plain text; line breaks allowed)"
+          }
+        },
+        "required": [
+          "heading",
+          "text"
+        ]
+      }
+    },
+    "price": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number",
+          "description": "Current price value"
+        },
+        "currency": {
+          "type": "string",
+          "enum": [
+            "USD",
+            "EUR",
+            "AED",
+            "GBP",
+            "JPY"
+          ],
+          "default": "USD",
+          "description": "Currency code"
+        },
+        "discount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Discount percentage (0-100)"
+        }
+      },
+      "required": [
+        "value",
+        "currency"
+      ]
+    },
+    "old_price": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Original price before discount"
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "InStock",
+        "OutOfStock",
+        "PreOrder",
+        "RequestQuote"
+      ],
+      "default": "InStock",
+      "description": "Stock availability status"
+    },
+    "stock_status": {
+      "type": "string",
+      "enum": [
+        "in_stock",
+        "out_of_stock",
+        "preorder"
+      ],
+      "description": "Internal stock status"
+    },
+    "mpn": {
+      "type": "string",
+      "description": "Manufacturer Part Number"
+    },
+    "manufacturer_part_number": {
+      "type": "string",
+      "description": "Alternative MPN field"
+    },
+    "ean": {
+      "type": "string",
+      "description": "European Article Number"
+    },
+    "brand": {
+      "type": "string",
+      "description": "Product brand/manufacturer"
+    },
+    "warranty": {
+      "type": "string",
+      "description": "Warranty information"
+    },
+    "category": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Electronics",
+        "Smart Home",
+        "Accessories",
+        "Fashion",
+        ""
+      ],
+      "description": "Primary product category"
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of categories (synced with category)"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Optional product tags for filtering and discovery"
+    },
+    "condition_options": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "new",
+          "used",
+          "refurbished"
+        ]
+      },
+      "description": "Product condition (single-select array)"
+    },
+    "plug_options": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "EU",
+          "UK",
+          "US"
+        ]
+      },
+      "description": "Plug type options (single-select array)"
+    },
+    "specifications": {
+      "type": "array",
+      "description": "Technical specifications grouped by technology/section",
+      "items": {
+        "type": "object",
+        "properties": {
+          "technology": {
+            "type": "string",
+            "description": "Specification group/section name (e.g., 'Display', 'Processor')"
+          },
+          "features": {
+            "type": "array",
+            "description": "Key feature list",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "items": {
+            "type": "array",
+            "description": "Detailed specification items",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "variations": {
+      "type": "array",
+      "description": "Product variations (e.g., color, size, plug type)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Variation type (e.g., 'Color', 'Size', 'Plug')"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Available options for this variation"
+          },
+          "default": {
+            "type": "string",
+            "description": "Default selected option"
+          }
+        }
+      }
+    },
+    "media": {
+      "type": "object",
+      "description": "Product media assets",
+      "properties": {
+        "images": {
+          "type": "array",
+          "description": "Product images (supports URL or dataURL upload)",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "Image URL or base64 dataURL"
+              },
+              "alt": {
+                "type": "string",
+                "description": "Alt text for accessibility/SEO"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "main",
+                  "gallery",
+                  "thumbnail"
+                ],
+                "description": "Image usage type"
+              }
+            }
+          }
+        },
+        "thumbnails": {
+          "type": "array",
+          "description": "Thumbnail images",
+          "items": {
+            "type": "object"
+          }
+        },
+        "videos": {
+          "type": "array",
+          "description": "Product videos (supports YouTube, Vimeo, or uploaded files)",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "Video URL (embed link or dataURL for uploads)"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "youtube",
+                  "vimeo",
+                  "upload"
+                ],
+                "description": "Video source type"
+              }
+            }
+          }
+        },
+        "files": {
+          "type": "array",
+          "description": "Additional file attachments",
+          "items": {
+            "type": "object"
+          }
+        },
+        "3d_model": {
+          "type": "boolean",
+          "description": "Whether 3D model is available"
+        }
+      }
+    },
+    "documents": {
+      "type": "array",
+      "description": "Product documentation (datasheets, manuals, etc.)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Document title"
+          },
+          "url": {
+            "type": "string",
+            "description": "Document URL or path"
+          }
+        }
+      }
+    },
+    "reviews": {
+      "type": "object",
+      "description": "Customer reviews and ratings",
+      "properties": {
+        "rating": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5,
+          "description": "Average rating (0-5)"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of reviews"
+        },
+        "source": {
+          "type": "string",
+          "description": "Review source/platform (e.g., 'TrustPilot', 'Google')"
+        },
+        "distribution": {
+          "type": "object",
+          "description": "Rating distribution counts",
+          "properties": {
+            "excellent": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "great": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "average": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "poor": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "bad": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "breakdown": {
+          "type": "object",
+          "description": "Star-based rating breakdown",
+          "properties": {
+            "5_star": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "4_star": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "3_star": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "2_star": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "1_star": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "comments": {
+          "type": "array",
+          "description": "Individual customer review comments",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Reviewer name"
+              },
+              "date": {
+                "type": "string",
+                "format": "date",
+                "description": "Review date (YYYY-MM-DD)"
+              },
+              "text": {
+                "type": "string",
+                "description": "Review content/text"
+              },
+              "photos": {
+                "type": "array",
+                "description": "Photos attached to review (URLs or dataURLs)",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "id",
+    "productTitle",
+    "price",
+    "media",
+    "reviews"
+  ]
+}
+

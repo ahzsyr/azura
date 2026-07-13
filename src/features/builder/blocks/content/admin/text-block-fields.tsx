@@ -1,0 +1,104 @@
+"use client";
+
+import type { BlockNode } from "@/types/builder";
+import { Label } from "@/components/ui/label";
+import { patchBlockSettings } from "@/features/builder/instance/block-instance";
+import {
+  LocalizedBlockInput,
+  LocalizedBlockTextarea,
+  LocalizedBlockTitle,
+} from "@/features/builder/block-translation-context";
+
+type Props = { block: BlockNode; onChange: (block: BlockNode) => void };
+
+export function TextBlockFields({ block, onChange }: Props) {
+  const align = (block.props.align as string) === "start" ? "left" : ((block.props.align as string) ?? "center");
+  const contentAlign =
+    (block.props.contentAlign as string) === "start"
+      ? "left"
+      : ((block.props.contentAlign as string) ?? "left");
+
+  return (
+    <div className="space-y-3">
+      <LocalizedBlockInput block={block} field="badge" label="Badge" />
+      <LocalizedBlockTitle block={block} />
+      <LocalizedBlockTextarea block={block} field="subtitle" label="Subtitle" rows={2} />
+      <div>
+        <Label className="text-xs">Header alignment</Label>
+        <select
+          className="mt-1 w-full rounded-md border h-9 px-2 text-sm"
+          value={align}
+          onChange={(e) => onChange(patchBlockSettings(block, { align: e.target.value }))}
+        >
+          <option value="center">Center</option>
+          <option value="left">Left</option>
+        </select>
+      </div>
+      <div className="rounded-md border p-3 space-y-3">
+        <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+          Typography
+        </Label>
+        <div>
+          <Label className="text-xs">Badge size</Label>
+          <select
+            className="mt-1 w-full rounded-md border h-9 px-2 text-sm"
+            value={(block.props.badgeSize as string) ?? "sm"}
+            onChange={(e) => onChange(patchBlockSettings(block, { badgeSize: e.target.value }))}
+          >
+            <option value="xs">XS</option>
+            <option value="sm">SM</option>
+            <option value="base">Base</option>
+          </select>
+        </div>
+        <div>
+          <Label className="text-xs">Title size</Label>
+          <select
+            className="mt-1 w-full rounded-md border h-9 px-2 text-sm"
+            value={(block.props.titleSize as string) ?? "2xl"}
+            onChange={(e) => onChange(patchBlockSettings(block, { titleSize: e.target.value }))}
+          >
+            <option value="xl">XL</option>
+            <option value="2xl">2XL</option>
+            <option value="3xl">3XL</option>
+          </select>
+        </div>
+        <div>
+          <Label className="text-xs">Subtitle size</Label>
+          <select
+            className="mt-1 w-full rounded-md border h-9 px-2 text-sm"
+            value={(block.props.subtitleSize as string) ?? "base"}
+            onChange={(e) => onChange(patchBlockSettings(block, { subtitleSize: e.target.value }))}
+          >
+            <option value="sm">SM</option>
+            <option value="base">Base</option>
+            <option value="lg">LG</option>
+          </select>
+        </div>
+        <div>
+          <Label className="text-xs">Content size</Label>
+          <select
+            className="mt-1 w-full rounded-md border h-9 px-2 text-sm"
+            value={(block.props.contentSize as string) ?? "base"}
+            onChange={(e) => onChange(patchBlockSettings(block, { contentSize: e.target.value }))}
+          >
+            <option value="sm">SM</option>
+            <option value="base">Base</option>
+            <option value="lg">LG</option>
+          </select>
+        </div>
+        <div>
+          <Label className="text-xs">Content alignment</Label>
+          <select
+            className="mt-1 w-full rounded-md border h-9 px-2 text-sm"
+            value={contentAlign}
+            onChange={(e) => onChange(patchBlockSettings(block, { contentAlign: e.target.value }))}
+          >
+            <option value="left">Left</option>
+            <option value="center">Center</option>
+          </select>
+        </div>
+      </div>
+      <LocalizedBlockTextarea block={block} field="content" label="Content" rows={5} />
+    </div>
+  );
+}

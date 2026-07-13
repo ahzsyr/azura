@@ -1,0 +1,116 @@
+// // --- Generic content platform (industry-agnostic catalog) ---
+
+// --- Generic content platform (industry-agnostic catalog) ---
+
+model ContentType {
+  id              String              @id @default(cuid())
+  slug            String              @unique @db.VarChar(64)
+  icon            String              @default("box")
+  routePrefix     String?             @db.VarChar(64)
+  fieldSchema     Json                @default("[]")
+  displaySchema   Json                @default("{}")
+  adminConfig     Json                @default("{}")
+  sortOrder       Int                 @default(0)
+  isEnabled       Boolean             @default(true)
+  collections     ContentCollection[]
+  items           ContentItem[]
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+}
+
+model ContentCollection {
+  id              String                    @id @default(cuid())
+  slug            String                    @unique @db.VarChar(64)
+  contentTypeId   String                    @db.VarChar(36)
+  contentType     ContentType               @relation(fields: [contentTypeId], references: [id], onDelete: Cascade)
+  displayProfile  Json                      @default("{}")
+  sortOrder       Int                       @default(0)
+  isPublished     Boolean                   @default(true)
+  items           ContentItem[]
+  memberships     ContentCollectionItem[]
+  createdAt       DateTime                  @default(now())
+  updatedAt       DateTime                  @updatedAt
+
+  @@index([contentTypeId])
+}
+
+model ContentItem {
+  id               String                  @id @default(cuid())
+  contentTypeId    String                  @db.VarChar(36)
+  contentType      ContentType             @relation(fields: [contentTypeId], references: [id], onDelete: Cascade)
+  collectionId     String?                 @db.VarChar(36)
+  collection       ContentCollection?      @relation(fields: [collectionId], references: [id], onDelete: SetNull)
+  slug             String?                 @db.VarChar(128)
+  attributes       Json                    @default("{}")
+  /// Legacy alias for composition.regions.primary. Read/written only by CompositionService.
+  blocks           Json                    @default("[]")
+  composition      Json                    @default("{}")
+  displaySettings  Json                    @default("{}")
+  visualSettings   Json                    @default("{}")
+  metadata         Json                    @default("{}")
+  status           ContentStatus           @default(DRAFT)
+  isFeatured       Boolean                 @default(false)
+  isVisible        Boolean                 @default(true)
+  sortOrder        Int                     @default(0)
+  scheduledAt      DateTime?
+  publishedAt      DateTime?
+  archivedAt       DateTime?
+  deletedAt        DateTime?
+  featuredImageUrl String?
+  media            ContentItemMedia[]
+  collectionLinks  ContentCollectionItem[]
+  revisions        ContentItemRevision[]
+  inquiries        Inquiry[]
+  bookings         Booking[]
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+
+  @@unique([contentTypeId, slug])
+  @@index([contentTypeId, status, isFeatured])
+  @@index([collectionId])
+  @@index([deletedAt])
+}
+
+model ContentCollectionItem {
+  id           String            @id @default(cuid())
+  collectionId String            @db.VarChar(36)
+  collection   ContentCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  itemId       String            @db.VarChar(36)
+  item         ContentItem       @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  sortOrder    Int               @default(0)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@unique([collectionId, itemId])
+  @@index([collectionId, sortOrder])
+}
+
+model ContentItemMedia {
+  id          String      @id @default(cuid())
+  itemId      String      @db.VarChar(36)
+  item        ContentItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  url         String
+  sortOrder   Int         @default(0)
+  isPublished Boolean     @default(true)
+  isCover     Boolean     @default(false)
+  isHidden    Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([itemId, sortOrder])
+}
+
+model ContentItemRevision {
+  id        String        @id @default(cuid())
+  itemId    String        @db.VarChar(36)
+  item      ContentItem   @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  version   Int
+  /// Legacy alias for composition.regions.primary. Read/written only by CompositionService.
+  blocks    Json          @default("[]")
+  composition Json        @default("{}")
+  message   String?       @db.VarChar(255)
+  status    ContentStatus
+  createdAt DateTime      @default(now())
+
+  @@index([itemId, createdAt])
+}

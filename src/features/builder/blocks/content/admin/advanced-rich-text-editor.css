@@ -1,0 +1,126 @@
+@import "../components/advanced-rich-text.css";
+
+.cb-advanced-richtext-editor .ProseMirror {
+  min-height: 240px;
+  padding: 1rem;
+  outline: none;
+  color: var(--foreground);
+}
+
+.cb-advanced-richtext-editor .ProseMirror:focus {
+  outline: none;
+}
+
+.cb-advanced-richtext-editor .ProseMirror p.is-editor-empty:first-child::before {
+  color: hsl(var(--muted-foreground));
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Callout styles come from advanced-rich-text.css (.cb-advanced-richtext [data-callout]) */
+
+.cb-advanced-richtext-editor .ProseMirror [data-cb-button] {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.375rem;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  margin: 0.5rem 0;
+}
+
+.cb-advanced-richtext-editor .ProseMirror [data-cb-columns] {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.cb-advanced-richtext-editor .ProseMirror [data-cb-columns="2"] {
+  grid-template-columns: 1fr;
+}
+
+.cb-advanced-richtext-editor .ProseMirror [data-cb-columns="3"] {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .cb-advanced-richtext-editor .ProseMirror [data-cb-columns="2"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .cb-advanced-richtext-editor .ProseMirror [data-cb-columns="3"] {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.cb-advanced-richtext-editor .ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.375rem;
+}
+
+/* Clearfix — prevents content from wrapping unexpectedly past floated images */
+.cb-advanced-richtext-editor .ProseMirror::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.cb-advanced-richtext-editor .ProseMirror table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.cb-advanced-richtext-editor .ProseMirror th,
+.cb-advanced-richtext-editor .ProseMirror td {
+  border: 1px solid hsl(var(--border));
+  padding: 0.5rem 0.75rem;
+  vertical-align: top;
+}
+
+.cb-advanced-richtext-editor .ProseMirror th {
+  background-color: hsl(var(--muted) / 0.5);
+  font-weight: 600;
+}
+
+.cb-advanced-richtext-editor .ProseMirror blockquote {
+  border-left: 3px solid hsl(var(--border));
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: hsl(var(--muted-foreground));
+}
+
+.cb-advanced-richtext-editor .ProseMirror pre {
+  background: hsl(var(--muted));
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+}
+
+.cb-advanced-richtext-editor .ProseMirror hr {
+  border: none;
+  border-top: 1px solid hsl(var(--border));
+  margin: 1.5rem 0;
+}
+
+.cb-advanced-richtext-editor .ProseMirror .selectedCell {
+  background-color: hsl(var(--accent) / 0.4);
+}
+
+.cb-advanced-richtext-editor.cb-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: hsl(var(--background));
+  display: flex;
+  flex-direction: column;
+}
+
+.cb-advanced-richtext-editor.cb-fullscreen .cb-editor-scroll {
+  flex: 1;
+  overflow: auto;
+}
