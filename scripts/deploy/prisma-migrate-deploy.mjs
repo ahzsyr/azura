@@ -13,12 +13,14 @@
  * db.*.supabase.co direct is often unreachable from Vercel CI.
  */
 import { PrismaClient } from "@prisma/client";
+import { spawnSync } from "node:child_process";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { buildPrismaEnv, resolvePostgresMigrateUrls } from "./load-database-url.mjs";
 import {
   isPostgresDatabaseUrl,
   resolvePrismaSchemaPath,
 } from "./resolve-prisma-schema.mjs";
-import { runPrismaOrExit } from "./run-prisma.mjs";
 
 function shouldSkipMigrate(env = process.env) {
   if (env.SKIP_DB_MIGRATE === "1") {
@@ -405,6 +407,46 @@ async function runWithPrisma(url, fn) {
   }
 }
 
+function resolvePrismaCli(cwd = process.cwd()) {
+  const entry = join(cwd, "node_modules", "prisma", "build", "index.js");
+  return existsSync(entry) ? entry : null;
+}
+
+function runMysqlMigrateDeployWithBaselineFallback(schema, env) {
+  const cli = resolvePrismaCli();
+  if (!cli) {
+    console.error(
+      "[db-migrate] Local prisma package missing — run npm install (project expects prisma@6).",
+    );
+    process.exit(1);
+  }
+
+  const args = ["migrate", "deploy", "--schema", schema];
+  const result = spawnSync(process.execPath, [cli, ...args], {
+    stdio: "pipe",
+    shell: false,
+    env,
+    cwd: process.cwd(),
+  });
+
+  const stdout = result.stdout?.toString() ?? "";
+  const stderr = result.stderr?.toString() ?? "";
+  if (stdout) process.stdout.write(stdout);
+  if (stderr) process.stderr.write(stderr);
+
+  const exitCode = result.status ?? 1;
+  if (exitCode === 0) return { ok: true, baselineDetected: false };
+
+  const combined = `${stdout}\n${stderr}`;
+  const baselineDetected =
+    combined.includes("Error: P3005") ||
+    (combined.includes("P3005") && combined.includes("database schema is not empty"));
+  if (baselineDetected) {
+    return { ok: false, baselineDetected: true };
+  }
+  process.exit(exitCode);
+}
+
 async function applyPostgresPatchesWithFallback(candidates) {
   let lastError;
   for (let i = 0; i < candidates.length; i++) {
@@ -462,7 +504,15 @@ async function main() {
       "[db-migrate] To start tracking migrations, baseline this database and mark the initial migration as applied.",
     );
   } else {
-    runPrismaOrExit(["migrate", "deploy", "--schema", schema], { env });
+    const migrateResult = runMysqlMigrateDeployWithBaselineFallback(schema, env);
+    if (migrateResult.baselineDetected) {
+      console.warn(
+        "[db-migrate] Prisma reported P3005 (non-empty baseline database) — continuing with idempotent patches.",
+      );
+      console.warn(
+        "[db-migrate] To start tracking migrations, baseline this database and mark the initial migration as applied.",
+      );
+    }
   }
 
   await withPoolRetry("mysql", () => runWithPrisma(env.DATABASE_URL, applyMysqlPatches));
