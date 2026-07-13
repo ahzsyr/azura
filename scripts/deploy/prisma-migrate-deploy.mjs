@@ -2,7 +2,7 @@
 /**
  * Apply pending database schema changes during deploy.
  *
- * MySQL (Hostinger): prisma migrate deploy
+ * MySQL (Hostinger): prisma migrate deploy (auto-skips baseline DBs without migration history)
  * PostgreSQL (Supabase): idempotent SQL patches (prisma/migrations are MySQL-oriented)
  *
  * Skip: SKIP_DB_MIGRATE=1 or missing DATABASE_URL
@@ -312,6 +312,32 @@ async function mysqlColumnExists(prisma, table, column) {
   return Number(rows[0]?.c ?? 0) > 0;
 }
 
+async function mysqlTableExists(prisma, table) {
+  const rows = await prisma.$queryRawUnsafe(
+    `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.TABLES
+     WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ?`,
+    table,
+  );
+  return Number(rows[0]?.c ?? 0) > 0;
+}
+
+async function mysqlUserTableCount(prisma) {
+  const rows = await prisma.$queryRawUnsafe(
+    `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.TABLES
+     WHERE TABLE_SCHEMA = DATABASE()
+       AND TABLE_TYPE = 'BASE TABLE'
+       AND TABLE_NAME <> '_prisma_migrations'`,
+  );
+  return Number(rows[0]?.c ?? 0);
+}
+
+async function shouldSkipMysqlMigrateDeploy(prisma) {
+  const hasMigrationsTable = await mysqlTableExists(prisma, "_prisma_migrations");
+  if (hasMigrationsTable) return false;
+  const tableCount = await mysqlUserTableCount(prisma);
+  return tableCount > 0;
+}
+
 async function applyPostgresPatches(prisma) {
   if (!(await postgresColumnExists(prisma, "SiteSettings", "publishedVersion"))) {
     await prisma.$executeRawUnsafe(
@@ -425,7 +451,19 @@ async function main() {
     return;
   }
 
-  runPrismaOrExit(["migrate", "deploy", "--schema", schema], { env });
+  const skipMysqlMigrateDeploy = await withPoolRetry("mysql", () =>
+    runWithPrisma(env.DATABASE_URL, shouldSkipMysqlMigrateDeploy),
+  );
+  if (skipMysqlMigrateDeploy) {
+    console.warn(
+      "[db-migrate] MySQL baseline detected (existing tables without _prisma_migrations) — skipping `prisma migrate deploy` to avoid P3005.",
+    );
+    console.warn(
+      "[db-migrate] To start tracking migrations, baseline this database and mark the initial migration as applied.",
+    );
+  } else {
+    runPrismaOrExit(["migrate", "deploy", "--schema", schema], { env });
+  }
 
   await withPoolRetry("mysql", () => runWithPrisma(env.DATABASE_URL, applyMysqlPatches));
 }
