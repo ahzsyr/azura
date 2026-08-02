@@ -1,0 +1,24 @@
+{
+  "id": "gaming",
+  "name": "Gaming & Esports",
+  "description": "High-energy red/purple with glitch effects — built for gaming brands",
+  "colors": {
+    "primary": "#ff2d55",
+    "accent": "#ff9f0a",
+    "secondary": "#bf5af2",
+    "background": "#0a0008",
+    "surface": "#12000f",
+    "text": "#f5f5f7",
+    "textMuted": "#6e6e73"
+  },
+  "fonts": {
+    "display": "Rajdhani",
+    "body": "Exo 2",
+    "mono": "Share Tech Mono"
+  },
+  "cursor": "crosshair",
+  "backgroundEffect": "particles",
+  "textEffect": "glitch",
+  "cardStyle": "sharp-cut",
+  "borderStyle": "glow-red"
+}

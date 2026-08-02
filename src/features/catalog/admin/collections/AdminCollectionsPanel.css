@@ -1,0 +1,354 @@
+/* AdminCollectionsPanel — AZURA Admin UI */
+
+.acp-root {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  color: #1a1a2e;
+  background: #f8f9fb;
+  min-height: 100%;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+
+.acp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.acp-header-title { display: flex; align-items: baseline; gap: 12px; }
+.acp-title { font-size: 18px; font-weight: 700; margin: 0; }
+.acp-header-meta { font-size: 12px; color: #6b7280; }
+.acp-header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ── Alerts ──────────────────────────────────────────────────────────────── */
+
+.acp-alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  font-size: 13px;
+  gap: 8px;
+}
+
+.acp-alert-error { background: #fef2f2; color: #b91c1c; border-bottom: 1px solid #fca5a5; }
+.acp-alert-success { background: #f0fdf4; color: #166534; border-bottom: 1px solid #86efac; }
+.acp-alert-close { background: none; border: none; font-size: 18px; cursor: pointer; color: inherit; padding: 0 4px; }
+
+/* ── Tabs ────────────────────────────────────────────────────────────────── */
+
+.acp-tabs {
+  display: flex;
+  gap: 0;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0 20px;
+}
+
+.acp-tab {
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #6b7280;
+  border-bottom: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.acp-tab:hover { color: #1a1a2e; }
+.acp-tab--active { color: #4f46e5; border-bottom-color: #4f46e5; font-weight: 600; }
+
+.acp-tab-badge {
+  background: #ef4444;
+  color: #fff;
+  font-size: 11px;
+  border-radius: 999px;
+  padding: 1px 6px;
+  font-weight: 600;
+}
+
+.acp-tab-badge--warn { background: #f59e0b; }
+
+/* ── Tab content area ────────────────────────────────────────────────────── */
+
+.acp-tab-content { padding: 20px; overflow-x: auto; }
+
+/* ── Toolbar ──────────────────────────────────────────────────────────────── */
+
+.acp-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.acp-count { font-size: 12px; color: #6b7280; white-space: nowrap; }
+
+/* ── Inputs / selects ────────────────────────────────────────────────────── */
+
+.acp-input,
+.acp-select,
+.acp-textarea {
+  padding: 7px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  background: #fff;
+  color: #1a1a2e;
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.acp-input:focus,
+.acp-select:focus,
+.acp-textarea:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.12);
+}
+
+.acp-search { max-width: 300px; }
+.acp-textarea { resize: vertical; }
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+
+.acp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.acp-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.acp-btn-primary { background: #4f46e5; color: #fff; }
+.acp-btn-primary:hover:not(:disabled) { background: #4338ca; }
+
+.acp-btn-secondary { background: #fff; color: #374151; border-color: #d1d5db; }
+.acp-btn-secondary:hover:not(:disabled) { background: #f9fafb; border-color: #9ca3af; }
+
+.acp-btn-ghost { background: none; color: #6b7280; border-color: transparent; }
+.acp-btn-ghost:hover:not(:disabled) { background: #f3f4f6; color: #1a1a2e; }
+
+.acp-btn-danger { background: none; color: #ef4444; border-color: transparent; }
+.acp-btn-danger:hover:not(:disabled) { background: #fef2f2; }
+
+.acp-btn-xs { padding: 3px 8px; font-size: 12px; }
+.acp-btn-icon { padding: 4px 8px; font-size: 16px; line-height: 1; }
+
+/* ── Table ───────────────────────────────────────────────────────────────── */
+
+.acp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.acp-table th { text-align: left; padding: 8px 12px; font-weight: 600; color: #6b7280; border-bottom: 2px solid #e5e7eb; background: #f9fafb; white-space: nowrap; }
+.acp-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+.acp-table-row:hover td { background: #f9f9ff; }
+.acp-row--orphan td { background: #fffbeb !important; }
+.acp-row-actions { display: flex; gap: 6px; }
+
+/* ── Badges / chips ──────────────────────────────────────────────────────── */
+
+.acp-badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: #e0e7ff;
+  color: #3730a3;
+  margin-left: 6px;
+  font-weight: 500;
+}
+
+.acp-badge--new { background: #d1fae5; color: #065f46; }
+
+.acp-code { font-family: monospace; font-size: 12px; color: #4f46e5; background: #eef2ff; padding: 2px 5px; border-radius: 4px; }
+.acp-muted { color: #9ca3af; }
+.acp-warn-inline { color: #f59e0b; font-weight: 600; }
+
+.acp-tag-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.acp-tag { background: #f3f4f6; color: #374151; font-size: 11px; padding: 2px 7px; border-radius: 4px; }
+
+.acp-match-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.acp-match-chip { background: #e0e7ff; color: #3730a3; font-size: 11px; padding: 2px 7px; border-radius: 4px; }
+
+.acp-cats { color: #9ca3af; font-size: 11px; }
+
+/* ── Status indicators ───────────────────────────────────────────────────── */
+
+.acp-status { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+.acp-status--yes { color: #15803d; background: #f0fdf4; }
+.acp-status--no { color: #b91c1c; background: #fef2f2; }
+.acp-status--ok { color: #15803d; background: #f0fdf4; }
+.acp-status--orphan { color: #b45309; background: #fffbeb; }
+.acp-status--ambig { color: #7c3aed; background: #f5f3ff; }
+
+.acp-product-count { font-weight: 600; }
+.acp-product-count--zero { color: #9ca3af; }
+
+.acp-rule-summary { font-size: 12px; color: #374151; background: #f3f4f6; padding: 2px 7px; border-radius: 4px; }
+
+/* ── Form ────────────────────────────────────────────────────────────────── */
+
+.acp-form { max-width: 860px; }
+.acp-form-header { margin-bottom: 16px; }
+.acp-form-title { font-size: 16px; font-weight: 600; margin: 0; }
+
+.acp-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 640px) { .acp-form-grid { grid-template-columns: 1fr; } }
+
+.acp-field { display: flex; flex-direction: column; gap: 5px; }
+.acp-field-wide { grid-column: 1 / -1; }
+.acp-field-checks { display: flex; flex-direction: column; gap: 8px; }
+.acp-media-pick-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+.acp-img-preview { object-fit: cover; border-radius: 4px; border: 1px solid #e5e7eb; }
+.acp-img-preview--banner { width: 120px; height: 48px; }
+.acp-img-preview--icon { width: 40px; height: 40px; }
+.acp-label { font-size: 12px; font-weight: 600; color: #374151; }
+.acp-check { display: flex; align-items: center; gap: 7px; font-size: 13px; cursor: pointer; }
+.acp-check input { cursor: pointer; }
+
+.acp-form-actions { display: flex; gap: 10px; margin-top: 20px; }
+.acp-error { color: #ef4444; font-size: 13px; margin-top: 10px; background: #fef2f2; padding: 8px 12px; border-radius: 6px; border: 1px solid #fca5a5; }
+
+/* ── Rules section ───────────────────────────────────────────────────────── */
+
+.acp-rules-section { border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; background: #fafafa; margin-bottom: 20px; }
+.acp-rules-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+.acp-rules-match { display: flex; gap: 16px; }
+
+.acp-rule-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.acp-rule-num { font-size: 11px; color: #9ca3af; width: 20px; text-align: right; flex-shrink: 0; }
+.acp-rule-field { width: 130px; flex-shrink: 0; }
+.acp-rule-op { width: 140px; flex-shrink: 0; }
+.acp-rule-val { flex: 1; min-width: 120px; }
+
+/* ── Hierarchy tree ──────────────────────────────────────────────────────── */
+
+.acp-hierarchy-legend { font-size: 12px; color: #6b7280; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+.acp-tree { border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; overflow: hidden; }
+
+.acp-tree-node {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 8px;
+  border-bottom: 1px solid #f3f4f6;
+  flex-wrap: wrap;
+}
+
+.acp-tree-node:last-child { border-bottom: none; }
+.acp-tree-node:hover { background: #f9f9ff; }
+
+.acp-tree-arrow { font-family: monospace; color: #9ca3af; font-size: 12px; white-space: nowrap; }
+.acp-tree-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.acp-tree-dot--visible { background: #22c55e; }
+.acp-tree-dot--hidden { background: #d1d5db; }
+.acp-tree-name { font-weight: 600; }
+.acp-tree-slug { font-family: monospace; font-size: 12px; color: #6b7280; }
+.acp-tree-count { font-size: 12px; color: #6b7280; background: #f3f4f6; padding: 1px 7px; border-radius: 999px; }
+.acp-tree-parent { font-size: 11px; color: #9ca3af; }
+
+/* ── Sync report ─────────────────────────────────────────────────────────── */
+
+.acp-report-meta { font-size: 12px; color: #6b7280; margin-bottom: 16px; }
+
+.acp-report-stats { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+.acp-stat { display: flex; flex-direction: column; align-items: center; padding: 14px 20px; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; min-width: 90px; }
+.acp-stat-val { font-size: 24px; font-weight: 700; color: #1a1a2e; }
+.acp-stat-lbl { font-size: 11px; color: #6b7280; margin-top: 4px; }
+.acp-stat--warn .acp-stat-val { color: #f59e0b; }
+.acp-stat--ok .acp-stat-val { color: #22c55e; }
+
+.acp-section-title { font-size: 14px; font-weight: 600; margin: 0 0 12px; }
+
+/* ── Warnings ─────────────────────────────────────────────────────────────── */
+
+.acp-warn-group { margin-bottom: 20px; }
+.acp-warn-group-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.acp-warn-group-count { font-size: 12px; font-weight: 600; background: #f3f4f6; padding: 2px 8px; border-radius: 999px; color: #374151; }
+.acp-warn-badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; color: #fff; }
+.acp-warn-item { background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; padding: 10px 14px; margin-bottom: 6px; font-size: 13px; }
+.acp-warn-context { font-size: 11px; color: #6b7280; background: #f9fafb; border: 1px solid #f0f0f0; border-radius: 4px; padding: 6px; margin: 8px 0 0; overflow-x: auto; }
+
+/* ── Misc ─────────────────────────────────────────────────────────────────── */
+
+.acp-loading { padding: 40px; text-align: center; color: #6b7280; }
+.acp-empty { padding: 40px; text-align: center; color: #9ca3af; font-size: 14px; }
+.acp-empty--ok { color: #22c55e; }
+.acp-desc { font-size: 13px; color: #374151; margin-bottom: 16px; line-height: 1.5; }
+
+/* ── DataTable integration overrides ─────────────────────────────────────── */
+
+/* Give DataTable breathing room inside tab-content */
+.acp-tab-content .dt-root {
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+/* Hidden collection row tint */
+.acp-row--hidden { opacity: 0.6; }
+
+/* Name column within DataTable */
+.acp-col-name { font-weight: 600; color: #1a1a2e; }
+
+/* Inline input used inside dt cells */
+.dt-inline-input.acp-rule-val {
+  flex: 1;
+  width: auto;
+}
+
+/* Sync-report DataTable nested in acp-tab-content */
+.acp-tab-content .dt-root + h4 { margin-top: 24px; }
+
+/* ── Bulk operation progress ─────────────────────────────────────────────── */
+
+.acp-op-progress {
+  padding: 10px 16px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.acp-op-progress__bar {
+  height: 8px;
+  border-radius: 99px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.acp-op-progress__fill {
+  height: 100%;
+  border-radius: 99px;
+  background: #6366f1;
+  transition: width 0.2s ease;
+}
+
+.acp-op-progress__text {
+  margin: 0.35rem 0 0;
+  font-size: 13px;
+  color: #6b7280;
+}

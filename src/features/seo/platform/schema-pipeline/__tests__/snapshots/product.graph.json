@@ -1,0 +1,165 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://example.com/#organization",
+      "name": "BRT Trading",
+      "url": "https://example.com",
+      "logo": {
+        "@id": "https://example.com/#logo-image"
+      },
+      "image": [
+        {
+          "@id": "https://example.com/#image-office-/uploads/office.jpg"
+        }
+      ],
+      "sameAs": [
+        "https://facebook.com/brt"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+971500000000",
+        "email": "info@example.com",
+        "contactType": "customer service"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Dubai, UAE"
+      },
+      "identifier": "REG-123"
+    },
+    {
+      "@type": "ElectronicsStore",
+      "@id": "https://example.com/#local-business",
+      "name": "BRT Trading",
+      "url": "https://example.com",
+      "parentOrganization": {
+        "@id": "https://example.com/#organization"
+      },
+      "telephone": "+971500000000",
+      "email": "info@example.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Dubai, UAE"
+      }
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://example.com/#logo-image",
+      "url": "https://example.com/uploads/logo.png",
+      "caption": "BRT Trading logo"
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://example.com/#image-office-/uploads/office.jpg",
+      "url": "https://example.com/uploads/office.jpg",
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://example.com/#website",
+      "name": "BRT Trading",
+      "url": "https://example.com",
+      "publisher": {
+        "@id": "https://example.com/#organization"
+      },
+      "potentialAction": [
+        {
+          "@id": "https://example.com/en/#search-action"
+        }
+      ]
+    },
+    {
+      "@type": "SearchAction",
+      "@id": "https://example.com/en/#search-action",
+      "target": "https://example.com/en/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://example.com/en/products/industrial-router/#webpage",
+      "url": "https://example.com/en/products/industrial-router",
+      "name": "Industrial Router",
+      "description": "High performance router",
+      "isPartOf": {
+        "@id": "https://example.com/#website"
+      },
+      "about": {
+        "@id": "https://example.com/#organization"
+      },
+      "breadcrumb": {
+        "@id": "https://example.com/en/products/industrial-router/#breadcrumb"
+      },
+      "primaryImageOfPage": {
+        "@id": "https://example.com/#image-office-/uploads/office.jpg"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://example.com/en/products/industrial-router/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://example.com/en"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Products",
+          "item": "https://example.com/en/products"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Industrial Router",
+          "item": "https://example.com/en/products/industrial-router"
+        }
+      ]
+    },
+    {
+      "@type": "Product",
+      "@id": "https://example.com/en/products/industrial-router#product",
+      "name": "Industrial Router",
+      "description": "High performance router",
+      "sku": "IR-1000",
+      "mpn": "IR-1000",
+      "gtin": "1234567890123",
+      "brand": {
+        "@type": "Brand",
+        "@id": "https://example.com/#organization",
+        "name": "BRT"
+      },
+      "image": [
+        {
+          "@id": "https://example.com/#image-product-0-https://example.com/uploads/router.jpg"
+        }
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": 499,
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "url": "https://example.com/en/products/industrial-router",
+        "seller": {
+          "@id": "https://example.com/#organization"
+        }
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": 4.5,
+        "reviewCount": 10,
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://example.com/#image-product-0-https://example.com/uploads/router.jpg",
+      "url": "https://example.com/uploads/router.jpg"
+    }
+  ]
+}

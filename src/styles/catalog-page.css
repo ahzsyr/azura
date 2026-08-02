@@ -1,0 +1,218 @@
+/* ── Unified catalog page shell (/products, /collections) ───────────────── */
+
+.catalog-page {
+  --cl-catalog-radius: 14px;
+  --cl-catalog-radius-lg: 18px;
+  --cl-catalog-gap: 1.25rem;
+  --cl-catalog-toolbar-top: var(--az-sticky-nav-top, 5.5rem);
+  max-width: var(--site-page-max-width);
+  margin: 0 auto;
+  padding: 0 var(--site-page-padding-inline) 3rem;
+}
+
+.catalog-hero {
+  position: relative;
+  margin-bottom: 1rem;
+  padding-top: max(
+    clamp(1.25rem, 2.5vw, 1.75rem),
+    calc(var(--header-content-gap, 16px) * 0.5)
+  );
+  padding-bottom: 0.85rem;
+  padding-inline: 0;
+  overflow: hidden;
+}
+
+.catalog-hero--banner,
+.catalog-hero--split {
+  padding-bottom: clamp(1.25rem, 3vw, 2rem);
+}
+
+.catalog-hero--banner .catalog-hero__banner,
+.catalog-hero--split .catalog-hero__banner {
+  display: block;
+}
+
+.catalog-hero__banner {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.35;
+  mask-image: linear-gradient(to bottom, black 30%, transparent 95%);
+}
+
+.catalog-hero__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.catalog-hero--split .catalog-hero__inner {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .catalog-hero--split .catalog-hero__inner {
+    grid-template-columns: 1fr minmax(12rem, 28%);
+    align-items: end;
+    gap: 1.5rem;
+  }
+}
+
+.catalog-hero__eyebrow {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-primary, var(--p));
+}
+
+.catalog-hero__title {
+  margin: 0;
+  font-family: var(--font-display, system-ui, sans-serif);
+  font-size: var(--catalog-hero-title-size, clamp(1.5rem, 3.2vw, 2.15rem));
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--text-primary, var(--t));
+}
+
+.catalog-hero__subtitle {
+  margin: 0.45rem 0 0;
+  max-width: 42ch;
+  font-size: clamp(0.82rem, 1.5vw, 0.92rem);
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--text-muted, var(--m)) 88%, transparent);
+}
+
+.catalog-hero__glow {
+  position: absolute;
+  inset: -40% 10% auto;
+  height: 120%;
+  background: radial-gradient(
+    ellipse 70% 55% at 50% 0%,
+    color-mix(in srgb, var(--color-primary, var(--p)) 14%, transparent),
+    transparent 68%
+  );
+  pointer-events: none;
+}
+
+.catalog-hero[data-preset="brt"] .catalog-hero__title {
+  letter-spacing: -0.04em;
+}
+
+.catalog-hero[data-preset="enterprise-wifi"] .catalog-hero__eyebrow {
+  color: var(--color-accent, var(--a));
+}
+
+.catalog-page__blocks {
+  margin-bottom: 1rem;
+}
+
+/* Brand detail hero — inner layout only; background/glow unchanged */
+.catalog-hero--brand-detail .catalog-hero__inner {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.catalog-hero__logo {
+  flex-shrink: 0;
+  width: clamp(52px, 10vw, 64px);
+  height: clamp(52px, 10vw, 64px);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-primary, var(--p)) 18%, transparent);
+  background: color-mix(in srgb, var(--surface, var(--sur)) 80%, transparent);
+  display: grid;
+  place-items: center;
+}
+
+.catalog-hero__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 0.35rem;
+}
+
+.catalog-hero__desc-wrap {
+  margin-top: 0.45rem;
+}
+
+.catalog-hero__desc {
+  margin: 0;
+  max-width: 56ch;
+  font-size: clamp(0.82rem, 1.5vw, 0.92rem);
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--text-muted, var(--m)) 88%, transparent);
+}
+
+.catalog-hero__desc--clamped {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.catalog-hero__desc-toggle {
+  margin-top: 0.35rem;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: clamp(0.78rem, 1.4vw, 0.86rem);
+  font-weight: 600;
+  color: var(--color-primary, var(--p));
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.catalog-hero__desc-toggle:hover {
+  color: color-mix(in srgb, var(--color-primary, var(--p)) 80%, var(--text-primary, var(--t)));
+}
+
+.catalog-hero__stats {
+  margin: 0.65rem 0 0;
+  font-family: var(--font-display, system-ui, sans-serif);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--text-muted, var(--m)) 75%, transparent);
+}
+
+.catalog-hero__stats-dot {
+  margin-inline: 0.45rem;
+  opacity: 0.45;
+}
+
+@media (max-width: 968px) {
+  .catalog-hero {
+    padding-top: max(
+      clamp(0.75rem, 2vw, 1rem),
+      calc(var(--header-content-gap, 16px) * 0.5)
+    );
+  }
+
+  .catalog-hero__title {
+    font-size: clamp(1.25rem, 5vw, 1.5rem);
+  }
+
+  .catalog-hero__subtitle {
+    line-height: 1.45;
+    font-size: clamp(0.78rem, 2.5vw, 0.85rem);
+  }
+
+  .catalog-hero--brand-detail .catalog-hero__inner {
+    gap: 0.85rem;
+  }
+
+  .catalog-hero__desc {
+    line-height: 1.45;
+    font-size: clamp(0.78rem, 2.5vw, 0.85rem);
+  }
+}

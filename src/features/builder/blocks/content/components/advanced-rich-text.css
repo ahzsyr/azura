@@ -1,0 +1,124 @@
+/**
+ * Theme-aware base styles for TipTap advanced rich text (public + editor).
+ * Neutral inline ink colors are also stripped at render — see adapt-rich-text-colors.ts.
+ */
+
+.cb-advanced-richtext {
+  color: var(--foreground);
+}
+
+.cb-advanced-richtext :where(h1, h2, h3, h4, h5, h6) {
+  color: inherit;
+}
+
+.cb-advanced-richtext :where(a) {
+  color: var(--primary);
+}
+
+.cb-advanced-richtext :where(blockquote) {
+  color: var(--muted-foreground);
+}
+
+/* Dark mode safety net for common baked-in ink colors (paste / older content). */
+.dark .cb-advanced-richtext [style*="color:#000000"],
+.dark .cb-advanced-richtext [style*="color: #000000"],
+.dark .cb-advanced-richtext [style*="color:#111111"],
+.dark .cb-advanced-richtext [style*="color: #111111"],
+.dark .cb-advanced-richtext [style*="color:#171717"],
+.dark .cb-advanced-richtext [style*="color: #171717"],
+.dark .cb-advanced-richtext [style*="color:#18181b"],
+.dark .cb-advanced-richtext [style*="color: #18181b"],
+.dark .cb-advanced-richtext [style*="color:#1f2937"],
+.dark .cb-advanced-richtext [style*="color: #1f2937"],
+.dark .cb-advanced-richtext [style*="color:#374151"],
+.dark .cb-advanced-richtext [style*="color: #374151"],
+.dark .cb-advanced-richtext [style*="color:#4b5563"],
+.dark .cb-advanced-richtext [style*="color: #4b5563"],
+.dark .cb-advanced-richtext [style*="color:#333333"],
+.dark .cb-advanced-richtext [style*="color: #333333"],
+.dark .cb-advanced-richtext [style*="color:#444444"],
+.dark .cb-advanced-richtext [style*="color: #444444"],
+.dark .cb-advanced-richtext [style*="color:rgb(0, 0, 0)"],
+.dark .cb-advanced-richtext [style*="color: rgb(0, 0, 0)"],
+.dark .cb-advanced-richtext [style*="color:rgb(0,0,0)"],
+.dark .cb-advanced-richtext [style*="color:rgb(55, 65, 81)"],
+.dark .cb-advanced-richtext [style*="color: rgb(55, 65, 81)"],
+.dark .cb-advanced-richtext [style*="color:black"],
+.dark .cb-advanced-richtext [style*="color: black"] {
+  color: var(--foreground) !important;
+}
+
+/* Light pastel highlights stay readable on dark surfaces */
+.dark .cb-advanced-richtext mark[style*="background"] {
+  color: #18181b;
+}
+
+/* ── Lists ────────────────────────────────────────────────────────────────── */
+/* Tailwind preflight resets list-style to none; restore it here for all
+   rich-text contexts (admin editor + public view). */
+
+.cb-advanced-richtext :where(ul) {
+  list-style-type: disc;
+  padding-inline-start: 1.625em;
+  margin: 0.75em 0;
+}
+
+.cb-advanced-richtext :where(ol) {
+  list-style-type: decimal;
+  padding-inline-start: 1.625em;
+  margin: 0.75em 0;
+}
+
+.cb-advanced-richtext :where(li) {
+  margin: 0.25em 0;
+}
+
+/* TipTap wraps list-item text in <p>; strip its default margins inside li */
+.cb-advanced-richtext :where(li > p) {
+  margin: 0;
+}
+
+/* Nested lists */
+.cb-advanced-richtext :where(ul ul),
+.cb-advanced-richtext :where(ol ul) {
+  list-style-type: circle;
+}
+
+.cb-advanced-richtext :where(ul ul ul),
+.cb-advanced-richtext :where(ol ol ul),
+.cb-advanced-richtext :where(ul ol ul) {
+  list-style-type: square;
+}
+
+.cb-advanced-richtext :where(ol ol) {
+  list-style-type: lower-alpha;
+}
+
+/* ── Image layouts ──────────────────────────────────────────────────────── */
+
+.cb-advanced-richtext img[data-align="inline"] {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Float clearfix ──────────────────────────────────────────────────────── */
+/* Prevents content from flowing around floated images past container bounds */
+
+.cb-advanced-richtext::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* ── Callout ──────────────────────────────────────────────────────────────── */
+
+.cb-advanced-richtext [data-callout] {
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+  background-color: color-mix(in srgb, var(--accent) 12%, var(--card));
+  color: var(--foreground);
+  padding: 1rem;
+  margin: 1rem 0;
+}
