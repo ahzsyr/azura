@@ -7,8 +7,8 @@ CREATE TABLE `FaqSet` (
     `titleAr` VARCHAR(191) NOT NULL,
     `excerptEn` TEXT NULL,
     `excerptAr` TEXT NULL,
-    `descriptionEn` TEXT NOT NULL DEFAULT '',
-    `descriptionAr` TEXT NOT NULL DEFAULT '',
+    `descriptionEn` TEXT NOT NULL DEFAULT (''),
+    `descriptionAr` TEXT NOT NULL DEFAULT (''),
     `sortOrder` INTEGER NOT NULL DEFAULT 0,
     `isPublished` BOOLEAN NOT NULL DEFAULT true,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -47,7 +47,7 @@ SELECT
     NOW(3),
     NOW(3)
 FROM (
-    SELECT DISTINCT `category` FROM `faq`
+    SELECT DISTINCT `category` FROM `FAQ`
 ) AS cats;
 
 -- Migrate FAQ rows into FaqItem
@@ -63,9 +63,9 @@ SELECT
     f.`isPublished`,
     f.`createdAt`,
     f.`updatedAt`
-FROM `faq` f
+FROM `FAQ` f
 INNER JOIN `FaqSet` s ON s.`slug` = LOWER(REPLACE(REPLACE(REPLACE(f.`category`, ' ', '-'), '_', '-'), '/', '-'));
 
 ALTER TABLE `FaqItem` ADD CONSTRAINT `FaqItem_faqSetId_fkey` FOREIGN KEY (`faqSetId`) REFERENCES `FaqSet`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-DROP TABLE `faq`;
+DROP TABLE `FAQ`;

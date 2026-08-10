@@ -125,6 +125,8 @@ const SITE_THEME_EFFECT_SETTINGS_COLUMNS = [
   "textEffectSettings",
   "motionSettings",
   "mobileBrowserConfig",
+  "themeProvenance",
+  "backgroundEffectSettings",
 ];
 
 async function ensureSiteThemeEffectSettingsColumnsPostgres(prisma) {
@@ -213,6 +215,7 @@ async function ensureContentItemRevisionTablePostgres(prisma) {
 
 const CMS_PAGE_COMPOSITION_COLUMNS = [
   { table: "CmsPage", name: "composition" },
+  { table: "CmsPage", name: "visualSettings" },
   { table: "CmsPageRevision", name: "composition" },
 ];
 
@@ -527,6 +530,43 @@ async function ensureFaqSetCoverUrlMysql(prisma) {
   console.log("[db-migrate] MySQL: ensured FaqSet.coverUrl is TEXT");
 }
 
+async function ensureMediaAssetScopeMysql(prisma) {
+  if (!(await mysqlColumnExists(prisma, "MediaAsset", "assetScope"))) {
+    await prisma.$executeRawUnsafe(
+      "ALTER TABLE `MediaAsset` ADD COLUMN `assetScope` VARCHAR(16) NOT NULL DEFAULT 'CMS'",
+    );
+    console.log("[db-migrate] MySQL: added MediaAsset.assetScope");
+  } else {
+    console.log("[db-migrate] MySQL: MediaAsset.assetScope already exists");
+  }
+  const idx = await prisma.$queryRawUnsafe(
+    `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.STATISTICS
+     WHERE TABLE_SCHEMA = DATABASE()
+       AND TABLE_NAME = 'MediaAsset'
+       AND INDEX_NAME = 'MediaAsset_assetScope_idx'`,
+  );
+  if (Number(idx[0]?.c ?? 0) === 0) {
+    await prisma.$executeRawUnsafe(
+      "CREATE INDEX `MediaAsset_assetScope_idx` ON `MediaAsset`(`assetScope`)",
+    );
+    console.log("[db-migrate] MySQL: added MediaAsset_assetScope_idx");
+  }
+}
+
+async function ensureMediaAssetScopePostgres(prisma) {
+  if (!(await postgresColumnExists(prisma, "MediaAsset", "assetScope"))) {
+    await prisma.$executeRawUnsafe(
+      `ALTER TABLE "MediaAsset" ADD COLUMN "assetScope" VARCHAR(16) NOT NULL DEFAULT 'CMS'`,
+    );
+    console.log("[db-migrate] PostgreSQL: added MediaAsset.assetScope");
+  } else {
+    console.log("[db-migrate] PostgreSQL: MediaAsset.assetScope already exists");
+  }
+  await prisma.$executeRawUnsafe(
+    `CREATE INDEX IF NOT EXISTS "MediaAsset_assetScope_idx" ON "MediaAsset" ("assetScope")`,
+  );
+}
+
 async function applyPostgresPatches(prisma) {
   if (!(await postgresColumnExists(prisma, "SiteSettings", "publishedVersion"))) {
     await prisma.$executeRawUnsafe(
@@ -544,6 +584,7 @@ async function applyPostgresPatches(prisma) {
   await ensurePostContentCompositionColumnsPostgres(prisma);
   await ensureEditorialMetadataColumnsPostgres(prisma);
   await ensureFaqSetCoverUrlPostgres(prisma);
+  await ensureMediaAssetScopePostgres(prisma);
 }
 
 async function fixHomePageLayout(prisma) {
@@ -587,6 +628,7 @@ async function applyMysqlPatches(prisma) {
   await ensureEditorialMetadataColumnsMysql(prisma);
   await ensureSchemaUiFormsMysql(prisma);
   await ensureFaqSetCoverUrlMysql(prisma);
+  await ensureMediaAssetScopeMysql(prisma);
   await fixHomePageLayout(prisma);
 }
 

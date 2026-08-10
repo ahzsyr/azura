@@ -16,36 +16,35 @@ export const ADMIN_MOTION_MOBILE = {
 
 export type { ConstrainedMotionState };
 
+const SSR_MOTION_STATE: ConstrainedMotionState = {
+  shouldReduceMotion: false,
+  shouldSimplifyMotion: false,
+  allowStagger: true,
+  capabilities: {
+    prefersReducedMotion: false,
+    lowEndDevice: false,
+    touchOnly: false,
+    smallScreen: false,
+    hardwareConcurrency: 8,
+    deviceMemoryGb: null,
+    effectiveConnection: null,
+  },
+  policy: {
+    allowHeavy: true,
+    allowMedium: true,
+    allowCustomCursor: true,
+    allowAnimatedBackground: true,
+    allowTextAnimation: true,
+    allowMotion: true,
+    allowStagger: true,
+  },
+};
+
 /** Capability-aware motion gating (OS reduced-motion + touch/small-screen + paint tier). */
 export function useConstrainedMotion(): ConstrainedMotionState {
   const osReduced = useReducedMotion() ?? false;
-  const [state, setState] = useState<ConstrainedMotionState>(() =>
-    typeof window === "undefined"
-      ? {
-          shouldReduceMotion: osReduced,
-          shouldSimplifyMotion: false,
-          allowStagger: !osReduced,
-          capabilities: {
-            prefersReducedMotion: osReduced,
-            lowEndDevice: false,
-            touchOnly: false,
-            smallScreen: false,
-            hardwareConcurrency: 8,
-            deviceMemoryGb: null,
-            effectiveConnection: null,
-          },
-          policy: {
-            allowHeavy: true,
-            allowMedium: true,
-            allowCustomCursor: true,
-            allowAnimatedBackground: true,
-            allowTextAnimation: true,
-            allowMotion: !osReduced,
-            allowStagger: !osReduced,
-          },
-        }
-      : readMotionState(osReduced),
-  );
+  // Fixed SSR snapshot — never read window/matchMedia during the first paint.
+  const [state, setState] = useState<ConstrainedMotionState>(SSR_MOTION_STATE);
 
   useEffect(() => {
     setState(readMotionState(osReduced));

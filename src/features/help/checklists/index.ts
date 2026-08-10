@@ -50,7 +50,7 @@ export const HELP_CHECKLISTS: HelpChecklist[] = [
       { id: "store-products", label: "Products added with images", href: "/admin/products", navItemIds: ["products"] },
       { id: "store-prices", label: "Prices set", href: "/admin/products", navItemIds: ["products"] },
       { id: "store-search", label: "Search indexes products", href: "/admin/settings/search", navItemIds: ["search-settings"] },
-      { id: "store-collections", label: "Categories configured", href: "/admin/categories", navItemIds: ["categories", "collections"] },
+      { id: "store-collections", label: "Categories configured", href: "/admin/categories", navItemIds: ["categories"] },
     ],
   },
   {

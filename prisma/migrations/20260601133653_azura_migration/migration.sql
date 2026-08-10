@@ -13,6 +13,20 @@
   - Added the required column `contentItemId` to the `Booking` table without a default value. This is not possible if the table is not empty.
 
 */
+-- DropForeignKey (required on MySQL 8 before dropping FK-backed indexes/columns)
+ALTER TABLE `booking` DROP FOREIGN KEY `Booking_packageId_fkey`;
+ALTER TABLE `booking` DROP FOREIGN KEY `Booking_userId_fkey`;
+ALTER TABLE `cmspagerevision` DROP FOREIGN KEY `CmsPageRevision_createdById_fkey`;
+ALTER TABLE `inquiry` DROP FOREIGN KEY `Inquiry_packageId_fkey`;
+ALTER TABLE `mediaasset` DROP FOREIGN KEY `MediaAsset_uploadedById_fkey`;
+ALTER TABLE `post` DROP FOREIGN KEY `Post_authorId_fkey`;
+ALTER TABLE `post` DROP FOREIGN KEY `Post_featuredImageId_fkey`;
+ALTER TABLE `postcategoryonpost` DROP FOREIGN KEY `PostCategoryOnPost_categoryId_fkey`;
+ALTER TABLE `posttagonpost` DROP FOREIGN KEY `PostTagOnPost_tagId_fkey`;
+ALTER TABLE `testimonialcollectionitem` DROP FOREIGN KEY `TestimonialCollectionItem_testimonialId_fkey`;
+ALTER TABLE `package` DROP FOREIGN KEY `Package_categoryId_fkey`;
+ALTER TABLE `packageimage` DROP FOREIGN KEY `PackageImage_packageId_fkey`;
+
 -- DropIndex
 DROP INDEX `Booking_packageId_fkey` ON `booking`;
 
@@ -51,16 +65,16 @@ ALTER TABLE `booking` DROP COLUMN `packageId`,
     ADD COLUMN `contentItemId` VARCHAR(36) NOT NULL;
 
 -- AlterTable
-ALTER TABLE `faqset` MODIFY `descriptionEn` TEXT NOT NULL DEFAULT '',
-    MODIFY `descriptionAr` TEXT NOT NULL DEFAULT '';
+ALTER TABLE `faqset` MODIFY `descriptionEn` TEXT NOT NULL DEFAULT (''),
+    MODIFY `descriptionAr` TEXT NOT NULL DEFAULT ('');
 
 -- AlterTable
-ALTER TABLE `gallery` MODIFY `descriptionEn` TEXT NOT NULL DEFAULT '',
-    MODIFY `descriptionAr` TEXT NOT NULL DEFAULT '';
+ALTER TABLE `gallery` MODIFY `descriptionEn` TEXT NOT NULL DEFAULT (''),
+    MODIFY `descriptionAr` TEXT NOT NULL DEFAULT ('');
 
 -- AlterTable
-ALTER TABLE `gallerymedia` MODIFY `descriptionEn` TEXT NOT NULL DEFAULT '',
-    MODIFY `descriptionAr` TEXT NOT NULL DEFAULT '';
+ALTER TABLE `gallerymedia` MODIFY `descriptionEn` TEXT NOT NULL DEFAULT (''),
+    MODIFY `descriptionAr` TEXT NOT NULL DEFAULT ('');
 
 -- AlterTable
 ALTER TABLE `inquiry` DROP COLUMN `packageId`,
@@ -143,10 +157,10 @@ CREATE TABLE `ContentItem` (
     `slug` VARCHAR(128) NULL,
     `titleEn` VARCHAR(191) NOT NULL,
     `titleAr` VARCHAR(191) NOT NULL,
-    `excerptEn` TEXT NOT NULL DEFAULT '',
-    `excerptAr` TEXT NOT NULL DEFAULT '',
-    `descriptionEn` TEXT NOT NULL DEFAULT '',
-    `descriptionAr` TEXT NOT NULL DEFAULT '',
+    `excerptEn` TEXT NOT NULL DEFAULT (''),
+    `excerptAr` TEXT NOT NULL DEFAULT (''),
+    `descriptionEn` TEXT NOT NULL DEFAULT (''),
+    `descriptionAr` TEXT NOT NULL DEFAULT (''),
     `attributes` JSON NOT NULL,
     `blocks` JSON NOT NULL,
     `displaySettings` JSON NOT NULL,
@@ -190,8 +204,8 @@ CREATE TABLE `ContentItemMedia` (
     `url` VARCHAR(191) NOT NULL,
     `altEn` VARCHAR(191) NOT NULL DEFAULT '',
     `altAr` VARCHAR(191) NOT NULL DEFAULT '',
-    `captionEn` TEXT NOT NULL DEFAULT '',
-    `captionAr` TEXT NOT NULL DEFAULT '',
+    `captionEn` TEXT NOT NULL DEFAULT (''),
+    `captionAr` TEXT NOT NULL DEFAULT (''),
     `sortOrder` INTEGER NOT NULL DEFAULT 0,
     `isPublished` BOOLEAN NOT NULL DEFAULT true,
     `isCover` BOOLEAN NOT NULL DEFAULT false,
@@ -226,13 +240,7 @@ CREATE INDEX `Booking_contentItemId_idx` ON `Booking`(`contentItemId`);
 -- CreateIndex
 CREATE INDEX `Inquiry_contentItemId_idx` ON `Inquiry`(`contentItemId`);
 
--- AddForeignKey
-ALTER TABLE `GalleryMedia` ADD CONSTRAINT `GalleryMedia_galleryId_fkey` FOREIGN KEY (`galleryId`) REFERENCES `Gallery`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `TestimonialCollectionItem` ADD CONSTRAINT `TestimonialCollectionItem_collectionId_fkey` FOREIGN KEY (`collectionId`) REFERENCES `TestimonialCollection`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
+-- AddForeignKey (only re-adds dropped above + new content FKs; skip ones that already exist)
 ALTER TABLE `TestimonialCollectionItem` ADD CONSTRAINT `TestimonialCollectionItem_testimonialId_fkey` FOREIGN KEY (`testimonialId`) REFERENCES `Testimonial`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -245,28 +253,10 @@ ALTER TABLE `Booking` ADD CONSTRAINT `Booking_contentItemId_fkey` FOREIGN KEY (`
 ALTER TABLE `Booking` ADD CONSTRAINT `Booking_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `FaqItem` ADD CONSTRAINT `FaqItem_faqSetId_fkey` FOREIGN KEY (`faqSetId`) REFERENCES `FaqSet`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `MediaFolder` ADD CONSTRAINT `MediaFolder_parentId_fkey` FOREIGN KEY (`parentId`) REFERENCES `MediaFolder`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `MediaAsset` ADD CONSTRAINT `MediaAsset_folderId_fkey` FOREIGN KEY (`folderId`) REFERENCES `MediaFolder`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `MediaAsset` ADD CONSTRAINT `MediaAsset_uploadedById_fkey` FOREIGN KEY (`uploadedById`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `MediaUsage` ADD CONSTRAINT `MediaUsage_mediaId_fkey` FOREIGN KEY (`mediaId`) REFERENCES `MediaAsset`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `CmsPageRevision` ADD CONSTRAINT `CmsPageRevision_pageId_fkey` FOREIGN KEY (`pageId`) REFERENCES `CmsPage`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `CmsPageRevision` ADD CONSTRAINT `CmsPageRevision_createdById_fkey` FOREIGN KEY (`createdById`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `PostAuthor` ADD CONSTRAINT `PostAuthor_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Post` ADD CONSTRAINT `Post_featuredImageId_fkey` FOREIGN KEY (`featuredImageId`) REFERENCES `MediaAsset`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -275,22 +265,10 @@ ALTER TABLE `Post` ADD CONSTRAINT `Post_featuredImageId_fkey` FOREIGN KEY (`feat
 ALTER TABLE `Post` ADD CONSTRAINT `Post_authorId_fkey` FOREIGN KEY (`authorId`) REFERENCES `PostAuthor`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `PostCategoryOnPost` ADD CONSTRAINT `PostCategoryOnPost_postId_fkey` FOREIGN KEY (`postId`) REFERENCES `Post`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `PostCategoryOnPost` ADD CONSTRAINT `PostCategoryOnPost_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `PostCategory`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `PostTagOnPost` ADD CONSTRAINT `PostTagOnPost_postId_fkey` FOREIGN KEY (`postId`) REFERENCES `Post`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `PostTagOnPost` ADD CONSTRAINT `PostTagOnPost_tagId_fkey` FOREIGN KEY (`tagId`) REFERENCES `PostTag`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `SeoMeta` ADD CONSTRAINT `SeoMeta_cmsPageId_fkey` FOREIGN KEY (`cmsPageId`) REFERENCES `CmsPage`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `SeoMeta` ADD CONSTRAINT `SeoMeta_postId_fkey` FOREIGN KEY (`postId`) REFERENCES `Post`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ContentCollection` ADD CONSTRAINT `ContentCollection_contentTypeId_fkey` FOREIGN KEY (`contentTypeId`) REFERENCES `ContentType`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -309,6 +287,3 @@ ALTER TABLE `ContentCollectionItem` ADD CONSTRAINT `ContentCollectionItem_itemId
 
 -- AddForeignKey
 ALTER TABLE `ContentItemMedia` ADD CONSTRAINT `ContentItemMedia_itemId_fkey` FOREIGN KEY (`itemId`) REFERENCES `ContentItem`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `EntityTranslationVersion` ADD CONSTRAINT `EntityTranslationVersion_translationId_fkey` FOREIGN KEY (`translationId`) REFERENCES `EntityTranslation`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

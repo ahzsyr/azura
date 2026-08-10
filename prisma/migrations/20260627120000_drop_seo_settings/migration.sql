@@ -1,11 +1,10 @@
--- Migrate legacy SeoSettings.ogImageUrl into SeoMeta, then drop SeoSettings.
+-- Migrate legacy SeoSettings.ogImageUrl into SeoMeta, then drop SeoSettings (MySQL).
 
-UPDATE "SeoMeta" sm
-SET "ogImageUrl" = ss."ogImageUrl"
-FROM "SeoSettings" ss
-WHERE sm."pageKey" = ss."pageKey"
-  AND (sm."ogImageUrl" IS NULL OR TRIM(sm."ogImageUrl") = '')
-  AND ss."ogImageUrl" IS NOT NULL
-  AND TRIM(ss."ogImageUrl") <> '';
+UPDATE `SeoMeta` sm
+INNER JOIN `SeoSettings` ss ON sm.`pageKey` = ss.`pageKey`
+SET sm.`ogImageUrl` = ss.`ogImageUrl`
+WHERE (sm.`ogImageUrl` IS NULL OR TRIM(sm.`ogImageUrl`) = '')
+  AND ss.`ogImageUrl` IS NOT NULL
+  AND TRIM(ss.`ogImageUrl`) <> '';
 
-DROP TABLE IF EXISTS "SeoSettings";
+DROP TABLE IF EXISTS `SeoSettings`;

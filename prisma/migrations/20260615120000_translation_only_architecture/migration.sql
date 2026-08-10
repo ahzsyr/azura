@@ -214,10 +214,9 @@ ALTER TABLE `Partner` DROP COLUMN `descriptionAr`;
 ALTER TABLE `Partner` DROP COLUMN `locationEn`;
 ALTER TABLE `Partner` DROP COLUMN `locationAr`;
 
--- CatalogCollection: drop name/description and locale overrides table
-ALTER TABLE `CatalogCollection` DROP COLUMN `name`;
-ALTER TABLE `CatalogCollection` DROP COLUMN `description`;
+-- CatalogCollection was never created in MySQL migration history; skip safely.
 DROP TABLE IF EXISTS `CatalogCollectionLocale`;
+DROP TABLE IF EXISTS `CatalogCollection`;
 
 -- Product consolidation
 ALTER TABLE `Product` ADD COLUMN `canonicalSlug` VARCHAR(255) NULL;
@@ -229,7 +228,7 @@ ALTER TABLE `Product` DROP COLUMN `slug`;
 ALTER TABLE `Product` DROP COLUMN `productTitle`;
 CREATE UNIQUE INDEX `Product_canonicalSlug_key` ON `Product`(`canonicalSlug`);
 CREATE UNIQUE INDEX `Product_sku_key` ON `Product`(`sku`);
-DROP INDEX `Product_locale_idx` ON `Product`;
+-- Product_locale_idx is removed automatically when `locale` is dropped above.
 DROP INDEX `Product_locale_brand_idx` ON `Product`;
 DROP INDEX `Product_locale_category_idx` ON `Product`;
 DROP INDEX `Product_locale_status_idx` ON `Product`;

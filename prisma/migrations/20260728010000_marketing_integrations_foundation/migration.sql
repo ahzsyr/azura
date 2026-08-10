@@ -181,7 +181,7 @@ CREATE TABLE `MarketingAnalyticsSnapshot` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `MarketingAnalyticsSnapshot_providerId_accountId_metric_periodStart_periodEnd_key`(`providerId`, `accountId`, `metric`, `periodStart`, `periodEnd`),
+    UNIQUE INDEX `MarketingAnalyticsSnapshot_metric_period_key`(`providerId`, `accountId`, `metric`, `periodStart`, `periodEnd`),
     INDEX `MarketingAnalyticsSnapshot_providerId_periodStart_idx`(`providerId`, `periodStart`),
     INDEX `MarketingAnalyticsSnapshot_metric_periodStart_idx`(`metric`, `periodStart`),
     PRIMARY KEY (`id`)

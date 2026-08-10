@@ -1,9 +1,13 @@
 {
   "generated": true,
-  "manifestVersion": 1783953130386,
-  "buildTimestamp": "2026-07-13T14:32:10.386Z",
-  "setup": null,
-  "authSecret": null,
+  "manifestVersion": 1786403477477,
+  "buildTimestamp": "2026-08-10T23:11:17.477Z",
+  "setup": {
+    "setupComplete": true,
+    "registrationEnabled": true,
+    "comingSoonEnabled": false
+  },
+  "authSecret": "azura-local-dev-auth-secret-change-me-32c",
   "locales": {
     "locales": [
       "en"
