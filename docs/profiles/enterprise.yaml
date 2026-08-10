@@ -1,0 +1,133 @@
+# Deployment profile: Enterprise
+# Full platform — all presets and optional modules
+id: enterprise
+label: Enterprise
+description: Full AZURA surface — all presets, modules, capabilities, and system tools.
+
+core: [cms, builder, seo, media, localization, leads]
+capabilities: [search, workflow, versioning, ai, personalization, analytics]
+experience: [entities, templates, collections]
+presets:
+  - product
+  - service
+  - project
+  - case-study
+  - team-member
+  - partner
+  - knowledge
+  - pricing
+  - destination
+  - property
+  - release
+modules:
+  - documentation
+  - status-page
+  - marketing
+  - enterprise-translation
+  - advanced-seo
+
+admin:
+  groups: [dashboard, content, media, marketing, design, seo, modules, settings, system]
+  items:
+    dashboard: [dashboard]
+    content:
+      - pages
+      - blog
+      - products
+      - services
+      - projects
+      - case-studies
+      - team
+      - partners
+      - knowledge-base
+      - pricing-plans
+      - pricing-calculators
+      - releases
+      - packages
+      - properties
+      - categories
+      - brands-tags
+      - product-listing-filters
+      - catalog-navigation
+      - catalog-sync
+      - catalog-settings
+      - gallery
+      - faqs
+      - testimonials
+    media: [media-library]
+    marketing:
+      - marketing-dashboard
+      - marketing-platforms
+      - marketing-publishing
+      - marketing-analytics
+      - marketing-campaigns
+      - marketing-tracking
+      - marketing-automation
+      - marketing-leads
+      - form-templates
+      - form-submissions
+      - inquiries
+      - newsletter
+    design:
+      - studio
+      - header
+      - footer
+      - theme
+      - personalization
+      - preloader
+      - announcement-bar
+      - popups
+      - whatsapp
+    seo:
+      - seo-overview
+      - seo-metadata
+      - seo-content-audit
+      - seo-technical-audit
+      - seo-issues
+      - seo-recommendations
+      - seo-audit-history
+      - seo-redirects
+      - seo-robots
+      - seo-sitemap
+      - seo-structured-data
+      - seo-google
+      - seo-integrations
+      - seo-404
+      - seo-rules
+      - seo-schemas
+      - seo-templates
+      - seo-search-intelligence
+      - seo-si-entity-graph
+      - seo-si-schema
+      - seo-si-linking
+      - seo-si-content
+      - seo-si-authority
+      - seo-si-performance
+      - seo-si-ai
+      - seo-search-operations
+      - seo-so-operations
+      - seo-so-pages
+      - seo-so-entities
+      - seo-so-content
+      - seo-so-google
+      - seo-so-monitoring
+      - seo-so-automation
+      - seo-so-settings
+    modules: [documentation, status-page]
+    settings:
+      - languages
+      - translations
+      - site-access
+      - search-settings
+      - admin-account
+      - email-accounts
+      - customer-accounts
+      - visitor-portal
+      - help
+      - company-info
+    system:
+      - content-types
+      - database
+      - performance
+      - demo-profiles
+      - theme-presets

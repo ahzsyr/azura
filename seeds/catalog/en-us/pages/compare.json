@@ -1,0 +1,10 @@
+{
+  "title": "Product comparison",
+  "seo": {
+    "metaTitle": "Product comparison",
+    "metaDescription": "Compare up to three products side by side.",
+    "canonicalPath": "/compare",
+    "robots": "noindex, follow"
+  },
+  "blocks": []
+}

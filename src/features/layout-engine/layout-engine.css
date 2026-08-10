@@ -1,0 +1,234 @@
+.az-layout-shell {
+  width: 100%;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+.az-layout-shell[data-max-width="full"] {
+  max-width: none;
+}
+
+.az-layout-shell[data-max-width="page"] {
+  max-width: var(--site-page-max-width);
+}
+
+.az-layout-shell[data-max-width="wide"] {
+  max-width: 1600px;
+}
+
+.az-layout-shell[data-max-width="narrow"] {
+  max-width: 48rem;
+}
+
+.az-layout-shell[data-container="boxed"] {
+  padding-inline: var(--site-page-padding-inline);
+}
+
+.az-layout__top-wrap[data-top-width="full"] {
+  width: 100vw;
+  max-width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+/**
+ * Hero layout boundary — escape the page shell.
+ *
+ * Applies when:
+ *   a) the hero is the first media underlay on an overlay page
+ *      (receives .block-first-with-header-overlay from BlockRenderer), or
+ *   b) the user explicitly chose the "Full Bleed" layout option.
+ *
+ * Split layouts are excluded — they use a constrained grid and must not
+ * break out. The breakout is suppressed when the shell is already full-width
+ * (data-max-width="full") because no adjustment is needed.
+ *
+ * The calc(50% - 50vw) technique works at any viewport or container width:
+ *   50% = half the hero's containing block
+ *   50vw = half the viewport
+ * Together they push the element to the left viewport edge and width: 100vw
+ * makes it span the full viewport, neutralising both max-width and padding.
+ */
+.az-layout-shell:not([data-max-width="full"]) .block-first-with-header-overlay[data-hero-layout]:not([data-hero-layout*="split"]),
+.az-layout-shell:not([data-max-width="full"]) [data-hero-layout="fullBleed"] {
+  width: 100vw;
+  max-width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+.az-layout-shell[data-sticky-scroll="main-only"] {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--header-height, 76px));
+  max-height: calc(100vh - var(--header-height, 76px));
+}
+
+.az-layout-shell[data-sticky-scroll="main-only"] .az-layout {
+  flex: 1;
+  min-height: 0;
+  align-content: stretch;
+}
+
+.az-layout-shell[data-sticky-scroll="main-only"] .az-layout__region--primary-scroll {
+  overflow-y: auto;
+  min-height: 0;
+  align-self: stretch;
+}
+
+.az-layout {
+  display: grid;
+  gap: var(--az-layout-gap, 1.5rem);
+  width: 100%;
+  --az-aside-start-min: 220px;
+  --az-aside-end-min: 220px;
+  --az-aside-start-ratio: 25%;
+  --az-aside-end-ratio: 25%;
+}
+
+.az-layout[data-layout="full"] {
+  grid-template-columns: 1fr;
+}
+
+.az-layout[data-layout="left-sidebar"] {
+  grid-template-columns: minmax(var(--az-aside-start-min), var(--az-aside-start-ratio)) 1fr;
+}
+
+.az-layout[data-layout="right-sidebar"] {
+  grid-template-columns: 1fr minmax(var(--az-aside-end-min), var(--az-aside-end-ratio));
+}
+
+.az-layout[data-layout="three-column"] {
+  grid-template-columns:
+    minmax(var(--az-aside-start-min), var(--az-aside-start-ratio))
+    1fr
+    minmax(var(--az-aside-end-min), var(--az-aside-end-ratio));
+}
+
+.az-layout[data-layout="split"] {
+  grid-template-columns: 1fr 1fr;
+}
+
+[dir="rtl"] .az-layout[data-layout="left-sidebar"] {
+  grid-template-columns: 1fr minmax(var(--az-aside-start-min), var(--az-aside-start-ratio));
+}
+
+[dir="rtl"] .az-layout[data-layout="right-sidebar"] {
+  grid-template-columns: minmax(var(--az-aside-end-min), var(--az-aside-end-ratio)) 1fr;
+}
+
+[dir="rtl"] .az-layout[data-layout="three-column"] {
+  grid-template-columns:
+    minmax(var(--az-aside-end-min), var(--az-aside-end-ratio))
+    1fr
+    minmax(var(--az-aside-start-min), var(--az-aside-start-ratio));
+}
+
+.az-layout[data-gap="sm"] {
+  --az-layout-gap: 0.75rem;
+}
+
+.az-layout[data-gap="md"] {
+  --az-layout-gap: 1.5rem;
+}
+
+.az-layout[data-gap="lg"] {
+  --az-layout-gap: 2.5rem;
+}
+
+.az-layout[data-gap="xl"] {
+  --az-layout-gap: 4rem;
+}
+
+.az-layout__region[data-order-tablet],
+.az-layout__region[data-order-mobile] {
+  min-width: 0;
+}
+
+.az-layout-shell[data-sticky-scroll="document"] .az-layout__aside--sticky {
+  position: sticky;
+  top: var(--header-height, 76px);
+  align-self: start;
+}
+
+.az-layout-shell[data-sticky-scroll="main-only"] .az-layout__aside--sticky {
+  position: sticky;
+  top: var(--header-height, 76px);
+  align-self: start;
+  max-height: calc(100vh - var(--header-height, 76px));
+  overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+  .az-layout[data-stack-tablet="true"] {
+    grid-template-columns: 1fr;
+  }
+
+  .az-layout__region[data-order-tablet="1"] {
+    order: 1;
+  }
+
+  .az-layout__region[data-order-tablet="2"] {
+    order: 2;
+  }
+
+  .az-layout__region[data-order-tablet="3"] {
+    order: 3;
+  }
+
+  .az-layout__region[data-order-tablet="4"] {
+    order: 4;
+  }
+
+  .az-layout__top-wrap[data-order-tablet="1"] {
+    order: 1;
+  }
+
+  .az-layout__top-wrap[data-order-tablet="2"] {
+    order: 2;
+  }
+
+  .az-layout__top-wrap[data-order-tablet="3"] {
+    order: 3;
+  }
+
+  .az-layout__top-wrap[data-order-tablet="4"] {
+    order: 4;
+  }
+}
+
+@media (max-width: 768px) {
+  .az-layout[data-stack-mobile="true"] {
+    grid-template-columns: 1fr;
+  }
+
+  .az-layout__region[data-order-mobile="1"] {
+    order: 1;
+  }
+
+  .az-layout__region[data-order-mobile="2"] {
+    order: 2;
+  }
+
+  .az-layout__region[data-order-mobile="3"] {
+    order: 3;
+  }
+
+  .az-layout__region[data-order-mobile="4"] {
+    order: 4;
+  }
+
+  .az-layout__top-wrap[data-order-mobile="1"] {
+    order: 1;
+  }
+
+  .az-layout__top-wrap[data-order-mobile="2"] {
+    order: 2;
+  }
+
+  .az-layout__top-wrap[data-order-mobile="3"] {
+    order: 3;
+  }
+
+  .az-layout__top-wrap[data-order-mobile="4"] {
+    order: 4;
+  }
+}
