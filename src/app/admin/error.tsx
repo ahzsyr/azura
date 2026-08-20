@@ -62,10 +62,9 @@ export default function AdminError({
       ) : null}
       {isOpaqueProductionRscError ? (
         <p className="max-w-md text-sm text-amber-800 dark:text-amber-200">
-          Production hides the real server error. Check host logs for this Error ID. If you see Prisma
-          P2022 / unknown column for <code className="text-xs">showAuthor</code> or{" "}
-          <code className="text-xs">showPublishedAt</code>, redeploy this build so Prisma regenerates
-          without those columns.
+          Production hides the real server error. Check host logs for this Error ID. A Prisma P2022 /
+          unknown column means the live database is behind this app version — redeploy so start-up
+          patches can add the missing column, then hard-refresh.
         </p>
       ) : null}
       {isSchemaDrift ? (

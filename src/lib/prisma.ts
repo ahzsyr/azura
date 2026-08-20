@@ -9,8 +9,8 @@ import { getRuntimeDatabaseUrl } from "@/lib/database-url";
 import { isBuildWithoutDb } from "@/lib/build-db";
 import { createBuildStubPrismaClient } from "@/lib/build-prisma-stub";
 import {
-  isMissingEditorialDisplayColumn,
-  withoutEditorialDisplayColumns,
+  missingScalarColumnsFromPrismaError,
+  withoutScalarColumns,
 } from "@/lib/prisma-editorial-column-compat";
 
 type PrismaGlobal = {
@@ -34,7 +34,7 @@ const REQUIRED_DELEGATES = [
  * Bump after `prisma generate` when models/fields change so dev hot-reload
  * recreates a cached client (e.g. SiteTheme.brandConfig).
  */
-const PRISMA_CLIENT_VERSION = 7;
+const PRISMA_CLIENT_VERSION = 8;
 
 function normalizeRuntimeDatabaseUrl(url: string): string {
   return getRuntimeDatabaseUrl() || url;
@@ -51,19 +51,20 @@ function createPrismaClient() {
     query: {
       $allModels: {
         async $allOperations({ args, query, operation }) {
-          try {
-            return await query(args);
-          } catch (error) {
-            if (!isMissingEditorialDisplayColumn(error)) throw error;
-            if (String(operation).startsWith("$")) throw error;
+          let current = args as Record<string, unknown>;
+          let lastError: unknown;
+          for (let attempt = 0; attempt < 8; attempt++) {
             try {
-              return await query(
-                withoutEditorialDisplayColumns(args as Record<string, unknown>),
-              );
-            } catch {
-              throw error;
+              return await query(current);
+            } catch (error) {
+              lastError = error;
+              if (String(operation).startsWith("$")) throw error;
+              const columns = missingScalarColumnsFromPrismaError(error);
+              if (columns.length === 0) throw error;
+              current = withoutScalarColumns(current, columns);
             }
           }
+          throw lastError;
         },
       },
     },

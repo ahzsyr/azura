@@ -221,6 +221,7 @@ const CMS_PAGE_COMPOSITION_COLUMNS = [
 
 const POST_CONTENT_COMPOSITION_COLUMNS = [
   { table: "Post", name: "composition" },
+  { table: "Post", name: "featuredImageSettings" },
   { table: "ContentItem", name: "composition" },
   { table: "ContentItemRevision", name: "composition" },
 ];
