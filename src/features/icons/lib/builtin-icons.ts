@@ -1,0 +1,305 @@
+import type { LucideIcon } from "lucide-react";
+import { CATALOG_NAV_LUCIDE_OPTIONS } from "@/features/catalog/navigation/catalog-nav-lucide";
+import {
+  AlertCircle,
+  ArrowLeft,
+  ArrowRight,
+  Calendar,
+  CheckCircle,
+  ChevronLeft,
+  ChevronRight,
+  Phone,
+  Download,
+  Edit,
+  ExternalLink,
+  Globe,
+  HelpCircle,
+  Home,
+  Info,
+  Link as LinkIcon,
+  Mail,
+  Menu,
+  Minus,
+  Plus,
+  Search,
+  Settings,
+  Trash2,
+  Upload,
+  User,
+  type LucideProps,
+  X,
+} from "lucide-react";
+
+export type BuiltinIconRegistryEntry = {
+  id: string;
+  name: string;
+  slug: string;
+  iconName: string;
+  icon: LucideIcon;
+  category?: string;
+  tags?: string[];
+};
+
+// Explicit, hard-coded registry (no dynamic imports from DB values).
+const builtinIconsBase: Record<string, BuiltinIconRegistryEntry> = {
+  "arrow-left": {
+    id: "arrow-left",
+    slug: "arrow-left",
+    name: "Arrow Left",
+    iconName: "ArrowLeft",
+    icon: ArrowLeft,
+    category: "navigation",
+    tags: ["arrow", "left"],
+  },
+  "arrow-right": {
+    id: "arrow-right",
+    slug: "arrow-right",
+    name: "Arrow Right",
+    iconName: "ArrowRight",
+    icon: ArrowRight,
+    category: "navigation",
+    tags: ["arrow", "right"],
+  },
+  "chevron-left": {
+    id: "chevron-left",
+    slug: "chevron-left",
+    name: "Chevron Left",
+    iconName: "ChevronLeft",
+    icon: ChevronLeft,
+    category: "navigation",
+    tags: ["chevron", "left"],
+  },
+  "chevron-right": {
+    id: "chevron-right",
+    slug: "chevron-right",
+    name: "Chevron Right",
+    iconName: "ChevronRight",
+    icon: ChevronRight,
+    category: "navigation",
+    tags: ["chevron", "right"],
+  },
+  menu: {
+    id: "menu",
+    slug: "menu",
+    name: "Menu",
+    iconName: "Menu",
+    icon: Menu,
+    category: "navigation",
+    tags: ["menu"],
+  },
+  x: {
+    id: "x",
+    slug: "x",
+    name: "Close",
+    iconName: "X",
+    icon: X,
+    category: "ui",
+    tags: ["close", "x"],
+  },
+  plus: {
+    id: "plus",
+    slug: "plus",
+    name: "Plus",
+    iconName: "Plus",
+    icon: Plus,
+    category: "actions",
+    tags: ["plus", "add"],
+  },
+  minus: {
+    id: "minus",
+    slug: "minus",
+    name: "Minus",
+    iconName: "Minus",
+    icon: Minus,
+    category: "actions",
+    tags: ["minus", "remove"],
+  },
+  check: {
+    id: "check",
+    slug: "check",
+    name: "Check",
+    iconName: "CheckCircle",
+    icon: CheckCircle,
+    category: "ui",
+    tags: ["check", "success"],
+  },
+  search: {
+    id: "search",
+    slug: "search",
+    name: "Search",
+    iconName: "Search",
+    icon: Search,
+    category: "ui",
+    tags: ["search"],
+  },
+  home: {
+    id: "home",
+    slug: "home",
+    name: "Home",
+    iconName: "Home",
+    icon: Home,
+    category: "navigation",
+    tags: ["home"],
+  },
+  user: {
+    id: "user",
+    slug: "user",
+    name: "User",
+    iconName: "User",
+    icon: User,
+    category: "ui",
+    tags: ["user"],
+  },
+  settings: {
+    id: "settings",
+    slug: "settings",
+    name: "Settings",
+    iconName: "Settings",
+    icon: Settings,
+    category: "ui",
+    tags: ["settings"],
+  },
+  edit: {
+    id: "edit",
+    slug: "edit",
+    name: "Edit",
+    iconName: "Edit",
+    icon: Edit,
+    category: "actions",
+    tags: ["edit"],
+  },
+  trash: {
+    id: "trash",
+    slug: "trash",
+    name: "Trash",
+    iconName: "Trash2",
+    icon: Trash2,
+    category: "actions",
+    tags: ["trash", "delete"],
+  },
+  upload: {
+    id: "upload",
+    slug: "upload",
+    name: "Upload",
+    iconName: "Upload",
+    icon: Upload,
+    category: "actions",
+    tags: ["upload"],
+  },
+  download: {
+    id: "download",
+    slug: "download",
+    name: "Download",
+    iconName: "Download",
+    icon: Download,
+    category: "actions",
+    tags: ["download"],
+  },
+  "external-link": {
+    id: "external-link",
+    slug: "external-link",
+    name: "External Link",
+    iconName: "ExternalLink",
+    icon: ExternalLink,
+    category: "navigation",
+    tags: ["external", "link"],
+  },
+  link: {
+    id: "link",
+    slug: "link",
+    name: "Link",
+    iconName: "LinkIcon",
+    icon: LinkIcon,
+    category: "navigation",
+    tags: ["link"],
+  },
+  info: {
+    id: "info",
+    slug: "info",
+    name: "Info",
+    iconName: "Info",
+    icon: Info,
+    category: "ui",
+    tags: ["info"],
+  },
+  help: {
+    id: "help",
+    slug: "help",
+    name: "Help",
+    iconName: "HelpCircle",
+    icon: HelpCircle,
+    category: "ui",
+    tags: ["help"],
+  },
+  "alert-circle": {
+    id: "alert-circle",
+    slug: "alert-circle",
+    name: "Alert",
+    iconName: "AlertCircle",
+    icon: AlertCircle,
+    category: "ui",
+    tags: ["alert"],
+  },
+  mail: {
+    id: "mail",
+    slug: "mail",
+    name: "Mail",
+    iconName: "Mail",
+    icon: Mail,
+    category: "ui",
+    tags: ["mail", "email"],
+  },
+  phone: {
+    id: "phone",
+    slug: "phone",
+    name: "Phone",
+    iconName: "Phone",
+    icon: Phone,
+  },
+  calendar: {
+    id: "calendar",
+    slug: "calendar",
+    name: "Calendar",
+    iconName: "Calendar",
+    icon: Calendar,
+    category: "ui",
+    tags: ["calendar"],
+  },
+  globe: {
+    id: "globe",
+    slug: "globe",
+    name: "Globe",
+    iconName: "Globe",
+    icon: Globe,
+    category: "ui",
+    tags: ["globe"],
+  },
+};
+
+const builtinIconsNav: Record<string, BuiltinIconRegistryEntry> = Object.fromEntries(
+  CATALOG_NAV_LUCIDE_OPTIONS.map(({ id, label, Icon }) => [
+    id,
+    {
+      id,
+      slug: id,
+      name: label,
+      // lucide-react components typically have a stable function name/displayName.
+      iconName: (Icon as any).displayName ?? (Icon as any).name ?? id,
+      icon: Icon,
+      category: "navigation",
+      tags: [id, label.toLowerCase()],
+    } satisfies BuiltinIconRegistryEntry,
+  ]),
+) as Record<string, BuiltinIconRegistryEntry>;
+
+// Merge base + catalog navigation picker icons.
+export const builtinIcons: Record<string, BuiltinIconRegistryEntry> = {
+  ...builtinIconsBase,
+  ...builtinIconsNav,
+};
+
+// Helper used by the UI/resolver.
+export function resolveBuiltinLucideIcon(iconId: string): LucideIcon | null {
+  return builtinIcons[iconId]?.icon ?? null;
+}
+

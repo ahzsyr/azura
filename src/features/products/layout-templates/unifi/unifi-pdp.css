@@ -1,0 +1,1084 @@
+.unifi-pdp {
+  /* Active theme preset tokens (aliases: --p/--a/--t/--m/--sur) */
+  --unifi-accent: var(--p, var(--primary, var(--a, var(--accent, #006fff))));
+  --unifi-on-accent: var(--primary-foreground, #fff);
+  --unifi-text: var(--t, var(--foreground, #212327));
+  --unifi-ink: var(--t, var(--foreground, #212327));
+  --unifi-muted: var(--m, var(--muted-foreground, #808893));
+  --unifi-body: color-mix(in srgb, var(--unifi-text) 72%, var(--unifi-muted));
+  --unifi-surface: var(--sur, var(--card, var(--background, #fff)));
+  --unifi-surface-muted: color-mix(in srgb, var(--unifi-muted) 10%, var(--unifi-surface));
+  --unifi-border: color-mix(in srgb, var(--unifi-text) 10%, transparent);
+  --unifi-border-strong: color-mix(in srgb, var(--unifi-text) 16%, transparent);
+  --unifi-media: color-mix(in srgb, var(--unifi-ink) 88%, black);
+  --unifi-radius-sm: var(--az-preset-radius-sm, var(--az-radius-sm, 0.5rem));
+  --unifi-radius-md: var(--az-preset-radius-md, var(--az-radius-md, 0.75rem));
+  --unifi-radius-lg: var(--az-preset-radius-lg, var(--az-radius-lg, 1rem));
+  --unifi-shadow-sm: var(--az-preset-shadow-sm, 0 2px 10px color-mix(in srgb, var(--unifi-ink) 12%, transparent));
+  --unifi-shadow-md: var(--az-preset-shadow-md, 0 4px 16px color-mix(in srgb, var(--unifi-ink) 12%, transparent));
+  --unifi-shadow-lg: var(--az-preset-shadow-lg, 0 8px 24px color-mix(in srgb, var(--unifi-ink) 14%, transparent));
+  /* Flush under the floating header — JS overwrites with live header bottom (no content-gap). */
+  --unifi-header-offset: calc(var(--header-height, 76px) + var(--header-overlay-top-gap, 0px));
+  --unifi-sticky-bar-h: 56px;
+  --unifi-tab-top: var(--unifi-header-offset);
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 0 32px 48px;
+  color: var(--unifi-text);
+  font-family: var(--font-body, var(--az-font-body, inherit));
+}
+
+.prd-page--unifi {
+  padding: 0;
+  max-width: none;
+  width: 100%;
+  /* overflow-x:clip on .prd-page creates a sticky containing block and breaks sticky bars */
+  overflow: visible !important;
+  overflow-x: visible !important;
+}
+
+.prd-page.prd-page--unifi > .prd-page__chrome-rail,
+.prd-page.prd-page--unifi .prd-page__chrome {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+.prd-page--unifi > .prd-page__chrome-rail {
+  width: 100%;
+}
+
+.prd-page--unifi .prd-page__chrome {
+  max-width: 1260px;
+  margin-inline: auto;
+  padding-inline: 32px;
+}
+
+@media (max-width: 832px) {
+  .unifi-pdp {
+    padding: 0 16px 80px;
+  }
+}
+
+.unifi-pdp__hero {
+  min-width: 0;
+}
+
+.unifi-pdp__grid {
+  display: grid;
+  grid-template-columns: 1fr 464px;
+  gap: 36px;
+  align-items: start;
+  min-width: 0;
+}
+
+.unifi-pdp__gallery-col,
+.unifi-pdp__buy-col {
+  min-width: 0;
+}
+
+.unifi-pdp__grid--no-gallery,
+.unifi-pdp__grid--no-buy {
+  grid-template-columns: 1fr;
+}
+
+.unifi-pdp__grid--no-gallery .unifi-pdp__buy-col {
+  max-width: 464px;
+}
+
+@media (max-width: 832px) {
+  .unifi-pdp__grid,
+  .unifi-pdp__grid--no-gallery,
+  .unifi-pdp__grid--no-buy {
+    grid-template-columns: 1fr;
+  }
+}
+
+.unifi-pdp__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  background: var(--unifi-accent);
+  color: var(--unifi-on-accent);
+  border-radius: var(--unifi-radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.unifi-pdp__cta--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.unifi-sticky-stack {
+  position: sticky;
+  top: var(--unifi-header-offset);
+  z-index: 95;
+  background: var(--unifi-surface);
+  margin: 40px -32px 24px;
+  border-bottom: 1px solid var(--unifi-border);
+}
+
+.unifi-sticky-bar {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  z-index: auto;
+  background: var(--unifi-surface);
+  border-bottom: 1px solid var(--unifi-border);
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+  transform: none;
+  transition: max-height 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.unifi-sticky-bar--visible {
+  max-height: 72px;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.unifi-sticky-bar__inner {
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 8px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.unifi-sticky-bar__identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.unifi-sticky-bar__thumb {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--unifi-radius-sm);
+  object-fit: cover;
+}
+
+.unifi-sticky-bar__title {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.unifi-sticky-bar__sku {
+  font-size: 11px;
+  color: var(--unifi-muted);
+}
+
+.unifi-sticky-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.unifi-tab-nav {
+  position: static;
+  top: auto;
+  z-index: auto;
+  background: transparent;
+  border-bottom: none;
+  margin: 0;
+}
+
+.unifi-pdp__tab-panel {
+  scroll-margin-top: calc(var(--unifi-header-offset) + var(--unifi-sticky-stack-h, 48px) + 12px);
+}
+
+.unifi-tab-nav__inner {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 0 32px;
+  scrollbar-width: none;
+}
+
+.unifi-tab-nav__item {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: var(--unifi-body);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.unifi-tab-nav__item--active {
+  color: var(--unifi-accent);
+  border-bottom-color: var(--unifi-accent);
+  font-weight: 600;
+}
+
+.unifi-gallery {
+  min-width: 0;
+}
+
+.unifi-gallery__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 495px);
+  gap: 12px;
+  min-width: 0;
+  align-items: start;
+  justify-content: start;
+}
+
+.unifi-gallery__layout--with-thumbs {
+  grid-template-columns: 80px minmax(0, 495px);
+}
+
+.unifi-gallery__thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  max-height: 495px;
+  scrollbar-width: thin;
+}
+
+.unifi-gallery__thumbs--spacer {
+  width: 80px;
+  min-height: 1px;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (max-width: 832px) {
+  .unifi-gallery__layout--with-thumbs {
+    grid-template-columns: minmax(0, 495px);
+  }
+
+  .unifi-gallery__thumbs,
+  .unifi-gallery__thumbs--spacer {
+    display: none;
+  }
+}
+
+.unifi-gallery__thumb {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  padding: 0;
+  border: 1px solid var(--unifi-border-strong);
+  border-radius: var(--unifi-radius-sm);
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--unifi-surface);
+  flex-shrink: 0;
+}
+
+.unifi-gallery__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.unifi-gallery__thumb--active {
+  border-color: var(--unifi-accent);
+}
+
+.unifi-gallery__thumb-more,
+.unifi-gallery__thumb-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, black 45%, transparent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.unifi-gallery__thumb-more--caption {
+  inset: auto 0 0 0;
+  height: 22px;
+  background: color-mix(in srgb, black 62%, transparent);
+}
+
+.unifi-gallery__thumb-play {
+  font-size: 0;
+}
+
+.unifi-gallery__thumb-play::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 7px 0 7px 12px;
+  border-color: transparent transparent transparent #fff;
+}
+
+.unifi-gallery__thumb-video-fallback {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--unifi-media);
+}
+
+.unifi-gallery__main-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--unifi-media);
+}
+
+.unifi-gallery__zoom-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--unifi-surface) 92%, transparent);
+  color: var(--unifi-ink);
+  box-shadow: var(--unifi-shadow-sm);
+  cursor: pointer;
+}
+
+.unifi-gallery__zoom-btn:hover {
+  background: var(--unifi-surface);
+}
+
+.unifi-gallery__main {
+  /* Square stage stays in the same grid slot for 3D and gallery modes. */
+  position: relative;
+  grid-column: -2 / -1;
+  min-width: 0;
+  width: 100%;
+  max-width: 495px;
+  overflow: hidden;
+  background: var(--unifi-surface-muted);
+  border-radius: var(--unifi-radius-md);
+  justify-self: start;
+}
+
+.unifi-gallery__main::before {
+  content: "";
+  display: block;
+  width: 100%;
+  padding-bottom: 100%;
+}
+
+.unifi-gallery__main > .unifi-gallery__main-img,
+.unifi-gallery__main > .unifi-gallery__main-video,
+.unifi-gallery__main > .unifi-model-viewer,
+.unifi-gallery__main > .unifi-gallery__zoom-btn,
+.unifi-gallery__main > .unifi-gallery__mode-switch {
+  position: absolute;
+}
+
+.unifi-gallery__main > .unifi-gallery__main-img,
+.unifi-gallery__main > .unifi-gallery__main-video,
+.unifi-gallery__main > .unifi-model-viewer {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.unifi-gallery__main-img {
+  object-fit: contain;
+}
+
+.unifi-gallery__mode-switch {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px;
+  background: color-mix(in srgb, var(--unifi-surface) 94%, transparent);
+  border: 1px solid var(--unifi-border-strong);
+  border-radius: 999px;
+  width: fit-content;
+  box-shadow: var(--unifi-shadow-md);
+  z-index: 2;
+}
+
+.unifi-gallery__mode {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: var(--unifi-ink);
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.unifi-gallery__mode svg {
+  display: block;
+}
+
+.unifi-gallery__mode--active {
+  background: var(--unifi-accent);
+  color: var(--unifi-on-accent);
+}
+
+.unifi-gallery__mode--disabled {
+  color: var(--unifi-muted);
+  opacity: 0.6;
+}
+
+.unifi-buy-col__title {
+  font-family: var(--font-heading, var(--az-font-display, inherit));
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.unifi-buy-col__sku {
+  font-size: 12px;
+  color: var(--unifi-muted);
+  margin: 0 0 16px;
+}
+
+.unifi-buy-col__desc {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--unifi-body);
+  margin: 0 0 16px;
+}
+
+.unifi-buy-col__purchase {
+  border-top: 1px solid var(--unifi-border);
+  padding-top: 16px;
+  margin-top: 16px;
+}
+
+.unifi-buy-col__actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.unifi-buy-col__qty {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--unifi-surface-muted);
+  border-radius: var(--unifi-radius-sm);
+  padding: 2px;
+}
+
+.unifi-buy-col__qty button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--unifi-border-strong);
+  border-radius: var(--unifi-radius-md);
+  background: var(--unifi-surface);
+  cursor: pointer;
+}
+
+.unifi-buy-col__cta {
+  flex: 1;
+}
+
+.unifi-buy-col__swatches {
+  display: flex;
+  gap: 8px;
+}
+
+.unifi-buy-col__swatch {
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  border: 2px solid var(--unifi-surface);
+  box-shadow: 0 0 0 1px var(--unifi-border-strong);
+  background: var(--unifi-ink);
+  cursor: pointer;
+}
+
+.unifi-overview__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  margin-top: 24px;
+}
+
+.unifi-overview__grid-item {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--unifi-surface-muted);
+  overflow: hidden;
+}
+
+.unifi-overview__grid-img {
+  object-fit: cover;
+}
+
+.unifi-technical__heading {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--unifi-border);
+  cursor: pointer;
+}
+
+.unifi-technical__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--unifi-border);
+}
+
+.unifi-technical__row dt {
+  color: var(--unifi-body);
+  margin: 0;
+}
+
+.unifi-technical__row dd {
+  margin: 0;
+  font-weight: 500;
+}
+
+.unifi-in-box__hero {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto 24px;
+  aspect-ratio: 1500 / 765;
+  background: var(--unifi-surface-muted);
+}
+
+.unifi-in-box__hero-img {
+  object-fit: contain;
+}
+
+.unifi-installation__docs {
+  margin-top: 24px;
+}
+
+.unifi-installation__group + .unifi-installation__group {
+  margin-top: 24px;
+}
+
+.unifi-installation__group-title {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--unifi-muted);
+}
+
+.unifi-installation__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.unifi-file-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--unifi-border);
+  text-decoration: none;
+  color: var(--unifi-accent);
+}
+
+.unifi-file-row__icon,
+.unifi-file-row__action {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--unifi-accent);
+}
+
+.unifi-file-row__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.unifi-file-row__title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.unifi-file-row__size {
+  font-size: 12px;
+  color: var(--unifi-muted);
+}
+
+.unifi-empty {
+  color: var(--unifi-muted);
+  font-size: 14px;
+}
+
+.unifi-gallery__main-img--static {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.unifi-model-viewer {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.unifi-model-viewer model-viewer {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.unifi-buy-col__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.unifi-buy-col__header-price {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.unifi-buy-col__price--lg {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.unifi-buy-col__vat {
+  font-size: 12px;
+  color: var(--unifi-muted);
+  margin-top: 2px;
+}
+
+.unifi-buy-col__rule {
+  height: 1px;
+  background: var(--unifi-border-strong);
+  margin: 16px 0;
+}
+
+.unifi-buy-col__note {
+  font-size: 13px;
+  color: var(--unifi-body);
+  margin-top: 8px;
+}
+
+.unifi-buy-col__variant-key {
+  color: var(--unifi-body);
+}
+
+.unifi-buy-col__swatch {
+  overflow: hidden;
+  padding: 0;
+}
+
+.unifi-buy-col__swatch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.unifi-buy-col__swatch--active {
+  box-shadow: 0 0 0 1px var(--unifi-surface), 0 0 0 2px var(--unifi-accent);
+}
+
+.unifi-buy-col__purchase-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.unifi-buy-col__cta {
+  width: 100%;
+}
+
+.unifi-buy-col__qty button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.unifi-accessories {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.unifi-accessories__heading {
+  color: var(--unifi-body);
+  font-size: 14px;
+}
+
+.unifi-accessories__track {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.unifi-accessories__card {
+  min-width: 100%;
+  border: 1px solid var(--unifi-border-strong);
+  border-radius: var(--unifi-radius-sm);
+  padding: 10px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.unifi-accessories__thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: var(--unifi-radius-md);
+  flex-shrink: 0;
+}
+
+.unifi-accessories__thumb--empty {
+  background: var(--unifi-surface-muted);
+}
+
+.unifi-accessories__meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.unifi-accessories__name {
+  color: var(--unifi-accent);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.unifi-accessories__price {
+  font-size: 13px;
+  color: var(--unifi-body);
+}
+
+.unifi-accessories__add {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--unifi-radius-sm);
+  background: var(--unifi-accent);
+  color: var(--unifi-on-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.unifi-accessories__add--disabled {
+  opacity: 0.4;
+}
+
+.unifi-overview__heading {
+  font-size: 20px;
+  margin: 32px 0 16px;
+}
+
+.unifi-overview__copy {
+  color: var(--unifi-body);
+  line-height: 1.5;
+}
+
+.unifi-overview__features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.unifi-overview__feature {
+  margin: 0;
+}
+
+.unifi-overview__feature-media {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--unifi-surface-muted);
+  overflow: hidden;
+}
+
+.unifi-overview__feature figcaption {
+  padding: 12px 0 0;
+}
+
+.unifi-overview__feature h4 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.unifi-overview__feature p {
+  margin: 0;
+  color: var(--unifi-body);
+  font-size: 14px;
+}
+
+.unifi-overview__grid--mosaic {
+  grid-template-columns: 1.4fr 1fr;
+}
+
+.unifi-overview__grid-item {
+  min-height: 220px;
+}
+
+.unifi-technical__toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.unifi-technical__compare {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--unifi-body);
+}
+
+.unifi-technical__guide {
+  color: var(--unifi-accent);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.unifi-technical__heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.unifi-technical__row--group dt {
+  font-weight: 700;
+  color: var(--unifi-text);
+}
+
+.unifi-technical__row--child dt {
+  padding-left: 16px;
+  color: var(--unifi-body);
+}
+
+.unifi-installation__stage {
+  width: 100%;
+  background: var(--unifi-media);
+  border-radius: var(--unifi-radius-md);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.unifi-installation__video {
+  display: block;
+  width: 100%;
+  max-height: 560px;
+  background: var(--unifi-media);
+}
+
+.unifi-in-box__hero + .unifi-in-box__hero {
+  margin-top: 16px;
+}
+
+@media (max-width: 832px) {
+  .prd-page--unifi .prd-page__chrome {
+    padding-inline: 16px;
+  }
+
+  .unifi-sticky-stack {
+    position: static;
+    margin: 24px -16px;
+  }
+
+  .unifi-sticky-bar {
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    right: 0;
+    z-index: 95;
+    max-height: none;
+    overflow: visible;
+    border-bottom: none;
+    border-top: 1px solid var(--unifi-border);
+    box-shadow: var(--unifi-shadow-sm);
+    transform: translateY(100%);
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+  }
+
+  .unifi-sticky-bar--visible {
+    max-height: none;
+    transform: translateY(0);
+  }
+
+  .unifi-sticky-bar__inner {
+    padding: 8px 16px;
+  }
+
+  .unifi-tab-nav {
+    position: static;
+    margin: 0;
+  }
+
+  .unifi-buy-col__header {
+    flex-direction: column;
+  }
+
+  .unifi-buy-col__header-price {
+    text-align: left;
+  }
+
+  .unifi-overview__features,
+  .unifi-overview__grid--mosaic {
+    grid-template-columns: 1fr;
+  }
+}
+
+.unifi-pdp__tab-panels {
+  min-width: 0;
+}
+
+.unifi-pdp__tab-panel[hidden] {
+  display: none;
+}
+
+.unifi-overview__section + .unifi-overview__section {
+  margin-top: 32px;
+}
+
+.unifi-buy-col__variants {
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.unifi-buy-col__variant-group + .unifi-buy-col__variant-group {
+  margin-top: 0;
+}
+
+.unifi-buy-col__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.unifi-buy-col__chip {
+  min-height: 32px;
+  padding: 6px 12px;
+  border: 1px solid var(--unifi-border-strong);
+  border-radius: var(--unifi-radius-sm);
+  background: var(--unifi-surface);
+  color: var(--unifi-ink);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.unifi-buy-col__chip--active {
+  border-color: var(--unifi-accent);
+  box-shadow: 0 0 0 1px var(--unifi-accent);
+  font-weight: 600;
+}
+
+.unifi-buy-col__variant-label {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.unifi-accessories__vat {
+  font-size: 11px;
+  color: var(--unifi-muted);
+}
+
+.unifi-overview__feature-media {
+  position: relative;
+}
+
+.unifi-overview__hotspot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: var(--unifi-surface);
+  border: 2px solid var(--unifi-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--unifi-accent) 20%, transparent);
+  pointer-events: none;
+}
+
+.unifi-overview__hotspot-tip {
+  position: absolute;
+  transform: translate(-50%, -110%);
+  width: min(220px, 70%);
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--unifi-surface) 94%, transparent);
+  border-radius: var(--unifi-radius-md);
+  box-shadow: var(--unifi-shadow-lg);
+}
+
+.unifi-overview__hotspot-tip h4 {
+  margin: 0 0 4px;
+  font-size: 13px;
+}
+
+.unifi-overview__hotspot-tip p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--unifi-body);
+}
+
+.unifi-gallery__mode-switch {
+  border: 1px solid var(--unifi-border-strong);
+}

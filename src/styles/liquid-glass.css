@@ -1,0 +1,5 @@
+/**
+ * @deprecated Split into liquid-glass-storefront.css (effects bundle) and admin.css.
+ * Kept as a no-op shim for any legacy imports.
+ */
+@import "./liquid-glass-storefront.css";

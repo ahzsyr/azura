@@ -1,0 +1,20 @@
+{
+  "id": "restaurant",
+  "name": "Restaurant & Food",
+  "description": "Warm amber on deep brown — appetite-driven design for restaurants and cafes",
+  "colors": {
+    "primary": "#f59e0b",
+    "accent": "#ef4444",
+    "secondary": "#d97706",
+    "background": "#0c0800",
+    "surface": "#1a1200",
+    "text": "#fef3c7",
+    "textMuted": "#78716c"
+  },
+  "fonts": { "display": "Playfair Display", "body": "Lato", "mono": "DM Mono" },
+  "cursor": "spotlight",
+  "backgroundEffect": "bubbles",
+  "textEffect": "gradient-flow",
+  "cardStyle": "warm-border",
+  "borderStyle": "amber-glow"
+}

@@ -1,0 +1,9 @@
+- **unifi**
+  - **Accessories**
+  - **Advanced Hosting**
+  - **Cloud Gateways**
+  - **Door Access**
+  - **Integrations**
+  - **Physical Security**
+  - **Switching**
+  - **WiFi**

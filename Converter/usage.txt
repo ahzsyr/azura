@@ -1,0 +1,17 @@
+python converter.py input/ -o output/
+python converter.py input/unifi-U7-Pro-XG -o output/ --format unifi
+
+Input format is auto-detected (Getic HTML, UniFi store HTML, generic HTML, JSON-LD, or raw JSON).
+Use --json to force raw JSON parsing when auto-detection is wrong.
+Use --format unifi to emit the rich UniFi product layout (3D model, videos, tabbed
+sections, nested specs, color variants). --format auto (default) selects unifi
+when a UniFi store page is detected.
+
+Each product CSV is self-contained: the description carries its own <style>
+block, so no theme setup is needed in WordPress.
+
+The style block is written at the end of the description on purpose. WordPress
+sniffs the first 4096 bytes of an upload; markup like "<style" or "<table" near
+the top makes it read the CSV as HTML and reject it with "Sorry, you are not
+allowed to upload this file type". write_csv() enforces this and pads the first
+row if a short description would otherwise push markup into that window.

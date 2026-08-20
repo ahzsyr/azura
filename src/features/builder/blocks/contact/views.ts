@@ -1,0 +1,9 @@
+export { ContactMapView } from "@/features/builder/blocks/contact/components/contact-map-view";
+export { ContactLocationView } from "@/features/builder/blocks/contact/components/contact-location-view";
+export { ContactPhoneView } from "@/features/builder/blocks/contact/components/contact-phone-view";
+export { ContactSocialView } from "@/features/builder/blocks/contact/components/contact-social-view";
+export { ContactSectionView } from "@/features/builder/blocks/contact/components/contact-section-view";
+export { ContactCard } from "@/features/builder/blocks/contact/components/contact-card";
+export { ContactIcon } from "@/features/builder/blocks/contact/components/contact-icon";
+export { ContactActions } from "@/features/builder/blocks/contact/components/contact-actions";
+export { BusinessHoursView } from "@/features/builder/blocks/contact/components/business-hours-view";

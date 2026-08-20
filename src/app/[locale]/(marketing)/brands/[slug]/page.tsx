@@ -1,0 +1,173 @@
+import { notFound } from "next/navigation";
+import { setRequestLocale } from "next-intl/server";
+import type { Locale } from "@/i18n/routing";
+import { FALLBACK_LOCALES } from "@/i18n/locale-config";
+import { getDirectionByPrefix, getEnabledUrlPrefixes } from "@/i18n/locale-registry.server";
+import { seoService } from "@/features/seo/seo.service";
+import { CatalogListingPageShell } from "@/features/catalog/components/catalog-listing-page-shell";
+import { CatalogTopNavigation } from "@/features/catalog/components/CatalogTopNavigation";
+import { loadCatalogListingTheme } from "@/features/catalog/lib/load-catalog-theme";
+import { buildProductListingCatalog } from "@/features/products/listing/catalog";
+import { ProductListingIsland } from "@/features/products/components/product-listing-island";
+import { loadListingLabels } from "@/features/products/listing/load-listing-labels";
+import { aggregateFacets } from "@/features/products/listing/aggregate-facets";
+import { collectionsDataService } from "@/features/collections/collections-data.service";
+import { orderCollectionsHierarchy } from "@/features/collections/collection-hierarchy";
+import {
+  findBrandBySlug,
+  loadBrandAndTagEntries,
+} from "@/features/catalog/brand-tag-pages.service";
+import { filterRecordsForBrandProfile } from "@/features/catalog/brand-matching";
+import { readCatalogBrandProfiles } from "@/features/catalog/admin/catalog-taxonomy";
+import { ensureDefaultBrandMatchRules } from "@/features/catalog/types/catalog-brand-profile";
+import { getLocalizedField } from "@/lib/utils";
+import {
+  applyProductOrdering,
+  resolveProductOrderingProfile,
+} from "@/features/products/ordering";
+import { loadProductOrderingSettings } from "@/features/products/ordering/load-product-ordering";
+
+export const revalidate = 60;
+
+const FALLBACK_PREFIXES = FALLBACK_LOCALES.map((locale) => locale.urlPrefix);
+
+type Props = {
+  params: Promise<{ locale: string; slug: string }>;
+};
+
+export async function generateStaticParams() {
+  let locales: string[] = [];
+  try {
+    locales = await getEnabledUrlPrefixes();
+  } catch {
+    locales = [...FALLBACK_PREFIXES];
+  }
+  if (locales.length === 0) locales = [...FALLBACK_PREFIXES];
+
+  const localizedSlugs = await Promise.all(
+    locales.map(async (locale) => {
+      const listing = await buildProductListingCatalog(locale);
+      const { brands } = await loadBrandAndTagEntries(locale, listing.records);
+      return { locale, slugs: brands.map((brand) => brand.slug) };
+    }),
+  );
+  return localizedSlugs.flatMap(({ locale, slugs }) => slugs.map((slug) => ({ locale, slug })));
+}
+
+export async function generateMetadata({ params }: Props) {
+  const { locale, slug } = await params;
+  const listing = await buildProductListingCatalog(locale);
+  const { brands } = await loadBrandAndTagEntries(locale, listing.records);
+  const brand = findBrandBySlug(brands, slug);
+  const title = brand ? `${brand.name} Products` : "Brand";
+  const description = brand
+    ? `Browse ${brand.name} products and related catalog items.`
+    : "Browse brand products.";
+
+  try {
+    return await seoService.resolveMetadata({
+      locale: locale as Locale,
+      path: `/brands/${slug}`,
+      pageKey: `brand:${slug}`,
+      fallback: { title, description },
+    });
+  } catch {
+    return { title, description };
+  }
+}
+
+export default async function BrandDetailPage({ params }: Props) {
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
+
+  const [theme, listingCopy, pageDir, allCols, listing] = await Promise.all([
+    loadCatalogListingTheme(locale, "products"),
+    loadListingLabels("product", locale),
+    getDirectionByPrefix(locale),
+    collectionsDataService.loadAll({ localePrefix: locale }),
+    buildProductListingCatalog(locale),
+  ]);
+
+  const { brands } = await loadBrandAndTagEntries(locale, listing.records);
+  const brand = findBrandBySlug(brands, slug);
+  if (!brand) notFound();
+
+  const catalogBrandProfiles = (await readCatalogBrandProfiles(locale)).map(ensureDefaultBrandMatchRules);
+  const catalogBrandProfile =
+    catalogBrandProfiles.find((p) => p.slug.toLowerCase() === slug.toLowerCase()) ??
+    brand.profile ??
+    catalogBrandProfiles.find((p) => p.name.trim().toLowerCase() === brand.name.trim().toLowerCase()) ??
+    null;
+
+  const facetTaxonomy = orderCollectionsHierarchy(allCols);
+  const collections = orderCollectionsHierarchy(allCols.filter((c) => c.visible !== false));
+  const records = catalogBrandProfile
+    ? filterRecordsForBrandProfile(listing.records, catalogBrandProfile)
+    : listing.records.filter(
+        (record) => (record.brand ?? "").trim().toLowerCase() === brand.name.toLowerCase(),
+      );
+  const orderingSettings = await loadProductOrderingSettings(locale);
+  const brandProfile = resolveProductOrderingProfile(orderingSettings, {
+    surface: "BRAND",
+    targetId: brand.name,
+  });
+  const orderedRecords = brandProfile
+    ? applyProductOrdering(records, brandProfile)
+    : records;
+  const facets = aggregateFacets(orderedRecords, facetTaxonomy);
+
+  return (
+    <CatalogListingPageShell
+      title={brand.name}
+      hero={theme.hero}
+      headingTextEffect={theme.headingTextEffect}
+      dir={pageDir}
+      navigation={
+        <CatalogTopNavigation
+          locale={locale}
+          surface="brandDetail"
+          brandSlug={slug}
+          pathBrandName={brand.name}
+        />
+      }
+      brandDetail={{
+        logoUrl: catalogBrandProfile?.logoUrl ?? brand.profile?.logoUrl,
+        description: catalogBrandProfile ?? brand.profile
+          ? getLocalizedField(
+              (catalogBrandProfile ?? brand.profile) as Record<string, unknown>,
+              "description",
+              locale,
+            )
+          : "",
+        productCount: orderedRecords.length,
+        collectionCount: facets.collections.length,
+      }}
+    >
+      <ProductListingIsland
+        locale={locale}
+        records={orderedRecords}
+        facets={facets}
+        collections={collections}
+        facetTaxonomy={facetTaxonomy}
+        layoutVariant="catalog"
+        listingMode="product"
+        hierarchyLabels={listingCopy.hierarchyLabels}
+        hierarchyVariant={theme.listingLayout.chromeVariant}
+        searchDebounceMs={theme.searchDebounceMs}
+        searchFuzziness={theme.searchFuzziness}
+        defaultViewMode={theme.listingLayout.defaultViewMode}
+        viewModes={theme.listingLayout.viewModes}
+        listColumnsDesktop={theme.listingLayout.listColumnsDesktop}
+        listColumnsTablet={theme.listingLayout.listColumnsTablet}
+        labels={listingCopy.labels}
+        catalogToolbarLabels={listingCopy.catalogToolbarLabels}
+        cardTheme={theme}
+        catalogToolbarDock={theme.toolbarDock}
+        pageDir={pageDir}
+        listingFilters={theme.listingFilters}
+        total={orderedRecords.length}
+        totalPages={1}
+      />
+    </CatalogListingPageShell>
+  );
+}

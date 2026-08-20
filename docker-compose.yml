@@ -1,0 +1,88 @@
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: azura_app
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - .:/app
+      - azura_node_modules:/app/node_modules
+      - azura_next:/app/.next
+
+    environment:
+      NODE_ENV: development
+      WATCHPACK_POLLING: "true"
+
+    env_file:
+      - .env
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.4
+
+    container_name: azura_mysql
+
+    # Match macOS MySQL defaults so Prisma migrations (mixed table casing) apply on Linux.
+    command:
+      - --lower-case-table-names=1
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+    environment:
+      MYSQL_DATABASE: azura_db
+      MYSQL_USER: azura
+      MYSQL_PASSWORD: azura151993
+      MYSQL_ROOT_PASSWORD: azura151993
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - azura_mysql_data:/var/lib/mysql
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-pazura151993"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: azura_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  azura_mysql_data:
+  azura_node_modules:
+  azura_next:

@@ -1,0 +1,24 @@
+{
+  "id": "realestate",
+  "name": "Real Estate",
+  "description": "Sophisticated navy and gold — authority and aspiration for property brands",
+  "colors": {
+    "primary": "#d4a853",
+    "accent": "#e8c87a",
+    "secondary": "#1e3a5f",
+    "background": "#0a0e15",
+    "surface": "#111827",
+    "text": "#f9fafb",
+    "textMuted": "#6b7280"
+  },
+  "fonts": {
+    "display": "Cormorant Garamond",
+    "body": "Nunito Sans",
+    "mono": "DM Mono"
+  },
+  "cursor": "spotlight",
+  "backgroundEffect": "noise",
+  "textEffect": "gradient-flow",
+  "cardStyle": "thin-border",
+  "borderStyle": "gold-thin"
+}

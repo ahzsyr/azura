@@ -1,0 +1,38 @@
+- **Home and Office Networks**
+  - **Access Points**
+    - WiFi 7
+    - WiFi 6
+    - WiFi 5
+    - WiFi 4
+    - WiFi Outdoor
+  - **WiFi Range Extenders**
+  - **WiFi Indoor Antennas**
+  - **WiFi Kits**
+  - **WiFi Bridges / CPE**
+  - **WiFi Routers**
+    - WiFi 7
+    - WiFi 6
+    - WiFi 5
+    - WiFi 4
+  - **Wired Routers**
+    - SFP28 Routers
+    - SFP+ Routers
+    - 1G Routers
+    - 100M Routers
+  - **Switches**
+    - 10G Switches
+    - 1G Switches
+    - 100M Switches
+    - PoE Switches
+    - SFP Switches
+    - Industrial Switches
+  - **WiFi USB Adapters**
+    - WiFi 5
+    - WiFi 6
+  - **UniFi OS Console**
+  - **Embedded Routers**
+  - **Bluetooth Antennas**
+  - **IP Phones**
+  - **Professional A/V**
+  - **Accessories**
+  - **Ethernet Devices**

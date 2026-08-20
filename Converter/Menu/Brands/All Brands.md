@@ -1,0 +1,202 @@
+- ***Brands**
+    - **Alfa**
+    - **Wi-Fi Devices**
+        - Wi-Fi USB Adapters
+        - Wi-Fi Routers
+        - Wi-Fi Tubes
+        - Wi-Fi Kits
+        - Wi-Fi AP / CPE
+    - **Ethernet Devices**
+        - Switches
+        - Network Cards
+        - Embedded Routers
+        - USB adapters
+    - **Antennas**
+        - Wi-Fi Indoor
+        - Wi-Fi Outdoor
+        - 3G/4G LTE antennas
+        - 5G Antennas
+        - LoRa antennas
+    - **PoE Devices**
+        - PoE Converters
+        - PoE Splitters
+        - PoE Injectors
+    - **LTE / 5G Products**
+        - Modems
+    - **Accessories**
+        - USB Cables
+        - Mounts
+        - Surge Protectors
+        - Connectors
+    - **MikroTik**
+    - **Ethernet Routers**
+        - hEX
+        - RouterBoard
+        - PowerBox
+        - Cloud Core Router
+    - **Switches**
+        - Cloud Smart Switch
+        - Cloud Router Switch
+        - Cloud Router Switch 10G
+        - Cloud Router Switch PoE
+    - **IoT Products**
+        - Gateways
+        - Antennas
+        - MiniPCI-e Cards
+        - Tags / Sensors
+    - **Wireless Systems**
+        - LHG
+        - SXT & DiscLite
+        - Groove & Metal
+        - NetMetal
+        - OmniTik
+        - mANTBox
+    - **60GHz Wireless**
+        - Antennas
+        - Wireless Wire
+    - **Antennas*
+    - **Anti-Noise Shields*
+    - **Servers**
+    - **Wi-Fi for Home & Office**
+        - hAP
+        - cAP
+        - mAP
+        - WAP
+        - RouterBoard
+        - Audience
+        - Chateau
+    - **Fiber Products**
+        - SFP Modules
+        - SFP Cables
+        - Converters
+    - **Licenses**
+    - **Mobile Network Products**
+        - 5G Routers
+        - 4G Routers
+        - SXT
+        - LHG
+        - ATL
+        - WAP
+        - LtAP
+        - miniPCI-e
+    - **Enclosure**
+    - **Pigtails**
+    - **Coaxial Cables**
+    - **Brackets**
+    - **Power Adapters**
+    - **Merch**
+    - **Accessories**
+    - **Mimosa**
+    - Carrier Backhaul Radio
+        - Antennas
+    - BaseStation
+        - Integrated Antennas
+    - Outdoor Access Points
+        - Antennas
+    - Power Adapters Mounts
+    - **RF Elements**
+    - **Antennas**
+        - StarterDish Antennas
+        - UltraDish Antennas
+        - Horn Sector
+        - Horn Directional
+        - Screw-on Antennas
+    - **Accessories**
+        - Twistport Adapters
+        - Starter Adapters
+        - StationBox Tools
+    - **Ubiquiti**
+    - **UniFi Cloud Gateways**
+        - Large Scale
+        - WiFi Integrated
+        - Compact
+    - **UniFi Access Points**
+        - Best Offers
+        - Flagship
+        - Enterprise
+        - In-Wall
+        - Flexible & Outdoor
+        - Wireless Bridges
+        - Special Devices
+        - Accessories
+    - **UniFi Switching**
+        - Aggregation
+        - Enterprise
+        - Professional Max
+        - Professional
+        - Standard
+        - Utility
+    - **Camera Security**
+        - NVRs & Viewport
+        - Dome & Turret
+        - Bullet
+        - Compact
+        - Theta
+        - PTZ
+        - Doorbells
+        - Special Devices
+        - Accessories
+        - Surveillance HDD
+    - **Door Access**
+        - Readers
+        - Hubs
+        - Starter kits
+        - Intercoms
+        - Accessories
+    - **Cloud Keys & Gateways**
+    - **Power Tech**
+    - **New Integrations**
+    - **60 GHz Wireless**
+        - Wave 60 GHz
+        - airFiber 60 GHz
+    - **Outdoor Wireless**
+        - WiFi 7 MLO
+        - LTU 5 GHz
+        - airFiber PtP
+        - airMAX 5 GHz
+        - airMAX 2.4 GHz
+        - Antennas
+    - **Fiber**
+        - XGS-PON
+        - GPON
+        - Converters
+        - SFP Modules
+        - Cables
+        - CWDM
+    - **Mobile Network**
+    - **Wired**
+        - UISP Console
+        - UISP Routing
+        - UISP Switching
+        - UISP Power
+        - EdgeMAX Routing
+        - EdgeMAX Switching
+        - WiFi CPE
+        - Other
+    - **Accessory Tech**
+        - Mountings
+        - PoE & Power
+        - Power Solutions
+        - RF Shielding
+        - Anti-Noise Shield
+        - Cabling
+        - Patch Cables
+        - Other
+    - **AmpliFi**
+    - **UI Care Licenses**
+    - **BelFone**
+    - **unifi**
+        - Accessories
+        - Advanced Hosting
+        - Cloud Gateways
+        - Door Access
+        - Integrations
+        - Physical Security
+        - Switching
+        - WiFi
+    - **UISP**
+        - 60 GHz Wireless
+        - Wireless
+        - Fiber
+        - Accessory Tech
+

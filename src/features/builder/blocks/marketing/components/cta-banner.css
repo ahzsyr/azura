@@ -1,0 +1,133 @@
+/**
+ * CTA Banner — theme-aware card matching the compact conversion layout:
+ * dark brand surface, gold heading, pill badge, and a high-contrast gold button.
+ */
+
+.az-cta-banner {
+  --az-cta-heading: color-mix(in srgb, var(--color-accent, var(--accent)) 82%, white 18%);
+  --az-cta-body: color-mix(in srgb, white 88%, var(--color-accent, var(--accent)) 12%);
+  --az-cta-btn-ink: color-mix(in srgb, var(--color-primary, var(--primary)) 42%, #1c1a10 58%);
+  border-radius: 1.75rem;
+  isolation: isolate;
+}
+
+@media (min-width: 768px) {
+  .az-cta-banner {
+    border-radius: 2rem;
+  }
+}
+
+.az-cta-banner--brand {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-primary, var(--primary)) 78%, #2a2614 22%) 0%,
+      color-mix(in srgb, var(--color-primary, var(--primary)) 58%, #12100a 42%) 100%
+    );
+  box-shadow:
+    0 22px 48px color-mix(in srgb, var(--color-primary, var(--primary)) 24%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 16%, transparent);
+}
+
+.az-cta-banner--light {
+  background: color-mix(in srgb, var(--color-primary, var(--primary)) 7%, var(--card, #fff));
+  border: 1px solid color-mix(in srgb, var(--color-primary, var(--primary)) 14%, var(--border, #e5e5e5));
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--color-primary, var(--primary)) 8%, transparent);
+}
+
+.az-cta-banner__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.15rem;
+  padding: 0.28rem 0.85rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-primary, var(--primary)) 12%, transparent);
+  color: var(--color-primary, var(--primary));
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+
+.az-cta-banner--filled .az-cta-banner__badge {
+  background: color-mix(in srgb, white 16%, transparent);
+  color: var(--az-cta-heading);
+}
+
+.az-cta-banner__title {
+  color: var(--foreground);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+}
+
+.az-cta-banner--filled .az-cta-banner__title {
+  color: var(--az-cta-heading);
+}
+
+.az-cta-banner__body {
+  margin-top: 1.05rem;
+  color: var(--muted-foreground);
+  font-size: 0.98rem;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.az-cta-banner--filled .az-cta-banner__body {
+  color: var(--az-cta-body);
+}
+
+.az-cta-banner__promo {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  opacity: 0.82;
+}
+
+.az-cta-banner .az-cta-banner__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 10.75rem;
+  height: 3rem;
+  padding-inline: 1.75rem;
+  border-radius: 0.95rem;
+  background: var(--color-accent, var(--accent));
+  color: var(--az-cta-btn-ink);
+  font-size: 0.98rem;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.az-cta-banner .az-cta-banner__btn:hover {
+  filter: brightness(1.06);
+}
+
+.az-cta-banner--filled .az-cta-banner__btn:focus-visible {
+  outline: 2px solid var(--az-cta-heading);
+  outline-offset: 3px;
+}
+
+.az-cta-banner--preview .az-cta-banner__badge {
+  margin-bottom: 0.45rem;
+  padding: 0.12rem 0.55rem;
+  font-size: 0.62rem;
+}
+
+.az-cta-banner--preview .az-cta-banner__body {
+  margin-top: 0.35rem;
+}
+
+.az-cta-banner--preview .az-cta-banner__btn {
+  min-width: 6.25rem;
+  height: 1.85rem;
+  padding-inline: 0.85rem;
+  font-size: 0.7rem;
+}
+
+@media (min-width: 768px) {
+  .az-cta-banner__body {
+    font-size: 1.02rem;
+  }
+}

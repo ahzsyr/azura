@@ -1,0 +1,21 @@
+- **Mounts and Brackets**
+    - **Mounting Accessories**
+        - Antenna Brackets
+        - Video Camera Brackets
+        - Router Mounts
+        - UniFi Mounts
+        - Access Points Mounts
+        - Protective Shields
+        - Twistport Adapters
+    - **Outdoor Mounts**
+        - Wall Mounts
+        - Pole Mounts
+        - Chimney Mounts
+        - Masts
+    - **Indoor Mounts**
+        - Ceilling Mounts
+        - Wall Mounts
+        - Suction Mounts
+        - Magnetic Mounts
+        - Recessed
+        - Rack Mounts

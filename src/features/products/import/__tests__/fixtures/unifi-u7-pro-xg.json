@@ -1,0 +1,114 @@
+{
+  "slug": "u7-pro-xg",
+  "id": "a433b9e5-4dd1-4784-adf8-9d12bcba4c87",
+  "productTitle": "U7 Pro XG",
+  "name": "U7 Pro XG",
+  "title": "U7 Pro XG",
+  "short_description": "Ceiling-mounted 6-stream WiFi 7 AP with 10/5/2.5/1 GbE support.",
+  "description": "Ceiling-mounted 6-stream WiFi 7 AP with 10/5/2.5/1 GbE support.",
+  "detailed_description": [
+    {
+      "heading": "Key Features",
+      "text": "WiFi 7 with 6 GHz support",
+      "tab": "overview",
+      "features": [
+        {
+          "title": "6-Stream Tri-Radio WiFi 7",
+          "body": "Tri-radio 2.4/5/6 GHz.",
+          "image": "https://example.com/feature.png",
+          "hotspot": { "dotX": 0.25, "dotY": 0.5, "tooltipX": 0.12, "tooltipY": 0.3 }
+        }
+      ]
+    },
+    {
+      "heading": "Overview",
+      "text": "",
+      "tab": "overview",
+      "media": [{ "url": "https://example.com/overview.png", "alt": "U7 Pro XG", "width": 1128, "height": 700 }]
+    },
+    {
+      "heading": "Technical Highlights",
+      "text": "",
+      "tab": "technical",
+      "media": [
+        { "url": "https://example.com/tech-black.png", "alt": "Black", "color": "Black" },
+        { "url": "https://example.com/tech-white.png", "alt": "White", "color": "White" }
+      ]
+    },
+    {
+      "heading": "Installation Tutorial",
+      "text": "",
+      "tab": "installation",
+      "videos": [
+        { "url": "https://example.com/install-black.mp4", "type": "upload", "poster": "https://example.com/poster-black.png", "color": "Black" },
+        { "url": "https://example.com/install-white.mp4", "type": "upload", "poster": "https://example.com/poster-white.png", "color": "White" }
+      ]
+    },
+    {
+      "heading": "In The Box",
+      "text": "",
+      "tab": "in_the_box",
+      "media": [
+        { "url": "https://example.com/box-black.png", "alt": "U7 Pro XG", "width": 1500, "height": 765, "color": "Black" },
+        { "url": "https://example.com/box-white.png", "alt": "U7 Pro XG", "width": 1500, "height": 765, "color": "White" }
+      ]
+    }
+  ],
+  "brand": "Ubiquiti",
+  "category": "Unifi",
+  "categories": ["Ubiquiti", "Unifi"],
+  "mpn": "U7-Pro-XG-B",
+  "media": {
+    "images": [
+      { "url": "https://example.com/main.png", "alt": "U7 Pro XG", "type": "main", "color": "Black" },
+      { "url": "https://example.com/white.png", "alt": "White", "type": "gallery", "color": "White" }
+    ],
+    "videos": [{ "url": "https://example.com/hero.mp4", "type": "upload", "poster": "https://example.com/hero.png" }],
+    "files": [],
+    "3d_model": {
+      "enabled": true,
+      "url": "https://example.com/model.glb",
+      "variants": [
+        { "color": "Black", "sku": "U7-Pro-XG-B", "thumbnail": "https://example.com/black.png" },
+        { "color": "White", "sku": "U7-Pro-XG", "thumbnail": "https://example.com/white.png" }
+      ]
+    }
+  },
+  "price": { "value": 731, "currency": "AED", "discount": null },
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variations": [{ "type": "Color", "options": ["Black", "White"], "default": "Black" }],
+  "variation_combinations": [
+    {
+      "sku": "brt-U7-Pro-XG-B",
+      "Color": "Black",
+      "images": [{ "url": "https://example.com/main.png", "type": "main", "color": "Black" }]
+    },
+    {
+      "sku": "brt-U7-Pro-XG",
+      "Color": "White",
+      "images": [{ "url": "https://example.com/white.png", "type": "main", "color": "White" }]
+    }
+  ],
+  "specifications": [
+    {
+      "technology": "Performance",
+      "items": [
+        { "name": "MIMO", "value": "", "is_group": true },
+        { "name": "6 GHz", "value": "2 x 2 (DL/UL MU-MIMO)", "parent": "MIMO" }
+      ]
+    }
+  ],
+  "documents": [{ "title": "Installation Guide", "url": "https://example.com/guide" }],
+  "bought_together": [
+    { "name": "10G PoE++ Adapter (60W)", "url": "/product/uacc-poe-plus-plus-10g", "price": 143, "currency": "AED", "mpn": "UACC-PoE++-10G-EU" }
+  ],
+  "reviews": { "rating": 0, "count": 0 },
+  "page_display": {
+    "tabOverview": { "enabled": true, "inherit": true },
+    "tabInstallation": { "enabled": true, "inherit": true },
+    "tabInBox": { "enabled": true, "inherit": true },
+    "modelViewer": { "enabled": true, "inherit": true },
+    "frequentlyBought": { "enabled": true, "inherit": true }
+  }
+}

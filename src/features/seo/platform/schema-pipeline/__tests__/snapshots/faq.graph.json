@@ -1,0 +1,123 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "ElectronicsStore"
+      ],
+      "@id": "https://example.com/#organization",
+      "name": "BRT Trading",
+      "url": "https://example.com",
+      "logo": {
+        "@id": "https://example.com/#logo-image"
+      },
+      "image": [
+        {
+          "@id": "https://example.com/#image-office-/uploads/office.jpg"
+        }
+      ],
+      "sameAs": [
+        "https://facebook.com/brt"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+971500000000",
+        "email": "info@example.com",
+        "contactType": "customer service"
+      },
+      "telephone": "+971500000000",
+      "email": "info@example.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Dubai, UAE"
+      },
+      "identifier": "REG-123"
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://example.com/#logo-image",
+      "url": "https://example.com/uploads/logo.png",
+      "caption": "BRT Trading logo"
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://example.com/#image-office-/uploads/office.jpg",
+      "url": "https://example.com/uploads/office.jpg",
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://example.com/#website",
+      "name": "BRT Trading",
+      "alternateName": "BRT",
+      "url": "https://example.com",
+      "publisher": {
+        "@id": "https://example.com/#organization"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://example.com/en/faq/support/#webpage",
+      "url": "https://example.com/en/faq/support",
+      "name": "Support FAQ",
+      "description": "Common support questions",
+      "isPartOf": {
+        "@id": "https://example.com/#website"
+      },
+      "about": {
+        "@id": "https://example.com/#organization"
+      },
+      "breadcrumb": {
+        "@id": "https://example.com/en/faq/support/#breadcrumb"
+      },
+      "primaryImageOfPage": {
+        "@id": "https://example.com/#image-office-/uploads/office.jpg"
+      },
+      "mainEntity": {
+        "@id": "https://example.com/en/faq/support/#faqpage"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://example.com/en/faq/support/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://example.com/en"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Support FAQ",
+          "item": "https://example.com/en/faq/support"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://example.com/en/faq/support/#faqpage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is BRT Trading?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A networking supplier."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, 24/7 support."
+          }
+        }
+      ]
+    }
+  ]
+}

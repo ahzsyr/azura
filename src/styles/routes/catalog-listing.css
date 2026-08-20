@@ -1,0 +1,3 @@
+/* Route-specific catalog styles — shared product-card CSS lives in marketing.css */
+@import "../catalog-page.css" layer(components);
+@import "../collections-catalog.css" layer(components);

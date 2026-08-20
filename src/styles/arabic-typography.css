@@ -1,0 +1,98 @@
+/**
+ * Arabic / RTL script metrics.
+ *
+ * Latin-tuned line-heights (especially 1 / 1.1 / leading-tight) and
+ * background-clip:text clip Arabic ink — dots, hamza, and descenders.
+ * Chromium then paints the missing parts on selection, which is why the
+ * glyphs look complete only while highlighted.
+ */
+
+:is(html:lang(ar), html[lang^="ar"], html[data-locale^="ar"], html[dir="rtl"], [dir="rtl"]) {
+  --az-arabic-body-leading: 1.75;
+  --az-arabic-heading-leading: 1.5;
+  --az-arabic-ui-leading: 1.45;
+  --az-arabic-ink-pad: 0.16em;
+}
+
+:is(html:lang(ar), html[lang^="ar"], html[data-locale^="ar"], html[dir="rtl"]) {
+  line-height: var(--az-arabic-body-leading, 1.75);
+}
+
+:is(html:lang(ar), html[lang^="ar"], html[data-locale^="ar"], html[dir="rtl"], [dir="rtl"])
+  :is(h1, h2, h3, h4, h5, h6, .font-heading) {
+  line-height: var(--az-arabic-heading-leading, 1.5);
+  letter-spacing: 0;
+  padding-block: var(--az-arabic-ink-pad, 0.16em);
+}
+
+/* Beat Tailwind text-5xl/6xl (line-height: 1) and leading-* utilities. */
+:is(html:lang(ar), html[lang^="ar"], html[data-locale^="ar"], html[dir="rtl"], [dir="rtl"])
+  :is(.leading-none, .leading-tight, .leading-snug) {
+  line-height: var(--az-arabic-heading-leading, 1.5);
+}
+
+:is(html:lang(ar), html[lang^="ar"], html[data-locale^="ar"], html[dir="rtl"], [dir="rtl"])
+  :is(.tracking-tighter, .tracking-tight) {
+  letter-spacing: 0;
+}
+
+/* Nav, brand, and clipped UI labels */
+:is(html:lang(ar), html[lang^="ar"], html[data-locale^="ar"], html[dir="rtl"], [dir="rtl"])
+  :is(
+    .nav-link,
+    .brand-name,
+    .brand-logo,
+    .mnav-fs-item__label,
+    .mnav-bottom-item__label
+  ) {
+  line-height: var(--az-arabic-ui-leading, 1.45);
+  letter-spacing: 0;
+  padding-block: 0.22em;
+}
+
+:is(html:lang(ar), html[lang^="ar"], html[data-locale^="ar"], html[dir="rtl"], [dir="rtl"]) .main-nav {
+  padding-block: 0.35em;
+}
+
+:is(html:lang(ar), html[lang^="ar"], html[data-locale^="ar"], html[dir="rtl"], [dir="rtl"])
+  .mnav-bottom-item__label {
+  overflow: visible;
+}
+
+/* Catalog / product titles use Latin-tight leading and line-clamp. */
+:is(html:lang(ar), html[lang^="ar"], html[data-locale^="ar"], html[dir="rtl"], [dir="rtl"])
+  :is(
+    .catalog-hero__title,
+    .cl-hero__title,
+    .col-banner__title,
+    .prd-info__title,
+    .pl-card__title
+  ) {
+  line-height: var(--az-arabic-heading-leading, 1.5);
+  letter-spacing: 0;
+  padding-block: var(--az-arabic-ink-pad, 0.16em);
+}
+
+:is(html:lang(ar), html[lang^="ar"], html[data-locale^="ar"], html[dir="rtl"], [dir="rtl"]) .pl-card__title {
+  min-height: calc(
+    2 * var(--az-arabic-heading-leading, 1.5) *
+      var(--prd-card-title-fs, var(--az-fs-product-card-title, 0.92rem))
+  );
+}
+
+/*
+ * background-clip:text paints the fill only inside the content box.
+ * Extra padding + a taller background lets Arabic ink stay filled.
+ */
+:is(html:lang(ar), html[lang^="ar"], html[data-locale^="ar"], html[dir="rtl"], [dir="rtl"])
+  :is(
+    .text-gradient-gold,
+    .text-gradient-primary,
+    .brand-name,
+    [data-text-effect],
+    [data-text-effect-target="heading"]
+  ) {
+  padding-block: 0.2em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}

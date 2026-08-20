@@ -1,0 +1,32 @@
+- **Alfa**
+  - **Wi-Fi Devices**
+    - Wi-Fi USB Adapters
+    - Wi-Fi Routers
+    - Wi-Fi Tubes
+    - Wi-Fi Kits
+    - Wi-Fi AP / CPE
+    - Wi-Fi AP & CPE
+  - **Ethernet Devices**
+    - Switches
+    - Network Cards
+    - Embedded Routers
+    - USB adapters
+  - **Antennas**
+    - Wi-Fi Indoor
+    - Wi-Fi Outdoor
+    - 3G/4G LTE antennas
+    - 5G Antennas
+    - LoRa antennas
+  - **PoE Devices**
+    - PoE Converters
+    - PoE Splitters
+    - PoE Injectors
+  - **LTE / 5G Products**
+    - Modems
+  - **LTE + 5G Products**
+    - Modems
+  - **Accessories**
+    - USB Cables
+    - Mounts
+    - Surge Protectors
+    - Connectors
