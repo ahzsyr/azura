@@ -41,3 +41,32 @@ export function resolveEditorialMetaDisplay(input: {
       : null,
   };
 }
+
+export function editorialDisplayFromMetadata(metadata: unknown): {
+  showAuthor: boolean;
+  showPublishedAt: boolean;
+} {
+  const raw =
+    metadata && typeof metadata === "object" && !Array.isArray(metadata)
+      ? (metadata as Record<string, unknown>)
+      : {};
+  return {
+    showAuthor: parseShowFlag(raw.showAuthor),
+    showPublishedAt: parseShowFlag(raw.showPublishedAt),
+  };
+}
+
+export function withEditorialDisplayMetadata<T extends { metadata?: object }>(
+  composition: T,
+  showAuthor: boolean,
+  showPublishedAt: boolean,
+): T {
+  return {
+    ...composition,
+    metadata: {
+      ...(composition.metadata ?? {}),
+      showAuthor,
+      showPublishedAt,
+    },
+  };
+}

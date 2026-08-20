@@ -203,12 +203,8 @@ function buildInitialFormState(
     sources: parseCitationSources(
       (page as PageWithRevisions & { sources?: unknown })?.sources ?? []
     ),
-    showAuthor: parseShowFlag(
-      (page as PageWithRevisions & { showAuthor?: boolean | null })?.showAuthor,
-    ),
-    showPublishedAt: parseShowFlag(
-      (page as PageWithRevisions & { showPublishedAt?: boolean | null })?.showPublishedAt,
-    ),
+    showAuthor: parseShowFlag(composition.metadata.showAuthor),
+    showPublishedAt: parseShowFlag(composition.metadata.showPublishedAt),
   };
 }
 

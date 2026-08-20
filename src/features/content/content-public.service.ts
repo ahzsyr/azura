@@ -19,6 +19,7 @@ import type {
 } from "@/features/content/content-public.types";
 import { resolveTranslation } from "@/features/translation/translation-resolver";
 import type { EntityTranslation } from "@prisma/client";
+import { editorialDisplayFromMetadata } from "@/schemas/editorial-metadata";
 
 const PUBLISHED_WHERE: Prisma.ContentItemWhereInput = {
   deletedAt: null,
@@ -121,8 +122,6 @@ export function serializeContentItem(
     publishedAt?: Date | null;
     author?: { name: string } | null;
     sources?: unknown;
-    showAuthor?: boolean | null;
-    showPublishedAt?: boolean | null;
     contentType: { slug: string; routePrefix: string | null };
     collection: { id: string; slug: string } | null;
     media: {
@@ -194,8 +193,16 @@ export function serializeContentItem(
     sortOrder: row.sortOrder,
     publishedAt: row.publishedAt ?? null,
     authorName: row.author?.name ?? null,
-    showAuthor: row.showAuthor ?? true,
-    showPublishedAt: row.showPublishedAt ?? true,
+    showAuthor: editorialDisplayFromMetadata(
+      row.composition && typeof row.composition === "object" && !Array.isArray(row.composition)
+        ? (row.composition as { metadata?: unknown }).metadata
+        : undefined,
+    ).showAuthor,
+    showPublishedAt: editorialDisplayFromMetadata(
+      row.composition && typeof row.composition === "object" && !Array.isArray(row.composition)
+        ? (row.composition as { metadata?: unknown }).metadata
+        : undefined,
+    ).showPublishedAt,
     sources: Array.isArray(row.sources)
       ? (row.sources as { label: string; url: string }[])
       : [],

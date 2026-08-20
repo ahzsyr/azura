@@ -218,12 +218,8 @@ export function ContentEditPage({
   const [authorId, setAuthorId] = useState(
     (item as (ItemWithType & { authorId?: string | null }) | undefined)?.authorId ?? ""
   );
-  const [showAuthor, setShowAuthor] = useState(
-    parseShowFlag((item as (ItemWithType & { showAuthor?: boolean | null }) | undefined)?.showAuthor)
-  );
-  const [showPublishedAt, setShowPublishedAt] = useState(
-    parseShowFlag((item as (ItemWithType & { showPublishedAt?: boolean | null }) | undefined)?.showPublishedAt)
-  );
+  const [showAuthor, setShowAuthor] = useState(parseShowFlag(composition.metadata.showAuthor));
+  const [showPublishedAt, setShowPublishedAt] = useState(parseShowFlag(composition.metadata.showPublishedAt));
   const [sources, setSources] = useState<CitationSource[]>(() =>
     parseCitationSources(
       Array.isArray((item as (ItemWithType & { sources?: unknown }) | undefined)?.sources)

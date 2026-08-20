@@ -24,7 +24,7 @@ import { hasRenderableCompositionBlocks } from "@/features/layout-engine/composi
 import { LayoutRenderer } from "@/features/layout-engine/components/layout-renderer";
 import { EditorialMetaBar } from "@/components/marketing/editorial-meta-bar";
 import { CitationSourcesList } from "@/components/marketing/citation-sources-list";
-import { resolveEditorialMetaDisplay } from "@/schemas/editorial-metadata";
+import { resolveEditorialMetaDisplay, editorialDisplayFromMetadata } from "@/schemas/editorial-metadata";
 
 type Props = {
   locale: string;
@@ -107,11 +107,12 @@ export async function ContentItemPageRenderer({ locale, contentType, item, path 
     locale,
     { enabledLocales }
   ) || item.title;
+  const editorialFlags = editorialDisplayFromMetadata(composition.metadata);
   const editorialDisplay = resolveEditorialMetaDisplay({
     author: item.authorName,
     publishedAt: item.publishedAt,
-    showAuthor: item.showAuthor,
-    showPublishedAt: item.showPublishedAt,
+    showAuthor: editorialFlags.showAuthor,
+    showPublishedAt: editorialFlags.showPublishedAt,
   });
 
   return (

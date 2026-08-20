@@ -6,7 +6,7 @@ import { requireAdmin } from "@/features/auth/guards";
 import { cmsRepository } from "@/repositories/cms.repository";
 import { postSchema, postCategorySchema, postTagSchema, postAuthorSchema } from "@/schemas/cms";
 import { parsePostFeaturedImageSettings } from "@/schemas/featured-image-settings";
-import { parseCitationSources, parseShowFlag } from "@/schemas/editorial-metadata";
+import { parseCitationSources, parseShowFlag, withEditorialDisplayMetadata, editorialDisplayFromMetadata } from "@/schemas/editorial-metadata";
 import { searchIndexer } from "@/capabilities/search/search-indexer.service";
 import { revalidateCmsPage, revalidatePost, revalidateMarketingHome } from "@/services/cache";
 import { revalidateCmsPagePublicPaths } from "@/features/cms/revalidate-wired-marketing";
@@ -137,7 +137,11 @@ async function upsertCmsPageCore(
         blocks,
       }),
     );
-    const persistedComposition = compositionService.save(composition);
+    const showAuthor = parseShowFlag(formData.get("showAuthor"));
+    const showPublishedAt = parseShowFlag(formData.get("showPublishedAt"));
+    const persistedComposition = compositionService.save(
+      withEditorialDisplayMetadata(composition, showAuthor, showPublishedAt),
+    );
 
 
     const scheduledAt = parseScheduledAt(formData.get("scheduledAt"));
@@ -163,8 +167,6 @@ async function upsertCmsPageCore(
     const pageAuthorId = (formData.get("authorId") as string | null) || null;
     const pageSourcesRaw = formData.get("sources") as string | null;
     const pageSources = parseCitationSources(pageSourcesRaw ? JSON.parse(pageSourcesRaw) : []);
-    const showAuthor = parseShowFlag(formData.get("showAuthor"));
-    const showPublishedAt = parseShowFlag(formData.get("showPublishedAt"));
     const sharedPageData = {
       slug: parsed.slug,
       status,
@@ -175,8 +177,6 @@ async function upsertCmsPageCore(
       publishedAt:
         status === "PUBLISHED" ? new Date() : status === "DRAFT" ? null : undefined,
       sources: pageSources as Prisma.InputJsonValue,
-      showAuthor,
-      showPublishedAt,
     };
 
     let page: CmsPage;
@@ -460,14 +460,20 @@ export async function patchPostFromEditor(input: PatchPostEditorInput): Promise<
 
   const post = await cmsRepository.getPostById(input.postId);
   if (!post) throw new Error("Post not found");
+  const postDisplay = editorialDisplayFromMetadata(
+    compositionService.load({
+      composition: "composition" in post ? (post as { composition?: unknown }).composition : undefined,
+      blocks: post.blocks,
+    }).metadata,
+  );
 
   const merged = applyPatch(
     {
       slug: post.slug,
       status: post.status,
       authorId: post.authorId,
-      showAuthor: post.showAuthor,
-      showPublishedAt: post.showPublishedAt,
+      showAuthor: postDisplay.showAuthor,
+      showPublishedAt: postDisplay.showPublishedAt,
       featuredImageId: post.featuredImageId,
       featuredImageSettings: post.featuredImageSettings,
       scheduledAt: post.scheduledAt?.toISOString() ?? "",
@@ -597,8 +603,6 @@ export async function duplicateCmsPage(id: string) {
         ? (source as CmsPage & { composition?: Prisma.InputJsonValue }).composition
         : undefined) ?? {},
     author: source.authorId ? { connect: { id: source.authorId } } : undefined,
-    showAuthor: source.showAuthor,
-    showPublishedAt: source.showPublishedAt,
   });
   await cmsRepository.saveRevision(
     page.id,
@@ -674,7 +678,11 @@ async function upsertPostCore(formData: FormData, clientNavigation: boolean): Pr
       blocks: validatedPrimaryBlocks,
     }),
   );
-  const persistedComposition = compositionService.save(composition);
+  const showAuthor = parseShowFlag(formData.get("showAuthor"));
+  const showPublishedAt = parseShowFlag(formData.get("showPublishedAt"));
+  const persistedComposition = compositionService.save(
+    withEditorialDisplayMetadata(composition, showAuthor, showPublishedAt),
+  );
   const blocks = persistedComposition.blocks as PageBlocks;
   const scheduledAt = parseScheduledAt(formData.get("scheduledAt"));
   const enabledLocales = await localeService.listEnabled();
@@ -716,8 +724,6 @@ async function upsertPostCore(formData: FormData, clientNavigation: boolean): Pr
   const status = parseStatus(parsed.status);
   const postSourcesRaw = formData.get("sources") as string | null;
   const postSources = parseCitationSources(postSourcesRaw ? JSON.parse(postSourcesRaw) : []);
-  const showAuthor = parseShowFlag(formData.get("showAuthor"));
-  const showPublishedAt = parseShowFlag(formData.get("showPublishedAt"));
 
   const shared = {
     slug: parsed.slug,
@@ -729,8 +735,6 @@ async function upsertPostCore(formData: FormData, clientNavigation: boolean): Pr
     featuredImageSettings,
     publishedAt: status === "PUBLISHED" ? new Date() : status === "DRAFT" ? null : undefined,
     sources: postSources as Prisma.InputJsonValue,
-    showAuthor,
-    showPublishedAt,
   };
 
   let post;
@@ -750,8 +754,6 @@ async function upsertPostCore(formData: FormData, clientNavigation: boolean): Pr
         slug: true,
         status: true,
         authorId: true,
-        showAuthor: true,
-        showPublishedAt: true,
         featuredImageId: true,
         featuredImageSettings: true,
         scheduledAt: true,
@@ -767,8 +769,8 @@ async function upsertPostCore(formData: FormData, clientNavigation: boolean): Pr
         slug: existing.slug,
         status: existing.status,
         authorId: existing.authorId,
-        showAuthor: existing.showAuthor,
-        showPublishedAt: existing.showPublishedAt,
+        showAuthor,
+        showPublishedAt,
         featuredImageId: existing.featuredImageId,
         featuredImageSettings: existing.featuredImageSettings,
         scheduledAt: existing.scheduledAt?.toISOString() ?? "",
@@ -1045,8 +1047,6 @@ export async function duplicatePost(id: string) {
     featuredImageSettings: source.featuredImageSettings as Prisma.InputJsonValue,
     featuredImage: source.featuredImageId ? { connect: { id: source.featuredImageId } } : undefined,
     author: source.authorId ? { connect: { id: source.authorId } } : undefined,
-    showAuthor: source.showAuthor,
-    showPublishedAt: source.showPublishedAt,
     categories: {
       create: source.categories.map((c) => ({ categoryId: c.categoryId })),
     },

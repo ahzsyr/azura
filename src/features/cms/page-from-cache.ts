@@ -23,8 +23,6 @@ export function publicViewFromPageCache(cached: CachedPagePayload): CmsPagePubli
     authorId: null,
     author: null,
     sources: [],
-    showAuthor: true,
-    showPublishedAt: true,
     createdAt: updatedAt,
     updatedAt,
     seoMeta: null,

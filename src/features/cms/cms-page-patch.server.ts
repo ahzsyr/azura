@@ -40,6 +40,7 @@ import { enqueueSearchIndexJob } from "@/features/save-pipeline/search-index-job
 import { isAsyncSearchIndexingEnabled } from "@/features/save-pipeline/feature-flags";
 import { compareExecutionPlans } from "@/features/save-pipeline/plan-comparison";
 import { compositionService } from "@/features/layout-engine/composition.service";
+import { editorialDisplayFromMetadata, withEditorialDisplayMetadata } from "@/schemas/editorial-metadata";
 export type CmsPagePatchInput = {
   pageId: string;
   changes: Record<string, unknown>;
@@ -57,22 +58,24 @@ export type CmsPagePatchResult =
   | { ok: false; error: string };
 
 function buildExistingState(page: CmsPage): PageEditorFormState {
+  const composition = compositionService.load({
+    composition: "composition" in page ? (page as CmsPage & { composition?: unknown }).composition : undefined,
+    blocks: (page.blocks as PageBlocks) ?? [],
+  });
+  const editorial = editorialDisplayFromMetadata(composition.metadata);
   return {
     slug: page.slug,
     status: page.status,
     templateKey: page.templateKey ?? "",
     scheduledAt: page.scheduledAt?.toISOString() ?? "",
     revisionMessage: "",
-    composition: compositionService.load({
-      composition: "composition" in page ? (page as CmsPage & { composition?: unknown }).composition : undefined,
-      blocks: (page.blocks as PageBlocks) ?? [],
-    }),
+    composition,
     visualSettings: (page.visualSettings as PageVisualSettings) ?? {},
     localeFields: { title: {}, excerpt: {} },
     authorId: page.authorId ?? "",
     sources: "sources" in page ? page.sources : [],
-    showAuthor: page.showAuthor ?? true,
-    showPublishedAt: page.showPublishedAt ?? true,
+    showAuthor: editorial.showAuthor,
+    showPublishedAt: editorial.showPublishedAt,
   };
 }
 
@@ -170,12 +173,22 @@ export async function patchCmsPageRecord(
 
   const { builderService } = await import("@/features/builder/builder.service");
   const blocks = builderService.validateBlocks(merged.composition.regions.primary);
-  const persistedComposition = compositionService.save(merged.composition);
+  const compositionToPersist = withEditorialDisplayMetadata(
+    merged.composition,
+    merged.showAuthor ?? true,
+    merged.showPublishedAt ?? true,
+  );
+  const persistedComposition = compositionService.save(compositionToPersist);
 
   const data: Prisma.CmsPageUpdateInput = {};
   if (pathChanged(appliedPaths, "slug")) data.slug = merged.slug;
   if (pathChanged(appliedPaths, "status") || statusOverride) data.status = status;
-  if (pathChanged(appliedPaths, "composition") || pathChanged(appliedPaths, "blocks")) {
+  if (
+    pathChanged(appliedPaths, "composition") ||
+    pathChanged(appliedPaths, "blocks") ||
+    pathChanged(appliedPaths, "showAuthor") ||
+    pathChanged(appliedPaths, "showPublishedAt")
+  ) {
     data.blocks = persistedComposition.blocks;
     data.composition = persistedComposition.composition;
   }
@@ -187,12 +200,6 @@ export async function patchCmsPageRecord(
   }
   if (pathChanged(appliedPaths, "sources")) {
     data.sources = (merged.sources ?? []) as Prisma.InputJsonValue;
-  }
-  if (pathChanged(appliedPaths, "showAuthor")) {
-    data.showAuthor = merged.showAuthor ?? true;
-  }
-  if (pathChanged(appliedPaths, "showPublishedAt")) {
-    data.showPublishedAt = merged.showPublishedAt ?? true;
   }
   if (pathChanged(appliedPaths, "scheduledAt") || statusOverride) {
     data.scheduledAt = statusOverride === "PUBLISHED" ? null : merged.scheduledAt ? new Date(merged.scheduledAt) : null;

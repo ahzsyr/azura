@@ -45,6 +45,15 @@ describe("compositionService.load legacy upgrade", () => {
     assert.equal(loaded.layout.stickyScroll, "document");
   });
 
+  it("preserves editorial display flags in composition metadata", () => {
+    const source = compositionService.createEmpty();
+    source.metadata = { showAuthor: false, showPublishedAt: true };
+    const saved = compositionService.save(source);
+    const loaded = compositionService.load({ composition: saved.composition });
+    assert.equal(loaded.metadata.showAuthor, false);
+    assert.equal(loaded.metadata.showPublishedAt, true);
+  });
+
   it("upgrades legacy blocks array into primary region", () => {
     const loaded = compositionService.load({
       blocks: [{ id: "legacy", type: "richText", props: {}, children: [] }],

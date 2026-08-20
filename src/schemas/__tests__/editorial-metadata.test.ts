@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   parseShowFlag,
   resolveEditorialMetaDisplay,
+  editorialDisplayFromMetadata,
 } from "@/schemas/editorial-metadata";
 
 describe("parseShowFlag", () => {
@@ -52,5 +53,18 @@ describe("resolveEditorialMetaDisplay", () => {
       }),
       { author: "Ada", publishedAt: null },
     );
+  });
+});
+
+describe("editorialDisplayFromMetadata", () => {
+  it("reads display flags from composition metadata", () => {
+    assert.deepEqual(editorialDisplayFromMetadata({ showAuthor: false, showPublishedAt: true }), {
+      showAuthor: false,
+      showPublishedAt: true,
+    });
+    assert.deepEqual(editorialDisplayFromMetadata(undefined), {
+      showAuthor: true,
+      showPublishedAt: true,
+    });
   });
 });

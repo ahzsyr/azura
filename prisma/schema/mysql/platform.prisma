@@ -195,8 +195,6 @@ model CmsPage {
   authorId    String?
   author      PostAuthor?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
   sources     Json          @default("[]")
-  showAuthor       Boolean @default(true)
-  showPublishedAt  Boolean @default(true)
   revisions   CmsPageRevision[]
   seoMeta     SeoMeta?
   createdAt   DateTime      @default(now())
@@ -267,8 +265,6 @@ model Post {
   publishedAt     DateTime?
   scheduledAt     DateTime?
   sources         Json          @default("[]")
-  showAuthor       Boolean @default(true)
-  showPublishedAt  Boolean @default(true)
   categories      PostCategoryOnPost[]
   tags            PostTagOnPost[]
   relatedPostIds  Json             @default("[]")

@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 import { loadSiteBrandContext } from "@/lib/load-site-brand-context";
 import { FeaturedPostImage } from "@/features/cms/components/featured-post-image";
 import { EditorialMetaBar } from "@/components/marketing/editorial-meta-bar";
-import { resolveEditorialMetaDisplay } from "@/schemas/editorial-metadata";
+import { resolveEditorialMetaDisplay, editorialDisplayFromMetadata } from "@/schemas/editorial-metadata";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -127,11 +127,14 @@ export default async function BlogListingPage({ params, searchParams }: Props) {
           const postTitle = getLocalizedField(post, "title", locale, postFieldOpts);
           const featuredImageAlt =
             getLocalizedField(post, "featuredImageAlt", locale, postFieldOpts) || postTitle;
+          const editorialFlags = editorialDisplayFromMetadata(
+            "composition" in post ? (post as { composition?: { metadata?: unknown } }).composition?.metadata : undefined,
+          );
           const editorialDisplay = resolveEditorialMetaDisplay({
             author: post.author?.name,
             publishedAt: post.publishedAt,
-            showAuthor: post.showAuthor,
-            showPublishedAt: post.showPublishedAt,
+            showAuthor: editorialFlags.showAuthor,
+            showPublishedAt: editorialFlags.showPublishedAt,
           });
           return (
           <article

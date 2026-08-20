@@ -141,6 +141,15 @@ function coerceLayoutSettings(raw: unknown): LayoutSettings {
   };
 }
 
+function coerceMetadata(raw: unknown): Composition["metadata"] {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+  const input = raw as Record<string, unknown>;
+  const metadata: Composition["metadata"] = {};
+  if (typeof input.showAuthor === "boolean") metadata.showAuthor = input.showAuthor;
+  if (typeof input.showPublishedAt === "boolean") metadata.showPublishedAt = input.showPublishedAt;
+  return metadata;
+}
+
 function isCompositionLike(raw: unknown): raw is Composition {
   return Boolean(raw && typeof raw === "object" && !Array.isArray(raw) && "layout" in raw && "regions" in raw);
 }
@@ -177,10 +186,7 @@ class CompositionServiceImpl {
     composition.layout = coerceLayoutSettings(input.layout);
     composition.regions = mergeRegionRecords(createEmptyRegionRecord(), input.regions);
     composition.hiddenRegions = mergeRegionRecords(createEmptyRegionRecord(), input.hiddenRegions);
-    composition.metadata =
-      input.metadata && typeof input.metadata === "object" && !Array.isArray(input.metadata)
-        ? {}
-        : {};
+    composition.metadata = coerceMetadata(input.metadata);
     return composition;
   }
 
@@ -193,7 +199,7 @@ class CompositionServiceImpl {
     };
     next.regions = mergeRegionRecords(createEmptyRegionRecord(), input.regions);
     next.hiddenRegions = mergeRegionRecords(createEmptyRegionRecord(), input.hiddenRegions);
-    next.metadata = {};
+    next.metadata = coerceMetadata(input.metadata);
     return next;
   }
 

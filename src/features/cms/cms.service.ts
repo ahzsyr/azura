@@ -149,8 +149,6 @@ export const cmsService = {
       authorId: null,
       author: null,
       sources: [],
-      showAuthor: true,
-      showPublishedAt: true,
       createdAt: new Date(),
       updatedAt: new Date(),
       visualSettings: {},
