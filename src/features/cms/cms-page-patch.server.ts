@@ -69,6 +69,10 @@ function buildExistingState(page: CmsPage): PageEditorFormState {
     }),
     visualSettings: (page.visualSettings as PageVisualSettings) ?? {},
     localeFields: { title: {}, excerpt: {} },
+    authorId: page.authorId ?? "",
+    sources: "sources" in page ? page.sources : [],
+    showAuthor: page.showAuthor ?? true,
+    showPublishedAt: page.showPublishedAt ?? true,
   };
 }
 
@@ -177,6 +181,18 @@ export async function patchCmsPageRecord(
   }
   if (pathChanged(appliedPaths, "visualSettings")) {
     data.visualSettings = merged.visualSettings as Prisma.InputJsonValue;
+  }
+  if (pathChanged(appliedPaths, "authorId")) {
+    data.author = merged.authorId ? { connect: { id: merged.authorId } } : { disconnect: true };
+  }
+  if (pathChanged(appliedPaths, "sources")) {
+    data.sources = (merged.sources ?? []) as Prisma.InputJsonValue;
+  }
+  if (pathChanged(appliedPaths, "showAuthor")) {
+    data.showAuthor = merged.showAuthor ?? true;
+  }
+  if (pathChanged(appliedPaths, "showPublishedAt")) {
+    data.showPublishedAt = merged.showPublishedAt ?? true;
   }
   if (pathChanged(appliedPaths, "scheduledAt") || statusOverride) {
     data.scheduledAt = statusOverride === "PUBLISHED" ? null : merged.scheduledAt ? new Date(merged.scheduledAt) : null;

@@ -60,6 +60,8 @@ model ContentItem {
   authorId         String?                 @db.VarChar(36)
   author           PostAuthor?             @relation(fields: [authorId], references: [id], onDelete: SetNull)
   sources          Json                    @default("[]")
+  showAuthor       Boolean                 @default(true)
+  showPublishedAt  Boolean                 @default(true)
   media            ContentItemMedia[]
   collectionLinks  ContentCollectionItem[]
   revisions        ContentItemRevision[]

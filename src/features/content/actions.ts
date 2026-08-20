@@ -38,7 +38,7 @@ import {
   withSavePipelineStep,
 } from "@/features/save-pipeline/metrics";
 import { compositionService } from "@/features/layout-engine/composition.service";
-import { parseCitationSources } from "@/schemas/editorial-metadata";
+import { parseCitationSources, parseShowFlag } from "@/schemas/editorial-metadata";
 import {
   buildContentItemLocaleFields,
   CONTENT_ITEM_CORE_LOCALE_FIELDS,
@@ -178,6 +178,8 @@ async function upsertContentItemCore(
     const contentAuthorId = formString(formData.get("authorId")) || null;
     const contentSourcesRaw = formData.get("sources") as string | null;
     const contentSources = parseCitationSources(contentSourcesRaw ? JSON.parse(contentSourcesRaw) : []);
+    const showAuthor = parseShowFlag(formData.get("showAuthor"));
+    const showPublishedAt = parseShowFlag(formData.get("showPublishedAt"));
     const submittedLocaleFields = readContentItemLocaleFieldsFromForm(
       formData,
       enabledLocales,
@@ -198,6 +200,8 @@ async function upsertContentItemCore(
       scheduledAt: parsed.scheduledAt ? new Date(parsed.scheduledAt) : null,
       authorId: contentAuthorId,
       sources: contentSources,
+      showAuthor,
+      showPublishedAt,
       localeFields: submittedLocaleFields,
     };
 
@@ -243,6 +247,10 @@ async function upsertContentItemCore(
             isFeatured: true,
             isVisible: true,
             sortOrder: true,
+            authorId: true,
+            sources: true,
+            showAuthor: true,
+            showPublishedAt: true,
           },
         }),
         prisma.entityTranslation.findMany({
@@ -276,6 +284,10 @@ async function upsertContentItemCore(
             isFeatured: existing.isFeatured,
             isVisible: existing.isVisible,
             sortOrder: existing.sortOrder,
+            authorId: existing.authorId,
+            sources: existing.sources,
+            showAuthor: existing.showAuthor,
+            showPublishedAt: existing.showPublishedAt,
             localeFields: buildContentItemLocaleFields(
               existingTranslations,
               enabledLocales,
@@ -341,6 +353,8 @@ async function upsertContentItemCore(
       if (changed("status")) data.publishedAt = submittedState.status === "PUBLISHED" ? new Date() : undefined;
       data.authorId = submittedState.authorId;
       data.sources = submittedState.sources as object;
+      if (changed("showAuthor")) data.showAuthor = submittedState.showAuthor;
+      if (changed("showPublishedAt")) data.showPublishedAt = submittedState.showPublishedAt;
 
       item =
         Object.keys(data).length > 0
@@ -372,6 +386,8 @@ async function upsertContentItemCore(
             publishedAt: submittedState.status === "PUBLISHED" ? new Date() : undefined,
             authorId: submittedState.authorId,
             sources: submittedState.sources as object,
+            showAuthor: submittedState.showAuthor,
+            showPublishedAt: submittedState.showPublishedAt,
           },
           include,
         }),
@@ -579,6 +595,9 @@ export async function duplicateContentItem(id: string) {
       isVisible: false,
       sortOrder: source.sortOrder + 1,
       featuredImageUrl: source.featuredImageUrl,
+      authorId: source.authorId,
+      showAuthor: source.showAuthor,
+      showPublishedAt: source.showPublishedAt,
     },
   });
 

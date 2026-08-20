@@ -14,3 +14,30 @@ export function parseCitationSources(raw: unknown): CitationSource[] {
   const result = citationSourcesSchema.safeParse(raw);
   return result.success ? result.data : [];
 }
+
+/** Default: show author and publish date when a page/post has not opted out. */
+export const DEFAULT_SHOW_AUTHOR = true;
+export const DEFAULT_SHOW_PUBLISHED_AT = true;
+
+export function parseShowFlag(raw: unknown, fallback = true): boolean {
+  if (typeof raw === "boolean") return raw;
+  if (raw == null || raw === "") return fallback;
+  const s = String(raw).trim().toLowerCase();
+  if (s === "true" || s === "1" || s === "on" || s === "yes") return true;
+  if (s === "false" || s === "0" || s === "off" || s === "no") return false;
+  return fallback;
+}
+
+export function resolveEditorialMetaDisplay(input: {
+  author?: string | null;
+  publishedAt?: Date | string | null;
+  showAuthor?: boolean | null;
+  showPublishedAt?: boolean | null;
+}): { author: string | null; publishedAt: Date | string | null } {
+  return {
+    author: (input.showAuthor ?? DEFAULT_SHOW_AUTHOR) ? (input.author ?? null) : null,
+    publishedAt: (input.showPublishedAt ?? DEFAULT_SHOW_PUBLISHED_AT)
+      ? (input.publishedAt ?? null)
+      : null,
+  };
+}

@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { loadSiteBrandContext } from "@/lib/load-site-brand-context";
 import { FeaturedPostImage } from "@/features/cms/components/featured-post-image";
 import { EditorialMetaBar } from "@/components/marketing/editorial-meta-bar";
+import { resolveEditorialMetaDisplay } from "@/schemas/editorial-metadata";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -126,6 +127,12 @@ export default async function BlogListingPage({ params, searchParams }: Props) {
           const postTitle = getLocalizedField(post, "title", locale, postFieldOpts);
           const featuredImageAlt =
             getLocalizedField(post, "featuredImageAlt", locale, postFieldOpts) || postTitle;
+          const editorialDisplay = resolveEditorialMetaDisplay({
+            author: post.author?.name,
+            publishedAt: post.publishedAt,
+            showAuthor: post.showAuthor,
+            showPublishedAt: post.showPublishedAt,
+          });
           return (
           <article
             key={post.id}
@@ -174,8 +181,8 @@ export default async function BlogListingPage({ params, searchParams }: Props) {
                   {getLocalizedField(post, "excerpt", locale, fieldOpts)}
                 </p>
                 <EditorialMetaBar
-                  author={post.author?.name}
-                  publishedAt={post.publishedAt}
+                  author={editorialDisplay.author}
+                  publishedAt={editorialDisplay.publishedAt}
                   locale={locale}
                   className="mt-3 text-xs"
                 />

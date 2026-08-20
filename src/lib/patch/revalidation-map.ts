@@ -34,7 +34,18 @@ const PRODUCT_LISTING_PATHS = [
 const PRODUCT_COLLECTION_PATHS = ["categories", "category", "categoryIds", "tags", "collectionSlugs"];
 
 const CMS_SEARCH_PATHS = ["title", "excerpt", "content", "blocks", "slug", "localeFields"];
-const CMS_PUBLIC_PATHS = ["slug", "blocks", "visualSettings", "title", "templateKey", "localeFields"];
+const CMS_PUBLIC_PATHS = [
+  "slug",
+  "blocks",
+  "visualSettings",
+  "title",
+  "templateKey",
+  "localeFields",
+  "authorId",
+  "sources",
+  "showAuthor",
+  "showPublishedAt",
+];
 const CMS_TRANSLATION_PATHS = ["localeFields", "slug"];
 const CMS_REVISION_PATHS = ["slug", "blocks", "visualSettings", "templateKey", "localeFields"];
 
@@ -59,6 +70,8 @@ const POST_PUBLIC_PATHS = [
   "categoryIds",
   "tagIds",
   "relatedPostIds",
+  "showAuthor",
+  "showPublishedAt",
 ];
 const POST_TRANSLATION_PATHS = ["localeFields", "slug"];
 const POST_REVISION_PATHS = ["slug", "blocks", "localeFields", "featuredImageId", "featuredImageSettings"];
@@ -74,6 +87,10 @@ const CONTENT_PUBLIC_PATHS = [
   "isVisible",
   "sortOrder",
   "localeFields",
+  "authorId",
+  "sources",
+  "showAuthor",
+  "showPublishedAt",
 ];
 const CONTENT_TRANSLATION_PATHS = ["localeFields", "attributes", "slug", "blocks"];
 const CONTENT_REVISION_PATHS = ["slug", "attributes", "blocks", "displaySettings"];

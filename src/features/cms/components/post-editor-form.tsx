@@ -47,8 +47,9 @@ import { TaxonomySelect } from "./taxonomy-select";
 import { RelatedPostsSelect } from "./related-posts-select";
 import { CmsStatusBadge } from "./cms-status-badge";
 import { CitationSourcesField } from "./citation-sources-field";
+import { EditorialDisplayFields } from "./editorial-display-fields";
 import type { CitationSource } from "@/schemas/editorial-metadata";
-import { parseCitationSources } from "@/schemas/editorial-metadata";
+import { parseCitationSources, parseShowFlag } from "@/schemas/editorial-metadata";
 import { AdminFormProvider, AdminPageHeader } from "@/components/admin/layout/admin-shell";
 import { AdminSettingsLayout } from "@/components/admin/layout/admin-settings-layout";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
@@ -143,6 +144,10 @@ function PostTabPanel({
   setStatus,
   authorId,
   setAuthorId,
+  showAuthor,
+  setShowAuthor,
+  showPublishedAt,
+  setShowPublishedAt,
   scheduledAt,
   setScheduledAt,
   selectedBlockId,
@@ -199,6 +204,10 @@ function PostTabPanel({
   setStatus: (value: ContentStatus) => void;
   authorId: string;
   setAuthorId: (value: string) => void;
+  showAuthor: boolean;
+  setShowAuthor: (value: boolean) => void;
+  showPublishedAt: boolean;
+  setShowPublishedAt: (value: boolean) => void;
   scheduledAt: string;
   setScheduledAt: (value: string) => void;
   selectedBlockId: string | null;
@@ -335,6 +344,18 @@ function PostTabPanel({
                     />
                   </div>
                 </div>
+                <EditorialDisplayFields
+                  showAuthor={showAuthor}
+                  showPublishedAt={showPublishedAt}
+                  onShowAuthorChange={(value) => {
+                    setShowAuthor(value);
+                    markDirty();
+                  }}
+                  onShowPublishedAtChange={(value) => {
+                    setShowPublishedAt(value);
+                    markDirty();
+                  }}
+                />
                 <AdminLocalizedFormField
                   fieldKey="title"
                   label="Title"
@@ -654,6 +675,8 @@ export function PostEditorForm({
   const [slug, setSlug] = useState(post?.slug ?? "");
   const [status, setStatus] = useState<ContentStatus>(post?.status ?? "DRAFT");
   const [authorId, setAuthorId] = useState(post?.authorId ?? "");
+  const [showAuthor, setShowAuthor] = useState(parseShowFlag(post?.showAuthor));
+  const [showPublishedAt, setShowPublishedAt] = useState(parseShowFlag(post?.showPublishedAt));
   const [scheduledAt, setScheduledAt] = useState(formatScheduledInput(post?.scheduledAt));
   const [sources, setSources] = useState<CitationSource[]>(() =>
     parseCitationSources(Array.isArray(post?.sources) ? post.sources : [])
@@ -847,6 +870,8 @@ export function PostEditorForm({
     setSlug(post.slug);
     setStatus(post.status);
     setAuthorId(post.authorId ?? "");
+    setShowAuthor(parseShowFlag(post.showAuthor));
+    setShowPublishedAt(parseShowFlag(post.showPublishedAt));
     setScheduledAt(formatScheduledInput(post.scheduledAt));
     setSources(parseCitationSources(Array.isArray(post?.sources) ? post.sources : []));
 
@@ -883,6 +908,10 @@ export function PostEditorForm({
     setStatus,
     authorId,
     setAuthorId,
+    showAuthor,
+    setShowAuthor,
+    showPublishedAt,
+    setShowPublishedAt,
     scheduledAt,
     setScheduledAt,
     selectedBlockId,
@@ -988,6 +1017,8 @@ export function PostEditorForm({
         <input type="hidden" name="slug" value={slug} readOnly />
         <input type="hidden" name="status" value={status} readOnly />
         <input type="hidden" name="authorId" value={authorId} readOnly />
+        <input type="hidden" name="showAuthor" value={String(showAuthor)} readOnly />
+        <input type="hidden" name="showPublishedAt" value={String(showPublishedAt)} readOnly />
         <input type="hidden" name="scheduledAt" value={scheduledAt} readOnly />
         <input type="hidden" name="sources" value={JSON.stringify(sources)} readOnly />
         <input type="hidden" name="editorTab" value={displayActiveTab} readOnly />

@@ -121,6 +121,8 @@ export function serializeContentItem(
     publishedAt?: Date | null;
     author?: { name: string } | null;
     sources?: unknown;
+    showAuthor?: boolean | null;
+    showPublishedAt?: boolean | null;
     contentType: { slug: string; routePrefix: string | null };
     collection: { id: string; slug: string } | null;
     media: {
@@ -192,6 +194,8 @@ export function serializeContentItem(
     sortOrder: row.sortOrder,
     publishedAt: row.publishedAt ?? null,
     authorName: row.author?.name ?? null,
+    showAuthor: row.showAuthor ?? true,
+    showPublishedAt: row.showPublishedAt ?? true,
     sources: Array.isArray(row.sources)
       ? (row.sources as { label: string; url: string }[])
       : [],

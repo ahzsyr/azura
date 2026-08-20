@@ -47,8 +47,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CmsStatusBadge } from "./cms-status-badge";
 import { CitationSourcesField } from "./citation-sources-field";
+import { EditorialDisplayFields } from "./editorial-display-fields";
 import type { CitationSource } from "@/schemas/editorial-metadata";
-import { parseCitationSources } from "@/schemas/editorial-metadata";
+import { parseCitationSources, parseShowFlag } from "@/schemas/editorial-metadata";
 import type { BlockNode, PageBlocks } from "@/types/builder";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
@@ -125,6 +126,8 @@ type PageFormState = {
   visualSettings: PageVisualSettings;
   authorId: string;
   sources: CitationSource[];
+  showAuthor: boolean;
+  showPublishedAt: boolean;
 };
 
 function getLocalizedInputName(fieldKey: string, localeCode: string): string {
@@ -199,6 +202,12 @@ function buildInitialFormState(
     authorId: (page as PageWithRevisions & { authorId?: string | null })?.authorId ?? "",
     sources: parseCitationSources(
       (page as PageWithRevisions & { sources?: unknown })?.sources ?? []
+    ),
+    showAuthor: parseShowFlag(
+      (page as PageWithRevisions & { showAuthor?: boolean | null })?.showAuthor,
+    ),
+    showPublishedAt: parseShowFlag(
+      (page as PageWithRevisions & { showPublishedAt?: boolean | null })?.showPublishedAt,
     ),
   };
 }
@@ -487,6 +496,12 @@ function PageEditorFields({
                       </select>
                     </div>
                   )}
+                  <EditorialDisplayFields
+                    showAuthor={formState.showAuthor}
+                    showPublishedAt={formState.showPublishedAt}
+                    onShowAuthorChange={(showAuthor) => patch({ showAuthor })}
+                    onShowPublishedAtChange={(showPublishedAt) => patch({ showPublishedAt })}
+                  />
                   <div className="md:col-span-2">
                     <CitationSourcesField
                       value={formState.sources}
@@ -1040,6 +1055,8 @@ export function PageEditorForm({
         <input type="hidden" name="scheduledAt" value={formState.scheduledAt} readOnly />
         <input type="hidden" name="authorId" value={formState.authorId} readOnly />
         <input type="hidden" name="sources" value={JSON.stringify(formState.sources)} readOnly />
+        <input type="hidden" name="showAuthor" value={String(formState.showAuthor)} readOnly />
+        <input type="hidden" name="showPublishedAt" value={String(formState.showPublishedAt)} readOnly />
         <input type="hidden" name="blocks" value={JSON.stringify(formState.composition.regions.primary)} readOnly />
         <input type="hidden" name="composition" value={JSON.stringify(formState.composition)} readOnly />
         <input

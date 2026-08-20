@@ -77,8 +77,9 @@ import type { BrandBuilderOption } from "@/features/builder/blocks/commerce/comm
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CitationSourcesField } from "@/features/cms/components/citation-sources-field";
+import { EditorialDisplayFields } from "@/features/cms/components/editorial-display-fields";
 import type { CitationSource } from "@/schemas/editorial-metadata";
-import { parseCitationSources } from "@/schemas/editorial-metadata";
+import { parseCitationSources, parseShowFlag } from "@/schemas/editorial-metadata";
 import type { PostAuthor } from "@prisma/client";
 import {
   Card,
@@ -216,6 +217,12 @@ export function ContentEditPage({
   const [revisionMessage, setRevisionMessage] = useState("");
   const [authorId, setAuthorId] = useState(
     (item as (ItemWithType & { authorId?: string | null }) | undefined)?.authorId ?? ""
+  );
+  const [showAuthor, setShowAuthor] = useState(
+    parseShowFlag((item as (ItemWithType & { showAuthor?: boolean | null }) | undefined)?.showAuthor)
+  );
+  const [showPublishedAt, setShowPublishedAt] = useState(
+    parseShowFlag((item as (ItemWithType & { showPublishedAt?: boolean | null }) | undefined)?.showPublishedAt)
   );
   const [sources, setSources] = useState<CitationSource[]>(() =>
     parseCitationSources(
@@ -790,6 +797,12 @@ export function ContentEditPage({
                   </select>
                 </div>
               )}
+              <EditorialDisplayFields
+                showAuthor={showAuthor}
+                showPublishedAt={showPublishedAt}
+                onShowAuthorChange={setShowAuthor}
+                onShowPublishedAtChange={setShowPublishedAt}
+              />
               <label className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"
@@ -904,6 +917,8 @@ export function ContentEditPage({
       <input type="hidden" name="selectedBlockId" value={selectedBlockId ?? ""} readOnly />
       <input type="hidden" name="editorInspector" value={inspectorTab} readOnly />
       <input type="hidden" name="authorId" value={authorId} readOnly />
+      <input type="hidden" name="showAuthor" value={String(showAuthor)} readOnly />
+      <input type="hidden" name="showPublishedAt" value={String(showPublishedAt)} readOnly />
       <input type="hidden" name="sources" value={JSON.stringify(sources)} readOnly />
       {displayActiveTab === "history" ? (
         <input type="hidden" name="revisionMessage" value={revisionMessage} readOnly />

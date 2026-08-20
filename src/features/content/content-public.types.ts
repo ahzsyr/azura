@@ -59,6 +59,8 @@ export type ContentItemView = {
   sortOrder: number;
   publishedAt: Date | null;
   authorName: string | null;
+  showAuthor: boolean;
+  showPublishedAt: boolean;
   sources: { label: string; url: string }[];
   collection: ContentCollectionView | null;
   media: ContentMediaView[];

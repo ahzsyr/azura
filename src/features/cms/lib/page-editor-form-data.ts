@@ -16,6 +16,10 @@ export type PageEditorFormState = {
   composition: Composition;
   localeFields: PageEditorLocaleFields;
   visualSettings: PageVisualSettings;
+  authorId?: string;
+  sources?: unknown;
+  showAuthor?: boolean;
+  showPublishedAt?: boolean;
 };
 
 export type PageEditorSubmitMeta = {
@@ -57,6 +61,10 @@ export function buildPageEditorFormData(
   formData.set("composition", JSON.stringify(composition));
   formData.set("blocks", JSON.stringify(blocks));
   formData.set("visualSettings", JSON.stringify(state.visualSettings));
+  if (state.authorId != null) formData.set("authorId", state.authorId);
+  if (state.sources != null) formData.set("sources", JSON.stringify(state.sources));
+  if (state.showAuthor != null) formData.set("showAuthor", String(state.showAuthor));
+  if (state.showPublishedAt != null) formData.set("showPublishedAt", String(state.showPublishedAt));
   formData.set("editorTab", meta.editorTab);
   formData.set("selectedBlockId", meta.selectedBlockId ?? "");
   formData.set("editorInspector", meta.editorInspector);

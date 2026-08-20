@@ -150,6 +150,8 @@ describe("patch side-effect classification", () => {
   it("classifies post public fields", () => {
     assert.equal(postPatchAffectsPublicPage(["categoryIds"]), true);
     assert.equal(postPatchAffectsPublicPage(["scheduledAt"]), false);
+    assert.equal(postPatchAffectsPublicPage(["showAuthor"]), true);
+    assert.equal(postPatchAffectsPublicPage(["showPublishedAt"]), true);
   });
 
   it("classifies product categoryIds as listing and collection fields", () => {

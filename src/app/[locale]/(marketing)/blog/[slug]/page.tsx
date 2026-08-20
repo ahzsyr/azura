@@ -23,7 +23,7 @@ import { LayoutRenderer } from "@/features/layout-engine/components/layout-rende
 import { themeService } from "@/features/theme/theme.service";
 import { EditorialMetaBar } from "@/components/marketing/editorial-meta-bar";
 import { CitationSourcesList } from "@/components/marketing/citation-sources-list";
-import { parseCitationSources } from "@/schemas/editorial-metadata";
+import { parseCitationSources, resolveEditorialMetaDisplay } from "@/schemas/editorial-metadata";
 
 export const revalidate = 60;
 const FALLBACK_PREFIXES = FALLBACK_LOCALES.map((locale) => locale.urlPrefix);
@@ -104,6 +104,12 @@ export default async function BlogPostPage({ params }: Props) {
   const hasFeaturedImage = Boolean(post.featuredImage?.url);
   const imageShared = sharedElementAttrs("blog", slug, "image");
   const titleShared = sharedElementAttrs("blog", slug, "title");
+  const editorialDisplay = resolveEditorialMetaDisplay({
+    author: post.author ? `${tBlog("by")} ${post.author.name}` : null,
+    publishedAt: post.publishedAt,
+    showAuthor: post.showAuthor,
+    showPublishedAt: post.showPublishedAt,
+  });
 
   return (
     <article
@@ -151,8 +157,8 @@ export default async function BlogPostPage({ params }: Props) {
         {title}
       </h1>
       <EditorialMetaBar
-        author={post.author ? `${tBlog("by")} ${post.author.name}` : null}
-        publishedAt={post.publishedAt}
+        author={editorialDisplay.author}
+        publishedAt={editorialDisplay.publishedAt}
         locale={locale}
         className="mb-8"
       />

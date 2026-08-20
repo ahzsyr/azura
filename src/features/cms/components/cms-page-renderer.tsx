@@ -31,7 +31,7 @@ import { hasRenderableCompositionBlocks } from "@/features/layout-engine/composi
 import { LayoutRenderer } from "@/features/layout-engine/components/layout-renderer";
 import { EditorialMetaBar } from "@/components/marketing/editorial-meta-bar";
 import { CitationSourcesList } from "@/components/marketing/citation-sources-list";
-import { parseCitationSources } from "@/schemas/editorial-metadata";
+import { parseCitationSources, resolveEditorialMetaDisplay } from "@/schemas/editorial-metadata";
 import type { CmsPagePublicView } from "@/features/cms/cms.service";
 
 type Props = {
@@ -230,6 +230,13 @@ export async function CmsPageRenderer({
 
   const editorialAuthor = pageWithMeta?.author?.name ?? null;
   const editorialPublishedAt = pageWithMeta?.publishedAt ?? page.publishedAt ?? null;
+  const pageFlags = page as CmsPage & { showAuthor?: boolean | null; showPublishedAt?: boolean | null };
+  const editorialDisplay = resolveEditorialMetaDisplay({
+    author: editorialAuthor,
+    publishedAt: editorialPublishedAt,
+    showAuthor: pageWithMeta?.showAuthor ?? pageFlags.showAuthor,
+    showPublishedAt: pageWithMeta?.showPublishedAt ?? pageFlags.showPublishedAt,
+  });
   const editorialSources = parseCitationSources(
     Array.isArray((page as CmsPage & { sources?: unknown }).sources)
       ? (page as CmsPage & { sources?: unknown }).sources as unknown[]
@@ -245,9 +252,9 @@ export async function CmsPageRenderer({
           {hasRenderableBlocks ? (
             <>
               {blockContent}
-              {(editorialAuthor || editorialPublishedAt || editorialSources.length > 0) && (
+              {(editorialDisplay.author || editorialDisplay.publishedAt || editorialSources.length > 0) && (
                 <div className="container-premium section-padding pt-0">
-                  <EditorialMetaBar author={editorialAuthor} publishedAt={editorialPublishedAt} locale={locale} />
+                  <EditorialMetaBar author={editorialDisplay.author} publishedAt={editorialDisplay.publishedAt} locale={locale} />
                   <CitationSourcesList sources={editorialSources} />
                 </div>
               )}
@@ -271,7 +278,7 @@ export async function CmsPageRenderer({
                   })}
                 </p>
               )}
-              <EditorialMetaBar author={editorialAuthor} publishedAt={editorialPublishedAt} locale={locale} className="mt-4" />
+              <EditorialMetaBar author={editorialDisplay.author} publishedAt={editorialDisplay.publishedAt} locale={locale} className="mt-4" />
               <CitationSourcesList sources={editorialSources} />
             </div>
           )}
