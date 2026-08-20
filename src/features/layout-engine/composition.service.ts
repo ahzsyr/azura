@@ -192,7 +192,7 @@ class CompositionServiceImpl {
 
   validate(input: Composition): Composition {
     const next = this.createEmpty();
-    const definition = layoutRegistry.get(input.layout.type) ?? layoutRegistry.getOrThrow("full");
+    const definition = layoutRegistry.get(input.layout?.type) ?? layoutRegistry.getOrThrow("full");
     next.layout = {
       ...coerceLayoutSettings(input.layout),
       type: definition.type,

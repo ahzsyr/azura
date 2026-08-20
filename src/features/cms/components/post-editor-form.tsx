@@ -675,8 +675,8 @@ export function PostEditorForm({
   const [slug, setSlug] = useState(post?.slug ?? "");
   const [status, setStatus] = useState<ContentStatus>(post?.status ?? "DRAFT");
   const [authorId, setAuthorId] = useState(post?.authorId ?? "");
-  const [showAuthor, setShowAuthor] = useState(parseShowFlag(composition.metadata.showAuthor));
-  const [showPublishedAt, setShowPublishedAt] = useState(parseShowFlag(composition.metadata.showPublishedAt));
+  const [showAuthor, setShowAuthor] = useState(parseShowFlag(composition.metadata?.showAuthor));
+  const [showPublishedAt, setShowPublishedAt] = useState(parseShowFlag(composition.metadata?.showPublishedAt));
   const [scheduledAt, setScheduledAt] = useState(formatScheduledInput(post?.scheduledAt));
   const [sources, setSources] = useState<CitationSource[]>(() =>
     parseCitationSources(Array.isArray(post?.sources) ? post.sources : [])
@@ -870,8 +870,8 @@ export function PostEditorForm({
     setSlug(post.slug);
     setStatus(post.status);
     setAuthorId(post.authorId ?? "");
-    setShowAuthor(parseShowFlag(nextComposition.metadata.showAuthor));
-    setShowPublishedAt(parseShowFlag(nextComposition.metadata.showPublishedAt));
+    setShowAuthor(parseShowFlag(nextComposition.metadata?.showAuthor));
+    setShowPublishedAt(parseShowFlag(nextComposition.metadata?.showPublishedAt));
     setScheduledAt(formatScheduledInput(post.scheduledAt));
     setSources(parseCitationSources(Array.isArray(post?.sources) ? post.sources : []));
 

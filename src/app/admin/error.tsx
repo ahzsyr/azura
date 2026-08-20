@@ -23,6 +23,9 @@ export default function AdminError({
     message.includes("ECHECKOUTTIMEOUT") ||
     message.includes("P2024") ||
     message.includes("Timed out fetching");
+  const isOpaqueProductionRscError =
+    message.includes("Server Components render") &&
+    message.includes("omitted in production");
   const isSchemaDrift =
     message.includes("does not exist in the current database") ||
     message.includes("Invalid `prisma.") ||
@@ -55,6 +58,14 @@ export default function AdminError({
           6543) with <code className="text-xs">connection_limit=1</code> in DATABASE_URL, add{" "}
           <code className="text-xs">DIRECT_URL</code> for deploy migrations, and confirm your Supabase
           project is active.
+        </p>
+      ) : null}
+      {isOpaqueProductionRscError ? (
+        <p className="max-w-md text-sm text-amber-800 dark:text-amber-200">
+          Production hides the real server error. Check host logs for this Error ID. If you see Prisma
+          P2022 / unknown column for <code className="text-xs">showAuthor</code> or{" "}
+          <code className="text-xs">showPublishedAt</code>, redeploy this build so Prisma regenerates
+          without those columns.
         </p>
       ) : null}
       {isSchemaDrift ? (

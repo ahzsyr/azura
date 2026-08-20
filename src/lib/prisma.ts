@@ -8,6 +8,10 @@ import { PrismaClient } from "@prisma/client";
 import { getRuntimeDatabaseUrl } from "@/lib/database-url";
 import { isBuildWithoutDb } from "@/lib/build-db";
 import { createBuildStubPrismaClient } from "@/lib/build-prisma-stub";
+import {
+  isMissingEditorialDisplayColumn,
+  withoutEditorialDisplayColumns,
+} from "@/lib/prisma-editorial-column-compat";
 
 type PrismaGlobal = {
   prisma?: PrismaClient;
@@ -30,7 +34,7 @@ const REQUIRED_DELEGATES = [
  * Bump after `prisma generate` when models/fields change so dev hot-reload
  * recreates a cached client (e.g. SiteTheme.brandConfig).
  */
-const PRISMA_CLIENT_VERSION = 6;
+const PRISMA_CLIENT_VERSION = 7;
 
 function normalizeRuntimeDatabaseUrl(url: string): string {
   return getRuntimeDatabaseUrl() || url;
@@ -39,10 +43,31 @@ function normalizeRuntimeDatabaseUrl(url: string): string {
 function createPrismaClient() {
   const rawUrl = process.env.DATABASE_URL?.trim() ?? "";
   const datasourceUrl = normalizeRuntimeDatabaseUrl(rawUrl);
-  return new PrismaClient({
+  const client = new PrismaClient({
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
     ...(datasourceUrl ? { datasourceUrl } : {}),
   });
+  return client.$extends({
+    query: {
+      $allModels: {
+        async $allOperations({ args, query, operation }) {
+          try {
+            return await query(args);
+          } catch (error) {
+            if (!isMissingEditorialDisplayColumn(error)) throw error;
+            if (String(operation).startsWith("$")) throw error;
+            try {
+              return await query(
+                withoutEditorialDisplayColumns(args as Record<string, unknown>),
+              );
+            } catch {
+              throw error;
+            }
+          }
+        },
+      },
+    },
+  }) as unknown as PrismaClient;
 }
 
 function isStalePrismaClient(client: PrismaClient): boolean {
