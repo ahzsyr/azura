@@ -1,6 +1,0 @@
-- **IoT Solutions**
-   -  **LoRa Products**
-        - Gateways
-        - Antennas
-        - MiniPCI-e Cards
-    - **Tags / Sensors**

@@ -1,5 +1,0 @@
-- **Licenses**
-    - **Licenses**
-        - MikroTik
-        - Ubiquiti
-        - Teltonika

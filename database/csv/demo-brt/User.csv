@@ -1,3 +1,0 @@
-id,email,passwordHash,name,role,createdAt,updatedAt,addressLine1,addressLine2,city,country,dateOfBirth,marketingOptIn,phone,postalCode,state
-cmq0p45gz0000hfw8uh43tbf9,admin@azura.com,$2b$12$7sRKw6v9xxnKrM1H0uo00OgOEdDSniUFj8lQ/G52/5AU.qJYAAYNq,Admin,ADMIN,2026-06-05T09:02:14.963Z,2026-06-05T09:02:14.963Z,,,,,,0,,,
-cmpzkiwbe0000hfn0kuhcbwbf,ali@brt-me.com,$2b$12$bDag4gsVvZJDi5Ogw4aevuBTE8ZYUUJuPR7oJJE81Y70RoflfRtfi,Ali Zahedah,CUSTOMER,2026-06-04T14:05:58.680Z,2026-06-04T14:05:58.680Z,,,,,,0,,,
