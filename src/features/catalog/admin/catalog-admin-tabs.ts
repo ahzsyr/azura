@@ -4,7 +4,7 @@ export const ADMIN_PRODUCT_TABS = [
   { id: "table", label: "Products table" },
   { id: "buy-now", label: "Buy Now" },
   { id: "cta", label: "CTA Button" },
-  { id: "page-builder", label: "Product Page" },
+  { id: "ordering", label: "Ordering" },
   { id: "card-appearance", label: "Product Cards" },
   { id: "promo-banner", label: "Promo banner" },
   { id: "trust-widget", label: "Trust widget" },
@@ -12,12 +12,19 @@ export const ADMIN_PRODUCT_TABS = [
 
 export type AdminProductTabId = (typeof ADMIN_PRODUCT_TABS)[number]["id"];
 
+/** Legacy Product Page hashes — redirect to Pages → Product. */
+export const PRODUCT_PAGE_DESIGN_HASHES = new Set([
+  "page-builder",
+  "page-appearance",
+  "page-layout",
+  "page-elements",
+  "product-page",
+]);
+
+export const PRODUCT_PAGE_DESIGN_HREF = "/admin/pages?tab=product";
+
 const PRODUCT_TAB_HASH_ALIASES: Record<string, AdminProductTabId> = {
   "quote-cta": "cta",
-  "page-appearance": "page-builder",
-  "page-layout": "page-builder",
-  "page-elements": "page-builder",
-  "product-page": "page-builder",
   "product-cards": "card-appearance",
 };
 
@@ -43,12 +50,17 @@ const COLLECTION_TAB_HASH_ALIASES: Record<string, AdminCollectionTabId> = {
 };
 
 export const ADMIN_TAXONOMY_TABS = [
-  { id: "brandProfiles", label: "Brand profiles" },
-  { id: "brands", label: "Brand list" },
+  { id: "brands", label: "Brands" },
   { id: "tags", label: "Tags" },
 ] as const satisfies readonly SettingsRibbonTab[];
 
 export type AdminTaxonomyTabId = (typeof ADMIN_TAXONOMY_TABS)[number]["id"];
+
+const TAXONOMY_TAB_HASH_ALIASES: Record<string, AdminTaxonomyTabId> = {
+  brandProfiles: "brands",
+  "brand-profiles": "brands",
+  "brand-list": "brands",
+};
 
 export function readHashTab<T extends string>(allowed: readonly { id: T }[], fallback: T): T {
   if (typeof window === "undefined") return fallback;
@@ -56,6 +68,7 @@ export function readHashTab<T extends string>(allowed: readonly { id: T }[], fal
   const aliased =
     PRODUCT_TAB_HASH_ALIASES[raw] ??
     COLLECTION_TAB_HASH_ALIASES[raw] ??
+    TAXONOMY_TAB_HASH_ALIASES[raw] ??
     raw;
   const h = aliased as T;
   return allowed.some((t) => t.id === h) ? h : fallback;

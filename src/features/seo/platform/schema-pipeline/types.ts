@@ -82,6 +82,10 @@ export type PageContext = {
   product?: Product;
   article?: ArticleSchemaInput;
   reviews?: Array<{ name: string; rating: number; content: string }>;
+  /** Resolved SeoMeta.jsonLd for the current page/locale. */
+  pageJsonLd?: unknown;
+  /** Whether SeoMeta.jsonLd exists in database (column or translation). */
+  seoMetaJsonLdInDatabase?: boolean;
 };
 
 export type RuntimeContext = {

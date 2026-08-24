@@ -115,23 +115,101 @@ async function processPublishJob(job: {
   return publishResult;
 }
 
-async function processGenericJob(jobType: MarketingJobType, job: { id: string; providerId: string | null; payload: unknown }) {
+async function processGenericJob(
+  jobType: MarketingJobType,
+  job: {
+    id: string;
+    providerId: string | null;
+    connectionId: string | null;
+    accountId: string | null;
+    payload: unknown;
+  },
+) {
+  const payload = (job.payload ?? {}) as Record<string, unknown>;
+
   switch (jobType) {
-    case "analytics_sync":
+    case "analytics_sync": {
       await marketingEventBus.emit("ANALYTICS_SYNC_REQUESTED", {
         providerId: job.providerId ?? "unknown",
       });
+      if (job.providerId && job.connectionId && job.accountId) {
+        const account = await prisma.marketingAccount.findUnique({
+          where: { id: job.accountId },
+          select: { externalAccountId: true },
+        });
+        if (account?.externalAccountId) {
+          const { syncProviderAnalytics } = await import("@/modules/marketing/analytics/ingest");
+          await syncProviderAnalytics({
+            providerId: job.providerId,
+            connectionId: job.connectionId,
+            accountId: job.accountId,
+            externalAccountId: account.externalAccountId,
+            from: String(payload.from ?? new Date(Date.now() - 7 * 86400000).toISOString()),
+            to: String(payload.to ?? new Date().toISOString()),
+          }).catch(() => undefined);
+        }
+      }
       return { ok: true };
+    }
+    case "campaign_sync": {
+      if (!job.providerId || !job.connectionId || !job.accountId) {
+        throw new Error("campaign_sync requires providerId, connectionId, accountId");
+      }
+      const { adSyncService } = await import("@/modules/marketing/ads/sync-service");
+      await adSyncService.syncAdAccountsForConnection(job.connectionId, job.providerId);
+      const campaigns = await adSyncService.syncCampaignsForAdAccount(
+        job.connectionId,
+        job.providerId,
+        job.accountId,
+      );
+      return { ok: true, campaigns: campaigns.length };
+    }
+    case "ad_metrics_sync": {
+      if (!job.providerId || !job.connectionId) {
+        throw new Error("ad_metrics_sync requires providerId and connectionId");
+      }
+      const externalCampaignId = String(payload.externalCampaignId ?? "");
+      if (!externalCampaignId) throw new Error("externalCampaignId required");
+      const { adSyncService } = await import("@/modules/marketing/ads/sync-service");
+      const metrics = await adSyncService.syncMetrics(
+        job.connectionId,
+        job.providerId,
+        externalCampaignId,
+        {
+          from: String(payload.from ?? new Date(Date.now() - 7 * 86400000).toISOString()),
+          to: String(payload.to ?? new Date().toISOString()),
+        },
+      );
+      return { ok: true, metrics: metrics.length };
+    }
+    case "attribution_aggregate": {
+      const { analyticsAggregateService } = await import("@/modules/marketing/analytics/aggregate");
+      const result = await analyticsAggregateService.rollupDay(new Date());
+      return { ok: true, ...result };
+    }
+    case "retention_purge": {
+      const { runRetentionPurge } = await import("@/modules/marketing/privacy/retention");
+      return runRetentionPurge();
+    }
     case "tracking_sync":
       return { ok: true };
     case "lead_sync":
       return { ok: true };
-    case "webhook_processing":
+    case "webhook_processing": {
+      const webhookId = String(payload.webhookEventId ?? "");
+      if (!webhookId) return { ok: true, skipped: true };
+      const event = await prisma.marketingWebhookEvent.findUnique({ where: { id: webhookId } });
+      if (!event) return { ok: false, message: "webhook not found" };
+      await prisma.marketingWebhookEvent.update({
+        where: { id: webhookId },
+        data: { status: "COMPLETED", processedAt: new Date() },
+      });
       return { ok: true };
+    }
     case "token_refresh":
       if (job.providerId) {
         await marketingEventBus.emit("TOKEN_REFRESH_COMPLETED", {
-          connectionId: String((job.payload as { connectionId?: string } | null)?.connectionId ?? ""),
+          connectionId: String(payload.connectionId ?? job.connectionId ?? ""),
           providerId: job.providerId,
           ok: true,
         });
@@ -173,7 +251,13 @@ export async function runDueMarketingJobs(limit = 10) {
       if (job.jobType === "publish") {
         result = await processPublishJob(job);
       } else {
-        result = await processGenericJob(job.jobType as MarketingJobType, job);
+        result = await processGenericJob(job.jobType as MarketingJobType, {
+          id: job.id,
+          providerId: job.providerId,
+          connectionId: job.connectionId,
+          accountId: job.accountId,
+          payload: job.payload,
+        });
       }
 
       await prisma.marketingJob.update({

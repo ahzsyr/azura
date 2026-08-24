@@ -1,4 +1,5 @@
 import type { CanonicalSemanticToken } from "./semantic";
+import { THEME_ROOT_DARK_SELECTOR, THEME_ROOT_SELECTOR } from "./theme-root-selectors";
 
 /**
  * Legacy alias → canonical semantic token.
@@ -70,10 +71,10 @@ export function buildAliasDeclarations(): string[] {
 /** SSR CSS block — legacy aliases generated from canonical semantic tokens. */
 export function buildAliasCss(): string {
   const aliases = buildAliasDeclarations().join(";");
-  return `html {
+  return `${THEME_ROOT_SELECTOR} {
     ${aliases};
   }
-  html.dark {
+  ${THEME_ROOT_DARK_SELECTOR} {
     ${aliases};
   }`;
 }

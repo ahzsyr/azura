@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import type { MediaFolder } from "@prisma/client";
+import type { MediaFolder, MediaType } from "@prisma/client";
 import { createMediaFolder, deleteMediaFolder, renameMediaFolder } from "@/features/media/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Folder, FolderOpen, Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { LocalUploadDropzone } from "./local-upload-dropzone";
 
 type FolderRow = MediaFolder & { _count: { assets: number; children: number } };
 
@@ -15,6 +16,8 @@ type Props = {
   activeFolderId: string | undefined;
   onSelectFolder: (folderId: string | undefined) => void;
   onFoldersChange: () => void;
+  uploadType?: MediaType;
+  onUploadComplete?: () => void;
 };
 
 export function MediaFolderSidebar({
@@ -22,6 +25,8 @@ export function MediaFolderSidebar({
   activeFolderId,
   onSelectFolder,
   onFoldersChange,
+  uploadType,
+  onUploadComplete,
 }: Props) {
   const [newName, setNewName] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -130,6 +135,20 @@ export function MediaFolderSidebar({
           <Plus className="h-4 w-4" />
         </Button>
       </div>
+
+      {onUploadComplete ? (
+        <div className="space-y-1.5 border-t border-border/70 pt-3">
+          <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+            Quick upload
+          </p>
+          <LocalUploadDropzone
+            variant="compact"
+            uploadType={uploadType}
+            folderId={activeFolderId}
+            onUploadComplete={() => onUploadComplete()}
+          />
+        </div>
+      ) : null}
     </aside>
   );
 }

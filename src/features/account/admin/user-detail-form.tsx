@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PasswordField } from "@/components/account/password-field";
 import {
   sendCustomerPasswordResetAction,
+  setCustomerDisabledAction,
   setCustomerPasswordAction,
   updateCustomerUserAction,
 } from "@/features/account/admin/customer-user-actions";
@@ -27,6 +29,7 @@ export type CustomerDetail = {
   postalCode: string | null;
   country: string | null;
   marketingOptIn: boolean;
+  disabledAt: Date | null;
   createdAt: Date;
 };
 
@@ -258,32 +261,63 @@ export function UserDetailForm({ user }: Props) {
 
         <Card>
           <CardHeader>
+            <CardTitle>Account status</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              {user.disabledAt
+                ? `Disabled since ${user.disabledAt.toISOString().slice(0, 10)}`
+                : "Active — can sign in"}
+            </p>
+            <Button
+              type="button"
+              variant={user.disabledAt ? "outline" : "destructive"}
+              disabled={loading}
+              onClick={() => {
+                void (async () => {
+                  setLoading(true);
+                  setError("");
+                  setMessage("");
+                  const result = await setCustomerDisabledAction(user.id, !user.disabledAt);
+                  setLoading(false);
+                  if (!result.success) {
+                    setError(result.error);
+                    return;
+                  }
+                  setMessage(user.disabledAt ? "Account re-enabled." : "Account disabled.");
+                  window.location.reload();
+                })();
+              }}
+            >
+              {user.disabledAt ? "Re-enable account" : "Disable account"}
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
             <CardTitle>Password</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <Button type="button" variant="outline" onClick={sendReset} disabled={loading}>
               Send password reset email
             </Button>
-            <div className="space-y-2">
-              <Label htmlFor="newPassword">Set new password</Label>
-              <Input
-                id="newPassword"
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                minLength={8}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm password</Label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                minLength={8}
-              />
-            </div>
+            <PasswordField
+              id="newPassword"
+              label="Set new password (min. 12)"
+              value={newPassword}
+              onChange={setNewPassword}
+              minLength={12}
+              autoComplete="new-password"
+            />
+            <PasswordField
+              id="confirmPassword"
+              label="Confirm password"
+              value={confirmPassword}
+              onChange={setConfirmPassword}
+              minLength={12}
+              autoComplete="new-password"
+            />
             <Button type="button" onClick={savePassword} disabled={loading || !newPassword}>
               Update password
             </Button>

@@ -3,19 +3,37 @@ import { formSubmitRequestSchema } from "@/features/forms/schemas/form-definitio
 import "@/features/forms/platform/register-commands.server";
 import { commandBus } from "@/platform/schema-ui/pipeline/command-bus";
 import type { SubmitCommand } from "@/platform/schema-ui/manifests/types";
-
-function getClientIp(request: Request): string {
-  return (
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    request.headers.get("x-real-ip") ||
-    "unknown"
-  );
-}
+import { enforceRateLimit } from "@/lib/rate-limit";
+import { getTrustedClientIp } from "@/lib/client-ip";
+import { verifyTurnstileToken } from "@/lib/turnstile";
+import { auth } from "@/lib/auth";
+import { isCustomerRole } from "@/features/auth/portal";
 
 export async function POST(request: Request) {
   try {
+    const clientIp = getTrustedClientIp(request);
+    const rl = await enforceRateLimit({
+      key: `forms-submit:${clientIp}`,
+      limit: 20,
+      windowMs: 10 * 60 * 1000,
+    });
+    if (!rl.allowed) {
+      return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 });
+    }
+
     const body = await request.json();
+    const turnstileOk = await verifyTurnstileToken(
+      typeof body?.turnstileToken === "string" ? body.turnstileToken : undefined,
+      clientIp,
+    );
+    if (!turnstileOk) {
+      return NextResponse.json({ error: "Captcha failed" }, { status: 400 });
+    }
+
     const data = formSubmitRequestSchema.parse(body);
+    const session = await auth();
+    const customerId =
+      session?.user?.id && isCustomerRole(session.user.role) ? session.user.id : undefined;
 
     const command: SubmitCommand = {
       type: "Submit",
@@ -31,7 +49,8 @@ export async function POST(request: Request) {
         abTestId: data.abTestId,
         abVariantId: data.abVariantId,
         honeypot: data.honeypot,
-        clientIp: getClientIp(request),
+        clientIp,
+        customerId,
       },
     };
 

@@ -168,8 +168,16 @@ export const navigationCatalogService = {
     ];
 
     const brandOptions = [
-      ...brandProfiles.map((profile) => ({ slug: profile.slug, name: profile.name })),
-      ...taxonomy.brands.map((name) => ({ slug: brandNameToSlug(name), name })),
+      ...brandProfiles.map((profile) => ({
+        slug: profile.slug,
+        name: profile.name,
+        logoUrl: profile.logoUrl?.trim() || undefined,
+      })),
+      ...taxonomy.brands.map((name) => ({
+        slug: brandNameToSlug(name),
+        name,
+        logoUrl: undefined as string | undefined,
+      })),
     ];
     const brandSeen = new Set<string>();
     const brands = brandOptions.filter((brand) => {

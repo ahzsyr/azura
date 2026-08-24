@@ -188,6 +188,13 @@ describe("isSavedSeoTranslation", () => {
     assert.equal(isSavedSeoTranslation({}, "metaTitle", "en"), false);
   });
 
+  it("reads modern underscore keys for locales other than en/ar", () => {
+    assert.equal(
+      isSavedSeoTranslation({ metaTitle_fr: "Accueil" }, "metaTitle", "fr"),
+      true,
+    );
+  });
+
   it("matches savedTranslations used by both admin UIs after canonical merge", () => {
     const canonicalSaved = {
       metaTitleEn: "B R T trading | Home",

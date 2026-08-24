@@ -1,7 +1,9 @@
 import {
   makeHeaderActionEntityId,
+  makeMegaMenuNavItemEntityId,
   makeMegaMenuPanelEntityId,
   makeMegaMenuTabEntityId,
+  makeMegaMenuV2PanelEntityId,
   makeMenuItemEntityId,
 } from "@/features/translation/workspace-entity-ids";
 import type { HeaderWorkspace, MegaMenuContentConfig } from "./types";
@@ -56,6 +58,20 @@ function walkMegaMenuRefs(
     }
     if (mega?.mixed?.right) {
       add("MegaMenuPanel", makeMegaMenuPanelEntityId(menuKey, `${item.id}:right`));
+    }
+    if (mega?.version === 2) {
+      for (const nav of mega.navigation?.items ?? []) {
+        add("MegaMenuNavItem", makeMegaMenuNavItemEntityId(menuKey, item.id, nav.id));
+      }
+      for (const panel of mega.panels ?? []) {
+        add("MegaMenuPanel", makeMegaMenuV2PanelEntityId(menuKey, item.id, panel.id));
+        for (const group of panel.columnGroups ?? []) {
+          add(
+            "MegaMenuPanel",
+            makeMegaMenuV2PanelEntityId(menuKey, item.id, `${panel.id}:col:${group.id}`),
+          );
+        }
+      }
     }
     if (item.children?.length) walkMegaMenuRefs(menuKey, item.children, add);
   }

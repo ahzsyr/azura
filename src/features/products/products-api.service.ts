@@ -37,6 +37,12 @@ function parseLocale(raw: string | null): string {
   return value && value.length > 0 ? value : adminLocale.code;
 }
 
+function languageTag(code: string): string {
+  const normalized = code.trim().toLowerCase();
+  const dash = normalized.indexOf("-");
+  return dash === -1 ? normalized : normalized.slice(0, dash);
+}
+
 async function resolveAdminLocale(input: string, strict = false): Promise<string> {
   const locales = await localeService.listForAdmin();
   const normalized = input.trim().toLowerCase();
@@ -47,12 +53,24 @@ async function resolveAdminLocale(input: string, strict = false): Promise<string
 
   if (!normalized) return defaultLocaleCode;
 
-  const match = locales.find(
+  const exact = locales.find(
     (locale) =>
       locale.code.toLowerCase() === normalized ||
       locale.urlPrefix.toLowerCase() === normalized,
   );
-  if (match) return match.code.toLowerCase();
+  if (exact) return exact.code.toLowerCase();
+
+  const lang = languageTag(normalized);
+  const langMatches = locales.filter(
+    (locale) =>
+      languageTag(locale.code) === lang || languageTag(locale.urlPrefix) === lang,
+  );
+  if (langMatches.length === 1) return langMatches[0]!.code.toLowerCase();
+  if (langMatches.length > 1) {
+    const preferred =
+      langMatches.find((locale) => locale.isDefault) ?? langMatches[0]!;
+    return preferred.code.toLowerCase();
+  }
 
   if (strict) {
     throw new Error("Invalid locale");
@@ -80,7 +98,7 @@ function formatSyncResponse(sync: CatalogSyncResult | null) {
 
 export const productsApiService = {
   async getProducts(url: URL) {
-    const locale = await resolveAdminLocale(parseLocale(url.searchParams.get("locale")), true);
+    const locale = await resolveAdminLocale(parseLocale(url.searchParams.get("locale")));
 
     if (url.searchParams.get("parity") === "1") {
       const parity = await verifyProductEntityParity(locale);

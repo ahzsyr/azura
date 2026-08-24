@@ -1,73 +1,74 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { ImageIcon, Pencil, Trash2 } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ImageIcon, Pencil, Plus, Star, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
-  brandNameToSlug,
-  type CatalogBrandProfile,
-} from "@/features/catalog/types/catalog-brand-profile";
+  CatalogEmptyState,
+  CatalogSearch,
+  CatalogStat,
+  CatalogStatGroup,
+} from "@/features/catalog/admin/ui";
+import type { CatalogBrandProfile } from "@/features/catalog/types/catalog-brand-profile";
 import { BrandProfileEditDialog } from "./BrandProfileEditDialog";
+import { cn } from "@/lib/utils";
+import { countRuleLeaves, upgradeLegacyRuleSet } from "@/features/categories/matching";
 
 type Props = {
   profiles: CatalogBrandProfile[];
   onChange: (next: CatalogBrandProfile[]) => void;
+  locale?: string;
 };
 
-function newProfile(name: string, sortOrder: number): CatalogBrandProfile {
-  return {
-    slug: brandNameToSlug(name),
-    name,
-    logoUrl: "",
-    bannerUrl: "",
-    descriptionEn: "",
-    descriptionAr: "",
-    href: "",
-    featured: false,
-    sortOrder,
-  };
-}
-
-export function BrandProfilesEditor({ profiles, onChange }: Props) {
-  const [draftName, setDraftName] = useState("");
+export function BrandProfilesEditor({ profiles, onChange, locale }: Props) {
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState<"all" | "featured">("all");
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  const updateAt = useCallback(
-    (index: number, patch: Partial<CatalogBrandProfile>) => {
-      const next = profiles.map((p, i) => {
-        if (i !== index) return p;
-        const merged = { ...p, ...patch };
-        if (patch.name && !patch.slug) {
-          merged.slug = brandNameToSlug(merged.name) || p.slug;
-        }
-        return merged;
-      });
-      onChange(next);
-    },
-    [profiles, onChange],
-  );
+  const featuredCount = profiles.filter((profile) => profile.featured).length;
 
-  const addProfile = () => {
-    const name = draftName.trim();
-    if (!name) return;
-    if (profiles.some((p) => p.name.toLowerCase() === name.toLowerCase())) {
-      setDraftName("");
-      return;
-    }
-    const nextProfiles = [...profiles, newProfile(name, profiles.length)];
-    onChange(nextProfiles);
-    setDraftName("");
-    setEditingIndex(nextProfiles.length - 1);
+  const visible = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return profiles
+      .map((profile, index) => ({ profile, index }))
+      .filter(({ profile }) => {
+        if (filter === "featured" && !profile.featured) return false;
+        if (!q) return true;
+        return (
+          profile.name.toLowerCase().includes(q) ||
+          profile.slug.toLowerCase().includes(q) ||
+          profile.href.toLowerCase().includes(q)
+        );
+      });
+  }, [profiles, query, filter]);
+
+  const openCreate = () => {
+    setEditingIndex(null);
+    setDialogOpen(true);
+  };
+
+  const openEdit = (index: number) => {
+    setEditingIndex(index);
+    setDialogOpen(true);
   };
 
   const removeAt = (index: number) => {
     onChange(profiles.filter((_, i) => i !== index));
-    if (editingIndex === index) setEditingIndex(null);
+    if (editingIndex === index) {
+      setDialogOpen(false);
+      setEditingIndex(null);
+    }
   };
 
-  const openEdit = (index: number) => setEditingIndex(index);
+  const toggleFeatured = (index: number) => {
+    onChange(
+      profiles.map((profile, i) =>
+        i === index ? { ...profile, featured: !profile.featured } : profile,
+      ),
+    );
+  };
 
   const handleRowKeyDown = (index: number, e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -77,80 +78,140 @@ export function BrandProfilesEditor({ profiles, onChange }: Props) {
   };
 
   const editingProfile = editingIndex !== null ? profiles[editingIndex] ?? null : null;
+  const filteredEmpty = profiles.length > 0 && visible.length === 0;
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2">
-        <Input
-          value={draftName}
-          onChange={(e) => setDraftName(e.target.value)}
-          placeholder="Add brand name…"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              addProfile();
-            }
-          }}
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <CatalogSearch
+          value={query}
+          onChange={setQuery}
+          placeholder="Search brands…"
+          className="w-full lg:max-w-sm"
         />
-        <Button type="button" variant="secondary" onClick={addProfile}>
-          Add brand
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <CatalogStatGroup>
+            <CatalogStat
+              label="All"
+              value={profiles.length}
+              active={filter === "all"}
+              onClick={() => setFilter("all")}
+            />
+            <CatalogStat
+              label="Featured"
+              value={featuredCount}
+              active={filter === "featured"}
+              onClick={() => setFilter("featured")}
+            />
+          </CatalogStatGroup>
+          <Button type="button" onClick={openCreate}>
+            <Plus className="size-4" />
+            Add brand
+          </Button>
+        </div>
       </div>
 
       {profiles.length === 0 ? (
-        <p className="text-sm text-muted-foreground py-6 text-center border rounded-md border-dashed">
-          No brand profiles yet. Add brands or sync from the product catalog.
-        </p>
-      ) : (
-        <ul className="rounded-md border divide-y overflow-hidden">
-          {profiles.map((profile, index) => (
-            <li
-              key={profile.slug || index}
-              role="button"
-              tabIndex={0}
-              className="flex items-center gap-3 px-3 py-2.5 text-sm cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={() => openEdit(index)}
-              onKeyDown={(e) => handleRowKeyDown(index, e)}
+        <CatalogEmptyState
+          title="No brands yet"
+          description="Add a brand to use it in product filters, brand pages, and storefront showcases."
+          action={
+            <Button type="button" onClick={openCreate}>
+              <Plus className="size-4" />
+              Add brand
+            </Button>
+          }
+        />
+      ) : filteredEmpty ? (
+        <CatalogEmptyState
+          status="filtered_empty"
+          title="No matching brands"
+          description="Try a different search or clear the featured filter."
+          action={
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setQuery("");
+                setFilter("all");
+              }}
             >
-              <div
-                className="flex size-9 shrink-0 items-center justify-center rounded-md border bg-muted/40 overflow-hidden"
-                aria-hidden
+              Clear filters
+            </Button>
+          }
+        />
+      ) : (
+        <ul className="overflow-hidden rounded-xl border border-border/70 divide-y bg-background">
+          {visible.map(({ profile, index }) => {
+            const ruleCount = countRuleLeaves(upgradeLegacyRuleSet(profile.conditions));
+            return (
+            <li
+              key={profile.slug || `brand-${index}`}
+              className="group flex items-center gap-3 px-3 py-3 text-sm transition-colors hover:bg-muted/40 sm:px-4"
+            >
+              <button
+                type="button"
+                className="flex min-w-0 flex-1 items-center gap-3 text-start"
+                onClick={() => openEdit(index)}
+                onKeyDown={(e) => handleRowKeyDown(index, e)}
               >
-                {profile.logoUrl ? (
-                  <img
-                    src={profile.logoUrl}
-                    alt=""
-                    className="size-full object-contain p-0.5"
-                  />
-                ) : (
-                  <ImageIcon className="size-4 text-muted-foreground" />
-                )}
-              </div>
-
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-medium truncate">
-                    {profile.name || "Untitled brand"}
-                  </span>
-                  {profile.featured ? (
-                    <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
-                      Featured
-                    </Badge>
-                  ) : null}
+                <div
+                  className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-muted/40"
+                  aria-hidden
+                >
+                  {profile.logoUrl ? (
+                    <img
+                      src={profile.logoUrl}
+                      alt=""
+                      className="size-full object-contain p-1"
+                    />
+                  ) : (
+                    <ImageIcon className="size-4 text-muted-foreground" />
+                  )}
                 </div>
-                <code className="text-xs text-muted-foreground">{profile.slug}</code>
-              </div>
+
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-medium truncate">
+                      {profile.name || "Untitled brand"}
+                    </span>
+                    {profile.featured ? (
+                      <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+                        Featured
+                      </Badge>
+                    ) : null}
+                    {ruleCount > 0 ? (
+                      <Badge variant="outline" className="text-[10px] px-1.5 py-0">
+                        {ruleCount} rule{ruleCount === 1 ? "" : "s"}
+                      </Badge>
+                    ) : null}
+                  </div>
+                  <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground">
+                    <code>{profile.slug}</code>
+                    {profile.href ? (
+                      <span className="truncate max-w-[16rem]">{profile.href}</span>
+                    ) : null}
+                  </div>
+                </div>
+              </button>
 
               <div className="flex shrink-0 items-center gap-1">
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
-                  aria-label="Edit brand profile"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openEdit(index);
-                  }}
+                  aria-label={profile.featured ? "Remove featured" : "Mark featured"}
+                  className={cn(profile.featured && "text-amber-600")}
+                  onClick={() => toggleFeatured(index)}
+                >
+                  <Star className={cn("size-4", profile.featured && "fill-current")} />
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  aria-label="Edit brand"
+                  onClick={() => openEdit(index)}
                 >
                   <Pencil className="size-4" />
                 </Button>
@@ -159,30 +220,40 @@ export function BrandProfilesEditor({ profiles, onChange }: Props) {
                   variant="ghost"
                   size="sm"
                   className="text-destructive hover:text-destructive"
-                  aria-label="Remove brand profile"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeAt(index);
-                  }}
+                  aria-label="Remove brand"
+                  onClick={() => removeAt(index)}
                 >
                   <Trash2 className="size-4" />
                 </Button>
               </div>
             </li>
-          ))}
+            );
+          })}
         </ul>
       )}
 
-      <p className="text-xs text-muted-foreground">{profiles.length} brand profile(s)</p>
+      <p className="text-xs text-muted-foreground">
+        {visible.length === profiles.length
+          ? `${profiles.length} brand${profiles.length === 1 ? "" : "s"}`
+          : `Showing ${visible.length} of ${profiles.length} brands`}
+      </p>
 
       <BrandProfileEditDialog
-        open={editingIndex !== null}
+        open={dialogOpen}
+        mode={editingIndex === null ? "create" : "edit"}
         profile={editingProfile}
+        existing={profiles}
+        locale={locale}
         onOpenChange={(open) => {
+          setDialogOpen(open);
           if (!open) setEditingIndex(null);
         }}
-        onSave={(patch) => {
-          if (editingIndex !== null) updateAt(editingIndex, patch);
+        onSave={(next) => {
+          if (editingIndex === null) {
+            onChange([...profiles, { ...next, sortOrder: next.sortOrder || profiles.length }]);
+            return;
+          }
+          onChange(profiles.map((profile, i) => (i === editingIndex ? next : profile)));
         }}
       />
     </div>

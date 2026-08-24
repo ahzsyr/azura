@@ -114,8 +114,15 @@
   }
 
   .admin-shell .admin-ribbon-tab-active {
-    background-color: color-mix(in oklch, var(--primary) 12%, var(--admin-surface));
     color: var(--foreground);
+  }
+
+  .admin-shell .admin-ribbon-scroll {
+    box-shadow: 0 1px 0 color-mix(in oklch, var(--admin-border) 65%, transparent);
+  }
+
+  .admin-shell .admin-ribbon-sub {
+    background-color: color-mix(in oklch, var(--muted) 35%, var(--admin-surface));
   }
 
   .admin-page-title {
@@ -168,7 +175,8 @@
 }
 
 @media (max-width: 768px) {
-  .admin-shell .admin-liquid-glass {
+  .admin-shell .admin-liquid-glass,
+  .admin-shell .admin-ribbon-scroll {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background: var(--admin-surface) !important;
@@ -181,14 +189,16 @@ html[data-touch-only="true"] .admin-shell .admin-mobile-overlay {
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .admin-liquid-glass {
+  .admin-liquid-glass,
+  .admin-ribbon-scroll {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background: var(--admin-surface) !important;
   }
 }
 
-html[data-reduced-paint="true"] .admin-liquid-glass {
+html[data-reduced-paint="true"] .admin-liquid-glass,
+html[data-reduced-paint="true"] .admin-ribbon-scroll {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   background: var(--admin-surface) !important;

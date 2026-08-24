@@ -1,0 +1,747 @@
+/* MikroTik product detail layout — scoped; inherits site theme background */
+
+.prd-page.prd-page--mikrotik {
+  padding: 0;
+  max-width: none;
+  width: 100%;
+  overflow: visible !important;
+  overflow-x: visible !important;
+}
+
+/* Match UniFi: chrome sits on the site background — no solid/frosted white strip */
+.prd-page.prd-page--mikrotik > .prd-page__chrome-rail,
+.prd-page.prd-page--mikrotik .prd-page__chrome {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+.prd-page--mikrotik > .prd-page__chrome-rail {
+  width: 100%;
+}
+
+.prd-page--mikrotik .prd-page__chrome {
+  width: min(1200px, 100%);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  padding-block: 0.35rem 0.65rem;
+}
+
+.mikrotik-pdp {
+  --mtk-accent: var(--p, var(--primary, #cafd00));
+  --mtk-on-accent: var(--primary-foreground, #081624);
+  --mtk-text: var(--t, var(--foreground, #111));
+  --mtk-muted: var(--m, var(--muted-foreground, #667788));
+  --mtk-surface: var(--sur, var(--card, var(--background, #fff)));
+  --mtk-panel: color-mix(in srgb, var(--mtk-muted) 8%, var(--mtk-surface));
+  --mtk-border: color-mix(in srgb, var(--mtk-text) 12%, transparent);
+  --mtk-mono: ui-monospace, "Cascadia Code", "Segoe UI Mono", Menlo, Consolas, monospace;
+  --mtk-sans: var(--font-body, var(--az-font-body, "Segoe UI", system-ui, sans-serif));
+  color: var(--mtk-text);
+  background: transparent;
+  font-family: var(--mtk-sans);
+  width: 100%;
+}
+
+.mikrotik-pdp * {
+  box-sizing: border-box;
+}
+
+.mikrotik-pdp__container {
+  width: min(1200px, 100%);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+/* Hero — no custom wave; uses site page background */
+.mikrotik-pdp__hero {
+  position: relative;
+  background: transparent;
+  padding: 2.5rem 0 2rem;
+}
+
+.mikrotik-pdp__hero-grid {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+@media (min-width: 960px) {
+  .mikrotik-pdp__hero-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+}
+
+.mikrotik-pdp__hero-copy h1 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  margin: 0 0 1rem;
+  letter-spacing: 0.02em;
+  color: var(--mtk-text);
+}
+
+.mikrotik-pdp__hero-copy p {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.55;
+  margin: 0 0 1.5rem;
+  max-width: 36rem;
+  color: color-mix(in srgb, var(--mtk-text) 78%, var(--mtk-muted));
+}
+
+.mikrotik-pdp__hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.mikrotik-pdp__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--mtk-text) 35%, transparent);
+  background: transparent;
+  color: var(--mtk-text);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.mikrotik-pdp__btn:hover {
+  background: color-mix(in srgb, var(--mtk-text) 8%, transparent);
+}
+
+.mikrotik-pdp__btn--primary {
+  background: var(--mtk-accent);
+  border-color: var(--mtk-accent);
+  color: var(--mtk-on-accent);
+  font-weight: 700;
+}
+
+.mikrotik-pdp__btn--primary:hover {
+  filter: brightness(1.05);
+  background: var(--mtk-accent);
+  color: var(--mtk-on-accent);
+}
+
+.mikrotik-pdp__price {
+  font-family: var(--mtk-mono);
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--mtk-text);
+}
+
+.mikrotik-pdp__sku {
+  font-family: var(--mtk-mono);
+  font-size: 0.75rem;
+  color: var(--mtk-muted);
+}
+
+.mikrotik-pdp__hero-media {
+  display: grid;
+  place-items: center;
+}
+
+.mikrotik-pdp__hero-media-btn {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  cursor: zoom-in;
+  line-height: 0;
+}
+
+.mikrotik-pdp__hero-media-btn img {
+  max-width: 100%;
+  max-height: min(520px, 70vh);
+  width: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.mikrotik-pdp__highlights {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .mikrotik-pdp__highlights {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.mikrotik-pdp__highlight {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--mtk-muted);
+}
+
+.mikrotik-pdp__highlight-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--mtk-accent);
+  flex-shrink: 0;
+}
+
+/* Marketing / content sections */
+.mikrotik-pdp__section {
+  padding: 2.5rem 0;
+  background: transparent;
+}
+
+.mikrotik-pdp__section--panel {
+  background: var(--mtk-surface);
+  color: var(--mtk-text);
+}
+
+.mikrotik-pdp__section--muted {
+  background: var(--mtk-panel);
+  color: var(--mtk-text);
+}
+
+.mikrotik-pdp__heading-accent {
+  color: var(--mtk-accent);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.mikrotik-pdp__subheading {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 300;
+  margin: 0 0 1.5rem;
+  color: var(--mtk-text);
+}
+
+.mikrotik-pdp__center-copy {
+  text-align: center;
+  max-width: 42rem;
+  margin: 0 auto 2rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--mtk-text) 82%, var(--mtk-muted));
+}
+
+.mikrotik-pdp__center-copy--muted {
+  color: var(--mtk-muted);
+  font-family: var(--mtk-mono);
+  font-size: 0.9rem;
+}
+
+.mikrotik-pdp__feature-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .mikrotik-pdp__feature-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+.mikrotik-pdp__feature-card h3 {
+  color: var(--mtk-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.95rem;
+  margin: 0 0 0.75rem;
+}
+
+.mikrotik-pdp__feature-card p {
+  margin: 0;
+  font-weight: 400;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--mtk-text) 80%, var(--mtk-muted));
+}
+
+.mikrotik-pdp__media-block {
+  margin: 2rem auto;
+  max-width: 900px;
+  text-align: center;
+}
+
+.mikrotik-pdp__media-block img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-inline: auto;
+}
+
+.mikrotik-pdp__video {
+  position: relative;
+  display: block;
+  max-width: 848px;
+  margin: 0 auto 2rem;
+  aspect-ratio: 16 / 9;
+  background: color-mix(in srgb, var(--mtk-text) 88%, black);
+  overflow: hidden;
+}
+
+.mikrotik-pdp__video img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mikrotik-pdp__video-play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 3rem;
+  background: rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+}
+
+/* Gallery */
+.mikrotik-pdp__gallery {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.mikrotik-pdp__gallery-main {
+  position: relative;
+  min-height: 240px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 1rem;
+}
+
+.mikrotik-pdp__gallery-main-btn {
+  display: block;
+  width: 100%;
+  max-width: 700px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: zoom-in;
+  line-height: 0;
+}
+
+.mikrotik-pdp__gallery-main-btn img {
+  max-height: 520px;
+  max-width: 100%;
+  width: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.mikrotik-pdp__gallery-nav {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  padding-inline: 0.25rem;
+}
+
+.mikrotik-pdp__gallery-nav button {
+  pointer-events: auto;
+  background: color-mix(in srgb, var(--mtk-surface) 80%, transparent);
+  border: 1px solid var(--mtk-border);
+  color: var(--mtk-text);
+  font-size: 1.75rem;
+  cursor: pointer;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+}
+
+.mikrotik-pdp__thumbs {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.mikrotik-pdp__thumbs button {
+  border: 2px solid transparent;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  width: 72px;
+  height: 72px;
+}
+
+.mikrotik-pdp__thumbs button.is-active {
+  border-color: var(--mtk-accent);
+}
+
+.mikrotik-pdp__thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Specs */
+.mikrotik-pdp__specs-title {
+  font-family: var(--mtk-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem;
+  color: var(--mtk-text);
+}
+
+.mikrotik-pdp__accordion {
+  border-top: 1px solid var(--mtk-border);
+}
+
+.mikrotik-pdp__accordion-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--mtk-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mtk-text);
+  text-align: left;
+}
+
+.mikrotik-pdp__accordion-chevron {
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.mikrotik-pdp__accordion-chevron.is-open {
+  transform: rotate(180deg);
+}
+
+.mikrotik-pdp__accordion-body {
+  padding-bottom: 1rem;
+}
+
+.mikrotik-pdp__spec-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--mtk-border);
+}
+
+@media (min-width: 900px) {
+  .mikrotik-pdp__spec-group {
+    flex-wrap: nowrap;
+  }
+}
+
+.mikrotik-pdp__spec-label {
+  flex: 0 0 100%;
+  font-family: var(--mtk-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mtk-text);
+}
+
+@media (min-width: 900px) {
+  .mikrotik-pdp__spec-label {
+    flex: 0 0 33%;
+  }
+}
+
+.mikrotik-pdp__spec-rows {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mikrotik-pdp__spec-rows li {
+  display: flex;
+  gap: 0.5rem;
+  font-family: var(--mtk-mono);
+  font-size: 0.85rem;
+}
+
+.mikrotik-pdp__spec-rows li span:first-child {
+  flex: 0 0 50%;
+  font-weight: 700;
+}
+
+.mikrotik-pdp__spec-rows li span:last-child {
+  flex: 0 0 50%;
+  font-weight: 300;
+  word-break: break-word;
+}
+
+.mikrotik-pdp__parts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  flex: 1;
+}
+
+@media (min-width: 700px) {
+  .mikrotik-pdp__parts {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.mikrotik-pdp__part {
+  text-align: center;
+  font-family: var(--mtk-mono);
+  font-size: 0.8rem;
+  font-weight: 300;
+}
+
+.mikrotik-pdp__part img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  margin-bottom: 0.75rem;
+}
+
+.mikrotik-pdp__note {
+  font-family: var(--mtk-mono);
+  font-size: 0.8rem;
+  font-weight: 300;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.mikrotik-pdp__wireless-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mtk-mono);
+  font-size: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.mikrotik-pdp__wireless-table th,
+.mikrotik-pdp__wireless-table td {
+  border-bottom: 1px solid var(--mtk-border);
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.mikrotik-pdp__wireless-table th {
+  background: var(--mtk-panel);
+  font-weight: 700;
+}
+
+.mikrotik-pdp__eth-html {
+  overflow-x: auto;
+  font-family: var(--mtk-mono);
+  font-size: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.mikrotik-pdp__eth-html table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mikrotik-pdp__eth-html td {
+  border-top: 1px solid var(--mtk-border);
+  padding: 0.4rem;
+}
+
+.mikrotik-pdp__eth-notes {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-family: var(--mtk-mono);
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: var(--mtk-muted);
+}
+
+/* Documents / downloads */
+.mikrotik-pdp__docs-panel {
+  display: grid;
+  gap: 0;
+  background: var(--mtk-surface);
+}
+
+@media (min-width: 900px) {
+  .mikrotik-pdp__docs-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.mikrotik-pdp__brochure {
+  position: relative;
+  min-height: 280px;
+  padding: 2rem;
+  background: var(--mtk-panel);
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+}
+
+.mikrotik-pdp__brochure h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+}
+
+.mikrotik-pdp__brochure p {
+  margin: 0 0 1.5rem;
+  font-size: 0.9rem;
+  color: var(--mtk-muted);
+}
+
+.mikrotik-pdp__brochure-badge {
+  display: inline-block;
+  background: var(--mtk-text);
+  color: var(--mtk-surface);
+  padding: 0.5rem 0.9rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.mikrotik-pdp__brochure img {
+  display: block;
+  max-width: 280px;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.mikrotik-pdp__doc-list {
+  list-style: none;
+  margin: 0;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: color-mix(in srgb, var(--mtk-panel) 70%, var(--mtk-surface));
+}
+
+.mikrotik-pdp__doc-list a {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  color: var(--mtk-text);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.mikrotik-pdp__doc-list a:hover {
+  opacity: 0.65;
+}
+
+.mikrotik-pdp__doc-icon {
+  width: 1.75rem;
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.mikrotik-pdp__download-banner {
+  background: color-mix(in srgb, var(--mtk-muted) 14%, var(--mtk-surface));
+  padding: 0.65rem 1rem;
+  font-family: var(--mtk-mono);
+  font-size: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.mikrotik-pdp__download-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 900px) {
+  .mikrotik-pdp__download-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.mikrotik-pdp__download-col h4 {
+  font-family: var(--mtk-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 1rem;
+}
+
+.mikrotik-pdp__download-col a {
+  display: block;
+  color: var(--mtk-text);
+  margin-bottom: 0.65rem;
+  font-size: 0.9rem;
+}
+
+.mikrotik-pdp__section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem;
+  color: inherit;
+}
+
+/* Sticky bar */
+.mikrotik-pdp__sticky {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--mtk-surface) 94%, transparent);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--mtk-border);
+  transform: translateY(110%);
+  transition: transform 0.25s ease;
+  padding: 0.75rem 1rem;
+  color: var(--mtk-text);
+}
+
+.mikrotik-pdp__sticky.is-visible {
+  transform: translateY(0);
+}
+
+.mikrotik-pdp__sticky-inner {
+  width: min(1200px, 100%);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.mikrotik-pdp__sticky-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.mikrotik-pdp__sticky-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

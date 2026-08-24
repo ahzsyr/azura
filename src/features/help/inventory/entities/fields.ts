@@ -149,4 +149,28 @@ export const INVENTORY_FIELDS: HelpInventoryField[] = [
     label: "Direction",
     description: "LTR or RTL layout direction.",
   },
+  {
+    id: "field-indexnow-api-key",
+    kind: "field",
+    version: 1,
+    label: "IndexNow API key",
+    description:
+      "Secret key (8–128 letters, numbers, or dashes) used to prove you own the site when submitting URLs to IndexNow (Bing, Yandex, Seznam, and others). The same value must appear in admin and in the public {key}.txt file.",
+  },
+  {
+    id: "field-indexnow-endpoint",
+    kind: "field",
+    version: 1,
+    label: "IndexNow endpoint",
+    description:
+      "API URL that receives URL submissions. Defaults to https://api.indexnow.org/indexnow when left blank.",
+  },
+  {
+    id: "field-indexnow-key-location",
+    kind: "field",
+    version: 1,
+    label: "IndexNow key location",
+    description:
+      "HTTPS URL of the verification text file. Must use the same host as live page URLs after redirects (on this site: https://brt-me.com/{key}.txt because www.brt-me.com redirects to brt-me.com). Leave blank to use that default.",
+  },
 ];

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getFormTemplateById } from "@/features/forms/form-template.service";
 import { persistMediaUpload } from "@/features/media/persist-upload";
 import { storeUploadedFile } from "@/lib/media-storage";
-import { validateUploadFile } from "@/lib/local-media-storage";
+import { validateFormUploadFile } from "@/lib/local-media-storage";
 import {
   checkFormSubmitRateLimit,
 } from "@/features/forms/platform/handlers/spam-handler";
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
       }
     }
 
-    const validation = validateUploadFile(file);
+    const validation = validateFormUploadFile(file);
     if ("error" in validation) {
       return NextResponse.json({ error: validation.error }, { status: 400 });
     }
@@ -85,6 +85,7 @@ export async function POST(request: Request) {
       mediaType,
       sizeBytes: file.size,
       assetScope: "FORM",
+      visibility: "PRIVATE",
     });
 
     return NextResponse.json({

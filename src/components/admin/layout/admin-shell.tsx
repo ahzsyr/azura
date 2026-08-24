@@ -8,18 +8,22 @@ import { AdminSurfaceProvider } from "./admin-surface-context";
 import { AdminSidebar } from "./admin-sidebar";
 import { AdminTopBar } from "./admin-top-bar";
 import { AdminContentArea } from "./admin-content-area";
+import { AdminChromeFab } from "./admin-floating-actions";
+import { AdminHelpPanel } from "@/features/help/components/admin-help-panel";
 
 function AdminShellInner({ children }: { children: React.ReactNode }) {
   useAdminKeyboardShortcuts();
   useUnsavedChangesGuard();
 
   return (
-    <div className="admin-shell az-scroll flex h-screen overflow-hidden">
-      <AdminSidebar />
-      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-        <AdminTopBar />
+    <div className="admin-shell az-scroll flex h-screen flex-col overflow-hidden">
+      <AdminTopBar />
+      <div className="flex min-h-0 min-w-0 flex-1 overflow-hidden">
+        <AdminSidebar />
         <AdminContentArea>{children}</AdminContentArea>
       </div>
+      <AdminChromeFab />
+      <AdminHelpPanel />
     </div>
   );
 }
@@ -43,7 +47,7 @@ export type { SettingsRibbonTab } from "./admin-settings-ribbon";
 export { AdminPageHeader, AdminCardGrid } from "./admin-content-area";
 export { AdminFormProvider, useAdminForm, useAdminFormOptional, AdminFormDirtySync } from "./admin-form-provider";
 export { AdminBreadcrumbs } from "./admin-breadcrumbs";
-export { AdminFloatingActions } from "./admin-floating-actions";
+export { AdminFloatingActions, AdminChromeFab } from "./admin-floating-actions";
 export { AdminCollapsibleSection } from "./admin-collapsible-section";
 export {
   AdminPageTransition,

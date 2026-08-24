@@ -5,6 +5,7 @@ import {
   type BlockInstanceV2,
 } from "@/types/block-system";
 import { blockRegistry } from "@/features/builder/registry/block-registry-system";
+import { resolveCatalogSourceFromBlock } from "@/features/catalog/catalog-source";
 import { createBlock } from "@/schemas/blocks";
 
 function isUnsetSettingValue(value: unknown): boolean {
@@ -73,6 +74,10 @@ export function normalizeBlockInstance(block: BlockNode): BlockInstanceV2 {
     ...(def?.defaultSettings ?? {}),
     ...getBlockSettings(block),
   };
+
+  if (block.type === "catalog") {
+    settings.source = resolveCatalogSourceFromBlock(block);
+  }
 
   return {
     id: block.id,

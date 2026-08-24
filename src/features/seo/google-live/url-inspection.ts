@@ -4,6 +4,7 @@ import { seoRepository } from "@/repositories/seo.repository";
 import { refreshGoogleToken } from "@/features/seo/integrations/google-auth";
 import { resolveConfiguredGscSiteUrl } from "@/features/seo/integrations/google-verify";
 import { normalizeGscSiteUrl } from "@/features/seo/admin/google-gsc-site-url";
+import { resolveIndexableUrl } from "@/features/seo/resolve-indexable-url";
 import type { UrlInspectorVm } from "@/features/search-intelligence/workspaces";
 
 export type UrlInspectionLiveResult = UrlInspectorVm & {
@@ -12,9 +13,16 @@ export type UrlInspectionLiveResult = UrlInspectorVm & {
   coverageState?: string | null;
   rawSummary?: string;
   configureHref: string;
+  /** Original URL before canonical locale normalization */
+  requestedUrl?: string;
+  /** True when the requested URL was a redirect-only entry point (e.g. site root) */
+  redirectEntryPoint?: boolean;
 };
 
 export async function inspectUrlWithSearchConsole(url: string): Promise<UrlInspectionLiveResult> {
+  const requestedUrl = url;
+  const inspectionUrl = await resolveIndexableUrl(url);
+  const redirectEntryPoint = inspectionUrl.replace(/\/$/, "") !== requestedUrl.replace(/\/$/, "");
   const integrations = await seoRepository.getIntegrationsConfig();
   const google = integrations.google;
   if (!google?.enabled || !google.siteUrl?.trim() || !google.bearerToken?.trim()) {
@@ -40,7 +48,7 @@ export async function inspectUrlWithSearchConsole(url: string): Promise<UrlInspe
         authorization: `Bearer ${token}`,
         "content-type": "application/json",
       },
-      body: JSON.stringify({ inspectionUrl: url, siteUrl }),
+      body: JSON.stringify({ inspectionUrl, siteUrl }),
       cache: "no-store",
     },
   );
@@ -91,10 +99,12 @@ export async function inspectUrlWithSearchConsole(url: string): Promise<UrlInspe
     : coverageState || "No crawl time";
 
   return {
-    url,
+    url: inspectionUrl,
+    requestedUrl,
+    redirectEntryPoint,
     indexed,
     lastCrawledLabel,
-    canonical: index?.googleCanonical || index?.userCanonical || url,
+    canonical: index?.googleCanonical || index?.userCanonical || inspectionUrl,
     richResults,
     breadcrumbValid: types.has("Breadcrumbs") || types.has("BreadcrumbList") || richResults === "valid",
     faqValid: types.has("FAQ") || types.has("FAQPage"),
@@ -103,7 +113,14 @@ export async function inspectUrlWithSearchConsole(url: string): Promise<UrlInspe
     live: true,
     verdict,
     coverageState,
-    rawSummary: [verdict, coverageState, index?.indexingState].filter(Boolean).join(" · "),
+    rawSummary: [
+      redirectEntryPoint ? `Inspected canonical ${inspectionUrl} (requested ${requestedUrl})` : null,
+      verdict,
+      coverageState,
+      index?.indexingState,
+    ]
+      .filter(Boolean)
+      .join(" · "),
     configureHref: "/admin/seo/google?tab=search_console",
   };
 }

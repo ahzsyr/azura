@@ -221,6 +221,7 @@ const CMS_PAGE_COMPOSITION_COLUMNS = [
 
 const POST_CONTENT_COMPOSITION_COLUMNS = [
   { table: "Post", name: "composition" },
+  { table: "Post", name: "featuredImageSettings" },
   { table: "ContentItem", name: "composition" },
   { table: "ContentItemRevision", name: "composition" },
 ];
@@ -553,6 +554,337 @@ async function ensureMediaAssetScopeMysql(prisma) {
   }
 }
 
+/** Safety net for Hostinger when migrate history lags security-hardening release. */
+async function ensureSecurityHardeningMysql(prisma) {
+  if (!(await mysqlColumnExists(prisma, "User", "sessionVersion"))) {
+    await prisma.$executeRawUnsafe(
+      "ALTER TABLE `User` ADD COLUMN `sessionVersion` INT NOT NULL DEFAULT 0",
+    );
+    console.log("[db-migrate] MySQL: added User.sessionVersion");
+  }
+  if (!(await mysqlColumnExists(prisma, "User", "totpSecret"))) {
+    await prisma.$executeRawUnsafe("ALTER TABLE `User` ADD COLUMN `totpSecret` TEXT NULL");
+    console.log("[db-migrate] MySQL: added User.totpSecret");
+  }
+  if (!(await mysqlColumnExists(prisma, "User", "totpEnabled"))) {
+    await prisma.$executeRawUnsafe(
+      "ALTER TABLE `User` ADD COLUMN `totpEnabled` BOOLEAN NOT NULL DEFAULT false",
+    );
+    console.log("[db-migrate] MySQL: added User.totpEnabled");
+  }
+  if (!(await mysqlColumnExists(prisma, "MediaAsset", "visibility"))) {
+    await prisma.$executeRawUnsafe(
+      "ALTER TABLE `MediaAsset` ADD COLUMN `visibility` ENUM('PUBLIC','GATED','PRIVATE') NOT NULL DEFAULT 'PUBLIC'",
+    );
+    console.log("[db-migrate] MySQL: added MediaAsset.visibility");
+  }
+  if (!(await mysqlTableExists(prisma, "MfaRecoveryCode"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`MfaRecoveryCode\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`userId\` VARCHAR(191) NOT NULL,
+        \`codeHash\` VARCHAR(64) NOT NULL,
+        \`usedAt\` DATETIME(3) NULL,
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        INDEX \`MfaRecoveryCode_userId_idx\`(\`userId\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    try {
+      await prisma.$executeRawUnsafe(`
+        ALTER TABLE \`MfaRecoveryCode\`
+        ADD CONSTRAINT \`MfaRecoveryCode_userId_fkey\`
+        FOREIGN KEY (\`userId\`) REFERENCES \`User\`(\`id\`)
+        ON DELETE CASCADE ON UPDATE CASCADE`);
+    } catch {
+      /* fk may already exist */
+    }
+    console.log("[db-migrate] MySQL: created MfaRecoveryCode");
+  }
+  if (!(await mysqlTableExists(prisma, "RateLimitBucket"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`RateLimitBucket\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`bucketKey\` VARCHAR(191) NOT NULL,
+        \`windowStart\` DATETIME(3) NOT NULL,
+        \`count\` INT NOT NULL DEFAULT 0,
+        \`updatedAt\` DATETIME(3) NOT NULL,
+        UNIQUE INDEX \`RateLimitBucket_bucketKey_key\`(\`bucketKey\`),
+        INDEX \`RateLimitBucket_windowStart_idx\`(\`windowStart\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    console.log("[db-migrate] MySQL: created RateLimitBucket");
+  }
+  if (!(await mysqlTableExists(prisma, "SecurityAuditLog"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`SecurityAuditLog\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`action\` VARCHAR(64) NOT NULL,
+        \`actorId\` VARCHAR(36) NULL,
+        \`actorRole\` VARCHAR(32) NULL,
+        \`ip\` VARCHAR(64) NULL,
+        \`meta\` JSON NOT NULL,
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        INDEX \`SecurityAuditLog_action_createdAt_idx\`(\`action\`, \`createdAt\`),
+        INDEX \`SecurityAuditLog_actorId_createdAt_idx\`(\`actorId\`, \`createdAt\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    console.log("[db-migrate] MySQL: created SecurityAuditLog");
+  }
+  if (!(await mysqlEnumHasValue(prisma, "User", "role", "SUPER_ADMIN"))) {
+    await prisma.$executeRawUnsafe(`
+      ALTER TABLE \`User\`
+        MODIFY COLUMN \`role\`
+        ENUM('ADMIN', 'CUSTOMER', 'SUPER_ADMIN')
+        NOT NULL DEFAULT 'CUSTOMER'`);
+    console.log("[db-migrate] MySQL: added SUPER_ADMIN to User.role");
+  } else {
+    console.log("[db-migrate] MySQL: User.role already includes SUPER_ADMIN");
+  }
+}
+
+/** P1–P3 auth lifecycle columns/tables when migrate history was not applied on Hostinger. */
+async function ensureAuthLifecycleMysql(prisma) {
+  if (!(await mysqlColumnExists(prisma, "User", "disabledAt"))) {
+    await prisma.$executeRawUnsafe("ALTER TABLE `User` ADD COLUMN `disabledAt` DATETIME(3) NULL");
+    console.log("[db-migrate] MySQL: added User.disabledAt");
+  }
+  if (!(await mysqlColumnExists(prisma, "User", "lockedUntil"))) {
+    await prisma.$executeRawUnsafe("ALTER TABLE `User` ADD COLUMN `lockedUntil` DATETIME(3) NULL");
+    console.log("[db-migrate] MySQL: added User.lockedUntil");
+  }
+  if (!(await mysqlColumnExists(prisma, "User", "failedLoginCount"))) {
+    await prisma.$executeRawUnsafe(
+      "ALTER TABLE `User` ADD COLUMN `failedLoginCount` INT NOT NULL DEFAULT 0",
+    );
+    console.log("[db-migrate] MySQL: added User.failedLoginCount");
+  }
+
+  const hadEmailVerified = await mysqlColumnExists(prisma, "User", "emailVerifiedAt");
+  if (!hadEmailVerified) {
+    await prisma.$executeRawUnsafe(
+      "ALTER TABLE `User` ADD COLUMN `emailVerifiedAt` DATETIME(3) NULL",
+    );
+    console.log("[db-migrate] MySQL: added User.emailVerifiedAt");
+  }
+  if (!(await mysqlColumnExists(prisma, "User", "pendingEmail"))) {
+    await prisma.$executeRawUnsafe(
+      "ALTER TABLE `User` ADD COLUMN `pendingEmail` VARCHAR(191) NULL",
+    );
+    console.log("[db-migrate] MySQL: added User.pendingEmail");
+  }
+  // Grandfather existing rows so login is not blocked after column add
+  await prisma.$executeRawUnsafe(
+    "UPDATE `User` SET `emailVerifiedAt` = `createdAt` WHERE `emailVerifiedAt` IS NULL",
+  );
+  console.log("[db-migrate] MySQL: grandfathered User.emailVerifiedAt");
+
+  if (!(await mysqlColumnExists(prisma, "User", "mustChangePassword"))) {
+    await prisma.$executeRawUnsafe(
+      "ALTER TABLE `User` ADD COLUMN `mustChangePassword` BOOLEAN NOT NULL DEFAULT false",
+    );
+    console.log("[db-migrate] MySQL: added User.mustChangePassword");
+  }
+
+  if (!(await mysqlTableExists(prisma, "EmailVerificationToken"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`EmailVerificationToken\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`userId\` VARCHAR(191) NOT NULL,
+        \`purpose\` ENUM('SIGNUP_VERIFY', 'EMAIL_CHANGE') NOT NULL,
+        \`tokenHash\` VARCHAR(191) NOT NULL,
+        \`expiresAt\` DATETIME(3) NOT NULL,
+        \`usedAt\` DATETIME(3) NULL,
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        INDEX \`EmailVerificationToken_userId_purpose_idx\`(\`userId\`, \`purpose\`),
+        INDEX \`EmailVerificationToken_expiresAt_idx\`(\`expiresAt\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    try {
+      await prisma.$executeRawUnsafe(`
+        ALTER TABLE \`EmailVerificationToken\`
+        ADD CONSTRAINT \`EmailVerificationToken_userId_fkey\`
+        FOREIGN KEY (\`userId\`) REFERENCES \`User\`(\`id\`)
+        ON DELETE CASCADE ON UPDATE CASCADE`);
+    } catch {
+      /* fk may already exist */
+    }
+    console.log("[db-migrate] MySQL: created EmailVerificationToken");
+  }
+
+  if (!(await mysqlTableExists(prisma, "AdminInviteToken"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`AdminInviteToken\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`userId\` VARCHAR(191) NOT NULL,
+        \`tokenHash\` VARCHAR(191) NOT NULL,
+        \`expiresAt\` DATETIME(3) NOT NULL,
+        \`usedAt\` DATETIME(3) NULL,
+        \`invitedById\` VARCHAR(191) NULL,
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        INDEX \`AdminInviteToken_userId_idx\`(\`userId\`),
+        INDEX \`AdminInviteToken_expiresAt_idx\`(\`expiresAt\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    try {
+      await prisma.$executeRawUnsafe(`
+        ALTER TABLE \`AdminInviteToken\`
+        ADD CONSTRAINT \`AdminInviteToken_userId_fkey\`
+        FOREIGN KEY (\`userId\`) REFERENCES \`User\`(\`id\`)
+        ON DELETE CASCADE ON UPDATE CASCADE`);
+    } catch {
+      /* fk may already exist */
+    }
+    console.log("[db-migrate] MySQL: created AdminInviteToken");
+  }
+
+  // Promote oldest ADMIN → SUPER_ADMIN when none exists
+  try {
+    await prisma.$executeRawUnsafe(`
+      UPDATE \`User\`
+      SET \`role\` = 'SUPER_ADMIN'
+      WHERE \`id\` = (
+        SELECT \`id\` FROM (
+          SELECT \`id\` FROM \`User\`
+          WHERE \`role\` = 'ADMIN'
+          ORDER BY \`createdAt\` ASC
+          LIMIT 1
+        ) AS \`oldest\`
+      )
+      AND NOT EXISTS (
+        SELECT 1 FROM (
+          SELECT \`id\` FROM \`User\` WHERE \`role\` = 'SUPER_ADMIN' LIMIT 1
+        ) AS \`existing_super\`
+      )`);
+    console.log("[db-migrate] MySQL: ensured SUPER_ADMIN bootstrap (if needed)");
+  } catch (error) {
+    console.warn("[db-migrate] MySQL: SUPER_ADMIN bootstrap skipped:", error?.message ?? error);
+  }
+}
+
+async function ensureEmailOtpMysql(prisma) {
+  if (await mysqlTableExists(prisma, "EmailOtpToken")) {
+    console.log("[db-migrate] MySQL: EmailOtpToken already exists");
+    return;
+  }
+  await prisma.$executeRawUnsafe(`
+    CREATE TABLE \`EmailOtpToken\` (
+      \`id\` VARCHAR(191) NOT NULL,
+      \`userId\` VARCHAR(191) NOT NULL,
+      \`purpose\` ENUM('SIGNUP_VERIFY', 'ADMIN_LOGIN') NOT NULL,
+      \`codeHash\` VARCHAR(64) NOT NULL,
+      \`expiresAt\` DATETIME(3) NOT NULL,
+      \`usedAt\` DATETIME(3) NULL,
+      \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+      INDEX \`EmailOtpToken_userId_purpose_idx\`(\`userId\`, \`purpose\`),
+      INDEX \`EmailOtpToken_expiresAt_idx\`(\`expiresAt\`),
+      PRIMARY KEY (\`id\`)
+    ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+  try {
+    await prisma.$executeRawUnsafe(`
+      ALTER TABLE \`EmailOtpToken\`
+      ADD CONSTRAINT \`EmailOtpToken_userId_fkey\`
+      FOREIGN KEY (\`userId\`) REFERENCES \`User\`(\`id\`)
+      ON DELETE CASCADE ON UPDATE CASCADE`);
+  } catch {
+    /* fk may already exist */
+  }
+  console.log("[db-migrate] MySQL: created EmailOtpToken");
+}
+
+async function ensureSecurityHardeningPostgres(prisma) {
+  if (!(await postgresColumnExists(prisma, "User", "sessionVersion"))) {
+    await prisma.$executeRawUnsafe(
+      `ALTER TABLE "User" ADD COLUMN "sessionVersion" INTEGER NOT NULL DEFAULT 0`,
+    );
+    console.log("[db-migrate] PostgreSQL: added User.sessionVersion");
+  }
+  if (!(await postgresColumnExists(prisma, "User", "totpSecret"))) {
+    await prisma.$executeRawUnsafe(`ALTER TABLE "User" ADD COLUMN "totpSecret" TEXT`);
+    console.log("[db-migrate] PostgreSQL: added User.totpSecret");
+  }
+  if (!(await postgresColumnExists(prisma, "User", "totpEnabled"))) {
+    await prisma.$executeRawUnsafe(
+      `ALTER TABLE "User" ADD COLUMN "totpEnabled" BOOLEAN NOT NULL DEFAULT false`,
+    );
+    console.log("[db-migrate] PostgreSQL: added User.totpEnabled");
+  }
+  await prisma.$executeRawUnsafe(`
+    DO $$ BEGIN
+      CREATE TYPE "MediaVisibility" AS ENUM ('PUBLIC', 'GATED', 'PRIVATE');
+    EXCEPTION WHEN duplicate_object THEN NULL;
+    END $$`);
+  if (!(await postgresColumnExists(prisma, "MediaAsset", "visibility"))) {
+    await prisma.$executeRawUnsafe(
+      `ALTER TABLE "MediaAsset" ADD COLUMN "visibility" "MediaVisibility" NOT NULL DEFAULT 'PUBLIC'`,
+    );
+    console.log("[db-migrate] PostgreSQL: added MediaAsset.visibility");
+  }
+  if (!(await postgresTableExists(prisma, "MfaRecoveryCode"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE "MfaRecoveryCode" (
+        "id" TEXT NOT NULL,
+        "userId" TEXT NOT NULL,
+        "codeHash" VARCHAR(64) NOT NULL,
+        "usedAt" TIMESTAMP(3),
+        "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT "MfaRecoveryCode_pkey" PRIMARY KEY ("id")
+      )`);
+    await prisma.$executeRawUnsafe(
+      `CREATE INDEX "MfaRecoveryCode_userId_idx" ON "MfaRecoveryCode"("userId")`,
+    );
+    await prisma.$executeRawUnsafe(`
+      ALTER TABLE "MfaRecoveryCode"
+      ADD CONSTRAINT "MfaRecoveryCode_userId_fkey"
+      FOREIGN KEY ("userId") REFERENCES "User"("id")
+      ON DELETE CASCADE ON UPDATE CASCADE`);
+    console.log("[db-migrate] PostgreSQL: created MfaRecoveryCode");
+  }
+  if (!(await postgresTableExists(prisma, "RateLimitBucket"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE "RateLimitBucket" (
+        "id" TEXT NOT NULL,
+        "bucketKey" VARCHAR(191) NOT NULL,
+        "windowStart" TIMESTAMP(3) NOT NULL,
+        "count" INTEGER NOT NULL DEFAULT 0,
+        "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT "RateLimitBucket_pkey" PRIMARY KEY ("id")
+      )`);
+    await prisma.$executeRawUnsafe(
+      `CREATE UNIQUE INDEX "RateLimitBucket_bucketKey_key" ON "RateLimitBucket"("bucketKey")`,
+    );
+    await prisma.$executeRawUnsafe(
+      `CREATE INDEX "RateLimitBucket_windowStart_idx" ON "RateLimitBucket"("windowStart")`,
+    );
+    console.log("[db-migrate] PostgreSQL: created RateLimitBucket");
+  }
+  if (!(await postgresTableExists(prisma, "SecurityAuditLog"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE "SecurityAuditLog" (
+        "id" TEXT NOT NULL,
+        "action" VARCHAR(64) NOT NULL,
+        "actorId" VARCHAR(36),
+        "actorRole" VARCHAR(32),
+        "ip" VARCHAR(64),
+        "meta" JSONB NOT NULL DEFAULT '{}',
+        "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT "SecurityAuditLog_pkey" PRIMARY KEY ("id")
+      )`);
+    await prisma.$executeRawUnsafe(
+      `CREATE INDEX "SecurityAuditLog_action_createdAt_idx" ON "SecurityAuditLog"("action", "createdAt")`,
+    );
+    await prisma.$executeRawUnsafe(
+      `CREATE INDEX "SecurityAuditLog_actorId_createdAt_idx" ON "SecurityAuditLog"("actorId", "createdAt")`,
+    );
+    console.log("[db-migrate] PostgreSQL: created SecurityAuditLog");
+  }
+  await prisma.$executeRawUnsafe(`
+    DO $$ BEGIN
+      ALTER TYPE "UserRole" ADD VALUE IF NOT EXISTS 'SUPER_ADMIN';
+    EXCEPTION WHEN duplicate_object THEN NULL;
+    END $$`);
+  console.log("[db-migrate] PostgreSQL: ensured SUPER_ADMIN on UserRole");
+}
+
 async function ensureMediaAssetScopePostgres(prisma) {
   if (!(await postgresColumnExists(prisma, "MediaAsset", "assetScope"))) {
     await prisma.$executeRawUnsafe(
@@ -565,6 +897,506 @@ async function ensureMediaAssetScopePostgres(prisma) {
   await prisma.$executeRawUnsafe(
     `CREATE INDEX IF NOT EXISTS "MediaAsset_assetScope_idx" ON "MediaAsset" ("assetScope")`,
   );
+}
+
+async function ensureMarketingIntegrationsPostgres(prisma) {
+  if (await postgresTableExists(prisma, "MarketingProviderRuntime")) {
+    if (!(await postgresTableExists(prisma, "MarketingProviderAppConfig"))) {
+      await prisma.$executeRawUnsafe(`
+        CREATE TABLE IF NOT EXISTS "MarketingProviderAppConfig" (
+          "id" TEXT NOT NULL,
+          "providerId" VARCHAR(64) NOT NULL,
+          "clientId" VARCHAR(256),
+          "clientSecret" TEXT,
+          "appSecret" TEXT,
+          "webhookVerifyToken" TEXT,
+          "pixelId" VARCHAR(128),
+          "capiAccessToken" TEXT,
+          "metadata" JSONB NOT NULL DEFAULT '{}',
+          "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          CONSTRAINT "MarketingProviderAppConfig_pkey" PRIMARY KEY ("id")
+        )`);
+      await prisma.$executeRawUnsafe(`
+        CREATE UNIQUE INDEX IF NOT EXISTS "MarketingProviderAppConfig_providerId_key"
+        ON "MarketingProviderAppConfig" ("providerId")`);
+      console.log("[db-migrate] PostgreSQL: added MarketingProviderAppConfig");
+    } else {
+      console.log("[db-migrate] PostgreSQL: marketing tables already present");
+    }
+    return;
+  }
+  if (!(await postgresTableExists(prisma, "MarketingProviderRuntime"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE IF NOT EXISTS "MarketingProviderRuntime" (
+        "id" TEXT NOT NULL,
+        "providerId" VARCHAR(64) NOT NULL,
+        "enabled" BOOLEAN NOT NULL DEFAULT true,
+        "installedVersion" VARCHAR(32) NOT NULL DEFAULT '1.0.0',
+        "lifecycle" VARCHAR(32) NOT NULL DEFAULT 'discovered',
+        "maintenanceMode" BOOLEAN NOT NULL DEFAULT false,
+        "lastSyncAt" TIMESTAMP(3),
+        "healthSummary" TEXT,
+        "metadata" JSONB NOT NULL DEFAULT '{}',
+        "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT "MarketingProviderRuntime_pkey" PRIMARY KEY ("id")
+      )`);
+    await prisma.$executeRawUnsafe(`
+      CREATE UNIQUE INDEX IF NOT EXISTS "MarketingProviderRuntime_providerId_key"
+      ON "MarketingProviderRuntime" ("providerId")`);
+    console.log("[db-migrate] PostgreSQL: created MarketingProviderRuntime");
+  }
+  if (!(await postgresTableExists(prisma, "MarketingConnection"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE IF NOT EXISTS "MarketingConnection" (
+        "id" TEXT NOT NULL,
+        "providerId" VARCHAR(64) NOT NULL,
+        "tenantId" VARCHAR(64) NOT NULL DEFAULT 'default',
+        "status" VARCHAR(32) NOT NULL DEFAULT 'disconnected',
+        "lifecycle" VARCHAR(32) NOT NULL DEFAULT 'configured',
+        "oauthMetadata" JSONB NOT NULL DEFAULT '{}',
+        "scopesGranted" JSONB NOT NULL DEFAULT '[]',
+        "scopesRequired" JSONB NOT NULL DEFAULT '[]',
+        "scopesMissing" JSONB NOT NULL DEFAULT '[]',
+        "scopesExpired" JSONB NOT NULL DEFAULT '[]',
+        "lastHealthAt" TIMESTAMP(3),
+        "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT "MarketingConnection_pkey" PRIMARY KEY ("id")
+      )`);
+    await prisma.$executeRawUnsafe(`
+      CREATE UNIQUE INDEX IF NOT EXISTS "MarketingConnection_providerId_tenantId_key"
+      ON "MarketingConnection" ("providerId", "tenantId")`);
+    await prisma.$executeRawUnsafe(`
+      CREATE INDEX IF NOT EXISTS "MarketingConnection_status_idx"
+      ON "MarketingConnection" ("status")`);
+    await prisma.$executeRawUnsafe(`
+      CREATE INDEX IF NOT EXISTS "MarketingConnection_lifecycle_idx"
+      ON "MarketingConnection" ("lifecycle")`);
+    console.log("[db-migrate] PostgreSQL: created MarketingConnection");
+  }
+  if (!(await postgresTableExists(prisma, "MarketingCredential"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE IF NOT EXISTS "MarketingCredential" (
+        "id" TEXT NOT NULL,
+        "connectionId" TEXT NOT NULL,
+        "accessToken" TEXT NOT NULL,
+        "refreshToken" TEXT,
+        "tokenType" VARCHAR(32),
+        "expiresAt" TIMESTAMP(3),
+        "refreshStatus" VARCHAR(32) NOT NULL DEFAULT 'ok',
+        "sealedPayload" JSONB NOT NULL DEFAULT '{}',
+        "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT "MarketingCredential_pkey" PRIMARY KEY ("id")
+      )`);
+    await prisma.$executeRawUnsafe(`
+      CREATE UNIQUE INDEX IF NOT EXISTS "MarketingCredential_connectionId_key"
+      ON "MarketingCredential" ("connectionId")`);
+    console.log("[db-migrate] PostgreSQL: created MarketingCredential");
+  }
+  if (!(await postgresTableExists(prisma, "MarketingPermissionState"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE IF NOT EXISTS "MarketingPermissionState" (
+        "id" TEXT NOT NULL,
+        "providerId" VARCHAR(64) NOT NULL,
+        "connectionId" VARCHAR(64) NOT NULL,
+        "entries" JSONB NOT NULL DEFAULT '[]',
+        "lastCheckedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT "MarketingPermissionState_pkey" PRIMARY KEY ("id")
+      )`);
+    await prisma.$executeRawUnsafe(`
+      CREATE UNIQUE INDEX IF NOT EXISTS "MarketingPermissionState_providerId_connectionId_key"
+      ON "MarketingPermissionState" ("providerId", "connectionId")`);
+    await prisma.$executeRawUnsafe(`
+      CREATE INDEX IF NOT EXISTS "MarketingPermissionState_lastCheckedAt_idx"
+      ON "MarketingPermissionState" ("lastCheckedAt")`);
+    console.log("[db-migrate] PostgreSQL: created MarketingPermissionState");
+  }
+  if (!(await postgresTableExists(prisma, "MarketingAccount"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE IF NOT EXISTS "MarketingAccount" (
+        "id" TEXT NOT NULL,
+        "connectionId" TEXT NOT NULL,
+        "externalAccountId" VARCHAR(128) NOT NULL,
+        "accountType" VARCHAR(64) NOT NULL,
+        "displayName" VARCHAR(256) NOT NULL,
+        "metadata" JSONB NOT NULL DEFAULT '{}',
+        "isSelected" BOOLEAN NOT NULL DEFAULT false,
+        "healthSummary" TEXT,
+        "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT "MarketingAccount_pkey" PRIMARY KEY ("id")
+      )`);
+    await prisma.$executeRawUnsafe(`
+      CREATE UNIQUE INDEX IF NOT EXISTS "MarketingAccount_connectionId_externalAccountId_key"
+      ON "MarketingAccount" ("connectionId", "externalAccountId")`);
+    await prisma.$executeRawUnsafe(`
+      CREATE INDEX IF NOT EXISTS "MarketingAccount_accountType_idx"
+      ON "MarketingAccount" ("accountType")`);
+    console.log("[db-migrate] PostgreSQL: created MarketingAccount");
+  }
+  if (!(await postgresTableExists(prisma, "MarketingProviderAppConfig"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE IF NOT EXISTS "MarketingProviderAppConfig" (
+        "id" TEXT NOT NULL,
+        "providerId" VARCHAR(64) NOT NULL,
+        "clientId" VARCHAR(256),
+        "clientSecret" TEXT,
+        "appSecret" TEXT,
+        "webhookVerifyToken" TEXT,
+        "pixelId" VARCHAR(128),
+        "capiAccessToken" TEXT,
+        "metadata" JSONB NOT NULL DEFAULT '{}',
+        "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT "MarketingProviderAppConfig_pkey" PRIMARY KEY ("id")
+      )`);
+    await prisma.$executeRawUnsafe(`
+      CREATE UNIQUE INDEX IF NOT EXISTS "MarketingProviderAppConfig_providerId_key"
+      ON "MarketingProviderAppConfig" ("providerId")`);
+    console.log("[db-migrate] PostgreSQL: created MarketingProviderAppConfig");
+  }
+  await prisma.$executeRawUnsafe(`
+    DO $$
+    BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'MarketingConnection_providerId_fkey') THEN
+        ALTER TABLE "MarketingConnection"
+          ADD CONSTRAINT "MarketingConnection_providerId_fkey"
+          FOREIGN KEY ("providerId") REFERENCES "MarketingProviderRuntime"("providerId")
+          ON DELETE CASCADE ON UPDATE CASCADE;
+      END IF;
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'MarketingCredential_connectionId_fkey') THEN
+        ALTER TABLE "MarketingCredential"
+          ADD CONSTRAINT "MarketingCredential_connectionId_fkey"
+          FOREIGN KEY ("connectionId") REFERENCES "MarketingConnection"("id")
+          ON DELETE CASCADE ON UPDATE CASCADE;
+      END IF;
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'MarketingAccount_connectionId_fkey') THEN
+        ALTER TABLE "MarketingAccount"
+          ADD CONSTRAINT "MarketingAccount_connectionId_fkey"
+          FOREIGN KEY ("connectionId") REFERENCES "MarketingConnection"("id")
+          ON DELETE CASCADE ON UPDATE CASCADE;
+      END IF;
+    END $$;`);
+  console.log("[db-migrate] PostgreSQL: ensured core marketing integrations schema");
+}
+
+async function ensureMarketingProviderAppConfigMysql(prisma) {
+  if (await mysqlTableExists(prisma, "MarketingProviderAppConfig")) {
+    console.log("[db-migrate] MySQL: MarketingProviderAppConfig already exists");
+    return;
+  }
+  await prisma.$executeRawUnsafe(`
+    CREATE TABLE \`MarketingProviderAppConfig\` (
+      \`id\` VARCHAR(191) NOT NULL,
+      \`providerId\` VARCHAR(64) NOT NULL,
+      \`clientId\` VARCHAR(256) NULL,
+      \`clientSecret\` TEXT NULL,
+      \`appSecret\` TEXT NULL,
+      \`webhookVerifyToken\` TEXT NULL,
+      \`pixelId\` VARCHAR(128) NULL,
+      \`capiAccessToken\` TEXT NULL,
+      \`metadata\` JSON NOT NULL,
+      \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+      \`updatedAt\` DATETIME(3) NOT NULL,
+      UNIQUE INDEX \`MarketingProviderAppConfig_providerId_key\`(\`providerId\`),
+      PRIMARY KEY (\`id\`)
+    ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+  console.log("[db-migrate] MySQL: created MarketingProviderAppConfig");
+}
+
+async function ensureMarketingFoundationMysql(prisma) {
+  if (!(await mysqlTableExists(prisma, "MarketingProviderRuntime"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`MarketingProviderRuntime\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`providerId\` VARCHAR(64) NOT NULL,
+        \`enabled\` BOOLEAN NOT NULL DEFAULT true,
+        \`installedVersion\` VARCHAR(32) NOT NULL DEFAULT '1.0.0',
+        \`lifecycle\` VARCHAR(32) NOT NULL DEFAULT 'discovered',
+        \`maintenanceMode\` BOOLEAN NOT NULL DEFAULT false,
+        \`lastSyncAt\` DATETIME(3) NULL,
+        \`healthSummary\` TEXT NULL,
+        \`metadata\` JSON NOT NULL,
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        \`updatedAt\` DATETIME(3) NOT NULL,
+        UNIQUE INDEX \`MarketingProviderRuntime_providerId_key\`(\`providerId\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    console.log("[db-migrate] MySQL: created MarketingProviderRuntime");
+  }
+  if (!(await mysqlTableExists(prisma, "MarketingConnection"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`MarketingConnection\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`providerId\` VARCHAR(64) NOT NULL,
+        \`tenantId\` VARCHAR(64) NOT NULL DEFAULT 'default',
+        \`status\` VARCHAR(32) NOT NULL DEFAULT 'disconnected',
+        \`lifecycle\` VARCHAR(32) NOT NULL DEFAULT 'configured',
+        \`oauthMetadata\` JSON NOT NULL,
+        \`scopesGranted\` JSON NOT NULL,
+        \`scopesRequired\` JSON NOT NULL,
+        \`scopesMissing\` JSON NOT NULL,
+        \`scopesExpired\` JSON NOT NULL,
+        \`lastHealthAt\` DATETIME(3) NULL,
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        \`updatedAt\` DATETIME(3) NOT NULL,
+        UNIQUE INDEX \`MarketingConnection_providerId_tenantId_key\`(\`providerId\`, \`tenantId\`),
+        INDEX \`MarketingConnection_status_idx\`(\`status\`),
+        INDEX \`MarketingConnection_lifecycle_idx\`(\`lifecycle\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    console.log("[db-migrate] MySQL: created MarketingConnection");
+  }
+  if (!(await mysqlTableExists(prisma, "MarketingCredential"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`MarketingCredential\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`connectionId\` VARCHAR(191) NOT NULL,
+        \`accessToken\` TEXT NOT NULL,
+        \`refreshToken\` TEXT NULL,
+        \`tokenType\` VARCHAR(32) NULL,
+        \`expiresAt\` DATETIME(3) NULL,
+        \`refreshStatus\` VARCHAR(32) NOT NULL DEFAULT 'ok',
+        \`sealedPayload\` JSON NOT NULL,
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        \`updatedAt\` DATETIME(3) NOT NULL,
+        UNIQUE INDEX \`MarketingCredential_connectionId_key\`(\`connectionId\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    console.log("[db-migrate] MySQL: created MarketingCredential");
+  }
+  if (!(await mysqlTableExists(prisma, "MarketingPermissionState"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`MarketingPermissionState\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`providerId\` VARCHAR(64) NOT NULL,
+        \`connectionId\` VARCHAR(64) NOT NULL,
+        \`entries\` JSON NOT NULL,
+        \`lastCheckedAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        \`updatedAt\` DATETIME(3) NOT NULL,
+        UNIQUE INDEX \`MarketingPermissionState_providerId_connectionId_key\`(\`providerId\`, \`connectionId\`),
+        INDEX \`MarketingPermissionState_lastCheckedAt_idx\`(\`lastCheckedAt\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    console.log("[db-migrate] MySQL: created MarketingPermissionState");
+  }
+  if (!(await mysqlTableExists(prisma, "MarketingAccount"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`MarketingAccount\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`connectionId\` VARCHAR(191) NOT NULL,
+        \`externalAccountId\` VARCHAR(128) NOT NULL,
+        \`accountType\` VARCHAR(64) NOT NULL,
+        \`displayName\` VARCHAR(256) NOT NULL,
+        \`metadata\` JSON NOT NULL,
+        \`isSelected\` BOOLEAN NOT NULL DEFAULT false,
+        \`healthSummary\` TEXT NULL,
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        \`updatedAt\` DATETIME(3) NOT NULL,
+        UNIQUE INDEX \`MarketingAccount_connectionId_externalAccountId_key\`(\`connectionId\`, \`externalAccountId\`),
+        INDEX \`MarketingAccount_accountType_idx\`(\`accountType\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    console.log("[db-migrate] MySQL: created MarketingAccount");
+  }
+  try {
+    await prisma.$executeRawUnsafe(`
+      ALTER TABLE \`MarketingConnection\`
+      ADD CONSTRAINT \`MarketingConnection_providerId_fkey\`
+      FOREIGN KEY (\`providerId\`) REFERENCES \`MarketingProviderRuntime\`(\`providerId\`)
+      ON DELETE CASCADE ON UPDATE CASCADE`);
+  } catch {}
+  try {
+    await prisma.$executeRawUnsafe(`
+      ALTER TABLE \`MarketingCredential\`
+      ADD CONSTRAINT \`MarketingCredential_connectionId_fkey\`
+      FOREIGN KEY (\`connectionId\`) REFERENCES \`MarketingConnection\`(\`id\`)
+      ON DELETE CASCADE ON UPDATE CASCADE`);
+  } catch {}
+  try {
+    await prisma.$executeRawUnsafe(`
+      ALTER TABLE \`MarketingAccount\`
+      ADD CONSTRAINT \`MarketingAccount_connectionId_fkey\`
+      FOREIGN KEY (\`connectionId\`) REFERENCES \`MarketingConnection\`(\`id\`)
+      ON DELETE CASCADE ON UPDATE CASCADE`);
+  } catch {}
+}
+
+async function ensureMysqlColumn(prisma, table, column, definition) {
+  if (await mysqlColumnExists(prisma, table, column)) {
+    console.log(`[db-migrate] MySQL: ${table}.${column} already exists`);
+    return;
+  }
+  await prisma.$executeRawUnsafe(
+    `ALTER TABLE \`${table}\` ADD COLUMN \`${column}\` ${definition}`,
+  );
+  console.log(`[db-migrate] MySQL: added ${table}.${column}`);
+}
+
+/** Tracking + job tables used by Marketing admin (Hostinger skips prisma/migrations). */
+async function ensureMarketingTrackingMysql(prisma) {
+  if (!(await mysqlTableExists(prisma, "MarketingTrackingConfig"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`MarketingTrackingConfig\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`providerId\` VARCHAR(64) NOT NULL,
+        \`enabled\` BOOLEAN NOT NULL DEFAULT false,
+        \`pixelId\` VARCHAR(128) NULL,
+        \`capiEnabled\` BOOLEAN NOT NULL DEFAULT false,
+        \`accessToken\` TEXT NULL,
+        \`testEventCode\` VARCHAR(128) NULL,
+        \`mappings\` JSON NOT NULL DEFAULT ('{}'),
+        \`metadata\` JSON NOT NULL DEFAULT ('{}'),
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        \`updatedAt\` DATETIME(3) NOT NULL,
+        UNIQUE INDEX \`MarketingTrackingConfig_providerId_key\`(\`providerId\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    console.log("[db-migrate] MySQL: created MarketingTrackingConfig");
+  } else {
+    await ensureMysqlColumn(prisma, "MarketingTrackingConfig", "mappings", "JSON NOT NULL DEFAULT ('{}')");
+    await ensureMysqlColumn(prisma, "MarketingTrackingConfig", "metadata", "JSON NOT NULL DEFAULT ('{}')");
+    await ensureMysqlColumn(prisma, "MarketingTrackingConfig", "pixelId", "VARCHAR(128) NULL");
+    await ensureMysqlColumn(prisma, "MarketingTrackingConfig", "capiEnabled", "BOOLEAN NOT NULL DEFAULT false");
+    await ensureMysqlColumn(prisma, "MarketingTrackingConfig", "accessToken", "TEXT NULL");
+    await ensureMysqlColumn(prisma, "MarketingTrackingConfig", "testEventCode", "VARCHAR(128) NULL");
+    console.log("[db-migrate] MySQL: MarketingTrackingConfig already exists");
+  }
+
+  if (!(await mysqlTableExists(prisma, "MarketingJob"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`MarketingJob\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`providerId\` VARCHAR(64) NULL,
+        \`connectionId\` VARCHAR(191) NULL,
+        \`accountId\` VARCHAR(191) NULL,
+        \`jobType\` VARCHAR(64) NOT NULL,
+        \`workflowStage\` VARCHAR(64) NOT NULL DEFAULT 'queued',
+        \`payload\` JSON NOT NULL DEFAULT ('{}'),
+        \`result\` JSON NOT NULL DEFAULT ('{}'),
+        \`idempotencyKey\` VARCHAR(191) NOT NULL,
+        \`status\` VARCHAR(32) NOT NULL DEFAULT 'PENDING',
+        \`attemptCount\` INT NOT NULL DEFAULT 0,
+        \`maxAttempts\` INT NOT NULL DEFAULT 5,
+        \`lastError\` TEXT NULL,
+        \`scheduledAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        \`startedAt\` DATETIME(3) NULL,
+        \`completedAt\` DATETIME(3) NULL,
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        \`updatedAt\` DATETIME(3) NOT NULL,
+        UNIQUE INDEX \`MarketingJob_idempotencyKey_key\`(\`idempotencyKey\`),
+        INDEX \`MarketingJob_status_scheduledAt_idx\`(\`status\`, \`scheduledAt\`),
+        INDEX \`MarketingJob_jobType_status_idx\`(\`jobType\`, \`status\`),
+        INDEX \`MarketingJob_providerId_status_idx\`(\`providerId\`, \`status\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    console.log("[db-migrate] MySQL: created MarketingJob");
+  }
+
+  if (!(await mysqlTableExists(prisma, "MarketingWebhookEvent"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`MarketingWebhookEvent\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`providerId\` VARCHAR(64) NOT NULL,
+        \`eventType\` VARCHAR(128) NOT NULL,
+        \`externalEventId\` VARCHAR(191) NULL,
+        \`signatureValid\` BOOLEAN NOT NULL DEFAULT false,
+        \`status\` VARCHAR(32) NOT NULL DEFAULT 'RECEIVED',
+        \`rawPayload\` JSON NOT NULL DEFAULT ('{}'),
+        \`normalizedPayload\` JSON NOT NULL DEFAULT ('{}'),
+        \`processingError\` TEXT NULL,
+        \`attemptCount\` INT NOT NULL DEFAULT 0,
+        \`receivedAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        \`processedAt\` DATETIME(3) NULL,
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        \`updatedAt\` DATETIME(3) NOT NULL,
+        UNIQUE INDEX \`MarketingWebhookEvent_providerId_externalEventId_key\`(\`providerId\`, \`externalEventId\`),
+        INDEX \`MarketingWebhookEvent_providerId_status_idx\`(\`providerId\`, \`status\`),
+        INDEX \`MarketingWebhookEvent_externalEventId_idx\`(\`externalEventId\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    console.log("[db-migrate] MySQL: created MarketingWebhookEvent");
+  }
+
+  if (!(await mysqlTableExists(prisma, "MarketingAnalyticsSnapshot"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`MarketingAnalyticsSnapshot\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`providerId\` VARCHAR(64) NOT NULL,
+        \`accountId\` VARCHAR(128) NOT NULL,
+        \`metric\` VARCHAR(64) NOT NULL,
+        \`value\` DOUBLE NOT NULL DEFAULT 0,
+        \`periodStart\` DATETIME(3) NOT NULL,
+        \`periodEnd\` DATETIME(3) NOT NULL,
+        \`dimensions\` JSON NOT NULL DEFAULT ('{}'),
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        \`updatedAt\` DATETIME(3) NOT NULL,
+        UNIQUE INDEX \`MarketingAnalyticsSnapshot_metric_period_key\`(\`providerId\`, \`accountId\`, \`metric\`, \`periodStart\`, \`periodEnd\`),
+        INDEX \`MarketingAnalyticsSnapshot_providerId_periodStart_idx\`(\`providerId\`, \`periodStart\`),
+        INDEX \`MarketingAnalyticsSnapshot_metric_periodStart_idx\`(\`metric\`, \`periodStart\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    console.log("[db-migrate] MySQL: created MarketingAnalyticsSnapshot");
+  }
+
+  if (!(await mysqlTableExists(prisma, "MarketingLeadEvent"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`MarketingLeadEvent\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`providerId\` VARCHAR(64) NOT NULL,
+        \`externalLeadId\` VARCHAR(191) NOT NULL,
+        \`formId\` VARCHAR(128) NULL,
+        \`payload\` JSON NOT NULL DEFAULT ('{}'),
+        \`canonical\` JSON NOT NULL DEFAULT ('{}'),
+        \`inquiryId\` VARCHAR(64) NULL,
+        \`processingStatus\` VARCHAR(32) NOT NULL DEFAULT 'pending',
+        \`idempotencyKey\` VARCHAR(191) NOT NULL,
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        \`updatedAt\` DATETIME(3) NOT NULL,
+        UNIQUE INDEX \`MarketingLeadEvent_idempotencyKey_key\`(\`idempotencyKey\`),
+        UNIQUE INDEX \`MarketingLeadEvent_providerId_externalLeadId_key\`(\`providerId\`, \`externalLeadId\`),
+        INDEX \`MarketingLeadEvent_processingStatus_idx\`(\`processingStatus\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    console.log("[db-migrate] MySQL: created MarketingLeadEvent");
+  }
+
+  if (!(await mysqlTableExists(prisma, "MarketingTelemetry"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`MarketingTelemetry\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`providerId\` VARCHAR(64) NOT NULL,
+        \`operation\` VARCHAR(128) NOT NULL,
+        \`durationMs\` INT NOT NULL DEFAULT 0,
+        \`retryCount\` INT NOT NULL DEFAULT 0,
+        \`rateLimited\` BOOLEAN NOT NULL DEFAULT false,
+        \`queueWaitMs\` INT NULL,
+        \`outcome\` VARCHAR(16) NOT NULL,
+        \`errorCategory\` VARCHAR(64) NULL,
+        \`metadata\` JSON NOT NULL DEFAULT ('{}'),
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        INDEX \`MarketingTelemetry_providerId_createdAt_idx\`(\`providerId\`, \`createdAt\`),
+        INDEX \`MarketingTelemetry_outcome_createdAt_idx\`(\`outcome\`, \`createdAt\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    console.log("[db-migrate] MySQL: created MarketingTelemetry");
+  }
+
+  // Ads metrics columns on MarketingAccount (campaign intelligence)
+  if (await mysqlTableExists(prisma, "MarketingAccount")) {
+    await ensureMysqlColumn(prisma, "MarketingAccount", "currency", "VARCHAR(8) NULL");
+    await ensureMysqlColumn(prisma, "MarketingAccount", "spend", "DOUBLE NOT NULL DEFAULT 0");
+    await ensureMysqlColumn(prisma, "MarketingAccount", "impressions", "DOUBLE NOT NULL DEFAULT 0");
+    await ensureMysqlColumn(prisma, "MarketingAccount", "clicks", "DOUBLE NOT NULL DEFAULT 0");
+    await ensureMysqlColumn(prisma, "MarketingAccount", "conversions", "DOUBLE NOT NULL DEFAULT 0");
+    await ensureMysqlColumn(prisma, "MarketingAccount", "lastSyncAt", "DATETIME(3) NULL");
+  }
 }
 
 async function applyPostgresPatches(prisma) {
@@ -585,6 +1417,8 @@ async function applyPostgresPatches(prisma) {
   await ensureEditorialMetadataColumnsPostgres(prisma);
   await ensureFaqSetCoverUrlPostgres(prisma);
   await ensureMediaAssetScopePostgres(prisma);
+  await ensureMarketingIntegrationsPostgres(prisma);
+  await ensureSecurityHardeningPostgres(prisma);
 }
 
 async function fixHomePageLayout(prisma) {
@@ -629,6 +1463,12 @@ async function applyMysqlPatches(prisma) {
   await ensureSchemaUiFormsMysql(prisma);
   await ensureFaqSetCoverUrlMysql(prisma);
   await ensureMediaAssetScopeMysql(prisma);
+  await ensureMarketingFoundationMysql(prisma);
+  await ensureMarketingProviderAppConfigMysql(prisma);
+  await ensureMarketingTrackingMysql(prisma);
+  await ensureSecurityHardeningMysql(prisma);
+  await ensureAuthLifecycleMysql(prisma);
+  await ensureEmailOtpMysql(prisma);
   await fixHomePageLayout(prisma);
 }
 

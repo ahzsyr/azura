@@ -152,19 +152,38 @@ export function findMenuKeyAssignedToSurface(
   return null;
 }
 
+/** Live storefront visibility: hidden/draft never render; scheduled waits until start. */
+export function isMenuItemLiveVisible(item: MenuItem): boolean {
+  const visibility = item.visibility ?? "visible";
+  if (visibility === "hidden" || visibility === "draft") return false;
+  if (visibility === "scheduled" && item.scheduledAt) {
+    const scheduledAt = Date.parse(item.scheduledAt);
+    if (!Number.isNaN(scheduledAt) && scheduledAt > Date.now()) return false;
+  }
+  return true;
+}
+
+function itemAppliesToSurface(item: MenuItem, surface: "desktop" | "mobile"): boolean {
+  if (surface === "desktop") return item.placement === "both" || item.placement === "desktop";
+  return item.placement === "both" || item.placement === "mobile";
+}
+
+/** Drop hidden/draft/scheduled items at every depth (placement is not applied). */
+export function filterLiveVisibleMenuTree(items: MenuItem[]): MenuItem[] {
+  return items.flatMap((item) => {
+    if (!isMenuItemLiveVisible(item)) return [];
+    return [{ ...item, children: filterLiveVisibleMenuTree(item.children ?? []) }];
+  });
+}
+
 export function filterMenuItemsForSurface(
   items: MenuItem[],
   surface: "desktop" | "mobile",
 ): MenuItem[] {
-  return items.filter((item) => {
-    const visibility = item.visibility ?? "visible";
-    if (visibility === "hidden" || visibility === "draft") return false;
-    if (visibility === "scheduled" && item.scheduledAt) {
-      const scheduledAt = Date.parse(item.scheduledAt);
-      if (!Number.isNaN(scheduledAt) && scheduledAt > Date.now()) return false;
-    }
-    if (surface === "desktop") return item.placement === "both" || item.placement === "desktop";
-    return item.placement === "both" || item.placement === "mobile";
+  return items.flatMap((item) => {
+    if (!isMenuItemLiveVisible(item)) return [];
+    if (!itemAppliesToSurface(item, surface)) return [];
+    return [{ ...item, children: filterMenuItemsForSurface(item.children ?? [], surface) }];
   });
 }
 
@@ -179,7 +198,7 @@ export function resolveMenuForSurface(
     ? (db[assignedKey]?.items ?? [])
     : (db[workspace.activeMenuKey]?.items ?? []);
 
-  if (!respectPlacement) return items;
+  if (!respectPlacement) return filterLiveVisibleMenuTree(items);
 
   return filterMenuItemsForSurface(items, surface);
 }

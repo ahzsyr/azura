@@ -31,6 +31,7 @@ export type BlockType =
   | "logoCloud"
   | "statsCounter"
   | "beforeAfter"
+  | "tabbedShowcase"
   | "productGrid"
   | "productCarousel"
   | "productComparison"
@@ -120,9 +121,11 @@ export type {
 
 /** Represents a single content type available for selection in block source dropdowns. */
 export type ContentTypeOption = {
-  /** Content type slug, e.g. "catalog-items", "listings", "offerings" */
+  /** Content type slug, e.g. "catalog-items", "listings", "offerings", "solutions" */
   slug: string;
   /** Human-readable plural name, e.g. "Packages", "Properties", "Services" */
   labelPlural: string;
   isEnabled: boolean;
+  collections?: { slug: string; name: string }[];
+  selectFields?: { key: string; label: string; options: { value: string; label: string }[] }[];
 };

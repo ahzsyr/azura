@@ -1,5 +1,6 @@
 import type { Product, ProductMediaFile } from "@/features/products/types";
-import { normalizeDetailedDescriptionInput } from "./product-detailed-description";
+import { normalizeDetailedDescriptionInput, normalizeProductModel3d } from "./product-detailed-description";
+import { validateTemplateId } from "@/features/products/layout-templates/registry-meta";
 import { syncConditionOptionsFromVariations } from "./product-variation-admin";
 
 export function slugify(value: string): string {
@@ -45,8 +46,9 @@ export function getEmptyManagedProduct(slug = "new-product"): ManagedProduct {
     ean: "",
     brand: "",
     warranty: "",
-    category: "Electronics",
-    categories: ["Electronics"],
+    category: null,
+    categories: [],
+    categoryIds: [],
     condition_options: ["new"],
     plug_options: ["EU"],
     specifications: [],
@@ -79,6 +81,16 @@ export function normalizeProductForSave(product: Product & { slug?: string }): M
   const slug = slugify(product.slug || product.productTitle || product.id) || "new-product";
   const title = product.productTitle?.trim() || product.name?.trim() || product.title?.trim() || "Untitled Product";
   const synced = syncConditionOptionsFromVariations(product);
+  const fileModelUrl = (product.media?.files ?? []).find(
+    (f) =>
+      f &&
+      typeof f === "object" &&
+      (f as ProductMediaFile).type === "3d_model" &&
+      String((f as ProductMediaFile).url || "").trim(),
+  ) as ProductMediaFile | undefined;
+  const model3d =
+    normalizeProductModel3d(product.media?.["3d_model"]) ??
+    (fileModelUrl?.url ? { enabled: true, url: String(fileModelUrl.url) } : false);
   return {
     ...synced,
     slug,
@@ -98,17 +110,7 @@ export function normalizeProductForSave(product: Product & { slug?: string }): M
       thumbnails: product.media?.thumbnails ?? [],
       videos: product.media?.videos ?? [],
       files: (product.media?.files ?? []).map((f) => ({ ...(f as ProductMediaFile) })),
-      "3d_model":
-        Boolean(product.media?.["3d_model"]) ||
-        Boolean(
-          (product.media?.files ?? []).some(
-            (f) =>
-              f &&
-              typeof f === "object" &&
-              (f as ProductMediaFile).type === "3d_model" &&
-              String((f as ProductMediaFile).url || "").trim(),
-          ),
-        ),
+      "3d_model": model3d,
     },
     reviews: {
       rating: Number(product.reviews?.rating ?? 0),
@@ -130,5 +132,11 @@ export function normalizeProductForSave(product: Product & { slug?: string }): M
       },
       comments: product.reviews?.comments ?? [],
     },
+    page_layout_template:
+      product.page_layout_template == null || product.page_layout_template === ""
+        ? product.page_layout_template === null
+          ? null
+          : undefined
+        : validateTemplateId(product.page_layout_template),
   };
 }

@@ -74,20 +74,11 @@ function tagHeroHeadings(textEffect: string | null) {
     if (el.hasAttribute("data-text-effect-off")) return;
     if (el.closest("[data-text-effect-off]")) return;
     if (el.classList.contains("hero-anim-typewriter")) return;
-    const explicit = el.getAttribute("data-text-effect");
     const source = el.getAttribute(SITE_TEXT_EFFECT_SOURCE);
+    // Block-level overrides win; everything else tracks the active site/visitor effect.
     if (source === "block") return;
-    if (
-      source === SITE_TEXT_EFFECT_SOURCE_VALUE &&
-      explicit &&
-      explicit !== "inherit"
-    ) {
-      return;
-    }
-    if (!explicit || explicit === "inherit") {
-      el.setAttribute("data-text-effect", textEffect);
-      el.setAttribute(SITE_TEXT_EFFECT_SOURCE, SITE_TEXT_EFFECT_SOURCE_VALUE);
-    }
+    el.setAttribute("data-text-effect", textEffect);
+    el.setAttribute(SITE_TEXT_EFFECT_SOURCE, SITE_TEXT_EFFECT_SOURCE_VALUE);
   });
 }
 
@@ -151,6 +142,9 @@ export function applyVisualEffects(
 
   if (textEffectChanged) {
     resetTextEffects();
+    // Drop stale data-text-effect values so CSS selectors match the new preset
+    // (mismatched attr + leftover background caused the brand “text-bg” halo).
+    clearSiteTaggedHeroTextEffects();
   }
 
   if (cardStyle) {

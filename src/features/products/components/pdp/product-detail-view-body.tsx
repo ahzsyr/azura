@@ -309,7 +309,7 @@ function ProductDetailViewInner({
             <span className="prd-breadcrumb__sep">&gt;&gt;</span>
             {collectionTrail.length > 0 ? (
               <>
-                <Link href="/collections">{labels.collections}</Link>
+                <Link href="/categories">{labels.collections}</Link>
                 {collectionTrail.map((item) => (
                   <span key={item.href} className="prd-breadcrumb__trail">
                     <span className="prd-breadcrumb__sep">&gt;&gt;</span>

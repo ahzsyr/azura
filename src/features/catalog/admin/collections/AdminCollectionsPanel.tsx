@@ -26,6 +26,11 @@ import {
   CatalogToolbar,
 } from "@/features/catalog/admin/ui";
 import { TaxonomyHealthSummary } from "@/features/catalog/admin/taxonomy/TaxonomyHealthSummary";
+import { ProductPageLayoutTemplateSelect } from "@/features/products/layout-templates/product-page-layout-template-select";
+import {
+  getProductPageLayoutTemplateMeta,
+  validateTemplateId,
+} from "@/features/products/layout-templates/registry";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {
@@ -44,7 +49,8 @@ import type {
   FilterDef,
   InlineEditSave,
 } from "@/features/catalog/admin/shared/types";
-import { MediaPickerButton } from "@/features/catalog/admin/media/MediaPicker";
+import { UnifiedMediaPickerDialog } from "@/features/media/components/unified-media-picker-dialog";
+import { IMAGE_PICKER_MEDIA_TYPES } from "@/features/media/constants";
 import { CollectionBulkImportModal } from "./CollectionBulkImportModal";
 import {
   CollectionHierarchyChrome,
@@ -84,6 +90,7 @@ interface Collection {
   conditions: RuleGroup;
   membershipMode?: CollectionMembershipMode;
   cardTemplate?: "default" | "featured" | "compact";
+  pageLayoutTemplate?: string | null;
   sortBy?: "price-asc" | "price-desc" | "name-asc" | "name-desc" | "newest";
   visible?: boolean;
   showInNav?: boolean;
@@ -510,12 +517,15 @@ function CollectionFormInner({
               {form.coverImage && (
                 <img src={form.coverImage} alt="Banner preview" className="acp-img-preview acp-img-preview--banner" />
               )}
-              <MediaPickerButton
-                accept={["image", "svg"]}
-                title="Select Category Banner"
-                label="Choose from Media"
-                className="acp-btn acp-btn-secondary"
-                onSelect={(item) => set({ coverImage: item.url })}
+              <UnifiedMediaPickerDialog
+                mediaTypes={IMAGE_PICKER_MEDIA_TYPES}
+                defaultSource="cms"
+                onSelect={(result) => set({ coverImage: result.url })}
+                trigger={
+                  <button type="button" className="acp-btn acp-btn-secondary">
+                    Choose from Media
+                  </button>
+                }
               />
               {form.coverImage && (
                 <button type="button" className="acp-btn acp-btn-ghost" onClick={() => set({ coverImage: "" })}>
@@ -536,12 +546,15 @@ function CollectionFormInner({
               {form.iconImage && (
                 <img src={form.iconImage} alt="Icon preview" className="acp-img-preview acp-img-preview--icon" />
               )}
-              <MediaPickerButton
-                accept={["image", "svg"]}
-                title="Select Category Icon"
-                label="Choose from Media"
-                className="acp-btn acp-btn-secondary"
-                onSelect={(item) => set({ iconImage: item.url })}
+              <UnifiedMediaPickerDialog
+                mediaTypes={IMAGE_PICKER_MEDIA_TYPES}
+                defaultSource="cms"
+                onSelect={(result) => set({ iconImage: result.url })}
+                trigger={
+                  <button type="button" className="acp-btn acp-btn-secondary">
+                    Choose from Media
+                  </button>
+                }
               />
               {form.iconImage && (
                 <button type="button" className="acp-btn acp-btn-ghost" onClick={() => set({ iconImage: "" })}>
@@ -558,6 +571,20 @@ function CollectionFormInner({
               <option value="featured">Featured</option>
               <option value="compact">Compact</option>
             </select>
+          </div>
+          <div className="acp-field">
+            <ProductPageLayoutTemplateSelect
+              id="collection-page-layout-template"
+              label="Product page layout"
+              inheritLabel="Inherit (site default)"
+              value={form.pageLayoutTemplate}
+              onChange={(pageLayoutTemplate) => set({ pageLayoutTemplate })}
+              hint={
+                form.pageLayoutTemplate
+                  ? `${getProductPageLayoutTemplateMeta(validateTemplateId(form.pageLayoutTemplate)).label} applies to products in this category unless a product override is set.`
+                  : "Products in this category inherit the brand assignment, then the site default, unless a product override is set."
+              }
+            />
           </div>
           <div className="acp-field">
             <label className="acp-label">Sort By</label>
@@ -1458,14 +1485,19 @@ export default function AdminCollectionsPanel({
       key: "hide",
       label: "Hide",
       variant: "secondary",
-      handler: async (selected, clearSelection) => {
-        for (const col of selected) {
+      handler: async (selected, clearSelection, reportProgress) => {
+        const total = selected.length;
+        reportProgress({ current: 0, total, label: "Hiding collections" });
+        for (let i = 0; i < selected.length; i++) {
+          const col = selected[i]!;
+          reportProgress({ current: i, total, label: `Hiding ${col.slug}` });
           await fetch("/api/categories", {
             ...API,
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ...col, visible: false, originalSlug: col.slug }),
           });
+          reportProgress({ current: i + 1, total, label: `Hiding ${col.slug}` });
         }
         clearSelection();
         await fetchCollections();
@@ -1475,14 +1507,19 @@ export default function AdminCollectionsPanel({
       key: "show",
       label: "Show",
       variant: "secondary",
-      handler: async (selected, clearSelection) => {
-        for (const col of selected) {
+      handler: async (selected, clearSelection, reportProgress) => {
+        const total = selected.length;
+        reportProgress({ current: 0, total, label: "Showing collections" });
+        for (let i = 0; i < selected.length; i++) {
+          const col = selected[i]!;
+          reportProgress({ current: i, total, label: `Showing ${col.slug}` });
           await fetch("/api/categories", {
             ...API,
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ...col, visible: true, originalSlug: col.slug }),
           });
+          reportProgress({ current: i + 1, total, label: `Showing ${col.slug}` });
         }
         clearSelection();
         await fetchCollections();

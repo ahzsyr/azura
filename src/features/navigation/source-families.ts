@@ -43,9 +43,9 @@ const BUILTIN_CONTENT_TYPE_LEAF: Record<string, SourceLeafKind> = {
 export const SOURCE_FAMILY_TREE: SourceFamilyNode[] = [
   {
     id: "core",
-    label: "Core pages",
+    label: "Core Pages",
     children: [
-      { id: "core-pages", label: "Pages", leafKind: "pages" },
+      { id: "core-pages", label: "CMS Pages", leafKind: "pages" },
       { id: "core-blog", label: "Blog posts", leafKind: "posts" },
     ],
   },
@@ -76,7 +76,7 @@ export const SOURCE_FAMILY_TREE: SourceFamilyNode[] = [
       },
       {
         id: "org-pricing",
-        label: "Pricing Plans",
+        label: "Pricing Plan",
         leafKind: "sitePage",
         sitePageSlug: "pricing",
       },
@@ -86,18 +86,31 @@ export const SOURCE_FAMILY_TREE: SourceFamilyNode[] = [
     id: "site",
     label: "Site content",
     children: [
+      { id: "site-faqs", label: "FAQs", leafKind: "sitePage", sitePageSlug: "faqs" },
       {
         id: "site-testimonials",
         label: "Testimonials",
         leafKind: "sitePage",
         sitePageSlug: "testimonials",
       },
-      { id: "site-gallery", label: "Gallery", leafKind: "sitePage", sitePageSlug: "gallery" },
+      { id: "site-gallery", label: "Galleries", leafKind: "sitePage", sitePageSlug: "gallery" },
       {
         id: "site-calculators",
         label: "Calculators",
         leafKind: "sitePage",
         sitePageSlug: "pricing-calculators",
+      },
+      {
+        id: "site-policies",
+        label: "Policies",
+        leafKind: "sitePage",
+        sitePageSlug: "privacy",
+      },
+      {
+        id: "site-terms",
+        label: "Terms & Conditions",
+        leafKind: "sitePage",
+        sitePageSlug: "terms",
       },
     ],
   },
@@ -129,7 +142,16 @@ export function buildSourceFamilies(
   return tree;
 }
 
-export type CatalogOption = { value: string; label: string };
+export type CatalogOption = { value: string; label: string; subtitle?: string };
+
+function withSlugSubtitle(value: string, label: string, extra?: string): CatalogOption {
+  const path = `/${value}`;
+  return {
+    value,
+    label,
+    subtitle: extra ? `${path} · ${extra}` : path,
+  };
+}
 
 export function optionsForLeaf(
   catalog: HeaderBuilderCatalog,
@@ -140,41 +162,32 @@ export function optionsForLeaf(
 
   switch (kind) {
     case "pages":
-      return catalog.pages.map((p) => ({
-        value: p.slug,
-        label: formatPageOptionLabel(p.slug, p.title, p.status, p.kind),
-      }));
+      return catalog.pages.map((p) => pageOption(p.slug, p.title, p.status, p.kind));
     case "posts":
-      return catalog.posts.map((p) => ({ value: p.slug, label: p.title }));
+      return catalog.posts.map((p) => withSlugSubtitle(p.slug, p.title));
     case "products":
-      return catalog.products.map((p) => ({ value: p.slug, label: p.name }));
+      return catalog.products.map((p) => withSlugSubtitle(p.slug, p.name));
     case "packages":
-      return (catalog.contentByType["catalog-items"] ?? []).map((p) => ({
-        value: p.slug,
-        label: p.name,
-      }));
+      return (catalog.contentByType["catalog-items"] ?? []).map((p) =>
+        withSlugSubtitle(p.slug, p.name),
+      );
     case "offerings":
-      return (catalog.contentByType["offerings"] ?? []).map((p) => ({
-        value: p.slug,
-        label: p.name,
-      }));
+      return (catalog.contentByType["offerings"] ?? []).map((p) =>
+        withSlugSubtitle(p.slug, p.name),
+      );
     case "listings":
-      return (catalog.contentByType["listings"] ?? []).map((p) => ({
-        value: p.slug,
-        label: p.name,
-      }));
+      return (catalog.contentByType["listings"] ?? []).map((p) =>
+        withSlugSubtitle(p.slug, p.name),
+      );
     case "collections":
-      return catalog.collections.map((c) => ({ value: c.slug, label: c.name }));
+      return catalog.collections.map((c) => withSlugSubtitle(c.slug, c.name));
     case "brands":
-      return catalog.brands.map((b) => ({ value: b.slug, label: b.name }));
+      return catalog.brands.map((b) => withSlugSubtitle(b.slug, b.name));
     case "tags":
-      return catalog.tags.map((t) => ({ value: t.slug, label: t.name }));
+      return catalog.tags.map((t) => withSlugSubtitle(t.slug, t.name));
     case "contentType": {
       const slug = leaf.contentTypeSlug ?? "";
-      return (catalog.contentByType[slug] ?? []).map((p) => ({
-        value: p.slug,
-        label: p.name,
-      }));
+      return (catalog.contentByType[slug] ?? []).map((p) => withSlugSubtitle(p.slug, p.name));
     }
     case "sitePage": {
       const want = (leaf.sitePageSlug ?? "").toLowerCase();
@@ -185,32 +198,34 @@ export function optionsForLeaf(
           p.title.toLowerCase().includes(want.replace(/-/g, " ")),
       );
       if (matches.length) {
-        return matches.map((p) => ({
-          value: p.slug,
-          label: formatPageOptionLabel(p.slug, p.title, p.status, p.kind),
-        }));
+        return matches.map((p) => pageOption(p.slug, p.title, p.status, p.kind));
       }
       // Still offer the intended slug if present as a single option
-      return want ? [{ value: leaf.sitePageSlug!, label: leaf.label }] : [];
+      return want
+        ? [{ value: leaf.sitePageSlug!, label: leaf.label, subtitle: `/${leaf.sitePageSlug}` }]
+        : [];
     }
     default:
       return [];
   }
 }
 
-function formatPageOptionLabel(
+function pageOption(
   slug: string,
   title: string,
   status?: "DRAFT" | "PUBLISHED",
   kind?: "wired" | "cms",
-): string {
+): CatalogOption {
   const wiredPath = CMS_WIRED_MARKETING_SLUGS[slug];
-  let label =
-    wiredPath || kind === "wired"
-      ? `${title} (catalog · ${wiredPath ?? `/${slug}`})`
-      : title;
-  if (status === "DRAFT") label = `${label} (draft)`;
-  return label;
+  const path = wiredPath ?? `/${slug}`;
+  const bits: string[] = [];
+  if (wiredPath || kind === "wired") bits.push("catalog");
+  if (status === "DRAFT") bits.push("draft");
+  return {
+    value: slug,
+    label: title,
+    subtitle: bits.length ? `${path} · ${bits.join(" · ")}` : path,
+  };
 }
 
 export function resolveSourceTarget(
@@ -226,7 +241,7 @@ export function resolveSourceTarget(
   switch (leaf.leafKind) {
     case "pages":
     case "sitePage":
-      return { type: "page", pageId: v, label: label.replace(/ \(draft\)$/, "").replace(/ \(catalog · [^)]+\)$/, "") || v };
+      return { type: "page", pageId: v, label: label || v };
     case "posts":
       return { type: "post", postId: v, label };
     case "products":

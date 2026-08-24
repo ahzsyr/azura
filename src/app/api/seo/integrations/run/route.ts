@@ -1,18 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { seoSubmissionRunner } from "@/features/seo/integrations/submission-runner.service";
+import { verifyCronSecret } from "@/lib/cron-auth";
 
 export const runtime = "nodejs";
 
-function authorized(request: NextRequest) {
-  const expected = process.env.SEO_INTEGRATION_RUN_SECRET || process.env.CRON_SECRET;
-  if (!expected) return process.env.NODE_ENV !== "production";
-  const bearer = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
-  const explicit = request.headers.get("x-seo-run-secret");
-  return bearer === expected || explicit === expected;
-}
-
 export async function POST(request: NextRequest) {
-  if (!authorized(request)) {
+  if (
+    !verifyCronSecret(request, {
+      envKeys: ["SEO_INTEGRATION_RUN_SECRET", "CRON_SECRET"],
+      headerName: "x-seo-run-secret",
+    })
+  ) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

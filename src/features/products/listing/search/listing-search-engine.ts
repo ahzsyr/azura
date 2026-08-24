@@ -35,6 +35,22 @@ export function tokenizeListingQuery(q: string): string[] {
     .filter(Boolean);
 }
 
+/** Whole-phrase match with alphanumeric word boundaries (case-insensitive). */
+export function recordMatchesExactPhrase(text: string, phrase: string): boolean {
+  const ql = phrase.trim().toLowerCase();
+  if (!ql) return true;
+  const haystack = text.toLowerCase();
+  const escaped = ql.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(?<![a-z0-9])${escaped}(?![a-z0-9])`, "i").test(haystack);
+}
+
+export function listingRecordMatchesExactPhrase(
+  record: ProductListingRecord,
+  phrase: string,
+): boolean {
+  return recordMatchesExactPhrase(record.searchText, phrase);
+}
+
 function levenshtein(a: string, b: string): number {
   if (a === b) return 0;
   if (!a.length) return b.length;
@@ -162,9 +178,13 @@ function fuzzyTokenCandidates(index: ListingSearchIndex, token: string, maxDist 
 export function searchListingCandidates(
   index: ListingSearchIndex,
   query: string,
-): { candidates: CandidateSet; mode: "token" | "prefix" | "fuzzy" | "empty" } {
+  options?: { exact?: boolean },
+): { candidates: CandidateSet; mode: "token" | "prefix" | "fuzzy" | "empty" | "exact" } {
   const tokens = tokenizeListingQuery(query);
   if (!tokens.length) return { candidates: [], mode: "empty" };
+  if (options?.exact) {
+    return { candidates: [], mode: "exact" };
+  }
 
   let result: CandidateSet | null = null;
   let mode: "token" | "prefix" | "fuzzy" | "empty" = "token";
@@ -202,9 +222,15 @@ export function searchListingCandidates(
 export function rankListingSearchResults(
   records: ProductListingRecord[],
   query: string,
+  options?: { exact?: boolean },
 ): ProductListingRecord[] {
   const q = query.trim();
   if (!q) return records;
+  if (options?.exact) {
+    return records
+      .filter((record) => listingRecordMatchesExactPhrase(record, q))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }
   return [...records]
     .map((record) => ({ record, score: scoreSearchMatch(record, q) }))
     .filter((row) => row.score > 0 || recordMatchesSubstring(row.record, q))

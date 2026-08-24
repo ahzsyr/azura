@@ -1,18 +1,16 @@
 import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import {
   loadDemoProfilesAdminData,
 } from "@/features/setup/demo-import/demo-profile-registry.service";
 import { DemoProfilesPage } from "@/features/setup/demo-import/admin/demo-profiles-page";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { redirectUnlessAdmin } from "@/features/auth/redirect-unless-admin";
 
 export const maxDuration = 300;
 
 export default async function AdminDemoProfilesPage() {
   const session = await auth();
-  if (!session?.user || session.user.role !== "ADMIN") {
-    redirect("/admin/login?callbackUrl=/admin/demo-profiles");
-  }
+  redirectUnlessAdmin(session, "/admin/demo-profiles");
 
 
   try {

@@ -12,6 +12,11 @@ import { createGoogleConnectionManager } from "@/features/seo/google-platform/co
 
 export const runtime = "nodejs";
 
+function tabForIntegration(integrationId: string | null): string {
+  if (!integrationId) return "search-console";
+  return googleIntegrationRegistry.get(integrationId as never)?.tabId ?? "search-console";
+}
+
 export async function GET(request: NextRequest) {
   await requireAdmin();
 
@@ -26,31 +31,26 @@ export async function GET(request: NextRequest) {
   const oauthClient = manager.resolveOAuthClient({
     platform,
     legacyIntegrations: { google: config as never },
-    env: {
-      oauthClientId: process.env.GOOGLE_SEARCH_CONSOLE_CLIENT_ID,
-      oauthClientSecret: process.env.GOOGLE_SEARCH_CONSOLE_CLIENT_SECRET,
-    },
   });
 
   const clientIdFromConfig = config.clientId?.trim() || "";
-  const clientId =
-    oauthClient.clientId ||
-    clientIdFromConfig ||
-    process.env.GOOGLE_SEARCH_CONSOLE_CLIENT_ID?.trim() ||
-    "";
+  const clientId = oauthClient.clientId || clientIdFromConfig || "";
   const isRscPrefetch = request.nextUrl.searchParams.has("_rsc");
+  const integrationParam = request.nextUrl.searchParams.get("integration");
 
   if (!clientId) {
     if (isRscPrefetch) {
       return new NextResponse(null, { status: 204 });
     }
     return NextResponse.redirect(
-      getRequestAppUrl(request, "/admin/seo/google?tab=search-console&googleOAuth=missing_client_id"),
+      getRequestAppUrl(
+        request,
+        `/admin/seo/google?tab=${tabForIntegration(integrationParam)}&googleOAuth=missing_client_id`,
+      ),
     );
   }
 
   const scopeParam = request.nextUrl.searchParams.get("scopes");
-  const integrationParam = request.nextUrl.searchParams.get("integration");
   const registryScopes = integrationParam
     ? googleIntegrationRegistry.get(integrationParam as never)?.requiredScopes ?? []
     : [];
@@ -92,5 +92,14 @@ export async function GET(request: NextRequest) {
     maxAge: 10 * 60,
     path: "/",
   });
+  if (integrationParam) {
+    response.cookies.set("seo_google_oauth_integration", integrationParam, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 10 * 60,
+      path: "/",
+    });
+  }
   return response;
 }

@@ -33,3 +33,54 @@ test("resolveAdminFieldValue prefers explicit dual-write clear over EntityTransl
   const entity = { formSectionTitle: "", formSectionTitleEn: "" };
   assert.equal(resolveAdminFieldValue(values, entity, "formSectionTitle", "en", "en"), "");
 });
+
+test("resolveAdminFieldValue prefers empty unsuffixed default-locale field over EntityTranslation", () => {
+  const values = { en: { value: "Products", status: "PUBLISHED" as const } };
+  const entity = { label: "" };
+  assert.equal(resolveAdminFieldValue(values, entity, "label", "en", "en"), "");
+});
+
+test("resolveAdminFieldValue can ignore empty unsuffixed defaults for builder blocks", () => {
+  const values = { en: { value: "Hello from ET", status: "PUBLISHED" as const } };
+  const entity = { content: "", title: "", subtitle: "", badge: "" };
+  assert.equal(
+    resolveAdminFieldValue(values, entity, "content", "en", "en", {
+      treatEmptyUnsuffixedAsClear: false,
+    }),
+    "Hello from ET",
+  );
+});
+
+test("resolveAdminFieldValue bootstraps contentEn when unsuffixed default is empty", () => {
+  const values = {};
+  const entity = { content: "", contentEn: "Legacy paragraph" };
+  assert.equal(
+    resolveAdminFieldValue(values, entity, "content", "en", "en", {
+      treatEmptyUnsuffixedAsClear: false,
+    }),
+    "Legacy paragraph",
+  );
+});
+
+test("resolveAdminFieldValue still honors explicit dual-write clears for builder blocks", () => {
+  const values = { en: { value: "Stale", status: "PUBLISHED" as const } };
+  const entity = { content: "", contentEn: "" };
+  assert.equal(
+    resolveAdminFieldValue(values, entity, "content", "en", "en", {
+      treatEmptyUnsuffixedAsClear: false,
+    }),
+    "",
+  );
+});
+
+test("resolveAdminFieldValue bootstraps unsuffixed default-locale field when no translation", () => {
+  const values = {};
+  const entity = { label: "Products" };
+  assert.equal(resolveAdminFieldValue(values, entity, "label", "en", "en"), "Products");
+});
+
+test("resolveAdminFieldValue prefers non-empty legacy default over EntityTranslation", () => {
+  const values = { en: { value: "Solutions", status: "PUBLISHED" as const } };
+  const entity = { label: "Mikrotik" };
+  assert.equal(resolveAdminFieldValue(values, entity, "label", "en", "en"), "Mikrotik");
+});

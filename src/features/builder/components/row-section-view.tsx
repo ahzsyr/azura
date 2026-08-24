@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { resolveRowSectionGridTemplate } from "@/features/builder/container-blocks";
 
 type RowSectionViewProps = {
   maxColumns: number;
@@ -33,8 +32,6 @@ export function RowSectionView({
   children,
   className,
 }: RowSectionViewProps) {
-  const gridTemplate = resolveRowSectionGridTemplate(columnLayout, maxColumns);
-
   return (
     <div
       className={cn(
@@ -44,7 +41,8 @@ export function RowSectionView({
         stackOnMobile && "row-section-grid--stack-mobile",
         className
       )}
-      style={{ gridTemplateColumns: gridTemplate }}
+      data-column-layout={columnLayout}
+      data-max-columns={maxColumns}
     >
       {children}
     </div>

@@ -129,7 +129,7 @@ export function DownloadGateView(props: Props) {
           blockType="downloadGate"
           blockId={blockId}
           successMessage={unlockSuccessMessage}
-          onSuccess={() => requestUnlock()}
+          onSuccess={(result) => requestUnlock({ submissionId: result.id })}
         />
       ) : (
         <p className="text-sm text-muted-foreground">Configure a form template to unlock this file.</p>

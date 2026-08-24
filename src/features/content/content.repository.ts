@@ -8,6 +8,16 @@ type ContentTypeWithCounts = Prisma.ContentTypeGetPayload<{
   include: { _count: { select: { items: true; collections: true } } };
 }>;
 
+type ContentTypeAdminHubRow = Prisma.ContentTypeGetPayload<{
+  include: {
+    _count: { select: { items: true; collections: true } };
+    collections: {
+      orderBy: { sortOrder: "asc" };
+      select: { id: true; slug: true; isPublished: true; sortOrder: true };
+    };
+  };
+}>;
+
 type ContentTypeWithCollections = Prisma.ContentTypeGetPayload<{
   include: { collections: { orderBy: { sortOrder: "asc" } } };
 }>;
@@ -43,11 +53,13 @@ type ContentListItemsOptions = {
 
 export const contentRepository: {
   listTypes: () => Promise<ContentTypeWithCounts[]>;
+  listTypesForAdminHub: () => Promise<ContentTypeAdminHubRow[]>;
   getTypeBySlug: (slug: string) => Promise<ContentTypeWithCollections | null>;
   listCollections: (contentTypeId?: string) => Promise<Prisma.ContentCollectionGetPayload<object>[]>;
   listItems: (contentTypeSlug: string, options?: ContentListItemsOptions) => Promise<ContentItemListRow[]>;
   getItemById: (id: string) => Promise<ContentItemWithRelations | null>;
   queryForBlock: (config: ContentBlockConfig) => Promise<ContentItemListRow[]>;
+  queryVisibleItemsForCatalog: (config: ContentBlockConfig) => Promise<ContentItemListRow[]>;
   loadListTranslations: (itemIds: string[]) => Promise<Map<string, EntityTranslation[]>>;
   toListItem: (
     item: ContentItemListRow,
@@ -67,6 +79,19 @@ export const contentRepository: {
       where: { isEnabled: true },
       orderBy: { sortOrder: "asc" },
       include: { _count: { select: { items: true, collections: true } } },
+    });
+  },
+
+  async listTypesForAdminHub() {
+    return prisma.contentType.findMany({
+      orderBy: { sortOrder: "asc" },
+      include: {
+        _count: { select: { items: true, collections: true } },
+        collections: {
+          orderBy: { sortOrder: "asc" },
+          select: { id: true, slug: true, isPublished: true, sortOrder: true },
+        },
+      },
     });
   },
 
@@ -149,29 +174,50 @@ export const contentRepository: {
       : null;
     if (!type) return [];
 
-    const limit = config.limit ?? 6;
+    const limit =
+      typeof config.limit === "number" && Number.isFinite(config.limit) && config.limit > 0
+        ? Math.floor(config.limit)
+        : 6;
     const manualIds = config.manualIds?.filter(Boolean) ?? [];
+    const collectionSlug = config.collectionSlug?.trim() || undefined;
 
-    const items = await prisma.contentItem.findMany({
-      where: {
-        contentTypeId: type.id,
-        deletedAt: null,
-        isVisible: true,
-        status: "PUBLISHED",
-        ...(config.featuredOnly ? { isFeatured: true } : {}),
-        ...(config.collectionSlug ? { collection: { slug: config.collectionSlug } } : {}),
+    const baseWhere: Prisma.ContentItemWhereInput = {
+      contentTypeId: type.id,
+      deletedAt: null,
+      isVisible: true,
+      ...(config.includeUnpublished ? { status: { not: "ARCHIVED" } } : { status: "PUBLISHED" }),
+      ...(config.featuredOnly ? { isFeatured: true } : {}),
+      ...(collectionSlug ? { collection: { slug: collectionSlug } } : {}),
+    };
+
+    const include = {
+      collection: true,
+      media: {
+        where: { isPublished: true, isHidden: false },
+        orderBy: { sortOrder: "asc" as const },
+      },
+    };
+
+    const findForType = (where: Prisma.ContentItemWhereInput, take?: number) =>
+      prisma.contentItem.findMany({
+        where,
+        include,
+        orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
+        take,
+      });
+
+    let items = await findForType(
+      {
+        ...baseWhere,
         ...(manualIds.length ? { id: { in: manualIds } } : {}),
       },
-      include: {
-        collection: true,
-        media: {
-          where: { isPublished: true, isHidden: false },
-          orderBy: { sortOrder: "asc" },
-        },
-      },
-      orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
-      take: manualIds.length ? undefined : limit,
-    });
+      manualIds.length ? undefined : limit,
+    );
+
+    // Pinned IDs from a previous Source (e.g. packages) must not empty a new type.
+    if (manualIds.length && items.length === 0) {
+      items = await findForType(baseWhere, limit);
+    }
 
     const ordered = manualIds.length
       ? (manualIds
@@ -179,7 +225,46 @@ export const contentRepository: {
           .filter((i): i is (typeof items)[number] => Boolean(i)) as typeof items)
       : items;
 
-    return ordered.slice(0, limit);
+    const result = ordered.length ? ordered : items;
+    return result.slice(0, limit);
+  },
+
+  async queryVisibleItemsForCatalog(config: ContentBlockConfig) {
+    const slug = config.contentTypeSlug?.trim();
+    if (!slug) return [];
+
+    let type = await prisma.contentType.findUnique({ where: { slug } });
+    if (!type) {
+      const types = await prisma.contentType.findMany({ select: { id: true, slug: true } });
+      const match = types.find((row) => row.slug.toLowerCase() === slug.toLowerCase());
+      if (!match) return [];
+      type = await prisma.contentType.findUnique({ where: { id: match.id } });
+    }
+    if (!type) return [];
+
+    const limit =
+      typeof config.limit === "number" && Number.isFinite(config.limit) && config.limit > 0
+        ? Math.floor(config.limit)
+        : 6;
+    const collectionSlug = config.collectionSlug?.trim() || undefined;
+
+    return prisma.contentItem.findMany({
+      where: {
+        contentTypeId: type.id,
+        deletedAt: null,
+        isVisible: true,
+        ...(config.featuredOnly ? { isFeatured: true } : {}),
+        ...(collectionSlug ? { collection: { slug: collectionSlug } } : {}),
+      },
+      include: {
+        collection: true,
+        media: {
+          orderBy: { sortOrder: "asc" },
+        },
+      },
+      orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
+      take: limit,
+    });
   },
 
   async loadListTranslations(itemIds: string[]) {
@@ -210,11 +295,8 @@ export const contentRepository: {
       item.media?.[0]?.url ??
       item.featuredImageUrl ??
       null;
-    const metaPath = item.slug
-      ? routePrefix
-        ? `/${routePrefix}/${item.slug}`
-        : `/${item.slug}`
-      : undefined;
+    const prefix = routePrefix?.trim() || typeSlug;
+    const metaPath = item.slug ? `/${prefix}/${item.slug}` : undefined;
     return {
       id: item.id,
       titleEn: title,
@@ -231,6 +313,7 @@ export const contentRepository: {
       badge: item.isFeatured ? "Featured" : item.status !== "PUBLISHED" ? item.status : undefined,
       meta: metaPath,
       editHref: `/admin/content/${typeSlug}/${item.id}`,
+      collectionSlug: item.collection?.slug ?? null,
     };
   },
 

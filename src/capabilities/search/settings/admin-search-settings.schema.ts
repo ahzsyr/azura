@@ -206,6 +206,7 @@ export const searchResultTypeSchema = z.enum([
   "FAQ",
   "TESTIMONIAL",
   "MEDIA",
+  "ICON",
   "TEAM_MEMBER",
   "PARTNER",
 ]);

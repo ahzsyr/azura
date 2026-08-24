@@ -6,6 +6,7 @@ import {
   resolveAdminFieldValue,
   resolveDefaultLocaleHint,
   readLegacyFieldForLocale,
+  type ResolveAdminFieldValueOptions,
 } from "@/features/translation/admin-field-value";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,6 +31,11 @@ export type LocalizedBlockFieldProps = {
   rows?: number;
   onChange: (localeCode: string, value: string) => void;
   onDuplicateFromDefault?: (targetCode: string) => void;
+  /**
+   * Builder blocks store empty-string defaults (`content: ""`) that must not
+   * hide EntityTranslation / `contentEn` values. Menus keep the default.
+   */
+  treatEmptyUnsuffixedAsClear?: boolean;
 };
 
 function resolveDisplayValue(
@@ -37,9 +43,10 @@ function resolveDisplayValue(
   legacyProps: Record<string, unknown> | undefined,
   field: string,
   localeCode: string,
-  defaultLocaleCode: string
+  defaultLocaleCode: string,
+  options?: ResolveAdminFieldValueOptions
 ): string {
-  return resolveAdminFieldValue(values, legacyProps, field, localeCode, defaultLocaleCode);
+  return resolveAdminFieldValue(values, legacyProps, field, localeCode, defaultLocaleCode, options);
 }
 
 /** @internal exported for unit tests */
@@ -56,6 +63,7 @@ function BlockLocaleInput({
   rows,
   onChange,
   onDuplicateFromDefault,
+  treatEmptyUnsuffixedAsClear,
 }: {
   label: string;
   field: string;
@@ -67,15 +75,24 @@ function BlockLocaleInput({
   rows: number;
   onChange: (localeCode: string, value: string) => void;
   onDuplicateFromDefault?: (targetCode: string) => void;
+  treatEmptyUnsuffixedAsClear?: boolean;
 }) {
+  const resolveOptions: ResolveAdminFieldValueOptions = { treatEmptyUnsuffixedAsClear };
   const displayValue = resolveDisplayValue(
     values,
     legacyProps,
     field,
     locale.code,
-    defaultLocaleCode
+    defaultLocaleCode,
+    resolveOptions
   );
-  const defaultLocaleHint = resolveDefaultLocaleHint(values, legacyProps, field, defaultLocaleCode);
+  const defaultLocaleHint = resolveDefaultLocaleHint(
+    values,
+    legacyProps,
+    field,
+    defaultLocaleCode,
+    resolveOptions
+  );
   const placeholder = `${label} (${locale.label})`;
   const isRtl = locale.dir === "rtl";
   const status = values[locale.code]?.status;
@@ -138,6 +155,7 @@ export function LocalizedBlockField({
   rows = 4,
   onChange,
   onDuplicateFromDefault,
+  treatEmptyUnsuffixedAsClear,
 }: LocalizedBlockFieldProps) {
   const adminLocale = useAdminEditingLocaleContextOptional();
   const activeCode = adminLocale?.activeLocaleCode ?? defaultLocaleCode;
@@ -145,6 +163,7 @@ export function LocalizedBlockField({
     locales.find((l) => l.code === activeCode) ??
     locales.find((l) => l.code === defaultLocaleCode) ??
     locales[0];
+  const resolveOptions: ResolveAdminFieldValueOptions = { treatEmptyUnsuffixedAsClear };
 
   if (adminLocale && activeLocale) {
     return (
@@ -161,6 +180,7 @@ export function LocalizedBlockField({
           rows={rows}
           onChange={onChange}
           onDuplicateFromDefault={onDuplicateFromDefault}
+          treatEmptyUnsuffixedAsClear={treatEmptyUnsuffixedAsClear}
         />
       </div>
     );
@@ -179,7 +199,8 @@ export function LocalizedBlockField({
               legacyProps,
               field,
               locale.code,
-              defaultLocaleCode
+              defaultLocaleCode,
+              resolveOptions
             );
             const status = values[locale.code]?.status;
             const isMissing = !val.trim();
@@ -210,6 +231,7 @@ export function LocalizedBlockField({
               rows={rows}
               onChange={onChange}
               onDuplicateFromDefault={onDuplicateFromDefault}
+              treatEmptyUnsuffixedAsClear={treatEmptyUnsuffixedAsClear}
             />
           </TabsContent>
         ))}

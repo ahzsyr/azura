@@ -10,6 +10,7 @@ import {
 } from "@/features/testimonials/actions";
 import {
   fetchCollectionsForBuilder,
+  fetchOrderingProfilesForBuilder,
   fetchProductsForBuilder,
 } from "@/features/builder/blocks/commerce/product-blocks/actions";
 import { fetchBrandsForBuilder } from "@/features/builder/blocks/commerce/commerce-showcase/actions";
@@ -118,6 +119,7 @@ export default async function EditPostPage({ params }: Props) {
     [];
   let collectionOptions: Awaited<ReturnType<typeof fetchCollectionsForBuilder>> = [];
   let productOptions: Awaited<ReturnType<typeof fetchProductsForBuilder>> = [];
+  let orderingProfileOptions: Awaited<ReturnType<typeof fetchOrderingProfilesForBuilder>> = [];
   let brandOptions: Awaited<ReturnType<typeof fetchBrandsForBuilder>> = [];
 
   try {
@@ -128,6 +130,7 @@ export default async function EditPostPage({ params }: Props) {
       testimonialCollectionOptions,
       collectionOptions,
       productOptions,
+      orderingProfileOptions,
       brandOptions,
     ] = await Promise.all([
       fetchGalleriesForBuilder(),
@@ -136,6 +139,7 @@ export default async function EditPostPage({ params }: Props) {
       fetchTestimonialCollectionsForBuilder(),
       fetchCollectionsForBuilder(),
       fetchProductsForBuilder(),
+      fetchOrderingProfilesForBuilder(),
       fetchBrandsForBuilder(),
     ]);
   } catch {
@@ -160,6 +164,7 @@ export default async function EditPostPage({ params }: Props) {
         testimonialCollectionOptions={testimonialCollectionOptions}
         collectionOptions={collectionOptions}
         productOptions={productOptions}
+        orderingProfileOptions={orderingProfileOptions}
         brandOptions={brandOptions}
         locales={locales}
         initialTranslations={initialTranslations}

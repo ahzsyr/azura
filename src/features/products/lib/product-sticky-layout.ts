@@ -6,6 +6,7 @@ import {
   BUILDER_DESKTOP_MIN_PX,
   BUILDER_MOBILE_MAX_PX,
 } from "@/features/builder/constants/responsive-breakpoints";
+import { getLiveHeaderRoot } from "@/features/navigation/header-overlay-utils";
 
 const DESKTOP_MQ = `(min-width: ${BUILDER_DESKTOP_MIN_PX}px)`;
 const SIDE_FOOTER_GAP_PX = 16;
@@ -202,9 +203,7 @@ export function syncStickyNavOffset(): void {
     return;
   }
 
-  const root =
-    document.getElementById("headerRoot") ??
-    document.querySelector<HTMLElement>(".header-root");
+  const root = getLiveHeaderRoot();
   const h = root?.getBoundingClientRect().height ?? 88;
   const headerStyle = root?.getAttribute("data-header-style") ?? "";
   const overlayGap = parseFloat(

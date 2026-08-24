@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Plus, Search } from "lucide-react";
+import { ExternalLink, Plus, Search, Settings2 } from "lucide-react";
 import type { ContentType } from "@prisma/client";
 import type { ContentListItem } from "@/features/content/types";
 import {
@@ -26,6 +26,12 @@ import {
 } from "@/features/translation/admin-localized-view";
 import { getBuiltinContentType } from "@/features/content/content-type.registry";
 import { useAdminFormState } from "@/hooks/use-admin-form";
+import { cn } from "@/lib/utils";
+import {
+  contentCollectionPublicPath,
+  contentTypePublicPath,
+  contentTypeSettingsHref,
+} from "@/features/content/content-admin-paths";
 
 function getAspectClass(aspect: string): string {
   switch (aspect) {
@@ -37,10 +43,18 @@ function getAspectClass(aspect: string): string {
   }
 }
 
+type CollectionOption = {
+  id: string;
+  slug: string;
+  name: string;
+};
+
 type Props = {
   contentType: AdminLocalizedEntityView<ContentType>;
   items: ContentListItem[];
+  collections?: CollectionOption[];
   initialSearch?: string;
+  initialCollection?: string;
 };
 
 function toCatalogListItem(item: ContentListItem): CatalogListItem {
@@ -58,9 +72,16 @@ function toCatalogListItem(item: ContentListItem): CatalogListItem {
   };
 }
 
-export function ContentListPage({ contentType, items, initialSearch = "" }: Props) {
+export function ContentListPage({
+  contentType,
+  items,
+  collections = [],
+  initialSearch = "",
+  initialCollection = "",
+}: Props) {
   const [search, setSearch] = useState(initialSearch);
   const router = useRouter();
+  const [collectionSlug, setCollectionSlug] = useState(initialCollection);
 
   // Read saved image aspect ratio from contentType settings (set in the content type config page).
   const imageAspect =
@@ -165,29 +186,69 @@ export function ContentListPage({ contentType, items, initialSearch = "" }: Prop
   );
 
   const isSearchActive = Boolean(search.trim());
+  const previewHref = contentTypePublicPath(contentType.routePrefix, contentType.slug);
+  const collectionPreviewHref = collectionSlug
+    ? contentCollectionPublicPath(contentType.routePrefix, collectionSlug, contentType.slug)
+    : previewHref;
 
-  const filtered = isSearchActive
-    ? localItems.filter(
-        (i) =>
-          i.titleEn.toLowerCase().includes(search.toLowerCase()) ||
-          i.titleAr.includes(search) ||
-          (i.slug?.includes(search) ?? false),
-      )
-    : localItems;
+  const selectCollection = useCallback(
+    (slug: string) => {
+      setCollectionSlug(slug);
+      router.replace(
+        slug
+          ? `/admin/content/${typeSlug}?collection=${encodeURIComponent(slug)}`
+          : `/admin/content/${typeSlug}`,
+        { scroll: false },
+      );
+    },
+    [router, typeSlug],
+  );
+
+  const filtered = localItems.filter((item) => {
+    if (collectionSlug && item.collectionSlug !== collectionSlug) return false;
+    if (!isSearchActive) return true;
+    const q = search.toLowerCase();
+    return (
+      item.titleEn.toLowerCase().includes(q) ||
+      item.titleAr.includes(search) ||
+      (item.slug?.includes(search) ?? false)
+    );
+  });
 
   return (
     <div className="space-y-6">
-      <ContentAdminTabs breadcrumbs={[{ label: pluralLabel }]} />
+      <ContentAdminTabs
+        breadcrumbs={[
+          { label: "Types", href: "/admin/content?tab=types" },
+          { label: pluralLabel },
+        ]}
+      />
       <AdminPageHeader
         title={pluralLabel}
-        description={typeName}
+        description={`${typeName} · items of this type`}
         actions={
-          <Button asChild>
-            <Link href={`/admin/content/${typeSlug}/new`}>
-              <Plus className="h-4 w-4 me-1" />
-              Add {singularLabel.toLowerCase()}
-            </Link>
-          </Button>
+          <div className="flex flex-wrap items-center gap-2">
+            <Button asChild size="sm" variant="outline">
+              <Link href={contentTypeSettingsHref(contentType.id)}>
+                <Settings2 className="h-4 w-4 me-1" />
+                Type
+              </Link>
+            </Button>
+            {collectionPreviewHref ? (
+              <Button asChild size="sm" variant="outline">
+                <a href={collectionPreviewHref} target="_blank" rel="noreferrer">
+                  <ExternalLink className="h-4 w-4 me-1" />
+                  Preview
+                </a>
+              </Button>
+            ) : null}
+            <Button asChild>
+              <Link href={`/admin/content/${typeSlug}/new`}>
+                <Plus className="h-4 w-4 me-1" />
+                Add {singularLabel.toLowerCase()}
+              </Link>
+            </Button>
+          </div>
         }
       />
 
@@ -200,6 +261,7 @@ export function ContentListPage({ contentType, items, initialSearch = "" }: Prop
                 <CardDescription>
                   {filtered.length} item{filtered.length !== 1 ? "s" : ""}
                   {search ? ` matching "${search}"` : ""}
+                  {collectionSlug ? " in this collection" : ` of type ${typeSlug}`}
                 </CardDescription>
               </div>
               <div className="relative w-full sm:max-w-xs">
@@ -212,6 +274,61 @@ export function ContentListPage({ contentType, items, initialSearch = "" }: Prop
                 />
               </div>
             </div>
+            {collections.length > 0 ? (
+              <div className="flex flex-wrap gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => selectCollection("")}
+                  className={cn(
+                    "rounded-full border px-3 py-1 text-xs transition-colors",
+                    !collectionSlug
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "hover:border-primary/50",
+                  )}
+                >
+                  All
+                </button>
+                {collections.map((collection) => {
+                  const href = contentCollectionPublicPath(
+                    contentType.routePrefix,
+                    collection.slug,
+                    contentType.slug,
+                  );
+                  const active = collectionSlug === collection.slug;
+                  return (
+                    <span key={collection.id} className="inline-flex items-center">
+                      <button
+                        type="button"
+                        onClick={() => selectCollection(collection.slug)}
+                        className={cn(
+                          "rounded-full border px-3 py-1 text-xs transition-colors",
+                          href ? "rounded-e-none border-e-0" : "",
+                          active
+                            ? "border-primary bg-primary/10 text-primary"
+                            : "hover:border-primary/50",
+                        )}
+                      >
+                        {collection.name}
+                      </button>
+                      {href ? (
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noreferrer"
+                          title={`Preview ${collection.name}`}
+                          className={cn(
+                            "rounded-full rounded-s-none border px-1.5 py-1 text-muted-foreground hover:text-foreground",
+                            active ? "border-primary bg-primary/10 text-primary" : "hover:border-primary/50",
+                          )}
+                        >
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      ) : null}
+                    </span>
+                  );
+                })}
+              </div>
+            ) : null}
           </div>
         </CardHeader>
         <CardContent>
@@ -220,7 +337,7 @@ export function ContentListPage({ contentType, items, initialSearch = "" }: Prop
             emptyMessage={`No ${pluralLabel.toLowerCase()} yet.`}
             imageAspectClass={getAspectClass(imageAspect)}
             onReorder={(ids) => reorderContentItems(typeSlug, ids)}
-            onStagedReorder={isSearchActive ? undefined : handleStagedReorder}
+            onStagedReorder={isSearchActive || collectionSlug ? undefined : handleStagedReorder}
             onTogglePublished={(id, isPublished) =>
               isPublished
                 ? setContentItemStatus(id, "PUBLISHED").then(() =>

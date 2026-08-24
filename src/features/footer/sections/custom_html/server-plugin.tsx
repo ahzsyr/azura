@@ -1,6 +1,7 @@
 import type { FooterColumn } from "../../types";
 import type { FooterSectionMetadata, SectionRenderProps, SectionResolveContext } from "../types";
 import { baseResolvedColumn, newSectionId } from "../shared";
+import { sanitizeHtml } from "@/lib/sanitize-html";
 
 const metadata: FooterSectionMetadata = {
   type: "custom_html",
@@ -36,7 +37,7 @@ function Renderer({ column: col }: SectionRenderProps) {
     <div
       className="text-sm text-background/70"
       // Trusted admin content only
-      dangerouslySetInnerHTML={{ __html: col.body }}
+      dangerouslySetInnerHTML={{ __html: sanitizeHtml(col.body) }}
     />
   );
 }

@@ -32,6 +32,7 @@ export function normalizeCollectionForExport(col: Collection): Collection {
     conditions: upgradeLegacyRuleSet(col.conditions ?? emptyRuleGroup("any")),
     cardTemplate: col.cardTemplate ?? "default",
     sortBy: col.sortBy ?? "name-asc",
+    pageLayoutTemplate: col.pageLayoutTemplate ?? null,
     visible: col.visible !== false,
     showInNav: col.showInNav ?? false,
     featured: col.featured ?? false,

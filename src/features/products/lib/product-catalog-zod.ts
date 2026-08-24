@@ -15,7 +15,7 @@ const productCatalogShapeSchema = z
     }),
     media: z.object({
       images: z.array(z.unknown()),
-    }),
+    }).passthrough(),
   })
   .passthrough()
   .superRefine((data, ctx) => {

@@ -9,8 +9,9 @@ import {
   IndentIncrease,
   Italic,
   Link2,
+  PilcrowLeft,
+  PilcrowRight,
   Strikethrough,
-  Table,
   Underline,
 } from "lucide-react";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -18,15 +19,15 @@ import {
   ToolbarButton,
   ToolbarDivider,
   ToolbarGroup,
-  ToolbarSelect,
-  FORMAT_OPTIONS,
-  getActiveFormat,
-  applyFormat,
 } from "@/features/builder/blocks/content/admin/advanced-rich-text-toolbar-groups";
 import { AdvancedRichTextColorPicker } from "@/features/builder/blocks/content/admin/advanced-rich-text-color-picker";
 import { AdvancedRichTextTableMenu } from "@/features/builder/blocks/content/admin/advanced-rich-text-table-menu";
-import { AlignMenu, ListsMenu } from "@/features/builder/blocks/content/admin/advanced-rich-text-toolbar-menus";
+import { AlignMenu, FormatMenu, ListsMenu } from "@/features/builder/blocks/content/admin/advanced-rich-text-toolbar-menus";
 import { clearFormatting } from "@/features/builder/blocks/content/admin/lib/advanced-rich-text-commands";
+import {
+  applyTextDirection,
+  getActiveTextDirection,
+} from "@/features/builder/blocks/content/admin/lib/advanced-rich-text-text-direction";
 
 type Props = {
   editor: Editor;
@@ -39,14 +40,8 @@ export function AdvancedRichTextToolbar({ editor, onOpenLink, onOpenImage }: Pro
     <TooltipProvider delayDuration={300}>
       <div className="sticky top-0 z-10 border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
         <div className="flex flex-wrap items-center gap-0.5 px-2 py-1">
-          {/* Heading select */}
-          <ToolbarSelect
-            aria-label="Paragraph style"
-            value={getActiveFormat(editor)}
-            onChange={(v) => applyFormat(editor, v)}
-            options={FORMAT_OPTIONS}
-            className="w-28"
-          />
+          {/* Heading / paragraph style */}
+          <FormatMenu editor={editor} />
 
           <ToolbarDivider />
 
@@ -105,6 +100,18 @@ export function AdvancedRichTextToolbar({ editor, onOpenLink, onOpenImage }: Pro
               icon={IndentIncrease}
               label="Increase indent"
               onClick={() => editor.chain().focus().increaseIndent().run()}
+            />
+            <ToolbarButton
+              icon={PilcrowRight}
+              label="Left to right"
+              active={getActiveTextDirection(editor) === "ltr"}
+              onClick={() => applyTextDirection(editor, "ltr")}
+            />
+            <ToolbarButton
+              icon={PilcrowLeft}
+              label="Right to left"
+              active={getActiveTextDirection(editor) === "rtl"}
+              onClick={() => applyTextDirection(editor, "rtl")}
             />
           </ToolbarGroup>
 

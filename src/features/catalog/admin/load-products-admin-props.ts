@@ -45,6 +45,10 @@ import { catalogProductsSource, type CatalogProductsSource } from "@/features/pr
 import {
   type ResolvedProductPageCompactDisplay,
 } from "@/features/products/lib/product-page-compact-display";
+import {
+  parseProductOrderingSettings,
+  type ProductOrderingSettings,
+} from "@/features/products/ordering";
 
 export type ProductsAdminInitialProps = {
   initialProductCta: ResolvedProductCtaConfig;
@@ -62,6 +66,8 @@ export type ProductsAdminInitialProps = {
   initialProductPageElementOrder: ResolvedProductPageElementOrder;
   initialProductPageCompactDisplay: ResolvedProductPageCompactDisplay;
   initialProductPageOverflow: ResolvedProductPageOverflow;
+  initialProductPageLayoutTemplate?: string | null;
+  initialProductOrdering: ProductOrderingSettings;
   initialAdminLocaleCode: string;
   initialLocales: Array<{ code: string; label: string; urlPrefix: string }>;
   initialCatalogBrands: string[];
@@ -131,6 +137,11 @@ export async function loadProductsAdminInitialProps(): Promise<ProductsAdminInit
     initialProductPageElementOrder: elementsRules.desktop.elementOrder,
     initialProductPageCompactDisplay: elementsRules.desktop.compactDisplay,
     initialProductPageOverflow: overflow,
+    initialProductPageLayoutTemplate:
+      typeof site.productPageLayoutTemplate === "string"
+        ? site.productPageLayoutTemplate
+        : null,
+    initialProductOrdering: parseProductOrderingSettings(site.productOrdering),
     initialAdminLocaleCode: activeLocale.code,
     initialLocales: enabledLocales.map((locale) => ({
       code: locale.code,

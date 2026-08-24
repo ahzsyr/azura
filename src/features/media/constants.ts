@@ -9,9 +9,18 @@ export const PLACEHOLDER_IMAGE_PATH = "/images/placeholder.svg";
 /** @deprecated Use PLACEHOLDER_IMAGE_PATH */
 export const DEFAULT_MEDIA_PLACEHOLDER = PLACEHOLDER_IMAGE_PATH;
 
+const VIDEO_EXT = /\.(mp4|mov|webm|ogg|m4v)(\?|#|$)/i;
+
 export function hasMediaUrl(url?: string | null): boolean {
   const trimmed = url?.trim();
   return Boolean(trimmed && (trimmed.startsWith("http") || trimmed.startsWith("/")));
+}
+
+export function isVideoMediaUrl(url?: string | null): boolean {
+  const trimmed = url?.trim();
+  if (!trimmed) return false;
+  if (trimmed.startsWith("data:video")) return true;
+  return VIDEO_EXT.test(trimmed);
 }
 
 /** Returns the URL when set, otherwise the placeholder (does not mutate stored values). */

@@ -44,7 +44,6 @@ import {
 } from "@/features/catalog/navigation/resolve";
 import { resolveNavItemIcon } from "@/features/catalog/navigation/fallback";
 import { buildCatalogNavItemHref } from "@/features/catalog/navigation/item-href";
-import { filtersToListingState } from "@/features/catalog/navigation/filters-to-listing-state";
 import {
   normalizeNavFilters,
   seedNavFiltersForAction,
@@ -52,12 +51,9 @@ import {
 } from "@/features/catalog/navigation/normalize-nav-filters";
 import { emptyRuleGroup } from "@/features/categories/matching";
 import { MatchingRulesEditor } from "@/features/categories/admin/MatchingRulesEditor";
-import type { CatalogTopNavigationBarItem } from "@/features/catalog/components/catalog-top-navigation-bar";
-import type { ThemeTokens } from "@/types/theme";
 import { useAdminFormState } from "@/hooks/use-admin-form";
 import type { PageActions } from "@/stores/admin-ui-store";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
-import { CatalogNavScopedPreview } from "./CatalogNavScopedPreview";
 import { NavAppearancePanel } from "./NavAppearancePanel";
 import { NavLayoutPanel } from "./NavLayoutPanel";
 import { NavItemIconFields } from "./NavItemIconFields";
@@ -139,7 +135,8 @@ function destinationSummary(item: CatalogNavigationItem): string {
   const action = inferCatalogNavigationActionType(item);
   if (action === "SEARCH") {
     const q = item.searchQuery?.trim() ?? "";
-    return q ? `q=${q}` : "Search (no keyword)";
+    const exact = item.searchExact === true ? " exact" : "";
+    return q ? `q=${q}${exact}` : "Search (no keyword)";
   }
   if (
     action === "CATEGORY_FILTER" ||
@@ -168,11 +165,9 @@ function normalizeNavItems(items: CatalogNavigationItem[]): CatalogNavigationIte
 export function CatalogNavigationBuilder({
   initialScopeType = "GLOBAL",
   initialScopeId = null,
-  themeTokens,
 }: {
   initialScopeType?: CatalogNavigationScopeType;
   initialScopeId?: string | null;
-  themeTokens: ThemeTokens;
 }) {
   const [navigations, setNavigations] = useState<CatalogNavigation[]>([]);
   const [scopeType, setScopeType] = useState<CatalogNavigationScopeType>(initialScopeType);
@@ -190,12 +185,9 @@ export function CatalogNavigationBuilder({
   const [error, setError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [categories, setCategories] = useState<CategoryOption[]>([]);
-  const [previewFilterQuery, setPreviewFilterQuery] = useState("");
-  const [previewAppliedLabel, setPreviewAppliedLabel] = useState<string | null>(null);
   const [layoutBreakpoint, setLayoutBreakpoint] = useState<"base" | "desktop" | "tablet" | "mobile">(
     "base",
   );
-  const [previewViewport, setPreviewViewport] = useState<"desktop" | "tablet" | "mobile">("desktop");
   const skipDirtyRef = useRef(true);
 
   const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
@@ -256,8 +248,6 @@ export function CatalogNavigationBuilder({
     [draft.items],
   );
 
-  const stripEnabled = draft.scopeType !== "GLOBAL" || draft.enabled !== false;
-
   const inheritanceLabel = useMemo(
     () =>
       describeNavigationInheritance({
@@ -268,32 +258,11 @@ export function CatalogNavigationBuilder({
     [scopeType, scopeId],
   );
 
-  const previewItems: CatalogTopNavigationBarItem[] = useMemo(() => {
-    if (!stripEnabled) return [];
-    return sortedItems
-      .filter((item) => item.visible !== false)
-      .map((item) => {
-        const icon = resolveNavItemIcon(item);
-        return {
-          ...item,
-          icon: icon.icon,
-          iconType: icon.iconType,
-          href: buildCatalogNavItemHref({
-            locale: "en-us",
-            item,
-            listingBasePath: "/en-us/products",
-          }),
-        };
-      });
-  }, [sortedItems, stripEnabled]);
-
   const selectScope = (type: CatalogNavigationScopeType, id: string | null) => {
     skipDirtyRef.current = true;
     setScopeType(type);
     setScopeId(id);
     setEditItem(null);
-    setPreviewFilterQuery("");
-    setPreviewAppliedLabel(null);
     const found = navigations.find(
       (n) => n.scopeType === type && (n.scopeId ?? null) === (id ?? null),
     );
@@ -811,131 +780,78 @@ export function CatalogNavigationBuilder({
         </CatalogSection>
 
         <CatalogSection
-          title="Live Preview"
-          description="Same storefront component with the active theme."
+          title="Configuration"
+          description="Appearance, layout, and scope settings."
         >
-          {!stripEnabled ? (
-            <CatalogEmptyState
-              title="Catalog Navigation is disabled"
-              description="Enable Catalog Navigation under Availability."
-            />
-          ) : (
-            <>
-              <div className="mb-2 flex flex-wrap gap-2">
-                {(["desktop", "tablet", "mobile"] as const).map((vp) => (
-                  <Button
-                    key={vp}
-                    type="button"
-                    size="sm"
-                    variant={previewViewport === vp ? "default" : "outline"}
-                    onClick={() => setPreviewViewport(vp)}
-                  >
-                    {vp[0]!.toUpperCase() + vp.slice(1)}
-                  </Button>
-                ))}
+          <CatalogTabs
+            tabs={[
+              { id: "general", label: "General" },
+              { id: "appearance", label: "Appearance" },
+              { id: "layout", label: "Layout" },
+              { id: "advanced", label: "Advanced" },
+            ]}
+            activeTab={configTab}
+            onTabChange={(id) => setConfigTab(id as ConfigTab)}
+          />
+          <CatalogTabsPanel className="mt-4 space-y-4">
+            {configTab === "general" ? (
+              <div className="space-y-3">
+                <div>
+                  <Label className="text-xs">Configuration name</Label>
+                  <Input
+                    className="mt-1"
+                    value={draft.name ?? ""}
+                    onChange={(e) => updateDraft({ name: e.target.value })}
+                    placeholder="e.g. Ubiquiti Navigation"
+                  />
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Scope: {scopeType}
+                  {scopeId ? ` / ${scopeId}` : ""} · Mode: {draft.mode}
+                </p>
+                <p className="text-sm text-muted-foreground">Using: {inheritanceLabel}</p>
               </div>
-              <CatalogNavScopedPreview
-                tokens={themeTokens}
-                items={previewItems}
-                appearance={draft.appearance}
-                layout={draft.layout}
-                responsive={draft.responsive}
-                previewViewport={previewViewport}
-                previewFilterQuery={previewFilterQuery}
-                onPreviewItemClick={(item) => {
-                  const found = sortedItems.find((i) => i.id === item.id);
-                  if (found) openEditItem(found, "filter");
-                  const href = item.href;
-                  const q = href.includes("?") ? href.slice(href.indexOf("?") + 1) : "";
-                  setPreviewFilterQuery(q);
-                  const partial = filtersToListingState(item.filters);
-                  const summary =
-                    Object.entries(partial)
-                      .filter(([k]) => k !== "logic" && k !== "page" && k !== "per")
-                      .map(([k, v]) => `${k}=${Array.isArray(v) ? v.join("|") : JSON.stringify(v)}`)
-                      .join(", ") || destinationSummary(item);
-                  setPreviewAppliedLabel(`${item.label}: ${summary}`);
-                }}
+            ) : null}
+
+            {configTab === "appearance" ? (
+              <NavAppearancePanel
+                appearance={appearance}
+                onPatchAppearance={patchAppearance}
+                onReplaceAppearance={replaceAppearance}
+                onPatchLayout={patchBaseLayout}
               />
-              <p className="mt-2 text-xs text-muted-foreground">
-                {previewAppliedLabel
-                  ? `Selected / Applied filters: ${previewAppliedLabel}`
-                  : "Click a preview item to open its editor and simulate filters."}
-              </p>
-            </>
-          )}
+            ) : null}
+
+            {configTab === "layout" ? (
+              <NavLayoutPanel
+                breakpoint={layoutBreakpoint}
+                onBreakpointChange={setLayoutBreakpoint}
+                layout={layoutTarget}
+                onPatchLayout={patchLayout}
+                onReplaceLayout={replaceLayout}
+              />
+            ) : null}
+
+            {configTab === "advanced" ? (
+              <div className="space-y-2 text-sm text-muted-foreground">
+                <p>
+                  Internal id: <code className="text-foreground">{draft.id}</code>
+                </p>
+                <p>
+                  Scope key:{" "}
+                  <code className="text-foreground">
+                    {scopeType}:{scopeId ?? ""}
+                  </code>
+                </p>
+                <p>
+                  Items: {sortedItems.length} · Visible:{" "}
+                  {sortedItems.filter((i) => i.visible !== false).length}
+                </p>
+              </div>
+            ) : null}
+          </CatalogTabsPanel>
         </CatalogSection>
       </div>
-
-      <CatalogSection title="Configuration">
-        <CatalogTabs
-          tabs={[
-            { id: "general", label: "General" },
-            { id: "appearance", label: "Appearance" },
-            { id: "layout", label: "Layout" },
-            { id: "advanced", label: "Advanced" },
-          ]}
-          activeTab={configTab}
-          onTabChange={(id) => setConfigTab(id as ConfigTab)}
-        />
-        <CatalogTabsPanel className="mt-4 space-y-4">
-          {configTab === "general" ? (
-            <div className="space-y-3">
-              <div>
-                <Label className="text-xs">Configuration name</Label>
-                <Input
-                  className="mt-1"
-                  value={draft.name ?? ""}
-                  onChange={(e) => updateDraft({ name: e.target.value })}
-                  placeholder="e.g. Ubiquiti Navigation"
-                />
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Scope: {scopeType}
-                {scopeId ? ` / ${scopeId}` : ""} · Mode: {draft.mode}
-              </p>
-              <p className="text-sm text-muted-foreground">Using: {inheritanceLabel}</p>
-            </div>
-          ) : null}
-
-          {configTab === "appearance" ? (
-            <NavAppearancePanel
-              appearance={appearance}
-              onPatchAppearance={patchAppearance}
-              onReplaceAppearance={replaceAppearance}
-              onPatchLayout={patchBaseLayout}
-            />
-          ) : null}
-
-          {configTab === "layout" ? (
-            <NavLayoutPanel
-              breakpoint={layoutBreakpoint}
-              onBreakpointChange={setLayoutBreakpoint}
-              layout={layoutTarget}
-              onPatchLayout={patchLayout}
-              onReplaceLayout={replaceLayout}
-            />
-          ) : null}
-
-          {configTab === "advanced" ? (
-            <div className="space-y-2 text-sm text-muted-foreground">
-              <p>
-                Internal id: <code className="text-foreground">{draft.id}</code>
-              </p>
-              <p>
-                Scope key:{" "}
-                <code className="text-foreground">
-                  {scopeType}:{scopeId ?? ""}
-                </code>
-              </p>
-              <p>
-                Items: {sortedItems.length} · Visible:{" "}
-                {sortedItems.filter((i) => i.visible !== false).length}
-              </p>
-            </div>
-          ) : null}
-        </CatalogTabsPanel>
-      </CatalogSection>
 
       {/* Item edit drawer */}
       <CatalogDrawer
@@ -1178,17 +1094,33 @@ function FilterEditor({
       ) : null}
 
       {action === "SEARCH" ? (
-        <div>
-          <Label className="text-xs">Search keyword</Label>
-          <Input
-            className="mt-1"
-            value={item.searchQuery ?? ""}
-            onChange={(e) => onChange({ searchQuery: e.target.value })}
-            placeholder="switch"
-          />
-          <p className="mt-1 text-xs text-muted-foreground">
-            Clicking this nav item opens the products listing with <code>?q=</code> set to this
-            keyword.
+        <div className="space-y-2">
+          <div>
+            <Label className="text-xs">Search keyword</Label>
+            <Input
+              className="mt-1"
+              value={item.searchQuery ?? ""}
+              onChange={(e) => onChange({ searchQuery: e.target.value })}
+              placeholder="switch"
+            />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Clicking this nav item opens the products listing with <code>?q=</code> set to this
+              keyword.
+            </p>
+          </div>
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={item.searchExact === true}
+              onChange={(e) =>
+                onChange({ searchExact: e.target.checked ? true : undefined })
+              }
+            />
+            Exact phrase match
+          </label>
+          <p className="text-xs text-muted-foreground">
+            When enabled, only products containing the full phrase (e.g. &ldquo;Door Access&rdquo;)
+            match. Adds <code>?q_exact=1</code> to the generated URL.
           </p>
         </div>
       ) : null}

@@ -20,7 +20,7 @@ const TEXT_TAGS = new Set<HtmlElementTag>([
   "p", "h1", "h2", "h3", "h4", "h5", "h6",
   "blockquote", "pre", "code",
   "span", "strong", "em", "b", "i", "u", "mark", "small", "sup", "sub", "abbr", "kbd",
-  "caption",
+  "caption", "figcaption", "dt", "dd",
 ]);
 
 const VOID_TAGS = new Set<HtmlElementTag>(["hr", "br"]);

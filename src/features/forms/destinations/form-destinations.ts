@@ -1,6 +1,7 @@
 import "server-only";
 
 import type { FormDestinationConfig } from "@/features/forms/types";
+import { assertSafeOutboundUrl, safeOutboundFetch } from "@/lib/ssrf-guard";
 
 /**
  * Dispatch non-email destinations only.
@@ -33,6 +34,12 @@ async function dispatchSlackDestination(
     score: number;
   },
 ): Promise<void> {
+  const safe = assertSafeOutboundUrl(webhookUrl);
+  if (!safe.ok) {
+    console.error("Slack destination blocked:", safe.reason);
+    return;
+  }
+
   const text = [
     `*New form submission: ${input.templateName}*`,
     `Score: ${input.score}`,
@@ -43,7 +50,7 @@ async function dispatchSlackDestination(
   ].join("\n");
 
   try {
-    await fetch(webhookUrl, {
+    await safeOutboundFetch(webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text }),

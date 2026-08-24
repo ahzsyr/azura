@@ -23,6 +23,9 @@ export default function AdminError({
     message.includes("ECHECKOUTTIMEOUT") ||
     message.includes("P2024") ||
     message.includes("Timed out fetching");
+  const isOpaqueProductionRscError =
+    message.includes("Server Components render") &&
+    message.includes("omitted in production");
   const isSchemaDrift =
     message.includes("does not exist in the current database") ||
     message.includes("Invalid `prisma.") ||
@@ -57,6 +60,13 @@ export default function AdminError({
           project is active.
         </p>
       ) : null}
+      {isOpaqueProductionRscError ? (
+        <p className="max-w-md text-sm text-amber-800 dark:text-amber-200">
+          Production hides the real server error. Check host logs for this Error ID. A Prisma P2022 /
+          unknown column means the live database is behind this app version — redeploy so start-up
+          patches can add the missing column, then hard-refresh.
+        </p>
+      ) : null}
       {isSchemaDrift ? (
         <p className="max-w-md text-sm text-amber-800 dark:text-amber-200">
           The database schema is behind the app version (missing ContentItem columns or revision table).
@@ -79,7 +89,7 @@ export default function AdminError({
           Try again
         </Button>
         <Button type="button" variant="outline" asChild>
-          <Link href="/admin/login">Admin login</Link>
+          <Link href="/account/login">Sign in</Link>
         </Button>
         <Button type="button" variant="ghost" asChild>
           <Link href="/en">View website</Link>

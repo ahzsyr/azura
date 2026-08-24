@@ -139,8 +139,9 @@ export const INVENTORY_TABS: HelpInventoryTab[] = [
   {
     id: "tab-seo-integrations-configure",
     kind: "tab",
-    version: 1,
+    version: 3,
     label: "Configure",
+    description: "Enable and credential IndexNow, Bing Webmaster, and Google Indexing API.",
   },
   {
     id: "tab-seo-integrations-queue",

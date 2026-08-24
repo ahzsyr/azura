@@ -221,11 +221,8 @@ export async function isRegistrationEnabled(): Promise<boolean> {
 
 }
 
+/** Database toggle only. `COMING_SOON_ENABLED` is a middleware fallback when this API is unreachable. */
 export async function isComingSoonEnabled(): Promise<boolean> {
-
-  const envOverride = getComingSoonEnvOverride();
-
-  if (envOverride !== null) return envOverride;
 
   const settings = await readSystemSettings();
 
@@ -243,15 +240,13 @@ export function getComingSoonEnvOverrideForAdmin(): boolean | null {
 
 
 
-export function isValidSetupToken(token: string | null | undefined): boolean {
+export {
+  authorizeSetupToken,
+  getSetupTokenFromEnv,
+  isSetupTokenRequired,
+  isValidSetupToken,
+} from "@/features/setup/setup-token";
 
-  const expected = process.env.SETUP_TOKEN?.trim();
-
-  if (!expected) return false;
-
-  return Boolean(token?.trim() && token.trim() === expected);
-
-}
 
 
 

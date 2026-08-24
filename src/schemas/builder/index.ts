@@ -46,6 +46,7 @@ export const blockTypeSchema = z.enum([
   "logoCloud",
   "statsCounter",
   "beforeAfter",
+  "tabbedShowcase",
   "productGrid",
   "productCarousel",
   "productComparison",
@@ -247,7 +248,7 @@ export const BLOCK_DEFAULTS: Record<string, Record<string, unknown>> = {
   video: { title: "", url: "", caption: "" },
   richText: { html: "" },
   catalog: {
-    source: "packages",
+    source: "catalog-items",
     title: "Catalog",
     subtitle: "",
     categorySlug: "",
@@ -414,6 +415,26 @@ export const BLOCK_DEFAULTS: Record<string, Record<string, unknown>> = {
     afterMediaAssetId: "",
     sliderPosition: 50,
     showLabels: true,
+  },
+  tabbedShowcase: {
+    title: "",
+    showNavArrows: true,
+    tabs: [
+      {
+        id: "tab-1",
+        label: "Tab 1",
+        title: "Feature highlight",
+        features: [
+          { id: "feat-1", icon: "check", description: "First highlight point." },
+          { id: "feat-2", icon: "star", description: "Second highlight point." },
+        ],
+        visual: {
+          stageAspectRatio: "980/780",
+          layers: [],
+          sequences: [],
+        },
+      },
+    ],
   },
   productGrid: {
     title: "Products",
@@ -812,6 +833,7 @@ export const BLOCK_DEFAULTS: Record<string, Record<string, unknown>> = {
     playsInline: true,
     overlayOpacity: 55,
     overlayGradient: true,
+    fadeIntoSiteBackground: false,
     autoplaySlides: true,
     autoplaySlideMs: 6000,
     showSlideDots: true,

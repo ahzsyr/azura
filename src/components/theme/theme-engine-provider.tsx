@@ -43,6 +43,7 @@ import {
   clearVisitorPresetOverrides,
   readStoredPresetColors,
   readDocumentThemeBackground,
+  dispatchThemeChange,
 } from "@/features/theme/engine";
 import { reconcileSiteHtmlAttributes } from "@/lib/theme/reconcile-html-attributes";
 import {
@@ -387,6 +388,11 @@ export function ThemeEngineProvider({
           }),
         );
       }
+      // Re-broadcast so header brand syncs final text-effect theme after effects bind.
+      dispatchThemeChange({
+        visitorPresetId: presetId,
+        effectivePresetId: presetId,
+      });
       // I5: preset change must re-project browser chrome (same frame).
       syncThemeColorForMode(appearanceMode, resolved);
       return { ok: true };
@@ -416,6 +422,10 @@ export function ThemeEngineProvider({
           }),
         );
       }
+      dispatchThemeChange({
+        visitorPresetId: preset.id,
+        effectivePresetId: preset.id,
+      });
       syncThemeColorForMode(appearanceMode, resolved);
     },
     [appearanceMode, siteTheme, cursorPreference, syncThemeColorForMode],

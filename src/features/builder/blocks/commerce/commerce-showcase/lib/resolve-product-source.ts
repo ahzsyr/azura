@@ -13,6 +13,9 @@ import {
 } from "@/features/products/listing/query-listing";
 import type { ProductListingRecord } from "@/features/products/listing/types";
 import type { ProductSourceQuery } from "@/features/builder/blocks/commerce/commerce-showcase/schemas/showcase-blocks";
+import { applyProductOrdering } from "@/features/products/ordering/apply-product-ordering";
+import { loadProductOrderingSettings } from "@/features/products/ordering/load-product-ordering";
+import { findProductOrderingProfileById } from "@/features/products/ordering/resolve-product-ordering-profile";
 
 function hasBadgeTag(record: ProductListingRecord, badge: string): boolean {
   const key = `badge:${badge}`.toLowerCase();
@@ -25,12 +28,27 @@ function hasSale(record: ProductListingRecord): boolean {
   return typeof discount === "number" && discount > 0;
 }
 
+async function orderCandidates(
+  localePrefix: string,
+  candidates: ProductListingRecord[],
+  config: ProductSourceQuery,
+): Promise<ProductListingRecord[]> {
+  if (candidates.length <= 1) return candidates;
+
+  const settings = await loadProductOrderingSettings(localePrefix);
+  const profile = findProductOrderingProfileById(settings, config.orderingProfileId);
+  if (profile) {
+    return applyProductOrdering(candidates, profile);
+  }
+
+  return sortListingRecords(candidates, config.sortBy ?? "name-asc");
+}
+
 export async function resolveProductSource(
   localePrefix: string,
   config: ProductSourceQuery,
 ): Promise<ProductListingRecord[]> {
   const limit = Math.min(48, Math.max(1, config.limit ?? 8));
-  const sortBy = config.sortBy ?? "name-asc";
 
   if (config.source === "manual" && (config.productSlugs?.length ?? 0) > 0) {
     const records = await queryListingRecordsBySlugs(localePrefix, config.productSlugs ?? []);
@@ -103,16 +121,15 @@ export async function resolveProductSource(
       r.tags.some((t) => t.trim().toLowerCase() === "featured"),
     );
     candidates = featured.length > 0 ? featured : candidates;
-    candidates.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
   } else if (config.source === "best_sellers") {
     const tagged = candidates.filter((r) => hasBadgeTag(r, "bestseller"));
-    candidates = tagged.length > 0 ? tagged : [...candidates].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+    candidates = tagged.length > 0 ? tagged : candidates;
   } else if (config.source === "new_arrivals") {
     const tagged = candidates.filter((r) => hasBadgeTag(r, "new_arrival"));
-    candidates = tagged.length > 0 ? tagged : sortListingRecords(candidates, "newest");
+    candidates = tagged.length > 0 ? tagged : candidates;
   } else if (config.source === "trending") {
     const tagged = candidates.filter((r) => hasBadgeTag(r, "trending"));
-    candidates = tagged.length > 0 ? tagged : [...candidates].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+    candidates = tagged.length > 0 ? tagged : candidates;
   } else if (config.source === "sale") {
     const onSale = candidates.filter(hasSale);
     candidates = onSale.length > 0 ? onSale : candidates;
@@ -124,10 +141,9 @@ export async function resolveProductSource(
       brand: anchor?.brand,
       limit,
     });
-  } else {
-    candidates = sortListingRecords(candidates, sortBy);
   }
 
+  candidates = await orderCandidates(localePrefix, candidates, config);
   return candidates.slice(0, limit);
 }
 
@@ -143,7 +159,12 @@ export async function resolveProductsForShowcaseTab(
   localePrefix: string,
   taxonomy: "category" | "brand",
   key: string,
-  options: { limit?: number; sortBy?: ProductSourceQuery["sortBy"]; page?: number } = {},
+  options: {
+    limit?: number;
+    sortBy?: ProductSourceQuery["sortBy"];
+    orderingProfileId?: string;
+    page?: number;
+  } = {},
 ): Promise<{ records: ProductListingRecord[]; total: number }> {
   const limit = Math.min(48, Math.max(1, options.limit ?? 8));
   const page = Math.max(1, options.page ?? 1);
@@ -151,8 +172,20 @@ export async function resolveProductsForShowcaseTab(
   const brandName = taxonomy === "brand" ? await resolveBrandFilterKey(localePrefix, key) : key;
   const config: ProductSourceQuery =
     taxonomy === "brand"
-      ? { source: "brand", brand: brandName, limit: 200, sortBy: options.sortBy }
-      : { source: "category", category: key, limit: 200, sortBy: options.sortBy };
+      ? {
+          source: "brand",
+          brand: brandName,
+          limit: 200,
+          sortBy: options.sortBy,
+          orderingProfileId: options.orderingProfileId,
+        }
+      : {
+          source: "category",
+          category: key,
+          limit: 200,
+          sortBy: options.sortBy,
+          orderingProfileId: options.orderingProfileId,
+        };
 
   const all = await resolveProductSource(localePrefix, config);
   const total = all.length;

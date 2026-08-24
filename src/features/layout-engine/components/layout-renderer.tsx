@@ -7,6 +7,7 @@ import type { TranslationBundle } from "@/features/translation/translation-bundl
 import type { BlockParentType } from "@/features/translation/block-translation";
 import type { ThemeTokens } from "@/types/theme";
 import { firstBlockSupportsHeaderOverlay } from "@/features/builder/header-overlay";
+import { resolveDirection } from "@/shared/layout/direction/direction-resolver";
 
 type Props = {
   composition: Composition;
@@ -119,6 +120,7 @@ export async function LayoutRenderer({
     topEnabled,
   );
   const gap = composition.layout.spacing.gap ?? "md";
+  const dir = resolveDirection(renderOptions.locale);
   const style = {
     ...resolveRatioVars(
       composition.layout.regions.asideStart?.ratio ??
@@ -174,6 +176,7 @@ export async function LayoutRenderer({
   return (
     <div
       className="az-layout-shell"
+      dir={dir}
       data-max-width={shell.maxWidth}
       data-container={shell.container}
       data-sticky-scroll={shell.stickyScroll}

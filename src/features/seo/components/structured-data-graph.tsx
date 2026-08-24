@@ -32,5 +32,6 @@ export async function StructuredDataGraph({ overrides }: Props = {}) {
 export async function buildStructuredDataResult(overrides?: SchemaPageOverrides) {
   const ctx = await buildSchemaContext(overrides);
   if (!ctx) return null;
-  return SchemaPipeline.build(ctx);
+  const result = SchemaPipeline.build(ctx);
+  return { ...result, context: ctx };
 }

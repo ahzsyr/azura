@@ -93,4 +93,29 @@ export const HELP_TROUBLESHOOTING: HelpTroubleshooting[] = [
     keywords: ["language", "locale", "rtl", "translation", "arabic", "english"],
     navItemIds: ["languages", "translations"],
   },
+  {
+    id: "ts-indexnow-submissions-failing",
+    title: "IndexNow submissions failing",
+    problem: "IndexNow jobs show failed or exhausted status in the SEO submission queue.",
+    causes: [
+      "Pasting a Media upload URL into Key location (must be https://brt-me.com/{key}.txt, not /uploads/…)",
+      "Verification key file missing or returns HTML instead of the raw key",
+      "Key file content does not exactly match the API key in admin",
+      "IndexNow is enabled but API key was never saved",
+    ],
+    fixes: [
+      "Open SEO → Search Engines → Configure → IndexNow. Clear Key location (do not use a Media upload). The app already serves https://brt-me.com/{key}.txt",
+      "Open https://brt-me.com/{key}.txt in a private window — it must return only the key as plain text",
+      "Confirm Bing Webmaster’s property is https://brt-me.com",
+      "Save, then re-run the failed URL job from Queue & jobs",
+      "Read the Search Engines help topic (IndexNow setup) for the full host checklist",
+    ],
+    links: [
+      { label: "Search Engines settings", href: "/admin/seo/integrations?tab=configure&provider=indexnow" },
+      { label: "Submission queue", href: "/admin/seo/integrations?tab=queue" },
+      { label: "Google IndexNow tab", href: "/admin/seo/google?tab=indexnow" },
+    ],
+    keywords: ["indexnow", "bing", "submission", "queue", "key", "verification"],
+    navItemIds: ["seo-integrations", "seo-google"],
+  },
 ];

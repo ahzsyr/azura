@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useCallback, useEffect, useState } from "react";
 import { CatalogPageHeader, CatalogSection } from "@/features/catalog/admin/ui";
 import {
   DEFAULT_CATEGORY_CREATION_POLICY,
@@ -13,8 +12,10 @@ import type {
   ProductListingLayoutPartial,
   ResolvedProductListingLayout,
 } from "@/features/catalog/lib/catalog-layout";
+import { useAdminUiStore } from "@/stores/admin-ui-store";
+import { fetchSiteSettingsPublishStatus, publishShell } from "@/lib/publish-shell.client";
 
-const API: RequestInit = { credentials: "include" };
+const API: RequestInit = { credentials: "include", headers: { "Content-Type": "application/json" } };
 
 export function CatalogSettingsPanel({
   initialPolicy = DEFAULT_CATEGORY_CREATION_POLICY,
@@ -34,69 +35,117 @@ export function CatalogSettingsPanel({
   const [listColumnsTablet, setListColumnsTablet] = useState<CatalogListColumnsTablet>(
     initialListingLayout.listColumnsTablet,
   );
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const [savedPolicy, setSavedPolicy] = useState(policy);
+  const [savedListColumnsDesktop, setSavedListColumnsDesktop] = useState(listColumnsDesktop);
+  const [savedListColumnsTablet, setSavedListColumnsTablet] = useState(listColumnsTablet);
   const [error, setError] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<string | null>(null);
 
-  const save = async () => {
+  const registerPageActions = useAdminUiStore((s) => s.registerPageActions);
+  const clearPageActions = useAdminUiStore((s) => s.clearPageActions);
+  const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
+  const markSaved = useAdminUiStore((s) => s.markSaved);
+  const markPublishPending = useAdminUiStore((s) => s.markPublishPending);
+  const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
+  const setPublishStatus = useAdminUiStore((s) => s.setPublishStatus);
+
+  const handleSave = useCallback(async () => {
     if (policy === "automatic") {
       setError("Automatic category creation is not available.");
-      return;
+      setSaveStatus("error");
+      return false;
     }
-    setSaving(true);
     setError(null);
-    setMessage(null);
+    setFeedback(null);
+    setSaveStatus("saving");
     try {
       const listingValue: ProductListingLayoutPartial = {
         ...initialListingLayout,
         listColumnsDesktop,
         listColumnsTablet,
       };
-      const saves = [
-        fetch("/api/save-settings", {
-          ...API,
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            locale,
-            key: "categoryCreationPolicy",
-            value: policy,
-          }),
+      const res = await fetch("/api/save-settings", {
+        ...API,
+        method: "POST",
+        body: JSON.stringify({
+          locale,
+          patches: [
+            { key: "categoryCreationPolicy", value: policy },
+            { key: "productListingLayout", value: listingValue },
+          ],
         }),
-        fetch("/api/save-settings", {
-          ...API,
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            locale,
-            key: "productListingLayout",
-            value: listingValue,
-          }),
-        }),
-      ];
-      const results = await Promise.all(saves);
-      for (const res of results) {
-        const json = (await res.json()) as { error?: string };
-        if (!res.ok) throw new Error(json.error ?? "Save failed");
-      }
-      setMessage("Catalog settings saved.");
+      });
+      const json = (await res.json()) as { error?: string };
+      if (!res.ok) throw new Error(json.error ?? "Save failed");
+      setSavedPolicy(policy);
+      setSavedListColumnsDesktop(listColumnsDesktop);
+      setSavedListColumnsTablet(listColumnsTablet);
+      setFeedback("Catalog settings saved. Publish to apply them on the live site.");
+      markSaved();
+      markPublishPending();
+      return true;
     } catch (e) {
       setError(e instanceof Error ? e.message : "Save failed");
-    } finally {
-      setSaving(false);
+      setSaveStatus("error");
+      return false;
     }
-  };
+  }, [
+    policy,
+    listColumnsDesktop,
+    listColumnsTablet,
+    initialListingLayout,
+    locale,
+    markSaved,
+    markPublishPending,
+    setSaveStatus,
+  ]);
+
+  const handlePublish = useCallback(async () => {
+    setError(null);
+    setFeedback(null);
+    try {
+      await publishShell("site-settings", locale);
+      setPublishStatus("live");
+      setFeedback("Catalog settings published to the live site.");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Publish failed");
+    }
+  }, [locale, setPublishStatus]);
+
+  const handleCancel = useCallback(() => {
+    setPolicy(savedPolicy);
+    setListColumnsDesktop(savedListColumnsDesktop);
+    setListColumnsTablet(savedListColumnsTablet);
+    setError(null);
+    setFeedback(null);
+  }, [savedPolicy, savedListColumnsDesktop, savedListColumnsTablet]);
+
+  useEffect(() => {
+    void (async () => {
+      try {
+        const status = await fetchSiteSettingsPublishStatus(locale);
+        setPublishStatus(status.isLive ? "live" : "pending");
+      } catch {
+        /* ignore */
+      }
+    })();
+  }, [locale, setPublishStatus]);
+
+  useEffect(() => {
+    registerPageActions({
+      onSave: handleSave,
+      onPublish: handlePublish,
+      onCancel: handleCancel,
+      selfManagedSaveStatus: true,
+    });
+    return () => clearPageActions();
+  }, [registerPageActions, clearPageActions, handleSave, handlePublish, handleCancel]);
 
   return (
     <div className="space-y-6">
       <CatalogPageHeader
         title="Catalog Settings"
-        description="Global taxonomy and catalog workspace policies."
-        actions={
-          <Button type="button" disabled={saving} onClick={() => void save()}>
-            {saving ? "Saving…" : "Save"}
-          </Button>
-        }
+        description="Global taxonomy and catalog workspace policies. Save, then Publish to update the live site."
       />
 
       {error ? (
@@ -104,9 +153,9 @@ export function CatalogSettingsPanel({
           {error}
         </div>
       ) : null}
-      {message ? (
+      {feedback ? (
         <div className="rounded-md border border-emerald-500/30 bg-emerald-500/5 px-3 py-2 text-sm text-emerald-800 dark:text-emerald-200">
-          {message}
+          {feedback}
         </div>
       ) : null}
 
@@ -120,9 +169,10 @@ export function CatalogSettingsPanel({
             <select
               className="w-full rounded-md border bg-background px-3 py-2"
               value={listColumnsDesktop}
-              onChange={(e) =>
-                setListColumnsDesktop(Number(e.target.value) as CatalogListColumnsDesktop)
-              }
+              onChange={(e) => {
+                markUnsaved();
+                setListColumnsDesktop(Number(e.target.value) as CatalogListColumnsDesktop);
+              }}
             >
               <option value={1}>1 column</option>
               <option value={2}>2 columns</option>
@@ -135,9 +185,10 @@ export function CatalogSettingsPanel({
             <select
               className="w-full rounded-md border bg-background px-3 py-2"
               value={listColumnsTablet}
-              onChange={(e) =>
-                setListColumnsTablet(Number(e.target.value) as CatalogListColumnsTablet)
-              }
+              onChange={(e) => {
+                markUnsaved();
+                setListColumnsTablet(Number(e.target.value) as CatalogListColumnsTablet);
+              }}
             >
               <option value={1}>1 column</option>
               <option value={2}>2 columns</option>
@@ -158,7 +209,10 @@ export function CatalogSettingsPanel({
               name="policy"
               className="mt-1"
               checked={policy === "manual_only"}
-              onChange={() => setPolicy("manual_only")}
+              onChange={() => {
+                markUnsaved();
+                setPolicy("manual_only");
+              }}
             />
             <span>
               <span className="font-medium">Manual only</span>
@@ -174,7 +228,10 @@ export function CatalogSettingsPanel({
               name="policy"
               className="mt-1"
               checked={policy === "manual_plus_approved"}
-              onChange={() => setPolicy("manual_plus_approved")}
+              onChange={() => {
+                markUnsaved();
+                setPolicy("manual_plus_approved");
+              }}
             />
             <span>
               <span className="font-medium">Manual + approved automation</span>

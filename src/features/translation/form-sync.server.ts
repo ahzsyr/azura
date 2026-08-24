@@ -23,6 +23,11 @@ function readLocalizedFormField(
   return String(raw);
 }
 
+export type TranslationFormSyncOptions = {
+  /** Skip per-field locale completion scans (caller may defer them). */
+  skipCompletionSync?: boolean;
+};
+
 /**
  * Sync EntityTranslation rows from admin form submission (server-only).
  */
@@ -31,7 +36,8 @@ export async function syncEntityTranslationsFromForm(
   entityType: string,
   entityId: string,
   locales: PublicLocale[],
-  fields?: string[]
+  fields?: string[],
+  options?: TranslationFormSyncOptions
 ) {
   const config = getEntityConfig(entityType);
   const fieldList =
@@ -39,9 +45,10 @@ export async function syncEntityTranslationsFromForm(
   const inputs = parseFormTranslations(formData, entityType, entityId, locales, fieldList);
   const nonEmpty = inputs.filter((i) => i.value.trim());
   const empty = inputs.filter((i) => !i.value.trim());
+  const syncOptions = options?.skipCompletionSync ? { skipCompletionSync: true } : undefined;
 
   if (nonEmpty.length > 0) {
-    await translationService.upsertMany(nonEmpty);
+    await translationService.upsertMany(nonEmpty, syncOptions);
   }
   if (empty.length > 0) {
     await translationService.deleteMany(
@@ -50,7 +57,8 @@ export async function syncEntityTranslationsFromForm(
         entityId: eid,
         field,
         localeCode,
-      }))
+      })),
+      syncOptions
     );
   }
   return nonEmpty.length;
@@ -116,9 +124,9 @@ async function localizedSeoPath(
   if (entityType === "ContentItem") {
     const item = await prisma.contentItem.findUnique({
       where: { id: entityId },
-      select: { contentType: { select: { routePrefix: true } } },
+      select: { contentType: { select: { routePrefix: true, slug: true } } },
     });
-    return (await contentItemPaths(item?.contentType.routePrefix, slug)).find((path) =>
+    return (await contentItemPaths(item?.contentType.routePrefix, slug, item?.contentType.slug)).find((path) =>
       path.startsWith(`/${urlPrefix}/`)
     );
   }

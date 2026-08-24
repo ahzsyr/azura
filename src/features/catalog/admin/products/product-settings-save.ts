@@ -28,6 +28,11 @@ import {
 import { designToLegacyLayoutPatch } from "@/features/products/card-design/migrate-legacy-card-layout";
 import { appearanceConfigToSiteSettings } from "@/features/products/card-appearance/product-card-appearance-adapter";
 import type { ProductCardAppearanceConfig } from "@/features/products/card-appearance/product-card-appearance.types";
+import {
+  serializeProductOrderingForSite,
+  type ProductOrderingSettings,
+} from "@/features/products/ordering";
+import { validateStoredTemplateId } from "@/features/products/lib/resolve-product-page-layout-template";
 
 const API: RequestInit = { credentials: "include", headers: { "Content-Type": "application/json" } };
 
@@ -233,4 +238,18 @@ export async function saveProductTrustSettings(
     reviewCount: trust.reviewCount,
     href: trust.href,
   });
+}
+
+export async function saveProductOrderingSettings(
+  locale: string,
+  settings: ProductOrderingSettings,
+): Promise<void> {
+  await postSettings(locale, "productOrdering", serializeProductOrderingForSite(settings));
+}
+
+export async function saveProductPageLayoutTemplateSettings(
+  locale: string,
+  templateId: string | null | undefined,
+): Promise<void> {
+  await postSettings(locale, "productPageLayoutTemplate", validateStoredTemplateId(templateId));
 }

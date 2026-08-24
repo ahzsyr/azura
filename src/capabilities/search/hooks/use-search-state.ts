@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ENTITY_LABELS } from "@/capabilities/search/constants";
+import { ENTITY_LABELS, labelForSearchHit } from "@/capabilities/search/constants";
 import type {
   PublicSearchConfig,
   PublicSearchFilterDef,
@@ -301,7 +301,7 @@ export function useSearchState({
     const base = discovery?.entityTypes?.length
       ? discovery.entityTypes
       : (Object.keys(ENTITY_LABELS) as SearchEntityType[]);
-    const filtered = base.filter((type) => adminMode || type !== "MEDIA");
+    const filtered = base.filter((type) => adminMode || (type !== "MEDIA" && type !== "ICON"));
     if (entityTypePreset?.length) {
       return filtered.filter((et) => entityTypePreset.includes(et));
     }
@@ -433,6 +433,11 @@ export function useSearchState({
     (type: SearchEntityType) => entityLabels[type]?.[locale] ?? type,
     [entityLabels, locale]
   );
+  const hitLabel = useCallback(
+    (hit: { entityType: SearchEntityType; contentTypeSlug?: string }) =>
+      labelForSearchHit(hit.entityType, locale, hit.contentTypeSlug, discovery?.contentTypes),
+    [discovery?.contentTypes, locale]
+  );
 
   const recordNavigate = useCallback(
     (
@@ -498,6 +503,7 @@ export function useSearchState({
     discovery,
     grouped,
     entityLabel,
+    hitLabel,
     showContentTypeChips,
     discoveryContentTypes: discovery?.contentTypes,
     recordNavigate,

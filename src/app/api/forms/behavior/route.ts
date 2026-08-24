@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { recordBehaviorEvent } from "@/features/forms/behavior-analytics.service";
 
+/* @public */
 const behaviorEventSchema = z.object({
   schemaId: z.string().min(1),
   type: z.string().min(1),

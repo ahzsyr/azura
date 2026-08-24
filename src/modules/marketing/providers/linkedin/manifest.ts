@@ -7,17 +7,24 @@ export const linkedinProviderManifest: ProviderManifest = {
   displayName: "LinkedIn",
   icon: "Linkedin",
   documentationUrl: "https://learn.microsoft.com/en-us/linkedin/",
-  capabilities: ["connection", "publishing", "analytics"],
-  supportedAssets: ["company", "channel"],
+  capabilities: ["connection", "publishing", "analytics", "advertising", "tracking"],
+  supportedAssets: ["company", "channel", "adAccount"],
   supportedMedia: ["image", "video", "document"],
   oauthConfig: {
     authorizeUrl: "https://www.linkedin.com/oauth/v2/authorization",
     tokenUrl: "https://www.linkedin.com/oauth/v2/accessToken",
-    scopes: ["r_organization_social", "w_organization_social", "rw_organization_admin"],
+    scopes: [
+      "r_organization_social",
+      "w_organization_social",
+      "rw_organization_admin",
+      "r_ads",
+      "rw_ads",
+    ],
     callbackPath: "/api/marketing/oauth/linkedin/callback",
   },
   featureFlags: {
     companyPages: true,
+    advertising: true,
   },
   version: {
     apiVersion: "202401",

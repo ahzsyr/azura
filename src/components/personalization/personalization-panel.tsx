@@ -4,7 +4,7 @@ import "@/styles/personalization-panel.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { ArrowUp, Globe, Monitor, Moon, Smartphone, Sun, Palette } from "lucide-react";
+import { ArrowUp, Check, Globe, Monitor, Moon, Smartphone, Sparkles, Sun, Palette } from "lucide-react";
 import { ALL_PRESETS, type PresetMeta } from "@/features/theme/presets-catalog";
 import { CURSOR_EFFECT_OPTIONS } from "@/features/theme/effect-options";
 import type { LocaleOption } from "@/components/layout/locale-switcher";
@@ -21,6 +21,7 @@ type Props = {
   theme: ThemeTokens | null;
   locale?: string;
   locales?: LocaleOption[];
+  dir?: "ltr" | "rtl";
 };
 
 function openLocaleDialog() {
@@ -76,7 +77,7 @@ function FabQuickControls({
           onClick={() => engine.toggleLightDark()}
           suppressHydrationWarning
         >
-          <ThemeIcon className="h-4 w-4" strokeWidth={2} aria-hidden />
+          <ThemeIcon className="pp-fab-icon" strokeWidth={2} aria-hidden />
         </button>
       ) : null}
     </div>
@@ -99,13 +100,12 @@ function FabLanguageButton({
   return (
     <button
       type="button"
-      className="pp-language-fab-btn"
-      aria-label={label}
+      className="pp-fab-circle pp-fab-circle--active"
+      aria-label={`${label} (${localeCode})`}
       title={activeLocale?.label ?? label}
       onClick={openLocaleDialog}
     >
-      <Globe className="pp-language-fab-btn__icon h-3.5 w-3.5 shrink-0" strokeWidth={2} aria-hidden />
-      <span className="pp-language-fab-btn__code">{localeCode}</span>
+      <Globe className="pp-fab-icon" strokeWidth={2} aria-hidden />
     </button>
   );
 }
@@ -325,7 +325,13 @@ function ThemePillSwitch({
   );
 }
 
-export function PersonalizationPanel({ settings, theme, locale = "en", locales = [] }: Props) {
+export function PersonalizationPanel({
+  settings,
+  theme,
+  locale = "en",
+  locales = [],
+  dir: dirProp,
+}: Props) {
   const t = useTranslations("widget");
   const tCompare = useTranslations("compare");
   const engine = useThemeEngine();
@@ -335,7 +341,10 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
   const [confirmFlash, setConfirmFlash] = useState(false);
   const widgetRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
-  const [dir, setDir] = useState<"ltr" | "rtl">(() => getDirection(locale));
+  const [dir, setDir] = useState<"ltr" | "rtl">(
+    () => (dirProp === "rtl" || dirProp === "ltr" ? dirProp : getDirection(locale)),
+  );
+  const resolvedDir = dirProp === "rtl" || dirProp === "ltr" ? dirProp : dir;
   const isMobileViewport = useIsMobileViewport();
 
   const {
@@ -367,40 +376,18 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
   }, [settings.presets]);
 
   const userPresetsInPanel = engine.userPresets;
-  const catalogPresetLabelById = useMemo(() => {
-    const map = new Map<string, string>();
-    for (const preset of ALL_PRESETS) {
-      map.set(preset.id, preset.label || preset.name || preset.id);
-    }
-    return map;
-  }, []);
-  const userPresetLabelById = useMemo(() => {
-    const map = new Map<string, string>();
-    for (const preset of userPresetsInPanel) {
-      map.set(preset.id, preset.name || preset.id);
-    }
-    return map;
-  }, [userPresetsInPanel]);
-  const resolvePresetLabel = (presetId: string | null, fallback: string): string => {
-    if (!presetId) return fallback;
-    return (
-      userPresetLabelById.get(presetId) ??
-      catalogPresetLabelById.get(presetId) ??
-      presetId
-    );
-  };
   const [resolvedLocales, setResolvedLocales] = useState<LocaleOption[]>(locales);
 
   useEffect(() => {
-    const htmlDir = document.documentElement.getAttribute("dir");
-    if (htmlDir === "rtl" || htmlDir === "ltr") {
-      setDir(htmlDir);
+    if (dirProp === "rtl" || dirProp === "ltr") {
+      setDir(dirProp);
       return;
     }
     setDir(getDirection(locale));
-  }, [locale]);
+  }, [dirProp, locale]);
 
   useEffect(() => {
+    if (dirProp === "rtl" || dirProp === "ltr") return;
     const root = document.documentElement;
     const syncFromDocument = () => {
       const htmlDir = root.getAttribute("dir");
@@ -414,7 +401,7 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
     const observer = new MutationObserver(syncFromDocument);
     observer.observe(root, { attributes: true, attributeFilter: ["dir"] });
     return () => observer.disconnect();
-  }, []);
+  }, [dirProp]);
 
   useEffect(() => {
     if (locales.length > 1) {
@@ -654,7 +641,8 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
                   engine.effectivePresetId === preset.id && "pp-preset-btn--active",
                 )}
                 aria-pressed={engine.effectivePresetId === preset.id}
-                title={preset.description}
+                aria-label={preset.label || preset.name}
+                title={preset.description || preset.label || preset.name}
               >
                 <div
                   className="pp-preset-swatch"
@@ -662,10 +650,6 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
                     background: `linear-gradient(135deg, ${preset.tokens.primary}, ${preset.tokens.accent || preset.tokens.primary})`,
                   }}
                 />
-                <span className="pp-preset-name">
-                  <span className="me-1">{preset.emoji}</span>
-                  {preset.label || preset.name}
-                </span>
               </button>
             ))}
             {userPresetsInPanel.map((preset) => (
@@ -678,6 +662,8 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
                   engine.effectivePresetId === preset.id && "pp-preset-btn--active",
                 )}
                 aria-pressed={engine.effectivePresetId === preset.id}
+                aria-label={preset.name}
+                title={preset.name}
               >
                 <div
                   className="pp-preset-swatch"
@@ -685,23 +671,8 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
                     background: `linear-gradient(135deg, ${preset.colors.primary}, ${preset.colors.accent})`,
                   }}
                 />
-                <span className="pp-preset-name">{preset.name}</span>
               </button>
             ))}
-          </div>
-          <div className="space-y-1 text-[10px] text-muted-foreground">
-            <p>
-              Site default:{" "}
-              <span className="font-medium text-foreground">
-                {resolvePresetLabel(engine.siteDefaultPresetId, "None")}
-              </span>
-            </p>
-            <p>
-              Your selection:{" "}
-              <span className="font-medium text-foreground">
-                {resolvePresetLabel(engine.visitorPresetId, "Using site default")}
-              </span>
-            </p>
           </div>
           {presetError ? (
             <p className="rounded border border-red-300 bg-red-50 px-2 py-1 text-[10px] text-red-700">
@@ -728,7 +699,7 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
     <div
       ref={widgetRef}
       id="az-pp"
-      dir={dir}
+      dir={resolvedDir}
       className={cn("pp-root", positionClass[settings.position])}
       aria-label={t("ariaLabel")}
     >
@@ -778,27 +749,29 @@ export function PersonalizationPanel({ settings, theme, locale = "en", locales =
           {hasPanelContent && (
             <button
               type="button"
-              className={cn("pp-presets-btn", open && "pp-presets-btn--open")}
+              className={cn("pp-fab-circle", open && "pp-fab-circle--active")}
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
               aria-controls="az-pp"
+              aria-label={t("style")}
+              title={t("style")}
             >
-              <span className="pp-presets-btn__icon" aria-hidden>
-                {confirmFlash ? "✓" : "✦"}
-              </span>
-              <span className="hidden sm:inline">{t("style")}</span>
+              {confirmFlash ? (
+                <Check className="pp-fab-icon" strokeWidth={2.25} aria-hidden />
+              ) : (
+                <Sparkles className="pp-fab-icon" strokeWidth={2} aria-hidden />
+              )}
             </button>
           )}
           {showBackToTopControl ? (
             <button
               type="button"
-              className="pp-back-top-btn pp-back-top-btn--visible"
+              className="pp-fab-circle pp-fab-circle--active pp-back-top-btn pp-back-top-btn--visible"
               onClick={scrollToTop}
               aria-label={t("backToTop")}
               title={t("backToTop")}
             >
-              <ArrowUp className="h-4 w-4" strokeWidth={2.25} aria-hidden />
-              <span className="hidden sm:inline">{t("backToTop")}</span>
+              <ArrowUp className="pp-fab-icon" strokeWidth={2.25} aria-hidden />
             </button>
           ) : null}
         </div>

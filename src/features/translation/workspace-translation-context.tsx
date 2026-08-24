@@ -139,8 +139,9 @@ export function WorkspaceTranslationProvider({
       const key = buildWorkspaceOverrideKey(entityType, entityId, field, localeCode);
       setOverrides((prev) => {
         const next = new Map(prev);
-        if (value.trim()) next.set(key, value);
-        else next.delete(key);
+        // Keep empty strings as explicit overrides. Deleting them caused cleared
+        // inputs to snap back to stale EntityTranslation / published values.
+        next.set(key, value);
         return next;
       });
       onLegacyPropUpdate?.(entityType, entityId, field, localeCode, value);

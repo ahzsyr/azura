@@ -224,6 +224,7 @@ export function mergeListingFilterPartial(
     collectionScope:
       partial.collectionScope !== undefined ? partial.collectionScope : base.collectionScope,
     logic: partial.logic ?? base.logic,
+    qExact: partial.qExact !== undefined ? partial.qExact : base.qExact,
   };
 }
 

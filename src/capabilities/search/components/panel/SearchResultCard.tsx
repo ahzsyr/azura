@@ -8,6 +8,7 @@ import {
   Layers,
   MessageSquare,
   Package,
+  Shapes,
   ShoppingBag,
   Tag,
   ArrowUpRight,
@@ -27,6 +28,7 @@ const ENTITY_ICONS: Partial<Record<SearchEntityType, typeof Package>> = {
   POST: MessageSquare,
   FAQ: HelpCircle,
   MEDIA: Image,
+  ICON: Shapes,
   TESTIMONIAL: MessageSquare,
 };
 

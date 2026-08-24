@@ -756,14 +756,21 @@ body:has(.pl-root--dock) {
   body:has(.pl-root--dock) .pp-root.pp-pos-bottom-start {
     position: fixed;
     bottom: var(--az-fab-row-bottom) !important;
-    inset-inline-start: var(--az-fab-edge-gap) !important;
-    inset-inline-end: auto !important;
+    left: var(--az-fab-edge-gap) !important;
+    right: auto !important;
     align-items: flex-start;
     z-index: 9000;
     transition:
       bottom 0.32s cubic-bezier(0.22, 1, 0.36, 1),
       opacity 0.22s ease,
       transform 0.22s ease;
+  }
+
+  body:has(.pl-root--dock) .pp-root.pp-pos-bottom-end:dir(rtl),
+  body:has(.pl-root--dock) .pp-root.pp-pos-bottom-start:dir(rtl) {
+    right: var(--az-fab-edge-gap) !important;
+    left: auto !important;
+    align-items: flex-end;
   }
 
   body:has(.pl-root--dock) .pp-root .pp-float-bar {
@@ -774,8 +781,8 @@ body:has(.pl-root--dock) {
   body:has(.pl-root--dock) .wa-fab-root--anchor-bottom {
     position: fixed;
     bottom: var(--az-fab-row-bottom) !important;
-    inset-inline-end: var(--az-fab-edge-gap) !important;
-    inset-inline-start: auto !important;
+    right: var(--az-fab-edge-gap) !important;
+    left: auto !important;
     z-index: 8990;
     transition:
       bottom 0.32s cubic-bezier(0.22, 1, 0.36, 1),
@@ -783,9 +790,19 @@ body:has(.pl-root--dock) {
       transform 0.22s ease;
   }
 
+  body:has(.pl-root--dock) .wa-fab-root--anchor-bottom:dir(rtl) {
+    left: var(--az-fab-edge-gap) !important;
+    right: auto !important;
+  }
+
   body:has(.pl-root--dock) .wa-fab-root--pos-start.wa-fab-root--anchor-bottom {
-    inset-inline-start: auto !important;
-    inset-inline-end: var(--az-fab-edge-gap) !important;
+    left: auto !important;
+    right: var(--az-fab-edge-gap) !important;
+  }
+
+  body:has(.pl-root--dock) .wa-fab-root--pos-start.wa-fab-root--anchor-bottom:dir(rtl) {
+    right: auto !important;
+    left: var(--az-fab-edge-gap) !important;
   }
 
   body:has(.pl-root--dock) .pp-float-bar .pp-language-fab-btn__code {
@@ -1130,12 +1147,32 @@ body:has(.pl-root--dock) {
   min-width: 0;
 }
 
-.pl-catalog-grid-wrap .pl-grid--collections,
-.pl-catalog-grid-wrap .pl-grid:not(.pl-grid--collections) {
+.pl-catalog-grid-wrap .pl-grid--collections:not(.pl-grid--list),
+.pl-catalog-grid-wrap .pl-grid:not(.pl-grid--collections):not(.pl-grid--list) {
   display: grid;
   gap: var(--cl-card-gap);
   align-items: stretch;
   grid-template-columns: 1fr;
+}
+
+/* List view columns from Catalog Settings (--pl-list-cols-*). Mobile stays 1. */
+.pl-catalog-grid-wrap .pl-grid--list {
+  display: grid;
+  gap: var(--cl-card-gap);
+  align-items: stretch;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .pl-catalog-grid-wrap .pl-grid--list {
+    grid-template-columns: repeat(var(--pl-list-cols-tablet, 1), minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .pl-catalog-grid-wrap .pl-grid--list {
+    grid-template-columns: repeat(var(--pl-list-cols-desktop, 1), minmax(0, 1fr));
+  }
 }
 
 /* Product cards in catalog listings — align with site theme */
@@ -1172,21 +1209,21 @@ body:has(.pl-root--dock) {
 }
 
 @media (min-width: 480px) {
-  .pl-catalog-grid-wrap .pl-grid--collections,
+  .pl-catalog-grid-wrap .pl-grid--collections:not(.pl-grid--list),
   .pl-catalog-grid-wrap .pl-grid:not(.pl-grid--collections):not(.pl-grid--list) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 768px) {
-  .pl-catalog-grid-wrap .pl-grid--collections,
+  .pl-catalog-grid-wrap .pl-grid--collections:not(.pl-grid--list),
   .pl-catalog-grid-wrap .pl-grid:not(.pl-grid--collections):not(.pl-grid--list) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1100px) {
-  .pl-catalog-grid-wrap .pl-grid--collections,
+  .pl-catalog-grid-wrap .pl-grid--collections:not(.pl-grid--list),
   .pl-catalog-grid-wrap .pl-grid:not(.pl-grid--collections):not(.pl-grid--list) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -1431,21 +1468,7 @@ body:has(.pl-root--dock) {
   transform: translateX(-3px);
 }
 
-.pl-grid--collections.pl-grid--list {
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 768px) {
-  .pl-grid--collections.pl-grid--list {
-    grid-template-columns: repeat(var(--pl-list-cols-tablet, 1), minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1100px) {
-  .pl-grid--collections.pl-grid--list {
-    grid-template-columns: repeat(var(--pl-list-cols-desktop, 1), minmax(0, 1fr));
-  }
-}
+/* Collection list cards inherit column counts from .pl-catalog-grid-wrap .pl-grid--list */
 
 .pl-grid--collections.pl-grid--list .cl-catalog-card__link {
   flex-direction: row;

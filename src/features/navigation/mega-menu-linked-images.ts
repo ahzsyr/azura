@@ -37,3 +37,11 @@ export function stripLinkedMenuImagesFromWorkspace(ws: HeaderWorkspace): HeaderW
   }
   return { ...ws, menusDatabase };
 }
+
+/** Prefer brand logo for header menus; fall back to banner only when logo is missing. */
+export function pickBrandMenuImageUrl(profile: {
+  logoUrl?: string | null;
+  bannerUrl?: string | null;
+}): string | undefined {
+  return profile.logoUrl?.trim() || profile.bannerUrl?.trim() || undefined;
+}

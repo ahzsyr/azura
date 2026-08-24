@@ -2,13 +2,26 @@ import type { SearchEntityType } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { parseFacetsParam, parseTypesParam } from "@/capabilities/search/api/params";
+import { searchEngine } from "@/capabilities/search/engine/engine/search-engine";
+import { searchFilterEngine } from "@/capabilities/search/engine/filter/search-filter-engine";
+import {
+  aggregateFacetsFromHits,
+  DEFAULT_SEARCH_FACET_KEYS,
+  type FacetAggregation,
+  type FacetSourceHit,
+} from "@/capabilities/search/engine/filter/search-facet-aggregate";
+import { searchRepository } from "@/repositories/search.repository";
 
-export type FacetAggregation = {
-  filterId: string;
-  facetKey: string;
-  values: { value: string; count: number }[];
-};
+export type { FacetAggregation, FacetSourceHit };
+export { aggregateFacetsFromHits };
 
+const FACET_CANDIDATE_LIMIT = 200;
+
+/**
+ * Facet chips for the public search page.
+ * Uses the same search candidate set as results (not a separate contains-query),
+ * and ignores active `contentType` so chips reflect what "All" would show.
+ */
 export async function aggregateSearchFacets(params: {
   q: string;
   locale: string;
@@ -18,60 +31,62 @@ export async function aggregateSearchFacets(params: {
 }): Promise<FacetAggregation[]> {
   const locale = params.locale;
   const types = parseTypesParam(params.types ?? null);
-  const keys = params.facetKeys?.length
-    ? params.facetKeys
-    : ["brand", "categories", "categorySlug", "collectionSlug", "tags", "contentTypeSlug"];
+  const keys = params.facetKeys?.length ? params.facetKeys : [...DEFAULT_SEARCH_FACET_KEYS];
+  const incomingFacets = parseFacetsParam(params.facets ?? null) ?? {};
+  // Do not apply contentType when counting — chips must match unfiltered All results.
+  const { contentType: _contentType, ...facetFiltersWithoutContentType } = incomingFacets;
+  const facetFilters =
+    Object.keys(facetFiltersWithoutContentType).length > 0
+      ? facetFiltersWithoutContentType
+      : undefined;
 
-  const rows = await prisma.searchDocument.findMany({
-    where: {
+  const q = params.q.trim();
+  let hits: FacetSourceHit[] = [];
+
+  if (q) {
+    const page = await searchEngine.searchPage(
+      {
+        q,
+        locale,
+        entityTypes: types,
+        facetFilters,
+        limit: FACET_CANDIDATE_LIMIT,
+        offset: 0,
+        includeAdmin: false,
+      },
+      { skipCache: true }
+    );
+    hits = page.results.map((r) => ({
+      entityType: r.entityType,
+      urlPath: r.urlPath,
+      contentTypeSlug: r.contentTypeSlug,
+      facets: r.facets,
+      metadata: {
+        contentTypeSlug: r.contentTypeSlug,
+        facets: r.facets,
+      },
+    }));
+  } else {
+    const listed = await searchRepository.listDocuments({
       locale,
-      ...(types?.length ? { entityType: { in: types } } : {}),
-      ...(params.q.trim()
-        ? {
-            OR: [
-              { title: { contains: params.q.trim() } },
-              { body: { contains: params.q.trim() } },
-            ],
-          }
-        : {}),
-    },
-    select: { metadata: true },
-    take: 2000,
-  });
-
-  const counts = new Map<string, Map<string, number>>();
-
-  for (const row of rows) {
-    const meta = (row.metadata ?? {}) as Record<string, unknown>;
-    const facets = (meta.facets ?? {}) as Record<string, unknown>;
-    for (const key of keys) {
-      const raw = facets[key];
-      if (raw == null) continue;
-      const values = Array.isArray(raw) ? raw.map(String) : [String(raw)];
-      for (const v of values) {
-        if (!v.trim()) continue;
-        const bucket = counts.get(key) ?? new Map<string, number>();
-        bucket.set(v, (bucket.get(v) ?? 0) + 1);
-        counts.set(key, bucket);
-      }
-    }
+      types,
+      limit: FACET_CANDIDATE_LIMIT,
+      offset: 0,
+    });
+    const publicRows = searchFilterEngine.filterForAudience(listed, { includeAdmin: false });
+    const filtered = searchFilterEngine.applyFacetFilter(publicRows, {
+      entityTypes: types,
+      facetValues: facetFilters,
+      visibility: ["public"],
+    });
+    hits = filtered.map((row) => ({
+      entityType: row.entityType,
+      urlPath: row.urlPath,
+      metadata: row.metadata,
+    }));
   }
 
-  return keys
-    .map((facetKey) => {
-      const bucket = counts.get(facetKey);
-      if (!bucket?.size) return null;
-      const values = [...bucket.entries()]
-        .map(([value, count]) => ({ value, count }))
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 24);
-      return {
-        filterId: facetKey === "contentTypeSlug" ? "contentType" : facetKey,
-        facetKey,
-        values,
-      };
-    })
-    .filter((x): x is FacetAggregation => x != null);
+  return aggregateFacetsFromHits(hits, keys);
 }
 
 export async function countByEntityTypeForQuery(params: {

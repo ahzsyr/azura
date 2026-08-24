@@ -25,6 +25,34 @@ import { collectFaqFromBlocks, dedupeFaqItems } from "./collect-faq-from-blocks"
 import { resolveBreadcrumbs } from "../breadcrumbs/breadcrumb-provider";
 import type { SchemaPageOverrides } from "./schema-page-overrides";
 import type { PageBlocks } from "@/types/builder";
+import { resolvePageSeoContext } from "@/features/seo/resolve-page-seo-context";
+import { resolveEffectiveSeoForLocale } from "@/features/seo/resolve-page-seo-for-locale";
+import type { ParsedMarketingPath } from "./parse-marketing-path";
+
+async function resolvePageJsonLdForSchema(
+  parsed: ParsedMarketingPath,
+  localePrefix: string,
+): Promise<{ pageJsonLd: unknown; seoMetaJsonLdInDatabase: boolean }> {
+  const seoContext = await resolvePageSeoContext({
+    pageKey: parsed.pageKey,
+    slug: parsed.slug,
+    originContext: "public",
+    allowWrites: false,
+  });
+
+  const effective = await resolveEffectiveSeoForLocale(seoContext, localePrefix);
+  const hasColumn = Boolean(seoContext.meta?.jsonLd);
+  const hasTranslation = Boolean(
+    seoContext.savedTranslations?.jsonLd?.trim?.() ||
+      (typeof seoContext.savedTranslations?.jsonLd === "string" &&
+        seoContext.savedTranslations.jsonLd.trim()),
+  );
+
+  return {
+    pageJsonLd: effective.jsonLd,
+    seoMetaJsonLdInDatabase: hasColumn || hasTranslation,
+  };
+}
 
 async function resolveFaqSetItems(slug: string, locale: string) {
   const faqSet = await getFaqSetBySlug(slug);
@@ -171,6 +199,14 @@ export async function buildSchemaContext(
     }
   }
 
+  const jsonLdResolution =
+    overrides?.pageJsonLd !== undefined
+      ? {
+          pageJsonLd: overrides.pageJsonLd,
+          seoMetaJsonLdInDatabase: overrides.seoMetaJsonLdInDatabase ?? false,
+        }
+      : await resolvePageJsonLdForSchema(parsed, parsed.localePrefix);
+
   const page: PageContext = {
     pageType,
     path: parsed.path,
@@ -182,6 +218,8 @@ export async function buildSchemaContext(
     product,
     article,
     reviews,
+    pageJsonLd: jsonLdResolution.pageJsonLd,
+    seoMetaJsonLdInDatabase: jsonLdResolution.seoMetaJsonLdInDatabase,
   };
 
   const ctx: SchemaContext = { site, page, runtime };

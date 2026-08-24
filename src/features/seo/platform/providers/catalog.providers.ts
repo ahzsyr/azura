@@ -127,7 +127,7 @@ export const collectionEntityProvider: SeoEntityProvider = {
     return `Collection ${descriptor.id}`;
   },
   routing(descriptor) {
-    return { publicPath: `/collections/${descriptor.id}` };
+    return { publicPath: `/categories/${descriptor.id}` };
   },
 };
 

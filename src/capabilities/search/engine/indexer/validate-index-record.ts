@@ -1,6 +1,7 @@
 import type { SearchEntityType } from "@prisma/client";
 import { SEARCH_ENTITY_TYPES } from "@/capabilities/search/constants";
 import type { SearchIndexRecord } from "@/capabilities/search/engine/types";
+import { isAdminSearchUrlPath } from "@/capabilities/search/lib/search-public-path";
 
 const VALID_ENTITY_TYPES = new Set<string>(SEARCH_ENTITY_TYPES);
 
@@ -66,13 +67,24 @@ export function normalizeIndexRecord(record: SearchIndexRecord): SearchIndexReco
   const meta = { ...record.metadata };
   delete meta.entityType;
 
+  const urlPath = record.urlPath.trim();
+  let visibility = record.visibility;
+  if (isAdminSearchUrlPath(urlPath)) {
+    visibility = "admin";
+    meta.visibility = "admin";
+    if (record.entityType === "MEDIA" || record.entityType === "ICON") {
+      meta.adminOnly = true;
+    }
+  }
+
   return {
     ...record,
     entityType: record.entityType as SearchEntityType,
     entityId: record.entityId.trim(),
     locale: record.locale.trim(),
     title: record.title.trim(),
-    urlPath: record.urlPath.trim(),
+    urlPath,
+    visibility,
     metadata: meta,
   };
 }

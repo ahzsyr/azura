@@ -15,6 +15,7 @@ import {
 import "./DataTable.css";
 import type {
   BulkAction,
+  BulkActionProgress,
   ColumnDef,
   DataTableHandle,
   DataTableProps,
@@ -452,6 +453,7 @@ function InlineCell<T>({
   onCancel: () => void;
 }) {
   const inputRef = useRef<HTMLInputElement | HTMLSelectElement | null>(null);
+  const pointerInsideRef = useRef(false);
 
   useEffect(() => {
     if (isEditing) (inputRef.current as HTMLElement | null)?.focus();
@@ -470,8 +472,21 @@ function InlineCell<T>({
 
   if (isEditing && col.renderEdit) {
     return (
-      <div className="dt-cell-edit" onKeyDownCapture={handleKey}>
-        {col.renderEdit(row, editValue, onChangeValue)}
+      <div
+        className="dt-cell-edit"
+        onKeyDownCapture={handleKey}
+        onPointerDown={() => {
+          pointerInsideRef.current = true;
+        }}
+        onPointerUp={() => {
+          pointerInsideRef.current = false;
+        }}
+        onBlur={(e) => {
+          if (pointerInsideRef.current) return;
+          if (!e.currentTarget.contains(e.relatedTarget as Node)) onCommit();
+        }}
+      >
+        {col.renderEdit(row, editValue, onChangeValue, { commit: onCommit, cancel: onCancel })}
       </div>
     );
   }
@@ -552,6 +567,9 @@ function DataTableInner<T>(
   const [showFilters, setShowFilters] = useState(filterDefs.length > 0);
   const [savingKey, setSavingKey] = useState<string | null>(null);
   const [selectedBulkActionKey, setSelectedBulkActionKey] = useState("");
+  const [bulkBusy, setBulkBusy] = useState(false);
+  const [bulkProgress, setBulkProgress] = useState<BulkActionProgress | null>(null);
+  const bulkBusyRef = useRef(false);
 
   // Ordered visible columns
   const visibleCols = useMemo(() => {
@@ -561,10 +579,10 @@ function DataTableInner<T>(
       .filter((c): c is ColumnDef<T> => !!c && ts.visibleColumns[c.key] !== false);
   }, [columns, ts.columnOrder, ts.visibleColumns]);
 
-  // Selected rows
+  // Selected rows (all selected keys, not only the current page)
   const selectedRows = useMemo(
-    () => ts.pagedData.filter((r) => ts.selectedKeys.has(getRowKey(r))),
-    [ts.pagedData, ts.selectedKeys, getRowKey],
+    () => data.filter((r) => ts.selectedKeys.has(getRowKey(r))),
+    [data, ts.selectedKeys, getRowKey],
   );
 
   // ── Inline edit commit ────────────────────────────────────────────────────
@@ -622,13 +640,21 @@ function DataTableInner<T>(
   // ── Bulk action handler ───────────────────────────────────────────────────
   const runBulkAction = useCallback(
     async (action: BulkAction<T>) => {
+      if (bulkBusyRef.current) return false;
+      bulkBusyRef.current = true;
+      setBulkBusy(true);
+      setBulkProgress({ current: 0, total: selectedRows.length, label: `Applying ${action.label}` });
       try {
-        await action.handler(selectedRows, ts.clearSelection);
+        await action.handler(selectedRows, ts.clearSelection, setBulkProgress);
         pushToast(`${action.label} complete`, "success");
         return true;
       } catch (e) {
         pushToast(e instanceof Error ? e.message : `${action.label} failed`, "error");
         return false;
+      } finally {
+        bulkBusyRef.current = false;
+        setBulkBusy(false);
+        setBulkProgress(null);
       }
     },
     [selectedRows, ts.clearSelection, pushToast],
@@ -732,9 +758,11 @@ function DataTableInner<T>(
       )}
 
       {/* Bulk actions bar */}
-      {ts.selectedKeys.size > 0 && (
-        <div className="dt-bulk-bar">
-          <span className="dt-bulk-count">{ts.selectedKeys.size} selected</span>
+      {(ts.selectedKeys.size > 0 || bulkBusy) && (
+        <div className="dt-bulk-bar" aria-busy={bulkBusy}>
+          <span className="dt-bulk-count">
+            {bulkBusy ? "Applying…" : `${ts.selectedKeys.size} selected`}
+          </span>
           <div className="dt-bulk-divider" />
           {bulkActionMode === "select" ? (
             <>
@@ -743,6 +771,7 @@ function DataTableInner<T>(
                 value={selectedBulkActionKey}
                 onChange={(e) => setSelectedBulkActionKey(e.target.value)}
                 aria-label="Bulk actions"
+                disabled={bulkBusy}
               >
                 <option value="">{bulkActionPlaceholder}</option>
                 {bulkActions.map((action) => (
@@ -754,12 +783,13 @@ function DataTableInner<T>(
               <button
                 className="dt-btn dt-btn--primary"
                 disabled={
+                  bulkBusy ||
                   !selectedBulkAction ||
                   selectedBulkAction.disabled?.(selectedRows)
                 }
                 onClick={() => void applySelectedBulkAction()}
               >
-                Apply
+                {bulkBusy ? "Applying…" : "Apply"}
               </button>
             </>
           ) : (
@@ -767,7 +797,7 @@ function DataTableInner<T>(
               <button
                 key={action.key}
                 className={`dt-btn dt-btn--${action.variant ?? "secondary"}`}
-                disabled={action.disabled?.(selectedRows)}
+                disabled={bulkBusy || action.disabled?.(selectedRows)}
                 onClick={() => void runBulkAction(action)}
               >
                 {action.label}
@@ -777,6 +807,7 @@ function DataTableInner<T>(
           {onBulkDelete && (
             <button
               className="dt-btn dt-btn--danger"
+              disabled={bulkBusy}
               onClick={async () => {
                 if (!confirm(`Delete ${ts.selectedKeys.size} item(s)?`)) return;
                 try {
@@ -791,9 +822,29 @@ function DataTableInner<T>(
               Delete selected
             </button>
           )}
-          <button className="dt-btn dt-btn--ghost" onClick={ts.clearSelection} style={{ marginLeft: "auto" }}>
+          <button
+            className="dt-btn dt-btn--ghost"
+            onClick={ts.clearSelection}
+            disabled={bulkBusy}
+            style={{ marginLeft: "auto" }}
+          >
             Deselect all
           </button>
+          {bulkBusy && bulkProgress && bulkProgress.total > 0 && (
+            <div className="dt-bulk-progress" role="status" aria-live="polite">
+              <div className="dt-bulk-progress__bar">
+                <div
+                  className="dt-bulk-progress__fill"
+                  style={{
+                    width: `${Math.min(100, Math.round((bulkProgress.current / bulkProgress.total) * 100))}%`,
+                  }}
+                />
+              </div>
+              <span className="dt-bulk-progress__text">
+                {bulkProgress.label ?? "Applying"} ({bulkProgress.current}/{bulkProgress.total})
+              </span>
+            </div>
+          )}
         </div>
       )}
 
@@ -909,7 +960,9 @@ function DataTableInner<T>(
                     {visibleCols.map((col) => {
                       const isEditing =
                         ts.editState?.rowKey === key && ts.editState?.colKey === col.key;
-                      const rawVal = (row as Record<string, unknown>)[col.key];
+                      const rawVal = col.getEditValue
+                        ? col.getEditValue(row)
+                        : (row as Record<string, unknown>)[col.key];
 
                       return (
                         <td

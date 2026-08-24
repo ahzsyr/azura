@@ -84,7 +84,7 @@ export type SeoTrackingConfig = {
   gtmBodySnippet?: string;
 };
 
-export type SeoIntegrationProviderId = "google" | "bing" | "indexnow";
+export type SeoIntegrationProviderId = "google" | "google_indexing" | "bing" | "indexnow";
 
 export type SeoIntegrationProviderConfig = {
   enabled?: boolean;
@@ -104,6 +104,7 @@ export type SeoIntegrationProviderConfig = {
 
 export type SeoIntegrationsConfig = {
   google?: SeoIntegrationProviderConfig;
+  google_indexing?: SeoIntegrationProviderConfig;
   bing?: SeoIntegrationProviderConfig;
   indexnow?: SeoIntegrationProviderConfig;
 };
@@ -121,6 +122,7 @@ export type PublicSeoIntegrationProviderConfig = Omit<
 
 export type PublicSeoIntegrationsConfig = {
   google?: PublicSeoIntegrationProviderConfig;
+  google_indexing?: PublicSeoIntegrationProviderConfig;
   bing?: PublicSeoIntegrationProviderConfig;
   indexnow?: PublicSeoIntegrationProviderConfig;
 };

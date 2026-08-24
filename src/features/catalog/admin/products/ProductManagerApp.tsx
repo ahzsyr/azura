@@ -36,11 +36,13 @@ import { normalizeDetailedDescriptionInput } from "@/features/products/lib/produ
 import type { CatalogIssue } from "@/features/products/lib/product-catalog-issues";
 import { defaultLocale } from "@/features/catalog/admin/catalog-admin-config";
 import { DataTable } from "@/features/catalog/admin/shared/DataTable";
-import type { BulkAction, ColumnDef, FilterDef, InlineEditSave } from "@/features/catalog/admin/shared/types";
+import type { BulkAction, BulkActionProgress, ColumnDef, FilterDef, InlineEditSave } from "@/features/catalog/admin/shared/types";
 import { CtaLivePreview } from "./CtaLivePreview";
 import { CtaIconUploadControls } from "./CtaIconUploadControls";
 import {
   ADMIN_PRODUCT_TABS,
+  PRODUCT_PAGE_DESIGN_HASHES,
+  PRODUCT_PAGE_DESIGN_HREF,
   readHashTab,
   type AdminProductTabId,
 } from "@/features/catalog/admin/catalog-admin-tabs";
@@ -61,13 +63,15 @@ import { ProductCtaSettingsPanel } from "./ProductCtaSettingsPanel";
 import type { ProductActionVisibilityContext } from "./ProductActionVisibilityPanel";
 import { ProductPromoSettingsPanel } from "./ProductPromoSettingsPanel";
 import { ProductTrustSettingsPanel } from "./ProductTrustSettingsPanel";
+import { ProductOrderingSettingsPanel } from "./ProductOrderingSettingsPanel";
 import { AdminSaveFeedback } from "./AdminSaveFeedback";
-import { ProductPageBuilderPanel } from "./builder/product-page-builder-panel";
 import {
   useProductPageBuilderStudio,
   type ProductPageBuilderData,
 } from "./builder/use-product-page-builder-studio";
 import { ProductPageDisplayFields } from "./ProductPageDisplayFields";
+import { ProductPageLayoutTemplateSelect } from "@/features/products/layout-templates/product-page-layout-template-select";
+import { formatLayoutAssignmentLabel, validateTemplateId } from "@/features/products/layout-templates/registry-meta";
 import { ProductCardAppearancePanel } from "./ProductCardAppearancePanel";
 import {
   DEFAULT_RESOLVED_PRODUCT_BUY_NOW,
@@ -83,11 +87,15 @@ import { resolveProductPageDisplay, resolveProductPageElementOrder } from "@/fea
 import {
   saveProductBuyNowSettings,
   saveProductCtaSettings,
-  saveProductPageBuilderSettings,
   saveProductCardAppearanceSettings,
   saveProductPromoSettings,
   saveProductTrustSettings,
+  saveProductOrderingSettings,
 } from "./product-settings-save";
+import {
+  parseProductOrderingSettings,
+  type ProductOrderingSettings,
+} from "@/features/products/ordering";
 import {
   appearanceConfigFromParts,
   useProductCardAppearanceStudio,
@@ -111,6 +119,13 @@ import {
   AssignCategoriesDrawer,
   type AssignCategoriesMode,
 } from "./AssignCategoriesDrawer";
+import {
+  ProductCategoryMultiSelect,
+} from "./ProductCategoryMultiSelect";
+import {
+  assignmentFromCategoryIds,
+  type ProductCategoryOption,
+} from "./product-category-assignment";
 import {
   resolveProductCardLayout,
   resolveProductPageLayout,
@@ -253,6 +268,7 @@ function makeProductColumns(
   storefrontPrefix: string,
   onEdit: (slug: string) => void,
   onDelete: (slug: string) => void,
+  categoryOptions: ProductCategoryOption[],
 ): ColumnDef<ProductSummary>[] {
   return [
     {
@@ -317,20 +333,42 @@ function makeProductColumns(
       sortable: true,
       hideable: true,
       defaultVisible: true,
+      width: "220px",
+      sortFn: (a, b) => {
+        const left = (a.categories?.length ? a.categories : a.category ? [a.category] : []).join(", ");
+        const right = (b.categories?.length ? b.categories : b.category ? [b.category] : []).join(", ");
+        return left.localeCompare(right);
+      },
       render: (row) => {
-        if (!row.category) return <span className="text-muted-foreground">—</span>;
+        const labels =
+          row.categories?.length
+            ? row.categories
+            : row.category
+              ? [row.category]
+              : [];
+        if (labels.length === 0) return <span className="text-muted-foreground">—</span>;
         return (
-          <div className="flex flex-wrap gap-1" onClick={(e) => e.stopPropagation()}>
-            <CatalogCategoryChip
-              label={row.category}
-              href="/admin/categories#collections"
-            />
+          <div className="flex flex-wrap gap-1">
+            {labels.map((label) => (
+              <CatalogCategoryChip key={label} label={label} />
+            ))}
           </div>
         );
       },
-      renderEdit: (_row, value, onChange) => (
-        <input className="dt-inline-input" defaultValue={String(value ?? "")} onChange={(e) => onChange(e.target.value)} autoFocus />
-      ),
+      getEditValue: (row) => row.categoryIds ?? [],
+      renderEdit: (row, value, onChange, ctx) => {
+        const ids = Array.isArray(value) ? value.filter((id): id is string => typeof id === "string") : (row.categoryIds ?? []);
+        return (
+          <ProductCategoryMultiSelect
+            options={categoryOptions}
+            value={ids}
+            onChange={onChange}
+            compact
+            autoFocus
+            onCommit={ctx?.commit}
+          />
+        );
+      },
     },
     {
       key: "price",
@@ -428,10 +466,38 @@ const PRODUCT_FILTERS: FilterDef<ProductSummary>[] = [
     field: "brand",
   },
   {
-    key: "category",
-    label: "Category",
+    key: "categories",
+    label: "Categories",
     type: "multi-select",
-    field: "category",
+    field: "categories",
+    filter: (row, value) => {
+      if (!value || (Array.isArray(value) && value.length === 0)) return true;
+      const selected = (value as string[]).map((v) => v.toLowerCase());
+      const labels = [
+        ...(row.categories ?? []),
+        ...(row.category ? [row.category] : []),
+      ].map((c) => c.toLowerCase());
+      const ids = (row.categoryIds ?? []).map((id) => id.toLowerCase());
+      return selected.some((v) => labels.includes(v) || ids.includes(v));
+    },
+    getOptions: (data) => {
+      const seen = new Set<string>();
+      const opts: { value: string; label: string }[] = [];
+      for (const row of data) {
+        const cats = row.categories?.length
+          ? row.categories
+          : row.category
+            ? [row.category]
+            : [];
+        for (const c of cats) {
+          if (c && !seen.has(c)) {
+            seen.add(c);
+            opts.push({ value: c, label: c });
+          }
+        }
+      }
+      return opts.sort((a, b) => a.label.localeCompare(b.label));
+    },
   },
   {
     key: "stock_status",
@@ -456,33 +522,11 @@ const PRODUCT_FILTERS: FilterDef<ProductSummary>[] = [
       { value: "RequestQuote", label: "Request Quote" },
     ],
   },
-  {
-    key: "categories",
-    label: "Categories",
-    type: "multi-select",
-    filter: (row, value) => {
-      if (!value || (Array.isArray(value) && value.length === 0)) return true;
-      const tags = (value as string[]).map((v) => v.toLowerCase());
-      const rowCats = ((row as unknown as { categories?: string[] }).categories ?? []);
-      return rowCats.some((c: string) => tags.includes(c.toLowerCase()));
-    },
-    getOptions: (data) => {
-      const seen = new Set<string>();
-      const opts: { value: string; label: string }[] = [];
-      for (const row of data) {
-        const cats = ((row as unknown as { categories?: string[] }).categories ?? []);
-        for (const c of cats) {
-          if (c && !seen.has(c)) { seen.add(c); opts.push({ value: c, label: c }); }
-        }
-      }
-      return opts.sort((a, b) => a.label.localeCompare(b.label));
-    },
-  },
 ];
 
 
 const SECTION_KEYS = [
-  "basic", "media", "pricing", "variations", "page-display", "description",
+  "basic", "media", "pricing", "variations", "page-layout", "page-display", "description",
   "specifications", "documents", "shipping", "related", "reviews", "cta", "seo",
 ] as const;
 
@@ -493,6 +537,7 @@ const PRODUCT_EDIT_NAV: { id: SectionKey; label: string }[] = [
   { id: "media", label: "Media" },
   { id: "pricing", label: "Pricing & Stock" },
   { id: "variations", label: "Variations" },
+  { id: "page-layout", label: "Page Layout" },
   { id: "page-display", label: "Page Display" },
   { id: "description", label: "Description" },
   { id: "specifications", label: "Specifications" },
@@ -523,6 +568,8 @@ type ProductManagerAppProps = {
   initialProductPageElementOrder?: ResolvedProductPageElementOrder;
   initialProductPageCompactDisplay?: ResolvedProductPageCompactDisplay;
   initialProductPageOverflow?: ResolvedProductPageOverflow;
+  initialProductPageLayoutTemplate?: string | null;
+  initialProductOrdering?: ProductOrderingSettings;
   initialLocales?: CatalogLocaleOption[];
   /** BCP-47 code for admin catalog reads/writes (matches `adminLocale` in site config). */
   initialAdminLocaleCode?: string;
@@ -550,6 +597,8 @@ export default function ProductManagerApp({
   initialProductPageElementOrder,
   initialProductPageCompactDisplay,
   initialProductPageOverflow,
+  initialProductPageLayoutTemplate,
+  initialProductOrdering,
   initialLocales,
   initialAdminLocaleCode = defaultLocale.code,
   initialCatalogBrands = [],
@@ -560,10 +609,6 @@ export default function ProductManagerApp({
   const catalogLocales = initialLocales?.length
     ? initialLocales
     : [{ code: defaultLocale.code, label: "English", urlPrefix: defaultLocale.urlPrefix }];
-  const catalogLocaleCodes = useMemo(
-    () => catalogLocales.map((locale) => locale.code),
-    [catalogLocales],
-  );
   const adminLocaleCode = (
     initialAdminLocaleCode ||
     catalogLocales.find((locale) => locale.code)?.code ||
@@ -588,6 +633,7 @@ export default function ProductManagerApp({
   } | null>(null);
   const [assignProductCategoryIds, setAssignProductCategoryIds] = useState<Record<string, string[]>>({});
   const [assignApplying, setAssignApplying] = useState(false);
+  const [assignProgress, setAssignProgress] = useState<{ current: number; total: number } | null>(null);
   const [importValidation, setImportValidation] = useState<ImportValidationEntry[] | null>(null);
   const [activeSyncResult, setActiveSyncResult] = useState<ProductSyncResult | null>(null);
   const [catalogSyncStatus, setCatalogSyncStatus] = useState<{
@@ -618,6 +664,13 @@ export default function ProductManagerApp({
   const [adminTab, setAdminTab] = useState<AdminProductTabId>("table");
 
   useLayoutEffect(() => {
+    if (typeof window !== "undefined") {
+      const raw = window.location.hash.replace(/^#\/?/, "");
+      if (PRODUCT_PAGE_DESIGN_HASHES.has(raw)) {
+        window.location.replace(PRODUCT_PAGE_DESIGN_HREF);
+        return;
+      }
+    }
     setAdminTab(readHashTab(ADMIN_PRODUCT_TABS, "table"));
   }, []);
   const defaultPageSettings = useMemo(() => buildProductPageSettingsFromSite({}), []);
@@ -721,7 +774,9 @@ export default function ProductManagerApp({
         href: "",
       },
   );
-
+  const [productOrdering, setProductOrdering] = useState<ProductOrderingSettings>(() =>
+    parseProductOrderingSettings(initialProductOrdering),
+  );
   const savedSettingsRef = useRef({
     globalBuyNow: globalBuyNow,
     globalCta: globalCta,
@@ -729,6 +784,7 @@ export default function ProductManagerApp({
     cardAppearance: initialCardAppearance,
     pagePromo,
     pageTrust,
+    productOrdering,
   });
 
   const saveCurrentSettingsTab = useCallback(async (): Promise<boolean> => {
@@ -747,22 +803,6 @@ export default function ProductManagerApp({
           savedSettingsRef.current.globalCta = globalCta;
           setLayoutFeedback({ kind: "ok", text: ok });
           break;
-        case "page-builder": {
-          const snapshot = pageBuilderStudio.getSnapshot();
-          const savedElementsRules = await saveProductPageBuilderSettings(
-            adminLocaleCode,
-            snapshot,
-            catalogLocaleCodes,
-          );
-          const savedData: ProductPageBuilderData = {
-            ...snapshot,
-            elementsRules: savedElementsRules,
-          };
-          pageBuilderStudio.markSaved(savedData);
-          savedSettingsRef.current.builderData = pageBuilderStudio.getSnapshot();
-          setLayoutFeedback({ kind: "ok", text: "Product page builder settings saved." });
-          break;
-        }
         case "card-appearance":
           await saveProductCardAppearanceSettings(adminLocaleCode, cardAppearanceStudio.config);
           cardAppearanceStudio.markSaved();
@@ -779,6 +819,11 @@ export default function ProductManagerApp({
           savedSettingsRef.current.pageTrust = pageTrust;
           setLayoutFeedback({ kind: "ok", text: ok });
           break;
+        case "ordering":
+          await saveProductOrderingSettings(adminLocaleCode, productOrdering);
+          savedSettingsRef.current.productOrdering = productOrdering;
+          setLayoutFeedback({ kind: "ok", text: ok });
+          break;
         default:
           return false;
       }
@@ -792,13 +837,12 @@ export default function ProductManagerApp({
   }, [
     adminTab,
     adminLocaleCode,
-    catalogLocaleCodes,
     globalBuyNow,
     globalCta,
-    pageBuilderStudio,
     cardAppearanceStudio,
     pagePromo,
     pageTrust,
+    productOrdering,
     router,
     markPublishPending,
   ]);
@@ -836,9 +880,6 @@ export default function ProductManagerApp({
       case "quote-cta":
         setGlobalCta(saved.globalCta);
         break;
-      case "page-builder":
-        pageBuilderStudio.restoreSnapshot(savedSettingsRef.current.builderData);
-        break;
       case "card-appearance":
         cardAppearanceStudio.resetToSaved();
         break;
@@ -848,11 +889,14 @@ export default function ProductManagerApp({
       case "trust-widget":
         setPageTrust(saved.pageTrust);
         break;
+      case "ordering":
+        setProductOrdering(saved.productOrdering);
+        break;
       default:
         break;
     }
     setLayoutFeedback(null);
-  }, [adminTab, pageBuilderStudio, cardAppearanceStudio]);
+  }, [adminTab, cardAppearanceStudio]);
 
   const handleSettingsPanelSave = useCallback(async () => {
     if (saveStatus === "saving") return;
@@ -891,11 +935,6 @@ export default function ProductManagerApp({
     markSaved();
   }, [cancelCurrentSettingsTab, markSaved]);
 
-  useEffect(() => {
-    if (adminTab !== "page-builder") return;
-    if (pageBuilderStudio.isDirty) markUnsaved();
-    else markSaved();
-  }, [adminTab, pageBuilderStudio.isDirty, markUnsaved, markSaved]);
 
   useEffect(() => {
     if (adminTab !== "card-appearance") return;
@@ -1058,14 +1097,6 @@ export default function ProductManagerApp({
           onSave: saveCurrentSettingsTab,
           onPublish: publishCurrentSettingsTab,
           onCancel: cancelCurrentSettingsTab,
-          ...(adminTab === "page-builder"
-            ? {
-                onUndo: pageBuilderStudio.undo,
-                onRedo: pageBuilderStudio.redo,
-                canUndo: pageBuilderStudio.canUndo,
-                canRedo: pageBuilderStudio.canRedo,
-              }
-            : {}),
         }
       : undefined,
   );
@@ -1166,14 +1197,20 @@ export default function ProductManagerApp({
       changes: Record<string, unknown>,
       errorPrefix: string,
       fallback?: (product: Product, slug: string) => Product,
+      reportProgress?: (progress: BulkActionProgress | null) => void,
     ) => {
       const failures: string[] = [];
-      for (const item of selected) {
+      const total = selected.length;
+      reportProgress?.({ current: 0, total, label: "Updating products" });
+      for (let i = 0; i < selected.length; i++) {
+        const item = selected[i]!;
+        reportProgress?.({ current: i, total, label: `Updating ${item.slug}` });
         try {
           await patchProductFields(adminLocaleCode, item.slug, changes);
         } catch {
           if (!fallback) {
             failures.push(item.slug);
+            reportProgress?.({ current: i + 1, total, label: `Updating ${item.slug}` });
             continue;
           }
           const r = await fetch(
@@ -1183,6 +1220,7 @@ export default function ProductManagerApp({
           const body = (await r.json()) as { product?: Product };
           if (!r.ok || !body.product) {
             failures.push(item.slug);
+            reportProgress?.({ current: i + 1, total, label: `Updating ${item.slug}` });
             continue;
           }
           try {
@@ -1191,6 +1229,7 @@ export default function ProductManagerApp({
             failures.push(item.slug);
           }
         }
+        reportProgress?.({ current: i + 1, total, label: `Updating ${item.slug}` });
       }
       if (failures.length) {
         setError(`${errorPrefix}: ${failures.join(", ")}`);
@@ -1204,12 +1243,17 @@ export default function ProductManagerApp({
       key: "export",
       label: "Export selected",
       variant: "secondary",
-      handler: async (selected) => {
+      handler: async (selected, _clearSelection, reportProgress) => {
         const full: Record<string, unknown>[] = [];
-        for (const item of selected) {
+        const total = selected.length;
+        reportProgress({ current: 0, total, label: "Exporting products" });
+        for (let i = 0; i < selected.length; i++) {
+          const item = selected[i]!;
+          reportProgress({ current: i, total, label: `Exporting ${item.slug}` });
           const r = await fetch(`/api/products?locale=${encodeURIComponent(adminLocaleCode)}&slug=${encodeURIComponent(item.slug)}`, API);
           const body = (await r.json()) as { product?: Product; slug?: string };
           if (r.ok && body.product) full.push(buildFullProductExportDocument({ ...body.product, slug: body.slug ?? item.slug } as Product & { slug?: string }));
+          reportProgress({ current: i + 1, total, label: `Exporting ${item.slug}` });
         }
         downloadJson(`products-selected-${adminLocaleCode}.json`, { products: full });
       },
@@ -1218,7 +1262,7 @@ export default function ProductManagerApp({
       key: "mark-in-stock",
       label: "Mark In Stock",
       variant: "secondary",
-      handler: async (selected, clearSelection) => {
+      handler: async (selected, clearSelection, reportProgress) => {
         await bulkPatchProducts(
           selected,
           {
@@ -1231,6 +1275,7 @@ export default function ProductManagerApp({
             stock_status: "in_stock",
             availability: "InStock",
           }),
+          reportProgress,
         );
         clearSelection();
         await loadProducts();
@@ -1240,7 +1285,7 @@ export default function ProductManagerApp({
       key: "mark-out-of-stock",
       label: "Mark Out of Stock",
       variant: "secondary",
-      handler: async (selected, clearSelection) => {
+      handler: async (selected, clearSelection, reportProgress) => {
         await bulkPatchProducts(
           selected,
           {
@@ -1253,6 +1298,7 @@ export default function ProductManagerApp({
             stock_status: "out_of_stock",
             availability: "OutOfStock",
           }),
+          reportProgress,
         );
         clearSelection();
         await loadProducts();
@@ -1262,7 +1308,7 @@ export default function ProductManagerApp({
       key: "mark-pre-order",
       label: "Mark Pre Order",
       variant: "secondary",
-      handler: async (selected, clearSelection) => {
+      handler: async (selected, clearSelection, reportProgress) => {
         await bulkPatchProducts(
           selected,
           {
@@ -1275,6 +1321,7 @@ export default function ProductManagerApp({
             stock_status: "preorder",
             availability: "PreOrder",
           }),
+          reportProgress,
         );
         clearSelection();
         await loadProducts();
@@ -1284,8 +1331,8 @@ export default function ProductManagerApp({
       key: "publish",
       label: "Publish",
       variant: "secondary",
-      handler: async (selected, clearSelection) => {
-        await bulkPatchProducts(selected, { status: "published" }, "Failed to publish");
+      handler: async (selected, clearSelection, reportProgress) => {
+        await bulkPatchProducts(selected, { status: "published" }, "Failed to publish", undefined, reportProgress);
         clearSelection();
         await loadProducts();
       },
@@ -1294,8 +1341,8 @@ export default function ProductManagerApp({
       key: "unpublish",
       label: "Unpublish",
       variant: "secondary",
-      handler: async (selected, clearSelection) => {
-        await bulkPatchProducts(selected, { status: "draft" }, "Failed to unpublish");
+      handler: async (selected, clearSelection, reportProgress) => {
+        await bulkPatchProducts(selected, { status: "draft" }, "Failed to unpublish", undefined, reportProgress);
         clearSelection();
         await loadProducts();
       },
@@ -1304,11 +1351,13 @@ export default function ProductManagerApp({
       key: "exclude-google-shopping",
       label: "Exclude from Google Shopping feed",
       variant: "secondary",
-      handler: async (selected, clearSelection) => {
+      handler: async (selected, clearSelection, reportProgress) => {
         await bulkPatchProducts(
           selected,
           { excludeFromGoogleShopping: true },
           "Failed to exclude products from Google Shopping feed",
+          undefined,
+          reportProgress,
         );
         clearSelection();
         await loadProducts();
@@ -1334,9 +1383,13 @@ export default function ProductManagerApp({
       key: "delete-selected",
       label: "Delete selected",
       variant: "danger",
-      handler: async (selected, clearSelection) => {
+      handler: async (selected, clearSelection, reportProgress) => {
         if (!confirm(`Delete ${selected.length} item(s)?`)) return;
-        for (const row of selected) {
+        const total = selected.length;
+        reportProgress({ current: 0, total, label: "Deleting products" });
+        for (let i = 0; i < selected.length; i++) {
+          const row = selected[i]!;
+          reportProgress({ current: i, total, label: `Deleting ${row.slug}` });
           await fetch(
             `/api/products?locale=${encodeURIComponent(adminLocaleCode)}&slug=${encodeURIComponent(row.slug)}`,
             {
@@ -1344,6 +1397,7 @@ export default function ProductManagerApp({
               method: "DELETE",
             },
           );
+          reportProgress({ current: i + 1, total, label: `Deleting ${row.slug}` });
         }
         clearSelection();
         await loadProducts();
@@ -1356,29 +1410,12 @@ export default function ProductManagerApp({
       setAssignProductCategoryIds({});
       return;
     }
-    let cancelled = false;
-    (async () => {
-      const map: Record<string, string[]> = {};
-      for (const item of assignDrawer.selected) {
-        try {
-          const r = await fetch(
-            `/api/products?locale=${encodeURIComponent(adminLocaleCode)}&slug=${encodeURIComponent(item.slug)}`,
-            API,
-          );
-          const body = (await r.json()) as { product?: Product };
-          if (r.ok && body.product) {
-            map[item.slug] = body.product.categoryIds ?? [];
-          }
-        } catch {
-          map[item.slug] = [];
-        }
-      }
-      if (!cancelled) setAssignProductCategoryIds(map);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [assignDrawer, adminLocaleCode]);
+    const map: Record<string, string[]> = {};
+    for (const item of assignDrawer.selected) {
+      map[item.slug] = item.categoryIds ?? [];
+    }
+    setAssignProductCategoryIds(map);
+  }, [assignDrawer]);
 
   const applyCategoryAssignment = useCallback(
     async (categoryIds: string[]) => {
@@ -1386,37 +1423,29 @@ export default function ProductManagerApp({
       setAssignApplying(true);
       setError(null);
       const failures: string[] = [];
-      const catById = new Map(initialProductCategories.map((c) => [c.id, c]));
+      const total = assignDrawer.selected.length;
+      setAssignProgress({ current: 0, total });
       try {
-        for (const item of assignDrawer.selected) {
+        for (let i = 0; i < assignDrawer.selected.length; i++) {
+          const item = assignDrawer.selected[i]!;
+          setAssignProgress({ current: i, total });
           try {
-            const r = await fetch(
-              `/api/products?locale=${encodeURIComponent(adminLocaleCode)}&slug=${encodeURIComponent(item.slug)}`,
-              API,
-            );
-            const body = (await r.json()) as { product?: Product };
-            if (!r.ok || !body.product) {
-              failures.push(item.slug);
-              continue;
-            }
-            const currentIds = body.product.categoryIds ?? [];
+            const currentIds = item.categoryIds ?? [];
             const nextIds =
               assignDrawer.mode === "assign"
                 ? Array.from(new Set([...currentIds, ...categoryIds]))
                 : currentIds.filter((id) => !categoryIds.includes(id));
-            const labels = nextIds
-              .map((id) => catById.get(id)?.name)
-              .filter((n): n is string => Boolean(n));
+            const next = assignmentFromCategoryIds(nextIds, initialProductCategories);
             const changes: Record<string, unknown> = {
-              categoryIds: nextIds,
-              categories: labels,
+              categoryIds: next.categoryIds,
+              categories: next.categories,
+              category: next.category,
             };
-            if (labels[0]) changes.category = labels[0];
-            else if (assignDrawer.mode === "remove") changes.category = body.product.category ?? "";
             await patchProductFields(adminLocaleCode, item.slug, changes);
           } catch {
             failures.push(item.slug);
           }
+          setAssignProgress({ current: i + 1, total });
         }
         if (failures.length) {
           setError(`Failed to update categories for: ${failures.join(", ")}`);
@@ -1426,6 +1455,7 @@ export default function ProductManagerApp({
         await loadProducts();
       } finally {
         setAssignApplying(false);
+        setAssignProgress(null);
       }
     },
     [adminLocaleCode, assignDrawer, initialProductCategories, loadProducts],
@@ -1447,7 +1477,13 @@ export default function ProductManagerApp({
     } else if (colKey === "brand") {
       changes.brand = String(newValue);
     } else if (colKey === "category") {
-      changes.category = String(newValue);
+      const next = assignmentFromCategoryIds(
+        Array.isArray(newValue) ? newValue : [],
+        initialProductCategories,
+      );
+      changes.categoryIds = next.categoryIds;
+      changes.categories = next.categories;
+      changes.category = next.category;
     } else if (colKey === "price") {
       changes.price = { value: Number(newValue) };
     } else if (colKey === "stock_status") {
@@ -1472,7 +1508,7 @@ export default function ProductManagerApp({
 
     await loadProducts();
     return row;
-  }, [adminLocaleCode, loadProducts]);
+  }, [adminLocaleCode, initialProductCategories, loadProducts]);
 
   // ── Single product CRUD ───────────────────────────────────────────────────
 
@@ -1584,8 +1620,8 @@ export default function ProductManagerApp({
   );
 
   const productColumns = useMemo(
-    () => makeProductColumns(defaultLocale.urlPrefix, openEditor, deleteProduct),
-    [openEditor, deleteProduct],
+    () => makeProductColumns(defaultLocale.urlPrefix, openEditor, deleteProduct, initialProductCategories),
+    [openEditor, deleteProduct, initialProductCategories],
   );
 
   async function previewProduct() {
@@ -1900,7 +1936,7 @@ export default function ProductManagerApp({
               onInlineEdit={handleInlineEdit}
               loading={loading}
               emptyMessage={tableEmptyMessage}
-              searchFields={["name", "brand", "mpn", "category", "slug"]}
+              searchFields={["name", "brand", "mpn", "category", "categories", "slug"]}
               rowClassName={(row) =>
                 [
                   row.in_stock === false ? "pm-row--out-of-stock" : "",
@@ -1949,36 +1985,6 @@ export default function ProductManagerApp({
             />
           )}
 
-          {tab === "page-builder" && (
-            <ProductPageBuilderPanel
-              studio={pageBuilderStudio}
-              saving={saveStatus === "saving"}
-              publishing={publishStatus === "publishing"}
-              canCancel={saveStatus === "unsaved" || saveStatus === "error" || pageBuilderStudio.isDirty}
-              onSave={handleSettingsPanelSave}
-              onPublish={handleSettingsPanelPublish}
-              onCancel={handleSettingsPanelCancel}
-              onPreview={() => {
-                const first = products[0];
-                if (!first?.slug) {
-                  setLayoutFeedback({
-                    kind: "err",
-                    text: "Add at least one product to preview the storefront product page.",
-                  });
-                  return;
-                }
-                const prefix =
-                  catalogLocales.find((locale) => locale.code === adminLocaleCode)?.urlPrefix ??
-                  defaultLocale.urlPrefix;
-                window.open(
-                  `/${prefix}/products/${encodeURIComponent(first.slug)}`,
-                  "_blank",
-                  "noopener,noreferrer",
-                );
-              }}
-            />
-          )}
-
           {tab === "card-appearance" && (
             <ProductCardAppearancePanel
               studio={cardAppearanceStudio}
@@ -2006,8 +2012,19 @@ export default function ProductManagerApp({
               onDirty={() => markUnsaved()}
             />
           )}
+
+          {tab === "ordering" && (
+            <ProductOrderingSettingsPanel
+              settings={productOrdering}
+              setSettings={setProductOrdering}
+              products={products}
+              brands={initialCatalogBrands}
+              categories={initialProductCategories}
+              onDirty={() => markUnsaved()}
+            />
+          )}
             </>
-        )}
+          )}
         </CatalogAdminShell>
       )}
 
@@ -2114,59 +2131,30 @@ export default function ProductManagerApp({
                 </datalist>
               </label>
               <label>
-                Category
-                <input
-                  value={active.category || ""}
-                  onChange={(e) =>
-                    setField("category", readControlledInputValue(e) as Product["category"])
-                  }
-                  placeholder="Primary label (derived from Categories below)"
-                />
-              </label>
-              <label>
                 SKU / MPN
                 <input value={active.mpn || ""} onChange={(e) => setField("mpn", readControlledInputValue(e))} />
               </label>
-              <div className="md:col-span-2">
+              <div className="col-span-2">
                 <span className="block text-sm font-medium mb-2">Categories</span>
-                <div className="flex flex-wrap gap-2">
-                  {initialProductCategories.map((cat) => {
-                    const selected = (active.categoryIds ?? []).includes(cat.id);
-                    return (
-                      <button
-                        key={cat.id}
-                        type="button"
-                        className={
-                          selected
-                            ? "rounded-full border border-primary bg-primary text-primary-foreground px-3 py-1 text-xs"
-                            : "rounded-full border px-3 py-1 text-xs hover:bg-muted"
-                        }
-                        onClick={() => {
-                          const prev = active.categoryIds ?? [];
-                          const next = selected
-                            ? prev.filter((id) => id !== cat.id)
-                            : [...prev, cat.id];
-                          const labels = initialProductCategories
-                            .filter((c) => next.includes(c.id))
-                            .map((c) => c.name);
-                          setField("categoryIds", next);
-                          setField("categories", labels);
-                          if (labels[0]) setField("category", labels[0] as Product["category"]);
-                        }}
-                      >
-                        {cat.name}
-                      </button>
-                    );
-                  })}
-                  {initialProductCategories.length === 0 && (
-                    <p className="text-xs text-muted-foreground">
-                      No categories yet.{" "}
-                      <a href="/admin/categories" className="text-primary underline">
-                        Manage Categories
-                      </a>
-                    </p>
-                  )}
-                </div>
+                <p className="mb-2 text-xs text-muted-foreground">
+                  Select one or more. The first selected category is the primary storefront label.{" "}
+                  <a href="/admin/categories" className="text-primary underline">
+                    Manage Categories
+                  </a>
+                </p>
+                <ProductCategoryMultiSelect
+                  options={initialProductCategories}
+                  value={active.categoryIds ?? []}
+                  onChange={(ids) => {
+                    const next = assignmentFromCategoryIds(ids, initialProductCategories);
+                    patchActive((prev) => ({
+                      ...prev,
+                      categoryIds: next.categoryIds,
+                      categories: next.categories,
+                      category: (next.category || null) as Product["category"],
+                    }));
+                  }}
+                />
               </div>
               <label>
                 Tags (comma separated)
@@ -2240,11 +2228,45 @@ export default function ProductManagerApp({
             />,
           )}
 
+          {editPanel("page-layout", active ? (
+            <div className="pm-stack">
+              <div className="rounded-lg border p-4 max-w-lg space-y-3">
+                <p className="text-sm font-medium">Layout for this product</p>
+                <ProductPageLayoutTemplateSelect
+                  id="product-edit-page-layout-template"
+                  value={active.page_layout_template}
+                  onChange={(page_layout_template) =>
+                    patchActive((prev) => ({ ...prev, page_layout_template }))
+                  }
+                  inheritLabel="Inherit (category → brand → site default)"
+                  hint={
+                    active.page_layout_template
+                      ? formatLayoutAssignmentLabel(
+                          validateTemplateId(active.page_layout_template),
+                          "product",
+                        )
+                      : "This product uses the category assignment, then brand, then the site default."
+                  }
+                  showScopeLinks
+                />
+              </div>
+            </div>
+          ) : null)}
+
           {editPanel("page-display", active ? (
             <div className="pm-stack">
               <p className="pm-hint">
-                Override global page element visibility for this product only. Global defaults and
-                ordering live in the <a href="#product-page">Product Page</a> settings tab.
+                Override global page element visibility for this product only. Choose the PDP
+                template in{" "}
+                <button
+                  type="button"
+                  className="underline"
+                  onClick={() => setEditSection("page-layout")}
+                >
+                  Page Layout
+                </button>
+                . Global defaults live in{" "}
+                <a href={PRODUCT_PAGE_DESIGN_HREF}>Pages → Product Page</a>.
               </p>
               <ProductPageDisplayFields
                 showInherit
@@ -2957,6 +2979,7 @@ export default function ProductManagerApp({
         selectedProductSlugs={assignDrawer?.selected.map((p) => p.slug) ?? []}
         productCategoryIds={assignProductCategoryIds}
         applying={assignApplying}
+        applyProgress={assignProgress}
         onApply={applyCategoryAssignment}
       />
     </div>

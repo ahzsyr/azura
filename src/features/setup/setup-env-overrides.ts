@@ -7,6 +7,7 @@ export function getSetupCompleteEnvOverride(): boolean | null {
   return null;
 }
 
+/** Middleware-only fallback when `/api/setup/status` cannot be reached. Does not override the admin toggle. */
 export function getComingSoonEnvOverride(): boolean | null {
   const env = process.env.COMING_SOON_ENABLED?.trim().toLowerCase();
   if (env === "true" || env === "1") return true;

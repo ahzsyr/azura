@@ -5,6 +5,7 @@ import { getProviderAppCredentials } from "@/modules/marketing/providers/app-con
 
 export const runtime = "nodejs";
 
+/* @public — provider webhook ingress (signature verified in ingest) */
 export async function GET(
   request: NextRequest,
   context: { params: Promise<{ provider: string }> },

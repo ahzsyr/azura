@@ -43,9 +43,13 @@ export function CatalogCategoryChip({ label, href, onClick }: CatalogCategoryChi
     );
   }
 
-  return (
-    <button type="button" className={className} onClick={onClick}>
-      {label}
-    </button>
-  );
+  if (onClick) {
+    return (
+      <button type="button" className={className} onClick={onClick}>
+        {label}
+      </button>
+    );
+  }
+
+  return <span className={className}>{label}</span>;
 }

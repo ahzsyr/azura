@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { getSearchOperationsPlatform } from "@/features/search-intelligence/workspaces/server";
 import { formatEnqueueOutcome } from "@/features/search-intelligence/operations/result-summary";
+import type { ConnectorId } from "@/features/search-intelligence/integrations";
+import type { GoogleIntegrationId } from "@/features/seo/google-platform/types";
 
 async function revalidateWorkspaces() {
   revalidatePath("/admin/seo/search-operations");
@@ -151,11 +153,37 @@ export async function approveNextWaitingOperationAction() {
   return formatEnqueueOutcome(latest);
 }
 
-export async function testSearchOpsConnectorAction(formData: FormData) {
+export async function testSearchOpsConnectorAction(formData: FormData): Promise<{
+  ok: boolean;
+  message: string;
+}> {
   const raw = String(formData.get("connectorId") ?? "");
   const { CONNECTOR_DEFINITIONS } = await import("../integrations");
-  const connectorId = CONNECTOR_DEFINITIONS.find((d) => d.id === raw)?.id;
-  if (!connectorId) return;
+  const { googleIntegrationRegistry } = await import("@/features/seo/google-platform/registry");
+  const { testGoogleIntegrationFormAction } = await import(
+    "@/features/seo/google-platform/actions"
+  );
+
+  let connectorId = CONNECTOR_DEFINITIONS.find((d) => d.id === raw)?.id as ConnectorId | undefined;
+  if (!connectorId) {
+    const def = googleIntegrationRegistry.get(raw as GoogleIntegrationId);
+    const mapped = def?.connectorId as ConnectorId | undefined;
+    if (mapped && CONNECTOR_DEFINITIONS.some((d) => d.id === mapped)) {
+      connectorId = mapped;
+    }
+  }
+
+  if (!connectorId) {
+    const def = googleIntegrationRegistry.get(raw as GoogleIntegrationId);
+    if (def?.capabilities.supportsValidation) {
+      const validateForm = new FormData();
+      validateForm.set("integrationId", raw);
+      const result = await testGoogleIntegrationFormAction(validateForm);
+      await revalidateWorkspaces();
+      return { ok: result.ok, message: result.message };
+    }
+    return { ok: false, message: "Live test is not available for this connector yet" };
+  }
 
   const { testSeoConnector } = await import("../integrations/seo-bridge");
   const platform = await getSearchOperationsPlatform();
@@ -166,4 +194,5 @@ export async function testSearchOpsConnectorAction(formData: FormData) {
     lastSyncAt: result.ok ? new Date().toISOString() : platform.connectors.get(connectorId).lastSyncAt,
   });
   await revalidateWorkspaces();
+  return { ok: result.ok, message: result.message };
 }

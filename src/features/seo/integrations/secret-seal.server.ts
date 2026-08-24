@@ -7,8 +7,13 @@ function getKey() {
   const source =
     process.env.SEO_INTEGRATION_SECRET ||
     process.env.AUTH_SECRET ||
-    process.env.NEXTAUTH_SECRET ||
-    "local-development-seo-integrations-secret";
+    process.env.NEXTAUTH_SECRET;
+  if (!source?.trim()) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("SEO_INTEGRATION_SECRET or AUTH_SECRET is required in production");
+    }
+    return createHash("sha256").update("local-development-seo-integrations-secret").digest();
+  }
   return createHash("sha256").update(source).digest();
 }
 

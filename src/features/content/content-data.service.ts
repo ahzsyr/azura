@@ -1,11 +1,12 @@
 import type { ContentStatus, EntityTranslation } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { BUILTIN_CONTENT_TYPES } from "@/features/content/content-type.registry";
+import { BUILTIN_CONTENT_TYPES, mergeMissingBuiltinFields } from "@/features/content/content-type.registry";
 import type { ContentBlockConfig, ContentCardData } from "@/features/content/types";
 import { contentRepository } from "@/features/content/content.repository";
 import { resolveTranslation } from "@/features/translation/translation-resolver";
 import { FALLBACK_LOCALES } from "@/i18n/locale-config";
+import { contentItemPublicPath } from "@/features/content/content-admin-paths";
 
 const BUILTIN_SLUGS = BUILTIN_CONTENT_TYPES.map((d) => d.slug);
 const DEFAULT_LOCALE_CODE = FALLBACK_LOCALES.find((locale) => locale.isDefault)?.code ?? "en";
@@ -15,7 +16,7 @@ let ensureBuiltinInflight: Promise<void> | null = null;
 async function syncMissingBuiltinContentTypes() {
   const existing = await prisma.contentType.findMany({
     where: { slug: { in: BUILTIN_SLUGS } },
-    select: { slug: true, routePrefix: true },
+    select: { slug: true, routePrefix: true, fieldSchema: true },
   });
   const existingMap = new Map(existing.map((row) => [row.slug, row]));
 
@@ -34,11 +35,24 @@ async function syncMissingBuiltinContentTypes() {
           sortOrder: BUILTIN_CONTENT_TYPES.indexOf(def),
         },
       });
-    } else if (row.routePrefix !== def.routePrefix) {
-      // Sync routePrefix when the registry definition changes.
+      continue;
+    }
+
+    const data: { routePrefix?: string; fieldSchema?: Prisma.InputJsonValue } = {};
+    if (row.routePrefix !== def.routePrefix) {
+      data.routePrefix = def.routePrefix;
+    }
+    const mergedFields = mergeMissingBuiltinFields(
+      row.fieldSchema,
+      def.fields.filter((field) => field.key === "location"),
+    );
+    if (mergedFields) {
+      data.fieldSchema = mergedFields as Prisma.InputJsonValue;
+    }
+    if (Object.keys(data).length > 0) {
       await prisma.contentType.update({
         where: { slug: def.slug },
-        data: { routePrefix: def.routePrefix },
+        data,
       });
     }
   }
@@ -56,9 +70,11 @@ export async function ensureBuiltinContentTypes() {
 }
 
 function itemHref(item: ContentCardSourceItem & { contentType?: { slug: string; routePrefix: string | null } }) {
-  const prefix = item.contentType?.routePrefix;
-  if (prefix) return item.slug ? `/${prefix}/${item.slug}` : `/${prefix}`;
-  return undefined;
+  return contentItemPublicPath(
+    item.contentType?.routePrefix,
+    item.contentType?.slug,
+    item.slug
+  ) ?? undefined;
 }
 
 type ContentCardSourceItem = {

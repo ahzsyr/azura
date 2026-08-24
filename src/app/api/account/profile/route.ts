@@ -8,14 +8,40 @@ import {
   parseDateOfBirth,
   updateProfileSchema,
 } from "@/features/setup/setup-complete.schema";
+import { isCustomerRole } from "@/features/auth/portal";
+import { writeSecurityAuditLog } from "@/lib/security-audit";
+
+async function assertCustomerSessionWithVersion() {
+  const session = await auth();
+  if (!session?.user?.id || !isCustomerRole(session.user.role)) {
+    return { error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
+  }
+  const row = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: {
+      id: true,
+      passwordHash: true,
+      sessionVersion: true,
+      role: true,
+      disabledAt: true,
+    },
+  });
+  if (!row || row.disabledAt) {
+    return { error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
+  }
+  const tokenVersion = (session.user as { sessionVersion?: number }).sessionVersion ?? 0;
+  if (tokenVersion !== (row.sessionVersion ?? 0)) {
+    return { error: NextResponse.json({ error: "Session revoked" }, { status: 401 }) };
+  }
+  return { session, user: row };
+}
 
 export async function GET() {
-  const session = await auth();
-  if (!session?.user?.id || session.user.role !== "CUSTOMER") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const gate = await assertCustomerSessionWithVersion();
+  if ("error" in gate) return gate.error;
+
   const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
+    where: { id: gate.session.user.id },
     select: {
       id: true,
       name: true,
@@ -29,6 +55,7 @@ export async function GET() {
       postalCode: true,
       country: true,
       marketingOptIn: true,
+      pendingEmail: true,
     },
   });
   if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -36,15 +63,13 @@ export async function GET() {
 }
 
 export async function PATCH(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id || session.user.role !== "CUSTOMER") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const gate = await assertCustomerSessionWithVersion();
+  if ("error" in gate) return gate.error;
+
   try {
     const body = await request.json();
     const data = updateProfileSchema.parse(body);
-    const user = await prisma.user.findUnique({ where: { id: session.user.id } });
-    if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    const user = gate.user;
 
     const update: Prisma.UserUpdateInput = {};
     if (data.name) update.name = data.name;
@@ -67,6 +92,7 @@ export async function PATCH(request: Request) {
         return NextResponse.json({ error: "Current password is incorrect" }, { status: 400 });
       }
       update.passwordHash = await bcrypt.hash(data.newPassword, 12);
+      update.sessionVersion = { increment: 1 };
     }
 
     const updated = await prisma.user.update({
@@ -81,6 +107,21 @@ export async function PATCH(request: Request) {
         country: true,
       },
     });
+
+    if (data.newPassword) {
+      await writeSecurityAuditLog({
+        action: "auth.password.changed",
+        actorId: user.id,
+        actorRole: user.role,
+      });
+      await writeSecurityAuditLog({
+        action: "auth.session.revoked",
+        actorId: user.id,
+        actorRole: user.role,
+        meta: { reason: "PASSWORD_CHANGED" },
+      });
+    }
+
     return NextResponse.json({ success: true, user: updated });
   } catch {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });

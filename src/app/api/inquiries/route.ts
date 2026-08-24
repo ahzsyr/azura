@@ -2,14 +2,36 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { inquirySchema } from "@/lib/validations";
 import { auth } from "@/lib/auth";
+import { isCustomerRole } from "@/features/auth/portal";
+import { enforceRateLimit } from "@/lib/rate-limit";
+import { getTrustedClientIp } from "@/lib/client-ip";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 
 export async function POST(request: Request) {
   try {
+    const ip = getTrustedClientIp(request);
+    const rl = await enforceRateLimit({
+      key: `inquiries:${ip}`,
+      limit: 10,
+      windowMs: 10 * 60 * 1000,
+    });
+    if (!rl.allowed) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
+
     const body = await request.json();
+    const turnstileOk = await verifyTurnstileToken(
+      typeof body?.turnstileToken === "string" ? body.turnstileToken : undefined,
+      ip,
+    );
+    if (!turnstileOk) {
+      return NextResponse.json({ error: "Captcha failed" }, { status: 400 });
+    }
+
     const data = inquirySchema.parse(body);
     const session = await auth();
     const customer =
-      session?.user?.role === "CUSTOMER" && session.user.id ? session.user : null;
+      session?.user?.id && isCustomerRole(session.user.role) ? session.user : null;
 
     const email = (data.email || customer?.email || "").trim().toLowerCase();
     let userId = customer?.id ?? null;

@@ -2,7 +2,6 @@ import "server-only";
 
 import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
-import { catalogEntityId } from "@/capabilities/search/engine/providers/catalog-providers";
 import { loadCollectionsFromFs } from "@/features/collections/collections-fs";
 import { catalogProductToCollectionProduct } from "@/features/collections/engine";
 import { detectOrphanProducts } from "@/features/products/product-collections";
@@ -290,75 +289,9 @@ async function validateCatalogConsistencyDb(
   };
 }
 
-export async function validateSearchIndexConsistency(): Promise<{
-  generatedAt: string;
-  errors: CatalogValidationIssue[];
-  warnings: CatalogValidationIssue[];
-  staleCatalogDocs: number;
-}> {
-  const errors: CatalogValidationIssue[] = [];
-  const warnings: CatalogValidationIssue[] = [];
-  let staleCatalogDocs = 0;
-
-  try {
-    const { prisma } = await import("@/lib/prisma");
-    const { discoverCatalogSearchSources } = await import(
-      "@/capabilities/search/engine/discovery/catalog-search-discovery"
-    );
-    const { loadListingRecords } = await import("@/features/products/index/product-index-loader");
-    const { collectionsDataService } = await import("@/features/collections/collections-data.service");
-
-    const discovery = await discoverCatalogSearchSources();
-    const valid = new Set<string>();
-
-    for (const { urlPrefix } of discovery.indexerLocales) {
-      if (discovery.siteCatalog.products) {
-        const records = await loadListingRecords(urlPrefix);
-        for (const r of records) {
-          valid.add(`CATALOG_PRODUCT:${catalogEntityId("product", r.slug)}:${urlPrefix}`);
-        }
-      }
-      if (discovery.siteCatalog.collections) {
-        const cols = await collectionsDataService.loadAll({ localePrefix: urlPrefix });
-        for (const col of cols) {
-          if (col.visible === false) continue;
-          valid.add(`CATALOG_COLLECTION:${catalogEntityId("pcol", col.slug)}:${urlPrefix}`);
-        }
-      }
-    }
-
-    const catalogTypes = ["CATALOG_PRODUCT", "CATALOG_COLLECTION", "CATALOG_CATEGORY"] as const;
-    const existing = await prisma.searchDocument.findMany({
-      where: { entityType: { in: [...catalogTypes] } },
-      select: { entityType: true, entityId: true, locale: true },
-    });
-
-    for (const row of existing) {
-      const key = `${row.entityType}:${row.entityId}:${row.locale}`;
-      if (!valid.has(key) && row.entityType !== "CATALOG_CATEGORY") {
-        staleCatalogDocs += 1;
-      }
-    }
-
-    if (staleCatalogDocs > 0) {
-      warnings.push({
-        level: "warn",
-        code: "STALE_SEARCH_DOCS",
-        message: `${staleCatalogDocs} stale catalog SearchDocument row(s) — run catalog sync or search reconcile`,
-      });
-    }
-  } catch (e) {
-    errors.push({
-      level: "error",
-      code: "SEARCH_VALIDATE_FAILED",
-      message: e instanceof Error ? e.message : String(e),
-    });
-  }
-
-  return {
-    generatedAt: new Date().toISOString(),
-    errors,
-    warnings,
-    staleCatalogDocs,
-  };
+export async function validateSearchIndexConsistency() {
+  const { validateFullSearchIndexConsistency } = await import(
+    "@/capabilities/search/engine/indexer/search-index-consistency"
+  );
+  return validateFullSearchIndexConsistency();
 }

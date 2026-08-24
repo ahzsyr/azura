@@ -2,6 +2,7 @@ import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 import type { Session } from "next-auth";
 import { getAuthSecretForMiddleware } from "@/lib/auth-secret.edge";
+import { isAdminRole } from "@/features/auth/portal";
 
 /** Auth.js v5 session cookie — must match sign-in cookie name and salt. */
 function resolveSessionCookieName(): string {
@@ -47,7 +48,7 @@ export async function getAuthToken(request: NextRequest) {
 export function isAdminToken(
   token: Awaited<ReturnType<typeof getAuthToken>>,
 ): boolean {
-  return String(token?.role ?? "").toUpperCase() === "ADMIN";
+  return isAdminRole(token?.role as string | undefined);
 }
 
 export function tokenToSession(

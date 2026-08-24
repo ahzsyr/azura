@@ -39,6 +39,7 @@ export const videoHeroPropsSchema = z.object({
   playsInline: z.boolean().default(true),
   overlayOpacity: z.coerce.number().min(0).max(100).default(55),
   overlayGradient: z.boolean().default(true),
+  fadeIntoSiteBackground: z.boolean().default(false),
   autoplaySlides: z.boolean().default(true),
   autoplaySlideMs: z.coerce.number().default(6000),
   showSlideDots: z.boolean().default(true),

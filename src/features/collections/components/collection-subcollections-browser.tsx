@@ -66,7 +66,7 @@ type ItemProps = {
 
 function SubcollectionCardItem({ collection, image }: ItemProps) {
   return (
-    <Link href={`/collections/${collection.slug}`} className="col-subs-card">
+    <Link href={`/categories/${collection.slug}`} className="col-subs-card">
       <div className="col-subs-card__media">
         {image ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -92,7 +92,7 @@ function SubcollectionCardItem({ collection, image }: ItemProps) {
 
 function SubcollectionListItem({ collection, image }: ItemProps) {
   return (
-    <Link href={`/collections/${collection.slug}`} className="col-subs-list-item">
+    <Link href={`/categories/${collection.slug}`} className="col-subs-list-item">
       <div className="col-subs-list-item__media">
         {image ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -145,7 +145,7 @@ export function CollectionSubcollectionsBrowser({ subcollections, allCollections
 
   const handleMobileSelect = (slug: string) => {
     if (!slug) return;
-    router.push(`/collections/${slug}`);
+    router.push(`/categories/${slug}`);
   };
 
   if (subcollections.length === 0) return null;

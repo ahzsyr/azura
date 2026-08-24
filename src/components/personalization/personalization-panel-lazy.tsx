@@ -23,6 +23,7 @@ type Props = {
   theme: ThemeTokens | null;
   locale: string;
   locales: LocaleOption[];
+  dir?: "ltr" | "rtl";
 };
 
 export function PersonalizationPanelLazy(props: Props) {

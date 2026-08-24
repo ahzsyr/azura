@@ -33,7 +33,30 @@ export type MenuShadowStyle = "none" | "soft" | "strong";
 /** Shared open/close animation for desktop mega/dropdown and mobile panels */
 export type MenuPanelAnimation = "fade" | "slide" | "scale";
 
-export type MenuLayoutType = "grid" | "mixed" | "columns" | "tabbed" | "dropdown";
+export type MenuLayoutType =
+  | "grid"
+  | "mixed"
+  | "columns"
+  | "tabbed"
+  | "dropdown"
+  | "icon"
+  | "sidebar"
+  | "panel";
+
+/** Fixed Icon Layout column counts (1–12). Use `"auto"` for responsive fill. */
+export type MegaMenuIconLayoutColumns = "auto" | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+
+/** Parent-scoped Icon Layout flyout settings (children remain ordinary MenuItems). */
+export interface MegaMenuIconLayoutConfig {
+  iconSize?: "sm" | "md" | "lg";
+  /** `"auto"` or 1–12 fixed columns. */
+  columns?: MegaMenuIconLayoutColumns;
+  alignment?: "start" | "center" | "end";
+  iconPosition?: "top" | "left";
+  showDescriptions?: boolean;
+  showBadges?: boolean;
+  spacing?: "compact" | "comfortable" | "spacious";
+}
 
 export type HeaderDesktopMode =
   | "static"
@@ -55,7 +78,82 @@ export interface MegaMenuPanelCopy {
   icon?: string;
 }
 
+/** v2 panel layouts (sidebar / panel megaMenuType). */
+export type MegaMenuPanelLayout =
+  | "links"
+  | "cards"
+  | "featured"
+  | "columns"
+  | "iconGrid"
+  | "productGrid"
+  | "mixed";
+
+export type MegaMenuSurfaceWidth = "auto" | "container" | "wide" | "full";
+export type MegaMenuSurfaceAlignment = "left" | "center" | "right";
+export type MegaMenuPanelGap = "sm" | "md" | "lg";
+
+export type MegaMenuChildDisplayType =
+  | "automatic"
+  | "link"
+  | "card"
+  | "featured"
+  | "icon"
+  | "product";
+
+export interface MegaMenuNavItem {
+  id: string;
+  label: string;
+  panelId: string;
+  icon?: string;
+}
+
+export interface MegaMenuNavigationConfig {
+  enabled: boolean;
+  width?: number;
+  items: MegaMenuNavItem[];
+}
+
+export interface MegaMenuColumnGroup {
+  id: string;
+  heading: string;
+  childIds: string[];
+  ctaLabel?: string;
+  ctaChildId?: string;
+}
+
+export interface MegaMenuPanelFeaturedConfig {
+  childId?: string;
+  ctaLabel?: string;
+}
+
+export interface MegaMenuPanelCarouselConfig {
+  enabled: boolean;
+  arrows?: boolean;
+  autoplay?: boolean;
+}
+
+/** Optional catalog auto-source (Phase 4). Persist source, not duplicated children. */
+export interface MegaMenuPanelSourceConfig {
+  type: "collectionChildren";
+  collectionId: string;
+}
+
+export interface MegaMenuPanelConfig {
+  id: string;
+  label?: string;
+  layout: MegaMenuPanelLayout;
+  columns?: number;
+  gap?: MegaMenuPanelGap;
+  childIds: string[];
+  featured?: MegaMenuPanelFeaturedConfig;
+  carousel?: MegaMenuPanelCarouselConfig;
+  columnGroups?: MegaMenuColumnGroup[];
+  source?: MegaMenuPanelSourceConfig;
+}
+
 export interface MegaMenuContentConfig {
+  /** Explicit v2 gate. Never infer v2 from megaMenuType alone. */
+  version?: 1 | 2;
   gridColumns?: number;
   columnCount?: number;
   mixed?: {
@@ -65,6 +163,29 @@ export interface MegaMenuContentConfig {
   tabs?: MegaMenuTabConfig[];
   dropdownShowIcons?: boolean;
   childDescriptions?: Record<string, string>;
+  /** v2: per-child CTA label (Learn More, View All, Compare All, etc.) */
+  childCtaLabels?: Record<string, string>;
+  /** Parent-only Icon Layout options when megaMenuType is "icon". */
+  iconLayout?: MegaMenuIconLayoutConfig;
+
+  /**
+   * Desktop mega menu sizing controls.
+   * Defaults are additive (when unset, existing CSS/layout behavior remains).
+   */
+  width?: "auto" | "sm" | "md" | "lg" | "xl" | "full" | "custom";
+  customWidth?: number | null;
+
+  height?: "auto" | "sm" | "md" | "lg" | "xl" | "custom";
+  customHeight?: number | null;
+
+  /** v2: left rail navigation (sidebar). */
+  navigation?: MegaMenuNavigationConfig;
+  /** v2: content panels referencing parent.children via childIds. */
+  panels?: MegaMenuPanelConfig[];
+  /** v2: shell surface width. */
+  surfaceWidth?: MegaMenuSurfaceWidth;
+  /** v2: shell content alignment. */
+  alignment?: MegaMenuSurfaceAlignment;
 }
 
 export type MobileNavType =
@@ -89,6 +210,11 @@ export interface MenuItem {
   children: MenuItem[];
   megaMenuType?: MenuLayoutType;
   megaMenu?: MegaMenuContentConfig;
+  /**
+   * Controls how this item is rendered inside its parent mega menu on desktop.
+   * When unset, falls back to existing automatic visual-card detection.
+   */
+  megaMenuChildDisplayType?: MegaMenuChildDisplayType;
   url?: string;
   pageId?: string;
   collectionId?: string;
@@ -210,6 +336,10 @@ export interface HeaderBuilderSettings {
   mobileNavDensity?: MobileNavDensity;
   mobileNavSubmenuBehavior?: MobileNavSubmenuBehavior;
   mobileNavShowIcons?: boolean;
+  /** Tablet drawer icons (641–968px). Unset falls back to `mobileNavShowIcons`. */
+  tabletNavShowIcons?: boolean;
+  /** Desktop main-nav / mega icons (≥969px). */
+  desktopNavShowIcons?: boolean;
   mobileNavShowArrows?: boolean;
   overlayMode?: "none" | "over-media" | "transparent-until-scroll";
   overlaySurface?: "glass" | "solid" | "transparent";
@@ -299,7 +429,7 @@ export interface SourceFamilyNode {
 export interface HeaderBuilderCatalog {
   pages: HeaderBuilderCatalogPage[];
   collections: HeaderBuilderCatalogCollection[];
-  brands: { slug: string; name: string }[];
+  brands: { slug: string; name: string; logoUrl?: string }[];
   tags: { slug: string; name: string }[];
   products: { slug: string; name: string }[];
   posts: { slug: string; title: string }[];

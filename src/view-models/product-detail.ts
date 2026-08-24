@@ -15,12 +15,19 @@ import type {
 } from "@/features/products/lib/product-page-responsive";
 import type { ResolvedProductPageOverflow } from "@/features/products/lib/product-page-overflow";
 import type { loadPdpLabels } from "@/features/products/pdp/load-pdp-labels";
+import type {
+  LayoutAssignmentSource,
+  ProductPageLayoutTemplateId,
+} from "@/features/products/layout-templates/types";
 
 type ResolvedProductPageContext = ReturnType<typeof resolveProductPageContext>;
 
 /** Serializable PDP presentation bundle for product-detail template. */
 export type ProductDetailViewModel = {
   templateId: "product-detail";
+  layoutTemplateId: ProductPageLayoutTemplateId;
+  layoutAssignmentSource: LayoutAssignmentSource;
+  layoutAssignmentDetail?: string;
   entityId: string;
   slug: string;
   locale: string;

@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { TurnstileField } from "@/components/security/turnstile-field";
+import { validateEmailFormat } from "@/features/account/lib/password-form-validation";
 
 type Props = {
   locale: string;
@@ -18,20 +20,40 @@ export function AccountForgotPasswordForm({ locale }: Props) {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const onTurnstileToken = useCallback((token: string | null) => {
+    setTurnstileToken(token);
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError("");
     setMessage("");
+    const emailError = validateEmailFormat(email);
+    if (emailError) {
+      setError(emailError);
+      setLoading(false);
+      return;
+    }
+    if (!turnstileToken) {
+      setError("Complete the captcha before continuing.");
+      setLoading(false);
+      return;
+    }
     const res = await fetch("/api/auth/forgot-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, locale }),
+      body: JSON.stringify({
+        email,
+        locale,
+        turnstileToken,
+      }),
     });
     setLoading(false);
     if (!res.ok) {
-      setError(t("forgotPasswordError"));
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      setError(data.error ?? t("forgotPasswordError"));
       return;
     }
     const data = (await res.json()) as { message?: string };
@@ -58,6 +80,7 @@ export function AccountForgotPasswordForm({ locale }: Props) {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
+          <TurnstileField onToken={onTurnstileToken} />
           {error && <p className="text-destructive text-sm">{error}</p>}
           {message && <p className="text-sm text-green-600">{message}</p>}
           <Button type="submit" className="w-full" disabled={loading}>

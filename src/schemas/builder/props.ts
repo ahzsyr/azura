@@ -215,6 +215,7 @@ export {
   logoCloudPropsSchema,
   statsCounterPropsSchema,
   beforeAfterPropsSchema,
+  tabbedShowcasePropsSchema,
   extendedHeroPropsSchema,
   extendedCtaPropsSchema,
 } from "@/features/builder/blocks/marketing/schemas/marketing-blocks";

@@ -2,6 +2,10 @@ import type { SearchEntityType } from "@prisma/client";
 import type { SearchFacetFilter, SearchRawRow, SearchVisibility } from "@/capabilities/search/engine/types";
 import { searchRegistry } from "@/capabilities/search/engine/registry/search-registry";
 import type { ResolvedSearchFilterDef } from "@/capabilities/search/settings/resolve-search-filters";
+import {
+  isAdminSearchUrlPath,
+  resolveSearchContentTypeSlug,
+} from "@/capabilities/search/lib/search-public-path";
 
 function parseMetadata(row: FilterableRow): Record<string, unknown> {
   return (row.metadata ?? {}) as Record<string, unknown>;
@@ -18,7 +22,15 @@ function rowFacets(row: FilterableRow): Record<string, unknown> {
 
 function rowVisibility(row: FilterableRow): SearchVisibility {
   const meta = parseMetadata(row);
-  if (row.entityType === "MEDIA" || meta.adminOnly === true) return "admin";
+  if (
+    row.entityType === "MEDIA" ||
+    row.entityType === "ICON" ||
+    meta.adminOnly === true ||
+    meta.visibility === "admin" ||
+    isAdminSearchUrlPath(row.urlPath)
+  ) {
+    return "admin";
+  }
   return "public";
 }
 
@@ -39,9 +51,19 @@ function readFacetValuesForKeys(row: FilterableRow, facetKeys: string[]): string
   const meta = parseMetadata(row);
   const values: string[] = [];
   for (const key of facetKeys) {
-    values.push(...normalizeFacetValue(facets[key]));
-    if (key === "contentTypeSlug" && meta.contentTypeSlug) {
-      values.push(String(meta.contentTypeSlug));
+    // UI filter id `contentType` maps to stored facet/meta key `contentTypeSlug`.
+    const storageKeys =
+      key === "contentType" ? ["contentTypeSlug", "contentType"] : [key];
+    for (const storageKey of storageKeys) {
+      values.push(...normalizeFacetValue(facets[storageKey]));
+    }
+    if (key === "contentTypeSlug" || key === "contentType") {
+      const resolved = resolveSearchContentTypeSlug({
+        entityType: row.entityType,
+        metadata: row.metadata,
+        urlPath: row.urlPath,
+      });
+      if (resolved) values.push(resolved);
     }
     if (key === "publishedAt" && meta.publishedAt) {
       values.push(String(meta.publishedAt));
@@ -53,12 +75,11 @@ function readFacetValuesForKeys(row: FilterableRow, facetKeys: string[]): string
   return values;
 }
 
-type FilterableRow = Pick<SearchRawRow, "entityType" | "metadata">;
+type FilterableRow = Pick<SearchRawRow, "entityType" | "metadata"> & { urlPath?: string };
 
 export class SearchFilterEngine {
   applyFacetFilter<T extends FilterableRow>(rows: T[], filter: SearchFacetFilter): T[] {
     return rows.filter((row) => {
-      const meta = parseMetadata(row);
       if (filter.entityTypes?.length && !filter.entityTypes.includes(row.entityType)) {
         return false;
       }
@@ -67,8 +88,8 @@ export class SearchFilterEngine {
         if (!filter.kinds.includes(kind)) return false;
       }
       if (filter.contentTypeSlugs?.length) {
-        const slug = meta.contentTypeSlug as string | undefined;
-        if (!slug || !filter.contentTypeSlugs.includes(slug)) return false;
+        const rowSlugs = readFacetValuesForKeys(row, ["contentTypeSlug"]);
+        if (!facetValueMatches(rowSlugs, filter.contentTypeSlugs)) return false;
       }
       if (filter.visibility?.length) {
         const vis = rowVisibility(row);

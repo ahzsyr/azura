@@ -4,6 +4,7 @@ import {
   buildLocaleSwitchHref,
   getNeutralPathnameForSwitch,
   localePathFromPrefix,
+  rewriteLegacyCollectionRoute,
   stripAnyLocalePrefix,
   stripCurrentLocalePrefix,
   normalizeStackedLocalePathname,
@@ -68,6 +69,20 @@ describe("switchLocalePath", () => {
   });
 });
 
+describe("rewriteLegacyCollectionRoute", () => {
+  it("rewrites collection listing routes to categories", () => {
+    assert.equal(rewriteLegacyCollectionRoute("/collections"), "/categories");
+    assert.equal(rewriteLegacyCollectionRoute("/collections/switching"), "/categories/switching");
+  });
+
+  it("leaves nested asset paths unchanged", () => {
+    assert.equal(
+      rewriteLegacyCollectionRoute("/collections/networking/cover.jpg"),
+      "/collections/networking/cover.jpg",
+    );
+  });
+});
+
 describe("localePathFromPrefix", () => {
   it("prefixes neutral paths", () => {
     assert.equal(localePathFromPrefix("/about", "en", ["en", "ar"]), "/en/about");
@@ -76,6 +91,14 @@ describe("localePathFromPrefix", () => {
   it("does not double-prefix paths that already start with the target locale", () => {
     assert.equal(localePathFromPrefix("/ar", "ar"), "/ar");
     assert.equal(localePathFromPrefix("/ar/products/alfa-tube-e4g", "ar"), "/ar/products/alfa-tube-e4g");
+  });
+
+  it("rewrites leftover /collections routes to /categories", () => {
+    assert.equal(localePathFromPrefix("/collections/switching", "en", ["en", "ar"]), "/en/categories/switching");
+    assert.equal(
+      localePathFromPrefix("/en/collections/switching", "en", ["en", "ar"]),
+      "/en/categories/switching",
+    );
   });
 });
 

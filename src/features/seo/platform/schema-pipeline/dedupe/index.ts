@@ -41,7 +41,20 @@ function normalizeQuestion(text: string): string {
 export const organizationDedupeRule = {
   id: "organization",
   apply(nodes: SchemaNode[]): SchemaNode[] {
-    return firstWinsByType("Organization", nodes);
+    let orgSeen = false;
+    return nodes.filter((node) => {
+      const type = nodeType(node);
+      const multi = node["@type"];
+      const isOrg =
+        type === "Organization" ||
+        type === "Corporation" ||
+        (Array.isArray(multi) &&
+          (multi.includes("Organization") || multi.includes("Corporation")));
+      if (!isOrg) return true;
+      if (orgSeen) return false;
+      orgSeen = true;
+      return true;
+    });
   },
 };
 
@@ -132,6 +145,6 @@ export const defaultDedupeRules = [
   manualOverrideDedupeRule,
 ];
 
-export function dedupe(nodes: SchemaNode[]): SchemaNode[] {
+export function dedupe(nodes: SchemaNode[], _config?: SeoStructuredConfig): SchemaNode[] {
   return defaultDedupeRules.reduce((acc, rule) => rule.apply(acc), nodes);
 }

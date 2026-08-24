@@ -15,6 +15,7 @@ import type { SeoChangeSet } from "@/features/seo/platform/types/change-set";
 import { SeoAnalysisPanel } from "./seo-analysis-panel";
 import { SeoFieldHint, checkTone } from "./seo-field-hint";
 import { SeoSocialPreview } from "./seo-social-preview";
+import { GoogleRichResultPreview } from "./google-rich-result-preview";
 import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -436,14 +437,21 @@ export function SeoMetaForm({
 
   const handleEmbeddedSubmit = () => {
     startTransition(async () => {
-      await upsertSeoMetaAction(buildFormData());
+      const result = await upsertSeoMetaAction(buildFormData());
+      if (result && result.ok === false) {
+        setSaveStatus("error");
+      }
     });
   };
 
   const handleSave = useCallback(async () => {
     setSaveStatus("saving");
     try {
-      await upsertSeoMetaAction(buildFormData());
+      const result = await upsertSeoMetaAction(buildFormData());
+      if (result && result.ok === false) {
+        setSaveStatus("error");
+        return false;
+      }
       markSaved();
       if (useTopBarActions) router.refresh();
       return true;
@@ -480,7 +488,14 @@ export function SeoMetaForm({
       canPublish: canPublish ?? Boolean(onPublish),
       selfManagedSaveStatus: true,
     });
-    return () => clearPageActions();
+    return () => {
+      // AnimatePresence keeps SEO mounted during tab exit; parent registrar may
+      // already own the top bar — only clear if our handlers are still active.
+      const owned = useAdminUiStore.getState().pageActions;
+      if (owned.onSave === handleSave || owned.onCancel === handleCancel) {
+        clearPageActions();
+      }
+    };
   }, [
     shouldUseTopBar,
     registerPageActions,
@@ -774,7 +789,8 @@ export function SeoMetaForm({
                 <Label>Canonical URL ({activeLocale.label})</Label>
                 <Input
                   name={fieldName(getLocalizedFormFieldName("canonicalUrl", activeLocaleCode))}
-                  type="url"
+                  type="text"
+                  inputMode="url"
                   value={activeSlice.canonicalUrl}
                   onChange={(e) => patchActive({ canonicalUrl: e.target.value })}
                   placeholder={suggestedCanonicalUrl || "https://yoursite.com/en/page"}
@@ -814,6 +830,12 @@ export function SeoMetaForm({
               description={previewDesc}
               ogImage={ogImageUrl || undefined}
               previewOrigin={previewOrigin}
+            />
+            <GoogleRichResultPreview
+              title={previewTitle}
+              description={previewDesc}
+              url={previewOrigin?.includes("://") ? previewOrigin : `https://${previewOrigin ?? "brt-me.com"}/en`}
+              showBrandSimulation={pageKey === "home"}
             />
           </div>
 
@@ -879,7 +901,7 @@ export function SeoMetaForm({
               tone={checkTone(jsonLdCheck?.passed ?? false, true)}
             />
             <p className="text-xs text-muted-foreground">
-              Valid JSON object or array. Merged on the public page when set.
+              Valid JSON object or array. Merged into the public canonical schema graph when set (entity-aware @id policy).
             </p>
           </div>
 

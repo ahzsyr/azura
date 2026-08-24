@@ -1,4 +1,5 @@
 import type { ThemeTokens } from "@/types/theme";
+import { THEME_ROOT_SELECTOR } from "./theme-root-selectors";
 
 export const SPACING_TOKENS = {
   scale: "--spacing-scale",
@@ -22,7 +23,7 @@ export const SPACING_TOKENS = {
 
 export function buildSpacingCss(tokens: ThemeTokens): string {
   const scale = tokens.spacingScale;
-  return `html {
+  return `${THEME_ROOT_SELECTOR} {
   --spacing-scale:${scale};
   --az-space-xs:0.25rem;
   --az-space-sm:0.5rem;

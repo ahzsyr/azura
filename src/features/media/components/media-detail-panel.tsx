@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import type { MediaAsset, MediaFolder, MediaUsage, User } from "@prisma/client";
 import Link from "next/link";
 import { MediaPreviewImage } from "@/features/media/components/media-preview-image";
+import { MediaPreviewVideo } from "@/features/media/components/media-preview-video";
 import {
   deleteMediaAssets,
   getMediaAssetDetail,
@@ -211,6 +212,8 @@ export function MediaDetailPanel({ assetId, folders, onClose, onUpdated }: Props
           <div className="relative aspect-video rounded-lg bg-muted overflow-hidden">
             {asset.mediaType === "IMAGE" || asset.mediaType === "SVG" ? (
               <MediaPreviewImage src={asset.url} alt={previewAlt} fill className="object-contain" sizes="400px" />
+            ) : asset.mediaType === "VIDEO" ? (
+              <MediaPreviewVideo src={asset.url} alt={previewAlt} fill controls className="object-contain" />
             ) : (
               <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
                 {asset.mediaType} preview

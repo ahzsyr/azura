@@ -22,6 +22,7 @@ export type AssignCategoriesDrawerProps = {
   productCategoryIds?: Record<string, string[]>;
   selectedProductSlugs?: string[];
   applying?: boolean;
+  applyProgress?: { current: number; total: number } | null;
   onApply: (categoryIds: string[]) => void | Promise<void>;
 };
 
@@ -34,6 +35,7 @@ export function AssignCategoriesDrawer({
   productCategoryIds = {},
   selectedProductSlugs = [],
   applying = false,
+  applyProgress = null,
   onApply,
 }: AssignCategoriesDrawerProps) {
   const [query, setQuery] = useState("");
@@ -114,7 +116,11 @@ export function AssignCategoriesDrawer({
             disabled={applying || selectedIds.length === 0 || selectedProductCount === 0}
             onClick={() => void onApply(selectedIds)}
           >
-            {applying ? "Applying…" : "Apply"}
+            {applying && applyProgress && applyProgress.total > 0
+              ? `Applying… ${applyProgress.current}/${applyProgress.total}`
+              : applying
+                ? "Applying…"
+                : "Apply"}
           </Button>
         </>
       }
@@ -123,6 +129,22 @@ export function AssignCategoriesDrawer({
         <p className="text-sm text-muted-foreground">
           {selectedProductCount} product{selectedProductCount === 1 ? "" : "s"} selected
         </p>
+
+        {applying && applyProgress && applyProgress.total > 0 ? (
+          <div className="space-y-1" role="status" aria-live="polite">
+            <div className="h-2 overflow-hidden rounded-full bg-muted">
+              <div
+                className="h-full rounded-full bg-primary transition-[width] duration-200"
+                style={{
+                  width: `${Math.min(100, Math.round((applyProgress.current / applyProgress.total) * 100))}%`,
+                }}
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Updating products ({applyProgress.current}/{applyProgress.total})
+            </p>
+          </div>
+        ) : null}
 
         <CatalogSearch
           value={query}

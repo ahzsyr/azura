@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { passwordPolicySchema } from "@/schemas/password-policy";
 
 export const setupCompleteSchema = z.object({
   siteName: z.string().min(2).max(120),
@@ -8,7 +9,7 @@ export const setupCompleteSchema = z.object({
     z.string().url().optional()
   ),
   adminEmail: z.string().email(),
-  adminPassword: z.string().min(8).max(128),
+  adminPassword: passwordPolicySchema,
   adminName: z.string().min(1).max(80).default("Admin"),
   registrationEnabled: z.boolean().default(true),
   installMode: z.enum(["blank", "demo-brt", "demo-safar"]).default("blank"),
@@ -21,7 +22,7 @@ export const updateAdminCredentialsSchema = z
   .object({
     currentPassword: z.string().min(1),
     newEmail: z.string().email().optional(),
-    newPassword: z.string().min(8).max(128).optional(),
+    newPassword: passwordPolicySchema.optional(),
     confirmPassword: z.string().optional(),
   })
   .refine(
@@ -57,10 +58,14 @@ export const customerProfileFieldsSchema = z.object({
   marketingOptIn: z.boolean().optional().default(false),
 });
 
-export const registerSchema = customerProfileFieldsSchema.extend({
-  name: z.string().min(2).max(80),
-  email: z.string().email(),
-  password: z.string().min(8).max(128),
+export const registerSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, "Name must be at least 2 characters")
+    .max(80, "Name is too long"),
+  email: z.string().trim().email("Enter a valid email address"),
+  password: passwordPolicySchema,
 });
 
 export const updateCustomerProfileSchema = customerProfileFieldsSchema
@@ -72,7 +77,7 @@ export const updateCustomerProfileSchema = customerProfileFieldsSchema
 export const updateProfileSchema = updateCustomerProfileSchema
   .extend({
     currentPassword: z.string().optional(),
-    newPassword: z.string().min(8).max(128).optional(),
+    newPassword: passwordPolicySchema.optional(),
     confirmPassword: z.string().optional(),
   })
   .refine(
@@ -88,8 +93,8 @@ export const adminUpdateCustomerSchema = updateCustomerProfileSchema;
 
 export const adminSetPasswordSchema = z
   .object({
-    newPassword: z.string().min(8).max(128),
-    confirmPassword: z.string().min(8).max(128),
+    newPassword: passwordPolicySchema,
+    confirmPassword: z.string().min(12).max(128),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
     message: "Passwords must match",

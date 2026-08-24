@@ -56,7 +56,7 @@ Override with `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD` in `.env` before expo
    Password characters like `@` `#` `:` must be URL-encoded in `DATABASE_URL`.
 3. **Deploy / rebuild** — the build runs `prisma generate --schema prisma/schema.postgresql.prisma` when `DATABASE_URL` starts with `postgresql://`.
 4. **First visit** — middleware redirects to `/setup`. Complete the wizard with `admin@azura.com` / `Admin123`.
-5. **Login** — `/admin/login` after setup.
+5. **Login** — `/account/login` after setup (admins are routed to `/admin`).
 
 Demo content (`demo-brt`, `demo-safar`) is chosen inside the setup wizard (`installMode`), not by importing `import-demo-*.sql` on a fresh deploy.
 

@@ -2,7 +2,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
+      "@type": [
+        "Organization",
+        "ElectronicsStore"
+      ],
       "@id": "https://example.com/#organization",
       "name": "BRT Trading",
       "url": "https://example.com",
@@ -23,26 +26,13 @@
         "email": "info@example.com",
         "contactType": "customer service"
       },
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Dubai, UAE"
-      },
-      "identifier": "REG-123"
-    },
-    {
-      "@type": "ElectronicsStore",
-      "@id": "https://example.com/#local-business",
-      "name": "BRT Trading",
-      "url": "https://example.com",
-      "parentOrganization": {
-        "@id": "https://example.com/#organization"
-      },
       "telephone": "+971500000000",
       "email": "info@example.com",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Dubai, UAE"
-      }
+      },
+      "identifier": "REG-123"
     },
     {
       "@type": "ImageObject",
@@ -61,21 +51,11 @@
       "@type": "WebSite",
       "@id": "https://example.com/#website",
       "name": "BRT Trading",
+      "alternateName": "BRT",
       "url": "https://example.com",
       "publisher": {
         "@id": "https://example.com/#organization"
-      },
-      "potentialAction": [
-        {
-          "@id": "https://example.com/en/#search-action"
-        }
-      ]
-    },
-    {
-      "@type": "SearchAction",
-      "@id": "https://example.com/en/#search-action",
-      "target": "https://example.com/en/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
+      }
     },
     {
       "@type": "WebPage",

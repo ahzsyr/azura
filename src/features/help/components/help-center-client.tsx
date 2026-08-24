@@ -9,14 +9,14 @@ import { HelpCategoryBrowser } from "@/features/help/components/help-category-br
 import { HelpChecklistView } from "@/features/help/components/help-checklist";
 import { HelpFaqList, HelpTroubleshootingList } from "@/features/help/components/help-troubleshooting";
 import { HelpSystemInfo } from "@/features/help/components/help-system-info";
-import { HelpTopicDetailSheet } from "@/features/help/components/help-topic-detail-sheet";
 import { useHelpSearch } from "@/features/help/hooks/use-help-search";
 import { useHelpAnalytics } from "@/features/help/hooks/use-help-analytics";
 import { useHelpContinue } from "@/features/help/hooks/use-help-continue";
 import { useHelpRecentTopics } from "@/features/help/hooks/use-help-recent-topics";
 import { useActiveHelpSection } from "@/features/help/hooks/use-active-help-section";
 import { helpRegistry } from "@/features/help/data/registry";
-import type { HelpSearchHit, HelpSystemDiagnostics, HelpTopic, HelpWorkflow } from "@/features/help/types";
+import type { HelpSearchHit, HelpSystemDiagnostics, HelpWorkflow } from "@/features/help/types";
+import { useHelpPanelStore } from "@/stores/help-panel-store";
 
 function readHashId(): string | null {
   if (typeof window === "undefined") return null;
@@ -42,8 +42,12 @@ export function HelpCenterClient({ diagnostics }: { diagnostics: HelpSystemDiagn
   const { query, setQuery, hits, view } = useHelpSearch();
   const { track } = useHelpAnalytics();
   const [hashId, setHashId] = useState<string | null>(null);
-  const [detailTopicId, setDetailTopicId] = useState<string | null>(null);
+  const detailTopicId = useHelpPanelStore((s) => s.topicId);
+  const panelOpen = useHelpPanelStore((s) => s.open);
+  const openTopic = useHelpPanelStore((s) => s.openTopic);
+  const closePanel = useHelpPanelStore((s) => s.closePanel);
   const focusReturnId = useRef<string | null>(null);
+  const panelWasOpenRef = useRef(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const continueSetup = useHelpContinue(view.checklists);
@@ -60,11 +64,11 @@ export function HelpCenterClient({ diagnostics }: { diagnostics: HelpSystemDiagn
 
   const { topics: recentTopics, record: recordRecent } = useHelpRecentTopics(availableTopicIds);
 
-  const activeSection = view.sections.find((s) => s.id === activeSectionId) ?? view.sections[0];
-  const sectionTopicIds = activeSection?.topics.map((t) => t.id) ?? [];
-  const detailTopic: HelpTopic | null = detailTopicId
-    ? (helpRegistry.topicsById.get(detailTopicId) ?? null)
-    : null;
+  useEffect(() => {
+    if (detailTopicId && availableTopicIds.has(detailTopicId)) {
+      recordRecent(detailTopicId);
+    }
+  }, [availableTopicIds, detailTopicId, recordRecent]);
 
   useEffect(() => {
     track({ name: "help_opened" });
@@ -76,9 +80,7 @@ export function HelpCenterClient({ diagnostics }: { diagnostics: HelpSystemDiagn
       setHashId(id);
       if (!id) return;
       if (helpRegistry.topicsById.has(id)) {
-        setDetailTopicId(id);
-        recordRecent(id);
-        track({ name: "help_topic_viewed", topicId: id });
+        openTopic(id);
       }
       requestAnimationFrame(() => {
         document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -90,7 +92,29 @@ export function HelpCenterClient({ diagnostics }: { diagnostics: HelpSystemDiagn
     syncHash();
     window.addEventListener("hashchange", syncHash);
     return () => window.removeEventListener("hashchange", syncHash);
-  }, [recordRecent, track]);
+  }, [openTopic]);
+
+  useEffect(() => {
+    if (panelOpen || !focusReturnId.current) return;
+    const id = focusReturnId.current;
+    focusReturnId.current = null;
+    requestAnimationFrame(() => {
+      const el = document.getElementById(`topic-card-${id}`) as HTMLElement | null;
+      el?.focus();
+    });
+  }, [panelOpen]);
+
+  useEffect(() => {
+    if (panelOpen) {
+      panelWasOpenRef.current = true;
+      return;
+    }
+    if (!panelWasOpenRef.current) return;
+    panelWasOpenRef.current = false;
+    if (!readHashId()) return;
+    window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    setHashId(null);
+  }, [panelOpen]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -108,38 +132,27 @@ export function HelpCenterClient({ diagnostics }: { diagnostics: HelpSystemDiagn
         return;
       }
 
-      if (e.key === "Escape" && detailTopicId) {
-        setDetailTopicId(null);
+      if (e.key === "Escape" && panelOpen) {
+        closePanel();
       }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [detailTopicId]);
+  }, [closePanel, panelOpen]);
 
   const openTopicGuide = useCallback(
     (topicId: string) => {
       const sectionId = helpRegistry.topicSectionId.get(topicId);
       if (sectionId) setActiveSectionId(sectionId);
       focusReturnId.current = topicId;
-      setDetailTopicId(topicId);
-      recordRecent(topicId);
-      track({ name: "help_topic_viewed", topicId });
+      openTopic(topicId);
       if (typeof window !== "undefined") {
         window.history.replaceState(null, "", `#${topicId}`);
         setHashId(topicId);
       }
     },
-    [recordRecent, setActiveSectionId, track]
+    [openTopic, setActiveSectionId]
   );
-
-  const restoreFocus = useCallback(() => {
-    const id = focusReturnId.current;
-    if (!id) return;
-    requestAnimationFrame(() => {
-      const el = document.getElementById(`topic-card-${id}`) as HTMLElement | null;
-      el?.focus();
-    });
-  }, []);
 
   const openWorkflow = useCallback(
     (workflow: HelpWorkflow) => {
@@ -252,17 +265,6 @@ export function HelpCenterClient({ diagnostics }: { diagnostics: HelpSystemDiagn
           <HelpSystemInfo initial={diagnostics} />
         </>
       )}
-
-      <HelpTopicDetailSheet
-        topic={detailTopic}
-        sectionTopicIds={sectionTopicIds}
-        open={Boolean(detailTopic)}
-        onOpenChange={(open) => {
-          if (!open) setDetailTopicId(null);
-        }}
-        onNavigateTopic={openTopicGuide}
-        onCloseFocus={restoreFocus}
-      />
     </div>
   );
 }

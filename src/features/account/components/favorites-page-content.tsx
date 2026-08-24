@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useSession } from "next-auth/react";
 import {
   getLocalContentFavorites,
@@ -11,6 +12,7 @@ import {
   SavedFavoritesList,
   type FavoriteListItem,
 } from "@/features/account/components/saved-favorites-list";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   locale: string;
@@ -38,6 +40,7 @@ export function FavoritesPageContent({ locale }: Props) {
   const status = sessionState?.status ?? "unauthenticated";
   const [items, setItems] = useState<FavoriteListItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const isCustomer = session?.user?.role === "CUSTOMER";
 
   useEffect(() => {
     async function load() {
@@ -70,6 +73,13 @@ export function FavoritesPageContent({ locale }: Props) {
 
   return (
     <div className="container-premium py-12">
+      {isCustomer ? (
+        <div className="mb-4">
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/${locale}/account/favorites`}>Open account favorites</Link>
+          </Button>
+        </div>
+      ) : null}
       <SavedFavoritesList
         locale={locale}
         items={items}

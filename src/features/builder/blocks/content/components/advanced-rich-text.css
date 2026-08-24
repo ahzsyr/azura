@@ -7,8 +7,39 @@
   color: var(--foreground);
 }
 
+/* Tailwind preflight sets h1–h6 to font-size/weight: inherit, so heading
+   commands look like a no-op unless we restore a visible type scale. */
 .cb-advanced-richtext :where(h1, h2, h3, h4, h5, h6) {
   color: inherit;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.cb-advanced-richtext :where(h1) {
+  font-size: 2em;
+  margin-block: 0.8em 0.4em;
+}
+
+.cb-advanced-richtext :where(h2) {
+  font-size: 1.5em;
+  margin-block: 0.75em 0.35em;
+}
+
+.cb-advanced-richtext :where(h3) {
+  font-size: 1.25em;
+  font-weight: 600;
+  margin-block: 0.7em 0.3em;
+}
+
+.cb-advanced-richtext :where(h4) {
+  font-size: 1.125em;
+  font-weight: 600;
+  margin-block: 0.65em 0.25em;
+}
+
+.cb-advanced-richtext :where(p) {
+  margin-block: 0.5em;
 }
 
 .cb-advanced-richtext :where(a) {
@@ -17,6 +48,12 @@
 
 .cb-advanced-richtext :where(blockquote) {
   color: var(--muted-foreground);
+}
+
+/* Mixed LTR/RTL snippets inside a block keep their own direction. */
+.cb-advanced-richtext :where([dir="rtl"]),
+.cb-advanced-richtext :where([dir="ltr"]) {
+  unicode-bidi: isolate;
 }
 
 /* Dark mode safety net for common baked-in ink colors (paste / older content). */

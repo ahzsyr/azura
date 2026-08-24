@@ -3,52 +3,23 @@
  * Ensure all wired CMS pages exist; remove deprecated slugs (e.g. visa).
  * Usage: npm run cms:ensure-pages
  */
-import { PrismaClient, type Prisma } from "@prisma/client";
-import {
-  CMS_WIRED_PAGE_DEFINITIONS,
-  DEPRECATED_CMS_PAGE_SLUGS,
-} from "../src/features/cms/cms-wired-pages";
-import { seedBilingualFields } from "./i18n/seed-translations-helper";
+import { PrismaClient } from "@prisma/client";
+import { ensureWiredCmsPagesWithClient } from "../src/features/cms/ensure-wired-cms-pages-core";
 
 const prisma = new PrismaClient();
 
-const EMPTY_BLOCKS: Prisma.InputJsonValue = [];
-
 async function main() {
   console.log("Ensuring wired CMS pages…");
-
-  for (const page of CMS_WIRED_PAGE_DEFINITIONS) {
-    const existing = await prisma.cmsPage.findUnique({ where: { slug: page.slug } });
-    const row = await prisma.cmsPage.upsert({
-      where: { slug: page.slug },
-      update: {},
-      create: {
-        slug: page.slug,
-        templateKey: page.templateKey,
-        status: "DRAFT",
-        blocks: EMPTY_BLOCKS,
-      },
-    });
-    if (!existing) {
-      await seedBilingualFields(prisma, "CmsPage", row.id, {
-        title: { en: page.defaultTitles.en, ar: page.defaultTitles.ar },
-        subtitle: { en: "", ar: "" },
-      });
-    }
-    console.log(`  ${existing ? "exists" : "created"}: ${page.slug}`);
+  const result = await ensureWiredCmsPagesWithClient(prisma);
+  for (const slug of result.existing) {
+    console.log(`  exists: ${slug}`);
   }
-
-  for (const slug of DEPRECATED_CMS_PAGE_SLUGS) {
-    const deprecated = await prisma.cmsPage.findUnique({ where: { slug } });
-    if (deprecated) {
-      await prisma.searchDocument.deleteMany({
-        where: { entityType: "CMS_PAGE", entityId: deprecated.id },
-      });
-      await prisma.cmsPage.delete({ where: { slug } });
-      console.log(`  removed deprecated: ${slug}`);
-    }
+  for (const slug of result.created) {
+    console.log(`  created: ${slug}`);
   }
-
+  for (const slug of result.removed) {
+    console.log(`  removed deprecated: ${slug}`);
+  }
   console.log("Done.");
 }
 

@@ -41,6 +41,8 @@ export function parseProductSelection(raw: Record<string, unknown>): ProductSele
       raw.sortBy === "newest"
         ? raw.sortBy
         : "name-asc",
+    orderingProfileId:
+      typeof raw.orderingProfileId === "string" ? raw.orderingProfileId.trim() : "",
   };
 }
 

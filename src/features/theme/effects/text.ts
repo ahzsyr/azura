@@ -9,6 +9,30 @@ const ORIGINAL_TEXT_ATTR = "data-text-effect-original";
 const APPLIED_ATTR = "data-text-effect-applied";
 const INTERVAL_ATTR = "data-text-effect-interval-id";
 
+/** Bumps on every reset so late async GSAP callbacks cannot re-paint stale neon shadows. */
+let textEffectEpoch = 0;
+
+type GsapMod = typeof import("gsap");
+let gsapMod: GsapMod | null = null;
+let gsapLoading: Promise<GsapMod | null> | null = null;
+
+function loadGsap(): Promise<GsapMod | null> {
+  if (gsapMod) return Promise.resolve(gsapMod);
+  if (!gsapLoading) {
+    gsapLoading = import("gsap")
+      .then((mod) => {
+        gsapMod = mod;
+        return mod;
+      })
+      .catch(() => null);
+  }
+  return gsapLoading;
+}
+
+function killGsapTweens(el: HTMLElement): void {
+  gsapMod?.gsap.killTweensOf(el);
+}
+
 const effectCleanups = new WeakMap<HTMLElement, Array<() => void>>();
 
 function trackEffectCleanup(el: HTMLElement, fn: () => void): void {
@@ -31,10 +55,13 @@ const EFFECT_STYLE_PROPS = [
   "isolation",
   "borderRight",
   "background",
+  "backgroundImage",
   "backgroundSize",
   "webkitBackgroundClip",
   "backgroundClip",
+  "webkitTextFillColor",
   "color",
+  "filter",
   "animation",
   "clipPath",
   "transition",
@@ -102,23 +129,35 @@ function restoreOriginalText(el: HTMLElement): void {
 export function resetTextEffects(): void {
   if (typeof document === "undefined") return;
 
-  void import("gsap")
-    .then((mod) => {
-      document.querySelectorAll<HTMLElement>("[data-text-effect]").forEach((el) => {
-        mod.gsap.killTweensOf(el);
-      });
-    })
-    .catch(() => {});
+  textEffectEpoch += 1;
+  const targets = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-text-effect], [data-text-effect-applied]"),
+  );
 
-  document.querySelectorAll<HTMLElement>("[data-text-effect]").forEach((el) => {
-    if (isRootTextTarget(el)) return;
+  for (const el of targets) {
+    killGsapTweens(el);
+  }
+  // Also kill any tweens that start after a late dynamic import resolves.
+  void loadGsap().then((mod) => {
+    if (!mod) return;
+    for (const el of targets) {
+      mod.gsap.killTweensOf(el);
+      // Re-strip in case a neon tween wrote shadow between sync strip and import.
+      if (el.getAttribute(APPLIED_ATTR) !== "neon-glow") {
+        el.style.removeProperty("text-shadow");
+      }
+    }
+  });
+
+  for (const el of targets) {
+    if (isRootTextTarget(el)) continue;
 
     runEffectCleanups(el);
     clearElementInterval(el);
     restoreOriginalText(el);
     stripEffectInlineStyles(el);
     el.removeAttribute(APPLIED_ATTR);
-  });
+  }
 }
 
 export function initTextEffects(type: string) {
@@ -129,6 +168,9 @@ export function initTextEffects(type: string) {
       if (isRootTextTarget(el)) return;
       if (!isSimpleTextHeading(el)) return;
       if (el.getAttribute(APPLIED_ATTR) === type) return;
+      // Drop any leftover neon paint before binding the new effect.
+      killGsapTweens(el);
+      el.style.removeProperty("text-shadow");
       applyEffect(el, type);
     });
   });
@@ -166,8 +208,21 @@ function applyEffect(el: HTMLElement, type: string) {
 function applyNeonGlow(el: HTMLElement) {
   const c = "var(--text-effect-primary,var(--color-primary,var(--primary)))";
   const intensity = `var(--text-effect-intensity,1)`;
-  void import("gsap")
+  const epoch = textEffectEpoch;
+  void loadGsap()
     .then((mod) => {
+      if (!mod) {
+        if (epoch !== textEffectEpoch || el.getAttribute(APPLIED_ATTR) !== "neon-glow") return;
+        el.style.textShadow = [
+          `0 0 6px  ${c}`,
+          `0 0 20px color-mix(in srgb, ${c} 70%, transparent)`,
+          `0 0 50px color-mix(in srgb, ${c} 30%, transparent)`,
+        ].join(",");
+        return;
+      }
+      if (epoch !== textEffectEpoch) return;
+      if (el.getAttribute(APPLIED_ATTR) !== "neon-glow") return;
+      mod.gsap.killTweensOf(el);
       mod.gsap.fromTo(
         el,
         {
@@ -191,13 +246,16 @@ function applyNeonGlow(el: HTMLElement) {
         },
       );
     })
-    .catch(() => {
-      el.style.textShadow = [
-        `0 0 6px  ${c}`,
-        `0 0 20px color-mix(in srgb, ${c} 70%, transparent)`,
-        `0 0 50px color-mix(in srgb, ${c} 30%, transparent)`,
-      ].join(",");
-    });
+    .catch(() => {});
+}
+
+function applyGradientFlow(el: HTMLElement) {
+  // CSS is the sole paint owner for gradient-flow. Clear any neon/GSAP leftovers
+  // so a prior preset cannot leave a “marker” text-shadow behind the title.
+  killGsapTweens(el);
+  el.style.removeProperty("text-shadow");
+  el.style.removeProperty("filter");
+  stripEffectInlineStyles(el);
 }
 
 const HEADING_TAGS = new Set(["H1", "H2", "H3", "H4", "H5", "H6"]);
@@ -355,15 +413,6 @@ function applyScramble(el: HTMLElement, original: string) {
   };
   el.addEventListener("mouseenter", onMouseEnter);
   trackEffectCleanup(el, () => el.removeEventListener("mouseenter", onMouseEnter));
-}
-
-function applyGradientFlow(_el: HTMLElement) {
-  // CSS is the sole paint owner for gradient-flow.
-  // preset-visuals.css handles rendering via:
-  //   html[data-preset-text-effect="gradient-flow"] [data-text-effect="gradient-flow"]
-  //   html[data-text-effect-theme="gradient-flow"]  [data-text-effect="gradient-flow"]
-  // Setting inline styles here would fight CSS with a different gradient source.
-  // data-text-effect-applied is set by applyEffect() before this call — no further work needed.
 }
 
 function applyWave(el: HTMLElement, text: string) {

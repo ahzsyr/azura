@@ -2,7 +2,7 @@
 
 import type { BlockNode } from "@/types/builder";
 import { Label } from "@/components/ui/label";
-import { patchBlockSettings } from "@/features/builder/instance/block-instance";
+import { getBlockSettings, patchBlockSettings } from "@/features/builder/instance/block-instance";
 import {
   LocalizedBlockInput,
   LocalizedBlockTextarea,
@@ -12,11 +12,12 @@ import {
 type Props = { block: BlockNode; onChange: (block: BlockNode) => void };
 
 export function TextBlockFields({ block, onChange }: Props) {
-  const align = (block.props.align as string) === "start" ? "left" : ((block.props.align as string) ?? "center");
+  const settings = getBlockSettings(block);
+  const align = (settings.align as string) === "start" ? "left" : ((settings.align as string) ?? "center");
   const contentAlign =
-    (block.props.contentAlign as string) === "start"
+    (settings.contentAlign as string) === "start"
       ? "left"
-      : ((block.props.contentAlign as string) ?? "left");
+      : ((settings.contentAlign as string) ?? "left");
 
   return (
     <div className="space-y-3">
@@ -42,7 +43,7 @@ export function TextBlockFields({ block, onChange }: Props) {
           <Label className="text-xs">Badge size</Label>
           <select
             className="mt-1 w-full rounded-md border h-9 px-2 text-sm"
-            value={(block.props.badgeSize as string) ?? "sm"}
+            value={(settings.badgeSize as string) ?? "sm"}
             onChange={(e) => onChange(patchBlockSettings(block, { badgeSize: e.target.value }))}
           >
             <option value="xs">XS</option>
@@ -54,7 +55,7 @@ export function TextBlockFields({ block, onChange }: Props) {
           <Label className="text-xs">Title size</Label>
           <select
             className="mt-1 w-full rounded-md border h-9 px-2 text-sm"
-            value={(block.props.titleSize as string) ?? "2xl"}
+            value={(settings.titleSize as string) ?? "2xl"}
             onChange={(e) => onChange(patchBlockSettings(block, { titleSize: e.target.value }))}
           >
             <option value="xl">XL</option>
@@ -66,7 +67,7 @@ export function TextBlockFields({ block, onChange }: Props) {
           <Label className="text-xs">Subtitle size</Label>
           <select
             className="mt-1 w-full rounded-md border h-9 px-2 text-sm"
-            value={(block.props.subtitleSize as string) ?? "base"}
+            value={(settings.subtitleSize as string) ?? "base"}
             onChange={(e) => onChange(patchBlockSettings(block, { subtitleSize: e.target.value }))}
           >
             <option value="sm">SM</option>
@@ -78,7 +79,7 @@ export function TextBlockFields({ block, onChange }: Props) {
           <Label className="text-xs">Content size</Label>
           <select
             className="mt-1 w-full rounded-md border h-9 px-2 text-sm"
-            value={(block.props.contentSize as string) ?? "base"}
+            value={(settings.contentSize as string) ?? "base"}
             onChange={(e) => onChange(patchBlockSettings(block, { contentSize: e.target.value }))}
           >
             <option value="sm">SM</option>

@@ -3,9 +3,7 @@ import type { ProviderManifest } from "./types";
 const manifests = new Map<string, ProviderManifest>();
 
 export function registerProviderManifest(manifest: ProviderManifest): void {
-  if (manifests.has(manifest.id)) {
-    throw new Error(`Provider manifest already registered: ${manifest.id}`);
-  }
+  if (manifests.has(manifest.id)) return;
   manifests.set(manifest.id, Object.freeze({ ...manifest }));
 }
 

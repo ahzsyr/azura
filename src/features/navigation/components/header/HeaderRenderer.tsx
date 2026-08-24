@@ -21,6 +21,10 @@ import {
 } from "@/features/navigation/header-root-attributes";
 import { resolveMobileMenuAppearance } from "@/features/navigation/header-menu-appearance";
 import { NAV_MOBILE_MQ } from "@/features/navigation/nav-breakpoints";
+import {
+  resolveNavIconVisibility,
+  shouldMountMobileNavIcons,
+} from "@/features/navigation/nav-icon-visibility";
 import "./header-builder.css";
 
 export type HeaderRendererSurface = "site" | "preview";
@@ -109,6 +113,8 @@ export function HeaderRenderer({
     sticky: headerConfig?.sticky,
   });
   const mobileMenuAppearance = resolveMobileMenuAppearance(settings);
+  const iconVisibility = resolveNavIconVisibility(settings);
+  const showMobileIcons = shouldMountMobileNavIcons(iconVisibility);
 
   const localeLabel = localeCode.split("-")[0].toUpperCase();
   let actionsForRender = headerActions.map((a) =>
@@ -140,7 +146,12 @@ export function HeaderRenderer({
           <div className="nav-container">
             <HeaderBrand branding={branding} localeCode={localeCode} />
             {headerConfig?.showNav !== false && (
-              <HeaderMenu items={desktopItems} menuType={settings.menuType} localeCode={localeCode} />
+              <HeaderMenu
+                items={desktopItems}
+                menuType={settings.menuType}
+                localeCode={localeCode}
+                showIcons={iconVisibility.desktop}
+              />
             )}
             <div className="nav-actions">
               {isPreview ? (
@@ -169,7 +180,8 @@ export function HeaderRenderer({
                 mobileNavAnimation={mobileMenuAppearance.animation}
                 mobileNavDensity={settings.mobileNavDensity}
                 menuAppearance={mobileMenuAppearance}
-                showIcons={settings.mobileNavShowIcons !== false}
+                showIcons={showMobileIcons}
+                iconVisibility={iconVisibility}
                 showArrows={settings.mobileNavShowArrows !== false}
               />
             </div>

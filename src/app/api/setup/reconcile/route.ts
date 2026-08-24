@@ -19,6 +19,7 @@ import {
 import { prisma } from "@/lib/prisma";
 import { localeService } from "@/features/i18n/locale.service";
 import { ensureAuthSecretAtSetup } from "@/lib/auth-secret.server";
+import { requireSetupDiagnosticsAccess } from "@/features/setup/setup-api-auth";
 
 /** Allow only same-origin relative paths (blocks open redirects). */
 function sanitizeReturnTo(returnTo: string | null): string | null {
@@ -38,8 +39,11 @@ function applySetupCompleteCookie(response: NextResponse) {
   return response;
 }
 
-/** Sync middleware cookie when DB already has setupComplete. */
+/** Sync middleware cookie when DB already has setupComplete. Requires admin or SETUP_TOKEN. */
 export async function GET(request: Request) {
+  const unauthorized = await requireSetupDiagnosticsAccess(request);
+  if (unauthorized) return unauthorized;
+
   const settings = await readSystemSettings();
   const returnTo = sanitizeReturnTo(new URL(request.url).searchParams.get("returnTo"));
 
@@ -90,7 +94,7 @@ export async function GET(request: Request) {
         message:
           homePublished || headerSeeded
             ? "Setup cookie refreshed; homepage and/or header nav repaired."
-            : "Setup cookie and cache refreshed. Visit /admin/login to sign in.",
+            : "Setup cookie and cache refreshed. Visit /account/login to sign in.",
       },
       { headers: { "Cache-Control": "no-store, max-age=0" } },
     ),

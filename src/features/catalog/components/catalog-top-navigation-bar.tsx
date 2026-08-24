@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useMemo, type CSSProperties } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type {
   CatalogNavigationAppearance,
@@ -18,8 +19,10 @@ import {
   resolveIconContainerStyle,
   resolveIconPosition,
   resolveLabelAlign,
+  resolveOverflowMode,
   resolveShowTooltip,
   resolveVerticalAlign,
+  type ResolvedCatalogNavigationOverflow,
 } from "@/features/catalog/navigation/layout-semantics";
 import { filterStateFromSearchParams } from "@/features/products/listing/url-state";
 import { catalogNavItemIsFilterActive } from "@/features/catalog/navigation/listing-state-match";
@@ -153,9 +156,10 @@ function layoutToCssVars(
   if (layout.labelAlignment) {
     out[`--ctn-${prefix}label-align`] = layout.labelAlignment;
   }
-  if (layout.horizontalScroll === false) {
+  const overflow = resolveOverflowMode(layout);
+  if (overflow === "clip") {
     out[`--ctn-${prefix}scroll`] = "hidden";
-  } else if (layout.horizontalScroll === true) {
+  } else {
     out[`--ctn-${prefix}scroll`] = "auto";
   }
   return out;
@@ -216,15 +220,150 @@ function semanticDataAttrs(
   }
   if (layout.itemWidth === "equal") {
     out[`data-${prefix}item-width`] = "equal";
-  } else if (layout.itemWidth === "full") {
+  } else   if (layout.itemWidth === "full") {
     out[`data-${prefix}item-width`] = "full";
   }
-  if (layout.horizontalScroll === false) {
+  const overflow = resolveOverflowMode(layout);
+  out[`data-${prefix}overflow`] = overflow;
+  if (overflow === "clip") {
     out[`data-${prefix}scroll`] = "off";
-  } else if (layout.horizontalScroll === true) {
+  } else {
     out[`data-${prefix}scroll`] = "on";
   }
   return out;
+}
+
+function mergeLayoutLayers(
+  base?: CatalogNavigationLayout,
+  layer?: CatalogNavigationBreakpointLayout,
+): CatalogNavigationLayout {
+  return { ...(base ?? {}), ...(layer ?? {}) };
+}
+
+function overflowForViewport(
+  layout?: CatalogNavigationLayout,
+  responsive?: CatalogNavigationResponsive,
+  previewViewport?: "desktop" | "tablet" | "mobile",
+): ResolvedCatalogNavigationOverflow {
+  if (previewViewport === "mobile") {
+    return resolveOverflowMode(mergeLayoutLayers(layout, responsive?.mobile));
+  }
+  if (previewViewport === "tablet") {
+    return resolveOverflowMode(mergeLayoutLayers(layout, responsive?.tablet));
+  }
+  if (previewViewport === "desktop") {
+    return resolveOverflowMode(mergeLayoutLayers(layout, responsive?.desktop));
+  }
+  if (typeof window === "undefined") {
+    return resolveOverflowMode(layout);
+  }
+  const w = window.innerWidth;
+  if (w >= 1024) {
+    return resolveOverflowMode(mergeLayoutLayers(layout, responsive?.desktop));
+  }
+  if (w >= 768) {
+    return resolveOverflowMode(mergeLayoutLayers(layout, responsive?.tablet));
+  }
+  return resolveOverflowMode(mergeLayoutLayers(layout, responsive?.mobile));
+}
+
+function useLiveOverflowMode(
+  layout?: CatalogNavigationLayout,
+  responsive?: CatalogNavigationResponsive,
+  previewViewport?: "desktop" | "tablet" | "mobile",
+): ResolvedCatalogNavigationOverflow {
+  const [mode, setMode] = useState<ResolvedCatalogNavigationOverflow>(() =>
+    previewViewport
+      ? overflowForViewport(layout, responsive, previewViewport)
+      : resolveOverflowMode(layout),
+  );
+
+  useEffect(() => {
+    if (previewViewport) {
+      setMode(overflowForViewport(layout, responsive, previewViewport));
+      return;
+    }
+    const update = () => setMode(overflowForViewport(layout, responsive));
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [layout, responsive, previewViewport]);
+
+  return mode;
+}
+
+function CatalogNavTrack({
+  overflowMode,
+  children,
+}: {
+  overflowMode: ResolvedCatalogNavigationOverflow;
+  children: ReactNode;
+}) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateScrollState = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 1);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  }, []);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    updateScrollState();
+    el.addEventListener("scroll", updateScrollState, { passive: true });
+    const ro = new ResizeObserver(updateScrollState);
+    ro.observe(el);
+    for (const child of el.children) {
+      ro.observe(child);
+    }
+    return () => {
+      el.removeEventListener("scroll", updateScrollState);
+      ro.disconnect();
+    };
+  }, [updateScrollState, overflowMode, children]);
+
+  const scrollBy = (direction: -1 | 1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollBy({
+      left: direction * Math.max(160, el.clientWidth * 0.75),
+      behavior: "smooth",
+    });
+  };
+
+  if (overflowMode === "scroll-arrows") {
+    return (
+      <div className="ctn-bar__scroll-wrap">
+        <button
+          type="button"
+          className="ctn-bar__scroll-btn"
+          aria-label="Scroll catalog navigation left"
+          disabled={!canScrollLeft}
+          onClick={() => scrollBy(-1)}
+        >
+          <ChevronLeft className="size-4" aria-hidden />
+        </button>
+        <div className="ctn-bar__track" ref={trackRef}>
+          {children}
+        </div>
+        <button
+          type="button"
+          className="ctn-bar__scroll-btn"
+          aria-label="Scroll catalog navigation right"
+          disabled={!canScrollRight}
+          onClick={() => scrollBy(1)}
+        >
+          <ChevronRight className="size-4" aria-hidden />
+        </button>
+      </div>
+    );
+  }
+
+  return <div className="ctn-bar__track">{children}</div>;
 }
 
 export function CatalogTopNavigationBar({
@@ -278,6 +417,8 @@ export function CatalogTopNavigationBar({
     [pathBrandName, pathCategoryName, pathCollectionScope],
   );
 
+  const overflowMode = useLiveOverflowMode(layout, responsive, previewViewport);
+
   if (!items.length) return null;
 
   const style = buildBarStyle(appearance, layout, responsive);
@@ -298,40 +439,7 @@ export function CatalogTopNavigationBar({
   const effectiveDisplay = resolveDisplayMode(effectiveLayout);
   const effectiveTooltip = resolveShowTooltip(effectiveLayout);
 
-  return (
-    <nav
-      className={cn("ctn-bar", className)}
-      aria-label="Catalog navigation"
-      style={style}
-      data-theme-mode={appearance?.theme === "custom" ? "custom" : "inherit"}
-      data-style={appearanceStyle}
-      data-display={previewViewport ? effectiveDisplay : displayMode}
-      data-icon-position={resolveIconPosition(previewViewport ? effectiveLayout : layout)}
-      data-align-x={resolveHorizontalAlign(previewViewport ? effectiveLayout : layout)}
-      data-align-y={resolveVerticalAlign(previewViewport ? effectiveLayout : layout)}
-      data-label-align={resolveLabelAlign(previewViewport ? effectiveLayout : layout)}
-      data-icon-box={resolveIconContainerStyle(previewViewport ? effectiveLayout : layout)}
-      data-item-width={
-        (previewViewport ? effectiveLayout : layout)?.itemWidth === "equal"
-          ? "equal"
-          : (previewViewport ? effectiveLayout : layout)?.itemWidth === "full"
-            ? "full"
-            : undefined
-      }
-      data-scroll={
-        (previewViewport ? effectiveLayout : layout)?.horizontalScroll === false ? "off" : "on"
-      }
-      data-preview-viewport={previewViewport || undefined}
-      {...(!previewViewport
-        ? {
-            ...semanticDataAttrs(responsive?.desktop, "d-"),
-            ...semanticDataAttrs(responsive?.tablet, "t-"),
-            ...semanticDataAttrs(responsive?.mobile, "m-"),
-          }
-        : {})}
-    >
-      <div className="ctn-bar__track">
-        {items.map((item) => {
+  const itemNodes = items.map((item) => {
           const filterActive = isFilterAction(item)
             ? catalogNavItemIsFilterActive(item, filterState, matchCtx)
             : false;
@@ -402,8 +510,40 @@ export function CatalogTopNavigationBar({
               {content}
             </Link>
           );
-        })}
-      </div>
+        });
+
+  return (
+    <nav
+      className={cn("ctn-bar", className)}
+      aria-label="Catalog navigation"
+      style={style}
+      data-theme-mode={appearance?.theme === "custom" ? "custom" : "inherit"}
+      data-style={appearanceStyle}
+      data-display={previewViewport ? effectiveDisplay : displayMode}
+      data-icon-position={resolveIconPosition(previewViewport ? effectiveLayout : layout)}
+      data-align-x={resolveHorizontalAlign(previewViewport ? effectiveLayout : layout)}
+      data-align-y={resolveVerticalAlign(previewViewport ? effectiveLayout : layout)}
+      data-label-align={resolveLabelAlign(previewViewport ? effectiveLayout : layout)}
+      data-icon-box={resolveIconContainerStyle(previewViewport ? effectiveLayout : layout)}
+      data-item-width={
+        (previewViewport ? effectiveLayout : layout)?.itemWidth === "equal"
+          ? "equal"
+          : (previewViewport ? effectiveLayout : layout)?.itemWidth === "full"
+            ? "full"
+            : undefined
+      }
+      data-overflow={overflowMode}
+      data-scroll={overflowMode === "clip" ? "off" : "on"}
+      data-preview-viewport={previewViewport || undefined}
+      {...(!previewViewport
+        ? {
+            ...semanticDataAttrs(responsive?.desktop, "d-"),
+            ...semanticDataAttrs(responsive?.tablet, "t-"),
+            ...semanticDataAttrs(responsive?.mobile, "m-"),
+          }
+        : {})}
+    >
+      <CatalogNavTrack overflowMode={overflowMode}>{itemNodes}</CatalogNavTrack>
     </nav>
   );
 }

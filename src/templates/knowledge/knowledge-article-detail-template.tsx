@@ -1,6 +1,7 @@
 "use client";
 
 import type { KnowledgeArticleDetailViewModel } from "@/view-models/knowledge-article-detail";
+import { sanitizeHtml } from "@/lib/sanitize-html";
 
 type Props = {
   viewModel: KnowledgeArticleDetailViewModel;
@@ -24,7 +25,7 @@ export function KnowledgeArticleDetailTemplate({ viewModel }: Props) {
       {viewModel.body && (
         <div
           className="prose prose-neutral dark:prose-invert max-w-none"
-          dangerouslySetInnerHTML={{ __html: viewModel.body }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(viewModel.body) }}
         />
       )}
     </article>

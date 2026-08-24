@@ -1,6 +1,7 @@
 import type { ThemeTokens } from "@/types/theme";
 import type { LocaleFontOverride } from "@/schemas/theme";
 import { DEFAULT_MONO_FONT } from "@/features/theme/tokens/design-tokens";
+import { THEME_ROOT_SELECTOR } from "./theme-root-selectors";
 
 export const FONT_FAMILY_TOKENS = {
   body: "--font-body",
@@ -115,7 +116,7 @@ function buildLocaleFontCss(tokens: ThemeTokens): string {
 /** Centralized typography CSS from theme tokens. */
 export function buildTypographyCss(tokens: ThemeTokens): string {
   const c = tokens.typography;
-  const globalBlock = `html {
+  const globalBlock = `${THEME_ROOT_SELECTOR} {
   --az-font-display:'${escapeCssString(c.headingFont)}',sans-serif;
   --az-font-body:'${escapeCssString(c.bodyFont)}',sans-serif;
   --az-font-mono:'${DEFAULT_MONO_FONT}',monospace;

@@ -51,39 +51,19 @@ export const WebsiteBuilder = {
     return true;
   },
   build(ctx: SchemaContext): SchemaNode[] {
-    const searchActions = ctx.site.locales.map((locale) =>
-      entityRef(`search-action-${locale.urlPrefix}`, ctx),
-    );
+    const alternateName = ctx.site.brand.brandShort?.trim();
     return [
       {
         "@type": "WebSite",
         "@id": entityUrl("website", ctx),
         name: ctx.site.brand.brandName,
+        ...(alternateName && alternateName !== ctx.site.brand.brandName
+          ? { alternateName }
+          : {}),
         url: ctx.runtime.siteOrigin,
         publisher: entityRef("organization", ctx),
-        ...(searchActions.length ? { potentialAction: searchActions } : {}),
       },
     ];
-  },
-};
-
-export const SearchActionBuilder = {
-  id: "search-action",
-  version: 1,
-  supports(_ctx: SchemaContext): boolean {
-    return true;
-  },
-  build(ctx: SchemaContext): SchemaNode[] {
-    return ctx.site.locales.map((locale) => {
-      const prefix = locale.urlPrefix;
-      const origin = ctx.runtime.siteOrigin.replace(/\/$/, "");
-      return {
-        "@type": "SearchAction",
-        "@id": entityUrl(`search-action-${prefix}`, ctx),
-        target: `${origin}/${prefix}/search?q={search_term_string}`,
-        "query-input": "required name=search_term_string",
-      };
-    });
   },
 };
 

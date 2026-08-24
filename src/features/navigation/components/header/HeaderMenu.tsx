@@ -4,8 +4,10 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 import { usePathname } from "next/navigation";
 import type { MenuItem, MenuLayoutType } from "@/features/navigation/types";
 import { getEffectiveMegaMenuType, getItemHref } from "@/features/navigation/resolve-href";
+import { isSameInternalNavTarget } from "@/lib/navigation/internal-link";
 import { cn } from "@/lib/utils";
 import { MegaMenuSurface } from "./MegaMenu/MegaMenuSurface";
+import { NavMenuGlyph } from "./NavMenuGlyph";
 
 const FLYOUT_CLOSE_DELAY_MS = 220;
 
@@ -13,6 +15,8 @@ interface Props {
   items: MenuItem[];
   menuType: MenuLayoutType;
   localeCode: string;
+  /** When false, top-nav glyphs are not rendered (desktop icon setting). */
+  showIcons?: boolean;
 }
 
 function NavFlyoutItem({
@@ -71,15 +75,28 @@ function NavFlyoutItem({
 
   const toggleFlyout = useCallback(
     (event: React.MouseEvent<HTMLAnchorElement>) => {
+      const href = getItemHref(item, localeCode);
+      const navigatingAway =
+        typeof window !== "undefined" &&
+        !isSameInternalNavTarget(
+          href,
+          window.location.pathname,
+          window.location.search,
+          window.location.hash,
+          window.location.origin,
+        );
+      if (navigatingAway) return;
+
       event.preventDefault();
       clearCloseTimer();
       setForceClosed(false);
       setOpen((prev) => !prev);
     },
-    [clearCloseTimer],
+    [clearCloseTimer, item, localeCode],
   );
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     closeFlyoutForSignal();
   }, [closeSignal, closeFlyoutForSignal]);
 
@@ -132,11 +149,12 @@ function NavFlyoutItem({
   );
 }
 
-export function HeaderMenu({ items, menuType, localeCode }: Props) {
+export function HeaderMenu({ items, menuType, localeCode, showIcons = true }: Props) {
   const pathname = usePathname();
   const [closeSignal, setCloseSignal] = useState(0);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCloseSignal((value) => value + 1);
   }, [pathname]);
 
@@ -155,7 +173,11 @@ export function HeaderMenu({ items, menuType, localeCode }: Props) {
       <ul className="nav-list">
         {desktopItems.map((item) => {
           const hasChildren = (item.children?.length ?? 0) > 0;
-          const glyph = item.icon?.trim() ? <i className={`fas ${item.icon.trim()}`} aria-hidden /> : null;
+          const icon = item.icon?.trim();
+          const glyph =
+            showIcons && icon ? (
+              <NavMenuGlyph icon={icon} className="hb-nav-icon" slotClassName="hb-nav-icon-slot" />
+            ) : null;
 
           if (hasChildren) {
             return (

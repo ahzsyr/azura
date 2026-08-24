@@ -6,7 +6,7 @@ import { requireAdmin } from "@/features/auth/guards";
 import { cmsRepository } from "@/repositories/cms.repository";
 import { postSchema, postCategorySchema, postTagSchema, postAuthorSchema } from "@/schemas/cms";
 import { parsePostFeaturedImageSettings } from "@/schemas/featured-image-settings";
-import { parseCitationSources } from "@/schemas/editorial-metadata";
+import { parseCitationSources, parseShowFlag, withEditorialDisplayMetadata, editorialDisplayFromMetadata } from "@/schemas/editorial-metadata";
 import { searchIndexer } from "@/capabilities/search/search-indexer.service";
 import { revalidateCmsPage, revalidatePost, revalidateMarketingHome } from "@/services/cache";
 import { revalidateCmsPagePublicPaths } from "@/features/cms/revalidate-wired-marketing";
@@ -137,7 +137,11 @@ async function upsertCmsPageCore(
         blocks,
       }),
     );
-    const persistedComposition = compositionService.save(composition);
+    const showAuthor = parseShowFlag(formData.get("showAuthor"));
+    const showPublishedAt = parseShowFlag(formData.get("showPublishedAt"));
+    const persistedComposition = compositionService.save(
+      withEditorialDisplayMetadata(composition, showAuthor, showPublishedAt),
+    );
 
 
     const scheduledAt = parseScheduledAt(formData.get("scheduledAt"));
@@ -456,12 +460,20 @@ export async function patchPostFromEditor(input: PatchPostEditorInput): Promise<
 
   const post = await cmsRepository.getPostById(input.postId);
   if (!post) throw new Error("Post not found");
+  const postDisplay = editorialDisplayFromMetadata(
+    compositionService.load({
+      composition: "composition" in post ? (post as { composition?: unknown }).composition : undefined,
+      blocks: post.blocks,
+    }).metadata,
+  );
 
   const merged = applyPatch(
     {
       slug: post.slug,
       status: post.status,
       authorId: post.authorId,
+      showAuthor: postDisplay.showAuthor,
+      showPublishedAt: postDisplay.showPublishedAt,
       featuredImageId: post.featuredImageId,
       featuredImageSettings: post.featuredImageSettings,
       scheduledAt: post.scheduledAt?.toISOString() ?? "",
@@ -480,6 +492,8 @@ export async function patchPostFromEditor(input: PatchPostEditorInput): Promise<
   formData.set("slug", String(merged.slug ?? post.slug));
   formData.set("status", String(input.statusOverride ?? merged.status ?? post.status));
   formData.set("authorId", String(merged.authorId ?? ""));
+  formData.set("showAuthor", String(merged.showAuthor ?? true));
+  formData.set("showPublishedAt", String(merged.showPublishedAt ?? true));
   formData.set("featuredImageId", String(merged.featuredImageId ?? ""));
   formData.set("featuredImageUrl", post.featuredImage?.url ?? "");
   formData.set(
@@ -588,6 +602,7 @@ export async function duplicateCmsPage(id: string) {
       ("composition" in source
         ? (source as CmsPage & { composition?: Prisma.InputJsonValue }).composition
         : undefined) ?? {},
+    author: source.authorId ? { connect: { id: source.authorId } } : undefined,
   });
   await cmsRepository.saveRevision(
     page.id,
@@ -663,7 +678,11 @@ async function upsertPostCore(formData: FormData, clientNavigation: boolean): Pr
       blocks: validatedPrimaryBlocks,
     }),
   );
-  const persistedComposition = compositionService.save(composition);
+  const showAuthor = parseShowFlag(formData.get("showAuthor"));
+  const showPublishedAt = parseShowFlag(formData.get("showPublishedAt"));
+  const persistedComposition = compositionService.save(
+    withEditorialDisplayMetadata(composition, showAuthor, showPublishedAt),
+  );
   const blocks = persistedComposition.blocks as PageBlocks;
   const scheduledAt = parseScheduledAt(formData.get("scheduledAt"));
   const enabledLocales = await localeService.listEnabled();
@@ -750,6 +769,8 @@ async function upsertPostCore(formData: FormData, clientNavigation: boolean): Pr
         slug: existing.slug,
         status: existing.status,
         authorId: existing.authorId,
+        showAuthor,
+        showPublishedAt,
         featuredImageId: existing.featuredImageId,
         featuredImageSettings: existing.featuredImageSettings,
         scheduledAt: existing.scheduledAt?.toISOString() ?? "",
@@ -765,6 +786,8 @@ async function upsertPostCore(formData: FormData, clientNavigation: boolean): Pr
         slug: parsed.slug,
         status,
         authorId: parsed.authorId ?? null,
+        showAuthor,
+        showPublishedAt,
         featuredImageId: parsed.featuredImageId ?? null,
         featuredImageSettings,
         scheduledAt: scheduledAt?.toISOString() ?? "",

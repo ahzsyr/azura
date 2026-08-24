@@ -1,6 +1,7 @@
 import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getSearchOperationsPlatform } from "@/features/search-intelligence/workspaces/server";
+import { resolveCanonicalHomeUrl } from "@/features/seo/resolve-indexable-url";
 import {
   ActionButton,
   ActionPanel,
@@ -19,6 +20,7 @@ export default async function SearchOpsOverviewPage() {
   const platform = await getSearchOperationsPlatform();
   const center = await platform.commandCenter();
   const siteOrigin = platform.siteOrigin;
+  const homeUrl = await resolveCanonicalHomeUrl(siteOrigin);
 
   return (
     <div className="space-y-8 max-w-6xl">
@@ -109,12 +111,23 @@ export default async function SearchOpsOverviewPage() {
             "use server";
             return enqueueSearchOperationAction({
               definitionId: "google.request_indexing",
-              payload: { url: siteOrigin },
+              payload: { url: homeUrl },
               executeNow: true,
             });
           }}
         >
           Request Homepage Index
+        </ActionButton>
+        <ActionButton
+          formAction={async () => {
+            "use server";
+            return enqueueSearchOperationAction({
+              definitionId: "seo.submit_priority_pages",
+              executeNow: true,
+            });
+          }}
+        >
+          Submit Main Pages
         </ActionButton>
         <ActionButton variant="outline" formAction={approveNextWaitingOperationAction}>
           Approve Next Waiting

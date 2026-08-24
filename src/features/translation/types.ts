@@ -27,6 +27,7 @@ export type TranslatableEntityType =
   | "KnowledgeCategory"
   | "MediaAsset"
   | "MegaMenuPanel"
+  | "MegaMenuNavItem"
   | "MegaMenuTab"
   | "MenuItem"
   | "Navigation"

@@ -138,7 +138,9 @@ export function catalogNavItemIsFilterActive(
   if (action === "SEARCH") {
     const keyword = item.searchQuery?.trim() ?? "";
     if (!keyword) return false;
-    return state.q.trim().toLowerCase() === keyword.toLowerCase();
+    const qMatches = state.q.trim().toLowerCase() === keyword.toLowerCase();
+    const exactMatches = item.searchExact === true ? state.qExact === true : state.qExact !== true;
+    return qMatches && exactMatches;
   }
   if (
     action !== "CATEGORY_FILTER" &&

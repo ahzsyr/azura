@@ -40,6 +40,10 @@ export interface ProductPageDisplayPartial {
   tabDocuments?: DisplayElementOverride;
   tabShipping?: DisplayElementOverride;
   tabReviews?: DisplayElementOverride;
+  tabOverview?: DisplayElementOverride;
+  tabInstallation?: DisplayElementOverride;
+  tabInBox?: DisplayElementOverride;
+  modelViewer?: DisplayElementOverride;
   frequentlyBought?: DisplayElementOverride;
   crossLinks?: DisplayElementOverride;
   promo?: DisplayElementOverride;
@@ -74,6 +78,10 @@ export interface ResolvedProductPageDisplay {
   tabDocuments: DisplayElementFlag;
   tabShipping: DisplayElementFlag;
   tabReviews: DisplayElementFlag;
+  tabOverview: DisplayElementFlag;
+  tabInstallation: DisplayElementFlag;
+  tabInBox: DisplayElementFlag;
+  modelViewer: DisplayElementFlag;
   frequentlyBought: DisplayElementFlag;
   crossLinks: DisplayElementFlag;
   promo: DisplayElementFlag;
@@ -228,6 +236,10 @@ const DISPLAY_KEYS = [
   "tabDocuments",
   "tabShipping",
   "tabReviews",
+  "tabOverview",
+  "tabInstallation",
+  "tabInBox",
+  "modelViewer",
   "frequentlyBought",
   "crossLinks",
   "promo",
@@ -290,25 +302,35 @@ function resolveQuickViewPageFlag(
   return { enabled: true };
 }
 
+const DISPLAY_KEY_ALIASES: Partial<Record<DisplayKey, string>> = {
+  buyNow: "addToCart",
+  tabOverview: "tabDescription",
+  tabInstallation: "tabDocuments",
+  modelViewer: "interactiveFeatures",
+};
+
+function readOverride(
+  partial: ProductPageDisplayPartial | undefined,
+  key: DisplayKey,
+): DisplayElementOverride | undefined {
+  if (!partial) return undefined;
+  const direct = partial[key];
+  if (direct) return direct;
+  const alias = DISPLAY_KEY_ALIASES[key];
+  if (!alias) return undefined;
+  return (partial as Record<string, DisplayElementOverride | undefined>)[alias];
+}
+
 function mergeFlag(
   key: DisplayKey,
   globalPartial: ProductPageDisplayPartial | undefined,
   productPartial: ProductPageDisplayPartial | undefined,
 ): DisplayElementFlag {
-  const legacyKey = key === "buyNow" ? ("addToCart" as const) : null;
-  const productPartialAny = productPartial as ProductPageDisplayPartial & {
-    addToCart?: DisplayElementOverride;
-  };
-  const globalPartialAny = globalPartial as ProductPageDisplayPartial & {
-    addToCart?: DisplayElementOverride;
-  };
-  const product =
-    productPartial?.[key] ?? (legacyKey ? productPartialAny?.[legacyKey] : undefined);
+  const product = readOverride(productPartial, key);
   if (product && typeof product.enabled === "boolean" && product.inherit !== true) {
     return { enabled: product.enabled };
   }
-  const global =
-    globalPartial?.[key] ?? (legacyKey ? globalPartialAny?.[legacyKey] : undefined);
+  const global = readOverride(globalPartial, key);
   if (global && typeof global.enabled === "boolean") {
     return { enabled: global.enabled };
   }
@@ -327,7 +349,8 @@ export function normalizeProductPageDisplayPartial(raw: unknown): ProductPageDis
   const o = raw as Record<string, unknown>;
   const out: ProductPageDisplayPartial = {};
   for (const key of DISPLAY_KEYS) {
-    const v = o[key];
+    const alias = DISPLAY_KEY_ALIASES[key];
+    const v = o[key] ?? (alias ? o[alias] : undefined);
     if (!v || typeof v !== "object" || Array.isArray(v)) continue;
     const item = v as Record<string, unknown>;
     const entry: DisplayElementOverride = {};
@@ -544,6 +567,10 @@ export const PRODUCT_PAGE_ELEMENT_LABELS: Partial<
   tabDocuments: "Documents tab",
   tabShipping: "Shipping tab",
   tabReviews: "Reviews tab",
+  tabOverview: "Overview tab",
+  tabInstallation: "Installation tab",
+  tabInBox: "In The Box tab",
+  modelViewer: "3D model viewer",
   frequentlyBought: "Frequently bought together",
   crossLinks: "Cross links",
   promo: "Promo banner",

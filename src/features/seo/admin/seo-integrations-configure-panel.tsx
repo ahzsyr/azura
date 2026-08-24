@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useCallback, useEffect, useMemo, useRef } from "react";
+import { useActionState, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   upsertSeoIntegrationsAction,
@@ -11,6 +11,8 @@ import type {
   PublicSeoIntegrationProviderConfig,
   SeoProviderHealth,
 } from "@/features/seo/types";
+import { GoogleIndexingKeyField } from "./google-indexing-key-field";
+import { encodeServiceAccountJsonForTransport } from "@/features/seo/google-live/service-account-json";
 import { AdminSettingsRibbon } from "@/components/admin/layout/admin-settings-ribbon";
 import { useAdminFormDirtySync } from "@/hooks/use-admin-form";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
@@ -32,7 +34,7 @@ function ProviderCard({
   config,
   children,
 }: {
-  id: "bing" | "indexnow";
+  id: "bing" | "indexnow" | "google_indexing";
   label: string;
   description: string;
   config: PublicSeoIntegrationProviderConfig;
@@ -56,7 +58,8 @@ function ProviderCard({
 }
 
 function providerTabLabel(tabId: SeoProviderTabId, health: SeoProviderHealth[]): string {
-  const item = health.find((h) => h.provider === tabId);
+  const providerId = tabId === "google-indexing" ? "google_indexing" : tabId;
+  const item = health.find((h) => h.provider === providerId);
   const base = SEO_PROVIDER_TABS.find((t) => t.id === tabId)?.label ?? tabId;
   if (!item?.enabled) return base;
   if (!item.configured) return `${base} · setup`;
@@ -76,6 +79,7 @@ function buildIntegrationsUrl(embedded: boolean, params: URLSearchParams) {
 type IntegrationsConfigurePanelProps = {
   bing: PublicSeoIntegrationProviderConfig;
   indexnow: PublicSeoIntegrationProviderConfig;
+  googleIndexing: PublicSeoIntegrationProviderConfig;
   health: SeoProviderHealth[];
   siteUrl: string;
   sitemapUrl: string;
@@ -85,6 +89,7 @@ type IntegrationsConfigurePanelProps = {
 export function IntegrationsConfigurePanel({
   bing,
   indexnow,
+  googleIndexing,
   health,
   siteUrl,
   sitemapUrl,
@@ -93,6 +98,12 @@ export function IntegrationsConfigurePanel({
   const router = useRouter();
   const searchParams = useSearchParams();
   const formRef = useRef<HTMLFormElement>(null);
+  const [googleIndexingJson, setGoogleIndexingJson] = useState("");
+  const [transportError, setTransportError] = useState<string | null>(null);
+  const [integrationsSaved, setIntegrationsSaved] = useState(false);
+  const googleIndexingJsonRef = useRef(googleIndexingJson);
+  googleIndexingJsonRef.current = googleIndexingJson;
+
   const [saveState, saveAction, savePending] = useActionState<
     SeoActionResult | null,
     FormData
@@ -110,7 +121,21 @@ export function IntegrationsConfigurePanel({
     return isValidProviderTab(providerParam) ? providerParam : "indexnow";
   }, [providerParam]);
 
-  const formKey = [bing.enabled, indexnow.enabled].join("|");
+  const formKey = [
+    bing.enabled,
+    indexnow.enabled,
+    googleIndexing.enabled,
+    googleIndexing.hasServiceAccountJson,
+  ].join("|");
+  const googleIndexingJsonTransport = useMemo(() => {
+    const json = googleIndexingJson.trim();
+    if (!json) return "";
+    try {
+      return encodeServiceAccountJsonForTransport(json);
+    } catch {
+      return "";
+    }
+  }, [googleIndexingJson]);
 
   const providerTabs = SEO_PROVIDER_TABS.map((tab) => ({
     id: tab.id,
@@ -119,18 +144,20 @@ export function IntegrationsConfigurePanel({
 
   useEffect(() => {
     if (savePending) {
+      prevSavePending.current = true;
       setSaveStatus("saving");
       return;
     }
-    const justFinishedSave = prevSavePending.current && !savePending;
-    prevSavePending.current = savePending;
-    if (!justFinishedSave) return;
+    if (!prevSavePending.current) return;
+    prevSavePending.current = false;
 
     if (saveState?.ok) {
       markSaved();
+      setGoogleIndexingJson("");
+      setIntegrationsSaved(true);
       const params = new URLSearchParams(searchParams.toString());
       params.set("provider", providerTab);
-      params.set("integrationsSaved", "1");
+      params.delete("integrationsSaved");
       router.replace(buildIntegrationsUrl(embedded, params), { scroll: false });
       router.refresh();
     } else if (saveState && !saveState.ok) {
@@ -148,6 +175,7 @@ export function IntegrationsConfigurePanel({
   ]);
 
   const handleProviderTabChange = (tabId: string) => {
+    setIntegrationsSaved(false);
     const params = new URLSearchParams(searchParams.toString());
     params.set("provider", tabId);
     params.delete("integrationsSaved");
@@ -155,17 +183,25 @@ export function IntegrationsConfigurePanel({
   };
 
   const dismissIntegrationsSaved = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("integrationsSaved");
-    router.replace(buildIntegrationsUrl(embedded, params), { scroll: false });
+    setIntegrationsSaved(false);
   };
 
   const handleSave = useCallback(() => {
+    setTransportError(null);
+    if (googleIndexingJsonRef.current.trim() && !googleIndexingJsonTransport) {
+      setTransportError(
+        "Could not encode the service account key for save. Re-import the key file and try again.",
+      );
+      setSaveStatus("error");
+      return;
+    }
     formRef.current?.requestSubmit();
-  }, []);
+  }, [googleIndexingJsonTransport, setSaveStatus]);
 
   const handleCancel = useCallback(() => {
     formRef.current?.reset();
+    setGoogleIndexingJson("");
+    setIntegrationsSaved(false);
   }, []);
 
   useEffect(() => {
@@ -179,8 +215,6 @@ export function IntegrationsConfigurePanel({
     return () => clearPageActions();
   }, [registerPageActions, clearPageActions, handleSave, handleCancel, savePending]);
 
-  const integrationsSaved = searchParams.get("integrationsSaved") === "1";
-
   return (
     <form
       key={formKey}
@@ -188,27 +222,38 @@ export function IntegrationsConfigurePanel({
       id="seo-integrations-form"
       action={saveAction}
       className="space-y-6"
+      onSubmit={() => {
+        setTransportError(null);
+        setIntegrationsSaved(false);
+      }}
     >
+      <input
+        type="hidden"
+        name="googleIndexingServiceAccountJsonB64"
+        value={googleIndexingJsonTransport}
+        readOnly
+      />
       {!embedded ? (
-        <p className="text-sm text-muted-foreground">
+        <div className="rounded-lg border border-border/50 bg-muted/20 px-4 py-3 text-sm text-muted-foreground">
           Google Analytics, Tag Manager, and Search Console are in{" "}
-          <Link href="/admin/seo/google" className="text-primary underline">
+          <Link href="/admin/seo/google" className="text-primary underline underline-offset-2">
             Google settings
           </Link>
-          . Robots.txt and other global SEO settings are in the sidebar under{" "}
-          <Link href="/admin/seo/robots" className="text-primary underline">
+          . The Google Indexing API uses a service account (configured here) — it is separate from Google OAuth
+          products. Robots.txt and other global SEO settings are in the sidebar under{" "}
+          <Link href="/admin/seo/robots" className="text-primary underline underline-offset-2">
             Robots.txt
           </Link>
           ,{" "}
-          <Link href="/admin/seo/structured-data" className="text-primary underline">
+          <Link href="/admin/seo/structured-data" className="text-primary underline underline-offset-2">
             Structured Data
           </Link>
           , and{" "}
-          <Link href="/admin/seo/redirects" className="text-primary underline">
+          <Link href="/admin/seo/redirects" className="text-primary underline underline-offset-2">
             Redirects
           </Link>
           .
-        </p>
+        </div>
       ) : null}
 
       <AdminSettingsRibbon
@@ -216,13 +261,14 @@ export function IntegrationsConfigurePanel({
         activeTab={providerTab}
         onTabChange={handleProviderTabChange}
         layoutId="seo-integrations-provider-ribbon"
+        variant="sub"
       />
 
       <div className={cn(providerTab !== "indexnow" && "hidden")}>
         <ProviderCard
           id="indexnow"
           label="IndexNow"
-          description="Fast URL discovery for Bing, Yandex, Seznam, and other IndexNow participants."
+          description="Notify Bing and other IndexNow engines when pages change. Use the live host only: https://brt-me.com (www.brt-me.com redirects there). IndexNow accepts page URLs only — send sitemap.xml through Bing or Google Search Console."
           config={indexnow}
         >
           <div className="grid gap-4 md:grid-cols-2">
@@ -246,9 +292,40 @@ export function IntegrationsConfigurePanel({
               <Input
                 name="indexnow.keyLocation"
                 defaultValue={indexnow.keyLocation ?? ""}
-                placeholder="https://example.com/key.txt"
+                placeholder="Leave blank, or https://brt-me.com/your-key.txt"
               />
+              <p className="text-muted-foreground text-sm">
+                Leave blank. The app serves the key at https://brt-me.com/{"{key}"}.txt — do not paste a Media
+                upload URL. IndexNow rejects files that are not named exactly {"{your-key}"}.txt.{" "}
+                <Link href="/admin/help#topic-seo-integrations" className="text-primary underline underline-offset-2">
+                  Setup help
+                </Link>
+              </p>
             </div>
+          </div>
+        </ProviderCard>
+      </div>
+
+      <div className={cn(providerTab !== "google-indexing" && "hidden")}>
+        <ProviderCard
+          id="google_indexing"
+          label="Google Indexing API"
+          description="Notify Google when priority URLs are published or updated. Requires a Google Cloud service account with the Indexing API enabled and Owner access in Search Console."
+          config={googleIndexing}
+        >
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Step-by-step setup is in{" "}
+              <Link href="/admin/help?page=seo-integrations&tab=configure" className="text-primary underline underline-offset-2">
+                Help → Search Engines
+              </Link>
+              .
+            </p>
+            <GoogleIndexingKeyField
+              hasSavedKey={Boolean(googleIndexing.hasServiceAccountJson)}
+              value={googleIndexingJson}
+              onChange={setGoogleIndexingJson}
+            />
           </div>
         </ProviderCard>
       </div>
@@ -310,6 +387,12 @@ export function IntegrationsConfigurePanel({
           {savePending ? "Saving…" : "Save integrations"}
         </Button>
       </div>
+
+      {transportError ? (
+        <p className="text-sm text-destructive" role="alert">
+          {transportError}
+        </p>
+      ) : null}
 
       {saveState && !saveState.ok ? (
         <p className="text-sm text-destructive" role="alert">

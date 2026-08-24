@@ -19,7 +19,7 @@ import {
   patchCompositionRegion,
   updateCompositionBlock,
 } from "@/features/layout-engine/composition-editor-helpers";
-import { isArabicLocale } from "@/shared/layout/direction/direction-resolver";
+import { useAdminEditingLocale } from "@/features/translation/hooks/use-admin-editing-locale";
 import { BlockEditor, BlockEditorHistory } from "@/features/builder/components/block-editor";
 import { PageLookAndFeelPanel } from "@/features/cms/components/page-look-and-feel-panel";
 import type { ContentCollection, ContentItem, ContentType } from "@prisma/client";
@@ -31,7 +31,18 @@ import {
   restoreContentItemRevision,
 } from "@/features/content/actions";
 import { resolveFieldSchema } from "@/features/content/content-type.registry";
+import {
+  contentItemPublicPath,
+  contentPublicSegment,
+} from "@/features/content/content-admin-paths";
 import { ContentItemDetailsSidebar } from "@/features/content/admin/content-item-details-sidebar";
+import {
+  buildContentItemLocaleFields,
+} from "@/features/content/admin/content-editor-form-data";
+import {
+  ContentItemLocalizedAttributeHiddens,
+  ContentItemLocalizedFormHiddens,
+} from "@/features/content/admin/content-item-localized-hiddens";
 import { ContentMediaPanel } from "@/features/content/admin/content-media-panel";
 import { ContentItemSeoPanel } from "@/features/content/admin/content-item-seo-panel";
 import { mergeDisplaySettings, type DisplaySettings } from "@/schemas/catalog/display-settings";
@@ -59,14 +70,16 @@ import type {
 } from "@/features/testimonials/types";
 import type {
   CollectionBuilderOption,
+  OrderingProfileBuilderOption,
   ProductBuilderOption,
 } from "@/features/builder/blocks/commerce/product-blocks/types";
 import type { BrandBuilderOption } from "@/features/builder/blocks/commerce/commerce-showcase/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CitationSourcesField } from "@/features/cms/components/citation-sources-field";
+import { EditorialDisplayFields } from "@/features/cms/components/editorial-display-fields";
 import type { CitationSource } from "@/schemas/editorial-metadata";
-import { parseCitationSources } from "@/schemas/editorial-metadata";
+import { parseCitationSources, parseShowFlag } from "@/schemas/editorial-metadata";
 import type { PostAuthor } from "@prisma/client";
 import {
   Card,
@@ -125,6 +138,7 @@ type Props = {
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
   collectionOptions?: CollectionBuilderOption[];
   productOptions?: ProductBuilderOption[];
+  orderingProfileOptions?: OrderingProfileBuilderOption[];
   brandOptions?: BrandBuilderOption[];
   initialRevisions?: ContentItemRevision[];
   authors?: PostAuthor[];
@@ -149,6 +163,7 @@ export function ContentEditPage({
   testimonialCollectionOptions = [],
   collectionOptions = [],
   productOptions = [],
+  orderingProfileOptions = [],
   brandOptions = [],
   initialRevisions = [],
   authors = [],
@@ -203,6 +218,8 @@ export function ContentEditPage({
   const [authorId, setAuthorId] = useState(
     (item as (ItemWithType & { authorId?: string | null }) | undefined)?.authorId ?? ""
   );
+  const [showAuthor, setShowAuthor] = useState(parseShowFlag(composition.metadata?.showAuthor));
+  const [showPublishedAt, setShowPublishedAt] = useState(parseShowFlag(composition.metadata?.showPublishedAt));
   const [sources, setSources] = useState<CitationSource[]>(() =>
     parseCitationSources(
       Array.isArray((item as (ItemWithType & { sources?: unknown }) | undefined)?.sources)
@@ -405,7 +422,36 @@ export function ContentEditPage({
 
   const [pending, startTransition] = useTransition();
   const fields = resolveFieldSchema(contentType, contentType.slug);
-  const attributes = (item?.attributes ?? {}) as Record<string, unknown>;
+  const [attributes, setAttributes] = useState<Record<string, unknown>>(
+    () => ({ ...((item?.attributes ?? {}) as Record<string, unknown>) }),
+  );
+  const [localeFields, setLocaleFields] = useState(() =>
+    buildContentItemLocaleFields(
+      initialItemTranslations,
+      locales,
+      undefined,
+      item as unknown as Record<string, unknown> | undefined,
+    ),
+  );
+
+  const patchLocaleField = useCallback(
+    (fieldKey: string, localeCode: string, value: string) => {
+      markUnsaved();
+      setLocaleFields((prev) => ({
+        ...prev,
+        [fieldKey]: { ...prev[fieldKey], [localeCode]: value },
+      }));
+    },
+    [markUnsaved],
+  );
+
+  const patchAttribute = useCallback(
+    (key: string, value: unknown) => {
+      markUnsaved();
+      setAttributes((prev) => ({ ...prev, [key]: value }));
+    },
+    [markUnsaved],
+  );
 
   const handleDuplicate = () => {
     if (!item) return;
@@ -416,12 +462,14 @@ export function ContentEditPage({
 
   const defaultLocale = locales.find((l) => l.isDefault) ?? locales[0];
   const defaultLocalePrefix = defaultLocale?.urlPrefix ?? "en";
+  const { isRtl } = useAdminEditingLocale();
 
-  const publicItemPath = (() => {
-    if (!contentType.routePrefix) return undefined;
-    if (item?.slug) return `/${contentType.routePrefix}/${item.slug}`;
-    return `/${contentType.routePrefix}`;
-  })();
+  const publicSegment = contentPublicSegment(contentType.routePrefix, contentType.slug);
+  const publicItemPath = contentItemPublicPath(
+    contentType.routePrefix,
+    contentType.slug,
+    item?.slug,
+  ) ?? undefined;
 
   const previewHref = publicItemPath
     ? publicItemPath.startsWith("http")
@@ -473,20 +521,22 @@ export function ContentEditPage({
             collections={collections}
             contentType={contentType}
             locales={locales}
-            itemTranslations={initialItemTranslations}
+            localeFields={localeFields}
+            onLocaleFieldChange={patchLocaleField}
+            onAttributeChange={patchAttribute}
             displaySettings={displaySettings}
             onDisplaySettingsChange={(next) => {
               markUnsaved();
               setDisplaySettings((prev) => ({ ...prev, ...next }));
             }}
           />
-          {item?.id && contentType.routePrefix && item.slug ? (
+          {item?.id && publicSegment && item.slug ? (
             <div className="mt-6 pt-4 border-t">
               <LocalizedSlugEditor
                 entityType="ContentItem"
                 entityId={item.id}
                 defaultSlug={item.slug}
-                pathPrefix={`/${contentType.routePrefix}`}
+                pathPrefix={`/${publicSegment}`}
               />
             </div>
           ) : null}
@@ -496,8 +546,6 @@ export function ContentEditPage({
 
     // --- Content tab: BlockEditor ---
     if (tab === "blocks" && item) {
-      const defaultLocaleCode = defaultLocale?.code ?? "en";
-      const isRtl = isArabicLocale(defaultLocaleCode);
       const activeRegions = getEditableRegions(composition);
 
       return (
@@ -544,6 +592,7 @@ export function ContentEditPage({
             testimonialCollectionOptions={testimonialCollectionOptions}
             collectionOptions={collectionOptions}
             productOptions={productOptions}
+            orderingProfileOptions={orderingProfileOptions}
             brandOptions={brandOptions}
           />
         </div>
@@ -575,14 +624,10 @@ export function ContentEditPage({
 
     // --- Page Layout tab ---
     if (tab === "layout" && item) {
-      const defaultLocaleCode = defaultLocale?.code ?? "en";
-      const isRtl = isArabicLocale(defaultLocaleCode);
-
       return (
         <div className="space-y-6">
           <PageLayoutPanel
             composition={composition}
-            dir={isRtl ? "rtl" : "ltr"}
             onChange={(next) => {
               markUnsaved();
               setComposition(next);
@@ -615,7 +660,17 @@ export function ContentEditPage({
         <Card>
           <CardHeader>
             <CardTitle>Page preview</CardTitle>
-            <CardDescription>Preview how your content blocks will look across devices.</CardDescription>
+            <CardDescription>
+              Preview how your content blocks will look across devices.
+              {previewHref ? (
+                <>
+                  {" "}
+                  <Link href={previewHref} target="_blank" className="text-primary underline-offset-2 hover:underline">
+                    Open live page
+                  </Link>
+                </>
+              ) : null}
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <CompositionDevicePreview
@@ -738,6 +793,12 @@ export function ContentEditPage({
                   </select>
                 </div>
               )}
+              <EditorialDisplayFields
+                showAuthor={showAuthor}
+                showPublishedAt={showPublishedAt}
+                onShowAuthorChange={setShowAuthor}
+                onShowPublishedAtChange={setShowPublishedAt}
+              />
               <label className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"
@@ -833,6 +894,12 @@ export function ContentEditPage({
         readOnly
       />
       <BlockTranslationsHiddenInput />
+      <ContentItemLocalizedFormHiddens localeFields={localeFields} locales={locales} />
+      <ContentItemLocalizedAttributeHiddens
+        attributes={attributes}
+        locales={locales}
+        localizedFieldKeys={fields.filter((field) => field.localized).map((field) => field.key)}
+      />
       <input
         type="hidden"
         name="displaySettings"
@@ -846,6 +913,8 @@ export function ContentEditPage({
       <input type="hidden" name="selectedBlockId" value={selectedBlockId ?? ""} readOnly />
       <input type="hidden" name="editorInspector" value={inspectorTab} readOnly />
       <input type="hidden" name="authorId" value={authorId} readOnly />
+      <input type="hidden" name="showAuthor" value={String(showAuthor)} readOnly />
+      <input type="hidden" name="showPublishedAt" value={String(showPublishedAt)} readOnly />
       <input type="hidden" name="sources" value={JSON.stringify(sources)} readOnly />
       {displayActiveTab === "history" ? (
         <input type="hidden" name="revisionMessage" value={revisionMessage} readOnly />
@@ -894,7 +963,7 @@ export function ContentEditPage({
           : undefined
       }
       onPublish={!shouldSuppressPageActions && item ? handlePublish : undefined}
-      canPreview={!shouldSuppressPageActions && item?.status === "PUBLISHED"}
+      canPreview={!shouldSuppressPageActions && Boolean(previewHref) && item?.status === "PUBLISHED"}
       headerActions={
         item ? (
           <div className="flex flex-wrap items-center gap-2">
@@ -960,6 +1029,12 @@ export function ContentEditPage({
               readOnly
             />
             <BlockTranslationsHiddenInput />
+            <ContentItemLocalizedFormHiddens localeFields={localeFields} locales={locales} />
+            <ContentItemLocalizedAttributeHiddens
+              attributes={attributes}
+              locales={locales}
+              localizedFieldKeys={fields.filter((field) => field.localized).map((field) => field.key)}
+            />
             <input
               type="hidden"
               name="displaySettings"

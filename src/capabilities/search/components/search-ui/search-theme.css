@@ -212,23 +212,29 @@
   );
 }
 
-/* Panel width modifiers (appearance.panelWidth) */
+/* Panel width modifiers — root and panel may be the same element (modal) or nested (page). */
+.sm-search-root--width-sm.sm-search-panel:not(.sm-search-panel--drawer),
 .sm-search-root--width-sm .sm-search-panel:not(.sm-search-panel--drawer) {
-  width: min(96vw, 32rem);
+  width: min(calc(100vw - 2.5rem), 32rem);
 }
 
+.sm-search-root--width-md.sm-search-panel:not(.sm-search-panel--drawer),
 .sm-search-root--width-md .sm-search-panel:not(.sm-search-panel--drawer) {
-  width: min(96vw, 36rem);
+  width: min(calc(100vw - 2.5rem), 36rem);
 }
 
+.sm-search-root--width-lg.sm-search-panel:not(.sm-search-panel--drawer),
 .sm-search-root--width-lg .sm-search-panel:not(.sm-search-panel--drawer) {
-  width: min(96vw, 42rem);
-  max-height: min(88vh, 720px);
+  width: min(calc(100vw - 2.5rem), 42rem);
+  height: min(72vh, 40rem);
+  max-height: calc(100dvh - 2.5rem);
 }
 
+.sm-search-root--width-xl.sm-search-panel:not(.sm-search-panel--drawer),
 .sm-search-root--width-xl .sm-search-panel:not(.sm-search-panel--drawer) {
-  width: min(96vw, 52rem);
-  max-height: min(90vh, 780px);
+  width: min(calc(100vw - 2.5rem), 52rem);
+  height: min(78vh, 45rem);
+  max-height: calc(100dvh - 2.5rem);
 }
 
 /* Filter chips — less transparent on dark pages */

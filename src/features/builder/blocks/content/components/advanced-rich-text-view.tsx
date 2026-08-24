@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import type { maxWidthSchema } from "@/features/builder/blocks/content/schemas/content-blocks";
 import type { z } from "zod";
 import { adaptRichTextHtmlColors } from "@/features/builder/blocks/content/lib/adapt-rich-text-colors";
+import { sanitizeHtml } from "@/lib/sanitize-html";
 import "./advanced-rich-text.css";
 
 type MaxWidth = z.infer<typeof maxWidthSchema>;
@@ -22,7 +23,7 @@ type Props = {
 export function AdvancedRichTextView({ html, maxWidth = "reading", prose = true }: Props) {
   if (!html.trim()) return null;
 
-  const adapted = adaptRichTextHtmlColors(html);
+  const adapted = adaptRichTextHtmlColors(sanitizeHtml(html));
 
   return (
     <div

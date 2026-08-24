@@ -50,12 +50,14 @@ export async function MegaCollectionBlockRenderer({
       collectionSlug: p.centerCollectionSlug,
       limit: p.centerLimit,
       sortBy: p.centerSortBy,
+      orderingProfileId: p.centerOrderingProfileId,
     });
     total = records.length;
   } else if (navKey) {
     const result = await resolveProductsForShowcaseTab(locale, "category", navKey, {
       limit: p.centerLimit,
       sortBy: p.centerSortBy,
+      orderingProfileId: p.centerOrderingProfileId,
     });
     records = result.records;
     total = result.total;

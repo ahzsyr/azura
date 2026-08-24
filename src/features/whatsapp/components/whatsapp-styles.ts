@@ -2,7 +2,24 @@ import type { CSSProperties } from "react";
 import type {
   WhatsAppFabSettings,
   WhatsAppPageButtonSettings,
+  WhatsAppPosition,
 } from "@/features/whatsapp/whatsapp.schema";
+
+export type LayoutDir = "ltr" | "rtl";
+
+/**
+ * Map logical start/end to a physical side.
+ * `position: fixed` + inset-inline-* often follows the viewport/html direction,
+ * so callers should apply left/right from this helper when switching RTL/LTR.
+ */
+export function resolveFabPhysicalSide(
+  position: WhatsAppPosition,
+  dir: LayoutDir = "ltr",
+): "left" | "right" {
+  const isEnd = position.endsWith("end");
+  if (dir === "rtl") return isEnd ? "left" : "right";
+  return isEnd ? "right" : "left";
+}
 
 const FAB_SIZE_CLASS: Record<WhatsAppFabSettings["size"], string> = {
   sm: "wa-fab-root--size-sm",
@@ -14,25 +31,33 @@ export function getFabSizeClass(size: WhatsAppFabSettings["size"]): string {
   return FAB_SIZE_CLASS[size];
 }
 
-export function getFabPositionStyle(settings: WhatsAppFabSettings): CSSProperties {
+export function getFabPositionStyle(
+  settings: WhatsAppFabSettings,
+  dir: LayoutDir = "ltr",
+): CSSProperties {
   const offset = settings.offsetBottom ?? 28;
   const side = settings.offsetSide ?? 28;
+  const physicalSide = resolveFabPhysicalSide(settings.position, dir);
+  const sideInset = physicalSide === "right" ? "right" : "left";
   const style: CSSProperties = {
     ["--wa-offset-bottom" as string]: `${offset}px`,
     ["--wa-offset-side" as string]: `${side}px`,
+    insetInlineStart: "auto",
+    insetInlineEnd: "auto",
+    left: "auto",
+    right: "auto",
   };
 
   if (settings.position.startsWith("bottom")) {
     style.bottom = `calc(var(--wa-offset-bottom) + env(safe-area-inset-bottom, 0px))`;
+    style.top = "auto";
   } else {
     style.top = `calc(var(--wa-offset-bottom) + env(safe-area-inset-top, 0px))`;
+    style.bottom = "auto";
   }
 
-  if (settings.position.endsWith("start")) {
-    style.insetInlineStart = `calc(var(--wa-offset-side) + env(safe-area-inset-left, 0px))`;
-  } else {
-    style.insetInlineEnd = `calc(var(--wa-offset-side) + env(safe-area-inset-right, 0px))`;
-  }
+  style[physicalSide] =
+    `calc(var(--wa-offset-side) + env(safe-area-inset-${sideInset}, 0px))`;
 
   return style;
 }

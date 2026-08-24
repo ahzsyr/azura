@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import type {
@@ -17,12 +17,47 @@ import {
   menuAppearanceDataAttributes,
   menuAppearanceStyle,
 } from "@/features/navigation/header-menu-appearance";
-import { NAV_MOBILE_MQ } from "@/features/navigation/nav-breakpoints";
+import { NAV_MOBILE_MQ, NAV_MOBILE_NARROW_MAX_PX } from "@/features/navigation/nav-breakpoints";
 import { getItemHref } from "@/features/navigation/resolve-href";
 import type { HeaderRendererSurface } from "../HeaderRenderer";
 import { HeaderActions } from "../HeaderActions";
+import { NavMenuGlyph } from "../NavMenuGlyph";
+import type { NavIconVisibility } from "@/features/navigation/nav-icon-visibility";
+import {
+  navIconVisibilityDataAttributes,
+  resolveNavIconBreakpoint,
+  shouldShowNavIconsAtBreakpoint,
+} from "@/features/navigation/nav-icon-visibility";
 
 type MnavAnimState = "closed" | "open" | "closing";
+
+function subscribeViewportWidth(onChange: () => void) {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener("resize", onChange);
+  window.addEventListener("orientationchange", onChange);
+  return () => {
+    window.removeEventListener("resize", onChange);
+    window.removeEventListener("orientationchange", onChange);
+  };
+}
+
+function getViewportWidthSnapshot() {
+  return typeof window === "undefined" ? NAV_MOBILE_NARROW_MAX_PX : window.innerWidth;
+}
+
+function getViewportWidthServerSnapshot() {
+  return NAV_MOBILE_NARROW_MAX_PX;
+}
+
+function useViewportShowNavIcons(visibility: NavIconVisibility | undefined, fallback: boolean) {
+  const width = useSyncExternalStore(
+    subscribeViewportWidth,
+    getViewportWidthSnapshot,
+    getViewportWidthServerSnapshot,
+  );
+  if (!visibility) return fallback;
+  return shouldShowNavIconsAtBreakpoint(visibility, resolveNavIconBreakpoint(width));
+}
 
 interface Props {
   mobileType: MobileNavType;
@@ -37,6 +72,8 @@ interface Props {
   mobileNavDensity?: MobileNavDensity;
   menuAppearance?: ResolvedMobileMenuAppearance;
   showIcons?: boolean;
+  /** Per-breakpoint icon visibility attrs for CSS (portal is outside header-root). */
+  iconVisibility?: NavIconVisibility;
   showArrows?: boolean;
 }
 
@@ -65,10 +102,10 @@ function MnavIconSlot({
   fallbackIcon?: string;
 }) {
   if (!showIcons) return null;
-  const glyph = icon ?? fallbackIcon;
+  const glyph = icon?.trim() ? icon : fallbackIcon;
   return (
     <span className="mnav-row__icon" aria-hidden>
-      <i className={`fas ${glyph}`} />
+      <NavMenuGlyph icon={glyph} className="h-4 w-4" />
     </span>
   );
 }
@@ -418,6 +455,7 @@ type PortalShellProps = {
   menuAppearance?: ResolvedMobileMenuAppearance;
   animState: MnavAnimState;
   showIcons: boolean;
+  iconVisibility?: NavIconVisibility;
   showArrows: boolean;
 };
 
@@ -430,9 +468,11 @@ function MobileNavPortalShell({
   menuAppearance,
   animState,
   showIcons,
+  iconVisibility,
   showArrows,
 }: PortalShellProps) {
   const menuAttrs = menuAppearance ? menuAppearanceDataAttributes(menuAppearance) : {};
+  const iconAttrs = iconVisibility ? navIconVisibilityDataAttributes(iconVisibility) : {};
   return (
     <div
       className="mnav-portal-root"
@@ -444,6 +484,7 @@ function MobileNavPortalShell({
       data-mobile-nav-show-arrows={showArrows ? "true" : "false"}
       data-header-surface={surface}
       style={menuAppearance ? menuAppearanceStyle(menuAppearance) : undefined}
+      {...iconAttrs}
       {...menuAttrs}
     >
       {children}
@@ -464,8 +505,11 @@ export function MobileMenuPreview({
   mobileNavDensity = "comfortable",
   menuAppearance,
   showIcons = true,
+  iconVisibility,
   showArrows = true,
 }: Props) {
+  const viewportShowIcons = useViewportShowNavIcons(iconVisibility, showIcons);
+  const effectiveShowIcons = showIcons && viewportShowIcons;
   const mobileItems = items.filter(
     (item) => item.placement === "both" || item.placement === "mobile",
   );
@@ -557,12 +601,14 @@ export function MobileMenuPreview({
   };
 
   if (mobileType === "bottom") {
+    const iconAttrs = iconVisibility ? navIconVisibilityDataAttributes(iconVisibility) : {};
     return (
       <nav
         className="mnav-bottom-bar"
         data-mobile-type="bottom"
-        data-mobile-nav-show-icons={showIcons ? "true" : "false"}
+        data-mobile-nav-show-icons={effectiveShowIcons ? "true" : "false"}
         aria-label="Navigation"
+        {...iconAttrs}
       >
         {mobileItems.slice(0, 5).map((item) => (
           <a
@@ -571,7 +617,7 @@ export function MobileMenuPreview({
             className="mnav-bottom-item"
             onClick={surface === "preview" ? (e) => e.preventDefault() : undefined}
           >
-            <MnavIconSlot icon={item.icon} showIcons={showIcons} fallbackIcon="fa-circle" />
+            <MnavIconSlot icon={item.icon} showIcons={effectiveShowIcons} fallbackIcon="fa-circle" />
             <span className="mnav-bottom-item__label">{item.label}</span>
           </a>
         ))}
@@ -613,7 +659,8 @@ export function MobileMenuPreview({
               surface={surface}
               menuAppearance={menuAppearance}
               animState={animState}
-              showIcons={showIcons}
+              showIcons={effectiveShowIcons}
+              iconVisibility={iconVisibility}
               showArrows={showArrows}
             >
               <MobileNavOverlay
@@ -624,7 +671,7 @@ export function MobileMenuPreview({
                 onClose={closeMenu}
                 localeCode={localeCode}
                 surface={surface}
-                showIcons={showIcons}
+                showIcons={effectiveShowIcons}
                 showArrows={showArrows}
               />
             </MobileNavPortalShell>,

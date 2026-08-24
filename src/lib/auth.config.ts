@@ -8,7 +8,7 @@ export const authConfig = {
   secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
   session: { strategy: "jwt" },
   pages: {
-    signIn: "/admin/login",
+    signIn: "/account/login",
   },
   providers: [],
   callbacks: {
@@ -17,6 +17,12 @@ export const authConfig = {
         token.role = user.role;
         token.id = user.id;
         token.email = user.email ?? undefined;
+        token.sessionVersion =
+          (user as { sessionVersion?: number }).sessionVersion ?? 0;
+        token.mustChangePassword = Boolean(
+          (user as { mustChangePassword?: boolean }).mustChangePassword,
+        );
+        token.totpEnabled = Boolean((user as { totpEnabled?: boolean }).totpEnabled);
       }
       return token;
     },
@@ -24,6 +30,11 @@ export const authConfig = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
+        (session.user as { sessionVersion?: number }).sessionVersion =
+          typeof token.sessionVersion === "number" ? token.sessionVersion : 0;
+        (session.user as { mustChangePassword?: boolean }).mustChangePassword =
+          Boolean(token.mustChangePassword);
+        (session.user as { totpEnabled?: boolean }).totpEnabled = Boolean(token.totpEnabled);
         if (token.email && !session.user.email) {
           session.user.email = token.email as string;
         }

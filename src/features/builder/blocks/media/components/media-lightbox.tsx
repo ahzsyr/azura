@@ -88,7 +88,7 @@ export function MediaLightbox({ items, openIndex, onClose }: Props) {
           <div className={cn("relative flex flex-1 items-center justify-center p-4", isVideo ? "aspect-video min-h-[40vh]" : "min-h-[50vh]")}>
             {isVideo ? (
               <div className="h-full w-full max-h-[80vh]">
-                <EmbedVideoPlayer url={videoSrc} title={item.alt ?? "Video"} controls autoplay />
+                <EmbedVideoPlayer url={videoSrc} title={item.alt ?? "Video"} controls autoplay objectFit="contain" />
               </div>
             ) : (
               <div className="relative h-[70vh] w-full max-w-4xl">

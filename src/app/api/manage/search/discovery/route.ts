@@ -1,3 +1,13 @@
+import { defineApiRoute } from "@/lib/api-auth";
 import { createSearchDiscoveryRoute } from "@/capabilities/search/api/search-discovery-route";
 
-export const GET = createSearchDiscoveryRoute({ audience: "admin", requireAuth: true });
+const discoveryHandler = createSearchDiscoveryRoute({
+  audience: "admin",
+  requireAuth: false,
+});
+
+export const GET = defineApiRoute({
+  access: "admin",
+  verifySessionVersion: false,
+  handler: async () => discoveryHandler(),
+});

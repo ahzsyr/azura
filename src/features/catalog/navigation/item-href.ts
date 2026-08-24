@@ -84,7 +84,10 @@ export function buildCatalogNavItemHref(input: BuildCatalogNavItemHrefInput): st
 
   if (action === "SEARCH") {
     const q = item.searchQuery?.trim() ?? "";
-    const next = mergeListingFilterPartial(base, q ? { q } : {});
+    const next = mergeListingFilterPartial(base, {
+      ...(q ? { q } : {}),
+      ...(item.searchExact === true ? { qExact: true } : {}),
+    });
     return searchParamsFromFilterState(next, basePath);
   }
 

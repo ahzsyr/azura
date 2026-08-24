@@ -92,12 +92,12 @@ export function GoogleSearchConsolePanel({
 
   useEffect(() => {
     if (savePending) {
+      prevSavePending.current = true;
       setSaveStatus("saving");
       return;
     }
-    const justFinishedSave = prevSavePending.current && !savePending;
-    prevSavePending.current = savePending;
-    if (!justFinishedSave) return;
+    if (!prevSavePending.current) return;
+    prevSavePending.current = false;
 
     if (saveState?.ok) {
       markSaved();
@@ -145,7 +145,7 @@ export function GoogleSearchConsolePanel({
 
   const setupHint = useMemo(() => {
     if (googleOAuthStatus === "missing_client_id") {
-      return "Google OAuth client ID is required. Save an OAuth client ID below or set GOOGLE_SEARCH_CONSOLE_CLIENT_ID in your environment.";
+      return "Google OAuth client ID is required. Save Client ID and Client Secret in Admin → SEO → Google.";
     }
     return null;
   }, [googleOAuthStatus]);
@@ -392,15 +392,6 @@ export function GoogleSearchConsolePanel({
                   placeholder={
                     google.hasRefreshToken ? "Leave blank to keep saved refresh token" : "Google OAuth refresh token"
                   }
-                />
-              </div>
-              <div className="space-y-2 md:col-span-2">
-                <Label>Service account JSON {google.hasServiceAccountJson ? "(saved)" : ""}</Label>
-                <Textarea
-                  name="google.serviceAccountJson"
-                  rows={4}
-                  className="font-mono text-xs"
-                  placeholder="Reserved for service-account based auth automation"
                 />
               </div>
               <div className="space-y-2 md:col-span-2">

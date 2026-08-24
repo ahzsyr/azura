@@ -15,11 +15,15 @@ admin:
   items:
     dashboard: [dashboard]
     content:
+      - content-builder-overview
       - pages
       - blog
       - knowledge-base
       - gallery
       - faqs
+      - policies
+      - terms
+      - content-types
     media: [media-library]
     marketing: [form-templates, form-submissions, inquiries, newsletter]
     design: [studio, header, footer, theme, announcement-bar, whatsapp]

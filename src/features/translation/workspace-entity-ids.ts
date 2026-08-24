@@ -24,6 +24,22 @@ export function makeMegaMenuPanelEntityId(menuKey: string, itemId: string): stri
     .slice(0, 32);
 }
 
+/** Stable entity id for a v2 mega menu navigation rail item. */
+export function makeMegaMenuNavItemEntityId(menuKey: string, itemId: string, navItemId: string): string {
+  return createHash("sha256")
+    .update(`MegaMenuNavItem\0${menuKey}\0${itemId}\0${navItemId}`)
+    .digest("hex")
+    .slice(0, 32);
+}
+
+/** Stable entity id for a v2 mega menu panel label / column heading. */
+export function makeMegaMenuV2PanelEntityId(menuKey: string, itemId: string, panelId: string): string {
+  return createHash("sha256")
+    .update(`MegaMenuV2Panel\0${menuKey}\0${itemId}\0${panelId}`)
+    .digest("hex")
+    .slice(0, 32);
+}
+
 /** Stable entity id for a menu item (fits EntityTranslation.entityId VarChar(36)). */
 export function makeMenuItemEntityId(menuKey: string, itemId: string): string {
   return createHash("sha256")

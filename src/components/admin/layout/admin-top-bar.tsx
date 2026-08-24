@@ -1,8 +1,7 @@
 "use client";
 
 import { useCallback, Suspense } from "react";
-import { useAdminTheme } from "./admin-theme-provider";
-import { ThemeModeToggle } from "@/components/theme/theme-mode-toggle";
+import Link from "next/link";
 import {
   Eye,
   Loader2,
@@ -19,12 +18,29 @@ import { AdminBreadcrumbs } from "./admin-breadcrumbs";
 import { AdminMobileMenuButton } from "./admin-sidebar";
 import { AdminLocaleSwitcher } from "@/components/admin/admin-locale-switcher";
 import { BackToHelpLink } from "@/features/help/components/back-to-help-link";
-import { ContextualHelpButton } from "@/features/help/components/contextual-help-button";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { SITE_PRODUCT_NAME, getProductVersion } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
+
+function AdminBrand() {
+  return (
+    <Link
+      href="/admin"
+      className="flex min-w-0 shrink-0 flex-col leading-tight"
+      aria-label={`${SITE_PRODUCT_NAME} admin home`}
+    >
+      <span className="font-heading text-base font-bold tracking-tight text-foreground">
+        {SITE_PRODUCT_NAME}
+      </span>
+      <span className="text-[11px] text-muted-foreground">
+        Admin <span className="text-muted-foreground/70">· v{getProductVersion()}</span>
+      </span>
+    </Link>
+  );
+}
 
 function SaveStatusIndicator() {
   const saveStatus = useAdminUiStore((s) => s.saveStatus);
@@ -110,7 +126,6 @@ export function AdminTopBar() {
   const markSaved = useAdminUiStore((s) => s.markSaved);
   const markPublished = useAdminUiStore((s) => s.markPublished);
   const consumePendingDirty = useAdminUiStore((s) => s.consumePendingDirty);
-  const { resolvedTheme } = useAdminTheme();
 
   const handleSave = useCallback(async () => {
     if (!pageActions.onSave || saveStatus === "saving") return;
@@ -199,35 +214,27 @@ export function AdminTopBar() {
 
   return (
     <TooltipProvider delayDuration={300}>
-      <header className="admin-liquid-glass sticky top-0 z-30 flex h-12 shrink-0 items-center gap-3 border-b px-4 shadow-sm">
+      <header className="admin-liquid-glass sticky top-0 z-40 flex h-14 shrink-0 items-center gap-3 border-b px-4 shadow-sm">
         <AdminMobileMenuButton />
+        <AdminBrand />
+
+        <Separator orientation="vertical" className="hidden h-8 md:block" />
 
         <div className="hidden min-w-0 md:block">
           <AdminBreadcrumbs />
         </div>
 
-        <div className="flex min-w-0 flex-1 items-center justify-center md:max-w-sm lg:max-w-md">
+        <div className="flex min-w-0 flex-1 items-center justify-center px-1 md:max-w-sm lg:max-w-md">
           <AdminSearchCommand />
         </div>
 
-        <SaveStatusIndicator />
-
-        <AdminLocaleSwitcher className="hidden sm:flex" />
-
-        <Suspense fallback={null}>
-          <BackToHelpLink />
-        </Suspense>
-
-        <ContextualHelpButton />
-
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <span className="hidden sm:inline-flex">
-              <ThemeModeToggle size="sm" />
-            </span>
-          </TooltipTrigger>
-          <TooltipContent>Toggle {resolvedTheme === "dark" ? "light" : "dark"} mode</TooltipContent>
-        </Tooltip>
+        <div className="flex shrink-0 items-center gap-2">
+          <SaveStatusIndicator />
+          <AdminLocaleSwitcher className="hidden sm:flex" />
+          <Suspense fallback={null}>
+            <BackToHelpLink />
+          </Suspense>
+        </div>
 
         <Separator orientation="vertical" className="hidden h-6 lg:block" />
 

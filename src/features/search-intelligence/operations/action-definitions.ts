@@ -52,6 +52,13 @@ export const OPERATION_DEFINITIONS: OperationDefinition[] = [
     description: "Inspect indexing and rich-result status.",
   },
   {
+    id: "seo.submit_priority_pages",
+    label: "Submit Priority Pages",
+    category: "google",
+    risk: "safe",
+    description: "Repair main-page robots metadata and submit priority URLs to IndexNow.",
+  },
+  {
     id: "page.serp_preview",
     label: "SERP Preview",
     category: "page",

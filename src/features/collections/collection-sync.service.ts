@@ -107,6 +107,7 @@ function collectionToLocalized(c: Collection): LocalizedCollection {
     conditions: c.conditions,
     cardTemplate: c.cardTemplate,
     sortBy: c.sortBy,
+    pageLayoutTemplate: c.pageLayoutTemplate ?? null,
     visible: c.visible !== false,
     showInNav: c.showInNav,
     featured: c.featured,
@@ -492,7 +493,7 @@ export async function writeLocaleCollectionFiles(
         seo: {
           metaTitle: col.name,
           metaDescription: col.description?.slice(0, 160) || "",
-          canonicalPath: `/collections/${col.slug}`,
+          canonicalPath: `/categories/${col.slug}`,
         },
       };
       await writeJson(filePath, localeData);
@@ -520,7 +521,7 @@ export async function writeLocaleCollectionFilesForImport(collections: Collectio
           seo: {
             metaTitle: col.name,
             metaDescription: col.description?.slice(0, 160) || "",
-            canonicalPath: `/collections/${col.slug}`,
+            canonicalPath: `/categories/${col.slug}`,
           },
         };
         try {

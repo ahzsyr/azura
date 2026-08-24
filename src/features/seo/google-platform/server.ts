@@ -20,8 +20,6 @@ export async function loadGooglePlatformAdminData(options?: { public?: boolean }
     tracking: tracking as never,
     env: {
       gaId: process.env.NEXT_PUBLIC_GA_ID,
-      oauthClientId: process.env.GOOGLE_SEARCH_CONSOLE_CLIENT_ID,
-      oauthClientSecret: process.env.GOOGLE_SEARCH_CONSOLE_CLIENT_SECRET,
     },
   });
 

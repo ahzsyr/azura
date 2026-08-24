@@ -10,10 +10,16 @@ import {
   AlignRight,
   ChevronDown,
   List,
+  Type,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { runWithRestoredSelection } from "@/features/builder/blocks/content/admin/lib/advanced-rich-text-commands";
+import {
+  FORMAT_OPTIONS,
+  applyFormat,
+  getActiveFormat,
+} from "@/features/builder/blocks/content/admin/advanced-rich-text-toolbar-groups";
 
 type SavedSelection = { from: number; to: number } | null;
 
@@ -106,6 +112,33 @@ export function ToolbarMenuItem({
     >
       {label}
     </button>
+  );
+}
+
+export function FormatMenu({ editor }: { editor: Editor }) {
+  const current = getActiveFormat(editor);
+  const active = FORMAT_OPTIONS.find((option) => option.value === current);
+
+  return (
+    <ToolbarPopoverMenu
+      label={active?.label ?? "Paragraph"}
+      icon={Type}
+      editor={editor}
+    >
+      {(close, saved) =>
+        FORMAT_OPTIONS.map((option) => (
+          <ToolbarMenuItem
+            key={option.value}
+            label={option.label}
+            active={option.value === current}
+            onClick={() => {
+              runWithRestoredSelection(editor, saved, (ed) => applyFormat(ed, option.value));
+              close();
+            }}
+          />
+        ))
+      }
+    </ToolbarPopoverMenu>
   );
 }
 

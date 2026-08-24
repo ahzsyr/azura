@@ -25,6 +25,7 @@ import {
 } from "@/features/translation/block-translation";
 import type { EntityTranslationInput } from "@/features/translation/types";
 import type { BlockNode, PageBlocks } from "@/types/builder";
+import { getBlockSettings } from "@/features/builder/instance/block-instance";
 
 type BlockTranslationContextValue = {
   locales: PublicLocale[];
@@ -119,14 +120,16 @@ export function BlockTranslationProvider({
   const setFieldValue = useCallback(
     (blockId: string, field: string, localeCode: string, value: string) => {
       const entityId = getEntityId(blockId);
-      if (!entityId) return;
-      const key = buildTranslationOverrideKey(entityId, field, localeCode);
-      setOverrides((prev) => {
-        const next = new Map(prev);
-        // Keep empty strings so clears are serialized and can delete stale EntityTranslations.
-        next.set(key, value);
-        return next;
-      });
+      if (entityId) {
+        const key = buildTranslationOverrideKey(entityId, field, localeCode);
+        setOverrides((prev) => {
+          const next = new Map(prev);
+          // Keep empty strings so clears are serialized and can delete stale EntityTranslations.
+          next.set(key, value);
+          return next;
+        });
+      }
+      // New pages have no parent id yet — still dual-write props so fields stay editable.
       onLegacyPropUpdate?.(blockId, field, localeCode, value);
     },
     [getEntityId, onLegacyPropUpdate]
@@ -221,7 +224,8 @@ function LocalizedBlockFieldWrapper({
         locales={ctx.locales}
         defaultLocaleCode={ctx.defaultLocaleCode}
         values={values}
-        legacyProps={block.props}
+        legacyProps={getBlockSettings(block)}
+        treatEmptyUnsuffixedAsClear={false}
         multiline={multiline}
         rows={rows}
         onChange={(localeCode, value) => ctx.setFieldValue(block.id, field, localeCode, value)}

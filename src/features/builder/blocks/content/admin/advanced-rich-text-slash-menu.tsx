@@ -42,7 +42,7 @@ export function AdvancedRichTextSlashMenu({ editor, onOpenImage }: Props) {
         description: "Large section heading",
         icon: Heading1,
         keywords: ["heading", "h1", "title"],
-        run: (e) => e.chain().focus().toggleHeading({ level: 1 }).run(),
+        run: (e) => e.chain().focus().setHeading({ level: 1 }).run(),
       },
       {
         id: "h2",
@@ -50,7 +50,7 @@ export function AdvancedRichTextSlashMenu({ editor, onOpenImage }: Props) {
         description: "Medium section heading",
         icon: Heading2,
         keywords: ["heading", "h2", "subtitle"],
-        run: (e) => e.chain().focus().toggleHeading({ level: 2 }).run(),
+        run: (e) => e.chain().focus().setHeading({ level: 2 }).run(),
       },
       {
         id: "h3",
@@ -58,7 +58,7 @@ export function AdvancedRichTextSlashMenu({ editor, onOpenImage }: Props) {
         description: "Small section heading",
         icon: Heading3,
         keywords: ["heading", "h3"],
-        run: (e) => e.chain().focus().toggleHeading({ level: 3 }).run(),
+        run: (e) => e.chain().focus().setHeading({ level: 3 }).run(),
       },
       {
         id: "paragraph",

@@ -10,19 +10,19 @@ import {
 } from "@/features/testimonials/actions";
 import {
   fetchCollectionsForBuilder,
+  fetchOrderingProfilesForBuilder,
   fetchProductsForBuilder,
 } from "@/features/builder/blocks/commerce/product-blocks/actions";
 import { fetchBrandsForBuilder } from "@/features/builder/blocks/commerce/commerce-showcase/actions";
 import { localeService } from "@/features/i18n/locale.service";
 import { translationService } from "@/features/translation/translation.service";
-import { loadAdminRowsWithLocalizedFields } from "@/features/translation/admin-entity-helpers";
 import { collectBlockEntityIds } from "@/features/translation/block-translation";
 import { migrateBlocksToBlockSystem } from "@/features/builder/migration/upgrade-blocks";
 import { toSeoMetaFormProps } from "@/features/seo/mappers/to-seo-meta-form-props";
 import { resolvePageSeoContext } from "@/features/seo/resolve-page-seo-context";
-import { prisma } from "@/lib/prisma";
 import { loadContentAuthors } from "@/features/cms/lib/load-content-authors";
-import type { PageBlocks, ContentTypeOption } from "@/types/builder";
+import { loadContentTypeOptionsForBuilder } from "@/features/content/admin/load-content-type-builder-options";
+import type { PageBlocks } from "@/types/builder";
 import type { Prisma } from "@prisma/client";
 
 type Props = { params: Promise<{ id: string }> };
@@ -43,7 +43,7 @@ export default async function EditPagePage({ params }: Props) {
   const blocks = migration.blocks;
   const blockEntityIds = collectBlockEntityIds(blocks, "CmsPage", page.id);
 
-  const [initialBlockTranslations, initialPageTranslations, galleryOptions, faqSetOptions, testimonialOptions, testimonialCollectionOptions, collectionOptions, productOptions, brandOptions, rawContentTypes] =
+  const [initialBlockTranslations, initialPageTranslations, galleryOptions, faqSetOptions, testimonialOptions, testimonialCollectionOptions, collectionOptions, productOptions, orderingProfileOptions, brandOptions, contentTypeOptions] =
     await Promise.all([
       blockEntityIds.length > 0
         ? translationService.getForBlockEntityIds(blockEntityIds)
@@ -55,26 +55,10 @@ export default async function EditPagePage({ params }: Props) {
       fetchTestimonialCollectionsForBuilder().catch(() => []),
       fetchCollectionsForBuilder().catch(() => []),
       fetchProductsForBuilder().catch(() => []),
+      fetchOrderingProfilesForBuilder().catch(() => []),
       fetchBrandsForBuilder().catch(() => []),
-      prisma.contentType.findMany({
-        where: { isEnabled: true },
-        select: { id: true, slug: true },
-        orderBy: { sortOrder: "asc" },
-      }).catch(() => [] as { id: string; slug: string }[]),
+      loadContentTypeOptionsForBuilder().catch(() => []),
     ]);
-
-  const localizedContentTypes = await loadAdminRowsWithLocalizedFields(
-    "ContentType",
-    rawContentTypes,
-    ["labelPlural", "name"],
-    "labelPlural"
-  );
-
-  const contentTypeOptions: ContentTypeOption[] = localizedContentTypes.map((t) => ({
-    slug: t.slug,
-    labelPlural: t.displayTitle?.trim() || t.slug,
-    isEnabled: true,
-  }));
 
   const pageForEditor = {
     ...page,
@@ -101,6 +85,7 @@ export default async function EditPagePage({ params }: Props) {
         testimonialCollectionOptions={testimonialCollectionOptions}
         collectionOptions={collectionOptions}
         productOptions={productOptions}
+        orderingProfileOptions={orderingProfileOptions}
         brandOptions={brandOptions}
         contentTypeOptions={contentTypeOptions}
         authors={authors}

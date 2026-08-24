@@ -58,3 +58,15 @@ export function helpCenterHrefForPath(pathname: string, registry: HelpRegistry):
   if (!topicId) return "/admin/help";
   return `/admin/help#${topicId}`;
 }
+
+/** Topic to show in the contextual help panel when the top-bar help button is pressed. */
+export function resolvePanelTopicId(pathname: string, registry: HelpRegistry): string | null {
+  const contextual = resolveContextualTopicId(pathname, registry);
+  if (contextual) return contextual;
+
+  for (const section of registry.sections) {
+    const first = section.topics[0];
+    if (first) return first.id;
+  }
+  return null;
+}

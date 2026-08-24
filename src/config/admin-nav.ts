@@ -7,8 +7,6 @@ import {
   Image,
   HelpCircle,
   Star,
-  Hotel,
-  Briefcase,
   MessageSquare,
   MonitorPlay,
   PanelTop,
@@ -55,13 +53,24 @@ import {
   Link2,
   Zap,
   Target,
+  Wallet,
+  Crosshair,
+  QrCode,
+  LayoutTemplate,
+  Plug,
   CircleHelp,
+  ShieldCheck,
+  ScrollText,
 } from "lucide-react";
 
 import {
   isAdminHrefEnabled,
   isAdminNavItemEnabled,
 } from "@/config/deployment-profile";
+import {
+  getSearchOpsNavBySegment,
+  SEARCH_OPS_NAV,
+} from "@/features/search-intelligence/workspaces/search-ops-nav";
 
 export type AdminNavItem = {
   href: string;
@@ -82,7 +91,7 @@ export type AdminNavGroup = {
   id: string;
   label: string;
   items: AdminNavItem[];
-  /** Optional nested sections inside a top-level group (e.g. CONTENT). */
+  /** Optional nested sections inside a top-level group (e.g. Content Builder). */
   sections?: AdminNavSection[];
 };
 
@@ -97,7 +106,7 @@ export const ADMIN_DASHBOARD: AdminNavItem = {
 export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
   {
     id: "content",
-    label: "Content",
+    label: "Content Builder",
     items: [],
     sections: [
       {
@@ -105,19 +114,19 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         label: "Overview",
         items: [
           {
-            href: "/admin/content",
-            label: "Content",
-            icon: Layers,
-            keywords: ["content hub", "types", "catalog", "overview"],
-            navItemId: "content-types",
+            href: "/admin/content-builder",
+            label: "Overview",
+            icon: LayoutDashboard,
+            keywords: ["content builder", "overview", "stats", "statistics", "cards", "hub"],
+            navItemId: "content-builder-overview",
           },
         ],
       },
       {
         id: "core",
-        label: "Core pages",
+        label: "Core Pages",
         items: [
-          { href: "/admin/pages", label: "Pages", icon: FileText, keywords: ["cms", "content"], navItemId: "pages" },
+          { href: "/admin/pages", label: "CMS Pages", icon: FileText, keywords: ["cms", "content", "pages"], navItemId: "pages" },
           { href: "/admin/posts", label: "Blog", icon: Newspaper, keywords: ["posts", "articles"], navItemId: "blog" },
         ],
       },
@@ -126,32 +135,18 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         label: "Catalog",
         items: [
           {
+            href: "/admin/content",
+            label: "Content",
+            icon: Layers,
+            keywords: ["content hub", "types", "catalog", "services", "packages", "properties"],
+            navItemId: "content-types",
+          },
+          {
             href: "/admin/products",
             label: "Products",
             icon: Package,
             keywords: ["products", "sku", "catalog"],
             navItemId: "products",
-          },
-          {
-            href: "/admin/content/offerings",
-            label: "Services",
-            icon: Briefcase,
-            keywords: ["services", "content items", "offerings"],
-            navItemId: "services",
-          },
-          {
-            href: "/admin/content/catalog-items",
-            label: "Packages",
-            icon: Package,
-            keywords: ["packages", "destinations", "tours"],
-            navItemId: "packages",
-          },
-          {
-            href: "/admin/content/listings",
-            label: "Properties",
-            icon: Hotel,
-            keywords: ["hotels", "properties", "entities", "listings"],
-            navItemId: "properties",
           },
           {
             href: "/admin/categories",
@@ -169,9 +164,9 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
           },
           {
             href: "/admin/catalog/navigation",
-            label: "Navigation",
+            label: "Listing Navigation",
             icon: Compass,
-            keywords: ["catalog navigation", "category nav", "brand nav"],
+            keywords: ["catalog navigation", "category nav", "brand nav", "listing"],
             navItemId: "catalog-navigation",
           },
           {
@@ -204,7 +199,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
           { href: "/admin/team", label: "Team", icon: Users, keywords: ["directory", "staff"], navItemId: "team" },
           { href: "/admin/partners", label: "Partners", icon: Handshake, keywords: ["partners", "program"], navItemId: "partners" },
           { href: "/admin/knowledge-base", label: "Knowledge Base", icon: BookOpen, keywords: ["kb", "articles", "help"], navItemId: "knowledge-base" },
-          { href: "/admin/pricing-plans", label: "Pricing Plans", icon: DollarSign, keywords: ["pricing", "plans"], navItemId: "pricing-plans" },
+          { href: "/admin/pricing-plans", label: "Pricing Plan", icon: DollarSign, keywords: ["pricing", "plans"], navItemId: "pricing-plans" },
           { href: "/admin/releases", label: "Releases", icon: Rocket, keywords: ["changelog", "versions"], navItemId: "releases" },
         ],
       },
@@ -214,13 +209,27 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         items: [
           { href: "/admin/faqs", label: "FAQs", icon: HelpCircle, keywords: ["questions"], navItemId: "faqs" },
           { href: "/admin/testimonials", label: "Testimonials", icon: Star, keywords: ["reviews"], navItemId: "testimonials" },
-          { href: "/admin/gallery", label: "Gallery", icon: Image, keywords: ["photos", "images"], navItemId: "gallery" },
+          { href: "/admin/gallery", label: "Galleries", icon: Image, keywords: ["photos", "images", "albums"], navItemId: "gallery" },
           {
             href: "/admin/pricing-calculators",
             label: "Calculators",
             icon: Calculator,
             keywords: ["calculator", "pricing"],
             navItemId: "pricing-calculators",
+          },
+          {
+            href: "/admin/policies",
+            label: "Policies",
+            icon: ShieldCheck,
+            keywords: ["privacy", "policy", "cookie", "legal"],
+            navItemId: "policies",
+          },
+          {
+            href: "/admin/terms",
+            label: "Terms & Conditions",
+            icon: ScrollText,
+            keywords: ["terms", "conditions", "legal", "tos"],
+            navItemId: "terms",
           },
         ],
       },
@@ -237,14 +246,21 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
     id: "marketing",
     label: "Marketing",
     items: [
-      { href: "/admin/marketing", label: "Marketing Hub", icon: Megaphone, keywords: ["marketing", "social", "integrations", "hub"], navItemId: "marketing-dashboard" },
-      { href: "/admin/marketing/platforms", label: "Social Platforms", icon: Share2, keywords: ["meta", "facebook", "instagram", "linkedin", "oauth"], navItemId: "marketing-platforms" },
-      { href: "/admin/marketing/publishing", label: "Publishing", icon: Send, keywords: ["publish", "schedule", "queue", "posts"], navItemId: "marketing-publishing" },
-      { href: "/admin/marketing/analytics", label: "Social Analytics", icon: LineChart, keywords: ["reach", "impressions", "engagement"], navItemId: "marketing-analytics" },
-      { href: "/admin/marketing/campaigns", label: "Campaigns", icon: Target, keywords: ["campaigns", "ads"], navItemId: "marketing-campaigns" },
-      { href: "/admin/marketing/tracking", label: "Tracking", icon: Link2, keywords: ["pixel", "capi", "gtm", "events"], navItemId: "marketing-tracking" },
-      { href: "/admin/marketing/automation", label: "Automation", icon: Zap, keywords: ["automation", "auto publish", "hooks"], navItemId: "marketing-automation" },
-      { href: "/admin/marketing/leads", label: "Social Leads", icon: Inbox, keywords: ["lead forms", "meta leads"], navItemId: "marketing-leads" },
+      { href: "/admin/marketing", label: "Marketing Overview", icon: Megaphone, keywords: ["marketing", "dashboard", "overview", "intelligence", "hub"], navItemId: "marketing-dashboard" },
+      { href: "/admin/marketing/campaigns", label: "Campaigns", icon: Target, keywords: ["campaigns", "ads", "initiatives"], navItemId: "marketing-campaigns" },
+      { href: "/admin/marketing/ad-accounts", label: "Ad Accounts", icon: Wallet, keywords: ["ad accounts", "spend", "meta", "google", "linkedin"], navItemId: "marketing-ad-accounts" },
+      { href: "/admin/marketing/platforms", label: "Advertising Platforms", icon: Share2, keywords: ["meta", "facebook", "instagram", "linkedin", "google", "oauth", "platforms"], navItemId: "marketing-platforms" },
+      { href: "/admin/marketing/attribution", label: "Traffic & Attribution", icon: Route, keywords: ["attribution", "traffic", "utm", "source", "medium"], navItemId: "marketing-attribution" },
+      { href: "/admin/marketing/conversions", label: "Conversions", icon: Crosshair, keywords: ["conversions", "goals", "rfq", "leads"], navItemId: "marketing-conversions" },
+      { href: "/admin/marketing/leads", label: "Leads", icon: Inbox, keywords: ["leads", "attribution", "inquiries", "forms"], navItemId: "marketing-leads" },
+      { href: "/admin/marketing/landing-pages", label: "Landing Pages", icon: LayoutTemplate, keywords: ["landing pages", "performance", "conversion rate"], navItemId: "marketing-landing-pages" },
+      { href: "/admin/marketing/urls", label: "UTM & Campaign URLs", icon: QrCode, keywords: ["utm", "urls", "qr", "tracking links"], navItemId: "marketing-urls" },
+      { href: "/admin/marketing/analytics", label: "Analytics & Reports", icon: LineChart, keywords: ["analytics", "reports", "spend", "cpl", "comparison"], navItemId: "marketing-analytics" },
+      { href: "/admin/marketing/tracking", label: "Tracking", icon: Link2, keywords: ["pixel", "capi", "gtm", "ga4", "events"], navItemId: "marketing-tracking" },
+      { href: "/admin/marketing/automation", label: "Automation", icon: Zap, keywords: ["automation", "alerts", "rules", "thresholds"], navItemId: "marketing-automation" },
+      { href: "/admin/marketing/integrations", label: "Integrations", icon: Plug, keywords: ["integrations", "jobs", "webhooks", "health"], navItemId: "marketing-integrations" },
+      { href: "/admin/marketing/settings", label: "Settings", icon: Settings2, keywords: ["retention", "privacy", "consent", "settings"], navItemId: "marketing-settings" },
+      { href: "/admin/marketing/publishing", label: "Social Publishing", icon: Send, keywords: ["publish", "schedule", "queue", "posts", "optional"], navItemId: "marketing-publishing" },
       { href: "/admin/forms", label: "Form Templates", icon: FormInput, keywords: ["forms", "builder", "lead", "contact"], navItemId: "form-templates" },
       { href: "/admin/surveys", label: "Surveys", icon: Star, keywords: ["surveys", "nps", "csat", "feedback"], navItemId: "surveys" },
       { href: "/admin/forms/analytics", label: "Forms Analytics", icon: LineChart, keywords: ["analytics", "forms", "submissions", "behavior"], navItemId: "forms-analytics" },
@@ -378,7 +394,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
       },
       {
         id: "operations",
-        label: "Operations",
+        label: "Technical SEO",
         items: [
           {
             href: "/admin/seo/redirects",
@@ -470,77 +486,30 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
       {
         id: "search-operations",
         label: "Search Operations",
-        items: [
-          {
-            href: "/admin/seo/search-operations/overview",
-            label: "Overview",
-            icon: Sparkles,
-            keywords: [
-              "search operations",
-              "command center",
-              "health",
-              "actions",
-              "approvals",
-            ],
-            navItemId: "seo-search-operations",
-          },
-          {
-            href: "/admin/seo/search-operations/operations",
-            label: "Operations",
-            icon: ListChecks,
-            keywords: ["queue", "approvals", "running", "failed", "scheduled"],
-            navItemId: "seo-so-operations",
-          },
-          {
-            href: "/admin/seo/search-operations/pages",
-            label: "Pages",
-            icon: FileText,
-            keywords: ["url inspector", "serp", "indexing", "impact simulation"],
-            navItemId: "seo-so-pages",
-          },
-          {
-            href: "/admin/seo/search-operations/entities",
-            label: "Entities",
-            icon: Share2,
-            keywords: ["entity cms", "organization", "merge", "schema publish"],
-            navItemId: "seo-so-entities",
-          },
-          {
-            href: "/admin/seo/search-operations/content",
-            label: "Content",
-            icon: Target,
-            keywords: ["topics", "ai audit", "internal links", "drafts"],
-            navItemId: "seo-so-content",
-          },
-          {
-            href: "/admin/seo/search-operations/google",
-            label: "Google Ops",
-            icon: LineChart,
-            keywords: ["search console", "business profile", "pagespeed", "indexing api"],
-            navItemId: "seo-so-google",
-          },
-          {
-            href: "/admin/seo/search-operations/monitoring",
-            label: "Monitoring",
-            icon: Activity,
-            keywords: ["incidents", "authority", "performance", "alerts"],
-            navItemId: "seo-so-monitoring",
-          },
-          {
-            href: "/admin/seo/search-operations/automation",
-            label: "Automation",
-            icon: Zap,
-            keywords: ["workflows", "rules", "triggers", "scheduled jobs"],
-            navItemId: "seo-so-automation",
-          },
-          {
-            href: "/admin/seo/search-operations/settings",
-            label: "Ops Settings",
-            icon: Tags,
-            keywords: ["approval policy", "risk", "promotion", "environments"],
-            navItemId: "seo-so-settings",
-          },
-        ],
+        items: SEARCH_OPS_NAV.map((item) => ({
+          href: item.href,
+          label: item.navLabel,
+          icon:
+            item.segment === "overview"
+              ? Sparkles
+              : item.segment === "operations"
+                ? ListChecks
+                : item.segment === "pages"
+                  ? FileText
+                  : item.segment === "entities"
+                    ? Share2
+                    : item.segment === "content"
+                      ? Target
+                      : item.segment === "google"
+                        ? LineChart
+                        : item.segment === "monitoring"
+                          ? Activity
+                          : item.segment === "automation"
+                            ? Zap
+                            : Tags,
+          keywords: [...item.keywords],
+          navItemId: item.navItemId,
+        })),
       },
     ],
   },
@@ -566,8 +535,15 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         href: "/admin/settings/account",
         label: "Admin account",
         icon: UserCog,
-        keywords: ["password", "email", "credentials", "login"],
+        keywords: ["password", "email", "credentials", "login", "mfa"],
         navItemId: "admin-account",
+      },
+      {
+        href: "/admin/settings/staff",
+        label: "Staff",
+        icon: ShieldCheck,
+        keywords: ["admin", "invite", "super", "operators", "mfa", "disable"],
+        navItemId: "admin-staff",
       },
       {
         href: "/admin/settings/email-accounts",
@@ -657,6 +633,11 @@ export function getAdminNavItemsForProfile(): AdminNavItem[] {
   return getAdminNavGroupsForProfile().flatMap((group) => flattenGroupItems(group));
 }
 
+/** Content Builder group for the current profile (stats + card landing). */
+export function getContentBuilderNavGroup(): AdminNavGroup | undefined {
+  return getAdminNavGroupsForProfile().find((group) => group.id === "content");
+}
+
 function flattenGroupItems(group: AdminNavGroup): AdminNavItem[] {
   if (group.sections?.length) {
     return group.sections.flatMap((section) => section.items);
@@ -721,36 +702,245 @@ export function findNavItemByPath(pathname: string): AdminNavItem | undefined {
     .sort((a, b) => b.href.length - a.href.length)[0];
 }
 
-export function getBreadcrumbs(pathname: string): { label: string; href?: string }[] {
-  const crumbs: { label: string; href?: string }[] = [{ label: "Admin", href: "/admin" }];
-  const contentTypeLabelBySlug: Record<string, string> = {
-    "catalog-items": "Packages",
-    listings: "Properties",
-    offerings: "Services",
+export type AdminBreadcrumbOption = {
+  label: string;
+  href: string;
+  current?: boolean;
+};
+
+export type AdminBreadcrumb = {
+  label: string;
+  href?: string;
+  /** Sibling destinations for chrome dropdown navigation. */
+  options?: AdminBreadcrumbOption[];
+};
+
+const CONTENT_TYPE_LABEL_BY_SLUG: Record<string, string> = {
+  "catalog-items": "Packages",
+  listings: "Properties",
+  offerings: "Services",
+};
+
+function groupLandingHref(group: AdminNavGroup): string | undefined {
+  return flattenGroupItems(group)[0]?.href;
+}
+
+function uniqueOptions(options: AdminBreadcrumbOption[]): AdminBreadcrumbOption[] {
+  const seen = new Set<string>();
+  return options.filter((option) => {
+    if (!option.href || seen.has(option.href)) return false;
+    seen.add(option.href);
+    return true;
+  });
+}
+
+function adminHomeCrumb(
+  groups: AdminNavGroup[],
+  pathname: string,
+  activeGroupId?: string | null,
+): AdminBreadcrumb {
+  return {
+    label: "Admin",
+    href: pathname === "/admin" ? undefined : "/admin",
+    options: uniqueOptions([
+      { label: "Dashboard", href: "/admin", current: pathname === "/admin" },
+      ...groups.flatMap((group) => {
+        const href = groupLandingHref(group);
+        return href ? [{ label: group.label, href, current: group.id === activeGroupId }] : [];
+      }),
+    ]),
   };
+}
+
+function groupSwitcherOptions(groups: AdminNavGroup[], activeGroupId?: string | null): AdminBreadcrumbOption[] {
+  return uniqueOptions(
+    groups.flatMap((group) => {
+      const href = groupLandingHref(group);
+      return href ? [{ label: group.label, href, current: group.id === activeGroupId }] : [];
+    }),
+  );
+}
+
+function findNavContextByPath(pathname: string): {
+  group: AdminNavGroup | null;
+  section: AdminNavSection | null;
+  item: AdminNavItem | undefined;
+} {
+  const item = findNavItemByPath(pathname);
+  if (!item || item.href === "/admin") {
+    return { group: null, section: null, item };
+  }
+
+  for (const group of resolveNavGroups()) {
+    if (group.sections?.length) {
+      for (const section of group.sections) {
+        if (section.items.some((entry) => entry.href === item.href)) {
+          return { group, section, item };
+        }
+      }
+    } else if (group.items.some((entry) => entry.href === item.href)) {
+      return { group, section: null, item };
+    }
+  }
+
+  return { group: null, section: null, item };
+}
+
+function isLikelyIdSegment(segment: string): boolean {
+  if (segment.length >= 20 && /^[a-z0-9]+$/i.test(segment)) return true;
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(segment);
+}
+
+function humanizePathSegment(segment: string, typeSlug?: string): string {
+  if (segment === "new") return "New";
+  if (isLikelyIdSegment(segment)) return "Detail";
+  if (typeSlug && CONTENT_TYPE_LABEL_BY_SLUG[segment]) return CONTENT_TYPE_LABEL_BY_SLUG[segment];
+  return segment.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function hrefIfNotCurrent(href: string | undefined, pathname: string): string | undefined {
+  if (!href || href === pathname) return undefined;
+  return href;
+}
+
+function pushCrumb(crumbs: AdminBreadcrumb[], crumb: AdminBreadcrumb) {
+  const previous = crumbs[crumbs.length - 1];
+  if (previous && previous.label === crumb.label && previous.href === crumb.href) return;
+  crumbs.push(crumb);
+}
+
+function appendRemainingSegments(
+  crumbs: AdminBreadcrumb[],
+  pathname: string,
+  baseHref: string,
+) {
+  if (!pathname.startsWith(baseHref)) return;
+  const rest = pathname.slice(baseHref.length).replace(/^\//, "");
+  if (!rest) return;
+
+  const typeSlug = baseHref === "/admin/content" ? rest.split("/")[0] : undefined;
+  let currentPath = baseHref;
+  for (const segment of rest.split("/").filter(Boolean)) {
+    currentPath += `/${segment}`;
+    const isCurrent = currentPath === pathname;
+    pushCrumb(crumbs, {
+      label: humanizePathSegment(segment, typeSlug),
+      href:
+        isCurrent || isLikelyIdSegment(segment) || segment === "new"
+          ? undefined
+          : currentPath,
+    });
+  }
+}
+
+export function getBreadcrumbs(pathname: string): AdminBreadcrumb[] {
+  const groups = resolveNavGroups();
+  const { group, section, item } = findNavContextByPath(pathname);
+  const crumbs: AdminBreadcrumb[] = [adminHomeCrumb(groups, pathname, group?.id ?? null)];
 
   if (pathname === "/admin") {
     crumbs.push({ label: "Dashboard" });
     return crumbs;
   }
 
+  if (pathname.startsWith("/admin/seo/search-operations")) {
+    const seoGroup = groups.find((entry) => entry.id === "seo") ?? group;
+    const opsSection = seoGroup?.sections?.find((entry) => entry.id === "search-operations");
+    const segments = pathname.replace(/^\/admin\/?/, "").split("/").filter(Boolean);
+    const tabSegment = segments[2];
+    const tabItem = tabSegment ? getSearchOpsNavBySegment(tabSegment) : undefined;
+    const overviewHref = "/admin/seo/search-operations/overview";
+
+    if (seoGroup) {
+      pushCrumb(crumbs, {
+        label: seoGroup.label,
+        href: hrefIfNotCurrent(groupLandingHref(seoGroup), pathname),
+        options: groupSwitcherOptions(groups, seoGroup.id),
+      });
+    } else {
+      pushCrumb(crumbs, { label: "SEO", href: hrefIfNotCurrent("/admin/seo", pathname) });
+    }
+
+    pushCrumb(crumbs, {
+      label: opsSection?.label ?? "Search Operations",
+      href: hrefIfNotCurrent(overviewHref, pathname),
+      options: uniqueOptions(
+        (seoGroup?.sections ?? []).flatMap((entry) => {
+          const href = entry.items[0]?.href;
+          return href
+            ? [{ label: entry.label, href, current: entry.id === "search-operations" }]
+            : [];
+        }),
+      ),
+    });
+
+    if (tabItem) {
+      pushCrumb(crumbs, {
+        label: tabItem.breadcrumbLabel,
+        href: segments.length > 3 ? tabItem.href : undefined,
+        options: SEARCH_OPS_NAV.map((entry) => ({
+          label: entry.breadcrumbLabel,
+          href: entry.href,
+          current: entry.segment === tabItem.segment,
+        })),
+      });
+    }
+
+    if (segments.length > 3) {
+      pushCrumb(crumbs, { label: "Detail" });
+    }
+
+    return crumbs;
+  }
+
+  if (group) {
+    pushCrumb(crumbs, {
+      label: group.label,
+      href: hrefIfNotCurrent(groupLandingHref(group), pathname),
+      options: groupSwitcherOptions(groups, group.id),
+    });
+  }
+
+  if (section) {
+    pushCrumb(crumbs, {
+      label: section.label,
+      href: hrefIfNotCurrent(section.items[0]?.href, pathname),
+      options: uniqueOptions(
+        (group?.sections ?? []).flatMap((entry) => {
+          const href = entry.items[0]?.href;
+          return href
+            ? [{ label: entry.label, href, current: entry.id === section.id }]
+            : [];
+        }),
+      ),
+    });
+  }
+
+  if (item && item.href !== "/admin") {
+    const siblingItems = section?.items ?? group?.items ?? [];
+    pushCrumb(crumbs, {
+      label: item.label,
+      href: hrefIfNotCurrent(item.href, pathname),
+      options: uniqueOptions(
+        siblingItems.map((entry) => ({
+          label: entry.label,
+          href: entry.href,
+          current: entry.href === item.href,
+        })),
+      ),
+    });
+    appendRemainingSegments(crumbs, pathname, item.href);
+    return crumbs;
+  }
+
   const segments = pathname.replace(/^\/admin\/?/, "").split("/").filter(Boolean);
   let currentPath = "/admin";
-
   for (const segment of segments) {
     currentPath += `/${segment}`;
-    const item = findNavItemByPath(currentPath);
-    const shouldUseContentTypeLabel =
-      segments[0] === "content" &&
-      segments.length >= 2 &&
-      segment === segments[1] &&
-      Boolean(contentTypeLabelBySlug[segment]);
-    const fallbackLabel = shouldUseContentTypeLabel
-      ? contentTypeLabelBySlug[segment]
-      : segment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-    crumbs.push({
-      label: item?.label ?? fallbackLabel,
-      href: currentPath === pathname ? undefined : currentPath,
+    const matched = findNavItemByPath(currentPath);
+    pushCrumb(crumbs, {
+      label: matched?.label ?? humanizePathSegment(segment, segments[0] === "content" ? segment : undefined),
+      href: hrefIfNotCurrent(currentPath, pathname),
     });
   }
 

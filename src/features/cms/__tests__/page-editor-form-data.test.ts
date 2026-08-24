@@ -59,6 +59,16 @@ describe("buildPageEditorFormData", () => {
     assert.equal(formData.get("blocks"), JSON.stringify(blocks));
   });
 
+  it("includes editorial display flags when present", () => {
+    const formData = buildPageEditorFormData(
+      { ...baseState, showAuthor: false, showPublishedAt: true, authorId: "auth-1" },
+      { editorTab: "general", selectedBlockId: null, editorInspector: "content" },
+    );
+    assert.equal(formData.get("showAuthor"), "false");
+    assert.equal(formData.get("showPublishedAt"), "true");
+    assert.equal(formData.get("authorId"), "auth-1");
+  });
+
   it("applies PUBLISHED status override", () => {
     const formData = buildPageEditorFormData(
       baseState,

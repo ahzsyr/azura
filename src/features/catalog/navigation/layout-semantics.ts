@@ -7,6 +7,7 @@ import type {
   CatalogNavigationIconPosition,
   CatalogNavigationLabelAlign,
   CatalogNavigationLayout,
+  CatalogNavigationOverflowMode,
   CatalogNavigationVerticalAlign,
 } from "./types";
 
@@ -52,6 +53,19 @@ export function resolveShowTooltip(
   layout?: CatalogNavigationLayout | CatalogNavigationBreakpointLayout | null,
 ): boolean {
   return layout?.showTooltip !== false;
+}
+
+export type ResolvedCatalogNavigationOverflow = CatalogNavigationOverflowMode | "clip";
+
+/** Resolve overflow UX; legacy `horizontalScroll: false` clips without scrolling. */
+export function resolveOverflowMode(
+  layout?: CatalogNavigationLayout | CatalogNavigationBreakpointLayout | null,
+): ResolvedCatalogNavigationOverflow {
+  if (layout?.overflowMode === "scroll-bar" || layout?.overflowMode === "scroll-arrows") {
+    return layout.overflowMode;
+  }
+  if (layout?.horizontalScroll === false) return "clip";
+  return "scroll-bar";
 }
 
 export function resolveAppearanceStyle(

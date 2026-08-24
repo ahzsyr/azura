@@ -1,18 +1,19 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/features/auth/guards";
+import { requireAdmin, requireSuperAdmin } from "@/features/auth/guards";
 import { ok, fail, type ActionResult } from "@/types/api";
 import type {
   EmailAccountPublic,
   UpsertEmailAccountInput,
 } from "@/features/email/email-accounts.types";
 
+/** Any admin may list (forms pickers). Mutations are Master Admin only. */
 export async function listEmailAccountsAction(): Promise<
   ActionResult<{ accounts: EmailAccountPublic[] }>
 > {
-  await requireAdmin();
   try {
+    await requireAdmin();
     const { listEmailAccounts } = await import("@/features/email/email-accounts.service");
     const accounts = await listEmailAccounts();
     return ok({ accounts });
@@ -24,36 +25,48 @@ export async function listEmailAccountsAction(): Promise<
 export async function upsertEmailAccountAction(
   input: UpsertEmailAccountInput,
 ): Promise<ActionResult<{ account: EmailAccountPublic }>> {
-  await requireAdmin();
   try {
+    await requireSuperAdmin();
     const { upsertEmailAccount } = await import("@/features/email/email-accounts.service");
     const account = await upsertEmailAccount(input);
     revalidatePath("/admin/settings/email-accounts");
     return ok({ account });
   } catch (e) {
-    return fail(e instanceof Error ? e.message : "Failed to save email account");
+    return fail(
+      e instanceof Error
+        ? e.message === "Forbidden"
+          ? "Only the Master Admin can create or edit Email Accounts."
+          : e.message
+        : "Failed to save email account",
+    );
   }
 }
 
 export async function deleteEmailAccountAction(
   id: string,
 ): Promise<ActionResult<{ referencingFormCount: number }>> {
-  await requireAdmin();
   try {
+    await requireSuperAdmin();
     const { deleteEmailAccount } = await import("@/features/email/email-accounts.service");
     const result = await deleteEmailAccount(id);
     revalidatePath("/admin/settings/email-accounts");
     return ok(result);
   } catch (e) {
-    return fail(e instanceof Error ? e.message : "Failed to delete email account");
+    return fail(
+      e instanceof Error
+        ? e.message === "Forbidden"
+          ? "Only the Master Admin can delete Email Accounts."
+          : e.message
+        : "Failed to delete email account",
+    );
   }
 }
 
 export async function countFormsReferencingEmailAccountAction(
   id: string,
 ): Promise<ActionResult<{ count: number }>> {
-  await requireAdmin();
   try {
+    await requireAdmin();
     const { countFormsReferencingAccount } = await import(
       "@/features/email/email-accounts.service"
     );
@@ -68,8 +81,8 @@ export async function sendEmailAccountTestAction(input: {
   accountId: string;
   to: string;
 }): Promise<ActionResult<{ sent: boolean }>> {
-  await requireAdmin();
   try {
+    await requireSuperAdmin();
     const to = input.to.trim();
     if (!to.includes("@")) return fail("Enter a valid test recipient email.");
     const { resolveEmailProviderConfig } = await import(
@@ -92,6 +105,12 @@ export async function sendEmailAccountTestAction(input: {
     }
     return ok({ sent: true });
   } catch (e) {
-    return fail(e instanceof Error ? e.message : "Failed to send test email");
+    return fail(
+      e instanceof Error
+        ? e.message === "Forbidden"
+          ? "Only the Master Admin can send test emails."
+          : e.message
+        : "Failed to send test email",
+    );
   }
 }

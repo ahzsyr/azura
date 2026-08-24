@@ -92,6 +92,9 @@ const CONTENT_NAV_IDS = new Set([
   "knowledge-base",
   "releases",
   "pricing-plans",
+  "content-types",
+  "policies",
+  "terms",
 ]);
 
 function basePage(

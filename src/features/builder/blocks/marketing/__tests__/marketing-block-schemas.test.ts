@@ -8,6 +8,7 @@ import {
   logoCloudPropsSchema,
   statsCounterPropsSchema,
   beforeAfterPropsSchema,
+  tabbedShowcasePropsSchema,
   extendedHeroPropsSchema,
   extendedCtaPropsSchema,
 } from "@/features/builder/blocks/marketing/schemas/marketing-blocks";
@@ -46,6 +47,12 @@ describe("marketing block schemas", () => {
     const parsed = beforeAfterPropsSchema.parse(BLOCK_DEFAULTS.beforeAfter);
     assert.equal(parsed.layout, "slider");
     assert.equal(parsed.sliderPosition, 50);
+  });
+
+  it("parses tabbedShowcase defaults", () => {
+    const parsed = tabbedShowcasePropsSchema.parse(BLOCK_DEFAULTS.tabbedShowcase);
+    assert.equal(parsed.showNavArrows, true);
+    assert.equal(parsed.tabs.length, 1);
   });
 
   it("parses extended hero defaults", () => {

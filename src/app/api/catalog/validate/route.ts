@@ -5,6 +5,7 @@ import {
   validateSearchIndexConsistency,
 } from "@/features/catalog/sync/catalog-validation";
 import { reconcileCatalogSearchIndexes } from "@/capabilities/search/engine/indexer/catalog-index-sync";
+import { reconcileStaleSearchDocuments } from "@/capabilities/search/engine/indexer/search-index-consistency";
 import { frameworkSearchIndexer } from "@/capabilities/search/engine";
 
 export async function GET(request: Request) {
@@ -20,8 +21,12 @@ export async function GET(request: Request) {
   ]);
 
   let reconcile: { removed: number } | null = null;
-  if (fix && search.staleCatalogDocs > 0) {
-    reconcile = await reconcileCatalogSearchIndexes(frameworkSearchIndexer);
+  if (fix && (search.staleDocs > 0 || search.staleCatalogDocs > 0)) {
+    const [allTypes, catalogOnly] = await Promise.all([
+      reconcileStaleSearchDocuments(),
+      reconcileCatalogSearchIndexes(frameworkSearchIndexer),
+    ]);
+    reconcile = { removed: allTypes.removed + catalogOnly.removed };
   }
 
   return NextResponse.json({

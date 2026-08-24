@@ -8,6 +8,7 @@ import {
   HEADER_OVERLAY_TOP_GAP_BOXED,
   isBoxedHeaderStyle,
 } from "@/features/builder/header-overlay";
+import { getLiveHeaderRoot } from "@/features/navigation/header-overlay-utils";
 
 type Props = {
   overlay: ResolvedHeaderOverlay;
@@ -33,7 +34,7 @@ export function PageHeaderOverlayCoordinator({ overlay }: Props) {
   const pathname = usePathname();
 
   useLayoutEffect(() => {
-    const root = document.getElementById("headerRoot");
+    const root = getLiveHeaderRoot();
     if (!root) return;
 
     const html = document.documentElement;

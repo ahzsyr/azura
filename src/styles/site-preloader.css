@@ -132,11 +132,23 @@ html.site-preloading .marketing-page-content > .route-page-layer:not([data-route
 }
 
 .az-preloader .pre-svg img,
-.az-preloader .pre-svg svg {
+.az-preloader .pre-svg svg,
+.az-preloader .pre-svg .brand-logo-tint,
+.az-preloader .pre-svg .brand-logo-tint__sizer {
   width: 100%;
   height: 100%;
   object-fit: contain;
   display: block;
+}
+
+.az-preloader .pre-svg .brand-logo-tint {
+  background-color: var(--pre-primary, var(--primary));
+  width: 100%;
+  height: 100%;
+}
+
+.az-preloader .pre-svg .brand-logo-tint__sizer {
+  opacity: 0;
 }
 
 /* ── Center focal animations (per loader preset variant) ── */

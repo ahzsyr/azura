@@ -62,16 +62,12 @@ export type LayoutSettings = {
 };
 
 /**
- * Metadata is reserved for future experience-layer capabilities.
- *
- * Ownership rules:
- * - Only experience-layer capabilities may write here.
- * - Never store block data here.
- * - Never store layout definitions here.
- * - v1 intentionally remains empty.
+ * Optional editorial display flags persist here so pages/posts can hide
+ * author and publish date without a database column.
  */
 export type CompositionMetadata = {
-  [key: string]: never;
+  showAuthor?: boolean;
+  showPublishedAt?: boolean;
 };
 
 export type Composition = {

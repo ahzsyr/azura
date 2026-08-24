@@ -311,11 +311,13 @@
 
 .pl-card__flip-face--front {
   position: relative;
+  z-index: 2;
 }
 
 .pl-card__flip-face--back {
   position: absolute;
   inset: 0;
+  z-index: 1;
   display: flex;
   align-items: stretch;
   transform: rotateY(180deg) translateZ(0);
@@ -323,6 +325,13 @@
   color: #fff;
   overflow: hidden;
   border-block-end: 1px solid color-mix(in srgb, var(--t, var(--color-text)) 10%, transparent);
+  /* Back face is stacked over the front in DOM — must not steal photo clicks */
+  pointer-events: none;
+}
+
+.pl-card[data-prd-style="media_flip"] .pl-card__flip-face--front .pl-card__media-link {
+  position: relative;
+  height: 100%;
 }
 
 .pl-card__flip-back-media {
@@ -349,6 +358,12 @@
     rgba(0, 0, 0, 0.7) 100%
   );
   pointer-events: none;
+}
+
+.pl-card__flip-back-link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
 }
 
 .pl-card__flip-specs {
@@ -413,14 +428,16 @@
     rgba(0, 0, 0, 0.18) 78%,
     transparent 100%
   );
-  pointer-events: none;
 }
 
 .pl-card[data-prd-style="media_flip"] .pl-card__media-caption .pl-card__brand {
   color: var(--p, var(--color-primary));
-  font-size: 0.68rem;
+  font-size: var(
+    --prd-card-brand-fs,
+    clamp(0.55rem, 1.2vw, 0.62rem)
+  );
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -437,9 +454,19 @@
   overflow: hidden;
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .pl-card[data-prd-style="media_flip"] .pl-card__flip-scene:hover .pl-card__flip-inner {
     transform: rotateY(180deg);
+  }
+
+  /* When flipped, allow clicks on the back side navigation link. */
+  .pl-card[data-prd-style="media_flip"] .pl-card__flip-scene:hover .pl-card__flip-face--back {
+    pointer-events: auto;
+  }
+
+  /* Avoid the rotated front link stealing clicks while the scene is flipped. */
+  .pl-card[data-prd-style="media_flip"] .pl-card__flip-scene:hover .pl-card__flip-face--front .pl-card__media-link {
+    pointer-events: none;
   }
 }
 

@@ -11,6 +11,7 @@ type CollectionMetadata = {
   seo?: CollectionSeo;
   cardTemplate?: Collection["cardTemplate"];
   sortBy?: Collection["sortBy"];
+  pageLayoutTemplate?: string | null;
   showInNav?: boolean;
   featured?: boolean;
   tags?: string[];
@@ -38,6 +39,8 @@ export function rowToCollection(row: CatalogCollection): Collection {
     conditions: upgradeLegacyRuleSet(row.conditions),
     cardTemplate: meta.cardTemplate,
     sortBy: meta.sortBy,
+    pageLayoutTemplate: meta.pageLayoutTemplate ?? null,
+    sortOrder: row.sortOrder,
     visible: row.visible,
     showInNav: meta.showInNav,
     featured: meta.featured,
@@ -59,6 +62,7 @@ export function collectionToRow(
     seo: col.seo,
     cardTemplate: col.cardTemplate,
     sortBy: col.sortBy,
+    pageLayoutTemplate: col.pageLayoutTemplate ?? null,
     showInNav: col.showInNav,
     featured: col.featured,
     tags: col.tags,

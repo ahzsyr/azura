@@ -43,6 +43,7 @@ export type GlobalSearchPanelProps = {
   onToggleType: (type: SearchEntityType) => void;
   onClearTypes: () => void;
   entityLabel: (type: SearchEntityType) => string;
+  hitLabel?: (hit: AutocompleteHit) => string;
   enabledFilters: PublicSearchFilterDef[];
   facetValueOptions: Map<string, Set<string>>;
   activeFacetFilters: Record<string, string[]>;
@@ -89,6 +90,7 @@ export function GlobalSearchPanel({
   onToggleType,
   onClearTypes,
   entityLabel,
+  hitLabel,
   enabledFilters,
   facetValueOptions,
   activeFacetFilters,
@@ -402,7 +404,7 @@ export function GlobalSearchPanel({
                 <SearchResultCard
                   as="div"
                   title={s.title}
-                  meta={entityLabel(s.entityType)}
+                  meta={hitLabel ? hitLabel(s) : entityLabel(s.entityType)}
                   entityType={s.entityType}
                   showPreview={false}
                   index={i}
@@ -451,7 +453,7 @@ export function GlobalSearchPanel({
                 <SearchResultCard
                   as="div"
                   title={r.title}
-                  meta={entityLabel(r.entityType)}
+                  meta={hitLabel ? hitLabel(r) : entityLabel(r.entityType)}
                   snippet={r.snippet}
                   query={query}
                   showPreview={modalEl.showResultSnippets && ac.showResultPreviews}
@@ -478,6 +480,7 @@ export function GlobalSearchPanel({
                 }
                 onNavigate={onNavigate}
                 maxItems={maxPerType}
+                itemLabel={hitLabel}
               />
             ))
           : null}
@@ -494,7 +497,7 @@ export function GlobalSearchPanel({
                 <SearchResultCard
                   as="div"
                   title={r.title}
-                  meta={entityLabel(r.entityType)}
+                  meta={hitLabel ? hitLabel(r) : entityLabel(r.entityType)}
                   snippet={r.snippet}
                   query={query}
                   showPreview={modalEl.showResultSnippets && (isCommand || ac.showResultPreviews)}

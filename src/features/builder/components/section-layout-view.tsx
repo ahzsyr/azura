@@ -18,8 +18,6 @@ import {
   normalizeSectionMaxWidth,
   normalizeSectionSlidesPerView,
   resolveSectionEffectiveLayout,
-  resolveSectionGridTemplate,
-  resolveSectionSplitGridTemplate,
   sectionLayoutGapClass,
   sectionLayoutGridColumnClass,
   sectionLayoutMaxWidthClass,
@@ -209,12 +207,14 @@ export function SectionLayoutView({
           widthClass,
           className
         )}
-        style={{
-          gridTemplateColumns: resolveSectionSplitGridTemplate(effectiveLayout),
-        }}
+        data-split={effectiveLayout === "splitLeft" ? "start" : "end"}
       >
         {childArray.slice(0, 2).map((child, index) => (
-          <div key={index} className="section-layout-grid__cell min-w-0">
+          <div
+            key={index}
+            className="section-layout-grid__cell min-w-0"
+            data-split-cell={index === 0 ? "start" : "end"}
+          >
             {child}
           </div>
         ))}
@@ -233,7 +233,6 @@ export function SectionLayoutView({
           widthClass,
           className
         )}
-        style={{ gridTemplateColumns: resolveSectionGridTemplate(columns) }}
       >
         {childArray.map((child, index) => (
           <div key={index} className="section-layout-grid__cell min-w-0">

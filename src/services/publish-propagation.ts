@@ -165,6 +165,9 @@ export function headerWorkspaceFingerprint(ws: HeaderWorkspace): HeaderWorkspace
   const payload = JSON.stringify({
     activeMenuKey: ws.activeMenuKey,
     menusDatabase: ws.menusDatabase,
+    settings: ws.settings,
+    headerActions: ws.headerActions,
+    branding: ws.branding,
   });
   const hash = createHash("sha256").update(payload).digest("hex").slice(0, 24);
   return {

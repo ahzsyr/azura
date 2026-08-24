@@ -25,7 +25,7 @@ export default async function SearchOpsOperationsPage() {
         title="Operations"
         description="Global queue for running, queued, waiting approval, scheduled, completed, and failed work."
       />
-      <SearchOpsSubnav active="Operations" />
+      <SearchOpsSubnav active="Queue" />
 
       <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
         <KpiCard label="Running" value={center.counts.running} />

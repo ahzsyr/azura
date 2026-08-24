@@ -40,6 +40,7 @@ export const productShowcaseTabSchema = z.object({
   category: z.string().default(""),
   limit: z.coerce.number().min(1).max(48).default(8),
   sortBy: productSortSchema.default("name-asc"),
+  orderingProfileId: z.string().default(""),
 });
 
 export const productShowcasePropsSchema = z.object({
@@ -54,6 +55,7 @@ export const productShowcasePropsSchema = z.object({
   category: z.string().default(""),
   limit: z.coerce.number().min(1).max(48).default(8),
   sortBy: productSortSchema.default("name-asc"),
+  orderingProfileId: z.string().default(""),
   columns: z.union([z.literal(2), z.literal(3), z.literal(4)]).default(3),
   tabs: z.array(productShowcaseTabSchema).default([]),
   cardVariant: z.enum(["default", "compact", "featured"]).default("default"),
@@ -242,6 +244,7 @@ export const taxonomyProductTabsPropsSchema = z.object({
   productLayout: z.enum(["grid", "carousel"]).default("grid"),
   productsPerTab: z.coerce.number().min(1).max(48).default(8),
   sortBy: productSortSchema.default("name-asc"),
+  orderingProfileId: z.string().default(""),
   columns: z.union([z.literal(2), z.literal(3), z.literal(4)]).default(3),
   lazyLoad: z.boolean().default(true),
   showTabCounts: z.boolean().default(true),
@@ -270,6 +273,7 @@ export const megaCollectionShowcasePropsSchema = z.object({
   centerLayout: z.enum(["grid", "carousel"]).default("grid"),
   centerLimit: z.coerce.number().min(1).max(48).default(8),
   centerSortBy: productSortSchema.default("name-asc"),
+  centerOrderingProfileId: z.string().default(""),
   centerColumns: z.union([z.literal(2), z.literal(3), z.literal(4)]).default(3),
   syncNavToProducts: z.boolean().default(true),
   rightPromoImageUrl: z.string().default(""),
@@ -325,6 +329,8 @@ export type ProductSourceQuery = {
   category?: string;
   limit?: number;
   sortBy?: z.infer<typeof productSortSchema>;
+  /** Empty = Global Ordering. */
+  orderingProfileId?: string;
   anchorSlug?: string;
 };
 

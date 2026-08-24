@@ -4,6 +4,7 @@ import type { ProductPageElementsRules } from "@/features/products/lib/product-p
 import type { ResolvedProductBuyNow } from "@/features/products/lib/product-buy-now";
 import type { ResolvedProductCtaConfig } from "@/features/products/lib/product-cta";
 import type { ProductCardAppearanceStudio } from "@/features/products/card-appearance/use-product-card-appearance-studio";
+import { PRODUCT_PAGE_DESIGN_HREF } from "@/features/catalog/admin/catalog-admin-tabs";
 import { ProductCardAppearanceNav } from "./card-appearance/product-card-appearance-nav";
 import { ProductCardAppearanceSections } from "./card-appearance/product-card-appearance-sections";
 import { ProductCardLivePreview } from "./ProductCardLivePreview";
@@ -37,7 +38,7 @@ export function ProductCardAppearancePanel({
         </h2>
         <p className="apm-dashboard-card__lede">
           Global design for storefront product cards. Content visibility (price, stock, rating, compare,
-          brand) is managed in the <a href="#product-page">Product Page</a> tab. Action buttons use
+          brand) is managed in the <a href={PRODUCT_PAGE_DESIGN_HREF}>Product Page</a> tab. Action buttons use
           settings from <a href="#buy-now">Buy Now</a> and <a href="#cta">CTA Button</a>.
         </p>
       </header>

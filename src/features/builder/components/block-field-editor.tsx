@@ -9,6 +9,7 @@ import type {
 } from "@/features/testimonials/types";
 import type {
   CollectionBuilderOption,
+  OrderingProfileBuilderOption,
   ProductBuilderOption,
 } from "@/features/builder/blocks/commerce/product-blocks/types";
 import type { BrandBuilderOption } from "@/features/builder/blocks/commerce/commerce-showcase/types";
@@ -40,6 +41,7 @@ import {
   LogoCloudBlockFields,
   StatsCounterBlockFields,
   BeforeAfterBlockFields,
+  TabbedShowcaseBlockFields,
 } from "@/features/builder/blocks/marketing/fields";
 import { AnnouncementBarBlockFields } from "@/features/announcement-bar/admin/announcement-bar-block-fields";
 import {
@@ -113,6 +115,7 @@ type Props = {
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
   collectionOptions?: CollectionBuilderOption[];
   productOptions?: ProductBuilderOption[];
+  orderingProfileOptions?: OrderingProfileBuilderOption[];
   brandOptions?: BrandBuilderOption[];
   contentTypeOptions?: ContentTypeOption[];
 };
@@ -126,6 +129,7 @@ export function BlockFieldEditor({
   testimonialCollectionOptions = [],
   collectionOptions = [],
   productOptions = [],
+  orderingProfileOptions = [],
   brandOptions = [],
   contentTypeOptions,
 }: Props) {
@@ -482,6 +486,9 @@ export function BlockFieldEditor({
     case "beforeAfter":
       return <BeforeAfterBlockFields block={block} onChange={onChange} />;
 
+    case "tabbedShowcase":
+      return <TabbedShowcaseBlockFields block={block} onChange={onChange} />;
+
     case "video":
       return (
         <div className="space-y-3">
@@ -539,6 +546,7 @@ export function BlockFieldEditor({
           onChange={onChange}
           collectionOptions={collectionOptions}
           productOptions={productOptions}
+          orderingProfileOptions={orderingProfileOptions}
         />
       );
 
@@ -549,6 +557,7 @@ export function BlockFieldEditor({
           onChange={onChange}
           collectionOptions={collectionOptions}
           productOptions={productOptions}
+          orderingProfileOptions={orderingProfileOptions}
         />
       );
 
@@ -626,6 +635,7 @@ export function BlockFieldEditor({
           onChange={onChange}
           collectionOptions={collectionOptions}
           productOptions={productOptions}
+          orderingProfileOptions={orderingProfileOptions}
         />
       );
 
@@ -635,6 +645,7 @@ export function BlockFieldEditor({
           block={block}
           onChange={onChange}
           brandOptions={brandOptions}
+          orderingProfileOptions={orderingProfileOptions}
         />
       );
 
@@ -644,6 +655,7 @@ export function BlockFieldEditor({
           block={block}
           onChange={onChange}
           collectionOptions={collectionOptions}
+          orderingProfileOptions={orderingProfileOptions}
         />
       );
 

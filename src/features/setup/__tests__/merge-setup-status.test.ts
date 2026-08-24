@@ -36,6 +36,22 @@ test("mergeSetupStatusWithEnvOverrides uses DB coming soon when fromApi is true"
   assert.equal(merged.comingSoonEnabled, true);
 });
 
+test("mergeSetupStatusWithEnvOverrides does not let env force coming soon when API says live", () => {
+  process.env.COMING_SOON_ENABLED = "true";
+
+  const merged = mergeSetupStatusWithEnvOverrides(
+    {
+      setupComplete: true,
+      registrationEnabled: true,
+      comingSoonEnabled: false,
+      confident: true,
+    },
+    { fromApi: true },
+  );
+
+  assert.equal(merged.comingSoonEnabled, false);
+});
+
 test("mergeSetupStatusWithEnvOverrides uses env coming soon when API unavailable", () => {
   process.env.COMING_SOON_ENABLED = "true";
 
@@ -47,6 +63,45 @@ test("mergeSetupStatusWithEnvOverrides uses env coming soon when API unavailable
   });
 
   assert.equal(merged.comingSoonEnabled, true);
+});
+
+test("mergeSetupStatusWithEnvOverrides ignores stale coming soon when API unavailable", () => {
+  const merged = mergeSetupStatusWithEnvOverrides({
+    setupComplete: true,
+    registrationEnabled: true,
+    comingSoonEnabled: true,
+    confident: true,
+  });
+
+  assert.equal(merged.comingSoonEnabled, false);
+});
+
+test("non-API merge uses a short cache so Live recovers after a status fetch failure", () => {
+  const merged = mergeSetupStatusWithEnvOverrides({
+    setupComplete: true,
+    registrationEnabled: true,
+    comingSoonEnabled: false,
+    confident: true,
+  });
+
+  const ttl = merged.expires - Date.now();
+  assert.ok(ttl <= 30_000 + 100);
+  assert.ok(ttl > 0);
+});
+
+test("API merge caches a live complete status longer than fallback", () => {
+  const merged = mergeSetupStatusWithEnvOverrides(
+    {
+      setupComplete: true,
+      registrationEnabled: true,
+      comingSoonEnabled: false,
+      confident: true,
+    },
+    { fromApi: true },
+  );
+
+  const ttl = merged.expires - Date.now();
+  assert.ok(ttl > 60_000);
 });
 
 test("statusFromEnvFallback returns null when no env overrides are set", () => {

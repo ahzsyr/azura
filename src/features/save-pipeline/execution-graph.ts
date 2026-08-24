@@ -35,7 +35,7 @@ const SIGNAL_PREFIXES: Record<
   content_changed: {
     CMS_PAGE: ["blocks", "templateKey", "localeFields", "title", "excerpt"],
     POST: ["blocks", "localeFields", "title", "excerpt", "featuredImageAlt", "featuredImageCaption"],
-    CONTENT_ITEM: ["attributes", "blocks", "displaySettings"],
+    CONTENT_ITEM: ["attributes", "blocks", "displaySettings", "localeFields"],
   },
   blocks_changed: {
     CMS_PAGE: ["blocks"],
@@ -45,15 +45,26 @@ const SIGNAL_PREFIXES: Record<
   locale_changed: {
     CMS_PAGE: ["localeFields", "title", "excerpt"],
     POST: ["localeFields", "title", "excerpt", "featuredImageAlt", "featuredImageCaption"],
-    CONTENT_ITEM: ["attributes", "slug", "blocks"],
+    CONTENT_ITEM: ["localeFields", "attributes", "slug", "blocks"],
   },
   searchable_changed: {
     CMS_PAGE: ["slug", "blocks", "localeFields", "title", "excerpt", "content"],
     POST: ["slug", "blocks", "localeFields", "title", "excerpt", "featuredImageAlt", "featuredImageCaption", "categoryIds", "tagIds"],
-    CONTENT_ITEM: ["slug", "attributes", "blocks", "metadata", "collectionId"],
+    CONTENT_ITEM: ["slug", "attributes", "blocks", "metadata", "collectionId", "localeFields"],
   },
   public_output_changed: {
-    CMS_PAGE: ["slug", "blocks", "visualSettings", "title", "templateKey", "localeFields"],
+    CMS_PAGE: [
+      "slug",
+      "blocks",
+      "visualSettings",
+      "title",
+      "templateKey",
+      "localeFields",
+      "authorId",
+      "sources",
+      "showAuthor",
+      "showPublishedAt",
+    ],
     POST: [
       "slug",
       "blocks",
@@ -64,6 +75,8 @@ const SIGNAL_PREFIXES: Record<
       "categoryIds",
       "tagIds",
       "relatedPostIds",
+      "showAuthor",
+      "showPublishedAt",
     ],
     CONTENT_ITEM: [
       "slug",
@@ -74,12 +87,17 @@ const SIGNAL_PREFIXES: Record<
       "isFeatured",
       "isVisible",
       "sortOrder",
+      "localeFields",
+      "authorId",
+      "sources",
+      "showAuthor",
+      "showPublishedAt",
     ],
   },
   metadata_changed: {
-    CMS_PAGE: ["visualSettings", "scheduledAt"],
-    POST: ["scheduledAt", "authorId", "featuredImageId", "featuredImageSettings"],
-    CONTENT_ITEM: ["displaySettings", "sortOrder", "isFeatured", "isVisible"],
+    CMS_PAGE: ["visualSettings", "scheduledAt", "authorId", "sources", "showAuthor", "showPublishedAt"],
+    POST: ["scheduledAt", "authorId", "featuredImageId", "featuredImageSettings", "showAuthor", "showPublishedAt"],
+    CONTENT_ITEM: ["displaySettings", "sortOrder", "isFeatured", "isVisible", "authorId", "showAuthor", "showPublishedAt"],
   },
 };
 

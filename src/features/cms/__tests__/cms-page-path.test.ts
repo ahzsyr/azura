@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   getCmsPageLocalizedPublicPath,
   getCmsPagePublicPath,
+  getWiredCmsPageRedirect,
   normalizeWiredCmsAbsoluteUrl,
   normalizeWiredCmsPathname,
 } from "@/features/cms/cms-page-path";
@@ -26,6 +27,14 @@ describe("cms-page-path", () => {
       normalizeWiredCmsAbsoluteUrl("https://brt-me.com/en/pages/home"),
       "https://brt-me.com/en",
     );
+  });
+
+  it("wires solutions CMS page to /solutions and off /pages/solutions", () => {
+    assert.equal(getCmsPagePublicPath("solutions"), "/solutions");
+    assert.equal(getCmsPageLocalizedPublicPath("en", "solutions"), "/en/solutions");
+    assert.equal(normalizeWiredCmsPathname("/en/pages/solutions"), "/en/solutions");
+    assert.equal(getWiredCmsPageRedirect("/en/pages/solutions", ["en", "ar"]), "/en/solutions");
+    assert.equal(getWiredCmsPageRedirect("/en/solutions", ["en"]), null);
   });
 
   it("normalizes wired service CMS paths", () => {

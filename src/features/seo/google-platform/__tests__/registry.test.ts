@@ -19,12 +19,12 @@ test("registers all planned Google integrations", () => {
     "business_profile",
     "pagespeed",
     "ads",
-    "indexing_api",
     "indexnow",
   ]) {
     assert.ok(ids.includes(expected as never), `missing ${expected}`);
   }
-  assert.equal(ids.length, 9);
+  assert.equal(ids.length, 8);
+  assert.ok(!ids.includes("indexing_api" as never), "indexing_api belongs under Search Engines, not Google panel");
 });
 
 test("generates tabs from the registry", () => {

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { resetPasswordSchema } from "@/features/account/password-reset.schema";
 import { consumePasswordResetToken } from "@/features/account/password-reset.service";
+import { zodErrorMessage } from "@/lib/zod-error";
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +15,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: result.error }, { status: 400 });
     }
     return NextResponse.json({ success: true });
-  } catch {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  } catch (error) {
+    return NextResponse.json({ error: zodErrorMessage(error) }, { status: 400 });
   }
 }

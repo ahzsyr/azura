@@ -185,7 +185,9 @@ If you must build on the server:
 
 Default commands: **Build** `npm run build`, **Start** `npm start` (or `npm run start:hostinger`).
 
-`npm start` / `prestart` now runs `db:migrate:deploy` so Hostinger Git deploys apply schema changes (e.g. `FormTemplate.allowedAdminIds`) automatically. Unset `SKIP_DB_MIGRATE` if it is set in hPanel.
+`npm start` / `prestart` now runs `db:migrate:deploy` so Hostinger Git deploys apply schema changes (e.g. `FormTemplate.allowedAdminIds`, security hardening) automatically. Unset `SKIP_DB_MIGRATE` if it is set in hPanel.
+
+Security hardening (`20260821120000_security_hardening`) is **MySQL** SQL in `prisma/migrations/` and is also applied idempotently by `prisma-migrate-deploy.mjs` patches on start — so Git → Hostinger deploys pick it up without a manual phpMyAdmin step.
 
 ### Operational guardrails
 

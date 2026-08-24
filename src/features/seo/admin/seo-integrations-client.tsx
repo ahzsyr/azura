@@ -95,6 +95,16 @@ export function SeoIntegrationsClient({
 
   const bing = config.bing ?? {};
   const indexnow = config.indexnow ?? {};
+  const googleIndexingRaw = config.google_indexing ?? {};
+  const googleIndexing = {
+    ...googleIndexingRaw,
+    enabled:
+      googleIndexingRaw.enabled ??
+      Boolean(googleIndexingRaw.hasServiceAccountJson || config.google?.hasServiceAccountJson),
+    hasServiceAccountJson: Boolean(
+      googleIndexingRaw.hasServiceAccountJson || config.google?.hasServiceAccountJson,
+    ),
+  };
 
   return (
     <div className="max-w-6xl space-y-6">
@@ -105,15 +115,8 @@ export function SeoIntegrationsClient({
         <AdminPageHeader
           className="mb-0 mt-2"
           title="SEO integrations"
-          description="Configure Bing and IndexNow submissions and monitor the outbound SEO queue. Google settings live under Google in the SEO sidebar."
+          description="Configure IndexNow, Bing, and Google Indexing API submissions and monitor the outbound SEO queue. Google OAuth products (Search Console, Analytics) live under Google in the SEO sidebar."
         />
-        <p className="mt-3 text-sm text-muted-foreground">
-          Google Analytics, Tag Manager, and Search Console are configured in{" "}
-          <Link href="/admin/seo/google" className="text-primary underline">
-            Google settings
-          </Link>
-          .
-        </p>
       </div>
 
       <AdminSettingsLayout
@@ -139,6 +142,7 @@ export function SeoIntegrationsClient({
               <IntegrationsConfigurePanel
                 bing={bing}
                 indexnow={indexnow}
+                googleIndexing={googleIndexing}
                 health={health}
                 siteUrl={siteUrl}
                 sitemapUrl={sitemapUrl}

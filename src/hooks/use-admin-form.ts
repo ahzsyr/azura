@@ -190,37 +190,62 @@ export function useAdminFormState(options?: PageActions) {
       return;
     }
 
-    registerPageActions({
-      onSave: hasHandler(current?.onSave) ? dispatchSave : undefined,
-      saveLabel: current?.saveLabel,
-      saveTooltip: current?.saveTooltip,
-      canSave: current?.canSave ?? hasHandler(current?.onSave),
-      onUpdate: hasHandler(current?.onUpdate) ? dispatchUpdate : undefined,
-      updateLabel: current?.updateLabel,
-      updateTooltip: current?.updateTooltip,
-      canUpdate: current?.canUpdate ?? hasHandler(current?.onUpdate),
-      onRebuildIndex: hasHandler(current?.onRebuildIndex) ? dispatchRebuild : undefined,
-      rebuildIndexLabel: current?.rebuildIndexLabel,
-      onPublish: hasHandler(current?.onPublish) ? dispatchPublish : undefined,
-      publishLabel: current?.publishLabel,
-      publishTooltip: current?.publishTooltip,
-      onPreview: current?.onPreview,
-      onUndo: current?.onUndo,
-      onRedo: current?.onRedo,
-      canUndo: current?.canUndo,
-      canRedo: current?.canRedo,
-      canPublish: current?.canPublish ?? hasHandler(current?.onPublish),
-      canPreview: current?.canPreview ?? hasHandler(current?.onPreview),
-      markSavedOnSaveSuccess: current?.markSavedOnSaveSuccess,
-      selfManagedSaveStatus: current?.selfManagedSaveStatus,
-      onCancel: hasHandler(current?.onCancel) ? dispatchCancel : undefined,
-      cancelLabel: current?.cancelLabel,
-      canCancel: current?.canCancel,
+    const applyActions = () => {
+      const latest = optionsRef.current;
+      if (!hasActionableHandlers(latest)) return;
+      registerPageActions({
+        onSave: hasHandler(latest?.onSave) ? dispatchSave : undefined,
+        saveLabel: latest?.saveLabel,
+        saveTooltip: latest?.saveTooltip,
+        canSave: latest?.canSave ?? hasHandler(latest?.onSave),
+        onUpdate: hasHandler(latest?.onUpdate) ? dispatchUpdate : undefined,
+        updateLabel: latest?.updateLabel,
+        updateTooltip: latest?.updateTooltip,
+        canUpdate: latest?.canUpdate ?? hasHandler(latest?.onUpdate),
+        onRebuildIndex: hasHandler(latest?.onRebuildIndex) ? dispatchRebuild : undefined,
+        rebuildIndexLabel: latest?.rebuildIndexLabel,
+        onPublish: hasHandler(latest?.onPublish) ? dispatchPublish : undefined,
+        publishLabel: latest?.publishLabel,
+        publishTooltip: latest?.publishTooltip,
+        onPreview: latest?.onPreview,
+        onUndo: latest?.onUndo,
+        onRedo: latest?.onRedo,
+        canUndo: latest?.canUndo,
+        canRedo: latest?.canRedo,
+        canPublish: latest?.canPublish ?? hasHandler(latest?.onPublish),
+        canPreview: latest?.canPreview ?? hasHandler(latest?.onPreview),
+        markSavedOnSaveSuccess: latest?.markSavedOnSaveSuccess,
+        selfManagedSaveStatus: latest?.selfManagedSaveStatus,
+        onCancel: hasHandler(latest?.onCancel) ? dispatchCancel : undefined,
+        cancelLabel: latest?.cancelLabel,
+        canCancel: latest?.canCancel,
+      });
+    };
+
+    applyActions();
+    // Sidebar rehydrates admin-ui persist async; re-apply so we win any stale merge.
+    const unsubHydrate = useAdminUiStore.persist.onFinishHydration(() => {
+      applyActions();
     });
+    if (useAdminUiStore.persist.hasHydrated()) {
+      applyActions();
+    }
 
     return () => {
-      clearPageActions();
-      resetSaveStatus();
+      unsubHydrate();
+      // Only clear if we still own the slot (AnimatePresence / Strict Mode can
+      // unmount an older registrar after a newer one has already registered).
+      const owned = useAdminUiStore.getState().pageActions;
+      if (
+        owned.onSave === dispatchSave ||
+        owned.onCancel === dispatchCancel ||
+        owned.onPublish === dispatchPublish ||
+        owned.onUpdate === dispatchUpdate ||
+        owned.onRebuildIndex === dispatchRebuild
+      ) {
+        clearPageActions();
+        resetSaveStatus();
+      }
     };
   }, [
     Boolean(options?.onSave),

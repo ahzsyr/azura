@@ -9,7 +9,6 @@ import { WebPageBuilder } from "../builders/webpage.builder";
 import { BreadcrumbBuilder } from "../builders/breadcrumb.builder";
 import { FaqBuilder } from "../builders/faq.builder";
 import { ImageObjectBuilder } from "../builders/image.builder";
-import { SearchActionBuilder } from "../builders/search-action.builder";
 import { ProductBuilder } from "../builders/product.builder";
 import { ArticleBuilder } from "../builders/article.builder";
 import { VideoObjectBuilder } from "../builders/video.builder";
@@ -20,7 +19,6 @@ const ALL_BUILDERS: SchemaBuilder[] = [
   LocalBusinessBuilder,
   ImageObjectBuilder,
   WebsiteBuilder,
-  SearchActionBuilder,
   WebPageBuilder,
   BreadcrumbBuilder,
   FaqBuilder,

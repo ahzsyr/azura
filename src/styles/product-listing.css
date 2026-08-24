@@ -1243,10 +1243,13 @@
   display: block;
   min-height: 1.15em;
   font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: 0.62rem;
+  font-size: var(
+    --prd-card-brand-fs,
+    calc(var(--prd-card-title-fs, var(--az-fs-product-card-title, 0.92rem)) * 0.58)
+  );
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   color: var(--p, var(--color-primary));
 }
 

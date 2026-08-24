@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice, getLocalizedField, type LocalizedFieldOptions } from "@/lib/utils";
+import { resolveCatalogCardLocation } from "@/features/catalog/catalog-card-location";
 import { DEFAULT_MEDIA_PLACEHOLDER } from "@/features/media/constants";
 import type { CatalogCardData } from "@/features/catalog/types";
 import type { DisplaySettings } from "@/schemas/catalog/display-settings";
@@ -66,16 +67,14 @@ export function CatalogCard({
     className
   );
 
-  const href =
-    item.href ??
-    (item.source === "packages" && item.slug
-      ? `/packages/${item.slug}`
-      : item.source === "services" && item.ctaHref
-        ? item.ctaHref
-        : "/hotels-transport");
+  const href = item.href || (item.slug ? `/${item.slug}` : "/");
 
   const resolvedHref = linkMode === "locale-path" ? `/${locale}${href}` : href;
   const ctaLabel = t("viewDetails");
+  const locationLabel = resolveCatalogCardLocation(item, locale);
+  const showLocation = Boolean(locationLabel) && settings.showCity;
+  const showDuration =
+    item.source === "packages" && settings.showDuration && item.duration != null;
 
   const compareOverlay = compare ? (
     <CompareCardOverlay
@@ -134,23 +133,21 @@ export function CatalogCard({
           <p className="line-clamp-3 text-sm text-muted-foreground">{excerpt}</p>
         )}
 
-        {item.source === "packages" && (
+        {(showDuration || showLocation) && (
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-            {settings.showDuration && item.duration != null && (
+            {showDuration && (
               <span className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
                 {item.duration} {t("days")}
               </span>
             )}
-            <span className="flex items-center gap-1">
-              <MapPin className="h-4 w-4" />
-              Makkah & Madinah
-            </span>
+            {showLocation && (
+              <span className="flex items-center gap-1">
+                <MapPin className="h-4 w-4" />
+                {locationLabel}
+              </span>
+            )}
           </div>
-        )}
-
-        {item.source === "hotels" && settings.showCity && item.city && (
-          <p className="text-sm text-muted-foreground">{item.city}</p>
         )}
 
         {item.source === "packages" && settings.showPrice && item.price != null && (

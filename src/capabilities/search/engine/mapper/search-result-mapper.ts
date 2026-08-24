@@ -10,6 +10,10 @@ import type {
   SearchVisibility,
 } from "@/capabilities/search/engine/types";
 import { excerpt } from "@/capabilities/search/search-text";
+import {
+  isAdminSearchUrlPath,
+  resolveSearchContentTypeSlug,
+} from "@/capabilities/search/lib/search-public-path";
 
 function metaOf(metadata: unknown): Record<string, unknown> {
   return (metadata ?? {}) as Record<string, unknown>;
@@ -34,12 +38,29 @@ function resolveSnippet(
   return excerpt(displaySnippet, query);
 }
 
+function resolveContentTypeSlug(
+  meta: Record<string, unknown>,
+  opts?: { entityType?: string; urlPath?: string }
+): string | undefined {
+  return resolveSearchContentTypeSlug({
+    entityType: opts?.entityType,
+    metadata: meta,
+    urlPath: opts?.urlPath,
+  });
+}
+
 export class SearchResultMapper {
   toSearchResult(hit: RankedHit, query: string): SearchResult {
     const meta = metaOf(hit.metadata);
     const kind = searchRegistry.kindForEntityType(hit.entityType, hit.metadata);
     const visibility: SearchVisibility =
-      hit.entityType === "MEDIA" || meta.adminOnly === true ? "admin" : "public";
+      hit.entityType === "MEDIA" ||
+      hit.entityType === "ICON" ||
+      meta.adminOnly === true ||
+      meta.visibility === "admin" ||
+      isAdminSearchUrlPath(hit.urlPath)
+        ? "admin"
+        : "public";
 
     return {
       id: hit.id,
@@ -47,7 +68,10 @@ export class SearchResultMapper {
       entityId: hit.entityId,
       locale: hit.locale,
       kind,
-      contentTypeSlug: meta.contentTypeSlug as string | undefined,
+      contentTypeSlug: resolveContentTypeSlug(meta, {
+        entityType: hit.entityType,
+        urlPath: hit.urlPath,
+      }),
       title: hit.title,
       snippet: resolveSnippet(hit, query, meta),
       urlPath: hit.urlPath,
@@ -77,7 +101,10 @@ export class SearchResultMapper {
       urlPath: row.urlPath,
       entityType: row.entityType,
       kind: searchRegistry.kindForEntityType(row.entityType, row.metadata),
-      contentTypeSlug: meta.contentTypeSlug as string | undefined,
+      contentTypeSlug: resolveContentTypeSlug(meta, {
+        entityType: row.entityType,
+        urlPath: row.urlPath,
+      }),
       adminPath:
         (meta.adminPath as string) ||
         adminPathFor(row.entityType, row.entityId, meta),

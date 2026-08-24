@@ -23,7 +23,12 @@ export {
   normalizeMatchingRulesList,
   collectProductSpecKeys,
   isSpecificationRuleField,
+  extractSpecAliasFields,
+  readSpecValueByName,
+  SPEC_ALIAS_FIELDS,
+  MAIN_CATEGORY_VALUES,
 } from "./fields-product";
+export type { SpecAliasField } from "./fields-product";
 export {
   normalizeForMatch,
   matchesExact,

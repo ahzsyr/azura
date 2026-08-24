@@ -65,3 +65,27 @@ export function buildPreferredHostRedirectUrl(
   const path = pathname.startsWith("/") ? pathname : `/${pathname}`;
   return `${toOrigin.replace(/\/$/, "")}${path}${search}`;
 }
+
+function registrableHost(hostname: string): string {
+  return hostname.toLowerCase().replace(/^www\./, "");
+}
+
+/**
+ * Rewrite a URL onto `preferredOrigin` when it is only a www/apex (or http/https)
+ * twin of that origin. Leaves unrelated hosts unchanged.
+ */
+export function alignUrlToPreferredOrigin(url: string, preferredOrigin: string | undefined | null): string {
+  const preferred = parsePreferredSiteUrl(preferredOrigin);
+  if (!preferred) return url;
+  try {
+    const parsed = new URL(url);
+    if (registrableHost(parsed.hostname) !== registrableHost(preferred.hostname)) {
+      return url;
+    }
+    parsed.protocol = new URL(preferred.origin).protocol;
+    parsed.host = new URL(preferred.origin).host;
+    return parsed.toString().replace(/\/$/, "");
+  } catch {
+    return url;
+  }
+}

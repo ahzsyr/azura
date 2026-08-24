@@ -139,6 +139,7 @@ export function mapEntityToCardViewModel(
     compareContentTypeSlug: compare?.contentTypeSlug,
     compareMaxItems: compare?.maxItems,
     compareLabel: compare?.label,
+    city: readString(fields.city) ?? readString(fields.location) ?? readString(fields.locationEn),
   };
 
   if (presetId === "destination") {

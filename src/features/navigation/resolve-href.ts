@@ -44,7 +44,7 @@ export function getItemHref(item: MenuItem, localeCode: string = STATIC_DEFAULT_
     case "collection":
     case "packageCategory": {
       const slug = (item.collectionId ?? item.packageCategoryId ?? "").trim();
-      return slug ? localePath(`/collections/${slug}`, localeCode) : "#";
+      return slug ? localePath(`/categories/${slug}`, localeCode) : "#";
     }
     case "brand": {
       const slug = (item.brandSlug ?? "").trim();

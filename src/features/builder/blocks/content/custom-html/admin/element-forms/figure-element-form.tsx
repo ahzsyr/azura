@@ -4,9 +4,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { IMAGE_PICKER_MEDIA_TYPES } from "@/features/media/constants";
-import { useAdminEditingLocaleContextOptional } from "@/components/admin/admin-editing-locale-provider";
-import { DEFAULT_ADMIN_LOCALE, getContentFieldSuffix } from "@/i18n/locale-config";
 import type { HtmlElement } from "../../types";
+import { LocalizedHtmlInput } from "../localized-html-input";
 
 type Props = {
   element: HtmlElement;
@@ -14,18 +13,9 @@ type Props = {
 };
 
 export function FigureElementForm({ element, onChange }: Props) {
-  const adminLocale = useAdminEditingLocaleContextOptional();
-  const activeCode = adminLocale?.activeLocaleCode ?? DEFAULT_ADMIN_LOCALE.code;
-  const defaultCode = adminLocale?.defaultCode ?? DEFAULT_ADMIN_LOCALE.code;
-  const isDefault = activeCode === defaultCode;
-  const suffix = getContentFieldSuffix(activeCode);
-  const textKey = `text${suffix}`;
-
   const attrs = element.attributes ?? {};
   const update = (patch: Record<string, unknown>) =>
     onChange({ attributes: { ...attrs, ...patch } });
-
-  const captionValue = (element[textKey] as string | undefined) ?? (isDefault ? (element.text ?? "") : "");
 
   return (
     <div className="space-y-3 p-3">
@@ -38,31 +28,23 @@ export function FigureElementForm({ element, onChange }: Props) {
         }
       />
 
-      <div>
-        <Label className="text-xs">Alt text</Label>
-        <Input
-          className="mt-1 h-8 text-xs"
-          placeholder="Describe the image…"
-          value={attrs.alt ?? ""}
-          onChange={(e) => update({ alt: e.target.value })}
-        />
-      </div>
+      <LocalizedHtmlInput
+        label="Alt text"
+        baseKey="alt"
+        values={attrs as Record<string, unknown>}
+        onChange={(patch) => update(patch)}
+        placeholder="Describe the image…"
+      />
 
-      <div>
-        <Label className="text-xs">Caption (figcaption)</Label>
-        <textarea
-          className="mt-1 w-full resize-y rounded-md border bg-background px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-ring min-h-[60px]"
-          value={captionValue}
-          placeholder="Optional caption text…"
-          onChange={(e) => {
-            if (isDefault) {
-              onChange({ text: e.target.value, [textKey]: e.target.value });
-            } else {
-              onChange({ [textKey]: e.target.value });
-            }
-          }}
-        />
-      </div>
+      <LocalizedHtmlInput
+        label="Caption (figcaption)"
+        baseKey="text"
+        values={element as Record<string, unknown>}
+        onChange={(patch) => onChange(patch)}
+        multiline
+        placeholder="Optional caption text…"
+        inputClassName="mt-1 w-full resize-y rounded-md border bg-background px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-ring min-h-[60px]"
+      />
 
       <div className="grid grid-cols-2 gap-2">
         <div>

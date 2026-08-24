@@ -12,6 +12,7 @@ import {
   parseVisualEffectSettings,
 } from "@/features/theme/effect-settings";
 import type {
+  ChromeVisibilityMode,
   FooterThemeSettings,
   HeaderThemeSettings,
   IosStatusBarStyle,
@@ -25,6 +26,12 @@ import { normalizeBranding } from "@/features/navigation/branding-defaults";
 
 export { DEFAULT_TYPOGRAPHY, THEME_PRESET_DEFAULTS };
 
+const DEFAULT_CHROME_VISIBILITY = {
+  enabled: true,
+  visibilityMode: "all" as ChromeVisibilityMode,
+  pagePaths: [] as string[],
+};
+
 export const DEFAULT_HEADER_CONFIG: HeaderThemeSettings = {
   showLogo: true,
   showNav: true,
@@ -33,6 +40,7 @@ export const DEFAULT_HEADER_CONFIG: HeaderThemeSettings = {
   sticky: true,
   ctaLabel: "",
   ctaHref: "/contact",
+  ...DEFAULT_CHROME_VISIBILITY,
 };
 
 export const DEFAULT_FOOTER_CONFIG: FooterThemeSettings = {
@@ -41,12 +49,28 @@ export const DEFAULT_FOOTER_CONFIG: FooterThemeSettings = {
   showQuickLinks: true,
   showContact: true,
   tagline: "",
+  ...DEFAULT_CHROME_VISIBILITY,
 };
 
 function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value)
     ? (value as Record<string, unknown>)
     : {};
+}
+
+function parseChromeVisibility(raw: Record<string, unknown>): {
+  enabled: boolean;
+  visibilityMode: ChromeVisibilityMode;
+  pagePaths: string[];
+} {
+  const mode = raw.visibilityMode;
+  return {
+    enabled: raw.enabled !== false,
+    visibilityMode: mode === "selected" || mode === "except" || mode === "all" ? mode : "all",
+    pagePaths: Array.isArray(raw.pagePaths)
+      ? raw.pagePaths.filter((path): path is string => typeof path === "string" && path.length > 0)
+      : [],
+  };
 }
 
 export function parseHeaderConfig(raw: unknown): HeaderThemeSettings {
@@ -64,6 +88,7 @@ export function parseHeaderConfig(raw: unknown): HeaderThemeSettings {
           ? r.ctaLabelEn
           : DEFAULT_HEADER_CONFIG.ctaLabel,
     ctaHref: typeof r.ctaHref === "string" && r.ctaHref ? r.ctaHref : DEFAULT_HEADER_CONFIG.ctaHref,
+    ...parseChromeVisibility(r),
   };
 }
 
@@ -83,6 +108,7 @@ export function parseFooterConfig(raw: unknown): FooterThemeSettings {
         : typeof r.taglineEn === "string"
           ? r.taglineEn
           : "",
+    ...parseChromeVisibility(r),
   };
 }
 

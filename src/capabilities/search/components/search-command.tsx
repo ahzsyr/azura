@@ -169,6 +169,7 @@ function GlobalSearchModal({
             onToggleType={search.toggleType}
             onClearTypes={() => search.setActiveTypes([])}
             entityLabel={search.entityLabel}
+            hitLabel={search.hitLabel}
             enabledFilters={[]}
             facetValueOptions={new Map()}
             activeFacetFilters={{}}

@@ -1,5 +1,6 @@
 import { mediaRepository } from "@/repositories/media.repository";
 import { MediaAdminTabs } from "@/features/media/components/media-admin-tabs";
+import { ensureBuiltinIcons } from "@/features/icons/actions";
 import { loadTranslationsMap, localizedFieldValue } from "@/features/translation/bilingual-serialize";
 import { resolveTranslation } from "@/features/translation/translation-resolver";
 
@@ -9,6 +10,11 @@ export default async function MediaAdminPage() {
   let totalBytes;
   let storageByType;
   try {
+    try {
+      await ensureBuiltinIcons();
+    } catch (e) {
+      console.error("[admin/media] ensureBuiltinIcons failed", e);
+    }
     [assets, folders, totalBytes, storageByType] = await Promise.all([
       mediaRepository.listAssets(),
       mediaRepository.listFolders(),
@@ -37,7 +43,7 @@ export default async function MediaAdminPage() {
       <div>
         <h1 className="text-2xl font-bold">Media Manager</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Site media for the JSON catalog lives on disk under /uploads. CMS media is stored in the database.
+          CMS media is stored in the database. Site media for the JSON catalog lives on disk under /uploads.
         </p>
       </div>
       <MediaAdminTabs

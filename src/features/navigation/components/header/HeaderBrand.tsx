@@ -10,6 +10,8 @@ import { brandingCssVariables } from "@/features/navigation/branding-defaults";
 import { siteHeroHeadingAttrs } from "@/features/theme/hero-heading-attrs";
 import { useTextEffectRescan } from "@/features/theme/use-text-effect-rescan";
 import { BrandLogoImage } from "@/features/navigation/components/header/brand-logo-image";
+import { THEME_CHANGE_EVENT } from "@/features/theme/engine/constants";
+import { readStoredPresetEffects } from "@/features/theme/engine";
 import type { BrandingState } from "@/features/navigation/types";
 
 interface Props {
@@ -19,16 +21,46 @@ interface Props {
   siteTextEffect?: string | null;
 }
 
+function normalizeTextEffect(value: string | null | undefined): string | null {
+  if (!value || value === "none") return null;
+  return value;
+}
+
+function readLiveTextEffect(): string | null {
+  if (typeof document === "undefined") return null;
+  const fromDom = normalizeTextEffect(document.documentElement.dataset.textEffectTheme);
+  if (fromDom) return fromDom;
+  try {
+    return normalizeTextEffect(readStoredPresetEffects()?.textEffect);
+  } catch {
+    return null;
+  }
+}
+
 export function HeaderBrand({ branding, localeCode = defaultLocale.code, siteTextEffect }: Props) {
   const lightUrl = branding.logoImageLightUrl || branding.logoImageUrl || "";
   const darkUrl = branding.logoImageDarkUrl || lightUrl;
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const experience = useVisualExperience();
+  const [visitorTextEffect, setVisitorTextEffect] = useState<string | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+    const sync = () => setVisitorTextEffect(readLiveTextEffect());
+    sync();
+    window.addEventListener(THEME_CHANGE_EVENT, sync);
+    return () => window.removeEventListener(THEME_CHANGE_EVENT, sync);
+  }, []);
+
+  // Prefer explicit override → live visitor preset effect → site experience.
   const textEffect =
     siteTextEffect !== undefined
-      ? siteTextEffect
-      : (experience?.resolved.textEffect ?? null);
+      ? normalizeTextEffect(siteTextEffect)
+      : (visitorTextEffect ??
+        normalizeTextEffect(experience?.resolved.textEffect) ??
+        null);
+
   const brandTextEffectAttrs = siteHeroHeadingAttrs(textEffect);
   const brandTextEffectProps = {
     "data-text-effect-target": "brand" as const,
@@ -36,10 +68,6 @@ export function HeaderBrand({ branding, localeCode = defaultLocale.code, siteTex
   };
 
   useTextEffectRescan(textEffect, experience?.resolved.animationsEnabled !== false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const activeLogoImage =
     mounted && resolvedTheme === "dark" ? darkUrl || lightUrl : lightUrl || darkUrl;
@@ -53,7 +81,7 @@ export function HeaderBrand({ branding, localeCode = defaultLocale.code, siteTex
 
   const hasImage = branding.logoMode === "image" && activeLogoImage;
   const logoInner = hasImage ? (
-    <BrandLogoImage src={activeLogoImage} width={120} height={40} priority />
+    <BrandLogoImage src={activeLogoImage} width={120} height={40} priority tintWithPrimary />
   ) : (
     (branding.logoText || "").trim() || DEFAULT_BRAND_SHORT
   );

@@ -1,5 +1,6 @@
 import { newId } from "@/features/builder/blocks/content/schemas/content-blocks";
 import type { HtmlElement, HtmlElementAttributes } from "../types";
+import { copyPrefixedFields } from "./localized-fields";
 
 export type TableConfig = {
   rows: number;
@@ -15,6 +16,8 @@ export type ColumnDef = {
   label: string;
   width?: string;
   align?: "left" | "center" | "right";
+  /** Locale variants: labelEn, labelAr, etc. */
+  [key: string]: string | undefined;
 };
 
 export type TableCellData = {
@@ -25,6 +28,8 @@ export type TableCellData = {
   rowspan?: number;
   align?: "left" | "center" | "right";
   width?: string;
+  /** Locale variants: textEn, textAr, etc. */
+  [key: string]: string | number | undefined;
 };
 
 export type TableRowData = {
@@ -39,12 +44,25 @@ export type TableData = {
   columns: ColumnDef[];
 };
 
+const CELL_STRUCTURAL_KEYS = new Set(["id", "text", "colspan", "rowspan", "align", "width"]);
+
+export function pickCellLocaleFields(cell: TableCellData | undefined): Record<string, string> {
+  if (!cell) return {};
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(cell)) {
+    if (CELL_STRUCTURAL_KEYS.has(k)) continue;
+    if (typeof v === "string") out[k] = v;
+  }
+  return out;
+}
+
 // ─── Extraction ─────────────────────────────────────────────────────────────
 
 function extractRowData(tr: HtmlElement): TableRowData {
   const cells: TableCellData[] = (tr.children ?? []).map((cell) => ({
     id: cell.id,
     text: cell.text ?? "",
+    ...copyPrefixedFields(cell as Record<string, unknown>, "text", "text"),
     colspan: cell.attributes?.colspan,
     rowspan: cell.attributes?.rowspan,
     align: cell.attributes?.cellAlign,
@@ -73,6 +91,7 @@ export function extractTableData(table: HtmlElement, cols: number): TableData {
     return {
       id: existingTh?.id ?? newId("col"),
       label: existingTh?.text ?? `Column ${i + 1}`,
+      ...copyPrefixedFields(existingTh as Record<string, unknown> | undefined, "text", "label"),
       width: existingTh?.attributes?.cellWidth,
       align: existingTh?.attributes?.cellAlign,
     };
@@ -98,13 +117,14 @@ function buildCell(
   const width = data.width ?? col?.width;
   if (align) cellAttrs.cellAlign = align;
   if (width) cellAttrs.cellWidth = width;
-  if (data.colspan && data.colspan > 1) cellAttrs.colspan = data.colspan;
-  if (data.rowspan && data.rowspan > 1) cellAttrs.rowspan = data.rowspan;
+  if (typeof data.colspan === "number" && data.colspan > 1) cellAttrs.colspan = data.colspan;
+  if (typeof data.rowspan === "number" && data.rowspan > 1) cellAttrs.rowspan = data.rowspan;
 
   return {
     id: data.id,
     tag,
     text: data.text,
+    ...copyPrefixedFields(data as Record<string, unknown>, "text", "text"),
     ...(Object.keys(cellAttrs).length ? { attributes: cellAttrs } : {}),
   };
 }
@@ -136,7 +156,22 @@ export function buildTableFromData(
   const children: HtmlElement[] = [];
 
   if (data.headerRow) {
-    const tr = buildRow(data.headerRow.id, "th", data.headerRow.cells, cols, data.columns);
+    const headerCells: TableCellData[] = Array.from({ length: cols }, (_, i) => {
+      const existing = data.headerRow!.cells[i];
+      const col = data.columns[i];
+      const fromCol = copyPrefixedFields(col as Record<string, unknown> | undefined, "label", "text");
+      return {
+        id: existing?.id ?? newId("th"),
+        text: col?.label ?? existing?.text ?? "",
+        ...copyPrefixedFields(existing as Record<string, unknown> | undefined, "text", "text"),
+        ...fromCol,
+        align: existing?.align,
+        width: existing?.width,
+        colspan: existing?.colspan,
+        rowspan: existing?.rowspan,
+      };
+    });
+    const tr = buildRow(data.headerRow.id, "th", headerCells, cols, data.columns);
     children.push({ id: newId("thead"), tag: "thead", children: [tr] });
   }
 
@@ -182,7 +217,11 @@ export function createTableElement(
     headerRow: hasHeader
       ? {
           id: newId("tr"),
-          cells: columns.map((c) => ({ id: newId("th"), text: c.label })),
+          cells: columns.map((c) => ({
+            id: newId("th"),
+            ...copyPrefixedFields(c as Record<string, unknown>, "label", "text"),
+            text: c.label,
+          })),
         }
       : undefined,
     bodyRows: Array.from({ length: rows }, makeEmptyRow),

@@ -67,6 +67,13 @@ export const ENTITY_REGISTRY: Record<TranslatableEntityType, EntityTypeConfig> =
       { field: "values", label: "Values", type: "richtext" },
       { field: "address", label: "Address", type: "textarea" },
       { field: "officeHours", label: "Office hours", type: "textarea" },
+      { field: "legalName", label: "Legal name (schema)", type: "text" },
+      { field: "schemaDescription", label: "Business description (schema)", type: "textarea" },
+      { field: "foundingDate", label: "Founded date/year (schema)", type: "text" },
+      { field: "latitude", label: "Latitude (schema)", type: "text" },
+      { field: "longitude", label: "Longitude (schema)", type: "text" },
+      { field: "areaServed", label: "Area served (schema)", type: "text" },
+      { field: "knowsAbout", label: "Knows about (schema, JSON array or comma-separated)", type: "textarea" },
     ],
   },
   ContentCollection: {
@@ -232,7 +239,14 @@ export const ENTITY_REGISTRY: Record<TranslatableEntityType, EntityTypeConfig> =
     fields: [
       { field: "title", label: "Title", type: "text" },
       { field: "body", label: "Body", type: "textarea" },
+      { field: "label", label: "Label", type: "text" },
+      { field: "heading", label: "Heading", type: "text" },
+      { field: "ctaLabel", label: "CTA label", type: "text" },
     ],
+  },
+  MegaMenuNavItem: {
+    label: "Mega Menu Nav Item",
+    fields: [{ field: "label", label: "Label", type: "text", required: true }],
   },
   MegaMenuTab: {
     label: "Mega Menu Tab",

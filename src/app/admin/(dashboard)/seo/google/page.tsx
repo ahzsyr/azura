@@ -53,15 +53,9 @@ export default async function AdminGooglePage({
   const resolvedSearchParams = (await searchParams) ?? {};
   const siteUrl = (await getServerAppOrigin()).replace(/\/$/, "");
   const sitemapUrl = await getServerDefaultSitemapUrl();
-  const envClientId = process.env.GOOGLE_SEARCH_CONSOLE_CLIENT_ID?.trim();
-  const envClientSecret = process.env.GOOGLE_SEARCH_CONSOLE_CLIENT_SECRET?.trim();
   const canStartGoogleOAuth = Boolean(
-    (google.clientId?.trim() ||
-      platformData.platform.global.oauthClientId?.trim() ||
-      envClientId) &&
-      (google.hasClientSecret ||
-        platformData.platform.global.oauthClientSecret ||
-        envClientSecret),
+    (google.clientId?.trim() || platformData.platform.global.oauthClientId?.trim()) &&
+      (google.hasClientSecret || platformData.platform.global.oauthClientSecret),
   );
   const envFallbackGaId = process.env.NEXT_PUBLIC_GA_ID?.trim() || undefined;
 

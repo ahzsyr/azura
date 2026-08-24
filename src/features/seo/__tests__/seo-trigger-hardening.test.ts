@@ -98,8 +98,8 @@ describe("SEO trigger hardening", () => {
     assert.deepEqual(
       byProvider.indexnow.map((job) => [job.kind, job.reason, job.url]),
       [
-        ["URL", "slug", "http://localhost:3000/en/blog/old-post"],
-        ["URL", "slug", "http://localhost:3000/en/blog/new-post"],
+        ["URL", "slug", "https://example.com/en/blog/old-post"],
+        ["URL", "slug", "https://example.com/en/blog/new-post"],
       ],
     );
     assert.ok(byProvider.bing.some((job) => job.kind === "SITEMAP"));

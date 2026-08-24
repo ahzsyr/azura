@@ -29,6 +29,7 @@ export async function persistMediaUpload(data: {
   uploadedById?: string;
   uploaderEmail?: string | null;
   assetScope?: string;
+  visibility?: "PUBLIC" | "GATED" | "PRIVATE";
 }) {
   const uploaderId = await resolveUploaderId(data.uploadedById, data.uploaderEmail);
   const asset = await mediaRepository.createAsset({
@@ -40,6 +41,7 @@ export async function persistMediaUpload(data: {
     width: data.width,
     height: data.height,
     assetScope: data.assetScope ?? "CMS",
+    visibility: data.visibility ?? "PUBLIC",
     folder: data.folderId ? { connect: { id: data.folderId } } : undefined,
     uploadedBy: uploaderId ? { connect: { id: uploaderId } } : undefined,
   });

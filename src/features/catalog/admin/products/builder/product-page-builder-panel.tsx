@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { ExternalLink, Eye, Layers, LayoutGrid, Redo2, RotateCcw, Undo2 } from "lucide-react";
+import {
+  ExternalLink,
+  Eye,
+  Layers,
+  LayoutGrid,
+  LayoutTemplate,
+  Redo2,
+  RotateCcw,
+  Undo2,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { viewportInheritHint } from "../AdminViewportToggle";
 import type { ProductPageBuilderStudio } from "./use-product-page-builder-studio";
@@ -11,11 +20,14 @@ import { ProductPagePropertiesPanel } from "./product-page-properties-panel";
 import { BuilderViewportToggle } from "./builder-viewport-toggle";
 import { cn } from "@/lib/utils";
 import { ProductPageVisibilityPanel } from "./product-page-visibility-panel";
+import { ProductPageLayoutPanel } from "./product-page-layout-panel";
+import type { ProductPageLayoutTemplateId } from "@/features/products/layout-templates/registry";
 import "./product-page-builder.css";
 
-type BuilderSubTab = "components" | "structure" | "visibility";
+type BuilderSubTab = "layout" | "components" | "structure" | "visibility";
 
-const SUB_TABS: Array<{ id: BuilderSubTab; label: string; icon: typeof LayoutGrid }> = [
+const BASE_SUB_TABS: Array<{ id: BuilderSubTab; label: string; icon: typeof LayoutGrid }> = [
+  { id: "layout", label: "Page Layout", icon: LayoutTemplate },
   { id: "components", label: "Components", icon: LayoutGrid },
   { id: "structure", label: "Structure", icon: Layers },
   { id: "visibility", label: "Page visibility", icon: Eye },
@@ -23,6 +35,8 @@ const SUB_TABS: Array<{ id: BuilderSubTab; label: string; icon: typeof LayoutGri
 
 export function ProductPageBuilderPanel({
   studio,
+  siteProductPageLayoutTemplate,
+  onSiteProductPageLayoutTemplateChange,
   onPreview,
   onSave,
   onPublish,
@@ -32,6 +46,8 @@ export function ProductPageBuilderPanel({
   publishing,
 }: {
   studio: ProductPageBuilderStudio;
+  siteProductPageLayoutTemplate?: string | null;
+  onSiteProductPageLayoutTemplateChange?: (value: ProductPageLayoutTemplateId | null) => void;
   onPreview?: () => void;
   onSave?: () => void | Promise<void>;
   onPublish?: () => void | Promise<void>;
@@ -40,7 +56,12 @@ export function ProductPageBuilderPanel({
   saving?: boolean;
   publishing?: boolean;
 }) {
-  const [subTab, setSubTab] = useState<BuilderSubTab>("components");
+  const subTabs = onSiteProductPageLayoutTemplateChange
+    ? BASE_SUB_TABS
+    : BASE_SUB_TABS.filter((tab) => tab.id !== "layout");
+  const [subTab, setSubTab] = useState<BuilderSubTab>(
+    onSiteProductPageLayoutTemplateChange ? "layout" : "components",
+  );
 
   return (
     <section className="ppb-root" aria-labelledby="ppb-title">
@@ -99,7 +120,7 @@ export function ProductPageBuilderPanel({
 
       <div className="ppb-subnav">
         <div className="ppb-subnav__tabs" role="tablist" aria-label="Builder sections">
-          {SUB_TABS.map(({ id, label, icon: Icon }) => (
+          {subTabs.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               type="button"
@@ -114,15 +135,26 @@ export function ProductPageBuilderPanel({
           ))}
         </div>
 
-        <BuilderViewportToggle
-          value={studio.viewport}
-          onChange={studio.setViewport}
-          inheritHint={subTab === "structure" ? viewportInheritHint(studio.viewport) : undefined}
-          compact
-        />
+        {subTab === "layout" || subTab === "visibility" ? null : (
+          <BuilderViewportToggle
+            value={studio.viewport}
+            onChange={studio.setViewport}
+            inheritHint={subTab === "structure" ? viewportInheritHint(studio.viewport) : undefined}
+            compact
+          />
+        )}
       </div>
 
-      {subTab === "components" ? (
+      {subTab === "layout" ? (
+        onSiteProductPageLayoutTemplateChange ? (
+          <div className="ppb-workspace ppb-workspace--layout" role="tabpanel">
+            <ProductPageLayoutPanel
+              siteProductPageLayoutTemplate={siteProductPageLayoutTemplate}
+              onSiteProductPageLayoutTemplateChange={onSiteProductPageLayoutTemplateChange}
+            />
+          </div>
+        ) : null
+      ) : subTab === "components" ? (
         <div className="ppb-workspace ppb-workspace--components" role="tabpanel">
           <ProductPageComponentsPanel studio={studio} />
           <ProductPagePropertiesPanel studio={studio} />

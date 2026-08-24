@@ -94,11 +94,35 @@ export async function patchProductToDb(
   if (!row) return { ok: false, error: "Product not found" };
 
   const existingProduct = fromDbRow(row);
-  const merged = normalizeProductPayload(
+  let merged = normalizeProductPayload(
     applyPatch(existingProduct, changes) as Product,
     row.canonicalSlug,
   );
   const appliedPaths = flattenPatchPaths(changes);
+  const categoryTouched = appliedPaths.some(
+    (p) =>
+      p === "categoryIds" ||
+      p === "category" ||
+      p === "categories" ||
+      p.startsWith("categoryIds.") ||
+      p.startsWith("category.") ||
+      p.startsWith("categories."),
+  );
+
+  if (categoryTouched) {
+    try {
+      const { syncProductManualCategoryMemberships } = await import(
+        "@/features/categories/sync-product-memberships"
+      );
+      merged = await syncProductManualCategoryMemberships(row.id, merged);
+    } catch (e) {
+      console.warn(
+        "[categories] product membership sync failed",
+        row.canonicalSlug,
+        e instanceof Error ? e.message : e,
+      );
+    }
+  }
 
   const update: Prisma.ProductUpdateInput = {
     ...buildSelectiveDenormUpdate(merged, appliedPaths),

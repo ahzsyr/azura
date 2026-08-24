@@ -119,6 +119,8 @@ export function applyPresetToDocument(
   }
   if (payload.textEffect) {
     document.documentElement.dataset.textEffectTheme = payload.textEffect;
+  } else {
+    delete document.documentElement.dataset.textEffectTheme;
   }
 
   dispatchThemeChange({

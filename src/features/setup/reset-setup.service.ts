@@ -11,7 +11,7 @@ export async function resetSetupWizard(): Promise<void> {
     completedAt: undefined,
     comingSoonEnabled: false,
   });
-  await prisma.user.deleteMany({ where: { role: "ADMIN" } });
+  await prisma.user.deleteMany({ where: { role: { in: ["ADMIN", "SUPER_ADMIN"] } } });
   invalidateSetupStatusCache();
   await refreshMiddlewareManifestBestEffort("setup reset");
 }

@@ -73,7 +73,3 @@ export function replaceAll(editor: Editor, search: string, replacement: string):
   return count;
 }
 
-export function setTextDirection(editor: Editor, dir: "ltr" | "rtl"): void {
-  const type = editor.isActive("heading") ? "heading" : "paragraph";
-  editor.chain().focus().updateAttributes(type, { dir }).run();
-}

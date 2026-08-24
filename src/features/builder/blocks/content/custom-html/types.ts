@@ -77,7 +77,9 @@ export type HtmlElementAttributes = {
   id?: string;
   class?: string;
   style?: string;
+  /** Tooltip text. Locale variants: titleEn, titleAr, etc. */
   title?: string;
+  /** Accessible label. Locale variants: ariaLabelEn, ariaLabelAr, etc. */
   ariaLabel?: string;
   /** For <a> */
   href?: string;
@@ -85,6 +87,7 @@ export type HtmlElementAttributes = {
   rel?: string;
   /** For <img>, <source>, <video>, <audio> */
   src?: string;
+  /** Image alt text. Locale variants: altEn, altAr, etc. */
   alt?: string;
   mediaAssetId?: string;
   width?: number;
@@ -111,7 +114,7 @@ export type HtmlElementAttributes = {
   striped?: boolean;
   bordered?: boolean;
   compact?: boolean;
-  /** Optional table caption text */
+  /** Optional table caption text. Locale variants: captionEn, captionAr, etc. */
   caption?: string;
 
   // ── Cell-level (th / td) ───────────────────────────────────────────────────
@@ -130,12 +133,13 @@ export type HtmlElement = {
   /**
    * Raw HTML injected as-is (used for legacy migration and Edit Source items).
    * When set the normal serialization pipeline is bypassed.
+   * Additional locales stored as passthrough: rawHtmlEn, rawHtmlAr, etc.
    */
   rawHtml?: string;
   attributes?: HtmlElementAttributes;
   /**
    * Text content for the default locale.
-   * Additional locales stored as passthrough: textEn, textAr, etc.
+   * Additional locales stored as passthrough: textEn, textAr, titleEn, etc.
    */
   text?: string;
   children?: HtmlElement[];

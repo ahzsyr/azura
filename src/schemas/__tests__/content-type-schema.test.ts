@@ -31,3 +31,15 @@ test("contentTypeSchema validates required localized labels", () => {
   });
   assert.equal(parsed.slug, "vehicles");
 });
+
+test("contentTypeSchema rejects uppercase slugs", () => {
+  assert.throws(() =>
+    contentTypeSchema.parse({
+      slug: "Offerings",
+      name: "Offerings",
+      labelSingular: "Offering",
+      labelPlural: "Offerings",
+      fieldSchema: [],
+    }),
+  );
+});

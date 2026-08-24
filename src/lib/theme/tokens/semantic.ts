@@ -4,6 +4,7 @@ import { resolveThemeColors } from "@/features/theme/theme-config";
 import { resolveThemeSurfaces } from "@/features/theme/surfaces/theme-surfaces";
 import { tokensToPresetColorTokens } from "./preset-colors";
 import { colorMix, toModernColor } from "./color-utils";
+import { THEME_ROOT_DARK_SELECTOR, THEME_ROOT_SELECTOR } from "./theme-root-selectors";
 
 /** Canonical semantic CSS custom properties (single source of truth). */
 export const CANONICAL_SEMANTIC_TOKENS = [
@@ -157,10 +158,10 @@ export function buildSemanticCss(semantic: SemanticThemeInput, surfaces?: {
   const light = semanticSetToDeclarations(semantic.light, lightExtras).join(";");
   const dark = semanticSetToDeclarations(semantic.dark, darkExtras).join(";");
 
-  return `html {
+  return `${THEME_ROOT_SELECTOR} {
     ${light};
   }
-  html.dark {
+  ${THEME_ROOT_DARK_SELECTOR} {
     ${dark};
   }`;
 }

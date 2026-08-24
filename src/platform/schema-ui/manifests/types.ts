@@ -148,6 +148,8 @@ export type SubmitCommand = {
     honeypot?: string;
     /** Client IP for rate limiting (set by API route). */
     clientIp?: string;
+    /** Signed-in customer id when submitting from a session. */
+    customerId?: string;
   };
 };
 

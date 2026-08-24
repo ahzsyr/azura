@@ -30,7 +30,7 @@ export function AdminContentArea({
   return (
     <div
       ref={scrollRef}
-      className="az-scroll az-scroll-region flex-1 overflow-y-auto"
+      className="az-scroll az-scroll-region min-w-0 flex-1 overflow-y-auto"
       data-scrolling="false"
     >
       <AdminPageTransition

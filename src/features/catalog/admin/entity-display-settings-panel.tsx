@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 type EntityDisplaySettingsPanelProps = {
   value: Partial<DisplaySettings>;
   onChange: (next: Partial<DisplaySettings>) => void;
-  source?: CatalogEntityKind | "packages" | "hotels" | "services";
+  source?: CatalogEntityKind | "packages" | "hotels" | "services" | string;
   showPreview?: boolean;
   className?: string;
 };
@@ -127,7 +127,9 @@ export function EntityDisplaySettingsPanel({
                   { key: "showStars" as const, label: "Show stars" },
                   { key: "showCity" as const, label: "Show city" },
                 ]
-              : []),
+              : !isService
+                ? [{ key: "showCity" as const, label: "Show location" }]
+                : []),
             ...(isService ? [{ key: "showIcon" as const, label: "Show icon" }] : []),
             ...(settings.layoutMode === "slider"
               ? [{ key: "autoplay" as const, label: "Autoplay slider" }]

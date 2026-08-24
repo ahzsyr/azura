@@ -86,6 +86,9 @@ export type CatalogNavigationIconContainerStyle =
   | "rounded"
   | "square";
 
+/** How overflowing nav items are reached on the storefront. */
+export type CatalogNavigationOverflowMode = "scroll-bar" | "scroll-arrows";
+
 export type CatalogNavigationAppearance = {
   theme?: CatalogNavigationThemeMode;
   /** Visual style preset id (admin-friendly). */
@@ -129,8 +132,10 @@ export type CatalogNavigationLayout = {
   showIcons?: boolean;
   /** Show label as title/tooltip when icon-only. Default true. */
   showTooltip?: boolean;
-  /** When false, clip overflow instead of horizontal scroll. Default true. */
+  /** @deprecated Prefer `overflowMode`. When false, clip overflow instead of scrolling. */
   horizontalScroll?: boolean;
+  /** Overflow UX: native scrollbar or left/right arrow controls. Default `scroll-bar`. */
+  overflowMode?: CatalogNavigationOverflowMode;
 };
 
 export type CatalogNavigationBreakpointLayout = Partial<CatalogNavigationLayout>;
@@ -198,6 +203,8 @@ export type CatalogNavigationItem = {
   filters?: CatalogNavigationItemFilters;
   /** Keyword for SEARCH action → listing `?q=`. */
   searchQuery?: string;
+  /** When true, SEARCH requires the full phrase (e.g. "Door Access") not individual tokens. */
+  searchExact?: boolean;
   tooltip?: string;
 };
 

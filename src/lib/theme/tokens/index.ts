@@ -20,3 +20,8 @@ export { hexToOklch, toModernColor, colorMix, lightDark } from "./color-utils";
 
 export { buildThemeTokenCss } from "./pipeline";
 export { tokensToPresetColorTokens } from "./preset-colors";
+export {
+  THEME_ROOT_SELECTOR,
+  THEME_ROOT_DARK_SELECTOR,
+  scopeThemeCssToSelector,
+} from "./theme-root-selectors";

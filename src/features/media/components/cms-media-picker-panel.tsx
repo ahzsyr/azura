@@ -5,12 +5,13 @@ import type { MediaType } from "@prisma/client";
 import { fetchMediaAssets } from "@/features/media/actions";
 import type { MediaAssetRow } from "./media-asset-card";
 import { MediaPreviewImage } from "@/features/media/components/media-preview-image";
+import { MediaPreviewVideo } from "@/features/media/components/media-preview-video";
 import { formatBytes } from "@/features/media/media.service";
 import { ALL_PICKER_MEDIA_TYPES } from "@/features/media/constants";
 import { parseMediaTypesKey } from "@/features/media/lib/media-picker-types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Film, FileText, Loader2 } from "lucide-react";
+import { FileText, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { MediaPickResult } from "./media-picker-dialog";
 
@@ -188,13 +189,17 @@ export function CmsMediaPickerPanel({
                         className="object-cover pointer-events-none"
                         sizes="150px"
                       />
+                    ) : asset.mediaType === "VIDEO" ? (
+                      <MediaPreviewVideo
+                        src={asset.url}
+                        alt={asset.altEn || asset.filename}
+                        fill
+                        showBadge
+                        className="pointer-events-none"
+                      />
                     ) : (
                       <div className="flex h-full flex-col items-center justify-center gap-1 p-2">
-                        {asset.mediaType === "VIDEO" ? (
-                          <Film className="h-6 w-6 text-muted-foreground" />
-                        ) : (
-                          <FileText className="h-6 w-6 text-muted-foreground" />
-                        )}
+                        <FileText className="h-6 w-6 text-muted-foreground" />
                         <span className="text-[10px]">{asset.mediaType}</span>
                       </div>
                     )}

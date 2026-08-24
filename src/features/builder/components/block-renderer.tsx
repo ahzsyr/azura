@@ -16,6 +16,7 @@ import {
 } from "@/lib/data";
 import { TestimonialsSection } from "@/components/marketing/testimonials-section";
 import { CatalogBlockRenderer } from "@/features/catalog/components/catalog-block-renderer";
+import { resolveCatalogSourceFromBlock } from "@/features/catalog/catalog-source";
 import { getBlockSettings } from "@/features/builder/instance/block-instance";
 import { migrateBlocksToBlockSystem } from "@/features/builder/migration/upgrade-blocks";
 import { BlockWrapper } from "@/features/builder/components/block-wrapper";
@@ -36,6 +37,8 @@ import { parseSectionProps } from "@/schemas/builder/props";
 import { GalleryBlockGrid } from "@/components/marketing/gallery-block-grid";
 import { normalizeGalleryColumns } from "@/features/gallery/lib/gallery-layout";
 import { getLocalizedField } from "@/lib/utils";
+import { sanitizeHtml } from "@/lib/sanitize-html";
+import { resolvePrefixToCode } from "@/i18n/locale-config";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { normalizeLocalMediaUrl, normalizeRemoteImageUrl } from "@/lib/config/next-image";
@@ -140,12 +143,14 @@ import {
   LogoCloudView,
   StatsCounterView,
   BeforeAfterView,
+  TabbedShowcaseView,
 } from "@/features/builder/blocks/marketing/views";
 import type {
   GridItem,
   TrustBadgeItem,
   LogoItem,
   StatItem,
+  TabbedShowcaseTab,
 } from "@/features/builder/blocks/marketing/schemas/marketing-blocks";
 
 type Props = {
@@ -208,14 +213,6 @@ function sectionPaddingClass(padding: unknown): string {
 
 function heroOverlayClass(overlayActive: boolean): string {
   return overlayActive ? "block-first-with-header-overlay" : "";
-}
-
-function normalizeCatalogSource(value: unknown): "packages" | "hotels" | "services" {
-  if (value === "catalog-items") return "packages";
-  if (value === "listings") return "hotels";
-  if (value === "offerings") return "services";
-  if (value === "packages" || value === "hotels" || value === "services") return value;
-  return "packages";
 }
 
 async function renderBlockContent(
@@ -401,7 +398,7 @@ async function renderBlockContent(
               {looksLikeHtml ? (
                 <div
                   className={cn("leading-relaxed text-muted-foreground", contentSizeClass)}
-                  dangerouslySetInnerHTML={{ __html: content }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(content) }}
                 />
               ) : (
                 <p className={cn("text-muted-foreground whitespace-pre-wrap", contentSizeClass)}>
@@ -626,22 +623,24 @@ async function renderBlockContent(
     }
 
     case "catalog": {
+      const source = resolveCatalogSourceFromBlock(block);
       const settings = mergeDisplaySettings(p.displaySettings as Record<string, unknown>);
       const catalogContent = await CatalogBlockRenderer({
         locale,
         title: loc("title") || undefined,
         subtitle: loc("subtitle") || undefined,
         config: {
-          source: normalizeCatalogSource(p.source),
-          categorySlug: (p.categorySlug as string) || undefined,
-          city: (p.city as string) || undefined,
-          serviceType: (p.serviceType as string) || undefined,
-          featuredOnly: Boolean(p.featuredOnly),
-          manualIds: (p.manualIds as string[]) ?? [],
+          source,
+          categorySlug: typeof p.categorySlug === "string" ? p.categorySlug : undefined,
+          featuredOnly: p.featuredOnly === true,
           limit: settings.limit,
+          attributeFilters:
+            p.attributeFilters && typeof p.attributeFilters === "object"
+              ? (p.attributeFilters as Record<string, string>)
+              : {},
         },
         displaySettings: settings,
-        viewAllHref: (p.viewAllHref as string) || undefined,
+        viewAllHref: (typeof p.viewAllHref === "string" ? p.viewAllHref : "") || undefined,
         emptyMessage: loc("emptyMessage") || undefined,
         previewMode,
         block,
@@ -888,6 +887,18 @@ async function renderBlockContent(
         </Section>
       );
 
+    case "tabbedShowcase":
+      return (
+        <Section>
+          <TabbedShowcaseView
+            title={loc("title") || undefined}
+            tabs={(p.tabs as TabbedShowcaseTab[]) ?? []}
+            showNavArrows={p.showNavArrows !== false}
+            locale={locale}
+          />
+        </Section>
+      );
+
     case "richText":
       return (
         <Section>
@@ -900,11 +911,12 @@ async function renderBlockContent(
       );
 
     case "customHtml": {
-      const elements = getCustomHtmlElements(p, locale);
+      const languageCode = resolvePrefixToCode(locale, enabledLocales);
+      const elements = getCustomHtmlElements(p, languageCode);
       if (elements.length === 0) return null;
       return (
         <Section>
-          <CustomHtmlView elements={elements} locale={locale} previewMode={previewMode} />
+          <CustomHtmlView elements={elements} locale={languageCode} previewMode={previewMode} />
         </Section>
       );
     }
@@ -1419,8 +1431,18 @@ async function renderBlockContent(
             stackOnMobile={(p.stackOnMobile as boolean) ?? true}
             verticalAlign={(p.verticalAlign as string) ?? "stretch"}
           >
-            {visibleChildren.map((child) => (
-              <div key={child.id} className="row-section-grid__cell min-w-0">
+            {visibleChildren.map((child, index) => (
+              <div
+                key={child.id}
+                className="row-section-grid__cell min-w-0"
+                data-split-cell={
+                  (p.columnLayout === "wide-left" || p.columnLayout === "wide-right") && index < 2
+                    ? index === 0
+                      ? "start"
+                      : "end"
+                    : undefined
+                }
+              >
                 <RenderBlock block={child} ctx={ctx} />
               </div>
             ))}

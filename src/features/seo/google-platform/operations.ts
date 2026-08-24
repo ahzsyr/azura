@@ -88,7 +88,22 @@ export async function validateGoogleIntegration(
 ): Promise<{ result: GoogleValidationResult; state: GooglePlatformState }> {
   const def = googleIntegrationRegistry.require(integrationId);
   try {
-    const result = await def.validationHandler.validate({ ...ctx, platform: state }, options);
+    let result = await def.validationHandler.validate({ ...ctx, platform: state }, options);
+    if (result.ok && integrationId === "business_profile" && !options?.dryRun) {
+      try {
+        const { syncBusinessProfileLocations } = await import(
+          "@/features/seo/google-live/business-profile"
+        );
+        const live = await syncBusinessProfileLocations();
+        result = { ...result, message: live.message };
+      } catch (error) {
+        result = {
+          ok: false,
+          message: error instanceof Error ? error.message : String(error),
+          dryRun: options?.dryRun,
+        };
+      }
+    }
     const next = emitEvent(
       state,
       result.ok ? "ValidationPassed" : "ValidationFailed",

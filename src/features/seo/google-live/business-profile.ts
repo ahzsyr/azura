@@ -1,8 +1,12 @@
 import "server-only";
 
+import { formatGoogleApiError } from "./google-api-error";
 import { seoRepository } from "@/repositories/seo.repository";
 import { refreshGoogleToken } from "@/features/seo/integrations/google-auth";
 import { getGooglePlatformState } from "@/features/seo/google-platform/persistence";
+
+const BUSINESS_PROFILE_SCOPE = "https://www.googleapis.com/auth/business.manage";
+const BUSINESS_PROFILE_CONFIGURE_HREF = "/admin/seo/google?tab=business-profile";
 
 export type BusinessProfileSyncResult = {
   ok: true;
@@ -16,6 +20,12 @@ export type BusinessProfileSyncResult = {
 
 async function resolveBusinessProfileToken(): Promise<string> {
   const platform = await getGooglePlatformState().catch(() => null);
+  const grantedScopes = platform?.services?.business_profile?.connection?.grantedScopes ?? [];
+  if (!grantedScopes.includes(BUSINESS_PROFILE_SCOPE)) {
+    throw new Error(
+      "Business Profile OAuth token is missing the business.manage scope. Reconnect Business Profile under Admin → SEO → Google.",
+    );
+  }
   const fromPlatform = platform?.services?.business_profile?.configuration;
   const platformToken =
     (typeof fromPlatform?.accessToken === "string" && fromPlatform.accessToken.trim()) ||
@@ -51,9 +61,11 @@ export async function syncBusinessProfileLocations(): Promise<BusinessProfileSyn
   if (!accountsResponse.ok) {
     const body = await accountsResponse.text().catch(() => "");
     throw new Error(
-      `Business Profile accounts failed (${accountsResponse.status}): ${
-        body.slice(0, 300) || accountsResponse.statusText
-      }. Ensure the OAuth token includes the business.manage scope.`,
+      formatGoogleApiError(accountsResponse.status, body, {
+        apiLabel: "Business Profile Account Management API",
+        extraHint:
+          "Enable My Business Account Management and Business Information APIs, then reconnect Business Profile with the business.manage OAuth scope under Admin → SEO → Google.",
+      }),
     );
   }
 
@@ -68,7 +80,7 @@ export async function syncBusinessProfileLocations(): Promise<BusinessProfileSyn
       synced: 0,
       accountName: null,
       locationNames: [],
-      configureHref: "/admin/seo/google?tab=business_profile",
+      configureHref: BUSINESS_PROFILE_CONFIGURE_HREF,
       message: "No Business Profile accounts found for this credential.",
     };
   }
@@ -100,7 +112,7 @@ export async function syncBusinessProfileLocations(): Promise<BusinessProfileSyn
     synced: locationNames.length || 1,
     accountName,
     locationNames,
-    configureHref: "/admin/seo/google?tab=business_profile",
+    configureHref: BUSINESS_PROFILE_CONFIGURE_HREF,
     message:
       locationNames.length > 0
         ? `Synced ${locationNames.length} location(s) from ${accountName ?? "account"}.`

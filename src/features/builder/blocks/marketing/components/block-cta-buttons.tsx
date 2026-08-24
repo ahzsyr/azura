@@ -12,16 +12,17 @@ type Props = {
   primary: CtaButton;
   secondary?: CtaButton;
   className?: string;
+  primaryClassName?: string;
   dark?: boolean;
 };
 
-export function BlockCtaButtons({ primary, secondary, className, dark }: Props) {
+export function BlockCtaButtons({ primary, secondary, className, primaryClassName, dark }: Props) {
   if (!primary.label && !secondary?.label) return null;
 
   return (
     <div className={cn("flex flex-wrap gap-4", className)}>
       {primary.label && primary.href && (
-        <Button asChild size="lg" variant={primary.variant ?? "gold"}>
+        <Button asChild size="lg" variant={primary.variant ?? "gold"} className={primaryClassName}>
           <Link href={primary.href}>{primary.label}</Link>
         </Button>
       )}

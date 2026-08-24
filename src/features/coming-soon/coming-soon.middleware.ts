@@ -51,6 +51,21 @@ export function isComingSoonExemptPage(
   if (isPreviewRoute) return true;
   if (pathname === "/setup" || pathname.startsWith("/setup/")) return true;
   if (pathname.startsWith("/admin")) return true;
+  // Public login must remain reachable so operators can sign in during coming-soon
+  for (const locale of locales) {
+    const loginPath = `/${locale}/account/login`;
+    if (pathname === loginPath || pathname.startsWith(`${loginPath}/`)) {
+      return true;
+    }
+    const verifyPath = `/${locale}/account/verify-email`;
+    if (pathname === verifyPath || pathname.startsWith(`${verifyPath}/`)) {
+      return true;
+    }
+    const invitePath = `/${locale}/account/accept-invite`;
+    if (pathname === invitePath || pathname.startsWith(`${invitePath}/`)) {
+      return true;
+    }
+  }
   return false;
 }
 

@@ -1,5 +1,7 @@
 import { parseJsonProducts } from "./json-parser";
 import type { ProductImportData } from "./product-import.types";
+import { applyUnifiImportLayoutHint } from "@/features/products/lib/unifi-import-meta";
+import { applyMikrotikImportLayoutHint } from "@/features/products/lib/mikrotik-import-meta";
 
 export type PairSkipReason =
   | { kind: "csv_without_json"; file: string; stem: string; message: string }
@@ -50,10 +52,10 @@ export function pairImportFileEntries(entries: ImportFileEntry[]): PairImportRes
   const jsonEntries = entries.filter((e) => isJsonFile(e.name));
   const csvEntries = entries.filter((e) => isCsvFile(e.name));
 
-  const csvByStem = new Map<string, string>();
+  const csvByStem = new Map<string, { name: string; content: string }>();
   for (const csv of csvEntries) {
     const stem = fileStem(csv.name);
-    if (!csvByStem.has(stem)) csvByStem.set(stem, csv.name);
+    if (!csvByStem.has(stem)) csvByStem.set(stem, { name: csv.name, content: csv.content });
   }
 
   const seenJsonStems = new Set<string>();
@@ -117,17 +119,19 @@ export function pairImportFileEntries(entries: ImportFileEntry[]): PairImportRes
     previews.push({
       stem,
       jsonFile: json.name,
-      pairedCsv,
+      pairedCsv: pairedCsv?.name,
       productCount: parsed.length,
       ok: true,
     });
 
     for (const product of parsed) {
+      const withUnifi = applyUnifiImportLayoutHint(product, pairedCsv?.content);
       products.push({
         slug: "",
-        product,
+        product: applyMikrotikImportLayoutHint(withUnifi, pairedCsv?.content),
         sourceFile: json.name,
-        pairedCsv,
+        pairedCsv: pairedCsv?.name,
+        csvContent: pairedCsv?.content,
       });
     }
   }

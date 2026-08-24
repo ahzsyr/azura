@@ -183,7 +183,7 @@ export function BrandingPanel({ branding, brandingSourceReady = true, onChange, 
                   value={logoSizing.heightMobile}
                   onChange={(e) =>
                     updateForm({
-                      logoSizing: { ...logoSizing, heightMobile: Number(e.target.value) || 32 },
+                      logoSizing: { ...logoSizing, heightMobile: Number(e.target.value) || 40 },
                     })
                   }
                 />
@@ -197,7 +197,7 @@ export function BrandingPanel({ branding, brandingSourceReady = true, onChange, 
                   value={logoSizing.heightTablet}
                   onChange={(e) =>
                     updateForm({
-                      logoSizing: { ...logoSizing, heightTablet: Number(e.target.value) || 36 },
+                      logoSizing: { ...logoSizing, heightTablet: Number(e.target.value) || 44 },
                     })
                   }
                 />
@@ -211,7 +211,7 @@ export function BrandingPanel({ branding, brandingSourceReady = true, onChange, 
                   value={logoSizing.heightDesktop}
                   onChange={(e) =>
                     updateForm({
-                      logoSizing: { ...logoSizing, heightDesktop: Number(e.target.value) || 42 },
+                      logoSizing: { ...logoSizing, heightDesktop: Number(e.target.value) || 48 },
                     })
                   }
                 />
@@ -228,7 +228,7 @@ export function BrandingPanel({ branding, brandingSourceReady = true, onChange, 
                   value={logoSizing.adaptiveMin}
                   onChange={(e) =>
                     updateForm({
-                      logoSizing: { ...logoSizing, adaptiveMin: Number(e.target.value) || 28 },
+                      logoSizing: { ...logoSizing, adaptiveMin: Number(e.target.value) || 32 },
                     })
                   }
                 />
@@ -242,7 +242,7 @@ export function BrandingPanel({ branding, brandingSourceReady = true, onChange, 
                   value={logoSizing.adaptiveMax}
                   onChange={(e) =>
                     updateForm({
-                      logoSizing: { ...logoSizing, adaptiveMax: Number(e.target.value) || 48 },
+                      logoSizing: { ...logoSizing, adaptiveMax: Number(e.target.value) || 56 },
                     })
                   }
                 />

@@ -5,7 +5,9 @@ import { DEFAULT_BRAND_NAME } from "@/config/site";
 import { ZodError } from "zod";
 import { setupCompleteSchema } from "@/features/setup/setup-complete.schema";
 import {
+  authorizeSetupToken,
   isSetupDatabaseReady,
+  isSetupTokenRequired,
   isValidSetupToken,
   readSystemSettings,
   writeSystemSettings,
@@ -53,8 +55,21 @@ export async function POST(request: Request) {
     const data = setupCompleteSchema.parse(body);
 
     const settingsBefore = await readSystemSettings();
-    if (settingsBefore.setupComplete && !isValidSetupToken(data.setupToken)) {
-      return NextResponse.json({ error: "Setup already completed" }, { status: 403 });
+
+    // Production (and any env with SETUP_TOKEN set for first-run) must present a valid token.
+    if (settingsBefore.setupComplete) {
+      if (!isValidSetupToken(data.setupToken)) {
+        return NextResponse.json({ error: "Setup already completed" }, { status: 403 });
+      }
+    } else if (!authorizeSetupToken(data.setupToken)) {
+      return NextResponse.json(
+        {
+          error: isSetupTokenRequired()
+            ? "SETUP_TOKEN is required to complete setup in production"
+            : "Invalid SETUP_TOKEN",
+        },
+        { status: 403 },
+      );
     }
 
     const passwordHash = await bcrypt.hash(data.adminPassword, 12);
@@ -62,18 +77,30 @@ export async function POST(request: Request) {
 
     await prisma.$transaction(async (tx) => {
       const existingAdmin = await tx.user.findFirst({
-        where: { role: "ADMIN" },
+        where: { role: { in: ["ADMIN", "SUPER_ADMIN"] } },
         orderBy: { createdAt: "asc" },
       });
 
+      // Never overwrite an existing admin unless explicitly authorized via SETUP_TOKEN
+      // after setup was already completed (re-setup). First-run creates admin only when none exists.
       if (existingAdmin) {
+        if (!settingsBefore.setupComplete || !isValidSetupToken(data.setupToken)) {
+          throw new Error(
+            "An admin account already exists. Use Admin → Reset setup or present a valid SETUP_TOKEN after setup is complete.",
+          );
+        }
         await tx.user.update({
           where: { id: existingAdmin.id },
           data: {
             email: data.adminEmail,
             passwordHash,
             name: data.adminName,
-            role: "ADMIN",
+            role: "SUPER_ADMIN",
+            emailVerifiedAt: new Date(),
+            pendingEmail: null,
+            mustChangePassword: false,
+            totpEnabled: false,
+            totpSecret: null,
           },
         });
       } else {
@@ -82,7 +109,9 @@ export async function POST(request: Request) {
             email: data.adminEmail,
             passwordHash,
             name: data.adminName,
-            role: "ADMIN",
+            role: "SUPER_ADMIN",
+            emailVerifiedAt: new Date(),
+            mustChangePassword: false,
           },
         });
       }
@@ -197,6 +226,24 @@ export async function POST(request: Request) {
       confident: true,
     });
     await refreshMiddlewareManifestBestEffort("setup complete");
+
+    try {
+      const { writeSecurityAuditLog } = await import("@/lib/security-audit");
+      const superAdmin = await prisma.user.findFirst({
+        where: { email: data.adminEmail.trim().toLowerCase() },
+        select: { id: true, role: true },
+      });
+      if (superAdmin) {
+        await writeSecurityAuditLog({
+          action: "setup.complete",
+          actorId: superAdmin.id,
+          actorRole: superAdmin.role,
+          meta: { role: "SUPER_ADMIN" },
+        });
+      }
+    } catch (auditErr) {
+      console.error("[setup.complete] audit log failed:", auditErr);
+    }
 
     const response = NextResponse.json({ success: true, redirectTo });
     response.cookies.set(

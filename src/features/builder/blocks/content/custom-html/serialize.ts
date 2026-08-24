@@ -1,6 +1,6 @@
-import { getContentFieldSuffix } from "@/i18n/locale-config";
 import { VOID_TAGS, BLOCK_TEXT_TAGS, INLINE_TAGS } from "./types";
 import type { HtmlElement, HtmlElementAttributes } from "./types";
+import { readLocalizedField } from "./lib/localized-fields";
 
 function escHtml(str: string): string {
   return str
@@ -10,14 +10,16 @@ function escHtml(str: string): string {
     .replace(/"/g, "&quot;");
 }
 
-function buildAttrStr(attrs: HtmlElementAttributes): string {
+function buildAttrStr(attrs: HtmlElementAttributes, locale?: string): string {
   const parts: string[] = [];
+  const title = locale ? getLocalizedAttr(attrs, "title", locale) : (attrs.title ?? "");
+  const ariaLabel = locale ? getLocalizedAttr(attrs, "ariaLabel", locale) : (attrs.ariaLabel ?? "");
 
   if (attrs.id) parts.push(`id="${escHtml(attrs.id)}"`);
   if (attrs.class) parts.push(`class="${escHtml(attrs.class)}"`);
   if (attrs.style) parts.push(`style="${escHtml(attrs.style)}"`);
-  if (attrs.title) parts.push(`title="${escHtml(attrs.title)}"`);
-  if (attrs.ariaLabel) parts.push(`aria-label="${escHtml(attrs.ariaLabel)}"`);
+  if (title) parts.push(`title="${escHtml(title)}"`);
+  if (ariaLabel) parts.push(`aria-label="${escHtml(ariaLabel)}"`);
   if (attrs.dir) parts.push(`dir="${escHtml(attrs.dir)}"`);
 
   if (attrs.href) parts.push(`href="${escHtml(attrs.href)}"`);
@@ -25,7 +27,9 @@ function buildAttrStr(attrs: HtmlElementAttributes): string {
   if (attrs.rel) parts.push(`rel="${escHtml(attrs.rel)}"`);
 
   if (attrs.src) parts.push(`src="${escHtml(attrs.src)}"`);
-  if (attrs.alt !== undefined) parts.push(`alt="${escHtml(attrs.alt)}"`);
+  const alt = locale ? getLocalizedAttr(attrs, "alt", locale) : attrs.alt;
+  if (alt !== undefined && alt !== "") parts.push(`alt="${escHtml(alt)}"`);
+  else if (!locale && attrs.alt !== undefined) parts.push(`alt="${escHtml(attrs.alt)}"`);
   if (attrs.width) parts.push(`width="${attrs.width}"`);
   if (attrs.height) parts.push(`height="${attrs.height}"`);
   if (attrs.loading) parts.push(`loading="${attrs.loading}"`);
@@ -66,12 +70,24 @@ function buildTableClass(attrs: HtmlElementAttributes): string {
   return classes.filter(Boolean).join(" ");
 }
 
+function asRecord(value: unknown): Record<string, unknown> {
+  return (value ?? {}) as Record<string, unknown>;
+}
+
 function getElementText(el: HtmlElement, locale: string): string {
-  const suffix = getContentFieldSuffix(locale);
-  const localizedKey = `text${suffix}`;
-  const localized = el[localizedKey];
-  if (typeof localized === "string" && localized.trim()) return localized;
-  return el.text ?? "";
+  return readLocalizedField(el as Record<string, unknown>, "text", locale);
+}
+
+function getLocalizedRawHtml(el: HtmlElement, locale: string): string {
+  return readLocalizedField(el as Record<string, unknown>, "rawHtml", locale);
+}
+
+function getLocalizedAttr(
+  attrs: HtmlElementAttributes | undefined,
+  baseKey: string,
+  locale: string
+): string {
+  return readLocalizedField(asRecord(attrs), baseKey, locale);
 }
 
 function getAlignmentClass(alignment: "left" | "center" | "right" | undefined): string {
@@ -83,7 +99,7 @@ function getAlignmentClass(alignment: "left" | "center" | "right" | undefined): 
 function serializeImg(el: HtmlElement, locale: string): string {
   const attrs = el.attributes ?? {};
   const src = attrs.src ?? "";
-  const alt = attrs.alt ?? getElementText(el, locale);
+  const alt = getLocalizedAttr(attrs, "alt", locale) || getElementText(el, locale);
   const alignClass = getAlignmentClass(attrs.alignment);
   const roundedClass = attrs.rounded ? " rounded-md" : "";
 
@@ -149,8 +165,9 @@ function serializeTable(el: HtmlElement, locale: string): string {
   let inner = "";
 
   // Optional caption
-  if (attrs.caption) {
-    inner += `<caption>${escHtml(attrs.caption)}</caption>`;
+  const caption = getLocalizedAttr(attrs, "caption", locale);
+  if (caption) {
+    inner += `<caption>${escHtml(caption)}</caption>`;
   }
 
   if (Array.isArray(el.children)) {
@@ -181,7 +198,7 @@ function serializeCell(el: HtmlElement, locale: string): string {
 function serializeElement(el: HtmlElement, locale: string): string {
   // rawHtml bypasses normal serialization (legacy / source-mode content)
   if (el.rawHtml !== undefined) {
-    return el.rawHtml;
+    return getLocalizedRawHtml(el, locale);
   }
 
   const tag = el.tag;
@@ -196,11 +213,11 @@ function serializeElement(el: HtmlElement, locale: string): string {
 
   // Void elements
   if (VOID_TAGS.has(tag as never)) {
-    const attrStr = buildAttrStr(attrs);
+    const attrStr = buildAttrStr(attrs, locale);
     return `<${tag}${attrStr}>`;
   }
 
-  const attrStr = buildAttrStr(attrs);
+  const attrStr = buildAttrStr(attrs, locale);
 
   // Container with children
   if (Array.isArray(el.children) && el.children.length > 0) {

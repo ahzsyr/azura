@@ -6,6 +6,7 @@ import { BuilderCollapsible } from "../builder/controls/builder-controls";
 import { OptionButtonGroup } from "@/features/navigation/admin/header-builder-ui";
 import type { ProductCardAppearanceStudio } from "@/features/products/card-appearance/use-product-card-appearance-studio";
 import { ProductCardContentOrderList } from "./product-card-content-order-list";
+import { PRODUCT_PAGE_DESIGN_HREF } from "@/features/catalog/admin/catalog-admin-tabs";
 
 const BADGE_RULE_LABELS: Record<string, string> = {
   sale: "Sale",
@@ -158,7 +159,7 @@ export function ProductCardAppearanceSections({ studio }: { studio: ProductCardA
           <h3 className="pca-section__title">Content visibility</h3>
           <p className="pca-section__hint">
             Price, stock, rating, compare, and brand visibility are controlled in the{" "}
-            <a href="#product-page">Product Page</a> tab under Page visibility.
+            <a href={PRODUCT_PAGE_DESIGN_HREF}>Product Page</a> tab under Page visibility.
           </p>
           <label className="pm-inline-check">
             <input
@@ -337,7 +338,7 @@ export function ProductCardAppearanceSections({ studio }: { studio: ProductCardA
           <p className="pca-section__hint">
             Button colors and variants are configured under <a href="#cta">CTA Button</a> → Card style.
             Quick view visibility on cards also depends on{" "}
-            <a href="#product-page">Product Page</a> → Page visibility.
+            <a href={PRODUCT_PAGE_DESIGN_HREF}>Product Page</a> → Page visibility.
           </p>
           <fieldset className="apm-fieldset">
             <legend className="apm-fieldset__legend">Allowed actions</legend>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { PageMeta } from "@/lib/seo";
+import { DEFAULT_ROBOTS } from "@/features/seo/constants";
 
 export type MetadataContributorContext = PageMeta & {
   siteUrl: string;
@@ -81,8 +82,8 @@ export const twitterContributor: MetadataContributor = {
 export const robotsContributor: MetadataContributor = {
   id: "robots",
   contribute(ctx, base) {
-    if (!ctx.robots?.trim()) return base;
-    const lower = ctx.robots.toLowerCase();
+    const robots = ctx.robots?.trim() || DEFAULT_ROBOTS;
+    const lower = robots.toLowerCase();
     return {
       ...base,
       robots: {

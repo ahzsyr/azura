@@ -43,6 +43,7 @@ export async function ProductGridBlockRenderer({
     tags: p.tags,
     limit: p.showToolbar ? Math.max(p.limit, p.pageSize * 3) : p.limit,
     sortBy: p.sortBy,
+    orderingProfileId: p.orderingProfileId,
   };
 
   const templateId = p.templateId ?? "product-card";

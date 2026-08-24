@@ -42,7 +42,7 @@ export async function persistFormSubmission(
       tags: tags as object,
       customerId: entityRefs.customerId ?? null,
       companyId: entityRefs.companyId ?? null,
-      campaignId: entityRefs.campaignId ?? null,
+      campaignId: entityRefs.campaignId ?? (ctx.utm?.utm_campaign ? null : null),
       metadata: {
         ...(ctx.abTestId || ctx.abVariantId
           ? { abTestId: ctx.abTestId, abVariantId: ctx.abVariantId }
@@ -50,6 +50,39 @@ export async function persistFormSubmission(
       } as object,
     },
   });
+
+  // Resolve internal campaign from UTM when present
+  if (ctx.utm?.utm_campaign || ctx.utm?.visitor_token) {
+    try {
+      const { attachLeadAttributionFromUtm } = await import(
+        "@/modules/marketing/leads/attribution-bridge"
+      );
+      const { campaignService } = await import("@/modules/marketing/campaigns/service");
+      const campaign = ctx.utm?.utm_campaign
+        ? await campaignService.findByUtmCampaign(ctx.utm.utm_campaign)
+        : null;
+      if (campaign) {
+        await prisma.formSubmission.update({
+          where: { id: submission.id },
+          data: { campaignId: campaign.id },
+        });
+      }
+      const conversionKey =
+        template.slug?.includes("quote") || template.name.toLowerCase().includes("quote")
+          ? "rfq"
+          : template.slug?.includes("newsletter") || template.name.toLowerCase().includes("newsletter")
+            ? "newsletter"
+            : "form_submit";
+      await attachLeadAttributionFromUtm({
+        submissionId: submission.id,
+        utm: ctx.utm as Record<string, string>,
+        pageSlug: ctx.pageSlug,
+        conversionKey,
+      });
+    } catch (err) {
+      console.error("[forms] marketing attribution bridge failed", err);
+    }
+  }
 
   const webhooks = template.definition.webhooks ?? [];
   if (webhooks.length > 0) {

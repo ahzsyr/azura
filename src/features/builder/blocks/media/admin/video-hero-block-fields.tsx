@@ -3,6 +3,7 @@
 import type { BlockNode } from "@/types/builder";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { AdminCollapsibleSection } from "@/components/admin/layout/admin-collapsible-section";
 import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { patchBlockMedia, patchBlockSettings } from "@/features/builder/instance/block-instance";
 import { ModalRepeatableListEditor } from "@/features/builder/admin/shared/modal-repeatable-list-editor";
@@ -32,6 +33,7 @@ export function VideoHeroBlockFields({ block, onChange }: Props) {
   const setProp = (key: string, value: unknown) => onChange(patchBlockSettings(block, { [key]: value }));
   const slides = (p.slides as VideoHeroSlide[]) ?? [];
   const mediaMode = (p.mediaMode as string) ?? "single";
+  const showSlideSettings = mediaMode === "featured";
 
   return (
     <div className="space-y-3">
@@ -116,6 +118,55 @@ export function VideoHeroBlockFields({ block, onChange }: Props) {
         />
       )}
 
+      {showSlideSettings && (
+        <AdminCollapsibleSection
+          title="Slide playback"
+          description="Navigation, autoplay, and timing for featured slides."
+          defaultOpen
+        >
+          <div className="space-y-3">
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={p.autoplaySlides !== false}
+                onChange={(e) => setProp("autoplaySlides", e.target.checked)}
+              />
+              Autoplay slides
+            </label>
+            <div>
+              <Label className="text-xs">Slide duration (ms, for image slides)</Label>
+              <Input
+                type="number"
+                min={1000}
+                step={500}
+                className="mt-1 h-8 text-sm"
+                value={(p.autoplaySlideMs as number) ?? 6000}
+                onChange={(e) => setProp("autoplaySlideMs", Number(e.target.value))}
+              />
+              <p className="mt-1 text-xs text-muted-foreground">
+                Video slides crossfade continuously near the end of each clip. Image slides use this duration.
+              </p>
+            </div>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={p.showSlideArrows !== false}
+                onChange={(e) => setProp("showSlideArrows", e.target.checked)}
+              />
+              Show slide arrows
+            </label>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={p.showSlideDots !== false}
+                onChange={(e) => setProp("showSlideDots", e.target.checked)}
+              />
+              Show slide dots
+            </label>
+          </div>
+        </AdminCollapsibleSection>
+      )}
+
       <div>
         <Label className="text-xs">Layout</Label>
         <select className="mt-1 w-full rounded-md border h-9 px-2 text-sm" value={(p.layout as string) ?? "fullBleed"} onChange={(e) => setProp("layout", e.target.value)}>
@@ -136,9 +187,19 @@ export function VideoHeroBlockFields({ block, onChange }: Props) {
         <input type="checkbox" checked={p.autoplay !== false} onChange={(e) => setProp("autoplay", e.target.checked)} />
         Autoplay
       </label>
-      <label className="flex items-center gap-2 text-sm">
-        <input type="checkbox" checked={p.showControls === true} onChange={(e) => setProp("showControls", e.target.checked)} />
-        Show controls
+      <label className="flex items-start gap-2 text-sm">
+        <input
+          type="checkbox"
+          className="mt-0.5"
+          checked={p.showControls === true}
+          onChange={(e) => setProp("showControls", e.target.checked)}
+        />
+        <span>
+          <span className="block">Show video player controls</span>
+          <span className="block text-xs text-muted-foreground">
+            Shows the native browser play/pause bar on the video. Does not affect slide navigation.
+          </span>
+        </span>
       </label>
       <label className="flex items-center gap-2 text-sm">
         <input type="checkbox" checked={p.muted !== false} onChange={(e) => setProp("muted", e.target.checked)} />
@@ -148,6 +209,20 @@ export function VideoHeroBlockFields({ block, onChange }: Props) {
         <Label className="text-xs">Overlay opacity (0–100)</Label>
         <Input type="number" min={0} max={100} className="mt-1 h-8 text-sm" value={(p.overlayOpacity as number) ?? 55} onChange={(e) => setProp("overlayOpacity", Number(e.target.value))} />
       </div>
+      <label className="flex items-start gap-2 text-sm">
+        <input
+          type="checkbox"
+          className="mt-0.5"
+          checked={Boolean(p.fadeIntoSiteBackground)}
+          onChange={(e) => setProp("fadeIntoSiteBackground", e.target.checked)}
+        />
+        <span>
+          <span className="block">Fade into website background</span>
+          <span className="block text-xs text-muted-foreground">
+            Softly blends the video hero into the page background at the bottom.
+          </span>
+        </span>
+      </label>
     </div>
   );
 }

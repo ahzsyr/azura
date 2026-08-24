@@ -39,6 +39,7 @@ export async function ProductShowcaseBlockRenderer({
           category: tab.category,
           limit: tab.limit,
           sortBy: tab.sortBy,
+          orderingProfileId: tab.orderingProfileId || p.orderingProfileId,
           anchorSlug: p.anchorSlug,
         }),
       })),
@@ -83,6 +84,7 @@ export async function ProductShowcaseBlockRenderer({
     category: p.category,
     limit: p.limit,
     sortBy: p.sortBy,
+    orderingProfileId: p.orderingProfileId,
     anchorSlug: p.anchorSlug,
   });
 

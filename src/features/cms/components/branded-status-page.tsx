@@ -37,7 +37,7 @@ export function BrandedStatusPage({
       <div className="mx-auto max-w-2xl text-center">
         {logoUrl ? (
           <div className="relative mx-auto mb-8 flex h-16 w-48 items-center justify-center">
-            <BrandLogoImage src={logoUrl} width={192} height={64} priority />
+            <BrandLogoImage src={logoUrl} width={192} height={64} priority tintWithPrimary />
           </div>
         ) : (
           <p className="font-heading mb-6 text-2xl font-semibold text-primary">{brandName}</p>

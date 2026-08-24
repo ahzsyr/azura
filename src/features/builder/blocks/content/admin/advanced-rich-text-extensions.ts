@@ -13,6 +13,7 @@ import type { Extensions } from "@tiptap/core";
 import { HeadingWithAnchor } from "@/features/builder/blocks/content/admin/lib/advanced-rich-text-heading";
 import { ImageWithAlign } from "@/features/builder/blocks/content/admin/lib/advanced-rich-text-image";
 import { IndentExtension } from "@/features/builder/blocks/content/admin/lib/advanced-rich-text-indent";
+import { TextDirection } from "@/features/builder/blocks/content/admin/lib/advanced-rich-text-text-direction";
 
 export function createAdvancedRichTextExtensions(placeholder = "Write content…"): Extensions {
   return [
@@ -32,6 +33,7 @@ export function createAdvancedRichTextExtensions(placeholder = "Write content…
     Highlight.configure({ multicolor: true }),
     Placeholder.configure({ placeholder }),
     IndentExtension,
+    TextDirection,
     TextStyle,
     Color,
     TableWithWidth.configure({ resizable: true }),

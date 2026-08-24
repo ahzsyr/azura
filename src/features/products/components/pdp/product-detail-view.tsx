@@ -10,7 +10,11 @@ import type {
   ProductPageLayoutRules,
 } from "@/features/products/lib/product-page-responsive";
 import type { ResolvedProductPageOverflow } from "@/features/products/lib/product-page-overflow";
-import { ProductDetailTemplate } from "@/templates/product/product-detail-template";
+import { ProductDetailLayoutRouter } from "@/features/products/layout-templates/product-detail-layout-router";
+import type {
+  LayoutAssignmentSource,
+  ProductPageLayoutTemplateId,
+} from "@/features/products/layout-templates/types";
 
 type Props = {
   locale: string;
@@ -24,6 +28,9 @@ type Props = {
   cardTheme?: ProductCardTheme;
   productCta?: ResolvedProductCtaConfig;
   site: Record<string, unknown>;
+  layoutTemplateId: ProductPageLayoutTemplateId;
+  layoutAssignmentSource: LayoutAssignmentSource;
+  layoutAssignmentDetail?: string;
 };
 
 export async function ProductDetailView({
@@ -38,6 +45,9 @@ export async function ProductDetailView({
   cardTheme,
   productCta,
   site,
+  layoutTemplateId,
+  layoutAssignmentSource,
+  layoutAssignmentDetail,
 }: Props) {
   const viewModel = await resolveProductDetailViewModel(
     slug,
@@ -57,6 +67,9 @@ export async function ProductDetailView({
       cardTheme,
       productCta,
       site,
+      layoutTemplateId,
+      layoutAssignmentSource,
+      layoutAssignmentDetail,
     },
   );
 
@@ -81,7 +94,8 @@ export async function ProductDetailView({
   });
 
   return (
-    <ProductDetailTemplate
+    <ProductDetailLayoutRouter
+      templateId={viewModel.layoutTemplateId}
       viewModel={viewModel}
       deferredSectionBlocks={deferredSectionBlocks}
     />

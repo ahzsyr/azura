@@ -13,6 +13,7 @@ export type SearchContentKind =
   | "faq"
   | "testimonial"
   | "media"
+  | "icon"
   | "team_member"
   | "partner"
   | (string & {});

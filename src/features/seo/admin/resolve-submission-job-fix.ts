@@ -40,6 +40,34 @@ export function resolveSubmissionJobFix(job: SubmissionJobFixInput): SubmissionJ
     };
   }
 
+  if (
+    provider === "indexnow" &&
+    (lower.includes("invalidrequestparameters") ||
+      lower.includes("not related to your site") ||
+      lower.includes("keylocation"))
+  ) {
+    return {
+      suggestion:
+        "IndexNow only accepts a key file named {your-key}.txt at the site root (https://brt-me.com/{your-key}.txt). A Media/uploads document or www URL is rejected. Clear Key location, save, then re-run the queue.",
+      fixHref: `${CONFIGURE_HREF}&provider=indexnow`,
+      fixLabel: "Open IndexNow",
+    };
+  }
+
+  if (
+    provider === "indexnow" &&
+    (kind === "SITEMAP" ||
+      lower.includes("invalid url") ||
+      lower.includes("accepts page urls only"))
+  ) {
+    return {
+      suggestion:
+        "IndexNow does not accept sitemap.xml and rejects page URLs whose host does not match the live site (www vs non-www). Use Bing or Google Search Console for the sitemap. For this page URL, confirm the verification key file is on the same host, then re-run the queue.",
+      fixHref: `${CONFIGURE_HREF}&provider=indexnow`,
+      fixLabel: "Open IndexNow",
+    };
+  }
+
   if (lower.includes("provider is disabled or missing credentials")) {
     return {
       suggestion: "Enable the provider and add credentials on the Configure tab.",

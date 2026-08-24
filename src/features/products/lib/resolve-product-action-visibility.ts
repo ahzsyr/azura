@@ -54,7 +54,7 @@ const DEFAULT_LOCALE: LocaleConfig = { code: "en", urlPrefix: "en", label: "Engl
 const FIX = {
   buyNow: "#buy-now",
   cta: "#cta",
-  productPage: "#product-page",
+  productPage: "/admin/pages?tab=product",
   productCards: "#product-cards",
 } as const;
 

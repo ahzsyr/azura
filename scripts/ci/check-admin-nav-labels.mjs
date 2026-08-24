@@ -14,7 +14,8 @@ const banned = [
   { pattern: /label:\s*["']Listings["']/, message: 'item label "Listings"' },
   { pattern: /label:\s*["']Offerings["']/, message: 'item label "Offerings"' },
   { pattern: /id:\s*["']product-catalog["']/, message: 'group id "product-catalog"' },
-  { pattern: /id:\s*["']catalog["'],\s*\n\s*label:\s*["']Catalog["']/, message: 'standalone Catalog group' },
+  // Top-level group only (4-space indent). Nested Content Builder → Catalog is allowed.
+  { pattern: /^    id:\s*["']catalog["'],\s*\r?\n    label:\s*["']Catalog["']/m, message: 'standalone Catalog group' },
 ];
 
 let failures = 0;

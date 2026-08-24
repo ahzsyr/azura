@@ -16,12 +16,18 @@ export type MatchingRuleFieldOptionGroup = {
 };
 
 const FIELD_LABELS: Record<string, string> = {
+  environment: "Environment",
+  mountingMethod: "Mounting Method",
   category: "Category",
   categories: "Categories",
   tags: "Tags",
+  generation: "Generation",
+  antennaDesign: "Antenna Design",
   brand: "Brand",
   title: "Title",
   name: "Name",
+  matchingRules: "Matching Rules",
+  mainCategory: "Main Category",
   badge: "Badge",
   status: "Status",
   stock: "Stock",
@@ -29,26 +35,51 @@ const FIELD_LABELS: Record<string, string> = {
   mpn: "MPN",
   description: "Description",
   specification: "Specification",
-  matchingRules: "Matching Rules",
   comparePrice: "Compare price",
   categoryAncestors: "Category ancestors",
 };
+
+/** Preferred field order for the Matching Rules picker (plan fields first). */
+const PRIMARY_RULE_FIELDS = [
+  "environment",
+  "mountingMethod",
+  "category",
+  "tags",
+  "generation",
+  "antennaDesign",
+  "brand",
+  "title",
+  "name",
+  "categories",
+  "matchingRules",
+  "mainCategory",
+] as const;
 
 /** @deprecated Sentinel no longer used; kept for any leftover imports. */
 export const SPECIFICATION_FIELD_OPTION = SPECIFICATION_FIELD;
 
 export function buildMatchingRuleFieldGroups(): MatchingRuleFieldOptionGroup[] {
-  const productFields = EDITOR_PRODUCT_FIELDS.filter(
-    (f) => f !== SPECIFICATION_FIELD && f !== MATCHING_RULES_FIELD,
+  const primary = new Set<string>(PRIMARY_RULE_FIELDS);
+  const rest = EDITOR_PRODUCT_FIELDS.filter(
+    (f) =>
+      !primary.has(f) &&
+      f !== SPECIFICATION_FIELD &&
+      f !== MATCHING_RULES_FIELD,
   );
 
   return [
     {
       label: "Product Fields",
-      options: productFields.map((value) => ({
-        value,
-        label: FIELD_LABELS[value] ?? value,
-      })),
+      options: [
+        ...PRIMARY_RULE_FIELDS.map((value) => ({
+          value,
+          label: FIELD_LABELS[value] ?? value,
+        })),
+        ...rest.map((value) => ({
+          value,
+          label: FIELD_LABELS[value] ?? value,
+        })),
+      ],
     },
     {
       label: "Specifications",
@@ -56,15 +87,6 @@ export function buildMatchingRuleFieldGroups(): MatchingRuleFieldOptionGroup[] {
         {
           value: SPECIFICATION_FIELD,
           label: FIELD_LABELS[SPECIFICATION_FIELD] ?? "Specification",
-        },
-      ],
-    },
-    {
-      label: "Source Matching",
-      options: [
-        {
-          value: MATCHING_RULES_FIELD,
-          label: FIELD_LABELS[MATCHING_RULES_FIELD] ?? "Matching Rules",
         },
       ],
     },

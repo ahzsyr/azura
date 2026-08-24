@@ -128,7 +128,7 @@ export function MatchingRulesEditor({
         </div>
       </div>
 
-      <RuleGroupEditor group={root} depth={0} onChange={setRoot} showHeader={false} />
+      <RuleGroupEditor group={root} depth={0} onChange={setRoot} showHeader={false} locale={locale} />
 
       <MatchPreviewPanel conditions={root} locale={locale} />
     </div>
@@ -142,6 +142,7 @@ function RuleGroupEditor({
   onRemove,
   showHeader,
   pathLabel,
+  locale,
 }: {
   group: RuleGroup;
   depth: number;
@@ -149,6 +150,7 @@ function RuleGroupEditor({
   onRemove?: () => void;
   showHeader: boolean;
   pathLabel?: string;
+  locale: string;
 }) {
   const updateChild = (index: number, child: RuleNode) => {
     const children = [...group.children];
@@ -213,6 +215,7 @@ function RuleGroupEditor({
               depth={depth + 1}
               pathLabel={`Group ${i + 1}`}
               showHeader
+              locale={locale}
               onChange={(next) => updateChild(i, next)}
               onRemove={() => removeChild(i)}
             />
@@ -221,6 +224,7 @@ function RuleGroupEditor({
               key={`l-${depth}-${i}`}
               leaf={child}
               index={i}
+              locale={locale}
               onChange={(next) => updateChild(i, next)}
               onRemove={() => removeChild(i)}
             />
@@ -240,14 +244,158 @@ function RuleGroupEditor({
   );
 }
 
+function RuleValueCombobox({
+  field,
+  locale,
+  value,
+  placeholder,
+  multi,
+  onChange,
+}: {
+  field: string;
+  locale: string;
+  value: string;
+  placeholder: string;
+  multi?: boolean;
+  onChange: (next: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const seq = useRef(0);
+
+  const queryForFetch = (() => {
+    if (!multi) return value;
+    const parts = value.split(",");
+    return (parts[parts.length - 1] ?? "").trim();
+  })();
+
+  useEffect(() => {
+    if (!open || !field) return;
+    const id = ++seq.current;
+    setLoading(true);
+    const timer = window.setTimeout(async () => {
+      try {
+        const params = new URLSearchParams({
+          field,
+          locale,
+          q: queryForFetch,
+        });
+        const res = await fetch(`/api/categories/field-values?${params}`, {
+          credentials: "include",
+        });
+        const data = (await res.json().catch(() => ({}))) as {
+          values?: string[];
+        };
+        if (id !== seq.current) return;
+        setSuggestions(Array.isArray(data.values) ? data.values : []);
+        setActiveIndex(0);
+      } catch {
+        if (id !== seq.current) return;
+        setSuggestions([]);
+      } finally {
+        if (id === seq.current) setLoading(false);
+      }
+    }, 280);
+    return () => window.clearTimeout(timer);
+  }, [open, field, locale, queryForFetch]);
+
+  useEffect(() => {
+    const onDoc = (e: MouseEvent) => {
+      if (!wrapRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
+
+  const applySuggestion = (suggestion: string) => {
+    if (!multi) {
+      onChange(suggestion);
+      setOpen(false);
+      return;
+    }
+    const parts = value.split(",").map((s) => s.trim());
+    if (parts.length === 0) {
+      onChange(suggestion);
+    } else {
+      parts[parts.length - 1] = suggestion;
+      onChange(parts.filter(Boolean).join(", "));
+    }
+    setOpen(false);
+  };
+
+  return (
+    <div className="mre-combo" ref={wrapRef}>
+      <input
+        className="mre-input mre-val"
+        type="text"
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => {
+          onChange(e.target.value);
+          setOpen(true);
+        }}
+        onFocus={() => setOpen(true)}
+        onKeyDown={(e) => {
+          if (!open || suggestions.length === 0) return;
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            setActiveIndex((i) => Math.min(i + 1, suggestions.length - 1));
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            setActiveIndex((i) => Math.max(i - 1, 0));
+          } else if (e.key === "Enter") {
+            e.preventDefault();
+            applySuggestion(suggestions[activeIndex] ?? suggestions[0]);
+          } else if (e.key === "Escape") {
+            setOpen(false);
+          }
+        }}
+        aria-autocomplete="list"
+        aria-expanded={open}
+        role="combobox"
+      />
+      {open && (
+        <ul className="mre-combo-list" role="listbox">
+          {loading && <li className="mre-combo-empty">Searching…</li>}
+          {!loading && suggestions.length === 0 && (
+            <li className="mre-combo-empty">No catalog suggestions</li>
+          )}
+          {!loading &&
+            suggestions.map((s, i) => (
+              <li key={s}>
+                <button
+                  type="button"
+                  className={`mre-combo-item ${i === activeIndex ? "is-active" : ""}`}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    applySuggestion(s);
+                  }}
+                  role="option"
+                  aria-selected={i === activeIndex}
+                >
+                  {s}
+                </button>
+              </li>
+            ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 function LeafEditor({
   leaf,
   index,
+  locale,
   onChange,
   onRemove,
 }: {
   leaf: RuleLeaf;
   index: number;
+  locale: string;
   onChange: (next: RuleLeaf) => void;
   onRemove: () => void;
 }) {
@@ -292,7 +440,6 @@ function LeafEditor({
             ))}
           </optgroup>
         ))}
-        {/* Keep legacy `spec:<key>` rules visible/editable if already saved */}
         {leaf.field.startsWith("spec:") &&
         !fieldGroups.some((g) => g.options.some((o) => o.value === leaf.field)) ? (
           <optgroup label="Legacy specification key">
@@ -349,15 +496,16 @@ function LeafEditor({
       )}
 
       {!unary && multi && leaf.operator !== "between" && (
-        <input
-          className="mre-input mre-val"
-          type="text"
-          placeholder="comma-separated values"
+        <RuleValueCombobox
+          field={leaf.field}
+          locale={locale}
+          multi
+          placeholder="search / comma-separated values"
           value={multiValuesToString(leaf)}
-          onChange={(e) =>
+          onChange={(raw) =>
             onChange({
               ...leaf,
-              values: parseMultiValues(e.target.value),
+              values: parseMultiValues(raw),
               value: undefined,
             })
           }
@@ -381,15 +529,15 @@ function LeafEditor({
       )}
 
       {!unary && !multi && kind !== "numeric" && (
-        <input
-          className="mre-input mre-val"
-          type="text"
-          placeholder="matching word"
+        <RuleValueCombobox
+          field={leaf.field}
+          locale={locale}
+          placeholder="search matching value"
           value={leaf.value == null ? "" : String(leaf.value)}
-          onChange={(e) =>
+          onChange={(raw) =>
             onChange({
               ...leaf,
-              value: e.target.value,
+              value: raw,
               values: undefined,
             })
           }

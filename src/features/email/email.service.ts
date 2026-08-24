@@ -17,6 +17,8 @@ export type SendEmailInput = {
   replyTo?: string;
   cc?: string | string[];
   bcc?: string | string[];
+  /** Optional display name for the From header. */
+  fromName?: string;
   /** When set, use this account instead of env fallback. */
   providerConfig?: EmailProviderConfig | null;
 };
@@ -148,6 +150,15 @@ function notConfiguredMessage(): string {
   return "Email delivery failed. Reason: No email provider configured. Select an email account on the form, or configure Settings → Email Accounts (or RESEND_API_KEY / SMTP_HOST).";
 }
 
+function formatFromAddress(from: string, fromName?: string): string {
+  const name = fromName?.trim();
+  if (!name) return from;
+  const emailMatch = from.match(/<([^>]+)>/);
+  const email = (emailMatch?.[1] ?? from).trim();
+  const safeName = name.replace(/"/g, "");
+  return `"${safeName}" <${email}>`;
+}
+
 function normalizeRecipients(value?: string | string[]): string[] | undefined {
   if (value == null) return undefined;
   const list = (Array.isArray(value) ? value : [value])
@@ -171,7 +182,7 @@ export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult>
     return { sent: false, errorCode: "not_configured", errorMessage, devLog };
   }
 
-  const from = config.from;
+  const from = formatFromAddress(config.from, input.fromName);
 
   if (config.provider === "resend") {
     if (!config.resendApiKey) {

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { MediaType } from "@prisma/client";
 import { Link2, Upload, X } from "lucide-react";
 import { MediaPreviewImage } from "@/features/media/components/media-preview-image";
+import { MediaPreviewVideo } from "@/features/media/components/media-preview-video";
 import {
   UnifiedMediaPickerDialog,
   UnifiedMediaPickerTriggerButton,
@@ -13,6 +14,7 @@ import { MediaFieldUploadButton } from "./media-field-upload-button";
 import {
   DEFAULT_MEDIA_PLACEHOLDER,
   IMAGE_PICKER_MEDIA_TYPES,
+  isVideoMediaUrl,
   resolveMediaUrl,
 } from "@/features/media/constants";
 import { resolveSeoOgImageUrl } from "@/features/seo/seo-image-url";
@@ -63,6 +65,9 @@ export function MediaPickerField({
     (url?.trim() ? resolveSeoOgImageUrl(url, siteUrl) : undefined) ??
     resolveMediaUrl(url);
   const showingPlaceholder = !url?.trim() || preview === DEFAULT_MEDIA_PLACEHOLDER;
+  const showVideoPreview =
+    !showingPlaceholder &&
+    (isVideoMediaUrl(url) || (mediaTypes.length === 1 && mediaTypes[0] === "VIDEO"));
   const previewBox = previewSize ?? { width: 112, height: 80 };
 
   useEffect(() => {
@@ -113,13 +118,17 @@ export function MediaPickerField({
           )}
           style={{ width: previewBox.width, height: previewBox.height }}
         >
-          <MediaPreviewImage
-            src={preview}
-            alt=""
-            fill
-            className={cn("object-cover", showingPlaceholder && "object-contain p-1")}
-            sizes={`${previewBox.width}px`}
-          />
+          {showVideoPreview ? (
+            <MediaPreviewVideo src={preview} alt="" fill className="object-cover" />
+          ) : (
+            <MediaPreviewImage
+              src={preview}
+              alt=""
+              fill
+              className={cn("object-cover", showingPlaceholder && "object-contain p-1")}
+              sizes={`${previewBox.width}px`}
+            />
+          )}
         </div>
 
         <div className="flex flex-col gap-2 flex-1 min-w-[200px]">

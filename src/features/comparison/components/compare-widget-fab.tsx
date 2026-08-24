@@ -138,7 +138,7 @@ export function CompareWidgetFab({ className, label = "Compare", locale = "en" }
         aria-label={`${label} (${count})`}
         title={`${label} (${count})`}
       >
-        <ArrowLeftRight className="h-4 w-4" strokeWidth={2} aria-hidden />
+        <ArrowLeftRight className="pp-fab-icon" strokeWidth={2} aria-hidden />
         <span className="pp-compare-fab__badge" aria-hidden>
           {count}
         </span>

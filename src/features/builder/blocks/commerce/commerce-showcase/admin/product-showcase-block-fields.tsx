@@ -4,7 +4,11 @@ import type { BlockNode } from "@/types/builder";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { patchBlockSettings } from "@/features/builder/instance/block-instance";
-import type { CollectionBuilderOption, ProductBuilderOption } from "@/features/builder/blocks/commerce/product-blocks/types";
+import type {
+  CollectionBuilderOption,
+  OrderingProfileBuilderOption,
+  ProductBuilderOption,
+} from "@/features/builder/blocks/commerce/product-blocks/types";
 import { ProductSelectionFields } from "@/features/builder/blocks/commerce/product-blocks/admin/product-selection-fields";
 import { ShowcaseHeaderFields } from "@/features/builder/blocks/commerce/commerce-showcase/admin/showcase-shared-fields";
 import { PRODUCT_SHOWCASE_TAB_PRESETS } from "@/features/builder/blocks/commerce/commerce-showcase/schemas/showcase-blocks";
@@ -15,6 +19,7 @@ type Props = {
   onChange: (block: BlockNode) => void;
   collectionOptions?: CollectionBuilderOption[];
   productOptions?: ProductBuilderOption[];
+  orderingProfileOptions?: OrderingProfileBuilderOption[];
 };
 
 export function ProductShowcaseBlockFields({
@@ -22,6 +27,7 @@ export function ProductShowcaseBlockFields({
   onChange,
   collectionOptions = [],
   productOptions = [],
+  orderingProfileOptions = [],
 }: Props) {
   const setProp = (key: string, value: unknown) => onChange(patchBlockSettings(block, { [key]: value }));
   const mode = (block.props.mode as string) ?? "single";
@@ -53,6 +59,7 @@ export function ProductShowcaseBlockFields({
       category: "",
       limit: 8,
       sortBy: preset.sortBy ?? "name-asc",
+      orderingProfileId: "",
     }));
     onChange(patchBlockSettings(block, { mode: "tabs", tabs }));
   };
@@ -111,6 +118,7 @@ export function ProductShowcaseBlockFields({
               category: "",
               limit: 8,
               sortBy: "name-asc",
+              orderingProfileId: "",
             })}
             strings={{
               sectionLabel: "Tabs",
@@ -281,6 +289,7 @@ export function ProductShowcaseBlockFields({
             onChange={onChange}
             collectionOptions={collectionOptions}
             productOptions={productOptions}
+            orderingProfileOptions={orderingProfileOptions}
           />
         </>
       )}

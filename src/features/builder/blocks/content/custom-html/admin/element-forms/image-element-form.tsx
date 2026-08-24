@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { IMAGE_PICKER_MEDIA_TYPES } from "@/features/media/constants";
 import type { HtmlElement } from "../../types";
+import { LocalizedHtmlInput } from "../localized-html-input";
 
 type Props = {
   element: HtmlElement;
@@ -28,15 +29,13 @@ export function ImageElementForm({ element, onChange }: Props) {
         }
       />
 
-      <div>
-        <Label className="text-xs">Alt text</Label>
-        <Input
-          className="mt-1 h-8 text-xs"
-          placeholder="Describe the image…"
-          value={attrs.alt ?? ""}
-          onChange={(e) => update({ alt: e.target.value })}
-        />
-      </div>
+      <LocalizedHtmlInput
+        label="Alt text"
+        baseKey="alt"
+        values={attrs as Record<string, unknown>}
+        onChange={(patch) => update(patch)}
+        placeholder="Describe the image…"
+      />
 
       <div className="grid grid-cols-2 gap-2">
         <div>

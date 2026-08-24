@@ -10,9 +10,7 @@ import type { MarketingProviderAdapter } from "./types";
 const adapters = new Map<string, MarketingProviderAdapter>();
 
 export function registerProvider(adapter: MarketingProviderAdapter): void {
-  if (adapters.has(adapter.id)) {
-    throw new Error(`Marketing provider already registered: ${adapter.id}`);
-  }
+  if (adapters.has(adapter.id)) return;
   adapters.set(adapter.id, adapter);
 }
 

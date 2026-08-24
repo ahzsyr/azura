@@ -90,4 +90,30 @@ describe("patchTableStructure", () => {
     const bodyRow = patched.children?.find((c) => c.tag === "tbody")?.children?.[0];
     assert.equal(bodyRow?.children?.length, 3);
   });
+
+  it("preserves locale-suffixed cell text through extract and patch", () => {
+    const el = createTableElement({ rows: 1, cols: 1, hasHeader: true, hasFooter: false });
+    const th = el.children?.find((c) => c.tag === "thead")?.children?.[0]?.children?.[0];
+    const td = el.children?.find((c) => c.tag === "tbody")?.children?.[0]?.children?.[0];
+    assert.ok(th);
+    assert.ok(td);
+    th!.text = "Name";
+    th!.textAr = "الاسم";
+    td!.text = "Alice";
+    td!.textAr = "أليس";
+
+    const data = extractTableData(el, 1);
+    assert.equal(data.columns[0]!.label, "Name");
+    assert.equal(data.columns[0]!.labelAr, "الاسم");
+    assert.equal(data.bodyRows[0]!.cells[0]!.text, "Alice");
+    assert.equal(data.bodyRows[0]!.cells[0]!.textAr, "أليس");
+
+    const patched = patchTableStructure(el, data);
+    const patchedTh = patched.children?.find((c) => c.tag === "thead")?.children?.[0]?.children?.[0];
+    const patchedTd = patched.children?.find((c) => c.tag === "tbody")?.children?.[0]?.children?.[0];
+    assert.equal(patchedTh?.text, "Name");
+    assert.equal(patchedTh?.textAr, "الاسم");
+    assert.equal(patchedTd?.text, "Alice");
+    assert.equal(patchedTd?.textAr, "أليس");
+  });
 });

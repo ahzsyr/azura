@@ -46,8 +46,11 @@ const emptyDraft = (): Draft => ({
 
 export function EmailAccountsAdminClient({
   initialAccounts,
+  canManage = true,
 }: {
   initialAccounts: EmailAccountPublic[];
+  /** Master Admin (SUPER_ADMIN) may create/edit/delete/test. Others are read-only. */
+  canManage?: boolean;
 }) {
   const [accounts, setAccounts] = useState(initialAccounts);
   const [draft, setDraft] = useState<Draft | null>(null);
@@ -57,8 +60,21 @@ export function EmailAccountsAdminClient({
   const [testingId, setTestingId] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
-    const res = await listEmailAccountsAction();
-    if (res.success && res.data) setAccounts(res.data.accounts);
+    try {
+      const res = await listEmailAccountsAction();
+      if (res.success && res.data) {
+        setAccounts(res.data.accounts);
+        return;
+      }
+      if (!res.success) {
+        setMessage({ ok: false, text: res.error });
+      }
+    } catch (e) {
+      setMessage({
+        ok: false,
+        text: e instanceof Error ? e.message : "Failed to refresh email accounts",
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -66,11 +82,25 @@ export function EmailAccountsAdminClient({
   }, [refresh]);
 
   const openCreate = () => {
+    if (!canManage) {
+      setMessage({
+        ok: false,
+        text: "Only the Master Admin can create Email Accounts.",
+      });
+      return;
+    }
     setMessage(null);
     setDraft(emptyDraft());
   };
 
   const openEdit = (account: EmailAccountPublic) => {
+    if (!canManage) {
+      setMessage({
+        ok: false,
+        text: "Only the Master Admin can edit Email Accounts.",
+      });
+      return;
+    }
     setMessage(null);
     setDraft({
       id: account.id,
@@ -112,6 +142,13 @@ export function EmailAccountsAdminClient({
   };
 
   const remove = async (account: EmailAccountPublic) => {
+    if (!canManage) {
+      setMessage({
+        ok: false,
+        text: "Only the Master Admin can delete Email Accounts.",
+      });
+      return;
+    }
     setBusy(true);
     setMessage(null);
     const refs = await countFormsReferencingEmailAccountAction(account.id);
@@ -137,6 +174,13 @@ export function EmailAccountsAdminClient({
   };
 
   const sendTest = async (accountId: string) => {
+    if (!canManage) {
+      setMessage({
+        ok: false,
+        text: "Only the Master Admin can send test emails.",
+      });
+      return;
+    }
     setTestingId(accountId);
     setMessage(null);
     const res = await sendEmailAccountTestAction({ accountId, to: testTo });
@@ -159,13 +203,26 @@ export function EmailAccountsAdminClient({
           <p className="mt-1 text-sm text-muted-foreground">
             Named Resend or SMTP accounts. Forms pick one under Automation → Email Notifications.
             Secrets are stored sealed and never shown again after save.
+            {!canManage
+              ? " Viewing only — ask the Master Admin to add or change accounts."
+              : null}
           </p>
         </div>
-        <Button type="button" onClick={openCreate}>
-          <Plus className="mr-1 h-4 w-4" />
-          Add account
-        </Button>
+        {canManage ? (
+          <Button type="button" onClick={openCreate}>
+            <Plus className="mr-1 h-4 w-4" />
+            Add account
+          </Button>
+        ) : null}
       </div>
+
+      {!canManage ? (
+        <p className="rounded-md border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-sm text-muted-foreground">
+          Only the <strong className="text-foreground">Master Admin</strong> can create or edit Email
+          Accounts. You can still select existing accounts on forms and in portal settings when
+          permitted.
+        </p>
+      ) : null}
 
       {message && (
         <p className={`text-sm ${message.ok ? "text-emerald-700 dark:text-emerald-400" : "text-destructive"}`}>
@@ -173,6 +230,7 @@ export function EmailAccountsAdminClient({
         </p>
       )}
 
+      {canManage ? (
       <Card className="space-y-3 p-4">
         <Label className="text-xs">Test recipient (for Send test on an account)</Label>
         <Input
@@ -182,6 +240,7 @@ export function EmailAccountsAdminClient({
           onChange={(e) => setTestTo(e.target.value)}
         />
       </Card>
+      ) : null}
 
       <div className="space-y-3">
         {accounts.length === 0 && (
@@ -212,34 +271,38 @@ export function EmailAccountsAdminClient({
                 )}
               </div>
               <div className="flex flex-wrap gap-2">
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="secondary"
-                  disabled={Boolean(testingId) || !testTo.includes("@")}
-                  onClick={() => void sendTest(account.id)}
-                >
-                  {testingId === account.id ? "Sending…" : "Send test"}
-                </Button>
-                <Button type="button" size="sm" variant="outline" onClick={() => openEdit(account)}>
-                  Edit
-                </Button>
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  disabled={busy}
-                  onClick={() => void remove(account)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+                {canManage ? (
+                  <>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="secondary"
+                      disabled={Boolean(testingId) || !testTo.includes("@")}
+                      onClick={() => void sendTest(account.id)}
+                    >
+                      {testingId === account.id ? "Sending…" : "Send test"}
+                    </Button>
+                    <Button type="button" size="sm" variant="outline" onClick={() => openEdit(account)}>
+                      Edit
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      disabled={busy}
+                      onClick={() => void remove(account)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </>
+                ) : null}
               </div>
             </Card>
           );
         })}
       </div>
 
-      {draft && (
+      {draft && canManage && (
         <Card className="space-y-4 p-4">
           <h2 className="text-sm font-semibold">{draft.id ? "Edit account" : "New account"}</h2>
           <div className="grid gap-3 sm:grid-cols-2">

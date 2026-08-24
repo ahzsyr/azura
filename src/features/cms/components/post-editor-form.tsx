@@ -40,15 +40,16 @@ import {
   getEditableRegions,
   patchCompositionRegion,
 } from "@/features/layout-engine/composition-editor-helpers";
-import { isArabicLocale } from "@/shared/layout/direction/direction-resolver";
+import { useAdminEditingLocale } from "@/features/translation/hooks/use-admin-editing-locale";
 import { PostFeaturedPhotoPanel } from "./post-featured-photo-panel";
 import { parsePostFeaturedImageSettings, type PostFeaturedImageSettings } from "@/schemas/featured-image-settings";
 import { TaxonomySelect } from "./taxonomy-select";
 import { RelatedPostsSelect } from "./related-posts-select";
 import { CmsStatusBadge } from "./cms-status-badge";
 import { CitationSourcesField } from "./citation-sources-field";
+import { EditorialDisplayFields } from "./editorial-display-fields";
 import type { CitationSource } from "@/schemas/editorial-metadata";
-import { parseCitationSources } from "@/schemas/editorial-metadata";
+import { parseCitationSources, parseShowFlag } from "@/schemas/editorial-metadata";
 import { AdminFormProvider, AdminPageHeader } from "@/components/admin/layout/admin-shell";
 import { AdminSettingsLayout } from "@/components/admin/layout/admin-settings-layout";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
@@ -68,6 +69,7 @@ import type {
 } from "@/features/testimonials/types";
 import type {
   CollectionBuilderOption,
+  OrderingProfileBuilderOption,
   ProductBuilderOption,
 } from "@/features/builder/blocks/commerce/product-blocks/types";
 import type { BrandBuilderOption } from "@/features/builder/blocks/commerce/commerce-showcase/types";
@@ -126,6 +128,7 @@ type Props = {
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
   collectionOptions?: CollectionBuilderOption[];
   productOptions?: ProductBuilderOption[];
+  orderingProfileOptions?: OrderingProfileBuilderOption[];
   brandOptions?: BrandBuilderOption[];
   locales?: PublicLocale[];
   initialTranslations?: EntityTranslation[];
@@ -141,6 +144,10 @@ function PostTabPanel({
   setStatus,
   authorId,
   setAuthorId,
+  showAuthor,
+  setShowAuthor,
+  showPublishedAt,
+  setShowPublishedAt,
   scheduledAt,
   setScheduledAt,
   selectedBlockId,
@@ -181,6 +188,7 @@ function PostTabPanel({
   testimonialCollectionOptions,
   collectionOptions,
   productOptions,
+  orderingProfileOptions,
   brandOptions,
   locales,
   initialBlockTranslations,
@@ -196,6 +204,10 @@ function PostTabPanel({
   setStatus: (value: ContentStatus) => void;
   authorId: string;
   setAuthorId: (value: string) => void;
+  showAuthor: boolean;
+  setShowAuthor: (value: boolean) => void;
+  showPublishedAt: boolean;
+  setShowPublishedAt: (value: boolean) => void;
   scheduledAt: string;
   setScheduledAt: (value: string) => void;
   selectedBlockId: string | null;
@@ -236,6 +248,7 @@ function PostTabPanel({
   testimonialCollectionOptions: TestimonialCollectionBuilderOption[];
   collectionOptions: CollectionBuilderOption[];
   productOptions: ProductBuilderOption[];
+  orderingProfileOptions: OrderingProfileBuilderOption[];
   brandOptions: BrandBuilderOption[];
   locales: PublicLocale[];
   initialBlockTranslations: EntityTranslation[];
@@ -243,8 +256,7 @@ function PostTabPanel({
   sources: CitationSource[];
   setSources: (sources: CitationSource[]) => void;
 }) {
-  const defaultLocaleCode = locales?.find((l) => l.isDefault)?.code ?? "en";
-  const isRtl = isArabicLocale(defaultLocaleCode);
+  const { isRtl } = useAdminEditingLocale();
   const activeRegions = getEditableRegions(composition);
   const editorBlocks = composition.regions[selectedRegion] ?? [];
 
@@ -332,6 +344,18 @@ function PostTabPanel({
                     />
                   </div>
                 </div>
+                <EditorialDisplayFields
+                  showAuthor={showAuthor}
+                  showPublishedAt={showPublishedAt}
+                  onShowAuthorChange={(value) => {
+                    setShowAuthor(value);
+                    markDirty();
+                  }}
+                  onShowPublishedAtChange={(value) => {
+                    setShowPublishedAt(value);
+                    markDirty();
+                  }}
+                />
                 <AdminLocalizedFormField
                   fieldKey="title"
                   label="Title"
@@ -505,6 +529,7 @@ function PostTabPanel({
               testimonialCollectionOptions={testimonialCollectionOptions}
               collectionOptions={collectionOptions}
               productOptions={productOptions}
+              orderingProfileOptions={orderingProfileOptions}
               brandOptions={brandOptions}
               locales={locales}
               blockParentType="Post"
@@ -520,7 +545,6 @@ function PostTabPanel({
         <div className="space-y-6">
           <PageLayoutPanel
             composition={composition}
-            dir={isRtl ? "rtl" : "ltr"}
             onChange={(next) => {
               handleCompositionChange(next);
               markDirty();
@@ -600,6 +624,7 @@ export function PostEditorForm({
   testimonialCollectionOptions = [],
   collectionOptions = [],
   productOptions = [],
+  orderingProfileOptions = [],
   brandOptions = [],
   locales = [],
   initialTranslations = [],
@@ -650,6 +675,8 @@ export function PostEditorForm({
   const [slug, setSlug] = useState(post?.slug ?? "");
   const [status, setStatus] = useState<ContentStatus>(post?.status ?? "DRAFT");
   const [authorId, setAuthorId] = useState(post?.authorId ?? "");
+  const [showAuthor, setShowAuthor] = useState(parseShowFlag(composition.metadata?.showAuthor));
+  const [showPublishedAt, setShowPublishedAt] = useState(parseShowFlag(composition.metadata?.showPublishedAt));
   const [scheduledAt, setScheduledAt] = useState(formatScheduledInput(post?.scheduledAt));
   const [sources, setSources] = useState<CitationSource[]>(() =>
     parseCitationSources(Array.isArray(post?.sources) ? post.sources : [])
@@ -843,6 +870,8 @@ export function PostEditorForm({
     setSlug(post.slug);
     setStatus(post.status);
     setAuthorId(post.authorId ?? "");
+    setShowAuthor(parseShowFlag(nextComposition.metadata?.showAuthor));
+    setShowPublishedAt(parseShowFlag(nextComposition.metadata?.showPublishedAt));
     setScheduledAt(formatScheduledInput(post.scheduledAt));
     setSources(parseCitationSources(Array.isArray(post?.sources) ? post.sources : []));
 
@@ -879,6 +908,10 @@ export function PostEditorForm({
     setStatus,
     authorId,
     setAuthorId,
+    showAuthor,
+    setShowAuthor,
+    showPublishedAt,
+    setShowPublishedAt,
     scheduledAt,
     setScheduledAt,
     selectedBlockId,
@@ -925,6 +958,7 @@ export function PostEditorForm({
     testimonialCollectionOptions,
     collectionOptions,
     productOptions,
+    orderingProfileOptions,
     brandOptions,
     locales,
     initialBlockTranslations,
@@ -983,6 +1017,8 @@ export function PostEditorForm({
         <input type="hidden" name="slug" value={slug} readOnly />
         <input type="hidden" name="status" value={status} readOnly />
         <input type="hidden" name="authorId" value={authorId} readOnly />
+        <input type="hidden" name="showAuthor" value={String(showAuthor)} readOnly />
+        <input type="hidden" name="showPublishedAt" value={String(showPublishedAt)} readOnly />
         <input type="hidden" name="scheduledAt" value={scheduledAt} readOnly />
         <input type="hidden" name="sources" value={JSON.stringify(sources)} readOnly />
         <input type="hidden" name="editorTab" value={displayActiveTab} readOnly />
@@ -1007,6 +1043,7 @@ export function PostEditorForm({
           tabs={[...POST_TABS]}
           activeTab={displayActiveTab}
           onTabChange={handleTabChange}
+          layout="wrap"
           layoutId="post-editor-ribbon"
         >
           {() => <PostTabPanel tab={displayActiveTab} {...tabPanelProps} />}

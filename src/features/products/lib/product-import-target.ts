@@ -30,6 +30,10 @@ async function resolveSlugForImport(
     return { slug: baseSlug, decision: "write" };
   }
 
+  if (duplicatePolicy === "overwrite") {
+    return { slug: baseSlug, decision: "write" };
+  }
+
   if (slugConflict === "suffix") {
     let n = 1;
     let candidate = baseSlug;
@@ -41,10 +45,6 @@ async function resolveSlugForImport(
       }
     }
     return { slug: candidate, decision: "write" };
-  }
-
-  if (duplicatePolicy === "overwrite") {
-    return { slug: baseSlug, decision: "write" };
   }
 
   if (slugConflict === "error") {

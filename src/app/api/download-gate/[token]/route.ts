@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { readFile } from "fs/promises";
-import path from "path";
+import { basename } from "path";
 import { consumeDownloadUnlock } from "@/features/forms/download-gate.service";
+import { resolveLocalUploadDiskPath } from "@/lib/local-media-files";
+import { assertSafeOutboundUrl } from "@/lib/ssrf-guard";
 
 export async function GET(
   _request: Request,
@@ -17,16 +19,31 @@ export async function GET(
   const url = asset.url;
 
   if (url.startsWith("http://") || url.startsWith("https://")) {
-    return NextResponse.redirect(url);
+    const safe = assertSafeOutboundUrl(url);
+    if (!safe.ok) {
+      return NextResponse.json({ error: "Invalid asset URL" }, { status: 400 });
+    }
+    // Only allow same-origin public site URL redirects, not arbitrary remote hosts
+    const site = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+    if (site && safe.url.origin === new URL(site).origin) {
+      return NextResponse.redirect(safe.url.href);
+    }
+    return NextResponse.json({ error: "Remote asset not allowed" }, { status: 400 });
   }
 
-  const filePath = path.join(process.cwd(), "public", url.replace(/^\//, ""));
+  const diskPath = resolveLocalUploadDiskPath(url.startsWith("/") ? url : `/${url}`);
+  if (!diskPath) {
+    return NextResponse.json({ error: "File not found" }, { status: 404 });
+  }
+
   try {
-    const buffer = await readFile(filePath);
+    const buffer = await readFile(diskPath);
+    const filename = asset.filename || basename(diskPath);
     return new NextResponse(buffer, {
       headers: {
-        "Content-Type": asset.mimeType,
-        "Content-Disposition": `attachment; filename="${asset.filename}"`,
+        "Content-Type": asset.mimeType || "application/octet-stream",
+        "Content-Disposition": `attachment; filename="${filename.replace(/"/g, "")}"`,
+        "X-Content-Type-Options": "nosniff",
       },
     });
   } catch {

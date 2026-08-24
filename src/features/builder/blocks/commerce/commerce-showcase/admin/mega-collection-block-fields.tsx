@@ -3,8 +3,12 @@
 import type { BlockNode } from "@/types/builder";
 import { Label } from "@/components/ui/label";
 import { patchBlockSettings } from "@/features/builder/instance/block-instance";
-import type { CollectionBuilderOption } from "@/features/builder/blocks/commerce/product-blocks/types";
+import type {
+  CollectionBuilderOption,
+  OrderingProfileBuilderOption,
+} from "@/features/builder/blocks/commerce/product-blocks/types";
 import { CollectionBuilderSelect } from "@/features/builder/blocks/commerce/product-blocks/admin/builder-catalog-selects";
+import { OrderingProfileSelect } from "@/features/builder/blocks/commerce/product-blocks/admin/ordering-profile-select";
 import { ShowcaseHeaderFields } from "@/features/builder/blocks/commerce/commerce-showcase/admin/showcase-shared-fields";
 import { LocalizedBlockInput } from "@/features/builder/block-translation-context";
 import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
@@ -14,10 +18,12 @@ export function MegaCollectionBlockFields({
   block,
   onChange,
   collectionOptions = [],
+  orderingProfileOptions = [],
 }: {
   block: BlockNode;
   onChange: (block: BlockNode) => void;
   collectionOptions?: CollectionBuilderOption[];
+  orderingProfileOptions?: OrderingProfileBuilderOption[];
 }) {
   const setProp = (key: string, value: unknown) => onChange(patchBlockSettings(block, { [key]: value }));
 
@@ -46,6 +52,11 @@ export function MegaCollectionBlockFields({
             onChange={(e) => setProp("centerCategory", e.target.value)}
           />
         </div>
+        <OrderingProfileSelect
+          value={(block.props.centerOrderingProfileId as string) ?? ""}
+          onChange={(id) => setProp("centerOrderingProfileId", id)}
+          options={orderingProfileOptions}
+        />
       </div>
 
       <div className="rounded-lg border p-3 space-y-3">

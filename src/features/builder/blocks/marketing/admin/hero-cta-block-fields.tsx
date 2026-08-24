@@ -118,9 +118,9 @@ export function CtaBannerBlockFields({ block, onChange }: Props) {
 
   return (
     <div className="space-y-3">
-      <LocalizedBlockTitle block={block} />
-      <LocalizedBlockTextarea block={block} field="subtitle" label="Subtitle" rows={2} />
       <LocalizedBlockInput block={block} field="promoBadge" label="Promo badge" />
+      <LocalizedBlockTextarea block={block} field="title" label="Title" rows={2} />
+      <LocalizedBlockTextarea block={block} field="subtitle" label="Subtitle" rows={3} />
       <LocalizedBlockInput block={block} field="promoText" label="Promo text" />
       <div className="grid grid-cols-2 gap-2">
         <div>

@@ -1,23 +1,20 @@
 import { NextResponse } from "next/server";
 import { getSetupStatus } from "@/features/setup/setup.service";
 
+/**
+ * Public setup status for middleware / wizard.
+ * Never leaks DB host, user, or probe errors — those live on /api/setup/db-diag (auth required).
+ */
 export async function GET() {
   const status = await getSetupStatus();
-  const dbUrl = process.env.DATABASE_URL?.trim() ?? "";
-  const dbHost = dbUrl.match(/@([^/:?]+)/)?.[1] ?? "unset";
-  const dbUser = dbUrl.match(/\/\/([^:]+):/)?.[1] ?? "unset";
 
   return NextResponse.json(
     {
-      ...status,
-      databaseDiag: status.databaseReady
-        ? null
-        : {
-            dbHost,
-            dbUser,
-            projectRef: dbUser.includes(".") ? dbUser.split(".")[1] : dbUser,
-            hint: "Open /api/setup/db-diag for full probe details",
-          },
+      setupComplete: status.setupComplete,
+      registrationEnabled: status.registrationEnabled,
+      comingSoonEnabled: status.comingSoonEnabled,
+      databaseReady: status.databaseReady,
+      databaseKind: status.databaseKind ?? null,
     },
     {
       headers: { "Cache-Control": "no-store, max-age=0" },

@@ -88,8 +88,11 @@ export function CompositionDevicePreview({
     shell.topEnabled,
   );
 
+  const selectedLocale = locales.find((l) => l.urlPrefix === locale) ?? locales[0];
+  const dir = selectedLocale?.dir ?? "ltr";
+
   const renderRegionPreview = (regionId: RegionId) => (
-    <div key={regionId} className="az-layout__region min-w-0">
+    <div key={regionId} className="az-layout__region min-w-0" data-layout-region={regionId}>
       <BlockPreviewRenderer
         blocks={composition.regions[regionId]}
         locale={locale}
@@ -174,6 +177,7 @@ export function CompositionDevicePreview({
               ) : null}
               <div
                 className="az-layout"
+                dir={dir}
                 data-layout={definition.type}
                 data-gap={composition.layout.spacing.gap ?? "md"}
                 style={style}

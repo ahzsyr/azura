@@ -86,6 +86,7 @@ export type ContentListItem = {
   meta?: string;
   editHref: string;
   slug?: string | null;
+  collectionSlug?: string | null;
 };
 
 export type ContentCardData = {
@@ -115,6 +116,8 @@ export type ContentBlockConfig = {
   manualIds?: string[];
   limit?: number;
   attributeFilters?: Record<string, string>;
+  /** Admin/canvas preview: include visible drafts so editors see source items. */
+  includeUnpublished?: boolean;
 };
 
 export type ContentBlockRenderProps = {

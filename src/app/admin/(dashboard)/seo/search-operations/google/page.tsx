@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getSearchOperationsGoogleWorkspace } from "@/features/search-intelligence/workspaces/server";
+import { resolveCanonicalHomeUrl } from "@/features/seo/resolve-indexable-url";
 import {
   ActionButton,
   ActionPanel,
@@ -19,7 +19,7 @@ import {
   runGoogleOperationFormAction,
   testGoogleIntegrationFormAction,
 } from "@/features/seo/google-platform/actions";
-import type { GoogleIntegrationId } from "@/features/seo/google-platform/types";
+import { CardActionButton } from "@/features/seo/google-platform/ui/card-action-button";
 
 export const dynamic = "force-dynamic";
 
@@ -55,6 +55,7 @@ export default async function SearchOpsGoogleWorkspace() {
     loadGooglePlatformAdminData({ public: true }),
   ]);
   const siteOrigin = platform.siteOrigin;
+  const homeUrl = await resolveCanonicalHomeUrl(siteOrigin);
   const { summary, cards } = googlePlatform;
 
   return (
@@ -148,29 +149,28 @@ export default async function SearchOpsGoogleWorkspace() {
                     Configure
                   </Link>
                   {card.primaryOperations[0] ? (
-                    <form action={runGoogleOperationFormAction}>
-                      <input type="hidden" name="integrationId" value={card.id} />
-                      <input type="hidden" name="operationId" value={card.primaryOperations[0].id} />
-                      <Button type="submit" size="sm" variant="outline">
-                        {card.primaryOperations[0].title}
-                      </Button>
-                    </form>
+                    <CardActionButton
+                      label={card.primaryOperations[0].title}
+                      formAction={runGoogleOperationFormAction}
+                      hiddenFields={{
+                        integrationId: card.id,
+                        operationId: card.primaryOperations[0].id,
+                      }}
+                    />
                   ) : null}
                   {card.supportsValidation ? (
-                    <form action={testGoogleIntegrationFormAction}>
-                      <input type="hidden" name="integrationId" value={card.id as GoogleIntegrationId} />
-                      <Button type="submit" size="sm" variant="outline">
-                        Validate
-                      </Button>
-                    </form>
+                    <CardActionButton
+                      label="Validate"
+                      formAction={testGoogleIntegrationFormAction}
+                      hiddenFields={{ integrationId: card.id }}
+                    />
                   ) : null}
                   {snap?.testable ? (
-                    <form action={testSearchOpsConnectorAction}>
-                      <input type="hidden" name="connectorId" value={card.id} />
-                      <Button type="submit" size="sm" variant="outline">
-                        Test
-                      </Button>
-                    </form>
+                    <CardActionButton
+                      label="Test"
+                      formAction={testSearchOpsConnectorAction}
+                      hiddenFields={{ connectorId: card.id }}
+                    />
                   ) : null}
                   {card.supportsHistory ? (
                     <Link
@@ -196,12 +196,23 @@ export default async function SearchOpsGoogleWorkspace() {
             "use server";
             return enqueueSearchOperationAction({
               definitionId: "google.request_indexing",
-              payload: { url: siteOrigin },
+              payload: { url: homeUrl },
               executeNow: true,
             });
           }}
         >
           Request Indexing
+        </ActionButton>
+        <ActionButton
+          formAction={async () => {
+            "use server";
+            return enqueueSearchOperationAction({
+              definitionId: "seo.submit_priority_pages",
+              executeNow: true,
+            });
+          }}
+        >
+          Submit Main Pages
         </ActionButton>
         <ActionButton
           formAction={async () => {
@@ -242,7 +253,7 @@ export default async function SearchOpsGoogleWorkspace() {
             "use server";
             return enqueueSearchOperationAction({
               definitionId: "page.inspect_url",
-              payload: { url: siteOrigin },
+              payload: { url: homeUrl },
               executeNow: true,
             });
           }}

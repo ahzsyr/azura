@@ -1,19 +1,8 @@
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { SEARCH_OPS_NAV } from "./search-ops-nav";
 
 export { ActionButton } from "./action-button";
-
-export const SEARCH_OPS_NAV = [
-  { href: "/admin/seo/search-operations/overview", label: "Overview" },
-  { href: "/admin/seo/search-operations/operations", label: "Operations" },
-  { href: "/admin/seo/search-operations/pages", label: "Pages" },
-  { href: "/admin/seo/search-operations/entities", label: "Entities" },
-  { href: "/admin/seo/search-operations/content", label: "Content" },
-  { href: "/admin/seo/search-operations/google", label: "Google" },
-  { href: "/admin/seo/search-operations/monitoring", label: "Monitoring" },
-  { href: "/admin/seo/search-operations/automation", label: "Automation" },
-  { href: "/admin/seo/search-operations/settings", label: "Settings" },
-] as const;
 
 export function SearchOpsSubnav({ active }: { active: string }) {
   return (
@@ -23,12 +12,12 @@ export function SearchOpsSubnav({ active }: { active: string }) {
           key={item.href}
           href={item.href}
           className={`rounded-md border px-3 py-1.5 text-sm transition-colors ${
-            active === item.label
+            active === item.tabLabel
               ? "border-primary bg-primary/10 text-primary"
               : "hover:bg-muted/50"
           }`}
         >
-          {item.label}
+          {item.tabLabel}
         </Link>
       ))}
     </div>

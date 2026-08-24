@@ -5,10 +5,8 @@ import { cn } from "@/lib/utils";
 import type { ContentFieldDefinition } from "@/features/content/types";
 import type { ContentCollection, ContentItem, ContentType } from "@prisma/client";
 import type { PublicLocale } from "@/i18n/locale-config";
-import type { EntityTranslation } from "@prisma/client";
 import { ENTITY_REGISTRY } from "@/features/translation/entity-registry";
 import { LocalizedFields } from "@/features/translation/components/localized-fields";
-import { translationsToFieldValues } from "@/features/translation/block-translation";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,6 +16,8 @@ import { PriceFieldInput } from "@/features/content/admin/price-field-input";
 import type { DisplaySettings } from "@/schemas/catalog/display-settings";
 import { EntityDisplaySettingsPanel } from "@/features/catalog/admin/entity-display-settings-panel";
 import { TYPE_TO_LEGACY_SOURCE } from "@/features/content/content-type.registry";
+import type { ContentItemLocaleFields } from "@/features/content/admin/content-editor-form-data";
+import { getLocalizedAttributeStorageKey } from "@/features/content/admin/content-editor-form-data";
 
 type Props = {
   fields: ContentFieldDefinition[];
@@ -26,10 +26,20 @@ type Props = {
   collections?: ContentCollection[];
   contentType: ContentType;
   locales: PublicLocale[];
-  itemTranslations?: EntityTranslation[];
+  localeFields: ContentItemLocaleFields;
+  onLocaleFieldChange: (fieldKey: string, localeCode: string, value: string) => void;
+  onAttributeChange?: (key: string, value: unknown) => void;
   displaySettings?: Partial<DisplaySettings>;
   onDisplaySettingsChange?: (next: Partial<DisplaySettings>) => void;
 };
+
+function localeMapToFieldValues(values: Record<string, string> | undefined) {
+  const result: Record<string, { value: string }> = {};
+  for (const [code, value] of Object.entries(values ?? {})) {
+    result[code] = { value };
+  }
+  return result;
+}
 
 const GROUP_LABEL_MAP: Record<string, string> = {
   core: "Core",
@@ -60,9 +70,10 @@ type FieldProps = {
   attrs: Record<string, unknown>;
   locales: PublicLocale[];
   defaultLocaleCode: string;
+  onAttributeChange?: (key: string, value: unknown) => void;
 };
 
-function AttributeField({ field, attrs, locales, defaultLocaleCode }: FieldProps) {
+function AttributeField({ field, attrs, locales, defaultLocaleCode, onAttributeChange }: FieldProps) {
   if (!field.localized) {
     if (field.type === "price") {
       const amount = getAttr(attrs, field.key, "en");
@@ -116,6 +127,13 @@ function AttributeField({ field, attrs, locales, defaultLocaleCode }: FieldProps
     );
   }
 
+  const localizedValues: Record<string, { value: string }> = {};
+  for (const locale of locales) {
+    const storageKey = getLocalizedAttributeStorageKey(field.key, locale.code);
+    const raw = attrs[storageKey] ?? attrs[`${field.key}_${locale.code}`] ?? "";
+    localizedValues[locale.code] = { value: raw == null ? "" : String(raw) };
+  }
+
   return (
     <LocalizedFields
       field={{
@@ -126,8 +144,11 @@ function AttributeField({ field, attrs, locales, defaultLocaleCode }: FieldProps
       }}
       locales={locales}
       defaultLocaleCode={defaultLocaleCode}
-      values={{}}
-      legacyEntity={attrs}
+      values={localizedValues}
+      registerFieldNames={false}
+      onFieldChange={(localeCode, value) => {
+        onAttributeChange?.(getLocalizedAttributeStorageKey(field.key, localeCode), value);
+      }}
     />
   );
 }
@@ -139,7 +160,9 @@ export function ContentItemDetailsSidebar({
   collections,
   contentType,
   locales,
-  itemTranslations = [],
+  localeFields,
+  onLocaleFieldChange,
+  onAttributeChange,
   displaySettings,
   onDisplaySettingsChange,
 }: Props) {
@@ -217,8 +240,9 @@ export function ContentItemDetailsSidebar({
               field={fieldDef}
               locales={locales}
               defaultLocaleCode={defaultLocaleCode}
-              values={translationsToFieldValues(itemTranslations, fieldDef.field)}
-              legacyEntity={item as unknown as Record<string, unknown>}
+              values={localeMapToFieldValues(localeFields[fieldDef.field])}
+              registerFieldNames={false}
+              onFieldChange={(code, value) => onLocaleFieldChange(fieldDef.field, code, value)}
             />
           ))}
 
@@ -278,6 +302,7 @@ export function ContentItemDetailsSidebar({
                     attrs={attributes}
                     locales={locales}
                     defaultLocaleCode={defaultLocaleCode}
+                    onAttributeChange={onAttributeChange}
                   />
                 </div>
               ))}

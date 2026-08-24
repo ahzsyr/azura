@@ -44,6 +44,14 @@ import { LocaleFontPreview } from "../locale-font-preview";
 import { useTypographyFontLoader } from "../use-typography-font-loader";
 import { resolveMobileBrowserTheme } from "@/lib/theme/resolve-mobile-browser-theme";
 import type { IosStatusBarStyle } from "@/schemas/theme";
+import { ChromeVisibilityControls } from "../chrome-visibility-controls";
+import type { ChromePageOption } from "@/features/theme/chrome-page-options";
+import {
+  PAGE_TRANSITION_PRESETS,
+  type PageTransitionPreset,
+  type PageTransitionsSettings,
+} from "@/features/preloader/page-transitions.schema";
+import { OptionButtonGroup } from "@/features/navigation/admin/header-builder-ui";
 
 type SectionProps = {
   studio: ThemeStudioApi;
@@ -55,7 +63,14 @@ type SectionProps = {
   onCompareModeChange: (value: boolean) => void;
   previewAppearance: "light" | "dark";
   onPreviewAppearanceChange: (value: "light" | "dark") => void;
+  chromePages?: ChromePageOption[];
 };
+
+const PAGE_TRANSITION_PRESET_OPTIONS: { value: PageTransitionPreset; label: string }[] =
+  PAGE_TRANSITION_PRESETS.map((value) => ({
+    value,
+    label: value === "none" ? "None" : value.charAt(0).toUpperCase() + value.slice(1),
+  }));
 
 const themeTimestampFormatter = new Intl.DateTimeFormat("en-US", {
   dateStyle: "medium",
@@ -149,6 +164,7 @@ export function OverviewSection({ resolved, draft, published, onNavigate, studio
             ["presets", "Change preset"],
             ["colors", "Edit colors"],
             ["typography", "Fonts"],
+            ["layout", "Header & footer"],
             ["motion", "Motion"],
             ["effects", "Effects"],
             ["preview", "Open preview"],
@@ -402,67 +418,180 @@ export function TypographySection({ studio }: Pick<SectionProps, "studio">) {
   );
 }
 
-export function LayoutSection({ studio }: Pick<SectionProps, "studio">) {
+export function LayoutSection({ studio, chromePages }: Pick<SectionProps, "studio" | "chromePages">) {
   const { state, setState } = studio;
   return (
-    <ThemeSectionCard title="Layout & spacing" description="Global density and loading behavior.">
-      <div className="space-y-4">
-        <ThemeSlider
-          label="Spacing scale"
-          value={state.spacingScale}
-          min={0.8}
-          max={1.5}
-          step={0.05}
-          formatValue={(v) => `${v}x`}
-          onChange={(spacingScale) => setState((s) => ({ ...s, spacingScale }))}
-          searchTerms={["layout", "density", "padding"]}
-        />
-        <ThemeToggle
-          label="Lazy-load images"
-          description="Defer off-screen images for faster first paint."
-          checked={state.lazyLoadEnabled}
-          onChange={(lazyLoadEnabled) => setState((s) => ({ ...s, lazyLoadEnabled }))}
-        />
-      </div>
-    </ThemeSectionCard>
-  );
-}
+    <div className="space-y-4">
+      <ThemeSectionCard title="Layout & spacing" description="Global density and loading behavior.">
+        <div className="space-y-4">
+          <ThemeSlider
+            label="Spacing scale"
+            value={state.spacingScale}
+            min={0.8}
+            max={1.5}
+            step={0.05}
+            formatValue={(v) => `${v}x`}
+            onChange={(spacingScale) => setState((s) => ({ ...s, spacingScale }))}
+            searchTerms={["layout", "density", "padding"]}
+          />
+          <ThemeToggle
+            label="Lazy-load images"
+            description="Defer off-screen images for faster first paint."
+            checked={state.lazyLoadEnabled}
+            onChange={(lazyLoadEnabled) => setState((s) => ({ ...s, lazyLoadEnabled }))}
+          />
+        </div>
+      </ThemeSectionCard>
 
-export function MotionSection({ studio }: Pick<SectionProps, "studio">) {
-  const { state, setState } = studio;
-  return (
-    <ThemeSectionCard title="Motion" description="Animation speed and global motion policy.">
-      <div className="space-y-4">
-        <ThemeToggle
-          label="Enable animations"
-          checked={state.animationsEnabled}
-          onChange={(animationsEnabled) => setState((s) => ({ ...s, animationsEnabled }))}
-        />
-        <ThemeToggle
-          label="Dark mode styling"
-          description="Enables dark palette support; visitors can still toggle appearance."
-          checked={state.darkModeEnabled}
-          onChange={(darkModeEnabled) => setState((s) => ({ ...s, darkModeEnabled }))}
-        />
-        {state.animationsEnabled ? (
-          <EffectSettingsPanel
-            settings={state.motionSettings}
-            animationSpeed={state.animationSpeed}
-            primaryColor={state.primaryColor}
-            secondaryColor={state.secondaryColor}
-            showColors={false}
-            showSpeed
+      <ThemeSectionCard
+        title="Header & footer"
+        description="Show or hide site chrome globally, or limit it to selected pages."
+        searchTerms={["header", "footer", "navigation", "pages", "hide", "enable", "disable"]}
+      >
+        <div className="grid gap-8 lg:grid-cols-2">
+          <ChromeVisibilityControls
+            label="Enable header"
+            description="Site-wide navigation bar. Turn off to hide it on every page, or limit it to selected pages."
+            builderHref="/admin/header"
+            builderLabel="Open Header Builder"
+            pages={chromePages}
+            value={{
+              enabled: state.headerConfig.enabled !== false,
+              visibilityMode: state.headerConfig.visibilityMode ?? "all",
+              pagePaths: state.headerConfig.pagePaths ?? [],
+            }}
             onChange={(patch) =>
               setState((s) => ({
                 ...s,
-                motionSettings: { ...s.motionSettings, ...patch },
+                headerConfig: { ...s.headerConfig, ...patch },
               }))
             }
-            onSpeedChange={(animationSpeed) => setState((s) => ({ ...s, animationSpeed }))}
+            searchTerms={["nav", "navbar", "menu"]}
           />
-        ) : null}
-      </div>
-    </ThemeSectionCard>
+          <ChromeVisibilityControls
+            label="Enable footer"
+            description="Site-wide footer. Turn off to hide it on every page, or limit it to selected pages."
+            builderHref="/admin/footer"
+            builderLabel="Open Footer Builder"
+            pages={chromePages}
+            value={{
+              enabled: state.footerConfig.enabled !== false,
+              visibilityMode: state.footerConfig.visibilityMode ?? "all",
+              pagePaths: state.footerConfig.pagePaths ?? [],
+            }}
+            onChange={(patch) =>
+              setState((s) => ({
+                ...s,
+                footerConfig: { ...s.footerConfig, ...patch },
+              }))
+            }
+            searchTerms={["copyright", "links"]}
+          />
+        </div>
+      </ThemeSectionCard>
+    </div>
+  );
+}
+
+export function MotionSection({
+  studio,
+  pageTransitions,
+  onPageTransitionsChange,
+}: Pick<SectionProps, "studio"> & {
+  pageTransitions: PageTransitionsSettings;
+  onPageTransitionsChange: (next: PageTransitionsSettings) => void;
+}) {
+  const { state, setState } = studio;
+  return (
+    <div className="space-y-4">
+      <ThemeSectionCard title="Motion" description="Animation speed and global motion policy.">
+        <div className="space-y-4">
+          <ThemeToggle
+            label="Enable animations"
+            checked={state.animationsEnabled}
+            onChange={(animationsEnabled) => setState((s) => ({ ...s, animationsEnabled }))}
+          />
+          <ThemeToggle
+            label="Dark mode styling"
+            description="Enables dark palette support; visitors can still toggle appearance."
+            checked={state.darkModeEnabled}
+            onChange={(darkModeEnabled) => setState((s) => ({ ...s, darkModeEnabled }))}
+          />
+          {state.animationsEnabled ? (
+            <EffectSettingsPanel
+              settings={state.motionSettings}
+              animationSpeed={state.animationSpeed}
+              primaryColor={state.primaryColor}
+              secondaryColor={state.secondaryColor}
+              showColors={false}
+              showSpeed
+              onChange={(patch) =>
+                setState((s) => ({
+                  ...s,
+                  motionSettings: { ...s.motionSettings, ...patch },
+                }))
+              }
+              onSpeedChange={(animationSpeed) => setState((s) => ({ ...s, animationSpeed }))}
+            />
+          ) : null}
+        </div>
+      </ThemeSectionCard>
+
+      <ThemeSectionCard
+        title="Page transitions"
+        description="Marketing route enter/exit animation between pages."
+        searchTerms={["fade", "slide", "zoom", "scale", "navigation", "route"]}
+      >
+        <div className="space-y-4">
+          <ThemeToggle
+            label="Enable page transitions"
+            description="When off, navigations swap content without enter/exit motion."
+            checked={pageTransitions.enabled}
+            onChange={(enabled) => onPageTransitionsChange({ ...pageTransitions, enabled })}
+          />
+          {pageTransitions.enabled ? (
+            <>
+              <div
+                className="space-y-2"
+                data-theme-search="page transition preset fade slide zoom scale none"
+              >
+                <p className="text-sm font-medium">Preset</p>
+                <OptionButtonGroup
+                  value={pageTransitions.preset}
+                  options={PAGE_TRANSITION_PRESET_OPTIONS}
+                  onChange={(preset) => onPageTransitionsChange({ ...pageTransitions, preset })}
+                  columns={3}
+                />
+              </div>
+              {pageTransitions.preset !== "none" ? (
+                <>
+                  <ThemeSlider
+                    label="Duration"
+                    value={pageTransitions.durationMs}
+                    min={120}
+                    max={2000}
+                    step={20}
+                    formatValue={(v) => `${v}ms`}
+                    onChange={(durationMs) =>
+                      onPageTransitionsChange({ ...pageTransitions, durationMs })
+                    }
+                    searchTerms={["page transition duration", "speed"]}
+                  />
+                  <ThemeToggle
+                    label="Shared element morphing"
+                    description="Reserved for card-to-detail morphs when View Transitions can be safely enabled."
+                    checked={pageTransitions.sharedElementsEnabled !== false}
+                    onChange={(sharedElementsEnabled) =>
+                      onPageTransitionsChange({ ...pageTransitions, sharedElementsEnabled })
+                    }
+                  />
+                </>
+              ) : null}
+            </>
+          ) : null}
+        </div>
+      </ThemeSectionCard>
+    </div>
   );
 }
 

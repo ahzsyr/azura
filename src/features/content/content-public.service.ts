@@ -19,6 +19,8 @@ import type {
 } from "@/features/content/content-public.types";
 import { resolveTranslation } from "@/features/translation/translation-resolver";
 import type { EntityTranslation } from "@prisma/client";
+import { editorialDisplayFromMetadata } from "@/schemas/editorial-metadata";
+import { contentItemPublicPath } from "@/features/content/content-admin-paths";
 
 const PUBLISHED_WHERE: Prisma.ContentItemWhereInput = {
   deletedAt: null,
@@ -67,10 +69,22 @@ function serializeType(
   };
 }
 
-function publicPath(routePrefix: string | null, slug?: string | null): string {
-  const prefix = routePrefix ?? "content";
-  if (slug) return `/${prefix}/${slug}`;
-  return `/${prefix}`;
+function publicPath(routePrefix: string | null, slug?: string | null, typeSlug?: string | null): string {
+  return contentItemPublicPath(routePrefix, typeSlug, slug) ?? `/${typeSlug?.trim() || "content"}`;
+}
+
+async function loadEnabledTypeByPublicSegment(segment: string) {
+  const byPrefix = await prisma.contentType.findFirst({
+    where: { routePrefix: segment, isEnabled: true },
+  });
+  if (byPrefix) return byPrefix;
+  return prisma.contentType.findFirst({
+    where: {
+      slug: segment,
+      isEnabled: true,
+      OR: [{ routePrefix: null }, { routePrefix: "" }],
+    },
+  });
 }
 
 function serializeCollection(
@@ -178,6 +192,16 @@ export function serializeContentItem(
     sortOrder: row.sortOrder,
     publishedAt: row.publishedAt ?? null,
     authorName: row.author?.name ?? null,
+    showAuthor: editorialDisplayFromMetadata(
+      row.composition && typeof row.composition === "object" && !Array.isArray(row.composition)
+        ? (row.composition as { metadata?: unknown }).metadata
+        : undefined,
+    ).showAuthor,
+    showPublishedAt: editorialDisplayFromMetadata(
+      row.composition && typeof row.composition === "object" && !Array.isArray(row.composition)
+        ? (row.composition as { metadata?: unknown }).metadata
+        : undefined,
+    ).showPublishedAt,
     sources: Array.isArray(row.sources)
       ? (row.sources as { label: string; url: string }[])
       : [],
@@ -205,7 +229,7 @@ export function serializeContentItem(
         captionAr: resolveTranslation("caption", "ar", mediaCtx),
       };
     }),
-    href: publicPath(routePrefix, row.slug),
+    href: publicPath(routePrefix, row.slug, row.contentType.slug),
   };
 }
 
@@ -414,9 +438,7 @@ export const contentPublicService = {
   },
 
   async getTypeByRoutePrefix(routePrefix: string) {
-    const row = await prisma.contentType.findFirst({
-      where: { routePrefix, isEnabled: true },
-    });
+    const row = await loadEnabledTypeByPublicSegment(routePrefix);
     if (!row) return null;
     const translations = await prisma.entityTranslation.findMany({
       where: { entityType: "ContentType", entityId: row.id },
@@ -457,6 +479,9 @@ export const contentPublicService = {
   },
 
   async getItemByRoutePrefixAndSlug(routePrefix: string, slug: string, languageCode?: string) {
+    const type = await loadEnabledTypeByPublicSegment(routePrefix);
+    if (!type) return null;
+
     if (languageCode) {
       const localized = await resolveEntityByLocalizedSlug("ContentItem", slug, languageCode);
       if (localized) {
@@ -464,7 +489,7 @@ export const contentPublicService = {
           where: {
             ...PUBLISHED_WHERE,
             id: localized.entityId,
-            contentType: { routePrefix, isEnabled: true },
+            contentTypeId: type.id,
           },
           include: itemInclude,
         });
@@ -472,15 +497,7 @@ export const contentPublicService = {
       }
     }
 
-    const row = await prisma.contentItem.findFirst({
-      where: {
-        ...PUBLISHED_WHERE,
-        slug,
-        contentType: { routePrefix, isEnabled: true },
-      },
-      include: itemInclude,
-    });
-    return row ? serializeContentItemWithTranslations(row) : null;
+    return this.getItemByTypeAndSlug(type.slug, slug);
   },
 
   async listItemsByTypeSlug(
@@ -557,6 +574,12 @@ export function toLegacyPackageView(item: ContentItemView): LegacyPackageView {
     hotelInfoAr: (attrs.hotelInfoAr as string) ?? "",
     airlineInfoEn: (attrs.airlineInfoEn as string) ?? "",
     airlineInfoAr: (attrs.airlineInfoAr as string) ?? "",
+    locationEn:
+      (typeof attrs.locationEn === "string" && attrs.locationEn.trim()) ||
+      (typeof attrs.location === "string" ? attrs.location : "") ||
+      "",
+    locationAr: typeof attrs.locationAr === "string" ? attrs.locationAr : "",
+    city: typeof attrs.city === "string" ? attrs.city : "",
     isFeatured: item.isFeatured,
     isPublished: true,
     sortOrder: item.sortOrder,

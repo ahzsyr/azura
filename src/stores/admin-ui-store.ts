@@ -201,12 +201,28 @@ export const useAdminUiStore = create<AdminUiState>()(
         })),
     }),
     {
-      name: "admin-ui-v2",
+      // v3: custom merge so stale localStorage never wipes runtime pageActions.
+      name: "admin-ui-v3",
       partialize: (state) => ({
         sidebarCollapsed: state.sidebarCollapsed,
         expandedGroups: state.expandedGroups,
         expandedSections: state.expandedSections,
       }),
+      // Only rehydrate persisted UI chrome — never saveStatus / pageActions / etc.
+      merge: (persistedState, currentState) => {
+        const p = persistedState as
+          | Partial<
+              Pick<AdminUiState, "sidebarCollapsed" | "expandedGroups" | "expandedSections">
+            >
+          | undefined;
+        if (!p) return currentState;
+        return {
+          ...currentState,
+          sidebarCollapsed: p.sidebarCollapsed ?? currentState.sidebarCollapsed,
+          expandedGroups: p.expandedGroups ?? currentState.expandedGroups,
+          expandedSections: p.expandedSections ?? currentState.expandedSections,
+        };
+      },
       skipHydration: true,
     }
   )

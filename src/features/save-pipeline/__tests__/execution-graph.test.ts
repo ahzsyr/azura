@@ -47,6 +47,26 @@ describe("execution graph compiler", () => {
     assert.ok(plan.asyncTasks.some((task) => task.id === "seo_submission"));
   });
 
+  it("syncs content item translations when only localeFields change", () => {
+    const contentInput: InputPatch = {
+      entityType: "CONTENT_ITEM",
+      operation: "save",
+      paths: ["localeFields.title.ar"],
+      forcePaths: [],
+      baselineStatus: "DRAFT",
+      finalStatus: "DRAFT",
+    };
+    const signals = deriveMutationSignals(contentInput);
+    assert.ok(signals.some((signal) => signal.id === "locale_changed"));
+    const plan = compileExecutionGraph({
+      input: contentInput,
+      finalState: { localeFields: { title: { ar: "مرحبا" } } },
+      profile: getExecutionProfile("CONTENT_ITEM"),
+    });
+    assert.ok(plan.effects.some((effect) => effect.id === "sync_translations"));
+    assert.ok(plan.effects.some((effect) => effect.id === "revalidate_paths"));
+  });
+
   it("does not allow graph backflow from effects to signals or events", () => {
     const plan = compileExecutionGraph({
       input: input(["blocks"]),

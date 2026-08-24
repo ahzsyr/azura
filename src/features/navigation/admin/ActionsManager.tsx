@@ -17,6 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { WorkspaceLocalizedField } from "@/features/translation/components/workspace-localized-field";
 import { makeHeaderActionEntityId } from "@/features/translation/workspace-entity-ids";
 import { HeaderField, HeaderSelect } from "./header-builder-ui";
+import { NavShowIconsSettings } from "./NavShowIconsSettings";
 
 function emptyForm() {
   return {
@@ -110,6 +111,8 @@ export function ActionsManager() {
       <p className="text-sm text-muted-foreground">
         Manage header action buttons: edit, delete, hide/show, and add with custom style.
       </p>
+
+      <NavShowIconsSettings settings={workspace.settings} />
 
       <AdminCollapsibleSection title="Current actions" defaultOpen>
         {actions.length === 0 ? (

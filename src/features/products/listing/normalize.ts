@@ -90,6 +90,7 @@ export function normalizeListingFilterState(state: ListingFilterState): ListingF
 
   return {
     q: state.q.trim(),
+    qExact: state.qExact === true ? true : undefined,
     categories: normalizeExactFacetValues(state.categories),
     brands: normalizeExactFacetValues(state.brands),
     collections: collectionScope ? [] : normalizeExactFacetValues(state.collections),

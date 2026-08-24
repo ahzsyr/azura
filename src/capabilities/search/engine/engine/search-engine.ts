@@ -1,5 +1,6 @@
 import { searchRepository } from "@/repositories/search.repository";
 import { searchFilterEngine } from "@/capabilities/search/engine/filter/search-filter-engine";
+import { preferPublicPagesOverCatalogItems } from "@/capabilities/search/engine/filter/prefer-public-pages";
 import { searchResultMapper } from "@/capabilities/search/engine/mapper/search-result-mapper";
 import { searchQueryBuilder } from "@/capabilities/search/engine/query/search-query-builder";
 import { searchRankingEngine } from "@/capabilities/search/engine/ranking/search-ranking-engine";
@@ -25,6 +26,8 @@ import type {
   SearchResult,
   SearchSuggestion,
 } from "@/capabilities/search/engine/types";
+import { applyProductOrderingToSearchHits } from "@/features/products/ordering/apply-product-ordering-to-search-hits";
+import { loadProductOrderingSettings } from "@/features/products/ordering/load-product-ordering";
 
 export type SearchPageResult = {
   results: SearchResult[];
@@ -204,16 +207,28 @@ export class SearchEngine {
       );
     }
 
-    const ranked = searchRankingEngine.mergeRanked(
-      filteredFt,
-      filteredLike,
-      plan.phraseQuery,
-      undefined,
-      undefined,
-      plan,
-      semanticBoost,
-      analyticsBoost
+    const rankedRaw = preferPublicPagesOverCatalogItems(
+      searchRankingEngine.mergeRanked(
+        filteredFt,
+        filteredLike,
+        plan.phraseQuery,
+        undefined,
+        undefined,
+        plan,
+        semanticBoost,
+        analyticsBoost
+      ),
+      plan.includeAdmin,
+      plan.phraseQuery
     );
+
+    let ranked = rankedRaw;
+    try {
+      const orderingSettings = await loadProductOrderingSettings(plan.locale);
+      ranked = applyProductOrderingToSearchHits(rankedRaw, orderingSettings);
+    } catch {
+      ranked = rankedRaw;
+    }
 
     const pageEnd = plan.offset + plan.limit;
     const hasMore = ranked.length > pageEnd;
@@ -261,9 +276,13 @@ export class SearchEngine {
       limit: input.limit ?? settings.suggestLimit,
     });
 
-    const rows = searchFilterEngine.applyFacetFilter(
-      searchFilterEngine.filterForAudience(prefixRows, { includeAdmin: plan.includeAdmin }),
-      facetFilter
+    const rows = preferPublicPagesOverCatalogItems(
+      searchFilterEngine.applyFacetFilter(
+        searchFilterEngine.filterForAudience(prefixRows, { includeAdmin: plan.includeAdmin }),
+        facetFilter
+      ),
+      plan.includeAdmin,
+      plan.phraseQuery
     );
 
     const suggestions = rows.map((r) => searchResultMapper.toSuggestion(r));

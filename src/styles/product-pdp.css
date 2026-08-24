@@ -2595,8 +2595,14 @@ html[data-header-inset-active="true"] .prd-page:not(:has(.prd-page__chrome-rail)
 .prd-cta-wrap--page-float {
   position: fixed;
   bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
-  inset-inline-end: 1.25rem;
+  right: 1.25rem;
+  left: auto;
   z-index: 90;
+}
+
+.prd-cta-wrap--page-float:dir(rtl) {
+  left: 1.25rem;
+  right: auto;
 }
 
 .prd-cta-btn {

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useState, type CSSProperties } from "react";
+import { useCallback, useState, type CSSProperties, type ReactNode } from "react";
 import { Link as LocaleLink } from "@/i18n/navigation";
 import { DEFAULT_MEDIA_PLACEHOLDER } from "@/features/media/constants";
 import { IMAGE_SIZES } from "@/lib/config/performance";
@@ -12,6 +12,8 @@ import { ProductCardRatingBadge } from "./product-card-badges";
 
 type Props = {
   ctx: ProductCardRenderContext;
+  /** Optional overlay rendered inside the media link (e.g. media-flip caption). */
+  overlay?: ReactNode;
 };
 
 function normalizeSrc(src: string | undefined): string | undefined {
@@ -19,7 +21,7 @@ function normalizeSrc(src: string | undefined): string | undefined {
   return normalizeRemoteImageUrl(src) ?? src;
 }
 
-export function ProductCardMedia({ ctx }: Props) {
+export function ProductCardMedia({ ctx, overlay }: Props) {
   const { product, design, navHref, priority, linkPrefetch } = ctx;
   const [loaded, setLoaded] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -136,6 +138,7 @@ export function ProductCardMedia({ ctx }: Props) {
           <span className="pl-card__media-skeleton" aria-hidden="true" />
         ) : null}
       </>
+      {overlay}
       {showGallery && images.length > 1 ? (
         <div className="pl-card__media-dots" aria-hidden="true">
           {images.map((_, i) => (

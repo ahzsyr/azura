@@ -4,6 +4,7 @@ import type { MediaAsset, MediaFolder } from "@prisma/client";
 import { FileText, Film, ImageIcon, Copy, Check } from "lucide-react";
 import { formatBytes } from "@/features/media/media.service";
 import { MediaPreviewImage } from "@/features/media/components/media-preview-image";
+import { MediaPreviewVideo } from "@/features/media/components/media-preview-video";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -59,6 +60,13 @@ export function MediaAssetCard({ asset, selected, onSelect, onOpen }: Props) {
             className="object-cover"
             sizes="200px"
             onError={() => setPreviewFailed(true)}
+          />
+        ) : asset.mediaType === "VIDEO" ? (
+          <MediaPreviewVideo
+            src={asset.url}
+            alt={asset.altEn || asset.filename}
+            fill
+            showBadge
           />
         ) : isVisual ? (
           <div className="flex flex-col items-center justify-center h-full gap-2 p-2">

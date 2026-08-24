@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { hasFixableDatabaseUrlFormatting, isDatabaseUrlMalformed, sanitizeDatabaseUrl } from "@/lib/database-url";
+import { requireSetupDiagnosticsAccess } from "@/features/setup/setup-api-auth";
 
 function getSanitizedDbInfo() {
   const raw = process.env.DATABASE_URL?.trim() ?? "";
@@ -22,7 +23,10 @@ function getSanitizedDbInfo() {
   };
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const unauthorized = await requireSetupDiagnosticsAccess(request);
+  if (unauthorized) return unauthorized;
+
   const dbInfo = getSanitizedDbInfo();
   let prismaProvider = "unknown";
   try {
@@ -52,7 +56,6 @@ export async function GET() {
     dbInfo.dbHost.includes("pooler.supabase.com") &&
     prismaProvider === expectedProvider;
 
-
   const payload = {
     probeOk,
     ...dbInfo,
@@ -64,8 +67,8 @@ export async function GET() {
       : dbInfo.urlMalformed
         ? "fix_database_url_format_in_hpanel"
         : configLooksValid
-        ? "reset_supabase_db_password_and_update_hpanel"
-        : "fix_database_url_in_hpanel",
+          ? "reset_supabase_db_password_and_update_hpanel"
+          : "fix_database_url_in_hpanel",
     probeError: probeError.slice(0, 500),
     nodeEnv: process.env.NODE_ENV ?? "unset",
   };

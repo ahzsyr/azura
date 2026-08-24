@@ -12,18 +12,18 @@ import type {
 
 export const DEFAULT_LOGO_SIZING: BrandLogoSizing = {
   mode: "fixed",
-  heightMobile: 32,
-  heightTablet: 36,
-  heightDesktop: 42,
-  adaptiveMin: 28,
-  adaptiveMax: 48,
+  heightMobile: 40,
+  heightTablet: 44,
+  heightDesktop: 48,
+  adaptiveMin: 32,
+  adaptiveMax: 56,
 };
 
 export const DEFAULT_BRAND_NAME_TYPOGRAPHY: BrandNameTypography = {
   fontSource: "heading",
   customFont: "",
   sizeMobile: "1rem",
-  sizeDesktop: "1.2rem",
+  sizeDesktop: "1.125rem",
   fontWeight: 800,
 };
 
@@ -31,7 +31,7 @@ export const DEFAULT_BRAND_TAGLINE_TYPOGRAPHY: BrandTaglineTypography = {
   fontSource: "body",
   customFont: "",
   sizeMobile: "0.65rem",
-  sizeDesktop: "0.72rem",
+  sizeDesktop: "0.7rem",
   fontWeight: 400,
 };
 

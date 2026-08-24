@@ -17,7 +17,15 @@ import {
   findBrandBySlug,
   loadBrandAndTagEntries,
 } from "@/features/catalog/brand-tag-pages.service";
+import { filterRecordsForBrandProfile } from "@/features/catalog/brand-matching";
+import { readCatalogBrandProfiles } from "@/features/catalog/admin/catalog-taxonomy";
+import { ensureDefaultBrandMatchRules } from "@/features/catalog/types/catalog-brand-profile";
 import { getLocalizedField } from "@/lib/utils";
+import {
+  applyProductOrdering,
+  resolveProductOrderingProfile,
+} from "@/features/products/ordering";
+import { loadProductOrderingSettings } from "@/features/products/ordering/load-product-ordering";
 
 export const revalidate = 60;
 
@@ -84,12 +92,29 @@ export default async function BrandDetailPage({ params }: Props) {
   const brand = findBrandBySlug(brands, slug);
   if (!brand) notFound();
 
+  const catalogBrandProfiles = (await readCatalogBrandProfiles(locale)).map(ensureDefaultBrandMatchRules);
+  const catalogBrandProfile =
+    catalogBrandProfiles.find((p) => p.slug.toLowerCase() === slug.toLowerCase()) ??
+    brand.profile ??
+    catalogBrandProfiles.find((p) => p.name.trim().toLowerCase() === brand.name.trim().toLowerCase()) ??
+    null;
+
   const facetTaxonomy = orderCollectionsHierarchy(allCols);
   const collections = orderCollectionsHierarchy(allCols.filter((c) => c.visible !== false));
-  const records = listing.records.filter(
-    (record) => (record.brand ?? "").trim().toLowerCase() === brand.name.toLowerCase(),
-  );
-  const facets = aggregateFacets(records, facetTaxonomy);
+  const records = catalogBrandProfile
+    ? filterRecordsForBrandProfile(listing.records, catalogBrandProfile)
+    : listing.records.filter(
+        (record) => (record.brand ?? "").trim().toLowerCase() === brand.name.toLowerCase(),
+      );
+  const orderingSettings = await loadProductOrderingSettings(locale);
+  const brandProfile = resolveProductOrderingProfile(orderingSettings, {
+    surface: "BRAND",
+    targetId: brand.name,
+  });
+  const orderedRecords = brandProfile
+    ? applyProductOrdering(records, brandProfile)
+    : records;
+  const facets = aggregateFacets(orderedRecords, facetTaxonomy);
 
   return (
     <CatalogListingPageShell
@@ -106,17 +131,21 @@ export default async function BrandDetailPage({ params }: Props) {
         />
       }
       brandDetail={{
-        logoUrl: brand.profile?.logoUrl,
-        description: brand.profile
-          ? getLocalizedField(brand.profile as Record<string, unknown>, "description", locale)
+        logoUrl: catalogBrandProfile?.logoUrl ?? brand.profile?.logoUrl,
+        description: catalogBrandProfile ?? brand.profile
+          ? getLocalizedField(
+              (catalogBrandProfile ?? brand.profile) as Record<string, unknown>,
+              "description",
+              locale,
+            )
           : "",
-        productCount: brand.productCount,
+        productCount: orderedRecords.length,
         collectionCount: facets.collections.length,
       }}
     >
       <ProductListingIsland
         locale={locale}
-        records={records}
+        records={orderedRecords}
         facets={facets}
         collections={collections}
         facetTaxonomy={facetTaxonomy}
@@ -136,7 +165,7 @@ export default async function BrandDetailPage({ params }: Props) {
         catalogToolbarDock={theme.toolbarDock}
         pageDir={pageDir}
         listingFilters={theme.listingFilters}
-        total={records.length}
+        total={orderedRecords.length}
         totalPages={1}
       />
     </CatalogListingPageShell>

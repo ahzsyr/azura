@@ -193,6 +193,7 @@ export function LocalizedFields({
     return (
       <div className="w-full space-y-2">
         <SingleLocaleFieldInput
+          key={activeLocale.code}
           field={field}
           locale={activeLocale}
           defaultLocaleCode={defaultLocaleCode}

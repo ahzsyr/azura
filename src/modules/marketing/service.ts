@@ -78,7 +78,22 @@ export const marketingService = {
   },
 
   async getTrackingConfigs() {
-    return prisma.marketingTrackingConfig.findMany().catch(() => []);
+    try {
+      return await prisma.marketingTrackingConfig.findMany({
+        select: {
+          id: true,
+          providerId: true,
+          enabled: true,
+          pixelId: true,
+          capiEnabled: true,
+          testEventCode: true,
+          metadata: true,
+        },
+      });
+    } catch (error) {
+      console.error("[marketing] getTrackingConfigs failed:", error);
+      return [];
+    }
   },
 
   async getDashboardStats() {

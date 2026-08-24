@@ -18,9 +18,12 @@ import {
 import { translationService } from "@/features/translation/translation.service";
 import type { PageBlocks } from "@/types/builder";
 import { prisma } from "@/lib/prisma";
-import { revalidateContentList } from "@/services/cache";
 import { seoTriggerService } from "@/features/seo/triggers/seo-trigger.service";
 import { contentItemPaths } from "@/features/seo/triggers/path-resolver";
+import {
+  revalidateContentAdminPaths,
+  revalidateContentItemPublicPaths,
+} from "@/features/content/revalidate-content-public";
 import { executePatch } from "@/features/save-pipeline/patch-execution";
 import { hasAsyncTask, hasExecutionEffect } from "@/features/save-pipeline/execution-plan";
 import { computePatch } from "@/lib/patch";
@@ -38,7 +41,12 @@ import {
   withSavePipelineStep,
 } from "@/features/save-pipeline/metrics";
 import { compositionService } from "@/features/layout-engine/composition.service";
-import { parseCitationSources } from "@/schemas/editorial-metadata";
+import { parseCitationSources, parseShowFlag, withEditorialDisplayMetadata, editorialDisplayFromMetadata } from "@/schemas/editorial-metadata";
+import {
+  buildContentItemLocaleFields,
+  CONTENT_ITEM_CORE_LOCALE_FIELDS,
+  readContentItemLocaleFieldsFromForm,
+} from "@/features/content/admin/content-editor-form-data";
 
 function parseJson(raw: FormDataEntryValue | null, fallback: unknown) {
   if (!raw || typeof raw !== "string" || !raw.trim()) return fallback;
@@ -53,19 +61,14 @@ function formString(value: FormDataEntryValue | null): string {
   return typeof value === "string" ? value : "";
 }
 
-function revalidateContent(typeSlug: string, itemId?: string, routePrefix?: string | null, slug?: string | null) {
-  revalidatePath("/admin/content");
-  revalidatePath(`/admin/content/${typeSlug}`);
-  if (itemId) revalidatePath(`/admin/content/${typeSlug}/${itemId}`);
-  revalidateContentList(typeSlug);
-  if (routePrefix) {
-    revalidatePath(`/${routePrefix}`);
-    if (slug) revalidatePath(`/${routePrefix}/${slug}`);
-  }
-  if (typeSlug === "catalog-items") {
-    revalidatePath("/packages");
-    if (slug) revalidatePath(`/packages/${slug}`);
-  }
+async function revalidateContent(
+  typeSlug: string,
+  itemId?: string,
+  routePrefix?: string | null,
+  slug?: string | null,
+) {
+  revalidateContentAdminPaths(typeSlug, itemId);
+  await revalidateContentItemPublicPaths({ typeSlug, routePrefix, slug, itemId });
 }
 
 async function indexItem(item: {
@@ -148,7 +151,7 @@ async function upsertContentItemCore(
     const attributesFromForm =
       attributesJson && typeof attributesJson === "string" && attributesJson.trim()
         ? (parseJson(attributesJson, {}) as Record<string, unknown>)
-        : buildAttributesFromForm(formData, fields);
+        : buildAttributesFromForm(formData, fields, enabledLocales);
 
     const blocksRaw = parseJson(parsed.blocks as string | undefined ?? null, []);
     const compositionRaw = parseJson(formData.get("composition"), {});
@@ -160,7 +163,11 @@ async function upsertContentItemCore(
         blocks: validatedPrimaryBlocks,
       }),
     );
-    const persistedComposition = compositionService.save(composition);
+    const showAuthor = parseShowFlag(formData.get("showAuthor"));
+    const showPublishedAt = parseShowFlag(formData.get("showPublishedAt"));
+    const persistedComposition = compositionService.save(
+      withEditorialDisplayMetadata(composition, showAuthor, showPublishedAt),
+    );
     const blocks = persistedComposition.blocks as PageBlocks;
 
     const rawSlug = parsed.slug?.trim() || null;
@@ -171,6 +178,10 @@ async function upsertContentItemCore(
     const contentAuthorId = formString(formData.get("authorId")) || null;
     const contentSourcesRaw = formData.get("sources") as string | null;
     const contentSources = parseCitationSources(contentSourcesRaw ? JSON.parse(contentSourcesRaw) : []);
+    const submittedLocaleFields = readContentItemLocaleFieldsFromForm(
+      formData,
+      enabledLocales,
+    );
 
     const submittedState = {
       collectionId: parsed.collectionId || null,
@@ -187,6 +198,9 @@ async function upsertContentItemCore(
       scheduledAt: parsed.scheduledAt ? new Date(parsed.scheduledAt) : null,
       authorId: contentAuthorId,
       sources: contentSources,
+      showAuthor,
+      showPublishedAt,
+      localeFields: submittedLocaleFields,
     };
 
     const include = {
@@ -217,21 +231,33 @@ async function upsertContentItemCore(
     let shouldRevalidate = true;
     let shouldRunSeo = true;
     if (id) {
-      const existing = await prisma.contentItem.findUnique({
-        where: { id },
-        select: {
-          collectionId: true,
-          slug: true,
-          attributes: true,
-          blocks: true,
-          composition: true,
-          displaySettings: true,
-          status: true,
-          isFeatured: true,
-          isVisible: true,
-          sortOrder: true,
-        },
-      });
+      const [existing, existingTranslations] = await Promise.all([
+        prisma.contentItem.findUnique({
+          where: { id },
+          select: {
+            collectionId: true,
+            slug: true,
+            attributes: true,
+            blocks: true,
+            composition: true,
+            displaySettings: true,
+            status: true,
+            isFeatured: true,
+            isVisible: true,
+            sortOrder: true,
+            authorId: true,
+            sources: true,
+          },
+        }),
+        prisma.entityTranslation.findMany({
+          where: {
+            entityType: "ContentItem",
+            entityId: id,
+            field: { in: [...CONTENT_ITEM_CORE_LOCALE_FIELDS] },
+          },
+          select: { field: true, localeCode: true, value: true },
+        }),
+      ]);
       existingItem = existing
         ? {
             slug: existing.slug,
@@ -254,6 +280,24 @@ async function upsertContentItemCore(
             isFeatured: existing.isFeatured,
             isVisible: existing.isVisible,
             sortOrder: existing.sortOrder,
+            authorId: existing.authorId,
+            sources: existing.sources,
+            showAuthor: editorialDisplayFromMetadata(
+              compositionService.load({
+                composition: existing.composition,
+                blocks: existing.blocks,
+              }).metadata,
+            ).showAuthor,
+            showPublishedAt: editorialDisplayFromMetadata(
+              compositionService.load({
+                composition: existing.composition,
+                blocks: existing.blocks,
+              }).metadata,
+            ).showPublishedAt,
+            localeFields: buildContentItemLocaleFields(
+              existingTranslations,
+              enabledLocales,
+            ),
           }
         : null;
       const changes = baselineState
@@ -281,9 +325,18 @@ async function upsertContentItemCore(
         compareExecutionPlans(execution, shadowExecution);
       }
       appliedPaths = execution ? [...execution.changeSet.paths] : Object.keys(submittedState);
-      shouldSyncTranslations = execution ? hasExecutionEffect(execution, "sync_translations") : true;
-      shouldRunSearch = execution ? hasAsyncTask(execution, "search_index") : true;
-      shouldRevalidate = execution ? hasExecutionEffect(execution, "revalidate_paths") : true;
+      const localeFieldsChanged = appliedPaths.some(
+        (path) => path === "localeFields" || path.startsWith("localeFields."),
+      );
+      shouldSyncTranslations = execution
+        ? hasExecutionEffect(execution, "sync_translations") || localeFieldsChanged
+        : true;
+      shouldRunSearch = execution
+        ? hasAsyncTask(execution, "search_index") || localeFieldsChanged
+        : true;
+      shouldRevalidate = execution
+        ? hasExecutionEffect(execution, "revalidate_paths") || localeFieldsChanged
+        : true;
       shouldRunSeo = execution ? hasAsyncTask(execution, "seo_submission") : true;
 
       const data: Record<string, unknown> = {};
@@ -292,7 +345,7 @@ async function upsertContentItemCore(
       if (changed("collectionId")) data.collectionId = submittedState.collectionId;
       if (changed("slug")) data.slug = submittedState.slug;
       if (changed("attributes")) data.attributes = submittedState.attributes as object;
-      if (changed("blocks") || changed("composition")) {
+      if (changed("blocks") || changed("composition") || changed("showAuthor") || changed("showPublishedAt")) {
         data.blocks = blocks as object;
         data.composition = persistedComposition.composition as object;
       }
@@ -345,7 +398,13 @@ async function upsertContentItemCore(
 
     if (!id || shouldSyncTranslations) {
       await withSavePipelineStep(metrics, "translationSyncRuns", () =>
-        syncEntityTranslationsFromForm(formData, "ContentItem", item.id, enabledLocales),
+        syncEntityTranslationsFromForm(
+          formData,
+          "ContentItem",
+          item.id,
+          enabledLocales,
+          [...CONTENT_ITEM_CORE_LOCALE_FIELDS],
+        ),
       );
       const itemSlug = item.slug;
       if (itemSlug) {
@@ -411,17 +470,17 @@ async function upsertContentItemCore(
     }
     if (!id || shouldRevalidate || appliedPaths.includes("status")) {
       incrementSavePipelineMetric(metrics, "revalidationRuns");
-      revalidateContent(typeSlug, item.id, item.contentType.routePrefix, item.slug);
+      await revalidateContent(typeSlug, item.id, item.contentType.routePrefix, item.slug);
     }
     if (item.status === "PUBLISHED" && item.isVisible && (!id || shouldRunSeo || appliedPaths.includes("status"))) {
-      const paths = await contentItemPaths(item.contentType.routePrefix, item.slug);
+      const paths = await contentItemPaths(item.contentType.routePrefix, item.slug, item.contentType.slug);
       incrementSavePipelineMetric(metrics, "seoRuns");
       if (existingItem?.slug && existingItem.slug !== item.slug) {
         await seoTriggerService.handle({
           type: "content.slugChanged",
           entityType: "CONTENT_ITEM",
           entityId: item.id,
-          oldPath: (await contentItemPaths(item.contentType.routePrefix, existingItem.slug))[0] ?? "",
+          oldPath: (await contentItemPaths(item.contentType.routePrefix, existingItem.slug, item.contentType.slug))[0] ?? "",
           newPath: paths[0] ?? "",
         });
       } else {
@@ -538,6 +597,7 @@ export async function duplicateContentItem(id: string) {
       isVisible: false,
       sortOrder: source.sortOrder + 1,
       featuredImageUrl: source.featuredImageUrl,
+      authorId: source.authorId,
     },
   });
 
@@ -556,7 +616,7 @@ export async function duplicateContentItem(id: string) {
   }
 
   const typeSlug = source.contentType.slug;
-  revalidateContent(typeSlug);
+  await revalidateContent(typeSlug);
   redirect(`/admin/content/${typeSlug}/${copy.id}`);
 }
 
@@ -583,8 +643,8 @@ export async function setContentItemStatus(id: string, status: ContentStatus) {
     },
   });
   await indexItem(item);
-  revalidateContent(item.contentType.slug, id, item.contentType.routePrefix, item.slug);
-  const paths = await contentItemPaths(item.contentType.routePrefix, item.slug);
+  await revalidateContent(item.contentType.slug, id, item.contentType.routePrefix, item.slug);
+  const paths = await contentItemPaths(item.contentType.routePrefix, item.slug, item.contentType.slug);
   await seoTriggerService.handle({
     type: status === "PUBLISHED" ? "content.published" : "content.unpublished",
     entityType: "CONTENT_ITEM",
@@ -612,8 +672,8 @@ export async function toggleContentItemVisibility(id: string, isVisible: boolean
     },
   });
   await indexItem(item);
-  revalidateContent(item.contentType.slug, id, item.contentType.routePrefix, item.slug);
-  const paths = await contentItemPaths(item.contentType.routePrefix, item.slug);
+  await revalidateContent(item.contentType.slug, id, item.contentType.routePrefix, item.slug);
+  const paths = await contentItemPaths(item.contentType.routePrefix, item.slug, item.contentType.slug);
   await seoTriggerService.handle({
     type: isVisible ? "content.published" : "content.unpublished",
     entityType: "CONTENT_ITEM",
@@ -630,8 +690,8 @@ export async function softDeleteContentItem(id: string) {
     include: { contentType: { select: { slug: true, routePrefix: true } } },
   });
   await searchIndexer.remove("CONTENT_ITEM", id);
-  revalidateContent(item.contentType.slug, undefined, item.contentType.routePrefix, item.slug);
-  const paths = await contentItemPaths(item.contentType.routePrefix, item.slug);
+  await revalidateContent(item.contentType.slug, undefined, item.contentType.routePrefix, item.slug);
+  const paths = await contentItemPaths(item.contentType.routePrefix, item.slug, item.contentType.slug);
   await seoTriggerService.handle({
     type: "content.deleted",
     entityType: "CONTENT_ITEM",
@@ -647,7 +707,7 @@ export async function reorderContentItems(typeSlug: string, ids: string[]) {
       prisma.contentItem.update({ where: { id }, data: { sortOrder: index } })
     )
   );
-  revalidateContent(typeSlug);
+  await revalidateContent(typeSlug);
   await seoTriggerService.handle({ type: "content.sitemapChanged", entityType: "CONTENT_TYPE" });
 }
 
@@ -668,7 +728,7 @@ export async function addContentItemMedia(itemId: string, url: string) {
     where: { id: itemId },
     include: { contentType: true },
   });
-  if (item) revalidateContent(item.contentType.slug, itemId);
+  if (item) await revalidateContent(item.contentType.slug, itemId);
 }
 
 export async function updateContentItemMedia(
@@ -749,7 +809,7 @@ export async function updateContentItemMedia(
     where: { id: media.itemId },
     include: { contentType: true },
   });
-  if (item) revalidateContent(item.contentType.slug, item.id);
+  if (item) await revalidateContent(item.contentType.slug, item.id);
 }
 
 export async function restoreContentItemRevision(itemId: string, revisionId: string) {
@@ -770,7 +830,7 @@ export async function restoreContentItemRevision(itemId: string, revisionId: str
     },
     include: { contentType: true },
   });
-  revalidateContent(item.contentType.slug, item.id, item.contentType.routePrefix, item.slug);
+  await revalidateContent(item.contentType.slug, item.id, item.contentType.routePrefix, item.slug);
   revalidatePath(`/admin/content/${item.contentType.slug}/${itemId}`);
 }
 
@@ -781,7 +841,7 @@ export async function deleteContentItemMedia(id: string) {
     where: { id: media.itemId },
     include: { contentType: true },
   });
-  if (item) revalidateContent(item.contentType.slug, item.id);
+  if (item) await revalidateContent(item.contentType.slug, item.id);
 }
 
 export async function reorderContentItemMedia(itemId: string, ids: string[]) {
@@ -795,5 +855,5 @@ export async function reorderContentItemMedia(itemId: string, ids: string[]) {
     where: { id: itemId },
     include: { contentType: true },
   });
-  if (item) revalidateContent(item.contentType.slug, itemId);
+  if (item) await revalidateContent(item.contentType.slug, itemId);
 }

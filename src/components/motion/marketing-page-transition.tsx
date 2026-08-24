@@ -11,7 +11,7 @@ import { containsPartialRouteContent } from "@/lib/navigation/is-partial-route-c
 import { emitRouteContentReady } from "@/lib/motion/shell-ready";
 import { recordNavigationEnd } from "@/lib/performance/runtime-metrics";
 import { clearSharedElementHandoff } from "@/lib/navigation/shared-elements";
-import { PUBLIC_MOTION } from "@/lib/motion/public-motion";
+import { readPageTransitionEnterClearMs } from "@/lib/navigation/page-transitions";
 import { usePointerGestureActive } from "@/lib/hooks/use-pointer-gesture-active";
 import {
   isValidElement,
@@ -127,12 +127,17 @@ export function MarketingPageTransition({ children }: Props) {
       if (isFirstCommit) {
         setLayerState("idle");
       } else {
-        setLayerState("entering");
         clearEnterTimeout();
-        enterTimeoutRef.current = window.setTimeout(() => {
-          enterTimeoutRef.current = null;
+        const enterClearMs = readPageTransitionEnterClearMs();
+        if (enterClearMs <= 0) {
           setLayerState("idle");
-        }, PUBLIC_MOTION.routeEnterClearMs);
+        } else {
+          setLayerState("entering");
+          enterTimeoutRef.current = window.setTimeout(() => {
+            enterTimeoutRef.current = null;
+            setLayerState("idle");
+          }, enterClearMs);
+        }
       }
       emitRouteContentReady();
       recordNavigationEnd(pathname, { success: true });

@@ -31,7 +31,7 @@ export function Footer({
   const links = [
     { href: "/about", label: nav("about") },
     { href: "/products", label: nav("products") },
-    { href: "/collections", label: nav("collections") },
+    { href: "/categories", label: nav("collections") },
     { href: "/services", label: nav("services") },
     { href: "/contact", label: nav("contact") },
   ];

@@ -321,6 +321,24 @@ describe("item-href + URL round-trip", () => {
     assert.equal(state.q, "switch");
   });
 
+  it("builds SEARCH URL with exact phrase flag", () => {
+    const href = buildCatalogNavItemHref({
+      locale: "en-us",
+      listingBasePath: "/en-us/products",
+      item: item({
+        id: "1",
+        label: "Door Access",
+        actionType: "SEARCH",
+        searchQuery: "Door Access",
+        searchExact: true,
+      }),
+    });
+    assert.equal(href, "/en-us/products?q=Door+Access&q_exact=1");
+    const state = listingStateFromNavHref(href);
+    assert.equal(state.q, "Door Access");
+    assert.equal(state.qExact, true);
+  });
+
   it("round-trips logic=or", () => {
     const state = listingStateFromNavFilters({
       match: "ANY",
@@ -415,6 +433,28 @@ describe("listing-state-match active state", () => {
     assert.equal(
       catalogNavItemIsFilterActive(navItem, { ...base, q: "router" }),
       false,
+    );
+  });
+
+  it("matches SEARCH exact phrase only when q_exact is set", () => {
+    const navItem = item({
+      id: "1",
+      label: "Door Access",
+      actionType: "SEARCH",
+      searchQuery: "Door Access",
+      searchExact: true,
+    });
+    assert.equal(
+      catalogNavItemIsFilterActive(navItem, { ...base, q: "Door Access", qExact: true }),
+      true,
+    );
+    assert.equal(
+      catalogNavItemIsFilterActive(navItem, { ...base, q: "Door Access" }),
+      false,
+    );
+    assert.equal(
+      catalogNavItemIsFilterActive(navItem, { ...base, q: "door access", qExact: true }),
+      true,
     );
   });
 });

@@ -4,7 +4,6 @@ import { ContentEditPage } from "@/features/content/admin/content-edit-page";
 import { contentService } from "@/features/content/content.service";
 import { contentRepository } from "@/features/content/content.repository";
 import { loadContentTypeWithLegacyFields } from "@/features/translation/admin-entity-helpers";
-import { loadAdminRowsWithLocalizedFields } from "@/features/translation/admin-entity-helpers";
 import { loadTranslationsMap, localizedFieldValue } from "@/features/translation/bilingual-serialize";
 import { resolveTranslation } from "@/features/translation/translation-resolver";
 import { localeService } from "@/features/i18n/locale.service";
@@ -21,12 +20,14 @@ import {
 } from "@/features/testimonials/actions";
 import {
   fetchCollectionsForBuilder,
+  fetchOrderingProfilesForBuilder,
   fetchProductsForBuilder,
 } from "@/features/builder/blocks/commerce/product-blocks/actions";
 import { fetchBrandsForBuilder } from "@/features/builder/blocks/commerce/commerce-showcase/actions";
 import { prisma } from "@/lib/prisma";
-import type { PageBlocks, ContentTypeOption } from "@/types/builder";
+import type { PageBlocks } from "@/types/builder";
 import { loadContentAuthors } from "@/features/cms/lib/load-content-authors";
+import { loadContentTypeOptionsForBuilder } from "@/features/content/admin/load-content-type-builder-options";
 import type { EntityTranslation } from "@prisma/client";
 import type { BlockParentType } from "@/features/translation/block-translation";
 
@@ -99,43 +100,28 @@ export default async function AdminContentEditRoute({ params }: Props) {
     const [
       initialItemTranslations,
       initialItemBlockTranslations,
-      rawContentTypes,
+      contentTypeOptions,
       galleryOptions,
       faqSetOptions,
       testimonialOptions,
       testimonialCollectionOptions,
       collectionOptions,
       productOptions,
+      orderingProfileOptions,
       brandOptions,
     ] = await Promise.all([
       translationService.getForEntity("ContentItem", item.id),
       itemBlockEntityIds.length > 0 ? translationService.getForBlockEntityIds(itemBlockEntityIds) : Promise.resolve([]),
-      prisma.contentType.findMany({
-        where: { isEnabled: true },
-        select: { id: true, slug: true },
-        orderBy: { sortOrder: "asc" },
-      }).catch(() => [] as { id: string; slug: string }[]),
+      loadContentTypeOptionsForBuilder().catch(() => []),
       fetchGalleriesForBuilder().catch(() => []),
       fetchFaqSetsForBuilder().catch(() => []),
       fetchTestimonialsForBuilder().catch(() => []),
       fetchTestimonialCollectionsForBuilder().catch(() => []),
       fetchCollectionsForBuilder().catch(() => []),
       fetchProductsForBuilder().catch(() => []),
+      fetchOrderingProfilesForBuilder().catch(() => []),
       fetchBrandsForBuilder().catch(() => []),
     ]);
-
-    const localizedContentTypes = await loadAdminRowsWithLocalizedFields(
-      "ContentType",
-      rawContentTypes,
-      ["labelPlural", "name"],
-      "labelPlural"
-    );
-
-    const contentTypeOptions: ContentTypeOption[] = localizedContentTypes.map((t) => ({
-      slug: t.slug,
-      labelPlural: t.displayTitle?.trim() || t.slug,
-      isEnabled: true,
-    }));
 
     const [revisions, authors] = await Promise.all([
       prisma.contentItemRevision
@@ -172,6 +158,7 @@ export default async function AdminContentEditRoute({ params }: Props) {
           testimonialCollectionOptions={testimonialCollectionOptions}
           collectionOptions={collectionOptions}
           productOptions={productOptions}
+          orderingProfileOptions={orderingProfileOptions}
           brandOptions={brandOptions}
           initialRevisions={revisions}
           authors={authors}

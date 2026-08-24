@@ -274,3 +274,55 @@
   font-size: 12px;
   color: #b91c1c;
 }
+
+.mre-combo {
+  position: relative;
+  flex: 1 1 160px;
+  min-width: 140px;
+}
+
+.mre-combo .mre-input {
+  width: 100%;
+}
+
+.mre-combo-list {
+  position: absolute;
+  z-index: 30;
+  left: 0;
+  right: 0;
+  top: calc(100% + 2px);
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  max-height: 220px;
+  overflow: auto;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+}
+
+.mre-combo-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #111827;
+}
+
+.mre-combo-item:hover,
+.mre-combo-item.is-active {
+  background: #f5f3ff;
+  color: #5b21b6;
+}
+
+.mre-combo-empty {
+  padding: 8px;
+  font-size: 12px;
+  color: #6b7280;
+}

@@ -1,6 +1,10 @@
 import { createHash } from "node:crypto";
 import { getLocalizedField } from "@/lib/utils";
 import type { SearchCardPayload } from "@/capabilities/search/types/search-card";
+import {
+  contentCollectionSearchPath,
+  contentTypeSearchPath,
+} from "@/capabilities/search/lib/search-public-path";
 import { defineSearchProvider } from "@/capabilities/search/engine/providers/search-provider";
 import type {
   DiscoveredContentCollection,
@@ -28,7 +32,6 @@ export const contentTypeLandingSearchProvider = defineSearchProvider<ContentType
   defaultBoost: 0.85,
   shouldIndex: (type) => type.search.enabled && type.search.indexLandingPage !== false,
   buildRecords(type, ctx) {
-    const prefix = type.routePrefix ?? type.slug;
     const title = resolveIndexTitle(getLocalizedField(type, "labelPlural", ctx.urlPrefix), type.slug, {
       entityType: "CONTENT_TYPE",
       entityId: type.id,
@@ -47,7 +50,7 @@ export const contentTypeLandingSearchProvider = defineSearchProvider<ContentType
         locale: ctx.urlPrefix,
         title,
         body,
-        urlPath: `/${ctx.urlPrefix}/${prefix}`,
+        urlPath: contentTypeSearchPath(ctx.urlPrefix, type.routePrefix, type.slug),
         kind: "content_type",
         contentTypeSlug: type.slug,
         visibility: "public",
@@ -73,7 +76,6 @@ export const contentCollectionSearchProvider = defineSearchProvider<ContentColle
   defaultBoost: 0.9,
   shouldIndex: (col) => col.isPublished,
   buildRecords(col, ctx) {
-    const prefix = col.routePrefix ?? col.contentTypeSlug;
     const localizedName = getLocalizedField(col, "name", ctx.urlPrefix);
     const title = resolveIndexTitle(localizedName, col.slug, {
       entityType: "CONTENT_COLLECTION",
@@ -90,7 +92,12 @@ export const contentCollectionSearchProvider = defineSearchProvider<ContentColle
         locale: ctx.urlPrefix,
         title,
         body: excerpt || col.slug,
-        urlPath: `/${ctx.urlPrefix}/${prefix}?collection=${col.slug}`,
+        urlPath: contentCollectionSearchPath(
+          ctx.urlPrefix,
+          col.routePrefix,
+          col.slug,
+          col.contentTypeSlug
+        ),
         kind: "content_collection",
         contentTypeSlug: col.contentTypeSlug,
         visibility: "public",
@@ -229,7 +236,7 @@ export const catalogCollectionSearchProvider = defineSearchProvider<CatalogColle
         ]
           .filter(Boolean)
           .join(" "),
-        urlPath: `/${ctx.urlPrefix}/collections/${col.slug}`,
+        urlPath: `/${ctx.urlPrefix}/categories/${col.slug}`,
         kind: "catalog_collection",
         visibility: "public",
         boost: 0.95,

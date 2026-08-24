@@ -33,7 +33,7 @@ export function CatalogWorkspaceShell({
     (async () => {
       try {
         const [pRes, cRes] = await Promise.all([
-          fetch("/api/products?locale=en-us", { credentials: "include" }),
+          fetch("/api/products", { credentials: "include" }),
           fetch("/api/categories", { credentials: "include" }),
         ]);
         if (cancelled) return;

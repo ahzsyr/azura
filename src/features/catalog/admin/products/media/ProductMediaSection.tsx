@@ -1,5 +1,5 @@
 import type { MediaItem, MediaType } from "@/features/media/fs/types";
-import type { ProductMedia, ProductMediaFile } from "@/features/products/types";
+import type { ProductMedia, ProductMediaFile, ProductModel3d } from "@/features/products/types";
 import type { ManagedProduct } from "@/features/products/lib/product-manager-normalize";
 import { objectPatch, readControlledCheckboxChecked, readControlledInputValue } from "./product-media-utils";
 import { ProductMediaUploader } from "./ProductMediaUploader";
@@ -11,6 +11,19 @@ type Props = {
   patchActive: (mutator: (product: ManagedProduct) => ManagedProduct) => void;
   openMediaPicker: (accept: MediaType[] | undefined, onSelect: (item: MediaItem) => void) => void;
 };
+
+function patchModel3dFlag(current: ProductModel3d | undefined, enabled: boolean): ProductModel3d {
+  if (current && typeof current === "object") return { ...current, enabled };
+  return enabled;
+}
+
+function patchModel3dUrl(current: ProductModel3d | undefined, url: string): ProductModel3d {
+  const trimmed = url.trim();
+  if (current && typeof current === "object") {
+    return { ...current, enabled: current.enabled || Boolean(trimmed), ...(trimmed ? { url: trimmed } : {}) };
+  }
+  return trimmed ? { enabled: true, url: trimmed } : Boolean(current);
+}
 
 export function ProductMediaSection({ media, productTitle, patchActive, openMediaPicker }: Props) {
   return (
@@ -89,7 +102,10 @@ export function ProductMediaSection({ media, productTitle, patchActive, openMedi
             onChange={(e) =>
               patchActive((prev) => ({
                 ...prev,
-                media: { ...prev.media, "3d_model": readControlledCheckboxChecked(e) },
+                media: {
+                  ...prev.media,
+                  "3d_model": patchModel3dFlag(prev.media["3d_model"], readControlledCheckboxChecked(e)),
+                },
               }))
             }
           />
@@ -119,7 +135,7 @@ export function ProductMediaSection({ media, productTitle, patchActive, openMedi
                     }
                     return {
                       ...prev,
-                      media: { ...prev.media, files: copy, "3d_model": Boolean(v.trim()) || prev.media["3d_model"] },
+                      media: { ...prev.media, files: copy, "3d_model": patchModel3dUrl(prev.media["3d_model"], v) },
                     };
                   });
                 }}
@@ -137,7 +153,14 @@ export function ProductMediaSection({ media, productTitle, patchActive, openMedi
                         const row = objectPatch(copy[i]);
                         copy[i] = { ...row, type: "3d_model", name: (row.name as string) || "3D model", url: item.url };
                       }
-                      return { ...prev, media: { ...prev.media, files: copy, "3d_model": true } };
+                      return {
+                        ...prev,
+                        media: {
+                          ...prev.media,
+                          files: copy,
+                          "3d_model": patchModel3dUrl(prev.media["3d_model"], item.url),
+                        },
+                      };
                     });
                   })
                 }

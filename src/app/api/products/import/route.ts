@@ -101,6 +101,7 @@ export async function POST(request: Request) {
       const items: ImportItem[] = paired.products.map((p) => ({
         sourceFile: p.sourceFile,
         pairedCsv: p.pairedCsv,
+        csvContent: p.csvContent,
         product: p.product,
       }));
 

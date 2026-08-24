@@ -10,7 +10,7 @@ groups:
   - id: dashboard
     label: Dashboard
   - id: content
-    label: Content
+    label: Content Builder
   - id: media
     label: Media
   - id: marketing
@@ -38,9 +38,21 @@ items:
     keywords: [home, overview]
     status: stable
 
+  # --- Content: builder overview ---
+  - id: content-builder-overview
+    label: Overview
+    group: content
+    icon: LayoutDashboard
+    href_current: /admin/content-builder
+    href_target: /admin/content-builder
+    profiles: [marketing, showroom, agency, tourism, documentation, enterprise]
+    keywords: [overview, stats, cards, content builder]
+    status: stable
+    notes: Content Builder landing with statistics and card navigation for every section
+
   # --- Content: editorial ---
   - id: pages
-    label: Pages
+    label: CMS Pages
     group: content
     icon: FileText
     href_current: /admin/pages
@@ -60,13 +72,33 @@ items:
     status: stable
 
   - id: gallery
-    label: Gallery
+    label: Galleries
     group: content
     icon: Image
     href_current: /admin/gallery
     href_target: /admin/gallery
     profiles: [marketing, showroom, agency, tourism, documentation, enterprise]
     keywords: [photos, images, albums]
+    status: stable
+
+  - id: policies
+    label: Policies
+    group: content
+    icon: ShieldCheck
+    href_current: /admin/policies
+    href_target: /admin/policies
+    profiles: [marketing, showroom, agency, tourism, documentation, enterprise]
+    keywords: [privacy, policy, cookie, legal]
+    status: stable
+
+  - id: terms
+    label: Terms & Conditions
+    group: content
+    icon: ScrollText
+    href_current: /admin/terms
+    href_target: /admin/terms
+    profiles: [marketing, showroom, agency, tourism, documentation, enterprise]
+    keywords: [terms, conditions, legal, tos]
     status: stable
 
   - id: faqs
@@ -168,7 +200,7 @@ items:
     status: stable
 
   - id: pricing-plans
-    label: Pricing Plans
+    label: Pricing Plan
     preset: pricing
     group: content
     icon: DollarSign
@@ -250,7 +282,7 @@ items:
     status: stable
 
   - id: catalog-navigation
-    label: Navigation
+    label: Listing Navigation
     preset: product
     group: content
     icon: Compass
@@ -307,47 +339,14 @@ items:
 
   # --- Marketing ---
   - id: marketing-dashboard
-    label: Marketing Hub
+    label: Marketing Overview
     module: marketing
     group: marketing
     icon: Megaphone
     href_current: /admin/marketing
     href_target: /admin/marketing
     profiles: [enterprise]
-    keywords: [marketing, social, integrations, hub]
-    status: beta
-
-  - id: marketing-platforms
-    label: Social Platforms
-    module: marketing
-    group: marketing
-    icon: Share2
-    href_current: /admin/marketing/platforms
-    href_target: /admin/marketing/platforms
-    profiles: [enterprise]
-    keywords: [meta, facebook, instagram, linkedin, oauth]
-    status: beta
-
-  - id: marketing-publishing
-    label: Publishing
-    module: marketing
-    group: marketing
-    icon: Send
-    href_current: /admin/marketing/publishing
-    href_target: /admin/marketing/publishing
-    profiles: [enterprise]
-    keywords: [publish, schedule, queue, posts]
-    status: beta
-
-  - id: marketing-analytics
-    label: Social Analytics
-    module: marketing
-    group: marketing
-    icon: LineChart
-    href_current: /admin/marketing/analytics
-    href_target: /admin/marketing/analytics
-    profiles: [enterprise]
-    keywords: [reach, impressions, engagement]
+    keywords: [marketing, dashboard, overview, intelligence, hub]
     status: beta
 
   - id: marketing-campaigns
@@ -358,7 +357,95 @@ items:
     href_current: /admin/marketing/campaigns
     href_target: /admin/marketing/campaigns
     profiles: [enterprise]
-    keywords: [campaigns, ads]
+    keywords: [campaigns, ads, initiatives]
+    status: beta
+
+  - id: marketing-ad-accounts
+    label: Ad Accounts
+    module: marketing
+    group: marketing
+    icon: Wallet
+    href_current: /admin/marketing/ad-accounts
+    href_target: /admin/marketing/ad-accounts
+    profiles: [enterprise]
+    keywords: [ad accounts, spend, meta, google, linkedin]
+    status: beta
+
+  - id: marketing-platforms
+    label: Advertising Platforms
+    module: marketing
+    group: marketing
+    icon: Share2
+    href_current: /admin/marketing/platforms
+    href_target: /admin/marketing/platforms
+    profiles: [enterprise]
+    keywords: [meta, facebook, instagram, linkedin, google, oauth, platforms]
+    status: beta
+
+  - id: marketing-attribution
+    label: Traffic & Attribution
+    module: marketing
+    group: marketing
+    icon: Route
+    href_current: /admin/marketing/attribution
+    href_target: /admin/marketing/attribution
+    profiles: [enterprise]
+    keywords: [attribution, traffic, utm, source, medium]
+    status: beta
+
+  - id: marketing-conversions
+    label: Conversions
+    module: marketing
+    group: marketing
+    icon: Crosshair
+    href_current: /admin/marketing/conversions
+    href_target: /admin/marketing/conversions
+    profiles: [enterprise]
+    keywords: [conversions, goals, rfq, leads]
+    status: beta
+
+  - id: marketing-leads
+    label: Leads
+    module: marketing
+    group: marketing
+    icon: Inbox
+    href_current: /admin/marketing/leads
+    href_target: /admin/marketing/leads
+    profiles: [enterprise]
+    keywords: [leads, attribution, inquiries, forms]
+    status: beta
+
+  - id: marketing-landing-pages
+    label: Landing Pages
+    module: marketing
+    group: marketing
+    icon: LayoutTemplate
+    href_current: /admin/marketing/landing-pages
+    href_target: /admin/marketing/landing-pages
+    profiles: [enterprise]
+    keywords: [landing pages, performance, conversion rate]
+    status: beta
+
+  - id: marketing-urls
+    label: UTM & Campaign URLs
+    module: marketing
+    group: marketing
+    icon: QrCode
+    href_current: /admin/marketing/urls
+    href_target: /admin/marketing/urls
+    profiles: [enterprise]
+    keywords: [utm, urls, qr, tracking links]
+    status: beta
+
+  - id: marketing-analytics
+    label: Analytics & Reports
+    module: marketing
+    group: marketing
+    icon: LineChart
+    href_current: /admin/marketing/analytics
+    href_target: /admin/marketing/analytics
+    profiles: [enterprise]
+    keywords: [analytics, reports, spend, cpl, comparison]
     status: beta
 
   - id: marketing-tracking
@@ -369,7 +456,7 @@ items:
     href_current: /admin/marketing/tracking
     href_target: /admin/marketing/tracking
     profiles: [enterprise]
-    keywords: [pixel, capi, gtm, events]
+    keywords: [pixel, capi, gtm, ga4, events]
     status: beta
 
   - id: marketing-automation
@@ -380,19 +467,42 @@ items:
     href_current: /admin/marketing/automation
     href_target: /admin/marketing/automation
     profiles: [enterprise]
-    keywords: [automation, auto publish, hooks]
+    keywords: [automation, alerts, rules, thresholds]
     status: beta
 
-  - id: marketing-leads
-    label: Social Leads
+  - id: marketing-integrations
+    label: Integrations
     module: marketing
     group: marketing
-    icon: Inbox
-    href_current: /admin/marketing/leads
-    href_target: /admin/marketing/leads
+    icon: Plug
+    href_current: /admin/marketing/integrations
+    href_target: /admin/marketing/integrations
     profiles: [enterprise]
-    keywords: [lead forms, meta leads]
+    keywords: [integrations, jobs, webhooks, health]
     status: beta
+
+  - id: marketing-settings
+    label: Settings
+    module: marketing
+    group: marketing
+    icon: Settings2
+    href_current: /admin/marketing/settings
+    href_target: /admin/marketing/settings
+    profiles: [enterprise]
+    keywords: [retention, privacy, consent, settings]
+    status: beta
+
+  - id: marketing-publishing
+    label: Social Publishing
+    module: marketing
+    group: marketing
+    icon: Send
+    href_current: /admin/marketing/publishing
+    href_target: /admin/marketing/publishing
+    profiles: [enterprise]
+    keywords: [publish, schedule, queue, posts, optional]
+    status: beta
+    notes: Optional — not the architectural center of Marketing
 
   - id: form-templates
     label: Form Templates
@@ -967,6 +1077,16 @@ items:
     keywords: [password, email, credentials]
     status: stable
 
+  - id: admin-staff
+    label: Staff
+    group: settings
+    icon: ShieldCheck
+    href_current: /admin/settings/staff
+    href_target: /admin/settings/staff
+    profiles: [marketing, showroom, agency, tourism, documentation, enterprise]
+    keywords: [admin, invite, operators, mfa]
+    status: stable
+
   - id: email-accounts
     label: Email Accounts
     group: settings
@@ -1024,10 +1144,10 @@ items:
     icon: Layers
     href_current: /admin/content
     href_target: /admin/content
-    profiles: [enterprise]
+    profiles: [marketing, showroom, agency, tourism, documentation, enterprise]
     keywords: [content hub, content types, schema, catalog]
     status: stable
-    notes: Content hub and type overview for catalog presets
+    notes: Catalog Content hub — types, items, and schemas. Distinct from Content Builder Overview.
 
   - id: database
     label: Database

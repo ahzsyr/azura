@@ -8,6 +8,7 @@ import { patchBlockSettings } from "@/features/builder/instance/block-instance";
 import { ProductSelectionFields } from "@/features/builder/blocks/commerce/product-blocks/admin/product-selection-fields";
 import type {
   CollectionBuilderOption,
+  OrderingProfileBuilderOption,
   ProductBuilderOption,
 } from "@/features/builder/blocks/commerce/product-blocks/types";
 
@@ -16,6 +17,7 @@ type Props = {
   onChange: (block: BlockNode) => void;
   collectionOptions?: CollectionBuilderOption[];
   productOptions?: ProductBuilderOption[];
+  orderingProfileOptions?: OrderingProfileBuilderOption[];
 };
 
 export function ProductCarouselBlockFields({
@@ -23,6 +25,7 @@ export function ProductCarouselBlockFields({
   onChange,
   collectionOptions = [],
   productOptions = [],
+  orderingProfileOptions = [],
 }: Props) {
   const setProp = (key: string, value: unknown) => {
     onChange(patchBlockSettings(block, { [key]: value }));
@@ -36,6 +39,7 @@ export function ProductCarouselBlockFields({
         onChange={onChange}
         collectionOptions={collectionOptions}
         productOptions={productOptions}
+        orderingProfileOptions={orderingProfileOptions}
       />
       <div className="grid grid-cols-2 gap-2">
         <label className="flex items-center gap-2 text-sm">

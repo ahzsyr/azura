@@ -8,6 +8,10 @@ import { PrismaClient } from "@prisma/client";
 import { getRuntimeDatabaseUrl } from "@/lib/database-url";
 import { isBuildWithoutDb } from "@/lib/build-db";
 import { createBuildStubPrismaClient } from "@/lib/build-prisma-stub";
+import {
+  missingScalarColumnsFromPrismaError,
+  withoutScalarColumns,
+} from "@/lib/prisma-editorial-column-compat";
 
 type PrismaGlobal = {
   prisma?: PrismaClient;
@@ -17,13 +21,20 @@ type PrismaGlobal = {
 const globalForPrisma = globalThis as unknown as PrismaGlobal;
 
 /** Models added after initial dev-server boot require a fresh client instance. */
-const REQUIRED_DELEGATES = ["testimonialCollection", "testimonialCollectionItem", "interactionEvent", "formBehaviorEvent", "formTemplateSnapshot"] as const;
+const REQUIRED_DELEGATES = [
+  "testimonialCollection",
+  "testimonialCollectionItem",
+  "interactionEvent",
+  "formBehaviorEvent",
+  "formTemplateSnapshot",
+  "marketingProviderAppConfig",
+] as const;
 
 /**
  * Bump after `prisma generate` when models/fields change so dev hot-reload
  * recreates a cached client (e.g. SiteTheme.brandConfig).
  */
-const PRISMA_CLIENT_VERSION = 5;
+const PRISMA_CLIENT_VERSION = 8;
 
 function normalizeRuntimeDatabaseUrl(url: string): string {
   return getRuntimeDatabaseUrl() || url;
@@ -32,10 +43,32 @@ function normalizeRuntimeDatabaseUrl(url: string): string {
 function createPrismaClient() {
   const rawUrl = process.env.DATABASE_URL?.trim() ?? "";
   const datasourceUrl = normalizeRuntimeDatabaseUrl(rawUrl);
-  return new PrismaClient({
+  const client = new PrismaClient({
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
     ...(datasourceUrl ? { datasourceUrl } : {}),
   });
+  return client.$extends({
+    query: {
+      $allModels: {
+        async $allOperations({ args, query, operation }) {
+          let current = args as Record<string, unknown>;
+          let lastError: unknown;
+          for (let attempt = 0; attempt < 8; attempt++) {
+            try {
+              return await query(current);
+            } catch (error) {
+              lastError = error;
+              if (String(operation).startsWith("$")) throw error;
+              const columns = missingScalarColumnsFromPrismaError(error);
+              if (columns.length === 0) throw error;
+              current = withoutScalarColumns(current, columns);
+            }
+          }
+          throw lastError;
+        },
+      },
+    },
+  }) as unknown as PrismaClient;
 }
 
 function isStalePrismaClient(client: PrismaClient): boolean {

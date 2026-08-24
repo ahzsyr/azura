@@ -10,6 +10,7 @@ import {
   cmsPageSearchProvider,
   contentItemSearchProvider,
   faqSearchProvider,
+  iconSearchProvider,
   mediaSearchProvider,
   postSearchProvider,
   testimonialSearchProvider,
@@ -263,6 +264,7 @@ export class SearchIndexer {
       id: string;
       slug: string;
       status?: string;
+      blocks?: unknown;
     },
     options?: UpsertRecordOptions
   ) {
@@ -274,6 +276,7 @@ export class SearchIndexer {
     const normalized = {
       ...localized,
       title: (localized.title ?? {}) as LocalizedValueMap,
+      blocks: page.blocks,
     };
     if (!cmsPageSearchProvider.shouldIndex(normalized)) {
       await this.remove("CMS_PAGE", page.id);
@@ -345,6 +348,30 @@ export class SearchIndexer {
         urlPrefix,
         code,
       })) {
+        await this.upsertRecord(record, { revalidate: false });
+      }
+    });
+    if (options?.revalidate !== false) {
+      revalidateSearch();
+      clearSearchQueryCache();
+      clearMaterializedAutocomplete();
+    }
+  }
+
+  async indexIcon(
+    icon: {
+      id: string;
+      name: string;
+      slug: string;
+      description?: string | null;
+      category?: string | null;
+      source?: string;
+      tags?: unknown;
+    },
+    options?: UpsertRecordOptions
+  ) {
+    await forEachIndexerLocale(async ({ urlPrefix, code }) => {
+      for (const record of iconSearchProvider.buildRecords(icon, { urlPrefix, code })) {
         await this.upsertRecord(record, { revalidate: false });
       }
     });

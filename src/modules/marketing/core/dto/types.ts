@@ -33,7 +33,11 @@ export type CanonicalAnalyticsMetric = {
     | "comments"
     | "followers"
     | "clicks"
-    | "conversions";
+    | "conversions"
+    | "spend"
+    | "cpc"
+    | "cpm"
+    | "ctr";
   value: number;
   periodStart: string;
   periodEnd: string;
@@ -47,7 +51,20 @@ export type CanonicalTrackingEventName =
   | "FormSubmitted"
   | "Search"
   | "NewsletterSignup"
-  | "PageView";
+  | "PageView"
+  | "LandingPageView"
+  | "SolutionView"
+  | "CtaClick"
+  | "PhoneClick"
+  | "WhatsAppClick"
+  | "EmailClick"
+  | "RfqSubmitted"
+  | "QuoteRequest"
+  | "AccountRegistration"
+  | "Login"
+  | "Download"
+  | "VideoEngagement"
+  | "Conversion";
 
 export type CanonicalTrackingEvent = {
   idempotencyKey: string;
@@ -58,6 +75,7 @@ export type CanonicalTrackingEvent = {
   properties?: Record<string, unknown>;
   value?: number;
   currency?: string;
+  clientOccurredAt?: string;
 };
 
 export type CanonicalLeadEvent = {
@@ -88,4 +106,99 @@ export type CanonicalAsset = {
   externalId: string;
   displayName: string;
   metadata?: Record<string, unknown>;
+};
+
+export type CanonicalAdAccount = {
+  externalId: string;
+  name: string;
+  currency?: string;
+  status?: string;
+  metadata?: Record<string, unknown>;
+};
+
+export type CanonicalExternalCampaign = {
+  externalId: string;
+  name: string;
+  status?: string;
+  providerEntityType?: string;
+  adAccountExternalId?: string;
+  metadata?: Record<string, unknown>;
+};
+
+export type CanonicalAdGroup = {
+  externalId: string;
+  name: string;
+  status?: string;
+  providerEntityType?: string;
+  externalCampaignId: string;
+  metadata?: Record<string, unknown>;
+};
+
+export type CanonicalAd = {
+  externalId: string;
+  name: string;
+  status?: string;
+  providerEntityType?: string;
+  adGroupExternalId: string;
+  metadata?: Record<string, unknown>;
+};
+
+export type CanonicalCreative = {
+  externalId: string;
+  name?: string;
+  creativeType?: string;
+  headline?: string;
+  body?: string;
+  previewUrl?: string;
+  adExternalId: string;
+  metadata?: Record<string, unknown>;
+};
+
+export type CanonicalAdMetrics = {
+  providerId: string;
+  externalCampaignId?: string;
+  externalAdId?: string;
+  accountId?: string;
+  impressions: number;
+  clicks: number;
+  spend: number;
+  conversions: number;
+  reach?: number;
+  ctr?: number;
+  cpc?: number;
+  cpm?: number;
+  periodStart: string;
+  periodEnd: string;
+  dimensions?: Record<string, string>;
+};
+
+export type CanonicalClickIdType = "GCLID" | "FBCLID" | "MSCLKID" | "LI_FAT_ID" | "OTHER";
+
+export type CanonicalTouchType =
+  | "FIRST_TOUCH"
+  | "SESSION_START"
+  | "PAID_CLICK"
+  | "ORGANIC_SEARCH"
+  | "REFERRAL"
+  | "EMAIL"
+  | "SOCIAL_ORGANIC"
+  | "DIRECT"
+  | "CAMPAIGN_URL"
+  | "CONVERSION_TOUCH";
+
+export type CanonicalAttributionContext = {
+  sourceKey?: string;
+  medium?: string;
+  internalCampaignId?: string;
+  externalAdId?: string;
+  landingPagePath?: string;
+  referrer?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmContent?: string;
+  utmTerm?: string;
+  touchType?: CanonicalTouchType;
+  clickIdType?: CanonicalClickIdType;
+  clickId?: string;
 };

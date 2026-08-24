@@ -6,7 +6,7 @@ export const STATIC_SEO_PAGES = [
   { pageKey: "products", label: "Products", path: "/products" },
   { pageKey: "categories", label: "Categories", path: "/categories" },
   /** @deprecated Prefer categories — kept for SeoMeta rows until Stage 7 */
-  { pageKey: "collections", label: "Collections (legacy)", path: "/collections" },
+  { pageKey: "collections", label: "Collections (legacy)", path: "/categories" },
   { pageKey: "services", label: "Services", path: "/services" },
   { pageKey: "compare", label: "Compare", path: "/compare" },
   { pageKey: "favorites", label: "Favorites", path: "/favorites" },
@@ -22,6 +22,24 @@ export const STATIC_SEO_PAGES = [
 ] as const;
 
 export type StaticSeoPageKey = (typeof STATIC_SEO_PAGES)[number]["pageKey"];
+
+/** Main marketing pages that must stay indexable and are submitted to search engines. */
+export const PRIORITY_INDEXABLE_PAGE_KEYS = [
+  "home",
+  "about",
+  "services",
+  "products",
+  "categories",
+  "packages",
+  "contact",
+  "blog",
+  "faqs",
+  "brands",
+  "tags",
+  "gallery",
+  "testimonials",
+  "hotels-transport",
+] as const satisfies readonly StaticSeoPageKey[];
 
 export function isStaticSeoPageKey(key: string): key is StaticSeoPageKey {
   return STATIC_SEO_PAGES.some((p) => p.pageKey === key);

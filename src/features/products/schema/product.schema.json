@@ -131,6 +131,35 @@
       "type": "string",
       "description": "Product brand/manufacturer"
     },
+    "mainCategory": {
+      "type": "string",
+      "description": "Coarse converter main category (Indoor, Outdoor, Networking, …)"
+    },
+    "brandPaths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Full brand-tree taxonomy paths from converter"
+    },
+    "categoryPaths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Full store-category taxonomy paths from converter"
+    },
+    "brandCategories": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Individual brand-tree levels (ancestors + leaf)"
+    },
+    "storeCategories": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Individual store-category levels (ancestors + leaf)"
+    },
+    "matchingRules": {
+      "type": ["array", "string"],
+      "items": { "type": "string" },
+      "description": "Source matching tokens for category Matching Rules"
+    },
     "excludeFromGoogleShopping": {
       "type": "boolean",
       "default": false,
@@ -285,6 +314,10 @@
                   "thumbnail"
                 ],
                 "description": "Image usage type"
+              },
+              "color": {
+                "type": "string",
+                "description": "Color variation this image belongs to"
               }
             }
           }
@@ -314,6 +347,14 @@
                   "upload"
                 ],
                 "description": "Video source type"
+              },
+              "poster": {
+                "type": "string",
+                "description": "Poster image URL"
+              },
+              "color": {
+                "type": "string",
+                "description": "Color variation this video belongs to"
               }
             }
           }

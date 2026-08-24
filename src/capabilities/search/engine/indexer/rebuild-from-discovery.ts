@@ -15,6 +15,7 @@ import { getSearchPerformanceConfig } from "@/capabilities/search/engine/perform
 import { runWithConcurrency } from "@/capabilities/search/engine/performance/index-concurrency";
 import { InvalidSearchIndexRecordError } from "@/capabilities/search/engine/indexer/validate-index-record";
 import { purgeInvalidSearchDocuments } from "@/capabilities/search/engine/indexer/purge-invalid-search-documents";
+import { reconcileStaleSearchDocuments } from "@/capabilities/search/engine/indexer/search-index-consistency";
 
 export type RebuildSourceStats = {
   contentItems: number;
@@ -317,6 +318,15 @@ export async function rebuildFromDiscovery(indexer: SearchIndexer): Promise<Rebu
         "No catalog products indexed — run product index build (npm run catalog:index) if products are enabled."
       );
     }
+  }
+
+  try {
+    const reconciled = await reconcileStaleSearchDocuments();
+    if (reconciled.removed > 0) {
+      warnings.push(`Removed ${reconciled.removed} stale search document(s).`);
+    }
+  } catch (e) {
+    captureError(e, "search reconcile");
   }
 
   const byEntityType = await countByEntityType();

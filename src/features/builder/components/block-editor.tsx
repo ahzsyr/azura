@@ -26,6 +26,7 @@ import type {
 } from "@/features/testimonials/types";
 import type {
   CollectionBuilderOption,
+  OrderingProfileBuilderOption,
   ProductBuilderOption,
 } from "@/features/builder/blocks/commerce/product-blocks/types";
 import type { BrandBuilderOption } from "@/features/builder/blocks/commerce/commerce-showcase/types";
@@ -74,6 +75,7 @@ type BlockEditorProps = {
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
   collectionOptions?: CollectionBuilderOption[];
   productOptions?: ProductBuilderOption[];
+  orderingProfileOptions?: OrderingProfileBuilderOption[];
   brandOptions?: BrandBuilderOption[];
   contentTypeOptions?: ContentTypeOption[];
   locales?: PublicLocale[];
@@ -104,6 +106,7 @@ export function BlockEditor({
   testimonialCollectionOptions = [],
   collectionOptions = [],
   productOptions = [],
+  orderingProfileOptions = [],
   brandOptions = [],
   contentTypeOptions,
   locales = [],
@@ -303,6 +306,7 @@ export function BlockEditor({
                         testimonialCollectionOptions={testimonialCollectionOptions}
                         collectionOptions={collectionOptions}
                         productOptions={productOptions}
+                        orderingProfileOptions={orderingProfileOptions}
                         brandOptions={brandOptions}
                         contentTypeOptions={contentTypeOptions}
                       />

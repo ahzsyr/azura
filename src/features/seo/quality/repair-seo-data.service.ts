@@ -7,7 +7,12 @@ import {
   isLocaleLessProductCanonical,
   normalizeCanonicalUrlForPageKey,
 } from "@/features/seo/normalize-canonical-url";
-import { getStaticSeoPage, isStaticSeoPageKey } from "@/features/seo/constants";
+import {
+  DEFAULT_ROBOTS,
+  getStaticSeoPage,
+  isStaticSeoPageKey,
+  PRIORITY_INDEXABLE_PAGE_KEYS,
+} from "@/features/seo/constants";
 import { routing } from "@/i18n/routing";
 
 function asObjects(value: unknown): Record<string, unknown>[] {
@@ -28,9 +33,11 @@ export type SeoDataRepairReport = {
   duplicateCanonicalsCleared: number;
   incompleteProductJsonLdCleared: number;
   utilityNoIndexApplied: number;
+  mainPagesIndexableFixed: number;
 };
 
 const UTILITY_NOINDEX_KEYS = new Set(["compare", "favorites", "account"]);
+const MAIN_INDEXABLE_KEYS = new Set<string>(PRIORITY_INDEXABLE_PAGE_KEYS);
 
 /**
  * Repair common SEO data issues before/alongside site audit:
@@ -47,6 +54,7 @@ export async function repairSeoDataIssues(): Promise<SeoDataRepairReport> {
     duplicateCanonicalsCleared: 0,
     incompleteProductJsonLdCleared: 0,
     utilityNoIndexApplied: 0,
+    mainPagesIndexableFixed: 0,
   };
 
   for (const meta of metas) {
@@ -94,6 +102,18 @@ export async function repairSeoDataIssues(): Promise<SeoDataRepairReport> {
           data: { robots: "noindex, follow" },
         });
         report.utilityNoIndexApplied += 1;
+      }
+    }
+
+    // Main marketing pages must remain indexable
+    if (MAIN_INDEXABLE_KEYS.has(pageKey)) {
+      const robots = (meta.robots ?? "").trim().toLowerCase();
+      if (!robots || robots.includes("noindex") || !robots.includes("index")) {
+        await prisma.seoMeta.update({
+          where: { id: meta.id },
+          data: { robots: DEFAULT_ROBOTS },
+        });
+        report.mainPagesIndexableFixed += 1;
       }
     }
   }

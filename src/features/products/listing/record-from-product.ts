@@ -1,6 +1,6 @@
 import type { Collection } from "@/features/collections/types";
 import { catalogProductToCollectionProduct } from "@/features/collections/engine";
-import { normalizeMatchingRulesList } from "@/features/categories/matching/fields-product";
+import { normalizeMatchingRulesList, extractSpecAliasFields } from "@/features/categories/matching/fields-product";
 import {
   deriveProductKeywordLabels,
   getCollectionsMatchingProduct,
@@ -165,6 +165,8 @@ export function recordFromProduct(
   const matchingRules = normalizeMatchingRulesList(
     product.matchingRules ?? (product as { matching_rules?: unknown }).matching_rules,
   );
+  const aliases = extractSpecAliasFields(product.specifications);
+  const mainCategory = String(product.mainCategory ?? "").trim() || undefined;
 
   const { min: priceMin, max: priceMax } = priceBoundsFromProduct(product);
 
@@ -206,6 +208,11 @@ export function recordFromProduct(
       : undefined,
     tags,
     matchingRules: matchingRules.length ? matchingRules : undefined,
+    mainCategory,
+    environment: aliases.environment || undefined,
+    mountingMethod: aliases.mountingMethod || undefined,
+    generation: aliases.generation || undefined,
+    antennaDesign: aliases.antennaDesign || undefined,
     price: product.price,
     old_price: product.old_price ?? undefined,
     priceMin,
@@ -248,5 +255,10 @@ export function listingRecordToRuleMeta(record: ProductListingRecord) {
     status: record.availability ?? "",
     stock: record.in_stock ? "in-stock" : "out-of-stock",
     matchingRules: record.matchingRules ?? [],
+    mainCategory: record.mainCategory,
+    environment: record.environment,
+    mountingMethod: record.mountingMethod,
+    generation: record.generation,
+    antennaDesign: record.antennaDesign,
   };
 }

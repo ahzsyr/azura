@@ -3,6 +3,9 @@ export { isModuleActive as isMarketingModuleActive } from "@/modules/marketing/m
 export { bootstrapMarketingModule } from "@/modules/marketing/bootstrap";
 export { marketingService } from "@/modules/marketing/service";
 export { marketingEventBus, MARKETING_EVENTS } from "@/modules/marketing/core/events";
+export { campaignService } from "@/modules/marketing/campaigns/service";
+export { attributionService } from "@/modules/marketing/attribution/service";
+export { conversionService } from "@/modules/marketing/conversions/service";
 export {
   listProviders,
   findProvider,

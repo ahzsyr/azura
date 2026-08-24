@@ -130,10 +130,9 @@ async function main() {
             ? settings.registrationEnabled
             : true),
         comingSoonEnabled:
-          comingSoonEnv ??
-          (typeof settings.comingSoonEnabled === "boolean"
+          typeof settings.comingSoonEnabled === "boolean"
             ? settings.comingSoonEnabled
-            : false),
+            : (comingSoonEnv ?? false),
       },
       authSecret:
         authSecretFromEnv ??

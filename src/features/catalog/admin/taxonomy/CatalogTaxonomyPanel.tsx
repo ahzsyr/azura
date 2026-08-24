@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -19,12 +19,14 @@ import {
 } from "@/features/catalog/admin/catalog-admin-tabs";
 import { CatalogAdminShell } from "@/features/catalog/admin/catalog-admin-shell";
 import {
-  CatalogDataGrid,
+  CatalogEmptyState,
   CatalogPageHeader,
   CatalogToolbar,
 } from "@/features/catalog/admin/ui";
 import { BrandProfilesEditor } from "@/features/catalog/admin/taxonomy/BrandProfilesEditor";
 import {
+  ensureDefaultBrandMatchRules,
+  seedProfilesFromBrandNames,
   syncBrandNamesFromProfiles,
   type CatalogBrandProfile,
 } from "@/features/catalog/types/catalog-brand-profile";
@@ -49,20 +51,25 @@ function ListEditor({
   placeholder: string;
 }) {
   const [draft, setDraft] = useState("");
+  const [addError, setAddError] = useState<string | null>(null);
   const [editingItem, setEditingItem] = useState<string | null>(null);
   const [renameDraft, setRenameDraft] = useState("");
   const [renameError, setRenameError] = useState<string | null>(null);
 
   const add = () => {
     const v = draft.trim();
-    if (!v) return;
+    if (!v) {
+      setAddError(`${label.slice(0, -1)} name is required.`);
+      return;
+    }
     const key = v.toLowerCase();
     if (items.some((i) => i.toLowerCase() === key)) {
-      setDraft("");
+      setAddError("That name already exists.");
       return;
     }
     onChange(sortItems([...items, v]));
     setDraft("");
+    setAddError(null);
   };
 
   const openRename = (item: string) => {
@@ -100,14 +107,17 @@ function ListEditor({
     }
   };
 
-  const editTitle = label === "Brands" ? "Edit brand" : "Edit tag";
+  const editTitle = `Edit ${label.slice(0, -1).toLowerCase()}`;
 
   return (
     <div className="space-y-3">
       <div className="flex gap-2">
         <Input
           value={draft}
-          onChange={(e) => setDraft(e.target.value)}
+          onChange={(e) => {
+            setDraft(e.target.value);
+            setAddError(null);
+          }}
           placeholder={placeholder}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
@@ -116,36 +126,39 @@ function ListEditor({
             }
           }}
         />
-        <Button type="button" variant="secondary" onClick={add}>
+        <Button type="button" onClick={add}>
+          <Plus className="size-4" />
           Add
         </Button>
       </div>
-      <ul className="max-h-72 overflow-y-auto rounded-md border divide-y">
-        {items.length === 0 ? (
-          <li className="px-3 py-6 text-center text-sm text-muted-foreground">
-            No {label.toLowerCase()} yet.
-          </li>
-        ) : (
-          items.map((item) => (
+      {addError ? <p className="text-sm text-destructive">{addError}</p> : null}
+      {items.length === 0 ? (
+        <CatalogEmptyState
+          title={`No ${label.toLowerCase()} yet`}
+          description={`Add ${label.toLowerCase()} for product editor suggestions.`}
+        />
+      ) : (
+        <ul className="max-h-72 overflow-y-auto rounded-xl border border-border/70 divide-y bg-background">
+          {items.map((item) => (
             <li
               key={item}
-              role="button"
-              tabIndex={0}
-              className="flex items-center justify-between gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={() => openRename(item)}
-              onKeyDown={(e) => handleRowKeyDown(item, e)}
+              className="flex items-center justify-between gap-2 px-3 py-2.5 text-sm hover:bg-muted/40 transition-colors"
             >
-              <span className="truncate">{item}</span>
+              <button
+                type="button"
+                className="min-w-0 flex-1 truncate text-start"
+                onClick={() => openRename(item)}
+                onKeyDown={(e) => handleRowKeyDown(item, e)}
+              >
+                {item}
+              </button>
               <div className="flex shrink-0 items-center gap-1">
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
                   aria-label={`Edit ${item}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openRename(item);
-                  }}
+                  onClick={() => openRename(item)}
                 >
                   <Pencil className="size-4" />
                 </Button>
@@ -155,19 +168,18 @@ function ListEditor({
                   size="sm"
                   className="text-destructive hover:text-destructive"
                   aria-label={`Remove ${item}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onChange(items.filter((x) => x !== item));
-                  }}
+                  onClick={() => onChange(items.filter((x) => x !== item))}
                 >
                   <Trash2 className="size-4" />
                 </Button>
               </div>
             </li>
-          ))
-        )}
-      </ul>
-      <p className="text-xs text-muted-foreground">{items.length} {label.toLowerCase()}</p>
+          ))}
+        </ul>
+      )}
+      <p className="text-xs text-muted-foreground">
+        {items.length} {label.toLowerCase()}
+      </p>
 
       <Dialog open={editingItem !== null} onOpenChange={(open) => !open && closeRename()}>
         <DialogContent className="max-w-sm">
@@ -209,15 +221,16 @@ export function CatalogTaxonomyPanel({
   initialBrandProfiles,
   initialAdminLocaleCode,
 }: CatalogTaxonomyAdminProps) {
-  const [tab, setTab] = useState<AdminTaxonomyTabId>("brandProfiles");
-  const [brands, setBrands] = useState(initialBrands);
+  const [tab, setTab] = useState<AdminTaxonomyTabId>("brands");
   const [tags, setTags] = useState(initialTags);
-  const [brandProfiles, setBrandProfiles] = useState<CatalogBrandProfile[]>(initialBrandProfiles);
-  const [savedBrands, setSavedBrands] = useState(initialBrands);
+  const [brandProfiles, setBrandProfiles] = useState<CatalogBrandProfile[]>(() =>
+    seedProfilesFromBrandNames(initialBrandProfiles, initialBrands).map(ensureDefaultBrandMatchRules),
+  );
   const [savedTags, setSavedTags] = useState(initialTags);
-  const [savedBrandProfiles, setSavedBrandProfiles] =
-    useState<CatalogBrandProfile[]>(initialBrandProfiles);
-  const [syncing, setSyncing] = useState(false);
+  const [savedBrandProfiles, setSavedBrandProfiles] = useState<CatalogBrandProfile[]>(() =>
+    seedProfilesFromBrandNames(initialBrandProfiles, initialBrands).map(ensureDefaultBrandMatchRules),
+  );
+  const [busy, setBusy] = useState<"autoCreate" | "sync" | "replace" | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const registerPageActions = useAdminUiStore((s) => s.registerPageActions);
@@ -227,14 +240,6 @@ export function CatalogTaxonomyPanel({
   const markPublishPending = useAdminUiStore((s) => s.markPublishPending);
   const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
   const setPublishStatus = useAdminUiStore((s) => s.setPublishStatus);
-
-  const updateBrands = useCallback(
-    (next: string[]) => {
-      markUnsaved();
-      setBrands(next);
-    },
-    [markUnsaved],
-  );
 
   const updateTags = useCallback(
     (next: string[]) => {
@@ -248,7 +253,6 @@ export function CatalogTaxonomyPanel({
     (next: CatalogBrandProfile[]) => {
       markUnsaved();
       setBrandProfiles(next);
-      setBrands(syncBrandNamesFromProfiles(next));
     },
     [markUnsaved],
   );
@@ -279,15 +283,13 @@ export function CatalogTaxonomyPanel({
     try {
       const syncedBrands = syncBrandNamesFromProfiles(brandProfiles);
       await Promise.all([
-        saveKey("catalogBrands", syncedBrands.length > 0 ? syncedBrands : brands),
+        saveKey("catalogBrands", syncedBrands),
         saveKey("catalogTags", tags),
         saveKey("catalogBrandProfiles", brandProfiles),
       ]);
-      setBrands(syncedBrands.length > 0 ? syncedBrands : brands);
-      setSavedBrands(syncedBrands.length > 0 ? syncedBrands : brands);
       setSavedTags(tags);
       setSavedBrandProfiles(brandProfiles);
-      setFeedback("Brands, profiles, and tags saved.");
+      setFeedback("Brands and tags saved.");
       markSaved();
       markPublishPending();
       return true;
@@ -296,7 +298,7 @@ export function CatalogTaxonomyPanel({
       setSaveStatus("error");
       return false;
     }
-  }, [brandProfiles, brands, tags, markSaved, markPublishPending, saveKey, setSaveStatus]);
+  }, [brandProfiles, tags, markSaved, markPublishPending, saveKey, setSaveStatus]);
 
   const handlePublish = useCallback(async () => {
     setError(null);
@@ -317,12 +319,11 @@ export function CatalogTaxonomyPanel({
   }, [initialAdminLocaleCode, setPublishStatus]);
 
   const handleCancel = useCallback(() => {
-    setBrands(savedBrands);
     setTags(savedTags);
     setBrandProfiles(savedBrandProfiles);
     setError(null);
     setFeedback(null);
-  }, [savedBrands, savedTags, savedBrandProfiles]);
+  }, [savedTags, savedBrandProfiles]);
 
   useEffect(() => {
     registerPageActions({
@@ -334,9 +335,14 @@ export function CatalogTaxonomyPanel({
     return () => clearPageActions();
   }, [registerPageActions, clearPageActions, handleSave, handlePublish, handleCancel]);
 
-  const syncFromCatalog = async (mode: "merge" | "replace") => {
-    setSyncing(true);
+  const runTaxonomyAction = async (
+    action: "autoCreate" | "syncProducts",
+    mode?: "merge" | "replace",
+  ) => {
+    const busyKey = action === "syncProducts" ? "sync" : mode === "replace" ? "replace" : "autoCreate";
+    setBusy(busyKey);
     setError(null);
+    setFeedback(null);
     try {
       const res = await fetch("/api/catalog-taxonomy/sync", {
         ...API,
@@ -344,38 +350,56 @@ export function CatalogTaxonomyPanel({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           locale: initialAdminLocaleCode,
+          action,
           mode,
-          includeCategoriesInTags: true,
+          includeCategoriesInTags: action === "autoCreate",
+          brandProfiles,
         }),
       });
       const json = (await res.json()) as {
         brands?: string[];
         tags?: string[];
         brandProfiles?: CatalogBrandProfile[];
+        report?: {
+          productsScanned: number;
+          assigned: number;
+          unchanged: number;
+          skippedNoMatch: number;
+          conflicts: number;
+          errors?: string[];
+        };
+        scanned?: { brands: number; tags: number; categories: number };
         error?: string;
       };
       if (!res.ok) throw new Error(json.error ?? "Sync failed");
-      if (json.brands) {
-        setBrands(json.brands);
-        markUnsaved();
-      }
       if (json.brandProfiles) {
         setBrandProfiles(json.brandProfiles);
-        markUnsaved();
+        setSavedBrandProfiles(json.brandProfiles);
       }
       if (json.tags) {
         setTags(json.tags);
-        markUnsaved();
+        setSavedTags(json.tags);
       }
-      setFeedback(
-        mode === "merge"
-          ? "Merged brands and tags from product catalog."
-          : "Replaced brands and tags from product catalog.",
-      );
+      markSaved();
+      markPublishPending();
+      if (action === "syncProducts" && json.report) {
+        const r = json.report;
+        setFeedback(
+          `Synced ${r.assigned} product${r.assigned === 1 ? "" : "s"} to brands (${r.unchanged} already matched, ${r.skippedNoMatch} unmatched${r.conflicts ? `, ${r.conflicts} multi-match` : ""}).`,
+        );
+        if (r.errors?.length) setError(r.errors.slice(0, 3).join(" "));
+      } else {
+        const created = json.scanned?.brands ?? json.brandProfiles?.length ?? 0;
+        setFeedback(
+          mode === "replace"
+            ? "Replaced brands from product catalog."
+            : `Auto-created missing brands from product catalog (${created} scanned).`,
+        );
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Sync failed");
     } finally {
-      setSyncing(false);
+      setBusy(null);
     }
   };
 
@@ -383,29 +407,37 @@ export function CatalogTaxonomyPanel({
     <div className="space-y-6">
       <CatalogPageHeader
         title="Brands"
-        description="Manage brand profiles, catalog identities and storefront presentation."
+        description="Manage catalog brands, matching rules, and product assignment."
         actions={
           <CatalogToolbar>
             <Button
               type="button"
               variant="outline"
               size="sm"
-              disabled={syncing}
-              onClick={() => void syncFromCatalog("merge")}
+              disabled={busy !== null}
+              onClick={() => void runTaxonomyAction("autoCreate", "merge")}
             >
-              {syncing ? "Syncing…" : "Sync"}
+              {busy === "autoCreate" ? "Creating…" : "Auto Create"}
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              disabled={busy !== null}
+              onClick={() => void runTaxonomyAction("syncProducts")}
+            >
+              {busy === "sync" ? "Syncing…" : "Sync"}
             </Button>
             <Button
               type="button"
               variant="outline"
               size="sm"
-              disabled={syncing}
+              disabled={busy !== null}
               onClick={() => {
-                if (!window.confirm("Replace all brands and tags with values scanned from products?")) return;
-                void syncFromCatalog("replace");
+                if (!window.confirm("Replace all brands with values scanned from products?")) return;
+                void runTaxonomyAction("autoCreate", "replace");
               }}
             >
-              Replace from catalog
+              {busy === "replace" ? "Replacing…" : "Replace from catalog"}
             </Button>
           </CatalogToolbar>
         }
@@ -421,33 +453,18 @@ export function CatalogTaxonomyPanel({
       >
         {(panelTab) => (
           <>
-            {panelTab === "brandProfiles" ? (
+            {panelTab === "brands" ? (
               <>
                 <CardHeader className="px-0 pt-0">
-                  <CardTitle>Brand profiles</CardTitle>
+                  <CardTitle>Brands</CardTitle>
                   <CardDescription>
-                    Logos, descriptions, and landing URLs for brand showcase blocks. Names sync to the
-                    brand filter list on save.
+                    One record per brand. Add matching rules like categories, then Sync to assign products.
                   </CardDescription>
                 </CardHeader>
-                <CatalogDataGrid>
-                  <BrandProfilesEditor profiles={brandProfiles} onChange={updateBrandProfiles} />
-                </CatalogDataGrid>
-              </>
-            ) : panelTab === "brands" ? (
-              <>
-                <CardHeader className="px-0 pt-0">
-                  <CardTitle>Brand list</CardTitle>
-                  <CardDescription>
-                    Canonical brands for product autocomplete and storefront filters. Products still store
-                    their own brand field.
-                  </CardDescription>
-                </CardHeader>
-                <ListEditor
-                  label="Brands"
-                  items={brands}
-                  onChange={updateBrands}
-                  placeholder="Add brand name…"
+                <BrandProfilesEditor
+                  profiles={brandProfiles}
+                  onChange={updateBrandProfiles}
+                  locale={initialAdminLocaleCode}
                 />
               </>
             ) : (
@@ -455,8 +472,8 @@ export function CatalogTaxonomyPanel({
                 <CardHeader className="px-0 pt-0">
                   <CardTitle>Tag list</CardTitle>
                   <CardDescription>
-                    Canonical tags for product editor suggestions. Sync also imports product categories when
-                    enabled.
+                    Canonical tags for product editor suggestions. Auto Create also imports product tags and
+                    categories.
                   </CardDescription>
                 </CardHeader>
                 <ListEditor label="Tags" items={tags} onChange={updateTags} placeholder="Add tag…" />

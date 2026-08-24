@@ -148,22 +148,19 @@ export function createGoogleConnectionManager(initial?: GooglePlatformState) {
   }
 
   function resolveOAuthClient(ctx?: GoogleIntegrationContext) {
+    // Credentials come from Admin → SEO → Google (platform / integrations), not process.env.
     return {
       clientId:
         state.global.oauthClientId?.trim() ||
-        ctx?.env?.oauthClientId?.trim() ||
         (typeof ctx?.legacyIntegrations?.google?.clientId === "string"
           ? ctx.legacyIntegrations.google.clientId
           : undefined) ||
-        process.env.GOOGLE_SEARCH_CONSOLE_CLIENT_ID?.trim() ||
         undefined,
       clientSecret:
         state.global.oauthClientSecret?.trim() ||
-        ctx?.env?.oauthClientSecret?.trim() ||
         (typeof ctx?.legacyIntegrations?.google?.clientSecret === "string"
           ? ctx.legacyIntegrations.google.clientSecret
           : undefined) ||
-        process.env.GOOGLE_SEARCH_CONSOLE_CLIENT_SECRET?.trim() ||
         undefined,
     };
   }

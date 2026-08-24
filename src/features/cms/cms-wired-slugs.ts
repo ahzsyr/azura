@@ -19,5 +19,7 @@ export const CMS_WIRED_MARKETING_SLUGS: Record<string, string> = {
   "smart-home": "/services/smart-home",
   "security-solutions": "/services/security-solutions",
   "enterprise-wireless": "/services/enterprise-wireless",
+  "indoor-coverage": "/services/indoor-coverage",
   "why-choose-us": "/why-choose-us",
+  solutions: "/solutions",
 };

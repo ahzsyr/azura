@@ -165,6 +165,12 @@ function toSummary(slug: string, product: Product): ProductSummary {
     name,
     brand: product.brand,
     category: (product.category as string | null | undefined) ?? null,
+    categories: Array.isArray(product.categories)
+      ? product.categories.filter((c): c is string => typeof c === "string" && Boolean(c.trim()))
+      : [],
+    categoryIds: Array.isArray(product.categoryIds)
+      ? product.categoryIds.filter((id): id is string => typeof id === "string" && Boolean(id.trim()))
+      : [],
     price,
     old_price: product.old_price ?? undefined,
     short_description: product.short_description,

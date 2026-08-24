@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { PasswordField } from "@/components/account/password-field";
 import { SITE_PRODUCT_NAME } from "@/config/site";
 import { DEMO_PROFILE_META } from "@/features/setup/demo-import/profiles";
 import type { InstallMode } from "@/features/setup/demo-import/types";
@@ -134,10 +135,10 @@ export function SetupWizard({
                 View website
               </a>
               <a
-                href="/admin/login"
+                href="/account/login"
                 className="inline-block font-medium text-muted-foreground underline underline-offset-2"
               >
-                Admin login
+                Sign in
               </a>
             </div>
           </div>
@@ -280,28 +281,24 @@ export function SetupWizard({
                 required
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="adminPassword">Password</Label>
-              <Input
-                id="adminPassword"
-                type="password"
-                value={adminPassword}
-                onChange={(e) => setAdminPassword(e.target.value)}
-                required
-                minLength={8}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="adminPasswordConfirm">Confirm password</Label>
-              <Input
-                id="adminPasswordConfirm"
-                type="password"
-                value={adminPasswordConfirm}
-                onChange={(e) => setAdminPasswordConfirm(e.target.value)}
-                required
-                minLength={8}
-              />
-            </div>
+            <PasswordField
+              id="adminPassword"
+              label="Password"
+              value={adminPassword}
+              onChange={setAdminPassword}
+              required
+              minLength={12}
+              autoComplete="new-password"
+            />
+            <PasswordField
+              id="adminPasswordConfirm"
+              label="Confirm password"
+              value={adminPasswordConfirm}
+              onChange={setAdminPasswordConfirm}
+              required
+              minLength={12}
+              autoComplete="new-password"
+            />
             <div className="flex gap-2">
               <Button type="button" variant="outline" className="flex-1" onClick={() => setStep(1)}>
                 Back

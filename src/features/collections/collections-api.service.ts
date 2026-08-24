@@ -23,6 +23,7 @@ import {
 } from "@/features/collections/collection-sync.service";
 import { getCatalogLocaleCodes, normalizeCatalogLocaleCode } from "@/features/catalog/locales";
 import { catalogSyncOrchestrator } from "@/features/catalog/sync/catalog-sync-orchestrator";
+import { validateTemplateId } from "@/features/products/layout-templates/registry-meta";
 import { removeCatalogCollection } from "@/capabilities/search/engine/indexer/catalog-index-sync";
 import { frameworkSearchIndexer } from "@/capabilities/search/engine";
 import { getIndexerLocales } from "@/i18n/indexer-locales";
@@ -191,6 +192,10 @@ export const collectionsApiService = {
       conditions: upgradeLegacyRuleSet(body.conditions ?? emptyRuleGroup("any")),
       cardTemplate: (body.cardTemplate as Collection["cardTemplate"]) ?? "default",
       sortBy: (body.sortBy as Collection["sortBy"]) ?? "name-asc",
+      pageLayoutTemplate:
+        body.pageLayoutTemplate == null || body.pageLayoutTemplate === ""
+          ? null
+          : validateTemplateId(String(body.pageLayoutTemplate)),
       visible: body.visible !== false,
       showInNav: Boolean(body.showInNav),
       featured: Boolean(body.featured),
@@ -253,6 +258,12 @@ export const collectionsApiService = {
       conditions: upgradeLegacyRuleSet(
         body.conditions !== undefined ? body.conditions : cols[idx].conditions,
       ),
+      pageLayoutTemplate:
+        body.pageLayoutTemplate === undefined
+          ? cols[idx].pageLayoutTemplate
+          : body.pageLayoutTemplate == null || body.pageLayoutTemplate === ""
+            ? null
+            : validateTemplateId(String(body.pageLayoutTemplate)),
     } as Collection;
     delete (merged as { originalSlug?: string }).originalSlug;
 

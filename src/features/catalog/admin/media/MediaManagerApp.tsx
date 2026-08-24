@@ -41,6 +41,10 @@ function isPreviewable(item: MediaItem): boolean {
   return item.type === "image" || item.type === "svg";
 }
 
+function isVideoPreviewable(item: MediaItem): boolean {
+  return item.type === "video";
+}
+
 const TYPE_TABS: Array<{ value: MediaType | "all"; label: string }> = [
   { value: "all", label: "All" },
   { value: "image", label: "Images" },
@@ -602,6 +606,8 @@ export function MediaManagerApp({
             <div className="mm-detail__preview">
               {isPreviewable(detailItem) ? (
                 <img src={detailItem.url} alt={detailItem.alt ?? detailItem.filename} className="mm-detail__img" />
+              ) : isVideoPreviewable(detailItem) ? (
+                <video src={detailItem.url} controls className="mm-detail__img" />
               ) : (
                 <div className="mm-detail__icon-preview">
                   <span>{mediaIcon(detailItem.type)}</span>
@@ -806,6 +812,14 @@ function MediaCard({
       <div className="mm-card__preview">
         {isPreviewable(item) ? (
           <img src={item.url} alt={item.alt ?? item.filename} className="mm-card__img" loading="lazy" />
+        ) : isVideoPreviewable(item) ? (
+          <video
+            src={item.url}
+            muted
+            playsInline
+            preload="metadata"
+            className="mm-card__img"
+          />
         ) : (
           <div className="mm-card__icon">
             <span className="mm-card__icon-sym">{mediaIcon(item.type)}</span>
@@ -883,6 +897,8 @@ function MediaList({
             <td className="mm-list__td mm-list__td--preview">
               {isPreviewable(item) ? (
                 <img src={item.url} alt="" className="mm-list__thumb" />
+              ) : isVideoPreviewable(item) ? (
+                <video src={item.url} muted playsInline preload="metadata" className="mm-list__thumb" />
               ) : (
                 <span className="mm-list__type-icon">{mediaIcon(item.type)}</span>
               )}

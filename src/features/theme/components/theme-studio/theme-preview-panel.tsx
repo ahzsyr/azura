@@ -12,9 +12,12 @@ import type { ResolvedTheme } from "@/lib/theme/theme-resolver";
 import type { ThemeTokens } from "@/types/theme";
 import { ThemeToggle } from "./controls";
 import { useResolvedThemePreview } from "./resolve-theme-client";
+import { scopeThemeCssToSelector } from "@/lib/theme/tokens/theme-root-selectors";
 import "@/features/navigation/components/header/header-builder.css";
 
 type Viewport = "desktop" | "tablet" | "mobile";
+
+const PREVIEW_SCOPE = ".theme-studio-preview-root";
 
 type Props = {
   tokens: ThemeTokens;
@@ -65,6 +68,10 @@ function PreviewChrome({
 
   const themeCss = resolved.css.theme;
   const presetCss = resolved.css.presetVisual;
+  const scopedCss = useMemo(
+    () => scopeThemeCssToSelector([themeCss, presetCss].filter(Boolean).join("\n"), PREVIEW_SCOPE),
+    [themeCss, presetCss],
+  );
   const previewResolved = useMemo(
     () => resolveVisualExperience({ site: tokens }),
     [tokens],
@@ -74,7 +81,7 @@ function PreviewChrome({
     <div
       dir="ltr"
       className={cn(
-        "overflow-hidden rounded-xl border bg-background shadow-sm",
+        "theme-studio-preview-root overflow-hidden rounded-xl border bg-background shadow-sm",
         previewAppearance === "dark" && "dark",
       )}
       style={{ fontFamily: "var(--font-body)" }}
@@ -86,7 +93,7 @@ function PreviewChrome({
     >
       <style
         dangerouslySetInnerHTML={{
-          __html: `${themeCss}\n${presetCss}`,
+          __html: scopedCss,
         }}
       />
       <SiteBackgroundLayer tokens={tokens} immediate />
@@ -99,28 +106,32 @@ function PreviewChrome({
       {!tokens.animationsEnabled ? (
         <style>{`*{animation-duration:0.01ms!important;transition-duration:0.01ms!important}`}</style>
       ) : null}
-      <header className="flex items-center justify-between gap-2 border-b px-4 py-3">
-        {tokens.headerConfig.showLogo ? (
-          <HeaderBrand
-            branding={previewBranding}
-            localeCode="en"
-            siteTextEffect={tokens.textEffectEnabled !== false ? tokens.textEffect : null}
-          />
-        ) : (
-          <span className="text-xs text-muted-foreground">Logo hidden</span>
-        )}
-        {tokens.headerConfig.showNav ? (
-          <nav className="hidden gap-2 text-[10px] text-muted-foreground sm:flex">
-            <span>Home</span>
-            <span>Packages</span>
-          </nav>
-        ) : null}
-        {tokens.headerConfig.showCta ? (
-          <span className="shrink-0 rounded-md px-2 py-1 text-[10px] text-white" style={{ background: secondary }}>
-            {ctaLabel}
-          </span>
-        ) : null}
-      </header>
+      {tokens.headerConfig.enabled !== false ? (
+        <header className="flex items-center justify-between gap-2 border-b px-4 py-3">
+          {tokens.headerConfig.showLogo ? (
+            <div className="min-w-0 flex-1 overflow-visible [&_.logo-area]:max-w-none">
+              <HeaderBrand
+                branding={previewBranding}
+                localeCode="en"
+                siteTextEffect={tokens.textEffectEnabled !== false ? tokens.textEffect : null}
+              />
+            </div>
+          ) : (
+            <span className="text-xs text-muted-foreground">Logo hidden</span>
+          )}
+          {tokens.headerConfig.showNav ? (
+            <nav className="hidden gap-2 text-[10px] text-muted-foreground sm:flex">
+              <span>Home</span>
+              <span>Packages</span>
+            </nav>
+          ) : null}
+          {tokens.headerConfig.showCta ? (
+            <span className="shrink-0 rounded-md px-2 py-1 text-[10px] text-white" style={{ background: secondary }}>
+              {ctaLabel}
+            </span>
+          ) : null}
+        </header>
+      ) : null}
       <div className="space-y-3 p-4">
         <div
           className="rounded-lg p-4 text-sm text-white"
@@ -149,16 +160,18 @@ function PreviewChrome({
           {tokens.spacingScale}x spacing
         </p>
       </div>
-      <footer className="border-t px-4 py-3 text-[10px]" style={{ background: "#0a0a0a", color: "#fafafa" }}>
-        <div
-          className="grid gap-2"
-          style={{ gridTemplateColumns: `repeat(${tokens.footerConfig.columns}, minmax(0, 1fr))` }}
-        >
-          {tokens.footerConfig.showQuickLinks ? <span>Links</span> : null}
-          {tokens.footerConfig.showContact ? <span>Contact</span> : null}
-          {tokens.footerConfig.showSocial ? <span>Social</span> : null}
-        </div>
-      </footer>
+      {tokens.footerConfig.enabled !== false ? (
+        <footer className="border-t px-4 py-3 text-[10px]" style={{ background: "#0a0a0a", color: "#fafafa" }}>
+          <div
+            className="grid gap-2"
+            style={{ gridTemplateColumns: `repeat(${tokens.footerConfig.columns}, minmax(0, 1fr))` }}
+          >
+            {tokens.footerConfig.showQuickLinks ? <span>Links</span> : null}
+            {tokens.footerConfig.showContact ? <span>Contact</span> : null}
+            {tokens.footerConfig.showSocial ? <span>Social</span> : null}
+          </div>
+        </footer>
+      ) : null}
     </div>
   );
 }

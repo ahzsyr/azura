@@ -24,7 +24,7 @@ export default async function SearchOpsOperationDetailPage({
         title={record.label}
         description={`Operation ${record.id} · ${record.definitionId}`}
       />
-      <SearchOpsSubnav active="Operations" />
+      <SearchOpsSubnav active="Queue" />
 
       <div className="text-sm">
         <Link

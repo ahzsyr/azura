@@ -5,6 +5,7 @@ import {
   shouldPreferStoredMenuImageUrl,
   stripLinkedMenuImagesFromWorkspace,
   usesLinkedMenuImageSource,
+  pickBrandMenuImageUrl,
 } from "@/features/navigation/mega-menu-linked-images";
 import type { Collection } from "@/features/collections/types";
 import { collectionMapFromList } from "@/features/collections/collection-navigation";
@@ -152,5 +153,27 @@ describe("linked collection image resolution", () => {
 
     const url = getCollectionImageUrlFromMap("networking", bySlug);
     assert.equal(url, "/collections/networking/cover.jpg");
+  });
+});
+
+describe("pickBrandMenuImageUrl", () => {
+  it("prefers logoUrl over bannerUrl for header menus", () => {
+    assert.equal(
+      pickBrandMenuImageUrl({
+        logoUrl: "/brands/mikrotik/logo.png",
+        bannerUrl: "/brands/mikrotik/banner.jpg",
+      }),
+      "/brands/mikrotik/logo.png",
+    );
+  });
+
+  it("falls back to bannerUrl when logo is empty", () => {
+    assert.equal(
+      pickBrandMenuImageUrl({
+        logoUrl: "  ",
+        bannerUrl: "/brands/mikrotik/banner.jpg",
+      }),
+      "/brands/mikrotik/banner.jpg",
+    );
   });
 });

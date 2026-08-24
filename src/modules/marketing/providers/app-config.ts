@@ -1,4 +1,5 @@
 import "server-only";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { sealSecret, unsealSecret } from "@/features/seo/integrations/secret-seal.server";
 
@@ -10,6 +11,7 @@ export type MarketingProviderAppCredentials = {
   webhookVerifyToken?: string;
   pixelId?: string;
   capiAccessToken?: string;
+  metadata?: Record<string, unknown>;
 };
 
 export type PublicMarketingProviderAppConfig = {
@@ -30,7 +32,12 @@ function blankToUndefined(value: string | null | undefined): string | undefined 
 export async function getProviderAppCredentials(
   providerId: string,
 ): Promise<MarketingProviderAppCredentials> {
-  const row = await prisma.marketingProviderAppConfig.findUnique({ where: { providerId } }).catch(() => null);
+  let row: Awaited<ReturnType<typeof prisma.marketingProviderAppConfig.findUnique>> = null;
+  try {
+    row = await prisma.marketingProviderAppConfig.findUnique({ where: { providerId } }).catch(() => null);
+  } catch {
+    return { providerId };
+  }
   if (!row) return { providerId };
 
   return {
@@ -41,6 +48,7 @@ export async function getProviderAppCredentials(
     webhookVerifyToken: unsealSecret(row.webhookVerifyToken),
     pixelId: blankToUndefined(row.pixelId),
     capiAccessToken: unsealSecret(row.capiAccessToken),
+    metadata: (row.metadata as Record<string, unknown>) ?? {},
   };
 }
 
@@ -72,6 +80,7 @@ export type UpsertProviderAppConfigInput = {
   webhookVerifyToken?: string;
   pixelId?: string;
   capiAccessToken?: string;
+  metadata?: Record<string, unknown>;
 };
 
 export async function upsertProviderAppConfig(input: UpsertProviderAppConfigInput) {
@@ -107,6 +116,7 @@ export async function upsertProviderAppConfig(input: UpsertProviderAppConfigInpu
       webhookVerifyToken: nextWebhookToken,
       pixelId,
       capiAccessToken: nextCapiToken,
+      metadata: (input.metadata ?? existing?.metadata ?? {}) as object,
     },
     update: {
       clientId,
@@ -115,11 +125,48 @@ export async function upsertProviderAppConfig(input: UpsertProviderAppConfigInpu
       webhookVerifyToken: nextWebhookToken,
       pixelId,
       capiAccessToken: nextCapiToken,
+      ...(input.metadata
+        ? {
+            metadata: {
+              ...((existing?.metadata as Record<string, unknown>) ?? {}),
+              ...input.metadata,
+            } as object,
+          }
+        : {}),
     },
   });
 
   // Keep tracking config pixel/token in sync for Meta when provided.
   if (input.providerId === "meta" && (pixelId || nextCapiToken)) {
+    const { buildMetaPixelBaseCode } = await import("@/modules/marketing/tracking/meta-pixel");
+    const existingTracking = await prisma.marketingTrackingConfig
+      .findUnique({ where: { providerId: "meta" } })
+      .catch(() => null);
+    const existingMeta =
+      existingTracking?.metadata &&
+      typeof existingTracking.metadata === "object" &&
+      !Array.isArray(existingTracking.metadata)
+        ? { ...(existingTracking.metadata as Record<string, unknown>) }
+        : {};
+    const headSnippet =
+      typeof existingMeta.headSnippet === "string" && existingMeta.headSnippet.trim()
+        ? existingMeta.headSnippet
+        : pixelId
+          ? buildMetaPixelBaseCode(pixelId)
+          : undefined;
+
+    const createMetadata: Prisma.InputJsonValue = {
+      setupMethod: "code",
+      ...(headSnippet ? { headSnippet } : {}),
+    };
+    const updateMetadata: Prisma.InputJsonValue | undefined =
+      pixelId && !existingMeta.headSnippet
+        ? {
+            setupMethod: "code",
+            headSnippet: buildMetaPixelBaseCode(pixelId),
+          }
+        : undefined;
+
     await prisma.marketingTrackingConfig.upsert({
       where: { providerId: "meta" },
       create: {
@@ -128,12 +175,14 @@ export async function upsertProviderAppConfig(input: UpsertProviderAppConfigInpu
         pixelId,
         capiEnabled: Boolean(nextCapiToken),
         accessToken: nextCapiToken,
+        metadata: createMetadata,
       },
       update: {
         ...(pixelId !== undefined ? { pixelId } : {}),
         ...(input.capiAccessToken?.trim()
           ? { accessToken: nextCapiToken, capiEnabled: true }
           : {}),
+        ...(updateMetadata ? { metadata: updateMetadata } : {}),
       },
     }).catch(() => null);
   }

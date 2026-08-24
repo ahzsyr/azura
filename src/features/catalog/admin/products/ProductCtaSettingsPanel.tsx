@@ -65,7 +65,7 @@ export function ProductCtaSettingsPanel({
           activeTab={subTab}
           onTabChange={(id) => setSubTab(id as CtaSubTab)}
           layoutId="product-cta-sub-ribbon"
-          className="static top-0 z-10 border-b-0 bg-transparent backdrop-blur-none"
+          variant="sub"
         />
       </div>
 

@@ -1,8 +1,9 @@
 import "server-only";
 
+import { countRecordsForBrandProfile } from "@/features/catalog/brand-matching";
 import { readCatalogBrandProfiles, readCatalogTaxonomy } from "@/features/catalog/admin/catalog-taxonomy";
 import type { CatalogBrandProfile } from "@/features/catalog/types/catalog-brand-profile";
-import { brandNameToSlug } from "@/features/catalog/types/catalog-brand-profile";
+import { brandNameToSlug, ensureDefaultBrandMatchRules } from "@/features/catalog/types/catalog-brand-profile";
 import type { ProductListingRecord } from "@/features/products/listing/types";
 
 export type BrandPageEntry = {
@@ -68,9 +69,10 @@ export function buildBrandPageEntries(
   taxonomyBrands: string[],
   profiles: CatalogBrandProfile[],
 ): BrandPageEntry[] {
+  const normalizedProfiles = profiles.map(ensureDefaultBrandMatchRules);
   const counts = countBrands(records);
   const profileByName = new Map(
-    profiles.map((profile) => [profile.name.trim().toLowerCase(), profile]),
+    normalizedProfiles.map((profile) => [profile.name.trim().toLowerCase(), profile]),
   );
 
   const names = new Set<string>();
@@ -78,7 +80,7 @@ export function buildBrandPageEntries(
     const value = brand.trim();
     if (value) names.add(value);
   }
-  for (const profile of profiles) {
+  for (const profile of normalizedProfiles) {
     const value = profile.name.trim();
     if (value) names.add(value);
   }
@@ -98,7 +100,9 @@ export function buildBrandPageEntries(
         slug,
         name,
         profile,
-        productCount: counts.get(name.toLowerCase()) ?? 0,
+        productCount: profile
+          ? countRecordsForBrandProfile(records, profile)
+          : counts.get(name.toLowerCase()) ?? 0,
       };
     });
 
@@ -150,8 +154,9 @@ export async function loadBrandAndTagEntries(
     readCatalogTaxonomy(localePrefix),
     readCatalogBrandProfiles(localePrefix),
   ]);
+  const normalizedProfiles = profiles.map(ensureDefaultBrandMatchRules);
   return {
-    brands: buildBrandPageEntries(records, taxonomy.brands, profiles),
+    brands: buildBrandPageEntries(records, taxonomy.brands, normalizedProfiles),
     tags: buildTagPageEntries(records, taxonomy.tags),
   };
 }

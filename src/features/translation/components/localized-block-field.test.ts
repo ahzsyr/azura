@@ -35,4 +35,16 @@ describe("LocalizedBlockField display resolution", () => {
     );
     assert.equal(value, "Translated");
   });
+
+  it("shows EntityTranslation when block defaults leave unsuffixed fields empty", () => {
+    const value = __test__.resolveDisplayValue(
+      { en: { value: "Saved paragraph" } },
+      { content: "", title: "", subtitle: "", badge: "" },
+      "content",
+      "en",
+      "en",
+      { treatEmptyUnsuffixedAsClear: false }
+    );
+    assert.equal(value, "Saved paragraph");
+  });
 });

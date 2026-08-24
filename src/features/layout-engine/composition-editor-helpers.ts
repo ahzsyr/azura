@@ -1,8 +1,16 @@
 import { updateBlockInTree } from "@/features/builder/block-tree";
 import type { BlockNode, PageBlocks } from "@/types/builder";
-import type { Composition, RegionId } from "@/features/layout-engine/types";
+import type { Composition, LayoutType, RegionId } from "@/features/layout-engine/types";
 import { getEditorRegionOrder, isTopSectionEnabled } from "@/features/layout-engine/types";
 import { layoutRegistry } from "@/features/layout-engine/layout-registry";
+
+const LTR_PREVIEW_COLUMNS: Record<LayoutType, string> = {
+  full: "1fr",
+  "left-sidebar": "1fr 2fr",
+  "right-sidebar": "2fr 1fr",
+  "three-column": "1fr 2fr 1fr",
+  split: "1fr 1fr",
+};
 
 export function findBlockById(blocks: PageBlocks, id: string): BlockNode | null {
   for (const block of blocks) {
@@ -33,6 +41,28 @@ export function getCompositionRegionLabel(regionId: RegionId, isRtl: boolean): s
   if (regionId === "primary") return "Main";
   if (regionId === "asideStart") return isRtl ? "Right Sidebar" : "Left Sidebar";
   return isRtl ? "Left Sidebar" : "Right Sidebar";
+}
+
+export function getLayoutDisplayName(type: LayoutType, isRtl: boolean): string {
+  if (type === "left-sidebar") return isRtl ? "Right Sidebar" : "Left Sidebar";
+  if (type === "right-sidebar") return isRtl ? "Left Sidebar" : "Right Sidebar";
+  return layoutRegistry.getOrThrow(type).name;
+}
+
+/**
+ * Admin chrome is LTR, so RTL previews must reverse track sizes AND region
+ * order together. Reversing only one side swaps column widths onto the
+ * wrong regions.
+ */
+export function getLayoutPreviewColumns(type: LayoutType, isRtl = false): string {
+  const columns = LTR_PREVIEW_COLUMNS[type] ?? "1fr";
+  if (!isRtl || type === "full") return columns;
+  return columns.split(/\s+/).reverse().join(" ");
+}
+
+export function getLayoutPreviewRegions(activeRegions: RegionId[], isRtl: boolean): RegionId[] {
+  if (!isRtl || activeRegions.length < 2) return activeRegions;
+  return [...activeRegions].reverse();
 }
 
 export function getEditableRegions(composition: Composition): RegionId[] {

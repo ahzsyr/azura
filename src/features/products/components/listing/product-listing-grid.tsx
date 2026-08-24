@@ -96,7 +96,7 @@ export function ProductListingGrid({
     viewMode === "list"
       ? `pl-grid pl-grid--list${mode === "collection" ? " pl-grid--collections" : ""}`
       : `pl-grid${mode === "collection" ? " pl-grid--collections" : ""}`;
-  const pathRoot = mode === "collection" ? "/collections" : "/products";
+  const pathRoot = mode === "collection" ? "/categories" : "/products";
 
   if (viewMode === "table") {
     const showPriceColumn = mode === "product" && effectiveCardDisplay.showPrice;

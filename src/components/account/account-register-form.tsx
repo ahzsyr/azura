@@ -1,172 +1,186 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { getSession, signIn, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
 import Link from "next/link";
-import { ChevronLeft, UserPlus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { UserPlus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import { mergeLocalFavoritesToServer } from "@/features/account/lib/favorites-sync";
-import { FormProgress, isFxsEnabled } from "@/features/forms/fxs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { TurnstileField } from "@/components/security/turnstile-field";
+import { PasswordField } from "@/components/account/password-field";
+import {
+  validateEmailFormat,
+  validateNewPassword,
+} from "@/features/account/lib/password-form-validation";
 
 type Props = {
   locale: string;
 };
 
-const STEPS = ["personal", "contact", "address", "security"] as const;
-type StepId = (typeof STEPS)[number];
-
-function RegisterSection({
-  id,
-  title,
-  description,
-  children,
-  className,
-}: {
-  id: string;
-  title: string;
-  description?: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <section className={cn("space-y-4", className)} aria-labelledby={id}>
-      <div>
-        <h2 id={id} className="font-heading text-base font-semibold">
-          {title}
-        </h2>
-        {description ? (
-          <p className="text-muted-foreground mt-1 text-sm">{description}</p>
-        ) : null}
-      </div>
-      <div className="space-y-4">{children}</div>
-    </section>
-  );
-}
-
 export function AccountRegisterForm({ locale }: Props) {
   const t = useTranslations("account");
   const router = useRouter();
-  const formRef = useRef<HTMLFormElement>(null);
-  const [stepIndex, setStepIndex] = useState(0);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const step = STEPS[stepIndex];
-  const progress = ((stepIndex + 1) / STEPS.length) * 100;
-  const fxsOn = isFxsEnabled();
-
-  const stepLabels: Record<StepId, string> = {
-    personal: t("sectionPersonal"),
-    contact: t("sectionContact"),
-    address: t("sectionAddress"),
-    security: t("sectionAccount"),
-  };
-
-  function validateCurrentStep(): boolean {
-    const root = formRef.current;
-    if (!root) return false;
-    const panel = root.querySelector<HTMLElement>(`[data-register-step="${step}"]`);
-    if (!panel) return false;
-    const fields = panel.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
-      "input, select, textarea"
-    );
-    for (const field of fields) {
-      if (!field.checkValidity()) {
-        field.reportValidity();
-        return false;
-      }
-    }
-    return true;
-  }
-
-  function goNext() {
-    setError("");
-    if (!validateCurrentStep()) return;
-    setStepIndex((i) => Math.min(i + 1, STEPS.length - 1));
-  }
-
-  function goBack() {
-    setError("");
-    setStepIndex((i) => Math.max(i - 1, 0));
-  }
+  const [checkEmail, setCheckEmail] = useState<string | null>(null);
+  const [code, setCode] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [resendBusy, setResendBusy] = useState(false);
+  const [resendMessage, setResendMessage] = useState("");
+  const [verifyBusy, setVerifyBusy] = useState(false);
+  const onTurnstileToken = useCallback((token: string | null) => {
+    setTurnstileToken(token);
+  }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (stepIndex < STEPS.length - 1) {
-      goNext();
-      return;
-    }
-    if (!validateCurrentStep()) return;
-
     setLoading(true);
     setError("");
     const fd = new FormData(e.currentTarget);
-    const password = fd.get("password") as string;
-    const confirm = fd.get("confirmPassword") as string;
-    if (password !== confirm) {
-      setError(t("passwordMismatch"));
+    const name = String(fd.get("name") ?? "").trim();
+    const password = String(fd.get("password") ?? "");
+    const confirm = String(fd.get("confirmPassword") ?? "");
+    const email = String(fd.get("email") ?? "").trim();
+
+    if (name.length < 2) {
+      setError("Name must be at least 2 characters");
       setLoading(false);
       return;
     }
+    const emailError = validateEmailFormat(email);
+    if (emailError) {
+      setError(emailError);
+      setLoading(false);
+      return;
+    }
+    const passwordError = validateNewPassword(password, confirm);
+    if (passwordError) {
+      setError(passwordError);
+      setLoading(false);
+      return;
+    }
+    if (!turnstileToken) {
+      setError("Complete the captcha before continuing.");
+      setLoading(false);
+      return;
+    }
+
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: fd.get("name"),
-        email: fd.get("email"),
+        name,
+        email,
         password,
-        phone: fd.get("phone"),
-        dateOfBirth: fd.get("dateOfBirth"),
-        addressLine1: fd.get("addressLine1"),
-        addressLine2: fd.get("addressLine2") || "",
-        city: fd.get("city"),
-        state: fd.get("state") || "",
-        postalCode: fd.get("postalCode") || "",
-        country: fd.get("country"),
-        marketingOptIn: fd.get("marketingOptIn") === "on",
+        locale,
+        turnstileToken,
       }),
     });
+    setLoading(false);
     if (!res.ok) {
       const data = (await res.json().catch(() => ({}))) as { error?: string };
       setError(data.error ?? t("registerFailed"));
-      setLoading(false);
       return;
     }
-    const signInResult = await signIn("credentials", {
-      email: fd.get("email"),
-      password: fd.get("password"),
-      redirect: false,
+    setCheckEmail(email);
+  }
+
+  async function resend() {
+    if (!checkEmail) return;
+    setResendBusy(true);
+    setResendMessage("");
+    await fetch("/api/auth/resend-verification", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: checkEmail, locale }),
     });
-    setLoading(false);
-    if (signInResult?.error) {
-      setError(t("registerSignInFailed"));
+    setResendBusy(false);
+    setResendMessage("A new code was sent if the account needs verification.");
+  }
+
+  async function verifyCode(e: React.FormEvent) {
+    e.preventDefault();
+    if (!checkEmail) return;
+    setVerifyBusy(true);
+    setError("");
+    const res = await fetch("/api/auth/verify-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: checkEmail, code }),
+    });
+    setVerifyBusy(false);
+    if (!res.ok) {
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      setError(data.error ?? t("verifyEmailFailed"));
       return;
     }
-    const session = await getSession();
-    if (session?.user?.role === "ADMIN") {
-      await signOut({ redirect: false });
-      setError(t("adminUseAdminLogin"));
-      return;
-    }
-    if (session?.user?.role !== "CUSTOMER") {
-      await signOut({ redirect: false });
-      setError(t("registerSignInFailed"));
-      return;
-    }
-    await mergeLocalFavoritesToServer(locale);
-    router.push(`/${locale}/account`);
-    router.refresh();
+    router.replace(`/${locale}/account/login?verified=1`);
+  }
+
+  if (checkEmail) {
+    return (
+      <Card className="mx-auto w-full max-w-md">
+        <CardHeader className="text-center">
+          <CardTitle>{t("checkYourEmailTitle")}</CardTitle>
+          <CardDescription>
+            Enter the 6-digit code we sent to {checkEmail}. It expires in 5 minutes.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <form onSubmit={verifyCode} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="otp">Verification code</Label>
+              <Input
+                id="otp"
+                value={code}
+                onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                required
+                maxLength={6}
+                pattern="\d{6}"
+                autoFocus
+              />
+            </div>
+            {error ? <p className="text-destructive text-sm">{error}</p> : null}
+            {resendMessage ? (
+              <p className="text-sm text-emerald-700 dark:text-emerald-300">{resendMessage}</p>
+            ) : null}
+            <Button type="submit" className="w-full" disabled={verifyBusy || code.length !== 6}>
+              {verifyBusy ? t("verifyEmailWorking") : "Verify email"}
+            </Button>
+          </form>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            disabled={resendBusy}
+            onClick={() => void resend()}
+          >
+            {resendBusy ? t("sending") : t("resendVerification")}
+          </Button>
+        </CardContent>
+        <CardFooter className="justify-center">
+          <Link href={`/${locale}/account/login`} className="text-primary text-sm underline">
+            {t("signIn")}
+          </Link>
+        </CardFooter>
+      </Card>
+    );
   }
 
   return (
-    <Card className="mx-auto w-full max-w-2xl">
+    <Card className="mx-auto w-full max-w-md">
       <CardHeader className="text-center">
         <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full border bg-primary/5">
           <UserPlus className="size-6 text-primary" aria-hidden />
@@ -174,243 +188,47 @@ export function AccountRegisterForm({ locale }: Props) {
         <CardTitle>{t("registerTitle")}</CardTitle>
         <CardDescription>{t("registerDescription")}</CardDescription>
       </CardHeader>
-
-      <div className="px-6 pb-2">
-        {fxsOn ? (
-          <FormProgress
-            step={stepIndex}
-            total={STEPS.length}
-            labels={STEPS.map((id) => stepLabels[id])}
-            style="steps"
+      <form onSubmit={handleSubmit}>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="name">{t("name")}</Label>
+            <Input id="name" name="name" required minLength={2} maxLength={80} autoComplete="name" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="email">{t("email")}</Label>
+            <Input id="email" name="email" type="email" required autoComplete="email" />
+          </div>
+          <PasswordField
+            id="password"
+            name="password"
+            label={t("password")}
+            required
+            minLength={12}
+            autoComplete="new-password"
           />
-        ) : (
-          <>
-            <div className="mb-2 flex items-center justify-between gap-2 text-xs text-muted-foreground">
-              <span>{t("registerStepOf", { current: stepIndex + 1, total: STEPS.length })}</span>
-              <span className="font-medium text-foreground">{stepLabels[step]}</span>
-            </div>
-            <div
-              className="h-1.5 overflow-hidden rounded-full bg-muted"
-              role="progressbar"
-              aria-valuenow={stepIndex + 1}
-              aria-valuemin={1}
-              aria-valuemax={STEPS.length}
-              aria-label={stepLabels[step]}
-            >
-              <div
-                className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-            <ol className="mt-4 hidden gap-2 sm:grid sm:grid-cols-4">
-              {STEPS.map((id, index) => (
-                <li key={id}>
-                  <span
-                    className={cn(
-                      "block rounded-md border px-2 py-1.5 text-center text-xs font-medium transition-colors",
-                      index === stepIndex
-                        ? "border-primary/40 bg-primary/5 text-foreground"
-                        : index < stepIndex
-                          ? "border-border bg-muted/30 text-muted-foreground"
-                          : "border-transparent text-muted-foreground"
-                    )}
-                  >
-                    {stepLabels[id]}
-                  </span>
-                </li>
-              ))}
-            </ol>
-          </>
-        )}
-      </div>
-
-      <Separator />
-
-      <form ref={formRef} onSubmit={handleSubmit} noValidate={stepIndex < STEPS.length - 1}>
-        <CardContent className="space-y-6 pt-6">
-          <div data-register-step="personal" className={cn(step !== "personal" && "hidden")}>
-            <RegisterSection
-              id="register-section-personal"
-              title={t("sectionPersonal")}
-              description={t("sectionPersonalHint")}
-            >
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2 sm:col-span-2">
-                  <Label htmlFor="name">{t("fullName")}</Label>
-                  <Input id="name" name="name" required minLength={2} autoComplete="name" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="dateOfBirth">{t("dateOfBirth")}</Label>
-                  <Input
-                    id="dateOfBirth"
-                    name="dateOfBirth"
-                    type="date"
-                    required
-                    autoComplete="bday"
-                  />
-                </div>
-              </div>
-            </RegisterSection>
-          </div>
-
-          <div data-register-step="contact" className={cn(step !== "contact" && "hidden")}>
-            <RegisterSection
-              id="register-section-contact"
-              title={t("sectionContact")}
-              description={t("sectionContactHint")}
-            >
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="email">{t("email")}</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    autoComplete="email"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone">{t("phone")}</Label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    required
-                    minLength={6}
-                    autoComplete="tel"
-                  />
-                </div>
-              </div>
-            </RegisterSection>
-          </div>
-
-          <div data-register-step="address" className={cn(step !== "address" && "hidden")}>
-            <RegisterSection
-              id="register-section-address"
-              title={t("sectionAddress")}
-              description={t("sectionAddressHint")}
-            >
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="addressLine1">{t("addressLine1")}</Label>
-                  <Input
-                    id="addressLine1"
-                    name="addressLine1"
-                    required
-                    minLength={2}
-                    autoComplete="address-line1"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="addressLine2">{t("addressLine2")}</Label>
-                  <Input
-                    id="addressLine2"
-                    name="addressLine2"
-                    autoComplete="address-line2"
-                  />
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="city">{t("city")}</Label>
-                    <Input id="city" name="city" required autoComplete="address-level2" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="state">{t("state")}</Label>
-                    <Input id="state" name="state" autoComplete="address-level1" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="postalCode">{t("postalCode")}</Label>
-                    <Input id="postalCode" name="postalCode" autoComplete="postal-code" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="country">{t("country")}</Label>
-                    <Input
-                      id="country"
-                      name="country"
-                      required
-                      minLength={2}
-                      autoComplete="country-name"
-                    />
-                  </div>
-                </div>
-              </div>
-            </RegisterSection>
-          </div>
-
-          <div data-register-step="security" className={cn(step !== "security" && "hidden")}>
-            <RegisterSection
-              id="register-section-security"
-              title={t("sectionAccount")}
-              description={t("sectionAccountHint")}
-            >
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="password">{t("password")}</Label>
-                  <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    required
-                    minLength={8}
-                    autoComplete="new-password"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">{t("confirmPassword")}</Label>
-                  <Input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    required
-                    minLength={8}
-                    autoComplete="new-password"
-                  />
-                </div>
-              </div>
-              <label className="flex cursor-pointer items-start gap-3 rounded-lg border bg-muted/20 p-3 text-sm">
-                <input
-                  type="checkbox"
-                  name="marketingOptIn"
-                  className="mt-0.5 size-4 shrink-0 rounded border-input accent-primary"
-                />
-                <span>{t("marketingOptIn")}</span>
-              </label>
-            </RegisterSection>
-          </div>
-
+          <PasswordField
+            id="confirmPassword"
+            name="confirmPassword"
+            label={t("confirmPassword")}
+            required
+            minLength={12}
+            autoComplete="new-password"
+          />
+          <TurnstileField onToken={onTurnstileToken} />
           {error ? <p className="text-destructive text-sm">{error}</p> : null}
         </CardContent>
-
-        <CardFooter className="flex flex-col gap-4 border-t bg-muted/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex w-full gap-2 sm:w-auto">
-            {stepIndex > 0 ? (
-              <Button type="button" variant="outline" onClick={goBack} disabled={loading}>
-                <ChevronLeft className="size-4" aria-hidden />
-                {t("back")}
-              </Button>
-            ) : (
-              <Button type="button" variant="ghost" asChild className="text-muted-foreground">
-                <Link href={`/${locale}/account/login`}>{t("signIn")}</Link>
-              </Button>
-            )}
-          </div>
-          <Button type="submit" className="w-full sm:w-auto sm:min-w-[10rem]" disabled={loading}>
-            {loading
-              ? t("creating")
-              : stepIndex < STEPS.length - 1
-                ? t("continue")
-                : t("register")}
+        <CardFooter className="flex flex-col gap-4">
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? t("creating") : t("register")}
           </Button>
+          <p className="text-muted-foreground text-center text-sm">
+            {t("alreadyHaveAccount")}{" "}
+            <Link href={`/${locale}/account/login`} className="text-primary font-medium underline">
+              {t("signIn")}
+            </Link>
+          </p>
         </CardFooter>
       </form>
-
-      <p className="text-muted-foreground px-6 pb-6 text-center text-sm">
-        {t("alreadyHaveAccount")}{" "}
-        <Link href={`/${locale}/account/login`} className="text-primary font-medium underline">
-          {t("signIn")}
-        </Link>
-      </p>
     </Card>
   );
 }

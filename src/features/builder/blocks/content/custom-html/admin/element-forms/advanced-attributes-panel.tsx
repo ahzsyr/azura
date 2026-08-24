@@ -14,6 +14,7 @@ import {
   isConvertibleTag,
 } from "../../lib/convert-element-tag";
 import { mergeTextAlign, mergeDirection, readTextAlign, readDirection } from "../../lib/style-attributes";
+import { LocalizedHtmlInput } from "../localized-html-input";
 
 type Props = {
   element: HtmlElement;
@@ -190,24 +191,22 @@ export function AdvancedAttributesPanel({ element, onChange }: Props) {
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            <div>
-              <Label className="text-xs">Title</Label>
-              <Input
-                className="mt-1 h-7 text-xs"
-                placeholder="Tooltip text"
-                value={attrs.title ?? ""}
-                onChange={(e) => update({ title: e.target.value })}
-              />
-            </div>
-            <div>
-              <Label className="text-xs">Aria-label</Label>
-              <Input
-                className="mt-1 h-7 text-xs"
-                placeholder="Accessible label"
-                value={attrs.ariaLabel ?? ""}
-                onChange={(e) => update({ ariaLabel: e.target.value })}
-              />
-            </div>
+            <LocalizedHtmlInput
+              label="Title"
+              baseKey="title"
+              values={attrs as Record<string, unknown>}
+              onChange={(patch) => update(patch)}
+              placeholder="Tooltip text"
+              inputClassName="mt-1 h-7 text-xs"
+            />
+            <LocalizedHtmlInput
+              label="Aria-label"
+              baseKey="ariaLabel"
+              values={attrs as Record<string, unknown>}
+              onChange={(patch) => update(patch)}
+              placeholder="Accessible label"
+              inputClassName="mt-1 h-7 text-xs"
+            />
           </div>
 
           {/* data-* attributes */}

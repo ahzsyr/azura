@@ -37,6 +37,11 @@ export type ProductRuleMatchMeta = {
   status: string;
   stock: string;
   matchingRules: string[];
+  mainCategory?: string;
+  environment?: string;
+  mountingMethod?: string;
+  generation?: string;
+  antennaDesign?: string;
 };
 
 export type ProductIndexEntry = {
@@ -105,6 +110,25 @@ function buildRuleMeta(
   ];
   const matchingUnique = [...new Set(matchingRules)];
 
+  const specs = Array.isArray(raw.specifications)
+    ? (raw.specifications as Array<{
+        items?: Array<{ name?: string; value?: string }>;
+        features?: Array<{ name?: string; value?: string }>;
+      }>)
+    : undefined;
+
+  const readSpec = (name: string): string => {
+    const target = name.toLowerCase();
+    for (const group of specs ?? []) {
+      for (const entry of [...(group.features ?? []), ...(group.items ?? [])]) {
+        if ((entry.name ?? "").trim().toLowerCase() === target) {
+          return (entry.value ?? "").trim();
+        }
+      }
+    }
+    return "";
+  };
+
   return {
     slug: canonicalSlug,
     id: String(raw.id ?? canonicalSlug).trim() || canonicalSlug,
@@ -119,6 +143,11 @@ function buildRuleMeta(
       raw.availability as string | undefined,
     ),
     matchingRules: matchingUnique,
+    mainCategory: String(raw.mainCategory ?? "").trim() || undefined,
+    environment: readSpec("Environment") || undefined,
+    mountingMethod: readSpec("Mounting Method") || undefined,
+    generation: readSpec("Generation") || undefined,
+    antennaDesign: readSpec("Antenna Design") || undefined,
   };
 }
 

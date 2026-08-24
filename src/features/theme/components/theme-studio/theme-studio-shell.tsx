@@ -108,6 +108,7 @@ export function ThemeStudioShell({
         tabs={[...THEME_STUDIO_TABS]}
         activeTab={activeSection}
         onTabChange={(id) => onSectionChange(id as ThemeStudioSectionId)}
+        layout="sidebar"
       >
         {(tabId) => (
           <ThemeSearchContainer query={normalizedQuery}>

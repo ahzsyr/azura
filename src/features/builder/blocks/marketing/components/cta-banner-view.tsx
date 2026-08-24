@@ -2,6 +2,7 @@ import { BlockBackgroundLayer } from "@/features/builder/blocks/marketing/compon
 import { BlockCtaButtons } from "@/features/builder/blocks/marketing/components/block-cta-buttons";
 import { CountdownTimer } from "@/features/builder/blocks/marketing/components/countdown-timer";
 import { cn } from "@/lib/utils";
+import "./cta-banner.css";
 
 type Props = {
   title: string;
@@ -39,63 +40,100 @@ export function CtaBannerView({
   countdownLabel,
 }: Props) {
   const padding =
-    size === "compact" ? "px-6 py-10" : size === "large" ? "px-10 py-20 md:px-20" : "px-8 py-16 md:px-16";
+    size === "compact"
+      ? "px-6 py-8 sm:px-8"
+      : size === "large"
+        ? "px-8 py-14 sm:px-12 md:px-16 md:py-20"
+        : "px-7 py-10 sm:px-10 md:px-12 md:py-14";
 
   const isTransparent = backgroundType === "transparent" || backgroundType === "none";
-  const isDark =
+  const useBrandSurface = backgroundType === "gradient";
+  const isFilled =
     !isTransparent &&
     (backgroundType === "gradient" ||
       backgroundType === "image" ||
       backgroundType === "video" ||
       (backgroundType === "solid" && Boolean(backgroundColor)));
 
+  const isCentered = layout === "centered";
+  const isSplit = layout === "split";
+  const isInline = layout === "inline";
+
   return (
     <BlockBackgroundLayer
-      backgroundType={backgroundType}
+      backgroundType={useBrandSurface ? "transparent" : backgroundType}
       imageUrl={backgroundImageUrl}
       videoUrl={backgroundVideoUrl}
       backgroundColor={backgroundColor}
-      overlayOpacity={50}
-      className={cn("rounded-2xl", padding, isDark && "text-white")}
+      overlayOpacity={55}
+      className={cn(
+        "az-cta-banner",
+        useBrandSurface && "az-cta-banner--brand",
+        isFilled && "az-cta-banner--filled",
+        !isFilled && !isTransparent && "az-cta-banner--light",
+        padding,
+      )}
     >
       <div
         className={cn(
-          layout === "split" && "grid gap-8 md:grid-cols-2 md:items-center",
-          layout === "inline" && "flex flex-col gap-6 md:flex-row md:items-center md:justify-between",
-          layout === "centered" && "text-center"
+          isSplit && "grid gap-8 md:grid-cols-2 md:items-center md:text-start",
+          isInline && "flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10 md:text-start",
+          isCentered && "flex flex-col items-center text-center",
         )}
       >
-        <div className={cn(layout === "centered" && "mx-auto max-w-2xl")}>
-          {promoBadge && (
-            <span className="mb-3 inline-block rounded-full bg-accent/20 px-3 py-1 text-xs font-medium uppercase tracking-wide text-accent">
-              {promoBadge}
-            </span>
+        <div
+          className={cn(
+            isCentered && "mx-auto flex w-full max-w-[20.5rem] flex-col items-center sm:max-w-md",
+            isInline && "min-w-0 flex-1",
+            isSplit && "md:max-w-xl",
+            size === "large" && isCentered && "sm:max-w-lg",
           )}
-          <h2 className={cn("font-heading font-semibold", size === "large" ? "text-3xl md:text-4xl" : "text-2xl md:text-3xl")}>
-            {title}
-          </h2>
-          {subtitle && (
-            <p className={cn("mt-4 max-w-xl", isDark ? "text-white/85" : "text-muted-foreground", layout === "centered" && "mx-auto")}>
+        >
+          {promoBadge ? <span className="az-cta-banner__badge">{promoBadge}</span> : null}
+          {title ? (
+            <h2
+              className={cn(
+                "az-cta-banner__title font-heading whitespace-pre-line text-balance",
+                size === "large"
+                  ? "text-3xl sm:text-4xl md:text-[2.75rem]"
+                  : size === "compact"
+                    ? "text-2xl sm:text-[1.75rem]"
+                    : "text-[1.85rem] sm:text-3xl md:text-4xl",
+              )}
+            >
+              {title}
+            </h2>
+          ) : null}
+          {subtitle ? (
+            <p
+              className={cn(
+                "az-cta-banner__body whitespace-pre-line",
+                !isCentered && "max-w-xl",
+                isCentered && "mx-auto",
+              )}
+            >
               {subtitle}
             </p>
-          )}
-          {promoText && <p className="mt-2 text-sm opacity-80">{promoText}</p>}
+          ) : null}
+          {promoText ? <p className="az-cta-banner__promo">{promoText}</p> : null}
         </div>
         <div
           className={cn(
-            "flex flex-col gap-4",
-            layout === "centered" && "mt-8 items-center",
-            layout === "inline" && "shrink-0 items-start md:items-center"
+            "flex flex-col gap-5",
+            isCentered && "mt-9 items-center md:mt-10",
+            isSplit && "md:items-end",
+            isInline && "shrink-0 items-start md:items-center",
           )}
         >
-          {countdownEnabled && countdownTarget && (
+          {countdownEnabled && countdownTarget ? (
             <CountdownTimer target={countdownTarget} label={countdownLabel} />
-          )}
+          ) : null}
           <BlockCtaButtons
             primary={primaryButton ?? { label: "", href: "" }}
             secondary={secondaryButton}
-            className={cn(layout === "centered" && "justify-center")}
-            dark={isDark}
+            className={cn(isCentered && "justify-center")}
+            primaryClassName="az-cta-banner__btn"
+            dark={isFilled}
           />
         </div>
       </div>

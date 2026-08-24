@@ -82,13 +82,23 @@ export function SeoSettingsClient({
 
   const bing = integrationsConfig.bing ?? {};
   const indexnow = integrationsConfig.indexnow ?? {};
+  const googleIndexingRaw = integrationsConfig.google_indexing ?? {};
+  const googleIndexing = {
+    ...googleIndexingRaw,
+    enabled:
+      googleIndexingRaw.enabled ??
+      Boolean(googleIndexingRaw.hasServiceAccountJson || integrationsConfig.google?.hasServiceAccountJson),
+    hasServiceAccountJson: Boolean(
+      googleIndexingRaw.hasServiceAccountJson || integrationsConfig.google?.hasServiceAccountJson,
+    ),
+  };
   const nonGoogleHealth = integrationHealth.filter((item) => item.provider !== "google");
 
   return (
     <div className="max-w-6xl space-y-6">
       <AdminPageHeader
         title="SEO settings"
-        description="Global SEO configuration: robots.txt, structured data, redirects, and Bing / IndexNow integrations."
+        description="Global SEO configuration: robots.txt, structured data, redirects, and search engine integrations (IndexNow, Bing, Google Indexing API)."
       />
 
       <AdminSettingsLayout
@@ -131,7 +141,7 @@ export function SeoSettingsClient({
               <Card>
                 <CardHeader>
                   <CardTitle className="text-base">Provider health</CardTitle>
-                  <CardDescription>Status of Bing and IndexNow integrations.</CardDescription>
+                  <CardDescription>Status of search engine integrations.</CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-3 sm:grid-cols-2">
                   {nonGoogleHealth.map((item) => (
@@ -149,6 +159,7 @@ export function SeoSettingsClient({
               <IntegrationsConfigurePanel
                 bing={bing}
                 indexnow={indexnow}
+                googleIndexing={googleIndexing}
                 health={integrationHealth}
                 siteUrl={siteUrl}
                 sitemapUrl={sitemapUrl}

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/lib/auth";
+import { isAdminRole } from "@/features/auth/portal";
 import { prisma } from "@/lib/prisma";
 
 const querySchema = z.object({
@@ -10,7 +11,7 @@ const querySchema = z.object({
 
 export async function GET(request: Request) {
   const session = await auth();
-  if (!session?.user || session.user.role !== "ADMIN") {
+  if (!session?.user || !isAdminRole(session.user.role)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

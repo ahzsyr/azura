@@ -88,6 +88,33 @@ export function validateUploadFile(
   return { mediaType };
 }
 
+/** Public form uploads: images + PDF only (no SVG/ZIP/HTML). */
+const FORM_ALLOWED_EXT = new Set([
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".webp",
+  ".gif",
+  ".pdf",
+]);
+
+export function validateFormUploadFile(
+  file: { name: string; type: string; size: number },
+): { mediaType: MediaType } | { error: string } {
+  const ext = extname(file.name).toLowerCase();
+  if (ext === ".svg" || ext === ".zip" || file.type === "image/svg+xml" || file.type === "application/zip") {
+    return { error: "SVG and ZIP uploads are not allowed on public forms" };
+  }
+  if (!FORM_ALLOWED_EXT.has(ext)) {
+    return { error: "Only images (jpg, png, webp, gif) and PDF are allowed" };
+  }
+  const expected: MediaType = ext === ".pdf" ? "DOCUMENT" : "IMAGE";
+  return validateUploadFile(file, expected);
+}
+
+export const FORM_UPLOAD_ACCEPT =
+  "image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif,application/pdf,.pdf";
+
 export const ACCEPT_BY_TYPE: Record<MediaType, string> = {
   IMAGE: "image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif",
   VIDEO: "video/mp4,video/webm,.mp4,.webm",

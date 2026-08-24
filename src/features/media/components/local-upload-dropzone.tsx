@@ -13,16 +13,25 @@ type Props = {
   folderId?: string | null;
   onUploadComplete?: (results: MediaUploadResult[]) => void;
   className?: string;
+  /** Compact dropzone for sidebars; default is the full upload surface. */
+  variant?: "default" | "compact";
 };
 
 type UploadStatus = { name: string; state: "uploading" | "done" | "error"; message?: string };
 
-export function LocalUploadDropzone({ uploadType, folderId, onUploadComplete, className }: Props) {
+export function LocalUploadDropzone({
+  uploadType,
+  folderId,
+  onUploadComplete,
+  className,
+  variant = "default",
+}: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [statuses, setStatuses] = useState<UploadStatus[]>([]);
   const accept = uploadType ? ACCEPT_BY_TYPE[uploadType] : ALL_MEDIA_ACCEPT;
+  const compact = variant === "compact";
 
   const uploadFiles = useCallback(
     async (files: FileList | File[]) => {
@@ -82,19 +91,25 @@ export function LocalUploadDropzone({ uploadType, folderId, onUploadComplete, cl
           setDragging(false);
           if (e.dataTransfer.files.length) void uploadFiles(e.dataTransfer.files);
         }}
+        onClick={compact ? openFilePicker : undefined}
         className={cn(
-          "flex min-h-[120px] flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed px-4 py-6 text-center transition-colors",
-          dragging ? "border-primary bg-primary/10" : "border-muted-foreground/30 hover:border-primary/50 hover:bg-muted/40",
+          "flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed text-center transition-colors",
+          compact ? "min-h-[88px] cursor-pointer gap-1.5 px-2 py-3" : "min-h-[120px] gap-3 px-4 py-6",
+          dragging
+            ? "border-primary bg-primary/10"
+            : "border-muted-foreground/30 hover:border-primary/50 hover:bg-muted/40",
           uploading && "opacity-70"
         )}
       >
-        <Upload className="h-8 w-8 text-muted-foreground" />
-        <p className="text-sm font-medium">
-          {uploading ? "Uploading…" : "Drag and drop files here"}
+        <Upload className={cn("text-muted-foreground", compact ? "h-5 w-5" : "h-8 w-8")} />
+        <p className={cn("font-medium", compact ? "text-xs leading-snug" : "text-sm")}>
+          {uploading ? "Uploading…" : compact ? "Drop files or click" : "Drag and drop files here"}
         </p>
-        <Button type="button" variant="secondary" size="sm" disabled={uploading} onClick={openFilePicker}>
-          Choose file(s)
-        </Button>
+        {!compact ? (
+          <Button type="button" variant="secondary" size="sm" disabled={uploading} onClick={openFilePicker}>
+            Choose file(s)
+          </Button>
+        ) : null}
       </div>
 
       <input
@@ -113,11 +128,12 @@ export function LocalUploadDropzone({ uploadType, folderId, onUploadComplete, cl
       />
 
       {statuses.length > 0 && (
-        <ul className="space-y-1 text-xs">
+        <ul className={cn("space-y-1", compact ? "text-[10px]" : "text-xs")}>
           {statuses.map((row) => (
             <li
               key={row.name}
               className={cn(
+                "truncate",
                 row.state === "done" && "text-green-600",
                 row.state === "error" && "text-destructive",
                 row.state === "uploading" && "text-muted-foreground"

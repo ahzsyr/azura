@@ -11,6 +11,7 @@ type Props = {
   loop?: boolean;
   muted?: boolean;
   preload?: "none" | "metadata" | "auto";
+  objectFit?: "cover" | "contain";
   className?: string;
 };
 
@@ -22,6 +23,7 @@ export function EmbedVideoPlayer({
   loop = false,
   muted = false,
   preload = "metadata",
+  objectFit = "cover",
   className,
 }: Props) {
   const info = parseEmbedUrl(url);
@@ -50,7 +52,7 @@ export function EmbedVideoPlayer({
         muted={muted}
         playsInline
         preload={preload}
-        className={cn("h-full w-full object-cover", className)}
+        className={cn("h-full w-full bg-black", objectFit === "contain" ? "object-contain" : "object-cover", className)}
       />
     );
   }

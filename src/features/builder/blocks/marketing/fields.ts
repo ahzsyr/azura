@@ -7,4 +7,5 @@ export { TrustBadgesBlockFields } from "@/features/builder/blocks/marketing/admi
 export { LogoCloudBlockFields } from "@/features/builder/blocks/marketing/admin/logo-cloud-block-fields";
 export { StatsCounterBlockFields } from "@/features/builder/blocks/marketing/admin/stats-counter-block-fields";
 export { BeforeAfterBlockFields } from "@/features/builder/blocks/marketing/admin/before-after-block-fields";
+export { TabbedShowcaseBlockFields } from "@/features/builder/blocks/marketing/admin/tabbed-showcase-block-fields";
 export { HeroProBlockFields, CtaBannerBlockFields } from "@/features/builder/blocks/marketing/admin/hero-cta-block-fields";

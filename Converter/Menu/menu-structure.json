@@ -1,0 +1,793 @@
+{
+  "Brands": [
+    {
+      "name": "Alfa",
+      "children": [
+        {
+          "name": "Wi-Fi Devices",
+          "children": [
+            { "name": "Wi-Fi USB Adapters" },
+            { "name": "Wi-Fi Routers" },
+            { "name": "Wi-Fi Tubes" },
+            { "name": "Wi-Fi Kits" },
+            { "name": "Wi-Fi AP / CPE" }
+          ]
+        },
+        {
+          "name": "Ethernet Devices",
+          "children": [
+            { "name": "Switches" },
+            { "name": "Network Cards" },
+            { "name": "Embedded Routers" },
+            { "name": "USB adapters" }
+          ]
+        },
+        {
+          "name": "Antennas",
+          "children": [
+            { "name": "Wi-Fi Indoor" },
+            { "name": "Wi-Fi Outdoor" },
+            { "name": "3G/4G LTE antennas" },
+            { "name": "5G Antennas" },
+            { "name": "LoRa antennas" }
+          ]
+        },
+        {
+          "name": "PoE Devices",
+          "children": [
+            { "name": "PoE Converters" },
+            { "name": "PoE Splitters" },
+            { "name": "PoE Injectors" }
+          ]
+        },
+        {
+          "name": "LTE / 5G Products",
+          "children": [
+            { "name": "Modems" }
+          ]
+        },
+        {
+          "name": "Accessories",
+          "children": [
+            { "name": "USB Cables" },
+            { "name": "Mounts" },
+            { "name": "Surge Protectors" },
+            { "name": "Connectors" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "MikroTik",
+      "children": [
+        {
+          "name": "Ethernet Routers",
+          "children": [
+            { "name": "hEX" },
+            { "name": "RouterBoard" },
+            { "name": "PowerBox" },
+            { "name": "Cloud Core Router" }
+          ]
+        },
+        {
+          "name": "Switches",
+          "children": [
+            { "name": "Cloud Smart Switch" },
+            { "name": "Cloud Router Switch" },
+            { "name": "Cloud Router Switch 10G" },
+            { "name": "Cloud Router Switch PoE" }
+          ]
+        },
+        {
+          "name": "IoT Products",
+          "children": [
+            { "name": "Gateways" },
+            { "name": "Antennas" },
+            { "name": "MiniPCI-e Cards" },
+            { "name": "Tags / Sensors" }
+          ]
+        },
+        {
+          "name": "Wireless Systems",
+          "children": [
+            { "name": "LHG" },
+            { "name": "SXT & DiscLite" },
+            { "name": "Groove & Metal" },
+            { "name": "NetMetal" },
+            { "name": "OmniTik" },
+            { "name": "mANTBox" }
+          ]
+        },
+        {
+          "name": "60GHz Wireless",
+          "children": [
+            { "name": "Antennas" },
+            { "name": "Wireless Wire" }
+          ]
+        },
+        { "name": "Antennas" },
+        { "name": "Anti-Noise Shields" },
+        { "name": "Servers" },
+        {
+          "name": "Wi-Fi for Home & Office",
+          "children": [
+            { "name": "hAP" },
+            { "name": "cAP" },
+            { "name": "mAP" },
+            { "name": "WAP" },
+            { "name": "RouterBoard" },
+            { "name": "Audience" },
+            { "name": "Chateau" }
+          ]
+        },
+        {
+          "name": "Fiber Products",
+          "children": [
+            { "name": "SFP Modules" },
+            { "name": "SFP Cables" },
+            { "name": "Converters" }
+          ]
+        },
+        { "name": "Licenses" },
+        {
+          "name": "Mobile Network Products",
+          "children": [
+            { "name": "5G Routers" },
+            { "name": "4G Routers" },
+            { "name": "SXT" },
+            { "name": "LHG" },
+            { "name": "ATL" },
+            { "name": "WAP" },
+            { "name": "LtAP" },
+            { "name": "miniPCI-e" }
+          ]
+        },
+        { "name": "Enclosure" },
+        { "name": "Pigtails" },
+        { "name": "Coaxial Cables" },
+        { "name": "Brackets" },
+        { "name": "Power Adapters" },
+        { "name": "Merch" },
+        { "name": "Accessories" }
+      ]
+    },
+    {
+      "name": "Mimosa",
+      "children": [
+        {
+          "name": "Carrier Backhaul Radio",
+          "children": [
+            { "name": "Antennas" }
+          ]
+        },
+        {
+          "name": "BaseStation",
+          "children": [
+            { "name": "Integrated Antennas" }
+          ]
+        },
+        {
+          "name": "Outdoor Access Points",
+          "children": [
+            { "name": "Antennas" }
+          ]
+        },
+        { "name": "Power Adapters Mounts" }
+      ]
+    },
+    {
+      "name": "RF Elements",
+      "children": [
+        {
+          "name": "Antennas",
+          "children": [
+            { "name": "StarterDish Antennas" },
+            { "name": "UltraDish Antennas" },
+            { "name": "Horn Sector" },
+            { "name": "Horn Directional" },
+            { "name": "Screw-on Antennas" }
+          ]
+        },
+        {
+          "name": "Accessories",
+          "children": [
+            { "name": "Twistport Adapters" },
+            { "name": "Starter Adapters" },
+            { "name": "StationBox Tools" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ubiquiti",
+      "children": [
+        {
+          "name": "UniFi Cloud Gateways",
+          "children": [
+            { "name": "Large Scale" },
+            { "name": "WiFi Integrated" },
+            { "name": "Compact" }
+          ]
+        },
+        {
+          "name": "UniFi Access Points",
+          "children": [
+            { "name": "Best Offers" },
+            { "name": "Flagship" },
+            { "name": "Enterprise" },
+            { "name": "In-Wall" },
+            { "name": "Flexible & Outdoor" },
+            { "name": "Wireless Bridges" },
+            { "name": "Special Devices" },
+            { "name": "Accessories" }
+          ]
+        },
+        {
+          "name": "UniFi Switching",
+          "children": [
+            { "name": "Aggregation" },
+            { "name": "Enterprise" },
+            { "name": "Professional Max" },
+            { "name": "Professional" },
+            { "name": "Standard" },
+            { "name": "Utility" }
+          ]
+        },
+        {
+          "name": "Camera Security",
+          "children": [
+            { "name": "NVRs & Viewport" },
+            { "name": "Dome & Turret" },
+            { "name": "Bullet" },
+            { "name": "Compact" },
+            { "name": "Theta" },
+            { "name": "PTZ" },
+            { "name": "Doorbells" },
+            { "name": "Special Devices" },
+            { "name": "Accessories" },
+            { "name": "Surveillance HDD" }
+          ]
+        },
+        {
+          "name": "Door Access",
+          "children": [
+            { "name": "Readers" },
+            { "name": "Hubs" },
+            { "name": "Starter kits" },
+            { "name": "Intercoms" },
+            { "name": "Accessories" }
+          ]
+        },
+        { "name": "Cloud Keys & Gateways" },
+        { "name": "Power Tech" },
+        { "name": "New Integrations" },
+        {
+          "name": "60 GHz Wireless",
+          "children": [
+            { "name": "Wave 60 GHz" },
+            { "name": "airFiber 60 GHz" }
+          ]
+        },
+        {
+          "name": "Outdoor Wireless",
+          "children": [
+            { "name": "WiFi 7 MLO" },
+            { "name": "LTU 5 GHz" },
+            { "name": "airFiber PtP" },
+            { "name": "airMAX 5 GHz" },
+            { "name": "airMAX 2.4 GHz" },
+            { "name": "Antennas" }
+          ]
+        },
+        {
+          "name": "Fiber",
+          "children": [
+            { "name": "XGS-PON" },
+            { "name": "GPON" },
+            { "name": "Converters" },
+            { "name": "SFP Modules" },
+            { "name": "Cables" },
+            { "name": "CWDM" }
+          ]
+        },
+        { "name": "Mobile Network" },
+        {
+          "name": "Wired",
+          "children": [
+            { "name": "UISP Console" },
+            { "name": "UISP Routing" },
+            { "name": "UISP Switching" },
+            { "name": "UISP Power" },
+            { "name": "EdgeMAX Routing" },
+            { "name": "EdgeMAX Switching" },
+            { "name": "WiFi CPE" },
+            { "name": "Other" }
+          ]
+        },
+        {
+          "name": "Accessory Tech",
+          "children": [
+            { "name": "Mountings" },
+            { "name": "PoE & Power" },
+            { "name": "Power Solutions" },
+            { "name": "RF Shielding" },
+            { "name": "Anti-Noise Shield" },
+            { "name": "Cabling" },
+            { "name": "Patch Cables" },
+            { "name": "Other" }
+          ]
+        },
+        { "name": "AmpliFi" },
+        { "name": "UI Care Licenses" }
+      ]
+    }
+  ],
+  "Categories": [
+    {
+      "name": "Cables and Cabinets",
+      "children": [
+        {
+          "name": "Twisted Pair",
+          "children": [
+            { "name": "Indoor Cables" },
+            { "name": "Outdoor Cables" },
+            { "name": "Extension Cables" },
+            { "name": "Connection Box" },
+            { "name": "Connectors" }
+          ]
+        },
+        {
+          "name": "Rack Cabinets",
+          "children": [
+            { "name": "10\" Rack Cabinets" },
+            { "name": "19\" Rack Cabinets" },
+            { "name": "Rack Shelfs" },
+            { "name": "Patch Panels" },
+            { "name": "Accessories" }
+          ]
+        },
+        { "name": "Coaxial Cables" },
+        { "name": "Coaxial Pigtails" },
+        { "name": "Coaxial Adapters" },
+        {
+          "name": "Patch Cable",
+          "children": [
+            { "name": "Cat 5e" },
+            { "name": "Cat 6" },
+            { "name": "Cat 6A" },
+            { "name": "Cat 7" },
+            { "name": "Cat 8" }
+          ]
+        },
+        { "name": "Boxes & Cases" },
+        { "name": "Tools" },
+        { "name": "Accessories" },
+        { "name": "USB Cables" }
+      ]
+    },
+    {
+      "name": "Electrical Equipment",
+      "children": [
+        {
+          "name": "Power Adapters",
+          "children": [
+            { "name": "PSU Adapters" },
+            { "name": "Backup PSU" },
+            { "name": "Hot Swap" },
+            { "name": "Open Frame" },
+            { "name": "DIN Rail" },
+            { "name": "Cigarette Lighter Socket" },
+            { "name": "USB Power Adapters" }
+          ]
+        },
+        {
+          "name": "PoE Adapters",
+          "children": [
+            { "name": "100Mbps PoE Adapters" },
+            { "name": "Gigabit PoE Adapters" },
+            { "name": "PoE Converters" },
+            { "name": "PoE Splitters" },
+            { "name": "Passive PoE Injectors" },
+            { "name": "Passive PoE Cables" }
+          ]
+        },
+        {
+          "name": "Surge Protectors",
+          "children": [
+            { "name": "Single-Port" },
+            { "name": "Multi-Port" },
+            { "name": "Rack-Mounted" },
+            { "name": "PoE Out" },
+            { "name": "Coaxial" }
+          ]
+        },
+        { "name": "Solar Panels" },
+        { "name": "Power Cords" }
+      ]
+    },
+    {
+      "name": "Everything Else",
+      "children": [
+        {
+          "name": "Tech & Tools",
+          "children": [
+            { "name": "Peripherals" },
+            { "name": "Electric Scooters" },
+            { "name": "TV Box" },
+            { "name": "Digital Watches" },
+            { "name": "Earbuds" },
+            { "name": "Electric Shavers" },
+            { "name": "Screwdrivers" },
+            { "name": "Robot Vacuums" }
+          ]
+        },
+        {
+          "name": "Chargers",
+          "children": [
+            { "name": "Wireless Chargers" },
+            { "name": "Car Chargers" },
+            { "name": "Power Banks" },
+            { "name": "Power Adapters" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fiber Networks",
+      "children": [
+        {
+          "name": "SFP Modules",
+          "children": [
+            { "name": "RJ45 Copper" },
+            { "name": "Single-Mode" },
+            { "name": "Multi-Mode" },
+            { "name": "GPON" }
+          ]
+        },
+        {
+          "name": "GPON",
+          "children": [
+            { "name": "OLT" },
+            { "name": "ONU/ONT" }
+          ]
+        },
+        {
+          "name": "Fiber Products",
+          "children": [
+            { "name": "Cables" },
+            { "name": "PatchCords" },
+            { "name": "Splitters" },
+            { "name": "Adapters" },
+            { "name": "Tools" },
+            { "name": "CWDM" }
+          ]
+        },
+        { "name": "DAC Cables" },
+        { "name": "Converters" }
+      ]
+    },
+    {
+      "name": "Fleet Management",
+      "children": [
+        {
+          "name": "GPS Trackers",
+          "children": [
+            { "name": "Vehicle Trackers" },
+            { "name": "E-Scooter Trackers" },
+            { "name": "Asset Trackers" },
+            { "name": "Personal Trackers" }
+          ]
+        },
+        { "name": "Vehicle Cameras" },
+        { "name": "Sensors" },
+        { "name": "CAN Adapters" },
+        { "name": "Cables" },
+        { "name": "Accessories" }
+      ]
+    },
+    {
+      "name": "Home and Office Networks",
+      "children": [
+        {
+          "name": "Access Points",
+          "children": [
+            { "name": "WiFi 7" },
+            { "name": "WiFi 6" },
+            { "name": "WiFi 5" },
+            { "name": "WiFi 4" },
+            { "name": "WiFi Outdoor" }
+          ]
+        },
+        { "name": "WiFi Range Extenders" },
+        { "name": "WiFi Indoor Antennas" },
+        { "name": "WiFi Kits" },
+        { "name": "WiFi Bridges / CPE" },
+        {
+          "name": "WiFi Routers",
+          "children": [
+            { "name": "WiFi 7" },
+            { "name": "WiFi 6" },
+            { "name": "WiFi 5" },
+            { "name": "WiFi 4" }
+          ]
+        },
+        {
+          "name": "Wired Routers",
+          "children": [
+            { "name": "SFP28 Routers" },
+            { "name": "SFP+ Routers" },
+            { "name": "1G Routers" },
+            { "name": "100M Routers" }
+          ]
+        },
+        {
+          "name": "Switches",
+          "children": [
+            { "name": "10G Switches" },
+            { "name": "1G Switches" },
+            { "name": "100M Switches" },
+            { "name": "PoE Switches" },
+            { "name": "SFP Switches" },
+            { "name": "Industrial Switches" }
+          ]
+        },
+        {
+          "name": "WiFi USB Adapters",
+          "children": [
+            { "name": "WiFi 5" },
+            { "name": "WiFi 6" }
+          ]
+        },
+        { "name": "UniFi OS Console" },
+        { "name": "Embedded Routers" },
+        { "name": "Bluetooth Antennas" },
+        { "name": "IP Phones" },
+        { "name": "Professional A/V" },
+        { "name": "Accessories" },
+        { "name": "Ethernet Devices" }
+      ]
+    },
+    {
+      "name": "IoT Solutions",
+      "children": [
+        {
+          "name": "LoRa Products",
+          "children": [
+            { "name": "Gateways" },
+            { "name": "Antennas" },
+            { "name": "MiniPCI-e Cards" }
+          ]
+        },
+        { "name": "Tags / Sensors" }
+      ]
+    },
+    {
+      "name": "Licenses",
+      "children": [
+        {
+          "name": "Licenses",
+          "children": [
+            { "name": "MikroTik" },
+            { "name": "Ubiquiti" },
+            { "name": "Teltonika" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LTE Products",
+      "children": [
+        {
+          "name": "4G Access Points",
+          "children": [
+            { "name": "Cat4 Access Points" },
+            { "name": "Cat6 Access Points" },
+            { "name": "Cat7 Access Points" },
+            { "name": "Cat12 Access Points" }
+          ]
+        },
+        {
+          "name": "4G Routers",
+          "children": [
+            { "name": "Cat4 Routers" },
+            { "name": "Cat6 Routers" },
+            { "name": "Cat7 Routers" },
+            { "name": "Cat11+ Routers" }
+          ]
+        },
+        {
+          "name": "4G Gateways",
+          "children": [
+            { "name": "Cat-M1 Gateways" },
+            { "name": "Cat4 Gateways" }
+          ]
+        },
+        {
+          "name": "4G USB Adapters",
+          "children": [
+            { "name": "Cat4/5G Integrated Antennas" },
+            { "name": "Cat4 Antennas" },
+            { "name": "Cat6 Antennas" },
+            { "name": "Cat7 Antennas" },
+            { "name": "Cat18 Antennas" },
+            { "name": "5G Antennas" }
+          ]
+        },
+        {
+          "name": "4G Antennas",
+          "children": [
+            { "name": "LTE Omni Antennas" },
+            { "name": "LTE Dome Antennas" },
+            { "name": "LTE Panel Antennas" },
+            { "name": "LTE Yagi Antennas" },
+            { "name": "LTE Parabolic Antennas" },
+            { "name": "Antennas for Teltonika" }
+          ]
+        },
+        { "name": "4G Indoor Antennas" },
+        { "name": "4G Modems" },
+        { "name": "5G Routers" },
+        { "name": "5G USB Adapters" },
+        { "name": "5G Antennas" },
+        { "name": "5G Indoor Antennas" },
+        {
+          "name": "Vehicle Products",
+          "children": [
+            { "name": "Vehicle Routers" },
+            { "name": "GPS Antennas" },
+            { "name": "Roof Antennas" }
+          ]
+        },
+        {
+          "name": "Accessories",
+          "children": [
+            { "name": "Antenna Mounts" },
+            { "name": "Router Mounts" },
+            { "name": "Coaxial Cables" },
+            { "name": "Coaxial Pigtails" }
+          ]
+        },
+        { "name": "miniPCI-e Cards" }
+      ]
+    },
+    {
+      "name": "Mounts and Brackets",
+      "children": [
+        {
+          "name": "Mounting Accessories",
+          "children": [
+            { "name": "Antenna Brackets" },
+            { "name": "Video Camera Brackets" },
+            { "name": "Router Mounts" },
+            { "name": "UniFi Mounts" },
+            { "name": "Access Points Mounts" },
+            { "name": "Protective Shields" },
+            { "name": "Twistport Adapters" }
+          ]
+        },
+        {
+          "name": "Outdoor Mounts",
+          "children": [
+            { "name": "Wall Mounts" },
+            { "name": "Pole Mounts" },
+            { "name": "Chimney Mounts" },
+            { "name": "Masts" }
+          ]
+        },
+        {
+          "name": "Indoor Mounts",
+          "children": [
+            { "name": "Ceilling Mounts" },
+            { "name": "Wall Mounts" },
+            { "name": "Suction Mounts" },
+            { "name": "Magnetic Mounts" },
+            { "name": "Recessed" },
+            { "name": "Rack Mounts" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Outdoor Wireless",
+      "children": [
+        {
+          "name": "Integrated Antennas",
+          "children": [
+            { "name": "CPE Antennas" },
+            { "name": "Sector Antennas" },
+            { "name": "Directional Antennas" },
+            { "name": "PtP Links" }
+          ]
+        },
+        {
+          "name": "Wireless Antennas",
+          "children": [
+            { "name": "Omni Antennas" },
+            { "name": "Sector Antennas" },
+            { "name": "Parabolic Dish Antennas" },
+            { "name": "Horn Antennas" }
+          ]
+        },
+        {
+          "name": "Carrier Backhaul Radio",
+          "children": [
+            { "name": "Radio Systems" },
+            { "name": "Antennas" },
+            { "name": "Modules" },
+            { "name": "Accessories" }
+          ]
+        },
+        {
+          "name": "Antenna Accessories",
+          "children": [
+            { "name": "Anti-Noise Shields" },
+            { "name": "Antenna Mounts" },
+            { "name": "Coaxial Cables" },
+            { "name": "Antenna Pigtails" }
+          ]
+        },
+        { "name": "Radio for External Antennas" }
+      ]
+    },
+    {
+      "name": "Security Systems",
+      "children": [
+        {
+          "name": "Cameras",
+          "children": [
+            { "name": "Bullet" },
+            { "name": "Dome" },
+            { "name": "Turret" },
+            { "name": "PTZ" },
+            { "name": "Fisheye" },
+            { "name": "Fixed" },
+            { "name": "Webcams" },
+            { "name": "Accessories" }
+          ]
+        },
+        {
+          "name": "Camera Mounts",
+          "children": [
+            { "name": "Mounts" },
+            { "name": "Junction Boxes" }
+          ]
+        },
+        {
+          "name": "NVR",
+          "children": [
+            { "name": "4 Channel" },
+            { "name": "8 Channel" },
+            { "name": "16 Channel" },
+            { "name": "32 Channel" },
+            { "name": "64 Channel" }
+          ]
+        },
+        { "name": "Network Storage" },
+        {
+          "name": "Intercom",
+          "children": [
+            { "name": "Indoor Stations" },
+            { "name": "Door Stations" },
+            { "name": "Protective Shields" }
+          ]
+        },
+        {
+          "name": "Access Control",
+          "children": [
+            { "name": "Starter Kits" },
+            { "name": "Access Readers" },
+            { "name": "Doorbells" },
+            { "name": "Sensors" },
+            { "name": "Hubs" },
+            { "name": "Accessories" },
+            { "name": "Smart Door Systems" }
+          ]
+        },
+        { "name": "IR Range" },
+        { "name": "Surveillance HDD" },
+        { "name": "Memory Cards" },
+        { "name": "ViewPort" }
+      ]
+    }
+  ]
+}

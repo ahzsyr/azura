@@ -57,6 +57,7 @@ export function SiteHeaderShell({
                   width={120}
                   height={40}
                   className="site-header-shell__logo"
+                  tintWithPrimary
                 />
               ) : (
                 brandName

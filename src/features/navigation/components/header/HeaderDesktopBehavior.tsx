@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect as _useLayoutEffect, useRef, useState } from "react";
 import type { HeaderDesktopMode } from "@/features/navigation/types";
 import {
+  getLiveHeaderRoot,
   isBoxedHeaderStyle,
   readBlockHeaderOverlayActive,
 } from "@/features/navigation/header-overlay-utils";
@@ -8,6 +9,7 @@ import { NAV_MOBILE_MQ } from "@/features/navigation/nav-breakpoints";
 import {
   resolveBoxedHeaderTopGapPx,
   resolveHeaderInsetActive,
+  resolveShrinkScrollCompact,
   resolveStickyNavTopPx,
   SITE_CONTENT_TOP_INSET_CSS,
 } from "@/features/navigation/site-header-inset";
@@ -19,7 +21,6 @@ const NEEDS_SPACER: ReadonlySet<HeaderDesktopMode> = new Set([
   "hide-reveal",
   "absolute",
   "sticky",
-  "shrink-scroll",
 ]);
 
 const ALWAYS_INSET_MODES: ReadonlySet<HeaderDesktopMode> = new Set([
@@ -79,9 +80,30 @@ function syncHeaderInsetDataset(
   }
 }
 
+function lockAndReadShellHeight(root: HTMLElement): number {
+  const mode = root.getAttribute("data-header-desktop");
+  const live = Math.ceil(root.getBoundingClientRect().height);
+  if (mode !== "shrink-scroll") return live;
+
+  const locked = parseFloat(root.getAttribute("data-header-shell-height") || "");
+  const hasLock = Number.isFinite(locked) && locked > 0;
+  const shrunk = root.classList.contains("header--shrunk");
+
+  if (shrunk && hasLock) return Math.ceil(locked);
+
+  if (!shrunk && live > 0) {
+    root.setAttribute("data-header-shell-height", String(live));
+    root.style.setProperty("--header-shell-height", `${live}px`);
+    return live;
+  }
+
+  if (hasLock) return Math.ceil(locked);
+  return live;
+}
+
 function publishHeaderMetrics(root: HTMLElement, usesLayoutSpacer: boolean): void {
   const html = document.documentElement;
-  const h = Math.ceil(root.getBoundingClientRect().height);
+  const h = lockAndReadShellHeight(root);
   const headerStyle = root.getAttribute("data-header-style") ?? "";
   const blockOverlay = readBlockHeaderOverlayActive();
   const isMobile =
@@ -138,7 +160,7 @@ export function HeaderDesktopBehavior({ mode, overlayMode = "none", suppressSpac
   const workspaceOverlay = isWorkspaceOverlayMode(overlayMode);
 
   useLayoutEffect(() => {
-    const root = document.getElementById("headerRoot");
+    const root = getLiveHeaderRoot();
     const html = document.documentElement;
     if (!root) return;
 
@@ -164,7 +186,7 @@ export function HeaderDesktopBehavior({ mode, overlayMode = "none", suppressSpac
   }, []);
 
   useLayoutEffect(() => {
-    const root = document.getElementById("headerRoot");
+    const root = getLiveHeaderRoot();
     if (!root || !readBlockHeaderOverlayActive()) return;
     if (mode === "sticky" || mode === "shrink-scroll") {
       root.classList.add("header--sticking");
@@ -180,7 +202,7 @@ export function HeaderDesktopBehavior({ mode, overlayMode = "none", suppressSpac
   );
 
   useLayoutEffect(() => {
-    const root = document.getElementById("headerRoot");
+    const root = getLiveHeaderRoot();
     if (!root) return;
 
     const run = () => {
@@ -205,7 +227,7 @@ export function HeaderDesktopBehavior({ mode, overlayMode = "none", suppressSpac
   useLayoutEffect(() => {
     if (overlaySpacerSuppressed || !NEEDS_SPACER.has(mode)) return;
 
-    const root = document.getElementById("headerRoot");
+    const root = getLiveHeaderRoot();
     const spacer = spacerRef.current;
     if (!root || !spacer) return;
 
@@ -215,10 +237,10 @@ export function HeaderDesktopBehavior({ mode, overlayMode = "none", suppressSpac
         spacer.style.display = "none";
         return;
       }
-      const h = root.getBoundingClientRect().height;
+      const h = lockAndReadShellHeight(root);
       spacer.style.height = `${Math.ceil(h)}px`;
 
-      if (mode === "sticky" || mode === "shrink-scroll") {
+      if (mode === "sticky") {
         const sticking = root.classList.contains("header--sticking");
         spacer.style.display = sticking && !overlaySpacerSuppressed ? "block" : "none";
       } else {
@@ -238,7 +260,7 @@ export function HeaderDesktopBehavior({ mode, overlayMode = "none", suppressSpac
   }, [mode, overlaySpacerSuppressed, workspaceOverlay, suppressSpacer]);
 
   useEffect(() => {
-    const root = document.getElementById("headerRoot");
+    const root = getLiveHeaderRoot();
     if (!root) return;
 
     const syncInset = () => {
@@ -250,10 +272,19 @@ export function HeaderDesktopBehavior({ mode, overlayMode = "none", suppressSpac
 
     if (workspaceOverlay) {
       const onScroll = () => {
-        const scrolled = window.scrollY > 8;
+        const y = window.scrollY;
+        const scrolled = y > 8;
         root.classList.toggle("header--overlay-scrolled", scrolled);
         if (overlayMode === "transparent-until-scroll") {
           root.classList.toggle("header--sticking", scrolled);
+        }
+        if (mode === "shrink-scroll") {
+          const compact = resolveShrinkScrollCompact(
+            y,
+            root.classList.contains("header--shrunk")
+          );
+          root.classList.toggle("header--sticking", readBlockHeaderOverlayActive() || y > 0);
+          root.classList.toggle("header--shrunk", compact);
         }
         syncInset();
       };
@@ -262,7 +293,9 @@ export function HeaderDesktopBehavior({ mode, overlayMode = "none", suppressSpac
       syncInset();
       return () => {
         window.removeEventListener("scroll", onScroll);
-        root.classList.remove("header--overlay-scrolled", "header--sticking");
+        root.classList.remove("header--overlay-scrolled", "header--sticking", "header--shrunk");
+        root.removeAttribute("data-header-shell-height");
+        root.style.removeProperty("--header-shell-height");
       };
     }
 
@@ -295,12 +328,12 @@ export function HeaderDesktopBehavior({ mode, overlayMode = "none", suppressSpac
       }
 
       if (mode === "shrink-scroll") {
-        const sticking = readBlockHeaderOverlayActive() || y > 0;
-        root.classList.toggle("header--sticking", sticking);
-        root.classList.toggle("header--shrunk", y > 48);
-        if (spacer && !overlaySpacerSuppressed) {
-          spacer.style.display = sticking ? "block" : "none";
-        }
+        const compact = resolveShrinkScrollCompact(
+          y,
+          root.classList.contains("header--shrunk")
+        );
+        root.classList.toggle("header--sticking", readBlockHeaderOverlayActive() || y > 0);
+        root.classList.toggle("header--shrunk", compact);
         lastY = y;
         syncInset();
         return;
@@ -324,6 +357,8 @@ export function HeaderDesktopBehavior({ mode, overlayMode = "none", suppressSpac
     return () => {
       window.removeEventListener("scroll", onScroll);
       root.classList.remove("header--concealed", "header--shrunk", "header--sticking");
+      root.removeAttribute("data-header-shell-height");
+      root.style.removeProperty("--header-shell-height");
       if (spacer) spacer.style.display = "";
     };
   }, [mode, overlayMode, overlaySpacerSuppressed, workspaceOverlay, renderSpacerSuppressed]);

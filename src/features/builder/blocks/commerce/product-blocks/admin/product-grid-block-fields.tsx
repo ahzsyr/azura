@@ -9,6 +9,7 @@ import { ProductSelectionFields } from "@/features/builder/blocks/commerce/produ
 import { ProductCardDisplayOverrideFields } from "@/features/builder/blocks/commerce/product-blocks/admin/product-card-display-override-fields";
 import type {
   CollectionBuilderOption,
+  OrderingProfileBuilderOption,
   ProductBuilderOption,
 } from "@/features/builder/blocks/commerce/product-blocks/types";
 
@@ -17,6 +18,7 @@ type Props = {
   onChange: (block: BlockNode) => void;
   collectionOptions?: CollectionBuilderOption[];
   productOptions?: ProductBuilderOption[];
+  orderingProfileOptions?: OrderingProfileBuilderOption[];
 };
 
 export function ProductGridBlockFields({
@@ -24,6 +26,7 @@ export function ProductGridBlockFields({
   onChange,
   collectionOptions = [],
   productOptions = [],
+  orderingProfileOptions = [],
 }: Props) {
   const setProp = (key: string, value: unknown) => {
     onChange(patchBlockSettings(block, { [key]: value }));
@@ -37,6 +40,7 @@ export function ProductGridBlockFields({
         onChange={onChange}
         collectionOptions={collectionOptions}
         productOptions={productOptions}
+        orderingProfileOptions={orderingProfileOptions}
       />
       <div className="grid grid-cols-2 gap-2">
         <div>

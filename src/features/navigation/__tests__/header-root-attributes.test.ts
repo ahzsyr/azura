@@ -32,6 +32,8 @@ test("buildHeaderRootPresentation includes overlay attributes for site shell", (
   assert.equal(shell.dataAttributes["data-overlay-surface"], "glass");
   assert.equal(shell.dataAttributes["data-header-overlay"], "true");
   assert.equal(shell.dataAttributes["data-header-shell"], "true");
+  assert.equal(shell.id, undefined);
+  assert.equal(renderer.id, "headerRoot");
   assert.equal(renderer.dataAttributes["data-header-overlay"], "true");
   assert.equal(renderer.dataAttributes["data-overlay-mode"], shell.dataAttributes["data-overlay-mode"]);
   assert.equal(renderer.dataAttributes["data-mobile-nav-animation"], shell.dataAttributes["data-mobile-nav-animation"]);

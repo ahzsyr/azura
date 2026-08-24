@@ -42,6 +42,7 @@ export const BLOCK_TRANSLATABLE_FIELDS: Partial<Record<BlockType, string[]>> = {
   logoCloud: ["title", "subtitle"],
   statsCounter: ["title", "subtitle"],
   beforeAfter: ["title", "subtitle", "beforeLabel", "afterLabel"],
+  tabbedShowcase: ["title"],
   videoHero: ["title", "subtitle", "badge", "ctaLabel", "secondaryCtaLabel"],
   videoGallery: ["title", "subtitle"],
   interactiveHotspots: ["title", "subtitle"],
@@ -264,7 +265,8 @@ export function extractTranslationsFromBlock(
 
   const entityId = makeBlockEntityId(parentType, parentId, block.id);
   const inputs: EntityTranslationInput[] = [];
-  const props = block.props;
+  const props = block.props ?? {};
+  const settings = block.settings ?? {};
 
   for (const field of fields) {
     for (const locale of locales) {
@@ -273,7 +275,8 @@ export function extractTranslationsFromBlock(
       const value =
         overrideVal !== undefined
           ? overrideVal
-          : readLegacyPropValue(props, field, locale.code);
+          : readLegacyPropValue(settings, field, locale.code) ||
+            readLegacyPropValue(props, field, locale.code);
 
       if (!value.trim()) continue;
 

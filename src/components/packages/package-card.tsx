@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { HoverCard } from "@/components/motion/lazy-motion";
 import { formatPrice, getLocalizedField } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+import { resolveCatalogCardLocation } from "@/features/catalog/catalog-card-location";
 import { DEFAULT_MEDIA_PLACEHOLDER } from "@/features/media/constants";
 import { CompareCardOverlay } from "@/features/comparison/components/compare-card-overlay";
 import type { CompareCardProps as CompareListingProps } from "@/features/comparison/get-compare-props";
@@ -22,6 +23,9 @@ export type PackageCardData = {
   duration: number;
   category: { id: string; slug: string; nameEn: string; nameAr: string };
   images: { url: string; altEn?: string; altAr?: string }[];
+  locationEn?: string;
+  locationAr?: string;
+  city?: string;
 };
 
 type PackageWithRelations = PackageCardData;
@@ -38,6 +42,7 @@ export function PackageCard({ pkg, locale, cardVariant = "default", compare }: P
   const name = getLocalizedField(pkg, "name", locale);
   const image = pkg.images[0]?.url ?? DEFAULT_MEDIA_PLACEHOLDER;
   const categoryName = getLocalizedField(pkg.category, "name", locale);
+  const locationLabel = resolveCatalogCardLocation(pkg, locale);
 
   return (
     <HoverCard>
@@ -75,10 +80,12 @@ export function PackageCard({ pkg, locale, cardVariant = "default", compare }: P
               <Calendar className="h-4 w-4" />
               {pkg.duration} {t("days")}
             </span>
-            <span className="flex items-center gap-1">
-              <MapPin className="h-4 w-4" />
-              Makkah & Madinah
-            </span>
+            {locationLabel ? (
+              <span className="flex items-center gap-1">
+                <MapPin className="h-4 w-4" />
+                {locationLabel}
+              </span>
+            ) : null}
           </div>
           <p className="text-2xl font-semibold text-primary">
             {t("from")} {formatPrice(Number(pkg.price), pkg.currency, locale)}

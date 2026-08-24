@@ -18,5 +18,6 @@ export async function resolveProductsForBlock(
     tags: config.tags,
     limit: config.limit,
     sortBy: config.sortBy,
+    orderingProfileId: config.orderingProfileId,
   });
 }

@@ -15,6 +15,7 @@ describe("product-block schemas", () => {
     assert.equal(p.source, "collection");
     assert.equal(p.limit, 8);
     assert.equal(p.columns, 3);
+    assert.equal(p.orderingProfileId, "");
   });
 
   it("parses carousel autoplay settings", () => {
@@ -49,5 +50,14 @@ describe("product-block schemas", () => {
     });
     assert.deepEqual(sel.productSlugs, ["foo", "bar"]);
     assert.equal(sel.limit, 12);
+    assert.equal(sel.orderingProfileId, "");
+  });
+
+  it("parseProductSelection keeps orderingProfileId", () => {
+    const sel = parseProductSelection({
+      source: "collection",
+      orderingProfileId: "po_abc",
+    });
+    assert.equal(sel.orderingProfileId, "po_abc");
   });
 });

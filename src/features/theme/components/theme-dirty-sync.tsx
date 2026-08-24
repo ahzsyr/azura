@@ -7,14 +7,17 @@ import { useAdminFormOptional } from "@/components/admin/layout/admin-form-provi
 type Props = {
   state: ThemeTokens;
   savedSnapshot: string;
+  /** Additional dirty sources (e.g. page transitions) that live outside ThemeTokens. */
+  extraDirty?: boolean;
 };
 
-export function ThemeDirtySync({ state, savedSnapshot }: Props) {
+export function ThemeDirtySync({ state, savedSnapshot, extraDirty = false }: Props) {
   const adminForm = useAdminFormOptional();
 
   useEffect(() => {
-    adminForm?.setDirty(JSON.stringify(state) !== savedSnapshot);
-  }, [state, savedSnapshot, adminForm]);
+    const themeDirty = JSON.stringify(state) !== savedSnapshot;
+    adminForm?.setDirty(themeDirty || extraDirty);
+  }, [state, savedSnapshot, extraDirty, adminForm]);
 
   return null;
 }

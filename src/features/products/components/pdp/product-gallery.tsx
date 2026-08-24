@@ -8,6 +8,7 @@ import { normalizeRemoteImageUrl, shouldOptimizeNextImage } from "@/lib/config/n
 import { IMAGE_SIZES } from "@/lib/config/performance";
 import { sharedElementAttrs } from "@/lib/navigation/shared-elements";
 import { useProductPageViewport } from "@/features/products/lib/product-pdp-breakpoints";
+import { imagesForSelectedVariations } from "@/features/products/lib/product-variation-media";
 import type { Product } from "../../types";
 import { normalizeProductCertifications } from "../../lib/product-certifications";
 
@@ -61,7 +62,26 @@ export function ProductGallery({
   thumbPlacement = "below",
 }: Props) {
   const title = product.productTitle || product.name || "Product";
-  const images = product.media?.images ?? [];
+  const defaultColor = product.variations?.find(
+    (v) => v.type?.toLowerCase().includes("color") || v.type?.toLowerCase().includes("colour"),
+  )?.default;
+  const [selectedVariations, setSelectedVariations] = useState<Record<string, string>>(() => {
+    const selected: Record<string, string> = {};
+    if (defaultColor) selected.Color = defaultColor;
+    return selected;
+  });
+  useEffect(() => {
+    const onVariation = (event: Event) => {
+      const selected = (event as CustomEvent<{ selected?: Record<string, string> }>).detail?.selected;
+      if (selected) setSelectedVariations(selected);
+    };
+    window.addEventListener("product:variation-change", onVariation);
+    return () => window.removeEventListener("product:variation-change", onVariation);
+  }, []);
+  const images = useMemo(
+    () => imagesForSelectedVariations(product, selectedVariations),
+    [product, selectedVariations],
+  );
   const videos = product.media?.videos ?? [];
   const primaryIndex = Math.max(0, images.findIndex((img) => img.type === "main"));
 
@@ -127,6 +147,10 @@ export function ProductGallery({
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    setActive(0);
+  }, [selectedVariations]);
 
   useEffect(() => {
     if (thumbPlacement === "below") return;

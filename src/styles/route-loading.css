@@ -98,15 +98,6 @@ html.route-navigating.site-preloading .site-shell {
   }
 }
 
-@keyframes route-page-enter {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 .route-page-layer--idle {
   opacity: 1;
 }
@@ -114,20 +105,77 @@ html.route-navigating.site-preloading .site-shell {
 .route-page-layer--stale {
   opacity: 0.98;
   pointer-events: none;
-  transition: opacity 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .route-page-layer--active {
-  animation: route-page-enter 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  will-change: opacity;
+  will-change: opacity, transform;
+}
+
+/* Disabled / none — no layer animation */
+html[data-page-transition-enabled="false"] .route-page-layer--stale,
+html[data-page-transition="none"] .route-page-layer--stale {
+  opacity: 1;
+  animation: none;
+  transition: none;
+}
+
+html[data-page-transition-enabled="false"] .route-page-layer--active,
+html[data-page-transition="none"] .route-page-layer--active {
+  animation: none;
+  will-change: auto;
 }
 
 .route-loading-overlay .cl-page {
   opacity: 0.92;
 }
 
-/* Page content view transitions — preset driven via html[data-page-transition] */
+/*
+ * Marketing route layer presets — driven by html[data-page-transition].
+ * Uses stale-hold + enter classes (not document.startViewTransition).
+ * Dormant ::view-transition-* rules below remain for optional future VT use.
+ */
 @media (prefers-reduced-motion: no-preference) {
+  html[data-page-transition-enabled="true"][data-page-transition="fade"] .route-page-layer--stale {
+    animation: route-content-fade-out var(--page-transition-duration, 280ms)
+      var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  }
+
+  html[data-page-transition-enabled="true"][data-page-transition="fade"] .route-page-layer--active {
+    animation: route-content-fade-in var(--page-transition-duration, 280ms)
+      var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  }
+
+  html[data-page-transition-enabled="true"][data-page-transition="zoom"] .route-page-layer--stale {
+    animation: astroZoomOut var(--page-transition-duration, 280ms)
+      var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  }
+
+  html[data-page-transition-enabled="true"][data-page-transition="zoom"] .route-page-layer--active {
+    animation: astroZoomIn var(--page-transition-duration, 280ms)
+      var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  }
+
+  html[data-page-transition-enabled="true"][data-page-transition="slide"] .route-page-layer--stale {
+    animation: route-content-slide-out var(--page-transition-duration, 280ms)
+      var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  }
+
+  html[data-page-transition-enabled="true"][data-page-transition="slide"] .route-page-layer--active {
+    animation: route-content-slide-in var(--page-transition-duration, 280ms)
+      var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  }
+
+  html[data-page-transition-enabled="true"][data-page-transition="scale"] .route-page-layer--stale {
+    animation: route-content-scale-out var(--page-transition-duration, 300ms)
+      var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  }
+
+  html[data-page-transition-enabled="true"][data-page-transition="scale"] .route-page-layer--active {
+    animation: route-content-scale-in var(--page-transition-duration, 300ms)
+      var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  }
+
+  /* Dormant View Transition API rules (unused while commits stay outside startViewTransition) */
   html[data-page-transition="fade"] ::view-transition-old(route-content) {
     animation: route-content-fade-out var(--page-transition-duration, 280ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
@@ -245,6 +293,7 @@ html[data-shared-elements-enabled="false"] [data-shared-element] {
 @media (prefers-reduced-motion: reduce) {
   .nav-progress,
   .route-loading-overlay,
+  .route-page-layer--stale,
   .route-page-layer--active {
     animation: none !important;
     transition: none !important;

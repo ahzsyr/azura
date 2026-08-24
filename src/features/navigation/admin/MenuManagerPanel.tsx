@@ -10,7 +10,6 @@ import {
   setMenuGlobalApplyWithConflictCheck,
 } from "@/features/navigation/header-store";
 import { countTotalItems } from "@/features/navigation/menu-engine";
-import { saveWorkspaceToServer } from "@/features/navigation/header-workspace-api";
 import { useAdminFormOptional } from "@/components/admin/layout/admin-form-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -52,30 +51,21 @@ export function MenuManagerPanel({ workspace, onEditInBuilder }: Props) {
     adminForm?.showToast(message, type);
   };
 
-  const persist = async (successMessage?: string) => {
-    const r = await saveWorkspaceToServer();
-    if (r.ok) {
-      if (successMessage) toast("success", successMessage);
-    } else {
-      toast("error", r.error ?? "Save failed.");
-    }
-    return r.ok;
-  };
-
   const handleEdit = (key: string) => {
     setActiveMenuKey(key);
     onEditInBuilder(key);
   };
 
-  const handlePlacementChange = async (key: string, value: GlobalApply) => {
+  const handlePlacementChange = (key: string, value: GlobalApply) => {
     const { clearedConflicts } = setMenuGlobalApplyWithConflictCheck(key, value);
     if (clearedConflicts.length > 0) {
       toast("success", `Placement updated. Cleared: ${clearedConflicts.join(", ")}.`);
+    } else if (value !== "none") {
+      toast("success", "Placement updated. Save, then Publish to go live.");
     }
-    await persist(value !== "none" ? "Placement saved." : undefined);
   };
 
-  const handleDelete = async (key: string) => {
+  const handleDelete = (key: string) => {
     if (key === "mainMenu") {
       toast("error", "The Main Menu cannot be deleted.");
       return;
@@ -83,16 +73,17 @@ export function MenuManagerPanel({ workspace, onEditInBuilder }: Props) {
     const menuName = workspace.menusDatabase[key]?.name ?? key;
     setDeletingKey(null);
     deleteMenu(key);
-    await persist(`"${menuName}" deleted.`);
+    toast("success", `"${menuName}" deleted. Save to keep, Publish to go live.`);
   };
 
-  const handleDuplicate = async (key: string) => {
+  const handleDuplicate = (key: string) => {
     const newKey = duplicateMenu(key);
     if (!newKey) return;
-    if (await persist("Menu duplicated.")) onEditInBuilder(newKey);
+    toast("success", "Menu duplicated. Save to keep, Publish to go live.");
+    onEditInBuilder(newKey);
   };
 
-  const handleCreate = async () => {
+  const handleCreate = () => {
     const name = createName.trim();
     if (!name) {
       toast("error", "Please enter a menu name.");
@@ -101,10 +92,11 @@ export function MenuManagerPanel({ workspace, onEditInBuilder }: Props) {
     const key = createMenu(name);
     setCreateName("");
     setShowCreateForm(false);
-    if (await persist(`Menu "${name}" created.`)) onEditInBuilder(key);
+    toast("success", `Menu "${name}" created. Save to keep, Publish to go live.`);
+    onEditInBuilder(key);
   };
 
-  const handleRename = async (key: string) => {
+  const handleRename = (key: string) => {
     const name = editingNameValue.trim();
     if (!name) {
       toast("error", "Name cannot be empty.");
@@ -112,7 +104,6 @@ export function MenuManagerPanel({ workspace, onEditInBuilder }: Props) {
     }
     renameMenu(key, name);
     setEditingNameKey(null);
-    await persist("Menu renamed.");
   };
 
   const handleExport = (key: string) => {
@@ -133,11 +124,11 @@ export function MenuManagerPanel({ workspace, onEditInBuilder }: Props) {
       const file = input.files?.[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = async () => {
+      reader.onload = () => {
         try {
           const parsed = JSON.parse(String(reader.result ?? ""));
           if (importMenuJsonFile(key, parsed)) {
-            await persist("Menu imported.");
+            toast("success", "Menu imported. Save to keep, Publish to go live.");
           } else {
             throw new Error("invalid");
           }

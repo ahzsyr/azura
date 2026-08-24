@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { AccountDashboard } from "@/components/account/account-dashboard";
 import { AccountHub } from "@/components/account/account-hub";
@@ -5,6 +6,7 @@ import { isRegistrationEnabled } from "@/features/setup/setup.service";
 import { CmsPageBlocksSection } from "@/features/cms/components/cms-page-blocks-section";
 import { seoService } from "@/features/seo/seo.service";
 import type { Locale } from "@/i18n/routing";
+import { isAdminRole, isCustomerRole, resolvePostLoginRedirect } from "@/features/auth/portal";
 
 /** Session-aware route: auth() reads cookies — must not use ISR (see locale layout comment). */
 export const dynamic = "force-dynamic";
@@ -28,7 +30,17 @@ export default async function AccountPage({ params }: Props) {
   const session = await auth();
   const cmsBlocks = <CmsPageBlocksSection slug="account" locale={locale as Locale} />;
 
-  if (session?.user?.role === "CUSTOMER") {
+  if (session?.user && isAdminRole(session.user.role)) {
+    redirect(
+      resolvePostLoginRedirect({
+        role: session.user.role,
+        locale,
+        callbackUrl: null,
+      }),
+    );
+  }
+
+  if (session?.user && isCustomerRole(session.user.role)) {
     const user = session.user;
     return (
       <>
@@ -46,11 +58,7 @@ export default async function AccountPage({ params }: Props) {
   return (
     <>
       {cmsBlocks}
-      <AccountHub
-        locale={locale}
-        registrationEnabled={registrationEnabled}
-        isAdminSession={session?.user?.role === "ADMIN"}
-      />
+      <AccountHub locale={locale} registrationEnabled={registrationEnabled} />
     </>
   );
 }

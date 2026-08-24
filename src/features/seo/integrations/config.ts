@@ -38,6 +38,7 @@ function unsealProviderConfig(
 export function sealIntegrationsConfig(config: SeoIntegrationsConfig): SeoIntegrationsConfig {
   return {
     google: sealProviderConfig(config.google),
+    google_indexing: sealProviderConfig(config.google_indexing),
     bing: sealProviderConfig(config.bing),
     indexnow: sealProviderConfig(config.indexnow),
   };
@@ -46,6 +47,7 @@ export function sealIntegrationsConfig(config: SeoIntegrationsConfig): SeoIntegr
 export function unsealIntegrationsConfig(config: SeoIntegrationsConfig): SeoIntegrationsConfig {
   return {
     google: unsealProviderConfig(config.google),
+    google_indexing: unsealProviderConfig(config.google_indexing),
     bing: unsealProviderConfig(config.bing),
     indexnow: unsealProviderConfig(config.indexnow),
   };
@@ -66,6 +68,7 @@ export function redactIntegrationsConfig(config: SeoIntegrationsConfig): PublicS
   };
   return {
     google: redact(config.google),
+    google_indexing: redact(config.google_indexing),
     bing: redact(config.bing),
     indexnow: redact(config.indexnow),
   };

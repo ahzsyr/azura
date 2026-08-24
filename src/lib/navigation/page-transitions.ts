@@ -12,6 +12,23 @@ export function clampPageTransitionDurationMs(durationMs: number): number {
   return Math.max(120, Math.min(2000, durationMs));
 }
 
+/**
+ * Enter-clear timeout for MarketingPageTransition — matches CSS
+ * `--page-transition-duration` / `data-page-transition-duration` on `<html>`.
+ */
+export function readPageTransitionEnterClearMs(
+  fallbackMs: number = PUBLIC_MOTION.routeEnterClearMs,
+): number {
+  if (typeof document === "undefined") return fallbackMs;
+  const root = document.documentElement;
+  if (root.getAttribute("data-page-transition-enabled") === "false") return 0;
+  if (root.getAttribute("data-page-transition") === "none") return 0;
+  const raw = root.getAttribute("data-page-transition-duration");
+  const parsed = raw != null ? Number(raw) : NaN;
+  if (!Number.isFinite(parsed)) return fallbackMs;
+  return clampPageTransitionDurationMs(parsed);
+}
+
 /** CSS custom properties applied on `<html>` for route view transitions. */
 export function pageTransitionCssVars(durationMs: number): Record<string, string> {
   const d = clampPageTransitionDurationMs(durationMs);

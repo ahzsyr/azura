@@ -12,7 +12,12 @@ async function main() {
   for (const e of catalog.errors) console.error(`  [${e.code}] ${e.message}`);
 
   console.log("\nSearch validation:", search.generatedAt);
-  console.log(`  stale catalog docs: ${search.staleCatalogDocs}`);
+  console.log(`  stale docs: ${search.staleDocs ?? search.staleCatalogDocs}`);
+  console.log(`  missing docs: ${search.missingDocs ?? 0}`);
+  console.log(`  missing pages: ${search.missingPages ?? 0}`);
+  console.log(`  missing content items: ${search.missingContentItems ?? 0}`);
+  console.log(`  url mismatches: ${search.urlMismatches ?? 0}`);
+  console.log(`  admin URLs on public docs: ${search.adminUrlOnPublicDocs ?? 0}`);
   for (const w of search.warnings) console.warn(`  [${w.code}] ${w.message}`);
   for (const e of search.errors) console.error(`  [${e.code}] ${e.message}`);
 

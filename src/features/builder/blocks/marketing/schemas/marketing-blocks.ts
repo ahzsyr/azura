@@ -173,7 +173,138 @@ export const extendedCtaPropsSchema = z.object({
   countdownLabel: z.string().default(""),
 });
 
+export const tabbedShowcaseFeatureSchema = z
+  .object({
+    id: z.string(),
+    icon: z.string().default(""),
+    description: z.string().default(""),
+  })
+  .passthrough();
+
+/** Entrance animation applied when a tab's visual composition becomes active. */
+export const visualLayerAnimationTypeSchema = z.enum([
+  "none",
+  "fade",
+  "scale",
+  "fadeScale",
+  "slideUp",
+  "slideDown",
+  "slideLeft",
+  "slideRight",
+  "fadeSlideUp",
+  "fadeSlideDown",
+  "fadeSlideLeft",
+  "fadeSlideRight",
+]);
+
+export const visualLayerAnimationSchema = z.object({
+  type: visualLayerAnimationTypeSchema.default("fade"),
+  durationMs: z.coerce.number().min(0).max(5000).default(600),
+  delayMs: z.coerce.number().min(0).max(5000).default(0),
+  /** Slide distance in px for slide-based animations. */
+  distance: z.coerce.number().min(0).max(400).default(24),
+  /** Starting scale for scale-based animations. */
+  fromScale: z.coerce.number().min(0).max(2).default(0.92),
+  easing: z.enum(["easeOut", "easeInOut", "linear"]).default("easeOut"),
+});
+
+export const visualLayerSchema = z.object({
+  id: z.string(),
+  imageUrl: z.string().default(""),
+  mediaAssetId: z.string().default(""),
+  x: z.coerce.number().default(0),
+  y: z.coerce.number().default(0),
+  width: z.coerce.number().optional(),
+  height: z.coerce.number().optional(),
+  opacity: z.coerce.number().min(0).max(1).default(1),
+  zIndex: z.coerce.number().default(0),
+  scale: z.coerce.number().default(1),
+  animation: visualLayerAnimationSchema.default({
+    type: "fade",
+    durationMs: 600,
+    delayMs: 0,
+    distance: 24,
+    fromScale: 0.92,
+    easing: "easeOut",
+  }),
+});
+
+export const frameSequenceFrameSchema = z.object({
+  id: z.string(),
+  imageUrl: z.string().default(""),
+  mediaAssetId: z.string().default(""),
+});
+
+export const frameSequenceSchema = z.object({
+  id: z.string(),
+  frames: z.array(frameSequenceFrameSchema).default([]),
+  x: z.coerce.number().default(0),
+  y: z.coerce.number().default(0),
+  width: z.coerce.number().optional(),
+  height: z.coerce.number().optional(),
+  zIndex: z.coerce.number().default(10),
+  fps: z.coerce.number().min(1).max(60).default(12),
+  loop: z.boolean().default(true),
+  animation: visualLayerAnimationSchema.default({
+    type: "fade",
+    durationMs: 600,
+    delayMs: 0,
+    distance: 24,
+    fromScale: 0.92,
+    easing: "easeOut",
+  }),
+});
+
+export const tabbedShowcaseVisualSchema = z.object({
+  stageAspectRatio: z.string().default("980/780"),
+  layers: z.array(visualLayerSchema).default([]),
+  sequences: z.array(frameSequenceSchema).default([]),
+});
+
+export const tabbedShowcaseTabSchema = z
+  .object({
+    id: z.string(),
+    label: z.string().default(""),
+    title: z.string().default(""),
+    features: z.array(tabbedShowcaseFeatureSchema).default([]),
+    visual: tabbedShowcaseVisualSchema.default({
+      stageAspectRatio: "980/780",
+      layers: [],
+      sequences: [],
+    }),
+  })
+  .passthrough();
+
+export const tabbedShowcasePropsSchema = z.object({
+  title: z.string().default(""),
+  tabs: z.array(tabbedShowcaseTabSchema).default([]),
+  showNavArrows: z.boolean().default(true),
+});
+
 export type GridItem = z.infer<typeof gridItemSchema>;
 export type TrustBadgeItem = z.infer<typeof trustBadgeItemSchema>;
 export type LogoItem = z.infer<typeof logoItemSchema>;
 export type StatItem = z.infer<typeof statItemSchema>;
+export type TabbedShowcaseFeature = z.infer<typeof tabbedShowcaseFeatureSchema>;
+export type VisualLayerAnimationType = z.infer<typeof visualLayerAnimationTypeSchema>;
+export type VisualLayerAnimation = z.infer<typeof visualLayerAnimationSchema>;
+export type VisualLayer = z.infer<typeof visualLayerSchema>;
+export type FrameSequenceFrame = z.infer<typeof frameSequenceFrameSchema>;
+export type FrameSequence = z.infer<typeof frameSequenceSchema>;
+export type TabbedShowcaseVisual = z.infer<typeof tabbedShowcaseVisualSchema>;
+export type TabbedShowcaseTab = z.infer<typeof tabbedShowcaseTabSchema>;
+export type TabbedShowcaseProps = z.infer<typeof tabbedShowcasePropsSchema>;
+
+export function defaultVisualLayerAnimation(
+  overrides: Partial<VisualLayerAnimation> = {},
+): VisualLayerAnimation {
+  return {
+    type: "fade",
+    durationMs: 600,
+    delayMs: 0,
+    distance: 24,
+    fromScale: 0.92,
+    easing: "easeOut",
+    ...overrides,
+  };
+}

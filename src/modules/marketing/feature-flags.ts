@@ -5,11 +5,11 @@ const DEFAULTS: Record<string, boolean> = {
   "marketing.core": true,
   "marketing.connection": true,
   "marketing.publishing": false,
-  "marketing.analytics": false,
-  "marketing.tracking": false,
-  "marketing.leadSync": false,
+  "marketing.analytics": true,
+  "marketing.tracking": true,
+  "marketing.leadSync": true,
   "marketing.messaging": false,
-  "marketing.advertising": false,
+  "marketing.advertising": true,
   "marketing.commerce": false,
 };
 

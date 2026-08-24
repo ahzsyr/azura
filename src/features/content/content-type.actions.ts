@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { ZodError } from "zod";
 import { requireAdmin } from "@/features/auth/guards";
 import { contentTypeSchema } from "@/schemas/content/content-type";
 import { RESERVED_URL_PREFIXES } from "@/i18n/reserved-slugs";
@@ -13,6 +14,7 @@ import { localeService } from "@/features/i18n/locale.service";
 import { syncEntityTranslationsFromForm } from "@/features/translation/form-sync.server";
 import { getDefaultLocaleFieldFromForm } from "@/features/translation/form-fields";
 import { mergeSearchDefaultsIntoAdminConfig } from "@/features/content/generate-search-profile-defaults";
+import { loadContentTypeOptionsForBuilder } from "@/features/content/admin/load-content-type-builder-options";
 
 function formString(value: FormDataEntryValue | null): string {
   return typeof value === "string" ? value : "";
@@ -36,7 +38,15 @@ function validateRoutePrefix(prefix: string | null | undefined) {
   return normalized;
 }
 
-export async function upsertContentType(formData: FormData) {
+function actionErrorMessage(error: unknown): string {
+  if (error instanceof ZodError) {
+    return error.issues[0]?.message ?? "Invalid content type";
+  }
+  if (error instanceof Error) return error.message;
+  return "Failed to save content type";
+}
+
+async function saveContentTypeFromForm(formData: FormData) {
   await requireAdmin();
 
   const enabledLocales = await localeService.listEnabled();
@@ -58,7 +68,7 @@ export async function upsertContentType(formData: FormData) {
 
   const parsed = contentTypeSchema.parse({
     id: formString(formData.get("id")) || undefined,
-    slug: formString(formData.get("slug")),
+    slug: formString(formData.get("slug")).trim().toLowerCase(),
     name: getDefaultLocaleFieldFromForm(formData, enabledLocales, "name"),
     labelSingular: getDefaultLocaleFieldFromForm(formData, enabledLocales, "labelSingular"),
     labelPlural: getDefaultLocaleFieldFromForm(formData, enabledLocales, "labelPlural"),
@@ -72,6 +82,27 @@ export async function upsertContentType(formData: FormData) {
   });
 
   const routePrefix = validateRoutePrefix(parsed.routePrefix);
+
+  const existing = parsed.id
+    ? await prisma.contentType.findUnique({
+        where: { id: parsed.id },
+        select: { slug: true },
+      })
+    : null;
+  if (parsed.id && !existing) {
+    throw new Error("Content type not found");
+  }
+
+  const slugConflict = await prisma.contentType.findFirst({
+    where: {
+      slug: parsed.slug,
+      ...(parsed.id ? { NOT: { id: parsed.id } } : {}),
+    },
+    select: { slug: true },
+  });
+  if (slugConflict) {
+    throw new Error(`Slug "${parsed.slug}" is already used`);
+  }
 
   if (routePrefix) {
     const conflict = await prisma.contentType.findFirst({
@@ -114,8 +145,15 @@ export async function upsertContentType(formData: FormData) {
   revalidatePath("/admin/content");
   revalidatePath("/admin/content/types");
   revalidatePath("/admin/translations");
+  revalidatePath(`/admin/content/${type.slug}`);
+  revalidatePath(`/${type.slug}`);
+  revalidatePath(`/pages/${type.slug}`);
   if (routePrefix) revalidatePath(`/${routePrefix}`);
   revalidatePath(`/compare/${parsed.slug}`);
+  if (existing?.slug && existing.slug !== type.slug) {
+    revalidatePath(`/admin/content/${existing.slug}`);
+    revalidatePath(`/compare/${existing.slug}`);
+  }
   revalidateComparableTypes();
 
   await searchIndexer.reindexContentType(type.id);
@@ -127,7 +165,21 @@ export async function upsertContentType(formData: FormData) {
     path: routePrefix ? `/${routePrefix}` : undefined,
   });
 
+  return { type, existingSlug: existing?.slug ?? null };
+}
+
+export async function upsertContentType(formData: FormData) {
+  const { type } = await saveContentTypeFromForm(formData);
   redirect(`/admin/content/types/${type.id}`);
+}
+
+export async function quickCreateContentType(formData: FormData) {
+  try {
+    const { type } = await saveContentTypeFromForm(formData);
+    return { ok: true as const, id: type.id, slug: type.slug };
+  } catch (error) {
+    return { ok: false as const, error: actionErrorMessage(error) };
+  }
 }
 
 export async function updateContentTypeListAspect(typeId: string, aspect: string) {
@@ -143,6 +195,11 @@ export async function updateContentTypeListAspect(typeId: string, aspect: string
     data: { adminConfig: { ...current, adminListImageAspect: aspect } },
   });
   revalidatePath(`/admin/content/${type.slug}`);
+}
+
+export async function fetchContentTypeOptionsForBuilder() {
+  await requireAdmin();
+  return loadContentTypeOptionsForBuilder();
 }
 
 export async function deleteContentType(id: string) {
@@ -166,5 +223,8 @@ export async function deleteContentType(id: string) {
 
   revalidatePath("/admin/content");
   revalidatePath("/admin/content/types");
-  redirect("/admin/content/types");
+  revalidatePath(`/${type.slug}`);
+  revalidatePath(`/pages/${type.slug}`);
+  if (type.routePrefix) revalidatePath(`/${type.routePrefix}`);
+  redirect("/admin/content?tab=types");
 }

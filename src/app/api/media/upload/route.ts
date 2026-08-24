@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { MediaType } from "@prisma/client";
 import { auth } from "@/lib/auth";
+import { isAdminRole } from "@/features/auth/portal";
 import { mediaRepository } from "@/repositories/media.repository";
 import { persistMediaUpload } from "@/features/media/persist-upload";
 import { deleteStoredUpload, getMediaStorageStatus, storeUploadedFile } from "@/lib/media-storage";
@@ -8,7 +9,7 @@ import { validateUploadFile } from "@/lib/local-media-storage";
 
 export async function POST(request: Request) {
   const session = await auth();
-  if (!session?.user || session.user.role !== "ADMIN") {
+  if (!session?.user || !isAdminRole(session.user.role)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

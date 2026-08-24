@@ -24,6 +24,15 @@ test("isComingSoonExemptPage exempts admin, setup, preview, and coming soon", ()
   assert.equal(isComingSoonExemptPage("/preview/page", true, LOCALES), true);
 });
 
+test("isComingSoonExemptPage exempts localized account login", () => {
+  assert.equal(isComingSoonExemptPage("/en/account/login", false, LOCALES), true);
+  assert.equal(isComingSoonExemptPage("/ar/account/login", false, LOCALES), true);
+  assert.equal(isComingSoonExemptPage("/en/account/verify-email", false, LOCALES), true);
+  assert.equal(isComingSoonExemptPage("/en/account/accept-invite", false, LOCALES), true);
+  assert.equal(isComingSoonExemptPage("/en/account", false, LOCALES), false);
+  assert.equal(isComingSoonExemptPage("/en/account/register", false, LOCALES), false);
+});
+
 test("isComingSoonExemptPage does not exempt public storefront paths", () => {
   assert.equal(isComingSoonExemptPage("/", false, LOCALES), false);
   assert.equal(isComingSoonExemptPage("/en", false, LOCALES), false);

@@ -47,6 +47,7 @@ export function VideoHeroBlockRenderer({ locale, props: raw, overlayClass }: Pro
       playsInline={p.playsInline}
       overlayOpacity={p.overlayOpacity}
       overlayGradient={p.overlayGradient}
+      fadeIntoSiteBackground={p.fadeIntoSiteBackground}
       autoplaySlides={p.autoplaySlides}
       autoplaySlideMs={p.autoplaySlideMs}
       showSlideDots={p.showSlideDots}

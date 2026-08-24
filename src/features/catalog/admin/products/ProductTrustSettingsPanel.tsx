@@ -1,5 +1,6 @@
 import type { CSSProperties, Dispatch, SetStateAction } from "react";
 import type { ResolvedProductTrust } from "@/features/products/lib/product-page-display";
+import { PRODUCT_PAGE_DESIGN_HREF } from "@/features/catalog/admin/catalog-admin-tabs";
 
 const TRUST_PRESETS = ["Trustpilot", "Google", "Custom"] as const;
 
@@ -28,7 +29,7 @@ export function ProductTrustSettingsPanel({
         </h2>
         <p className="apm-dashboard-card__lede">
           Review summary block on the product page. Toggle visibility on the{" "}
-          <a href="#product-page">Product Page</a> tab. Save from the top bar.
+          <a href={PRODUCT_PAGE_DESIGN_HREF}>Product Page</a> tab. Save from the top bar.
         </p>
       </header>
       <div className="pm-cta-layout apm-trust-settings__layout">

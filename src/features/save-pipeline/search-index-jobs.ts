@@ -72,7 +72,7 @@ async function runJob(job: SearchIndexJob): Promise<SearchIndexJob> {
     if (job.entityType === "CMS_PAGE") {
       const page = await prisma.cmsPage.findUnique({
         where: { id: job.entityId },
-        select: { id: true, slug: true, status: true },
+        select: { id: true, slug: true, status: true, blocks: true },
       });
       if (page) await searchIndexer.indexCmsPage(page);
     } else if (job.entityType === "POST") {

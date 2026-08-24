@@ -9,6 +9,7 @@ import type {
 import { SEO_INTEGRATION_PROVIDERS } from "./providers";
 import { shouldEnqueueProviderJob } from "./enqueue-policy";
 import { normalizeWiredCmsAbsoluteUrl } from "@/features/cms/cms-page-path";
+import { alignUrlToPreferredOrigin } from "@/lib/preferred-host";
 
 export { shouldEnqueueProviderJob } from "./enqueue-policy";
 
@@ -17,11 +18,15 @@ async function resolveEnqueueOrigin(origin?: string) {
 }
 
 async function absoluteUrl(pathOrUrl: string, origin?: string) {
+  const siteOrigin = await resolveEnqueueOrigin(origin);
   if (/^https?:\/\//i.test(pathOrUrl)) {
-    return normalizeWiredCmsAbsoluteUrl(pathOrUrl);
+    return alignUrlToPreferredOrigin(normalizeWiredCmsAbsoluteUrl(pathOrUrl), siteOrigin);
   }
   const path = pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`;
-  return normalizeWiredCmsAbsoluteUrl(`${await resolveEnqueueOrigin(origin)}${path}`);
+  return alignUrlToPreferredOrigin(
+    normalizeWiredCmsAbsoluteUrl(`${siteOrigin}${path}`),
+    siteOrigin,
+  );
 }
 
 export async function enqueueSeoSubmissionsForPath(params: {

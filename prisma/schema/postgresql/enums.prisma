@@ -3,6 +3,17 @@
 enum UserRole {
   ADMIN
   CUSTOMER
+  SUPER_ADMIN
+}
+
+enum EmailVerificationPurpose {
+  SIGNUP_VERIFY
+  EMAIL_CHANGE
+}
+
+enum EmailOtpPurpose {
+  SIGNUP_VERIFY
+  ADMIN_LOGIN
 }
 
 enum FavoriteEntityType {
@@ -56,6 +67,24 @@ enum MediaType {
   SVG
 }
 
+enum MediaVisibility {
+  PUBLIC
+  GATED
+  PRIVATE
+}
+
+enum IconSource {
+  BUILTIN
+  CUSTOM
+  FONT
+}
+
+enum IconType {
+  COMPONENT
+  SVG
+  FONT
+}
+
 enum SearchEntityType {
   CONTENT_ITEM
   CONTENT_COLLECTION
@@ -67,6 +96,7 @@ enum SearchEntityType {
   CMS_PAGE
   FAQ
   MEDIA
+  ICON
   TESTIMONIAL
   TEAM_MEMBER
   PARTNER
@@ -147,6 +177,43 @@ enum MarketingSyncStatus {
   SUCCESS
   FAILED
   SCHEDULED
+}
+
+enum MarketingCampaignStatus {
+  DRAFT
+  SCHEDULED
+  ACTIVE
+  PAUSED
+  COMPLETED
+  ARCHIVED
+}
+
+enum MarketingTouchType {
+  FIRST_TOUCH
+  SESSION_START
+  PAID_CLICK
+  ORGANIC_SEARCH
+  REFERRAL
+  EMAIL
+  SOCIAL_ORGANIC
+  DIRECT
+  CAMPAIGN_URL
+  CONVERSION_TOUCH
+}
+
+enum MarketingClickIdType {
+  GCLID
+  FBCLID
+  MSCLKID
+  LI_FAT_ID
+  OTHER
+}
+
+enum MarketingConsentStatus {
+  UNKNOWN
+  GRANTED
+  DENIED
+  WITHDRAWN
 }
 
 /// Canonical Category scope (Categories unification).

@@ -1,0 +1,15 @@
+- **Everything Else**
+    - **Tech & Tools**
+        - Peripherals
+        - Electric Scooters
+        - TV Box
+        - Digital Watches
+        - Earbuds
+        - Electric Shavers
+        - Screwdrivers
+        - Robot Vacuums
+    - **Chargers**
+        - Wireless Chargers
+        - Car Chargers
+        - Power Banks
+        - Power Adapters

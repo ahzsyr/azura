@@ -131,7 +131,7 @@ export function buildProductTagLinks(args: {
 }): ProductLinkedTag[] {
   const { catalogProduct, productSlug, localePrefix, allCollections } = args;
   const engine = catalogProductToCollectionProduct(productSlug, catalogProduct);
-  const base = `/${localePrefix.replace(/^\/+|\/+$/g, "")}/collections`;
+  const base = `/${localePrefix.replace(/^\/+|\/+$/g, "")}/categories`;
   const ordered = getMatchingCollectionsBySpecificity(engine, allCollections);
 
   const chips: ProductLinkedTag[] = [];

@@ -13,7 +13,11 @@ import {
   cmsPatchAffectsTranslations,
   contentPatchAffectsPublicPage,
   contentPatchAffectsSearch,
+  contentPatchAffectsTranslations,
   postPatchAffectsPublicPage,
+  productPatchAffectsCollections,
+  productPatchAffectsListing,
+  productPatchAffectsSearch,
 } from "@/lib/patch";
 
 describe("deepEqual", () => {
@@ -138,10 +142,21 @@ describe("patch side-effect classification", () => {
     assert.equal(contentPatchAffectsPublicPage(["displaySettings.cardLayout"]), true);
     assert.equal(contentPatchAffectsSearch(["displaySettings.cardLayout"]), false);
     assert.equal(contentPatchAffectsSearch(["attributes.title.en"]), true);
+    assert.equal(contentPatchAffectsTranslations(["localeFields.title.ar"]), true);
+    assert.equal(contentPatchAffectsPublicPage(["localeFields.title.ar"]), true);
+    assert.equal(contentPatchAffectsSearch(["localeFields.title.ar"]), true);
   });
 
   it("classifies post public fields", () => {
     assert.equal(postPatchAffectsPublicPage(["categoryIds"]), true);
     assert.equal(postPatchAffectsPublicPage(["scheduledAt"]), false);
+    assert.equal(postPatchAffectsPublicPage(["showAuthor"]), true);
+    assert.equal(postPatchAffectsPublicPage(["showPublishedAt"]), true);
+  });
+
+  it("classifies product categoryIds as listing and collection fields", () => {
+    assert.equal(productPatchAffectsListing(["categoryIds"]), true);
+    assert.equal(productPatchAffectsCollections(["categoryIds"]), true);
+    assert.equal(productPatchAffectsSearch(["categoryIds"]), true);
   });
 });

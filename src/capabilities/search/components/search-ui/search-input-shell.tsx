@@ -32,7 +32,7 @@ export function SearchInputShell({
   return (
     <div
       className={cn(
-        "sm-search-shell",
+        "sm-search-shell flex items-center gap-2",
         style === "glass" && "sm-search-shell--glass",
         style === "solid" && "sm-search-shell--solid",
         style === "minimal" && "sm-search-shell--minimal",

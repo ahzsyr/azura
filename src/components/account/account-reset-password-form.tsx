@@ -5,8 +5,9 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { PasswordField } from "@/components/account/password-field";
+import { validateNewPassword } from "@/features/account/lib/password-form-validation";
 import {
   FieldWrapper,
   FormExperience,
@@ -34,14 +35,24 @@ export function AccountResetPasswordForm({ locale }: Props) {
     }
     setLoading(true);
     setError("");
-    const form = e?.currentTarget ?? document.querySelector<HTMLFormElement>('[data-fxs-form="reset-password"]');
+    const form =
+      e?.currentTarget ??
+      document.querySelector<HTMLFormElement>('[data-fxs-form="reset-password"]');
     if (!form) {
       setLoading(false);
       return;
     }
     const fd = new FormData(form);
-    const password = fd.get("password") as string;
-    const confirmPassword = fd.get("confirmPassword") as string;
+    const password = String(fd.get("password") ?? "");
+    const confirmPassword = String(fd.get("confirmPassword") ?? "");
+
+    const localError = validateNewPassword(password, confirmPassword);
+    if (localError) {
+      setError(localError);
+      setLoading(false);
+      return;
+    }
+
     const res = await fetch("/api/auth/reset-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -73,6 +84,31 @@ export function AccountResetPasswordForm({ locale }: Props) {
     );
   }
 
+  const fields = (
+    <>
+      <PasswordField
+        id="password"
+        name="password"
+        label={t("newPassword")}
+        required
+        minLength={12}
+        autoComplete="new-password"
+      />
+      <PasswordField
+        id="confirmPassword"
+        name="confirmPassword"
+        label={t("confirmPassword")}
+        required
+        minLength={12}
+        autoComplete="new-password"
+      />
+      <p className="text-muted-foreground text-xs">
+        Use at least 12 characters. Links expire after 5 minutes and can only be used once.
+      </p>
+      {error ? <p className="text-destructive text-sm">{error}</p> : null}
+    </>
+  );
+
   if (!fxsOn) {
     return (
       <Card className="mx-auto w-full max-w-md">
@@ -82,25 +118,7 @@ export function AccountResetPasswordForm({ locale }: Props) {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium">
-                {t("newPassword")}
-              </label>
-              <Input id="password" name="password" type="password" required minLength={8} />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="confirmPassword" className="text-sm font-medium">
-                {t("confirmPassword")}
-              </label>
-              <Input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                required
-                minLength={8}
-              />
-            </div>
-            {error && <p className="text-destructive text-sm">{error}</p>}
+            {fields}
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? t("saving") : t("resetPasswordSubmit")}
             </Button>
@@ -128,19 +146,30 @@ export function AccountResetPasswordForm({ locale }: Props) {
       }}
     >
       <form onSubmit={handleSubmit} className="space-y-4" data-fxs-form="reset-password" noValidate>
-        <FieldWrapper id="password" label={t("newPassword")} required error={error || undefined}>
-          <Input id="password" name="password" type="password" required minLength={8} autoComplete="new-password" />
-        </FieldWrapper>
-        <FieldWrapper id="confirmPassword" label={t("confirmPassword")} required>
-          <Input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
+        <FieldWrapper id="password" label={t("newPassword")} required>
+          <PasswordField
+            id="password"
+            name="password"
             required
-            minLength={8}
+            minLength={12}
             autoComplete="new-password"
+            className="space-y-0"
           />
         </FieldWrapper>
+        <FieldWrapper id="confirmPassword" label={t("confirmPassword")} required>
+          <PasswordField
+            id="confirmPassword"
+            name="confirmPassword"
+            required
+            minLength={12}
+            autoComplete="new-password"
+            className="space-y-0"
+          />
+        </FieldWrapper>
+        <p className="text-muted-foreground text-xs">
+          Use at least 12 characters. Links expire after 5 minutes and can only be used once.
+        </p>
+        {error ? <p className="text-destructive text-sm">{error}</p> : null}
       </form>
     </FormExperience>
   );

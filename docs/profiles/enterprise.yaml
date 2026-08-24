@@ -31,6 +31,7 @@ admin:
   items:
     dashboard: [dashboard]
     content:
+      - content-builder-overview
       - pages
       - blog
       - products
@@ -54,16 +55,25 @@ admin:
       - gallery
       - faqs
       - testimonials
+      - policies
+      - terms
     media: [media-library]
     marketing:
       - marketing-dashboard
-      - marketing-platforms
-      - marketing-publishing
-      - marketing-analytics
       - marketing-campaigns
+      - marketing-ad-accounts
+      - marketing-platforms
+      - marketing-attribution
+      - marketing-conversions
+      - marketing-leads
+      - marketing-landing-pages
+      - marketing-urls
+      - marketing-analytics
       - marketing-tracking
       - marketing-automation
-      - marketing-leads
+      - marketing-integrations
+      - marketing-settings
+      - marketing-publishing
       - form-templates
       - form-submissions
       - inquiries

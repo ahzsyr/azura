@@ -27,6 +27,13 @@ import type { ProductListingQueryResult } from "@/features/products/index/produc
 import type { IndexedProductListingRecord } from "@/features/products/index/product-index-types";
 import { PRODUCT_INDEX_VERSION } from "@/features/products/index/product-index-types";
 import { sortListingRecords, type CollectionSortKey } from "./sort-listing";
+import {
+  applyProductOrdering,
+  resolveProductOrderingProfile,
+  type ProductOrderingContext,
+  type ProductOrderingSettings,
+} from "@/features/products/ordering";
+import { loadProductOrderingSettings } from "@/features/products/ordering/load-product-ordering";
 import { normalizeListingFilterState } from "./normalize";
 import { createListingQueryPlan } from "./query-plan";
 import { executeListingQueryPlan } from "./query-engine";
@@ -153,6 +160,9 @@ export async function queryProductListing(
     collectionSort?: CollectionSortKey;
     listingMode?: "product" | "collection";
     collections?: Collection[];
+    /** Explicit listing surface for Product Ordering profiles. */
+    orderingContext?: ProductOrderingContext;
+    orderingSettings?: ProductOrderingSettings | null;
   },
 ): Promise<ProductListingQueryResult & { queryMeta?: ListingQueryMeta }> {
   const started = Date.now();
@@ -195,7 +205,8 @@ export async function queryProductListing(
 
   const searchStarted = Date.now();
   if (state.q.trim()) {
-    if (searchMode === "indexed") {
+    const exact = state.qExact === true;
+    if (searchMode === "indexed" && !exact) {
       const searchIndex = buildListingSearchIndex(base);
       const { candidates } = searchListingCandidates(searchIndex, state.q);
       if (candidates.length > 0) {
@@ -205,7 +216,7 @@ export async function queryProductListing(
         const tokenHits = await searchTokenLookup(localePrefix, state.q);
         if (tokenHits && tokenHits.size > 0) searchSlugHits = tokenHits;
       }
-    } else {
+    } else if (!exact) {
       const tokenHits = await searchTokenLookup(localePrefix, state.q);
       if (tokenHits && tokenHits.size > 0) {
         searchSlugHits = tokenHits;
@@ -301,12 +312,24 @@ export async function queryProductListing(
 
   let filtered = engineResult.records;
   if (state.q.trim() && searchMode === "indexed") {
-    filtered = rankListingSearchResults(filtered, state.q);
+    filtered = rankListingSearchResults(filtered, state.q, {
+      exact: state.qExact === true,
+    });
   }
 
-  const sorted = options?.collectionSort
-    ? sortListingRecords(filtered, options.collectionSort)
-    : filtered;
+  let sorted = filtered;
+  if (options?.orderingContext && options.listingMode !== "collection") {
+    const settings =
+      options.orderingSettings ?? (await loadProductOrderingSettings(localePrefix));
+    const profile = resolveProductOrderingProfile(settings, options.orderingContext);
+    if (profile) {
+      sorted = applyProductOrdering(filtered, profile);
+    } else if (options.collectionSort) {
+      sorted = sortListingRecords(filtered, options.collectionSort);
+    }
+  } else if (options?.collectionSort) {
+    sorted = sortListingRecords(filtered, options.collectionSort);
+  }
 
   const pagination = paginateListing(sorted, state.page, state.per);
   const facetScope = state.collectionScope?.trim() || "global";

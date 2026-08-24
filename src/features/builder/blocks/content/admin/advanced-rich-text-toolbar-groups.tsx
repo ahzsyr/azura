@@ -72,7 +72,6 @@ export function ToolbarSelect({
     <select
       aria-label={ariaLabel}
       value={value}
-      onMouseDown={(e) => e.preventDefault()}
       onChange={(e) => onChange(e.target.value)}
       className={cn(
         "h-8 rounded-md border bg-background px-2 text-xs text-foreground",
@@ -150,11 +149,43 @@ export function getActiveFormat(editor: Editor): string {
   return "paragraph";
 }
 
+function setTextBlockType(
+  editor: Editor,
+  typeName: "paragraph" | "heading",
+  attrs: Record<string, unknown> = {}
+): boolean {
+  const { state, view } = editor;
+  const type = state.schema.nodes[typeName];
+  if (!type?.isTextblock) return false;
+
+  const { $from } = state.selection;
+  if ($from.depth < 1) return false;
+  const node = $from.parent;
+  if (!node.type.isTextblock) return false;
+
+  const pos = $from.before($from.depth);
+  const nextAttrs = { ...node.attrs, ...attrs };
+  if (typeName === "paragraph") delete nextAttrs.level;
+
+  try {
+    view.dispatch(state.tr.setNodeMarkup(pos, type, nextAttrs));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function applyFormat(editor: Editor, value: string): void {
   if (value === "paragraph") {
-    editor.chain().focus().setParagraph().run();
+    if (!editor.chain().focus().setParagraph().run()) {
+      setTextBlockType(editor, "paragraph");
+    }
     return;
   }
-  const level = Number(value) as 1 | 2 | 3 | 4;
-  editor.chain().focus().toggleHeading({ level }).run();
+
+  const level = Number(value);
+  if (level !== 1 && level !== 2 && level !== 3 && level !== 4) return;
+  if (!editor.chain().focus().setHeading({ level }).run()) {
+    setTextBlockType(editor, "heading", { level });
+  }
 }

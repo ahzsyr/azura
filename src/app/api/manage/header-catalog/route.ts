@@ -1,16 +1,15 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { defineApiRoute } from "@/lib/api-auth";
 import { navigationCatalogService } from "@/features/navigation/navigation.service";
 
-export async function GET(request: Request) {
-  const session = await auth();
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+export const GET = defineApiRoute({
+  access: "admin",
+  verifySessionVersion: false,
+  handler: async ({ request }) => {
+    const { searchParams } = new URL(request.url);
+    const locale = searchParams.get("locale") ?? "en";
 
-  const { searchParams } = new URL(request.url);
-  const locale = searchParams.get("locale") ?? "en";
-
-  const catalog = await navigationCatalogService.getCatalog(locale);
-  return NextResponse.json(catalog);
-}
+    const catalog = await navigationCatalogService.getCatalog(locale);
+    return NextResponse.json(catalog);
+  },
+});

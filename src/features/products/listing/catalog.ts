@@ -21,6 +21,11 @@ import {
 import { buildListingSearchText, recordFromProduct } from "@/features/products/listing/record-from-product";
 import { queryProductListing, sortListingRecords } from "@/features/products/listing/query-listing";
 import { countActiveFilters } from "@/features/products/listing/url-state";
+import {
+  applyProductOrdering,
+  resolveProductOrderingProfile,
+} from "@/features/products/ordering";
+import { loadProductOrderingSettings } from "@/features/products/ordering/load-product-ordering";
 import { aggregateFacets, applyCategoryVisibilityToFacets } from "./aggregate-facets";
 import type {
   ListingFilterState,
@@ -109,13 +114,17 @@ export async function buildProductListingCatalog(
         per: 20,
         ...filter,
       };
-      const result = await queryProductListing(localePrefix, state, { collections });
+      const result = await queryProductListing(localePrefix, state, {
+        collections,
+        orderingContext: { surface: "PRODUCT_LIST" },
+      });
       if (result.total === 0 && countActiveFilters(state) === 0 && !useCatalogProductsDb()) {
         const fallbackRecords = await buildListingCatalogLegacy(localePrefix);
         if (fallbackRecords.length > 0) {
           const fallbackResult = await queryProductListing(localePrefix, state, {
             prefilteredRecords: fallbackRecords,
             collections,
+            orderingContext: { surface: "PRODUCT_LIST" },
           });
           return {
             records: fallbackResult.records,
@@ -141,6 +150,13 @@ export async function buildProductListingCatalog(
     if (records.length === 0 && !useCatalogProductsDb()) {
       records = await buildListingCatalogLegacy(localePrefix);
     }
+    const orderingSettings = await loadProductOrderingSettings(localePrefix);
+    const productListProfile = resolveProductOrderingProfile(orderingSettings, {
+      surface: "PRODUCT_LIST",
+    });
+    if (productListProfile) {
+      records = applyProductOrdering(records, productListProfile);
+    }
     const cached = await loadFacetIndex(localePrefix, "global");
     const facets = cached
       ? applyCategoryVisibilityToFacets(cached, collections)
@@ -148,7 +164,7 @@ export async function buildProductListingCatalog(
     return { records, facets, total: records.length };
   }
 
-  const records = await buildListingCatalogLegacy(localePrefix);
+  let records = await buildListingCatalogLegacy(localePrefix);
   if (filter) {
     const state: ListingFilterState = {
       q: "",
@@ -169,6 +185,7 @@ export async function buildProductListingCatalog(
     const result = await queryProductListing(localePrefix, state, {
       prefilteredRecords: records,
       collections,
+      orderingContext: { surface: "PRODUCT_LIST" },
     });
     return {
       records: result.records,
@@ -178,6 +195,16 @@ export async function buildProductListingCatalog(
       per: result.per,
       totalPages: result.totalPages,
     };
+  }
+
+  {
+    const orderingSettings = await loadProductOrderingSettings(localePrefix);
+    const productListProfile = resolveProductOrderingProfile(orderingSettings, {
+      surface: "PRODUCT_LIST",
+    });
+    if (productListProfile) {
+      records = applyProductOrdering(records, productListProfile);
+    }
   }
 
   return {
@@ -220,7 +247,22 @@ export async function buildProductListingCatalogForCollection(
   }
 
   const sortBy = collection.sortBy ?? "name-asc";
-  scopedRecords = sortListingRecords(scopedRecords, sortBy);
+  const orderingSettings = await loadProductOrderingSettings(localePrefix);
+  const orderingProfile =
+    resolveProductOrderingProfile(orderingSettings, {
+      surface: "CATEGORY",
+      targetId: collectionSlug,
+    }) ??
+    resolveProductOrderingProfile(orderingSettings, {
+      surface: "COLLECTION",
+      targetId: collectionSlug,
+    });
+
+  if (orderingProfile) {
+    scopedRecords = applyProductOrdering(scopedRecords, orderingProfile);
+  } else {
+    scopedRecords = sortListingRecords(scopedRecords, sortBy);
+  }
 
   if (filter) {
     const state: ListingFilterState = {
@@ -243,6 +285,14 @@ export async function buildProductListingCatalogForCollection(
       prefilteredRecords: scopedRecords,
       listingMode: "product",
       collections,
+      orderingContext: orderingProfile
+        ? {
+            surface: orderingProfile.scope.type === "COLLECTION" ? "COLLECTION" : "CATEGORY",
+            targetId: collectionSlug,
+          }
+        : undefined,
+      orderingSettings,
+      collectionSort: orderingProfile ? undefined : sortBy,
     });
     return {
       records: result.records,

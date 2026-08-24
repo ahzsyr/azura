@@ -50,6 +50,18 @@ Adapters must never pass raw provider payloads into shared services.
 | periodEnd | ISO string |
 | dimensions | Record<string,string>? |
 
+## CanonicalAdMetrics / advertising DTOs
+
+See also campaign and attribution specs. Advertising sync uses:
+
+- `CanonicalAdAccount`
+- `CanonicalExternalCampaign`
+- `CanonicalAdGroup`
+- `CanonicalAd`
+- `CanonicalCreative`
+- `CanonicalAdMetrics`
+- `CanonicalAttributionContext`
+
 ## CanonicalTrackingEvent
 
 | Field | Type |

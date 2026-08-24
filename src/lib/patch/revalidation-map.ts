@@ -9,6 +9,7 @@ const PRODUCT_SEARCH_PATHS = [
   "brand",
   "categories",
   "category",
+  "categoryIds",
   "seoTitle",
   "seoDescription",
 ];
@@ -20,6 +21,7 @@ const PRODUCT_LISTING_PATHS = [
   "availability",
   "categories",
   "category",
+  "categoryIds",
   "brand",
   "slug",
   "productTitle",
@@ -29,10 +31,21 @@ const PRODUCT_LISTING_PATHS = [
   "featured_image",
 ];
 
-const PRODUCT_COLLECTION_PATHS = ["categories", "category", "tags", "collectionSlugs"];
+const PRODUCT_COLLECTION_PATHS = ["categories", "category", "categoryIds", "tags", "collectionSlugs"];
 
 const CMS_SEARCH_PATHS = ["title", "excerpt", "content", "blocks", "slug", "localeFields"];
-const CMS_PUBLIC_PATHS = ["slug", "blocks", "visualSettings", "title", "templateKey", "localeFields"];
+const CMS_PUBLIC_PATHS = [
+  "slug",
+  "blocks",
+  "visualSettings",
+  "title",
+  "templateKey",
+  "localeFields",
+  "authorId",
+  "sources",
+  "showAuthor",
+  "showPublishedAt",
+];
 const CMS_TRANSLATION_PATHS = ["localeFields", "slug"];
 const CMS_REVISION_PATHS = ["slug", "blocks", "visualSettings", "templateKey", "localeFields"];
 
@@ -57,11 +70,13 @@ const POST_PUBLIC_PATHS = [
   "categoryIds",
   "tagIds",
   "relatedPostIds",
+  "showAuthor",
+  "showPublishedAt",
 ];
 const POST_TRANSLATION_PATHS = ["localeFields", "slug"];
 const POST_REVISION_PATHS = ["slug", "blocks", "localeFields", "featuredImageId", "featuredImageSettings"];
 
-const CONTENT_SEARCH_PATHS = ["slug", "attributes", "blocks", "metadata", "collectionId"];
+const CONTENT_SEARCH_PATHS = ["slug", "attributes", "blocks", "metadata", "collectionId", "localeFields"];
 const CONTENT_PUBLIC_PATHS = [
   "slug",
   "attributes",
@@ -71,8 +86,13 @@ const CONTENT_PUBLIC_PATHS = [
   "isFeatured",
   "isVisible",
   "sortOrder",
+  "localeFields",
+  "authorId",
+  "sources",
+  "showAuthor",
+  "showPublishedAt",
 ];
-const CONTENT_TRANSLATION_PATHS = ["attributes", "slug", "blocks"];
+const CONTENT_TRANSLATION_PATHS = ["localeFields", "attributes", "slug", "blocks"];
 const CONTENT_REVISION_PATHS = ["slug", "attributes", "blocks", "displaySettings"];
 
 function pathMatchesPrefix(path: string, prefixes: string[]): boolean {

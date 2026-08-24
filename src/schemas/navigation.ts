@@ -1,5 +1,149 @@
 import { z } from "zod";
 
+const megaMenuPanelLayoutSchema = z.enum([
+  "links",
+  "cards",
+  "featured",
+  "columns",
+  "iconGrid",
+  "productGrid",
+  "mixed",
+]);
+
+const megaMenuColumnGroupSchema = z.object({
+  id: z.string(),
+  heading: z.string(),
+  childIds: z.array(z.string()),
+  ctaLabel: z.string().optional(),
+  ctaChildId: z.string().optional(),
+});
+
+const megaMenuPanelSchema = z.object({
+  id: z.string(),
+  label: z.string().optional(),
+  layout: megaMenuPanelLayoutSchema,
+  columns: z.number().int().min(1).max(12).optional(),
+  gap: z.enum(["sm", "md", "lg"]).optional(),
+  childIds: z.array(z.string()),
+  featured: z
+    .object({
+      childId: z.string().optional(),
+      ctaLabel: z.string().optional(),
+    })
+    .optional(),
+  carousel: z
+    .object({
+      enabled: z.boolean(),
+      arrows: z.boolean().optional(),
+      autoplay: z.boolean().optional(),
+    })
+    .optional(),
+  columnGroups: z.array(megaMenuColumnGroupSchema).optional(),
+  source: z
+    .object({
+      type: z.literal("collectionChildren"),
+      collectionId: z.string(),
+    })
+    .optional(),
+});
+
+const megaMenuNavigationSchema = z.object({
+  enabled: z.boolean(),
+  width: z.number().int().min(120).max(480).optional(),
+  items: z.array(
+    z.object({
+      id: z.string(),
+      label: z.string(),
+      panelId: z.string(),
+      icon: z.string().optional(),
+    }),
+  ),
+});
+
+const menuLayoutTypeSchema = z.enum([
+  "grid",
+  "mixed",
+  "columns",
+  "tabbed",
+  "dropdown",
+  "icon",
+  "sidebar",
+  "panel",
+]);
+
+const megaMenuContentSchema = z
+  .object({
+    version: z.union([z.literal(1), z.literal(2)]).optional(),
+    gridColumns: z.number().int().min(1).max(12).optional(),
+    columnCount: z.number().int().min(1).max(12).optional(),
+    mixed: z
+      .object({
+        left: z
+          .object({
+            title: z.string().optional(),
+            body: z.string().optional(),
+            icon: z.string().optional(),
+          })
+          .optional(),
+        right: z
+          .object({
+            title: z.string().optional(),
+            body: z.string().optional(),
+            icon: z.string().optional(),
+          })
+          .optional(),
+      })
+      .optional(),
+    tabs: z
+      .array(
+        z.object({
+          id: z.string(),
+          label: z.string(),
+          childIds: z.array(z.string()),
+        }),
+      )
+      .optional(),
+    dropdownShowIcons: z.boolean().optional(),
+    childDescriptions: z.record(z.string()).optional(),
+    childCtaLabels: z.record(z.string()).optional(),
+    iconLayout: z
+      .object({
+        iconSize: z.enum(["sm", "md", "lg"]).optional(),
+        columns: z
+          .union([
+            z.literal("auto"),
+            z.literal(1),
+            z.literal(2),
+            z.literal(3),
+            z.literal(4),
+            z.literal(5),
+            z.literal(6),
+            z.literal(7),
+            z.literal(8),
+            z.literal(9),
+            z.literal(10),
+            z.literal(11),
+            z.literal(12),
+          ])
+          .optional(),
+        alignment: z.enum(["start", "center", "end"]).optional(),
+        iconPosition: z.enum(["top", "left"]).optional(),
+        showDescriptions: z.boolean().optional(),
+        showBadges: z.boolean().optional(),
+        spacing: z.enum(["compact", "comfortable", "spacious"]).optional(),
+      })
+      .optional(),
+    width: z.enum(["auto", "sm", "md", "lg", "xl", "full", "custom"]).optional(),
+    customWidth: z.number().int().min(1).max(2000).optional(),
+    height: z.enum(["auto", "sm", "md", "lg", "xl", "custom"]).optional(),
+    customHeight: z.number().int().min(1).max(1200).optional(),
+    navigation: megaMenuNavigationSchema.optional(),
+    panels: z.array(megaMenuPanelSchema).optional(),
+    surfaceWidth: z.enum(["auto", "container", "wide", "full"]).optional(),
+    alignment: z.enum(["left", "center", "right"]).optional(),
+  })
+  .passthrough();
+
 const menuItemSchema: z.ZodType<unknown> = z.lazy(() =>
   z.object({
     id: z.string(),
@@ -19,8 +163,11 @@ const menuItemSchema: z.ZodType<unknown> = z.lazy(() =>
     icon: z.string().optional(),
     placement: z.enum(["desktop", "mobile", "both"]),
     children: z.array(menuItemSchema),
-    megaMenuType: z.enum(["grid", "mixed", "columns", "tabbed", "dropdown"]).optional(),
-    megaMenu: z.record(z.unknown()).optional(),
+    megaMenuType: menuLayoutTypeSchema.optional(),
+    megaMenu: megaMenuContentSchema.optional(),
+    megaMenuChildDisplayType: z
+      .enum(["automatic", "link", "card", "featured", "icon", "product"])
+      .optional(),
     url: z.string().optional(),
     pageId: z.string().optional(),
     collectionId: z.string().optional(),
@@ -127,6 +274,8 @@ export const headerWorkspaceSchema = z.object({
     mobileNavDensity: z.enum(["compact", "comfortable", "spacious"]).optional(),
     mobileNavSubmenuBehavior: z.enum(["expand", "slide"]).optional(),
     mobileNavShowIcons: z.boolean().optional(),
+    tabletNavShowIcons: z.boolean().optional(),
+    desktopNavShowIcons: z.boolean().optional(),
     mobileNavShowArrows: z.boolean().optional(),
     overlayMode: z.enum(["none", "over-media", "transparent-until-scroll"]).optional(),
     overlaySurface: z.enum(["glass", "solid", "transparent"]).optional(),

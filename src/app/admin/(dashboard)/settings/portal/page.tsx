@@ -1,6 +1,9 @@
 import { Suspense } from "react";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 import { isRegistrationEnabled, readSystemSettings } from "@/features/setup/setup.service";
 import { accountSettingsService } from "@/features/account/account-settings.service";
+import { listEmailAccounts } from "@/features/email/email-accounts.service";
 import { PortalSettingsForm } from "@/components/admin/portal-settings-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -9,11 +12,17 @@ export const metadata = {
 };
 
 export default async function AdminPortalSettingsPage() {
+  const session = await auth();
+  if (session?.user?.role !== "SUPER_ADMIN") {
+    redirect("/admin/settings/account");
+  }
+
   try {
-    const [settings, registrationEnabled, accountSettings] = await Promise.all([
+    const [settings, registrationEnabled, accountSettings, accounts] = await Promise.all([
       readSystemSettings(),
       isRegistrationEnabled(),
       accountSettingsService.get(),
+      listEmailAccounts().catch(() => []),
     ]);
     return (
       <Suspense
@@ -22,6 +31,8 @@ export default async function AdminPortalSettingsPage() {
         <PortalSettingsForm
           registrationEnabled={settings.registrationEnabled ?? registrationEnabled}
           passwordReset={accountSettings.passwordReset}
+          emailVerification={accountSettings.emailVerification}
+          emailAccounts={accounts.map((a) => ({ id: a.id, name: a.name, from: a.from }))}
         />
       </Suspense>
     );

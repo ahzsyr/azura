@@ -3,9 +3,33 @@ import "server-only";
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { sendNewsletterConfirmation } from "@/features/email/templates";
+import { assertSafeOutboundUrl, safeOutboundFetch } from "@/lib/ssrf-guard";
+import { cmsRepository } from "@/repositories/cms.repository";
 
 function createConfirmToken(): string {
   return crypto.randomBytes(24).toString("hex");
+}
+
+/** Resolve webhook URL from published CMS block config only — never from the client. */
+async function resolveNewsletterWebhookFromBlock(
+  blockId?: string,
+  pageSlug?: string,
+): Promise<string | undefined> {
+  if (!blockId || !pageSlug) return undefined;
+  try {
+    const page = await cmsRepository.getPageBySlug(pageSlug, true);
+    if (!page?.blocks || !Array.isArray(page.blocks)) return undefined;
+    for (const block of page.blocks as Array<{ id?: string; type?: string; props?: Record<string, unknown> }>) {
+      if (block.id !== blockId) continue;
+      const url = typeof block.props?.webhookUrl === "string" ? block.props.webhookUrl.trim() : "";
+      if (!url) return undefined;
+      const check = assertSafeOutboundUrl(url);
+      return check.ok ? check.url.href : undefined;
+    }
+  } catch {
+    return undefined;
+  }
+  return undefined;
 }
 
 export async function subscribeNewsletter(input: {
@@ -14,7 +38,6 @@ export async function subscribeNewsletter(input: {
   segment: string;
   locale: string;
   doubleOptIn: boolean;
-  webhookUrl?: string;
   blockId?: string;
   pageSlug?: string;
 }) {
@@ -28,6 +51,13 @@ export async function subscribeNewsletter(input: {
 
   const confirmToken = input.doubleOptIn ? createConfirmToken() : null;
   const status = input.doubleOptIn ? "PENDING" : "CONFIRMED";
+  const serverWebhookUrl = await resolveNewsletterWebhookFromBlock(input.blockId, input.pageSlug);
+
+  const metadata = {
+    blockId: input.blockId,
+    pageSlug: input.pageSlug,
+    ...(serverWebhookUrl ? { webhookUrl: serverWebhookUrl } : {}),
+  };
 
   const subscriber = existing
     ? await prisma.newsletterSubscriber.update({
@@ -38,10 +68,7 @@ export async function subscribeNewsletter(input: {
           confirmToken,
           confirmedAt: input.doubleOptIn ? null : new Date(),
           locale: input.locale,
-          metadata: {
-            blockId: input.blockId,
-            pageSlug: input.pageSlug,
-          } as object,
+          metadata: metadata as object,
         },
       })
     : await prisma.newsletterSubscriber.create({
@@ -53,10 +80,7 @@ export async function subscribeNewsletter(input: {
           confirmToken,
           confirmedAt: input.doubleOptIn ? null : new Date(),
           locale: input.locale,
-          metadata: {
-            blockId: input.blockId,
-            pageSlug: input.pageSlug,
-          } as object,
+          metadata: metadata as object,
         },
       });
 
@@ -68,8 +92,8 @@ export async function subscribeNewsletter(input: {
       confirmUrl,
       locale: input.locale,
     });
-  } else if (input.webhookUrl) {
-    void dispatchNewsletterWebhook(input.webhookUrl, subscriber);
+  } else if (serverWebhookUrl) {
+    void dispatchNewsletterWebhook(serverWebhookUrl, subscriber);
   }
 
   return { id: subscriber.id, status: subscriber.status, alreadySubscribed: false };
@@ -90,7 +114,11 @@ export async function confirmNewsletter(token: string) {
     },
   });
 
-  const webhookUrl = (subscriber.metadata as { webhookUrl?: string })?.webhookUrl;
+  const meta = subscriber.metadata as { webhookUrl?: string; blockId?: string; pageSlug?: string } | null;
+  let webhookUrl = meta?.webhookUrl;
+  if (!webhookUrl && meta?.blockId && meta?.pageSlug) {
+    webhookUrl = await resolveNewsletterWebhookFromBlock(meta.blockId, meta.pageSlug);
+  }
   if (webhookUrl) {
     void dispatchNewsletterWebhook(webhookUrl, updated);
   }
@@ -103,7 +131,7 @@ async function dispatchNewsletterWebhook(
   subscriber: { id: string; email: string; segment: string; status: string },
 ) {
   try {
-    await fetch(url, {
+    await safeOutboundFetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

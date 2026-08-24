@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
+import { defineApiRoute } from "@/lib/api-auth";
 import { upsertSeoTrackingConfig } from "@/features/seo/tracking/upsert-tracking.server";
 import type { SeoTrackingMode } from "@/features/seo/types";
 
@@ -15,32 +15,33 @@ type TrackingBody = {
   gtmBodySnippet?: string;
 };
 
-export async function POST(request: Request) {
-  const unauthorized = await requireCatalogAdmin();
-  if (unauthorized) return unauthorized;
+export const POST = defineApiRoute({
+  access: "admin",
+  verifySessionVersion: false,
+  handler: async ({ request }) => {
+    try {
+      const body = (await request.json()) as TrackingBody;
+      await upsertSeoTrackingConfig({
+        mode: body.mode === "gtm" ? "gtm" : "gtag",
+        gtagEnabled: body.gtagEnabled,
+        gtmEnabled: body.gtmEnabled,
+        enabled: body.enabled,
+        measurementId: body.measurementId,
+        gtmContainerId: body.gtmContainerId,
+        gtagHeadSnippet: body.gtagHeadSnippet,
+        gtmHeadSnippet: body.gtmHeadSnippet,
+        gtmBodySnippet: body.gtmBodySnippet,
+        includeMeasurementId: body.measurementId !== undefined,
+        includeGtmContainerId: body.gtmContainerId !== undefined,
+        includeGtagHeadSnippet: body.gtagHeadSnippet !== undefined,
+        includeGtmHeadSnippet: body.gtmHeadSnippet !== undefined,
+        includeGtmBodySnippet: body.gtmBodySnippet !== undefined,
+      });
 
-  try {
-    const body = (await request.json()) as TrackingBody;
-    await upsertSeoTrackingConfig({
-      mode: body.mode === "gtm" ? "gtm" : "gtag",
-      gtagEnabled: body.gtagEnabled,
-      gtmEnabled: body.gtmEnabled,
-      enabled: body.enabled,
-      measurementId: body.measurementId,
-      gtmContainerId: body.gtmContainerId,
-      gtagHeadSnippet: body.gtagHeadSnippet,
-      gtmHeadSnippet: body.gtmHeadSnippet,
-      gtmBodySnippet: body.gtmBodySnippet,
-      includeMeasurementId: body.measurementId !== undefined,
-      includeGtmContainerId: body.gtmContainerId !== undefined,
-      includeGtagHeadSnippet: body.gtagHeadSnippet !== undefined,
-      includeGtmHeadSnippet: body.gtmHeadSnippet !== undefined,
-      includeGtmBodySnippet: body.gtmBodySnippet !== undefined,
-    });
-
-    return NextResponse.json({ ok: true });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Save failed";
-    return NextResponse.json({ error: message }, { status: 400 });
-  }
-}
+      return NextResponse.json({ ok: true });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Save failed";
+      return NextResponse.json({ error: message }, { status: 400 });
+    }
+  },
+});

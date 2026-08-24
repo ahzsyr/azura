@@ -74,7 +74,7 @@ export async function searchStorefrontLinks(opts: {
 
   const collections = await collectionsDataService.loadAll({ localePrefix: locale });
   for (const col of collections) {
-    const path = `/collections/${col.slug}`;
+    const path = `/categories/${col.slug}`;
     if (!matchesQuery(q, col.name, col.slug, path)) continue;
     push({ kind: "collection", slug: col.slug, label: col.name || col.slug, path });
   }

@@ -11,6 +11,7 @@ import type {
   SeoIntegrationsConfig,
   SeoTrackingConfig,
 } from "@/features/seo/types";
+import { GOOGLE_INDEXING_CONFIGURE_HREF } from "@/features/seo/integrations/indexing-api-config";
 import type { GooglePlatformState, GoogleIntegrationId } from "@/features/seo/google-platform/types";
 import { emptyPlatformState } from "@/features/seo/google-platform/types";
 import { buildContext } from "@/features/seo/google-platform/monitoring";
@@ -202,14 +203,23 @@ export function mapSeoConfigToConnectorSnapshots(input: {
         false,
       );
 
-  const indexingConfigured = Boolean(google?.serviceAccountJson?.trim());
+  const indexingJson =
+    input.integrations.google_indexing?.serviceAccountJson?.trim() ||
+    google?.serviceAccountJson?.trim() ||
+    (typeof platform.services.indexing_api?.configuration?.serviceAccountJson === "string"
+      ? platform.services.indexing_api.configuration.serviceAccountJson.trim()
+      : "") ||
+    (typeof platform.global.sharedServiceAccountJson === "string"
+      ? platform.global.sharedServiceAccountJson.trim()
+      : "");
+  const indexingConfigured = Boolean(indexingJson);
   const indexing = indexingConfigured
-    ? runtime("indexing_api", "ready", "Service account configured", `${googleHref}?tab=indexing-api`, true)
+    ? runtime("indexing_api", "ready", "Service account configured", GOOGLE_INDEXING_CONFIGURE_HREF, true)
     : runtime(
         "indexing_api",
         "disconnected",
-        "Add Indexing API service account JSON in Admin → Google → Indexing API",
-        `${googleHref}?tab=indexing-api`,
+        "Add Indexing API service account JSON in Admin → Search Engines → Google Indexing API",
+        GOOGLE_INDEXING_CONFIGURE_HREF,
         false,
       );
 

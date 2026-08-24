@@ -6,6 +6,10 @@ import {
   resolveMenuAppearance,
   resolveMobileMenuAppearance,
 } from "./header-menu-appearance";
+import {
+  navIconVisibilityDataAttributes,
+  resolveNavIconVisibility,
+} from "./nav-icon-visibility";
 
 export type HeaderRootSurface = "site" | "preview";
 
@@ -33,6 +37,7 @@ export function buildHeaderRootPresentation(args: {
   const menuAppearance = resolveMenuAppearance(settings);
   const mobileMenuAppearance = resolveMobileMenuAppearance(settings);
   const menuAttrs = menuAppearanceDataAttributes(menuAppearance);
+  const iconAttrs = navIconVisibilityDataAttributes(resolveNavIconVisibility(settings));
   const workspaceHeaderOverlay = isWorkspaceOverlayMode(settings.overlayMode);
   const desktopModeForLayout = isPreview
     ? "static"
@@ -46,7 +51,8 @@ export function buildHeaderRootPresentation(args: {
   }
 
   return {
-    id: isPreview ? undefined : "headerRoot",
+    // SSR shell must not steal `#headerRoot` — HeaderDesktopBehavior looks it up by id.
+    id: isPreview || args.shellPlaceholder ? undefined : "headerRoot",
     className: classNames.join(" "),
     dataAttributes: {
       "data-header-style": settings.headerStyle,
@@ -71,6 +77,7 @@ export function buildHeaderRootPresentation(args: {
             ? "false"
             : "true",
       "data-theme-preset": args.themePreset ?? undefined,
+      ...iconAttrs,
       ...menuAttrs,
     },
     style: menuAppearanceStyle(menuAppearance),

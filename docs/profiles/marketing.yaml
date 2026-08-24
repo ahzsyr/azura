@@ -14,7 +14,7 @@ admin:
   groups: [dashboard, content, media, marketing, design, seo, settings]
   items:
     dashboard: [dashboard]
-    content: [pages, blog, gallery, faqs, testimonials]
+    content: [content-builder-overview, pages, blog, gallery, faqs, testimonials, policies, terms, content-types]
     media: [media-library]
     marketing: [form-templates, form-submissions, inquiries, newsletter]
     design: [studio, header, footer, theme, announcement-bar, whatsapp]

@@ -4,6 +4,7 @@ import {
   type ProductPageDisplayPartial,
   type ResolvedProductPageDisplay,
 } from "@/features/products/lib/product-page-display";
+import "./product-page-display-fields.css";
 
 // ── Inline icons ──────────────────────────────────────────────────────────────
 
@@ -71,7 +72,7 @@ const GROUPS: GroupConfig[] = [
     icon: <IconLayout />,
     description: "Top navigation and product hero section",
     color: "#6366f1",
-    keys: ["breadcrumb", "gallery", "sideBuyBox", "variations"],
+    keys: ["breadcrumb", "gallery", "sideBuyBox", "variations", "modelViewer"],
   },
   {
     key: "buybox",
@@ -98,7 +99,17 @@ const GROUPS: GroupConfig[] = [
     icon: <IconTabs />,
     description: "Tab bar and individual tab sections",
     color: "#3b82f6",
-    keys: ["tabs", "tabDescription", "tabSpecs", "tabDocuments", "tabShipping", "tabReviews"],
+    keys: [
+      "tabs",
+      "tabDescription",
+      "tabOverview",
+      "tabSpecs",
+      "tabDocuments",
+      "tabInstallation",
+      "tabShipping",
+      "tabReviews",
+      "tabInBox",
+    ],
   },
   {
     key: "lower",
@@ -130,10 +141,14 @@ const LABELS: Partial<Record<keyof ResolvedProductPageDisplay, string>> = {
   shortDescription: "Short description",
   tabs: "Tab bar",
   tabDescription: "Description tab",
+  tabOverview: "Overview tab",
   tabSpecs: "Specifications tab",
   tabDocuments: "Documents tab",
+  tabInstallation: "Installation tab",
   tabShipping: "Shipping tab",
   tabReviews: "Reviews tab",
+  tabInBox: "In The Box tab",
+  modelViewer: "3D model viewer",
   frequentlyBought: "Frequently bought together",
   crossLinks: "Cross links",
   promo: "Promo banner",
@@ -162,10 +177,14 @@ const ITEM_HINTS: Partial<Record<keyof ResolvedProductPageDisplay, string>> = {
   shortDescription: "Brief product summary text",
   tabs: "Tab navigation bar",
   tabDescription: "Full product description tab",
+  tabOverview: "UniFi Overview tab (follows Description unless overridden)",
   tabSpecs: "Technical specifications tab",
   tabDocuments: "Documents & manuals tab",
+  tabInstallation: "UniFi Installation Tutorial tab (follows Documents unless overridden)",
   tabShipping: "Shipping information tab",
   tabReviews: "Customer reviews tab",
+  tabInBox: "Package contents tab (UniFi layout)",
+  modelViewer: "3D / GLB viewer in UniFi gallery",
   frequentlyBought: "Frequently bought together section",
   crossLinks: "Related product cross-links",
   promo: "Promotional banner section",
@@ -388,10 +407,10 @@ export function ProductPageDisplayFields({
             <span className="ppd-header__title">Per-product visibility overrides</span>
             <span className="ppd-header__desc">
               Toggle elements on or off for this product only.{" "}
-              <a href="#product-page" className="ppd-header__link">
+              <a href="/admin/pages?tab=product" className="ppd-header__link">
                 Global defaults
               </a>{" "}
-              are managed in the Product Page settings tab.
+              are managed in Pages → Product Page.
             </span>
           </div>
           {hasAnyOverride && (

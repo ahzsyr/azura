@@ -93,11 +93,22 @@ function isChromeVariant(v: unknown): v is CatalogChromeVariant {
 function isViewMode(v: unknown): v is CatalogListingViewMode {
   return v === "grid" || v === "list" || v === "table";
 }
+function coercePositiveInt(v: unknown): number | undefined {
+  if (typeof v === "number" && Number.isFinite(v)) return Math.trunc(v);
+  if (typeof v === "string" && v.trim() !== "") {
+    const n = Number(v);
+    if (Number.isFinite(n)) return Math.trunc(n);
+  }
+  return undefined;
+}
+
 function isListColumnsDesktop(v: unknown): v is CatalogListColumnsDesktop {
-  return v === 1 || v === 2 || v === 3;
+  const n = coercePositiveInt(v);
+  return n === 1 || n === 2 || n === 3;
 }
 function isListColumnsTablet(v: unknown): v is CatalogListColumnsTablet {
-  return v === 1 || v === 2;
+  const n = coercePositiveInt(v);
+  return n === 1 || n === 2;
 }
 function isTitleScale(v: unknown): v is ResolvedCatalogPageHero["titleScale"] {
   return v === "sm" || v === "md" || v === "lg";
@@ -178,8 +189,12 @@ export function normalizeProductListingLayoutPartial(
   if (isViewMode(o.defaultViewMode)) out.defaultViewMode = o.defaultViewMode;
   if (isHeroStyle(o.heroStyle)) out.heroStyle = o.heroStyle;
   if (typeof o.showCompare === "boolean") out.showCompare = o.showCompare;
-  if (isListColumnsDesktop(o.listColumnsDesktop)) out.listColumnsDesktop = o.listColumnsDesktop;
-  if (isListColumnsTablet(o.listColumnsTablet)) out.listColumnsTablet = o.listColumnsTablet;
+  if (isListColumnsDesktop(o.listColumnsDesktop)) {
+    out.listColumnsDesktop = coercePositiveInt(o.listColumnsDesktop) as CatalogListColumnsDesktop;
+  }
+  if (isListColumnsTablet(o.listColumnsTablet)) {
+    out.listColumnsTablet = coercePositiveInt(o.listColumnsTablet) as CatalogListColumnsTablet;
+  }
   return Object.keys(out).length ? out : undefined;
 }
 
@@ -202,10 +217,10 @@ export function resolveProductListingLayout(
       ? partial.defaultViewMode
       : (viewModes[0] ?? "grid");
   const listColumnsDesktop = isListColumnsDesktop(partial?.listColumnsDesktop)
-    ? partial!.listColumnsDesktop!
+    ? (coercePositiveInt(partial!.listColumnsDesktop) as CatalogListColumnsDesktop)
     : LISTING_DEFAULTS.listColumnsDesktop;
   const listColumnsTablet = isListColumnsTablet(partial?.listColumnsTablet)
-    ? partial!.listColumnsTablet!
+    ? (coercePositiveInt(partial!.listColumnsTablet) as CatalogListColumnsTablet)
     : LISTING_DEFAULTS.listColumnsTablet;
   return {
     ...base,

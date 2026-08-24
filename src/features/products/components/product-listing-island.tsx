@@ -817,7 +817,9 @@ export function ProductListingIsland({
 
   const sortedFiltered = useMemo(() => {
     if (effectiveServerPaginated) return filtered;
-    if (!isCatalogLayout) return filtered;
+    // Catalog name/count sort is only for collection index cards.
+    // Product grids (e.g. /brands/[slug]) must keep server merchandising order.
+    if (!isCatalogLayout || !isCollectionListing) return filtered;
     const copy = [...filtered];
     copy.sort((a, b) => {
       if (catalogSort === "items-desc") {
@@ -829,7 +831,7 @@ export function ProductListingIsland({
       return (a.name || "").localeCompare(b.name || "");
     });
     return copy;
-  }, [filtered, isCatalogLayout, catalogSort, effectiveServerPaginated]);
+  }, [filtered, isCatalogLayout, isCollectionListing, catalogSort, effectiveServerPaginated]);
 
   const listForPagination = isCatalogLayout ? sortedFiltered : filtered;
 

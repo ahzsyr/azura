@@ -12,6 +12,8 @@ import { normalizeGscSiteUrl } from "@/features/seo/admin/google-gsc-site-url";
 import { refreshGoogleToken } from "./google-auth";
 import { verifyGoogleIntegrationAccess, resolveConfiguredGscSiteUrl } from "./google-verify";
 import { normalizeWiredCmsAbsoluteUrl } from "@/features/cms/cms-page-path";
+import { validateServiceAccountJson } from "@/features/seo/google-live/service-account-json";
+import { submitIndexNowUrls } from "./indexnow-submit";
 
 function configuredResult(provider: SeoIntegrationProvider, config?: SeoIntegrationProviderConfig) {
   const configured = provider.isConfigured(config);
@@ -48,19 +50,7 @@ export const indexNowProvider: SeoIntegrationProvider = {
     return configuredResult(this, config);
   },
   async submitUrl(config, input) {
-    const endpoint = config.endpoint?.trim() || "https://api.indexnow.org/indexnow";
-    const siteUrl = normalizeSiteUrl(config, input.siteUrl);
-    const url = normalizeWiredCmsAbsoluteUrl(input.url);
-    return fetchJson(endpoint, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        host: new URL(siteUrl).host,
-        key: config.apiKey,
-        keyLocation: config.keyLocation || `${siteUrl}/${config.apiKey}.txt`,
-        urlList: [url],
-      }),
-    });
+    return submitIndexNowUrls(config, [input.url], input.siteUrl);
   },
   async submitSitemap() {
     return {
@@ -184,8 +174,61 @@ export const googleProvider: SeoIntegrationProvider = {
   },
 };
 
+export const googleIndexingProvider: SeoIntegrationProvider = {
+  id: "google_indexing",
+  label: "Google Indexing API",
+  isConfigured(config) {
+    if (!config?.enabled) return false;
+    if (!config.serviceAccountJson?.trim()) return false;
+    return validateServiceAccountJson(config.serviceAccountJson).ok;
+  },
+  async health(config) {
+    const enabled = Boolean(config?.enabled);
+    if (!enabled) {
+      return {
+        provider: this.id,
+        enabled: false,
+        configured: false,
+        ok: false,
+        message: "Disabled",
+      };
+    }
+    const json = config?.serviceAccountJson?.trim();
+    if (!json) {
+      return {
+        provider: this.id,
+        enabled: true,
+        configured: false,
+        ok: false,
+        message: "Service account JSON required",
+      };
+    }
+    const validation = validateServiceAccountJson(json);
+    return {
+      provider: this.id,
+      enabled: true,
+      configured: validation.ok,
+      ok: validation.ok,
+      message: validation.ok ? "Service account configured" : validation.message,
+    };
+  },
+  async submitUrl() {
+    return {
+      ok: true,
+      message: "Skipped: Indexing API runs through Search Operations queue, not URL submission jobs",
+    };
+  },
+  async submitSitemap() {
+    return {
+      ok: true,
+      message: "Skipped: use Search Console sitemap submission for sitemaps",
+    };
+  },
+};
+
 export const SEO_INTEGRATION_PROVIDERS = [
   indexNowProvider,
   bingProvider,
+  googleIndexingProvider,
   googleProvider,
 ] as const;

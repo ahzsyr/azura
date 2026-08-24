@@ -13,6 +13,7 @@ import {
   resolveComingSoonCanonicalPath,
 } from "@/features/coming-soon/coming-soon.middleware";
 import { getAuthToken, tokenToSession } from "@/lib/auth.middleware";
+import { isAdminRole } from "@/features/auth/portal";
 
 function applyComingSoonBypassCookie(response: NextResponse, secret: string) {
   response.cookies.set(COMING_SOON_BYPASS_COOKIE, secret, {
@@ -32,7 +33,7 @@ async function canAccessSiteDuringComingSoon(
   if (hasComingSoonBypassCookie(bypassCookie)) return true;
 
   const session = await getSession();
-  return session?.user?.role === "ADMIN";
+  return isAdminRole(session?.user?.role);
 }
 
 export async function enforceComingSoonMode(

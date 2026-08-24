@@ -15,6 +15,12 @@ export type ProductListingRecord = {
   tags: string[];
   /** Source matching tokens used by category Matching Rules (`matchingRules` field). */
   matchingRules?: string[];
+  /** Coarse converter main category for Matching Rules. */
+  mainCategory?: string;
+  environment?: string;
+  mountingMethod?: string;
+  generation?: string;
+  antennaDesign?: string;
   price: ProductPrice;
   old_price?: number | null;
   priceMin: number;
@@ -70,6 +76,8 @@ export type ListingFilterLogic = "and" | "or";
 
 export type ListingFilterState = {
   q: string;
+  /** When true, `q` must match as a whole phrase (word boundaries), not loose tokens. */
+  qExact?: boolean;
   categories: string[];
   brands: string[];
   collections: string[];

@@ -103,12 +103,17 @@ export const PAGE_INVENTORY_OVERRIDES: Record<string, Partial<HelpInventoryPage>
     componentIds: undefined,
   },
   "seo-integrations": {
-    version: 1,
+    version: 3,
     pageKind: "action",
     tabIds: [
       "tab-seo-integrations-monitoring",
       "tab-seo-integrations-configure",
       "tab-seo-integrations-queue",
+    ],
+    fieldIds: [
+      "field-indexnow-api-key",
+      "field-indexnow-endpoint",
+      "field-indexnow-key-location",
     ],
     actionIds: ["action-save"],
     componentIds: undefined,

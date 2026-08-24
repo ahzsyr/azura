@@ -9,6 +9,7 @@ type ActionResultState = {
   ok: boolean;
   message: string;
   resultHref?: string;
+  configureHref?: string;
   simulated?: boolean;
 } | null;
 
@@ -21,6 +22,7 @@ function formatActionResult(result: unknown): ActionResultState {
     status?: unknown;
     summary?: unknown;
     resultHref?: unknown;
+    configureHref?: unknown;
     ok?: unknown;
     simulated?: unknown;
     error?: unknown;
@@ -31,6 +33,7 @@ function formatActionResult(result: unknown): ActionResultState {
       ok: data.ok !== false,
       message: data.summary,
       resultHref: typeof data.resultHref === "string" ? data.resultHref : undefined,
+      configureHref: typeof data.configureHref === "string" ? data.configureHref : undefined,
       simulated: Boolean(data.simulated),
     };
   }
@@ -42,6 +45,7 @@ function formatActionResult(result: unknown): ActionResultState {
       ok: !failed,
       message: failed && typeof data.error === "string" ? data.error : `Status: ${status}`,
       resultHref: typeof data.resultHref === "string" ? data.resultHref : undefined,
+      configureHref: typeof data.configureHref === "string" ? data.configureHref : undefined,
       simulated: Boolean(data.simulated),
     };
   }
@@ -93,10 +97,19 @@ export function ActionButton({
             {state.message}
             {state.simulated ? " · simulated" : ""}
           </p>
-          {state.resultHref ? (
-            <Link href={state.resultHref} className="text-primary hover:underline">
-              View result
-            </Link>
+          {state.resultHref || state.configureHref ? (
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5">
+              {state.resultHref ? (
+                <Link href={state.resultHref} className="text-primary hover:underline">
+                  View result
+                </Link>
+              ) : null}
+              {state.configureHref ? (
+                <Link href={state.configureHref} className="text-primary hover:underline">
+                  Configure
+                </Link>
+              ) : null}
+            </div>
           ) : null}
         </div>
       ) : null}

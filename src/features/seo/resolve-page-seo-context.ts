@@ -129,7 +129,7 @@ function resolveContentItemPublicPath(
   },
 ): string {
   const slug = item.slug?.trim();
-  const prefix = item.contentType.routePrefix?.trim();
+  const prefix = item.contentType.routePrefix?.trim() || item.contentType.slug.trim();
   const attrs = (item.attributes ?? {}) as Record<string, unknown>;
   const ctaHref = typeof attrs.ctaHref === "string" ? attrs.ctaHref.trim() : "";
 

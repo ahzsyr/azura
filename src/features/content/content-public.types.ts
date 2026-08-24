@@ -59,6 +59,8 @@ export type ContentItemView = {
   sortOrder: number;
   publishedAt: Date | null;
   authorName: string | null;
+  showAuthor: boolean;
+  showPublishedAt: boolean;
   sources: { label: string; url: string }[];
   collection: ContentCollectionView | null;
   media: ContentMediaView[];
@@ -100,6 +102,9 @@ export type LegacyPackageView = {
   category: ContentCollectionView;
   images: { id?: string; url: string; altEn?: string; altAr?: string; sortOrder?: number }[];
   contentItemId: string;
+  locationEn?: string;
+  locationAr?: string;
+  city?: string;
 };
 
 export type LegacyHotelView = {

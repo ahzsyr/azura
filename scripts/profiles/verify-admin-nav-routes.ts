@@ -12,7 +12,6 @@ const NAV_MANIFEST = path.join(ROOT, "docs", "admin-nav-manifest.yaml");
 
 /** Routes that exist but are intentionally hidden from sidebar navigation. */
 const ALLOWLIST_UNLISTED_ROUTES = new Set([
-  "/admin/login",
   "/admin/content/types",
   "/admin/posts/authors",
   "/admin/posts/categories",

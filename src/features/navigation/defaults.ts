@@ -4,7 +4,7 @@ import {
   DEFAULT_TAGLINE,
   isDefaultBrandName,
 } from "@/config/site";
-import type { BrandingState, HeaderAction, HeaderDesktopMode, HeaderWorkspace, MenuItem, MenuItemType } from "./types";
+import type { BrandingState, HeaderAction, HeaderDesktopMode, HeaderWorkspace, MegaMenuChildDisplayType, MenuItem, MenuItemType } from "./types";
 import { normalizeBranding } from "./branding-defaults";
 import { generateId } from "./menu-engine";
 
@@ -342,6 +342,7 @@ export function newMenuItemFromForm(input: {
   type: MenuItemType;
   label: string;
   icon?: string;
+  megaMenuChildDisplayType?: MegaMenuChildDisplayType;
   placement: MenuItem["placement"];
   url?: string;
   pageId?: string;
@@ -367,6 +368,11 @@ export function newMenuItemFromForm(input: {
   };
   const icon = input.icon?.trim();
   if (icon) base.icon = icon;
+
+  if (input.megaMenuChildDisplayType && input.megaMenuChildDisplayType !== "automatic") {
+    base.megaMenuChildDisplayType = input.megaMenuChildDisplayType;
+  }
+
   if (input.type === "link") base.url = input.url ?? "#";
   else if (input.type === "page") base.pageId = input.pageId ?? "home";
   else if (input.type === "collection" || input.type === "packageCategory") {

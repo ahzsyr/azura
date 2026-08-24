@@ -2,6 +2,7 @@ import type { SettingsRibbonTab } from "@/components/admin/layout/admin-settings
 
 export const PORTAL_SETTINGS_TABS = [
   { id: "registration", label: "Registration" },
+  { id: "email-verification", label: "Email verification" },
   { id: "password-reset", label: "Password reset" },
 ] as const satisfies readonly SettingsRibbonTab[];
 

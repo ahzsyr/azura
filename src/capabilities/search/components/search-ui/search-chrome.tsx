@@ -11,6 +11,15 @@ import {
   type ResolvedSearchModalStyle,
 } from "./search-modal-style";
 import { useIsMobileSearch } from "./use-is-mobile-search";
+import "@/capabilities/search/components/search-ui/search-ui.css";
+import "@/capabilities/search/components/search-ui/search-theme.css";
+
+const PANEL_WIDTH_CLASS: Record<SearchPanelWidth, string> = {
+  sm: "w-[min(96vw,32rem)]",
+  md: "w-[min(96vw,36rem)]",
+  lg: "w-[min(96vw,42rem)]",
+  xl: "w-[min(96vw,52rem)]",
+};
 
 type Props = {
   open: boolean;
@@ -99,7 +108,7 @@ export function SearchChrome({
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
-          className="sm-search-backdrop"
+          className="sm-search-backdrop fixed inset-0 z-[10000] bg-background/70 backdrop-blur-md"
           style={modalVars}
         />
         <DialogPrimitive.Content
@@ -118,14 +127,22 @@ export function SearchChrome({
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
           className={cn(
-            "sm-search-root sm-search-panel",
+            "sm-search-root sm-search-panel fixed z-[10001] flex flex-col overflow-hidden border border-border bg-background shadow-2xl outline-none",
             inheritGlobalTheme && "sm-search-root--theme",
             `sm-search-root--modal-${modal.panelStyle}`,
             `sm-search-root--width-${panelWidth}`,
             inputStyle && `sm-search-root--input-${inputStyle}`,
             modal.panelStyle === "glass" && "az-glass-panel sm-search-panel--glass",
             modal.panelStyle !== "glass" && "sm-search-panel--solid",
-            isMobile && "sm-search-panel--drawer"
+            isMobile
+              ? "sm-search-panel--drawer inset-x-0 bottom-0 top-auto m-0 h-[min(92dvh,40rem)] w-full max-h-[92dvh] rounded-t-3xl"
+              : cn(
+                  "inset-5 m-auto max-h-[calc(100dvh-2.5rem)] max-w-[calc(100vw-2.5rem)] rounded-2xl",
+                  panelWidth === "xl"
+                    ? "h-[min(78vh,45rem)]"
+                    : "h-[min(72vh,40rem)]",
+                  PANEL_WIDTH_CLASS[panelWidth]
+                )
           )}
           data-search-theme={inheritGlobalTheme ? "inherit" : "standalone"}
           data-search-panel-style={modal.panelStyle}
@@ -141,7 +158,7 @@ export function SearchChrome({
           aria-describedby={undefined}
         >
           <DialogPrimitive.Title className="sr-only">{title}</DialogPrimitive.Title>
-          {children}
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden">{children}</div>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>

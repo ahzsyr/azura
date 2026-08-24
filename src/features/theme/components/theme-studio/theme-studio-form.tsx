@@ -40,25 +40,59 @@ import {
   AdvancedSection,
   PreviewSection,
 } from "./sections/theme-studio-sections";
+import type { ChromePageOption } from "@/features/theme/chrome-page-options";
+import {
+  parsePageTransitionsSettings,
+  type PageTransitionsSettings,
+} from "@/features/preloader/page-transitions.schema";
+import { adminLocale } from "@/features/catalog/admin/catalog-admin-config";
 
 type Props = {
   draft: SiteTheme | null;
   published: SiteTheme | null;
+  chromePages?: ChromePageOption[];
+  pageTransitions: PageTransitionsSettings;
 };
 
-export function ThemeStudioForm({ draft, published }: Props) {
+export function ThemeStudioForm({ draft, published, chromePages, pageTransitions }: Props) {
   const base = draft ?? published;
   if (!base) {
     return <p>No theme configured. Run database seed.</p>;
   }
 
-  return <ThemeStudioFormContent draft={draft} published={published} base={base} />;
+  return (
+    <ThemeStudioFormContent
+      draft={draft}
+      published={published}
+      base={base}
+      chromePages={chromePages}
+      pageTransitions={pageTransitions}
+    />
+  );
+}
+
+async function savePageTransitionsSettings(settings: PageTransitionsSettings): Promise<void> {
+  const res = await fetch("/api/save-settings", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      key: "pageTransitions",
+      value: settings,
+      locale: adminLocale.code,
+    }),
+  });
+  const data = (await res.json()) as { error?: string };
+  if (!res.ok) {
+    throw new Error(data.error ?? "Failed to save page transitions");
+  }
 }
 
 function ThemeStudioFormContent({
   draft,
   published,
   base,
+  chromePages,
+  pageTransitions: initialPageTransitions,
 }: Props & { base: SiteTheme }) {
   const router = useRouter();
   const adminForm = useAdminFormOptional();
@@ -70,6 +104,20 @@ function ThemeStudioFormContent({
   const [compareMode, setCompareMode] = useState(false);
   const [translationRows, setTranslationRows] = useState<EntityTranslation[]>([]);
   const translationFlushRef = useRef<(() => Promise<void>) | null>(null);
+
+  const [pageTransitions, setPageTransitions] = useState(() =>
+    parsePageTransitionsSettings(initialPageTransitions),
+  );
+  const [pageTransitionsSnapshot, setPageTransitionsSnapshot] = useState(() =>
+    JSON.stringify(parsePageTransitionsSettings(initialPageTransitions)),
+  );
+  const pageTransitionsDirty = JSON.stringify(pageTransitions) !== pageTransitionsSnapshot;
+
+  useEffect(() => {
+    const next = parsePageTransitionsSettings(initialPageTransitions);
+    setPageTransitions(next);
+    setPageTransitionsSnapshot(JSON.stringify(next));
+  }, [initialPageTransitions]);
 
   useEffect(() => {
     const fromUrl = searchParams.get("section");
@@ -107,10 +155,19 @@ function ThemeStudioFormContent({
     void loadThemeTranslations();
   }, [loadThemeTranslations]);
 
+  const persistPageTransitionsIfDirty = useCallback(async () => {
+    if (!pageTransitionsDirty) return;
+    const normalized = parsePageTransitionsSettings(pageTransitions);
+    await savePageTransitionsSettings(normalized);
+    setPageTransitions(normalized);
+    setPageTransitionsSnapshot(JSON.stringify(normalized));
+  }, [pageTransitions, pageTransitionsDirty]);
+
   const onSave = useCallback(async () => {
     if (translationFlushRef.current) {
       await translationFlushRef.current();
     }
+    await persistPageTransitionsIfDirty();
     const baseline = JSON.parse(studio.savedSnapshot) as Record<string, unknown>;
     const changes = computePatch(baseline, studio.state as Record<string, unknown>);
     if (isEmptyPatch(changes)) return true;
@@ -119,7 +176,7 @@ function ThemeStudioFormContent({
     useAdminUiStore.getState().markPublishPending();
     document.cookie = "theme-preview=draft; path=/; max-age=3600";
     return true;
-  }, [studio]);
+  }, [studio, persistPageTransitionsIfDirty]);
 
   const refreshThemeState = useCallback(async () => {
     router.refresh();
@@ -129,6 +186,7 @@ function ThemeStudioFormContent({
     if (translationFlushRef.current) {
       await translationFlushRef.current();
     }
+    await persistPageTransitionsIfDirty();
     const baseline = JSON.parse(studio.savedSnapshot) as Record<string, unknown>;
     const changes = computePatch(baseline, studio.state as Record<string, unknown>);
     if (!isEmptyPatch(changes)) {
@@ -140,7 +198,7 @@ function ThemeStudioFormContent({
     useAdminUiStore.getState().markPublished();
     document.cookie = "theme-preview=; path=/; max-age=0";
     await refreshThemeState();
-  }, [studio, adminForm, refreshThemeState]);
+  }, [studio, adminForm, refreshThemeState, persistPageTransitionsIfDirty]);
 
   const onPreview = useCallback(() => {
     document.cookie = "theme-preview=draft; path=/; max-age=3600";
@@ -149,7 +207,8 @@ function ThemeStudioFormContent({
 
   const onCancel = useCallback(() => {
     studio.revertToSaved();
-  }, [studio]);
+    setPageTransitions(JSON.parse(pageTransitionsSnapshot) as PageTransitionsSettings);
+  }, [studio, pageTransitionsSnapshot]);
 
   const sectionProps = {
     studio,
@@ -163,6 +222,7 @@ function ThemeStudioFormContent({
     onCompareModeChange: setCompareMode,
     previewAppearance,
     onPreviewAppearanceChange: setPreviewAppearance,
+    chromePages,
   };
 
   const renderSection = (tabId: ThemeStudioSectionId) => {
@@ -176,9 +236,15 @@ function ThemeStudioFormContent({
       case "typography":
         return <TypographySection studio={studio} />;
       case "layout":
-        return <LayoutSection studio={studio} />;
+        return <LayoutSection studio={studio} chromePages={chromePages} />;
       case "motion":
-        return <MotionSection studio={studio} />;
+        return (
+          <MotionSection
+            studio={studio}
+            pageTransitions={pageTransitions}
+            onPageTransitionsChange={setPageTransitions}
+          />
+        );
       case "effects":
         return <EffectsSection studio={studio} />;
       case "cards-borders":
@@ -216,7 +282,11 @@ function ThemeStudioFormContent({
         canUndo={studio.canUndo}
         canRedo={studio.canRedo}
       >
-        <ThemeDirtySync state={studio.state} savedSnapshot={studio.savedSnapshot} />
+        <ThemeDirtySync
+          state={studio.state}
+          savedSnapshot={studio.savedSnapshot}
+          extraDirty={pageTransitionsDirty}
+        />
         <ThemeTranslationDirtySync />
         <ThemeSaveNotifier />
         <DesignHubShell
@@ -230,7 +300,7 @@ function ThemeStudioFormContent({
             </p>
           ) : null}
 
-          {studio.isDirty ? (
+          {studio.isDirty || pageTransitionsDirty ? (
             <p className="text-xs text-muted-foreground">Unsaved changes in the editor.</p>
           ) : null}
 

@@ -3,6 +3,7 @@ import "server-only";
 import { readSiteSettings } from "@/features/catalog/site-settings.service";
 import {
   brandNameToSlug,
+  ensureDefaultBrandMatchRules,
   normalizeCatalogBrandProfiles,
   seedProfilesFromBrandNames,
   type CatalogBrandProfile,
@@ -54,10 +55,11 @@ export function mergeBrandProfiles(
   incoming: string[],
   mode: "merge" | "replace",
 ): CatalogBrandProfile[] {
-  if (mode === "replace") {
-    return seedProfilesFromBrandNames([], incoming);
-  }
-  return seedProfilesFromBrandNames(existing, incoming);
+  const merged =
+    mode === "replace"
+      ? seedProfilesFromBrandNames([], incoming)
+      : seedProfilesFromBrandNames(existing, incoming);
+  return merged.map(ensureDefaultBrandMatchRules);
 }
 
 export function syncBrandProfileLinks(profiles: CatalogBrandProfile[]): CatalogBrandProfile[] {

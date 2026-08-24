@@ -13,6 +13,7 @@ const ENTITY_TO_KIND: Record<SearchEntityType, SearchContentKind> = {
   FAQ: "faq",
   TESTIMONIAL: "testimonial",
   MEDIA: "media",
+  ICON: "icon",
   TEAM_MEMBER: "team_member",
   PARTNER: "partner",
 };
@@ -29,6 +30,7 @@ const KIND_TO_ENTITY: Record<string, SearchEntityType> = {
   faq: "FAQ",
   testimonial: "TESTIMONIAL",
   media: "MEDIA",
+  icon: "ICON",
   team_member: "TEAM_MEMBER",
   partner: "PARTNER",
 };

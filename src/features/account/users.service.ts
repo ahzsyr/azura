@@ -10,6 +10,12 @@ import {
   parseDateOfBirth,
 } from "@/features/setup/setup-complete.schema";
 import { sendPasswordResetForUser } from "@/features/account/password-reset.service";
+import { bumpUserSessionVersion } from "@/lib/session-version";
+import { writeSecurityAuditLog } from "@/lib/security-audit";
+import {
+  disableCustomerAccount,
+  enableCustomerAccount,
+} from "@/features/auth/login-lockout.service";
 
 export type CustomerListRow = {
   id: string;
@@ -64,6 +70,7 @@ export const usersService = {
         postalCode: true,
         country: true,
         marketingOptIn: true,
+        disabledAt: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -101,15 +108,41 @@ export const usersService = {
   async setCustomerPassword(id: string, raw: unknown) {
     const { newPassword } = adminSetPasswordSchema.parse(raw);
     const passwordHash = await bcrypt.hash(newPassword, 12);
-    return prisma.user.update({
+    const updated = await prisma.user.update({
       where: { id, role: "CUSTOMER" },
       data: { passwordHash },
       select: { id: true, email: true },
     });
+    await bumpUserSessionVersion(id);
+    await writeSecurityAuditLog({
+      action: "auth.password.changed",
+      actorId: id,
+      actorRole: "CUSTOMER",
+      meta: { reason: "ADMIN_SET_PASSWORD" },
+    });
+    await writeSecurityAuditLog({
+      action: "auth.session.revoked",
+      actorId: id,
+      actorRole: "CUSTOMER",
+      meta: { reason: "PASSWORD_CHANGED" },
+    });
+    return updated;
+  },
+
+  async setCustomerDisabled(
+    id: string,
+    disabled: boolean,
+    actor: { id: string; role: string },
+  ) {
+    if (disabled) {
+      await disableCustomerAccount(id, actor);
+    } else {
+      await enableCustomerAccount(id, actor);
+    }
+    return { ok: true as const };
   },
 
   async triggerPasswordReset(id: string, locale = "en") {
-    await sendPasswordResetForUser(id, locale);
-    return { ok: true as const };
+    return sendPasswordResetForUser(id, locale);
   },
 };

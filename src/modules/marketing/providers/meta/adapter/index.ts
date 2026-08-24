@@ -1,7 +1,7 @@
 import type { MarketingProviderAdapter } from "@/modules/marketing/core/registry/types";
 import { buildHealthReport, checkNow } from "@/modules/marketing/core/health";
 import { metaProviderManifest, META_PROVIDER_ID } from "../manifest";
-import { listMetaPages, publishMetaPagePost } from "../sdk/api";
+import { listMetaAdAccounts, listMetaAds, listMetaAdsCampaigns, listMetaAdSets, listMetaPages, getMetaAdInsights, publishMetaPagePost } from "../sdk/api";
 import {
   fromMetaPublishResponse,
   mapMetaInsightsToCanonical,
@@ -137,6 +137,123 @@ export const metaProviderAdapter: MarketingProviderAdapter = {
   },
   async verifyWebhookSignature(rawBody, headers) {
     return verifyMetaSignature(rawBody, headers);
+  },
+  async listAdAccounts(connectionId) {
+    const token = await readAccessToken(connectionId);
+    if (!token) return [];
+    try {
+      const accounts = await listMetaAdAccounts(token);
+      return accounts.map((a) => ({
+        externalId: a.account_id || a.id.replace(/^act_/, ""),
+        name: a.name,
+        currency: a.currency,
+        status: String(a.account_status ?? "unknown"),
+        metadata: { graphId: a.id },
+      }));
+    } catch {
+      return [];
+    }
+  },
+  async syncExternalCampaigns(connectionId, adAccountId) {
+    const token = await readAccessToken(connectionId);
+    if (!token) return [];
+    try {
+      const campaigns = await listMetaAdsCampaigns(token, adAccountId);
+      return campaigns.map((c) => ({
+        externalId: c.id,
+        name: c.name,
+        status: c.status,
+        providerEntityType: "campaign",
+        adAccountExternalId: adAccountId,
+        metadata: { objective: c.objective },
+      }));
+    } catch {
+      return [];
+    }
+  },
+  async syncAdGroups(connectionId, externalCampaignId) {
+    const token = await readAccessToken(connectionId);
+    if (!token) return [];
+    try {
+      const sets = await listMetaAdSets(token, externalCampaignId);
+      return sets.map((s) => ({
+        externalId: s.id,
+        name: s.name,
+        status: s.status,
+        providerEntityType: "ad_set",
+        externalCampaignId,
+      }));
+    } catch {
+      return [];
+    }
+  },
+  async syncAds(connectionId, adGroupExternalId) {
+    const token = await readAccessToken(connectionId);
+    if (!token) return [];
+    try {
+      const ads = await listMetaAds(token, adGroupExternalId);
+      return ads.map((a) => ({
+        externalId: a.id,
+        name: a.name,
+        status: a.status,
+        providerEntityType: "ad",
+        adGroupExternalId,
+        metadata: { creativeId: a.creative?.id },
+      }));
+    } catch {
+      return [];
+    }
+  },
+  async syncCreatives(connectionId, adExternalId) {
+    const token = await readAccessToken(connectionId);
+    if (!token) return [];
+    // Creatives are referenced from ads; fetch creative node when present in metadata via Graph
+    try {
+      const body = await (await import("../sdk/api")).metaGraphGet<{
+        creative?: { id?: string; name?: string; title?: string; body?: string; thumbnail_url?: string };
+      }>(`/${adExternalId}`, token, { fields: "creative{id,name,title,body,thumbnail_url}" });
+      const creative = body.creative;
+      if (!creative?.id) return [];
+      return [
+        {
+          externalId: creative.id,
+          name: creative.name,
+          headline: creative.title,
+          body: creative.body,
+          previewUrl: creative.thumbnail_url,
+          adExternalId,
+          creativeType: "meta_creative",
+        },
+      ];
+    } catch {
+      return [];
+    }
+  },
+  async fetchCampaignMetrics(connectionId, externalCampaignId, period) {
+    const token = await readAccessToken(connectionId);
+    if (!token) return [];
+    try {
+      const insights = await getMetaAdInsights(token, externalCampaignId, period);
+      if (!insights) return [];
+      const conversions =
+        insights.actions?.find((a) => a.action_type.includes("lead") || a.action_type.includes("purchase"))
+          ?.value ?? "0";
+      return [
+        {
+          providerId: META_PROVIDER_ID,
+          externalCampaignId,
+          impressions: Number(insights.impressions ?? 0),
+          clicks: Number(insights.clicks ?? 0),
+          spend: Number(insights.spend ?? 0),
+          conversions: Number(conversions),
+          reach: Number(insights.reach ?? 0),
+          periodStart: period.from,
+          periodEnd: period.to,
+        },
+      ];
+    } catch {
+      return [];
+    }
   },
 };
 

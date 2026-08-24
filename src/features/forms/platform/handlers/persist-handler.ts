@@ -15,8 +15,12 @@ export async function formsPersistHandler(ctx: PipelineContext): Promise<Record<
     throw new Error("Validation and scoring must run before persist");
   }
 
-  const entityRefs = (ctx.data.entityRefs as SubmissionEntityRefs | undefined)
+  const baseRefs = (ctx.data.entityRefs as SubmissionEntityRefs | undefined)
     ?? resolveSubmissionEntityRefs(form, { values: parsed, score });
+  const entityRefs: SubmissionEntityRefs = {
+    ...baseRefs,
+    customerId: command.context.customerId ?? baseRefs.customerId,
+  };
 
   const result = await persistFormSubmission(
     {

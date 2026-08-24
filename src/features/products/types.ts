@@ -20,14 +20,93 @@ export interface ProductPrice {
   discount?: number | null;
 }
 
+export interface ProductFeatureHotspot {
+  dotX?: number;
+  dotY?: number;
+  tooltipX?: number;
+  tooltipY?: number;
+  lineRenderType?: string;
+  scale?: number;
+  canvasWidth?: number;
+  canvasHeight?: number;
+}
+
+export interface ProductFeatureCard {
+  title?: string;
+  body?: string;
+  image?: string;
+  color?: string;
+  attributes?: Record<string, string>;
+  hotspot?: ProductFeatureHotspot;
+}
+
+export interface ProductSectionMedia {
+  url?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+  color?: string;
+  attributes?: Record<string, string>;
+}
+
+export interface ProductSectionVideo {
+  url?: string;
+  type?: string;
+  poster?: string;
+  color?: string;
+  attributes?: Record<string, string>;
+}
+
+export interface ProductModel3dCamera {
+  fov?: number;
+  phi?: number;
+  theta?: number;
+  radius?: number;
+  brightness?: number;
+}
+
+export interface ProductModel3dAr {
+  enabled?: boolean;
+  placement?: string;
+  roll?: number;
+  pitch?: number;
+  yaw?: number;
+}
+
+export interface ProductModel3dVariant {
+  color?: string;
+  sku?: string;
+  thumbnail?: string;
+  attributes?: Record<string, string>;
+  camera?: ProductModel3dCamera;
+  ar?: ProductModel3dAr;
+}
+
+export interface ProductModel3dObject {
+  enabled: boolean;
+  url?: string;
+  variants?: ProductModel3dVariant[];
+}
+
+/** Legacy boolean flag or full UniFi GLB payload. */
+export type ProductModel3d = boolean | ProductModel3dObject;
+
 export interface ProductDetailedSection {
   heading: string;
   text: string;
+  tab?: string;
+  tab_label?: string;
+  media?: ProductSectionMedia[];
+  videos?: ProductSectionVideo[];
+  features?: ProductFeatureCard[];
+  model_3d?: ProductModel3dObject;
 }
 
 export interface ProductSpecEntry {
   name?: string;
   value?: string;
+  is_group?: boolean;
+  parent?: string;
 }
 
 export interface ProductSpecificationGroup {
@@ -46,11 +125,16 @@ export interface ProductMediaImage {
   url?: string;
   alt?: string;
   type?: ProductMediaImageType;
+  color?: string;
+  attributes?: Record<string, string>;
 }
 
 export interface ProductMediaVideo {
   url?: string;
   type?: ProductMediaVideoType;
+  poster?: string;
+  color?: string;
+  attributes?: Record<string, string>;
 }
 
 export type ProductMediaFile = Record<string, unknown>;
@@ -60,7 +144,7 @@ export interface ProductMedia {
   thumbnails?: ProductMediaFile[];
   videos?: ProductMediaVideo[];
   files?: ProductMediaFile[];
-  "3d_model"?: boolean;
+  "3d_model"?: ProductModel3d;
 }
 
 export interface ProductDocument {
@@ -113,6 +197,18 @@ export type ProductPromoPartial = Record<string, unknown>;
 export type ProductTrustPartial = Record<string, unknown>;
 export type ProductVariationCombination = Record<string, unknown>;
 
+export interface ProductBoughtTogetherItem {
+  name?: string;
+  title?: string;
+  url?: string;
+  slug?: string;
+  price?: number;
+  currency?: string;
+  mpn?: string;
+  availability?: string;
+  image?: string;
+}
+
 export interface Product {
   id: string;
   productTitle: string;
@@ -132,6 +228,19 @@ export interface Product {
   manufacturer_part_number?: string;
   ean?: string;
   brand?: string;
+  /**
+   * Coarse converter main category (Indoor, Outdoor, Networking, …).
+   * Used by Matching Rules field `mainCategory`.
+   */
+  mainCategory?: string;
+  /** Full brand-tree paths from converter (e.g. "Ubiquiti > 60 GHz Wireless > airFiber 60 GHz"). */
+  brandPaths?: string[];
+  /** Full store-category paths from converter. */
+  categoryPaths?: string[];
+  /** Individual brand-tree levels (ancestors + leaf), separate from store categories. */
+  brandCategories?: string[];
+  /** Individual store-category levels (ancestors + leaf), separate from brand tree. */
+  storeCategories?: string[];
   warranty?: string;
   category?: ProductCategory | null;
   categories?: string[];
@@ -155,10 +264,12 @@ export interface Product {
     options?: Record<string, unknown>[];
   };
   delivery_options?: Record<string, unknown>[];
-  bought_together?: Record<string, unknown>[];
+  bought_together?: ProductBoughtTogetherItem[];
   certifications?: Array<ProductCertification | string>;
   product_cta?: ProductCtaPartial;
   page_display?: ProductPageDisplayPartial;
+  /** PDP layout template override (null/omit = inherit from category → brand → site) */
+  page_layout_template?: string | null;
   /** Optional slug segment override for Buy Now shop URL */
   buy_now_slug?: string;
   /**
@@ -180,6 +291,34 @@ export interface Product {
     question?: string;
     answer?: string;
   }>;
+  /** Converter output format hint (e.g. mikrotik / unifi) */
+  output_format?: string;
+  /** MikroTik included accessory parts */
+  included_parts?: Array<{ label?: string; image?: string }>;
+  /** MikroTik license / OS note */
+  note?: string;
+  /** MikroTik wireless TX/RX tables */
+  wireless_tables?: Array<{
+    band?: string;
+    headers?: string[];
+    rows?: string[][];
+  }>;
+  /** MikroTik ethernet performance table */
+  ethernet_test?: {
+    html?: string;
+    notes?: string[];
+  };
+  /** MikroTik RouterOS download groups */
+  downloads?: {
+    banner?: string;
+    groups?: Array<{
+      name?: string;
+      items?: Array<{ title?: string; url?: string; group?: string }>;
+    }>;
+  };
+  brochure?: { title?: string; url?: string; thumbnail?: string };
+  hero_background?: string;
+  highlights?: Array<{ label?: string; title?: string; icon?: string }>;
 }
 
 export interface ProductSummary {
@@ -188,6 +327,10 @@ export interface ProductSummary {
   name: string;
   brand?: string;
   category?: string | null;
+  /** Derived category labels (all assigned). */
+  categories?: string[];
+  /** Unified Category ids (PRODUCT scope). */
+  categoryIds?: string[];
   price: ProductPrice;
   old_price?: number | null;
   short_description?: string;

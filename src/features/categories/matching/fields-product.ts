@@ -16,6 +16,33 @@ function badgeFromTags(tags: string[]): string {
   return "";
 }
 
+/** Spec keys promoted to first-class Matching Rules fields. */
+export const SPEC_ALIAS_FIELDS = {
+  environment: "Environment",
+  mountingMethod: "Mounting Method",
+  generation: "Generation",
+  antennaDesign: "Antenna Design",
+} as const;
+
+export type SpecAliasField = keyof typeof SPEC_ALIAS_FIELDS;
+
+/** Controlled mainCategory values from the converter. */
+export const MAIN_CATEGORY_VALUES = [
+  "Security Systems",
+  "Fleet Management",
+  "LTE / 5G",
+  "Fiber Networks",
+  "IoT",
+  "Mounts & Brackets",
+  "Electrical & Power",
+  "Accessories",
+  "Outdoor",
+  "Indoor",
+  "Networking",
+  "Licenses",
+  "Other",
+] as const;
+
 /** Flatten product specifications into `spec:<key>` fields (string values). */
 export function flattenProductSpecifications(
   groups: ProductSpecificationGroup[] | undefined,
@@ -65,6 +92,41 @@ export function flattenSpecificationTokens(
     }
   }
   return [...tokens];
+}
+
+/** Read a single specification value by display name (case-insensitive). */
+export function readSpecValueByName(
+  groups: ProductSpecificationGroup[] | undefined,
+  name: string,
+): string {
+  const target = name.trim().toLowerCase();
+  if (!target || !groups?.length) return "";
+  for (const group of groups) {
+    const entries = [...(group.features ?? []), ...(group.items ?? [])];
+    for (const entry of entries) {
+      if ((entry.name ?? "").trim().toLowerCase() === target) {
+        return (entry.value ?? "").trim();
+      }
+    }
+  }
+  return "";
+}
+
+export function extractSpecAliasFields(
+  groups: ProductSpecificationGroup[] | undefined,
+  overrides?: Partial<Record<SpecAliasField, string>>,
+): Record<SpecAliasField, string> {
+  const out = {} as Record<SpecAliasField, string>;
+  for (const [field, specName] of Object.entries(SPEC_ALIAS_FIELDS) as Array<
+    [SpecAliasField, string]
+  >) {
+    const override = overrides?.[field];
+    out[field] =
+      (override != null && String(override).trim() !== ""
+        ? String(override).trim()
+        : readSpecValueByName(groups, specName)) || "";
+  }
+  return out;
 }
 
 /** Normalize product.matchingRules from string | string[] | CSV-ish input. */
@@ -127,6 +189,8 @@ export function productToRuleFields(slug: string, p: CatalogProduct): RuleEntity
   const specs = flattenProductSpecifications(p.specifications);
   const specification = flattenSpecificationTokens(p.specifications);
   const matchingRules = readProductMatchingRules(p);
+  const aliases = extractSpecAliasFields(p.specifications);
+  const mainCategory = String(p.mainCategory ?? "").trim();
 
   return {
     id: p.id,
@@ -136,6 +200,7 @@ export function productToRuleFields(slug: string, p: CatalogProduct): RuleEntity
     category,
     categories,
     brand: p.brand ?? "",
+    mainCategory,
     price: priceVal,
     comparePrice: typeof p.old_price === "number" ? p.old_price : null,
     badge,
@@ -146,6 +211,7 @@ export function productToRuleFields(slug: string, p: CatalogProduct): RuleEntity
     description,
     specification,
     matchingRules,
+    ...aliases,
     ...specs,
   };
 }
@@ -159,6 +225,7 @@ export function ruleMetaToRuleFields(meta: ProductRuleMatchMeta): RuleEntityFiel
     category: meta.category,
     categories: meta.categories,
     brand: meta.brand,
+    mainCategory: meta.mainCategory ?? "",
     price: 0,
     badge: badgeFromTags(meta.tags),
     tags: meta.tags.length ? meta.tags : [],
@@ -166,16 +233,26 @@ export function ruleMetaToRuleFields(meta: ProductRuleMatchMeta): RuleEntityFiel
     stock: meta.stock,
     specification: [],
     matchingRules: meta.matchingRules ?? [],
+    environment: meta.environment ?? "",
+    mountingMethod: meta.mountingMethod ?? "",
+    generation: meta.generation ?? "",
+    antennaDesign: meta.antennaDesign ?? "",
   };
 }
 
 export const PRODUCT_RULE_FIELDS = [
+  "environment",
+  "mountingMethod",
   "category",
-  "categories",
   "tags",
+  "generation",
+  "antennaDesign",
   "brand",
   "title",
   "name",
+  "categories",
+  "matchingRules",
+  "mainCategory",
   "badge",
   "status",
   "stock",
@@ -183,7 +260,6 @@ export const PRODUCT_RULE_FIELDS = [
   "mpn",
   "description",
   "specification",
-  "matchingRules",
 ] as const;
 
 /** True when field is a flattened specification key (`spec:Wi‑Fi`). */

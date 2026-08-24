@@ -12,22 +12,25 @@ import type {
   CatalogNavigationIconContainerStyle,
   CatalogNavigationIconPosition,
   CatalogNavigationLayout,
+  CatalogNavigationOverflowMode,
 } from "@/features/catalog/navigation/types";
 import {
   GAP_PRESETS,
+  ICON_SIZE_PRESETS,
   ITEM_PADDING_PRESETS,
+  resolveOverflowMode,
 } from "@/features/catalog/navigation/layout-semantics";
 import {
   applyLayoutQuickPreset,
   defaultCatalogNavigationLayout,
   layoutPatchForDensity,
-  layoutPatchForSize,
+  layoutPatchForIconSize,
   matchLayoutDensity,
+  matchLayoutIconSize,
   matchLayoutQuickPreset,
-  matchLayoutSize,
   type LayoutDensityId,
+  type LayoutIconSizeId,
   type LayoutQuickPresetId,
-  type LayoutSizeId,
 } from "./nav-style-presets";
 
 type LayoutBreakpoint = "base" | "desktop" | "tablet" | "mobile";
@@ -59,10 +62,24 @@ const DENSITY_OPTIONS: Array<{ id: LayoutDensityId; label: string }> = [
   { id: "relaxed", label: "Relaxed" },
 ];
 
-const SIZE_OPTIONS: Array<{ id: LayoutSizeId; label: string }> = [
-  { id: "compact", label: "Compact" },
-  { id: "medium", label: "Medium" },
-  { id: "large", label: "Large" },
+const ICON_SIZE_OPTIONS: Array<{ id: LayoutIconSizeId; label: string }> = [
+  { id: "xs", label: "XS" },
+  { id: "small", label: "S" },
+  { id: "medium", label: "M" },
+  { id: "large", label: "L" },
+  { id: "xl", label: "XL" },
+];
+
+const ICON_SIZE_SLIDER_MIN = 14;
+const ICON_SIZE_SLIDER_MAX = 40;
+
+const OVERFLOW_OPTIONS: Array<{
+  id: CatalogNavigationOverflowMode;
+  label: string;
+  hint: string;
+}> = [
+  { id: "scroll-bar", label: "Slider bar", hint: "Native horizontal scrollbar" },
+  { id: "scroll-arrows", label: "Arrow slider", hint: "Left / right arrow controls" },
 ];
 
 const ALIGN_X: Array<{ id: CatalogNavigationHorizontalAlign; label: string }> = [
@@ -160,9 +177,15 @@ export function NavLayoutPanel({
   const isIconOnly = displayMode === "icon";
   const forMobile = breakpoint === "mobile";
   const density = matchLayoutDensity(layout);
-  const size = matchLayoutSize(layout);
+  const iconSizeId = matchLayoutIconSize(layout);
+  const iconSizePx = parsePxNumber(layout.iconSize, 24);
+  const showIcons =
+    displayMode === "icon" || displayMode === "icon-text" || (displayMode === "auto" && layout.showIcons !== false);
   const activeQuick = matchLayoutQuickPreset(layout);
   const paddingId = matchPaddingId(layout.itemPadding);
+  const overflowMode = resolveOverflowMode(layout);
+  const activeOverflow =
+    overflowMode === "clip" ? ("scroll-bar" as const) : overflowMode;
 
   const applyQuick = (id: LayoutQuickPresetId) => {
     onReplaceLayout(applyLayoutQuickPreset(id, { forMobile }));
@@ -279,26 +302,60 @@ export function NavLayoutPanel({
           </div>
         ) : null}
 
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div className="space-y-1.5">
-            <Label className="text-xs text-muted-foreground">Density</Label>
-            <Segmented
-              value={density === "custom" ? "normal" : density}
-              options={DENSITY_OPTIONS}
-              columns={3}
-              onChange={(id) => onPatchLayout(layoutPatchForDensity(id))}
-            />
-          </div>
-          <div className="space-y-1.5">
-            <Label className="text-xs text-muted-foreground">Size</Label>
-            <Segmented
-              value={size === "custom" ? "medium" : size}
-              options={SIZE_OPTIONS}
-              columns={3}
-              onChange={(id) => onPatchLayout(layoutPatchForSize(id))}
-            />
-          </div>
+        <div className="space-y-1.5">
+          <Label className="text-xs text-muted-foreground">Density</Label>
+          <Segmented
+            value={density === "custom" ? "normal" : density}
+            options={DENSITY_OPTIONS}
+            columns={3}
+            onChange={(id) => onPatchLayout(layoutPatchForDensity(id))}
+          />
         </div>
+
+        {showIcons ? (
+          <div className="space-y-1.5">
+            <Label className="text-xs text-muted-foreground">
+              Icon size ({iconSizePx}px)
+            </Label>
+            <input
+              type="range"
+              min={ICON_SIZE_SLIDER_MIN}
+              max={ICON_SIZE_SLIDER_MAX}
+              value={Math.min(ICON_SIZE_SLIDER_MAX, Math.max(ICON_SIZE_SLIDER_MIN, iconSizePx))}
+              onChange={(e) => {
+                const next = Number.parseInt(e.target.value, 10);
+                const container = Math.max(next + 8, next + 12);
+                onPatchLayout({
+                  iconSize: `${next}px`,
+                  iconContainerSize: `${container}px`,
+                });
+              }}
+              className="w-full"
+            />
+            <div className="flex flex-wrap gap-1.5">
+              {ICON_SIZE_OPTIONS.map((opt) => {
+                const preset = ICON_SIZE_PRESETS[opt.id];
+                const selected =
+                  iconSizeId === opt.id ||
+                  (iconSizeId === "custom" && layout.iconSize === preset.iconSize);
+                return (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    aria-pressed={selected}
+                    className={cn(
+                      "rounded-md border px-2 py-1 text-xs transition-colors",
+                      selected ? selectedClass : idleClass,
+                    )}
+                    onClick={() => onPatchLayout(layoutPatchForIconSize(opt.id))}
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
 
         <div className="space-y-1.5">
           <Label className="text-xs text-muted-foreground">Button padding</Label>
@@ -417,17 +474,43 @@ export function NavLayoutPanel({
           </div>
         </div>
 
-        <div className="space-y-1.5">
+        <div className="space-y-2">
           <Label className="text-xs text-muted-foreground">Overflow</Label>
-          <Segmented
-            value={layout.horizontalScroll === false ? "off" : "on"}
-            options={[
-              { id: "on" as const, label: "Scroll" },
-              { id: "off" as const, label: "Clip" },
-            ]}
-            columns={2}
-            onChange={(id) => onPatchLayout({ horizontalScroll: id === "on" })}
-          />
+          <p className="text-xs text-muted-foreground">
+            Choose how shoppers reach items that do not fit in the strip.
+          </p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {OVERFLOW_OPTIONS.map((opt) => {
+              const selected = activeOverflow === opt.id;
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  aria-pressed={selected}
+                  onClick={() =>
+                    onPatchLayout({
+                      overflowMode: opt.id,
+                      horizontalScroll: true,
+                    })
+                  }
+                  className={cn(
+                    "rounded-lg border px-3 py-2.5 text-left transition-colors",
+                    selected ? selectedClass : idleClass,
+                  )}
+                >
+                  <div className="text-sm font-medium">{opt.label}</div>
+                  <div
+                    className={cn(
+                      "text-xs",
+                      selected ? "text-primary-foreground/80" : "text-muted-foreground",
+                    )}
+                  >
+                    {opt.hint}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </section>
 

@@ -1,5 +1,5 @@
 import type { MatchingRuleOperator } from "./types";
-import { isSpecificationRuleField, PRODUCT_RULE_FIELDS } from "./fields-product";
+import { isSpecificationRuleField } from "./fields-product";
 
 export type RuleFieldKind = "text" | "list" | "numeric";
 
@@ -13,7 +13,25 @@ const LIST_FIELDS = new Set([
 const NUMERIC_FIELDS = new Set(["price", "comparePrice"]);
 
 export const EDITOR_PRODUCT_FIELDS = [
-  ...PRODUCT_RULE_FIELDS,
+  "environment",
+  "mountingMethod",
+  "category",
+  "tags",
+  "generation",
+  "antennaDesign",
+  "brand",
+  "title",
+  "name",
+  "categories",
+  "matchingRules",
+  "mainCategory",
+  "badge",
+  "status",
+  "stock",
+  "price",
+  "mpn",
+  "description",
+  "specification",
   "comparePrice",
   "categoryAncestors",
 ] as const;

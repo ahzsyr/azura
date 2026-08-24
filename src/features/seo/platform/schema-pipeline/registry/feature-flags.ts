@@ -9,7 +9,6 @@ export type SchemaBuilderFlags = {
   breadcrumbBuilder: boolean;
   faqBuilder: boolean;
   imageObjectBuilder: boolean;
-  searchActionBuilder: boolean;
   productBuilder: boolean;
   articleBuilder: boolean;
   videoObjectBuilder: boolean;
@@ -25,7 +24,6 @@ export const DEFAULT_SCHEMA_BUILDER_FLAGS: SchemaBuilderFlags = {
   breadcrumbBuilder: true,
   faqBuilder: true,
   imageObjectBuilder: true,
-  searchActionBuilder: true,
   productBuilder: true,
   articleBuilder: true,
   videoObjectBuilder: true,
@@ -54,8 +52,6 @@ export function resolveSchemaBuilderFlags(
     faqBuilder: fromConfig.faqBuilder ?? envFlag("SCHEMA_FAQ_BUILDER", true),
     imageObjectBuilder:
       fromConfig.imageObjectBuilder ?? envFlag("SCHEMA_IMAGE_OBJECT_BUILDER", true),
-    searchActionBuilder:
-      fromConfig.searchActionBuilder ?? envFlag("SCHEMA_SEARCH_ACTION_BUILDER", true),
     productBuilder: fromConfig.productBuilder ?? envFlag("SCHEMA_PRODUCT_BUILDER", true),
     articleBuilder: fromConfig.articleBuilder ?? envFlag("SCHEMA_ARTICLE_BUILDER", true),
     videoObjectBuilder:
@@ -77,7 +73,6 @@ export function isBuilderEnabled(
     breadcrumb: "breadcrumbBuilder",
     faq: "faqBuilder",
     image: "imageObjectBuilder",
-    "search-action": "searchActionBuilder",
     product: "productBuilder",
     article: "articleBuilder",
     video: "videoObjectBuilder",

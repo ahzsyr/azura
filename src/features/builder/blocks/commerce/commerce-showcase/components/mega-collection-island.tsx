@@ -50,6 +50,7 @@ export function MegaCollectionIsland({
     tabKey: activeKey,
     limit: p.centerLimit,
     sort: p.centerSortBy,
+    orderingProfileId: p.centerOrderingProfileId,
     enabled: p.syncNavToProducts && !isInitial,
     initialRecords,
     initialTotal,

@@ -22,3 +22,18 @@ export function rowsForGroup(group: ProductSpecificationGroup): ProductSpecEntry
       ((r as ProductSpecEntry).name?.trim() || (r as ProductSpecEntry).value?.toString().trim()),
   ) as ProductSpecEntry[];
 }
+
+export type NestedSpecRow = {
+  item: ProductSpecEntry;
+  depth: number;
+  isGroup: boolean;
+};
+
+/** Build parent/child rows from UniFi `is_group` + `parent` flags. */
+export function nestedSpecRows(group: ProductSpecificationGroup): NestedSpecRow[] {
+  return rowsForGroup(group).map((item) => ({
+    item,
+    isGroup: Boolean(item.is_group),
+    depth: item.parent || item.is_group ? (item.is_group ? 0 : 1) : 0,
+  }));
+}

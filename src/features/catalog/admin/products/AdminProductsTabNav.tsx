@@ -3,8 +3,6 @@ import { useCallback, useEffect } from "react";
 export const ADMIN_PRODUCT_TABS = [
   { id: "table", label: "Products Table", icon: "▦", short: "Table" },
   { id: "cta", label: "General Product Settings — Storefront CTA", icon: "◆", short: "CTA" },
-  { id: "page-builder", label: "Product Page Builder", icon: "▦", short: "Builder" },
-  { id: "page-appearance", label: "Advanced — Product Page Appearance", icon: "◇", short: "Page" },
   { id: "card-appearance", label: "Advanced — Product Card Appearance", icon: "▣", short: "Cards" },
 ] as const;
 

@@ -5,6 +5,8 @@ export const ADMIN_ACCOUNT_TABS = [
   { id: "verify", label: "Verify changes" },
   { id: "email", label: "Email" },
   { id: "password", label: "Password" },
+  { id: "mfa", label: "MFA" },
+  { id: "delivery", label: "Email delivery" },
   { id: "access", label: "Access" },
 ] as const satisfies readonly SettingsRibbonTab[];
 

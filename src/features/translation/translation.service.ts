@@ -32,6 +32,7 @@ import type {
   ListEditableTranslationsResult,
   TranslationGridCell,
 } from "./translation-grid-types";
+import { planLocalizedSlugUpsert } from "./localized-slug-upsert";
 
 function normalizeTranslationInput(input: EntityTranslationInput): EntityTranslationInput {
   return {
@@ -108,8 +109,12 @@ export type EntityFieldRef = {
   entityId: string;
 };
 
+export type TranslationWriteOptions = {
+  skipCompletionSync?: boolean;
+};
+
 export const translationService = {
-  async upsert(input: EntityTranslationInput) {
+  async upsert(input: EntityTranslationInput, options?: TranslationWriteOptions) {
     const normalized = normalizeTranslationInput(input);
     const status: TranslationStatus = normalized.status ?? "PUBLISHED";
     const where = {
@@ -166,7 +171,9 @@ export const translationService = {
 
     revalidateTranslations(normalized.entityType, normalized.entityId);
     revalidateWorkspaceTranslations(normalized.entityType, [normalized.localeCode]);
-    await this.syncLocaleCompletionPercent(normalized.localeCode);
+    if (!options?.skipCompletionSync) {
+      await this.syncLocaleCompletionPercent(normalized.localeCode);
+    }
     return row;
   },
 
@@ -192,7 +199,8 @@ export const translationService = {
   async deleteMany(
     inputs: Array<
       Pick<EntityTranslationInput, "entityType" | "entityId" | "field" | "localeCode">
-    >
+    >,
+    options?: TranslationWriteOptions
   ) {
     const unique: Array<
       Pick<EntityTranslationInput, "entityType" | "entityId" | "field" | "localeCode">
@@ -228,16 +236,25 @@ export const translationService = {
         revalidateWorkspaceTranslations(entityType, [...localeCodes]);
       }
       for (const code of localeCodes) {
-        await this.syncLocaleCompletionPercent(code);
+        if (!options?.skipCompletionSync) {
+          await this.syncLocaleCompletionPercent(code);
+        }
       }
     }
     return deleted.count;
   },
 
-  async upsertMany(inputs: EntityTranslationInput[]) {
+  async upsertMany(inputs: EntityTranslationInput[], options?: TranslationWriteOptions) {
     const results = [];
+    const locales = new Set<string>();
     for (const input of dedupeTranslationInputs(inputs)) {
-      results.push(await this.upsert(input));
+      locales.add(input.localeCode);
+      results.push(await this.upsert(input, { skipCompletionSync: true }));
+    }
+    if (!options?.skipCompletionSync) {
+      for (const code of locales) {
+        await this.syncLocaleCompletionPercent(code);
+      }
     }
     return results;
   },
@@ -555,7 +572,12 @@ export const translationService = {
     slug: string
   ) {
     const normalizedLocaleCode = localeCode.trim().toLowerCase();
-    const row = await prisma.localizedSlug.upsert({
+    const normalizedSlug = slug.trim();
+    if (!normalizedSlug) {
+      throw new Error("Localized slug cannot be empty");
+    }
+
+    const byEntity = await prisma.localizedSlug.findUnique({
       where: {
         entityType_entityId_localeCode: {
           entityType,
@@ -563,9 +585,91 @@ export const translationService = {
           localeCode: normalizedLocaleCode,
         },
       },
-      create: { entityType, entityId, localeCode: normalizedLocaleCode, slug },
-      update: { slug },
     });
+    const bySlug = await prisma.localizedSlug.findUnique({
+      where: {
+        entityType_slug_localeCode: {
+          entityType,
+          slug: normalizedSlug,
+          localeCode: normalizedLocaleCode,
+        },
+      },
+    });
+
+    const plan = planLocalizedSlugUpsert(entityId, byEntity, bySlug);
+    let row = byEntity ?? bySlug;
+
+    try {
+      if (plan.type === "create") {
+        row = await prisma.localizedSlug.create({
+          data: {
+            entityType,
+            entityId,
+            localeCode: normalizedLocaleCode,
+            slug: normalizedSlug,
+          },
+        });
+      } else if (plan.type === "update-slug") {
+        row = await prisma.localizedSlug.update({
+          where: { id: plan.id },
+          data: { slug: normalizedSlug },
+        });
+      } else if (plan.type === "reassign") {
+        row = await prisma.localizedSlug.update({
+          where: { id: plan.id },
+          data: { entityId },
+        });
+      } else if (plan.type === "takeover") {
+        row = await prisma.$transaction(async (tx) => {
+          await tx.localizedSlug.delete({ where: { id: plan.deleteId } });
+          return tx.localizedSlug.update({
+            where: { id: plan.keepId },
+            data: { entityId },
+          });
+        });
+      }
+    } catch (error: unknown) {
+      const code = (error as { code?: string })?.code;
+      if (code !== "P2002") throw error;
+      const taken = await prisma.localizedSlug.findUnique({
+        where: {
+          entityType_slug_localeCode: {
+            entityType,
+            slug: normalizedSlug,
+            localeCode: normalizedLocaleCode,
+          },
+        },
+      });
+      if (!taken) throw error;
+      const existingForEntity = await prisma.localizedSlug.findUnique({
+        where: {
+          entityType_entityId_localeCode: {
+            entityType,
+            entityId,
+            localeCode: normalizedLocaleCode,
+          },
+        },
+      });
+      if (existingForEntity && existingForEntity.id !== taken.id) {
+        row = await prisma.$transaction(async (tx) => {
+          await tx.localizedSlug.delete({ where: { id: existingForEntity.id } });
+          return tx.localizedSlug.update({
+            where: { id: taken.id },
+            data: { entityId },
+          });
+        });
+      } else {
+        row = await prisma.localizedSlug.update({
+          where: { id: taken.id },
+          data: { entityId },
+        });
+      }
+    }
+
+    if (!row) {
+      throw new Error("Failed to upsert localized slug");
+    }
+
     revalidateTranslations(entityType, entityId);
     return row;
   },
@@ -643,16 +747,21 @@ export const translationService = {
   },
 
   async syncLocaleCompletionPercent(localeCode: string): Promise<number> {
-    const percentage = await this.getOverallCompletionForLocale(localeCode);
-    await prisma.localeConfig.updateMany({
-      where: { code: localeCode },
-      data: {
-        completionPercent: percentage,
-        lastTranslationSyncAt: new Date(),
-      },
-    });
-    revalidateCompletion(localeCode);
-    return percentage;
+    try {
+      const percentage = await this.getOverallCompletionForLocaleSafe(localeCode);
+      await prisma.localeConfig.updateMany({
+        where: { code: localeCode },
+        data: {
+          completionPercent: percentage,
+          lastTranslationSyncAt: new Date(),
+        },
+      });
+      revalidateCompletion(localeCode);
+      return percentage;
+    } catch (error) {
+      console.error(`Translation completion failed for locale ${localeCode}:`, error);
+      return 0;
+    }
   },
 
   async restoreVersion(translationId: string, versionId: string) {

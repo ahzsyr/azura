@@ -5,6 +5,8 @@ import {
 } from "@/features/seo/scoring/seo-scoring.service";
 import type { SeoMetadataPreviewVm } from "../types";
 import { cn } from "@/lib/utils";
+import { GoogleRichResultPreview } from "@/features/seo/components/google-rich-result-preview";
+import Link from "next/link";
 
 type Props = {
   metadata: SeoMetadataPreviewVm;
@@ -27,18 +29,17 @@ export function SeoMetadataPreview({ metadata }: Props) {
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <div className="space-y-4">
-        <div>
-          <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">Google Preview</p>
-          <div className="rounded-lg border bg-white p-4 space-y-1">
-            <p className="text-sm text-emerald-800 truncate">{metadata.url}</p>
-            <p className="text-xl text-[#1a0dab] leading-snug line-clamp-2">
-              {metadata.title || "Untitled page"}
-            </p>
-            <p className="text-sm text-[#4d5156] line-clamp-2">
-              {metadata.description || "Add a meta description to improve click-through."}
-            </p>
-          </div>
-        </div>
+        <GoogleRichResultPreview
+          title={metadata.title || "Untitled page"}
+          description={metadata.description || "Add a meta description to improve click-through."}
+          url={metadata.url}
+        />
+        <p className="text-xs text-muted-foreground">
+          Full entity audit:{" "}
+          <Link href="/admin/seo/structured-data" className="text-primary hover:underline">
+            Structured data settings
+          </Link>
+        </p>
 
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="rounded-lg border p-3">

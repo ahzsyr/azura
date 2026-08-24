@@ -36,10 +36,12 @@ export const productSchema = z
               url: z.string().optional(),
               alt: z.string().optional(),
               type: z.enum(["main", "gallery", "thumbnail"]).optional(),
-            }),
+              color: z.string().optional(),
+            }).passthrough(),
           )
           .default([]),
       })
+      .passthrough()
       .default({ images: [] }),
     reviews: z
       .object({

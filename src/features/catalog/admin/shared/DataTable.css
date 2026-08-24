@@ -352,6 +352,33 @@
 .dt-bulk-divider { width: 1px; height: 18px; background: var(--dt-border); margin: 0 2px; }
 .dt-bulk-select { min-width: 240px; }
 
+.dt-bulk-progress {
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 180px;
+}
+.dt-bulk-progress__bar {
+  height: 6px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--dt-accent) 16%, transparent);
+  overflow: hidden;
+}
+.dt-bulk-progress__fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--dt-accent);
+  transition: width 0.2s ease;
+}
+.dt-bulk-progress__text {
+  font-size: 11px;
+  color: var(--dt-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ── Table container ────────────────────────────────────────────────────────── */
 
 .dt-table-wrap {
@@ -464,7 +491,23 @@
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--dt-accent) 18%, transparent);
 }
 
-.dt-cell-display { display: flex; align-items: center; gap: 4px; }
+.dt-cell-edit {
+  min-width: 0;
+}
+.dt-inline-multiselect .dt-inline-input {
+  box-shadow: none;
+}
+.dt-inline-done {
+  align-self: flex-start;
+  border: 1px solid var(--dt-accent);
+  background: color-mix(in srgb, var(--dt-accent) 10%, transparent);
+  color: var(--dt-text);
+  border-radius: 5px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
 
 /* Highlight search matches */
 mark.dt-highlight {
@@ -585,7 +628,7 @@ mark.dt-highlight {
 .dt-btn:focus-visible { outline: 2px solid var(--dt-accent); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .dt-tr, .dt-btn, .dt-page-btn, .dt-filter-input, .dt-filter-select { transition: none; }
+  .dt-tr, .dt-btn, .dt-page-btn, .dt-filter-input, .dt-filter-select, .dt-bulk-progress__fill { transition: none; }
   .dt-skeleton { animation: none; }
   .dt-toast { animation: none; }
 }

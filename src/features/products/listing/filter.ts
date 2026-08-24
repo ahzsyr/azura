@@ -7,6 +7,7 @@ import {
 } from "@/features/categories/resolve-category-for-facet";
 import type { ProductConditionOption } from "../types";
 import type { ListingFilterState, ProductListingRecord } from "./types";
+import { listingRecordMatchesExactPhrase } from "./search/listing-search-engine";
 
 export type FilterListingOptions = {
   collectionScopeBySlug?: Map<string, Pick<Collection, "slug" | "parentSlug">>;
@@ -19,9 +20,15 @@ function normTag(s: string): string {
   return s.trim().toLowerCase();
 }
 
-function matchesQuery(record: ProductListingRecord, q: string, fuzzySlugs?: Set<string>): boolean {
+function matchesQuery(
+  record: ProductListingRecord,
+  q: string,
+  fuzzySlugs?: Set<string>,
+  exact?: boolean,
+): boolean {
   const trimmed = q.trim();
   if (!trimmed) return true;
+  if (exact) return listingRecordMatchesExactPhrase(record, trimmed);
   if (fuzzySlugs?.has(record.slug)) return true;
   const ql = trimmed.toLowerCase();
   return record.searchText.includes(ql);
@@ -42,7 +49,9 @@ function matchesCategories(
 
 function matchesBrands(r: ProductListingRecord, brands: string[]): boolean {
   if (brands.length === 0) return true;
-  return !!r.brand && brands.includes(r.brand);
+  const recordBrand = (r.brand ?? "").trim().toLowerCase();
+  if (!recordBrand) return false;
+  return brands.some((b) => b.trim().toLowerCase() === recordBrand);
 }
 
 function matchesCollections(r: ProductListingRecord, collections: string[]): boolean {
@@ -132,7 +141,8 @@ export function filterListingCatalog(
   const useOr = state.logic === "or" && hasFacetDimensions(state);
 
   return records.filter((r) => {
-    if (!matchesQuery(r, state.q, fuzzyMatchSlugs)) return false;
+    if (!matchesQuery(r, state.q, state.qExact ? undefined : fuzzyMatchSlugs, state.qExact))
+      return false;
 
     if (scope && scopeBySlug) {
       const bySlug = scopeBySlug as Map<string, Collection>;

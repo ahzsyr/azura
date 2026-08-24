@@ -15,6 +15,7 @@ admin:
   items:
     dashboard: [dashboard]
     content:
+      - content-builder-overview
       - pages
       - blog
       - products
@@ -29,6 +30,9 @@ admin:
       - faqs
       - testimonials
       - partners
+      - policies
+      - terms
+      - content-types
     media: [media-library]
     marketing: [form-templates, form-submissions, inquiries, newsletter]
     design:

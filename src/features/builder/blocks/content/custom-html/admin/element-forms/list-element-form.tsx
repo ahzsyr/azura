@@ -2,44 +2,55 @@
 
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAdminEditingLocaleContextOptional } from "@/components/admin/admin-editing-locale-provider";
-import { DEFAULT_ADMIN_LOCALE, getContentFieldSuffix } from "@/i18n/locale-config";
+import { DEFAULT_ADMIN_LOCALE } from "@/i18n/locale-config";
 import { newId } from "@/features/builder/blocks/content/schemas/content-blocks";
 import type { HtmlElement } from "../../types";
+import { LocalizedHtmlInput } from "../localized-html-input";
+import { patchLocalizedField, readLocalizedField } from "../../lib/localized-fields";
 
 type Props = {
   element: HtmlElement;
   onChange: (patch: Partial<HtmlElement>) => void;
 };
 
+function patchChildText(
+  child: HtmlElement | undefined,
+  tag: "strong" | "p",
+  value: string,
+  localeCode: string,
+  defaultCode: string
+): HtmlElement {
+  const base: HtmlElement = child ?? { id: newId(tag), tag };
+  return {
+    ...base,
+    tag,
+    ...patchLocalizedField("text", value, localeCode, defaultCode),
+  };
+}
+
 export function ListElementForm({ element, onChange }: Props) {
   const adminLocale = useAdminEditingLocaleContextOptional();
   const activeCode = adminLocale?.activeLocaleCode ?? DEFAULT_ADMIN_LOCALE.code;
   const defaultCode = adminLocale?.defaultCode ?? DEFAULT_ADMIN_LOCALE.code;
-  const isDefault = activeCode === defaultCode;
-  const suffix = getContentFieldSuffix(activeCode);
-  const textKey = `text${suffix}`;
-  const titleKey = `title${suffix}`;
-
   const items = (element.children ?? []) as HtmlElement[];
   const isHeaderList = element.attributes?.listVariant === "withHeader";
 
   const makePlainListItem = (text = ""): HtmlElement => ({
     id: newId("li"),
     tag: "li" as const,
-    text,
+    ...patchLocalizedField("text", text, defaultCode, defaultCode),
   });
 
   const makeHeaderListItem = (title = "", body = ""): HtmlElement => ({
     id: newId("li"),
     tag: "li" as const,
-    title,
-    text: body,
+    ...patchLocalizedField("title", title, defaultCode, defaultCode),
+    ...patchLocalizedField("text", body, defaultCode, defaultCode),
     children: [
-      { id: newId("strong"), tag: "strong" as const, text: title },
-      { id: newId("p"), tag: "p" as const, text: body },
+      patchChildText(undefined, "strong", title, defaultCode, defaultCode),
+      patchChildText(undefined, "p", body, defaultCode, defaultCode),
     ],
   });
 
@@ -50,8 +61,8 @@ export function ListElementForm({ element, onChange }: Props) {
   ): HtmlElement => ({
     ...li,
     children: [
-      { id: li.children?.[0]?.id ?? newId("strong"), tag: "strong", text: title },
-      { id: li.children?.[1]?.id ?? newId("p"), tag: "p", text: body },
+      patchChildText(li.children?.[0], "strong", title, activeCode, defaultCode),
+      patchChildText(li.children?.[1], "p", body, activeCode, defaultCode),
     ],
   });
 
@@ -66,50 +77,55 @@ export function ListElementForm({ element, onChange }: Props) {
   const removeItem = (id: string) =>
     setItems(items.filter((li) => li.id !== id));
 
-  const updatePlainItem = (id: string, value: string) =>
-    setItems(
-      items.map((li) =>
-        li.id === id
-          ? isDefault
-            ? { ...li, text: value, [textKey]: value }
-            : { ...li, [textKey]: value }
-          : li
-      )
-    );
+  const updatePlainItem = (id: string, patch: Record<string, string>) =>
+    setItems(items.map((li) => (li.id === id ? { ...li, ...patch } : li)));
 
-  const updateHeaderItemTitle = (id: string, value: string) =>
+  const updateHeaderItemTitle = (id: string, patch: Record<string, string>) =>
     setItems(
       items.map((li) => {
         if (li.id !== id) return li;
-        const body = ((li[textKey] as string | undefined) ?? li.text ?? "") as string;
-        const base = isDefault ? { ...li, title: value, [titleKey]: value } : { ...li, [titleKey]: value };
-        return syncHeaderListItemChildren(base, value, body);
+        const next = { ...li, ...patch };
+        const title = readLocalizedField(next as Record<string, unknown>, "title", activeCode);
+        const body = readLocalizedField(next as Record<string, unknown>, "text", activeCode);
+        return syncHeaderListItemChildren(next, title, body);
       })
     );
 
-  const updateHeaderItemBody = (id: string, value: string) =>
+  const updateHeaderItemBody = (id: string, patch: Record<string, string>) =>
     setItems(
       items.map((li) => {
         if (li.id !== id) return li;
-        const title = ((li[titleKey] as string | undefined) ?? (li["title"] as string | undefined) ?? "") as string;
-        const base = isDefault ? { ...li, text: value, [textKey]: value } : { ...li, [textKey]: value };
-        return syncHeaderListItemChildren(base, title, value);
+        const next = { ...li, ...patch };
+        const title = readLocalizedField(next as Record<string, unknown>, "title", activeCode);
+        const body = readLocalizedField(next as Record<string, unknown>, "text", activeCode);
+        return syncHeaderListItemChildren(next, title, body);
       })
     );
 
   const toggleListVariant = (variant: "plain" | "withHeader") => {
     if (variant === "withHeader") {
       const upgraded = items.map((li) => {
-        const body = ((li[textKey] as string | undefined) ?? li.text ?? "") as string;
-        const title = ((li[titleKey] as string | undefined) ?? (li["title"] as string | undefined) ?? "") as string;
-        const next = {
+        const defaultTitle = readLocalizedField(li as Record<string, unknown>, "title", defaultCode);
+        const defaultBody = readLocalizedField(li as Record<string, unknown>, "text", defaultCode);
+        const activeTitle = readLocalizedField(li as Record<string, unknown>, "title", activeCode);
+        const activeBody = readLocalizedField(li as Record<string, unknown>, "text", activeCode);
+        const next: HtmlElement = {
           ...li,
-          title,
-          text: body,
-          [titleKey]: title,
-          [textKey]: body,
+          ...patchLocalizedField("title", defaultTitle, defaultCode, defaultCode),
+          ...patchLocalizedField("text", defaultBody, defaultCode, defaultCode),
+          ...(activeCode !== defaultCode
+            ? {
+                ...patchLocalizedField("title", activeTitle, activeCode, defaultCode),
+                ...patchLocalizedField("text", activeBody, activeCode, defaultCode),
+              }
+            : {}),
+          children: [
+            patchChildText(li.children?.[0], "strong", defaultTitle, defaultCode, defaultCode),
+            patchChildText(li.children?.[1], "p", defaultBody, defaultCode, defaultCode),
+          ],
         };
-        return syncHeaderListItemChildren(next, title, body);
+        if (activeCode === defaultCode) return next;
+        return syncHeaderListItemChildren(next, activeTitle, activeBody);
       });
       onChange({
         attributes: { ...(element.attributes ?? {}), listVariant: "withHeader" },
@@ -119,11 +135,14 @@ export function ListElementForm({ element, onChange }: Props) {
     }
 
     const downgraded = items.map((li) => {
-      const body = ((li[textKey] as string | undefined) ?? li.text ?? "") as string;
+      const defaultBody = readLocalizedField(li as Record<string, unknown>, "text", defaultCode);
+      const activeBody = readLocalizedField(li as Record<string, unknown>, "text", activeCode);
       return {
         ...li,
-        text: body,
-        [textKey]: body,
+        ...patchLocalizedField("text", defaultBody, defaultCode, defaultCode),
+        ...(activeCode !== defaultCode
+          ? patchLocalizedField("text", activeBody, activeCode, defaultCode)
+          : {}),
         children: undefined,
       };
     });
@@ -155,68 +174,58 @@ export function ListElementForm({ element, onChange }: Props) {
       )}
 
       {items.map((li, idx) => {
-        const body = (li[textKey] as string | undefined) ?? (isDefault ? (li.text ?? "") : "");
-        const bodyFallback = li.text ?? "";
-        const title = (li[titleKey] as string | undefined) ?? (isDefault ? ((li["title"] as string | undefined) ?? "") : "");
-        const titleFallback = ((li["title"] as string | undefined) ?? "");
-
         if (isHeaderList) {
           return (
             <div key={li.id} className="rounded-md border p-2 space-y-2">
-              <div className="flex items-center gap-1">
-                <span className="text-xs text-muted-foreground w-5 shrink-0">{idx + 1}.</span>
-                <Input
-                  className="h-8 text-xs font-medium"
-                  value={title}
-                  placeholder={
-                    !isDefault && !title && titleFallback
-                      ? titleFallback.slice(0, 40)
-                      : "Headline"
-                  }
-                  onChange={(e) => updateHeaderItemTitle(li.id, e.target.value)}
-                />
+              <div className="flex items-start gap-1">
+                <span className="text-xs text-muted-foreground w-5 shrink-0 pt-6">{idx + 1}.</span>
+                <div className="flex-1 space-y-2 min-w-0">
+                  <LocalizedHtmlInput
+                    label="Headline"
+                    baseKey="title"
+                    values={li as Record<string, unknown>}
+                    onChange={(patch) => updateHeaderItemTitle(li.id, patch)}
+                    placeholder="Headline"
+                  />
+                  <LocalizedHtmlInput
+                    label="Body"
+                    baseKey="text"
+                    values={li as Record<string, unknown>}
+                    onChange={(patch) => updateHeaderItemBody(li.id, patch)}
+                    placeholder="Body text…"
+                  />
+                </div>
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="h-7 w-7 p-0 text-destructive"
+                  className="h-7 w-7 p-0 text-destructive mt-5"
                   onClick={() => removeItem(li.id)}
                 >
                   <Trash2 className="h-3 w-3" />
                 </Button>
               </div>
-              <Input
-                className="h-8 text-xs"
-                value={body}
-                placeholder={
-                  !isDefault && !body && bodyFallback
-                    ? bodyFallback.slice(0, 40)
-                    : "Body text…"
-                }
-                onChange={(e) => updateHeaderItemBody(li.id, e.target.value)}
-              />
             </div>
           );
         }
 
         return (
-          <div key={li.id} className="flex items-center gap-1">
-            <span className="text-xs text-muted-foreground w-5 shrink-0">{idx + 1}.</span>
-            <Input
-              className="h-8 text-xs flex-1"
-              value={body}
-              placeholder={
-                !isDefault && !body && bodyFallback
-                  ? bodyFallback.slice(0, 40)
-                  : "List item…"
-              }
-              onChange={(e) => updatePlainItem(li.id, e.target.value)}
-            />
+          <div key={li.id} className="flex items-start gap-1">
+            <span className="text-xs text-muted-foreground w-5 shrink-0 pt-6">{idx + 1}.</span>
+            <div className="flex-1 min-w-0">
+              <LocalizedHtmlInput
+                label="List item"
+                baseKey="text"
+                values={li as Record<string, unknown>}
+                onChange={(patch) => updatePlainItem(li.id, patch)}
+                placeholder="List item…"
+              />
+            </div>
             <Button
               type="button"
               variant="ghost"
               size="sm"
-              className="h-7 w-7 p-0 text-destructive"
+              className="h-7 w-7 p-0 text-destructive mt-5"
               onClick={() => removeItem(li.id)}
             >
               <Trash2 className="h-3 w-3" />

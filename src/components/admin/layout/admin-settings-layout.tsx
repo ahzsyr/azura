@@ -105,10 +105,11 @@ type AdminSettingsLayoutProps = {
   ribbonFooter?: ReactNode;
   /**
    * Navigation presentation.
-   * - `"ribbon"` (default) — sticky top tab bar.
+   * - `"ribbon"` (default) — sticky top tab bar with horizontal scroll.
+   * - `"wrap"` — full-width segmented pill bar; tabs share available space.
    * - `"sidebar"` — sticky left column, matching the product-editor panel nav.
    */
-  layout?: "ribbon" | "sidebar";
+  layout?: "ribbon" | "wrap" | "sidebar";
 };
 
 export function AdminSettingsLayout({
@@ -152,19 +153,39 @@ export function AdminSettingsLayout({
     );
   }
 
+  // ── Wrap layout (full-width segmented pills) ────────────────────────────────
+  if (layout === "wrap") {
+    return (
+      <div className={cn("space-y-5", className)}>
+        <AdminSettingsRibbon
+          tabs={tabs}
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          layoutId={layoutId}
+          variant="wrap"
+        />
+        <AnimatePresence mode="wait">
+          <AdminSettingsSection key={activeTab} id={activeTab}>
+            {children(activeTab)}
+          </AdminSettingsSection>
+        </AnimatePresence>
+      </div>
+    );
+  }
+
   // ── Ribbon layout (original) ────────────────────────────────────────────────
   return (
     <div className={cn("space-y-6", className)}>
       {ribbonFooter ? (
-        <div className="admin-liquid-glass sticky top-12 z-20 border-b shadow-sm">
+        <div className="admin-ribbon-scroll sticky top-12 z-20 border-b border-border/60 bg-background/90 backdrop-blur-sm supports-[backdrop-filter]:bg-background/75">
           <AdminSettingsRibbon
             tabs={tabs}
             activeTab={activeTab}
             onTabChange={handleTabChange}
             layoutId={layoutId}
-            className="sticky top-auto z-auto border-b-0 shadow-none"
+            className="sticky top-auto z-auto border-b-0 shadow-none bg-transparent backdrop-blur-none supports-[backdrop-filter]:bg-transparent"
           />
-          <div className="border-t border-border/60 px-2 py-2">{ribbonFooter}</div>
+          <div className="border-t border-border/60 px-4 py-2.5">{ribbonFooter}</div>
         </div>
       ) : (
         <AdminSettingsRibbon
@@ -174,7 +195,7 @@ export function AdminSettingsLayout({
           layoutId={layoutId}
         />
       )}
-      <div className="pt-2">
+      <div className="admin-settings-content min-w-0">
         <AnimatePresence mode="wait">
           <AdminSettingsSection key={activeTab} id={activeTab}>
             {children(activeTab)}

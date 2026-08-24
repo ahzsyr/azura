@@ -5,11 +5,15 @@ import { compositionService } from "@/features/layout-engine/composition.service
 import {
   getCompositionRegionLabel,
   getEditableRegions,
+  getLayoutDisplayName,
+  getLayoutPreviewColumns,
+  getLayoutPreviewRegions,
 } from "@/features/layout-engine/composition-editor-helpers";
-import type { ColumnRatioToken, Composition, LayoutType, RegionId } from "@/features/layout-engine/types";
+import type { ColumnRatioToken, Composition, RegionId } from "@/features/layout-engine/types";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useAdminEditingLocale } from "@/features/translation/hooks/use-admin-editing-locale";
 
 type Props = {
   composition: Composition;
@@ -17,22 +21,8 @@ type Props = {
   onChange: (next: Composition) => void;
 };
 
-function layoutPreviewColumns(type: LayoutType): string {
-  switch (type) {
-    case "left-sidebar":
-      return "1fr 2fr";
-    case "right-sidebar":
-      return "2fr 1fr";
-    case "three-column":
-      return "1fr 2fr 1fr";
-    case "split":
-      return "1fr 1fr";
-    default:
-      return "1fr";
-  }
-}
-
-export function PageLayoutPanel({ composition, dir = "ltr", onChange }: Props) {
+export function PageLayoutPanel({ composition, dir, onChange }: Props) {
+  const { isRtl: editingIsRtl } = useAdminEditingLocale();
   const layouts = layoutRegistry.list();
   const current = layoutRegistry.getOrThrow(composition.layout.type);
   const currentRatio =
@@ -40,7 +30,7 @@ export function PageLayoutPanel({ composition, dir = "ltr", onChange }: Props) {
     composition.layout.regions.asideEnd?.ratio ??
     current.defaultRatio ??
     "equal";
-  const isRtl = dir === "rtl";
+  const isRtl = dir ? dir === "rtl" : editingIsRtl;
   const topEnabled = composition.layout.topSection?.enabled === true;
   const hasAsideStart = current.activeRegions.includes("asideStart");
   const hasAsideEnd = current.activeRegions.includes("asideEnd");
@@ -79,7 +69,7 @@ export function PageLayoutPanel({ composition, dir = "ltr", onChange }: Props) {
             Choose the structural layout first, then customize content independently inside each region.
           </CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <CardContent dir={isRtl ? "rtl" : "ltr"} className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {layouts.map((layout) => (
             <button
               key={layout.type}
@@ -94,7 +84,7 @@ export function PageLayoutPanel({ composition, dir = "ltr", onChange }: Props) {
                 )
               }
               className={cn(
-                "rounded-xl border p-4 text-left transition hover:border-primary/50",
+                "rounded-xl border p-4 text-start transition hover:border-primary/50",
                 composition.layout.type === layout.type && "border-primary ring-2 ring-primary/20",
               )}
             >
@@ -105,10 +95,11 @@ export function PageLayoutPanel({ composition, dir = "ltr", onChange }: Props) {
                   </div>
                 )}
                 <div
+                  dir="ltr"
                   className="grid gap-2 rounded-lg border bg-muted/20 p-3"
-                  style={{ gridTemplateColumns: layoutPreviewColumns(layout.type) }}
+                  style={{ gridTemplateColumns: getLayoutPreviewColumns(layout.type, isRtl) }}
                 >
-                  {layout.activeRegions.map((regionId) => (
+                  {getLayoutPreviewRegions(layout.activeRegions, isRtl).map((regionId) => (
                     <div
                       key={regionId}
                       className="rounded bg-card px-3 py-8 text-center text-xs font-medium"
@@ -118,7 +109,7 @@ export function PageLayoutPanel({ composition, dir = "ltr", onChange }: Props) {
                   ))}
                 </div>
               </div>
-              <div className="mt-3 font-medium">{layout.name}</div>
+              <div className="mt-3 font-medium">{getLayoutDisplayName(layout.type, isRtl)}</div>
               <p className="mt-1 text-sm text-muted-foreground">{layout.editorDescription}</p>
             </button>
           ))}

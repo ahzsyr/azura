@@ -7,7 +7,13 @@ import {
   scanTaxonomyFromCatalog,
   syncBrandProfileLinks,
 } from "@/features/catalog/admin/catalog-taxonomy";
-import { syncBrandNamesFromProfiles } from "@/features/catalog/types/catalog-brand-profile";
+import { syncBrandProductMemberships } from "@/features/catalog/brand-product-sync.service";
+import {
+  ensureDefaultBrandMatchRules,
+  normalizeCatalogBrandProfiles,
+  syncBrandNamesFromProfiles,
+  type CatalogBrandProfile,
+} from "@/features/catalog/types/catalog-brand-profile";
 import {
   adminLocale,
   resolveConfiguredLocaleCode,
@@ -16,6 +22,20 @@ import { prefixToCatalogLocaleCode, getCatalogLocaleCodes } from "@/features/cat
 import { patchSiteSettingsKey } from "@/features/catalog/site-settings.service";
 import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
 
+async function persistBrandTaxonomy(
+  locale: string,
+  brandProfiles: CatalogBrandProfile[],
+  tags?: string[],
+) {
+  const syncedBrands = syncBrandNamesFromProfiles(brandProfiles);
+  await patchSiteSettingsKey(locale, "catalogBrands", syncedBrands);
+  await patchSiteSettingsKey(locale, "catalogBrandProfiles", brandProfiles);
+  if (tags) {
+    await patchSiteSettingsKey(locale, "catalogTags", tags);
+  }
+  return syncedBrands;
+}
+
 export async function POST(request: Request) {
   const unauthorized = await requireCatalogAdmin();
   if (unauthorized) return unauthorized;
@@ -23,8 +43,10 @@ export async function POST(request: Request) {
   try {
     const body = (await request.json().catch(() => ({}))) as {
       locale?: string;
+      action?: "autoCreate" | "syncProducts";
       mode?: "merge" | "replace";
       includeCategoriesInTags?: boolean;
+      brandProfiles?: CatalogBrandProfile[];
     };
 
     const locale = resolveConfiguredLocaleCode(
@@ -37,28 +59,36 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid locale" }, { status: 400 });
     }
 
+    const action = body.action === "syncProducts" ? "syncProducts" : "autoCreate";
+    const currentProfiles = Array.isArray(body.brandProfiles)
+      ? normalizeCatalogBrandProfiles(body.brandProfiles).map(ensureDefaultBrandMatchRules)
+      : (await readCatalogBrandProfiles(locale)).map(ensureDefaultBrandMatchRules);
+
+    if (action === "syncProducts") {
+      const brandProfiles = syncBrandProfileLinks(currentProfiles);
+      const syncedBrands = await persistBrandTaxonomy(locale, brandProfiles);
+      const report = await syncBrandProductMemberships(catalogLocale, brandProfiles);
+      return NextResponse.json({
+        brands: syncedBrands,
+        brandProfiles,
+        report,
+      });
+    }
+
     const mode = body.mode === "replace" ? "replace" : "merge";
     const scanned = await scanTaxonomyFromCatalog(catalogLocale);
     const current = await readCatalogTaxonomy(locale);
-
     const tagSource = body.includeCategoriesInTags
       ? [...scanned.tags, ...scanned.categories]
       : scanned.tags;
-
-    const brands = mergeTaxonomyLists(current.brands, scanned.brands, mode);
     const tags = mergeTaxonomyLists(current.tags, tagSource, mode);
-    const existingProfiles = await readCatalogBrandProfiles(locale);
     const brandProfiles = syncBrandProfileLinks(
-      mergeBrandProfiles(existingProfiles, scanned.brands, mode),
+      mergeBrandProfiles(currentProfiles, scanned.brands, mode),
     );
-    const syncedBrands = syncBrandNamesFromProfiles(brandProfiles);
-
-    await patchSiteSettingsKey(locale, "catalogBrands", syncedBrands.length > 0 ? syncedBrands : brands);
-    await patchSiteSettingsKey(locale, "catalogTags", tags);
-    await patchSiteSettingsKey(locale, "catalogBrandProfiles", brandProfiles);
+    const syncedBrands = await persistBrandTaxonomy(locale, brandProfiles, tags);
 
     return NextResponse.json({
-      brands: syncedBrands.length > 0 ? syncedBrands : brands,
+      brands: syncedBrands,
       tags,
       brandProfiles,
       scanned: {

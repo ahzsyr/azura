@@ -62,11 +62,28 @@ export const HELP_CHECKLISTS: HelpChecklist[] = [
     featureFlags: ["seo"],
     items: [
       { id: "seo-meta", label: "Homepage metadata set", href: "/admin/seo/metadata", navItemIds: ["seo-metadata"] },
-      { id: "seo-sitemap", label: "Sitemap reviewed", href: "/admin/seo/sitemap", navItemIds: ["seo-sitemap"] },
+      { id: "seo-sitemap", label: "Sitemap submitted in Google Search Console", href: "/admin/seo/sitemap", navItemIds: ["seo-sitemap"] },
       { id: "seo-robots", label: "Robots.txt reviewed", href: "/admin/seo/robots", navItemIds: ["seo-robots"] },
       { id: "seo-redirects", label: "Critical redirects checked", href: "/admin/seo/redirects", navItemIds: ["seo-redirects"] },
-      { id: "seo-structured", label: "Structured data readiness", href: "/admin/seo/structured-data", navItemIds: ["seo-structured-data"] },
+      {
+        id: "seo-structured",
+        label: "Structured data audited (missing fields fixed, GSC submitted)",
+        href: "/admin/seo/structured-data?tab=audit",
+        navItemIds: ["seo-structured-data"],
+      },
       { id: "seo-google", label: "Google tools reviewed", href: "/admin/seo/google", navItemIds: ["seo-google"] },
+      {
+        id: "seo-indexing-api",
+        label: "Google Indexing API configured (API enabled, SA Owner in GSC)",
+        href: "/admin/seo/integrations?tab=configure&provider=google-indexing",
+        navItemIds: ["seo-integrations"],
+      },
+      {
+        id: "seo-indexnow",
+        label: "IndexNow configured (key live at https://brt-me.com/{key}.txt, no www)",
+        href: "/admin/seo/integrations?tab=configure&provider=indexnow",
+        navItemIds: ["seo-integrations"],
+      },
     ],
   },
   {

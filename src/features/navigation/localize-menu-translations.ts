@@ -4,8 +4,10 @@ import type { WorkspaceTranslationBundle } from "@/features/translation/workspac
 import { resolveWorkspaceField } from "@/features/translation/workspace-translation.service";
 import {
   makeHeaderActionEntityId,
+  makeMegaMenuNavItemEntityId,
   makeMegaMenuPanelEntityId,
   makeMegaMenuTabEntityId,
+  makeMegaMenuV2PanelEntityId,
   makeMenuItemEntityId,
 } from "@/features/translation/workspace-entity-ids";
 import type {
@@ -129,6 +131,99 @@ function localizeMegaMenu(
         ) || text;
     }
     result.childDescriptions = desc;
+  }
+
+  if (mega.version === 2) {
+    if (mega.navigation?.items?.length) {
+      result.navigation = {
+        ...mega.navigation,
+        items: mega.navigation.items.map((nav) => ({
+          ...nav,
+          label:
+            resolveWorkspaceField(
+              bundle,
+              "MegaMenuNavItem",
+              makeMegaMenuNavItemEntityId(menuKey, itemId, nav.id),
+              "label",
+              languageCode,
+              enabledLocales,
+              defaultCode,
+              nav.label,
+            ) || nav.label,
+        })),
+      };
+    }
+    if (mega.panels?.length) {
+      result.panels = mega.panels.map((panel) => {
+        const panelEntityId = makeMegaMenuV2PanelEntityId(menuKey, itemId, panel.id);
+        const label =
+          resolveWorkspaceField(
+            bundle,
+            "MegaMenuPanel",
+            panelEntityId,
+            "label",
+            languageCode,
+            enabledLocales,
+            defaultCode,
+            panel.label,
+          ) || panel.label;
+        const featuredCta =
+          panel.featured?.ctaLabel != null
+            ? resolveWorkspaceField(
+                bundle,
+                "MegaMenuPanel",
+                panelEntityId,
+                "ctaLabel",
+                languageCode,
+                enabledLocales,
+                defaultCode,
+                panel.featured.ctaLabel,
+              ) || panel.featured.ctaLabel
+            : panel.featured?.ctaLabel;
+        const columnGroups = panel.columnGroups?.map((group) => {
+          const groupEntityId = makeMegaMenuV2PanelEntityId(
+            menuKey,
+            itemId,
+            `${panel.id}:col:${group.id}`,
+          );
+          return {
+            ...group,
+            heading:
+              resolveWorkspaceField(
+                bundle,
+                "MegaMenuPanel",
+                groupEntityId,
+                "heading",
+                languageCode,
+                enabledLocales,
+                defaultCode,
+                group.heading,
+              ) || group.heading,
+            ctaLabel:
+              group.ctaLabel != null
+                ? resolveWorkspaceField(
+                    bundle,
+                    "MegaMenuPanel",
+                    groupEntityId,
+                    "ctaLabel",
+                    languageCode,
+                    enabledLocales,
+                    defaultCode,
+                    group.ctaLabel,
+                  ) || group.ctaLabel
+                : group.ctaLabel,
+          };
+        });
+        return {
+          ...panel,
+          ...(label ? { label } : {}),
+          featured: panel.featured
+            ? { ...panel.featured, ...(featuredCta != null ? { ctaLabel: featuredCta } : {}) }
+            : panel.featured,
+          ...(columnGroups ? { columnGroups } : {}),
+        };
+      });
+    }
   }
 
   return result;

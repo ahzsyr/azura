@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import type { ExecutionRecord } from "@/features/search-intelligence/operations/types";
-import { summarizeOperationResult } from "@/features/search-intelligence/operations/result-summary";
+import {
+  configureHrefForRecord,
+  summarizeOperationResult,
+} from "@/features/search-intelligence/operations/result-summary";
 
 function ScorePill({ label, value }: { label: string; value: number | null | undefined }) {
   if (value == null) return null;
@@ -158,6 +161,7 @@ function InspectResult({ result }: { result: Record<string, unknown> }) {
 export function OperationResultView({ record }: { record: ExecutionRecord }) {
   const result = record.result ?? null;
   const summary = summarizeOperationResult(record);
+  const configureHref = configureHrefForRecord(record);
   const isPageSpeed =
     record.definitionId === "google.run_pagespeed" ||
     typeof result?.performanceScore === "number" ||
@@ -181,7 +185,16 @@ export function OperationResultView({ record }: { record: ExecutionRecord }) {
         <span className="text-sm text-muted-foreground">{summary}</span>
       </div>
 
-      {record.error ? <p className="text-sm text-destructive">{record.error}</p> : null}
+      {record.error ? (
+        <div className="space-y-1">
+          <p className="text-sm text-destructive">{record.error}</p>
+          {configureHref ? (
+            <Link href={configureHref} className="text-sm text-primary hover:underline">
+              Open configuration
+            </Link>
+          ) : null}
+        </div>
+      ) : null}
 
       {result && isPageSpeed ? <PageSpeedResult result={result} /> : null}
       {result && isSitemap ? <SitemapResult result={result} /> : null}

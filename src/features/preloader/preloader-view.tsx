@@ -30,7 +30,7 @@ export function PreloaderCenterContent({
       if (resolvedLogo) {
         return (
           <div className="pre-svg" aria-hidden>
-            <BrandLogoImage src={resolvedLogo} width={80} height={80} priority />
+            <BrandLogoImage src={resolvedLogo} width={80} height={80} priority tintWithPrimary />
           </div>
         );
       }

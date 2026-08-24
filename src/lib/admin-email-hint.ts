@@ -17,7 +17,7 @@ export async function getAdminEmailHint(): Promise<{
 }> {
   try {
     const admin = await prisma.user.findFirst({
-      where: { role: "ADMIN" },
+      where: { role: { in: ["ADMIN", "SUPER_ADMIN"] } },
       orderBy: { createdAt: "asc" },
       select: { email: true },
     });

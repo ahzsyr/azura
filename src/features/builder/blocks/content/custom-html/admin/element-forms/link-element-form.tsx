@@ -2,9 +2,8 @@
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { useAdminEditingLocaleContextOptional } from "@/components/admin/admin-editing-locale-provider";
-import { DEFAULT_ADMIN_LOCALE, getContentFieldSuffix } from "@/i18n/locale-config";
 import type { HtmlElement } from "../../types";
+import { LocalizedHtmlInput } from "../localized-html-input";
 
 type Props = {
   element: HtmlElement;
@@ -20,13 +19,6 @@ function buildRel(nofollow: boolean, sponsored: boolean, download: boolean): str
 }
 
 export function LinkElementForm({ element, onChange }: Props) {
-  const adminLocale = useAdminEditingLocaleContextOptional();
-  const activeCode = adminLocale?.activeLocaleCode ?? DEFAULT_ADMIN_LOCALE.code;
-  const defaultCode = adminLocale?.defaultCode ?? DEFAULT_ADMIN_LOCALE.code;
-  const isDefault = activeCode === defaultCode;
-  const suffix = getContentFieldSuffix(activeCode);
-  const textKey = `text${suffix}`;
-
   const attrs = element.attributes ?? {};
   const rel = attrs.rel ?? "";
   const nofollow = rel.includes("nofollow");
@@ -39,25 +31,15 @@ export function LinkElementForm({ element, onChange }: Props) {
   const updateRel = (nf: boolean, sp: boolean, dl: boolean) =>
     updateAttrs({ rel: buildRel(nf, sp, dl) });
 
-  const textValue = (element[textKey] as string | undefined) ?? (isDefault ? (element.text ?? "") : "");
-
   return (
     <div className="space-y-3 p-3">
-      <div>
-        <Label className="text-xs">Link text</Label>
-        <Input
-          className="mt-1 h-8 text-xs"
-          placeholder="Click here…"
-          value={textValue}
-          onChange={(e) => {
-            if (isDefault) {
-              onChange({ text: e.target.value, [textKey]: e.target.value });
-            } else {
-              onChange({ [textKey]: e.target.value });
-            }
-          }}
-        />
-      </div>
+      <LocalizedHtmlInput
+        label="Link text"
+        baseKey="text"
+        values={element as Record<string, unknown>}
+        onChange={(patch) => onChange(patch)}
+        placeholder="Click here…"
+      />
 
       <div>
         <Label className="text-xs">URL</Label>

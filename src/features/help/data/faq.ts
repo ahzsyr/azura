@@ -33,4 +33,12 @@ export const HELP_FAQS: HelpFaq[] = [
     keywords: ["leads", "forms", "submissions", "inquiries"],
     relatedTopicIds: ["topic-form-submissions"],
   },
+  {
+    id: "faq-indexnow-setup",
+    question: "How do I configure IndexNow?",
+    answer:
+      "Open Help → Search Engines for the full checklist. Short version: generate a key in Bing Webmaster for https://brt-me.com (not www), enable IndexNow under SEO → Search Engines → Configure, paste the key, leave Key location blank, save, open https://brt-me.com/{key}.txt to confirm it shows only the key, then publish a page and check Queue & jobs.",
+    keywords: ["indexnow", "bing", "url submission", "instant indexing", "search engines", "keylocation", "www"],
+    relatedTopicIds: ["topic-seo-integrations"],
+  },
 ];

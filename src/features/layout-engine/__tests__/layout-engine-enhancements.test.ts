@@ -7,6 +7,12 @@ import {
   resolveLayoutMaxWidth,
 } from "@/features/layout-engine/layout-shell-attrs";
 import { getEditorRegionOrder } from "@/features/layout-engine/types";
+import {
+  getCompositionRegionLabel,
+  getLayoutDisplayName,
+  getLayoutPreviewColumns,
+  getLayoutPreviewRegions,
+} from "@/features/layout-engine/composition-editor-helpers";
 import type { Composition } from "@/features/layout-engine/types";
 
 describe("compositionService.load legacy upgrade", () => {
@@ -37,6 +43,15 @@ describe("compositionService.load legacy upgrade", () => {
     assert.equal(loaded.layout.topSection?.enabled, false);
     assert.equal(loaded.layout.topSection?.width, "boxed");
     assert.equal(loaded.layout.stickyScroll, "document");
+  });
+
+  it("preserves editorial display flags in composition metadata", () => {
+    const source = compositionService.createEmpty();
+    source.metadata = { showAuthor: false, showPublishedAt: true };
+    const saved = compositionService.save(source);
+    const loaded = compositionService.load({ composition: saved.composition });
+    assert.equal(loaded.metadata.showAuthor, false);
+    assert.equal(loaded.metadata.showPublishedAt, true);
   });
 
   it("upgrades legacy blocks array into primary region", () => {
@@ -117,5 +132,38 @@ describe("getEditorRegionOrder", () => {
       "asideStart",
       "primary",
     ]);
+  });
+});
+
+describe("RTL page layout helpers", () => {
+  it("mirrors sidebar labels and layout names in RTL", () => {
+    assert.equal(getCompositionRegionLabel("asideStart", false), "Left Sidebar");
+    assert.equal(getCompositionRegionLabel("asideStart", true), "Right Sidebar");
+    assert.equal(getCompositionRegionLabel("asideEnd", false), "Right Sidebar");
+    assert.equal(getCompositionRegionLabel("asideEnd", true), "Left Sidebar");
+    assert.equal(getLayoutDisplayName("left-sidebar", false), "Left Sidebar");
+    assert.equal(getLayoutDisplayName("left-sidebar", true), "Right Sidebar");
+    assert.equal(getLayoutDisplayName("right-sidebar", false), "Right Sidebar");
+    assert.equal(getLayoutDisplayName("right-sidebar", true), "Left Sidebar");
+    assert.equal(getLayoutDisplayName("full", true), "Full Width");
+  });
+
+  it("reverses preview tracks and regions together so widths stay with regions", () => {
+    assert.equal(getLayoutPreviewColumns("left-sidebar", false), "1fr 2fr");
+    assert.equal(getLayoutPreviewColumns("left-sidebar", true), "2fr 1fr");
+    assert.equal(getLayoutPreviewColumns("right-sidebar", false), "2fr 1fr");
+    assert.equal(getLayoutPreviewColumns("right-sidebar", true), "1fr 2fr");
+    assert.deepEqual(getLayoutPreviewRegions(["asideStart", "primary"], false), [
+      "asideStart",
+      "primary",
+    ]);
+    assert.deepEqual(getLayoutPreviewRegions(["asideStart", "primary"], true), [
+      "primary",
+      "asideStart",
+    ]);
+    assert.deepEqual(
+      getLayoutPreviewRegions(["asideStart", "primary", "asideEnd"], true),
+      ["asideEnd", "primary", "asideStart"],
+    );
   });
 });

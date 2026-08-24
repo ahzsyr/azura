@@ -10,13 +10,13 @@ import {
 import { MEDIA_TYPE_LABELS } from "@/features/media/constants";
 import { formatBytes } from "@/features/media/media.service";
 import { MediaFolderSidebar } from "./media-folder-sidebar";
-import { MediaUploadPanel } from "./media-upload-panel";
+import { MediaUploadDialog } from "./media-upload-dialog";
 import { MediaAssetCard, type MediaAssetRow } from "./media-asset-card";
 import { MediaDetailPanel } from "./media-detail-panel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Trash2, RefreshCw } from "lucide-react";
+import { Plus, RefreshCw, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type FolderRow = MediaFolder & { _count: { assets: number; children: number } };
@@ -43,13 +43,14 @@ export function MediaManager({
   storageByType,
 }: Props) {
   const [assets, setAssets] = useState(initialAssets);
-  const [folders, setFolders] = useState(initialFolders);
+  const [folders] = useState(initialFolders);
   const [search, setSearch] = useState("");
   const [typeTab, setTypeTab] = useState<MediaType | "ALL">("ALL");
   const [folderId, setFolderId] = useState<string | undefined>(undefined);
   const [selected, setSelected] = useState<string[]>([]);
   const [detailId, setDetailId] = useState<string | null>(null);
   const [uploadType, setUploadType] = useState<MediaType | undefined>(undefined);
+  const [uploadOpen, setUploadOpen] = useState(false);
   const [pending, startTransition] = useTransition();
 
   const reloadAssets = useCallback(() => {
@@ -104,7 +105,7 @@ export function MediaManager({
 
   return (
     <div className="relative">
-      <div className="flex flex-wrap items-end justify-between gap-4 mb-6">
+      <div className="mb-4 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-2xl font-semibold">{formatBytes(totalBytes)}</p>
           <p className="text-xs text-muted-foreground">Total storage used</p>
@@ -116,6 +117,56 @@ export function MediaManager({
               {formatBytes(row._sum.sizeBytes ?? 0)}
             </Badge>
           ))}
+        </div>
+      </div>
+
+      <div className="mb-4 flex flex-col gap-3 rounded-xl border border-border/70 bg-muted/20 p-3 sm:flex-row sm:flex-wrap sm:items-center">
+        <div className="flex flex-wrap gap-1.5">
+          {TYPE_TABS.map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              onClick={() => {
+                setTypeTab(tab);
+                const mt = tab === "ALL" ? undefined : tab;
+                if (tab !== "ALL") setUploadType(tab);
+                else setUploadType(undefined);
+                startTransition(async () => {
+                  const rows = await fetchMediaAssets({
+                    search: search || undefined,
+                    folderId,
+                    mediaType: mt,
+                  });
+                  setAssets(rows as MediaAssetRow[]);
+                });
+              }}
+              className={cn(
+                "rounded-full px-3 py-1.5 text-xs font-medium border transition-colors",
+                typeTab === tab
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-background hover:bg-muted"
+              )}
+            >
+              {tab === "ALL" ? "All" : MEDIA_TYPE_LABELS[tab]}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2 sm:justify-end">
+          <Input
+            placeholder="Search filename, alt, URL…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && reloadAssets()}
+            className="h-9 min-w-[12rem] flex-1 bg-background sm:max-w-xs"
+          />
+          <Button type="button" variant="outline" size="sm" className="h-9" onClick={reloadAssets} disabled={pending}>
+            <RefreshCw className={cn("h-4 w-4", pending && "animate-spin")} />
+          </Button>
+          <Button type="button" size="sm" className="h-9" onClick={() => setUploadOpen(true)}>
+            <Plus className="h-4 w-4 me-1.5" />
+            Upload new
+          </Button>
         </div>
       </div>
 
@@ -135,57 +186,11 @@ export function MediaManager({
             });
           }}
           onFoldersChange={() => window.location.reload()}
+          uploadType={uploadType}
+          onUploadComplete={reloadAssets}
         />
 
         <div className="space-y-4 min-w-0">
-          <div className="flex flex-wrap gap-2">
-            {TYPE_TABS.map((tab) => (
-              <button
-                key={tab}
-                type="button"
-                onClick={() => {
-                  setTypeTab(tab);
-                  const mt = tab === "ALL" ? undefined : tab;
-                  if (tab !== "ALL") setUploadType(tab);
-                  else setUploadType(undefined);
-                  startTransition(async () => {
-                    const rows = await fetchMediaAssets({
-                      search: search || undefined,
-                      folderId,
-                      mediaType: mt,
-                    });
-                    setAssets(rows as MediaAssetRow[]);
-                  });
-                }}
-                className={cn(
-                  "rounded-full px-3 py-1 text-xs font-medium border transition-colors",
-                  typeTab === tab ? "bg-primary text-primary-foreground border-primary" : "hover:bg-muted"
-                )}
-              >
-                {tab === "ALL" ? "All" : MEDIA_TYPE_LABELS[tab]}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap gap-2 items-center">
-            <Input
-              placeholder="Search filename, alt, URL…"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && reloadAssets()}
-              className="max-w-sm"
-            />
-            <Button type="button" variant="outline" size="sm" onClick={reloadAssets} disabled={pending}>
-              <RefreshCw className={cn("h-4 w-4", pending && "animate-spin")} />
-            </Button>
-          </div>
-
-          <MediaUploadPanel
-            uploadType={uploadType}
-            folderId={folderId}
-            onUploadComplete={() => reloadAssets()}
-          />
-
           {selected.length > 0 && (
             <div className="flex flex-wrap items-center gap-2 rounded-lg border bg-muted/40 px-3 py-2">
               <span className="text-sm font-medium">{selected.length} selected</span>
@@ -242,12 +247,24 @@ export function MediaManager({
           </div>
 
           {!pending && assets.length === 0 && (
-            <p className="text-center text-sm text-muted-foreground py-12 border rounded-lg border-dashed">
-              No files in this view. Upload above or change filters.
-            </p>
+            <div className="rounded-lg border border-dashed py-12 text-center">
+              <p className="text-sm text-muted-foreground">No files in this view.</p>
+              <Button type="button" variant="outline" size="sm" className="mt-3" onClick={() => setUploadOpen(true)}>
+                <Plus className="h-4 w-4 me-1.5" />
+                Upload new
+              </Button>
+            </div>
           )}
         </div>
       </div>
+
+      <MediaUploadDialog
+        open={uploadOpen}
+        onOpenChange={setUploadOpen}
+        uploadType={uploadType}
+        folderId={folderId}
+        onUploadComplete={reloadAssets}
+      />
 
       <MediaDetailPanel
         assetId={detailId}

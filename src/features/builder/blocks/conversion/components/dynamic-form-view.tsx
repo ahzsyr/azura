@@ -33,6 +33,10 @@ import { resolveMarketingIcon } from "@/features/builder/blocks/marketing/lib/ic
 import { formatSubmissionReference } from "@/features/forms/lib/submission-contact";
 import { cn } from "@/lib/utils";
 import "@/features/forms/platform/register-commands.client";
+import {
+  attributionToUtmRecord,
+  getStoredAttribution,
+} from "@/features/marketing-attribution/client";
 
 type Props = {
   templateId: string;
@@ -355,6 +359,7 @@ export function DynamicFormView({
         abTestId: abAssignment.abTestId,
         abVariantId: abAssignment.abVariantId,
         honeypot,
+        utm: attributionToUtmRecord(getStoredAttribution()),
       });
       setSubmissionId(String(result.id));
       setStatus("success");

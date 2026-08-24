@@ -17,4 +17,6 @@ export type SchemaPageOverrides = {
   product?: Product;
   article?: ArticleSchemaInput;
   reviews?: Array<{ name: string; rating: number; content: string }>;
+  pageJsonLd?: unknown;
+  seoMetaJsonLdInDatabase?: boolean;
 };

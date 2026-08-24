@@ -7,6 +7,7 @@ import {
   mergeCanonicalFields,
 } from "@/features/translation/bilingual-serialize";
 import { legacyShapeFromTranslations } from "@/features/portal/lib/portal-translation-shape";
+import { getTranslatableFields } from "@/features/translation/entity-registry";
 import { resolveTranslation } from "@/features/translation/translation-resolver";
 import type { AdminLocalizedEntityView, CompanyInfoView } from "./admin-localized-view";
 
@@ -117,15 +118,10 @@ export async function loadCompanyInfoWithTranslations(): Promise<CompanyInfoView
   const company = await prisma.companyInfo.findUnique({ where: { id: "default" } });
   if (!company) return null;
   const translations = await loadEntityTranslations("CompanyInfo", company.id);
-  const legacyShape = legacyShapeFromTranslations(translations, [
-    "tagline",
-    "story",
-    "mission",
-    "vision",
-    "values",
-    "address",
-    "officeHours",
-  ]);
+  const companyTranslationFields = getTranslatableFields("CompanyInfo")
+    .map((field) => field.field)
+    .filter((field) => field !== "name");
+  const legacyShape = legacyShapeFromTranslations(translations, companyTranslationFields);
   return {
     ...company,
     ...legacyShape,

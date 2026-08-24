@@ -1,10 +1,7 @@
-import { auth } from "@/lib/auth";
-import { NextResponse } from "next/server";
+import { assertRole } from "@/lib/api-auth";
 
 export async function requireCatalogAdmin() {
-  const session = await auth();
-  if (!session?.user || session.user.role !== "ADMIN") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const result = await assertRole("ADMIN");
+  if ("error" in result) return result.error;
   return null;
 }

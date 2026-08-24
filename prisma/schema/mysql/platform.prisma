@@ -71,6 +71,7 @@ model MediaAsset {
   mimeType     String
   mediaType    MediaType
   assetScope   String        @default("CMS") @db.VarChar(16)
+  visibility   MediaVisibility @default(PUBLIC)
   sizeBytes    Int           @default(0)
   width        Int?
   height       Int?
@@ -81,6 +82,7 @@ model MediaAsset {
   usages              MediaUsage[]
   posts               Post[]
   downloadGateUnlocks DownloadGateUnlock[]
+  iconAssets          IconAsset[]
   createdAt           DateTime               @default(now())
   updatedAt           DateTime               @updatedAt
 
@@ -100,6 +102,84 @@ model MediaUsage {
 
   @@index([mediaId])
   @@index([entityType, entityId])
+}
+
+model IconLibrary {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+  provider    String?
+  source      IconSource
+  version     String?
+  enabled     Boolean    @default(true)
+
+  icons       IconAsset[]
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([enabled])
+  @@index([source])
+}
+
+model IconAsset {
+  id          String      @id @default(cuid())
+  libraryId   String?
+  library     IconLibrary? @relation(fields: [libraryId], references: [id], onDelete: SetNull)
+
+  name        String
+  slug        String
+  description String?
+  category    String?
+  tags        Json?
+
+  source      IconSource
+  type        IconType
+
+  // Built-in/component
+  iconName    String?
+
+  // Custom SVG
+  svgContent  String?     @db.Text
+  viewBox     String?
+
+  // Font icon
+  fontFamily  String?
+  glyph       String?
+  unicode     String?
+  glyphKey    String?
+
+  mediaId     String?
+  media       MediaAsset? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+
+  usages      IconUsage[]
+
+  enabled     Boolean   @default(true)
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([libraryId, slug])
+  @@index([name])
+  @@index([slug])
+  @@index([source])
+  @@index([type])
+  @@index([category])
+  @@index([enabled])
+}
+
+model IconUsage {
+  id         String   @id @default(cuid())
+  iconId     String
+  icon       IconAsset @relation(fields: [iconId], references: [id], onDelete: Cascade)
+  entityType String   @db.VarChar(32)
+  entityId   String   @db.VarChar(128)
+  field      String   @default("default")
+  createdAt  DateTime @default(now())
+
+  @@index([iconId])
+  @@index([entityType, entityId, field])
 }
 
 model CmsPage {
@@ -541,4 +621,27 @@ model LocaleConfig {
   updatedAt    DateTime @updatedAt
 
   @@index([isEnabled, sortOrder])
+}
+
+model RateLimitBucket {
+  id          String   @id @default(cuid())
+  bucketKey   String   @unique @db.VarChar(191)
+  windowStart DateTime
+  count       Int      @default(0)
+  updatedAt   DateTime @updatedAt
+
+  @@index([windowStart])
+}
+
+model SecurityAuditLog {
+  id        String   @id @default(cuid())
+  action    String   @db.VarChar(64)
+  actorId   String?  @db.VarChar(36)
+  actorRole String?  @db.VarChar(32)
+  ip        String?  @db.VarChar(64)
+  meta      Json     @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([action, createdAt])
+  @@index([actorId, createdAt])
 }

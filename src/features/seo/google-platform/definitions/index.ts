@@ -33,6 +33,14 @@ function cfgString(ctx: GoogleIntegrationContext, id: string, key: string): stri
   return typeof v === "string" ? v.trim() : "";
 }
 
+function connectionScopes(ctx: GoogleIntegrationContext, id: GoogleIntegrationId): string[] {
+  return ctx.platform.services[id]?.connection?.grantedScopes ?? [];
+}
+
+function hasGrantedScope(ctx: GoogleIntegrationContext, id: GoogleIntegrationId, scope: string): boolean {
+  return connectionScopes(ctx, id).includes(scope);
+}
+
 function connectedOAuth(
   configured: boolean,
   scopes: string[],
@@ -571,10 +579,20 @@ export const businessProfileIntegration: GoogleIntegrationDefinition = {
   healthProvider: {
     evaluate(ctx) {
       const configured = thisIsConfigured("business_profile", ctx);
+      const hasAccount = Boolean(cfgString(ctx, "business_profile", "businessAccountId"));
+      const hasScope = hasGrantedScope(
+        ctx,
+        "business_profile",
+        businessProfileIntegration.requiredScopes[0],
+      );
       return basicHealth({
         configured,
-        authOk: configured,
-        message: configured ? "Business Profile configured" : "Connect Business Profile account",
+        authOk: hasScope,
+        message: configured
+          ? "Business Profile connected"
+          : hasAccount
+            ? "Reconnect Business Profile to grant business.manage"
+            : "Connect Business Profile account",
       });
     },
   },
@@ -586,8 +604,20 @@ export const businessProfileIntegration: GoogleIntegrationDefinition = {
   automationProvider: createAutomationProviderFor("business_profile", basePolicy({ cadenceMinutes: 180 })),
   validationHandler: {
     validate(ctx, options) {
-      const ok = Boolean(cfgString(ctx, "business_profile", "businessAccountId"));
-      return { ok, message: ok ? "Business Profile valid" : "Business Account is required", dryRun: options?.dryRun };
+      const accountId = cfgString(ctx, "business_profile", "businessAccountId");
+      if (!accountId) {
+        return { ok: false, message: "Business Account is required", dryRun: options?.dryRun };
+      }
+      if (
+        !hasGrantedScope(ctx, "business_profile", businessProfileIntegration.requiredScopes[0])
+      ) {
+        return {
+          ok: false,
+          message: "Reconnect Business Profile to grant the business.manage scope.",
+          dryRun: options?.dryRun,
+        };
+      }
+      return { ok: true, message: "Business Profile credentials and scopes present", dryRun: options?.dryRun };
     },
   },
   operationHandlers: {
@@ -598,17 +628,14 @@ export const businessProfileIntegration: GoogleIntegrationDefinition = {
     reply_suggestions: (_c, _p, o) => opOk("Reply suggestions generated", o?.dryRun),
   },
   resolveConnection(ctx) {
-    const configured = thisIsConfigured("business_profile", ctx);
-    return {
-      state: configured ? "connected" : "disconnected",
-      lastVerifiedAt: configured ? new Date().toISOString() : null,
-      account: cfgString(ctx, "business_profile", "businessAccountId") || null,
-      project: null,
-      grantedScopes: configured ? businessProfileIntegration.requiredScopes : [],
-      missingScopes: configured ? [] : businessProfileIntegration.requiredScopes,
-      authMethod: configured ? "oauth" : "none",
-      message: configured ? "Business Profile connected" : "Not configured",
-    };
+    const account = cfgString(ctx, "business_profile", "businessAccountId") || null;
+    const granted = connectionScopes(ctx, "business_profile");
+    return connectedOAuth(
+      Boolean(account),
+      businessProfileIntegration.requiredScopes,
+      granted,
+      account,
+    );
   },
   isConfigured(ctx) {
     return thisIsConfigured("business_profile", ctx);
@@ -801,90 +828,6 @@ export const googleAdsIntegration: GoogleIntegrationDefinition = {
   },
 };
 
-export const indexingApiIntegration: GoogleIntegrationDefinition = {
-  id: "indexing_api",
-  displayName: "Indexing API",
-  icon: "zap",
-  category: "indexing",
-  description: "URL publish/delete notifications via service account.",
-  requiredScopes: ["https://www.googleapis.com/auth/indexing"],
-  capabilities: {
-    supportsOAuth: false,
-    supportsApiKey: false,
-    supportsServiceAccount: true,
-    supportsAutomation: true,
-    supportsMonitoring: true,
-    supportsQuota: true,
-    supportsRunNow: true,
-    supportsHistory: true,
-    supportsValidation: true,
-    supportsDryRun: true,
-  },
-  operations: [
-    { id: "publish_url", title: "Publish URL", description: "Notify Google of a new/updated URL", permission: "seo.google.indexing.publish", parameters: [{ key: "url", label: "URL", type: "url", required: true }], supportsDryRun: true, supportsScheduling: false },
-    { id: "delete_url", title: "Delete URL", description: "Notify Google of a removed URL", permission: "seo.google.indexing.delete", parameters: [{ key: "url", label: "URL", type: "url", required: true }], supportsDryRun: true, supportsScheduling: false },
-    { id: "validate_payload", title: "Validate Payload", description: "Validate indexing notification payload", permission: "seo.google.indexing.validate", supportsDryRun: true, supportsScheduling: false },
-    { id: "replay_failed", title: "Replay Failed Jobs", description: "Replay failed indexing jobs", permission: "seo.google.indexing.replay", supportsDryRun: true, supportsScheduling: false },
-  ],
-  configurationSchema: {
-    fields: [
-      { key: "serviceAccountJson", label: "Service account JSON", type: "json", required: true, group: "Credentials" },
-      { key: "defaultPublishMode", label: "Default publish mode", type: "select", group: "Defaults", options: [{ value: "URL_UPDATED", label: "URL updated" }, { value: "URL_DELETED", label: "URL deleted" }] },
-    ],
-  },
-  defaultPolicy: basePolicy({ cadenceMinutes: 30, parallelRequests: 1 }),
-  dependencies: [{ integrationId: "search_console", required: false, reason: "Indexing API works best with verified Search Console property" }],
-  contractVersion: 1,
-  schemaVersion: 1,
-  migrationVersion: 1,
-  connectorId: "indexing_api",
-  tabId: "indexing-api",
-  healthProvider: {
-    evaluate(ctx) {
-      const configured = thisIsConfigured("indexing_api", ctx);
-      return basicHealth({
-        configured,
-        authOk: configured,
-        message: configured ? "Service account configured" : "Add Indexing API service account JSON",
-      });
-    },
-  },
-  quotaProvider: {
-    evaluate() {
-      return basicQuota({ label: "Publish notifications / day", current: 0, maximum: 200, unit: "notifications" });
-    },
-  },
-  automationProvider: createAutomationProviderFor("indexing_api", basePolicy({ cadenceMinutes: 30, parallelRequests: 1 })),
-  validationHandler: {
-    validate(ctx, options) {
-      const ok = thisIsConfigured("indexing_api", ctx);
-      return { ok, message: ok ? "Indexing API credentials present" : "Service account JSON required", dryRun: options?.dryRun };
-    },
-  },
-  operationHandlers: {
-    publish_url: (_c, params, o) => opOk(`Publish queued for ${String(params.url ?? "")}`, o?.dryRun),
-    delete_url: (_c, params, o) => opOk(`Delete notification queued for ${String(params.url ?? "")}`, o?.dryRun),
-    validate_payload: (_c, _p, o) => opOk("Payload valid", o?.dryRun),
-    replay_failed: (_c, _p, o) => opOk("Failed jobs replay queued", o?.dryRun),
-  },
-  resolveConnection(ctx) {
-    const configured = thisIsConfigured("indexing_api", ctx);
-    return {
-      state: configured ? "connected" : "disconnected",
-      lastVerifiedAt: configured ? new Date().toISOString() : null,
-      account: null,
-      project: null,
-      grantedScopes: configured ? indexingApiIntegration.requiredScopes : [],
-      missingScopes: configured ? [] : indexingApiIntegration.requiredScopes,
-      authMethod: configured ? "service_account" : "none",
-      message: configured ? "Service account configured" : "Not configured",
-    };
-  },
-  isConfigured(ctx) {
-    return thisIsConfigured("indexing_api", ctx);
-  },
-};
-
 export const indexNowIntegration: GoogleIntegrationDefinition = {
   id: "indexnow",
   displayName: "IndexNow",
@@ -1003,13 +946,15 @@ function thisIsConfigured(id: GoogleIntegrationId, ctx: GoogleIntegrationContext
     case "merchant_center":
       return Boolean(cfg.merchantId && String(cfg.merchantId).trim());
     case "business_profile":
-      return Boolean(cfg.businessAccountId && String(cfg.businessAccountId).trim());
+      return Boolean(
+        cfg.businessAccountId &&
+          String(cfg.businessAccountId).trim() &&
+          hasGrantedScope(ctx, "business_profile", businessProfileIntegration.requiredScopes[0]),
+      );
     case "pagespeed":
       return Boolean((cfg.apiKey && String(cfg.apiKey).trim()) || hasLegacyApiKey(google));
     case "ads":
       return Boolean(cfg.customerId && String(cfg.customerId).trim());
-    case "indexing_api":
-      return hasLegacyServiceAccount(google) || Boolean(cfg.serviceAccountJson && String(cfg.serviceAccountJson).trim());
     case "indexnow": {
       const indexnow = legacyIndexNow(ctx);
       return Boolean(
@@ -1030,6 +975,5 @@ export const ALL_GOOGLE_INTEGRATION_DEFINITIONS: GoogleIntegrationDefinition[] =
   businessProfileIntegration,
   pagespeedIntegration,
   googleAdsIntegration,
-  indexingApiIntegration,
   indexNowIntegration,
 ];

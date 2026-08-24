@@ -12,6 +12,7 @@ import { buildTypographyCss } from "./typography";
 import { resolveThemeColors } from "@/features/theme/theme-config";
 import { DEFAULT_MONO_FONT } from "@/features/theme/tokens/design-tokens";
 import { coerceColorString } from "@/lib/theme/tokens/color-utils";
+import { THEME_ROOT_DARK_SELECTOR, THEME_ROOT_SELECTOR } from "./theme-root-selectors";
 
 function darkenHex(hex: string, amount = 0.15): string {
   const color = coerceColorString(hex);
@@ -46,7 +47,7 @@ function buildSharedTypographyBlock(tokens: ThemeTokens, primary: string, accent
   ].join(";");
 }
 
-/** Unlayered html / html.dark blocks — learn parity with hex surface vars. */
+/** Unlayered :root/html blocks — must beat globals.css :root / .dark fallbacks. */
 function buildUnifiedSurfaceCss(
   tokens: ThemeTokens,
   surfaces: { light: ReturnType<typeof resolveThemeSurfaces>; dark: ReturnType<typeof resolveThemeSurfaces> },
@@ -62,7 +63,7 @@ function buildUnifiedSurfaceCss(
   const primaryForeground = isLightBackground(primary) ? "#0a0a0a" : "#ffffff";
   const accentForeground = isLightBackground(secondary) ? "#0a0a0a" : "#ffffff";
 
-  return `html {
+  return `${THEME_ROOT_SELECTOR} {
   --primary:${primary};
   --primary-foreground:${primaryForeground};
   --secondary:#f5f5f4;
@@ -82,7 +83,7 @@ function buildUnifiedSurfaceCss(
   ${shared};
   ${aliases};
 }
-html.dark {
+${THEME_ROOT_DARK_SELECTOR} {
   --primary:${primary};
   --primary-foreground:${primaryForeground};
   --accent:${secondary};

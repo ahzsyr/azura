@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-13T14:32:11.176Z",
-  "modelCount": 85,
+  "generatedAt": "2026-08-18T08:13:05.279Z",
+  "modelCount": 107,
   "models": [
     {
       "name": "User",
@@ -996,6 +996,14 @@
           "hasDefault": false
         },
         {
+          "name": "coverUrl",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
           "name": "sortOrder",
           "type": "Int",
           "isList": false,
@@ -1587,6 +1595,30 @@
           "hasDefault": false
         },
         {
+          "name": "authorId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "author",
+          "type": "PostAuthor",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "sources",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
           "name": "media",
           "type": "ContentItemMedia",
           "isList": true,
@@ -1651,6 +1683,10 @@
         {
           "field": "collection",
           "referencedModel": "ContentCollection"
+        },
+        {
+          "field": "author",
+          "referencedModel": "PostAuthor"
         }
       ],
       "indexes": [
@@ -1981,8 +2017,32 @@
           "hasDefault": true
         },
         {
+          "name": "definitionRaw",
+          "type": "Json",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
           "name": "isPublished",
           "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "publishedVersion",
+          "type": "Int",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "allowedAdminIds",
+          "type": "Json",
           "isList": false,
           "isOptional": false,
           "isRelation": false,
@@ -2019,6 +2079,14 @@
           "isOptional": false,
           "isRelation": false,
           "hasDefault": false
+        },
+        {
+          "name": "snapshots",
+          "type": "FormTemplateSnapshot",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
         }
       ],
       "relations": [],
@@ -2026,6 +2094,87 @@
         "@@index([category, isPublished])"
       ],
       "uniqueConstraints": []
+    },
+    {
+      "name": "FormTemplateSnapshot",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "templateId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "template",
+          "type": "FormTemplate",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "version",
+          "type": "Int",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "label",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "definition",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "publishedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "createdById",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [
+        {
+          "field": "template",
+          "referencedModel": "FormTemplate"
+        }
+      ],
+      "indexes": [
+        "@@index([templateId, publishedAt])"
+      ],
+      "uniqueConstraints": [
+        "@@unique([templateId, version])"
+      ]
     },
     {
       "name": "FormSubmission",
@@ -2127,6 +2276,62 @@
           "hasDefault": true
         },
         {
+          "name": "pipelineType",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "assigneeId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "tags",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "customerId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "companyId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "campaignId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "metadata",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
           "name": "createdAt",
           "type": "DateTime",
           "isList": false,
@@ -2149,6 +2354,14 @@
           "isOptional": false,
           "isRelation": false,
           "hasDefault": false
+        },
+        {
+          "name": "events",
+          "type": "InteractionEvent",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
         }
       ],
       "relations": [
@@ -2160,7 +2373,157 @@
       "indexes": [
         "@@index([templateId, createdAt])",
         "@@index([status, createdAt])",
-        "@@index([blockType])"
+        "@@index([blockType])",
+        "@@index([assigneeId])",
+        "@@index([pipelineType])"
+      ],
+      "uniqueConstraints": []
+    },
+    {
+      "name": "InteractionEvent",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "aggregateId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "submission",
+          "type": "FormSubmission",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "type",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "payload",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "metadata",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        }
+      ],
+      "relations": [
+        {
+          "field": "submission",
+          "referencedModel": "FormSubmission"
+        }
+      ],
+      "indexes": [
+        "@@index([aggregateId, createdAt])",
+        "@@index([type, createdAt])"
+      ],
+      "uniqueConstraints": []
+    },
+    {
+      "name": "FormBehaviorEvent",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "schemaId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "sessionId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "bindingId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "type",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "payload",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "metadata",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        }
+      ],
+      "relations": [],
+      "indexes": [
+        "@@index([schemaId, createdAt])",
+        "@@index([type, createdAt])",
+        "@@index([sessionId])"
       ],
       "uniqueConstraints": []
     },
@@ -2929,6 +3292,1611 @@
       ]
     },
     {
+      "name": "MarketingProviderRuntime",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "providerId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "enabled",
+          "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "installedVersion",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "lifecycle",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "maintenanceMode",
+          "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "lastSyncAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "healthSummary",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "metadata",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "connections",
+          "type": "MarketingConnection",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "jobs",
+          "type": "MarketingJob",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "syncStates",
+          "type": "MarketingSyncState",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "telemetry",
+          "type": "MarketingTelemetry",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [],
+      "indexes": [],
+      "uniqueConstraints": []
+    },
+    {
+      "name": "MarketingConnection",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "providerId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "runtime",
+          "type": "MarketingProviderRuntime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "tenantId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "status",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "lifecycle",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "oauthMetadata",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "scopesGranted",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "scopesRequired",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "scopesMissing",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "scopesExpired",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "lastHealthAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "credential",
+          "type": "MarketingCredential",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "accounts",
+          "type": "MarketingAccount",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "jobs",
+          "type": "MarketingJob",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [
+        {
+          "field": "runtime",
+          "referencedModel": "MarketingProviderRuntime"
+        }
+      ],
+      "indexes": [
+        "@@index([status])",
+        "@@index([lifecycle])"
+      ],
+      "uniqueConstraints": [
+        "@@unique([providerId, tenantId])"
+      ]
+    },
+    {
+      "name": "MarketingCredential",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "connectionId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "connection",
+          "type": "MarketingConnection",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "accessToken",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "refreshToken",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "tokenType",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "expiresAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "refreshStatus",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "sealedPayload",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [
+        {
+          "field": "connection",
+          "referencedModel": "MarketingConnection"
+        }
+      ],
+      "indexes": [],
+      "uniqueConstraints": []
+    },
+    {
+      "name": "MarketingAccount",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "connectionId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "connection",
+          "type": "MarketingConnection",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "externalAccountId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "accountType",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "displayName",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "metadata",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "isSelected",
+          "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "healthSummary",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "assets",
+          "type": "MarketingAsset",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "jobs",
+          "type": "MarketingJob",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [
+        {
+          "field": "connection",
+          "referencedModel": "MarketingConnection"
+        }
+      ],
+      "indexes": [
+        "@@index([accountType])"
+      ],
+      "uniqueConstraints": [
+        "@@unique([connectionId, externalAccountId])"
+      ]
+    },
+    {
+      "name": "MarketingAsset",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "accountId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "account",
+          "type": "MarketingAccount",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "canonicalAssetKind",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "providerAssetType",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "externalAssetId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "displayName",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "metadata",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "selectable",
+          "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [
+        {
+          "field": "account",
+          "referencedModel": "MarketingAccount"
+        }
+      ],
+      "indexes": [
+        "@@index([canonicalAssetKind])"
+      ],
+      "uniqueConstraints": [
+        "@@unique([accountId, externalAssetId])"
+      ]
+    },
+    {
+      "name": "MarketingPermissionState",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "providerId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "connectionId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "entries",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "lastCheckedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [],
+      "indexes": [
+        "@@index([lastCheckedAt])"
+      ],
+      "uniqueConstraints": [
+        "@@unique([providerId, connectionId])"
+      ]
+    },
+    {
+      "name": "MarketingSyncState",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "providerId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "runtime",
+          "type": "MarketingProviderRuntime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "entity",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "entityId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "lastSuccessfulSync",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "lastAttempt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "nextScheduled",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "status",
+          "type": "MarketingSyncStatus",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "failureReason",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [
+        {
+          "field": "runtime",
+          "referencedModel": "MarketingProviderRuntime"
+        }
+      ],
+      "indexes": [
+        "@@index([status, nextScheduled])"
+      ],
+      "uniqueConstraints": [
+        "@@unique([providerId, entity, entityId])"
+      ]
+    },
+    {
+      "name": "MarketingJob",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "providerId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "runtime",
+          "type": "MarketingProviderRuntime",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "connectionId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "connection",
+          "type": "MarketingConnection",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "accountId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "account",
+          "type": "MarketingAccount",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "jobType",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "workflowStage",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "payload",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "result",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "idempotencyKey",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "status",
+          "type": "MarketingJobStatus",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "attemptCount",
+          "type": "Int",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "maxAttempts",
+          "type": "Int",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "lastError",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "scheduledAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "startedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "completedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [
+        {
+          "field": "runtime",
+          "referencedModel": "MarketingProviderRuntime"
+        },
+        {
+          "field": "connection",
+          "referencedModel": "MarketingConnection"
+        },
+        {
+          "field": "account",
+          "referencedModel": "MarketingAccount"
+        }
+      ],
+      "indexes": [
+        "@@index([status, scheduledAt])",
+        "@@index([jobType, status])",
+        "@@index([providerId, status])"
+      ],
+      "uniqueConstraints": []
+    },
+    {
+      "name": "MarketingWebhookEvent",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "providerId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "eventType",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "externalEventId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "signatureValid",
+          "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "status",
+          "type": "MarketingWebhookStatus",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "rawPayload",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "normalizedPayload",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "processingError",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "attemptCount",
+          "type": "Int",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "receivedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "processedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [],
+      "indexes": [
+        "@@index([providerId, status])",
+        "@@index([externalEventId])"
+      ],
+      "uniqueConstraints": [
+        "@@unique([providerId, externalEventId])"
+      ]
+    },
+    {
+      "name": "MarketingAnalyticsSnapshot",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "providerId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "accountId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "metric",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "value",
+          "type": "Float",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "periodStart",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "periodEnd",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "dimensions",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [],
+      "indexes": [
+        "@@index([providerId, periodStart])",
+        "@@index([metric, periodStart])"
+      ],
+      "uniqueConstraints": [
+        "@@unique([providerId, accountId, metric, periodStart, periodEnd])"
+      ]
+    },
+    {
+      "name": "MarketingProviderAppConfig",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "providerId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "clientId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "clientSecret",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "appSecret",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "webhookVerifyToken",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "pixelId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "capiAccessToken",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "metadata",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [],
+      "indexes": [],
+      "uniqueConstraints": []
+    },
+    {
+      "name": "MarketingTrackingConfig",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "providerId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "enabled",
+          "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "pixelId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "capiEnabled",
+          "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "accessToken",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "testEventCode",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "mappings",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "metadata",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [],
+      "indexes": [],
+      "uniqueConstraints": []
+    },
+    {
+      "name": "MarketingLeadEvent",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "providerId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "externalLeadId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "formId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "payload",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "canonical",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "inquiryId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "processingStatus",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "idempotencyKey",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [],
+      "indexes": [
+        "@@index([processingStatus])"
+      ],
+      "uniqueConstraints": [
+        "@@unique([providerId, externalLeadId])"
+      ]
+    },
+    {
+      "name": "MarketingTelemetry",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "providerId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "runtime",
+          "type": "MarketingProviderRuntime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "operation",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "durationMs",
+          "type": "Int",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "retryCount",
+          "type": "Int",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "rateLimited",
+          "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "queueWaitMs",
+          "type": "Int",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "outcome",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "errorCategory",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "metadata",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        }
+      ],
+      "relations": [
+        {
+          "field": "runtime",
+          "referencedModel": "MarketingProviderRuntime"
+        }
+      ],
+      "indexes": [
+        "@@index([providerId, createdAt])",
+        "@@index([outcome, createdAt])"
+      ],
+      "uniqueConstraints": []
+    },
+    {
       "name": "SiteTheme",
       "fields": [
         {
@@ -3483,6 +5451,14 @@
           "hasDefault": false
         },
         {
+          "name": "iconAssets",
+          "type": "IconAsset",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
           "name": "createdAt",
           "type": "DateTime",
           "isList": false,
@@ -3589,6 +5565,387 @@
       "uniqueConstraints": []
     },
     {
+      "name": "IconLibrary",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "slug",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "description",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "provider",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "source",
+          "type": "IconSource",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "version",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "enabled",
+          "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "icons",
+          "type": "IconAsset",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [],
+      "indexes": [
+        "@@index([enabled])",
+        "@@index([source])"
+      ],
+      "uniqueConstraints": []
+    },
+    {
+      "name": "IconAsset",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "libraryId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "library",
+          "type": "IconLibrary",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "slug",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "description",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "category",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "tags",
+          "type": "Json",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "source",
+          "type": "IconSource",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "type",
+          "type": "IconType",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "iconName",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "svgContent",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "viewBox",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "fontFamily",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "glyph",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "unicode",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "glyphKey",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "mediaId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "media",
+          "type": "MediaAsset",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "usages",
+          "type": "IconUsage",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "enabled",
+          "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [
+        {
+          "field": "library",
+          "referencedModel": "IconLibrary"
+        },
+        {
+          "field": "media",
+          "referencedModel": "MediaAsset"
+        }
+      ],
+      "indexes": [
+        "@@index([name])",
+        "@@index([slug])",
+        "@@index([source])",
+        "@@index([type])",
+        "@@index([category])",
+        "@@index([enabled])"
+      ],
+      "uniqueConstraints": [
+        "@@unique([libraryId, slug])"
+      ]
+    },
+    {
+      "name": "IconUsage",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "iconId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "icon",
+          "type": "IconAsset",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "entityType",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "entityId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "field",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        }
+      ],
+      "relations": [
+        {
+          "field": "icon",
+          "referencedModel": "IconAsset"
+        }
+      ],
+      "indexes": [
+        "@@index([iconId])",
+        "@@index([entityType, entityId, field])"
+      ],
+      "uniqueConstraints": []
+    },
+    {
       "name": "CmsPage",
       "fields": [
         {
@@ -3664,6 +6021,30 @@
           "hasDefault": false
         },
         {
+          "name": "authorId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "author",
+          "type": "PostAuthor",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "sources",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
           "name": "revisions",
           "type": "CmsPageRevision",
           "isList": true,
@@ -3696,7 +6077,12 @@
           "hasDefault": false
         }
       ],
-      "relations": [],
+      "relations": [
+        {
+          "field": "author",
+          "referencedModel": "PostAuthor"
+        }
+      ],
       "indexes": [
         "@@index([status])",
         "@@index([slug, status])"
@@ -3958,6 +6344,22 @@
           "hasDefault": false
         },
         {
+          "name": "cmsPages",
+          "type": "CmsPage",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "contentItems",
+          "type": "ContentItem",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
           "name": "createdAt",
           "type": "DateTime",
           "isList": false,
@@ -4081,6 +6483,14 @@
           "isOptional": true,
           "isRelation": false,
           "hasDefault": false
+        },
+        {
+          "name": "sources",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
         },
         {
           "name": "categories",
@@ -4486,6 +6896,255 @@
         "@@index([visible])"
       ],
       "uniqueConstraints": []
+    },
+    {
+      "name": "Category",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "slug",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "scope",
+          "type": "CategoryScope",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "scopeOwnerId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "parentId",
+          "type": "String",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "parent",
+          "type": "Category",
+          "isList": false,
+          "isOptional": true,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "children",
+          "type": "Category",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "sortOrder",
+          "type": "Int",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "visible",
+          "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "showInNav",
+          "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "featured",
+          "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "membershipMode",
+          "type": "CategoryMembershipMode",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "conditions",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "metadata",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "memberships",
+          "type": "CategoryMembership",
+          "isList": true,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [
+        {
+          "field": "parent",
+          "referencedModel": "Category"
+        },
+        {
+          "field": "children",
+          "referencedModel": "Category"
+        }
+      ],
+      "indexes": [
+        "@@index([scope, parentId])",
+        "@@index([scope, visible])",
+        "@@index([parentId])"
+      ],
+      "uniqueConstraints": [
+        "@@unique([scope, scopeOwnerId, slug])"
+      ]
+    },
+    {
+      "name": "CategoryMembership",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "categoryId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "category",
+          "type": "Category",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": true,
+          "hasDefault": false
+        },
+        {
+          "name": "entityId",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "entityKind",
+          "type": "String",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "source",
+          "type": "CategoryMembershipSource",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        },
+        {
+          "name": "sortOrder",
+          "type": "Int",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTime",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": false
+        }
+      ],
+      "relations": [
+        {
+          "field": "category",
+          "referencedModel": "Category"
+        }
+      ],
+      "indexes": [
+        "@@index([entityKind, entityId])",
+        "@@index([categoryId, source])"
+      ],
+      "uniqueConstraints": [
+        "@@unique([categoryId, entityId, entityKind])"
+      ]
     },
     {
       "name": "SiteSettings",

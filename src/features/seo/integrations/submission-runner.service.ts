@@ -1,10 +1,32 @@
 import "server-only";
 import { seoRepository } from "@/repositories/seo.repository";
+import { resolvePublicSiteUrl } from "@/features/seo/site-url-resolver";
+import type { SeoIntegrationProviderConfig, SeoSubmissionKind } from "@/features/seo/types";
 import { SEO_INTEGRATION_PROVIDERS } from "./providers";
+import { skippedProviderJobMessage } from "./enqueue-policy";
 import { seoObservabilityFlags } from "@/features/seo/observability-flags";
 
 const providerById = new Map(SEO_INTEGRATION_PROVIDERS.map((provider) => [provider.id, provider]));
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+function siteUrlFromMetadata(metadata: unknown): string | null {
+  if (typeof metadata !== "object" || metadata === null || Array.isArray(metadata)) return null;
+  const siteUrl = (metadata as Record<string, unknown>).siteUrl;
+  if (typeof siteUrl !== "string" || !siteUrl.trim()) return null;
+  return siteUrl.trim().replace(/\/$/, "");
+}
+
+function resolveJobSiteUrl(
+  metadata: unknown,
+  providerConfig: SeoIntegrationProviderConfig | undefined,
+  fallback: string,
+): string {
+  return (
+    siteUrlFromMetadata(metadata) ||
+    providerConfig?.siteUrl?.trim().replace(/\/$/, "") ||
+    fallback.replace(/\/$/, "")
+  );
+}
+
 export const MAX_ATTEMPTS = 5;
 export const BACKOFF_MINUTES = [1, 5, 30, 120, 360] as const;
 const RUNNER_LOCK_KEY = "seo-runner";
@@ -58,9 +80,12 @@ export const seoSubmissionRunner = {
       return { processed: 0, skipped: true, reason: "runner-lock-held", results: [] };
     }
 
-    const [config, jobs] = await Promise.all([
+    const [config, jobs, publicSiteUrl] = await Promise.all([
       seoRepository.getIntegrationsConfig(),
       seoRepository.listDueSubmissionJobs(limit),
+      resolvePublicSiteUrl().catch(() =>
+        (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, ""),
+      ),
     ]);
     const results: Array<{ id: string; ok: boolean; message: string }> = [];
 
@@ -127,8 +152,11 @@ export const seoSubmissionRunner = {
           url: job.url,
         });
 
-        // Legacy Google URL jobs: GSC has no generic URL API — skip without failing the queue.
-        if (provider.id === "google" && job.kind === "URL") {
+        const skipMessage = skippedProviderJobMessage(
+          provider.id,
+          job.kind as SeoSubmissionKind,
+        );
+        if (skipMessage) {
           await recordTelemetry({
             provider: provider.id,
             eventType: "COMPLETED",
@@ -147,14 +175,17 @@ export const seoSubmissionRunner = {
           results.push({
             id: job.id,
             ok: true,
-            message: "Skipped: Google uses sitemap submission only",
+            message: skipMessage,
           });
           continue;
         }
 
         try {
           const startedAt = Date.now();
-          const input = { url: job.url, siteUrl };
+          const input = {
+            url: job.url,
+            siteUrl: resolveJobSiteUrl(job.metadata, providerConfig, publicSiteUrl),
+          };
           const result =
             job.kind === "SITEMAP"
               ? await provider.submitSitemap(providerConfig!, input)

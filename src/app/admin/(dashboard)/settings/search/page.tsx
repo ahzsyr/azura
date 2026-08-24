@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import { ZodError } from "zod";
 import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import { loadSearchSettingsPageData } from "@/capabilities/search/actions/search-settings.actions";
 import { SearchSettingsAdminClient } from "@/capabilities/search/admin/search-settings-client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Prisma } from "@prisma/client";
+import { redirectUnlessAdmin } from "@/features/auth/redirect-unless-admin";
 
 export const metadata = {
   title: "Search Settings",
@@ -30,9 +30,7 @@ function searchSettingsErrorMessage(error: unknown): string {
 
 export default async function AdminSearchSettingsPage() {
   const session = await auth();
-  if (!session?.user || session.user.role !== "ADMIN") {
-    redirect("/admin/login?callbackUrl=/admin/settings/search");
-  }
+  redirectUnlessAdmin(session, "/admin/settings/search");
 
   try {
     const data = await loadSearchSettingsPageData();

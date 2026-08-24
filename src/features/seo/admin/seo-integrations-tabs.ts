@@ -7,6 +7,7 @@ export const SEO_INTEGRATIONS_TABS = [
 export const SEO_PROVIDER_TABS = [
   { id: "indexnow", label: "IndexNow" },
   { id: "bing", label: "Bing" },
+  { id: "google-indexing", label: "Google Indexing API" },
 ] as const;
 
 export type SeoIntegrationsTabId = (typeof SEO_INTEGRATIONS_TABS)[number]["id"];

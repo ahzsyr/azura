@@ -53,6 +53,15 @@ export async function generateMetadata({ params, searchParams }: Props) {
   if (RESERVED_SLUGS.has(slug)) return {};
 
   try {
+    const page = await cmsService.getPublishedPageBySlug(slug);
+    if (page) {
+      return seoService.resolveMetadata({
+        locale: locale as Locale,
+        cmsPageId: page.id,
+        path: `/${slug}`,
+      });
+    }
+
     const resolution = await contentPublicService.resolveRoute([slug]);
     if (resolution.kind === "list") {
       const type = resolution.contentType;
@@ -65,14 +74,7 @@ export async function generateMetadata({ params, searchParams }: Props) {
       });
     }
 
-    const page = await cmsService.getPublishedPageBySlug(slug);
-    if (!page) return {};
-
-    return seoService.resolveMetadata({
-      locale: locale as Locale,
-      cmsPageId: page.id,
-      path: `/${slug}`,
-    });
+    return {};
   } catch (error) {
     console.error(`[MarketingSlugRoute] generateMetadata failed for /${slug}:`, error);
     return {};
@@ -81,8 +83,8 @@ export async function generateMetadata({ params, searchParams }: Props) {
 
 /**
  * Single-segment resolver:
- * - Published CMS page → render at clean URL
- * - ContentType routePrefix → generic list page
+ * - Published CMS page → render at clean URL (keeps page blocks, including catalog cards)
+ * - ContentType routePrefix → generic list page when no CMS page owns the slug
  */
 export default async function MarketingSlugRoute({ params, searchParams }: Props) {
   const { locale, slug } = await params;
@@ -94,6 +96,11 @@ export default async function MarketingSlugRoute({ params, searchParams }: Props
   }
 
   try {
+    const page = await cmsService.getPublishedPageBySlug(slug);
+    if (page) {
+      return <MarketingCmsPage slug={slug} locale={locale as Locale} page={page} />;
+    }
+
     const resolution = await contentPublicService.resolveRoute([slug]);
     if (resolution.kind === "list") {
       return (
@@ -105,12 +112,7 @@ export default async function MarketingSlugRoute({ params, searchParams }: Props
       );
     }
 
-    const page = await cmsService.getPublishedPageBySlug(slug);
-    if (!page) {
-      notFound();
-    }
-
-    return <MarketingCmsPage slug={slug} locale={locale as Locale} page={page} />;
+    notFound();
   } catch (error) {
     console.error(`[MarketingSlugRoute] render failed for /${slug}:`, error);
     notFound();

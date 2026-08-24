@@ -35,8 +35,21 @@ const SPACER_LAYOUT_MODES: ReadonlySet<HeaderDesktopMode> = new Set([
   "absolute",
   "hide-reveal",
   "sticky",
-  "shrink-scroll",
 ]);
+
+/** Compact after this scroll offset; stay compact until back near the top. */
+export const SHRINK_SCROLL_ENTER_PX = 20;
+/** Expand only when returning to the very top (hysteresis vs ENTER). */
+export const SHRINK_SCROLL_EXIT_PX = 4;
+
+/** Compact visual state for shrink-on-scroll — does not change layout height. */
+export function resolveShrinkScrollCompact(
+  scrollY: number,
+  currentlyCompact: boolean
+): boolean {
+  if (currentlyCompact) return scrollY > SHRINK_SCROLL_EXIT_PX;
+  return scrollY > SHRINK_SCROLL_ENTER_PX;
+}
 
 export function resolveHeaderInsetActive(opts: {
   mode: HeaderDesktopMode;
@@ -51,7 +64,9 @@ export function resolveHeaderInsetActive(opts: {
   if (workspaceOverlay || blockOverlay) return true;
   if (usesLayoutSpacer && SPACER_LAYOUT_MODES.has(mode)) return false;
   if (mode === "fixed-top" || mode === "absolute" || mode === "hide-reveal") return true;
-  if (mode === "sticky" || mode === "shrink-scroll") return isSticking;
+  // Shrink-on-scroll keeps an in-flow sticky shell; do not add site-main padding.
+  if (mode === "shrink-scroll") return false;
+  if (mode === "sticky") return isSticking;
   return false;
 }
 

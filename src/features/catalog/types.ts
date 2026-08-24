@@ -18,7 +18,7 @@ export type CatalogEntityKind = "package" | "hotel" | "service";
 export type CatalogCardData = {
   id: string;
   slug?: string;
-  source: "packages" | "hotels" | "services";
+  source: string;
   nameEn: string;
   nameAr: string;
   excerptEn?: string;
@@ -30,6 +30,8 @@ export type CatalogCardData = {
   duration?: number;
   category?: { id: string; slug: string; nameEn: string; nameAr: string };
   city?: string;
+  locationEn?: string;
+  locationAr?: string;
   stars?: number;
   type?: string;
   icon?: string;

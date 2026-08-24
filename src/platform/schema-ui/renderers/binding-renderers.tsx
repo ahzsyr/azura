@@ -4,6 +4,7 @@ import { useState, type ReactNode } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { sanitizeHtml } from "@/lib/sanitize-html";
 import type { RenderContext } from "../manifests/types";
 import type { ValueBinding } from "../schema/value-binding";
 import { getBindingLabel } from "../schema/value-binding";
@@ -559,6 +560,6 @@ export function renderCardLayout(ctx: { props: Record<string, unknown>; children
 }
 
 export function renderHtmlContent(ctx: { props: Record<string, unknown> }): ReactNode {
-  const html = String(ctx.props.html ?? "");
+  const html = sanitizeHtml(String(ctx.props.html ?? ""));
   return <div className="text-sm prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: html }} />;
 }

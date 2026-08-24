@@ -52,6 +52,10 @@ export async function GET(
   if (providerId === "meta") {
     authUrl.searchParams.set("auth_type", "rerequest");
   }
+  if (providerId === "google-ads") {
+    authUrl.searchParams.set("access_type", "offline");
+    authUrl.searchParams.set("prompt", "consent");
+  }
 
   const response = NextResponse.redirect(authUrl);
   response.cookies.set(`marketing_oauth_state_${providerId}`, state, {

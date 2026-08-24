@@ -31,6 +31,12 @@ import {
   buildPreferredHostRedirectUrl,
   resolveWwwApexRedirect,
 } from "@/lib/preferred-host";
+import {
+  isAdminRole,
+  resolveLoginEntryPath,
+  resolvePortalLocale,
+  resolvePostLoginRedirect,
+} from "@/features/auth/portal";
 
 const LOCALE_PREFIX_ALWAYS = "always" as const;
 
@@ -38,7 +44,17 @@ export function middlewareFallback(request: NextRequest, error: unknown): NextRe
   console.error("[middleware] unhandled error:", error);
   const { pathname } = request.nextUrl;
   if (pathname.startsWith("/admin")) {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
+    const locales = getLocaleRoutingCache()?.locales ?? [...FALLBACK_LOCALE_PREFIXES];
+    const locale = resolvePortalLocale({
+      pathname,
+      cookieLocale: request.cookies.get("NEXT_LOCALE")?.value,
+      locales,
+    });
+    const entry = resolveLoginEntryPath({
+      locale,
+      callbackUrl: pathname === "/admin/login" ? null : pathname,
+    });
+    return NextResponse.redirect(new URL(entry, request.url));
   }
   return NextResponse.next();
 }
@@ -132,8 +148,12 @@ export async function runMiddleware(request: NextRequest) {
   } else if (isSetupPath) {
     const session = await getSession();
     const url = request.nextUrl.clone();
-    if (session?.user?.role === "ADMIN") {
-      url.pathname = "/admin";
+    if (session?.user && isAdminRole(session.user.role)) {
+      url.pathname = resolvePostLoginRedirect({
+        role: session.user.role,
+        locale: localeRouting.defaultLocale,
+        callbackUrl: null,
+      });
       url.search = "";
     } else {
       url.pathname = `/${localeRouting.defaultLocale}`;
@@ -210,5 +230,18 @@ export async function runMiddleware(request: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
-  return intlMiddleware(request);
+  const intlResponse = intlMiddleware(request);
+  // next-intl uses 307 for locale-prefix redirects; 308 consolidates SEO signals to /{locale}.
+  if (intlResponse.status === 307) {
+    const location = intlResponse.headers.get("location");
+    if (location) {
+      const redirect = NextResponse.redirect(new URL(location, request.url), 308);
+      for (const cookie of intlResponse.cookies.getAll()) {
+        redirect.cookies.set(cookie);
+      }
+      return redirect;
+    }
+  }
+
+  return intlResponse;
 }

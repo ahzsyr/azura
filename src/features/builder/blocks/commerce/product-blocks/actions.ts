@@ -5,7 +5,12 @@ import { orderCollectionsHierarchy } from "@/features/collections/collection-hie
 import { collectionsDataService } from "@/features/collections/collections-data.service";
 import { localeService } from "@/features/i18n/locale.service";
 import { productsDataService } from "@/features/products/products-data.service";
-import type { CollectionBuilderOption, ProductBuilderOption } from "./types";
+import { loadProductOrderingSettings } from "@/features/products/ordering/load-product-ordering";
+import type {
+  CollectionBuilderOption,
+  OrderingProfileBuilderOption,
+  ProductBuilderOption,
+} from "./types";
 
 async function defaultLocalePrefix(): Promise<string> {
   const locales = await localeService.listEnabled();
@@ -38,6 +43,24 @@ export async function fetchProductsForBuilder(limit = 500): Promise<ProductBuild
       slug: e.slug,
       label: e.name?.trim() || e.slug,
     }));
+  } catch {
+    return [];
+  }
+}
+
+export async function fetchOrderingProfilesForBuilder(): Promise<OrderingProfileBuilderOption[]> {
+  await requireAdmin();
+  try {
+    const localePrefix = await defaultLocalePrefix();
+    const settings = await loadProductOrderingSettings(localePrefix);
+    return settings.profiles
+      .filter((p) => p.enabled)
+      .map((p) => ({
+        id: p.id,
+        label: p.name.trim() || p.id,
+        scopeType: p.scope.type,
+        isGlobal: p.scope.type === "GLOBAL",
+      }));
   } catch {
     return [];
   }

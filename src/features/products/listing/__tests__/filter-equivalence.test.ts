@@ -97,6 +97,24 @@ test("normalizeListingFilterState trims, dedupes, lowercases tags only", () => {
   assert.equal(normalized.brands.includes("nike"), true);
 });
 
+test("filterListingCatalog exact phrase excludes split-token matches", () => {
+  const records = [
+    record("door-access", { searchText: "door access controller kit" }),
+    record("embedded", { searchText: "superdoor access panel" }),
+    record("split-words", { searchText: "door controller for access systems" }),
+  ];
+  const loose = filterListingCatalog(records, { ...baseState, q: "door access" });
+  const exactOnRecords = filterListingCatalog(records, { ...baseState, q: "door access", qExact: true });
+  assert.deepEqual(
+    exactOnRecords.map((r) => r.slug),
+    ["door-access"],
+  );
+  assert.deepEqual(
+    loose.map((r) => r.slug).sort(),
+    ["door-access", "embedded"].sort(),
+  );
+});
+
 test("executeListingQueryPlan matches filterListingCatalog oracle (scan)", () => {
   const states: ListingFilterState[] = [
     { ...baseState, brands: ["Cisco"] },

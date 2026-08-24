@@ -7,14 +7,19 @@ import { Button } from "@/components/ui/button";
 import { Plus, Trash2 } from "lucide-react";
 import { newId } from "@/features/builder/blocks/content/schemas/content-blocks";
 import { ModalRepeatableListEditor } from "@/features/builder/admin/shared/modal-repeatable-list-editor";
+import { useAdminEditingLocaleContextOptional } from "@/components/admin/admin-editing-locale-provider";
+import { DEFAULT_ADMIN_LOCALE } from "@/i18n/locale-config";
 import type { HtmlElement, HtmlElementAttributes } from "../../types";
 import {
   extractTableData,
   patchTableStructure,
+  pickCellLocaleFields,
   type ColumnDef,
   type TableCellData,
   type TableRowData,
 } from "../../lib/table-structure";
+import { LocalizedHtmlInput } from "../localized-html-input";
+import { copyPrefixedFields, readLocalizedField } from "../../lib/localized-fields";
 
 type Props = {
   element: HtmlElement;
@@ -48,15 +53,14 @@ function ColumnForm({
 }) {
   return (
     <div className="space-y-3 p-1">
-      <div>
-        <Label className="text-xs">Label</Label>
-        <Input
-          className="mt-1 h-8 text-sm"
-          value={draft.label}
-          placeholder="Column header"
-          onChange={(e) => onUpdate({ label: e.target.value })}
-        />
-      </div>
+      <LocalizedHtmlInput
+        label="Label"
+        baseKey="label"
+        values={draft as Record<string, unknown>}
+        onChange={(patch) => onUpdate(patch)}
+        placeholder="Column header"
+        inputClassName="mt-1 h-8 text-sm"
+      />
       <div className="grid grid-cols-2 gap-3">
         <div>
           <Label className="text-xs">Width</Label>
@@ -102,9 +106,12 @@ function RowForm({
   columns: ColumnDef[];
   cellTag: "th" | "td";
 }) {
+  const adminLocale = useAdminEditingLocaleContextOptional();
+  const activeCode = adminLocale?.activeLocaleCode ?? DEFAULT_ADMIN_LOCALE.code;
+
   const updateCell = (i: number, patch: Partial<TableCellData>) => {
     const cells = [...draft.cells];
-    cells[i] = { ...cells[i]!, ...patch };
+    cells[i] = { ...(cells[i] ?? { id: newId(cellTag), text: "" }), ...patch };
     onUpdate({ cells });
   };
 
@@ -112,16 +119,18 @@ function RowForm({
     <div className="space-y-3 p-1">
       {columns.map((col, i) => {
         const cell = draft.cells[i] ?? { id: newId(cellTag), text: "" };
+        const colLabel =
+          readLocalizedField(col as Record<string, unknown>, "label", activeCode) ||
+          col.label;
         return (
           <div key={col.id} className="space-y-1">
-            <Label className="text-xs font-medium">
-              {col.label || `Column ${i + 1}`}
-            </Label>
-            <Input
-              className="h-8 text-sm"
-              value={cell.text}
+            <LocalizedHtmlInput
+              label={colLabel || `Column ${i + 1}`}
+              baseKey="text"
+              values={cell as Record<string, unknown>}
+              onChange={(patch) => updateCell(i, patch)}
               placeholder="Cell content"
-              onChange={(e) => updateCell(i, { text: e.target.value })}
+              inputClassName="h-8 text-sm"
             />
             <div className="grid grid-cols-3 gap-2">
               <div>
@@ -194,7 +203,13 @@ function MiniGridPreview({
   headerRow?: TableRowData;
   footerRow?: TableRowData;
 }) {
+  const adminLocale = useAdminEditingLocaleContextOptional();
+  const activeCode = adminLocale?.activeLocaleCode ?? DEFAULT_ADMIN_LOCALE.code;
+
   if (columns.length === 0) return null;
+
+  const cellLabel = (cell: TableCellData | undefined) =>
+    cell ? readLocalizedField(cell as Record<string, unknown>, "text", activeCode) : "";
 
   const renderRow = (row: TableRowData, isHeader = false, isFooter = false) => (
     <tr
@@ -214,7 +229,7 @@ function MiniGridPreview({
             key={col.id}
             className="border px-1.5 py-0.5 text-[10px] max-w-[80px] truncate"
           >
-            {cell?.text || (
+            {cellLabel(cell) || (
               <span className="text-muted-foreground/50">—</span>
             )}
           </td>
@@ -239,6 +254,8 @@ function MiniGridPreview({
 // ─── Main form ────────────────────────────────────────────────────────────────
 
 export function TableElementForm({ element, onChange }: Props) {
+  const adminLocale = useAdminEditingLocaleContextOptional();
+  const activeCode = adminLocale?.activeLocaleCode ?? DEFAULT_ADMIN_LOCALE.code;
   const attrs = element.attributes ?? {};
   const colCount = getColCount(element);
   const tableData = useMemo(
@@ -268,22 +285,32 @@ export function TableElementForm({ element, onChange }: Props) {
 
     const resizeRow = (row: TableRowData): TableRowData => ({
       ...row,
-      cells: Array.from({ length: colLen }, (_, i) => ({
-        id: row.cells[i]?.id ?? newId("td"),
-        text: row.cells[i]?.text ?? "",
-        align: row.cells[i]?.align,
-        colspan: row.cells[i]?.colspan,
-        rowspan: row.cells[i]?.rowspan,
-      })),
+      cells: Array.from({ length: colLen }, (_, i) => {
+        const existing = row.cells[i];
+        return {
+          id: existing?.id ?? newId("td"),
+          text: existing?.text ?? "",
+          ...pickCellLocaleFields(existing),
+          align: existing?.align,
+          colspan: existing?.colspan,
+          rowspan: existing?.rowspan,
+        };
+      }),
     });
 
     const headerRow = tableData.headerRow
       ? {
           ...tableData.headerRow,
-          cells: Array.from({ length: colLen }, (_, i) => ({
-            id: tableData.headerRow!.cells[i]?.id ?? newId("th"),
-            text: cols[i]?.label ?? tableData.headerRow!.cells[i]?.text ?? "",
-          })),
+          cells: Array.from({ length: colLen }, (_, i) => {
+            const existing = tableData.headerRow!.cells[i];
+            const col = cols[i];
+            return {
+              id: existing?.id ?? newId("th"),
+              text: col?.label ?? existing?.text ?? "",
+              ...pickCellLocaleFields(existing),
+              ...copyPrefixedFields(col as Record<string, unknown> | undefined, "label", "text"),
+            };
+          }),
         }
       : undefined;
 
@@ -389,15 +416,14 @@ export function TableElementForm({ element, onChange }: Props) {
           </label>
         </div>
 
-        <div>
-          <Label className="text-xs">Caption</Label>
-          <Input
-            className="mt-1 h-7 text-xs"
-            value={attrs.caption ?? ""}
-            placeholder="Optional table caption"
-            onChange={(e) => updateAttrs({ caption: e.target.value || undefined })}
-          />
-        </div>
+        <LocalizedHtmlInput
+          label="Caption"
+          baseKey="caption"
+          values={attrs as Record<string, unknown>}
+          onChange={(patch) => onChange({ attributes: { ...attrs, ...patch } })}
+          placeholder="Optional table caption"
+          inputClassName="mt-1 h-7 text-xs"
+        />
       </div>
 
       <hr />
@@ -420,7 +446,10 @@ export function TableElementForm({ element, onChange }: Props) {
           label: `Column ${tableData.columns.length + 1}`,
         })}
         renderSummary={(col) => ({
-          title: col.label || "(Untitled column)",
+          title:
+            readLocalizedField(col as Record<string, unknown>, "label", activeCode) ||
+            col.label ||
+            "(Untitled column)",
           meta: [
             col.width ? `width: ${col.width}` : undefined,
             col.align ? `align: ${col.align}` : undefined,
@@ -452,7 +481,10 @@ export function TableElementForm({ element, onChange }: Props) {
         })}
         renderSummary={(row, index) => ({
           title: `Row ${index + 1}`,
-          meta: row.cells.slice(0, 3).map((c) => c.text).filter(Boolean),
+          meta: row.cells
+            .slice(0, 3)
+            .map((c) => readLocalizedField(c as Record<string, unknown>, "text", activeCode))
+            .filter(Boolean),
         })}
         renderForm={(draft, onUpdate) => (
           <RowForm
@@ -495,7 +527,10 @@ export function TableElementForm({ element, onChange }: Props) {
             })}
             renderSummary={(row) => ({
               title: "Footer row",
-              meta: row.cells.slice(0, 3).map((c) => c.text).filter(Boolean),
+              meta: row.cells
+                .slice(0, 3)
+                .map((c) => readLocalizedField(c as Record<string, unknown>, "text", activeCode))
+                .filter(Boolean),
             })}
             renderForm={(draft, onUpdate) => (
               <RowForm

@@ -15,7 +15,6 @@ import { FALLBACK_LOCALES, resolvePrefixToCode } from "@/i18n/locale-config";
 import type { PublicLocale } from "@/i18n/locale-config";
 import { useBlockTranslationsOptional } from "@/features/builder/block-translation-context";
 import { getBlockFieldValue } from "@/features/translation/block-translation";
-import { resolveRowSectionGridTemplate } from "@/features/builder/container-blocks";
 import { SectionLayoutView } from "@/features/builder/components/section-layout-view";
 import { parseSectionProps } from "@/schemas/builder/props";
 import { isBlockHidden } from "@/features/builder/lib/block-hidden";
@@ -37,6 +36,7 @@ import { AdvancedRichTextView } from "@/features/builder/blocks/content/componen
 import { getCustomHtmlElements } from "@/features/builder/blocks/content/custom-html/get-elements";
 import { serializeElementsToHtml } from "@/features/builder/blocks/content/custom-html/serialize";
 import { sanitizeCustomHtml } from "@/features/builder/blocks/content/custom-html/sanitize";
+import "@/features/builder/blocks/marketing/components/cta-banner.css";
 
 function overflowPreviewLabel(block: BlockNode, device: DeviceBreakpoint): string | null {
   if (!blockRegistry.get(block.type)?.contentOverflowCapable) return null;
@@ -71,7 +71,7 @@ function PreviewBlock({
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
   previewDevice?: DeviceBreakpoint;
 }) {
-  const p = block.props;
+  const p = getBlockSettings(block);
   const ctx = useBlockTranslationsOptional();
   const code = resolvePrefixToCode(locale, locales);
   const rows = ctx?.translationMap.get(block.id);
@@ -134,12 +134,29 @@ function PreviewBlock({
         </section>
       );
     }
-    case "text":
+    case "text": {
+      const title = loc("title");
+      const subtitle = loc("subtitle");
+      const badge = loc("badge");
+      const content = loc("content");
+      if (!title && !subtitle && !badge && !content) {
+        return (
+          <div dir={dir} className="p-4 text-sm text-muted-foreground">
+            Text block
+          </div>
+        );
+      }
       return (
-        <div dir={dir} className="p-4 text-sm text-muted-foreground whitespace-pre-wrap">
-          {loc("content") || "Text block"}
+        <div dir={dir} className="p-4 space-y-1">
+          {badge ? <p className="text-[10px] uppercase tracking-wide text-muted-foreground">{badge}</p> : null}
+          {title ? <p className="text-sm font-medium">{title}</p> : null}
+          {subtitle ? <p className="text-xs text-muted-foreground">{subtitle}</p> : null}
+          {content ? (
+            <p className="text-sm text-muted-foreground whitespace-pre-wrap">{content}</p>
+          ) : null}
         </div>
       );
+    }
     case "image":
       return (p.url as string) ? (
         <div className="relative aspect-video m-2 rounded overflow-hidden bg-muted">
@@ -300,25 +317,31 @@ function PreviewBlock({
         p.backgroundType as string | undefined
       );
       const isTransparentBg = bgType === "transparent" || bgType === "none";
-      const isDark =
+      const isFilled =
         !isTransparentBg &&
         (bgType === "gradient" || bgType === "image" || bgType === "video" || Boolean(p.backgroundColor));
+      const badge = loc("promoBadge");
       return (
         <div
           dir={dir}
           className={cn(
-            "p-6 text-center rounded-2xl",
-            !useBlockVisualBg && !isTransparentBg && "bg-primary/10"
+            "az-cta-banner az-cta-banner--preview px-5 py-6 text-center",
+            bgType === "gradient" && "az-cta-banner--brand",
+            isFilled && "az-cta-banner--filled",
+            !isFilled && !isTransparentBg && "az-cta-banner--light",
           )}
           style={useBlockVisualBg ? sectionBackgroundToCss(block.visual?.sectionBackground) : undefined}
         >
-          <p className={cn("font-semibold text-sm", isDark && "text-white")}>{loc("title")}</p>
-          <span
-            className={cn(
-              "inline-block mt-2 px-3 py-1 text-xs rounded",
-              isDark ? "bg-white/20 text-white" : "bg-primary text-white"
-            )}
-          >
+          {badge ? <span className="az-cta-banner__badge">{badge}</span> : null}
+          <p className="az-cta-banner__title font-heading whitespace-pre-line text-sm leading-tight">
+            {loc("title")}
+          </p>
+          {loc("subtitle") ? (
+            <p className="az-cta-banner__body mx-auto mt-2 line-clamp-2 text-[11px] leading-snug">
+              {loc("subtitle")}
+            </p>
+          ) : null}
+          <span className="az-cta-banner__btn mt-3 inline-flex items-center justify-center text-[11px]">
             {loc("button") || "CTA"}
           </span>
         </div>
@@ -471,6 +494,12 @@ function PreviewBlock({
       return (
         <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
           Image Comparison · {(p.layout as string) ?? "slider"}
+        </div>
+      );
+    case "tabbedShowcase":
+      return (
+        <div dir={dir} className="p-4 text-sm text-muted-foreground text-center border border-dashed rounded m-2">
+          Tabbed Showcase · {((p.tabs as unknown[]) ?? []).length} tabs
         </div>
       );
     case "videoHero":
@@ -771,15 +800,21 @@ function PreviewBlock({
             ]
               .filter(Boolean)
               .join(" ")}
-            style={{
-              gridTemplateColumns: resolveRowSectionGridTemplate(
-                (p.columnLayout as string) ?? "equal",
-                maxColumns
-              ),
-            }}
+            data-column-layout={(p.columnLayout as string) ?? "equal"}
+            data-max-columns={maxColumns}
           >
-            {visibleChildren.map((child) => (
-              <div key={child.id} className="row-section-grid__cell min-w-0 border border-dashed border-muted-foreground/30 rounded p-1">
+            {visibleChildren.map((child, index) => (
+              <div
+                key={child.id}
+                className="row-section-grid__cell min-w-0 border border-dashed border-muted-foreground/30 rounded p-1"
+                data-split-cell={
+                  (p.columnLayout === "wide-left" || p.columnLayout === "wide-right") && index < 2
+                    ? index === 0
+                      ? "start"
+                      : "end"
+                    : undefined
+                }
+              >
                 <PreviewBlock
                   block={child}
                   locale={locale}

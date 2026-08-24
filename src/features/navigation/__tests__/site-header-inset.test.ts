@@ -4,6 +4,7 @@ import {
   boxedHeaderTopGapPx,
   resolveBoxedHeaderTopGapPx,
   resolveHeaderInsetActive,
+  resolveShrinkScrollCompact,
   SITE_CONTENT_TOP_INSET_CSS,
 } from "@/features/navigation/site-header-inset";
 
@@ -114,7 +115,16 @@ describe("site-header-inset", () => {
     );
     assert.equal(
       resolveHeaderInsetActive({
-        mode: "sticky",
+        mode: "shrink-scroll",
+        workspaceOverlay: false,
+        blockOverlay: false,
+        isSticking: true,
+      }),
+      false
+    );
+    assert.equal(
+      resolveHeaderInsetActive({
+        mode: "shrink-scroll",
         workspaceOverlay: true,
         blockOverlay: false,
         isSticking: false,
@@ -154,5 +164,15 @@ describe("site-header-inset", () => {
       }),
       true
     );
+  });
+
+  it("resolveShrinkScrollCompact uses a top-of-page hysteresis window", () => {
+    assert.equal(resolveShrinkScrollCompact(0, false), false);
+    assert.equal(resolveShrinkScrollCompact(20, false), false);
+    assert.equal(resolveShrinkScrollCompact(21, false), true);
+    assert.equal(resolveShrinkScrollCompact(400, true), true);
+    assert.equal(resolveShrinkScrollCompact(10, true), true);
+    assert.equal(resolveShrinkScrollCompact(4, true), false);
+    assert.equal(resolveShrinkScrollCompact(0, true), false);
   });
 });

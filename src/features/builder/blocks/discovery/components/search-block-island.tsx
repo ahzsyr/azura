@@ -137,6 +137,7 @@ export function SearchBlockIsland({ locale, config, blockProps: raw }: Props) {
           }
           onClearTypes={() => search.setActiveTypes([])}
           entityLabel={search.entityLabel}
+          hitLabel={search.hitLabel}
           enabledFilters={p.panelMode === "discovery" && p.showFacetChips ? search.enabledFilters : []}
           facetValueOptions={search.facetValueOptions}
           activeFacetFilters={search.activeFacetFilters}

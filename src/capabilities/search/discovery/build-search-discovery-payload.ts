@@ -1,5 +1,5 @@
 import type { SearchEntityType } from "@prisma/client";
-import { SEARCH_ENTITY_TYPES, ENTITY_LABELS } from "@/capabilities/search/constants";
+import { SEARCH_ENTITY_TYPES, ENTITY_LABELS, labelForContentTypeSlug } from "@/capabilities/search/constants";
 import type { CatalogSearchDiscovery } from "@/capabilities/search/engine/discovery/catalog-search-discovery";
 import type { AdminSearchSettings } from "@/capabilities/search/settings/admin-search-settings.schema";
 import { toPublicSearchConfig } from "@/capabilities/search/settings/public-search-config";
@@ -7,6 +7,7 @@ import { resolvePublicAutocompleteConfig } from "@/capabilities/search/settings/
 import { buildSearchAnalyticsReport } from "@/capabilities/search/analytics/search-analytics-report.service";
 import { getShortLanguageLocale } from "@/shared/layout/direction/direction-utils";
 import { isArabicLocale } from "@/shared/layout/direction/direction-resolver";
+import type { LocalizedValueMap } from "@/features/translation/types";
 
 export type SearchDiscoveryPayload = {
   contentTypes: {
@@ -29,6 +30,30 @@ export type SearchDiscoveryPayload = {
   trendingQueries?: string[];
 };
 
+function firstNonEmpty(...values: Array<string | undefined | null>): string | undefined {
+  for (const value of values) {
+    const trimmed = value?.trim();
+    if (trimmed) return trimmed;
+  }
+  return undefined;
+}
+
+function resolveContentTypePluralLabel(
+  slug: string,
+  labelPlural: LocalizedValueMap,
+  preferArabic: boolean
+): { label: string; labelEn: string; labelAr: string } {
+  const fromMapEn = firstNonEmpty(labelPlural.en, ...Object.values(labelPlural));
+  const fromMapAr = firstNonEmpty(labelPlural.ar, labelPlural.en, ...Object.values(labelPlural));
+  const labelEn = fromMapEn || labelForContentTypeSlug(slug, "en");
+  const labelAr = fromMapAr || labelForContentTypeSlug(slug, "ar");
+  return {
+    label: preferArabic ? labelAr : labelEn,
+    labelEn,
+    labelAr,
+  };
+}
+
 export function buildSearchDiscoveryPayload(
   admin: AdminSearchSettings,
   discovery: CatalogSearchDiscovery,
@@ -37,20 +62,18 @@ export function buildSearchDiscoveryPayload(
 ): SearchDiscoveryPayload {
   const normalizedLocale = getShortLanguageLocale(analyticsLocale);
   const useArabicLabels = isArabicLocale(normalizedLocale);
-  const contentTypeFilters = discovery.contentTypes.map((t) => ({
-    slug: t.slug,
-    label:
-      (useArabicLabels ? t.labelPlural.ar : t.labelPlural.en) ??
-      t.labelPlural.en ??
-      t.labelPlural.ar ??
-      Object.values(t.labelPlural)[0] ??
-      t.slug,
-    labelEn: t.labelPlural.en ?? t.labelPlural.ar ?? Object.values(t.labelPlural)[0] ?? t.slug,
-    labelAr: t.labelPlural.ar ?? t.labelPlural.en ?? Object.values(t.labelPlural)[0] ?? t.slug,
-    icon: t.icon,
-    routePrefix: t.routePrefix,
-    searchEnabled: t.search.enabled,
-  }));
+  const contentTypeFilters = discovery.contentTypes.map((t) => {
+    const labels = resolveContentTypePluralLabel(t.slug, t.labelPlural, useArabicLabels);
+    return {
+      slug: t.slug,
+      label: labels.label,
+      labelEn: labels.labelEn,
+      labelAr: labels.labelAr,
+      icon: t.icon,
+      routePrefix: t.routePrefix,
+      searchEnabled: t.search.enabled,
+    };
+  });
 
   const src = discovery.sources;
   const includeMedia =

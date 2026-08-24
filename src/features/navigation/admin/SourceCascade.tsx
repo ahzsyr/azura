@@ -32,11 +32,11 @@ type Props = {
 };
 
 function ensureOption(
-  opts: { value: string; label: string }[],
+  opts: { value: string; label: string; subtitle?: string }[],
   value: string,
-): { value: string; label: string }[] {
+): { value: string; label: string; subtitle?: string }[] {
   if (value && !opts.some((o) => o.value === value)) {
-    return [{ value, label: `${value} (custom)` }, ...opts];
+    return [{ value, label: `${value} (custom)`, subtitle: `/${value}` }, ...opts];
   }
   return opts;
 }
@@ -56,6 +56,8 @@ export function PageSourceCascade({ catalog, idPrefix, editingItem, onChange }: 
     if (!editingItem) return;
     const hydrated = hydrateSourcePath(catalog, editingItem);
     if (!hydrated) return;
+    // Sync cascade UI from the selected menu item.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSectionId(hydrated.sectionId);
     setTypeId(hydrated.typeId);
     setValue(hydrated.value);
@@ -67,7 +69,11 @@ export function PageSourceCascade({ catalog, idPrefix, editingItem, onChange }: 
     if (leaf.leafKind === "collections") {
       // First level shown separately via collectionPath; options for "pick root" used when path empty
       return ensureOption(
-        rootCollections(catalog).map((c) => ({ value: c.slug, label: c.name })),
+        rootCollections(catalog).map((c) => ({
+          value: c.slug,
+          label: c.name,
+          subtitle: `/${c.slug}`,
+        })),
         collectionPath[0] ?? value,
       );
     }
@@ -162,7 +168,7 @@ export function PageSourceCascade({ catalog, idPrefix, editingItem, onChange }: 
 
   const collectionLevels = useMemo(() => {
     if (leaf?.leafKind !== "collections") return [];
-    const levels: { level: number; options: { value: string; label: string }[]; value: string }[] =
+    const levels: { level: number; options: { value: string; label: string; subtitle?: string }[]; value: string }[] =
       [];
     // Level 0: roots
     const path = collectionPath.length
@@ -171,7 +177,11 @@ export function PageSourceCascade({ catalog, idPrefix, editingItem, onChange }: 
         ? collectionAncestorPath(catalog, value)
         : [];
     const rootOpts = ensureOption(
-      rootCollections(catalog).map((c) => ({ value: c.slug, label: c.name })),
+      rootCollections(catalog).map((c) => ({
+        value: c.slug,
+        label: c.name,
+        subtitle: `/${c.slug}`,
+      })),
       path[0] ?? "",
     );
     levels.push({ level: 0, options: rootOpts, value: path[0] ?? "" });
@@ -183,7 +193,11 @@ export function PageSourceCascade({ catalog, idPrefix, editingItem, onChange }: 
       levels.push({
         level: i + 1,
         options: ensureOption(
-          children.map((c) => ({ value: c.slug, label: c.name })),
+          children.map((c) => ({
+            value: c.slug,
+            label: c.name,
+            subtitle: `/${c.slug}`,
+          })),
           childVal,
         ),
         value: childVal,
@@ -194,34 +208,42 @@ export function PageSourceCascade({ catalog, idPrefix, editingItem, onChange }: 
   }, [catalog, leaf, collectionPath, value]);
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:col-span-2 sm:grid-cols-2">
-      <HeaderField label="Content section" htmlFor={`${idPrefix}-section`}>
-        <HeaderSelect
-          id={`${idPrefix}-section`}
-          value={sectionId}
-          onChange={onSectionChange}
-        >
-          <option value="">Select section…</option>
-          {families.map((s) => (
-            <option key={s.id} value={s.id}>
-              {s.label}
-            </option>
-          ))}
-        </HeaderSelect>
-      </HeaderField>
+    <div className="space-y-4 sm:col-span-2">
+      <div className="rounded-xl border bg-muted/20 p-3 sm:p-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <HeaderField label="Content section" htmlFor={`${idPrefix}-section`}>
+            <HeaderSelect
+              id={`${idPrefix}-section`}
+              value={sectionId}
+              onChange={onSectionChange}
+            >
+              <option value="">Select section…</option>
+              {families.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.label}
+                </option>
+              ))}
+            </HeaderSelect>
+          </HeaderField>
 
-      {sectionId ? (
-        <HeaderField label="Content type" htmlFor={`${idPrefix}-type`}>
-          <HeaderSelect id={`${idPrefix}-type`} value={typeId} onChange={onTypeChange}>
-            <option value="">Select type…</option>
-            {typeOptions.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.label}
-              </option>
-            ))}
-          </HeaderSelect>
-        </HeaderField>
-      ) : null}
+          {sectionId ? (
+            <HeaderField label="Content type" htmlFor={`${idPrefix}-type`}>
+              <HeaderSelect id={`${idPrefix}-type`} value={typeId} onChange={onTypeChange}>
+                <option value="">Select type…</option>
+                {typeOptions.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {t.label}
+                  </option>
+                ))}
+              </HeaderSelect>
+            </HeaderField>
+          ) : (
+            <p className="self-end text-xs text-muted-foreground sm:pb-2">
+              Choose a content section to browse pages and items.
+            </p>
+          )}
+        </div>
+      </div>
 
       {typeId && leaf?.leafKind === "collections"
         ? collectionLevels.map((lvl) => (
@@ -240,7 +262,7 @@ export function PageSourceCascade({ catalog, idPrefix, editingItem, onChange }: 
                 options={
                   lvl.level === 0
                     ? lvl.options
-                    : [{ value: "", label: "(use parent)" }, ...lvl.options]
+                    : [{ value: "", label: "(use parent)", subtitle: "Keep parent collection" }, ...lvl.options]
                 }
                 value={lvl.value}
                 onChange={(next) => {
@@ -254,7 +276,7 @@ export function PageSourceCascade({ catalog, idPrefix, editingItem, onChange }: 
                   }
                   onCollectionLevelChange(lvl.level, next);
                 }}
-                emptyMessage="No collections"
+                emptyMessage="No collections found."
               />
             </HeaderField>
           ))
@@ -271,7 +293,7 @@ export function PageSourceCascade({ catalog, idPrefix, editingItem, onChange }: 
             options={itemOptions}
             value={value}
             onChange={onItemChange}
-            emptyMessage="No items"
+            emptyMessage="No items found. Try another name or slug."
           />
         </HeaderField>
       ) : null}
@@ -299,11 +321,12 @@ export function CollectionSourceCascade({
   const [path, setPath] = useState<string[]>(initialPath);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPath(value ? collectionAncestorPath(catalog, value) : []);
   }, [value, catalog]);
 
   const levels = useMemo(() => {
-    const out: { level: number; options: { value: string; label: string }[]; value: string }[] =
+    const out: { level: number; options: { value: string; label: string; subtitle?: string }[]; value: string }[] =
       [];
     const rootOpts = ensureOption(
       rootCollections(catalog).map((c) => ({ value: c.slug, label: c.name })),
@@ -336,7 +359,7 @@ export function CollectionSourceCascade({
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:col-span-2 sm:grid-cols-2">
+    <div className="space-y-4 sm:col-span-2">
       {levels.map((lvl) => (
         <HeaderField
           key={`cc-${lvl.level}`}
@@ -347,8 +370,11 @@ export function CollectionSourceCascade({
             id={`${idPrefix}-cc-${lvl.level}`}
             options={
               lvl.level === 0
-                ? lvl.options
-                : [{ value: "", label: "(use parent)" }, ...lvl.options]
+                ? lvl.options.map((o) => ({ ...o, subtitle: o.subtitle ?? `/${o.value}` }))
+                : [
+                    { value: "", label: "(use parent)", subtitle: "Keep parent collection" },
+                    ...lvl.options.map((o) => ({ ...o, subtitle: o.subtitle ?? `/${o.value}` })),
+                  ]
             }
             value={lvl.value}
             onChange={(next) => {
@@ -358,7 +384,7 @@ export function CollectionSourceCascade({
               }
               applyPath([...path.slice(0, lvl.level), next]);
             }}
-            emptyMessage="No collections"
+            emptyMessage="No collections found."
           />
         </HeaderField>
       ))}

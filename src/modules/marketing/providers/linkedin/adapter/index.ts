@@ -97,4 +97,128 @@ export const linkedinProviderAdapter: MarketingProviderAdapter = {
   async verifyWebhookSignature(rawBody, headers) {
     return verifyLinkedInSignature(rawBody, headers);
   },
+  async listAdAccounts(connectionId) {
+    const token = await readAccessToken(connectionId);
+    if (!token) return [];
+    try {
+      const response = await fetch(
+        "https://api.linkedin.com/rest/adAccounts?q=search&search=(status:(values:List(ACTIVE,DRAFT)))",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "LinkedIn-Version": "202401",
+            "X-Restli-Protocol-Version": "2.0.0",
+          },
+        },
+      );
+      if (!response.ok) return [];
+      const json = (await response.json()) as {
+        elements?: Array<{ id?: number | string; name?: string; currency?: string; status?: string }>;
+      };
+      return (json.elements ?? []).map((el) => ({
+        externalId: String(el.id ?? ""),
+        name: el.name ?? String(el.id ?? ""),
+        currency: el.currency,
+        status: el.status,
+      })).filter((a) => a.externalId);
+    } catch {
+      return [];
+    }
+  },
+  async syncExternalCampaigns(connectionId, adAccountId) {
+    const token = await readAccessToken(connectionId);
+    if (!token) return [];
+    try {
+      const response = await fetch(
+        `https://api.linkedin.com/rest/adAccounts/${adAccountId}/adCampaignGroups`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "LinkedIn-Version": "202401",
+            "X-Restli-Protocol-Version": "2.0.0",
+          },
+        },
+      );
+      if (!response.ok) return [];
+      const json = (await response.json()) as {
+        elements?: Array<{ id?: number | string; name?: string; status?: string }>;
+      };
+      return (json.elements ?? []).map((el) => ({
+        externalId: String(el.id ?? ""),
+        name: el.name ?? String(el.id ?? ""),
+        status: el.status,
+        providerEntityType: "campaign_group",
+        adAccountExternalId: adAccountId,
+      })).filter((c) => c.externalId);
+    } catch {
+      return [];
+    }
+  },
+  async syncAdGroups(connectionId, externalCampaignId) {
+    const token = await readAccessToken(connectionId);
+    if (!token) return [];
+    try {
+      const response = await fetch(
+        `https://api.linkedin.com/rest/adCampaigns?q=search&search=(campaignGroup:(values:List(${externalCampaignId})))`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "LinkedIn-Version": "202401",
+            "X-Restli-Protocol-Version": "2.0.0",
+          },
+        },
+      );
+      if (!response.ok) return [];
+      const json = (await response.json()) as {
+        elements?: Array<{ id?: number | string; name?: string; status?: string }>;
+      };
+      // LinkedIn Campaign maps to MarketingAdGroup
+      return (json.elements ?? []).map((el) => ({
+        externalId: String(el.id ?? ""),
+        name: el.name ?? String(el.id ?? ""),
+        status: el.status,
+        providerEntityType: "campaign",
+        externalCampaignId,
+      })).filter((g) => g.externalId);
+    } catch {
+      return [];
+    }
+  },
+  async syncAds() {
+    return [];
+  },
+  async syncCreatives(connectionId, adExternalId) {
+    const token = await readAccessToken(connectionId);
+    if (!token) return [];
+    try {
+      const response = await fetch(
+        `https://api.linkedin.com/rest/creatives?q=criteria&campaigns=List(${adExternalId})`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "LinkedIn-Version": "202401",
+            "X-Restli-Protocol-Version": "2.0.0",
+          },
+        },
+      );
+      if (!response.ok) return [];
+      const json = (await response.json()) as {
+        elements?: Array<{ id?: string; name?: string }>;
+      };
+      return (json.elements ?? []).map((el) => ({
+        externalId: String(el.id ?? ""),
+        name: el.name,
+        adExternalId,
+        creativeType: "linkedin_creative",
+      })).filter((c) => c.externalId);
+    } catch {
+      return [];
+    }
+  },
+  async fetchCampaignMetrics() {
+    return [];
+  },
+  async trackEvent() {
+    return { ok: true, message: "LinkedIn Insight Tag / conversion API configured via tracking hub" };
+  },
 };

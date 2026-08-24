@@ -7,12 +7,12 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { mergeDisplaySettings, type DisplaySettings } from "@/schemas/catalog/display-settings";
 import { loadCatalogItems, type CatalogBlockConfig } from "@/features/catalog/catalog-data.service";
+import { resolveCatalogTypeSlug } from "@/features/catalog/catalog-source";
 import type { CatalogCardData } from "@/features/catalog/types";
 import type { DeviceBreakpoint, ResolvedContentOverflow } from "@/types/block-system";
 import { CatalogItemsOverflowLayout } from "@/features/catalog/components/catalog-items-overflow-layout";
 import { resolveContentOverflowCssFlags } from "@/features/builder/styles/content-overflow-resolver";
 import type { BlockNode } from "@/types/builder";
-import { LEGACY_SOURCE_TO_TYPE } from "@/features/content/content-type.registry";
 import { loadComparePropsForContentType } from "@/features/comparison/load-compare-props";
 import { prisma } from "@/lib/prisma";
 import { CatalogContentLayout } from "@/features/catalog/components/catalog-content-layout";
@@ -65,7 +65,7 @@ export async function CatalogBlockRenderer({
 }: CatalogBlockProps) {
   try {
   const settings = mergeDisplaySettings(displaySettings);
-  const typeSlug = LEGACY_SOURCE_TO_TYPE[config.source];
+  const typeSlug = resolveCatalogTypeSlug(config.source);
   const [items, t, contentTypeRow, dir] = await Promise.all([
     loadCatalogItems({ ...config, limit: settings.limit ?? config.limit }),
     getTranslations({ locale, namespace: "common" }),
@@ -90,14 +90,14 @@ export async function CatalogBlockRenderer({
   );
 
   if (items.length === 0) {
-    if (previewMode) {
-      return (
-        <p className="text-center text-sm text-muted-foreground">
+    return (
+      <div>
+        {(title || subtitle) && <SectionHeader title={title ?? ""} subtitle={subtitle} />}
+        <p className="text-center text-sm text-muted-foreground py-8">
           {emptyMessage || "No items to display."}
         </p>
-      );
-    }
-    return null;
+      </div>
+    );
   }
 
   const flags = overflowFlags ?? (block ? resolveContentOverflowCssFlags(block) : undefined);
@@ -163,7 +163,11 @@ export async function CatalogBlockRenderer({
         </p>
       );
     }
-    return null;
+    return (
+      <p className="text-center text-sm text-muted-foreground py-8">
+        {emptyMessage || "Catalog block could not load."}
+      </p>
+    );
   }
 }
 

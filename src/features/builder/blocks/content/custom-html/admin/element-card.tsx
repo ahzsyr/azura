@@ -3,10 +3,13 @@
 import { ArrowDown, ArrowUp, ChevronDown, Eye, EyeOff, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useAdminEditingLocaleContextOptional } from "@/components/admin/admin-editing-locale-provider";
+import { DEFAULT_ADMIN_LOCALE } from "@/i18n/locale-config";
 import type { HtmlElement } from "../types";
 import { TAG_LABELS } from "../defaults";
 import { getElementForm } from "./element-forms";
 import { AdvancedAttributesPanel } from "./element-forms/advanced-attributes-panel";
+import { readLocalizedField } from "../lib/localized-fields";
 
 type Props = {
   element: HtmlElement;
@@ -37,9 +40,12 @@ export function ElementCard({
   onToggleOpen,
   dragHandle,
 }: Props) {
+  const adminLocale = useAdminEditingLocaleContextOptional();
+  const activeCode = adminLocale?.activeLocaleCode ?? DEFAULT_ADMIN_LOCALE.code;
   const tagLabel = TAG_LABELS[element.tag] ?? `<${element.tag}>`;
   const hasRaw = element.rawHtml !== undefined;
   const FormComponent = getElementForm(element);
+  const summaryText = readLocalizedField(element as Record<string, unknown>, "text", activeCode);
 
   return (
     <div className={cn("rounded-md border bg-card overflow-hidden", element.hidden && "opacity-50")}>
@@ -67,9 +73,9 @@ export function ElementCard({
               <span className="ml-1 text-[9px] text-muted-foreground">(hidden)</span>
             )}
           </span>
-          {element.text && (
+          {summaryText && (
             <span className="truncate text-[11px] text-foreground/60 min-w-0">
-              — {element.text.slice(0, 40)}{element.text.length > 40 ? "…" : ""}
+              — {summaryText.slice(0, 40)}{summaryText.length > 40 ? "…" : ""}
             </span>
           )}
         </button>

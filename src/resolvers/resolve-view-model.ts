@@ -206,6 +206,7 @@ export async function resolveViewModelsForSelection(
     tags: selection.tags,
     limit: selection.limit,
     sortBy: selection.sortBy,
+    orderingProfileId: selection.orderingProfileId,
   });
 
   return records.map((record) =>

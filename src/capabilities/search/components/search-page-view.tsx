@@ -656,7 +656,7 @@ export function SearchPageView({ config }: Props) {
                                 <SearchResultCardRouter
                                   hit={r}
                                   query={query}
-                                  entityLabel={discoverySearch.entityLabel(type)}
+                                  entityLabel={discoverySearch.hitLabel(r)}
                                   selected={previewHit?.id === r.id}
                                   cardStyle={pageLayout.resultCardStyle}
                                   cardFields={pageLayout.resultCardFields}
@@ -684,7 +684,7 @@ export function SearchPageView({ config }: Props) {
                       locale={locale}
                       hit={previewHit}
                       entityLabel={
-                        previewHit ? discoverySearch.entityLabel(previewHit.entityType) : undefined
+                        previewHit ? discoverySearch.hitLabel(previewHit) : undefined
                       }
                       cardStyle={pageLayout.resultCardStyle}
                       cardFields={pageLayout.resultCardFields}

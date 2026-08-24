@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   buildListingSearchIndex,
   rankListingSearchResults,
+  recordMatchesExactPhrase,
   scoreSearchMatch,
   searchListingCandidates,
   tokenizeListingQuery,
@@ -61,6 +62,31 @@ test("scoreSearchMatch prefers exact SKU / title", () => {
   const weak = scoreSearchMatch(records[0], "phone");
   assert.ok(sku >= title);
   assert.ok(title > weak);
+});
+
+test("recordMatchesExactPhrase matches whole phrase only", () => {
+  assert.equal(recordMatchesExactPhrase("door access control panel", "door access"), true);
+  assert.equal(recordMatchesExactPhrase("door for access control", "door access"), false);
+  assert.equal(recordMatchesExactPhrase("Door Access Kit", "door access"), true);
+});
+
+test("searchListingCandidates exact mode skips token intersection", () => {
+  const index = buildListingSearchIndex(records);
+  const { candidates, mode } = searchListingCandidates(index, "door access", { exact: true });
+  assert.equal(mode, "exact");
+  assert.deepEqual(candidates, []);
+});
+
+test("rankListingSearchResults exact mode filters by phrase", () => {
+  const phraseRecords = [
+    record("door-access-1", { name: "Door Access Controller", searchText: "door access controller" }),
+    record("door-only", { name: "Door Controller", searchText: "door controller for access systems" }),
+  ];
+  const ranked = rankListingSearchResults(phraseRecords, "door access", { exact: true });
+  assert.deepEqual(
+    ranked.map((r) => r.slug),
+    ["door-access-1"],
+  );
 });
 
 test("rankListingSearchResults orders by score", () => {

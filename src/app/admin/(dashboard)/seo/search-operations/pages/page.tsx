@@ -1,6 +1,7 @@
 import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getSearchOperationsPlatform } from "@/features/search-intelligence/workspaces/server";
+import { resolveCanonicalHomeUrl } from "@/features/seo/resolve-indexable-url";
 import {
   ActionButton,
   ActionPanel,
@@ -12,7 +13,7 @@ export const dynamic = "force-dynamic";
 
 export default async function SearchOpsPagesWorkspace() {
   const platform = await getSearchOperationsPlatform();
-  const url = `${platform.siteOrigin}/`;
+  const url = await resolveCanonicalHomeUrl(platform.siteOrigin);
   const latestInspect = platform.operations
     .list()
     .find(

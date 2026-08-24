@@ -31,6 +31,7 @@ export function filterStateFromSearchParams(params: URLSearchParams): ListingFil
   const logicRaw = params.get("logic")?.trim().toLowerCase();
   return {
     q: params.get("q")?.trim() ?? "",
+    qExact: params.get("q_exact") === "1" ? true : undefined,
     categories: params.getAll("category").filter(Boolean),
     brands: params.getAll("brand").filter(Boolean),
     collections: params.getAll("collection").filter(Boolean),
@@ -57,6 +58,7 @@ export function filterStateToApiSearchParams(state: ListingFilterState): URLSear
   const params = new URLSearchParams();
   const q = state.q.trim();
   if (q) params.set("q", q);
+  if (state.qExact === true) params.set("q_exact", "1");
   for (const c of state.categories) params.append("category", c);
   for (const b of state.brands) params.append("brand", b);
   if (state.collectionScope?.trim()) {

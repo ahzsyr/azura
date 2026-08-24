@@ -102,25 +102,14 @@ export function HeaderSettingsPanel({ workspace, section }: Props) {
             <div>
               <p className="mb-2 text-sm font-medium">Options</p>
               <OptionButtonGroup
-                value={settings.mobileNavShowIcons !== false ? "icons-on" : "icons-off"}
+                value={settings.mobileNavShowArrows !== false ? "arrows-on" : "arrows-off"}
                 options={[
-                  { value: "icons-on", label: "Icons on" },
-                  { value: "icons-off", label: "Icons off" },
+                  { value: "arrows-on", label: "Arrows on" },
+                  { value: "arrows-off", label: "Arrows off" },
                 ]}
-                onChange={(v) => setSettings({ mobileNavShowIcons: v === "icons-on" })}
+                onChange={(v) => setSettings({ mobileNavShowArrows: v === "arrows-on" })}
                 columns={2}
               />
-              <div className="mt-2">
-                <OptionButtonGroup
-                  value={settings.mobileNavShowArrows !== false ? "arrows-on" : "arrows-off"}
-                  options={[
-                    { value: "arrows-on", label: "Arrows on" },
-                    { value: "arrows-off", label: "Arrows off" },
-                  ]}
-                  onChange={(v) => setSettings({ mobileNavShowArrows: v === "arrows-on" })}
-                  columns={2}
-                />
-              </div>
               <div className="mt-2">
                 <OptionButtonGroup
                   value={settings.mobileBoxedSticky === true ? "boxed-on" : "boxed-off"}

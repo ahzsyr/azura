@@ -6,6 +6,7 @@ import {
 } from "@/features/theme/effect-settings";
 import type { ThemeTokens } from "@/types/theme";
 import { PUBLIC_MOTION } from "@/lib/motion/public-motion";
+import { THEME_ROOT_SELECTOR } from "./theme-root-selectors";
 
 export const MOTION_TOKENS = {
   scale: "--motion-scale",
@@ -87,7 +88,7 @@ export function buildMotionCss(tokens: ThemeTokens): string {
   const slow = `${Math.round(500 * factor * motionIntensity)}ms`;
 
   if (!tokens.animationsEnabled) {
-    return `html { --motion-scale:0; --animation-speed:0; ${bgVars}; ${effectVars}; }
+    return `${THEME_ROOT_SELECTOR} { --motion-scale:0; --animation-speed:0; ${bgVars}; ${effectVars}; }
 html[data-motion="off"] *,
 html:not([data-motion]) * {
   animation-duration:0.01ms !important;
@@ -96,7 +97,7 @@ html:not([data-motion]) * {
 }`;
   }
 
-  return `html {
+  return `${THEME_ROOT_SELECTOR} {
   --motion-scale:${tokens.animationSpeed};
   --animation-speed:${tokens.animationSpeed};
   ${bgVars};

@@ -2,10 +2,18 @@ import "server-only";
 
 import type { FormWebhookConfig } from "@/features/forms/types";
 import { signWebhookPayload } from "@/features/forms/lib/webhook-sign";
+import { assertSafeOutboundUrl, safeOutboundFetch } from "@/lib/ssrf-guard";
 
 async function db() {
   const { prisma } = await import("@/lib/prisma");
   return prisma;
+}
+
+function resolveWebhookSigningSecret(): string | null {
+  const secret = process.env.WEBHOOK_SIGNING_SECRET?.trim();
+  if (secret) return secret;
+  if (process.env.NODE_ENV === "production") return null;
+  return "azura-webhook-dev";
 }
 
 export async function dispatchWebhooks(
@@ -13,12 +21,30 @@ export async function dispatchWebhooks(
   webhooks: FormWebhookConfig[],
   payload: Record<string, unknown>,
 ): Promise<void> {
-  const secret = process.env.WEBHOOK_SIGNING_SECRET ?? "azura-webhook-dev";
+  const secret = resolveWebhookSigningSecret();
+  if (!secret) {
+    console.error("[webhooks] WEBHOOK_SIGNING_SECRET is required in production — skipping dispatch");
+    return;
+  }
+
   const body = JSON.stringify({ submissionId, payload, timestamp: new Date().toISOString() });
   const signature = signWebhookPayload(body, secret);
 
   for (const hook of webhooks) {
     if (!hook.events.includes("submit")) continue;
+
+    const safe = assertSafeOutboundUrl(hook.url);
+    if (!safe.ok) {
+      await (await db()).formWebhookDelivery.create({
+        data: {
+          submissionId,
+          url: hook.url,
+          status: "FAILED",
+          error: `SSRF blocked: ${safe.reason}`,
+        },
+      });
+      continue;
+    }
 
     const delivery = await (await db()).formWebhookDelivery.create({
       data: {
@@ -29,7 +55,7 @@ export async function dispatchWebhooks(
     });
 
     try {
-      const res = await fetch(hook.url, {
+      const res = await safeOutboundFetch(hook.url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,7 +95,7 @@ async function retryWebhookOnce(
   headers?: Record<string, string>,
 ) {
   try {
-    const res = await fetch(url, {
+    const res = await safeOutboundFetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

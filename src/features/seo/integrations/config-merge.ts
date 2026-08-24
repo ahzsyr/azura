@@ -30,6 +30,7 @@ export function mergeSecretFields(
   };
   return {
     google: mergeProvider(next.google, existing.google, sealedExisting.google),
+    google_indexing: mergeProvider(next.google_indexing, existing.google_indexing, sealedExisting.google_indexing),
     bing: mergeProvider(next.bing, existing.bing, sealedExisting.bing),
     indexnow: mergeProvider(next.indexnow, existing.indexnow, sealedExisting.indexnow),
   };

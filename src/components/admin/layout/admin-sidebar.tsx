@@ -28,7 +28,6 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { SITE_PRODUCT_NAME, getProductVersion } from "@/config/site";
 import { AdminAccordionContent } from "./admin-motion";
 import { useConstrainedMotion, ADMIN_MOTION_MOBILE } from "@/hooks/use-constrained-motion";
 
@@ -112,23 +111,6 @@ function SidebarContent({ collapsed }: { collapsed: boolean }) {
 
   return (
     <>
-      <div className={cn("flex h-14 shrink-0 items-center border-b px-4", collapsed && "justify-center px-2")}>
-        {collapsed ? (
-          <Link href="/admin" className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-xs font-bold text-primary-foreground">
-            SM
-          </Link>
-        ) : (
-          <div className="min-w-0">
-            <Link href="/admin" className="font-heading text-base font-bold tracking-tight text-foreground">
-              {SITE_PRODUCT_NAME}
-            </Link>
-            <p className="text-[11px] text-muted-foreground">
-              Admin <span className="text-muted-foreground/70">· v{getProductVersion()}</span>
-            </p>
-          </div>
-        )}
-      </div>
-
       {!collapsed && (
         <div className="px-3 py-3">
           <div className="relative">
@@ -149,7 +131,7 @@ function SidebarContent({ collapsed }: { collapsed: boolean }) {
         </div>
       )}
 
-      <ScrollArea type="always" className="az-scroll-thin flex-1 px-2">
+      <ScrollArea type="always" className={cn("az-scroll-thin flex-1 px-2", collapsed && "pt-3")}>
         <nav className="space-y-1 pb-4">
           <NavLink
             href={ADMIN_DASHBOARD.href}
@@ -247,7 +229,7 @@ function SidebarContent({ collapsed }: { collapsed: boolean }) {
                                 <div className="space-y-0.5">
                                   {section.items.map((item) => (
                                     <NavLink
-                                      key={item.href}
+                                      key={`${sectionKey}:${item.navItemId ?? item.label}:${item.href}`}
                                       href={item.href}
                                       label={item.label}
                                       icon={item.icon}
@@ -297,7 +279,7 @@ function SidebarContent({ collapsed }: { collapsed: boolean }) {
                   variant="ghost"
                   size="icon"
                   className="w-full"
-                  onClick={() => signOut({ callbackUrl: "/admin/login" })}
+                  onClick={() => signOut({ callbackUrl: "/account/login" })}
                   aria-label="Sign out"
                 >
                   <LogOut className="h-4 w-4" />
@@ -321,7 +303,7 @@ function SidebarContent({ collapsed }: { collapsed: boolean }) {
             <Button
               variant="ghost"
               className="w-full justify-start text-muted-foreground"
-              onClick={() => signOut({ callbackUrl: "/admin/login" })}
+              onClick={() => signOut({ callbackUrl: "/account/login" })}
             >
               <LogOut className="me-2 h-4 w-4" />
               Sign out
@@ -358,12 +340,12 @@ export function AdminSidebar() {
         initial={false}
         animate={{ width: sidebarCollapsed ? 56 : 256 }}
         transition={{ duration: shouldSimplifyMotion ? 0.16 : 0.2, ease: [0.22, 1, 0.36, 1] }}
-        className="relative hidden h-screen shrink-0 flex-col border-r admin-liquid-glass md:flex"
+        className="relative hidden h-full min-h-0 shrink-0 flex-col border-r admin-liquid-glass md:flex"
       >
         <Button
           variant="outline"
           size="icon"
-          className="absolute -end-3 top-[18px] z-30 h-6 w-6 rounded-full border bg-background shadow-sm"
+          className="absolute -end-3 top-3 z-30 h-6 w-6 rounded-full border bg-background shadow-sm"
           onClick={toggleSidebarCollapsed}
           aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
@@ -375,7 +357,7 @@ export function AdminSidebar() {
       {/* Mobile drawer overlay */}
       {sidebarMobileOpen && (
         <div
-          className="admin-mobile-overlay fixed inset-0 z-40 bg-black/50 md:hidden"
+          className="admin-mobile-overlay fixed inset-0 z-50 bg-black/50 md:hidden"
           onClick={() => setSidebarMobileOpen(false)}
           aria-hidden
         />

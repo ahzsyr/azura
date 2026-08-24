@@ -35,8 +35,9 @@ export function HeaderWorkspaceActions() {
           const r = await saveWorkspaceToServer();
           if (r.ok) {
             markWorkspaceSaved();
+            useAdminUiStore.getState().markPublishPending();
             adminForm?.setDirty(false);
-            adminForm?.showToast("Workspace imported and saved.", "success");
+            adminForm?.showToast("Workspace imported and saved. Publish to go live.", "success");
           } else {
             adminForm?.showToast(r.error ?? "Import failed to save.", "error");
           }
@@ -77,11 +78,16 @@ export function useHeaderWorkspaceSave(
     if (r.ok) {
       markWorkspaceSaved();
       markPublishPending();
-      adminForm?.showToast("Header workspace saved.", "success");
-    } else {
-      adminForm?.showToast(r.error ?? "Save failed.", "error");
-      throw new Error(r.error ?? "Save failed");
+      adminForm?.showToast(
+        r.noop
+          ? "Header workspace already saved."
+          : "Header workspace saved. Publish to update the live site.",
+        "success",
+      );
+      return true;
     }
+    adminForm?.showToast(r.error ?? "Save failed.", "error");
+    throw new Error(r.error ?? "Save failed");
   }, [adminForm, translationFlushRef, markPublishPending]);
 }
 

@@ -97,6 +97,11 @@ export function IntegrationsQueuePanel({ metrics, health, sitemapUrl }: Integrat
 
   const configuredProviders = health.filter((item) => item.enabled && item.ok);
   const setupComplete = configuredProviders.length > 0;
+  const sitemapProviders = configuredProviders.filter(
+    (item) => item.provider === "bing" || item.provider === "google",
+  );
+  const indexNowReady = configuredProviders.some((item) => item.provider === "indexnow");
+  const sitemapReady = sitemapProviders.length > 0;
 
   const runAction = (action: () => Promise<SeoActionResult>, options?: { refreshAfter?: boolean }) => {
     startTransition(async () => {
@@ -134,6 +139,20 @@ export function IntegrationsQueuePanel({ metrics, health, sitemapUrl }: Integrat
               </li>
             ) : null}
           </ul>
+          {indexNowReady && !sitemapReady ? (
+            <p className="text-sm text-amber-900 dark:text-amber-100">
+              IndexNow is ready for page URL notifications when you publish content. Sitemap submission
+              requires{" "}
+              <Link href="/admin/seo/integrations?tab=configure&provider=bing" className="text-primary underline">
+                Bing Webmaster
+              </Link>{" "}
+              or{" "}
+              <Link href="/admin/seo/google" className="text-primary underline">
+                Google Search Console
+              </Link>
+              .
+            </p>
+          ) : null}
           {!setupComplete ? (
             <p className="text-sm text-amber-900 dark:text-amber-100">
               Configure providers on the{" "}
@@ -166,7 +185,7 @@ export function IntegrationsQueuePanel({ metrics, health, sitemapUrl }: Integrat
           <WorkflowStep
             step={2}
             title="Queue sitemap submission"
-            description="Add sitemap jobs for each configured provider (Bing, IndexNow, Google)."
+            description="Add sitemap jobs for Bing and Google Search Console. IndexNow does not accept sitemap.xml."
             pending={pending}
             buttonLabel="Queue sitemap submission"
             buttonVariant="outline"

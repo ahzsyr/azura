@@ -2,6 +2,8 @@ import { getCmsPagePublicPath } from "@/features/cms/cms-page-path";
 import type { LocalizedValueMap } from "@/features/translation/types";
 import { estimateReadTimeMinutes } from "@/capabilities/search/lib/humanize-slug";
 import { resolveIndexTitle } from "@/capabilities/search/lib/resolve-index-title";
+import { extractCmsBlockSearchText, firstCmsBlockTitle } from "@/capabilities/search/lib/cms-page-index-text";
+import { contentItemSearchPath } from "@/capabilities/search/lib/search-public-path";
 import type { SearchCardPayload } from "@/capabilities/search/types/search-card";
 import { getLocalizedField } from "@/lib/utils";
 import { defineSearchProvider } from "@/capabilities/search/engine/providers/search-provider";
@@ -32,7 +34,6 @@ export const contentItemSearchProvider = defineSearchProvider<ContentItemIndexSo
     item.isVisible !== false &&
     item.searchEnabled !== false,
   buildRecords(item, ctx) {
-    const prefix = item.routePrefix ?? "content";
     const slug = item.slug;
     const adminPath = item.contentTypeSlug
       ? `/admin/content/${item.contentTypeSlug}/${item.id}`
@@ -62,21 +63,21 @@ export const contentItemSearchProvider = defineSearchProvider<ContentItemIndexSo
       locale: ctx.urlPrefix,
       title,
       body,
-      urlPath: slug ? `/${ctx.urlPrefix}/${prefix}/${slug}` : `/${ctx.urlPrefix}/${prefix}`,
+      urlPath: contentItemSearchPath(ctx.urlPrefix, item.routePrefix, item.contentTypeSlug, slug),
       kind: "content_item",
       contentTypeSlug: item.contentTypeSlug,
       visibility: "public",
       boost: typeof item.searchBoost === "number" ? item.searchBoost : 1,
       facets: {
-        ...(item.contentTypeSlug ? { contentTypeSlug: item.contentTypeSlug } : {}),
-        ...(productMetadata?.presetId ? { presetId: "product" } : {}),
         ...(composed?.facets ?? {}),
+        ...(productMetadata?.presetId ? { presetId: "product" } : {}),
         ...(productMetadata?.card && typeof (productMetadata.card as SearchCardPayload).brand === "string"
           ? { brand: (productMetadata.card as SearchCardPayload).brand }
           : {}),
+        // Canonical type must win over composed field facets that reuse the same key.
+        ...(item.contentTypeSlug ? { contentTypeSlug: item.contentTypeSlug } : {}),
       },
       metadata: {
-        contentTypeSlug: item.contentTypeSlug,
         adminPath: productMetadata?.adminPath ?? adminPath,
         indexProfileVersion: composed?.profileVersion,
         indexedFields: composed?.fieldSlices.map((s) => s.key) ?? [],
@@ -87,6 +88,8 @@ export const contentItemSearchProvider = defineSearchProvider<ContentItemIndexSo
             ? item.publishedAt.toISOString()
             : item.publishedAt ?? null,
         ...(productMetadata ?? {}),
+        // Keep after productMetadata so the live content type is never overwritten.
+        contentTypeSlug: item.contentTypeSlug,
       },
     };
     return [record];
@@ -150,6 +153,7 @@ export type CmsPageIndexSource = {
   excerpt?: LocalizedValueMap;
   description?: LocalizedValueMap;
   status?: string;
+  blocks?: unknown;
 };
 
 export const cmsPageSearchProvider = defineSearchProvider<CmsPageIndexSource>({
@@ -159,15 +163,20 @@ export const cmsPageSearchProvider = defineSearchProvider<CmsPageIndexSource>({
   defaultBoost: 1,
   shouldIndex: (page) => !page.status || page.status === "PUBLISHED",
   buildRecords(page, ctx) {
+    const blockText = extractCmsBlockSearchText(page.blocks, ctx.urlPrefix);
     const localizedTitle = getLocalizedField(page, "title", ctx.urlPrefix);
-    const title = resolveIndexTitle(localizedTitle, page.slug, {
-      entityType: "CMS_PAGE",
-      entityId: page.id,
-      locale: ctx.urlPrefix,
-    });
+    const title = resolveIndexTitle(
+      localizedTitle || firstCmsBlockTitle(page.blocks, ctx.urlPrefix),
+      page.slug,
+      {
+        entityType: "CMS_PAGE",
+        entityId: page.id,
+        locale: ctx.urlPrefix,
+      }
+    );
     const body = getLocalizedField(page, "excerpt", ctx.urlPrefix) ||
       getLocalizedField(page, "description", ctx.urlPrefix) ||
-      "";
+      blockText;
     const card: SearchCardPayload = {
       slug: page.slug,
       readTimeMinutes: estimateReadTimeMinutes(body),
@@ -301,6 +310,59 @@ export const mediaSearchProvider = defineSearchProvider({
   },
 });
 
+export type IconIndexSource = {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  category?: string | null;
+  source?: string;
+  tags?: unknown;
+};
+
+export const iconSearchProvider = defineSearchProvider<IconIndexSource>({
+  kind: "icon",
+  entityType: "ICON",
+  defaultVisibility: "admin",
+  defaultBoost: 0.5,
+  shouldIndex: (icon) => Boolean(icon.name?.trim()),
+  buildRecords(icon, ctx) {
+    const tagList = Array.isArray(icon.tags)
+      ? icon.tags.filter((t): t is string => typeof t === "string")
+      : [];
+    const body = [icon.description, icon.category, icon.source, ...tagList]
+      .filter(Boolean)
+      .join(" ");
+    const title = resolveIndexTitle(icon.name, icon.slug || icon.id, {
+      entityType: "ICON",
+      entityId: icon.id,
+      locale: ctx.urlPrefix,
+    });
+    // `SearchIndexRecord.facets` must never contain `undefined` values.
+    const iconSourceFacet = icon.source ?? "";
+    return [
+      {
+        entityType: "ICON",
+        entityId: icon.id,
+        locale: ctx.urlPrefix,
+        title,
+        body,
+        urlPath: "/admin/media",
+        kind: "icon",
+        visibility: "admin",
+        boost: 0.5,
+        facets: { iconSource: iconSourceFacet },
+        metadata: {
+          adminOnly: true,
+          adminPath: `/admin/media?tab=cms&view=icons&iconId=${encodeURIComponent(icon.id)}`,
+          iconSource: icon.source,
+          slug: icon.slug,
+        },
+      },
+    ];
+  },
+});
+
 export const BUILTIN_SEARCH_PROVIDERS = [
   contentItemSearchProvider,
   postSearchProvider,
@@ -308,4 +370,5 @@ export const BUILTIN_SEARCH_PROVIDERS = [
   faqSearchProvider,
   testimonialSearchProvider,
   mediaSearchProvider,
+  iconSearchProvider,
 ] as const;

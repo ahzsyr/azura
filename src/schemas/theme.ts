@@ -20,6 +20,14 @@ export const typographySchema = z.object({
   localeFonts: z.record(localeFontOverrideSchema).optional(),
 });
 
+export const chromeVisibilityModeSchema = z.enum(["all", "selected", "except"]);
+
+const chromeVisibilityFields = {
+  enabled: z.boolean().catch(true).default(true),
+  visibilityMode: chromeVisibilityModeSchema.catch("all").default("all"),
+  pagePaths: z.array(z.string()).catch([]).default([]),
+};
+
 export const headerConfigSchema = z.object({
   showLogo: z.boolean().default(true),
   showNav: z.boolean().default(true),
@@ -28,6 +36,7 @@ export const headerConfigSchema = z.object({
   sticky: z.boolean().default(true),
   ctaLabel: z.string().default(""),
   ctaHref: z.string().default("/contact"),
+  ...chromeVisibilityFields,
 });
 
 export const footerConfigSchema = z.object({
@@ -36,6 +45,7 @@ export const footerConfigSchema = z.object({
   showQuickLinks: z.boolean().default(true),
   showContact: z.boolean().default(true),
   tagline: z.string().default(""),
+  ...chromeVisibilityFields,
 });
 
 /** @deprecated Use headerConfigSchema / footerConfigSchema */
@@ -131,6 +141,7 @@ export type BackgroundEffectSettings = VisualEffectSettings;
 export type SiteThemeInput = z.infer<typeof siteThemeSchema>;
 export type LocaleFontOverride = z.infer<typeof localeFontOverrideSchema>;
 export type ThemeTypographySettings = z.infer<typeof typographySchema>;
+export type ChromeVisibilityMode = z.infer<typeof chromeVisibilityModeSchema>;
 export type HeaderThemeSettings = z.infer<typeof headerConfigSchema>;
 export type FooterThemeSettings = z.infer<typeof footerConfigSchema>;
 

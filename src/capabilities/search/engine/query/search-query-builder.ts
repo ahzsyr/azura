@@ -32,10 +32,13 @@ export class SearchQueryBuilder {
       tokens.length > 0 &&
       sanitizedQuery.length >= settings.fullTextMinLength;
 
-    const facetFilters = input.facetFilters;
+    // Promote UI filter id `contentType` → plan.contentTypeSlugs, then drop it from
+    // facetFilters so applyFacetFilter does not look up a non-existent facets.contentType key.
+    const facetFilters = input.facetFilters ? { ...input.facetFilters } : undefined;
     let contentTypeSlugs = input.contentTypeSlugs?.filter(Boolean);
     if (facetFilters?.contentType?.length) {
       contentTypeSlugs = [...new Set([...(contentTypeSlugs ?? []), ...facetFilters.contentType])];
+      delete facetFilters.contentType;
     }
 
     return {

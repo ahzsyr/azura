@@ -3,12 +3,12 @@ import "server-only";
 import { createSign } from "node:crypto";
 import { seoRepository } from "@/repositories/seo.repository";
 import { getGooglePlatformState } from "@/features/seo/google-platform/persistence";
+import {
+  parseServiceAccountJson,
+  validateServiceAccountJson,
+} from "./service-account-json";
 
-type ServiceAccountJson = {
-  client_email?: string;
-  private_key?: string;
-  token_uri?: string;
-};
+export { parseServiceAccountJson, validateServiceAccountJson } from "./service-account-json";
 
 function base64Url(input: Buffer | string) {
   const buf = Buffer.isBuffer(input) ? input : Buffer.from(input);
@@ -16,39 +16,52 @@ function base64Url(input: Buffer | string) {
 }
 
 export async function resolveServiceAccountJson(): Promise<string | null> {
+  const integrations = await seoRepository.getIntegrationsConfig().catch(() => null);
+  const fromIntegrations = integrations?.google_indexing?.serviceAccountJson;
+  if (typeof fromIntegrations === "string" && fromIntegrations.trim()) {
+    return fromIntegrations.trim();
+  }
+
   const platform = await getGooglePlatformState().catch(() => null);
   const fromPlatform = platform?.services?.indexing_api?.configuration?.serviceAccountJson;
   if (typeof fromPlatform === "string" && fromPlatform.trim()) return fromPlatform.trim();
+  const fromShared = platform?.global?.sharedServiceAccountJson;
+  if (typeof fromShared === "string" && fromShared.trim()) return fromShared.trim();
 
-  const integrations = await seoRepository.getIntegrationsConfig().catch(() => null);
   const fromLegacy = integrations?.google?.serviceAccountJson;
   if (typeof fromLegacy === "string" && fromLegacy.trim()) return fromLegacy.trim();
   return null;
+}
+
+export async function resolveServiceAccountClientEmail(): Promise<string | undefined> {
+  const raw = await resolveServiceAccountJson();
+  if (!raw) return undefined;
+  const validation = validateServiceAccountJson(raw);
+  if (!validation.ok) return undefined;
+  return parseServiceAccountJson(raw).client_email?.trim() || undefined;
 }
 
 export async function getServiceAccountAccessToken(scopes: string[]): Promise<string> {
   const raw = await resolveServiceAccountJson();
   if (!raw) {
     throw new Error(
-      "Google service account JSON not configured. Add it under Admin → SEO → Google → Indexing API.",
+      "Google Indexing API service account JSON not configured. Add it under Admin → SEO → Search Engines → Configure → Google Indexing API.",
     );
   }
 
-  let parsed: ServiceAccountJson;
-  try {
-    parsed = JSON.parse(raw) as ServiceAccountJson;
-  } catch {
-    throw new Error("Service account JSON is invalid.");
-  }
-
-  if (!parsed.client_email || !parsed.private_key) {
+  const validation = validateServiceAccountJson(raw);
+  if (!validation.ok) throw new Error(validation.message);
+  const parsed = parseServiceAccountJson(raw);
+  const clientEmail = parsed.client_email;
+  const privateKey = parsed.private_key;
+  if (!clientEmail || !privateKey) {
     throw new Error("Service account JSON must include client_email and private_key.");
   }
 
   const now = Math.floor(Date.now() / 1000);
   const header = { alg: "RS256", typ: "JWT" };
   const claim = {
-    iss: parsed.client_email,
+    iss: clientEmail,
     scope: scopes.join(" "),
     aud: parsed.token_uri || "https://oauth2.googleapis.com/token",
     iat: now,
@@ -59,7 +72,7 @@ export async function getServiceAccountAccessToken(scopes: string[]): Promise<st
   const signer = createSign("RSA-SHA256");
   signer.update(unsigned);
   signer.end();
-  const signature = base64Url(signer.sign(parsed.private_key));
+  const signature = base64Url(signer.sign(privateKey));
   const assertion = `${unsigned}.${signature}`;
 
   const response = await fetch(parsed.token_uri || "https://oauth2.googleapis.com/token", {

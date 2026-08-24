@@ -79,7 +79,7 @@ export async function TaxonomyProductTabsRenderer({
     locale,
     p.taxonomy,
     firstTab.slug,
-    { limit: p.productsPerTab, sortBy: p.sortBy },
+    { limit: p.productsPerTab, sortBy: p.sortBy, orderingProfileId: p.orderingProfileId },
   );
 
   return (

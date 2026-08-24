@@ -1,5 +1,6 @@
 import type { SeoMeta } from "@prisma/client";
 import { CMS_WIRED_MARKETING_SLUGS } from "@/features/cms/cms-wired-slugs";
+import { getLocalizedFormFieldName } from "@/features/translation/form-field-names";
 
 /** Wired routes that resolve public SEO via cmsPageId / entityType CMS_PAGE instead of pageKey. */
 const CMS_PAGE_SEO_SLUGS = new Set(["why-choose-us"]);
@@ -216,9 +217,7 @@ export function isSavedSeoTranslation(
   field: (typeof SEO_TRANSLATION_FIELDS)[number],
   localeCode: string,
 ): boolean {
-  const suffix =
-    localeCode === "en" ? "En" : localeCode === "ar" ? "Ar" : `_${localeCode}`;
-  const key = `${field}${suffix}`;
+  const key = getLocalizedFormFieldName(field, localeCode);
   return Boolean(translations?.[key]?.trim());
 }
 

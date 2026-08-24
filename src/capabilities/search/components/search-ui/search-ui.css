@@ -8,11 +8,11 @@
 @keyframes sm-search-modal-in {
   from {
     opacity: 0;
-    transform: translate(-50%, calc(-50% - 12px)) scale(0.97);
+    transform: translateY(-10px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: none;
   }
 }
 
@@ -78,21 +78,25 @@
 }
 
 .sm-search-panel[data-state="open"]:not(.sm-search-panel--drawer) {
-  left: 50%;
-  top: 50%;
-  width: min(96vw, 42rem);
-  max-height: min(88vh, 720px);
+  inset: 1.25rem;
+  width: min(calc(100vw - 2.5rem), 42rem);
+  height: min(72vh, 40rem);
+  max-width: calc(100vw - 2.5rem);
+  max-height: calc(100dvh - 2.5rem);
+  margin: auto;
+  transform: none;
   animation: sm-search-modal-in var(--sm-search-duration-panel, 0.28s) var(--sm-search-ease-out, cubic-bezier(0.22, 1, 0.36, 1));
-  transform: translate(-50%, -50%);
 }
 
-.sm-search-panel--md[data-state="open"]:not(.sm-search-panel--drawer) {
-  width: min(96vw, 36rem);
+.sm-search-panel--md[data-state="open"]:not(.sm-search-panel--drawer),
+.sm-search-root--width-md.sm-search-panel[data-state="open"]:not(.sm-search-panel--drawer) {
+  width: min(calc(100vw - 2.5rem), 36rem);
 }
 
-.sm-search-panel--xl[data-state="open"]:not(.sm-search-panel--drawer) {
-  width: min(96vw, 52rem);
-  max-height: min(90vh, 780px);
+.sm-search-panel--xl[data-state="open"]:not(.sm-search-panel--drawer),
+.sm-search-root--width-xl.sm-search-panel[data-state="open"]:not(.sm-search-panel--drawer) {
+  width: min(calc(100vw - 2.5rem), 52rem);
+  height: min(78vh, 45rem);
 }
 
 .sm-search-panel--drawer {
@@ -100,7 +104,9 @@
   bottom: 0;
   top: auto;
   width: 100%;
+  height: min(92dvh, 40rem);
   max-height: 92dvh;
+  margin: 0;
   border-radius: 1.25rem 1.25rem 0 0;
   padding-bottom: env(safe-area-inset-bottom, 0);
 }

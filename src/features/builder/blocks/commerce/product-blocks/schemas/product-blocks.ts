@@ -34,6 +34,8 @@ export const productSelectionSchema = z.object({
   tags: z.array(z.string()).default([]),
   limit: z.coerce.number().min(1).max(48).default(8),
   sortBy: productSortSchema.default("name-asc"),
+  /** Empty = Global Ordering profile from Product Manager. */
+  orderingProfileId: z.string().default(""),
 });
 
 export const productGridPropsSchema = z.object({

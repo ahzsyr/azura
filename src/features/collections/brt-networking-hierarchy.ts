@@ -306,7 +306,7 @@ function flattenHierarchy(
         metaDescription: isRoot
           ? `Browse ${node.name} products`
           : `${node.name} in ${brand}`,
-        canonicalPath: `/collections/${slug}`,
+        canonicalPath: `/categories/${slug}`,
       },
       conditions: buildConditions(node.name, brand, depth, breadcrumb),
       cardTemplate: "default",

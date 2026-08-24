@@ -27,18 +27,20 @@ export type LayoutMode = z.infer<typeof layoutModeSchema>;
 
 export const DEFAULT_DISPLAY_SETTINGS: DisplaySettings = displaySettingsSchema.parse({});
 
-export const catalogSourceSchema = z.enum(["packages", "hotels", "services"]);
+/** Content type slug, or a legacy catalog source (`packages` / `hotels` / `services`). */
+export const catalogSourceSchema = z.string().min(1);
 
 export const catalogPropsSchema = z.object({
-  source: catalogSourceSchema.default("packages"),
+  source: catalogSourceSchema.default("catalog-items"),
   title: z.string().default(""),
   subtitle: z.string().default(""),
   categorySlug: z.string().default(""),
-  city: z.enum(["MAKKAH", "MADINAH", ""]).default(""),
-  serviceType: z.enum(["TRANSPORT", "AIRPORT_PICKUP", "HOTEL", "OTHER", ""]).default(""),
+  city: z.string().default(""),
+  serviceType: z.string().default(""),
   featuredOnly: z.boolean().default(false),
   manualIds: z.array(z.string()).default([]),
   limit: z.coerce.number().default(6),
+  attributeFilters: z.record(z.string()).default({}),
   displaySettings: displaySettingsSchema.default(DEFAULT_DISPLAY_SETTINGS),
   viewAllHref: z.string().default(""),
   emptyMessage: z.string().default(""),

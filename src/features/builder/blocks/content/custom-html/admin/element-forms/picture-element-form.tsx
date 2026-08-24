@@ -7,6 +7,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { IMAGE_PICKER_MEDIA_TYPES } from "@/features/media/constants";
 import type { HtmlElement } from "../../types";
+import { LocalizedHtmlInput } from "../localized-html-input";
 
 type Source = { media?: string; src: string; mediaAssetId?: string };
 
@@ -99,15 +100,13 @@ export function PictureElementForm({ element, onChange }: Props) {
             updateAttrs({ src: url, mediaAssetId: mediaId ?? "" })
           }
         />
-        <div>
-          <Label className="text-xs">Alt text</Label>
-          <Input
-            className="mt-1 h-8 text-xs"
-            placeholder="Describe the image…"
-            value={attrs.alt ?? ""}
-            onChange={(e) => updateAttrs({ alt: e.target.value })}
-          />
-        </div>
+        <LocalizedHtmlInput
+          label="Alt text"
+          baseKey="alt"
+          values={attrs as Record<string, unknown>}
+          onChange={(patch) => updateAttrs(patch)}
+          placeholder="Describe the image…"
+        />
       </div>
     </div>
   );

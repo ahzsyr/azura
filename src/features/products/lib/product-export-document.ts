@@ -57,7 +57,7 @@ export function buildFullProductExportDocument(raw: Product & { slug?: string })
     thumbnails: cloneJson(n.media?.thumbnails ?? []),
     videos: cloneJson(n.media?.videos ?? []),
     files: cloneJson(n.media?.files ?? []),
-    "3d_model": Boolean(n.media?.["3d_model"]),
+    "3d_model": n.media?.["3d_model"] ?? false,
   };
 
   const reviews = {

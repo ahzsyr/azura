@@ -13,9 +13,11 @@ import {
 import { executeGoogleOperation, validateGoogleIntegration } from "./operations";
 import { buildContext } from "./monitoring";
 import { seoRepository } from "@/repositories/seo.repository";
+import { alignIndexNowStoredConfig } from "@/features/seo/integrations/indexnow-payload";
 import { emitEvent } from "./events";
 import { createGoogleConnectionManager } from "./connection-manager";
 import { googleIntegrationRegistry } from "./registry";
+import { validateServiceAccountJson } from "@/features/seo/google-live/service-account-json";
 
 export type GooglePlatformActionResult = {
   ok: boolean;
@@ -42,8 +44,6 @@ async function loadContext() {
     tracking,
     env: {
       gaId: process.env.NEXT_PUBLIC_GA_ID,
-      oauthClientId: process.env.GOOGLE_SEARCH_CONSOLE_CLIENT_ID,
-      oauthClientSecret: process.env.GOOGLE_SEARCH_CONSOLE_CLIENT_SECRET,
     },
   });
 }
@@ -54,11 +54,16 @@ export async function upsertGoogleGlobalSettingsAction(
 ): Promise<GooglePlatformActionResult> {
   try {
     await requireAdmin();
+    const sharedServiceAccountJson = String(formData.get("sharedServiceAccountJson") ?? "");
+    if (sharedServiceAccountJson.trim()) {
+      const validation = validateServiceAccountJson(sharedServiceAccountJson);
+      if (!validation.ok) return { ok: false, message: validation.message };
+    }
     await updateGlobalSettings({
       defaultCloudProjectId: String(formData.get("defaultCloudProjectId") ?? "") || undefined,
       oauthClientId: String(formData.get("oauthClientId") ?? "") || undefined,
       oauthClientSecret: String(formData.get("oauthClientSecret") ?? "") || undefined,
-      sharedServiceAccountJson: String(formData.get("sharedServiceAccountJson") ?? "") || undefined,
+      sharedServiceAccountJson: sharedServiceAccountJson || undefined,
       secretRotationDays: Number(formData.get("secretRotationDays") || 90),
       globalRateLimitPerMinute: Number(formData.get("globalRateLimitPerMinute") || 120),
       loggingRetentionDays: Number(formData.get("loggingRetentionDays") || 30),
@@ -115,39 +120,28 @@ export async function upsertGoogleServiceConfigAction(
 
     let state = await updateServiceConfiguration(integrationId, configuration);
 
-    // Mirror IndexNow / Indexing API secrets into legacy integrations where needed
+    // Mirror IndexNow secrets into legacy integrations where needed
     if (integrationId === "indexnow") {
       const existing = await seoRepository.getIntegrationsConfig();
-      await seoRepository.upsertIntegrationsConfig({
-        ...existing,
-        indexnow: {
-          ...existing.indexnow,
-          enabled: true,
-          apiKey:
-            (typeof configuration.apiKey === "string" && configuration.apiKey) ||
-            existing.indexnow?.apiKey,
-          endpoint:
-            (typeof configuration.endpoint === "string" && configuration.endpoint) ||
-            existing.indexnow?.endpoint,
-          keyLocation:
-            (typeof configuration.keyLocation === "string" && configuration.keyLocation) ||
-            existing.indexnow?.keyLocation,
-          siteUrl:
-            (typeof configuration.host === "string" && configuration.host) ||
-            existing.indexnow?.siteUrl,
-        },
+      const aligned = alignIndexNowStoredConfig({
+        ...existing.indexnow,
+        enabled: true,
+        apiKey:
+          (typeof configuration.apiKey === "string" && configuration.apiKey) ||
+          existing.indexnow?.apiKey,
+        endpoint:
+          (typeof configuration.endpoint === "string" && configuration.endpoint) ||
+          existing.indexnow?.endpoint,
+        keyLocation:
+          (typeof configuration.keyLocation === "string" && configuration.keyLocation) ||
+          existing.indexnow?.keyLocation,
+        siteUrl:
+          (typeof configuration.host === "string" && configuration.host) ||
+          existing.indexnow?.siteUrl,
       });
-    }
-
-    if (integrationId === "indexing_api" && typeof configuration.serviceAccountJson === "string") {
-      const existing = await seoRepository.getIntegrationsConfig();
       await seoRepository.upsertIntegrationsConfig({
         ...existing,
-        google: {
-          ...existing.google,
-          serviceAccountJson:
-            configuration.serviceAccountJson || existing.google?.serviceAccountJson,
-        },
+        indexnow: aligned,
       });
     }
 
@@ -277,10 +271,14 @@ export async function disconnectGoogleIntegrationAction(
 }
 
 /** Form-action wrappers for pages that do not use useActionState. */
-export async function runGoogleOperationFormAction(formData: FormData) {
-  await runGoogleOperationAction(null, formData);
+export async function runGoogleOperationFormAction(
+  formData: FormData,
+): Promise<GooglePlatformActionResult> {
+  return runGoogleOperationAction(null, formData);
 }
 
-export async function testGoogleIntegrationFormAction(formData: FormData) {
-  await testGoogleIntegrationAction(null, formData);
+export async function testGoogleIntegrationFormAction(
+  formData: FormData,
+): Promise<GooglePlatformActionResult> {
+  return testGoogleIntegrationAction(null, formData);
 }

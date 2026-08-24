@@ -64,6 +64,9 @@ export type Collection = {
   membershipMode?: CollectionMembershipMode;
   cardTemplate?: CollectionCardTemplate;
   sortBy?: CollectionSortBy;
+  /** PDP layout template assignment for products in this category (null = inherit) */
+  pageLayoutTemplate?: string | null;
+  sortOrder?: number;
   visible?: boolean;
   showInNav?: boolean;
   featured?: boolean;

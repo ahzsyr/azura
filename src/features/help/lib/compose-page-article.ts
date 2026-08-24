@@ -61,7 +61,7 @@ const HUB_META: Record<
     title: "SEO",
     description: "Metadata, audits, search engines, and search operations.",
     icon: Search,
-    keywords: ["seo", "sitemap", "robots"],
+    keywords: ["seo", "sitemap", "robots", "indexnow", "bing"],
   },
   "section-languages": {
     title: "Languages",

@@ -178,7 +178,6 @@ export const newsletterSubscribeSchema = z.object({
   doubleOptIn: z.boolean().default(true),
   blockId: z.string().optional(),
   pageSlug: z.string().optional(),
-  webhookUrl: z.string().url().optional().or(z.literal("")),
 });
 
 export const downloadGateUnlockSchema = z.object({

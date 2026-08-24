@@ -10,27 +10,87 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
 import { AdminSettingsLayout } from "@/components/admin/layout/admin-settings-layout";
 import {
-  NumberField,
   SettingsSection,
   TextAreaField,
   TextField,
   ToggleField,
 } from "@/components/admin/settings-fields";
 import { updatePortalSettings } from "@/features/setup/actions/update-portal-settings";
-import { savePasswordResetSettingsAction } from "@/features/account/admin/customer-user-actions";
+import {
+  saveEmailVerificationSettingsAction,
+  savePasswordResetSettingsAction,
+} from "@/features/account/admin/customer-user-actions";
 import { isPortalSettingsTab, PORTAL_SETTINGS_TABS } from "@/features/account/admin/portal-settings-tabs";
-import type { PasswordResetSettings } from "@/features/account/account-settings.schema";
+import type {
+  EmailVerificationSettings,
+  PasswordResetSettings,
+} from "@/features/account/account-settings.schema";
 import { routing } from "@/i18n/routing";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
+
+type EmailAccountOption = { id: string; name: string; from: string };
 
 type Props = {
   registrationEnabled: boolean;
   passwordReset: PasswordResetSettings;
+  emailVerification: EmailVerificationSettings;
+  emailAccounts: EmailAccountOption[];
 };
 
 const PUBLIC_ACCOUNT_BASE = `/${routing.defaultLocale}/account`;
 
-export function PortalSettingsForm({ registrationEnabled: initial, passwordReset: initialReset }: Props) {
+function EmailAccountSelect({
+  id,
+  label,
+  value,
+  onChange,
+  emailAccounts,
+  allowEnvFallback,
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (id: string) => void;
+  emailAccounts: EmailAccountOption[];
+  allowEnvFallback?: boolean;
+}) {
+  return (
+    <div className="space-y-1.5">
+      <label htmlFor={id} className="text-sm font-medium">
+        {label}
+      </label>
+      <select
+        id={id}
+        className="border-input bg-background flex h-9 w-full rounded-md border px-3 text-sm"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      >
+        <option value="">
+          {allowEnvFallback ? "Env default (RESEND / SMTP)" : "Select an Email Account"}
+        </option>
+        {emailAccounts.map((account) => (
+          <option key={account.id} value={account.id}>
+            {account.name} ({account.from})
+          </option>
+        ))}
+      </select>
+      <p className="text-xs text-muted-foreground">
+        Credentials live under{" "}
+        <Link href="/admin/settings/email-accounts" className="underline">
+          Settings → Email Accounts
+        </Link>
+        .
+      </p>
+    </div>
+  );
+}
+
+export function PortalSettingsForm({
+  registrationEnabled: initial,
+  passwordReset: initialReset,
+  emailVerification: initialVerification,
+  emailAccounts,
+}: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
@@ -41,8 +101,10 @@ export function PortalSettingsForm({ registrationEnabled: initial, passwordReset
 
   const [enabled, setEnabled] = useState(initial);
   const [resetSettings, setResetSettings] = useState(initialReset);
+  const [verificationSettings, setVerificationSettings] = useState(initialVerification);
   const [savedEnabled, setSavedEnabled] = useState(initial);
   const [savedResetSettings, setSavedResetSettings] = useState(initialReset);
+  const [savedVerificationSettings, setSavedVerificationSettings] = useState(initialVerification);
   const [error, setError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
 
@@ -68,6 +130,14 @@ export function PortalSettingsForm({ registrationEnabled: initial, passwordReset
     [markUnsaved]
   );
 
+  const patchVerification = useCallback(
+    (patch: Partial<EmailVerificationSettings>) => {
+      markUnsaved();
+      setVerificationSettings((s) => ({ ...s, ...patch }));
+    },
+    [markUnsaved]
+  );
+
   const handleTabChange = (tabId: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("tab", tabId);
@@ -78,9 +148,10 @@ export function PortalSettingsForm({ registrationEnabled: initial, passwordReset
     setError(null);
     setFeedback(null);
     setSaveStatus("saving");
-    const [portalResult, resetResult] = await Promise.all([
+    const [portalResult, resetResult, verificationResult] = await Promise.all([
       updatePortalSettings({ registrationEnabled: enabled }),
       savePasswordResetSettingsAction(resetSettings),
+      saveEmailVerificationSettingsAction(verificationSettings),
     ]);
     if (!portalResult.success) {
       setError(portalResult.error);
@@ -92,18 +163,25 @@ export function PortalSettingsForm({ registrationEnabled: initial, passwordReset
       setSaveStatus("error");
       return false;
     }
+    if (!verificationResult.success) {
+      setError(verificationResult.error);
+      setSaveStatus("error");
+      return false;
+    }
     setSavedEnabled(enabled);
     setSavedResetSettings(resetSettings);
+    setSavedVerificationSettings(verificationSettings);
     setFeedback("Visitor portal settings saved.");
     markSaved();
-  }, [enabled, resetSettings, markSaved, setSaveStatus]);
+  }, [enabled, resetSettings, verificationSettings, markSaved, setSaveStatus]);
 
   const handleCancel = useCallback(() => {
     setEnabled(savedEnabled);
     setResetSettings(savedResetSettings);
+    setVerificationSettings(savedVerificationSettings);
     setError(null);
     setFeedback(null);
-  }, [savedEnabled, savedResetSettings]);
+  }, [savedEnabled, savedResetSettings, savedVerificationSettings]);
 
   useEffect(() => {
     registerPageActions({
@@ -118,7 +196,7 @@ export function PortalSettingsForm({ registrationEnabled: initial, passwordReset
     <div className="space-y-6">
       <AdminPageHeader
         title="Visitor portal"
-        description="Registration, password reset emails, and storefront account flows."
+        description="Customer registration, signup OTP delivery, and password reset emails. Master Admin only."
         actions={
           <Button asChild variant="outline" size="sm">
             <Link href="/admin/users">
@@ -151,12 +229,12 @@ export function PortalSettingsForm({ registrationEnabled: initial, passwordReset
           <Badge variant={enabled ? "default" : "secondary"}>
             Registration {enabled ? "open" : "closed"}
           </Badge>
+          <Badge variant={verificationSettings.emailAccountId ? "default" : "secondary"}>
+            Signup OTP {verificationSettings.emailAccountId ? "account set" : "unset"}
+          </Badge>
           <Badge variant={resetSettings.enabled ? "default" : "secondary"}>
             Reset emails {resetSettings.enabled ? "on" : "off"}
           </Badge>
-          <span className="text-muted-foreground ms-1 text-xs">
-            Token expiry {resetSettings.tokenExpiryHours}h
-          </span>
         </CardContent>
       </Card>
 
@@ -170,8 +248,18 @@ export function PortalSettingsForm({ registrationEnabled: initial, passwordReset
             <CardContent className="pt-6">
               {tab === "registration" ? (
                 <RegistrationTab enabled={enabled} onChange={patchRegistration} />
+              ) : tab === "email-verification" ? (
+                <EmailVerificationTab
+                  settings={verificationSettings}
+                  onChange={patchVerification}
+                  emailAccounts={emailAccounts}
+                />
               ) : (
-                <PasswordResetTab settings={resetSettings} onChange={patchReset} />
+                <PasswordResetTab
+                  settings={resetSettings}
+                  onChange={patchReset}
+                  emailAccounts={emailAccounts}
+                />
               )}
             </CardContent>
           </Card>
@@ -235,18 +323,75 @@ function RegistrationTab({
   );
 }
 
-function PasswordResetTab({
+function EmailVerificationTab({
   settings,
   onChange,
+  emailAccounts,
 }: {
-  settings: PasswordResetSettings;
-  onChange: (patch: Partial<PasswordResetSettings>) => void;
+  settings: EmailVerificationSettings;
+  onChange: (patch: Partial<EmailVerificationSettings>) => void;
+  emailAccounts: EmailAccountOption[];
 }) {
   return (
     <div className="space-y-8">
       <SettingsSection
-        title="Password reset"
-        description="Emails sent when customers request a reset from the account hub."
+        title="Registration email verification / OTP"
+        description="6-digit codes expire in 5 minutes. Used for signup and OTP resend. Independent of admin authentication."
+      >
+        <EmailAccountSelect
+          id="verificationEmailAccountId"
+          label="Email account"
+          value={settings.emailAccountId ?? ""}
+          onChange={(emailAccountId) => onChange({ emailAccountId })}
+          emailAccounts={emailAccounts}
+          allowEnvFallback
+        />
+        <TextField
+          id="verificationFromName"
+          label="From name (optional)"
+          value={settings.fromName ?? ""}
+          onChange={(fromName) => onChange({ fromName })}
+        />
+      </SettingsSection>
+      <SettingsSection title="Email template" description="Subject and heading for verification emails.">
+        <TextField
+          id="verificationSubject"
+          label="Email subject"
+          value={settings.emailSubject}
+          onChange={(emailSubject) => onChange({ emailSubject })}
+        />
+        <TextField
+          id="verificationHeading"
+          label="Email heading"
+          value={settings.emailHeading}
+          onChange={(emailHeading) => onChange({ emailHeading })}
+        />
+        <TextAreaField
+          id="verificationBody"
+          label="Email body (optional note)"
+          rows={6}
+          value={settings.emailBody}
+          onChange={(emailBody) => onChange({ emailBody })}
+        />
+      </SettingsSection>
+    </div>
+  );
+}
+
+function PasswordResetTab({
+  settings,
+  onChange,
+  emailAccounts,
+}: {
+  settings: PasswordResetSettings;
+  onChange: (patch: Partial<PasswordResetSettings>) => void;
+  emailAccounts: EmailAccountOption[];
+}) {
+  return (
+    <div className="space-y-8">
+      <SettingsSection
+        title="Customer password reset"
+        description="Emails sent when customers request a reset from the account hub. Never used for administrator resets."
       >
         <ToggleField
           label="Enable password reset emails"
@@ -258,21 +403,13 @@ function PasswordResetTab({
 
       <SettingsSection
         title="Delivery"
-        description="Sender display name and optional notifications. Sending uses EMAIL_FROM / Resend / SMTP from environment."
+        description="Choose an Email Account for customer reset emails."
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <NumberField
-            id="tokenExpiryHours"
-            label="Link expiry (hours)"
-            description="How long reset links stay valid."
-            min={0.25}
-            max={168}
-            step={0.25}
-            value={settings.tokenExpiryHours}
-            onChange={(tokenExpiryHours) =>
-              onChange({ tokenExpiryHours: Number.isFinite(tokenExpiryHours) ? tokenExpiryHours : 1 })
-            }
-          />
+          <div className="rounded-lg border bg-muted/40 px-3 py-2 text-sm text-muted-foreground md:col-span-2">
+            Reset links always expire after <strong className="text-foreground">5 minutes</strong> and
+            can only be used once.
+          </div>
           <TextField
             id="fromName"
             label="From name (optional)"
@@ -280,6 +417,14 @@ function PasswordResetTab({
             onChange={(fromName) => onChange({ fromName })}
           />
         </div>
+        <EmailAccountSelect
+          id="emailAccountId"
+          label="Email account"
+          value={settings.emailAccountId ?? ""}
+          onChange={(emailAccountId) => onChange({ emailAccountId })}
+          emailAccounts={emailAccounts}
+          allowEnvFallback
+        />
         <TextField
           id="notifyReceiverEmail"
           label="Notify receiver email (optional)"
@@ -307,7 +452,7 @@ function PasswordResetTab({
           {" · "}
           <code className="font-mono">{"{{resetLink}}"}</code>
           {" · "}
-          <code className="font-mono">{"{{expiryHours}}"}</code>
+          <code className="font-mono">{"{{expiryMinutes}}"}</code>
         </div>
         <TextField
           id="emailSubject"

@@ -16,7 +16,7 @@ export type ProductDbWriteInput = {
 };
 
 function toJsonArray(value: string[] | undefined): Prisma.InputJsonValue | undefined {
-  if (!value || value.length === 0) return undefined;
+  if (value == null) return undefined;
   return value as Prisma.InputJsonValue;
 }
 
@@ -106,7 +106,7 @@ export function collectionSlugsFromRow(row: DbProduct): string[] {
 const PRICE_PATHS = ["price", "old_price"];
 const STOCK_PATHS = ["stock_status", "availability"];
 const BRAND_PATHS = ["brand"];
-const CATEGORY_PATHS = ["category", "categories"];
+const CATEGORY_PATHS = ["category", "categories", "categoryIds"];
 const TAG_PATHS = ["tags"];
 const SKU_PATHS = ["mpn", "manufacturer_part_number", "id"];
 const STATUS_PATHS = ["status"];

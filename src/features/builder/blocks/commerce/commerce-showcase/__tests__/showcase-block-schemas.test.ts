@@ -114,4 +114,11 @@ describe("catalog brand profiles", () => {
     ]);
     assert.equal(merged.length, 2);
   });
+
+  it("assigns unique fallback slugs for names that do not slugify", () => {
+    const seeded = seedProfilesFromBrandNames([], ["Apple", "أبل"]);
+    assert.equal(seeded.length, 2);
+    assert.ok(seeded.every((p) => p.slug.length > 0));
+    assert.equal(new Set(seeded.map((p) => p.slug)).size, 2);
+  });
 });

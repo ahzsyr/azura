@@ -379,24 +379,42 @@ export function useTableState<T>(
   const clearSelection = useCallback(() => setSelectedKeys(new Set()), []);
 
   // ── Inline editing ────────────────────────────────────────────────────────
+  const editStateRef = useRef<InlineEditState | null>(null);
+  const editValueRef = useRef<unknown>(undefined);
+
   const startEdit = useCallback((rowKey: string, colKey: string, currentValue: unknown) => {
-    setEditState({ rowKey, colKey });
+    const next = { rowKey, colKey };
+    editStateRef.current = next;
+    editValueRef.current = currentValue;
+    setEditState(next);
     setEditValue(currentValue);
   }, []);
 
   const commitEdit = useCallback((): InlineEditSave<T> | null => {
-    if (!editState) return null;
-    const row = data.find((r) => getRowKey(r) === editState.rowKey);
-    if (!row) { setEditState(null); return null; }
-    const save: InlineEditSave<T> = { row, colKey: editState.colKey, newValue: editValue };
-    setDirtyKeys((prev) => new Set([...prev, editState.rowKey]));
+    const current = editStateRef.current;
+    if (!current) return null;
+    const row = data.find((r) => getRowKey(r) === current.rowKey);
+    editStateRef.current = null;
+    if (!row) {
+      setEditState(null);
+      return null;
+    }
+    const save: InlineEditSave<T> = { row, colKey: current.colKey, newValue: editValueRef.current };
+    setDirtyKeys((prev) => new Set([...prev, current.rowKey]));
     setEditState(null);
     return save;
-  }, [editState, editValue, data, getRowKey]);
+  }, [data, getRowKey]);
 
   const cancelEdit = useCallback(() => {
+    editStateRef.current = null;
+    editValueRef.current = undefined;
     setEditState(null);
     setEditValue(undefined);
+  }, []);
+
+  const setEditValueSafe = useCallback((v: unknown) => {
+    editValueRef.current = v;
+    setEditValue(v);
   }, []);
 
   const markRowSaved = useCallback((rowKey: string) => {
@@ -514,7 +532,7 @@ export function useTableState<T>(
     editState,
     editValue,
     startEdit,
-    setEditValue,
+    setEditValue: setEditValueSafe,
     commitEdit,
     cancelEdit,
     dirtyKeys,

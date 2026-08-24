@@ -24,6 +24,7 @@ import { hasRenderableCompositionBlocks } from "@/features/layout-engine/composi
 import { LayoutRenderer } from "@/features/layout-engine/components/layout-renderer";
 import { EditorialMetaBar } from "@/components/marketing/editorial-meta-bar";
 import { CitationSourcesList } from "@/components/marketing/citation-sources-list";
+import { resolveEditorialMetaDisplay, editorialDisplayFromMetadata } from "@/schemas/editorial-metadata";
 
 type Props = {
   locale: string;
@@ -106,6 +107,13 @@ export async function ContentItemPageRenderer({ locale, contentType, item, path 
     locale,
     { enabledLocales }
   ) || item.title;
+  const editorialFlags = editorialDisplayFromMetadata(composition.metadata);
+  const editorialDisplay = resolveEditorialMetaDisplay({
+    author: item.authorName,
+    publishedAt: item.publishedAt,
+    showAuthor: editorialFlags.showAuthor,
+    showPublishedAt: editorialFlags.showPublishedAt,
+  });
 
   return (
     <VisualExperienceProvider site={siteTokens} page={pageVisual} syncGlobally={false}>
@@ -114,9 +122,9 @@ export async function ContentItemPageRenderer({ locale, contentType, item, path 
           {hasRenderableBlocks ? (
             <>
               {blockContent}
-              {(item.authorName || item.publishedAt || item.sources.length > 0) && (
+              {(editorialDisplay.author || editorialDisplay.publishedAt || item.sources.length > 0) && (
                 <div className="container-premium section-padding pt-0">
-                  <EditorialMetaBar author={item.authorName} publishedAt={item.publishedAt} locale={locale} />
+                  <EditorialMetaBar author={editorialDisplay.author} publishedAt={editorialDisplay.publishedAt} locale={locale} />
                   <CitationSourcesList sources={item.sources} />
                 </div>
               )}
@@ -129,7 +137,7 @@ export async function ContentItemPageRenderer({ locale, contentType, item, path 
                   {item.excerpt || item.description}
                 </p>
               )}
-              <EditorialMetaBar author={item.authorName} publishedAt={item.publishedAt} locale={locale} className="mt-4" />
+              <EditorialMetaBar author={editorialDisplay.author} publishedAt={editorialDisplay.publishedAt} locale={locale} className="mt-4" />
               <CitationSourcesList sources={item.sources} />
             </div>
           )}

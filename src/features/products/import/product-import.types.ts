@@ -6,6 +6,7 @@ export type ProductImportData = {
   sourceFile?: string;
   /** Companion WooCommerce CSV from converter (metadata only; not merged into product). */
   pairedCsv?: string;
+  csvContent?: string;
 };
 
 export type ProductImportRowResult = {

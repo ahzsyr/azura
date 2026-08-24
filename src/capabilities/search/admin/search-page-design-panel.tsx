@@ -50,7 +50,7 @@ export function SearchPageDesignPanel({ page, onChange }: Props) {
         activeTab={activeSubTab}
         onTabChange={(tab) => setActiveSubTab(tab as AppearanceSubTab)}
         layoutId="search-appearance-sub-tab"
-        className="top-0 rounded-lg border"
+        variant="sub"
       />
 
       {activeSubTab === "layout" ? (

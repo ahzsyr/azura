@@ -86,6 +86,7 @@ export const catalogNavigationLayoutSchema = z.object({
   showIcons: z.boolean().optional(),
   showTooltip: z.boolean().optional(),
   horizontalScroll: z.boolean().optional(),
+  overflowMode: z.enum(["scroll-bar", "scroll-arrows"]).optional(),
 });
 
 export const catalogNavigationBreakpointLayoutSchema = catalogNavigationLayoutSchema;
@@ -113,6 +114,7 @@ export const catalogNavigationItemSchema: z.ZodType<CatalogNavigationItem> = z.l
     actionType: catalogNavigationActionTypeSchema.optional(),
     filters: catalogNavigationItemFiltersSchema.optional(),
     searchQuery: z.string().optional(),
+    searchExact: z.boolean().optional(),
     tooltip: z.string().optional(),
   }),
 );

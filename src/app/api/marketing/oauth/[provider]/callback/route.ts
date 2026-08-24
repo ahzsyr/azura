@@ -5,6 +5,7 @@ import { bootstrapMarketingModule } from "@/modules/marketing/bootstrap";
 import { findProvider } from "@/modules/marketing/core/registry";
 import { exchangeMetaCode } from "@/modules/marketing/providers/meta/sdk/api";
 import { exchangeLinkedInCode } from "@/modules/marketing/providers/linkedin/sdk/api";
+import { exchangeGoogleAdsCode } from "@/modules/marketing/providers/google-ads/sdk/api";
 import {
   syncAccountsForConnection,
   upsertConnectionFromOAuth,
@@ -75,6 +76,13 @@ export async function GET(
       expiresAt = token.expires_in
         ? new Date(Date.now() + token.expires_in * 1000)
         : null;
+    } else if (providerId === "google-ads") {
+      const token = await exchangeGoogleAdsCode({ code, redirectUri, clientId, clientSecret });
+      accessToken = token.access_token;
+      refreshToken = token.refresh_token;
+      expiresAt = token.expires_in
+        ? new Date(Date.now() + token.expires_in * 1000)
+        : null;
     } else {
       throw new Error(`OAuth exchange not implemented for ${providerId}`);
     }
@@ -103,7 +111,15 @@ export async function GET(
     response.cookies.delete(`marketing_oauth_redirect_${providerId}`);
     return response;
   } catch (error) {
-    const message = error instanceof Error ? error.message : "oauth_failed";
+    const rawMessage = error instanceof Error ? error.message : "oauth_failed";
+    const message =
+      rawMessage.includes("marketingProviderRuntime") ||
+      rawMessage.includes("MarketingProviderRuntime") ||
+      rawMessage.includes("marketingConnection") ||
+      rawMessage.includes("MarketingConnection") ||
+      rawMessage.includes("The table")
+        ? "marketing_schema_missing"
+        : rawMessage;
     return NextResponse.redirect(
       getRequestAppUrl(
         request,

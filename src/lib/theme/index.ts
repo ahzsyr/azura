@@ -69,6 +69,9 @@ export {
   buildTypographyCss,
   buildSpacingCss,
   buildMotionCss,
+  THEME_ROOT_SELECTOR,
+  THEME_ROOT_DARK_SELECTOR,
+  scopeThemeCssToSelector,
   type CanonicalSemanticToken,
   type SemanticTokenSet,
 } from "./tokens";

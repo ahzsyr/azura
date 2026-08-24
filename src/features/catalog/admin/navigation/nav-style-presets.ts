@@ -149,7 +149,7 @@ export function applyLayoutQuickPreset(
         iconContainerStyle: "none",
         ...ICON_SIZE_PRESETS.medium,
         iconLabelGap: "0",
-        horizontalScroll: true,
+        overflowMode: "scroll-bar",
       };
     case "text-only":
       return {
@@ -162,7 +162,7 @@ export function applyLayoutQuickPreset(
         gap: GAP_PRESETS.tight,
         horizontalAlignment: "start",
         labelAlignment: "left",
-        horizontalScroll: mobile ? true : false,
+        overflowMode: mobile ? "scroll-bar" : "scroll-bar",
       };
     case "categories-equal":
       return {
@@ -179,7 +179,7 @@ export function applyLayoutQuickPreset(
         labelAlignment: "center",
         ...ICON_SIZE_PRESETS.medium,
         iconLabelGap: "6px",
-        horizontalScroll: mobile ? true : false,
+        overflowMode: mobile ? "scroll-bar" : "scroll-bar",
       };
     case "icon-text-standard":
     default:
@@ -199,7 +199,7 @@ export function applyLayoutQuickPreset(
         iconContainerStyle: "none",
         ...ICON_SIZE_PRESETS.medium,
         iconLabelGap: "8px",
-        horizontalScroll: mobile ? true : false,
+        overflowMode: mobile ? "scroll-bar" : "scroll-bar",
       };
   }
 }
@@ -218,6 +218,7 @@ export function defaultCatalogNavigationLayout(
 
 export type LayoutDensityId = "tight" | "normal" | "relaxed";
 export type LayoutSizeId = "compact" | "medium" | "large";
+export type LayoutIconSizeId = keyof typeof ICON_SIZE_PRESETS;
 
 const DENSITY_PRESETS: Record<
   LayoutDensityId,
@@ -267,6 +268,25 @@ export function layoutPatchForDensity(id: LayoutDensityId): Partial<CatalogNavig
 
 export function layoutPatchForSize(id: LayoutSizeId): Partial<CatalogNavigationBreakpointLayout> {
   return { ...SIZE_PRESETS[id] };
+}
+
+export function layoutPatchForIconSize(
+  id: LayoutIconSizeId,
+): Partial<CatalogNavigationBreakpointLayout> {
+  return { ...ICON_SIZE_PRESETS[id] };
+}
+
+export function matchLayoutIconSize(
+  layout: CatalogNavigationBreakpointLayout,
+): LayoutIconSizeId | "custom" {
+  const icon = layout.iconSize;
+  if (!icon) return "medium";
+  for (const [id, preset] of Object.entries(ICON_SIZE_PRESETS) as Array<
+    [LayoutIconSizeId, { iconSize: string; iconContainerSize: string }]
+  >) {
+    if (preset.iconSize === icon) return id;
+  }
+  return "custom";
 }
 
 export function matchLayoutDensity(

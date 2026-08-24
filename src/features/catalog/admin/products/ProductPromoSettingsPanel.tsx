@@ -1,5 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { ResolvedProductPromo } from "@/features/products/lib/product-page-display";
+import { PRODUCT_PAGE_DESIGN_HREF } from "@/features/catalog/admin/catalog-admin-tabs";
 import { InternalLinkSelector } from "./InternalLinkSelector";
 
 export function ProductPromoSettingsPanel({
@@ -32,7 +33,7 @@ export function ProductPromoSettingsPanel({
         </h2>
         <p className="apm-dashboard-card__lede">
           Event or campaign strip on the product detail page main column. Toggle visibility on the{" "}
-          <a href="#product-page">Product Page</a> tab. Save from the top bar.
+          <a href={PRODUCT_PAGE_DESIGN_HREF}>Product Page</a> tab. Save from the top bar.
         </p>
       </header>
       <div className="pm-cta-layout apm-promo-settings__layout">

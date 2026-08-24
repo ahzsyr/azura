@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { ContentTypeForm } from "@/features/content/admin/content-type-form";
-import { ContentTypeImportExportPanel } from "@/features/content/admin/content-type-import-export-panel";
 import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
 import { ContentAdminTabs } from "@/features/content/admin/content-admin-tabs";
 import { loadContentTypeWithLegacyFields, readAdminDefaultLocaleField } from "@/features/translation/admin-entity-helpers";
@@ -17,16 +15,17 @@ export default async function EditContentTypePage({ params }: Props) {
 
   return (
     <div className="space-y-6">
-      <ContentAdminTabs />
-      <Link href="/admin/content/types" className="text-sm text-muted-foreground hover:text-primary">
-        ← Content types
-      </Link>
+      <ContentAdminTabs
+        breadcrumbs={[
+          { label: "Types", href: "/admin/content?tab=types" },
+          { label: readAdminDefaultLocaleField(enriched, "labelPlural", enriched.displayTitle) },
+        ]}
+      />
       <AdminPageHeader
         title={`Edit: ${readAdminDefaultLocaleField(enriched, "labelPlural", enriched.displayTitle)}`}
         description={contentType.slug}
       />
       <ContentTypeForm contentType={enriched} />
-      <ContentTypeImportExportPanel typeId={contentType.id} typeSlug={contentType.slug} />
     </div>
   );
 }

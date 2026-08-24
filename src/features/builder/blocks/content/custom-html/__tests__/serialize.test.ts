@@ -278,4 +278,66 @@ describe("serializeElementsToHtml", () => {
     const html = serializeElementsToHtml(elements, "en");
     assert.ok(html.includes("<caption>Table 1: Results</caption>"));
   });
+
+  it("serializes localized image alt and table caption", () => {
+    const img: HtmlElement = {
+      id: "1",
+      tag: "img",
+      attributes: { src: "cat.jpg", alt: "Cat", altAr: "قطة" },
+    };
+    assert.ok(serializeElementsToHtml([img], "ar").includes('alt="قطة"'));
+    assert.ok(serializeElementsToHtml([img], "en").includes('alt="Cat"'));
+
+    const table: HtmlElement = {
+      id: "t1",
+      tag: "table",
+      attributes: { caption: "Results", captionAr: "النتائج" },
+      children: [{ id: "tbody1", tag: "tbody", children: [] }],
+    };
+    assert.ok(serializeElementsToHtml([table], "ar").includes("<caption>النتائج</caption>"));
+    assert.ok(serializeElementsToHtml([table], "en").includes("<caption>Results</caption>"));
+  });
+
+  it("serializes localized rawHtml and table cell text", () => {
+    const raw: HtmlElement = {
+      id: "1",
+      tag: "div",
+      rawHtml: "<p>Hello</p>",
+      rawHtmlAr: "<p>مرحبا</p>",
+    };
+    assert.equal(serializeElementsToHtml([raw], "ar"), "<p>مرحبا</p>");
+    assert.equal(serializeElementsToHtml([raw], "en"), "<p>Hello</p>");
+
+    const cell: HtmlElement = {
+      id: "t1",
+      tag: "table",
+      children: [
+        {
+          id: "tbody1",
+          tag: "tbody",
+          children: [
+            {
+              id: "tr1",
+              tag: "tr",
+              children: [{ id: "td1", tag: "td", text: "Alice", textAr: "أليس" }],
+            },
+          ],
+        },
+      ],
+    };
+    assert.ok(serializeElementsToHtml([cell], "ar").includes("<td>أليس</td>"));
+    assert.ok(serializeElementsToHtml([cell], "en").includes("<td>Alice</td>"));
+  });
+
+  it("serializes localized title and aria-label attributes", () => {
+    const el: HtmlElement = {
+      id: "1",
+      tag: "p",
+      text: "Hello",
+      attributes: { title: "Tip", titleAr: "تلميح", ariaLabel: "Label", ariaLabelAr: "تسمية" },
+    };
+    const ar = serializeElementsToHtml([el], "ar");
+    assert.ok(ar.includes('title="تلميح"'));
+    assert.ok(ar.includes('aria-label="تسمية"'));
+  });
 });

@@ -15,6 +15,8 @@ import { ModalRepeatableListEditor } from "@/features/builder/admin/shared/modal
 import { OrderedBrandSlugList } from "@/features/builder/blocks/commerce/commerce-showcase/admin/brand-selection-fields";
 import { newShowcaseId } from "@/features/builder/blocks/commerce/commerce-showcase/schemas/showcase-blocks";
 import type { BrandBuilderOption } from "@/features/builder/blocks/commerce/commerce-showcase/types";
+import type { OrderingProfileBuilderOption } from "@/features/builder/blocks/commerce/product-blocks/types";
+import { OrderingProfileSelect } from "@/features/builder/blocks/commerce/product-blocks/admin/ordering-profile-select";
 
 type TabItem = {
   id: string;
@@ -58,10 +60,12 @@ export function TaxonomyProductTabsBlockFields({
   block,
   onChange,
   brandOptions = [],
+  orderingProfileOptions = [],
 }: {
   block: BlockNode;
   onChange: (block: BlockNode) => void;
   brandOptions?: BrandBuilderOption[];
+  orderingProfileOptions?: OrderingProfileBuilderOption[];
 }) {
   const setProp = (key: string, value: unknown) => onChange(patchBlockSettings(block, { [key]: value }));
   const taxonomy = (block.props.taxonomy as string) ?? "category";
@@ -212,6 +216,11 @@ export function TaxonomyProductTabsBlockFields({
             ]}
             onChange={(v) => setProp("navStyle", v)}
           />
+          <ToggleField
+            label="Show product counts"
+            checked={block.props.showTabCounts !== false}
+            onChange={(v) => setProp("showTabCounts", v)}
+          />
         </SettingsSection>
       </AdminCollapsibleSection>
 
@@ -263,6 +272,11 @@ export function TaxonomyProductTabsBlockFields({
               />
             </div>
           </div>
+          <OrderingProfileSelect
+            value={(block.props.orderingProfileId as string) ?? ""}
+            onChange={(id) => setProp("orderingProfileId", id)}
+            options={orderingProfileOptions}
+          />
           <ToggleField
             label="AJAX tab loading"
             checked={block.props.ajaxEnabled !== false}

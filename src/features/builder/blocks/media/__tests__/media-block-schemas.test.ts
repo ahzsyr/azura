@@ -13,6 +13,7 @@ describe("media block schemas", () => {
     const parsed = videoHeroPropsSchema.parse(BLOCK_DEFAULTS.videoHero);
     assert.equal(parsed.mediaMode, "single");
     assert.equal(parsed.layout, "fullBleed");
+    assert.equal(parsed.fadeIntoSiteBackground, false);
   });
 
   it("parses videoGallery defaults", () => {

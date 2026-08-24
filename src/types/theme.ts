@@ -3,6 +3,7 @@ import type { SiteBrandConfig } from "@/types/site-identity";
 import type { PresetColorTokens } from "@/features/theme/engine/types";
 import type {
   BackgroundEffectSettings,
+  ChromeVisibilityMode,
   FooterThemeSettings,
   HeaderThemeSettings,
   MobileBrowserConfig,
@@ -13,7 +14,12 @@ import type {
 
 export type { BackgroundEffectSettings, MobileBrowserConfig, MotionSettings, VisualEffectSettings };
 
-export type { FooterThemeSettings, HeaderThemeSettings, ThemeTypographySettings };
+export type {
+  ChromeVisibilityMode,
+  FooterThemeSettings,
+  HeaderThemeSettings,
+  ThemeTypographySettings,
+};
 
 /** @deprecated Use `HeaderThemeSettings` */
 export type HeaderThemeConfig = HeaderThemeSettings;

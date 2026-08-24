@@ -225,6 +225,9 @@ html[data-text-effect-theme="gradient-flow"] [data-text-effect="inherit"] {
     --text-effect-accent,
     var(--color-secondary, var(--secondary, var(--_te-base)))
   );
+  /* Neon leftovers look like a marker stroke — never allow shadow under clipped fill. */
+  text-shadow: none !important;
+  filter: none;
   background-image: var(
     --text-effect-gradient,
     linear-gradient(
@@ -240,10 +243,15 @@ html[data-text-effect-theme="gradient-flow"] [data-text-effect="inherit"] {
       var(--_te-base)                                          100%
     )
   );
-  background-size: calc(240% * var(--text-effect-intensity, 1)) auto;
+  background-size: calc(240% * var(--text-effect-intensity, 1)) 140%;
+  background-origin: padding-box;
   -webkit-background-clip: text;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
   color: transparent;
+  padding-block: 0.12em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
   animation-name: gradientFlow;
   animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
   animation-iteration-count: infinite;

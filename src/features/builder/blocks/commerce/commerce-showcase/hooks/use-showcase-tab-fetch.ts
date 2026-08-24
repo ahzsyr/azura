@@ -17,6 +17,7 @@ function buildShowcaseUrl(
   limit: number,
   sort: string,
   page: number,
+  orderingProfileId?: string,
 ): string {
   const params = new URLSearchParams({
     locale,
@@ -26,6 +27,9 @@ function buildShowcaseUrl(
     sort,
     page: String(page),
   });
+  if (orderingProfileId?.trim()) {
+    params.set("orderingProfileId", orderingProfileId.trim());
+  }
   return `/api/catalog/showcase?${params.toString()}`;
 }
 
@@ -35,6 +39,7 @@ export function useShowcaseTabFetch({
   tabKey,
   limit,
   sort,
+  orderingProfileId = "",
   enabled,
   initialRecords,
   initialTotal,
@@ -44,6 +49,7 @@ export function useShowcaseTabFetch({
   tabKey: string;
   limit: number;
   sort: string;
+  orderingProfileId?: string;
   enabled: boolean;
   initialRecords: ProductListingRecord[];
   initialTotal: number;
@@ -70,7 +76,7 @@ export function useShowcaseTabFetch({
     abortRef.current = controller;
 
     setLoading(true);
-    fetch(buildShowcaseUrl(locale, taxonomy, tabKey, limit, sort, 1), {
+    fetch(buildShowcaseUrl(locale, taxonomy, tabKey, limit, sort, 1, orderingProfileId), {
       signal: controller.signal,
       credentials: "same-origin",
     })
@@ -94,7 +100,7 @@ export function useShowcaseTabFetch({
       .finally(() => {
         if (requestId === requestIdRef.current) setLoading(false);
       });
-  }, [enabled, tabKey, locale, taxonomy, limit, sort]);
+  }, [enabled, tabKey, locale, taxonomy, limit, sort, orderingProfileId]);
 
   useEffect(() => {
     fetchTab();

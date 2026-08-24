@@ -34,6 +34,17 @@ export function stripCurrentLocalePrefix(pathname: string, currentPrefix: string
   return normalized;
 }
 
+/**
+ * Canonical storefront routes use `/categories`. Rewrite leftover `/collections`
+ * listing paths (index or single slug). Nested asset paths are left unchanged.
+ */
+export function rewriteLegacyCollectionRoute(path: string): string {
+  if (path === "/collections" || path === "/collections/") return "/categories";
+  const match = /^\/collections\/([^/]+)\/?$/.exec(path);
+  if (match) return `/categories/${match[1]}`;
+  return path;
+}
+
 function getFirstSegment(pathname: string): string | undefined {
   return pathname.split("/").filter(Boolean)[0];
 }
@@ -82,7 +93,7 @@ export function localePathFromPrefix(
   knownPrefixes: string[] = FALLBACK_LOCALES.map((l) => l.urlPrefix)
 ): string {
   const prefixes = Array.from(new Set([...knownPrefixes, urlPrefix]));
-  const stripped = stripAnyLocalePrefix(path, prefixes);
+  const stripped = rewriteLegacyCollectionRoute(stripAnyLocalePrefix(path, prefixes));
   if (stripped === "/") return `/${urlPrefix}`;
   const suffix = stripped.startsWith("/") ? stripped : `/${stripped}`;
   return `/${urlPrefix}${suffix}`;
@@ -97,7 +108,9 @@ export function switchLocalePath(
   targetUrlPrefix: string,
   knownPrefixes: string[] = FALLBACK_LOCALES.map((l) => l.urlPrefix)
 ): string {
-  const neutral = getNeutralPathnameForSwitch(currentPath, currentPrefix, knownPrefixes);
+  const neutral = rewriteLegacyCollectionRoute(
+    getNeutralPathnameForSwitch(currentPath, currentPrefix, knownPrefixes),
+  );
   if (neutral === "/") return `/${targetUrlPrefix}`;
   const suffix = neutral.startsWith("/") ? neutral : `/${neutral}`;
   return `/${targetUrlPrefix}${suffix}`;
@@ -111,9 +124,11 @@ export function buildLocaleSwitchHref(
   targetUrlPrefix: string,
   searchParams?: string | null
 ): string {
-  const path = pathnameWithoutLocale.startsWith("/")
-    ? pathnameWithoutLocale
-    : `/${pathnameWithoutLocale}`;
+  const path = rewriteLegacyCollectionRoute(
+    pathnameWithoutLocale.startsWith("/")
+      ? pathnameWithoutLocale
+      : `/${pathnameWithoutLocale}`,
+  );
   const href =
     path === "/" ? `/${targetUrlPrefix}` : `/${targetUrlPrefix}${path}`;
   if (!searchParams) return href;

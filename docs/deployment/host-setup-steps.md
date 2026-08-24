@@ -25,7 +25,9 @@ See [`database/README.md`](../../database/README.md) for seed bundles and regene
 - For MySQL: start from [`database/env/.env.mysql`](../../database/env/.env.mysql)
 - For PostgreSQL/Supabase: start from [`database/env/.env.postgres`](../../database/env/.env.postgres)
 
-Set all required secrets and URLs before build/start.
+Set **host infrastructure** only: `DATABASE_URL`, `AUTH_SECRET`, optional `SETUP_TOKEN` / `CRON_SECRET`.
+
+Product credentials (Google OAuth, translation APIs, marketing pixels) are managed in the **admin dashboard** after setup — not in Hostinger env vars.
 
 ## 4) Install and build
 
@@ -51,7 +53,7 @@ npm run build:hostinger:standalone
 
 - Open your domain
 - If redirected, complete `/setup`
-- Login at `/admin/login`
+- Login at `/account/login` (admins are routed to `/admin` after sign-in)
 
 ## 7) Post-deploy checks
 

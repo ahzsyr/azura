@@ -29,7 +29,6 @@ export function NewsletterSignupView(props: Props) {
     segment,
     doubleOptIn,
     showNameField,
-    webhookUrl,
   } = props;
 
   const propsRecord = props as Record<string, unknown>;
@@ -60,7 +59,6 @@ export function NewsletterSignupView(props: Props) {
           doubleOptIn,
           blockId,
           pageSlug,
-          webhookUrl: webhookUrl || undefined,
         }),
       });
       if (!res.ok) throw new Error("Failed");

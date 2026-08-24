@@ -15,13 +15,15 @@ import {
   collectHeaderTranslationRefs,
   localizeHeaderWorkspaceWithBundle,
 } from "./localize-menu-translations";
+import { expandMegaMenuPanelSources } from "./mega-menu-panel-source";
 import type { HeaderWorkspace, MenuItem, MenuRecord } from "./types";
-import { shouldPreferStoredMenuImageUrl } from "./mega-menu-linked-images";
+import { shouldPreferStoredMenuImageUrl, pickBrandMenuImageUrl } from "./mega-menu-linked-images";
 
 export {
   shouldPreferStoredMenuImageUrl,
   stripLinkedMenuImagesFromWorkspace,
   usesLinkedMenuImageSource,
+  pickBrandMenuImageUrl,
 } from "./mega-menu-linked-images";
 
 async function getCatalogItemImageUrlFromDb(slug: string): Promise<string | undefined> {
@@ -62,7 +64,7 @@ async function getBrandImageUrl(slug: string, localeCode: string): Promise<strin
   const profiles = await readCatalogBrandProfiles(localeCode);
   const profile = profiles.find((entry) => entry.slug.trim().toLowerCase() === slug.toLowerCase());
   if (!profile) return undefined;
-  return profile.bannerUrl?.trim() || profile.logoUrl?.trim() || undefined;
+  return pickBrandMenuImageUrl(profile);
 }
 
 export async function resolveCardImageUrlForMenuItem(
@@ -160,9 +162,14 @@ export async function enrichFlyoutMenuImagesOnly(
 }
 
 function workspaceFlyoutFingerprint(ws: HeaderWorkspace): string {
+  // Include settings/actions/branding so icon visibility and other header
+  // settings changes bust the site enrich cache (menus-only keys were stale).
   const payload = JSON.stringify({
     activeMenuKey: ws.activeMenuKey,
     menusDatabase: ws.menusDatabase,
+    settings: ws.settings,
+    headerActions: ws.headerActions,
+    branding: ws.branding,
   });
   return createHash("sha256").update(payload).digest("hex").slice(0, 24);
 }
@@ -185,7 +192,8 @@ export async function enrichHeaderWorkspaceForSiteCached(
   return unstable_cache(
     async () => {
       const localized = await enrichHeaderWorkspaceWithMenuTranslations(ws, localeCode);
-      return enrichFlyoutMenuImagesOnly(localized, localeCode);
+      const withSources = await expandMegaMenuPanelSources(localized, localeCode);
+      return enrichFlyoutMenuImagesOnly(withSources, localeCode);
     },
     ["header-flyout-images", localeCode, fingerprint],
     { tags: ["header-workspace", `header-flyout-${localeCode}`], revalidate: 300 },

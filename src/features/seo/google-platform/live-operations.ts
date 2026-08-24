@@ -94,5 +94,43 @@ export async function executeLiveGoogleOperation(
     }
   }
 
+  if (integrationId === "indexnow" && (operationId === "submit_url" || operationId === "submit_batch")) {
+    if (dryRun) {
+      return opOk(
+        operationId === "submit_batch" ? "IndexNow batch dry-run" : `IndexNow dry-run for ${String(params.url ?? "")}`,
+        true,
+      );
+    }
+    try {
+      const { seoRepository } = await import("@/repositories/seo.repository");
+      const { indexNowProvider } = await import("@/features/seo/integrations/providers");
+      const { submitIndexNowUrls } = await import("@/features/seo/integrations/indexnow-submit");
+      const config = (await seoRepository.getIntegrationsConfig()).indexnow;
+      if (!config || !indexNowProvider.isConfigured(config)) {
+        return opFail("IndexNow is not configured. Add the API key under Search Engines → IndexNow.");
+      }
+      let urls: string[] = [];
+      if (operationId === "submit_batch") {
+        const { listPriorityIndexableUrls } = await import("@/features/seo/resolve-indexable-url");
+        urls = await listPriorityIndexableUrls();
+      } else {
+        const url = String(params.url ?? "").trim();
+        if (!url) return opFail("URL is required");
+        urls = [url];
+      }
+      const data = await submitIndexNowUrls(config, urls);
+      if (!data.ok) {
+        return opFail(data.message || "IndexNow submission failed");
+      }
+      return opOk(
+        `IndexNow submitted ${data.urlCount} URL(s) as ${data.host}`,
+        false,
+        data as unknown as Record<string, unknown>,
+      );
+    } catch (error) {
+      return opFail(error instanceof Error ? error.message : String(error));
+    }
+  }
+
   return null;
 }

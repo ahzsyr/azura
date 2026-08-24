@@ -5,10 +5,12 @@ import { after } from "next/server";
 import { requireAdmin } from "@/features/auth/guards";
 import { prisma } from "@/lib/prisma";
 import { seoRepository } from "@/repositories/seo.repository";
-import { redirectSchema, seoMetaBaseSchema } from "@/schemas/seo";
+import { redirectSchema } from "@/schemas/seo";
 import { CACHE_TAGS, revalidateSeoMeta } from "@/services/cache";
 import { localeService } from "@/features/i18n/locale.service";
 import { syncEntityTranslationsFromForm } from "@/features/translation/form-sync.server";
+import { translationService } from "@/features/translation/translation.service";
+import { parseJsonLdForSeoColumn, parseSeoForm } from "@/features/seo/parse-seo-form";
 import { BULK_SEGMENT_THRESHOLD, seoBulkService } from "./seo-bulk.service";
 import type { BulkFillMode, BulkFillScope } from "./seo-bulk.service";
 import { Prisma, type SeoMeta } from "@prisma/client";
@@ -18,9 +20,11 @@ import type { SeoIntegrationsConfig } from "./types";
 import { getCmsPageSeoPageKey, SEO_TRANSLATION_FIELDS } from "./cms-page-seo-context";
 import { CMS_WIRED_MARKETING_SLUGS } from "@/features/cms/cms-wired-slugs";
 import { mergeSecretFields, unsealIntegrationsConfig } from "./integrations/config";
+import { alignIndexNowStoredConfig } from "./integrations/indexnow-payload";
 import { seoSubmissionRunner } from "./integrations/submission-runner.service";
 import { enqueueSitemapSubmission } from "./integrations/enqueue";
-import { getServerAppOrigin } from "@/lib/oauth-redirect-origin";
+import { sitemapEnqueueEmptyMessage } from "./integrations/enqueue-policy";
+import { bingProvider, googleProvider, indexNowProvider } from "./integrations/providers";
 import { seoTriggerService } from "./triggers/seo-trigger.service";
 import { seoAnalyticsIngestionService } from "./analytics/analytics-ingestion.service";
 import { richResultsMonitoringService } from "./quality/rich-results-monitoring.service";
@@ -31,8 +35,13 @@ import { normalizeCanonicalUrlForPageKey } from "./normalize-canonical-url";
 import { resolvePageSeoContext } from "./resolve-page-seo-context";
 import { toSeoMetaFormProps } from "./mappers/to-seo-meta-form-props";
 import type { SeoMetaFormPropsFromContext } from "./mappers/to-seo-meta-form-props";
-import { getDefaultLocaleFieldFromForm } from "@/features/translation/form-fields";
 import type { PublicLocale } from "@/i18n/locale-config";
+import {
+  decodeServiceAccountTransportPayload,
+  formDataHasGoogleOAuthFields,
+  serializeServiceAccountJson,
+  validateServiceAccountJson,
+} from "@/features/seo/google-live/service-account-json";
 
 async function absoluteUrl(pathOrUrl: string) {
   if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
@@ -47,33 +56,6 @@ async function localizedStaticUrls(pageKey: string) {
   return localizedStaticUrlsFromContext(pageKey);
 }
 
-function parseSeoForm(formData: FormData, enabledLocales: PublicLocale[]) {
-  // Dual-write: SeoMeta columns mirror the default-locale translation values.
-  const focusKeywords =
-    getDefaultLocaleFieldFromForm(formData, enabledLocales, "focusKeywords") ||
-    (formData.get("focusKeywords") as string) ||
-    null;
-  const jsonLdRaw =
-    getDefaultLocaleFieldFromForm(formData, enabledLocales, "jsonLd") ||
-    ((formData.get("jsonLd") as string) ?? "");
-  const canonicalUrl =
-    getDefaultLocaleFieldFromForm(formData, enabledLocales, "canonicalUrl") ||
-    (formData.get("canonicalUrl") as string) ||
-    null;
-
-  return seoMetaBaseSchema.parse({
-    pageKey: (formData.get("pageKey") as string) || undefined,
-    entityType: (formData.get("entityType") as string) || undefined,
-    entityId: (formData.get("entityId") as string) || undefined,
-    canonicalUrl: canonicalUrl?.trim() ? canonicalUrl.trim() : null,
-    robots: (formData.get("robots") as string) || null,
-    focusKeywords: focusKeywords?.trim() ? focusKeywords.trim() : null,
-    ogImageUrl: (formData.get("ogImageUrl") as string) || null,
-    twitterCard: (formData.get("twitterCard") as string) || null,
-    jsonLd: jsonLdRaw?.trim() ? jsonLdRaw : null,
-  });
-}
-
 async function syncSeoMetaTranslations(
   formData: FormData,
   meta: SeoMeta,
@@ -85,103 +67,128 @@ async function syncSeoMetaTranslations(
     meta.id,
     enabledLocales,
     [...SEO_TRANSLATION_FIELDS],
+    { skipCompletionSync: true },
   );
 }
 
-export async function upsertSeoMetaAction(formData: FormData) {
-  await requireAdmin();
-  const enabledLocales = await localeService.listEnabled();
-  const parsed = parseSeoForm(formData, enabledLocales);
-  const cmsPageId = formData.get("cmsPageId") as string | null;
-  const postId = formData.get("postId") as string | null;
-  const packageId = formData.get("packageId") as string | null;
-  const contentItemId = formData.get("contentItemId") as string | null;
+export type UpsertSeoMetaResult = { ok: true } | { ok: false; message: string };
 
-  const data = {
-    canonicalUrl: normalizeCanonicalUrlForPageKey(
-      parsed.pageKey ?? undefined,
-      parsed.canonicalUrl || null,
-    ),
-    robots: parsed.robots,
-    focusKeywords: parsed.focusKeywords,
-    ogImageUrl: parsed.ogImageUrl,
-    twitterCard: parsed.twitterCard,
-    jsonLd: parsed.jsonLd
-      ? (JSON.parse(parsed.jsonLd as string) as Prisma.InputJsonValue)
-      : Prisma.DbNull,
-  };
+export async function upsertSeoMetaAction(formData: FormData): Promise<UpsertSeoMetaResult> {
+  try {
+    await requireAdmin();
+    const enabledLocales = await localeService.listEnabled();
+    const parsed = parseSeoForm(formData, enabledLocales);
+    const cmsPageId = formData.get("cmsPageId") as string | null;
+    const postId = formData.get("postId") as string | null;
+    const packageId = formData.get("packageId") as string | null;
+    const contentItemId = formData.get("contentItemId") as string | null;
+    const jsonLdValue = parseJsonLdForSeoColumn(parsed.jsonLd);
 
-  let meta: SeoMeta;
-  let effectivePageKey = parsed.pageKey;
-  if (cmsPageId) {
-    const cmsPage = await prisma.cmsPage.findUnique({ where: { id: cmsPageId } });
-    const wiredPageKey = cmsPage ? getCmsPageSeoPageKey(cmsPage.slug) : undefined;
-    if (wiredPageKey) {
-      effectivePageKey = wiredPageKey;
-      meta = await seoRepository.upsertMetaByPageKey(wiredPageKey, data);
-      await prisma.seoMeta.deleteMany({
-        where: {
-          cmsPageId,
-          NOT: { pageKey: wiredPageKey },
-        },
-      });
-    } else {
-      meta = await seoRepository.upsertMetaByCmsPage(cmsPageId, data);
-    }
-    revalidatePath(`/admin/pages/${cmsPageId}`);
-  } else if (postId) {
-    meta = await seoRepository.upsertMetaByPost(postId, data);
-    revalidatePath(`/admin/posts/${postId}`);
-  } else if (packageId) {
-    meta = await seoRepository.upsertMetaByEntity("PACKAGE", packageId, data);
-    revalidatePath("/admin/packages");
-  } else if (contentItemId) {
-    meta = await seoRepository.upsertMetaByEntity("ContentItem", contentItemId, data);
-    const item = await prisma.contentItem.findUnique({
-      where: { id: contentItemId },
-      select: { contentType: { select: { slug: true } } },
-    });
-    if (item?.contentType.slug) {
-      revalidatePath(`/admin/content/${item.contentType.slug}/${contentItemId}`);
-    }
-  } else if (parsed.pageKey) {
-    meta = await seoRepository.upsertMetaByPageKey(parsed.pageKey, data);
+    const data = {
+      canonicalUrl: normalizeCanonicalUrlForPageKey(
+        parsed.pageKey ?? undefined,
+        parsed.canonicalUrl || null,
+      ),
+      robots: parsed.robots,
+      focusKeywords: parsed.focusKeywords,
+      ogImageUrl: parsed.ogImageUrl,
+      twitterCard: parsed.twitterCard,
+      jsonLd: jsonLdValue
+        ? (jsonLdValue as Prisma.InputJsonValue)
+        : Prisma.DbNull,
+    };
 
-    if (parsed.pageKey in CMS_WIRED_MARKETING_SLUGS && getCmsPageSeoPageKey(parsed.pageKey)) {
-      const cmsPage = await prisma.cmsPage.findUnique({ where: { slug: parsed.pageKey } });
-      if (cmsPage) {
+    let meta: SeoMeta;
+    let effectivePageKey = parsed.pageKey;
+    if (cmsPageId) {
+      const cmsPage = await prisma.cmsPage.findUnique({ where: { id: cmsPageId } });
+      const wiredPageKey = cmsPage ? getCmsPageSeoPageKey(cmsPage.slug) : undefined;
+      if (wiredPageKey) {
+        effectivePageKey = wiredPageKey;
+        meta = await seoRepository.upsertMetaByPageKey(wiredPageKey, data);
         await prisma.seoMeta.deleteMany({
           where: {
-            cmsPageId: cmsPage.id,
-            NOT: { pageKey: parsed.pageKey },
+            cmsPageId,
+            NOT: { pageKey: wiredPageKey },
           },
         });
-        revalidatePath(`/admin/pages/${cmsPage.id}`);
+      } else {
+        meta = await seoRepository.upsertMetaByCmsPage(cmsPageId, data);
       }
-    }
-  } else {
-    throw new Error("pageKey, cmsPageId, postId, packageId, or contentItemId required");
-  }
+      revalidatePath(`/admin/pages/${cmsPageId}`);
+    } else if (postId) {
+      meta = await seoRepository.upsertMetaByPost(postId, data);
+      revalidatePath(`/admin/posts/${postId}`);
+    } else if (packageId) {
+      meta = await seoRepository.upsertMetaByEntity("PACKAGE", packageId, data);
+      revalidatePath("/admin/packages");
+    } else if (contentItemId) {
+      meta = await seoRepository.upsertMetaByEntity("ContentItem", contentItemId, data);
+      const item = await prisma.contentItem.findUnique({
+        where: { id: contentItemId },
+        select: { contentType: { select: { slug: true } } },
+      });
+      if (item?.contentType.slug) {
+        revalidatePath(`/admin/content/${item.contentType.slug}/${contentItemId}`);
+      }
+    } else if (parsed.pageKey) {
+      meta = await seoRepository.upsertMetaByPageKey(parsed.pageKey, data);
 
-  await syncSeoMetaTranslations(formData, meta, enabledLocales);
-  const urls = effectivePageKey
-    ? await localizedStaticUrls(effectivePageKey)
-    : parsed.canonicalUrl
-      ? [parsed.canonicalUrl]
-      : [];
-  await seoTriggerService.handle({
-    type: "seo.metadataUpdated",
-    entityType: effectivePageKey ? "SITE" : "CONTENT_ITEM",
-    entityId: parsed.entityId,
-    paths: urls,
-  });
-  if (cmsPageId && !effectivePageKey) revalidateSeoMeta("CmsPage", cmsPageId);
-  else if (postId) revalidateSeoMeta("Post", postId);
-  else if (packageId) revalidateSeoMeta("PACKAGE", packageId);
-  else if (contentItemId) revalidateSeoMeta("ContentItem", contentItemId);
-  else if (effectivePageKey) revalidateSeoMeta("SITE", effectivePageKey);
-  revalidatePath("/admin/seo");
-  revalidatePath("/admin/seo/metadata");
+      if (parsed.pageKey in CMS_WIRED_MARKETING_SLUGS && getCmsPageSeoPageKey(parsed.pageKey)) {
+        const cmsPage = await prisma.cmsPage.findUnique({ where: { slug: parsed.pageKey } });
+        if (cmsPage) {
+          await prisma.seoMeta.deleteMany({
+            where: {
+              cmsPageId: cmsPage.id,
+              NOT: { pageKey: parsed.pageKey },
+            },
+          });
+          revalidatePath(`/admin/pages/${cmsPage.id}`);
+        }
+      }
+    } else {
+      throw new Error("pageKey, cmsPageId, postId, packageId, or contentItemId required");
+    }
+
+    await syncSeoMetaTranslations(formData, meta, enabledLocales);
+    after(async () => {
+      for (const locale of enabledLocales) {
+        try {
+          await translationService.syncLocaleCompletionPercent(locale.code);
+        } catch (error) {
+          console.error("[seo-meta] completion sync failed:", error);
+        }
+      }
+    });
+
+    try {
+      const urls = effectivePageKey
+        ? await localizedStaticUrls(effectivePageKey)
+        : parsed.canonicalUrl
+          ? [parsed.canonicalUrl]
+          : [];
+      await seoTriggerService.handle({
+        type: "seo.metadataUpdated",
+        entityType: effectivePageKey ? "SITE" : "CONTENT_ITEM",
+        entityId: parsed.entityId,
+        paths: urls,
+      });
+    } catch (error) {
+      console.error("[seo-meta] trigger failed after save:", error);
+    }
+
+    if (cmsPageId && !effectivePageKey) revalidateSeoMeta("CmsPage", cmsPageId);
+    else if (postId) revalidateSeoMeta("Post", postId);
+    else if (packageId) revalidateSeoMeta("PACKAGE", packageId);
+    else if (contentItemId) revalidateSeoMeta("ContentItem", contentItemId);
+    else if (effectivePageKey) revalidateSeoMeta("SITE", effectivePageKey);
+    revalidatePath("/admin/seo");
+    revalidatePath("/admin/seo/metadata");
+    return { ok: true };
+  } catch (error) {
+    console.error("[seo-meta] upsert failed:", error);
+    return { ok: false, message: formatSeoActionError(error) };
+  }
 }
 
 export async function upsertRedirectAction(formData: FormData) {
@@ -626,21 +633,65 @@ export async function listRecentSeoChangeLogsAction(limit = 50): Promise<SeoChan
   }));
 }
 
+function readFormString(formData: FormData, key: string): string | undefined {
+  const raw = formData.get(key);
+  if (typeof raw !== "string") return undefined;
+  const trimmed = raw.trim();
+  return trimmed || undefined;
+}
+
+async function readGoogleIndexingServiceAccountJson(formData: FormData): Promise<string | undefined> {
+  const encoded = readFormString(formData, "googleIndexingServiceAccountJsonB64");
+  if (encoded) {
+    const decoded = decodeServiceAccountTransportPayload(encoded);
+
+    if (process.env.SEO_SA_JSON_DEBUG === "1") {
+      console.log("[sa-json]", {
+        source: "b64",
+        length: decoded.length,
+        hasEscapedNewlines: decoded.includes("\\n"),
+        hasLiteralKeyNewlines: /"private_key"\s*:\s*"[\s\S]*\n/.test(decoded),
+      });
+    }
+
+    return decoded;
+  }
+
+  const direct = readFormString(formData, "google_indexing.serviceAccountJson");
+  if (direct) {
+    if (process.env.SEO_SA_JSON_DEBUG === "1") {
+      console.log("[sa-json]", {
+        source: "direct",
+        length: direct.length,
+        hasEscapedNewlines: direct.includes("\\n"),
+        hasLiteralKeyNewlines: /"private_key"\s*:\s*"[\s\S]*\n/.test(direct),
+      });
+    }
+
+    return direct;
+  }
+
+  return undefined;
+}
+
 function providerConfigFromForm(formData: FormData, provider: keyof SeoIntegrationsConfig) {
+  const serviceAccountRaw =
+    provider === "google_indexing"
+      ? undefined
+      : readFormString(formData, `${provider}.serviceAccountJson`);
   return {
     enabled: formData.get(`${provider}.enabled`) === "true",
     analyticsEnabled: formData.get(`${provider}.analyticsEnabled`) === "true",
-    siteUrl: (formData.get(`${provider}.siteUrl`) as string) || undefined,
-    apiKey: (formData.get(`${provider}.apiKey`) as string) || undefined,
-    bearerToken: (formData.get(`${provider}.bearerToken`) as string) || undefined,
-    refreshToken: (formData.get(`${provider}.refreshToken`) as string) || undefined,
-    clientId: (formData.get(`${provider}.clientId`) as string) || undefined,
-    clientSecret: (formData.get(`${provider}.clientSecret`) as string) || undefined,
-    serviceAccountJson:
-      (formData.get(`${provider}.serviceAccountJson`) as string) || undefined,
-    endpoint: (formData.get(`${provider}.endpoint`) as string) || undefined,
-    keyLocation: (formData.get(`${provider}.keyLocation`) as string) || undefined,
-    ga4PropertyId: (formData.get(`${provider}.ga4PropertyId`) as string) || undefined,
+    siteUrl: readFormString(formData, `${provider}.siteUrl`),
+    apiKey: readFormString(formData, `${provider}.apiKey`),
+    bearerToken: readFormString(formData, `${provider}.bearerToken`),
+    refreshToken: readFormString(formData, `${provider}.refreshToken`),
+    clientId: readFormString(formData, `${provider}.clientId`),
+    clientSecret: readFormString(formData, `${provider}.clientSecret`),
+    serviceAccountJson: serviceAccountRaw,
+    endpoint: readFormString(formData, `${provider}.endpoint`),
+    keyLocation: readFormString(formData, `${provider}.keyLocation`),
+    ga4PropertyId: readFormString(formData, `${provider}.ga4PropertyId`),
   };
 }
 
@@ -678,13 +729,50 @@ export async function upsertSeoIntegrationsAction(
     await requireAdmin();
     const sealedExisting = await seoRepository.getSealedIntegrationsConfig();
     const existing = unsealIntegrationsConfig(sealedExisting);
-    const hasGoogleFields = Array.from(formData.keys()).some((key) => key.startsWith("google."));
+    const hasGoogleFields = formDataHasGoogleOAuthFields(formData.keys());
     const incoming: SeoIntegrationsConfig = {
       google: hasGoogleFields ? providerConfigFromForm(formData, "google") : existing.google,
+      google_indexing: providerConfigFromForm(formData, "google_indexing"),
       bing: providerConfigFromForm(formData, "bing"),
       indexnow: providerConfigFromForm(formData, "indexnow"),
     };
+
+    const googleIndexingJson = await readGoogleIndexingServiceAccountJson(formData);
+    if (googleIndexingJson) {
+      incoming.google_indexing = {
+        ...incoming.google_indexing,
+        serviceAccountJson: googleIndexingJson,
+      };
+    }
+
+    if (hasGoogleFields && incoming.google?.serviceAccountJson?.trim()) {
+      const validation = validateServiceAccountJson(incoming.google.serviceAccountJson);
+      if (!validation.ok) return { ok: false, message: validation.message };
+    }
+    if (incoming.google_indexing?.serviceAccountJson?.trim()) {
+      const validation = validateServiceAccountJson(incoming.google_indexing.serviceAccountJson);
+      if (!validation.ok) return { ok: false, message: validation.message };
+      try {
+        incoming.google_indexing.serviceAccountJson = serializeServiceAccountJson(
+          incoming.google_indexing.serviceAccountJson,
+        );
+      } catch (error) {
+        return {
+          ok: false,
+          message: error instanceof Error ? error.message : "Invalid service account JSON.",
+        };
+      }
+      incoming.google_indexing.enabled = true;
+    } else if (!googleIndexingJson && incoming.google_indexing?.enabled && !existing.google_indexing?.serviceAccountJson) {
+      return {
+        ok: false,
+        message: "Import or paste the service account JSON file before saving.",
+      };
+    }
     const merged = mergeSecretFields(incoming, existing, sealedExisting);
+    if (merged.indexnow) {
+      merged.indexnow = alignIndexNowStoredConfig(merged.indexnow);
+    }
     await seoRepository.upsertIntegrationsConfig(merged);
     revalidatePath("/admin/seo/integrations");
     revalidatePath("/admin/seo/google");
@@ -709,6 +797,10 @@ export async function upsertGoogleIntegrationAction(
       ...existing,
       google: providerConfigFromForm(formData, "google"),
     };
+    if (incoming.google?.serviceAccountJson?.trim()) {
+      const validation = validateServiceAccountJson(incoming.google.serviceAccountJson);
+      if (!validation.ok) return { ok: false, message: validation.message };
+    }
     const merged = mergeSecretFields(incoming, existing, sealedExisting);
     await seoRepository.upsertIntegrationsConfig(merged);
     revalidatePath("/admin/seo/google");
@@ -729,18 +821,25 @@ function revalidateIntegrationsPaths() {
   revalidatePath("/admin/seo/settings");
 }
 
+async function sitemapEnqueueEmptyResult(): Promise<SeoActionResult> {
+  const config = await seoRepository.getIntegrationsConfig();
+  return {
+    ok: false,
+    message: sitemapEnqueueEmptyMessage({
+      indexNowConfigured: indexNowProvider.isConfigured(config.indexnow),
+      bingConfigured: bingProvider.isConfigured(config.bing),
+      googleConfigured: googleProvider.isConfigured(config.google),
+    }),
+    enqueued: 0,
+  };
+}
+
 export async function enqueueSitemapSubmissionAction(): Promise<SeoActionResult> {
   await requireAdmin();
-  const siteOrigin = await getServerAppOrigin();
-  const enqueued = await enqueueSitemapSubmission("manual", siteOrigin);
+  const enqueued = await enqueueSitemapSubmission("manual");
   revalidateIntegrationsPaths();
   if (enqueued === 0) {
-    return {
-      ok: false,
-      message:
-        "No sitemap jobs were queued. Enable and configure at least one provider on the Configure tab.",
-      enqueued: 0,
-    };
+    return sitemapEnqueueEmptyResult();
   }
   return {
     ok: true,
@@ -780,16 +879,10 @@ export async function runSeoSubmissionQueueAction(): Promise<SeoActionResult> {
 
 export async function submitSitemapAndRunAction(): Promise<SeoActionResult> {
   await requireAdmin();
-  const siteOrigin = await getServerAppOrigin();
-  const enqueued = await enqueueSitemapSubmission("manual", siteOrigin);
+  const enqueued = await enqueueSitemapSubmission("manual");
   if (enqueued === 0) {
     revalidateIntegrationsPaths();
-    return {
-      ok: false,
-      message:
-        "No sitemap jobs were queued. Enable and configure at least one provider on the Configure tab.",
-      enqueued: 0,
-    };
+    return sitemapEnqueueEmptyResult();
   }
   const result = await seoSubmissionRunner.runDue(25);
   revalidateIntegrationsPaths();
@@ -857,4 +950,12 @@ export async function revalidateRichResultsAction() {
   await richResultsMonitoringService.analyzeAndPersist();
   revalidatePath("/admin/seo/audit");
   revalidatePath("/admin/seo");
+}
+
+export async function runStructuredDataAuditAction(pathname: string) {
+  await requireAdmin();
+  const { buildStructuredDataAudit } = await import(
+    "@/features/seo/quality/build-structured-data-audit.server"
+  );
+  return buildStructuredDataAudit(pathname);
 }

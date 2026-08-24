@@ -38,6 +38,10 @@ import type { ProductCardTheme } from "@/features/products/lib/product-card-them
 import { EntityNotFoundError } from "@/resolvers/errors";
 import type { ProductDetailViewModel } from "@/view-models/product-detail";
 import type { ResolverContext } from "@/view-models/types";
+import type {
+  LayoutAssignmentSource,
+  ProductPageLayoutTemplateId,
+} from "@/features/products/layout-templates/types";
 
 export type ResolveProductDetailInput = {
   slug: string;
@@ -50,6 +54,9 @@ export type ResolveProductDetailInput = {
   cardTheme?: ProductCardTheme;
   productCta?: ResolvedProductCtaConfig;
   site: Record<string, unknown>;
+  layoutTemplateId: ProductPageLayoutTemplateId;
+  layoutAssignmentSource: LayoutAssignmentSource;
+  layoutAssignmentDetail?: string;
 };
 
 function resolveLocalizedHref(href: string, localePrefix: string): string {
@@ -225,6 +232,9 @@ export async function resolveProductDetailViewModel(
 
   return {
     templateId: "product-detail",
+    layoutTemplateId: input.layoutTemplateId,
+    layoutAssignmentSource: input.layoutAssignmentSource,
+    layoutAssignmentDetail: input.layoutAssignmentDetail,
     entityId,
     slug,
     locale,

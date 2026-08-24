@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import type { Session } from "next-auth";
+import {
+  isAdminRole,
+  resolveLoginEntryPath,
+  resolvePostLoginRedirect,
+} from "@/features/auth/portal";
 
 type IntlMiddleware = (request: NextRequest) => NextResponse | Promise<NextResponse>;
 
@@ -34,24 +39,40 @@ export async function handleAccountPath(
   const accountPath = parseAccountPath(pathname, locales);
   if (!accountPath) return null;
 
-  const { sub } = accountPath;
+  const { sub, locale } = accountPath;
   const isAuthPage =
     sub === "login" ||
     sub === "register" ||
     sub === "forgot-password" ||
-    sub === "reset-password";
+    sub === "reset-password" ||
+    sub === "verify-email" ||
+    sub === "accept-invite";
 
   if (sub === "register" && !setupStatus.registrationEnabled) {
-    const url = request.nextUrl.clone();
-    url.pathname = `/${accountPath.locale}/account/login`;
-    return NextResponse.redirect(url);
+    const entry = resolveLoginEntryPath({ locale, callbackUrl: null });
+    return NextResponse.redirect(new URL(entry, request.url));
   }
 
   const session = await getSession();
+  const role = session?.user?.role;
+
+  // Admins never use the customer account portal as a destination
+  if (session?.user && isAdminRole(role)) {
+    const dest = resolvePostLoginRedirect({
+      role,
+      locale,
+      callbackUrl: null,
+    });
+    return NextResponse.redirect(new URL(dest, request.url));
+  }
 
   if (isAuthPage) {
     if (session?.user) {
-      const dest = `/${accountPath.locale}/account`;
+      const dest = resolvePostLoginRedirect({
+        role,
+        locale,
+        callbackUrl: request.nextUrl.searchParams.get("callbackUrl"),
+      });
       return NextResponse.redirect(new URL(dest, request.url));
     }
     return intlMiddleware(request);
@@ -63,9 +84,11 @@ export async function handleAccountPath(
     if (isPublicAccountHub) {
       return intlMiddleware(request);
     }
-    const loginUrl = new URL(`/${accountPath.locale}/account/login`, request.url);
-    loginUrl.searchParams.set("callbackUrl", pathname);
-    return NextResponse.redirect(loginUrl);
+    const entry = resolveLoginEntryPath({
+      locale,
+      callbackUrl: pathname,
+    });
+    return NextResponse.redirect(new URL(entry, request.url));
   }
 
   return intlMiddleware(request);

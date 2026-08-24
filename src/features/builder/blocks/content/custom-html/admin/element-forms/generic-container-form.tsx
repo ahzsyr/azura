@@ -3,6 +3,7 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import type { HtmlElement } from "../../types";
+import { LocalizedHtmlInput } from "../localized-html-input";
 
 type Props = {
   element: HtmlElement;
@@ -12,6 +13,15 @@ type Props = {
 export function GenericContainerForm({ element, onChange }: Props) {
   return (
     <div className="space-y-3 p-3">
+      <LocalizedHtmlInput
+        label="Text"
+        baseKey="text"
+        values={element as Record<string, unknown>}
+        onChange={(patch) => onChange(patch)}
+        multiline
+        placeholder="Optional text content…"
+        inputClassName="mt-1 w-full resize-y rounded-md border bg-background px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-ring min-h-[60px]"
+      />
       <div>
         <Label className="text-xs">Class</Label>
         <Input

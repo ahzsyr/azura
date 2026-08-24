@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import type { UserRole } from "@prisma/client";
+import { isAdminRole, isCustomerRole } from "@/features/auth/portal";
 
 export async function requireSession() {
   const session = await auth();
@@ -11,7 +12,16 @@ export async function requireSession() {
 
 export async function requireAdmin() {
   const session = await requireSession();
-  if (session.user.role !== "ADMIN") {
+  if (!isAdminRole(session.user.role)) {
+    throw new Error("Forbidden");
+  }
+  return session;
+}
+
+/** Privileged operations: credentials, tracking snippets, reset setup, custom HTML. */
+export async function requireSuperAdmin() {
+  const session = await requireSession();
+  if (session.user.role !== "SUPER_ADMIN") {
     throw new Error("Forbidden");
   }
   return session;
@@ -19,7 +29,7 @@ export async function requireAdmin() {
 
 export async function requireCustomer() {
   const session = await requireSession();
-  if (session.user.role !== "CUSTOMER") {
+  if (!isCustomerRole(session.user.role)) {
     throw new Error("Forbidden");
   }
   return session;

@@ -143,7 +143,9 @@ export function createSearchIntelligencePlatform(options: SearchIntelligencePlat
     return { kept: toId, removed: fromId };
   });
   operations.registerHandler("google.request_indexing", async (record) => {
-    const url = String(record.payload.url ?? `${siteOrigin}/`);
+    const { resolveIndexableUrl } = await import("@/features/seo/resolve-indexable-url");
+    const rawUrl = String(record.payload.url ?? `${siteOrigin}/`);
+    const url = await resolveIndexableUrl(rawUrl, siteOrigin);
     const { publishUrlToIndexingApi } = await import("@/features/seo/google-live/indexing-api");
     connectors.beginSync("indexing_api");
     try {
@@ -157,9 +159,24 @@ export function createSearchIntelligencePlatform(options: SearchIntelligencePlat
     }
   });
   operations.registerHandler("page.inspect_url", async (record) => {
-    const url = String(record.payload.url ?? `${siteOrigin}/`);
+    const rawUrl = String(record.payload.url ?? `${siteOrigin}/`);
     const { inspectUrlWithSearchConsole } = await import("@/features/seo/google-live/url-inspection");
-    return inspectUrlWithSearchConsole(url);
+    return inspectUrlWithSearchConsole(rawUrl);
+  });
+  operations.registerHandler("seo.submit_priority_pages", async () => {
+    const { submitPriorityPages } = await import("@/features/seo/submit-priority-pages.service");
+    connectors.beginSync("indexnow");
+    try {
+      const result = await submitPriorityPages(siteOrigin);
+      for (const url of result.urls) {
+        indexation.transition(url, "submitted", { note: "Priority pages batch" });
+      }
+      connectors.completeSync("indexnow", { submitted: result.indexNow.submitted });
+      return result;
+    } catch (error) {
+      connectors.fail("indexnow", error instanceof Error ? error.message : String(error));
+      throw error;
+    }
   });
   operations.registerHandler("linking.apply", async (record) => {
     const selected = (record.payload.links as Array<{ toPublicId: string }> | undefined) ?? [];

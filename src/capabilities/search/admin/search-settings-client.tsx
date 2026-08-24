@@ -257,18 +257,76 @@ export function SearchSettingsAdminClient({
                   void fetch("/api/catalog/validate?fix=1", { credentials: "include" })
                     .then((r) => r.json())
                     .then((j: {
-                      search?: { staleCatalogDocs?: number; warnings?: { message: string }[] };
+                      catalog?: {
+                        errors?: { message: string }[];
+                        warnings?: { message: string }[];
+                      };
+                      search?: {
+                        staleCatalogDocs?: number;
+                        staleDocs?: number;
+                        missingDocs?: number;
+                        missingPages?: number;
+                        missingContentItems?: number;
+                        adminUrlOnPublicDocs?: number;
+                        urlMismatches?: number;
+                        contentTypeSlugMismatches?: number;
+                        titleMismatches?: number;
+                        catalogItemPublicDuplicates?: number;
+                        warnings?: { message: string }[];
+                        errors?: { message: string }[];
+                      };
                       reconcile?: { removed?: number };
                     }) => {
-                      const stale = j.search?.staleCatalogDocs ?? 0;
+                      const stale = j.search?.staleDocs ?? j.search?.staleCatalogDocs ?? 0;
+                      const missing = j.search?.missingDocs ?? 0;
+                      const missingPages = j.search?.missingPages ?? 0;
+                      const missingItems = j.search?.missingContentItems ?? 0;
+                      const adminUrls = j.search?.adminUrlOnPublicDocs ?? 0;
+                      const urlMismatches = j.search?.urlMismatches ?? 0;
+                      const typeMismatches = j.search?.contentTypeSlugMismatches ?? 0;
+                      const titleMismatches = j.search?.titleMismatches ?? 0;
+                      const catalogDupes = j.search?.catalogItemPublicDuplicates ?? 0;
                       const removed = j.reconcile?.removed ?? 0;
-                      const warn = j.search?.warnings?.[0]?.message;
+                      const catalogErrors = j.catalog?.errors?.length ?? 0;
+                      const catalogWarnings = j.catalog?.warnings?.length ?? 0;
+                      const searchErrors = j.search?.errors?.length ?? 0;
+                      const parts: string[] = [];
+                      if (removed > 0) parts.push(`Removed ${removed} stale search document(s)`);
+                      if (missingPages > 0) parts.push(`${missingPages} published page(s) missing from the index`);
+                      if (missingItems > 0) parts.push(`${missingItems} published item(s) missing from the index`);
+                      if (missing > missingPages + missingItems) {
+                        parts.push(`${missing} expected document(s) missing`);
+                      }
+                      if (urlMismatches > 0) parts.push(`${urlMismatches} URL(s) do not match live public paths`);
+                      if (adminUrls > 0) parts.push(`${adminUrls} public hit(s) point at /admin`);
+                      if (typeMismatches > 0) {
+                        parts.push(`${typeMismatches} document(s) have the wrong content type`);
+                      }
+                      if (titleMismatches > 0) {
+                        parts.push(`${titleMismatches} indexed title(s) do not match live content`);
+                      }
+                      if (catalogDupes > 0) {
+                        parts.push(`${catalogDupes} Catalog item hit(s) duplicate a public page`);
+                      }
+                      if (stale > 0 && removed === 0) {
+                        parts.push(j.search?.warnings?.[0]?.message ?? `${stale} stale document(s) remain`);
+                      }
+                      if (catalogErrors > 0) parts.push(`${catalogErrors} catalog error(s)`);
+                      if (catalogWarnings > 0) parts.push(`${catalogWarnings} catalog warning(s)`);
+                      if (searchErrors > 0) {
+                        parts.push(j.search?.errors?.[0]?.message ?? `${searchErrors} search validation error(s)`);
+                      }
+                      const needsRebuild =
+                        missing > 0 ||
+                        urlMismatches > 0 ||
+                        adminUrls > 0 ||
+                        typeMismatches > 0 ||
+                        titleMismatches > 0 ||
+                        catalogDupes > 0;
                       setValidateFeedback(
-                        removed > 0
-                          ? `Removed ${removed} stale catalog search document(s).`
-                          : stale > 0
-                            ? warn ?? `${stale} stale catalog doc(s) remain.`
-                            : "Catalog and search indexes look consistent.",
+                        parts.length > 0
+                          ? `${parts.join(". ")}${needsRebuild ? ". Run Rebuild index if pages or URLs are still wrong." : "."}`
+                          : "Catalog and search indexes look consistent.",
                       );
                     })
                     .catch((e) =>

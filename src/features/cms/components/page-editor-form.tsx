@@ -47,8 +47,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CmsStatusBadge } from "./cms-status-badge";
 import { CitationSourcesField } from "./citation-sources-field";
+import { EditorialDisplayFields } from "./editorial-display-fields";
 import type { CitationSource } from "@/schemas/editorial-metadata";
-import { parseCitationSources } from "@/schemas/editorial-metadata";
+import { parseCitationSources, parseShowFlag } from "@/schemas/editorial-metadata";
 import type { BlockNode, PageBlocks } from "@/types/builder";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
@@ -60,6 +61,7 @@ import type {
 } from "@/features/testimonials/types";
 import type {
   CollectionBuilderOption,
+  OrderingProfileBuilderOption,
   ProductBuilderOption,
 } from "@/features/builder/blocks/commerce/product-blocks/types";
 import type { BrandBuilderOption } from "@/features/builder/blocks/commerce/commerce-showcase/types";
@@ -81,7 +83,7 @@ import type { Composition, RegionId } from "@/features/layout-engine/types";
 import { PageLayoutPanel } from "@/features/layout-engine/components/page-layout-panel";
 import { CompositionPresetsPanel } from "@/features/layout-engine/components/composition-presets-panel";
 import { compositionPresetsRegistry } from "@/features/layout-engine/composition-presets-registry";
-import { isArabicLocale } from "@/shared/layout/direction/direction-resolver";
+import { useAdminEditingLocale } from "@/features/translation/hooks/use-admin-editing-locale";
 import { CompositionDevicePreview } from "@/features/layout-engine/components/composition-device-preview";
 import {
   findBlockById,
@@ -124,6 +126,8 @@ type PageFormState = {
   visualSettings: PageVisualSettings;
   authorId: string;
   sources: CitationSource[];
+  showAuthor: boolean;
+  showPublishedAt: boolean;
 };
 
 function getLocalizedInputName(fieldKey: string, localeCode: string): string {
@@ -199,6 +203,8 @@ function buildInitialFormState(
     sources: parseCitationSources(
       (page as PageWithRevisions & { sources?: unknown })?.sources ?? []
     ),
+    showAuthor: parseShowFlag(composition.metadata?.showAuthor),
+    showPublishedAt: parseShowFlag(composition.metadata?.showPublishedAt),
   };
 }
 
@@ -259,6 +265,7 @@ function PageEditorFields({
   testimonialCollectionOptions = [],
   collectionOptions = [],
   productOptions = [],
+  orderingProfileOptions = [],
   brandOptions = [],
   contentTypeOptions,
   locales = [],
@@ -289,6 +296,7 @@ function PageEditorFields({
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
   collectionOptions?: CollectionBuilderOption[];
   productOptions?: ProductBuilderOption[];
+  orderingProfileOptions?: OrderingProfileBuilderOption[];
   brandOptions?: BrandBuilderOption[];
   contentTypeOptions?: ContentTypeOption[];
   locales?: PublicLocale[];
@@ -304,8 +312,8 @@ function PageEditorFields({
   ) => void;
 }) {
   const { setDirty, showToast } = useAdminForm();
+  const { isRtl } = useAdminEditingLocale();
   const defaultLocaleCode = locales?.find((l) => l.isDefault)?.code ?? "en";
-  const isRtl = isArabicLocale(defaultLocaleCode);
   const activeRegions = getEditableRegions(formState.composition);
   const activeBlocks = formState.composition.regions[selectedRegion] ?? [];
 
@@ -394,6 +402,7 @@ function PageEditorFields({
         tabs={[...PAGE_TABS]}
         activeTab={activeTab}
         onTabChange={setActiveTab}
+        layout="wrap"
         layoutId="page-editor-ribbon"
       >
         {(tab) => (
@@ -483,6 +492,12 @@ function PageEditorFields({
                       </select>
                     </div>
                   )}
+                  <EditorialDisplayFields
+                    showAuthor={formState.showAuthor}
+                    showPublishedAt={formState.showPublishedAt}
+                    onShowAuthorChange={(showAuthor) => patch({ showAuthor })}
+                    onShowPublishedAtChange={(showPublishedAt) => patch({ showPublishedAt })}
+                  />
                   <div className="md:col-span-2">
                     <CitationSourcesField
                       value={formState.sources}
@@ -567,6 +582,7 @@ function PageEditorFields({
                   testimonialCollectionOptions={testimonialCollectionOptions}
                   collectionOptions={collectionOptions}
                   productOptions={productOptions}
+                  orderingProfileOptions={orderingProfileOptions}
                   brandOptions={brandOptions}
                   contentTypeOptions={contentTypeOptions}
                   locales={locales}
@@ -598,7 +614,6 @@ function PageEditorFields({
               <div className="space-y-6">
                 <PageLayoutPanel
                   composition={formState.composition}
-                  dir={isRtl ? "rtl" : "ltr"}
                   onChange={(composition) => patch({ composition })}
                 />
                 <CompositionPresetsPanel
@@ -738,6 +753,7 @@ export function PageEditorForm({
   testimonialCollectionOptions = [],
   collectionOptions = [],
   productOptions = [],
+  orderingProfileOptions = [],
   brandOptions = [],
   contentTypeOptions,
   seoFormProps,
@@ -753,6 +769,7 @@ export function PageEditorForm({
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
   collectionOptions?: CollectionBuilderOption[];
   productOptions?: ProductBuilderOption[];
+  orderingProfileOptions?: OrderingProfileBuilderOption[];
   brandOptions?: BrandBuilderOption[];
   contentTypeOptions?: ContentTypeOption[];
   seoFormProps?: SeoMetaFormPropsFromContext;
@@ -1034,6 +1051,8 @@ export function PageEditorForm({
         <input type="hidden" name="scheduledAt" value={formState.scheduledAt} readOnly />
         <input type="hidden" name="authorId" value={formState.authorId} readOnly />
         <input type="hidden" name="sources" value={JSON.stringify(formState.sources)} readOnly />
+        <input type="hidden" name="showAuthor" value={String(formState.showAuthor)} readOnly />
+        <input type="hidden" name="showPublishedAt" value={String(formState.showPublishedAt)} readOnly />
         <input type="hidden" name="blocks" value={JSON.stringify(formState.composition.regions.primary)} readOnly />
         <input type="hidden" name="composition" value={JSON.stringify(formState.composition)} readOnly />
         <input
@@ -1070,6 +1089,7 @@ export function PageEditorForm({
         testimonialCollectionOptions={testimonialCollectionOptions}
         collectionOptions={collectionOptions}
         productOptions={productOptions}
+        orderingProfileOptions={orderingProfileOptions}
         brandOptions={brandOptions}
         contentTypeOptions={contentTypeOptions}
         locales={locales}

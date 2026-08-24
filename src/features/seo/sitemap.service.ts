@@ -109,6 +109,7 @@ async function buildSitemapEntries(
     slug: string | null;
     updatedAt: Date;
     routePrefix: string | null;
+    typeSlug: string;
   }[] = [];
   let cmsPages: { slug: string; updatedAt: Date }[] = [];
   let posts: { slug: string; updatedAt: Date }[] = [];
@@ -130,7 +131,7 @@ async function buildSitemapEntries(
               id: true,
               slug: true,
               updatedAt: true,
-              contentType: { select: { routePrefix: true } },
+              contentType: { select: { routePrefix: true, slug: true } },
             },
           })
           .then((rows) =>
@@ -139,6 +140,7 @@ async function buildSitemapEntries(
               slug: r.slug,
               updatedAt: r.updatedAt,
               routePrefix: r.contentType.routePrefix,
+              typeSlug: r.contentType.slug,
             })),
           ),
         prisma.cmsPage.findMany({
@@ -308,8 +310,9 @@ async function buildSitemapEntries(
     }
 
     for (const item of contentItems) {
-      if (!item.slug || !item.routePrefix) continue;
-      const defaultPath = `/${item.routePrefix}/${item.slug}`;
+      const prefix = item.routePrefix?.trim() || item.typeSlug;
+      if (!item.slug || !prefix) continue;
+      const defaultPath = `/${prefix}/${item.slug}`;
       const path = localizedPath("ContentItem", item.id, languageCode, defaultPath);
       pushEntry(
         {

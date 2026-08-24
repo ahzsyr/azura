@@ -174,4 +174,22 @@ describe("resolveMenuSourceLinks", () => {
       ["Root A", "Root B", "Child A"],
     );
   });
+
+  it("omits hidden header items from footer navigation links", () => {
+    const workspace = makeWorkspace();
+    workspace.menusDatabase.mainMenu.items = [
+      linkItem("Brands", "/brands"),
+      { ...linkItem("Hidden page", "/secret"), visibility: "hidden" },
+      linkItem("Services", "/services", [
+        linkItem("WiFi", "/services/wifi"),
+        { ...linkItem("Internal", "/services/internal"), visibility: "hidden" },
+      ]),
+    ];
+
+    const links = resolveMenuSourceLinks(menuColumn({ menuSource: "header" }), workspace, null);
+    const labels = links.map((l) => l.label);
+    assert.deepEqual(labels, ["Brands", "Services", "WiFi"]);
+    assert.ok(!labels.includes("Hidden page"));
+    assert.ok(!labels.includes("Internal"));
+  });
 });

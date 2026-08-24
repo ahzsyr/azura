@@ -6,6 +6,7 @@ import { SeoIntegrationsClient } from "@/features/seo/admin/seo-integrations-cli
 import { getServerDefaultSitemapUrl } from "@/features/seo/integrations/enqueue";
 import { getServerAppOrigin } from "@/lib/oauth-redirect-origin";
 import type { PublicSeoIntegrationsConfig, SeoProviderHealth } from "@/features/seo/types";
+import SeoIntegrationsLoading from "./loading";
 
 export const dynamic = "force-dynamic";
 
@@ -82,7 +83,7 @@ export default async function SeoIntegrationsPage({
   const sitemapUrl = await getServerDefaultSitemapUrl();
 
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<SeoIntegrationsLoading />}>
       <SeoIntegrationsClient
         config={config}
         health={health}

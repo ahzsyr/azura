@@ -4,6 +4,7 @@ const PACKAGE_FIELDS: ContentFieldDefinition[] = [
   { key: "duration", type: "number", labelEn: "Duration (days)", group: "pricing", required: true },
   { key: "price", type: "price", labelEn: "Price", group: "pricing", required: true },
   { key: "currency", type: "text", labelEn: "Currency", group: "pricing", placeholder: "USD" },
+  { key: "location", type: "text", labelEn: "Location", localized: true, group: "location" },
   { key: "travelDates", type: "json", labelEn: "Travel dates (JSON array)", group: "details" },
   { key: "facilities", type: "json", labelEn: "Facilities (JSON)", localized: true, group: "details" },
   { key: "features", type: "json", labelEn: "Features (JSON)", localized: true, group: "details" },
@@ -144,6 +145,19 @@ export function resolveFieldSchema(
     return type.fieldSchema as ContentFieldDefinition[];
   }
   return getBuiltinContentType(slug)?.fields ?? [];
+}
+
+/** Append builtin fields that are missing from a stored schema (non-destructive). */
+export function mergeMissingBuiltinFields(
+  stored: unknown,
+  builtin: ContentFieldDefinition[],
+): ContentFieldDefinition[] | null {
+  if (!Array.isArray(stored) || stored.length === 0) return null;
+  const current = stored as ContentFieldDefinition[];
+  const keys = new Set(current.map((field) => field.key));
+  const missing = builtin.filter((field) => field.key && !keys.has(field.key));
+  if (missing.length === 0) return null;
+  return [...current, ...missing];
 }
 
 /** Legacy catalog source → content type slug */

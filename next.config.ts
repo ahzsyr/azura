@@ -101,6 +101,11 @@ const nextConfig: NextConfig = {
         source: "/uploads/:path*",
         destination: "/api/local-uploads/:path*",
       },
+      /** IndexNow verification file at https://{host}/{key}.txt */
+      {
+        source: "/:key([A-Za-z0-9\\-]{8,128}).txt",
+        destination: "/api/seo/indexnow-key/:key",
+      },
     ];
   },
   /** 301 redirects: host consolidation + old standalone service CmsPage URLs */
@@ -168,6 +173,34 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 86400,
     localPatterns: NEXT_IMAGE_LOCAL_PATTERNS,
     remotePatterns: NEXT_IMAGE_REMOTE_PATTERNS,
+  },
+  async headers() {
+    const cspReportOnly = [
+      "default-src 'self'",
+      "base-uri 'self'",
+      "frame-ancestors 'none'",
+      "object-src 'none'",
+      "img-src 'self' data: blob: https:",
+      "font-src 'self' data: https:",
+      "style-src 'self' 'unsafe-inline' https:",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
+      "connect-src 'self' https:",
+      "frame-src 'self' https://www.googletagmanager.com https://www.google.com",
+    ].join("; ");
+
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" },
+          { key: "Content-Security-Policy-Report-Only", value: cspReportOnly },
+        ],
+      },
+    ];
   },
 };
 

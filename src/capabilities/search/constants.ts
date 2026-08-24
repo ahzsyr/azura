@@ -1,5 +1,6 @@
 import type { SearchEntityType } from "@prisma/client";
 import { isArabicLocale } from "@/shared/layout/direction/direction-resolver";
+import { getBuiltinContentType } from "@/features/content/content-type.registry";
 
 export const SEARCH_ENTITY_TYPES: SearchEntityType[] = [
   "CONTENT_TYPE",
@@ -13,6 +14,7 @@ export const SEARCH_ENTITY_TYPES: SearchEntityType[] = [
   "FAQ",
   "TESTIMONIAL",
   "MEDIA",
+  "ICON",
   "TEAM_MEMBER",
   "PARTNER",
 ];
@@ -20,7 +22,7 @@ export const SEARCH_ENTITY_TYPES: SearchEntityType[] = [
 export const ENTITY_LABELS: Record<SearchEntityType, { en: string; ar: string }> = {
   CONTENT_TYPE: { en: "Content type", ar: "نوع المحتوى" },
   CONTENT_COLLECTION: { en: "Collection", ar: "مجموعة" },
-  CONTENT_ITEM: { en: "Catalog item", ar: "عنصر" },
+  CONTENT_ITEM: { en: "Content", ar: "محتوى" },
   CATALOG_PRODUCT: { en: "Product", ar: "منتج" },
   CATALOG_COLLECTION: { en: "Product collection", ar: "مجموعة منتجات" },
   CATALOG_CATEGORY: { en: "Category", ar: "فئة" },
@@ -28,6 +30,7 @@ export const ENTITY_LABELS: Record<SearchEntityType, { en: string; ar: string }>
   CMS_PAGE: { en: "Page", ar: "صفحة" },
   FAQ: { en: "FAQ", ar: "سؤال" },
   MEDIA: { en: "Media", ar: "وسائط" },
+  ICON: { en: "Icon", ar: "أيقونة" },
   TESTIMONIAL: { en: "Testimonial", ar: "رأي" },
   TEAM_MEMBER: { en: "Team member", ar: "عضو الفريق" },
   PARTNER: { en: "Partner", ar: "شريك" },
@@ -42,10 +45,45 @@ export function labelForContentTypeSlug(
   if (fallback) {
     return isArabicLocale(locale) ? fallback.labelPluralAr : fallback.labelPluralEn;
   }
+  const builtin = getBuiltinContentType(slug);
+  if (builtin) {
+    return isArabicLocale(locale) ? builtin.labelPluralAr : builtin.labelPluralEn;
+  }
   return slug
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
+}
+
+export type SearchHitLabelSource = {
+  slug: string;
+  label?: string;
+  labelEn?: string;
+  labelAr?: string;
+};
+
+function nonEmptyLabel(value?: string | null): string | undefined {
+  const trimmed = value?.trim();
+  return trimmed || undefined;
+}
+
+/** Public-facing label for a search hit. Content items use their type name, not "Catalog item". */
+export function labelForSearchHit(
+  entityType: SearchEntityType,
+  locale: "en" | "ar",
+  contentTypeSlug?: string,
+  contentTypes?: SearchHitLabelSource[]
+): string {
+  if ((entityType === "CONTENT_ITEM" || entityType === "CONTENT_TYPE" || entityType === "CONTENT_COLLECTION") && contentTypeSlug) {
+    const type = contentTypes?.find((t) => t.slug === contentTypeSlug);
+    if (type) {
+      const localized = isArabicLocale(locale) ? type.labelAr : type.labelEn;
+      const resolved = nonEmptyLabel(localized) || nonEmptyLabel(type.label);
+      if (resolved) return resolved;
+    }
+    return labelForContentTypeSlug(contentTypeSlug, locale);
+  }
+  return ENTITY_LABELS[entityType]?.[isArabicLocale(locale) ? "ar" : "en"] ?? entityType;
 }
 
 export function adminPathFor(
@@ -81,6 +119,8 @@ export function adminPathFor(
       return `/admin/faqs`;
     case "MEDIA":
       return `/admin/media`;
+    case "ICON":
+      return `/admin/media?tab=cms&view=icons&iconId=${encodeURIComponent(entityId)}`;
     case "TESTIMONIAL":
       return `/admin/testimonials`;
     case "TEAM_MEMBER":

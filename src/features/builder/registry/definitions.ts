@@ -118,7 +118,7 @@ const BASE_META: Record<
     version: BLOCK_SYSTEM_VERSION,
     category: "data",
     name: "Catalog",
-    description: "Unified packages, hotels, or services grid",
+    description: "Grid of items from any content type in admin Content",
     icon: "layout-grid",
   },
   contentList: {
@@ -267,6 +267,14 @@ const BASE_META: Record<
     description:
       "Create interactive before-and-after image comparisons using sliders, split views, overlays, or side-by-side layouts. Ideal for showcasing transformations, upgrades, improvements, and visual differences.",
     icon: "columns",
+  },
+  tabbedShowcase: {
+    type: "tabbedShowcase",
+    version: BLOCK_SYSTEM_VERSION,
+    category: "marketing",
+    name: "Tabbed Showcase",
+    description: "Tabbed panels with icon feature list and layered animated visuals",
+    icon: "layers",
   },
   videoHero: {
     type: "videoHero",

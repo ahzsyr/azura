@@ -16,6 +16,8 @@ import { resolveProductCta } from "@/features/products/lib/product-cta";
 import { detailedDescriptionPlainText } from "@/features/products/lib/product-detailed-description";
 import { resolveProductPrimaryImageUrl } from "@/features/products/lib/product-primary-image";
 import { collectionsDataService } from "@/features/collections/collections-data.service";
+import { readCatalogBrandProfiles } from "@/features/catalog/admin/catalog-taxonomy";
+import { resolveProductPageLayoutTemplate } from "@/features/products/lib/resolve-product-page-layout-template";
 import { migrateProductCtaFromLegacyAddToCart } from "@/features/products/lib/product-cta-migrate";
 import { mergeProductCta, normalizeProductCtaGlobal } from "@/features/products/lib/product-cta";
 import { isBuildWithoutDb } from "@/lib/build-db";
@@ -129,6 +131,14 @@ export default async function ProductDetailPage({ params }: Props) {
     : normalizeProductCtaGlobal(site.productCta);
   const productCta = resolveProductCta(globalCta, undefined);
 
+  const brandProfiles = await readCatalogBrandProfiles(catalogLocale);
+  const resolvedLayout = resolveProductPageLayoutTemplate({
+    product: p,
+    site: site as Record<string, unknown>,
+    collections: allCols,
+    brandProfiles,
+  });
+
   const activeCategorySlug =
     (typeof p.category === "string" && p.category.trim()
       ? allCols.find(
@@ -165,6 +175,9 @@ export default async function ProductDetailPage({ params }: Props) {
         site={site as Record<string, unknown>}
         cardTheme={cardTheme}
         productCta={productCta}
+        layoutTemplateId={resolvedLayout.templateId}
+        layoutAssignmentSource={resolvedLayout.assignmentSource}
+        layoutAssignmentDetail={resolvedLayout.assignmentDetail}
       />
     </>
   );

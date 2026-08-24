@@ -8,12 +8,29 @@ import type { SeoIntegrationHealthOptions } from "./types";
 import { SEO_INTEGRATION_PROVIDERS } from "./providers";
 import { seoRepository } from "@/repositories/seo.repository";
 import { enqueueSeoSubmissionsForPath } from "./enqueue";
+import type { SeoIntegrationsConfig } from "@/features/seo/types";
+
+function mergeIndexingConfig(config: SeoIntegrationsConfig): SeoIntegrationsConfig {
+  const legacyJson = config.google?.serviceAccountJson?.trim();
+  const dedicated = config.google_indexing?.serviceAccountJson?.trim();
+  if (!dedicated && legacyJson) {
+    return {
+      ...config,
+      google_indexing: {
+        ...config.google_indexing,
+        enabled: config.google_indexing?.enabled ?? true,
+        serviceAccountJson: legacyJson,
+      },
+    };
+  }
+  return config;
+}
 
 export const seoIntegrationRegistry = {
   providers: SEO_INTEGRATION_PROVIDERS,
 
   async health(options?: SeoIntegrationHealthOptions) {
-    const config = await seoRepository.getIntegrationsConfig();
+    const config = mergeIndexingConfig(await seoRepository.getIntegrationsConfig());
     return Promise.all(
       SEO_INTEGRATION_PROVIDERS.map((provider) =>
         provider.health(config[provider.id], options),

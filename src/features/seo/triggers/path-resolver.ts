@@ -20,12 +20,16 @@ export async function postPaths(slug: string) {
   return prefixes.map((prefix) => `/${prefix}/blog/${clean}`);
 }
 
-export async function contentItemPaths(routePrefix: string | null | undefined, slug: string | null | undefined) {
-  if (!routePrefix || !slug) return [];
+export async function contentItemPaths(
+  routePrefix: string | null | undefined,
+  slug: string | null | undefined,
+  typeSlug?: string | null,
+) {
+  const prefix = (routePrefix?.trim() || typeSlug?.trim() || "").replace(/^\/+|\/+$/g, "");
+  if (!prefix || !slug) return [];
   const prefixes = await localePrefixes();
-  const cleanPrefix = routePrefix.replace(/^\/+|\/+$/g, "");
   const cleanSlug = slug.replace(/^\/+/, "");
-  return prefixes.map((prefix) => `/${prefix}/${cleanPrefix}/${cleanSlug}`);
+  return prefixes.map((localePrefix) => `/${localePrefix}/${prefix}/${cleanSlug}`);
 }
 
 export function productPath(locale: string, slug: string) {

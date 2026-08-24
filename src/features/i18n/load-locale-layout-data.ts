@@ -30,6 +30,8 @@ import { resolveActiveSiteTrackings } from "@/features/seo/tracking/resolve-trac
 import type { ActiveSiteTracking } from "@/features/seo/tracking/resolve-tracking";
 import type { SeoStructuredConfig } from "@/features/seo/types";
 import type { SeoTrackingConfig } from "@/features/seo/types";
+import { resolveActiveMetaPixel } from "@/modules/marketing/tracking/resolve-meta-pixel.server";
+import type { ActiveMetaPixel } from "@/modules/marketing/tracking/resolve-meta-pixel.server";
 import {
   headerWorkspaceFingerprint,
   logRenderPropagation,
@@ -60,6 +62,7 @@ export type LocaleLayoutData = {
   htmlLang: string;
   globalStructured: SeoStructuredConfig | null;
   siteTracking: ActiveSiteTracking[];
+  metaPixel: ActiveMetaPixel | null;
 };
 
 /**
@@ -71,7 +74,7 @@ export const loadLocaleLayoutData = cache(
     const loaderStartedAt = Date.now();
     const resolvedTheme = await resolveSiteThemeWithFallback(previewDraft);
 
-    const [messages, siteSettings, shell, globalStructured, trackingConfig] =
+    const [messages, siteSettings, shell, globalStructured, trackingConfig, metaPixel] =
       await Promise.all([
         getMessages().catch((error) => {
           logRecoverableLayoutError("getMessages", error);
@@ -87,6 +90,7 @@ export const loadLocaleLayoutData = cache(
         }),
         seoService.getGlobalStructured().catch(() => null),
         seoService.getTrackingConfig().catch(() => ({} as SeoTrackingConfig)),
+        resolveActiveMetaPixel().catch(() => null),
       ]);
 
     logRenderPropagation({
@@ -124,6 +128,7 @@ export const loadLocaleLayoutData = cache(
       htmlLang,
       globalStructured,
       siteTracking,
+      metaPixel,
     };
   },
 );

@@ -6,7 +6,7 @@ export { AdminContentArea, AdminPageHeader, AdminCardGrid } from "./admin-conten
 export { AdminSettingsRibbon, AdminSettingsSection } from "./admin-settings-ribbon";
 export { AdminSettingsLayout } from "./admin-settings-layout";
 export { AdminFormProvider, useAdminForm, useAdminFormOptional, AdminFormDirtySync } from "./admin-form-provider";
-export { AdminFloatingActions } from "./admin-floating-actions";
+export { AdminFloatingActions, AdminChromeFab } from "./admin-floating-actions";
 export { AdminCollapsibleSection } from "./admin-collapsible-section";
 export {
   AdminPageTransition,

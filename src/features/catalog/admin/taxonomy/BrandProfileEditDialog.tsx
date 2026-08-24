@@ -17,30 +17,55 @@ import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-prim
 import { IMAGE_PICKER_MEDIA_TYPES } from "@/features/media/constants";
 import {
   brandNameToSlug,
+  defaultBrandMatchRules,
+  emptyCatalogBrandProfile,
+  uniqueBrandSlug,
   type CatalogBrandProfile,
 } from "@/features/catalog/types/catalog-brand-profile";
 import { CatalogSection } from "@/features/catalog/admin/ui";
+import { ProductPageLayoutTemplateSelect } from "@/features/products/layout-templates/product-page-layout-template-select";
+import { formatLayoutAssignmentLabel, validateTemplateId } from "@/features/products/layout-templates/registry-meta";
+import { MatchingRulesEditor } from "@/features/categories/admin/MatchingRulesEditor";
+import {
+  emptyRuleGroup,
+  isEmptyRuleTree,
+  upgradeLegacyRuleSet,
+} from "@/features/categories/matching";
 
 type Props = {
   open: boolean;
+  mode: "create" | "edit";
   profile: CatalogBrandProfile | null;
+  existing: CatalogBrandProfile[];
+  locale?: string;
   onOpenChange: (open: boolean) => void;
-  onSave: (patch: Partial<CatalogBrandProfile>) => void;
+  onSave: (profile: CatalogBrandProfile) => void;
 };
 
-export function BrandProfileEditDialog({ open, profile, onOpenChange, onSave }: Props) {
+export function BrandProfileEditDialog({
+  open,
+  mode,
+  profile,
+  existing,
+  locale,
+  onOpenChange,
+  onSave,
+}: Props) {
   const [draft, setDraft] = useState<CatalogBrandProfile | null>(null);
   const [slugEdited, setSlugEdited] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (open && profile) {
-      setDraft({ ...profile });
-      setSlugEdited(false);
-    } else if (!open) {
+    if (!open) {
       setDraft(null);
       setSlugEdited(false);
+      setError(null);
+      return;
     }
-  }, [open, profile]);
+    setDraft(mode === "edit" && profile ? { ...profile } : emptyCatalogBrandProfile());
+    setSlugEdited(false);
+    setError(null);
+  }, [open, mode, profile]);
 
   const updateDraft = (patch: Partial<CatalogBrandProfile>) => {
     if (!draft) return;
@@ -48,45 +73,97 @@ export function BrandProfileEditDialog({ open, profile, onOpenChange, onSave }: 
     if (patch.name && !slugEdited && !patch.slug) {
       merged.slug = brandNameToSlug(merged.name) || draft.slug;
     }
-    if (patch.slug) {
+    if (patch.slug !== undefined) {
       setSlugEdited(true);
     }
     setDraft(merged);
+    setError(null);
   };
 
   const handleSave = () => {
     if (!draft) return;
-    onSave(draft);
+    const name = draft.name.trim();
+    if (!name) {
+      setError("Brand name is required.");
+      return;
+    }
+
+    const editingSlug = mode === "edit" ? profile?.slug : undefined;
+    const duplicateName = existing.some(
+      (item) =>
+        item.name.trim().toLowerCase() === name.toLowerCase() &&
+        item.slug !== editingSlug,
+    );
+    if (duplicateName) {
+      setError("A brand with this name already exists.");
+      return;
+    }
+
+    const takenSlugs = existing
+      .filter((item) => item.slug !== editingSlug)
+      .map((item) => item.slug);
+    const slug = uniqueBrandSlug(name, takenSlugs, slugEdited ? draft.slug : undefined);
+    const href = draft.href.trim() || `/brands/${slug}`;
+    const conditions = isEmptyRuleTree(upgradeLegacyRuleSet(draft.conditions))
+      ? defaultBrandMatchRules(name)
+      : upgradeLegacyRuleSet(draft.conditions);
+
+    onSave({
+      ...draft,
+      name,
+      slug,
+      href,
+      conditions,
+    });
     onOpenChange(false);
   };
+
+  const isCreate = mode === "create";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit brand profile</DialogTitle>
+          <DialogTitle>{isCreate ? "Add brand" : "Edit brand"}</DialogTitle>
           <DialogDescription>
-            Update logo, descriptions, and landing URL for storefront brand showcase blocks.
+            {isCreate
+              ? "Create a catalog brand used for product filters, storefront pages, and showcase blocks."
+              : "Update identity, imagery, and landing used across catalog and storefront."}
           </DialogDescription>
         </DialogHeader>
 
         {draft ? (
           <div className="space-y-4 py-2">
-            <CatalogSection title="Brand Profile" description="Identity used across catalog and storefront.">
+            <CatalogSection title="Identity" description="Name and slug used in filters, URLs, and product assignment.">
               <div className="grid gap-3 sm:grid-cols-2">
                 <div>
-                  <Label className="text-xs">Name</Label>
+                  <Label className="text-xs" htmlFor="brand-name">
+                    Name
+                  </Label>
                   <Input
+                    id="brand-name"
                     className="mt-1"
                     value={draft.name}
+                    autoFocus
+                    placeholder="e.g. Ubiquiti"
                     onChange={(e) => updateDraft({ name: e.target.value })}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleSave();
+                      }
+                    }}
                   />
                 </div>
                 <div>
-                  <Label className="text-xs">Slug</Label>
+                  <Label className="text-xs" htmlFor="brand-slug">
+                    Slug
+                  </Label>
                   <Input
+                    id="brand-slug"
                     className="mt-1 font-mono text-xs"
                     value={draft.slug}
+                    placeholder="auto-generated"
                     onChange={(e) => updateDraft({ slug: e.target.value })}
                   />
                 </div>
@@ -106,7 +183,7 @@ export function BrandProfileEditDialog({ open, profile, onOpenChange, onSave }: 
               />
             </CatalogSection>
 
-            <CatalogSection title="Appearance" description="Logo and banner imagery.">
+            <CatalogSection title="Appearance" description="Logo and banner imagery for brand pages and showcases.">
               <div>
                 <Label className="text-xs">Logo</Label>
                 <div className="mt-1">
@@ -129,11 +206,15 @@ export function BrandProfileEditDialog({ open, profile, onOpenChange, onSave }: 
               </div>
             </CatalogSection>
 
-            <CatalogSection title="Products" description="Products associated with this brand.">
-              <p className="text-xs text-muted-foreground">
-                Brand product membership is derived from the product brand field. Bulk brand assignment
-                arrives in a later phase.
-              </p>
+            <CatalogSection
+              title="Matching Rules"
+              description="Products that match these rules are assigned to this brand when you click Sync. Empty rules default to brand name equals."
+            >
+              <MatchingRulesEditor
+                value={upgradeLegacyRuleSet(draft.conditions ?? emptyRuleGroup("any"))}
+                onChange={(conditions) => updateDraft({ conditions })}
+                locale={locale}
+              />
             </CatalogSection>
 
             <CatalogSection title="Navigation" description="Contextual catalog navigation for this brand.">
@@ -148,14 +229,35 @@ export function BrandProfileEditDialog({ open, profile, onOpenChange, onSave }: 
               </a>
             </CatalogSection>
 
+            <CatalogSection title="Product page layout" description="Applies to all products in this brand unless a category or product override is set.">
+              <ProductPageLayoutTemplateSelect
+                id="brand-page-layout-template"
+                inheritLabel="Inherit (site default)"
+                value={draft.pageLayoutTemplate}
+                onChange={(pageLayoutTemplate) => updateDraft({ pageLayoutTemplate })}
+                hint={
+                  draft.pageLayoutTemplate
+                    ? formatLayoutAssignmentLabel(
+                        validateTemplateId(draft.pageLayoutTemplate),
+                        "brand",
+                        draft.slug,
+                      )
+                    : "Products inherit from site default unless a category or product override is set."
+                }
+              />
+            </CatalogSection>
+
             <CatalogSection title="SEO" description="Landing URL and discovery settings.">
               <div>
-                <Label className="text-xs">Landing URL (optional)</Label>
+                <Label className="text-xs" htmlFor="brand-href">
+                  Landing URL
+                </Label>
                 <Input
+                  id="brand-href"
                   className="mt-1"
                   value={draft.href}
                   onChange={(e) => updateDraft({ href: e.target.value })}
-                  placeholder="/products?brand=..."
+                  placeholder="/brands/…"
                 />
               </div>
             </CatalogSection>
@@ -171,8 +273,11 @@ export function BrandProfileEditDialog({ open, profile, onOpenChange, onSave }: 
                   Featured
                 </label>
                 <div className="flex-1">
-                  <Label className="text-xs">Sort order</Label>
+                  <Label className="text-xs" htmlFor="brand-sort">
+                    Sort order
+                  </Label>
                   <Input
+                    id="brand-sort"
                     type="number"
                     className="mt-1"
                     value={draft.sortOrder}
@@ -186,12 +291,14 @@ export function BrandProfileEditDialog({ open, profile, onOpenChange, onSave }: 
           </div>
         ) : null}
 
+        {error ? <p className="text-sm text-destructive">{error}</p> : null}
+
         <DialogFooter>
           <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
           <Button type="button" onClick={handleSave} disabled={!draft}>
-            Save
+            {isCreate ? "Add brand" : "Save"}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -76,7 +76,7 @@ function HeaderDashboardContent({
       <HeaderDirtySync />
       <DesignHubShell
         title="Header"
-        description="Build menus, mega menus, and header actions. Site identity is configured under Theme."
+        description="Build menus, mega menus, and header actions. Use Cancel / Save / Publish in the top bar — changes stay draft until you Publish."
         actions={<HeaderWorkspaceActions />}
       >
         <HeaderBuilderShell activeSection={section} onSectionChange={changeSection}>

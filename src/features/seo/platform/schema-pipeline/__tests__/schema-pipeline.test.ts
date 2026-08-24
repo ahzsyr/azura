@@ -11,7 +11,12 @@ import {
 import { assertGraphSnapshot } from "./snapshot-helper";
 
 function graphTypes(result: ReturnType<typeof SchemaPipeline.build>) {
-  return result.graph["@graph"].map((node) => node["@type"]);
+  return result.graph["@graph"].flatMap((node) => {
+    const type = node["@type"];
+    if (typeof type === "string") return [type];
+    if (Array.isArray(type)) return type.filter((item): item is string => typeof item === "string");
+    return [];
+  });
 }
 
 test("home graph includes Organization, WebSite, WebPage", () => {

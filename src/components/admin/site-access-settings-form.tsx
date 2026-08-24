@@ -42,36 +42,51 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
 
   const registerPageActions = useAdminUiStore((s) => s.registerPageActions);
   const clearPageActions = useAdminUiStore((s) => s.clearPageActions);
-  const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
   const markSaved = useAdminUiStore((s) => s.markSaved);
   const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
 
+  useEffect(() => {
+    setEnabled(initial);
+    setSavedEnabled(initial);
+  }, [initial]);
+
+  const persistComingSoon = useCallback(
+    async (value: boolean) => {
+      setError(null);
+      setFeedback(null);
+      setSaveStatus("saving");
+      const result = await updateSiteAccessSettings({ comingSoonEnabled: value });
+      if (!result.success) {
+        setError(result.error);
+        setSaveStatus("error");
+        setEnabled(savedEnabled);
+        return false;
+      }
+      setEnabled(value);
+      setSavedEnabled(value);
+      setFeedback(
+        value
+          ? "Coming soon mode is on. Public visitors only see the coming soon page."
+          : "Coming soon mode is off. The site is live for visitors.",
+      );
+      markSaved();
+      router.refresh();
+      return true;
+    },
+    [markSaved, router, savedEnabled, setSaveStatus],
+  );
+
   const patchEnabled = useCallback(
     (value: boolean) => {
-      markUnsaved();
       setEnabled(value);
+      void persistComingSoon(value);
     },
-    [markUnsaved],
+    [persistComingSoon],
   );
 
   const handleSave = useCallback(async () => {
-    setError(null);
-    setFeedback(null);
-    setSaveStatus("saving");
-    const result = await updateSiteAccessSettings({ comingSoonEnabled: enabled });
-    if (!result.success) {
-      setError(result.error);
-      setSaveStatus("error");
-      return false;
-    }
-    setSavedEnabled(enabled);
-    setFeedback(
-      enabled
-        ? "Coming soon mode is on. Public visitors only see the coming soon page."
-        : "Coming soon mode is off. The site is live for visitors.",
-    );
-    markSaved();
-  }, [enabled, markSaved, setSaveStatus]);
+    return persistComingSoon(enabled);
+  }, [enabled, persistComingSoon]);
 
   const handleCancel = useCallback(() => {
     setEnabled(savedEnabled);
@@ -132,24 +147,35 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
             unavailable responses. Admin routes stay accessible.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-wrap items-center gap-2 pt-0">
-          <Badge variant={enabled ? "default" : "secondary"}>
-            {enabled ? (
-              <>
-                <EyeOff className="me-1 size-3.5" aria-hidden />
-                Hidden from visitors
-              </>
-            ) : (
-              <>
-                <Eye className="me-1 size-3.5" aria-hidden />
-                Live for visitors
-              </>
-            )}
-          </Badge>
-          {hasEnvFallback ? (
-            <Badge variant="outline">
-              COMING_SOON_ENABLED fallback={envOverride ? "true" : "false"} (API failure only)
+        <CardContent className="space-y-2 pt-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant={savedEnabled ? "default" : "secondary"}>
+              {savedEnabled ? (
+                <>
+                  <EyeOff className="me-1 size-3.5" aria-hidden />
+                  Hidden from visitors
+                </>
+              ) : (
+                <>
+                  <Eye className="me-1 size-3.5" aria-hidden />
+                  Live for visitors
+                </>
+              )}
             </Badge>
+            {hasEnvFallback ? (
+              <Badge variant="outline">
+                COMING_SOON_ENABLED fallback={envOverride ? "true" : "false"} (API failure only)
+              </Badge>
+            ) : null}
+          </div>
+          {envOverride === true && !savedEnabled ? (
+            <p className="text-muted-foreground text-sm">
+              The site is saved as live. Visitors only see Coming Soon if{" "}
+              <code className="bg-muted rounded px-1 py-0.5 font-mono text-xs">/api/setup/status</code>{" "}
+              is unreachable and{" "}
+              <code className="bg-muted rounded px-1 py-0.5 font-mono text-xs">COMING_SOON_ENABLED=true</code>{" "}
+              is set. Remove that env var after launch, or set it to false.
+            </p>
           ) : null}
         </CardContent>
       </Card>
@@ -164,8 +190,8 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
               label="Show coming soon page to visitors"
               description={
                 hasEnvFallback
-                  ? "Saved to the database and used by middleware when /api/setup/status responds. COMING_SOON_ENABLED env applies only if that API is unreachable."
-                  : "Redirects all public pages to /coming-soon and blocks public API access."
+                  ? "Applies immediately. Middleware uses this saved value whenever /api/setup/status responds. COMING_SOON_ENABLED env applies only if that API is unreachable."
+                  : "Applies immediately. Redirects all public pages to /coming-soon and blocks public API access."
               }
               checked={enabled}
               onChange={patchEnabled}

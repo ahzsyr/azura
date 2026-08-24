@@ -15,6 +15,7 @@ type Props = {
   showPreview: boolean;
   onNavigate: (hit: AutocompleteHit, searchQ?: string) => void;
   maxItems?: number;
+  itemLabel?: (hit: AutocompleteHit) => string;
 };
 
 export function SearchResultGroup({
@@ -26,6 +27,7 @@ export function SearchResultGroup({
   showPreview,
   onNavigate,
   maxItems,
+  itemLabel,
 }: Props) {
   const t = searchCopy(locale);
   const visible = maxItems ? items.slice(0, maxItems) : items;
@@ -52,7 +54,7 @@ export function SearchResultGroup({
           <SearchResultCard
             as="div"
             title={r.title}
-            meta={label}
+            meta={itemLabel ? itemLabel(r) : label}
             snippet={r.snippet}
             query={query}
             showPreview={showPreview}

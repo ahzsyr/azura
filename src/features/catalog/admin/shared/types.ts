@@ -8,7 +8,14 @@ export interface ColumnDef<T> {
   /** Render display content for a cell. */
   render: (row: T, ctx: CellContext<T>) => ReactNode;
   /** If provided, clicking the cell opens an inline editor. */
-  renderEdit?: (row: T, value: unknown, onChange: (v: unknown) => void) => ReactNode;
+  renderEdit?: (
+    row: T,
+    value: unknown,
+    onChange: (v: unknown) => void,
+    ctx: { commit: () => void; cancel: () => void },
+  ) => ReactNode;
+  /** Override the value passed into `renderEdit` / commit. Defaults to `row[key]`. */
+  getEditValue?: (row: T) => unknown;
   /** Custom sort comparator. Falls back to string/number comparison on key. */
   sortFn?: (a: T, b: T) => number;
   sortable?: boolean;
@@ -67,11 +74,21 @@ export interface SortEntry {
 
 // ── Bulk actions ──────────────────────────────────────────────────────────────
 
+export type BulkActionProgress = {
+  current: number;
+  total: number;
+  label?: string;
+};
+
 export interface BulkAction<T> {
   key: string;
   label: string;
   variant?: "primary" | "secondary" | "danger";
-  handler: (selected: T[], clearSelection: () => void) => Promise<void> | void;
+  handler: (
+    selected: T[],
+    clearSelection: () => void,
+    reportProgress: (progress: BulkActionProgress | null) => void,
+  ) => Promise<void> | void;
   /** Disable when condition is false. */
   disabled?: (selected: T[]) => boolean;
 }

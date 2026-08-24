@@ -57,6 +57,7 @@ export function TaxonomyProductTabsIsland({
     tabKey: activeSlug,
     limit: p.productsPerTab,
     sort: p.sortBy,
+    orderingProfileId: p.orderingProfileId,
     enabled: p.ajaxEnabled && !isInitialTab,
     initialRecords: cachedRecords.get(activeSlug) ?? [],
     initialTotal: isInitialTab ? initialTotal : (cachedRecords.get(activeSlug)?.length ?? 0),

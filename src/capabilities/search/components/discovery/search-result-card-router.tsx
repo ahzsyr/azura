@@ -22,6 +22,7 @@ export type SearchResultHit = {
   snippet?: string;
   urlPath: string;
   entityType: SearchEntityType;
+  contentTypeSlug?: string;
   card?: SearchCardPayload;
   cardDisplay?: ProductSearchCardDisplay;
   facets?: Record<string, string | string[] | number | boolean>;

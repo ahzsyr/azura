@@ -20,6 +20,7 @@ import {
   DeferredThemeToggleFab,
   ThemePerformanceMonitorDeferred,
 } from "@/components/layout/marketing-shell-deferred";
+import { DocumentAttributes } from "@/components/layout/document-attributes";
 import { DocumentLangScript } from "@/components/layout/document-lang-script";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeDocumentAttributes } from "@/components/theme/theme-document-attributes";
@@ -27,7 +28,10 @@ import { resolveSiteIdentityFromDb } from "@/lib/site-identity.server";
 import { resolvePublishedSiteTheme } from "@/lib/theme/resolve-site-theme.server";
 import { StructuredDataGraph } from "@/features/seo/components/structured-data-graph";
 import { SiteTracking } from "@/components/analytics/site-tracking";
+import { MetaPixel } from "@/components/analytics/meta-pixel";
+import { MarketingAttributionBootstrap } from "@/features/marketing-attribution/bootstrap";
 import { PersonalizationPanelLazy } from "@/components/personalization/personalization-panel-lazy";
+import { SiteChromeGate } from "@/components/layout/site-chrome-gate";
 import { SearchWarmCacheHost } from "@/capabilities/search/query/search-warm-cache-host";
 import { MarketingPageTransition } from "@/components/motion/marketing-page-transition";
 import { loadLocaleLayoutData } from "@/features/i18n/load-locale-layout-data";
@@ -151,11 +155,16 @@ export default async function LocaleLayout({ children, params }: Props) {
     popupSettings,
     htmlLang,
     siteTracking,
+    metaPixel,
   } = layoutData;
 
   return (
-    <div className="site-shell flex min-h-full flex-col">
+    <div className="site-shell flex min-h-full flex-col" dir={shell.direction}>
       <SiteTracking tracking={siteTracking} />
+      {metaPixel ? (
+        <MetaPixel pixelId={metaPixel.pixelId} headSnippet={metaPixel.headSnippet} />
+      ) : null}
+      <MarketingAttributionBootstrap />
       <ThemeDocumentAttributes
         htmlAttributes={resolvedTheme.htmlAttributes}
         cursorEffect={resolvedTheme.tokens.cursorEffect}
@@ -171,6 +180,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <PageTransitionBootScript settings={pageTransitionSettings} />
       <NavigationRejectionGuard />
       <DocumentLangScript lang={htmlLang} dir={shell.direction} locale={locale} />
+      <DocumentAttributes lang={htmlLang} dir={shell.direction} locale={locale} />
       <StructuredDataGraph />
       <NextIntlClientProvider locale={locale} messages={messages}>
         <SearchWarmCacheHost />
@@ -187,41 +197,47 @@ export default async function LocaleLayout({ children, params }: Props) {
             locale={locale}
             enabledLocales={shell.enabledLocales}
           />
-          <SiteHeaderShell
-            workspace={shell.headerWorkspace}
-            locale={locale}
-            themePreset={shell.theme?.preset}
-            headerConfig={shell.theme?.headerConfig}
-          />
-          <DeferredSiteHeader
-            workspace={shell.headerWorkspace}
-            locale={locale}
-            locales={shell.enabledLocales}
-            enabledLocales={shell.enabledLocales}
-            themePreset={shell.theme?.preset}
-            headerConfig={shell.theme?.headerConfig}
-          />
+          <SiteChromeGate settings={shell.theme?.headerConfig}>
+            <SiteHeaderShell
+              workspace={shell.headerWorkspace}
+              locale={locale}
+              themePreset={shell.theme?.preset}
+              headerConfig={shell.theme?.headerConfig}
+            />
+            <DeferredSiteHeader
+              workspace={shell.headerWorkspace}
+              locale={locale}
+              locales={shell.enabledLocales}
+              enabledLocales={shell.enabledLocales}
+              themePreset={shell.theme?.preset}
+              headerConfig={shell.theme?.headerConfig}
+            />
+          </SiteChromeGate>
           <main className="site-main flex-1">
             <MarketingPageTransition>{children}</MarketingPageTransition>
           </main>
-          <FooterRenderer
-            resolved={shell.resolvedFooter}
-            locale={locale}
-            brandConfig={shell.brandConfig}
-            company={shell.company}
-          />
+          <SiteChromeGate settings={shell.theme?.footerConfig}>
+            <FooterRenderer
+              resolved={shell.resolvedFooter}
+              locale={locale}
+              brandConfig={shell.brandConfig}
+              company={shell.company}
+            />
+          </SiteChromeGate>
           <DeferredGlobalPopupHost settings={popupSettings} />
           <DeferredWhatsAppFab
             phone={shell.whatsappPhone}
             message={shell.whatsappMessage}
             settings={shell.whatsappSettings.fab}
             ariaLabel={shell.whatsappAriaLabel}
+            dir={shell.direction}
           />
           <DeferredThemeToggleFab />
           <PersonalizationPanelLazy
             settings={shell.personalizationSettings}
             theme={shell.theme}
             locale={locale}
+            dir={shell.direction}
             locales={shell.enabledLocales.map((l) => ({
               code: l.code,
               urlPrefix: l.urlPrefix,

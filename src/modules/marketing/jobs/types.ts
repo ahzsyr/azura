@@ -6,6 +6,10 @@ export const MARKETING_JOB_TYPES = [
   "webhook_processing",
   "token_refresh",
   "media_upload",
+  "campaign_sync",
+  "ad_metrics_sync",
+  "attribution_aggregate",
+  "retention_purge",
 ] as const;
 
 export type MarketingJobType = (typeof MARKETING_JOB_TYPES)[number];

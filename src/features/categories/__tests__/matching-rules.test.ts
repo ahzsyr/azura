@@ -501,7 +501,7 @@ describe("Matching Rules — Category → Collection round-trip", () => {
 });
 
 describe("Matching Rules — Specification field UI model", () => {
-  it("includes Specification and Matching Rules as normal fields", async () => {
+  it("includes plan fields and Specification in the picker", async () => {
     const { buildMatchingRuleFieldGroups, SPECIFICATION_FIELD, MATCHING_RULES_FIELD } =
       await import("@/features/categories/matching/specification-field-ui");
     const groups = buildMatchingRuleFieldGroups();
@@ -510,13 +510,89 @@ describe("Matching Rules — Specification field UI model", () => {
     assert.equal(specs!.options.length, 1);
     assert.equal(specs!.options[0]!.value, SPECIFICATION_FIELD);
     assert.equal(specs!.options[0]!.label, "Specification");
-    const source = groups.find((g) => g.label === "Source Matching");
-    assert.ok(source);
-    assert.equal(source!.options[0]!.value, MATCHING_RULES_FIELD);
     const product = groups.find((g) => g.label === "Product Fields");
     assert.ok(product);
     assert.ok(product!.options.some((o) => o.value === "brand"));
+    assert.ok(product!.options.some((o) => o.value === MATCHING_RULES_FIELD));
+    assert.ok(product!.options.some((o) => o.value === "mainCategory"));
+    assert.ok(product!.options.some((o) => o.value === "environment"));
+    assert.ok(product!.options.some((o) => o.value === "mountingMethod"));
+    assert.ok(product!.options.some((o) => o.value === "generation"));
+    assert.ok(product!.options.some((o) => o.value === "antennaDesign"));
+    assert.ok(product!.options.some((o) => o.value === "categories"));
     assert.ok(product!.options.some((o) => o.value === "categoryAncestors"));
     assert.ok(!product!.options.some((o) => o.value === SPECIFICATION_FIELD));
+  });
+});
+
+describe("Matching Rules — dual taxonomy fields", () => {
+  it("matches mainCategory and environment aliases from converter JSON", () => {
+    const product = {
+      id: "p-airfiber",
+      slug: "airfiber-60-xg",
+      name: "Ubiquiti airFiber 60 XG",
+      productTitle: "Ubiquiti airFiber 60 XG",
+      brand: "Ubiquiti",
+      mainCategory: "Outdoor",
+      category: "Radio Systems",
+      categories: [
+        "Ubiquiti",
+        "60 GHz Wireless",
+        "airFiber 60 GHz",
+        "Outdoor Wireless",
+        "Carrier Backhaul Radio",
+        "Radio Systems",
+      ],
+      matchingRules: ["outdoor", "outdoor_device"],
+      price: { value: 999, currency: "USD" },
+      media: {},
+      reviews: { rating: 0, count: 0 },
+      specifications: [
+        {
+          technology: "Radio",
+          items: [
+            { name: "Environment", value: "Outdoor" },
+            { name: "Mounting Method", value: "Pole" },
+            { name: "Generation", value: "WiFi 6" },
+            { name: "Antenna Design", value: "Integrated" },
+          ],
+        },
+      ],
+    } as Product;
+
+    const fields = productToRuleFields(product.slug, product);
+    assert.equal(fields.mainCategory, "Outdoor");
+    assert.equal(fields.environment, "Outdoor");
+    assert.equal(fields.mountingMethod, "Pole");
+    assert.equal(fields.generation, "WiFi 6");
+    assert.equal(fields.antennaDesign, "Integrated");
+
+    assert.equal(
+      matchEntityToRulesBool(fields, {
+        kind: "group",
+        match: "all",
+        children: [
+          { kind: "leaf", field: "mainCategory", operator: "equals", value: "Outdoor" },
+          { kind: "leaf", field: "environment", operator: "equals", value: "Outdoor" },
+        ],
+      }),
+      true,
+    );
+
+    assert.equal(
+      matchEntityToRulesBool(fields, {
+        kind: "group",
+        match: "any",
+        children: [
+          {
+            kind: "leaf",
+            field: "categories",
+            operator: "contains_any",
+            values: ["airFiber 60 GHz", "Radio Systems"],
+          },
+        ],
+      }),
+      true,
+    );
   });
 });

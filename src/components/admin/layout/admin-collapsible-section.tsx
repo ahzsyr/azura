@@ -16,7 +16,7 @@ type AdminCollapsibleSectionProps = {
 export function AdminCollapsibleSection({
   title,
   description,
-  defaultOpen = true,
+  defaultOpen = false,
   children,
   className,
 }: AdminCollapsibleSectionProps) {

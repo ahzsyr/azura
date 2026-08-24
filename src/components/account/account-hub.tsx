@@ -7,33 +7,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 type Props = {
   locale: string;
   registrationEnabled: boolean;
-  isAdminSession?: boolean;
 };
 
-export async function AccountHub({ locale, registrationEnabled, isAdminSession = false }: Props) {
+export async function AccountHub({ locale, registrationEnabled }: Props) {
   const t = await getTranslations("account");
   const base = `/${locale}/account`;
-
-  if (isAdminSession) {
-    return (
-      <div className="container-premium py-16">
-        <Card className="mx-auto max-w-md">
-          <CardHeader className="text-center">
-            <div className="mx-auto mb-2 flex size-12 items-center justify-center rounded-full border bg-muted/50">
-              <User className="size-6 text-muted-foreground" aria-hidden />
-            </div>
-            <CardTitle>{t("hubTitle")}</CardTitle>
-            <CardDescription>{t("adminSeparateNotice")}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button asChild className="w-full">
-              <Link href="/admin">{t("adminPanelLink")}</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
 
   return (
     <div className="container-premium py-16">

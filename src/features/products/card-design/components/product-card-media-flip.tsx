@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { Link as LocaleLink } from "@/i18n/navigation";
 import { sharedElementAttrs } from "@/lib/navigation/shared-elements";
 import { DEFAULT_MEDIA_PLACEHOLDER } from "@/features/media/constants";
 import { IMAGE_SIZES } from "@/lib/config/performance";
@@ -30,7 +31,7 @@ function resolveFlipBackImageSrc(product: ProductCardRenderContext["product"]): 
 
 /** Front: photo + gradient brand/title. Back: faded photo + specs. */
 export function ProductCardMediaFlip({ ctx }: Props) {
-  const { product, cardDisplay, design } = ctx;
+  const { product, cardDisplay, design, navHref, linkPrefetch } = ctx;
   const titleShared = sharedElementAttrs("product", product.slug, "title");
   const showBrand = cardDisplay.showBrand && Boolean(product.brand);
   const showCategory = design.showCategory && Boolean(product.category);
@@ -44,21 +45,31 @@ export function ProductCardMediaFlip({ ctx }: Props) {
     <div className="pl-card__flip-scene">
       <div className="pl-card__flip-inner">
         <div className="pl-card__flip-face pl-card__flip-face--front">
-          <ProductCardMedia ctx={ctx} />
-          <div className="pl-card__media-caption">
-            {showBrand ? <small className="pl-card__brand">{product.brand}</small> : null}
-            <h3
-              className="pl-card__title ui-text-product-card"
-              data-shared-element={titleShared["data-shared-element"]}
-              data-shared-element-type={titleShared["data-shared-element-type"]}
-              data-shared-element-id={titleShared["data-shared-element-id"]}
-              style={titleShared.style}
-            >
-              {product.name}
-            </h3>
-          </div>
+          <ProductCardMedia
+            ctx={ctx}
+            overlay={
+              <div className="pl-card__media-caption">
+                {showBrand ? <small className="pl-card__brand">{product.brand}</small> : null}
+                <h3
+                  className="pl-card__title ui-text-product-card"
+                  data-shared-element={titleShared["data-shared-element"]}
+                  data-shared-element-type={titleShared["data-shared-element-type"]}
+                  data-shared-element-id={titleShared["data-shared-element-id"]}
+                  style={titleShared.style}
+                >
+                  {product.name}
+                </h3>
+              </div>
+            }
+          />
         </div>
         <div className="pl-card__flip-face pl-card__flip-face--back" aria-hidden="true">
+          <LocaleLink
+            href={navHref}
+            prefetch={linkPrefetch}
+            className="pl-card__flip-back-link"
+            aria-label={`${product.name} — view product`}
+          />
           <div className="pl-card__flip-back-media" aria-hidden="true">
             <Image
               className="pl-card__flip-back-img"

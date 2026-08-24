@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { MediaPickerButton } from "@/features/catalog/admin/media/MediaPicker";
+import { UnifiedMediaPickerDialog } from "@/features/media/components/unified-media-picker-dialog";
+import { IMAGE_PICKER_MEDIA_TYPES } from "@/features/media/constants";
 import { CATALOG_NAV_LUCIDE_OPTIONS } from "@/features/catalog/navigation/catalog-nav-lucide";
 
 export { CATALOG_NAV_LUCIDE_OPTIONS } from "@/features/catalog/navigation/catalog-nav-lucide";
@@ -154,16 +155,23 @@ export function NavItemIconFields({
             >
               {busy ? "Uploading…" : "Upload image"}
             </Button>
-            <MediaPickerButton
-              accept={["image", "svg"]}
-              title="Select navigation icon"
-              label="Choose from Media"
-              className="inline-flex h-8 items-center justify-center rounded-md border border-input bg-background px-3 text-xs font-medium shadow-sm hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
-              disabled={busy}
-              onSelect={(item) => {
+            <UnifiedMediaPickerDialog
+              mediaTypes={IMAGE_PICKER_MEDIA_TYPES}
+              defaultSource="cms"
+              onSelect={(result) => {
                 onIconTypeChange("image");
-                onIconChange(item.url);
+                onIconChange(result.url);
               }}
+              trigger={
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  disabled={busy}
+                >
+                  Choose from Media
+                </Button>
+              }
             />
           </div>
           {uploadError ? (

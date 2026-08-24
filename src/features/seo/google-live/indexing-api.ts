@@ -1,6 +1,12 @@
 import "server-only";
 
-import { getServiceAccountAccessToken } from "./service-account";
+import { formatGoogleApiError } from "./google-api-error";
+import { GOOGLE_INDEXING_CONFIGURE_HREF } from "@/features/seo/integrations/indexing-api-config";
+import { resolveIndexableUrl } from "@/features/seo/resolve-indexable-url";
+import {
+  getServiceAccountAccessToken,
+  resolveServiceAccountClientEmail,
+} from "./service-account";
 
 export type IndexingApiResult = {
   url: string;
@@ -15,6 +21,7 @@ export async function publishUrlToIndexingApi(
   url: string,
   type: "URL_UPDATED" | "URL_DELETED" = "URL_UPDATED",
 ): Promise<IndexingApiResult> {
+  const indexableUrl = await resolveIndexableUrl(url);
   const token = await getServiceAccountAccessToken([
     "https://www.googleapis.com/auth/indexing",
   ]);
@@ -25,7 +32,7 @@ export async function publishUrlToIndexingApi(
       authorization: `Bearer ${token}`,
       "content-type": "application/json",
     },
-    body: JSON.stringify({ url, type }),
+    body: JSON.stringify({ url: indexableUrl, type }),
     cache: "no-store",
   });
 
@@ -38,17 +45,23 @@ export async function publishUrlToIndexingApi(
   }
 
   if (!response.ok) {
+    const serviceAccountEmail = await resolveServiceAccountClientEmail();
     throw new Error(
-      `Indexing API failed (${response.status}): ${text.slice(0, 300) || response.statusText}`,
+      formatGoogleApiError(response.status, text, {
+        apiLabel: "Google Indexing API",
+        serviceAccountEmail,
+        extraHint:
+          "Also verify the service account is added as an Owner in Search Console for your site property.",
+      }),
     );
   }
 
   return {
-    url,
+    url: indexableUrl,
     state: "submitted",
     live: true,
     notificationType: type,
     response: parsed,
-    configureHref: "/admin/seo/google?tab=indexing_api",
+    configureHref: GOOGLE_INDEXING_CONFIGURE_HREF,
   };
 }

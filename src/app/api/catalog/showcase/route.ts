@@ -12,6 +12,7 @@ export async function GET(request: Request) {
   const limit = Number(url.searchParams.get("limit") ?? "8");
   const page = Number(url.searchParams.get("page") ?? "1");
   const sort = url.searchParams.get("sort")?.trim() || "name-asc";
+  const orderingProfileId = url.searchParams.get("orderingProfileId")?.trim() || "";
 
   if (taxonomy !== "category" && taxonomy !== "brand") {
     return NextResponse.json({ error: "taxonomy must be category or brand" }, { status: 400 });
@@ -25,6 +26,7 @@ export async function GET(request: Request) {
     const { records, total } = await resolveProductsForShowcaseTab(locale, taxonomy, key, {
       limit,
       sortBy,
+      orderingProfileId,
       page,
     });
     const per = Math.min(48, Math.max(1, limit));

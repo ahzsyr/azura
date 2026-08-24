@@ -35,6 +35,7 @@ export async function ProductCarouselBlockRenderer({
       tags: p.tags,
       limit: p.limit,
       sortBy: p.sortBy,
+      orderingProfileId: p.orderingProfileId,
     },
     { templateId },
   );

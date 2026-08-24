@@ -12,6 +12,8 @@ import { buildLocalizedProductStub, markSourceProductLocalization } from "./prod
 import { productJsonPath } from "@/features/products/fs/product-fs-paths";
 import { resolveProductJsonPath } from "@/features/products/fs/product-fs-scan";
 import { normalizeProductPayload } from "./product-payload-normalize";
+import { applyUnifiImportLayout } from "./unifi-import-meta";
+import { applyMikrotikImportLayout } from "./mikrotik-import-meta";
 import { importItemWarnings } from "@/features/products/import/product-validator";
 import { productExistsInOverlay } from "@/features/products/products-persistence";
 import {
@@ -31,7 +33,7 @@ import {
 
 export type { DuplicatePolicy, SlugConflictPolicy } from "./product-import-target";
 
-export type ImportItem = { sourceFile?: string; pairedCsv?: string; product: unknown };
+export type ImportItem = { sourceFile?: string; pairedCsv?: string; csvContent?: string; product: unknown };
 
 export type ProductImportOptions = {
   dryRun: boolean;
@@ -231,6 +233,8 @@ export async function runProductImportPipeline(
 
     let product = ensureProductIdentity(raw, canonicalSlug);
     product = normalizeProductPayload(product, canonicalSlug);
+    product = applyUnifiImportLayout(product, item.csvContent);
+    product = applyMikrotikImportLayout(product, item.csvContent);
     const sku = extractProductSku(product);
     if (sku) {
       reservedSkus.set(sku, canonicalSlug);

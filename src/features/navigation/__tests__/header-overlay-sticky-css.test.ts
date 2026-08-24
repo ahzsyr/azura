@@ -53,4 +53,29 @@ describe("header sticky overlay CSS guards", () => {
     );
     assert.match(css, /html:has\(\.header-root\[data-mobile-flush-top="false"\]\)/);
   });
+
+  it("compacts shrink-on-scroll headers including tagline and logo", async () => {
+    const css = await readFile(cssPath, "utf8");
+    assert.match(
+      css,
+      /\.header-root\[data-header-desktop="shrink-scroll"\] \{\s*position:\s*sticky;/
+    );
+    assert.match(css, /min-height:\s*var\(--header-shell-height/);
+    assert.match(
+      css,
+      /\.header-root\[data-header-desktop="shrink-scroll"\]\.header--shrunk \.brand-tagline/
+    );
+    assert.match(
+      css,
+      /\.header-root\[data-header-desktop="shrink-scroll"\]\.header--shrunk \.nav-container/
+    );
+    assert.match(
+      css,
+      /\.header-root\[data-header-desktop="shrink-scroll"\]\.header--shrunk \.brand-logo \.brand-logo-tint/
+    );
+    assert.match(
+      css,
+      /\.header-root\[data-block-header-overlay="true"\],\s*\.header-root\[data-header-overlay="true"\]/
+    );
+  });
 });

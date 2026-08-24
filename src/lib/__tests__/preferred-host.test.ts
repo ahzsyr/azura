@@ -1,6 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import {
+  alignUrlToPreferredOrigin,
   buildPreferredHostRedirectUrl,
   parsePreferredSiteUrl,
   resolveWwwApexRedirect,
@@ -34,6 +35,20 @@ describe("preferred-host", () => {
     assert.equal(
       buildPreferredHostRedirectUrl("https://brt-me.com", "/en/products", "?q=1"),
       "https://brt-me.com/en/products?q=1",
+    );
+  });
+
+  it("aligns www/apex twins onto the preferred origin", () => {
+    assert.equal(
+      alignUrlToPreferredOrigin(
+        "https://brt-me.com/en/products/mikrotik-crs504-4xq-out",
+        "https://www.brt-me.com",
+      ),
+      "https://www.brt-me.com/en/products/mikrotik-crs504-4xq-out",
+    );
+    assert.equal(
+      alignUrlToPreferredOrigin("https://cdn.example.com/key.txt", "https://www.brt-me.com"),
+      "https://cdn.example.com/key.txt",
     );
   });
 });

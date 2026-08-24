@@ -12,7 +12,7 @@ export type SetupStatusCache = {
 let setupStatusCache: SetupStatusCache | null = null;
 
 const COMPLETE_CACHE_TTL_MS = 30 * 60 * 1000;
-const INCOMPLETE_CACHE_TTL_MS = 30_000;
+export const INCOMPLETE_CACHE_TTL_MS = 30_000;
 
 /** Return cached status when still valid and source was confident. */
 export function getCachedSetupStatus(now = Date.now()): SetupStatusCache | null {

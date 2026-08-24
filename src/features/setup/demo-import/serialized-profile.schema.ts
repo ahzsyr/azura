@@ -51,6 +51,9 @@ const demoThemeConfigSchema = z.object({
     sticky: z.boolean(),
     ctaLabel: z.string(),
     ctaHref: z.string(),
+    enabled: z.boolean().optional(),
+    visibilityMode: z.enum(["all", "selected", "except"]).optional(),
+    pagePaths: z.array(z.string()).optional(),
   }),
   footerConfig: z.object({
     columns: z.number(),
@@ -58,6 +61,9 @@ const demoThemeConfigSchema = z.object({
     showQuickLinks: z.boolean(),
     showContact: z.boolean(),
     tagline: z.string(),
+    enabled: z.boolean().optional(),
+    visibilityMode: z.enum(["all", "selected", "except"]).optional(),
+    pagePaths: z.array(z.string()).optional(),
   }),
 });
 

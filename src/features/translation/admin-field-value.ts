@@ -29,6 +29,16 @@ export function readLegacyFieldForLocale(
   return readLegacySuffixedValue(legacyEntity, fieldKey, localeCode);
 }
 
+export type ResolveAdminFieldValueOptions = {
+  /**
+   * When true (default), an empty unsuffixed default-locale key (`label: ""`)
+   * wins over EntityTranslation — needed for menu JSON dual-write.
+   * Builder blocks always ship empty-string defaults (`content: ""`); pass
+   * false so the inspector can show EntityTranslation / `contentEn` values.
+   */
+  treatEmptyUnsuffixedAsClear?: boolean;
+};
+
 /**
  * Admin edit display: EntityTranslation / values map first, then legacy bootstrap
  * for the default locale only. Never falls back to default locale for other locales.
@@ -41,20 +51,37 @@ export function resolveAdminFieldValue(
   legacyEntity: Record<string, unknown> | undefined,
   fieldKey: string,
   localeCode: string,
-  defaultLocaleCode: string
+  defaultLocaleCode: string,
+  options?: ResolveAdminFieldValueOptions
 ): string {
   if (legacyEntity && isExplicitLocaleFieldClear(legacyEntity, fieldKey, localeCode)) {
     return "";
   }
 
+  const treatEmptyUnsuffixedAsClear = options?.treatEmptyUnsuffixedAsClear !== false;
+
+  // Default-locale dual-write (e.g. menu `label: ""`) must win over stale ET rows.
+  if (
+    treatEmptyUnsuffixedAsClear &&
+    localeCode === defaultLocaleCode &&
+    legacyEntity &&
+    Object.prototype.hasOwnProperty.call(legacyEntity, fieldKey) &&
+    legacyEntity[fieldKey] === ""
+  ) {
+    return "";
+  }
+
+  // Non-empty legacy default-locale field wins over stale EntityTranslation rows
+  // during dual-write migration (menu JSON label vs published translation).
+  if (localeCode === defaultLocaleCode && legacyEntity) {
+    const base = legacyEntity[fieldKey];
+    if (typeof base === "string" && base.trim()) return base;
+  }
+
   const entry = values?.[localeCode];
   if (entry !== undefined) {
     const raw = typeof entry === "string" ? entry : entry.value;
-    if (typeof raw === "string") return raw;
-  }
-
-  if (localeCode === defaultLocaleCode) {
-    return readLegacyFieldForLocale(legacyEntity, fieldKey, localeCode);
+    if (typeof raw === "string" && raw.trim()) return raw;
   }
 
   return readLegacyFieldForLocale(legacyEntity, fieldKey, localeCode);
@@ -65,7 +92,15 @@ export function resolveDefaultLocaleHint(
   values: Record<string, LocalizedFieldValue | string> | undefined,
   legacyEntity: Record<string, unknown> | undefined,
   fieldKey: string,
-  defaultLocaleCode: string
+  defaultLocaleCode: string,
+  options?: ResolveAdminFieldValueOptions
 ): string {
-  return resolveAdminFieldValue(values, legacyEntity, fieldKey, defaultLocaleCode, defaultLocaleCode);
+  return resolveAdminFieldValue(
+    values,
+    legacyEntity,
+    fieldKey,
+    defaultLocaleCode,
+    defaultLocaleCode,
+    options
+  );
 }

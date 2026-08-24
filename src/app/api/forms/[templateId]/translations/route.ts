@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getFormTemplateById } from "@/features/forms/form-template.service";
 import { loadFormTemplateTranslations } from "@/features/forms/form-template-translation.service";
 
+/* @public — published form i18n copy for visitors */
 export async function GET(
   req: Request,
   context: { params: Promise<{ templateId: string }> },

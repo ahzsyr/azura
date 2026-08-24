@@ -67,7 +67,13 @@ describe("loading UX post-fix validation (static)", () => {
     assert.doesNotMatch(preloaderCss, /site-preloading \.site-shell/);
     assert.match(heroMotion, /\.hero-anim-entrance/);
     assert.match(heroMotion, /html\.hero-motion-armed/);
-    assert.match(css, /route-page-enter 220ms cubic-bezier\(0\.22, 1, 0\.36, 1\)/);
+    assert.match(css, /route-page-layer--active/);
+    assert.match(
+      css,
+      /html\[data-page-transition-enabled="true"\]\[data-page-transition="zoom"\] \.route-page-layer--active/,
+    );
+    assert.match(css, /--page-transition-duration/);
+    assert.doesNotMatch(css, /route-page-enter 220ms/);
   });
 });
 

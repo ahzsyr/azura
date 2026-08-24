@@ -9,6 +9,8 @@ export const CMS_WIRED_PAGE_DEFINITIONS = [
   { slug: "hotels-transport", templateKey: "hotels-transport", defaultTitles: { en: "Hotels & Transport", ar: "الفنادق والنقل" } },
   { slug: "products", templateKey: "products", defaultTitles: { en: "Products", ar: "المنتجات" } },
   { slug: "collections", templateKey: "collections", defaultTitles: { en: "Collections", ar: "المجموعات" } },
+  { slug: "categories", templateKey: "categories", defaultTitles: { en: "Categories", ar: "الفئات" } },
+  { slug: "solutions", templateKey: "solutions", defaultTitles: { en: "Solutions", ar: "الحلول" } },
   { slug: "services", templateKey: "services", defaultTitles: { en: "Services", ar: "الخدمات" } },
   { slug: "compare", templateKey: "compare", defaultTitles: { en: "Compare", ar: "المقارنة" } },
   { slug: "favorites", templateKey: "favorites", defaultTitles: { en: "Favorites", ar: "المفضلة" } },
@@ -17,6 +19,7 @@ export const CMS_WIRED_PAGE_DEFINITIONS = [
   { slug: "smart-home", templateKey: "smart-home", defaultTitles: { en: "Smart Home", ar: "المنزل الذكي" } },
   { slug: "security-solutions", templateKey: "security-solutions", defaultTitles: { en: "Security Solutions", ar: "حلول الأمن" } },
   { slug: "enterprise-wireless", templateKey: "enterprise-wireless", defaultTitles: { en: "Enterprise Wireless", ar: "شبكات المؤسسات" } },
+  { slug: "indoor-coverage", templateKey: "indoor-coverage", defaultTitles: { en: "Indoor Coverage", ar: "التغطية الداخلية" } },
   { slug: "why-choose-us", templateKey: "why-choose-us", defaultTitles: { en: "Why Choose Us", ar: "لماذا نحن" } },
 ] as const;
 
