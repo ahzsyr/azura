@@ -1,0 +1,185 @@
+{
+  "generatedAt": "2026-08-10T11:44:58.040Z",
+  "rows": [
+    {
+      "size": 10000,
+      "scenario": "unfiltered",
+      "planMs": 0.075,
+      "scanFilterMs": 1.118,
+      "indexedFilterMs": 1.456,
+      "facetMs": 23.55,
+      "matched": 10000,
+      "candidates": 10000
+    },
+    {
+      "size": 10000,
+      "scenario": "brand",
+      "planMs": 0.019,
+      "scanFilterMs": 1.064,
+      "indexedFilterMs": 0.904,
+      "facetMs": 3.143,
+      "matched": 2000,
+      "candidates": 2000
+    },
+    {
+      "size": 10000,
+      "scenario": "category+brand",
+      "planMs": 0.02,
+      "scanFilterMs": 0.742,
+      "indexedFilterMs": 0.75,
+      "facetMs": 3.291,
+      "matched": 2000,
+      "candidates": 2000
+    },
+    {
+      "size": 10000,
+      "scenario": "many-facets",
+      "planMs": 0.02,
+      "scanFilterMs": 0.96,
+      "indexedFilterMs": 0.825,
+      "facetMs": 1.018,
+      "matched": 428,
+      "candidates": 428
+    },
+    {
+      "size": 10000,
+      "scenario": "or-mode",
+      "planMs": 0.047,
+      "scanFilterMs": 3.56,
+      "indexedFilterMs": 1.491,
+      "facetMs": 6.529,
+      "matched": 4000,
+      "candidates": 4000
+    },
+    {
+      "size": 10000,
+      "scenario": "search",
+      "planMs": 0.014,
+      "scanFilterMs": 0.841,
+      "indexedFilterMs": 1.088,
+      "facetMs": 0.682,
+      "matched": 111,
+      "candidates": 10000
+    },
+    {
+      "size": 10000,
+      "scenario": "search+facets",
+      "planMs": 0.005,
+      "scanFilterMs": 0.568,
+      "indexedFilterMs": 0.79,
+      "facetMs": 2.213,
+      "matched": 2000,
+      "candidates": 2000
+    },
+    {
+      "size": 10000,
+      "scenario": "price",
+      "planMs": 0.011,
+      "scanFilterMs": 1.056,
+      "indexedFilterMs": 1.492,
+      "facetMs": 2.164,
+      "matched": 1800,
+      "candidates": 3400
+    },
+    {
+      "size": 10000,
+      "scenario": "variations",
+      "planMs": 0.007,
+      "scanFilterMs": 3.859,
+      "indexedFilterMs": 0.396,
+      "facetMs": 1.262,
+      "matched": 770,
+      "candidates": 770
+    },
+    {
+      "size": 50000,
+      "scenario": "unfiltered",
+      "planMs": 0.005,
+      "scanFilterMs": 3.204,
+      "indexedFilterMs": 8.499,
+      "facetMs": 56.297,
+      "matched": 50000,
+      "candidates": 50000
+    },
+    {
+      "size": 50000,
+      "scenario": "brand",
+      "planMs": 0.006,
+      "scanFilterMs": 2.727,
+      "indexedFilterMs": 0.992,
+      "facetMs": 10.112,
+      "matched": 10000,
+      "candidates": 10000
+    },
+    {
+      "size": 50000,
+      "scenario": "category+brand",
+      "planMs": 0.005,
+      "scanFilterMs": 2.772,
+      "indexedFilterMs": 3.512,
+      "facetMs": 14.318,
+      "matched": 10000,
+      "candidates": 10000
+    },
+    {
+      "size": 50000,
+      "scenario": "many-facets",
+      "planMs": 0.005,
+      "scanFilterMs": 3.506,
+      "indexedFilterMs": 3.789,
+      "facetMs": 7.76,
+      "matched": 2142,
+      "candidates": 2142
+    },
+    {
+      "size": 50000,
+      "scenario": "or-mode",
+      "planMs": 0.005,
+      "scanFilterMs": 5.396,
+      "indexedFilterMs": 5.528,
+      "facetMs": 30.551,
+      "matched": 20000,
+      "candidates": 20000
+    },
+    {
+      "size": 50000,
+      "scenario": "search",
+      "planMs": 0.005,
+      "scanFilterMs": 2.896,
+      "indexedFilterMs": 4.324,
+      "facetMs": 3.715,
+      "matched": 1111,
+      "candidates": 50000
+    },
+    {
+      "size": 50000,
+      "scenario": "search+facets",
+      "planMs": 0.005,
+      "scanFilterMs": 3.715,
+      "indexedFilterMs": 2.51,
+      "facetMs": 12.018,
+      "matched": 10000,
+      "candidates": 10000
+    },
+    {
+      "size": 50000,
+      "scenario": "price",
+      "planMs": 0.005,
+      "scanFilterMs": 2.221,
+      "indexedFilterMs": 3.114,
+      "facetMs": 11.919,
+      "matched": 9000,
+      "candidates": 17000
+    },
+    {
+      "size": 50000,
+      "scenario": "variations",
+      "planMs": 0.006,
+      "scanFilterMs": 9.381,
+      "indexedFilterMs": 1.352,
+      "facetMs": 5.022,
+      "matched": 3847,
+      "candidates": 3847
+    }
+  ]
+}

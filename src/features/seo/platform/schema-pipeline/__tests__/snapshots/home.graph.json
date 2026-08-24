@@ -1,0 +1,77 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "ElectronicsStore"
+      ],
+      "@id": "https://example.com/#organization",
+      "name": "BRT Trading",
+      "url": "https://example.com",
+      "logo": {
+        "@id": "https://example.com/#logo-image"
+      },
+      "image": [
+        {
+          "@id": "https://example.com/#image-office-/uploads/office.jpg"
+        }
+      ],
+      "sameAs": [
+        "https://facebook.com/brt"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+971500000000",
+        "email": "info@example.com",
+        "contactType": "customer service"
+      },
+      "telephone": "+971500000000",
+      "email": "info@example.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Dubai, UAE"
+      },
+      "identifier": "REG-123"
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://example.com/#logo-image",
+      "url": "https://example.com/uploads/logo.png",
+      "caption": "BRT Trading logo"
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://example.com/#image-office-/uploads/office.jpg",
+      "url": "https://example.com/uploads/office.jpg",
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://example.com/#website",
+      "name": "BRT Trading",
+      "alternateName": "BRT",
+      "url": "https://example.com",
+      "publisher": {
+        "@id": "https://example.com/#organization"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://example.com/en/#webpage",
+      "url": "https://example.com/en",
+      "name": "Home",
+      "description": "Welcome to BRT Trading",
+      "isPartOf": {
+        "@id": "https://example.com/#website"
+      },
+      "about": {
+        "@id": "https://example.com/#organization"
+      },
+      "primaryImageOfPage": {
+        "@id": "https://example.com/#image-office-/uploads/office.jpg"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+// AZURA — Prisma schema (PostgreSQL / Supabase)
+//
+// Layers:
+//   • Core — packages, hotels, inquiries, company
+//   • Platform upgrade — SiteTheme, JsonStore, media, CMS/posts, SearchDocument, SeoMeta/redirects
+//
+// Migrations: prisma/migrations/ (init → platform_upgrade → search_fulltext)
+// Docs: docs/DELIVERABLES.md
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["prismaSchemaFolder"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+

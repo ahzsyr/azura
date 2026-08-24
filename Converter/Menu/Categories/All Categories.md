@@ -1,0 +1,267 @@
+- **All Categories**
+- **Cables and Cabinets**
+    - **Twisted Pair**
+        - Indoor Cables
+        - Outdoor Cables
+        - Extension Cables
+        - Connection Box
+        - Connectors
+    - **Rack Cabinets**
+        - 10" Rack Cabinets
+        - 19" Rack Cabinets
+        - Rack Shelfs
+        - Patch Panels
+        - Accessories
+    - **Coaxial Cables**
+    - **Coaxial Pigtails**
+    - **Coaxial Adapters**
+    - **Patch Cable**
+        - Cat 5e
+        - Cat 6
+        - Cat 6A
+        - Cat 7
+        - Cat 8
+    - **Boxes & Cases**
+    - **Tools**
+    - **Accessories**
+    - **USB Cables**
+- **Electrical Equipment**
+    - **Power Adapters**
+        - PSU Adapters
+        - Backup PSU
+        - Hot Swap
+        - Open Frame
+        - DIN Rail
+        - Cigarette Lighter Socket
+        - USB Power Adapters
+    - **PoE Adapters**
+        - 100Mbps PoE Adapters
+        - Gigabit PoE Adapters
+        - PoE Converters
+        - PoE Splitters
+        - Passive PoE Injectors
+        - Passive PoE Cables
+    - **Surge Protectors**
+        - Single-Port
+        - Multi-Port
+        - Rack-Mounted
+        - PoE Out
+        - Coaxial
+    - **Solar Panels**
+    - **Power Cords**
+- **Everything Else**
+    - **Tech & Tools**
+        - Peripherals
+        - Electric Scooters
+        - TV Box
+        - Digital Watches
+        - Earbuds
+        - Electric Shavers
+        - Screwdrivers
+        - Robot Vacuums
+    - **Chargers**
+        - Wireless Chargers
+        - Car Chargers
+        - Power Banks
+        - Power Adapters
+- **Fiber Networks**
+    - **SFP Modules**
+        - RJ45 Copper
+        - Single-Mode
+        - Multi-Mode
+        - GPON
+    - **GPON**
+        - OLT
+        - ONU/ONT
+    - **Fiber Products**
+        - Cables
+        - PatchCords
+        - Splitters
+        - Adapters
+        - Tools
+        - CWDM
+    - **DAC Cables**
+    - **Converters**
+- **Fleet Management**
+  - **GPS Trackers**
+    - Vehicle Trackers
+    - E-Scooter Trackers
+    - Asset Trackers
+    - Personal Trackers
+  - **Vehicle Cameras**
+  - **Sensors**
+  - **CAN Adapters**
+  - **Cables**
+  - **Accessories**
+- **Home and Office Networks**
+  - **Access Points**
+    - WiFi 7
+    - WiFi 6
+    - WiFi 5
+    - WiFi 4
+    - WiFi Outdoor
+  - **WiFi Range Extenders**
+  - **WiFi Indoor Antennas**
+  - **WiFi Kits**
+  - **WiFi Bridges / CPE**
+  - **WiFi Routers**
+    - WiFi 7
+    - WiFi 6
+    - WiFi 5
+    - WiFi 4
+  - **Wired Routers**
+    - SFP28 Routers
+    - SFP+ Routers
+    - 1G Routers
+    - 100M Routers
+  - **Switches**
+    - 10G Switches
+    - 1G Switches
+    - 100M Switches
+    - PoE Switches
+    - SFP Switches
+    - Industrial Switches
+  - **WiFi USB Adapters**
+    - WiFi 5
+    - WiFi 6
+  - **UniFi OS Console**
+  - **Embedded Routers**
+  - **Bluetooth Antennas**
+  - **IP Phones**
+  - **Professional A/V**
+  - **Accessories**
+  - **Ethernet Devices**
+- **IoT Solutions**
+   -  **LoRa Products**
+        - Gateways
+        - Antennas
+        - MiniPCI-e Cards
+    - **Tags / Sensors**
+- **Licenses**
+    - **Licenses**
+        - MikroTik
+        - Ubiquiti
+        - Teltonika
+- **LTE Products**
+  - **4G Access Points**
+    - Cat4 Access Points
+    - Cat6 Access Points
+    - Cat7 Access Points
+    - Cat12 Access Points
+  - **4G Routers**
+    - Cat4 Routers
+    - Cat6 Routers
+    - Cat7 Routers
+    - Cat11+ Routers
+  - **4G Gateways**
+    - Cat-M1 Gateways
+    - Cat4 Gateways
+  - **4G USB Adapters**
+    - Cat4/5G Integrated Antennas
+    - Cat4 Antennas
+    - Cat6 Antennas
+    - Cat7 Antennas
+    - Cat18 Antennas
+    - 5G Antennas
+  - **4G Antennas**
+    - LTE Omni Antennas
+    - LTE Dome Antennas
+    - LTE Panel Antennas
+    - LTE Yagi Antennas
+    - LTE Parabolic Antennas
+    - Antennas for Teltonika
+  - **4G Indoor Antennas**
+  - **4G Modems**
+  - **5G Routers**
+  - **5G USB Adapters**
+  - **5G Antennas**
+  - **5G Indoor Antennas**
+  - **Vehicle Products**
+    - Vehicle Routers
+    - GPS Antennas
+    - Roof Antennas
+  - **Accessories**
+    - Antenna Mounts
+    - Router Mounts
+    - Coaxial Cables
+    - Coaxial Pigtails
+  - **miniPCI-e Cards**
+- **Mounts and Brackets**
+    - **Mounting Accessories**
+        - Antenna Brackets
+        - Video Camera Brackets
+        - Router Mounts
+        - UniFi Mounts
+        - Access Points Mounts
+        - Protective Shields
+        - Twistport Adapters
+    - **Outdoor Mounts**
+        - Wall Mounts
+        - Pole Mounts
+        - Chimney Mounts
+        - Masts
+    - **Indoor Mounts**
+        - Ceilling Mounts
+        - Wall Mounts
+        - Suction Mounts
+        - Magnetic Mounts
+        - Recessed
+        - Rack Mounts
+- **Outdoor Wireless**
+  - **Integrated Antennas**
+    - CPE Antennas
+    - Sector Antennas
+    - Directional Antennas
+    - PtP Links
+  - **Wireless Antennas**
+    - Omni Antennas
+    - Sector Antennas
+    - Parabolic Dish Antennas
+    - Horn Antennas
+  - **Carrier Backhaul Radio**
+    - Radio Systems
+    - Antennas
+    - Modules
+    - Accessories
+  - **Antenna Accessories**
+    - Anti-Noise Shields
+    - Antenna Mounts
+    - Coaxial Cables
+    - Antenna Pigtails
+  - **Radio for External Antennas**
+- **Security Systems**
+    - **Cameras**
+        - Bullet
+        - Dome
+        - Turret
+        - PTZ
+        - Fisheye
+        - Fixed
+        - Webcams
+        - Accessories
+    - **Camera Mounts**
+        - Mounts
+        - Junction Boxes
+    - **NVR**
+        - 4 Channel
+        - 8 Channel
+        - 16 Channel
+        - 32 Channel
+        - 64 Channel
+    - **Network Storage**
+    - **Intercom**
+        - Indoor Stations
+        - Door Stations
+        - Protective Shields
+    - **Access Control**
+        - Starter Kits
+        - Access Readers
+        - Doorbells
+        - Sensors
+        - Hubs
+        - Accessories
+        - Smart Door Systems
+    - **IR Range**
+    - **Surveillance HDD**
+    - **Memory Cards**
+    - **ViewPort**

@@ -1,0 +1,67 @@
+- **MikroTik**
+  - **Ethernet Routers**
+    - hEX
+    - RouterBoard
+    - RouterBoards
+    - PowerBox
+    - Cloud Core Router
+  - **Switches**
+    - Cloud Smart Switch
+    - Cloud Smart Switche
+    - Cloud Router Switch
+    - Cloud Router Switch 10G
+    - Cloud Router Switch PoE
+  - **IoT Products**
+    - Gateways
+    - Antennas
+    - MiniPCI-e Cards
+    - miniPCI-e
+    - Tags / Sensors
+  - **Wireless Systems**
+    - LHG
+    - LHG antennas
+    - SXT & DiscLite
+    - SXT antennas
+    - Groove & Metal
+    - NetMetal
+    - BaseBox & NetMetal
+    - OmniTik
+    - mANTBox
+  - **60GHz Wireless**
+    - Antennas
+    - 60GHz antennas
+    - Wireless Wire
+  - **Antennas*
+  - **Anti-Noise Shields*
+  - **Servers**
+  - **Wi-Fi for Home & Office**
+    - hAP
+    - cAP
+    - mAP
+    - WAP
+    - RouterBoard
+    - Audience
+    - Chateau
+    - Chatteau
+  - **Fiber Products**
+    - SFP Modules
+    - SFP Cables
+    - Converters
+  - **Licenses**
+  - **Mobile Network Products**
+    - 5G Routers
+    - 4G Routers
+    - SXT
+    - LHG
+    - ATL
+    - WAP
+    - LtAP
+    - miniPCI-e
+  - **Enclosure**
+  - **Pigtails**
+  - **Pigtail**
+  - **Coaxial Cables**
+  - **Brackets**
+  - **Power Adapters**
+  - **Merch**
+  - **Accessories**
