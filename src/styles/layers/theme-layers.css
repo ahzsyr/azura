@@ -1,0 +1,2 @@
+/* Layer ordering — lowest specificity first */
+@layer tokens, base, components, presets, utilities, effects;

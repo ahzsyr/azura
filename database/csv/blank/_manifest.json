@@ -1,0 +1,356 @@
+{
+  "label": "blank",
+  "generatedAt": "2026-06-05T11:01:40.733Z",
+  "tables": [
+    {
+      "table": "Booking",
+      "rows": 0,
+      "csv": "database/csv/blank/Booking.csv"
+    },
+    {
+      "table": "CmsPage",
+      "rows": 17,
+      "csv": "database/csv/blank/CmsPage.csv"
+    },
+    {
+      "table": "CmsPageRevision",
+      "rows": 0,
+      "csv": "database/csv/blank/CmsPageRevision.csv"
+    },
+    {
+      "table": "CompanyInfo",
+      "rows": 1,
+      "csv": "database/csv/blank/CompanyInfo.csv"
+    },
+    {
+      "table": "ContentCollection",
+      "rows": 0,
+      "csv": "database/csv/blank/ContentCollection.csv"
+    },
+    {
+      "table": "ContentCollectionItem",
+      "rows": 0,
+      "csv": "database/csv/blank/ContentCollectionItem.csv"
+    },
+    {
+      "table": "ContentItem",
+      "rows": 0,
+      "csv": "database/csv/blank/ContentItem.csv"
+    },
+    {
+      "table": "ContentItemMedia",
+      "rows": 0,
+      "csv": "database/csv/blank/ContentItemMedia.csv"
+    },
+    {
+      "table": "ContentType",
+      "rows": 4,
+      "csv": "database/csv/blank/ContentType.csv"
+    },
+    {
+      "table": "Custom404",
+      "rows": 2,
+      "csv": "database/csv/blank/Custom404.csv"
+    },
+    {
+      "table": "DocPortal",
+      "rows": 0,
+      "csv": "database/csv/blank/DocPortal.csv"
+    },
+    {
+      "table": "DocSection",
+      "rows": 0,
+      "csv": "database/csv/blank/DocSection.csv"
+    },
+    {
+      "table": "DocVersion",
+      "rows": 0,
+      "csv": "database/csv/blank/DocVersion.csv"
+    },
+    {
+      "table": "EntityTranslation",
+      "rows": 0,
+      "csv": "database/csv/blank/EntityTranslation.csv"
+    },
+    {
+      "table": "EntityTranslationVersion",
+      "rows": 0,
+      "csv": "database/csv/blank/EntityTranslationVersion.csv"
+    },
+    {
+      "table": "FaqItem",
+      "rows": 0,
+      "csv": "database/csv/blank/FaqItem.csv"
+    },
+    {
+      "table": "FaqSet",
+      "rows": 0,
+      "csv": "database/csv/blank/FaqSet.csv"
+    },
+    {
+      "table": "FormDraft",
+      "rows": 0,
+      "csv": "database/csv/blank/FormDraft.csv"
+    },
+    {
+      "table": "FormSubmission",
+      "rows": 0,
+      "csv": "database/csv/blank/FormSubmission.csv"
+    },
+    {
+      "table": "FormTemplate",
+      "rows": 1,
+      "csv": "database/csv/blank/FormTemplate.csv"
+    },
+    {
+      "table": "Gallery",
+      "rows": 0,
+      "csv": "database/csv/blank/Gallery.csv"
+    },
+    {
+      "table": "GalleryMedia",
+      "rows": 0,
+      "csv": "database/csv/blank/GalleryMedia.csv"
+    },
+    {
+      "table": "Inquiry",
+      "rows": 0,
+      "csv": "database/csv/blank/Inquiry.csv"
+    },
+    {
+      "table": "JsonStore",
+      "rows": 14,
+      "csv": "database/csv/blank/JsonStore.csv"
+    },
+    {
+      "table": "KnowledgeArticle",
+      "rows": 0,
+      "csv": "database/csv/blank/KnowledgeArticle.csv"
+    },
+    {
+      "table": "KnowledgeBase",
+      "rows": 0,
+      "csv": "database/csv/blank/KnowledgeBase.csv"
+    },
+    {
+      "table": "KnowledgeCategory",
+      "rows": 0,
+      "csv": "database/csv/blank/KnowledgeCategory.csv"
+    },
+    {
+      "table": "LocaleConfig",
+      "rows": 1,
+      "csv": "database/csv/blank/LocaleConfig.csv"
+    },
+    {
+      "table": "LocalizedSlug",
+      "rows": 0,
+      "csv": "database/csv/blank/LocalizedSlug.csv"
+    },
+    {
+      "table": "MediaAsset",
+      "rows": 17,
+      "csv": "database/csv/blank/MediaAsset.csv"
+    },
+    {
+      "table": "MediaFolder",
+      "rows": 0,
+      "csv": "database/csv/blank/MediaFolder.csv"
+    },
+    {
+      "table": "MediaUsage",
+      "rows": 0,
+      "csv": "database/csv/blank/MediaUsage.csv"
+    },
+    {
+      "table": "Partner",
+      "rows": 0,
+      "csv": "database/csv/blank/Partner.csv"
+    },
+    {
+      "table": "PartnerCategory",
+      "rows": 0,
+      "csv": "database/csv/blank/PartnerCategory.csv"
+    },
+    {
+      "table": "PartnerProgram",
+      "rows": 0,
+      "csv": "database/csv/blank/PartnerProgram.csv"
+    },
+    {
+      "table": "PasswordResetToken",
+      "rows": 0,
+      "csv": "database/csv/blank/PasswordResetToken.csv"
+    },
+    {
+      "table": "Post",
+      "rows": 0,
+      "csv": "database/csv/blank/Post.csv"
+    },
+    {
+      "table": "PostAuthor",
+      "rows": 0,
+      "csv": "database/csv/blank/PostAuthor.csv"
+    },
+    {
+      "table": "PostCategory",
+      "rows": 0,
+      "csv": "database/csv/blank/PostCategory.csv"
+    },
+    {
+      "table": "PostCategoryOnPost",
+      "rows": 0,
+      "csv": "database/csv/blank/PostCategoryOnPost.csv"
+    },
+    {
+      "table": "PostTag",
+      "rows": 0,
+      "csv": "database/csv/blank/PostTag.csv"
+    },
+    {
+      "table": "PostTagOnPost",
+      "rows": 0,
+      "csv": "database/csv/blank/PostTagOnPost.csv"
+    },
+    {
+      "table": "PricingCalculator",
+      "rows": 0,
+      "csv": "database/csv/blank/PricingCalculator.csv"
+    },
+    {
+      "table": "PricingCalculatorField",
+      "rows": 0,
+      "csv": "database/csv/blank/PricingCalculatorField.csv"
+    },
+    {
+      "table": "PricingCalculatorRule",
+      "rows": 0,
+      "csv": "database/csv/blank/PricingCalculatorRule.csv"
+    },
+    {
+      "table": "PricingPlan",
+      "rows": 0,
+      "csv": "database/csv/blank/PricingPlan.csv"
+    },
+    {
+      "table": "PricingPlanFeature",
+      "rows": 0,
+      "csv": "database/csv/blank/PricingPlanFeature.csv"
+    },
+    {
+      "table": "PricingPlanSet",
+      "rows": 0,
+      "csv": "database/csv/blank/PricingPlanSet.csv"
+    },
+    {
+      "table": "Release",
+      "rows": 0,
+      "csv": "database/csv/blank/Release.csv"
+    },
+    {
+      "table": "ReleaseEntry",
+      "rows": 0,
+      "csv": "database/csv/blank/ReleaseEntry.csv"
+    },
+    {
+      "table": "ReleaseSet",
+      "rows": 0,
+      "csv": "database/csv/blank/ReleaseSet.csv"
+    },
+    {
+      "table": "SearchDocument",
+      "rows": 0,
+      "csv": "database/csv/blank/SearchDocument.csv"
+    },
+    {
+      "table": "SeoMeta",
+      "rows": 0,
+      "csv": "database/csv/blank/SeoMeta.csv"
+    },
+    {
+      "table": "SeoRedirect",
+      "rows": 0,
+      "csv": "database/csv/blank/SeoRedirect.csv"
+    },
+    {
+      "table": "SeoSettings",
+      "rows": 0,
+      "csv": "database/csv/blank/SeoSettings.csv"
+    },
+    {
+      "table": "SiteTheme",
+      "rows": 2,
+      "csv": "database/csv/blank/SiteTheme.csv"
+    },
+    {
+      "table": "StatusBoard",
+      "rows": 0,
+      "csv": "database/csv/blank/StatusBoard.csv"
+    },
+    {
+      "table": "StatusIncident",
+      "rows": 0,
+      "csv": "database/csv/blank/StatusIncident.csv"
+    },
+    {
+      "table": "StatusMaintenance",
+      "rows": 0,
+      "csv": "database/csv/blank/StatusMaintenance.csv"
+    },
+    {
+      "table": "StatusService",
+      "rows": 0,
+      "csv": "database/csv/blank/StatusService.csv"
+    },
+    {
+      "table": "TeamDepartment",
+      "rows": 0,
+      "csv": "database/csv/blank/TeamDepartment.csv"
+    },
+    {
+      "table": "TeamDirectory",
+      "rows": 0,
+      "csv": "database/csv/blank/TeamDirectory.csv"
+    },
+    {
+      "table": "TeamMember",
+      "rows": 0,
+      "csv": "database/csv/blank/TeamMember.csv"
+    },
+    {
+      "table": "Testimonial",
+      "rows": 0,
+      "csv": "database/csv/blank/Testimonial.csv"
+    },
+    {
+      "table": "TestimonialCollection",
+      "rows": 0,
+      "csv": "database/csv/blank/TestimonialCollection.csv"
+    },
+    {
+      "table": "TestimonialCollectionItem",
+      "rows": 0,
+      "csv": "database/csv/blank/TestimonialCollectionItem.csv"
+    },
+    {
+      "table": "TranslationJob",
+      "rows": 3,
+      "csv": "database/csv/blank/TranslationJob.csv"
+    },
+    {
+      "table": "UiMessage",
+      "rows": 0,
+      "csv": "database/csv/blank/UiMessage.csv"
+    },
+    {
+      "table": "User",
+      "rows": 0,
+      "csv": "database/csv/blank/User.csv"
+    }
+  ],
+  "adminLogin": {
+    "email": "admin@azura.com",
+    "password": "Admin123",
+    "note": "No admin user in blank export — complete /setup wizard on first visit"
+  }
+}

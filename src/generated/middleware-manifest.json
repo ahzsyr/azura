@@ -1,0 +1,18 @@
+{
+  "generated": true,
+  "manifestVersion": 1787648452581,
+  "buildTimestamp": "2026-08-25T09:00:52.581Z",
+  "setup": {
+    "setupComplete": false,
+    "registrationEnabled": true,
+    "comingSoonEnabled": false
+  },
+  "authSecret": null,
+  "locales": {
+    "locales": [
+      "en"
+    ],
+    "defaultLocale": "en"
+  },
+  "redirects": {}
+}

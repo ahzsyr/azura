@@ -1,0 +1,75 @@
+{
+  "domain": "power",
+  "display": { "name": "Power", "order": 50 },
+  "specifications": [
+    {
+      "id": "power.battery_capacity",
+      "name": "Battery Capacity",
+      "type": "text",
+      "unit": "mAh",
+      "aliases": ["Battery Capacity", "Battery", "Battery Size", "Battery Capacity (mAh)"],
+      "contexts": {
+        "source_groups": ["hardware", "powering", "power", "general", "battery"],
+        "product_domains": ["radio", "networking", "hardware"]
+      },
+      "value_patterns": ["mAh", "Ah", "\\d+\\s*,\\s*\\d+\\s*mAh"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Power", "order": 10 }
+    },
+    {
+      "id": "power.rf_output_power",
+      "name": "RF Output Power",
+      "type": "text",
+      "aliases": ["RF Output Power", "RF Power", "Transmit Power", "TX Power", "Rated Audio Power", "Power"],
+      "contexts": {
+        "source_groups": ["transmitter", "dmr", "radio"],
+        "product_domains": ["radio"]
+      },
+      "value_patterns": ["\\d+\\s*W", "≤\\s*\\d+W"],
+      "ambiguous_with": ["power.power_consumption", "power.poe_power"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Power", "order": 20 }
+    },
+    {
+      "id": "power.power_consumption",
+      "name": "Power Consumption",
+      "type": "text",
+      "aliases": ["Max power consumption", "Max Power Consumption", "Power Consumption", "Rated Audio Power", "Power"],
+      "contexts": {
+        "source_groups": ["powering", "power", "specifications"],
+        "product_domains": ["networking", "hardware"]
+      },
+      "value_patterns": ["\\d+\\s*W", "consumption"],
+      "ambiguous_with": ["power.rf_output_power", "power.poe_power"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Power", "order": 30 }
+    },
+    {
+      "id": "power.poe_power",
+      "name": "PoE Power",
+      "type": "text",
+      "aliases": ["PoE in", "PoE", "PoE in input Voltage", "Power Supply"],
+      "contexts": {
+        "source_groups": ["powering", "power"],
+        "product_domains": ["networking"]
+      },
+      "value_patterns": ["PoE", "802\\.3"],
+      "ambiguous_with": ["power.power_consumption"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Power", "order": 40 }
+    },
+    {
+      "id": "power.input_voltage",
+      "name": "Input Voltage",
+      "type": "text",
+      "aliases": ["Supported Input Voltage", "Input Voltage", "Working Voltage", "PoE in input Voltage"],
+      "contexts": {
+        "source_groups": ["powering", "power", "general"],
+        "product_domains": ["networking", "radio", "hardware"]
+      },
+      "value_patterns": ["V\\s*AC", "V\\s*DC", "DC\\d"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Power", "order": 50 }
+    }
+  ]
+}

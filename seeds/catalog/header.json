@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "menusDatabase": {
+    "mainMenu": {
+      "name": "Main Menu",
+      "items": [],
+      "globalApply": "Both"
+    }
+  }
+}

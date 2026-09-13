@@ -1,0 +1,18 @@
+{
+  "domain": "software",
+  "display": { "name": "Software", "order": 90 },
+  "specifications": [
+    {
+      "id": "software.operating_system",
+      "name": "Operating System",
+      "type": "text",
+      "aliases": ["OS", "Operating System", "RouterOS license"],
+      "contexts": {
+        "source_groups": ["os", "software", "specifications"],
+        "product_domains": ["radio", "networking", "hardware"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Software", "order": 10 }
+    }
+  ]
+}

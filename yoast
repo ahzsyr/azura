@@ -1,0 +1,1723 @@
+Integrating Yoast SEO
+This documentation is a hub for describing the technical specifications and requirements for integrating Yoast SEO.
+
+Automatic optimization
+The following standards must be met, automatically and without user intervention, when the software is installed and activated.
+
+System behavior
+The site must output and use 'pretty permalinks' (human-readable, structured URLs).
+All public-facing URLs, meta tags and content must be rendered server-side, in the initial response from the server. Client-side rendering solutions are not supported.
+The site must output a complete and valid XML Sitemap.
+The site must generate (or alter) a robots.txt file.
+Integrations
+Creating, updating or publishing content should ping IndexNow (and ping the XML Sitemap to Google).
+Metadata & output
+Meta tags
+All pages and content types should output metadata in line with the following standards:
+
+Title tags
+Description tags
+Canonical URL tags
+Meta robots tags
+Open Graph tags
+X tags
+Alternate content formats
+Structured data
+All pages should output structured data in line with the following standards:
+
+Schema specification (general/foundational behavior).
+Schema specification for Yoast SEO (Yoast-specific behavior).
+Controls & Analysis
+For all posts, pages and content types, users must:
+
+Be able to Analyze their content.
+Be provided with Controls.
+Be able to edit page titles and descriptions in bulk (without needing to visit/open each individual page).
+Integrating with our Yoast SEO content analysis
+Current set-up
+At the moment, much of our analysis is tied deeply into either our WordPress or Shopify integrations. Here, we specify how our Yoast SEO plugin integrates with the (default) block editor, the Classic editor, and Elementor. For understandable reasons, we focus on the parts of our free open-source WordPress plugin Yoast SEO.
+
+PHP integration
+On the PHP side, we work with the concept of Metaboxes for the different parts of our content analysis. This is a slight misnomer, as these are used as parts of both our Yoast SEO metabox (in the classic and block editor) and Yoast SEO sidebar (in the block editor, Elementor editor, and Shopify app). Refer to the code for posts and for taxonomies for more details. We are currently working on decoupling the metabox and the sidebar, so please stay tuned for updates on that front.
+
+The Elementor integration shows how these Metabox units can be integrated (implements Integration_Interface) on other pages, in this case, the Elementor edit post page (see Elementor_Edit_Conditional). It also shows how we can enqueue additional scripts and styling (see register_hooks).
+
+JavaScript integration
+On the JavaScript side, the starting point is packages/js/src/post-edit.js (here on GitHub), which initializes the metabox and its behaviour (initTabs, initAdminMedia, initAdmin, initializeInsights, initializeAiGenerator), the initialization of the Redux store (initEditorStore), and the integration with various parts of the editor:
+
+an integration with the editor as a whole (initEditorIntegration). Here, there are implementations for the default block editor and the Classic Editor. These integrations make sure the sidebar is displayed and the highlighting functionality is activated.
+a scraper that updates the editor data and links the Yoast SEO content analysis (initPostScraper)
+an integration with the primary category element (initPrimaryCategory)
+an integration with the featured image element (initFeaturedImageIntegration)
+In term-edit.js (here on GitHub), we have a very similar integration for terms, without integrations for elements that do not appear on terms.
+
+For integrations with other editors, like Elementor in packages/js/src/elementor.js, we use a very similar approach (cf. this code). There are some small differences though:
+
+Instead of a scraper, we work with a watcher (initElementorWatcher) to update the editor store.
+The setup of the YoastSEO analysis app (see initializePostAnalysis in the post scraper) is done in the integration instead of in the watcher.
+There is some extra code to introduce the Yoast SEO integration to new users (initializeIntroduction).
+The rendering of the sidebar is taken care of through initElementorEditorIntegration.
+Future set-up
+In the (hopefully near) future, we hope to increasingly de-couple our analysis tools from their respective back-ends, and to create a 'standalone' editor. We aim to make this easy to implement in any content editing context, simply by "pointing" it at the relevant fields (and "hooking up" relevant back-end behaviour based on user settings and controls).
+
+Resources
+A simple example standalone app, which includes readability and SEO analysis (for multiple keyphrases and synonyms) as well as a working snippet preview (with replacemant variables)
+Note that this currently excludes our inclusive language, insights, and social previews checks/features.
+Documentation on how to configure and integrate the standalone app.
+Note that these resources should be considered a work in progress, and might not be stable in production environments. If you encounter problems or errors, we encourage you to create issues on the respective repositories, and/or to contribute fixes and patches.
+
+
+Yoast SEO XML Sitemaps: Functional specification
+Any page which the user wishes to be discovered and indexed by search engines should be listed in an XML sitemap.
+
+An individual XML sitemap should be constructed for each content type. Large sitemaps may be split into individual, paginated files. Each XML sitemap should be listed within an XML sitemap index.
+
+Content types
+XML sitemaps should be created for each of the following content types, providing that the content type is public and it contains valid members.
+
+Posts, pages, and custom post types
+Authors (users with at least one published, public, indexable post)
+Custom post types
+Taxonomies
+Paginated states of multi-part posts/pages
+In addition to the individual XML sitemaps, an XML sitemap index should be created, which references each of these sitemaps.
+
+Exclusions & empty sitemaps
+The following conditions should lead to a page being excluded from (the appropriate) XML sitemap:
+
+Posts/pages which are not eligible for indexing by search engines (i.e., any scenario which results in a page outputting a meta robots noindex directive via a meta tag or HTTP header)
+Posts/pages which have a manual canonical URL set, which is not the same as their default canonical value
+Private or password-protected pages
+Error pages/states/templates
+Search results pages
+Paginated views of any type of archive (e.g., /blog/page/2/)
+Non-public archives and taxonomies
+All URLs, if/when the whole site is set to 'private' (e.g., in WordPress, when the Search Engine Visibility option is set to "Discourage search engines from indexing this site")
+Some of these scenarios may lead to an XML sitemap (or the XML sitemap index) being empty. This is expected and permissible behavior.
+
+Requests to non-existent sitemap URLs should return normal 404 behavior.
+
+Content
+XML sitemap indexes
+The index file contains a <sitemap> entry for each individual XML sitemap, each of which has a loc and lastmod property. E.g:
+
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<sitemap>
+  <loc>https://www.example.com/author-sitemap.xml</loc>
+  <lastmod>2019-10-21T12:37:01+00:00</lastmod>
+</sitemap>
+{...}
+</sitemapindex>
+
+The loc property should reference the absolute URL of the XML sitemap in question
+(Optional) The lastmod property should reflect the most recent lastmod value from within the XML sitemap in question
+Optional properties may be omitted if unavailable.
+
+URLs & redirects
+The file should be accessible at /sitemap_index.xml. Requests to /sitemap.xml should redirect here.
+
+XML sitemaps
+Each sitemap contains a <url> entry for each page, comprised of a loc, lastmod, and image:image properties. E.g:
+
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+  <loc>https://www.example.com/blog/example-post/</loc>
+  <lastmod>2018-04-21T10:00:12+00:00</lastmod>
+  <image:image>		 
+    <image:loc>https://www.example.com/example-image.jpg</image:loc>
+  </image:image>
+  <image:image>		 
+    <image:loc>https://www.example.com/another-example-image.jpg</image:loc>
+  </image:image>
+</url>
+{...}
+</urlset>
+
+
+The loc property should reference the canonical URL (the permalink) of the post/page/object
+(Optional) The lastmod property should reference the time at which the object was last updated. In the case of archives/similar, this should reflect the time at which the archive members last updated (e.g., for a given category, the last time a post was published in that category)
+(Optional) An image:image property should be output for each image in / associated with a page, with:
+A loc property (referencing the absolute URL of the image)
+Optional properties may be omitted if unavailable.
+
+Limits & pagination
+By default, each sitemap can contain a limit of 1,000 items. If there are more than 1,000 items for a given content type, then (up to 50,000) additional sitemaps are generated to contain the overflow.
+
+URLs & redirects
+The URL of each sitemap should be constructed in the following format: {{type}}-sitemap{{n}}.xml, where:
+
+{{type}} is the content type (e.g., page)
+{{n}} is the pagination state (ignoring the first page in the series).
+E.g., post-sitemap.xml, post-sitemap2.xml, custom_taxonomy_name-sitemap.xml.
+
+Requests to sitemaps where {{n}} is 1 or 0 should trigger a 301 redirect to remove {{n}} (e.g., requests to post-sitemap1.xml and post-sitemap0.xml should redirect to post-sitemap.xml).
+
+XSL stylesheets
+Sitemap indexes and individual sitemaps reference an XSL file, which provides the layout and styling configurations for the page.
+
+Indexing controls
+XML sitemaps do not need to be indexed by search engines in order to be read or parsed. Therefore, a x-robots-tag HTTP header with a value of noindex, follow should returned with all XML sitemap responses.
+
+Additional scenarios
+Video sitemaps
+Our Video SEO for WordPress plugin adds an additional video sitemap (at video-sitemap.xml, and included in the sitemap index) which contains information on each video hosted/referenced within site content.
+
+For each page which contains video, the sitemap contains a <url> wrapper, with a <loc> value (the canonical URL / permalink of the page), and a <video:video> container for each video on the page. E.g:
+
+<url>
+  <loc>https://www.example.com/example-page/</loc>
+  <video:video>
+    <video:title><![CDATA[Example Video]]></video:title>
+    <video:publication_date>2015-12-15T15:36:03+00:00</video:publication_date>
+    <video:description><![CDATA[Example video description]]></video:description>
+    <video:player_loc>https://www.youtube-nocookie.com/v/abc123</video:player_loc>			 
+    <video:thumbnail_loc>https://www.example.com/video-thumbnail.jpg</video:thumbnail_loc>
+    <video:duration>98</video:duration>
+    <video:view_count>367</video:view_count>
+    <video:width>640</video:width>
+    <video:height>390</video:height>
+    <video:tag>Example tag</video:tag>
+    <video:tag>Another example tag</video:tag>
+    <video:family_friendly>yes</video:family_friendly>
+    <video:uploader info="https://www.example.com/example-profile-page">Example Person</video:uploader>
+  </video:video>
+</url>
+{…}
+</urlset>
+
+title is the name of the video
+description is the caption of the video, falling back to any available description of the video, falling back the URL of the video (e.g., the public YouTube URL of a video)
+player_loc is a URL pointing to the video player
+thumbnail_loc is the URL of a video thumbnail image
+(Optional) publication date is the timestamp at which the video was 'published' (alternatively, uploaded)
+(Optional) duration is the duration in seconds
+(Optional) view_count is the number of views
+(Optional) width and height are the dimensions of the embedded video in pixels
+(Optional) tag is a series of the tags associated with the page/post in which the video is embedded
+(Optional) family_friendly is a boolean value, configured in the video embed UI
+(Optional) uploader is the name of the person who uploaded the video, with optional info property referencing a profile/homepage
+The video XML sitemap uses a dedicated XSL file.
+
+News sitemaps
+Our News SEO for WordPress plugin adds an additional news sitemap (at news-sitemap.xml, and included in the sitemap index) which contains information news articles published on the site.
+
+News sitemaps should only reference articles which were published or modified within the last 48 hours.
+
+The sitemap contains a <url> wrapper, with a <loc> value (the canonical URL / permalink of the page), and a <news:news> container for each news article. E.g:
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<url>
+  <loc>http://www.example.com/example-page/</loc>
+  <news:news>
+    <news:publication>
+      <news:name>Example site name</news:name>
+      <news:language>en</news:language>
+    </news:publication>
+    <news:publication_date>2019-11-15T09:59:38+00:00</news:publication_date>
+    <news:title><![CDATA[Example post name]]></news:title>
+  </news:news>
+</url>
+{…}
+</urlset>
+
+
+publication.name is the Site Title (e.g., "Yoast")
+publication.language is the language code of the article (in ISO 639 format)
+publication_date is the date in W3C format
+title is the post name of the article
+(Optional) An image:image property should be output for each image in / associated with a page, with:
+A loc property (referencing the absolute URL of the image)
+The news XML sitemap uses a dedicated XSL file.
+
+
+Yoast SEO: robots.txt - functional specification
+This documentation explains how Yoast SEO modifies robots.txt files.
+
+Default content
+When a site does not have a user-defined robots.txt file (at the point of installation/activation), Yoast SEO generates a default output.
+
+# START YOAST BLOCK
+# ---------------------------
+User-agent: *
+Disallow:
+
+Sitemap: https://www.example.com/sitemap_index.xml
+# ---------------------------
+# END YOAST BLOCK
+
+If a robots.txt file already exists and contains non-empty rules, this block should be prefixed before any existing rules.
+
+Controls
+Users must be able to edit the contents of their robots.txt file.
+
+Yoast SEO titles - Functional specification
+Every page on a website should include a unique, descriptive title tag in the <head> of the document.
+
+A valid title tag takes the following format: <title>{{VALUE}}</title>.
+
+The following sections describe how the value of the {{VALUE}} component of the tag should be constructed.
+
+Default logic per request type
+The table below describes all of the request types which we consider and the structure of the title tag in each case. Note that this doesn't cover every conceivable scenario or edge-case, as we only expect this specification to be typically applied within the constraints of a content management system or website.
+
+Also note that the word 'page' is used throughout to indicate any 'non-system' response served for a requested URL. This includes archives, taxonomies and error states. It excludes 'non-page' results (which typically don't support a <title> tag), like RSS feeds and XML sitemaps.
+
+Request type	Notes	Title structure	Example
+Home page	Assumes that the homepage resides at the site root. Otherwise, see Single page.	%%sitename%% %%page%% %%sep%% %%tagline%%	Acme Inc - The best widgets in the world
+Single page	In WordPress, also considers a single post. E.g. an 'about us' page or a blog post.	%%postname%% %%page%% %%sep%% %sitename%	Top 10 widgets - Acme Inc
+Taxonomy index page	Any template which lists a selection of posts or pages based on a taxonomy or similar. E.g. a category page or tag page, or a page listing all posts by a particular author.	%%term_title%% archive %%page%% %%sep%% %sitename%	Blue widgets archive - Acme Inc
+Date index page	Any template which lists a selection of posts or pages filtered by date. E.g, all posts which were published in a certain year, or, all pages which were added on a certain day/date.	%%date%% %%page%% %%sep%% %sitename%	2018 - Acme Inc
+Search pages	Any template which lists a selection of posts or pages filtered by a user query. E.g, all posts which are relevant for the word 'widget'.	You searched for %%search_phrase%% %%page%% %%sep%% %sitename%	You searched for red widgets - Acme Inc
+404 pages	Any template is served when the user requests a URL which returns a 404 error.	Page not found %%sep%% %sitename%	Page not found - Acme Inc
+Most of these variables should be fairly self-descriptive, and shouldn't need extensive documentation. However, for the avoidance of doubt:
+
+%%sitename%%: The name of the website. E.g., "Acme Inc".
+%%sep%%: A separator character. E.g., -, |, or similar.
+%%tagline%%: A short description of the site, or similar. E.g., "The best widgets in the world".
+%%postname%%: The name of a page/post. E.g., "Widget FAQs".
+$%page%%: A representation of the pagination state (omitted on the first page in a series). E.g., "Page 2 of 8".
+%%term_title%%: The name of the taxonomy/archive. E.g., "Blue widgets".
+%%date%%: The date of the archive. E.g., "July 2016".
+%%search_phrase%%: The search string. E.g., "How much do red widgets cost".
+Sanitizing
+Any user-input values (i.e., any component of the URL, but in particular, arbitrary strings and refinements such as search terms) should always be appropriately sanitized.
+
+User-specified patterns
+Whenever the user has defined an alternate pattern/template for titles (e.g., using Yoast SEO's replacement variables), that pattern should be used in place of the defaults.
+
+User-specified values
+Whenever the user has defined a specific value for a page, that value should be used in place of the default (or type-specific) pattern.
+
+
+Descriptions - Functional specification
+Every public page on a website should contain a unique, useful editorial summary of the content/purpose of that page, output in a meta description tag.
+
+A valid meta description tag takes the following format: <meta name="description" content="{{value}}" />.
+
+Constructing {{value}}
+User-specified patterns
+Whenever the user has defined a pattern/template for meta description values (e.g., using Yoast SEO's replacement variables), that pattern should be used.
+
+User-specified values
+Whenever the user has defined a specific value for a page, that value should be used. User-specified values override all patterns and defaults.
+
+Omitted by default
+In all scenarios, Yoast prefers to output no meta description by default, rather than an auto-generated value. It's our opinion that there are very few scenarios where auto-generated meta descriptions are a good description of the page (e.g., they often simply extract the first paragraph, which is rarely a suitable candidate). Additionally, most search engines which rely on the meta descriptions are also sophisticated enough to evaluate the relationship between the search query and page content, and to extract or generate their own meta description.
+
+Providing an admin comment
+When a page lacks a meta description value, the following comment should be output in the HTML code in place of the tag:
+
+<!-- Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [SEO - Search Appearance] menu and set up a template. -->
+
+
+Yoast SEO: Canonical URLs - Functional specification
+Any valid, indexable page (i.e., a request which returns a 200 HTTP status, and which does not have a noindex directive) should include a canonical URL tag in the <head> of the document.
+
+A valid canonical URL tag takes the following format: <link rel="canonical" href="{{URL}}" />
+
+The following sections describe how the value of the {{URL}} component of the tag should be constructed.
+
+Logic per request type
+The table below describes all of the request types which we consider and the structure of the canonical URL value in each case. Note that this doesn't cover every conceivable scenario or edge-case, as we only expect this specification to be typically applied within the constraints of a content management system or website.
+
+Also note that the word 'page' is used throughout to indicate any valid, indexable result served in response to a requested URL. That includes some typically 'non-page' results, like RSS feeds.
+
+Request type	Notes	Canonical URL structure	Example
+Home page	Assumes that the homepage resides at the site root. Otherwise, see Single page.	%%protocol%%//%%hostname%%/	https://www.example.com/
+Singular page	E.g. an 'about us' page, or a blog post.	%%protocol%%//%%hostname%%/%path%	https://www.example.com/about-us
+Taxonomy index page	Any template which lists a selection of posts or pages based on a taxonomy or similar. E.g. a category page or tag page, or a page listing all posts by a particular author.	%%protocol%%//%%hostname%%/%path%	https://www.example.com/widgets, https://www.example.com/author/john-smith, https://www.example.com/color/blue, https://www.example.com/category/food, https://www.example.com/tag/size/small
+Date index page	Any template which lists a selection of posts or pages filtered by date. E.g, all posts which were published in a certain year, or, all pages which were added on a certain day/date.	%%protocol%%//%%hostname%%/%date%	https://www.example.com/2006, https://www.example.com/2012-08-22, https://www.example.com/2019/01/30, https://www.example.com/date/01-20-2018, https://www.example.com/time/1562149536
+A 'data' page	An RSS/Atom/XML view which is generated by the system. E.g, a comment feed for an article or a taxonomy, or an XML sitemap.	%%protocol%%//%%hostname%%/%path%	https://www.example.com/category/post/feed, https://www.example.com/sitemap.xml, https://www.example.com/blog/feed/atom
+Constructing the %%protocol%% variable
+If the application is aware of the website's preferred protocol (e.g., a developer or user has defined an option for the site's address which includes http or https), then the protocol value should be retrieved, and a : character should be appended to the variable (to produce, e.g., https:).
+
+If the application cannot ascertain the protocol in use, this parameter should be omitted from the permalink (resulting in a protocol-agnostic URL).
+
+Constructing the %%hostname%% variable
+If the application is aware of the preferred address (hostname) of the website it's running on (e.g., a developer or user has defined an option for the site's address, such as www.example.com), then this value should be returned. If there's no evidence of a preferred domain, then the request hostname should be returned.
+
+Constructing the %%path%% variable
+The logic which determines which components are included in the %%path%% variable may differ by content type, by website, by platform, and by user preference/configuration.
+
+It's also common that a resource may be requested via a variety of different path queries and structures, with little evidence as to which of these is the most 'correct'. Even when using seemingly robust platform methods, such as WordPress' get_permalink() function (and similar methods for taxonomy indexes, etc), there may still be some ambiguity as to whether the returned URL should be used as the canonical URL value.
+
+Given this challenge, the following sections explore the specific logic required to return the most optimal %%path%% components, based on a variety of scenarios.
+
+Including ancestors
+Some pages may include parent directories in the URL. If the inclusion of those directories is necessary to return the page in question, then the %%path%% variable should also include these directories. E.g:
+
+A category index on a new WordPress installation may have a path of category/blue-widgets. In this case, the %%path%% should also be category/blue-widgets.
+An index for a content type, such as 'artists', might produce a URL pattern of, e.g., artists/picasso. In this case, the %%path%% should also be artists/picasso.
+An individual page about the band Pink Floyd's 1970's rock album, 'The Dark Side of the Moon' might be nested within a multi-layer category structure, and thus have a URL of category/music/pink-floyd/dark-side-of-the-moon. In this case, the %%path%% should also be category/music/pink-floyd/dark-side-of-the-moon.
+NOTE: The Yoast SEO plugin contains functionality to remove the category/ 'base' component of the path in WordPress. If this is enabled, the category/ component should also be removed from the %%path%%.
+
+Ancestor type preference
+It's assumed in each of these cases that the user has indicated a preference for which ancestors should be used to construct the URL. E.g., in WordPress, a user may define a 'permalink structure', and decide that all posts should be preceded by their tag(s) (as opposed to their categories), or, by the word 'widgets'.
+
+If such a preference is set, then the canonical %%path%% should always reflect this.
+
+If a page can be accessed via multiple routes (e.g., where category/widgets/example-post and tag/cats/example-post both return the same page) and no ancestor type preference is set, then the %%path%% should select canonical ancestors based on the following order of preference when valid (adapting / using comparable concepts when there's no precise match):
+
+Category; e.g., category/blue-widgets/page
+Date; e.g., 2010/12/31/page
+Author; e.g., author/john-smith/page
+Tag; e.g., tag/color/blue/page
+Other taxonomy; e.g., cats/siamese/page
+The 'raw' query for the resource; e.g., ?p=123
+Handling multiple ancestors
+Within each of the above scenarios, it's possible that a requested page may have multiple valid ancestors (e.g., a post in several categories, or, a category which itself is in multiple categories).
+
+If the user has declared a preference for a specific ancestor (e.g., a 'primary category'), then this ancestor should be used in the %%path%%.
+
+When there's no evidence of preference, the default behaviour should be to use the first valid option, alphabetically. E.g:
+
+A post in categories 'cats' and 'dogs' (where category is the preferred ancestor structure) should have a %%path%% of category/cats/example-post.
+A post with a custom taxonomy of 'location', tagged as 'Spain' and 'Europe' (where location is the preferred ancestor structure, and assuming that the path root for 'location' is location/) should have a %%path%% of location/europe/example-post.
+A taxonomy index of pages related to 'milk' (which has parent taxonomies of both 'foods' and 'liquids', and where the path root for the taxonomy is things/) should have a %%path%% of things/foods/milk.
+Constructing the %%date%% variable
+Date structures are used in date indexes (e.g., "all posts published in 2016"), and, when the user prefers that all posts/pages have a date root.
+
+In both cases, we assume that the user has defined a preferred date structure/format, which may take any format (e.g., Y/m/d, U, d-M-y, date/d-m-Y, etc). If so, then the %%path%% should be prefixed by the preferred format (e.g., date/22-05-2018/post-name).
+
+If there's no evidence of preferred format (and a page may be accessed via multiple formats, such as the raw timestamp and a 'pretty' structure), the %%path%% should select a canonical date format based on the following order of preference when valid (adapting / using comparable concepts when there's no precise match):
+
+Y/m/d, e.g., 2018/05/22
+Y-m-d, e.g., 2018-05-22
+Ymd or ymd, e.g., 180522
+U, e.g., 1526947200
+Other considerations
+When 'pretty permalinks' aren't in use
+Some systems of configurations (or preferences) result in valid URL formats and requests being limited to 'raw' object queries. E.g:
+
+?post_id=6, rather than category/example-post
+?pagename=about rather than about
+?category=cats&page=3 rather than category/cats/page/3
+In this scenario, the canonical %%path%% component should match the raw query ID as above (though should omit any parameters which don't alter the query result).
+
+Note that, in the case that 'pretty permalinks' are available, these 'raw' queries should execute a 301 redirect to the canonical equivalent.
+
+Trailing slashes
+All of the examples in this document assume that requests don't have, or enforce, trailing slashes. In reality, this will vary by system, and by user preference. In most cases, valid pages - with the exception of 'data' pages - do have (and enforce, via a 301 redirect) the presence of a trailing slash.
+
+All %%path%% variables, therefore, should conditionally include or exclude a trailing slash based on the following scenarios:
+
+Trailing slashes are enforced on all requests, therefore the %%path%% should append a trailing slash.
+Pages can have trailing slashes appended, but, this isn't enforced (via a 301 redirect). In this case, the %%path%% should append a trailing slash.
+Pages do not resolve when trailing slashes are added. In this case, %%path%% should not append a trailing slash.
+Requests which end in a trailing represent a different resource (e.g., example/page vs exammple/folder/). In this case, the %%path%% should only output the trailing slash if this is part of the valid request for the resource (e.g., on example/folder/).
+Additionally, homepages which reside at the domain root should always include a trailing slash.
+
+Pagination
+Some requests may accept additional parameters in order to return a paginated state. E.g., category/page/3 (or ?category=cats&page=3). When this returns a valid, paginated response, the pagination component should be appended to the %%path%% variable. It should not be appended in scenarios where the addition of the pagination component does not result in paginated results (e.g., a request to an out of bound range).
+
+Sanitizing
+Path values should always undergo the following treatments before being output:
+
+Force to lowercase.
+Encoding non-ASCII UTF-8 characters.
+Removing multiple concurrent slashes.
+Removing any querying, sorting, filtering or arbitrary queries not addressed in this document (e.g., category/page/2/?a=b should sanitize to category/page/2).
+Removing any redundant appendages (e.g., in the case that category/post/randomstring returns the page represented by category/post, the randomstring component should be removed).
+Compound types
+Some request types may combine multiple %%path%% components to return a valid result. E.g., a category, filtered by date (category/cats/2012, or category/cats/2012/06/02), or a paginated state of a date-based author index (writers/george/2006/page/2). These components should be added to the %%path%%.
+
+If these components can be applied in more than one order (and return the same, valid response), then the %%path%% should be constructed with the following order (if/when the components are present): %%taxonomy%%/%%date%%/%%pagination%%.
+
+Noindex'd pages
+Pages which have a meta robots tag (or x-robots-tag HTTP header) with a noindex directive set should omit the canonical URL tag entirely. This includes scenarios where template logic dictates the noindex property (such as search results pages), as well as scenarios where the user has set a particular page to noindex.
+
+Error scenarios
+Requests which result in errors (all scenarios leading to a 4xx or 5xx range HTTP response) should omit the canonical URL tag entirely.
+
+User-specified canonical URLs
+When a user has manually specified a canonical URL for a page, this should override all other logic. We should output the value as-is, bypassing the sanitization and handling rules defined above.
+
+This also applies to cross-domain canonical URLs specified by the user.
+
+Any risks of conflict, errors or breakage should be addressed via inline warnings or validation errors during the publishing workflow.
+
+
+Yoast SEO Meta robots: Functional specification
+Yoast SEO always outputs a meta robots tag in the <head> of every page. When a user wishes to proactively restrict the crawling, indexing, or presentation of a page by search engines (via our controls), we alter the content of that tag.
+
+The tag takes the following format: <meta name="robots" content="{{values}}" />.
+
+Constructing {{values}}
+Given that a meta robots tag may have multiple (potentially conflicting) values, and that multiple overlapping conditions may apply, then:
+
+All conditions should be evaluated and the resultant tag values combined additively, for each agent, using the rules defined below (see Resolving conflict).
+The final set of values should be de-duplicated and reconciled. See the up-to-date list of all possible meta robots values and their relationships.
+Standard structure
+Yoast SEO outputs the following meta robots tags by default on each (public) page, with the following structure:
+
+<meta name="robots" content="{{values}}, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+This provides generic instructions to all robots, and, opts users into Google and Bing's specific handling of snippet/media restrictions.
+
+Unless otherwise defined by the user (or via page/template/filtering logic), {{values}} outputs index, follow.
+
+Scenarios
+On non-public pages
+Any 'non-public' page - i.e., a page, post or archive type which the user has determined should not appear in search results (e.g., via our Search Appearance settings) - should return noindex and follow properties. E.g., <meta name="robots" content="noindex, follow" />
+
+Custom controls per-post/page
+Any advanced/custom properties which a user specifies for a given post or page should be returned in the {{values}} property, as defined.
+
+If a noindex value is set, then the page should be treated as if it is non-public (see above).
+
+Error templates
+No robots tag should be output on 4xx and 5xx templates.
+
+Resolving conflict
+In the case of opposing directives, the most restrictive setting should always take precedence, using the following rules:
+
+noindex over index.
+nofollow over follow.
+none over nofollow OR noindex.
+E.g., a combination of index, noindex, noimageindex and follow values should result in an output of noindex, follow (as noindex is more restrictive than index, and noimageindex is redundant when combined with noindex; see docs for a full overview of value relationships).
+
+
+
+Yoast SEO OpenGraph Tags: Functional specification
+This documentation provides technical information about which OpenGraph and related tags that Yoast SEO generates and outputs.
+
+We output a variety of OpenGraph and similar tags in the <head> of each page, in order to better inform data consumers about the content of the page in question. OpenGraph data is consumed by Facebook, but also by Pinterest, LinkedIn, WhatsApp and even Google.
+
+OpenGraph metadata
+Assuming that the respective admin settings are not disabled, these tags are output on all pages (except for error templates, which are described separately).
+
+Tag	Description
+og:locale	The page's language and target territory, falling back to language only. E.g., en_US, or simply en.
+og:type	The type of page/resource.
+
+website on the homepage.
+profile on user profile pages.
+article on all pages/posts and other templates.
+og:title	The title of the page.
+
+Outputs a value based on the following hierarchy:
+A user-defined "Facebook title" value for the page.
+An auto-generated "Social title" from the template in Search Appearance.
+A user-defined "SEO title" for the page.
+An auto-generated "SEO title" from the template in Search Appearance.
+The social title default option (same as the SEO title): %%title%% %%page%% %%sep%% %%sitename%%. For Author & Date archives the default is just the page title.
+og:url	The canonical URL of the page (or the series root, in the case of paginated content).
+og:site_name	The name of the site.
+Conditional tags
+The following tags are only output when their conditions are met:
+
+Tag	Description	Notes
+og:description	The description of the page.	Outputs a value based on the following hierarchy:
+A user-defined "Facebook description" value for the page.
+An auto-generated "Social description" from the template in Search Appearance.
+A user-defined "Meta description" for the page.
+An auto-generated "Meta description" from the template in Search Appearance.
+A user-defined excerpt for the page (only for posts).
+An auto-generated excerpt from the page's content (for terms: the term description).
+article:publisher	The Facebook page URL of the publishing organization.	Only populated when a value has been provided by the user.
+Only populated on post and page types.
+article:author	The URL of the profile page of the author.	Only populated when the user has a valid profile URL.
+Only populated on post types.
+article:modified_time	A timestamp of when the page was last modified.	Only populated on post and page types.
+article:published_time	A timestamp of when the page was published.	Only populated on the post type. Use the wpseo_opengraph_show_publish_date filter to add additional posttypes.
+og:image	The URL of the primary image of the page.	Only populated when the page contains a valid image, based on the following hierarchy:
+A user-defined image "Facebook image" in the Social tab of the Yoast metabox.
+A user-defined "Featured image" for the page (only for posts).
+A prominent image from the page's content — when that image is resized in the content, we show its full-sized counterpart (this isn't true when indexables are disabled).
+Yoast SEO WooCommerce only: Woo SEO adds one more image fallback: the first image in the Woo Product gallery.
+The "Social default image" from the template in Search Appearance.
+The site's fallback/default social image (set at SEO > Social > Facebook > Default image).
+In case of an author archive, the image is based on the following hierarchy:
+The "Social default image" from the template in Search Appearance.
+The user's Gravatar image.
+The site's fallback/default social image (set at SEO > Social > Facebook > Default image).
+og:image:width	The width in pixels of the og:image.	Only populated when an og:image is set, and its width and height are known.
+og:image:height	The height in pixels of the og:image.	Only populated when an og:image is set, and its width and height are known.
+Additional conditional tags
+Though not strictly open graph tags, these should be evaluated and output as part of this set of requirements.
+
+Tag	Description	Notes
+<meta name="author" content="%NAME%" />	The name of the post author	Only populated on post types.
+Error templates
+Only output the following tags are output:
+
+Tag	Value
+og:locale	The page's language and target territory, falling back to language only. E.g., en_US, or simply en.
+og:title	The site's error page title template value.
+og:site_name	The name of the site.
+Deprecated tags
+The following tags used to be output by Yoast SEO, but have been removed in recent updates.
+
+Tag	Description	Deprecated
+fb:admins	Legacy Facebook control. No longer appears to be supported	Unknown
+article:section	Legacy Facebook / Open Graph tag. No longer appears to be supported.	Yoast SEO v14.0 (Apr 2020)
+og:updated_time	Legacy Facebook / Open Graph tag. No longer appears to be supported.	Yoast SEO v14.0 (Apr 2020)
+og:image:secure_url	Defines a (separate) URL for the featured image, available over HTTPS. Unnecessarily duplicates the og:image tag when a site is on HTTPS, and, unnecessary/omitted when the site is not.	Yoast SEO v14.0 (Apr 2020)
+og:video:secure_url	Legacy Facebook / Open Graph tag. As per og:image:secure_url, but for the featured video (in our Video SEO for WordPress plugin).	Yoast SEO v14.0 (Apr 2020)
+og:image:type	Defines the image format. Poor value/performance trade-off; especially as we ping Facebook on post publish, at which point they determine and cache this information themselves.	Yoast SEO v14.0 (Apr 2020)
+fb:app_id	The Facebook App ID.	Yoast SEO v15.5 (Dec 2020)
+
+
+Yoast SEO X Tags: Functional specification
+This documentation provides technical information about which X tags Yoast SEO generates and outputs. These tags are only consumed by X.
+
+We output a variety of <meta> tags for X in the <head> of each page, in order to better inform X about the content of the page in question.
+
+Note that for a lot of tags, X falls back on OpenGraph metadata. Where it falls back, we provide the OpenGraph metadata and don't provide the X tag specifically unless it has been customized.
+
+X metadata
+The following tags provide social networks and platforms (e.g., Facebook, X, Pinterest) with additional information about the page and its content.
+
+Assuming that the respective admin settings are not disabled, these tags are output on all pages (except for error templates, which are described separately).
+
+Tag	Description
+twitter:card	The card type to use when previewing the page (defaulting to summary_large_image).
+twitter:site	The X handle of the site owner/operator.
+Conditional tags
+The following tags are only output when their conditions are met:
+
+Tag	Description	Notes
+twitter:creator	The X handle of the content author.	Only populated when the content author has a valid X handle.
+Only populated on post types.
+twitter:title	The title of the page, specifically for sharing on X.	Only populated when a specific value (which is different from the og:title value) is defined for X.
+twitter:description	The description of the page, specifically for sharing on X.	Only populated when a specific value (different from the og:description value) is defined for X.
+
+The hierarchy for this is as follows:
+A user-defined "X description" value for the page.
+An auto-generated "Social description" from the template in Search Appearance.
+No output, i.e. falls back on og:description.
+twitter:image	The URL of the primary image of the page, specifically for sharing on X.	Only populated when a specific image (different from the og:image) is defined for X, or, when Facebook / og:image tags are disabled.
+
+A user-defined “X image” in the Social tab of the Yoast metabox in a twitter:image tag
+A user-defined “Facebook image” in the Social tab of the Yoast metabox in an og:image tag
+A user-defined “Featured image” for the page (in an og:image tag, or in a twitter:image tag if Open Graph is disabled)
+A prominent image from the page’s content. (in an og:image tag, or in a twitter:image tag if Open Graph is disabled) — when that image is resized in the content, we show its full-sized counterpart (this isn't true when indexables are disabled)
+Yoast SEO WooCommerce only: Woo SEO adds one more image fallback: the first image in the Woo Product gallery. (in an og:image tag, or in a twitter:image tag if Open Graph is disabled)
+The “Social default image” from the template in Search Appearance in an og:image tag
+The site-wide Social default image from SEO > Social in an og:image tag
+No output.
+In case of an author archive, the image is based on the following hierarchy:
+The “Social default image” from the template in Search Appearance in an og:image tag
+The user’s Gravatar image (in an og:image tag, or in a twitter:image tag if Open Graph is disabled)
+No output, i.e. falls back to og:image.
+"Enhanced Slack sharing" tags
+We utilize X's "label/data" meta tag format to add additional data, which is shown when sharing URLs on Slack. Note that this should only be output if the "Enhanced Slack sharing" setting is enabled for the site.
+
+Tag	Description	Notes
+<meta name="twitter:label1" content="Est. reading time" />	Only output on post and page types.	
+<meta name="twitter:data1" content="%x% minutes" />	Where %x% is the estimated reading time, rounded down to the closest minute.	
+
+
+Alternate content formats
+Learn how Yoast SEO handles alternate content formats.
+
+📄️
+Embedded content
+This documentation explains how Yoast SEO modifies embedded content formats.
+
+📄️
+RSS Feeds
+This documentation explains Yoast SEO modifies RSS feeds.
+
+Embedded content - Functional specification
+This documentation provides technical information about how Yoast SEO modifies embedded content formats, such as oEmbed.
+
+Native embedding
+Platforms like WordPress often support proprietory content embedding capabilities. These allow users to represent the content of a page as an embedded widget, in the content of another page. These embedded components exist as discreet URLs and 'pages', and must be optimized accordingly.
+
+For sites which suppport native embedding, Yoast SEO should:
+
+Ensure that a meta robots tag is output, with a value of noindex, follow
+oEmbed
+For sites which provide oEmbed capabilities, Yoast SEO alters the respective metadata to ensure that it's consistent with the respective 'parent' page. There should be no discrepancy between the title, description, (canonical) url or other properties, as compared to the embedded page.
+
+
+RSS Feeds - Functional specification
+This documentation provides technical information about how Yoast SEO modifies RSS feeds.
+
+For any feed(s) of public posts/pages*, Yoast SEO allows the user to automatically prefix and/or append a dynamic content string (for the purposes of branding, attribution or similar).
+
+* Excluding WordPress' "comment feeds".
+
+Default settings
+The default prefix setting ("Content to put before each post in the feed") is blank/empty.
+
+The default suffix setting ("Content to put after each post in the feed") is The post %%POSTLINK%% appeared first on %%BLOGLINK%%..
+
+Replacement variables
+The following variables are available, and are automatically replaced in the generated prefix/suffix.
+
+Variable	Description
+%%AUTHORLINK%%	A link to the archive for the post author, with the author's name as anchor text.
+%%POSTLINK%%	A link to the post, with the title as anchor text.
+%%BLOGLINK%%	A link to your site, with your site's name as anchor text.
+%%BLOGDESCLINK%%	A link to your site, with the site's name and description as anchor text.
+Indexing & canonical URLs
+Depending on the type of feed, additional HTTP headers must be set:
+
+Feeds representing content (posts, pages or taxonomies) should set a canonical URL of the 'parent' URL, via a link header.
+Feeds represending comments on content should set a meta robots directive of noindex, follow, via an x-robots-tag header.
+
+
+Schema - Specification
+The core of our approach is to output a "base script" - a @graph object rendered in JSON-LD - which describes the WebPage, the WebSite, and the Organization (or Person, in the case of a website which represents an individual). This is included on every page of a website running the Yoast SEO plugin.
+
+On any given page, the graph may be altered and/or extended to reflect the specific type of web page and its attributes. For any given scenario, we aim to identify the 'main entity' of the page, and to develop the graph to represent this entity (see 'Primary entities').
+
+All markup, properties and attributes are drawn directly from schema.org, and (other than the base script below) all code provided is for demonstrative purposes only.
+
+The base script
+The following is a simplified representation of the graph which we construct on each page.
+
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Organization",
+            "@id": "https://www.example.com/#/schema/Organization/1",
+            "url": "https://www.example.com/",
+            "name": "Example organization name"
+        },
+        {
+            "@type": "WebSite",
+            "@id": "https://www.example.com/#/schema/WebSite/1",
+            "url": "https://www.example.com/",
+            "name": "Example website",
+            "publisher": {
+                "@id": "https://www.example.com/#/schema/Organization/1"
+            }
+        },
+        {
+            "@type": "WebPage",
+            "@id": "https://www.example.com/example-page/test/",
+            "url": "https://www.example.com/example-page/test/",
+            "name": "Example page name",
+            "description": "Example page description",
+            "isPartOf": {
+                "@id": "https://www.example.com/#/schema/WebSite/1"
+            }
+        }
+    ]
+}
+
+What makes this different from most approaches to schema markup is that, rather than trying to construct a complex 'tree' (i.e., an array of nested properties), we output a distinct, top-level 'piece' (a 'node', in technical terms) for each distinct entity. These pieces are contained in one or more @graph objects, which enables us to cross-references pieces by ID. See 'Exploring IDs, relationships and nesting' for more information on this approach.
+
+Observe that, when testing in Google's Structured Data Testing Tool, the result is a single, cohesive graph which features the main entity (in this case, the WebPage) as the primary focus. Conventional approaches will display each individual piece, but don't 'stitch' these together into a single graph.
+
+Example graphs
+The following examples demonstrate how our base script may be extended and altered to support different scenarios. Regardless of circumstance, we always aim to represent the 'main entity' of the web page in question (and its attributes), and, its relationship to the website and organization (or person) who published that page.
+
+A company homepage
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Organization",
+            "@id": "https://www.example.com/#/schema/Organization/1",
+            "name": "Example Organization",
+            "url": "https://www.example.com/",
+            "sameAs": [
+                "https://www.facebook.com/example/",
+                "https://www.instagram.com/example/",
+                "https://www.linkedin.com/example/",
+                "https://www.youtube.com/example/",
+                "https://www.pinterest.com/example/",
+                "https://en.wikipedia.org/wikiexample/",
+                "https://x.com/example/"
+            ],
+            "logo": {
+                "@type": "ImageObject",
+                "@id": "https://www.example.com/images/example.jpg",
+                "url": "https://www.example.com/images/example.jpg",
+                "contentUrl": "https://www.example.com/images/example.jpg",
+                "width": 120,
+                "height": 120,
+                "caption": "Example Image"
+            },
+            "image": {
+                "@id": "https://www.example.com/images/example.jp"
+            }
+        },
+        {
+            "@type": "WebSite",
+            "@id": "https://www.example.com/#/schema/WebSite/1",
+            "url": "https://www.example.com/",
+            "name": "Example Website",
+            "publisher": {
+                "@id": "https://www.example.com/#/schema/Organization/1"
+            },
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://www.example.com/?s={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+        },
+        {
+            "@type": "WebPage",
+            "@id": "https://www.example.com/",
+            "url": "https://www.example.com/",
+            "inLanguage": "en-US",
+            "name": "Example Page",
+            "isPartOf": {
+                "@id": "https://www.example.com/#/schema/WebSite/1"
+            },
+            "about": {
+                "@id": "https://www.example.com/#/schema/Organization/1"
+            },
+            "datePublished": "2015-09-14T08:13:22+00:00",
+            "dateModified": "2019-03-28T12:46:37+00:00",
+            "description": "Example description"
+        }
+    ]
+}
+
+An article, with an author, on a company website
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Organization",
+            "@id": "https://www.example.com/#/schema/Organization/1",
+            "name": "Example Organization",
+            "url": "https://www.example.com/",
+            "sameAs": [
+                "https://www.facebook.com/example/",
+                "https://www.instagram.com/example/",
+                "https://www.linkedin.com/example/",
+                "https://www.youtube.com/example/",
+                "https://www.pinterest.com/example/",
+                "https://en.wikipedia.org/wikiexample/",
+                "https://x.com/example/"
+            ],
+            "logo": {
+                "@type": "ImageObject",
+                "@id": "https://www.example.com/images/example.jpg",
+                "url": "https://www.example.com/images/example.jpg",
+                "contentUrl": "https://www.example.com/images/example.jpg",
+                "width": 120,
+                "height": 120,
+                "caption": "Example Image"
+            },
+            "image": {
+                "@id": "https://www.example.com/images/example.jpg"
+            }
+        },
+        {
+            "@type": "WebSite",
+            "@id": "https://www.example.com/#/schema/WebSite/1",
+            "url": "https://www.example.com/",
+            "name": "Example Website",
+            "publisher": {
+                "@id": "https://www.example.com/#/schema/Organization/1"
+            },
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://www.example.com/?s={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+        },
+        {
+            "@type": "WebPage",
+            "@id": "https://www.example.com/blog/example-article/",
+            "url": "https://www.example.com/blog/example-article/",
+            "inLanguage": "en-US",
+            "breadcrumb": {
+                "@id": "https://www.example.com/#/schema/BreadcrumbList/abc123"
+            },
+            "name": "Example Page",
+            "isPartOf": {
+                "@id": "https://www.example.com/#/schema/WebSite/1"
+            },
+            "datePublished": "2015-09-14T08:13:22+00:00",
+            "dateModified": "2019-03-28T12:46:37+00:00",
+            "description": "Example description"
+        },
+        {
+            "@type": "Article",
+            "@id": "https://www.example.com/#/schema/Article/abc123",
+            "headline": "Example article headline",
+            "description": "Example article description",
+            "isPartOf": {
+                "@id": "https://www.example.com/blog/example-article/"
+            },
+            "mainEntityOfPage": {
+                "@id": "https://www.example.com/blog/example-article/"
+            },
+            "datePublished": "2019-07-10T08:08:40+00:00",
+            "dateModified": "2019-07-10T08:43:03+00:00",
+            "commentCount": 6,
+            "articleSection": ["Cats","Dogs","Recipes"],
+            "author": {
+                "@id": "https://www.example.com/#/schema/Person/abc123"
+            },
+            "publisher": {
+                "@id": "https://www.example.com/#/schema/Organization/1"
+            },
+            "image": [
+                {
+                    "@id": "https://www.example.com/images/example-2.jpg"
+                },
+                {
+                    "@id": "https://www.example.com/images/example-3.jpg"
+                }
+            ],
+            "video": [
+                {
+                    "@id": "https://www.example.com/#/schema/VideoObject/abc123"
+                },
+                {
+                    "@id": "https://www.example.com/#/schema/VideoObject/def456"
+                }
+            ]
+        },
+        {
+            "@type": "Person",
+            "@id": "https://www.example.com/#/schema/Person/abc123",
+            "name": "Example person name",
+            "image": {
+                "@id": "https://www.example.com/images/example-4.jpg"
+            },
+            "sameAs": [
+                "https://www.wikipedia.com/example-organization",
+                "https://www.linkedin.com/company/1234"
+            ]
+        },
+        {
+            "@type": "BreadcrumbList",
+            "@id": "https://www.example.com/#/schema/BreadcrumbList/abc123",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://www.example.com/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Blog",
+                    "item": "https://www.example.com/blog/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Example Article"
+                }
+            ]
+        }
+    ]
+}
+
+A product in a WooCommerce store
+Note that these are actually two separate graph blocks in reality, that are stitched together. The result when parsing however is the same.
+
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Organization",
+            "@id": "https://www.example.com/#/schema/Organization/1",
+            "name": "Example Organization",
+            "url": "https://www.example.com/",
+            "sameAs": [
+                "https://www.facebook.com/example/",
+                "https://www.instagram.com/example/",
+                "https://www.linkedin.com/example/",
+                "https://www.youtube.com/example/",
+                "https://www.pinterest.com/example/",
+                "https://en.wikipedia.org/wikiexample/",
+                "https://x.com/example/"
+            ],
+            "logo": {
+                "@type": "ImageObject",
+                "@id": "https://www.example.com/images/example.jpg",
+                "url": "https://www.example.com/images/example.jpg",
+                "contentUrl": "https://www.example.com/images/example.jpg",
+                "width": 120,
+                "height": 120,
+                "caption": "Example Image"
+            },
+            "image": {
+                "@id": "https://www.example.com/images/example.jpg"
+            }
+        },
+        {
+            "@type": "WebSite",
+            "@id": "https://www.example.com/#/schema/WebSite/1",
+            "url": "https://www.example.com/",
+            "name": "Example Website",
+            "publisher": {
+                "@id": "https://www.example.com/#/schema/Organization/1"
+            },
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://www.example.com/?s={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+        },
+        {
+            "@type": [
+                "WebPage",
+                "ItemPage"
+            ],
+            "@id": "https://www.example.com/products/example-page/",
+            "url": "https://www.example.com/products/example-page/",
+            "inLanguage": "en-US",
+            "breadcrumb": {
+                "@id": "https://www.example.com/#/schema/BreadcrumbList/abc123"
+            },
+            "name": "Example Product Page",
+            "isPartOf": {
+                "@id": "https://www.example.com/#/schema/WebSite/1"
+            },
+            "datePublished": "2015-09-14T08:13:22+00:00",
+            "dateModified": "2019-03-28T12:46:37+00:00",
+            "description": "Example description"
+        },
+        {
+            "@type": "BreadcrumbList",
+            "@id": "https://www.example.com/#/schema/BreadcrumbList/abc123",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://www.example.com/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Products",
+                    "item": "https://www.example.com/products/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Example Page"
+                }
+            ]
+        },
+        {
+            "@type": "Product",
+            "@id": "https://www.example.com/#/schema/Product/abc123",
+            "name": "Vneck Tshirt",
+            "image": {
+                "@id": "https://www.example.com/images/example-2.jpg"
+            },
+            "description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.",
+            "sku": 83,
+            "offers": [
+                {
+                    "@type": "Offer",
+                    "@id": "https://www.example.com/#/schema/Offer/abc123",
+                    "priceSpecification": {
+                        "@type": "PriceSpecification",
+                        "price": "18.00",
+                        "priceCurrency": "EUR",
+                        "valueAddedTaxIncluded": "false"
+                    },
+                    "availability": "https://schema.org/InStock",
+                    "url": "https://www.example.com/products/example-page/",
+                    "seller": {
+                        "@id": "https://www.example.com/#/schema/Organization/1"
+                    }
+                }
+            ],
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.50",
+                "reviewCount": 2
+            },
+            "review": [
+                {
+                    "@type": "Review",
+                    "@id": "https://www.example.com/#/schema/Review/abc123",
+                    "datePublished": "2019-04-09T09:10:12+00:00",
+                    "description": "What a nice turtle shirt.",
+                    "reviewRating": {
+                        "@type": "Rating",
+                        "ratingValue": "4"
+                    },
+                    "author": {
+                        "@type": "Person",
+                        "name": "Tim"
+                    }
+                },
+                {
+                    "@type": "Review",
+                    "@id": "https://www.example.com/#/schema/Review/def456",
+                    "datePublished": "2019-04-09T09:10:29+00:00",
+                    "description": "Awesome shirt",
+                    "reviewRating": {
+                        "@type": "Rating",
+                        "ratingValue": "5"
+                    },
+                    "author": {
+                        "@type": "Person",
+                        "name": "Patrice"
+                    }
+                }
+            ],
+            "brand": {
+                "@type": "Organization",
+                "name": "Turtle"
+            },
+            "mainEntityOfPage": {
+                "@id": "https://www.example.com/products/example-page/"
+            },
+            "manufacturer": {
+                "@type": "Organization",
+                "name": "Turtle"
+            }
+        }
+    ]
+}
+
+
+Other examples
+Our technical documentation contains more extensive and varied examples, as well details on how Yoast SEO software determines what to output in various scenarios.
+
+Altering or extending our graphs
+All of our output can be altered, extended or disabled (by piece or in totality) via a full API.
+
+In scenarios where third-party plugins, themes or systems result in 'un-stitching' of the graph, duplicate/conflated properties, or shared ID spaces, we recommend adopting our framework and utilizing our APIs (or encouraging the relevant solution authors to do so).
+
+Use in Yoast software
+This specification forms the basis of our schema.org / JSON-LD output from Yoast SEO version 11.0 onwards. Specific information on how our software utilizes and extends this specification can be found here .
+
+Support and feedback
+This spec is a continual work in progress, and, we're always keen to assist others in adoption, extension or refinement. If you have questions about the mechanics described here, or if you'd like to apply the spec to your own theme/plugin(s), feel free to create an issue on our GitHub repository.
+
+Don't forget that we also have technical documentation, and an API for modifying our schema output!
+
+Appendix
+1: JSON-LD vs other standards
+On the surface, JSON-LD's requirement to output a single, static snippet of code in the template may seem limited, compared to the flexibility of inlining provided by alternative methods (e.g., RDFa or Microdata). However, as use-cases increase in complexity, it becomes quickly apparent that approaches based on inlining lack the flexibility and scalability which we require. Specifically:
+
+They're tied to the structure of the page's HTML markup. That means that it's hard to represent structures and entities whose properties don't align perfectly to the page's layout, and often, representing meta properties or linked data requires inlining of hidden properties and meta tags.
+They do a poor job of handling the complexity of relationships. If entity A shares or inherits a property with entity B, or is a child of entity C, there's no easy way to represent this. There's also no easy way to reverse the direction of relationship declarations.
+Not all entities can be easily represented by a neat hierarchy, which can align to the HTML markup of a template. For example, correctly positioning the main content of a WebPage which contains an Article - which is published by an Organization on a WebSite, and which has an Author and other attributes - as the explicit centre of a network graph, isn't always easy when working with linear, nested markup. There's an amount of cross-linking and relationship referencing required to abstract away from the page's code structure.
+Even if you can overcome all of this, it's hard to universally integrate into all the individual templates of websites where the schema is required - businesses and users will utilize a variety of templates, themes, markups, plugins, coding techniques and processes - making it incredibly difficult to rely on maintaining valid markup. In the WordPress world, at least, we can't guarantee that themes and plugins will be able to reliably and cleanly communicate, integrate and structure inline markup.
+As we're attempting to maximize flexibility and interoperability, in this context, JSON-LD is a clear winner.
+
+1a: Avoiding content duplication via CSS/XPath selection
+One of the main objections to JSON-LD as a format is that it can result in duplication of (large chunks of) content. For example, if I wish to represent a review, I must include the entire review content in the page's 'human' readable content, as well as in the JSON markup (at least, according to Google's structured data requirements).
+
+This is often perceived as a performance concern, and, rightly so. Even with GZIP enabled and configured (which, we can't assume will always be the case), this can cause (albeit minor) overheads on server responses and browser processing.
+
+In the future, we hope to be able to bypass this issue by using schema.org's CssSelectorType or XPathType markup. This allows us to target specific containers (or composites/arrays of containers) which represent the content in question, rather than duplicating the text. At the moment, this only supports webPageElement and Speakable content areas.
+
+Until these targeting methods achieve greater support, content should only be duplicated when explicitly required by search engines and external agents. These scenarios are reflected in this document.
+
+2: Use of tag management solutions and JavaScript injection
+We prefer the JSON-LD markup to be included and rendered server-side, rather than being injected via a tag management solution or JavaScript file/function. Additionally, whenever possible, all attribute values should be 'hard-coded' into the graph, rather than referencing/calling functions or variables from elsewhere.
+
+The computational cost of crawling, processing and utilizing values injected by JavaScript is significantly higher and more complex than just scraping HTML, and as a result, many platforms offer only partial (if any) support for an approach which relies heavily on JavaScript.
+
+Approaches which rely on external scripts and platforms - such as tag management systems - can also introduce fragility in the form of conflicts, race conditions, latency and dependency management.
+
+3. Handling images
+Throughout the examples in this document, we generally make a few assumptions about images:
+
+Even though the core schema.org definitions don't always list image as a required attribute of a piece, Google does frequently require an image for almost all piece types (i.e., eligibility for their 'rich snippets' and similar experiences almost always require pages, blog posts, products and other piece entities to have at least one image). Assume that anywhere where we've included an image parameter, it should be considered to be mandatory.
+All image properties should be registered as arrays of imageObject entities, to be able to set advanced properties (like caption) where feasible, and to be able to inherit/share images across pieces via ID. This enables ease of sharing of images between related pieces (e.g., where the main/featured image of a blogPosting is often likely to be the same entity as the primaryImageOfPage of the page where the blog post resides).
+Size and format constraints vary by agent, but, common sense should be applied.
+4. Using canonical URLs
+url attributes should always inherit from the 'true canonical' value of the page where the JSON snippet resides (i.e., if the canonical URL tag has been manually set to reference a different page/URL, the original 'true' canonical value should be used).
+
+For example, if Page A has a URL of https://www.example.com/page-a/, but includes a canonical URL tag which references Page B (at https://www.example.com/page-b/), then all url parameters which would normally relate to Page A should continue to use Page A 's 'true' canonical URL.
+
+5. Validation tools
+We have three preferred tools when testing, evaluating and debugging schema.
+
+The official schema.org validator checks that for structural and syntax errors.
+Google's Rich Results Test (or 'SDTT') validates whether a given page is eligible for certain types of rich results in Google.
+Classy Schema visualises a page's graph, to ensure that it's cohesive and coherent.
+6. Known issues
+There are a number of scenarios where the SDTT deviates from the schema.org definitions. In some cases, we've adapted or compromised our approach to find a solution which applies to both - in others, we've swayed in favor of one or the other, depending on the context.
+
+For example, the SDTT requires that a recipe has an image. This isn't a mandatory attribute according to the schema.org recipe specification, but Google requires it. There are many scenarios like this, where the SDTT reveals Google-specific idiosyncrasies and requirements which are either the product of deliberate 'bending' of the standards to fit their needs, or of somewhat arbitrary decision-making.
+
+The following are specific scenarios where our approach causes conflicts and issues, where we're petitioning to alter how Google interprets and processes our markup.
+
+A Person cannot be the Publisher of an Article
+This is a particularly challenging issue, as a WebSite which represents a Person (as opposed to one which represents an Organization; i.e., a personal website) will naturally 'publish' articles where that Person should be considered to be the 'publisher'. This is an extremely common use-case, but one which various Google tools and standards flag as invalid.
+
+Additionally, a critical piece of our graph approach relies on identifying the connection between a WebPage (or an Article) and the WebSite on which it resides. The Publisher is the key connection between these entities, and so, we've chosen to ignore the error in this case (but have alerted Google to it).
+
+To work around this, we merge the Person with an Organization to create a hybrid type ([Person, Organization]), which then expects/accepts a logo and other 'Publisher' properties. This validates in the SDTT, but, is an acknowledged 'hack'.
+
+7. Other consumers
+At the time of publishing, it appears that Bing does not support this approach; their 'Markup Validator' tool (part of Bing Webmaster Tools) does not detect (and/or parse) markup contained within a @graph structure (which forms the backbone of our approach). We're seeking to engage in dialogue with Bing to determine their stance on support.
+
+Social platforms like Facebook, X, Pinterest, etc., have varying levels of support for this markup. Most rely on Open Graph markup ('OG tags') and similar, but may use components of schema.org markup when OG tags are missing or invalid.
+
+The support of other search engines (e.g., Baidu, Yandex, others) is unknown; it's our assumption that support will generally be limited, or not exist. We hope that the broad adoption of our approach will encourage these, and other consumers, to expand their support.
+
+Yoast SEO for WordPress: Schema output
+This page documents the schema.org markup output by the Yoast SEO plugin. More information about our API, integration mechanics, and methodology can be found in the overview.
+
+Core logic
+Every page should (attempt to) output the following pieces:
+
+Organization
+WebSite
+WebPage
+This produces a 'base script', which will typically looks something like the following (a composite of the above pieces):
+
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Organization",
+            "@id": "https://www.example.com/#/schema/organization/1",
+            "url": "https://www.example.com/#/schema/organization/",
+            "name": "Example organization name",
+            "sameAs": [
+                "https://www.wikipedia.com/example-organization",
+                "https://www.linkedin.com/company/1234"
+            ],
+            "logo": {
+                "@id": "https://www.example.com/#/schema/image/abc123"
+            },
+            "image": [
+                {
+                    "@id": "https://www.example.com/#/schema/image/abc123"
+                },
+                {
+                    "@id": "https://www.example.com/#/schema/image/def456"
+                }
+            ]
+        },
+        {
+            "@type": "WebSite",
+            "@id": "https://www.example.com/#/schema/website/1",
+            "url": "https://www.example.com/",
+            "name": "Example website",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://www.example.com/?s={search_term_string}",
+                "query-input": "required name=search_term_string"
+            },
+            "publisher": {
+                "@id": "https://www.example.com/#/schema/organization/1"
+            }
+        },
+        {
+            "@type": "WebPage",
+            "@id": "https://www.example.com/example-page/test/",
+            "url": "https://www.example.com/example-page/test/",
+            "name": "Example page name",
+            "description": "Example page description",
+            "keywords": "cats,dogs,cake",
+            "isPartOf": {
+                "@id": "https://www.example.com/#/schema/website/1"
+            },
+            "inLanguage": "en-US",
+            "datePublished": "2019-07-10T08:08:40+00:00",
+            "dateModified": "2019-07-10T08:43:03+00:00",
+            "breadcrumb": {
+                "@id": "https://www.example.com/example-page/#/schema/breadcrumb/abc123"
+            },
+            "image": [
+                {
+                    "@id": "https://www.example.com/#/schema/image/abc123"
+                },
+                {
+                    "@id": "https://www.example.com/#/schema/image/def456"
+                }
+            ]
+        },
+        {
+            "@type": "BreadcrumbList",
+            "@id": "https://www.example.com/example-page/#/schema/breadcrumb/abc123",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "item": {
+                        "@type": "WebPage",
+                        "@id": "https://www.example.com/",
+                        "url": "https://www.example.com/",
+                        "name": "Home"
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "item": {
+                        "@id": "https://www.example.com/example-page/test/"
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "ImageObject",
+            "@id": "https://www.example.com/#/schema/image/abc123",
+            "url": "https://www.example.com/uploads/example-image.jpg",
+            "caption": "Example caption",
+            "width": 120,
+            "height": 120
+        },
+        {
+            "@type": "ImageObject",
+            "@id": "https://www.example.com/#/schema/image/def456",
+            "url": "https://www.example.com/uploads/example-image.jpg",
+            "caption": "Example caption",
+            "width": 120,
+            "height": 120
+        }
+    ]
+}
+
+Additional scenarios
+The above base script should be altered or extended in the following scenarios.
+
+When the website represents a Person
+Add an additional @type value of Person to the Organization.
+Merge the properties of the Person into those of the Organization.
+On single Posts
+Add an Article piece, and connect this to the WebPage (via a mainEntityOfPage property).
+When a page contains a HowTo block
+Add a HowTo piece, and connect this to the WebPage - or instead to the Article, if one is present (via a mainEntityOfPage property).
+When a page contains an FAQ block
+Add an additional @type value of FAQPage to the WebPage.
+Add a mainEntity property to the WebPage, referencing the IDs of each question node (in an array).
+
+
+Schema piece - Organization
+Describes an organization (a company, business or institution). Most commonly used to identify the publisher of a WebSite.
+
+May be transformed into a more specific type (such as Corporation or LocalBusiness ) if the required conditions are met.
+
+Triggers
+Should be output on all public pages.
+
+Required properties
+A valid Organization must have the following properties.
+
+@type: Organization.
+@id: The site's home URL appended by #/schema/Organization/{{ID}}, where {{ID}} is a unique identifier.
+If the organization is the publisher of the WebSite (i.e., the "primary organization", or "this organization"), then the value of {{ID}} should be 1.
+name: The name of the Organization.
+URL: The site's home URL.
+logo: A reference-by-ID to an ImageObject of the organization's logo.
+Failure scenarios
+If any of the required fields are missing or invalid, the node should not be output.
+
+If the node is not output, any entities which would otherwise have declared a relationship with the Organization (e.g., as the publisher of a WebSite, or the manufacturer of a Product) should remove those references.
+
+Optional properties
+The following should be added whenever available and valid:
+
+sameAs: An array of URLs representing declared social/authoritative profiles of the organization (e.g., a Wikipedia page, or Facebook profile).
+image: An array of references-by-ID to ImageObject nodes which represent the organization (including the logo ).
+alternateName: An alternate (usually shorter) name for the organization.
+hasMerchantReturnPolicy: An array of the type MerchantReturnPolicy which represents a return policy of the organization.
+Transformations
+The Organization type may be transformed in the following scenarios.
+
+When the business is 'local'
+When location information is available, the Organization may be eligible for extension into a LocalBusiness type.
+Examples
+Minimum criteria
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Organization",
+            "@id": "https://www.example.com/#/schema/Organization/abc123",
+            "url": "https://www.example.com/",
+            "logo": {
+                "@id": "https://www.example.com/uploads/example-image.jpg"
+            },
+            "name": "Example organization name"
+        }
+    ]
+}
+
+Extended criteria
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Organization",
+            "@id": "https://www.example.com/#/schema/Organization/abc123",
+            "url": "https://www.example.com/",
+            "name": "Example organization name",
+            "alternateName": "Short org name",
+            "sameAs": [
+                "https://www.wikipedia.com/example-organization",
+                "https://www.linkedin.com/company/1234"
+            ],
+            "logo": {
+                "@id": "https://www.example.com/uploads/example-image.jpg"
+            },
+            "image": [
+                {
+                    "@id": "https://www.example.com/uploads/example-image.jpg"
+                },
+                {
+                    "@id": "https://www.example.com/uploads/example-image-2.jpg"
+                }
+            ]
+        }
+    ]
+}
+
+WordPress API: Change Organization Schema output
+To make changes to the Organization schema that Yoast SEO outputs, you can use our wpseo_schema_organization filter. Here is an example:
+
+add_filter( 'wpseo_schema_organization', 'change_organization_schema', 11, 2 );
+
+/**
+ * Add extra properties to the Yoast SEO Organization
+ *
+ * @param array             $data    The Schema Organization data.
+ * @param Meta_Tags_Context $context Context value object.
+ *
+ * @return array $data The Schema Organization data.
+ */
+function change_organization_schema( $data, $context ) {
+	$data['@type'] = [
+		'Organization',
+		'Brand',
+	];
+	$data['founder'] = [
+		'@type'  => 'Person',
+		'name'   => 'Joost de Valk',
+		'sameAs' => 'https://en.wikipedia.org/wiki/Joost_de_Valk',
+	];
+	$data['foundingDate']       = '2010-05-01';
+	$data['numberOfEmployees']  = (int) wp_count_posts( 'yoast_employees' )->publish;
+	$data['slogan']             = 'SEO for Everyone';
+	$data['description']        = 'Yoast helps you with your website optimization, whether it be through our widely used SEO software or our online SEO courses: we&#039;re here to help.';
+	$data['url']                = 'https://yoast.com/';
+	$data['legalName']          = 'Yoast BV';
+	$data['alternateName']      = 'Yoast';
+	$data['parentOrganization'] = [
+		'@type'       => 'Organization',
+		'name'        => 'Newfold Digital',
+		'description' => 'Newfold Digital is a leading web presence solutions provider serving millions of small-to-medium businesses globally.',
+		'url'         => 'https://newfold.com/',
+		'sameAs'      => [
+			'https://newfold.com/',
+		],
+		'logo'        => 'https://yoast.com/app/uploads/2022/01/newfold-logo.png',
+	];
+	$data['memberOf']           = [
+		'@type'       => 'Organization',
+		'name'        => 'World Wide Web Consortium (W3C)',
+		'description' => 'The World Wide Web Consortium (W3C) is an international community that develops open standards to ensure the long-term growth of the Web.',
+		'url'         => 'https://w3.org/',
+		'sameAs'      => [
+			'https://w3.org/',
+		],
+		'logo'        => 'https://www.w3.org/Icons/w3c_main.png',
+	];
+
+	return $data;
+}
+
+
+To make more changes to our Schema output, see the Yoast SEO Schema API.
+
+Schema piece - WebSite
+Describes a WebSite. Parent to WebPage.
+
+Triggers
+Should be output on all public pages.
+
+Required properties
+A valid WebSite must have the following properties.
+
+@type: WebSite.
+@id: The site's home URL appended by #/schema/WebSite/{{ID}}, where {{ID}} is a globally unique, stable identifier.
+If the WebSite is the website being viewed/consumed (i.e., "this website"), then the value of {{ID}} should be 1.
+url: The site's home URL (excluding a trailing slash).
+name: The name of the website.
+Failure scenarios
+If any of the required fields are missing or invalid, the node should not be output.
+
+Optional properties
+The following should be added whenever available and valid:
+
+publisher: A reference-by-ID to the node representing the entity which publishes the WebSite.
+potentialAction: A SearchAction object describing the site's internal search.
+inLanguage: The language code for the WebSite; e.g., en-GB.
+If the website is available in multiple languages, then output an array of inLanguage values.
+description: A description of the website (e.g., the site's tagline).
+alternateName: An alternate (usually shorter) name for the website.
+Examples
+Minimum criteria
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "@id": "https://www.example.com/#/schema/WebSite/1",
+            "url": "https://www.example.com",
+            "name": "Example website"
+        }
+    ]
+}
+
+Extended criteria
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "@id": "https://www.example.com/#/schema/WebSite/1",
+            "url": "https://www.example.com",
+            "name": "Example website",
+            "alternateName": "Example.com",
+            "inLanguage": "en-US",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://www.example.com/?s={search_term_string}",
+                "query-input": "required name=search_term_string"
+            },
+            "publisher": {
+                "@id": "https://www.example.com/#/schema/Organization/1"
+            }
+        }
+    ]
+}
+
+WordPress API: Change Website Schema output
+To make changes to the Website schema that Yoast SEO outputs, you can use our wpseo_schema_website filter. Here is an example:
+
+add_filter( 'wpseo_schema_website', 'example_change_website' );
+
+/**
+ * Changes Website Schema data output, overwriting the name and alternateName.
+ *
+ * @param array $data Schema.org Website data array.
+ *
+ * @return array Schema.org Website data array.
+ */
+function example_change_website( $data ) {
+    $data['name']          = 'Yoast';
+    $data['alternateName'] = 'Yoast.com';
+
+    return $data;
+}
+
+To change the SearchAction output, please see its API documentation.
+
+To make more changes to our Schema output, see the Yoast SEO Schema API.
+
+Schema piece - WebPage
+Describes a single page on a WebSite. Acts as a container for sub-page elements (such as Article).
+
+Acts as a connector from a page's content to the parent WebSite (and in turn, to the Organization).
+
+May be transformed into a more specific type (such as FAQPage ) if the required conditions are met.
+
+Triggers
+Should be output on all public pages, except for 4xx and 5xx range error pages/scenarios.
+
+Required properties
+A valid WebPage must have the following properties.
+
+@type: WebPage.
+@id: The unmodified canonical URL of the page.
+URL: The unmodified canonical URL of the page.
+name: The title of the page.
+isPartOf: A reference-by-ID to the WebSite node.
+Failure scenarios
+If any of the required fields are missing or invalid, the node should not be output.
+
+Optional properties
+The following should be added whenever available and valid:
+
+description: The page's meta description content.
+inLanguage: The language code for the page; e.g., en-GB.
+datePublished: The time at which the page was originally published, in ISO 8601 format; e.g., 2015-10-31T16:10:29+00:00.
+dateModified: The time at which the page was last modified, in ISO 8601 format; e.g., 2015-10-31T16:10:29+00:00.
+primaryImageOfPage: A reference-by-ID to a node representing the page's featured image.
+breadcrumb: A reference-by-ID to a node representing the page's breadcrumb structure.
+image: An array of all images in the page content, referenced by ID (including the image referenced by the primaryImageOfPage).
+video: An array of all videos in the page content, referenced by ID.
+keywords: An array of the names of tags attached to the page (e.g., ["cats","dogs","cake"]).
+speakable: A SpeakableSpecification object which identifies any content elements suitable for spoken results.
+Conditional properties
+Optional properties which should only be output when the required criteria is met.
+
+When the page is a conventional Page (and not, e.g., a posts archive, user profile, etc.)
+potentialAction: A ReadAction object with values:
+target: The unmodified canonical URL of the page.
+When the page is authored
+author: A reference-by-ID to the author of the page. Should only be output when the page is explicitly authored (e.g., on a page containing a native Post in WordPress).
+When the page has comments, and the page does not contain a valid Article
+comment: An array of references-by-ID to comments associated with the page.
+commentCount: An integer value of the total number of comments associated with the page.
+When it's a homepage
+Add an additional about property which references the main entity of the site (typically an Organization or Person, depending on user configuration).
+If there's no explicitly defined featured image for the page, set the primaryImageOfPage to the (imageObject representing the) site's logo.
+Transformations
+The WebPage type may be transformed in the following scenarios.
+
+Taxonomy indexes
+When the query returns a loop of posts (e.g., a category archive, a blog homepage, or other taxonomy index) then, then the type property should be altered to CollectionPage.
+
+Profile pages
+When the page is about a particular user (e.g., a member bio / author archive):
+
+The type property should be altered to ProfilePage.
+If the page features posts/pages authored by that Person, then the type property should instead be an array of ['CollectionPage','ProfilePage'].
+Add a mainEntityOfPage property to the Person which the page is about, which references the WebPage by ID.
+FAQ pages
+When the page contains FAQs, the type property should be converted to an array including FAQPage and WebPage (or the most specific transformation as described above).
+
+Search results
+On search results pages, the type property should be altered to an array of [CollectionPage, SearchResultsPage].
+
+Examples
+Minimum criteria
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            "@id": "https://www.example.com/example-page/",
+            "url": "https://www.example.com/example-page/",
+            "name": "Example page name",
+            "isPartOf": {
+                "@id": "https://www.example.com/#/schema/WebSite/1"
+            }
+        }
+    ]
+}
+
+Extended criteria
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            "@id": "https://www.example.com/example-page/",
+            "url": "https://www.example.com/example-page/",
+            "name": "Example page name",
+            "description": "Example page description",
+            "keywords": ["cats","dogs","cake"],
+            "isPartOf": {
+                "@id": "https://www.example.com/#/schema/WebSite/1"
+            },
+            "inLanguage": "en-US",
+            "datePublished": "2019-07-10T08:08:40+00:00",
+            "dateModified": "2019-07-10T08:43:03+00:00",
+            "breadcrumb": {
+                "@id": "https://www.example.com/#/schema/BreadcrumbList/abc123"
+            },
+            "primaryImageOfPage": {
+                "@id": "https://www.example.com/uploads/example-image.jpg"
+            },
+            "image": [
+                {
+                    "@id": "https://www.example.com/uploads/example-image.jpg"
+                },
+                {
+                    "@id": "https://www.example.com/uploads/example-image-2.jpg"
+                }
+            ],
+            "video": [
+                {
+                    "@id": "https://www.example.com/#/schema/VideoObject/abc123"
+                },
+                {
+                    "@id": "https://www.example.com/#/schema/VideoObject/def456"
+                }
+            ],
+            "potentialAction": [
+                {
+                    "@type": "ReadAction",
+                    "target": [ "https://www.example.com/example-page/" ]
+                }
+            ]
+        }
+    ]
+}
+
+WordPress API: Change Webpage Schema output
+To make changes to the Webpage schema that Yoast SEO outputs, you can use our wpseo_schema_webpage filter. Here is an example:
+
+add_filter( 'wpseo_schema_webpage', 'example_change_webpage' );
+
+/**
+ * Changes @type of Webpage Schema data.
+ *
+ * @param array $data Schema.org Webpage data array.
+ *
+ * @return array Schema.org Webpage data array.
+ */
+function example_change_webpage( $data ) {
+    if ( ! is_page( 'about' ) ) {
+        return $data;
+    }
+
+    $data['@type'] = 'AboutPage';
+
+    return $data;
+}
+
+We also have a more specific filter for convenience: wpseo_schema_webpage_type - changes the page type, so could be used to make the above example even simpler.
+
+To make more changes to our Schema output, see the Yoast SEO Schema API.
+
+Controls - Overview
+This documentation provides information about the types of controls that Yoast SEO provides.
+
+Global site controls
+As a site owner, I want to be able to set the following metadata globally.
+
+Default meta options
+Option	Description	Values
+og:site_name	The name of the site for when shared in social platforms	string
+twitter:site	The X handle of the X profile associated with the site	string
+Social profiles	An array of the URLs of social media properties representing the publisher	array
+Title separator	The character used to delimit a page's 'name' and brand components in the title tag	char
+Publisher information
+Option	Description	Values
+Publisher type	Whether the site represents a user or organization	user or organization
+organization.name	The name of the organization which publishes the site.	string
+organization.logo	An image representing the organization which publishes the site.	string
+person.name	The name (and identity, e.g., a user ID/profile) of the person who publishes the site.	string
+person.logo	An image representing the person who publishes the site.	string
+NB: Only values for one of organization or person fields are required, depending on the Publisher type.
+
+Template controls
+For each template (and/or content) type, the user should be able to set:
+
+Option	Description	Values
+Title patterns	The default pattern which title values should use	string supporting replacement vars
+Description patterns	The default pattern which meta description values should use	string supporting replacement vars
+Meta robots values	Crawling/indexing controls which deviate from the defaults	One or more of index, noindex, follow, nofollow, noodp, noimageindex, noarchive, nosnippet
+Page-level controls
+For each page, the user should be able to preview and control their SEO settings via our analysis tools
+
+Misc Tools
+Tools must be provided to allow users to manage:
+
+Link attributes
+RSS feeds
+robots.txt
+Integrations
+Feature controls
+It must be possible to enable/disable the following features (when available):
+
+SEO analysis
+Readability analysis
+Inclusive language analysis
+Cornerstone content
+Text link counter
+Insights
+Link suggestions
+XML sitemaps
+Admin bar menu
+Security controls ("no advanced or schema settings for authors")
+Usage tracking
+REST API
+Enhanced Slack sharing
+IndexNow

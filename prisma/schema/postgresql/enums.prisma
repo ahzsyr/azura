@@ -1,0 +1,243 @@
+// Domain: shared enums
+
+enum UserRole {
+  ADMIN
+  CUSTOMER
+  SUPER_ADMIN
+}
+
+enum EmailVerificationPurpose {
+  SIGNUP_VERIFY
+  EMAIL_CHANGE
+}
+
+enum EmailOtpPurpose {
+  SIGNUP_VERIFY
+  ADMIN_LOGIN
+}
+
+enum FavoriteEntityType {
+  CATALOG_PRODUCT
+  CONTENT_ITEM
+}
+
+enum InquiryType {
+  GENERAL
+  PACKAGE
+  CONTENT
+  VISA
+  CONTACT
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum GalleryMediaKind {
+  IMAGE
+  VIDEO
+}
+
+enum VideoStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  SCHEDULED
+  ARCHIVED
+}
+
+enum ThemePreset {
+  CLASSIC
+  MODERN
+  LUXURY
+  CUSTOM
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+  SVG
+}
+
+enum MediaVisibility {
+  PUBLIC
+  GATED
+  PRIVATE
+}
+
+enum IconSource {
+  BUILTIN
+  CUSTOM
+  FONT
+}
+
+enum IconType {
+  COMPONENT
+  SVG
+  FONT
+}
+
+enum SearchEntityType {
+  CONTENT_ITEM
+  CONTENT_COLLECTION
+  CONTENT_TYPE
+  CATALOG_PRODUCT
+  CATALOG_COLLECTION
+  CATALOG_CATEGORY
+  POST
+  CMS_PAGE
+  FAQ
+  MEDIA
+  ICON
+  TESTIMONIAL
+  TEAM_MEMBER
+  PARTNER
+}
+
+enum RedirectType {
+  PERMANENT
+  TEMPORARY
+}
+
+enum TranslationStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+}
+
+enum SeoSubmissionJobStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+  EXHAUSTED
+}
+
+enum SeoTelemetryEventType {
+  QUEUED
+  STARTED
+  COMPLETED
+  FAILED
+  EXHAUSTED
+  SKIPPED
+}
+
+enum SeoTelemetryStatus {
+  SUCCESS
+  FAILURE
+  INFO
+}
+
+enum SeoCrawlIssueSeverity {
+  CRITICAL
+  WARNING
+  INFO
+}
+
+enum SeoRichResultCategory {
+  ERROR
+  WARNING
+}
+
+enum SeoRichResultEligibility {
+  ELIGIBLE
+  ELIGIBLE_WITH_WARNINGS
+  NOT_ELIGIBLE
+}
+
+enum MarketingJobStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+  EXHAUSTED
+  CANCELLED
+}
+
+enum MarketingWebhookStatus {
+  RECEIVED
+  VERIFIED
+  PROCESSING
+  COMPLETED
+  FAILED
+  DEAD_LETTER
+}
+
+enum MarketingSyncStatus {
+  IDLE
+  RUNNING
+  SUCCESS
+  FAILED
+  SCHEDULED
+}
+
+enum MarketingCampaignStatus {
+  DRAFT
+  SCHEDULED
+  ACTIVE
+  PAUSED
+  COMPLETED
+  ARCHIVED
+}
+
+enum MarketingTouchType {
+  FIRST_TOUCH
+  SESSION_START
+  PAID_CLICK
+  ORGANIC_SEARCH
+  REFERRAL
+  EMAIL
+  SOCIAL_ORGANIC
+  DIRECT
+  CAMPAIGN_URL
+  CONVERSION_TOUCH
+}
+
+enum MarketingClickIdType {
+  GCLID
+  FBCLID
+  MSCLKID
+  LI_FAT_ID
+  OTHER
+}
+
+enum MarketingConsentStatus {
+  UNKNOWN
+  GRANTED
+  DENIED
+  WITHDRAWN
+}
+
+/// Canonical Category scope (Categories unification).
+enum CategoryScope {
+  PRODUCT
+  CONTENT
+  POST
+  KNOWLEDGE
+  PARTNER
+  TESTIMONIAL
+}
+
+enum CategoryMembershipMode {
+  MANUAL
+  RULES
+  HYBRID
+}
+
+enum CategoryMembershipSource {
+  MANUAL
+  RULE
+}

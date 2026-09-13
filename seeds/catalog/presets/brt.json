@@ -1,0 +1,24 @@
+{
+  "id": "brt",
+  "name": "BRT — Broadband Ready Technology",
+  "description": "Premium ISP / networking template — futuristic cyan-violet on ultra-dark with connectivity-inspired UI",
+  "colors": {
+    "primary": "#00e5ff",
+    "accent": "#7c3aed",
+    "secondary": "#00b4d8",
+    "background": "#020408",
+    "surface": "#040d1a",
+    "text": "#e8f4fd",
+    "textMuted": "#4a6580"
+  },
+  "fonts": {
+    "display": "Exo 2",
+    "body": "Barlow",
+    "mono": "JetBrains Mono"
+  },
+  "cursor": "neon-dot",
+  "backgroundEffect": "circuit",
+  "textEffect": "neon-glow",
+  "cardStyle": "corner-bracket",
+  "borderStyle": "cyan-glow"
+}

@@ -1,0 +1,56 @@
+{
+  "domain": "environmental",
+  "display": { "name": "Environmental", "order": 70 },
+  "specifications": [
+    {
+      "id": "environmental.ingress_protection",
+      "name": "Ingress Protection",
+      "type": "text",
+      "aliases": ["Ingress Protection", "IP Rating", "Dust & Water Proof", "IP68", "IP67"],
+      "contexts": {
+        "source_groups": ["certification", "environmental specifications", "hardware"],
+        "product_domains": ["radio", "networking", "hardware", "camera"]
+      },
+      "value_patterns": ["IP\\d+"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Environmental", "order": 10 }
+    },
+    {
+      "id": "environmental.operating_temperature",
+      "name": "Operating Temperature",
+      "type": "text",
+      "aliases": ["Operating Temperature", "Operational Temperature", "Tested ambient temperature"],
+      "contexts": {
+        "source_groups": ["certification", "environmental specifications", "physical parameters", "hardware"],
+        "product_domains": ["radio", "networking", "hardware"]
+      },
+      "value_patterns": ["°C", "°F"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Environmental", "order": 20 }
+    },
+    {
+      "id": "environmental.storage_temperature",
+      "name": "Storage Temperature",
+      "type": "text",
+      "aliases": ["Storage Temperature"],
+      "contexts": {
+        "source_groups": ["environmental specifications"],
+        "product_domains": ["radio", "networking", "hardware"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Environmental", "order": 30 }
+    },
+    {
+      "id": "environmental.drop_resistance",
+      "name": "Drop Resistance",
+      "type": "text",
+      "aliases": ["Drop", "Drop Resistance"],
+      "contexts": {
+        "source_groups": ["certification", "environmental specifications"],
+        "product_domains": ["radio", "hardware"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Environmental", "order": 40 }
+    }
+  ]
+}
