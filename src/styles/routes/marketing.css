@@ -1,9 +1,0 @@
-@import "../hero-motion.css" layer(components);
-@import "../portal-blocks.css" layer(components);
-@import "../product-listing.css" layer(components);
-@import "../product-card-styles.css" layer(components);
-@import "../product-card-layouts.css" layer(components);
-@import "../product-card-motion.css" layer(components);
-@import "../product-card-effects.css" layer(components);
-@import "../product-quick-view.css" layer(components);
-@import "./builder.css";

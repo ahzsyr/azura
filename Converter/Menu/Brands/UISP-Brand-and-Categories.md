@@ -1,5 +1,0 @@
-- **UISP**
-  - **60 GHz Wireless**
-  - **Wireless**
-  - **Fiber**
-  - **Accessory Tech**
