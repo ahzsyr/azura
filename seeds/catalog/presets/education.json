@@ -1,0 +1,24 @@
+{
+  "id": "education",
+  "name": "Education & E-Learning",
+  "description": "Bright indigo on white — clear, trustworthy and focused for learning platforms",
+  "colors": {
+    "primary": "#6366f1",
+    "accent": "#8b5cf6",
+    "secondary": "#06b6d4",
+    "background": "#f8faff",
+    "surface": "#ffffff",
+    "text": "#1e1b4b",
+    "textMuted": "#6b7280"
+  },
+  "fonts": {
+    "display": "Nunito",
+    "body": "Source Sans 3",
+    "mono": "JetBrains Mono"
+  },
+  "cursor": "ring-trail",
+  "backgroundEffect": "geometric",
+  "textEffect": "gradient-flow",
+  "cardStyle": "soft-shadow",
+  "borderStyle": "indigo-soft"
+}

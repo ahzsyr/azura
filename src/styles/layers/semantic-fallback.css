@@ -1,0 +1,70 @@
+/**
+ * Static semantic fallbacks (pre-hydration / admin).
+ * Class-based light/dark — matches globals.css; dynamic overrides via SSR html.dark.
+ */
+@layer tokens {
+  :root {
+    --background: #fafafa;
+    --foreground: #18181b;
+    --card: #ffffff;
+    --primary: #047857;
+    --secondary: #f5f5f4;
+    --accent: #d4af37;
+    --muted: #f5f5f4;
+    --border: #e5e5e5;
+    --ring: #047857;
+    --radius: 0.75rem;
+    --muted-foreground: #737373;
+    --primary-foreground: #ffffff;
+    --accent-foreground: #0a0a0a;
+    --secondary-foreground: #0a0a0a;
+    --card-foreground: var(--foreground);
+    --popover: var(--card);
+    --popover-foreground: var(--foreground);
+    --input: var(--border);
+
+    /* Legacy aliases → semantic (migration layer) */
+    --az-bg-primary: var(--background);
+    --az-bg-secondary: var(--card);
+    --az-text-primary: var(--foreground);
+    --az-text-secondary: var(--muted-foreground);
+    --az-color-primary: var(--primary);
+    --az-color-accent: var(--accent);
+    --az-color-bg: var(--background);
+    --az-color-surface: var(--card);
+    --az-color-text: var(--foreground);
+    --az-color-muted: var(--muted-foreground);
+    --az-color-border: var(--border);
+    --az-border-subtle: var(--border);
+    --bg: var(--background);
+    --sur: var(--card);
+    --t: var(--foreground);
+    --m: var(--muted-foreground);
+    --p: var(--primary);
+    --a: var(--accent);
+    --color-primary: var(--primary);
+    --color-accent: var(--accent);
+    --color-text: var(--foreground);
+    --color-surface: var(--card);
+  }
+
+  .dark {
+    --background: #020408;
+    --foreground: #e8f4fd;
+    --card: #040d1a;
+    --primary: #00e5ff;
+    --secondary: #041225;
+    --accent: #7c3aed;
+    --muted: #041225;
+    --border: color-mix(in srgb, #00e5ff 15%, transparent);
+    --ring: #00e5ff;
+    --muted-foreground: #4a6580;
+    --primary-foreground: #020408;
+    --accent-foreground: #ffffff;
+    --secondary-foreground: #e8f4fd;
+    --card-foreground: var(--foreground);
+    --popover: var(--card);
+    --popover-foreground: var(--foreground);
+    --input: var(--border);
+  }
+}

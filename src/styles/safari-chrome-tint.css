@@ -1,0 +1,73 @@
+/**
+ * Safari 26+ Liquid Glass: theme-color meta is ignored; the browser samples
+ * fixed/sticky elements within ~4px of the viewport edges.
+ *
+ * - Thin edge anchors carry --az-browser-chrome-tint (boot + syncThemeColorMeta).
+ * - Anchors MUST stay in the real compositing stack (positive z-index). z-index: -1
+ *   puts them behind opaque body paint — Safari then falls back to flat light chrome
+ *   with no Liquid Glass material.
+ * - Keep strips thin so a matching tint does not read as a visible hairline.
+ * - Ambient body::before wash is inset so it is NOT sampled as chrome.
+ * - Enabled for Safari on iOS and macOS (Apple WebKit), not Chromium.
+ */
+
+#az-safari-chrome-top,
+#az-safari-chrome-bottom {
+  display: none;
+  pointer-events: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  width: 100%;
+  /* Participate in edge sampling — do NOT use z-index: -1. */
+  z-index: 2147483000;
+  /* Never fall through to an implicit black/transparent sample. */
+  background-color: var(--az-browser-chrome-tint, var(--bg-primary, var(--background, #fafafa)));
+  transition: background-color 0.1s ease-out;
+}
+
+/* Thin top sample strip — thick slabs read as a solid status bar band */
+#az-safari-chrome-top {
+  top: 0;
+  height: 2px;
+  min-height: 2px;
+  max-height: 2px;
+}
+
+#az-safari-chrome-bottom {
+  bottom: -2px;
+  min-height: max(12px, env(safe-area-inset-bottom, 0px));
+}
+
+/*
+ * Apple WebKit (iOS Safari + macOS Safari): `font: -apple-system-body` is
+ * Safari-only in @supports. No width gate — desktop Safari also samples edges.
+ */
+@supports (font: -apple-system-body) {
+  #az-safari-chrome-top,
+  #az-safari-chrome-bottom {
+    display: block;
+  }
+
+  /* Keep ambient wash off the sampling band */
+  body::before {
+    top: 2px;
+    right: 0;
+    bottom: 8px;
+    left: 0;
+    inset: unset;
+    height: auto;
+  }
+
+  html,
+  body {
+    background-color: var(--bg-primary, var(--background));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #az-safari-chrome-top,
+  #az-safari-chrome-bottom {
+    transition: none !important;
+  }
+}

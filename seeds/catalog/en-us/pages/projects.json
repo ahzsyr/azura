@@ -1,0 +1,195 @@
+{
+  "title": "Projects",
+  "seo": {
+    "metaDescription": "Selected deployments and case studies from B R T Trading across networking, infrastructure, and digital platforms.",
+    "canonicalPath": "/projects",
+    "robots": "index, follow",
+    "metaTitle": "Projects",
+    "ogTitle": "Projects",
+    "ogDescription": "Selected deployments and case studies from B R T Trading across networking, infrastructure, and digital platforms.",
+    "twitterTitle": "Projects",
+    "twitterDescription": "Selected deployments and case studies from B R T Trading across networking, infrastructure, and digital platforms.",
+    "twitterCard": "summary_large_image"
+  },
+  "blocks": [
+    {
+      "discriminant": "hero",
+      "value": {
+        "heading": "Projects",
+        "subheading": "Real-world deployments that define enterprise standards.",
+        "badge": "Portfolio",
+        "ctaPrimary": {
+          "discriminant": true,
+          "value": {
+            "label": "Start a project",
+            "href": "/contact"
+          }
+        },
+        "ctaSecondary": {
+          "discriminant": true,
+          "value": {
+            "label": "Our products",
+            "href": "/projects"
+          }
+        },
+        "stats": [],
+        "align": "center",
+        "visibility": {
+          "enabled": true
+        },
+        "id": "38104edc-76ea-47f0-ad4d-33ec9b3f6179"
+      }
+    },
+    {
+      "discriminant": "features",
+      "value": {
+        "heading": "Case highlights",
+        "subheading": "A sample of recent work — edit these cards or add more in the editor.",
+        "badge": "Work",
+        "columns": "2",
+        "items": [
+          {
+            "icon": "🏛️",
+            "title": "Smart campus network",
+            "description": "Wi‑Fi 6E and SD‑WAN across 120 buildings for a major university."
+          },
+          {
+            "icon": "🛡️",
+            "title": "Datacenter security",
+            "description": "Multi-layer IPS/IDS and zero-trust segmentation for financial workloads."
+          },
+          {
+            "icon": "🏥",
+            "title": "Hospital network upgrade",
+            "description": "Mission-critical clinical network refresh with full redundancy."
+          }
+        ],
+        "visibility": {
+          "enabled": true
+        },
+        "id": "eb284042-9d54-4bfd-827f-feb1f71476f2"
+      }
+    },
+    {
+      "discriminant": "gallery",
+      "value": {
+        "heading": "Gallery",
+        "badge": "",
+        "columns": "5",
+        "images": [
+          {
+            "src": "/images/placeholder.svg",
+            "alt": "A",
+            "caption": "ABC"
+          },
+          {
+            "src": "",
+            "alt": "",
+            "caption": ""
+          },
+          {
+            "src": "",
+            "alt": "",
+            "caption": ""
+          },
+          {
+            "src": "",
+            "alt": "",
+            "caption": ""
+          },
+          {
+            "src": "",
+            "alt": "",
+            "caption": ""
+          },
+          {
+            "src": "",
+            "alt": "",
+            "caption": ""
+          },
+          {
+            "src": "",
+            "alt": "",
+            "caption": ""
+          },
+          {
+            "src": "",
+            "alt": "",
+            "caption": ""
+          },
+          {
+            "src": "",
+            "alt": "",
+            "caption": ""
+          },
+          {
+            "src": "",
+            "alt": "",
+            "caption": ""
+          },
+          {
+            "src": "",
+            "alt": "",
+            "caption": ""
+          },
+          {
+            "src": "",
+            "alt": "",
+            "caption": ""
+          },
+          {
+            "src": "",
+            "alt": "",
+            "caption": ""
+          },
+          {
+            "src": "",
+            "alt": "",
+            "caption": ""
+          },
+          {
+            "src": "",
+            "alt": "",
+            "caption": ""
+          }
+        ],
+        "flipTransition": "fade",
+        "visibility": {
+          "enabled": true
+        },
+        "id": "4e304deb-7a70-4393-b126-5cb1aa63e673",
+        "items": [
+          {
+            "image": "/images/1777884631120-brt-profile-pic.png",
+            "alt": "",
+            "caption": "",
+            "description": "",
+            "category": "",
+            "date": "",
+            "tags": ""
+          },
+          {
+            "image": "/images/1777884648867-brt-profile-pic.png",
+            "alt": "",
+            "caption": "",
+            "description": "",
+            "category": "",
+            "date": "",
+            "tags": ""
+          },
+          {
+            "image": "/images/1777884692730-brt-profile-pic.png",
+            "alt": "",
+            "caption": "",
+            "description": "",
+            "category": "",
+            "date": "",
+            "tags": ""
+          }
+        ],
+        "variant": "masonry",
+        "aspectRatio": "landscape"
+      }
+    }
+  ]
+}

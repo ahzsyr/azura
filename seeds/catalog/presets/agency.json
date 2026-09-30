@@ -1,0 +1,24 @@
+{
+  "id": "agency",
+  "name": "Creative Agency",
+  "description": "Bold typography meets aurora gradients — for studios and creative agencies",
+  "colors": {
+    "primary": "#a855f7",
+    "accent": "#ec4899",
+    "secondary": "#06b6d4",
+    "background": "#030014",
+    "surface": "#07002a",
+    "text": "#fafafa",
+    "textMuted": "#71717a"
+  },
+  "fonts": {
+    "display": "Syne",
+    "body": "DM Sans",
+    "mono": "Fira Code"
+  },
+  "cursor": "magnetic",
+  "backgroundEffect": "aurora",
+  "textEffect": "scramble",
+  "cardStyle": "glassmorphism",
+  "borderStyle": "gradient-border"
+}

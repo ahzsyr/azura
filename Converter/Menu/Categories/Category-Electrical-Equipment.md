@@ -1,0 +1,24 @@
+- **Electrical Equipment**
+    - **Power Adapters**
+        - PSU Adapters
+        - Backup PSU
+        - Hot Swap
+        - Open Frame
+        - DIN Rail
+        - Cigarette Lighter Socket
+        - USB Power Adapters
+    - **PoE Adapters**
+        - 100Mbps PoE Adapters
+        - Gigabit PoE Adapters
+        - PoE Converters
+        - PoE Splitters
+        - Passive PoE Injectors
+        - Passive PoE Cables
+    - **Surge Protectors**
+        - Single-Port
+        - Multi-Port
+        - Rack-Mounted
+        - PoE Out
+        - Coaxial
+    - **Solar Panels**
+    - **Power Cords**

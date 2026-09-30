@@ -1,0 +1,30 @@
+{
+  "domain": "certification",
+  "display": { "name": "Certification", "order": 80 },
+  "specifications": [
+    {
+      "id": "certification.certifications",
+      "name": "Certification",
+      "type": "text",
+      "aliases": ["Certification", "Certifications", "Certification & Approvals"],
+      "contexts": {
+        "source_groups": ["certification", "certification & approvals"],
+        "product_domains": ["radio", "networking", "hardware", "camera"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Certification", "order": 10 }
+    },
+    {
+      "id": "certification.mil_std",
+      "name": "MIL-STD",
+      "type": "text",
+      "aliases": ["MIL-STD", "MIL-STD-810H"],
+      "contexts": {
+        "source_groups": ["certification"],
+        "product_domains": ["radio", "hardware"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Certification", "order": 20 }
+    }
+  ]
+}

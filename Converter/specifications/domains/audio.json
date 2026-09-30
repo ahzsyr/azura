@@ -1,0 +1,30 @@
+{
+  "domain": "audio",
+  "display": { "name": "Audio", "order": 55 },
+  "specifications": [
+    {
+      "id": "audio.speaker",
+      "name": "Speaker",
+      "type": "text",
+      "aliases": ["Speaker", "Rated Audio Power", "Maximum Audio Power"],
+      "contexts": {
+        "source_groups": ["hardware", "receiver", "audio"],
+        "product_domains": ["radio", "hardware"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Audio", "order": 10 }
+    },
+    {
+      "id": "audio.microphone",
+      "name": "Microphone",
+      "type": "text",
+      "aliases": ["Microphone", "Primary Microphone"],
+      "contexts": {
+        "source_groups": ["hardware", "audio"],
+        "product_domains": ["radio", "hardware"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Audio", "order": 20 }
+    }
+  ]
+}

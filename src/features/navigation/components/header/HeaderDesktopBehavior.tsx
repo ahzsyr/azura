@@ -1,0 +1,383 @@
+import { useEffect, useLayoutEffect as _useLayoutEffect, useRef, useState } from "react";
+import type { HeaderDesktopMode } from "@/features/navigation/types";
+import {
+  getLiveHeaderRoot,
+  isBoxedHeaderStyle,
+  readBlockHeaderOverlayActive,
+} from "@/features/navigation/header-overlay-utils";
+import { NAV_MOBILE_MQ } from "@/features/navigation/nav-breakpoints";
+import {
+  resolveBoxedHeaderTopGapPx,
+  resolveHeaderInsetActive,
+  resolveShrinkScrollCompact,
+  resolveStickyNavTopPx,
+  SITE_CONTENT_TOP_INSET_CSS,
+} from "@/features/navigation/site-header-inset";
+
+const useLayoutEffect = typeof window !== "undefined" ? _useLayoutEffect : useEffect;
+
+const NEEDS_SPACER: ReadonlySet<HeaderDesktopMode> = new Set([
+  "fixed-top",
+  "hide-reveal",
+  "absolute",
+  "sticky",
+]);
+
+const ALWAYS_INSET_MODES: ReadonlySet<HeaderDesktopMode> = new Set([
+  "fixed-top",
+  "hide-reveal",
+  "absolute",
+]);
+
+interface Props {
+  mode: HeaderDesktopMode;
+  overlayMode?: "none" | "over-media" | "transparent-until-scroll";
+  suppressSpacer?: boolean;
+}
+
+function isWorkspaceOverlayMode(
+  overlayMode: "none" | "over-media" | "transparent-until-scroll"
+): boolean {
+  return overlayMode === "over-media" || overlayMode === "transparent-until-scroll";
+}
+
+function hasPageHeaderOverlay(): boolean {
+  return document.querySelector('[data-page-header-overlay="true"]') != null;
+}
+
+function resolveUsesLayoutSpacer(
+  mode: HeaderDesktopMode,
+  renderSpacerSuppressed: boolean,
+  blockOverlay: boolean
+): boolean {
+  // Page-level header overlay (catalog/product/CMS) keeps the header fixed with no layout spacer.
+  if (hasPageHeaderOverlay() || blockOverlay) {
+    return false;
+  }
+  return NEEDS_SPACER.has(mode) && !renderSpacerSuppressed;
+}
+
+function syncHeaderInsetDataset(
+  root: HTMLElement,
+  mode: HeaderDesktopMode,
+  workspaceOverlay: boolean,
+  blockOverlay: boolean,
+  usesLayoutSpacer: boolean
+): void {
+  const isSticking = root.classList.contains("header--sticking");
+  const active = resolveHeaderInsetActive({
+    mode,
+    workspaceOverlay,
+    blockOverlay,
+    isSticking,
+    usesLayoutSpacer,
+  });
+  const html = document.documentElement;
+  if (active) {
+    html.dataset.headerInsetActive = "true";
+  } else {
+    delete html.dataset.headerInsetActive;
+  }
+}
+
+function lockAndReadShellHeight(root: HTMLElement): number {
+  const mode = root.getAttribute("data-header-desktop");
+  const live = Math.ceil(root.getBoundingClientRect().height);
+  if (mode !== "shrink-scroll") return live;
+
+  const locked = parseFloat(root.getAttribute("data-header-shell-height") || "");
+  const hasLock = Number.isFinite(locked) && locked > 0;
+  const shrunk = root.classList.contains("header--shrunk");
+
+  if (shrunk && hasLock) return Math.ceil(locked);
+
+  if (!shrunk && live > 0) {
+    root.setAttribute("data-header-shell-height", String(live));
+    root.style.setProperty("--header-shell-height", `${live}px`);
+    return live;
+  }
+
+  if (hasLock) return Math.ceil(locked);
+  return live;
+}
+
+function publishHeaderMetrics(root: HTMLElement, usesLayoutSpacer: boolean): void {
+  const html = document.documentElement;
+  const h = lockAndReadShellHeight(root);
+  const headerStyle = root.getAttribute("data-header-style") ?? "";
+  const blockOverlay = readBlockHeaderOverlayActive();
+  const isMobile =
+    typeof window !== "undefined" && window.matchMedia(NAV_MOBILE_MQ).matches;
+  const mobileBoxedSticky = root.getAttribute("data-mobile-boxed-sticky") === "true";
+  const mobileFlushTop = root.getAttribute("data-mobile-flush-top") !== "false";
+  const topGap = resolveBoxedHeaderTopGapPx({
+    headerStyle,
+    isMobile,
+    mobileBoxedSticky,
+    mobileFlushTop,
+  });
+
+  html.style.setProperty("--header-height", `${h}px`);
+  html.style.setProperty("--site-content-top-inset", SITE_CONTENT_TOP_INSET_CSS);
+
+  if (blockOverlay) {
+    html.style.setProperty("--header-overlay-total-inset", `${h + topGap}px`);
+  } else {
+    html.style.removeProperty("--header-overlay-total-inset");
+    if (
+      topGap > 0 &&
+      !usesLayoutSpacer &&
+      isBoxedHeaderStyle(headerStyle) &&
+      !hasPageHeaderOverlay()
+    ) {
+      html.style.setProperty("--header-overlay-top-gap", `${topGap}px`);
+    } else if (!blockOverlay && !html.hasAttribute("data-block-header-overlay")) {
+      html.style.removeProperty("--header-overlay-top-gap");
+    }
+  }
+
+  const stickyTop = resolveStickyNavTopPx(h, headerStyle);
+  const top = `${stickyTop}px`;
+  html.style.setProperty("--az-sticky-nav-top", top);
+  document.querySelectorAll<HTMLElement>(".prd-page").forEach((page) => {
+    page.style.setProperty("--prd-crumb-top", top);
+    page.style.setProperty("--prd-side-top", top);
+  });
+}
+
+function clearHeaderMetrics(): void {
+  const html = document.documentElement;
+  html.style.removeProperty("--header-height");
+  html.style.removeProperty("--header-overlay-total-inset");
+  html.style.removeProperty("--site-content-top-inset");
+  delete html.dataset.headerInsetActive;
+}
+
+export function HeaderDesktopBehavior({ mode, overlayMode = "none", suppressSpacer }: Props) {
+  const spacerRef = useRef<HTMLDivElement>(null);
+  const [blockOverlay, setBlockOverlay] = useState(false);
+
+  const workspaceOverlay = isWorkspaceOverlayMode(overlayMode);
+
+  useLayoutEffect(() => {
+    const root = getLiveHeaderRoot();
+    const html = document.documentElement;
+    if (!root) return;
+
+    const sync = () => setBlockOverlay(readBlockHeaderOverlayActive());
+    sync();
+
+    const moRoot = new MutationObserver(sync);
+    moRoot.observe(root, { attributes: true, attributeFilter: ["data-block-header-overlay"] });
+    const moHtml = new MutationObserver(sync);
+    moHtml.observe(html, { attributes: true, attributeFilter: ["data-block-header-overlay"] });
+    const moBody = new MutationObserver(sync);
+    moBody.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["data-page-header-overlay"],
+      subtree: true,
+      childList: true,
+    });
+    return () => {
+      moRoot.disconnect();
+      moHtml.disconnect();
+      moBody.disconnect();
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    const root = getLiveHeaderRoot();
+    if (!root || !readBlockHeaderOverlayActive()) return;
+    if (mode === "sticky" || mode === "shrink-scroll") {
+      root.classList.add("header--sticking");
+    }
+  }, [mode]);
+
+  const renderSpacerSuppressed = suppressSpacer || workspaceOverlay;
+  const overlaySpacerSuppressed = renderSpacerSuppressed || blockOverlay;
+  const usesLayoutSpacer = resolveUsesLayoutSpacer(
+    mode,
+    renderSpacerSuppressed,
+    blockOverlay
+  );
+
+  useLayoutEffect(() => {
+    const root = getLiveHeaderRoot();
+    if (!root) return;
+
+    const run = () => {
+      const blockOv = readBlockHeaderOverlayActive();
+      const layoutSpacer = resolveUsesLayoutSpacer(mode, renderSpacerSuppressed, blockOv);
+      publishHeaderMetrics(root, layoutSpacer);
+      syncHeaderInsetDataset(root, mode, workspaceOverlay, blockOv, layoutSpacer);
+    };
+
+    run();
+    const ro = new ResizeObserver(run);
+    ro.observe(root);
+    window.addEventListener("resize", run, { passive: true });
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", run);
+      clearHeaderMetrics();
+    };
+  }, [mode, workspaceOverlay, renderSpacerSuppressed]);
+
+  useLayoutEffect(() => {
+    if (overlaySpacerSuppressed || !NEEDS_SPACER.has(mode)) return;
+
+    const root = getLiveHeaderRoot();
+    const spacer = spacerRef.current;
+    if (!root || !spacer) return;
+
+    const apply = () => {
+      const insetActive = document.documentElement.dataset.headerInsetActive === "true";
+      if (insetActive && (workspaceOverlay || suppressSpacer)) {
+        spacer.style.display = "none";
+        return;
+      }
+      const h = lockAndReadShellHeight(root);
+      spacer.style.height = `${Math.ceil(h)}px`;
+
+      if (mode === "sticky") {
+        const sticking = root.classList.contains("header--sticking");
+        spacer.style.display = sticking && !overlaySpacerSuppressed ? "block" : "none";
+      } else {
+        spacer.style.display = "block";
+      }
+    };
+
+    apply();
+    const ro = new ResizeObserver(apply);
+    ro.observe(root);
+    window.addEventListener("resize", apply, { passive: true });
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", apply);
+    };
+  }, [mode, overlaySpacerSuppressed, workspaceOverlay, suppressSpacer]);
+
+  useEffect(() => {
+    const root = getLiveHeaderRoot();
+    if (!root) return;
+
+    const syncInset = () => {
+      const blockOv = readBlockHeaderOverlayActive();
+      const layoutSpacer = resolveUsesLayoutSpacer(mode, renderSpacerSuppressed, blockOv);
+      publishHeaderMetrics(root, layoutSpacer);
+      syncHeaderInsetDataset(root, mode, workspaceOverlay, blockOv, layoutSpacer);
+    };
+
+    if (workspaceOverlay) {
+      const onScroll = () => {
+        const y = window.scrollY;
+        const scrolled = y > 8;
+        root.classList.toggle("header--overlay-scrolled", scrolled);
+        if (overlayMode === "transparent-until-scroll") {
+          root.classList.toggle("header--sticking", scrolled);
+        }
+        if (mode === "shrink-scroll") {
+          const compact = resolveShrinkScrollCompact(
+            y,
+            root.classList.contains("header--shrunk")
+          );
+          root.classList.toggle("header--sticking", readBlockHeaderOverlayActive() || y > 0);
+          root.classList.toggle("header--shrunk", compact);
+        }
+        syncInset();
+      };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      syncInset();
+      return () => {
+        window.removeEventListener("scroll", onScroll);
+        root.classList.remove("header--overlay-scrolled", "header--sticking", "header--shrunk");
+        root.removeAttribute("data-header-shell-height");
+        root.style.removeProperty("--header-shell-height");
+      };
+    }
+
+    if (!ALWAYS_INSET_MODES.has(mode) && mode !== "sticky" && mode !== "shrink-scroll") {
+      root.classList.remove("header--concealed", "header--shrunk", "header--sticking");
+      syncInset();
+      return;
+    }
+
+    if (mode === "fixed-top" || mode === "absolute") {
+      syncInset();
+      return;
+    }
+
+    const spacer = spacerRef.current;
+    let lastY = window.scrollY;
+
+    const onScroll = () => {
+      const y = window.scrollY;
+
+      if (mode === "sticky") {
+        const sticking = readBlockHeaderOverlayActive() || y > 0;
+        root.classList.toggle("header--sticking", sticking);
+        if (spacer && !overlaySpacerSuppressed) {
+          spacer.style.display = sticking ? "block" : "none";
+        }
+        lastY = y;
+        syncInset();
+        return;
+      }
+
+      if (mode === "shrink-scroll") {
+        const compact = resolveShrinkScrollCompact(
+          y,
+          root.classList.contains("header--shrunk")
+        );
+        root.classList.toggle("header--sticking", readBlockHeaderOverlayActive() || y > 0);
+        root.classList.toggle("header--shrunk", compact);
+        lastY = y;
+        syncInset();
+        return;
+      }
+
+      const dy = y - lastY;
+      if (y < 72) {
+        root.classList.remove("header--concealed");
+      } else if (dy > 8) {
+        root.classList.add("header--concealed");
+      } else if (dy < -8) {
+        root.classList.remove("header--concealed");
+      }
+      lastY = y;
+      syncInset();
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    syncInset();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      root.classList.remove("header--concealed", "header--shrunk", "header--sticking");
+      root.removeAttribute("data-header-shell-height");
+      root.style.removeProperty("--header-shell-height");
+      if (spacer) spacer.style.display = "";
+    };
+  }, [mode, overlayMode, overlaySpacerSuppressed, workspaceOverlay, renderSpacerSuppressed]);
+
+  const showSpacer = usesLayoutSpacer;
+
+  if (!showSpacer && !ALWAYS_INSET_MODES.has(mode) && !workspaceOverlay) {
+    return null;
+  }
+
+  if (!NEEDS_SPACER.has(mode) && !workspaceOverlay) return null;
+
+  return (
+    <div
+      ref={spacerRef}
+      className="header-layout-spacer"
+      aria-hidden
+      data-header-spacer={mode}
+      style={renderSpacerSuppressed || overlaySpacerSuppressed ? { display: "none" } : undefined}
+    />
+  );
+}

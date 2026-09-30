@@ -1,0 +1,155 @@
+/**
+ * Themed scrollbars + scroll-region utilities (site + admin).
+ * Uses --primary / --accent so theme builder colors apply everywhere.
+ */
+
+:root {
+  --az-scrollbar-size: 8px;
+  --az-scrollbar-size-thin: 6px;
+  --az-scrollbar-track: color-mix(in srgb, var(--primary) 8%, var(--muted, #f5f5f4));
+  --az-scrollbar-thumb: linear-gradient(
+    180deg,
+    var(--primary),
+    color-mix(in srgb, var(--accent, var(--primary)) 55%, var(--primary))
+  );
+  --az-scrollbar-thumb-hover: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--primary) 90%, white),
+    var(--accent, var(--primary))
+  );
+  --az-scrollbar-thumb-active: var(--primary);
+}
+
+/* Firefox */
+html,
+.az-scroll,
+.admin-shell .overflow-y-auto,
+.admin-shell [data-radix-scroll-area-viewport] {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--az-scrollbar-track);
+}
+
+/* WebKit — global + scroll regions */
+html::-webkit-scrollbar,
+.az-scroll::-webkit-scrollbar,
+.admin-shell .overflow-y-auto::-webkit-scrollbar,
+.admin-shell [data-radix-scroll-area-viewport]::-webkit-scrollbar {
+  width: var(--az-scrollbar-size);
+  height: var(--az-scrollbar-size);
+}
+
+html::-webkit-scrollbar-track,
+.az-scroll::-webkit-scrollbar-track,
+.admin-shell .overflow-y-auto::-webkit-scrollbar-track,
+.admin-shell [data-radix-scroll-area-viewport]::-webkit-scrollbar-track {
+  background: var(--az-scrollbar-track);
+  border-radius: 999px;
+}
+
+html::-webkit-scrollbar-thumb,
+.az-scroll::-webkit-scrollbar-thumb,
+.admin-shell .overflow-y-auto::-webkit-scrollbar-thumb,
+.admin-shell [data-radix-scroll-area-viewport]::-webkit-scrollbar-thumb {
+  background: var(--az-scrollbar-thumb);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+.az-scroll::-webkit-scrollbar-thumb:hover,
+.admin-shell .overflow-y-auto::-webkit-scrollbar-thumb:hover,
+.admin-shell [data-radix-scroll-area-viewport]::-webkit-scrollbar-thumb:hover {
+  background: var(--az-scrollbar-thumb-hover);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--primary) 35%, transparent);
+}
+
+html::-webkit-scrollbar-thumb:active,
+.az-scroll::-webkit-scrollbar-thumb:active,
+.admin-shell .overflow-y-auto::-webkit-scrollbar-thumb:active {
+  background: var(--az-scrollbar-thumb-active);
+}
+
+/* Thin variant (sidebars, panels) */
+.az-scroll-thin {
+  scrollbar-width: thin;
+}
+
+.az-scroll-thin::-webkit-scrollbar {
+  width: var(--az-scrollbar-size-thin);
+  height: var(--az-scrollbar-size-thin);
+}
+
+/* Scroll container — smooth + momentum */
+.az-scroll-region {
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 768px) {
+  .az-scroll-region {
+    scroll-behavior: auto;
+  }
+}
+
+html[data-reduced-paint="true"] .az-scroll-region {
+  scroll-behavior: auto;
+}
+
+.az-scroll-region[data-scrolling="true"]::-webkit-scrollbar-thumb {
+  box-shadow: 0 0 10px color-mix(in srgb, var(--primary) 45%, transparent);
+}
+
+/* Lazy paint: off-screen blocks skip layout until near viewport */
+.az-lazy-paint {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 80px;
+}
+
+/* Reveal on scroll (class added by useScrollReveal / LazyInView) */
+[data-scroll-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 8px, 0);
+  transition:
+    opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--scroll-reveal-delay, 0ms);
+}
+
+[data-scroll-reveal].az-in-view {
+  opacity: 1;
+  transform: none;
+}
+
+/* Radix ScrollArea custom thumb (when native bar hidden) */
+.az-scrollbar-thumb {
+  background: var(--az-scrollbar-thumb) !important;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.az-scrollbar-thumb:hover {
+  background: var(--az-scrollbar-thumb-hover) !important;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--primary) 40%, transparent);
+}
+
+.az-scrollbar-track {
+  background: color-mix(in srgb, var(--primary) 6%, transparent) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .az-scroll-region {
+    scroll-behavior: auto;
+  }
+
+  [data-scroll-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "domain": "physical",
+  "display": { "name": "Physical", "order": 60 },
+  "specifications": [
+    {
+      "id": "physical.weight",
+      "name": "Weight",
+      "type": "text",
+      "unit": "g/kg",
+      "aliases": ["Weight", "Net Weight", "Device Weight", "Unit weight", "Product weight"],
+      "contexts": {
+        "source_groups": ["hardware", "physical parameters", "physical", "general", "specifications"],
+        "product_domains": ["radio", "networking", "hardware", "camera"]
+      },
+      "value_patterns": ["\\d+\\s*g", "\\d+\\s*kg"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Physical", "order": 10 }
+    },
+    {
+      "id": "physical.dimensions",
+      "name": "Dimensions",
+      "type": "text",
+      "aliases": ["Dimension", "Dimensions", "Product Dimensions", "Size", "Unit size"],
+      "contexts": {
+        "source_groups": ["hardware", "physical parameters", "physical", "general"],
+        "product_domains": ["radio", "networking", "hardware", "camera"]
+      },
+      "value_patterns": ["mm", "×", "x", "\\*"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Physical", "order": 20 }
+    }
+  ]
+}

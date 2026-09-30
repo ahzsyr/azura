@@ -1,0 +1,263 @@
+.po-panel {
+  --po-border: color-mix(in oklab, var(--border, #e5e7eb) 100%, transparent);
+  --po-muted: color-mix(in oklab, var(--muted-foreground, #6b7280) 100%, transparent);
+}
+
+.po-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .po-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.po-layout__main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.po-profile-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.po-section {
+  border: 1px solid var(--po-border);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: color-mix(in oklab, var(--card, #fff) 100%, transparent);
+}
+
+.po-section__title {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.po-section__hint {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  color: var(--po-muted);
+}
+
+.po-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.po-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.po-field--grow {
+  flex: 1;
+  min-width: 220px;
+}
+
+.po-field--toggle {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 1.4rem;
+}
+
+.po-field input[type="text"],
+.po-field select,
+.po-add-row input[type="text"],
+.po-add-row select,
+.po-profile-bar select {
+  width: 100%;
+  border: 1px solid var(--po-border);
+  border-radius: 0.5rem;
+  padding: 0.45rem 0.6rem;
+  background: transparent;
+  font: inherit;
+  font-weight: 400;
+}
+
+.po-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.po-sortable-row {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  border: 1px solid var(--po-border);
+  border-radius: 0.65rem;
+  padding: 0.65rem 0.75rem;
+  background: color-mix(in oklab, var(--background, #fff) 100%, transparent);
+}
+
+.po-sortable-row--dragging {
+  opacity: 0.65;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 8%);
+}
+
+.po-sortable-row__grip {
+  cursor: grab;
+  touch-action: none;
+  align-self: center;
+  color: var(--po-muted);
+  background: none;
+  border: 0;
+  padding: 0.15rem;
+}
+
+.po-sortable-row__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.po-sortable-row__label {
+  font-size: 0.875rem;
+  font-weight: 550;
+}
+
+.po-sortable-row__sub {
+  font-size: 0.75rem;
+  color: var(--po-muted);
+}
+
+.po-sortable-row__remove {
+  align-self: center;
+  background: none;
+  border: 0;
+  color: var(--po-muted);
+  padding: 0.2rem;
+  cursor: pointer;
+}
+
+.po-add-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  align-items: center;
+}
+
+.po-add-row select,
+.po-add-row input[type="text"] {
+  flex: 1;
+  min-width: 160px;
+}
+
+.po-keyword-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  margin-top: 0.5rem;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.po-keyword-fields__label {
+  color: var(--po-muted);
+}
+
+.po-keyword-fields__item {
+  display: inline-flex;
+  gap: 0.3rem;
+  align-items: center;
+  font-weight: 400;
+}
+
+.po-danger-row {
+  margin-top: 0.75rem;
+}
+
+.po-layout__preview {
+  position: sticky;
+  top: 5.5rem;
+}
+
+.po-preview {
+  border: 1px solid var(--po-border);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: color-mix(in oklab, var(--card, #fff) 100%, transparent);
+  max-height: calc(100vh - 7rem);
+  overflow: auto;
+}
+
+.po-preview__title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.po-preview__hint {
+  margin: 0.25rem 0 0.85rem;
+  font-size: 0.75rem;
+  color: var(--po-muted);
+}
+
+.po-preview__empty {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--po-muted);
+}
+
+.po-preview__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.po-preview__item {
+  display: grid;
+  grid-template-columns: 1.5rem 2.5rem minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.po-preview__pos {
+  font-size: 0.75rem;
+  color: var(--po-muted);
+  text-align: right;
+}
+
+.po-preview__thumb {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: cover;
+  border-radius: 0.4rem;
+  background: color-mix(in oklab, var(--muted, #f3f4f6) 100%, transparent);
+}
+
+.po-preview__name {
+  font-size: 0.8rem;
+  font-weight: 550;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.po-preview__brand {
+  font-size: 0.7rem;
+  color: var(--po-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -1,0 +1,55 @@
+{
+  "domain": "connectivity",
+  "display": { "name": "Connectivity", "order": 10 },
+  "specifications": [
+    {
+      "id": "connectivity.cellular_bands",
+      "name": "Cellular Bands",
+      "type": "text",
+      "aliases": ["Frequencies", "Frequency Bands", "Cellular Bands", "LTE Bands", "4G Bands"],
+      "contexts": {
+        "source_groups": ["connection", "connectivity", "cellular", "lte", "network"],
+        "product_domains": ["radio", "connectivity", "networking"]
+      },
+      "value_patterns": ["\\b2G\\s*:", "\\b3G\\s*:", "\\b4G-FDD\\b", "\\b4G-TDD\\b", "\\bLTE\\b", "B\\d+/B\\d+"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Connectivity", "order": 10 }
+    },
+    {
+      "id": "connectivity.bluetooth",
+      "name": "Bluetooth",
+      "type": "text",
+      "aliases": ["Bluetooth", "BT", "BLE"],
+      "contexts": {
+        "source_groups": ["connection", "connectivity", "wireless"],
+        "product_domains": ["radio", "networking", "connectivity"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Connectivity", "order": 20 }
+    },
+    {
+      "id": "connectivity.nfc",
+      "name": "NFC",
+      "type": "text",
+      "aliases": ["NFC"],
+      "contexts": {
+        "source_groups": ["connection", "connectivity"],
+        "product_domains": ["radio", "networking"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Connectivity", "order": 30 }
+    },
+    {
+      "id": "connectivity.navigation",
+      "name": "Navigation",
+      "type": "text",
+      "aliases": ["Navigation", "GPS", "GNSS"],
+      "contexts": {
+        "source_groups": ["connection", "connectivity"],
+        "product_domains": ["radio", "networking", "fleet"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Connectivity", "order": 40 }
+    }
+  ]
+}

@@ -1,0 +1,323 @@
+/* Page Display Fields (ppd-*) — shared by product editor and page builder */
+
+.ppd-root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.ppd-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 1rem;
+  background: color-mix(in srgb, var(--p) 4%, transparent);
+  border: 1px solid color-mix(in srgb, var(--p) 14%, transparent);
+  border-radius: 10px;
+}
+
+.ppd-header__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+.ppd-header__title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--t);
+}
+
+.ppd-header__desc {
+  font-size: 0.7rem;
+  color: var(--m);
+  line-height: 1.45;
+}
+
+.ppd-header__link {
+  color: var(--p);
+  text-decoration: none;
+}
+
+.ppd-header__link:hover {
+  text-decoration: underline;
+}
+
+.ppd-header__reset-all {
+  flex-shrink: 0;
+  padding: 0.28rem 0.65rem;
+  font-size: 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--p) 22%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--p) 5%, transparent);
+  color: var(--p);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.12s;
+}
+
+.ppd-header__reset-all:hover {
+  background: color-mix(in srgb, var(--p) 12%, transparent);
+}
+
+.ppd-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ppd-group {
+  border: 1px solid color-mix(in srgb, var(--p) 11%, transparent);
+  border-radius: 12px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--sur) 80%, transparent);
+}
+
+.ppd-group__head {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.6rem 0.85rem;
+  background: color-mix(in srgb, var(--sur) 95%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--p) 7%, transparent);
+}
+
+.ppd-group__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+}
+
+.ppd-group__meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+  min-width: 0;
+}
+
+.ppd-group__title {
+  font-size: 0.79rem;
+  font-weight: 600;
+  color: var(--t);
+}
+
+.ppd-group__desc {
+  font-size: 0.67rem;
+  color: var(--m);
+  line-height: 1.35;
+}
+
+.ppd-group__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.ppd-group__count {
+  font-size: 0.67rem;
+  font-weight: 700;
+  font-family: var(--font-mono, monospace);
+  color: var(--m);
+  min-width: 26px;
+  text-align: right;
+  transition: color 0.15s;
+}
+
+.ppd-group__btn {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.67rem;
+  border-radius: 5px;
+  border: 1px solid color-mix(in srgb, var(--p) 18%, transparent);
+  background: color-mix(in srgb, var(--sur) 82%, transparent);
+  color: var(--m);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+  white-space: nowrap;
+  line-height: 1.5;
+}
+
+.ppd-group__btn:hover {
+  background: color-mix(in srgb, var(--p) 8%, transparent);
+  color: var(--p);
+  border-color: color-mix(in srgb, var(--p) 28%, transparent);
+}
+
+.ppd-group__btn--active {
+  background: color-mix(in srgb, var(--p) 10%, transparent);
+  color: var(--p);
+  border-color: color-mix(in srgb, var(--p) 26%, transparent);
+}
+
+.ppd-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: color-mix(in srgb, var(--p) 6%, transparent);
+}
+
+.ppd-item:last-child:nth-child(odd) {
+  grid-column: span 2;
+}
+
+.ppd-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.85rem;
+  background: color-mix(in srgb, var(--sur) 88%, transparent);
+  cursor: pointer;
+  transition: background 0.1s;
+  position: relative;
+  user-select: none;
+  min-width: 0;
+}
+
+.ppd-item:hover {
+  background: color-mix(in srgb, var(--p) 4%, transparent);
+}
+
+.ppd-item:focus-within {
+  outline: 2px solid var(--p);
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.ppd-item__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.ppd-item__text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+  min-width: 0;
+}
+
+.ppd-item__label {
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--t);
+  line-height: 1.3;
+  transition: color 0.12s;
+}
+
+.ppd-item--off .ppd-item__label {
+  color: var(--m);
+  opacity: 0.75;
+}
+
+.ppd-item__hint {
+  font-size: 0.63rem;
+  color: var(--m);
+  line-height: 1.25;
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ppd-item__tag {
+  flex-shrink: 0;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.32rem;
+  border-radius: 4px;
+}
+
+.ppd-item__tag--global {
+  background: color-mix(in srgb, var(--m) 11%, transparent);
+  color: var(--m);
+}
+
+.ppd-item__tag--custom {
+  background: color-mix(in srgb, var(--p) 12%, transparent);
+  color: var(--p);
+}
+
+.ppd-item__reset {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  color: var(--m);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.08rem 0.18rem;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 0.1s, color 0.1s;
+  line-height: 1;
+}
+
+.ppd-item:hover .ppd-item__reset {
+  opacity: 1;
+}
+
+.ppd-item__reset:hover {
+  color: var(--p);
+}
+
+.ppd-switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 34px;
+  height: 18px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--m) 22%, #c0c0c0 40%);
+  border: 1px solid color-mix(in srgb, var(--m) 15%, transparent);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.ppd-switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
+  transition: transform 0.15s ease;
+}
+
+.ppd-item--on .ppd-switch {
+  background: var(--p, #4f46e5);
+  border-color: var(--p, #4f46e5);
+}
+
+.ppd-item--on .ppd-switch::after {
+  transform: translateX(16px);
+}
+
+@media (max-width: 600px) {
+  .ppd-items {
+    grid-template-columns: 1fr;
+  }
+
+  .ppd-item:last-child:nth-child(odd) {
+    grid-column: span 1;
+  }
+
+  .ppd-group__desc {
+    display: none;
+  }
+
+  .ppd-item__hint {
+    display: none;
+  }
+}
