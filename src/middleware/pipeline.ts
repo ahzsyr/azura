@@ -17,6 +17,7 @@ import {
 } from "@/features/i18n/locale-middleware";
 import {
   isPublicMarketingPath,
+  isSetupExemptPath,
   resolveSetupPath,
   resolveSetupStatus,
   resolveSetupStatusForCatalogApi,
@@ -166,7 +167,19 @@ export async function runMiddleware(request: NextRequest) {
 
   const { isSetup: isSetupPath, canonical: setupCanonical } = resolveSetupPath(pathname);
 
-  if (setupStatus.setupComplete && isSetupPath) {
+  if (!setupStatus.setupComplete) {
+    if (!isSetupPath && !isSetupExemptPath(pathname)) {
+      const blockSetup =
+        setupStatus.confident || !isPublicMarketingPath(pathname, localeRouting.locales);
+      if (blockSetup) {
+        const url = request.nextUrl.clone();
+        // Pre-setup: public visitors see a simple coming-soon page; /setup stays available.
+        url.pathname = "/coming-soon";
+        url.search = "";
+        return NextResponse.redirect(url);
+      }
+    }
+  } else if (isSetupPath) {
     const session = await getSession();
     const url = request.nextUrl.clone();
     if (session?.user && isAdminRole(session.user.role)) {

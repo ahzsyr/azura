@@ -20,8 +20,9 @@ export function shouldAllowSiteAccessForRole(options: {
   isPreviewRoute: boolean;
   locales?: string[];
 }): boolean {
-  const { pathname, isAdmin, comingSoonEnabled, isPreviewRoute, locales = [] } = options;
+  const { pathname, isAdmin, setupComplete, comingSoonEnabled, isPreviewRoute, locales = [] } = options;
 
+  if (!setupComplete) return true;
   if (isAdmin) return true;
 
   if (!comingSoonEnabled) {
@@ -51,6 +52,8 @@ export async function enforceComingSoonMode(
   getSession: () => Promise<Session | null>,
   locales: string[] = [],
 ): Promise<NextResponse | null> {
+  // Pre-setup holding page is handled separately in middleware.
+  if (!setupStatus.setupComplete) return null;
   if (!setupStatus.comingSoonEnabled) return null;
 
   const { pathname } = request.nextUrl;
@@ -91,9 +94,11 @@ export async function handleComingSoonAntiLeak(
     locales,
   });
 
-  // Live: bounce visitors away from /coming-soon to the site.
-  // Coming soon: leave /coming-soon alone (enforcement sends visitors there).
+  // Pre-setup: keep /coming-soon as the public holding page.
+  // Post-setup + live: bounce visitors away from /coming-soon to the site.
+  // Post-setup + coming soon on: leave /coming-soon alone (enforcement sends visitors there).
   if (
+    setupStatus.setupComplete &&
     !setupStatus.comingSoonEnabled &&
     isAnyComingSoonPath(pathname, locales) &&
     !isAdmin
@@ -104,7 +109,7 @@ export async function handleComingSoonAntiLeak(
     return NextResponse.redirect(url);
   }
 
-  if (setupStatus.comingSoonEnabled && !allowed) {
+  if (setupStatus.setupComplete && setupStatus.comingSoonEnabled && !allowed) {
     const url = request.nextUrl.clone();
     url.pathname = COMING_SOON_PATH;
     url.search = "";

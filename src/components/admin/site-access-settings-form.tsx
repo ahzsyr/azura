@@ -124,7 +124,7 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
     <div className="space-y-6">
       <AdminPageHeader
         title="Site access"
-        description="Control whether public visitors can browse the site or see the coming soon page. The setting applies immediately and is enforced by the server."
+        description="Hide the public site behind a coming soon page while you develop or prepare for launch. Before first-time setup finishes, visitors always see coming soon; after setup, this toggle controls public visibility."
       />
 
       {feedback ? (
@@ -189,8 +189,8 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
               label="Show coming soon page to visitors"
               description={
                 hasEnvFallback
-                  ? "Applies immediately. Middleware uses this saved value whenever /api/setup/status responds. COMING_SOON_ENABLED env applies only if that API is unreachable."
-                  : "Applies immediately. Redirects public pages to /coming-soon and blocks public API access while enabled."
+                  ? "Applies immediately after setup is complete. Middleware uses this saved value whenever /api/setup/status responds. COMING_SOON_ENABLED env applies only if that API is unreachable."
+                  : "Applies immediately after setup is complete. Redirects all public pages to /coming-soon and blocks public API access."
               }
               checked={enabled}
               onChange={patchEnabled}
