@@ -1,0 +1,66 @@
+{
+  "domain": "hardware",
+  "display": { "name": "Hardware", "order": 40 },
+  "specifications": [
+    {
+      "id": "hardware.ram",
+      "name": "RAM",
+      "type": "text",
+      "aliases": ["RAM", "Size of RAM", "RAM+ROM", "Memory"],
+      "contexts": {
+        "source_groups": ["hardware", "system specification", "specifications"],
+        "product_domains": ["radio", "networking", "hardware"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Hardware", "order": 10 }
+    },
+    {
+      "id": "hardware.storage",
+      "name": "Storage",
+      "type": "text",
+      "aliases": ["Storage size", "Storage type", "ROM", "Expand Memory", "Storage"],
+      "contexts": {
+        "source_groups": ["hardware", "system specification", "storage", "specifications"],
+        "product_domains": ["radio", "networking", "hardware"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Hardware", "order": 20 }
+    },
+    {
+      "id": "hardware.cpu",
+      "name": "CPU",
+      "type": "text",
+      "aliases": ["CPU", "Chipset", "Processor", "CPU nominal frequency", "CPU core count"],
+      "contexts": {
+        "source_groups": ["specifications", "system specification", "hardware"],
+        "product_domains": ["networking", "hardware"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Hardware", "order": 30 }
+    },
+    {
+      "id": "hardware.screen",
+      "name": "Screen",
+      "type": "text",
+      "aliases": ["Screen", "Display"],
+      "contexts": {
+        "source_groups": ["hardware", "display"],
+        "product_domains": ["radio", "hardware"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Hardware", "order": 40 }
+    },
+    {
+      "id": "hardware.camera",
+      "name": "Camera",
+      "type": "text",
+      "aliases": ["Camera"],
+      "contexts": {
+        "source_groups": ["hardware", "camera"],
+        "product_domains": ["radio", "camera", "security"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Hardware", "order": 50 }
+    }
+  ]
+}

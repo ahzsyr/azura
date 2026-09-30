@@ -1,0 +1,71 @@
+{
+  "domain": "networking",
+  "display": { "name": "Networking", "order": 30 },
+  "specifications": [
+    {
+      "id": "networking.wifi_standard",
+      "name": "Wi-Fi Standard",
+      "type": "text",
+      "aliases": ["Wi-Fi", "WiFi", "Wireless", "Standards", "Generation", "Wi-Fi Standard"],
+      "contexts": {
+        "source_groups": ["connection", "connectivity", "wireless network", "wireless specifications", "performance"],
+        "product_domains": ["networking"]
+      },
+      "value_patterns": ["802\\.11", "WiFi\\s*\\d", "Wi-Fi\\s*\\d"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Networking", "order": 10 }
+    },
+    {
+      "id": "networking.wifi_frequency_range",
+      "name": "Wi-Fi Frequency Range",
+      "type": "text",
+      "aliases": ["Wi-Fi Frequency Range", "WiFi Frequency Range", "Frequency", "Wireless Frequency"],
+      "contexts": {
+        "source_groups": ["connection", "connectivity", "wireless network", "wireless specifications", "antenna"],
+        "product_domains": ["networking"]
+      },
+      "value_patterns": ["802\\.11", "2\\.4\\s*GHz", "5\\s*GHz", "6\\s*GHz", "GHz"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Networking", "order": 20 }
+    },
+    {
+      "id": "networking.ethernet_speed",
+      "name": "Ethernet Speed",
+      "type": "speed",
+      "unit": "Mbps/Gbps",
+      "aliases": ["Ethernet Speed", "LAN Speed", "Network Speed", "Port Speed", "RJ45 Ports", "Speed", "Data Rate"],
+      "contexts": {
+        "source_groups": ["ethernet", "interfaces", "networking", "wired"],
+        "product_domains": ["networking"]
+      },
+      "value_patterns": ["Gbps", "Mbps", "GbE", "10G", "1\\s*Gbps"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Networking", "order": 30 }
+    },
+    {
+      "id": "networking.mimo",
+      "name": "MIMO",
+      "type": "text",
+      "aliases": ["MIMO"],
+      "contexts": {
+        "source_groups": ["performance", "wireless network", "wireless specifications"],
+        "product_domains": ["networking"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Networking", "order": 40 }
+    },
+    {
+      "id": "networking.antenna_gain",
+      "name": "Antenna Gain",
+      "type": "text",
+      "aliases": ["Antenna gain dBi for 5 GHz", "Antenna gain", "Antenna Gain", "Wireless Antenna Frequency Range & Gain"],
+      "contexts": {
+        "source_groups": ["wireless specifications", "antenna", "wireless"],
+        "product_domains": ["networking"]
+      },
+      "value_patterns": ["dBi", "GHz"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Networking", "order": 50 }
+    }
+  ]
+}

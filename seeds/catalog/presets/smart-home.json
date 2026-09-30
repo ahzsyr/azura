@@ -1,0 +1,20 @@
+{
+  "id": "smart-home",
+  "name": "Smart Home & IoT",
+  "description": "Teal and purple — connected living for smart home and IoT solution providers",
+  "colors": {
+    "primary": "#14b8a6",
+    "accent": "#2dd4bf",
+    "secondary": "#a78bfa",
+    "background": "#020b0a",
+    "surface": "#041412",
+    "text": "#f0fdfa",
+    "textMuted": "#3d7a72"
+  },
+  "fonts": { "display": "Syne", "body": "DM Sans", "mono": "Fira Code" },
+  "cursor": "ring-trail",
+  "backgroundEffect": "particles",
+  "textEffect": "gradient-flow",
+  "cardStyle": "corner-bracket",
+  "borderStyle": "teal-glow"
+}

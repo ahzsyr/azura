@@ -1,0 +1,860 @@
+/**
+ * Option A Liquid Glass — CSS/SVG material + floating chrome.
+ * Driven by [data-glass-effect="liquid"] + Theme Studio --glass-effect-* vars.
+ *
+ * CRITICAL: Never set position/overflow/isolation on .site-header or .mega-menu —
+ * those break absolute mega menus and flex nav layout.
+ * CRITICAL: Popup panels get material only — no overflow/radius/z-index/pseudo
+ * layers that change size, clip split media, or bury the close control.
+ * CRITICAL: Mobile drawer (.mnav-panel) is portaled to body — apply glass via
+ * html[data-glass-effect] selectors (not only .header-root descendants).
+ */
+
+/* ── Tokens ─────────────────────────────────────────────────────────────── */
+[data-glass-effect="liquid"] {
+  --az-site-glass-intensity: var(--glass-effect-intensity, 1);
+  --az-site-glass-opacity: var(--glass-effect-opacity, 0.45);
+  --az-site-glass-blur: calc(22px * var(--az-site-glass-intensity));
+  --az-site-glass-saturate: calc(1.2 + (0.45 * var(--az-site-glass-intensity)));
+  /* Chrome tint (scroll / Safari) preferred; falls back to surface tokens. */
+  --az-site-glass-fill: var(
+    --az-site-glass-tint,
+    var(--az-color-surface, var(--card, var(--background)))
+  );
+  --az-site-glass-bg: color-mix(
+    in srgb,
+    var(--az-site-glass-fill) calc(var(--az-site-glass-opacity) * 100%),
+    transparent
+  );
+  --az-site-glass-border: transparent;
+  --az-site-glass-shadow: 0 10px 36px -12px color-mix(in srgb, black 16%, transparent);
+  --az-site-glass-specular-opacity: calc(0.28 + (0.42 * var(--az-site-glass-intensity)));
+  --az-site-glass-float-inset: 0.75rem;
+  --az-site-glass-float-radius: max(var(--header-radius, 1.25rem), 1.25rem);
+  --pointer-x: 50;
+  --pointer-y: 42;
+  --specular-angle: 135deg;
+}
+
+html[data-effects-tier="light"][data-glass-effect="liquid"] {
+  --az-site-glass-blur: calc(12px * var(--az-site-glass-intensity));
+  --az-site-glass-specular-opacity: calc(0.18 + (0.22 * var(--az-site-glass-intensity)));
+}
+
+/* Cheap blur during route transitions — less backdrop-filter work on dual layers */
+[data-glass-effect="liquid"][data-glass-transition="cheap"] {
+  --az-site-glass-blur: calc(10px * var(--az-site-glass-intensity));
+}
+
+/* ── Base frost (material only — no layout props) ───────────────────────── */
+[data-glass-effect="liquid"] .az-card,
+[data-glass-effect="liquid"] .card,
+[data-glass-effect="liquid"] .az-preset-surface,
+[data-glass-effect="liquid"] .az-liquid-glass,
+[data-glass-effect="liquid"] .az-liquid-glass-panel,
+[data-glass-effect="liquid"] .az-section-atmosphere,
+[data-glass-effect="liquid"] .header-root .site-header,
+[data-glass-effect="liquid"] .header-root.header--sticking .site-header,
+[data-glass-effect="liquid"] .mega-menu,
+[data-glass-effect="liquid"] [data-mega-menu]:not(.dropdown-menu),
+[data-glass-effect="liquid"] .dropdown-menu,
+[data-glass-effect="liquid"] .popup-floating-btn__button,
+[data-glass-effect="liquid"] .fxs-theme,
+[data-glass-effect="liquid"] .fxs-theme .fxs-card,
+[data-glass-effect="liquid"] .fxs-theme .fxs-panel,
+[data-glass-effect="liquid"] .schema-theme,
+[data-glass-effect="liquid"] .dialog-content,
+[data-glass-effect="liquid"] .sheet-content,
+[data-glass-effect="liquid"] .popover-content,
+[data-glass-effect="liquid"] .dropdown-menu-content,
+[data-glass-effect="liquid"] .tooltip-content,
+[data-glass-effect="liquid"] .az-ab,
+[data-glass-effect="liquid"] .pl-table-wrap,
+[data-glass-effect="liquid"] .cmp-table-wrap,
+[data-glass-effect="liquid"] .cb-table-block,
+[data-glass-effect="liquid"] .cb-comparison--table,
+[data-glass-effect="liquid"] .az-form-surface,
+[data-glass-effect="liquid"] .pp-float-bar,
+[data-glass-effect="liquid"] .pp-side-toggle,
+[data-glass-effect="liquid"] .pp-panel,
+[data-glass-effect="liquid"] .pp-root .pp-panel--docked,
+[data-glass-effect="liquid"] #theme-toggle,
+[data-glass-effect="liquid"] .site-footer,
+[data-glass-effect="liquid"] .site-footer-shell {
+  background: var(--az-site-glass-bg) !important;
+  background-color: var(--az-site-glass-bg) !important;
+  border-color: transparent !important;
+  box-shadow: var(--az-site-glass-shadow);
+}
+
+/* Nested schema-theme inside FXS is token scope only — avoid a flush inner glass slab */
+[data-glass-effect="liquid"] .fxs-theme .schema-theme:not(.fxs-theme),
+[data-glass-effect="liquid"] .fxs-appearance-root .schema-theme:not(.fxs-theme) {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/*
+ * CRITICAL: declare unprefixed backdrop-filter ONLY.
+ * Lightning collapses `backdrop-filter` + `-webkit-backdrop-filter` pairs into
+ * webkit-only output; modern Chromium then computes backdrop-filter: none, so
+ * dark footers read as solid grey slabs with no frost.
+ */
+@supports (backdrop-filter: blur(1px)) {
+  [data-glass-effect="liquid"] .az-card,
+  [data-glass-effect="liquid"] .card,
+  [data-glass-effect="liquid"] .az-preset-surface,
+  [data-glass-effect="liquid"] .az-liquid-glass,
+  [data-glass-effect="liquid"] .az-liquid-glass-panel,
+  [data-glass-effect="liquid"] .az-section-atmosphere,
+  [data-glass-effect="liquid"] .header-root .site-header,
+  [data-glass-effect="liquid"] .header-root.header--sticking .site-header,
+  [data-glass-effect="liquid"] .mega-menu,
+  [data-glass-effect="liquid"] [data-mega-menu]:not(.dropdown-menu),
+  [data-glass-effect="liquid"] .dropdown-menu,
+  [data-glass-effect="liquid"] .popup-floating-btn__button,
+  [data-glass-effect="liquid"] .fxs-theme,
+  [data-glass-effect="liquid"] .fxs-theme .fxs-card,
+  [data-glass-effect="liquid"] .fxs-theme .fxs-panel,
+  [data-glass-effect="liquid"] .schema-theme,
+  [data-glass-effect="liquid"] .dialog-content,
+  [data-glass-effect="liquid"] .sheet-content,
+  [data-glass-effect="liquid"] .popover-content,
+  [data-glass-effect="liquid"] .dropdown-menu-content,
+  [data-glass-effect="liquid"] .tooltip-content,
+  [data-glass-effect="liquid"] .az-ab,
+  [data-glass-effect="liquid"] .pl-table-wrap,
+  [data-glass-effect="liquid"] .cmp-table-wrap,
+  [data-glass-effect="liquid"] .cb-table-block,
+  [data-glass-effect="liquid"] .cb-comparison--table,
+  [data-glass-effect="liquid"] .az-form-surface,
+  [data-glass-effect="liquid"] .pp-float-bar,
+  [data-glass-effect="liquid"] .pp-side-toggle,
+  [data-glass-effect="liquid"] .pp-panel,
+  [data-glass-effect="liquid"] .pp-root .pp-panel--docked,
+  [data-glass-effect="liquid"] #theme-toggle,
+  [data-glass-effect="liquid"] .site-footer,
+  [data-glass-effect="liquid"] .site-footer-shell {
+    backdrop-filter: blur(var(--az-site-glass-blur)) saturate(var(--az-site-glass-saturate))
+      contrast(1.08) !important;
+  }
+}
+
+/* Safari legacy: webkit in its own rule so Lightning cannot collapse the pair. */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  [data-glass-effect="liquid"] .az-card,
+  [data-glass-effect="liquid"] .card,
+  [data-glass-effect="liquid"] .az-preset-surface,
+  [data-glass-effect="liquid"] .az-liquid-glass,
+  [data-glass-effect="liquid"] .az-liquid-glass-panel,
+  [data-glass-effect="liquid"] .az-section-atmosphere,
+  [data-glass-effect="liquid"] .header-root .site-header,
+  [data-glass-effect="liquid"] .header-root.header--sticking .site-header,
+  [data-glass-effect="liquid"] .mega-menu,
+  [data-glass-effect="liquid"] [data-mega-menu]:not(.dropdown-menu),
+  [data-glass-effect="liquid"] .dropdown-menu,
+  [data-glass-effect="liquid"] .popup-floating-btn__button,
+  [data-glass-effect="liquid"] .fxs-theme,
+  [data-glass-effect="liquid"] .fxs-theme .fxs-card,
+  [data-glass-effect="liquid"] .fxs-theme .fxs-panel,
+  [data-glass-effect="liquid"] .schema-theme,
+  [data-glass-effect="liquid"] .dialog-content,
+  [data-glass-effect="liquid"] .sheet-content,
+  [data-glass-effect="liquid"] .popover-content,
+  [data-glass-effect="liquid"] .dropdown-menu-content,
+  [data-glass-effect="liquid"] .tooltip-content,
+  [data-glass-effect="liquid"] .az-ab,
+  [data-glass-effect="liquid"] .pl-table-wrap,
+  [data-glass-effect="liquid"] .cmp-table-wrap,
+  [data-glass-effect="liquid"] .cb-table-block,
+  [data-glass-effect="liquid"] .cb-comparison--table,
+  [data-glass-effect="liquid"] .az-form-surface,
+  [data-glass-effect="liquid"] .pp-float-bar,
+  [data-glass-effect="liquid"] .pp-side-toggle,
+  [data-glass-effect="liquid"] .pp-panel,
+  [data-glass-effect="liquid"] .pp-root .pp-panel--docked,
+  [data-glass-effect="liquid"] #theme-toggle,
+  [data-glass-effect="liquid"] .site-footer,
+  [data-glass-effect="liquid"] .site-footer-shell {
+    -webkit-backdrop-filter: blur(var(--az-site-glass-blur)) saturate(var(--az-site-glass-saturate))
+      contrast(1.08) !important;
+  }
+}
+
+/* Optional SVG refraction — unprefixed only so Lightning cannot webkit-strip blur. */
+@supports (backdrop-filter: url(#liquid-refraction)) {
+  [data-glass-effect="liquid"] .az-card,
+  [data-glass-effect="liquid"] .card,
+  [data-glass-effect="liquid"] .az-preset-surface,
+  [data-glass-effect="liquid"] .az-liquid-glass,
+  [data-glass-effect="liquid"] .az-liquid-glass-panel,
+  [data-glass-effect="liquid"] .az-section-atmosphere,
+  [data-glass-effect="liquid"] .header-root .site-header,
+  [data-glass-effect="liquid"] .header-root.header--sticking .site-header,
+  [data-glass-effect="liquid"] .mega-menu,
+  [data-glass-effect="liquid"] [data-mega-menu]:not(.dropdown-menu),
+  [data-glass-effect="liquid"] .dropdown-menu,
+  [data-glass-effect="liquid"] .popup-floating-btn__button,
+  [data-glass-effect="liquid"] .fxs-theme,
+  [data-glass-effect="liquid"] .fxs-theme .fxs-card,
+  [data-glass-effect="liquid"] .fxs-theme .fxs-panel,
+  [data-glass-effect="liquid"] .schema-theme,
+  [data-glass-effect="liquid"] .dialog-content,
+  [data-glass-effect="liquid"] .sheet-content,
+  [data-glass-effect="liquid"] .popover-content,
+  [data-glass-effect="liquid"] .dropdown-menu-content,
+  [data-glass-effect="liquid"] .tooltip-content,
+  [data-glass-effect="liquid"] .az-ab,
+  [data-glass-effect="liquid"] .pl-table-wrap,
+  [data-glass-effect="liquid"] .cmp-table-wrap,
+  [data-glass-effect="liquid"] .cb-table-block,
+  [data-glass-effect="liquid"] .cb-comparison--table,
+  [data-glass-effect="liquid"] .az-form-surface,
+  [data-glass-effect="liquid"] .pp-float-bar,
+  [data-glass-effect="liquid"] .pp-side-toggle,
+  [data-glass-effect="liquid"] .pp-panel,
+  [data-glass-effect="liquid"] .pp-root .pp-panel--docked,
+  [data-glass-effect="liquid"] #theme-toggle,
+  [data-glass-effect="liquid"] .site-footer,
+  [data-glass-effect="liquid"] .site-footer-shell {
+    backdrop-filter: blur(var(--az-site-glass-blur)) saturate(var(--az-site-glass-saturate))
+      contrast(1.08) url(#liquid-refraction) !important;
+  }
+}
+
+/*
+ * Popups / dialogs: material only — never touch position, overflow, radius,
+ * padding, width, or child stacking (those break split layouts + close buttons).
+ */
+[data-glass-effect="liquid"] .popup-modal__panel,
+[data-glass-effect="liquid"] .popup-slide__panel,
+[data-glass-effect="liquid"] .popup-promo {
+  background: color-mix(
+    in srgb,
+    var(--popup-surface, var(--card, var(--background))) calc(var(--az-site-glass-opacity) * 100%),
+    transparent
+  ) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--popup-surface, var(--card, var(--background))) calc(var(--az-site-glass-opacity) * 100%),
+    transparent
+  ) !important;
+  backdrop-filter: blur(var(--az-site-glass-blur)) saturate(var(--az-site-glass-saturate))
+    contrast(1.06) !important;
+  border-color: color-mix(in srgb, var(--foreground) 12%, transparent) !important;
+  box-shadow: var(--popup-shadow, 0 18px 48px -20px color-mix(in srgb, black 28%, transparent));
+}
+
+/*
+ * Glass replaces custom (often light) popup backgrounds with the theme surface.
+ * Force theme foreground so saved light-mode textColor (#0d0f14 etc.) stays readable.
+ */
+.dark[data-glass-effect="liquid"] .popup-modal__panel,
+.dark[data-glass-effect="liquid"] .popup-slide__panel,
+.dark[data-glass-effect="liquid"] .popup-promo,
+html[data-theme="dark"][data-glass-effect="liquid"] .popup-modal__panel,
+html[data-theme="dark"][data-glass-effect="liquid"] .popup-slide__panel,
+html[data-theme="dark"][data-glass-effect="liquid"] .popup-promo {
+  color: var(--foreground) !important;
+}
+
+/* Kill any leftover glass pseudo-layers on popups (layout/stacking safe) */
+[data-glass-effect="liquid"] .popup-modal__panel::before,
+[data-glass-effect="liquid"] .popup-modal__panel::after,
+[data-glass-effect="liquid"] .popup-slide__panel::before,
+[data-glass-effect="liquid"] .popup-slide__panel::after,
+[data-glass-effect="liquid"] .popup-promo::before,
+[data-glass-effect="liquid"] .popup-promo::after {
+  content: none !important;
+  display: none !important;
+}
+
+[data-glass-effect="liquid"] .popup-modal__close,
+[data-glass-effect="liquid"] .popup-slide__close,
+[data-glass-effect="liquid"] .popup-promo__close {
+  z-index: 20 !important;
+}
+
+/* Language modal: opaque enough that page CTAs don't bleed through; no layout props */
+[data-glass-effect="liquid"] .locale-switcher-dialog {
+  background: color-mix(
+    in srgb,
+    var(--background) 92%,
+    transparent
+  ) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--background) 92%,
+    transparent
+  ) !important;
+  backdrop-filter: blur(calc(var(--az-site-glass-blur) * 0.85))
+    saturate(var(--az-site-glass-saturate)) !important;
+  border-color: color-mix(in srgb, var(--foreground) 10%, transparent) !important;
+  box-shadow: 0 -12px 40px -16px color-mix(in srgb, black 28%, transparent);
+}
+
+[data-glass-effect="liquid"] .locale-switcher-dialog::before,
+[data-glass-effect="liquid"] .locale-switcher-dialog::after {
+  content: none !important;
+  display: none !important;
+}
+
+@supports (backdrop-filter: url(#liquid-refraction)) {
+  [data-glass-effect="liquid"] .popup-modal__panel,
+  [data-glass-effect="liquid"] .popup-slide__panel,
+  [data-glass-effect="liquid"] .popup-promo {
+    backdrop-filter: blur(var(--az-site-glass-blur)) saturate(var(--az-site-glass-saturate))
+      contrast(1.06) url(#liquid-refraction) !important;
+  }
+}
+
+[data-glass-effect="liquid"] .header-root {
+  --header-bg: var(--az-site-glass-bg);
+  --menu-bg: var(--az-site-glass-bg);
+  --menu-border: transparent;
+  --cg2: transparent;
+}
+
+/* Mobile nav portal mounts on body — keep glass tokens outside .header-root */
+[data-glass-effect="liquid"] .mnav-portal-root {
+  --menu-bg: var(--az-site-glass-bg);
+  --menu-border: transparent;
+  --menu-blur: var(--az-site-glass-blur);
+  --cg2: transparent;
+}
+
+/*
+ * Mobile drawer: material only (no position/size/transform).
+ * Blur applies only while open — closing drops filters immediately (Safari ghost blur).
+ * Opacity floor ~86% so page copy does not bleed through menu labels.
+ */
+[data-glass-effect="liquid"] .mnav-portal-root[data-mnav-state="open"] .mnav-panel,
+[data-glass-effect="liquid"]
+  .mnav-portal-root[data-mnav-state="open"][data-menu-surface="solid"]
+  .mnav-panel,
+[data-glass-effect="liquid"]
+  .mnav-portal-root[data-mnav-state="open"][data-menu-glass="false"]
+  .mnav-panel {
+  --az-site-glass-mnav-floor: max(calc(var(--az-site-glass-opacity) * 100%), 86%);
+  background: color-mix(
+    in srgb,
+    var(--az-site-glass-fill, var(--az-color-surface, var(--card, var(--background)))) var(--az-site-glass-mnav-floor),
+    transparent
+  ) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--az-site-glass-fill, var(--az-color-surface, var(--card, var(--background)))) var(--az-site-glass-mnav-floor),
+    transparent
+  ) !important;
+  backdrop-filter: blur(calc(var(--az-site-glass-blur) * 1.15)) saturate(var(--az-site-glass-saturate))
+    contrast(1.08) !important;
+  border-color: color-mix(in srgb, var(--foreground) 10%, transparent) !important;
+  box-shadow: -10px 0 36px -14px color-mix(in srgb, black 22%, transparent);
+}
+
+[data-glass-effect="liquid"] .mnav-portal-root[data-mnav-state="open"] .mnav-backdrop {
+  background: color-mix(in srgb, var(--foreground) 42%, transparent) !important;
+}
+
+[data-glass-effect="liquid"] .mnav-portal-root[data-mnav-state="closing"] .mnav-panel,
+[data-glass-effect="liquid"] .mnav-portal-root[data-mnav-state="closed"] .mnav-panel,
+[data-glass-effect="liquid"] .mnav-portal-root[data-mnav-state="closing"] .mnav-backdrop,
+[data-glass-effect="liquid"] .mnav-portal-root[data-mnav-state="closed"] .mnav-backdrop {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+[data-glass-effect="liquid"] .mnav-portal-root[data-menu-surface="glass"] .mnav-body,
+[data-glass-effect="liquid"] .mnav-portal-root .mnav-body {
+  background: transparent;
+}
+
+@supports (backdrop-filter: url(#liquid-refraction)) {
+  [data-glass-effect="liquid"] .mnav-portal-root[data-mnav-state="open"] .mnav-panel {
+    backdrop-filter: blur(calc(var(--az-site-glass-blur) * 1.15))
+      saturate(var(--az-site-glass-saturate)) contrast(1.08) url(#liquid-refraction) !important;
+  }
+}
+
+/* Header / menus: soft edge via inset highlight only — no stroked borders */
+[data-glass-effect="liquid"] .header-root .site-header,
+[data-glass-effect="liquid"] .mega-menu,
+[data-glass-effect="liquid"] [data-mega-menu]:not(.dropdown-menu),
+[data-glass-effect="liquid"] .dropdown-menu {
+  border-color: transparent !important;
+  border-width: 0 !important;
+  outline: none !important;
+  background-image:
+    radial-gradient(
+      circle at calc(var(--pointer-x, 50) * 1%) calc(var(--pointer-y, 42) * 1%),
+      color-mix(in srgb, white calc(var(--az-site-glass-specular-opacity) * 70%), transparent) 0%,
+      transparent 42%
+    ),
+    linear-gradient(
+      var(--specular-angle, 135deg),
+      color-mix(in srgb, #ff2864 12%, transparent),
+      transparent 35%,
+      color-mix(in srgb, #2878ff 10%, transparent)
+    ) !important;
+  background-blend-mode: overlay, soft-light;
+}
+
+/* ── Liquid layers ONLY on compact chrome (never popups — layout-safe) ──── */
+[data-glass-effect="liquid"] .pp-float-bar,
+[data-glass-effect="liquid"] .pp-side-toggle,
+[data-glass-effect="liquid"] #theme-toggle {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    box-shadow 0.28s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+[data-glass-effect="liquid"] .pp-float-bar::before,
+[data-glass-effect="liquid"] #theme-toggle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: calc(0.4 + 0.25 * var(--az-site-glass-intensity));
+  mix-blend-mode: color-dodge;
+  background: linear-gradient(
+    var(--specular-angle, 135deg),
+    rgba(255, 40, 100, 0.45) 0%,
+    rgba(0, 230, 200, 0.35) 45%,
+    rgba(40, 120, 255, 0.45) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+[data-glass-effect="liquid"] .pp-float-bar::after,
+[data-glass-effect="liquid"] #theme-toggle::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: var(--az-site-glass-specular-opacity);
+  mix-blend-mode: overlay;
+  background: radial-gradient(
+    circle at calc(var(--pointer-x, 50) * 1%) calc(var(--pointer-y, 42) * 1%),
+    rgba(255, 255, 255, 0.78) 0%,
+    rgba(255, 255, 255, 0.18) 22%,
+    transparent 55%
+  );
+  transition: opacity 0.25s ease;
+}
+
+[data-glass-effect="liquid"] .pp-float-bar:hover::after,
+[data-glass-effect="liquid"] #theme-toggle:hover::after {
+  opacity: calc(var(--az-site-glass-specular-opacity) + 0.25);
+}
+
+[data-glass-effect="liquid"] .pp-float-bar > *,
+[data-glass-effect="liquid"] #theme-toggle > * {
+  position: relative;
+  z-index: 3;
+}
+
+/* Forms: soft frost on fields — Form Builder + generic storefront surfaces */
+[data-glass-effect="liquid"] .fxs-theme input,
+[data-glass-effect="liquid"] .fxs-theme textarea,
+[data-glass-effect="liquid"] .fxs-theme select,
+[data-glass-effect="liquid"] .schema-theme input,
+[data-glass-effect="liquid"] .schema-theme textarea,
+[data-glass-effect="liquid"] .schema-theme select,
+[data-glass-effect="liquid"] .az-form-surface input,
+[data-glass-effect="liquid"] .az-form-surface textarea,
+[data-glass-effect="liquid"] .az-form-surface select,
+[data-glass-effect="liquid"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]),
+[data-glass-effect="liquid"] textarea,
+[data-glass-effect="liquid"] select {
+  background: color-mix(
+    in srgb,
+    var(--az-site-glass-fill, var(--background, white)) calc(var(--az-site-glass-opacity) * 88%),
+    transparent
+  ) !important;
+  backdrop-filter: blur(calc(var(--az-site-glass-blur) * 0.4))
+    saturate(var(--az-site-glass-saturate));
+}
+
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  [data-glass-effect="liquid"] .fxs-theme input,
+  [data-glass-effect="liquid"] .fxs-theme textarea,
+  [data-glass-effect="liquid"] .fxs-theme select,
+  [data-glass-effect="liquid"] .schema-theme input,
+  [data-glass-effect="liquid"] .schema-theme textarea,
+  [data-glass-effect="liquid"] .schema-theme select,
+  [data-glass-effect="liquid"] .az-form-surface input,
+  [data-glass-effect="liquid"] .az-form-surface textarea,
+  [data-glass-effect="liquid"] .az-form-surface select,
+  [data-glass-effect="liquid"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]),
+  [data-glass-effect="liquid"] textarea,
+  [data-glass-effect="liquid"] select {
+    -webkit-backdrop-filter: blur(calc(var(--az-site-glass-blur) * 0.4))
+      saturate(var(--az-site-glass-saturate));
+  }
+}
+
+/* Secondary / outline / ghost buttons — glass; primary stays opaque below */
+[data-glass-effect="liquid"] :is(button, a).bg-secondary,
+[data-glass-effect="liquid"] :is(button, a).bg-muted,
+[data-glass-effect="liquid"] :is(button, a).border-input,
+[data-glass-effect="liquid"] button.bg-secondary,
+[data-glass-effect="liquid"] button.bg-background {
+  background: color-mix(
+    in srgb,
+    var(--az-site-glass-fill, var(--secondary, var(--background))) calc(var(--az-site-glass-opacity) * 70%),
+    transparent
+  ) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--az-site-glass-fill, var(--secondary, var(--background))) calc(var(--az-site-glass-opacity) * 70%),
+    transparent
+  ) !important;
+  backdrop-filter: blur(calc(var(--az-site-glass-blur) * 0.55))
+    saturate(var(--az-site-glass-saturate)) !important;
+  border-color: color-mix(in srgb, var(--foreground) 12%, transparent) !important;
+  box-shadow: var(--az-site-glass-shadow);
+}
+
+/* Keep solid brand CTAs opaque */
+[data-glass-effect="liquid"] :is(button, a, [data-slot="button"]).bg-primary,
+[data-glass-effect="liquid"] :is(button, a, [data-slot="button"]).btn-primary,
+[data-glass-effect="liquid"] :is(button, a).bg-destructive,
+[data-glass-effect="liquid"] :is(button, a).bg-accent {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none;
+}
+
+[data-glass-effect="liquid"] :is(button, a, [data-slot="button"]).bg-primary,
+[data-glass-effect="liquid"] :is(button, a, [data-slot="button"]).btn-primary {
+  background-color: var(--primary) !important;
+  background: var(--primary) !important;
+}
+
+[data-glass-effect="liquid"] :is(button, a, [data-slot="button"]).bg-primary::before,
+[data-glass-effect="liquid"] :is(button, a, [data-slot="button"]).bg-primary::after,
+[data-glass-effect="liquid"] :is(button, a, [data-slot="button"]).btn-primary::before,
+[data-glass-effect="liquid"] :is(button, a, [data-slot="button"]).btn-primary::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Safe paint containment on frosted cards/tables — never on header/menus/popups */
+[data-glass-effect="liquid"] .az-card,
+[data-glass-effect="liquid"] .card,
+[data-glass-effect="liquid"] .az-preset-surface,
+[data-glass-effect="liquid"] .pl-table-wrap,
+[data-glass-effect="liquid"] .cmp-table-wrap,
+[data-glass-effect="liquid"] .cb-table-block {
+  contain: paint;
+}
+
+/* ── Floating chrome (layout-safe) ──────────────────────────────────────── */
+[data-glass-effect="liquid"] .header-root:not([data-header-shell]) {
+  padding-inline: var(--az-site-glass-float-inset);
+  padding-top: var(--az-site-glass-float-inset);
+  background: transparent !important;
+}
+
+[data-glass-effect="liquid"] .header-root:not([data-header-shell]) .site-header {
+  max-width: 72rem;
+  margin-inline: auto;
+  border-radius: var(--az-site-glass-float-radius) !important;
+}
+
+[data-glass-effect="liquid"] .header-root[data-header-radius="xl"] .site-header,
+[data-glass-effect="liquid"] .header-root[data-header-radius="full"] .site-header {
+  border-radius: 9999px !important;
+}
+
+/* Preserve absolute mega menus — never override position */
+[data-glass-effect="liquid"] .mega-menu,
+[data-glass-effect="liquid"] [data-mega-menu]:not(.dropdown-menu) {
+  position: absolute !important;
+}
+
+/* Footer float chrome only — material/blur comes from the base frost + refraction block */
+[data-glass-effect="liquid"] .site-footer,
+[data-glass-effect="liquid"] .site-footer-shell {
+  margin-inline: var(--az-site-glass-float-inset);
+  margin-bottom: var(--az-site-glass-float-inset);
+  border: none !important;
+  border-color: transparent !important;
+  border-width: 0 !important;
+  outline: none !important;
+  border-radius: calc(var(--az-site-glass-float-radius) + 0.35rem) !important;
+  box-shadow: 0 12px 40px -16px color-mix(in srgb, black 28%, transparent);
+  background-image:
+    radial-gradient(
+      circle at calc(var(--pointer-x, 50) * 1%) calc(var(--pointer-y, 42) * 1%),
+      color-mix(in srgb, white calc(var(--az-site-glass-specular-opacity) * 55%), transparent) 0%,
+      transparent 48%
+    ),
+    linear-gradient(
+      var(--specular-angle, 135deg),
+      color-mix(in srgb, #ff2864 10%, transparent),
+      transparent 38%,
+      color-mix(in srgb, #2878ff 8%, transparent)
+    ) !important;
+  background-blend-mode: overlay, soft-light;
+}
+
+/*
+ * Dark footers (default): tint with --foreground so text-background links stay
+ * readable in light mode. Cap opacity so the liquid blur stays visible.
+ * Use background-color only — `background` shorthand would wipe specular layers.
+ */
+[data-glass-effect="liquid"] .site-footer.bg-foreground {
+  /* Keep fill light enough that frost reads as glass, not a solid grey slab. */
+  --az-site-footer-glass-opacity: min(var(--az-site-glass-opacity), 0.34);
+  background-color: color-mix(
+    in srgb,
+    var(--foreground) calc(var(--az-site-footer-glass-opacity) * 100%),
+    transparent
+  ) !important;
+  color: var(--background);
+}
+
+/*
+ * Dark appearance inverts --foreground to a light ink. Using that as the glass
+ * fill creates a flat pale slab. Match header liquid glass: dark translucent
+ * surface + foreground-tinted copy.
+ */
+.dark[data-glass-effect="liquid"] .site-footer.bg-foreground,
+html[data-theme="dark"][data-glass-effect="liquid"] .site-footer.bg-foreground {
+  background-color: color-mix(
+    in srgb,
+    var(--background) calc(max(calc(var(--az-site-footer-glass-opacity) * 0.85), 0.32) * 100%),
+    transparent
+  ) !important;
+  color: var(--foreground);
+}
+
+.dark[data-glass-effect="liquid"] .site-footer.bg-foreground [class*="text-background"],
+html[data-theme="dark"][data-glass-effect="liquid"] .site-footer.bg-foreground [class*="text-background"] {
+  color: color-mix(in srgb, var(--foreground) 72%, transparent) !important;
+}
+
+.dark[data-glass-effect="liquid"] .site-footer.bg-foreground > .border-t,
+html[data-theme="dark"][data-glass-effect="liquid"] .site-footer.bg-foreground > .border-t {
+  border-color: color-mix(in srgb, var(--foreground) 14%, transparent) !important;
+}
+
+/* Light footers */
+[data-glass-effect="liquid"] .site-footer.bg-background {
+  --az-site-footer-glass-opacity: min(var(--az-site-glass-opacity), 0.55);
+  background-color: color-mix(
+    in srgb,
+    var(--az-site-glass-tint, var(--background)) calc(var(--az-site-footer-glass-opacity) * 100%),
+    transparent
+  ) !important;
+  color: var(--foreground);
+}
+
+/* Accent footers */
+[data-glass-effect="liquid"] .site-footer.bg-accent {
+  --az-site-footer-glass-opacity: min(var(--az-site-glass-opacity), 0.55);
+  background-color: color-mix(
+    in srgb,
+    var(--accent) calc(var(--az-site-footer-glass-opacity) * 100%),
+    transparent
+  ) !important;
+}
+
+/* Outer frame only — keep inner copyright divider as a soft hairline */
+[data-glass-effect="liquid"] .site-footer.border,
+[data-glass-effect="liquid"] .site-footer.border-t,
+[data-glass-effect="liquid"] .site-footer.border-border\/60 {
+  border-color: transparent !important;
+  box-shadow: 0 12px 40px -16px color-mix(in srgb, black 28%, transparent);
+}
+
+[data-glass-effect="liquid"] .site-footer > .border-t,
+[data-glass-effect="liquid"] .site-footer hr {
+  border-color: color-mix(in srgb, currentColor 16%, transparent) !important;
+}
+
+[data-glass-effect="liquid"] .pp-float-bar,
+[data-glass-effect="liquid"] #theme-toggle {
+  border-radius: 9999px !important;
+}
+
+/* ── Accessibility / paint reduction ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  [data-glass-effect="liquid"] .pp-float-bar,
+  [data-glass-effect="liquid"] #theme-toggle {
+    transition: none;
+  }
+
+  [data-glass-effect="liquid"] .pp-float-bar::after,
+  [data-glass-effect="liquid"] #theme-toggle::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  [data-glass-effect="liquid"] .az-card,
+  [data-glass-effect="liquid"] .card,
+  [data-glass-effect="liquid"] .az-preset-surface,
+  [data-glass-effect="liquid"] .header-root .site-header,
+  [data-glass-effect="liquid"] .mega-menu,
+  [data-glass-effect="liquid"] .dropdown-menu,
+  [data-glass-effect="liquid"] .fxs-theme,
+  [data-glass-effect="liquid"] .pp-float-bar,
+  [data-glass-effect="liquid"] #theme-toggle {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--card, var(--background)) !important;
+    background-color: var(--card, var(--background)) !important;
+    background-image: none !important;
+  }
+
+  [data-glass-effect="liquid"] .popup-modal__panel,
+  [data-glass-effect="liquid"] .popup-slide__panel,
+  [data-glass-effect="liquid"] .popup-promo {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--popup-surface, var(--card, var(--background))) !important;
+    background-color: var(--popup-surface, var(--card, var(--background))) !important;
+    background-image: none !important;
+  }
+
+  [data-glass-effect="liquid"] .mnav-panel,
+  [data-glass-effect="liquid"] .mnav-portal-root .mnav-panel {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--menu-bg, var(--card, var(--background))) !important;
+    background-color: var(--menu-bg, var(--card, var(--background))) !important;
+    background-image: none !important;
+  }
+
+  [data-glass-effect="liquid"] .site-footer.bg-foreground {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--foreground) !important;
+    background-color: var(--foreground) !important;
+    background-image: none !important;
+  }
+
+  [data-glass-effect="liquid"] .site-footer.bg-background {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--background) !important;
+    background-color: var(--background) !important;
+    background-image: none !important;
+  }
+
+  [data-glass-effect="liquid"] .site-footer.bg-accent {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--accent) !important;
+    background-color: var(--accent) !important;
+    background-image: none !important;
+  }
+
+  [data-glass-effect="liquid"] .pp-float-bar::before,
+  [data-glass-effect="liquid"] .pp-float-bar::after {
+    display: none !important;
+  }
+}
+
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .az-card,
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .card,
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .az-preset-surface,
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .header-root .site-header,
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .mega-menu,
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .dropdown-menu,
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .fxs-theme,
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .pp-float-bar,
+html[data-reduced-paint="true"][data-glass-effect="liquid"] #theme-toggle,
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .site-footer,
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .site-footer-shell {
+  backdrop-filter: blur(10px) !important;
+  background: color-mix(in srgb, var(--card, var(--background)) 72%, transparent) !important;
+  background-image: none !important;
+}
+
+@supports (backdrop-filter: url(#liquid-refraction)) {
+  html[data-reduced-paint="true"][data-glass-effect="liquid"] .az-card,
+  html[data-reduced-paint="true"][data-glass-effect="liquid"] .card,
+  html[data-reduced-paint="true"][data-glass-effect="liquid"] .az-preset-surface,
+  html[data-reduced-paint="true"][data-glass-effect="liquid"] .header-root .site-header,
+  html[data-reduced-paint="true"][data-glass-effect="liquid"] .mega-menu,
+  html[data-reduced-paint="true"][data-glass-effect="liquid"] .dropdown-menu,
+  html[data-reduced-paint="true"][data-glass-effect="liquid"] .fxs-theme,
+  html[data-reduced-paint="true"][data-glass-effect="liquid"] .pp-float-bar,
+  html[data-reduced-paint="true"][data-glass-effect="liquid"] #theme-toggle,
+  html[data-reduced-paint="true"][data-glass-effect="liquid"] .site-footer,
+  html[data-reduced-paint="true"][data-glass-effect="liquid"] .site-footer-shell {
+    backdrop-filter: blur(10px) url(#liquid-refraction) !important;
+  }
+}
+
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .popup-modal__panel,
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .popup-slide__panel,
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .popup-promo {
+  backdrop-filter: blur(10px) !important;
+  background: color-mix(
+    in srgb,
+    var(--popup-surface, var(--card, var(--background))) 82%,
+    transparent
+  ) !important;
+  background-image: none !important;
+}
+
+html[data-reduced-paint="true"][data-glass-effect="liquid"]
+  .mnav-portal-root[data-mnav-state="open"]
+  .mnav-panel {
+  backdrop-filter: blur(10px) !important;
+  background: color-mix(
+    in srgb,
+    var(--color-surface, var(--card, var(--background))) 82%,
+    transparent
+  ) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--color-surface, var(--card, var(--background))) 82%,
+    transparent
+  ) !important;
+  background-image: none !important;
+}
+
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .site-footer.bg-foreground {
+  background-color: color-mix(in srgb, var(--foreground) 38%, transparent) !important;
+  background-image: none !important;
+}
+
+.dark[data-reduced-paint="true"][data-glass-effect="liquid"] .site-footer.bg-foreground,
+html[data-theme="dark"][data-reduced-paint="true"][data-glass-effect="liquid"] .site-footer.bg-foreground {
+  background-color: color-mix(in srgb, var(--background) 62%, transparent) !important;
+}
+
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .site-footer.bg-background {
+  background-color: color-mix(in srgb, var(--background) 62%, transparent) !important;
+  background-image: none !important;
+}
+
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .site-footer.bg-accent {
+  background-color: color-mix(in srgb, var(--accent) 62%, transparent) !important;
+  background-image: none !important;
+}
+
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .pp-float-bar::before,
+html[data-reduced-paint="true"][data-glass-effect="liquid"] .pp-float-bar::after {
+  display: none !important;
+}

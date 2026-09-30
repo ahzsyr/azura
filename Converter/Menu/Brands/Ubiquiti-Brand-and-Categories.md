@@ -1,0 +1,89 @@
+- **Ubiquiti**
+  - **UniFi Cloud Gateways**
+    - Large Scale
+    - WiFi Integrated
+    - Compact
+  - **UniFi Access Points**
+    - Best Offers
+    - Flagship
+    - Enterprise
+    - In-Wall
+    - Flexible & Outdoor
+    - Wireless Bridges
+    - Special Devices
+    - Accessories
+  - **UniFi Switching**
+    - Aggregation
+    - Enterprise
+    - Professional Max
+    - Professional
+    - Standard
+    - Utility
+  - **Camera Security**
+    - NVRs & Viewport
+    - Dome & Turret
+    - Bullet
+    - Compact
+    - Theta
+    - PTZ
+    - Doorbells
+    - Special Devices
+    - Accessories
+    - Surveillance HDD
+  - **Door Access**
+    - Readers
+    - Hubs
+    - Starter kits
+    - Intercoms
+    - Accessories
+  - **Cloud Keys & Gateways**
+  - **Power Tech**
+  - **New Integrations**
+  - **60 GHz Wireless**
+    - Wave 60 GHz
+    - airFiber 60 GHz
+  - **Outdoor Wireless**
+    - WiFi 7 MLO
+    - LTU 5 GHz
+    - airFiber PtP
+    - airMAX 5 GHz
+    - airMAX 2.4 GHz
+    - Antennas
+    - Outdoor Antennas
+  - **Fiber**
+    - XGS-PON
+    - GPON
+    - Converters
+    - SFP Modules
+    - Cables
+    - CWDM
+  - **Mobile Network**
+  - **Wired**
+    - UISP Console
+    - UISP Routing
+    - UISP Switching
+    - UISP Power
+    - EdgeMAX Routing
+    - EdgeMAX Switching
+    - WiFi CPE
+    - Other
+  - **Accessory Tech**
+    - Mountings
+    - PoE & Power
+    - Power Solutions
+    - RF Shielding
+    - Anti-Noise Shield
+    - Anti-Noise Shields
+    - Cabling
+    - Patch Cables
+    - Other
+  - **Accessories Tech**
+    - Mountings
+    - PoE & Power
+    - Power Solutions
+    - RF Shielding
+    - Anti-Noise Shields
+    - Cabling
+    - Patch Cables
+  - **AmpliFi**
+  - **UI Care Licenses**

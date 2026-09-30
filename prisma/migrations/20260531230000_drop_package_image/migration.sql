@@ -1,0 +1,2 @@
+-- Drop legacy PackageImage after EntityImage migration (run after verifying data)
+-- DROP TABLE IF EXISTS `PackageImage`;

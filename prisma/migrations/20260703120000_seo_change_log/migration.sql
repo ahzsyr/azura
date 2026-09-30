@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS `SeoChangeLog` (
+  `id` VARCHAR(191) NOT NULL,
+  `correlationId` VARCHAR(64) NOT NULL,
+  `origin` VARCHAR(32) NOT NULL,
+  `entityKind` VARCHAR(32) NOT NULL,
+  `entityId` VARCHAR(128) NOT NULL,
+  `pageKey` VARCHAR(128) NULL,
+  `localeCode` VARCHAR(8) NOT NULL,
+  `profileId` VARCHAR(64) NULL,
+  `applyMode` VARCHAR(32) NULL,
+  `userId` VARCHAR(64) NULL,
+  `field` VARCHAR(64) NOT NULL,
+  `previousValue` TEXT NULL,
+  `newValue` TEXT NULL,
+  `action` VARCHAR(16) NOT NULL,
+  `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  PRIMARY KEY (`id`),
+  INDEX `SeoChangeLog_correlationId_idx`(`correlationId`),
+  INDEX `SeoChangeLog_origin_idx`(`origin`),
+  INDEX `SeoChangeLog_entityKind_entityId_idx`(`entityKind`, `entityId`),
+  INDEX `SeoChangeLog_createdAt_idx`(`createdAt`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

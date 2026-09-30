@@ -1,0 +1,93 @@
+{
+  "domain": "radio",
+  "display": { "name": "Radio", "order": 20 },
+  "specifications": [
+    {
+      "id": "radio.frequency_range",
+      "name": "Frequency Range",
+      "type": "range",
+      "aliases": ["Frequency Range", "Frequency range", "Operating Frequency", "Operating Frequencies", "Frequency Band", "Frequency Bands"],
+      "contexts": {
+        "source_groups": ["dmr", "general", "radio", "transceiver", "communication", "rf"],
+        "product_domains": ["radio", "two_way_radio"]
+      },
+      "value_patterns": ["\\bUHF\\b", "\\bVHF\\b", "\\d+\\s*MHz", "\\d+\\s*-\\s*\\d+\\s*MHz"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Radio", "order": 10 }
+    },
+    {
+      "id": "radio.channel_capacity",
+      "name": "Channel Capacity",
+      "type": "integer",
+      "unit": "channels",
+      "aliases": ["Channel Capacity", "Channel capacity", "Channels", "Number of Channels", "Channel Number"],
+      "contexts": {
+        "source_groups": ["dmr", "general", "radio", "transceiver"],
+        "product_domains": ["radio"]
+      },
+      "comparison": { "mode": "numeric" },
+      "display": { "group": "Radio", "order": 20 }
+    },
+    {
+      "id": "radio.channel_spacing",
+      "name": "Channel Spacing",
+      "type": "text",
+      "aliases": ["Channel Spacing", "Channel spacing", "Channel Width", "Bandwidth"],
+      "contexts": {
+        "source_groups": ["dmr", "general", "radio"],
+        "product_domains": ["radio"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Radio", "order": 30 }
+    },
+    {
+      "id": "radio.power_output",
+      "name": "Power Output",
+      "type": "text",
+      "aliases": ["Power Output", "Output Power", "RF Power", "Transmit Power", "TX Power"],
+      "contexts": {
+        "source_groups": ["dmr", "general", "radio", "transmitter", "transceiver"],
+        "product_domains": ["radio"]
+      },
+      "value_patterns": ["\\bW\\b", "\\d+\\s*W"],
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Radio", "order": 40 }
+    },
+    {
+      "id": "radio.receiver_sensitivity",
+      "name": "Receiver Sensitivity",
+      "type": "text",
+      "aliases": ["Receiver Sensitivity", "Sensitivity", "Analog Sensitive", "Digital Sensitivity"],
+      "contexts": {
+        "source_groups": ["dmr", "receiver", "radio", "general"],
+        "product_domains": ["radio"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Radio", "order": 50 }
+    },
+    {
+      "id": "radio.dmr_encryption",
+      "name": "DMR Encryption",
+      "type": "text",
+      "aliases": ["DMR Encryption", "Encryption", "License Agreement"],
+      "contexts": {
+        "source_groups": ["dmr"],
+        "product_domains": ["radio"]
+      },
+      "comparison": { "mode": "semantic_text" },
+      "display": { "group": "Radio", "order": 60 }
+    },
+    {
+      "id": "radio.zone",
+      "name": "Zone",
+      "type": "integer",
+      "aliases": ["Zone", "Zones"],
+      "contexts": {
+        "source_groups": ["general", "dmr", "radio"],
+        "product_domains": ["radio"]
+      },
+      "comparison": { "mode": "numeric" },
+      "display": { "group": "Radio", "order": 70 }
+    }
+  ]
+}

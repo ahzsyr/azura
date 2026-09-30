@@ -1,0 +1,87 @@
+python converter.py input/ -o output/
+python converter.py input/IRC380 -o output/
+python converter.py input/unifi-U7-Pro-XG -o output/ --format unifi
+python converter.py input/mikrotik-product-page-sample -o output/ --format mikrotik
+python converter.py input/catalog.csv -o output/
+python converter.py input/products.json -o output/
+
+python google-converter.py input/ -o output/google-merchant.xlsx
+python google-converter.py input/product.html -o output/feed.xlsx
+python google-converter.py input/ -o output/ --store-url https://brt-me.com/en --prefix brt
+
+Input format is auto-detected (Getic HTML, UniFi store HTML, MikroTik HTML,
+Inrico jext CMS HTML, generic HTML, JSON-LD, converter/product JSON, WooCommerce CSV, or raw JSON).
+A JSON array, `{ "products": [...] }`, or a multi-product CSV becomes one
+.csv + .json pair per product — the same pairing as HTML inputs.
+Use --json to force raw JSON parsing when auto-detection is wrong.
+Use --format unifi to emit the rich UniFi product layout (3D model, videos, tabbed
+sections, nested specs, color variants).
+Use --format mikrotik to emit the rich MikroTik layout (grouped specs, included
+parts, wireless/ethernet tables, documents, downloads, marketing sections).
+--format auto (default) selects unifi or mikrotik when those page types are
+detected (or when the input JSON/CSV already has that output_format); otherwise default.
+
+Each product CSV is self-contained: the description carries its own <style>
+block, so no theme setup is needed in WordPress.
+
+The style block is written at the end of the description on purpose. WordPress
+sniffs the first 4096 bytes of an upload; markup like "<style" or "<table" near
+the top makes it read the CSV as HTML and reject it with "Sorry, you are not
+allowed to upload this file type". write_csv() enforces this and pads the first
+row if a short description would otherwise push markup into that window.
+
+## Google Merchant Excel (offline only)
+
+google-converter.py writes a Google Merchant Center Excel file for manual/offline
+import experiments. Directory and glob inputs are merged into one .xlsx. The file
+has a header row plus product rows only — Google's instruction, tip, and example
+rows are omitted. Product links use converter.py's title slug
+(resolve_product_slug / WooCommerce slug) at https://brt-me.com/en/products/{slug}.
+Availability is always set to backorder. Color and plug variants become separate
+sellable rows that share item_group_id.
+
+This Excel path is NOT the production Merchant Center catalog. Production uses the
+live site feed at /feeds/google-shopping.xml (scheduled fetch into GMC).
+
+## Canonical specification normalization
+
+Each converted product carries three specification layers:
+
+- source_specifications — manufacturer grouping/labels (PDP display)
+- canonical_specs — stable machine IDs for comparison, search, filtering, import
+- specifications — migration-compat grouped view (legacy PDP/import code)
+
+Core invariant: comparison and CSV Meta columns use canonical IDs only, never
+source group + label. Example: radio.frequency_range aligns Inrico DMR and
+BelFone GENERAL rows with the same label.
+
+Normalization runs automatically in process_single() and normalize_from_json().
+Re-process existing JSON with:
+
+  python migrate_specs.py input/ --dry-run
+  python migrate_specs.py input/product.json
+
+Confidence levels: EXACT, CONTEXT_MATCH, ALIAS_MATCH, AMBIGUOUS, UNMAPPED.
+Ambiguous labels (e.g. bare "Power") are never forced to a canonical id.
+
+CONNECTION + Frequencies maps to connectivity.cellular_bands only when the value
+matches cellular band syntax (2G:, 4G-FDD:, etc.), not by label alone.
+
+CSV export adds:
+- Meta: canonical_specs — full JSON blob with provenance and confidence
+- Meta: spec_<canonical_id> — flat columns (underscore form), e.g.
+  Meta: spec_radio_frequency_range
+
+Source labels never create dynamic CSV columns.
+
+Registry definitions live in Converter/specifications/domains/*.json (shared by
+Python normalizer and TypeScript comparison engine).
+
+unmapped_specs and ambiguous_specs in JSON output are maintenance queues for
+registry updates.
+
+DB backfill for legacy products:
+
+  npx tsx scripts/migrate-product-specs.ts --dry-run
+  npx tsx scripts/migrate-product-specs.ts
+
