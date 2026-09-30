@@ -1,5 +1,5 @@
-import { createHash } from "node:crypto";
 import type { EntityTranslation } from "@prisma/client";
+import { sha256Hex } from "@/lib/sha256-hex";
 import type { PublicLocale } from "@/i18n/locale-config";
 import { getContentFieldSuffix } from "@/i18n/locale-config";
 import { getLocalizedField } from "@/lib/utils";
@@ -146,10 +146,7 @@ export function makeBlockEntityId(
   parentId: string,
   blockId: string
 ): string {
-  return createHash("sha256")
-    .update(`${parentType}\0${parentId}\0${blockId}`)
-    .digest("hex")
-    .slice(0, 32);
+  return sha256Hex(`${parentType}\0${parentId}\0${blockId}`).slice(0, 32);
 }
 
 /** @deprecated Legacy readable ids from early block translations — use indexBlockTranslationsByBlockId */

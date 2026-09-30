@@ -61,10 +61,23 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION ?? packageJson.version,
   },
+  ...(hostingerWebpackBuild ? { typescript: { ignoreBuildErrors: true } } : {}),
   ...(hostingerWebpackBuild
     ? {
-        typescript: { ignoreBuildErrors: true },
-        eslint: { ignoreDuringBuilds: true },
+        webpack: (config, { isServer, webpack }) => {
+          if (!isServer) {
+            config.plugins.push(
+              new webpack.NormalModuleReplacementPlugin(/^node:/, (resource: { request: string }) => {
+                resource.request = resource.request.replace(/^node:/, "");
+              }),
+            );
+            config.resolve.fallback = {
+              ...config.resolve.fallback,
+              crypto: false,
+            };
+          }
+          return config;
+        },
       }
     : {}),
   experimental: {

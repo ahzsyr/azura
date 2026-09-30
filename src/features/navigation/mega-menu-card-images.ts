@@ -1,5 +1,5 @@
-import { createHash } from "crypto";
 import { unstable_cache } from "next/cache";
+import { sha256Hex } from "@/lib/sha256-hex";
 import { prisma } from "@/lib/prisma";
 import { localeService } from "@/features/i18n/locale.service";
 import {
@@ -172,7 +172,7 @@ function workspaceFlyoutFingerprint(ws: HeaderWorkspace): string {
     headerActions: ws.headerActions,
     branding: ws.branding,
   });
-  return createHash("sha256").update(payload).digest("hex").slice(0, 24);
+  return sha256Hex(payload).slice(0, 24);
 }
 
 export async function enrichHeaderWorkspaceWithMenuTranslations(
