@@ -55,6 +55,20 @@ if (!publicDirTarget && !uploadsOnlyTarget) {
   skip("LOCAL_PUBLIC_DIR and LOCAL_UPLOADS_DIR unset — skipping");
 }
 
+function isHostingerGitBuildStaging(cwd) {
+  const normalized = cwd.replaceAll("\\", "/");
+  return normalized.includes("/hbuilds/");
+}
+
+function mergeUploadsDirectory(source, dest) {
+  if (!existsSync(source)) return;
+  const stat = lstatSync(source);
+  if (stat.isSymbolicLink() || !stat.isDirectory()) return;
+  mkdirSync(dest, { recursive: true });
+  log(`hbuilds: copying ${source} into ${dest} (no symlink)`);
+  cpSync(source, dest, { recursive: true, force: true });
+}
+
 /**
  * @param {string} linkPath
  * @returns {string | null}
@@ -189,6 +203,11 @@ try {
   } else {
     uploadsTarget = uploadsOnlyTarget;
     mkdirSync(publicPath, { recursive: true });
+  }
+
+  if (isHostingerGitBuildStaging(cwd)) {
+    mergeUploadsDirectory(join(publicPath, "uploads"), uploadsTarget);
+    skip("hbuilds staging — skipped public/uploads symlink so Hostinger can package the build");
   }
 
   ensureSymlink({
