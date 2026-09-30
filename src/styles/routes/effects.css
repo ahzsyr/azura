@@ -1,5 +1,0 @@
-@import "../liquid-glass-storefront.css" layer(components);
-/* Unlayered: must beat header/footer solid backgrounds */
-@import "../site-glass-effect.css";
-@import "../performance/scroll-reveal-animations.css" layer(effects);
-@import "../performance/paint-reduction.css" layer(effects);

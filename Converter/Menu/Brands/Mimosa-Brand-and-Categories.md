@@ -1,8 +1,0 @@
-- **Mimosa**
-  - Carrier Backhaul Radio
-    - Antennas
-  - BaseStation
-    - Integrated Antennas
-  - Outdoor Access Points
-    - Antennas
-  - Power Adapters Mounts
