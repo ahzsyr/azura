@@ -130,10 +130,12 @@ type Props = {
 function resolveEngineExperience(
   siteTheme: ThemeTokens,
   cursorPref: CursorPreference,
+  /** When false, ignore localStorage so SSR and the first client paint match. */
+  allowStoredEffects = true,
 ): ResolvedVisualExperience {
   return resolveVisitorVisualExperience({
     site: siteTheme,
-    storedEffects: readStoredPresetEffects(),
+    storedEffects: allowStoredEffects ? readStoredPresetEffects() : null,
     cursorPreference: cursorPref,
   });
 }
@@ -165,17 +167,22 @@ export function ThemeEngineProvider({
 
   const effectivePresetId = visitorPresetId ?? siteDefaultPresetId;
 
+  // Until hydrated, never call matchMedia/localStorage during render (#418).
   const resolvedAppearance: ResolvedAppearance =
     resolvedTheme === "dark"
       ? "dark"
       : resolvedTheme === "light"
         ? "light"
-        : resolveAppearance(appearanceMode);
+        : hydrated
+          ? resolveAppearance(appearanceMode)
+          : appearanceMode === "dark"
+            ? "dark"
+            : "light";
 
   const cursorEffect = useMemo(() => {
     if (!siteTheme) return null;
-    return resolveEngineExperience(siteTheme, cursorPreference).cursorEffect;
-  }, [siteTheme, cursorPreference, appearanceMode, effectivePresetId]);
+    return resolveEngineExperience(siteTheme, cursorPreference, hydrated).cursorEffect;
+  }, [siteTheme, cursorPreference, appearanceMode, effectivePresetId, hydrated]);
 
   const refreshUserPresets = useCallback(() => {
     setUserPresets(listUserPresets());
@@ -554,7 +561,7 @@ export function ThemeEngineProvider({
 
   const value = useMemo<ThemeEngineContextValue>(
     () => {
-      const storedEffects = readStoredPresetEffects();
+      const storedEffects = hydrated ? readStoredPresetEffects() : null;
       const visitorPersonalization: VisitorPersonalization = {
         visitorPresetId,
         appearanceMode,
@@ -587,6 +594,7 @@ export function ThemeEngineProvider({
       };
     },
     [
+      hydrated,
       appearanceMode,
       resolvedAppearance,
       siteDefaultPresetId,
@@ -609,7 +617,9 @@ export function ThemeEngineProvider({
   );
 
   return (
-    <ThemeEngineContext.Provider value={value}>{children}</ThemeEngineContext.Provider>
+    <ThemeEngineContext.Provider value={value}>
+      {children}
+    </ThemeEngineContext.Provider>
   );
 }
 

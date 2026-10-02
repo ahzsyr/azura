@@ -13,6 +13,8 @@ export type ContentMediaView = {
   captionAr: string;
   sortOrder: number;
   isCover: boolean;
+  /** When true, media is omitted from public galleries but may still be used as cover. */
+  isHidden: boolean;
 };
 
 export type ContentCollectionView = {

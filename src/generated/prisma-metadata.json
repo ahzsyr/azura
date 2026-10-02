@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T08:48:44.527Z",
+  "generatedAt": "2026-10-02T08:20:52.017Z",
   "modelCount": 133,
   "models": [
     {
@@ -8570,6 +8570,14 @@
           "hasDefault": true
         },
         {
+          "name": "glassEffectEnabled",
+          "type": "Boolean",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
           "name": "backgroundEffectSettings",
           "type": "Json",
           "isList": false,
@@ -8587,6 +8595,14 @@
         },
         {
           "name": "textEffectSettings",
+          "type": "Json",
+          "isList": false,
+          "isOptional": false,
+          "isRelation": false,
+          "hasDefault": true
+        },
+        {
+          "name": "glassEffectSettings",
           "type": "Json",
           "isList": false,
           "isOptional": false,

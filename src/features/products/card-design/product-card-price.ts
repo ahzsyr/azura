@@ -1,3 +1,4 @@
+import { formatHydrationSafeCurrency } from "@/lib/format/hydration-safe";
 import type { ProductListingRecord } from "@/features/products/listing/types";
 import type { ProductCardPricingMode } from "./product-card-design.types";
 
@@ -67,14 +68,8 @@ export function resolveProductCardPriceDisplay(
 }
 
 export function formatCardPrice(amount: number, currency: string, locale: string): string {
-  try {
-    return new Intl.NumberFormat(locale, {
-      style: "currency",
-      currency,
-      minimumFractionDigits: 0,
-      maximumFractionDigits: currency === "JPY" ? 0 : 2,
-    }).format(amount);
-  } catch {
-    return `${currency} ${amount.toFixed(2)}`;
-  }
+  return formatHydrationSafeCurrency(amount, currency, locale, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: currency === "JPY" ? 0 : 2,
+  });
 }

@@ -14,10 +14,19 @@ import { getContentFieldSuffix } from "@/i18n/locale-config";
 import { SLUG_INPUT_PATTERN_OPTIONAL } from "@/lib/slug-pattern";
 import { PriceFieldInput } from "@/features/content/admin/price-field-input";
 import type { DisplaySettings } from "@/schemas/catalog/display-settings";
-import { EntityDisplaySettingsPanel } from "@/features/catalog/admin/entity-display-settings-panel";
-import { TYPE_TO_LEGACY_SOURCE } from "@/features/content/content-type.registry";
 import type { ContentItemLocaleFields } from "@/features/content/admin/content-editor-form-data";
 import { getLocalizedAttributeStorageKey } from "@/features/content/admin/content-editor-form-data";
+
+/** Sidebar groups / fields removed from Content Details editor. */
+const HIDDEN_DETAIL_GROUPS = new Set(["display", "cta"]);
+const HIDDEN_DETAIL_FIELD_KEYS = new Set([
+  "ctaLabel",
+  "ctaHref",
+  "highlights",
+  "icon",
+  "offeringType",
+  "type",
+]);
 
 type Props = {
   fields: ContentFieldDefinition[];
@@ -163,44 +172,31 @@ export function ContentItemDetailsSidebar({
   localeFields,
   onLocaleFieldChange,
   onAttributeChange,
-  displaySettings,
-  onDisplaySettingsChange,
 }: Props) {
   const defaultLocale = locales.find((l) => l.isDefault) ?? locales[0];
   const defaultLocaleCode = defaultLocale?.code ?? "en";
   const coreConfig = ENTITY_REGISTRY.ContentItem;
 
-  // Build group map from field definitions
+  // Build group map (fixed Type/CTA/Highlights/Display removed; schema-driven fields stay).
   const groups = fields.reduce<Record<string, ContentFieldDefinition[]>>((acc, field) => {
+    if (HIDDEN_DETAIL_FIELD_KEYS.has(field.key)) return acc;
     const g = field.group ?? "attributes";
+    if (HIDDEN_DETAIL_GROUPS.has(g)) return acc;
     acc[g] = acc[g] ?? [];
     acc[g].push(field);
     return acc;
   }, {});
 
-  // Build sidebar sections: always start with Core, then field groups, then Display settings.
-  // Keep IDs unique so custom "display" field groups do not collide with Display settings panel.
-  const legacySource = TYPE_TO_LEGACY_SOURCE[contentType.slug];
-  const hasDisplaySettingsPanel = Boolean(legacySource && onDisplaySettingsChange);
-  const groupSections = Object.keys(groups).map((group) => {
-    const isDisplayGroup = group === "display" && hasDisplaySettingsPanel;
-    return {
-      id: isDisplayGroup ? "display-fields" : group,
-      group,
-      label: isDisplayGroup
-        ? "Display fields"
-        : GROUP_LABEL_MAP[group] ?? group.charAt(0).toUpperCase() + group.slice(1),
-    };
-  });
+  const groupSections = Object.keys(groups).map((group) => ({
+    id: group,
+    group,
+    label: GROUP_LABEL_MAP[group] ?? group.charAt(0).toUpperCase() + group.slice(1),
+  }));
 
   const sidebarSections: Array<{ id: string; label: string }> = [
     { id: "core", label: "Core" },
     ...groupSections.map(({ id, label }) => ({ id, label })),
   ];
-
-  if (hasDisplaySettingsPanel) {
-    sidebarSections.push({ id: "display-settings", label: "Display" });
-  }
 
   const [activeSection, setActiveSection] = useState(sidebarSections[0]?.id ?? "core");
 
@@ -311,20 +307,6 @@ export function ContentItemDetailsSidebar({
           );
         })}
 
-        {/* Display section */}
-        {legacySource && onDisplaySettingsChange && (
-          <div className={cn("space-y-5", activeSection !== "display-settings" && "hidden")}>
-            <p className="text-xs text-muted-foreground border-b pb-2 mb-4">
-              Card display settings
-            </p>
-            <EntityDisplaySettingsPanel
-              source={legacySource}
-              value={displaySettings ?? {}}
-              onChange={onDisplaySettingsChange}
-              showPreview={false}
-            />
-          </div>
-        )}
       </div>
     </div>
   );

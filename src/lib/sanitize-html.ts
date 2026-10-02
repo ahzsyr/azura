@@ -8,9 +8,19 @@ const ALLOWED_TAGS = [
   "a",
   "img", "figure", "figcaption", "picture", "source", "video", "audio",
   "table", "thead", "tbody", "tfoot", "tr", "th", "td", "caption",
-  "div", "section", "article", "aside", "header", "footer", "main", "nav",
+  // No document landmarks: marketing layout already owns <main>/<header>/<footer>/<nav>.
+  // Nested landmarks are repaired by the browser and trigger React #418 on hydrate.
+  "div", "section", "article", "aside",
   "hr", "br",
 ];
+
+/** Rewrite nested document landmarks to <div> before purify (keeps content, avoids nest repair). */
+function demoteDocumentLandmarks(input: string): string {
+  return input.replace(
+    /<\/?(?:main|header|footer|nav)(\s[^>]*)?>/gi,
+    (tag) => tag.replace(/^(<\/?)(?:main|header|footer|nav)/i, "$1div"),
+  );
+}
 
 const ALLOWED_ATTR = [
   "id", "class", "title", "lang", "dir", "style",
@@ -127,11 +137,25 @@ function ensureStyleHook() {
 export function sanitizeHtml(input: string): string {
   if (!input?.trim()) return "";
   ensureStyleHook();
-  return DOMPurify.sanitize(input, {
+  return DOMPurify.sanitize(demoteDocumentLandmarks(input), {
     ALLOWED_TAGS,
     ALLOWED_ATTR,
     ALLOW_DATA_ATTR: true,
-    FORBID_TAGS: ["script", "style", "iframe", "object", "embed", "form", "input", "link", "meta"],
+    FORBID_TAGS: [
+      "script",
+      "style",
+      "iframe",
+      "object",
+      "embed",
+      "form",
+      "input",
+      "link",
+      "meta",
+      "main",
+      "header",
+      "footer",
+      "nav",
+    ],
     FORBID_ATTR: ["onerror", "onload", "onclick"],
   });
 }

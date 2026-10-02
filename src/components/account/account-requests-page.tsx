@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { AccountNav } from "@/components/account/account-nav";
 import { accountPublicPath } from "@/features/account/account-public-path";
 import { publicLocalePath } from "@/i18n/url-helpers";
+import { formatHydrationSafeDateTime } from "@/lib/format/hydration-safe";
 
 type RequestRow = {
   id: string;
@@ -85,7 +86,7 @@ export function AccountRequestsPage({ locale }: Props) {
                   <p className="text-muted-foreground mt-2 line-clamp-2">{row.summary}</p>
                 ) : null}
                 <p className="text-muted-foreground mt-2 text-xs">
-                  {new Date(row.createdAt).toLocaleString()}
+                  {formatHydrationSafeDateTime(row.createdAt)}
                 </p>
               </Link>
             ))

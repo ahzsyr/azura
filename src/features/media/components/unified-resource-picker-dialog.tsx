@@ -20,6 +20,7 @@ import { MediaManagerApp } from "@/features/catalog/admin/media/MediaManagerApp"
 import { cmsMediaTypesToCatalog } from "@/features/media/lib/media-type-map";
 import { IconPickerPanel } from "@/features/icons/components/icon-picker-panel";
 import type { IconPickerSelectResult } from "@/features/icons/components/icon-picker-panel";
+import { normalizeLocalMediaUrl } from "@/lib/config/next-image";
 
 export type MediaPickResult = {
   type: "media";
@@ -119,7 +120,7 @@ export function UnifiedResourcePickerDialog({
       onSelect({
         type: "media",
         mediaId: asset.id,
-        url: asset.url,
+        url: normalizeLocalMediaUrl(asset.url),
         source: "cms",
         filename: asset.filename,
       });
@@ -133,7 +134,7 @@ export function UnifiedResourcePickerDialog({
       onSelect({
         type: "media",
         mediaId: null,
-        url: item.url,
+        url: normalizeLocalMediaUrl(item.url),
         source: "site",
         filename: item.filename,
       });

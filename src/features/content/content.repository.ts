@@ -193,8 +193,11 @@ export const contentRepository: {
     const include = {
       collection: true,
       media: {
-        where: { isPublished: true, isHidden: false },
-        orderBy: { sortOrder: "asc" as const },
+        where: {
+          isPublished: true,
+          OR: [{ isCover: true }, { isHidden: false }],
+        },
+        orderBy: [{ isCover: "desc" as const }, { sortOrder: "asc" as const }],
       },
     };
 

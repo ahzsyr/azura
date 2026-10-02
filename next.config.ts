@@ -108,32 +108,37 @@ const nextConfig: NextConfig = {
   ...(process.env.OUTPUT_STANDALONE === "1" ? { output: "standalone" as const } : {}),
   /** Hostinger build blocks scanning folders named `admin`; URLs stay /api/admin via rewrite */
   async rewrites() {
-    return [
-      {
-        source: "/api/admin/:path*",
-        destination: "/api/manage/:path*",
-      },
-      /** Serve uploads from LOCAL_PUBLIC_DIR / LOCAL_UPLOADS_DIR when not in cwd/public */
-      {
-        source: "/uploads/:path*",
-        destination: "/api/local-uploads/:path*",
-      },
-      /** IndexNow verification file at https://{host}/{key}.txt */
-      {
-        source: "/:key([A-Za-z0-9\\-]{8,128}).txt",
-        destination: "/api/seo/indexnow-key/:key",
-      },
-      /** Yoast-compatible head REST API alias */
-      {
-        source: "/wp-json/yoast/v1/get_head",
-        destination: "/api/seo/head",
-      },
-      /** Typed sitemaps at Yoast-compatible root paths */
-      {
-        source: "/:file((?:page|post|product|category|brand|video)-sitemap\\d*\\.xml)",
-        destination: "/sitemaps/:file",
-      },
-    ];
+    return {
+      // beforeFiles: do not let an empty/stale public/uploads 404 skip the API
+      // (Hostinger stores bytes under LOCAL_PUBLIC_DIR / LOCAL_UPLOADS_DIR).
+      beforeFiles: [
+        {
+          source: "/uploads/:path*",
+          destination: "/api/local-uploads/:path*",
+        },
+      ],
+      afterFiles: [
+        {
+          source: "/api/admin/:path*",
+          destination: "/api/manage/:path*",
+        },
+        /** IndexNow verification file at https://{host}/{key}.txt */
+        {
+          source: "/:key([A-Za-z0-9\\-]{8,128}).txt",
+          destination: "/api/seo/indexnow-key/:key",
+        },
+        /** Yoast-compatible head REST API alias */
+        {
+          source: "/wp-json/yoast/v1/get_head",
+          destination: "/api/seo/head",
+        },
+        /** Typed sitemaps at Yoast-compatible root paths */
+        {
+          source: "/:file((?:page|post|product|category|brand|video)-sitemap\\d*\\.xml)",
+          destination: "/sitemaps/:file",
+        },
+      ],
+    };
   },
   /** 301 redirects: host consolidation + old standalone service CmsPage URLs */
   async redirects() {
@@ -210,6 +215,9 @@ const nextConfig: NextConfig = {
     loader: "custom",
     loaderFile: "./src/lib/config/next-image-loader.ts",
     formats: ["image/avif", "image/webp"],
+    /** Allow SVG through next/image (still served unoptimized via the custom loader). */
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'none'; style-src 'unsafe-inline'; script-src 'none'",
     /** Fewer breakpoints = less CPU on Hostinger image optimizer under catalog traffic */
     deviceSizes: [640, 1080, 1920],
     imageSizes: [32, 48, 64, 96, 128, 256],
@@ -238,6 +246,8 @@ const nextConfig: NextConfig = {
         "https://www.facebook.com",
         /* Meta CAPI Param Builder (loaded via GTM / Meta Pixel) */
         "https://capi-automation.s3.us-east-2.amazonaws.com",
+        /* Cloudflare Insights — if #418 text mismatches persist after deploy, disable
+           Cloudflare Auto Minify → HTML (whitespace collapse breaks React hydration). */
         "https://static.cloudflareinsights.com",
         "https://snap.licdn.com",
         "https://ajax.googleapis.com",

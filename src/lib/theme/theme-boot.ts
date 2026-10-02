@@ -128,5 +128,6 @@ export function generateThemeBootInlineScript(
   var go=typeof glass.opacity==="number"?glass.opacity:0.45;
   root.style.setProperty("--glass-effect-intensity",String(gi));
   root.style.setProperty("--glass-effect-opacity",String(go));
+  window.setTimeout(function(){try{if(!root.classList.contains("site-preloading-done")){root.classList.add("site-preloading-done");root.classList.remove("site-preloading");}}catch(e){}},4000);
 }catch(e){}})();`;
 }

@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/features/auth/guards";
 import { mediaRepository } from "@/repositories/media.repository";
-import { mediaTypeFromMime } from "./media.service";
+import { resolveMediaType } from "@/lib/local-media-storage";
 import type { MediaType } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
@@ -97,12 +97,13 @@ export async function replaceMediaAsset(
 ) {
   await requireAdmin();
   const existing = await mediaRepository.getAsset(id);
+  const filename = data.filename ?? existing?.filename ?? "file";
   const mime = data.mimeType ?? "application/octet-stream";
   await mediaRepository.updateAsset(id, {
     url: data.url,
     sizeBytes: data.sizeBytes,
     mimeType: data.mimeType ?? undefined,
-    mediaType: mediaTypeFromMime(mime),
+    mediaType: resolveMediaType(filename, mime),
     filename: data.filename,
   });
   if (existing?.url && existing.url !== data.url) {

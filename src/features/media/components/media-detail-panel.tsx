@@ -12,6 +12,7 @@ import {
 } from "@/features/media/actions";
 import { MEDIA_USAGE_ENTITY_LABELS, usageAdminHref } from "@/features/media/constants";
 import { formatBytes } from "@/features/media/media.service";
+import { isSvgMediaUrl } from "@/lib/config/next-image";
 import { uploadMediaFile } from "@/features/media/upload-client";
 import { acceptForMediaTypes } from "@/lib/local-media-storage";
 import { AdminLocalizedTextField } from "@/features/translation/components/admin-localized-text-field";
@@ -197,7 +198,10 @@ export function MediaDetailPanel({ assetId, folders, onClose, onUpdated }: Props
       ) : (
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
           <div className="relative aspect-video rounded-lg bg-muted overflow-hidden">
-            {asset.mediaType === "IMAGE" || asset.mediaType === "SVG" ? (
+            {asset.mediaType === "IMAGE" ||
+            asset.mediaType === "SVG" ||
+            isSvgMediaUrl(asset.url) ||
+            isSvgMediaUrl(asset.filename) ? (
               <MediaPreviewImage src={asset.url} alt={previewAlt} fill className="object-contain" sizes="400px" />
             ) : asset.mediaType === "VIDEO" ? (
               <MediaPreviewVideo src={asset.url} alt={previewAlt} fill controls className="object-contain" />

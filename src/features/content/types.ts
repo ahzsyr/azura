@@ -106,7 +106,7 @@ export type ContentCardData = {
   isFeatured?: boolean;
   collection?: { id: string; slug: string; name: string; nameEn: string; nameAr: string };
   href?: string;
-  images: { url: string; alt?: string; altEn?: string; altAr?: string }[];
+  images: { url: string; alt?: string; altEn?: string; altAr?: string; isCover?: boolean }[];
 };
 
 export type ContentBlockConfig = {

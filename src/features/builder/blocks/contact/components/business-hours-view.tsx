@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -82,7 +82,11 @@ function resolveOpenNow(days: BusinessHoursDay[], now = new Date()) {
 
 export function BusinessHoursView({ days, className, compact, showStatus = true }: Props) {
   const t = useTranslations("contact");
-  const status = useMemo(() => resolveOpenNow(days), [days]);
+  // Clock-dependent output must be identical for SSR and the first browser
+  // render. Resolve the live office status after hydration.
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => setNow(new Date()), []);
+  const status = useMemo(() => (now ? resolveOpenNow(days, now) : null), [days, now]);
 
   if (!days?.length) return null;
 
@@ -103,7 +107,7 @@ export function BusinessHoursView({ days, className, compact, showStatus = true 
             <span
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-semibold",
-                status.openNow
+                status?.openNow
                   ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
                   : "bg-muted text-muted-foreground",
               )}
@@ -111,17 +115,17 @@ export function BusinessHoursView({ days, className, compact, showStatus = true 
               <span
                 className={cn(
                   "h-1.5 w-1.5 rounded-full",
-                  status.openNow ? "bg-emerald-500" : "bg-muted-foreground/50",
+                  status?.openNow ? "bg-emerald-500" : "bg-muted-foreground/50",
                 )}
               />
-              {status.openNow ? t("openNow") : t("closedNow")}
+              {status?.openNow ? t("openNow") : t("closedNow")}
             </span>
           </div>
         ) : null}
 
         <ul className="overflow-hidden rounded-xl border border-border/70 bg-background/80">
           {rows.map((d, index) => {
-            const isToday = d.day === status.todayKey;
+            const isToday = status?.todayKey === d.day;
             return (
               <li
                 key={d.day}
@@ -173,7 +177,7 @@ export function BusinessHoursView({ days, className, compact, showStatus = true 
           <span
             className={cn(
               "inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-semibold",
-              status.openNow
+              status?.openNow
                 ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
                 : "bg-background text-muted-foreground",
             )}
@@ -181,10 +185,10 @@ export function BusinessHoursView({ days, className, compact, showStatus = true 
             <span
               className={cn(
                 "h-1.5 w-1.5 rounded-full",
-                status.openNow ? "bg-emerald-500" : "bg-muted-foreground/50",
+                status?.openNow ? "bg-emerald-500" : "bg-muted-foreground/50",
               )}
             />
-            {status.openNow ? t("openNow") : t("closedNow")}
+            {status?.openNow ? t("openNow") : t("closedNow")}
           </span>
         </div>
       ) : null}
@@ -197,7 +201,7 @@ export function BusinessHoursView({ days, className, compact, showStatus = true 
         </thead>
         <tbody>
           {rows.map((d) => {
-            const isToday = d.day === status.todayKey;
+            const isToday = status?.todayKey === d.day;
             return (
               <tr
                 key={d.day}

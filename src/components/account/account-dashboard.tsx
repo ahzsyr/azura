@@ -11,6 +11,7 @@ import type { FavoriteListItem } from "@/features/account/components/saved-favor
 import { AccountNav } from "@/components/account/account-nav";
 import { accountPublicPath } from "@/features/account/account-public-path";
 import { publicLocalePath } from "@/i18n/url-helpers";
+import { formatHydrationSafeDateTime } from "@/lib/format/hydration-safe";
 
 type RequestPreview = {
   id: string;
@@ -142,7 +143,7 @@ export function AccountDashboard({ locale, userName, userEmail }: Props) {
                     <span className="text-muted-foreground">{row.status}</span>
                   </div>
                   <p className="text-muted-foreground mt-1 text-xs">
-                    {new Date(row.createdAt).toLocaleString()}
+                    {formatHydrationSafeDateTime(row.createdAt)}
                   </p>
                 </Link>
               ))

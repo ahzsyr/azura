@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { AccountNav } from "@/components/account/account-nav";
 import { accountPublicPath } from "@/features/account/account-public-path";
 import { publicLocalePath } from "@/i18n/url-helpers";
+import { formatHydrationSafeDateTime } from "@/lib/format/hydration-safe";
 
 type Props = {
   locale: string;
@@ -98,10 +99,10 @@ export function AccountRequestDetailPage({ locale, requestId }: Props) {
                 </Button>
               ) : null}
               <p className="text-muted-foreground text-xs">
-                {t("requestCreatedAt")}: {new Date(detail.createdAt).toLocaleString()}
+                {t("requestCreatedAt")}: {formatHydrationSafeDateTime(detail.createdAt)}
               </p>
               <p className="text-muted-foreground text-xs">
-                {t("requestUpdatedAt")}: {new Date(detail.updatedAt).toLocaleString()}
+                {t("requestUpdatedAt")}: {formatHydrationSafeDateTime(detail.updatedAt)}
               </p>
             </>
           ) : (
@@ -122,10 +123,10 @@ export function AccountRequestDetailPage({ locale, requestId }: Props) {
                 ))}
               </dl>
               <p className="text-muted-foreground text-xs">
-                {t("requestCreatedAt")}: {new Date(detail.createdAt).toLocaleString()}
+                {t("requestCreatedAt")}: {formatHydrationSafeDateTime(detail.createdAt)}
               </p>
               <p className="text-muted-foreground text-xs">
-                {t("requestUpdatedAt")}: {new Date(detail.updatedAt).toLocaleString()}
+                {t("requestUpdatedAt")}: {formatHydrationSafeDateTime(detail.updatedAt)}
               </p>
             </>
           )}

@@ -102,11 +102,10 @@ export function CompareWorkspace({
   const searchParams = useSearchParams();
   const queryType = searchParams.get("type");
 
-  const initialBuckets = readBucketSlugsFromStore();
-  const [activeSlug, setActiveSlug] = useState<string | null>(() =>
-    pickActiveSlug(initialBuckets, null, initialActiveSlug, queryType)
-  );
-  const [bucketSlugs, setBucketSlugs] = useState<string[]>(initialBuckets);
+  // Always start empty so SSR and the first client paint match (React #418 text).
+  // localStorage buckets are applied in useEffect after hydration.
+  const [activeSlug, setActiveSlug] = useState<string | null>(null);
+  const [bucketSlugs, setBucketSlugs] = useState<string[]>([]);
 
   const refreshBuckets = useCallback(() => {
     const slugs = readBucketSlugsFromStore();

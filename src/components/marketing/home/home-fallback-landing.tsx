@@ -113,12 +113,12 @@ export async function HomeFallbackLanding({ locale }: Props) {
         "Error",
     });
     return (
-      <main className="section-padding container-premium min-h-[40vh] py-16 text-center">
+      <div className="section-padding container-premium min-h-[40vh] py-16 text-center">
         <h1 className="font-heading text-3xl font-bold">Welcome</h1>
         <p className="mt-4 text-muted-foreground">
           This page is temporarily unavailable. Please try again shortly.
         </p>
-      </main>
+      </div>
     );
   }
 }

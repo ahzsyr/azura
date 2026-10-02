@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { evaluateConditional } from "@/features/forms/lib/build-zod-schema";
 import type { FormTemplateDefinition } from "@/features/forms/types";
 import { loadDocumentFromRaw } from "@/features/forms/lib/document-envelope";
@@ -113,6 +114,7 @@ export function DynamicFormView({
 }: Props) {
   const sourceRaw = definitionRaw ?? definition;
   const fxsOn = isFxsEnabled();
+  const pathname = usePathname();
   const { focusFirstInvalid } = useFocusManager();
 
   const [abVisitorKey, setAbVisitorKey] = useState("ssr");
@@ -538,8 +540,7 @@ export function DynamicFormView({
 
       {saveAndResume && draftToken ? (
         <p className="text-xs text-muted-foreground">
-          Resume link:{" "}
-          {typeof window !== "undefined" ? `${window.location.pathname}?draft=${draftToken}` : ""}
+          Resume link: {`${pathname}?draft=${draftToken}`}
         </p>
       ) : null}
     </form>

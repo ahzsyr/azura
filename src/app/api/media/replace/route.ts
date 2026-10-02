@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { isAdminRole } from "@/features/auth/portal";
 import { mediaRepository } from "@/repositories/media.repository";
-import { mediaTypeFromMime } from "@/features/media/media.service";
+import { resolveMediaType } from "@/lib/local-media-storage";
 import { z } from "zod";
 import { deleteStoredUpload } from "@/lib/media-storage";
 
@@ -34,13 +34,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Media asset not found" }, { status: 404 });
     }
 
+    const filename = parsed.filename ?? existing.filename;
     const mime = parsed.mimeType ?? existing.mimeType;
     const asset = await mediaRepository.updateAsset(parsed.id, {
       url: parsed.url,
       sizeBytes: parsed.sizeBytes,
       mimeType: mime,
-      mediaType: mediaTypeFromMime(mime),
-      filename: parsed.filename ?? existing.filename,
+      mediaType: resolveMediaType(filename, mime),
+      filename,
     });
 
     if (existing.url !== asset.url) {

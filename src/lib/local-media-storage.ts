@@ -44,11 +44,51 @@ export function mediaTypeFromFilename(filename: string): MediaType | null {
   return EXT_TO_TYPE[extname(filename).toLowerCase()] ?? null;
 }
 
+const SVG_MIME_PREFIX = "image/svg";
+
+function isSvgMime(mimeType: string): boolean {
+  const mime = mimeType.toLowerCase().split(";")[0]?.trim() ?? "";
+  return mime.startsWith(SVG_MIME_PREFIX);
+}
+
+/**
+ * Prefer the file extension for SVG. Browsers/OS often send `text/plain`,
+ * `text/xml`, or empty MIME for `.svg`, which used to persist as DOCUMENT
+ * and hide the file behind a generic icon.
+ */
 export function resolveMediaType(filename: string, mimeType: string): MediaType {
+  const byExt = mediaTypeFromFilename(filename);
+  if (byExt === "SVG" || isSvgMime(mimeType)) return "SVG";
   if (mimeType && mimeType !== "application/octet-stream") {
     return mediaTypeFromMime(mimeType);
   }
-  return mediaTypeFromFilename(filename) ?? "DOCUMENT";
+  return byExt ?? "DOCUMENT";
+}
+
+const MIME_BY_EXT: Record<string, string> = {
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".png": "image/png",
+  ".webp": "image/webp",
+  ".gif": "image/gif",
+  ".svg": "image/svg+xml",
+  ".mp4": "video/mp4",
+  ".webm": "video/webm",
+  ".pdf": "application/pdf",
+};
+
+/** Canonical Content-Type stored with the object (never trust a misleading browser MIME for SVG). */
+export function mimeTypeForUpload(
+  filename: string,
+  fileType?: string | null,
+  mediaType?: MediaType,
+): string {
+  const ext = extname(filename).toLowerCase();
+  if (ext === ".svg" || mediaType === "SVG" || isSvgMime(fileType ?? "")) {
+    return "image/svg+xml";
+  }
+  if (fileType && fileType !== "application/octet-stream") return fileType;
+  return MIME_BY_EXT[ext] ?? "application/octet-stream";
 }
 
 export function safeFilename(name: string): string {

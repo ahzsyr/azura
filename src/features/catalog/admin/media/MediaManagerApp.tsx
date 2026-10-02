@@ -11,6 +11,7 @@ import {
   catalogDeleteSuccessMessage,
   formatCatalogDeleteError,
 } from "@/features/media/components/catalog-site-storage-notice";
+import { isSvgMediaUrl } from "@/lib/config/next-image";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -38,7 +39,11 @@ function mediaIcon(type: MediaType): string {
 }
 
 function isPreviewable(item: MediaItem): boolean {
-  return item.type === "image" || item.type === "svg";
+  if (item.type === "image" || item.type === "svg") return true;
+  const ext = item.ext?.toLowerCase().startsWith(".")
+    ? item.ext.toLowerCase()
+    : `.${item.ext ?? ""}`;
+  return ext === ".svg" || isSvgMediaUrl(item.url) || isSvgMediaUrl(item.filename);
 }
 
 function isVideoPreviewable(item: MediaItem): boolean {

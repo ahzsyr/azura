@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AccountNav } from "@/components/account/account-nav";
 import { publicLocalePath } from "@/i18n/url-helpers";
+import { formatHydrationSafeDateTime } from "@/lib/format/hydration-safe";
 
 type BookingRow = {
   id: string;
@@ -72,7 +73,7 @@ export function AccountBookingsPage({ locale }: Props) {
                   <Badge variant="secondary">{row.status}</Badge>
                 </div>
                 <p className="text-muted-foreground mt-2 text-xs">
-                  {new Date(row.createdAt).toLocaleString()}
+                  {formatHydrationSafeDateTime(row.createdAt)}
                 </p>
                 {row.contentItem.slug ? (
                   <Button asChild variant="link" className="mt-1 px-0">

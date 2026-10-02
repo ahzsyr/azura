@@ -22,21 +22,37 @@ describe("normalizeLocalMediaUrl", () => {
     );
   });
 
-  it("collapses same-origin absolute upload URLs", () => {
+  it("collapses www and apex hosts as the same site", () => {
     assert.equal(
       normalizeLocalMediaUrl(
-        "https://brt-me.net/uploads/images/hero.webp",
+        "https://www.brt-me.net/uploads/svg/logo.svg",
         "https://brt-me.net",
       ),
-      "/uploads/images/hero.webp",
+      "/uploads/svg/logo.svg",
+    );
+    assert.equal(
+      normalizeLocalMediaUrl(
+        "https://brt-me.net/uploads/svg/logo.svg",
+        "https://www.brt-me.net",
+      ),
+      "/uploads/svg/logo.svg",
     );
   });
 
-  it("preserves absolute upload URLs from another origin", () => {
-    const url = "https://cdn.example.com/uploads/brands/logo.png";
+  it("collapses same-origin absolute upload URLs regardless of host", () => {
     assert.equal(
-      normalizeLocalMediaUrl(url, "https://brt-me.net"),
-      url,
+      normalizeLocalMediaUrl(
+        "https://cdn.example.com/uploads/brands/logo.png",
+        "https://brt-me.net",
+      ),
+      "/uploads/brands/logo.png",
+    );
+  });
+
+  it("collapses /uploads/ absolute URLs when no site origin is configured", () => {
+    assert.equal(
+      normalizeLocalMediaUrl("https://brt-me.com/uploads/images/hero.webp", ""),
+      "/uploads/images/hero.webp",
     );
   });
 
@@ -55,6 +71,8 @@ describe("isSvgMediaUrl", () => {
   it("detects svg paths including local uploads", () => {
     assert.equal(isSvgMediaUrl("/uploads/svg/logo.svg"), true);
     assert.equal(isSvgMediaUrl("https://brt-me.com/uploads/svg/logo.svg"), true);
+    assert.equal(isSvgMediaUrl("uploads/svg/logo.svg"), true);
+    assert.equal(isSvgMediaUrl("/uploads/svg/1789-unifi-mark"), true);
     assert.equal(isSvgMediaUrl("/uploads/images/logo.webp"), false);
   });
 });
@@ -78,9 +96,9 @@ describe("shouldOptimizeNextImage", () => {
 });
 
 describe("isLocalUploadUrl", () => {
-  it("detects relative local upload URLs", () => {
+  it("detects relative and absolute local upload URLs", () => {
     assert.equal(isLocalUploadUrl("/uploads/images/a.webp"), true);
-    assert.equal(isLocalUploadUrl("https://site.com/uploads/images/a.webp"), false);
+    assert.equal(isLocalUploadUrl("https://site.com/uploads/images/a.webp"), true);
     assert.equal(isLocalUploadUrl("https://cdn.example.com/a.webp"), false);
   });
 });

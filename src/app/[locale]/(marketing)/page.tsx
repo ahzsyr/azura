@@ -60,7 +60,7 @@ export default async function HomePage({ params }: Props) {
      * Do not call revalidatePath() here — that would add load on every recovery hit.
      */
     if (isCompileTimeBuildWithoutDb()) {
-      return <main className="min-h-[40vh]" aria-hidden="true" data-build-shell="true" />;
+      return <div className="min-h-[40vh]" aria-hidden="true" data-build-shell="true" />;
     }
 
     const resolution = await resolveHomePage();

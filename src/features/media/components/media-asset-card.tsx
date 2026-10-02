@@ -3,6 +3,7 @@
 import type { MediaAsset, MediaFolder } from "@prisma/client";
 import { FileText, Film, ImageIcon, Copy, Check } from "lucide-react";
 import { formatBytes } from "@/features/media/media.service";
+import { isSvgMediaUrl } from "@/lib/config/next-image";
 import { MediaPreviewImage } from "@/features/media/components/media-preview-image";
 import { MediaPreviewVideo } from "@/features/media/components/media-preview-video";
 import { cn } from "@/lib/utils";
@@ -31,7 +32,11 @@ function TypeIcon({ type }: { type: MediaAsset["mediaType"] }) {
 export function MediaAssetCard({ asset, selected, onSelect, onOpen }: Props) {
   const [copied, setCopied] = useState(false);
   const [previewFailed, setPreviewFailed] = useState(false);
-  const isVisual = asset.mediaType === "IMAGE" || asset.mediaType === "SVG";
+  const isVisual =
+    asset.mediaType === "IMAGE" ||
+    asset.mediaType === "SVG" ||
+    isSvgMediaUrl(asset.url) ||
+    isSvgMediaUrl(asset.filename);
 
   const copyUrl = (e: React.MouseEvent) => {
     e.stopPropagation();

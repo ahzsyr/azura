@@ -8,6 +8,7 @@ export {
   collectRuleLeaves,
 } from "./types";
 export { upgradeLegacyRuleSet, isEmptyRuleTree, assertRootIsGroup } from "./upgrade-legacy";
+export { applyJoinBetween, flattenSameMatch } from "./join-between";
 export {
   matchEntityToRules,
   matchEntityToRulesBool,

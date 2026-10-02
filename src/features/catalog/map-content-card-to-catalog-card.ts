@@ -38,7 +38,7 @@ export function mapContentCardToCatalogCard(card: ContentCardData): CatalogCardD
     attrs.price,
     typeof attrs.currency === "string" ? attrs.currency : undefined,
   );
-  const coverUrl = card.images[0]?.url;
+  const coverUrl = card.images.find((image) => image.isCover)?.url ?? card.images[0]?.url;
   return {
     id: card.id,
     slug: card.slug ?? undefined,

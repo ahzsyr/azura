@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { formatHydrationSafeDate } from "@/lib/format/hydration-safe";
 import type { Product } from "../../types";
 
 type Props = {
@@ -100,7 +101,7 @@ export function ProductReviewsSection({ product, dateLocale = "en" }: Props) {
                 <strong>{comment.name ?? "Anonymous"}</strong>
                 {comment.date ? (
                   <time className="text-muted-foreground text-xs" dateTime={comment.date}>
-                    {new Date(comment.date).toLocaleDateString(dateLocale)}
+                    {formatHydrationSafeDate(comment.date, dateLocale)}
                   </time>
                 ) : null}
               </header>

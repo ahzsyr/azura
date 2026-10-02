@@ -14,6 +14,7 @@ import { persistMediaUpload } from "@/features/media/persist-upload";
 import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
 import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
 import { auth } from "@/lib/auth";
+import { mimeTypeForUpload } from "@/lib/local-media-storage";
 
 export async function POST(request: Request) {
   const unauthorized = await requireCatalogAdmin();
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
     }
 
     const stored = await storeUploadedFile(
-      { name: file.name, type: file.type || "application/octet-stream" },
+      { name: file.name, type: mimeTypeForUpload(file.name, file.type, cmsType) },
       buffer,
       cmsType,
     );
@@ -59,7 +60,7 @@ export async function POST(request: Request) {
     const asset = await persistMediaUpload({
       filename: file.name,
       url: stored.url,
-      mimeType: file.type || "application/octet-stream",
+      mimeType: mimeTypeForUpload(file.name, file.type, cmsType),
       mediaType: cmsType,
       sizeBytes: file.size,
       uploadedById: session?.user?.id,

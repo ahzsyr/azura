@@ -82,6 +82,19 @@ describe("sanitizeCustomHtml", () => {
     assert.ok(out.includes("<aside>"));
   });
 
+  it("demotes nested document landmarks to div (React #418)", () => {
+    const html = "<main class='x'><header>H</header><nav>N</nav><footer>F</footer></main>";
+    const out = sanitizeCustomHtml(html);
+    assert.ok(!out.includes("<main"));
+    assert.ok(!out.includes("<header"));
+    assert.ok(!out.includes("<nav"));
+    assert.ok(!out.includes("<footer"));
+    assert.ok(out.includes("<div"));
+    assert.ok(out.includes(">H<"));
+    assert.ok(out.includes(">N<"));
+    assert.ok(out.includes(">F<"));
+  });
+
   it("keeps safe text-align styles for public rendering", () => {
     const html = '<p style="text-align: center">Centered</p>';
     const out = sanitizeCustomHtml(html);

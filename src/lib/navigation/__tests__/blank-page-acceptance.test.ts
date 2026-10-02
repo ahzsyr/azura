@@ -26,15 +26,22 @@ describe("blank-page acceptance criteria (static)", () => {
     assert.match(transition, /isBuildShell/);
     assert.match(transition, /PENDING_PRELOADER_ESCAPE_MS/);
     assert.doesNotMatch(transition, /isShellPreloading/);
-    assert.doesNotMatch(transition, /classList\.contains\(["']site-preloading["']\)/);
     assert.doesNotMatch(transition, /return null;/);
   });
 
   it("home page uses compile-time build shell only, not runtime BUILD_WITHOUT_DB", async () => {
     const home = await readSrc("../../../app/[locale]/(marketing)/page.tsx");
     assert.match(home, /isCompileTimeBuildWithoutDb/);
+    assert.doesNotMatch(home, /<main\b/);
     assert.doesNotMatch(home, /isBuildWithoutDb\(\)/);
     assert.doesNotMatch(home, /await\s+revalidatePath\(|revalidatePath\(\s*[`'"]/);
+  });
+
+  it("marketing pages do not nest main landmarks inside the locale layout main", async () => {
+    const homeFallback = await readSrc("../../../components/marketing/home/home-fallback-landing.tsx");
+    const statusPage = await readSrc("../../../features/cms/components/branded-status-page.tsx");
+    assert.doesNotMatch(homeFallback, /<main\b/);
+    assert.doesNotMatch(statusPage, /<main\b/);
   });
 
   it("locale layout stays force-dynamic until ISR is Hostinger-safe", async () => {
@@ -87,12 +94,23 @@ describe("blank-page acceptance criteria (static)", () => {
     );
     const applyBoot = await readSrc("../../../lib/locale-boot/apply-locale-boot.ts");
     const rootLayout = await readSrc("../../../app/layout.tsx");
+    const removeBoot = await readSrc("../../../lib/preloader/boot-preloader.ts");
     assert.match(rootLayout, /SAFARI_CHROME_TOP_ID/);
     assert.match(rootLayout, /SAFARI_CHROME_BOTTOM_ID/);
     assert.doesNotMatch(themeInit, /document\.body\.appendChild/);
     assert.match(themeInit, /runAfterHydration/);
+    assert.match(themeInit, /syncThemeColorMetaFromProjection\(false\)/);
+    assert.match(themeInit, /syncThemeColorMetaFromProjection\(true\)/);
     assert.doesNotMatch(themeInit, /setTimeout\(fn,\s*600\)/);
     assert.match(applyBoot, /typeof document === "undefined"/);
+    assert.doesNotMatch(removeBoot, /getElementById\(["']azura-boot-preloader["']\)/);
+  });
+
+  it("dismisses the boot preloader from html classes if hydration never runs", async () => {
+    const themeBoot = await readSrc("../../../lib/theme/theme-boot.ts");
+    assert.match(themeBoot, /site-preloading-done/);
+    assert.match(themeBoot, /setTimeout/);
+    assert.doesNotMatch(themeBoot, /azura-boot-preloader/);
   });
 
   it("public marketing setup resolution prefers API status for site access", async () => {

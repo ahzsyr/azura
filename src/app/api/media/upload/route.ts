@@ -5,7 +5,7 @@ import { isAdminRole } from "@/features/auth/portal";
 import { mediaRepository } from "@/repositories/media.repository";
 import { persistMediaUpload } from "@/features/media/persist-upload";
 import { deleteStoredUpload, getMediaStorageStatus, storeUploadedFile } from "@/lib/media-storage";
-import { validateUploadFile } from "@/lib/local-media-storage";
+import { mimeTypeForUpload, validateUploadFile } from "@/lib/local-media-storage";
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     const buffer = Buffer.from(await file.arrayBuffer());
     const stored = await storeUploadedFile(file, buffer, mediaType);
     const url = stored.url;
-    const mimeType = file.type || "application/octet-stream";
+    const mimeType = mimeTypeForUpload(file.name, file.type, mediaType);
 
     if (replaceId) {
       const existing = await mediaRepository.getAsset(replaceId);

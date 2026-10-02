@@ -128,6 +128,7 @@ export function serializeContentItem(
       url: string;
       sortOrder: number;
       isCover: boolean;
+      isHidden?: boolean;
     }[],
     featuredImageUrl?: string | null;
   },
@@ -137,19 +138,33 @@ export function serializeContentItem(
 ): ContentItemView {
   const ctx = { translations };
   const routePrefix = row.contentType.routePrefix;
-  const media =
+  const mediaRows =
     row.media.length > 0
-      ? row.media
+      ? [...row.media].sort((a, b) => Number(b.isCover) - Number(a.isCover) || a.sortOrder - b.sortOrder)
+      : [];
+  const hasCover = mediaRows.some((m) => m.isCover);
+  const media =
+    mediaRows.length > 0
+      ? !hasCover && row.featuredImageUrl
+        ? [
+            {
+              id: "featured",
+              url: row.featuredImageUrl,
+              sortOrder: -1,
+              isCover: true,
+              isHidden: false,
+            },
+            ...mediaRows,
+          ]
+        : mediaRows
       : row.featuredImageUrl
         ? [
             {
               id: "featured",
               url: row.featuredImageUrl,
-
-
-
               sortOrder: 0,
               isCover: true,
+              isHidden: false,
             },
           ]
         : [];
@@ -215,6 +230,7 @@ export function serializeContentItem(
         url: m.url,
         sortOrder: m.sortOrder,
         isCover: m.isCover,
+        isHidden: Boolean(m.isHidden),
         alt:
           resolveTranslation("alt", DEFAULT_LOCALE_CODE, mediaCtx) ||
           resolveTranslation("alt", "en", mediaCtx) ||
@@ -237,8 +253,12 @@ const itemInclude = {
   contentType: { select: { slug: true, routePrefix: true, fieldSchema: true, adminConfig: true } },
   collection: { select: { id: true, slug: true } },
   media: {
-    where: { isPublished: true, isHidden: false },
-    orderBy: { sortOrder: "asc" as const },
+    // Include cover even when hidden from gallery so cards can show it.
+    where: {
+      isPublished: true,
+      OR: [{ isCover: true }, { isHidden: false }],
+    },
+    orderBy: [{ isCover: "desc" as const }, { sortOrder: "asc" as const }],
   },
   author: { select: { name: true } },
 } satisfies Prisma.ContentItemInclude;
@@ -326,7 +346,14 @@ async function listItemsByTypeSlugUncached(
     },
     include: {
       ...itemInclude,
-      media: { where: { isPublished: true, isHidden: false }, orderBy: { sortOrder: "asc" }, take: 1 },
+      media: {
+        where: {
+          isPublished: true,
+          OR: [{ isCover: true }, { isHidden: false }],
+        },
+        orderBy: [{ isCover: "desc" }, { sortOrder: "asc" }],
+        take: 1,
+      },
     },
     orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
   });
@@ -584,13 +611,18 @@ export function toLegacyPackageView(item: ContentItemView): LegacyPackageView {
     isPublished: true,
     sortOrder: item.sortOrder,
     category,
-    images: item.media.map((m) => ({
-      id: m.id,
-      url: m.url,
-      altEn: m.altEn,
-      altAr: m.altAr,
-      sortOrder: m.sortOrder,
-    })),
+    images: (() => {
+      const cover = item.media.find((m) => m.isCover);
+      const gallery = item.media.filter((m) => !m.isHidden && m.id !== cover?.id);
+      const ordered = cover ? [cover, ...gallery] : gallery;
+      return ordered.map((m) => ({
+        id: m.id,
+        url: m.url,
+        altEn: m.altEn,
+        altAr: m.altAr,
+        sortOrder: m.sortOrder,
+      }));
+    })(),
   };
 }
 
@@ -611,7 +643,7 @@ export function toLegacyHotelView(item: ContentItemView): LegacyHotelView {
 
 
 
-    imageUrl: item.media[0]?.url ?? null,
+    imageUrl: item.media.find((m) => m.isCover)?.url ?? item.media[0]?.url ?? null,
     sortOrder: item.sortOrder,
   };
 }
@@ -630,7 +662,7 @@ export function toLegacyServiceView(item: ContentItemView): LegacyServiceView {
     descriptionEn: item.descriptionEn,
     descriptionAr: item.descriptionAr,
     icon: (attrs.icon as string) ?? "compass",
-    imageUrl: item.media[0]?.url ?? null,
+    imageUrl: item.media.find((m) => m.isCover)?.url ?? item.media[0]?.url ?? null,
     ctaLabelEn: (attrs.ctaLabelEn as string) ?? "",
     ctaLabelAr: (attrs.ctaLabelAr as string) ?? "",
     ctaHref: (attrs.ctaHref as string) ?? "",

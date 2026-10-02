@@ -53,6 +53,7 @@ type BlockEditorProps = {
   initialBlocks?: PageBlocks;
   blocks?: PageBlocks;
   onChange?: (blocks: PageBlocks) => void;
+  onBlockChange?: (blockId: string, updatedBlock: BlockNode) => void;
   name?: string;
   revisions?: Revision[];
   onRestoreRevision?: (revisionId: string) => void | Promise<void>;
@@ -88,6 +89,7 @@ export function BlockEditor({
   initialBlocks = [],
   blocks: controlledBlocks,
   onChange: controlledOnChange,
+  onBlockChange: controlledOnBlockChange,
   name = "blocks",
   revisions,
   onRestoreRevision,
@@ -175,7 +177,11 @@ export function BlockEditor({
 
   const updateSelectedBlock = (updated: BlockNode) => {
     if (!selectedId) return;
-    updateBlocks(updateBlockInTree(blocksRef.current, selectedId, () => updated));
+    if (controlledOnBlockChange) {
+      controlledOnBlockChange(selectedId, updated);
+    } else {
+      updateBlocks(updateBlockInTree(blocksRef.current, selectedId, () => updated));
+    }
   };
 
   const handleSelect = (id: string | null) => {

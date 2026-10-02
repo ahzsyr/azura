@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import {
+  applyJoinBetween,
   emptyRuleGroup,
   fieldKind,
   isMultiValueOperator,
@@ -12,6 +13,7 @@ import {
   type MatchingRuleOperator,
   type RuleGroup,
   type RuleLeaf,
+  type RuleMatchMode,
   type RuleNode,
 } from "@/features/categories/matching";
 import "./MatchingRulesEditor.css";
@@ -175,6 +177,10 @@ function RuleGroupEditor({
 
   const canNest = depth < MAX_DEPTH - 1;
 
+  const setJoinBetween = (leftIndex: number, join: RuleMatchMode) => {
+    onChange(applyJoinBetween(group, leftIndex, join, depth, MAX_DEPTH));
+  };
+
   return (
     <div className={`mre-group ${depth > 0 ? "mre-group--nested" : ""}`}>
       {showHeader && (
@@ -207,29 +213,49 @@ function RuleGroupEditor({
       )}
 
       <div className="mre-rules">
-        {group.children.map((child, i) =>
-          isRuleGroup(child) ? (
-            <RuleGroupEditor
-              key={`g-${depth}-${i}`}
-              group={child}
-              depth={depth + 1}
-              pathLabel={`Group ${i + 1}`}
-              showHeader
-              locale={locale}
-              onChange={(next) => updateChild(i, next)}
-              onRemove={() => removeChild(i)}
-            />
-          ) : (
-            <LeafEditor
-              key={`l-${depth}-${i}`}
-              leaf={child}
-              index={i}
-              locale={locale}
-              onChange={(next) => updateChild(i, next)}
-              onRemove={() => removeChild(i)}
-            />
-          ),
-        )}
+        {group.children.map((child, i) => (
+          <Fragment key={`${isRuleGroup(child) ? "g" : "l"}-${depth}-${i}`}>
+            {i > 0 && (
+              <div className="mre-join" role="group" aria-label={`Logic between rule ${i} and ${i + 1}`}>
+                <button
+                  type="button"
+                  className={`mre-join-btn ${group.match === "all" ? "is-active" : ""}`}
+                  aria-pressed={group.match === "all"}
+                  onClick={() => setJoinBetween(i - 1, "all")}
+                >
+                  AND
+                </button>
+                <button
+                  type="button"
+                  className={`mre-join-btn ${group.match !== "all" ? "is-active" : ""}`}
+                  aria-pressed={group.match !== "all"}
+                  onClick={() => setJoinBetween(i - 1, "any")}
+                >
+                  OR
+                </button>
+              </div>
+            )}
+            {isRuleGroup(child) ? (
+              <RuleGroupEditor
+                group={child}
+                depth={depth + 1}
+                pathLabel={`Group ${i + 1}`}
+                showHeader
+                locale={locale}
+                onChange={(next) => updateChild(i, next)}
+                onRemove={() => removeChild(i)}
+              />
+            ) : (
+              <LeafEditor
+                leaf={child}
+                index={i}
+                locale={locale}
+                onChange={(next) => updateChild(i, next)}
+                onRemove={() => removeChild(i)}
+              />
+            )}
+          </Fragment>
+        ))}
       </div>
 
       <div className="mre-actions">

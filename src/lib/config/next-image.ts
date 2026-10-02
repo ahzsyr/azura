@@ -25,15 +25,34 @@ const ABSOLUTE_COLLAPSIBLE_LOCAL_PREFIXES = ["/uploads/", "/assets/"] as const;
 
 const REMOTE_HOSTS = new Set(["www.getic.com", "getic.com"]);
 
+/**
+ * SSR and the first client render must use the same origin. Reading
+ * `window.location.origin` only on the client collapses absolute `/uploads/`
+ * URLs on one side and causes React #418 (hydration mismatch) after a hard refresh.
+ */
 function resolveSiteOrigin(): string | undefined {
-  if (typeof window !== "undefined") return window.location.origin;
   return process.env.NEXT_PUBLIC_SITE_URL?.trim() || undefined;
+}
+
+function hostnameAliases(hostname: string): string[] {
+  const host = hostname.toLowerCase();
+  if (host.startsWith("www.")) return [host, host.slice(4)];
+  return [host, `www.${host}`];
+}
+
+function isSameSiteHost(left: string, right: string): boolean {
+  const aliases = new Set(hostnameAliases(left));
+  return hostnameAliases(right).some((host) => aliases.has(host));
 }
 
 /**
  * Collapse same-origin media paths to root-relative URLs for next/image and static serving.
  * Absolute URLs like `https://your-domain.com/uploads/...` are not in remotePatterns and
  * break the optimizer with HTTP 400 on Hostinger when Sharp cannot process runtime uploads.
+ *
+ * `/uploads/` and `/assets/` are always served by this app, so those pathnames collapse
+ * even when NEXT_PUBLIC_SITE_URL is unset or the www/apex host differs. That keeps SSR
+ * and the first client render identical (React #418).
  */
 export function normalizeLocalMediaUrl(url: string, siteOrigin = resolveSiteOrigin()): string {
   const trimmed = url.trim();
@@ -47,13 +66,21 @@ export function normalizeLocalMediaUrl(url: string, siteOrigin = resolveSiteOrig
   }
   try {
     const parsed = new URL(trimmed);
-    const site = siteOrigin ? new URL(siteOrigin) : undefined;
+    const protocolOk = parsed.protocol === "http:" || parsed.protocol === "https:";
     if (
-      site &&
-      parsed.origin === site.origin &&
+      protocolOk &&
       ABSOLUTE_COLLAPSIBLE_LOCAL_PREFIXES.some((prefix) =>
         parsed.pathname.startsWith(prefix),
       )
+    ) {
+      return parsed.pathname + parsed.search;
+    }
+    const site = siteOrigin ? new URL(siteOrigin) : undefined;
+    if (
+      site &&
+      protocolOk &&
+      isSameSiteHost(parsed.hostname, site.hostname) &&
+      parsed.pathname.startsWith("/images/")
     ) {
       return parsed.pathname + parsed.search;
     }
@@ -70,7 +97,16 @@ export function isLocalUploadUrl(url: string): boolean {
 export function isSvgMediaUrl(url: string): boolean {
   const normalized = normalizeLocalMediaUrl(url);
   const path = normalized.split("?")[0]?.split("#")[0]?.toLowerCase() ?? "";
-  return path.endsWith(".svg");
+  if (path.startsWith("data:image/svg+xml")) return true;
+  if (path.endsWith(".svg")) return true;
+  try {
+    const pathname = path.startsWith("http")
+      ? new URL(path).pathname.toLowerCase()
+      : path;
+    return pathname.includes("/uploads/svg/");
+  } catch {
+    return path.includes("/uploads/svg/");
+  }
 }
 
 /**

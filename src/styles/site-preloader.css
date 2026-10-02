@@ -5,7 +5,7 @@
  */
 
 html.site-preloading body,
-html:not(.site-preloading-done):has(#azura-boot-preloader:not(.hidden)) body {
+html:not(.site-preloading-done):has(#azura-boot-preloader) body {
   overflow: hidden;
 }
 

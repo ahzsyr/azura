@@ -33,7 +33,7 @@ export function BrandedStatusPage({
   contactHref = "/contact",
 }: BrandedStatusPageProps) {
   return (
-    <main className="section-padding container-premium min-h-[50vh] py-16">
+    <div className="section-padding container-premium min-h-[50vh] py-16">
       <div className="mx-auto max-w-2xl text-center">
         {logoUrl ? (
           <div className="relative mx-auto mb-8 flex h-16 w-48 items-center justify-center">
@@ -78,6 +78,6 @@ export function BrandedStatusPage({
           </ul>
         </div>
       </Section>
-    </main>
+    </div>
   );
 }

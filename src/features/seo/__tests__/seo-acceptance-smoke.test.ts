@@ -24,6 +24,13 @@ describe("SEO staging acceptance (static)", () => {
     assert.match(config, /destination:\s*"\/api\/seo\/head"/);
   });
 
+  it("serves /uploads through the local-uploads API before static files", async () => {
+    const config = await readSrc("../../../../next.config.ts");
+    assert.match(config, /beforeFiles/);
+    assert.match(config, /source:\s*"\/uploads\/:path\*"/);
+    assert.match(config, /destination:\s*"\/api\/local-uploads\/:path\*"/);
+  });
+
   it("analyze and debug routes require admin session", async () => {
     const analyze = await readSrc("../../../app/api/seo/analyze/route.ts");
     const debug = await readSrc("../../../app/api/seo/debug/route.ts");

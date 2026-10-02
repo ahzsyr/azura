@@ -1,12 +1,14 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import {
+  applyJoinBetween,
   emptyRuleGroup,
   explainEntityMatch,
   matchEntityToRulesBool,
   productToRuleFields,
   upgradeLegacyRuleSet,
   isEmptyRuleTree,
+  isRuleGroup,
   type RuleGroup,
 } from "@/features/categories/matching";
 import { matchProductToCollection, catalogProductToCollectionProduct, type CollectionEngineProduct } from "@/features/collections/engine";
@@ -114,6 +116,63 @@ describe("Matching Rules — legacy parity", () => {
       ),
       true
     );
+  });
+});
+
+describe("Matching Rules — per-rule AND/OR joins", () => {
+  const leaf = (field: string, value: string) =>
+    ({ kind: "leaf" as const, field, operator: "equals" as const, value });
+
+  it("same join as parent is a no-op", () => {
+    const root: RuleGroup = {
+      match: "any",
+      children: [leaf("brand", "Apple"), leaf("brand", "Samsung")],
+    };
+    const next = applyJoinBetween(root, 0, "any", 0, 3);
+    assert.equal(next, root);
+  });
+
+  it("AND between two OR siblings promotes to ALL", () => {
+    const root: RuleGroup = {
+      match: "any",
+      children: [leaf("brand", "Apple"), leaf("brand", "Samsung")],
+    };
+    const next = applyJoinBetween(root, 0, "all", 0, 3);
+    assert.equal(next.match, "all");
+    assert.equal(next.children.length, 2);
+    assert.equal(isRuleGroup(next.children[0]), false);
+  });
+
+  it("AND between first pair of three OR rules nests (A AND B) OR C", () => {
+    const a = leaf("brand", "Apple");
+    const b = leaf("brand", "Samsung");
+    const c = leaf("brand", "Dell");
+    const root: RuleGroup = { match: "any", children: [a, b, c] };
+    const next = applyJoinBetween(root, 0, "all", 0, 3);
+    assert.equal(next.match, "any");
+    assert.equal(next.children.length, 2);
+    assert.equal(isRuleGroup(next.children[0]), true);
+    if (isRuleGroup(next.children[0])) {
+      assert.equal(next.children[0].match, "all");
+      assert.equal(next.children[0].children.length, 2);
+    }
+    assert.equal(isRuleGroup(next.children[1]), false);
+  });
+
+  it("OR between last pair of three AND rules nests A AND (B OR C)", () => {
+    const a = leaf("brand", "Apple");
+    const b = leaf("category", "Laptops");
+    const c = leaf("category", "Phones");
+    const root: RuleGroup = { match: "all", children: [a, b, c] };
+    const next = applyJoinBetween(root, 1, "any", 0, 3);
+    assert.equal(next.match, "all");
+    assert.equal(next.children.length, 2);
+    assert.equal(isRuleGroup(next.children[0]), false);
+    assert.equal(isRuleGroup(next.children[1]), true);
+    if (isRuleGroup(next.children[1])) {
+      assert.equal(next.children[1].match, "any");
+      assert.equal(next.children[1].children.length, 2);
+    }
   });
 });
 

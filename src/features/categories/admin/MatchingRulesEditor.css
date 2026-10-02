@@ -72,6 +72,44 @@
   gap: 6px;
 }
 
+.mre-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mre-join {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 2px 0;
+}
+
+.mre-join-btn {
+  min-width: 52px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  background: #fff;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.mre-join-btn:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.mre-join-btn.is-active {
+  border-color: #6366f1;
+  background: #eef2ff;
+  color: #3730a3;
+}
+
 .mre-row {
   display: flex;
   align-items: center;

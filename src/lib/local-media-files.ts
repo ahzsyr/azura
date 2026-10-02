@@ -1,9 +1,22 @@
+import { existsSync } from "node:fs";
 import { unlink } from "fs/promises";
-import { resolve, sep } from "path";
+import { resolve } from "path";
 import {
   isPathUnderUploadsRoot,
   resolveLocalUploadsDiskDir,
 } from "@/lib/local-public-path";
+import { uploadFallbackUrls } from "@/lib/local-upload-urls";
+
+export { uploadFallbackUrls } from "@/lib/local-upload-urls";
+
+/** First existing file on disk for an upload URL, trying sibling folders. */
+export function resolveExistingUploadDiskPath(url: string): string | null {
+  for (const candidate of uploadFallbackUrls(url)) {
+    const diskPath = resolveLocalUploadDiskPath(candidate);
+    if (diskPath && existsSync(diskPath)) return diskPath;
+  }
+  return null;
+}
 
 /** Resolve a storage object path under the uploads disk root with traversal checks. */
 export function resolveUploadObjectDiskPath(objectPath: string): string {

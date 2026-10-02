@@ -40,6 +40,7 @@ import {
   getCompositionRegionLabel,
   getEditableRegions,
   patchCompositionRegion,
+  updateCompositionBlock,
 } from "@/features/layout-engine/composition-editor-helpers";
 import { useAdminEditingLocale } from "@/features/translation/hooks/use-admin-editing-locale";
 import { PostFeaturedPhotoPanel } from "./post-featured-photo-panel";
@@ -221,6 +222,7 @@ function PostTabPanel({
   onSelectRegion: (region: RegionId) => void;
   handleCompositionChange: (composition: Composition) => void;
   handleBlocksChange: (next: PageBlocks) => void;
+  handleBlockChange: (blockId: string, updatedBlock: BlockNode) => void;
   blocksRef: React.MutableRefObject<PageBlocks>;
   onGoToLayout: () => void;
   categoryIds: string[];
@@ -516,6 +518,7 @@ function PostTabPanel({
             <BlockEditor
               blocks={editorBlocks}
               onChange={handleBlocksChange}
+              onBlockChange={handleBlockChange}
               blocksRef={blocksRef}
               embeddedTemplates={false}
               embeddedHistory={false}
@@ -788,6 +791,18 @@ export function PostEditorForm({
     [markDirty, selectedRegion],
   );
 
+  const handleBlockChange = useCallback(
+    (blockId: string, updatedBlock: BlockNode) => {
+      setComposition((prev) => {
+        const next = updateCompositionBlock(prev, blockId, () => updatedBlock);
+        blocksRef.current = next.regions[selectedRegion] ?? [];
+        return next;
+      });
+      markDirty();
+    },
+    [markDirty, selectedRegion],
+  );
+
   const handleCompositionChange = useCallback((next: Composition) => {
     setComposition(next);
     blocksRef.current = next.regions[selectedRegion] ?? [];
@@ -928,6 +943,7 @@ export function PostEditorForm({
     },
     handleCompositionChange,
     handleBlocksChange,
+    handleBlockChange,
     blocksRef,
     onGoToLayout: () => handleTabChange("layout"),
     categoryIds,

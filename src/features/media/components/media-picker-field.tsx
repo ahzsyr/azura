@@ -18,6 +18,7 @@ import {
   resolveMediaUrl,
 } from "@/features/media/constants";
 import { resolveSeoOgImageUrl } from "@/features/seo/seo-image-url";
+import { normalizeLocalMediaUrl } from "@/lib/config/next-image";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -78,7 +79,7 @@ export function MediaPickerField({
   const handlePick = useCallback(
     (result: UnifiedMediaPickResult) => {
       setMode("upload");
-      onChange({ mediaId: result.mediaId, url: result.url });
+      onChange({ mediaId: result.mediaId, url: normalizeLocalMediaUrl(result.url) });
     },
     [onChange],
   );
@@ -86,7 +87,7 @@ export function MediaPickerField({
   const handleUpload = useCallback(
     (result: { url: string; mediaId: string | null }) => {
       setMode("upload");
-      onChange({ mediaId: result.mediaId, url: result.url });
+      onChange({ mediaId: result.mediaId, url: normalizeLocalMediaUrl(result.url) });
     },
     [onChange],
   );

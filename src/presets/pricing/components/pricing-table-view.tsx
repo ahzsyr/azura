@@ -14,7 +14,7 @@ import type { CompareCardProps } from "@/features/comparison/get-compare-props";
 import type { BlockNode } from "@/types/builder";
 import type { BlockOverflowContext } from "@/features/builder/components/marketing-items-overflow";
 import { MarketingItemsOverflow } from "@/features/builder/components/marketing-items-overflow";
-import { getShortLanguageLocale } from "@/shared/layout/direction/direction-utils";
+import { formatHydrationSafeCurrency } from "@/lib/format/hydration-safe";
 import type { PricingPlanCardViewModel } from "@/view-models/pricing-plan-card";
 import { PlanCardTemplate } from "@/templates/pricing/plan-card-template";
 import type { PricingPlanFeatureView } from "@/templates/pricing/plan-card-body";
@@ -51,11 +51,7 @@ type Props = {
 };
 
 function formatMoney(amount: number, currency: string, locale: Locale) {
-  return amount.toLocaleString(getShortLanguageLocale(locale), {
-    style: "currency",
-    currency: currency || "USD",
-    maximumFractionDigits: 0,
-  });
+  return formatHydrationSafeCurrency(amount, currency || "USD", locale);
 }
 
 function isPlanHighlighted(planId: string, highlightedPlanId: string, isHighlighted: boolean) {

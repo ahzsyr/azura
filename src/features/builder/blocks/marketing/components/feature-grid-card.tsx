@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Link } from "@/i18n/navigation";
 import { resolveMarketingIcon } from "@/features/builder/blocks/marketing/lib/icon-map";
 import { resolveItemField, type ResolveItemFieldOptions } from "@/features/builder/blocks/marketing/lib/resolve-item-locale";
@@ -180,10 +180,11 @@ export function FeatureGridCard({
               className={cn("relative mb-4 overflow-hidden", shapeClass, isIconLayout && "mx-auto")}
               style={{ width: iconSize, height: iconSize }}
             >
-              <Image
+              <OptimizedImage
                 src={item.imageUrl}
                 alt=""
                 fill
+                skipFade
                 className="object-cover"
                 sizes={`${iconSize}px`}
                 loading="lazy"

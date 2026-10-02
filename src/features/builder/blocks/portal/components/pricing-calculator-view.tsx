@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getShortLanguageLocale } from "@/shared/layout/direction/direction-utils";
+import { formatHydrationSafeCurrency } from "@/lib/format/hydration-safe";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/i18n/routing";
@@ -114,10 +114,7 @@ export function PricingCalculatorView({
       <div className="pb-calculator__result mt-6 rounded-xl border bg-muted/30 p-4 flex items-center justify-between gap-4">
         <span className="text-sm font-medium">Estimated price</span>
         <span className="text-2xl font-bold tabular-nums">
-          {estimated.toLocaleString(getShortLanguageLocale(locale), {
-            style: "currency",
-            currency: calculator.currency || "USD",
-          })}
+          {formatHydrationSafeCurrency(estimated, calculator.currency || "USD", locale)}
         </span>
       </div>
       <Button type="button" variant="outline" className="mt-3 w-full sm:w-auto" disabled>

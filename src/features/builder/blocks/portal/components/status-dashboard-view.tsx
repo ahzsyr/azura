@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { formatHydrationSafeDateTime } from "@/lib/format/hydration-safe";
 import type { Locale } from "@/i18n/routing";
 import { pickLocale } from "@/features/builder/blocks/portal/lib/pick-locale";
 import {
@@ -125,7 +126,8 @@ export function StatusDashboardView({
               <li key={m.id} className="rounded-lg border p-4">
                 <h4 className="font-medium">{pickLocale(m, "title", locale)}</h4>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {new Date(m.startsAt).toLocaleString(locale)} – {new Date(m.endsAt).toLocaleString(locale)}
+                  {formatHydrationSafeDateTime(m.startsAt, locale)} –{" "}
+                  {formatHydrationSafeDateTime(m.endsAt, locale)}
                 </p>
               </li>
             ))}

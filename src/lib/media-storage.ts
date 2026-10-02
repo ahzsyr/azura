@@ -2,7 +2,7 @@ import "server-only";
 
 import type { MediaType } from "@prisma/client";
 import { useDatabaseOnlyCatalog } from "@/features/catalog/catalog-data-source";
-import { SUBDIR, safeFilename } from "@/lib/local-media-storage";
+import { SUBDIR, mimeTypeForUpload, safeFilename } from "@/lib/local-media-storage";
 import { getLocalPersistenceLayout, isLocalPersistenceInsideDeployRoot } from "@/lib/local-public-path";
 import { createStorageProvider } from "@/lib/storage-providers";
 import type { MediaStorageStatus, StoredUpload } from "@/lib/media-storage-types";
@@ -140,7 +140,7 @@ export async function storeUploadedFile(
 
   const provider = createStorageProvider(useRemoteMediaStorage());
   const objectPath = `${subDir}/${storedName}`;
-  const contentType = file.type || "application/octet-stream";
+  const contentType = mimeTypeForUpload(file.name, file.type, mediaType);
   const result = await provider.upload(buffer, objectPath, contentType);
 
   return {

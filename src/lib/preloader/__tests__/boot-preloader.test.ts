@@ -37,8 +37,16 @@ describe("boot preloader themed logo", () => {
       new URL("../../../lib/locale-boot/apply-locale-boot.ts", import.meta.url),
       "utf8",
     );
+    const removeBoot = readFileSync(
+      new URL("../boot-preloader.ts", import.meta.url),
+      "utf8",
+    );
     assert.match(applyBoot, /site-preloading-done/);
     assert.doesNotMatch(applyBoot, /azura-boot-preloader[\s\S]*classList\.add\("hidden"\)/);
     assert.doesNotMatch(applyBoot, /setAttribute\("aria-hidden"/);
+    assert.match(removeBoot, /site-preloading-done/);
+    assert.doesNotMatch(removeBoot, /getElementById\(["']azura-boot-preloader["']\)/);
+    assert.doesNotMatch(removeBoot, /classList\.add\(["']hidden["']\)/);
+    assert.doesNotMatch(removeBoot, /setAttribute\(["']aria-/);
   });
 });

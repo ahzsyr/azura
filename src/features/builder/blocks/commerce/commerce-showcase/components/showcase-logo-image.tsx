@@ -29,7 +29,7 @@ export function ShowcaseLogoImage({
 
   if (!normalized) return null;
 
-  if (isSvgMediaUrl(normalized) || !isAllowedNextImageSrc(normalized)) {
+  if (!isSvgMediaUrl(normalized) && !isAllowedNextImageSrc(normalized)) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
@@ -49,7 +49,7 @@ export function ShowcaseLogoImage({
       fill={fill}
       skipFade
       sizes={sizes}
-      className={cn("object-contain", className)}
+      className={cn(fill && "absolute inset-0 h-full w-full", "object-contain", className)}
     />
   );
 }

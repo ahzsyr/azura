@@ -143,12 +143,14 @@ export async function resolveContentPresetDetailViewModel(
     description,
     coverUrl: cover?.url ?? DEFAULT_MEDIA_PLACEHOLDER,
     coverAlt: cover?.alt || title,
-    media: item.media.map((m) => ({
-      id: m.id,
-      url: m.url,
-      alt: getLocalizedField(m, "alt", ctx.locale, fieldOpts),
-      isCover: m.isCover,
-    })),
+    media: item.media
+      .filter((m) => !m.isHidden)
+      .map((m) => ({
+        id: m.id,
+        url: m.url,
+        alt: getLocalizedField(m, "alt", ctx.locale, fieldOpts),
+        isCover: m.isCover,
+      })),
     blocks: item.blocks,
     price: Number.isFinite(price) ? price : null,
     currency,

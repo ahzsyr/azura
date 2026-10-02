@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 export type KnowledgePanelPreviewData = {
   name?: string;
@@ -28,8 +29,15 @@ export function GoogleKnowledgePanelPreview({ data, className }: Props) {
       <div className="rounded-lg border bg-background p-4 space-y-3 max-w-sm">
         <div className="flex items-center gap-3">
           {data.logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={data.logoUrl} alt="" className="h-10 w-10 rounded object-contain bg-muted" />
+            <OptimizedImage
+              src={data.logoUrl}
+              alt=""
+              width={40}
+              height={40}
+              skipFade
+              sizes="40px"
+              className="h-10 w-10 rounded object-contain bg-muted"
+            />
           ) : (
             <div className="h-10 w-10 rounded bg-muted" />
           )}

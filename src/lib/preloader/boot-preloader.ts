@@ -2,16 +2,16 @@ import type { CSSProperties } from "react";
 import { normalizeLocalMediaUrl } from "@/lib/config/next-image";
 import type { ResolvedSitePreloader } from "@/features/preloader/resolve-site-preloader";
 
-/** Hides the SSR boot preloader without removing it from the React tree. */
+/**
+ * Dismiss the SSR boot preloader without touching its React-owned DOM node.
+ * Mutating `#azura-boot-preloader` attrs/classes before/during hydration causes
+ * React #418 (server HTML ≠ client tree). Visibility is CSS-driven via
+ * `html.site-preloading-done #azura-boot-preloader`.
+ */
 export function removeBootPreloader(): void {
   if (typeof document === "undefined") return;
   document.documentElement.classList.add("site-preloading-done");
   document.documentElement.classList.remove("site-preloading");
-  const el = document.getElementById("azura-boot-preloader");
-  if (!el) return;
-  el.classList.add("hidden");
-  el.setAttribute("aria-hidden", "true");
-  el.setAttribute("aria-busy", "false");
 }
 
 const LOADER_ICON_SVG =

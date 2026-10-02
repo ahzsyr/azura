@@ -711,19 +711,71 @@ export async function reorderContentItems(typeSlug: string, ids: string[]) {
   await seoTriggerService.handle({ type: "content.sitemapChanged", entityType: "CONTENT_TYPE" });
 }
 
-export async function addContentItemMedia(itemId: string, url: string) {
+export type ContentItemMediaFlags = {
+  isCover?: boolean;
+  isPublished?: boolean;
+  isHidden?: boolean;
+};
+
+async function syncContentItemCover(itemId: string, mediaId: string, url: string) {
+  await prisma.contentItemMedia.updateMany({
+    where: { itemId, id: { not: mediaId } },
+    data: { isCover: false },
+  });
+  await prisma.contentItem.update({
+    where: { id: itemId },
+    data: { featuredImageUrl: url },
+  });
+}
+
+async function clearContentItemCoverIfNeeded(itemId: string, mediaId: string, mediaUrl: string) {
+  const remainingCover = await prisma.contentItemMedia.findFirst({
+    where: { itemId, isCover: true, id: { not: mediaId } },
+    select: { id: true, url: true },
+  });
+  if (remainingCover) {
+    await prisma.contentItem.update({
+      where: { id: itemId },
+      data: { featuredImageUrl: remainingCover.url },
+    });
+    return;
+  }
+  const item = await prisma.contentItem.findUnique({
+    where: { id: itemId },
+    select: { featuredImageUrl: true },
+  });
+  if (item?.featuredImageUrl === mediaUrl) {
+    await prisma.contentItem.update({
+      where: { id: itemId },
+      data: { featuredImageUrl: null },
+    });
+  }
+}
+
+export async function addContentItemMedia(
+  itemId: string,
+  url: string,
+  flags: ContentItemMediaFlags = {},
+) {
   await requireAdmin();
   const maxOrder = await prisma.contentItemMedia.aggregate({
     where: { itemId },
     _max: { sortOrder: true },
   });
-  await prisma.contentItemMedia.create({
+  const isCover = Boolean(flags.isCover);
+  const media = await prisma.contentItemMedia.create({
     data: {
       itemId,
       url,
       sortOrder: (maxOrder._max.sortOrder ?? -1) + 1,
+      isCover,
+      isPublished: flags.isPublished ?? true,
+      isHidden: flags.isHidden ?? false,
     },
   });
+  if (isCover) {
+    await syncContentItemCover(itemId, media.id, media.url);
+  }
   const item = await prisma.contentItem.findUnique({
     where: { id: itemId },
     include: { contentType: true },
@@ -795,15 +847,10 @@ export async function updateContentItemMedia(
   if (translationInputs.length > 0) {
     await translationService.upsertMany(translationInputs);
   }
-  if (data.isCover) {
-    await prisma.contentItemMedia.updateMany({
-      where: { itemId: media.itemId, id: { not: id } },
-      data: { isCover: false },
-    });
-    await prisma.contentItem.update({
-      where: { id: media.itemId },
-      data: { featuredImageUrl: media.url },
-    });
+  if (data.isCover === true) {
+    await syncContentItemCover(media.itemId, id, media.url);
+  } else if (data.isCover === false) {
+    await clearContentItemCoverIfNeeded(media.itemId, id, media.url);
   }
   const item = await prisma.contentItem.findUnique({
     where: { id: media.itemId },
@@ -837,6 +884,20 @@ export async function restoreContentItemRevision(itemId: string, revisionId: str
 export async function deleteContentItemMedia(id: string) {
   await requireAdmin();
   const media = await prisma.contentItemMedia.delete({ where: { id } });
+  if (media.isCover) {
+    await clearContentItemCoverIfNeeded(media.itemId, media.id, media.url);
+  } else {
+    const item = await prisma.contentItem.findUnique({
+      where: { id: media.itemId },
+      select: { featuredImageUrl: true },
+    });
+    if (item?.featuredImageUrl === media.url) {
+      await prisma.contentItem.update({
+        where: { id: media.itemId },
+        data: { featuredImageUrl: null },
+      });
+    }
+  }
   const item = await prisma.contentItem.findUnique({
     where: { id: media.itemId },
     include: { contentType: true },

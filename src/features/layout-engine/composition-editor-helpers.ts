@@ -102,6 +102,28 @@ export function updateCompositionBlock(
   };
 }
 
+export function updateCompositionBlockAnimation(
+  composition: Composition,
+  blockId: string,
+  animation: Partial<import("@/types/block-system").BlockAnimationSettings>,
+): Composition {
+  return updateCompositionBlock(composition, blockId, (block) => ({
+    ...block,
+    animation: { ...block.animation, ...animation },
+  }));
+}
+
+export function updateCompositionBlockVisual(
+  composition: Composition,
+  blockId: string,
+  visual: Partial<import("@/types/block-system").BlockVisualSettings>,
+): Composition {
+  return updateCompositionBlock(composition, blockId, (block) => ({
+    ...block,
+    visual: { ...block.visual, ...visual },
+  }));
+}
+
 export function patchCompositionRegion(
   composition: Composition,
   regionId: RegionId,

@@ -3,6 +3,7 @@
 import Image, { type ImageProps } from "next/image";
 import { useEffect, useRef, useState } from "react";
 import {
+  isSvgMediaUrl,
   normalizeLocalMediaUrl,
   normalizeRemoteImageUrl,
   shouldOptimizeNextImage,
@@ -60,6 +61,26 @@ export function OptimizedImage({
     const img = imgRef.current;
     if (img?.complete) setLoaded(true);
   }, [shouldFade]);
+
+  if (typeof src === "string" && isSvgMediaUrl(src)) {
+    const { fill, width, height, onError, style, alt = "" } = props;
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={src}
+        alt={typeof alt === "string" ? alt : ""}
+        width={fill ? undefined : width}
+        height={fill ? undefined : height}
+        className={cn(fill && "absolute inset-0 h-full w-full", className)}
+        loading={resolvedLoading}
+        decoding="async"
+        data-skip-img-fade
+        style={style}
+        onLoad={onLoad}
+        onError={onError}
+      />
+    );
+  }
 
   return (
     <Image

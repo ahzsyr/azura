@@ -12,6 +12,7 @@ import {
 } from "@/features/catalog/admin/ui";
 import type { CatalogBrandProfile } from "@/features/catalog/types/catalog-brand-profile";
 import { BrandProfileEditDialog } from "./BrandProfileEditDialog";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { cn } from "@/lib/utils";
 import { countRuleLeaves, upgradeLegacyRuleSet } from "@/features/categories/matching";
 
@@ -156,14 +157,17 @@ export function BrandProfilesEditor({ profiles, onChange, locale }: Props) {
                 onKeyDown={(e) => handleRowKeyDown(index, e)}
               >
                 <div
-                  className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-muted/40"
+                  className="relative flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-muted/40"
                   aria-hidden
                 >
                   {profile.logoUrl ? (
-                    <img
+                    <OptimizedImage
                       src={profile.logoUrl}
                       alt=""
-                      className="size-full object-contain p-1"
+                      fill
+                      skipFade
+                      sizes="44px"
+                      className="object-contain p-1"
                     />
                   ) : (
                     <ImageIcon className="size-4 text-muted-foreground" />

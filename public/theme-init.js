@@ -93,29 +93,35 @@
       return lightColor || "#fafafa";
     }
 
-    function syncThemeColorMetaFromProjection() {
+    function paintSafariChromeTint(color) {
+      if (!color) return;
+      try {
+        root.style.setProperty("--az-browser-chrome-tint", color);
+        root.style.setProperty("--az-site-glass-tint", color);
+        root.style.colorScheme = resolved === "dark" ? "dark" : "light";
+        function paintExistingTint(id) {
+          var el = document.getElementById(id);
+          if (!el || !el.style) return;
+          // Clear stale SSR/boot inline so the CSS var can win if needed;
+          // still set inline for same-frame Safari sampling.
+          el.style.backgroundColor = color;
+        }
+        paintExistingTint("az-safari-chrome-top");
+        paintExistingTint("az-safari-chrome-bottom");
+      } catch (e) {}
+    }
+
+    /**
+     * @param {boolean} mutateHead
+     *   When false (pre-hydration): paint Safari tint only — never create/rewrite
+     *   <meta> nodes (extra head children → React #418).
+     *   When true (after azura:hydrated): sync theme-color metas for Chrome.
+     */
+    function syncThemeColorMetaFromProjection(mutateHead) {
       var mode = stored || ssrMode || "light";
       var existing = Array.prototype.slice.call(
         document.querySelectorAll('meta[name="theme-color"]'),
       );
-
-      function paintSafariChromeTint(color) {
-        if (!color) return;
-        try {
-          root.style.setProperty("--az-browser-chrome-tint", color);
-          root.style.setProperty("--az-site-glass-tint", color);
-          root.style.colorScheme = resolved === "dark" ? "dark" : "light";
-          function paintExistingTint(id) {
-            var el = document.getElementById(id);
-            if (!el || !el.style) return;
-            // Clear stale SSR/boot inline so the CSS var can win if needed;
-            // still set inline for same-frame Safari sampling.
-            el.style.backgroundColor = color;
-          }
-          paintExistingTint("az-safari-chrome-top");
-          paintExistingTint("az-safari-chrome-bottom");
-        } catch (e) {}
-      }
 
       // System: keep SSR media-scoped light/dark metas intact so Chrome follows OS.
       // Safari still needs an active resolved tint (ignores media-qualified theme-color).
@@ -131,6 +137,9 @@
       var bg = resolveForcedChromeBg(mode === "dark" ? "dark" : "light");
       if (!bg) return;
 
+      paintSafariChromeTint(bg);
+      if (!mutateHead) return;
+
       // Forced light/dark: drive all metas to the active paint-matching color.
       if (existing.length > 0) {
         var needsUpdate = false;
@@ -145,14 +154,12 @@
             existing[mi].setAttribute("content", bg);
           }
         }
-        paintSafariChromeTint(bg);
         return;
       }
       var meta = document.createElement("meta");
       meta.name = "theme-color";
       meta.content = bg;
       document.head.appendChild(meta);
-      paintSafariChromeTint(bg);
     }
 
     if (stored === "dark" || stored === "light") {
@@ -170,11 +177,12 @@
     }
 
     /**
-     * Paint Safari edge anchors + theme-color IMMEDIATELY (before hydration).
+     * Paint Safari edge anchors IMMEDIATELY (before hydration).
      * Waiting for runAfterHydration lets Safari 26 lock flat/opaque chrome for
      * the first compositing pass — Liquid Glass never recovers until nav.
+     * Head <meta> mutations wait until after hydration (React #418).
      */
-    syncThemeColorMetaFromProjection();
+    syncThemeColorMetaFromProjection(false);
     try {
       root.style.colorScheme = resolved;
       if (resolved === "dark") {
@@ -224,6 +232,7 @@
     }
 
     runAfterHydration(function () {
+    syncThemeColorMetaFromProjection(true);
     root.classList.remove("light", "dark");
     if (resolved === "dark") {
       root.classList.add("dark");

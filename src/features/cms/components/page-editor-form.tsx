@@ -92,6 +92,8 @@ import {
   getCompositionRegionLabel,
   getEditableRegions,
   updateCompositionBlock,
+  updateCompositionBlockAnimation,
+  updateCompositionBlockVisual,
 } from "@/features/layout-engine/composition-editor-helpers";
 
 const PAGE_TABS = [
@@ -356,6 +358,15 @@ function PageEditorFields({
     [blocksRef, formState.composition, patch, selectedRegion],
   );
 
+  const handleBlockChange = useCallback(
+    (blockId: string, updatedBlock: BlockNode) => {
+      const nextComposition = updateCompositionBlock(formState.composition, blockId, () => updatedBlock);
+      patch({ composition: nextComposition });
+      blocksRef.current = nextComposition.regions[selectedRegion] ?? [];
+    },
+    [formState.composition, patch, selectedRegion],
+  );
+
   const insertPresetBlock = (block: BlockNode) => {
     handleBlocksChange([...activeBlocks, block]);
     onSelectBlock(block.id);
@@ -569,6 +580,7 @@ function PageEditorFields({
                 <BlockEditor
                   blocks={activeBlocks}
                   onChange={handleBlocksChange}
+                  onBlockChange={handleBlockChange}
                   blocksRef={blocksRef}
                   embeddedTemplates={false}
                   embeddedHistory={false}

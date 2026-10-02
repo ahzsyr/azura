@@ -75,7 +75,7 @@ type ContentCardSourceItem = {
   isFeatured: boolean;
   featuredImageUrl?: string | null;
   collection?: { id: string; slug: string } | null;
-  media?: { url: string }[];
+  media?: { url: string; isCover?: boolean; isHidden?: boolean; sortOrder?: number }[];
   contentType?: { slug: string; routePrefix: string | null };
 };
 
@@ -105,11 +105,24 @@ export function serializeContentCard(
     collectionNameEn ||
     collectionNameAr;
   const attrs = (item.attributes ?? {}) as Record<string, unknown>;
-  const images = item.media?.length
-    ? item.media.map((m) => ({ url: m.url, altEn: "", altAr: "" }))
-    : item.featuredImageUrl
-      ? [{ url: item.featuredImageUrl, altEn: "", altAr: "" }]
-      : [];
+  const cover = item.media?.find((m) => m.isCover);
+  const gallery =
+    item.media
+      ?.filter((m) => !m.isHidden && m.url !== cover?.url)
+      .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0)) ?? [];
+  const orderedMedia = cover
+    ? [cover, ...gallery]
+    : gallery.length
+      ? gallery
+      : item.featuredImageUrl
+        ? [{ url: item.featuredImageUrl, isCover: true }]
+        : [];
+  const images = orderedMedia.map((m) => ({
+    url: m.url,
+    altEn: "",
+    altAr: "",
+    isCover: Boolean(m.isCover),
+  }));
 
   return {
     id: item.id,

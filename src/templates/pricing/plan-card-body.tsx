@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { pickLocaleField } from "@/features/builder/blocks/content/lib/locale-field";
 import type { Locale } from "@/i18n/routing";
 import type { PricingPlanCardViewModel } from "@/view-models/pricing-plan-card";
-import { getShortLanguageLocale } from "@/shared/layout/direction/direction-utils";
+import { formatHydrationSafeCurrency } from "@/lib/format/hydration-safe";
 
 type BillingPeriod = "monthly" | "yearly";
 
@@ -25,11 +25,7 @@ type Props = {
 };
 
 function formatMoney(amount: number, currency: string, locale: Locale) {
-  return amount.toLocaleString(getShortLanguageLocale(locale), {
-    style: "currency",
-    currency: currency || "USD",
-    maximumFractionDigits: 0,
-  });
+  return formatHydrationSafeCurrency(amount, currency || "USD", locale);
 }
 
 export function PlanCardBody({

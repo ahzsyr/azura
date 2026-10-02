@@ -8,6 +8,8 @@ import {
 import { CatalogHeroExpandableDescription } from "@/features/catalog/components/catalog-hero-expandable-description";
 import { siteHeroHeadingAttrs } from "@/features/theme/hero-heading-attrs";
 import { useTextEffectRescan } from "@/features/theme/use-text-effect-rescan";
+import { OptimizedImage } from "@/components/ui/optimized-image";
+import { normalizeLocalMediaUrl } from "@/lib/config/next-image";
 
 export type CatalogHeroBrandDetail = {
   logoUrl?: string;
@@ -50,7 +52,7 @@ export function CatalogPageHero({
       : undefined;
 
   const description = brandDetail?.description?.trim() ?? "";
-  const logoUrl = brandDetail?.logoUrl?.trim() ?? "";
+  const logoUrl = normalizeLocalMediaUrl(brandDetail?.logoUrl?.trim() ?? "");
   const productCount = brandDetail?.productCount ?? 0;
   const collectionCount = brandDetail?.collectionCount ?? 0;
 
@@ -72,8 +74,15 @@ export function CatalogPageHero({
             <>
               {logoUrl ? (
                 <div className="catalog-hero__logo">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={logoUrl} alt="" width={64} height={64} />
+                  <OptimizedImage
+                    src={logoUrl}
+                    alt=""
+                    width={64}
+                    height={64}
+                    skipFade
+                    sizes="64px"
+                    className="h-full w-full object-contain"
+                  />
                 </div>
               ) : null}
               <div className="catalog-hero__copy">

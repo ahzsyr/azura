@@ -26,30 +26,13 @@ const HOTEL_FIELDS: ContentFieldDefinition[] = [
     ],
   },
   { key: "stars", type: "number", labelEn: "Star rating", group: "details" },
-  { key: "highlights", type: "json", labelEn: "Highlights (JSON)", localized: true, group: "details" },
   { key: "address", type: "textarea", labelEn: "Address", localized: true, group: "location" },
   { key: "distance", type: "textarea", labelEn: "Distance info", localized: true, group: "location" },
   { key: "amenities", type: "json", labelEn: "Amenities (JSON)", localized: true, group: "details" },
 ];
 
-const OFFERING_FIELDS: ContentFieldDefinition[] = [
-  {
-    key: "offeringType",
-    type: "select",
-    labelEn: "Type",
-    group: "cta",
-    options: [
-      { value: "TRANSPORT", labelEn: "Transport" },
-      { value: "AIRPORT_PICKUP", labelEn: "Airport pickup" },
-      { value: "HOTEL", labelEn: "Hotel service" },
-      { value: "OTHER", labelEn: "Other" },
-    ],
-  },
-  { key: "highlights", type: "json", labelEn: "Highlights (JSON)", localized: true, group: "details" },
-  { key: "icon", type: "text", labelEn: "Icon name", group: "display", placeholder: "compass" },
-  { key: "ctaLabel", type: "text", labelEn: "CTA label", localized: true, group: "cta" },
-  { key: "ctaHref", type: "url", labelEn: "CTA link", group: "cta" },
-];
+/** Offerings use dynamic fields from ContentType.fieldSchema — no fixed Type enum. */
+const OFFERING_FIELDS: ContentFieldDefinition[] = [];
 
 const PRODUCT_FIELDS: ContentFieldDefinition[] = [
   { key: "price", type: "price", labelEn: "Price", group: "pricing", required: true, search: { facet: true } },

@@ -1,3 +1,4 @@
+import { formatHydrationSafeDate } from "@/lib/format/hydration-safe";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -11,11 +12,7 @@ export function EditorialMetaBar({ author, publishedAt, locale, className }: Pro
   if (!author && !publishedAt) return null;
 
   const dateStr = publishedAt
-    ? new Date(publishedAt).toLocaleDateString(locale ?? "en", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
+    ? formatHydrationSafeDate(publishedAt, locale, { month: "long" })
     : null;
 
   return (

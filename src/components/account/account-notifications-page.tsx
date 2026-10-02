@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { AccountNav } from "@/components/account/account-nav";
 import { accountPublicPath } from "@/features/account/account-public-path";
 import { publicLocalePath } from "@/i18n/url-helpers";
+import { formatHydrationSafeDateTime } from "@/lib/format/hydration-safe";
 
 type ActivityRow = {
   id: string;
@@ -134,7 +135,7 @@ export function AccountNotificationsPage({ locale }: Props) {
                     <span className="text-muted-foreground">{row.status}</span>
                   </div>
                   <p className="text-muted-foreground mt-1 text-xs">
-                    {new Date(row.at).toLocaleString()}
+                    {formatHydrationSafeDateTime(row.at)}
                   </p>
                 </Link>
               ))

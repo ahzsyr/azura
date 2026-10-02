@@ -40,7 +40,8 @@ export function AnimatedCounter({
     if (skipAnimation) {
       started.current = true;
       if (valueRef.current) {
-        valueRef.current.textContent = value.toLocaleString();
+        // Fixed locale keeps SSR text identical to the first client paint (#418).
+        valueRef.current.textContent = value.toLocaleString("en-US");
       }
       return;
     }
@@ -67,7 +68,7 @@ export function AnimatedCounter({
           const eased = 1 - Math.pow(1 - progress, 3);
           const next = Math.round(from + (to - from) * eased);
           if (valueRef.current) {
-            valueRef.current.textContent = next.toLocaleString();
+            valueRef.current.textContent = next.toLocaleString("en-US");
           }
           if (progress < 1) requestAnimationFrame(tick);
         };
@@ -83,7 +84,7 @@ export function AnimatedCounter({
   return (
     <span ref={ref} className={cn("tabular-nums", className)}>
       {prefix}
-      <span ref={valueRef}>{value.toLocaleString()}</span>
+      <span ref={valueRef}>{value.toLocaleString("en-US")}</span>
       {suffix}
     </span>
   );

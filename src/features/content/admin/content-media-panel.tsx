@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   ImagePlus,
@@ -19,6 +19,7 @@ import {
   deleteContentItemMedia,
   reorderContentItemMedia,
   updateContentItemMedia,
+  type ContentItemMediaFlags,
 } from "@/features/content/actions";
 import {
   Dialog,
@@ -34,7 +35,7 @@ import { Badge } from "@/components/ui/badge";
 import { MediaPickerDialog, MediaPickerTriggerButton } from "@/features/media/components/media-picker-dialog";
 import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { LocalUploadDropzone } from "@/features/media/components/local-upload-dropzone";
-import { AdminLocalizedFormField } from "@/features/translation/components/admin-localized-form-field";
+import { useAdminEditingLocale } from "@/features/translation/hooks/use-admin-editing-locale";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -44,21 +45,96 @@ type Props = {
 
 type EditingMedia = ContentItemMediaAdmin & { index: number };
 
+const DEFAULT_FLAGS: Required<ContentItemMediaFlags> = {
+  isCover: false,
+  isPublished: true,
+  isHidden: false,
+};
+
+function MediaAssignmentToggles({
+  value,
+  onChange,
+  idPrefix,
+}: {
+  value: Required<ContentItemMediaFlags>;
+  onChange: (next: Required<ContentItemMediaFlags>) => void;
+  idPrefix: string;
+}) {
+  return (
+    <div className="flex flex-wrap gap-4 rounded-lg border bg-muted/20 px-3 py-2.5">
+      <label className="flex items-center gap-2 text-sm cursor-pointer" htmlFor={`${idPrefix}-cover`}>
+        <input
+          id={`${idPrefix}-cover`}
+          type="checkbox"
+          checked={value.isCover}
+          onChange={(e) => onChange({ ...value, isCover: e.target.checked })}
+        />
+        Cover
+      </label>
+      <label className="flex items-center gap-2 text-sm cursor-pointer" htmlFor={`${idPrefix}-published`}>
+        <input
+          id={`${idPrefix}-published`}
+          type="checkbox"
+          checked={value.isPublished}
+          onChange={(e) => onChange({ ...value, isPublished: e.target.checked })}
+        />
+        Published
+      </label>
+      <label className="flex items-center gap-2 text-sm cursor-pointer" htmlFor={`${idPrefix}-hidden`}>
+        <input
+          id={`${idPrefix}-hidden`}
+          type="checkbox"
+          checked={value.isHidden}
+          onChange={(e) => onChange({ ...value, isHidden: e.target.checked })}
+        />
+        Hide in gallery
+      </label>
+    </div>
+  );
+}
+
 export function ContentMediaPanel({ itemId, media }: Props) {
   const router = useRouter();
+  const { activeLocaleCode, locales, defaultCode } = useAdminEditingLocale();
   const [pending, startTransition] = useTransition();
   const [addOpen, setAddOpen] = useState(false);
   const [editItem, setEditItem] = useState<EditingMedia | null>(null);
   const [linkUrl, setLinkUrl] = useState("");
+  const [addFlags, setAddFlags] = useState<Required<ContentItemMediaFlags>>(DEFAULT_FLAGS);
+  const [editAlt, setEditAlt] = useState("");
+  const [editCaption, setEditCaption] = useState("");
+  const [editFlags, setEditFlags] = useState<Required<ContentItemMediaFlags>>(DEFAULT_FLAGS);
 
   const refresh = () => router.refresh();
+
+  useEffect(() => {
+    if (!editItem) return;
+    const alt =
+      activeLocaleCode === "ar"
+        ? editItem.altAr || editItem.altEn
+        : activeLocaleCode === defaultCode
+          ? editItem.altEn || editItem.altAr
+          : editItem.altEn;
+    setEditAlt(alt || "");
+    setEditCaption(editItem.captionEn || "");
+    setEditFlags({
+      isCover: editItem.isCover,
+      isPublished: editItem.isPublished,
+      isHidden: editItem.isHidden,
+    });
+  }, [editItem, activeLocaleCode, defaultCode]);
+
+  const addWithFlags = async (url: string) => {
+    await addContentItemMedia(itemId, url, addFlags);
+  };
 
   const handleAddUrl = () => {
     const url = linkUrl.trim();
     if (!url) return;
     startTransition(async () => {
-      await addContentItemMedia(itemId, url);
+      await addWithFlags(url);
       setLinkUrl("");
+      setAddFlags(DEFAULT_FLAGS);
       setAddOpen(false);
       refresh();
     });
@@ -82,18 +158,26 @@ export function ContentMediaPanel({ itemId, media }: Props) {
     });
   };
 
-  const handleEditSave = async (fd: FormData) => {
+  const handleEditSave = () => {
     if (!editItem) return;
-    await updateContentItemMedia(editItem.id, {
-      altEn: String(fd.get("altEn") ?? ""),
-      altAr: String(fd.get("altAr") ?? ""),
-      captionEn: String(fd.get("captionEn") ?? ""),
-      isPublished: fd.get("isPublished") === "on",
-      isHidden: fd.get("isHidden") === "on",
-      isCover: fd.get("isCover") === "on",
+    const secondaryLocale =
+      locales.find((locale) => locale.code.toLowerCase() !== defaultCode.toLowerCase())?.code ??
+      "ar";
+    const isDefaultLocale = activeLocaleCode.toLowerCase() === defaultCode.toLowerCase();
+    const isSecondaryLocale = activeLocaleCode.toLowerCase() === secondaryLocale.toLowerCase();
+
+    startTransition(async () => {
+      await updateContentItemMedia(editItem.id, {
+        altEn: isDefaultLocale ? editAlt : editItem.altEn,
+        altAr: isSecondaryLocale ? editAlt : isDefaultLocale ? editItem.altAr : editAlt || editItem.altAr,
+        captionEn: editCaption,
+        isPublished: editFlags.isPublished,
+        isHidden: editFlags.isHidden,
+        isCover: editFlags.isCover,
+      });
+      setEditItem(null);
+      refresh();
     });
-    setEditItem(null);
-    refresh();
   };
 
   return (
@@ -106,7 +190,10 @@ export function ContentMediaPanel({ itemId, media }: Props) {
         <Button
           type="button"
           size="sm"
-          onClick={() => setAddOpen(true)}
+          onClick={() => {
+            setAddFlags(DEFAULT_FLAGS);
+            setAddOpen(true);
+          }}
           disabled={pending}
         >
           <ImagePlus className="h-3.5 w-3.5 me-1.5" />
@@ -156,12 +243,10 @@ export function ContentMediaPanel({ itemId, media }: Props) {
                     "border-b last:border-0 hover:bg-muted/20 transition-colors",
                   )}
                 >
-                  {/* Order */}
                   <td className="px-4 py-3 text-xs text-muted-foreground w-16">
                     {index + 1}
                   </td>
 
-                  {/* Thumbnail */}
                   <td className="px-3 py-3">
                     <div className="h-12 w-16 overflow-hidden rounded-md bg-muted shrink-0">
                       <img
@@ -172,7 +257,6 @@ export function ContentMediaPanel({ itemId, media }: Props) {
                     </div>
                   </td>
 
-                  {/* Alt / Caption */}
                   <td className="px-3 py-3 hidden sm:table-cell max-w-[200px]">
                     <p className="text-xs font-medium truncate">{m.altEn || <span className="text-muted-foreground italic">No alt</span>}</p>
                     {m.captionEn && (
@@ -180,7 +264,6 @@ export function ContentMediaPanel({ itemId, media }: Props) {
                     )}
                   </td>
 
-                  {/* Status badges */}
                   <td className="px-3 py-3 hidden md:table-cell">
                     <div className="flex flex-wrap gap-1">
                       {m.isCover && (
@@ -194,13 +277,17 @@ export function ContentMediaPanel({ itemId, media }: Props) {
                         </Badge>
                       ) : (
                         <Badge variant="outline" className="text-[10px] h-4 px-1.5 gap-0.5">
-                          <EyeOff className="h-2.5 w-2.5" /> Hidden
+                          <EyeOff className="h-2.5 w-2.5" /> Unpublished
+                        </Badge>
+                      )}
+                      {m.isHidden && (
+                        <Badge variant="outline" className="text-[10px] h-4 px-1.5">
+                          Hide in gallery
                         </Badge>
                       )}
                     </div>
                   </td>
 
-                  {/* Actions */}
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-1">
                       {index > 0 && (
@@ -247,7 +334,16 @@ export function ContentMediaPanel({ itemId, media }: Props) {
       )}
 
       {/* Add media dialog */}
-      <Dialog open={addOpen} onOpenChange={setAddOpen}>
+      <Dialog
+        open={addOpen}
+        onOpenChange={(open) => {
+          setAddOpen(open);
+          if (!open) {
+            setLinkUrl("");
+            setAddFlags(DEFAULT_FLAGS);
+          }
+        }}
+      >
         <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle>Add media</DialogTitle>
@@ -256,7 +352,18 @@ export function ContentMediaPanel({ itemId, media }: Props) {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-5 pt-2">
-            {/* URL */}
+            <div className="space-y-2">
+              <p className="text-sm font-medium">Assignment</p>
+              <MediaAssignmentToggles
+                idPrefix="add-media"
+                value={addFlags}
+                onChange={setAddFlags}
+              />
+              <p className="text-xs text-muted-foreground">
+                Only one image can be the cover. Cover appears on admin and public cards.
+              </p>
+            </div>
+
             <div className="space-y-3 rounded-lg border p-4">
               <p className="text-sm font-medium">Add from URL</p>
               <UrlPrimaryMediaPickerField
@@ -275,30 +382,38 @@ export function ContentMediaPanel({ itemId, media }: Props) {
               </Button>
             </div>
 
-            {/* Upload */}
             <div className="space-y-3 rounded-lg border border-dashed p-4">
               <p className="text-sm font-medium">Upload file</p>
               <LocalUploadDropzone
                 uploadType="IMAGE"
                 onUploadComplete={async (results) => {
-                  for (const file of results) {
-                    await addContentItemMedia(itemId, file.url);
-                  }
-                  setAddOpen(false);
-                  refresh();
+                  startTransition(async () => {
+                    for (const [index, file] of results.entries()) {
+                      await addContentItemMedia(itemId, file.url, {
+                        ...addFlags,
+                        // Only the first uploaded file can become cover in a batch.
+                        isCover: addFlags.isCover && index === 0,
+                      });
+                    }
+                    setAddFlags(DEFAULT_FLAGS);
+                    setAddOpen(false);
+                    refresh();
+                  });
                 }}
               />
             </div>
 
-            {/* Library */}
             <div className="space-y-2">
               <p className="text-sm font-medium">Media library</p>
               <MediaPickerDialog
                 mediaTypes={["IMAGE", "SVG"]}
                 onSelect={async (asset) => {
-                  await addContentItemMedia(itemId, asset.url);
-                  setAddOpen(false);
-                  refresh();
+                  startTransition(async () => {
+                    await addWithFlags(asset.url);
+                    setAddFlags(DEFAULT_FLAGS);
+                    setAddOpen(false);
+                    refresh();
+                  });
                 }}
                 trigger={<MediaPickerTriggerButton label="Choose from media library" />}
               />
@@ -307,18 +422,14 @@ export function ContentMediaPanel({ itemId, media }: Props) {
         </DialogContent>
       </Dialog>
 
-      {/* Edit media dialog */}
+      {/* Edit media dialog — no nested <form> so Save does not hit the page Save */}
       <Dialog open={!!editItem} onOpenChange={(open) => { if (!open) setEditItem(null); }}>
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Edit image</DialogTitle>
           </DialogHeader>
           {editItem && (
-            <form
-              action={async (fd) => { await handleEditSave(fd); }}
-              className="space-y-4 pt-2"
-            >
-              {/* Preview */}
+            <div className="space-y-4 pt-2">
               <div className="h-32 w-full overflow-hidden rounded-lg bg-muted">
                 <img
                   src={editItem.url}
@@ -327,36 +438,29 @@ export function ContentMediaPanel({ itemId, media }: Props) {
                 />
               </div>
 
-              {/* Alt text */}
-              <AdminLocalizedFormField
-                fieldKey="alt"
-                label="Alt text"
-                legacyEntity={{ altEn: editItem.altEn, altAr: editItem.altAr }}
-              />
+              <div className="space-y-1.5">
+                <Label className="text-sm">Alt text</Label>
+                <Input
+                  value={editAlt}
+                  onChange={(e) => setEditAlt(e.target.value)}
+                  placeholder="Describe the image"
+                />
+              </div>
 
-              {/* Caption */}
               <div className="space-y-1.5">
                 <Label className="text-sm">Caption</Label>
-                <Input name="captionEn" defaultValue={editItem.captionEn} />
+                <Input
+                  value={editCaption}
+                  onChange={(e) => setEditCaption(e.target.value)}
+                />
               </div>
 
-              {/* Toggles */}
-              <div className="flex flex-wrap gap-4">
-                <label className="flex items-center gap-2 text-sm cursor-pointer">
-                  <input type="checkbox" name="isCover" defaultChecked={editItem.isCover} />
-                  Cover image
-                </label>
-                <label className="flex items-center gap-2 text-sm cursor-pointer">
-                  <input type="checkbox" name="isPublished" defaultChecked={editItem.isPublished} />
-                  Published
-                </label>
-                <label className="flex items-center gap-2 text-sm cursor-pointer">
-                  <input type="checkbox" name="isHidden" defaultChecked={editItem.isHidden} />
-                  Hide in gallery
-                </label>
-              </div>
+              <MediaAssignmentToggles
+                idPrefix="edit-media"
+                value={editFlags}
+                onChange={setEditFlags}
+              />
 
-              {/* Actions */}
               <div className="flex items-center justify-end gap-2 pt-2 border-t">
                 <Button
                   type="button"
@@ -367,12 +471,17 @@ export function ContentMediaPanel({ itemId, media }: Props) {
                   <X className="h-3.5 w-3.5 me-1" />
                   Cancel
                 </Button>
-                <Button type="submit" size="sm" disabled={pending}>
+                <Button
+                  type="button"
+                  size="sm"
+                  disabled={pending}
+                  onClick={handleEditSave}
+                >
                   <Check className="h-3.5 w-3.5 me-1" />
-                  Save changes
+                  {pending ? "Saving…" : "Save changes"}
                 </Button>
               </div>
-            </form>
+            </div>
           )}
         </DialogContent>
       </Dialog>

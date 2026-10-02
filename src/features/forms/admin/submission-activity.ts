@@ -1,3 +1,5 @@
+import { formatHydrationSafeDateTime } from "@/lib/format/hydration-safe";
+
 export type ActivityItem = {
   id: string;
   /** ISO timestamp for sorting / machine use */
@@ -11,14 +13,7 @@ export type ActivityItem = {
 
 /** Stable UTC label so SSR and client hydration match (avoids React #418). */
 export function formatActivityTime(at: Date | string): string {
-  const d = typeof at === "string" ? new Date(at) : at;
-  return d.toLocaleString("en-US", {
-    timeZone: "UTC",
-    hour: "2-digit",
-    minute: "2-digit",
-    month: "short",
-    day: "numeric",
-  });
+  return formatHydrationSafeDateTime(at, "en-US");
 }
 
 function toIso(at: Date | string): string {
