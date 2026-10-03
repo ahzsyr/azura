@@ -1,6 +1,11 @@
-import { describe, it } from "node:test";
+import { describe, it, mock } from "node:test";
 import assert from "node:assert/strict";
-import { sanitizeCustomHtml } from "../sanitize";
+import {
+  sanitizeCustomHtml,
+  sanitizeHtml,
+  unwrapNestedAnchors,
+  hoistInvalidParagraphBlocks,
+} from "@/lib/sanitize-html";
 
 describe("sanitizeCustomHtml", () => {
   it("passes through clean allowed tags", () => {
@@ -108,5 +113,48 @@ describe("sanitizeCustomHtml", () => {
     assert.ok(out.includes("text-align"));
     assert.ok(!out.includes("url("));
     assert.ok(!out.includes("javascript"));
+  });
+
+  it("unwraps nested anchors — outer link wins (React #418)", () => {
+    const html = '<a href="/outer">Go <a href="/inner">deeper</a> now</a>';
+    const out = sanitizeHtml(html);
+    assert.match(out, /href="\/outer"/);
+    assert.doesNotMatch(out, /href="\/inner"/);
+    assert.match(out, /<span[^>]*>deeper<\/span>/);
+    assert.doesNotMatch(out, /<a[^>]*>[\s\S]*<a[\s>]/i);
+  });
+
+  it("warns in development when nested anchors are unwrapped", () => {
+    const warnings: unknown[][] = [];
+    const restore = mock.method(console, "warn", (...args: unknown[]) => {
+      warnings.push(args);
+    });
+    try {
+      unwrapNestedAnchors('<a href="/o">x <a href="/i">y</a></a>');
+      assert.ok(
+        warnings.some(
+          (args) =>
+            typeof args[0] === "string" &&
+            String(args[0]).includes("nested <a> unwrapped"),
+        ),
+        `expected DEV warning, got ${JSON.stringify(warnings)}`,
+      );
+    } finally {
+      restore.mock.restore();
+    }
+  });
+
+  it("hoists block children out of <p>", () => {
+    const html = "<p>Intro <div>block</div> tail</p>";
+    const out = hoistInvalidParagraphBlocks(html);
+    assert.ok(out.includes("<div>block</div>"), out);
+    assert.doesNotMatch(out, /<p>[^<]*<div/i);
+  });
+
+  it("does not rewrite valid sibling <p> + <ul>", () => {
+    const html = "<p>Intro</p><ul><li>A</li></ul>";
+    const out = hoistInvalidParagraphBlocks(html);
+    assert.equal(out, html);
+    assert.equal(sanitizeHtml(html), html);
   });
 });

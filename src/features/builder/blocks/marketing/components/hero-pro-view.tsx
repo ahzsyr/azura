@@ -90,10 +90,13 @@ export function HeroProView({
   const scrimOpacity = clampOverlayOpacity(overlayOpacity);
   const entranceHeading = heroAnimations?.headingEffect;
   const hasBlockTypewriterHeading = entranceHeading === "typewriter";
+  // Block Look & Feel heading effects must still apply on transparent / visual-bg heroes.
   const siteTextEffect =
-    !isLightHero && !hasBlockTypewriterHeading && headingEffect && !isHeroEntranceEffect(headingEffect)
+    !hasBlockTypewriterHeading && headingEffect && !isHeroEntranceEffect(headingEffect)
       ? headingEffect
       : null;
+  const disableSiteTextEffect =
+    hasBlockTypewriterHeading || (isLightHero && !headingEffect && !useBlockVisualBg);
   const hasParallaxBg =
     Boolean(imageUrl) &&
     backgroundType === "image" &&
@@ -126,8 +129,8 @@ export function HeroProView({
         )}
         data-hero-title
         data-text-effect-target="heading"
-        {...(isLightHero || hasBlockTypewriterHeading ? { "data-text-effect-off": "true" } : {})}
-        {...(!isLightHero && siteTextEffect ? { "data-text-effect": siteTextEffect } : {})}
+        {...(disableSiteTextEffect ? { "data-text-effect-off": "true" } : {})}
+        {...(siteTextEffect ? { "data-text-effect": siteTextEffect } : {})}
       >
         {title}
       </h1>
@@ -162,7 +165,7 @@ export function HeroProView({
     return (
       <section
         data-hero-layout={layout}
-        className={cn("relative overflow-hidden", overlayClass)}
+        className={cn("relative overflow-hidden", useBlockVisualBg && "z-[1]", overlayClass)}
         style={{
           minHeight: overlayClass
             ? `calc(${minHeight} + var(--header-height, 76px) + var(--header-overlay-top-gap, 12px))`
@@ -213,6 +216,7 @@ export function HeroProView({
       data-hero-layout={layout}
       className={cn(
         "relative flex items-center justify-center overflow-hidden",
+        useBlockVisualBg && "z-[1]",
         isTransparentBg && "hero-overlay--transparent",
         hasFilledBackground && !isTransparentBg ? "text-foreground dark:text-white" : "text-foreground",
         overlayClass

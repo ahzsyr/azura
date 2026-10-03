@@ -9,7 +9,12 @@ import {
 import { catalogPropsSchema } from "@/schemas/catalog/display-settings";
 import { upgradeBlockToV2 } from "@/features/builder/instance/block-instance";
 import { migrateBlocksToBlockSystem } from "@/features/builder/migration/upgrade-blocks";
-import { resolveContentTypeLabelPlural, selectFieldsFromSchema } from "@/features/content/content-type.registry";
+import {
+  isRetiredOfferingTypeSelectField,
+  resolveContentTypeLabelPlural,
+  resolveFieldSchema,
+  selectFieldsFromSchema,
+} from "@/features/content/content-type.registry";
 import type { BlockNode } from "@/types/builder";
 
 test("resolveCatalogTypeSlug maps legacy catalog sources and keeps custom types", () => {
@@ -82,10 +87,57 @@ test("canonical built-in content type labels match the live site names", () => {
 
 test("catalog blocks hide generic service type filters that do not exist for the active source", () => {
   const fields = selectFieldsFromSchema(
-    [{ key: "offeringType", type: "select", labelEn: "Type", options: [{ value: "TRANSPORT", labelEn: "Transport" }] }],
+    [
+      {
+        key: "offeringType",
+        type: "select",
+        labelEn: "Type",
+        options: [
+          { value: "TRANSPORT", labelEn: "Transport" },
+          { value: "AIRPORT_PICKUP", labelEn: "Airport pickup" },
+          { value: "HOTEL", labelEn: "Hotel service" },
+          { value: "OTHER", labelEn: "Other" },
+        ],
+      },
+      {
+        key: "city",
+        type: "select",
+        labelEn: "City",
+        options: [{ value: "MAKKAH", labelEn: "Makkah" }],
+      },
+    ],
     "offerings",
   );
-  assert.deepEqual(fields, []);
+  assert.deepEqual(fields, [
+    { key: "city", label: "City", options: [{ value: "MAKKAH", label: "Makkah" }] },
+  ]);
+  assert.equal(
+    isRetiredOfferingTypeSelectField({
+      key: "offeringType",
+      label: "Type",
+      options: [
+        { value: "TRANSPORT" },
+        { value: "AIRPORT_PICKUP" },
+        { value: "HOTEL" },
+        { value: "OTHER" },
+      ],
+    }),
+    true,
+  );
+  const resolved = resolveFieldSchema(
+    {
+      fieldSchema: [
+        {
+          key: "offeringType",
+          type: "select",
+          labelEn: "Type",
+          options: [{ value: "TRANSPORT", labelEn: "Transport" }],
+        },
+      ],
+    },
+    "offerings",
+  );
+  assert.deepEqual(resolved, []);
 });
 
 test("catalog source survives v2 upgrade when settings still hold the default", () => {
@@ -110,18 +162,23 @@ test("catalog source survives v2 upgrade when settings still hold the default", 
   assert.equal(blocks[0].props?.source, "solutions");
 });
 
-test("catalogAttributeFiltersForSource ignores leftover offering filters on custom types", () => {
+test("catalogAttributeFiltersForSource drops retired offering Type filters", () => {
   const solutions = catalogAttributeFiltersForSource("solutions", {
     serviceType: "TRANSPORT",
     city: "MAKKAH",
-    attributeFilters: {},
+    attributeFilters: { offeringType: "TRANSPORT" },
   });
   assert.deepEqual(solutions, {});
   const offerings = catalogAttributeFiltersForSource("services", {
     serviceType: "TRANSPORT",
-    attributeFilters: {},
+    attributeFilters: { offeringType: "HOTEL", type: "OTHER" },
   });
-  assert.equal(offerings.offeringType, "TRANSPORT");
+  assert.deepEqual(offerings, {});
+  const listings = catalogAttributeFiltersForSource("listings", {
+    city: "MAKKAH",
+    attributeFilters: { offeringType: "TRANSPORT" },
+  });
+  assert.deepEqual(listings, { city: "MAKKAH" });
 });
 
 test("catalogPropsSchema keeps custom content type slugs as Source", () => {

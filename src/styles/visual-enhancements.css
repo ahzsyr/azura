@@ -229,8 +229,9 @@ html.dark .site-main [data-block-type] [class*="from-card"] :is(h1, h2, h3, h4):
   background-clip: unset !important;
 }
 
-:root:not(.dark) .site-main [data-block-type] .font-medium:not(.text-primary):not(.text-accent),
-:root:not(.dark) .site-main [data-block-type] .font-semibold:not(.text-primary):not(.text-accent) {
+/* Skip explicit light/brand text utilities (e.g. image-overlay "View Details"). */
+:root:not(.dark) .site-main [data-block-type] .font-medium:not(.text-primary):not(.text-accent):not(.text-white):not(.text-cyan-100):not(.text-cyan-200):not(.text-cyan-300),
+:root:not(.dark) .site-main [data-block-type] .font-semibold:not(.text-primary):not(.text-accent):not(.text-white):not(.text-cyan-100):not(.text-cyan-200):not(.text-cyan-300) {
   color: var(--az-block-heading);
 }
 

@@ -216,7 +216,9 @@ export function applyVisualEffects(
   }
 
   tagHeroHeadings(textEffect);
-  if (textEffect && textEffect !== "none" && animationsEnabled && policy.allowTextAnimation) {
+  // Always apply after tagging so block-level heading overrides work even when
+  // the site has no text effect configured.
+  if (animationsEnabled && policy.allowTextAnimation) {
     initTextEffects(textEffect);
   }
   lastTextEffectSignature = textEffectSignature;
@@ -228,11 +230,12 @@ export function rescanTextEffects(
   animationsEnabled = true,
 ): void {
   if (typeof document === "undefined") return;
-  if (!textEffect || textEffect === "none" || !animationsEnabled) return;
+  if (!animationsEnabled) return;
   const { policy } = getCapabilities();
   if (!policy.allowTextAnimation) return;
-  tagHeroHeadings(textEffect);
-  initTextEffects(textEffect);
+  const effect = textEffect && textEffect !== "none" ? textEffect : null;
+  tagHeroHeadings(effect);
+  initTextEffects(effect);
 }
 
 export function clearVisualEffects() {

@@ -1,8 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { adaptRichTextHtmlColors } from "@/features/builder/blocks/content/lib/adapt-rich-text-colors";
-import { sanitizeHtml } from "@/lib/sanitize-html";
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   Dialog,
@@ -23,8 +21,13 @@ import type {
 } from "@/features/builder/blocks/marketing/schemas/marketing-blocks";
 import { estimateFeatureGridLineClamp } from "@/features/builder/blocks/marketing/lib/normalize-feature-grid";
 import "@/features/builder/blocks/content/components/advanced-rich-text.css";
+import "@/features/builder/blocks/marketing/components/feature-grid-expandable.css";
 
 export type ExpandableRichTextProps = {
+  /**
+   * Pre-sanitized, theme-color-adapted HTML from the parent.
+   * Do not pass raw CMS HTML — re-purify here can diverge SSR (jsdom) vs client (DOMPurify).
+   */
   html: string;
   enabled?: boolean;
   mode?: FeatureGridExpandMode;
@@ -38,12 +41,11 @@ export type ExpandableRichTextProps = {
   proseClassName?: string;
 };
 
-function estimateMaxHeightPx(
-  previewBy: FeatureGridPreviewBy,
-  previewLimit: number,
-  lineHeightPx = 22
-): number {
-  return estimateFeatureGridLineClamp(previewBy, previewLimit) * lineHeightPx;
+function resolveLineHeightPx(el: HTMLElement): number {
+  const styles = window.getComputedStyle(el);
+  const parsedLh = Number.parseFloat(styles.lineHeight);
+  const fontSize = Number.parseFloat(styles.fontSize) || 14;
+  return Number.isFinite(parsedLh) ? parsedLh : fontSize * 1.625;
 }
 
 export function FeatureGridExpandableHtml({
@@ -52,8 +54,8 @@ export function FeatureGridExpandableHtml({
   mode = "inline",
   previewBy = "lines",
   previewLimit = 3,
-  moreLabel = "Read More",
-  lessLabel = "Read Less",
+  moreLabel = "View more",
+  lessLabel = "View less",
   buttonStyle = "text",
   dialogTitle = "Details",
   className,
@@ -63,37 +65,67 @@ export function FeatureGridExpandableHtml({
   const [expanded, setExpanded] = useState(false);
   const [overflows, setOverflows] = useState(false);
   const [overlayOpen, setOverlayOpen] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const [previewPx, setPreviewPx] = useState<number | undefined>(undefined);
+  const [fullPx, setFullPx] = useState<number | undefined>(undefined);
+  const [lineHeightPx, setLineHeightPx] = useState(22);
+  const excerptRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
 
-  const adapted = html.trim() ? adaptRichTextHtmlColors(sanitizeHtml(html)) : "";
+  const adapted = html.trim();
   const lineClamp = estimateFeatureGridLineClamp(previewBy, previewLimit);
-  const maxHeightPx = estimateMaxHeightPx(previewBy, previewLimit);
   const showFullInline = enabled && mode === "inline" && expanded;
-  const clamped = !showFullInline;
-  const legacyClamp = !enabled;
+  const useInlineToggle = buttonStyle === "text";
+  const isClamped = Boolean(enabled && !showFullInline && overflows);
+  const showInlineOnLastLine = Boolean(isClamped && useInlineToggle);
 
-  const checkOverflow = useCallback(() => {
-    const el = contentRef.current;
-    if (!el) {
-      setOverflows(false);
-      return;
-    }
+  const measure = useCallback(() => {
+    const body = bodyRef.current;
+    const excerpt = excerptRef.current;
+    if (!body || !excerpt) return;
+
     if (!enabled) {
       setOverflows(false);
+      setPreviewPx(undefined);
+      setFullPx(undefined);
       return;
     }
-    if (showFullInline) return;
-    setOverflows(el.scrollHeight > el.clientHeight + 1);
-  }, [enabled, showFullInline]);
+
+    // Temporarily unclamp so we measure the true content height.
+    const hadClamp = excerpt.classList.contains("feature-grid-expandable__excerpt--clamped");
+    const prevHeight = excerpt.style.height;
+    const prevMax = excerpt.style.maxHeight;
+    excerpt.classList.remove("feature-grid-expandable__excerpt--clamped");
+    excerpt.style.height = "auto";
+    excerpt.style.maxHeight = "none";
+
+    const lh = resolveLineHeightPx(body);
+    const full = Math.ceil(body.getBoundingClientRect().height || body.scrollHeight);
+    const preview = Math.ceil(Math.max(1, lineClamp) * lh);
+    const doesOverflow = full > preview + 1;
+
+    setLineHeightPx(lh);
+    setOverflows(doesOverflow);
+    setPreviewPx(preview);
+    setFullPx(full);
+
+    excerpt.style.height = prevHeight;
+    excerpt.style.maxHeight = prevMax;
+    if (hadClamp) excerpt.classList.add("feature-grid-expandable__excerpt--clamped");
+  }, [enabled, lineClamp]);
+
+  useLayoutEffect(() => {
+    measure();
+  }, [adapted, measure, expanded, mode, buttonStyle]);
 
   useEffect(() => {
-    checkOverflow();
-    const el = contentRef.current;
-    if (!el) return;
-    const observer = new ResizeObserver(checkOverflow);
-    observer.observe(el);
+    const excerpt = excerptRef.current;
+    const body = bodyRef.current;
+    if (!excerpt) return;
+    const observer = new ResizeObserver(() => measure());
+    observer.observe(excerpt);
+    if (body) observer.observe(body);
     return () => observer.disconnect();
-  }, [adapted, checkOverflow, previewLimit, previewBy, enabled]);
+  }, [measure]);
 
   useEffect(() => {
     if (!enabled) {
@@ -105,21 +137,13 @@ export function FeatureGridExpandableHtml({
   if (!adapted) return null;
 
   const proseClasses = cn(
-    "prose max-w-none cb-advanced-richtext text-sm leading-relaxed text-card-foreground/75",
+    "feature-grid-expandable__body prose max-w-none cb-advanced-richtext text-sm leading-relaxed text-card-foreground/75",
     "[&_ul]:my-2 [&_ol]:my-2 [&_li]:my-0.5 [&_p]:my-2 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0",
     proseClassName
   );
 
-  const buttonClass = cn(
-    "mt-3 inline-flex items-center text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-    buttonStyle === "text" && "text-primary hover:underline",
-    buttonStyle === "outlined" &&
-      "rounded-md border border-primary px-3 py-1.5 text-primary hover:bg-primary/5",
-    buttonStyle === "filled" &&
-      "rounded-md bg-primary px-3 py-1.5 text-primary-foreground hover:opacity-90"
-  );
-
   const showToggle = enabled && overflows;
+  const toggleLabel = mode === "inline" ? (expanded ? lessLabel : moreLabel) : moreLabel;
 
   const handleToggle = (e: React.MouseEvent | React.KeyboardEvent) => {
     e.preventDefault();
@@ -131,7 +155,51 @@ export function FeatureGridExpandableHtml({
     setOverlayOpen(true);
   };
 
-  const richBody = (
+  const toggleClass = cn(
+    "feature-grid-expandable__toggle cursor-pointer",
+    buttonStyle === "text" && "feature-grid-expandable__toggle--text",
+    buttonStyle === "outlined" && "feature-grid-expandable__toggle--outlined",
+    buttonStyle === "filled" && "feature-grid-expandable__toggle--filled",
+    showInlineOnLastLine
+      ? "feature-grid-expandable__toggle--inline"
+      : "feature-grid-expandable__toggle--below"
+  );
+
+  const toggleButton = showToggle ? (
+    <button
+      type="button"
+      className={toggleClass}
+      onClick={handleToggle}
+      aria-expanded={mode === "inline" ? expanded : overlayOpen}
+      aria-controls={mode === "inline" ? contentId : undefined}
+    >
+      {showInlineOnLastLine ? (
+        <span className="feature-grid-expandable__toggle-ellipsis" aria-hidden="true">
+          ...
+        </span>
+      ) : null}
+      {toggleLabel}
+    </button>
+  ) : null;
+
+  // Explicit height (not only max-height) so the float spacer's % height resolves
+  // and Read More lands on the last line instead of the first.
+  const excerptStyle: React.CSSProperties | undefined = (() => {
+    if (!enabled || !overflows || previewPx == null) return undefined;
+    if (showInlineOnLastLine) {
+      return {
+        height: previewPx,
+        ["--fg-excerpt-height" as string]: `${previewPx}px`,
+        ["--fg-line-height" as string]: `${lineHeightPx}px`,
+      };
+    }
+    if (showFullInline && fullPx != null) {
+      return { height: fullPx, maxHeight: fullPx };
+    }
+    return { maxHeight: previewPx };
+  })();
+
+  const overlayBody = (
     <div
       className={proseClasses}
       dangerouslySetInnerHTML={{ __html: adapted }}
@@ -143,53 +211,38 @@ export function FeatureGridExpandableHtml({
     <div className={cn("feature-grid-expandable", className)}>
       <div
         id={contentId}
-        ref={contentRef}
+        ref={excerptRef}
         className={cn(
-          "feature-grid-expandable__content overflow-hidden transition-[max-height] motion-reduce:transition-none",
-          clamped && "feature-grid-expandable__content--clamped"
+          "feature-grid-expandable__excerpt",
+          showInlineOnLastLine && "feature-grid-expandable__excerpt--clamped"
         )}
-        style={
-          clamped
-            ? previewBy === "lines" || legacyClamp
-              ? {
-                  display: "-webkit-box",
-                  WebkitBoxOrient: "vertical" as const,
-                  WebkitLineClamp: legacyClamp ? 3 : lineClamp,
-                  overflow: "hidden",
-                }
-              : {
-                  maxHeight: maxHeightPx,
-                  overflow: "hidden",
-                }
-            : undefined
-        }
+        style={excerptStyle}
         aria-expanded={enabled ? (mode === "inline" ? expanded : overlayOpen) : undefined}
       >
-        {richBody}
+        {/* Must be first child: float technique places it on the last visible line. */}
+        {showInlineOnLastLine ? toggleButton : null}
+        <div
+          ref={bodyRef}
+          className={proseClasses}
+          dangerouslySetInnerHTML={{ __html: adapted }}
+          dir="auto"
+        />
       </div>
 
-      {showToggle ? (
-        <button
-          type="button"
-          className={buttonClass}
-          onClick={handleToggle}
-          aria-expanded={mode === "inline" ? expanded : overlayOpen}
-          aria-controls={mode === "inline" ? contentId : undefined}
-        >
-          {mode === "inline" ? (expanded ? lessLabel : moreLabel) : moreLabel}
-        </button>
-      ) : null}
+      {showToggle && !showInlineOnLastLine ? toggleButton : null}
 
       {mode === "modal" ? (
         <Dialog open={overlayOpen} onOpenChange={setOverlayOpen}>
           <DialogContent
-            className="max-h-[85vh] max-w-lg overflow-y-auto"
+            className="dialog-content max-h-[85vh] max-w-lg overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <DialogHeader>
               <DialogTitle>{dialogTitle}</DialogTitle>
             </DialogHeader>
-            {richBody}
+            <div className="animate-in fade-in-0 slide-in-from-bottom-1 duration-200">
+              {overlayBody}
+            </div>
           </DialogContent>
         </Dialog>
       ) : null}
@@ -204,7 +257,9 @@ export function FeatureGridExpandableHtml({
             <SheetHeader>
               <SheetTitle>{dialogTitle}</SheetTitle>
             </SheetHeader>
-            <div className="mt-4">{richBody}</div>
+            <div className="mt-4 animate-in fade-in-0 slide-in-from-right-2 duration-300">
+              {overlayBody}
+            </div>
           </SheetContent>
         </Sheet>
       ) : null}

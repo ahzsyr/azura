@@ -64,6 +64,20 @@ function createIdleRafLoop(
   return rafId;
 }
 
+function installCursorOffGuard() {
+  const onMove = (e: MouseEvent) => {
+    const target = e.target;
+    const off =
+      target instanceof Element && Boolean(target.closest("[data-block-cursor-off]"));
+    document.querySelectorAll<HTMLElement>("[data-cur]").forEach((node) => {
+      node.style.visibility = off ? "hidden" : "visible";
+    });
+    document.body.style.cursor = off ? "auto" : "none";
+  };
+  document.addEventListener("mousemove", onMove, true);
+  trackCleanup(() => document.removeEventListener("mousemove", onMove, true));
+}
+
 export function initCursor(type: string) {
   removePrev();
   if (!type || type === "default" || type === "none") {
@@ -71,6 +85,7 @@ export function initCursor(type: string) {
     return;
   }
   document.body.style.cursor = "none";
+  installCursorOffGuard();
 
   switch (type) {
     case "neon-dot":

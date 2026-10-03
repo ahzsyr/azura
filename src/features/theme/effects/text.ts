@@ -160,18 +160,25 @@ export function resetTextEffects(): void {
   }
 }
 
-export function initTextEffects(type: string) {
-  if (!type || type === "none") return;
+export function initTextEffects(type: string | null | undefined) {
+  const fallback = type && type !== "none" ? type : null;
 
   requestAnimationFrame(() => {
     document.querySelectorAll<HTMLElement>("[data-text-effect]").forEach((el) => {
       if (isRootTextTarget(el)) return;
       if (!isSimpleTextHeading(el)) return;
-      if (el.getAttribute(APPLIED_ATTR) === type) return;
+      if (el.closest("[data-text-effect-off]")) return;
+
+      const raw = el.getAttribute("data-text-effect");
+      const effect =
+        raw && raw !== "none" && raw !== "inherit" ? raw : fallback;
+      if (!effect) return;
+      if (el.getAttribute(APPLIED_ATTR) === effect) return;
+
       // Drop any leftover neon paint before binding the new effect.
       killGsapTweens(el);
       el.style.removeProperty("text-shadow");
-      applyEffect(el, type);
+      applyEffect(el, effect);
     });
   });
 }

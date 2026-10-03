@@ -1440,11 +1440,34 @@ html[data-block-header-overlay="true"] {
 }
 
 .block-anim-root.block-anim-hover:hover {
-  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .block-anim-root.block-anim-hover.block-anim-scale:hover {
   transform: scale(1.02);
+}
+
+.block-anim-root.block-anim-hover.block-anim-zoom:hover {
+  transform: scale(1.04);
+}
+
+.block-anim-root.block-anim-hover.block-anim-fade:hover {
+  opacity: 0.88;
+}
+
+.block-anim-root.block-anim-hover.block-anim-slide:hover {
+  transform: translate3d(0, -4px, 0);
+}
+
+.block-anim-root.block-anim-hover.block-anim-rotate:hover {
+  transform: rotate(-1.5deg) scale(1.01);
+}
+
+.block-anim-root.block-anim-hover.block-anim-bounce:hover {
+  transform: translate3d(0, -6px, 0) scale(1.02);
 }
 
 @media (prefers-reduced-motion: reduce) {

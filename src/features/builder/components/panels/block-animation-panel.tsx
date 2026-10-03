@@ -5,6 +5,7 @@ import type { BlockAnimationBehavior } from "@/types/block-system";
 import { Label } from "@/components/ui/label";
 import { AnimationTypeField } from "@/features/builder/components/fields/animation-type-field";
 import { updateBlockAnimation } from "@/features/builder/components/block-style-utils";
+import { DEFAULT_BLOCK_ANIMATION } from "@/schemas/block-system";
 
 type Props = {
   block: BlockNode;
@@ -22,10 +23,20 @@ export function BlockAnimationPanel({ block, onChange }: Props) {
           checked={Boolean(animation.enabled)}
           onChange={(e) =>
             onChange(
-              updateBlockAnimation(block, {
-                enabled: e.target.checked,
-                ...(e.target.checked ? { behavior: animation.behavior ?? "once" } : {}),
-              })
+              updateBlockAnimation(
+                block,
+                e.target.checked
+                  ? {
+                      ...DEFAULT_BLOCK_ANIMATION,
+                      ...animation,
+                      enabled: true,
+                      behavior: animation.behavior ?? DEFAULT_BLOCK_ANIMATION.behavior,
+                      entrance: animation.entrance ?? { ...DEFAULT_BLOCK_ANIMATION.entrance },
+                      scroll: animation.scroll ?? { ...DEFAULT_BLOCK_ANIMATION.scroll },
+                      hover: animation.hover ?? { ...DEFAULT_BLOCK_ANIMATION.hover },
+                    }
+                  : { enabled: false }
+              )
             )
           }
         />

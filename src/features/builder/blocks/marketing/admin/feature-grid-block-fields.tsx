@@ -377,26 +377,32 @@ export function FeatureGridBlockFields({ block, onChange }: Props) {
             checked={cfg.expandEnabled}
             onChange={(e) => setProp("expandEnabled", e.target.checked)}
           />
-          Enable expandable content
+          Truncate long text and show View more
         </label>
+        <p className="text-xs text-muted-foreground">
+          When enabled, descriptions longer than the preview limit show View more / View less.
+          Choose expand in place or open a modal.
+        </p>
         <div>
-          <Label className="text-xs">Expand mode</Label>
+          <Label className="text-xs">Display mode</Label>
           <select
-            className="mt-1 h-9 w-full rounded-md border px-2 text-sm"
+            className="mt-1 h-9 w-full rounded-md border px-2 text-sm disabled:opacity-50"
             value={cfg.expandMode}
+            disabled={!cfg.expandEnabled}
             onChange={(e) => setProp("expandMode", e.target.value)}
           >
-            <option value="inline">Inline</option>
-            <option value="modal">Modal</option>
-            <option value="drawer">Drawer</option>
+            <option value="inline">Expand inline (View more / View less)</option>
+            <option value="modal">Open in modal</option>
+            <option value="drawer">Open in drawer</option>
           </select>
         </div>
         <div className="grid grid-cols-2 gap-2">
           <div>
             <Label className="text-xs">Preview by</Label>
             <select
-              className="mt-1 h-9 w-full rounded-md border px-2 text-sm"
+              className="mt-1 h-9 w-full rounded-md border px-2 text-sm disabled:opacity-50"
               value={cfg.previewBy}
+              disabled={!cfg.expandEnabled}
               onChange={(e) => setProp("previewBy", e.target.value)}
             >
               <option value="lines">Lines</option>
@@ -408,21 +414,23 @@ export function FeatureGridBlockFields({ block, onChange }: Props) {
             <Label className="text-xs">Preview limit</Label>
             <Input
               type="number"
-              className="mt-1 h-8 text-sm"
+              className="mt-1 h-8 text-sm disabled:opacity-50"
               value={cfg.previewLimit}
+              disabled={!cfg.expandEnabled}
               onChange={(e) => setProp("previewLimit", Number(e.target.value))}
             />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2">
-          <LocalizedBlockInput block={block} field="readMoreLabel" label="Read more label" />
-          <LocalizedBlockInput block={block} field="readLessLabel" label="Read less label" />
+          <LocalizedBlockInput block={block} field="readMoreLabel" label="View more label" />
+          <LocalizedBlockInput block={block} field="readLessLabel" label="View less label" />
         </div>
         <div>
-          <Label className="text-xs">Read more button style</Label>
+          <Label className="text-xs">View more button style</Label>
           <select
-            className="mt-1 h-9 w-full rounded-md border px-2 text-sm"
+            className="mt-1 h-9 w-full rounded-md border px-2 text-sm disabled:opacity-50"
             value={cfg.readMoreStyle}
+            disabled={!cfg.expandEnabled}
             onChange={(e) => setProp("readMoreStyle", e.target.value)}
           >
             <option value="text">Text link</option>

@@ -127,7 +127,7 @@ export function CatalogCard({
             {settings.showExcerpt && excerpt ? (
               <p className="mt-2 line-clamp-2 text-sm text-white/80">{excerpt}</p>
             ) : null}
-            {detailAction("mt-4 inline-flex w-fit items-center gap-1 text-sm font-semibold text-white hover:text-white/80")}
+            {detailAction("mt-4 inline-flex w-fit cursor-pointer items-center gap-1 text-sm font-semibold text-cyan-200 hover:text-white")}
           </div>
         </Card>
       );

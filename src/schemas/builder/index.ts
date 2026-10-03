@@ -8,6 +8,7 @@ import {
   blockSeoSettingsSchema,
   blockStyleSettingsSchema,
   blockVisibilityRulesSchema,
+  DEFAULT_BLOCK_ANIMATION,
 } from "@/schemas/block-system";
 import { blockVisualSettingsSchema } from "@/schemas/visual-settings";
 
@@ -133,7 +134,7 @@ export function createBlock(type: z.infer<typeof blockTypeSchema>, props: Record
     responsive: {},
     visibility: {},
     seo: {},
-    animation: { enabled: false },
+    animation: { ...DEFAULT_BLOCK_ANIMATION },
     children: type === "section" || type === "rowSection" || type === "contactSection" ? [] : undefined,
   };
 }

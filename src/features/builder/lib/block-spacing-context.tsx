@@ -2,20 +2,36 @@
 
 import { createContext, useContext, type ReactNode } from "react";
 
-const BlockSpacingContext = createContext(false);
+type BlockShellContextValue = {
+  ownsSpacing: boolean;
+  hasVisualBackground: boolean;
+};
+
+const BlockShellContext = createContext<BlockShellContextValue>({
+  ownsSpacing: false,
+  hasVisualBackground: false,
+});
 
 export function BlockSpacingProvider({
   ownsSpacing,
+  hasVisualBackground = false,
   children,
 }: {
   ownsSpacing: boolean;
+  hasVisualBackground?: boolean;
   children: ReactNode;
 }) {
   return (
-    <BlockSpacingContext.Provider value={ownsSpacing}>{children}</BlockSpacingContext.Provider>
+    <BlockShellContext.Provider value={{ ownsSpacing, hasVisualBackground }}>
+      {children}
+    </BlockShellContext.Provider>
   );
 }
 
 export function useBlockOwnsSectionSpacing(): boolean {
-  return useContext(BlockSpacingContext);
+  return useContext(BlockShellContext).ownsSpacing;
+}
+
+export function useBlockHasVisualBackground(): boolean {
+  return useContext(BlockShellContext).hasVisualBackground;
 }

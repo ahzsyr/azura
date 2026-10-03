@@ -162,7 +162,7 @@ export const BlockWrapper = memo(function BlockWrapper({
     resolved.className,
     animClasses,
     firstBlockOverlayActive ? "block-header-underlay" : "",
-    hasSectionBg ? "relative" : "",
+    hasSectionBg ? "relative isolate" : "",
     hasSectionBg && !needsShellBreakout ? "overflow-hidden" : "",
     className,
   ]
@@ -171,6 +171,7 @@ export const BlockWrapper = memo(function BlockWrapper({
 
   const cursorOff = block.visual?.siteEffects?.cursor === "off";
   const textOff = block.visual?.siteEffects?.text === "off";
+  const headingEffectNone = block.visual?.headingTextEffect === "none";
   const ownsSectionSpacing = blockNodeOwnsSectionSpacing(block);
 
   // When responsive CSS owns layout, keep only animation + section background inline
@@ -188,7 +189,7 @@ export const BlockWrapper = memo(function BlockWrapper({
       };
 
   return (
-    <BlockSpacingProvider ownsSpacing={ownsSectionSpacing}>
+    <BlockSpacingProvider ownsSpacing={ownsSectionSpacing} hasVisualBackground={hasSectionBg}>
       {responsiveCss ? (
         <style
           data-block-responsive-css={block.id}
@@ -209,8 +210,9 @@ export const BlockWrapper = memo(function BlockWrapper({
       {...(firstBlockOverlayActive ? { "data-header-overlay-block": "true" } : {})}
       {...(needsShellBreakout ? { "data-hero-shell-breakout": "true" } : {})}
       {...(seo.jsonLd ? { "data-block-jsonld": "true" } : {})}
+      {...(hasSectionBg ? { "data-block-visual-bg": "true" } : {})}
       {...(cursorOff ? { "data-block-cursor-off": "true" } : {})}
-      {...(textOff ? { "data-text-effect-off": "true" } : {})}
+      {...(textOff || headingEffectNone ? { "data-text-effect-off": "true" } : {})}
       {...(headingTextEffect ? { "data-block-heading-effect": headingTextEffect } : {})}
       suppressHydrationWarning
     >

@@ -194,6 +194,9 @@ html[data-preset-text-effect] [data-text-effect] {
 }
 
 /* ── Neon Glow ────────────────────────────────────────────────────────────── */
+/* Element-level selectors so block Look & Feel overrides work without matching
+ * the site theme attribute. Theme/preset selectors keep preset intensity vars. */
+[data-text-effect="neon-glow"],
 html[data-preset-text-effect="neon-glow"] [data-text-effect="neon-glow"],
 html[data-text-effect-theme="neon-glow"] [data-text-effect="neon-glow"],
 html[data-text-effect-theme="neon-glow"] [data-text-effect="inherit"] {
@@ -214,6 +217,7 @@ html[data-text-effect-theme="neon-glow"] [data-text-effect="inherit"] {
  * are saved); otherwise uses base/accent theme vars with preset fallbacks.
  * Intensity widens the canvas (band appears smaller/more subtle at low values,
  * broader at high). Speed controls sweep rate. */
+[data-text-effect="gradient-flow"],
 html[data-preset-text-effect="gradient-flow"] [data-text-effect="gradient-flow"],
 html[data-text-effect-theme="gradient-flow"] [data-text-effect="gradient-flow"],
 html[data-text-effect-theme="gradient-flow"] [data-text-effect="inherit"] {
@@ -290,6 +294,7 @@ html[data-preset-animated="on"] [data-reveal] {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  [data-text-effect="gradient-flow"],
   html[data-preset-text-effect="gradient-flow"] [data-text-effect="gradient-flow"],
   html[data-text-effect-theme="gradient-flow"] [data-text-effect="gradient-flow"],
   html[data-text-effect-theme="gradient-flow"] [data-text-effect="inherit"] {

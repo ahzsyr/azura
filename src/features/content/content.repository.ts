@@ -249,25 +249,53 @@ export const contentRepository: {
       typeof config.limit === "number" && Number.isFinite(config.limit) && config.limit > 0
         ? Math.floor(config.limit)
         : 6;
+    const manualIds = config.manualIds?.filter(Boolean) ?? [];
     const collectionSlug = config.collectionSlug?.trim() || undefined;
 
-    return prisma.contentItem.findMany({
-      where: {
-        contentTypeId: type.id,
-        deletedAt: null,
-        isVisible: true,
-        ...(config.featuredOnly ? { isFeatured: true } : {}),
-        ...(collectionSlug ? { collection: { slug: collectionSlug } } : {}),
+    const baseWhere: Prisma.ContentItemWhereInput = {
+      contentTypeId: type.id,
+      deletedAt: null,
+      isVisible: true,
+      ...(config.featuredOnly ? { isFeatured: true } : {}),
+      ...(collectionSlug ? { collection: { slug: collectionSlug } } : {}),
+    };
+
+    const include = {
+      collection: true,
+      media: {
+        orderBy: { sortOrder: "asc" as const },
       },
-      include: {
-        collection: true,
-        media: {
-          orderBy: { sortOrder: "asc" },
-        },
+    };
+
+    const findForType = (where: Prisma.ContentItemWhereInput, take?: number) =>
+      prisma.contentItem.findMany({
+        where,
+        include,
+        orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
+        take,
+      });
+
+    let items = await findForType(
+      {
+        ...baseWhere,
+        ...(manualIds.length ? { id: { in: manualIds } } : {}),
       },
-      orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
-      take: limit,
-    });
+      manualIds.length ? undefined : limit,
+    );
+
+    // Pinned IDs from a previous Type must not empty a newly selected type.
+    if (manualIds.length && items.length === 0) {
+      items = await findForType(baseWhere, limit);
+    }
+
+    const ordered = manualIds.length
+      ? (manualIds
+          .map((id) => items.find((i) => i.id === id))
+          .filter((i): i is (typeof items)[number] => Boolean(i)) as typeof items)
+      : items;
+
+    const result = ordered.length ? ordered : items;
+    return result.slice(0, limit);
   },
 
   async loadListTranslations(itemIds: string[]) {

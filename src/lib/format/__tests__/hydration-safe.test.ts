@@ -5,6 +5,8 @@ import {
   formatHydrationSafeDate,
   formatHydrationSafeDateTime,
   hydrationSafeLocale,
+  toHydrationSafeIso,
+  toValidDate,
 } from "@/lib/format/hydration-safe";
 
 describe("hydration-safe formatters", () => {
@@ -28,5 +30,15 @@ describe("hydration-safe formatters", () => {
     const b = formatHydrationSafeCurrency(1200, "USD", "en-US");
     assert.equal(a, b);
     assert.match(a, /1,200|1200/);
+  });
+
+  it("rejects invalid dates instead of throwing (React #441 guard)", () => {
+    assert.equal(toValidDate("not-a-date"), null);
+    assert.equal(toValidDate(""), null);
+    assert.equal(toValidDate(undefined), null);
+    assert.equal(toHydrationSafeIso("not-a-date"), null);
+    assert.equal(formatHydrationSafeDate("not-a-date", "en"), "");
+    assert.equal(formatHydrationSafeDateTime("not-a-date", "en"), "");
+    assert.equal(toHydrationSafeIso("2024-06-15T00:00:00.000Z"), "2024-06-15T00:00:00.000Z");
   });
 });

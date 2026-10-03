@@ -2,6 +2,7 @@ import type { BlockDefinition } from "@/types/block-system";
 import { BLOCK_SYSTEM_VERSION } from "@/types/block-system";
 import type { BlockType } from "@/types/builder";
 import { BLOCK_DEFAULTS } from "@/schemas/builder";
+import { DEFAULT_BLOCK_ANIMATION } from "@/schemas/block-system";
 import { BLOCK_TRANSLATABLE_FIELDS } from "@/features/translation/block-translation";
 
 const BASE_META: Record<
@@ -673,7 +674,7 @@ function def(type: BlockType): BlockDefinition {
     defaultSettings: BLOCK_DEFAULTS[type] ?? {},
     defaultStyles: {},
     defaultResponsive: {},
-    defaultAnimation: { enabled: false },
+    defaultAnimation: { ...DEFAULT_BLOCK_ANIMATION },
     translatableFields: BLOCK_TRANSLATABLE_FIELDS[type] ?? [],
     componentKey: type,
   };

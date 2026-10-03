@@ -63,8 +63,10 @@ describe("loading UX post-fix validation (static)", () => {
     assert.doesNotMatch(transition, /runWithViewTransition\(commit/);
     assert.match(transition, /route-page-layer--active/);
     assert.match(transition, /pendingFallback/);
+    assert.match(transition, /forceCommitted/);
     assert.doesNotMatch(transition, /isShellPreloading/);
-    assert.doesNotMatch(transition, /classList\.contains\(["']site-preloading["']\)/);
+    // site-preloading may be observed for glass pause only — never gates visibleContent.
+    assert.doesNotMatch(transition, /isRealContent/);
     assert.match(preloader, /ROUTE_CONTENT_READY_EVENT/);
     assert.match(preloader, /Keep the SSR boot overlay/);
     assert.doesNotMatch(preloaderCss, /site-preloading \.site-shell/);

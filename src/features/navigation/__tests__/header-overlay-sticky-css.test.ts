@@ -86,4 +86,21 @@ describe("header sticky overlay CSS guards", () => {
       /\.header-root\[data-block-header-overlay="true"\],\s*\.header-root\[data-header-overlay="true"\]/
     );
   });
+
+  it("gives brand logos an explicit height before shrink-on-scroll", async () => {
+    const css = await readFile(cssPath, "utf8");
+    // Mask/SVG logos collapse with height:auto; sizing mode must set height up front.
+    assert.match(
+      css,
+      /\[data-logo-sizing-mode="fixed"\][\s\S]*?\.brand-logo-tint__sizer \{\s*max-height:\s*var\(--brand-logo-h-mobile,\s*40px\);\s*height:\s*var\(--brand-logo-h-mobile,\s*40px\);/
+    );
+    assert.match(
+      css,
+      /\[data-logo-sizing-mode="fixed"\][\s\S]*?\.brand-logo-tint__sizer \{\s*max-height:\s*var\(--brand-logo-h-desktop,\s*48px\);\s*height:\s*var\(--brand-logo-h-desktop,\s*48px\);/
+    );
+    assert.match(
+      css,
+      /\.header-root\[data-header-desktop="shrink-scroll"\]\.header--shrunk \.brand-logo \.brand-logo-tint[\s\S]*?height:\s*calc\(var\(--brand-logo-h-desktop,\s*48px\) \* 0\.72\)/
+    );
+  });
 });

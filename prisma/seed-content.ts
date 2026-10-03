@@ -6,7 +6,7 @@ import { seedEntityTranslations } from "../scripts/i18n/seed-translations-helper
 const COMPARE_FIELD_KEYS: Record<string, string[]> = {
   "catalog-items": ["duration", "price", "currency", "hotelInfo", "airlineInfo"],
   listings: ["city", "stars", "distance", "amenities"],
-  offerings: ["offeringType", "highlights", "ctaLabel"],
+  offerings: ["highlights", "ctaLabel"],
 };
 
 function withCompareFields(fields: ContentFieldDefinition[], slug: string): ContentFieldDefinition[] {

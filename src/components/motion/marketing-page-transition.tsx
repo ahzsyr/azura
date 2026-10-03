@@ -18,8 +18,8 @@ import {
   pauseLiquidGlassForTransition,
   resumeLiquidGlassAfterTransition,
 } from "@/features/theme/liquid-glass-controller";
+import { useRouter } from "@/i18n/navigation";
 import {
-  isValidElement,
   useLayoutEffect,
   useRef,
   useState,
@@ -33,22 +33,8 @@ type Props = {
 
 const ROUTE_LAYER_KEY = "route-content";
 
-/** Escape hatch: dismiss overlay if route stays pending — never hide main content. */
+/** Escape hatch: dismiss overlay + force-commit if route stays pending. */
 const PENDING_PRELOADER_ESCAPE_MS = 4000;
-
-function isRealContent(node: ReactNode): boolean {
-  if (node == null || typeof node === "boolean") return false;
-  if (isRouteSkeleton(node)) return false;
-  if (isBuildShell(node)) return false;
-  if (containsPartialRouteContent(node)) return false;
-  if (Array.isArray(node)) return node.some((child) => isRealContent(child));
-  return isValidElement(node);
-}
-
-function prefersReducedMotion(): boolean {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
 
 /**
  * Route-owned pending UI — never gated on preloader state.
@@ -71,11 +57,13 @@ function dismissPreloaderOverlay(): void {
  * Stale-page hold during navigation — keeps outgoing page visible until real RSC
  * content arrives, then crossfades via CSS (not document.startViewTransition).
  *
- * Route state owns content vs skeleton. Preloader is overlay-only and must never
- * hide or null out the main route layer.
+ * First load must paint `children` unless the route root is an explicit skeleton /
+ * build shell. Deep "partial" / "real content" heuristics must never replace SSR
+ * HTML with PageLoadingSkeleton (React #418 HTML + stuck home skeleton).
  */
 export function MarketingPageTransition({ children }: Props) {
   const pathname = usePathname();
+  const router = useRouter();
   const committedPathRef = useRef(pathname);
   const hasCommittedRef = useRef(false);
   const prevPathnameRef = useRef(pathname);
@@ -84,16 +72,24 @@ export function MarketingPageTransition({ children }: Props) {
   const [layerState, setLayerState] = useState<"idle" | "stale" | "entering">("idle");
   const [holdFrozen, setHoldFrozen] = useState(false);
   const [displayChildren, setDisplayChildren] = useState<ReactNode>(children);
+  const [forceCommitted, setForceCommitted] = useState(false);
   const { runWhenGestureIdle } = usePointerGestureActive();
 
+  /** Explicit route loading only — never deep-walk CMS trees for "partial" text. */
   const skeletonActive = isRouteSkeleton(children);
   const buildShellActive = isBuildShell(children);
-  const realContent = isRealContent(children);
-  /** Build shell is loading/fallback — never "ready" content. */
-  const pending = skeletonActive || buildShellActive || !realContent;
+  const routePending = skeletonActive || buildShellActive;
+  /** After escape hatch, never treat the route as first-load pending again. */
+  const pending = forceCommitted ? false : routePending;
   const isNavigating =
     hasCommittedRef.current && committedPathRef.current !== pathname;
-  const showStaleHold = holdFrozen && isNavigating;
+  /**
+   * During client navigations, hold stale page while the new tree still has a
+   * marked Suspense fallback (attr-only — see containsPartialRouteContent).
+   */
+  const navStillStreaming =
+    isNavigating && !routePending && containsPartialRouteContent(children);
+  const showStaleHold = holdFrozen && (isNavigating || navStillStreaming) && !forceCommitted;
 
   const clearEnterTimeout = () => {
     if (enterTimeoutRef.current == null) return;
@@ -110,7 +106,7 @@ export function MarketingPageTransition({ children }: Props) {
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
     if (window.location.hash) return;
-    window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? "auto" : "auto" });
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, [pathname]);
 
   useLayoutEffect(() => {
@@ -118,11 +114,12 @@ export function MarketingPageTransition({ children }: Props) {
 
     prevPathnameRef.current = pathname;
     clearEnterTimeout();
+    setForceCommitted(false);
 
     if (!hasCommittedRef.current) return;
     setHoldFrozen(true);
     setLayerState("stale");
-  }, [pathname, pending]);
+  }, [pathname]);
 
   useLayoutEffect(() => {
     if (holdFrozen) return;
@@ -130,7 +127,7 @@ export function MarketingPageTransition({ children }: Props) {
   }, [children, holdFrozen]);
 
   useLayoutEffect(() => {
-    if (pending) return;
+    if (pending || navStillStreaming) return;
 
     if (committedPathRef.current === pathname && !holdFrozen) {
       setLayerState("idle");
@@ -170,11 +167,11 @@ export function MarketingPageTransition({ children }: Props) {
       commit();
       clearSharedElementHandoff();
     });
-  }, [children, holdFrozen, pending, pathname, runWhenGestureIdle]);
+  }, [children, holdFrozen, pending, navStillStreaming, pathname, runWhenGestureIdle]);
 
-  /** Pending escape hatch: dismiss preloader overlay; keep skeleton visible. */
+  /** Pending escape: dismiss preloader and force-commit children (never leave skeleton forever). */
   useEffect(() => {
-    if (!pending || hasCommittedRef.current) {
+    if ((!pending && !navStillStreaming) || hasCommittedRef.current) {
       clearPendingEscape();
       return;
     }
@@ -182,15 +179,34 @@ export function MarketingPageTransition({ children }: Props) {
     pendingEscapeRef.current = window.setTimeout(() => {
       pendingEscapeRef.current = null;
       dismissPreloaderOverlay();
+      hasCommittedRef.current = true;
+      committedPathRef.current = pathname;
+      setForceCommitted(true);
+      setHoldFrozen(false);
+      setDisplayChildren(children);
+      setLayerState("idle");
+      emitRouteContentReady();
+      recordNavigationEnd(pathname, { success: true });
+      // Compile-time build shell never self-resolves — ask Next for real RSC.
+      if (isBuildShell(children)) {
+        try {
+          router.refresh();
+        } catch {
+          /* ignore */
+        }
+      }
     }, PENDING_PRELOADER_ESCAPE_MS);
 
     return () => clearPendingEscape();
-  }, [pending, pathname]);
+  }, [pending, navStillStreaming, pathname, children, router]);
 
-  useEffect(() => () => {
-    clearEnterTimeout();
-    clearPendingEscape();
-  }, []);
+  useEffect(
+    () => () => {
+      clearEnterTimeout();
+      clearPendingEscape();
+    },
+    [],
+  );
 
   // Cheap blur + pause specular rAF while stale/enter layers are compositing.
   const glassTransitionActive =
@@ -232,12 +248,13 @@ export function MarketingPageTransition({ children }: Props) {
   if (showStaleHold) {
     visibleContent = displayChildren;
   } else if (!pending) {
+    // First load + ready routes: always paint RSC children (matches SSR HTML).
     visibleContent = children;
   } else if (hasCommittedRef.current) {
     // Navigating with pending new content — hold previous page, not blank.
     visibleContent = displayChildren;
   } else {
-    // First load pending: always show visible skeleton (never null / never hide).
+    // First load with explicit route skeleton / build shell only.
     visibleContent = pendingFallback(children);
   }
 

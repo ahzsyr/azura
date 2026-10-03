@@ -140,10 +140,13 @@
   flex-shrink: 0;
 }
 
+/* Explicit height (not only max-height) so CSS-mask tint logos keep a box before
+   shrink-on-scroll applies .header--shrunk — height:auto can collapse SVG/mask marks. */
 .logo-area[data-logo-sizing-mode="fixed"] .brand-logo img,
 .logo-area[data-logo-sizing-mode="fixed"] .brand-logo .brand-logo-tint,
 .logo-area[data-logo-sizing-mode="fixed"] .brand-logo .brand-logo-tint__sizer {
   max-height: var(--brand-logo-h-mobile, 40px);
+  height: var(--brand-logo-h-mobile, 40px);
 }
 
 @media (min-width: 641px) {
@@ -151,6 +154,7 @@
   .logo-area[data-logo-sizing-mode="fixed"] .brand-logo .brand-logo-tint,
   .logo-area[data-logo-sizing-mode="fixed"] .brand-logo .brand-logo-tint__sizer {
     max-height: var(--brand-logo-h-tablet, 44px);
+    height: var(--brand-logo-h-tablet, 44px);
   }
 }
 
@@ -159,6 +163,7 @@
   .logo-area[data-logo-sizing-mode="fixed"] .brand-logo .brand-logo-tint,
   .logo-area[data-logo-sizing-mode="fixed"] .brand-logo .brand-logo-tint__sizer {
     max-height: var(--brand-logo-h-desktop, 48px);
+    height: var(--brand-logo-h-desktop, 48px);
   }
 
   .brand-logo:not(:has(img)):not(:has(.brand-logo-tint)) {
@@ -170,6 +175,11 @@
 .logo-area[data-logo-sizing-mode="adaptive"] .brand-logo .brand-logo-tint,
 .logo-area[data-logo-sizing-mode="adaptive"] .brand-logo .brand-logo-tint__sizer {
   max-height: clamp(
+    var(--brand-logo-adaptive-min, 32px),
+    3.5vw + 24px,
+    var(--brand-logo-adaptive-max, 56px)
+  );
+  height: clamp(
     var(--brand-logo-adaptive-min, 32px),
     3.5vw + 24px,
     var(--brand-logo-adaptive-max, 56px)
@@ -196,7 +206,7 @@
 .brand-logo .brand-logo-tint__sizer {
   opacity: 0;
   pointer-events: none;
-  /* Inherit max-height from the shared logo sizing rules above. */
+  /* Height comes from the fixed/adaptive sizing rules above (higher specificity). */
 }
 
 .brand-name {

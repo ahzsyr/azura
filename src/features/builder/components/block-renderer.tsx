@@ -148,6 +148,7 @@ import {
   BeforeAfterView,
   TabbedShowcaseView,
 } from "@/features/builder/blocks/marketing/views";
+import { prepareFeatureGridDescriptionHtml } from "@/features/builder/blocks/marketing/lib/prepare-feature-grid-html";
 import type {
   GridItem,
   TrustBadgeItem,
@@ -564,6 +565,9 @@ async function renderBlockContent(
           source,
           categorySlug: typeof p.categorySlug === "string" ? p.categorySlug : undefined,
           featuredOnly: p.featuredOnly === true,
+          manualIds: Array.isArray(p.manualIds)
+            ? (p.manualIds as unknown[]).filter((id): id is string => typeof id === "string" && Boolean(id))
+            : undefined,
           limit: settings.limit,
           attributeFilters:
             p.attributeFilters && typeof p.attributeFilters === "object"
@@ -701,11 +705,23 @@ async function renderBlockContent(
       );
     }
 
-    case "featureGrid":
+    case "featureGrid": {
+      // Pre-sanitize description HTML on the server so the client island never
+      // re-purifies with isomorphic-dompurify (jsdom ≠ browser → React #418).
+      const gridProps = { ...(lp as Record<string, unknown>) };
+      const rawItems = Array.isArray(gridProps.items) ? gridProps.items : [];
+      gridProps.items = rawItems.map((item) => {
+        if (!item || typeof item !== "object") return item;
+        const row = { ...(item as Record<string, unknown>) };
+        if (typeof row.descriptionHtml === "string" && row.descriptionHtml.trim()) {
+          row.descriptionHtml = prepareFeatureGridDescriptionHtml(row.descriptionHtml);
+        }
+        return row;
+      });
       return (
         <Section>
           <FeatureGridView
-            props={lp as Record<string, unknown>}
+            props={gridProps}
             title={loc("title") || undefined}
             subtitle={loc("subtitle") || undefined}
             locale={locale}
@@ -715,6 +731,7 @@ async function renderBlockContent(
           />
         </Section>
       );
+    }
 
     case "benefitsGrid":
       return (

@@ -1,4 +1,7 @@
-import { formatHydrationSafeDate } from "@/lib/format/hydration-safe";
+import {
+  formatHydrationSafeDate,
+  toHydrationSafeIso,
+} from "@/lib/format/hydration-safe";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -14,12 +17,15 @@ export function EditorialMetaBar({ author, publishedAt, locale, className }: Pro
   const dateStr = publishedAt
     ? formatHydrationSafeDate(publishedAt, locale, { month: "long" })
     : null;
+  const dateTime = publishedAt ? toHydrationSafeIso(publishedAt) : null;
+
+  if (!author && !dateStr) return null;
 
   return (
     <p className={cn("text-sm text-muted-foreground flex flex-wrap gap-x-2 items-center", className)}>
       {author && <span>{author}</span>}
       {author && dateStr && <span aria-hidden>·</span>}
-      {dateStr && <time dateTime={new Date(publishedAt!).toISOString()}>{dateStr}</time>}
+      {dateStr && dateTime && <time dateTime={dateTime}>{dateStr}</time>}
     </p>
   );
 }

@@ -65,7 +65,7 @@
 }
 
 .site-header-shell__logo {
-  height: auto;
-  max-height: 2.5rem;
+  height: var(--brand-logo-h-desktop, 2.5rem);
+  max-height: var(--brand-logo-h-desktop, 2.5rem);
   width: auto;
 }

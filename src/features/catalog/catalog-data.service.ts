@@ -43,6 +43,7 @@ export async function loadCatalogItems(config: CatalogBlockConfig): Promise<Cata
       contentTypeSlug,
       collectionSlug: config.categorySlug?.trim() || undefined,
       featuredOnly: config.featuredOnly,
+      manualIds: config.manualIds,
       limit: catalogLimit(config.limit),
     });
 

@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { SectionAtmosphere } from "@/components/marketing/hero-atmosphere";
 import { DEFAULT_MEDIA_PLACEHOLDER } from "@/features/media/constants";
-import { useBlockOwnsSectionSpacing } from "@/features/builder/lib/block-spacing-context";
+import { useBlockHasVisualBackground, useBlockOwnsSectionSpacing } from "@/features/builder/lib/block-spacing-context";
 import {
   DEFAULT_DARK_SURFACES,
   DEFAULT_LIGHT_SURFACES,
@@ -42,8 +42,13 @@ export function Section({
   suppressPadding: suppressPaddingProp = false,
 }: SectionProps) {
   const ownsSpacingFromBlock = useBlockOwnsSectionSpacing();
+  const hasVisualBackground = useBlockHasVisualBackground();
   const suppressPadding = suppressPaddingProp || ownsSpacingFromBlock;
-  const showAtmosphere = !suppressAtmosphere && variant !== "dark" && variant !== "solid";
+  const showAtmosphere =
+    !suppressAtmosphere &&
+    !hasVisualBackground &&
+    variant !== "dark" &&
+    variant !== "solid";
   const chromeTint = SECTION_CHROME_TINTS[variant];
 
   return (
@@ -52,6 +57,7 @@ export function Section({
       className={cn(
         !suppressPadding && "section-padding",
         "relative overflow-hidden",
+        hasVisualBackground && "z-[1]",
         variant === "muted" && "bg-muted/40",
         variant === "solid" && "az-section--solid bg-card/95",
         variant === "dark" && "bg-foreground text-background",

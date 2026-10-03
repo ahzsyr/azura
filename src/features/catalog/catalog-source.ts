@@ -83,8 +83,8 @@ export function compactAttributeFilters(
 
 /**
  * Filters that belong to the selected content type.
- * Legacy city/serviceType props are only applied to listings/offerings so a
- * leftover Transport filter cannot empty a Solutions (or other custom) source.
+ * Legacy city props are only applied to listings.
+ * Retired offering Type / serviceType filters (Transport, Hotel, …) are dropped.
  */
 export function catalogAttributeFiltersForSource(
   source: string | undefined,
@@ -97,11 +97,11 @@ export function catalogAttributeFiltersForSource(
 ): Record<string, string> {
   const typeSlug = resolveCatalogTypeSlug(source, activeTypeSlugs);
   const filters = compactAttributeFilters(config.attributeFilters);
+  delete filters.offeringType;
+  delete filters.type;
+  delete filters.serviceType;
   if (typeSlug === "listings" && config.city?.trim() && !filters.city) {
     filters.city = config.city.trim();
-  }
-  if (typeSlug === "offerings" && config.serviceType?.trim() && !filters.offeringType && !filters.type) {
-    filters.offeringType = config.serviceType.trim();
   }
   return filters;
 }

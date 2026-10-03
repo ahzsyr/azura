@@ -130,6 +130,39 @@ export function resolveContentTypeLabelPlural(slug: string, fallback = slug): st
 }
 
 const HIDDEN_GENERIC_SELECT_KEYS = new Set(["type", "offeringtype", "servicetype"]);
+const RETIRED_OFFERING_TYPE_VALUES = new Set([
+  "TRANSPORT",
+  "AIRPORT_PICKUP",
+  "HOTEL",
+  "OTHER",
+]);
+
+/** Retired fixed offering Type enum (Transport / Hotel / …) — no longer used in Catalog. */
+export function isRetiredOfferingTypeSelectField(field: {
+  key?: string;
+  label?: string;
+  labelEn?: string;
+  options?: Array<{ value?: string }>;
+}): boolean {
+  const key = (field.key ?? "").trim().toLowerCase();
+  if (HIDDEN_GENERIC_SELECT_KEYS.has(key)) return true;
+
+  const label = (field.labelEn ?? field.label ?? "").trim().toLowerCase();
+  const values = (field.options ?? [])
+    .map((option) => String(option.value ?? "").trim().toUpperCase())
+    .filter(Boolean);
+  if (!values.length) return false;
+
+  const matchesRetiredEnum = values.every((value) => RETIRED_OFFERING_TYPE_VALUES.has(value));
+  if (matchesRetiredEnum && (label === "type" || values.length >= 3)) return true;
+  return false;
+}
+
+function withoutRetiredOfferingTypeFields(
+  fields: ContentFieldDefinition[],
+): ContentFieldDefinition[] {
+  return fields.filter((field) => !isRetiredOfferingTypeSelectField(field));
+}
 
 export function selectFieldsFromSchema(
   raw: unknown,
@@ -142,7 +175,7 @@ export function selectFieldsFromSchema(
         field?.type === "select" &&
         Array.isArray(field.options) &&
         field.options.length > 0 &&
-        !HIDDEN_GENERIC_SELECT_KEYS.has((field.key ?? "").trim().toLowerCase()),
+        !isRetiredOfferingTypeSelectField(field),
     )
     .map((field) => ({
       key: field.key,
@@ -158,10 +191,11 @@ export function resolveFieldSchema(
   type: { fieldSchema: unknown },
   slug: string
 ): ContentFieldDefinition[] {
-  if (Array.isArray(type.fieldSchema) && type.fieldSchema.length > 0) {
-    return type.fieldSchema as ContentFieldDefinition[];
-  }
-  return getBuiltinContentType(slug)?.fields ?? [];
+  const fields =
+    Array.isArray(type.fieldSchema) && type.fieldSchema.length > 0
+      ? (type.fieldSchema as ContentFieldDefinition[])
+      : (getBuiltinContentType(slug)?.fields ?? []);
+  return withoutRetiredOfferingTypeFields(fields);
 }
 
 /** Append builtin fields that are missing from a stored schema (non-destructive). */

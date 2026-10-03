@@ -3,8 +3,19 @@
  * Prevents React #418 (`args[]=text`) from locale/timezone ICU drift.
  */
 
-function toDate(value: Date | string | number): Date {
-  return value instanceof Date ? value : new Date(value);
+/** Returns a valid Date, or null when the value cannot be parsed (avoids Invalid Date throws). */
+export function toValidDate(value: Date | string | number | null | undefined): Date | null {
+  if (value == null || value === "") return null;
+  const date = value instanceof Date ? value : new Date(value);
+  return Number.isFinite(date.getTime()) ? date : null;
+}
+
+/** Stable UTC ISO string for `<time dateTime>`, or null when invalid. */
+export function toHydrationSafeIso(
+  value: Date | string | number | null | undefined,
+): string | null {
+  const date = toValidDate(value);
+  return date ? date.toISOString() : null;
 }
 
 /** BCP-47 tag safe for Number/DateFormat on both Node and Chromium. */
@@ -18,7 +29,9 @@ export function formatHydrationSafeDate(
   locale?: string | null,
   options?: Intl.DateTimeFormatOptions,
 ): string {
-  return toDate(value).toLocaleDateString(hydrationSafeLocale(locale), {
+  const date = toValidDate(value);
+  if (!date) return "";
+  return date.toLocaleDateString(hydrationSafeLocale(locale), {
     timeZone: "UTC",
     year: "numeric",
     month: "short",
@@ -32,7 +45,9 @@ export function formatHydrationSafeDateTime(
   locale?: string | null,
   options?: Intl.DateTimeFormatOptions,
 ): string {
-  return toDate(value).toLocaleString(hydrationSafeLocale(locale), {
+  const date = toValidDate(value);
+  if (!date) return "";
+  return date.toLocaleString(hydrationSafeLocale(locale), {
     timeZone: "UTC",
     year: "numeric",
     month: "short",

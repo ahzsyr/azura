@@ -195,6 +195,15 @@ export const blockAnimationSettingsSchema = z
   })
   .partial();
 
+/** Default animation applied to newly created blocks. */
+export const DEFAULT_BLOCK_ANIMATION = {
+  enabled: true,
+  behavior: "once",
+  entrance: { type: "slide" },
+  scroll: { type: "scale" },
+  hover: { type: "zoom" },
+} as const satisfies z.infer<typeof blockAnimationSettingsSchema>;
+
 export const blockVisibilityRulesSchema = z
   .object({
     loggedIn: z.boolean().nullable().optional(),

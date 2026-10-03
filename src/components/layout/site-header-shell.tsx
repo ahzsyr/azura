@@ -1,6 +1,8 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import type { HeaderWorkspace } from "@/features/navigation/types";
 import { BrandLogoImage } from "@/features/navigation/components/header/brand-logo-image";
+import { brandingCssVariables } from "@/features/navigation/branding-defaults";
 import { buildHeaderRootPresentation } from "@/features/navigation/header-root-attributes";
 import { resolveMenuForSurface } from "@/features/navigation/menu-engine";
 import { getItemHref, localePath } from "@/features/navigation/resolve-href";
@@ -30,6 +32,7 @@ export function SiteHeaderShell({
   const sticky = headerConfig?.sticky !== false;
   const navItems =
     headerConfig?.showNav !== false ? resolveMenuForSurface(workspace, "desktop") : [];
+  const logoSizingMode = branding.logoSizing?.mode ?? "fixed";
 
   const root = buildHeaderRootPresentation({
     workspace,
@@ -49,7 +52,13 @@ export function SiteHeaderShell({
     >
       <div className="site-header">
         <div className="nav-container">
-          <Link href={homeHref} className="logo-area" aria-label={`${brandName} — Home`}>
+          <Link
+            href={homeHref}
+            className="logo-area"
+            data-logo-sizing-mode={logoSizingMode}
+            style={brandingCssVariables(branding) as CSSProperties}
+            aria-label={`${brandName} — Home`}
+          >
             <div className="brand-logo">
               {hasImage ? (
                 <BrandLogoImage

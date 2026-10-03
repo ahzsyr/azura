@@ -165,7 +165,9 @@ export function PageLoadingSkeleton({ variant = "grid", embedded = false }: Prop
   return (
     <div
       className="cl-page min-h-[50vh] py-8"
-      {...{ [ROUTE_SKELETON_ATTR]: true }}
+      // Embedded skeletons live inside Suspense islands — must not mark the
+      // whole route as loading (MarketingPageTransition would swap SSR HTML → #418).
+      {...(!embedded ? { [ROUTE_SKELETON_ATTR]: true } : {})}
       {...(!embedded
         ? { "aria-busy": true as const, "aria-label": "Loading" as const }
         : {})}

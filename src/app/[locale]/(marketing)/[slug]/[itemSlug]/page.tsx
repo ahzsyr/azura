@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: Props) {
     translations,
   };
   const title = getLocalizedField(item, "title", locale, fieldOpts);
-  const description = getLocalizedField(item, "description", locale, fieldOpts);
+  const description = getLocalizedField(item, "description", locale, fieldOpts) ?? "";
 
   return seoService.resolveMetadata({
     locale: locale as Locale,
@@ -72,17 +72,22 @@ export default async function DynamicContentDetailRoute({ params }: Props) {
     notFound();
   }
 
-  const { languageCode } = await loadPublicLocaleContext(locale);
-  const resolution = await contentPublicService.resolveRoute([slug, itemSlug], languageCode);
-  if (resolution.kind !== "detail") notFound();
+  try {
+    const { languageCode } = await loadPublicLocaleContext(locale);
+    const resolution = await contentPublicService.resolveRoute([slug, itemSlug], languageCode);
+    if (resolution.kind !== "detail") notFound();
 
-  const path = `/${slug}/${itemSlug}`;
-  return (
-    <ContentDetailPage
-      locale={locale}
-      contentType={resolution.contentType}
-      item={resolution.item}
-      path={path}
-    />
-  );
+    const path = `/${slug}/${itemSlug}`;
+    return (
+      <ContentDetailPage
+        locale={locale}
+        contentType={resolution.contentType}
+        item={resolution.item}
+        path={path}
+      />
+    );
+  } catch (error) {
+    console.error(`[DynamicContentDetailRoute] render failed for /${slug}/${itemSlug}:`, error);
+    notFound();
+  }
 }

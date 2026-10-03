@@ -34,13 +34,16 @@ describe("feature grid expandable helpers", () => {
     assert.ok(!html.includes("Plain"));
   });
 
-  it("defaults expand off for legacy props", () => {
+  it("defaults expand on with view-more labels for new props", () => {
     const props = normalizeFeatureGridProps({
       title: "Features",
       cardVariant: "default",
       items: [{ id: "1", title: "A", description: "B" }],
     });
-    assert.equal(props.expandEnabled, false);
+    assert.equal(props.expandEnabled, true);
+    assert.equal(props.expandMode, "inline");
+    assert.equal(props.readMoreLabel, "View more");
+    assert.equal(props.readLessLabel, "View less");
     assert.equal(props.layout, "standard");
   });
 });

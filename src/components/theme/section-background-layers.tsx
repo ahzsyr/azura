@@ -30,7 +30,7 @@ export function SectionBackgroundLayers({ bg }: Props) {
   if (bg.type === "image" && bg.imageUrl) {
     const opacity = bg.overlayOpacity ?? 0.4;
     return (
-      <div ref={hostRef} className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      <div ref={hostRef} className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
         <div
           aria-hidden
           className="absolute inset-0 bg-cover bg-center"
@@ -47,7 +47,7 @@ export function SectionBackgroundLayers({ bg }: Props) {
       <div
         ref={hostRef}
         aria-hidden
-        className="az-section-glass-layer pointer-events-none absolute inset-0 -z-10"
+        className="az-section-glass-layer pointer-events-none absolute inset-0 z-0"
         style={{
           backdropFilter: `blur(${blur}) saturate(var(--az-preset-glass-saturation, 1.2))`,
           WebkitBackdropFilter: `blur(${blur}) saturate(var(--az-preset-glass-saturation, 1.2))`,
@@ -61,7 +61,7 @@ export function SectionBackgroundLayers({ bg }: Props) {
     return (
       <div
         ref={hostRef}
-        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
         data-section-bg-host={patternEffect}
       />
     );
@@ -72,7 +72,7 @@ export function SectionBackgroundLayers({ bg }: Props) {
       <div
         ref={hostRef}
         aria-hidden
-        className="az-section-bg-layer az-section-bg-pattern pointer-events-none absolute inset-0 -z-10"
+        className="az-section-bg-layer az-section-bg-pattern pointer-events-none absolute inset-0 z-0"
         data-section-pattern={bg.pattern ?? "grid"}
       />
     );

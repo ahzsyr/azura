@@ -97,6 +97,11 @@ export const textEngine: EffectModule = {
       delete html.dataset.textEffectTheme;
       delete html.dataset.presetTextEffect;
       clearSiteTaggedHeroTextEffects();
+      // Still honor per-block heading overrides when the site effect is off.
+      tagHeroHeadings(null);
+      if (config.animationsEnabled && policy.allowTextAnimation) {
+        initTextEffects(null);
+      }
       activeTextEffect = null;
       return;
     }
@@ -111,12 +116,18 @@ export const textEngine: EffectModule = {
 
     tagHeroHeadings(effectId);
 
-    if (!config.animationsEnabled || !effectId) {
+    if (!config.animationsEnabled) {
       activeTextEffect = null;
       return;
     }
 
-    if (effectId === activeTextEffect) return;
+    if (!policy.allowTextAnimation) {
+      activeTextEffect = null;
+      return;
+    }
+
+    // Always re-apply so block-level overrides stay in sync even when the site
+    // effect is unchanged (or null).
     activeTextEffect = effectId;
     initTextEffects(effectId);
   },

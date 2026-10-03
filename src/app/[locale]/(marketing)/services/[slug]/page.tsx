@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props) {
   if (!item) return {};
 
   const name = getLocalizedField(item, "title", locale);
-  const description = getLocalizedField(item, "description", locale);
+  const description = getLocalizedField(item, "description", locale) ?? "";
   return seoService.resolveMetadata({
     locale: locale as Locale,
     path: `/services/${slug}`,

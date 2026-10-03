@@ -25,6 +25,9 @@ describe("blank-page acceptance criteria (static)", () => {
     assert.match(transition, /PageLoadingSkeleton/);
     assert.match(transition, /isBuildShell/);
     assert.match(transition, /PENDING_PRELOADER_ESCAPE_MS/);
+    assert.match(transition, /forceCommitted/);
+    assert.match(transition, /router\.refresh/);
+    assert.doesNotMatch(transition, /isRealContent/);
     assert.doesNotMatch(transition, /isShellPreloading/);
     assert.doesNotMatch(transition, /return null;/);
   });

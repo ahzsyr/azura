@@ -85,7 +85,7 @@ export const ContentPresetCardBody = memo(function ContentPresetCardBody({
           <div className="relative z-20 mt-auto flex min-h-[22rem] flex-col justify-end p-6">
             <h3 className="line-clamp-2 text-xl font-bold text-white">{title}</h3>
             {display.showExcerpt && excerpt ? <p className="mt-2 line-clamp-2 text-sm text-white/80">{excerpt}</p> : null}
-            {action("mt-4 inline-flex w-fit items-center gap-1 text-sm font-semibold text-white hover:text-white/80")}
+            {action("mt-4 inline-flex w-fit cursor-pointer items-center gap-1 text-sm font-semibold text-cyan-200 hover:text-white")}
           </div>
         </div>
       );

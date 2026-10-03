@@ -10,6 +10,7 @@ import {
   resolveFeatureGridDescriptionHtml,
 } from "@/features/builder/blocks/marketing/lib/normalize-feature-grid";
 import { FeatureGridExpandableHtml } from "@/features/builder/blocks/marketing/components/feature-grid-expandable-html";
+import { prepareFeatureGridDescriptionHtml } from "@/features/builder/blocks/marketing/lib/prepare-feature-grid-html";
 import type {
   FeatureGridCardStyle,
   FeatureGridContentAlign,
@@ -148,11 +149,10 @@ export function FeatureGridCard({
   const shapeClass =
     iconShape === "circle" ? "rounded-full" : iconShape === "square" ? "rounded-none" : "rounded-lg";
 
+  const resolvedCardBg = overrides.backgroundColor || cardBackgroundColor || "";
   const style: React.CSSProperties = {
     ...(equalHeight && minCardHeight > 0 ? { minHeight: minCardHeight } : {}),
-    ...(overrides.backgroundColor || cardBackgroundColor
-      ? { backgroundColor: overrides.backgroundColor || cardBackgroundColor }
-      : {}),
+    ...(resolvedCardBg ? { backgroundColor: resolvedCardBg } : {}),
     ...(overrides.textColor || cardTextColor ? { color: overrides.textColor || cardTextColor } : {}),
     ...(overrides.borderColor || cardBorderColor
       ? { borderColor: overrides.borderColor || cardBorderColor }
@@ -165,6 +165,7 @@ export function FeatureGridCard({
     ...(cardAccentColor || overrides.accentColor
       ? ({ ["--fg-accent" as string]: overrides.accentColor || cardAccentColor } as React.CSSProperties)
       : {}),
+    ["--feature-grid-card-bg" as string]: resolvedCardBg || "var(--card, #ffffff)",
   };
 
   const renderElement = (el: FeatureGridContentElement) => {
@@ -263,13 +264,18 @@ export function FeatureGridCard({
         );
       case "description": {
         if (!descriptionHtml) return null;
+        const safeHtml = prepareFeatureGridDescriptionHtml(descriptionHtml);
+        if (!safeHtml) return null;
         const showDivider = showAccentLine && (title || isNumbered);
+        // Disable inline Read More if footer link is present to avoid conflicting CTAs
+        const hasFooterLink = footerText && item.footerHref;
+        const descriptionEnabled = expandOn && !hasFooterLink;
         return (
           <div key="description" className="w-full">
             {showDivider ? <div className={cn("gold-divider my-3", effectiveAlign === "center" && "mx-auto", effectiveAlign === "right" && "ms-auto")} /> : null}
             <FeatureGridExpandableHtml
-              html={descriptionHtml}
-              enabled={expandOn}
+              html={safeHtml}
+              enabled={descriptionEnabled}
               mode={expandMode}
               previewBy={previewBy}
               previewLimit={effectivePreviewLimit}
@@ -287,7 +293,7 @@ export function FeatureGridCard({
           <Link
             key="link"
             href={item.href}
-            className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
+            className="mt-3 inline-block cursor-pointer text-sm font-medium text-primary hover:underline"
             target={openInNewTab ? "_blank" : undefined}
             rel={openInNewTab ? "noopener noreferrer" : undefined}
             onClick={(e) => e.stopPropagation()}
@@ -302,7 +308,7 @@ export function FeatureGridCard({
           <Link
             key="button"
             href={href}
-            className="mt-4 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-90"
+            className="mt-4 inline-flex cursor-pointer items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-90"
             target={openInNewTab ? "_blank" : undefined}
             rel={openInNewTab ? "noopener noreferrer" : undefined}
             onClick={(e) => e.stopPropagation()}
@@ -311,17 +317,32 @@ export function FeatureGridCard({
           </Link>
         );
       }
-      case "footer":
+      case "footer": {
         if (!footerText) return null;
         if (item.footerHref) {
           return (
             <Link
               key="footer"
               href={item.footerHref}
-              className="mt-auto pt-4 text-xs text-muted-foreground hover:text-primary"
+              className="mt-auto inline-flex cursor-pointer items-center gap-1 pt-4 text-xs font-medium text-primary transition-colors hover:text-primary/80 hover:underline"
+              target={openInNewTab ? "_blank" : undefined}
+              rel={openInNewTab ? "noopener noreferrer" : undefined}
               onClick={(e) => e.stopPropagation()}
             >
               {footerText}
+              <svg
+                className="h-3 w-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                />
+              </svg>
             </Link>
           );
         }
@@ -330,6 +351,7 @@ export function FeatureGridCard({
             {footerText}
           </p>
         );
+      }
       default:
         return null;
     }
@@ -374,17 +396,23 @@ export function FeatureGridCard({
     "flex flex-col"
   );
 
+  // Stretched overlay link: never wrap inner CTAs in <a> (illegal a>a → React #418).
+  // Overlay is mouse/touch only (aria-hidden + tabIndex=-1); inner links/buttons stay tab stops.
   if (cardHref) {
     return (
-      <Link
-        href={cardHref}
-        className={cn(cardClassName, "no-underline")}
-        style={style}
-        target={openInNewTab ? "_blank" : undefined}
-        rel={openInNewTab ? "noopener noreferrer" : undefined}
-      >
-        {inner}
-      </Link>
+      <div className={cn(cardClassName, "relative")} style={style}>
+        <Link
+          href={cardHref}
+          className="absolute inset-0 z-0"
+          aria-hidden="true"
+          tabIndex={-1}
+          target={openInNewTab ? "_blank" : undefined}
+          rel={openInNewTab ? "noopener noreferrer" : undefined}
+        />
+        <div className="relative z-10 flex h-full flex-col pointer-events-none [&_a]:pointer-events-auto [&_button]:pointer-events-auto">
+          {inner}
+        </div>
+      </div>
     );
   }
 

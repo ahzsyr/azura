@@ -10,7 +10,10 @@ import {
   LocalizedBlockTextarea,
   LocalizedBlockTitle,
 } from "@/features/builder/block-translation-context";
-import { TYPE_TO_LEGACY_SOURCE } from "@/features/content/content-type.registry";
+import {
+  isRetiredOfferingTypeSelectField,
+  TYPE_TO_LEGACY_SOURCE,
+} from "@/features/content/content-type.registry";
 import {
   normalizeCatalogSourceForActiveTypes,
   resolveCatalogSourceFromBlock,
@@ -21,6 +24,8 @@ import {
   type CatalogSourceItemPreview,
 } from "@/features/catalog/admin/catalog-source-items.actions";
 import { getBlockSettings, patchBlockSettings } from "@/features/builder/instance/block-instance";
+
+const PICKER_ITEM_LIMIT = 100;
 
 type Props = {
   block: BlockNode;
@@ -75,10 +80,25 @@ export function CatalogBlockFields({ block, onChange, contentTypeOptions }: Prop
   const settings = mergeDisplaySettings(catalogFields.displaySettings as Partial<DisplaySettings>);
   const selectedType = typeOptions.find((type) => type.slug === sourceSlug);
   const collections = selectedType?.collections ?? [];
-  const selectFields = selectedType?.selectFields ?? [];
+  const selectFields = (selectedType?.selectFields ?? []).filter(
+    (field) => !isRetiredOfferingTypeSelectField(field),
+  );
   const attributeFilters = (catalogFields.attributeFilters as Record<string, string> | undefined) ?? {};
   const categorySlug = ((catalogFields.categorySlug as string) ?? "").trim();
   const featuredOnly = Boolean(catalogFields.featuredOnly);
+  const manualIds = Array.isArray(catalogFields.manualIds)
+    ? (catalogFields.manualIds as string[]).filter(Boolean)
+    : [];
+  const staleTypeFilterKeys = Object.keys(attributeFilters).filter((key) =>
+    isRetiredOfferingTypeSelectField({
+      key,
+      label: key,
+      options: [{ value: attributeFilters[key] }],
+    }),
+  );
+  const hasStaleServiceType = Boolean(
+    typeof catalogFields.serviceType === "string" && catalogFields.serviceType.trim(),
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -87,7 +107,7 @@ export function CatalogBlockFields({ block, onChange, contentTypeOptions }: Prop
       source: sourceSlug,
       collectionSlug: categorySlug || undefined,
       featuredOnly,
-      limit: settings.limit,
+      limit: PICKER_ITEM_LIMIT,
     })
       .then((items) => {
         if (!cancelled) setSourceItems(items);
@@ -101,7 +121,7 @@ export function CatalogBlockFields({ block, onChange, contentTypeOptions }: Prop
     return () => {
       cancelled = true;
     };
-  }, [sourceSlug, categorySlug, featuredOnly, settings.limit]);
+  }, [sourceSlug, categorySlug, featuredOnly]);
 
   useEffect(() => {
     if (!activeSlugs.length || !sourceSlug) return;
@@ -109,7 +129,20 @@ export function CatalogBlockFields({ block, onChange, contentTypeOptions }: Prop
     onChange(patchBlockSettings(block, { source: sourceSlug }));
   }, [activeSlugs.join("|"), sourceSlug, resolvedSource]);
 
+  useEffect(() => {
+    if (!staleTypeFilterKeys.length && !hasStaleServiceType) return;
+    const nextFilters = { ...attributeFilters };
+    for (const key of staleTypeFilterKeys) delete nextFilters[key];
+    onChange(
+      patchBlockSettings(block, {
+        attributeFilters: nextFilters,
+        serviceType: "",
+      }),
+    );
+  }, [staleTypeFilterKeys.join("|"), hasStaleServiceType]);
+
   const setSelectFilter = (key: string, value: string) => {
+    if (isRetiredOfferingTypeSelectField({ key, options: [{ value }] })) return;
     const nextFilters = { ...attributeFilters };
     if (value) nextFilters[key] = value;
     else delete nextFilters[key];
@@ -118,37 +151,102 @@ export function CatalogBlockFields({ block, onChange, contentTypeOptions }: Prop
       patchBlockSettings(block, {
         source: sourceSlug,
         attributeFilters: nextFilters,
-        ...(key === "offeringType" || key === "type" ? { serviceType: value } : {}),
+        serviceType: "",
         ...(key === "city" ? { city: value } : {}),
       }),
     );
   };
+
+  const toggleManualId = (id: string) => {
+    const next = manualIds.includes(id) ? manualIds.filter((x) => x !== id) : [...manualIds, id];
+    setProp("manualIds", next);
+  };
+
+  const clearManualIds = () => setProp("manualIds", []);
 
   return (
     <div className="space-y-4">
       <LocalizedBlockTitle block={block} />
       <LocalizedBlockTextarea block={block} field="subtitle" label="Subtitle" rows={2} />
 
+      <div className="space-y-2">
+        <Label>Type</Label>
+        <select
+          className="flex h-9 w-full rounded-md border px-2 text-sm"
+          value={sourceSlug}
+          onFocus={refreshTypes}
+          onChange={(e) => {
+            const nextSlug = e.target.value;
+            onChange(
+              patchBlockSettings(block, {
+                source: nextSlug,
+                categorySlug: "",
+                city: "",
+                serviceType: "",
+                attributeFilters: {},
+                manualIds: [],
+              }),
+            );
+          }}
+        >
+          {!selectedType && sourceSlug ? <option value={sourceSlug}>{sourceSlug}</option> : null}
+          {typeOptions.map((type) => (
+            <option key={type.slug} value={type.slug}>
+              {type.labelPlural}
+              {type.slug && type.slug.toLowerCase() !== type.labelPlural.trim().toLowerCase()
+                ? ` (${type.slug})`
+                : ""}
+            </option>
+          ))}
+        </select>
+        <p className="text-xs text-muted-foreground">
+          Type is the content type for this block. Options come from Content types you have enabled.
+        </p>
+      </div>
+
       <div className="rounded-md border bg-muted/30 p-3 space-y-2">
-        <p className="text-xs font-medium">Content in this block</p>
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-xs font-medium">Content in this block</p>
+          {manualIds.length > 0 ? (
+            <button
+              type="button"
+              className="text-xs text-primary underline"
+              onClick={clearManualIds}
+            >
+              Show all ({manualIds.length} selected)
+            </button>
+          ) : (
+            <span className="text-xs text-muted-foreground">Select items to pin</span>
+          )}
+        </div>
         {itemsLoading ? (
           <p className="text-xs text-muted-foreground">Loading items…</p>
         ) : sourceItems.length === 0 ? (
           <p className="text-xs text-muted-foreground">
-            No items found. Add or publish entries under Content.
+            No items found for this type. Add or publish entries under Content.
           </p>
         ) : (
-          <ul className="space-y-1 text-xs">
+          <ul className="max-h-48 space-y-1 overflow-y-auto text-xs">
             {sourceItems.map((item) => (
-              <li key={item.id} className="flex items-center justify-between gap-2">
-                <span className="truncate">{item.title}</span>
-                {item.status !== "PUBLISHED" ? (
-                  <span className="shrink-0 text-muted-foreground">{item.status}</span>
-                ) : null}
+              <li key={item.id}>
+                <label className="flex cursor-pointer items-center gap-2 rounded px-1 py-0.5 hover:bg-background/80">
+                  <input
+                    type="checkbox"
+                    checked={manualIds.includes(item.id)}
+                    onChange={() => toggleManualId(item.id)}
+                  />
+                  <span className="min-w-0 flex-1 truncate">{item.title}</span>
+                  {item.status !== "PUBLISHED" ? (
+                    <span className="shrink-0 text-muted-foreground">{item.status}</span>
+                  ) : null}
+                </label>
               </li>
             ))}
           </ul>
         )}
+        <p className="text-xs text-muted-foreground">
+          Leave unchecked to show all matching items. Checked items override automatic ordering.
+        </p>
       </div>
 
       {collections.length > 0 ? (

@@ -7,6 +7,7 @@ import {
 import { blockRegistry } from "@/features/builder/registry/block-registry-system";
 import { resolveCatalogSourceFromBlock } from "@/features/catalog/catalog-source";
 import { createBlock } from "@/schemas/blocks";
+import { DEFAULT_BLOCK_ANIMATION } from "@/schemas/block-system";
 
 function isUnsetSettingValue(value: unknown): boolean {
   return value === "" || value === null || value === undefined;
@@ -89,7 +90,7 @@ export function normalizeBlockInstance(block: BlockNode): BlockInstanceV2 {
     localization: block.localization ?? {},
     visibility: block.visibility ?? {},
     seo: block.seo ?? {},
-    animation: block.animation ?? def?.defaultAnimation ?? { enabled: false },
+    animation: block.animation ?? def?.defaultAnimation ?? { ...DEFAULT_BLOCK_ANIMATION },
     visual: block.visual,
     hidden: block.hidden,
     children: block.children?.map(normalizeBlockInstance),

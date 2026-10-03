@@ -53,7 +53,8 @@ export function resolveAnimationClasses(
   }
 
   if (animation.hover?.type && animation.hover.type !== "none") {
-    classes.push("block-anim-hover", ANIMATION_CLASS_MAP[animation.hover.type] ?? "");
+    const hoverType = animation.hover.type;
+    classes.push("block-anim-hover", ANIMATION_CLASS_MAP[hoverType] ?? "");
   }
 
   return classes.filter(Boolean).join(" ");
