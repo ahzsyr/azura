@@ -321,7 +321,7 @@ export async function getFormEmailDeliveryStatusAction(
 ): Promise<
   ActionResult<{
     configured: boolean;
-    provider: "resend" | "smtp" | "none";
+    provider: "resend" | "none";
     from: string;
     source: "account" | "env" | "none";
     accountId?: string;

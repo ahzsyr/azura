@@ -12,36 +12,80 @@ import { loadTranslationsMap, localizedFieldValue } from "@/features/translation
 import { FALLBACK_LOCALES, resolvePrefixToCode } from "@/i18n/locale-config";
 import { resolveTranslation } from "@/features/translation/translation-resolver";
 import { publicLocalePath } from "@/i18n/url-helpers";
+import { localeService } from "@/features/i18n/locale.service";
+import { resolveLocaleCandidates } from "@/i18n/locale-resolution";
+import { translationService } from "@/features/translation/translation.service";
+import { getCmsPagePublicPath } from "@/features/cms/cms-page-path";
 
 type RelatedConfig = z.infer<typeof relatedContentPropsSchema>;
 
 type PostLike = { id: string; slug: string; featuredImage?: { url: string } | null };
 
+async function resolveLocalizedEntitySlug(
+  entityType: "Post" | "CmsPage" | "ContentItem",
+  entityId: string,
+  localeCode: string,
+  fallbackSlug: string,
+): Promise<string> {
+  try {
+    const enabled = await localeService.listEnabled();
+    const defaultCode = enabled.find((locale) => locale.isDefault)?.code ?? "en";
+    const candidates = resolveLocaleCandidates(localeCode, enabled, defaultCode);
+    for (const candidate of candidates) {
+      const slug = await translationService.getLocalizedSlug(
+        entityType,
+        entityId,
+        candidate,
+        "",
+      );
+      if (slug?.trim()) return slug.trim();
+    }
+  } catch {
+    /* fall through */
+  }
+  return fallbackSlug;
+}
+
 async function mapPostsToDiscovery(
   posts: PostLike[],
-  localePrefix: string
+  localePrefix: string,
+  localeCode: string,
 ): Promise<DiscoveryItem[]> {
   const translations = await loadTranslationsMap(
     "Post",
-    posts.map((p) => p.id)
+    posts.map((p) => p.id),
   );
-  return posts.map((p) => {
-    const title = localizedFieldValue(translations.get(p.id) ?? [], "title");
-    return {
-      id: `post-${p.id}`,
-      entityType: SearchEntityType.POST,
-      entityId: p.id,
-      title: title || p.slug,
-      urlPath: publicLocalePath(localePrefix, `/blog/${p.slug}`),
-      imageUrl: p.featuredImage?.url ?? undefined,
-      badge: entityTypeBadge(SearchEntityType.POST, localePrefix),
-    };
-  });
+  const enabled = await localeService.listEnabled().catch(() => FALLBACK_LOCALES);
+  const defaultCode = enabled.find((locale) => locale.isDefault)?.code ?? "en";
+
+  return Promise.all(
+    posts.map(async (p) => {
+      const translationContext = {
+        translations: translations.get(p.id) ?? [],
+        enabledLocales: enabled,
+        defaultCode,
+      };
+      const title =
+        resolveTranslation("title", localeCode, translationContext) ||
+        localizedFieldValue(translations.get(p.id) ?? [], "title") ||
+        p.slug;
+      const localizedSlug = await resolveLocalizedEntitySlug("Post", p.id, localeCode, p.slug);
+      return {
+        id: `post-${p.id}`,
+        entityType: SearchEntityType.POST,
+        entityId: p.id,
+        title,
+        urlPath: publicLocalePath(localePrefix, `/blog/${localizedSlug}`),
+        imageUrl: p.featuredImage?.url ?? undefined,
+        badge: entityTypeBadge(SearchEntityType.POST, localePrefix),
+      };
+    }),
+  );
 }
 
 function productToDiscovery(
   records: Awaited<ReturnType<typeof resolveRelatedForBlock>>,
-  localePrefix: string
+  localePrefix: string,
 ): DiscoveryItem[] {
   return records.map((r) => ({
     id: `product-${r.slug}`,
@@ -57,10 +101,11 @@ function productToDiscovery(
 export async function resolveRelatedContent(
   localePrefix: string,
   config: RelatedConfig,
-  anchor?: DiscoveryAnchorContext | null
+  anchor?: DiscoveryAnchorContext | null,
 ): Promise<DiscoveryItem[]> {
-  const localeCode = resolvePrefixToCode(localePrefix, FALLBACK_LOCALES);
-  const defaultCode = FALLBACK_LOCALES.find((locale) => locale.isDefault)?.code ?? "en";
+  const enabled = await localeService.listEnabled().catch(() => FALLBACK_LOCALES);
+  const localeCode = resolvePrefixToCode(localePrefix, enabled);
+  const defaultCode = enabled.find((locale) => locale.isDefault)?.code ?? "en";
   const limit = Math.min(24, Math.max(1, config.limit ?? 6));
   const types =
     config.entityTypes.length > 0
@@ -109,46 +154,56 @@ export async function resolveRelatedContent(
     }
 
     if (entityType === SearchEntityType.POST) {
-      const items = await resolveRelatedPosts(localePrefix, config, anchor, remaining);
+      const items = await resolveRelatedPosts(localePrefix, localeCode, config, anchor, remaining);
       out.push(...items);
       continue;
     }
 
     if (entityType === SearchEntityType.CONTENT_ITEM) {
-      const items = await resolveRelatedContentItems(localePrefix, config, remaining);
+      const items = await resolveRelatedContentItems(localePrefix, localeCode, config, remaining);
       out.push(...items);
       continue;
     }
 
     if (entityType === SearchEntityType.CMS_PAGE && config.rule === "manual") {
       const manuals = config.manualItems.filter(
-        (m) => m.entityType === SearchEntityType.CMS_PAGE
+        (m) => m.entityType === SearchEntityType.CMS_PAGE,
       );
       const pages = (
         await Promise.all(
-          manuals.map((m) => cmsRepository.getPageBySlug(m.entityId, true).catch(() => null))
+          manuals.map((m) => cmsRepository.getPageBySlug(m.entityId, true).catch(() => null)),
         )
       ).filter((p): p is NonNullable<typeof p> => Boolean(p));
       const translations = await loadTranslationsMap(
         "CmsPage",
-        pages.map((p) => p.id)
+        pages.map((p) => p.id),
       );
       for (const page of pages) {
         if (out.length >= limit) break;
         const translationContext = {
           translations: translations.get(page.id) ?? [],
-          enabledLocales: FALLBACK_LOCALES,
+          enabledLocales: enabled,
           defaultCode,
         };
         const title =
           resolveTranslation("title", localeCode, translationContext) ||
           resolveTranslation("title", defaultCode, translationContext);
+        const localizedSlug = await resolveLocalizedEntitySlug(
+          "CmsPage",
+          page.id,
+          localeCode,
+          page.slug,
+        );
+        const canonicalPath = getCmsPagePublicPath(page.slug);
+        const publicPath = canonicalPath.startsWith("/pages/")
+          ? `/pages/${localizedSlug}`
+          : canonicalPath;
         out.push({
           id: `page-${page.id}`,
           entityType: SearchEntityType.CMS_PAGE,
           entityId: page.id,
           title: title || page.slug,
-          urlPath: publicLocalePath(localePrefix, `/${page.slug}`),
+          urlPath: publicLocalePath(localePrefix, publicPath),
           badge: entityTypeBadge(SearchEntityType.CMS_PAGE, localePrefix),
         });
       }
@@ -160,51 +215,47 @@ export async function resolveRelatedContent(
 
 async function resolveRelatedPosts(
   localePrefix: string,
+  localeCode: string,
   config: RelatedConfig,
   anchor: DiscoveryAnchorContext | null | undefined,
-  limit: number
+  limit: number,
 ): Promise<DiscoveryItem[]> {
   if (config.rule === "manual") {
     const ids = config.manualItems
       .filter((m) => m.entityType === SearchEntityType.POST)
       .map((m) => m.entityId);
     const posts = await Promise.all(
-      ids.map((id) => cmsRepository.getPostById(id).catch(() => null))
+      ids.map((id) => cmsRepository.getPostById(id).catch(() => null)),
     );
     const published = posts
       .filter((p) => p && p.status === "PUBLISHED")
       .slice(0, limit) as NonNullable<(typeof posts)[number]>[];
-    return mapPostsToDiscovery(published, localePrefix);
+    return mapPostsToDiscovery(published, localePrefix, localeCode);
   }
 
   if (config.rule === "anchor" && anchor?.context === "post" && anchor.id) {
     const related = await cmsRepository.getRelatedPosts(anchor.id, limit);
-    return mapPostsToDiscovery(related, localePrefix);
+    return mapPostsToDiscovery(related, localePrefix, localeCode);
   }
 
-  const categorySlug =
-    config.categorySlugs[0] ??
-    anchor?.categorySlugs?.[0];
+  const categorySlug = config.categorySlugs[0] ?? anchor?.categorySlugs?.[0];
   const posts = await cmsRepository.listPublishedPosts(categorySlug);
   const tagSet = new Set(config.tags.map((t) => t.toLowerCase()));
   const filtered =
     tagSet.size > 0
-      ? posts.filter((p) =>
-          p.tags.some((t) => tagSet.has(t.tag.slug.toLowerCase()))
-        )
+      ? posts.filter((p) => p.tags.some((t) => tagSet.has(t.tag.slug.toLowerCase())))
       : posts;
 
   const excludeId = anchor?.context === "post" ? anchor.id : undefined;
-  const slice = filtered
-    .filter((p) => p.id !== excludeId)
-    .slice(0, limit);
-  return mapPostsToDiscovery(slice, localePrefix);
+  const slice = filtered.filter((p) => p.id !== excludeId).slice(0, limit);
+  return mapPostsToDiscovery(slice, localePrefix, localeCode);
 }
 
 async function resolveRelatedContentItems(
   localePrefix: string,
+  localeCode: string,
   config: RelatedConfig,
-  limit: number
+  limit: number,
 ): Promise<DiscoveryItem[]> {
   const slug = config.contentTypeSlug.trim() || "catalog-items";
   const items = await loadContentItems({
@@ -217,12 +268,14 @@ async function resolveRelatedContentItems(
     const ids = new Set(
       config.manualItems
         .filter((m) => m.entityType === SearchEntityType.CONTENT_ITEM)
-        .map((m) => m.entityId)
+        .map((m) => m.entityId),
     );
-    return items
-      .filter((i) => ids.has(i.id))
-      .slice(0, limit)
-      .map((i) => contentItemToDiscovery(i, localePrefix));
+    return Promise.all(
+      items
+        .filter((i) => ids.has(i.id))
+        .slice(0, limit)
+        .map((i) => contentItemToDiscovery(i, localePrefix, localeCode)),
+    );
   }
 
   const catSet = new Set(config.categorySlugs.map((c) => c.toLowerCase()));
@@ -234,18 +287,27 @@ async function resolveRelatedContentItems(
         })
       : items;
 
-  return filtered.slice(0, limit).map((i) => contentItemToDiscovery(i, localePrefix));
+  return Promise.all(
+    filtered.slice(0, limit).map((i) => contentItemToDiscovery(i, localePrefix, localeCode)),
+  );
 }
 
-function contentItemToDiscovery(
+async function contentItemToDiscovery(
   item: { id: string; slug?: string | null; title?: string; attributes?: Record<string, unknown> },
-  localePrefix: string
-): DiscoveryItem {
-  const slug = item.slug ?? item.id;
+  localePrefix: string,
+  localeCode: string,
+): Promise<DiscoveryItem> {
+  const fallbackSlug = item.slug ?? item.id;
+  const localizedSlug = await resolveLocalizedEntitySlug(
+    "ContentItem",
+    item.id,
+    localeCode,
+    fallbackSlug,
+  );
   const title =
     (item.title as string) ||
     (item.attributes?.name as string) ||
-    slug;
+    fallbackSlug;
   const image =
     (item.attributes?.image as string) ||
     (item.attributes?.thumbnail as string) ||
@@ -255,7 +317,7 @@ function contentItemToDiscovery(
     entityType: SearchEntityType.CONTENT_ITEM,
     entityId: item.id,
     title: String(title),
-    urlPath: publicLocalePath(localePrefix, `/content/${slug}`),
+    urlPath: publicLocalePath(localePrefix, `/content/${localizedSlug}`),
     imageUrl: image,
     badge: entityTypeBadge(SearchEntityType.CONTENT_ITEM, localePrefix),
   };

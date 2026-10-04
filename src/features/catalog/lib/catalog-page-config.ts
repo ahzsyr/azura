@@ -10,7 +10,7 @@ import {
 } from "@/features/catalog/lib/catalog-layout";
 import { readSiteSettings } from "@/features/catalog/site-settings.service";
 import { prefixToCatalogLocaleCode } from "@/features/catalog/locales";
-import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
+import { isCloudNativeProduction } from "@/lib/production-runtime-guard";
 import { catalogSeedRoot } from "@/lib/catalog-seed-paths";
 
 export async function loadPageListingLayout(

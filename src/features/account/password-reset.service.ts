@@ -98,7 +98,16 @@ export async function requestPasswordReset(input: {
         ),
     vars,
   );
-  const html = `<div style="font-family:sans-serif;line-height:1.5"><h2>${heading}</h2><pre style="white-space:pre-wrap;font-family:inherit">${bodyText}</pre><p><a href="${resetLink}">${resetLink}</a></p></div>`;
+  const { renderTransactionalEmail } = await import(
+    "@/features/email/react-templates"
+  );
+  const rendered = await renderTransactionalEmail({
+    preview: subject,
+    heading,
+    paragraphs: [bodyText],
+    linkUrl: resetLink,
+    linkLabel: resetLink,
+  });
 
   const replyTo = settings.passwordReset.replyToEmail?.trim() || undefined;
   const fromName = settings.passwordReset.fromName?.trim() || undefined;
@@ -109,8 +118,8 @@ export async function requestPasswordReset(input: {
   const result = await sendEmail({
     to: user.email,
     subject,
-    html,
-    text: `${heading}\n\n${bodyText}\n\n${resetLink}`,
+    html: rendered.html,
+    text: rendered.text ?? `${heading}\n\n${bodyText}\n\n${resetLink}`,
     replyTo,
     fromName,
     providerConfig,
@@ -127,11 +136,17 @@ export async function requestPasswordReset(input: {
 
   const notify = settings.passwordReset.notifyReceiverEmail?.trim();
   if (notify) {
+    const when = new Date().toISOString();
+    const notifyRendered = await renderTransactionalEmail({
+      preview: `Password reset requested for ${user.email}`,
+      heading: "Password reset requested",
+      paragraphs: [`A password reset was requested for ${user.email} at ${when}.`],
+    });
     await sendEmail({
       to: notify,
       subject: `[Password reset requested] ${user.email}`,
-      html: `<p>A password reset was requested for <strong>${user.email}</strong> at ${new Date().toISOString()}.</p>`,
-      text: `Password reset requested for ${user.email} at ${new Date().toISOString()}`,
+      html: notifyRendered.html,
+      text: notifyRendered.text ?? `Password reset requested for ${user.email} at ${when}`,
       fromName,
       providerConfig,
     });
@@ -171,13 +186,22 @@ export async function requestAdminPasswordReset(input: {
   const subject = "Reset your administrator password";
   const heading = "Administrator password reset";
   const bodyText = `Hello ${user.name},\n\nUse the link below within ${PASSWORD_RESET_TTL_MINUTES} minutes to reset your administrator password:\n\n${resetLink}\n\nThis link can only be used once.`;
-  const html = `<div style="font-family:sans-serif;line-height:1.5"><h2>${heading}</h2><pre style="white-space:pre-wrap;font-family:inherit">${bodyText}</pre><p><a href="${resetLink}">${resetLink}</a></p></div>`;
+  const { renderTransactionalEmail } = await import(
+    "@/features/email/react-templates"
+  );
+  const rendered = await renderTransactionalEmail({
+    preview: subject,
+    heading,
+    paragraphs: [bodyText],
+    linkUrl: resetLink,
+    linkLabel: resetLink,
+  });
 
   const result = await sendEmail({
     to: user.email,
     subject,
-    html,
-    text: `${heading}\n\n${bodyText}`,
+    html: rendered.html,
+    text: rendered.text ?? `${heading}\n\n${bodyText}`,
     providerConfig,
   });
 

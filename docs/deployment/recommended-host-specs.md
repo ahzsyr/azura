@@ -5,7 +5,7 @@
 - 2 vCPU
 - 4 GB RAM
 - 40 GB SSD
-- Node.js 20 runtime
+- Node.js 24 runtime
 - Managed database (Supabase Postgres or managed MySQL)
 
 ## Recommended (stable production)

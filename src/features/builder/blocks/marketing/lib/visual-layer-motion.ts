@@ -1,4 +1,4 @@
-import type { TargetAndTransition, Transition } from "framer-motion";
+import type { TargetAndTransition, Transition } from "motion/react";
 import type { VisualLayerAnimation } from "@/features/builder/blocks/marketing/schemas/marketing-blocks";
 import { PUBLIC_MOTION } from "@/lib/motion/public-motion";
 

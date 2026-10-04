@@ -81,13 +81,22 @@ export async function issueEmailVerification(input: {
   const subject = applyTemplate(settings.emailVerification.emailSubject, vars);
   const heading = applyTemplate(settings.emailVerification.emailHeading, vars);
   const bodyText = applyTemplate(settings.emailVerification.emailBody, vars);
-  const html = `<div style="font-family:sans-serif;line-height:1.5"><h2>${heading}</h2><pre style="white-space:pre-wrap;font-family:inherit">${bodyText}</pre><p><a href="${verifyLink}">${verifyLink}</a></p></div>`;
+  const { renderTransactionalEmail } = await import(
+    "@/features/email/react-templates"
+  );
+  const rendered = await renderTransactionalEmail({
+    preview: subject,
+    heading,
+    paragraphs: [bodyText],
+    linkUrl: verifyLink,
+    linkLabel: verifyLink,
+  });
 
   await sendEmail({
     to: toEmail,
     subject,
-    html,
-    text: `${heading}\n\n${bodyText}\n\n${verifyLink}`,
+    html: rendered.html,
+    text: rendered.text ?? `${heading}\n\n${bodyText}\n\n${verifyLink}`,
   });
 
   await writeSecurityAuditLog({

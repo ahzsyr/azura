@@ -94,11 +94,14 @@ model TranslationJob {
   totalEntities  Int                  @default(0)
   processedCount Int                  @default(0)
   errorMessage   String?              @db.Text
+  attempts       Int                  @default(0)
+  lockedUntil    DateTime?
   createdAt      DateTime             @default(now())
   updatedAt      DateTime             @updatedAt
   completedAt    DateTime?
 
   @@index([status, createdAt])
+  @@index([status, lockedUntil])
 }
 
 model TranslationMemory {

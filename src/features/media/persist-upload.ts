@@ -30,11 +30,17 @@ export async function persistMediaUpload(data: {
   uploaderEmail?: string | null;
   assetScope?: string;
   visibility?: "PUBLIC" | "GATED" | "PRIVATE";
+  storageBackend?: string;
+  bucket?: string;
+  objectKey?: string;
 }) {
   const uploaderId = await resolveUploaderId(data.uploadedById, data.uploaderEmail);
   const asset = await mediaRepository.createAsset({
     filename: data.filename,
     url: data.url,
+    storageBackend: data.storageBackend ?? "local",
+    bucket: data.bucket ?? "local",
+    objectKey: data.objectKey ?? `legacy/${Date.now()}`,
     mimeType: data.mimeType,
     mediaType: data.mediaType,
     sizeBytes: data.sizeBytes,
@@ -53,5 +59,17 @@ export async function persistMediaUpload(data: {
   }
 
   revalidatePath("/admin/media");
+  const { dispatchWebhookFireAndForget } = await import("@/lib/webhooks/dispatch");
+  dispatchWebhookFireAndForget({
+    type: "media.uploaded",
+    occurredAt: new Date().toISOString(),
+    data: {
+      mediaId: asset.id,
+      url: asset.url,
+      storageBackend: asset.storageBackend,
+      bucket: asset.bucket,
+      objectKey: asset.objectKey,
+    },
+  });
   return asset;
 }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import type { FrameSequence } from "@/features/builder/blocks/marketing/schemas/marketing-blocks";
 import { defaultVisualLayerAnimation } from "@/features/builder/blocks/marketing/schemas/marketing-blocks";
 import { buildVisualLayerMotion } from "@/features/builder/blocks/marketing/lib/visual-layer-motion";

@@ -30,7 +30,7 @@ export function readMotionState(osReduced: boolean): ConstrainedMotionState {
   };
 }
 
-/** Non-hook read for scroll observers and effects — no framer-motion dependency. */
+/** Non-hook read for scroll observers and effects — no motion/react dependency. */
 export function getConstrainedMotionSnapshot(): ConstrainedMotionSnapshot {
   if (typeof window === "undefined") {
     return {

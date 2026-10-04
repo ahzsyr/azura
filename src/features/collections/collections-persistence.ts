@@ -8,7 +8,7 @@ import type { Collection } from "./types";
 import {
   assertFilesystemPersistenceAllowed,
   isCloudNativeProduction,
-} from "@/lib/cloud-native-guard";
+} from "@/lib/production-runtime-guard";
 import { revalidateHeaderFlyoutImages } from "@/services/cache";
 import { catalogSeedRoot } from "@/lib/catalog-seed-paths";
 
@@ -36,7 +36,7 @@ export function isReadOnlyFsError(error: unknown): boolean {
   return isCatalogFsWriteError(error);
 }
 
-/** True when catalog data cannot be written to disk (Vercel /var/task, EROFS, missing parents). */
+/** True when catalog data cannot be written to disk (EROFS, missing parents, etc.). */
 export function isCatalogFsWriteError(error: unknown): boolean {
   if (!error || typeof error !== "object") return false;
   const code = "code" in error ? String((error as { code?: string }).code) : "";
@@ -51,7 +51,6 @@ export function isCatalogFsWriteError(error: unknown): boolean {
 
 export function preferCatalogJsonStore(): boolean {
   if (useDatabaseOnlyCatalog()) return true;
-  if (process.env.VERCEL) return true;
   if (process.env.CATALOG_USE_JSON_STORE === "1") return true;
   return false;
 }

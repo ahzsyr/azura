@@ -13,9 +13,26 @@ export const translationJobService = {
   },
 
   async markRunning(id: string, totalEntities: number) {
+    const lockedUntil = new Date(Date.now() + 15 * 60 * 1000);
     return prisma.translationJob.update({
       where: { id },
-      data: { status: "RUNNING", totalEntities, processedCount: 0 },
+      data: {
+        status: "RUNNING",
+        totalEntities,
+        processedCount: 0,
+        lockedUntil,
+        attempts: { increment: 1 },
+      },
+    });
+  },
+
+  async reclaimExpiredLeases() {
+    return prisma.translationJob.updateMany({
+      where: {
+        status: "RUNNING",
+        lockedUntil: { lt: new Date() },
+      },
+      data: { status: "PENDING", lockedUntil: null },
     });
   },
 
@@ -33,6 +50,7 @@ export const translationJobService = {
         status,
         errorMessage: errorMessage ?? null,
         completedAt: new Date(),
+        lockedUntil: null,
       },
     });
   },

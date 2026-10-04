@@ -12,7 +12,7 @@ import {
   writeCatalogMediaMeta,
 } from "./catalog-media-persistence";
 import type { MediaLibraryMeta, MediaItem, MediaType } from "./types";
-import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
+import { isCloudNativeProduction } from "@/lib/production-runtime-guard";
 import { useDatabaseOnlyCatalog } from "@/features/catalog/catalog-data-source";
 import { resolveLocalUploadsDiskDir } from "@/lib/local-public-path";
 

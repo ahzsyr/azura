@@ -4,6 +4,7 @@ import type { PageBlocks } from "@/types/builder";
 import { translationService } from "@/features/translation/translation.service";
 import { resolveTranslation } from "@/features/translation/translation-resolver";
 import { FALLBACK_LOCALES } from "@/i18n/locale-config";
+import { localeService } from "@/features/i18n/locale.service";
 
 export async function syncCmsPageCache(page: CmsPage) {
   if (page.status !== "PUBLISHED") {
@@ -11,8 +12,12 @@ export async function syncCmsPageCache(page: CmsPage) {
     return;
   }
   const translations = await translationService.getForEntity("CmsPage", page.id);
-  const defaultCode = FALLBACK_LOCALES.find((locale) => locale.isDefault)?.code ?? "en";
-  const ctx = { translations, enabledLocales: FALLBACK_LOCALES, defaultCode };
+  const enabledLocales = await localeService.listEnabled().catch(() => FALLBACK_LOCALES);
+  const defaultCode =
+    enabledLocales.find((locale) => locale.isDefault)?.code ??
+    FALLBACK_LOCALES.find((locale) => locale.isDefault)?.code ??
+    "en";
+  const ctx = { translations, enabledLocales, defaultCode };
   const titleEn = resolveTranslation("title", "en", ctx);
   const titleAr = resolveTranslation("title", "ar", ctx);
   const excerptEn = resolveTranslation("excerpt", "en", ctx) || null;

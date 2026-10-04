@@ -23,7 +23,6 @@
   "ignoreDependencies": [
     "eslint-config-next",
     "@types/bcryptjs",
-    "@types/nodemailer",
     "@types/papaparse",
     "playwright",
     "yaml",

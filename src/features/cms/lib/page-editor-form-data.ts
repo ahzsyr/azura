@@ -29,6 +29,8 @@ export type PageEditorSubmitMeta = {
   editorInspector: string;
   editorRegion?: string;
   statusOverride?: ContentStatus;
+  /** Admin editing locale at save time (Page AST meta.locale context). */
+  editingLocale?: string;
 };
 
 export function getPageEditorLocalizedInputName(fieldKey: string, localeCode: string): string {
@@ -73,6 +75,9 @@ export function buildPageEditorFormData(
   }
   if (state.revisionMessage) {
     formData.set("revisionMessage", state.revisionMessage);
+  }
+  if (meta.editingLocale) {
+    formData.set("editingLocale", meta.editingLocale);
   }
 
   const locales = options.locales ?? [];

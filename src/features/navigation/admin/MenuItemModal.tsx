@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useStore } from "@nanostores/react";
 import type {
   HeaderBuilderCatalog,
   MenuItem,
@@ -14,8 +13,7 @@ import {
   megaFormToPersistedConfig,
   type MegaMenuFormState,
 } from "@/features/navigation/mega-menu-form";
-import { addChildItem, addRootItem, replaceMenuItem } from "@/features/navigation/header-store";
-import { $workspace } from "@/features/navigation/header-store";
+import { addChildItem, addRootItem, replaceMenuItem, useHeaderWorkspace } from "@/features/navigation/header-store";
 import { newMenuItemFromForm } from "@/features/navigation/defaults";
 import { getItemSubtitle } from "@/features/navigation/menu-engine";
 import { useHeaderBuilderCatalog } from "./HeaderBuilderCatalogContext";
@@ -226,7 +224,7 @@ export function MenuItemModal({
   onClose,
 }: Props) {
   const { catalog, refreshCatalog } = useHeaderBuilderCatalog();
-  const workspace = useStore($workspace);
+  const workspace = useHeaderWorkspace();
   const menuKey = workspace.activeMenuKey;
   const syncMenuItemTranslations = useSyncMenuItemTranslations(menuKey);
   const [form, setForm] = useState(() => buildFormState(editingItem, catalog, defaultPlacement));

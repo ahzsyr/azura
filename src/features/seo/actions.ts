@@ -178,27 +178,29 @@ export async function upsertSeoMetaAction(formData: FormData): Promise<UpsertSeo
       }
     });
 
-    try {
-      const urls = effectivePageKey
-        ? await localizedStaticUrls(effectivePageKey)
-        : parsed.canonicalUrl
-          ? [parsed.canonicalUrl]
-          : [];
-      await seoTriggerService.handle({
-        type: "seo.metadataUpdated",
-        entityType: effectivePageKey ? "SITE" : "CONTENT_ITEM",
-        entityId: parsed.entityId,
-        paths: urls,
-      });
-    } catch (error) {
-      console.error("[seo-meta] trigger failed after save:", error);
-    }
+    // CMS-bound SEO writes stay in the live admin store until publish captures a
+    // revision snapshot. Avoid public metadata/sitemap/hreflang bleed before publish.
+    const deferPublicSeoRevalidation = Boolean(cmsPageId || postId || contentItemId);
+    if (!deferPublicSeoRevalidation) {
+      try {
+        const urls = effectivePageKey
+          ? await localizedStaticUrls(effectivePageKey)
+          : parsed.canonicalUrl
+            ? [parsed.canonicalUrl]
+            : [];
+        await seoTriggerService.handle({
+          type: "seo.metadataUpdated",
+          entityType: effectivePageKey ? "SITE" : "CONTENT_ITEM",
+          entityId: parsed.entityId,
+          paths: urls,
+        });
+      } catch (error) {
+        console.error("[seo-meta] trigger failed after save:", error);
+      }
 
-    if (cmsPageId && !effectivePageKey) revalidateSeoMeta("CmsPage", cmsPageId);
-    else if (postId) revalidateSeoMeta("Post", postId);
-    else if (packageId) revalidateSeoMeta("PACKAGE", packageId);
-    else if (contentItemId) revalidateSeoMeta("ContentItem", contentItemId);
-    else if (effectivePageKey) revalidateSeoMeta("SITE", effectivePageKey);
+      if (packageId) revalidateSeoMeta("PACKAGE", packageId);
+      else if (effectivePageKey) revalidateSeoMeta("SITE", effectivePageKey);
+    }
     revalidatePath("/admin/seo");
     revalidatePath("/admin/seo/metadata");
     return { ok: true };

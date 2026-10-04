@@ -2,8 +2,7 @@ import { isBuildWithoutDb } from "@/lib/build-db";
 import { prisma } from "@/lib/prisma";
 import { searchIndexer } from "@/capabilities/search/search-indexer.service";
 import { syncCmsPageCache } from "./page-cache-sync";
-import { revalidateCmsPage, revalidatePost } from "@/services/cache";
-import { revalidateCmsPagePublicPaths } from "@/features/cms/revalidate-wired-marketing";
+import { revalidateCmsEntity } from "@/features/cms/publish-revalidate";
 import { seoTriggerService } from "@/features/seo/triggers/seo-trigger.service";
 import { cmsPagePaths, postPaths } from "@/features/seo/triggers/path-resolver";
 
@@ -14,13 +13,13 @@ let lastScheduledCheckAt = 0;
 let scheduledCheckInflight: Promise<{ pages: number; posts: number }> | null = null;
 
 /** Promote scheduled pages/posts whose time has passed to PUBLISHED. */
-export async function processDueScheduled() {
+export async function processDueScheduled(options?: { force?: boolean }) {
   if (isBuildWithoutDb()) {
     return { pages: 0, posts: 0 };
   }
 
   const nowMs = Date.now();
-  if (nowMs - lastScheduledCheckAt < SCHEDULED_CHECK_MS) {
+  if (!options?.force && nowMs - lastScheduledCheckAt < SCHEDULED_CHECK_MS) {
     return { pages: 0, posts: 0 };
   }
 
@@ -52,25 +51,32 @@ async function runDueScheduled() {
     select: { id: true, slug: true },
   });
 
+  let publishedPages = 0;
+  let publishedPosts = 0;
+
   if (duePages.length > 0) {
-    await prisma.cmsPage.updateMany({
-      where: { id: { in: duePages.map((p) => p.id) } },
-      data: { status: "PUBLISHED", publishedAt: now },
-    });
+    const { publishCmsPageAtomically } = await import("@/features/cms/revision-selection");
     for (const page of duePages) {
-      const full = await prisma.cmsPage.findUnique({ where: { id: page.id } });
-      if (full) {
-        await searchIndexer.indexCmsPage(full);
-        await syncCmsPageCache(full);
-      }
-      revalidateCmsPage(page.slug);
-      revalidateCmsPagePublicPaths(page.slug);
+      // Atomic claim: only one runner can transition SCHEDULED → PUBLISHED.
+      const claimed = await prisma.cmsPage.updateMany({
+        where: { id: page.id, status: "SCHEDULED", scheduledAt: { lte: now } },
+        data: { status: "PUBLISHED", publishedAt: now, scheduledAt: null },
+      });
+      if (claimed.count === 0) continue;
+
+      const { page: full } = await publishCmsPageAtomically(page.id, {
+        message: "Scheduled publish",
+      });
+      await searchIndexer.indexCmsPage(full);
+      await syncCmsPageCache(full);
+      await revalidateCmsEntity({ type: "page", slug: page.slug });
       await seoTriggerService.handle({
         type: "content.published",
         entityType: "CMS_PAGE",
         entityId: page.id,
         path: (await cmsPagePaths(page.slug))[0] ?? `/pages/${page.slug}`,
       });
+      publishedPages += 1;
     }
   }
 
@@ -80,22 +86,28 @@ async function runDueScheduled() {
   });
 
   if (duePosts.length > 0) {
-    await prisma.post.updateMany({
-      where: { id: { in: duePosts.map((p) => p.id) } },
-      data: { status: "PUBLISHED", publishedAt: now },
-    });
+    const { publishPostAtomically } = await import("@/features/cms/revision-selection");
     for (const post of duePosts) {
-      const full = await prisma.post.findUnique({ where: { id: post.id } });
-      if (full) await searchIndexer.indexPost(full);
-      revalidatePost(post.slug);
+      const claimed = await prisma.post.updateMany({
+        where: { id: post.id, status: "SCHEDULED", scheduledAt: { lte: now } },
+        data: { status: "PUBLISHED", publishedAt: now, scheduledAt: null },
+      });
+      if (claimed.count === 0) continue;
+
+      const { post: full } = await publishPostAtomically(post.id, {
+        message: "Scheduled publish",
+      });
+      await searchIndexer.indexPost(full);
+      await revalidateCmsEntity({ type: "post", slug: post.slug });
       await seoTriggerService.handle({
         type: "content.published",
         entityType: "POST",
         entityId: post.id,
         path: (await postPaths(post.slug))[0] ?? `/blog/${post.slug}`,
       });
+      publishedPosts += 1;
     }
   }
 
-  return { pages: duePages.length, posts: duePosts.length };
+  return { pages: publishedPages, posts: publishedPosts };
 }

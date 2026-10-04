@@ -1,12 +1,11 @@
-import { useStore } from "@nanostores/react";
 import { useEffect, useState } from "react";
 import type { HeaderAction, HeaderActionType, ActionStyle } from "@/features/navigation/types";
 import {
-  $workspace,
   generateActionId,
   removeAction,
   toggleActionVisibility,
   upsertAction,
+  useHeaderWorkspace,
 } from "@/features/navigation/header-store";
 import { getActionTypeLabel, normalizeAction } from "@/features/navigation/menu-engine";
 import { AdminCollapsibleSection } from "@/components/admin/layout/admin-collapsible-section";
@@ -54,7 +53,7 @@ function ActionLabelField({
 }
 
 export function ActionsManager() {
-  const workspace = useStore($workspace);
+  const workspace = useHeaderWorkspace();
   const actions = workspace.headerActions;
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm());

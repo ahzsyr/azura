@@ -1,14 +1,13 @@
 "use client";
 
-import { useStore } from "@nanostores/react";
 import type { SectionEditorProps } from "../types";
 import { FooterLinksEditor } from "@/features/footer/admin/footer-links-editor";
 import { Label } from "@/components/ui/label";
 import { HeaderSelect } from "@/features/navigation/admin/header-builder-ui";
-import { $workspace } from "@/features/navigation/header-store";
+import { useHeaderWorkspace } from "@/features/navigation/header-store";
 
 export function MenuEditor({ column, onUpdate }: SectionEditorProps) {
-  const headerWorkspace = useStore($workspace);
+  const headerWorkspace = useHeaderWorkspace();
   const menusDatabase = headerWorkspace.menusDatabase ?? {};
   const menuKeys = Object.keys(menusDatabase);
   const source = column.menuSource ?? "custom";

@@ -26,6 +26,15 @@ services:
       mysql:
         condition: service_healthy
 
+    # Named node_modules volume can go stale after package.json changes (e.g. @aws-sdk).
+    # Sync deps when the AWS SDK package is missing, then migrate + start.
+    command:
+      [
+        "sh",
+        "-c",
+        "if [ ! -d node_modules/@aws-sdk/client-s3 ]; then npm ci; fi; npm run db:migrate:deploy && npm run dev",
+      ]
+
     restart: unless-stopped
 
   mysql:
@@ -69,18 +78,8 @@ services:
 
     restart: unless-stopped
 
-  phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: azura_phpmyadmin
-    restart: unless-stopped
-    ports:
-      - "8081:80"
-    environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
-    depends_on:
-      mysql:
-        condition: service_healthy
+  # Database GUI: use Prisma Studio (`npm run db:studio` / `bun run db:studio`)
+  # or TablePlus/Beekeeper against localhost:3307 — phpMyAdmin removed.
 
 volumes:
   azura_mysql_data:

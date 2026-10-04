@@ -93,11 +93,22 @@ export async function sendEmailAccountTestAction(input: {
     if (!providerConfig) {
       return fail("Account is missing credentials or was not found.");
     }
+    const { renderTransactionalEmail } = await import(
+      "@/features/email/react-templates"
+    );
+    const rendered = await renderTransactionalEmail({
+      preview: "Test email account",
+      heading: "Test email account",
+      paragraphs: [
+        "This is a test from your Resend email account.",
+        `From: ${providerConfig.from}`,
+      ],
+    });
     const result = await sendEmail({
       to,
       subject: "Test email account",
-      html: `<p>This is a test from your <strong>${providerConfig.provider}</strong> email account.</p><p>From: ${providerConfig.from}</p>`,
-      text: `Test from ${providerConfig.provider} account (${providerConfig.from}).`,
+      html: rendered.html,
+      text: rendered.text ?? `Test from Resend account (${providerConfig.from}).`,
       providerConfig,
     });
     if (!result.sent) {

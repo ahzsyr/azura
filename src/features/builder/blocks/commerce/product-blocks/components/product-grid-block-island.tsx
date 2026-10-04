@@ -1,9 +1,8 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
-import { filterStateFromSearchParams } from "@/features/products/listing/url-state";
+import { useListingFilterUrlState } from "@/features/products/listing/use-listing-filter-url-state";
 import { ProductListingGrid } from "@/features/products/components/listing/product-listing-grid";
 import { filterListingCatalog, paginateListing } from "@/features/products/listing/filter";
 import { sortListingRecords } from "@/features/products/listing/sort-listing";
@@ -37,11 +36,7 @@ export function ProductGridBlockIsland({
     ? pageSize
     : 12) as ListingFilterState["per"];
 
-  const searchParams = useSearchParams();
-  const urlState = useMemo(
-    () => filterStateFromSearchParams(new URLSearchParams(searchParams.toString())),
-    [searchParams]
-  );
+  const { state: urlState } = useListingFilterUrlState();
 
   const [q, setQ] = useState(urlState.q);
   const [sort, setSort] = useState(sortBy);

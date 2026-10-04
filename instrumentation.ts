@@ -1,12 +1,12 @@
 export async function register() {
   if (process.env.NEXT_RUNTIME === "nodejs") {
-    const { assertCloudNativeRuntime } = await import("@/lib/cloud-native-guard");
+    const { assertProductionRuntime } = await import("@/lib/production-runtime-guard");
     try {
-      assertCloudNativeRuntime();
+      assertProductionRuntime();
     } catch (error) {
       // Do not block server startup from instrumentation; app routes can still run in degraded mode.
       console.error(
-        "[instrumentation] cloud-native runtime guard failed; continuing without strict enforcement:",
+        "[instrumentation] production runtime guard failed; continuing without strict enforcement:",
         error,
       );
     }

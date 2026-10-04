@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import type { TabbedShowcaseVisual } from "@/features/builder/blocks/marketing/schemas/marketing-blocks";
 import { defaultVisualLayerAnimation } from "@/features/builder/blocks/marketing/schemas/marketing-blocks";
 import { FrameSequencePlayer } from "@/features/builder/blocks/marketing/components/frame-sequence-player";

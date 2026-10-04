@@ -151,6 +151,7 @@ model MarketingJob {
   attemptCount    Int                @default(0)
   maxAttempts     Int                @default(5)
   lastError       String?            @db.Text
+  lockedUntil     DateTime?
   scheduledAt     DateTime           @default(now())
   startedAt       DateTime?
   completedAt     DateTime?
@@ -160,6 +161,7 @@ model MarketingJob {
   @@index([status, scheduledAt])
   @@index([jobType, status])
   @@index([providerId, status])
+  @@index([status, lockedUntil])
 }
 
 model MarketingWebhookEvent {
@@ -647,13 +649,14 @@ model MarketingMetricRollup {
   periodStart        DateTime
   periodEnd          DateTime
   granularity        String   @default("day") @db.VarChar(16)
-  internalCampaignId String?
+  // Keep indexed FK-ish dims short so the composite unique fits InnoDB utf8mb4 (3072 bytes).
+  internalCampaignId String?  @db.VarChar(64)
   internalCampaign   MarketingCampaign? @relation(fields: [internalCampaignId], references: [id], onDelete: Cascade)
-  providerBindingId  String?
+  providerBindingId  String?  @db.VarChar(64)
   providerBinding    MarketingCampaignProviderBinding? @relation(fields: [providerBindingId], references: [id], onDelete: SetNull)
   sourceId           String?  @db.VarChar(64)
   providerId         String?  @db.VarChar(64)
-  landingPagePath    String?  @db.VarChar(512)
+  landingPagePath    String?  @db.VarChar(191)
   conversionType     String?  @db.VarChar(64)
   trafficType        String?  @db.VarChar(32)
   visitors           Int      @default(0)

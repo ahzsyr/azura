@@ -463,7 +463,7 @@ export function ContentEditPage({
 
   const defaultLocale = locales.find((l) => l.isDefault) ?? locales[0];
   const defaultLocalePrefix = defaultLocale?.urlPrefix ?? "en";
-  const { isRtl } = useAdminEditingLocale();
+  const { isRtl, activeLocaleCode } = useAdminEditingLocale();
 
   const publicSegment = contentPublicSegment(contentType.routePrefix, contentType.slug);
   const publicItemPath = contentItemPublicPath(
@@ -910,6 +910,7 @@ export function ContentEditPage({
         readOnly
       />
       <input type="hidden" name="editorTab" value={displayActiveTab} readOnly />
+      <input type="hidden" name="editingLocale" value={activeLocaleCode} readOnly />
       <input type="hidden" name="editorRegion" value={selectedRegion} readOnly />
       <input type="hidden" name="selectedBlockId" value={selectedBlockId ?? ""} readOnly />
       <input type="hidden" name="editorInspector" value={inspectorTab} readOnly />

@@ -315,7 +315,7 @@ function PageEditorFields({
   ) => void;
 }) {
   const { setDirty, showToast } = useAdminForm();
-  const { isRtl } = useAdminEditingLocale();
+  const { isRtl, activeLocaleCode } = useAdminEditingLocale();
   const defaultLocaleCode = locales?.find((l) => l.isDefault)?.code ?? "en";
   const activeRegions = getEditableRegions(formState.composition);
   const activeBlocks = formState.composition.regions[selectedRegion] ?? [];
@@ -972,8 +972,19 @@ export function PageEditorForm({
   const handlePublish = useCallback(async () => handlePublishRef.current(), []);
 
   const handlePreview = useCallback(() => {
-    handleTabChange("preview");
-  }, [handleTabChange]);
+    const slug = formStateRef.current.slug || page?.slug;
+    if (!slug) {
+      handleTabChange("preview");
+      return;
+    }
+    const defaultLocale =
+      locales.find((locale) => locale.isDefault)?.urlPrefix ??
+      locales[0]?.urlPrefix ??
+      "en";
+    const publicPath =
+      slug === "home" ? `/${defaultLocale}` : `/${defaultLocale}/pages/${slug}`;
+    window.location.href = `/api/cms/draft?redirect=${encodeURIComponent(publicPath)}`;
+  }, [handleTabChange, locales, page?.slug]);
 
   const handleCancel = useCallback(() => {
     if (!page) {
@@ -1172,6 +1183,7 @@ function PageEditorSaveGuard({
 }) {
   const { showToast } = useAdminForm();
   const router = useRouter();
+  const { activeLocaleCode } = useAdminEditingLocale();
 
   useLayoutEffect(() => {
     const submitForm = async (statusOverride?: ContentStatus): Promise<boolean> => {
@@ -1205,6 +1217,7 @@ function PageEditorSaveGuard({
           editorInspector,
           editorRegion,
           statusOverride,
+          editingLocale: activeLocaleCode,
         },
         {
           locales,
@@ -1234,6 +1247,7 @@ function PageEditorSaveGuard({
                 blockTranslationsRaw: blockTranslationsJson || null,
                 statusOverride,
                 revisionMessage: formState.revisionMessage,
+                editingLocale: activeLocaleCode,
                 editorTab,
                 selectedBlockId,
                 editorInspector,
@@ -1284,6 +1298,7 @@ function PageEditorSaveGuard({
       return submitForm("PUBLISHED");
     };
   }, [
+    activeLocaleCode,
     blocksRef,
     editorTab,
     editorInspector,

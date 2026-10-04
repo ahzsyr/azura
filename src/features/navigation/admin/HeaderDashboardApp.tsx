@@ -1,10 +1,9 @@
 "use client";
 
-import { useStore } from "@nanostores/react";
 import { useEffect, useRef, useState, useCallback } from "react";
 import type { EntityTranslation } from "@prisma/client";
 import type { HeaderBuilderCatalog } from "@/features/navigation/types";
-import { $workspace, setActiveMenuKey } from "@/features/navigation/header-store";
+import { setActiveMenuKey, useHeaderStore, useHeaderWorkspace } from "@/features/navigation/header-store";
 import { loadHeaderCatalogFromServer } from "@/features/navigation/header-catalog-api";
 import { loadWorkspaceFromServer } from "@/features/navigation/header-workspace-api";
 import { collectHeaderTranslationRefs } from "@/features/navigation/header-translation-refs";
@@ -52,7 +51,7 @@ function HeaderDashboardContent({
   catalog: HeaderBuilderCatalog;
   refreshCatalog: () => Promise<void>;
 }) {
-  const workspace = useStore($workspace);
+  const workspace = useHeaderWorkspace();
   const [section, setSection] = useState<DashboardNavId>(() =>
     typeof window === "undefined" ? "menuEditor" : readSavedHeaderSection(),
   );
@@ -142,7 +141,7 @@ export function HeaderDashboardApp() {
   const onSave = useHeaderWorkspaceSave(translationFlushRef);
   const onPublish = useHeaderWorkspacePublish();
   const loadHeaderTranslations = useCallback(async () => {
-    const ws = $workspace.get();
+    const ws = useHeaderStore.getState().workspace;
     const refs = collectHeaderTranslationRefs(ws);
     const rows = await getWorkspaceTranslationsBulkAction(refs);
     setTranslationRows(rows);

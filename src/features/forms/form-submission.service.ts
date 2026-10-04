@@ -99,6 +99,20 @@ export async function persistFormSubmission(
   if (webhooks.length > 0) {
     void dispatchWebhooks(submission.id, webhooks, parsed);
   }
+  try {
+    const { dispatchWebhookFireAndForget } = await import("@/lib/webhooks/dispatch");
+    dispatchWebhookFireAndForget({
+      type: "form.submitted",
+      occurredAt: new Date().toISOString(),
+      data: {
+        formId: template.id,
+        submissionId: submission.id,
+        locale: ctx.locale ?? null,
+      },
+    });
+  } catch (err) {
+    console.error("[forms] platform webhook bridge failed", err);
+  }
 
   const visitorEmail = String(parsed.email ?? "");
   const replyTo = visitorEmail.includes("@") ? visitorEmail : undefined;

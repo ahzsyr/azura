@@ -16,7 +16,7 @@ export async function resolveAuditProbeOrigin(): Promise<string> {
   const port = process.env.PORT?.trim() || "3000";
   const candidates = [
     process.env.SEO_AUDIT_ORIGIN?.trim(),
-    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL.replace(/^https?:\/\//, "")}` : undefined,
+    process.env.NEXT_PUBLIC_APP_URL?.trim(),
     `http://127.0.0.1:${port}`,
     getCanonicalAppOrigin(),
   ].filter(Boolean) as string[];

@@ -1,15 +1,14 @@
 "use client";
 
-import { useStore } from "@nanostores/react";
 import { useCallback, useEffect, useRef, type MutableRefObject } from "react";
-import { $footerIsDirty, markFooterSaved } from "@/features/footer/footer-store";
+import { markFooterSaved, useFooterIsDirty } from "@/features/footer/footer-store";
 import { saveFooterWorkspaceToServer } from "@/features/footer/footer-workspace-api";
 import { useAdminFormOptional } from "@/components/admin/layout/admin-form-provider";
 import { publishShell } from "@/lib/publish-shell.client";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 
 export function FooterDirtySync() {
-  const isDirty = useStore($footerIsDirty);
+  const isDirty = useFooterIsDirty();
   const adminForm = useAdminFormOptional();
 
   useEffect(() => {

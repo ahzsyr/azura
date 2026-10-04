@@ -69,6 +69,12 @@ async function revalidateContent(
 ) {
   revalidateContentAdminPaths(typeSlug, itemId);
   await revalidateContentItemPublicPaths({ typeSlug, routePrefix, slug, itemId });
+  const { revalidateCmsEntity } = await import("@/features/cms/publish-revalidate");
+  await revalidateCmsEntity({
+    type: "content",
+    slug: slug ?? itemId ?? typeSlug,
+    contentTypeSlug: typeSlug,
+  });
 }
 
 async function indexItem(item: {
@@ -217,7 +223,8 @@ async function upsertContentItemCore(
     } as const;
 
     const id = parsed.id;
-    let item;
+    type ContentItemSaveRow = Prisma.ContentItemGetPayload<{ include: typeof include }>;
+    let item: ContentItemSaveRow;
     let previousBlocks: PageBlocks | undefined;
     let existingItem: {
       slug: string | null;
@@ -436,15 +443,40 @@ async function upsertContentItemCore(
 
     // Save a revision snapshot on every save of an existing item when blocks changed
     if (id && blocksChanged) {
+      const {
+        captureRevisionTranslations,
+        persistCompositionWithEditLocale,
+      } = await import("@/features/cms/revision-translation-snapshot");
+      const editingLocale = (formData.get("editingLocale") as string | null) || null;
+      const revisionPersisted = persistCompositionWithEditLocale(
+        persistedComposition.composition as never,
+        blocks,
+        editingLocale,
+      );
+      const translationSnapshot = await captureRevisionTranslations({
+        parentType: "ContentItem",
+        parentId: item.id,
+        blocksOrComposition: persistedComposition.composition as never,
+      });
       const revisionCount = await prisma.contentItemRevision.count({ where: { itemId: item.id } });
-      await prisma.contentItemRevision.create({
+      const revision = await prisma.contentItemRevision.create({
         data: {
           itemId: item.id,
           version: revisionCount + 1,
-          blocks: blocks as object,
-          composition: persistedComposition.composition as object,
+          blocks: revisionPersisted.blocks as object,
+          composition: revisionPersisted.composition as object,
+          translations: translationSnapshot as object[],
           message: parsed.revisionMessage ?? null,
           status: submittedState.status,
+        },
+      });
+      await prisma.contentItem.update({
+        where: { id: item.id },
+        data: {
+          workingRevisionId: revision.id,
+          ...(submittedState.status === "PUBLISHED"
+            ? { publishedRevisionId: revision.id }
+            : {}),
         },
       });
       // Keep only the last 20 revisions
@@ -459,6 +491,14 @@ async function upsertContentItemCore(
           where: { id: { in: oldRevisions.map((r: { id: string }) => r.id) } },
         });
       }
+    } else if (
+      id &&
+      submittedState.status === "PUBLISHED" &&
+      existingItem?.status !== "PUBLISHED"
+    ) {
+      const { publishContentItemAtomically } = await import("@/features/cms/revision-selection");
+      await publishContentItemAtomically(item.id, { message: "Published" });
+      item = await prisma.contentItem.findUniqueOrThrow({ where: { id: item.id }, include });
     }
 
     if (!id || shouldRunSearch || submittedState.status === "PUBLISHED") {
@@ -869,11 +909,18 @@ export async function restoreContentItemRevision(itemId: string, revisionId: str
       blocks: (rev.blocks ?? []) as PageBlocks,
     }),
   );
+  const { rehydrateRevisionTranslations } = await import(
+    "@/features/cms/revision-translation-snapshot"
+  );
+  await rehydrateRevisionTranslations(
+    "translations" in rev ? (rev as { translations?: unknown }).translations : [],
+  );
   const item = await prisma.contentItem.update({
     where: { id: itemId },
     data: {
       blocks: restoredComposition.blocks as Prisma.InputJsonValue,
       composition: restoredComposition.composition as Prisma.InputJsonValue,
+      workingRevisionId: rev.id,
     },
     include: { contentType: true },
   });

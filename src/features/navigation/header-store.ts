@@ -1,4 +1,6 @@
-import { atom, computed } from "nanostores";
+"use client";
+
+import { create } from "zustand";
 import type {
   BrandingState,
   GlobalApply,
@@ -20,14 +22,15 @@ import {
   updateItemImmutable,
 } from "./menu-engine";
 
-export const $workspace = atom<HeaderWorkspace>(createDefaultWorkspace());
+type HeaderStoreState = {
+  workspace: HeaderWorkspace;
+  savedFingerprint: string;
+};
 
-export const $workspaceSavedFingerprint = atom("");
-
-export const $workspaceIsDirty = computed([$workspace, $workspaceSavedFingerprint], (ws, saved) => {
-  if (!saved) return false;
-  return JSON.stringify(serializeWorkspaceFromState(ws)) !== saved;
-});
+export const useHeaderStore = create<HeaderStoreState>(() => ({
+  workspace: createDefaultWorkspace(),
+  savedFingerprint: "",
+}));
 
 function serializeWorkspaceFromState(w: HeaderWorkspace): Record<string, unknown> {
   return {
@@ -39,12 +42,33 @@ function serializeWorkspaceFromState(w: HeaderWorkspace): Record<string, unknown
   };
 }
 
+function getWorkspace(): HeaderWorkspace {
+  return useHeaderStore.getState().workspace;
+}
+
+export function useHeaderWorkspace(): HeaderWorkspace {
+  return useHeaderStore((s) => s.workspace);
+}
+
+export function useHeaderWorkspaceIsDirty(): boolean {
+  return useHeaderStore((s) => {
+    if (!s.savedFingerprint) return false;
+    return JSON.stringify(serializeWorkspaceFromState(s.workspace)) !== s.savedFingerprint;
+  });
+}
+
+export function useActiveMenu(): MenuRecord | undefined {
+  return useHeaderStore((s) => s.workspace.menusDatabase[s.workspace.activeMenuKey]);
+}
+
 export function markWorkspaceSaved(): void {
-  $workspaceSavedFingerprint.set(JSON.stringify(serializeWorkspaceFromState($workspace.get())));
+  useHeaderStore.setState({
+    savedFingerprint: JSON.stringify(serializeWorkspaceFromState(getWorkspace())),
+  });
 }
 
 export function getSavedWorkspaceBaseline(): Record<string, unknown> {
-  const saved = $workspaceSavedFingerprint.get();
+  const saved = useHeaderStore.getState().savedFingerprint;
   if (saved) {
     try {
       return JSON.parse(saved) as Record<string, unknown>;
@@ -52,37 +76,35 @@ export function getSavedWorkspaceBaseline(): Record<string, unknown> {
       /* fall through */
     }
   }
-  return serializeWorkspaceFromState($workspace.get());
+  return serializeWorkspaceFromState(getWorkspace());
 }
 
-export const $activeMenu = computed($workspace, (w) => w.menusDatabase[w.activeMenuKey]);
-
 export function setWorkspace(next: HeaderWorkspace): void {
-  $workspace.set(next);
+  useHeaderStore.setState({ workspace: next });
 }
 
 export function patchWorkspace(patch: Partial<HeaderWorkspace>): void {
-  $workspace.set({ ...$workspace.get(), ...patch });
+  useHeaderStore.setState({ workspace: { ...getWorkspace(), ...patch } });
 }
 
 export function setActiveMenuKey(key: string): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   if (!w.menusDatabase[key]) return;
   patchWorkspace({ activeMenuKey: key });
 }
 
 export function setSettings(settings: Partial<HeaderBuilderSettings>): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   patchWorkspace({ settings: { ...w.settings, ...settings } });
 }
 
 export function setBranding(branding: Partial<BrandingState>): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   patchWorkspace({ branding: normalizeBranding({ ...w.branding, ...branding }) });
 }
 
 export function setMenuGlobalApply(menuKey: string, globalApply: GlobalApply): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   const menu = w.menusDatabase[menuKey];
   if (!menu) return;
   patchWorkspace({
@@ -97,7 +119,7 @@ export function setMenuGlobalApplyWithConflictCheck(
   menuKey: string,
   globalApply: GlobalApply
 ): { clearedConflicts: string[] } {
-  const w = $workspace.get();
+  const w = getWorkspace();
   const menu = w.menusDatabase[menuKey];
   if (!menu) return { clearedConflicts: [] };
 
@@ -123,7 +145,7 @@ export function setMenuGlobalApplyWithConflictCheck(
 }
 
 export function duplicateMenu(key: string): string {
-  const w = $workspace.get();
+  const w = getWorkspace();
   const source = w.menusDatabase[key];
   if (!source) return "";
   const newKey = `menu_${Date.now()}`;
@@ -142,7 +164,7 @@ export function duplicateMenu(key: string): string {
 }
 
 export function renameMenu(key: string, name: string): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   const menu = w.menusDatabase[key];
   if (!menu || !name.trim()) return;
   patchWorkspace({
@@ -151,7 +173,7 @@ export function renameMenu(key: string, name: string): void {
 }
 
 export function moveRootItemUp(itemId: string): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   const menu = w.menusDatabase[w.activeMenuKey];
   if (!menu) return;
   const idx = menu.items.findIndex((i) => i.id === itemId);
@@ -164,7 +186,7 @@ export function moveRootItemUp(itemId: string): void {
 }
 
 export function moveRootItemDown(itemId: string): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   const menu = w.menusDatabase[w.activeMenuKey];
   if (!menu) return;
   const idx = menu.items.findIndex((i) => i.id === itemId);
@@ -178,7 +200,7 @@ export function moveRootItemDown(itemId: string): void {
 
 export function createMenu(name: string): string {
   const key = `menu_${Date.now()}`;
-  const w = $workspace.get();
+  const w = getWorkspace();
   patchWorkspace({
     menusDatabase: {
       ...w.menusDatabase,
@@ -191,7 +213,7 @@ export function createMenu(name: string): string {
 
 export function deleteMenu(key: string): boolean {
   if (key === "mainMenu") return false;
-  const w = $workspace.get();
+  const w = getWorkspace();
   if (!w.menusDatabase[key]) return false;
   const { [key]: _, ...rest } = w.menusDatabase;
   const nextActive = w.activeMenuKey === key ? Object.keys(rest)[0] ?? "mainMenu" : w.activeMenuKey;
@@ -200,7 +222,7 @@ export function deleteMenu(key: string): boolean {
 }
 
 export function replaceMenuFromImport(menuKey: string, menu: MenuRecord): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   patchWorkspace({
     menusDatabase: { ...w.menusDatabase, [menuKey]: menu },
   });
@@ -220,7 +242,7 @@ export function importMenuJsonFile(menuKey: string, data: unknown): boolean {
 }
 
 export function addRootItem(item: MenuItem): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   const menu = w.menusDatabase[w.activeMenuKey];
   if (!menu) return;
   patchWorkspace({
@@ -232,7 +254,7 @@ export function addRootItem(item: MenuItem): void {
 }
 
 export function addChildItem(parentId: string, child: MenuItem): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   const menu = w.menusDatabase[w.activeMenuKey];
   if (!menu) return;
   if (!findItemById(menu.items, parentId)) return;
@@ -253,7 +275,7 @@ export function addChildItem(parentId: string, child: MenuItem): void {
 }
 
 export function removeItem(itemId: string): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   const menu = w.menusDatabase[w.activeMenuKey];
   if (!menu) return;
   patchWorkspace({
@@ -265,7 +287,7 @@ export function removeItem(itemId: string): void {
 }
 
 export function updateMenuItem(itemId: string, next: Partial<MenuItem>): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   const menu = w.menusDatabase[w.activeMenuKey];
   if (!menu) return;
   patchWorkspace({
@@ -280,7 +302,7 @@ export function updateMenuItem(itemId: string, next: Partial<MenuItem>): void {
 }
 
 export function replaceMenuItem(itemId: string, next: MenuItem): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   const menu = w.menusDatabase[w.activeMenuKey];
   if (!menu) return;
   patchWorkspace({
@@ -303,7 +325,7 @@ export function setHeaderActions(actions: HeaderAction[]): void {
 }
 
 export function upsertAction(action: HeaderAction): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   const idx = w.headerActions.findIndex((a) => a.id === action.id);
   if (idx >= 0) {
     const copy = [...w.headerActions];
@@ -315,12 +337,12 @@ export function upsertAction(action: HeaderAction): void {
 }
 
 export function removeAction(id: string): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   patchWorkspace({ headerActions: w.headerActions.filter((a) => a.id !== id) });
 }
 
 export function toggleActionVisibility(id: string): void {
-  const w = $workspace.get();
+  const w = getWorkspace();
   patchWorkspace({
     headerActions: w.headerActions.map((a) => (a.id === id ? { ...a, visible: !a.visible } : a)),
   });
@@ -340,7 +362,7 @@ export function applyImportedPayload(data: unknown): void {
   if (Array.isArray(o.headerActions)) {
     merged.headerActions = o.headerActions.map((a) => normalizeAction(a as HeaderAction));
   }
-  $workspace.set(merged);
+  useHeaderStore.setState({ workspace: merged });
 }
 
 /** Sync store before first paint so SSR and hydration share the same workspace snapshot. */
@@ -350,7 +372,7 @@ export function hydrateHeaderWorkspace(workspace: HeaderWorkspace): void {
 }
 
 export function serializeWorkspace(): Record<string, unknown> {
-  return serializeWorkspaceFromState($workspace.get());
+  return serializeWorkspaceFromState(getWorkspace());
 }
 
 export function exportWorkspaceBlob(): Blob {

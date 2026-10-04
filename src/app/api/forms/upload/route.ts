@@ -86,6 +86,9 @@ export async function POST(request: Request) {
       sizeBytes: file.size,
       assetScope: "FORM",
       visibility: "PRIVATE",
+      storageBackend: stored.storage,
+      bucket: stored.bucket,
+      objectKey: stored.objectKey,
     });
 
     return NextResponse.json({

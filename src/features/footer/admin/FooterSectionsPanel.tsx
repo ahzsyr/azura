@@ -1,19 +1,19 @@
 "use client";
 
-import { useStore } from "@nanostores/react";
 import { ChevronDown, Copy, EyeOff, Plus, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
+import type { FooterColumn } from "@/features/footer/types";
 import type { FooterSectionType } from "@/features/footer/sections/types";
 import { getFooterPlugin } from "@/features/footer/sections/registry";
 import { resolveSectionIcon, sectionSummary } from "@/features/footer/sections/section-icons";
 import { SectionEditorShell } from "@/features/footer/sections/section-editor-shell";
 import {
-  $footerWorkspace,
   addFooterColumn,
   duplicateFooterColumn,
   removeFooterColumn,
   reorderFooterColumn,
   updateFooterColumn,
+  useFooterWorkspace,
 } from "@/features/footer/footer-store";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -45,7 +45,7 @@ function saveCollapsed(set: Set<string>) {
 }
 
 export function FooterSectionsPanel() {
-  const workspace = useStore($footerWorkspace);
+  const workspace = useFooterWorkspace();
   const [selectedId, setSelectedId] = useState<string | null>(workspace.columns[0]?.id ?? null);
   const [addOpen, setAddOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -237,7 +237,7 @@ export function FooterSectionsPanel() {
 /* ── Section list item card ─────────────────────────────── */
 
 type SectionListItemProps = {
-  col: ReturnType<typeof useStore<typeof $footerWorkspace>>["columns"][number];
+  col: FooterColumn;
   selectedId: string | null;
   collapsedIds: Set<string>;
   desktopCols: number;

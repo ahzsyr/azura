@@ -1,4 +1,4 @@
-FROM node:20-bookworm
+FROM node:24-bookworm
 
 WORKDIR /app
 
@@ -9,7 +9,8 @@ RUN npm ci --ignore-scripts
 
 COPY . .
 
-RUN npm run postinstall
+# Migrate needs a live DB — skip at build; CMD runs db:migrate:deploy on start.
+RUN SKIP_DB_MIGRATE=1 npm run postinstall
 
 EXPOSE 3000
 

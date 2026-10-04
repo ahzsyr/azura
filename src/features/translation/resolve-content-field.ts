@@ -15,6 +15,8 @@ export type ResolveContentFieldOptions = {
   translations?: EntityTranslation[];
   legacyFallback?: string;
   includeLegacySuffixFields?: boolean;
+  /** Draft Mode preview — include DRAFT/REVIEW EntityTranslation rows. */
+  includeUnpublished?: boolean;
 };
 
 /**
@@ -89,6 +91,7 @@ export function resolveContentField(
       translations: options.translations,
       enabledLocales: enabled,
       defaultCode,
+      includeUnpublished: options.includeUnpublished,
     });
     if (fromTranslations.trim()) return fromTranslations;
   }

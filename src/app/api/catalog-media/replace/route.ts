@@ -19,7 +19,7 @@ import { catalogExtToCmsMediaType } from "@/features/media/lib/media-type-map";
 import { deleteStoredUpload, storeUploadedFile, useRemoteMediaStorage } from "@/lib/media-storage";
 import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
 import { useDatabaseOnlyCatalog } from "@/features/catalog/catalog-data-source";
-import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
+import { isCloudNativeProduction } from "@/lib/production-runtime-guard";
 import { mediaRepository } from "@/repositories/media.repository";
 
 async function replaceRemoteAsset(params: {
@@ -126,13 +126,6 @@ export async function POST(request: Request) {
     }
 
     const type = getMediaType(newExt);
-
-    if (isCloudNativeProduction() && !useRemoteMediaStorage()) {
-      return NextResponse.json(
-        { error: "Cloud-native mode requires cloud storage." },
-        { status: 503 },
-      );
-    }
 
     if (useRemoteMediaStorage()) {
       const { newUrl, newFilename, updatedProducts, updatedCollections } = await replaceRemoteAsset({

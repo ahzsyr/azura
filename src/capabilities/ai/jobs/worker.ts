@@ -163,6 +163,7 @@ export async function processPendingTranslationJobs(options?: {
   provider?: TranslationProvider;
 }): Promise<ProcessTranslationJobsResult> {
   const provider = options?.provider ?? (await createTranslationProvider());
+  await translationJobService.reclaimExpiredLeases();
 
   const pending = options?.jobId
     ? await prisma.translationJob.findMany({

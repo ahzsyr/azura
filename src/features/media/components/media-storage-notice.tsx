@@ -51,14 +51,21 @@ export function MediaStorageNotice() {
 
     return (
       <div className="mb-3 flex items-start gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-900 dark:text-emerald-200">
-        {status.backend === "supabase" ? (
-          <Cloud className="mt-0.5 h-4 w-4 shrink-0" />
-        ) : (
+        {status.backend === "local" ? (
           <HardDrive className="mt-0.5 h-4 w-4 shrink-0" />
+        ) : (
+          <Cloud className="mt-0.5 h-4 w-4 shrink-0" />
         )}
         <div className="space-y-1">
           <span>
-            Uploads use <strong>{status.backend === "supabase" ? "cloud storage" : "server disk"}</strong>
+            Uploads use{" "}
+            <strong>
+              {status.backend === "local"
+                ? "server disk"
+                : status.backend === "s3"
+                  ? "S3-compatible storage"
+                  : "cloud storage"}
+            </strong>
             {status.backend === "local"
               ? status.localUploadsPersistent
                 ? status.localPersistenceMode === "public"

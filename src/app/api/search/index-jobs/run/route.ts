@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { processSearchIndexJobs } from "@/features/save-pipeline/search-index-jobs";
-import { verifyCronSecret } from "@/lib/cron-auth";
+import { verifyCronSecret } from "@/lib/cron/cron-auth";
 
 export const runtime = "nodejs";
 

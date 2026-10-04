@@ -47,6 +47,9 @@ type Revision = {
   createdAt: Date | string;
   message?: string | null;
   blocks: unknown;
+  composition?: unknown;
+  /** Edit-context locale from Page AST meta.locale (or precomputed). */
+  locale?: string | null;
 };
 
 type BlockEditorProps = {
@@ -369,6 +372,16 @@ export function BlockEditor({
   );
 }
 
+function revisionEditLocale(rev: Revision): string | null {
+  if (typeof rev.locale === "string" && rev.locale.trim()) return rev.locale.trim();
+  const composition = rev.composition;
+  if (composition && typeof composition === "object") {
+    const meta = (composition as { meta?: { locale?: unknown } }).meta;
+    if (typeof meta?.locale === "string" && meta.locale.trim()) return meta.locale.trim();
+  }
+  return null;
+}
+
 function BlockRevisionList({
   revisions,
   onRestoreRevision,
@@ -382,11 +395,18 @@ function BlockRevisionList({
     <div>
       <h3 className="text-sm font-semibold mb-2">Version history</h3>
       <ul className="text-xs space-y-2 max-h-48 overflow-y-auto">
-        {revisions.map((rev) => (
+        {revisions.map((rev) => {
+          const locale = revisionEditLocale(rev);
+          return (
           <li key={rev.id} className="border rounded p-2">
             <div className="flex justify-between gap-2">
-              <span>
+              <span className="inline-flex items-center gap-1.5 flex-wrap">
                 v{rev.version} · {new Date(rev.createdAt).toLocaleString()}
+                {locale ? (
+                  <span className="rounded border px-1 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground">
+                    {locale}
+                  </span>
+                ) : null}
               </span>
               {onRestoreRevision && (
                 <Button
@@ -415,7 +435,8 @@ function BlockRevisionList({
               Preview in editor
             </Button>
           </li>
-        ))}
+          );
+        })}
       </ul>
     </div>
   );

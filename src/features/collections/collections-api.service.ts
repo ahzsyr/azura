@@ -16,7 +16,7 @@ import {
   upsertCatalogCollection,
   deleteCatalogCollection,
 } from "@/features/collections/collections-persistence";
-import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
+import { isCloudNativeProduction } from "@/lib/production-runtime-guard";
 import {
   syncCollections,
   validateSync,

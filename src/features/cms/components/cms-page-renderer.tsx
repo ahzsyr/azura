@@ -33,6 +33,8 @@ import { EditorialMetaBar } from "@/components/marketing/editorial-meta-bar";
 import { CitationSourcesList } from "@/components/marketing/citation-sources-list";
 import { parseCitationSources, resolveEditorialMetaDisplay, editorialDisplayFromMetadata } from "@/schemas/editorial-metadata";
 import type { CmsPagePublicView } from "@/features/cms/cms.service";
+import { loadPublicLocaleContext } from "@/features/i18n/public-locale-context";
+import { isCmsDraftModeEnabled } from "@/features/cms/draft-mode";
 
 type Props = {
   slug: string;
@@ -75,7 +77,11 @@ export async function CmsPageRenderer({
     let page: CmsPage;
     let pageWithMeta: CmsPagePublicView | null = null;
     try {
-      const resolved = pageProp ?? (await cmsService.getPublishedPageBySlug(slug));
+      const { languageCode } = await loadPublicLocaleContext(locale);
+      const resolved =
+        pageProp !== undefined && pageProp !== null
+          ? pageProp
+          : await cmsService.resolvePublishedPage(slug, languageCode);
       if (resolved && "author" in resolved) pageWithMeta = resolved as CmsPagePublicView;
       if (!resolved) notFound();
       page = resolved;
@@ -112,9 +118,12 @@ export async function CmsPageRenderer({
 
   const blocks = composition.regions.primary;
 
+  const draftPreview = await isCmsDraftModeEnabled().catch(() => false);
   const resolvedTranslationBundle =
     translationBundle ??
-    (await loadPageTranslationBundle("CmsPage", page.id, composition).catch((error) => {
+    (await loadPageTranslationBundle("CmsPage", page.id, composition, {
+      includeUnpublished: draftPreview,
+    }).catch((error) => {
       logServerRenderDiagnostic("CmsPageRenderer.translationBundle", error);
       return undefined;
     }));

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import { useResolvedVisualExperience } from "@/components/theme/visual-experience-context";
 import { useConstrainedMotion } from "@/hooks/use-constrained-motion";

@@ -4,14 +4,18 @@ import { mkdir, writeFile } from "fs/promises";
 import { resolve } from "path";
 import { resolveUploadObjectDiskPath, deleteLocalUploadFile } from "@/lib/local-media-files";
 import { createClient } from "@supabase/supabase-js";
-import type { StorageProvider, StorageUploadResult } from "@/lib/storage-provider";
-import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
+import type {
+  StorageBackend,
+  StorageObjectIdentity,
+  StorageProvider,
+  StorageUploadResult,
+} from "@/lib/storage-provider";
 
 function getSupabaseProjectUrl(): string {
   return (process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL ?? "").replace(/\/$/, "");
 }
 
-function getMediaBucket(): string {
+function getSupabaseMediaBucket(): string {
   return process.env.SUPABASE_MEDIA_BUCKET?.trim() || "media";
 }
 
@@ -27,21 +31,26 @@ function getSupabaseAdmin() {
 }
 
 export class SupabaseStorageProvider implements StorageProvider {
+  readonly backend = "supabase" as const;
+  get bucket(): string {
+    return getSupabaseMediaBucket();
+  }
+
   async upload(
     buffer: Buffer,
-    objectPath: string,
+    objectKey: string,
     contentType: string,
   ): Promise<StorageUploadResult> {
     const supabase = getSupabaseAdmin();
-    const bucket = getMediaBucket();
-    let { error } = await supabase.storage.from(bucket).upload(objectPath, buffer, {
+    const bucket = this.bucket;
+    let { error } = await supabase.storage.from(bucket).upload(objectKey, buffer, {
       contentType,
       upsert: false,
     });
 
     if (error?.message.toLowerCase().includes("bucket")) {
       await supabase.storage.createBucket(bucket, { public: true, fileSizeLimit: 64 * 1024 * 1024 });
-      ({ error } = await supabase.storage.from(bucket).upload(objectPath, buffer, {
+      ({ error } = await supabase.storage.from(bucket).upload(objectKey, buffer, {
         contentType,
         upsert: false,
       }));
@@ -52,80 +61,112 @@ export class SupabaseStorageProvider implements StorageProvider {
     }
 
     return {
-      url: this.getPublicUrl(objectPath),
+      url: this.getPublicUrl(objectKey),
       storage: "supabase",
-      objectPath,
+      bucket,
+      objectKey,
     };
   }
 
-  async delete(urlOrPath: string): Promise<boolean> {
-    const projectUrl = getSupabaseProjectUrl();
-    const bucket = getMediaBucket();
-    const prefix = `${projectUrl}/storage/v1/object/public/${bucket}/`;
-    const objectPath = urlOrPath.startsWith(prefix)
-      ? urlOrPath.slice(prefix.length)
-      : urlOrPath.startsWith("/uploads/")
-        ? null
-        : urlOrPath;
-
-    if (!objectPath) return false;
-
+  async deleteObject(identity: StorageObjectIdentity): Promise<boolean> {
+    if (identity.storageBackend !== "supabase") return false;
     try {
       const supabase = getSupabaseAdmin();
-      const { error } = await supabase.storage.from(bucket).remove([objectPath]);
+      const { error } = await supabase.storage
+        .from(identity.bucket || this.bucket)
+        .remove([identity.objectKey]);
       return !error;
     } catch {
       return false;
     }
   }
 
-  getPublicUrl(objectPath: string): string {
+  getPublicUrl(objectKey: string): string {
     const supabase = getSupabaseAdmin();
-    const bucket = getMediaBucket();
-    return supabase.storage.from(bucket).getPublicUrl(objectPath).data.publicUrl;
+    return supabase.storage.from(this.bucket).getPublicUrl(objectKey).data.publicUrl;
+  }
+
+  async getSignedUrl(objectKey: string, ttlSeconds: number): Promise<string> {
+    const supabase = getSupabaseAdmin();
+    const { data, error } = await supabase.storage
+      .from(this.bucket)
+      .createSignedUrl(objectKey, ttlSeconds);
+    if (error || !data?.signedUrl) {
+      throw new Error(error?.message ?? "Failed to create Supabase signed URL");
+    }
+    return data.signedUrl;
   }
 }
 
 export class LocalStorageProvider implements StorageProvider {
+  readonly backend = "local" as const;
+  readonly bucket = "local";
+
   async upload(
     buffer: Buffer,
-    objectPath: string,
+    objectKey: string,
     contentType: string,
   ): Promise<StorageUploadResult> {
-    if (isCloudNativeProduction()) {
-      throw new Error("Local storage is disabled in cloud-native mode.");
-    }
     void contentType;
-    const absPath = resolveUploadObjectDiskPath(objectPath);
+    const absPath = resolveUploadObjectDiskPath(objectKey);
     await mkdir(resolve(absPath, ".."), { recursive: true });
     await writeFile(absPath, buffer);
     console.log(`[media-storage] wrote local upload: ${absPath}`);
-    const [subDir, ...rest] = objectPath.split("/");
-    const filename = rest.join("/") || objectPath;
     return {
-      url: `/uploads/${subDir}/${filename}`,
+      url: this.getPublicUrl(objectKey),
       storage: "local",
-      objectPath,
+      bucket: this.bucket,
+      objectKey,
     };
   }
 
-  async delete(urlOrPath: string): Promise<boolean> {
-    if (urlOrPath.startsWith("/uploads/")) {
-      return deleteLocalUploadFile(urlOrPath);
-    }
-    return false;
+  async deleteObject(identity: StorageObjectIdentity): Promise<boolean> {
+    if (identity.storageBackend !== "local") return false;
+    const publicUrl = this.getPublicUrl(identity.objectKey);
+    return deleteLocalUploadFile(publicUrl);
   }
 
-  getPublicUrl(objectPath: string): string {
-    const [subDir, ...rest] = objectPath.split("/");
-    const filename = rest.join("/") || objectPath;
+  getPublicUrl(objectKey: string): string {
+    const [subDir, ...rest] = objectKey.split("/");
+    const filename = rest.join("/") || objectKey;
     return `/uploads/${subDir}/${filename}`;
   }
 }
 
-export function createStorageProvider(remote: boolean): StorageProvider {
-  if (remote || isCloudNativeProduction()) {
-    return new SupabaseStorageProvider();
+/** Resolve MEDIA_STORAGE explicitly (no Vercel heuristic). */
+export function resolveMediaStorageBackend(): StorageBackend {
+  const raw = (process.env.MEDIA_STORAGE ?? "local").trim().toLowerCase();
+  if (raw === "supabase" || raw === "s3" || raw === "local") return raw;
+  return "local";
+}
+
+function createS3StorageProvider(): StorageProvider {
+  // Lazy require so local/supabase paths do not pull AWS into the default module graph.
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { S3StorageProvider } = require("@/lib/storage-providers-s3") as typeof import("@/lib/storage-providers-s3");
+  return new S3StorageProvider();
+}
+
+/**
+ * Single factory for all media byte mutations.
+ * Routes/actions must not call fs / Supabase / S3 SDKs directly.
+ */
+export function createStorageProvider(backend?: StorageBackend): StorageProvider {
+  const selected = backend ?? resolveMediaStorageBackend();
+  switch (selected) {
+    case "supabase":
+      return new SupabaseStorageProvider();
+    case "s3":
+      return createS3StorageProvider();
+    case "local":
+    default:
+      return new LocalStorageProvider();
   }
-  return new LocalStorageProvider();
+}
+
+export function providerForBackend(backend: string): StorageProvider {
+  if (backend === "supabase" || backend === "s3" || backend === "local") {
+    return createStorageProvider(backend);
+  }
+  return createStorageProvider("local");
 }

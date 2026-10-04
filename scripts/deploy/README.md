@@ -3,7 +3,7 @@
 | Script | Purpose |
 |--------|---------|
 | `encode-db-password.mjs` | URL-encode MySQL password for `DATABASE_URL` |
-| `production-build.mjs` | Routes `npm run build` — Vercel vs Hostinger |
+| `production-build.mjs` | Routes `npm run build` → Hostinger build |
 | `hostinger-build.mjs` | Hostinger production build (chmod, DB probe, `next build`) |
 | `hostinger-standalone-build.mjs` | Local standalone build for upload (`npm run build:hostinger:standalone`) |
 | `assemble-standalone.mjs` | Copy static + public into `.next/standalone` after build |
@@ -199,17 +199,17 @@ Run these **off-peak** — they share the same Node process as public traffic:
 
 **CDN / static caching:** Enable Hostinger CDN or LiteSpeed cache for `/_next/static/*` and `/public/*`.
 
-**If 503 persists after code + env fixes:** upgrade the Hostinger plan, add Cloudflare in front, or move the public site to Vercel (`npm run build:vercel`).
+**If 503 persists after code + env fixes:** upgrade the Hostinger plan and/or put Cloudflare in front. Hostinger is the sole supported production host — do not redeploy to Vercel.
 
 ---
 
-## Vercel + Supabase
+## Hostinger (canonical)
 
-1. Set `DATABASE_URL` in the Vercel project (transaction pooler, port **6543**, `?pgbouncer=true&connection_limit=1&sslmode=require`).
-2. **Build Command**: `npm run build` (default) — auto-detects `VERCEL` and runs `prisma generate` + `next build`. No dashboard override needed.
-3. **Node.js Version**: `20` (matches `.nvmrc` and `package.json` `engines`).
-4. Do **not** commit `.env` to git; use Vercel environment variables only.
-5. Site settings saved in admin persist via **JsonStore** on Vercel (read-only filesystem); bundled `src/data/*/ui/site.json` remains the default baseline.
+1. Set `DATABASE_URL` to a **MySQL** URI (`mysql://…`). Use `HOSTINGER_MYSQL_LOCALHOST=1` when MySQL is on the same server.
+2. **Node.js Version**: `24` (matches `.nvmrc` and `package.json` `engines`).
+3. Install with **`npm ci`** (lockfile: `package-lock.json`). Local Mac may use Bun; see [`docs/deployment/local-dev-runtime.md`](../../docs/deployment/local-dev-runtime.md).
+4. Do **not** commit `.env` to git; use hPanel environment variables only.
+5. Optional media: `MEDIA_STORAGE=supabase` + Supabase Storage keys (not used as the app database).
 6. After each production deploy, warm ISR routes so first visitors do not see stale build shells:
 
 ```bash
@@ -222,4 +222,4 @@ To pre-render product detail pages with live element visibility settings, pass o
 WARMUP_BASE_URL=https://your-domain.com WARMUP_PRODUCT_SLUGS=alfa-2-4-5ghz-indoor-antenna npm run deploy:warmup
 ```
 
-Explicit aliases: `npm run build:vercel`, `npm run build:hostinger`, `npm run build:hostinger:standalone`, `npm run deploy:warmup`.
+Explicit aliases: `npm run build:hostinger`, `npm run build:hostinger:standalone`, `npm run deploy:warmup`.

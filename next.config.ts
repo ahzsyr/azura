@@ -58,8 +58,12 @@ function preferredHostRedirects(): {
 const hostingerWebpackBuild = process.env.AZURA_WEBPACK_BUILD === "1";
 
 const nextConfig: NextConfig = {
+  // Keep AWS SDK out of the Turbopack/webpack server graph unless S3 storage is used.
+  serverExternalPackages: ["@aws-sdk/client-s3", "@aws-sdk/s3-request-presigner"],
   env: {
     NEXT_PUBLIC_APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION ?? packageJson.version,
+    /** Phase 1.5 BlockNote pilot — inlined for the admin client bundle. TipTap stays default. */
+    AZURA_BLOCKNOTE_PILOT: process.env.AZURA_BLOCKNOTE_PILOT ?? "",
   },
   ...(hostingerWebpackBuild ? { typescript: { ignoreBuildErrors: true } } : {}),
   ...(hostingerWebpackBuild
@@ -91,7 +95,7 @@ const nextConfig: NextConfig = {
     },
     optimizePackageImports: [
       "lucide-react",
-      "framer-motion",
+      "motion",
       "@radix-ui/react-accordion",
       "@radix-ui/react-dialog",
       "@radix-ui/react-dropdown-menu",

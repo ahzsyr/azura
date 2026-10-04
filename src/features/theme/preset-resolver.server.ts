@@ -4,7 +4,7 @@ import { readFile } from "fs/promises";
 import path from "path";
 import type { ThemeTokens } from "@/types/theme";
 import type { PresetDefinition } from "./preset-resolver.types";
-import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
+import { isCloudNativeProduction } from "@/lib/production-runtime-guard";
 import { catalogSeedRoot } from "@/lib/catalog-seed-paths";
 import {
   resolveCloudPresetFromSources,

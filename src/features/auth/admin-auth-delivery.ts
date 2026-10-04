@@ -11,7 +11,7 @@ import { evaluateAdminEmailMfaConfigured } from "@/features/auth/admin-auth-deli
 
 /**
  * Admin MFA (email OTP) is ON only when a Master-Admin-selected OTP Email Account
- * exists and is sendable. Env-only Resend/SMTP does not enable MFA.
+ * exists and is sendable. Env-only Resend does not enable MFA.
  */
 export async function isAdminEmailMfaConfigured(): Promise<boolean> {
   const accounts = await listEmailAccounts();

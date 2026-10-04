@@ -1,13 +1,12 @@
 "use client";
 
-import { useStore } from "@nanostores/react";
-import { $footerWorkspace, setFooterCopyright } from "@/features/footer/footer-store";
+import { setFooterCopyright, useFooterWorkspace } from "@/features/footer/footer-store";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FooterCopyrightField } from "./footer-localized-fields";
 import { FooterLinksEditor } from "./footer-links-editor";
 
 export function FooterCopyrightPanel() {
-  const workspace = useStore($footerWorkspace);
+  const workspace = useFooterWorkspace();
   const copyright = workspace.copyright ?? {};
 
   return (

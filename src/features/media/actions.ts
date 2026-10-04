@@ -7,7 +7,7 @@ import { resolveMediaType } from "@/lib/local-media-storage";
 import type { MediaType } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { deleteStoredUpload } from "@/lib/media-storage";
+import { deleteStoredAsset } from "@/lib/media-storage";
 import { revalidateSearch } from "@/services/cache";
 import { persistMediaUpload } from "@/features/media/persist-upload";
 import { translationService } from "@/features/translation/translation.service";
@@ -106,8 +106,15 @@ export async function replaceMediaAsset(
     mediaType: resolveMediaType(filename, mime),
     filename: data.filename,
   });
-  if (existing?.url && existing.url !== data.url) {
-    await deleteStoredUpload(existing.url);
+  if (
+    existing?.objectKey &&
+    existing.url !== data.url
+  ) {
+    await deleteStoredAsset({
+      storageBackend: existing.storageBackend,
+      bucket: existing.bucket,
+      objectKey: existing.objectKey,
+    });
   }
   revalidatePath("/admin/media");
   return { success: true };
@@ -120,7 +127,13 @@ export async function deleteMediaAssets(ids: string[]) {
 
     const assets = await prisma.mediaAsset.findMany({
       where: { id: { in: ids } },
-      select: { id: true, url: true },
+      select: {
+        id: true,
+        url: true,
+        storageBackend: true,
+        bucket: true,
+        objectKey: true,
+      },
     });
 
     await prisma.searchDocument.deleteMany({
@@ -130,9 +143,20 @@ export async function deleteMediaAssets(ids: string[]) {
 
     await mediaRepository.deleteAssets(ids);
 
+    const { deleteStoredAsset } = await import("@/lib/media-storage");
     for (const asset of assets) {
-      const removed = await deleteStoredUpload(asset.url);
+      await deleteStoredAsset({
+        storageBackend: asset.storageBackend,
+        bucket: asset.bucket,
+        objectKey: asset.objectKey,
+      });
     }
+
+    const { LogEvents, logger } = await import("@/lib/logger");
+    logger.info(LogEvents.mediaDelete, {
+      entity: "MediaAsset",
+      entityId: ids.join(","),
+    });
 
     // Client updates local state; skip revalidatePath to avoid admin SSR reload under pool pressure.
     return { success: true as const };

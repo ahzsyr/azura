@@ -49,7 +49,7 @@ type Assignee = { id: string; name: string; email: string };
 
 type EmailDeliveryStatus = {
   configured: boolean;
-  provider: "resend" | "smtp" | "none";
+  provider: "resend" | "none";
   from: string;
   source?: "account" | "env" | "none";
   accountId?: string;
@@ -420,10 +420,10 @@ export function AutomationFlowPanel({ definition, assignees, templateName, onCha
                 })
               }
             >
-              <option value="">Site default (env RESEND / SMTP)</option>
+              <option value="">Site default (env RESEND)</option>
               {emailAccounts.map((a) => (
                 <option key={a.id} value={a.id}>
-                  {a.name} ({a.provider === "resend" ? "Resend" : "SMTP"})
+                  {a.name} ({a.provider === "resend" ? "Resend" : "SMTP legacy"})
                 </option>
               ))}
             </select>
@@ -457,11 +457,7 @@ export function AutomationFlowPanel({ definition, assignees, templateName, onCha
                 <div className="flex gap-2">
                   <dt className="w-16 shrink-0">Provider</dt>
                   <dd className="font-medium text-foreground">
-                    {emailStatus.provider === "none"
-                      ? "None"
-                      : emailStatus.provider === "resend"
-                        ? "Resend"
-                        : "SMTP"}
+                    {emailStatus.provider === "none" ? "None" : "Resend"}
                     {emailStatus.source === "env" ? " (env)" : ""}
                   </dd>
                 </div>

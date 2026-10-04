@@ -11,6 +11,7 @@ import type { Locale } from "@/i18n/routing";
 import { FALLBACK_LOCALES } from "@/i18n/locale-config";
 import { seoService } from "@/features/seo/seo.service";
 import { getLocalizedField } from "@/lib/utils";
+import { loadPublicLocaleContext } from "@/features/i18n/public-locale-context";
 
 /** Marketing routes with dedicated `page.tsx` files — never handled here. */
 const RESERVED_SLUGS = RESERVED_MARKETING_SLUGS;
@@ -53,7 +54,8 @@ export async function generateMetadata({ params, searchParams }: Props) {
   if (RESERVED_SLUGS.has(slug)) return {};
 
   try {
-    const page = await cmsService.getPublishedPageBySlug(slug);
+    const { languageCode } = await loadPublicLocaleContext(locale);
+    const page = await cmsService.resolvePublishedPage(slug, languageCode);
     if (page) {
       return seoService.resolveMetadata({
         locale: locale as Locale,
@@ -62,7 +64,7 @@ export async function generateMetadata({ params, searchParams }: Props) {
       });
     }
 
-    const resolution = await contentPublicService.resolveRoute([slug]);
+    const resolution = await contentPublicService.resolveRoute([slug], languageCode);
     if (resolution.kind === "list") {
       const type = resolution.contentType;
       const path = collection ? `/${slug}?collection=${collection}` : `/${slug}`;
@@ -96,12 +98,13 @@ export default async function MarketingSlugRoute({ params, searchParams }: Props
   }
 
   try {
-    const page = await cmsService.getPublishedPageBySlug(slug);
+    const { languageCode } = await loadPublicLocaleContext(locale);
+    const page = await cmsService.resolvePublishedPage(slug, languageCode);
     if (page) {
       return <MarketingCmsPage slug={slug} locale={locale as Locale} page={page} />;
     }
 
-    const resolution = await contentPublicService.resolveRoute([slug]);
+    const resolution = await contentPublicService.resolveRoute([slug], languageCode);
     if (resolution.kind === "list") {
       return (
         <ContentListPage

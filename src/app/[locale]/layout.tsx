@@ -37,6 +37,7 @@ import { preloaderShowsOnInitialLoad } from "@/features/preloader/site-preloader
 import { PreloaderBootScript } from "@/components/layout/preloader-boot-script";
 import { NavigationRejectionGuard } from "@/components/layout/navigation-rejection-guard";
 import { AdminPreviewBar } from "@/components/layout/admin-preview-bar";
+import { CmsDraftPreviewBanner } from "@/components/layout/cms-draft-preview-banner";
 import { GlobalAnnouncementBar } from "@/features/announcement-bar/global-announcement-bar";
 import { resolveFaviconUrl } from "@/lib/metadata/favicon-url";
 import {
@@ -173,6 +174,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <div className="site-shell flex min-h-full flex-col" dir={shell.direction}>
+      <CmsDraftPreviewBanner />
       <AdminPreviewBar />
       <LocaleBootClient payload={localeBootPayload} />
       <PreloaderBootScript

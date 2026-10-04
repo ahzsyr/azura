@@ -20,6 +20,9 @@ import { resolveCatalogSourceFromBlock } from "@/features/catalog/catalog-source
 import { getBlockSettings } from "@/features/builder/instance/block-instance";
 import { migrateBlocksToBlockSystem } from "@/features/builder/migration/upgrade-blocks";
 import { BlockWrapper } from "@/features/builder/components/block-wrapper";
+import { blockRegistry } from "@/features/builder/registry/block-registry-system";
+import { BLOCK_VIEW_EXTRACTED_TYPES } from "@/features/builder/registry/block-cms-dispatch";
+import type { BlockType } from "@/types/builder";
 import { ContentListBlockRenderer } from "@/features/content/components/content-list-block-renderer";
 import { mergeDisplaySettings } from "@/schemas/catalog/display-settings";
 import { resolveContentOverflowCssFlags } from "@/features/builder/styles/content-overflow-resolver";
@@ -228,6 +231,16 @@ async function renderBlockContent(
     isFirstBlock?: boolean;
   },
 ): Promise<ReactNode> {
+  const blockType = block.type as BlockType;
+  if (blockRegistry.has(blockType) && !blockRegistry.hasViewDispatch(blockType)) {
+    console.warn(`[block-renderer] No CMS view dispatch registered for block type: ${blockType}`);
+  }
+  // Registry metadata is resolved for every CMS block; extracted view types are
+  // still rendered through the shared switch below until fully lazy-split.
+  if (BLOCK_VIEW_EXTRACTED_TYPES.has(blockType)) {
+    void blockRegistry.get(blockType)?.viewKey;
+  }
+
   const p = getBlockSettings(block);
   const lp = applyResolvedBlockCopyToProps(p, block.type, {
     locale: ctx.locale,

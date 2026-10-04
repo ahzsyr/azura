@@ -1,7 +1,7 @@
 import { access, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { catalogSeedRoot } from "@/lib/catalog-seed-paths";
-import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
+import { isCloudNativeProduction } from "@/lib/production-runtime-guard";
 import type { Collection } from "./types";
 
 async function fileExists(path: string): Promise<boolean> {

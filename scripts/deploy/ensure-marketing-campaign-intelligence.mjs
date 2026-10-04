@@ -424,11 +424,11 @@ const MYSQL_TABLES = [
       \`periodStart\` DATETIME(3) NOT NULL,
       \`periodEnd\` DATETIME(3) NOT NULL,
       \`granularity\` VARCHAR(16) NOT NULL DEFAULT 'day',
-      \`internalCampaignId\` VARCHAR(191) NULL,
-      \`providerBindingId\` VARCHAR(191) NULL,
+      \`internalCampaignId\` VARCHAR(64) NULL,
+      \`providerBindingId\` VARCHAR(64) NULL,
       \`sourceId\` VARCHAR(64) NULL,
       \`providerId\` VARCHAR(64) NULL,
-      \`landingPagePath\` VARCHAR(512) NULL,
+      \`landingPagePath\` VARCHAR(191) NULL,
       \`conversionType\` VARCHAR(64) NULL,
       \`trafficType\` VARCHAR(32) NULL,
       \`visitors\` INT NOT NULL DEFAULT 0,
@@ -546,7 +546,7 @@ export async function ensureMarketingCampaignIntelligenceMysql(prisma) {
   await addMysqlColumn(prisma, "MarketingCampaignProviderBinding", "lastSyncError", "TEXT NULL");
   await addMysqlColumn(prisma, "MarketingTouch", "providerBindingId", "VARCHAR(191) NULL");
   await addMysqlColumn(prisma, "MarketingLeadAttribution", "providerBindingId", "VARCHAR(191) NULL");
-  await addMysqlColumn(prisma, "MarketingMetricRollup", "providerBindingId", "VARCHAR(191) NULL");
+  await addMysqlColumn(prisma, "MarketingMetricRollup", "providerBindingId", "VARCHAR(64) NULL");
 
   for (const [table, constraint, definition] of MYSQL_FKS) {
     try {

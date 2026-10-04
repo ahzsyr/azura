@@ -7,11 +7,8 @@ import { ProductListingFilters } from "@/features/products/components/listing/pr
 import { SearchFilterChips } from "@/capabilities/search/components/search-ui/search-filter-chips";
 import { aggregateFacets } from "@/features/products/listing/aggregate-facets";
 import type { ListingFacets, ListingFilterState } from "@/features/products/listing/types";
-import {
-  countActiveFilters,
-  filterStateFromSearchParams,
-  searchParamsFromFilterState,
-} from "@/features/products/listing/url-state";
+import { countActiveFilters } from "@/features/products/listing/url-state";
+import { useListingFilterUrlState } from "@/features/products/listing/use-listing-filter-url-state";
 import { useGlobalSearch } from "@/capabilities/search/hooks/use-global-search";
 import type { PublicSearchConfig } from "@/capabilities/search/settings/public-search-config";
 import type { SearchLocale } from "@/capabilities/search/components/search-ui/search-copy";
@@ -59,11 +56,13 @@ export function AdvancedFiltersIsland({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { state: listingUrlState, setState: setListingUrlState } = useListingFilterUrlState({
+    history: "push",
+  });
 
   const [facets, setFacets] = useState<ListingFacets | null>(null);
-  const [filterState, setFilterState] = useState<ListingFilterState>(() =>
-    filterStateFromSearchParams(new URLSearchParams(searchParams.toString()))
-  );
+  const [localFilterState, setLocalFilterState] = useState<ListingFilterState | null>(null);
+  const filterState = localFilterState ?? listingUrlState;
 
   useEffect(() => {
     if (p.scope !== "products") return;
@@ -81,19 +80,19 @@ export function AdvancedFiltersIsland({
   }, [locale, p.scope]);
 
   useEffect(() => {
-    setFilterState(filterStateFromSearchParams(new URLSearchParams(searchParams.toString())));
-  }, [searchParams]);
+    if (!p.syncUrl) return;
+    setLocalFilterState(null);
+  }, [listingUrlState, p.syncUrl]);
 
   const pushFilterState = useCallback(
     (next: ListingFilterState) => {
       if (!p.syncUrl) {
-        setFilterState(next);
+        setLocalFilterState(next);
         return;
       }
-      const href = searchParamsFromFilterState(next, pathname);
-      safeAppRouterNavigate(router, href);
+      void setListingUrlState(next, { history: "push" });
     },
-    [p.syncUrl, pathname, router]
+    [p.syncUrl, setListingUrlState]
   );
 
   const search = useGlobalSearch({

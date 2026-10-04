@@ -10,7 +10,10 @@ import {
 import { createEmptyWorkspace } from "@/features/navigation/defaults";
 import { navigationService } from "@/features/navigation/navigation.service";
 import { resolvePublishedSiteTheme } from "@/lib/theme/resolve-site-theme.server";
-import { loadPageTranslationBundle } from "@/features/translation/translation-bundle";
+import {
+  getBundleTranslations,
+  loadPageTranslationBundle,
+} from "@/features/translation/translation-bundle";
 import { parsePageVisualSettings } from "@/schemas/visual-settings";
 import { resolveVisualExperience } from "@/features/theme/visual-experience-resolver";
 import { VisualExperienceProvider } from "@/components/theme/visual-experience-provider";
@@ -25,6 +28,7 @@ import { LayoutRenderer } from "@/features/layout-engine/components/layout-rende
 import { EditorialMetaBar } from "@/components/marketing/editorial-meta-bar";
 import { CitationSourcesList } from "@/components/marketing/citation-sources-list";
 import { resolveEditorialMetaDisplay, editorialDisplayFromMetadata } from "@/schemas/editorial-metadata";
+import { isCmsDraftModeEnabled } from "@/features/cms/draft-mode";
 
 type Props = {
   locale: string;
@@ -43,12 +47,15 @@ export async function ContentItemPageRenderer({ locale, contentType, item, path 
   const heroBlock = resolveHeroBlock(composition, composition.layout.type);
   const hasUnderlay = Boolean(coverUrl) || firstBlockSupportsHeaderOverlay(heroBlock);
 
+  const draftPreview = await isCmsDraftModeEnabled().catch(() => false);
   const [resolvedSiteTheme, translationBundle, enabledLocales, headerWorkspace] = await Promise.all([
     resolvePublishedSiteTheme().catch((error) => {
       logServerRenderDiagnostic("ContentItemPageRenderer.theme", error);
       return null;
     }),
-    loadPageTranslationBundle("ContentItem", item.id, composition).catch((error) => {
+    loadPageTranslationBundle("ContentItem", item.id, composition, {
+      includeUnpublished: draftPreview,
+    }).catch((error) => {
       logServerRenderDiagnostic("ContentItemPageRenderer.translationBundle", error);
       return undefined;
     }),
@@ -101,12 +108,21 @@ export async function ContentItemPageRenderer({ locale, contentType, item, path 
     }
   }
 
-  const itemTitle = getLocalizedField(
-    { titleEn: item.titleEn, titleAr: item.titleAr },
-    "title",
-    locale,
-    { enabledLocales }
-  ) || item.title;
+  const fieldOpts = {
+    enabledLocales: translationBundle?.enabledLocales ?? enabledLocales,
+    defaultCode: translationBundle?.defaultCode,
+    translations: translationBundle
+      ? getBundleTranslations(translationBundle, "ContentItem", item.id)
+      : undefined,
+    includeUnpublished: draftPreview,
+  };
+  const itemTitle =
+    getLocalizedField(
+      { title: item.title, titleEn: item.titleEn, titleAr: item.titleAr },
+      "title",
+      locale,
+      fieldOpts,
+    ) || item.title;
   const editorialFlags = editorialDisplayFromMetadata(composition.metadata);
   const editorialDisplay = resolveEditorialMetaDisplay({
     author: item.authorName,

@@ -1,11 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useStore } from "@nanostores/react";
 import type { DragEndEvent } from "@dnd-kit/core";
 import type { MenuItem, MenuItemVisibility, MenuPlacement } from "@/features/navigation/types";
 import {
-  $workspace,
   addChildItem,
   addRootItem,
   deleteMenu,
@@ -15,6 +13,7 @@ import {
   renameMenu,
   setActiveMenuKey,
   updateMenuItem,
+  useHeaderWorkspace,
 } from "@/features/navigation/header-store";
 import { findItemById, findMenuKeyAssignedToSurface } from "@/features/navigation/menu-engine";
 import { useAdminFormOptional } from "@/components/admin/layout/admin-form-provider";
@@ -64,7 +63,7 @@ function cloneMenuItems(items: MenuItem[]): MenuItem[] {
 }
 
 export function MenuBuilder({ onSwitchToManager }: { onSwitchToManager?: () => void }) {
-  const workspace = useStore($workspace);
+  const workspace = useHeaderWorkspace();
   const catalog = useHeaderBuilderCatalog().catalog;
   const menu = workspace.menusDatabase[workspace.activeMenuKey];
   const adminForm = useAdminFormOptional();

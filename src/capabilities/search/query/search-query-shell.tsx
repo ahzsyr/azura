@@ -1,9 +1,14 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { SearchQueryProvider } from "@/capabilities/search/query/search-query-provider";
 
-/** Root-level TanStack Query provider — no next-intl hooks. */
+/** Root-level nuqs + TanStack Query providers — no next-intl hooks. */
 export function SearchQueryShell({ children }: { children: ReactNode }) {
-  return <SearchQueryProvider>{children}</SearchQueryProvider>;
+  return (
+    <NuqsAdapter>
+      <SearchQueryProvider>{children}</SearchQueryProvider>
+    </NuqsAdapter>
+  );
 }

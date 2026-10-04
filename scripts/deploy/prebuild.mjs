@@ -27,15 +27,10 @@ if (process.env.SKIP_CATALOG_PREBUILD === "1") {
   process.exit(0);
 }
 
-if (process.env.VERCEL) {
-  console.log("[prebuild] Vercel — skip catalog:index (DB-only indexes at runtime)");
-  process.exit(0);
-}
-
 if (
   process.env.CATALOG_PRODUCTS_SOURCE === "db" ||
-  process.env.PRISMA_SCHEMA === "postgresql" ||
-  /^postgres(ql)?:\/\//i.test(process.env.DATABASE_URL ?? "")
+  process.env.CATALOG_DATA_SOURCE === "db" ||
+  /^mysql:\/\//i.test(process.env.DATABASE_URL ?? "")
 ) {
   console.log("[prebuild] Database catalog mode — skip filesystem product index build");
   process.exit(0);

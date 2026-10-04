@@ -38,11 +38,23 @@ export async function startEmailChange(input: {
     toEmail: newEmail,
   });
 
+  const { renderTransactionalEmail } = await import(
+    "@/features/email/react-templates"
+  );
+  const rendered = await renderTransactionalEmail({
+    preview: "Email change requested",
+    heading: "Email change requested",
+    paragraphs: [
+      `A request was made to change your account email to ${newEmail}. If this was not you, sign in and secure your account.`,
+    ],
+  });
   await sendEmail({
     to: user.email,
     subject: "Email change requested",
-    html: `<p>A request was made to change your account email to <strong>${newEmail}</strong>. If this was not you, sign in and secure your account.</p>`,
-    text: `A request was made to change your account email to ${newEmail}. If this was not you, sign in and secure your account.`,
+    html: rendered.html,
+    text:
+      rendered.text ??
+      `A request was made to change your account email to ${newEmail}. If this was not you, sign in and secure your account.`,
   });
 
   await writeSecurityAuditLog({

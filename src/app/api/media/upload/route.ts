@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import { isAdminRole } from "@/features/auth/portal";
 import { mediaRepository } from "@/repositories/media.repository";
 import { persistMediaUpload } from "@/features/media/persist-upload";
-import { deleteStoredUpload, getMediaStorageStatus, storeUploadedFile } from "@/lib/media-storage";
+import { deleteStoredAsset, storeUploadedFile } from "@/lib/media-storage";
 import { mimeTypeForUpload, validateUploadFile } from "@/lib/local-media-storage";
 
 export async function POST(request: Request) {
@@ -54,10 +54,22 @@ export async function POST(request: Request) {
         mimeType,
         mediaType,
         filename: file.name,
+        storageBackend: stored.storage,
+        bucket: stored.bucket,
+        objectKey: stored.objectKey,
       });
 
-      if (existing.url !== url) {
-        await deleteStoredUpload(existing.url);
+      if (
+        existing.objectKey &&
+        (existing.storageBackend !== stored.storage ||
+          existing.bucket !== stored.bucket ||
+          existing.objectKey !== stored.objectKey)
+      ) {
+        await deleteStoredAsset({
+          storageBackend: existing.storageBackend,
+          bucket: existing.bucket,
+          objectKey: existing.objectKey,
+        });
       }
 
       return NextResponse.json({
@@ -77,6 +89,9 @@ export async function POST(request: Request) {
       folderId,
       uploadedById: session.user.id,
       uploaderEmail: session.user.email,
+      storageBackend: stored.storage,
+      bucket: stored.bucket,
+      objectKey: stored.objectKey,
     });
 
 

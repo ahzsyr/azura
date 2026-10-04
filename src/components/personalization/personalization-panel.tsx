@@ -3,7 +3,7 @@
 import "@/styles/personalization-panel.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { ArrowUp, Check, Globe, Monitor, Moon, Smartphone, Sparkles, Sun, Palette } from "lucide-react";
 import { ALL_PRESETS, type PresetMeta } from "@/features/theme/presets-catalog";
 import { CURSOR_EFFECT_OPTIONS } from "@/features/theme/effect-options";

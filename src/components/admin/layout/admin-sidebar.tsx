@@ -14,7 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import {
   ADMIN_DASHBOARD,
   filterNavItems,

@@ -4,7 +4,7 @@ import { isAdminRole } from "@/features/auth/portal";
 import { mediaRepository } from "@/repositories/media.repository";
 import { resolveMediaType } from "@/lib/local-media-storage";
 import { z } from "zod";
-import { deleteStoredUpload } from "@/lib/media-storage";
+import { deleteStoredAsset } from "@/lib/media-storage";
 
 const replaceSchema = z.object({
   id: z.string().min(1),
@@ -44,8 +44,12 @@ export async function POST(request: Request) {
       filename,
     });
 
-    if (existing.url !== asset.url) {
-      await deleteStoredUpload(existing.url);
+    if (existing.url !== asset.url && existing.objectKey) {
+      await deleteStoredAsset({
+        storageBackend: existing.storageBackend,
+        bucket: existing.bucket,
+        objectKey: existing.objectKey,
+      });
     }
 
     return NextResponse.json({

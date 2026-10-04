@@ -238,10 +238,20 @@ async function processGenericJob(
 }
 
 export async function runDueMarketingJobs(limit = 10) {
+  const now = new Date();
+  // Reclaim stranded RUNNING leases
+  await prisma.marketingJob.updateMany({
+    where: {
+      status: "RUNNING",
+      lockedUntil: { lt: now },
+    },
+    data: { status: "PENDING", lockedUntil: null },
+  });
+
   const due = await prisma.marketingJob.findMany({
     where: {
       status: { in: ["PENDING", "FAILED"] },
-      scheduledAt: { lte: new Date() },
+      scheduledAt: { lte: now },
       attemptCount: { lt: 5 },
     },
     orderBy: { scheduledAt: "asc" },
@@ -252,14 +262,20 @@ export async function runDueMarketingJobs(limit = 10) {
 
   for (const job of due) {
     const started = Date.now();
-    await prisma.marketingJob.update({
-      where: { id: job.id },
+    const lockedUntil = new Date(Date.now() + 5 * 60 * 1000);
+    const claimed = await prisma.marketingJob.updateMany({
+      where: {
+        id: job.id,
+        status: { in: ["PENDING", "FAILED"] },
+      },
       data: {
         status: "RUNNING",
         startedAt: new Date(),
+        lockedUntil,
         attemptCount: { increment: 1 },
       },
     });
+    if (claimed.count === 0) continue;
 
     try {
       let result: unknown;
@@ -281,6 +297,7 @@ export async function runDueMarketingJobs(limit = 10) {
           status: "COMPLETED",
           workflowStage: "completed",
           completedAt: new Date(),
+          lockedUntil: null,
           result: asJson((result as object) ?? {}),
           lastError: null,
         },
@@ -310,6 +327,7 @@ export async function runDueMarketingJobs(limit = 10) {
           status: exhausted ? "EXHAUSTED" : "FAILED",
           workflowStage: "failed",
           lastError: message,
+          lockedUntil: null,
           scheduledAt: exhausted ? job.scheduledAt : new Date(Date.now() + backoff),
         },
       });

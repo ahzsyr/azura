@@ -9,6 +9,7 @@ import { cmsRepository } from "@/repositories/cms.repository";
 import { seoService } from "@/features/seo/seo.service";
 import { CMS_WIRED_MARKETING_SLUGS } from "@/features/builder/constants";
 import { getCmsPageLocalizedPublicPath, getCmsPagePublicPath } from "@/features/cms/cms-page-path";
+import { loadPublicLocaleContext } from "@/features/i18n/public-locale-context";
 
 export const revalidate = 60;
 const FALLBACK_PREFIXES = FALLBACK_LOCALES.map((locale) => locale.urlPrefix);
@@ -49,7 +50,8 @@ export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;
 
   try {
-    const page = await cmsService.getPublishedPageBySlug(slug);
+    const { languageCode } = await loadPublicLocaleContext(locale);
+    const page = await cmsService.resolvePublishedPage(slug, languageCode);
     if (!page) return {};
 
     return seoService.resolveMetadata({
@@ -72,7 +74,8 @@ export default async function CmsPageRoute({ params }: Props) {
   }
 
   try {
-    const page = await cmsService.getPublishedPageBySlug(slug);
+    const { languageCode } = await loadPublicLocaleContext(locale);
+    const page = await cmsService.resolvePublishedPage(slug, languageCode);
     if (!page) notFound();
 
     return <MarketingCmsPage slug={slug} locale={locale as Locale} page={page} />;

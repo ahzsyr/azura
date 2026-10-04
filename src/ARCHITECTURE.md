@@ -50,12 +50,17 @@ app → components → features / capabilities → repositories → lib (prisma,
 - **Repositories** do not import from `app/` or React components.
 - **Middleware** entry (`src/middleware.ts`) delegates to `middleware/pipeline.ts` and feature gate modules.
 
-## Prisma schema (Phase 8)
+## Prisma schema
 
-Multi-file schema by domain: `prisma/schema/mysql/` and `prisma/schema/postgresql/`. Entry shims: `prisma/schema.prisma`, `prisma/schema.postgresql.prisma`. Generate via `npm run db:generate`.
+Multi-file MySQL schema by domain: `prisma/schema/mysql/`. Entry: `prisma/schema.prisma` (`provider = "mysql"`). Generate via `npm run db:generate`. PostgreSQL schema path removed — MySQL 8.4 is canonical.
+
+## Production runtime
+
+**Hostinger** is the sole supported production target (Node 24 + npm + MySQL 8.4). Media mutations go through `StorageProvider` (`MEDIA_STORAGE=local|supabase|s3`). Background work is Prisma jobs + Hostinger HTTP cron (`CRON_SECRET`). See [docs/deployment/hostinger-stability-gate.md](../docs/deployment/hostinger-stability-gate.md).
 
 ## Related docs
 
+- [technology-policy.md](../docs/deployment/technology-policy.md) — Phase 5 technology SSOT / anti-drift
 - [constitution.md](../docs/constitution.md) — platform boundaries and fitness tests
 - [deployment-profiles.md](../docs/deployment-profiles.md) — composable install bundles
 - [admin-ia.md](../docs/admin-ia.md) — target admin navigation

@@ -1,13 +1,12 @@
 "use client";
 
-import { useStore } from "@nanostores/react";
-import { $footerWorkspace, setFooterResponsive } from "@/features/footer/footer-store";
+import { setFooterResponsive, useFooterWorkspace } from "@/features/footer/footer-store";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { HeaderSelect } from "@/features/navigation/admin/header-builder-ui";
 
 export function FooterResponsivePanel() {
-  const workspace = useStore($footerWorkspace);
+  const workspace = useFooterWorkspace();
   const responsive = workspace.responsive;
 
   return (

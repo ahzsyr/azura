@@ -32,7 +32,7 @@ export async function issueEmailOtp(input: {
   /** When set, used as-is (admin MFA path). */
   providerConfig?: EmailProviderConfig | null;
   /**
-   * When false, do not fall back to env Resend/SMTP or portal customer accounts.
+   * When false, do not fall back to env Resend or portal customer accounts.
    * Admin login OTP must use only the Master-Admin-selected Email Account.
    */
   allowEnvFallback?: boolean;
@@ -100,14 +100,21 @@ export async function issueEmailOtp(input: {
       ? `Hello ${user.name},\n\nYour one-time sign-in code expires in 5 minutes.\n\nEnter this code to continue.`
       : `Hello ${user.name},\n\nYour verification code expires in 5 minutes.\n\nEnter the code on the verification page to activate your account.`;
 
-  const html = `<div style="font-family:sans-serif;line-height:1.5"><h2>${heading}</h2><p style="font-size:24px;letter-spacing:4px;font-weight:bold">${code}</p><pre style="white-space:pre-wrap;font-family:inherit">${bodyLines}</pre></div>`;
-  const text = `${heading}\n\nCode: ${code}\n\n${bodyLines}`;
+  const { renderTransactionalEmail } = await import(
+    "@/features/email/react-templates"
+  );
+  const rendered = await renderTransactionalEmail({
+    preview: subject,
+    heading,
+    code,
+    paragraphs: [bodyLines],
+  });
 
   const result = await sendEmail({
     to: toEmail,
     subject,
-    html,
-    text,
+    html: rendered.html,
+    text: rendered.text ?? `${heading}\n\nCode: ${code}\n\n${bodyLines}`,
     providerConfig,
     fromName,
   });

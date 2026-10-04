@@ -69,7 +69,12 @@ model MediaFolder {
 model MediaAsset {
   id           String        @id @default(cuid())
   filename     String
-  url          String
+  /// Denormalized public URL (cache). Canonical identity is storageBackend+bucket+objectKey.
+  url          String        @db.Text
+  /// "local" | "supabase" | "s3"
+  storageBackend String      @default("local") @db.VarChar(16)
+  bucket       String        @default("local") @db.VarChar(128)
+  objectKey    String        @default("") @db.VarChar(512)
   mimeType     String
   mediaType    MediaType
   assetScope   String        @default("CMS") @db.VarChar(16)
@@ -90,6 +95,7 @@ model MediaAsset {
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
 
+  @@unique([storageBackend, bucket, objectKey])
   @@index([folderId])
   @@index([mediaType])
   @@index([assetScope])
@@ -195,6 +201,10 @@ model CmsPage {
   blocks      Json          @default("[]")
   composition Json          @default("{}")
   visualSettings Json       @default("{}")
+  /// Latest editable revision (admin + Draft Mode preview).
+  workingRevisionId   String?
+  /// Immutable revision served to anonymous public traffic.
+  publishedRevisionId String?
   publishedAt DateTime?
   scheduledAt DateTime?
   authorId    String?
@@ -207,6 +217,8 @@ model CmsPage {
 
   @@index([status])
   @@index([slug, status])
+  @@index([workingRevisionId])
+  @@index([publishedRevisionId])
 }
 
 model CmsPageRevision {
@@ -217,6 +229,8 @@ model CmsPageRevision {
   /// Legacy alias for composition.regions.primary. Read/written only by CompositionService.
   blocks    Json
   composition Json   @default("{}")
+  /// Immutable EntityTranslation snapshot (live store remains EntityTranslation).
+  translations Json  @default("[]")
   message   String?
   createdById String?
   createdBy User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
@@ -262,6 +276,8 @@ model Post {
   blocks          Json          @default("[]")
   composition     Json          @default("{}")
   status          ContentStatus @default(DRAFT)
+  workingRevisionId   String?
+  publishedRevisionId String?
   featuredImageId       String?
   featuredImage         MediaAsset? @relation(fields: [featuredImageId], references: [id], onDelete: SetNull)
   featuredImageSettings Json        @default("{}")
@@ -273,12 +289,33 @@ model Post {
   categories      PostCategoryOnPost[]
   tags            PostTagOnPost[]
   relatedPostIds  Json             @default("[]")
+  revisions       PostRevision[]
   seoMeta         SeoMeta?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 
   @@index([status])
   @@index([slug, status])
+  @@index([workingRevisionId])
+  @@index([publishedRevisionId])
+}
+
+model PostRevision {
+  id          String   @id @default(cuid())
+  postId      String
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  version     Int
+  /// Legacy alias for composition.regions.primary. Read/written only by CompositionService.
+  blocks      Json
+  composition Json     @default("{}")
+  /// Immutable EntityTranslation snapshot (live store remains EntityTranslation).
+  translations Json    @default("[]")
+  message     String?
+  createdById String?
+  createdBy   User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+
+  @@index([postId])
 }
 
 model PostCategoryOnPost {
@@ -422,6 +459,24 @@ model SearchDocument {
   @@index([locale])
   @@index([locale, entityType])
   @@index([title])
+}
+
+/// Durable async search indexing queue (Phase 4). Replaces JsonStore search-index-jobs.
+model SearchIndexJob {
+  id          String   @id @default(cuid())
+  entityType  String   @db.VarChar(32)
+  entityId    String   @db.VarChar(64)
+  status      String   @default("PENDING") @db.VarChar(16)
+  attempts    Int      @default(0)
+  lastError   String?  @db.Text
+  lockedUntil DateTime?
+  startedAt   DateTime?
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([entityType, entityId, status])
 }
 
 model SeoMeta {

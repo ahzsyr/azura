@@ -2,7 +2,7 @@ import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import type { CurrencyConfigFile, CurrencyEntry } from "./types";
 import embedded from "@/seeds/catalog/currency.config.json";
-import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
+import { isCloudNativeProduction } from "@/lib/production-runtime-guard";
 import { catalogSeedRoot } from "@/lib/catalog-seed-paths";
 
 const CONFIG_PATH = () => join(catalogSeedRoot(), "currency.config.json");
@@ -10,7 +10,7 @@ const CONFIG_PATH = () => join(catalogSeedRoot(), "currency.config.json");
 let serverCache: { mtime: number; data: CurrencyConfigFile } | null = null;
 
 /**
- * Active currency config. In cloud-native production uses the embedded seed baseline.
+ * Active currency config. On MySQL-backed catalog uses the embedded seed baseline.
  * Local dev re-reads `seeds/catalog/currency.config.json` when the file mtime changes.
  */
 export function getCurrencyConfig(): CurrencyConfigFile {

@@ -8,6 +8,16 @@ import { resolveEntityByLocalizedSlug } from "@/features/translation/translation
 import { translationService } from "@/features/translation/translation.service";
 import { resolveTranslation } from "@/features/translation/translation-resolver";
 import { FALLBACK_LOCALES } from "@/i18n/locale-config";
+import { localeService } from "@/features/i18n/locale.service";
+import { isCmsDraftModeEnabled } from "@/features/cms/draft-mode";
+import {
+  applyAstToEntityFields,
+  loadAstFromSnapshot,
+  loadCmsPageRevision,
+  loadPostRevision,
+  selectCmsPageRevisionId,
+  selectPostRevisionId,
+} from "@/features/cms/revision-selection";
 
 export type CmsPageWithSeo = Prisma.CmsPageGetPayload<{ include: { seoMeta: true; author: true } }>;
 
@@ -39,13 +49,23 @@ function emptyLegacyFields(page: CmsPageWithSeo, titleFallback = ""): CmsPagePub
 }
 
 async function withLegacyFields(page: CmsPageWithSeo): Promise<CmsPagePublicView> {
-  const defaultCode = FALLBACK_LOCALES.find((locale) => locale.isDefault)?.code ?? "en";
   if (page.id === "synthetic-home") {
     return emptyLegacyFields(page, "Home");
   }
   try {
+    const draft = await isCmsDraftModeEnabled();
+    const enabledLocales = await localeService.listEnabled().catch(() => FALLBACK_LOCALES);
+    const defaultCode =
+      enabledLocales.find((locale) => locale.isDefault)?.code ??
+      FALLBACK_LOCALES.find((locale) => locale.isDefault)?.code ??
+      "en";
     const translations = await translationService.getForEntity("CmsPage", page.id);
-    const ctx = { translations, enabledLocales: FALLBACK_LOCALES, defaultCode };
+    const ctx = {
+      translations,
+      enabledLocales,
+      defaultCode,
+      includeUnpublished: draft,
+    };
     const titleEn = resolveTranslation("title", "en", ctx);
     const titleAr = resolveTranslation("title", "ar", ctx);
     const excerptEn = resolveTranslation("excerpt", "en", ctx);
@@ -86,15 +106,12 @@ export const cmsService = {
 
   async resolvePublishedPage(slug: string, languageCode: string) {
     await processDueScheduled();
+    const draft = await isCmsDraftModeEnabled();
     const localized = await resolveEntityByLocalizedSlug("CmsPage", slug, languageCode);
     if (localized) {
       const page = await cmsRepository.getPageById(localized.entityId);
-      if (page?.status === "PUBLISHED") {
-        const cached = await pageCache.get(page.slug);
-        if (cached && cached.updatedAt === page.updatedAt.toISOString()) {
-          return { ...page, blocks: cached.blocks as unknown as typeof page.blocks };
-        }
-        return page;
+      if (page && (draft || page.status === "PUBLISHED")) {
+        return this.applyPageRevisionSelection(page, { allowCache: !draft });
       }
     }
     return this.getPublishedPageBySlug(slug);
@@ -102,30 +119,85 @@ export const cmsService = {
 
   async resolvePublishedPost(slug: string, languageCode: string) {
     await processDueScheduled();
+    const draft = await isCmsDraftModeEnabled();
     const localized = await resolveEntityByLocalizedSlug("Post", slug, languageCode);
     if (localized) {
       const post = await cmsRepository.getPostById(localized.entityId);
-      if (post?.status === "PUBLISHED") return post;
+      if (post && (draft || post.status === "PUBLISHED")) {
+        return this.applyPostRevisionSelection(post);
+      }
     }
     return this.getPublishedPostBySlug(slug);
   },
 
-  async getPublishedPageBySlug(slug: string): Promise<CmsPagePublicView | null> {
-    await processDueScheduled();
-    const page = await cmsRepository.getPageBySlug(slug, true);
-    if (!page) return null;
+  async applyPageRevisionSelection(
+    page: CmsPageWithSeo,
+    options?: { allowCache?: boolean },
+  ): Promise<CmsPagePublicView> {
+    const { revisionId, isDraftPreview } = await selectCmsPageRevisionId(page);
+    const allowCache = options?.allowCache !== false && !isDraftPreview;
 
-    const cached = await pageCache.get(slug);
-    const resolved =
-      cached && cached.updatedAt === page.updatedAt.toISOString()
-        ? { ...page, blocks: cached.blocks as unknown as typeof page.blocks }
-        : page;
-    return withLegacyFields(resolved);
+    if (allowCache && page.status === "PUBLISHED") {
+      const cached = await pageCache.get(page.slug);
+      if (cached && cached.updatedAt === page.updatedAt.toISOString()) {
+        return withLegacyFields({
+          ...page,
+          blocks: cached.blocks as unknown as typeof page.blocks,
+        });
+      }
+    }
+
+    if (revisionId) {
+      const revision = await loadCmsPageRevision(revisionId);
+      if (revision) {
+        const ast = loadAstFromSnapshot(revision, page);
+        return withLegacyFields(applyAstToEntityFields(page, ast));
+      }
+    }
+
+    // Draft preview without a pointer yet: serve the working entity document.
+    if (isDraftPreview) {
+      return withLegacyFields(page);
+    }
+
+    return withLegacyFields(page);
   },
 
-  /** Resolves a wired marketing page; falls back to landing template for unpublished home. */
-  async resolveMarketingPage(slug: string): Promise<CmsPagePublicView | null> {
-    const published = await this.getPublishedPageBySlug(slug);
+  async applyPostRevisionSelection<T extends { workingRevisionId?: string | null; publishedRevisionId?: string | null; blocks: unknown; composition: unknown }>(
+    post: T,
+  ): Promise<T> {
+    const { revisionId, isDraftPreview } = await selectPostRevisionId(post);
+    if (revisionId) {
+      const revision = await loadPostRevision(revisionId);
+      if (revision) {
+        const ast = loadAstFromSnapshot(revision, post);
+        return applyAstToEntityFields(post, ast);
+      }
+    }
+    if (isDraftPreview) return post;
+    return post;
+  },
+
+  async getPublishedPageBySlug(slug: string): Promise<CmsPagePublicView | null> {
+    await processDueScheduled();
+    const draft = await isCmsDraftModeEnabled();
+    const page = await cmsRepository.getPageBySlug(slug, !draft);
+    if (!page) return null;
+    if (!draft && page.status !== "PUBLISHED") return null;
+    return this.applyPageRevisionSelection(page, { allowCache: !draft });
+  },
+
+  /**
+   * Resolves a wired marketing page by locale-aware slug when languageCode is provided.
+   * Falls back to landing template for unpublished home.
+   */
+  async resolveMarketingPage(
+    slug: string,
+    languageCode?: string,
+  ): Promise<CmsPagePublicView | null> {
+    const published = languageCode
+      ? await this.resolvePublishedPage(slug, languageCode)
+      : await this.getPublishedPageBySlug(slug);
     if (published) return published;
     if (slug !== "home") return null;
 
@@ -144,6 +216,8 @@ export const cmsService = {
       status: "PUBLISHED",
       blocks: resolvedBlocks,
       composition: {},
+      workingRevisionId: null,
+      publishedRevisionId: null,
       publishedAt: new Date(),
       scheduledAt: null,
       authorId: null,
@@ -158,7 +232,11 @@ export const cmsService = {
 
   async getPublishedPostBySlug(slug: string) {
     await processDueScheduled();
-    return cmsRepository.getPostBySlug(slug, true);
+    const draft = await isCmsDraftModeEnabled();
+    const post = await cmsRepository.getPostBySlug(slug, !draft);
+    if (!post) return null;
+    if (!draft && post.status !== "PUBLISHED") return null;
+    return this.applyPostRevisionSelection(post);
   },
 
   async listPublishedPosts(categorySlug?: string) {

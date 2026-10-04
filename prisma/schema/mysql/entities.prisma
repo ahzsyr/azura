@@ -60,6 +60,8 @@ model ContentItem {
   authorId         String?                 @db.VarChar(36)
   author           PostAuthor?             @relation(fields: [authorId], references: [id], onDelete: SetNull)
   sources          Json                    @default("[]")
+  workingRevisionId   String?
+  publishedRevisionId String?
   media            ContentItemMedia[]
   collectionLinks  ContentCollectionItem[]
   revisions        ContentItemRevision[]
@@ -72,6 +74,8 @@ model ContentItem {
   @@index([contentTypeId, status, isFeatured])
   @@index([collectionId])
   @@index([deletedAt])
+  @@index([workingRevisionId])
+  @@index([publishedRevisionId])
 }
 
 model ContentCollectionItem {
@@ -111,6 +115,8 @@ model ContentItemRevision {
   /// Legacy alias for composition.regions.primary. Read/written only by CompositionService.
   blocks    Json          @default("[]")
   composition Json        @default("{}")
+  /// Immutable EntityTranslation snapshot (live store remains EntityTranslation).
+  translations Json       @default("[]")
   message   String?       @db.VarChar(255)
   status    ContentStatus
   createdAt DateTime      @default(now())

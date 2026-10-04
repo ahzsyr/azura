@@ -6,7 +6,7 @@ import type { Prisma } from "@prisma/client";
 import type { MediaLibraryMeta } from "./types";
 import { useDatabaseOnlyCatalog } from "@/features/catalog/catalog-data-source";
 import { isCatalogFsWriteError } from "@/features/collections/collections-persistence";
-import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
+import { isCloudNativeProduction } from "@/lib/production-runtime-guard";
 
 export const CATALOG_MEDIA_NAMESPACE = "catalog-media";
 export const CATALOG_MEDIA_META_KEY = "meta";
@@ -28,7 +28,6 @@ export type CatalogMediaTombstonesPayload = {
 
 export function preferCatalogMediaJsonStore(): boolean {
   if (useDatabaseOnlyCatalog()) return true;
-  if (process.env.VERCEL) return true;
   if (process.env.CATALOG_USE_JSON_STORE === "1") return true;
   return false;
 }

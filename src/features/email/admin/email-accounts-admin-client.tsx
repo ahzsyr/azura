@@ -15,7 +15,6 @@ import {
   upsertEmailAccountAction,
 } from "@/features/email/email-accounts.actions";
 import type {
-  EmailAccountProvider,
   EmailAccountPublic,
   UpsertEmailAccountInput,
 } from "@/features/email/email-accounts.types";
@@ -24,24 +23,14 @@ import { Mail, Plus, Trash2 } from "lucide-react";
 type Draft = {
   id?: string;
   name: string;
-  provider: EmailAccountProvider;
   from: string;
   resendApiKey: string;
-  smtpHost: string;
-  smtpPort: string;
-  smtpUser: string;
-  smtpPass: string;
 };
 
 const emptyDraft = (): Draft => ({
   name: "",
-  provider: "smtp",
   from: "",
   resendApiKey: "",
-  smtpHost: "",
-  smtpPort: "587",
-  smtpUser: "",
-  smtpPass: "",
 });
 
 export function EmailAccountsAdminClient({
@@ -105,13 +94,8 @@ export function EmailAccountsAdminClient({
     setDraft({
       id: account.id,
       name: account.name,
-      provider: account.provider,
       from: account.from,
       resendApiKey: "",
-      smtpHost: account.smtpHost ?? "",
-      smtpPort: String(account.smtpPort ?? 587),
-      smtpUser: "",
-      smtpPass: "",
     });
   };
 
@@ -122,13 +106,9 @@ export function EmailAccountsAdminClient({
     const input: UpsertEmailAccountInput = {
       id: draft.id,
       name: draft.name,
-      provider: draft.provider,
+      provider: "resend",
       from: draft.from,
       resendApiKey: draft.resendApiKey || undefined,
-      smtpHost: draft.smtpHost || undefined,
-      smtpPort: draft.smtpPort ? Number(draft.smtpPort) : undefined,
-      smtpUser: draft.smtpUser || undefined,
-      smtpPass: draft.smtpPass || undefined,
     };
     const res = await upsertEmailAccountAction(input);
     setBusy(false);
@@ -201,7 +181,7 @@ export function EmailAccountsAdminClient({
             Email Accounts
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Named Resend or SMTP accounts. Forms pick one under Automation → Email Notifications.
+            Named Resend accounts. Forms pick one under Automation → Email Notifications.
             Secrets are stored sealed and never shown again after save.
             {!canManage
               ? " Viewing only — ask the Master Admin to add or change accounts."
@@ -249,10 +229,7 @@ export function EmailAccountsAdminClient({
           </Card>
         )}
         {accounts.map((account) => {
-          const ready =
-            account.provider === "resend"
-              ? account.hasResendApiKey
-              : Boolean(account.smtpHost);
+          const ready = account.provider === "resend" && account.hasResendApiKey;
           return (
             <Card key={account.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
               <div>
@@ -261,14 +238,17 @@ export function EmailAccountsAdminClient({
                   <Badge variant={ready ? "default" : "secondary"}>
                     {ready ? "Ready" : "Incomplete"}
                   </Badge>
-                  <Badge variant="outline">{account.provider === "resend" ? "Resend" : "SMTP"}</Badge>
+                  <Badge variant="outline">
+                    {account.isLegacySmtp ? "SMTP (legacy)" : "Resend"}
+                  </Badge>
                 </div>
                 <p className="mt-1 text-xs text-muted-foreground">From: {account.from}</p>
-                {account.provider === "smtp" && account.smtpHost && (
-                  <p className="text-xs text-muted-foreground">
-                    {account.smtpHost}:{account.smtpPort ?? 587}
+                {account.isLegacySmtp ? (
+                  <p className="text-xs text-amber-700 dark:text-amber-400">
+                    SMTP is no longer supported. Edit and save with a Resend API key, or delete and
+                    recreate.
                   </p>
-                )}
+                ) : null}
               </div>
               <div className="flex flex-wrap gap-2">
                 {canManage ? (
@@ -277,7 +257,7 @@ export function EmailAccountsAdminClient({
                       type="button"
                       size="sm"
                       variant="secondary"
-                      disabled={Boolean(testingId) || !testTo.includes("@")}
+                      disabled={Boolean(testingId) || !testTo.includes("@") || !ready}
                       onClick={() => void sendTest(account.id)}
                     >
                       {testingId === account.id ? "Sending…" : "Send test"}
@@ -317,16 +297,7 @@ export function EmailAccountsAdminClient({
             </div>
             <div>
               <Label className="text-xs">Provider</Label>
-              <select
-                className="mt-1 flex h-9 w-full rounded-md border bg-background px-3 text-sm"
-                value={draft.provider}
-                onChange={(e) =>
-                  setDraft({ ...draft, provider: e.target.value as EmailAccountProvider })
-                }
-              >
-                <option value="smtp">SMTP</option>
-                <option value="resend">Resend</option>
-              </select>
+              <Input className="mt-1" value="Resend" disabled readOnly />
             </div>
             <div className="sm:col-span-2">
               <Label className="text-xs">From address</Label>
@@ -340,64 +311,19 @@ export function EmailAccountsAdminClient({
             </div>
           </div>
 
-          {draft.provider === "resend" ? (
-            <div>
-              <Label className="text-xs">
-                Resend API key{draft.id ? " (leave blank to keep existing)" : ""}
-              </Label>
-              <Input
-                className="mt-1"
-                type="password"
-                autoComplete="new-password"
-                value={draft.resendApiKey}
-                onChange={(e) => setDraft({ ...draft, resendApiKey: e.target.value })}
-                placeholder={draft.id ? "••••••••" : "re_…"}
-              />
-            </div>
-          ) : (
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="sm:col-span-2">
-                <Label className="text-xs">SMTP host</Label>
-                <Input
-                  className="mt-1"
-                  value={draft.smtpHost}
-                  onChange={(e) => setDraft({ ...draft, smtpHost: e.target.value })}
-                  placeholder="smtp.hostinger.com"
-                />
-              </div>
-              <div>
-                <Label className="text-xs">Port</Label>
-                <Input
-                  className="mt-1"
-                  value={draft.smtpPort}
-                  onChange={(e) => setDraft({ ...draft, smtpPort: e.target.value })}
-                />
-              </div>
-              <div>
-                <Label className="text-xs">
-                  Username{draft.id ? " (blank = keep)" : ""}
-                </Label>
-                <Input
-                  className="mt-1"
-                  value={draft.smtpUser}
-                  onChange={(e) => setDraft({ ...draft, smtpUser: e.target.value })}
-                  autoComplete="off"
-                />
-              </div>
-              <div className="sm:col-span-2">
-                <Label className="text-xs">
-                  Password{draft.id ? " (blank = keep)" : ""}
-                </Label>
-                <Input
-                  className="mt-1"
-                  type="password"
-                  autoComplete="new-password"
-                  value={draft.smtpPass}
-                  onChange={(e) => setDraft({ ...draft, smtpPass: e.target.value })}
-                />
-              </div>
-            </div>
-          )}
+          <div>
+            <Label className="text-xs">
+              Resend API key{draft.id ? " (leave blank to keep existing)" : ""}
+            </Label>
+            <Input
+              className="mt-1"
+              type="password"
+              autoComplete="new-password"
+              value={draft.resendApiKey}
+              onChange={(e) => setDraft({ ...draft, resendApiKey: e.target.value })}
+              placeholder={draft.id ? "••••••••" : "re_…"}
+            />
+          </div>
 
           <div className="flex flex-wrap gap-2">
             <Button type="button" disabled={busy} onClick={() => void save()}>

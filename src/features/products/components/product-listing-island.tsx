@@ -10,7 +10,6 @@ import {
   type CSSProperties,
 } from "react";
 import { createPortal } from "react-dom";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { RouteSuspenseFallback } from "@/components/layout/route-suspense-fallback";
 import { collectionMapFromList } from "@/features/collections/collection-navigation";
 import type { Collection } from "@/features/collections/types";
@@ -34,12 +33,10 @@ import { filterListingCatalog, paginateListing } from "@/features/products/listi
 import type { ListingFacets, ListingFilterState, ProductListingRecord } from "@/features/products/listing/types";
 import {
   countActiveFilters,
-  filterStateFromSearchParams,
   listingFilterStateKey,
-  searchParamsFromFilterState,
 } from "@/features/products/listing/url-state";
+import { useListingFilterUrlState } from "@/features/products/listing/use-listing-filter-url-state";
 import { serializeCanonicalFilterState } from "@/features/products/listing/normalize";
-import { safeAppRouterNavigate } from "@/lib/navigation/safe-app-router";
 import { LISTING_PER_OPTIONS, type ListingPerPage } from "@/features/products/listing/types";
 import { fuzzyMatchListingSlugs } from "@/features/products/listing/search";
 import { trackListingSearchAnalytics } from "@/capabilities/search/analytics/search-analytics.client";
@@ -262,9 +259,10 @@ export function ProductListingIsland({
   totalPages: totalPagesProp,
   hasInitialPayload = false,
 }: Props) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { state: listingUrlState, setState: setListingUrlState } = useListingFilterUrlState({
+    history: "replace",
+    scroll: false,
+  });
 
   const cardTheme = useMemo(
     () =>
@@ -376,7 +374,7 @@ export function ProductListingIsland({
   );
 
   const urlState: ListingFilterState = useMemo(() => {
-    const parsed = filterStateFromSearchParams(new URLSearchParams(searchParams.toString()));
+    const parsed = listingUrlState;
     const scoped = parsed.collectionScope?.trim() || null;
     const hasValidScope = scoped ? scopeBySlug.has(scoped) : false;
     const validCollections = parsed.collections.filter((slug) => scopeBySlug.has(slug));
@@ -389,7 +387,7 @@ export function ProductListingIsland({
       return { ...sanitized, collectionScope, collections: [] };
     }
     return sanitized;
-  }, [searchParams, collectionScope, scopeBySlug]);
+  }, [listingUrlState, collectionScope, scopeBySlug]);
 
   /** Optimistic overlay so checkboxes update before the URL round-trip settles. */
   const [optimisticState, setOptimisticState] = useState<ListingFilterState | null>(null);
@@ -624,10 +622,9 @@ export function ProductListingIsland({
         setOptimisticState(null);
         return;
       }
-      const href = searchParamsFromFilterState(next, pathname);
-      safeAppRouterNavigate(router, href, { replace: true, scroll: false });
+      void setListingUrlState(next, { history: "replace", scroll: false });
     },
-    [pathname, router, urlState],
+    [setListingUrlState, urlState],
   );
 
   const replaceState = useCallback(

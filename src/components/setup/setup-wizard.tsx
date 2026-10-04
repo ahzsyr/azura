@@ -190,10 +190,11 @@ export function SetupWizard({
                     </>
                   ) : (
                     <>
-                      Database connection failed. In hPanel, set a valid Supabase{" "}
-                      <code className="text-xs">DATABASE_URL</code> (postgresql://…, password URL-encoded),
-                      then import <code className="text-xs">database/postgres/import-blank.sql</code> in the
-                      Supabase SQL Editor. Rebuild/restart the app after saving env vars.
+                      Database connection failed. In hPanel, set a valid MySQL{" "}
+                      <code className="text-xs">DATABASE_URL</code> (mysql://…, no quotes), then import{" "}
+                      <code className="text-xs">database/mysql/import-blank.sql</code>. On the same
+                      Hostinger server, use <code className="text-xs">HOSTINGER_MYSQL_LOCALHOST=1</code>.
+                      Rebuild/restart after saving env vars.
                     </>
                   )}
                 </p>

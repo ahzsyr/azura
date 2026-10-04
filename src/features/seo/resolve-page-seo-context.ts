@@ -29,6 +29,7 @@ import { legacyShapeFromTranslations } from "@/features/portal/lib/portal-transl
 import { seoRepository } from "@/repositories/seo.repository";
 import { translationService } from "@/features/translation/translation.service";
 import { SEO_TRANSLATION_FIELDS } from "@/features/seo/cms-page-seo-context";
+import { resolvePublishedSeoTranslationBinding } from "@/features/seo/published-seo-from-revision";
 
 const SEO_FIELDS = SEO_TRANSLATION_FIELDS;
 
@@ -177,6 +178,7 @@ async function resolveWiredPageKeyContext(
   origin: string,
   cmsPageIdHint?: string,
   allowWrites = false,
+  publicServing = false,
 ): Promise<PageSeoContext> {
   if (allowWrites) {
     await ensureStaticSeoMetaRecords();
@@ -207,8 +209,29 @@ async function resolveWiredPageKeyContext(
     cmsMeta ? translationService.getForEntity("SeoMeta", cmsMeta.id) : Promise.resolve([]),
   ]);
 
-  const pageKeyTranslations = legacyShapeFromTranslations(pageKeyTranslationRows, [...SEO_FIELDS]);
-  const cmsSeoTranslations = legacyShapeFromTranslations(cmsSeoTranslationRows, [...SEO_FIELDS]);
+  let pageKeyTranslations = legacyShapeFromTranslations(pageKeyTranslationRows, [...SEO_FIELDS]);
+  let cmsSeoTranslations = legacyShapeFromTranslations(cmsSeoTranslationRows, [...SEO_FIELDS]);
+
+  let contentFallbacks = cmsPage
+    ? await loadCmsContentFallbacks(cmsPage.id)
+    : staticLabelFallbacks(pageKey);
+
+  if (publicServing && cmsPage) {
+    const publishedBinding = await resolvePublishedSeoTranslationBinding({
+      kind: "CmsPage",
+      entityId: cmsPage.id,
+      seoMetaId: pageKeyMeta?.id ?? cmsMeta?.id,
+      seoFields: SEO_FIELDS,
+    });
+    if (publishedBinding) {
+      contentFallbacks = publishedBinding.contentFallbacks;
+      if (pageKeyMeta) {
+        pageKeyTranslations = publishedBinding.seoTranslations;
+      } else {
+        cmsSeoTranslations = publishedBinding.seoTranslations;
+      }
+    }
+  }
 
   const coalesced = coalesceWiredPageSeo({
     pageKey,
@@ -217,10 +240,6 @@ async function resolveWiredPageKeyContext(
     pageKeyTranslations,
     cmsTranslations: cmsSeoTranslations,
   });
-
-  const contentFallbacks = cmsPage
-    ? await loadCmsContentFallbacks(cmsPage.id)
-    : staticLabelFallbacks(pageKey);
 
   const publicPath = resolvePublicPath(pageKey, pageKey);
 
@@ -287,6 +306,7 @@ async function resolveCmsPageIdContext(
   cmsPageId: string,
   origin: string,
   allowWrites = false,
+  publicServing = false,
 ): Promise<PageSeoContext> {
   const cmsPage = await prisma.cmsPage.findUnique({
     where: { id: cmsPageId },
@@ -298,15 +318,35 @@ async function resolveCmsPageIdContext(
 
   const wiredPageKey = getCmsPageSeoPageKey(cmsPage.slug);
   if (wiredPageKey) {
-    return resolveWiredPageKeyContext(wiredPageKey, origin, cmsPageId, allowWrites);
+    return resolveWiredPageKeyContext(
+      wiredPageKey,
+      origin,
+      cmsPageId,
+      allowWrites,
+      publicServing,
+    );
   }
 
   const cmsMeta = cmsPage.seoMeta;
   const cmsSeoTranslationRows = cmsMeta
     ? await translationService.getForEntity("SeoMeta", cmsMeta.id)
     : [];
-  const translations = legacyShapeFromTranslations(cmsSeoTranslationRows, [...SEO_FIELDS]);
-  const contentFallbacks = await loadCmsContentFallbacks(cmsPageId);
+  let translations = legacyShapeFromTranslations(cmsSeoTranslationRows, [...SEO_FIELDS]);
+  let contentFallbacks = await loadCmsContentFallbacks(cmsPageId);
+
+  if (publicServing) {
+    const publishedBinding = await resolvePublishedSeoTranslationBinding({
+      kind: "CmsPage",
+      entityId: cmsPageId,
+      seoMetaId: cmsMeta?.id,
+      seoFields: SEO_FIELDS,
+    });
+    if (publishedBinding) {
+      translations = publishedBinding.seoTranslations;
+      contentFallbacks = publishedBinding.contentFallbacks;
+    }
+  }
+
   const publicPath = getCmsPagePublicPath(cmsPage.slug);
 
   return {
@@ -321,13 +361,31 @@ async function resolveCmsPageIdContext(
   };
 }
 
-async function resolvePostContext(postId: string, origin: string): Promise<PageSeoContext> {
+async function resolvePostContext(
+  postId: string,
+  origin: string,
+  publicServing = false,
+): Promise<PageSeoContext> {
   const meta = await seoRepository.getByPostId(postId);
   const translationRows = meta
     ? await translationService.getForEntity("SeoMeta", meta.id)
     : [];
-  const translations = legacyShapeFromTranslations(translationRows, [...SEO_FIELDS]);
-  const contentFallbacks = await loadPostContentFallbacks(postId);
+  let translations = legacyShapeFromTranslations(translationRows, [...SEO_FIELDS]);
+  let contentFallbacks = await loadPostContentFallbacks(postId);
+
+  if (publicServing) {
+    const publishedBinding = await resolvePublishedSeoTranslationBinding({
+      kind: "Post",
+      entityId: postId,
+      seoMetaId: meta?.id,
+      seoFields: SEO_FIELDS,
+    });
+    if (publishedBinding) {
+      translations = publishedBinding.seoTranslations;
+      contentFallbacks = publishedBinding.contentFallbacks;
+    }
+  }
+
   const post = await prisma.post.findUnique({
     where: { id: postId },
     select: { slug: true },
@@ -365,7 +423,11 @@ async function resolvePackageContext(packageId: string, origin: string): Promise
   };
 }
 
-async function resolveContentItemContext(contentItemId: string, origin: string): Promise<PageSeoContext> {
+async function resolveContentItemContext(
+  contentItemId: string,
+  origin: string,
+  publicServing = false,
+): Promise<PageSeoContext> {
   const item = await prisma.contentItem.findUnique({
     where: { id: contentItemId },
     include: { contentType: true },
@@ -384,8 +446,22 @@ async function resolveContentItemContext(contentItemId: string, origin: string):
   const translationRows = meta
     ? await translationService.getForEntity("SeoMeta", meta.id)
     : [];
-  const translations = legacyShapeFromTranslations(translationRows, [...SEO_FIELDS]);
-  const contentFallbacks = await loadContentItemContentFallbacks(contentItemId);
+  let translations = legacyShapeFromTranslations(translationRows, [...SEO_FIELDS]);
+  let contentFallbacks = await loadContentItemContentFallbacks(contentItemId);
+
+  if (publicServing) {
+    const publishedBinding = await resolvePublishedSeoTranslationBinding({
+      kind: "ContentItem",
+      entityId: contentItemId,
+      seoMetaId: meta?.id,
+      seoFields: SEO_FIELDS,
+    });
+    if (publishedBinding) {
+      translations = publishedBinding.seoTranslations;
+      contentFallbacks = publishedBinding.contentFallbacks;
+    }
+  }
+
   const publicPath = resolveContentItemPublicPath(item);
 
   return {
@@ -457,10 +533,17 @@ export async function resolvePageSeoContext(
 ): Promise<PageSeoContext> {
   const originContext = input.originContext ?? "admin-preview";
   const allowWrites = isSeoWriteAllowed(input);
+  const publicServing = originContext === "public" && !allowWrites;
   const origin = await resolveSiteOrigin(originContext);
 
   if (input.pageKey && isStaticSeoPageKey(input.pageKey)) {
-    return await resolveWiredPageKeyContext(input.pageKey, origin, undefined, allowWrites);
+    return await resolveWiredPageKeyContext(
+      input.pageKey,
+      origin,
+      undefined,
+      allowWrites,
+      publicServing,
+    );
   }
 
   if (input.pageKey) {
@@ -468,11 +551,11 @@ export async function resolvePageSeoContext(
   }
 
   if (input.cmsPageId) {
-    return await resolveCmsPageIdContext(input.cmsPageId, origin, allowWrites);
+    return await resolveCmsPageIdContext(input.cmsPageId, origin, allowWrites, publicServing);
   }
 
   if (input.postId) {
-    return await resolvePostContext(input.postId, origin);
+    return await resolvePostContext(input.postId, origin, publicServing);
   }
 
   if (input.packageId) {
@@ -480,7 +563,7 @@ export async function resolvePageSeoContext(
   }
 
   if (input.contentItemId) {
-    return await resolveContentItemContext(input.contentItemId, origin);
+    return await resolveContentItemContext(input.contentItemId, origin, publicServing);
   }
 
   if (input.entityType && input.entityId) {
@@ -498,11 +581,17 @@ export async function resolvePageSeoContext(
       select: { id: true },
     });
     if (cmsPage) {
-      return await resolveCmsPageIdContext(cmsPage.id, origin);
+      return await resolveCmsPageIdContext(cmsPage.id, origin, allowWrites, publicServing);
     }
     const wiredKey = getCmsPageSeoPageKey(input.slug);
     if (wiredKey) {
-      return await resolveWiredPageKeyContext(wiredKey, origin, undefined, allowWrites);
+      return await resolveWiredPageKeyContext(
+        wiredKey,
+        origin,
+        undefined,
+        allowWrites,
+        publicServing,
+      );
     }
   }
 

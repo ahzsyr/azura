@@ -3,6 +3,7 @@ import type { Locale } from "@/i18n/routing";
 import { MarketingCmsPage } from "@/features/cms/components/marketing-cms-page";
 import { cmsService } from "@/features/cms/cms.service";
 import { seoService } from "@/features/seo/seo.service";
+import { loadPublicLocaleContext } from "@/features/i18n/public-locale-context";
 
 export const revalidate = 60;
 
@@ -11,7 +12,8 @@ type Props = { params: Promise<{ locale: string }> };
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   try {
-    const page = await cmsService.getPublishedPageBySlug("why-choose-us");
+    const { languageCode } = await loadPublicLocaleContext(locale);
+    const page = await cmsService.resolvePublishedPage("why-choose-us", languageCode);
     if (!page) return {};
 
     return seoService.resolveMetadata({

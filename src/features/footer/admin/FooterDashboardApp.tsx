@@ -8,7 +8,13 @@ import { useAdminFormOptional } from "@/components/admin/layout/admin-form-provi
 import { loadFooterWorkspaceFromServer } from "@/features/footer/footer-workspace-api";
 import { loadWorkspaceFromServer } from "@/features/navigation/header-workspace-api";
 import { collectFooterTranslationRefs } from "@/features/footer/footer-translation-refs";
-import { $footerCanRedo, $footerCanUndo, $footerWorkspace, redoFooterWorkspace, undoFooterWorkspace } from "@/features/footer/footer-store";
+import {
+  redoFooterWorkspace,
+  undoFooterWorkspace,
+  useFooterCanRedo,
+  useFooterCanUndo,
+  useFooterStore,
+} from "@/features/footer/footer-store";
 import { getWorkspaceTranslationsBulkAction } from "@/features/translation/actions";
 import { useAdminEditingLocale } from "@/features/translation/hooks/use-admin-editing-locale";
 import {
@@ -28,13 +34,12 @@ import {
   type FooterNavId,
 } from "./footer-builder-shell";
 import { FooterDirtySync, useFooterWorkspacePublish, useFooterWorkspaceSave } from "./FooterWorkspaceActions";
-import { useStore } from "@nanostores/react";
 import { Button } from "@/components/ui/button";
 import { Redo2, Undo2 } from "lucide-react";
 
 function FooterUndoRedoToolbar() {
-  const canUndo = useStore($footerCanUndo);
-  const canRedo = useStore($footerCanRedo);
+  const canUndo = useFooterCanUndo();
+  const canRedo = useFooterCanRedo();
 
   return (
     <div className="flex items-center gap-1">
@@ -131,7 +136,7 @@ export function FooterDashboardApp() {
   const [translationsReady, setTranslationsReady] = useState(false);
 
   const loadTranslations = useCallback(async () => {
-    const ws = $footerWorkspace.get();
+    const ws = useFooterStore.getState().workspace;
     const refs = collectFooterTranslationRefs(ws);
     const rows = await getWorkspaceTranslationsBulkAction(refs);
     setTranslationRows(rows);

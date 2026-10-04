@@ -10,11 +10,7 @@ import {
 } from "@/lib/patch";
 import { cmsRepository } from "@/repositories/cms.repository";
 import { searchIndexer } from "@/capabilities/search/search-indexer.service";
-import {
-  revalidateCmsPage,
-  revalidateMarketingHome,
-} from "@/services/cache";
-import { revalidateCmsPagePublicPaths } from "@/features/cms/revalidate-wired-marketing";
+import { revalidateCmsEntity } from "@/features/cms/publish-revalidate";
 import { syncCmsPageCache } from "@/features/cms/page-cache-sync";
 import {
   buildPageEditorFormData,
@@ -49,6 +45,7 @@ export type CmsPagePatchInput = {
   blockTranslationsRaw?: string | null;
   statusOverride?: ContentStatus;
   revisionMessage?: string;
+  editingLocale?: string | null;
   userId: string;
   metrics?: SavePipelineMetrics;
 };
@@ -126,6 +123,7 @@ export async function patchCmsPageRecord(
     blockTranslationsRaw,
     statusOverride,
     revisionMessage,
+    editingLocale,
     userId,
     metrics,
   } = input;
@@ -225,6 +223,7 @@ export async function patchCmsPageRecord(
       merged.composition,
       userId,
       revisionMessage || "Saved",
+      { editingLocale },
     ));
   }
 
@@ -290,10 +289,10 @@ export async function patchCmsPageRecord(
     }
     if (hasExecutionEffect(execution, "revalidate_paths") || statusOverride === "PUBLISHED") {
       incrementSavePipelineMetric(metrics, "revalidationRuns", existing.slug !== page.slug ? 4 : 3);
-      if (existing.slug !== page.slug) revalidateCmsPage(existing.slug);
-      revalidateCmsPage(page.slug);
-      revalidateMarketingHome();
-      revalidateCmsPagePublicPaths(page.slug);
+      if (existing.slug !== page.slug) {
+        await revalidateCmsEntity({ type: "page", slug: existing.slug });
+      }
+      await revalidateCmsEntity({ type: "page", slug: page.slug });
       incrementSavePipelineMetric(metrics, "seoRuns");
       if (existing.slug !== page.slug) {
         await seoTriggerService.handle({

@@ -1,20 +1,20 @@
-const SUPPORTED_DATABASE_URL_RE = /^(postgres(ql)?|mysql):\/\//i;
+const SUPPORTED_DATABASE_URL_RE = /^mysql:\/\//i;
 
-/** True when DATABASE_URL points at PostgreSQL (e.g. Supabase). */
+/** @deprecated PostgreSQL is not supported. Always false for supported configs. */
 export function isPostgresDatabaseUrl(url = process.env.DATABASE_URL ?? ""): boolean {
   return /^postgres(ql)?:\/\//i.test(sanitizeDatabaseUrl(url));
 }
 
-/** True when DATABASE_URL points at MySQL (e.g. Hostinger). */
+/** True when DATABASE_URL points at MySQL (Hostinger / Docker). */
 export function isMysqlDatabaseUrl(url = process.env.DATABASE_URL ?? ""): boolean {
   return /^mysql:\/\//i.test(sanitizeDatabaseUrl(url));
 }
 
-/** mysql or postgresql after sanitization. */
+/** Canonical protocol after sanitization. PostgreSQL URLs are rejected at runtime. */
 export function getDatabaseUrlProtocol(url = process.env.DATABASE_URL ?? ""): "mysql" | "postgresql" | null {
   const sanitized = sanitizeDatabaseUrl(url);
-  if (/^postgres(ql)?:\/\//i.test(sanitized)) return "postgresql";
   if (/^mysql:\/\//i.test(sanitized)) return "mysql";
+  if (/^postgres(ql)?:\/\//i.test(sanitized)) return "postgresql";
   return null;
 }
 
@@ -35,14 +35,15 @@ export function sanitizeDatabaseUrl(raw: string | undefined): string {
     url = url.replace(/^["']+|["']+$/g, "").trim();
   }
 
-  const postgresMatch = url.match(/(postgres(?:ql)?:\/\/[^\s"'<>]+)/i);
-  if (postgresMatch) {
-    return postgresMatch[1];
-  }
-
   const mysqlMatch = url.match(/(mysql:\/\/[^\s"'<>]+)/i);
   if (mysqlMatch) {
     return mysqlMatch[1];
+  }
+
+  // Detect misconfigured PostgreSQL URLs so callers can reject them explicitly.
+  const postgresMatch = url.match(/(postgres(?:ql)?:\/\/[^\s"'<>]+)/i);
+  if (postgresMatch) {
+    return postgresMatch[1];
   }
 
   return url.trim();
@@ -90,12 +91,12 @@ export function getRuntimeDatabaseUrl(): string {
   return normalizeConnectionLimit(applyMysqlHostOverride(sanitized));
 }
 
-/** True when env is set but no valid mysql:// or postgresql:// URL can be parsed. */
+/** True when env is set but no valid mysql:// URL can be parsed. */
 export function isDatabaseUrlMalformed(raw = process.env.DATABASE_URL): boolean {
   const trimmed = raw?.trim() ?? "";
   if (!trimmed) return false;
   const sanitized = sanitizeDatabaseUrl(trimmed);
-  return !sanitized || !isSupportedDatabaseUrl(sanitized);
+  return !sanitized || !isSupportedDatabaseUrl(sanitized) || isPostgresDatabaseUrl(sanitized);
 }
 
 /** Raw env has copy-paste noise but sanitization yields a usable URL. */

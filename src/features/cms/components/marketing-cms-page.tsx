@@ -5,6 +5,7 @@ import { cmsService } from "@/features/cms/cms.service";
 import { CmsPageRenderer } from "./cms-page-renderer";
 import { renderCmsDegradationResponse } from "./cms-degradation-response";
 import { getErrorMessage, isRecoverableDbError } from "@/lib/debug/recoverable-db-error";
+import { loadPublicLocaleContext } from "@/features/i18n/public-locale-context";
 
 type Props = {
   slug: string;
@@ -17,10 +18,11 @@ type Props = {
 
 export async function MarketingCmsPage({ slug, locale, page: pageProp }: Props) {
   try {
+    const { languageCode } = await loadPublicLocaleContext(locale);
     const page =
       pageProp !== undefined && pageProp !== null
         ? pageProp
-        : await cmsService.resolveMarketingPage(slug);
+        : await cmsService.resolveMarketingPage(slug, languageCode);
     if (!page) {
       if (slug === "home") {
         return await renderCmsDegradationResponse(slug, locale, { skipLive: true });

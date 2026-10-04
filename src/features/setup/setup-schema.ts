@@ -5,7 +5,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { getRuntimeDatabaseUrl, isMysqlDatabaseUrl, isPostgresDatabaseUrl } from "@/lib/database-url";
+import { getRuntimeDatabaseUrl } from "@/lib/database-url";
 
 /** Stable message shown when DB connects but core tables are missing. */
 export const SETUP_SCHEMA_MISSING_MESSAGE =
@@ -66,13 +66,7 @@ function resolvePrismaCli(cwd: string): string | null {
 }
 
 function resolvePrismaSchemaPath(): string {
-  if (process.env.PRISMA_SCHEMA === "postgresql" || isPostgresDatabaseUrl()) {
-    return "prisma/schema/postgresql";
-  }
-  if (process.env.PRISMA_SCHEMA === "mysql" || isMysqlDatabaseUrl()) {
-    return "prisma/schema/mysql";
-  }
-  return isPostgresDatabaseUrl() ? "prisma/schema/postgresql" : "prisma/schema/mysql";
+  return "prisma/schema/mysql";
 }
 
 /** Child migrate/push must use the same runtime URL as the app (Hostinger localhost override). */

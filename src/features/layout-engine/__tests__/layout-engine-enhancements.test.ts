@@ -54,6 +54,35 @@ describe("compositionService.load legacy upgrade", () => {
     assert.equal(loaded.metadata.showPublishedAt, true);
   });
 
+  it("persists Page AST envelope without lifecycle status", () => {
+    const source = compositionService.createEmpty();
+    const saved = compositionService.save(source, { meta: { locale: "en", label: "Home" } });
+    const envelope = saved.composition as Record<string, unknown>;
+    assert.equal(envelope.version, 1);
+    assert.equal("status" in envelope, false);
+    assert.equal(typeof envelope.composition, "object");
+    const meta = envelope.meta as Record<string, unknown>;
+    assert.equal(meta.locale, "en");
+    assert.equal(meta.label, "Home");
+
+    const document = compositionService.loadDocument({ composition: saved.composition });
+    assert.equal(document.version, 1);
+    assert.equal(document.meta?.locale, "en");
+    assert.deepEqual(document.composition.regions.top, []);
+  });
+
+  it("loads legacy bare composition and Page AST envelope the same way", () => {
+    const legacy = compositionService.createEmpty();
+    legacy.regions.primary = [{ id: "b1", type: "richText", props: {}, children: [] }];
+    const fromLegacy = compositionService.load({ composition: legacy });
+    const fromEnvelope = compositionService.load({
+      composition: compositionService.save(legacy).composition,
+    });
+    assert.equal(fromLegacy.regions.primary.length, 1);
+    assert.equal(fromEnvelope.regions.primary.length, 1);
+    assert.equal(fromEnvelope.regions.primary[0]?.id, "b1");
+  });
+
   it("upgrades legacy blocks array into primary region", () => {
     const loaded = compositionService.load({
       blocks: [{ id: "legacy", type: "richText", props: {}, children: [] }],

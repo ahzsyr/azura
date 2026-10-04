@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { useConstrainedMotion, ADMIN_MOTION_MOBILE } from "@/hooks/use-constrained-motion";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { cn } from "@/lib/utils";

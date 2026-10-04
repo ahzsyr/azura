@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { SectionHeader } from "@/components/marketing/section";
 import { CompositeVisualStage } from "@/features/builder/blocks/marketing/components/composite-visual-stage";

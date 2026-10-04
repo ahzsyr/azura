@@ -29,7 +29,7 @@ export const HELP_TROUBLESHOOTING: HelpTroubleshooting[] = [
     title: "Forms not receiving submissions",
     problem: "Visitors submit forms but you do not see leads or emails.",
     causes: [
-      "Email / SMTP not configured",
+      "Email / Resend not configured",
       "Notification recipients wrong or disabled",
       "Messages landing in spam",
       "Form validation blocking submit",
@@ -45,7 +45,7 @@ export const HELP_TROUBLESHOOTING: HelpTroubleshooting[] = [
       { label: "Open Submissions", href: "/admin/form-submissions" },
       { label: "Email Accounts", href: "/admin/settings/email-accounts" },
     ],
-    keywords: ["forms", "smtp", "email", "submissions", "leads", "notifications"],
+    keywords: ["forms", "email", "resend", "submissions", "leads", "notifications"],
     navItemIds: ["form-templates", "form-submissions", "email-accounts"],
   },
   {

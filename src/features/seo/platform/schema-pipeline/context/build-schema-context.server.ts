@@ -146,7 +146,7 @@ export async function buildSchemaContext(
     environment:
       process.env.NODE_ENV === "test"
         ? "test"
-        : process.env.VERCEL_ENV === "preview"
+        : process.env.NODE_ENV === "development"
           ? "preview"
           : "production",
   };

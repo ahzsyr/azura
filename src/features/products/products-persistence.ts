@@ -13,7 +13,7 @@ import {
 import {
   assertFilesystemPersistenceAllowed,
   isCloudNativeProduction,
-} from "@/lib/cloud-native-guard";
+} from "@/lib/production-runtime-guard";
 
 export const CATALOG_PRODUCTS_NAMESPACE = "catalog-products";
 

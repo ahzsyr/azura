@@ -44,20 +44,17 @@ export function toPublicEmailAccount(account: EmailAccountRecord): EmailAccountP
     provider: account.provider,
     from: account.from,
     hasResendApiKey: Boolean(account.resendApiKeySealed?.trim()),
-    smtpHost: account.smtp?.host,
-    smtpPort: account.smtp?.port,
-    hasSmtpUser: Boolean(account.smtp?.userSealed?.trim()),
-    hasSmtpPass: Boolean(account.smtp?.passSealed?.trim()),
+    isLegacySmtp: account.provider === "smtp",
     createdAt: account.createdAt,
     updatedAt: account.updatedAt,
   };
 }
 
 export function isEmailAccountConfigured(account: EmailAccountRecord): boolean {
-  if (account.provider === "resend") {
-    return Boolean(account.from?.trim() && account.resendApiKeySealed?.trim());
-  }
-  return Boolean(account.from?.trim() && account.smtp?.host?.trim());
+  return (
+    account.provider === "resend" &&
+    Boolean(account.from?.trim() && account.resendApiKeySealed?.trim())
+  );
 }
 
 export async function listEmailAccounts(): Promise<EmailAccountPublic[]> {
@@ -77,28 +74,14 @@ export async function resolveEmailProviderConfig(
 ): Promise<EmailProviderConfig | null> {
   if (!accountId?.trim()) return null;
   const account = await getEmailAccountRecord(accountId.trim());
-  if (!account) return null;
+  if (!account || account.provider !== "resend") return null;
 
-  if (account.provider === "resend") {
-    const resendApiKey = unsealSecret(account.resendApiKeySealed);
-    if (!resendApiKey) return null;
-    return {
-      provider: "resend",
-      from: account.from,
-      resendApiKey,
-    };
-  }
-
-  if (!account.smtp?.host) return null;
+  const resendApiKey = unsealSecret(account.resendApiKeySealed);
+  if (!resendApiKey) return null;
   return {
-    provider: "smtp",
+    provider: "resend",
     from: account.from,
-    smtp: {
-      host: account.smtp.host,
-      port: account.smtp.port || 587,
-      user: unsealSecret(account.smtp.userSealed),
-      pass: unsealSecret(account.smtp.passSealed),
-    },
+    resendApiKey,
   };
 }
 
@@ -109,54 +92,25 @@ export async function upsertEmailAccount(
   const from = input.from.trim();
   if (!name) throw new Error("Account name is required.");
   if (!from.includes("@")) throw new Error("A valid From email is required.");
+  if (input.provider !== "resend") {
+    throw new Error("Only Resend email accounts are supported.");
+  }
 
   const store = await readStore();
   const now = new Date().toISOString();
   const existing = input.id ? store.accounts.find((a) => a.id === input.id) : undefined;
 
-  if (input.provider === "resend") {
-    const sealedKey =
-      sealSecret(input.resendApiKey) ?? existing?.resendApiKeySealed;
-    if (!sealedKey) throw new Error("Resend API key is required.");
-
-    const record: EmailAccountRecord = {
-      id: existing?.id ?? randomUUID(),
-      name,
-      provider: "resend",
-      from,
-      resendApiKeySealed: sealedKey,
-      createdAt: existing?.createdAt ?? now,
-      updatedAt: now,
-    };
-
-    if (existing) {
-      store.accounts = store.accounts.map((a) => (a.id === existing.id ? record : a));
-    } else {
-      store.accounts.push(record);
-    }
-    await writeStore(store);
-    return toPublicEmailAccount(record);
-  }
-
-  const host = (input.smtpHost ?? existing?.smtp?.host ?? "").trim();
-  if (!host) throw new Error("SMTP host is required.");
-  const port = Number(input.smtpPort ?? existing?.smtp?.port ?? 587) || 587;
-  const userSealed =
-    sealSecret(input.smtpUser) ?? existing?.smtp?.userSealed;
-  const passSealed =
-    sealSecret(input.smtpPass) ?? existing?.smtp?.passSealed;
+  const sealedKey =
+    sealSecret(input.resendApiKey) ??
+    (existing?.provider === "resend" ? existing.resendApiKeySealed : undefined);
+  if (!sealedKey) throw new Error("Resend API key is required.");
 
   const record: EmailAccountRecord = {
     id: existing?.id ?? randomUUID(),
     name,
-    provider: "smtp",
+    provider: "resend",
     from,
-    smtp: {
-      host,
-      port,
-      userSealed,
-      passSealed,
-    },
+    resendApiKeySealed: sealedKey,
     createdAt: existing?.createdAt ?? now,
     updatedAt: now,
   };

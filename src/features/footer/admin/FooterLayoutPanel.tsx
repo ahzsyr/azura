@@ -1,13 +1,12 @@
 "use client";
 
-import { useStore } from "@nanostores/react";
-import { $footerWorkspace, patchFooter } from "@/features/footer/footer-store";
+import { patchFooter, useFooterWorkspace } from "@/features/footer/footer-store";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { OptionButtonGroup } from "@/features/navigation/admin/header-builder-ui";
 
 export function FooterLayoutPanel() {
-  const workspace = useStore($footerWorkspace);
+  const workspace = useFooterWorkspace();
 
   return (
     <Card>

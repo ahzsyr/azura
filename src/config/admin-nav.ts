@@ -577,7 +577,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         href: "/admin/settings/email-accounts",
         label: "Email Accounts",
         icon: Mail,
-        keywords: ["email", "smtp", "resend", "notifications", "forms", "mail"],
+        keywords: ["email", "resend", "notifications", "forms", "mail"],
         navItemId: "email-accounts",
       },
       {

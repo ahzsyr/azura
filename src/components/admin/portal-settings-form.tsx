@@ -67,7 +67,7 @@ function EmailAccountSelect({
         onChange={(e) => onChange(e.target.value)}
       >
         <option value="">
-          {allowEnvFallback ? "Env default (RESEND / SMTP)" : "Select an Email Account"}
+          {allowEnvFallback ? "Env default (RESEND)" : "Select an Email Account"}
         </option>
         {emailAccounts.map((account) => (
           <option key={account.id} value={account.id}>

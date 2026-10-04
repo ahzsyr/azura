@@ -1,7 +1,6 @@
 import "server-only";
 
 import { Resend } from "resend";
-import type nodemailer from "nodemailer";
 import type { EmailProviderConfig } from "@/features/email/email-accounts.types";
 import {
   getEmailAccountRecord,
@@ -35,7 +34,7 @@ export type SendEmailResult = {
 
 export type EmailDeliveryStatus = {
   configured: boolean;
-  provider: "resend" | "smtp" | "none";
+  provider: "resend" | "none";
   from: string;
   /** How delivery was resolved. */
   source: "account" | "env" | "none";
@@ -56,18 +55,6 @@ function getEnvProviderConfig(): EmailProviderConfig | null {
       resendApiKey: process.env.RESEND_API_KEY.trim(),
     };
   }
-  if (process.env.SMTP_HOST?.trim()) {
-    return {
-      provider: "smtp",
-      from: getEnvFromAddress(),
-      smtp: {
-        host: process.env.SMTP_HOST.trim(),
-        port: Number(process.env.SMTP_PORT ?? 587) || 587,
-        user: process.env.SMTP_USER?.trim() || undefined,
-        pass: process.env.SMTP_PASS?.trim() || undefined,
-      },
-    };
-  }
   return null;
 }
 
@@ -80,7 +67,7 @@ export function getEmailDeliveryStatusFromEnv(): EmailDeliveryStatus {
       from: getEnvFromAddress(),
       source: "none",
       message:
-        "Select an email account or configure one under Settings → Email Accounts (env RESEND_API_KEY / SMTP_HOST is a fallback).",
+        "Select an email account or configure one under Settings → Email Accounts (env RESEND_API_KEY is a fallback).",
     };
   }
   return {
@@ -114,27 +101,19 @@ export async function getEmailDeliveryStatusForAccount(
     const configured = isEmailAccountConfigured(record);
     return {
       configured,
-      provider: configured ? record.provider : "none",
+      provider: configured ? "resend" : "none",
       from: record.from,
       source: "account",
       accountId: record.id,
       accountName: record.name,
       message: configured
         ? undefined
-        : "This email account is missing credentials. Edit it under Settings → Email Accounts.",
+        : record.provider === "smtp"
+          ? "SMTP accounts are no longer supported. Recreate this account with Resend under Settings → Email Accounts."
+          : "This email account is missing credentials. Edit it under Settings → Email Accounts.",
     };
   }
   return getEmailDeliveryStatusFromEnv();
-}
-
-async function createSmtpTransport(smtp: NonNullable<EmailProviderConfig["smtp"]>) {
-  const nodemailerModule = await import("nodemailer");
-  return nodemailerModule.default.createTransport({
-    host: smtp.host,
-    port: smtp.port,
-    secure: smtp.port === 465,
-    auth: smtp.user && smtp.pass ? { user: smtp.user, pass: smtp.pass } : undefined,
-  });
 }
 
 function providerErrorMessage(err: unknown): string {
@@ -147,7 +126,7 @@ function providerErrorMessage(err: unknown): string {
 }
 
 function notConfiguredMessage(): string {
-  return "Email delivery failed. Reason: No email provider configured. Select an email account on the form, or configure Settings → Email Accounts (or RESEND_API_KEY / SMTP_HOST).";
+  return "Email delivery failed. Reason: No email provider configured. Select an email account on the form, or configure Settings → Email Accounts (or RESEND_API_KEY).";
 }
 
 function formatFromAddress(from: string, fromName?: string): string {
@@ -182,71 +161,37 @@ export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult>
     return { sent: false, errorCode: "not_configured", errorMessage, devLog };
   }
 
+  if (config.provider !== "resend" || !config.resendApiKey) {
+    const errorMessage = notConfiguredMessage();
+    console.error("[email] delivery failed", { errorCode: "not_configured", errorMessage, to });
+    return { sent: false, errorCode: "not_configured", errorMessage };
+  }
+
   const from = formatFromAddress(config.from, input.fromName);
 
-  if (config.provider === "resend") {
-    if (!config.resendApiKey) {
-      const errorMessage = notConfiguredMessage();
-      console.error("[email] delivery failed", { errorCode: "not_configured", errorMessage, to });
-      return { sent: false, errorCode: "not_configured", errorMessage };
-    }
-    try {
-      const resend = new Resend(config.resendApiKey);
-      const { error } = await resend.emails.send({
-        from,
-        to,
-        subject: input.subject,
-        html: input.html,
-        text: input.text,
-        replyTo: input.replyTo,
-        ...(cc ? { cc } : {}),
-        ...(bcc ? { bcc } : {}),
-      });
-      if (error) {
-        const errorMessage = `Resend API returned: ${error.message}`;
-        console.error("[email] delivery failed", { errorCode: "provider_error", errorMessage, to });
-        return { sent: false, errorCode: "provider_error", errorMessage };
-      }
-      return { sent: true };
-    } catch (err) {
-      const errorMessage = `Resend API returned: ${providerErrorMessage(err)}`;
+  try {
+    const resend = new Resend(config.resendApiKey);
+    const { error } = await resend.emails.send({
+      from,
+      to,
+      subject: input.subject,
+      html: input.html,
+      text: input.text,
+      replyTo: input.replyTo,
+      ...(cc ? { cc } : {}),
+      ...(bcc ? { bcc } : {}),
+    });
+    if (error) {
+      const errorMessage = `Resend API returned: ${error.message}`;
       console.error("[email] delivery failed", { errorCode: "provider_error", errorMessage, to });
       return { sent: false, errorCode: "provider_error", errorMessage };
     }
+    return { sent: true };
+  } catch (err) {
+    const errorMessage = `Resend API returned: ${providerErrorMessage(err)}`;
+    console.error("[email] delivery failed", { errorCode: "provider_error", errorMessage, to });
+    return { sent: false, errorCode: "provider_error", errorMessage };
   }
-
-  if (config.provider === "smtp") {
-    if (!config.smtp?.host) {
-      const errorMessage = notConfiguredMessage();
-      console.error("[email] delivery failed", { errorCode: "not_configured", errorMessage, to });
-      return { sent: false, errorCode: "not_configured", errorMessage };
-    }
-    try {
-      const transport = await createSmtpTransport(config.smtp);
-      await transport.sendMail({
-        from,
-        to: to.join(", "),
-        subject: input.subject,
-        html: input.html,
-        text: input.text,
-        replyTo: input.replyTo,
-        ...(cc ? { cc: cc.join(", ") } : {}),
-        ...(bcc ? { bcc: bcc.join(", ") } : {}),
-      });
-      return { sent: true };
-    } catch (err) {
-      const detail = providerErrorMessage(err);
-      const errorMessage = detail.toLowerCase().includes("auth")
-        ? `SMTP authentication failed. ${detail}`
-        : `SMTP delivery failed. ${detail}`;
-      console.error("[email] delivery failed", { errorCode: "provider_error", errorMessage, to });
-      return { sent: false, errorCode: "provider_error", errorMessage };
-    }
-  }
-
-  const errorMessage = notConfiguredMessage();
-  console.error("[email] delivery failed", { errorCode: "not_configured", errorMessage, to });
-  return { sent: false, errorCode: "not_configured", errorMessage };
 }
 
 /** Resolve accountId → provider config, falling back to env when unset or unresolved. */

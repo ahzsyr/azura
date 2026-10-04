@@ -12,7 +12,16 @@ import {
 } from "@/lib/editor-url-sync";
 import { useEditorPublishStatus, markEditorPlainSavePending } from "@/hooks/use-editor-publish-status";
 import { SLUG_INPUT_PATTERN } from "@/lib/slug-pattern";
-import type { Post, PostAuthor, PostCategory, PostTag, SeoMeta, EntityTranslation, ContentStatus } from "@prisma/client";
+import type {
+  Post,
+  PostAuthor,
+  PostCategory,
+  PostRevision,
+  PostTag,
+  SeoMeta,
+  EntityTranslation,
+  ContentStatus,
+} from "@prisma/client";
 import { resolveTranslation } from "@/features/translation/translation-resolver";
 import { legacyShapeFromTranslations } from "@/features/portal/lib/portal-translation-shape";
 import type { PublicLocale } from "@/i18n/locale-config";
@@ -27,7 +36,10 @@ import { PostSeoPanel } from "./post-seo-panel";
 import {
   savePostFromEditor,
   duplicatePost,
+  restorePostRevision,
 } from "@/features/cms/actions";
+import { BlockEditorHistory } from "@/features/builder/components/block-editor";
+import { migrateBlocksToBlockSystem } from "@/features/builder/migration/upgrade-blocks";
 import { formatScheduledInput } from "@/features/cms/scheduling-utils";
 import { compositionService } from "@/features/layout-engine/composition.service";
 import type { Composition, RegionId } from "@/features/layout-engine/types";
@@ -60,7 +72,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import type { PageBlocks } from "@/types/builder";
+import type { BlockNode, PageBlocks } from "@/types/builder";
 import { migrateLegacyCatalogBlocks } from "@/features/builder/migrate-legacy-blocks";
 import Link from "next/link";
 import { Copy, ExternalLink } from "lucide-react";
@@ -96,6 +108,7 @@ const POST_TABS = [
   { id: "content", label: "Content" },
   { id: "layout", label: "Page Layout" },
   { id: "preview", label: "Preview" },
+  { id: "history", label: "History" },
   { id: "seo", label: "SEO" },
 ] as const;
 
@@ -110,6 +123,7 @@ type PostFull = Post & {
   tags: { tagId: string }[];
   featuredImage?: { url: string } | null;
   seoMeta?: SeoMeta | null;
+  revisions?: PostRevision[];
 };
 
 type PostOption = {
@@ -162,6 +176,7 @@ function PostTabPanel({
   onSelectRegion,
   handleCompositionChange,
   handleBlocksChange,
+  handleBlockChange,
   blocksRef,
   onGoToLayout,
   categoryIds,
@@ -260,7 +275,7 @@ function PostTabPanel({
   sources: CitationSource[];
   setSources: (sources: CitationSource[]) => void;
 }) {
-  const { isRtl } = useAdminEditingLocale();
+  const { isRtl, activeLocaleCode } = useAdminEditingLocale();
   const activeRegions = getEditableRegions(composition);
   const editorBlocks = composition.regions[selectedRegion] ?? [];
 
@@ -589,6 +604,33 @@ function PostTabPanel({
               testimonialCollectionOptions={testimonialCollectionOptions}
               collectionOptions={collectionOptions}
               productOptions={productOptions}
+            />
+          </CardContent>
+        </Card>
+      )}
+
+      {tab === "history" && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Version history</CardTitle>
+            <CardDescription>Restore a previous full AST snapshot of this post.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <BlockEditorHistory
+              revisions={post?.revisions ?? []}
+              onRestoreRevision={
+                post?.id
+                  ? async (revisionId) => {
+                      await restorePostRevision(post.id, revisionId);
+                      window.location.reload();
+                    }
+                  : undefined
+              }
+              onPreviewBlocks={(revBlocks) => {
+                handleBlocksChange(
+                  migrateBlocksToBlockSystem(structuredClone(revBlocks) as PageBlocks).blocks,
+                );
+              }}
             />
           </CardContent>
         </Card>
@@ -1046,6 +1088,7 @@ export function PostEditorForm({
         <input type="hidden" name="editorRegion" value={selectedRegion} readOnly />
         <input type="hidden" name="selectedBlockId" value={selectedBlockId ?? ""} readOnly />
         <input type="hidden" name="editorInspector" value={inspectorTab} readOnly />
+        <input type="hidden" name="editingLocale" value={activeLocaleCode} readOnly />
         <input type="hidden" name="categoryIds" value={JSON.stringify(categoryIds)} />
         <input type="hidden" name="tagIds" value={JSON.stringify(tagIds)} />
         <input type="hidden" name="relatedPostIds" value={JSON.stringify(relatedPostIds)} />

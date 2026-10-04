@@ -1,11 +1,10 @@
 "use client";
 
-import { useStore } from "@nanostores/react";
 import { routing } from "@/i18n/routing";
 import { type PublicLocale } from "@/i18n/locale-config";
 import { localePath, resolveActionHref } from "@/features/navigation/resolve-href";
 import type { HeaderAction, HeaderWorkspace } from "@/features/navigation/types";
-import { $workspace } from "@/features/navigation/header-store";
+import { useHeaderWorkspace } from "@/features/navigation/header-store";
 import { resolveMenuForSurface } from "@/features/navigation/menu-engine";
 import { HeaderActions } from "./HeaderActions";
 import { MobileNavActionsPortal } from "./MobileNavActionsPortal";
@@ -57,7 +56,7 @@ export function HeaderRenderer({
   headerConfig,
   enabledLocales: _enabledLocales,
 }: Props) {
-  const storeWs = useStore($workspace);
+  const storeWs = useHeaderWorkspace();
   const workspace = controlled ?? storeWs;
 
   const activeMenu = workspace.menusDatabase[workspace.activeMenuKey];

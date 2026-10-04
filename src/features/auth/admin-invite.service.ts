@@ -78,11 +78,26 @@ export async function inviteAdmin(input: {
   const locale = input.locale?.trim() || "en";
   const inviteLink = `${getSiteBaseUrl()}${accountPublicPath(locale, "accept-invite")}?token=${encodeURIComponent(rawToken)}`;
 
+  const { renderTransactionalEmail } = await import(
+    "@/features/email/react-templates"
+  );
+  const rendered = await renderTransactionalEmail({
+    preview: "Admin invitation",
+    heading: "You are invited to the admin panel",
+    paragraphs: [
+      `Hello ${name},`,
+      `You have been invited as an administrator. Set your password using this link (expires in ${INVITE_EXPIRY_HOURS} hours):`,
+    ],
+    linkUrl: inviteLink,
+    linkLabel: inviteLink,
+  });
   await sendEmail({
     to: email,
     subject: "You are invited to the admin panel",
-    html: `<p>Hello ${name},</p><p>You have been invited as an administrator. Set your password using this link (expires in ${INVITE_EXPIRY_HOURS} hours):</p><p><a href="${inviteLink}">${inviteLink}</a></p>`,
-    text: `Hello ${name},\n\nYou have been invited as an administrator. Set your password:\n${inviteLink}\n`,
+    html: rendered.html,
+    text:
+      rendered.text ??
+      `Hello ${name},\n\nYou have been invited as an administrator. Set your password:\n${inviteLink}\n`,
   });
 
   await writeSecurityAuditLog({

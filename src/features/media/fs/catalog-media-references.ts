@@ -7,7 +7,7 @@ import type { MediaUsage } from "./types";
 import { getCatalogLocaleCodes } from "@/features/catalog/locales";
 import { walkProductJsonFiles } from "@/features/products/fs/product-fs-scan";
 import { useCatalogProductsDb } from "@/features/products/products-source";
-import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
+import { isCloudNativeProduction } from "@/lib/production-runtime-guard";
 import { catalogSeedRoot } from "@/lib/catalog-seed-paths";
 
 const DATA_DIR = catalogSeedRoot();

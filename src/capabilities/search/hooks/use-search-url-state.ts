@@ -1,8 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { safeAppRouterNavigate } from "@/lib/navigation/safe-app-router";
+import {
+  createParser,
+  useQueryStates,
+  type Options,
+} from "nuqs";
 import type { SearchEntityType } from "@prisma/client";
 import {
   parseFacetsParam,
@@ -15,21 +18,68 @@ export type SearchUrlState = {
   facets: Record<string, string[]>;
 };
 
+function facetsEqual(a: Record<string, string[]>, b: Record<string, string[]>): boolean {
+  const aKeys = Object.keys(a);
+  const bKeys = Object.keys(b);
+  if (aKeys.length !== bKeys.length) return false;
+  return aKeys.every((key) => {
+    const av = a[key] ?? [];
+    const bv = b[key] ?? [];
+    if (av.length !== bv.length) return false;
+    return av.every((value, index) => value === bv[index]);
+  });
+}
+
+function typesEqual(a: SearchEntityType[], b: SearchEntityType[]): boolean {
+  if (a.length !== b.length) return false;
+  return a.every((value, index) => value === b[index]);
+}
+
+const parseAsSearchTypes = createParser({
+  parse: (raw) => parseTypesParam(raw) ?? [],
+  serialize: (types: SearchEntityType[]) => types.join(","),
+  eq: typesEqual,
+}).withDefault([] as SearchEntityType[]);
+
+const parseAsSearchFacets = createParser({
+  parse: (raw) => parseFacetsParam(raw) ?? {},
+  serialize: (facets: Record<string, string[]>) => {
+    const payload: Record<string, string[]> = {};
+    for (const [key, values] of Object.entries(facets)) {
+      if (values.length) payload[key] = values;
+    }
+    return JSON.stringify(payload);
+  },
+  eq: facetsEqual,
+}).withDefault({} as Record<string, string[]>);
+
+export const searchUrlParsers = {
+  q: createParser({
+    parse: (raw) => raw,
+    serialize: (value: string) => value.trim(),
+    eq: (a, b) => a.trim() === b.trim(),
+  }).withDefault(""),
+  types: parseAsSearchTypes,
+  facets: parseAsSearchFacets,
+};
+
 export function useSearchUrlState(options?: {
   onStateChange?: (state: SearchUrlState) => void;
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const [values, setValues] = useQueryStates(searchUrlParsers, {
+    history: "replace",
+    scroll: false,
+  });
   const onChangeRef = useRef(options?.onStateChange);
   onChangeRef.current = options?.onStateChange;
 
   const state = useMemo((): SearchUrlState => {
-    const q = searchParams.get("q") ?? "";
-    const types = parseTypesParam(searchParams.get("types")) ?? [];
-    const facets = parseFacetsParam(searchParams.get("facets")) ?? {};
-    return { q, types, facets };
-  }, [searchParams]);
+    return {
+      q: values.q,
+      types: values.types,
+      facets: values.facets,
+    };
+  }, [values]);
 
   useEffect(() => {
     onChangeRef.current?.(state);
@@ -37,36 +87,34 @@ export function useSearchUrlState(options?: {
 
   const writeUrl = useCallback(
     (next: Partial<SearchUrlState>, replace = false) => {
-      const params = new URLSearchParams(searchParams.toString());
+      const patch: Partial<{
+        q: string | null;
+        types: SearchEntityType[] | null;
+        facets: Record<string, string[]> | null;
+      }> = {};
+
       if (next.q !== undefined) {
-        if (next.q.trim()) params.set("q", next.q.trim());
-        else params.delete("q");
+        const trimmed = next.q.trim();
+        patch.q = trimmed ? trimmed : null;
       }
       if (next.types !== undefined) {
-        if (next.types.length) params.set("types", next.types.join(","));
-        else params.delete("types");
+        patch.types = next.types.length ? next.types : null;
       }
       if (next.facets !== undefined) {
-        const keys = Object.keys(next.facets);
-        if (keys.length) {
-          const payload: Record<string, string[]> = {};
-          for (const [k, v] of Object.entries(next.facets)) {
-            if (v.length) payload[k] = v;
-          }
-          if (Object.keys(payload).length) {
-            params.set("facets", JSON.stringify(payload));
-          } else {
-            params.delete("facets");
-          }
-        } else {
-          params.delete("facets");
+        const payload: Record<string, string[]> = {};
+        for (const [key, values] of Object.entries(next.facets)) {
+          if (values.length) payload[key] = values;
         }
+        patch.facets = Object.keys(payload).length ? payload : null;
       }
-      const qs = params.toString();
-      const href = qs ? `${pathname}?${qs}` : pathname;
-      safeAppRouterNavigate(router, href, { replace });
+
+      const setOptions: Options = {
+        history: replace ? "replace" : "push",
+        scroll: false,
+      };
+      void setValues(patch, setOptions);
     },
-    [pathname, router, searchParams]
+    [setValues],
   );
 
   return { state, writeUrl };

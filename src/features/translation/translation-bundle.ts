@@ -11,6 +11,11 @@ import {
   type BlockParentType,
 } from "./block-translation";
 import { resolveTranslation, type TranslationContext } from "./translation-resolver";
+import { resolveLocaleCandidates } from "@/i18n/locale-resolution";
+import {
+  resolveFieldTranslation,
+  resolveSlugWithLocaleContract,
+} from "@/features/translation/resolve-field-translation";
 
 export type EntityRef = {
   entityType: string;
@@ -30,7 +35,15 @@ function bundleKey(entityType: string, entityId: string): string {
   return `${entityType}:${entityId}`;
 }
 
-export async function loadTranslationBundle(refs: EntityRef[]): Promise<TranslationBundle> {
+export type LoadTranslationBundleOptions = {
+  /** When true (Draft Mode preview), include DRAFT/REVIEW EntityTranslation rows. */
+  includeUnpublished?: boolean;
+};
+
+export async function loadTranslationBundle(
+  refs: EntityRef[],
+  options: LoadTranslationBundleOptions = {},
+): Promise<TranslationBundle> {
   const enabledLocales = await localeService.listEnabled();
   const defaultCode = enabledLocales.find((l) => l.isDefault)?.code ?? "en";
 
@@ -49,7 +62,7 @@ export async function loadTranslationBundle(refs: EntityRef[]): Promise<Translat
     prisma.entityTranslation.findMany({
       where: {
         OR: orConditions,
-        status: "PUBLISHED",
+        ...(options.includeUnpublished ? {} : { status: "PUBLISHED" }),
       },
     }),
     prisma.localizedSlug.findMany({
@@ -107,50 +120,81 @@ export function getLocalizedSlugFromBundle(
   entityType: string,
   entityId: string,
   localeCode: string,
-  fallbackSlug?: string
+  fallbackSlug?: string,
 ): string {
   const slugs = bundle.slugs[bundleKey(entityType, entityId)];
   if (!slugs) return fallbackSlug ?? "";
 
-  const normalized = localeCode.toLowerCase();
-  if (slugs[normalized]) return slugs[normalized];
-
-  for (const locale of bundle.enabledLocales) {
-    const code = locale.code.toLowerCase();
-    if (slugs[code]) return slugs[code];
-  }
-
-  return fallbackSlug ?? "";
+  return resolveSlugWithLocaleContract({
+    slugs,
+    requestedLocale: localeCode,
+    enabledLocales: bundle.enabledLocales,
+    defaultCode: bundle.defaultCode,
+    isAdmin: false,
+    fallbackSlug,
+  });
 }
 
+export function resolveFieldTranslationFromBundle(params: {
+  bundle: TranslationBundle;
+  entityType: string;
+  entityId: string;
+  field: string;
+  requestedLocale: string;
+  isAdmin: boolean;
+  includeUnpublished?: boolean;
+}): string | null {
+  return resolveFieldTranslation({
+    field: params.field,
+    requestedLocale: params.requestedLocale,
+    isAdmin: params.isAdmin,
+    translations: getBundleTranslations(params.bundle, params.entityType, params.entityId),
+    enabledLocales: params.bundle.enabledLocales,
+    defaultCode: params.bundle.defaultCode,
+    includeUnpublished: params.includeUnpublished,
+  });
+}
+
+/**
+ * Resolve an entity by a localized slug, walking the public locale candidate chain
+ * (requested → language base → site default) so fr-CA can match a fr slug row.
+ */
 export async function resolveEntityByLocalizedSlug(
   entityType: string,
   slug: string,
-  localeCode: string
+  localeCode: string,
 ): Promise<{ entityId: string; slug: string } | null> {
-  const normalizedLocale = localeCode.toLowerCase();
-  const loader = createCached(
-    async () => {
-      const row = await prisma.localizedSlug.findFirst({
-        where: {
-          entityType,
-          slug,
-          localeCode: normalizedLocale,
-        },
-      });
-      if (!row) return null;
-      return { entityId: row.entityId, slug: row.slug };
-    },
-    ["localized-slug", entityType, slug, normalizedLocale],
-    {
-      tags: [
-        CACHE_TAGS.translations,
-        CACHE_TAGS.localizedSlug(entityType, slug, normalizedLocale),
-      ],
-      revalidate: 300,
-    }
-  );
-  return loader();
+  const enabledLocales = await localeService.listEnabled();
+  const defaultCode = enabledLocales.find((l) => l.isDefault)?.code ?? "en";
+  const candidates = resolveLocaleCandidates(localeCode, enabledLocales, defaultCode);
+
+  for (const candidate of candidates) {
+    const loader = createCached(
+      async () => {
+        const row = await prisma.localizedSlug.findFirst({
+          where: {
+            entityType,
+            slug,
+            localeCode: candidate,
+          },
+        });
+        if (!row) return null;
+        return { entityId: row.entityId, slug: row.slug };
+      },
+      ["localized-slug", entityType, slug, candidate],
+      {
+        tags: [
+          CACHE_TAGS.translations,
+          CACHE_TAGS.localizedSlug(entityType, slug, candidate),
+        ],
+        revalidate: 300,
+      },
+    );
+    const hit = await loader();
+    if (hit) return hit;
+  }
+
+  return null;
 }
 
 export function buildPageBundleRefs(
@@ -184,11 +228,16 @@ export function getBlockTranslationsFromBundle(
 export async function loadPageTranslationBundle(
   parentType: BlockParentType,
   parentId: string,
-  blocksOrComposition?: PageBlocks | Composition
+  blocksOrComposition?: PageBlocks | Composition,
+  options: LoadTranslationBundleOptions = {},
 ): Promise<TranslationBundle> {
   const refs = buildPageBundleRefs(parentType, parentId, blocksOrComposition);
+  // Draft Mode bundles must not use the published-only cache entry.
+  if (options.includeUnpublished) {
+    return loadTranslationBundle(refs, options);
+  }
   const loader = createCached(
-    () => loadTranslationBundle(refs),
+    () => loadTranslationBundle(refs, options),
     ["page-translation-bundle", parentType, parentId, String(refs.length)],
     {
       tags: [CACHE_TAGS.translations, CACHE_TAGS.entityTranslations(parentType, parentId)],

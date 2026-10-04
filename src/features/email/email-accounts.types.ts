@@ -1,12 +1,20 @@
-export type EmailAccountProvider = "resend" | "smtp";
+/** Supported send provider. */
+export type EmailAccountProvider = "resend";
+
+/**
+ * Provider value as stored in the JSON store.
+ * Legacy `"smtp"` records may still exist but are no longer sendable.
+ */
+export type StoredEmailAccountProvider = EmailAccountProvider | "smtp";
 
 /** Stored shape (secrets sealed). */
 export type EmailAccountRecord = {
   id: string;
   name: string;
-  provider: EmailAccountProvider;
+  provider: StoredEmailAccountProvider;
   from: string;
   resendApiKeySealed?: string;
+  /** @deprecated Legacy SMTP fields — ignored for sending. */
   smtp?: {
     host: string;
     port: number;
@@ -25,13 +33,11 @@ export type EmailAccountsStore = {
 export type EmailAccountPublic = {
   id: string;
   name: string;
-  provider: EmailAccountProvider;
+  provider: StoredEmailAccountProvider;
   from: string;
   hasResendApiKey: boolean;
-  smtpHost?: string;
-  smtpPort?: number;
-  hasSmtpUser: boolean;
-  hasSmtpPass: boolean;
+  /** True when this is a legacy SMTP account that must be recreated with Resend. */
+  isLegacySmtp: boolean;
   createdAt: string;
   updatedAt: string;
 };
@@ -40,13 +46,7 @@ export type EmailAccountPublic = {
 export type EmailProviderConfig = {
   provider: EmailAccountProvider;
   from: string;
-  resendApiKey?: string;
-  smtp?: {
-    host: string;
-    port: number;
-    user?: string;
-    pass?: string;
-  };
+  resendApiKey: string;
 };
 
 export type UpsertEmailAccountInput = {
@@ -56,8 +56,4 @@ export type UpsertEmailAccountInput = {
   from: string;
   /** Blank on edit = keep existing sealed value. */
   resendApiKey?: string;
-  smtpHost?: string;
-  smtpPort?: number;
-  smtpUser?: string;
-  smtpPass?: string;
 };

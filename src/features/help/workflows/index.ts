@@ -141,12 +141,12 @@ export const HELP_WORKFLOWS: HelpWorkflow[] = [
   {
     id: "workflow-configure-email",
     title: "Configure Email",
-    summary: "Connect SMTP/provider so forms and alerts deliver.",
+    summary: "Connect Resend so forms and alerts deliver.",
     readingTime: 2,
     difficulty: "intermediate",
     badges: ["launch-required"],
     navItemIds: ["email-accounts"],
-    keywords: ["email", "smtp", "notifications", "resend"],
+    keywords: ["email", "notifications", "resend"],
     steps: [
       { id: "wce-1", type: "topic", label: "Email Accounts", topicId: "topic-email-accounts" },
       { id: "wce-2", type: "route", label: "Open Email Accounts", href: "/admin/settings/email-accounts" },

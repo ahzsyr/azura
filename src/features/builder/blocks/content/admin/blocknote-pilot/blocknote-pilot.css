@@ -1,0 +1,17 @@
+/**
+ * Scoped BlockNote pilot chrome — keep TipTap editor CSS untouched.
+ * BlockNote shadcn/core styles are imported by the editor module; this file
+ * only constrains layout inside the pilot wrapper.
+ */
+.cb-blocknote-pilot .cb-blocknote-pilot-view {
+  min-height: 12rem;
+}
+
+.cb-blocknote-pilot .bn-editor {
+  padding-inline: 0.75rem;
+  padding-block: 0.5rem;
+}
+
+.cb-blocknote-pilot .bn-container {
+  --bn-colors-editor-background: transparent;
+}

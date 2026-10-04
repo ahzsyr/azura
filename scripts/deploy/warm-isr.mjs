@@ -4,16 +4,16 @@
  * Requests critical localized routes so the first real user visit is not stale build HTML.
  *
  * Usage:
- *   WARMUP_BASE_URL=https://brt-me.vercel.app npm run deploy:warmup
+ *   WARMUP_BASE_URL=https://your-hostinger-domain.example npm run deploy:warmup
  *
  * Optional product detail warm-up:
- *   WARMUP_BASE_URL=https://brt-me.vercel.app WARMUP_PRODUCT_SLUGS=alfa-2-4-5ghz-indoor-antenna npm run deploy:warmup
+ *   WARMUP_BASE_URL=https://your-hostinger-domain.example WARMUP_PRODUCT_SLUGS=alfa-2-4-5ghz-indoor-antenna npm run deploy:warmup
  */
 const baseUrl = (() => {
   const explicit = process.env.WARMUP_BASE_URL?.trim();
   if (explicit) return explicit.replace(/\/$/, "");
-  const vercel = process.env.VERCEL_URL?.trim();
-  if (vercel) return `https://${vercel.replace(/\/$/, "")}`;
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
+  if (appUrl) return appUrl.replace(/\/$/, "");
   return "http://localhost:3000";
 })();
 
@@ -40,36 +40,23 @@ const productSlugs = (process.env.WARMUP_PRODUCT_SLUGS ?? "")
   .filter(Boolean);
 
 for (const slug of productSlugs) {
-  for (const prefix of localePrefixes) {
-    paths.push(`/${prefix}/products/${slug}`);
+  for (const locale of localePrefixes) {
+    paths.push(`/${locale}/products/${slug}`);
   }
 }
 
-async function warmPath(path) {
+async function warm(path) {
   const url = `${baseUrl}${path}`;
   try {
-    const res = await fetch(url, {
-      headers: { "User-Agent": "brt-deploy-warmup/1.0" },
-      redirect: "follow",
-    });
-    console.log(`${path} → ${res.status}`);
-    return res.ok;
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.warn(`${path} → failed (${message})`);
-    return false;
+    const res = await fetch(url, { redirect: "follow" });
+    console.log(`[warmup] ${res.status} ${url}`);
+  } catch (err) {
+    console.warn(`[warmup] FAIL ${url}:`, err instanceof Error ? err.message : err);
   }
 }
 
-console.log(`Warming ISR routes at ${baseUrl}…`);
-if (productSlugs.length > 0) {
-  console.log(`Including product slugs: ${productSlugs.join(", ")}`);
-}
-let ok = 0;
+console.log(`[warmup] base=${baseUrl} paths=${paths.length}`);
 for (const path of paths) {
-  if (await warmPath(path)) ok += 1;
+  await warm(path);
 }
-console.log(`Warm-up complete: ${ok}/${paths.length} routes succeeded.`);
-if (ok === 0) {
-  process.exit(1);
-}
+console.log("[warmup] done");

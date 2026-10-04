@@ -2,28 +2,24 @@
 
 ## 1) Prepare host runtime
 
-- Install Node.js 20.x
+- Install Node.js 24.x
 - Ensure npm is available
 - Create app directory on host
 - Upload project files (or deploy from Git)
 
 ## 2) Create database
 
-Choose one:
+MySQL 8.4 only:
 
-- MySQL:
-  - Create empty DB (example: `azura`)
-  - Import [`database/mysql/01-schema.sql`](../../database/mysql/01-schema.sql)
-- PostgreSQL/Supabase:
-  - Create project/database
-  - Import [`database/postgres/01-schema.sql`](../../database/postgres/01-schema.sql)
+- Create empty DB (example: `azura`)
+- Import [`database/mysql/01-schema.sql`](../../database/mysql/01-schema.sql) or the blank full bundle
 
 See [`database/README.md`](../../database/README.md) for seed bundles and regeneration.
 
 ## 3) Configure environment variables
 
-- For MySQL: start from [`database/env/.env.mysql`](../../database/env/.env.mysql)
-- For PostgreSQL/Supabase: start from [`database/env/.env.postgres`](../../database/env/.env.postgres)
+- Start from [`database/env/.env.mysql`](../../database/env/.env.mysql)
+- Optional media: Supabase Storage keys (`MEDIA_STORAGE=supabase`) — not used as the app database
 
 Set **host infrastructure** only: `DATABASE_URL`, `AUTH_SECRET`, optional `SETUP_TOKEN` / `CRON_SECRET`.
 

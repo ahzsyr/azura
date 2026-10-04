@@ -10,6 +10,7 @@ import { newId } from "@/features/builder/blocks/content/schemas/content-blocks"
 import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
 import { useCallback, useRef } from "react";
 import dynamic from "next/dynamic";
+import { isBlockNotePilotEnabled } from "@/features/builder/blocks/content/admin/blocknote-pilot/feature-flag";
 
 const AdvancedRichTextEditor = dynamic(
   () =>
@@ -18,6 +19,16 @@ const AdvancedRichTextEditor = dynamic(
     ),
   { ssr: false, loading: () => <p className="text-sm text-muted-foreground">Loading editor…</p> }
 );
+
+const BlockNotePilotEditor = dynamic(
+  () =>
+    import("@/features/builder/blocks/content/admin/blocknote-pilot/blocknote-pilot-editor").then(
+      (m) => m.BlockNotePilotEditor
+    ),
+  { ssr: false, loading: () => <p className="text-sm text-muted-foreground">Loading BlockNote pilot…</p> }
+);
+
+const blockNotePilotEnabled = isBlockNotePilotEnabled();
 
 type RichTextSection = {
   id: string;
@@ -127,6 +138,7 @@ export function AdvancedRichTextBlockFields({ block, onChange }: Props) {
           const defaultContentKey = `content${defaultSuffix}`;
 
           const sectionContent = (section[contentKey] as string) ?? "";
+          const sectionHtml = (section[htmlKey] as string) ?? "";
           const englishContent =
             (typeof section.content === "string" ? section.content.trim() : "") ||
             (typeof section[defaultContentKey] === "string" ? (section[defaultContentKey] as string).trim() : "") ||
@@ -135,6 +147,13 @@ export function AdvancedRichTextBlockFields({ block, onChange }: Props) {
           const handleChange = (json: string, html: string) => {
             updateSectionContent(section.id, contentKey, htmlKey, json, html);
           };
+
+          const placeholder =
+            !isDefault && !sectionContent.trim() && englishContent.trim()
+              ? `Shows English on site if empty: ${englishContent.slice(0, 80)}${englishContent.length > 80 ? "…" : ""}`
+              : index === 0
+                ? "Write content…"
+                : `Section ${index + 1}…`;
 
           return (
             <div key={section.id} className="rounded-md border bg-card overflow-hidden">
@@ -179,17 +198,20 @@ export function AdvancedRichTextBlockFields({ block, onChange }: Props) {
                   </div>
                 </div>
               )}
-              <AdvancedRichTextEditor
-                content={sectionContent}
-                onChange={handleChange}
-                placeholder={
-                  !isDefault && !sectionContent.trim() && englishContent.trim()
-                    ? `Shows English on site if empty: ${englishContent.slice(0, 80)}${englishContent.length > 80 ? "…" : ""}`
-                    : index === 0
-                    ? "Write content…"
-                    : `Section ${index + 1}…`
-                }
-              />
+              {blockNotePilotEnabled ? (
+                <BlockNotePilotEditor
+                  content={sectionContent}
+                  htmlFallback={sectionHtml}
+                  onChange={handleChange}
+                  placeholder={placeholder}
+                />
+              ) : (
+                <AdvancedRichTextEditor
+                  content={sectionContent}
+                  onChange={handleChange}
+                  placeholder={placeholder}
+                />
+              )}
             </div>
           );
         })}

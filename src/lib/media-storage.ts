@@ -1,12 +1,15 @@
 import "server-only";
 
 import type { MediaType } from "@prisma/client";
-import { useDatabaseOnlyCatalog } from "@/features/catalog/catalog-data-source";
 import { SUBDIR, mimeTypeForUpload, safeFilename } from "@/lib/local-media-storage";
 import { getLocalPersistenceLayout, isLocalPersistenceInsideDeployRoot } from "@/lib/local-public-path";
-import { createStorageProvider } from "@/lib/storage-providers";
+import {
+  createStorageProvider,
+  providerForBackend,
+  resolveMediaStorageBackend,
+} from "@/lib/storage-providers";
+import type { StorageBackend, StorageObjectIdentity } from "@/lib/storage-provider";
 import type { MediaStorageStatus, StoredUpload } from "@/lib/media-storage-types";
-import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
 
 export type { StoredUpload, MediaStorageStatus } from "@/lib/media-storage-types";
 
@@ -14,42 +17,49 @@ function hasServiceRoleKey(): boolean {
   return Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim());
 }
 
-export const MEDIA_STORAGE_SETUP_STEPS =
-  "Set MEDIA_STORAGE=supabase, add your cloud storage credentials to the deployment environment, " +
-  "run database/postgres/03-storage-media.sql once if needed, then redeploy.";
+function hasS3Credentials(): boolean {
+  return Boolean(
+    process.env.S3_BUCKET?.trim() &&
+      process.env.S3_ACCESS_KEY_ID?.trim() &&
+      process.env.S3_SECRET_ACCESS_KEY?.trim(),
+  );
+}
 
-/** Whether CMS uploads use remote cloud storage (requires storage credentials). */
+export const MEDIA_STORAGE_SETUP_STEPS =
+  "Set MEDIA_STORAGE=local|supabase|s3. For supabase set SUPABASE_SERVICE_ROLE_KEY (+ SUPABASE_URL). " +
+  "For s3 set S3_BUCKET, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, optional S3_ENDPOINT / S3_PUBLIC_BASE_URL.";
+
+/** Whether CMS uploads use remote cloud storage. Explicit MEDIA_STORAGE only. */
 export function useRemoteMediaStorage(): boolean {
-  if (process.env.MEDIA_STORAGE === "local" && !isCloudNativeProduction()) return false;
-  if (isCloudNativeProduction()) return true;
-  if (hasServiceRoleKey()) return true;
-  if (process.env.MEDIA_STORAGE === "supabase") return true;
-  if (useDatabaseOnlyCatalog() && process.env.MEDIA_STORAGE !== "local") return true;
-  if (process.env.VERCEL) return true;
-  return false;
+  const backend = resolveMediaStorageBackend();
+  return backend === "supabase" || backend === "s3";
 }
 
 export function getMediaStorageStatus(): MediaStorageStatus {
+  const backend = resolveMediaStorageBackend();
   const hasKey = hasServiceRoleKey();
+  const s3Ready = hasS3Credentials();
   const mediaStorageEnv = process.env.MEDIA_STORAGE?.trim() || null;
-  const vercel = Boolean(process.env.VERCEL);
-  const wantsSupabase =
-    mediaStorageEnv === "supabase" || vercel || (hasKey && mediaStorageEnv !== "local");
-  const remote = useRemoteMediaStorage();
+  const cronSecretConfigured = Boolean(process.env.CRON_SECRET?.trim());
 
-  const catalogSiteRemote = remote;
-  let catalogSiteMessage: string | null = null;
-  if (remote && !hasKey) {
-    catalogSiteMessage = `Cloud storage is not configured. Site media uploads and deletes require remote storage on serverless hosts. ${MEDIA_STORAGE_SETUP_STEPS}`;
-  } else if (vercel && remote) {
-    catalogSiteMessage =
-      "New uploads save to cloud storage. Bundled repo files can be hidden but not removed from the deployment.";
-  } else if (vercel && !remote) {
-    catalogSiteMessage =
-      "This server cannot write to disk. Configure cloud storage for Site media uploads.";
+  let ready = true;
+  let message: string | null = null;
+  if (backend === "supabase" && !hasKey) {
+    ready = false;
+    message = `Supabase storage is not configured. ${MEDIA_STORAGE_SETUP_STEPS}`;
+  } else if (backend === "s3" && !s3Ready) {
+    ready = false;
+    message = `S3 storage is not configured. ${MEDIA_STORAGE_SETUP_STEPS}`;
   }
 
-  const catalogFields = { catalogSiteRemote, catalogSiteMessage };
+  const catalogSiteRemote = backend !== "local";
+  const catalogSiteMessage =
+    catalogSiteRemote && !ready
+      ? message
+      : backend === "local"
+        ? "Uploads save to local disk (MEDIA_STORAGE=local)."
+        : null;
+
   const localPublicDir = process.env.LOCAL_PUBLIC_DIR?.trim();
   const localUploadsDir = process.env.LOCAL_UPLOADS_DIR?.trim();
   const localUploadsPersistent = Boolean(localPublicDir || localUploadsDir);
@@ -60,7 +70,17 @@ export function getMediaStorageStatus(): MediaStorageStatus {
       : null;
   const localPersistenceInsideDeploy = isLocalPersistenceInsideDeployRoot();
   const layout = getLocalPersistenceLayout();
-  const persistenceFields = {
+
+  return {
+    backend,
+    ready,
+    hasServiceRoleKey: hasKey,
+    hasS3Credentials: s3Ready,
+    mediaStorageEnv,
+    cronSecretConfigured,
+    message,
+    catalogSiteRemote,
+    catalogSiteMessage,
     localUploadsPersistent,
     localPersistenceMode,
     localPersistenceInsideDeploy,
@@ -68,57 +88,6 @@ export function getMediaStorageStatus(): MediaStorageStatus {
     publicWholeSymlinkRisk: layout.publicWholeSymlinkRisk,
     publicSymlinkTarget: layout.publicSymlinkTarget,
     publicUploadsSymlinkTarget: layout.publicUploadsSymlinkTarget,
-  };
-
-  if (mediaStorageEnv === "local" && !isCloudNativeProduction()) {
-    return {
-      backend: "local",
-      ready: true,
-      hasServiceRoleKey: hasKey,
-      mediaStorageEnv,
-      vercel,
-      message: null,
-      ...catalogFields,
-      ...persistenceFields,
-    };
-  }
-
-  if (remote && !hasKey) {
-    return {
-      backend: "supabase",
-      ready: false,
-      hasServiceRoleKey: false,
-      mediaStorageEnv,
-      vercel,
-      message: `Cloud storage is not configured. ${MEDIA_STORAGE_SETUP_STEPS}`,
-      ...catalogFields,
-      ...persistenceFields,
-    };
-  }
-
-  if (!remote && wantsSupabase && !vercel) {
-    return {
-      backend: "local",
-      ready: true,
-      hasServiceRoleKey: hasKey,
-      mediaStorageEnv,
-      vercel,
-      message:
-        "Uploads save to public/uploads on this server. For durable cloud storage, configure MEDIA_STORAGE and your storage credentials.",
-      ...catalogFields,
-      ...persistenceFields,
-    };
-  }
-
-  return {
-    backend: remote ? "supabase" : "local",
-    ready: remote ? hasKey : true,
-    hasServiceRoleKey: hasKey,
-    mediaStorageEnv,
-    vercel,
-    message: null,
-    ...catalogFields,
-    ...persistenceFields,
   };
 }
 
@@ -138,29 +107,57 @@ export async function storeUploadedFile(
   const storedName = `${Date.now()}-${safeFilename(file.name)}`;
   assertMediaStorageReady();
 
-  const provider = createStorageProvider(useRemoteMediaStorage());
-  const objectPath = `${subDir}/${storedName}`;
+  const provider = createStorageProvider();
+  const objectKey = `${subDir}/${storedName}`;
   const contentType = mimeTypeForUpload(file.name, file.type, mediaType);
-  const result = await provider.upload(buffer, objectPath, contentType);
+  const result = await provider.upload(buffer, objectKey, contentType);
 
   return {
     url: result.url,
     storage: result.storage,
-    objectPath: result.objectPath,
+    bucket: result.bucket,
+    objectKey: result.objectKey,
   };
 }
 
+/** Delete by canonical MediaAsset identity (never parse url). */
+export async function deleteStoredAsset(identity: {
+  storageBackend: string;
+  bucket: string;
+  objectKey: string;
+}): Promise<boolean> {
+  if (!identity.objectKey?.trim()) return false;
+  const provider = providerForBackend(identity.storageBackend);
+  const payload: StorageObjectIdentity = {
+    storageBackend: provider.backend,
+    bucket: identity.bucket || provider.bucket,
+    objectKey: identity.objectKey,
+  };
+  return provider.deleteObject(payload);
+}
+
+/**
+ * @deprecated Prefer deleteStoredAsset with persisted identity.
+ * Kept for legacy catalog paths that only have a public URL.
+ */
 export async function deleteStoredUpload(url: string): Promise<boolean> {
-  if (url.startsWith("/uploads/") && !useRemoteMediaStorage()) {
-    return createStorageProvider(false).delete(url);
-  }
-
-  const remote = createStorageProvider(true);
-  if (await remote.delete(url)) return true;
-
   if (url.startsWith("/uploads/")) {
-    return createStorageProvider(false).delete(url);
+    const objectKey = url.replace(/^\/uploads\//, "");
+    return deleteStoredAsset({
+      storageBackend: "local",
+      bucket: "local",
+      objectKey,
+    });
   }
-
+  // Cannot safely infer remote identity from url alone — no-op for remote URLs.
   return false;
+}
+
+export async function getSignedMediaUrl(
+  identity: { storageBackend: StorageBackend; bucket: string; objectKey: string },
+  ttlSeconds = 3600,
+): Promise<string | null> {
+  const provider = providerForBackend(identity.storageBackend);
+  if (!provider.getSignedUrl) return null;
+  return provider.getSignedUrl(identity.objectKey, ttlSeconds);
 }

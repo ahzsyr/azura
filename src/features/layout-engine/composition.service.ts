@@ -1,4 +1,10 @@
 import type { Prisma } from "@prisma/client";
+import {
+  isPageAstDocument,
+  PAGE_AST_VERSION,
+  wrapCompositionAsPageAst,
+  type PageAstDocument,
+} from "@/features/cms/page-ast";
 import { layoutRegistry } from "@/features/layout-engine/layout-registry";
 import {
   COLUMN_REGION_ORDER,
@@ -203,22 +209,63 @@ class CompositionServiceImpl {
     return next;
   }
 
+  /**
+   * Normalize stored JSON (Page AST envelope, bare Composition, or legacy block array)
+   * into an in-memory Composition for editors and the shared public renderer.
+   */
   load(raw: { composition?: unknown; blocks?: unknown }): Composition {
-    const source =
-      raw.composition && isCompositionLike(raw.composition)
-        ? raw.composition
-        : Array.isArray(raw.blocks)
-          ? raw.blocks
-          : raw.composition;
-    return this.validate(this.upgrade(source));
+    const document = this.loadDocument(raw);
+    return document.composition;
   }
 
-  save(composition: Composition): { composition: Prisma.InputJsonValue; blocks: Prisma.InputJsonValue } {
+  /**
+   * Read-time upgrade: legacy flat block arrays or unwrapped compositions become
+   * a PageAstDocument envelope. Callers that only need layout use {@link load}.
+   */
+  loadDocument(raw: { composition?: unknown; blocks?: unknown }): PageAstDocument {
+    const stored = raw.composition;
+    if (isPageAstDocument(stored)) {
+      const normalized = this.validate(this.upgrade(stored.composition));
+      return {
+        version: typeof stored.version === "number" ? stored.version : PAGE_AST_VERSION,
+        composition: normalized,
+        blocks: stored.blocks ?? normalized.regions.primary,
+        meta: stored.meta,
+      };
+    }
+
+    const source =
+      stored && isCompositionLike(stored)
+        ? stored
+        : Array.isArray(raw.blocks)
+          ? raw.blocks
+          : stored;
+    const normalized = this.validate(this.upgrade(source));
+    return wrapCompositionAsPageAst(normalized, {
+      blocks: normalized.regions.primary,
+    });
+  }
+
+  save(
+    composition: Composition,
+    options?: { meta?: PageAstDocument["meta"] },
+  ): { composition: Prisma.InputJsonValue; blocks: Prisma.InputJsonValue } {
     const normalized = this.validate(composition);
+    const envelope = wrapCompositionAsPageAst(normalized, {
+      blocks: normalized.regions.primary,
+      meta: options?.meta,
+    });
     return {
-      composition: normalized as unknown as Prisma.InputJsonValue,
+      composition: envelope as unknown as Prisma.InputJsonValue,
       blocks: normalized.regions.primary as unknown as Prisma.InputJsonValue,
     };
+  }
+
+  /** Persist an explicit Page AST document (normalized composition inside). */
+  saveDocument(
+    document: PageAstDocument,
+  ): { composition: Prisma.InputJsonValue; blocks: Prisma.InputJsonValue } {
+    return this.save(document.composition, { meta: document.meta });
   }
 
   applyLayoutSwitch(current: Composition, fromType: LayoutType, toType: LayoutType): Composition {

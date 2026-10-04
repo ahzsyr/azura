@@ -9,7 +9,7 @@ import type {
   SearchAnalyticsFile,
 } from "@/capabilities/search/analytics/search-analytics.types";
 import { searchAnalyticsRepository } from "@/repositories/search-analytics.repository";
-import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
+import { isCloudNativeProduction } from "@/lib/production-runtime-guard";
 
 const ANALYTICS_DIR = join(process.cwd(), "data", "search-analytics");
 const MAX_QUERY_KEYS = 2000;

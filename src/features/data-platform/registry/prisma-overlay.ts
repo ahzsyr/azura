@@ -66,6 +66,7 @@ export const PRISMA_MODEL_OVERLAYS: PrismaModelOverlay[] = [
   { name: "MediaUsage", category: "system", note: "Media reference tracking" },
   { name: "CmsPage", category: "content", adminHref: "/admin/pages", deploymentNavItemId: "pages", note: "CMS — blocks in DB JSON column" },
   { name: "CmsPageRevision", category: "content", deploymentNavItemId: "pages", note: "CMS page revision history" },
+  { name: "PostRevision", category: "content", deploymentNavItemId: "posts", note: "Blog post revision history" },
   { name: "PostCategory", category: "content", deploymentNavItemId: "blog", note: "Blog categories" },
   { name: "PostTag", category: "content", deploymentNavItemId: "blog", note: "Blog tags" },
   { name: "PostAuthor", category: "content", deploymentNavItemId: "blog", note: "Blog authors" },

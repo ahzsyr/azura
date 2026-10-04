@@ -2,6 +2,14 @@ import { isBuildWithoutDb } from "@/lib/build-db";
 import { prisma } from "@/lib/prisma";
 import type { ContentStatus, Prisma } from "@prisma/client";
 import type { Composition, PageBlocks } from "@/types/builder";
+import {
+  captureRevisionTranslations,
+  persistCompositionWithEditLocale,
+} from "@/features/cms/revision-translation-snapshot";
+
+export type SaveRevisionOptions = {
+  editingLocale?: string | null;
+};
 
 export const cmsRepository = {
   listPages(status?: ContentStatus) {
@@ -53,6 +61,7 @@ export const cmsRepository = {
     composition?: Composition,
     createdById?: string,
     message?: string,
+    options?: SaveRevisionOptions,
   ) {
     const last = await prisma.cmsPageRevision.findFirst({
       where: { pageId },
@@ -69,16 +78,89 @@ export const cmsRepository = {
       revisionAuthorId = author?.id;
     }
 
-    return prisma.cmsPageRevision.create({
+    const persisted = persistCompositionWithEditLocale(
+      composition,
+      blocks,
+      options?.editingLocale,
+    );
+    const translations = await captureRevisionTranslations({
+      parentType: "CmsPage",
+      parentId: pageId,
+      blocksOrComposition: composition ?? blocks,
+    });
+
+    const revision = await prisma.cmsPageRevision.create({
       data: {
         pageId,
         version,
-        blocks: blocks as Prisma.InputJsonValue,
-        composition: (composition ?? {}) as Prisma.InputJsonValue,
+        blocks: persisted.blocks,
+        composition: persisted.composition,
+        translations: translations as unknown as Prisma.InputJsonValue,
         createdById: revisionAuthorId,
         message,
       },
     });
+
+    await prisma.cmsPage.update({
+      where: { id: pageId },
+      data: { workingRevisionId: revision.id },
+    });
+
+    return revision;
+  },
+
+  async savePostRevision(
+    postId: string,
+    blocks: PageBlocks,
+    composition?: Composition,
+    createdById?: string,
+    message?: string,
+    options?: SaveRevisionOptions,
+  ) {
+    const last = await prisma.postRevision.findFirst({
+      where: { postId },
+      orderBy: { version: "desc" },
+    });
+    const version = (last?.version ?? 0) + 1;
+
+    let revisionAuthorId: string | undefined;
+    if (createdById) {
+      const author = await prisma.user.findUnique({
+        where: { id: createdById },
+        select: { id: true },
+      });
+      revisionAuthorId = author?.id;
+    }
+
+    const persisted = persistCompositionWithEditLocale(
+      composition,
+      blocks,
+      options?.editingLocale,
+    );
+    const translations = await captureRevisionTranslations({
+      parentType: "Post",
+      parentId: postId,
+      blocksOrComposition: composition ?? blocks,
+    });
+
+    const revision = await prisma.postRevision.create({
+      data: {
+        postId,
+        version,
+        blocks: persisted.blocks,
+        composition: persisted.composition,
+        translations: translations as unknown as Prisma.InputJsonValue,
+        createdById: revisionAuthorId,
+        message,
+      },
+    });
+
+    await prisma.post.update({
+      where: { id: postId },
+      data: { workingRevisionId: revision.id },
+    });
+
+    return revision;
   },
 
   listPosts(status?: ContentStatus) {
@@ -134,6 +216,7 @@ export const cmsRepository = {
         categories: { include: { category: true } },
         tags: { include: { tag: true } },
         seoMeta: true,
+        revisions: { orderBy: { version: "desc" }, take: 15 },
       },
     });
   },

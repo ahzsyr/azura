@@ -1,29 +1,19 @@
 #!/usr/bin/env node
 /**
- * Apply pending database schema changes during deploy.
- *
- * MySQL (Hostinger): prisma migrate deploy
- * PostgreSQL (Supabase): idempotent SQL patches (prisma/migrations are MySQL-oriented)
+ * Apply pending database schema changes during deploy (MySQL 8.4 only).
  *
  * Skip: SKIP_DB_MIGRATE=1 or missing DATABASE_URL
- * Vercel previews: skipped unless RUN_DB_MIGRATE_ON_PREVIEW=1
- *
- * PostgreSQL: session pooler (5432) first, then DIRECT_URL, then transaction pooler (6543).
- * Session pooler uses DATABASE_URL credentials — avoids stale DIRECT_URL auth on Hostinger.
- * db.*.supabase.co direct is often unreachable from Vercel CI.
  */
 import { PrismaClient } from "@prisma/client";
 import { ensurePrismaEnginesExecutable } from "./ensure-prisma-engines-executable.mjs";
-import { buildPrismaEnv, resolvePostgresMigrateUrls } from "./load-database-url.mjs";
+import { buildPrismaEnv } from "./load-database-url.mjs";
 import {
-  isPostgresDatabaseUrl,
+  assertMysqlDatabaseUrl,
   resolvePrismaSchemaPath,
 } from "./resolve-prisma-schema.mjs";
 import { runPrisma } from "./run-prisma.mjs";
-import {
-  ensureMarketingCampaignIntelligenceMysql,
-  ensureMarketingCampaignIntelligencePostgres,
-} from "./ensure-marketing-campaign-intelligence.mjs";
+import { ensureMarketingCampaignIntelligenceMysql } from "./ensure-marketing-campaign-intelligence.mjs";
+import { ensureSearchFulltextMysql } from "./ensure-search-fulltext-mysql.mjs";
 
 function shouldSkipMigrate(env = process.env) {
   if (env.SKIP_DB_MIGRATE === "1") {
@@ -33,12 +23,6 @@ function shouldSkipMigrate(env = process.env) {
   const url = buildPrismaEnv().DATABASE_URL?.trim();
   if (!url) {
     console.log("[db-migrate] DATABASE_URL unset — skipping");
-    return true;
-  }
-  if (env.VERCEL === "1" && env.VERCEL_ENV !== "production" && env.RUN_DB_MIGRATE_ON_PREVIEW !== "1") {
-    console.log(
-      `[db-migrate] Vercel ${env.VERCEL_ENV ?? "unknown"} — skipping (set RUN_DB_MIGRATE_ON_PREVIEW=1 to override)`,
-    );
     return true;
   }
   return false;
@@ -1435,7 +1419,7 @@ async function applyPostgresPatches(prisma) {
   await ensureFaqSetCoverUrlPostgres(prisma);
   await ensureMediaAssetScopePostgres(prisma);
   await ensureMarketingIntegrationsPostgres(prisma);
-  await ensureMarketingCampaignIntelligencePostgres(prisma);
+  // PostgreSQL campaign intelligence removed — Azura is MySQL-only.
   await ensureSecurityHardeningPostgres(prisma);
 }
 
@@ -1485,6 +1469,7 @@ async function applyMysqlPatches(prisma) {
   await ensureMarketingProviderAppConfigMysql(prisma);
   await ensureMarketingTrackingMysql(prisma);
   await ensureMarketingCampaignIntelligenceMysql(prisma);
+  await ensureSearchFulltextMysql(prisma);
   await ensureSecurityHardeningMysql(prisma);
   await ensureAuthLifecycleMysql(prisma);
   await ensureEmailOtpMysql(prisma);
@@ -1500,11 +1485,8 @@ async function runWithPrisma(url, fn) {
   }
 }
 
-async function isUserTablePresent(url, isPostgres) {
-  return runWithPrisma(url, async (prisma) => {
-    if (isPostgres) return postgresTableExists(prisma, "User");
-    return mysqlTableExists(prisma, "User");
-  });
+async function isUserTablePresent(url) {
+  return runWithPrisma(url, async (prisma) => mysqlTableExists(prisma, "User"));
 }
 
 /** Empty first-install DBs: migrate deploy can fail; db push bootstraps core tables. */
@@ -1543,44 +1525,13 @@ async function main() {
   }
 
   const env = buildPrismaEnv();
+  assertMysqlDatabaseUrl(env.DATABASE_URL);
   const schema = resolvePrismaSchemaPath(env);
-  const isPostgres = isPostgresDatabaseUrl(env.DATABASE_URL);
 
-  console.log(`[db-migrate] Applying schema updates (${isPostgres ? "postgresql" : "mysql"})…`);
-
-  if (isPostgres) {
-    const candidates = resolvePostgresMigrateUrls(env);
-    if (candidates.length === 0) {
-      throw new Error("DATABASE_URL or DIRECT_URL required for PostgreSQL migrate");
-    }
-    if (candidates.length === 1 && candidates[0].label === "DATABASE_URL (transaction pooler)") {
-      console.warn(
-        "[db-migrate] Tip: set DIRECT_URL or use a Supabase pooler DATABASE_URL for session-mode migrate fallback.",
-      );
-    }
-
-    let workingUrl = candidates[0]?.url ?? env.DATABASE_URL;
-    try {
-      workingUrl = await applyPostgresPatchesWithFallback(candidates);
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      console.warn(`[db-migrate] PostgreSQL patches failed (may be empty DB): ${message.split("\n")[0]}`);
-    }
-
-    if (!(await isUserTablePresent(workingUrl, true))) {
-      const pushed = bootstrapSchemaWithDbPush(schema, env, "User table missing");
-      if (!pushed || !(await isUserTablePresent(workingUrl, true))) {
-        throw new Error(
-          "PostgreSQL schema missing (User table). Run npm run deploy:hostinger-db or import database/postgres/import-blank.sql.",
-        );
-      }
-      await applyPostgresPatchesWithFallback(candidates);
-    }
-    return;
-  }
+  console.log("[db-migrate] Applying schema updates (mysql)…");
 
   ensurePrismaEnginesExecutable();
-  const userPresent = await isUserTablePresent(env.DATABASE_URL, false);
+  const userPresent = await isUserTablePresent(env.DATABASE_URL);
   const prismaMigrationsPresent = await runWithPrisma(env.DATABASE_URL, (prisma) =>
     mysqlTableExists(prisma, "_prisma_migrations"),
   );
@@ -1600,7 +1551,7 @@ async function main() {
 
   if (!userPresent) {
     const pushed = bootstrapSchemaWithDbPush(schema, env, "User table missing after migrate deploy");
-    if (!pushed || !(await isUserTablePresent(env.DATABASE_URL, false))) {
+    if (!pushed || !(await isUserTablePresent(env.DATABASE_URL))) {
       throw new Error(
         "MySQL schema missing (User table). Run npm run deploy:hostinger-db or import database/mysql/import-blank-full.sql. Do not set SKIP_DB_MIGRATE=1 on an empty database.",
       );

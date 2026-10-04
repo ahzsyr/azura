@@ -12,7 +12,7 @@ import { orderCollectionsHierarchy } from "@/features/collections/collection-hie
 import { loadCollectionsFromFs } from "@/features/collections/collections-fs";
 import { localeProductsDir, legacyProductsDir, walkProductJsonFiles } from "@/features/products/fs/product-fs-scan";
 import { useCatalogProductsDb } from "@/features/products/products-source";
-import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
+import { isCloudNativeProduction } from "@/lib/production-runtime-guard";
 import { catalogSeedRoot } from "@/lib/catalog-seed-paths";
 import { productRepository } from "@/repositories/product.repository";
 import { fromDbRow } from "@/features/products/db/product-db-mapper";
@@ -701,7 +701,6 @@ export async function patchLocaleProductIndex(
 
 /** True when product index JSON can be written under seeds/catalog/products-index. */
 export async function canWriteProductIndexes(): Promise<boolean> {
-  if (process.env.VERCEL === "1") return false;
   if (useCatalogProductsDb()) return false;
   if (isCloudNativeProduction()) return false;
   try {

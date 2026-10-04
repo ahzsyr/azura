@@ -8,8 +8,12 @@ import { postSchema, postCategorySchema, postTagSchema, postAuthorSchema } from 
 import { parsePostFeaturedImageSettings } from "@/schemas/featured-image-settings";
 import { parseCitationSources, parseShowFlag, withEditorialDisplayMetadata, editorialDisplayFromMetadata } from "@/schemas/editorial-metadata";
 import { searchIndexer } from "@/capabilities/search/search-indexer.service";
-import { revalidateCmsPage, revalidatePost, revalidateMarketingHome } from "@/services/cache";
-import { revalidateCmsPagePublicPaths } from "@/features/cms/revalidate-wired-marketing";
+import { revalidateCmsEntity } from "@/features/cms/publish-revalidate";
+import {
+  publishCmsPageAtomically,
+  publishPostAtomically,
+} from "@/features/cms/revision-selection";
+import { auth } from "@/lib/auth";
 import { parseScheduledAt } from "./scheduling-utils";
 import { processDueScheduled } from "./scheduling";
 import { syncCmsPageCache } from "./page-cache-sync";
@@ -199,6 +203,7 @@ async function upsertCmsPageCore(
           composition,
           session.user.id,
           (formData.get("revisionMessage") as string) || "Saved",
+          { editingLocale: (formData.get("editingLocale") as string | null) || null },
         ),
       );
       incrementSavePipelineMetric(metrics, "revisions");
@@ -212,7 +217,9 @@ async function upsertCmsPageCore(
       );
       incrementSavePipelineMetric(metrics, "dbWrites");
       await runCmsPageStep("saveRevision", page.id, () =>
-        cmsRepository.saveRevision(page.id, blocks, composition, session.user.id, "Initial"),
+        cmsRepository.saveRevision(page.id, blocks, composition, session.user.id, "Initial", {
+          editingLocale: (formData.get("editingLocale") as string | null) || null,
+        }),
       );
       incrementSavePipelineMetric(metrics, "revisions");
     }
@@ -266,9 +273,7 @@ async function upsertCmsPageCore(
     );
 
     if (page.status === "PUBLISHED") {
-      revalidateCmsPage(page.slug);
-      revalidateMarketingHome();
-      revalidateCmsPagePublicPaths(page.slug);
+      await revalidateCmsEntity({ type: "page", slug: page.slug });
       incrementSavePipelineMetric(metrics, "revalidationRuns", 3);
       if (existingPage?.slug && existingPage.slug !== page.slug) {
         await seoTriggerService.handle({
@@ -363,6 +368,7 @@ export type PatchCmsPageEditorInput = {
   selectedBlockId: string | null;
   editorInspector: string;
   editorRegion?: string | null;
+  editingLocale?: string | null;
 };
 
 /** Patch-based page save from editor toolbar. */
@@ -409,6 +415,7 @@ export async function patchCmsPageFromEditor(
       blockTranslationsRaw: input.blockTranslationsRaw,
       statusOverride: input.statusOverride,
       revisionMessage: input.revisionMessage,
+      editingLocale: input.editingLocale,
       userId: session.user.id,
       metrics,
     });
@@ -523,10 +530,16 @@ async function trackPageBlocksMedia(blocks: PageBlocks, pageId: string) {
 export async function publishCmsPage(id: string) {
   await requireAdmin();
   const metrics = startSavePipelineMetrics({ entityType: "CMS_PAGE", operation: "publish", entityId: id });
-  const page = await cmsRepository.updatePage(id, {
-    status: "PUBLISHED",
-    publishedAt: new Date(),
-    scheduledAt: null,
+  const session = await auth();
+  const { page } = await publishCmsPageAtomically(id, {
+    createdById: session?.user?.id,
+    message: "Published",
+  });
+  const { LogEvents, logger } = await import("@/lib/logger");
+  logger.info(LogEvents.cmsPublish, {
+    entity: "CMS_PAGE",
+    entityId: page.id,
+    actor: session?.user?.id,
   });
   incrementSavePipelineMetric(metrics, "dbWrites");
   if (isAsyncSearchIndexingEnabled()) {
@@ -540,9 +553,7 @@ export async function publishCmsPage(id: string) {
     incrementSavePipelineMetric(metrics, "searchRuns");
   }
   await syncCmsPageCache(page);
-  revalidateCmsPage(page.slug);
-  revalidateMarketingHome();
-  revalidateCmsPagePublicPaths(page.slug);
+  await revalidateCmsEntity({ type: "page", slug: page.slug });
   incrementSavePipelineMetric(metrics, "revalidationRuns", 3);
   await seoTriggerService.handle({
     type: "content.published",
@@ -556,6 +567,12 @@ export async function publishCmsPage(id: string) {
     // SEO platform pipeline is best-effort on publish
   }
   incrementSavePipelineMetric(metrics, "seoRuns");
+  const { dispatchWebhookFireAndForget } = await import("@/lib/webhooks/dispatch");
+  dispatchWebhookFireAndForget({
+    type: "cms.page.published",
+    occurredAt: new Date().toISOString(),
+    data: { pageId: page.id, slug: page.slug },
+  });
   revalidatePath("/admin/pages");
   revalidatePath(`/admin/pages/${id}`);
   incrementSavePipelineMetric(metrics, "revalidationRuns", 2);
@@ -574,17 +591,22 @@ export async function scheduleCmsPage(id: string, scheduledAtIso: string) {
 export async function unpublishCmsPage(id: string) {
   await requireAdmin();
   const page = await cmsRepository.getPageById(id);
-  await cmsRepository.updatePage(id, { status: "DRAFT" });
+  await cmsRepository.updatePage(id, { status: "DRAFT", publishedRevisionId: null });
   if (page) {
     await searchIndexer.remove("CMS_PAGE", id);
-    await syncCmsPageCache({ ...page, status: "DRAFT" });
-    revalidateCmsPage(page.slug);
-    revalidateCmsPagePublicPaths(page.slug);
+    await syncCmsPageCache({ ...page, status: "DRAFT", publishedRevisionId: null });
+    await revalidateCmsEntity({ type: "page", slug: page.slug });
     await seoTriggerService.handle({
       type: "content.unpublished",
       entityType: "CMS_PAGE",
       entityId: id,
       path: (await cmsPagePaths(page.slug))[0] ?? `/pages/${page.slug}`,
+    });
+    const { dispatchWebhookFireAndForget } = await import("@/lib/webhooks/dispatch");
+    dispatchWebhookFireAndForget({
+      type: "cms.page.unpublished",
+      occurredAt: new Date().toISOString(),
+      data: { pageId: id, slug: page.slug },
     });
   }
   revalidatePath("/admin/pages");
@@ -639,14 +661,26 @@ export async function restorePageRevision(pageId: string, revisionId: string) {
   await requireAdmin();
   const rev = await prisma.cmsPageRevision.findUnique({ where: { id: revisionId } });
   if (!rev || rev.pageId !== pageId) throw new Error("Revision not found");
+  const restoredComposition = compositionService.save(
+    compositionService.load({
+      composition: "composition" in rev ? rev.composition : undefined,
+      blocks: (rev.blocks ?? []) as PageBlocks,
+    }),
+  );
+  const { rehydrateRevisionTranslations } = await import(
+    "@/features/cms/revision-translation-snapshot"
+  );
+  await rehydrateRevisionTranslations(
+    "translations" in rev ? (rev as { translations?: unknown }).translations : [],
+  );
   const page = await cmsRepository.updatePage(pageId, {
-    blocks: rev.blocks as Prisma.InputJsonValue,
+    blocks: restoredComposition.blocks as Prisma.InputJsonValue,
+    composition: restoredComposition.composition as Prisma.InputJsonValue,
+    workingRevisionId: rev.id,
   });
   if (page.status === "PUBLISHED") {
     await syncCmsPageCache(page);
-    revalidateCmsPage(page.slug);
-    revalidateMarketingHome();
-    revalidateCmsPagePublicPaths(page.slug);
+    await revalidateCmsEntity({ type: "page", slug: page.slug });
   }
   revalidatePath(`/admin/pages/${pageId}`);
 }
@@ -883,6 +917,27 @@ async function upsertPostCore(formData: FormData, clientNavigation: boolean): Pr
     incrementSavePipelineMetric(metrics, "translationSyncRuns");
   }
 
+  const documentChanged =
+    !id ||
+    appliedPaths.some(
+      (p) =>
+        p === "blocks" ||
+        p.startsWith("blocks.") ||
+        p === "composition" ||
+        p.startsWith("composition."),
+    );
+  if (documentChanged) {
+    const session = await auth();
+    await cmsRepository.savePostRevision(
+      post.id,
+      blocks,
+      composition,
+      session?.user?.id,
+      id ? "Saved" : "Initial",
+      { editingLocale: (formData.get("editingLocale") as string | null) || null },
+    );
+  }
+
   if (post.status === "PUBLISHED") {
     if (!id || shouldRunSearch || status === "PUBLISHED") {
       if (isAsyncSearchIndexingEnabled()) {
@@ -897,7 +952,7 @@ async function upsertPostCore(formData: FormData, clientNavigation: boolean): Pr
       }
     }
     if (!id || shouldRevalidate || status === "PUBLISHED") {
-      revalidatePost(post.slug);
+      await revalidateCmsEntity({ type: "post", slug: post.slug });
       incrementSavePipelineMetric(metrics, "revalidationRuns");
     }
     if (!id || shouldRunSeo || status === "PUBLISHED") {
@@ -969,10 +1024,10 @@ export async function savePostFromEditor(formData: FormData): Promise<UpsertPost
 export async function publishPost(id: string) {
   await requireAdmin();
   const metrics = startSavePipelineMetrics({ entityType: "POST", operation: "publish", entityId: id });
-  const post = await cmsRepository.updatePost(id, {
-    status: "PUBLISHED",
-    publishedAt: new Date(),
-    scheduledAt: null,
+  const session = await auth();
+  const { post } = await publishPostAtomically(id, {
+    createdById: session?.user?.id,
+    message: "Published",
   });
   incrementSavePipelineMetric(metrics, "dbWrites");
   if (isAsyncSearchIndexingEnabled()) {
@@ -985,7 +1040,7 @@ export async function publishPost(id: string) {
     });
     incrementSavePipelineMetric(metrics, "searchRuns");
   }
-  revalidatePost(post.slug);
+  await revalidateCmsEntity({ type: "post", slug: post.slug });
   incrementSavePipelineMetric(metrics, "revalidationRuns");
   await seoTriggerService.handle({
     type: "content.published",
@@ -999,6 +1054,12 @@ export async function publishPost(id: string) {
     // SEO platform pipeline is best-effort on publish
   }
   incrementSavePipelineMetric(metrics, "seoRuns");
+  const { dispatchWebhookFireAndForget } = await import("@/lib/webhooks/dispatch");
+  dispatchWebhookFireAndForget({
+    type: "cms.post.published",
+    occurredAt: new Date().toISOString(),
+    data: { postId: post.id, slug: post.slug },
+  });
   revalidatePath("/admin/posts");
   revalidatePath(`/admin/posts/${id}`);
   incrementSavePipelineMetric(metrics, "revalidationRuns", 2);
@@ -1017,18 +1078,51 @@ export async function schedulePost(id: string, scheduledAtIso: string) {
 export async function unpublishPost(id: string) {
   await requireAdmin();
   const post = await cmsRepository.getPostById(id);
-  await cmsRepository.updatePost(id, { status: "DRAFT" });
+  await cmsRepository.updatePost(id, { status: "DRAFT", publishedRevisionId: null });
   if (post) {
     await searchIndexer.remove("POST", id);
-    revalidatePost(post.slug);
+    await revalidateCmsEntity({ type: "post", slug: post.slug });
     await seoTriggerService.handle({
       type: "content.unpublished",
       entityType: "POST",
       entityId: id,
       path: (await postPaths(post.slug))[0] ?? `/blog/${post.slug}`,
     });
+    const { dispatchWebhookFireAndForget } = await import("@/lib/webhooks/dispatch");
+    dispatchWebhookFireAndForget({
+      type: "cms.post.unpublished",
+      occurredAt: new Date().toISOString(),
+      data: { postId: id, slug: post.slug },
+    });
   }
   revalidatePath("/admin/posts");
+}
+
+export async function restorePostRevision(postId: string, revisionId: string) {
+  await requireAdmin();
+  const rev = await prisma.postRevision.findUnique({ where: { id: revisionId } });
+  if (!rev || rev.postId !== postId) throw new Error("Revision not found");
+  const restoredComposition = compositionService.save(
+    compositionService.load({
+      composition: rev.composition,
+      blocks: (rev.blocks ?? []) as PageBlocks,
+    }),
+  );
+  const { rehydrateRevisionTranslations } = await import(
+    "@/features/cms/revision-translation-snapshot"
+  );
+  await rehydrateRevisionTranslations(
+    "translations" in rev ? (rev as { translations?: unknown }).translations : [],
+  );
+  const post = await cmsRepository.updatePost(postId, {
+    blocks: restoredComposition.blocks as Prisma.InputJsonValue,
+    composition: restoredComposition.composition as Prisma.InputJsonValue,
+    workingRevisionId: rev.id,
+  });
+  if (post.status === "PUBLISHED") {
+    await revalidateCmsEntity({ type: "post", slug: post.slug });
+  }
+  revalidatePath(`/admin/posts/${postId}`);
 }
 
 export async function duplicatePost(id: string) {

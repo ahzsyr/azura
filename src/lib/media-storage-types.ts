@@ -1,15 +1,19 @@
+import type { StorageBackend } from "@/lib/storage-provider";
+
 export type StoredUpload = {
   url: string;
-  storage: "local" | "supabase";
-  objectPath?: string;
+  storage: StorageBackend;
+  bucket: string;
+  objectKey: string;
 };
 
 export type MediaStorageStatus = {
-  backend: "local" | "supabase";
+  backend: StorageBackend;
   ready: boolean;
   hasServiceRoleKey: boolean;
+  hasS3Credentials: boolean;
   mediaStorageEnv: string | null;
-  vercel: boolean;
+  cronSecretConfigured: boolean;
   message: string | null;
   catalogSiteRemote: boolean;
   catalogSiteMessage: string | null;

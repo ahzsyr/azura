@@ -9,10 +9,9 @@ import {
   filenameFromStoredUrl,
 } from "@/features/media/fs/media-library.service";
 import { catalogExtToCmsMediaType } from "@/features/media/lib/media-type-map";
-import { storeUploadedFile, useRemoteMediaStorage } from "@/lib/media-storage";
+import { storeUploadedFile } from "@/lib/media-storage";
 import { persistMediaUpload } from "@/features/media/persist-upload";
 import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
-import { isCloudNativeProduction } from "@/lib/cloud-native-guard";
 import { auth } from "@/lib/auth";
 import { mimeTypeForUpload } from "@/lib/local-media-storage";
 
@@ -42,13 +41,6 @@ export async function POST(request: Request) {
     const buffer = Buffer.from(await file.arrayBuffer());
     const cmsType = catalogExtToCmsMediaType(ext);
 
-    if (!useRemoteMediaStorage() && isCloudNativeProduction()) {
-      return NextResponse.json(
-        { error: "Cloud-native mode requires cloud storage for uploads." },
-        { status: 503 },
-      );
-    }
-
     const stored = await storeUploadedFile(
       { name: file.name, type: mimeTypeForUpload(file.name, file.type, cmsType) },
       buffer,
@@ -66,6 +58,9 @@ export async function POST(request: Request) {
       uploadedById: session?.user?.id,
       uploaderEmail: session?.user?.email,
       assetScope: "CATALOG",
+      storageBackend: stored.storage,
+      bucket: stored.bucket,
+      objectKey: stored.objectKey,
     });
 
     return NextResponse.json({

@@ -1,4 +1,4 @@
-export type SetupDatabaseKind = "mysql" | "postgresql" | "unknown";
+export type SetupDatabaseKind = "mysql" | "unknown";
 
 export type SetupStatusResult = {
   setupComplete: boolean;

@@ -106,6 +106,7 @@ import { RowSectionBlockFields } from "./row-section-block-fields";
 import { SectionBlockFields } from "./section-block-fields";
 import { resolveBuilderOptionTitle } from "@/features/builder/lib/builder-option-label";
 import { useAdminEditingLocale } from "@/features/translation/hooks/use-admin-editing-locale";
+import { resolveBlockFieldsComponent } from "@/features/builder/registry/block-cms-dispatch";
 
 type Props = {
   block: BlockNode;
@@ -139,6 +140,12 @@ export function BlockFieldEditor({
   const setProp = (key: string, value: unknown) => {
     onChange(patchBlockSettings(block, { [key]: value }));
   };
+
+  const registryFields = resolveBlockFieldsComponent(block.type);
+  if (registryFields && registryFields !== "legacy") {
+    const Fields = registryFields;
+    return <Fields block={block} onChange={onChange} />;
+  }
 
   switch (block.type) {
     case "hero":

@@ -877,7 +877,7 @@ const JSON_SOURCES: DataSourceDefinition[] = [
     namespace: "email-accounts",
     category: "system",
     displayName: "Email accounts",
-    description: "Named Resend/SMTP accounts for form notifications (secrets sealed)",
+    description: "Named Resend accounts for form notifications (secrets sealed)",
     jsonCategory: "settings",
     adminHref: "/admin/settings/email-accounts",
     capabilities: { count: true, browse: true, inspect: true, edit: true, export: true },

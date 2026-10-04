@@ -18,6 +18,8 @@ export function publicViewFromPageCache(cached: CachedPagePayload): CmsPagePubli
     blocks: cached.blocks as CmsPagePublicView["blocks"],
     composition: composition as CmsPagePublicView["composition"],
     visualSettings: {},
+    workingRevisionId: null,
+    publishedRevisionId: null,
     publishedAt: updatedAt,
     scheduledAt: null,
     authorId: null,

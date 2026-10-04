@@ -28,7 +28,12 @@ async function buildCmsLikeSnapshot(
     entityType === "CmsPage"
       ? await prisma.cmsPage.findUnique({
           where: { id: descriptor.id },
-          select: { blocks: true, publishedAt: true, author: { select: { name: true } } },
+          select: {
+            blocks: true,
+            publishedAt: true,
+            publishedRevisionId: true,
+            author: { select: { name: true } },
+          },
         })
       : await prisma.post.findUnique({
           where: { id: descriptor.id },
@@ -36,12 +41,29 @@ async function buildCmsLikeSnapshot(
             slug: true,
             blocks: true,
             publishedAt: true,
+            publishedRevisionId: true,
             author: { select: { name: true } },
             featuredImage: { select: { url: true } },
           },
         });
 
-  const blocks = (row?.blocks as PageBlocks) ?? null;
+  let blocks = (row?.blocks as PageBlocks) ?? null;
+  const publishedRevisionId = row?.publishedRevisionId ?? null;
+  if (publishedRevisionId) {
+    const revision =
+      entityType === "CmsPage"
+        ? await prisma.cmsPageRevision.findUnique({
+            where: { id: publishedRevisionId },
+            select: { blocks: true },
+          })
+        : await prisma.postRevision.findUnique({
+            where: { id: publishedRevisionId },
+            select: { blocks: true },
+          });
+    if (revision?.blocks) {
+      blocks = revision.blocks as PageBlocks;
+    }
+  }
   let draft = blocks ? extractContentFromBlocks(blocks, fallbackTitle) : emptyDraft(fallbackTitle);
   if (!draft.title) draft.title = fallbackTitle;
 

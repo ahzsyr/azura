@@ -1,17 +1,16 @@
 "use client";
 
-import { useStore } from "@nanostores/react";
 import { useEffect, useRef, useState } from "react";
 import { Monitor, Smartphone } from "lucide-react";
 import { HeaderRenderer, type HeaderMenuPreviewMode } from "@/features/navigation/components/header/HeaderRenderer";
-import { $workspace } from "@/features/navigation/header-store";
+import { useHeaderWorkspace } from "@/features/navigation/header-store";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 type PreviewDevice = "desktop" | "mobile";
 
 export function PreviewPanel({ localeCode }: { localeCode: string }) {
-  const workspace = useStore($workspace);
+  const workspace = useHeaderWorkspace();
   const [device, setDevice] = useState<PreviewDevice>("desktop");
   const [menuPreviewMode, setMenuPreviewMode] = useState<HeaderMenuPreviewMode>("live");
   const previewRef = useRef<HTMLDivElement>(null);
