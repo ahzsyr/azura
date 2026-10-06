@@ -107,61 +107,83 @@ export async function resolveRelatedContent(
   const localeCode = resolvePrefixToCode(localePrefix, enabled);
   const defaultCode = enabled.find((locale) => locale.isDefault)?.code ?? "en";
   const limit = Math.min(24, Math.max(1, config.limit ?? 6));
-  const types =
-    config.entityTypes.length > 0
-      ? config.entityTypes
-      : [
-          SearchEntityType.CATALOG_PRODUCT,
-          SearchEntityType.POST,
-          SearchEntityType.CONTENT_ITEM,
-        ];
+  const types = config.entityTypes;
+  const activeAnchor: DiscoveryAnchorContext | null =
+    config.rule === "anchor" && config.anchorContext !== "page"
+      ? {
+          context: config.anchorContext,
+          id: config.anchorId.trim() || (anchor?.context === config.anchorContext ? anchor.id : undefined),
+          slug: config.anchorSlug.trim() || (anchor?.context === config.anchorContext ? anchor.slug : undefined),
+          categorySlugs: anchor?.context === config.anchorContext ? anchor.categorySlugs : undefined,
+          tags: anchor?.context === config.anchorContext ? anchor.tags : undefined,
+          collectionSlug: anchor?.context === config.anchorContext ? anchor.collectionSlug : undefined,
+          contentTypeSlug: anchor?.context === config.anchorContext ? anchor.contentTypeSlug : undefined,
+        }
+      : anchor ?? null;
 
-  const out: DiscoveryItem[] = [];
+  const buckets: DiscoveryItem[][] = [];
 
   for (const entityType of types) {
-    if (out.length >= limit) break;
-    const remaining = limit - out.length;
+    const remaining = limit;
 
     if (entityType === SearchEntityType.CATALOG_PRODUCT) {
       const anchorSlug =
         config.rule === "anchor"
           ? config.anchorSlug.trim() ||
-            (anchor?.context === "product" ? anchor.slug : undefined) ||
+            (activeAnchor?.context === "product" ? activeAnchor.slug : undefined) ||
             ""
           : "";
-      const records = await resolveRelatedForBlock(localePrefix, {
-        rule:
-          config.rule === "manual"
-            ? "manual"
-            : config.rule === "anchor" && anchorSlug
-              ? "anchor"
-              : config.collectionSlug
-                ? "collection"
-                : config.tags.length
-                  ? "tags"
-                  : "collection",
-        anchorSlug,
-        collectionSlug: config.collectionSlug,
-        brand: "",
-        tags: config.tags,
-        productSlugs: config.manualItems
-          .filter((m) => m.entityType === SearchEntityType.CATALOG_PRODUCT)
-          .map((m) => m.entityId),
-        limit: remaining,
-      });
-      out.push(...productToDiscovery(records, localePrefix));
+      const collectionSlugs = config.collectionSlugs.length
+        ? config.collectionSlugs
+        : config.collectionSlug ? [config.collectionSlug] : [];
+      const productRule = config.rule === "manual"
+        ? "manual"
+        : config.rule === "anchor" && anchorSlug
+          ? "anchor"
+          : collectionSlugs.length
+            ? "collection"
+            : config.tags.length ? "tags" : "collection";
+      const productSlugs = config.manualItems
+        .filter((m) => m.entityType === SearchEntityType.CATALOG_PRODUCT)
+        .map((m) => m.entityId);
+      const recordsByCollection = productRule === "collection" && collectionSlugs.length
+        ? await Promise.all(collectionSlugs.map((collectionSlug) => resolveRelatedForBlock(localePrefix, {
+            rule: productRule,
+            anchorSlug,
+            collectionSlug,
+            brand: "",
+            tags: config.tags,
+            productSlugs,
+            limit: remaining,
+          })))
+        : [await resolveRelatedForBlock(localePrefix, {
+            rule: productRule,
+            anchorSlug,
+            collectionSlug: collectionSlugs[0] ?? "",
+            brand: "",
+            tags: config.tags,
+            productSlugs,
+            limit: remaining,
+          })];
+      const seenProducts = new Set<string>();
+      const records = recordsByCollection.flat().filter((record) => {
+        if (seenProducts.has(record.slug)) return false;
+        seenProducts.add(record.slug);
+        return true;
+      }).slice(0, remaining);
+      buckets.push(productToDiscovery(records, localePrefix));
       continue;
     }
 
     if (entityType === SearchEntityType.POST) {
-      const items = await resolveRelatedPosts(localePrefix, localeCode, config, anchor, remaining);
-      out.push(...items);
+      const items = await resolveRelatedPosts(localePrefix, localeCode, config, activeAnchor, remaining);
+      buckets.push(items);
       continue;
     }
 
     if (entityType === SearchEntityType.CONTENT_ITEM) {
-      const items = await resolveRelatedContentItems(localePrefix, localeCode, config, remaining);
-      out.push(...items);
+      const items = await resolveRelatedContentItems(localePrefix, localeCode, config, activeAnchor, remaining);
+      buckets.push(items);
       continue;
     }
 
@@ -179,7 +201,6 @@ export async function resolveRelatedContent(
         pages.map((p) => p.id),
       );
       for (const page of pages) {
-        if (out.length >= limit) break;
         const translationContext = {
           translations: translations.get(page.id) ?? [],
           enabledLocales: enabled,
@@ -198,7 +219,8 @@ export async function resolveRelatedContent(
         const publicPath = canonicalPath.startsWith("/pages/")
           ? `/pages/${localizedSlug}`
           : canonicalPath;
-        out.push({
+        buckets[types.indexOf(entityType)] ??= [];
+        buckets[types.indexOf(entityType)].push({
           id: `page-${page.id}`,
           entityType: SearchEntityType.CMS_PAGE,
           entityId: page.id,
@@ -210,7 +232,30 @@ export async function resolveRelatedContent(
     }
   }
 
-  return out.slice(0, limit);
+  // Interleave per-type results so the first configured entity does not fill the whole block.
+  const out: DiscoveryItem[] = [];
+  const seen = new Set<string>();
+  for (let index = 0; out.length < limit; index += 1) {
+    let found = false;
+    for (const bucket of buckets) {
+      const item = bucket?.[index];
+      if (!item) continue;
+      found = true;
+      const itemAnchorContext = item.entityType === SearchEntityType.CATALOG_PRODUCT ? "product"
+        : item.entityType === SearchEntityType.POST ? "post"
+          : item.entityType === SearchEntityType.CONTENT_ITEM ? "contentItem" : "page";
+      const current = config.excludeCurrentItem !== false && (
+        (activeAnchor?.context === itemAnchorContext && activeAnchor.id && item.entityId === activeAnchor.id) ||
+        (activeAnchor?.context === itemAnchorContext && activeAnchor.slug && item.entityId === activeAnchor.slug)
+      );
+      if (current || seen.has(item.id)) continue;
+      seen.add(item.id);
+      out.push(item);
+      if (out.length >= limit) break;
+    }
+    if (!found) break;
+  }
+  return out;
 }
 
 async function resolveRelatedPosts(
@@ -246,7 +291,7 @@ async function resolveRelatedPosts(
       ? posts.filter((p) => p.tags.some((t) => tagSet.has(t.tag.slug.toLowerCase())))
       : posts;
 
-  const excludeId = anchor?.context === "post" ? anchor.id : undefined;
+  const excludeId = config.excludeCurrentItem !== false && anchor?.context === "post" ? anchor.id : undefined;
   const slice = filtered.filter((p) => p.id !== excludeId).slice(0, limit);
   return mapPostsToDiscovery(slice, localePrefix, localeCode);
 }
@@ -255,14 +300,21 @@ async function resolveRelatedContentItems(
   localePrefix: string,
   localeCode: string,
   config: RelatedConfig,
+  anchor: DiscoveryAnchorContext | null,
   limit: number,
 ): Promise<DiscoveryItem[]> {
-  const slug = config.contentTypeSlug.trim() || "catalog-items";
-  const items = await loadContentItems({
+  const slug = config.contentTypeSlug.trim() || anchor?.contentTypeSlug || "catalog-items";
+  const collectionSlugs = config.collectionSlugs.length
+    ? config.collectionSlugs
+    : config.collectionSlug ? [config.collectionSlug] : anchor?.collectionSlug ? [anchor.collectionSlug] : [];
+  const collections = collectionSlugs.length ? collectionSlugs : [undefined];
+  const itemsByCollection = await Promise.all(collections.map((collectionSlug) => loadContentItems({
     contentTypeSlug: slug,
-    collectionSlug: config.collectionSlug || undefined,
+    collectionSlug,
     limit: limit * 2,
-  });
+  })));
+  const uniqueItems = new Map(itemsByCollection.flat().map((item) => [item.id, item]));
+  const items = [...uniqueItems.values()];
 
   if (config.rule === "manual") {
     const ids = new Set(
@@ -278,7 +330,7 @@ async function resolveRelatedContentItems(
     );
   }
 
-  const catSet = new Set(config.categorySlugs.map((c) => c.toLowerCase()));
+  const catSet = new Set((config.categorySlugs.length ? config.categorySlugs : anchor?.categorySlugs ?? []).map((c) => c.toLowerCase()));
   const filtered =
     catSet.size > 0
       ? items.filter((i) => {
@@ -287,9 +339,10 @@ async function resolveRelatedContentItems(
         })
       : items;
 
-  return Promise.all(
-    filtered.slice(0, limit).map((i) => contentItemToDiscovery(i, localePrefix, localeCode)),
-  );
+  const related = config.excludeCurrentItem !== false && anchor?.context === "contentItem"
+    ? filtered.filter((item) => item.id !== anchor.id && item.slug !== anchor.slug)
+    : filtered;
+  return Promise.all(related.slice(0, limit).map((i) => contentItemToDiscovery(i, localePrefix, localeCode)));
 }
 
 async function contentItemToDiscovery(

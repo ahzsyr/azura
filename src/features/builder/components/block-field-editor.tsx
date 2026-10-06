@@ -144,7 +144,7 @@ export function BlockFieldEditor({
   const registryFields = resolveBlockFieldsComponent(block.type);
   if (registryFields && registryFields !== "legacy") {
     const Fields = registryFields;
-    return <Fields block={block} onChange={onChange} />;
+    return <Fields block={block} onChange={onChange} contentTypeOptions={contentTypeOptions} />;
   }
 
   switch (block.type) {
@@ -609,7 +609,7 @@ export function BlockFieldEditor({
       return <CategoryExplorerBlockFields block={block} onChange={onChange} />;
 
     case "relatedContent":
-      return <RelatedContentBlockFields block={block} onChange={onChange} />;
+      return <RelatedContentBlockFields block={block} onChange={onChange} contentTypeOptions={contentTypeOptions} />;
 
     case "recentlyViewed":
       return <RecentlyViewedBlockFields block={block} onChange={onChange} />;

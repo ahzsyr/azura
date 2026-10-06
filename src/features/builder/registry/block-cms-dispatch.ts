@@ -4,7 +4,7 @@
  * but must still be listed in LEGACY_* sets so orphan CI fails on gaps.
  */
 import type { ComponentType } from "react";
-import type { BlockNode, BlockType } from "@/types/builder";
+import type { BlockNode, BlockType, ContentTypeOption } from "@/types/builder";
 import { BLOCK_DEFINITIONS } from "@/features/builder/registry/definitions";
 import {
   AdvancedRichTextBlockFields,
@@ -81,6 +81,7 @@ import {
 export type BlockFieldsProps = {
   block: BlockNode;
   onChange: (block: BlockNode) => void;
+  contentTypeOptions?: ContentTypeOption[];
 };
 
 export type BlockFieldsComponent = ComponentType<BlockFieldsProps>;
