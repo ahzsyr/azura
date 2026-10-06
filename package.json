@@ -207,7 +207,10 @@
     "zustand": "^5.0.14"
   },
   "overrides": {
-    "@radix-ui/react-slot": "1.2.4"
+    "@radix-ui/react-slot": "1.2.4",
+    "brace-expansion@^1.1.7": "1.1.20",
+    "brace-expansion@^2.0.2": "2.1.6",
+    "brace-expansion@^5.0.5": "5.0.11"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
