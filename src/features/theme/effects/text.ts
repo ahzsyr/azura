@@ -2,12 +2,20 @@ import { observeIntersection } from "@/lib/performance/intersection-observer-hub
 
 /**
  * Text effects — applied to elements with [data-text-effect].
- * Hero auto-tagging is handled by effects-runtime (tagHeroHeadings).
+ * Hero auto-tagging is handled by text-engine / visual-effects coordinator.
  */
 
 const ORIGINAL_TEXT_ATTR = "data-text-effect-original";
 const APPLIED_ATTR = "data-text-effect-applied";
 const INTERVAL_ATTR = "data-text-effect-interval-id";
+
+/** Shared CSS var chains — brand tokens before preset glow. */
+const TE_PRIMARY =
+  "var(--text-effect-primary,var(--color-primary,var(--primary)))";
+const TE_ACCENT =
+  "var(--text-effect-accent,var(--color-accent,var(--accent)))";
+const TE_SECONDARY =
+  "var(--text-effect-secondary,var(--text-effect-accent,var(--color-accent,var(--accent))))";
 
 /** Bumps on every reset so late async GSAP callbacks cannot re-paint stale neon shadows. */
 let textEffectEpoch = 0;
@@ -213,7 +221,7 @@ function applyEffect(el: HTMLElement, type: string) {
 }
 
 function applyNeonGlow(el: HTMLElement) {
-  const c = "var(--text-effect-primary,var(--color-primary,var(--primary)))";
+  const c = TE_PRIMARY;
   const intensity = `var(--text-effect-intensity,1)`;
   const epoch = textEffectEpoch;
   void loadGsap()
@@ -308,10 +316,7 @@ function applyGlitch(el: HTMLElement, text: string) {
   el.style.isolation = "isolate";
 
   const animations = ["glitchClipA", "glitchClipB"] as const;
-  const colors = [
-    "var(--text-effect-primary,var(--color-primary,var(--primary)))",
-    "var(--text-effect-accent,var(--color-accent,var(--accent)))",
-  ] as const;
+  const colors = [TE_PRIMARY, TE_SECONDARY] as const;
 
   animations.forEach((animName, i) => {
     const pseudo = document.createElement("span");
@@ -366,7 +371,7 @@ function applyTypewriter(el: HTMLElement, text: string) {
         height:0.85em;
         vertical-align:text-bottom;
         margin-left:2px;
-        background:var(--text-effect-primary,var(--color-primary,var(--primary)));
+        background:${TE_PRIMARY};
         border-radius:1px;
         animation:twCaret 0.8s step-end infinite;
       `;
@@ -428,7 +433,7 @@ function applyWave(el: HTMLElement, text: string) {
     s.id = "wave-kf";
     s.textContent = `@keyframes waveChar{
       0%   { transform:translateY(0)   scale(1);    color:inherit; }
-      40%  { transform:translateY(-8px) scale(1.05); color:var(--text-effect-accent,var(--color-accent,var(--accent))); }
+      40%  { transform:translateY(-8px) scale(1.05); color:${TE_ACCENT}; }
       100% { transform:translateY(0)   scale(1);    color:inherit; }
     }`;
     document.head.append(s);
@@ -453,20 +458,20 @@ function applyFlicker(el: HTMLElement) {
       0%,90%,100%{
         opacity:1;
         text-shadow:
-          0 0 8px  var(--text-effect-primary,var(--color-primary,var(--primary))),
-          0 0 22px color-mix(in srgb,var(--text-effect-primary,var(--color-primary,var(--primary))) 65%,transparent),
-          0 0 55px color-mix(in srgb,var(--text-effect-primary,var(--color-primary,var(--primary))) 25%,transparent)
+          0 0 8px  ${TE_PRIMARY},
+          0 0 22px color-mix(in srgb,${TE_PRIMARY} 65%,transparent),
+          0 0 55px color-mix(in srgb,${TE_PRIMARY} 25%,transparent)
       }
       91%{opacity:.35;text-shadow:none}
       92%{opacity:1;
         text-shadow:
-          0 0 14px var(--text-effect-primary,var(--color-primary,var(--primary))),
-          0 0 40px color-mix(in srgb,var(--text-effect-primary,var(--color-primary,var(--primary))) 50%,transparent)
+          0 0 14px ${TE_PRIMARY},
+          0 0 40px color-mix(in srgb,${TE_PRIMARY} 50%,transparent)
       }
       94%{opacity:.5;text-shadow:none}
       96%{opacity:1;
         text-shadow:
-          0 0 6px var(--text-effect-primary,var(--color-primary,var(--primary)))
+          0 0 6px ${TE_PRIMARY}
       }
       97%{opacity:.2;text-shadow:none}
       98%{opacity:1}
@@ -475,7 +480,7 @@ function applyFlicker(el: HTMLElement) {
   }
   el.style.animation =
     "flicker calc(3.5s / max(0.25,var(--text-effect-speed,var(--animation-speed,1)))) linear infinite";
-  el.style.color = "var(--text-effect-primary,var(--color-primary,var(--primary)))";
+  el.style.color = TE_PRIMARY;
 }
 
 function applyRevealClip(el: HTMLElement) {

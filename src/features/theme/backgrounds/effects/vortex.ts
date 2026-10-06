@@ -22,6 +22,12 @@ export const vortexEffect: BackgroundEffectDefinition = {
       t += 0.003 * speedMul;
       for (let arm = 0; arm < ARMS; arm++) {
         const offset = ((Math.PI * 2) / ARMS) * arm;
+        const colorVar =
+          arm % 3 === 0
+            ? "--color-primary"
+            : arm % 3 === 1
+              ? "--color-accent"
+              : "--color-secondary";
         for (let i = 0; i < POINTS; i++) {
           const r = (i / POINTS) * Math.min(cx, cy) * 0.9;
           const angle = (i / POINTS) * Math.PI * 8 + offset + t;
@@ -31,7 +37,7 @@ export const vortexEffect: BackgroundEffectDefinition = {
           const size = ((1 - i / POINTS) * 2 + 0.3) * 1.4;
           context.beginPath();
           context.arc(x, y, size, 0, Math.PI * 2);
-          context.fillStyle = ctx.getColor(alpha);
+          context.fillStyle = ctx.getColor(alpha, colorVar);
           context.fill();
         }
       }

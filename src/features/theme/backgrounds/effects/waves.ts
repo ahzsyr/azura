@@ -25,7 +25,7 @@ export const wavesEffect: BackgroundEffectDefinition = {
 
     const draw = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
-      waves.forEach((w) => {
+      waves.forEach((w, index) => {
         context.beginPath();
         for (let x = 0; x <= canvas.width; x++) {
           const y =
@@ -33,7 +33,13 @@ export const wavesEffect: BackgroundEffectDefinition = {
             Math.sin(x * w.freq + t * w.spd * 60 * speedMul) * w.amp * ctx.config.intensity;
           x === 0 ? context.moveTo(x, y) : context.lineTo(x, y);
         }
-        context.strokeStyle = ctx.getColor(w.a);
+        const colorVar =
+          index % 3 === 0
+            ? "--color-primary"
+            : index % 3 === 1
+              ? "--color-accent"
+              : "--color-secondary";
+        context.strokeStyle = ctx.getColor(w.a, colorVar);
         context.lineWidth = isSection ? 1.2 : 1.5;
         context.stroke();
       });

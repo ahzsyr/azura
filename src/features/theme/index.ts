@@ -25,3 +25,4 @@ export {
   resolveConstrainedSiteEffect,
   downgradeSiteBackgroundForPolicy,
 } from "./backgrounds/background-system";
+export { downgradeTextEffectForPolicy } from "./downgrade-text-effect";

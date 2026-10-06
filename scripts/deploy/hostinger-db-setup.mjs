@@ -8,6 +8,7 @@ import { spawnSync } from "node:child_process";
 import { PrismaClient } from "@prisma/client";
 import {
   isPostgresDatabaseUrl,
+  resolvePrismaMigrateSchemaPath,
   resolvePrismaSchemaPath,
 } from "./resolve-prisma-schema.mjs";
 
@@ -41,19 +42,20 @@ if (!process.env.DATABASE_URL?.trim()) {
   process.exit(1);
 }
 
-const schema = resolvePrismaSchemaPath();
+const datamodelSchema = resolvePrismaSchemaPath();
+const migrateSchema = resolvePrismaMigrateSchemaPath();
 const isPostgres = isPostgresDatabaseUrl();
 
 if (isPostgres) {
-  console.log(`PostgreSQL detected — syncing schema (${schema})…`);
+  console.log(`PostgreSQL detected — syncing schema (${datamodelSchema})…`);
   console.log(
     "Tip: For Supabase, import database/postgres/import-blank.sql in SQL Editor on first deploy.",
   );
-  run("npx", ["prisma", "db", "push", "--schema", schema, "--skip-generate"]);
+  run("npx", ["prisma", "db", "push", "--schema", datamodelSchema, "--skip-generate"]);
   console.log("Skipping db:seed on PostgreSQL — complete /setup in the browser.");
 } else {
   console.log("Applying Prisma migrations (MySQL production)…");
-  run("npx", ["prisma", "migrate", "deploy", "--schema", schema]);
+  run("npx", ["prisma", "migrate", "deploy", "--schema", migrateSchema]);
 
   const forceSeed = process.env.SETUP_FRESH_INSTALL === "1";
   const hasWorkspace = await hasHeaderWorkspaceRecord();

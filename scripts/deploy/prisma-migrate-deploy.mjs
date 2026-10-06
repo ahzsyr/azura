@@ -9,6 +9,7 @@ import { ensurePrismaEnginesExecutable } from "./ensure-prisma-engines-executabl
 import { buildPrismaEnv } from "./load-database-url.mjs";
 import {
   assertMysqlDatabaseUrl,
+  resolvePrismaMigrateSchemaPath,
   resolvePrismaSchemaPath,
 } from "./resolve-prisma-schema.mjs";
 import { runPrisma } from "./run-prisma.mjs";
@@ -279,6 +280,60 @@ async function ensurePostContentCompositionColumnsMysql(prisma) {
   }
 }
 
+/** Phase 4: durable search-index queue + lease columns (idempotent if migrate history drifted). */
+async function ensureSearchIndexJobMysql(prisma) {
+  if (await mysqlTableExists(prisma, "SearchIndexJob")) {
+    console.log("[db-migrate] MySQL: SearchIndexJob already exists");
+  } else {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`SearchIndexJob\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`entityType\` VARCHAR(32) NOT NULL,
+        \`entityId\` VARCHAR(64) NOT NULL,
+        \`status\` VARCHAR(16) NOT NULL DEFAULT 'PENDING',
+        \`attempts\` INTEGER NOT NULL DEFAULT 0,
+        \`lastError\` TEXT NULL,
+        \`lockedUntil\` DATETIME(3) NULL,
+        \`startedAt\` DATETIME(3) NULL,
+        \`completedAt\` DATETIME(3) NULL,
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        \`updatedAt\` DATETIME(3) NOT NULL,
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    await prisma.$executeRawUnsafe(
+      "CREATE INDEX `SearchIndexJob_status_createdAt_idx` ON `SearchIndexJob`(`status`, `createdAt`)",
+    );
+    await prisma.$executeRawUnsafe(
+      "CREATE INDEX `SearchIndexJob_entityType_entityId_status_idx` ON `SearchIndexJob`(`entityType`, `entityId`, `status`)",
+    );
+    console.log("[db-migrate] MySQL: created SearchIndexJob");
+  }
+
+  if (await mysqlTableExists(prisma, "TranslationJob")) {
+    if (!(await mysqlColumnExists(prisma, "TranslationJob", "attempts"))) {
+      await prisma.$executeRawUnsafe(
+        "ALTER TABLE `TranslationJob` ADD COLUMN `attempts` INTEGER NOT NULL DEFAULT 0",
+      );
+      console.log("[db-migrate] MySQL: added TranslationJob.attempts");
+    }
+    if (!(await mysqlColumnExists(prisma, "TranslationJob", "lockedUntil"))) {
+      await prisma.$executeRawUnsafe(
+        "ALTER TABLE `TranslationJob` ADD COLUMN `lockedUntil` DATETIME(3) NULL",
+      );
+      console.log("[db-migrate] MySQL: added TranslationJob.lockedUntil");
+    }
+  }
+
+  if (await mysqlTableExists(prisma, "MarketingJob")) {
+    if (!(await mysqlColumnExists(prisma, "MarketingJob", "lockedUntil"))) {
+      await prisma.$executeRawUnsafe(
+        "ALTER TABLE `MarketingJob` ADD COLUMN `lockedUntil` DATETIME(3) NULL",
+      );
+      console.log("[db-migrate] MySQL: added MarketingJob.lockedUntil");
+    }
+  }
+}
+
 async function ensureContentItemRevisionTableMysql(prisma) {
   const rows = await prisma.$queryRawUnsafe(
     `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.TABLES
@@ -294,6 +349,8 @@ async function ensureContentItemRevisionTableMysql(prisma) {
       \`itemId\` VARCHAR(36) NOT NULL,
       \`version\` INTEGER NOT NULL,
       \`blocks\` JSON NOT NULL,
+      \`composition\` JSON NOT NULL DEFAULT ('{}'),
+      \`translations\` JSON NOT NULL DEFAULT ('[]'),
       \`message\` VARCHAR(255) NULL,
       \`status\` ENUM('DRAFT', 'PUBLISHED', 'SCHEDULED', 'ARCHIVED') NOT NULL,
       \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -308,10 +365,166 @@ async function ensureContentItemRevisionTableMysql(prisma) {
   console.log("[db-migrate] MySQL: created ContentItemRevision");
 }
 
+async function mysqlIndexExists(prisma, table, indexName) {
+  const rows = await prisma.$queryRawUnsafe(
+    `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.STATISTICS
+     WHERE TABLE_SCHEMA = DATABASE()
+       AND LOWER(TABLE_NAME) = LOWER(?)
+       AND INDEX_NAME = ?`,
+    table,
+    indexName,
+  );
+  return Number(rows[0]?.c ?? 0) > 0;
+}
+
+async function ensureMysqlIndex(prisma, table, indexName, columnsSql) {
+  if (await mysqlIndexExists(prisma, table, indexName)) {
+    console.log(`[db-migrate] MySQL: index ${indexName} already exists`);
+    return;
+  }
+  await prisma.$executeRawUnsafe(
+    `CREATE INDEX \`${indexName}\` ON \`${table}\`(${columnsSql})`,
+  );
+  console.log(`[db-migrate] MySQL: added index ${indexName}`);
+}
+
+/**
+ * Safety net for Phase 2 CMS revision pointers
+ * (prisma/migrations/20261004120000_cms_revision_pointers).
+ */
+async function ensureCmsRevisionPointersMysql(prisma) {
+  const pointerTables = ["CmsPage", "Post", "ContentItem"];
+  for (const table of pointerTables) {
+    if (!(await mysqlTableExists(prisma, table))) {
+      console.log(`[db-migrate] MySQL: ${table} missing — skip revision pointers`);
+      continue;
+    }
+    await ensureMysqlColumn(prisma, table, "workingRevisionId", "VARCHAR(191) NULL");
+    await ensureMysqlColumn(prisma, table, "publishedRevisionId", "VARCHAR(191) NULL");
+    await ensureMysqlIndex(
+      prisma,
+      table,
+      `${table}_workingRevisionId_idx`,
+      "`workingRevisionId`",
+    );
+    await ensureMysqlIndex(
+      prisma,
+      table,
+      `${table}_publishedRevisionId_idx`,
+      "`publishedRevisionId`",
+    );
+  }
+
+  if (!(await mysqlTableExists(prisma, "PostRevision"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`PostRevision\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`postId\` VARCHAR(191) NOT NULL,
+        \`version\` INTEGER NOT NULL,
+        \`blocks\` JSON NOT NULL,
+        \`composition\` JSON NOT NULL DEFAULT ('{}'),
+        \`translations\` JSON NOT NULL DEFAULT ('[]'),
+        \`message\` VARCHAR(191) NULL,
+        \`createdById\` VARCHAR(191) NULL,
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        INDEX \`PostRevision_postId_idx\`(\`postId\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    try {
+      await prisma.$executeRawUnsafe(`
+        ALTER TABLE \`PostRevision\`
+        ADD CONSTRAINT \`PostRevision_postId_fkey\`
+        FOREIGN KEY (\`postId\`) REFERENCES \`Post\`(\`id\`)
+        ON DELETE CASCADE ON UPDATE CASCADE`);
+    } catch {}
+    try {
+      await prisma.$executeRawUnsafe(`
+        ALTER TABLE \`PostRevision\`
+        ADD CONSTRAINT \`PostRevision_createdById_fkey\`
+        FOREIGN KEY (\`createdById\`) REFERENCES \`User\`(\`id\`)
+        ON DELETE SET NULL ON UPDATE CASCADE`);
+    } catch {}
+    console.log("[db-migrate] MySQL: created PostRevision");
+  } else {
+    console.log("[db-migrate] MySQL: PostRevision already exists");
+  }
+
+  // Backfill pointers when columns were empty (idempotent).
+  if (await mysqlTableExists(prisma, "CmsPageRevision")) {
+    await prisma.$executeRawUnsafe(`
+      UPDATE \`CmsPage\` p
+      SET
+        \`workingRevisionId\` = COALESCE(
+          \`workingRevisionId\`,
+          (SELECT r.\`id\` FROM \`CmsPageRevision\` r
+           WHERE r.\`pageId\` = p.\`id\`
+           ORDER BY r.\`version\` DESC LIMIT 1)
+        ),
+        \`publishedRevisionId\` = CASE
+          WHEN p.\`publishedRevisionId\` IS NOT NULL THEN p.\`publishedRevisionId\`
+          WHEN p.\`status\` = 'PUBLISHED' THEN (
+            SELECT r.\`id\` FROM \`CmsPageRevision\` r
+            WHERE r.\`pageId\` = p.\`id\`
+            ORDER BY r.\`version\` DESC LIMIT 1
+          )
+          ELSE NULL
+        END
+      WHERE EXISTS (SELECT 1 FROM \`CmsPageRevision\` r WHERE r.\`pageId\` = p.\`id\`)`);
+  }
+
+  if (await mysqlTableExists(prisma, "ContentItemRevision")) {
+    await prisma.$executeRawUnsafe(`
+      UPDATE \`ContentItem\` i
+      SET
+        \`workingRevisionId\` = COALESCE(
+          \`workingRevisionId\`,
+          (SELECT r.\`id\` FROM \`ContentItemRevision\` r
+           WHERE r.\`itemId\` = i.\`id\`
+           ORDER BY r.\`version\` DESC LIMIT 1)
+        ),
+        \`publishedRevisionId\` = CASE
+          WHEN i.\`publishedRevisionId\` IS NOT NULL THEN i.\`publishedRevisionId\`
+          WHEN i.\`status\` = 'PUBLISHED' THEN (
+            SELECT r.\`id\` FROM \`ContentItemRevision\` r
+            WHERE r.\`itemId\` = i.\`id\`
+            ORDER BY r.\`version\` DESC LIMIT 1
+          )
+          ELSE NULL
+        END
+      WHERE EXISTS (SELECT 1 FROM \`ContentItemRevision\` r WHERE r.\`itemId\` = i.\`id\`)`);
+  }
+}
+
+/**
+ * Safety net for Phase 3 revision translation snapshots
+ * (prisma/migrations/20261004180000_revision_translation_snapshots).
+ */
+async function ensureRevisionTranslationSnapshotsMysql(prisma) {
+  const targets = [
+    "CmsPageRevision",
+    "PostRevision",
+    "ContentItemRevision",
+  ];
+  for (const table of targets) {
+    if (!(await mysqlTableExists(prisma, table))) {
+      console.log(`[db-migrate] MySQL: ${table} missing — skip translations column`);
+      continue;
+    }
+    await ensureMysqlColumn(
+      prisma,
+      table,
+      "translations",
+      "JSON NOT NULL DEFAULT ('[]')",
+    );
+  }
+}
+
 async function mysqlColumnExists(prisma, table, column) {
   const rows = await prisma.$queryRawUnsafe(
     `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.COLUMNS
-     WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = ?`,
+     WHERE TABLE_SCHEMA = DATABASE()
+       AND LOWER(TABLE_NAME) = LOWER(?)
+       AND LOWER(COLUMN_NAME) = LOWER(?)`,
     table,
     column,
   );
@@ -321,16 +534,52 @@ async function mysqlColumnExists(prisma, table, column) {
 async function mysqlTableExists(prisma, table) {
   const rows = await prisma.$queryRawUnsafe(
     `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.TABLES
-     WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ?`,
+     WHERE TABLE_SCHEMA = DATABASE() AND LOWER(TABLE_NAME) = LOWER(?)`,
     table,
   );
   return Number(rows[0]?.c ?? 0) > 0;
 }
 
+/** Prisma MySQL migrations require InnoDB (FKs + long unique indexes). */
+async function ensureMysqlInnoDBDefault(prisma) {
+  await prisma.$executeRawUnsafe("SET SESSION default_storage_engine = 'InnoDB'");
+  try {
+    await prisma.$executeRawUnsafe("SET GLOBAL default_storage_engine = 'InnoDB'");
+    console.log("[db-migrate] MySQL: default_storage_engine → InnoDB");
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(
+      `[db-migrate] MySQL: could not SET GLOBAL default_storage_engine=InnoDB (${message.split("\n")[0]}). Session is InnoDB; set it in my.cnf if new tables stay MyISAM.`,
+    );
+  }
+}
+
+async function ensureMysqlTablesInnoDB(prisma) {
+  const rows = await prisma.$queryRawUnsafe(
+    `SELECT TABLE_NAME AS name
+     FROM INFORMATION_SCHEMA.TABLES
+     WHERE TABLE_SCHEMA = DATABASE()
+       AND TABLE_TYPE = 'BASE TABLE'
+       AND UPPER(COALESCE(ENGINE, '')) <> 'INNODB'
+     ORDER BY TABLE_NAME`,
+  );
+  for (const row of rows) {
+    const name = String(row.name ?? "");
+    if (!name) continue;
+    await prisma.$executeRawUnsafe(`ALTER TABLE \`${name}\` ENGINE=InnoDB`);
+    console.log(`[db-migrate] MySQL: converted ${name} → InnoDB`);
+  }
+  if (!rows.length) {
+    console.log("[db-migrate] MySQL: all tables already InnoDB");
+  }
+}
+
 async function mysqlEnumHasValue(prisma, table, column, value) {
   const rows = await prisma.$queryRawUnsafe(
     `SELECT COLUMN_TYPE AS t FROM INFORMATION_SCHEMA.COLUMNS
-     WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = ?`,
+     WHERE TABLE_SCHEMA = DATABASE()
+       AND LOWER(TABLE_NAME) = LOWER(?)
+       AND LOWER(COLUMN_NAME) = LOWER(?)`,
     table,
     column,
   );
@@ -544,7 +793,7 @@ async function ensureMediaAssetScopeMysql(prisma) {
   const idx = await prisma.$queryRawUnsafe(
     `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.STATISTICS
      WHERE TABLE_SCHEMA = DATABASE()
-       AND TABLE_NAME = 'MediaAsset'
+       AND LOWER(TABLE_NAME) = 'mediaasset'
        AND INDEX_NAME = 'MediaAsset_assetScope_idx'`,
   );
   if (Number(idx[0]?.c ?? 0) === 0) {
@@ -552,6 +801,98 @@ async function ensureMediaAssetScopeMysql(prisma) {
       "CREATE INDEX `MediaAsset_assetScope_idx` ON `MediaAsset`(`assetScope`)",
     );
     console.log("[db-migrate] MySQL: added MediaAsset_assetScope_idx");
+  }
+}
+
+/**
+ * Safety net when migrate history lags Phase 4 storage identity
+ * (`storageBackend` + `bucket` + `objectKey`). Mirrors
+ * prisma/migrations/20261004200000_media_asset_storage_identity.
+ */
+async function ensureMediaAssetStorageIdentityMysql(prisma) {
+  if (!(await mysqlTableExists(prisma, "MediaAsset"))) {
+    console.log("[db-migrate] MySQL: MediaAsset missing — skip storage identity patch");
+    return;
+  }
+
+  const added = [];
+  if (!(await mysqlColumnExists(prisma, "MediaAsset", "storageBackend"))) {
+    await prisma.$executeRawUnsafe(
+      "ALTER TABLE `MediaAsset` ADD COLUMN `storageBackend` VARCHAR(16) NOT NULL DEFAULT 'local'",
+    );
+    added.push("storageBackend");
+  }
+  if (!(await mysqlColumnExists(prisma, "MediaAsset", "bucket"))) {
+    await prisma.$executeRawUnsafe(
+      "ALTER TABLE `MediaAsset` ADD COLUMN `bucket` VARCHAR(128) NOT NULL DEFAULT 'local'",
+    );
+    added.push("bucket");
+  }
+  if (!(await mysqlColumnExists(prisma, "MediaAsset", "objectKey"))) {
+    await prisma.$executeRawUnsafe(
+      "ALTER TABLE `MediaAsset` ADD COLUMN `objectKey` VARCHAR(512) NOT NULL DEFAULT ''",
+    );
+    added.push("objectKey");
+  }
+  if (added.length) {
+    console.log(`[db-migrate] MySQL: added MediaAsset.${added.join(", ")}`);
+  } else {
+    console.log("[db-migrate] MySQL: MediaAsset storage identity columns already exist");
+  }
+
+  // Backfill from denormalized url when objectKey is empty (legacy rows).
+  await prisma.$executeRawUnsafe(`
+    UPDATE \`MediaAsset\`
+    SET
+      \`storageBackend\` = 'local',
+      \`bucket\` = 'local',
+      \`objectKey\` = TRIM(LEADING '/' FROM SUBSTRING(\`url\`, LENGTH('/uploads/') + 1))
+    WHERE \`url\` LIKE '/uploads/%'
+      AND (\`objectKey\` = '' OR \`objectKey\` IS NULL)`);
+  await prisma.$executeRawUnsafe(`
+    UPDATE \`MediaAsset\`
+    SET
+      \`storageBackend\` = 'supabase',
+      \`bucket\` = SUBSTRING_INDEX(SUBSTRING_INDEX(\`url\`, '/storage/v1/object/public/', -1), '/', 1),
+      \`objectKey\` = SUBSTRING(
+        SUBSTRING_INDEX(\`url\`, '/storage/v1/object/public/', -1),
+        LOCATE('/', SUBSTRING_INDEX(\`url\`, '/storage/v1/object/public/', -1)) + 1
+      )
+    WHERE \`url\` LIKE '%/storage/v1/object/public/%'
+      AND (\`objectKey\` = '' OR \`objectKey\` IS NULL)`);
+  await prisma.$executeRawUnsafe(`
+    UPDATE \`MediaAsset\`
+    SET
+      \`storageBackend\` = IF(\`storageBackend\` = '', 'local', \`storageBackend\`),
+      \`bucket\` = IF(\`bucket\` = '', 'local', \`bucket\`),
+      \`objectKey\` = CONCAT('legacy/', \`id\`)
+    WHERE \`objectKey\` = '' OR \`objectKey\` IS NULL`);
+
+  // Widen url for long CDN URLs (migration also MODIFYs to TEXT).
+  await prisma.$executeRawUnsafe(`ALTER TABLE \`MediaAsset\` MODIFY COLUMN \`url\` TEXT NOT NULL`);
+
+  // MyISAM caps unique keys at 1000 bytes; storage identity needs InnoDB.
+  const engineRows = await prisma.$queryRawUnsafe(
+    `SELECT ENGINE AS engine FROM INFORMATION_SCHEMA.TABLES
+     WHERE TABLE_SCHEMA = DATABASE() AND LOWER(TABLE_NAME) = 'mediaasset'`,
+  );
+  const engine = String(engineRows[0]?.engine ?? "").toUpperCase();
+  if (engine && engine !== "INNODB") {
+    await prisma.$executeRawUnsafe("ALTER TABLE `MediaAsset` ENGINE=InnoDB");
+    console.log(`[db-migrate] MySQL: converted MediaAsset from ${engine} to InnoDB`);
+  }
+
+  const uniq = await prisma.$queryRawUnsafe(
+    `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.STATISTICS
+     WHERE TABLE_SCHEMA = DATABASE()
+       AND LOWER(TABLE_NAME) = 'mediaasset'
+       AND INDEX_NAME = 'MediaAsset_storageBackend_bucket_objectKey_key'`,
+  );
+  if (Number(uniq[0]?.c ?? 0) === 0) {
+    await prisma.$executeRawUnsafe(
+      "CREATE UNIQUE INDEX `MediaAsset_storageBackend_bucket_objectKey_key` ON `MediaAsset`(`storageBackend`, `bucket`, `objectKey`)",
+    );
+    console.log("[db-migrate] MySQL: added MediaAsset_storageBackend_bucket_objectKey_key");
   }
 }
 
@@ -1446,34 +1787,58 @@ async function fixHomePageLayout(prisma) {
   console.log(`[db-migrate] MySQL: fixed home page layout → full (${rows.length} row(s))`);
 }
 
-async function applyMysqlPatches(prisma) {
-  if (!(await mysqlColumnExists(prisma, "SiteSettings", "publishedVersion"))) {
-    await prisma.$executeRawUnsafe(
-      "ALTER TABLE `SiteSettings` ADD COLUMN `publishedVersion` INTEGER NOT NULL DEFAULT 0",
-    );
-    console.log("[db-migrate] MySQL: added SiteSettings.publishedVersion");
-  } else {
-    console.log("[db-migrate] MySQL: SiteSettings.publishedVersion already exists");
+async function runMysqlPatch(label, fn) {
+  try {
+    await fn();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[db-migrate] MySQL patch "${label}" failed: ${message.split("\n")[0]}`);
   }
+}
 
-  await ensureSiteThemeEffectSettingsColumnsMysql(prisma);
-  await ensureContentItemExtraColumnsMysql(prisma);
-  await ensureContentItemRevisionTableMysql(prisma);
-  await ensureCmsPageCompositionColumnsMysql(prisma);
-  await ensurePostContentCompositionColumnsMysql(prisma);
-  await ensureEditorialMetadataColumnsMysql(prisma);
-  await ensureSchemaUiFormsMysql(prisma);
-  await ensureFaqSetCoverUrlMysql(prisma);
-  await ensureMediaAssetScopeMysql(prisma);
-  await ensureMarketingFoundationMysql(prisma);
-  await ensureMarketingProviderAppConfigMysql(prisma);
-  await ensureMarketingTrackingMysql(prisma);
-  await ensureMarketingCampaignIntelligenceMysql(prisma);
-  await ensureSearchFulltextMysql(prisma);
-  await ensureSecurityHardeningMysql(prisma);
-  await ensureAuthLifecycleMysql(prisma);
-  await ensureEmailOtpMysql(prisma);
-  await fixHomePageLayout(prisma);
+async function applyMysqlPatches(prisma) {
+  await runMysqlPatch("innodbDefault", () => ensureMysqlInnoDBDefault(prisma));
+  await runMysqlPatch("innodbTables", () => ensureMysqlTablesInnoDB(prisma));
+
+  await runMysqlPatch("SiteSettings.publishedVersion", async () => {
+    if (!(await mysqlTableExists(prisma, "SiteSettings"))) {
+      console.log("[db-migrate] MySQL: SiteSettings missing — skip publishedVersion patch");
+      return;
+    }
+    if (!(await mysqlColumnExists(prisma, "SiteSettings", "publishedVersion"))) {
+      await prisma.$executeRawUnsafe(
+        "ALTER TABLE `SiteSettings` ADD COLUMN `publishedVersion` INTEGER NOT NULL DEFAULT 0",
+      );
+      console.log("[db-migrate] MySQL: added SiteSettings.publishedVersion");
+    } else {
+      console.log("[db-migrate] MySQL: SiteSettings.publishedVersion already exists");
+    }
+  });
+
+  await runMysqlPatch("siteThemeEffects", () => ensureSiteThemeEffectSettingsColumnsMysql(prisma));
+  await runMysqlPatch("contentItemExtra", () => ensureContentItemExtraColumnsMysql(prisma));
+  await runMysqlPatch("contentItemRevision", () => ensureContentItemRevisionTableMysql(prisma));
+  await runMysqlPatch("cmsPageComposition", () => ensureCmsPageCompositionColumnsMysql(prisma));
+  await runMysqlPatch("postContentComposition", () => ensurePostContentCompositionColumnsMysql(prisma));
+  await runMysqlPatch("cmsRevisionPointers", () => ensureCmsRevisionPointersMysql(prisma));
+  await runMysqlPatch("revisionTranslationSnapshots", () =>
+    ensureRevisionTranslationSnapshotsMysql(prisma),
+  );
+  await runMysqlPatch("editorialMetadata", () => ensureEditorialMetadataColumnsMysql(prisma));
+  await runMysqlPatch("schemaUiForms", () => ensureSchemaUiFormsMysql(prisma));
+  await runMysqlPatch("faqSetCoverUrl", () => ensureFaqSetCoverUrlMysql(prisma));
+  await runMysqlPatch("mediaAssetScope", () => ensureMediaAssetScopeMysql(prisma));
+  await runMysqlPatch("mediaAssetStorageIdentity", () => ensureMediaAssetStorageIdentityMysql(prisma));
+  await runMysqlPatch("marketingFoundation", () => ensureMarketingFoundationMysql(prisma));
+  await runMysqlPatch("marketingProviderAppConfig", () => ensureMarketingProviderAppConfigMysql(prisma));
+  await runMysqlPatch("marketingTracking", () => ensureMarketingTrackingMysql(prisma));
+  await runMysqlPatch("marketingCampaignIntelligence", () => ensureMarketingCampaignIntelligenceMysql(prisma));
+  await runMysqlPatch("searchFulltext", () => ensureSearchFulltextMysql(prisma));
+  await runMysqlPatch("searchIndexJob", () => ensureSearchIndexJobMysql(prisma));
+  await runMysqlPatch("securityHardening", () => ensureSecurityHardeningMysql(prisma));
+  await runMysqlPatch("authLifecycle", () => ensureAuthLifecycleMysql(prisma));
+  await runMysqlPatch("emailOtp", () => ensureEmailOtpMysql(prisma));
+  await runMysqlPatch("fixHomePageLayout", () => fixHomePageLayout(prisma));
 }
 
 async function runWithPrisma(url, fn) {
@@ -1526,11 +1891,18 @@ async function main() {
 
   const env = buildPrismaEnv();
   assertMysqlDatabaseUrl(env.DATABASE_URL);
-  const schema = resolvePrismaSchemaPath(env);
+  const datamodelSchema = resolvePrismaSchemaPath(env);
+  const migrateSchema = resolvePrismaMigrateSchemaPath(env);
 
   console.log("[db-migrate] Applying schema updates (mysql)…");
+  console.log(`[db-migrate] migrate schema: ${migrateSchema}; datamodel: ${datamodelSchema}`);
 
   ensurePrismaEnginesExecutable();
+  // Prefer InnoDB before migrate deploy creates tables (MyISAM breaks FKs / long unique keys).
+  await runWithPrisma(env.DATABASE_URL, ensureMysqlInnoDBDefault).catch((error) => {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[db-migrate] InnoDB preflight skipped: ${message.split("\n")[0]}`);
+  });
   const userPresent = await isUserTablePresent(env.DATABASE_URL);
   const prismaMigrationsPresent = await runWithPrisma(env.DATABASE_URL, (prisma) =>
     mysqlTableExists(prisma, "_prisma_migrations"),
@@ -1541,7 +1913,7 @@ async function main() {
       "[db-migrate] Existing MySQL schema without _prisma_migrations — skipping migrate deploy (P3005), applying patches",
     );
   } else {
-    migrateStatus = runPrisma(["migrate", "deploy", "--schema", schema], { env });
+    migrateStatus = runPrisma(["migrate", "deploy", "--schema", migrateSchema], { env });
   }
   if (migrateStatus !== 0) {
     console.warn(
@@ -1549,8 +1921,16 @@ async function main() {
     );
   }
 
-  if (!userPresent) {
-    const pushed = bootstrapSchemaWithDbPush(schema, env, "User table missing after migrate deploy");
+  // Re-check after migrate — empty DBs may have been bootstrapped by migrate deploy.
+  const userPresentAfterMigrate = await isUserTablePresent(env.DATABASE_URL);
+  if (!userPresentAfterMigrate) {
+    // db push uses the full datamodel; SeoSearchMetric unique needs prefix indexes from migrations.
+    // Prefer a second migrate attempt after a clean DB; push is last-resort bootstrap only.
+    const pushed = bootstrapSchemaWithDbPush(
+      datamodelSchema,
+      env,
+      "User table missing after migrate deploy",
+    );
     if (!pushed || !(await isUserTablePresent(env.DATABASE_URL))) {
       throw new Error(
         "MySQL schema missing (User table). Run npm run deploy:hostinger-db or import database/mysql/import-blank-full.sql. Do not set SKIP_DB_MIGRATE=1 on an empty database.",

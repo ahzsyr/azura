@@ -21,7 +21,8 @@ export { getRevisionEditLocale, parseRevisionTranslationSnapshot };
 export type CaptureRevisionTranslationsParams = {
   parentType: BlockParentType;
   parentId: string;
-  blocksOrComposition?: PageBlocks | Composition;
+  /** Flat blocks, bare Composition, or persisted Page AST envelope. */
+  blocksOrComposition?: PageBlocks | Composition | unknown;
 };
 
 async function resolveSeoMetaId(

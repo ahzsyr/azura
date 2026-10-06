@@ -37,12 +37,18 @@ export const geometricEffect: BackgroundEffectDefinition = {
 
     const draw = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
-      shapes.forEach((s) => {
+      shapes.forEach((s, index) => {
         s.rot += s.rotSpeed;
         s.x = (s.x + s.vx + canvas.width) % canvas.width;
         s.y = (s.y + s.vy + canvas.height) % canvas.height;
         polygon(s.x, s.y, s.size, s.sides, s.rot);
-        context.strokeStyle = ctx.getColor(s.alpha);
+        const colorVar =
+          index % 3 === 0
+            ? "--color-primary"
+            : index % 3 === 1
+              ? "--color-accent"
+              : "--color-secondary";
+        context.strokeStyle = ctx.getColor(s.alpha, colorVar);
         context.lineWidth = 1;
         context.stroke();
       });

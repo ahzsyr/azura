@@ -20,6 +20,7 @@ type Job = {
 
 let jobs: Job[] = [];
 let indexed: string[] = [];
+let failFindFirstWithMissingTable = false;
 
 function makePrisma() {
   return {
@@ -54,6 +55,13 @@ function makePrisma() {
         where: Record<string, unknown>;
         orderBy?: { createdAt: string };
       }) => {
+        if (failFindFirstWithMissingTable) {
+          const err = new Error(
+            "The table `SearchIndexJob` does not exist in the current database.",
+          );
+          (err as { code?: string }).code = "P2021";
+          throw err;
+        }
         let candidates = jobs.filter((j) => {
           if (where.entityType && j.entityType !== where.entityType) return false;
           if (where.entityId && j.entityId !== where.entityId) return false;
@@ -146,6 +154,7 @@ describe("SearchIndexJob lease contracts", () => {
   beforeEach(() => {
     jobs = [];
     indexed = [];
+    failFindFirstWithMissingTable = false;
   });
 
   it("reclaims expired RUNNING then completes PENDING job", async () => {
@@ -212,5 +221,18 @@ describe("SearchIndexJob lease contracts", () => {
     assert.equal(first.processed, 1);
     assert.equal(second.processed, 0);
     assert.equal(indexed.length, 1);
+  });
+
+  it("runSearchIndexAfterSave falls back to sync when queue table is missing", async () => {
+    failFindFirstWithMissingTable = true;
+    const { runSearchIndexAfterSave } = await import(
+      "@/features/save-pipeline/search-index-jobs"
+    );
+    let synced = false;
+    const mode = await runSearchIndexAfterSave("CMS_PAGE", "page-missing", async () => {
+      synced = true;
+    });
+    assert.equal(mode, "synced");
+    assert.equal(synced, true);
   });
 });

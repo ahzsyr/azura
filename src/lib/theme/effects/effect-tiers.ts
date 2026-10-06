@@ -20,9 +20,19 @@ const HEAVY_BACKGROUNDS = new Set([
 
 const MEDIUM_BACKGROUNDS = new Set(["noise", "grid"]);
 
-const HEAVY_TEXT = new Set(["neon-glow", "glitch", "gradient-flow", "scramble", "typewriter"]);
+/** Matches TEXT_EFFECT_OPTIONS — heavy DOM/GSAP work. */
+const HEAVY_TEXT = new Set([
+  "neon-glow",
+  "glitch",
+  "gradient-flow",
+  "scramble",
+  "typewriter",
+  "wave",
+  "3d-rotate",
+]);
 
-const MEDIUM_TEXT = new Set(["shimmer", "wave", "reveal"]);
+/** Lighter CSS / clip / opacity effects. */
+const MEDIUM_TEXT = new Set(["flicker", "reveal-clip"]);
 
 const HEAVY_CURSORS = new Set(["blob", "magnetic", "spotlight", "ring-trail"]);
 

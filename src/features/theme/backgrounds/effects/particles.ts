@@ -67,7 +67,10 @@ export const particlesEffect: BackgroundEffectDefinition = {
                   context.beginPath();
                   context.moveTo(a.x, a.y);
                   context.lineTo(b.x, b.y);
-                  context.strokeStyle = ctx.getColor((1 - d / linkDist) * 0.15);
+                  context.strokeStyle = ctx.getColor(
+                    (1 - d / linkDist) * 0.15,
+                    "--color-accent",
+                  );
                   context.lineWidth = 0.5;
                   context.stroke();
                 }

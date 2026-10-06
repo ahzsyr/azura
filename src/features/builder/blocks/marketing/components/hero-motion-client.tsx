@@ -1,6 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
+import { animate } from "motion";
 import type { HeroAnimationsConfig } from "@/features/builder/blocks/marketing/lib/hero-animations";
 import { getConstrainedMotionSnapshot } from "@/lib/motion/constrained-motion-snapshot";
 import { bindParallaxElement } from "@/lib/motion/parallax-scroll";
@@ -22,7 +23,7 @@ function revealEntrances(root: HTMLElement) {
 }
 
 /**
- * Imperative hero entrance motion (typewriter, GSAP stagger, parallax).
+ * Imperative hero entrance motion (typewriter, Motion stagger, parallax).
  */
 export function HeroMotionClient({ animations, imagePosition, hasParallaxBg }: Props) {
   const rootRef = useRef<HTMLSpanElement>(null);
@@ -48,7 +49,6 @@ export function HeroMotionClient({ animations, imagePosition, hasParallaxBg }: P
         : (animations?.animationDuration ?? 0.8);
       const entrances = [...root.querySelectorAll<HTMLElement>(".hero-anim-entrance")];
 
-
       if (headingEffect === "typewriter") {
         const heading = root.querySelector<HTMLElement>(".hero-anim-heading");
         if (heading?.textContent) {
@@ -70,38 +70,29 @@ export function HeroMotionClient({ animations, imagePosition, hasParallaxBg }: P
           cleanups.push(() => window.clearTimeout(timer));
         }
       } else if (headingEffect !== "glitch" && entrances.length > 0) {
-        let cancelled = false;
-        void import("gsap")
-          .then((mod) => {
-            if (cancelled) return;
-            mod.gsap.from(entrances, {
-              opacity: 0,
-              y: (_index, el) => {
-                const node = el as HTMLElement;
-                return node.classList.contains("hero-anim-fade-up") ? 40 : 0;
-              },
-              x: (_index, el) => {
-                const node = el as HTMLElement;
-                if (!node.classList.contains("hero-anim-slide-in")) return 0;
-                return node.classList.contains("hero-anim-subheading") ? 40 : -40;
-              },
+        entrances.forEach((el, index) => {
+          const fromY = el.classList.contains("hero-anim-fade-up") ? 40 : 0;
+          let fromX = 0;
+          if (el.classList.contains("hero-anim-slide-in")) {
+            fromX = el.classList.contains("hero-anim-subheading") ? 40 : -40;
+          }
+          el.style.opacity = "0";
+          el.style.transform = `translate3d(${fromX}px, ${fromY}px, 0)`;
+          const controls = animate(
+            el,
+            { opacity: 1, x: 0, y: 0 },
+            {
               duration,
-              stagger: staggerDelay,
-              ease: PUBLIC_MOTION.gsapEase,
-              delay: 0.08,
-              onComplete: () => {
-                entrances.forEach((el) => {
-                  el.style.willChange = "auto";
-                });
-              },
-            });
-          })
-          .catch(() => {
-            revealEntrances(root);
+              delay: 0.08 + index * staggerDelay,
+              ease: PUBLIC_MOTION.ease,
+            },
+          );
+          void controls.then(() => {
+            el.style.willChange = "auto";
           });
-
-        cleanups.push(() => {
-          cancelled = true;
+          cleanups.push(() => {
+            controls.stop();
+          });
         });
       }
 

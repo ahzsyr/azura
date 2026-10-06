@@ -11,7 +11,17 @@ const PARTICLE_BACKGROUNDS = new Set([
   "vortex",
 ]);
 
-const ANIMATED_TEXT = new Set(["neon-glow", "glitch", "gradient-flow", "scramble", "typewriter"]);
+const ANIMATED_TEXT = new Set([
+  "neon-glow",
+  "glitch",
+  "gradient-flow",
+  "scramble",
+  "typewriter",
+  "wave",
+  "flicker",
+  "reveal-clip",
+  "3d-rotate",
+]);
 
 const CARD_PROFILES: Record<string, Partial<PresetVisualMetrics>> = {
   "corner-bracket": {

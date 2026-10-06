@@ -31,7 +31,6 @@ import { seoTriggerService } from "@/features/seo/triggers/seo-trigger.service";
 import { runSeoOnCmsPagePublish, runSeoOnPostPublish } from "@/features/seo/platform/automation-hooks";
 import { cmsPagePaths, postPaths } from "@/features/seo/triggers/path-resolver";
 import {
-  isAsyncSearchIndexingEnabled,
   isCmsPagePatchSaveEnabled,
   isPostPatchShadowModeEnabled,
 } from "@/features/save-pipeline/feature-flags";
@@ -42,7 +41,7 @@ import {
   startSavePipelineMetrics,
 } from "@/features/save-pipeline/metrics";
 import { executePatch } from "@/features/save-pipeline/patch-execution";
-import { enqueueSearchIndexJob } from "@/features/save-pipeline/search-index-jobs";
+import { runSearchIndexAfterSave } from "@/features/save-pipeline/search-index-jobs";
 import { hasAsyncTask, hasExecutionEffect } from "@/features/save-pipeline/execution-plan";
 import { compareExecutionPlans } from "@/features/save-pipeline/plan-comparison";
 import { buildPostEditorRedirectPath, buildEditorRedirectQuery } from "@/lib/editor-url-sync";
@@ -542,16 +541,14 @@ export async function publishCmsPage(id: string) {
     actor: session?.user?.id,
   });
   incrementSavePipelineMetric(metrics, "dbWrites");
-  if (isAsyncSearchIndexingEnabled()) {
-    await enqueueSearchIndexJob("CMS_PAGE", page.id);
-  } else {
+  const pageSearchMode = await runSearchIndexAfterSave("CMS_PAGE", page.id, async () => {
     await searchIndexer.indexCmsPage({
       id: page.id,
       slug: page.slug,
       status: page.status,
     });
-    incrementSavePipelineMetric(metrics, "searchRuns");
-  }
+  });
+  if (pageSearchMode === "synced") incrementSavePipelineMetric(metrics, "searchRuns");
   await syncCmsPageCache(page);
   await revalidateCmsEntity({ type: "page", slug: page.slug });
   incrementSavePipelineMetric(metrics, "revalidationRuns", 3);
@@ -940,16 +937,14 @@ async function upsertPostCore(formData: FormData, clientNavigation: boolean): Pr
 
   if (post.status === "PUBLISHED") {
     if (!id || shouldRunSearch || status === "PUBLISHED") {
-      if (isAsyncSearchIndexingEnabled()) {
-        await enqueueSearchIndexJob("POST", post.id);
-      } else {
+      const postSearchMode = await runSearchIndexAfterSave("POST", post.id, async () => {
         await searchIndexer.indexPost({
           id: post.id,
           slug: post.slug,
           status: post.status,
         });
-        incrementSavePipelineMetric(metrics, "searchRuns");
-      }
+      });
+      if (postSearchMode === "synced") incrementSavePipelineMetric(metrics, "searchRuns");
     }
     if (!id || shouldRevalidate || status === "PUBLISHED") {
       await revalidateCmsEntity({ type: "post", slug: post.slug });
@@ -1030,16 +1025,14 @@ export async function publishPost(id: string) {
     message: "Published",
   });
   incrementSavePipelineMetric(metrics, "dbWrites");
-  if (isAsyncSearchIndexingEnabled()) {
-    await enqueueSearchIndexJob("POST", post.id);
-  } else {
+  const publishPostSearchMode = await runSearchIndexAfterSave("POST", post.id, async () => {
     await searchIndexer.indexPost({
       id: post.id,
       slug: post.slug,
       status: post.status,
     });
-    incrementSavePipelineMetric(metrics, "searchRuns");
-  }
+  });
+  if (publishPostSearchMode === "synced") incrementSavePipelineMetric(metrics, "searchRuns");
   await revalidateCmsEntity({ type: "post", slug: post.slug });
   incrementSavePipelineMetric(metrics, "revalidationRuns");
   await seoTriggerService.handle({

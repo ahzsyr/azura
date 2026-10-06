@@ -47,6 +47,7 @@ services:
       - --lower-case-table-names=1
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+      - --default-storage-engine=InnoDB
 
     environment:
       MYSQL_DATABASE: azura_db

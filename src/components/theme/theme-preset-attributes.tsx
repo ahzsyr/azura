@@ -12,7 +12,7 @@ type Props = {
 
 /**
  * Sync site-published preset data-* hooks on `<html>` for global preset CSS.
- * Liquid Glass controller lifecycle is owned exclusively by effects-runtime.
+ * Liquid Glass controller lifecycle is owned exclusively by visualEffectsEngine / effects-runtime.
  */
 export function ThemePresetAttributes({
   cardStyle,

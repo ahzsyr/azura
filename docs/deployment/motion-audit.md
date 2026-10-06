@@ -6,8 +6,8 @@ Canonical split for animation libraries. See also [technology-policy.md](./techn
 
 | Library | Role |
 |---------|------|
-| **`motion/react`** | Normal UI transitions, presence, layout, admin chrome, marketing block affordances |
-| **GSAP** | Complex timelines / text effects only — do not use interchangeably with Motion |
+| **`motion/react`** | Normal UI transitions, presence, layout, admin chrome, marketing block affordances, hero entrances |
+| **GSAP** | Complex text-effect timelines only — do not use interchangeably with Motion |
 
 Do not reintroduce `framer-motion` as a direct import. The `motion` package is the successor.
 
@@ -27,13 +27,13 @@ Do not reintroduce `framer-motion` as a direct import. The `motion` package is t
 - `src/features/builder/blocks/marketing/components/composite-visual-stage.tsx`
 - `src/features/builder/blocks/marketing/components/frame-sequence-player.tsx`
 - `src/features/builder/blocks/marketing/components/tabbed-showcase-view.tsx`
+- `src/features/builder/blocks/marketing/components/hero-motion-client.tsx`
 
 ## GSAP — Category B (justified retention)
 
 | File | Why GSAP |
 |------|----------|
-| `src/features/builder/blocks/marketing/components/hero-motion-client.tsx` | Multi-step hero timeline; dynamic `import("gsap")` |
-| `src/features/theme/effects/text.ts` | Text effect sequencing; dynamic `import("gsap")` |
+| `src/features/theme/effects/text.ts` | Neon glow pulse timeline; dynamic `import("gsap")` |
 
 Consolidate a GSAP site to Motion only when the rewrite is trivial and behavior-equivalent. Do not rewrite working timelines for purity.
 

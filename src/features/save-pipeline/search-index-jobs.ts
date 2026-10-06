@@ -1,7 +1,9 @@
 import "server-only";
 
 import type { SavePipelineEntityType } from "./metrics";
+import { isAsyncSearchIndexingEnabled } from "./feature-flags";
 import { searchIndexer } from "@/capabilities/search/search-indexer.service";
+import { getErrorMessage, isRecoverableDbError } from "@/lib/debug/recoverable-db-error";
 import { prisma } from "@/lib/prisma";
 import { LogEvents, logger } from "@/lib/logger";
 
@@ -132,6 +134,35 @@ export async function enqueueSearchIndexJob(
       status: "PENDING",
     },
   });
+}
+
+/**
+ * Queue async search indexing when enabled; on missing-table / recoverable DB
+ * errors, fall back to the provided sync indexer so editorial saves never fail
+ * solely because SearchIndexJob is unavailable.
+ */
+export async function runSearchIndexAfterSave(
+  entityType: SavePipelineEntityType,
+  entityId: string,
+  syncIndex: () => Promise<void>,
+): Promise<"queued" | "synced"> {
+  if (isAsyncSearchIndexingEnabled()) {
+    try {
+      await enqueueSearchIndexJob(entityType, entityId);
+      return "queued";
+    } catch (error) {
+      if (!isRecoverableDbError(error)) throw error;
+      logger.warn(LogEvents.jobFailed, {
+        entity: "SearchIndexJob",
+        entityType,
+        entityId,
+        error: getErrorMessage(error),
+        fallback: "sync",
+      });
+    }
+  }
+  await syncIndex();
+  return "synced";
 }
 
 export async function processSearchIndexJobs(limit = 10): Promise<{

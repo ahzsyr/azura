@@ -32,8 +32,7 @@ import {
   type SavePipelineMetrics,
   withSavePipelineStep,
 } from "@/features/save-pipeline/metrics";
-import { enqueueSearchIndexJob } from "@/features/save-pipeline/search-index-jobs";
-import { isAsyncSearchIndexingEnabled } from "@/features/save-pipeline/feature-flags";
+import { runSearchIndexAfterSave } from "@/features/save-pipeline/search-index-jobs";
 import { compareExecutionPlans } from "@/features/save-pipeline/plan-comparison";
 import { compositionService } from "@/features/layout-engine/composition.service";
 import { editorialDisplayFromMetadata, withEditorialDisplayMetadata } from "@/schemas/editorial-metadata";
@@ -275,17 +274,15 @@ export async function patchCmsPageRecord(
 
   if (page.status === "PUBLISHED") {
     if (hasAsyncTask(execution, "search_index") || statusOverride === "PUBLISHED") {
-      if (isAsyncSearchIndexingEnabled()) {
-        await enqueueSearchIndexJob("CMS_PAGE", page.id);
-      } else {
-        await withSavePipelineStep(metrics, "searchRuns", () =>
+      await runSearchIndexAfterSave("CMS_PAGE", page.id, () =>
+        withSavePipelineStep(metrics, "searchRuns", () =>
           searchIndexer.indexCmsPage({
             id: page.id,
             slug: page.slug,
             status: page.status,
           }),
-        );
-      }
+        ),
+      );
     }
     if (hasExecutionEffect(execution, "revalidate_paths") || statusOverride === "PUBLISHED") {
       incrementSavePipelineMetric(metrics, "revalidationRuns", existing.slug !== page.slug ? 4 : 3);

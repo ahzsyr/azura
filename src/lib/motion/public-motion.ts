@@ -12,8 +12,6 @@ export const PUBLIC_MOTION = {
   staggerMs: 60,
   staggerMaxMs: 360,
   routeEnterClearMs: 240,
-  /** GSAP ease closest to easeCss — used when GSAP handles hero entrance. */
-  gsapEase: "power2.out",
 } as const;
 
 export const PUBLIC_MOTION_MOBILE = {

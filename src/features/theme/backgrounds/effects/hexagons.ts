@@ -38,12 +38,12 @@ export const hexagonsEffect: BackgroundEffectDefinition = {
           const y = row * H;
           const pulse = Math.sin(t + (col2 * 0.3 + row * 0.5)) * 0.5 + 0.5;
           hexPath(x, y, SIZE - 2);
-          context.strokeStyle = ctx.getColor(pulse * 0.12);
+          context.strokeStyle = ctx.getColor(pulse * 0.12, "--color-primary");
           context.lineWidth = 1;
           context.stroke();
           if (pulse > 0.85) {
             hexPath(x, y, SIZE - 2);
-            context.fillStyle = ctx.getColor(pulse * 0.04);
+            context.fillStyle = ctx.getColor(pulse * 0.04, "--color-accent");
             context.fill();
           }
         }

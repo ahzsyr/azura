@@ -373,9 +373,9 @@ CREATE TABLE IF NOT EXISTS `SeoSearchMetric` (
     `updatedAt` DATETIME(3) NOT NULL,
 
     INDEX `SeoSearchMetric_date_source_idx`(`date`, `source`),
-    INDEX `SeoSearchMetric_url_date_idx`(`url`, `date`),
-    INDEX `SeoSearchMetric_query_date_idx`(`query`, `date`),
-    UNIQUE INDEX `SeoSearchMetric_source_date_url_query_country_device_key`(`source`, `date`, `url`, `query`, `country`, `device`),
+    INDEX `SeoSearchMetric_url_date_idx`(`url`(191), `date`),
+    INDEX `SeoSearchMetric_query_date_idx`(`query`(191), `date`),
+    UNIQUE INDEX `SeoSearchMetric_source_date_url_query_country_device_key`(`source`, `date`, `url`(191), `query`(191), `country`, `device`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -398,6 +398,41 @@ CREATE TABLE IF NOT EXISTS `SeoRichResultIssue` (
     INDEX `SeoRichResultIssue_type_eligibility_idx`(`type`, `eligibility`),
     INDEX `SeoRichResultIssue_category_resolvedAt_idx`(`category`, `resolvedAt`),
     INDEX `SeoRichResultIssue_detectedAt_idx`(`detectedAt`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- PostRevision
+CREATE TABLE IF NOT EXISTS `PostRevision` (
+    `id` VARCHAR(191) NOT NULL,
+    `postId` VARCHAR(191) NOT NULL,
+    `version` INTEGER NOT NULL,
+    `blocks` JSON NOT NULL,
+    `composition` JSON NOT NULL,
+    `translations` JSON NOT NULL,
+    `message` VARCHAR(191) NULL,
+    `createdById` VARCHAR(191) NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    INDEX `PostRevision_postId_idx`(`postId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- SearchIndexJob
+CREATE TABLE IF NOT EXISTS `SearchIndexJob` (
+    `id` VARCHAR(191) NOT NULL,
+    `entityType` VARCHAR(32) NOT NULL,
+    `entityId` VARCHAR(64) NOT NULL,
+    `status` VARCHAR(16) NOT NULL DEFAULT 'PENDING',
+    `attempts` INTEGER NOT NULL DEFAULT 0,
+    `lastError` TEXT NULL,
+    `lockedUntil` DATETIME(3) NULL,
+    `startedAt` DATETIME(3) NULL,
+    `completedAt` DATETIME(3) NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    INDEX `SearchIndexJob_status_createdAt_idx`(`status`, `createdAt`),
+    INDEX `SearchIndexJob_entityType_entityId_status_idx`(`entityType`, `entityId`, `status`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -497,6 +532,66 @@ CALL azura_rename_column('TranslationJob', 'languageCode', 'localeCode', 'VARCHA
 
 -- UiMessage may exist on old DB; rename before drop in section 12
 CALL azura_rename_column('UiMessage', 'languageCode', 'localeCode', 'VARCHAR(16) NOT NULL');
+
+-- ========== 8b. CMS revision pointers (Phase 2) ==========
+CALL azura_add_column('CmsPage', 'workingRevisionId', 'VARCHAR(191) NULL');
+CALL azura_add_column('CmsPage', 'publishedRevisionId', 'VARCHAR(191) NULL');
+CALL azura_add_index('CmsPage', 'CmsPage_workingRevisionId_idx', '`workingRevisionId`', 0);
+CALL azura_add_index('CmsPage', 'CmsPage_publishedRevisionId_idx', '`publishedRevisionId`', 0);
+
+CALL azura_add_column('Post', 'workingRevisionId', 'VARCHAR(191) NULL');
+CALL azura_add_column('Post', 'publishedRevisionId', 'VARCHAR(191) NULL');
+CALL azura_add_index('Post', 'Post_workingRevisionId_idx', '`workingRevisionId`', 0);
+CALL azura_add_index('Post', 'Post_publishedRevisionId_idx', '`publishedRevisionId`', 0);
+
+CALL azura_add_column('ContentItem', 'workingRevisionId', 'VARCHAR(191) NULL');
+CALL azura_add_column('ContentItem', 'publishedRevisionId', 'VARCHAR(191) NULL');
+CALL azura_add_index('ContentItem', 'ContentItem_workingRevisionId_idx', '`workingRevisionId`', 0);
+CALL azura_add_index('ContentItem', 'ContentItem_publishedRevisionId_idx', '`publishedRevisionId`', 0);
+
+-- ========== 8c. Revision translation snapshots (Phase 3) ==========
+CALL azura_add_column('CmsPageRevision', 'translations', "JSON NOT NULL DEFAULT ('[]')");
+CALL azura_add_column('PostRevision', 'translations', "JSON NOT NULL DEFAULT ('[]')");
+CALL azura_add_column('ContentItemRevision', 'translations', "JSON NOT NULL DEFAULT ('[]')");
+CALL azura_add_column('CmsPageRevision', 'composition', "JSON NOT NULL DEFAULT ('{}')");
+CALL azura_add_column('ContentItemRevision', 'composition', "JSON NOT NULL DEFAULT ('{}')");
+CALL azura_add_column('PostRevision', 'composition', "JSON NOT NULL DEFAULT ('{}')");
+
+-- ========== 8d. MediaAsset storage identity (Phase 4) ==========
+CALL azura_add_column('MediaAsset', 'storageBackend', "VARCHAR(16) NOT NULL DEFAULT 'local'");
+CALL azura_add_column('MediaAsset', 'bucket', "VARCHAR(128) NOT NULL DEFAULT 'local'");
+CALL azura_add_column('MediaAsset', 'objectKey', "VARCHAR(512) NOT NULL DEFAULT ''");
+UPDATE `MediaAsset`
+SET
+  `storageBackend` = IF(`storageBackend` = '' OR `storageBackend` IS NULL, 'local', `storageBackend`),
+  `bucket` = IF(`bucket` = '' OR `bucket` IS NULL, 'local', `bucket`),
+  `objectKey` = IF(`objectKey` = '' OR `objectKey` IS NULL, CONCAT('legacy/', `id`), `objectKey`)
+WHERE `objectKey` = '' OR `objectKey` IS NULL;
+SET @media_url_type = (
+  SELECT DATA_TYPE FROM information_schema.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'MediaAsset' AND COLUMN_NAME = 'url'
+);
+SET @media_url_sql = IF(
+  @media_url_type IS NOT NULL AND @media_url_type <> 'text',
+  'ALTER TABLE `MediaAsset` MODIFY `url` TEXT NOT NULL',
+  'SELECT 1'
+);
+PREPARE media_url_stmt FROM @media_url_sql;
+EXECUTE media_url_stmt;
+DEALLOCATE PREPARE media_url_stmt;
+CALL azura_add_index(
+  'MediaAsset',
+  'MediaAsset_storageBackend_bucket_objectKey_key',
+  '`storageBackend`, `bucket`, `objectKey`',
+  1
+);
+
+-- ========== 8e. Job leases (Phase 4) ==========
+CALL azura_add_column('TranslationJob', 'attempts', 'INTEGER NOT NULL DEFAULT 0');
+CALL azura_add_column('TranslationJob', 'lockedUntil', 'DATETIME(3) NULL');
+CALL azura_add_index('TranslationJob', 'TranslationJob_status_lockedUntil_idx', '`status`, `lockedUntil`', 0);
+CALL azura_add_column('MarketingJob', 'lockedUntil', 'DATETIME(3) NULL');
+CALL azura_add_index('MarketingJob', 'MarketingJob_status_lockedUntil_idx', '`status`, `lockedUntil`', 0);
 
 -- ========== 9. Product consolidation (locale/slug → canonicalSlug) ==========
 CALL azura_consolidate_product();

@@ -148,6 +148,27 @@ describe("buildEffectSettingsCssVarEntries", () => {
     assert.match(entries["--text-effect-gradient"]!, /38%/);
     assert.match(entries["--text-effect-gradient"]!, /color-mix/);
   });
+
+  it("emits secondary color overrides for text and cursor", () => {
+    const entries = Object.fromEntries(
+      buildEffectSettingsCssVarEntries(
+        baseResolved({
+          textEffectSettings: {
+            intensity: 1,
+            opacity: 1,
+            colors: { primary: "#111111", accent: "#222222", secondary: "#333333" },
+          },
+          cursorEffectSettings: {
+            intensity: 1,
+            opacity: 1,
+            colors: { secondary: "#444444" },
+          },
+        }),
+      ),
+    );
+    assert.equal(entries["--text-effect-secondary"], "#333333");
+    assert.equal(entries["--cursor-effect-secondary"], "#444444");
+  });
 });
 
 describe("buildTextEffectShimmerGradient", () => {
@@ -158,5 +179,12 @@ describe("buildTextEffectShimmerGradient", () => {
     assert.match(gradient, /#f0d080 50%/);
     assert.match(gradient, /#c9a84c 62%/);
     assert.match(gradient, /color-mix\(in srgb, #f0d080 55%, #c9a84c\)/);
+  });
+
+  it("uses accent brand fallbacks when overrides are omitted", () => {
+    const gradient = buildTextEffectShimmerGradient(null, null);
+    assert.match(gradient, /--color-primary/);
+    assert.match(gradient, /--color-accent/);
+    assert.doesNotMatch(gradient, /--secondary\)/);
   });
 });

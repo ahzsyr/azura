@@ -86,6 +86,14 @@ const originalLoad = (Module as unknown as { _load: (...args: unknown[]) => unkn
     incrementSavePipelineMetric: stubAsync,
     isAsyncSearchIndexingEnabled: () => false,
     enqueueSearchIndexJob: stubAsync,
+    runSearchIndexAfterSave: async (
+      _entityType: string,
+      _entityId: string,
+      syncIndex: () => Promise<void>,
+    ) => {
+      await syncIndex();
+      return "synced";
+    },
     searchIndexer: { indexCmsPage: stubAsync },
     syncCmsPageCache: stubAsync,
     revalidateCmsEntity: stubAsync,

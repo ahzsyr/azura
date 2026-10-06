@@ -1,6 +1,13 @@
 import { sectionLayerBase } from "../kernel/canvas-host";
 import type { BackgroundMountContext } from "../types";
 
+const BG_PRIMARY =
+  "var(--bg-effect-primary, var(--color-primary, var(--primary, #047857)))";
+const BG_ACCENT =
+  "var(--bg-effect-accent, var(--color-accent, var(--accent)))";
+const BG_SECONDARY =
+  "var(--bg-effect-secondary, var(--bg-effect-accent, var(--color-accent, var(--accent, var(--gold)))))";
+
 export function mountGridLayer(
   ctx: BackgroundMountContext,
   attr: "data-bg-effect" | "data-section-bg-effect",
@@ -17,8 +24,8 @@ export function mountGridLayer(
   const duration = `${(isSection ? 24 : 20) / speed}s`;
   const isSite = ctx.scope.kind === "site";
   div.style.cssText = `${isSite ? "position:absolute;inset:0;pointer-events:none;z-index:0;" : sectionLayerBase()}
-    background-image:linear-gradient(color-mix(in srgb,var(--color-primary,var(--primary,#047857)) ${mix},transparent) 1px,transparent 1px),
-      linear-gradient(90deg,color-mix(in srgb,var(--color-primary,var(--primary,#047857)) ${mix},transparent) 1px,transparent 1px);
+    background-image:linear-gradient(color-mix(in srgb,${BG_PRIMARY} ${mix},transparent) 1px,transparent 1px),
+      linear-gradient(90deg,color-mix(in srgb,${BG_PRIMARY} ${mix},transparent) 1px,transparent 1px);
     background-size:${size};animation:gridScroll ${duration} linear infinite`;
   ctx.scope.host.prepend(div);
   ctx.applyLayerOpacity(div);
@@ -41,9 +48,9 @@ export function mountAuroraLayer(
   const speed = Math.max(ctx.config.speed, 0.25);
   div.style.cssText = base;
   div.innerHTML = `<div style="position:absolute;width:150%;height:150%;top:-25%;left:-25%;
-    background:radial-gradient(ellipse 80% 50% at 20% 40%,color-mix(in srgb,var(--color-primary,var(--primary)) ${primaryMix},transparent),transparent 60%),
-      radial-gradient(ellipse 60% 40% at 80% 60%,color-mix(in srgb,var(--color-accent,var(--accent)) ${accentMix},transparent),transparent 55%),
-      radial-gradient(ellipse 70% 60% at 50% 20%,color-mix(in srgb,var(--color-secondary,var(--gold)) 8%,transparent),transparent 60%);
+    background:radial-gradient(ellipse 80% 50% at 20% 40%,color-mix(in srgb,${BG_PRIMARY} ${primaryMix},transparent),transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 60%,color-mix(in srgb,${BG_ACCENT} ${accentMix},transparent),transparent 55%),
+      radial-gradient(ellipse 70% 60% at 50% 20%,color-mix(in srgb,${BG_SECONDARY} 8%,transparent),transparent 60%);
     animation:auroraMove ${12 / speed}s ease-in-out infinite alternate;filter:blur(${blur})"></div>`;
   ctx.scope.host.prepend(div);
   ctx.applyLayerOpacity(div);

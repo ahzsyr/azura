@@ -15,6 +15,10 @@ type Props = {
   onSpeedChange?: (speed: number) => void;
 };
 
+function overrideLabel(base: string, overridden: boolean): string {
+  return overridden ? base : `${base} (brand default)`;
+}
+
 export function EffectSettingsPanel({
   settings,
   animationSpeed,
@@ -25,6 +29,11 @@ export function EffectSettingsPanel({
   showSpeed = true,
   onSpeedChange,
 }: Props) {
+  const colors = settings.colors;
+  const hasPrimary = Boolean(colors?.primary?.trim());
+  const hasAccent = Boolean(colors?.accent?.trim());
+  const hasSecondary = Boolean(colors?.secondary?.trim());
+
   return (
     <div className="space-y-4 border-t pt-4">
       <ThemeSlider
@@ -63,20 +72,29 @@ export function EffectSettingsPanel({
         <>
           <div className="grid gap-3 sm:grid-cols-2">
             <ThemeColorPicker
-              label="Primary override"
-              value={settings.colors?.primary ?? primaryColor}
+              label={overrideLabel("Primary override", hasPrimary)}
+              value={colors?.primary ?? primaryColor}
               onChange={(primary) =>
                 onChange({
-                  colors: { ...settings.colors, primary },
+                  colors: { ...colors, primary },
                 })
               }
             />
             <ThemeColorPicker
-              label="Accent override"
-              value={settings.colors?.accent ?? secondaryColor}
+              label={overrideLabel("Accent override", hasAccent)}
+              value={colors?.accent ?? secondaryColor}
               onChange={(accent) =>
                 onChange({
-                  colors: { ...settings.colors, accent },
+                  colors: { ...colors, accent },
+                })
+              }
+            />
+            <ThemeColorPicker
+              label={overrideLabel("Secondary override", hasSecondary)}
+              value={colors?.secondary ?? primaryColor}
+              onChange={(secondary) =>
+                onChange({
+                  colors: { ...colors, secondary },
                 })
               }
             />

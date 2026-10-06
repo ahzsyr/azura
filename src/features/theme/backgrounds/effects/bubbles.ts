@@ -34,11 +34,11 @@ export const bubblesEffect: BackgroundEffectDefinition = {
         const alpha = Math.max(0, Math.min(1, (canvas.height - b.y) / canvas.height));
         context.beginPath();
         context.arc(x, b.y, b.r, 0, Math.PI * 2);
-        context.strokeStyle = ctx.getColor(alpha * 0.1);
+        context.strokeStyle = ctx.getColor(alpha * 0.1, "--color-accent");
         context.lineWidth = 1;
         context.stroke();
         const g = context.createRadialGradient(x - b.r * 0.3, b.y - b.r * 0.3, 0, x, b.y, b.r);
-        g.addColorStop(0, ctx.getColor(alpha * 0.06));
+        g.addColorStop(0, ctx.getColor(alpha * 0.06, "--color-secondary"));
         g.addColorStop(1, "transparent");
         context.fillStyle = g;
         context.fill();

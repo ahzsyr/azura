@@ -4,6 +4,8 @@
 
 const CURSOR_PRIMARY = "var(--cursor-effect-primary, var(--color-primary, var(--primary)))";
 const CURSOR_ACCENT = "var(--cursor-effect-accent, var(--color-accent, var(--accent)))";
+const CURSOR_SECONDARY =
+  "var(--cursor-effect-secondary, var(--cursor-effect-accent, var(--color-accent, var(--accent))))";
 const CURSOR_OPACITY = "var(--cursor-effect-opacity, 1)";
 const CURSOR_INTENSITY = "var(--cursor-effect-intensity, 1)";
 
@@ -353,7 +355,7 @@ function cursorPixel() {
   const px = el(
     "div",
     "pixel",
-    `position:fixed;width:${scaledPx(16)};height:${scaledPx(16)};pointer-events:none;z-index:9999;image-rendering:pixelated;opacity:${CURSOR_OPACITY};background:${CURSOR_PRIMARY};clip-path:polygon(0 0,75% 0,100% 25%,100% 75%,75% 100%,0 100%);top:0;left:0`,
+    `position:fixed;width:${scaledPx(16)};height:${scaledPx(16)};pointer-events:none;z-index:9999;image-rendering:pixelated;opacity:${CURSOR_OPACITY};background:${CURSOR_SECONDARY};clip-path:polygon(0 0,75% 0,100% 25%,100% 75%,75% 100%,0 100%);top:0;left:0`,
   );
   document.body.append(px);
   const move = (e: MouseEvent) => {

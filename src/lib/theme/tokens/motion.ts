@@ -27,11 +27,15 @@ function buildBackgroundEffectCssVars(tokens: ThemeTokens): string {
     tokens.animationSpeed,
     tokens.animationsEnabled,
   );
-  return [
+  const parts = [
     `--bg-effect-intensity:${runtime.intensity}`,
     `--bg-effect-opacity:${runtime.opacity}`,
     `--bg-effect-speed:${runtime.speed}`,
-  ].join(";");
+  ];
+  if (runtime.colors?.primary) parts.push(`--bg-effect-primary:${runtime.colors.primary}`);
+  if (runtime.colors?.accent) parts.push(`--bg-effect-accent:${runtime.colors.accent}`);
+  if (runtime.colors?.secondary) parts.push(`--bg-effect-secondary:${runtime.colors.secondary}`);
+  return parts.join(";");
 }
 
 function buildMotionEffectCssVars(tokens: ThemeTokens): string {
@@ -64,8 +68,10 @@ function buildMotionEffectCssVars(tokens: ThemeTokens): string {
 
   if (cursor.colors?.primary) parts.push(`--cursor-effect-primary:${cursor.colors.primary}`);
   if (cursor.colors?.accent) parts.push(`--cursor-effect-accent:${cursor.colors.accent}`);
+  if (cursor.colors?.secondary) parts.push(`--cursor-effect-secondary:${cursor.colors.secondary}`);
   if (text.colors?.primary) parts.push(`--text-effect-primary:${text.colors.primary}`);
   if (text.colors?.accent) parts.push(`--text-effect-accent:${text.colors.accent}`);
+  if (text.colors?.secondary) parts.push(`--text-effect-secondary:${text.colors.secondary}`);
   if (text.colors?.primary || text.colors?.accent) {
     parts.push(
       `--text-effect-gradient:${buildTextEffectShimmerGradient(

@@ -28,11 +28,8 @@ import { executePatch } from "@/features/save-pipeline/patch-execution";
 import { hasAsyncTask, hasExecutionEffect } from "@/features/save-pipeline/execution-plan";
 import { computePatch } from "@/lib/patch";
 import { compareExecutionPlans } from "@/features/save-pipeline/plan-comparison";
-import {
-  isAsyncSearchIndexingEnabled,
-  isContentItemPatchSaveEnabled,
-} from "@/features/save-pipeline/feature-flags";
-import { enqueueSearchIndexJob } from "@/features/save-pipeline/search-index-jobs";
+import { isContentItemPatchSaveEnabled } from "@/features/save-pipeline/feature-flags";
+import { runSearchIndexAfterSave } from "@/features/save-pipeline/search-index-jobs";
 import {
   failSavePipelineMetrics,
   finishSavePipelineMetrics,
@@ -456,7 +453,13 @@ async function upsertContentItemCore(
       const translationSnapshot = await captureRevisionTranslations({
         parentType: "ContentItem",
         parentId: item.id,
-        blocksOrComposition: persistedComposition.composition as never,
+        // Prefer the in-memory Composition (all regions). The persisted JSON
+        // column is a Page AST envelope and must not be treated as Composition.
+        blocksOrComposition: withEditorialDisplayMetadata(
+          composition,
+          showAuthor,
+          showPublishedAt,
+        ),
       });
       const revisionCount = await prisma.contentItemRevision.count({ where: { itemId: item.id } });
       const revision = await prisma.contentItemRevision.create({
@@ -502,11 +505,9 @@ async function upsertContentItemCore(
     }
 
     if (!id || shouldRunSearch || submittedState.status === "PUBLISHED") {
-      if (isAsyncSearchIndexingEnabled()) {
-        await enqueueSearchIndexJob("CONTENT_ITEM", item.id);
-      } else {
-        await withSavePipelineStep(metrics, "searchRuns", () => indexItem(item));
-      }
+      await runSearchIndexAfterSave("CONTENT_ITEM", item.id, () =>
+        withSavePipelineStep(metrics, "searchRuns", () => indexItem(item)),
+      );
     }
     if (!id || shouldRevalidate || appliedPaths.includes("status")) {
       incrementSavePipelineMetric(metrics, "revalidationRuns");

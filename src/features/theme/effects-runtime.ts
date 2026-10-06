@@ -1,22 +1,14 @@
 import { applyEffectSettingsCssVars } from "@/features/theme/apply-effect-settings-css-vars";
-import {
-  applyGlassSiteOverlay,
-  applySiteBackground,
-} from "@/features/theme/backgrounds/background-system";
-import { getCapabilities } from "@/lib/theme/effects/capability-engine";
-import { initCursor } from "@/features/theme/effects/cursors";
-import { initTextEffects, resetTextEffects } from "@/features/theme/effects/text";
-import {
-  SITE_TEXT_EFFECT_SOURCE_ATTR,
-  SITE_TEXT_EFFECT_SOURCE_VALUE,
-  SITE_TEXT_EFFECT_TARGET_SELECTOR,
-} from "@/features/theme/hero-heading-attrs";
-import type { ResolvedVisualExperience } from "@/features/theme/visual-experience-resolver";
+import { visualEffectSettingsSignature } from "@/features/theme/effect-settings";
 import { syncLiquidGlassController } from "@/features/theme/liquid-glass-controller";
-
-const SITE_TEXT_EFFECT_SOURCE = SITE_TEXT_EFFECT_SOURCE_ATTR;
-
-const HERO_HEADING_SELECTOR = SITE_TEXT_EFFECT_TARGET_SELECTOR;
+import type { ResolvedVisualExperience } from "@/features/theme/visual-experience-resolver";
+import { getCapabilities } from "@/lib/theme/effects/capability-engine";
+import { mapVisualExperienceToEffectConfig } from "@/lib/theme/effects/inheritance";
+import {
+  clearAllTaggedTextEffects,
+  rescanTextEffectTargets,
+} from "@/lib/theme/effects/text-engine";
+import { visualEffectsEngine } from "@/lib/theme/effects/visual-effects-engine";
 
 let lastAppliedAppearance: ResolvedAppearance | null = null;
 let lastTextEffectSignature: string | null = null;
@@ -27,137 +19,20 @@ function currentDocumentAppearance(): ResolvedAppearance {
   return document.documentElement.dataset.theme === "light" ? "light" : "dark";
 }
 
-function clearSiteTaggedHeroTextEffects(): void {
-  document
-    .querySelectorAll<HTMLElement>(`[${SITE_TEXT_EFFECT_SOURCE}="${SITE_TEXT_EFFECT_SOURCE_VALUE}"]`)
-    .forEach((el) => {
-      el.removeAttribute("data-text-effect");
-      el.removeAttribute(SITE_TEXT_EFFECT_SOURCE);
-    });
-}
-
-function clearBlockTaggedTextEffects(): void {
-  document
-    .querySelectorAll<HTMLElement>(`[${SITE_TEXT_EFFECT_SOURCE}="block"]`)
-    .forEach((el) => {
-      el.removeAttribute("data-text-effect");
-      el.removeAttribute(SITE_TEXT_EFFECT_SOURCE);
-    });
-}
-
-function tagHeroHeadings(textEffect: string | null) {
-  // Clear previously block-tagged headings so re-tagging is always fresh.
-  clearBlockTaggedTextEffects();
-
-  document.querySelectorAll("[data-block-heading-effect]").forEach((blockEl) => {
-    if (blockEl.hasAttribute("data-text-effect-off")) return;
-    const effect = blockEl.getAttribute("data-block-heading-effect");
-    if (!effect) return;
-    // Tag actual heading nodes inside the block — never the block shell itself.
-    // Putting data-text-effect on the shell causes glitch/CSS effects to operate
-    // on the entire section's textContent, creating offset accent-colored ghost layers.
-    blockEl
-      .querySelectorAll<HTMLElement>('h1, h2, h3, h4, [data-text-effect-target="heading"]')
-      .forEach((heading) => {
-        if (heading.hasAttribute("data-text-effect-off")) return;
-        if (heading.closest("[data-text-effect-off]")) return;
-        heading.setAttribute("data-text-effect", effect);
-        heading.setAttribute(SITE_TEXT_EFFECT_SOURCE, "block");
-      });
-  });
-
-  if (!textEffect || textEffect === "none") {
-    clearSiteTaggedHeroTextEffects();
-    return;
-  }
-
-  document.querySelectorAll(HERO_HEADING_SELECTOR).forEach((el) => {
-    if (el.hasAttribute("data-text-effect-off")) return;
-    if (el.closest("[data-text-effect-off]")) return;
-    if (el.classList.contains("hero-anim-typewriter")) return;
-    const source = el.getAttribute(SITE_TEXT_EFFECT_SOURCE);
-    // Block-level overrides win; everything else tracks the active site/visitor effect.
-    if (source === "block") return;
-    el.setAttribute("data-text-effect", textEffect);
-    el.setAttribute(SITE_TEXT_EFFECT_SOURCE, SITE_TEXT_EFFECT_SOURCE_VALUE);
-  });
-}
-
-function isGlassCardStyle(cardStyle: string | null | undefined): boolean {
-  return cardStyle === "glassmorphism" || cardStyle === "liquid-glass";
-}
-
-function isGlassEffectActive(
-  glassEffectEnabled: boolean | undefined,
-  cardStyle: string | null | undefined,
-): boolean {
-  return glassEffectEnabled === true || isGlassCardStyle(cardStyle);
-}
-
 function buildTextEffectSignature(
-  textEffect: string | null | undefined,
-  animationsEnabled: boolean,
+  resolved: ResolvedVisualExperience,
   allowTextAnimation: boolean,
 ): string {
-  return animationsEnabled && allowTextAnimation && textEffect && textEffect !== "none"
-    ? textEffect
-    : "none";
+  const { textEffect, animationsEnabled, textEffectSettings } = resolved;
+  if (!animationsEnabled || !allowTextAnimation || !textEffect || textEffect === "none") {
+    return "none";
+  }
+  return `${textEffect}|${visualEffectSettingsSignature(textEffectSettings)}`;
 }
 
-export type ApplyVisualEffectsOptions = {
-  /** Skip canvas/cursor/text remount — appearance color refresh only. */
-  colorsOnly?: boolean;
-};
-
-/** Apply pre-resolved visual experience (direct DOM/canvas — learn parity). */
-export function applyVisualEffects(
-  resolved: ResolvedVisualExperience,
-  options?: ApplyVisualEffectsOptions,
-) {
-  if (typeof document === "undefined") return;
-
+function applyChromeDatasets(resolved: ResolvedVisualExperience): void {
   const html = document.documentElement;
-  const body = document.body;
-  const {
-    backgroundEffect,
-    textEffect,
-    animationsEnabled,
-    cardStyle,
-    backgroundEnabled,
-    cursorEnabled,
-    glassEffectEnabled,
-  } = resolved;
-  const cursorEffect = cursorEnabled ? resolved.cursorEffect : null;
-
-  const appearance = currentDocumentAppearance();
-  const appearanceChanged =
-    lastAppliedAppearance !== null && lastAppliedAppearance !== appearance;
-
-  if (options?.colorsOnly) {
-    applyEffectSettingsCssVars(resolved);
-    // Keep specular controller in sync when glass stays enabled across appearance flips.
-    html.dataset.glassEffect = glassEffectEnabled ? "liquid" : "off";
-    syncLiquidGlassController(Boolean(glassEffectEnabled));
-    lastAppliedAppearance = appearance;
-    return;
-  }
-
-  applyEffectSettingsCssVars(resolved);
-
-  const { policy } = getCapabilities();
-  const textEffectSignature = buildTextEffectSignature(
-    textEffect,
-    animationsEnabled,
-    policy.allowTextAnimation,
-  );
-  const textEffectChanged = lastTextEffectSignature !== textEffectSignature;
-
-  if (textEffectChanged) {
-    resetTextEffects();
-    // Drop stale data-text-effect values so CSS selectors match the new preset
-    // (mismatched attr + leftover background caused the brand “text-bg” halo).
-    clearSiteTaggedHeroTextEffects();
-  }
+  const { cardStyle, borderStyle, glassEffectEnabled } = resolved;
 
   if (cardStyle) {
     html.dataset.cardStyle = cardStyle;
@@ -165,63 +40,61 @@ export function applyVisualEffects(
     delete html.dataset.cardStyle;
   }
 
-  const borderStyle = resolved.borderStyle;
   if (borderStyle) {
     html.dataset.borderStyle = borderStyle;
   } else {
     delete html.dataset.borderStyle;
   }
 
-  if (textEffect) {
-    html.dataset.textEffectTheme = textEffect;
-  } else {
-    delete html.dataset.textEffectTheme;
-  }
-
-  html.dataset.siteCursorEffects =
-    cursorEffect && cursorEffect !== "default" && cursorEffect !== "none" ? "on" : "off";
   html.dataset.glassEffect = glassEffectEnabled ? "liquid" : "off";
   syncLiquidGlassController(Boolean(glassEffectEnabled));
+}
 
-  if (cursorEffect) {
-    body.dataset.cursor = cursorEffect;
-  } else {
-    delete body.dataset.cursor;
+export type ApplyVisualEffectsOptions = {
+  /** Skip canvas/cursor/text remount — appearance color refresh only. */
+  colorsOnly?: boolean;
+};
+
+/**
+ * Apply pre-resolved visual experience.
+ * CSS vars stay here; cursor/text/background modules run via visualEffectsEngine.
+ */
+export function applyVisualEffects(
+  resolved: ResolvedVisualExperience,
+  options?: ApplyVisualEffectsOptions,
+) {
+  if (typeof document === "undefined") return;
+
+  const appearance = currentDocumentAppearance();
+
+  if (options?.colorsOnly) {
+    applyEffectSettingsCssVars(resolved);
+    applyChromeDatasets(resolved);
+    lastAppliedAppearance = appearance;
+    return;
   }
 
-  applyGlassSiteOverlay(isGlassEffectActive(glassEffectEnabled, cardStyle));
+  applyEffectSettingsCssVars(resolved);
+  applyChromeDatasets(resolved);
 
+  const { policy } = getCapabilities();
+  const textEffectSignature = buildTextEffectSignature(resolved, policy.allowTextAnimation);
+  lastTextEffectSignature = textEffectSignature;
   lastAppliedAppearance = appearance;
 
-  // Site canvas lifecycle is owned by SiteBackgroundLayer — sync body dataset only.
-  if (backgroundEnabled && backgroundEffect && backgroundEffect !== "none") {
-    applySiteBackground(backgroundEffect, {
-      animationsEnabled,
-      force: appearanceChanged,
-    });
-  } else {
-    applySiteBackground("none", { force: appearanceChanged });
-  }
-
-  if (
-    animationsEnabled &&
-    policy.allowCustomCursor &&
-    cursorEffect &&
-    cursorEffect !== "default" &&
-    cursorEffect !== "none"
-  ) {
-    initCursor(cursorEffect);
-  } else {
-    initCursor("default");
-  }
-
-  tagHeroHeadings(textEffect);
-  // Always apply after tagging so block-level heading overrides work even when
-  // the site has no text effect configured.
-  if (animationsEnabled && policy.allowTextAnimation) {
-    initTextEffects(textEffect);
-  }
-  lastTextEffectSignature = textEffectSignature;
+  visualEffectsEngine.update(
+    mapVisualExperienceToEffectConfig({
+      cursorEffect: resolved.cursorEffect,
+      backgroundEffect: resolved.backgroundEffect,
+      textEffect: resolved.textEffect,
+      animationsEnabled: resolved.animationsEnabled,
+      cursorEnabled: resolved.cursorEnabled,
+      backgroundEnabled: resolved.backgroundEnabled,
+      textEnabled: resolved.textEnabled,
+      glassEffectEnabled: resolved.glassEffectEnabled,
+      cardStyle: resolved.cardStyle,
+    }),
+  );
 }
 
 /** Re-tag and apply text effects for targets mounted after the initial effects pass. */
@@ -230,24 +103,16 @@ export function rescanTextEffects(
   animationsEnabled = true,
 ): void {
   if (typeof document === "undefined") return;
-  if (!animationsEnabled) return;
   const { policy } = getCapabilities();
-  if (!policy.allowTextAnimation) return;
-  const effect = textEffect && textEffect !== "none" ? textEffect : null;
-  tagHeroHeadings(effect);
-  initTextEffects(effect);
+  rescanTextEffectTargets(textEffect, animationsEnabled, policy);
 }
 
 export function clearVisualEffects() {
   if (typeof document === "undefined") return;
   lastAppliedAppearance = null;
   lastTextEffectSignature = null;
-  resetTextEffects();
-  clearSiteTaggedHeroTextEffects();
-  clearBlockTaggedTextEffects();
-  applySiteBackground("none", { force: true });
-  applyGlassSiteOverlay(false);
-  initCursor("default");
+  visualEffectsEngine.destroy();
+  clearAllTaggedTextEffects();
   delete document.body.dataset.cursor;
   delete document.body.dataset.bgEffect;
   delete document.documentElement.dataset.textEffectTheme;
@@ -256,4 +121,9 @@ export function clearVisualEffects() {
   delete document.documentElement.dataset.borderStyle;
   delete document.documentElement.dataset.glassEffect;
   syncLiquidGlassController(false);
+}
+
+/** @internal test / debug */
+export function getLastTextEffectSignature(): string | null {
+  return lastTextEffectSignature;
 }

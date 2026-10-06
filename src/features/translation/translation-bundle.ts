@@ -5,6 +5,8 @@ import type { PublicLocale } from "@/i18n/locale-config";
 import { createCached, CACHE_TAGS } from "@/services/cache";
 import type { PageBlocks } from "@/types/builder";
 import type { Composition } from "@/features/layout-engine/types";
+import { createEmptyRegionRecord } from "@/features/layout-engine/types";
+import { isPageAstDocument } from "@/features/cms/page-ast";
 import {
   BUILDER_BLOCK_ENTITY_TYPE,
   collectBlockEntityIds,
@@ -200,7 +202,7 @@ export async function resolveEntityByLocalizedSlug(
 export function buildPageBundleRefs(
   parentType: BlockParentType,
   parentId: string,
-  blocksOrComposition?: PageBlocks | Composition
+  blocksOrComposition?: PageBlocks | Composition | unknown,
 ): EntityRef[] {
   const refs: EntityRef[] = [{ entityType: parentType, entityId: parentId }];
   const blocks = collectTranslationBlocks(blocksOrComposition);
@@ -247,17 +249,49 @@ export async function loadPageTranslationBundle(
   return loader();
 }
 
-function collectTranslationBlocks(blocksOrComposition?: PageBlocks | Composition): PageBlocks {
+function asRegionBlocks(value: unknown): PageBlocks {
+  return Array.isArray(value) ? (value as PageBlocks) : [];
+}
+
+/**
+ * Accept flat block arrays, bare Composition, or persisted Page AST envelopes.
+ * Saves often pass the JSON column shape (PageAstDocument), which nests regions
+ * under `.composition` — reading `.regions.top` on the envelope throws.
+ */
+function collectTranslationBlocks(
+  blocksOrComposition?: PageBlocks | Composition | unknown,
+): PageBlocks {
   if (!blocksOrComposition) return [];
-  if (Array.isArray(blocksOrComposition)) return blocksOrComposition;
+  if (Array.isArray(blocksOrComposition)) return blocksOrComposition as PageBlocks;
+
+  const unwrapped = isPageAstDocument(blocksOrComposition)
+    ? blocksOrComposition.composition
+    : blocksOrComposition;
+
+  if (!unwrapped || typeof unwrapped !== "object" || Array.isArray(unwrapped)) {
+    return [];
+  }
+
+  const input = unwrapped as Partial<Composition>;
+  const regions = {
+    ...createEmptyRegionRecord(),
+    ...(input.regions && typeof input.regions === "object" ? input.regions : {}),
+  };
+  const hiddenRegions = {
+    ...createEmptyRegionRecord(),
+    ...(input.hiddenRegions && typeof input.hiddenRegions === "object"
+      ? input.hiddenRegions
+      : {}),
+  };
+
   return [
-    ...blocksOrComposition.regions.top,
-    ...blocksOrComposition.regions.primary,
-    ...blocksOrComposition.regions.asideStart,
-    ...blocksOrComposition.regions.asideEnd,
-    ...blocksOrComposition.hiddenRegions.top,
-    ...blocksOrComposition.hiddenRegions.primary,
-    ...blocksOrComposition.hiddenRegions.asideStart,
-    ...blocksOrComposition.hiddenRegions.asideEnd,
+    ...asRegionBlocks(regions.top),
+    ...asRegionBlocks(regions.primary),
+    ...asRegionBlocks(regions.asideStart),
+    ...asRegionBlocks(regions.asideEnd),
+    ...asRegionBlocks(hiddenRegions.top),
+    ...asRegionBlocks(hiddenRegions.primary),
+    ...asRegionBlocks(hiddenRegions.asideStart),
+    ...asRegionBlocks(hiddenRegions.asideEnd),
   ];
 }

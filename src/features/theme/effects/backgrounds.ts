@@ -1,5 +1,6 @@
 /**
- * Backward-compatible shim — site/section backgrounds live in @/features/theme/backgrounds.
+ * @deprecated Site/section backgrounds live in @/features/theme/backgrounds.
+ * Kept as a thin shim for legacy imports — do not add new callers.
  */
 export {
   mountSectionBackgroundSync as initSectionBackgroundLayer,
@@ -7,7 +8,7 @@ export {
 
 import { unmountSiteBackground } from "@/features/theme/backgrounds/site-runtime";
 
-/** @deprecated Site backgrounds are mounted via SiteBackgroundLayer. */
+/** @deprecated Site backgrounds are mounted via SiteBackgroundLayer + visualEffectsEngine. */
 export function initBackground(type: string) {
   if (type === "none" || !type) {
     unmountSiteBackground();

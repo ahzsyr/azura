@@ -57,6 +57,14 @@ function applyBackgroundCssVars(tokens: ThemeTokens): void {
   root.style.setProperty("--bg-effect-intensity", String(runtime.intensity));
   root.style.setProperty("--bg-effect-opacity", String(runtime.opacity));
   root.style.setProperty("--bg-effect-speed", String(runtime.speed));
+
+  const setOrRemove = (key: string, value: string | undefined) => {
+    if (value?.trim()) root.style.setProperty(key, value.trim());
+    else root.style.removeProperty(key);
+  };
+  setOrRemove("--bg-effect-primary", runtime.colors?.primary);
+  setOrRemove("--bg-effect-accent", runtime.colors?.accent);
+  setOrRemove("--bg-effect-secondary", runtime.colors?.secondary);
 }
 
 function isGlassCardStyle(cardStyle: string | null | undefined): boolean {

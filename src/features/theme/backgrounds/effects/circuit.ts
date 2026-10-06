@@ -70,7 +70,7 @@ export const circuitEffect: BackgroundEffectDefinition = {
             context.lineTo(n.x, m.y);
             context.lineTo(m.x, m.y);
           }
-          context.strokeStyle = ctx.getColor(0.094);
+          context.strokeStyle = ctx.getColor(0.094, "--color-primary");
           context.lineWidth = 1;
           context.stroke();
         });
@@ -78,7 +78,7 @@ export const circuitEffect: BackgroundEffectDefinition = {
       nodes.forEach((n) => {
         context.beginPath();
         context.arc(n.x, n.y, 2, 0, Math.PI * 2);
-        context.fillStyle = ctx.getColor(0.25);
+        context.fillStyle = ctx.getColor(0.25, "--color-accent");
         context.fill();
       });
       pulses.forEach((p) => {
@@ -91,11 +91,11 @@ export const circuitEffect: BackgroundEffectDefinition = {
         const py = n.y + (m.y - n.y) * p.progress;
         context.beginPath();
         context.arc(px, py, 3, 0, Math.PI * 2);
-        context.fillStyle = ctx.getColor(0.8);
+        context.fillStyle = ctx.getColor(0.8, "--color-secondary");
         context.fill();
         context.beginPath();
         context.arc(px, py, 7, 0, Math.PI * 2);
-        context.fillStyle = ctx.getColor(0.133);
+        context.fillStyle = ctx.getColor(0.133, "--color-accent");
         context.fill();
         if (p.progress > 0.95) p.connIdx = (p.connIdx + 1) % n.connections.length;
       });

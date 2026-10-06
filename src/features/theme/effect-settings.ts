@@ -157,7 +157,7 @@ export function motionSettingsSignature(settings: MotionSettings): string {
 }
 
 const TEXT_EFFECT_PRIMARY_FALLBACK = "var(--color-primary, var(--primary))";
-const TEXT_EFFECT_ACCENT_FALLBACK = "var(--color-secondary, var(--secondary))";
+const TEXT_EFFECT_ACCENT_FALLBACK = "var(--color-accent, var(--accent))";
 
 /**
  * Soft shimmer band for gradient-flow: wide base color with a narrow highlight

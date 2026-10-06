@@ -13,12 +13,13 @@ export {
   getTextTier,
   collectEffectWarnings,
 } from "./effect-tiers";
+export { downgradeTextEffectForPolicy } from "@/features/theme/downgrade-text-effect";
 export {
   resolvePageEffectConfig,
   resolveBlockTextEffect,
   mapVisualExperienceToEffectConfig,
 } from "./inheritance";
-export type {
+export { textEngine, tagHeroHeadings, rescanTextEffectTargets } from "./text-engine";export type {
   BlockEffectOverrides,
   CapabilityPolicy,
   DeviceCapabilities,

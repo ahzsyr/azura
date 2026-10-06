@@ -44,15 +44,35 @@ function runPrismaDiff() {
   writeFileSync(RAW_SCHEMA, result.stdout);
 }
 
+/** Prisma cannot express MySQL prefix indexes; patch SeoSearchMetric for InnoDB 3072-byte limit. */
+function patchMysqlSchemaForInnoDB(raw) {
+  return raw
+    .replace(
+      /UNIQUE INDEX `SeoSearchMetric_source_date_url_query_country_device_key`\(`source`, `date`, `url`, `query`, `country`, `device`\)/g,
+      "UNIQUE INDEX `SeoSearchMetric_source_date_url_query_country_device_key`(`source`, `date`, `url`(191), `query`(191), `country`, `device`)",
+    )
+    .replace(
+      /INDEX `SeoSearchMetric_url_date_idx`\(`url`, `date`\)/g,
+      "INDEX `SeoSearchMetric_url_date_idx`(`url`(191), `date`)",
+    )
+    .replace(
+      /INDEX `SeoSearchMetric_query_date_idx`\(`query`, `date`\)/g,
+      "INDEX `SeoSearchMetric_query_date_idx`(`query`(191), `date`)",
+    );
+}
+
 function wrapMysqlSchema(raw) {
+  const patched = patchMysqlSchemaForInnoDB(raw);
   return [
-    "-- AZURA — MySQL 8+ schema (generated from prisma/schema/mysql/)",
+    "-- AZURA — MySQL 8.4 schema (generated from prisma/schema/mysql/)",
     "-- Regenerate: node scripts/database/assemble-mysql-import-blank-full.mjs",
+    "-- Requires InnoDB (Prisma FKs + long unique indexes).",
     "",
     "SET NAMES utf8mb4;",
+    "SET default_storage_engine = InnoDB;",
     "SET FOREIGN_KEY_CHECKS = 0;",
     "",
-    raw.trim(),
+    patched.trim(),
     "",
     "SET FOREIGN_KEY_CHECKS = 1;",
     "",
@@ -81,7 +101,7 @@ function main() {
   console.log("Generating MySQL schema from prisma/schema/mysql…");
   runPrismaDiff();
 
-  const rawSchema = readFileSync(RAW_SCHEMA, "utf-8");
+  const rawSchema = patchMysqlSchemaForInnoDB(readFileSync(RAW_SCHEMA, "utf-8"));
   const schemaWrapped = wrapMysqlSchema(rawSchema);
   writeFileSync(OUT_SCHEMA, schemaWrapped);
   console.log(`Wrote ${OUT_SCHEMA}`);
@@ -108,6 +128,7 @@ function main() {
     "--",
     "",
     "SET NAMES utf8mb4;",
+    "SET default_storage_engine = InnoDB;",
     "SET FOREIGN_KEY_CHECKS = 0;",
     "",
     "-- ========== SCHEMA (prisma/schema/mysql) ==========",

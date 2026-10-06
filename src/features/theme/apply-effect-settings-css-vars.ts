@@ -49,11 +49,17 @@ export function buildEffectSettingsCssVarEntries(
   if (cursor.colors?.accent) {
     entries.push(["--cursor-effect-accent", cursor.colors.accent]);
   }
+  if (cursor.colors?.secondary) {
+    entries.push(["--cursor-effect-secondary", cursor.colors.secondary]);
+  }
   if (text.colors?.primary) {
     entries.push(["--text-effect-primary", text.colors.primary]);
   }
   if (text.colors?.accent) {
     entries.push(["--text-effect-accent", text.colors.accent]);
+  }
+  if (text.colors?.secondary) {
+    entries.push(["--text-effect-secondary", text.colors.secondary]);
   }
   if (text.colors?.primary || text.colors?.accent) {
     entries.push([
@@ -74,8 +80,10 @@ export function buildEffectSettingsCssVars(resolved: ResolvedVisualExperience): 
 const OPTIONAL_COLOR_VARS = [
   "--cursor-effect-primary",
   "--cursor-effect-accent",
+  "--cursor-effect-secondary",
   "--text-effect-primary",
   "--text-effect-accent",
+  "--text-effect-secondary",
   "--text-effect-gradient",
 ] as const;
 

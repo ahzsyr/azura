@@ -38,7 +38,7 @@ Anti-drift contract for Azura. **No new platform or major technology is introduc
 
 | Pair | When to use which |
 |------|-------------------|
-| **Motion + GSAP** | Motion for UI presence/layout; GSAP only for complex timeline/hero/text effects that Motion does not justify rewriting |
+| **Motion + GSAP** | Motion for UI presence/layout/hero entrances; GSAP only for complex text-effect timelines (neon) that Motion does not justify rewriting |
 | **TipTap + BlockNote** | TipTap = default production RTE; BlockNote = flagged pilot on selected advanced-rich-text fields until A/B/C decision says otherwise |
 | **Zustand + TanStack Query** | Zustand = admin transient UI; TanStack Query = search client cache/prefetch only |
 | **local + supabase + s3** | Explicit `MEDIA_STORAGE`; local valid on Hostinger; supabase/s3 when remote object storage is required |

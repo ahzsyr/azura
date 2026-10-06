@@ -200,7 +200,10 @@ html[data-preset-text-effect] [data-text-effect] {
 html[data-preset-text-effect="neon-glow"] [data-text-effect="neon-glow"],
 html[data-text-effect-theme="neon-glow"] [data-text-effect="neon-glow"],
 html[data-text-effect-theme="neon-glow"] [data-text-effect="inherit"] {
-  --_ng-color: var(--text-effect-primary, var(--az-preset-glow-color, var(--color-primary)));
+  --_ng-color: var(
+    --text-effect-primary,
+    var(--color-primary, var(--primary, var(--az-preset-glow-color)))
+  );
   --_ng-sz: var(--text-effect-intensity, 1);
   text-shadow:
     0 0 calc(4px  * var(--_ng-sz)) var(--_ng-color),
@@ -223,11 +226,11 @@ html[data-text-effect-theme="gradient-flow"] [data-text-effect="gradient-flow"],
 html[data-text-effect-theme="gradient-flow"] [data-text-effect="inherit"] {
   --_te-base: var(
     --text-effect-primary,
-    var(--az-preset-glow-color, var(--color-primary, var(--primary)))
+    var(--color-primary, var(--primary, var(--az-preset-glow-color)))
   );
   --_te-hi: var(
     --text-effect-accent,
-    var(--color-secondary, var(--secondary, var(--_te-base)))
+    var(--color-accent, var(--accent, var(--_te-base)))
   );
   /* Neon leftovers look like a marker stroke — never allow shadow under clipped fill. */
   text-shadow: none !important;

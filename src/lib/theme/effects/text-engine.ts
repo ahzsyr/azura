@@ -1,3 +1,4 @@
+import { downgradeTextEffectForPolicy } from "@/features/theme/downgrade-text-effect";
 import { initTextEffects, resetTextEffects } from "@/features/theme/effects/text";
 import {
   SITE_TEXT_EFFECT_SOURCE_ATTR,
@@ -29,15 +30,14 @@ function clearBlockTaggedTextEffects(): void {
     });
 }
 
-function tagHeroHeadings(textEffect: string | null) {
-  // Clear previously block-tagged headings so re-tagging is always fresh.
+/** Tag hero + block headings for the active text effect. */
+export function tagHeroHeadings(textEffect: string | null) {
   clearBlockTaggedTextEffects();
 
   document.querySelectorAll("[data-block-heading-effect]").forEach((blockEl) => {
     if (blockEl.hasAttribute("data-text-effect-off")) return;
     const effect = blockEl.getAttribute("data-block-heading-effect");
     if (!effect) return;
-    // Tag actual heading nodes inside the block — never the block shell itself.
     blockEl
       .querySelectorAll<HTMLElement>('h1, h2, h3, h4, [data-text-effect-target="heading"]')
       .forEach((heading) => {
@@ -56,30 +56,17 @@ function tagHeroHeadings(textEffect: string | null) {
   document.querySelectorAll(HERO_HEADING_SELECTOR).forEach((el) => {
     if (el.hasAttribute("data-text-effect-off")) return;
     if (el.closest("[data-text-effect-off]")) return;
-    const explicit = el.getAttribute("data-text-effect");
+    if (el.classList.contains("hero-anim-typewriter")) return;
     const source = el.getAttribute(SITE_TEXT_EFFECT_SOURCE);
     if (source === "block") return;
-    if (
-      source === SITE_TEXT_EFFECT_SOURCE_VALUE &&
-      explicit &&
-      explicit !== "inherit"
-    ) {
-      return;
-    }
-    if (!explicit || explicit === "inherit") {
-      el.setAttribute("data-text-effect", textEffect);
-      el.setAttribute(SITE_TEXT_EFFECT_SOURCE, SITE_TEXT_EFFECT_SOURCE_VALUE);
-    }
+    el.setAttribute("data-text-effect", textEffect);
+    el.setAttribute(SITE_TEXT_EFFECT_SOURCE, SITE_TEXT_EFFECT_SOURCE_VALUE);
   });
 }
 
-function resolveTextEffect(
-  effectId: string | null,
-  policy: CapabilityPolicy,
-): string | null {
-  if (!effectId || effectId === "none") return null;
-  if (!policy.allowTextAnimation) return null;
-  return effectId;
+export function clearAllTaggedTextEffects(): void {
+  clearSiteTaggedHeroTextEffects();
+  clearBlockTaggedTextEffects();
 }
 
 export const textEngine: EffectModule = {
@@ -97,7 +84,6 @@ export const textEngine: EffectModule = {
       delete html.dataset.textEffectTheme;
       delete html.dataset.presetTextEffect;
       clearSiteTaggedHeroTextEffects();
-      // Still honor per-block heading overrides when the site effect is off.
       tagHeroHeadings(null);
       if (config.animationsEnabled && policy.allowTextAnimation) {
         initTextEffects(null);
@@ -106,7 +92,7 @@ export const textEngine: EffectModule = {
       return;
     }
 
-    const effectId = resolveTextEffect(config.text.effectId, policy);
+    const effectId = downgradeTextEffectForPolicy(config.text.effectId, policy);
 
     if (effectId) {
       html.dataset.textEffectTheme = effectId;
@@ -116,18 +102,11 @@ export const textEngine: EffectModule = {
 
     tagHeroHeadings(effectId);
 
-    if (!config.animationsEnabled) {
+    if (!config.animationsEnabled || !policy.allowTextAnimation) {
       activeTextEffect = null;
       return;
     }
 
-    if (!policy.allowTextAnimation) {
-      activeTextEffect = null;
-      return;
-    }
-
-    // Always re-apply so block-level overrides stay in sync even when the site
-    // effect is unchanged (or null).
     activeTextEffect = effectId;
     initTextEffects(effectId);
   },
@@ -135,8 +114,21 @@ export const textEngine: EffectModule = {
   destroy() {
     activeTextEffect = null;
     resetTextEffects();
-    clearSiteTaggedHeroTextEffects();
-    clearBlockTaggedTextEffects();
-    delete document.documentElement.dataset.textEffectTheme;
+    clearAllTaggedTextEffects();
+    if (typeof document !== "undefined") {
+      delete document.documentElement.dataset.textEffectTheme;
+    }
   },
 };
+
+/** Re-tag and apply after late-mounted headings (SPA navigations). */
+export function rescanTextEffectTargets(
+  textEffect: string | null | undefined,
+  animationsEnabled: boolean,
+  policy: CapabilityPolicy,
+): void {
+  if (!animationsEnabled || !policy.allowTextAnimation) return;
+  const effect = downgradeTextEffectForPolicy(textEffect, policy);
+  tagHeroHeadings(effect);
+  initTextEffects(effect);
+}
