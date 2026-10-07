@@ -31,6 +31,7 @@ import {
 } from "@/features/navigation/mega-menu-presets";
 import { useHeaderBuilderCatalog } from "./HeaderBuilderCatalogContext";
 import { newMenuItemFromForm } from "@/features/navigation/defaults";
+import { contentItemPublicPath } from "@/features/content/content-admin-paths";
 import { MenuBuilderHeader } from "./menu-builder/MenuBuilderHeader";
 import { MenuBulkToolbar } from "./menu-builder/MenuBulkToolbar";
 import { MenuTreePanel } from "./menu-builder/MenuTreePanel";
@@ -43,10 +44,6 @@ import type { DensityMode } from "./menu-builder/SortableTreeItem";
 import { useSyncMenuItemTranslations } from "./use-sync-menu-item-translations";
 
 const DENSITY_STORAGE_KEY = "hb-builder-density";
-
-function labelForPageSlug(catalog: { pages: { slug: string; title: string }[] }, pageId: string): string {
-  return catalog.pages.find((p) => p.slug === pageId)?.title?.trim() || pageId.trim() || "Page";
-}
 
 function collectParentIds(items: MenuItem[]): string[] {
   const ids: string[] = [];
@@ -336,18 +333,58 @@ export function MenuBuilder({ onSwitchToManager }: { onSwitchToManager?: () => v
     toast("success", `Applied mega preset "${megaPresetId}".`);
   };
 
-  const addQuickPages = (slugs: string[]) => {
-    if (slugs.length === 0) return;
+  const addQuickPages = (destinations: string[]) => {
+    if (destinations.length === 0) return;
     const parentId =
       quickAddPlacement === "child" && activeInspectorId ? activeInspectorId : null;
-    const newItems = slugs.map((slug) =>
-      newMenuItemFromForm({
-        type: "page",
-        label: labelForPageSlug(catalog, slug),
+    const newItems = destinations.map((destination) => {
+      const parts = destination.split("|");
+      const type = parts[0] ?? "";
+      const slug = parts[1] ?? "";
+      const contentTypeSlug = type === "content" ? parts[1] : undefined;
+      const contentSlug = type === "content" ? parts[2] : undefined;
+      const page = type === "page" ? catalog.pages.find((entry) => entry.slug === slug) : undefined;
+      const collection =
+        type === "collection" ? catalog.collections.find((entry) => entry.slug === slug) : undefined;
+      const product =
+        type === "product" ? catalog.products.find((entry) => entry.slug === slug) : undefined;
+      const brand = type === "brand" ? catalog.brands.find((entry) => entry.slug === slug) : undefined;
+      const tag = type === "tag" ? catalog.tags.find((entry) => entry.slug === slug) : undefined;
+      const post = type === "post" ? catalog.posts.find((entry) => entry.slug === slug) : undefined;
+      const contentItem =
+        type === "content" && contentTypeSlug && contentSlug
+          ? catalog.contentByType[contentTypeSlug]?.find((entry) => entry.slug === contentSlug)
+          : undefined;
+      const typeMeta = contentTypeSlug
+        ? catalog.contentTypes.find((entry) => entry.slug === contentTypeSlug)
+        : undefined;
+      const contentUrl =
+        type === "content" && contentTypeSlug && contentSlug
+          ? (contentItemPublicPath(typeMeta?.routePrefix, contentTypeSlug, contentSlug) ??
+            `/${typeMeta?.routePrefix ?? contentTypeSlug}/${contentSlug}`)
+          : undefined;
+      return newMenuItemFromForm({
+        type: type === "content" ? "link" : (type as MenuItem["type"]),
+        label:
+          page?.title ??
+          collection?.name ??
+          product?.name ??
+          brand?.name ??
+          tag?.name ??
+          post?.title ??
+          contentItem?.name ??
+          contentSlug ??
+          slug,
         placement: "both",
-        pageId: slug,
-      }),
-    );
+        pageId: page ? slug : undefined,
+        collectionId: collection ? slug : undefined,
+        productId: product ? slug : undefined,
+        brandSlug: brand ? slug : undefined,
+        tagSlug: tag ? slug : undefined,
+        postId: post ? slug : undefined,
+        url: contentUrl,
+      });
+    });
     for (const item of newItems) {
       if (parentId) addChildItem(parentId, item);
       else addRootItem(item);

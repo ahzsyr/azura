@@ -161,6 +161,21 @@ describe("mega menu upgrade schema", () => {
     assert.doesNotThrow(() => headerWorkspaceSchema.parse(ws));
   });
 
+  it("accepts cardAspectRatio presets", () => {
+    for (const ratio of ["1:1", "4:3", "3:2", "16:9", "3:4"] as const) {
+      const parent: MenuItem = {
+        id: "p",
+        type: "link",
+        label: "Parent",
+        placement: "both",
+        children: [],
+        megaMenuType: "grid",
+        megaMenu: { cardAspectRatio: ratio },
+      };
+      assert.doesNotThrow(() => headerWorkspaceSchema.parse(baseWorkspaceWithItems([parent])));
+    }
+  });
+
   it("rejects invalid megaMenuChildDisplayType", () => {
     const parent: MenuItem = {
       id: "p",
@@ -223,13 +238,13 @@ describe("mega menu upgrade schema", () => {
 });
 
 describe("mega menu resolver", () => {
-  it("card/link explicit displayType override automatic detection", () => {
+  it("card/list explicit displayType override automatic detection", () => {
     const child: MenuItem = childMenuItem({
       id: "c1",
       type: "collection",
       label: "Brands",
       imageUrl: "/brands.jpg",
-      megaMenuChildDisplayType: "link",
+      megaMenuChildDisplayType: "list",
     });
 
     assert.equal(resolveMegaMenuChildDisplayType(child, "grid"), "link");
@@ -267,6 +282,35 @@ describe("mega menu resolver", () => {
     assert.equal(resolved.cssVariables["--mega-menu-overflow-y"], "auto");
     assert.equal(resolved.cssVariables["--mega-menu-max-height"], "1200px");
   });
+
+  it("resolves cardAspectRatio to --mega-card-media-ratio", () => {
+    const parent: MenuItem = {
+      id: "p",
+      type: "link",
+      label: "Parent",
+      placement: "both",
+      children: [],
+      megaMenu: { cardAspectRatio: "16:9" },
+    };
+
+    const resolved = resolveMegaMenuConfig(parent, "grid");
+    assert.equal(resolved.cssVariables["--mega-card-media-ratio"], "16 / 9");
+
+    const defaulted = resolveMegaMenuConfig(
+      { ...parent, megaMenu: {} },
+      "grid",
+    );
+    assert.equal(defaulted.cssVariables["--mega-card-media-ratio"], "4 / 3");
+
+    const form = initMegaFormState(parent);
+    assert.equal(form.cardAspectRatio, "16:9");
+    const persisted = megaFormToPersistedConfig(form);
+    assert.equal(persisted?.cardAspectRatio, "16:9");
+
+    const defaultForm = initMegaFormState({ ...parent, megaMenu: {} });
+    assert.equal(defaultForm.cardAspectRatio, "4:3");
+    assert.equal(megaFormToPersistedConfig(defaultForm)?.cardAspectRatio, undefined);
+  });
 });
 
 describe("mega menu rendering", () => {
@@ -300,7 +344,7 @@ describe("mega menu rendering", () => {
     assert.match(html, /--mega-menu-width:\s*640px/);
   });
 
-  it("renders normal link/text when displayType=link (even if visual auto would match)", () => {
+  it("renders normal link/text when displayType=list (even if visual auto would match)", () => {
     const item: MenuItem = {
       id: "p",
       type: "link",
@@ -312,7 +356,7 @@ describe("mega menu rendering", () => {
           type: "collection",
           label: "Brands",
           imageUrl: "/brands.jpg",
-          megaMenuChildDisplayType: "link",
+          megaMenuChildDisplayType: "list",
           icon: "search",
         }),
       ],

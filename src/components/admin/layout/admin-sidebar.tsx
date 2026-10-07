@@ -49,6 +49,7 @@ function NavLink({
   const link = (
     <Link
       href={href}
+      prefetch={false}
       onClick={() => setSidebarMobileOpen(false)}
       className={cn(
         "group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150",
@@ -269,7 +270,7 @@ function SidebarContent({ collapsed }: { collapsed: boolean }) {
             <Tooltip delayDuration={0}>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" className="w-full" asChild>
-                  <Link href="/admin/help" aria-label="Help">
+                  <Link href="/admin/help" prefetch={false} aria-label="Help">
                     <CircleHelp className="h-4 w-4" />
                   </Link>
                 </Button>
@@ -298,7 +299,7 @@ function SidebarContent({ collapsed }: { collapsed: boolean }) {
               className="w-full justify-start text-muted-foreground"
               asChild
             >
-              <Link href="/admin/help">
+              <Link href="/admin/help" prefetch={false}>
                 <CircleHelp className="me-2 h-4 w-4" />
                 Help
               </Link>

@@ -3,6 +3,9 @@ import type { MediaType } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { mediaRepository } from "@/repositories/media.repository";
 import { searchIndexer } from "@/capabilities/search/search-indexer.service";
+import { defaultAltFromFilename } from "@/features/media/default-alt";
+import { localeService } from "@/features/i18n/locale.service";
+import { translationService } from "@/features/translation/translation.service";
 
 export async function resolveUploaderId(preferredId?: string, email?: string | null) {
   const ids = preferredId ? [preferredId] : [];
@@ -51,6 +54,27 @@ export async function persistMediaUpload(data: {
     folder: data.folderId ? { connect: { id: data.folderId } } : undefined,
     uploadedBy: uploaderId ? { connect: { id: uploaderId } } : undefined,
   });
+
+  const defaultAlt = defaultAltFromFilename(data.filename);
+  if (defaultAlt) {
+    try {
+      const enabledLocales = await localeService.listEnabled();
+      const localeCode =
+        enabledLocales.find((locale) => locale.isDefault)?.code?.toLowerCase() ??
+        enabledLocales[0]?.code?.toLowerCase() ??
+        "en";
+      await translationService.upsert({
+        entityType: "MediaAsset",
+        entityId: asset.id,
+        field: "alt",
+        localeCode,
+        value: defaultAlt,
+        status: "PUBLISHED",
+      });
+    } catch (error) {
+      console.error("[media] default alt translation failed:", error);
+    }
+  }
 
   try {
     await searchIndexer.indexMedia(asset);

@@ -1,8 +1,9 @@
 import { uploadMediaFile } from "@/features/media/upload-client";
+import { defaultAltFromFilename } from "@/features/media/default-alt";
 
 export async function uploadEditorImage(file: File): Promise<{ url: string; alt: string }> {
   const result = await uploadMediaFile(file, { mediaType: "IMAGE" });
-  return { url: result.url, alt: result.filename.replace(/\.[^.]+$/, "") };
+  return { url: result.url, alt: defaultAltFromFilename(result.filename) };
 }
 
 export function isImageFile(file: File): boolean {

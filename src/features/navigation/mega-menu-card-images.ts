@@ -42,6 +42,43 @@ async function getCatalogItemImageUrlFromDb(slug: string): Promise<string | unde
   return item?.media[0]?.url ?? item?.featuredImageUrl ?? undefined;
 }
 
+async function getContentItemImageByTypeAndSlug(
+  typeSlug: string,
+  itemSlug: string,
+): Promise<string | undefined> {
+  const item = await prisma.contentItem.findFirst({
+    where: {
+      slug: itemSlug,
+      deletedAt: null,
+      status: "PUBLISHED",
+      contentType: { slug: typeSlug },
+    },
+    include: {
+      media: { where: { isPublished: true, isHidden: false }, orderBy: { sortOrder: "asc" }, take: 1 },
+    },
+  });
+  return item?.media[0]?.url ?? item?.featuredImageUrl ?? undefined;
+}
+
+/** Parse `/{routePrefix|typeSlug}/{itemSlug}` content links for image enrichment. */
+async function getContentLinkImageUrl(url: string | undefined): Promise<string | undefined> {
+  const path = (url ?? "").trim().replace(/^\//, "");
+  if (!path || path.startsWith("http")) return undefined;
+  const [prefix, ...rest] = path.split("/");
+  const itemSlug = rest.join("/");
+  if (!prefix || !itemSlug || itemSlug.includes("/")) return undefined;
+
+  const type = await prisma.contentType.findFirst({
+    where: {
+      isEnabled: true,
+      OR: [{ slug: prefix }, { routePrefix: prefix }],
+    },
+    select: { slug: true },
+  });
+  if (!type) return undefined;
+  return getContentItemImageByTypeAndSlug(type.slug, itemSlug);
+}
+
 function getCollectionImageUrlFromMap(
   slug: string,
   bySlug: Map<string, Collection>,
@@ -106,6 +143,10 @@ export async function resolveCardImageUrlForMenuItem(
     }
     case "image":
       return item.imageUrl?.trim() || undefined;
+    case "link": {
+      if (item.imageUrl?.trim()) return item.imageUrl.trim();
+      return getContentLinkImageUrl(item.url);
+    }
     default:
       return item.imageUrl?.trim() || undefined;
   }

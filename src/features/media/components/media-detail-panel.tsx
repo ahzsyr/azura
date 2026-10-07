@@ -280,7 +280,7 @@ export function MediaDetailPanel({ assetId, folders, onClose, onUpdated }: Props
           <div>
             <Label className="mb-2 block">Replace file</Label>
             <p className="text-xs text-muted-foreground mb-2">
-              Upload a new file to keep the same ID and usage references.
+              Upload a new file to keep the same ID. All placements that used this image are updated automatically.
             </p>
             <Button
               type="button"

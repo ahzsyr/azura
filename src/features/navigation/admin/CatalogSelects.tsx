@@ -14,7 +14,7 @@ function formatPageLabel(
   status?: "DRAFT" | "PUBLISHED",
 ): string {
   const wiredPath = CMS_WIRED_MARKETING_SLUGS[slug];
-  let label = wiredPath ? `${title} (catalog · ${wiredPath})` : title;
+  let label = wiredPath ? `${title} (${wiredPath})` : title;
   if (status === "DRAFT") {
     label = `${label} (draft)`;
   }
@@ -37,7 +37,7 @@ function pageOptions(catalog: HeaderBuilderCatalog, current: string): CatalogOpt
   if (current && !opts.some((o) => o.value === current)) {
     opts.unshift({ value: current, label: `${current} (custom)`, subtitle: `/${current}` });
   }
-  return opts.length ? opts : [{ value: "home", label: "Home", subtitle: "/home" }];
+  return opts;
 }
 
 function collectionOptions(catalog: HeaderBuilderCatalog, current: string): CatalogOption[] {

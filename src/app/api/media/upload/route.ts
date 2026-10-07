@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
 import type { MediaType } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { isAdminRole } from "@/features/auth/portal";
 import { mediaRepository } from "@/repositories/media.repository";
 import { persistMediaUpload } from "@/features/media/persist-upload";
+import { updateAllCmsMediaReferences } from "@/features/media/cms-media-references";
 import { deleteStoredAsset, storeUploadedFile } from "@/lib/media-storage";
 import { mimeTypeForUpload, validateUploadFile } from "@/lib/local-media-storage";
+import { revalidateMarketingHome } from "@/services/cache";
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -48,6 +51,8 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "Media asset not found" }, { status: 404 });
       }
 
+      const previousUrl = existing.url;
+
       await mediaRepository.updateAsset(replaceId, {
         url,
         sizeBytes: file.size,
@@ -58,6 +63,10 @@ export async function POST(request: Request) {
         bucket: stored.bucket,
         objectKey: stored.objectKey,
       });
+
+      if (previousUrl !== url) {
+        await updateAllCmsMediaReferences(previousUrl, url);
+      }
 
       if (
         existing.objectKey &&
@@ -71,6 +80,10 @@ export async function POST(request: Request) {
           objectKey: existing.objectKey,
         });
       }
+
+      revalidatePath("/admin/media");
+      revalidatePath("/", "layout");
+      revalidateMarketingHome();
 
       return NextResponse.json({
         ok: true,

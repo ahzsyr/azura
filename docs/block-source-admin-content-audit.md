@@ -43,7 +43,7 @@ Legacy redirects: `/admin/packages`, `/admin/hotels`, `/admin/services` → same
 | `catalog` | `source` | `packages`, `hotels`, `services` | Packages, Properties, Services |
 | `contentList` | `contentTypeSlug` | `catalog-items`, `listings`, `offerings` | Same three lists |
 | `comparison` | `source`, `catalogSource`, `contentTypeSlug` | `manual`, `contentType`, `catalog` + legacy catalog sources | Content hub + type-specific lists |
-| `relatedContent` | `contentTypeSlug`, `collectionSlug` | Any enabled content type slug | `/admin/content/{slug}` |
+| `relatedContent` | `contentTypeSlug`, `collectionSlugs`, categories/tags | Any enabled content type slug (content items only) | `/admin/content/{slug}` |
 | `categoryExplorer` | `source` | `contentCollections` + `contentTypeSlug` | Content collections per type |
 | `pricing` | `source` | `packages`, `planSet` | Packages + `/admin/pricing-plans` |
 | `advancedFilters` | `scope` | `content` + `contentTypeSlug` | Content hub |
@@ -85,7 +85,6 @@ Legacy redirects: `/admin/packages`, `/admin/hotels`, `/admin/services` → same
 
 | Block type | Source | Admin content list |
 |------------|--------|-------------------|
-| `relatedContent` (posts) | `entityTypes` includes `POST` | `/admin/posts` |
 | `categoryExplorer` | `postCategories` | Blog categories (via posts) |
 | `searchBlock` | `entityTypes` | Search settings |
 

@@ -20,25 +20,9 @@ import { resolvePrefixToCode } from "@/i18n/locale-config";
 import { readCatalogBrandProfiles, readCatalogTaxonomy } from "@/features/catalog/admin/catalog-taxonomy";
 import { tagNameToSlug } from "@/features/catalog/brand-tag-pages.service";
 import { brandNameToSlug } from "@/features/catalog/types/catalog-brand-profile";
-import { CMS_WIRED_PAGE_DEFINITIONS } from "@/features/cms/cms-wired-pages";
 import { CMS_WIRED_MARKETING_SLUGS } from "@/features/cms/cms-wired-slugs";
 import { getBuiltinContentType } from "@/features/content/content-type.registry";
 import { buildSourceFamilies } from "./source-families";
-
-/** Listing routes not covered by wired CMS definitions. */
-const EXTRA_STATIC_PAGES = [
-  { slug: "brands", title: "Brands" },
-  { slug: "tags", title: "Tags" },
-  { slug: "blog", title: "Blog" },
-];
-
-const STATIC_PAGES = [
-  ...CMS_WIRED_PAGE_DEFINITIONS.map((p) => ({
-    slug: p.slug,
-    title: p.defaultTitles.en,
-  })),
-  ...EXTRA_STATIC_PAGES,
-];
 
 export const navigationCatalogService = {
   async getCatalog(locale: string = "en"): Promise<HeaderBuilderCatalog> {
@@ -110,21 +94,13 @@ export const navigationCatalogService = {
       );
     };
 
-    const cmsSlugs = new Set(cmsPages.map((p) => p.slug));
-    const staticPages = STATIC_PAGES.filter((p) => !cmsSlugs.has(p.slug));
-    const pages = [
-      ...staticPages.map((p) => ({
-        ...p,
-        status: "PUBLISHED" as const,
-        kind: (CMS_WIRED_MARKETING_SLUGS[p.slug] ? "wired" : "cms") as "wired" | "cms",
-      })),
-      ...cmsPages.map((p) => ({
-        slug: p.slug,
-        title: pickTitle("CmsPage", p.id, p.slug, "title"),
-        status: (p.status === "DRAFT" ? "DRAFT" : "PUBLISHED") as "DRAFT" | "PUBLISHED",
-        kind: (CMS_WIRED_MARKETING_SLUGS[p.slug] ? "wired" : "cms") as "wired" | "cms",
-      })),
-    ];
+    // Pages come only from live CMS rows — never invent wired/static suggested pages.
+    const pages = cmsPages.map((p) => ({
+      slug: p.slug,
+      title: pickTitle("CmsPage", p.id, p.slug, "title"),
+      status: (p.status === "DRAFT" ? "DRAFT" : "PUBLISHED") as "DRAFT" | "PUBLISHED",
+      kind: (CMS_WIRED_MARKETING_SLUGS[p.slug] ? "wired" : "cms") as "wired" | "cms",
+    }));
 
     const [fsCollections, fsProducts, taxonomy, brandProfiles] = await Promise.all([
       collectionsDataService.loadAll({ localePrefix: locale }),

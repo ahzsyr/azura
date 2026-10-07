@@ -1,9 +1,10 @@
 /**
  * Declarative source-family tree for menu item cascading selects.
- * Aligned with Admin Content sections + ContentType registry.
+ * Built from live CMS pages, catalog entities, and enabled content types.
  */
 
 import { CMS_WIRED_MARKETING_SLUGS } from "@/features/cms/cms-wired-slugs";
+import { contentItemPublicPath } from "@/features/content/content-admin-paths";
 import type { HeaderBuilderCatalog, MenuItemType, SourceFamilyNode } from "./types";
 
 export type SourceLeafKind =
@@ -16,8 +17,7 @@ export type SourceLeafKind =
   | "collections"
   | "brands"
   | "tags"
-  | "contentType"
-  | "sitePage";
+  | "contentType";
 
 export type SourceTarget = {
   type: MenuItemType;
@@ -39,108 +39,90 @@ const BUILTIN_CONTENT_TYPE_LEAF: Record<string, SourceLeafKind> = {
   listings: "listings",
 };
 
-/** Static section → type tree (custom content types appended under Catalog at runtime). */
-export const SOURCE_FAMILY_TREE: SourceFamilyNode[] = [
-  {
-    id: "core",
-    label: "Core Pages",
-    children: [
-      { id: "core-pages", label: "CMS Pages", leafKind: "pages" },
-      { id: "core-blog", label: "Blog posts", leafKind: "posts" },
-    ],
-  },
-  {
-    id: "catalog",
-    label: "Catalog",
-    children: [
-      { id: "catalog-products", label: "Products", leafKind: "products" },
-      { id: "catalog-services", label: "Services", leafKind: "offerings" },
-      { id: "catalog-packages", label: "Packages", leafKind: "packages" },
-      { id: "catalog-properties", label: "Properties", leafKind: "listings" },
-      { id: "catalog-collections", label: "Categories", leafKind: "collections" },
-      { id: "catalog-brands", label: "Brands", leafKind: "brands" },
-      { id: "catalog-tags", label: "Tags", leafKind: "tags" },
-    ],
-  },
-  {
-    id: "organization",
-    label: "Organization",
-    children: [
-      { id: "org-team", label: "Team", leafKind: "sitePage", sitePageSlug: "team" },
-      { id: "org-partners", label: "Partners", leafKind: "sitePage", sitePageSlug: "partners" },
-      {
-        id: "org-knowledge",
-        label: "Knowledge Base",
-        leafKind: "sitePage",
-        sitePageSlug: "knowledge-base",
-      },
-      {
-        id: "org-pricing",
-        label: "Pricing Plan",
-        leafKind: "sitePage",
-        sitePageSlug: "pricing",
-      },
-    ],
-  },
-  {
-    id: "site",
-    label: "Site content",
-    children: [
-      { id: "site-faqs", label: "FAQs", leafKind: "sitePage", sitePageSlug: "faqs" },
-      {
-        id: "site-testimonials",
-        label: "Testimonials",
-        leafKind: "sitePage",
-        sitePageSlug: "testimonials",
-      },
-      { id: "site-gallery", label: "Galleries", leafKind: "sitePage", sitePageSlug: "gallery" },
-      {
-        id: "site-calculators",
-        label: "Calculators",
-        leafKind: "sitePage",
-        sitePageSlug: "pricing-calculators",
-      },
-      {
-        id: "site-policies",
-        label: "Policies",
-        leafKind: "sitePage",
-        sitePageSlug: "privacy",
-      },
-      {
-        id: "site-terms",
-        label: "Terms & Conditions",
-        leafKind: "sitePage",
-        sitePageSlug: "terms",
-      },
-    ],
-  },
-];
-
+/**
+ * Base tree: Pages + Catalog shells.
+ * Enabled content types are appended under Catalog at runtime.
+ * Builtin product/package/service/property leaves are only included when that type is enabled.
+ */
 export function buildSourceFamilies(
   contentTypes: { slug: string; name: string; routePrefix: string | null }[],
 ): SourceFamilyNode[] {
-  const builtinSlugs = new Set(Object.keys(BUILTIN_CONTENT_TYPE_LEAF));
-  const tree = SOURCE_FAMILY_TREE.map((section) => ({
-    ...section,
-    children: section.children ? [...section.children] : undefined,
-  }));
+  const enabled = new Set(contentTypes.map((t) => t.slug));
 
-  const catalog = tree.find((s) => s.id === "catalog");
-  if (catalog?.children) {
-    for (const ct of contentTypes) {
-      if (builtinSlugs.has(ct.slug)) continue;
-      catalog.children.push({
-        id: `catalog-ct-${ct.slug}`,
-        label: ct.name,
-        leafKind: "contentType",
-        contentTypeSlug: ct.slug,
-        routePrefix: ct.routePrefix ?? ct.slug,
-      });
-    }
+  const pagesSection: SourceFamilyNode = {
+    id: "pages",
+    label: "Pages",
+    children: [
+      { id: "pages-cms", label: "CMS Pages", leafKind: "pages" },
+      { id: "pages-blog", label: "Blog posts", leafKind: "posts" },
+    ],
+  };
+
+  const catalogChildren: SourceFamilyNode[] = [
+    { id: "catalog-collections", label: "Categories", leafKind: "collections" },
+    { id: "catalog-brands", label: "Brands", leafKind: "brands" },
+    { id: "catalog-tags", label: "Tags", leafKind: "tags" },
+  ];
+
+  if (enabled.has("products")) {
+    catalogChildren.unshift({
+      id: "catalog-products",
+      label: contentTypes.find((t) => t.slug === "products")?.name ?? "Products",
+      leafKind: "products",
+    });
+  }
+  if (enabled.has("offerings")) {
+    catalogChildren.push({
+      id: "catalog-services",
+      label: contentTypes.find((t) => t.slug === "offerings")?.name ?? "Services",
+      leafKind: "offerings",
+      contentTypeSlug: "offerings",
+      routePrefix:
+        contentTypes.find((t) => t.slug === "offerings")?.routePrefix ?? "services",
+    });
+  }
+  if (enabled.has("catalog-items")) {
+    catalogChildren.push({
+      id: "catalog-packages",
+      label: contentTypes.find((t) => t.slug === "catalog-items")?.name ?? "Packages",
+      leafKind: "packages",
+      contentTypeSlug: "catalog-items",
+    });
+  }
+  if (enabled.has("listings")) {
+    catalogChildren.push({
+      id: "catalog-properties",
+      label: contentTypes.find((t) => t.slug === "listings")?.name ?? "Properties",
+      leafKind: "listings",
+      contentTypeSlug: "listings",
+      routePrefix:
+        contentTypes.find((t) => t.slug === "listings")?.routePrefix ?? "listings",
+    });
   }
 
-  return tree;
+  for (const ct of contentTypes) {
+    if (BUILTIN_CONTENT_TYPE_LEAF[ct.slug]) continue;
+    catalogChildren.push({
+      id: `catalog-ct-${ct.slug}`,
+      label: ct.name,
+      leafKind: "contentType",
+      contentTypeSlug: ct.slug,
+      routePrefix: ct.routePrefix ?? ct.slug,
+    });
+  }
+
+  return [
+    pagesSection,
+    {
+      id: "catalog",
+      label: "Catalog",
+      children: catalogChildren,
+    },
+  ];
 }
+
+/** @deprecated Use buildSourceFamilies — kept for tests that inspect base shape. */
+export const SOURCE_FAMILY_TREE: SourceFamilyNode[] = buildSourceFamilies([]);
 
 export type CatalogOption = { value: string; label: string; subtitle?: string };
 
@@ -189,22 +171,6 @@ export function optionsForLeaf(
       const slug = leaf.contentTypeSlug ?? "";
       return (catalog.contentByType[slug] ?? []).map((p) => withSlugSubtitle(p.slug, p.name));
     }
-    case "sitePage": {
-      const want = (leaf.sitePageSlug ?? "").toLowerCase();
-      const matches = catalog.pages.filter(
-        (p) =>
-          p.slug.toLowerCase() === want ||
-          p.slug.toLowerCase().includes(want) ||
-          p.title.toLowerCase().includes(want.replace(/-/g, " ")),
-      );
-      if (matches.length) {
-        return matches.map((p) => pageOption(p.slug, p.title, p.status, p.kind));
-      }
-      // Still offer the intended slug if present as a single option
-      return want
-        ? [{ value: leaf.sitePageSlug!, label: leaf.label, subtitle: `/${leaf.sitePageSlug}` }]
-        : [];
-    }
     default:
       return [];
   }
@@ -219,13 +185,28 @@ function pageOption(
   const wiredPath = CMS_WIRED_MARKETING_SLUGS[slug];
   const path = wiredPath ?? `/${slug}`;
   const bits: string[] = [];
-  if (wiredPath || kind === "wired") bits.push("catalog");
+  if (wiredPath || kind === "wired") bits.push("wired");
   if (status === "DRAFT") bits.push("draft");
   return {
     value: slug,
     label: title,
     subtitle: bits.length ? `${path} · ${bits.join(" · ")}` : path,
   };
+}
+
+function contentTypeItemUrl(
+  catalog: HeaderBuilderCatalog,
+  typeSlug: string,
+  itemSlug: string,
+  leafRoutePrefix?: string | null,
+): string {
+  const ct = catalog.contentTypes.find((t) => t.slug === typeSlug);
+  const path = contentItemPublicPath(
+    leafRoutePrefix ?? ct?.routePrefix,
+    typeSlug,
+    itemSlug,
+  );
+  return path ?? `/${typeSlug}/${itemSlug}`;
 }
 
 export function resolveSourceTarget(
@@ -240,7 +221,6 @@ export function resolveSourceTarget(
 
   switch (leaf.leafKind) {
     case "pages":
-    case "sitePage":
       return { type: "page", pageId: v, label: label || v };
     case "posts":
       return { type: "post", postId: v, label };
@@ -254,21 +234,25 @@ export function resolveSourceTarget(
       return { type: "brand", brandSlug: v, label };
     case "tags":
       return { type: "tag", tagSlug: v, label };
-    case "offerings": {
-      const prefix =
-        catalog.contentTypes.find((t) => t.slug === "offerings")?.routePrefix ?? "services";
-      return { type: "link", url: `/${prefix}/${v}`, label };
-    }
-    case "listings": {
-      const prefix =
-        catalog.contentTypes.find((t) => t.slug === "listings")?.routePrefix ??
-        "hotels-transport";
-      return { type: "link", url: `/${prefix}/${v}`, label };
-    }
+    case "offerings":
+      return {
+        type: "link",
+        url: contentTypeItemUrl(catalog, "offerings", v, leaf.routePrefix),
+        label,
+      };
+    case "listings":
+      return {
+        type: "link",
+        url: contentTypeItemUrl(catalog, "listings", v, leaf.routePrefix),
+        label,
+      };
     case "contentType": {
-      const ct = catalog.contentTypes.find((t) => t.slug === leaf.contentTypeSlug);
-      const prefix = leaf.routePrefix ?? ct?.routePrefix ?? leaf.contentTypeSlug ?? "content";
-      return { type: "link", url: `/${prefix}/${v}`, label };
+      const typeSlug = leaf.contentTypeSlug ?? "";
+      return {
+        type: "link",
+        url: contentTypeItemUrl(catalog, typeSlug, v, leaf.routePrefix),
+        label,
+      };
     }
     default:
       return null;
@@ -342,7 +326,7 @@ export function hydrateSourcePath(
         if (child.leafKind !== leafKind) continue;
         if (contentTypeSlug && child.contentTypeSlug !== contentTypeSlug) continue;
         const opts = optionsForLeaf(catalog, child);
-        if (opts.some((o) => o.value === value) || leafKind === "sitePage") {
+        if (opts.some((o) => o.value === value)) {
           return { sectionId: section.id, typeId: child.id, value };
         }
       }
@@ -362,20 +346,6 @@ export function hydrateSourcePath(
     case "page": {
       const slug = item.pageId?.trim() ?? "";
       if (!slug) return null;
-      // Prefer site content / org matches for known slugs first
-      for (const section of families) {
-        for (const child of section.children ?? []) {
-          if (child.leafKind !== "sitePage") continue;
-          const want = child.sitePageSlug?.toLowerCase() ?? "";
-          if (
-            slug.toLowerCase() === want ||
-            slug.toLowerCase().includes(want) ||
-            want.includes(slug.toLowerCase())
-          ) {
-            return { sectionId: section.id, typeId: child.id, value: slug };
-          }
-        }
-      }
       return tryMatch("pages", slug);
     }
     case "post":
@@ -426,6 +396,7 @@ export function hydrateSourcePath(
 export function cleanLabel(label: string): string {
   return label
     .replace(/ \(draft\)$/i, "")
+    .replace(/ \(wired · [^)]+\)$/i, "")
     .replace(/ \(catalog · [^)]+\)$/i, "")
     .replace(/ \(custom\)$/i, "")
     .trim();

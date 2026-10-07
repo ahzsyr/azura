@@ -1,13 +1,19 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import type { MenuItem, MenuLayoutType, MegaMenuIconLayoutConfig } from "@/features/navigation/types";
+import type {
+  MenuItem,
+  MenuLayoutType,
+  MegaMenuCardAspectRatio,
+  MegaMenuIconLayoutConfig,
+} from "@/features/navigation/types";
 import {
   assignChildToPanelExclusive,
   assignChildToTabExclusive,
   addNavPanelPair,
   clampMegaColumns,
   ensureV2Panels,
+  MEGA_CARD_ASPECT_RATIO_OPTIONS,
   normalizeIconLayoutColumns,
   removeNavPanelPair,
   type MegaMenuFormState,
@@ -160,6 +166,25 @@ export function MenuItemFlyout({
                 <option value="center">Center</option>
                 <option value="right">Right</option>
               </HeaderSelect>
+            </div>
+            <div className="space-y-1 sm:col-span-2">
+              <Label htmlFor="m-mega-card-aspect-v2">Card image ratio</Label>
+              <HeaderSelect
+                id="m-mega-card-aspect-v2"
+                value={mega.cardAspectRatio}
+                onChange={(v) =>
+                  onPatchMega({ cardAspectRatio: v as MegaMenuCardAspectRatio })
+                }
+              >
+                {MEGA_CARD_ASPECT_RATIO_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </HeaderSelect>
+              <p className="text-[10px] text-muted-foreground">
+                Applies to card, image, and product media frames in this flyout.
+              </p>
             </div>
           </div>
 
@@ -704,6 +729,30 @@ export function MenuItemFlyout({
               </HeaderField>
             ) : null}
           </div>
+
+          {(effectiveMegaType === "grid" ||
+            effectiveMegaType === "tabbed" ||
+            effectiveMegaType === "columns" ||
+            effectiveMegaType === "mixed") && (
+            <HeaderField label="Card image ratio" htmlFor="m-mega-card-aspect">
+              <HeaderSelect
+                id="m-mega-card-aspect"
+                value={mega.cardAspectRatio}
+                onChange={(v) =>
+                  onPatchMega({ cardAspectRatio: v as MegaMenuCardAspectRatio })
+                }
+              >
+                {MEGA_CARD_ASPECT_RATIO_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </HeaderSelect>
+              <p className="mt-1 text-[10px] text-muted-foreground">
+                Shared crop frame for all photo cards in this mega menu.
+              </p>
+            </HeaderField>
+          )}
 
           {(effectiveMegaType === "grid" || effectiveMegaType === "tabbed") && (
             <HeaderField label="Grid columns (1–12)" htmlFor="m-grid-cols">

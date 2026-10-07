@@ -44,7 +44,8 @@ interface FormState {
   type: MenuItemType;
   label: string;
   icon: string;
-  megaMenuChildDisplayType: "automatic" | "link" | "card" | "featured" | "icon" | "product";
+  megaMenuChildDisplayType: "automatic" | "list" | "icon" | "image" | "card";
+  megaMenuImageUrl: string;
   badgeText: string;
   placement: MenuPlacement;
   url: string;
@@ -192,7 +193,16 @@ function buildFormState(
     type,
     label: item?.label ?? "",
     icon: item?.icon ?? "",
-    megaMenuChildDisplayType: item?.megaMenuChildDisplayType ?? "automatic",
+    megaMenuChildDisplayType: (() => {
+      const raw = (item?.megaMenuChildDisplayType ?? "automatic") as string;
+      if (raw === "link") return "list" as const;
+      if (raw === "featured" || raw === "product") return "card" as const;
+      if (raw === "list" || raw === "icon" || raw === "image" || raw === "card" || raw === "automatic") {
+        return raw;
+      }
+      return "automatic" as const;
+    })(),
+    megaMenuImageUrl: item?.megaMenuImageUrl ?? "",
     badgeText: item?.badgeText ?? "",
     placement: item?.placement ?? defaultPlacement,
     url: item?.url ?? "/",
@@ -267,6 +277,7 @@ export function MenuItemModal({
       label,
       icon: form.icon.trim() || undefined,
       megaMenuChildDisplayType: form.megaMenuChildDisplayType,
+      megaMenuImageUrl: form.megaMenuImageUrl.trim() || undefined,
       placement: form.placement,
       url: form.url,
       pageId: form.pageId,
@@ -288,6 +299,7 @@ export function MenuItemModal({
       const megaMenu = megaFormToPersistedConfig(form.mega);
       replaceMenuItem(itemId, {
         ...built,
+        megaMenuImageUrl: form.megaMenuImageUrl.trim() || undefined,
         id: editingItem.id,
         children: editingItem.children,
         megaMenuType: form.megaMenuType || undefined,
@@ -476,7 +488,7 @@ export function MenuItemModal({
                   </HeaderField>
                 ) : null}
                 {parentId ? (
-                  <HeaderField label="Child display" htmlFor="m-child-display">
+                  <HeaderField label="Child appearance" htmlFor="m-child-display">
                     <select
                       id="m-child-display"
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
@@ -488,13 +500,22 @@ export function MenuItemModal({
                       }
                     >
                       <option value="automatic">Automatic</option>
-                      <option value="link">Normal Link</option>
-                      <option value="card">Card</option>
-                      <option value="featured">Featured</option>
+                      <option value="list">Text (list)</option>
                       <option value="icon">Icon</option>
-                      <option value="product">Product</option>
+                      <option value="image">Image</option>
+                      <option value="card">Card</option>
                     </select>
                   </HeaderField>
+                ) : null}
+                {parentId &&
+                (form.megaMenuChildDisplayType === "image" ||
+                  form.megaMenuChildDisplayType === "card") ? (
+                  <UrlPrimaryMediaPickerField
+                    label="Mega menu image"
+                    url={form.megaMenuImageUrl}
+                    onChange={(url) => patch({ megaMenuImageUrl: url })}
+                    mediaTypes={["IMAGE", "SVG"]}
+                  />
                 ) : null}
               </TabsContent>
 

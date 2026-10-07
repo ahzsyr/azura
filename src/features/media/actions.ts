@@ -99,6 +99,7 @@ export async function replaceMediaAsset(
   const existing = await mediaRepository.getAsset(id);
   const filename = data.filename ?? existing?.filename ?? "file";
   const mime = data.mimeType ?? "application/octet-stream";
+  const previousUrl = existing?.url;
   await mediaRepository.updateAsset(id, {
     url: data.url,
     sizeBytes: data.sizeBytes,
@@ -106,6 +107,12 @@ export async function replaceMediaAsset(
     mediaType: resolveMediaType(filename, mime),
     filename: data.filename,
   });
+  if (previousUrl && previousUrl !== data.url) {
+    const { updateAllCmsMediaReferences } = await import(
+      "@/features/media/cms-media-references"
+    );
+    await updateAllCmsMediaReferences(previousUrl, data.url);
+  }
   if (
     existing?.objectKey &&
     existing.url !== data.url
@@ -117,6 +124,9 @@ export async function replaceMediaAsset(
     });
   }
   revalidatePath("/admin/media");
+  revalidatePath("/", "layout");
+  const { revalidateMarketingHome } = await import("@/services/cache");
+  revalidateMarketingHome();
   return { success: true };
 }
 

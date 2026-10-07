@@ -12,11 +12,22 @@ import type {
 } from "./types";
 import { getEffectiveMegaMenuType, getItemHref } from "./resolve-href";
 import { isValidMegaMenuV2 } from "./mega-menu-validate";
-import { clampMegaColumns } from "./mega-menu-form";
+import { clampMegaColumns, megaCardAspectRatioToCss } from "./mega-menu-form";
 
+/** Legacy v1 binary (Surface still maps these). */
 export type ResolvedMegaMenuChildDisplayType = "card" | "link";
 
-export type MegaMenuEffectiveDisplayType = "link" | "card" | "featured" | "icon" | "product";
+/** Canonical per-child appearance for storefront rendering. */
+export type MegaMenuEffectiveDisplayType = "list" | "icon" | "image" | "card";
+
+function normalizeChildDisplayType(
+  value: MegaMenuChildDisplayType | "link" | "featured" | "product" | undefined,
+): MegaMenuChildDisplayType | undefined {
+  if (!value) return undefined;
+  if (value === "link") return "list";
+  if (value === "featured" || value === "product") return "card";
+  return value;
+}
 
 export type MegaMenuWidth =
   | "auto"
@@ -68,6 +79,7 @@ export type ResolvedMegaMenuConfig = {
     "--mega-menu-width"?: string;
     "--mega-menu-max-height": string; // use "none" when unset to keep CSS simple
     "--mega-menu-overflow-y": "visible" | "auto";
+    "--mega-card-media-ratio": string;
   };
 };
 
@@ -77,6 +89,7 @@ export type MegaMenuChildViewModel = {
   label: string;
   displayType: MegaMenuEffectiveDisplayType;
   image?: string;
+  appearance: MegaMenuEffectiveDisplayType;
   icon?: string;
   subtitle?: string;
   badge?: string;
@@ -176,6 +189,7 @@ export function resolveMegaMenuConfig(item: MenuItem, menuTypeOverride?: MenuLay
       "--mega-menu-width": megaMenuWidth,
       "--mega-menu-max-height": maxHeightCss,
       "--mega-menu-overflow-y": overflowY,
+      "--mega-card-media-ratio": megaCardAspectRatioToCss(mega?.cardAspectRatio),
     },
   };
 }
@@ -209,33 +223,23 @@ export function resolveMegaMenuChildDisplayType(
   child: MenuItem,
   menuType: MenuLayoutType,
 ): ResolvedMegaMenuChildDisplayType {
-  const explicit = child.megaMenuChildDisplayType;
-  if (explicit === "card" || explicit === "featured" || explicit === "product" || explicit === "icon") {
-    return "card";
-  }
-  if (explicit === "link") return "link";
+  const explicit = normalizeChildDisplayType(
+    child.megaMenuChildDisplayType as MegaMenuChildDisplayType | "link" | "featured" | "product" | undefined,
+  );
+  if (explicit === "list") return "link";
+  if (explicit === "image" || explicit === "card" || explicit === "icon") return "card";
 
   return shouldUseVisualCardForAutomatic(child, menuType) ? "card" : "link";
 }
 
 const PANEL_DEFAULT_DISPLAY: Record<MegaMenuPanelLayout, MegaMenuEffectiveDisplayType> = {
-  links: "link",
-  columns: "link",
+  links: "list",
+  columns: "list",
   cards: "card",
-  featured: "featured",
+  featured: "card",
   iconGrid: "icon",
-  productGrid: "product",
+  productGrid: "card",
   mixed: "card",
-};
-
-const VALID_EXPLICIT_FOR_LAYOUT: Record<MegaMenuPanelLayout, ReadonlySet<MegaMenuEffectiveDisplayType>> = {
-  links: new Set(["link", "card"]),
-  columns: new Set(["link", "card"]),
-  cards: new Set(["card", "link", "featured", "icon", "product"]),
-  featured: new Set(["featured", "card", "product", "link"]),
-  iconGrid: new Set(["icon", "card", "link"]),
-  productGrid: new Set(["product", "card", "featured", "link"]),
-  mixed: new Set(["card", "featured", "product", "link", "icon"]),
 };
 
 export function resolveEffectiveChildDisplayType(
@@ -243,36 +247,30 @@ export function resolveEffectiveChildDisplayType(
   panelLayout: MegaMenuPanelLayout | null,
   legacyMenuType?: MenuLayoutType,
 ): MegaMenuEffectiveDisplayType {
-  const explicit = child.megaMenuChildDisplayType as MegaMenuChildDisplayType | undefined;
+  const explicit = normalizeChildDisplayType(
+    child.megaMenuChildDisplayType as MegaMenuChildDisplayType | "link" | "featured" | "product" | undefined,
+  );
 
   if (!panelLayout) {
-    // v1 path
     const legacy = resolveMegaMenuChildDisplayType(child, legacyMenuType ?? "dropdown");
-    return legacy;
+    if (explicit === "icon") return "icon";
+    if (explicit === "image") return "image";
+    if (explicit === "list") return "list";
+    if (explicit === "card") return "card";
+    return legacy === "card" ? "card" : "list";
   }
 
   const automatic = PANEL_DEFAULT_DISPLAY[panelLayout];
   if (!explicit || explicit === "automatic") {
-    if (panelLayout === "productGrid" && child.type === "product") return "product";
     if (panelLayout === "iconGrid") return "icon";
+    if (panelLayout === "productGrid") return "card";
     if (automatic === "card" && !shouldUseVisualCardForAutomatic(child, "grid") && !child.imageUrl) {
-      // Prefer link when no visual affordance for link-like types in card panels
-      if (!isVisualCardType(child.type) && !child.icon) return "link";
+      if (!isVisualCardType(child.type) && !child.icon) return "list";
     }
     return automatic;
   }
 
-  const mapped: MegaMenuEffectiveDisplayType =
-    explicit === "link" ||
-    explicit === "card" ||
-    explicit === "featured" ||
-    explicit === "icon" ||
-    explicit === "product"
-      ? explicit
-      : automatic;
-
-  if (VALID_EXPLICIT_FOR_LAYOUT[panelLayout].has(mapped)) return mapped;
-  return automatic;
+  return explicit;
 }
 
 function buildChildViewModel(
@@ -283,6 +281,11 @@ function buildChildViewModel(
   legacyMenuType?: MenuLayoutType,
 ): MegaMenuChildViewModel {
   const displayType = resolveEffectiveChildDisplayType(child, panelLayout, legacyMenuType);
+  const explicit = normalizeChildDisplayType(
+    child.megaMenuChildDisplayType as MegaMenuChildDisplayType | "link" | "featured" | "product" | undefined,
+  );
+  const appearance =
+    !explicit || explicit === "automatic" ? displayType : explicit;
   const subtitle =
     mega?.childDescriptions?.[child.id]?.trim() ||
     undefined;
@@ -294,7 +297,8 @@ function buildChildViewModel(
     href: getItemHref(child, localeCode),
     label: child.label,
     displayType,
-    image: child.imageUrl?.trim() || undefined,
+    appearance,
+    image: child.megaMenuImageUrl?.trim() || child.imageUrl?.trim() || undefined,
     icon: child.icon?.trim() || undefined,
     subtitle,
     badge: child.badgeText?.trim() || undefined,
@@ -327,6 +331,7 @@ export function resolveMegaMenu(
   const cssVars: Record<string, string> = {
     "--mega-menu-max-height": legacyResolved.cssVariables["--mega-menu-max-height"],
     "--mega-menu-overflow-y": legacyResolved.cssVariables["--mega-menu-overflow-y"],
+    "--mega-card-media-ratio": legacyResolved.cssVariables["--mega-card-media-ratio"],
   };
   if (legacyResolved.cssVariables["--mega-menu-width"]) {
     cssVars["--mega-menu-width"] = legacyResolved.cssVariables["--mega-menu-width"];

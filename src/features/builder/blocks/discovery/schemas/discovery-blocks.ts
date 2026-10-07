@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { SearchEntityType } from "@prisma/client";
+import { cardVariantSchema } from "@/schemas/content/display-settings";
 
 export const searchEntityTypeSchema = z.nativeEnum(SearchEntityType);
 
@@ -100,15 +101,19 @@ export const relatedContentAnchorContextSchema = z.enum([
 ]);
 
 export const manualRelatedItemSchema = z.object({
-  entityType: searchEntityTypeSchema,
+  /** Retained for older saved blocks; resolution always treats items as content items. */
+  entityType: searchEntityTypeSchema.default(SearchEntityType.CONTENT_ITEM),
   entityId: z.string().default(""),
 });
 
 export const relatedContentPropsSchema = z.object({
   ...localizedTitleFields,
+  badge: z.string().default(""),
+  cardVariant: cardVariantSchema.default("default"),
+  /** Retained for older saved blocks; ignored when resolving items. */
   entityTypes: z
     .array(searchEntityTypeSchema)
-    .default([SearchEntityType.CATALOG_PRODUCT, SearchEntityType.POST, SearchEntityType.CONTENT_ITEM]),
+    .default([SearchEntityType.CONTENT_ITEM]),
   rule: relatedContentRuleSchema.default("taxonomy"),
   anchorContext: relatedContentAnchorContextSchema.default("page"),
   anchorSlug: z.string().default(""),
@@ -129,6 +134,7 @@ export const relatedContentPropsSchema = z.object({
   showDots: z.boolean().default(false),
   loop: z.boolean().default(true),
   slidesPerView: z.coerce.number().min(1).max(4).default(3),
+  /** Legacy product display toggles — parse only; not applied to ContentCard. */
   showPrice: z.boolean().default(true),
   showRating: z.boolean().default(true),
   showStock: z.boolean().default(true),

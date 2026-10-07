@@ -202,28 +202,28 @@ const presets: MegaMenuPreset[] = [
     build: () => {
       const items = [
         child("Overview", "/switching", {
-          megaMenuChildDisplayType: "product",
+          megaMenuChildDisplayType: "card",
           imageUrl: "/images/switching/overview.jpg",
         }),
         child("Enterprise", "/switching/enterprise", {
-          megaMenuChildDisplayType: "product",
+          megaMenuChildDisplayType: "card",
           imageUrl: "/images/switching/enterprise.jpg",
         }),
         child("Professional", "/switching/professional", {
-          megaMenuChildDisplayType: "product",
+          megaMenuChildDisplayType: "card",
           badgeText: "NEW",
           imageUrl: "/images/switching/professional.jpg",
         }),
         child("Value", "/switching/value", {
-          megaMenuChildDisplayType: "product",
+          megaMenuChildDisplayType: "card",
           imageUrl: "/images/switching/value.jpg",
         }),
         child("Compact", "/switching/compact", {
-          megaMenuChildDisplayType: "product",
+          megaMenuChildDisplayType: "card",
           imageUrl: "/images/switching/compact.jpg",
         }),
         child("EAV", "/switching/eav", {
-          megaMenuChildDisplayType: "product",
+          megaMenuChildDisplayType: "card",
           imageUrl: "/images/switching/eav.jpg",
         }),
       ];

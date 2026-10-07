@@ -4,13 +4,18 @@ import { useState } from "react";
 import type { BlockNode, BlockType, ContentTypeOption } from "@/types/builder";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { LocalizedBlockTitle } from "@/features/builder/block-translation-context";
+import {
+  LocalizedBlockInput,
+  LocalizedBlockTextarea,
+  LocalizedBlockTitle,
+} from "@/features/builder/block-translation-context";
 import { patchBlockSettings } from "@/features/builder/instance/block-instance";
 import { ProductCardDisplayOverrideFields } from "@/features/builder/blocks/commerce/product-blocks/admin/product-card-display-override-fields";
 import { SearchEntityType } from "@prisma/client";
 import { ModalRepeatableListEditor } from "@/features/builder/admin/shared/modal-repeatable-list-editor";
 import { newId } from "@/features/builder/blocks/content/schemas/content-blocks";
 import type { ManualCategoryNode } from "@/features/builder/blocks/discovery/schemas/discovery-blocks";
+import type { CardVariant } from "@/schemas/content/display-settings";
 
 type Props = {
   block: BlockNode;
@@ -85,11 +90,14 @@ function setProp(block: BlockNode, onChange: (b: BlockNode) => void, key: string
   onChange(patchBlockSettings(block, { [key]: value }));
 }
 
-const ENTITY_OPTIONS: { value: SearchEntityType; label: string }[] = [
-  { value: SearchEntityType.CATALOG_PRODUCT, label: "Products" },
-  { value: SearchEntityType.POST, label: "Blog posts" },
-  { value: SearchEntityType.CONTENT_ITEM, label: "Content items" },
-  { value: SearchEntityType.CMS_PAGE, label: "CMS pages" },
+const CARD_VARIANT_OPTIONS: { value: CardVariant; label: string }[] = [
+  { value: "default", label: "Default" },
+  { value: "compact", label: "Compact" },
+  { value: "minimal", label: "Minimal" },
+  { value: "featured", label: "Featured" },
+  { value: "modern-minimal", label: "Modern Minimal" },
+  { value: "floating-premium", label: "Floating / Premium" },
+  { value: "image-overlay", label: "Image Overlay" },
 ];
 
 export function SearchBlockFields({ block, onChange }: Props) {
@@ -286,8 +294,7 @@ export function CategoryExplorerBlockFields({ block, onChange }: Props) {
 
 export function RelatedContentBlockFields({ block, onChange, contentTypeOptions = [] }: Props & { contentTypeOptions?: ContentTypeOption[] }) {
   const rule = (block.props.rule as string) ?? "taxonomy";
-  const manualItems = (block.props.manualItems as { entityType: SearchEntityType; entityId: string }[]) ?? [];
-  const entityTypes = (block.props.entityTypes as SearchEntityType[]) ?? [];
+  const manualItems = (block.props.manualItems as { entityType?: SearchEntityType; entityId: string }[]) ?? [];
   const enabledContentTypes = contentTypeOptions.filter((type) => type.isEnabled !== false);
   const contentTypeSlug = String(block.props.contentTypeSlug ?? "");
   const selectedContentType = enabledContentTypes.find((type) => type.slug === contentTypeSlug);
@@ -296,12 +303,17 @@ export function RelatedContentBlockFields({ block, onChange, contentTypeOptions 
   const taxonomyOptions = (fieldKey: string) => (selectedContentType?.selectFields ?? [])
     .filter((field) => field.key.toLowerCase().includes(fieldKey))
     .flatMap((field) => field.options);
+  const layout = (block.props.layout as string) ?? "grid";
+  const cardVariant = (block.props.cardVariant as CardVariant) ?? "default";
+
   return (
     <div className="space-y-4">
       <LocalizedBlockTitle block={block} />
+      <LocalizedBlockTextarea block={block} field="subtitle" label="Subtitle" rows={2} />
+      <LocalizedBlockInput block={block} field="badge" label="Badge" />
       <p className="text-xs text-muted-foreground">
-        Recommend products, posts, content items, and pages using the current page, shared taxonomy,
-        or a curated list. Results are interleaved across selected types.
+        Recommend content items from a dynamic content type using the current page context, shared
+        taxonomy, or a curated list.
       </p>
       <div>
         <Label className="text-xs">Rule</Label>
@@ -319,12 +331,25 @@ export function RelatedContentBlockFields({ block, onChange, contentTypeOptions 
         <div className="space-y-3 rounded-md border p-3">
           <div>
             <Label className="text-xs">Anchor type</Label>
-            <select className="w-full border rounded-md h-9 px-2 text-sm mt-1" value={(block.props.anchorContext as string) ?? "page"} onChange={(e) => setProp(block, onChange, "anchorContext", e.target.value)}>
-              <option value="page">Current page (automatic)</option><option value="product">Product</option><option value="post">Blog post</option><option value="contentItem">Content item</option>
+            <select
+              className="w-full border rounded-md h-9 px-2 text-sm mt-1"
+              value={(block.props.anchorContext as string) ?? "page"}
+              onChange={(e) => setProp(block, onChange, "anchorContext", e.target.value)}
+            >
+              <option value="page">Current page (automatic)</option>
+              <option value="contentItem">Content item</option>
             </select>
           </div>
-          <Input placeholder="Anchor ID or slug (optional; defaults to current item)" value={String(block.props.anchorId ?? block.props.anchorSlug ?? "")} onChange={(e) => onChange(patchBlockSettings(block, { anchorId: e.target.value, anchorSlug: e.target.value }))} />
-          <p className="text-xs text-muted-foreground">Leave blank to use the current product or post when this block is placed on its detail page.</p>
+          <Input
+            placeholder="Anchor ID or slug (optional; defaults to current item)"
+            value={String(block.props.anchorId ?? block.props.anchorSlug ?? "")}
+            onChange={(e) =>
+              onChange(patchBlockSettings(block, { anchorId: e.target.value, anchorSlug: e.target.value }))
+            }
+          />
+          <p className="text-xs text-muted-foreground">
+            Leave blank to use the current content item when this block is placed on its detail page.
+          </p>
         </div>
       ) : null}
       {rule === "taxonomy" ? (
@@ -332,34 +357,62 @@ export function RelatedContentBlockFields({ block, onChange, contentTypeOptions 
           <Label className="text-xs">Taxonomy filters</Label>
           <div>
             <Label className="text-xs">Dynamic content type</Label>
-            <select className="mt-1 h-9 w-full rounded-md border px-2 text-sm" value={contentTypeSlug} onChange={(event) => onChange(patchBlockSettings(block, { contentTypeSlug: event.target.value, collectionSlug: "", collectionSlugs: [] }))}>
+            <select
+              className="mt-1 h-9 w-full rounded-md border px-2 text-sm"
+              value={contentTypeSlug}
+              onChange={(event) =>
+                onChange(
+                  patchBlockSettings(block, {
+                    contentTypeSlug: event.target.value,
+                    collectionSlug: "",
+                    collectionSlugs: [],
+                    categorySlugs: [],
+                    tags: [],
+                  }),
+                )
+              }
+            >
               <option value="">Select a content type</option>
-              {enabledContentTypes.map((type) => <option key={type.slug} value={type.slug}>{type.labelPlural} ({type.slug})</option>)}
+              {enabledContentTypes.map((type) => (
+                <option key={type.slug} value={type.slug}>
+                  {type.labelPlural} ({type.slug})
+                </option>
+              ))}
             </select>
           </div>
           {selectedContentType?.collections?.length ? (
             <TaxonomyMultiSelect
               label="Collections"
-              options={selectedContentType.collections.map((collection) => ({ value: collection.slug, label: collection.name }))}
+              options={selectedContentType.collections.map((collection) => ({
+                value: collection.slug,
+                label: collection.name,
+              }))}
               value={selectedCollectionSlugs}
-              onChange={(values) => onChange(patchBlockSettings(block, { collectionSlugs: values, collectionSlug: "" }))}
+              onChange={(values) =>
+                onChange(patchBlockSettings(block, { collectionSlugs: values, collectionSlug: "" }))
+              }
               placeholder="Search collections…"
             />
           ) : null}
-          <TaxonomyMultiSelect label="Categories" options={taxonomyOptions("categor")} value={(block.props.categorySlugs as string[]) ?? []} onChange={(values) => setProp(block, onChange, "categorySlugs", values)} placeholder="Search or add categories…" />
-          <TaxonomyMultiSelect label="Tags" options={taxonomyOptions("tag")} value={(block.props.tags as string[]) ?? []} onChange={(values) => setProp(block, onChange, "tags", values)} placeholder="Search or add tags…" />
-          <p className="text-xs text-muted-foreground">Options use the selected dynamic content type. Products use selected collections or tags; posts use categories and tags; content items use collections and categories.</p>
+          <TaxonomyMultiSelect
+            label="Categories"
+            options={taxonomyOptions("categor")}
+            value={(block.props.categorySlugs as string[]) ?? []}
+            onChange={(values) => setProp(block, onChange, "categorySlugs", values)}
+            placeholder="Search or add categories…"
+          />
+          <TaxonomyMultiSelect
+            label="Tags"
+            options={taxonomyOptions("tag")}
+            value={(block.props.tags as string[]) ?? []}
+            onChange={(values) => setProp(block, onChange, "tags", values)}
+            placeholder="Search or add tags…"
+          />
+          <p className="text-xs text-muted-foreground">
+            Options come from the selected dynamic content type schema and its collections.
+          </p>
         </div>
       ) : null}
-      <fieldset className="space-y-2">
-        <legend className="text-xs font-medium">Include entity types</legend>
-        {ENTITY_OPTIONS.map((opt) => (
-          <label key={opt.value} className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={entityTypes.includes(opt.value)} onChange={(e) => setProp(block, onChange, "entityTypes", e.target.checked ? [...entityTypes, opt.value] : entityTypes.filter((type) => type !== opt.value))} />
-            {opt.label}
-          </label>
-        ))}
-      </fieldset>
       <Input
         type="number"
         placeholder="Limit"
@@ -367,37 +420,85 @@ export function RelatedContentBlockFields({ block, onChange, contentTypeOptions 
         onChange={(e) => setProp(block, onChange, "limit", Number(e.target.value))}
       />
       <label className="flex items-center gap-2 text-sm">
-        <input type="checkbox" checked={block.props.excludeCurrentItem !== false} onChange={(e) => setProp(block, onChange, "excludeCurrentItem", e.target.checked)} />
+        <input
+          type="checkbox"
+          checked={block.props.excludeCurrentItem !== false}
+          onChange={(e) => setProp(block, onChange, "excludeCurrentItem", e.target.checked)}
+        />
         Exclude the current item
       </label>
-      <div>
-        <Label className="text-xs">Layout</Label>
-        <select
-          className="w-full border rounded-md h-9 px-2 text-sm mt-1"
-          value={(block.props.layout as string) ?? "grid"}
-          onChange={(e) => setProp(block, onChange, "layout", e.target.value)}
-        >
-          <option value="grid">Grid</option>
-          <option value="carousel">Carousel</option>
-          <option value="list">List</option>
-        </select>
+      <div className="space-y-3 rounded-md border p-3">
+        <p className="text-sm font-medium">Display</p>
+        <div>
+          <Label className="text-xs">Layout</Label>
+          <select
+            className="w-full border rounded-md h-9 px-2 text-sm mt-1"
+            value={layout}
+            onChange={(e) => setProp(block, onChange, "layout", e.target.value)}
+          >
+            <option value="grid">Grid</option>
+            <option value="carousel">Carousel</option>
+            <option value="list">List</option>
+          </select>
+        </div>
+        <div>
+          <Label className="text-xs">Columns</Label>
+          <select
+            className="w-full border rounded-md h-9 px-2 text-sm mt-1"
+            value={String((block.props.columns as number) ?? 3)}
+            onChange={(e) => setProp(block, onChange, "columns", Number(e.target.value) as 2 | 3 | 4)}
+          >
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+          {layout === "carousel" ? (
+            <p className="mt-1 text-xs text-muted-foreground">Used as slides per view for the carousel.</p>
+          ) : null}
+        </div>
+        <div>
+          <Label className="text-xs">Card style</Label>
+          <select
+            className="w-full border rounded-md h-9 px-2 text-sm mt-1"
+            value={cardVariant}
+            onChange={(e) => setProp(block, onChange, "cardVariant", e.target.value)}
+          >
+            {CARD_VARIANT_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        {layout === "carousel" ? (
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={block.props.showArrows !== false}
+              onChange={(e) => setProp(block, onChange, "showArrows", e.target.checked)}
+            />
+            Show left / right arrows
+          </label>
+        ) : null}
       </div>
-      <ProductCardDisplayOverrideFields
-        block={block}
-        onChange={(key, value) => setProp(block, onChange, key, value)}
-      />
       {rule === "manual" ? (
         <ModalRepeatableListEditor
-          items={manualItems.map((item, idx) => ({ id: `${item.entityType}-${item.entityId}-${idx}`, ...item }))}
+          items={manualItems.map((item, idx) => ({
+            id: `${item.entityId || "item"}-${idx}`,
+            entityId: item.entityId,
+          }))}
           onChange={(next) =>
             setProp(
               block,
               onChange,
               "manualItems",
-              next.map(({ entityType, entityId }) => ({ entityType, entityId })),
+              next.map(({ entityId }) => ({
+                entityType: SearchEntityType.CONTENT_ITEM,
+                entityId,
+              })),
             )
           }
-          createEmpty={() => ({ id: newId("rel"), entityType: SearchEntityType.CATALOG_PRODUCT, entityId: "" })}
+          createEmpty={() => ({ id: newId("rel"), entityId: "" })}
           strings={{
             sectionLabel: "Manual items",
             addButtonLabel: "Add item",
@@ -407,26 +508,20 @@ export function RelatedContentBlockFields({ block, onChange, contentTypeOptions 
             saveButtonLabelCreate: "Save item",
             saveButtonLabelEdit: "Save item",
           }}
-          renderSummary={(item) => ({ title: item.entityId || "Unassigned item", meta: [item.entityType] })}
+          renderSummary={(item) => ({
+            title: item.entityId || "Unassigned item",
+            meta: ["Content item"],
+          })}
           renderForm={(draft, onUpdate) => (
             <div className="space-y-3">
               <div>
-                <Label className="text-xs">Entity type</Label>
-                <select
-                  className="w-full border rounded-md h-9 px-2 text-sm mt-1"
-                  value={draft.entityType}
-                  onChange={(e) => onUpdate({ entityType: e.target.value as SearchEntityType })}
-                >
-                  {ENTITY_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <Label className="text-xs">Entity ID / slug</Label>
-                <Input className="mt-1" placeholder="Paste the item ID or public slug" value={draft.entityId} onChange={(e) => onUpdate({ entityId: e.target.value })} />
+                <Label className="text-xs">Content item ID / slug</Label>
+                <Input
+                  className="mt-1"
+                  placeholder="Paste the item ID or public slug"
+                  value={draft.entityId}
+                  onChange={(e) => onUpdate({ entityId: e.target.value })}
+                />
               </div>
             </div>
           )}

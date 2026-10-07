@@ -1,6 +1,14 @@
 "use client";
 
-import type { HeaderBuilderCatalog, MenuItem, MenuLayoutType, MenuPlacement, MenuItemVisibility } from "@/features/navigation/types";
+import type {
+  HeaderBuilderCatalog,
+  MegaMenuCardAspectRatio,
+  MegaMenuChildDisplayType,
+  MenuItem,
+  MenuLayoutType,
+  MenuPlacement,
+  MenuItemVisibility,
+} from "@/features/navigation/types";
 import { getItemHref } from "@/features/navigation/resolve-href";
 import { getItemSubtitle } from "@/features/navigation/menu-engine";
 import { CompactLocalizedMenuFields } from "../shared/CompactLocalizedMenuFields";
@@ -11,9 +19,13 @@ import { FLYOUT_LAYOUT_CARDS, layoutLabel } from "../shared/flyout-layout-labels
 import {
   buildPanelOnlyScaffoldMegaMenu,
   buildSidebarScaffoldMegaMenu,
+  DEFAULT_MEGA_CARD_ASPECT_RATIO,
+  MEGA_CARD_ASPECT_RATIO_OPTIONS,
+  normalizeMegaCardAspectRatio,
 } from "@/features/navigation/mega-menu-form";
 import { generateId } from "@/features/navigation/menu-engine";
 import { IconPickerField } from "@/features/icons";
+import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { OptionButtonGroup, HeaderSelect } from "../header-builder-ui";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,6 +34,15 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+function normalizeChildAppearance(value: string | undefined): MegaMenuChildDisplayType {
+  if (value === "link") return "list";
+  if (value === "featured" || value === "product") return "card";
+  if (value === "list" || value === "icon" || value === "image" || value === "card" || value === "automatic") {
+    return value;
+  }
+  return "automatic";
+}
 
 export type InspectorSection = "content" | "destination" | "appearance" | "behavior" | "flyout";
 
@@ -170,6 +191,25 @@ export function MenuInspector({
         </TabsContent>
 
         <TabsContent value="appearance" className="mt-3 space-y-3 focus-visible:ring-0">
+          <div className="space-y-1">
+            <Label htmlFor="inspector-child-appearance">Child appearance</Label>
+            <HeaderSelect
+              id="inspector-child-appearance"
+              value={normalizeChildAppearance(item.megaMenuChildDisplayType)}
+              onChange={(value) => {
+                const next = normalizeChildAppearance(value);
+                onPatch({
+                  megaMenuChildDisplayType: next === "automatic" ? undefined : next,
+                });
+              }}
+            >
+              <option value="automatic">Automatic</option>
+              <option value="list">Text (list)</option>
+              <option value="icon">Icon</option>
+              <option value="image">Image</option>
+              <option value="card">Card</option>
+            </HeaderSelect>
+          </div>
           <IconPickerField
             label="Icon"
             value={item.icon ?? ""}
@@ -177,6 +217,15 @@ export function MenuInspector({
               onPatch({ icon: iconId });
             }}
           />
+          {normalizeChildAppearance(item.megaMenuChildDisplayType) === "image" ||
+          normalizeChildAppearance(item.megaMenuChildDisplayType) === "card" ? (
+            <UrlPrimaryMediaPickerField
+              label="Mega menu image"
+              url={item.megaMenuImageUrl ?? ""}
+              onChange={(url) => onPatch({ megaMenuImageUrl: url })}
+              mediaTypes={["IMAGE", "SVG"]}
+            />
+          ) : null}
           <div className="space-y-1">
             <Label>Badge</Label>
             <Input
@@ -322,6 +371,34 @@ export function MenuInspector({
           ) : (
             <p className="text-xs text-muted-foreground">{childCount} child item{childCount === 1 ? "" : "s"}</p>
           )}
+          {effectiveLayout !== "dropdown" && effectiveLayout !== "icon" ? (
+            <div className="space-y-1">
+              <Label htmlFor="inspector-card-aspect">Card image ratio</Label>
+              <HeaderSelect
+                id="inspector-card-aspect"
+                value={normalizeMegaCardAspectRatio(item.megaMenu?.cardAspectRatio)}
+                onChange={(value) => {
+                  const next = normalizeMegaCardAspectRatio(value);
+                  const prev = item.megaMenu ?? {};
+                  const { cardAspectRatio: _drop, ...rest } = prev;
+                  onPatch({
+                    megaMenu:
+                      next === DEFAULT_MEGA_CARD_ASPECT_RATIO
+                        ? Object.keys(rest).length
+                          ? rest
+                          : undefined
+                        : { ...prev, cardAspectRatio: next as MegaMenuCardAspectRatio },
+                  });
+                }}
+              >
+                {MEGA_CARD_ASPECT_RATIO_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </HeaderSelect>
+            </div>
+          ) : null}
           <Button type="button" size="sm" variant="outline" className="w-full" onClick={onOpenAdvanced}>
             Configure flyout
           </Button>

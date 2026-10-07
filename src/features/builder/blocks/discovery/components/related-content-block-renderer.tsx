@@ -4,9 +4,6 @@ import { getLocalizedField } from "@/lib/utils";
 import { resolveRelatedContent } from "@/features/builder/blocks/discovery/lib/resolve-related-content";
 import { parseRelatedContentProps } from "@/features/builder/blocks/discovery/lib/parse-block-props";
 import { RelatedContentView } from "@/features/builder/blocks/discovery/components/related-content-view";
-import { DiscoveryBlockCardShell } from "@/features/builder/blocks/discovery/components/discovery-block-card-shell";
-import { hydrateDiscoveryCardRecords } from "@/features/products/lib/hydrate-discovery-card-records";
-import { blockPropsToCardDisplayOverrides } from "@/features/products/lib/product-card-display";
 import type { DiscoveryAnchorContext } from "@/features/builder/blocks/discovery/lib/recently-viewed.types";
 import type { BlockNode } from "@/types/builder";
 import type { BlockOverflowContext } from "@/features/builder/components/marketing-items-overflow";
@@ -25,8 +22,6 @@ export async function RelatedContentBlockRenderer({
   props: raw,
   previewMode,
   discoveryAnchor,
-  block,
-  overflow,
 }: Props) {
   const p = parseRelatedContentProps(raw);
   const items = await resolveRelatedContent(locale, p, discoveryAnchor ?? null);
@@ -42,24 +37,23 @@ export async function RelatedContentBlockRenderer({
     return null;
   }
 
-  const cards = await hydrateDiscoveryCardRecords(locale, items);
   const title = getLocalizedField(p, "title", locale);
-  const displayOverrides = blockPropsToCardDisplayOverrides(p);
+  const subtitle = getLocalizedField(p, "subtitle", locale);
+  const badge = getLocalizedField(p, "badge", locale);
+  const showHeader = Boolean(title || subtitle || badge);
 
   return (
-    <DiscoveryBlockCardShell locale={locale} displayOverrides={displayOverrides}>
-      <div>
-        {title ? <SectionHeader title={title} /> : null}
-        <div className={title ? "mt-8" : undefined}>
-          <RelatedContentView
-            locale={locale}
-            cards={cards}
-            blockProps={raw}
-            block={block}
-            overflow={overflow}
-          />
-        </div>
+    <div>
+      {showHeader ? (
+        <SectionHeader
+          title={title || subtitle || badge || ""}
+          subtitle={title ? subtitle || undefined : undefined}
+          badge={badge || undefined}
+        />
+      ) : null}
+      <div className={showHeader ? "mt-8" : undefined}>
+        <RelatedContentView locale={locale} items={items} blockProps={raw} />
       </div>
-    </DiscoveryBlockCardShell>
+    </div>
   );
 }

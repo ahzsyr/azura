@@ -427,6 +427,9 @@ export function ContentMediaPanel({ itemId, media }: Props) {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Edit image</DialogTitle>
+            <DialogDescription>
+              Update alt text, caption, and cover or visibility assignment for this image.
+            </DialogDescription>
           </DialogHeader>
           {editItem && (
             <div className="space-y-4 pt-2">

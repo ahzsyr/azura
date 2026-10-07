@@ -1,4 +1,5 @@
 import type {
+  MegaMenuCardAspectRatio,
   MegaMenuContentConfig,
   MegaMenuIconLayoutConfig,
   MegaMenuNavigationConfig,
@@ -12,6 +13,37 @@ import type {
 } from "./types";
 import { generateId } from "./menu-engine";
 import { sanitizePanelChildIds } from "./mega-menu-validate";
+
+export const DEFAULT_MEGA_CARD_ASPECT_RATIO: MegaMenuCardAspectRatio = "4:3";
+
+export const MEGA_CARD_ASPECT_RATIO_OPTIONS: ReadonlyArray<{
+  value: MegaMenuCardAspectRatio;
+  label: string;
+  css: string;
+}> = [
+  { value: "1:1", label: "Square (1:1)", css: "1 / 1" },
+  { value: "4:3", label: "Standard (4:3)", css: "4 / 3" },
+  { value: "3:2", label: "Classic (3:2)", css: "3 / 2" },
+  { value: "16:9", label: "Widescreen (16:9)", css: "16 / 9" },
+  { value: "3:4", label: "Portrait (3:4)", css: "3 / 4" },
+];
+
+export function normalizeMegaCardAspectRatio(
+  value: MegaMenuCardAspectRatio | string | null | undefined,
+): MegaMenuCardAspectRatio {
+  if (MEGA_CARD_ASPECT_RATIO_OPTIONS.some((o) => o.value === value)) {
+    return value as MegaMenuCardAspectRatio;
+  }
+  return DEFAULT_MEGA_CARD_ASPECT_RATIO;
+}
+
+/** CSS `aspect-ratio` value for `--mega-card-media-ratio`. */
+export function megaCardAspectRatioToCss(
+  value: MegaMenuCardAspectRatio | string | null | undefined,
+): string {
+  const normalized = normalizeMegaCardAspectRatio(value);
+  return MEGA_CARD_ASPECT_RATIO_OPTIONS.find((o) => o.value === normalized)?.css ?? "4 / 3";
+}
 
 /** Mega grid / columns layouts: 1–12 columns (same range as Icon Layout fixed columns). */
 export function clampMegaColumns(n: number): number {
@@ -67,6 +99,7 @@ export interface MegaMenuFormState {
   customWidth: number;
   height: NonNullable<MegaMenuContentConfig["height"]>;
   customHeight: number;
+  cardAspectRatio: MegaMenuCardAspectRatio;
   mixedLeftTitle: string;
   mixedLeftBody: string;
   mixedLeftIcon: string;
@@ -111,6 +144,7 @@ export function initMegaFormState(item: MenuItem | null): MegaMenuFormState {
     customWidth: typeof m?.customWidth === "number" ? m.customWidth : 1100,
     height: (m?.height ?? "auto") as NonNullable<MegaMenuContentConfig["height"]>,
     customHeight: typeof m?.customHeight === "number" ? m.customHeight : 500,
+    cardAspectRatio: normalizeMegaCardAspectRatio(m?.cardAspectRatio),
     mixedLeftTitle: m?.mixed?.left?.title ?? "",
     mixedLeftBody: m?.mixed?.left?.body ?? "",
     mixedLeftIcon: m?.mixed?.left?.icon ?? "",
@@ -168,6 +202,11 @@ export function megaFormToPersistedConfig(form: MegaMenuFormState): MegaMenuCont
   }
   if (form.height === "custom") {
     out.customHeight = clampCustom(form.customHeight, MAX_CUSTOM_HEIGHT_PX);
+  }
+
+  const aspect = normalizeMegaCardAspectRatio(form.cardAspectRatio);
+  if (aspect !== DEFAULT_MEGA_CARD_ASPECT_RATIO) {
+    out.cardAspectRatio = aspect;
   }
 
   const lTitle = form.mixedLeftTitle.trim();

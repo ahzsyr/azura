@@ -718,7 +718,9 @@ export const BLOCK_DEFAULTS: Record<string, Record<string, unknown>> = {
   relatedContent: {
     title: "Related",
     subtitle: "",
-    entityTypes: ["CATALOG_PRODUCT", "POST", "CONTENT_ITEM"],
+    badge: "",
+    cardVariant: "default",
+    entityTypes: ["CONTENT_ITEM"],
     rule: "taxonomy",
     anchorContext: "page",
     anchorSlug: "",
@@ -726,6 +728,7 @@ export const BLOCK_DEFAULTS: Record<string, Record<string, unknown>> = {
     categorySlugs: [],
     tags: [],
     collectionSlug: "",
+    collectionSlugs: [],
     contentTypeSlug: "",
     manualItems: [],
     limit: 6,

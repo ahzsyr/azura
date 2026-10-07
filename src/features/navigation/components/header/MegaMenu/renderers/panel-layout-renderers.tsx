@@ -1,7 +1,8 @@
 "use client";
 
 import type { MegaMenuChildViewModel } from "@/features/navigation/mega-menu-resolver";
-import { MegaMenuVisualImage, NavGlyph, NavGlyphOrImage } from "../mega-menu-media";
+import { MegaMenuVisualImage, NavGlyph } from "../mega-menu-media";
+import { MegaMenuChildItem } from "./mega-menu-child-item";
 
 type Props = {
   children: MegaMenuChildViewModel[];
@@ -12,15 +13,7 @@ export function LinkListRenderer({ children, onLinkClick }: Props) {
   return (
     <div className="hb-mega-v2-links">
       {children.map((child) => (
-        <a
-          key={child.id}
-          href={child.href}
-          className="hb-mega-v2-link"
-          onClick={() => onLinkClick?.()}
-        >
-          <NavGlyphOrImage icon={child.icon} imageUrl={child.image} />
-          <span className="hb-mega-v2-link__label">{child.label}</span>
-        </a>
+        <MegaMenuChildItem key={child.id} child={child} onLinkClick={onLinkClick} prefer="list" />
       ))}
     </div>
   );
@@ -39,24 +32,7 @@ export function CardGridRenderer({
       style={{ gridTemplateColumns: `repeat(${columns}, minmax(min(100%, 140px), 1fr))` }}
     >
       {children.map((child) => (
-        <a
-          key={child.id}
-          href={child.href}
-          className="hb-mega-v2-card"
-          onClick={() => onLinkClick?.()}
-        >
-          <span className="hb-mega-v2-card__media" aria-hidden>
-            {child.image ? (
-              <MegaMenuVisualImage src={child.image} alt="" />
-            ) : (
-              <NavGlyph icon={child.icon} />
-            )}
-          </span>
-          <span className="hb-mega-v2-card__title">{child.label}</span>
-          {child.subtitle ? <span className="hb-mega-v2-card__subtitle">{child.subtitle}</span> : null}
-          {child.badge ? <span className="hb-mega-v2-card__badge">{child.badge}</span> : null}
-          <span className="hb-mega-v2-card__cta">{child.ctaLabel?.trim() || "Learn More"}</span>
-        </a>
+        <MegaMenuChildItem key={child.id} child={child} onLinkClick={onLinkClick} prefer="card" />
       ))}
     </div>
   );
@@ -75,23 +51,7 @@ export function FeaturedRenderer({
       style={{ gridTemplateColumns: `repeat(${columns}, minmax(min(100%, 160px), 1fr))` }}
     >
       {children.map((child) => (
-        <a
-          key={child.id}
-          href={child.href}
-          className="hb-mega-v2-featured-card"
-          onClick={() => onLinkClick?.()}
-        >
-          <span className="hb-mega-v2-featured-card__media">
-            <MegaMenuVisualImage src={child.image} alt={child.label} />
-          </span>
-          <span className="hb-mega-v2-featured-card__title">{child.label}</span>
-          {child.subtitle ? (
-            <span className="hb-mega-v2-featured-card__subtitle">{child.subtitle}</span>
-          ) : null}
-          <span className="hb-mega-v2-featured-card__cta">
-            {child.ctaLabel?.trim() || "Learn More"}
-          </span>
-        </a>
+        <MegaMenuChildItem key={child.id} child={child} onLinkClick={onLinkClick} prefer="image" />
       ))}
     </div>
   );
@@ -121,9 +81,7 @@ export function ColumnRenderer({
             <ul className="hb-mega-v2-column__list">
               {group.children.map((child) => (
                 <li key={child.id}>
-                  <a href={child.href} onClick={() => onLinkClick?.()}>
-                    {child.label}
-                  </a>
+                  <MegaMenuChildItem child={child} onLinkClick={onLinkClick} prefer="list" />
                 </li>
               ))}
             </ul>
@@ -158,25 +116,7 @@ export function IconGridRenderer({
       style={{ gridTemplateColumns: `repeat(${columns}, minmax(5.5rem, 1fr))` }}
     >
       {children.map((child) => (
-        <a
-          key={child.id}
-          href={child.href}
-          className="hb-mega-v2-icon-item"
-          data-variant="centered"
-          onClick={() => onLinkClick?.()}
-        >
-          <span className="hb-mega-v2-icon-item__icon" aria-hidden>
-            <NavGlyphOrImage icon={child.icon} imageUrl={child.image} alt="" />
-          </span>
-          <span className="hb-mega-v2-icon-item__label">{child.label}</span>
-          {child.badge ? <span className="hb-mega-v2-icon-item__badge">{child.badge}</span> : null}
-          {child.subtitle ? (
-            <span className="hb-mega-v2-icon-item__desc">{child.subtitle}</span>
-          ) : null}
-          <span className="hb-mega-v2-icon-item__cta">
-            {child.ctaLabel?.trim() || "Learn More"}
-          </span>
-        </a>
+        <MegaMenuChildItem key={child.id} child={child} onLinkClick={onLinkClick} prefer="icon" />
       ))}
     </div>
   );
@@ -194,26 +134,42 @@ export function ProductGridRenderer({
       data-gap={gap}
       style={{ gridTemplateColumns: `repeat(${columns}, minmax(min(100%, 140px), 1fr))` }}
     >
-      {children.map((child) => (
-        <a
-          key={child.id}
-          href={child.href}
-          className="hb-mega-v2-product"
-          onClick={() => onLinkClick?.()}
-        >
-          <span className="hb-mega-v2-product__media">
-            <MegaMenuVisualImage src={child.image} alt={child.label} />
-          </span>
-          <span className="hb-mega-v2-product__title">{child.label}</span>
-          {child.subtitle ? (
-            <span className="hb-mega-v2-product__subtitle">{child.subtitle}</span>
-          ) : null}
-          {child.badge ? <span className="hb-mega-v2-product__badge">{child.badge}</span> : null}
-          {child.ctaLabel ? (
-            <span className="hb-mega-v2-product__cta">{child.ctaLabel}</span>
-          ) : null}
-        </a>
-      ))}
+      {children.map((child) => {
+        // Keep product-tile markup for card/automatic; honor list/icon/image overrides.
+        if (child.appearance === "list" || child.appearance === "icon" || child.appearance === "image") {
+          return (
+            <MegaMenuChildItem key={child.id} child={child} onLinkClick={onLinkClick} prefer="card" />
+          );
+        }
+        return (
+          <a
+            key={child.id}
+            href={child.href}
+            className="hb-mega-v2-product"
+            onClick={() => onLinkClick?.()}
+          >
+            <span className="hb-mega-v2-product__media" aria-hidden={!child.image}>
+              {child.image ? (
+                <MegaMenuVisualImage src={child.image} alt={child.label} />
+              ) : (
+                <NavGlyph icon={child.icon} />
+              )}
+            </span>
+            <span className="hb-mega-v2-product__title">{child.label}</span>
+            {child.subtitle ? (
+              <span className="hb-mega-v2-product__subtitle">{child.subtitle}</span>
+            ) : (
+              <span className="hb-mega-v2-product__subtitle" aria-hidden>
+                {"\u00a0"}
+              </span>
+            )}
+            {child.badge ? <span className="hb-mega-v2-product__badge">{child.badge}</span> : null}
+            <span className="hb-mega-v2-product__cta">
+              {child.ctaLabel?.trim() || "Learn More"}
+            </span>
+          </a>
+        );
+      })}
     </div>
   );
 }
@@ -266,7 +222,12 @@ export function MixedRenderer({
         {columnGroups?.length ? (
           <ColumnRenderer columnGroups={columnGroups} children={secondary} onLinkClick={onLinkClick} />
         ) : (
-          <CardGridRenderer children={secondary} columns={Math.min(4, Math.max(2, secondary.length))} gap="md" onLinkClick={onLinkClick} />
+          <CardGridRenderer
+            children={secondary}
+            columns={Math.min(4, Math.max(2, secondary.length))}
+            gap="md"
+            onLinkClick={onLinkClick}
+          />
         )}
       </div>
     </div>

@@ -92,13 +92,16 @@ export type MegaMenuSurfaceWidth = "auto" | "container" | "wide" | "full";
 export type MegaMenuSurfaceAlignment = "left" | "center" | "right";
 export type MegaMenuPanelGap = "sm" | "md" | "lg";
 
+/** Card media frame aspect ratio for mega menu photo tiles. */
+export type MegaMenuCardAspectRatio = "1:1" | "4:3" | "3:2" | "16:9" | "3:4";
+
+/** Canonical per-child mega appearance. Legacy link/featured/product are remapped on parse. */
 export type MegaMenuChildDisplayType =
   | "automatic"
-  | "link"
-  | "card"
-  | "featured"
+  | "list"
   | "icon"
-  | "product";
+  | "image"
+  | "card";
 
 export interface MegaMenuNavItem {
   id: string;
@@ -178,6 +181,9 @@ export interface MegaMenuContentConfig {
   height?: "auto" | "sm" | "md" | "lg" | "xl" | "custom";
   customHeight?: number | null;
 
+  /** Shared media frame ratio for card/image/product tiles. Default 4:3. */
+  cardAspectRatio?: MegaMenuCardAspectRatio;
+
   /** v2: left rail navigation (sidebar). */
   navigation?: MegaMenuNavigationConfig;
   /** v2: content panels referencing parent.children via childIds. */
@@ -215,6 +221,8 @@ export interface MenuItem {
    * When unset, falls back to existing automatic visual-card detection.
    */
   megaMenuChildDisplayType?: MegaMenuChildDisplayType;
+  /** Optional image override for the image presentation inside mega menus. */
+  megaMenuImageUrl?: string;
   url?: string;
   pageId?: string;
   collectionId?: string;
@@ -419,11 +427,9 @@ export interface SourceFamilyNode {
     | "collections"
     | "brands"
     | "tags"
-    | "contentType"
-    | "sitePage";
+    | "contentType";
   contentTypeSlug?: string;
   routePrefix?: string;
-  sitePageSlug?: string;
 }
 
 export interface HeaderBuilderCatalog {

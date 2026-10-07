@@ -137,6 +137,7 @@ const megaMenuContentSchema = z
     customWidth: z.number().int().min(1).max(2000).optional(),
     height: z.enum(["auto", "sm", "md", "lg", "xl", "custom"]).optional(),
     customHeight: z.number().int().min(1).max(1200).optional(),
+    cardAspectRatio: z.enum(["1:1", "4:3", "3:2", "16:9", "3:4"]).optional(),
     navigation: megaMenuNavigationSchema.optional(),
     panels: z.array(megaMenuPanelSchema).optional(),
     surfaceWidth: z.enum(["auto", "container", "wide", "full"]).optional(),
@@ -166,8 +167,25 @@ const menuItemSchema: z.ZodType<unknown> = z.lazy(() =>
     megaMenuType: menuLayoutTypeSchema.optional(),
     megaMenu: megaMenuContentSchema.optional(),
     megaMenuChildDisplayType: z
-      .enum(["automatic", "link", "card", "featured", "icon", "product"])
-      .optional(),
+      .enum([
+        "automatic",
+        "list",
+        "icon",
+        "image",
+        "card",
+        // Legacy values — remapped below
+        "link",
+        "featured",
+        "product",
+      ])
+      .optional()
+      .transform((value) => {
+        if (!value) return value;
+        if (value === "link") return "list" as const;
+        if (value === "featured" || value === "product") return "card" as const;
+        return value;
+      }),
+    megaMenuImageUrl: z.string().optional(),
     url: z.string().optional(),
     pageId: z.string().optional(),
     collectionId: z.string().optional(),

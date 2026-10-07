@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { HeaderBuilderCatalog, MenuItem } from "@/features/navigation/types";
+import { contentItemPublicPath } from "@/features/content/content-admin-paths";
 import { CatalogListbox } from "../shared/NavigationItemPicker";
 import { OptionButtonGroup } from "../header-builder-ui";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,15 @@ type Props = {
   parentItem: MenuItem | null;
   placement: QuickAddPlacement;
   onPlacementChange: (p: QuickAddPlacement) => void;
-  onAddPages: (slugs: string[]) => void;
+  onAddPages: (destinations: string[]) => void;
+};
+
+type QuickAddOption = {
+  value: string;
+  label: string;
+  subtitle: string;
+  /** Encoded destination token passed to onAddPages (e.g. `page|home`, `content|offerings|slug`). */
+  destination: string;
 };
 
 export function MenuQuickAdd({
@@ -24,22 +33,67 @@ export function MenuQuickAdd({
   onPlacementChange,
   onAddPages,
 }: Props) {
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<QuickAddOption[]>([]);
   const [activeSlug, setActiveSlug] = useState("");
 
-  const options = useMemo(
-    () =>
-      catalog.pages.map((p) => ({
-        value: p.slug,
-        label: p.title,
-        subtitle: `/${p.slug}`,
-      })),
-    [catalog.pages],
-  );
+  const options = useMemo<QuickAddOption[]>(() => [
+    ...catalog.pages.map((p) => ({
+      value: `page:${p.slug}`,
+      label: p.title,
+      subtitle: `/${p.slug}`,
+      destination: `page|${p.slug}`,
+    })),
+    ...catalog.collections.map((c) => ({
+      value: `collection:${c.slug}`,
+      label: c.name,
+      subtitle: `/categories/${c.slug}`,
+      destination: `collection|${c.slug}`,
+    })),
+    ...catalog.products.map((p) => ({
+      value: `product:${p.slug}`,
+      label: p.name,
+      subtitle: `/products/${p.slug}`,
+      destination: `product|${p.slug}`,
+    })),
+    ...catalog.brands.map((b) => ({
+      value: `brand:${b.slug}`,
+      label: b.name,
+      subtitle: `/brands/${b.slug}`,
+      destination: `brand|${b.slug}`,
+    })),
+    ...catalog.tags.map((t) => ({
+      value: `tag:${t.slug}`,
+      label: t.name,
+      subtitle: `/tags/${t.slug}`,
+      destination: `tag|${t.slug}`,
+    })),
+    ...catalog.posts.map((p) => ({
+      value: `post:${p.slug}`,
+      label: p.title,
+      subtitle: `/blog/${p.slug}`,
+      destination: `post|${p.slug}`,
+    })),
+    ...Object.entries(catalog.contentByType).flatMap(([contentTypeSlug, records]) => {
+      const typeMeta = catalog.contentTypes.find((type) => type.slug === contentTypeSlug);
+      return records.map((record) => {
+        const path =
+          contentItemPublicPath(typeMeta?.routePrefix, contentTypeSlug, record.slug) ??
+          `/${typeMeta?.routePrefix ?? contentTypeSlug}/${record.slug}`;
+        return {
+          value: `content:${contentTypeSlug}:${record.slug}`,
+          label: record.name,
+          subtitle: path,
+          destination: `content|${contentTypeSlug}|${record.slug}`,
+        };
+      });
+    }),
+  ], [catalog]);
 
-  const toggleFromList = (slug: string) => {
-    setActiveSlug(slug);
-    setSelected((prev) => (prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]));
+  const toggleFromList = (value: string) => {
+    setActiveSlug(value);
+    const option = options.find((entry) => entry.value === value);
+    if (!option) return;
+    setSelected((prev) => (prev.some((entry) => entry.value === value) ? prev.filter((entry) => entry.value !== value) : [...prev, option]));
   };
 
   return (
@@ -76,14 +130,14 @@ export function MenuQuickAdd({
       />
       {selected.length > 0 ? (
         <div className="flex flex-wrap gap-1">
-          {selected.map((slug) => (
+          {selected.map((option) => (
             <button
-              key={slug}
+              key={option.value}
               type="button"
               className="rounded-full border bg-muted/40 px-2 py-0.5 text-xs"
-              onClick={() => setSelected((prev) => prev.filter((s) => s !== slug))}
+              onClick={() => setSelected((prev) => prev.filter((entry) => entry.value !== option.value))}
             >
-              {options.find((o) => o.value === slug)?.label ?? slug} ×
+              {option.label} ×
             </button>
           ))}
         </div>
@@ -93,12 +147,12 @@ export function MenuQuickAdd({
         className="w-full"
         disabled={selected.length === 0}
         onClick={() => {
-          onAddPages(selected);
+          onAddPages(selected.map((entry) => entry.destination));
           setSelected([]);
           setActiveSlug("");
         }}
       >
-        Add {selected.length || ""} selected page{selected.length === 1 ? "" : "s"}
+        Add {selected.length || ""} selected destination{selected.length === 1 ? "" : "s"}
       </Button>
     </div>
   );

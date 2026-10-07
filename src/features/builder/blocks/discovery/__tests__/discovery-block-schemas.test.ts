@@ -50,10 +50,36 @@ describe("discovery block schemas", () => {
     assert.equal(p.enablePagination, false);
   });
 
-  it("parses relatedContent entity types", () => {
+  it("parses relatedContent defaults for content items", () => {
     const p = relatedContentPropsSchema.parse({});
-    assert.ok(p.entityTypes.includes(SearchEntityType.CATALOG_PRODUCT));
+    assert.deepEqual(p.entityTypes, [SearchEntityType.CONTENT_ITEM]);
+    assert.equal(p.badge, "");
+    assert.equal(p.cardVariant, "default");
+    assert.equal(p.layout, "grid");
+    assert.equal(p.columns, 3);
+    assert.equal(p.showArrows, true);
     assert.equal(p.limit, 6);
+  });
+
+  it("parses relatedContent legacy product display props for compatibility", () => {
+    const p = relatedContentPropsSchema.parse({
+      entityTypes: [
+        SearchEntityType.CATALOG_PRODUCT,
+        SearchEntityType.POST,
+        SearchEntityType.CONTENT_ITEM,
+      ],
+      showPrice: false,
+      showRating: false,
+      showStock: false,
+      showCompare: false,
+      cardVariant: "image-overlay",
+      badge: "Related",
+    });
+    assert.ok(p.entityTypes.includes(SearchEntityType.CATALOG_PRODUCT));
+    assert.equal(p.showPrice, false);
+    assert.equal(p.cardVariant, "image-overlay");
+    assert.equal(p.badge, "Related");
+    assert.notEqual(p.layout as string, "slider");
   });
 
   it("parses recentlyViewed", () => {

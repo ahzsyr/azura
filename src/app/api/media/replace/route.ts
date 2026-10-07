@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { isAdminRole } from "@/features/auth/portal";
 import { mediaRepository } from "@/repositories/media.repository";
+import { updateAllCmsMediaReferences } from "@/features/media/cms-media-references";
 import { resolveMediaType } from "@/lib/local-media-storage";
 import { z } from "zod";
 import { deleteStoredAsset } from "@/lib/media-storage";
+import { revalidateMarketingHome } from "@/services/cache";
 
 const replaceSchema = z.object({
   id: z.string().min(1),
@@ -44,6 +47,10 @@ export async function POST(request: Request) {
       filename,
     });
 
+    if (existing.url !== asset.url) {
+      await updateAllCmsMediaReferences(existing.url, asset.url);
+    }
+
     if (existing.url !== asset.url && existing.objectKey) {
       await deleteStoredAsset({
         storageBackend: existing.storageBackend,
@@ -51,6 +58,10 @@ export async function POST(request: Request) {
         objectKey: existing.objectKey,
       });
     }
+
+    revalidatePath("/admin/media");
+    revalidatePath("/", "layout");
+    revalidateMarketingHome();
 
     return NextResponse.json({
       ok: true,

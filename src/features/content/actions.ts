@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { buildEditorRedirectQuery } from "@/lib/editor-url-sync";
-import type { ContentStatus, Prisma } from "@prisma/client";
+import { Prisma, type ContentStatus } from "@prisma/client";
 import { requireAdmin } from "@/features/auth/guards";
 import { contentRepository } from "@/features/content/content.repository";
 import { contentItemSchema } from "@/schemas/content/item";
@@ -44,6 +44,61 @@ import {
   CONTENT_ITEM_CORE_LOCALE_FIELDS,
   readContentItemLocaleFieldsFromForm,
 } from "@/features/content/admin/content-editor-form-data";
+
+/**
+ * Enforce ContentItem_contentTypeId_slug_key with a clear error, and free the
+ * slug when it is only held by a soft-deleted row (soft-delete does not drop
+ * the unique index).
+ */
+async function ensureContentItemSlugAvailable(
+  contentTypeId: string,
+  slug: string | null,
+  excludeId?: string,
+): Promise<void> {
+  if (!slug) return;
+
+  const conflict = await prisma.contentItem.findFirst({
+    where: {
+      contentTypeId,
+      slug,
+      ...(excludeId ? { NOT: { id: excludeId } } : {}),
+    },
+    select: { id: true, deletedAt: true },
+  });
+  if (!conflict) return;
+
+  if (conflict.deletedAt) {
+    await prisma.contentItem.update({
+      where: { id: conflict.id },
+      data: { slug: null },
+    });
+    return;
+  }
+
+  throw new Error(
+    `Slug "${slug}" is already used by another item in this content type. Choose a different slug.`,
+  );
+}
+
+function formatContentItemSaveError(error: unknown, slug: string | null): string {
+  if (
+    error instanceof Prisma.PrismaClientKnownRequestError &&
+    error.code === "P2002"
+  ) {
+    const target = Array.isArray(error.meta?.target)
+      ? error.meta.target.join(",")
+      : String(error.meta?.target ?? "");
+    if (target.includes("contentTypeId") || target.includes("slug") || target.includes("ContentItem_contentTypeId_slug")) {
+      return slug
+        ? `Slug "${slug}" is already used by another item in this content type. Choose a different slug.`
+        : "An item with this slug already exists in this content type.";
+    }
+    return "A unique constraint failed while saving. Check slug and try again.";
+  }
+  if (error instanceof Error) return error.message;
+  if (typeof error === "string") return error;
+  return "Save failed";
+}
 
 function parseJson(raw: FormDataEntryValue | null, fallback: unknown) {
   if (!raw || typeof raw !== "string" || !raw.trim()) return fallback;
@@ -177,6 +232,7 @@ async function upsertContentItemCore(
     if (rawSlug && rawSlug.includes("/")) {
       throw new Error("Slug must be a single URL segment and cannot contain '/'");
     }
+    await ensureContentItemSlugAvailable(type.id, rawSlug, parsed.id);
 
     const contentAuthorId = formString(formData.get("authorId")) || null;
     const contentSourcesRaw = formData.get("sources") as string | null;
@@ -566,17 +622,12 @@ export async function upsertContentItem(formData: FormData) {
 export async function saveContentItemFromEditor(
   formData: FormData,
 ): Promise<UpsertContentItemResult> {
+  const slugHint = formString(formData.get("slug")) || null;
   try {
     const redirectTo = await upsertContentItemCore(formData, true);
     return { ok: true, redirectTo: redirectTo as string };
   } catch (error) {
-    const message =
-      error instanceof Error
-        ? error.message
-        : typeof error === "string"
-          ? error
-          : "Save failed";
-    return { ok: false, error: message };
+    return { ok: false, error: formatContentItemSaveError(error, slugHint) };
   }
 }
 
@@ -817,6 +868,36 @@ export async function addContentItemMedia(
   if (isCover) {
     await syncContentItemCover(itemId, media.id, media.url);
   }
+
+  try {
+    const { defaultAltFromFilename } = await import("@/features/media/default-alt");
+    const { mediaRepository } = await import("@/repositories/media.repository");
+    const asset = await mediaRepository.findByUrl(url);
+    const enabledLocales = await localeService.listEnabled();
+    const defaultLocaleCode =
+      enabledLocales.find((locale) => locale.isDefault)?.code?.toLowerCase() ??
+      enabledLocales[0]?.code?.toLowerCase() ??
+      "en";
+    const altFromAsset = asset
+      ? await translationService.resolveField("MediaAsset", asset.id, "alt", defaultLocaleCode)
+      : "";
+    const defaultAlt =
+      altFromAsset.trim() ||
+      (asset ? defaultAltFromFilename(asset.filename) : defaultAltFromFilename(url));
+    if (defaultAlt) {
+      await translationService.upsert({
+        entityType: "ContentItemMedia",
+        entityId: media.id,
+        field: "alt",
+        localeCode: defaultLocaleCode,
+        value: defaultAlt,
+        status: "PUBLISHED",
+      });
+    }
+  } catch (error) {
+    console.error("[content] default media alt failed:", error);
+  }
+
   const item = await prisma.contentItem.findUnique({
     where: { id: itemId },
     include: { contentType: true },

@@ -382,22 +382,28 @@ export function ContentEditPage({
     [composition.regions, inspectorTab, item?.id, searchParams, selectedBlockId, syncContentEditorUrl],
   );
 
+  const saveInFlightRef = useRef(false);
   const submitContentForm = useCallback(async (): Promise<boolean> => {
     const form = document.getElementById("content-item-form") as HTMLFormElement | null;
-    if (!form) return false;
+    if (!form || saveInFlightRef.current) return false;
 
+    saveInFlightRef.current = true;
     setSaveStatus("saving");
-    const result = await saveContentItemFromEditor(new FormData(form));
-    if (result.ok) {
-      markSaved();
-      markEditorPlainSavePending();
-      applyEditorSaveNavigation(result.redirectTo, router);
-      return true;
-    }
+    try {
+      const result = await saveContentItemFromEditor(new FormData(form));
+      if (result.ok) {
+        markSaved();
+        markEditorPlainSavePending();
+        applyEditorSaveNavigation(result.redirectTo, router);
+        return true;
+      }
 
-    setSaveStatus("error");
-    console.error("[content-editor] save failed:", result.error);
-    return false;
+      setSaveStatus("error");
+      console.error("[content-editor] save failed:", result.error);
+      return false;
+    } finally {
+      saveInFlightRef.current = false;
+    }
   }, [displayActiveTab, item?.id, markSaved, router, setSaveStatus]);
 
   const handlePublish = useCallback(async (): Promise<boolean> => {

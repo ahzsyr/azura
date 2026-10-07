@@ -343,6 +343,7 @@ export function newMenuItemFromForm(input: {
   label: string;
   icon?: string;
   megaMenuChildDisplayType?: MegaMenuChildDisplayType;
+  megaMenuImageUrl?: string;
   placement: MenuItem["placement"];
   url?: string;
   pageId?: string;
@@ -372,6 +373,7 @@ export function newMenuItemFromForm(input: {
   if (input.megaMenuChildDisplayType && input.megaMenuChildDisplayType !== "automatic") {
     base.megaMenuChildDisplayType = input.megaMenuChildDisplayType;
   }
+  if (input.megaMenuImageUrl?.trim()) base.megaMenuImageUrl = input.megaMenuImageUrl.trim();
 
   if (input.type === "link") base.url = input.url ?? "#";
   else if (input.type === "page") base.pageId = input.pageId ?? "home";

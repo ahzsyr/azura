@@ -57,7 +57,7 @@ export const BLOCK_TRANSLATABLE_FIELDS: Partial<Record<BlockType, string[]>> = {
   searchBlock: ["title", "subtitle", "placeholder"],
   advancedFilters: ["title", "subtitle"],
   categoryExplorer: ["title", "subtitle"],
-  relatedContent: ["title", "subtitle"],
+  relatedContent: ["title", "subtitle", "badge"],
   recentlyViewed: ["title", "subtitle", "emptyMessage"],
   categoryShowcase: ["title", "subtitle", "badge"],
   brandShowcase: ["title", "subtitle", "badge"],
