@@ -3,12 +3,18 @@
 import type {
   HeaderBuilderCatalog,
   MegaMenuCardAspectRatio,
-  MegaMenuChildDisplayType,
+  MenuIconPlacement,
   MenuItem,
   MenuLayoutType,
   MenuPlacement,
   MenuItemVisibility,
 } from "@/features/navigation/types";
+import {
+  childMediaChoicePatch,
+  childMediaChoiceShowsImagePicker,
+  readChildMediaChoice,
+  type ChildMediaChoice,
+} from "@/features/navigation/menu-item-appearance";
 import { getItemHref } from "@/features/navigation/resolve-href";
 import { getItemSubtitle } from "@/features/navigation/menu-engine";
 import { CompactLocalizedMenuFields } from "../shared/CompactLocalizedMenuFields";
@@ -34,15 +40,6 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-function normalizeChildAppearance(value: string | undefined): MegaMenuChildDisplayType {
-  if (value === "link") return "list";
-  if (value === "featured" || value === "product") return "card";
-  if (value === "list" || value === "icon" || value === "image" || value === "card" || value === "automatic") {
-    return value;
-  }
-  return "automatic";
-}
 
 export type InspectorSection = "content" | "destination" | "appearance" | "behavior" | "flyout";
 
@@ -195,30 +192,44 @@ export function MenuInspector({
             <Label htmlFor="inspector-child-appearance">Child appearance</Label>
             <HeaderSelect
               id="inspector-child-appearance"
-              value={normalizeChildAppearance(item.megaMenuChildDisplayType)}
+              value={readChildMediaChoice(item)}
               onChange={(value) => {
-                const next = normalizeChildAppearance(value);
-                onPatch({
-                  megaMenuChildDisplayType: next === "automatic" ? undefined : next,
-                });
+                onPatch(childMediaChoicePatch(value as ChildMediaChoice, item.megaMenuChildDisplayType));
               }}
             >
               <option value="automatic">Automatic</option>
-              <option value="list">Text (list)</option>
-              <option value="icon">Icon</option>
-              <option value="image">Image</option>
-              <option value="card">Card</option>
+              <option value="list">Text</option>
+              <option value="card-image">Card with image</option>
+              <option value="card-icon">Card with icon</option>
+              <option value="icon-only">Icons only</option>
             </HeaderSelect>
           </div>
           <IconPickerField
-            label="Icon"
+            label="Icon (optional)"
             value={item.icon ?? ""}
             onChange={(iconId) => {
               onPatch({ icon: iconId });
             }}
           />
-          {normalizeChildAppearance(item.megaMenuChildDisplayType) === "image" ||
-          normalizeChildAppearance(item.megaMenuChildDisplayType) === "card" ? (
+          <div className="space-y-1">
+            <Label>Placement</Label>
+            <OptionButtonGroup
+              value={item.iconPlacement ?? "both"}
+              columns={3}
+              options={[
+                { value: "desktop", label: "Desktop" },
+                { value: "mobile", label: "Mobile" },
+                { value: "both", label: "Both" },
+              ]}
+              onChange={(value) => {
+                onPatch({ iconPlacement: value as MenuIconPlacement });
+              }}
+            />
+            <p className="text-xs text-muted-foreground">
+              Where this icon shows. Mobile includes tablet. Unset items follow Default icon visibility until you choose one.
+            </p>
+          </div>
+          {childMediaChoiceShowsImagePicker(readChildMediaChoice(item)) ? (
             <UrlPrimaryMediaPickerField
               label="Mega menu image"
               url={item.megaMenuImageUrl ?? ""}

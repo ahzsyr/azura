@@ -18,6 +18,7 @@ export type TranslatableEntityType =
   | "FaqSet"
   | "Footer"
   | "FooterColumn"
+  | "FooterContactItem"
   | "FooterLink"
   | "Gallery"
   | "GalleryMedia"

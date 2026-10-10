@@ -13,15 +13,17 @@ import { FeatureGridExpandableHtml } from "@/features/builder/blocks/marketing/c
 import { prepareFeatureGridDescriptionHtml } from "@/features/builder/blocks/marketing/lib/prepare-feature-grid-html";
 import type {
   FeatureGridCardStyle,
+  FeatureGridCardPresentation,
   FeatureGridContentAlign,
   FeatureGridContentElement,
   FeatureGridExpandMode,
   FeatureGridHoverEffect,
   FeatureGridIconShape,
+  FeatureGridImageAspect,
   FeatureGridItem,
-  FeatureGridLayout,
   FeatureGridPreviewBy,
   FeatureGridReadMoreStyle,
+  FeatureGridVisualType,
 } from "@/features/builder/blocks/marketing/schemas/marketing-blocks";
 import { cn } from "@/lib/utils";
 
@@ -30,8 +32,14 @@ export type FeatureGridCardProps = {
   index: number;
   locale: string;
   itemLocaleOptions?: ResolveItemFieldOptions;
-  layout: FeatureGridLayout;
+  cardPresentation: FeatureGridCardPresentation;
   cardStyle: FeatureGridCardStyle;
+  defaultVisualType?: FeatureGridVisualType;
+  imageAspect?: FeatureGridImageAspect;
+  expandHideWhenFooterLink?: boolean;
+  /** Accordion rows render the header and panel separately. */
+  part?: "all" | "header" | "panel";
+  showVisual?: boolean;
   contentAlign: FeatureGridContentAlign;
   equalHeight: boolean;
   minCardHeight: number;
@@ -52,6 +60,8 @@ export type FeatureGridCardProps = {
   cardAccentColor?: string;
   cardBorderRadius?: string;
   cardPadding?: string;
+  contentOrder?: FeatureGridContentElement[];
+  visibleElements?: Partial<Record<FeatureGridContentElement, boolean>>;
 };
 
 const styleClasses: Record<FeatureGridCardStyle, string> = {
@@ -76,11 +86,24 @@ const alignClasses: Record<FeatureGridContentAlign, string> = {
   right: "text-end items-end",
 };
 
-function resolveVisualType(item: FeatureGridItem): "icon" | "image" | "none" {
-  if (item.visualType === "none") return "none";
-  if (item.visualType === "image") return item.imageUrl ? "image" : "none";
-  if (item.visualType === "icon") return item.icon ? "icon" : "none";
-  // auto
+const aspectClasses: Record<FeatureGridImageAspect, string> = {
+  auto: "",
+  square: "aspect-square w-full",
+  video: "aspect-video w-full",
+  landscape: "aspect-[4/3] w-full",
+  portrait: "aspect-[3/4] w-full",
+};
+
+export function resolveFeatureGridVisual(
+  item: FeatureGridItem,
+  blockDefault: FeatureGridVisualType = "auto",
+): "icon" | "image" | "number" | "none" {
+  const requested =
+    !item.visualType || item.visualType === "inherit" ? blockDefault : item.visualType;
+  if (requested === "none") return "none";
+  if (requested === "number") return "number";
+  if (requested === "image") return item.imageUrl ? "image" : "none";
+  if (requested === "icon") return item.icon ? "icon" : "none";
   if (item.imageUrl) return "image";
   if (item.icon) return "icon";
   return "none";
@@ -97,8 +120,13 @@ export function FeatureGridCard({
   index,
   locale,
   itemLocaleOptions,
-  layout,
+  cardPresentation,
   cardStyle,
+  defaultVisualType = "auto",
+  imageAspect: blockImageAspect = "auto",
+  expandHideWhenFooterLink = true,
+  part = "all",
+  showVisual = true,
   contentAlign,
   equalHeight,
   minCardHeight,
@@ -119,6 +147,8 @@ export function FeatureGridCard({
   cardAccentColor,
   cardBorderRadius,
   cardPadding,
+  contentOrder: blockContentOrder,
+  visibleElements: blockVisibleElements,
 }: FeatureGridCardProps) {
   const title = resolveItemField(item, "title", locale, itemLocaleOptions);
   const subtitle = resolveItemField(item, "subtitle", locale, itemLocaleOptions);
@@ -131,14 +161,18 @@ export function FeatureGridCard({
   const footerText = resolveItemField(item, "footerText", locale, itemLocaleOptions);
   const descriptionHtml = resolveFeatureGridDescriptionHtml(item, locale, itemLocaleOptions);
   const Icon = resolveMarketingIcon(item.icon);
-  const visual = resolveVisualType(item);
+  const visual = resolveFeatureGridVisual(item, defaultVisualType);
   const expandOn = cardExpandEnabled(item, blockExpandEnabled);
   const effectivePreviewLimit = item.expandPreviewOverride || previewLimit;
-  const order = getFeatureGridContentOrder(item);
-  const isHorizontal = layout === "horizontal";
-  const isIconLayout = layout === "icon";
-  const isNumbered = layout === "numbered";
-  const effectiveAlign = isIconLayout ? "center" : contentAlign;
+  const order = getFeatureGridContentOrder(blockContentOrder ?? item.contentOrder);
+  const visibleElements = blockVisibleElements ?? item.visibleElements;
+  const isHorizontal = part === "all" && cardPresentation === "horizontal";
+  const isIconLayout = cardPresentation === "icon";
+  const isNumbered = cardPresentation === "numbered";
+  const effectiveAlign = cardPresentation === "icon" ? "center" : contentAlign;
+  const resolvedAspect =
+    item.imageAspect && item.imageAspect !== "auto" ? item.imageAspect : blockImageAspect;
+  const useFluidImage = resolvedAspect !== "auto";
 
   const overrides = item.styleOverrides ?? {};
   const cardHref = item.cardClickable
@@ -169,17 +203,44 @@ export function FeatureGridCard({
   };
 
   const renderElement = (el: FeatureGridContentElement) => {
-    if (!isFeatureGridElementVisible(item, el)) return null;
+    if (!isFeatureGridElementVisible(visibleElements, el)) return null;
 
     switch (el) {
       case "visual": {
-        if (visual === "none") return null;
+        if (!showVisual || visual === "none") return null;
+        if (visual === "number") {
+          return (
+            <span
+              key="visual"
+              className={cn(
+                part === "header" ? "mb-0" : "mb-4",
+                "inline-flex items-center justify-center bg-primary/10 font-heading font-semibold text-primary",
+                shapeClass,
+                cardPresentation === "icon" && "mx-auto"
+              )}
+              style={{
+                width: iconSize,
+                height: iconSize,
+                fontSize: Math.max(14, Math.round(iconSize * 0.34)),
+                ...(cardAccentColor || overrides.accentColor ? { color: "var(--fg-accent)" } : {}),
+              }}
+            >
+              {numberLabel}
+            </span>
+          );
+        }
         if (visual === "image" && item.imageUrl) {
           return (
             <div
               key="visual"
-              className={cn("relative mb-4 overflow-hidden", shapeClass, isIconLayout && "mx-auto")}
-              style={{ width: iconSize, height: iconSize }}
+              className={cn(
+                "relative overflow-hidden",
+                part === "header" ? "mb-0" : "mb-4",
+                useFluidImage ? aspectClasses[resolvedAspect] : shapeClass,
+                cardPresentation === "icon" && "mx-auto",
+                isHorizontal && useFluidImage && "mb-0 w-40 shrink-0"
+              )}
+              style={useFluidImage ? undefined : { width: iconSize, height: iconSize }}
             >
               <OptimizedImage
                 src={item.imageUrl}
@@ -198,7 +259,8 @@ export function FeatureGridCard({
             <div
               key="visual"
               className={cn(
-                "mb-4 flex items-center justify-center bg-primary/10 text-primary",
+                part === "header" ? "mb-0" : "mb-4",
+                "flex items-center justify-center bg-primary/10 text-primary",
                 shapeClass,
                 isIconLayout && "mx-auto"
               )}
@@ -222,6 +284,7 @@ export function FeatureGridCard({
           </span>
         );
       case "number":
+        if (visual === "number" && showVisual && isFeatureGridElementVisible(visibleElements, "visual")) return null;
         if (!isNumbered && !resolveItemField(item, "numberLabel", locale, itemLocaleOptions)) return null;
         return (
           <span
@@ -238,7 +301,7 @@ export function FeatureGridCard({
         {
           const hasNumberEl =
             isNumbered &&
-            isFeatureGridElementVisible(item, "number") &&
+            isFeatureGridElementVisible(visibleElements, "number") &&
             order.includes("number");
           const displayTitle =
             isNumbered && !hasNumberEl ? `${numberLabel}. ${title}` : title;
@@ -268,8 +331,8 @@ export function FeatureGridCard({
         if (!safeHtml) return null;
         const showDivider = showAccentLine && (title || isNumbered);
         // Disable inline Read More if footer link is present to avoid conflicting CTAs
-        const hasFooterLink = footerText && item.footerHref;
-        const descriptionEnabled = expandOn && !hasFooterLink;
+        const hasFooterLink = Boolean(footerText && item.footerHref);
+        const descriptionEnabled = expandOn && !(expandHideWhenFooterLink && hasFooterLink);
         return (
           <div key="description" className="w-full">
             {showDivider ? <div className={cn("gold-divider my-3", effectiveAlign === "center" && "mx-auto", effectiveAlign === "right" && "ms-auto")} /> : null}
@@ -357,17 +420,37 @@ export function FeatureGridCard({
     }
   };
 
+  const headerElements = new Set<FeatureGridContentElement>([
+    "visual",
+    "badge",
+    "number",
+    "title",
+    "subtitle",
+  ]);
+  const visibleOrder = order.filter((el) => {
+    if (part === "header") return headerElements.has(el);
+    if (part === "panel") return !headerElements.has(el);
+    return true;
+  });
+
+  const contentGap = item.contentGap?.trim();
   const body = (
     <div
       className={cn(
-        "flex flex-col",
-        !isHorizontal && alignClasses[effectiveAlign],
+        "flex",
+        part === "header" ? "flex-row flex-wrap items-center gap-3" : "flex-col",
+        !isHorizontal && part !== "header" && alignClasses[effectiveAlign],
         isHorizontal && "min-w-0 flex-1"
       )}
+      style={contentGap ? { gap: contentGap } : undefined}
     >
-      {order.map((el) => renderElement(el))}
+      {visibleOrder.map((el) => renderElement(el))}
     </div>
   );
+
+  if (part === "header" || part === "panel") {
+    return body;
+  }
 
   const mediaBlock =
     isHorizontal && visual !== "none" ? (
@@ -380,7 +463,7 @@ export function FeatureGridCard({
     <div className="flex gap-4">
       {mediaBlock}
       <div className="flex min-w-0 flex-1 flex-col">
-        {order.filter((el) => el !== "visual").map((el) => renderElement(el))}
+        {visibleOrder.filter((el) => el !== "visual").map((el) => renderElement(el))}
       </div>
     </div>
   ) : (

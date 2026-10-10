@@ -107,6 +107,12 @@ const nextConfig: NextConfig = {
       "@radix-ui/react-tabs",
       "@radix-ui/react-tooltip",
     ],
+    /** Optimize CSS for better performance */
+    optimizeCss: true,
+  },
+  /** Remove console logs in production for smaller bundle size */
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
   },
   /** Set OUTPUT_STANDALONE=1 before build to deploy a prebuilt bundle on Hostinger (no on-server build). */
   ...(process.env.OUTPUT_STANDALONE === "1" ? { output: "standalone" as const } : {}),
@@ -222,10 +228,11 @@ const nextConfig: NextConfig = {
     /** Allow SVG through next/image (still served unoptimized via the custom loader). */
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'none'; style-src 'unsafe-inline'; script-src 'none'",
-    /** Fewer breakpoints = less CPU on Hostinger image optimizer under catalog traffic */
-    deviceSizes: [640, 1080, 1920],
+    /** Optimized device sizes for better LCP and responsive images */
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [32, 48, 64, 96, 128, 256],
-    minimumCacheTTL: 86400,
+    /** Cache images for 1 year to improve loading speed */
+    minimumCacheTTL: 60 * 60 * 24 * 365,
     localPatterns: NEXT_IMAGE_LOCAL_PATTERNS,
     remotePatterns: NEXT_IMAGE_REMOTE_PATTERNS,
   },

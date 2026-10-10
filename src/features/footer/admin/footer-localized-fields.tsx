@@ -3,6 +3,7 @@
 import { WorkspaceLocalizedField } from "@/features/translation/components/workspace-localized-field";
 import {
   makeFooterColumnEntityId,
+  makeFooterContactItemEntityId,
   makeFooterEntityId,
   makeFooterLinkEntityId,
 } from "@/features/translation/workspace-entity-ids";
@@ -33,19 +34,22 @@ type FooterColumnBodyFieldProps = {
   columnId: string;
   defaultBody: string;
   onDefaultBodyChange: (value: string) => void;
+  label?: string;
 };
 
 export function FooterColumnBodyField({
   columnId,
   defaultBody,
   onDefaultBodyChange,
+  label = "Body",
 }: FooterColumnBodyFieldProps) {
   return (
     <WorkspaceLocalizedField
       entityType="FooterColumn"
       entityId={makeFooterColumnEntityId(columnId)}
-      field="body"
-      legacyEntity={{ body: defaultBody }}
+      field={label === "Custom content" ? "customContent" : "body"}
+      label={label}
+      legacyEntity={{ [label === "Custom content" ? "customContent" : "body"]: defaultBody }}
       multiline
       rows={4}
       onDefaultLocaleChange={onDefaultBodyChange}
@@ -76,6 +80,41 @@ export function FooterLinkLabelField({
       label={label ?? `Link ${linkIndex + 1} label`}
       legacyEntity={{ label: defaultLabel }}
       onDefaultLocaleChange={onDefaultLabelChange}
+    />
+  );
+}
+
+type FooterContactItemTextFieldProps = {
+  columnId: string;
+  itemId: string;
+  field: "label" | "value";
+  label: string;
+  defaultValue: string;
+  multiline?: boolean;
+  rows?: number;
+  onDefaultChange: (value: string) => void;
+};
+
+export function FooterContactItemTextField({
+  columnId,
+  itemId,
+  field,
+  label,
+  defaultValue,
+  multiline,
+  rows,
+  onDefaultChange,
+}: FooterContactItemTextFieldProps) {
+  return (
+    <WorkspaceLocalizedField
+      entityType="FooterContactItem"
+      entityId={makeFooterContactItemEntityId(columnId, itemId)}
+      field={field}
+      label={label}
+      legacyEntity={{ [field]: defaultValue }}
+      multiline={multiline}
+      rows={rows}
+      onDefaultLocaleChange={onDefaultChange}
     />
   );
 }

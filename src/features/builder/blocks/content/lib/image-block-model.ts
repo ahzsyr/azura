@@ -42,15 +42,56 @@ export type ImageContentPanelVariant = (typeof IMAGE_PANEL_VARIANTS)[number];
 
 export const IMAGE_MEDIA_ASPECT_RATIOS = [
   "auto",
+  "21/9",
+  "2/1",
   "16/9",
-  "4/3",
   "3/2",
+  "5/4",
+  "4/3",
   "1/1",
   "4/5",
   "3/4",
+  "2/3",
   "9/16",
+  "1/2",
+  "custom",
 ] as const;
 export type ImageMediaAspectRatio = (typeof IMAGE_MEDIA_ASPECT_RATIOS)[number];
+
+export const IMAGE_ASPECT_RATIO_LABELS: Record<ImageMediaAspectRatio, string> = {
+  auto: "Auto",
+  "21/9": "21:9",
+  "2/1": "2:1",
+  "16/9": "16:9",
+  "3/2": "3:2",
+  "5/4": "5:4",
+  "4/3": "4:3",
+  "1/1": "1:1",
+  "4/5": "4:5",
+  "3/4": "3:4",
+  "2/3": "2:3",
+  "9/16": "9:16",
+  "1/2": "1:2",
+  custom: "Custom",
+};
+
+const PRESET_ASPECT_PARTS: Record<
+  Exclude<ImageMediaAspectRatio, "auto" | "custom">,
+  { width: number; height: number }
+> = {
+  "21/9": { width: 21, height: 9 },
+  "2/1": { width: 2, height: 1 },
+  "16/9": { width: 16, height: 9 },
+  "3/2": { width: 3, height: 2 },
+  "5/4": { width: 5, height: 4 },
+  "4/3": { width: 4, height: 3 },
+  "1/1": { width: 1, height: 1 },
+  "4/5": { width: 4, height: 5 },
+  "3/4": { width: 3, height: 4 },
+  "2/3": { width: 2, height: 3 },
+  "9/16": { width: 9, height: 16 },
+  "1/2": { width: 1, height: 2 },
+};
 
 export const IMAGE_MEDIA_SIZES = ["auto", "sm", "md", "lg", "xl", "full", "custom"] as const;
 export type ImageMediaSize = (typeof IMAGE_MEDIA_SIZES)[number];
@@ -93,6 +134,8 @@ export type ImageBlockModel = {
     alt: string;
     mediaAssetId: string;
     aspectRatio: ImageMediaAspectRatio;
+    customAspectWidth: number;
+    customAspectHeight: number;
     size: ImageMediaSize;
     objectFit: ImageMediaObjectFit;
     width: number | null;
@@ -168,6 +211,53 @@ function parseDimensionUnit(value: unknown, fallback: ImageMediaDimensionUnit): 
   return fallback;
 }
 
+function parseAspectPart(value: unknown, fallback: number): number {
+  const parsed = typeof value === "number" ? value : typeof value === "string" ? Number(value) : NaN;
+  if (!Number.isFinite(parsed) || parsed <= 0 || parsed > 100) return fallback;
+  return parsed;
+}
+
+/** Width/height parts for a preset or custom ratio. `null` when the frame should stay auto. */
+export function aspectRatioParts(
+  aspectRatio: ImageMediaAspectRatio,
+  customWidth?: number | null,
+  customHeight?: number | null,
+): { width: number; height: number } | null {
+  if (aspectRatio === "auto") return null;
+  if (aspectRatio === "custom") {
+    return {
+      width: parseAspectPart(customWidth, 16),
+      height: parseAspectPart(customHeight, 9),
+    };
+  }
+  return PRESET_ASPECT_PARTS[aspectRatio];
+}
+
+/** CSS `aspect-ratio` value (`16 / 9`). Undefined for auto. */
+export function mediaAspectCss(
+  aspectRatio: ImageMediaAspectRatio,
+  customWidth?: number | null,
+  customHeight?: number | null,
+): string | undefined {
+  const parts = aspectRatioParts(aspectRatio, customWidth, customHeight);
+  if (!parts) return undefined;
+  return `${parts.width} / ${parts.height}`;
+}
+
+export function mediaAspectFrame(
+  aspectRatio: ImageMediaAspectRatio,
+  customWidth?: number | null,
+  customHeight?: number | null,
+): { className: string; style?: { aspectRatio: string } } {
+  const css = mediaAspectCss(aspectRatio, customWidth, customHeight);
+  if (!css || aspectRatio === "auto") return { className: "" };
+  if (aspectRatio === "custom") return { className: "", style: { aspectRatio: css } };
+  return {
+    className: MEDIA_ASPECT_CLASS[aspectRatio] ?? "",
+    style: { aspectRatio: css },
+  };
+}
+
 function isNonEmpty(value: string): boolean {
   return value.trim().length > 0;
 }
@@ -229,6 +319,8 @@ export function resolveCustomDimensionStyle({
   widthAuto,
   heightAuto,
   aspectRatio,
+  customAspectWidth,
+  customAspectHeight,
 }: {
   width: number | null;
   height: number | null;
@@ -237,18 +329,10 @@ export function resolveCustomDimensionStyle({
   widthAuto: boolean;
   heightAuto: boolean;
   aspectRatio: ImageMediaAspectRatio;
+  customAspectWidth?: number | null;
+  customAspectHeight?: number | null;
 }): { width?: string; height?: string } {
-  const ratioMap: Record<string, { width: number; height: number }> = {
-    "16/9": { width: 16, height: 9 },
-    "4/3": { width: 4, height: 3 },
-    "3/2": { width: 3, height: 2 },
-    "1/1": { width: 1, height: 1 },
-    "4/5": { width: 4, height: 5 },
-    "3/4": { width: 3, height: 4 },
-    "9/16": { width: 9, height: 16 },
-  };
-
-  const ratio = ratioMap[aspectRatio] ?? null;
+  const ratio = aspectRatioParts(aspectRatio, customAspectWidth, customAspectHeight);
   const explicitWidth = typeof width === "number" && Number.isFinite(width) && width > 0 && !widthAuto;
   const explicitHeight = typeof height === "number" && Number.isFinite(height) && height > 0 && !heightAuto;
 
@@ -306,6 +390,8 @@ export function normalizeImageBlockSettings(
   const panelVariant = pickEnum(raw.contentPanelVariant, IMAGE_PANEL_VARIANTS, "none");
   const panelEnabled = raw.contentPanelEnabled === true;
   const mediaAspectRatio = pickEnum(raw.mediaAspectRatio, IMAGE_MEDIA_ASPECT_RATIOS, "auto");
+  const customAspectWidth = parseAspectPart(raw.mediaAspectCustomWidth, 16);
+  const customAspectHeight = parseAspectPart(raw.mediaAspectCustomHeight, 9);
   const mediaSize = pickEnum(raw.mediaSize, IMAGE_MEDIA_SIZES, "auto");
   const mediaObjectFit = pickEnum(raw.mediaObjectFit, IMAGE_MEDIA_OBJECT_FITS, "cover");
   const widthValue = parsePixelValue(raw.mediaFrameWidth ?? raw.width ?? raw.mediaWidth);
@@ -380,6 +466,8 @@ export function normalizeImageBlockSettings(
       alt,
       mediaAssetId,
       aspectRatio: mediaAspectRatio,
+      customAspectWidth,
+      customAspectHeight,
       size: mediaSize,
       objectFit: mediaObjectFit,
       width: widthValue,
@@ -456,14 +544,53 @@ export const MEDIA_SIZE_CLASS: Record<ImageMediaSize, string> = {
 
 export const MEDIA_ASPECT_CLASS: Record<ImageMediaAspectRatio, string> = {
   auto: "",
+  "21/9": "aspect-[21/9]",
+  "2/1": "aspect-[2/1]",
   "16/9": "aspect-[16/9]",
-  "4/3": "aspect-[4/3]",
   "3/2": "aspect-[3/2]",
+  "5/4": "aspect-[5/4]",
+  "4/3": "aspect-[4/3]",
   "1/1": "aspect-square",
   "4/5": "aspect-[4/5]",
   "3/4": "aspect-[3/4]",
+  "2/3": "aspect-[2/3]",
   "9/16": "aspect-[9/16]",
+  "1/2": "aspect-[1/2]",
+  custom: "",
 };
+
+/**
+ * Overlay/background content placement.
+ * Phones use a full-width flex layer so the panel is readable.
+ * `md+` keeps the 3×3 grid cell.
+ */
+export function overlayContentLayout(position: ImageContentPosition): { frame: string; cell: string } {
+  const vertical = position.startsWith("top")
+    ? "max-md:justify-start"
+    : position.startsWith("bottom")
+      ? "max-md:justify-end"
+      : "max-md:justify-center";
+  const horizontal = position.endsWith("right")
+    ? "max-md:items-end"
+    : position.endsWith("left")
+      ? "max-md:items-start"
+      : "max-md:items-center";
+  const place = CONTENT_POSITION_PLACE_CLASS[position];
+  const desktop = place
+    .split(" ")
+    .filter((token) => !token.startsWith("text-"))
+    .map((token) => `md:${token}`)
+    .join(" ");
+  const text = place
+    .split(" ")
+    .filter((token) => token.startsWith("text-"))
+    .join(" ");
+
+  return {
+    frame: `relative z-[1] flex h-full w-full min-w-0 flex-col p-3 sm:p-4 md:grid md:grid-cols-3 md:grid-rows-3 md:gap-4 md:p-10 ${vertical} ${horizontal}`,
+    cell: `w-[min(92%,32rem)] min-w-0 max-w-full max-md:max-h-full max-md:shrink-0 max-md:overflow-y-auto md:w-full md:max-w-xl ${desktop} ${text}`,
+  };
+}
 
 /** Overlay/background: place content cell in a 3×3 grid. */
 export const CONTENT_POSITION_PLACE_CLASS: Record<ImageContentPosition, string> = {
@@ -499,15 +626,16 @@ export function contentAreaAlignClasses(position: ImageContentPosition): {
 }
 
 export function contentPanelVariantClass(variant: ImageContentPanelVariant): string {
+  const shell = "box-border max-w-full break-words rounded-xl p-4 shadow-sm sm:p-5 md:p-6";
   switch (variant) {
     case "surface":
-      return "rounded-xl bg-background/95 p-6 shadow-sm border border-border";
+      return `${shell} border border-border bg-background/95`;
     case "glass":
-      return "rounded-xl bg-background/60 p-6 shadow-sm backdrop-blur-md border border-white/20";
+      return `${shell} border border-white/20 bg-background/60 backdrop-blur-md`;
     case "dark":
-      return "rounded-xl bg-foreground/85 p-6 text-background shadow-sm";
+      return `${shell} bg-foreground/85 text-background`;
     case "light":
-      return "rounded-xl bg-white/90 p-6 text-foreground shadow-sm";
+      return `${shell} bg-white/90 text-foreground`;
     case "none":
     default:
       return "";

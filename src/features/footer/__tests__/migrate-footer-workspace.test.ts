@@ -30,4 +30,29 @@ describe("migrateFooterWorkspace", () => {
     assert.ok(hrefs.has("/blog"));
     assert.ok(hrefs.has("/contact"));
   });
+
+  it("keeps custom contact lines when the workspace is saved", () => {
+    const migrated = migrateFooterWorkspace({
+      version: 2,
+      layout: "grid",
+      responsive: { desktop: 3, tablet: 2, mobile: 1 },
+      columns: [
+        {
+          id: "contact",
+          type: "contact",
+          title: "Contact",
+          customContactItems: [
+            { id: "line-1", type: "phone", label: "Sales", value: "+1 555 0100" },
+            { id: "line-2", type: "richtext", value: "<p>Open daily</p>" },
+          ],
+        },
+      ],
+    });
+
+    const parsed = footerWorkspaceSchema.parse(migrated);
+    const contact = parsed.columns.find((col) => col.id === "contact");
+    assert.equal(contact?.customContactItems?.length, 2);
+    assert.equal(contact?.customContactItems?.[0]?.value, "+1 555 0100");
+    assert.equal(contact?.customContactItems?.[1]?.value, "<p>Open daily</p>");
+  });
 });

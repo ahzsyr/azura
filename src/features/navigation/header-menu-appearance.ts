@@ -9,6 +9,19 @@ import type {
   MobileNavAnimation,
 } from "./types";
 
+const RADIUS_PX: Record<HeaderBorderRadius, number> = {
+  none: 0,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 40,
+};
+
+/** Mega/dropdown corners. Unset keeps the header corner radius. */
+export function resolveMenuBorderRadius(settings: HeaderBuilderSettings): HeaderBorderRadius {
+  return settings.menuBorderRadius ?? settings.headerBorderRadius ?? "lg";
+}
+
 const BLUR_PX: Record<MenuBlurStrength, number> = {
   light: 8,
   medium: 12,
@@ -48,7 +61,7 @@ export function resolveMenuAppearance(settings: HeaderBuilderSettings): Resolved
   const shadow = settings.menuShadow ?? "strong";
   const animation =
     settings.menuPanelAnimation ?? settings.mobileNavAnimation ?? "slide";
-  const radius = settings.headerBorderRadius ?? "lg";
+  const radius = resolveMenuBorderRadius(settings);
 
   return {
     surface,
@@ -135,6 +148,7 @@ export function menuAppearanceDataAttributes(
     "data-menu-opacity": String(appearance.transparency),
     "data-menu-shadow": appearance.shadow,
     "data-menu-animation": appearance.animation,
+    "data-menu-radius": appearance.radius,
   };
 }
 
@@ -142,7 +156,8 @@ export function menuAppearanceDataAttributes(
 export function menuAppearanceStyle(
   appearance: ResolvedMenuAppearance | ResolvedMobileMenuAppearance,
 ): CSSProperties {
-  const { surface, glassEnabled, blurPx, transparency, shadow, animation } = appearance;
+  const { surface, glassEnabled, blurPx, transparency, shadow, animation, radius } = appearance;
+  const radiusPx = RADIUS_PX[radius];
   const opacity = transparency;
   const bgMix =
     surface === "transparent"
@@ -156,7 +171,8 @@ export function menuAppearanceStyle(
     "--menu-border": "var(--cg2, var(--border))",
     "--menu-blur": glassEnabled && surface === "glass" ? `${blurPx}px` : "0px",
     "--menu-shadow": SHADOW_CSS[shadow],
-    "--menu-card-radius": "calc(var(--header-radius, 16px) * 0.65)",
+    "--menu-radius": `${radiusPx}px`,
+    "--menu-card-radius": `calc(${radiusPx}px * 0.65)`,
     "--mnav-duration": `${getMobileAnimDuration(animation as MobileNavAnimation)}ms`,
   } as CSSProperties;
 }

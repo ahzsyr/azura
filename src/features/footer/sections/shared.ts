@@ -33,6 +33,8 @@ export function baseResolvedColumn(
     showEmail: raw.showEmail !== false,
     showPhone: raw.showPhone !== false,
     showAddress: raw.showAddress !== false,
+    customContent: raw.customContent ?? "",
+    customContactItems: raw.customContactItems ?? [],
     columnSlot: raw.columnSlot,
     hiddenOnTablet: raw.hiddenOnTablet === true,
     hiddenOnMobile: raw.hiddenOnMobile === true,
@@ -40,6 +42,8 @@ export function baseResolvedColumn(
     socialStyle: raw.socialStyle ?? "icons",
     socialIconSize: raw.socialIconSize ?? "md",
     socialLayout: raw.socialLayout ?? "horizontal",
+    height: typeof raw.height === "number" ? Math.max(0, raw.height) : 48,
+    style: raw.style ?? "solid",
     ...overrides,
   };
 }

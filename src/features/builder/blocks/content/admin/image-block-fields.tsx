@@ -26,9 +26,11 @@ import type { HtmlElement } from "@/features/builder/blocks/content/custom-html/
 import { ImageLayoutControls } from "@/features/builder/blocks/content/admin/image-layout-controls";
 import { ContentPositionGrid } from "@/features/builder/blocks/content/admin/content-position-grid";
 import {
+  IMAGE_ASPECT_RATIO_LABELS,
   IMAGE_MEDIA_ASPECT_RATIOS,
   IMAGE_MEDIA_OBJECT_FITS,
   IMAGE_MEDIA_SIZES,
+  aspectRatioParts,
   normalizeImageBlockSettings,
   type ImageContentPanelVariant,
   type ImageContentPosition,
@@ -68,17 +70,6 @@ const SIMPLE_ALIGN: { value: ImageContentPosition; label: string }[] = [
   { value: "center", label: "Center" },
   { value: "center-right", label: "Right" },
 ];
-
-const ASPECT_LABELS: Record<ImageMediaAspectRatio, string> = {
-  auto: "Auto",
-  "16/9": "16:9",
-  "4/3": "4:3",
-  "3/2": "3:2",
-  "1/1": "1:1",
-  "4/5": "4:5",
-  "3/4": "3:4",
-  "9/16": "9:16",
-};
 
 const SIZE_LABELS: Record<ImageMediaSize, string> = {
   auto: "Auto",
@@ -145,19 +136,12 @@ export function ImageBlockFields({ block, onChange }: Props) {
   const mediaSize = model.media.size;
   const objectFit = model.media.objectFit;
 
-  const updateCustomAspectRatio = (nextAspectRatio: ImageMediaAspectRatio) => {
-    const ratioMap: Record<ImageMediaAspectRatio, { width: number; height: number }> = {
-      auto: { width: 1, height: 1 },
-      "16/9": { width: 16, height: 9 },
-      "4/3": { width: 4, height: 3 },
-      "3/2": { width: 3, height: 2 },
-      "1/1": { width: 1, height: 1 },
-      "4/5": { width: 4, height: 5 },
-      "3/4": { width: 3, height: 4 },
-      "9/16": { width: 9, height: 16 },
-    };
-
-    const ratio = ratioMap[nextAspectRatio];
+  const updateCustomAspectRatio = (
+    nextAspectRatio: ImageMediaAspectRatio,
+    customWidth = model.media.customAspectWidth,
+    customHeight = model.media.customAspectHeight,
+  ) => {
+    const ratio = aspectRatioParts(nextAspectRatio, customWidth, customHeight);
     let nextWidth = model.media.width;
     let nextHeight = model.media.height;
     const hasWidth = model.media.width !== null && model.media.width > 0 && !model.media.widthAuto;
@@ -177,6 +161,8 @@ export function ImageBlockFields({ block, onChange }: Props) {
 
     patch({
       mediaAspectRatio: nextAspectRatio,
+      mediaAspectCustomWidth: customWidth,
+      mediaAspectCustomHeight: customHeight,
       mediaFrameWidth: nextWidth,
       mediaFrameHeight: nextHeight,
       mediaFrameWidthUnit: model.media.widthUnit ?? "px",
@@ -188,18 +174,11 @@ export function ImageBlockFields({ block, onChange }: Props) {
     source: "width" | "height",
     rawValue: string,
   ) => {
-    const ratioMap: Record<ImageMediaAspectRatio, { width: number; height: number }> = {
-      auto: { width: 1, height: 1 },
-      "16/9": { width: 16, height: 9 },
-      "4/3": { width: 4, height: 3 },
-      "3/2": { width: 3, height: 2 },
-      "1/1": { width: 1, height: 1 },
-      "4/5": { width: 4, height: 5 },
-      "3/4": { width: 3, height: 4 },
-      "9/16": { width: 9, height: 16 },
-    };
-
-    const ratio = ratioMap[aspectRatio];
+    const ratio = aspectRatioParts(
+      aspectRatio,
+      model.media.customAspectWidth,
+      model.media.customAspectHeight,
+    );
     const value = rawValue.trim();
     const parsed = value === "" ? null : Number(value);
     const sharedUnit = model.media.widthUnit ?? "px";
@@ -245,18 +224,11 @@ export function ImageBlockFields({ block, onChange }: Props) {
       return;
     }
 
-    const ratioMap: Record<ImageMediaAspectRatio, { width: number; height: number }> = {
-      auto: { width: 1, height: 1 },
-      "16/9": { width: 16, height: 9 },
-      "4/3": { width: 4, height: 3 },
-      "3/2": { width: 3, height: 2 },
-      "1/1": { width: 1, height: 1 },
-      "4/5": { width: 4, height: 5 },
-      "3/4": { width: 3, height: 4 },
-      "9/16": { width: 9, height: 16 },
-    };
-
-    const ratio = ratioMap[aspectRatio];
+    const ratio = aspectRatioParts(
+      aspectRatio,
+      model.media.customAspectWidth,
+      model.media.customAspectHeight,
+    );
     const nextWidthAuto = dimension === "width" ? true : model.media.widthAuto;
     const nextHeightAuto = dimension === "height" ? true : model.media.heightAuto;
 
@@ -343,10 +315,51 @@ export function ImageBlockFields({ block, onChange }: Props) {
                   }
                   onClick={() => updateCustomAspectRatio(value satisfies ImageMediaAspectRatio)}
                 >
-                  {ASPECT_LABELS[value]}
+                  {IMAGE_ASPECT_RATIO_LABELS[value]}
                 </button>
               ))}
             </div>
+            {aspectRatio === "custom" ? (
+              <div className="mt-2 grid grid-cols-2 gap-2">
+                <div>
+                  <Label className="text-[10px] text-muted-foreground">Width</Label>
+                  <Input
+                    type="number"
+                    min={0.1}
+                    max={100}
+                    step="any"
+                    value={model.media.customAspectWidth}
+                    onChange={(e) => {
+                      const next = Number(e.target.value);
+                      if (Number.isFinite(next) && next > 0 && next <= 100) {
+                        updateCustomAspectRatio("custom", next, model.media.customAspectHeight);
+                      }
+                    }}
+                    className="mt-1 h-8 text-xs"
+                  />
+                </div>
+                <div>
+                  <Label className="text-[10px] text-muted-foreground">Height</Label>
+                  <Input
+                    type="number"
+                    min={0.1}
+                    max={100}
+                    step="any"
+                    value={model.media.customAspectHeight}
+                    onChange={(e) => {
+                      const next = Number(e.target.value);
+                      if (Number.isFinite(next) && next > 0 && next <= 100) {
+                        updateCustomAspectRatio("custom", model.media.customAspectWidth, next);
+                      }
+                    }}
+                    className="mt-1 h-8 text-xs"
+                  />
+                </div>
+                <p className="col-span-2 text-[10px] text-muted-foreground">
+                  Custom ratio {model.media.customAspectWidth}:{model.media.customAspectHeight}
+                </p>
+              </div>
+            ) : null}
           </div>
 
           <div>

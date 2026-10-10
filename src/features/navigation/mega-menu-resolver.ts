@@ -90,6 +90,8 @@ export type MegaMenuChildViewModel = {
   displayType: MegaMenuEffectiveDisplayType;
   image?: string;
   appearance: MegaMenuEffectiveDisplayType;
+  /** `image` keeps the photo frame; `icon` fills a card frame with the glyph; null for list/icons-only. */
+  cardMedia: "image" | "icon" | null;
   icon?: string;
   subtitle?: string;
   badge?: string;
@@ -205,6 +207,21 @@ function isVisualCardType(type: MenuItemType): boolean {
   );
 }
 
+export function hasMegaMenuImage(child: Pick<MenuItem, "imageUrl" | "megaMenuImageUrl">): boolean {
+  return Boolean(child.megaMenuImageUrl?.trim() || child.imageUrl?.trim());
+}
+
+/** Photo vs glyph inside a card/image frame. List and icons-only rows return null. */
+export function resolveChildCardMedia(
+  child: Pick<MenuItem, "megaMenuCardMedia">,
+  appearance: MegaMenuEffectiveDisplayType,
+): "image" | "icon" | null {
+  if (appearance === "list" || appearance === "icon") return null;
+  if (appearance === "image") return "image";
+  if (appearance === "card") return child.megaMenuCardMedia === "icon" ? "icon" : "image";
+  return null;
+}
+
 function isVisualCardThumbnail(type: MenuItemType, imageUrl?: string | null): boolean {
   if (!imageUrl?.trim()) return false;
   return isVisualCardType(type);
@@ -257,11 +274,16 @@ export function resolveEffectiveChildDisplayType(
     if (explicit === "image") return "image";
     if (explicit === "list") return "list";
     if (explicit === "card") return "card";
+    if (hasMegaMenuImage(child) && child.megaMenuCardMedia !== "icon") return "card";
     return legacy === "card" ? "card" : "list";
   }
 
   const automatic = PANEL_DEFAULT_DISPLAY[panelLayout];
   if (!explicit || explicit === "automatic") {
+    if (hasMegaMenuImage(child) && child.megaMenuCardMedia !== "icon" && panelLayout !== "iconGrid") {
+      if (panelLayout === "featured") return "image";
+      return "card";
+    }
     if (panelLayout === "iconGrid") return "icon";
     if (panelLayout === "productGrid") return "card";
     if (automatic === "card" && !shouldUseVisualCardForAutomatic(child, "grid") && !child.imageUrl) {
@@ -286,6 +308,7 @@ function buildChildViewModel(
   );
   const appearance =
     !explicit || explicit === "automatic" ? displayType : explicit;
+  const cardMedia = resolveChildCardMedia(child, appearance);
   const subtitle =
     mega?.childDescriptions?.[child.id]?.trim() ||
     undefined;
@@ -298,6 +321,7 @@ function buildChildViewModel(
     label: child.label,
     displayType,
     appearance,
+    cardMedia,
     image: child.megaMenuImageUrl?.trim() || child.imageUrl?.trim() || undefined,
     icon: child.icon?.trim() || undefined,
     subtitle,

@@ -8,6 +8,8 @@ type Props = {
   className?: string;
   /** Wrapper class for CSS breakpoint visibility (desktop top-nav). */
   slotClassName?: string;
+  /** Show this glyph even when the header default hides icons at this breakpoint. */
+  forceShow?: boolean;
 };
 
 /** True for legacy Font Awesome class suffixes stored on MenuItem.icon. */
@@ -20,7 +22,7 @@ export function isLegacyFaNavIcon(value: string): boolean {
  * - legacy Font Awesome suffixes like `fa-star`
  * - Icon Library iconIds like `search` / `home`
  */
-export function NavMenuGlyph({ icon, className, slotClassName }: Props) {
+export function NavMenuGlyph({ icon, className, slotClassName, forceShow }: Props) {
   const v = icon?.trim();
   if (!v) return null;
 
@@ -32,5 +34,9 @@ export function NavMenuGlyph({ icon, className, slotClassName }: Props) {
 
   if (!slotClassName) return glyph;
 
-  return <span className={slotClassName}>{glyph}</span>;
+  return (
+    <span className={slotClassName} data-nav-icon-override={forceShow ? "show" : undefined}>
+      {glyph}
+    </span>
+  );
 }

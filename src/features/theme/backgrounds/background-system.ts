@@ -168,10 +168,13 @@ export function clearSiteBackground(): void {
   applyGlassSiteOverlay(false);
 }
 
+const DEFAULT_SECTION_COLOR = "#0a0f0d";
+const DEFAULT_SECTION_GRADIENT = "linear-gradient(135deg, #047857, #0a0f0d)";
+
 export function sectionBackgroundToCss(bg: BlockSectionBackground | undefined): CSSProperties {
   if (!bg?.type || bg.type === "none") return {};
-  if (bg.type === "color" && bg.color) return { backgroundColor: bg.color };
-  if (bg.type === "gradient" && bg.gradient) return { background: bg.gradient };
+  if (bg.type === "color") return { backgroundColor: bg.color || DEFAULT_SECTION_COLOR };
+  if (bg.type === "gradient") return { background: bg.gradient || DEFAULT_SECTION_GRADIENT };
   return {};
 }
 

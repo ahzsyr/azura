@@ -9,6 +9,7 @@ import {
   TextField,
   ToggleField,
 } from "@/components/admin/settings-fields";
+import { SectionBackgroundField } from "@/components/settings/section-background-field";
 import { OptionButtonGroup } from "@/features/navigation/admin/header-builder-ui";
 import { PreloaderView } from "@/features/preloader/preloader-view";
 import { resolveSitePreloader } from "@/features/preloader/resolve-site-preloader";
@@ -16,6 +17,7 @@ import {
   PRELOADER_ANIMATIONS,
   PRELOADER_CENTER_TYPES,
   PRELOADER_MODES,
+  type PreloaderBackground,
   type SitePreloaderSettings,
 } from "@/features/preloader/site-preloader.schema";
 import { adminLocale } from "@/features/catalog/admin/catalog-admin-config";
@@ -124,6 +126,7 @@ export function PreloaderAdminPanel({
         </CardHeader>
         <CardContent>
           <div className="preloader-preview-frame">
+            <div className="preloader-preview-backdrop" aria-hidden />
             <PreloaderView settings={previewSettings} variant="preview" logoUrl={themeLogoUrl} />
           </div>
         </CardContent>
@@ -234,16 +237,33 @@ export function PreloaderAdminPanel({
 
       <Card>
         <CardHeader>
+          <CardTitle className="text-base">Background</CardTitle>
+          <CardDescription>
+            Same options as block section backgrounds. Glass is the default and blurs the page behind the preloader.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <SectionBackgroundField
+            label="Background type"
+            value={settings.background}
+            onChange={(background: PreloaderBackground) => {
+              markDirty();
+              setSettings((prev) => ({
+                ...prev,
+                background,
+                backgroundColor: background.type === "color" ? background.color?.trim() || "" : "",
+              }));
+            }}
+          />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
           <CardTitle className="text-base">Colors</CardTitle>
           <CardDescription>Leave empty to inherit from the published theme tokens.</CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-4 sm:grid-cols-3">
-          <TextField
-            label="Background"
-            value={settings.backgroundColor}
-            onChange={(v) => patch("backgroundColor", v)}
-            placeholder="Inherit theme"
-          />
+        <CardContent className="grid gap-4 sm:grid-cols-2">
           <TextField
             label="Primary"
             value={settings.primaryColor}

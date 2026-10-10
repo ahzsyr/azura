@@ -100,6 +100,8 @@ export class SearchResultMapper {
       title: row.title,
       urlPath: row.urlPath,
       entityType: row.entityType,
+      entityId: row.entityId,
+      locale: row.locale ?? "",
       kind: searchRegistry.kindForEntityType(row.entityType, row.metadata),
       contentTypeSlug: resolveContentTypeSlug(meta, {
         entityType: row.entityType,

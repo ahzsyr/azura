@@ -1,4 +1,5 @@
 import { OptimizedImage } from "@/components/ui/optimized-image";
+import { BackgroundVideo } from "@/features/builder/blocks/marketing/components/background-video";
 import { normalizeLocalMediaUrl, normalizeRemoteImageUrl } from "@/lib/config/next-image";
 import { cn } from "@/lib/utils";
 import {
@@ -69,14 +70,9 @@ export function BlockBackgroundLayer({
         />
       )}
       {hasVideo && (
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          aria-hidden
+        <BackgroundVideo
+          src={videoUrl!}
           className="absolute inset-0 z-0 h-full w-full object-cover"
-          src={videoUrl}
         />
       )}
       {hasSolid && (

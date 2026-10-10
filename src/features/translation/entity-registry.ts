@@ -174,6 +174,14 @@ export const ENTITY_REGISTRY: Record<TranslatableEntityType, EntityTypeConfig> =
     fields: [
       { field: "heading", label: "Heading", type: "text", required: true },
       { field: "body", label: "Body", type: "textarea" },
+      { field: "customContent", label: "Custom content", type: "richtext" },
+    ],
+  },
+  FooterContactItem: {
+    label: "Footer contact line",
+    fields: [
+      { field: "label", label: "Label", type: "text" },
+      { field: "value", label: "Text", type: "richtext" },
     ],
   },
   FooterLink: {

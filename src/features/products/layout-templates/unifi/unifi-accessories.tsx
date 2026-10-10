@@ -38,7 +38,7 @@ export function UniFiAccessories({ items, currencyCtx, displayCode, numberLocale
             <div key={`${name}-${index}`} className="unifi-accessories__card">
               {item.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={item.image} alt="" className="unifi-accessories__thumb" />
+                <img src={item.image} alt="" loading="lazy" className="unifi-accessories__thumb" />
               ) : (
                 <div className="unifi-accessories__thumb unifi-accessories__thumb--empty" />
               )}

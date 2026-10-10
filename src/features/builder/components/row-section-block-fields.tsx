@@ -2,6 +2,11 @@
 
 import type { BlockNode } from "@/types/builder";
 import { Label } from "@/components/ui/label";
+import {
+  LocalizedBlockInput,
+  LocalizedBlockTextarea,
+  LocalizedBlockTitle,
+} from "@/features/builder/block-translation-context";
 import { rowSectionColumnLayoutsForMax } from "@/features/builder/container-blocks";
 
 type Props = {
@@ -33,6 +38,9 @@ export function RowSectionBlockFields({ block, setProp }: Props) {
 
   return (
     <div className="space-y-3">
+      <LocalizedBlockInput block={block} field="badge" label="Badge" />
+      <LocalizedBlockTitle block={block} />
+      <LocalizedBlockTextarea block={block} field="subtitle" label="Subtitle" rows={2} />
       <div className="grid md:grid-cols-2 gap-2">
         <div>
           <Label className="text-xs">Padding</Label>

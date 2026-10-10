@@ -38,6 +38,8 @@ import { logosServerPlugin } from "./logos/server-plugin";
 import { partnersServerPlugin } from "./partners/server-plugin";
 import { richTextServerPlugin } from "./rich_text/server-plugin";
 import { customHtmlServerPlugin } from "./custom_html/server-plugin";
+import { spacerServerPlugin } from "./spacer/server-plugin";
+import { dividerServerPlugin } from "./divider/server-plugin";
 import type { ComponentType } from "react";
 import type { SectionRenderProps } from "./types";
 
@@ -68,6 +70,8 @@ const plugins: FooterSectionServerRegistryEntry[] = [
   entry(partnersServerPlugin, partnersServerPlugin.Renderer),
   entry(richTextServerPlugin, richTextServerPlugin.Renderer),
   entry(customHtmlServerPlugin, customHtmlServerPlugin.Renderer),
+  entry(spacerServerPlugin, spacerServerPlugin.Renderer),
+  entry(dividerServerPlugin, dividerServerPlugin.Renderer),
 ];
 
 export const footerSectionServerRegistry = Object.fromEntries(
@@ -101,4 +105,6 @@ export const EXTENDED_SECTION_TYPES = [
   "partners",
   "rich_text",
   "custom_html",
+  "spacer",
+  "divider",
 ] as const satisfies readonly FooterSectionType[];

@@ -15,7 +15,7 @@ import { syncEntityTranslationsFromForm } from "@/features/translation/form-sync
 import { getDefaultLocaleFieldFromForm } from "@/features/translation/form-fields";
 import { mergeSearchDefaultsIntoAdminConfig } from "@/features/content/generate-search-profile-defaults";
 import { loadContentTypeOptionsForBuilder } from "@/features/content/admin/load-content-type-builder-options";
-import { slugifyContentTypeName } from "@/features/content/content-admin-paths";
+import { contentPublicSegment, slugifyContentTypeName } from "@/features/content/content-admin-paths";
 import { isCustomContentTypeSlug } from "@/templates/preset-template-map";
 import {
   getBuiltinContentType,
@@ -95,7 +95,7 @@ async function saveContentTypeFromForm(formData: FormData) {
   const existing = parsed.id
     ? await prisma.contentType.findUnique({
         where: { id: parsed.id },
-        select: { slug: true, adminConfig: true },
+        select: { slug: true, adminConfig: true, routePrefix: true },
       })
     : null;
   if (parsed.id && !existing) {
@@ -163,7 +163,10 @@ async function saveContentTypeFromForm(formData: FormData) {
     revalidatePath(`/admin/content/${type.slug}`);
     revalidatePath(`/${type.slug}`);
     revalidatePath(`/pages/${type.slug}`);
-    if (routePrefix) revalidatePath(`/${routePrefix}`);
+    const nextSegment = contentPublicSegment(routePrefix, type.slug);
+    const previousSegment = contentPublicSegment(existing?.routePrefix, existing?.slug ?? type.slug);
+    if (nextSegment) revalidatePath(`/${nextSegment}`);
+    if (previousSegment && previousSegment !== nextSegment) revalidatePath(`/${previousSegment}`);
     revalidatePath(`/compare/${parsed.slug}`);
     if (existing?.slug && existing.slug !== type.slug) {
       revalidatePath(`/admin/content/${existing.slug}`);

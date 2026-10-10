@@ -21,7 +21,11 @@ import {
 } from "@/features/navigation/header-root-attributes";
 import { resolveMobileMenuAppearance } from "@/features/navigation/header-menu-appearance";
 import { NAV_MOBILE_MQ } from "@/features/navigation/nav-breakpoints";
-import { resolveNavIconVisibility, shouldMountMobileNavIcons } from "@/features/navigation/nav-icon-visibility";
+import {
+  menuTreeForcesMobileIcons,
+  resolveNavIconVisibility,
+  shouldMountMobileNavIcons,
+} from "@/features/navigation/nav-icon-visibility";
 import { requestOpenSearch } from "@/capabilities/search/components/search-prefetch";
 import "./header-builder.css";
 
@@ -112,7 +116,8 @@ export function HeaderRenderer({
   });
   const mobileMenuAppearance = resolveMobileMenuAppearance(settings);
   const iconVisibility = resolveNavIconVisibility(settings);
-  const showMobileIcons = shouldMountMobileNavIcons(iconVisibility);
+  const showMobileIcons =
+    shouldMountMobileNavIcons(iconVisibility) || menuTreeForcesMobileIcons(mobileItems);
 
   const localeLabel = localeCode.split("-")[0].toUpperCase();
   let actionsForRender = headerActions.map((a) =>
@@ -158,7 +163,7 @@ export function HeaderRenderer({
                 items={desktopItems}
                 menuType={settings.menuType}
                 localeCode={localeCode}
-                showIcons={iconVisibility.desktop}
+                iconVisibility={iconVisibility}
               />
             )}
             <div className="nav-actions">

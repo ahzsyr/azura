@@ -103,6 +103,12 @@ export type MegaMenuChildDisplayType =
   | "image"
   | "card";
 
+/** Where an item's optional nav icon is shown. Unset inherits header default visibility. */
+export type MenuIconPlacement = "desktop" | "mobile" | "both";
+
+/** Card frame media when the child appearance is a card. Unset keeps the photo. */
+export type MegaMenuCardMedia = "image" | "icon";
+
 export interface MegaMenuNavItem {
   id: string;
   label: string;
@@ -212,6 +218,11 @@ export interface MenuItem {
   type: MenuItemType;
   label: string;
   icon?: string;
+  /**
+   * Nav glyph visibility. Desktop is the main nav; mobile includes the tablet drawer.
+   * Unset follows header default icon visibility.
+   */
+  iconPlacement?: MenuIconPlacement;
   placement: MenuPlacement;
   children: MenuItem[];
   megaMenuType?: MenuLayoutType;
@@ -221,6 +232,11 @@ export interface MenuItem {
    * When unset, falls back to existing automatic visual-card detection.
    */
   megaMenuChildDisplayType?: MegaMenuChildDisplayType;
+  /**
+   * When appearance is a card: `image` keeps the photo, `icon` fills the frame with the glyph.
+   * Icons-only appearance is `megaMenuChildDisplayType: "icon"`.
+   */
+  megaMenuCardMedia?: MegaMenuCardMedia;
   /** Optional image override for the image presentation inside mega menus. */
   megaMenuImageUrl?: string;
   url?: string;
@@ -336,6 +352,8 @@ export type ResolvedHeaderOverlay = {
 export interface HeaderBuilderSettings {
   headerStyle: HeaderStyle;
   headerBorderRadius?: HeaderBorderRadius;
+  /** Desktop mega menu and dropdown panel corners. Unset follows the header radius. */
+  menuBorderRadius?: HeaderBorderRadius;
   menuType: MenuLayoutType;
   mobileType: MobileNavType;
   headerDesktopMode: HeaderDesktopMode;

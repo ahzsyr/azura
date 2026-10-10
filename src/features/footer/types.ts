@@ -41,6 +41,32 @@ export interface FooterLink {
   openInNewTab?: boolean;
 }
 
+export type FooterContactItemType =
+  | "phone"
+  | "email"
+  | "address"
+  | "text"
+  | "richtext"
+  /** @deprecated Use `richtext`. */
+  | "custom";
+
+export interface FooterContactItem {
+  id: string;
+  /** Phone, email, address, plain text, or rich text. */
+  type: FooterContactItemType;
+  /** Marketing icon name or icon-library id. */
+  icon?: string;
+  /** Optional label shown before the value. */
+  label?: string;
+  /** Phone, email, address, plain text, or HTML for rich text. */
+  value: string;
+  /** Optional link override. Phone and email get tel:/mailto: when this is empty. */
+  url?: string;
+  openInNewTab?: boolean;
+  /** Optional badge text */
+  badge?: string;
+}
+
 export interface FooterColumn {
   id: string;
   type: FooterSectionType;
@@ -54,6 +80,10 @@ export interface FooterColumn {
   showEmail?: boolean;
   showPhone?: boolean;
   showAddress?: boolean;
+  /** Optional custom rich-text content shown below the standard contact details. */
+  customContent?: string;
+  /** Custom contact items for more flexible contact information */
+  customContactItems?: FooterContactItem[];
   /** Pin section to an explicit layout column (1-based). Omit for auto-placement by array order. */
   columnSlot?: 1 | 2 | 3 | 4;
   /** Hide this section on tablet viewports. */
@@ -69,6 +99,8 @@ export interface FooterColumn {
   socialIconSize?: FooterSocialSize;
   /** Stacking direction of social items. */
   socialLayout?: FooterSocialLayout;
+  height?: number;
+  style?: "solid" | "dashed" | "gold";
 }
 
 export interface FooterCopyright {
@@ -135,6 +167,8 @@ export interface ResolvedFooterColumn {
   showEmail: boolean;
   showPhone: boolean;
   showAddress: boolean;
+  customContent: string;
+  customContactItems: FooterContactItem[];
   columnSlot?: 1 | 2 | 3 | 4;
   hiddenOnTablet: boolean;
   hiddenOnMobile: boolean;
@@ -142,6 +176,8 @@ export interface ResolvedFooterColumn {
   socialStyle: FooterSocialStyle;
   socialIconSize: FooterSocialSize;
   socialLayout: FooterSocialLayout;
+  height: number;
+  style: "solid" | "dashed" | "gold";
 }
 
 export interface ResolvedFooterDesign extends Required<FooterDesign> {}

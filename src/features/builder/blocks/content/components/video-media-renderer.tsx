@@ -4,8 +4,8 @@ import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { EmbedVideoPlayer } from "@/features/builder/blocks/media/components/embed-video-player";
 import {
-  MEDIA_ASPECT_CLASS,
   MEDIA_SIZE_CLASS,
+  mediaAspectFrame,
   resolveCustomDimensionStyle,
   type ImageMediaAspectRatio,
   type ImageMediaDimensionUnit,
@@ -21,6 +21,8 @@ type Props = {
   className?: string;
   hugOrAuthoredWidth?: boolean;
   aspectRatio?: ImageMediaAspectRatio;
+  customAspectWidth?: number | null;
+  customAspectHeight?: number | null;
   size?: ImageMediaSize;
   objectFit?: ImageMediaObjectFit;
   controls?: boolean;
@@ -41,6 +43,8 @@ export function VideoMediaRenderer({
   className,
   hugOrAuthoredWidth = false,
   aspectRatio = "16/9",
+  customAspectWidth = null,
+  customAspectHeight = null,
   size = "auto",
   objectFit = "cover",
   controls = true,
@@ -59,8 +63,8 @@ export function VideoMediaRenderer({
     frameStyle.borderRadius = typeof borderRadius === "number" ? `${borderRadius}px` : borderRadius;
   }
 
-  const aspectClass =
-    aspectRatio !== "auto" ? MEDIA_ASPECT_CLASS[aspectRatio] : MEDIA_ASPECT_CLASS["16/9"];
+  const resolvedRatio = aspectRatio === "auto" ? "16/9" : aspectRatio;
+  const aspect = mediaAspectFrame(resolvedRatio, customAspectWidth, customAspectHeight);
   const sizeClass = size !== "auto" && size !== "custom" ? MEDIA_SIZE_CLASS[size] : "";
   const defaultMax =
     size === "auto"
@@ -77,7 +81,9 @@ export function VideoMediaRenderer({
     heightUnit,
     widthAuto,
     heightAuto,
-    aspectRatio,
+    aspectRatio: resolvedRatio,
+    customAspectWidth,
+    customAspectHeight,
   });
   const hasCustomDimensions = size === "custom" || explicitWidth !== undefined || explicitHeight !== undefined;
 
@@ -106,20 +112,16 @@ export function VideoMediaRenderer({
         "relative w-full min-w-0 overflow-hidden bg-black leading-none",
         "mx-auto",
         size === "custom" ? "" : sizeClass || defaultMax,
-        aspectClass,
+        aspect.className,
         borderRadius === undefined && "rounded-xl",
         className,
       )}
-      style={
-        hasCustomDimensions
-          ? {
-              ...frameStyle,
-              ...(explicitWidth ? { width: explicitWidth } : {}),
-              ...(explicitHeight ? { height: explicitHeight } : {}),
-              ...(aspectRatio !== "auto" ? { aspectRatio: aspectRatio } : {}),
-            }
-          : frameStyle
-      }
+      style={{
+        ...frameStyle,
+        ...(hasCustomDimensions && explicitWidth ? { width: explicitWidth } : {}),
+        ...(hasCustomDimensions && explicitHeight ? { height: explicitHeight } : {}),
+        ...aspect.style,
+      }}
       data-video-frame="true"
     >
       <EmbedVideoPlayer

@@ -8,12 +8,12 @@ import {
   ImageContentRenderer,
 } from "@/features/builder/blocks/content/components/image-content-renderer";
 import {
-  CONTENT_POSITION_PLACE_CLASS,
-  MEDIA_ASPECT_CLASS,
   MEDIA_GAP_CLASS,
   MEDIA_WIDTH_CLASS,
   contentAreaAlignClasses,
+  mediaAspectFrame,
   normalizeImageBlockSettings,
+  overlayContentLayout,
   sideBySideLayoutClasses,
   shouldRenderImageBlock,
   type ImageBlockModel,
@@ -59,6 +59,8 @@ function MediaColumn({
       borderRadius={block.styles?.borderRadius}
       hugOrAuthoredWidth={model.isHugMode || hasAuthoredWidth(block)}
       aspectRatio={model.media.aspectRatio}
+      customAspectWidth={model.media.customAspectWidth}
+      customAspectHeight={model.media.customAspectHeight}
       size={model.media.size}
       objectFit={model.media.objectFit}
       width={model.media.width}
@@ -101,28 +103,30 @@ function OverlayOrBackgroundLayout({
   block,
   locale,
   lazyLoad,
-  mode,
 }: {
   model: ImageBlockModel;
   block: BlockNode;
   locale: string;
   lazyLoad?: boolean;
-  mode: "overlay" | "background";
 }) {
-  const place = CONTENT_POSITION_PLACE_CLASS[model.layout.contentPosition];
+  const place = overlayContentLayout(model.layout.contentPosition);
   const hasMedia = Boolean(model.media.url);
-  const aspectClass =
-    model.media.aspectRatio !== "auto"
-      ? MEDIA_ASPECT_CLASS[model.media.aspectRatio]
-      : "min-h-[16rem] md:min-h-[20rem]";
+  const lockedAspect = model.media.aspectRatio !== "auto";
+  const aspect = mediaAspectFrame(
+    model.media.aspectRatio,
+    model.media.customAspectWidth,
+    model.media.customAspectHeight,
+  );
+  const frameClass = lockedAspect ? aspect.className : "min-h-[16rem] md:min-h-[20rem]";
 
   return (
     <div
       className={cn(
         "relative w-full min-w-0 overflow-hidden",
-        mode === "background" && aspectClass,
+        frameClass,
         block.styles?.borderRadius === undefined && "rounded-xl",
       )}
+      style={lockedAspect ? aspect.style : undefined}
     >
       {hasMedia ? (
         <ImageMediaRenderer
@@ -135,27 +139,11 @@ function OverlayOrBackgroundLayout({
         />
       ) : null}
       {model.content.hasBodyContent ? (
-        <div
-          className={cn(
-            "relative z-[1] grid w-full grid-cols-3 grid-rows-3 gap-4 p-6 md:p-10",
-            mode === "overlay" && hasMedia && aspectClass,
-            mode === "background" && "min-h-[16rem]",
-          )}
-        >
-          <div className={cn("max-w-xl w-full", place)}>
+        <div className={place.frame}>
+          <div className={place.cell}>
             <ContentColumn model={model} locale={locale} />
           </div>
         </div>
-      ) : hasMedia ? (
-        <div
-          className={cn(
-            "relative w-full",
-            model.media.aspectRatio !== "auto"
-              ? MEDIA_ASPECT_CLASS[model.media.aspectRatio]
-              : "aspect-[16/9]",
-          )}
-          aria-hidden
-        />
       ) : null}
     </div>
   );
@@ -331,7 +319,6 @@ export function ImageContentBlock({ block, props, locale, loc, lazyLoad }: Props
         block={block}
         locale={locale}
         lazyLoad={lazyLoad}
-        mode={pos}
       />
     );
   } else if (pos === "left" || pos === "right") {

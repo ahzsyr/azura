@@ -8,6 +8,7 @@ import {
 } from "@/features/navigation/source-families";
 import type { HeaderBuilderCatalog, MenuItem } from "@/features/navigation/types";
 import {
+  resolveChildCardMedia,
   resolveEffectiveChildDisplayType,
   resolveMegaMenu,
 } from "@/features/navigation/mega-menu-resolver";
@@ -209,5 +210,47 @@ describe("mega menu child appearance schema", () => {
     assert.equal(view.isV2, true);
     const appearances = view.panels[0]?.children.map((c) => c.appearance);
     assert.deepEqual(appearances, ["list", "icon", "image", "card"]);
+    assert.deepEqual(
+      view.panels[0]?.children.map((c) => c.cardMedia),
+      [null, null, "image", "image"],
+    );
+  });
+
+  it("keeps a photo card when an item also has an icon", () => {
+    const child: MenuItem = {
+      id: "drafting",
+      type: "link",
+      label: "Drafting",
+      placement: "both",
+      children: [],
+      url: "/drafting",
+      icon: "pen-tool",
+      imageUrl: "/drafting.jpg",
+      megaMenuChildDisplayType: "card",
+      megaMenuCardMedia: "image",
+    };
+    assert.equal(resolveEffectiveChildDisplayType(child, "cards"), "card");
+    assert.equal(resolveChildCardMedia(child, "card"), "image");
+
+    const iconCard: MenuItem = { ...child, id: "icon-card", megaMenuCardMedia: "icon" };
+    assert.equal(resolveChildCardMedia(iconCard, "card"), "icon");
+
+    const iconsOnly: MenuItem = {
+      ...child,
+      id: "icons-only",
+      megaMenuChildDisplayType: "icon",
+      megaMenuCardMedia: undefined,
+    };
+    assert.equal(resolveEffectiveChildDisplayType(iconsOnly, "cards"), "icon");
+    assert.equal(resolveChildCardMedia(iconsOnly, "icon"), null);
+
+    const automaticWithImage: MenuItem = {
+      ...child,
+      id: "auto",
+      megaMenuChildDisplayType: undefined,
+      megaMenuCardMedia: undefined,
+    };
+    assert.equal(resolveEffectiveChildDisplayType(automaticWithImage, "links"), "card");
+    assert.equal(resolveChildCardMedia(automaticWithImage, "card"), "image");
   });
 });

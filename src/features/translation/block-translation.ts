@@ -70,7 +70,7 @@ export const BLOCK_TRANSLATABLE_FIELDS: Partial<Record<BlockType, string[]>> = {
   spacer: [],
   divider: [],
   section: [],
-  rowSection: [],
+  rowSection: ["badge", "title", "subtitle"],
   leadForm: [
     "title",
     "subtitle",

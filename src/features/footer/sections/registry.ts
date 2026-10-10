@@ -12,7 +12,10 @@ import {
 const lazyEditors: Partial<Record<FooterSectionType, ComponentType<SectionEditorProps>>> = {
   brand: dynamic(() => import("./brand/editor").then((m) => m.BrandEditor)),
   menu: dynamic(() => import("./menu/editor").then((m) => m.MenuEditor)),
+  contact: dynamic(() => import("./contact/editor").then((m) => m.ContactEditor)),
   social: dynamic(() => import("./social/editor").then((m) => m.SocialEditor)),
+  spacer: dynamic(() => import("./spacer/editor").then((m) => m.SpacerEditor)),
+  divider: dynamic(() => import("./divider/editor").then((m) => m.DividerEditor)),
 };
 
 function toClientPlugin(server: FooterSectionServerRegistryEntry): FooterSectionPlugin {

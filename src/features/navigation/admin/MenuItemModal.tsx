@@ -3,11 +3,18 @@
 import { useEffect, useState } from "react";
 import type {
   HeaderBuilderCatalog,
+  MenuIconPlacement,
   MenuItem,
   MenuItemType,
   MenuLayoutType,
   MenuPlacement,
 } from "@/features/navigation/types";
+import {
+  childMediaChoicePatch,
+  childMediaChoiceShowsImagePicker,
+  readChildMediaChoice,
+  type ChildMediaChoice,
+} from "@/features/navigation/menu-item-appearance";
 import {
   initMegaFormState,
   megaFormToPersistedConfig,
@@ -44,7 +51,9 @@ interface FormState {
   type: MenuItemType;
   label: string;
   icon: string;
-  megaMenuChildDisplayType: "automatic" | "list" | "icon" | "image" | "card";
+  iconPlacement: MenuIconPlacement;
+  iconPlacementExplicit: boolean;
+  childMediaChoice: ChildMediaChoice;
   megaMenuImageUrl: string;
   badgeText: string;
   placement: MenuPlacement;
@@ -193,15 +202,9 @@ function buildFormState(
     type,
     label: item?.label ?? "",
     icon: item?.icon ?? "",
-    megaMenuChildDisplayType: (() => {
-      const raw = (item?.megaMenuChildDisplayType ?? "automatic") as string;
-      if (raw === "link") return "list" as const;
-      if (raw === "featured" || raw === "product") return "card" as const;
-      if (raw === "list" || raw === "icon" || raw === "image" || raw === "card" || raw === "automatic") {
-        return raw;
-      }
-      return "automatic" as const;
-    })(),
+    iconPlacement: item?.iconPlacement ?? "both",
+    iconPlacementExplicit: Boolean(item?.iconPlacement),
+    childMediaChoice: item ? readChildMediaChoice(item) : "automatic",
     megaMenuImageUrl: item?.megaMenuImageUrl ?? "",
     badgeText: item?.badgeText ?? "",
     placement: item?.placement ?? defaultPlacement,
@@ -272,11 +275,17 @@ export function MenuItemModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const label = form.label.trim() || "New Item";
+    const mediaPatch = childMediaChoicePatch(
+      form.childMediaChoice,
+      editingItem?.megaMenuChildDisplayType,
+    );
     const built = newMenuItemFromForm({
       type: form.type,
       label,
       icon: form.icon.trim() || undefined,
-      megaMenuChildDisplayType: form.megaMenuChildDisplayType,
+      iconPlacement: form.iconPlacementExplicit || mode !== "edit" ? form.iconPlacement : undefined,
+      megaMenuChildDisplayType: mediaPatch.megaMenuChildDisplayType,
+      megaMenuCardMedia: mediaPatch.megaMenuCardMedia,
       megaMenuImageUrl: form.megaMenuImageUrl.trim() || undefined,
       placement: form.placement,
       url: form.url,
@@ -478,6 +487,22 @@ export function MenuItemModal({
                   value={form.icon}
                   onChange={(iconId) => patch({ icon: iconId })}
                 />
+                <HeaderField label="Placement">
+                  <OptionButtonGroup
+                    value={form.iconPlacement}
+                    options={[
+                      { value: "desktop", label: "Desktop" },
+                      { value: "mobile", label: "Mobile" },
+                      { value: "both", label: "Both" },
+                    ]}
+                    onChange={(v) => patch({ iconPlacement: v, iconPlacementExplicit: true })}
+                    columns={3}
+                  />
+                </HeaderField>
+                <p className="text-xs text-muted-foreground">
+                  Where this icon shows. Mobile includes the tablet drawer. Leave it untouched to keep
+                  Default icon visibility.
+                </p>
                 {mode !== "edit" ? (
                   <HeaderField label="Badge" htmlFor="m-badge">
                     <Input
@@ -492,24 +517,22 @@ export function MenuItemModal({
                     <select
                       id="m-child-display"
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                      value={form.megaMenuChildDisplayType}
+                      value={form.childMediaChoice}
                       onChange={(e) =>
                         patch({
-                          megaMenuChildDisplayType: e.target.value as FormState["megaMenuChildDisplayType"],
+                          childMediaChoice: e.target.value as ChildMediaChoice,
                         })
                       }
                     >
                       <option value="automatic">Automatic</option>
-                      <option value="list">Text (list)</option>
-                      <option value="icon">Icon</option>
-                      <option value="image">Image</option>
-                      <option value="card">Card</option>
+                      <option value="list">Text</option>
+                      <option value="card-image">Card with image</option>
+                      <option value="card-icon">Card with icon</option>
+                      <option value="icon-only">Icons only</option>
                     </select>
                   </HeaderField>
                 ) : null}
-                {parentId &&
-                (form.megaMenuChildDisplayType === "image" ||
-                  form.megaMenuChildDisplayType === "card") ? (
+                {parentId && childMediaChoiceShowsImagePicker(form.childMediaChoice) ? (
                   <UrlPrimaryMediaPickerField
                     label="Mega menu image"
                     url={form.megaMenuImageUrl}

@@ -895,6 +895,9 @@ function PreviewBlock({
       const gap = (p.gap as string) ?? "md";
       const stackOnMobile = (p.stackOnMobile as boolean) ?? true;
       const verticalAlign = (p.verticalAlign as string) ?? "stretch";
+      const title = loc("title");
+      const subtitle = loc("subtitle");
+      const badge = loc("badge");
       return (
         <div
           className={
@@ -908,6 +911,15 @@ function PreviewBlock({
           <p className="text-[10px] text-muted-foreground uppercase tracking-wide px-1 mb-2">
             Row · {Math.min(childCount, maxColumns)}/{maxColumns} columns
           </p>
+          {badge || title || subtitle ? (
+            <div className="mb-2 px-1 text-center">
+              {badge ? (
+                <p className="text-[10px] uppercase tracking-wide text-muted-foreground">{badge}</p>
+              ) : null}
+              {title ? <p className="text-sm font-medium">{title}</p> : null}
+              {subtitle ? <p className="text-xs text-muted-foreground">{subtitle}</p> : null}
+            </div>
+          ) : null}
           {extraCount > 0 && (
             <p className="text-[10px] text-amber-600 mb-2 px-1">
               {extraCount} extra block{extraCount > 1 ? "s" : ""} hidden (exceeds max columns)

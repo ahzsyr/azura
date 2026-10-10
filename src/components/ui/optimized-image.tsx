@@ -15,6 +15,8 @@ type OptimizedImageProps = ImageProps & {
   aboveFold?: boolean;
   /** Disable lazy fade-in (e.g. tiny thumbnails) */
   skipFade?: boolean;
+  /** Override fetch priority for network resource loading */
+  fetchPriority?: "high" | "low" | "auto";
 };
 
 /**
@@ -40,6 +42,7 @@ export function OptimizedImage({
   skipFade = false,
   unoptimized,
   src: rawSrc,
+  fetchPriority,
   ...props
 }: OptimizedImageProps) {
   const imgRef = useRef<HTMLImageElement>(null);
@@ -50,10 +53,11 @@ export function OptimizedImage({
   const resolvedUnoptimized =
     unoptimized ??
     (typeof src === "string" ? !shouldOptimizeNextImage(src) : false);
-  const resolvedLoading = loading ?? (aboveFold ? undefined : "lazy");
+  const resolvedLoading = loading ?? (aboveFold ? "eager" : "lazy");
   const shouldFade =
     !skipFade && !aboveFold && !props.priority && resolvedLoading === "lazy";
   const resolvedPriority = props.priority ?? (aboveFold ? true : undefined);
+  const resolvedFetchPriority = fetchPriority ?? (aboveFold ? "high" : "auto");
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -74,6 +78,7 @@ export function OptimizedImage({
         className={cn(fill && "absolute inset-0 h-full w-full", className)}
         loading={resolvedLoading}
         decoding="async"
+        fetchPriority={resolvedFetchPriority}
         data-skip-img-fade
         style={style}
         onLoad={onLoad}
@@ -92,6 +97,7 @@ export function OptimizedImage({
       sizes={sizes}
       loading={resolvedLoading}
       priority={resolvedPriority}
+      fetchPriority={resolvedFetchPriority}
       className={cn(
         className,
         shouldFade && !loaded && "img-fade-pending",

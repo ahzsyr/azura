@@ -7,11 +7,16 @@ import type { PublicLocale } from "@/i18n/locale-config";
 import { resolveMarketingIcon } from "@/features/builder/blocks/marketing/lib/icon-map";
 import { resolveItemField } from "@/features/builder/blocks/marketing/lib/resolve-item-locale";
 import { normalizeFeatureGridProps } from "@/features/builder/blocks/marketing/lib/normalize-feature-grid";
+import { FeatureGridAccordion } from "@/features/builder/blocks/marketing/components/feature-grid-accordion";
 import { FeatureGridCard } from "@/features/builder/blocks/marketing/components/feature-grid-card";
+import { FeatureGridCarousel } from "@/features/builder/blocks/marketing/components/feature-grid-carousel";
 import type { FeatureGridItem } from "@/features/builder/blocks/marketing/schemas/marketing-blocks";
 import type { BlockNode } from "@/types/builder";
 import type { BlockOverflowContext } from "@/features/builder/components/marketing-items-overflow";
-import { MarketingItemsOverflow } from "@/features/builder/components/marketing-items-overflow";
+import {
+  MarketingItemsOverflow,
+  shouldUseResponsiveOverflow,
+} from "@/features/builder/components/marketing-items-overflow";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -120,40 +125,43 @@ export function FeatureGridView({
 
   const HeaderIcon = cfg.headerIcon ? resolveMarketingIcon(cfg.headerIcon) : null;
 
+  const cardProps = {
+    locale,
+    itemLocaleOptions,
+    cardPresentation: cfg.cardPresentation,
+    cardStyle: cfg.cardStyle,
+    defaultVisualType: cfg.defaultVisualType,
+    imageAspect: cfg.imageAspect,
+    contentAlign: cfg.contentAlign,
+    equalHeight: cfg.equalHeight,
+    minCardHeight: cfg.minCardHeight,
+    iconSize: cfg.iconSize,
+    iconShape: cfg.iconShape,
+    showAccentLine: cfg.showAccentLine,
+    expandEnabled: cfg.expandEnabled,
+    expandMode: cfg.expandMode,
+    previewBy: cfg.previewBy,
+    previewLimit: cfg.previewLimit,
+    readMoreLabel: cfg.readMoreLabel,
+    readLessLabel: cfg.readLessLabel,
+    readMoreStyle: cfg.readMoreStyle,
+    expandHideWhenFooterLink: cfg.expandHideWhenFooterLink,
+    cardHoverEffect: cfg.cardHoverEffect,
+    cardBackgroundColor: cfg.cardBackgroundColor,
+    cardTextColor: cfg.cardTextColor,
+    cardBorderColor: cfg.cardBorderColor,
+    cardAccentColor: cfg.cardAccentColor,
+    cardBorderRadius: cfg.cardBorderRadius,
+    cardPadding: cfg.cardPadding,
+    contentOrder: cfg.contentOrder,
+    visibleElements: cfg.visibleElements,
+  };
+
   const renderCard = (item: FeatureGridItem, index: number) => (
-    <FeatureGridCard
-      key={item.id}
-      item={item}
-      index={index}
-      locale={locale}
-      itemLocaleOptions={itemLocaleOptions}
-      layout={cfg.layout}
-      cardStyle={cfg.cardStyle}
-      contentAlign={cfg.contentAlign}
-      equalHeight={cfg.equalHeight}
-      minCardHeight={cfg.minCardHeight}
-      iconSize={cfg.iconSize}
-      iconShape={cfg.iconShape}
-      showAccentLine={cfg.showAccentLine}
-      expandEnabled={cfg.expandEnabled}
-      expandMode={cfg.expandMode}
-      previewBy={cfg.previewBy}
-      previewLimit={cfg.previewLimit}
-      readMoreLabel={cfg.readMoreLabel}
-      readLessLabel={cfg.readLessLabel}
-      readMoreStyle={cfg.readMoreStyle}
-      cardHoverEffect={cfg.cardHoverEffect}
-      cardBackgroundColor={cfg.cardBackgroundColor}
-      cardTextColor={cfg.cardTextColor}
-      cardBorderColor={cfg.cardBorderColor}
-      cardAccentColor={cfg.cardAccentColor}
-      cardBorderRadius={cfg.cardBorderRadius}
-      cardPadding={cfg.cardPadding}
-    />
+    <FeatureGridCard key={item.id} item={item} index={index} {...cardProps} />
   );
 
-  const useCarousel = cfg.layout === "carousel";
-  const useOverflow = Boolean(block && overflow) || useCarousel;
+  const useOverflow = Boolean(block && overflow && shouldUseResponsiveOverflow(overflow.flags));
 
   return (
     <AnimatedSection>
@@ -224,19 +232,49 @@ export function FeatureGridView({
             return { title: itemTitle, body: desc };
           }}
         />
-      ) : useCarousel ? (
-        <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div className="flex gap-6" style={{ minWidth: "min-content" }}>
-            {filtered.map((item, index) => (
-              <div
-                key={item.id}
-                className="w-[min(100%,320px)] shrink-0 sm:w-[300px]"
-              >
-                {renderCard(item, index)}
-              </div>
-            ))}
-          </div>
-        </div>
+      ) : cfg.presentation === "carousel" ? (
+        <FeatureGridCarousel
+          itemKey={filtered.map((item) => item.id).join("|")}
+          cardsPerView={cfg.carouselCardsPerView}
+          columns={cfg.columns}
+          columnsTablet={cfg.columnsTablet}
+          columnsMobile={cfg.columnsMobile}
+          gap={cfg.gap}
+          showNav={cfg.carouselShowNav}
+          showDots={cfg.carouselShowDots}
+          snap={cfg.carouselSnap}
+          autoplay={cfg.carouselAutoplay}
+          autoplayIntervalMs={cfg.carouselAutoplayIntervalMs}
+        >
+          {filtered.map((item, index) => renderCard(item, index))}
+        </FeatureGridCarousel>
+      ) : cfg.presentation === "accordion" ? (
+        <FeatureGridAccordion
+          items={filtered}
+          allowMultiple={cfg.accordionAllowMultiple}
+          openFirst={cfg.accordionOpenFirst}
+          renderHeader={(item, index) => (
+            <FeatureGridCard
+              item={item}
+              index={index}
+              {...cardProps}
+              part="header"
+              showVisual={cfg.accordionShowVisual}
+              equalHeight={false}
+              minCardHeight={0}
+            />
+          )}
+          renderPanel={(item, index) => (
+            <FeatureGridCard
+              item={item}
+              index={index}
+              {...cardProps}
+              part="panel"
+              equalHeight={false}
+              minCardHeight={0}
+            />
+          )}
+        />
       ) : (
         <div className={gridClassName} style={gapStyle}>
           {filtered.map((item, index) => renderCard(item, index))}

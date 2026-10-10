@@ -1,5 +1,6 @@
 import {
   makeFooterColumnEntityId,
+  makeFooterContactItemEntityId,
   makeFooterEntityId,
   makeFooterLinkEntityId,
 } from "@/features/translation/workspace-entity-ids";
@@ -17,7 +18,7 @@ export function collectFooterTranslationRefs(
     const plugin = getServerPlugin(col.type);
     const fields = plugin?.fields ?? {};
 
-    if (fields.heading || fields.body) {
+    if (fields.heading || fields.body || (col.type === "contact" && col.customContent !== undefined)) {
       refs.push({ entityType: "FooterColumn", entityId: makeFooterColumnEntityId(col.id) });
     }
 
@@ -27,6 +28,13 @@ export function collectFooterTranslationRefs(
           entityType: "FooterLink",
           entityId: makeFooterLinkEntityId(col.id, String(index)),
         });
+      });
+    }
+
+    for (const item of col.customContactItems ?? []) {
+      refs.push({
+        entityType: "FooterContactItem",
+        entityId: makeFooterContactItemEntityId(col.id, item.id),
       });
     }
   }

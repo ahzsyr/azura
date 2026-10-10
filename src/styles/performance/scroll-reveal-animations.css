@@ -16,13 +16,20 @@
 
     transition:
 
-      opacity var(--motion-duration-slow, 500ms) var(--motion-ease-standard, cubic-bezier(0.22, 1, 0.36, 1)),
+      opacity var(--az-anim-duration, var(--motion-duration-slow, 500ms)) var(--az-anim-ease, var(--motion-ease-standard, cubic-bezier(0.22, 1, 0.36, 1))),
 
-      transform var(--motion-duration-slow, 500ms) var(--motion-ease-standard, cubic-bezier(0.22, 1, 0.36, 1));
+      transform var(--az-anim-duration, var(--motion-duration-slow, 500ms)) var(--az-anim-ease, var(--motion-ease-standard, cubic-bezier(0.22, 1, 0.36, 1)));
 
     transition-delay: var(--az-anim-delay, 0ms);
 
     will-change: opacity, transform;
+
+    /* Force GPU layer for smoother animations */
+    transform: translateZ(0);
+
+    backface-visibility: hidden;
+
+    -webkit-backface-visibility: hidden;
 
   }
 
@@ -150,6 +157,15 @@
 
   }
 
+  /* Use contain for isolated animated sections to improve performance */
+  [data-lazy-block].az-lazy-revealed,
+
+  .block-anim-root {
+
+    contain: layout style paint;
+
+  }
+
 
 
   @media (prefers-reduced-motion: reduce) {
@@ -190,13 +206,20 @@
 
     transition:
 
-      opacity var(--motion-duration-slow, 500ms) var(--motion-ease-standard, cubic-bezier(0.22, 1, 0.36, 1)),
+      opacity var(--az-anim-duration, var(--motion-duration-slow, 500ms)) var(--az-anim-ease, var(--motion-ease-standard, cubic-bezier(0.22, 1, 0.36, 1))),
 
-      transform var(--motion-duration-slow, 500ms) var(--motion-ease-standard, cubic-bezier(0.22, 1, 0.36, 1));
+      transform var(--az-anim-duration, var(--motion-duration-slow, 500ms)) var(--az-anim-ease, var(--motion-ease-standard, cubic-bezier(0.22, 1, 0.36, 1)));
 
     transition-delay: var(--az-anim-delay, 0ms);
 
     will-change: opacity, transform;
+
+    /* Force GPU layer for smoother animations */
+    transform: translateZ(0);
+
+    backface-visibility: hidden;
+
+    -webkit-backface-visibility: hidden;
 
   }
 

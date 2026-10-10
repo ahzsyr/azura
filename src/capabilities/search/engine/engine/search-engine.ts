@@ -1,3 +1,4 @@
+import { enrichContentItemSearchResults } from "@/capabilities/search/engine/enrich/enrich-content-item-results";
 import { searchRepository } from "@/repositories/search.repository";
 import { searchFilterEngine } from "@/capabilities/search/engine/filter/search-filter-engine";
 import { preferPublicPagesOverCatalogItems } from "@/capabilities/search/engine/filter/prefer-public-pages";
@@ -285,7 +286,9 @@ export class SearchEngine {
       plan.phraseQuery
     );
 
-    const suggestions = rows.map((r) => searchResultMapper.toSuggestion(r));
+    const suggestions = await enrichContentItemSearchResults(
+      rows.map((r) => searchResultMapper.toSuggestion(r)),
+    );
     searchAnalytics.trackSuggest({
       q: plan.sanitizedQuery,
       locale: plan.locale,

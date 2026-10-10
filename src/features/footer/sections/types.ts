@@ -27,6 +27,8 @@ export const FOOTER_SECTION_TYPES = [
   "partners",
   "rich_text",
   "custom_html",
+  "spacer",
+  "divider",
 ] as const;
 
 export type FooterSectionType = (typeof FOOTER_SECTION_TYPES)[number];

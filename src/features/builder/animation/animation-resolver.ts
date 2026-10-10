@@ -64,17 +64,30 @@ export function animationInlineStyle(
   animation: BlockAnimationSettings | undefined,
   blockIndex = 0,
 ): CSSProperties {
-  if (!usesEntranceKeyframes(animation, blockIndex)) return {};
+  const style: CSSProperties = {};
 
-  const phase = animation?.entrance;
-  if (!phase) return {};
+  if (usesEntranceKeyframes(animation, blockIndex)) {
+    const phase = animation?.entrance;
+    if (phase) {
+      style.animationDuration = phase.durationMs ? `${phase.durationMs}ms` : undefined;
+      style.animationDelay = phase.delayMs ? `${phase.delayMs}ms` : undefined;
+      style.animationTimingFunction = phase.easing;
+      style.animationIterationCount = isLoopBehavior(animation) ? "infinite" : 1;
+    }
+  } else if (animation?.enabled && !isLoopBehavior(animation) && blockIndex > 1) {
+    const phase = animation.scroll?.type ? animation.scroll : animation.entrance;
+    if (phase?.durationMs) style["--az-anim-duration"] = `${phase.durationMs}ms`;
+    if (phase?.easing) style["--az-anim-ease"] = phase.easing;
+  }
 
-  return {
-    animationDuration: phase.durationMs ? `${phase.durationMs}ms` : undefined,
-    animationDelay: phase.delayMs ? `${phase.delayMs}ms` : undefined,
-    animationTimingFunction: phase.easing,
-    animationIterationCount: isLoopBehavior(animation) ? "infinite" : 1,
-  };
+  const hover = animation?.hover;
+  if (hover?.type && hover.type !== "none") {
+    if (hover.durationMs) style["--az-hover-duration"] = `${hover.durationMs}ms`;
+    if (hover.delayMs) style["--az-hover-delay"] = `${hover.delayMs}ms`;
+    if (hover.easing) style["--az-hover-ease"] = hover.easing;
+  }
+
+  return style;
 }
 
 const SCROLL_ANIMATION_MAP: Record<string, string> = {

@@ -3,12 +3,15 @@ import assert from "node:assert/strict";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import {
+  menuTreeForcesMobileIcons,
   navIconVisibilityDataAttributes,
+  resolveItemShowsNavIcon,
   resolveNavIconBreakpoint,
   resolveNavIconVisibility,
   shouldMountMobileNavIcons,
   shouldShowNavIconsAtBreakpoint,
 } from "@/features/navigation/nav-icon-visibility";
+import type { MenuItem } from "@/features/navigation/types";
 import { isLegacyFaNavIcon, NavMenuGlyph } from "@/features/navigation/components/header/NavMenuGlyph";
 import { createDefaultWorkspace } from "@/features/navigation/defaults";
 import { buildHeaderRootPresentation } from "@/features/navigation/header-root-attributes";
@@ -85,4 +88,35 @@ test("shouldShowNavIconsAtBreakpoint respects visibility map", () => {
   assert.equal(shouldShowNavIconsAtBreakpoint(v, "mobile"), false);
   assert.equal(shouldShowNavIconsAtBreakpoint(v, "tablet"), true);
   assert.equal(shouldShowNavIconsAtBreakpoint(v, "desktop"), false);
+});
+
+test("resolveItemShowsNavIcon inherits defaults until placement is set", () => {
+  const defaults = { mobile: true, tablet: true, desktop: false };
+  assert.equal(resolveItemShowsNavIcon(undefined, "desktop", defaults), false);
+  assert.equal(resolveItemShowsNavIcon(undefined, "mobile", defaults), true);
+  assert.equal(resolveItemShowsNavIcon("both", "desktop", defaults), true);
+  assert.equal(resolveItemShowsNavIcon("desktop", "tablet", defaults), false);
+  assert.equal(resolveItemShowsNavIcon("mobile", "tablet", defaults), true);
+  assert.equal(resolveItemShowsNavIcon("mobile", "desktop", defaults), false);
+});
+
+test("menuTreeForcesMobileIcons is true when any item is mobile or both", () => {
+  const hidden: MenuItem = {
+    id: "a",
+    type: "link",
+    label: "A",
+    placement: "both",
+    children: [],
+    iconPlacement: "desktop",
+  };
+  const shown: MenuItem = {
+    id: "b",
+    type: "link",
+    label: "B",
+    placement: "both",
+    children: [],
+    iconPlacement: "both",
+  };
+  assert.equal(menuTreeForcesMobileIcons([hidden]), false);
+  assert.equal(menuTreeForcesMobileIcons([hidden, shown]), true);
 });

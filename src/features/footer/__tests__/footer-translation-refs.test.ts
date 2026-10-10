@@ -27,4 +27,27 @@ describe("collectFooterTranslationRefs", () => {
     assert.ok(refs.some((r) => r.entityType === "FooterLink"));
     assert.equal(refs.length, 3);
   });
+
+  it("includes a ref for each custom contact line", () => {
+    const base = createDefaultFooterWorkspace();
+    const ws: FooterWorkspace = {
+      ...base,
+      columns: [
+        {
+          id: "col-contact",
+          type: "contact",
+          title: "Contact",
+          customContactItems: [
+            { id: "line-1", type: "phone", value: "+1 555" },
+            { id: "line-2", type: "richtext", value: "<p>Hours</p>" },
+          ],
+        },
+      ],
+    };
+
+    const refs = collectFooterTranslationRefs(ws);
+    const itemRefs = refs.filter((r) => r.entityType === "FooterContactItem");
+    assert.equal(itemRefs.length, 2);
+    assert.equal(new Set(itemRefs.map((r) => r.entityId)).size, 2);
+  });
 });

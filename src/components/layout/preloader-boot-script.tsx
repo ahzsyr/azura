@@ -1,6 +1,7 @@
 import {
   buildBootPreloaderInnerHtml,
   buildPreloaderStyle,
+  preloaderBackgroundType,
 } from "@/lib/preloader/boot-preloader";
 import type { ResolvedSitePreloader } from "@/features/preloader/resolve-site-preloader";
 
@@ -25,6 +26,7 @@ export function PreloaderBootScript({
       <div
         id="azura-boot-preloader"
         className={`az-preloader az-preloader--fullscreen az-preloader--${settings.animation}`}
+        data-pre-bg={preloaderBackgroundType(settings)}
         style={buildPreloaderStyle(settings)}
         role="status"
         aria-live="polite"

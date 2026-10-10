@@ -1,5 +1,5 @@
 import { getPathname } from "@/i18n/navigation";
-import type { ResolvedFooter, FooterCompanyInfo } from "@/features/footer/types";
+import type { ResolvedFooter, ResolvedFooterColumn, FooterCompanyInfo } from "@/features/footer/types";
 import type { SiteBrandConfig } from "@/types/site-identity";
 import { getDefaultSiteIdentity } from "@/lib/site-identity";
 import { getLocalizedField } from "@/lib/utils";
@@ -43,10 +43,12 @@ function buildRenderContext(
     if (siteUrl) social.website = siteUrl;
   }
 
+  const headingColor =
+    resolved.design.background === "light" ? "footer-heading footer-heading--primary" : "footer-heading";
   const headingClass =
     resolved.design.headingStyle === "normal"
-      ? "text-sm font-semibold text-accent"
-      : "text-sm font-semibold uppercase tracking-wider text-accent";
+      ? cn("text-sm font-semibold", headingColor)
+      : cn("text-sm font-semibold uppercase tracking-wider", headingColor);
 
   const linkClass =
     resolved.design.linkStyle === "underline"
@@ -84,6 +86,30 @@ function containerClass(width: ResolvedFooter["design"]["containerWidth"]): stri
   return "container-premium";
 }
 
+function sectionVisibilityClass(col: ResolvedFooterColumn): string {
+  if (col.hiddenOnMobile && col.hiddenOnTablet) return "hidden lg:block";
+  if (col.hiddenOnMobile) return "hidden sm:block";
+  if (col.hiddenOnTablet) return "sm:hidden lg:block";
+  return "";
+}
+
+function FooterSection({
+  col,
+  ctx,
+}: {
+  col: ResolvedFooterColumn;
+  ctx: FooterRenderContext;
+}) {
+  const plugin = getServerPlugin(col.type);
+  if (!plugin) return null;
+  const Renderer = plugin.Renderer;
+  return (
+    <div className={cn("h-fit", sectionVisibilityClass(col))}>
+      <Renderer column={col} ctx={ctx} />
+    </div>
+  );
+}
+
 /** Server-rendered footer markup — no client hooks. */
 export function FooterView({
   resolved,
@@ -116,6 +142,15 @@ export function FooterView({
         ? "lg:grid-cols-4"
         : "lg:grid-cols-3";
   const gridClass = cn("grid-cols-1", tabletClass, desktopClass);
+  const desktopCols = resolved.responsive.desktop;
+  const columnGroups = Array.from({ length: desktopCols }, () => [] as ResolvedFooterColumn[]);
+  if (resolved.layout === "grid") {
+    resolved.columns.forEach((col, index) => {
+      const slot = col.columnSlot ?? ((index % desktopCols) + 1);
+      const clamped = Math.max(1, Math.min(slot, desktopCols));
+      columnGroups[clamped - 1].push(col);
+    });
+  }
 
   const footerBg =
     resolved.design.background === "dark"
@@ -148,7 +183,7 @@ export function FooterView({
     >
       <div
         className={cn(
-          "grid",
+          "grid items-start content-start auto-rows-min",
           containerClass(resolved.design.containerWidth),
           paddingClass(resolved.design.padding),
           gapClass,
@@ -157,32 +192,18 @@ export function FooterView({
           compact && "py-8 text-sm",
         )}
       >
-        {resolved.columns.map((col) => {
-          const plugin = getServerPlugin(col.type);
-          if (!plugin) return null;
-          const Renderer = plugin.Renderer;
-          // Responsive visibility classes
-          // hiddenOnMobile  → hidden below sm  (< 640 px)
-          // hiddenOnTablet  → hidden sm–lg      (640–1024 px)
-          const visClass = cn(
-            col.hiddenOnMobile && col.hiddenOnTablet
-              ? "hidden lg:block"
-              : col.hiddenOnMobile
-                ? "hidden sm:block"
-                : col.hiddenOnTablet
-                  ? "sm:hidden lg:block"
-                  : undefined,
-          );
-          return (
-            <div
-              key={col.id}
-              className={visClass || undefined}
-              data-footer-slot={col.columnSlot != null ? col.columnSlot : undefined}
-            >
-              <Renderer column={col} ctx={ctx} />
-            </div>
-          );
-        })}
+        {resolved.layout === "grid"
+          ? columnGroups.map((sections, index) => (
+              <div
+                key={index}
+                className={cn("footer-column flex h-fit min-w-0 flex-col self-start", gapClass)}
+              >
+                {sections.map((col) => (
+                  <FooterSection key={col.id} col={col} ctx={ctx} />
+                ))}
+              </div>
+            ))
+          : resolved.columns.map((col) => <FooterSection key={col.id} col={col} ctx={ctx} />)}
       </div>
       {resolved.copyright.showBar ? (
         <div className="border-t border-background/10">

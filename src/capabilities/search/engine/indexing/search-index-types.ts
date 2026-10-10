@@ -23,6 +23,7 @@ export type SearchIndexSeoSnapshot = {
 export type ContentItemSearchSource = {
   id: string;
   slug: string | null;
+  featuredImageUrl?: string | null;
   title: LocalizedValueMap;
   excerpt?: LocalizedValueMap;
   description: LocalizedValueMap;

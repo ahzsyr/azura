@@ -4,7 +4,7 @@ export const contactMetadata: FooterSectionMetadata = {
   type: "contact",
   version: 1,
   label: "Contact",
-  description: "Phone, email, and address from company settings.",
+  description: "Company contact details plus extra phones, emails, text, and rich text.",
   icon: "Phone",
   fields: { heading: true, visibility: true, companyData: true },
 };

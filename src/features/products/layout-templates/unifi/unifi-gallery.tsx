@@ -229,7 +229,7 @@ export function UniFiGallery({ product, title, display, selectedVariations }: Pr
                     >
                       {videos[0]?.poster ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={videos[0].poster} alt="" />
+                        <img src={videos[0].poster} alt="" loading="lazy" />
                       ) : (
                         <span className="unifi-gallery__thumb-video-fallback" />
                       )}

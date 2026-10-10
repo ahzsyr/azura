@@ -19,6 +19,9 @@ describe("rowSectionPropsSchema", () => {
     assert.equal(parsed.gap, "md");
     assert.equal(parsed.stackOnMobile, true);
     assert.equal(parsed.verticalAlign, "stretch");
+    assert.equal(parsed.badge, "");
+    assert.equal(parsed.title, "");
+    assert.equal(parsed.subtitle, "");
   });
 
   it("accepts valid maxColumns and layout", () => {

@@ -45,5 +45,79 @@ describe("feature grid expandable helpers", () => {
     assert.equal(props.readMoreLabel, "View more");
     assert.equal(props.readLessLabel, "View less");
     assert.equal(props.layout, "standard");
+    assert.equal(props.presentation, "grid");
+    assert.equal(props.cardPresentation, "standard");
+    assert.equal(props.carouselShowNav, true);
+    assert.equal(props.carouselShowDots, false);
+    assert.equal(props.carouselAutoplay, false);
+    assert.equal(props.expandHideWhenFooterLink, true);
+    assert.equal(props.accordionAllowMultiple, false);
+    assert.equal(props.accordionOpenFirst, true);
+  });
+
+  it("maps legacy layout values onto presentation and card presentation", () => {
+    const carousel = normalizeFeatureGridProps({ layout: "carousel", items: [] });
+    assert.equal(carousel.presentation, "carousel");
+    assert.equal(carousel.cardPresentation, "standard");
+
+    const numbered = normalizeFeatureGridProps({ layout: "numbered", items: [] });
+    assert.equal(numbered.presentation, "grid");
+    assert.equal(numbered.cardPresentation, "numbered");
+
+    const iconTop = normalizeFeatureGridProps({ cardVariant: "iconTop", items: [] });
+    assert.equal(iconTop.layout, "icon");
+    assert.equal(iconTop.presentation, "grid");
+    assert.equal(iconTop.cardPresentation, "icon");
+  });
+
+  it("keeps an explicit presentation when an older layout value is also present", () => {
+    const props = normalizeFeatureGridProps({
+      layout: "icon",
+      presentation: "accordion",
+      cardPresentation: "horizontal",
+      items: [],
+    });
+    assert.equal(props.presentation, "accordion");
+    assert.equal(props.cardPresentation, "horizontal");
+    assert.equal(props.layout, "icon");
+  });
+
+  it("prefers localized html, then stored content, then plain text", () => {
+    const html = resolveFeatureGridDescriptionHtml(
+      {
+        id: "1",
+        description: "Plain",
+        descriptionContent: "<p>Stored</p>",
+        descriptionHtml: "<p>Html</p>",
+      },
+      "en"
+    );
+    assert.equal(html, "<p>Html</p>");
+
+    const fromContent = resolveFeatureGridDescriptionHtml(
+      {
+        id: "1",
+        description: "Plain",
+        descriptionHtml: "",
+        descriptionContent: "<p>Stored</p>",
+      },
+      "en"
+    );
+    assert.equal(fromContent, "<p>Stored</p>");
+
+    const fromJson = resolveFeatureGridDescriptionHtml(
+      {
+        id: "1",
+        description: "Plain",
+        descriptionHtml: "",
+        descriptionContent: JSON.stringify({
+          type: "doc",
+          content: [{ type: "paragraph", content: [{ type: "text", text: "From json" }] }],
+        }),
+      },
+      "en"
+    );
+    assert.match(fromJson, /From json/);
+    assert.doesNotMatch(fromJson, /Plain/);
   });
 });

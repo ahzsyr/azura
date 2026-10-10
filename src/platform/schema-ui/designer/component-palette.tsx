@@ -81,12 +81,12 @@ function PaletteItem({
       ref={setNodeRef}
       type="button"
       style={style}
-      className="flex w-full items-center gap-2.5 rounded-xl border bg-background px-2.5 py-2 text-left text-sm shadow-sm transition-colors hover:bg-muted/60 cursor-grab active:cursor-grabbing"
+      className="flex w-full items-center gap-2 rounded-md border border-[#E5E7EB] bg-white px-2 py-1.5 text-left text-[12px] transition-colors hover:bg-gray-50 cursor-grab active:cursor-grabbing"
       onClick={onAdd}
       {...listeners}
       {...attributes}
     >
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border bg-muted/40 text-muted-foreground">
+      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded border border-[#E5E7EB] bg-gray-50 text-gray-500">
         <Icon className="h-4 w-4" />
       </span>
       <span className="truncate font-medium">{name}</span>
@@ -110,17 +110,17 @@ function CollapsibleGroup({
   const [open, setOpen] = useState(defaultOpen);
   if (!items.length) return null;
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1">
       <button
         type="button"
-        className="flex w-full items-center gap-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground"
+        className="flex w-full items-center gap-1 text-[12px] font-medium text-gray-500"
         onClick={() => setOpen((v) => !v)}
       >
         <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "" : "-rotate-90"}`} />
         {title}
       </button>
       {open ? (
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           {items.map((c) => (
             <PaletteItem key={c.id} id={c.id} name={c.name} kind={kind} onAdd={() => onAdd(c.id)} />
           ))}
@@ -159,23 +159,25 @@ export function ComponentPalette({
   );
 
   return (
-    <div className="space-y-3">
-      <Input
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search components…"
-        className="h-9 text-sm"
-      />
-      <div className="space-y-4">
+    <div className="flex min-h-0 flex-1 flex-col">
+      <div className="shrink-0 border-b border-[#E5E7EB] bg-white p-2">
+        <Input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search components…"
+          className="h-8 text-[12px]"
+        />
+      </div>
+      <div className="flex-1 space-y-3 overflow-auto p-2">
         <CollapsibleGroup title="Inputs" items={inputs} kind="binding" onAdd={onAddBinding} />
         <CollapsibleGroup title="Choices" items={choices} kind="binding" onAdd={onAddBinding} />
         <CollapsibleGroup title="Layout" items={layout} kind="layout" onAdd={onAddLayout} />
         <CollapsibleGroup title="Advanced" items={advanced} kind="binding" onAdd={onAddBinding} defaultOpen={false} />
         <CollapsibleGroup title="Content" items={content} kind="layout" onAdd={onAddLayout} defaultOpen={false} />
+        {filtered.length === 0 ? (
+          <p className="px-1 text-[12px] text-gray-500">No components match “{query}”.</p>
+        ) : null}
       </div>
-      {filtered.length === 0 ? (
-        <p className="text-xs text-muted-foreground px-1">No components match “{query}”.</p>
-      ) : null}
     </div>
   );
 }

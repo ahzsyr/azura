@@ -41,8 +41,8 @@ export function tagHeroHeadings(textEffect: string | null) {
     blockEl
       .querySelectorAll<HTMLElement>('h1, h2, h3, h4, [data-text-effect-target="heading"]')
       .forEach((heading) => {
+        if (heading.closest("[data-block-heading-effect]") !== blockEl) return;
         if (heading.hasAttribute("data-text-effect-off")) return;
-        if (heading.closest("[data-text-effect-off]")) return;
         heading.setAttribute("data-text-effect", effect);
         heading.setAttribute(SITE_TEXT_EFFECT_SOURCE, "block");
       });
@@ -55,7 +55,9 @@ export function tagHeroHeadings(textEffect: string | null) {
 
   document.querySelectorAll(HERO_HEADING_SELECTOR).forEach((el) => {
     if (el.hasAttribute("data-text-effect-off")) return;
-    if (el.closest("[data-text-effect-off]")) return;
+    const owner = el.closest("[data-block-id]");
+    if (owner?.hasAttribute("data-text-effect-off")) return;
+    if (!owner && el.closest("[data-text-effect-off]")) return;
     if (el.classList.contains("hero-anim-typewriter")) return;
     const source = el.getAttribute(SITE_TEXT_EFFECT_SOURCE);
     if (source === "block") return;

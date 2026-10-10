@@ -32,6 +32,7 @@ import {
 import { useHeaderBuilderCatalog } from "./HeaderBuilderCatalogContext";
 import { newMenuItemFromForm } from "@/features/navigation/defaults";
 import { contentItemPublicPath } from "@/features/content/content-admin-paths";
+import { NavShowIconsSettings } from "./NavShowIconsSettings";
 import { MenuBuilderHeader } from "./menu-builder/MenuBuilderHeader";
 import { MenuBulkToolbar } from "./menu-builder/MenuBulkToolbar";
 import { MenuTreePanel } from "./menu-builder/MenuTreePanel";
@@ -401,6 +402,8 @@ export function MenuBuilder({ onSwitchToManager }: { onSwitchToManager?: () => v
           Live surfaces use menus assigned in Menu Manager. You are editing <strong>{menu.name}</strong>.
         </div>
       ) : null}
+
+      <NavShowIconsSettings settings={workspace.settings} />
 
       <div className="rounded-xl border border-border/70 bg-card p-4 shadow-sm">
         <MenuBuilderHeader

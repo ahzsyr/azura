@@ -5,7 +5,7 @@ import type { SchemaDocument } from "../schema/schema-document";
 import type { SchemaNode } from "../schema/schema-node";
 import type { Selection } from "./document-commands";
 import { selectionEquals } from "./designer-utils";
-import { ChevronDown, ChevronRight, FileText, Layers } from "lucide-react";
+import { ChevronDown, ChevronRight, FileText, Layers, ArrowDown, ArrowUp, Trash2 } from "lucide-react";
 
 export type TreeRow = {
   selection: NonNullable<Selection>;
@@ -55,11 +55,15 @@ export function StructurePanel({
   title = "Form",
   selection,
   onSelect,
+  onMove,
+  onDelete,
 }: {
   document: SchemaDocument;
   title?: string;
   selection: Selection;
   onSelect: (selection: NonNullable<Selection>) => void;
+  onMove: (selection: NonNullable<Selection>, direction: "up" | "down") => void;
+  onDelete: (selection: NonNullable<Selection>) => void;
 }) {
   const tree = useMemo(() => buildDocumentTree(document), [document]);
   const [collapsed, setCollapsed] = useState<Set<string>>(() => new Set());
@@ -98,7 +102,7 @@ export function StructurePanel({
         <p className="text-xs text-muted-foreground px-1 py-2">Add components from the palette.</p>
       ) : (
         <div className="space-y-0.5">
-          {visibleRows.map((row) => {
+          {visibleRows.map((row, index) => {
             const key = `${row.selection.type}:${row.selection.id}`;
             const isSelected = selectionEquals(selection, row.selection);
             const isCollapsed = collapsed.has(key);
@@ -134,6 +138,17 @@ export function StructurePanel({
                   <Layers className="h-3 w-3 shrink-0 text-muted-foreground opacity-60" />
                   <span className="truncate">{row.label}</span>
                 </button>
+                <div className="flex shrink-0 items-center opacity-100 transition-opacity sm:opacity-0 sm:focus-within:opacity-100 sm:group-hover:opacity-100">
+                  <button type="button" className="rounded p-1 text-muted-foreground hover:bg-background hover:text-foreground disabled:opacity-30" aria-label={`Move ${row.label} up`} title="Move up" onClick={() => onMove(row.selection, "up")}>
+                    <ArrowUp className="h-3.5 w-3.5" />
+                  </button>
+                  <button type="button" className="rounded p-1 text-muted-foreground hover:bg-background hover:text-foreground" aria-label={`Move ${row.label} down`} title="Move down" onClick={() => onMove(row.selection, "down")}>
+                    <ArrowDown className="h-3.5 w-3.5" />
+                  </button>
+                  <button type="button" className="rounded p-1 text-muted-foreground hover:bg-destructive/10 hover:text-destructive" aria-label={`Delete ${row.label}`} title="Delete" onClick={() => onDelete(row.selection)}>
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </div>
               </div>
             );
           })}

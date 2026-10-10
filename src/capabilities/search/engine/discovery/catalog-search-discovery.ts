@@ -14,6 +14,7 @@ import {
   isContentTypeLandingsEnabled,
   isContentTypeSlugSearchable,
 } from "@/capabilities/search/settings/search-sources";
+import { readOriginBuiltinSlug } from "@/features/content/content-type.registry";
 import type { SearchContentKind } from "@/capabilities/search/engine/types";
 import { loadTranslationBundle } from "@/features/translation/translation-bundle";
 import { localizedField } from "@/features/portal/lib/portal-translation";
@@ -71,7 +72,10 @@ export async function discoverCatalogSearchSources(): Promise<CatalogSearchDisco
 
   const enabledTypes = types.filter((row) => {
     const search = resolveContentTypeSearchConfig(row.adminConfig, row.isEnabled);
-    return search.enabled && isContentTypeSlugSearchable(row.slug, sources);
+    return (
+      search.enabled &&
+      isContentTypeSlugSearchable(row.slug, sources, readOriginBuiltinSlug(row.adminConfig))
+    );
   });
 
   const typeBundle = await loadTranslationBundle(
@@ -99,7 +103,14 @@ export async function discoverCatalogSearchSources(): Promise<CatalogSearchDisco
       col.contentType.adminConfig,
       col.contentType.isEnabled
     );
-    return typeSearch.enabled && isContentTypeSlugSearchable(col.contentType.slug, sources);
+    return (
+      typeSearch.enabled &&
+      isContentTypeSlugSearchable(
+        col.contentType.slug,
+        sources,
+        readOriginBuiltinSlug(col.contentType.adminConfig)
+      )
+    );
   });
 
   const collectionBundle = await loadTranslationBundle(

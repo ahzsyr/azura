@@ -1,4 +1,5 @@
 import type { EntityTranslation } from "@prisma/client";
+import { contentItemPublicPath } from "@/features/content/content-admin-paths";
 import { TYPE_TO_LEGACY_SOURCE } from "@/features/content/content-type.registry";
 import type { EntityRecord } from "@/features/entities/types";
 import { resolveTranslation } from "@/features/translation/translation-resolver";
@@ -71,11 +72,10 @@ export function resolveContentItemHref(input: {
     return publicLocalePath(input.localePrefix, `/packages/${input.slug}`);
   }
   if (legacy === "services" && input.ctaHref) return input.ctaHref;
-  if (input.routePrefix && input.slug) {
-    return publicLocalePath(input.localePrefix, `/${input.routePrefix}/${input.slug}`);
-  }
-  if (input.routePrefix) return publicLocalePath(input.localePrefix, `/${input.routePrefix}`);
-  return publicLocalePath(input.localePrefix, `/${input.contentTypeSlug}/${input.slug}`);
+  const path =
+    contentItemPublicPath(input.routePrefix, input.contentTypeSlug, input.slug) ??
+    `/${input.contentTypeSlug}/${input.slug}`;
+  return publicLocalePath(input.localePrefix, path);
 }
 
 export type MapEntityToCardInput = {

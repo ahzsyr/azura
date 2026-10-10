@@ -10,10 +10,12 @@ type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;
-  const contentType = await contentPublicService.getTypeBySlug("listings");
-  const item = contentType
-    ? await contentPublicService.getItemByTypeAndSlug("listings", slug)
-    : null;
+  const resolution = await contentPublicService.resolveMarketingDetail(
+    "hotels-transport",
+    slug,
+    "listings",
+  );
+  const item = resolution.kind === "detail" ? resolution.item : null;
   if (!item) return {};
 
   const name = getLocalizedField(item, "title", locale);
@@ -32,17 +34,18 @@ export default async function PropertyDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const contentType = await contentPublicService.getTypeBySlug("listings");
-  const item = contentType
-    ? await contentPublicService.getItemByTypeAndSlug("listings", slug)
-    : null;
-  if (!contentType || !item) notFound();
+  const resolution = await contentPublicService.resolveMarketingDetail(
+    "hotels-transport",
+    slug,
+    "listings",
+  );
+  if (resolution.kind !== "detail") notFound();
 
   return (
     <ContentDetailPage
       locale={locale}
-      contentType={contentType}
-      item={item}
+      contentType={resolution.contentType}
+      item={resolution.item}
       path={`/hotels-transport/${slug}`}
     />
   );

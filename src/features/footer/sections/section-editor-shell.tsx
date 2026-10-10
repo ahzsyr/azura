@@ -112,7 +112,7 @@ export function SectionEditorShell({ column, plugin, onUpdate, desktopColumns = 
               </div>
             ) : null}
 
-            {fields.body ? (
+            {fields.body && !fields.companyData ? (
               <FooterColumnBodyField
                 columnId={column.id}
                 defaultBody={column.body ?? ""}

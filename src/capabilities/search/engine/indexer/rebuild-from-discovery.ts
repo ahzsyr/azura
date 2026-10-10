@@ -73,7 +73,15 @@ export async function rebuildFromDiscovery(indexer: SearchIndexer): Promise<Rebu
             isVisible: true,
             contentTypeId: { in: enabledTypeIds },
           },
-          include: {
+          select: {
+            id: true,
+            slug: true,
+            attributes: true,
+            metadata: true,
+            blocks: true,
+            status: true,
+            isVisible: true,
+            featuredImageUrl: true,
             contentType: {
               select: {
                 slug: true,

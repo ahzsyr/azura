@@ -371,7 +371,11 @@ async function renderBlockContent(
       const title = loc("title") || "";
       const headerAlign = (p.align as string) === "left" || (p.align as string) === "start" ? "start" : "center";
       const contentAlign = getTextContentAlignClass(p.contentAlign as string | undefined);
-      const backgroundType = (p.backgroundType as string) ?? "solid";
+      const backgroundType = resolveMarketingBackgroundType(
+        block,
+        (p.backgroundType as string) ?? "solid",
+        "solid",
+      );
       const backgroundColor = (p.backgroundColor as string) || "hsl(var(--primary))";
       const backgroundImageUrl = (p.imageUrl as string) || undefined;
       const backgroundVideoUrl = (p.videoUrl as string) || undefined;
@@ -1404,11 +1408,33 @@ async function renderBlockContent(
     case "rowSection": {
       const maxColumns = (p.maxColumns as number) ?? 2;
       const visibleChildren = (block.children ?? []).slice(0, maxColumns);
+      const title = loc("title") || "";
+      const subtitle = loc("subtitle") || "";
+      const badge = loc("badge") || "";
+      const hasHeader = Boolean(title || subtitle || badge);
       return (
         <Section
           variant={sectionVariant(p.background)}
           className={sectionPaddingClass(p.padding)}
         >
+          {hasHeader && title ? (
+            <SectionHeader
+              badge={badge || undefined}
+              title={title}
+              subtitle={subtitle || undefined}
+            />
+          ) : hasHeader ? (
+            <div className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
+              {badge ? (
+                <span className="mb-4 block text-xs font-medium uppercase tracking-wider text-primary">
+                  {badge}
+                </span>
+              ) : null}
+              {subtitle ? (
+                <p className="text-base leading-relaxed text-foreground/70 md:text-lg">{subtitle}</p>
+              ) : null}
+            </div>
+          ) : null}
           <RowSectionView
             maxColumns={maxColumns}
             columnLayout={(p.columnLayout as string) ?? "equal"}

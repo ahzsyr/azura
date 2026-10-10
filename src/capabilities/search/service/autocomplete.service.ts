@@ -4,6 +4,7 @@ import {
   searchSettingsManager,
 } from "@/capabilities/search/engine";
 import { enrichCatalogProductSearchResults } from "@/capabilities/search/engine/enrich/enrich-catalog-product-results";
+import { enrichContentItemSearchResults } from "@/capabilities/search/engine/enrich/enrich-content-item-results";
 import type { SearchContentKind } from "@/capabilities/search/engine/types";
 import type { AdminSearchSettings } from "@/capabilities/search/settings/admin-search-settings.schema";
 import { resolvePublicAutocompleteConfig } from "@/capabilities/search/settings/search-autocomplete-config";
@@ -98,10 +99,8 @@ export async function handleSearchAutocomplete(
       ? await searchEngine.search({ ...baseInput, limit: runtime.maxResults })
       : [];
 
-  const enriched = await enrichCatalogProductSearchResults(
-    results,
-    params.locale,
-    params.q,
+  const enriched = await enrichContentItemSearchResults(
+    await enrichCatalogProductSearchResults(results, params.locale, params.q),
   );
 
   const includeAdmin = params.includeAdmin === true;

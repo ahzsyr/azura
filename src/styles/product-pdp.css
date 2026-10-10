@@ -698,6 +698,20 @@ html[data-header-inset-active="true"] .prd-page:not(:has(.prd-page__chrome-rail)
   animation: prd-hero-slide var(--prd-anim-ms, 320ms) ease-out both;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .prd-page[data-prd-anim-desktop="fade"],
+  .prd-page[data-prd-anim-tablet="fade"],
+  .prd-page[data-prd-anim-mobile="fade"],
+  .prd-page[data-prd-anim="fade"],
+  .prd-page[data-prd-anim="fade"] .prd-page__hero,
+  .prd-page[data-prd-anim-desktop="fade"] .prd-page__hero,
+  .prd-page[data-prd-anim-tablet="fade"] .prd-page__hero,
+  .prd-page[data-prd-anim-mobile="fade"] .prd-page__hero,
+  .prd-page[data-prd-anim="slide-up"] .prd-page__hero {
+    animation: none;
+  }
+}
+
 @keyframes prd-fade-in {
   from {
     opacity: 0;

@@ -107,6 +107,8 @@ export type SearchSuggestion = {
   title: string;
   urlPath: string;
   entityType: SearchEntityType;
+  entityId: string;
+  locale: string;
   kind: SearchContentKind;
   contentTypeSlug?: string;
   adminPath: string;

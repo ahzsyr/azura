@@ -19,6 +19,14 @@ import { HEADER_DESKTOP_OPTIONS } from "./headerDesktopModeOptions";
 import { OptionButtonGroup } from "./header-builder-ui";
 import { cn } from "@/lib/utils";
 
+const CORNER_RADIUS_OPTIONS: { value: HeaderBorderRadius; label: string }[] = [
+  { value: "none", label: "Square" },
+  { value: "sm", label: "Small" },
+  { value: "md", label: "Medium" },
+  { value: "lg", label: "Large" },
+  { value: "xl", label: "X-Large" },
+];
+
 export type HeaderSettingsSection = "mobile" | "headerStyle" | "headerDesktop";
 
 interface Props {
@@ -277,15 +285,7 @@ export function HeaderSettingsPanel({ workspace, section }: Props) {
         <AdminCollapsibleSection title="Corner radius">
           <OptionButtonGroup
             value={settings.headerBorderRadius ?? "lg"}
-            options={(
-              [
-                ["none", "Square"],
-                ["sm", "Small"],
-                ["md", "Medium"],
-                ["lg", "Large"],
-                ["xl", "X-Large"],
-              ] as [HeaderBorderRadius, string][]
-            ).map(([value, label]) => ({ value, label }))}
+            options={CORNER_RADIUS_OPTIONS}
             onChange={(v) => setSettings({ headerBorderRadius: v })}
             columns={3}
           />
@@ -371,6 +371,18 @@ export function HeaderSettingsPanel({ workspace, section }: Props) {
               </div>
             )}
             <div>
+              <p className="mb-2 text-sm font-medium">Corner radius</p>
+              <OptionButtonGroup
+                value={settings.menuBorderRadius ?? settings.headerBorderRadius ?? "lg"}
+                options={CORNER_RADIUS_OPTIONS}
+                onChange={(v) => setSettings({ menuBorderRadius: v })}
+                columns={3}
+              />
+              <p className="mt-1 text-xs text-muted-foreground">
+                Same sizes as the header corner radius. Applies to desktop mega menus and dropdowns.
+              </p>
+            </div>
+            <div>
               <p className="mb-2 text-sm font-medium">Shadow style</p>
               <OptionButtonGroup
                 value={settings.menuShadow ?? "strong"}
@@ -401,8 +413,7 @@ export function HeaderSettingsPanel({ workspace, section }: Props) {
                 columns={3}
               />
               <p className="mt-1 text-xs text-muted-foreground">
-                Desktop mega/dropdown animation. Corner radius uses the setting above (
-                {settings.headerBorderRadius ?? "lg"}).
+                Desktop mega menu and dropdown animation.
               </p>
             </div>
           </div>

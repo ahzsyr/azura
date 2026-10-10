@@ -16,8 +16,8 @@ export function NavShowIconsSettings({ settings }: Props) {
 
   return (
     <AdminCollapsibleSection
-      title="Show icons"
-      description="Control menu icons per breakpoint. Mobile ≤640px, tablet 641–968px, desktop ≥969px."
+      title="Default icon visibility"
+      description="Used when a menu item has no icon placement. Mobile ≤640px, tablet 641–968px, desktop ≥969px. Set Placement on an item to override this."
       defaultOpen
     >
       <div className="space-y-2">

@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { resolveContentCoverUrl } from "@/capabilities/search/lib/content-cover-url";
 import {
   contentItemSearchPath,
   inferContentTypeSlugFromPublicPath,
@@ -23,6 +24,24 @@ test("content item search paths use the builtin public route for offerings", () 
   assert.equal(
     contentItemSearchPath("en", "hotels-transport", "offerings", "indoor-coverage"),
     "/en/services/indoor-coverage",
+  );
+});
+
+test("content cover prefers the published cover image", () => {
+  assert.equal(
+    resolveContentCoverUrl({
+      featuredImageUrl: "/uploads/featured.jpg",
+      media: [
+        { url: "/uploads/gallery.jpg", isCover: false, sortOrder: 0, isPublished: true },
+        { url: "/uploads/cover.jpg", isCover: true, sortOrder: 2, isPublished: true },
+        { url: "/uploads/hidden.jpg", isCover: true, isHidden: true, isPublished: true },
+      ],
+    }),
+    "/uploads/cover.jpg",
+  );
+  assert.equal(
+    resolveContentCoverUrl({ featuredImageUrl: "/uploads/featured.jpg", media: [] }),
+    "/uploads/featured.jpg",
   );
 });
 

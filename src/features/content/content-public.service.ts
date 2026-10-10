@@ -20,7 +20,11 @@ import type {
 import { resolveTranslation } from "@/features/translation/translation-resolver";
 import type { EntityTranslation } from "@prisma/client";
 import { editorialDisplayFromMetadata } from "@/schemas/editorial-metadata";
-import { contentItemPublicPath } from "@/features/content/content-admin-paths";
+import {
+  contentItemPublicPath,
+  contentPublicSegment,
+  selectContentTypeForPublicSegment,
+} from "@/features/content/content-admin-paths";
 
 const PUBLISHED_WHERE: Prisma.ContentItemWhereInput = {
   deletedAt: null,
@@ -74,17 +78,15 @@ function publicPath(routePrefix: string | null, slug?: string | null, typeSlug?:
 }
 
 async function loadEnabledTypeByPublicSegment(segment: string) {
-  const byPrefix = await prisma.contentType.findFirst({
-    where: { routePrefix: segment, isEnabled: true },
-  });
-  if (byPrefix) return byPrefix;
-  return prisma.contentType.findFirst({
+  const normalized = segment.trim().replace(/^\/+|\/+$/g, "");
+  if (!normalized) return null;
+  const rows = await prisma.contentType.findMany({
     where: {
-      slug: segment,
       isEnabled: true,
-      OR: [{ routePrefix: null }, { routePrefix: "" }],
+      OR: [{ routePrefix: normalized }, { slug: normalized }],
     },
   });
+  return selectContentTypeForPublicSegment(normalized, rows) ?? null;
 }
 
 function serializeCollection(
@@ -546,6 +548,31 @@ export const contentPublicService = {
 
   async listCollections(typeSlug: string): Promise<ContentCollectionView[]> {
     return fetchCollectionsForType(typeSlug);
+  },
+
+  /**
+   * Detail pages under a fixed marketing folder (`/services/[slug]`, …).
+   * Resolves the type that owns that segment, including a cleared route prefix
+   * whose public path is the type slug. Built-in folders still serve their
+   * canonical type when that type publishes on the same segment.
+   */
+  async resolveMarketingDetail(
+    segment: string,
+    itemSlug: string,
+    legacyTypeSlug?: string,
+    languageCode?: string,
+  ): Promise<ContentRouteResolution> {
+    const direct = await this.resolveRoute([segment, itemSlug], languageCode);
+    if (direct.kind === "detail") return direct;
+    if (!legacyTypeSlug) return direct;
+
+    const legacy = await this.getTypeBySlug(legacyTypeSlug);
+    if (!legacy || contentPublicSegment(legacy.routePrefix, legacy.slug) !== segment) {
+      return direct;
+    }
+    const item = await this.getItemByTypeAndSlug(legacy.slug, itemSlug);
+    if (!item) return { kind: "notFound" };
+    return { kind: "detail", contentType: legacy, item };
   },
 
   async resolveRoute(segments: string[], languageCode?: string): Promise<ContentRouteResolution> {

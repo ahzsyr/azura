@@ -367,6 +367,9 @@ export const BLOCK_DEFAULTS: Record<string, Record<string, unknown>> = {
     loop: true,
   },
   rowSection: {
+    badge: "",
+    title: "",
+    subtitle: "",
     padding: "default",
     background: "default",
     maxColumns: 2,

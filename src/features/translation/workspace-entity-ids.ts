@@ -40,6 +40,11 @@ export function makeFooterLinkEntityId(columnId: string, linkId: string): string
   return sha256Hex(`FooterLink\0${columnId}\0${linkId}`).slice(0, 32);
 }
 
+/** Stable entity id for one custom footer contact line. */
+export function makeFooterContactItemEntityId(columnId: string, itemId: string): string {
+  return sha256Hex(`FooterContactItem\0${columnId}\0${itemId}`).slice(0, 32);
+}
+
 /** Stable entity id for footer copyright block. */
 export function makeFooterEntityId(): string {
   return sha256Hex("Footer\0default").slice(0, 32);

@@ -46,6 +46,23 @@ export const featureGridItemStyleOverridesSchema = z
   .partial()
   .default({});
 
+export const featureGridItemVisualTypeSchema = z.enum([
+  "inherit",
+  "auto",
+  "icon",
+  "image",
+  "number",
+  "none",
+]);
+
+export const featureGridImageAspectSchema = z.enum([
+  "auto",
+  "square",
+  "video",
+  "landscape",
+  "portrait",
+]);
+
 export const featureGridItemSchema = z
   .object({
     id: z.string(),
@@ -70,7 +87,10 @@ export const featureGridItemSchema = z
     openInNewTab: z.boolean().default(false),
     footerText: z.string().default(""),
     footerHref: z.string().default(""),
-    visualType: z.enum(["icon", "image", "none", "auto"]).default("auto"),
+    visualType: featureGridItemVisualTypeSchema.default("auto"),
+    imageAspect: featureGridImageAspectSchema.default("auto"),
+    /** CSS gap between this card's content elements. Empty inherits the block spacing. */
+    contentGap: z.string().default(""),
     expandEnabled: z.enum(["inherit", "on", "off"]).default("inherit"),
     expandPreviewOverride: z.coerce.number().min(0).optional(),
     cardClickable: z.boolean().default(false),
@@ -109,6 +129,19 @@ export const featureGridLayoutSchema = z.enum([
   "horizontal",
   "carousel",
 ]);
+
+/** How cards are arranged. Separate from each card's visual treatment. */
+export const featureGridPresentationSchema = z.enum(["grid", "carousel", "accordion"]);
+
+/** Card treatment used inside a grid or carousel. */
+export const featureGridCardPresentationSchema = z.enum([
+  "standard",
+  "icon",
+  "numbered",
+  "horizontal",
+]);
+
+export const featureGridVisualTypeSchema = z.enum(["auto", "icon", "image", "number", "none"]);
 
 export const featureGridCardStyleSchema = z.enum([
   "solid",
@@ -165,8 +198,13 @@ export const featureGridPropsSchema = z.object({
   columnsMobile: columnCountSchema.default(1),
   /** @deprecated Prefer layout + cardStyle; retained for BC. */
   cardVariant: featureGridCardVariantSchema.default("default"),
+  /** @deprecated Prefer presentation + cardPresentation; retained for BC. */
   layout: featureGridLayoutSchema.default("standard"),
+  presentation: featureGridPresentationSchema.default("grid"),
+  cardPresentation: featureGridCardPresentationSchema.default("standard"),
   cardStyle: featureGridCardStyleSchema.default("solid"),
+  defaultVisualType: featureGridVisualTypeSchema.default("auto"),
+  imageAspect: featureGridImageAspectSchema.default("auto"),
   showCategories: z.boolean().default(false),
   gap: z.coerce.number().min(0).max(64).default(24),
   equalHeight: z.boolean().default(true),
@@ -179,6 +217,8 @@ export const featureGridPropsSchema = z.object({
   readMoreLabel: z.string().default("View more"),
   readLessLabel: z.string().default("View less"),
   readMoreStyle: featureGridReadMoreStyleSchema.default("text"),
+  /** When true, a footer link hides read-more so the two CTAs do not compete. */
+  expandHideWhenFooterLink: z.boolean().default(true),
   cardHoverEffect: featureGridHoverEffectSchema.default("lift"),
   cardBackgroundColor: z.string().default(""),
   cardTextColor: z.string().default(""),
@@ -188,6 +228,37 @@ export const featureGridPropsSchema = z.object({
   cardPadding: z.string().default(""),
   iconSize: z.coerce.number().min(16).max(96).default(48),
   iconShape: featureGridIconShapeSchema.default("circle"),
+  carouselCardsPerView: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]).default(1),
+  carouselShowNav: z.boolean().default(true),
+  carouselShowDots: z.boolean().default(false),
+  carouselSnap: z.boolean().default(true),
+  carouselAutoplay: z.boolean().default(false),
+  carouselAutoplayIntervalMs: z.coerce.number().min(1000).max(60000).default(5000),
+  accordionAllowMultiple: z.boolean().default(false),
+  accordionOpenFirst: z.boolean().default(true),
+  accordionShowVisual: z.boolean().default(true),
+  contentOrder: z.array(featureGridContentElementSchema).default([
+    "visual",
+    "badge",
+    "number",
+    "title",
+    "subtitle",
+    "description",
+    "link",
+    "button",
+    "footer",
+  ]),
+  visibleElements: z.record(featureGridContentElementSchema, z.boolean()).default({
+    visual: true,
+    badge: true,
+    number: true,
+    title: true,
+    subtitle: true,
+    description: true,
+    link: true,
+    button: true,
+    footer: true,
+  }),
   items: z.array(featureGridItemSchema).default([]),
 });
 
@@ -446,6 +517,10 @@ export type GridItem = z.infer<typeof gridItemSchema>;
 export type FeatureGridItem = z.infer<typeof featureGridItemSchema>;
 export type FeatureGridProps = z.infer<typeof featureGridPropsSchema>;
 export type FeatureGridLayout = z.infer<typeof featureGridLayoutSchema>;
+export type FeatureGridPresentation = z.infer<typeof featureGridPresentationSchema>;
+export type FeatureGridCardPresentation = z.infer<typeof featureGridCardPresentationSchema>;
+export type FeatureGridVisualType = z.infer<typeof featureGridVisualTypeSchema>;
+export type FeatureGridImageAspect = z.infer<typeof featureGridImageAspectSchema>;
 export type FeatureGridCardStyle = z.infer<typeof featureGridCardStyleSchema>;
 export type FeatureGridContentElement = z.infer<typeof featureGridContentElementSchema>;
 export type FeatureGridExpandMode = z.infer<typeof featureGridExpandModeSchema>;

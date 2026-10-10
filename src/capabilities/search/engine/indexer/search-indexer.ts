@@ -547,7 +547,15 @@ export class SearchIndexer {
     }
     const items = await prisma.contentItem.findMany({
       where: { contentTypeId: typeId, deletedAt: null, status: "PUBLISHED", isVisible: true },
-      include: {
+      select: {
+        id: true,
+        slug: true,
+        attributes: true,
+        metadata: true,
+        blocks: true,
+        status: true,
+        isVisible: true,
+        featuredImageUrl: true,
         contentType: {
           select: { slug: true, routePrefix: true, fieldSchema: true, adminConfig: true, isEnabled: true },
         },

@@ -136,8 +136,11 @@ export const BlockWrapper = memo(function BlockWrapper({
   const animClasses = resolveAnimationClasses(block.animation, themeForAnim, blockIndex);
   const animStyle = animationInlineStyle(block.animation, blockIndex);
   const scrollAttrs = resolveScrollRevealAttributes(block.animation, themeForAnim, blockIndex);
+  const themeLazyLoad = ctx.theme?.lazyLoadEnabled !== false;
   const lazyBlockAttrs =
-    lazyLoad && blockIndex > 2 && !ctx.previewMode ? { "data-lazy-block": "true" } : {};
+    lazyLoad && themeLazyLoad && blockIndex > 2 && !ctx.previewMode
+      ? { "data-lazy-block": "true" }
+      : {};
   const seo = resolveBlockSeo(block.seo);
   const sectionBg = block.visual?.sectionBackground;
   const sectionStyle = sectionBackgroundStyle(sectionBg);
@@ -147,16 +150,17 @@ export const BlockWrapper = memo(function BlockWrapper({
     block.type === "hero" || block.type === "videoHero"
       ? String(blockSettings.layout ?? "")
       : "";
-  // Content-tab Transparent must win over Style / Look & Feel wrapper fills.
-  const isHeroTransparent =
+  // Content-tab Transparent clears Style fills so a Look & Feel section background can show.
+  const contentBackgroundTransparent =
     block.type === "hero" &&
     ((blockSettings.backgroundType as string | undefined) === "transparent" ||
       (blockSettings.backgroundType as string | undefined) === "none");
   const needsShellBreakout =
     firstBlockOverlayActive || heroLayout === "fullBleed";
-  const hasSectionBg =
-    !isHeroTransparent && Boolean(sectionBg?.type && sectionBg.type !== "none");
-  const chromeTint = sectionChromeTintAttrs(sectionBg, isHeroTransparent);
+  const heroLayoutAttr = heroLayout ? { "data-hero-layout": heroLayout } : {};
+  const hasSectionBg = Boolean(sectionBg?.type && sectionBg.type !== "none");
+  const clearStyleFill = contentBackgroundTransparent && !hasSectionBg;
+  const chromeTint = sectionChromeTintAttrs(sectionBg, clearStyleFill);
 
   const combinedClass = [
     resolved.className,
@@ -170,13 +174,16 @@ export const BlockWrapper = memo(function BlockWrapper({
     .join(" ");
 
   const cursorOff = block.visual?.siteEffects?.cursor === "off";
-  const textOff = block.visual?.siteEffects?.text === "off";
-  const headingEffectNone = block.visual?.headingTextEffect === "none";
+  const headingChoice = block.visual?.headingTextEffect;
+  const explicitHeading =
+    Boolean(headingChoice) && headingChoice !== "inherit" && headingChoice !== "none";
+  const textOff = block.visual?.siteEffects?.text === "off" && !explicitHeading;
+  const headingEffectNone = headingChoice === "none";
   const ownsSectionSpacing = blockNodeOwnsSectionSpacing(block);
 
   // When responsive CSS owns layout, keep only animation + section background inline
   // so media-query rules are not overridden by desktop inline styles.
-  const transparentHeroOverride: CSSProperties = isHeroTransparent
+  const transparentHeroOverride: CSSProperties = clearStyleFill
     ? { background: "none", backgroundImage: "none", backgroundColor: "transparent" }
     : {};
   const inlineStyle = useResponsiveCss
@@ -209,6 +216,7 @@ export const BlockWrapper = memo(function BlockWrapper({
       {...(chromeTint ?? {})}
       {...(firstBlockOverlayActive ? { "data-header-overlay-block": "true" } : {})}
       {...(needsShellBreakout ? { "data-hero-shell-breakout": "true" } : {})}
+      {...heroLayoutAttr}
       {...(seo.jsonLd ? { "data-block-jsonld": "true" } : {})}
       {...(hasSectionBg ? { "data-block-visual-bg": "true" } : {})}
       {...(cursorOff ? { "data-block-cursor-off": "true" } : {})}

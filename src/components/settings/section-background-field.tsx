@@ -22,19 +22,29 @@ const TYPE_OPTIONS = [
 type Props = {
   value: BlockSectionBackground | undefined;
   onChange: (value: BlockSectionBackground) => void;
+  label?: string;
 };
 
-export function SectionBackgroundField({ value, onChange }: Props) {
+export function SectionBackgroundField({ value, onChange, label = "Section background" }: Props) {
   const bg = value ?? { type: "none" as const };
   const type = bg.type ?? "none";
 
   return (
     <div className="space-y-3">
       <EffectSelectField
-        label="Section background"
+        label={label}
         value={type}
         options={TYPE_OPTIONS}
-        onChange={(next) => onChange({ ...bg, type: next as BlockSectionBackground["type"] })}
+        onChange={(next) => {
+          const type = next as BlockSectionBackground["type"];
+          const patch: BlockSectionBackground = { ...bg, type };
+          if (type === "color" && !bg.color) patch.color = "#0a0f0d";
+          if (type === "gradient" && !bg.gradient) {
+            patch.gradient = "linear-gradient(135deg, #047857, #0a0f0d)";
+          }
+          if (type === "pattern" && !bg.pattern) patch.pattern = "grid";
+          onChange(patch);
+        }}
       />
 
       {type === "color" && (

@@ -24,11 +24,19 @@ import { resolveContentTypeSearchConfig } from "@/capabilities/search/engine/sch
 
 import {
 
-  isBuiltinContentTypeSlug,
+  PACKAGES_LEGACY_SLUG,
 
   builtinKeyForContentTypeSlug,
 
+  resolveContentTypeSourceLabel,
+
 } from "@/capabilities/search/settings/search-sources";
+
+import { getBuiltinContentType, readOriginBuiltinSlug } from "@/features/content/content-type.registry";
+
+import { loadTranslationBundle } from "@/features/translation/translation-bundle";
+
+import { localizedField } from "@/features/portal/lib/portal-translation";
 
 import {
 
@@ -82,6 +90,8 @@ export type SearchSettingsPageData = {
 
       slug: string;
 
+      label: string;
+
       isEnabled: boolean;
 
       searchEnabled: boolean;
@@ -89,6 +99,8 @@ export type SearchSettingsPageData = {
       isBuiltin: boolean;
 
       builtinKey: string | null;
+
+      originBuiltinSlug: string | null;
 
     }[];
 
@@ -105,6 +117,32 @@ export type SearchSettingsPageData = {
 };
 
 
+
+async function mapAllContentTypes(
+  allTypes: Awaited<ReturnType<typeof prisma.contentType.findMany>>,
+  locale: string
+): Promise<SearchSettingsPageData["discovery"]["allContentTypes"]> {
+  const typeBundle = await loadTranslationBundle(
+    allTypes.map((row) => ({ entityType: "ContentType" as const, entityId: row.id }))
+  );
+  return allTypes.map((row) => {
+    const originBuiltinSlug = readOriginBuiltinSlug(row.adminConfig);
+    const labelPlural = localizedField(typeBundle, "ContentType", row.id, "labelPlural");
+    const name = localizedField(typeBundle, "ContentType", row.id, "name");
+    return {
+      id: row.id,
+      slug: row.slug,
+      label: resolveContentTypeSourceLabel(labelPlural, name, row.slug, locale),
+      isEnabled: row.isEnabled,
+      searchEnabled: resolveContentTypeSearchConfig(row.adminConfig, row.isEnabled).enabled,
+      isBuiltin: Boolean(
+        getBuiltinContentType(row.slug) || row.slug === PACKAGES_LEGACY_SLUG || originBuiltinSlug
+      ),
+      builtinKey: builtinKeyForContentTypeSlug(row.slug),
+      originBuiltinSlug,
+    };
+  });
+}
 
 export async function loadSearchSettingsPageData(
 
@@ -242,21 +280,7 @@ export async function loadSearchSettingsPageData(
 
       })),
 
-      allContentTypes: allTypes.map((t) => ({
-
-        id: t.id,
-
-        slug: t.slug,
-
-        isEnabled: t.isEnabled,
-
-        searchEnabled: resolveContentTypeSearchConfig(t.adminConfig, t.isEnabled).enabled,
-
-        isBuiltin: isBuiltinContentTypeSlug(t.slug),
-
-        builtinKey: builtinKeyForContentTypeSlug(t.slug),
-
-      })),
+      allContentTypes: await mapAllContentTypes(allTypes, locale),
 
       kinds: discovery.kinds,
 
@@ -290,7 +314,27 @@ export async function saveAdminSearchSettings(
 
     const locale = resolveConfiguredLocaleCode(localeParam ?? "", adminLocale.code);
 
-    await patchSiteSettingsKey(locale, "search", adminSearchSettingsToSiteJson(parsed));
+    const knownSlugs = new Set(
+
+      (await prisma.contentType.findMany({ select: { slug: true } })).map((row) => row.slug)
+
+    );
+
+    const contentTypeSlugs = Object.fromEntries(
+
+      Object.entries(parsed.sources.contentTypeSlugs).filter(([slug]) => knownSlugs.has(slug))
+
+    );
+
+    const settings = {
+
+      ...parsed,
+
+      sources: { ...parsed.sources, contentTypeSlugs },
+
+    };
+
+    await patchSiteSettingsKey(locale, "search", adminSearchSettingsToSiteJson(settings));
 
     invalidateSearchRuntimeConfigCache(locale);
 

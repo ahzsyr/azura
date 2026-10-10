@@ -42,7 +42,7 @@ export function SectionBackgroundLayers({ bg }: Props) {
   }
 
   if (bg.type === "glass") {
-    const blur = bg.glassBlur ?? "var(--az-preset-blur-glass, 16px)";
+    const blur = bg.glassBlur?.trim() || "var(--az-preset-blur-glass, 16px)";
     return (
       <div
         ref={hostRef}
@@ -67,13 +67,13 @@ export function SectionBackgroundLayers({ bg }: Props) {
     );
   }
 
-  if (sectionBackgroundUsesLayer(bg) && bg.type === "pattern") {
+  if (sectionBackgroundUsesLayer(bg) && bg.type === "pattern" && bg.pattern) {
     return (
       <div
         ref={hostRef}
         aria-hidden
         className="az-section-bg-layer az-section-bg-pattern pointer-events-none absolute inset-0 z-0"
-        data-section-pattern={bg.pattern ?? "grid"}
+        data-section-pattern={bg.pattern}
       />
     );
   }

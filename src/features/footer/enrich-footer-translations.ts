@@ -11,10 +11,11 @@ import {
 } from "@/features/translation/workspace-translation.service";
 import {
   makeFooterColumnEntityId,
+  makeFooterContactItemEntityId,
   makeFooterEntityId,
   makeFooterLinkEntityId,
 } from "@/features/translation/workspace-entity-ids";
-import type { FooterColumn, FooterLink, FooterWorkspace } from "./types";
+import type { FooterColumn, FooterContactItem, FooterLink, FooterWorkspace } from "./types";
 import { collectFooterTranslationRefs } from "./footer-translation-refs";
 
 export { collectFooterTranslationRefs };
@@ -41,6 +42,44 @@ function localizeLink(
         defaultCode,
         link.label
       ) || link.label,
+  };
+}
+
+function localizeContactItem(
+  item: FooterContactItem,
+  columnId: string,
+  languageCode: string,
+  enabledLocales: Awaited<ReturnType<typeof localeService.listEnabled>>,
+  bundle: WorkspaceTranslationBundle,
+  defaultCode?: string
+): FooterContactItem {
+  const entityId = makeFooterContactItemEntityId(columnId, item.id);
+  const translatableValue = item.type === "text" || item.type === "richtext" || item.type === "custom";
+  return {
+    ...item,
+    label:
+      resolveWorkspaceField(
+        bundle,
+        "FooterContactItem",
+        entityId,
+        "label",
+        languageCode,
+        enabledLocales,
+        defaultCode,
+        item.label
+      ) || item.label,
+    value: translatableValue
+      ? resolveWorkspaceField(
+          bundle,
+          "FooterContactItem",
+          entityId,
+          "value",
+          languageCode,
+          enabledLocales,
+          defaultCode,
+          item.value
+        ) || item.value
+      : item.value,
   };
 }
 
@@ -76,8 +115,22 @@ function localizeColumn(
         defaultCode,
         col.body
       ) || col.body,
+    customContent:
+      resolveWorkspaceField(
+        bundle,
+        "FooterColumn",
+        entityId,
+        "customContent",
+        languageCode,
+        enabledLocales,
+        defaultCode,
+        col.customContent
+      ) || col.customContent,
     links: (col.links ?? []).map((link, index) =>
       localizeLink(link, col.id, index, languageCode, enabledLocales, bundle, defaultCode)
+    ),
+    customContactItems: (col.customContactItems ?? []).map((item) =>
+      localizeContactItem(item, col.id, languageCode, enabledLocales, bundle, defaultCode)
     ),
   };
 }

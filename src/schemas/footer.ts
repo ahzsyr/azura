@@ -8,6 +8,17 @@ const footerLinkSchema = z.object({
   openInNewTab: z.boolean().optional(),
 });
 
+const footerContactItemSchema = z.object({
+  id: z.string(),
+  type: z.enum(["phone", "email", "address", "text", "richtext", "custom"]),
+  icon: z.string().optional(),
+  label: z.string().optional(),
+  value: z.string().default(""),
+  url: z.string().optional(),
+  openInNewTab: z.boolean().optional(),
+  badge: z.string().optional(),
+});
+
 const footerColumnSchema = z.object({
   id: z.string(),
   type: z.enum(FOOTER_SECTION_TYPES),
@@ -21,6 +32,7 @@ const footerColumnSchema = z.object({
   showEmail: z.boolean().optional(),
   showPhone: z.boolean().optional(),
   showAddress: z.boolean().optional(),
+  customContactItems: z.array(footerContactItemSchema).optional(),
   columnSlot: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]).optional(),
   hiddenOnTablet: z.boolean().optional(),
   hiddenOnMobile: z.boolean().optional(),
@@ -28,6 +40,8 @@ const footerColumnSchema = z.object({
   socialStyle: z.enum(["icons", "text", "icons-text"]).optional(),
   socialIconSize: z.enum(["sm", "md", "lg"]).optional(),
   socialLayout: z.enum(["horizontal", "vertical"]).optional(),
+  height: z.number().min(0).optional(),
+  style: z.enum(["solid", "dashed", "gold"]).optional(),
 });
 
 const footerDesignSchema = z.object({

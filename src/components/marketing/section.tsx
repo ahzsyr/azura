@@ -57,10 +57,11 @@ export function Section({
       className={cn(
         !suppressPadding && "section-padding",
         "relative overflow-hidden",
-        hasVisualBackground && "z-[1]",
-        variant === "muted" && "bg-muted/40",
-        variant === "solid" && "az-section--solid bg-card/95",
-        variant === "dark" && "bg-foreground text-background",
+        hasVisualBackground && "z-[1] bg-transparent",
+        !hasVisualBackground && variant === "muted" && "bg-muted/40",
+        !hasVisualBackground && variant === "solid" && "az-section--solid bg-card/95",
+        variant === "dark" && "text-background",
+        !hasVisualBackground && variant === "dark" && "bg-foreground",
         className
       )}
       {...(chromeTint ?? {})}

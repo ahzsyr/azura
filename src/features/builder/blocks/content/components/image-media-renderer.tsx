@@ -2,8 +2,8 @@ import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { normalizeLocalMediaUrl, normalizeRemoteImageUrl } from "@/lib/config/next-image";
 import {
-  MEDIA_ASPECT_CLASS,
   MEDIA_SIZE_CLASS,
+  mediaAspectFrame,
   resolveCustomDimensionStyle,
   type ImageMediaAspectRatio,
   type ImageMediaDimensionUnit,
@@ -22,6 +22,8 @@ type Props = {
   /** Constrain frame max-width (legacy banner behavior) */
   hugOrAuthoredWidth?: boolean;
   aspectRatio?: ImageMediaAspectRatio;
+  customAspectWidth?: number | null;
+  customAspectHeight?: number | null;
   size?: ImageMediaSize;
   objectFit?: ImageMediaObjectFit;
   width?: number | null;
@@ -41,6 +43,8 @@ export function ImageMediaRenderer({
   className,
   hugOrAuthoredWidth = false,
   aspectRatio = "auto",
+  customAspectWidth = null,
+  customAspectHeight = null,
   size = "auto",
   objectFit = "cover",
   width = null,
@@ -59,7 +63,7 @@ export function ImageMediaRenderer({
   }
 
   const fitClass = objectFit === "contain" ? "object-contain" : "object-cover";
-  const aspectClass = MEDIA_ASPECT_CLASS[aspectRatio];
+  const aspect = mediaAspectFrame(aspectRatio, customAspectWidth, customAspectHeight);
   const sizeClass = size !== "auto" && size !== "custom" ? MEDIA_SIZE_CLASS[size] : "";
   const defaultMax =
     size === "auto"
@@ -77,6 +81,8 @@ export function ImageMediaRenderer({
     widthAuto,
     heightAuto,
     aspectRatio,
+    customAspectWidth,
+    customAspectHeight,
   });
   const hasCustomDimensions = size === "custom" || explicitWidth !== undefined || explicitHeight !== undefined;
 
@@ -107,20 +113,16 @@ export function ImageMediaRenderer({
         "relative w-full min-w-0 overflow-hidden leading-none",
         "mx-auto",
         size === "custom" ? "" : sizeClass || defaultMax,
-        lockedAspect && aspectClass,
+        lockedAspect && aspect.className,
         borderRadius === undefined && "rounded-xl",
         className,
       )}
-      style={
-        hasCustomDimensions
-          ? {
-              ...frameStyle,
-              ...(explicitWidth ? { width: explicitWidth } : {}),
-              ...(explicitHeight ? { height: explicitHeight } : {}),
-              ...(aspectRatio !== "auto" ? { aspectRatio: aspectRatio } : {}),
-            }
-          : frameStyle
-      }
+      style={{
+        ...frameStyle,
+        ...(hasCustomDimensions && explicitWidth ? { width: explicitWidth } : {}),
+        ...(hasCustomDimensions && explicitHeight ? { height: explicitHeight } : {}),
+        ...aspect.style,
+      }}
       data-image-frame="true"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -12,7 +12,7 @@ type Props = {
 export function CollectionIcon({ src, className, alt = "" }: Props) {
   if (isCollectionImageSrc(src)) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={src} alt={alt} className={className} />;
+    return <img src={src} alt={alt} loading="lazy" className={className} />;
   }
   return <Icon iconId={src} className={className ?? "h-7 w-7"} />;
 }

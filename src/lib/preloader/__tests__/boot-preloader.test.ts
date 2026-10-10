@@ -1,7 +1,10 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { DEFAULT_SITE_PRELOADER } from "@/features/preloader/site-preloader.schema";
+import {
+  DEFAULT_SITE_PRELOADER,
+  parseSitePreloaderSettings,
+} from "@/features/preloader/site-preloader.schema";
 import type { ResolvedSitePreloader } from "@/features/preloader/resolve-site-preloader";
 import {
   buildBootPreloaderCenterHtml,
@@ -17,6 +20,19 @@ function settings(
     ...overrides,
   };
 }
+
+describe("preloader background", () => {
+  it("defaults to glass when no background was saved", () => {
+    const parsed = parseSitePreloaderSettings({ enabled: true });
+    assert.equal(parsed.background.type, "glass");
+  });
+
+  it("keeps a legacy solid color as a color background", () => {
+    const parsed = parseSitePreloaderSettings({ backgroundColor: "#112233" });
+    assert.equal(parsed.background.type, "color");
+    assert.equal(parsed.background.color, "#112233");
+  });
+});
 
 describe("boot preloader themed logo", () => {
   it("tints the boot logo with a CSS mask so first paint tracks --primary", () => {

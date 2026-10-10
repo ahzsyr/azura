@@ -22,11 +22,29 @@ import {
 } from "@/features/builder/blocks/marketing/admin/feature-grid-card-form";
 import { readItemFieldValue } from "@/features/builder/blocks/marketing/admin/localized-item-fields";
 import { normalizeFeatureGridProps } from "@/features/builder/blocks/marketing/lib/normalize-feature-grid";
-import type { FeatureGridItem } from "@/features/builder/blocks/marketing/schemas/marketing-blocks";
+import {
+  featureGridContentElementSchema,
+  type FeatureGridContentElement,
+  type FeatureGridItem,
+} from "@/features/builder/blocks/marketing/schemas/marketing-blocks";
 
 type Props = { block: BlockNode; onChange: (block: BlockNode) => void };
 
 /** Translatable string fields that must clear EntityTranslation when props are emptied. */
+const ELEMENT_LABELS: Record<FeatureGridContentElement, string> = {
+  visual: "Icon / image",
+  badge: "Badge",
+  number: "Number",
+  title: "Title",
+  subtitle: "Subtitle",
+  description: "Description",
+  link: "Text link",
+  button: "Button",
+  footer: "Footer",
+};
+
+const ALL_ELEMENTS = featureGridContentElementSchema.options;
+
 const FEATURE_GRID_LOCALIZED_STRING_FIELDS = [
   "eyebrow",
   "headerCtaLabel",
@@ -67,6 +85,18 @@ export function FeatureGridBlockFields({ block, onChange }: Props) {
   const setProp = (key: string, value: unknown) =>
     onChange(patchBlockSettings(block, { [key]: value }));
   const updateItems = (next: FeatureGridItem[]) => setProp("items", next);
+  const visible = cfg.visibleElements ?? {};
+  const order = (cfg.contentOrder?.length ? cfg.contentOrder : ALL_ELEMENTS) as FeatureGridContentElement[];
+  const moveElement = (el: FeatureGridContentElement, dir: -1 | 1) => {
+    const idx = order.indexOf(el);
+    if (idx < 0) return;
+    const nextIdx = idx + dir;
+    if (nextIdx < 0 || nextIdx >= order.length) return;
+    const next = [...order];
+    const [removed] = next.splice(idx, 1);
+    next.splice(nextIdx, 0, removed!);
+    setProp("contentOrder", next);
+  };
 
   const [openContent, setOpenContent] = useState(true);
   const [openLayout, setOpenLayout] = useState(false);
@@ -193,19 +223,34 @@ export function FeatureGridBlockFields({ block, onChange }: Props) {
 
       <Section title="02 Layout" open={openLayout} onToggle={() => setOpenLayout((v) => !v)}>
         <div>
-          <Label className="text-xs">Layout</Label>
+          <Label className="text-xs">Arrangement</Label>
           <select
             className="mt-1 h-9 w-full rounded-md border px-2 text-sm"
-            value={cfg.layout}
-            onChange={(e) => setProp("layout", e.target.value)}
+            value={cfg.presentation}
+            onChange={(e) => setProp("presentation", e.target.value)}
           >
-            <option value="standard">Standard card grid</option>
-            <option value="icon">Icon / image cards</option>
-            <option value="numbered">Numbered service cards</option>
-            <option value="horizontal">Horizontal cards</option>
-            <option value="carousel">Carousel / horizontal scroll</option>
+            <option value="grid">Grid</option>
+            <option value="carousel">Carousel</option>
+            <option value="accordion">Accordion</option>
           </select>
         </div>
+        {cfg.presentation !== "accordion" ? (
+          <div>
+            <Label className="text-xs">Card presentation</Label>
+            <select
+              className="mt-1 h-9 w-full rounded-md border px-2 text-sm"
+              value={cfg.cardPresentation}
+              onChange={(e) => setProp("cardPresentation", e.target.value)}
+            >
+              <option value="standard">Standard</option>
+              <option value="icon">Icon focused</option>
+              <option value="numbered">Numbered</option>
+              <option value="horizontal">Horizontal</option>
+            </select>
+          </div>
+        ) : null}
+        {cfg.presentation === "grid" ? (
+        <div className="space-y-3">
         <div className="grid grid-cols-3 gap-2">
           <div>
             <Label className="text-xs">Desktop cols</Label>
@@ -288,9 +333,155 @@ export function FeatureGridBlockFields({ block, onChange }: Props) {
             onChange={(e) => setProp("minCardHeight", Number(e.target.value))}
           />
         </div>
+        </div>
+        ) : null}
+        {cfg.presentation === "carousel" ? (
+          <div className="space-y-3">
+            <div>
+              <Label className="text-xs">Gap (px)</Label>
+              <Input
+                type="number"
+                className="mt-1 h-8 text-sm"
+                value={cfg.gap}
+                onChange={(e) => setProp("gap", Number(e.target.value))}
+              />
+            </div>
+            <div>
+              <Label className="text-xs">Content alignment</Label>
+              <select
+                className="mt-1 h-9 w-full rounded-md border px-2 text-sm"
+                value={cfg.contentAlign}
+                onChange={(e) => setProp("contentAlign", e.target.value)}
+              >
+                <option value="left">Left</option>
+                <option value="center">Center</option>
+                <option value="right">Right</option>
+              </select>
+            </div>
+          </div>
+        ) : null}
+        {cfg.presentation === "carousel" ? (
+          <div className="space-y-3">
+            <div>
+              <Label className="text-xs">Cards per view</Label>
+              <select
+                className="mt-1 h-9 w-full rounded-md border px-2 text-sm"
+                value={String(cfg.carouselCardsPerView)}
+                onChange={(e) => setProp("carouselCardsPerView", Number(e.target.value))}
+              >
+                <option value="1">Follow column counts</option>
+                {[2, 3, 4].map((n) => (
+                  <option key={n} value={n}>
+                    {n}
+                  </option>
+                ))}
+              </select>
+              <p className="mt-1 text-xs text-muted-foreground">
+                The default follows desktop, tablet, and mobile column counts. Pick 2–4 to fix how many cards show on desktop.
+              </p>
+            </div>
+            {cfg.carouselCardsPerView === 1 ? (
+              <div className="grid grid-cols-3 gap-2">
+                {(
+                  [
+                    ["columns", "Desktop"],
+                    ["columnsTablet", "Tablet"],
+                    ["columnsMobile", "Mobile"],
+                  ] as const
+                ).map(([key, label]) => (
+                  <div key={key}>
+                    <Label className="text-xs">{label}</Label>
+                    <select
+                      className="mt-1 h-9 w-full rounded-md border px-2 text-sm"
+                      value={String(cfg[key])}
+                      onChange={(e) => setProp(key, Number(e.target.value))}
+                    >
+                      {[1, 2, 3, 4, 5, 6].map((n) => (
+                        <option key={n} value={n}>
+                          {n}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={cfg.carouselShowNav}
+                onChange={(e) => setProp("carouselShowNav", e.target.checked)}
+              />
+              Show previous and next buttons
+            </label>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={cfg.carouselShowDots}
+                onChange={(e) => setProp("carouselShowDots", e.target.checked)}
+              />
+              Show pagination dots
+            </label>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={cfg.carouselSnap}
+                onChange={(e) => setProp("carouselSnap", e.target.checked)}
+              />
+              Snap to a card
+            </label>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={cfg.carouselAutoplay}
+                onChange={(e) => setProp("carouselAutoplay", e.target.checked)}
+              />
+              Autoplay
+            </label>
+            {cfg.carouselAutoplay ? (
+              <div>
+                <Label className="text-xs">Autoplay interval (ms)</Label>
+                <Input
+                  type="number"
+                  className="mt-1 h-8 text-sm"
+                  value={cfg.carouselAutoplayIntervalMs}
+                  onChange={(e) => setProp("carouselAutoplayIntervalMs", Number(e.target.value))}
+                />
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+        {cfg.presentation === "accordion" ? (
+          <div className="space-y-3">
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={cfg.accordionAllowMultiple}
+                onChange={(e) => setProp("accordionAllowMultiple", e.target.checked)}
+              />
+              Allow multiple items open
+            </label>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={cfg.accordionOpenFirst}
+                onChange={(e) => setProp("accordionOpenFirst", e.target.checked)}
+              />
+              Open the first item
+            </label>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={cfg.accordionShowVisual}
+                onChange={(e) => setProp("accordionShowVisual", e.target.checked)}
+              />
+              Show icon, image, or number in each row
+            </label>
+          </div>
+        ) : null}
       </Section>
 
-      <Section title="03 Card design" open={openDesign} onToggle={() => setOpenDesign((v) => !v)}>
+      <Section title="03 Card design (all cards)" open={openDesign} onToggle={() => setOpenDesign((v) => !v)}>
         <div>
           <Label className="text-xs">Card style</Label>
           <select
@@ -319,27 +510,89 @@ export function FeatureGridBlockFields({ block, onChange }: Props) {
             <option value="background">Background</option>
           </select>
         </div>
+        <div>
+          <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Visible elements
+          </Label>
+          <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1">
+            {ALL_ELEMENTS.map((el) => (
+              <label key={el} className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={visible[el] !== false}
+                  onChange={(e) =>
+                    setProp("visibleElements", { ...visible, [el]: e.target.checked })
+                  }
+                />
+                {ELEMENT_LABELS[el]}
+              </label>
+            ))}
+          </div>
+        </div>
+        <div>
+          <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Element order
+          </Label>
+          <ul className="mt-2 space-y-1">
+            {order.map((el, idx) => (
+              <li
+                key={el}
+                className="flex items-center justify-between rounded border px-2 py-1 text-sm"
+              >
+                <span>{ELEMENT_LABELS[el]}</span>
+                <span className="flex gap-1">
+                  <button
+                    type="button"
+                    className="rounded border px-1.5 text-xs disabled:opacity-40"
+                    disabled={idx === 0}
+                    onClick={() => moveElement(el, -1)}
+                    aria-label={`Move ${ELEMENT_LABELS[el]} up`}
+                  >
+                    ↑
+                  </button>
+                  <button
+                    type="button"
+                    className="rounded border px-1.5 text-xs disabled:opacity-40"
+                    disabled={idx === order.length - 1}
+                    onClick={() => moveElement(el, 1)}
+                    aria-label={`Move ${ELEMENT_LABELS[el]} down`}
+                  >
+                    ↓
+                  </button>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
         <div className="grid grid-cols-2 gap-2">
-          {(
-            [
-              ["cardBackgroundColor", "Background"],
-              ["cardTextColor", "Text"],
-              ["cardBorderColor", "Border"],
-              ["cardAccentColor", "Accent"],
-              ["cardBorderRadius", "Radius"],
-              ["cardPadding", "Padding"],
-            ] as const
-          ).map(([key, label]) => (
-            <div key={key}>
-              <Label className="text-xs">{label}</Label>
-              <Input
-                className="mt-1 h-8 text-sm"
-                placeholder="CSS value"
-                value={(cfg[key] as string) ?? ""}
-                onChange={(e) => setProp(key, e.target.value)}
-              />
-            </div>
-          ))}
+          <div>
+            <Label className="text-xs">Default visual</Label>
+            <select
+              className="mt-1 h-9 w-full rounded-md border px-2 text-sm"
+              value={cfg.defaultVisualType}
+              onChange={(e) => setProp("defaultVisualType", e.target.value)}
+            >
+              <option value="auto">Auto</option>
+              <option value="icon">Icon</option>
+              <option value="image">Photo</option>
+              <option value="number">Number</option>
+              <option value="none">None</option>
+            </select>
+          </div>
+          <div>
+            <Label className="text-xs">Image aspect</Label>
+            <select
+              className="mt-1 h-9 w-full rounded-md border px-2 text-sm"
+              value={cfg.imageAspect}
+              onChange={(e) => setProp("imageAspect", e.target.value)}
+            >
+              <option value="auto">Auto</option>
+              <option value="square">Square</option>
+              <option value="video">16:9</option>
+              <option value="landscape">4:3</option>
+              <option value="portrait">3:4</option>
+            </select>
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-2">
           <div>
@@ -425,6 +678,14 @@ export function FeatureGridBlockFields({ block, onChange }: Props) {
           <LocalizedBlockInput block={block} field="readMoreLabel" label="View more label" />
           <LocalizedBlockInput block={block} field="readLessLabel" label="View less label" />
         </div>
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={cfg.expandHideWhenFooterLink}
+            onChange={(e) => setProp("expandHideWhenFooterLink", e.target.checked)}
+          />
+          Hide read more when a footer link is set
+        </label>
         <div>
           <Label className="text-xs">View more button style</Label>
           <select

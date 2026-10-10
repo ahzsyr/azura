@@ -1,6 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import type {
@@ -23,11 +31,11 @@ import type { HeaderRendererSurface } from "../HeaderRenderer";
 import { HeaderActions } from "../HeaderActions";
 import { NavMenuGlyph } from "../NavMenuGlyph";
 import { prefetchSearchModal, requestOpenSearch } from "@/capabilities/search/components/search-prefetch";
-import type { NavIconVisibility } from "@/features/navigation/nav-icon-visibility";
+import type { NavIconBreakpoint, NavIconVisibility } from "@/features/navigation/nav-icon-visibility";
 import {
   navIconVisibilityDataAttributes,
+  resolveItemShowsNavIcon,
   resolveNavIconBreakpoint,
-  shouldShowNavIconsAtBreakpoint,
 } from "@/features/navigation/nav-icon-visibility";
 
 type MnavAnimState = "closed" | "open" | "closing";
@@ -50,14 +58,34 @@ function getViewportWidthServerSnapshot() {
   return NAV_MOBILE_NARROW_MAX_PX;
 }
 
-function useViewportShowNavIcons(visibility: NavIconVisibility | undefined, fallback: boolean) {
+function useNavIconBreakpoint(): NavIconBreakpoint {
   const width = useSyncExternalStore(
     subscribeViewportWidth,
     getViewportWidthSnapshot,
     getViewportWidthServerSnapshot,
   );
-  if (!visibility) return fallback;
-  return shouldShowNavIconsAtBreakpoint(visibility, resolveNavIconBreakpoint(width));
+  return resolveNavIconBreakpoint(width);
+}
+
+function iconSlotDecision(
+  item: Pick<MenuItem, "iconPlacement">,
+  breakpoint: NavIconBreakpoint,
+  defaults: NavIconVisibility,
+): { show: boolean; override: boolean } {
+  const show = resolveItemShowsNavIcon(item.iconPlacement, breakpoint, defaults);
+  return { show, override: show && !defaults[breakpoint] };
+}
+
+function anyItemShowsNavIcon(
+  items: MenuItem[],
+  breakpoint: NavIconBreakpoint,
+  defaults: NavIconVisibility,
+): boolean {
+  return items.some(
+    (item) =>
+      iconSlotDecision(item, breakpoint, defaults).show ||
+      anyItemShowsNavIcon(item.children ?? [], breakpoint, defaults),
+  );
 }
 
 interface Props {
@@ -96,16 +124,22 @@ function handleNavLinkClick(
 function MnavIconSlot({
   icon,
   showIcons,
+  override = false,
   fallbackIcon = "fa-circle",
 }: {
   icon?: string;
   showIcons: boolean;
+  override?: boolean;
   fallbackIcon?: string;
 }) {
   if (!showIcons) return null;
   const glyph = icon?.trim() ? icon : fallbackIcon;
   return (
-    <span className="mnav-row__icon" aria-hidden>
+    <span
+      className="mnav-row__icon"
+      data-nav-icon-override={override ? "show" : undefined}
+      aria-hidden
+    >
       <NavMenuGlyph icon={glyph} className="h-4 w-4" />
     </span>
   );
@@ -118,16 +152,21 @@ function MnavLabel({ children }: { children: ReactNode }) {
 function MnavChevron({ show, isOpen }: { show: boolean; isOpen?: boolean }) {
   if (!show) return null;
   return (
-    <span className="mnav-row__chevron" aria-hidden>
-      <i className={`fas fa-chevron-${isOpen ? "up" : "down"}`} />
+    <span className={`mnav-row__chevron${isOpen ? " is-open" : ""}`} aria-hidden>
+      <i className="fas fa-chevron-down" />
     </span>
   );
+}
+
+function mnavDepthStyle(depth: number): CSSProperties {
+  return { "--mnav-depth": depth } as CSSProperties;
 }
 
 type MnavItemRowProps = {
   icon?: string;
   label: string;
   showIcons: boolean;
+  iconOverride?: boolean;
   showArrows?: boolean;
   isOpen?: boolean;
   variant?: "row" | "child";
@@ -143,13 +182,14 @@ function MnavItemRowContent({
   icon,
   label,
   showIcons,
+  iconOverride,
   showArrows,
   isOpen,
   variant = "row",
 }: MnavItemRowProps) {
   return (
     <>
-      <MnavIconSlot icon={icon} showIcons={showIcons} />
+      <MnavIconSlot icon={icon} showIcons={showIcons} override={iconOverride} />
       <MnavLabel>{label}</MnavLabel>
       {variant === "row" && showArrows != null ? (
         <MnavChevron show={showArrows} isOpen={isOpen} />
@@ -163,6 +203,8 @@ function NavRows({
   localeCode,
   surface,
   showIcons,
+  iconBreakpoint,
+  iconDefaults,
   showArrows,
   onClose,
 }: {
@@ -170,6 +212,8 @@ function NavRows({
   localeCode: string;
   surface?: HeaderRendererSurface;
   showIcons: boolean;
+  iconBreakpoint?: NavIconBreakpoint;
+  iconDefaults?: NavIconVisibility;
   showArrows: boolean;
   onClose?: () => void;
 }) {
@@ -182,19 +226,75 @@ function NavRows({
     });
 
   return (
+    <NavRowsList
+      items={items}
+      depth={0}
+      localeCode={localeCode}
+      surface={surface}
+      showIcons={showIcons}
+      iconBreakpoint={iconBreakpoint}
+      iconDefaults={iconDefaults}
+      showArrows={showArrows}
+      onClose={onClose}
+      openIds={openIds}
+      onToggle={toggle}
+    />
+  );
+}
+
+function NavRowsList({
+  items,
+  depth,
+  localeCode,
+  surface,
+  showIcons,
+  iconBreakpoint,
+  iconDefaults,
+  showArrows,
+  onClose,
+  openIds,
+  onToggle,
+}: {
+  items: MenuItem[];
+  depth: number;
+  localeCode: string;
+  surface?: HeaderRendererSurface;
+  showIcons: boolean;
+  iconBreakpoint?: NavIconBreakpoint;
+  iconDefaults?: NavIconVisibility;
+  showArrows: boolean;
+  onClose?: () => void;
+  openIds: Set<string>;
+  onToggle: (id: string) => void;
+}) {
+  const slotFor = (item: MenuItem) =>
+    iconBreakpoint && iconDefaults
+      ? iconSlotDecision(item, iconBreakpoint, iconDefaults)
+      : { show: showIcons, override: false };
+
+  const variant = depth > 0 ? "child" : "row";
+
+  return (
     <>
       {items.map((item) =>
         item.children.length > 0 ? (
-          <div key={item.id} className="mnav-item-wrap">
-            <div
-              className={`mnav-parent-row${openIds.has(item.id) ? " is-open" : ""}`}
-            >
+          <div
+            key={item.id}
+            className={`mnav-item-wrap${openIds.has(item.id) ? " is-open" : ""}`}
+          >
+            <div className={`mnav-parent-row${openIds.has(item.id) ? " is-open" : ""}`}>
               <a
                 href={getItemHref(item, localeCode)}
-                className={mnavRowClass("row", "mnav-row--parent-link")}
+                className={mnavRowClass(variant, "mnav-row--parent-link")}
+                style={mnavDepthStyle(depth)}
+                data-mnav-depth={depth}
                 onClick={(e) => handleNavLinkClick(e, surface, onClose)}
               >
-                <MnavIconSlot icon={item.icon} showIcons={showIcons} />
+                <MnavIconSlot
+                  icon={item.icon}
+                  showIcons={slotFor(item).show}
+                  override={slotFor(item).override}
+                />
                 <MnavLabel>{item.label}</MnavLabel>
               </a>
               {showArrows ? (
@@ -207,40 +307,46 @@ function NavRows({
                       ? `Collapse ${item.label}`
                       : `Expand ${item.label}`
                   }
-                  onClick={() => toggle(item.id)}
+                  onClick={() => onToggle(item.id)}
                 >
                   <MnavChevron show isOpen={openIds.has(item.id)} />
                 </button>
               ) : null}
             </div>
-            {openIds.has(item.id) ? (
-              <div className="mnav-children">
-                {item.children.map((child) => (
-                  <a
-                    key={child.id}
-                    href={getItemHref(child, localeCode)}
-                    className={mnavRowClass("child")}
-                    onClick={(e) => handleNavLinkClick(e, surface, onClose)}
-                  >
-                    <MnavItemRowContent
-                      icon={child.icon}
-                      label={child.label}
-                      showIcons={showIcons}
-                      variant="child"
-                    />
-                  </a>
-                ))}
+            <div className="mnav-children">
+              <div className="mnav-children__clip" inert={!openIds.has(item.id)}>
+                <NavRowsList
+                  items={item.children}
+                  depth={depth + 1}
+                  localeCode={localeCode}
+                  surface={surface}
+                  showIcons={showIcons}
+                  iconBreakpoint={iconBreakpoint}
+                  iconDefaults={iconDefaults}
+                  showArrows={showArrows}
+                  onClose={onClose}
+                  openIds={openIds}
+                  onToggle={onToggle}
+                />
               </div>
-            ) : null}
+            </div>
           </div>
         ) : (
           <a
             key={item.id}
             href={getItemHref(item, localeCode)}
-            className={mnavRowClass("row")}
+            className={mnavRowClass(variant)}
+            style={mnavDepthStyle(depth)}
+            data-mnav-depth={depth}
             onClick={(e) => handleNavLinkClick(e, surface, onClose)}
           >
-            <MnavItemRowContent icon={item.icon} label={item.label} showIcons={showIcons} />
+            <MnavItemRowContent
+              icon={item.icon}
+              label={item.label}
+              showIcons={slotFor(item).show}
+              iconOverride={slotFor(item).override}
+              variant={variant}
+            />
           </a>
         ),
       )}
@@ -257,6 +363,8 @@ interface OverlayProps {
   localeCode: string;
   surface?: HeaderRendererSurface;
   showIcons: boolean;
+  iconBreakpoint?: NavIconBreakpoint;
+  iconDefaults?: NavIconVisibility;
   showArrows: boolean;
 }
 
@@ -287,6 +395,8 @@ function MobileNavOverlay({
   localeCode,
   surface = "site",
   showIcons,
+  iconBreakpoint,
+  iconDefaults,
   showArrows,
 }: OverlayProps) {
   const [activeTab, setActiveTab] = useState(0);
@@ -321,7 +431,20 @@ function MobileNavOverlay({
               className="mnav-fs-item"
               onClick={(e) => handleNavLinkClick(e, surface, onClose)}
             >
-              <MnavIconSlot icon={item.icon} showIcons={showIcons} fallbackIcon="fa-circle" />
+              <MnavIconSlot
+                icon={item.icon}
+                showIcons={
+                  iconBreakpoint && iconDefaults
+                    ? iconSlotDecision(item, iconBreakpoint, iconDefaults).show
+                    : showIcons
+                }
+                override={
+                  iconBreakpoint && iconDefaults
+                    ? iconSlotDecision(item, iconBreakpoint, iconDefaults).override
+                    : false
+                }
+                fallbackIcon="fa-circle"
+              />
               <span className="mnav-fs-item__label">{item.label}</span>
             </a>
           ))}
@@ -365,7 +488,20 @@ function MobileNavOverlay({
                 className={mnavRowClass("row")}
                 onClick={(e) => handleNavLinkClick(e, surface, onClose)}
               >
-                <MnavItemRowContent icon={item.icon} label={item.label} showIcons={showIcons} />
+                <MnavItemRowContent
+                  icon={item.icon}
+                  label={item.label}
+                  showIcons={
+                    iconBreakpoint && iconDefaults
+                      ? iconSlotDecision(item, iconBreakpoint, iconDefaults).show
+                      : showIcons
+                  }
+                  iconOverride={
+                    iconBreakpoint && iconDefaults
+                      ? iconSlotDecision(item, iconBreakpoint, iconDefaults).override
+                      : false
+                  }
+                />
               </a>
             ))}
           </nav>
@@ -408,6 +544,8 @@ function MobileNavOverlay({
               localeCode={localeCode}
               surface={surface}
               showIcons={showIcons}
+              iconBreakpoint={iconBreakpoint}
+              iconDefaults={iconDefaults}
               showArrows={showArrows}
               onClose={onClose}
             />
@@ -438,6 +576,8 @@ function MobileNavOverlay({
             localeCode={localeCode}
             surface={surface}
             showIcons={showIcons}
+            iconBreakpoint={iconBreakpoint}
+            iconDefaults={iconDefaults}
             showArrows={showArrows}
             onClose={onClose}
           />
@@ -509,8 +649,12 @@ export function MobileMenuPreview({
   iconVisibility,
   showArrows = true,
 }: Props) {
-  const viewportShowIcons = useViewportShowNavIcons(iconVisibility, showIcons);
-  const effectiveShowIcons = showIcons && viewportShowIcons;
+  const iconBreakpoint = useNavIconBreakpoint();
+  const iconDefaults: NavIconVisibility = iconVisibility ?? {
+    mobile: showIcons,
+    tablet: showIcons,
+    desktop: true,
+  };
   const mobileItems = items.filter(
     (item) => item.placement === "both" || item.placement === "mobile",
   );
@@ -522,6 +666,7 @@ export function MobileMenuPreview({
   const pathnameRef = useRef(pathname);
 
   const isMenuOpen = animState === "open";
+  const portalShowsIcons = anyItemShowsNavIcon(mobileItems, iconBreakpoint, iconDefaults);
 
   const openMenu = useCallback(() => {
     setPortalVisible(true);
@@ -609,7 +754,7 @@ export function MobileMenuPreview({
       <nav
         className="mnav-bottom-bar"
         data-mobile-type="bottom"
-        data-mobile-nav-show-icons={effectiveShowIcons ? "true" : "false"}
+        data-mobile-nav-show-icons={portalShowsIcons ? "true" : "false"}
         aria-label="Navigation"
         {...iconAttrs}
       >
@@ -620,7 +765,12 @@ export function MobileMenuPreview({
             className="mnav-bottom-item"
             onClick={surface === "preview" ? (e) => e.preventDefault() : undefined}
           >
-            <MnavIconSlot icon={item.icon} showIcons={effectiveShowIcons} fallbackIcon="fa-circle" />
+            <MnavIconSlot
+              icon={item.icon}
+              showIcons={iconSlotDecision(item, iconBreakpoint, iconDefaults).show}
+              override={iconSlotDecision(item, iconBreakpoint, iconDefaults).override}
+              fallbackIcon="fa-circle"
+            />
             <span className="mnav-bottom-item__label">{item.label}</span>
           </a>
         ))}
@@ -668,7 +818,7 @@ export function MobileMenuPreview({
               surface={surface}
               menuAppearance={menuAppearance}
               animState={animState}
-              showIcons={effectiveShowIcons}
+              showIcons={portalShowsIcons}
               iconVisibility={iconVisibility}
               showArrows={showArrows}
             >
@@ -680,7 +830,9 @@ export function MobileMenuPreview({
                 onClose={closeMenu}
                 localeCode={localeCode}
                 surface={surface}
-                showIcons={effectiveShowIcons}
+                showIcons={portalShowsIcons}
+                iconBreakpoint={iconBreakpoint}
+                iconDefaults={iconDefaults}
                 showArrows={showArrows}
               />
             </MobileNavPortalShell>,

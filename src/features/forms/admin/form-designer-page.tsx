@@ -449,7 +449,7 @@ export function FormDesignerPage({
         onSelectionChange={(sel) => {
           if (sel?.type === "binding") setSelectBindingId(sel.id);
         }}
-        renderLogicPanel={({ document, onChange }) => (
+        renderLogicPanel={({ document, onChange, section }) => (
           <FormLogicPanel
             document={document}
             scoringRules={form.definition.scoringRules ?? []}
@@ -460,6 +460,7 @@ export function FormDesignerPage({
                 definition: { ...prev.definition, scoringRules },
               }))
             }
+            section={section}
           />
         )}
         extraTabs={{

@@ -9,6 +9,7 @@ import type {
 import type { ProductSearchCardDisplay } from "@/features/products/lib/product-search-display";
 import { searchCopy, type SearchLocale } from "@/capabilities/search/components/search-ui/search-copy";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 type Props = {
   locale: SearchLocale;
@@ -30,6 +31,17 @@ export function SearchPreviewPanel({
   defaultProductCardDisplay,
 }: Props) {
   const t = searchCopy(locale);
+  const coverUrl = hit?.card?.imageUrl;
+  const previewCardFields = coverUrl
+    ? {
+        image: false,
+        price: cardFields?.price ?? true,
+        rating: cardFields?.rating ?? true,
+        brand: cardFields?.brand ?? true,
+        snippet: cardFields?.snippet ?? true,
+        entityLabel: cardFields?.entityLabel ?? true,
+      }
+    : cardFields;
 
   if (!hit) {
     return (
@@ -56,11 +68,23 @@ export function SearchPreviewPanel({
       <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         {t.preview}
       </p>
+      {coverUrl ? (
+        <div className="relative mb-4 aspect-[16/9] overflow-hidden rounded-lg bg-muted">
+          <Image
+            src={coverUrl}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="(min-width: 1024px) 40vw, 100vw"
+            unoptimized
+          />
+        </div>
+      ) : null}
       <SearchResultCardRouter
         hit={hit}
         entityLabel={entityLabel}
         cardStyle={cardStyle}
-        cardFields={cardFields}
+        cardFields={previewCardFields}
         defaultProductCardDisplay={defaultProductCardDisplay}
         className="border-0 bg-transparent p-0"
       />

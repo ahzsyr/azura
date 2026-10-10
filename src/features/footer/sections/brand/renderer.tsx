@@ -2,10 +2,10 @@ import type { SectionRenderProps } from "../types";
 import { cn } from "@/lib/utils";
 
 export function BrandRenderer({ column: col, ctx }: SectionRenderProps) {
-  const { brandName, tagline, company, resolved, compact } = ctx;
+  const { brandName, tagline, company, resolved, compact, headingClass } = ctx;
   return (
     <div className={resolved.layout === "centered" ? "" : "sm:col-span-1"}>
-      <h3 className="font-heading text-xl font-semibold text-accent">{brandName}</h3>
+      <h3 className={cn("font-heading text-xl font-semibold", headingClass)}>{brandName}</h3>
       {tagline ? (
         <p className="mt-3 text-sm leading-relaxed text-background/70">{tagline}</p>
       ) : null}

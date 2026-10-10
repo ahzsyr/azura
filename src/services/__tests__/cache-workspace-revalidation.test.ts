@@ -22,6 +22,10 @@ test("getWorkspaceTranslationRevalidationTags includes shell and json tags for f
   assert.ok(tags.includes("footer-workspace"));
   assert.ok(tags.includes(CACHE_TAGS.json("footer-workspace")));
   assert.ok(tags.includes("footer-translations-fr"));
+
+  const contactTags = getWorkspaceTranslationRevalidationTags("FooterContactItem", ["fr"]);
+  assert.ok(contactTags.includes("footer-workspace"));
+  assert.ok(contactTags.includes("footer-translations-fr"));
 });
 
 test("getWorkspaceTranslationRevalidationTags only adds global translations tag for unrelated entities", () => {

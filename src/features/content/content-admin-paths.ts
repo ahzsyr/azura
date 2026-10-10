@@ -12,18 +12,45 @@ export function slugifyContentTypeName(value: string) {
     .slice(0, 64);
 }
 
+function cleanPublicSegment(value: string | null | undefined) {
+  return value?.trim().replace(/^\/+|\/+$/g, "") ?? "";
+}
+
+/**
+ * Prefixes that were copied onto the wrong built-in type.
+ * They must not replace that type's canonical public route.
+ */
+const STALE_BUILTIN_PREFIXES = new Set(["hotels-transport"]);
+
 /**
  * Public URL segment for a content type.
- * Built-in types always use their canonical route (e.g. offerings → services)
- * so stale DB prefixes like hotels-transport never leak into public URLs.
+ * An explicit route prefix wins. Clearing it publishes at the type slug
+ * (built-in types with no prefix keep their canonical route, e.g. offerings → services).
  */
 export function contentPublicSegment(
   routePrefix: string | null | undefined,
   typeSlug?: string | null,
 ): string | null {
-  const builtin = typeSlug ? getBuiltinContentType(typeSlug)?.routePrefix : undefined;
-  const prefix = builtin?.trim() || routePrefix?.trim() || typeSlug?.trim() || "";
-  return prefix || null;
+  const explicit = cleanPublicSegment(routePrefix);
+  const slug = cleanPublicSegment(typeSlug);
+  const builtin = slug ? cleanPublicSegment(getBuiltinContentType(slug)?.routePrefix) : "";
+  const stale =
+    Boolean(explicit && builtin && explicit !== builtin && STALE_BUILTIN_PREFIXES.has(explicit));
+
+  if (explicit && !stale) return explicit;
+  if (builtin) return builtin;
+  return slug || null;
+}
+
+/** Prefer a type that owns the segment as its route prefix, then one whose slug is the segment. */
+export function selectContentTypeForPublicSegment<
+  T extends { slug: string; routePrefix: string | null },
+>(segment: string, types: T[]): T | undefined {
+  const normalized = cleanPublicSegment(segment);
+  if (!normalized) return undefined;
+  const byPrefix = types.find((type) => cleanPublicSegment(type.routePrefix) === normalized);
+  if (byPrefix) return byPrefix;
+  return types.find((type) => type.slug === normalized);
 }
 
 export function contentTypePublicPath(

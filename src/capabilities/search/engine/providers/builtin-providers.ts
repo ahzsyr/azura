@@ -78,6 +78,13 @@ export const contentItemSearchProvider = defineSearchProvider<ContentItemIndexSo
         ...(item.contentTypeSlug ? { contentTypeSlug: item.contentTypeSlug } : {}),
       },
       metadata: {
+        card:
+          item.featuredImageUrl || slug
+            ? {
+                ...(item.featuredImageUrl ? { imageUrl: item.featuredImageUrl } : {}),
+                ...(slug ? { slug } : {}),
+              }
+            : undefined,
         adminPath: productMetadata?.adminPath ?? adminPath,
         indexProfileVersion: composed?.profileVersion,
         indexedFields: composed?.fieldSlices.map((s) => s.key) ?? [],

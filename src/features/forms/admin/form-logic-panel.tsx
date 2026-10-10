@@ -14,6 +14,8 @@ type Props = {
   scoringRules: FormScoringRule[];
   onDocumentChange: (document: SchemaDocument) => void;
   onScoringChange: (rules: FormScoringRule[]) => void;
+  /** When set, only that section renders. The Logic tab uses this with side navigation. */
+  section?: "rules" | "scoring";
 };
 
 const OPERATORS: Array<{ value: FormFieldConditional["operator"]; label: string }> = [
@@ -34,6 +36,7 @@ export function FormLogicPanel({
   scoringRules,
   onDocumentChange,
   onScoringChange,
+  section,
 }: Props) {
   const rules = document.rules ?? [];
   const bindings = document.bindings;
@@ -76,6 +79,7 @@ export function FormLogicPanel({
 
   return (
     <div className="space-y-6">
+      {section !== "scoring" ? (
       <Card className="p-4 space-y-3">
         <div className="flex items-center justify-between">
           <div>
@@ -211,7 +215,9 @@ export function FormLogicPanel({
           );
         })}
       </Card>
+      ) : null}
 
+      {section !== "rules" ? (
       <Card className="p-4 space-y-3">
         <div className="flex items-center justify-between">
           <div>
@@ -291,6 +297,7 @@ export function FormLogicPanel({
           </div>
         ))}
       </Card>
+      ) : null}
     </div>
   );
 }

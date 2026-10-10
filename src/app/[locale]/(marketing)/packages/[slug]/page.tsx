@@ -10,10 +10,12 @@ type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;
-  const contentType = await contentPublicService.getTypeBySlug("catalog-items");
-  const item = contentType
-    ? await contentPublicService.getItemByTypeAndSlug("catalog-items", slug)
-    : null;
+  const resolution = await contentPublicService.resolveMarketingDetail(
+    "packages",
+    slug,
+    "catalog-items",
+  );
+  const item = resolution.kind === "detail" ? resolution.item : null;
   if (!item) return {};
 
   const name = getLocalizedField(item, "title", locale);
@@ -32,17 +34,18 @@ export default async function PackageDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const contentType = await contentPublicService.getTypeBySlug("catalog-items");
-  const item = contentType
-    ? await contentPublicService.getItemByTypeAndSlug("catalog-items", slug)
-    : null;
-  if (!contentType || !item) notFound();
+  const resolution = await contentPublicService.resolveMarketingDetail(
+    "packages",
+    slug,
+    "catalog-items",
+  );
+  if (resolution.kind !== "detail") notFound();
 
   return (
     <ContentDetailPage
       locale={locale}
-      contentType={contentType}
-      item={item}
+      contentType={resolution.contentType}
+      item={resolution.item}
       path={`/packages/${slug}`}
     />
   );

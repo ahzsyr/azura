@@ -17,7 +17,6 @@ import {
 import {
   featureGridContentElementSchema,
   newId,
-  type FeatureGridContentElement,
   type FeatureGridItem,
 } from "@/features/builder/blocks/marketing/schemas/marketing-blocks";
 import { plainTextToHtml } from "@/features/builder/blocks/marketing/lib/normalize-feature-grid";
@@ -29,18 +28,6 @@ const AdvancedRichTextEditor = dynamic(
     ),
   { ssr: false, loading: () => <p className="text-xs text-muted-foreground">Loading editor…</p> }
 );
-
-const ELEMENT_LABELS: Record<FeatureGridContentElement, string> = {
-  visual: "Icon / image",
-  badge: "Badge",
-  number: "Number",
-  title: "Title",
-  subtitle: "Subtitle",
-  description: "Description",
-  link: "Text link",
-  button: "Button",
-  footer: "Footer",
-};
 
 const ALL_ELEMENTS = featureGridContentElementSchema.options;
 
@@ -64,7 +51,9 @@ export function emptyFeatureGridItem(): FeatureGridItem {
     openInNewTab: false,
     footerText: "",
     footerHref: "",
-    visualType: "auto",
+    visualType: "inherit",
+    imageAspect: "auto",
+    contentGap: "",
     expandEnabled: "inherit",
     cardClickable: false,
     styleOverrides: {},
@@ -124,10 +113,6 @@ export function FeatureGridCardForm({ item, onUpdate }: Props) {
     }
   }
 
-  const visible = (item.visibleElements ?? {}) as Record<string, boolean>;
-  const order = (item.contentOrder?.length ? item.contentOrder : ALL_ELEMENTS) as FeatureGridContentElement[];
-  const overrides = item.styleOverrides ?? {};
-
   const syncLocalized = (patch: Record<string, string>, keys: readonly string[]) => {
     const next = { ...patch } as Record<string, string>;
     if (isDefault) {
@@ -140,20 +125,9 @@ export function FeatureGridCardForm({ item, onUpdate }: Props) {
     onUpdate(next);
   };
 
-  const moveElement = (el: FeatureGridContentElement, dir: -1 | 1) => {
-    const idx = order.indexOf(el);
-    if (idx < 0) return;
-    const nextIdx = idx + dir;
-    if (nextIdx < 0 || nextIdx >= order.length) return;
-    const next = [...order];
-    const [removed] = next.splice(idx, 1);
-    next.splice(nextIdx, 0, removed!);
-    onUpdate({ contentOrder: next });
-  };
-
   return (
     <Tabs defaultValue="content" className="w-full">
-      <TabsList className="sticky top-0 z-10 grid h-auto w-full grid-cols-4 gap-1 bg-background pb-1">
+      <TabsList className="sticky top-0 z-10 grid h-auto w-full grid-cols-3 gap-1 bg-background pb-1">
         <TabsTrigger value="content" className="px-2 text-xs">
           Content
         </TabsTrigger>
@@ -162,9 +136,6 @@ export function FeatureGridCardForm({ item, onUpdate }: Props) {
         </TabsTrigger>
         <TabsTrigger value="actions" className="px-2 text-xs">
           Actions
-        </TabsTrigger>
-        <TabsTrigger value="layout" className="px-2 text-xs">
-          Layout
         </TabsTrigger>
       </TabsList>
 
@@ -212,19 +183,59 @@ export function FeatureGridCardForm({ item, onUpdate }: Props) {
               onUpdate({ visualType: e.target.value as FeatureGridItem["visualType"] })
             }
           >
+            <option value="inherit">Inherit block default</option>
             <option value="auto">Auto</option>
             <option value="icon">Icon</option>
-            <option value="image">Image</option>
+            <option value="image">Photo</option>
+            <option value="number">Number</option>
             <option value="none">None</option>
           </select>
         </div>
-        <IconNameSelect value={item.icon} onChange={(icon) => onUpdate({ icon })} />
-        <UrlPrimaryMediaPickerField
-          label="Image (optional)"
-          mediaTypes={["IMAGE", "SVG"]}
-          url={item.imageUrl}
-          onPick={({ url, mediaId }) => onUpdate({ imageUrl: url, mediaAssetId: mediaId ?? "" })}
-        />
+        {item.visualType === "icon" ? (
+          <IconNameSelect value={item.icon} onChange={(icon) => onUpdate({ icon })} />
+        ) : null}
+        {item.visualType === "image" ? (
+          <>
+            <UrlPrimaryMediaPickerField
+              label="Photo"
+              mediaTypes={["IMAGE", "SVG"]}
+              url={item.imageUrl}
+              onPick={({ url, mediaId }) => onUpdate({ imageUrl: url, mediaAssetId: mediaId ?? "" })}
+            />
+            <div>
+              <Label className="text-xs">Image crop</Label>
+              <select
+                className="mt-1 h-9 w-full rounded-md border px-2 text-sm"
+                value={item.imageAspect ?? "auto"}
+                onChange={(e) =>
+                  onUpdate({ imageAspect: e.target.value as FeatureGridItem["imageAspect"] })
+                }
+              >
+                <option value="auto">Inherit block aspect</option>
+                <option value="square">Square</option>
+                <option value="video">16:9</option>
+                <option value="landscape">4:3</option>
+                <option value="portrait">3:4</option>
+              </select>
+            </div>
+          </>
+        ) : null}
+        {item.visualType === "number" ? (
+          <p className="text-xs text-muted-foreground">
+            Uses the number label on the Content tab, or the card position when that label is empty.
+          </p>
+        ) : null}
+        {item.visualType === "inherit" || item.visualType === "auto" || !item.visualType ? (
+          <>
+            <IconNameSelect value={item.icon} onChange={(icon) => onUpdate({ icon })} />
+            <UrlPrimaryMediaPickerField
+              label="Photo"
+              mediaTypes={["IMAGE", "SVG"]}
+              url={item.imageUrl}
+              onPick={({ url, mediaId }) => onUpdate({ imageUrl: url, mediaAssetId: mediaId ?? "" })}
+            />
+          </>
+        ) : null}
       </TabsContent>
 
       <TabsContent value="actions" className="mt-3 space-y-3">
@@ -282,6 +293,9 @@ export function FeatureGridCardForm({ item, onUpdate }: Props) {
             />
             Entire card clickable
           </label>
+          <p className="text-xs text-muted-foreground">
+            A clickable card uses the button link, then the card link, then the footer link. Links and buttons inside the card stay clickable on their own.
+          </p>
         </div>
 
         <div>
@@ -297,98 +311,6 @@ export function FeatureGridCardForm({ item, onUpdate }: Props) {
             <option value="on">Always on</option>
             <option value="off">Always off</option>
           </select>
-        </div>
-      </TabsContent>
-
-      <TabsContent value="layout" className="mt-3 space-y-4">
-        <div>
-          <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-            Visible elements
-          </Label>
-          <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1">
-            {ALL_ELEMENTS.map((el) => (
-              <label key={el} className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={visible[el] !== false}
-                  onChange={(e) =>
-                    onUpdate({
-                      visibleElements: { ...visible, [el]: e.target.checked },
-                    })
-                  }
-                />
-                {ELEMENT_LABELS[el]}
-              </label>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-            Element order
-          </Label>
-          <ul className="mt-2 space-y-1">
-            {order.map((el, idx) => (
-              <li
-                key={el}
-                className="flex items-center justify-between rounded border px-2 py-1 text-sm"
-              >
-                <span>{ELEMENT_LABELS[el]}</span>
-                <span className="flex gap-1">
-                  <button
-                    type="button"
-                    className="rounded border px-1.5 text-xs disabled:opacity-40"
-                    disabled={idx === 0}
-                    onClick={() => moveElement(el, -1)}
-                    aria-label={`Move ${ELEMENT_LABELS[el]} up`}
-                  >
-                    ↑
-                  </button>
-                  <button
-                    type="button"
-                    className="rounded border px-1.5 text-xs disabled:opacity-40"
-                    disabled={idx === order.length - 1}
-                    onClick={() => moveElement(el, 1)}
-                    aria-label={`Move ${ELEMENT_LABELS[el]} down`}
-                  >
-                    ↓
-                  </button>
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-            Style overrides
-          </Label>
-          <div className="mt-2 grid grid-cols-2 gap-2">
-            {(
-              [
-                ["backgroundColor", "Background"],
-                ["textColor", "Text"],
-                ["borderColor", "Border"],
-                ["accentColor", "Accent"],
-                ["borderRadius", "Radius"],
-                ["padding", "Padding"],
-              ] as const
-            ).map(([key, label]) => (
-              <div key={key}>
-                <Label className="text-xs">{label}</Label>
-                <Input
-                  className="mt-1 h-8 text-sm"
-                  placeholder="CSS value"
-                  value={(overrides[key] as string) ?? ""}
-                  onChange={(e) =>
-                    onUpdate({
-                      styleOverrides: { ...overrides, [key]: e.target.value },
-                    })
-                  }
-                />
-              </div>
-            ))}
-          </div>
         </div>
       </TabsContent>
     </Tabs>

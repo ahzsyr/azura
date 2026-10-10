@@ -5,6 +5,7 @@ import {
   type SearchResult as FrameworkSearchResult,
 } from "@/capabilities/search/engine";
 import { enrichCatalogProductSearchResults } from "@/capabilities/search/engine/enrich/enrich-catalog-product-results";
+import { enrichContentItemSearchResults } from "@/capabilities/search/engine/enrich/enrich-content-item-results";
 import type { SearchContentKind } from "@/capabilities/search/engine/types";
 
 export type SearchHit = {
@@ -73,10 +74,8 @@ export const searchService = {
       offset: params.offset,
       includeAdmin: params.includeAdmin,
     });
-    const enriched = await enrichCatalogProductSearchResults(
-      page.results,
-      params.locale,
-      params.q,
+    const enriched = await enrichContentItemSearchResults(
+      await enrichCatalogProductSearchResults(page.results, params.locale, params.q),
     );
     return {
       results: enriched.map((r) =>

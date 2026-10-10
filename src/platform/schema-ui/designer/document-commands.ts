@@ -49,6 +49,112 @@ function nodeKey(node: SchemaNode): string | null {
   return node.id;
 }
 
+export type DropEdge = "before" | "after";
+
+/** Index in the list after the dragged node has already been removed. */
+export function resolveDropIndex(input: {
+  edge: DropEdge;
+  rowIndex: number;
+  sameParent: boolean;
+  sourceIndex: number;
+}): number | null {
+  let index = input.edge === "before" ? input.rowIndex : input.rowIndex + 1;
+  if (input.sameParent && input.sourceIndex < index) index -= 1;
+  if (input.sameParent && index === input.sourceIndex) return null;
+  return index;
+}
+
+/** Append index inside a container, after the dragged node has been removed. */
+export function resolveIntoIndex(input: {
+  childCount: number;
+  sameParent: boolean;
+  sourceIndex: number;
+}): number | null {
+  const index = input.sameParent ? Math.max(0, input.childCount - 1) : input.childCount;
+  if (input.sameParent && index === input.sourceIndex) return null;
+  return index;
+}
+
+export function isRelocateRejected(
+  nodes: SchemaNode[],
+  draggedId: string,
+  targetParentId: string | null,
+): boolean {
+  if (!targetParentId) return false;
+  const loc = findParentList(nodes, draggedId);
+  if (!loc) return false;
+  const item = loc.list[loc.index];
+  if (!item || item.kind !== "layout") return false;
+  if (targetParentId === item.id) return true;
+  return findParentList(item.children, targetParentId) != null;
+}
+
+export function planRelocate(input: {
+  nodes: SchemaNode[];
+  selection: NonNullable<Selection>;
+  sourceParentId: string | null;
+  sourceIndex: number;
+  targetParentId: string | null;
+  edge?: DropEdge;
+  rowIndex?: number;
+  childCount?: number;
+  into?: boolean;
+}): Extract<DocumentCommand, { type: "RelocateNode" }> | null {
+  if (isRelocateRejected(input.nodes, input.selection.id, input.targetParentId)) return null;
+  const sameParent = input.sourceParentId === input.targetParentId;
+  const index = input.into
+    ? resolveIntoIndex({
+        childCount: input.childCount ?? 0,
+        sameParent,
+        sourceIndex: input.sourceIndex,
+      })
+    : resolveDropIndex({
+        edge: input.edge ?? "before",
+        rowIndex: input.rowIndex ?? 0,
+        sameParent,
+        sourceIndex: input.sourceIndex,
+      });
+  if (index == null) return null;
+  return {
+    type: "RelocateNode",
+    selection: input.selection,
+    targetParentId: input.targetParentId,
+    index,
+  };
+}
+
+export function layoutAncestorIds(nodes: SchemaNode[], id: string): string[] {
+  const ancestors: string[] = [];
+  const walk = (list: SchemaNode[], stack: string[]): boolean => {
+    for (const node of list) {
+      if (nodeKey(node) === id) {
+        ancestors.push(...stack);
+        return true;
+      }
+      if (node.kind === "layout" && walk(node.children, [...stack, node.id])) return true;
+    }
+    return false;
+  };
+  walk(nodes, []);
+  return ancestors;
+}
+
+export function countDescendantBindings(node: SchemaNode): number {
+  if (node.kind === "binding") return 1;
+  if (node.kind !== "layout") return 0;
+  return node.children.reduce((sum, child) => sum + countDescendantBindings(child), 0);
+}
+
+function nodeSignature(nodes: SchemaNode[]): string {
+  return nodes
+    .map((node) => {
+      if (node.kind === "binding") return `b:${node.bindingId}`;
+      if (node.kind === "content") return `c:${node.id}`;
+      return `l:${node.id}(${nodeSignature(node.children)})`;
+    })
+    .join(",");
+}
+
 function findParentList(
   nodes: SchemaNode[],
   id: string,
@@ -283,6 +389,13 @@ export function applyDocumentCommand(
       );
       break;
     }
+  }
+
+  if (
+    (command.type === "RelocateNode" || command.type === "MoveNode") &&
+    nodeSignature(next.nodes) === nodeSignature(prev.nodes)
+  ) {
+    return state;
   }
 
   return {

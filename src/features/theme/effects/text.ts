@@ -175,7 +175,10 @@ export function initTextEffects(type: string | null | undefined) {
     document.querySelectorAll<HTMLElement>("[data-text-effect]").forEach((el) => {
       if (isRootTextTarget(el)) return;
       if (!isSimpleTextHeading(el)) return;
-      if (el.closest("[data-text-effect-off]")) return;
+      if (el.hasAttribute("data-text-effect-off")) return;
+      const owner = el.closest("[data-block-id]");
+      if (owner?.hasAttribute("data-text-effect-off")) return;
+      if (!owner && el.closest("[data-text-effect-off]")) return;
 
       const raw = el.getAttribute("data-text-effect");
       const effect =

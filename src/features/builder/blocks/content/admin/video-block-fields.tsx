@@ -26,13 +26,14 @@ import { ImageLayoutControls } from "@/features/builder/blocks/content/admin/ima
 import { ContentPositionGrid } from "@/features/builder/blocks/content/admin/content-position-grid";
 import { AdminCollapsibleSection } from "@/components/admin/layout/admin-collapsible-section";
 import {
+  IMAGE_ASPECT_RATIO_LABELS,
   IMAGE_MEDIA_ASPECT_RATIOS,
   IMAGE_MEDIA_OBJECT_FITS,
   IMAGE_MEDIA_SIZES,
+  aspectRatioParts,
   type ImageContentPanelVariant,
   type ImageContentPosition,
   type ImageContentType,
-  type ImageMediaAspectRatio,
   type ImageMediaObjectFit,
   type ImageMediaSize,
 } from "@/features/builder/blocks/content/lib/image-block-model";
@@ -68,17 +69,6 @@ const SIMPLE_ALIGN: { value: ImageContentPosition; label: string }[] = [
   { value: "center", label: "Center" },
   { value: "center-right", label: "Right" },
 ];
-
-const ASPECT_LABELS: Record<ImageMediaAspectRatio, string> = {
-  auto: "Auto",
-  "16/9": "16:9",
-  "4/3": "4:3",
-  "3/2": "3:2",
-  "1/1": "1:1",
-  "4/5": "4:5",
-  "3/4": "3:4",
-  "9/16": "9:16",
-};
 
 const SIZE_LABELS: Record<ImageMediaSize, string> = {
   auto: "Auto",
@@ -226,17 +216,11 @@ export function VideoBlockFields({ block, onChange }: Props) {
                     : "rounded-md border px-1 py-1.5 text-[10px] hover:bg-muted"
                 }
                 onClick={() => {
-                  const ratioMap: Record<ImageMediaAspectRatio, { width: number; height: number }> = {
-                    auto: { width: 1, height: 1 },
-                    "16/9": { width: 16, height: 9 },
-                    "4/3": { width: 4, height: 3 },
-                    "3/2": { width: 3, height: 2 },
-                    "1/1": { width: 1, height: 1 },
-                    "4/5": { width: 4, height: 5 },
-                    "3/4": { width: 3, height: 4 },
-                    "9/16": { width: 9, height: 16 },
-                  };
-                  const ratio = ratioMap[value];
+                  const ratio = aspectRatioParts(
+                    value,
+                    model.media.customAspectWidth,
+                    model.media.customAspectHeight,
+                  );
                   let nextWidth = model.media.width;
                   let nextHeight = model.media.height;
 
@@ -264,10 +248,51 @@ export function VideoBlockFields({ block, onChange }: Props) {
                   });
                 }}
               >
-                {ASPECT_LABELS[value]}
+                {IMAGE_ASPECT_RATIO_LABELS[value]}
               </button>
             ))}
           </div>
+          {aspectRatio === "custom" ? (
+            <div className="mt-2 grid grid-cols-2 gap-2">
+              <div>
+                <Label className="text-[10px] text-muted-foreground">Width</Label>
+                <Input
+                  type="number"
+                  min={0.1}
+                  max={100}
+                  step="any"
+                  value={model.media.customAspectWidth}
+                  onChange={(e) => {
+                    const next = Number(e.target.value);
+                    if (Number.isFinite(next) && next > 0 && next <= 100) {
+                      patch({ mediaAspectCustomWidth: next });
+                    }
+                  }}
+                  className="mt-1 h-8 text-xs"
+                />
+              </div>
+              <div>
+                <Label className="text-[10px] text-muted-foreground">Height</Label>
+                <Input
+                  type="number"
+                  min={0.1}
+                  max={100}
+                  step="any"
+                  value={model.media.customAspectHeight}
+                  onChange={(e) => {
+                    const next = Number(e.target.value);
+                    if (Number.isFinite(next) && next > 0 && next <= 100) {
+                      patch({ mediaAspectCustomHeight: next });
+                    }
+                  }}
+                  className="mt-1 h-8 text-xs"
+                />
+              </div>
+              <p className="col-span-2 text-[10px] text-muted-foreground">
+                Custom ratio {model.media.customAspectWidth}:{model.media.customAspectHeight}
+              </p>
+            </div>
+          ) : null}
         </div>
 
         <div>
@@ -307,17 +332,11 @@ export function VideoBlockFields({ block, onChange }: Props) {
                     disabled={model.media.widthAuto}
                     onChange={(e) => {
                       const value = e.target.value.trim();
-                      const ratioMap: Record<ImageMediaAspectRatio, { width: number; height: number }> = {
-                        auto: { width: 1, height: 1 },
-                        "16/9": { width: 16, height: 9 },
-                        "4/3": { width: 4, height: 3 },
-                        "3/2": { width: 3, height: 2 },
-                        "1/1": { width: 1, height: 1 },
-                        "4/5": { width: 4, height: 5 },
-                        "3/4": { width: 3, height: 4 },
-                        "9/16": { width: 9, height: 16 },
-                      };
-                      const ratio = ratioMap[aspectRatio];
+                      const ratio = aspectRatioParts(
+                        aspectRatio,
+                        model.media.customAspectWidth,
+                        model.media.customAspectHeight,
+                      );
                       const nextValue = value === "" ? null : Number(value);
                       const nextHeight = ratio && aspectRatio !== "auto" && nextValue !== null && nextValue > 0
                         ? (nextValue * ratio.height) / ratio.width
@@ -358,17 +377,11 @@ export function VideoBlockFields({ block, onChange }: Props) {
                           patch({ mediaFrameWidthAuto: false });
                           return;
                         }
-                        const ratioMap: Record<ImageMediaAspectRatio, { width: number; height: number }> = {
-                          auto: { width: 1, height: 1 },
-                          "16/9": { width: 16, height: 9 },
-                          "4/3": { width: 4, height: 3 },
-                          "3/2": { width: 3, height: 2 },
-                          "1/1": { width: 1, height: 1 },
-                          "4/5": { width: 4, height: 5 },
-                          "3/4": { width: 3, height: 4 },
-                          "9/16": { width: 9, height: 16 },
-                        };
-                        const ratio = ratioMap[aspectRatio];
+                        const ratio = aspectRatioParts(
+                          aspectRatio,
+                          model.media.customAspectWidth,
+                          model.media.customAspectHeight,
+                        );
                         const nextWidth = ratio && aspectRatio !== "auto" && model.media.height !== null && model.media.height > 0
                           ? (model.media.height * ratio.width) / ratio.height
                           : model.media.width;
@@ -399,17 +412,11 @@ export function VideoBlockFields({ block, onChange }: Props) {
                     disabled={model.media.heightAuto}
                     onChange={(e) => {
                       const value = e.target.value.trim();
-                      const ratioMap: Record<ImageMediaAspectRatio, { width: number; height: number }> = {
-                        auto: { width: 1, height: 1 },
-                        "16/9": { width: 16, height: 9 },
-                        "4/3": { width: 4, height: 3 },
-                        "3/2": { width: 3, height: 2 },
-                        "1/1": { width: 1, height: 1 },
-                        "4/5": { width: 4, height: 5 },
-                        "3/4": { width: 3, height: 4 },
-                        "9/16": { width: 9, height: 16 },
-                      };
-                      const ratio = ratioMap[aspectRatio];
+                      const ratio = aspectRatioParts(
+                        aspectRatio,
+                        model.media.customAspectWidth,
+                        model.media.customAspectHeight,
+                      );
                       const nextValue = value === "" ? null : Number(value);
                       const nextWidth = ratio && aspectRatio !== "auto" && nextValue !== null && nextValue > 0
                         ? (nextValue * ratio.width) / ratio.height
@@ -450,17 +457,11 @@ export function VideoBlockFields({ block, onChange }: Props) {
                           patch({ mediaFrameHeightAuto: false });
                           return;
                         }
-                        const ratioMap: Record<ImageMediaAspectRatio, { width: number; height: number }> = {
-                          auto: { width: 1, height: 1 },
-                          "16/9": { width: 16, height: 9 },
-                          "4/3": { width: 4, height: 3 },
-                          "3/2": { width: 3, height: 2 },
-                          "1/1": { width: 1, height: 1 },
-                          "4/5": { width: 4, height: 5 },
-                          "3/4": { width: 3, height: 4 },
-                          "9/16": { width: 9, height: 16 },
-                        };
-                        const ratio = ratioMap[aspectRatio];
+                        const ratio = aspectRatioParts(
+                          aspectRatio,
+                          model.media.customAspectWidth,
+                          model.media.customAspectHeight,
+                        );
                         const nextHeight = ratio && aspectRatio !== "auto" && model.media.width !== null && model.media.width > 0
                           ? (model.media.width * ratio.height) / ratio.width
                           : model.media.height;

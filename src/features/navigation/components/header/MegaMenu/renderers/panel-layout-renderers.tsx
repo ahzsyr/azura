@@ -1,7 +1,7 @@
 "use client";
 
 import type { MegaMenuChildViewModel } from "@/features/navigation/mega-menu-resolver";
-import { MegaMenuVisualImage, NavGlyph } from "../mega-menu-media";
+import { MegaMenuCardFrameMedia } from "../mega-menu-media";
 import { MegaMenuChildItem } from "./mega-menu-child-item";
 
 type Props = {
@@ -148,12 +148,13 @@ export function ProductGridRenderer({
             className="hb-mega-v2-product"
             onClick={() => onLinkClick?.()}
           >
-            <span className="hb-mega-v2-product__media" aria-hidden={!child.image}>
-              {child.image ? (
-                <MegaMenuVisualImage src={child.image} alt={child.label} />
-              ) : (
-                <NavGlyph icon={child.icon} />
-              )}
+            <span className="hb-mega-v2-product__media" aria-hidden={!child.image && child.cardMedia !== "icon"}>
+              <MegaMenuCardFrameMedia
+                cardMedia={child.cardMedia ?? "image"}
+                imageUrl={child.image}
+                icon={child.icon}
+                alt={child.label}
+              />
             </span>
             <span className="hb-mega-v2-product__title">{child.label}</span>
             {child.subtitle ? (
@@ -203,11 +204,12 @@ export function MixedRenderer({
           onClick={() => onLinkClick?.()}
         >
           <span className="hb-mega-v2-mixed__featured-media">
-            {featured.image ? (
-              <MegaMenuVisualImage src={featured.image} alt={featured.label} />
-            ) : (
-              <NavGlyph icon={featured.icon} />
-            )}
+            <MegaMenuCardFrameMedia
+              cardMedia={featured.cardMedia ?? "image"}
+              imageUrl={featured.image}
+              icon={featured.icon}
+              alt={featured.label}
+            />
           </span>
           <span className="hb-mega-v2-mixed__featured-title">{featured.label}</span>
           {featured.subtitle ? (

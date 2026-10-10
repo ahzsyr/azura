@@ -4,7 +4,7 @@ import {
   DEFAULT_TAGLINE,
   isDefaultBrandName,
 } from "@/config/site";
-import type { BrandingState, HeaderAction, HeaderDesktopMode, HeaderWorkspace, MegaMenuChildDisplayType, MenuItem, MenuItemType } from "./types";
+import type { BrandingState, HeaderAction, HeaderDesktopMode, HeaderWorkspace, MegaMenuCardMedia, MegaMenuChildDisplayType, MenuIconPlacement, MenuItem, MenuItemType } from "./types";
 import { normalizeBranding } from "./branding-defaults";
 import { generateId } from "./menu-engine";
 
@@ -251,6 +251,7 @@ export function createDefaultWorkspace(): HeaderWorkspace {
     settings: {
       headerStyle: "normal-compact",
       headerBorderRadius: "lg",
+      menuBorderRadius: "lg",
       menuType: "dropdown",
       mobileType: "hamburger",
       headerDesktopMode: "sticky",
@@ -342,7 +343,9 @@ export function newMenuItemFromForm(input: {
   type: MenuItemType;
   label: string;
   icon?: string;
+  iconPlacement?: MenuIconPlacement;
   megaMenuChildDisplayType?: MegaMenuChildDisplayType;
+  megaMenuCardMedia?: MegaMenuCardMedia;
   megaMenuImageUrl?: string;
   placement: MenuItem["placement"];
   url?: string;
@@ -369,10 +372,12 @@ export function newMenuItemFromForm(input: {
   };
   const icon = input.icon?.trim();
   if (icon) base.icon = icon;
+  if (input.iconPlacement) base.iconPlacement = input.iconPlacement;
 
   if (input.megaMenuChildDisplayType && input.megaMenuChildDisplayType !== "automatic") {
     base.megaMenuChildDisplayType = input.megaMenuChildDisplayType;
   }
+  if (input.megaMenuCardMedia) base.megaMenuCardMedia = input.megaMenuCardMedia;
   if (input.megaMenuImageUrl?.trim()) base.megaMenuImageUrl = input.megaMenuImageUrl.trim();
 
   if (input.type === "link") base.url = input.url ?? "#";

@@ -9,6 +9,7 @@ import { compileRuntimeDefinition } from "@/features/forms/compiler";
 import { getAbVisitorKey, resolveAbTestedRaw } from "@/features/forms/lib/ab-testing";
 import { createSchemaRuntime } from "@/platform/schema-ui/runtime/schema-runtime";
 import { SchemaRenderer } from "@/platform/schema-ui/layout/schema-renderer";
+import type { SchemaNode } from "@/platform/schema-ui/schema/schema-node";
 import { platformEventBus, createInteractionEvent } from "@/platform/schema-ui/events/event-bus";
 import { behaviorAnalyticsProjection } from "@/platform/schema-ui/events/projections";
 import { trackFormBehaviorEvent } from "@/features/forms/lib/behavior-tracker.client";
@@ -92,6 +93,23 @@ function resolveFieldsClassName(
     default:
       return "fxs-fields-responsive";
   }
+}
+
+function nodesForStep(nodes: SchemaNode[], allowed: Set<string>): SchemaNode[] {
+  const next: SchemaNode[] = [];
+  for (const node of nodes) {
+    if (node.kind === "binding") {
+      if (allowed.has(node.bindingId)) next.push(node);
+      continue;
+    }
+    if (node.kind === "layout") {
+      const children = nodesForStep(node.children, allowed);
+      if (children.length > 0) next.push({ ...node, children });
+      continue;
+    }
+    next.push(node);
+  }
+  return next;
 }
 
 export function DynamicFormView({
@@ -182,9 +200,11 @@ export function DynamicFormView({
   const [conversationIndex, setConversationIndex] = useState(0);
   const [, tick] = useState(0);
 
+  const stepped = multiStep || (translatedSchema.steps?.length ?? 0) > 0;
+
   const runtime = useMemo(
-    () => createSchemaRuntime({ document: translatedSchema, schemaId: templateId, multiStep }),
-    [translatedSchema, templateId, multiStep],
+    () => createSchemaRuntime({ document: translatedSchema, schemaId: templateId, multiStep: stepped }),
+    [translatedSchema, templateId, stepped],
   );
 
   const steps = runtime.navigation.getSteps();
@@ -194,12 +214,12 @@ export function DynamicFormView({
     const stepBindingIds = new Set(steps[step]?.bindingIds ?? steps[0]?.bindingIds ?? []);
     const ids = new Set<string>();
     for (const field of form.fields) {
-      if (multiStep && !stepBindingIds.has(field.id)) continue;
+      if (stepped && !stepBindingIds.has(field.id)) continue;
       const { visible } = evaluateConditional(field, values);
       if (visible) ids.add(field.id);
     }
     return ids;
-  }, [form.fields, steps, step, multiStep, values]);
+  }, [form.fields, steps, step, stepped, values]);
 
   const visibleBindingList = useMemo(
     () => form.fields.map((field) => field.id).filter((id) => visibleBindingIds.has(id)),
@@ -226,19 +246,19 @@ export function DynamicFormView({
         description: experience.description || undefined,
         trustItems: experience.trustItems,
         formSectionTitle: experience.formSectionTitle ?? "",
-        layoutMode: experience.layoutMode ?? (multiStep ? "default" : "split"),
+        layoutMode: experience.layoutMode ?? (stepped ? "default" : "split"),
         columnRatio: experience.columnRatio,
         sectionStyle: experience.sectionStyle,
         theme: experience.theme ?? "modern",
         fieldMode: experience.fieldMode ?? "classic",
         progressStyle: experience.progressStyle ?? progressStyle,
-        enableLiveSummary: experience.enableLiveSummary ?? multiStep,
+        enableLiveSummary: experience.enableLiveSummary ?? stepped,
         enableErrorSummary: experience.enableErrorSummary ?? true,
         estimatedResponse: experience.estimatedResponse ?? "Within one business day",
         successTitle: experience.successTitle ?? successMessage,
         successDescription:
           experience.successDescription ?? "We've received your submission and emailed a confirmation.",
-        estimatedMinutes: experience.estimatedMinutes ?? (multiStep ? 4 : 2),
+        estimatedMinutes: experience.estimatedMinutes ?? (stepped ? 4 : 2),
         showHero: experience.showHero ?? true,
       };
     }
@@ -253,19 +273,19 @@ export function DynamicFormView({
         { id: "t3", label: "Your information stays private" },
       ],
       formSectionTitle: undefined,
-      layoutMode: multiStep ? "default" : "split",
+      layoutMode: stepped ? "default" : "split",
       theme: "modern",
       fieldMode: "classic",
       progressStyle,
-      enableLiveSummary: multiStep,
+      enableLiveSummary: stepped,
       enableErrorSummary: true,
       estimatedResponse: "Within one business day",
       successTitle: successMessage,
       successDescription: "We've received your submission and emailed a confirmation.",
-      estimatedMinutes: multiStep ? 4 : 2,
+      estimatedMinutes: stepped ? 4 : 2,
       showHero: true,
     };
-  }, [experience, translatedSchema.nodes, multiStep, progressStyle, successMessage]);
+  }, [experience, translatedSchema.nodes, stepped, progressStyle, successMessage]);
 
   const layoutMode = experienceConfig.layoutMode ?? "default";
 
@@ -349,7 +369,7 @@ export function DynamicFormView({
       return;
     }
 
-    if (multiStep && step < steps.length - 1) {
+    if (stepped && step < steps.length - 1) {
       await saveDraft();
       setStep((s) => s + 1);
       return;
@@ -381,15 +401,17 @@ export function DynamicFormView({
 
   /** When FXS hero shows title/description, skip duplicate heading/paragraph nodes in the body. */
   const renderDocument = useMemo(() => {
-    if (!fxsOn || experienceConfig.showHero === false) return translatedSchema;
-    const nodes = translatedSchema.nodes.filter((n) => {
-      if (n.kind !== "content") return true;
-      return n.type !== "heading" && n.type !== "paragraph";
-    });
-    return nodes.length === translatedSchema.nodes.length
-      ? translatedSchema
-      : { ...translatedSchema, nodes };
-  }, [translatedSchema, fxsOn, experienceConfig.showHero]);
+    let nodes = translatedSchema.nodes;
+    if (fxsOn && experienceConfig.showHero !== false) {
+      nodes = nodes.filter((n) => {
+        if (n.kind !== "content") return true;
+        return n.type !== "heading" && n.type !== "paragraph";
+      });
+    }
+    if (stepped) nodes = nodesForStep(nodes, visibleBindingIds);
+    if (nodes === translatedSchema.nodes) return translatedSchema;
+    return { ...translatedSchema, nodes };
+  }, [translatedSchema, fxsOn, experienceConfig.showHero, stepped, visibleBindingIds]);
 
   const fieldsClassName = resolveFieldsClassName(
     layoutMode,
@@ -431,7 +453,7 @@ export function DynamicFormView({
   );
 
   const reviewSections = useMemo(() => {
-    if (multiStep && steps.length > 1) {
+    if (stepped && steps.length > 1) {
       return steps.map((stepDef, stepIndex) => ({
         id: stepDef.id,
         title: resolveItemField(stepDef as Record<string, unknown>, "title", locale) || `Step ${stepIndex + 1}`,
@@ -473,7 +495,7 @@ export function DynamicFormView({
         }),
       },
     ];
-  }, [form.fields, locale, multiStep, steps, templateId, values, visibleBindingList]);
+  }, [form.fields, locale, stepped, steps, templateId, values, visibleBindingList]);
 
   const renderer =
     layoutMode === "conversational" && currentBindingId ? (
@@ -496,7 +518,7 @@ export function DynamicFormView({
         <div className="lg:sticky lg:top-4 lg:self-start">
           <ReviewSummary
             sections={reviewSections}
-            onEditSection={multiStep ? (stepIndex) => setStep(stepIndex) : undefined}
+            onEditSection={stepped ? (stepIndex) => setStep(stepIndex) : undefined}
           />
         </div>
       </div>
@@ -523,7 +545,7 @@ export function DynamicFormView({
         <FormSectionCard
           config={{
             id: `form-fields-${step}`,
-            title: multiStep
+            title: stepped
               ? resolveItemField(steps[step] as Record<string, unknown>, "title", locale) ||
                 `Step ${step + 1}`
               : experience
@@ -623,7 +645,7 @@ export function DynamicFormView({
       errorLabels={fieldLabels}
       summaryItems={summaryItems}
       progress={
-        multiStep && steps.length > 1
+        stepped && steps.length > 1
           ? {
               step,
               total: steps.length,
@@ -642,14 +664,14 @@ export function DynamicFormView({
               ? conversationIndex < visibleBindingList.length - 1
                 ? "Next →"
                 : appearance?.buttonText || "Submit →"
-            : multiStep && step < steps.length - 1
+            : stepped && step < steps.length - 1
               ? "Continue"
               : appearance?.buttonText || "Submit →",
         loading: status === "submitting",
         showBack:
           layoutMode === "conversational"
             ? conversationIndex > 0
-            : multiStep && step > 0 && allowBack,
+            : stepped && step > 0 && allowBack,
         showDraft: saveAndResume,
         onBack:
           layoutMode === "conversational"

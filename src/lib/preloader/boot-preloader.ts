@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { normalizeLocalMediaUrl } from "@/lib/config/next-image";
 import type { ResolvedSitePreloader } from "@/features/preloader/resolve-site-preloader";
+import type { PreloaderBackground } from "@/features/preloader/site-preloader.schema";
 
 /**
  * Dismiss the SSR boot preloader without touching its React-owned DOM node.
@@ -26,14 +27,34 @@ function escapeHtml(value: string): string {
     .replace(/'/g, "&#39;");
 }
 
+export function preloaderBackgroundType(settings: {
+  background?: PreloaderBackground;
+}): NonNullable<PreloaderBackground["type"]> {
+  return settings.background?.type ?? "glass";
+}
+
 /** Server-safe preloader CSS variables (shared with client PreloaderView). */
 export function buildPreloaderStyle(settings: ResolvedSitePreloader): CSSProperties {
   const style: CSSProperties & Record<string, string> = {
     "--pre-anim-speed": String(settings.animationSpeed),
   };
-  if (settings.backgroundColor.trim()) {
-    style["--pre-bg"] = settings.backgroundColor.trim();
+  const background = settings.background;
+  const type = preloaderBackgroundType(settings);
+
+  if (type === "color") {
+    const color = settings.backgroundColor.trim() || background?.color?.trim() || "";
+    if (color) style["--pre-bg"] = color;
+  } else if (type === "gradient" && background?.gradient?.trim()) {
+    style["--pre-gradient"] = background.gradient.trim();
+  } else if (type === "image" && background?.imageUrl?.trim()) {
+    style["--pre-image"] = `url(${JSON.stringify(background.imageUrl.trim())})`;
+    style["--pre-overlay"] = String(background.overlayOpacity ?? 0.4);
+  } else if (type === "glass" && background?.glassBlur?.trim()) {
+    style["--pre-glass-blur"] = background.glassBlur.trim();
+  } else if (type === "none") {
+    style["--pre-bg"] = "transparent";
   }
+
   if (settings.primaryColor.trim()) {
     style["--pre-primary"] = settings.primaryColor.trim();
   }
@@ -41,6 +62,19 @@ export function buildPreloaderStyle(settings: ResolvedSitePreloader): CSSPropert
     style["--pre-accent"] = settings.accentColor.trim();
   }
   return style;
+}
+
+function bootPatternHost(background: PreloaderBackground | undefined): string | null {
+  const type = background?.type;
+  if (type === "grid" || type === "particles") return type;
+  if (type === "pattern") return background?.pattern?.trim() || "grid";
+  return null;
+}
+
+function buildBootBackgroundLayerHtml(settings: ResolvedSitePreloader): string {
+  const effect = bootPatternHost(settings.background);
+  if (!effect) return "";
+  return `<div class="pre-surface" data-section-bg-host="${escapeHtml(effect)}" aria-hidden></div>`;
 }
 
 function buildBootIconHtml(): string {
@@ -94,5 +128,6 @@ export function buildBootPreloaderInnerHtml(
   const message = settings.message.trim()
     ? `<p class="pre-message">${escapeHtml(settings.message.trim())}</p>`
     : "";
-  return `<div class="pre-bg" aria-hidden></div><div class="pre-stage"><div class="pre-center">${center}</div>${message}</div>`;
+  const surface = buildBootBackgroundLayerHtml(settings);
+  return `${surface}<div class="pre-bg" aria-hidden></div><div class="pre-stage"><div class="pre-center">${center}</div>${message}</div>`;
 }

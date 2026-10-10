@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { CMS_WIRED_MARKETING_SLUGS } from "@/features/cms/cms-wired-slugs";
 import { getCmsPagePublicPath } from "@/features/cms/cms-page-path";
 import { publicLocalePath } from "@/i18n/url-helpers";
+import { contentItemPublicPath } from "@/features/content/content-admin-paths";
 import { STATIC_SEO_PAGES } from "@/features/seo/constants";
 import { localeService } from "@/features/i18n/locale.service";
 import type { RouteCatalogEntry } from "@/features/seo/admin/route-catalog.types";
@@ -69,7 +70,7 @@ export async function listPublicRouteCatalog(): Promise<RouteCatalogEntry[]> {
         where: { deletedAt: null, status: "PUBLISHED", isVisible: true, slug: { not: null } },
         select: {
           slug: true,
-          contentType: { select: { routePrefix: true } },
+          contentType: { select: { routePrefix: true, slug: true } },
         },
         take: 300,
       }),
@@ -102,14 +103,15 @@ export async function listPublicRouteCatalog(): Promise<RouteCatalogEntry[]> {
     }
 
     for (const item of contentItems) {
-      if (!item.slug || !item.contentType.routePrefix) continue;
+      const itemPath = contentItemPublicPath(
+        item.contentType.routePrefix,
+        item.contentType.slug,
+        item.slug,
+      );
+      if (!itemPath) continue;
       add({
-        path: withLocalePrefix(
-          defaultLocale,
-          `/${item.contentType.routePrefix}/${item.slug}`,
-          defaultLocale,
-        ),
-        label: item.slug,
+        path: withLocalePrefix(defaultLocale, itemPath, defaultLocale),
+        label: item.slug ?? itemPath,
         source: "content",
       });
     }

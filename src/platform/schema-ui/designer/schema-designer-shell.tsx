@@ -19,6 +19,8 @@ import {
   createInitialHistory,
   createInsertBindingCommand,
   createInsertLayoutOrContentCommand,
+  layoutAncestorIds,
+  planRelocate,
   redoDocument,
   undoDocument,
   type DesignerHistoryState,
@@ -30,13 +32,14 @@ import {
   DndContext,
   DragOverlay,
   PointerSensor,
+  pointerWithin,
   useSensor,
   useSensors,
-  useDroppable,
+  type CollisionDetection,
   type DragEndEvent,
   type DragStartEvent,
 } from "@dnd-kit/core";
-import { Monitor, Tablet, Smartphone, Undo2, Redo2, Eye, ZoomIn, ZoomOut } from "lucide-react";
+import { Undo2, Redo2, Eye, ZoomIn, ZoomOut, PanelLeftClose, PanelRightClose } from "lucide-react";
 
 export type SchemaDesignerTab =
   | "overview"
@@ -67,6 +70,7 @@ type Props = {
   renderLogicPanel?: (ctx: {
     document: SchemaDocument;
     onChange: (document: SchemaDocument) => void;
+    section?: "rules" | "scoring";
   }) => ReactNode;
   /** @deprecated Prefer builderBlocks / builderAssets */
   builderExtras?: ReactNode;
@@ -90,14 +94,6 @@ const EXTRA_TAB_LABELS: Partial<Record<SchemaDesignerTab, string>> = {
   publish: "Publish",
 };
 
-type Breakpoint = "desktop" | "tablet" | "mobile";
-
-const BREAKPOINT_WIDTH: Record<Breakpoint, string> = {
-  desktop: "100%",
-  tablet: "768px",
-  mobile: "390px",
-};
-
 const ZOOM_STEPS = [0.75, 0.9, 1, 1.1, 1.25];
 
 type HistoryAction =
@@ -115,31 +111,24 @@ function historyReducer(state: DesignerHistoryState, action: HistoryAction): Des
   return applyDocumentCommand(state, action.command);
 }
 
-function CanvasDropZone({
-  children,
-  parentId,
-}: {
-  children: ReactNode;
-  parentId: string | null;
-}) {
-  const { setNodeRef, isOver } = useDroppable({
-    id: parentId ? `drop:layout:${parentId}` : "drop:root",
-    data: { targetParentId: parentId },
+const designerCollision: CollisionDetection = (args) => {
+  const hits = pointerWithin(args);
+  if (hits.length <= 1) return hits;
+  const areaOf = (id: string | number) => {
+    const container = args.droppableContainers.find((entry) => entry.id === id);
+    const rect = container?.rect.current;
+    if (!rect) return Number.POSITIVE_INFINITY;
+    return rect.width * rect.height;
+  };
+  const isEdge = (id: string | number) => {
+    const key = String(id);
+    return key.startsWith("before:") || key.startsWith("after:");
+  };
+  return [...hits].sort((a, b) => {
+    if (isEdge(a.id) !== isEdge(b.id)) return isEdge(a.id) ? -1 : 1;
+    return areaOf(a.id) - areaOf(b.id);
   });
-  return (
-    <div
-      ref={setNodeRef}
-      className={`relative min-h-[160px] rounded-xl transition-colors ${
-        isOver ? "bg-primary/5 ring-2 ring-primary" : ""
-      }`}
-    >
-      {isOver ? (
-        <div className="pointer-events-none absolute inset-x-4 top-2 z-10 h-1 rounded-full bg-primary shadow-[0_0_0_2px_rgba(59,130,246,0.25)]" />
-      ) : null}
-      {children}
-    </div>
-  );
-}
+};
 
 export function SchemaDesignerShell({
   title,
@@ -162,10 +151,13 @@ export function SchemaDesignerShell({
   const [tab, setTab] = useState<SchemaDesignerTab>("builder");
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
-  const [breakpoint, setBreakpoint] = useState<Breakpoint>("desktop");
   const [leftRail, setLeftRail] = useState<LeftRail>("components");
+  const [showPalette, setShowPalette] = useState(true);
+  const [showInspector, setShowInspector] = useState(true);
   const [zoomIndex, setZoomIndex] = useState(2);
   const [dragLabel, setDragLabel] = useState<string | null>(null);
+  const [collapsedSectionIds, setCollapsedSectionIds] = useState<Set<string>>(() => new Set());
+  const [logicSection, setLogicSection] = useState<"rules" | "scoring" | "steps">("rules");
   const [history, dispatch] = useReducer(historyReducer, initialDocument, createInitialHistory);
 
   const blocksContent = builderBlocks ?? builderExtras;
@@ -197,6 +189,7 @@ export function SchemaDesignerShell({
   const setSelection = useCallback(
     (selection: Selection) => {
       dispatch({ type: "select", selection });
+      if (selection) setShowInspector(true);
       onSelectionChange?.(selection);
     },
     [onSelectionChange],
@@ -207,6 +200,39 @@ export function SchemaDesignerShell({
       dispatch({ type: "select", selection: externalSelection });
     }
   }, [externalSelection, history.selection?.id]);
+
+  useEffect(() => {
+    const selectedId = history.selection?.id;
+    if (!selectedId) return;
+    const ancestors = layoutAncestorIds(history.document.nodes, selectedId);
+    if (!ancestors.length) return;
+    setCollapsedSectionIds((prev) => {
+      let changed = false;
+      const next = new Set(prev);
+      for (const ancestor of ancestors) {
+        if (next.delete(ancestor)) changed = true;
+      }
+      return changed ? next : prev;
+    });
+  }, [history.selection, history.document.nodes]);
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== "z") return;
+      const target = event.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)
+      ) {
+        return;
+      }
+      event.preventDefault();
+      if (event.shiftKey) redo();
+      else undo();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [undo, redo]);
 
   const runtime = useMemo(
     () =>
@@ -240,13 +266,14 @@ export function SchemaDesignerShell({
 
   const parentId = resolveInsertParentId(history.document, history.selection);
   const hasSelection = history.selection != null;
+  const inspectorOpen = showInspector;
   const selectedId = history.selection?.id ?? null;
   const crumb = selectionBreadcrumb(history.document, history.selection);
   const zoom = ZOOM_STEPS[zoomIndex] ?? 1;
 
   const onDragStart = (event: DragStartEvent) => {
-    const data = event.active.data.current as { componentType?: string } | undefined;
-    setDragLabel(data?.componentType ?? "Item");
+    const data = event.active.data.current as { componentType?: string; label?: string } | undefined;
+    setDragLabel(data?.label ?? data?.componentType ?? "Item");
   };
 
   const onDragEnd = (event: DragEndEvent) => {
@@ -254,35 +281,67 @@ export function SchemaDesignerShell({
     const { active, over } = event;
     if (!over) return;
     const activeData = active.data.current as
-      | { source?: string; kind?: string; componentType?: string; selection?: NonNullable<Selection> }
+      | {
+          source?: string;
+          kind?: string;
+          componentType?: string;
+          selection?: NonNullable<Selection>;
+          parentId?: string | null;
+          sourceIndex?: number;
+        }
       | undefined;
-    const overData = over.data.current as { targetParentId?: string | null } | undefined;
+    const overData = over.data.current as
+      | {
+          kind?: "edge" | "into";
+          edge?: "before" | "after";
+          parentId?: string | null;
+          rowIndex?: number;
+          childCount?: number;
+          targetParentId?: string | null;
+        }
+      | undefined;
     const targetParentId =
-      overData?.targetParentId !== undefined
-        ? overData.targetParentId
-        : over.id === "drop:root"
-          ? null
-          : String(over.id).startsWith("drop:layout:")
-            ? String(over.id).replace("drop:layout:", "")
-            : parentId;
+      overData?.kind === "edge" || overData?.kind === "into"
+        ? (overData.parentId ?? null)
+        : overData?.targetParentId !== undefined
+          ? overData.targetParentId
+          : over.id === "drop:root"
+            ? null
+            : String(over.id).startsWith("drop:layout:")
+              ? String(over.id).replace("drop:layout:", "")
+              : parentId;
 
     if (activeData?.source === "palette" && activeData.componentType) {
+      let index: number | undefined;
+      if (overData?.kind === "edge") {
+        index = overData.edge === "before" ? overData.rowIndex : (overData.rowIndex ?? 0) + 1;
+      } else if (overData?.kind === "into") {
+        index = overData.childCount;
+      }
       if (activeData.kind === "binding") {
         const cmd = createInsertBindingCommand(activeData.componentType, targetParentId);
-        if (cmd) dispatchCommand(cmd);
+        if (cmd && cmd.type === "InsertNode") dispatchCommand({ ...cmd, index });
       } else {
         const cmd = createInsertLayoutOrContentCommand(activeData.componentType, targetParentId);
-        if (cmd) dispatchCommand(cmd);
+        if (cmd && cmd.type === "InsertNode") dispatchCommand({ ...cmd, index });
       }
       return;
     }
 
-    if (activeData?.selection) {
-      dispatchCommand({
-        type: "RelocateNode",
+    if (activeData?.source === "canvas" && activeData.selection) {
+      const command = planRelocate({
+        nodes: history.document.nodes,
         selection: activeData.selection,
-        targetParentId: targetParentId ?? null,
+        sourceParentId: activeData.parentId ?? null,
+        sourceIndex: activeData.sourceIndex ?? 0,
+        targetParentId,
+        edge: overData?.edge,
+        rowIndex: overData?.rowIndex,
+        childCount: overData?.childCount,
+        into: overData?.kind === "into",
       });
+      if (!command) return;
+      dispatchCommand(command);
     }
   };
 
@@ -309,7 +368,7 @@ export function SchemaDesignerShell({
   ];
 
   return (
-    <>
+    <div className="text-gray-900" style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}>
       <AdminPageHeader title={title} description={description} actions={headerActions} />
 
       <div className="mb-4 flex flex-wrap items-center gap-2 border-b pb-3">
@@ -348,39 +407,26 @@ export function SchemaDesignerShell({
           </button>
           {(tab === "builder" || tab === "canvas") && (
             <>
-              <div className="mx-1 hidden h-5 w-px bg-border sm:block" />
-              {(
-                [
-                  ["desktop", Monitor],
-                  ["tablet", Tablet],
-                  ["mobile", Smartphone],
-                ] as const
-              ).map(([bp, Icon]) => (
-                <button
-                  key={bp}
-                  type="button"
-                  className={`inline-flex h-8 w-8 items-center justify-center rounded-lg border ${
-                    breakpoint === bp ? "bg-primary text-primary-foreground" : "hover:bg-muted"
-                  }`}
-                  onClick={() => setBreakpoint(bp)}
-                  title={bp}
-                >
-                  <Icon className="h-4 w-4" />
-                </button>
-              ))}
+              <button type="button" className="inline-flex h-8 items-center gap-1 rounded-lg border border-[#E5E7EB] bg-white px-2 text-xs hover:bg-gray-50" onClick={() => setShowPalette((value) => !value)} aria-pressed={showPalette} title="Toggle components and structure">
+                <PanelLeftClose className="h-3.5 w-3.5" /> Left panel
+              </button>
+              <button type="button" className="inline-flex h-8 items-center gap-1 rounded-lg border border-[#E5E7EB] bg-white px-2 text-xs hover:bg-gray-50" onClick={() => setShowInspector((value) => !value)} aria-pressed={showInspector} title="Toggle properties">
+                <PanelRightClose className="h-3.5 w-3.5" /> Properties
+              </button>
+              <div className="mx-1 hidden h-5 w-px bg-[#E5E7EB] sm:block" />
               <button
                 type="button"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border disabled:opacity-40"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#E5E7EB] bg-white disabled:opacity-40"
                 disabled={zoomIndex <= 0}
                 onClick={() => setZoomIndex((i) => Math.max(0, i - 1))}
                 title="Zoom out"
               >
                 <ZoomOut className="h-4 w-4" />
               </button>
-              <span className="w-10 text-center text-xs text-muted-foreground">{Math.round(zoom * 100)}%</span>
+              <span className="w-10 text-center text-xs text-gray-500">{Math.round(zoom * 100)}%</span>
               <button
                 type="button"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border disabled:opacity-40"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#E5E7EB] bg-white disabled:opacity-40"
                 disabled={zoomIndex >= ZOOM_STEPS.length - 1}
                 onClick={() => setZoomIndex((i) => Math.min(ZOOM_STEPS.length - 1, i + 1))}
                 title="Zoom in"
@@ -402,7 +448,13 @@ export function SchemaDesignerShell({
             <Eye className="h-3.5 w-3.5" />
             Preview
           </Button>
-          <Button type="button" size="sm" variant="outline" onClick={handleSave} disabled={saving}>
+          <Button
+            type="button"
+            size="sm"
+            className="ms-1 !border-transparent !bg-[#4F46E5] !text-white shadow-none hover:!bg-[#4338CA]"
+            onClick={handleSave}
+            disabled={saving}
+          >
             {saving ? "Saving…" : "Save"}
           </Button>
         </div>
@@ -417,24 +469,29 @@ export function SchemaDesignerShell({
         ))}
 
       {(tab === "builder" || tab === "canvas") && (
-        <DndContext sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd}>
-          <div className="grid gap-4 lg:grid-cols-[240px_1fr_300px]">
-            <aside className="flex max-h-[calc(100vh-12rem)] flex-col overflow-hidden rounded-xl border bg-background shadow-sm">
-              <div className="flex flex-wrap gap-0.5 border-b p-1.5">
-                {leftRailTabs.map((r) => (
-                  <button
-                    key={r.id}
-                    type="button"
-                    className={`rounded-lg px-2 py-1 text-[11px] font-medium ${
-                      leftRail === r.id ? "bg-muted" : "text-muted-foreground hover:bg-muted/50"
-                    }`}
-                    onClick={() => setLeftRail(r.id)}
-                  >
-                    {r.label}
-                  </button>
-                ))}
-              </div>
-              <div className="flex-1 overflow-auto p-3">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={designerCollision}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+        >
+          <div className="flex h-[calc(100vh-11rem)] min-h-[24rem] items-stretch gap-2 overflow-hidden">
+            {showPalette ? (
+              <aside className="flex h-full w-[240px] shrink-0 flex-col overflow-hidden rounded-lg border border-[#E5E7EB] bg-white">
+                <div className="flex flex-wrap gap-0.5 border-b border-[#E5E7EB] p-1.5">
+                  {leftRailTabs.map((r) => (
+                    <button
+                      key={r.id}
+                      type="button"
+                      className={`rounded-md px-2 py-1 text-[12px] font-medium ${
+                        leftRail === r.id ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-50"
+                      }`}
+                      onClick={() => setLeftRail(r.id)}
+                    >
+                      {r.label}
+                    </button>
+                  ))}
+                </div>
                 {leftRail === "components" ? (
                   <ComponentPalette
                     onAddBinding={(type) => {
@@ -446,48 +503,45 @@ export function SchemaDesignerShell({
                       if (cmd) dispatchCommand(cmd);
                     }}
                   />
-                ) : null}
-                {leftRail === "structure" ? (
-                  <StructurePanel
-                    document={history.document}
-                    title={title}
-                    selection={history.selection}
-                    onSelect={setSelection}
-                  />
-                ) : null}
-                {leftRail === "assets" ? (
-                  assetsContent ? (
-                    <div className="space-y-3">{assetsContent}</div>
-                  ) : (
-                    <p className="text-xs text-muted-foreground">No assets for this form.</p>
-                  )
-                ) : null}
-                {leftRail === "blocks" ? (
-                  blocksContent ? (
-                    <div className="space-y-3">{blocksContent}</div>
-                  ) : (
-                    <p className="text-xs text-muted-foreground">No reusable blocks yet.</p>
-                  )
-                ) : null}
-              </div>
-            </aside>
+                ) : (
+                  <div className="flex-1 overflow-auto p-2">
+                    {leftRail === "structure" ? (
+                      <StructurePanel
+                        document={history.document}
+                        title={title}
+                        selection={history.selection}
+                        onSelect={setSelection}
+                        onMove={(selection, direction) => dispatchCommand({ type: "MoveNode", selection, direction })}
+                        onDelete={(selection) => dispatchCommand({ type: "DeleteNode", selection })}
+                      />
+                    ) : null}
+                    {leftRail === "assets" ? (
+                      assetsContent ? (
+                        <div className="space-y-3">{assetsContent}</div>
+                      ) : (
+                        <p className="text-xs text-gray-500">No assets for this form.</p>
+                      )
+                    ) : null}
+                    {leftRail === "blocks" ? (
+                      blocksContent ? (
+                        <div className="space-y-3">{blocksContent}</div>
+                      ) : (
+                        <p className="text-xs text-gray-500">No reusable blocks yet.</p>
+                      )
+                    ) : null}
+                  </div>
+                )}
+              </aside>
+            ) : null}
 
-            <section className="flex max-h-[calc(100vh-12rem)] flex-col overflow-hidden rounded-xl border bg-background shadow-sm">
-              <div className="flex items-center gap-2 border-b px-3 py-2 text-xs text-muted-foreground">
+            <section className="flex h-full min-w-0 flex-1 flex-col overflow-hidden rounded-lg border border-[#E5E7EB] bg-white">
+              <div className="flex shrink-0 items-center gap-2 border-b border-[#E5E7EB] px-3 py-1.5 text-[12px] text-gray-500">
                 <span className="truncate">Locale: {previewLocale}</span>
                 <span className="ms-auto truncate">{crumb}</span>
               </div>
-              <div className="relative flex-1 overflow-auto p-4">
+              <div className="relative min-h-0 flex-1 overflow-auto bg-[#F9FAFB] p-0">
                 <FloatingToolbar
                   visible={hasSelection}
-                  onDuplicate={() =>
-                    history.selection &&
-                    dispatchCommand({ type: "DuplicateNode", selection: history.selection })
-                  }
-                  onDelete={() =>
-                    history.selection &&
-                    dispatchCommand({ type: "DeleteNode", selection: history.selection })
-                  }
                   onWrapSection={() =>
                     history.selection &&
                     dispatchCommand({
@@ -506,45 +560,52 @@ export function SchemaDesignerShell({
                   }
                 />
                 <div
-                  className="mx-auto w-full origin-top transition-all"
-                  style={{
-                    maxWidth: BREAKPOINT_WIDTH[breakpoint],
-                    transform: `scale(${zoom})`,
-                  }}
+                  className="w-full origin-top px-1 transition-all"
+                  style={{ transform: `scale(${zoom})` }}
                 >
-                  <CanvasDropZone parentId={parentId}>
-                    {stepsPreview}
-                    <SchemaRenderer
-                      document={history.document}
-                      schemaId="designer-preview"
-                      runtime={runtime}
-                      designerMode
-                      selectedId={selectedId}
-                      onSelect={(sel) => setSelection(sel)}
-                      visibleBindingIds={visibleBindingIds}
-                      onDesignerAction={(action, sel) => {
-                        if (action === "settings") {
-                          setSelection(sel);
-                          return;
-                        }
-                        if (action === "duplicate") {
-                          dispatchCommand({ type: "DuplicateNode", selection: sel });
-                          return;
-                        }
-                        if (action === "delete") {
-                          dispatchCommand({ type: "DeleteNode", selection: sel });
-                        }
-                      }}
-                    />
-                    {history.document.nodes.length === 0 && (
-                      <p className="py-16 text-center text-sm text-muted-foreground">
-                        Drag components here or click items in the palette.
-                      </p>
-                    )}
-                  </CanvasDropZone>
+                  {stepsPreview}
+                  <SchemaRenderer
+                    document={history.document}
+                    schemaId="designer-preview"
+                    runtime={runtime}
+                    designerMode
+                    selectedId={selectedId}
+                    collapsedSectionIds={collapsedSectionIds}
+                    onToggleSectionCollapse={(sectionId) => {
+                      setCollapsedSectionIds((prev) => {
+                        const next = new Set(prev);
+                        if (next.has(sectionId)) next.delete(sectionId);
+                        else next.add(sectionId);
+                        return next;
+                      });
+                    }}
+                    onSelect={(sel) => setSelection(sel)}
+                    visibleBindingIds={visibleBindingIds}
+                    onDesignerAction={(action, sel) => {
+                      if (action === "settings") {
+                        setSelection(sel);
+                        return;
+                      }
+                      if (action === "duplicate") {
+                        dispatchCommand({ type: "DuplicateNode", selection: sel });
+                        return;
+                      }
+                      if (action === "delete") {
+                        dispatchCommand({ type: "DeleteNode", selection: sel });
+                        return;
+                      }
+                      if (action === "move-up" || action === "move-down") {
+                        dispatchCommand({
+                          type: "MoveNode",
+                          selection: sel,
+                          direction: action === "move-up" ? "up" : "down",
+                        });
+                      }
+                    }}
+                  />
                 </div>
               </div>
-              <div className="flex items-center gap-2 border-t px-3 py-2 text-xs text-muted-foreground">
+              <div className="flex shrink-0 items-center gap-2 border-t border-[#E5E7EB] px-3 py-1 text-[12px] text-gray-500">
                 <span className="truncate">
                   {title} / Design / {crumb}
                 </span>
@@ -557,46 +618,79 @@ export function SchemaDesignerShell({
               </div>
             </section>
 
-            <aside className="max-h-[calc(100vh-12rem)] overflow-auto rounded-xl border bg-background p-3 shadow-sm">
-              <NodeInspector
-                document={history.document}
-                selection={history.selection}
-                onUpdateBinding={(binding) => dispatchCommand({ type: "UpdateBinding", binding })}
-                onUpdateNodeProps={(nodeId, props) =>
-                  dispatchCommand({ type: "UpdateNodeProps", nodeId, props })
-                }
-              />
-            </aside>
+            {inspectorOpen ? (
+              <aside className="h-full w-[400px] shrink-0 overflow-auto rounded-lg border border-[#E5E7EB] bg-white p-3">
+                <NodeInspector
+                  document={history.document}
+                  selection={history.selection}
+                  onUpdateBinding={(binding) => dispatchCommand({ type: "UpdateBinding", binding })}
+                  onUpdateNodeProps={(nodeId, props) =>
+                    dispatchCommand({ type: "UpdateNodeProps", nodeId, props })
+                  }
+                />
+              </aside>
+            ) : null}
           </div>
           <DragOverlay>
             {dragLabel ? (
-              <div className="rounded-xl border bg-background px-3 py-2 text-xs shadow-lg">{dragLabel}</div>
+              <div className="rounded-md border border-[#E5E7EB] bg-white px-3 py-2 text-xs shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+                {dragLabel}
+              </div>
             ) : null}
           </DragOverlay>
         </DndContext>
       )}
 
       {tab === "logic" && (
-        <div className="space-y-6">
-          {renderLogicPanel?.({
-            document: history.document,
-            onChange: (next) => {
-              dispatchCommand({ type: "ReplaceDocument", document: next });
-            },
-          })}
-          <StepEditor
-            document={history.document}
-            onChange={(next) => {
-              dispatchCommand({ type: "ReplaceDocument", document: next });
-            }}
-          />
+        <div className="flex items-start gap-3">
+          <nav className="sticky top-4 flex w-44 shrink-0 flex-col gap-1 rounded-lg border border-[#E5E7EB] bg-white p-1.5">
+            {(
+              [
+                ["rules", "Conditional logic"],
+                ["scoring", "Scoring"],
+                ["steps", "Multi-step flow"],
+              ] as const
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                className={`rounded-md px-2.5 py-1.5 text-left text-[12px] font-medium ${
+                  logicSection === id
+                    ? "border border-[#4F46E5] bg-[rgba(79,70,229,0.04)] text-[#4F46E5]"
+                    : "border border-transparent text-gray-600 hover:bg-gray-50"
+                }`}
+                aria-current={logicSection === id ? "page" : undefined}
+                onClick={() => setLogicSection(id)}
+              >
+                {label}
+              </button>
+            ))}
+          </nav>
+          <div className="min-w-0 flex-1">
+            {logicSection === "steps" ? (
+              <StepEditor
+                document={history.document}
+                onChange={(next) => {
+                  dispatchCommand({ type: "ReplaceDocument", document: next });
+                }}
+              />
+            ) : (
+              renderLogicPanel?.({
+                document: history.document,
+                onChange: (next) => {
+                  dispatchCommand({ type: "ReplaceDocument", document: next });
+                },
+                section: logicSection,
+              })
+            )}
+          </div>
         </div>
       )}
 
       {(tab === "automation" || tab === "workflow") && (extraTabs?.automation ?? extraTabs?.workflow ?? null)}
       {(tab === "analytics" || tab === "experiments") && (extraTabs?.analytics ?? extraTabs?.experiments ?? null)}
       {(tab === "publish" || tab === "publishing") && (extraTabs?.publish ?? extraTabs?.publishing ?? null)}
-    </>
+    </div>
   );
 }
 

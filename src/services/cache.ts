@@ -82,7 +82,12 @@ const HEADER_WORKSPACE_ENTITY_TYPES = new Set([
   "MegaMenuPanel",
 ]);
 
-const FOOTER_WORKSPACE_ENTITY_TYPES = new Set(["Footer", "FooterColumn", "FooterLink"]);
+const FOOTER_WORKSPACE_ENTITY_TYPES = new Set([
+  "Footer",
+  "FooterColumn",
+  "FooterContactItem",
+  "FooterLink",
+]);
 
 /** Tags invalidated when workspace EntityTranslation rows change (testable). */
 export function getWorkspaceTranslationRevalidationTags(

@@ -32,12 +32,24 @@ export function resolveSitePreloader(
         null
       : null;
 
+  const background = settings.background?.type
+    ? settings.background
+    : { type: "glass" as const };
+  const backgroundColor =
+    background.type === "color"
+      ? background.color?.trim() ||
+        settings.backgroundColor.trim() ||
+        options.fallbackBackgroundColor?.trim() ||
+        ""
+      : "";
+
   return {
     ...settings,
     /** Cap overlay lifetime — timeout is UX escape hatch, not a content-load budget. */
     maxDurationMs: Math.min(settings.maxDurationMs, 4000),
-    backgroundColor:
-      settings.backgroundColor.trim() || options.fallbackBackgroundColor?.trim() || "",
+    background:
+      background.type === "color" ? { ...background, color: backgroundColor || background.color } : background,
+    backgroundColor,
     resolvedLogoUrl,
   };
 }

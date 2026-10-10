@@ -1,4 +1,5 @@
 import type { SearchSourcesSettings } from "@/capabilities/search/settings/admin-search-settings.schema";
+import type { LocalizedValueMap } from "@/features/translation/types";
 
 /** Canonical slug for Packages (catalog items). */
 export const PACKAGES_CONTENT_TYPE_SLUG = "catalog-items";
@@ -38,13 +39,6 @@ export const SEARCH_SOURCE_PLATFORM_LABELS: Record<
   customContentTypes: "Custom content types",
 };
 
-export const SEARCH_SOURCE_BUILTIN_LABELS: Record<BuiltinContentTypeSourceKey, string> = {
-  packages: "Packages",
-  listings: "Listings",
-  offerings: "Offerings",
-  projects: "Projects",
-};
-
 export function isPackagesContentTypeSlug(slug: string): boolean {
   return BUILTIN_CONTENT_TYPE_SLUGS.packages.includes(slug);
 }
@@ -62,15 +56,51 @@ export function builtinKeyForContentTypeSlug(slug: string): BuiltinContentTypeSo
   return null;
 }
 
-/** Whether a catalog content type slug is included in the search index. */
+function firstFilledLabel(map: LocalizedValueMap, preferredLocale?: string): string {
+  if (preferredLocale) {
+    const direct = map[preferredLocale]?.trim();
+    if (direct) return direct;
+    const lower = preferredLocale.toLowerCase();
+    const match = Object.entries(map).find(
+      ([code, value]) => code.toLowerCase() === lower && value.trim()
+    );
+    if (match) return match[1].trim();
+  }
+  for (const [code, value] of Object.entries(map)) {
+    if (code.toLowerCase().startsWith("en") && value.trim()) return value.trim();
+  }
+  for (const value of Object.values(map)) {
+    if (value.trim()) return value.trim();
+  }
+  return "";
+}
+
+/** Plural label, then name, then slug — follows the live content type record. */
+export function resolveContentTypeSourceLabel(
+  labelPlural: LocalizedValueMap,
+  name: LocalizedValueMap,
+  slug: string,
+  preferredLocale?: string
+): string {
+  return firstFilledLabel(labelPlural, preferredLocale) || firstFilledLabel(name, preferredLocale) || slug;
+}
+
+/**
+ * Whether a catalog content type slug is included in the search index.
+ * An explicit per-slug override wins, then a legacy builtin flag for the
+ * current slug or its origin slug, then the custom-content-type default.
+ */
 export function isContentTypeSlugSearchable(
   slug: string,
-  sources: SearchSourcesSettings
+  sources: SearchSourcesSettings,
+  originBuiltinSlug?: string | null
 ): boolean {
-  const builtin = builtinKeyForContentTypeSlug(slug);
-  if (builtin) return sources[builtin];
   const explicit = sources.contentTypeSlugs[slug];
   if (explicit !== undefined) return explicit;
+  const builtin =
+    builtinKeyForContentTypeSlug(slug) ??
+    (originBuiltinSlug ? builtinKeyForContentTypeSlug(originBuiltinSlug) : null);
+  if (builtin) return sources[builtin];
   return sources.customContentTypes;
 }
 

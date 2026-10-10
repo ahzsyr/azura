@@ -162,6 +162,7 @@ const menuItemSchema: z.ZodType<unknown> = z.lazy(() =>
     ]),
     label: z.string(),
     icon: z.string().optional(),
+    iconPlacement: z.enum(["desktop", "mobile", "both"]).optional(),
     placement: z.enum(["desktop", "mobile", "both"]),
     children: z.array(menuItemSchema),
     megaMenuType: menuLayoutTypeSchema.optional(),
@@ -185,6 +186,7 @@ const menuItemSchema: z.ZodType<unknown> = z.lazy(() =>
         if (value === "featured" || value === "product") return "card" as const;
         return value;
       }),
+    megaMenuCardMedia: z.enum(["image", "icon"]).optional(),
     megaMenuImageUrl: z.string().optional(),
     url: z.string().optional(),
     pageId: z.string().optional(),
@@ -277,6 +279,7 @@ export const headerWorkspaceSchema = z.object({
   settings: z.object({
     headerStyle: z.enum(["normal-compact", "normal-minimal", "boxed-compact", "boxed-minimal"]),
     headerBorderRadius: z.enum(["none", "sm", "md", "lg", "xl"]).optional(),
+    menuBorderRadius: z.enum(["none", "sm", "md", "lg", "xl"]).optional(),
     menuType: z.enum(["grid", "mixed", "columns", "tabbed", "dropdown"]),
     mobileType: z.enum(["hamburger", "bottom", "fullscreen", "accordion", "tabs", "search"]),
     headerDesktopMode: z.enum([

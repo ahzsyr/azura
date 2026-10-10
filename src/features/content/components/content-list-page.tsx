@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { PageHero, Section } from "@/components/marketing/section";
 import { AnimatedSection } from "@/components/motion/lazy-motion";
 import { ContentCard } from "@/components/content/content-card";
+import { contentPublicSegment } from "@/features/content/content-admin-paths";
 import { contentPublicService } from "@/features/content/content-public.service";
 import type { ContentTypeView } from "@/features/content/content-public.types";
 import { mergeDisplaySettings } from "@/schemas/content/display-settings";
@@ -93,7 +94,7 @@ export async function ContentListPage({ locale, contentType, collectionSlug, chi
       })
     : [];
 
-  const prefix = contentType.routePrefix ?? contentType.slug;
+  const prefix = contentPublicSegment(contentType.routePrefix, contentType.slug) ?? contentType.slug;
   const listPath = `/${prefix}`;
   const hasItems = useViewModels ? presetViewModels.length > 0 : entityViewModels.length > 0;
 

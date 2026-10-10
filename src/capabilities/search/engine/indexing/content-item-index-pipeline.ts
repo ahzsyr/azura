@@ -12,12 +12,16 @@ import type {
 } from "@/capabilities/search/engine/indexing/search-index-types";
 import type { ContentItemIndexSource } from "@/capabilities/search/engine/providers/builtin-providers";
 import type { SearchProviderContext } from "@/capabilities/search/engine/providers/search-provider";
+import { resolveContentCoverUrl, type ContentCoverMedia } from "@/capabilities/search/lib/content-cover-url";
+import { prisma } from "@/lib/prisma";
 import { translationService } from "@/features/translation/translation.service";
 import { toLocalizedRecord } from "@/features/translation/translation-resolver";
 
 export type ContentItemDbShape = {
   id: string;
   slug: string | null;
+  featuredImageUrl?: string | null;
+  media?: ContentCoverMedia[] | null;
   attributes: unknown;
   metadata?: unknown;
   blocks?: unknown;
@@ -59,10 +63,28 @@ export async function dbContentItemToSearchSource(
 
   const attrs = (item.attributes ?? {}) as Record<string, unknown>;
   const meta = (item.metadata ?? {}) as Record<string, unknown>;
+  const media =
+    item.media !== undefined
+      ? item.media
+      : await prisma.contentItemMedia.findMany({
+          where: { itemId: item.id },
+          select: {
+            url: true,
+            isCover: true,
+            sortOrder: true,
+            isHidden: true,
+            isPublished: true,
+          },
+          orderBy: { sortOrder: "asc" },
+        });
 
   return {
     id: item.id,
     slug: item.slug,
+    featuredImageUrl: resolveContentCoverUrl({
+      featuredImageUrl: item.featuredImageUrl,
+      media,
+    }),
     title: toLocalizedRecord(itemTranslations, "title"),
     excerpt: toLocalizedRecord(itemTranslations, "excerpt"),
     description: toLocalizedRecord(itemTranslations, "description"),

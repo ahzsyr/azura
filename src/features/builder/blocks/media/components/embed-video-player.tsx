@@ -38,6 +38,7 @@ export function EmbedVideoPlayer({
         src={src}
         title={title}
         className={cn("h-full w-full border-0", className)}
+        loading="lazy"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
       />

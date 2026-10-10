@@ -107,6 +107,7 @@ export function TestimonialCard({
                 src={testimonial.videoUrl}
                 title={`${testimonial.name} testimonial`}
                 className="h-full w-full"
+                loading="lazy"
                 allowFullScreen
               />
             </div>
@@ -128,6 +129,7 @@ export function TestimonialCard({
               src={testimonial.videoUrl}
               title={`${testimonial.name} testimonial`}
               className="h-full w-full"
+              loading="lazy"
               allowFullScreen
             />
           </div>

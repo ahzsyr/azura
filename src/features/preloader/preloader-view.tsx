@@ -2,8 +2,10 @@
 
 import { Loader2, Radio, Sparkles, Zap, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import { SectionBackgroundLayers } from "@/components/theme/section-background-layers";
 import { BrandLogoImage } from "@/features/navigation/components/header/brand-logo-image";
-import { buildPreloaderStyle } from "@/lib/preloader/boot-preloader";
+import { resolveSectionPatternEffect } from "@/features/theme/backgrounds/background-system";
+import { buildPreloaderStyle, preloaderBackgroundType } from "@/lib/preloader/boot-preloader";
 import type { PreloaderAnimation } from "@/features/preloader/site-preloader.schema";
 import type { ResolvedSitePreloader } from "@/features/preloader/resolve-site-preloader";
 
@@ -91,16 +93,19 @@ export function PreloaderView({
   const animation = settings.animation as PreloaderAnimation;
   const variantClass =
     variant === "preview" ? "az-preloader--preview" : "az-preloader--fullscreen";
+  const patternEffect = resolveSectionPatternEffect(settings.background);
 
   return (
     <div
       className={`az-preloader ${variantClass} az-preloader--${animation}${hidden ? " hidden" : ""}${className ? ` ${className}` : ""}`}
+      data-pre-bg={preloaderBackgroundType(settings)}
       style={buildPreloaderStyle(settings)}
       role="status"
       aria-live="polite"
       aria-busy={!hidden}
       aria-label={settings.message.trim() || "Loading"}
     >
+      {patternEffect ? <SectionBackgroundLayers bg={settings.background} /> : null}
       <div className="pre-bg" aria-hidden />
       <div className="pre-stage">
         <div className="pre-center">

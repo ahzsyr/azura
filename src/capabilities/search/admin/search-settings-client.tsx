@@ -21,8 +21,8 @@ import {
   type SearchSettingsTabId,
 } from "@/capabilities/search/settings/admin-search-settings.schema";
 import {
-  BUILTIN_CONTENT_TYPE_SOURCE_KEYS,
-  SEARCH_SOURCE_BUILTIN_LABELS,
+  builtinKeyForContentTypeSlug,
+  isContentTypeSlugSearchable,
 } from "@/capabilities/search/settings/search-sources";
 import {
   SettingsSection,
@@ -375,16 +375,27 @@ function renderTab(
   locale: string
 ) {
   const patchContentTypeSlug = (slug: string, enabled: boolean) => {
+    const builtin = builtinKeyForContentTypeSlug(slug);
     setSettings((prev) => ({
       ...prev,
       sources: {
         ...prev.sources,
+        ...(builtin ? { [builtin]: enabled } : {}),
         contentTypeSlugs: { ...prev.sources.contentTypeSlugs, [slug]: enabled },
       },
     }));
   };
 
+  const catalogContentTypes = discovery.allContentTypes.filter((t) => t.isBuiltin);
   const customContentTypes = discovery.allContentTypes.filter((t) => !t.isBuiltin);
+  const includedCustomContentTypes = customContentTypes.filter((t) => {
+    const explicit = s.sources.contentTypeSlugs[t.slug];
+    if (explicit !== undefined) return explicit;
+    return s.sources.customContentTypes;
+  });
+  const customTypesToAdd = customContentTypes.filter(
+    (t) => !includedCustomContentTypes.some((included) => included.slug === t.slug)
+  );
   switch (tab as SearchSettingsTabId) {
     case "general":
       return (
@@ -555,40 +566,57 @@ function renderTab(
 
           <SettingsSection
             title="Catalog content types"
-            description="Built-in catalog item types. Requires search enabled on the content type (adminConfig.search)."
+            description="Follows catalog content types as they are created, renamed, or deleted. Requires search enabled on the content type (adminConfig.search)."
           >
-            {BUILTIN_CONTENT_TYPE_SOURCE_KEYS.map((key) => {
-              const typeRow = discovery.allContentTypes.find((t) => t.builtinKey === key);
-              const missing = !typeRow;
-              return (
+            {catalogContentTypes.length === 0 ? (
+              <p className="text-sm text-muted-foreground">No catalog content types yet.</p>
+            ) : (
+              catalogContentTypes.map((typeRow) => (
                 <ToggleField
-                  key={key}
-                  label={SEARCH_SOURCE_BUILTIN_LABELS[key]}
+                  key={typeRow.id}
+                  label={typeRow.label}
                   description={
-                    missing
-                      ? `No “${key}” content type in database yet.`
-                      : typeRow.searchEnabled
-                        ? `${typeRow.slug} (${typeRow.slug})`
-                        : `Disabled in type settings — ${typeRow.slug}`
+                    typeRow.searchEnabled
+                      ? typeRow.slug
+                      : `Disabled in type settings — ${typeRow.slug}`
                   }
-                  checked={s.sources[key]}
-                  disabled={missing}
-                  onChange={(v) => patchNested("sources", key, v)}
+                  checked={isContentTypeSlugSearchable(
+                    typeRow.slug,
+                    s.sources,
+                    typeRow.originBuiltinSlug
+                  )}
+                  onChange={(v) => patchContentTypeSlug(typeRow.slug, v)}
                 />
-              );
-            })}
+              ))
+            )}
           </SettingsSection>
 
           <SettingsSection
             title="Custom content types"
-            description="New types from Catalog → Content Types appear here automatically."
+            description="Add or remove custom content types. Types with no explicit choice follow the switch below."
           >
             <ToggleField
               label="Enable custom content types"
-              description="Default on for new types; override per type below."
+              description="Includes new custom types until you remove them."
               checked={s.sources.customContentTypes}
               onChange={(v) => patchNested("sources", "customContentTypes", v)}
             />
+            {customTypesToAdd.length > 0 ? (
+              <SelectField
+                label="Add content type"
+                value=""
+                onChange={(slug) => {
+                  if (slug) patchContentTypeSlug(slug, true);
+                }}
+                options={[
+                  { value: "", label: "Add a content type…" },
+                  ...customTypesToAdd.map((t) => ({
+                    value: t.slug,
+                    label: `${t.label} (${t.slug})`,
+                  })),
+                ]}
+              />
+            ) : null}
             <ul className="divide-y rounded-md border">
               {customContentTypes.length === 0 ? (
                 <li className="px-3 py-4 text-sm text-muted-foreground">
@@ -598,18 +626,18 @@ function renderTab(
                   </Link>
                   .
                 </li>
+              ) : includedCustomContentTypes.length === 0 ? (
+                <li className="px-3 py-4 text-sm text-muted-foreground">
+                  No custom content types are included.
+                </li>
               ) : (
-                customContentTypes.map((t) => {
-                  const explicit = s.sources.contentTypeSlugs[t.slug];
-                  const checked =
-                    explicit !== undefined ? explicit : s.sources.customContentTypes;
-                  return (
+                includedCustomContentTypes.map((t) => (
                     <li
                       key={t.id}
                       className="flex flex-wrap items-center justify-between gap-3 px-3 py-2.5 text-sm"
                     >
                       <div>
-                        <span className="font-medium">{t.slug}</span>
+                        <span className="font-medium">{t.label}</span>
                         <span className="ms-2 text-muted-foreground">({t.slug})</span>
                         {!t.searchEnabled ? (
                           <span className="ms-2 text-xs text-amber-600 dark:text-amber-400">
@@ -618,15 +646,14 @@ function renderTab(
                         ) : null}
                       </div>
                       <div className="flex items-center gap-3">
-                        <label className="flex cursor-pointer items-center gap-2 text-xs">
-                          <input
-                            type="checkbox"
-                            className="h-4 w-4 rounded border"
-                            checked={checked}
-                            onChange={(e) => patchContentTypeSlug(t.slug, e.target.checked)}
-                          />
-                          Searchable
-                        </label>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => patchContentTypeSlug(t.slug, false)}
+                        >
+                          Remove
+                        </Button>
                         <Link
                           href={`/admin/content/types/${t.id}`}
                           className="text-xs text-primary hover:underline"
@@ -635,8 +662,7 @@ function renderTab(
                         </Link>
                       </div>
                     </li>
-                  );
-                })
+                  ))
               )}
             </ul>
           </SettingsSection>

@@ -65,7 +65,7 @@ export function SectionHeader({
       {headerImageUrl ? (
         <div className={cn("mb-4", resolvedAlign === "center" && "mx-auto", "relative h-12 w-12 overflow-hidden rounded-lg")}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={headerImageUrl} alt="" className="h-full w-full object-cover" />
+          <img src={headerImageUrl} alt="" loading="lazy" className="h-full w-full object-cover" />
         </div>
       ) : headerIcon ? (
         <div
@@ -90,7 +90,7 @@ export function SectionHeader({
       )}
       <h2
         className={cn(
-          "font-heading text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl",
+          "font-heading text-3xl font-semibold leading-snug tracking-tight md:text-4xl lg:text-5xl",
           dark ? "text-background" : "text-foreground",
           titleClassName
         )}

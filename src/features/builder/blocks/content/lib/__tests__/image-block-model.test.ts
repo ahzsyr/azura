@@ -7,7 +7,9 @@ import {
   MEDIA_SIZE_CLASS,
   MEDIA_WIDTH_CLASS,
   contentAreaAlignClasses,
+  mediaAspectCss,
   normalizeImageBlockSettings,
+  overlayContentLayout,
   resolveCustomDimensionStyle,
   sideBySideLayoutClasses,
   shouldRenderImageBlock,
@@ -240,6 +242,28 @@ describe("normalizeImageBlockSettings", () => {
     assert.equal(model.media.heightUnit, "rem");
   });
 
+  it("accepts extra aspect presets and a custom ratio", () => {
+    const preset = normalizeImageBlockSettings({
+      url: "/a.jpg",
+      mediaAspectRatio: "21/9",
+    });
+    assert.equal(preset.media.aspectRatio, "21/9");
+    assert.equal(mediaAspectCss("21/9"), "21 / 9");
+    assert.equal(MEDIA_ASPECT_CLASS["2/3"].includes("aspect"), true);
+
+    const custom = normalizeImageBlockSettings({
+      url: "/a.jpg",
+      mediaAspectRatio: "custom",
+      mediaAspectCustomWidth: 7,
+      mediaAspectCustomHeight: 5,
+    });
+    assert.equal(custom.media.aspectRatio, "custom");
+    assert.equal(custom.media.customAspectWidth, 7);
+    assert.equal(custom.media.customAspectHeight, 5);
+    assert.equal(mediaAspectCss("custom", 7, 5), "7 / 5");
+    assert.equal(mediaAspectCss("custom", 0, 0), "16 / 9");
+  });
+
   it("derives the matching side in the same unit when aspect ratio is active", () => {
     const computed = resolveCustomDimensionStyle({
       width: 40,
@@ -261,6 +285,12 @@ describe("image block layout class maps", () => {
     assert.equal(MEDIA_WIDTH_CLASS["2/5"].includes("40%"), true);
     assert.equal(CONTENT_POSITION_PLACE_CLASS.center.includes("col-start-2"), true);
     assert.equal(contentAreaAlignClasses("center-left").text, "text-left");
+    const overlay = overlayContentLayout("center-left");
+    assert.equal(overlay.frame.includes("max-md:items-start"), true);
+    assert.equal(overlay.frame.includes("max-md:justify-center"), true);
+    assert.equal(overlay.cell.includes("md:col-start-1"), true);
+    assert.equal(overlay.cell.includes("md:row-start-2"), true);
+    assert.equal(overlay.cell.includes("w-[min(92%,32rem)]"), true);
   });
 
   it("maps side-by-side mobile layouts", () => {

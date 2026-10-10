@@ -175,6 +175,8 @@
   background-color: #ffffff !important;
   color: #18181b !important;
   border-color: color-mix(in srgb, var(--border, #e5e5e5) 85%, #a1a1aa) !important;
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
 }
 
 .az-form-surface input::placeholder,
@@ -243,6 +245,8 @@ html.dark .site-main [data-block-type] [class*="from-card"] :is(h1, h2, h3, h4):
 .dark .az-form-surface textarea {
   background-color: var(--card, #0f172a) !important;
   color: var(--card-foreground, #f8fafc) !important;
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
 }
 
 .dark .az-form-surface input::placeholder,
@@ -312,6 +316,13 @@ img.img-fade-loaded,
 img[loading="eager"],
 img[data-skip-img-fade] {
   opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  img.img-fade-pending {
+    opacity: 1;
+    transition: none;
+  }
 }
 
 /* Shimmer accent for glass panels */
@@ -569,6 +580,17 @@ html[data-effects-tier="light"] .az-section-orb {
 
 .fxs-theme [data-fxs-field-mode="floating"] .fxs-field input {
   padding-top: 1.1rem;
+}
+
+/* Inset labels and inputs using the spacing tokens already set on .fxs-shell */
+.fxs-shell {
+  padding: var(--schema-space-md, 1.25rem);
+}
+
+@media (min-width: 640px) {
+  .fxs-shell {
+    padding: var(--schema-space-lg, 1.75rem);
+  }
 }
 
 .fxs-shell .fxs-sticky-actions {

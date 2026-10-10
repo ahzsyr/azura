@@ -145,7 +145,10 @@ export function FormShell({
     <FxsThemeProvider
       preset={theme}
       fieldMode={fieldMode}
-      className={cn("fxs-shell w-full min-w-0", className)}
+      className={cn(
+        "fxs-shell w-full min-w-0 p-[var(--schema-space-md,1.25rem)] sm:p-[var(--schema-space-lg,1.75rem)]",
+        className,
+      )}
     >
       <div className={layoutClasses(layoutMode)} data-fxs-layout={layoutMode}>
         {layoutMode === "split" ? (

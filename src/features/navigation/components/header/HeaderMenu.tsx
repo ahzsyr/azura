@@ -6,8 +6,16 @@ import type { MenuItem, MenuLayoutType } from "@/features/navigation/types";
 import { getEffectiveMegaMenuType, getItemHref } from "@/features/navigation/resolve-href";
 import { isSameInternalNavTarget } from "@/lib/navigation/internal-link";
 import { cn } from "@/lib/utils";
+import type { NavIconVisibility } from "@/features/navigation/nav-icon-visibility";
+import { resolveItemShowsNavIcon } from "@/features/navigation/nav-icon-visibility";
 import { MegaMenuSurface } from "./MegaMenu/MegaMenuSurface";
 import { NavMenuGlyph } from "./NavMenuGlyph";
+
+const DEFAULT_ICON_VISIBILITY: NavIconVisibility = {
+  mobile: true,
+  tablet: true,
+  desktop: true,
+};
 
 const FLYOUT_CLOSE_DELAY_MS = 220;
 
@@ -15,8 +23,8 @@ interface Props {
   items: MenuItem[];
   menuType: MenuLayoutType;
   localeCode: string;
-  /** When false, top-nav glyphs are not rendered (desktop icon setting). */
-  showIcons?: boolean;
+  /** Header default icon visibility. Per-item `iconPlacement` overrides it. */
+  iconVisibility?: NavIconVisibility;
 }
 
 function NavFlyoutItem({
@@ -25,12 +33,14 @@ function NavFlyoutItem({
   localeCode,
   glyph,
   closeSignal,
+  iconVisibility,
 }: {
   item: MenuItem;
   menuType: MenuLayoutType;
   localeCode: string;
   glyph: ReactNode;
   closeSignal: number;
+  iconVisibility: NavIconVisibility;
 }) {
   const [open, setOpen] = useState(false);
   const [forceClosed, setForceClosed] = useState(false);
@@ -144,12 +154,18 @@ function NavFlyoutItem({
         onMouseEnter={openFlyout}
         onMouseLeave={scheduleClose}
         onLinkClick={closeFlyout}
+        iconVisibility={iconVisibility}
       />
     </li>
   );
 }
 
-export function HeaderMenu({ items, menuType, localeCode, showIcons = true }: Props) {
+export function HeaderMenu({
+  items,
+  menuType,
+  localeCode,
+  iconVisibility = DEFAULT_ICON_VISIBILITY,
+}: Props) {
   const pathname = usePathname();
   const [closeSignal, setCloseSignal] = useState(0);
 
@@ -174,10 +190,15 @@ export function HeaderMenu({ items, menuType, localeCode, showIcons = true }: Pr
         {desktopItems.map((item) => {
           const hasChildren = (item.children?.length ?? 0) > 0;
           const icon = item.icon?.trim();
-          const glyph =
-            showIcons && icon ? (
-              <NavMenuGlyph icon={icon} className="hb-nav-icon" slotClassName="hb-nav-icon-slot" />
-            ) : null;
+          const showIcon = Boolean(icon) && resolveItemShowsNavIcon(item.iconPlacement, "desktop", iconVisibility);
+          const glyph = showIcon ? (
+            <NavMenuGlyph
+              icon={icon}
+              className="hb-nav-icon"
+              slotClassName="hb-nav-icon-slot"
+              forceShow={!iconVisibility.desktop && item.iconPlacement != null}
+            />
+          ) : null;
 
           if (hasChildren) {
             return (
@@ -188,6 +209,7 @@ export function HeaderMenu({ items, menuType, localeCode, showIcons = true }: Pr
                 localeCode={localeCode}
                 glyph={glyph}
                 closeSignal={closeSignal}
+                iconVisibility={iconVisibility}
               />
             );
           }

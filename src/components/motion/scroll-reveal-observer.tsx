@@ -81,13 +81,7 @@ export function ScrollRevealObserver() {
       if (delay > 0) {
         el.style.setProperty("--az-anim-delay", `${delay}ms`);
       }
-
-      const reveal = () => el.classList.add("revealed");
-      if (delay > 0) {
-        window.setTimeout(reveal, delay);
-      } else {
-        reveal();
-      }
+      el.classList.add("revealed");
     };
 
     const observeReveal = (el: HTMLElement) => {

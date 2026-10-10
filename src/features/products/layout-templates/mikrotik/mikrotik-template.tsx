@@ -102,7 +102,7 @@ function MarketingSections({
             >
               {videoSection.videos[0].poster ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={videoSection.videos[0].poster} alt="Video thumbnail" />
+                <img src={videoSection.videos[0].poster} alt="Video thumbnail" loading="lazy" />
               ) : null}
               <span className="mikrotik-pdp__video-play" aria-hidden>
                 ▶
@@ -131,7 +131,7 @@ function MarketingSections({
                 m.url ? (
                   <div key={m.url} className="mikrotik-pdp__media-block">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={m.url} alt={m.alt || heading || product.productTitle} />
+                    <img src={m.url} alt={m.alt || heading || product.productTitle} loading="lazy" />
                   </div>
                 ) : null,
               )}
@@ -397,7 +397,7 @@ export function MikroTikProductDetailTemplate({ viewModel }: Props) {
                       onDoubleClick={() => openZoom(i)}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={img.url} alt={img.alt || `Thumbnail ${i + 1}`} />
+                      <img src={img.url} alt={img.alt || `Thumbnail ${i + 1}`} loading="lazy" />
                     </button>
                   ))}
                 </div>
@@ -422,7 +422,7 @@ export function MikroTikProductDetailTemplate({ viewModel }: Props) {
                         <div key={part.label || part.image} className="mikrotik-pdp__part">
                           {part.image ? (
                             // eslint-disable-next-line @next/next/no-img-element
-                            <img src={part.image} alt={part.label || "Included part"} />
+                            <img src={part.image} alt={part.label || "Included part"} loading="lazy" />
                           ) : null}
                           <div>{part.label}</div>
                         </div>
@@ -500,7 +500,7 @@ export function MikroTikProductDetailTemplate({ viewModel }: Props) {
                   <span className="mikrotik-pdp__brochure-badge">.PDF</span>
                   {brochure.thumbnail ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={brochure.thumbnail} alt="Brochure" />
+                    <img src={brochure.thumbnail} alt="Brochure" loading="lazy" />
                   ) : null}
                 </a>
               ) : null}

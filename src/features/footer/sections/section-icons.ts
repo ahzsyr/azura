@@ -11,6 +11,8 @@ import {
   Image,
   Mail,
   Menu,
+  Minus,
+  MoveVertical,
   Phone,
   Scale,
   Share2,
@@ -36,6 +38,8 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Handshake,
   FileText,
   Code,
+  Minus,
+  MoveVertical,
 };
 
 export function resolveSectionIcon(name: string): LucideIcon {
@@ -44,6 +48,8 @@ export function resolveSectionIcon(name: string): LucideIcon {
 
 export function sectionSummary(type: FooterSectionType, column: { title?: string; links?: unknown[]; body?: string }): string {
   if (type === "brand") return "Uses Theme identity";
+  if (type === "spacer") return "Vertical spacing";
+  if (type === "divider") return "Horizontal separator";
   if (column.links?.length) return `${column.links.length} link${column.links.length === 1 ? "" : "s"}`;
   if (column.body?.trim()) return column.body.trim().slice(0, 48) + (column.body.length > 48 ? "…" : "");
   return "";

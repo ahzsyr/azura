@@ -184,6 +184,11 @@ export default async function LocaleLayout({ children, params }: Props) {
       />
       <NavigationRejectionGuard />
       <DocumentAttributes lang={htmlLang} dir={shell.direction} locale={locale} />
+      {/* Preconnect hints for performance - establish early connections to third-party domains */}
+      <link rel="preconnect" href="https://www.google-analytics.com" />
+      <link rel="preconnect" href="https://www.googletagmanager.com" />
+      <link rel="preconnect" href="https://connect.facebook.net" />
+      <link rel="preconnect" href="https://snap.licdn.com" />
       <StructuredDataGraph />
       <NextIntlClientProvider locale={locale} messages={messages}>
         <ThemeProvider resolved={resolvedTheme} previewDraft={false}>

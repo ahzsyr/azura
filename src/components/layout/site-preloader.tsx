@@ -12,6 +12,10 @@ import {
   ROUTE_CONTENT_READY_EVENT,
   SHELL_READY_EVENT,
 } from "@/lib/motion/shell-ready";
+import {
+  mountSectionAnimatedBackground,
+  resolveSectionPatternEffect,
+} from "@/features/theme/backgrounds/background-system";
 import { removeBootPreloader } from "@/lib/preloader/boot-preloader";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -84,6 +88,17 @@ export function SitePreloader({ settings }: Props) {
       });
     }, remaining);
   }, [clearTimers, hidePreloader, settings.minDurationMs]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    const effect = resolveSectionPatternEffect(settings.background);
+    if (!effect) return;
+    const host = document.querySelector<HTMLElement>(
+      "#azura-boot-preloader [data-section-bg-host]",
+    );
+    if (!host) return;
+    return mountSectionAnimatedBackground(host, effect);
+  }, [mounted, settings.background]);
 
   useEffect(() => {
     setMounted(true);

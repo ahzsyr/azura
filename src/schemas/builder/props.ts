@@ -295,6 +295,9 @@ export const rowSectionColumnLayoutSchema = z.enum([
 ]);
 
 export const rowSectionPropsSchema = z.object({
+  badge: z.string().default(""),
+  title: z.string().default(""),
+  subtitle: z.string().default(""),
   padding: z.enum(["none", "default", "large"]).default("default"),
   background: z.enum(["default", "muted", "primary"]).default("default"),
   maxColumns: z.union([z.literal(2), z.literal(3), z.literal(4)]).default(2),
