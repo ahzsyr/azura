@@ -12,7 +12,8 @@ import type {
 import {
   childMediaChoicePatch,
   childMediaChoiceShowsImagePicker,
-  readChildMediaChoice,
+  sourceDisplayOptionsForItem,
+  inspectorSourceDisplay,
   type ChildMediaChoice,
 } from "@/features/navigation/menu-item-appearance";
 import {
@@ -204,7 +205,7 @@ function buildFormState(
     icon: item?.icon ?? "",
     iconPlacement: item?.iconPlacement ?? "both",
     iconPlacementExplicit: Boolean(item?.iconPlacement),
-    childMediaChoice: item ? readChildMediaChoice(item) : "none",
+    childMediaChoice: item ? inspectorSourceDisplay(item, catalog) : "none",
     megaMenuImageUrl: item?.megaMenuImageUrl ?? "",
     badgeText: item?.badgeText ?? "",
     placement: item?.placement ?? defaultPlacement,
@@ -283,6 +284,7 @@ export function MenuItemModal({
       iconPlacement: form.iconPlacementExplicit || mode !== "edit" ? form.iconPlacement : undefined,
       megaMenuChildDisplayType: mediaPatch.megaMenuChildDisplayType,
       megaMenuCardMedia: mediaPatch.megaMenuCardMedia,
+      sourceDisplay: mediaPatch.sourceDisplay,
       megaMenuImageUrl: form.megaMenuImageUrl.trim() || undefined,
       placement: form.placement,
       url: form.url,
@@ -510,7 +512,7 @@ export function MenuItemModal({
                   </HeaderField>
                 ) : null}
                 {parentId ? (
-                  <HeaderField label="Display" htmlFor="m-child-display">
+                  <HeaderField label="Source display" htmlFor="m-child-display">
                     <select
                       id="m-child-display"
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
@@ -521,9 +523,25 @@ export function MenuItemModal({
                         })
                       }
                     >
-                      <option value="none">Without icon or photo</option>
-                      <option value="icon">Icon only</option>
-                      <option value="photo">Photo only</option>
+                      {sourceDisplayOptionsForItem(
+                        {
+                          type: form.type,
+                          collectionId: form.collectionId,
+                          brandSlug: form.brandSlug,
+                          productId: form.productId,
+                          packageId: form.packageId,
+                          postId: form.postId,
+                          url: form.url,
+                          imageUrl: form.imageUrl,
+                          megaMenuImageUrl: form.megaMenuImageUrl,
+                          sourceDisplay: form.childMediaChoice,
+                        },
+                        catalog,
+                      ).map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
                     </select>
                   </HeaderField>
                 ) : null}

@@ -1,16 +1,31 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Monitor, Smartphone } from "lucide-react";
 import { HeaderRenderer, type HeaderMenuPreviewMode } from "@/features/navigation/components/header/HeaderRenderer";
 import { useHeaderWorkspace } from "@/features/navigation/header-store";
+import { applyCatalogSourceMediaToItems } from "@/features/navigation/menu-item-appearance";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useHeaderBuilderCatalog } from "./HeaderBuilderCatalogContext";
 
 type PreviewDevice = "desktop" | "mobile";
 
 export function PreviewPanel({ localeCode }: { localeCode: string }) {
   const workspace = useHeaderWorkspace();
+  const catalog = useHeaderBuilderCatalog().catalog;
+  const previewWorkspace = useMemo(() => {
+    const menusDatabase = { ...workspace.menusDatabase };
+    for (const key of Object.keys(menusDatabase)) {
+      const record = menusDatabase[key];
+      if (!record?.items) continue;
+      menusDatabase[key] = {
+        ...record,
+        items: applyCatalogSourceMediaToItems(record.items, catalog),
+      };
+    }
+    return { ...workspace, menusDatabase };
+  }, [workspace, catalog]);
   const [device, setDevice] = useState<PreviewDevice>("desktop");
   const [menuPreviewMode, setMenuPreviewMode] = useState<HeaderMenuPreviewMode>("live");
   const previewRef = useRef<HTMLDivElement>(null);
@@ -89,7 +104,7 @@ export function PreviewPanel({ localeCode }: { localeCode: string }) {
         )}
       >
         <HeaderRenderer
-          workspace={workspace}
+          workspace={previewWorkspace}
           localeCode={localeCode}
           canSwitchLocale={false}
           searchEnabled={true}

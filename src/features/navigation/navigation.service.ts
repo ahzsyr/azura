@@ -23,6 +23,26 @@ import { brandNameToSlug } from "@/features/catalog/types/catalog-brand-profile"
 import { CMS_WIRED_MARKETING_SLUGS } from "@/features/cms/cms-wired-slugs";
 import { getBuiltinContentType } from "@/features/content/content-type.registry";
 import { buildSourceFamilies } from "./source-families";
+import {
+  collectionMapFromList,
+  isCollectionImageSrc,
+  pickCollectionMenuMedia,
+  resolveCollectionImages,
+} from "@/features/collections/collection-navigation";
+
+function catalogContentMedia(item: { featuredImageUrl?: string | null; attributes?: unknown }) {
+  const attrs = (item.attributes ?? {}) as Record<string, unknown>;
+  const logoRaw =
+    typeof attrs.logo === "string" ? attrs.logo.trim() : typeof attrs.logoUrl === "string" ? attrs.logoUrl.trim() : "";
+  const iconRaw = typeof attrs.icon === "string" ? attrs.icon.trim() : "";
+  const iconIsUrl = Boolean(iconRaw && isCollectionImageSrc(iconRaw));
+  return {
+    logoUrl: logoRaw && isCollectionImageSrc(logoRaw) ? logoRaw : undefined,
+    iconUrl: iconIsUrl ? iconRaw : undefined,
+    iconName: iconRaw && !iconIsUrl ? iconRaw : undefined,
+    imageUrl: item.featuredImageUrl?.trim() || undefined,
+  };
+}
 
 export const navigationCatalogService = {
   async getCatalog(locale: string = "en"): Promise<HeaderBuilderCatalog> {
@@ -53,6 +73,8 @@ export const navigationCatalogService = {
         select: {
           id: true,
           slug: true,
+          featuredImageUrl: true,
+          attributes: true,
           contentType: { select: { slug: true } },
         },
         orderBy: { sortOrder: "asc" },
@@ -109,38 +131,52 @@ export const navigationCatalogService = {
       readCatalogBrandProfiles(locale),
     ]);
 
+    const visibleCollections = fsCollections.filter((c) => c.visible !== false);
+    const collectionsBySlug = collectionMapFromList(visibleCollections);
     const collectionSlugs = new Set<string>();
-    const mergedCollections = [
-      ...fsCollections
-        .filter((c) => c.visible !== false)
-        .map((c) => {
-          collectionSlugs.add(c.slug);
-          return {
-            slug: c.slug,
-            name: c.name,
-            parentSlug: c.parentSlug?.trim() || undefined,
-          };
-        }),
-    ];
+    const mergedCollections = visibleCollections.map((c) => {
+      collectionSlugs.add(c.slug);
+      const media = pickCollectionMenuMedia(resolveCollectionImages(c, collectionsBySlug));
+      return {
+        slug: c.slug,
+        name: c.name,
+        parentSlug: c.parentSlug?.trim() || undefined,
+        iconUrl: media.iconImageUrl,
+        iconName: media.resolvedIcon,
+        imageUrl: media.photoUrl,
+      };
+    });
 
-    const contentByType: Record<string, { slug: string; name: string }[]> = {};
+    const contentByType: Record<
+      string,
+      { slug: string; name: string; logoUrl?: string; iconUrl?: string; iconName?: string; imageUrl?: string }[]
+    > = {};
     for (const item of allContentItems) {
       const typeSlug = item.contentType.slug;
       if (!item.slug) continue;
       if (!contentByType[typeSlug]) contentByType[typeSlug] = [];
+      const media = catalogContentMedia(item);
       contentByType[typeSlug].push({
         slug: item.slug,
         name: pickTitle("ContentItem", item.id, item.slug, "title"),
+        ...media,
       });
     }
 
     const productSlugs = new Set(fsProducts.map((p) => p.slug));
     const productTypeItems = contentByType["products"] ?? [];
+    const productImageBySlug = new Map(
+      (contentByType["products"] ?? []).map((product) => [product.slug.toLowerCase(), product.imageUrl]),
+    );
     const mergedProducts = [
-      ...fsProducts,
+      ...fsProducts.map((product) => ({
+        slug: product.slug,
+        name: product.name,
+        imageUrl: productImageBySlug.get(product.slug.toLowerCase()),
+      })),
       ...productTypeItems
         .filter((p) => !productSlugs.has(p.slug))
-        .map((p) => ({ slug: p.slug, name: p.name })),
+        .map((p) => ({ slug: p.slug, name: p.name, imageUrl: p.imageUrl })),
     ];
 
     const brandOptions = [
@@ -148,11 +184,13 @@ export const navigationCatalogService = {
         slug: profile.slug,
         name: profile.name,
         logoUrl: profile.logoUrl?.trim() || undefined,
+        imageUrl: profile.bannerUrl?.trim() || undefined,
       })),
       ...taxonomy.brands.map((name) => ({
         slug: brandNameToSlug(name),
         name,
         logoUrl: undefined as string | undefined,
+        imageUrl: undefined as string | undefined,
       })),
     ];
     const brandSeen = new Set<string>();

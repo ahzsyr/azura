@@ -23,6 +23,10 @@ function stripLinkedMenuItemImage(item: MenuItem): MenuItem {
   delete next.iconImageUrl;
   delete next.photoUrl;
   delete next.resolvedIcon;
+  delete next.sourceLogoUrl;
+  delete next.sourceIconUrl;
+  delete next.sourceImageUrl;
+  delete next.sourceIconName;
   if (usesLinkedMenuImageSource(item.type)) {
     delete next.imageUrl;
   }

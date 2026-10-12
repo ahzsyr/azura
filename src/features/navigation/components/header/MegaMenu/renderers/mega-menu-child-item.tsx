@@ -13,9 +13,18 @@ type Props = {
 };
 
 function resolvedAppearance(child: MegaMenuChildViewModel): "list" | "icon" | "image" {
+  const display = child.sourceDisplay;
+  if (display === "image" && (child.sourceImageUrl?.trim() || child.photoUrl?.trim() || child.image?.trim())) {
+    return "image";
+  }
+  if (display === "logo" && child.sourceLogoUrl?.trim()) return "icon";
+  if (display === "icon" && (child.sourceIconUrl?.trim() || child.icon?.trim())) return "icon";
+  if (display === "none") return child.icon?.trim() ? "icon" : "list";
   const appearance = child.appearance === "card" ? "image" : child.appearance || "list";
   if (appearance === "image" && !child.photoUrl?.trim() && !child.image?.trim()) return "list";
-  if (appearance === "icon" && !child.iconImageUrl?.trim() && !child.icon?.trim()) return "list";
+  if (appearance === "icon" && !child.iconImageUrl?.trim() && !child.icon?.trim() && !child.sourceLogoUrl?.trim()) {
+    return "list";
+  }
   if (appearance === "icon" || appearance === "image") return appearance;
   return "list";
 }
@@ -25,7 +34,7 @@ function resolvedAppearance(child: MegaMenuChildViewModel): "list" | "icon" | "i
  */
 export function MegaMenuChildItem({ child, onLinkClick }: Props) {
   const appearance = resolvedAppearance(child);
-  const photoUrl = child.photoUrl?.trim() || child.image?.trim() || undefined;
+  const photoUrl = child.sourceImageUrl?.trim() || child.photoUrl?.trim() || child.image?.trim() || undefined;
 
   if (appearance === "image") {
     return (
@@ -61,7 +70,18 @@ export function MegaMenuChildItem({ child, onLinkClick }: Props) {
         onClick={() => onLinkClick?.()}
       >
         <span className="hb-mega-v2-icon-item__icon" aria-hidden>
-          <NavIconMedia icon={child.icon} iconImageUrl={child.iconImageUrl} alt="" />
+          <NavIconMedia
+            icon={child.sourceDisplay === "logo" ? undefined : child.icon}
+            iconImageUrl={
+              child.sourceDisplay === "logo"
+                ? child.sourceLogoUrl
+                : child.sourceDisplay === "none"
+                  ? undefined
+                  : child.sourceIconUrl ||
+                    (child.iconImageUrl && child.iconImageUrl !== child.sourceLogoUrl ? child.iconImageUrl : undefined)
+            }
+            alt=""
+          />
         </span>
         <span className="hb-mega-v2-icon-item__label">{child.label}</span>
         {child.badge ? <span className="hb-mega-v2-icon-item__badge">{child.badge}</span> : null}

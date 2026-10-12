@@ -238,6 +238,11 @@ export interface MenuItem {
   megaMenuCardMedia?: MegaMenuCardMedia;
   /** Optional image override for the image presentation inside mega menus. */
   megaMenuImageUrl?: string;
+  /**
+   * Which asset from the selected destination to show in the flyout.
+   * Placement still controls desktop, mobile, or both. Unset follows the source assets.
+   */
+  sourceDisplay?: "none" | "logo" | "icon" | "image";
   url?: string;
   pageId?: string;
   collectionId?: string;
@@ -248,6 +253,14 @@ export interface MenuItem {
   packageCategoryId?: string;
   postId?: string;
   imageUrl?: string;
+  /** Runtime-only logo from the selected destination. Stripped before save. */
+  sourceLogoUrl?: string;
+  /** Runtime-only icon image from the selected destination. Stripped before save. */
+  sourceIconUrl?: string;
+  /** Runtime-only cover or photo from the selected destination. Stripped before save. */
+  sourceImageUrl?: string;
+  /** Runtime-only icon-library id from the destination when its icon is not an image. */
+  sourceIconName?: string;
   /** Runtime-only catalog logo or icon image. Stripped before the workspace is saved. */
   iconImageUrl?: string;
   /** Runtime-only catalog cover or banner. Stripped before the workspace is saved. */
@@ -426,6 +439,9 @@ export interface HeaderBuilderCatalogCollection {
   slug: string;
   name: string;
   parentSlug?: string;
+  iconUrl?: string;
+  iconName?: string;
+  imageUrl?: string;
 }
 
 export interface HeaderBuilderContentTypeMeta {
@@ -458,12 +474,12 @@ export interface SourceFamilyNode {
 export interface HeaderBuilderCatalog {
   pages: HeaderBuilderCatalogPage[];
   collections: HeaderBuilderCatalogCollection[];
-  brands: { slug: string; name: string; logoUrl?: string }[];
+  brands: { slug: string; name: string; logoUrl?: string; imageUrl?: string }[];
   tags: { slug: string; name: string }[];
-  products: { slug: string; name: string }[];
+  products: { slug: string; name: string; imageUrl?: string }[];
   posts: { slug: string; title: string }[];
   /** Published content items keyed by ContentType.slug */
-  contentByType: Record<string, { slug: string; name: string }[]>;
+  contentByType: Record<string, { slug: string; name: string; logoUrl?: string; iconUrl?: string; iconName?: string; imageUrl?: string }[]>;
   contentTypes: HeaderBuilderContentTypeMeta[];
   sourceFamilies: SourceFamilyNode[];
 }

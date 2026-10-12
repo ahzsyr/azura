@@ -12,6 +12,7 @@ import {
   resolveMegaMenuConfig,
   resolveMenuItemIconImageUrl,
   resolveMenuItemPhotoUrl,
+  resolveFlyoutSourceDisplay,
 } from "@/features/navigation/mega-menu-resolver";
 import { clampMegaColumns, resolveIconLayoutConfig } from "@/features/navigation/mega-menu-form";
 import type { NavIconVisibility } from "@/features/navigation/nav-icon-visibility";
@@ -59,6 +60,10 @@ type ChildRow = {
   label: string;
   icon?: string;
   iconImageUrl?: string;
+  sourceLogoUrl?: string;
+  sourceIconUrl?: string;
+  sourceImageUrl?: string;
+  sourceDisplay?: "none" | "logo" | "icon" | "image";
   href: string;
   type: MenuItem["type"];
   photoUrl?: string;
@@ -67,6 +72,25 @@ type ChildRow = {
   cardMedia: "image" | "icon" | null;
   showNavIcon: boolean;
 };
+
+function rowHasMark(child: ChildRow): boolean {
+  return Boolean(
+    child.sourceLogoUrl?.trim() ||
+      child.sourceIconUrl?.trim() ||
+      child.iconImageUrl?.trim() ||
+      child.icon?.trim(),
+  );
+}
+
+function markMedia(child: ChildRow, respectPlacement = true): { icon?: string; iconImageUrl?: string } {
+  if (respectPlacement && !child.showNavIcon) return {};
+  if (child.sourceDisplay === "logo") return { iconImageUrl: child.sourceLogoUrl };
+  if (child.sourceDisplay === "none") return { icon: child.icon };
+  const sourceIcon = child.sourceIconUrl?.trim();
+  const legacyIcon = child.iconImageUrl?.trim();
+  const iconImageUrl = sourceIcon || (legacyIcon && legacyIcon !== child.sourceLogoUrl ? legacyIcon : undefined);
+  return { icon: child.icon, iconImageUrl };
+}
 
 function isCompactTextGrid(rows: ChildRow[], menuType: MenuLayoutType): boolean {
   // Existing compact behavior was: compact only when there are *no* visual cards.
@@ -89,10 +113,15 @@ function buildChildRows(
       id: c.id,
       label: c.label,
       icon: c.icon?.trim() || c.resolvedIcon?.trim() || undefined,
-      iconImageUrl: resolveMenuItemIconImageUrl(c),
+      iconImageUrl:
+        c.sourceIconUrl?.trim() || (c.sourceLogoUrl?.trim() ? undefined : resolveMenuItemIconImageUrl(c)),
+      sourceLogoUrl: c.sourceLogoUrl?.trim() || undefined,
+      sourceIconUrl: c.sourceIconUrl?.trim() || undefined,
+      sourceImageUrl: c.sourceImageUrl?.trim() || resolveMenuItemPhotoUrl(c),
+      sourceDisplay: resolveFlyoutSourceDisplay(c),
       href: getItemHref(c, localeCode),
       type: c.type,
-      photoUrl: resolveMenuItemPhotoUrl(c),
+      photoUrl: c.sourceImageUrl?.trim() || resolveMenuItemPhotoUrl(c),
       displayType: visual ? "card" : resolveMegaMenuChildDisplayType(c, menuType),
       appearance,
       cardMedia: resolveChildCardMedia(c, appearance),
@@ -143,7 +172,7 @@ function MegaMenuRowLink({
     );
   }
 
-  if (child.appearance === "icon" && (child.iconImageUrl?.trim() || child.icon?.trim())) {
+  if (child.appearance === "icon" && child.showNavIcon && rowHasMark(child)) {
     return (
       <a
         href={child.href}
@@ -151,7 +180,7 @@ function MegaMenuRowLink({
         onClick={() => onLinkClick?.()}
       >
         <span className="hb-mega-card__icon" aria-hidden>
-          <NavIconMedia icon={child.showNavIcon ? child.icon : undefined} iconImageUrl={child.iconImageUrl} />
+          <NavIconMedia {...markMedia(child)} />
         </span>
         <h4>{child.label}</h4>
         {desc ? <p>{desc}</p> : null}
@@ -247,10 +276,7 @@ export function MegaMenuSurface({
         {rows.map((child) => {
           const photoCard =
             (child.appearance === "image" || child.appearance === "card") && Boolean(child.photoUrl?.trim());
-          const iconRow =
-            !hideIcons &&
-            child.appearance === "icon" &&
-            Boolean(child.iconImageUrl?.trim() || (child.showNavIcon && child.icon?.trim()));
+          const iconRow = !hideIcons && child.appearance === "icon" && child.showNavIcon && rowHasMark(child);
           return (
             <a
               key={child.id}
@@ -264,10 +290,7 @@ export function MegaMenuSurface({
                 </span>
               ) : iconRow ? (
                 <span className="hb-mega-dropdown-icon" aria-hidden>
-                  <NavIconMedia
-                    icon={child.showNavIcon ? child.icon : undefined}
-                    iconImageUrl={child.iconImageUrl}
-                  />
+                  <NavIconMedia {...markMedia(child)} />
                 </span>
               ) : null}
               <span className="hb-mega-dropdown-label">{child.label}</span>
@@ -316,9 +339,7 @@ export function MegaMenuSurface({
                   />
                 );
               }
-              const showIcon =
-                child.appearance === "icon" &&
-                Boolean(child.iconImageUrl?.trim() || child.icon?.trim());
+              const showIcon = child.appearance === "icon" && child.showNavIcon && rowHasMark(child);
               return (
                 <a
                   key={child.id}
@@ -328,7 +349,7 @@ export function MegaMenuSurface({
                 >
                   {showIcon ? (
                     <span className="hb-icon-layout-item__icon" aria-hidden>
-                      <NavIconMedia icon={child.icon} iconImageUrl={child.iconImageUrl} />
+                      <NavIconMedia {...markMedia(child)} />
                     </span>
                   ) : null}
                   <span className="hb-icon-layout-item__label">{child.label}</span>
@@ -392,9 +413,7 @@ export function MegaMenuSurface({
               {rows.map((child) => {
                 const photoCard =
                   (child.appearance === "image" || child.appearance === "card") && Boolean(child.photoUrl?.trim());
-                const iconRow =
-                  child.appearance === "icon" &&
-                  Boolean(child.iconImageUrl?.trim() || child.icon?.trim());
+                const iconRow = child.appearance === "icon" && child.showNavIcon && rowHasMark(child);
                 return (
                   <a
                     key={child.id}
@@ -407,7 +426,7 @@ export function MegaMenuSurface({
                         <MegaMenuCardFrameMedia cardMedia="image" imageUrl={child.photoUrl} alt="" />
                       </span>
                     ) : iconRow ? (
-                      <NavIconMedia icon={child.icon} iconImageUrl={child.iconImageUrl} />
+                      <NavIconMedia {...markMedia(child)} />
                     ) : null}
                     <span>{child.label}</span>
                   </a>

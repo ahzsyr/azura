@@ -6,6 +6,7 @@ import { createDefaultFooterWorkspace } from "@/features/footer/defaults";
 import { footerService } from "@/features/footer/footer.service";
 import type { FooterColumn, FooterWorkspace } from "@/features/footer/types";
 import { createEmptyWorkspace, mergeHeaderWorkspaceWithTheme } from "@/features/navigation/defaults";
+import { enrichFlyoutMenuImagesOnly } from "@/features/navigation/mega-menu-card-images";
 import { navigationService, navigationCatalogService } from "@/features/navigation/navigation.service";
 import type { HeaderWorkspace } from "@/features/navigation/types";
 import { personalizationService } from "@/capabilities/personalization/personalization.service";
@@ -129,7 +130,8 @@ export async function loadHeaderWorkspaceForPublicShell(args: {
     try {
       // Use a lightweight workspace fallback (no image enrichment) to keep real branding/menu on slow starts.
       const baseWorkspace = await navigationService.getWorkspace();
-      const lightweightWorkspace = mergeHeaderWorkspaceWithTheme(baseWorkspace, {
+      const enriched = await enrichFlyoutMenuImagesOnly(baseWorkspace, args.locale);
+      const lightweightWorkspace = mergeHeaderWorkspaceWithTheme(enriched, {
         logoUrl: args.theme?.logoUrl,
         brandConfig: args.theme?.brandConfig,
         siteName: args.siteIdentity.brandName,

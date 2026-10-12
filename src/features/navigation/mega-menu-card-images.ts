@@ -49,10 +49,16 @@ function contentItemMenuMedia(item: {
     item.featuredImageUrl ??
     item.media?.[0]?.url;
   const attrs = (item.attributes ?? {}) as Record<string, unknown>;
+  const logoRaw = typeof attrs.logo === "string" ? attrs.logo.trim() : typeof attrs.logoUrl === "string" ? attrs.logoUrl.trim() : "";
   const iconRaw = typeof attrs.icon === "string" ? attrs.icon.trim() : "";
   const iconIsUrl = Boolean(iconRaw && isCollectionImageSrc(iconRaw));
+  const coverUrl = cover?.trim() || undefined;
   return {
-    photoUrl: cover?.trim() || undefined,
+    sourceLogoUrl: logoRaw && isCollectionImageSrc(logoRaw) ? logoRaw : undefined,
+    sourceIconUrl: iconIsUrl ? iconRaw : undefined,
+    sourceIconName: iconRaw && !iconIsUrl ? iconRaw : undefined,
+    sourceImageUrl: coverUrl,
+    photoUrl: coverUrl,
     iconImageUrl: iconIsUrl ? iconRaw : undefined,
     resolvedIcon: iconRaw && !iconIsUrl ? iconRaw : undefined,
   };
@@ -116,7 +122,15 @@ function getCollectionMenuMediaFromMap(
 ): ResolvedMenuItemMedia {
   const col = bySlug.get(slug);
   if (!col) return {};
-  return pickCollectionMenuMedia(resolveCollectionImages(col, bySlug));
+  const media = pickCollectionMenuMedia(resolveCollectionImages(col, bySlug));
+  return {
+    sourceIconUrl: media.iconImageUrl,
+    sourceImageUrl: media.photoUrl,
+    sourceIconName: media.resolvedIcon,
+    iconImageUrl: media.iconImageUrl,
+    photoUrl: media.photoUrl,
+    resolvedIcon: media.resolvedIcon,
+  };
 }
 
 async function getProductImageUrl(slug: string, localeCode: string): Promise<string | undefined> {
@@ -133,7 +147,12 @@ async function getBrandMenuMedia(slug: string, localeCode: string): Promise<Reso
   const profiles = await readCatalogBrandProfiles(localeCode);
   const profile = profiles.find((entry) => entry.slug.trim().toLowerCase() === slug.toLowerCase());
   if (!profile) return {};
-  return pickBrandMenuMedia(profile);
+  const picked = pickBrandMenuMedia(profile);
+  return {
+    sourceLogoUrl: picked.iconImageUrl,
+    sourceImageUrl: picked.photoUrl,
+    photoUrl: picked.photoUrl,
+  };
 }
 
 function withPhotoOverride(item: MenuItem, media: ResolvedMenuItemMedia): ResolvedMenuItemMedia {
@@ -172,7 +191,7 @@ export async function resolveMenuItemMedia(
         item.type === "product" || item.productId?.trim()
           ? await getProductImageUrl(item.productId?.trim() || slug, localeCode)
           : (await getCatalogItemMenuMedia(slug)).photoUrl;
-      return withPhotoOverride(item, { photoUrl: photo });
+      return withPhotoOverride(item, { photoUrl: photo, sourceImageUrl: photo });
     }
     case "brand": {
       const slug = (item.brandSlug ?? "").trim();
@@ -206,12 +225,20 @@ export async function resolveCardImageUrlForMenuItem(
 
 function applyResolvedMenuMedia(item: MenuItem, media: ResolvedMenuItemMedia): MenuItem {
   const linked = usesLinkedMenuImageSource(item.type);
+  const sourceLogoUrl = media.sourceLogoUrl;
+  const sourceIconUrl = media.sourceIconUrl;
+  const sourceImageUrl = media.sourceImageUrl ?? media.photoUrl;
+  const sourceIconName = media.sourceIconName ?? media.resolvedIcon;
   return {
     ...item,
-    iconImageUrl: media.iconImageUrl,
-    photoUrl: media.photoUrl,
-    resolvedIcon: item.icon?.trim() ? undefined : media.resolvedIcon,
-    imageUrl: linked ? media.photoUrl : item.imageUrl,
+    sourceLogoUrl,
+    sourceIconUrl,
+    sourceImageUrl,
+    sourceIconName: item.icon?.trim() ? item.sourceIconName : sourceIconName,
+    iconImageUrl: sourceIconUrl || sourceLogoUrl,
+    photoUrl: sourceImageUrl,
+    resolvedIcon: item.icon?.trim() ? undefined : sourceIconName,
+    imageUrl: linked ? sourceImageUrl : item.imageUrl,
   };
 }
 
@@ -296,7 +323,7 @@ export async function enrichHeaderWorkspaceForSiteCached(
       const withSources = await expandMegaMenuPanelSources(localized, localeCode);
       return enrichFlyoutMenuImagesOnly(withSources, localeCode);
     },
-    ["header-flyout-images-v2", localeCode, fingerprint],
+    ["header-flyout-images-v3", localeCode, fingerprint],
     { tags: ["header-workspace", `header-flyout-${localeCode}`], revalidate: 300 },
   )();
 }

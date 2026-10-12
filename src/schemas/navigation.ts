@@ -188,6 +188,7 @@ const menuItemSchema: z.ZodType<unknown> = z.lazy(() =>
       }),
     megaMenuCardMedia: z.enum(["image", "icon"]).optional(),
     megaMenuImageUrl: z.string().optional(),
+    sourceDisplay: z.enum(["none", "logo", "icon", "image"]).optional(),
     url: z.string().optional(),
     pageId: z.string().optional(),
     collectionId: z.string().optional(),

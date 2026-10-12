@@ -358,7 +358,7 @@ describe("mega menu rendering", () => {
     assert.match(html, /--mega-menu-width:\s*640px/);
   });
 
-  it("renders normal link/text when displayType=list (even if visual auto would match)", () => {
+  it("renders the builder icon without the source photo when displayType=list", () => {
     const item: MenuItem = {
       id: "p",
       type: "link",
@@ -382,9 +382,9 @@ describe("mega menu rendering", () => {
       <MegaMenuSurface item={item} menuType="grid" localeCode="en" isOpen />,
     );
 
-    assert.ok(html.includes("hb-mega-card--text"));
+    assert.ok(html.includes("hb-mega-card--icon"));
+    assert.ok(!html.includes("/brands.jpg"));
     assert.ok(!html.includes("hb-mega-card--visual"));
-    assert.ok(!html.includes("hb-mega-card__caption"));
   });
 
   it("renders icon layout from parent megaMenuType=icon using child MenuItem.icon", () => {

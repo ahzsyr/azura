@@ -13,6 +13,8 @@ import {
   childMediaChoicePatch,
   childMediaChoiceShowsImagePicker,
   readChildMediaChoice,
+  sourceDisplayOptionsForItem,
+  inspectorSourceDisplay,
   type ChildMediaChoice,
 } from "@/features/navigation/menu-item-appearance";
 import { getItemHref } from "@/features/navigation/resolve-href";
@@ -189,18 +191,23 @@ export function MenuInspector({
 
         <TabsContent value="appearance" className="mt-3 space-y-3 focus-visible:ring-0">
           <div className="space-y-1">
-            <Label htmlFor="inspector-child-appearance">Display</Label>
+            <Label htmlFor="inspector-child-appearance">Source display</Label>
             <HeaderSelect
               id="inspector-child-appearance"
-              value={readChildMediaChoice(item)}
+              value={inspectorSourceDisplay(item, catalog)}
               onChange={(value) => {
                 onPatch(childMediaChoicePatch(value as ChildMediaChoice));
               }}
             >
-              <option value="none">Without icon or photo</option>
-              <option value="icon">Icon only</option>
-              <option value="photo">Photo only</option>
+              {sourceDisplayOptionsForItem(item, catalog).map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </HeaderSelect>
+            <p className="text-xs text-muted-foreground">
+              Uses the logo, icon, or image on the selected destination. Flyout layout and placement stay as they are.
+            </p>
           </div>
           <IconPickerField
             label="Icon (optional)"

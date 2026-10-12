@@ -90,8 +90,14 @@ export type MegaMenuChildViewModel = {
   /** Cover or banner. List and icon modes ignore it. */
   image?: string;
   photoUrl?: string;
-  /** Logo or icon image. Icon mode uses this before the Lucide icon. */
   iconImageUrl?: string;
+  /** Logo from the selected destination. */
+  sourceLogoUrl?: string;
+  /** Icon image from the selected destination. */
+  sourceIconUrl?: string;
+  /** Cover or photo from the selected destination. */
+  sourceImageUrl?: string;
+  sourceDisplay?: "none" | "logo" | "icon" | "image";
   appearance: MegaMenuEffectiveDisplayType;
   /** `image` is the photo frame. Null for text and icon-only rows. */
   cardMedia: "image" | "icon" | null;
@@ -228,10 +234,34 @@ export function resolveMegaMenuChildDisplayType(
   return resolveEffectiveChildDisplayType(child, null, menuType) === "image" ? "card" : "link";
 }
 
-function itemHasIconMedia(
-  child: Pick<MenuItem, "icon" | "resolvedIcon" | "iconImageUrl">,
-): boolean {
-  return Boolean(child.iconImageUrl?.trim() || child.icon?.trim() || child.resolvedIcon?.trim());
+export function resolveFlyoutSourceDisplay(child: MenuItem): "none" | "logo" | "icon" | "image" {
+  if (
+    child.sourceDisplay === "none" ||
+    child.sourceDisplay === "logo" ||
+    child.sourceDisplay === "icon" ||
+    child.sourceDisplay === "image"
+  ) {
+    return child.sourceDisplay;
+  }
+  const explicit = normalizeChildDisplayType(
+    child.megaMenuChildDisplayType as MegaMenuChildDisplayType | "link" | "featured" | "product" | undefined,
+  );
+  if (explicit === "list") return "none";
+  if (explicit === "icon") return child.sourceLogoUrl?.trim() && !child.sourceIconUrl?.trim() ? "logo" : "icon";
+  if (explicit === "card" && child.megaMenuCardMedia === "icon") return "icon";
+  if (explicit === "image" || explicit === "card") return "image";
+  if (child.sourceLogoUrl?.trim()) return "logo";
+  if (
+    child.sourceIconUrl?.trim() ||
+    child.iconImageUrl?.trim() ||
+    child.sourceIconName?.trim() ||
+    child.resolvedIcon?.trim()
+  ) {
+    return "icon";
+  }
+  if (child.icon?.trim()) return "icon";
+  if (child.sourceImageUrl?.trim() || resolveMenuItemPhotoUrl(child)) return "image";
+  return "none";
 }
 
 export function resolveEffectiveChildDisplayType(
@@ -239,19 +269,10 @@ export function resolveEffectiveChildDisplayType(
   _panelLayout: MegaMenuPanelLayout | null,
   _legacyMenuType?: MenuLayoutType,
 ): MegaMenuEffectiveDisplayType {
-  const explicit = normalizeChildDisplayType(
-    child.megaMenuChildDisplayType as MegaMenuChildDisplayType | "link" | "featured" | "product" | undefined,
-  );
-
-  if (explicit === "list") return "list";
-  if (explicit === "icon") return "icon";
-  if (explicit === "card" && child.megaMenuCardMedia === "icon") return "icon";
-  if (explicit === "image" || explicit === "card") return "image";
-
-  // Unset / automatic: logo or icon when the item has one, otherwise the cover.
-  // Explicit "list" stays text so "without icon or photo" still hides both.
-  if (itemHasIconMedia(child)) return "icon";
-  if (resolveMenuItemPhotoUrl(child)) return "image";
+  const display = resolveFlyoutSourceDisplay(child);
+  if (display === "image") return "image";
+  if (display === "logo" || display === "icon") return "icon";
+  if (child.icon?.trim()) return "icon";
   return "list";
 }
 
@@ -264,8 +285,11 @@ function buildChildViewModel(
 ): MegaMenuChildViewModel {
   const appearance = resolveEffectiveChildDisplayType(child, panelLayout, legacyMenuType);
   const cardMedia = resolveChildCardMedia(child, appearance);
-  const photoUrl = resolveMenuItemPhotoUrl(child);
-  const iconImageUrl = resolveMenuItemIconImageUrl(child);
+  const photoUrl = child.sourceImageUrl?.trim() || resolveMenuItemPhotoUrl(child);
+  const sourceIconUrl = child.sourceIconUrl?.trim() || undefined;
+  const iconImageUrl =
+    sourceIconUrl || (child.sourceLogoUrl?.trim() ? undefined : resolveMenuItemIconImageUrl(child));
+  const sourceDisplay = resolveFlyoutSourceDisplay(child);
   const subtitle =
     mega?.childDescriptions?.[child.id]?.trim() ||
     undefined;
@@ -282,6 +306,10 @@ function buildChildViewModel(
     image: photoUrl,
     photoUrl,
     iconImageUrl,
+    sourceLogoUrl: child.sourceLogoUrl?.trim() || undefined,
+    sourceIconUrl,
+    sourceImageUrl: photoUrl,
+    sourceDisplay,
     icon: child.icon?.trim() || child.resolvedIcon?.trim() || undefined,
     subtitle,
     badge: child.badgeText?.trim() || undefined,

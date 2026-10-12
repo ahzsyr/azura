@@ -200,7 +200,17 @@ export function MixedRenderer({
         >
           <span className="hb-mega-v2-mixed__featured-media">
             {featured.appearance === "icon" ? (
-              <NavIconMedia icon={featured.icon} iconImageUrl={featured.iconImageUrl} alt={featured.label} />
+              <NavIconMedia
+                icon={featured.sourceDisplay === "logo" ? undefined : featured.icon}
+                iconImageUrl={
+                  featured.sourceDisplay === "logo"
+                    ? featured.sourceLogoUrl
+                    : featured.sourceDisplay === "none"
+                      ? undefined
+                      : featured.sourceIconUrl || featured.iconImageUrl
+                }
+                alt={featured.label}
+              />
             ) : featured.appearance === "image" ? (
               <MegaMenuCardFrameMedia
                 cardMedia="image"
