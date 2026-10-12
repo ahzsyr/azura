@@ -705,6 +705,18 @@ model SecurityAuditLog {
   @@index([actorId, createdAt])
 }
 
+/// Installation-wide runtime flag. One AZURA database is one installation.
+/// A row can disable a Module or Preset the compiled profile included.
+/// It cannot enable an id the profile omitted.
+model SiteFeature {
+  kind      String   @db.VarChar(16)
+  featureId String   @db.VarChar(64)
+  enabled   Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+
+  @@id([kind, featureId])
+}
+
 model Video {
   id               String      @id @default(cuid())
   slug             String      @unique

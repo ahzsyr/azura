@@ -6,6 +6,7 @@ import {
   readMetaPixelHeadSnippet,
   extractMetaPixelIdFromSnippet,
 } from "@/modules/marketing/tracking/meta-pixel";
+import { isMarketingCoreEnabled } from "@/modules/marketing/feature-flags";
 
 export type ActiveMetaPixel = {
   pixelId: string;
@@ -14,6 +15,7 @@ export type ActiveMetaPixel = {
 
 /** Resolve Meta Pixel for public-site injection when Tracking → Meta is enabled. */
 export async function resolveActiveMetaPixel(): Promise<ActiveMetaPixel | null> {
+  if (!(await isMarketingCoreEnabled())) return null;
   const row = await prisma.marketingTrackingConfig
     .findUnique({ where: { providerId: "meta" } })
     .catch(() => null);

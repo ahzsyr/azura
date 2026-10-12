@@ -40,9 +40,7 @@
   "modules": [
     "documentation",
     "status-page",
-    "marketing",
-    "enterprise-translation",
-    "advanced-seo"
+    "marketing"
   ],
   "enabledNavItemIds": [
     "dashboard",
@@ -140,6 +138,7 @@
     "seo-so-monitoring",
     "seo-so-automation",
     "seo-so-settings",
+    "installed-modules",
     "documentation",
     "status-page",
     "languages",
@@ -202,6 +201,7 @@
     "/admin/marketing/tracking",
     "/admin/marketing/urls",
     "/admin/media",
+    "/admin/modules",
     "/admin/newsletter",
     "/admin/pages",
     "/admin/partners",
@@ -276,5 +276,6 @@
     "/admin/settings/staff"
   ],
   "disabledPublicSegments": [],
+  "disabledPublicPrefixes": [],
   "disabledApiPrefixes": []
 }

@@ -23,5 +23,6 @@ export type CompiledDeploymentProfile = {
   enabledAdminHrefs: string[];
   disabledAdminPrefixes: string[];
   disabledPublicSegments: string[];
+  disabledPublicPrefixes: string[];
   disabledApiPrefixes: string[];
 };

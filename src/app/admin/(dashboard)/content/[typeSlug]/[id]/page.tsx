@@ -7,6 +7,7 @@ import { loadContentTypeWithLegacyFields } from "@/features/translation/admin-en
 import { loadTranslationsMap, localizedFieldValue } from "@/features/translation/bilingual-serialize";
 import { resolveTranslation } from "@/features/translation/translation-resolver";
 import { localeService } from "@/features/i18n/locale.service";
+import { getEffectiveAvailabilityProfile } from "@/config/deployment-profile/site-features";
 import { translationService } from "@/features/translation/translation.service";
 import { collectBlockEntityIds } from "@/features/translation/block-translation";
 import { migrateLegacyCatalogBlocks } from "@/features/builder/migrate-legacy-blocks";
@@ -68,7 +69,10 @@ export default async function AdminContentEditRoute({ params }: Props) {
     };
 
     const collections = await contentRepository.listCollections(contentType.id);
-    const locales = await localeService.listEnabled();
+    const [locales, availability] = await Promise.all([
+      localeService.listEnabled(),
+      getEffectiveAvailabilityProfile(),
+    ]);
 
   // All content types now store blocks directly on ContentItem — no CmsPage linking.
   const editSource: {
@@ -162,6 +166,7 @@ export default async function AdminContentEditRoute({ params }: Props) {
           brandOptions={brandOptions}
           initialRevisions={revisions}
           authors={authors}
+          availability={availability}
         />
       </Suspense>
     );

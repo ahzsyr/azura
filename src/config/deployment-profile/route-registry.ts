@@ -1,3 +1,7 @@
+import { documentationModuleManifest } from "@/modules/documentation/manifest";
+import { statusPageModuleManifest } from "@/modules/status-page/manifest";
+import { marketingModuleManifest } from "@/modules/marketing/manifest";
+
 /** Preset → admin href prefixes and public URL segments (locale-stripped). */
 export const PRESET_ROUTE_REGISTRY: Record<
   string,
@@ -56,13 +60,36 @@ export const PRESET_ROUTE_REGISTRY: Record<
   },
 };
 
-export const MODULE_ROUTE_REGISTRY: Record<string, { adminPrefixes: string[] }> = {
-  documentation: { adminPrefixes: ["/admin/documentation"] },
-  "status-page": { adminPrefixes: ["/admin/status"] },
-  marketing: { adminPrefixes: ["/admin/marketing"] },
-  "enterprise-translation": { adminPrefixes: [] },
-  "advanced-seo": { adminPrefixes: [] },
-};
+export const MODULE_MANIFESTS = [
+  documentationModuleManifest,
+  statusPageModuleManifest,
+  marketingModuleManifest,
+] as const;
+
+/** Route gating is derived from the same manifests used by module and block code. */
+export const MODULE_ROUTE_REGISTRY: Record<
+  string,
+  { adminPrefixes: string[]; publicPrefixes: string[]; apiPrefixes: string[] }
+> = Object.fromEntries(
+  MODULE_MANIFESTS.map((manifest) => [
+    manifest.id,
+    {
+      adminPrefixes: manifest.adminRoutes,
+      publicPrefixes: manifest.publicRoutes.filter((route) => !route.startsWith("/api/")),
+      apiPrefixes: manifest.publicRoutes.filter((route) => route.startsWith("/api/")),
+    },
+  ]),
+);
+
+export function getModuleManifests() {
+  return MODULE_MANIFESTS;
+}
+
+export function getModuleForContributedBlock(blockType: string): string | undefined {
+  return MODULE_MANIFESTS.find((manifest) =>
+    (manifest.contributedBlockTypes as readonly string[]).includes(blockType),
+  )?.id;
+}
 
 export const PRESET_API_PREFIXES: Record<string, string[]> = {
   product: ["/api/products", "/api/categories", "/api/collections", "/api/categories/sync", "/api/sync-collections"],

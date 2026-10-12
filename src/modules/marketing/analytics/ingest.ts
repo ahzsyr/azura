@@ -4,6 +4,7 @@ import type { Prisma } from "@prisma/client";
 import { findProvider } from "@/modules/marketing/core/registry";
 import { marketingSyncState } from "@/modules/marketing/core/sync";
 import { marketingEventBus } from "@/modules/marketing/core/events";
+import { isMarketingCoreEnabled } from "@/modules/marketing/feature-flags";
 
 function asJson(value: unknown): Prisma.InputJsonValue {
   return value as Prisma.InputJsonValue;
@@ -16,6 +17,7 @@ export async function syncProviderAnalytics(params: {
   from: string;
   to: string;
 }) {
+  if (!(await isMarketingCoreEnabled())) return [];
   marketingSyncState.markAttempt(params.providerId, "analytics", params.accountId);
   const adapter = findProvider(params.providerId);
   if (!adapter?.fetchAnalytics) {

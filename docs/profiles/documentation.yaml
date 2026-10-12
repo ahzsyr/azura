@@ -29,7 +29,7 @@ admin:
     marketing: [form-templates, form-submissions, inquiries, newsletter]
     design: [studio, header, footer, theme, announcement-bar, whatsapp]
     seo: [seo-overview, seo-tasks-today, seo-tasks-week, seo-tasks, seo-audit, seo-metadata, seo-redirects, seo-robots, seo-sitemap, seo-structured-data, seo-search-intelligence, seo-google]
-    modules: [documentation]
+    modules: [installed-modules, documentation]
     settings:
       - languages
       - translations

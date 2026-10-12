@@ -10,7 +10,7 @@ export function wireMarketingAutomation() {
   wired = true;
 
   marketingEventBus.on("CMS_POST_PUBLISHED", async (payload) => {
-    if (!isMarketingCapabilityEnabled("publishing")) return;
+    if (!(await isMarketingCapabilityEnabled("publishing"))) return;
     await enqueueMarketingJob({
       jobType: "publish",
       idempotencyKey: `auto-publish:post:${payload.postId}`,
@@ -24,7 +24,7 @@ export function wireMarketingAutomation() {
   });
 
   marketingEventBus.on("FORM_SUBMITTED", async (payload) => {
-    if (!isMarketingCapabilityEnabled("tracking")) return;
+    if (!(await isMarketingCapabilityEnabled("tracking"))) return;
     await dispatchTrackingEvent({
       idempotencyKey: `form:${payload.submissionId}`,
       name: "FormSubmitted",
@@ -35,7 +35,7 @@ export function wireMarketingAutomation() {
   });
 
   marketingEventBus.on("LEAD_CREATED", async (payload) => {
-    if (!isMarketingCapabilityEnabled("tracking")) return;
+    if (!(await isMarketingCapabilityEnabled("tracking"))) return;
     await dispatchTrackingEvent({
       idempotencyKey: `lead:${payload.inquiryId}`,
       name: "LeadGenerated",

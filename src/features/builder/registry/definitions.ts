@@ -4,6 +4,7 @@ import type { BlockType } from "@/types/builder";
 import { BLOCK_DEFAULTS } from "@/schemas/builder";
 import { DEFAULT_BLOCK_ANIMATION } from "@/schemas/block-system";
 import { BLOCK_TRANSLATABLE_FIELDS } from "@/features/translation/block-translation";
+import { getModuleForContributedBlock } from "@/config/deployment-profile/route-registry";
 
 const BASE_META: Record<
   BlockType,
@@ -668,8 +669,19 @@ export const CONTENT_OVERFLOW_CAPABLE_TYPES = new Set<BlockType>([
 
 function def(type: BlockType): BlockDefinition {
   const meta = BASE_META[type];
+  const contributingModuleId = getModuleForContributedBlock(type);
+  const requires = meta.requires ?? (
+    meta.category === "commerce"
+      ? { preset: "product" }
+      : type === "searchBlock"
+        ? { capability: "search" }
+        : contributingModuleId
+          ? { module: contributingModuleId }
+          : undefined
+  );
   return {
     ...meta,
+    ...(requires ? { requires } : {}),
     contentOverflowCapable: CONTENT_OVERFLOW_CAPABLE_TYPES.has(type),
     defaultSettings: BLOCK_DEFAULTS[type] ?? {},
     defaultStyles: {},

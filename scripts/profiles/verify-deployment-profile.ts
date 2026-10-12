@@ -6,6 +6,9 @@ import { readFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import yaml from "yaml";
+import { MODULE_MANIFESTS } from "../../src/config/deployment-profile/route-registry";
+import { BLOCK_DEFINITIONS } from "../../src/features/builder/registry/definitions";
+import { isBlockRequirementMet } from "../../src/features/builder/registry/block-requirement";
 
 const ROOT = process.cwd();
 const DOCS = path.join(ROOT, "docs");
@@ -55,7 +58,7 @@ function collectEnabledNavIds(profile: Record<string, unknown>): Set<string> {
   return ids;
 }
 
-function compileProfile(profileId: string, navManifest: Record<string, unknown>) {
+function compileProfile(profileId: string) {
   const env = { ...process.env, AZURA_PROFILE: profileId };
   const result = spawnSync("node", [GENERATOR], { env, encoding: "utf8" });
   if ((result.status ?? 1) !== 0) {
@@ -64,9 +67,12 @@ function compileProfile(profileId: string, navManifest: Record<string, unknown>)
   return JSON.parse(readFileSync(GENERATED, "utf8")) as {
     profileId: string;
     presets: string[];
+    modules: string[];
+    capabilities: string[];
     enabledNavItemIds: string[];
     disabledAdminPrefixes: string[];
     disabledPublicSegments: string[];
+    disabledPublicPrefixes: string[];
     disabledApiPrefixes: string[];
   };
 }
@@ -86,6 +92,7 @@ function main() {
     (navManifest.items ?? []).map((item) => item.id).filter((id): id is string => Boolean(id)),
   );
 
+  try {
   for (const profileId of STANDARD_PROFILES) {
     const profilePath = path.join(PROFILES_DIR, `${profileId}.yaml`);
     if (!existsSync(profilePath)) {
@@ -102,11 +109,36 @@ function main() {
     }
 
     try {
-      const compiled = compileProfile(profileId, navManifest);
+      const compiled = compileProfile(profileId);
       if (compiled.profileId !== profileId) {
         fail(`${profileId}: compiled profileId mismatch (${compiled.profileId})`);
       } else {
         pass(`${profileId} generates (${compiled.enabledNavItemIds.length} nav items)`);
+        const enabledModules = new Set((profile.modules as string[] | undefined) ?? []);
+        for (const manifest of MODULE_MANIFESTS) {
+          const disabled = !enabledModules.has(manifest.id);
+          const expectPresence = (items: string[], route: string, label: string) => {
+            if (items.includes(route) !== disabled) {
+              fail(`${profileId}: ${label} ${route} ${disabled ? "must be disabled" : "must be enabled"}`);
+            }
+          };
+          for (const route of manifest.adminRoutes) {
+            expectPresence(compiled.disabledAdminPrefixes, route, `${manifest.id} admin route`);
+          }
+          for (const route of manifest.publicRoutes) {
+            const isApi = route.startsWith("/api/");
+            expectPresence(
+              isApi ? compiled.disabledApiPrefixes : compiled.disabledPublicPrefixes,
+              route,
+              `${manifest.id} ${isApi ? "API" : "public route"}`,
+            );
+          }
+          for (const navId of manifest.navItemIds) {
+            if (compiled.enabledNavItemIds.includes(navId) === disabled) {
+              fail(`${profileId}: ${manifest.id} nav item ${navId} has incorrect profile visibility`);
+            }
+          }
+        }
       }
     } catch (error) {
       fail(`${profileId}: ${error instanceof Error ? error.message : String(error)}`);
@@ -114,7 +146,7 @@ function main() {
   }
 
   console.log("\nMarketing exit criteria:");
-  const marketing = compileProfile("marketing", navManifest);
+  const marketing = compileProfile("marketing");
   if (marketing.enabledNavItemIds.includes("products")) {
     fail("marketing: products nav id should not be enabled");
   } else {
@@ -130,6 +162,11 @@ function main() {
   } else {
     pass("marketing: /admin/products disabled");
   }
+  if (!marketing.disabledAdminPrefixes.includes("/admin/marketing")) {
+    fail("marketing: /admin/marketing should return 404 when Marketing is omitted");
+  } else {
+    pass("marketing: /admin/marketing disabled (middleware returns 404)");
+  }
   if (!marketing.disabledPublicSegments.includes("products")) {
     fail("marketing: products public segment should be disabled");
   } else {
@@ -140,9 +177,20 @@ function main() {
   } else {
     pass("marketing: /api/products disabled");
   }
+  for (const manifestPath of [
+    "src/modules/marketing/manifest.ts",
+    "src/modules/documentation/manifest.ts",
+    "src/modules/status-page/manifest.ts",
+  ]) {
+    if (!existsSync(path.join(ROOT, manifestPath))) {
+      fail(`source retention: ${manifestPath} must remain after profile compilation`);
+    } else {
+      pass(`source retention: ${manifestPath} remains in the repository`);
+    }
+  }
 
   // Restore default enterprise artifact for dev/typecheck
-  compileProfile("enterprise", navManifest);
+  compileProfile("enterprise");
   pass("restored enterprise deployment-profile.json");
 
   console.log("\nEnterprise content route exit criteria:");
@@ -172,7 +220,7 @@ function main() {
   }
 
   console.log("\nTourism content route exit criteria:");
-  const tourism = compileProfile("tourism", navManifest);
+  const tourism = compileProfile("tourism");
   for (const route of [
     "/admin/content/catalog-items",
     "/admin/content/listings",
@@ -184,8 +232,36 @@ function main() {
       pass(`tourism: ${route} reachable`);
     }
   }
-  compileProfile("enterprise", navManifest);
-  pass("restored enterprise deployment-profile.json after tourism check");
+  console.log("\nModule and block requirement contract:");
+  {
+    const marketingProfile = compileProfile("marketing");
+    const commerceBlocks = BLOCK_DEFINITIONS.filter((definition) => definition.category === "commerce");
+    if (commerceBlocks.length !== 13) {
+      fail(`expected 13 commerce blocks, found ${commerceBlocks.length}`);
+    } else if (commerceBlocks.some((definition) => isBlockRequirementMet(definition.requires, marketingProfile))) {
+      fail("marketing: commerce blocks must be disabled without the product preset");
+    } else {
+      pass("marketing: all 13 commerce blocks are disabled");
+    }
+    const searchBlock = BLOCK_DEFINITIONS.find((definition) => definition.type === "searchBlock");
+    if (!searchBlock || isBlockRequirementMet(searchBlock.requires, marketingProfile)) {
+      fail("marketing: searchBlock must be disabled without the search capability");
+    } else {
+      pass("marketing: searchBlock is disabled");
+    }
+    for (const blockType of ["documentationNav", "statusDashboard"] as const) {
+      const definition = BLOCK_DEFINITIONS.find((entry) => entry.type === blockType);
+      if (!definition?.requires?.module || isBlockRequirementMet(definition.requires, marketingProfile)) {
+        fail(`marketing: ${blockType} must be disabled when its module is omitted`);
+      } else {
+        pass(`marketing: ${blockType} is disabled`);
+      }
+    }
+  }
+  } finally {
+    compileProfile("enterprise");
+    pass("restored enterprise deployment-profile.json");
+  }
 
   console.log(`\nprofiles:verify complete — ${failures} failure(s)`);
   process.exit(failures > 0 ? 1 : 0);

@@ -19,7 +19,7 @@ export async function GET(
   context: { params: Promise<{ provider: string }> },
 ) {
   await requireAdmin();
-  bootstrapMarketingModule();
+  await bootstrapMarketingModule();
 
   const { provider: providerId } = await context.params;
   const provider = findProvider(providerId);

@@ -9,7 +9,7 @@ import { createTeamMemberAdapter } from "@/features/entities/adapters/team-membe
 import type { EntityStorageAdapter } from "@/features/entities/adapters/types";
 import { deleteEntityByPreset, saveEntityByPreset } from "@/features/entities/entity-write.service";
 import { EntityPresetNotActiveError, UnknownEntityPresetError } from "@/features/entities/errors";
-import { isPresetEnabled } from "@/config/deployment-profile";
+import { isPresetActive } from "@/config/deployment-profile/site-features";
 import {
   getEntityTypeDefinition,
   isEntityPresetId,
@@ -30,8 +30,8 @@ import type {
   EntityWriteInput,
 } from "@/features/entities/types";
 
-function assertActivePreset(presetId: EntityPresetId): EntityTypeDefinition {
-  if (!isPresetEnabled(presetId)) {
+async function assertActivePreset(presetId: EntityPresetId): Promise<EntityTypeDefinition> {
+  if (!(await isPresetActive(presetId))) {
     throw new EntityPresetNotActiveError(presetId);
   }
   const definition = getEntityTypeDefinition(presetId);
@@ -44,8 +44,8 @@ function assertActivePreset(presetId: EntityPresetId): EntityTypeDefinition {
   return definition;
 }
 
-function resolveAdapter(presetId: EntityPresetId): EntityStorageAdapter {
-  const definition = assertActivePreset(presetId);
+async function resolveAdapter(presetId: EntityPresetId): Promise<EntityStorageAdapter> {
+  const definition = await assertActivePreset(presetId);
 
   if (
     definition.storage === "content_item" ||
@@ -84,10 +84,17 @@ function resolveAdapter(presetId: EntityPresetId): EntityStorageAdapter {
 }
 
 export const entityService = {
-  listEntityTypes(options?: { includePlanned?: boolean; profileAware?: boolean }): EntityTypeDefinition[] {
-    const defs = listEntityTypeDefinitions(options);
+  async listEntityTypes(options?: {
+    includePlanned?: boolean;
+    profileAware?: boolean;
+  }): Promise<EntityTypeDefinition[]> {
+    const defs = listEntityTypeDefinitions({ ...options, profileAware: false });
     if (options?.profileAware === false) return defs;
-    return defs.filter((def) => isPresetEnabled(def.presetId));
+    const active: EntityTypeDefinition[] = [];
+    for (const def of defs) {
+      if (await isPresetActive(def.presetId)) active.push(def);
+    }
+    return active;
   },
 
   getEntityType(presetId: EntityPresetId): EntityTypeDefinition | null {
@@ -107,7 +114,7 @@ export const entityService = {
     presetId: EntityPresetId,
     options?: EntityListOptions,
   ): Promise<EntityListRow[]> {
-    const adapter = resolveAdapter(presetId);
+    const adapter = await resolveAdapter(presetId);
     return adapter.list(options);
   },
 
@@ -116,7 +123,7 @@ export const entityService = {
     idOrSlug: string,
     options?: EntityGetOptions,
   ): Promise<EntityRecord | null> {
-    const adapter = resolveAdapter(presetId);
+    const adapter = await resolveAdapter(presetId);
     return adapter.get(idOrSlug, options);
   },
 
@@ -124,7 +131,7 @@ export const entityService = {
     presetId: EntityPresetId,
     options?: EntityListOptions,
   ): Promise<Collection[]> {
-    const adapter = resolveAdapter(presetId);
+    const adapter = await resolveAdapter(presetId);
     if (!adapter.listCollections) return [];
     return adapter.listCollections(options);
   },
@@ -134,19 +141,19 @@ export const entityService = {
     presetId: EntityPresetId,
     options?: EntityListOptions,
   ): Promise<Category[]> {
-    const adapter = resolveAdapter(presetId);
+    const adapter = await resolveAdapter(presetId);
     if (adapter.listCategories) return adapter.listCategories(options);
     if (!adapter.listCollections) return [];
     return adapter.listCollections(options);
   },
 
   async saveEntity(input: EntityWriteInput): Promise<EntitySaveResult> {
-    assertActivePreset(input.presetId);
+    await assertActivePreset(input.presetId);
     return saveEntityByPreset(input);
   },
 
   async deleteEntity(presetId: EntityPresetId, idOrSlug: string): Promise<void> {
-    assertActivePreset(presetId);
+    await assertActivePreset(presetId);
     await deleteEntityByPreset(presetId, idOrSlug);
   },
 };

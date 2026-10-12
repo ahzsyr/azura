@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from "react";
 import type { BlockNode } from "@/types/builder";
-import { BLOCK_CATEGORIES, BLOCK_TYPES, getBlockMeta } from "../block-registry";
+import { BLOCK_CATEGORIES, BLOCK_TYPES, getBlockMeta, isBlockTypeEnabled } from "../block-registry";
+import { useBlockAvailability } from "./block-availability-context";
 import { SHOWCASE_BLOCK_PRESETS } from "@/features/builder/blocks/commerce/commerce-showcase/lib/showcase-block-presets";
 import { BlockTypeIcon } from "./block-type-icon";
 import {
@@ -37,29 +38,32 @@ export function BlockPickerModal({
   title = "Add block",
 }: Props) {
   const [query, setQuery] = useState("");
+  const availability = useBlockAvailability();
 
   const filteredBlocks = useMemo(() => {
+    const availableBlocks = BLOCK_TYPES.filter((block) => isBlockTypeEnabled(block.type, availability));
     const q = query.trim().toLowerCase();
-    if (!q) return BLOCK_TYPES;
-    return BLOCK_TYPES.filter(
+    if (!q) return availableBlocks;
+    return availableBlocks.filter(
       (b) =>
         b.label.toLowerCase().includes(q) ||
         b.description.toLowerCase().includes(q) ||
         b.type.toLowerCase().includes(q),
     );
-  }, [query]);
+  }, [query, availability]);
 
   const filteredPresets = useMemo(() => {
     if (!onAddWithProps) return [];
+    const availablePresets = SHOWCASE_BLOCK_PRESETS.filter((preset) => isBlockTypeEnabled(preset.type, availability));
     const q = query.trim().toLowerCase();
-    if (!q) return SHOWCASE_BLOCK_PRESETS;
-    return SHOWCASE_BLOCK_PRESETS.filter(
+    if (!q) return availablePresets;
+    return availablePresets.filter(
       (preset) =>
         preset.label.toLowerCase().includes(q) ||
         preset.description.toLowerCase().includes(q) ||
         preset.type.toLowerCase().includes(q),
     );
-  }, [query, onAddWithProps]);
+  }, [query, onAddWithProps, availability]);
 
   const handleSelect = (type: BlockNode["type"]) => {
     onAdd(type, parentId);
@@ -136,9 +140,10 @@ export function BlockPickerModal({
           ) : (
             <div className="space-y-6">
               {BLOCK_CATEGORIES.map((cat) => {
-                const items = BLOCK_TYPES.filter((b) => b.category === cat.id);
-                const presets =
-                  cat.id === "commerce" && onAddWithProps ? SHOWCASE_BLOCK_PRESETS : [];
+                const items = filteredBlocks.filter((b) => b.category === cat.id);
+                const presets = cat.id === "commerce" && onAddWithProps
+                  ? SHOWCASE_BLOCK_PRESETS.filter((preset) => isBlockTypeEnabled(preset.type, availability))
+                  : [];
                 if (items.length === 0 && presets.length === 0) return null;
                 return (
                   <div key={cat.id}>

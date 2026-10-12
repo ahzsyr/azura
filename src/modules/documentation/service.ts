@@ -5,6 +5,7 @@ import {
   type EntityRef,
 } from "@/features/portal/lib/portal-translation";
 import type { DocPortalAdmin, DocumentationBlockInput, DocPortalPublic } from "./types";
+import { isModuleActive } from "./module-profile";
 
 function collectDocPortalRefs(row: {
   id: string;
@@ -23,6 +24,7 @@ export const docPortalService = {
     slug: string,
     opts?: Pick<DocumentationBlockInput, "versionSlug" | "rootSectionSlug">
   ): Promise<DocPortalPublic | null> {
+    if (!(await isModuleActive())) return null;
     const row = await prisma.docPortal.findFirst({
       where: { slug, isPublished: true },
       include: {
@@ -87,6 +89,7 @@ export const docPortalService = {
   },
 
   async listForAdmin(): Promise<DocPortalAdmin[]> {
+    if (!(await isModuleActive())) return [];
     const rows = await prisma.docPortal.findMany({
       orderBy: { sortOrder: "asc" },
       include: { _count: { select: { versions: true, sections: true } } },
@@ -107,6 +110,7 @@ export const docPortalService = {
   },
 
   async getByIdForAdmin(id: string) {
+    if (!(await isModuleActive())) return null;
     return prisma.docPortal.findUnique({
       where: { id },
       include: {

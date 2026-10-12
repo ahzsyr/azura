@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import { dispatchTrackingEvent } from "@/modules/marketing/tracking/dispatcher";
 import type { CanonicalTrackingEventName } from "@/modules/marketing/core/dto/types";
+import { assertMarketingModuleActive } from "@/modules/marketing/feature-flags";
 
 export type IngestMarketingEventInput = {
   idempotencyKey: string;
@@ -22,6 +23,7 @@ export type IngestMarketingEventInput = {
 
 export const marketingEventService = {
   async ingest(input: IngestMarketingEventInput) {
+    await assertMarketingModuleActive();
     const existing = await prisma.marketingEvent.findUnique({
       where: { idempotencyKey: input.idempotencyKey },
     });

@@ -8,6 +8,8 @@ import { resolveCalculatorForBlock } from "@/presets/pricing/calculators/resolve
 import { resolveKnowledgeArticlesForBlock } from "@/presets/knowledge/resolve-knowledge-articles-for-block";
 import { resolveDocumentationForBlock } from "@/modules/documentation/resolve-documentation-for-block";
 import { resolveStatusBoardForBlock } from "@/modules/status-page/resolve-status-board-for-block";
+import { isModuleActive as isDocumentationModuleActive } from "@/modules/documentation/module-profile";
+import { isModuleActive as isStatusPageModuleActive } from "@/modules/status-page/module-profile";
 import { resolveTeamMembersForBlock } from "@/presets/team-member/resolve-team-members-for-block";
 import { resolvePartnersForBlock } from "@/presets/partner/resolve-partners-for-block";
 import { resolvePricingPlansForBlock } from "@/presets/pricing/resolve-pricing-plans-for-block";
@@ -134,6 +136,9 @@ export async function KnowledgeBaseBlockRenderer({ locale, props, loc }: RenderC
 }
 
 export async function DocumentationNavBlockRenderer({ locale, props, loc }: RenderCtx) {
+  if (!(await isDocumentationModuleActive())) {
+    return <Section><p className="text-muted-foreground text-sm">Documentation is unavailable because its module is not enabled.</p></Section>;
+  }
   const p = safeParseProps(
     documentationNavPropsSchema,
     props,
@@ -169,6 +174,9 @@ export async function DocumentationNavBlockRenderer({ locale, props, loc }: Rend
 }
 
 export async function StatusDashboardBlockRenderer({ locale, props, loc }: RenderCtx) {
+  if (!(await isStatusPageModuleActive())) {
+    return <Section><p className="text-muted-foreground text-sm">Status information is unavailable because its module is not enabled.</p></Section>;
+  }
   const p = safeParseProps(
     statusDashboardPropsSchema,
     props,

@@ -20,13 +20,19 @@ function readEnvFlag(name: string, fallback: boolean): boolean {
   return fallback;
 }
 
-export function isMarketingCoreEnabled(): boolean {
-  if (!isModuleActive()) return false;
+export async function isMarketingCoreEnabled(): Promise<boolean> {
+  if (!(await isModuleActive())) return false;
   return readEnvFlag("MARKETING_CORE_ENABLED", DEFAULTS["marketing.core"]);
 }
 
-export function isMarketingCapabilityEnabled(capability: MarketingCapabilityId): boolean {
-  if (!isMarketingCoreEnabled()) return false;
+export async function assertMarketingModuleActive(): Promise<void> {
+  if (!(await isMarketingCoreEnabled())) {
+    throw new Error("Marketing module is not enabled in this deployment profile");
+  }
+}
+
+export async function isMarketingCapabilityEnabled(capability: MarketingCapabilityId): Promise<boolean> {
+  if (!(await isMarketingCoreEnabled())) return false;
   const key = `marketing.${capability}` as const;
   const envKey = `MARKETING_${capability.toUpperCase()}_ENABLED`;
   return readEnvFlag(envKey, DEFAULTS[key] ?? false);

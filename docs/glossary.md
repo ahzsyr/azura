@@ -24,11 +24,11 @@ Canonical terminology for RFCs, code, and documentation. Admin UI uses **user la
 | **Block** | Builder unit on a Page | Hero, grid, form |
 | **Section** | Block layout grouping | Row, spacing |
 | **Lead** | Conversion record | Inquiry, submission |
-| **Preset** | Shipped EntityType package | product, team, … |
-| **Module** | Optional vertical capability | documentation, status-page |
-| **Capability** | Shared service | search, ai, workflow |
-| **Deployment Profile** | Enabled feature bundle | showroom, agency, … |
-| **Core Platform** | Always-on foundations | cms, builder, seo, media, … |
+| **Preset** | Shipped domain bundle: entity schema, templates, admin defaults, validation, and blocks that require that preset | product, team, … |
+| **Module** | Installable product unit. Admin label is Modules | documentation, status-page, marketing |
+| **Capability** | Shared service or dependency consumed by Modules and Presets. Not an installable product | search, ai, workflow |
+| **Deployment Profile** | Build-time availability ceiling. Selects what a build includes. Not a runtime installation setting | showroom, agency, … |
+| **Core Platform** | Basic site and shared platform included on every profile | cms, builder, seo, media, … |
 
 ---
 
@@ -160,6 +160,7 @@ Full mapping: [admin-ia.md § Legacy → target](./admin-ia.md#legacy--target-ma
 - **Experience Engine** (as package name)
 - **CatalogItem** — use **Entity**
 - **Product Platform**, **Knowledge Platform** — use Preset or Module
+- **App**, **Extension** (as architecture layers) — use **Module**, **Preset**, or **Block**. “App” may describe a Module in product conversation. It does not belong in RFCs, code, or admin labels. The admin group is **Modules**.
 
 ---
 
@@ -179,19 +180,22 @@ Full mapping: [admin-ia.md § Legacy → target](./admin-ia.md#legacy--target-ma
 | `pricing` | Pricing Plans | optional | plan-card, plan-compare |
 | `event` | Events | optional | event-card, event-detail |
 
-Enabled presets depend on [deployment profile](./deployment-profiles.md).
+Which presets a build includes depends on the [deployment profile](./deployment-profiles.md).
 
 ---
 
-## Module registry (planned)
+## Module registry
 
-| Module ID | Purpose |
-|-----------|---------|
-| `documentation` | Doc portal UX, navigation, versioned doc experience |
-| `status-page` | Incidents, maintenance, public status views |
-| `enterprise-translation` | Translation memory, jobs, review workflows |
-| `advanced-seo` | GSC/Bing integrations, crawl diagnostics, rich results ops |
-| `booking-engine` | Scheduling, availability, reservations (future) |
+Current modules have manifests and are listed on the enterprise profile. Future candidates have no manifests and are not on [profiles/enterprise.yaml](./profiles/enterprise.yaml).
+
+| Module ID | Status | Purpose |
+|-----------|--------|---------|
+| `documentation` | Current | Doc portal UX, navigation, versioned doc experience |
+| `status-page` | Current | Incidents, maintenance, public status views |
+| `marketing` | Current | Marketing integrations hub |
+| `enterprise-translation` | Future candidate | Translation memory, jobs, review workflows |
+| `advanced-seo` | Future candidate | GSC/Bing integrations, crawl diagnostics, rich results ops |
+| `booking-engine` | Future candidate | Scheduling, availability, reservations |
 
 ---
 

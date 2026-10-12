@@ -12,6 +12,7 @@ import { localeService } from "@/features/i18n/locale.service";
 import { getDefaultLocaleFieldFromForm } from "@/features/translation/form-sync";
 import { syncEntityTranslationsFromForm } from "@/features/translation/form-sync.server";
 import { prisma } from "@/lib/prisma";
+import { assertModuleActive } from "./module-profile";
 
 const ADMIN_BASE = "/admin/status";
 
@@ -37,6 +38,7 @@ function parseIncidentStatus(value: string): IncidentStatus {
 
 export async function upsertStatusBoard(formData: FormData) {
   await requireAdmin();
+  await assertModuleActive();
   const enabledLocales = await localeService.listEnabled();
   const id = (formData.get("id") as string | null) || undefined;
   const titleForSlug = getDefaultLocaleFieldFromForm(formData, enabledLocales, "title");
@@ -145,6 +147,8 @@ export async function patchStatusBoardFromForm(
   baseline: Record<string, string>,
   current: Record<string, string>,
 ) {
+  await requireAdmin();
+  await assertModuleActive();
   const { patchStatusBoardFromForm: patchImpl } = await import(
     "@/features/portal/lib/entity-patch.server"
   );
@@ -153,6 +157,7 @@ export async function patchStatusBoardFromForm(
 
 export async function deleteStatusBoard(id: string) {
   await requireAdmin();
+  await assertModuleActive();
   const row = await prisma.statusBoard.findUnique({ where: { id }, select: { slug: true } });
   await prisma.statusBoard.delete({ where: { id } });
   revalidateStatusBoardPaths(row?.slug, id);
@@ -160,6 +165,7 @@ export async function deleteStatusBoard(id: string) {
 
 export async function toggleStatusBoardPublished(id: string, isPublished: boolean) {
   await requireAdmin();
+  await assertModuleActive();
   const row = await prisma.statusBoard.update({
     where: { id },
     data: { isPublished },

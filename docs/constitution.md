@@ -96,6 +96,7 @@ Full text: [architecture-principles.md](./architecture-principles.md)
 | Experience packaging | **Layer**, not engine |
 | Knowledge Base / Partners / Team | **Reclassify** as Presets — do not delete |
 | Documentation / Status | **Modules** |
+| Segmentation | **Core, Module, Preset, Capability, Deployment Profile.** App is not a layer. A Deployment Profile is the build-time ceiling |
 
 ---
 

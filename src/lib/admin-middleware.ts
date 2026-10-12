@@ -40,6 +40,7 @@ function withPathnameHeader(request: NextRequest): Headers {
 export async function handleAdminFastPath(request: NextRequest): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl;
   if (!pathname.startsWith("/admin")) return null;
+  if (isAdminPathDisabled(pathname)) return profileDisabledResponse();
 
   const locale = portalLocaleFromRequest(request);
 
@@ -97,9 +98,6 @@ export async function handleAdminFastPath(request: NextRequest): Promise<NextRes
       }
     }
 
-    if (isAdminPathDisabled(pathname)) {
-      return profileDisabledResponse();
-    }
     return NextResponse.next({
       request: { headers: withPathnameHeader(request) },
     });

@@ -11,6 +11,7 @@ import { localeService } from "@/features/i18n/locale.service";
 import { getDefaultLocaleFieldFromForm } from "@/features/translation/form-sync";
 import { syncEntityTranslationsFromForm } from "@/features/translation/form-sync.server";
 import { prisma } from "@/lib/prisma";
+import { assertModuleActive } from "./module-profile";
 
 const ADMIN_BASE = "/admin/documentation";
 
@@ -24,6 +25,7 @@ function revalidateDocPortalPaths(slug?: string, id?: string) {
 
 export async function upsertDocPortal(formData: FormData) {
   await requireAdmin();
+  await assertModuleActive();
   const enabledLocales = await localeService.listEnabled();
   const id = (formData.get("id") as string | null) || undefined;
   const titleForSlug = getDefaultLocaleFieldFromForm(formData, enabledLocales, "title");
@@ -105,6 +107,7 @@ export async function upsertDocPortal(formData: FormData) {
 
 export async function deleteDocPortal(id: string) {
   await requireAdmin();
+  await assertModuleActive();
   const row = await prisma.docPortal.findUnique({ where: { id }, select: { slug: true } });
   await prisma.docPortal.delete({ where: { id } });
   revalidateDocPortalPaths(row?.slug, id);
@@ -112,6 +115,7 @@ export async function deleteDocPortal(id: string) {
 
 export async function toggleDocPortalPublished(id: string, isPublished: boolean) {
   await requireAdmin();
+  await assertModuleActive();
   const row = await prisma.docPortal.update({
     where: { id },
     data: { isPublished },

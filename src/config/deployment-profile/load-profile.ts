@@ -54,7 +54,7 @@ export function isApiPathDisabled(pathname: string): boolean {
 
 /** Strip locale prefix and test first path segment against disabled public segments. */
 export function isPublicPathDisabled(pathname: string, locales?: string[]): boolean {
-  if (!profile.generated || !profile.disabledPublicSegments.length) return false;
+  if (!profile.generated) return false;
 
   const localeList = locales?.length ? locales : FALLBACK_LOCALE_PREFIXES;
   let rest = pathname;
@@ -65,6 +65,10 @@ export function isPublicPathDisabled(pathname: string, locales?: string[]): bool
       rest = rest.slice(prefix.length);
       break;
     }
+  }
+
+  if ((profile.disabledPublicPrefixes ?? []).some((prefix) => matchesPrefix(rest, prefix))) {
+    return true;
   }
 
   const segment = rest.replace(/^\//, "").split("/")[0];

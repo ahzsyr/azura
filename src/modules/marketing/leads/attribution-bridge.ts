@@ -7,6 +7,7 @@ import { campaignService } from "@/modules/marketing/campaigns/service";
 import { mapUtmSourceToKey, resolveSourceByKey } from "@/modules/marketing/sources/service";
 import { marketingEventBus } from "@/modules/marketing/core/events";
 import { resolveCampaignParamFromSearchParams } from "@/modules/marketing/tracking-urls/build-url";
+import { isMarketingCoreEnabled } from "@/modules/marketing/feature-flags";
 
 /**
  * Conversion campaign resolution:
@@ -53,6 +54,7 @@ export async function attachLeadAttributionFromUtm(input: {
   pageSlug?: string | null;
   conversionKey?: string;
 }) {
+  if (!(await isMarketingCoreEnabled())) return null;
   const utm = input.utm ?? {};
   const visitorToken = utm.visitor_token;
   const sessionToken = utm.session_token;

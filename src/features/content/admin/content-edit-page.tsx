@@ -12,6 +12,7 @@ import { PageLayoutPanel } from "@/features/layout-engine/components/page-layout
 import { CompositionPresetsPanel } from "@/features/layout-engine/components/composition-presets-panel";
 import { compositionPresetsRegistry } from "@/features/layout-engine/composition-presets-registry";
 import { CompositionDevicePreview } from "@/features/layout-engine/components/composition-device-preview";
+import type { BlockAvailabilityProfile } from "@/features/builder/registry/block-requirement";
 import {
   getCompositionBlocks,
   getCompositionRegionLabel,
@@ -143,6 +144,7 @@ type Props = {
   brandOptions?: BrandBuilderOption[];
   initialRevisions?: ContentItemRevision[];
   authors?: PostAuthor[];
+  availability?: BlockAvailabilityProfile;
 };
 
 export function ContentEditPage({
@@ -168,6 +170,7 @@ export function ContentEditPage({
   brandOptions = [],
   initialRevisions = [],
   authors = [],
+  availability,
 }: Props) {
   const itemField = (field: string, locale = "en") =>
     resolveTranslation(field, locale, { translations: initialItemTranslations });
@@ -574,6 +577,7 @@ export function ContentEditPage({
           </div>
           <BlockEditor
             blocks={blocks}
+            availability={availability}
             blocksRef={blocksRef}
             onChange={(next) => {
               markUnsaved();
@@ -682,6 +686,7 @@ export function ContentEditPage({
           <CardContent>
             <CompositionDevicePreview
               composition={composition}
+              availability={availability}
               locales={locales}
               galleryOptions={galleryOptions}
               faqSetOptions={faqSetOptions}

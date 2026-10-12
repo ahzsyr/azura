@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { BlockNode, PageBlocks } from "@/types/builder";
 import { createBlock, BLOCK_DEFAULTS } from "@/schemas/blocks";
 import { mergeShowcasePresetProps } from "@/features/builder/blocks/commerce/commerce-showcase/lib/showcase-block-presets";
+import { BlockAvailabilityProvider } from "./block-availability-context";
 import { BlockTreeEditor, insertBlockInTree } from "./block-tree-editor";
 import { BlockPickerModal } from "./block-picker-modal";
 import { BlockPresetPanel } from "./block-preset-panel";
@@ -41,6 +42,7 @@ import {
 } from "@/features/builder/block-translation-context";
 import type { BlockParentType } from "@/features/translation/block-translation";
 import type { BlockInspectorTabId } from "@/features/builder/constants/block-inspector-tabs";
+import type { BlockAvailabilityProfile } from "@/features/builder/registry/block-requirement";
 type Revision = {
   id: string;
   version: number;
@@ -86,6 +88,8 @@ type BlockEditorProps = {
   blockParentType?: BlockParentType | null;
   blockParentId?: string | null;
   initialBlockTranslations?: EntityTranslation[];
+  /** Compiled profile with site-disabled modules and presets removed. */
+  availability?: BlockAvailabilityProfile;
 };
 
 export function BlockEditor({
@@ -118,6 +122,7 @@ export function BlockEditor({
   blockParentType = null,
   blockParentId = null,
   initialBlockTranslations = [],
+  availability,
 }: BlockEditorProps) {
   const [internalBlocks, setInternalBlocks] = useState<PageBlocks>(initialBlocks ?? []);
   const blocks = controlledBlocks ?? internalBlocks;
@@ -352,15 +357,11 @@ export function BlockEditor({
   );
 
   const existingCtx = useBlockTranslationsOptional();
-  if (existingCtx) {
-    return editorContent;
-  }
-
-  const effectiveLocales = locales.length > 0 ? locales : FALLBACK_LOCALES;
-
-  return (
+  const editorTree = existingCtx ? (
+    editorContent
+  ) : (
     <BlockTranslationProvider
-      locales={effectiveLocales}
+      locales={locales.length > 0 ? locales : FALLBACK_LOCALES}
       parentType={blockParentType}
       parentId={blockParentId}
       initialBlocks={blocks}
@@ -370,6 +371,9 @@ export function BlockEditor({
       {editorContent}
     </BlockTranslationProvider>
   );
+
+  if (!availability) return editorTree;
+  return <BlockAvailabilityProvider value={availability}>{editorTree}</BlockAvailabilityProvider>;
 }
 
 function revisionEditLocale(rev: Revision): string | null {

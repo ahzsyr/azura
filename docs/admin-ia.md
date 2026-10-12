@@ -100,6 +100,7 @@ See [glossary.md § Banned terms](./glossary.md#banned-terms). Summary:
 │          Search Intelligence        │
 ├─────────────────────────────────────┤
 │  ▼ Modules                          │
+│      Modules                        │  ← installation flags; omitted modules are read-only
 │      Documentation                  │
 │      Status Page                    │
 ├─────────────────────────────────────┤
@@ -139,7 +140,7 @@ SEO          → Dashboard, Tasks, Audit, Basic SEO, Advanced SEO
 Settings     → Languages, Translations, Site Access, Search, …
 ```
 
-No preset entity items, Modules, or System (except optional Demo Profiles).
+No preset entity items or System (except optional Demo Profiles). Modules lists the installation screen; product modules omitted by this profile are read-only there.
 
 ---
 
@@ -206,8 +207,9 @@ Preset items appear **only** when enabled by [deployment profile](./profiles/).
 |----------|------------|------|----------|
 | `documentation` | Documentation | `/admin/documentation` | documentation, enterprise |
 | `status-page` | Status Page | `/admin/status` | enterprise |
-| `enterprise-translation` | *(no top-level nav)* | — | enterprise — under Settings |
-| `advanced-seo` | *(items under SEO → Advanced SEO)* | Search Operations, Search Intelligence, schema registry, 404 | enterprise |
+| `marketing` | Marketing | `/admin/marketing` | enterprise |
+
+Advanced SEO navigation remains profile-scoped; it is not Module-gated until it has a Module manifest and runtime boundary. Enterprise Translation is a future Module candidate.
 
 ---
 
@@ -219,7 +221,7 @@ Preset items appear **only** when enabled by [deployment profile](./profiles/).
 | **Brands & Tags** | Content → **Brands & Tags** (`/admin/catalog-taxonomy`) | User language; ties to product preset |
 | **Entity Type schema admin** | System → **Content Types** (`/admin/content/types`) | Developer tool; hidden on marketing profile |
 | **Content hub** (`/admin/content`) | Remove from user nav; redirect to Content Types in System | Was duplicate “Content” label |
-| **SEO Audit / Integrations / 404** | Site Audit is operator-facing; Search Engine Integrations and 404 stay under **Advanced SEO** (enterprise / profile gated) | advanced-seo Module overlay |
+| **SEO Audit / Integrations / 404** | Site Audit is operator-facing; Search Engine Integrations and 404 stay under **Advanced SEO** (enterprise profile scoped) | SEO admin surface |
 | **Pricing Calculators** | Content → **Pricing Plans** sub-area or sibling **Calculators** under same preset | Preset extension, not Module |
 | **Releases** | Content → **Releases** | Preset `release`, not Blog |
 | **WhatsApp** | **Design** group | FAB/chrome configuration with theme |
@@ -359,8 +361,8 @@ Implementation: Phase 8 with [`getBreadcrumbs`](src/config/admin-nav.ts) refacto
 | seo | Redirects | `/admin/seo/redirects` | seo | Redirects | — |
 | seo | Robots.txt | `/admin/seo/robots` | seo | Robots.txt | — |
 | seo | Structured Data | `/admin/seo/structured-data` | seo | Structured Data | — |
-| seo | SEO Integrations | `/admin/seo/integrations` | seo | Search Engines | advanced-seo |
-| seo | 404 Pages | `/admin/seo/404` | seo | 404 Pages | advanced-seo |
+| seo | SEO Integrations | `/admin/seo/integrations` | seo | Search Engines | SEO surface |
+| seo | 404 Pages | `/admin/seo/404` | seo | 404 Pages | SEO surface |
 | settings | Site access | `/admin/settings/site` | settings | Site Access | — |
 | settings | Search | `/admin/settings/search` | settings | Search | — |
 | settings | Admin account | `/admin/settings/account` | settings | Admin Account | — |

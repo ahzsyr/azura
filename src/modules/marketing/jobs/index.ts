@@ -7,11 +7,13 @@ import { marketingObservability } from "@/modules/marketing/core/observability";
 import { marketingEventBus } from "@/modules/marketing/core/events";
 import { findProvider } from "@/modules/marketing/core/registry";
 import type { CanonicalPublishRequest } from "@/modules/marketing/core/dto/types";
+import { assertMarketingModuleActive } from "@/modules/marketing/feature-flags";
 
 function asJson(value: unknown): Prisma.InputJsonValue {
   return value as Prisma.InputJsonValue;
 }
 export async function enqueueMarketingJob(input: EnqueueMarketingJobInput) {
+  await assertMarketingModuleActive();
   const existing = await prisma.marketingJob.findUnique({
     where: { idempotencyKey: input.idempotencyKey },
   });
@@ -238,6 +240,7 @@ async function processGenericJob(
 }
 
 export async function runDueMarketingJobs(limit = 10) {
+  await assertMarketingModuleActive();
   const now = new Date();
   // Reclaim stranded RUNNING leases
   await prisma.marketingJob.updateMany({

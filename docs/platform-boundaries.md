@@ -62,16 +62,15 @@ Experience (visitor outcome)
 | `templates/` | Template registry and renderers |
 | `presets/*/` | Preset schema, validation, preset-specific resolvers |
 
-### Modules (target)
+### Current Modules and future candidates
 
 | Path | Owns |
 |------|------|
 | `modules/documentation/` | Doc portal UX, navigation, versioned reading experience |
 | `modules/status-page/` | Incidents, maintenance, public status |
 | `modules/marketing/` | Social integrations hub (providers, publishing, analytics, tracking, leads) |
-| `modules/enterprise-translation/` | TMS jobs, memory, review UI |
-| `modules/advanced-seo/` | GSC/Bing, crawl ops, rich-result monitoring |
-| `modules/booking-engine/` | Scheduling infrastructure (future) |
+
+Future Module candidates such as enterprise translation, advanced SEO, and booking need their own contracts before they are listed in a Deployment Profile as installed Modules.
 
 ---
 
@@ -209,7 +208,7 @@ Includes: Prisma client, `Product.payload`, `ContentItem.attributes`, direct rep
 
 | Result | Action |
 |--------|--------|
-| No | Gate via [deployment profile](./deployment-profiles.md) |
+| No | Gate via a [deployment profile](./deployment-profiles.md). The profile is the build-time ceiling. A future site flag may disable an included feature. It cannot enable a feature the profile omitted. |
 | Yes | Document justification in RFC |
 
 ---

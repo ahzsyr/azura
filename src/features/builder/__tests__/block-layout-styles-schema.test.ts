@@ -60,4 +60,43 @@ describe("validatePageBlocks padding round-trip", () => {
     assert.equal(validated[0]?.styles?.paddingRightPreset, "custom");
     assert.equal(validated[0]?.styles?.paddingRight, "12px");
   });
+
+  it("keeps a productGrid block type, id, settings, and children", () => {
+    const blocks: PageBlocks = [
+      {
+        id: "grid-1",
+        type: "productGrid",
+        version: "2.0",
+        props: {},
+        settings: {
+          title: "Featured products",
+          source: "manual",
+          productSlugs: ["desk-lamp"],
+          columns: 3,
+          showPrice: true,
+        },
+        children: [
+          {
+            id: "note-1",
+            type: "richText",
+            version: "2.0",
+            props: {},
+            settings: { html: "<p>Shown with the grid</p>" },
+          },
+        ],
+      },
+    ];
+    const validated = validatePageBlocks(blocks);
+    const grid = validated[0];
+    assert.equal(grid?.type, "productGrid");
+    assert.equal(grid?.id, "grid-1");
+    assert.equal(grid?.settings?.title, "Featured products");
+    assert.equal(grid?.settings?.source, "manual");
+    assert.deepEqual(grid?.settings?.productSlugs, ["desk-lamp"]);
+    assert.equal(grid?.settings?.columns, 3);
+    assert.equal(grid?.settings?.showPrice, true);
+    assert.equal(grid?.children?.[0]?.id, "note-1");
+    assert.equal(grid?.children?.[0]?.type, "richText");
+    assert.equal(grid?.children?.[0]?.settings?.html, "<p>Shown with the grid</p>");
+  });
 });

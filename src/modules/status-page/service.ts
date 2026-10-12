@@ -5,6 +5,7 @@ import {
   type EntityRef,
 } from "@/features/portal/lib/portal-translation";
 import type { StatusBoardAdmin, StatusBoardPublic } from "./types";
+import { isModuleActive } from "./module-profile";
 
 function toNumber(value: { toString(): string } | number | null | undefined): number {
   if (value == null) return 0;
@@ -27,6 +28,7 @@ function collectStatusBoardRefs(row: {
 
 export const statusBoardService = {
   async getBySlug(slug: string): Promise<StatusBoardPublic | null> {
+    if (!(await isModuleActive())) return null;
     const row = await prisma.statusBoard.findFirst({
       where: { slug, isPublished: true },
       include: {
@@ -79,6 +81,7 @@ export const statusBoardService = {
   },
 
   async listForAdmin(): Promise<StatusBoardAdmin[]> {
+    if (!(await isModuleActive())) return [];
     const rows = await prisma.statusBoard.findMany({
       orderBy: { sortOrder: "asc" },
       include: {
@@ -102,6 +105,7 @@ export const statusBoardService = {
   },
 
   async getByIdForAdmin(id: string) {
+    if (!(await isModuleActive())) return null;
     return prisma.statusBoard.findUnique({
       where: { id },
       include: {

@@ -74,6 +74,7 @@ import {
   isBlockInspectorTab,
   type BlockInspectorTabId,
 } from "@/features/builder/constants/block-inspector-tabs";
+import type { BlockAvailabilityProfile } from "@/features/builder/registry/block-requirement";
 import { validatePageBlocks } from "@/features/builder/validate-page-blocks";
 import { buildPageEditorFormData } from "@/features/cms/lib/page-editor-form-data";
 import { runPageEditorToolbarSave } from "@/features/cms/lib/page-editor-toolbar-save";
@@ -276,6 +277,7 @@ function PageEditorFields({
   initialPageTranslations = [],
   seoFormProps,
   authors = [],
+  availability,
 }: {
   page?: PageWithRevisions;
   title: string;
@@ -307,6 +309,7 @@ function PageEditorFields({
   initialPageTranslations?: EntityTranslation[];
   seoFormProps?: SeoMetaFormPropsFromContext;
   authors?: PostAuthor[];
+  availability?: BlockAvailabilityProfile;
   onLegacyPropUpdate?: (
     blockId: string,
     field: string,
@@ -589,6 +592,7 @@ function PageEditorFields({
                   onSelectBlock={onSelectBlock}
                   inspectorTab={inspectorTab}
                   onInspectorTabChange={onInspectorTabChange}
+                  availability={availability}
                   galleryOptions={galleryOptions}
                   faqSetOptions={faqSetOptions}
                   testimonialOptions={testimonialOptions}
@@ -671,6 +675,7 @@ function PageEditorFields({
                     testimonialCollectionOptions={testimonialCollectionOptions}
                     collectionOptions={collectionOptions}
                     productOptions={productOptions}
+                    availability={availability}
                   />
                 </CardContent>
               </Card>
@@ -771,6 +776,7 @@ export function PageEditorForm({
   contentTypeOptions,
   seoFormProps,
   authors = [],
+  availability,
 }: {
   page?: PageWithRevisions;
   locales?: PublicLocale[];
@@ -787,6 +793,7 @@ export function PageEditorForm({
   contentTypeOptions?: ContentTypeOption[];
   seoFormProps?: SeoMetaFormPropsFromContext;
   authors?: PostAuthor[];
+  availability?: BlockAvailabilityProfile;
 }) {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -1124,6 +1131,7 @@ export function PageEditorForm({
         initialPageTranslations={initialPageTranslations}
         seoFormProps={seoFormProps}
         authors={authors}
+        availability={availability}
         onLegacyPropUpdate={handleLegacyPropUpdate}
         />
       </form>

@@ -39,6 +39,7 @@ import {
   restorePostRevision,
 } from "@/features/cms/actions";
 import { BlockEditorHistory } from "@/features/builder/components/block-editor";
+import type { BlockAvailabilityProfile } from "@/features/builder/registry/block-requirement";
 import { migrateBlocksToBlockSystem } from "@/features/builder/migration/upgrade-blocks";
 import { formatScheduledInput } from "@/features/cms/scheduling-utils";
 import { compositionService } from "@/features/layout-engine/composition.service";
@@ -150,6 +151,7 @@ type Props = {
   locales?: PublicLocale[];
   initialTranslations?: EntityTranslation[];
   initialBlockTranslations?: EntityTranslation[];
+  availability?: BlockAvailabilityProfile;
 };
 
 function PostTabPanel({
@@ -210,6 +212,7 @@ function PostTabPanel({
   brandOptions,
   locales,
   initialBlockTranslations,
+  availability,
   markDirty,
   sources,
   setSources,
@@ -271,6 +274,7 @@ function PostTabPanel({
   brandOptions: BrandBuilderOption[];
   locales: PublicLocale[];
   initialBlockTranslations: EntityTranslation[];
+  availability?: BlockAvailabilityProfile;
   markDirty: () => void;
   sources: CitationSource[];
   setSources: (sources: CitationSource[]) => void;
@@ -532,6 +536,7 @@ function PostTabPanel({
           >
             <BlockEditor
               blocks={editorBlocks}
+              availability={availability}
               onChange={handleBlocksChange}
               onBlockChange={handleBlockChange}
               blocksRef={blocksRef}
@@ -597,6 +602,7 @@ function PostTabPanel({
           <CardContent>
             <CompositionDevicePreview
               composition={composition}
+              availability={availability}
               locales={locales}
               galleryOptions={galleryOptions}
               faqSetOptions={faqSetOptions}
@@ -676,6 +682,7 @@ export function PostEditorForm({
   locales = [],
   initialTranslations = [],
   initialBlockTranslations = [],
+  availability,
 }: Props) {
   const translationCtx = { translations: initialTranslations };
   const postLegacy = legacyShapeFromTranslations(initialTranslations, [
@@ -1019,6 +1026,7 @@ export function PostEditorForm({
     brandOptions,
     locales,
     initialBlockTranslations,
+    availability,
     markDirty,
     sources,
     setSources,

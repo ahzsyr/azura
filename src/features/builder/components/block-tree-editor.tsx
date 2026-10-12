@@ -30,7 +30,8 @@ import {
   EyeOff,
 } from "lucide-react";
 import type { BlockNode, PageBlocks } from "@/types/builder";
-import { getBlockMeta } from "../block-registry";
+import { getBlockMeta, isBlockTypeEnabled } from "../block-registry";
+import { useBlockAvailability } from "./block-availability-context";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -238,8 +239,10 @@ function SortableBlockItem({
   const style = { transform: CSS.Transform.toString(transform), transition };
   const isSelected = selectedId === block.id;
   const hidden = isBlockHidden(block);
+  const availability = useBlockAvailability();
   const meta = getBlockMeta(block.type);
   const label = meta?.label ?? block.type;
+  const unavailable = !isBlockTypeEnabled(block.type, availability);
   const isContainer = isContainerBlock(block.type);
   const maxChildren = isContainer ? containerMaxChildren(block.type, block.props) : null;
   const childCount = block.children?.length ?? 0;
@@ -287,6 +290,11 @@ function SortableBlockItem({
               ? `Row · ${childCount}/${maxChildren} columns`
               : label}
           </Badge>
+          {unavailable ? (
+            <Badge variant="secondary" className="text-[10px] shrink-0">
+              Unavailable
+            </Badge>
+          ) : null}
           {hidden ? (
             <Badge variant="secondary" className="text-[10px] shrink-0">
               Hidden

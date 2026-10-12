@@ -3,7 +3,7 @@ import { findByCapability } from "@/modules/marketing/core/registry";
 import { isMarketingCapabilityEnabled } from "@/modules/marketing/feature-flags";
 
 export async function dispatchTrackingEvent(event: CanonicalTrackingEvent) {
-  if (!isMarketingCapabilityEnabled("tracking")) {
+  if (!(await isMarketingCapabilityEnabled("tracking"))) {
     return { dispatched: 0, results: [] as Array<{ providerId: string; ok: boolean; message?: string }> };
   }
 

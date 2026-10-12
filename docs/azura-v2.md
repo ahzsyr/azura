@@ -114,8 +114,9 @@ The codebase already has embryonic ViewModels (`ContentItemView`, `resolveProduc
 
 | | Preset | Module |
 |---|--------|--------|
-| Adds | Schema, templates, admin defaults, validation | Runtime behavior, workflows, services, infrastructure |
-| Examples | Product, Team, Service, Knowledge (thin) | Documentation Portal, Status Page, Booking Engine |
+| Role | Shipped domain bundle | Installable product unit |
+| Adds | Schema, templates, admin defaults, validation, blocks that require the preset | Runtime behavior, workflows, services, infrastructure, contributed blocks |
+| Examples | Product, Team, Service, Knowledge (thin) | Documentation, Status Page, Marketing |
 
 **Preset Creep rule:** When a preset needs new infrastructure or runtime services → evaluate **promotion to Module**.
 
@@ -229,8 +230,8 @@ Experience
                             │
 ┌───────────────────────────▼─────────────────────────────┐
 │  Modules                                                │
-│  documentation · status-page · enterprise-translation   │
-│  advanced-seo · booking-engine (future)                 │
+│  documentation · status-page · marketing                │
+│  enterprise-translation · advanced-seo · booking (future)│
 ├─────────────────────────────────────────────────────────┤
 │  Presets                                                │
 │  product · service · project · partner · team           │
@@ -346,32 +347,36 @@ Document in `domain-model.md`:
 
 ## 8. Extension model
 
+Presets and Modules extend the platform. “Extension” in this section is that relationship, not a separate architecture layer. “App” is informal language for a Module and is not a concept here.
+
 ### Preset
 
-Shipped EntityType package:
+Shipped domain bundle:
 
 - Field schema
 - Templates (card, detail, …)
 - Admin defaults
 - Validation rules
+- Blocks that require this preset
 
 **Must not** add infrastructure (search engine, workers, dedicated portal nav). If it does → **Preset Creep** → Module review.
 
 ### Module
 
-Optional vertical capability:
+Installable product unit:
 
 - New runtime behavior
 - New workflows
 - New services
 - New infrastructure
-- May have dedicated admin section
+- May have a dedicated admin section
+- May contribute blocks
 
-Examples: Documentation Portal, Status Page, Booking Engine, Enterprise Translation.
+Current modules: Documentation, Status Page, Marketing. Booking Engine and Enterprise Translation are future candidates without manifests.
 
 ### Capability
 
-Shared service consumed by Presets, Modules, and CMS:
+Shared service or dependency consumed by Presets, Modules, and CMS. Not an installable product.
 
 - Search, Workflow, Versioning, AI, Personalization, Analytics
 
@@ -458,7 +463,7 @@ Proposer must document which existing concepts were considered and why they fail
 | 5 | Preset introduces infrastructure? | Module promotion review |
 | 6 | New top-level "engine" parallel to CMS? | Reject |
 | 7 | Reusable structured data stored only as Page blocks? | Create Entity + Template |
-| 8 | Ships in every profile by default without justification? | Use Deployment Profile |
+| 8 | Ships in every profile by default without justification? | Gate with a Deployment Profile. A future site flag may disable an included feature and cannot enable an omitted one |
 
 ### Phase 0 exit criterion
 
@@ -480,7 +485,7 @@ AZURA is a **composable platform** — not every deployment carries everything.
 | **Showroom** | Marketing + | search, personalization | product, service | — |
 | **Agency** | Marketing + | search, ai | service, project, team, case-study | — |
 | **Documentation** | Marketing + | search, versioning, workflow | knowledge (thin) | documentation |
-| **Enterprise** | Full | all needed | as needed | advanced-seo, enterprise-translation, status-page |
+| **Enterprise** | Full | all needed | as needed | marketing, documentation, status-page |
 
 ### Profile manifest (conceptual)
 

@@ -16,6 +16,7 @@ import type {
 } from "@/features/testimonials/types";
 import type { CollectionBuilderOption, ProductBuilderOption } from "@/features/builder/blocks/commerce/product-blocks/types";
 import type { PublicLocale } from "@/i18n/locale-config";
+import type { BlockAvailabilityProfile } from "@/features/builder/registry/block-requirement";
 
 type Device = "mobile" | "tablet" | "desktop";
 
@@ -34,6 +35,7 @@ type Props = {
   testimonialCollectionOptions?: TestimonialCollectionBuilderOption[];
   collectionOptions?: CollectionBuilderOption[];
   productOptions?: ProductBuilderOption[];
+  availability?: BlockAvailabilityProfile;
 };
 
 function resolveRatioVars(ratio?: ColumnRatioToken): Record<string, string> {
@@ -64,6 +66,7 @@ export function CompositionDevicePreview({
   faqSetOptions = [],
   testimonialOptions = [],
   testimonialCollectionOptions = [],
+  availability,
 }: Props) {
   const [locale, setLocale] = useState(locales[0]?.urlPrefix ?? "en");
   const [device, setDevice] = useState<Device>("mobile");
@@ -102,6 +105,7 @@ export function CompositionDevicePreview({
         testimonialOptions={testimonialOptions}
         testimonialCollectionOptions={testimonialCollectionOptions}
         previewDevice={device}
+        availability={availability}
       />
     </div>
   );

@@ -7,10 +7,12 @@ import { linkedinProviderManifest } from "@/modules/marketing/providers/linkedin
 import { googleAdsProviderAdapter } from "@/modules/marketing/providers/google-ads/adapter";
 import { googleAdsProviderManifest } from "@/modules/marketing/providers/google-ads/manifest";
 import { wireMarketingAutomation } from "@/modules/marketing/automation/wire";
+import { isMarketingCoreEnabled } from "@/modules/marketing/feature-flags";
 
 let bootstrapped = false;
 
-export function bootstrapMarketingModule() {
+export async function bootstrapMarketingModule() {
+  if (!(await isMarketingCoreEnabled())) return;
   if (bootstrapped) return;
   bootstrapped = true;
 

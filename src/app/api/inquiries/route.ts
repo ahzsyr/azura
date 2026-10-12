@@ -70,14 +70,16 @@ export async function POST(request: Request) {
           utm,
           conversionKey: "form_submit",
         });
-        await prisma.inquiry.update({
-          where: { id: inquiry.id },
-          data: {
-            marketingCampaignId: attribution.internalCampaignId ?? null,
-            attributionTouchId: attribution.lastTouchId ?? null,
-            attributionSourceId: attribution.sourceId ?? null,
-          },
-        });
+        if (attribution) {
+          await prisma.inquiry.update({
+            where: { id: inquiry.id },
+            data: {
+              marketingCampaignId: attribution.internalCampaignId ?? null,
+              attributionTouchId: attribution.lastTouchId ?? null,
+              attributionSourceId: attribution.sourceId ?? null,
+            },
+          });
+        }
       } catch (error) {
         if (!isRecoverableDbError(error)) {
           console.warn(

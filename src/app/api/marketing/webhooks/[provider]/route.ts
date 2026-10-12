@@ -29,7 +29,7 @@ export async function POST(
   request: NextRequest,
   context: { params: Promise<{ provider: string }> },
 ) {
-  bootstrapMarketingModule();
+  await bootstrapMarketingModule();
   const { provider } = await context.params;
   const rawBody = await request.text();
   const headers: Record<string, string> = {};
@@ -51,6 +51,9 @@ export async function POST(
       headers,
       parsedBody,
     });
+    if (!("id" in event)) {
+      return NextResponse.json({ ok: true, skipped: true });
+    }
     return NextResponse.json({ ok: true, id: event.id, status: event.status });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);

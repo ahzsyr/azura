@@ -48,16 +48,19 @@ export function getProviderManifest(providerId: string): ProviderManifest | unde
   return findProvider(providerId)?.manifest;
 }
 
-export function resolveProviderCapability(
+export async function resolveProviderCapability(
   providerId: string,
   capability: MarketingCapabilityId,
-): CapabilityAvailability {
+): Promise<CapabilityAvailability> {
   const provider = findProvider(providerId);
   if (!provider) {
     return { capability, available: false, reason: "providerUnavailable" };
   }
   const supported = provider.capabilities();
-  const enabled = supported.filter((c) => isMarketingCapabilityEnabled(c));
+  const enabled: MarketingCapabilityId[] = [];
+  for (const capabilityId of supported) {
+    if (await isMarketingCapabilityEnabled(capabilityId)) enabled.push(capabilityId);
+  }
   return resolveCapabilityAvailability({ capability, supported, enabled });
 }
 

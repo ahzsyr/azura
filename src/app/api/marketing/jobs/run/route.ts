@@ -4,6 +4,7 @@ import { verifyCronSecret } from "@/lib/cron/cron-auth";
 import { bootstrapMarketingModule } from "@/modules/marketing/bootstrap";
 import { runDueMarketingJobs } from "@/modules/marketing/jobs";
 import { scheduleGoogleAdsSyncJobs } from "@/modules/marketing/ads/schedule";
+import { isMarketingCoreEnabled } from "@/modules/marketing/feature-flags";
 
 export const runtime = "nodejs";
 
@@ -20,7 +21,11 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  bootstrapMarketingModule();
+  if (!(await isMarketingCoreEnabled())) {
+    return NextResponse.json({ ok: true, skipped: true });
+  }
+
+  await bootstrapMarketingModule();
   const scheduled = await scheduleGoogleAdsSyncJobs().catch(() => null);
   const results = await runDueMarketingJobs(20);
   return NextResponse.json({

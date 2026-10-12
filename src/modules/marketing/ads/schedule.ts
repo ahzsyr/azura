@@ -2,6 +2,7 @@ import "server-only";
 import { prisma } from "@/lib/prisma";
 import { enqueueMarketingJob } from "@/modules/marketing/jobs";
 import { GOOGLE_ADS_PROVIDER_ID } from "@/modules/marketing/providers/google-ads/manifest";
+import { assertMarketingModuleActive } from "@/modules/marketing/feature-flags";
 
 const SIX_HOURS_MS = 6 * 60 * 60 * 1000;
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
@@ -13,6 +14,7 @@ const ONE_DAY_MS = 24 * 60 * 60 * 1000;
  * - token_refresh when access token nears expiry
  */
 export async function scheduleGoogleAdsSyncJobs() {
+  await assertMarketingModuleActive();
   const accounts = await prisma.marketingAccount.findMany({
     where: {
       accountType: "google_ads_customer",

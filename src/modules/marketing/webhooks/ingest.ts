@@ -5,6 +5,7 @@ import type { Prisma } from "@prisma/client";
 import { findProvider } from "@/modules/marketing/core/registry";
 import { marketingEventBus } from "@/modules/marketing/core/events";
 import { enqueueMarketingJob } from "@/modules/marketing/jobs";
+import { isMarketingCoreEnabled } from "@/modules/marketing/feature-flags";
 
 function asJson(value: unknown): Prisma.InputJsonValue {
   return value as Prisma.InputJsonValue;
@@ -22,6 +23,7 @@ export async function ingestMarketingWebhook(params: {
   headers: Record<string, string>;
   parsedBody?: unknown;
 }) {
+  if (!(await isMarketingCoreEnabled())) return { skipped: true as const };
   const adapter = findProvider(params.providerId);
   if (!adapter) {
     throw new Error(`Unknown marketing provider: ${params.providerId}`);

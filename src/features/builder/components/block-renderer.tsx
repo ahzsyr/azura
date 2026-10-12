@@ -20,7 +20,9 @@ import { resolveCatalogSourceFromBlock } from "@/features/catalog/catalog-source
 import { getBlockSettings } from "@/features/builder/instance/block-instance";
 import { migrateBlocksToBlockSystem } from "@/features/builder/migration/upgrade-blocks";
 import { BlockWrapper } from "@/features/builder/components/block-wrapper";
-import { blockRegistry } from "@/features/builder/registry/block-registry-system";
+import { blockRegistry, isBlockTypeEnabled } from "@/features/builder/registry/block-registry-system";
+import type { BlockAvailabilityProfile } from "@/features/builder/registry/block-requirement";
+import { getEffectiveAvailabilityProfile } from "@/config/deployment-profile/site-features";
 import { BLOCK_VIEW_EXTRACTED_TYPES } from "@/features/builder/registry/block-cms-dispatch";
 import type { BlockType } from "@/types/builder";
 import { ContentListBlockRenderer } from "@/features/content/components/content-list-block-renderer";
@@ -191,6 +193,7 @@ type RenderContext = {
   tPackages: Awaited<ReturnType<typeof getTranslations>>;
   tTestimonials: Awaited<ReturnType<typeof getTranslations>>;
   previewDevice?: DeviceBreakpoint;
+  availability: BlockAvailabilityProfile;
 };
 
 function blockLoc(
@@ -232,6 +235,15 @@ async function renderBlockContent(
   },
 ): Promise<ReactNode> {
   const blockType = block.type as BlockType;
+  if (!isBlockTypeEnabled(blockType, ctx.availability)) {
+    return (
+      <Section>
+        <p className="text-muted-foreground text-sm">
+          This block is unavailable because its required module, preset, or capability is not enabled.
+        </p>
+      </Section>
+    );
+  }
   if (blockRegistry.has(blockType) && !blockRegistry.hasViewDispatch(blockType)) {
     console.warn(`[block-renderer] No CMS view dispatch registered for block type: ${blockType}`);
   }
@@ -1544,12 +1556,14 @@ export async function BlockRenderer({
   let tTestimonials: Awaited<ReturnType<typeof getTranslations>>;
   let translationsByBlockId: BlockTranslationMap = new Map();
 
+  let availability: BlockAvailabilityProfile;
   try {
-    [enabledLocales, tGallery, tPackages, tTestimonials] = await Promise.all([
+    [enabledLocales, tGallery, tPackages, tTestimonials, availability] = await Promise.all([
       translationBundle?.enabledLocales ?? localeService.listEnabled(),
       getTranslations({ locale, namespace: "gallery" }),
       getTranslations({ locale, namespace: "packages" }),
       getTranslations({ locale, namespace: "testimonials" }),
+      getEffectiveAvailabilityProfile(),
     ]);
 
     if (parentType && parentId) {
@@ -1595,6 +1609,7 @@ export async function BlockRenderer({
     tPackages,
     tTestimonials,
     previewDevice,
+    availability,
   };
 
   const overlayActive = Boolean(pageHeaderOverlay?.enabled);

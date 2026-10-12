@@ -23,19 +23,21 @@ import { getCompositionBlocks } from "@/features/layout-engine/composition-edito
 import { loadTranslationsMap, localizedFieldValue } from "@/features/translation/bilingual-serialize";
 import { resolveTranslation } from "@/features/translation/translation-resolver";
 import type { PageBlocks } from "@/types/builder";
+import { getEffectiveAvailabilityProfile } from "@/config/deployment-profile/site-features";
 
 type Props = { params: Promise<{ id: string }> };
 
 export default async function EditPostPage({ params }: Props) {
   const { id } = await params;
 
-  const [post, categories, tags, authors, postPickerRows, locales] = await Promise.all([
+  const [post, categories, tags, authors, postPickerRows, locales, availability] = await Promise.all([
     cmsRepository.getPostById(id),
     cmsRepository.listCategories(),
     cmsRepository.listTags(),
     cmsRepository.listAuthors(),
     cmsRepository.listPostsForPicker(id),
     localeService.listEnabled(),
+    getEffectiveAvailabilityProfile(),
   ]);
   if (!post) notFound();
 
@@ -169,6 +171,7 @@ export default async function EditPostPage({ params }: Props) {
         locales={locales}
         initialTranslations={initialTranslations}
         initialBlockTranslations={initialBlockTranslations}
+        availability={availability}
       />
     </Suspense>
   );

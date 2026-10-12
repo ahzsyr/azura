@@ -277,6 +277,11 @@ export type BlockDefinitionMeta = {
   name: string;
   description: string;
   icon: string;
+  requires?: {
+    module?: string;
+    preset?: string;
+    capability?: string;
+  };
   /** Multi-item blocks that support grid/slider/collapse overflow in Responsive tab */
   contentOverflowCapable?: boolean;
 };

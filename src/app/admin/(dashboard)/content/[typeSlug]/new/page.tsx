@@ -3,6 +3,7 @@ import { ContentEditPage } from "@/features/content/admin/content-edit-page";
 import { contentService } from "@/features/content/content.service";
 import { contentRepository } from "@/features/content/content.repository";
 import { localeService } from "@/features/i18n/locale.service";
+import { getEffectiveAvailabilityProfile } from "@/config/deployment-profile/site-features";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,10 @@ export default async function AdminContentNewPage({ params }: Props) {
   if (!contentType) notFound();
 
   const collections = await contentRepository.listCollections(contentType.id);
-  const locales = await localeService.listEnabled();
+  const [locales, availability] = await Promise.all([
+    localeService.listEnabled(),
+    getEffectiveAvailabilityProfile(),
+  ]);
 
   return (
     <ContentEditPage
@@ -27,6 +31,7 @@ export default async function AdminContentNewPage({ params }: Props) {
       blocksOwnerType="ContentItem"
       blocksOwnerId=""
       initialEditorBlocks={[]}
+      availability={availability}
     />
   );
 }

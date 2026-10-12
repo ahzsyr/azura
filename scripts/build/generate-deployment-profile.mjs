@@ -5,68 +5,45 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import yaml from "yaml";
+import ts from "typescript";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const docsDir = path.join(root, "docs");
 const outFile = path.join(root, "src", "generated", "deployment-profile.json");
 
-const PRESET_ROUTE_REGISTRY = {
-  product: {
-    adminPrefixes: ["/admin/products", "/admin/categories", "/admin/collections", "/admin/catalog-taxonomy"],
-    publicSegments: ["products", "categories", "collections", "compare", "brands", "tags"],
-  },
-  service: {
-    adminPrefixes: ["/admin/content/offerings"],
-    publicSegments: ["services"],
-  },
-  destination: {
-    adminPrefixes: ["/admin/content/catalog-items"],
-    publicSegments: ["packages"],
-  },
-  property: {
-    adminPrefixes: ["/admin/content/listings"],
-    publicSegments: [],
-  },
-  project: {
-    adminPrefixes: ["/admin/content/projects"],
-    publicSegments: [],
-  },
-  "case-study": {
-    adminPrefixes: ["/admin/content/case-studies"],
-    publicSegments: [],
-  },
-  "team-member": {
-    adminPrefixes: ["/admin/team"],
-    publicSegments: ["team"],
-  },
-  partner: {
-    adminPrefixes: ["/admin/partners"],
-    publicSegments: ["partners"],
-  },
-  knowledge: {
-    adminPrefixes: ["/admin/knowledge-base"],
-    publicSegments: [],
-  },
-  pricing: {
-    adminPrefixes: ["/admin/pricing-plans", "/admin/pricing-calculators"],
-    publicSegments: [],
-  },
-  release: {
-    adminPrefixes: ["/admin/releases"],
-    publicSegments: [],
-  },
-};
+const nodeRequire = createRequire(import.meta.url);
+const sourceDir = path.join(root, "src");
 
-const MODULE_ROUTE_REGISTRY = {
-  documentation: { adminPrefixes: ["/admin/documentation"] },
-  "status-page": { adminPrefixes: ["/admin/status"] },
-};
+function loadTsModule(filePath, cache = new Map()) {
+  const absolutePath = path.resolve(filePath.endsWith(".ts") ? filePath : `${filePath}.ts`);
+  if (cache.has(absolutePath)) return cache.get(absolutePath).exports;
+  const tsModule = { exports: {} };
+  cache.set(absolutePath, tsModule);
+  const source = fs.readFileSync(absolutePath, "utf8");
+  const compiled = ts.transpileModule(source, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true },
+    fileName: absolutePath,
+  }).outputText;
+  const localRequire = (specifier) => {
+    if (specifier.startsWith("@/")) {
+      return loadTsModule(path.join(sourceDir, specifier.slice(2)), cache);
+    }
+    if (specifier.startsWith(".")) {
+      const resolved = path.resolve(path.dirname(absolutePath), specifier);
+      if (fs.existsSync(`${resolved}.ts`)) return loadTsModule(resolved, cache);
+    }
+    return nodeRequire(specifier);
+  };
+  new Function("require", "module", "exports", compiled)(localRequire, tsModule, tsModule.exports);
+  return tsModule.exports;
+}
 
-const PRESET_API_PREFIXES = {
-  product: ["/api/products", "/api/categories", "/api/collections", "/api/categories/sync", "/api/sync-collections"],
-};
+const { PRESET_ROUTE_REGISTRY, PRESET_API_PREFIXES, MODULE_ROUTE_REGISTRY, getModuleManifests } = loadTsModule(
+  path.join(sourceDir, "config/deployment-profile/route-registry.ts"),
+);
 
 const STANDARD_PROFILES = [
   "marketing",
@@ -123,7 +100,29 @@ function compileProfile(profileId, navManifest) {
   }
 
   const profile = yaml.parse(fs.readFileSync(profilePath, "utf8"));
-  const enabledNavItemIds = [...collectEnabledNavIds(profile)];
+  const enabledNavItems = collectEnabledNavIds(profile);
+  const enabledModules = new Set((profile.modules ?? []).map(String));
+  for (const manifest of getModuleManifests()) {
+    if (enabledModules.has(manifest.id)) {
+      const missingCapabilities = manifest.requiredCapabilities.filter(
+        (id) => !(profile.capabilities ?? []).includes(id),
+      );
+      const missingPresets = manifest.requiredPresets.filter(
+        (id) => !(profile.presets ?? []).includes(id),
+      );
+      if (missingCapabilities.length || missingPresets.length) {
+        throw new Error(
+          `${profileId}: module ${manifest.id} is missing requirements: ${[
+            ...missingCapabilities.map((id) => `capability:${id}`),
+            ...missingPresets.map((id) => `preset:${id}`),
+          ].join(", ")}`,
+        );
+      }
+    } else {
+      for (const navId of manifest.navItemIds) enabledNavItems.delete(navId);
+    }
+  }
+  const enabledNavItemIds = [...enabledNavItems];
   const enabledSet = new Set(enabledNavItemIds);
 
   const navItems = (navManifest.items ?? []).filter((item) => item.id && item.group);
@@ -138,6 +137,8 @@ function compileProfile(profileId, navManifest) {
   );
 
   const disabledAdminPrefixes = [];
+  const disabledPublicPrefixes = [];
+  const disabledApiPrefixes = [];
   for (const item of navItems) {
     if (isLegacyNavManifestItem(item)) continue;
     const href = resolveHref(item);
@@ -149,8 +150,6 @@ function compileProfile(profileId, navManifest) {
 
   const enabledPresets = new Set((profile.presets ?? []).map(String));
   const disabledPublicSegments = [];
-  const disabledApiPrefixes = [];
-
   for (const [presetId, routes] of Object.entries(PRESET_ROUTE_REGISTRY)) {
     if (enabledPresets.has(presetId)) continue;
     disabledAdminPrefixes.push(...routes.adminPrefixes);
@@ -159,10 +158,11 @@ function compileProfile(profileId, navManifest) {
     if (api) disabledApiPrefixes.push(...api);
   }
 
-  const enabledModules = new Set((profile.modules ?? []).map(String));
   for (const [moduleId, routes] of Object.entries(MODULE_ROUTE_REGISTRY)) {
     if (enabledModules.has(moduleId)) continue;
     disabledAdminPrefixes.push(...routes.adminPrefixes);
+    disabledPublicPrefixes.push(...routes.publicPrefixes);
+    disabledApiPrefixes.push(...routes.apiPrefixes);
   }
 
   const sortedDisabledAdminPrefixes = uniqueSorted(
@@ -183,6 +183,7 @@ function compileProfile(profileId, navManifest) {
     enabledAdminHrefs,
     disabledAdminPrefixes: sortedDisabledAdminPrefixes,
     disabledPublicSegments: uniqueSorted(disabledPublicSegments),
+    disabledPublicPrefixes: uniqueSorted(disabledPublicPrefixes),
     disabledApiPrefixes: uniqueSorted(disabledApiPrefixes),
   };
 }
@@ -202,6 +203,7 @@ function fallbackEnterprise() {
     enabledAdminHrefs: [],
     disabledAdminPrefixes: [],
     disabledPublicSegments: [],
+    disabledPublicPrefixes: [],
     disabledApiPrefixes: [],
   };
 }

@@ -59,6 +59,7 @@ import {
   QrCode,
   LayoutTemplate,
   Plug,
+  Boxes,
   CircleHelp,
   ShieldCheck,
   ScrollText,
@@ -276,6 +277,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
     id: "modules",
     label: "Modules",
     items: [
+      { href: "/admin/modules", label: "Modules", icon: Boxes, keywords: ["modules", "enable", "installation"], navItemId: "installed-modules" },
       { href: "/admin/documentation", label: "Documentation", icon: FileText, keywords: ["docs", "portal"], navItemId: "documentation" },
       { href: "/admin/status", label: "Status", icon: Activity, keywords: ["uptime", "incidents"], navItemId: "status-page" },
     ],

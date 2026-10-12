@@ -9,22 +9,24 @@ import {
 import type { MarketingCapabilityId } from "@/modules/marketing/core/capabilities/types";
 import { checkProviderCompatibility } from "@/modules/marketing/core/versioning";
 import { marketingObservability } from "@/modules/marketing/core/observability";
+import { assertMarketingModuleActive } from "@/modules/marketing/feature-flags";
 
 export const marketingService = {
   async listPlatformOverview() {
-    bootstrapMarketingModule();
+    await assertMarketingModuleActive();
+    await bootstrapMarketingModule();
     const providers = listProviders();
     const runtimes = await prisma.marketingProviderRuntime.findMany().catch(() => []);
     const connections = await prisma.marketingConnection.findMany({
       include: { accounts: true },
     }).catch(() => []);
 
-    return providers.map((provider) => {
+    return Promise.all(providers.map(async (provider) => {
       const runtime = runtimes.find((r) => r.providerId === provider.id);
       const connection = connections.find((c) => c.providerId === provider.id);
-      const capabilities = provider.capabilities().map((capability) =>
+      const capabilities = await Promise.all(provider.capabilities().map((capability) =>
         resolveProviderCapability(provider.id, capability),
-      );
+      ));
       return {
         id: provider.id,
         displayName: provider.manifest.displayName,
@@ -53,10 +55,11 @@ export const marketingService = {
             }
           : null,
       };
-    });
+    }));
   },
 
   async listJobs(limit = 50) {
+    await assertMarketingModuleActive();
     return prisma.marketingJob.findMany({
       orderBy: { createdAt: "desc" },
       take: limit,
@@ -64,6 +67,7 @@ export const marketingService = {
   },
 
   async listAnalytics(limit = 100) {
+    await assertMarketingModuleActive();
     return prisma.marketingAnalyticsSnapshot.findMany({
       orderBy: { periodStart: "desc" },
       take: limit,
@@ -71,6 +75,7 @@ export const marketingService = {
   },
 
   async listLeadEvents(limit = 50) {
+    await assertMarketingModuleActive();
     return prisma.marketingLeadEvent.findMany({
       orderBy: { createdAt: "desc" },
       take: limit,
@@ -78,6 +83,7 @@ export const marketingService = {
   },
 
   async getTrackingConfigs() {
+    await assertMarketingModuleActive();
     try {
       return await prisma.marketingTrackingConfig.findMany({
         select: {
@@ -97,7 +103,8 @@ export const marketingService = {
   },
 
   async getDashboardStats() {
-    bootstrapMarketingModule();
+    await assertMarketingModuleActive();
+    await bootstrapMarketingModule();
     const [connections, jobs, leads, telemetry] = await Promise.all([
       prisma.marketingConnection.count().catch(() => 0),
       prisma.marketingJob.groupBy({ by: ["status"], _count: true }).catch(() => []),
@@ -114,14 +121,16 @@ export const marketingService = {
   },
 
   async providerHealth(providerId: string, connectionId: string) {
-    bootstrapMarketingModule();
+    await assertMarketingModuleActive();
+    await bootstrapMarketingModule();
     const provider = findProvider(providerId);
     if (!provider?.health) return null;
     return provider.health(connectionId);
   },
 
-  resolveCapability(providerId: string, capability: MarketingCapabilityId) {
-    bootstrapMarketingModule();
+  async resolveCapability(providerId: string, capability: MarketingCapabilityId) {
+    await assertMarketingModuleActive();
+    await bootstrapMarketingModule();
     return resolveProviderCapability(providerId, capability);
   },
 };

@@ -59,8 +59,9 @@ Entity → Resolver → ViewModel → Template
 
 | | Preset | Module |
 |---|--------|--------|
-| Adds | Schema, templates, admin defaults, validation | Runtime behavior, workflows, services, infrastructure |
-| Does not add | Workers, search engines, portal nav trees | — |
+| Role | Shipped domain bundle | Installable product unit |
+| Adds | Schema, templates, admin defaults, validation, blocks that require the preset | Runtime behavior, workflows, services, infrastructure, contributed blocks |
+| Does not add | Workers, search engines, portal nav trees | A new architecture layer. “App” is informal language for a Module, not a separate concept |
 
 ---
 
@@ -106,6 +107,8 @@ Shared Capabilities have single owners. Presets and Modules consume via public A
 ## 9. Evolution Rule
 
 > No new top-level concept may be introduced unless it cannot be expressed using: **Page, Post, Entity, EntityType, Template, Block, Collection, Lead, Capability, Preset, Module**.
+
+**App** and **Extension** do not qualify. An installable product is a Module. A domain bundle and its blocks are a Preset. A block-only addition is a contribution of the Module or Preset that owns it, declared on that Block. Do not add App or Extension as a layer.
 
 Before proposing `SmartEntity`, `ContentAsset`, or similar:
 
@@ -165,7 +168,7 @@ When a Preset requires **new infrastructure or runtime services**, evaluate prom
 
 ## 14. Composable deployments
 
-Not every installation enables every Preset, Module, or Capability. Use [deployment profiles](./deployment-profiles.md).
+Not every installation includes every Preset, Module, or Capability. A [deployment profile](./deployment-profiles.md) is the build-time availability ceiling: it selects what a build includes. It is not a runtime installation setting. A future site flag may disable an included Module or Preset. It cannot enable code the profile omitted.
 
 **Test:** [Fitness Test 8](./platform-boundaries.md#fitness-test-8--deployment-profile)
 

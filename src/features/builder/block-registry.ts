@@ -1,6 +1,6 @@
 import type { BlockType } from "@/types/builder";
 import type { BlockCategory } from "@/types/block-system";
-import { blockRegistry } from "@/features/builder/registry/block-registry-system";
+import { blockRegistry, isBlockTypeEnabled } from "@/features/builder/registry/block-registry-system";
 
 export type { BlockCategory };
 
@@ -36,6 +36,7 @@ export const BLOCK_TYPES: BlockTypeMeta[] = blockRegistry.listMeta().map((m) => 
 }));
 
 export function getBlockMeta(type: BlockType): BlockTypeMeta | undefined {
+  if (!isBlockTypeEnabled(type)) return undefined;
   const entry = blockRegistry.get(type);
   if (!entry) return undefined;
   return {
@@ -48,4 +49,4 @@ export function getBlockMeta(type: BlockType): BlockTypeMeta | undefined {
   };
 }
 
-export { blockRegistry };
+export { blockRegistry, isBlockTypeEnabled };

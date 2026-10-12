@@ -24,6 +24,7 @@ import { loadContentAuthors } from "@/features/cms/lib/load-content-authors";
 import { loadContentTypeOptionsForBuilder } from "@/features/content/admin/load-content-type-builder-options";
 import type { PageBlocks } from "@/types/builder";
 import type { Prisma } from "@prisma/client";
+import { getEffectiveAvailabilityProfile } from "@/config/deployment-profile/site-features";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -33,10 +34,11 @@ export default async function EditPagePage({ params }: Props) {
   const page = await cmsRepository.getPageById(id);
   if (!page) notFound();
 
-  const [locales, seoContext, authors] = await Promise.all([
+  const [locales, seoContext, authors, availability] = await Promise.all([
     localeService.listEnabled(),
     resolvePageSeoContext({ cmsPageId: id }),
     loadContentAuthors(),
+    getEffectiveAvailabilityProfile(),
   ]);
 
   const migration = migrateBlocksToBlockSystem((page.blocks as PageBlocks) ?? []);
@@ -89,6 +91,7 @@ export default async function EditPagePage({ params }: Props) {
         brandOptions={brandOptions}
         contentTypeOptions={contentTypeOptions}
         authors={authors}
+        availability={availability}
       />
     </Suspense>
   );

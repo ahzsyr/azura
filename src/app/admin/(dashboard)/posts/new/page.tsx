@@ -14,13 +14,15 @@ import {
   fetchProductsForBuilder,
 } from "@/features/builder/blocks/commerce/product-blocks/actions";
 import { fetchBrandsForBuilder } from "@/features/builder/blocks/commerce/commerce-showcase/actions";
+import { getEffectiveAvailabilityProfile } from "@/config/deployment-profile/site-features";
 
 export default async function NewPostPage() {
-  const [categories, tags, authors, locales] = await Promise.all([
+  const [categories, tags, authors, locales, availability] = await Promise.all([
     cmsRepository.listCategories(),
     cmsRepository.listTags(),
     cmsRepository.listAuthors(),
     localeService.listEnabled(),
+    getEffectiveAvailabilityProfile(),
   ]);
 
   let galleryOptions: Awaited<ReturnType<typeof fetchGalleriesForBuilder>> = [];
@@ -76,6 +78,7 @@ export default async function NewPostPage() {
         orderingProfileOptions={orderingProfileOptions}
         brandOptions={brandOptions}
         locales={locales}
+        availability={availability}
       />
     </Suspense>
   );

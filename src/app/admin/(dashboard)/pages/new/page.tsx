@@ -13,9 +13,13 @@ import {
   fetchProductsForBuilder,
 } from "@/features/builder/blocks/commerce/product-blocks/actions";
 import { fetchBrandsForBuilder } from "@/features/builder/blocks/commerce/commerce-showcase/actions";
+import { getEffectiveAvailabilityProfile } from "@/config/deployment-profile/site-features";
 
 export default async function NewPagePage() {
-  const locales = await localeService.listEnabled();
+  const [locales, availability] = await Promise.all([
+    localeService.listEnabled(),
+    getEffectiveAvailabilityProfile(),
+  ]);
   let galleryOptions: Awaited<ReturnType<typeof fetchGalleriesForBuilder>> = [];
   let faqSetOptions: Awaited<ReturnType<typeof fetchFaqSetsForBuilder>> = [];
   let testimonialOptions: Awaited<ReturnType<typeof fetchTestimonialsForBuilder>> = [];
@@ -65,6 +69,7 @@ export default async function NewPagePage() {
         productOptions={productOptions}
         orderingProfileOptions={orderingProfileOptions}
         brandOptions={brandOptions}
+        availability={availability}
       />
     </Suspense>
   );

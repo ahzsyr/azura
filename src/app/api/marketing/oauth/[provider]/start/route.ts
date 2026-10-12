@@ -16,7 +16,7 @@ export async function GET(
   context: { params: Promise<{ provider: string }> },
 ) {
   await requireAdmin();
-  bootstrapMarketingModule();
+  await bootstrapMarketingModule();
 
   const canonicalRedirect = ensureCanonicalOAuthRequest(request);
   if (canonicalRedirect) return canonicalRedirect;

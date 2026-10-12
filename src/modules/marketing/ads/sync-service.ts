@@ -57,7 +57,7 @@ export const adSyncService = {
   },
 
   async syncAdAccountsForConnection(connectionId: string, providerId: string) {
-    bootstrapMarketingModule();
+    await bootstrapMarketingModule();
     const adapter = findProvider(providerId);
     if (!adapter?.listAdAccounts) {
       throw new Error(`Provider ${providerId} does not support listAdAccounts`);
@@ -103,7 +103,7 @@ export const adSyncService = {
   },
 
   async syncCampaignsForAdAccount(connectionId: string, providerId: string, adAccountId: string) {
-    bootstrapMarketingModule();
+    await bootstrapMarketingModule();
     const adapter = findProvider(providerId);
     if (!adapter?.syncExternalCampaigns) {
       throw new Error(`Provider ${providerId} does not support syncExternalCampaigns`);
@@ -255,7 +255,7 @@ export const adSyncService = {
    * Sync a single bound Google (or other) campaign: details, ad groups, ads, 7d+30d metrics.
    */
   async syncBoundCampaign(bindingId: string) {
-    bootstrapMarketingModule();
+    await bootstrapMarketingModule();
     const binding = await prisma.marketingCampaignProviderBinding.findUnique({
       where: { id: bindingId },
       include: {
@@ -451,7 +451,7 @@ export const adSyncService = {
     period: { from: string; to: string },
     options?: { bindingId?: string; customerId?: string },
   ) {
-    bootstrapMarketingModule();
+    await bootstrapMarketingModule();
     const adapter = findProvider(providerId);
     if (!adapter?.fetchCampaignMetrics) {
       throw new Error(`Provider ${providerId} does not support fetchCampaignMetrics`);

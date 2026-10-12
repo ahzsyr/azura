@@ -236,10 +236,10 @@ Blocks **reference** Templates by ID + Entity reference(s).
 
 | | |
 |---|---|
-| **Definition** | Shipped EntityType package. |
-| **Includes** | Field schema, templates, admin defaults, validation rules |
+| **Definition** | Shipped domain bundle for one EntityType. |
+| **Includes** | Field schema, templates, admin defaults, validation rules, and blocks that require this preset |
 | **Must not add** | Infrastructure (workers, dedicated search index, portal navigation tree) |
-| **Examples** | `product`, `service`, `team`, `partner`, `knowledge`, `pricing` |
+| **Examples** | `product` (including commerce blocks), `service`, `team`, `partner`, `knowledge`, `pricing` |
 
 If infrastructure is required → [Preset Creep](./architecture-principles.md#13-preset-creep--module-promotion) → Module review.
 
@@ -249,9 +249,10 @@ If infrastructure is required → [Preset Creep](./architecture-principles.md#13
 
 | | |
 |---|---|
-| **Definition** | Optional vertical capability with runtime behavior, workflows, services, or infrastructure. |
-| **Includes** | Dedicated UX, background jobs, cross-entity workflows |
-| **Examples** | `documentation`, `status-page`, `enterprise-translation`, `advanced-seo`, `booking-engine` |
+| **Definition** | Installable product unit: optional runtime behavior, workflows, services, or infrastructure. |
+| **Includes** | Dedicated UX, background jobs, cross-entity workflows, contributed blocks |
+| **Current examples** | `documentation`, `status-page`, `marketing` |
+| **Future candidates** | `enterprise-translation`, `advanced-seo`, `booking-engine` (no manifests; not on the enterprise profile) |
 
 ---
 
@@ -259,7 +260,7 @@ If infrastructure is required → [Preset Creep](./architecture-principles.md#13
 
 | | |
 |---|---|
-| **Definition** | Shared service consumed by Presets, Modules, and CMS. |
+| **Definition** | Shared service or dependency consumed by Presets, Modules, and CMS. Not an installable product. |
 | **Examples** | search, workflow, versioning, ai, personalization, analytics |
 | **Owner map** | [platform-boundaries.md](./platform-boundaries.md) |
 
@@ -269,7 +270,7 @@ If infrastructure is required → [Preset Creep](./architecture-principles.md#13
 
 | | |
 |---|---|
-| **Definition** | Manifest selecting which Core, Capabilities, Presets, and Modules an installation enables. |
+| **Definition** | Build-time availability ceiling. Selects which Core areas, Capabilities, Presets, and Modules a build includes. Not a runtime installation setting. A future site flag may disable an included Module or Preset. It cannot enable code the profile omitted. |
 | **Owner** | Platform config / `deployment-profiles.md` |
 | **Examples** | marketing, showroom, agency, documentation, enterprise |
 

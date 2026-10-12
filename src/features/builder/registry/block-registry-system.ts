@@ -1,6 +1,8 @@
 import type { BlockDefinition, BlockDefinitionMeta } from "@/types/block-system";
 import type { BlockType } from "@/types/builder";
 import { BLOCK_DEFINITIONS } from "./definitions";
+import { isBlockRequirementMet, type BlockAvailabilityProfile } from "./block-requirement";
+import { getDeploymentProfile } from "@/config/deployment-profile";
 import {
   BLOCK_FIELDS_KEYS,
   BLOCK_VIEW_KEYS,
@@ -15,6 +17,14 @@ export type BlockRegistryEntry = BlockDefinition & {
   viewKey: string;
   fieldsKey: string;
 };
+
+export function isBlockTypeEnabled(
+  type: string,
+  profile: BlockAvailabilityProfile = getDeploymentProfile(),
+): boolean {
+  const definition = BLOCK_DEFINITIONS.find((entry) => entry.type === type);
+  return isBlockRequirementMet(definition?.requires, profile);
+}
 
 class BlockRegistrySystem {
   private readonly entries = new Map<BlockType, BlockRegistryEntry>();
