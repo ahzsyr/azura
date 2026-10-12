@@ -28,9 +28,37 @@ import { useAdminUiStore } from "@/stores/admin-ui-store";
 type Props = {
   comingSoonEnabled: boolean;
   envOverride: boolean | null;
+  setupCompleteLocked?: boolean;
 };
 
-export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride }: Props) {
+async function downloadSiteBackup(): Promise<void> {
+  const response = await fetch("/api/admin/site-backup", { method: "POST" });
+  if (!response.ok) {
+    let message = "Backup failed.";
+    try {
+      const body = (await response.json()) as { error?: string };
+      if (body.error) message = body.error;
+    } catch {
+      // Response was not JSON.
+    }
+    throw new Error(message);
+  }
+  const blob = await response.blob();
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = `azura-backup-${new Date().toISOString().replace(/[:.]/g, "-")}.zip`;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+}
+
+export function SiteAccessSettingsForm({
+  comingSoonEnabled: initial,
+  envOverride,
+  setupCompleteLocked = false,
+}: Props) {
   const router = useRouter();
   const [enabled, setEnabled] = useState(initial);
   const [savedEnabled, setSavedEnabled] = useState(initial);
@@ -40,6 +68,8 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
   const [resetConfirmText, setResetConfirmText] = useState("");
   const [resetError, setResetError] = useState<string | null>(null);
   const [resetPending, setResetPending] = useState(false);
+  const [backupPending, setBackupPending] = useState(false);
+  const [backupBeforeReset, setBackupBeforeReset] = useState(true);
 
   const markSaved = useAdminUiStore((s) => s.markSaved);
   const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
@@ -93,9 +123,27 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
     setFeedback(null);
   }, [savedEnabled]);
 
+  const runBackupDownload = useCallback(async () => {
+    setBackupPending(true);
+    try {
+      await downloadSiteBackup();
+    } finally {
+      setBackupPending(false);
+    }
+  }, []);
+
   const handleResetSetup = useCallback(async () => {
     setResetError(null);
     setResetPending(true);
+    try {
+      if (backupBeforeReset) {
+        await downloadSiteBackup();
+      }
+    } catch (error) {
+      setResetPending(false);
+      setResetError(error instanceof Error ? error.message : "Backup failed. Reset was not run.");
+      return;
+    }
     const result = await resetSetupWizardAction({ confirmText: resetConfirmText });
     setResetPending(false);
     if (!result.success) {
@@ -107,7 +155,7 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
     setResetConfirmText("");
     router.push(redirectTo);
     router.refresh();
-  }, [resetConfirmText, router]);
+  }, [backupBeforeReset, resetConfirmText, router]);
 
   useAdminPageActions({
     ownerKey: "site-access-settings",
@@ -221,23 +269,48 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
         <CardHeader>
           <CardTitle className="text-destructive">Reset setup</CardTitle>
           <CardDescription>
-            Clear setup completion, remove admin accounts, and return to the setup wizard. CMS
-            content and catalog data are kept. Until setup is completed again, visitors see the
-            coming soon page.
+            Remove website content, catalog data, uploaded media, and admin accounts, then return
+            to the setup wizard. Visitors see the coming soon page until setup is completed again.
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <Button
-            type="button"
-            variant="destructive"
-            onClick={() => {
-              setResetError(null);
-              setResetConfirmText("");
-              setResetDialogOpen(true);
-            }}
-          >
-            Reset website setup
-          </Button>
+        <CardContent className="space-y-3">
+          {setupCompleteLocked ? (
+            <p className="text-sm text-destructive">
+              <code className="bg-muted rounded px-1 py-0.5 font-mono text-xs">SETUP_COMPLETE=true</code>{" "}
+              is set in the environment. Remove that variable or reset will not stay incomplete for
+              visitors.
+            </p>
+          ) : null}
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              disabled={backupPending || resetPending}
+              onClick={() => {
+                setResetError(null);
+                void runBackupDownload().catch((error: unknown) => {
+                  setResetError(error instanceof Error ? error.message : "Backup failed.");
+                });
+              }}
+            >
+              {backupPending ? "Preparing backup…" : "Download backup"}
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              disabled={backupPending || resetPending}
+              onClick={() => {
+                setResetError(null);
+                setResetConfirmText("");
+                setResetDialogOpen(true);
+              }}
+            >
+              Reset website setup
+            </Button>
+          </div>
+          {resetError && !resetDialogOpen ? (
+            <p className="text-sm text-destructive">{resetError}</p>
+          ) : null}
         </CardContent>
       </Card>
 
@@ -246,11 +319,21 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
           <DialogHeader>
             <DialogTitle>Reset setup wizard?</DialogTitle>
             <DialogDescription>
-              This deletes all admin users and marks setup as incomplete. You will need to run the
-              setup wizard again to create a new admin account. Type RESET to confirm.
+              This deletes website content, catalog data, uploaded media, and all user accounts.
+              You will need to run the setup wizard again. Type RESET to confirm.
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-2">
+          <div className="space-y-3">
+            <label className="flex items-start gap-2 text-sm">
+              <input
+                type="checkbox"
+                className="mt-1"
+                checked={backupBeforeReset}
+                disabled={resetPending}
+                onChange={(event) => setBackupBeforeReset(event.target.checked)}
+              />
+              <span>Download a backup of the database and website media before reset</span>
+            </label>
             <Label htmlFor="reset-confirm">Confirmation</Label>
             <Input
               id="reset-confirm"
@@ -279,7 +362,7 @@ export function SiteAccessSettingsForm({ comingSoonEnabled: initial, envOverride
               onClick={() => void handleResetSetup()}
               disabled={resetPending || resetConfirmText.trim().toUpperCase() !== "RESET"}
             >
-              {resetPending ? "Resetting…" : "Reset setup"}
+              {resetPending ? (backupBeforeReset ? "Backing up and resetting…" : "Resetting…") : "Reset setup"}
             </Button>
           </DialogFooter>
         </DialogContent>

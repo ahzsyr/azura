@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { getSetupCompleteEnvOverride } from "@/features/setup/setup-env-overrides";
 import { getComingSoonEnvOverrideForAdmin, readSystemSettings } from "@/features/setup/setup.service";
 import { SiteAccessSettingsForm } from "@/components/admin/site-access-settings-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,6 +21,7 @@ export default async function AdminSiteAccessSettingsPage() {
         <SiteAccessSettingsForm
           comingSoonEnabled={settings.comingSoonEnabled}
           envOverride={envOverride}
+          setupCompleteLocked={getSetupCompleteEnvOverride() === true}
         />
       </Suspense>
     );
