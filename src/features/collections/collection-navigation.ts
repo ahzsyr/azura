@@ -66,6 +66,21 @@ export function pickCollectionCardImage(media: {
   return undefined;
 }
 
+/** Header menus keep the icon and the cover as separate choices. */
+export function pickCollectionMenuMedia(media: {
+  coverImage?: string;
+  iconImage?: string;
+}): { iconImageUrl?: string; photoUrl?: string; resolvedIcon?: string } {
+  const icon = media.iconImage?.trim() || undefined;
+  const cover = media.coverImage?.trim() || undefined;
+  const iconIsImage = Boolean(icon && isCollectionImageSrc(icon));
+  return {
+    iconImageUrl: iconIsImage ? icon : undefined,
+    photoUrl: cover && isCollectionImageSrc(cover) ? cover : undefined,
+    resolvedIcon: icon && !iconIsImage ? icon : undefined,
+  };
+}
+
 /** Inherit cover/icon from nearest ancestor when missing on the collection row. */
 export function resolveCollectionImages(
   col: Collection,

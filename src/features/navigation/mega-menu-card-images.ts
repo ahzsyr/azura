@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { localeService } from "@/features/i18n/locale.service";
 import {
   collectionMapFromList,
-  pickCollectionCardImage,
+  pickCollectionMenuMedia,
   resolveCollectionImages,
 } from "@/features/collections/collection-navigation";
 import type { Collection } from "@/features/collections/types";
@@ -18,14 +18,24 @@ import {
 } from "./localize-menu-translations";
 import { expandMegaMenuPanelSources } from "./mega-menu-panel-source";
 import type { HeaderWorkspace, MenuItem, MenuRecord } from "./types";
-import { shouldPreferStoredMenuImageUrl, pickBrandMenuImageUrl } from "./mega-menu-linked-images";
+import {
+  pickBrandMenuMedia,
+  shouldPreferStoredMenuImageUrl,
+  usesLinkedMenuImageSource,
+  type BrandMenuMedia,
+} from "./mega-menu-linked-images";
 
 export {
   shouldPreferStoredMenuImageUrl,
   stripLinkedMenuImagesFromWorkspace,
   usesLinkedMenuImageSource,
   pickBrandMenuImageUrl,
+  pickBrandMenuMedia,
 } from "./mega-menu-linked-images";
+
+export type ResolvedMenuItemMedia = BrandMenuMedia & {
+  resolvedIcon?: string;
+};
 
 async function getCatalogItemImageUrlFromDb(slug: string): Promise<string | undefined> {
   const item = await prisma.contentItem.findFirst({
@@ -79,14 +89,13 @@ async function getContentLinkImageUrl(url: string | undefined): Promise<string |
   return getContentItemImageByTypeAndSlug(type.slug, itemSlug);
 }
 
-function getCollectionImageUrlFromMap(
+function getCollectionMenuMediaFromMap(
   slug: string,
   bySlug: Map<string, Collection>,
-): string | undefined {
+): ResolvedMenuItemMedia {
   const col = bySlug.get(slug);
-  if (!col) return undefined;
-  const media = resolveCollectionImages(col, bySlug);
-  return pickCollectionCardImage(media);
+  if (!col) return {};
+  return pickCollectionMenuMedia(resolveCollectionImages(col, bySlug));
 }
 
 async function getProductImageUrl(slug: string, localeCode: string): Promise<string | undefined> {
@@ -98,58 +107,86 @@ async function getProductImageUrl(slug: string, localeCode: string): Promise<str
   return getCatalogItemImageUrlFromDb(slug);
 }
 
-async function getBrandImageUrl(slug: string, localeCode: string): Promise<string | undefined> {
+async function getBrandMenuMedia(slug: string, localeCode: string): Promise<ResolvedMenuItemMedia> {
   const profiles = await readCatalogBrandProfiles(localeCode);
   const profile = profiles.find((entry) => entry.slug.trim().toLowerCase() === slug.toLowerCase());
-  if (!profile) return undefined;
-  return pickBrandMenuImageUrl(profile);
+  if (!profile) return {};
+  return pickBrandMenuMedia(profile);
 }
 
-export async function resolveCardImageUrlForMenuItem(
+function withPhotoOverride(item: MenuItem, media: ResolvedMenuItemMedia): ResolvedMenuItemMedia {
+  const override = item.megaMenuImageUrl?.trim();
+  if (!override) return media;
+  return { ...media, photoUrl: override };
+}
+
+export async function resolveMenuItemMedia(
   item: MenuItem,
   localeCode: string,
   collectionBySlug?: Map<string, Collection>,
-): Promise<string | undefined> {
+): Promise<ResolvedMenuItemMedia> {
   if (shouldPreferStoredMenuImageUrl(item)) {
-    return item.imageUrl?.trim();
+    return withPhotoOverride(item, { photoUrl: item.imageUrl?.trim() });
   }
   switch (item.type) {
     case "collection":
     case "packageCategory": {
       const slug = (item.collectionId ?? item.packageCategoryId ?? "").trim();
-      if (!slug) return undefined;
+      if (!slug) return withPhotoOverride(item, {});
       if (collectionBySlug) {
-        return getCollectionImageUrlFromMap(slug, collectionBySlug);
+        return withPhotoOverride(item, getCollectionMenuMediaFromMap(slug, collectionBySlug));
       }
       const col = await collectionsDataService.loadBySlug({ localePrefix: localeCode }, slug);
-      if (!col) return undefined;
+      if (!col) return withPhotoOverride(item, {});
       const all = await collectionsDataService.loadAll({ localePrefix: localeCode });
       const bySlug = collectionMapFromList(all.filter((c) => c.visible !== false));
-      return getCollectionImageUrlFromMap(slug, bySlug);
+      return withPhotoOverride(item, getCollectionMenuMediaFromMap(slug, bySlug));
     }
     case "product":
     case "package": {
       const slug = (item.productId ?? item.packageId ?? "").trim();
-      if (!slug) return undefined;
-      if (item.type === "product" || item.productId?.trim()) {
-        return getProductImageUrl(item.productId?.trim() || slug, localeCode);
-      }
-      return getCatalogItemImageUrlFromDb(slug);
+      if (!slug) return withPhotoOverride(item, {});
+      const photo =
+        item.type === "product" || item.productId?.trim()
+          ? await getProductImageUrl(item.productId?.trim() || slug, localeCode)
+          : await getCatalogItemImageUrlFromDb(slug);
+      return withPhotoOverride(item, { photoUrl: photo });
     }
     case "brand": {
       const slug = (item.brandSlug ?? "").trim();
-      if (!slug) return undefined;
-      return getBrandImageUrl(slug, localeCode);
+      if (!slug) return withPhotoOverride(item, {});
+      return withPhotoOverride(item, await getBrandMenuMedia(slug, localeCode));
     }
     case "image":
-      return item.imageUrl?.trim() || undefined;
+      return withPhotoOverride(item, { photoUrl: item.imageUrl?.trim() || undefined });
     case "link": {
-      if (item.imageUrl?.trim()) return item.imageUrl.trim();
-      return getContentLinkImageUrl(item.url);
+      if (item.imageUrl?.trim()) return withPhotoOverride(item, { photoUrl: item.imageUrl.trim() });
+      return withPhotoOverride(item, { photoUrl: await getContentLinkImageUrl(item.url) });
     }
     default:
-      return item.imageUrl?.trim() || undefined;
+      return withPhotoOverride(item, { photoUrl: item.imageUrl?.trim() || undefined });
   }
+}
+
+/** @deprecated Use resolveMenuItemMedia. Returns the cover/photo URL only. */
+export async function resolveCardImageUrlForMenuItem(
+  item: MenuItem,
+  localeCode: string,
+  collectionBySlug?: Map<string, Collection>,
+): Promise<string | undefined> {
+  const media = await resolveMenuItemMedia(item, localeCode, collectionBySlug);
+  return media.photoUrl;
+}
+
+function applyResolvedMenuMedia(item: MenuItem, media: ResolvedMenuItemMedia): MenuItem {
+  const linked = usesLinkedMenuImageSource(item.type);
+  return {
+    ...item,
+    iconImageUrl: media.iconImageUrl,
+    photoUrl: media.photoUrl,
+    resolvedIcon: item.icon?.trim() ? undefined : media.resolvedIcon,
+    imageUrl: linked ? media.photoUrl : item.imageUrl,
+  };
 }
 
 async function enrichFlyoutChild(
@@ -157,12 +194,8 @@ async function enrichFlyoutChild(
   localeCode: string,
   collectionBySlug: Map<string, Collection>,
 ): Promise<MenuItem> {
-  if (shouldPreferStoredMenuImageUrl(child)) return child;
-  const resolved = await resolveCardImageUrlForMenuItem(child, localeCode, collectionBySlug);
-  return {
-    ...child,
-    imageUrl: resolved ?? child.imageUrl,
-  };
+  const resolved = await resolveMenuItemMedia(child, localeCode, collectionBySlug);
+  return applyResolvedMenuMedia(child, resolved);
 }
 
 async function enrichFlyoutMenuRecord(
@@ -244,15 +277,8 @@ export async function enrichHeaderWorkspaceForSiteCached(
 
 async function enrichMenuItem(item: MenuItem, localeCode: string): Promise<MenuItem> {
   const children = await Promise.all((item.children ?? []).map((c) => enrichMenuItem(c, localeCode)));
-  if (shouldPreferStoredMenuImageUrl(item)) {
-    return children === item.children ? item : { ...item, children };
-  }
-  const resolved = await resolveCardImageUrlForMenuItem(item, localeCode);
-  return {
-    ...item,
-    imageUrl: resolved ?? item.imageUrl,
-    children,
-  };
+  const resolved = await resolveMenuItemMedia(item, localeCode);
+  return applyResolvedMenuMedia({ ...item, children }, resolved);
 }
 
 async function enrichMenuRecord(record: MenuRecord, localeCode: string): Promise<MenuRecord> {

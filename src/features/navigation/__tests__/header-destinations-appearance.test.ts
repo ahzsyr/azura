@@ -204,12 +204,12 @@ describe("mega menu child appearance schema", () => {
     assert.equal(resolveEffectiveChildDisplayType(listChild, "cards"), "list");
     assert.equal(resolveEffectiveChildDisplayType(iconChild, "cards"), "icon");
     assert.equal(resolveEffectiveChildDisplayType(imageChild, "cards"), "image");
-    assert.equal(resolveEffectiveChildDisplayType(cardChild, "cards"), "card");
+    assert.equal(resolveEffectiveChildDisplayType(cardChild, "cards"), "image");
 
     const view = resolveMegaMenu(parent, "en");
     assert.equal(view.isV2, true);
     const appearances = view.panels[0]?.children.map((c) => c.appearance);
-    assert.deepEqual(appearances, ["list", "icon", "image", "card"]);
+    assert.deepEqual(appearances, ["list", "icon", "image", "image"]);
     assert.deepEqual(
       view.panels[0]?.children.map((c) => c.cardMedia),
       [null, null, "image", "image"],
@@ -229,17 +229,20 @@ describe("mega menu child appearance schema", () => {
       megaMenuChildDisplayType: "card",
       megaMenuCardMedia: "image",
     };
-    assert.equal(resolveEffectiveChildDisplayType(child, "cards"), "card");
-    assert.equal(resolveChildCardMedia(child, "card"), "image");
+    assert.equal(resolveEffectiveChildDisplayType(child, "cards"), "image");
+    assert.equal(resolveChildCardMedia(child, "image"), "image");
 
     const iconCard: MenuItem = { ...child, id: "icon-card", megaMenuCardMedia: "icon" };
-    assert.equal(resolveChildCardMedia(iconCard, "card"), "icon");
+    assert.equal(resolveEffectiveChildDisplayType(iconCard, "cards"), "icon");
+    assert.equal(resolveChildCardMedia(iconCard, "icon"), null);
 
     const iconsOnly: MenuItem = {
       ...child,
       id: "icons-only",
       megaMenuChildDisplayType: "icon",
       megaMenuCardMedia: undefined,
+      iconImageUrl: "/drafting-logo.png",
+      photoUrl: "/drafting-cover.jpg",
     };
     assert.equal(resolveEffectiveChildDisplayType(iconsOnly, "cards"), "icon");
     assert.equal(resolveChildCardMedia(iconsOnly, "icon"), null);
@@ -249,8 +252,55 @@ describe("mega menu child appearance schema", () => {
       id: "auto",
       megaMenuChildDisplayType: undefined,
       megaMenuCardMedia: undefined,
+      iconImageUrl: "/drafting-logo.png",
+      photoUrl: "/drafting-cover.jpg",
     };
-    assert.equal(resolveEffectiveChildDisplayType(automaticWithImage, "links"), "card");
-    assert.equal(resolveChildCardMedia(automaticWithImage, "card"), "image");
+    assert.equal(resolveEffectiveChildDisplayType(automaticWithImage, "links"), "list");
+    assert.equal(resolveChildCardMedia(automaticWithImage, "list"), null);
+
+    const photoOnly = resolveMegaMenu(
+      {
+        ...child,
+        id: "photo-parent",
+        children: [
+          {
+            ...iconsOnly,
+            id: "photo-child",
+            megaMenuChildDisplayType: "image",
+            megaMenuCardMedia: "image",
+          },
+        ],
+      },
+      "en",
+    );
+    const photoChild = photoOnly.children[0];
+    assert.equal(photoChild?.appearance, "image");
+    assert.equal(photoChild?.photoUrl, "/drafting-cover.jpg");
+    assert.equal(photoChild?.iconImageUrl, "/drafting-logo.png");
+    assert.equal(photoChild?.image, "/drafting-cover.jpg");
+
+    const iconOnlyView = resolveMegaMenu(
+      {
+        ...child,
+        id: "icon-parent",
+        children: [iconsOnly],
+      },
+      "en",
+    );
+    const iconViewChild = iconOnlyView.children[0];
+    assert.equal(iconViewChild?.appearance, "icon");
+    assert.equal(iconViewChild?.iconImageUrl, "/drafting-logo.png");
+    assert.equal(iconViewChild?.cardMedia, null);
+
+    const textOnlyView = resolveMegaMenu(
+      {
+        ...child,
+        id: "text-parent",
+        children: [automaticWithImage],
+      },
+      "en",
+    );
+    assert.equal(textOnlyView.children[0]?.appearance, "list");
+    assert.equal(textOnlyView.children[0]?.cardMedia, null);
   });
 });

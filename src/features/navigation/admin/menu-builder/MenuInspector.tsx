@@ -189,19 +189,17 @@ export function MenuInspector({
 
         <TabsContent value="appearance" className="mt-3 space-y-3 focus-visible:ring-0">
           <div className="space-y-1">
-            <Label htmlFor="inspector-child-appearance">Child appearance</Label>
+            <Label htmlFor="inspector-child-appearance">Display</Label>
             <HeaderSelect
               id="inspector-child-appearance"
               value={readChildMediaChoice(item)}
               onChange={(value) => {
-                onPatch(childMediaChoicePatch(value as ChildMediaChoice, item.megaMenuChildDisplayType));
+                onPatch(childMediaChoicePatch(value as ChildMediaChoice));
               }}
             >
-              <option value="automatic">Automatic</option>
-              <option value="list">Text</option>
-              <option value="card-image">Card with image</option>
-              <option value="card-icon">Card with icon</option>
-              <option value="icon-only">Icons only</option>
+              <option value="none">Without icon or photo</option>
+              <option value="icon">Icon only</option>
+              <option value="photo">Photo only</option>
             </HeaderSelect>
           </div>
           <IconPickerField

@@ -228,13 +228,12 @@ export interface MenuItem {
   megaMenuType?: MenuLayoutType;
   megaMenu?: MegaMenuContentConfig;
   /**
-   * Controls how this item is rendered inside its parent mega menu on desktop.
-   * When unset, falls back to existing automatic visual-card detection.
+   * How this item is rendered inside its parent mega menu.
+   * Unset and `automatic` are text only. `icon` is the logo or icon. `image` and `card` are the cover photo.
    */
   megaMenuChildDisplayType?: MegaMenuChildDisplayType;
   /**
-   * When appearance is a card: `image` keeps the photo, `icon` fills the frame with the glyph.
-   * Icons-only appearance is `megaMenuChildDisplayType: "icon"`.
+   * Legacy card-frame choice. `icon` is read as icon only. `image` is read as photo only.
    */
   megaMenuCardMedia?: MegaMenuCardMedia;
   /** Optional image override for the image presentation inside mega menus. */
@@ -249,6 +248,12 @@ export interface MenuItem {
   packageCategoryId?: string;
   postId?: string;
   imageUrl?: string;
+  /** Runtime-only catalog logo or icon image. Stripped before the workspace is saved. */
+  iconImageUrl?: string;
+  /** Runtime-only catalog cover or banner. Stripped before the workspace is saved. */
+  photoUrl?: string;
+  /** Runtime-only icon-library id when the collection icon is not an image URL. */
+  resolvedIcon?: string;
   linkUrl?: string;
   /** Builder visibility lifecycle; hidden/draft items are excluded from live nav rendering. */
   visibility?: MenuItemVisibility;

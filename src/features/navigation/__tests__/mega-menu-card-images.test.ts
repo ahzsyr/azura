@@ -6,11 +6,13 @@ import {
   stripLinkedMenuImagesFromWorkspace,
   usesLinkedMenuImageSource,
   pickBrandMenuImageUrl,
+  pickBrandMenuMedia,
 } from "@/features/navigation/mega-menu-linked-images";
 import type { Collection } from "@/features/collections/types";
 import {
   collectionMapFromList,
   pickCollectionCardImage,
+  pickCollectionMenuMedia,
   resolveCollectionImages,
 } from "@/features/collections/collection-navigation";
 
@@ -156,6 +158,32 @@ describe("linked collection image resolution", () => {
 
     const url = getCollectionImageUrlFromMap("networking", bySlug);
     assert.equal(url, "/collections/networking/cover.jpg");
+    assert.deepEqual(
+      pickCollectionMenuMedia({
+        coverImage: "/collections/networking/cover.jpg",
+        iconImage: "/collections/networking/icon.jpg",
+      }),
+      {
+        iconImageUrl: "/collections/networking/icon.jpg",
+        photoUrl: "/collections/networking/cover.jpg",
+        resolvedIcon: undefined,
+      },
+    );
+  });
+});
+
+describe("pickBrandMenuMedia", () => {
+  it("keeps the logo and the banner as separate header choices", () => {
+    assert.deepEqual(
+      pickBrandMenuMedia({
+        logoUrl: "/brands/mikrotik/logo.png",
+        bannerUrl: "/brands/mikrotik/banner.jpg",
+      }),
+      {
+        iconImageUrl: "/brands/mikrotik/logo.png",
+        photoUrl: "/brands/mikrotik/banner.jpg",
+      },
+    );
   });
 });
 

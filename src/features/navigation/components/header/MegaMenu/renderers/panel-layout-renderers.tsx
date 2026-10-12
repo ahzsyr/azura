@@ -1,7 +1,7 @@
 "use client";
 
 import type { MegaMenuChildViewModel } from "@/features/navigation/mega-menu-resolver";
-import { MegaMenuCardFrameMedia } from "../mega-menu-media";
+import { MegaMenuCardFrameMedia, NavIconMedia } from "../mega-menu-media";
 import { MegaMenuChildItem } from "./mega-menu-child-item";
 
 type Props = {
@@ -135,10 +135,10 @@ export function ProductGridRenderer({
       style={{ gridTemplateColumns: `repeat(${columns}, minmax(min(100%, 140px), 1fr))` }}
     >
       {children.map((child) => {
-        // Keep product-tile markup for card/automatic; honor list/icon/image overrides.
-        if (child.appearance === "list" || child.appearance === "icon" || child.appearance === "image") {
+        const photoUrl = child.photoUrl?.trim() || child.image?.trim();
+        if (child.appearance !== "image" || !photoUrl) {
           return (
-            <MegaMenuChildItem key={child.id} child={child} onLinkClick={onLinkClick} prefer="card" />
+            <MegaMenuChildItem key={child.id} child={child} onLinkClick={onLinkClick} />
           );
         }
         return (
@@ -148,13 +148,8 @@ export function ProductGridRenderer({
             className="hb-mega-v2-product"
             onClick={() => onLinkClick?.()}
           >
-            <span className="hb-mega-v2-product__media" aria-hidden={!child.image && child.cardMedia !== "icon"}>
-              <MegaMenuCardFrameMedia
-                cardMedia={child.cardMedia ?? "image"}
-                imageUrl={child.image}
-                icon={child.icon}
-                alt={child.label}
-              />
+            <span className="hb-mega-v2-product__media" aria-hidden={!photoUrl}>
+              <MegaMenuCardFrameMedia cardMedia="image" imageUrl={photoUrl} alt={child.label} />
             </span>
             <span className="hb-mega-v2-product__title">{child.label}</span>
             {child.subtitle ? (
@@ -204,12 +199,15 @@ export function MixedRenderer({
           onClick={() => onLinkClick?.()}
         >
           <span className="hb-mega-v2-mixed__featured-media">
-            <MegaMenuCardFrameMedia
-              cardMedia={featured.cardMedia ?? "image"}
-              imageUrl={featured.image}
-              icon={featured.icon}
-              alt={featured.label}
-            />
+            {featured.appearance === "icon" ? (
+              <NavIconMedia icon={featured.icon} iconImageUrl={featured.iconImageUrl} alt={featured.label} />
+            ) : featured.appearance === "image" ? (
+              <MegaMenuCardFrameMedia
+                cardMedia="image"
+                imageUrl={featured.photoUrl || featured.image}
+                alt={featured.label}
+              />
+            ) : null}
           </span>
           <span className="hb-mega-v2-mixed__featured-title">{featured.label}</span>
           {featured.subtitle ? (

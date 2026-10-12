@@ -19,11 +19,14 @@ export function shouldPreferStoredMenuImageUrl(item: Pick<MenuItem, "type" | "im
 
 function stripLinkedMenuItemImage(item: MenuItem): MenuItem {
   const children = (item.children ?? []).map(stripLinkedMenuItemImage);
-  if (!usesLinkedMenuImageSource(item.type)) {
-    return children === item.children ? item : { ...item, children };
+  const next: MenuItem = { ...item, children };
+  delete next.iconImageUrl;
+  delete next.photoUrl;
+  delete next.resolvedIcon;
+  if (usesLinkedMenuImageSource(item.type)) {
+    delete next.imageUrl;
   }
-  const { imageUrl: _imageUrl, ...rest } = item;
-  return { ...rest, children };
+  return next;
 }
 
 /** Remove baked card image URLs for linked catalog items before persisting header workspace. */
@@ -38,10 +41,29 @@ export function stripLinkedMenuImagesFromWorkspace(ws: HeaderWorkspace): HeaderW
   return { ...ws, menusDatabase };
 }
 
+export type BrandMenuMedia = {
+  iconImageUrl?: string;
+  photoUrl?: string;
+};
+
+/** Logo and banner stay separate so header items can show one or the other. */
+export function pickBrandMenuMedia(profile: {
+  logoUrl?: string | null;
+  bannerUrl?: string | null;
+}): BrandMenuMedia {
+  const logo = profile.logoUrl?.trim() || undefined;
+  const banner = profile.bannerUrl?.trim() || undefined;
+  return {
+    iconImageUrl: logo,
+    photoUrl: banner,
+  };
+}
+
 /** Prefer brand logo for header menus; fall back to banner only when logo is missing. */
 export function pickBrandMenuImageUrl(profile: {
   logoUrl?: string | null;
   bannerUrl?: string | null;
 }): string | undefined {
-  return profile.logoUrl?.trim() || profile.bannerUrl?.trim() || undefined;
+  const media = pickBrandMenuMedia(profile);
+  return media.iconImageUrl || media.photoUrl;
 }

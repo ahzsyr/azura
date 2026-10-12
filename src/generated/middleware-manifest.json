@@ -1,18 +1,23 @@
 {
   "generated": true,
-  "manifestVersion": 1787648452581,
-  "buildTimestamp": "2026-08-25T09:00:52.581Z",
+  "manifestVersion": 1791834973846,
+  "buildTimestamp": "2026-10-12T19:56:13.846Z",
   "setup": {
-    "setupComplete": false,
+    "setupComplete": true,
     "registrationEnabled": true,
     "comingSoonEnabled": false
   },
-  "authSecret": null,
+  "authSecret": "azura-local-dev-auth-secret-change-me-32c",
   "locales": {
     "locales": [
       "en"
     ],
     "defaultLocale": "en"
   },
-  "redirects": {}
+  "redirects": {
+    "/services": {
+      "toPath": "/solutions",
+      "type": "PERMANENT"
+    }
+  }
 }

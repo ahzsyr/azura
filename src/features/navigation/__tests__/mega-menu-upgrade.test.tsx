@@ -250,7 +250,7 @@ describe("mega menu resolver", () => {
     assert.equal(resolveMegaMenuChildDisplayType(child, "grid"), "link");
   });
 
-  it("automatic uses existing visual-card detection behavior", () => {
+  it("automatic stays text only even when a photo exists", () => {
     const child: MenuItem = childMenuItem({
       id: "c1",
       type: "collection",
@@ -259,7 +259,7 @@ describe("mega menu resolver", () => {
       megaMenuChildDisplayType: "automatic",
     });
 
-    assert.equal(resolveMegaMenuChildDisplayType(child, "grid"), "card");
+    assert.equal(resolveMegaMenuChildDisplayType(child, "grid"), "link");
   });
 
   it("clamps custom width/height in resolver", () => {
@@ -314,7 +314,7 @@ describe("mega menu resolver", () => {
 });
 
 describe("mega menu rendering", () => {
-  it("renders a card caption icon when displayType=card", () => {
+  it("renders a photo without the icon when displayType=card", () => {
     const item: MenuItem = {
       id: "p",
       type: "link",
@@ -340,7 +340,8 @@ describe("mega menu rendering", () => {
 
     assert.ok(html.includes("hb-mega-card--visual"));
     assert.ok(html.includes("hb-mega-card__caption"));
-    assert.ok(html.includes("hb-nav-icon")); // Icon component className
+    assert.ok(html.includes("/brands.jpg"));
+    assert.ok(!html.includes("hb-nav-icon"));
     assert.match(html, /--mega-menu-width:\s*640px/);
   });
 
@@ -553,7 +554,7 @@ describe("mega menu v2 sidebar/panel", () => {
     assert.equal(view.activePanelId, "panel-how");
     assert.ok(view.cssVars["--mega-menu-rail-width"]);
     assert.equal(view.panels[0].children.length, 2);
-    assert.equal(view.panels[0].children[0].displayType, "card");
+    assert.equal(view.panels[0].children[0].displayType, "list");
   });
 
   it("renders sidebar rail + panel without breaking v1 dropdown", () => {
@@ -589,6 +590,7 @@ describe("mega menu v2 sidebar/panel", () => {
       label: "Professional",
       productId: "pro",
       imageUrl: "/pro.jpg",
+      megaMenuChildDisplayType: "image",
       badgeText: "NEW",
     });
     const item: MenuItem = {

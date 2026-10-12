@@ -204,7 +204,7 @@ function buildFormState(
     icon: item?.icon ?? "",
     iconPlacement: item?.iconPlacement ?? "both",
     iconPlacementExplicit: Boolean(item?.iconPlacement),
-    childMediaChoice: item ? readChildMediaChoice(item) : "automatic",
+    childMediaChoice: item ? readChildMediaChoice(item) : "none",
     megaMenuImageUrl: item?.megaMenuImageUrl ?? "",
     badgeText: item?.badgeText ?? "",
     placement: item?.placement ?? defaultPlacement,
@@ -275,10 +275,7 @@ export function MenuItemModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const label = form.label.trim() || "New Item";
-    const mediaPatch = childMediaChoicePatch(
-      form.childMediaChoice,
-      editingItem?.megaMenuChildDisplayType,
-    );
+    const mediaPatch = childMediaChoicePatch(form.childMediaChoice);
     const built = newMenuItemFromForm({
       type: form.type,
       label,
@@ -513,7 +510,7 @@ export function MenuItemModal({
                   </HeaderField>
                 ) : null}
                 {parentId ? (
-                  <HeaderField label="Child appearance" htmlFor="m-child-display">
+                  <HeaderField label="Display" htmlFor="m-child-display">
                     <select
                       id="m-child-display"
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
@@ -524,11 +521,9 @@ export function MenuItemModal({
                         })
                       }
                     >
-                      <option value="automatic">Automatic</option>
-                      <option value="list">Text</option>
-                      <option value="card-image">Card with image</option>
-                      <option value="card-icon">Card with icon</option>
-                      <option value="icon-only">Icons only</option>
+                      <option value="none">Without icon or photo</option>
+                      <option value="icon">Icon only</option>
+                      <option value="photo">Photo only</option>
                     </select>
                   </HeaderField>
                 ) : null}

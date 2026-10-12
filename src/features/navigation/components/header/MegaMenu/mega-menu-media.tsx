@@ -55,8 +55,8 @@ export function NavGlyph({ icon }: { icon?: string }) {
 }
 
 /**
- * Card frame contents. A photo stays in the frame when media is `image`, even if the item also has an icon.
- * `icon` fills the frame with the glyph and does not use the photo.
+ * Card frame contents. Photo mode shows only the cover. Icon frames show only the glyph.
+ * A missing photo does not fall back to the logo.
  */
 export function MegaMenuCardFrameMedia({
   cardMedia,
@@ -69,9 +69,27 @@ export function MegaMenuCardFrameMedia({
   icon?: string;
   alt?: string;
 }) {
-  if (cardMedia === "icon") return <NavGlyph icon={icon} />;
+  if (cardMedia === "icon") {
+    if (icon?.trim()) return <NavGlyph icon={icon} />;
+    return null;
+  }
   if (imageUrl?.trim()) return <MegaMenuVisualImage src={imageUrl} alt={alt} />;
-  return <NavGlyph icon={icon} />;
+  return null;
+}
+
+/** Icon mode: logo or icon image, otherwise the Lucide icon. Never the cover. */
+export function NavIconMedia({
+  icon,
+  iconImageUrl,
+  alt = "",
+}: {
+  icon?: string;
+  iconImageUrl?: string;
+  alt?: string;
+}) {
+  if (iconImageUrl?.trim()) return <MegaMenuVisualImage src={iconImageUrl} alt={alt} />;
+  if (icon?.trim()) return <NavGlyph icon={icon} />;
+  return null;
 }
 
 /** Icon glyph, or linked catalog image (e.g. brand logo) when no icon is set. */
@@ -84,9 +102,5 @@ export function NavGlyphOrImage({
   imageUrl?: string;
   alt?: string;
 }) {
-  if (icon?.trim()) return <NavGlyph icon={icon} />;
-  if (imageUrl?.trim()) {
-    return <MegaMenuVisualImage src={imageUrl} alt={alt} />;
-  }
-  return null;
+  return <NavIconMedia icon={icon} iconImageUrl={icon?.trim() ? undefined : imageUrl} alt={alt} />;
 }

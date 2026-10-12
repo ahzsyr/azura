@@ -7,7 +7,6 @@ import type {
   MegaMenuSurfaceAlignment,
   MegaMenuSurfaceWidth,
   MenuItem,
-  MenuItemType,
   MenuLayoutType,
 } from "./types";
 import { getEffectiveMegaMenuType, getItemHref } from "./resolve-href";
@@ -88,9 +87,13 @@ export type MegaMenuChildViewModel = {
   href: string;
   label: string;
   displayType: MegaMenuEffectiveDisplayType;
+  /** Cover or banner. List and icon modes ignore it. */
   image?: string;
+  photoUrl?: string;
+  /** Logo or icon image. Icon mode uses this before the Lucide icon. */
+  iconImageUrl?: string;
   appearance: MegaMenuEffectiveDisplayType;
-  /** `image` keeps the photo frame; `icon` fills a card frame with the glyph; null for list/icons-only. */
+  /** `image` is the photo frame. Null for text and icon-only rows. */
   cardMedia: "image" | "icon" | null;
   icon?: string;
   subtitle?: string;
@@ -196,103 +199,48 @@ export function resolveMegaMenuConfig(item: MenuItem, menuTypeOverride?: MenuLay
   };
 }
 
-function isVisualCardType(type: MenuItemType): boolean {
-  return (
-    type === "collection" ||
-    type === "packageCategory" ||
-    type === "brand" ||
-    type === "product" ||
-    type === "package" ||
-    type === "image"
-  );
+/** Cover or banner for photo mode. Does not prefer a logo. */
+export function resolveMenuItemPhotoUrl(
+  child: Pick<MenuItem, "megaMenuImageUrl" | "photoUrl" | "imageUrl">,
+): string | undefined {
+  return child.megaMenuImageUrl?.trim() || child.photoUrl?.trim() || child.imageUrl?.trim() || undefined;
 }
 
-export function hasMegaMenuImage(child: Pick<MenuItem, "imageUrl" | "megaMenuImageUrl">): boolean {
-  return Boolean(child.megaMenuImageUrl?.trim() || child.imageUrl?.trim());
+/** Logo or icon image for icon mode. Never the cover. */
+export function resolveMenuItemIconImageUrl(child: Pick<MenuItem, "iconImageUrl">): string | undefined {
+  return child.iconImageUrl?.trim() || undefined;
 }
 
-/** Photo vs glyph inside a card/image frame. List and icons-only rows return null. */
+/** Photo frame vs nothing. Text and icon rows return null. */
 export function resolveChildCardMedia(
-  child: Pick<MenuItem, "megaMenuCardMedia">,
+  _child: Pick<MenuItem, "megaMenuCardMedia">,
   appearance: MegaMenuEffectiveDisplayType,
 ): "image" | "icon" | null {
-  if (appearance === "list" || appearance === "icon") return null;
   if (appearance === "image") return "image";
-  if (appearance === "card") return child.megaMenuCardMedia === "icon" ? "icon" : "image";
   return null;
 }
 
-function isVisualCardThumbnail(type: MenuItemType, imageUrl?: string | null): boolean {
-  if (!imageUrl?.trim()) return false;
-  return isVisualCardType(type);
-}
-
-function shouldUseVisualCardForAutomatic(child: { type: MenuItemType; imageUrl?: string | null }, menuType: MenuLayoutType): boolean {
-  // Preserve existing behavior:
-  // - grid: visual card if the type is visual-card-friendly (even without imageUrl; placeholder will show)
-  // - other layouts: visual card only when imageUrl is present AND type is visual-card-friendly
-  if (menuType === "grid") return isVisualCardType(child.type);
-  return isVisualCardThumbnail(child.type, child.imageUrl);
-}
-
-/** v1 helper — card | link only (legacy Surface). */
+/** v1 helper — card | link only (legacy Surface). Photo mode is the only card. */
 export function resolveMegaMenuChildDisplayType(
   child: MenuItem,
-  menuType: MenuLayoutType,
+  menuType?: MenuLayoutType,
 ): ResolvedMegaMenuChildDisplayType {
-  const explicit = normalizeChildDisplayType(
-    child.megaMenuChildDisplayType as MegaMenuChildDisplayType | "link" | "featured" | "product" | undefined,
-  );
-  if (explicit === "list") return "link";
-  if (explicit === "image" || explicit === "card" || explicit === "icon") return "card";
-
-  return shouldUseVisualCardForAutomatic(child, menuType) ? "card" : "link";
+  return resolveEffectiveChildDisplayType(child, null, menuType) === "image" ? "card" : "link";
 }
-
-const PANEL_DEFAULT_DISPLAY: Record<MegaMenuPanelLayout, MegaMenuEffectiveDisplayType> = {
-  links: "list",
-  columns: "list",
-  cards: "card",
-  featured: "card",
-  iconGrid: "icon",
-  productGrid: "card",
-  mixed: "card",
-};
 
 export function resolveEffectiveChildDisplayType(
   child: MenuItem,
-  panelLayout: MegaMenuPanelLayout | null,
-  legacyMenuType?: MenuLayoutType,
+  _panelLayout: MegaMenuPanelLayout | null,
+  _legacyMenuType?: MenuLayoutType,
 ): MegaMenuEffectiveDisplayType {
   const explicit = normalizeChildDisplayType(
     child.megaMenuChildDisplayType as MegaMenuChildDisplayType | "link" | "featured" | "product" | undefined,
   );
 
-  if (!panelLayout) {
-    const legacy = resolveMegaMenuChildDisplayType(child, legacyMenuType ?? "dropdown");
-    if (explicit === "icon") return "icon";
-    if (explicit === "image") return "image";
-    if (explicit === "list") return "list";
-    if (explicit === "card") return "card";
-    if (hasMegaMenuImage(child) && child.megaMenuCardMedia !== "icon") return "card";
-    return legacy === "card" ? "card" : "list";
-  }
-
-  const automatic = PANEL_DEFAULT_DISPLAY[panelLayout];
-  if (!explicit || explicit === "automatic") {
-    if (hasMegaMenuImage(child) && child.megaMenuCardMedia !== "icon" && panelLayout !== "iconGrid") {
-      if (panelLayout === "featured") return "image";
-      return "card";
-    }
-    if (panelLayout === "iconGrid") return "icon";
-    if (panelLayout === "productGrid") return "card";
-    if (automatic === "card" && !shouldUseVisualCardForAutomatic(child, "grid") && !child.imageUrl) {
-      if (!isVisualCardType(child.type) && !child.icon) return "list";
-    }
-    return automatic;
-  }
-
-  return explicit;
+  if (explicit === "icon") return "icon";
+  if (explicit === "card" && child.megaMenuCardMedia === "icon") return "icon";
+  if (explicit === "image" || explicit === "card") return "image";
+  return "list";
 }
 
 function buildChildViewModel(
@@ -302,13 +250,10 @@ function buildChildViewModel(
   mega?: MegaMenuContentConfig,
   legacyMenuType?: MenuLayoutType,
 ): MegaMenuChildViewModel {
-  const displayType = resolveEffectiveChildDisplayType(child, panelLayout, legacyMenuType);
-  const explicit = normalizeChildDisplayType(
-    child.megaMenuChildDisplayType as MegaMenuChildDisplayType | "link" | "featured" | "product" | undefined,
-  );
-  const appearance =
-    !explicit || explicit === "automatic" ? displayType : explicit;
+  const appearance = resolveEffectiveChildDisplayType(child, panelLayout, legacyMenuType);
   const cardMedia = resolveChildCardMedia(child, appearance);
+  const photoUrl = resolveMenuItemPhotoUrl(child);
+  const iconImageUrl = resolveMenuItemIconImageUrl(child);
   const subtitle =
     mega?.childDescriptions?.[child.id]?.trim() ||
     undefined;
@@ -319,11 +264,13 @@ function buildChildViewModel(
     id: child.id,
     href: getItemHref(child, localeCode),
     label: child.label,
-    displayType,
+    displayType: appearance,
     appearance,
     cardMedia,
-    image: child.megaMenuImageUrl?.trim() || child.imageUrl?.trim() || undefined,
-    icon: child.icon?.trim() || undefined,
+    image: photoUrl,
+    photoUrl,
+    iconImageUrl,
+    icon: child.icon?.trim() || child.resolvedIcon?.trim() || undefined,
     subtitle,
     badge: child.badgeText?.trim() || undefined,
     ctaLabel,
