@@ -557,10 +557,13 @@ a.nav-link {
 }
 
 .collections-grid--compact .hb-mega-card--text.collection-card,
-.collections-grid--compact .hb-mega-card--text.col-card {
+.collections-grid--compact .hb-mega-card--text.col-card,
+.collections-grid--compact .hb-mega-card--icon.collection-card,
+.collections-grid--compact .hb-mega-card--icon.col-card {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   width: auto;
   min-width: 0;
   min-height: 0;
@@ -569,7 +572,8 @@ a.nav-link {
   background: color-mix(in srgb, var(--color-surface, var(--background)) 88%, var(--cp) 5%);
 }
 
-.collections-grid--compact .hb-mega-card--text h4 {
+.collections-grid--compact .hb-mega-card--text h4,
+.collections-grid--compact .hb-mega-card--icon h4 {
   margin: 0;
   font-size: 0.82rem;
   font-weight: 600;
@@ -801,6 +805,23 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
   .hb-mega-card--visual:hover {
     transform: none;
   }
+}
+
+.hb-mega-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+}
+
+.hb-mega-card__icon img,
+.hb-mega-v2-icon-item__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .hb-mega-card--text .collection-icon {

@@ -255,8 +255,8 @@ describe("mega menu child appearance schema", () => {
       iconImageUrl: "/drafting-logo.png",
       photoUrl: "/drafting-cover.jpg",
     };
-    assert.equal(resolveEffectiveChildDisplayType(automaticWithImage, "links"), "list");
-    assert.equal(resolveChildCardMedia(automaticWithImage, "list"), null);
+    assert.equal(resolveEffectiveChildDisplayType(automaticWithImage, "links"), "icon");
+    assert.equal(resolveChildCardMedia(automaticWithImage, "icon"), null);
 
     const photoOnly = resolveMegaMenu(
       {
@@ -300,7 +300,8 @@ describe("mega menu child appearance schema", () => {
       },
       "en",
     );
-    assert.equal(textOnlyView.children[0]?.appearance, "list");
+    assert.equal(textOnlyView.children[0]?.appearance, "icon");
+    assert.equal(textOnlyView.children[0]?.iconImageUrl, "/drafting-logo.png");
     assert.equal(textOnlyView.children[0]?.cardMedia, null);
   });
 });

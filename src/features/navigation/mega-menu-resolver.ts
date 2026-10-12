@@ -228,6 +228,12 @@ export function resolveMegaMenuChildDisplayType(
   return resolveEffectiveChildDisplayType(child, null, menuType) === "image" ? "card" : "link";
 }
 
+function itemHasIconMedia(
+  child: Pick<MenuItem, "icon" | "resolvedIcon" | "iconImageUrl">,
+): boolean {
+  return Boolean(child.iconImageUrl?.trim() || child.icon?.trim() || child.resolvedIcon?.trim());
+}
+
 export function resolveEffectiveChildDisplayType(
   child: MenuItem,
   _panelLayout: MegaMenuPanelLayout | null,
@@ -237,9 +243,15 @@ export function resolveEffectiveChildDisplayType(
     child.megaMenuChildDisplayType as MegaMenuChildDisplayType | "link" | "featured" | "product" | undefined,
   );
 
+  if (explicit === "list") return "list";
   if (explicit === "icon") return "icon";
   if (explicit === "card" && child.megaMenuCardMedia === "icon") return "icon";
   if (explicit === "image" || explicit === "card") return "image";
+
+  // Unset / automatic: logo or icon when the item has one, otherwise the cover.
+  // Explicit "list" stays text so "without icon or photo" still hides both.
+  if (itemHasIconMedia(child)) return "icon";
+  if (resolveMenuItemPhotoUrl(child)) return "image";
   return "list";
 }
 

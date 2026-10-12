@@ -150,7 +150,9 @@ function MegaMenuRowLink({
         className={`${cardClass} hb-mega-card-link hb-mega-card--icon`.trim()}
         onClick={() => onLinkClick?.()}
       >
-        <NavIconMedia icon={child.showNavIcon ? child.icon : undefined} iconImageUrl={child.iconImageUrl} />
+        <span className="hb-mega-card__icon" aria-hidden>
+          <NavIconMedia icon={child.showNavIcon ? child.icon : undefined} iconImageUrl={child.iconImageUrl} />
+        </span>
         <h4>{child.label}</h4>
         {desc ? <p>{desc}</p> : null}
       </a>

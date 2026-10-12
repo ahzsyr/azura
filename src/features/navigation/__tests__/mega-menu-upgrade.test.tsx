@@ -4,7 +4,7 @@ import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { headerWorkspaceSchema } from "@/schemas/navigation";
 import type { HeaderWorkspace, MenuItem } from "@/features/navigation/types";
-import { resolveMegaMenuChildDisplayType, resolveMegaMenuConfig, resolveMegaMenu } from "@/features/navigation/mega-menu-resolver";
+import { resolveEffectiveChildDisplayType, resolveMegaMenuChildDisplayType, resolveMegaMenuConfig, resolveMegaMenu } from "@/features/navigation/mega-menu-resolver";
 import { initMegaFormState, megaFormToPersistedConfig, clampMegaColumns, addNavPanelPair, removeNavPanelPair, buildSidebarScaffold } from "@/features/navigation/mega-menu-form";
 import { validateMegaMenuV2Config } from "@/features/navigation/mega-menu-validate";
 import { megaMenuPresetService } from "@/features/navigation/mega-menu-presets";
@@ -250,7 +250,7 @@ describe("mega menu resolver", () => {
     assert.equal(resolveMegaMenuChildDisplayType(child, "grid"), "link");
   });
 
-  it("automatic stays text only even when a photo exists", () => {
+  it("automatic shows a cover when the item has a photo and no icon", () => {
     const child: MenuItem = childMenuItem({
       id: "c1",
       type: "collection",
@@ -259,7 +259,20 @@ describe("mega menu resolver", () => {
       megaMenuChildDisplayType: "automatic",
     });
 
-    assert.equal(resolveMegaMenuChildDisplayType(child, "grid"), "link");
+    assert.equal(resolveMegaMenuChildDisplayType(child, "grid"), "card");
+  });
+
+  it("automatic prefers a logo over the cover", () => {
+    const child: MenuItem = childMenuItem({
+      id: "c1",
+      type: "brand",
+      label: "MikroTik",
+      iconImageUrl: "/brands/mikrotik/logo.png",
+      photoUrl: "/brands/mikrotik/banner.jpg",
+      imageUrl: "/brands/mikrotik/banner.jpg",
+    });
+
+    assert.equal(resolveEffectiveChildDisplayType(child, null), "icon");
   });
 
   it("clamps custom width/height in resolver", () => {
@@ -554,7 +567,7 @@ describe("mega menu v2 sidebar/panel", () => {
     assert.equal(view.activePanelId, "panel-how");
     assert.ok(view.cssVars["--mega-menu-rail-width"]);
     assert.equal(view.panels[0].children.length, 2);
-    assert.equal(view.panels[0].children[0].displayType, "list");
+    assert.equal(view.panels[0].children[0].displayType, "icon");
   });
 
   it("renders sidebar rail + panel without breaking v1 dropdown", () => {

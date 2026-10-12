@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { localeService } from "@/features/i18n/locale.service";
 import {
   collectionMapFromList,
+  isCollectionImageSrc,
   pickCollectionMenuMedia,
   resolveCollectionImages,
 } from "@/features/collections/collection-navigation";
@@ -37,7 +38,27 @@ export type ResolvedMenuItemMedia = BrandMenuMedia & {
   resolvedIcon?: string;
 };
 
-async function getCatalogItemImageUrlFromDb(slug: string): Promise<string | undefined> {
+function contentItemMenuMedia(item: {
+  featuredImageUrl?: string | null;
+  attributes?: unknown;
+  media?: { url: string; isCover?: boolean }[];
+} | null): ResolvedMenuItemMedia {
+  if (!item) return {};
+  const cover =
+    item.media?.find((entry) => entry.isCover)?.url ??
+    item.featuredImageUrl ??
+    item.media?.[0]?.url;
+  const attrs = (item.attributes ?? {}) as Record<string, unknown>;
+  const iconRaw = typeof attrs.icon === "string" ? attrs.icon.trim() : "";
+  const iconIsUrl = Boolean(iconRaw && isCollectionImageSrc(iconRaw));
+  return {
+    photoUrl: cover?.trim() || undefined,
+    iconImageUrl: iconIsUrl ? iconRaw : undefined,
+    resolvedIcon: iconRaw && !iconIsUrl ? iconRaw : undefined,
+  };
+}
+
+async function getCatalogItemMenuMedia(slug: string): Promise<ResolvedMenuItemMedia> {
   const item = await prisma.contentItem.findFirst({
     where: {
       slug,
@@ -46,16 +67,16 @@ async function getCatalogItemImageUrlFromDb(slug: string): Promise<string | unde
       contentType: { slug: "catalog-items" },
     },
     include: {
-      media: { where: { isPublished: true, isHidden: false }, orderBy: { sortOrder: "asc" }, take: 1 },
+      media: { where: { isPublished: true, isHidden: false }, orderBy: { sortOrder: "asc" } },
     },
   });
-  return item?.media[0]?.url ?? item?.featuredImageUrl ?? undefined;
+  return contentItemMenuMedia(item);
 }
 
-async function getContentItemImageByTypeAndSlug(
+async function getContentItemMenuMedia(
   typeSlug: string,
   itemSlug: string,
-): Promise<string | undefined> {
+): Promise<ResolvedMenuItemMedia> {
   const item = await prisma.contentItem.findFirst({
     where: {
       slug: itemSlug,
@@ -64,19 +85,19 @@ async function getContentItemImageByTypeAndSlug(
       contentType: { slug: typeSlug },
     },
     include: {
-      media: { where: { isPublished: true, isHidden: false }, orderBy: { sortOrder: "asc" }, take: 1 },
+      media: { where: { isPublished: true, isHidden: false }, orderBy: { sortOrder: "asc" } },
     },
   });
-  return item?.media[0]?.url ?? item?.featuredImageUrl ?? undefined;
+  return contentItemMenuMedia(item);
 }
 
-/** Parse `/{routePrefix|typeSlug}/{itemSlug}` content links for image enrichment. */
-async function getContentLinkImageUrl(url: string | undefined): Promise<string | undefined> {
+/** Parse `/{routePrefix|typeSlug}/{itemSlug}` content links for icon and cover. */
+async function getContentLinkMenuMedia(url: string | undefined): Promise<ResolvedMenuItemMedia> {
   const path = (url ?? "").trim().replace(/^\//, "");
-  if (!path || path.startsWith("http")) return undefined;
+  if (!path || path.startsWith("http")) return {};
   const [prefix, ...rest] = path.split("/");
   const itemSlug = rest.join("/");
-  if (!prefix || !itemSlug || itemSlug.includes("/")) return undefined;
+  if (!prefix || !itemSlug || itemSlug.includes("/")) return {};
 
   const type = await prisma.contentType.findFirst({
     where: {
@@ -85,8 +106,8 @@ async function getContentLinkImageUrl(url: string | undefined): Promise<string |
     },
     select: { slug: true },
   });
-  if (!type) return undefined;
-  return getContentItemImageByTypeAndSlug(type.slug, itemSlug);
+  if (!type) return {};
+  return getContentItemMenuMedia(type.slug, itemSlug);
 }
 
 function getCollectionMenuMediaFromMap(
@@ -104,7 +125,8 @@ async function getProductImageUrl(slug: string, localeCode: string): Promise<str
     const images = loaded.product.media?.images ?? [];
     return images.find((img) => img.type === "main")?.url || images[0]?.url;
   }
-  return getCatalogItemImageUrlFromDb(slug);
+  const media = await getCatalogItemMenuMedia(slug);
+  return media.photoUrl;
 }
 
 async function getBrandMenuMedia(slug: string, localeCode: string): Promise<ResolvedMenuItemMedia> {
@@ -125,7 +147,7 @@ export async function resolveMenuItemMedia(
   localeCode: string,
   collectionBySlug?: Map<string, Collection>,
 ): Promise<ResolvedMenuItemMedia> {
-  if (shouldPreferStoredMenuImageUrl(item)) {
+  if (item.type !== "link" && shouldPreferStoredMenuImageUrl(item)) {
     return withPhotoOverride(item, { photoUrl: item.imageUrl?.trim() });
   }
   switch (item.type) {
@@ -149,7 +171,7 @@ export async function resolveMenuItemMedia(
       const photo =
         item.type === "product" || item.productId?.trim()
           ? await getProductImageUrl(item.productId?.trim() || slug, localeCode)
-          : await getCatalogItemImageUrlFromDb(slug);
+          : (await getCatalogItemMenuMedia(slug)).photoUrl;
       return withPhotoOverride(item, { photoUrl: photo });
     }
     case "brand": {
@@ -160,8 +182,12 @@ export async function resolveMenuItemMedia(
     case "image":
       return withPhotoOverride(item, { photoUrl: item.imageUrl?.trim() || undefined });
     case "link": {
-      if (item.imageUrl?.trim()) return withPhotoOverride(item, { photoUrl: item.imageUrl.trim() });
-      return withPhotoOverride(item, { photoUrl: await getContentLinkImageUrl(item.url) });
+      if (item.imageUrl?.trim() && !item.url?.trim()) {
+        return withPhotoOverride(item, { photoUrl: item.imageUrl.trim() });
+      }
+      const linked = await getContentLinkMenuMedia(item.url);
+      if (item.imageUrl?.trim() && !linked.photoUrl) linked.photoUrl = item.imageUrl.trim();
+      return withPhotoOverride(item, linked);
     }
     default:
       return withPhotoOverride(item, { photoUrl: item.imageUrl?.trim() || undefined });
@@ -270,7 +296,7 @@ export async function enrichHeaderWorkspaceForSiteCached(
       const withSources = await expandMegaMenuPanelSources(localized, localeCode);
       return enrichFlyoutMenuImagesOnly(withSources, localeCode);
     },
-    ["header-flyout-images", localeCode, fingerprint],
+    ["header-flyout-images-v2", localeCode, fingerprint],
     { tags: ["header-workspace", `header-flyout-${localeCode}`], revalidate: 300 },
   )();
 }
