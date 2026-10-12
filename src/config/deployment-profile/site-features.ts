@@ -4,6 +4,7 @@ import { cache } from "react";
 import type { Prisma, PrismaClient } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import type { BlockAvailabilityProfile } from "@/features/builder/registry/block-requirement";
+import { expandFeatureToggles } from "@/platform/packages/site-feature-changes";
 import { getDeploymentProfile, isModuleEnabled, isPresetEnabled } from "./load-profile";
 import { getModuleManifests } from "./route-registry";
 
@@ -62,10 +63,16 @@ async function readAndSeed(client: FeatureClient): Promise<Map<string, boolean>>
 }
 
 /**
- * One load per request. A failed read or seed fails closed: callers treat every
- * included feature as inactive. There is no process-wide cache.
+ * One load per request. A failed read keeps profile-included features active
+ * so saved blocks and admin links are not blanked by a ledger outage.
  */
 const loadSiteFeatureMap = cache(async (): Promise<Map<string, boolean> | null> => {
+  try {
+    const { ensureBuiltinPackages } = await import("@/platform/packages/seed");
+    await ensureBuiltinPackages();
+  } catch (error) {
+    console.error("[site-features] package seed skipped", error);
+  }
   try {
     return await readAndSeed(prisma);
   } catch (error) {
@@ -83,7 +90,7 @@ export async function isModuleActive(moduleId: string): Promise<boolean> {
   if (!isModuleEnabled(moduleId)) return false;
   if (!profileIncludesRuntimeRows()) return true;
   const rows = await loadSiteFeatureMap();
-  if (!rows) return false;
+  if (!rows) return true;
   return rows.get(featureKey("module", moduleId)) === true;
 }
 
@@ -92,7 +99,7 @@ export async function isPresetActive(presetId: string): Promise<boolean> {
   if (!isPresetEnabled(presetId)) return false;
   if (!profileIncludesRuntimeRows()) return true;
   const rows = await loadSiteFeatureMap();
-  if (!rows) return false;
+  if (!rows) return true;
   return rows.get(featureKey("preset", presetId)) === true;
 }
 
@@ -111,7 +118,11 @@ export async function getEffectiveAvailabilityProfile(): Promise<BlockAvailabili
   }
   const rows = await loadSiteFeatureMap();
   if (!rows) {
-    return { modules: [], presets: [], capabilities: profile.capabilities };
+    return {
+      modules: profile.modules,
+      presets: profile.presets,
+      capabilities: profile.capabilities,
+    };
   }
   return {
     modules: profile.modules.filter((id) => rows.get(featureKey("module", id)) === true),
@@ -157,11 +168,20 @@ export async function updateSiteFeatures(changes: SiteFeatureChange[]): Promise<
   await prisma.$transaction(async (tx) => {
     await tx.$queryRaw`SELECT \`kind\`, \`featureId\` FROM \`SiteFeature\` FOR UPDATE`;
     const state = await readAndSeed(tx);
-    for (const change of changes) {
+    const profile = getDeploymentProfile();
+    const expanded = expandFeatureToggles({
+      requested: changes,
+      current: state,
+      manifests: getModuleManifests(),
+      includedModules: profile.modules,
+      includedPresets: profile.presets,
+    });
+    for (const change of expanded) assertChangeIsIncluded(change);
+    for (const change of expanded) {
       state.set(featureKey(change.kind, change.featureId), change.enabled);
     }
     assertEnabledModulesKeepRequiredPresets(state);
-    for (const change of changes) {
+    for (const change of expanded) {
       await tx.siteFeature.update({
         where: {
           kind_featureId: { kind: change.kind, featureId: change.featureId },

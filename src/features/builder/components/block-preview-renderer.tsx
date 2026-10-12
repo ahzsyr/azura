@@ -26,9 +26,9 @@ import { sectionBackgroundToCss } from "@/features/theme/backgrounds/background-
 import { Badge } from "@/components/ui/badge";
 import type { DeviceBreakpoint } from "@/types/block-system";
 import { resolveContentOverflowForDevice } from "@/features/builder/styles/content-overflow-resolver";
-import { blockRegistry, isBlockTypeEnabled } from "@/features/builder/registry/block-registry-system";
+import { blockRegistry } from "@/features/builder/registry/block-registry-system";
 import type { BlockAvailabilityProfile } from "@/features/builder/registry/block-requirement";
-import { BlockAvailabilityProvider, useBlockAvailability } from "./block-availability-context";
+import { BlockAvailabilityProvider } from "./block-availability-context";
 import { getBlockSettings } from "@/features/builder/instance/block-instance";
 import {
   clampOverlayOpacity,
@@ -75,10 +75,6 @@ function PreviewBlock({
 }) {
   const p = getBlockSettings(block);
   const ctx = useBlockTranslationsOptional();
-  const availability = useBlockAvailability();
-  if (!isBlockTypeEnabled(block.type, availability)) {
-    return <div className="rounded border border-dashed p-4 text-sm text-muted-foreground">This block is unavailable in the active deployment profile.</div>;
-  }
   const code = resolvePrefixToCode(locale, locales);
   const rows = ctx?.translationMap.get(block.id);
   const loc = (field: string) => getBlockFieldValue(rows, field, code, p, locales);

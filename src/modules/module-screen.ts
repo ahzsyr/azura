@@ -3,6 +3,8 @@ import "server-only";
 import { getDeploymentProfile, isCapabilityEnabled, isModuleEnabled, isPresetEnabled } from "@/config/deployment-profile";
 import { isModuleActive, isPresetActive } from "@/config/deployment-profile/site-features";
 import { getModuleManifests } from "@/config/deployment-profile/route-registry";
+import { listInstalledPackages } from "@/platform/packages/installer";
+import { ensureBuiltinPackages } from "@/platform/packages/seed";
 import type { ModuleScreenDependency, ModuleScreenModel, ModuleScreenRow } from "@/modules/module-screen-types";
 
 export type { ModuleScreenDependency, ModuleScreenModel, ModuleScreenRow } from "@/modules/module-screen-types";
@@ -24,6 +26,18 @@ function labelFor(id: string): string {
 export async function listModulesForAdmin(): Promise<ModuleScreenModel> {
   const profile = getDeploymentProfile();
   const profileGenerated = profile.generated;
+  try {
+    await ensureBuiltinPackages();
+  } catch (error) {
+    console.error("[modules] package seed skipped", error);
+  }
+  let installed = new Map<string, { status: string; kind: string }>();
+  try {
+    const rows = await listInstalledPackages();
+    installed = new Map(rows.map((row) => [row.packageId, { status: row.status, kind: row.kind }]));
+  } catch (error) {
+    console.error("[modules] package list skipped", error);
+  }
   const modules: ModuleScreenRow[] = [];
 
   for (const manifest of getModuleManifests()) {
@@ -50,6 +64,7 @@ export async function listModulesForAdmin(): Promise<ModuleScreenModel> {
         writable: false,
       };
     });
+    const record = installed.get(manifest.id);
     modules.push({
       id: manifest.id,
       label: labelFor(manifest.id),
@@ -59,6 +74,8 @@ export async function listModulesForAdmin(): Promise<ModuleScreenModel> {
       writable: profileGenerated && included,
       requiredPresets,
       requiredCapabilities,
+      packageKind: record?.kind ?? manifest.packageKind,
+      status: record?.status ?? (enabled ? "active" : "inactive"),
     });
   }
 

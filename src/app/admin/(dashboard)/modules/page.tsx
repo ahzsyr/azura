@@ -10,7 +10,7 @@ export default async function AdminModulesPage() {
     <div className="space-y-6">
       <AdminPageHeader
         title="Modules"
-        description="Turn included modules and their required presets on or off for this installation. A deployment profile that omitted a module cannot be overridden here."
+        description="Install and activate apps that this deployment includes. Enabling an app also enables the presets it requires. Deactivating an app removes its admin links together with its routes."
       />
       <ModuleScreen model={model} />
     </div>

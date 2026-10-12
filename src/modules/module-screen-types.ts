@@ -16,6 +16,8 @@ export type ModuleScreenRow = {
   writable: boolean;
   requiredPresets: ModuleScreenDependency[];
   requiredCapabilities: ModuleScreenDependency[];
+  packageKind: string;
+  status: string;
 };
 
 export type ModuleScreenModel = {

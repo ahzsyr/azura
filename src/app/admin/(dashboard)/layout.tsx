@@ -14,6 +14,7 @@ import {
   adminLifecycleDestination,
   isAdminLifecycleExemptPath,
 } from "@/features/auth/admin-lifecycle";
+import { listInactiveContributedNavItemIds } from "@/platform/packages/contributions";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
@@ -44,10 +45,17 @@ export default async function DashboardLayout({ children }: { children: React.Re
     resolved = await buildResolvedTheme(getDefaultThemeTokens());
   }
 
+  let inactiveNavItemIds: string[] = [];
+  try {
+    inactiveNavItemIds = await listInactiveContributedNavItemIds();
+  } catch (error) {
+    console.error("[admin/dashboard] package nav skipped", error);
+  }
+
   return (
     <div className="admin-route-root">
       <AdminThemeStyles resolved={resolved} />
-      <AdminShell>{children}</AdminShell>
+      <AdminShell inactiveNavItemIds={inactiveNavItemIds}>{children}</AdminShell>
     </div>
   );
 }

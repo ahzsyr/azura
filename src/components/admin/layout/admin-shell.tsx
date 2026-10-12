@@ -13,7 +13,13 @@ import { AdminHelpPanel } from "@/features/help/components/admin-help-panel";
 import { AdminPageConfigProvider } from "./admin-page-config-provider";
 import { AdminActionToastHost } from "./admin-action-toast";
 
-function AdminShellInner({ children }: { children: React.ReactNode }) {
+function AdminShellInner({
+  children,
+  inactiveNavItemIds,
+}: {
+  children: React.ReactNode;
+  inactiveNavItemIds: readonly string[];
+}) {
   useAdminKeyboardShortcuts();
   useUnsavedChangesGuard();
 
@@ -22,7 +28,7 @@ function AdminShellInner({ children }: { children: React.ReactNode }) {
       <div className="admin-shell az-scroll flex h-screen flex-col overflow-hidden">
         <AdminTopBar />
         <div className="flex min-h-0 min-w-0 flex-1 overflow-hidden">
-          <AdminSidebar />
+          <AdminSidebar inactiveNavItemIds={inactiveNavItemIds} />
           <AdminContentArea>{children}</AdminContentArea>
         </div>
         <AdminChromeFab />
@@ -33,13 +39,19 @@ function AdminShellInner({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function AdminShell({ children }: { children: React.ReactNode }) {
+export function AdminShell({
+  children,
+  inactiveNavItemIds = [],
+}: {
+  children: React.ReactNode;
+  inactiveNavItemIds?: readonly string[];
+}) {
   return (
     <AdminThemeProvider>
       <AdminCapabilityInit />
       <AdminSurfaceProvider>
         <TooltipProvider delayDuration={200}>
-          <AdminShellInner>{children}</AdminShellInner>
+          <AdminShellInner inactiveNavItemIds={inactiveNavItemIds}>{children}</AdminShellInner>
         </TooltipProvider>
       </AdminSurfaceProvider>
     </AdminThemeProvider>

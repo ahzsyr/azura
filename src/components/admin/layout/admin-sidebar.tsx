@@ -82,7 +82,13 @@ function isActive(pathname: string, href: string) {
   return pathname === path || pathname.startsWith(`${path}/`);
 }
 
-function SidebarContent({ collapsed }: { collapsed: boolean }) {
+function SidebarContent({
+  collapsed,
+  inactiveNavItemIds,
+}: {
+  collapsed: boolean;
+  inactiveNavItemIds: readonly string[];
+}) {
   const pathname = usePathname();
   const navSearchQuery = useAdminUiStore((s) => s.navSearchQuery);
   const setNavSearchQuery = useAdminUiStore((s) => s.setNavSearchQuery);
@@ -95,7 +101,7 @@ function SidebarContent({ collapsed }: { collapsed: boolean }) {
   const isSearching = Boolean(navSearchQuery.trim());
   const activeGroupId = findNavGroupIdByPath(pathname);
   const activeSectionId = findNavSectionIdByPath(pathname);
-  const filteredGroups = filterNavItems(navSearchQuery);
+  const filteredGroups = filterNavItems(navSearchQuery, inactiveNavItemIds);
   const DashboardIcon = ADMIN_DASHBOARD.icon;
 
   useEffect(() => {
@@ -319,7 +325,7 @@ function SidebarContent({ collapsed }: { collapsed: boolean }) {
   );
 }
 
-export function AdminSidebar() {
+export function AdminSidebar({ inactiveNavItemIds = [] }: { inactiveNavItemIds?: readonly string[] }) {
   const sidebarCollapsed = useAdminUiStore((s) => s.sidebarCollapsed);
   const sidebarMobileOpen = useAdminUiStore((s) => s.sidebarMobileOpen);
   const toggleSidebarCollapsed = useAdminUiStore((s) => s.toggleSidebarCollapsed);
@@ -355,7 +361,7 @@ export function AdminSidebar() {
         >
           {sidebarCollapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-3 w-3" />}
         </Button>
-        <SidebarContent collapsed={sidebarCollapsed} />
+        <SidebarContent collapsed={sidebarCollapsed} inactiveNavItemIds={inactiveNavItemIds} />
       </motion.aside>
 
       {/* Mobile drawer overlay */}
@@ -381,7 +387,7 @@ export function AdminSidebar() {
             <X className="h-4 w-4" />
           </Button>
         </div>
-        <SidebarContent collapsed={false} />
+        <SidebarContent collapsed={false} inactiveNavItemIds={inactiveNavItemIds} />
       </motion.aside>
     </TooltipProvider>
   );

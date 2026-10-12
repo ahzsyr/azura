@@ -5,6 +5,10 @@ export const MARKETING_MODULE_ID = "marketing" as const;
 export const marketingModuleManifest = {
   id: MARKETING_MODULE_ID,
   version: "1.0.0",
+  packageKind: "app",
+  azuraCompatibility: ">=0.1.0",
+  requiredPackages: [],
+  label: "Marketing",
   requiredCapabilities: ["analytics"],
   requiredPresets: [],
   adminRoutes: ["/admin/marketing"],

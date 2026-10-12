@@ -5,6 +5,10 @@ export const DOCUMENTATION_MODULE_ID = "documentation" as const;
 export const documentationModuleManifest = {
   id: DOCUMENTATION_MODULE_ID,
   version: "1.0.0",
+  packageKind: "app",
+  azuraCompatibility: ">=0.1.0",
+  requiredPackages: [],
+  label: "Documentation",
   requiredCapabilities: ["search", "versioning", "workflow"],
   requiredPresets: ["knowledge"],
   adminRoutes: ["/admin/documentation"],

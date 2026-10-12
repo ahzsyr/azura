@@ -636,9 +636,10 @@ function hrefPathname(href: string): string {
   return queryIndex === -1 ? href : href.slice(0, queryIndex);
 }
 
-function isNavItemVisibleForProfile(item: AdminNavItem): boolean {
+function isNavItemVisibleForProfile(item: AdminNavItem, inactiveNavItemIds?: ReadonlySet<string>): boolean {
   if (!isAdminHrefEnabled(hrefPathname(item.href))) return false;
   if (item.navItemId && !isAdminNavItemEnabled(item.navItemId)) return false;
+  if (item.navItemId && inactiveNavItemIds?.has(item.navItemId)) return false;
   return true;
 }
 
@@ -647,21 +648,22 @@ function groupHasItems(group: AdminNavGroup): boolean {
   return group.items.length > 0;
 }
 
-/** Admin nav groups filtered by the active deployment profile. */
-export function getAdminNavGroupsForProfile(): AdminNavGroup[] {
+/** Admin nav groups filtered by the deployment profile and inactive packages. */
+export function getAdminNavGroupsForProfile(inactiveNavItemIds?: readonly string[]): AdminNavGroup[] {
+  const inactive = inactiveNavItemIds ? new Set(inactiveNavItemIds) : undefined;
   return ADMIN_NAV_GROUPS.map((group) => {
     if (group.sections?.length) {
       const sections = group.sections
         .map((section) => ({
           ...section,
-          items: section.items.filter(isNavItemVisibleForProfile),
+          items: section.items.filter((item) => isNavItemVisibleForProfile(item, inactive)),
         }))
         .filter((section) => section.items.length > 0);
       return { ...group, items: [], sections };
     }
     return {
       ...group,
-      items: group.items.filter(isNavItemVisibleForProfile),
+      items: group.items.filter((item) => isNavItemVisibleForProfile(item, inactive)),
     };
   }).filter(groupHasItems);
 }
@@ -689,8 +691,8 @@ export const ALL_ADMIN_NAV_ITEMS: AdminNavItem[] = [
 
 export const ADMIN_NAV_GROUP_IDS = ADMIN_NAV_GROUPS.map((g) => g.id);
 
-function resolveNavGroups(): AdminNavGroup[] {
-  return getAdminNavGroupsForProfile();
+function resolveNavGroups(inactiveNavItemIds?: readonly string[]): AdminNavGroup[] {
+  return getAdminNavGroupsForProfile(inactiveNavItemIds);
 }
 
 function resolveAllNavItems(): AdminNavItem[] {
@@ -1000,9 +1002,10 @@ function itemMatchesQuery(item: AdminNavItem, q: string): boolean {
 
 export function filterNavItems(
   query: string,
+  inactiveNavItemIds?: readonly string[],
 ): { group: AdminNavGroup; items: AdminNavItem[] }[] {
   const q = query.trim().toLowerCase();
-  const groups = resolveNavGroups();
+  const groups = resolveNavGroups(inactiveNavItemIds);
   if (!q) {
     return groups.map((group) => ({ group, items: flattenGroupItems(group) }));
   }

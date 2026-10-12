@@ -717,6 +717,37 @@ model SiteFeature {
   @@id([kind, featureId])
 }
 
+/// One row per installed app, extension, or theme. Status is the installer lifecycle.
+/// `pending` means the ZIP was accepted but its code is not in this server build yet.
+model PackageInstallation {
+  packageId   String   @id @db.VarChar(64)
+  kind        String   @db.VarChar(16)
+  version     String   @db.VarChar(32)
+  status      String   @db.VarChar(16)
+  manifest    Json
+  installedAt DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  migrations PackageMigration[]
+
+  @@index([status])
+}
+
+/// Applied package SQL. Core Prisma migrations stay in prisma/migrations.
+model PackageMigration {
+  id         String   @id @default(cuid())
+  packageId  String   @db.VarChar(64)
+  version    String   @db.VarChar(32)
+  filename   String   @db.VarChar(255)
+  checksum   String   @db.VarChar(64)
+  direction  String   @db.VarChar(8)
+  appliedAt  DateTime @default(now())
+  package    PackageInstallation @relation(fields: [packageId], references: [packageId], onDelete: Cascade)
+
+  @@unique([packageId, filename, direction])
+  @@index([packageId])
+}
+
 model Video {
   id               String      @id @default(cuid())
   slug             String      @unique

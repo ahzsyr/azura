@@ -292,7 +292,7 @@ function SortableBlockItem({
           </Badge>
           {unavailable ? (
             <Badge variant="secondary" className="text-[10px] shrink-0">
-              Unavailable
+              Inactive
             </Badge>
           ) : null}
           {hidden ? (

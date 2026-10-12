@@ -20,7 +20,7 @@ import { resolveCatalogSourceFromBlock } from "@/features/catalog/catalog-source
 import { getBlockSettings } from "@/features/builder/instance/block-instance";
 import { migrateBlocksToBlockSystem } from "@/features/builder/migration/upgrade-blocks";
 import { BlockWrapper } from "@/features/builder/components/block-wrapper";
-import { blockRegistry, isBlockTypeEnabled } from "@/features/builder/registry/block-registry-system";
+import { blockRegistry } from "@/features/builder/registry/block-registry-system";
 import type { BlockAvailabilityProfile } from "@/features/builder/registry/block-requirement";
 import { getEffectiveAvailabilityProfile } from "@/config/deployment-profile/site-features";
 import { BLOCK_VIEW_EXTRACTED_TYPES } from "@/features/builder/registry/block-cms-dispatch";
@@ -235,15 +235,6 @@ async function renderBlockContent(
   },
 ): Promise<ReactNode> {
   const blockType = block.type as BlockType;
-  if (!isBlockTypeEnabled(blockType, ctx.availability)) {
-    return (
-      <Section>
-        <p className="text-muted-foreground text-sm">
-          This block is unavailable because its required module, preset, or capability is not enabled.
-        </p>
-      </Section>
-    );
-  }
   if (blockRegistry.has(blockType) && !blockRegistry.hasViewDispatch(blockType)) {
     console.warn(`[block-renderer] No CMS view dispatch registered for block type: ${blockType}`);
   }

@@ -4,6 +4,7 @@ import { getAdminDashboardStats } from "@/services/loaders";
 import { rebuildSearchIndex } from "@/capabilities/search/actions";
 import { prisma } from "@/lib/prisma";
 import { AdminDashboardClient } from "@/components/admin/admin-dashboard-client";
+import { ActivePackageSections } from "@/platform/packages/active-package-sections";
 
 export const metadata = {
   title: "Dashboard",
@@ -50,13 +51,16 @@ export default async function AdminDashboardPage() {
   }
 
   return (
-    <AdminDashboardClient
-      branding={branding}
-      stats={stats}
-      platform={platform}
-      customerCount={customerCount}
-      recentSubmissions={recentSubmissions}
-      rebuildSearchAction={rebuildSearchIndex}
-    />
+    <div className="space-y-6">
+      <ActivePackageSections />
+      <AdminDashboardClient
+        branding={branding}
+        stats={stats}
+        platform={platform}
+        customerCount={customerCount}
+        recentSubmissions={recentSubmissions}
+        rebuildSearchAction={rebuildSearchIndex}
+      />
+    </div>
   );
 }
