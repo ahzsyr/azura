@@ -6,8 +6,7 @@ import { isValidUrlPrefix } from "@/i18n/locale-registry.server";
 import { getEnabledUrlPrefixes } from "@/i18n/locale-registry.server";
 import { FALLBACK_LOCALES } from "@/i18n/locale-config";
 import { isBuildWithoutDb } from "@/lib/build-db";
-import { SiteHeaderShell } from "@/components/layout/site-header-shell";
-import { DeferredSiteHeader } from "@/components/layout/site-header-deferred";
+import { SiteHeader } from "@/components/layout/site-header";
 import { FooterRenderer } from "@/features/footer/components/FooterRenderer";
 import {
   DeferredNavigationProgress,
@@ -205,13 +204,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             enabledLocales={shell.enabledLocales}
           />
           <SiteChromeGate settings={shell.theme?.headerConfig}>
-            <SiteHeaderShell
-              workspace={shell.headerWorkspace}
-              locale={locale}
-              themePreset={shell.theme?.preset}
-              headerConfig={shell.theme?.headerConfig}
-            />
-            <DeferredSiteHeader
+            <SiteHeader
               workspace={shell.headerWorkspace}
               locale={locale}
               locales={shell.enabledLocales}

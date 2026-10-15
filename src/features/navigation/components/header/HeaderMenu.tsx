@@ -189,9 +189,27 @@ export function HeaderMenu({
       <ul className="nav-list">
         {desktopItems.map((item) => {
           const hasChildren = (item.children?.length ?? 0) > 0;
-          const icon = item.icon?.trim();
-          const showIcon = Boolean(icon) && resolveItemShowsNavIcon(item.iconPlacement, "desktop", iconVisibility);
-          const glyph = showIcon ? (
+          const chosen = item.sourceDisplay;
+          const icon =
+            chosen === "icon"
+              ? item.icon?.trim() || item.resolvedIcon?.trim() || item.sourceIconName?.trim()
+              : item.icon?.trim();
+          const showIcon =
+            chosen !== "none" &&
+            chosen !== "logo" &&
+            chosen !== "image" &&
+            (chosen === "icon" || Boolean(icon)) &&
+            Boolean(icon) &&
+            (item.iconPlacement === "both" ||
+              item.iconPlacement === "desktop" ||
+              resolveItemShowsNavIcon(item.iconPlacement, "desktop", iconVisibility));
+          const logoUrl = chosen === "logo" ? item.sourceLogoUrl?.trim() : undefined;
+          const glyph = logoUrl ? (
+            <span className="hb-nav-icon-slot" aria-hidden>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={logoUrl} alt="" className="hb-nav-icon" />
+            </span>
+          ) : showIcon ? (
             <NavMenuGlyph
               icon={icon}
               className="hb-nav-icon"

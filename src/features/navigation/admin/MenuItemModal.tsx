@@ -11,11 +11,11 @@ import type {
 } from "@/features/navigation/types";
 import {
   childMediaChoicePatch,
-  childMediaChoiceShowsImagePicker,
-  sourceDisplayOptionsForItem,
   inspectorSourceDisplay,
+  sourceDisplayOptionsForItem,
   type ChildMediaChoice,
 } from "@/features/navigation/menu-item-appearance";
+import { MenuAppearanceFields } from "./shared/MenuAppearanceFields";
 import {
   initMegaFormState,
   megaFormToPersistedConfig,
@@ -43,7 +43,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { IconPickerField } from "@/features/icons";
 
 export type ModalMode = "add-root" | "add-child" | "edit" | null;
 
@@ -255,6 +254,45 @@ export function MenuItemModal({
     setForm(buildFormState(editingItem, catalog, defaultPlacement));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editingItem, mode, itemId, defaultPlacement]);
+
+  useEffect(() => {
+    const options = sourceDisplayOptionsForItem(
+      {
+        type: form.type,
+        label: form.label,
+        icon: form.icon,
+        collectionId: form.collectionId,
+        brandSlug: form.brandSlug,
+        productId: form.productId,
+        packageId: form.packageId,
+        postId: form.postId,
+        url: form.url,
+        imageUrl: form.imageUrl,
+        megaMenuImageUrl: form.megaMenuImageUrl,
+        sourceDisplay: form.childMediaChoice,
+      },
+      catalog,
+    );
+    if (options.some((option) => option.value === form.childMediaChoice)) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setForm((current) =>
+      current.childMediaChoice === "none" ? current : { ...current, childMediaChoice: "none" },
+    );
+  }, [
+    catalog,
+    form.brandSlug,
+    form.childMediaChoice,
+    form.collectionId,
+    form.icon,
+    form.imageUrl,
+    form.label,
+    form.megaMenuImageUrl,
+    form.packageId,
+    form.postId,
+    form.productId,
+    form.type,
+    form.url,
+  ]);
 
   const open = mode !== null;
   const patch = (partial: Partial<FormState>) => setForm((f) => ({ ...f, ...partial }));
@@ -481,27 +519,31 @@ export function MenuItemModal({
               </TabsContent>
 
               <TabsContent value="appearance" className="mt-0 space-y-4 focus-visible:ring-0">
-                <IconPickerField
-                  label="Icon (optional)"
-                  value={form.icon}
-                  onChange={(iconId) => patch({ icon: iconId })}
+                <MenuAppearanceFields
+                  catalog={catalog}
+                  choice={form.childMediaChoice}
+                  icon={form.icon}
+                  iconPlacement={form.iconPlacement}
+                  megaMenuImageUrl={form.megaMenuImageUrl}
+                  item={{
+                    type: form.type,
+                    label: form.label,
+                    icon: form.icon,
+                    collectionId: form.collectionId,
+                    brandSlug: form.brandSlug,
+                    productId: form.productId,
+                    packageId: form.packageId,
+                    postId: form.postId,
+                    url: form.url,
+                    imageUrl: form.imageUrl,
+                    megaMenuImageUrl: form.megaMenuImageUrl,
+                    sourceDisplay: form.childMediaChoice,
+                  }}
+                  onChoice={(value) => patch({ childMediaChoice: value })}
+                  onIcon={(iconId) => patch({ icon: iconId })}
+                  onPlacement={(value) => patch({ iconPlacement: value, iconPlacementExplicit: true })}
+                  onImage={(url) => patch({ megaMenuImageUrl: url })}
                 />
-                <HeaderField label="Placement">
-                  <OptionButtonGroup
-                    value={form.iconPlacement}
-                    options={[
-                      { value: "desktop", label: "Desktop" },
-                      { value: "mobile", label: "Mobile" },
-                      { value: "both", label: "Both" },
-                    ]}
-                    onChange={(v) => patch({ iconPlacement: v, iconPlacementExplicit: true })}
-                    columns={3}
-                  />
-                </HeaderField>
-                <p className="text-xs text-muted-foreground">
-                  Where this icon shows. Mobile includes the tablet drawer. Leave it untouched to keep
-                  Default icon visibility.
-                </p>
                 {mode !== "edit" ? (
                   <HeaderField label="Badge" htmlFor="m-badge">
                     <Input
@@ -510,48 +552,6 @@ export function MenuItemModal({
                       onChange={(e) => patch({ badgeText: e.target.value })}
                     />
                   </HeaderField>
-                ) : null}
-                {parentId ? (
-                  <HeaderField label="Source display" htmlFor="m-child-display">
-                    <select
-                      id="m-child-display"
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                      value={form.childMediaChoice}
-                      onChange={(e) =>
-                        patch({
-                          childMediaChoice: e.target.value as ChildMediaChoice,
-                        })
-                      }
-                    >
-                      {sourceDisplayOptionsForItem(
-                        {
-                          type: form.type,
-                          collectionId: form.collectionId,
-                          brandSlug: form.brandSlug,
-                          productId: form.productId,
-                          packageId: form.packageId,
-                          postId: form.postId,
-                          url: form.url,
-                          imageUrl: form.imageUrl,
-                          megaMenuImageUrl: form.megaMenuImageUrl,
-                          sourceDisplay: form.childMediaChoice,
-                        },
-                        catalog,
-                      ).map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                  </HeaderField>
-                ) : null}
-                {parentId && childMediaChoiceShowsImagePicker(form.childMediaChoice) ? (
-                  <UrlPrimaryMediaPickerField
-                    label="Mega menu image"
-                    url={form.megaMenuImageUrl}
-                    onChange={(url) => patch({ megaMenuImageUrl: url })}
-                    mediaTypes={["IMAGE", "SVG"]}
-                  />
                 ) : null}
               </TabsContent>
 

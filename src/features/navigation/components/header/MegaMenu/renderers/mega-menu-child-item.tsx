@@ -12,6 +12,25 @@ type Props = {
   showNavIcon?: boolean;
 };
 
+function chosenMenuIcon(child: MegaMenuChildViewModel): string | undefined {
+  return child.child.icon?.trim() || undefined;
+}
+
+/** Logo image when one is selected. A chosen menu icon is used when the logo is missing. */
+function iconMark(child: MegaMenuChildViewModel): { icon?: string; iconImageUrl?: string } {
+  const chosen = chosenMenuIcon(child);
+  const logoUrl = child.sourceDisplay === "logo" ? child.sourceLogoUrl?.trim() : undefined;
+  if (logoUrl) return { iconImageUrl: logoUrl };
+  if (chosen) return { icon: chosen };
+  const iconImage =
+    child.sourceIconUrl?.trim() ||
+    (child.iconImageUrl?.trim() && child.iconImageUrl.trim() !== child.sourceLogoUrl?.trim()
+      ? child.iconImageUrl.trim()
+      : undefined);
+  if (iconImage) return { iconImageUrl: iconImage };
+  return { icon: child.icon?.trim() || undefined };
+}
+
 function resolvedAppearance(child: MegaMenuChildViewModel): "list" | "icon" | "image" {
   const display = child.sourceDisplay;
   if (display === "image" && (child.sourceImageUrl?.trim() || child.photoUrl?.trim() || child.image?.trim())) {
@@ -19,7 +38,7 @@ function resolvedAppearance(child: MegaMenuChildViewModel): "list" | "icon" | "i
   }
   if (display === "logo" && child.sourceLogoUrl?.trim()) return "icon";
   if (display === "icon" && (child.sourceIconUrl?.trim() || child.icon?.trim())) return "icon";
-  if (display === "none") return child.icon?.trim() ? "icon" : "list";
+  if (display === "none") return "list";
   const appearance = child.appearance === "card" ? "image" : child.appearance || "list";
   if (appearance === "image" && !child.photoUrl?.trim() && !child.image?.trim()) return "list";
   if (appearance === "icon" && !child.iconImageUrl?.trim() && !child.icon?.trim() && !child.sourceLogoUrl?.trim()) {
@@ -70,18 +89,7 @@ export function MegaMenuChildItem({ child, onLinkClick }: Props) {
         onClick={() => onLinkClick?.()}
       >
         <span className="hb-mega-v2-icon-item__icon" aria-hidden>
-          <NavIconMedia
-            icon={child.sourceDisplay === "logo" ? undefined : child.icon}
-            iconImageUrl={
-              child.sourceDisplay === "logo"
-                ? child.sourceLogoUrl
-                : child.sourceDisplay === "none"
-                  ? undefined
-                  : child.sourceIconUrl ||
-                    (child.iconImageUrl && child.iconImageUrl !== child.sourceLogoUrl ? child.iconImageUrl : undefined)
-            }
-            alt=""
-          />
+          <NavIconMedia {...iconMark(child)} alt="" />
         </span>
         <span className="hb-mega-v2-icon-item__label">{child.label}</span>
         {child.badge ? <span className="hb-mega-v2-icon-item__badge">{child.badge}</span> : null}

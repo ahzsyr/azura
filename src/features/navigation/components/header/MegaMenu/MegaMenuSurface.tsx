@@ -59,6 +59,8 @@ type ChildRow = {
   id: string;
   label: string;
   icon?: string;
+  /** Icon chosen on the menu item. Not a catalog fallback. */
+  menuIcon?: string;
   iconImageUrl?: string;
   sourceLogoUrl?: string;
   sourceIconUrl?: string;
@@ -82,14 +84,19 @@ function rowHasMark(child: ChildRow): boolean {
   );
 }
 
-function markMedia(child: ChildRow, respectPlacement = true): { icon?: string; iconImageUrl?: string } {
-  if (respectPlacement && !child.showNavIcon) return {};
-  if (child.sourceDisplay === "logo") return { iconImageUrl: child.sourceLogoUrl };
-  if (child.sourceDisplay === "none") return { icon: child.icon };
+function markMedia(child: ChildRow): { icon?: string; iconImageUrl?: string } {
+  const logoUrl = child.sourceDisplay === "logo" ? child.sourceLogoUrl?.trim() : undefined;
+  if (logoUrl) return { iconImageUrl: logoUrl };
+  if (child.menuIcon?.trim()) return { icon: child.menuIcon };
+  if (!child.showNavIcon && child.sourceDisplay !== "icon") return {};
   const sourceIcon = child.sourceIconUrl?.trim();
   const legacyIcon = child.iconImageUrl?.trim();
   const iconImageUrl = sourceIcon || (legacyIcon && legacyIcon !== child.sourceLogoUrl ? legacyIcon : undefined);
   return { icon: child.icon, iconImageUrl };
+}
+
+function rowShowsMark(child: ChildRow): boolean {
+  return Boolean(child.menuIcon?.trim() || child.sourceLogoUrl?.trim() || child.showNavIcon) && rowHasMark(child);
 }
 
 function isCompactTextGrid(rows: ChildRow[], menuType: MenuLayoutType): boolean {
@@ -112,7 +119,8 @@ function buildChildRows(
     return {
       id: c.id,
       label: c.label,
-      icon: c.icon?.trim() || c.resolvedIcon?.trim() || undefined,
+      icon: c.icon?.trim() || c.resolvedIcon?.trim() || c.sourceIconName?.trim() || undefined,
+      menuIcon: c.icon?.trim() || undefined,
       iconImageUrl:
         c.sourceIconUrl?.trim() || (c.sourceLogoUrl?.trim() ? undefined : resolveMenuItemIconImageUrl(c)),
       sourceLogoUrl: c.sourceLogoUrl?.trim() || undefined,
@@ -172,7 +180,7 @@ function MegaMenuRowLink({
     );
   }
 
-  if (child.appearance === "icon" && child.showNavIcon && rowHasMark(child)) {
+  if (child.appearance === "icon" && rowShowsMark(child)) {
     return (
       <a
         href={child.href}
@@ -276,7 +284,7 @@ export function MegaMenuSurface({
         {rows.map((child) => {
           const photoCard =
             (child.appearance === "image" || child.appearance === "card") && Boolean(child.photoUrl?.trim());
-          const iconRow = !hideIcons && child.appearance === "icon" && child.showNavIcon && rowHasMark(child);
+          const iconRow = !hideIcons && child.appearance === "icon" && rowShowsMark(child);
           return (
             <a
               key={child.id}
@@ -339,7 +347,7 @@ export function MegaMenuSurface({
                   />
                 );
               }
-              const showIcon = child.appearance === "icon" && child.showNavIcon && rowHasMark(child);
+              const showIcon = child.appearance === "icon" && rowShowsMark(child);
               return (
                 <a
                   key={child.id}
@@ -413,7 +421,7 @@ export function MegaMenuSurface({
               {rows.map((child) => {
                 const photoCard =
                   (child.appearance === "image" || child.appearance === "card") && Boolean(child.photoUrl?.trim());
-                const iconRow = child.appearance === "icon" && child.showNavIcon && rowHasMark(child);
+                const iconRow = child.appearance === "icon" && rowShowsMark(child);
                 return (
                   <a
                     key={child.id}

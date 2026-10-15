@@ -234,6 +234,65 @@ export function resolveMegaMenuChildDisplayType(
   return resolveEffectiveChildDisplayType(child, null, menuType) === "image" ? "card" : "link";
 }
 
+function hasIconAsset(child: MenuItem): boolean {
+  return Boolean(
+    child.sourceIconUrl?.trim() ||
+      child.sourceIconName?.trim() ||
+      child.resolvedIcon?.trim() ||
+      child.icon?.trim() ||
+      (child.iconImageUrl?.trim() && child.iconImageUrl.trim() !== child.sourceLogoUrl?.trim()),
+  );
+}
+
+function hasCoverAsset(child: MenuItem): boolean {
+  return Boolean(child.sourceImageUrl?.trim() || resolveMenuItemPhotoUrl(child));
+}
+
+function linkPathKind(url: string | undefined): "brand" | "category" | "page" {
+  const path = (url ?? "").trim().split("?")[0]?.split("#")[0]?.replace(/^\//, "") ?? "";
+  const parts = path.split("/").filter(Boolean);
+  const head = (parts[0] === "en" || parts[0] === "ar" ? parts[1] : parts[0])?.toLowerCase();
+  if (head === "brands") return "brand";
+  if (head === "categories") return "category";
+  return "page";
+}
+
+/**
+ * Default flyout asset when appearance was left on None.
+ * Services and other catalog pages use the cover. Brands use the logo.
+ * Categories and products use the menu icon, not the cover.
+ */
+export function inferFlyoutSourceDisplay(child: MenuItem): "none" | "logo" | "icon" | "image" {
+  const kind = child.type === "link" ? linkPathKind(child.url) : null;
+  if (child.type === "brand" || kind === "brand") {
+    if (child.sourceLogoUrl?.trim()) return "logo";
+    if (hasIconAsset(child)) return "icon";
+    return "none";
+  }
+  if (
+    child.type === "collection" ||
+    child.type === "packageCategory" ||
+    child.type === "product" ||
+    child.type === "package" ||
+    kind === "category"
+  ) {
+    if (hasIconAsset(child)) return "icon";
+    if (child.sourceLogoUrl?.trim()) return "logo";
+    if (hasCoverAsset(child)) return "image";
+    return "none";
+  }
+  if (child.type === "link" || child.type === "page" || child.type === "post" || kind === "page") {
+    if (hasCoverAsset(child)) return "image";
+    if (child.sourceLogoUrl?.trim()) return "logo";
+    if (hasIconAsset(child)) return "icon";
+    return "none";
+  }
+  if (child.sourceLogoUrl?.trim()) return "logo";
+  if (hasIconAsset(child)) return "icon";
+  if (hasCoverAsset(child)) return "image";
+  return "none";
+}
+
 export function resolveFlyoutSourceDisplay(child: MenuItem): "none" | "logo" | "icon" | "image" {
   if (
     child.sourceDisplay === "none" ||
@@ -250,18 +309,7 @@ export function resolveFlyoutSourceDisplay(child: MenuItem): "none" | "logo" | "
   if (explicit === "icon") return child.sourceLogoUrl?.trim() && !child.sourceIconUrl?.trim() ? "logo" : "icon";
   if (explicit === "card" && child.megaMenuCardMedia === "icon") return "icon";
   if (explicit === "image" || explicit === "card") return "image";
-  if (child.sourceLogoUrl?.trim()) return "logo";
-  if (
-    child.sourceIconUrl?.trim() ||
-    child.iconImageUrl?.trim() ||
-    child.sourceIconName?.trim() ||
-    child.resolvedIcon?.trim()
-  ) {
-    return "icon";
-  }
-  if (child.icon?.trim()) return "icon";
-  if (child.sourceImageUrl?.trim() || resolveMenuItemPhotoUrl(child)) return "image";
-  return "none";
+  return inferFlyoutSourceDisplay(child);
 }
 
 export function resolveEffectiveChildDisplayType(
@@ -272,7 +320,7 @@ export function resolveEffectiveChildDisplayType(
   const display = resolveFlyoutSourceDisplay(child);
   if (display === "image") return "image";
   if (display === "logo" || display === "icon") return "icon";
-  if (child.icon?.trim()) return "icon";
+  if (!child.sourceDisplay && child.icon?.trim()) return "icon";
   return "list";
 }
 
@@ -310,7 +358,7 @@ function buildChildViewModel(
     sourceIconUrl,
     sourceImageUrl: photoUrl,
     sourceDisplay,
-    icon: child.icon?.trim() || child.resolvedIcon?.trim() || undefined,
+    icon: child.icon?.trim() || child.resolvedIcon?.trim() || child.sourceIconName?.trim() || undefined,
     subtitle,
     badge: child.badgeText?.trim() || undefined,
     ctaLabel,

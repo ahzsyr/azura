@@ -32,15 +32,24 @@ import {
 
 function catalogContentMedia(item: { featuredImageUrl?: string | null; attributes?: unknown }) {
   const attrs = (item.attributes ?? {}) as Record<string, unknown>;
-  const logoRaw =
-    typeof attrs.logo === "string" ? attrs.logo.trim() : typeof attrs.logoUrl === "string" ? attrs.logoUrl.trim() : "";
-  const iconRaw = typeof attrs.icon === "string" ? attrs.icon.trim() : "";
+  const attrString = (...keys: string[]) => {
+    for (const key of keys) {
+      const value = attrs[key];
+      if (typeof value === "string" && value.trim()) return value.trim();
+    }
+    return "";
+  };
+  const logoRaw = attrString("logo", "logoUrl");
+  const iconRaw = attrString("icon", "iconName");
   const iconIsUrl = Boolean(iconRaw && isCollectionImageSrc(iconRaw));
+  const attrCover = attrString("cover", "coverImage", "image", "hero", "banner");
+  const cover =
+    item.featuredImageUrl?.trim() || (attrCover && isCollectionImageSrc(attrCover) ? attrCover : undefined);
   return {
     logoUrl: logoRaw && isCollectionImageSrc(logoRaw) ? logoRaw : undefined,
     iconUrl: iconIsUrl ? iconRaw : undefined,
     iconName: iconRaw && !iconIsUrl ? iconRaw : undefined,
-    imageUrl: item.featuredImageUrl?.trim() || undefined,
+    imageUrl: cover,
   };
 }
 

@@ -4,10 +4,10 @@ Universal product page HTML/JSON to WooCommerce Import CSV Converter
 ====================================================================
 
 Auto-detects input format and parses Getic vike_pageContext, Ubiquiti UniFi
-store pages, MikroTik product pages, Inrico jext CMS pages, converter/product
-JSON (object or array), WooCommerce CSV, JSON-LD Product schema, or generic
-product HTML into WooCommerce CSV + companion JSON (one pair per product, same
-as HTML inputs).
+store pages, MikroTik product pages, Inrico jext CMS pages, noon.com product
+pages, converter/product JSON (object or array), WooCommerce CSV, JSON-LD
+Product schema, or generic product HTML into WooCommerce CSV + companion JSON
+(one pair per product, same as HTML inputs).
 
 Usage:
     python converter.py input/ -o output/
@@ -3471,6 +3471,614 @@ def try_parse_inrico_html(content: str, base_url: str) -> Optional[Dict[str, Any
     return product
 
 
+# ---------------------------------------------------------------------------
+# noon.com product pages (TSR / $R flight payload)
+# ---------------------------------------------------------------------------
+
+_NOON_MENU_TITLE_STOP = {
+    "accessories",
+    "accessory",
+    "other",
+    "standard",
+    "compact",
+    "modules",
+    "module",
+    "cables",
+    "cable",
+    "new integrations",
+    "best offers",
+    "special devices",
+}
+
+
+class _NoonTsrParser:
+    """Parse noon's `$R[n]=value` JavaScript flight payload into Python values."""
+
+    def __init__(self, text: str):
+        self.s = text
+        self.n = len(text)
+        self.i = 0
+        self.refs: Dict[Any, Any] = {}
+
+    def peek(self, k: int = 0) -> str:
+        j = self.i + k
+        return self.s[j] if j < self.n else ""
+
+    def startswith(self, lit: str) -> bool:
+        return self.s.startswith(lit, self.i)
+
+    def skip_ws(self) -> None:
+        s = self.s
+        i = self.i
+        n = self.n
+        while i < n and s[i] in " \t\n\r":
+            i += 1
+        self.i = i
+
+    def parse_string(self) -> str:
+        s = self.s
+        i = self.i + 1
+        out: List[str] = []
+        n = self.n
+        while i < n:
+            c = s[i]
+            if c == '"':
+                self.i = i + 1
+                return "".join(out)
+            if c == "\\":
+                i += 1
+                if i >= n:
+                    break
+                e = s[i]
+                mapping = {
+                    "n": "\n",
+                    "r": "\r",
+                    "t": "\t",
+                    "b": "\b",
+                    "f": "\f",
+                    '"': '"',
+                    "\\": "\\",
+                    "/": "/",
+                }
+                if e in mapping:
+                    out.append(mapping[e])
+                    i += 1
+                    continue
+                if e == "x" and i + 2 < n:
+                    out.append(chr(int(s[i + 1 : i + 3], 16)))
+                    i += 3
+                    continue
+                if e == "u" and i + 4 < n:
+                    out.append(chr(int(s[i + 1 : i + 5], 16)))
+                    i += 5
+                    continue
+                out.append(e)
+                i += 1
+                continue
+            out.append(c)
+            i += 1
+        raise ValueError("unterminated string in noon payload")
+
+    def parse_number(self) -> Any:
+        s = self.s
+        i = self.i
+        start = i
+        if s[i] == "-":
+            i += 1
+        while i < self.n and s[i].isdigit():
+            i += 1
+        if i < self.n and s[i] == ".":
+            i += 1
+            while i < self.n and s[i].isdigit():
+                i += 1
+        if i < self.n and s[i] in "eE":
+            i += 1
+            if i < self.n and s[i] in "+-":
+                i += 1
+            while i < self.n and s[i].isdigit():
+                i += 1
+        self.i = i
+        raw = s[start:i]
+        if any(ch in raw for ch in ".eE"):
+            return float(raw)
+        return int(raw)
+
+    def parse_ref(self) -> Any:
+        self.i += 3  # $R[
+        self.skip_ws()
+        if self.peek() == '"':
+            key: Any = self.parse_string()
+        else:
+            start = self.i
+            while self.peek().isdigit():
+                self.i += 1
+            key = int(self.s[start:self.i])
+        self.skip_ws()
+        if self.peek() != "]":
+            raise ValueError("expected ] after $R")
+        self.i += 1
+        if self.peek() == "=" and self.peek(1) != "=":
+            self.i += 1
+            val = self.parse_value()
+            self.refs[key] = val
+            return val
+        return self.refs.get(key)
+
+    def parse_object_assign(self) -> Any:
+        self.i += len("Object.assign(")
+        depth = 1
+        while self.i < self.n and depth:
+            c = self.peek()
+            if c == '"':
+                self.parse_string()
+                continue
+            if c == "(":
+                depth += 1
+                self.i += 1
+                continue
+            if c == ")":
+                depth -= 1
+                self.i += 1
+                continue
+            if c == "," and depth == 1:
+                self.i += 1
+                val = self.parse_value()
+                self.skip_ws()
+                if self.peek() == ")":
+                    self.i += 1
+                return val
+            self.i += 1
+        raise ValueError("bad Object.assign in noon payload")
+
+    def parse_array(self) -> List[Any]:
+        self.i += 1
+        items: List[Any] = []
+        while True:
+            self.skip_ws()
+            if self.peek() == "]":
+                self.i += 1
+                return items
+            items.append(self.parse_value())
+            self.skip_ws()
+            if self.peek() == ",":
+                self.i += 1
+                continue
+            if self.peek() == "]":
+                self.i += 1
+                return items
+            raise ValueError("expected comma or ] in noon array")
+
+    def parse_object(self) -> Dict[str, Any]:
+        self.i += 1
+        obj: Dict[str, Any] = {}
+        while True:
+            self.skip_ws()
+            if self.peek() == "}":
+                self.i += 1
+                return obj
+            if self.peek() == '"':
+                key = self.parse_string()
+            else:
+                start = self.i
+                while self.i < self.n and self.s[self.i] != ":":
+                    self.i += 1
+                key = self.s[start:self.i].strip()
+            self.skip_ws()
+            if self.peek() != ":":
+                raise ValueError("expected : in noon object")
+            self.i += 1
+            obj[key] = self.parse_value()
+            self.skip_ws()
+            if self.peek() == ",":
+                self.i += 1
+                continue
+            if self.peek() == "}":
+                self.i += 1
+                return obj
+            raise ValueError("expected comma or } in noon object")
+
+    def parse_value(self) -> Any:
+        self.skip_ws()
+        if self.i >= self.n:
+            raise ValueError("unexpected end of noon payload")
+        c = self.peek()
+        if c == '"':
+            return self.parse_string()
+        if c == "{":
+            return self.parse_object()
+        if c == "[":
+            return self.parse_array()
+        if self.startswith("null"):
+            self.i += 4
+            return None
+        if self.startswith("void 0"):
+            self.i += 6
+            return None
+        if self.startswith("undefined"):
+            self.i += 9
+            return None
+        if self.startswith("!0"):
+            self.i += 2
+            return True
+        if self.startswith("!1"):
+            self.i += 2
+            return False
+        if self.startswith("true"):
+            self.i += 4
+            return True
+        if self.startswith("false"):
+            self.i += 5
+            return False
+        if self.startswith("$R["):
+            return self.parse_ref()
+        if self.startswith("Object.assign("):
+            return self.parse_object_assign()
+        if c == "-" or c.isdigit():
+            return self.parse_number()
+        raise ValueError(f"unexpected noon token {self.s[self.i:self.i + 40]!r}")
+
+
+def _is_noon_html(content: str) -> bool:
+    lower = content.lower()
+    return "noon.com" in lower or "nooncdn.com" in lower or "$tsr-stream-barrier" in lower
+
+
+def _noon_pretty_brand(name: str) -> str:
+    text = (name or "").strip()
+    if text.isupper():
+        return text.title()
+    return text
+
+
+def _noon_price_text(value: Any) -> str:
+    if value is None or value == "":
+        return ""
+    if isinstance(value, float) and value.is_integer():
+        return str(int(value))
+    if isinstance(value, int):
+        return str(value)
+    return str(value).strip()
+
+
+def _noon_plain_text(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        text = value.strip()
+        if not text:
+            return ""
+        if "<" in text and ">" in text:
+            return BeautifulSoup(text, "html.parser").get_text(" ", strip=True)
+        return text
+    if isinstance(value, list):
+        parts = [_noon_plain_text(item) for item in value]
+        return " ".join(part for part in parts if part)
+    if isinstance(value, dict):
+        for key in ("html", "content", "text", "description", "body", "title"):
+            if value.get(key):
+                return _noon_plain_text(value.get(key))
+    return ""
+
+
+def _noon_bullets(value: Any) -> List[str]:
+    bullets: List[str] = []
+    for item in _as_list(value):
+        if isinstance(item, str) and item.strip():
+            bullets.append(item.strip())
+        elif isinstance(item, dict):
+            text = _noon_plain_text(item)
+            if text:
+                bullets.append(text)
+    return bullets
+
+
+def _noon_spec_groups(value: Any) -> List[Dict[str, Any]]:
+    items: List[Dict[str, str]] = []
+    for spec in _as_list(value):
+        if not isinstance(spec, dict):
+            continue
+        name = str(spec.get("name") or "").strip()
+        raw = spec.get("value")
+        if raw is None:
+            continue
+        spec_value = str(raw).strip()
+        if not name or not spec_value:
+            continue
+        items.append({"name": name, "value": spec_value})
+    if not items:
+        return []
+    return [{"technology": "General", "items": items}]
+
+
+def _noon_currency(content: str) -> str:
+    """Currency from the page canonical locale, not the language switcher."""
+    locale = ""
+    for pattern in (
+        r'rel=["\']canonical["\'][^>]*href=["\']([^"\']+)',
+        r'href=["\']([^"\']+)["\'][^>]*rel=["\']canonical["\']',
+        r'property=["\']og:url["\'][^>]*content=["\']([^"\']+)',
+    ):
+        match = re.search(pattern, content[:100000], re.IGNORECASE)
+        if match:
+            locale = match.group(1).lower()
+            break
+    if not locale:
+        locale = content[:8000].lower()
+    if "/saudi-" in locale or "saudi-en" in locale:
+        return "SAR"
+    if "/egypt-" in locale or "egypt-en" in locale:
+        return "EGP"
+    return "AED"
+
+
+def _noon_offer(catalog: Dict[str, Any]) -> Dict[str, Any]:
+    offers: List[Dict[str, Any]] = []
+    for variant in _as_list(catalog.get("variants")):
+        if not isinstance(variant, dict):
+            continue
+        for offer in _as_list(variant.get("offers")):
+            if isinstance(offer, dict):
+                offers.append(offer)
+    wanted = str(catalog.get("offer_code") or "")
+    for offer in offers:
+        if wanted and str(offer.get("offer_code") or "") == wanted:
+            return offer
+    return offers[0] if offers else {}
+
+
+def _noon_image_urls(catalog: Dict[str, Any]) -> List[str]:
+    urls: List[str] = []
+    seen: Set[str] = set()
+    for url in _as_list(catalog.get("image_urls")):
+        text = str(url or "").strip()
+        if text.startswith("http") and text not in seen:
+            seen.add(text)
+            urls.append(text)
+    gallery = catalog.get("media_gallery")
+    if isinstance(gallery, dict):
+        for item in _as_list(gallery.get("items")):
+            if not isinstance(item, dict):
+                continue
+            text = str(item.get("url") or "").strip()
+            if text.startswith("http") and text not in seen:
+                seen.add(text)
+                urls.append(text)
+    return urls
+
+
+def _extract_noon_catalog(content: str) -> Optional[Dict[str, Any]]:
+    match = re.search(
+        r'<script[^>]*id=["\']\$tsr-stream-barrier["\'][^>]*>(.*?)</script>',
+        content,
+        re.IGNORECASE | re.DOTALL,
+    )
+    if not match:
+        return None
+    script = match.group(1)
+    start = script.find("$R[0]=")
+    if start < 0:
+        return None
+    parser = _NoonTsrParser(script[start:])
+    try:
+        parser.parse_value()
+    except ValueError:
+        return None
+    for value in parser.refs.values():
+        if isinstance(value, dict) and value.get("product_title") and "specifications" in value:
+            return value
+    return None
+
+
+def _noon_spec_value(groups: List[Dict[str, Any]], *names: str) -> str:
+    wanted = {name.lower() for name in names}
+    for group in groups:
+        for item in group.get("items") or []:
+            if str(item.get("name") or "").lower() in wanted:
+                return str(item.get("value") or "").strip()
+    return ""
+
+
+def try_parse_noon_html(content: str, base_url: str) -> Optional[Dict[str, Any]]:
+    """Parse a saved noon.com product page into the unified product dict."""
+    if not _is_noon_html(content):
+        return None
+    catalog = _extract_noon_catalog(content)
+    if not catalog:
+        return None
+
+    title = str(catalog.get("product_title") or "").strip()
+    if not title:
+        return None
+    brand = _noon_pretty_brand(str(catalog.get("brand") or ""))
+    groups = _noon_spec_groups(catalog.get("specifications"))
+    bullets = _noon_bullets(catalog.get("feature_bullets"))
+    long_text = _noon_plain_text(catalog.get("long_description"))
+    rich_text = _noon_plain_text(catalog.get("rich_content"))
+    if long_text and "online shopping for" in long_text.lower():
+        long_text = ""
+
+    model = _noon_spec_value(groups, "model number", "model name")
+    offer = _noon_offer(catalog)
+    sku = str(offer.get("sku") or catalog.get("sku") or "").strip()
+    mpn = model or sku
+    price = _noon_price_text(offer.get("sale_price") if offer.get("sale_price") not in (None, "") else offer.get("price"))
+    if not price:
+        context = catalog.get("context") if isinstance(catalog.get("context"), dict) else {}
+        price = _noon_price_text(context.get("price"))
+    try:
+        stock = int(offer.get("stock") or 0)
+    except (TypeError, ValueError):
+        stock = 0
+
+    highlight_bits = [
+        f"{item['name']}: {item['value']}"
+        for group in groups
+        for item in group.get("items") or []
+        if str(item.get("name") or "").lower() not in {"color", "colour", "model name", "model number"}
+    ]
+    if bullets:
+        short_description = " · ".join(bullets)
+    elif long_text:
+        short_description = long_text
+    elif highlight_bits:
+        short_description = f"{brand} {title}. " + ", ".join(highlight_bits)
+    else:
+        short_description = title
+
+    desc_blocks: List[Dict[str, Any]] = [{
+        "heading": "Overview",
+        "text": short_description,
+        "media": [],
+        "align": "left",
+    }]
+    if bullets:
+        desc_blocks.append({
+            "heading": "Key Features",
+            "text": " · ".join(bullets),
+            "media": [],
+            "align": "left",
+            "features": [{"title": bullet, "body": ""} for bullet in bullets],
+        })
+    if rich_text and rich_text != short_description:
+        desc_blocks.append({
+            "heading": "Details",
+            "text": rich_text,
+            "media": [],
+            "align": "left",
+        })
+
+    images = [{"url": url, "alt": title} for url in _noon_image_urls(catalog)]
+    breadcrumbs = []
+    for crumb in _as_list(catalog.get("breadcrumbs")):
+        if isinstance(crumb, dict) and crumb.get("name"):
+            breadcrumbs.append({"name": str(crumb["name"]), "code": str(crumb.get("code") or "")})
+        elif isinstance(crumb, str) and crumb.strip():
+            breadcrumbs.append({"name": crumb.strip()})
+    cat_titles = [
+        crumb["name"] for crumb in breadcrumbs
+        if crumb["name"].lower() not in {"home", ""}
+    ]
+
+    color = _noon_spec_value(groups, "color", "colour")
+    extraction: Dict[str, Any] = {
+        "id": sku or mpn,
+        "uid": mpn or sku,
+        "title": title,
+        "title_extended": title,
+        "short_description": short_description,
+        "brand": brand,
+        "mpn": mpn,
+        "regular_price": price,
+        "currency": _noon_currency(content),
+        "stock": stock,
+        "warranty": str(offer.get("warranty") or "").strip(),
+        "images": images,
+        "specifications": groups,
+        "desc_blocks": desc_blocks,
+        "breadcrumbs": breadcrumbs,
+        "cat_path_titles": cat_titles,
+        "cat_leaf": cat_titles[-1] if cat_titles else "",
+        "brand_path_titles": [brand] if brand else [],
+        "default_color": color,
+    }
+    product = normalize_from_generic(extraction, base_url or "https://www.noon.com")
+    product["brand_path_titles"] = extraction["brand_path_titles"]
+    product["cat_path_titles"] = cat_titles
+    product["cat_leaf"] = extraction["cat_leaf"]
+    product["breadcrumbs"] = breadcrumbs
+    return product
+
+
+def _noon_tokens_in_haystack(phrase: str, haystack: str) -> bool:
+    """True when every word of a menu title appears in the product text.
+
+    Words may be separated by other text, so "airMAX 2.4 GHz" matches
+    "AirMAX Wireless 2.4 GHz".
+    """
+    key = normalize_menu_name(phrase)
+    if not key or key in _NOON_MENU_TITLE_STOP:
+        return False
+    if len(key) < 8 and " " not in key and not any(ch.isdigit() for ch in key):
+        return False
+    candidates = [key]
+    if key.endswith("s") and key[:-1] not in _NOON_MENU_TITLE_STOP:
+        candidates.append(key[:-1])
+    for candidate in candidates:
+        tokens = [tok for tok in candidate.split() if tok]
+        if tokens and all(
+            re.search(rf"(?<![a-z0-9]){re.escape(tok)}(?![a-z0-9])", haystack)
+            for tok in tokens
+        ):
+            return True
+    return False
+
+
+def _noon_best_menu_path(tree: MenuTree, haystack: str) -> Optional[List[str]]:
+    best_path: Optional[List[str]] = None
+    best_key = (-1, -1)
+
+    def walk(node: MenuNode, path: List[str]) -> None:
+        nonlocal best_path, best_key
+        for child in node.children.values():
+            next_path = path + [child.title]
+            if _noon_tokens_in_haystack(child.title, haystack):
+                rank = (len(normalize_menu_name(child.title)), len(next_path))
+                if rank > best_key:
+                    best_key = rank
+                    best_path = next_path
+            walk(child, next_path)
+
+    walk(tree.root, [tree.root.title])
+    return best_path
+
+
+def _noon_taxonomy_haystack(product: Dict[str, Any]) -> str:
+    parts: List[str] = [
+        str(product.get("title") or ""),
+        str(product.get("title_extended") or ""),
+        str(product.get("short_description") or ""),
+        str(product.get("brand") or ""),
+    ]
+    for group in product.get("specifications") or []:
+        for item in group.get("items") or []:
+            parts.append(str(item.get("value") or ""))
+    for crumb in product.get("breadcrumbs") or []:
+        if isinstance(crumb, dict):
+            parts.append(str(crumb.get("name") or ""))
+        else:
+            parts.append(str(crumb))
+    return normalize_menu_name(" ".join(part for part in parts if part))
+
+
+def _apply_noon_taxonomy(product: Dict[str, Any], menu: MenuTaxonomy) -> None:
+    """Match noon title and specs to Menu brand and store paths."""
+    haystack = _noon_taxonomy_haystack(product)
+    brand_name = str(product.get("brand") or "")
+    brand_tree = menu.get_brand_tree(brand_name) if brand_name else None
+    if brand_tree is not None:
+        product["brand"] = brand_tree.root.title
+        brand_path = _noon_best_menu_path(brand_tree, haystack)
+        if brand_path:
+            product["brand_path_titles"] = brand_path
+        else:
+            product["brand_path_titles"] = [brand_tree.root.title]
+
+    best_store: Optional[List[str]] = None
+    best_rank = (-1, -1)
+    for tree in menu.store_trees:
+        path = _noon_best_menu_path(tree, haystack)
+        if not path:
+            continue
+        rank = (len(normalize_menu_name(path[-1])), len(path))
+        if rank > best_rank:
+            best_rank = rank
+            best_store = path
+    if best_store:
+        product["cat_path_titles"] = best_store
+        # cat_leaf is appended again during menu resolution.
+        product["cat_leaf"] = ""
+
+
 def _csv_cell(row: Dict[str, str], *names: str) -> str:
     for name in names:
         if name in row and row[name] is not None:
@@ -3693,6 +4301,7 @@ def load_all_products(input_path: Path, force_json: bool = False) -> List[Tuple[
         ("unifi_store", try_parse_unifi_store_html),
         ("mikrotik", try_parse_mikrotik_html),
         ("inrico", try_parse_inrico_html),
+        ("noon", try_parse_noon_html),
         ("json_ld", try_parse_json_ld_product),
         ("generic_html", try_parse_generic_html),
     ]
@@ -4363,7 +4972,7 @@ def create_description_html(product: Dict[str, Any]) -> str:
             body.extend(_render_desc_block_html(block, product_title))
         parts.extend(_accordion_section("Detailed Description", "doc", body))
 
-    specs = product.get("specifications", [])
+    specs = _display_spec_groups(product)
     if specs:
         spec_body: List[str] = []
         ext_icon = _svg_icon("external", primary)
@@ -6162,6 +6771,18 @@ def _extract_dimensions_cm(specs: List[Dict[str, Any]]) -> Tuple[str, str, str]:
     return "", "", ""
 
 
+def _display_spec_groups(product: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """Spec groups to show in WooCommerce description and attributes.
+
+    Canonical groups are preferred. When nothing mapped, keep the manufacturer
+    rows from source_specifications so the import still has a spec table.
+    """
+    groups = [g for g in (product.get("specifications") or []) if g.get("items")]
+    if groups:
+        return groups
+    return [g for g in (product.get("source_specifications") or []) if g.get("items")]
+
+
 def _build_extra_attributes(product: Dict[str, Any]) -> List[Dict[str, str]]:
     """
     Build a list of visible (non-variation) product attributes from key spec items.
@@ -6174,7 +6795,7 @@ def _build_extra_attributes(product: Dict[str, Any]) -> List[Dict[str, str]]:
     # Collect short, single-value spec items worth surfacing as attributes
     attrs: List[Dict[str, str]] = []
     seen_names: set = set()
-    for group in product.get("specifications", []):
+    for group in _display_spec_groups(product):
         for item in group.get("items", []):
             if item.get("is_group"):
                 continue
@@ -7431,6 +8052,11 @@ def process_single(
 
         existing_brand_paths = list(product.get("brand_paths") or [])
         existing_category_paths = list(product.get("category_paths") or [])
+
+        if parser_name == "noon" and menu is not None:
+            _apply_noon_taxonomy(product, menu)
+            if not brand_name and product.get("brand"):
+                bname = str(product["brand"])
 
         if menu is not None:
             product["_menu_taxonomy"] = menu

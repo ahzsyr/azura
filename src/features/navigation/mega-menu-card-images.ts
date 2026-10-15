@@ -12,6 +12,13 @@ import type { Collection } from "@/features/collections/types";
 import { collectionsDataService } from "@/features/collections/collections-data.service";
 import { productsDataService } from "@/features/products/products-data.service";
 import { readCatalogBrandProfiles } from "@/features/catalog/admin/catalog-taxonomy";
+import { brandNameToSlug } from "@/features/catalog/types/catalog-brand-profile";
+import { getCatalogNavigation } from "@/features/catalog/navigation/repository";
+import {
+  heuristicLucideIconFromLabel,
+  resolveNavItemIcon,
+} from "@/features/catalog/navigation/fallback";
+import type { CatalogNavigationItem } from "@/features/catalog/navigation/types";
 import { loadWorkspaceTranslations } from "@/features/translation/workspace-translation.service";
 import {
   collectHeaderTranslationRefs,
@@ -49,10 +56,18 @@ function contentItemMenuMedia(item: {
     item.featuredImageUrl ??
     item.media?.[0]?.url;
   const attrs = (item.attributes ?? {}) as Record<string, unknown>;
-  const logoRaw = typeof attrs.logo === "string" ? attrs.logo.trim() : typeof attrs.logoUrl === "string" ? attrs.logoUrl.trim() : "";
-  const iconRaw = typeof attrs.icon === "string" ? attrs.icon.trim() : "";
+  const attrString = (...keys: string[]) => {
+    for (const key of keys) {
+      const value = attrs[key];
+      if (typeof value === "string" && value.trim()) return value.trim();
+    }
+    return "";
+  };
+  const logoRaw = attrString("logo", "logoUrl");
+  const iconRaw = attrString("icon", "iconName");
   const iconIsUrl = Boolean(iconRaw && isCollectionImageSrc(iconRaw));
-  const coverUrl = cover?.trim() || undefined;
+  const attrCover = attrString("cover", "coverImage", "image", "hero", "banner");
+  const coverUrl = cover?.trim() || (attrCover && isCollectionImageSrc(attrCover) ? attrCover : undefined);
   return {
     sourceLogoUrl: logoRaw && isCollectionImageSrc(logoRaw) ? logoRaw : undefined,
     sourceIconUrl: iconIsUrl ? iconRaw : undefined,
@@ -97,11 +112,17 @@ async function getContentItemMenuMedia(
   return contentItemMenuMedia(item);
 }
 
+function publicPathParts(url: string | undefined): string[] {
+  const path = (url ?? "").trim().split("?")[0]?.split("#")[0] ?? "";
+  if (!path || path.startsWith("http")) return [];
+  const parts = path.replace(/^\//, "").split("/").filter(Boolean);
+  if (parts[0] === "en" || parts[0] === "ar") return parts.slice(1);
+  return parts;
+}
+
 /** Parse `/{routePrefix|typeSlug}/{itemSlug}` content links for icon and cover. */
 async function getContentLinkMenuMedia(url: string | undefined): Promise<ResolvedMenuItemMedia> {
-  const path = (url ?? "").trim().replace(/^\//, "");
-  if (!path || path.startsWith("http")) return {};
-  const [prefix, ...rest] = path.split("/");
+  const [prefix, ...rest] = publicPathParts(url);
   const itemSlug = rest.join("/");
   if (!prefix || !itemSlug || itemSlug.includes("/")) return {};
 
@@ -120,7 +141,10 @@ function getCollectionMenuMediaFromMap(
   slug: string,
   bySlug: Map<string, Collection>,
 ): ResolvedMenuItemMedia {
-  const col = bySlug.get(slug);
+  const col =
+    bySlug.get(slug) ??
+    bySlug.get(slug.toLowerCase()) ??
+    [...bySlug.values()].find((entry) => entry.slug.trim().toLowerCase() === slug.trim().toLowerCase());
   if (!col) return {};
   const media = pickCollectionMenuMedia(resolveCollectionImages(col, bySlug));
   return {
@@ -143,13 +167,66 @@ async function getProductImageUrl(slug: string, localeCode: string): Promise<str
   return media.photoUrl;
 }
 
-async function getBrandMenuMedia(slug: string, localeCode: string): Promise<ResolvedMenuItemMedia> {
-  const profiles = await readCatalogBrandProfiles(localeCode);
-  const profile = profiles.find((entry) => entry.slug.trim().toLowerCase() === slug.toLowerCase());
-  if (!profile) return {};
-  const picked = pickBrandMenuMedia(profile);
+function findBrandProfile(
+  profiles: Awaited<ReturnType<typeof readCatalogBrandProfiles>>,
+  slug: string,
+  label?: string,
+) {
+  const key = slug.trim().toLowerCase();
+  const labelKey = (label ?? "").trim().toLowerCase();
+  const labelSlug = brandNameToSlug(label || slug);
+  return profiles.find((entry) => {
+    const profileSlug = entry.slug.trim().toLowerCase();
+    const name = entry.name.trim().toLowerCase();
+    const nameSlug = brandNameToSlug(entry.name);
+    return (
+      profileSlug === key ||
+      nameSlug === key ||
+      profileSlug === labelSlug ||
+      nameSlug === labelSlug ||
+      (labelKey.length > 0 && name === labelKey)
+    );
+  });
+}
+
+function collectionLogoForSlug(
+  slug: string,
+  bySlug: Map<string, Collection> | undefined,
+): { logoUrl?: string; iconName?: string } {
+  if (!bySlug || !slug.trim()) return {};
+  const media = getCollectionMenuMediaFromMap(slug, bySlug);
   return {
-    sourceLogoUrl: picked.iconImageUrl,
+    logoUrl: media.sourceIconUrl,
+    iconName: media.resolvedIcon,
+  };
+}
+
+async function getBrandMenuMedia(
+  slug: string,
+  localeCode: string,
+  label?: string,
+  collectionBySlug?: Map<string, Collection>,
+): Promise<ResolvedMenuItemMedia> {
+  const profiles = await readCatalogBrandProfiles(localeCode);
+  const profile = findBrandProfile(profiles, slug, label);
+  const picked = profile ? pickBrandMenuMedia(profile) : {};
+  let logo = picked.iconImageUrl;
+  let iconName: string | undefined;
+  if (!logo) {
+    for (const candidate of [slug, brandNameToSlug(label || ""), profile?.slug]) {
+      if (!candidate?.trim()) continue;
+      const fromCollection = collectionLogoForSlug(candidate, collectionBySlug);
+      if (fromCollection.logoUrl) {
+        logo = fromCollection.logoUrl;
+        break;
+      }
+      if (!iconName && fromCollection.iconName) iconName = fromCollection.iconName;
+    }
+  }
+  return {
+    sourceLogoUrl: logo,
+    sourceIconName: iconName,
+    resolvedIcon: iconName,
     sourceImageUrl: picked.photoUrl,
     photoUrl: picked.photoUrl,
   };
@@ -175,7 +252,14 @@ export async function resolveMenuItemMedia(
       const slug = (item.collectionId ?? item.packageCategoryId ?? "").trim();
       if (!slug) return withPhotoOverride(item, {});
       if (collectionBySlug) {
-        return withPhotoOverride(item, getCollectionMenuMediaFromMap(slug, collectionBySlug));
+        const media = getCollectionMenuMediaFromMap(slug, collectionBySlug);
+        if (!media.sourceIconUrl && !media.resolvedIcon && !item.icon?.trim()) {
+          const brand = await getBrandMenuMedia(slug, localeCode, item.label, collectionBySlug);
+          if (brand.sourceLogoUrl) {
+            return withPhotoOverride(item, { ...media, sourceLogoUrl: brand.sourceLogoUrl });
+          }
+        }
+        return withPhotoOverride(item, media);
       }
       const col = await collectionsDataService.loadBySlug({ localePrefix: localeCode }, slug);
       if (!col) return withPhotoOverride(item, {});
@@ -196,7 +280,7 @@ export async function resolveMenuItemMedia(
     case "brand": {
       const slug = (item.brandSlug ?? "").trim();
       if (!slug) return withPhotoOverride(item, {});
-      return withPhotoOverride(item, await getBrandMenuMedia(slug, localeCode));
+      return withPhotoOverride(item, await getBrandMenuMedia(slug, localeCode, item.label, collectionBySlug));
     }
     case "image":
       return withPhotoOverride(item, { photoUrl: item.imageUrl?.trim() || undefined });
@@ -204,8 +288,18 @@ export async function resolveMenuItemMedia(
       if (item.imageUrl?.trim() && !item.url?.trim()) {
         return withPhotoOverride(item, { photoUrl: item.imageUrl.trim() });
       }
+      const [head, slug] = publicPathParts(item.url);
+      if (head === "brands" && slug && !slug.includes("/")) {
+        return withPhotoOverride(item, await getBrandMenuMedia(slug, localeCode, item.label, collectionBySlug));
+      }
+      if (head === "categories" && slug && !slug.includes("/") && collectionBySlug) {
+        return withPhotoOverride(item, getCollectionMenuMediaFromMap(slug, collectionBySlug));
+      }
       const linked = await getContentLinkMenuMedia(item.url);
-      if (item.imageUrl?.trim() && !linked.photoUrl) linked.photoUrl = item.imageUrl.trim();
+      if (item.imageUrl?.trim() && !linked.photoUrl && !linked.sourceImageUrl) {
+        linked.photoUrl = item.imageUrl.trim();
+        linked.sourceImageUrl = item.imageUrl.trim();
+      }
       return withPhotoOverride(item, linked);
     }
     default:
@@ -221,6 +315,78 @@ export async function resolveCardImageUrlForMenuItem(
 ): Promise<string | undefined> {
   const media = await resolveMenuItemMedia(item, localeCode, collectionBySlug);
   return media.photoUrl;
+}
+
+type BuiltinMenuIcon = { icon: string; iconType: "image" | "lucide" };
+
+function rememberNavIcon(map: Map<string, BuiltinMenuIcon>, key: string | undefined, icon: BuiltinMenuIcon) {
+  const normalized = key?.trim().toLowerCase();
+  if (!normalized || map.has(normalized)) return;
+  map.set(normalized, icon);
+}
+
+function visitNavIcons(items: CatalogNavigationItem[] | undefined, map: Map<string, BuiltinMenuIcon>) {
+  for (const item of items ?? []) {
+    if (item.visible === false) continue;
+    const icon = resolveNavItemIcon(item);
+    rememberNavIcon(map, item.targetId, icon);
+    rememberNavIcon(map, item.label, icon);
+    visitNavIcons(item.children, map);
+  }
+}
+
+async function loadCatalogNavIcons(): Promise<Map<string, BuiltinMenuIcon>> {
+  const map = new Map<string, BuiltinMenuIcon>();
+  try {
+    const doc = await getCatalogNavigation("GLOBAL", null);
+    visitNavIcons(doc.items, map);
+  } catch {
+    return map;
+  }
+  return map;
+}
+
+function usesBuiltinMenuIcon(item: MenuItem): boolean {
+  if (item.type === "collection" || item.type === "packageCategory" || item.type === "product" || item.type === "package") {
+    return true;
+  }
+  const [head] = publicPathParts(item.url);
+  return item.type === "link" && head === "categories";
+}
+
+function menuIconLookupKeys(item: MenuItem): string[] {
+  const [head, slug] = publicPathParts(item.url);
+  return [
+    item.collectionId,
+    item.packageCategoryId,
+    item.productId,
+    item.packageId,
+    head === "categories" ? slug : undefined,
+    item.label,
+  ]
+    .map((value) => value?.trim().toLowerCase())
+    .filter((value): value is string => Boolean(value));
+}
+
+/** Categories and products show the catalog menu icon, then a label heuristic. */
+function withBuiltinMenuIcon(
+  item: MenuItem,
+  media: ResolvedMenuItemMedia,
+  navIcons: Map<string, BuiltinMenuIcon>,
+): ResolvedMenuItemMedia {
+  if (!usesBuiltinMenuIcon(item)) return media;
+  if (item.icon?.trim() || media.sourceIconUrl?.trim() || media.sourceIconName?.trim() || media.resolvedIcon?.trim()) {
+    return media;
+  }
+  const hit = menuIconLookupKeys(item).map((key) => navIcons.get(key)).find(Boolean);
+  if (hit?.iconType === "image" && hit.icon.trim()) {
+    return { ...media, sourceIconUrl: hit.icon, iconImageUrl: hit.icon };
+  }
+  if (hit?.icon.trim()) {
+    return { ...media, sourceIconName: hit.icon, resolvedIcon: hit.icon };
+  }
+  const fallback = heuristicLucideIconFromLabel(menuIconLookupKeys(item).join(" "));
+  return { ...media, sourceIconName: fallback, resolvedIcon: fallback };
 }
 
 function applyResolvedMenuMedia(item: MenuItem, media: ResolvedMenuItemMedia): MenuItem {
@@ -246,24 +412,38 @@ async function enrichFlyoutChild(
   child: MenuItem,
   localeCode: string,
   collectionBySlug: Map<string, Collection>,
+  navIcons: Map<string, BuiltinMenuIcon>,
 ): Promise<MenuItem> {
-  const resolved = await resolveMenuItemMedia(child, localeCode, collectionBySlug);
+  const resolved = withBuiltinMenuIcon(
+    child,
+    await resolveMenuItemMedia(child, localeCode, collectionBySlug),
+    navIcons,
+  );
   return applyResolvedMenuMedia(child, resolved);
+}
+
+async function enrichMenuItemTree(
+  item: MenuItem,
+  localeCode: string,
+  collectionBySlug: Map<string, Collection>,
+  navIcons: Map<string, BuiltinMenuIcon>,
+): Promise<MenuItem> {
+  const enriched = await enrichFlyoutChild(item, localeCode, collectionBySlug, navIcons);
+  if (!item.children?.length) return enriched;
+  const children = await Promise.all(
+    item.children.map((child) => enrichMenuItemTree(child, localeCode, collectionBySlug, navIcons)),
+  );
+  return { ...enriched, children };
 }
 
 async function enrichFlyoutMenuRecord(
   record: MenuRecord,
   localeCode: string,
   collectionBySlug: Map<string, Collection>,
+  navIcons: Map<string, BuiltinMenuIcon>,
 ): Promise<MenuRecord> {
   const items = await Promise.all(
-    record.items.map(async (item) => {
-      if (!item.children?.length) return item;
-      const children = await Promise.all(
-        item.children.map((child) => enrichFlyoutChild(child, localeCode, collectionBySlug)),
-      );
-      return { ...item, children };
-    }),
+    record.items.map((item) => enrichMenuItemTree(item, localeCode, collectionBySlug, navIcons)),
   );
   return { ...record, items };
 }
@@ -278,12 +458,14 @@ export async function enrichFlyoutMenuImagesOnly(
     allCollections.filter((c) => c.visible !== false),
   );
 
+  const navIcons = await loadCatalogNavIcons();
   const menusDatabase = { ...ws.menusDatabase };
   for (const key of Object.keys(menusDatabase)) {
     menusDatabase[key] = await enrichFlyoutMenuRecord(
       menusDatabase[key],
       localeCode,
       collectionBySlug,
+      navIcons,
     );
   }
   return { ...ws, menusDatabase };
@@ -323,7 +505,7 @@ export async function enrichHeaderWorkspaceForSiteCached(
       const withSources = await expandMegaMenuPanelSources(localized, localeCode);
       return enrichFlyoutMenuImagesOnly(withSources, localeCode);
     },
-    ["header-flyout-images-v3", localeCode, fingerprint],
+    ["header-flyout-images-v5", localeCode, fingerprint],
     { tags: ["header-workspace", `header-flyout-${localeCode}`], revalidate: 300 },
   )();
 }

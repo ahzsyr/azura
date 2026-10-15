@@ -229,7 +229,8 @@ export interface MenuItem {
   megaMenu?: MegaMenuContentConfig;
   /**
    * How this item is rendered inside its parent mega menu.
-   * Unset and `automatic` are text only. `icon` is the logo or icon. `image` and `card` are the cover photo.
+   * `list` is text only. `icon` is the logo or icon. `image` and `card` are the cover photo.
+   * Unset follows the destination: catalog pages use the cover, brands use the logo, categories use the menu icon.
    */
   megaMenuChildDisplayType?: MegaMenuChildDisplayType;
   /**

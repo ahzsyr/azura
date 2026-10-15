@@ -201,11 +201,15 @@ export function MixedRenderer({
           <span className="hb-mega-v2-mixed__featured-media">
             {featured.appearance === "icon" ? (
               <NavIconMedia
-                icon={featured.sourceDisplay === "logo" ? undefined : featured.icon}
+                icon={
+                  featured.sourceDisplay === "logo" && featured.sourceLogoUrl?.trim()
+                    ? undefined
+                    : featured.child.icon?.trim() || featured.icon
+                }
                 iconImageUrl={
-                  featured.sourceDisplay === "logo"
+                  featured.sourceDisplay === "logo" && featured.sourceLogoUrl?.trim()
                     ? featured.sourceLogoUrl
-                    : featured.sourceDisplay === "none"
+                    : featured.child.icon?.trim()
                       ? undefined
                       : featured.sourceIconUrl || featured.iconImageUrl
                 }

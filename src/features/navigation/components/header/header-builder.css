@@ -456,8 +456,9 @@ a.nav-link {
 }
 
 .hb-mega-dropdown-icon img {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: auto;
+  max-width: 4.75rem;
+  height: 1.5rem;
   object-fit: contain;
   border-radius: 0.25rem;
 }
@@ -570,6 +571,19 @@ a.nav-link {
   padding: 8px 18px;
   border-radius: 999px;
   background: color-mix(in srgb, var(--color-surface, var(--background)) 88%, var(--cp) 5%);
+}
+
+.collections-grid--compact .hb-mega-card__icon {
+  width: auto;
+  min-width: 1.75rem;
+  height: 1.75rem;
+}
+
+.collections-grid--compact .hb-mega-card__icon img {
+  width: auto;
+  max-width: 5.5rem;
+  height: 1.75rem;
+  object-fit: contain;
 }
 
 .collections-grid--compact .hb-mega-card--text h4,
@@ -771,11 +785,7 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
   margin: 0;
   color: var(--text-primary, var(--cg8));
   text-shadow: none;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  min-height: calc(1.25em * 2);
+  min-height: 0;
 }
 
 .hb-mega-card__caption p {
@@ -818,8 +828,9 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
 
 .hb-mega-card__icon img,
 .hb-mega-v2-icon-item__icon img {
-  width: 100%;
-  height: 100%;
+  width: auto;
+  max-width: 5.5rem;
+  height: 1.75rem;
   object-fit: contain;
   display: block;
 }
@@ -2934,8 +2945,23 @@ html:has([data-page-header-overlay="true"]) .header-root.header--sticking[data-o
   height: 100%;
 }
 
-.hb-mega-v2-card__title,
+.hb-mega-card__caption h4,
 .hb-mega-v2-featured-card__title,
+.hb-mega-v2-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.hb-mega-card__caption h4 .hb-nav-icon,
+.hb-mega-v2-featured-card__title .hb-nav-icon,
+.hb-mega-v2-link__icon .hb-nav-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: 0 0 auto;
+}
+
+.hb-mega-v2-card__title,
 .hb-mega-v2-product__title,
 .hb-mega-v2-mixed__featured-title,
 .hb-mega-v2-icon-item__label,
@@ -2948,6 +2974,13 @@ html:has([data-page-header-overlay="true"]) .header-root.header--sticking[data-o
   -webkit-box-orient: vertical;
   overflow: hidden;
   min-height: calc(1.25em * 2);
+}
+
+.hb-mega-v2-featured-card__title {
+  font-size: 0.9rem;
+  font-weight: 650;
+  line-height: 1.25;
+  min-height: 0;
 }
 
 .hb-mega-v2-card__subtitle,

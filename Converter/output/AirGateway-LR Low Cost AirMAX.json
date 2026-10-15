@@ -1,0 +1,427 @@
+{
+  "ean": "",
+  "warranty": "",
+  "plug_options": [],
+  "old_price": null,
+  "variations": [],
+  "specifications": [],
+  "documents": [],
+  "delivery_options": [],
+  "bought_together": [],
+  "certifications": [],
+  "faq": [],
+  "slug": "airgateway-lr-low-cost-airmax-wireless-2-4-ghz-access-point-black",
+  "getic_uid": "AirGateway-LR",
+  "id": "N53344301A",
+  "productTitle": "AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black",
+  "name": "AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black",
+  "title": "AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black",
+  "title_extended": "AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black",
+  "short_description": "Ubiquiti AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black. Band Technology: Single Band, Wireless Standard: N, Wireless Standard Value: 802.11, Connectivity: WiFi",
+  "description": "Ubiquiti AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black. Band Technology: Single Band, Wireless Standard: N, Wireless Standard Value: 802.11, Connectivity: WiFi",
+  "detailed_description": [
+    {
+      "heading": "Overview",
+      "text": "Ubiquiti AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black. Band Technology: Single Band, Wireless Standard: N, Wireless Standard Value: 802.11, Connectivity: WiFi"
+    }
+  ],
+  "brand": "Ubiquiti",
+  "mainCategory": "Outdoor",
+  "matchingRules": [
+    "outdoor",
+    "outdoor_device",
+    "outdoor_access_point"
+  ],
+  "brandPaths": [
+    "Ubiquiti",
+    "Ubiquiti > Outdoor Wireless",
+    "Ubiquiti > Outdoor Wireless > airMAX 2.4 GHz"
+  ],
+  "categoryPaths": [
+    "Home and Office Networks",
+    "Home and Office Networks > Access Points"
+  ],
+  "brandCategories": [
+    "Ubiquiti",
+    "Outdoor Wireless",
+    "airMAX 2.4 GHz"
+  ],
+  "storeCategories": [
+    "Home and Office Networks",
+    "Access Points"
+  ],
+  "category": "Access Points",
+  "categories": [
+    "Ubiquiti",
+    "Outdoor Wireless",
+    "airMAX 2.4 GHz",
+    "Home and Office Networks",
+    "Access Points"
+  ],
+  "tags": [
+    "Ubiquiti",
+    "AirGateway-LR",
+    "Home and Office Networks",
+    "Access Points",
+    "Outdoor Wireless",
+    "airMAX 2.4 GHz"
+  ],
+  "mpn": "AirGateway-LR",
+  "manufacturer_part_number": "AirGateway-LR",
+  "condition_options": [
+    "new"
+  ],
+  "media": {
+    "images": [
+      {
+        "url": "https://f.nooncdn.com/p/pzsku/Z5F1FEC5D6990F7403052Z/45/_/1780306567/211dda69-8cf8-4f26-bcd5-9498e03ef2a5.jpg",
+        "alt": "AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black",
+        "type": "main"
+      },
+      {
+        "url": "https://f.nooncdn.com/p/pzsku/Z5F1FEC5D6990F7403052Z/45/_/1780306567/cb0b4422-1476-4d0f-a44a-ef17a680576c.jpg",
+        "alt": "AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://f.nooncdn.com/p/pzsku/Z5F1FEC5D6990F7403052Z/45/_/1780306567/fe8b5d41-164a-424d-a735-cb0d6be7c573.jpg",
+        "alt": "AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black",
+        "type": "gallery"
+      },
+      {
+        "url": "https://f.nooncdn.com/p/pzsku/Z5F1FEC5D6990F7403052Z/45/_/1780306567/a122a098-501b-4791-aa93-9c7704342205.jpg",
+        "alt": "AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black",
+        "type": "gallery"
+      }
+    ],
+    "thumbnails": [
+      {
+        "url": "https://f.nooncdn.com/p/pzsku/Z5F1FEC5D6990F7403052Z/45/_/1780306567/211dda69-8cf8-4f26-bcd5-9498e03ef2a5.jpg",
+        "alt": "AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black"
+      },
+      {
+        "url": "https://f.nooncdn.com/p/pzsku/Z5F1FEC5D6990F7403052Z/45/_/1780306567/cb0b4422-1476-4d0f-a44a-ef17a680576c.jpg",
+        "alt": "AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black"
+      },
+      {
+        "url": "https://f.nooncdn.com/p/pzsku/Z5F1FEC5D6990F7403052Z/45/_/1780306567/fe8b5d41-164a-424d-a735-cb0d6be7c573.jpg",
+        "alt": "AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black"
+      },
+      {
+        "url": "https://f.nooncdn.com/p/pzsku/Z5F1FEC5D6990F7403052Z/45/_/1780306567/a122a098-501b-4791-aa93-9c7704342205.jpg",
+        "alt": "AirGateway-LR Low Cost AirMAX Wireless 2.4 GHz Access Point Black"
+      }
+    ],
+    "videos": [],
+    "files": [],
+    "3d_model": false
+  },
+  "price": {
+    "value": 170.0,
+    "currency": "AED",
+    "discount": null
+  },
+  "availability": "InStock",
+  "stock_status": "in_stock",
+  "variation_combinations": [
+    {
+      "sku": "brt-AirGateway-LR",
+      "Condition": "new",
+      "price": 170.0,
+      "old_price": null
+    }
+  ],
+  "source_specifications": [
+    {
+      "technology": "General",
+      "items": [
+        {
+          "name": "Color",
+          "value": "Black",
+          "canonicalUid": null
+        },
+        {
+          "name": "Band Technology",
+          "value": "Single Band",
+          "canonicalUid": null
+        },
+        {
+          "name": "Model Name",
+          "value": "AirGateway-LR",
+          "canonicalUid": null
+        },
+        {
+          "name": "Model Number",
+          "value": "AirGateway-LR",
+          "canonicalUid": null
+        },
+        {
+          "name": "Wireless Standard",
+          "value": "N",
+          "canonicalUid": null
+        },
+        {
+          "name": "Wireless Standard Value",
+          "value": "802.11",
+          "canonicalUid": null
+        },
+        {
+          "name": "Connectivity",
+          "value": "WiFi",
+          "canonicalUid": null
+        }
+      ]
+    }
+  ],
+  "canonical_specs": {},
+  "unmapped_specs": [
+    {
+      "source_group": "General",
+      "source_label": "Color",
+      "value": "Black",
+      "reason": "UNMAPPED"
+    },
+    {
+      "source_group": "General",
+      "source_label": "Band Technology",
+      "value": "Single Band",
+      "reason": "UNMAPPED"
+    },
+    {
+      "source_group": "General",
+      "source_label": "Model Name",
+      "value": "AirGateway-LR",
+      "reason": "UNMAPPED"
+    },
+    {
+      "source_group": "General",
+      "source_label": "Model Number",
+      "value": "AirGateway-LR",
+      "reason": "UNMAPPED"
+    },
+    {
+      "source_group": "General",
+      "source_label": "Wireless Standard",
+      "value": "N",
+      "reason": "UNMAPPED"
+    },
+    {
+      "source_group": "General",
+      "source_label": "Wireless Standard Value",
+      "value": "802.11",
+      "reason": "UNMAPPED"
+    },
+    {
+      "source_group": "General",
+      "source_label": "Connectivity",
+      "value": "WiFi",
+      "reason": "UNMAPPED"
+    }
+  ],
+  "ambiguous_specs": [],
+  "product_domain": "networking",
+  "shipping": {
+    "options": [
+      {
+        "class": "Standard",
+        "origin": "",
+        "weight": "",
+        "dimensions": ""
+      }
+    ]
+  },
+  "reviews": {
+    "rating": 0.0,
+    "count": 0,
+    "source": "TrustPilot",
+    "distribution": {
+      "excellent": 0,
+      "great": 0,
+      "average": 0,
+      "poor": 0,
+      "bad": 0
+    },
+    "breakdown": {
+      "5_star": 0,
+      "4_star": 0,
+      "3_star": 0,
+      "2_star": 0,
+      "1_star": 0
+    },
+    "comments": []
+  },
+  "localization": {
+    "canonical_slug": "airgateway-lr-low-cost-airmax-wireless-2-4-ghz-access-point-black",
+    "source_locale": "en",
+    "translation_status": "complete",
+    "uses_source_fallback": false
+  },
+  "page_display": {
+    "breadcrumb": {
+      "enabled": true,
+      "inherit": true
+    },
+    "gallery": {
+      "enabled": true,
+      "inherit": true
+    },
+    "sideBuyBox": {
+      "enabled": true,
+      "inherit": true
+    },
+    "compare": {
+      "enabled": true,
+      "inherit": true
+    },
+    "saveToList": {
+      "enabled": true,
+      "inherit": true
+    },
+    "price": {
+      "enabled": true,
+      "inherit": true
+    },
+    "stock": {
+      "enabled": true,
+      "inherit": true
+    },
+    "condition": {
+      "enabled": true,
+      "inherit": true
+    },
+    "delivery": {
+      "enabled": true,
+      "inherit": true
+    },
+    "quantity": {
+      "enabled": true,
+      "inherit": true
+    },
+    "addToCart": {
+      "enabled": true,
+      "inherit": true
+    },
+    "buyNow": {
+      "enabled": true,
+      "inherit": true
+    },
+    "keySpecs": {
+      "enabled": true,
+      "inherit": true
+    },
+    "inlineCta": {
+      "enabled": true,
+      "inherit": true
+    },
+    "variations": {
+      "enabled": true,
+      "inherit": true
+    },
+    "linkedTags": {
+      "enabled": true,
+      "inherit": true
+    },
+    "shortDescription": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabs": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabDescription": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabSpecs": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabDocuments": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabShipping": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabReviews": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabOverview": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabInstallation": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabInBox": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tab3D": {
+      "enabled": true,
+      "inherit": true
+    },
+    "tabVideos": {
+      "enabled": true,
+      "inherit": true
+    },
+    "interactiveFeatures": {
+      "enabled": true,
+      "inherit": true
+    },
+    "modelViewer": {
+      "enabled": true,
+      "inherit": true
+    },
+    "frequentlyBought": {
+      "enabled": true,
+      "inherit": true
+    },
+    "crossLinks": {
+      "enabled": true,
+      "inherit": true
+    },
+    "promo": {
+      "enabled": true,
+      "inherit": true
+    },
+    "servicesBar": {
+      "enabled": true,
+      "inherit": true
+    },
+    "trust": {
+      "enabled": true,
+      "inherit": true
+    },
+    "floatingCta": {
+      "enabled": true,
+      "inherit": true
+    }
+  },
+  "product_cta": {
+    "enabled": false,
+    "placements": {
+      "inline": false,
+      "floating": false,
+      "card": false
+    }
+  },
+  "add_to_cart": {
+    "enabled": true,
+    "behavior": "stub",
+    "variant": "primary",
+    "size": "lg",
+    "fullWidth": true
+  },
+  "buy_now_slug": "airgateway-lr-low-cost-airmax-wireless-2-4-ghz-access-point-black",
+  "promo": {
+    "enabled": false
+  },
+  "trust": {
+    "enabled": false
+  }
+}

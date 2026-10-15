@@ -13,6 +13,7 @@ import {
   resolveMegaMenu,
 } from "@/features/navigation/mega-menu-resolver";
 import { contentItemPublicPath } from "@/features/content/content-admin-paths";
+import { sourceDisplayOptionsForItem } from "@/features/navigation/menu-item-appearance";
 
 function emptyCatalog(partial: Partial<HeaderBuilderCatalog> = {}): HeaderBuilderCatalog {
   const contentTypes = partial.contentTypes ?? [];
@@ -255,8 +256,8 @@ describe("mega menu child appearance schema", () => {
       iconImageUrl: "/drafting-logo.png",
       photoUrl: "/drafting-cover.jpg",
     };
-    assert.equal(resolveEffectiveChildDisplayType(automaticWithImage, "links"), "icon");
-    assert.equal(resolveChildCardMedia(automaticWithImage, "icon"), null);
+    assert.equal(resolveEffectiveChildDisplayType(automaticWithImage, "links"), "image");
+    assert.equal(resolveChildCardMedia(automaticWithImage, "image"), "image");
 
     const photoOnly = resolveMegaMenu(
       {
@@ -300,8 +301,117 @@ describe("mega menu child appearance schema", () => {
       },
       "en",
     );
-    assert.equal(textOnlyView.children[0]?.appearance, "icon");
-    assert.equal(textOnlyView.children[0]?.iconImageUrl, "/drafting-logo.png");
-    assert.equal(textOnlyView.children[0]?.cardMedia, null);
+    assert.equal(textOnlyView.children[0]?.appearance, "image");
+    assert.equal(textOnlyView.children[0]?.photoUrl, "/drafting-cover.jpg");
+    assert.equal(textOnlyView.children[0]?.cardMedia, "image");
+  });
+
+  it("uses the appearance chosen for the destination, and text only when that is selected", () => {
+    const service: MenuItem = {
+      id: "svc",
+      type: "link",
+      label: "Drafting",
+      placement: "both",
+      children: [],
+      url: "/services/drafting",
+      sourceDisplay: "image",
+      sourceImageUrl: "/services/drafting-cover.jpg",
+    };
+    const brand: MenuItem = {
+      id: "brand",
+      type: "brand",
+      label: "MikroTik",
+      placement: "both",
+      children: [],
+      brandSlug: "mikrotik",
+      sourceDisplay: "logo",
+      sourceLogoUrl: "/brands/mikrotik/logo.png",
+      sourceImageUrl: "/brands/mikrotik/banner.jpg",
+    };
+    const category: MenuItem = {
+      id: "indoor",
+      type: "collection",
+      label: "Indoor",
+      placement: "both",
+      children: [],
+      collectionId: "indoor",
+      sourceDisplay: "icon",
+      icon: "wifi",
+      sourceImageUrl: "/categories/indoor-cover.jpg",
+    };
+    const textOnly: MenuItem = {
+      ...brand,
+      id: "text",
+      sourceDisplay: "none",
+    };
+
+    assert.equal(resolveEffectiveChildDisplayType(service, "grid"), "image");
+    assert.equal(resolveEffectiveChildDisplayType(brand, "grid"), "icon");
+    assert.equal(resolveEffectiveChildDisplayType(category, "grid"), "icon");
+    assert.equal(resolveEffectiveChildDisplayType(textOnly, "grid"), "list");
+
+    const view = resolveMegaMenu(
+      {
+        id: "products",
+        type: "link",
+        label: "Products",
+        placement: "both",
+        url: "/products",
+        children: [category],
+      },
+      "en",
+    );
+    assert.equal(view.children[0]?.appearance, "icon");
+    assert.equal(view.children[0]?.icon, "wifi");
+    assert.equal(view.children[0]?.sourceDisplay, "icon");
+  });
+
+  it("offers only the assets the destination actually has", () => {
+    const catalog = emptyCatalog({
+      brands: [{ slug: "unifi", name: "Unifi", logoUrl: "/brands/unifi.svg" }],
+      contentTypes: [{ slug: "companies", name: "Companies", routePrefix: "companies" }],
+      contentByType: {
+        companies: [
+          {
+            slug: "edgewood",
+            name: "Edgewood",
+            logoUrl: "/companies/edgewood-logo.svg",
+            imageUrl: "/companies/edgewood-cover.jpg",
+          },
+        ],
+      },
+    });
+
+    const brand = sourceDisplayOptionsForItem(
+      {
+        type: "brand",
+        label: "Unifi",
+        brandSlug: "unifi",
+        children: [],
+        id: "unifi",
+        placement: "both",
+      },
+      catalog,
+    );
+    assert.deepEqual(
+      brand.map((option) => option.value),
+      ["none", "logo"],
+    );
+
+    const company = sourceDisplayOptionsForItem(
+      {
+        type: "link",
+        label: "Edgewood",
+        url: "/companies/edgewood",
+        children: [],
+        id: "edgewood",
+        placement: "both",
+      },
+      catalog,
+    );
+    assert.deepEqual(
+      company.map((option) => option.value),
+      ["none", "logo", "image"],
+    );
   });
 });

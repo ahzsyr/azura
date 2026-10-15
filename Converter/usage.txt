@@ -10,7 +10,8 @@ python google-converter.py input/product.html -o output/feed.xlsx
 python google-converter.py input/ -o output/ --store-url https://brt-me.com/en --prefix brt
 
 Input format is auto-detected (Getic HTML, UniFi store HTML, MikroTik HTML,
-Inrico jext CMS HTML, generic HTML, JSON-LD, converter/product JSON, WooCommerce CSV, or raw JSON).
+Inrico jext CMS HTML, noon.com product HTML, generic HTML, JSON-LD,
+converter/product JSON, WooCommerce CSV, or raw JSON).
 A JSON array, `{ "products": [...] }`, or a multi-product CSV becomes one
 .csv + .json pair per product — the same pairing as HTML inputs.
 Use --json to force raw JSON parsing when auto-detection is wrong.

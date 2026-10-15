@@ -1,5 +1,6 @@
 import type { HeaderBuilderCatalog, MenuItem, MenuItemType } from "./types";
 import { isCollectionImageSrc } from "@/features/collections/collection-navigation";
+import { inferFlyoutSourceDisplay } from "./mega-menu-resolver";
 import type { MegaMenuChildDisplayType } from "./types";
 
 /** How a selected destination is drawn inside a flyout. */
@@ -60,6 +61,7 @@ export function inspectorSourceDisplay(
   item: Pick<
     MenuItem,
     | "type"
+    | "label"
     | "collectionId"
     | "packageCategoryId"
     | "brandSlug"
@@ -72,6 +74,7 @@ export function inspectorSourceDisplay(
     | "sourceDisplay"
     | "megaMenuChildDisplayType"
     | "megaMenuCardMedia"
+    | "icon"
   >,
   catalog: HeaderBuilderCatalog,
 ): SourceDisplay {
@@ -85,11 +88,11 @@ export function inspectorSourceDisplay(
   }
   const display = normalizeDisplay(item.megaMenuChildDisplayType);
   if (display !== "automatic") return readSourceDisplay(item);
-  const media = sourceMediaFromCatalog(item, catalog);
-  if (media.logoUrl?.trim()) return "logo";
-  if (media.iconUrl?.trim() || media.iconName?.trim()) return "icon";
-  if (media.imageUrl?.trim()) return "image";
-  return "none";
+  const withMedia = applyCatalogSourceMedia(
+    { ...item, id: "preview", placement: "both", children: [], label: item.label || "" } as MenuItem,
+    catalog,
+  );
+  return inferFlyoutSourceDisplay(withMedia);
 }
 
 export function availableSourceDisplays(media: SourceMedia): SourceDisplay[] {
@@ -112,10 +115,26 @@ function contentItemMedia(
   };
 }
 
+function findCatalogBrand(
+  catalog: HeaderBuilderCatalog,
+  slug: string,
+  label?: string,
+) {
+  const key = slug.trim().toLowerCase();
+  const nameKey = (label ?? "").trim().toLowerCase();
+  return catalog.brands.find((entry) => {
+    const entrySlug = entry.slug.trim().toLowerCase();
+    const entryName = entry.name.trim().toLowerCase();
+    return entrySlug === key || entryName === key || (nameKey.length > 0 && (entrySlug === nameKey || entryName === nameKey));
+  });
+}
+
 export function sourceMediaFromCatalog(
   item: Pick<
     MenuItem,
     | "type"
+    | "label"
+    | "icon"
     | "collectionId"
     | "packageCategoryId"
     | "brandSlug"
@@ -129,6 +148,7 @@ export function sourceMediaFromCatalog(
   catalog: HeaderBuilderCatalog,
 ): SourceMedia {
   const override = item.megaMenuImageUrl?.trim() || undefined;
+  const chosenIcon = item.icon?.trim() || undefined;
   switch (item.type) {
     case "collection":
     case "packageCategory": {
@@ -136,15 +156,16 @@ export function sourceMediaFromCatalog(
       const col = catalog.collections.find((entry) => entry.slug.trim().toLowerCase() === slug);
       return {
         iconUrl: col?.iconUrl?.trim() || undefined,
-        iconName: col?.iconName?.trim() || undefined,
+        iconName: col?.iconName?.trim() || chosenIcon,
         imageUrl: override || col?.imageUrl?.trim() || undefined,
       };
     }
     case "brand": {
       const slug = (item.brandSlug ?? "").trim().toLowerCase();
-      const brand = catalog.brands.find((entry) => entry.slug.trim().toLowerCase() === slug);
+      const brand = findCatalogBrand(catalog, slug, item.label);
       return {
         logoUrl: brand?.logoUrl?.trim() || undefined,
+        iconName: chosenIcon,
         imageUrl: override || brand?.imageUrl?.trim() || undefined,
       };
     }
@@ -152,14 +173,34 @@ export function sourceMediaFromCatalog(
     case "package": {
       const slug = (item.productId ?? item.packageId ?? "").trim().toLowerCase();
       const product = catalog.products.find((entry) => entry.slug.trim().toLowerCase() === slug);
-      return { imageUrl: override || product?.imageUrl?.trim() || undefined };
+      return {
+        iconName: chosenIcon,
+        imageUrl: override || product?.imageUrl?.trim() || undefined,
+      };
     }
     case "post": {
       return { imageUrl: override || item.imageUrl?.trim() || undefined };
     }
     case "link": {
-      const path = (item.url ?? "").trim().replace(/^\//, "");
-      const [prefix, itemSlug] = path.split("/");
+      const path = (item.url ?? "").trim().split("?")[0]?.split("#")[0]?.replace(/^\//, "") ?? "";
+      const parts = path.split("/").filter(Boolean);
+      const [prefix, itemSlug] = parts[0] === "en" || parts[0] === "ar" ? parts.slice(1) : parts;
+      if (prefix === "brands" && itemSlug && !itemSlug.includes("/")) {
+        const brand = findCatalogBrand(catalog, itemSlug, item.label);
+        return {
+          logoUrl: brand?.logoUrl?.trim() || undefined,
+          iconName: chosenIcon,
+          imageUrl: override || brand?.imageUrl?.trim() || undefined,
+        };
+      }
+      if (prefix === "categories" && itemSlug && !itemSlug.includes("/")) {
+        const col = catalog.collections.find((entry) => entry.slug.trim().toLowerCase() === itemSlug.toLowerCase());
+        return {
+          iconUrl: col?.iconUrl?.trim() || undefined,
+          iconName: col?.iconName?.trim() || chosenIcon,
+          imageUrl: override || col?.imageUrl?.trim() || undefined,
+        };
+      }
       if (prefix && itemSlug && !itemSlug.includes("/")) {
         const type = catalog.contentTypes.find(
           (entry) => entry.slug === prefix || entry.routePrefix === prefix,
@@ -167,7 +208,11 @@ export function sourceMediaFromCatalog(
         const list = type ? catalog.contentByType[type.slug] : undefined;
         const match = list?.find((entry) => entry.slug.trim().toLowerCase() === itemSlug.toLowerCase());
         const media = contentItemMedia(match);
-        return { ...media, imageUrl: override || media.imageUrl || item.imageUrl?.trim() || undefined };
+        return {
+          ...media,
+          iconName: media.iconName || chosenIcon,
+          imageUrl: override || media.imageUrl || item.imageUrl?.trim() || undefined,
+        };
       }
       return { imageUrl: override || item.imageUrl?.trim() || undefined };
     }
@@ -176,22 +221,54 @@ export function sourceMediaFromCatalog(
   }
 }
 
+export const SOURCE_DISPLAY_LABELS: Record<SourceDisplay, string> = {
+  none: "Text only",
+  logo: "Logo",
+  icon: "Icon",
+  image: "Image",
+};
+
+function destinationCatalogReady(
+  item: Pick<MenuItem, "type">,
+  catalog: HeaderBuilderCatalog,
+): boolean {
+  switch (item.type) {
+    case "brand":
+      return catalog.brands.length > 0;
+    case "collection":
+    case "packageCategory":
+      return catalog.collections.length > 0;
+    case "product":
+    case "package":
+      return catalog.products.length > 0;
+    case "post":
+      return catalog.posts.length > 0;
+    case "page":
+      return catalog.pages.length > 0;
+    case "link":
+      return (
+        catalog.brands.length > 0 ||
+        catalog.collections.length > 0 ||
+        catalog.contentTypes.length > 0 ||
+        catalog.pages.length > 0
+      );
+    default:
+      return true;
+  }
+}
+
 export function sourceDisplayOptionsForItem(
-  item: Pick<MenuItem, "type" | "collectionId" | "packageCategoryId" | "brandSlug" | "productId" | "packageId" | "postId" | "url" | "imageUrl" | "megaMenuImageUrl" | "sourceDisplay">,
+  item: Pick<MenuItem, "type" | "label" | "icon" | "collectionId" | "packageCategoryId" | "brandSlug" | "productId" | "packageId" | "postId" | "url" | "imageUrl" | "megaMenuImageUrl" | "sourceDisplay">,
   catalog: HeaderBuilderCatalog,
 ): Array<{ value: SourceDisplay; label: string }> {
   const media = sourceMediaFromCatalog(item, catalog);
-  const labels: Record<SourceDisplay, string> = {
-    none: "None",
-    logo: "Logo",
-    icon: "Icon",
-    image: "Image",
-  };
   const available = new Set(availableSourceDisplays(media));
-  if (item.sourceDisplay) available.add(item.sourceDisplay);
+  if (item.sourceDisplay && !destinationCatalogReady(item, catalog)) {
+    available.add(item.sourceDisplay);
+  }
   return (["none", "logo", "icon", "image"] as const)
     .filter((value) => available.has(value))
-    .map((value) => ({ value, label: labels[value] }));
+    .map((value) => ({ value, label: SOURCE_DISPLAY_LABELS[value] }));
 }
 
 export function applyCatalogSourceMedia(item: MenuItem, catalog: HeaderBuilderCatalog): MenuItem {
@@ -202,10 +279,11 @@ export function applyCatalogSourceMedia(item: MenuItem, catalog: HeaderBuilderCa
     children,
     sourceLogoUrl: media.logoUrl || item.sourceLogoUrl,
     sourceIconUrl: media.iconUrl || item.sourceIconUrl,
-    sourceIconName: media.iconName || item.sourceIconName,
+    sourceIconName: item.icon?.trim() ? item.sourceIconName : media.iconName || item.sourceIconName,
     sourceImageUrl: media.imageUrl || item.sourceImageUrl,
     iconImageUrl: media.iconUrl || media.logoUrl || item.iconImageUrl,
     photoUrl: media.imageUrl || item.photoUrl,
+    resolvedIcon: item.icon?.trim() ? undefined : media.iconName || item.resolvedIcon,
   };
 }
 

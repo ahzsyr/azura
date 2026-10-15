@@ -11,12 +11,11 @@ import type {
 } from "@/features/navigation/types";
 import {
   childMediaChoicePatch,
-  childMediaChoiceShowsImagePicker,
-  readChildMediaChoice,
-  sourceDisplayOptionsForItem,
   inspectorSourceDisplay,
+  sourceDisplayOptionsForItem,
   type ChildMediaChoice,
 } from "@/features/navigation/menu-item-appearance";
+import { MenuAppearanceFields } from "../shared/MenuAppearanceFields";
 import { getItemHref } from "@/features/navigation/resolve-href";
 import { getItemSubtitle } from "@/features/navigation/menu-engine";
 import { CompactLocalizedMenuFields } from "../shared/CompactLocalizedMenuFields";
@@ -32,8 +31,6 @@ import {
   normalizeMegaCardAspectRatio,
 } from "@/features/navigation/mega-menu-form";
 import { generateId } from "@/features/navigation/menu-engine";
-import { IconPickerField } from "@/features/icons";
-import { UrlPrimaryMediaPickerField } from "@/features/media/components/url-primary-media-picker-field";
 import { OptionButtonGroup, HeaderSelect } from "../header-builder-ui";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -164,6 +161,20 @@ export function MenuInspector({
             editingItem={item}
             linkUrl={item.type === "image" ? item.linkUrl : item.url}
             onFieldsChange={(fields) => {
+              const next = {
+                ...item,
+                type: fields.type,
+                label: fields.label || item.label,
+                url: fields.url,
+                postId: fields.postId || undefined,
+                productId: fields.productId || undefined,
+                packageId: fields.packageId || undefined,
+                collectionId: fields.collectionId || undefined,
+                brandSlug: fields.brandSlug || undefined,
+              };
+              const options = sourceDisplayOptionsForItem(next, catalog);
+              const current = inspectorSourceDisplay(next, catalog);
+              const choice = options.some((option) => option.value === current) ? current : "none";
               onPatch({
                 type: fields.type,
                 label: fields.label || item.label,
@@ -176,6 +187,7 @@ export function MenuInspector({
                 brandSlug: fields.brandSlug || undefined,
                 tagSlug: fields.tagSlug || undefined,
                 ...(fields.pickerType === "image" ? { linkUrl: fields.url } : {}),
+                ...childMediaChoicePatch(choice),
               });
             }}
             onLinkUrlChange={(url) => {
@@ -190,58 +202,18 @@ export function MenuInspector({
         </TabsContent>
 
         <TabsContent value="appearance" className="mt-3 space-y-3 focus-visible:ring-0">
-          <div className="space-y-1">
-            <Label htmlFor="inspector-child-appearance">Source display</Label>
-            <HeaderSelect
-              id="inspector-child-appearance"
-              value={inspectorSourceDisplay(item, catalog)}
-              onChange={(value) => {
-                onPatch(childMediaChoicePatch(value as ChildMediaChoice));
-              }}
-            >
-              {sourceDisplayOptionsForItem(item, catalog).map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </HeaderSelect>
-            <p className="text-xs text-muted-foreground">
-              Uses the logo, icon, or image on the selected destination. Flyout layout and placement stay as they are.
-            </p>
-          </div>
-          <IconPickerField
-            label="Icon (optional)"
-            value={item.icon ?? ""}
-            onChange={(iconId) => {
-              onPatch({ icon: iconId });
-            }}
+          <MenuAppearanceFields
+            catalog={catalog}
+            item={item}
+            choice={inspectorSourceDisplay(item, catalog)}
+            icon={item.icon ?? ""}
+            iconPlacement={item.iconPlacement ?? "both"}
+            megaMenuImageUrl={item.megaMenuImageUrl ?? ""}
+            onChoice={(value) => onPatch(childMediaChoicePatch(value as ChildMediaChoice))}
+            onIcon={(iconId) => onPatch({ icon: iconId })}
+            onPlacement={(value) => onPatch({ iconPlacement: value as MenuIconPlacement })}
+            onImage={(url) => onPatch({ megaMenuImageUrl: url })}
           />
-          <div className="space-y-1">
-            <Label>Placement</Label>
-            <OptionButtonGroup
-              value={item.iconPlacement ?? "both"}
-              columns={3}
-              options={[
-                { value: "desktop", label: "Desktop" },
-                { value: "mobile", label: "Mobile" },
-                { value: "both", label: "Both" },
-              ]}
-              onChange={(value) => {
-                onPatch({ iconPlacement: value as MenuIconPlacement });
-              }}
-            />
-            <p className="text-xs text-muted-foreground">
-              Where this icon shows. Mobile includes tablet. Unset items follow Default icon visibility until you choose one.
-            </p>
-          </div>
-          {childMediaChoiceShowsImagePicker(readChildMediaChoice(item)) ? (
-            <UrlPrimaryMediaPickerField
-              label="Mega menu image"
-              url={item.megaMenuImageUrl ?? ""}
-              onChange={(url) => onPatch({ megaMenuImageUrl: url })}
-              mediaTypes={["IMAGE", "SVG"]}
-            />
-          ) : null}
           <div className="space-y-1">
             <Label>Badge</Label>
             <Input
