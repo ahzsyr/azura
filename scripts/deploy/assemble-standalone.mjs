@@ -76,6 +76,14 @@ for (const name of deployScripts) {
   console.log(`Copied scripts/deploy/${name}`);
 }
 
+const schemaSql = join(root, "database", "mysql", "01-schema.sql");
+if (existsSync(schemaSql)) {
+  const dest = join(standaloneDir, "database", "mysql", "01-schema.sql");
+  mkdirSync(join(standaloneDir, "database", "mysql"), { recursive: true });
+  cpSync(schemaSql, dest);
+  console.log("Copied database/mysql/01-schema.sql");
+}
+
 const prismaDir = join(root, "prisma");
 if (existsSync(prismaDir)) {
   cpSync(prismaDir, join(standaloneDir, "prisma"), { recursive: true });

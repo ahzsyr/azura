@@ -1,11 +1,15 @@
 import "server-only";
 
 import { spawnSync } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { getRuntimeDatabaseUrl } from "@/lib/database-url";
+import {
+  isIgnorableMysqlSchemaError,
+  mysqlSchemaStatements,
+} from "@/features/setup/mysql-schema-statements";
 
 /** Stable message shown when DB connects but core tables are missing. */
 export const SETUP_SCHEMA_MISSING_MESSAGE =
@@ -129,6 +133,78 @@ function runPrismaDbPush(): { ok: boolean; detail: string } {
   return { ok, detail: commandDetail(result) };
 }
 
+const PLATFORM_TABLES_SQL = `
+CREATE TABLE IF NOT EXISTS \`SiteFeature\` (
+    \`kind\` VARCHAR(16) NOT NULL,
+    \`featureId\` VARCHAR(64) NOT NULL,
+    \`enabled\` BOOLEAN NOT NULL DEFAULT true,
+    \`updatedAt\` DATETIME(3) NOT NULL,
+    PRIMARY KEY (\`kind\`, \`featureId\`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS \`PackageInstallation\` (
+    \`packageId\` VARCHAR(64) NOT NULL,
+    \`kind\` VARCHAR(16) NOT NULL,
+    \`version\` VARCHAR(32) NOT NULL,
+    \`status\` VARCHAR(16) NOT NULL,
+    \`manifest\` JSON NOT NULL,
+    \`installedAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    \`updatedAt\` DATETIME(3) NOT NULL,
+    INDEX \`PackageInstallation_status_idx\`(\`status\`),
+    PRIMARY KEY (\`packageId\`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS \`PackageMigration\` (
+    \`id\` VARCHAR(191) NOT NULL,
+    \`packageId\` VARCHAR(64) NOT NULL,
+    \`version\` VARCHAR(32) NOT NULL,
+    \`filename\` VARCHAR(255) NOT NULL,
+    \`checksum\` VARCHAR(64) NOT NULL,
+    \`direction\` VARCHAR(8) NOT NULL,
+    \`appliedAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    INDEX \`PackageMigration_packageId_idx\`(\`packageId\`),
+    UNIQUE INDEX \`PackageMigration_packageId_filename_direction_key\`(\`packageId\`, \`filename\`, \`direction\`),
+    PRIMARY KEY (\`id\`),
+    CONSTRAINT \`PackageMigration_packageId_fkey\` FOREIGN KEY (\`packageId\`) REFERENCES \`PackageInstallation\`(\`packageId\`) ON DELETE CASCADE ON UPDATE CASCADE
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+`;
+
+function schemaSqlPath(): string | null {
+  const candidates = [
+    path.join(process.cwd(), "database", "mysql", "01-schema.sql"),
+    path.join(process.cwd(), "prisma", "mysql", "01-schema.sql"),
+  ];
+  return candidates.find((candidate) => existsSync(candidate)) ?? null;
+}
+
+/** Create core tables on the connection the app already uses. Does not spawn the Prisma CLI. */
+async function applyCoreMysqlSchema(): Promise<{ ok: boolean; detail: string }> {
+  const file = schemaSqlPath();
+  if (!file) {
+    return { ok: false, detail: "Missing database/mysql/01-schema.sql" };
+  }
+  const statements = [
+    ...mysqlSchemaStatements(readFileSync(file, "utf8")),
+    ...mysqlSchemaStatements(PLATFORM_TABLES_SQL),
+  ];
+  const failures: string[] = [];
+  for (const statement of statements) {
+    try {
+      await prisma.$executeRawUnsafe(statement);
+    } catch (error) {
+      if (isIgnorableMysqlSchemaError(error)) continue;
+      const message = error instanceof Error ? error.message : String(error);
+      if (failures.length < 3) failures.push(message.split("\n")[0] ?? message);
+      if (/Can't reach database|ECONNREFUSED|server has gone away/i.test(message)) break;
+    }
+  }
+  if (await isSetupSchemaReady()) {
+    return { ok: true, detail: failures[0] ?? "" };
+  }
+  return {
+    ok: false,
+    detail: failures.join(" | ") || "Schema SQL ran but the User table is still missing.",
+  };
+}
+
 function stillMissingDetail(label: string, result: { ok: boolean; detail: string }): string {
   if (result.ok) {
     return `${label} exited 0 but the User table is still missing. ${result.detail}`.trim();
@@ -137,7 +213,7 @@ function stillMissingDetail(label: string, result: { ok: boolean; detail: string
 }
 
 /**
- * Apply the same deploy migrate script, then prisma db push, until User exists.
+ * Apply database/mysql/01-schema.sql on the live connection, then the deploy migrate script, until User exists.
  * A command that exits 0 without creating User is a failure and its output is returned.
  * SKIP_DB_MIGRATE is removed so an empty database is not skipped.
  */
@@ -151,6 +227,12 @@ export async function ensureSetupSchemaBestEffort(): Promise<{
   }
 
   const details: string[] = [];
+  const applied = await applyCoreMysqlSchema();
+  if (await isSetupSchemaReady()) {
+    return { ready: true, attempted: true };
+  }
+  details.push(stillMissingDetail("Schema SQL", applied));
+
   const migrate = runNodeScript("scripts/deploy/prisma-migrate-deploy.mjs");
   if (await isSetupSchemaReady()) {
     return { ready: true, attempted: true };
