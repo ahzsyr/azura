@@ -150,6 +150,37 @@ export function isPublicMarketingPath(pathname: string, locales: string[]): bool
   return true;
 }
 
+export const PRE_SETUP_WELCOME_PATH = "/welcome";
+
+/** Locale-free `/welcome` and `/{locale}/welcome`. */
+export function isPreSetupWelcomePath(pathname: string): boolean {
+  if (pathname === PRE_SETUP_WELCOME_PATH || pathname.startsWith(`${PRE_SETUP_WELCOME_PATH}/`)) {
+    return true;
+  }
+  return /^\/[a-z0-9-]+\/welcome(\/.*)?$/i.test(pathname);
+}
+
+/**
+ * Stay on these paths while setup is incomplete.
+ * APIs are left alone so a status check is not turned into an HTML redirect.
+ */
+export function isPreSetupHoldExemptPath(pathname: string): boolean {
+  if (isPreSetupWelcomePath(pathname)) return true;
+  if (pathname.startsWith("/api")) return true;
+  if (pathname.startsWith("/_next")) return true;
+  return resolveSetupPath(pathname).isSetup;
+}
+
+/** Public pages stay on the welcome screen only when setup status is confidently incomplete. */
+export function shouldRedirectToPreSetupWelcome(
+  pathname: string,
+  status: { confident: boolean; setupComplete: boolean },
+): boolean {
+  if (!status.confident || status.setupComplete) return false;
+  if (pathname.startsWith("/admin")) return false;
+  return !isPreSetupHoldExemptPath(pathname);
+}
+
 /** Paths reachable before setup is marked complete (avoids /setup ↔ /admin loops). */
 export function isSetupExemptPath(pathname: string): boolean {
   if (pathname.startsWith("/admin")) return true;

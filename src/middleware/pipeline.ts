@@ -16,11 +16,14 @@ import {
   resolveLocaleRouting,
 } from "@/features/i18n/locale-middleware";
 import {
+  isPreSetupWelcomePath,
   isPublicMarketingPath,
+  PRE_SETUP_WELCOME_PATH,
   resolveSetupPath,
   resolveSetupStatus,
   resolveSetupStatusForCatalogApi,
   resolveSetupStatusForPublicMarketing,
+  shouldRedirectToPreSetupWelcome,
 } from "@/features/setup/setup-middleware";
 import { lookupRedirect } from "@/features/seo/redirect-middleware";
 import { handleAdminFastPath } from "@/lib/admin-middleware";
@@ -122,6 +125,16 @@ export async function runMiddleware(request: NextRequest) {
   const retiredRedirect = handleRetiredLocaleRedirect(request);
   if (retiredRedirect) return retiredRedirect;
 
+  if (pathname.startsWith("/admin")) {
+    const adminSetupStatus = await resolveSetupStatusForPublicMarketing(request);
+    if (adminSetupStatus.confident && !adminSetupStatus.setupComplete) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/setup";
+      url.search = "";
+      return NextResponse.redirect(url);
+    }
+  }
+
   const adminResponse = await handleAdminFastPath(request);
   if (adminResponse) return adminResponse;
 
@@ -137,6 +150,28 @@ export async function runMiddleware(request: NextRequest) {
       ? null
       : resolveLocaleRouting(request);
   const setupStatus = await setupStatusPromise;
+
+  if (shouldRedirectToPreSetupWelcome(pathname, setupStatus)) {
+    const url = request.nextUrl.clone();
+    url.pathname = PRE_SETUP_WELCOME_PATH;
+    url.search = "";
+    return NextResponse.redirect(url);
+  }
+
+  if (isPreSetupWelcomePath(pathname)) {
+    const url = request.nextUrl.clone();
+    if (setupStatus.setupComplete) {
+      url.pathname = "/";
+      url.search = "";
+      return NextResponse.redirect(url);
+    }
+    if (pathname !== PRE_SETUP_WELCOME_PATH) {
+      url.pathname = PRE_SETUP_WELCOME_PATH;
+      url.search = "";
+      return NextResponse.redirect(url);
+    }
+    return NextResponse.next();
+  }
 
   if (pathname.startsWith("/api") || isPreviewRoute || isCampaignShortLink) {
     if (isApiPathDisabled(pathname)) {

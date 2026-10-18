@@ -42,7 +42,7 @@ async function canAccessSiteDuringComingSoon(
 
 /**
  * After setup is complete, honor Site access “coming soon”.
- * Before setup, middleware already holds visitors on `/coming-soon`.
+ * Before setup, middleware holds visitors on `/welcome`.
  */
 export async function enforceComingSoonMode(
   request: NextRequest,

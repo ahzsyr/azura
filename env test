@@ -1,0 +1,4 @@
+NEXT_PUBLIC_SITE_URL=whitesmoke-seahorse-775600.hostingersite.com
+AZURA_PROFILE=enterprise
+AUTH_SECRET=a3f9c2e1b7d4068f5a1c9e2b8d3f7a60
+DATABASE_URL="mysql://u842701143_azuratest:azuraTest2026@srv1761.hstgr.io/u842701143_test"

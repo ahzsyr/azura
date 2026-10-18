@@ -29,7 +29,6 @@ import { ensureBaselineCmsAndLocales } from "@/features/setup/ensure-baseline-cm
 import { revalidateAllWiredMarketingPaths } from "@/features/cms/revalidate-wired-marketing";
 import { revalidateJsonNamespace } from "@/services/cache";
 import { publishShellChange } from "@/services/publish-propagation";
-import { localeService } from "@/features/i18n/locale.service";
 import { ensureAuthSecretAtSetup } from "@/lib/auth-secret.server";
 import { Prisma } from "@prisma/client";
 
@@ -238,8 +237,7 @@ export async function POST(request: Request) {
     ]);
     revalidateJsonNamespace("settings");
     await revalidateAllWiredMarketingPaths();
-    const defaultLocale = await localeService.getDefaultUrlPrefix();
-    const redirectTo = `/${defaultLocale}?setup=done`;
+    const redirectTo = "/admin";
 
     await ensureAuthSecretAtSetup();
 

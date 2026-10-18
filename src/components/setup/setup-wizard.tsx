@@ -112,7 +112,7 @@ export function SetupWizard({
       if (!data.success) {
         throw new Error("Setup did not complete");
       }
-      window.location.href = data.redirectTo ?? "/?setup=done";
+      window.location.href = data.redirectTo ?? "/admin";
     } catch (e) {
       setError(e instanceof Error ? e.message : "Setup failed");
     } finally {
