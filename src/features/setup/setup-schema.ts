@@ -167,22 +167,28 @@ CREATE TABLE IF NOT EXISTS \`PackageMigration\` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 `;
 
-function schemaSqlPath(): string | null {
-  const candidates = [
-    path.join(process.cwd(), "database", "mysql", "01-schema.sql"),
-    path.join(process.cwd(), "prisma", "mysql", "01-schema.sql"),
-  ];
-  return candidates.find((candidate) => existsSync(candidate)) ?? null;
+/** Literal path so the Next server trace ships this file with the Hostinger bundle. */
+function readCoreSchemaSql(): { sql: string | null; detail: string } {
+  if (!existsSync(path.join(process.cwd(), "database/mysql/01-schema.sql"))) {
+    return {
+      sql: null,
+      detail: `Missing ${path.join(process.cwd(), "database/mysql/01-schema.sql")}`,
+    };
+  }
+  return {
+    sql: readFileSync(path.join(process.cwd(), "database/mysql/01-schema.sql"), "utf8"),
+    detail: "",
+  };
 }
 
 /** Create core tables on the connection the app already uses. Does not spawn the Prisma CLI. */
 async function applyCoreMysqlSchema(): Promise<{ ok: boolean; detail: string }> {
-  const file = schemaSqlPath();
-  if (!file) {
-    return { ok: false, detail: "Missing database/mysql/01-schema.sql" };
+  const loaded = readCoreSchemaSql();
+  if (!loaded.sql) {
+    return { ok: false, detail: loaded.detail };
   }
   const statements = [
-    ...mysqlSchemaStatements(readFileSync(file, "utf8")),
+    ...mysqlSchemaStatements(loaded.sql),
     ...mysqlSchemaStatements(PLATFORM_TABLES_SQL),
   ];
   const failures: string[] = [];
@@ -245,9 +251,10 @@ export async function ensureSetupSchemaBestEffort(): Promise<{
   }
   details.push(stillMissingDetail("prisma db push", push));
 
+  const first = details.map((line) => line.trim()).find((line) => line.length > 0);
   return {
     ready: false,
     attempted: true,
-    detail: summarizeSchemaEnsureFailure(details.filter(Boolean).join(" | ")),
+    detail: summarizeSchemaEnsureFailure(first ?? ""),
   };
 }

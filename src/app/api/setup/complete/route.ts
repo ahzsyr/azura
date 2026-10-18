@@ -98,11 +98,7 @@ export async function POST(request: Request) {
     const schema = await ensureSetupSchemaBestEffort();
     if (!schema.ready) {
       return NextResponse.json(
-        {
-          error:
-            schema.detail?.trim() ||
-            SETUP_SCHEMA_MISSING_MESSAGE,
-        },
+        { error: schema.detail?.trim() || SETUP_SCHEMA_MISSING_MESSAGE },
         { status: 503 },
       );
     }
