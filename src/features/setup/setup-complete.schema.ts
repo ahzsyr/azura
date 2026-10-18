@@ -4,10 +4,15 @@ import { passwordPolicySchema } from "@/schemas/password-policy";
 export const setupCompleteSchema = z.object({
   siteName: z.string().min(2).max(120),
   tagline: z.string().max(200).optional(),
-  siteUrl: z.preprocess(
-    (val) => (typeof val === "string" && !val.trim() ? undefined : val),
-    z.string().url().optional()
-  ),
+  siteUrl: z.preprocess((val) => {
+    if (typeof val !== "string") return val;
+    const trimmed = val.trim();
+    if (!trimmed) return undefined;
+    if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(trimmed)) {
+      return `https://${trimmed}`;
+    }
+    return trimmed;
+  }, z.string().url().optional()),
   adminEmail: z.string().email(),
   adminPassword: passwordPolicySchema,
   adminName: z.string().min(1).max(80).default("Admin"),

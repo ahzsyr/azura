@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { PasswordField } from "@/components/account/password-field";
 import { SITE_PRODUCT_NAME } from "@/config/site";
 import { DEMO_PROFILE_META } from "@/features/setup/demo-import/profiles";
+import { setupCompleteSchema } from "@/features/setup/setup-complete.schema";
+import { passwordPolicySchema } from "@/schemas/password-policy";
 import type { InstallMode } from "@/features/setup/demo-import/types";
 import type { SetupDatabaseKind } from "@/features/setup/setup.types";
 
@@ -79,22 +81,28 @@ export function SetupWizard({
       setError("Passwords do not match");
       return;
     }
+    const payload = {
+      siteName,
+      tagline: tagline || undefined,
+      siteUrl: siteUrl || undefined,
+      adminEmail,
+      adminPassword,
+      adminName,
+      registrationEnabled,
+      installMode,
+      setupToken,
+    };
+    const parsed = setupCompleteSchema.safeParse(payload);
+    if (!parsed.success) {
+      setError(parsed.error.issues[0]?.message ?? "Invalid form data");
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch("/api/setup/complete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          siteName,
-          tagline: tagline || undefined,
-          siteUrl: siteUrl || undefined,
-          adminEmail,
-          adminPassword,
-          adminName,
-          registrationEnabled,
-          installMode,
-          setupToken,
-        }),
+        body: JSON.stringify(payload),
       });
       const data = (await res.json().catch(() => ({}))) as {
         error?: string;
@@ -342,8 +350,8 @@ export function SetupWizard({
                 type="button"
                 className="flex-1"
                 disabled={
-                  !adminEmail ||
-                  adminPassword.length < 8 ||
+                  !adminEmail.includes("@") ||
+                  !passwordPolicySchema.safeParse(adminPassword).success ||
                   adminPassword !== adminPasswordConfirm
                 }
                 onClick={() => setStep(3)}

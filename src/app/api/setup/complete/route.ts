@@ -49,7 +49,11 @@ function isMissingSchemaError(error: unknown): boolean {
 
 function formatSetupError(error: unknown): string {
   if (error instanceof ZodError) {
-    return "Invalid form data";
+    const message = error.issues
+      .map((issue) => issue.message)
+      .filter((issue) => issue.trim().length > 0)
+      .join(" ");
+    return message || "Invalid form data";
   }
   if (isMissingSchemaError(error)) {
     return SETUP_SCHEMA_MISSING_MESSAGE;

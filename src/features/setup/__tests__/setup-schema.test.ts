@@ -6,10 +6,24 @@ test("setupCompleteSchema accepts valid payload", () => {
   const parsed = setupCompleteSchema.parse({
     siteName: "Acme Corp",
     adminEmail: "admin@example.com",
-    adminPassword: "password12",
+    adminPassword: "correct-horse-battery",
+    siteUrl: "whitesmoke-seahorse-775600.hostingersite.com",
     registrationEnabled: true,
   });
   assert.equal(parsed.siteName, "Acme Corp");
+  assert.equal(parsed.siteUrl, "https://whitesmoke-seahorse-775600.hostingersite.com");
+});
+
+test("setupCompleteSchema explains a short admin password", () => {
+  const parsed = setupCompleteSchema.safeParse({
+    siteName: "Acme Corp",
+    adminEmail: "admin@example.com",
+    adminPassword: "short-pass",
+  });
+  assert.equal(parsed.success, false);
+  if (!parsed.success) {
+    assert.match(parsed.error.issues[0]?.message ?? "", /at least 12/);
+  }
 });
 
 test("registerSchema rejects short password", () => {
@@ -31,7 +45,7 @@ test("registerSchema accepts full customer payload", () => {
   const parsed = registerSchema.parse({
     name: "Jane Doe",
     email: "jane@example.com",
-    password: "password12",
+    password: "correct-horse-battery",
     phone: "+966500000000",
     dateOfBirth: "1990-01-15",
     addressLine1: "123 Main St",
