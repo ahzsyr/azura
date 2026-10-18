@@ -57,10 +57,11 @@ test("truncateApplicationTables disables foreign keys and skips migrations", asy
   ]);
 });
 
-test("reset settings leave setup incomplete and show coming soon", () => {
+test("reset settings match a fresh deploy", () => {
   assert.equal(RESET_SYSTEM_SETTINGS.setupComplete, false);
-  assert.equal(RESET_SYSTEM_SETTINGS.comingSoonEnabled, true);
+  assert.equal(RESET_SYSTEM_SETTINGS.comingSoonEnabled, false);
   assert.equal(RESET_SYSTEM_SETTINGS.registrationEnabled, true);
+  assert.equal(RESET_SYSTEM_SETTINGS.completedAt, undefined);
 });
 
 test("sanitizeZipEntryName drops parent segments", () => {

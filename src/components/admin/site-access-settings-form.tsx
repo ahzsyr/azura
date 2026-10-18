@@ -270,7 +270,7 @@ export function SiteAccessSettingsForm({
           <CardTitle className="text-destructive">Reset setup</CardTitle>
           <CardDescription>
             Remove website content, catalog data, uploaded media, and admin accounts, then return
-            to the setup wizard. Visitors see the coming soon page until setup is completed again.
+            to the setup wizard. Visitors see the welcome page until an administrator finishes setup again.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">

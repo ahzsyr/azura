@@ -1,7 +1,7 @@
-/** Settings written after a full setup reset. Visitors stay on coming soon until setup finishes. */
+/** Settings written after a full setup reset. Matches a first deploy: welcome page, setup not finished. */
 export const RESET_SYSTEM_SETTINGS = {
   setupComplete: false,
   completedAt: undefined,
-  comingSoonEnabled: true,
+  comingSoonEnabled: false,
   registrationEnabled: true,
 } as const;
