@@ -50,6 +50,7 @@ function hasFacetSelections(state: ListingFilterState): boolean {
 }
 
 function resolveStrategy(state: ListingFilterState): ListingQueryStrategy {
+  if (state.navRules) return "scan";
   const hasQ = state.q.trim().length > 0;
   const hasFacets = hasFacetSelections(state) || state.stockOnly;
   const hasScope = Boolean(state.collectionScope?.trim());
@@ -96,7 +97,7 @@ export function createListingQueryPlan(
     logic: state.logic === "or" ? "or" : "and",
     candidateStrategy: strategy,
     capabilities: {
-      canUseInvertedIndex: hasFacetSelections(state) || state.stockOnly,
+      canUseInvertedIndex: !state.navRules && (hasFacetSelections(state) || state.stockOnly),
       canUseSearchIndex: query.normalized.length > 0,
       canUseRangeIndex: state.priceMin != null || state.priceMax != null,
       canUseScopeIndex: Boolean(state.collectionScope),

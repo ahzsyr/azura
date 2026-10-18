@@ -18,6 +18,7 @@ import {
 } from "@/features/announcement-bar/announcement-bar-utils";
 import { cn } from "@/lib/utils";
 import { usePreferNativeSliderTrack } from "@/lib/hooks/use-prefer-native-slider-track";
+import { peekCountAttr, responsivePeekBasis, sliderPeekOpts } from "@/features/builder/slider-peek";
 
 export type BrandLogoItem = {
   id: string;
@@ -98,14 +99,7 @@ function BrandLogoCarousel({
   const [api, setApi] = useState<CarouselApi>();
   const preferNativeTrack = usePreferNativeSliderTrack();
   const perView = slidesPerView ?? 4;
-  const basis =
-    perView >= 4
-      ? "basis-full sm:basis-1/2 lg:basis-1/4"
-      : perView === 3
-        ? "basis-full sm:basis-1/2 lg:basis-1/3"
-        : perView === 2
-          ? "basis-full sm:basis-1/2"
-          : "basis-full";
+  const basis = responsivePeekBasis(perView);
 
   useEffect(() => {
     if (!api || !autoplay || preferNativeTrack) return;
@@ -118,9 +112,9 @@ function BrandLogoCarousel({
 
   if (preferNativeTrack) {
     return (
-      <div className="block-overflow-slider-track">
+      <div className="block-overflow-slider-track" data-peek={peekCountAttr(perView)}>
         {items.map((item) => (
-          <div key={item.id} className="min-w-[120px] max-w-[160px] shrink-0">
+          <div key={item.id} className="min-w-0 shrink-0">
             <BrandLogoCell
               item={item}
               grayscale={grayscale ?? true}
@@ -134,7 +128,7 @@ function BrandLogoCarousel({
   }
 
   return (
-    <Carousel setApi={setApi} opts={{ align: "start", loop: true }}>
+    <Carousel setApi={setApi} opts={sliderPeekOpts}>
       <CarouselContent className="-ms-4">
         {items.map((item) => (
           <CarouselItem key={item.id} className={cn("ps-4", basis)}>

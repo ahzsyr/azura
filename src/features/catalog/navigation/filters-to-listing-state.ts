@@ -1,5 +1,6 @@
 import {
   collectRuleLeaves,
+  isEmptyRuleTree,
   isMultiValueOperator,
   isUnaryOperator,
   type MatchingRuleOperator,
@@ -175,7 +176,9 @@ export function filtersToListingState(
 ): Partial<ListingFilterState> {
   const root = normalizeNavFilters(filters);
   const leaves = collectRuleLeaves(root);
-  if (!leaves.length) return {};
+  if (!leaves.length) {
+    return isEmptyRuleTree(root) ? {} : { navRules: root };
+  }
 
   const holder = {
     categories: [] as string[],
@@ -202,7 +205,19 @@ export function filtersToListingState(
   if (holder.priceMin != null) out.priceMin = holder.priceMin;
   if (holder.priceMax != null) out.priceMax = holder.priceMax;
   if (holder.stockOnly) out.stockOnly = true;
-  if (root.match === "any") out.logic = "or";
+
+  const compiledFacet =
+    Boolean(out.categories?.length) ||
+    Boolean(out.brands?.length) ||
+    Boolean(out.tags?.length) ||
+    Boolean(out.conditions?.length) ||
+    Boolean(out.collections?.length) ||
+    Boolean(out.variations && Object.keys(out.variations).length) ||
+    out.priceMin != null ||
+    out.priceMax != null ||
+    out.stockOnly === true;
+  if (root.match === "any" && compiledFacet) out.logic = "or";
+  if (!isEmptyRuleTree(root)) out.navRules = root;
 
   return out;
 }
@@ -225,6 +240,7 @@ export function mergeListingFilterPartial(
       partial.collectionScope !== undefined ? partial.collectionScope : base.collectionScope,
     logic: partial.logic ?? base.logic,
     qExact: partial.qExact !== undefined ? partial.qExact : base.qExact,
+    navRules: partial.navRules !== undefined ? partial.navRules : base.navRules,
   };
 }
 

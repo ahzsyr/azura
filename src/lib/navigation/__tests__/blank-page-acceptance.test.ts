@@ -60,13 +60,31 @@ describe("blank-page acceptance criteria (static)", () => {
     assert.match(loader, /loadPublicShellContext/);
   });
 
-  it("preloader default max duration is capped near 4s", async () => {
-    const schema = await readSrc("../../../features/preloader/site-preloader.schema.ts");
+  it("preloader hard cap is a shared 2s constant", async () => {
+    const timing = await readSrc("../../../lib/preloader/preloader-timing.ts");
     const resolve = await readSrc("../../../features/preloader/resolve-site-preloader.ts");
     const applyBoot = await readSrc("../../../lib/locale-boot/apply-locale-boot.ts");
-    assert.match(schema, /maxDurationMs:\s*4000/);
-    assert.match(resolve, /Math\.min\(settings\.maxDurationMs,\s*4000\)/);
-    assert.match(applyBoot, /4000/);
+    const themeBoot = await readSrc("../../../lib/theme/theme-boot.ts");
+    const themeInit = await readFile(
+      new URL("../../../../public/theme-init.js", import.meta.url),
+      "utf8",
+    );
+    assert.match(timing, /PRELOADER_HARD_CAP_MS = 2000/);
+    assert.match(resolve, /PRELOADER_HARD_CAP_MS/);
+    assert.match(applyBoot, /PRELOADER_HARD_CAP_MS/);
+    assert.match(themeBoot, /\$\{PRELOADER_HARD_CAP_MS\}/);
+    assert.match(themeInit, /syncThemeColorMetaFromProjection\(false\)/);
+    assert.match(themeInit, /syncThemeColorMetaFromProjection\(true\)/);
+    assert.equal(
+      themeInit.match(/syncThemeColorMetaFromProjection\(false\)/g)?.length,
+      1,
+    );
+    assert.equal(
+      themeInit.match(/syncThemeColorMetaFromProjection\(true\)/g)?.length,
+      1,
+    );
+    assert.doesNotMatch(themeInit, /document\.body\.appendChild/);
+    assert.match(themeInit, /Do not set --primary/);
   });
 
   it("boot preloader logo is CSS-masked to the active theme primary", async () => {
@@ -87,6 +105,7 @@ describe("blank-page acceptance criteria (static)", () => {
     assert.doesNotMatch(themeStyles, /<link rel="stylesheet"/);
     assert.match(rootLayout, /<head>/);
     assert.match(rootLayout, /resolvePublishedSiteTheme/);
+    assert.doesNotMatch(rootLayout, /src="\/theme-init\.js"/);
     assert.doesNotMatch(sitePreloader, /showPreloader\(false\)/);
   });
 

@@ -10,33 +10,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
-
-const mobileBasis: Record<number, string> = {
-  1: "basis-full",
-  2: "basis-1/2",
-  3: "basis-1/3",
-  4: "basis-1/4",
-  5: "basis-1/5",
-  6: "basis-1/6",
-};
-
-const tabletBasis: Record<number, string> = {
-  1: "md:basis-full",
-  2: "md:basis-1/2",
-  3: "md:basis-1/3",
-  4: "md:basis-1/4",
-  5: "md:basis-1/5",
-  6: "md:basis-1/6",
-};
-
-const desktopBasis: Record<number, string> = {
-  1: "lg:basis-full",
-  2: "lg:basis-1/2",
-  3: "lg:basis-1/3",
-  4: "lg:basis-1/4",
-  5: "lg:basis-1/5",
-  6: "lg:basis-1/6",
-};
+import { peekBasis, sliderPeekOpts } from "@/features/builder/slider-peek";
 
 function clampSlides(value: number) {
   return Math.min(6, Math.max(1, value));
@@ -118,7 +92,7 @@ export function FeatureGridCarousel({
     <Carousel
       key={itemKey}
       setApi={setApi}
-      opts={{ align: "start", loop: false, dragFree: !snap }}
+      opts={{ ...sliderPeekOpts, dragFree: !snap }}
       className={cn("w-full", showNav && "sm:px-10")}
     >
       <CarouselContent style={gap > 0 ? { marginLeft: -gap } : undefined}>
@@ -127,9 +101,9 @@ export function FeatureGridCarousel({
             key={index}
             className={cn(
               "min-w-0",
-              mobileBasis[clampSlides(mobileSlides)],
-              tabletBasis[clampSlides(tabletSlides)],
-              desktopBasis[clampSlides(desktopSlides)]
+              peekBasis(clampSlides(mobileSlides)),
+              peekBasis(clampSlides(tabletSlides), "md"),
+              peekBasis(clampSlides(desktopSlides), "lg"),
             )}
             style={gap > 0 ? { paddingLeft: gap } : undefined}
           >

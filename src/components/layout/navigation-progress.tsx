@@ -7,6 +7,7 @@ import { findInternalNavAnchor, getInternalLinkPath } from "@/lib/navigation/int
 import { ROUTE_CONTENT_READY_EVENT } from "@/lib/motion/shell-ready";
 import { NAVIGATION_ABORTED_EVENT } from "@/lib/navigation/safe-app-router";
 import { recordNavigationStart } from "@/lib/performance/runtime-metrics";
+import { clearSharedElementHandoff } from "@/lib/navigation/shared-elements";
 import { useEffect, useRef, useState } from "react";
 
 function normalizeNavPath(pathPart: string): string {
@@ -85,6 +86,7 @@ export function NavigationProgress() {
     };
 
     const onPopState = () => {
+      clearSharedElementHandoff();
       transitionIdRef.current = recordNavigationStart(pathnameRef.current, window.location.pathname);
       startNavigating();
     };

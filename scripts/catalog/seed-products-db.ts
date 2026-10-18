@@ -54,7 +54,7 @@ async function collectionSlugsFor(slug: string, product: Product): Promise<strin
     (await loadCollectionsFromFs("en")).filter((c) => c.visible !== false),
   );
   const engine = catalogProductToCollectionProduct(slug, product);
-  const matches = getCollectionsMatchingProduct(engine, collections, { includeParents: true });
+  const matches = getCollectionsMatchingProduct(engine, collections);
   return matches.map((c) => c.slug);
 }
 

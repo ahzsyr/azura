@@ -246,6 +246,20 @@ describe("filtersToListingState", () => {
     } as never);
     assert.equal(partial.logic, "or");
   });
+
+  it("does not emit logic=or when the only rule is matchingRules", () => {
+    const partial = filtersToListingState({
+      kind: "group",
+      match: "any",
+      children: [
+        { kind: "group", match: "any", children: [] },
+        { kind: "leaf", field: "matchingRules", operator: "contains", value: "unifi" },
+      ],
+    });
+    assert.equal(partial.logic, undefined);
+    assert.equal(partial.navRules?.match, "any");
+    assert.equal(partial.navRules?.children.length, 2);
+  });
 });
 
 describe("item-href + URL round-trip", () => {
@@ -263,6 +277,51 @@ describe("item-href + URL round-trip", () => {
     assert.equal(href, "/en-us/products?category=WiFi");
     const state = listingStateFromNavHref(href);
     assert.deepEqual(state.categories, ["WiFi"]);
+  });
+
+  it("encodes matchingRules contains unifi and matches the same product", () => {
+    const href = buildCatalogNavItemHref({
+      locale: "en-us",
+      listingBasePath: "/en-us/products",
+      item: item({
+        id: "unifi",
+        label: "UniFi",
+        actionType: "SPEC_FILTER",
+        filters: {
+          kind: "group",
+          match: "any",
+          children: [
+            { kind: "group", match: "any", children: [] },
+            { kind: "leaf", field: "matchingRules", operator: "contains", value: "unifi" },
+          ],
+        },
+      }),
+    });
+    assert.match(href, /[?&]rules=/);
+    assert.equal(href.includes("logic=or"), false);
+    const state = listingStateFromNavHref(href);
+    const base = {
+      id: "1",
+      name: "Radio",
+      categories: [],
+      tags: [],
+      price: { value: 10, currency: "USD" as const },
+      priceMin: 10,
+      priceMax: 10,
+      in_stock: true,
+      conditions: [],
+      variationFacets: {},
+      collectionSlugs: [],
+      searchText: "",
+    };
+    const matched = filterListingCatalog(
+      [
+        { ...base, slug: "hit", matchingRules: ["unifi-ap"] },
+        { ...base, slug: "miss", id: "2", matchingRules: ["cisco"] },
+      ],
+      state,
+    );
+    assert.deepEqual(matched.map((row) => row.slug), ["hit"]);
   });
 
   it("builds multi-filter URL", () => {

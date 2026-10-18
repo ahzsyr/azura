@@ -100,7 +100,7 @@ export function StatsCounterView({
           items={items}
           columns={colCount}
           gridClassName={resolveOverflowGridClassName(layout, colCount)}
-          sliderItemClassName="w-full min-w-0 max-w-full basis-full sm:min-w-[240px] sm:max-w-sm"
+          sliderItemClassName="h-full min-w-0"
           getItemKey={(item) => item.id}
           renderItem={renderStat}
           accordionRender={(item) => {

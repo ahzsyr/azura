@@ -1,3 +1,4 @@
+import type { RuleGroup } from "@/features/categories/matching";
 import type { ProductAvailability, ProductCurrency, ProductPrice, ProductStockStatus } from "../types";
 
 export const LISTING_PER_OPTIONS = [10, 20, 30, 50] as const;
@@ -96,6 +97,11 @@ export type ListingFilterState = {
    * Path scope (`collectionScope`), q, price, and stock still AND.
    */
   logic?: ListingFilterLogic;
+  /**
+   * Full Matching Rules tree from a catalog navigation filter action.
+   * When set, listing membership uses this tree instead of flattened facets.
+   */
+  navRules?: RuleGroup;
 };
 
 export type ProductListingCatalogPayload = {

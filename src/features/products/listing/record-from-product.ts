@@ -157,7 +157,7 @@ export function recordFromProduct(
   const categories = [...catSet];
 
   const engine = catalogProductToCollectionProduct(slug, product);
-  const matches = getCollectionsMatchingProduct(engine, collections, { includeParents: true });
+  const matches = getCollectionsMatchingProduct(engine, collections);
   const collectionSlugs = matches.map((c) => c.slug);
   const derivedLabels = deriveProductKeywordLabels(product);
   const collectionNames = matches.map((c) => c.name).filter(Boolean);

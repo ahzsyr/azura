@@ -1,29 +1,18 @@
 import "server-only";
 
-import { getCollectionProducts, loadProductsForCollectionRules } from "@/features/collections/collection-products";
+import { loadPublishedProductsForRules } from "@/features/categories/direct-rule-match.service";
+import { selectDirectRuleMatches } from "@/features/categories/matching/direct-matches";
 import type { Collection } from "@/features/collections/types";
-import { hasProductListingIndex, loadAllCollectionProductCounts } from "@/features/products/index/product-index-loader";
-import { useCatalogProductsDb } from "@/features/products/products-source";
 
+/** Product counts from the same direct published rule matches as Match preview. */
 export async function loadCollectionProductCounts(
   localePrefix: string,
   collections: Collection[],
 ): Promise<Map<string, number>> {
-  const useIndex = useCatalogProductsDb() || (await hasProductListingIndex(localePrefix));
-
-  if (useIndex) {
-    const indexedCounts = await loadAllCollectionProductCounts(
-      localePrefix,
-      collections.map((c) => c.slug),
-    );
-    const hasIndexedProducts = [...indexedCounts.values()].some((count) => count > 0);
-    if (hasIndexedProducts || useCatalogProductsDb()) return indexedCounts;
-  }
-
-  const products = await loadProductsForCollectionRules(localePrefix);
+  const products = await loadPublishedProductsForRules(localePrefix);
   const counts = new Map<string, number>();
   for (const col of collections) {
-    counts.set(col.slug, getCollectionProducts(col, products).length);
+    counts.set(col.slug, selectDirectRuleMatches(products, col.conditions, { sampleLimit: 1 }).count);
   }
   return counts;
 }

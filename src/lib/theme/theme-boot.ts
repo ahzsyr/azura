@@ -8,7 +8,31 @@ import {
 } from "@/features/theme/engine/constants";
 import { getPresetMetricsBootPayload } from "./preset-metrics";
 import type { BrowserProjection } from "./browser-chrome-projection";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { BROWSER_CHROME_FALLBACK } from "./browser-chrome-projection";
+import { PRELOADER_HARD_CAP_MS } from "@/lib/preloader/preloader-timing";
+
+let themeInitSource: string | null = null;
+
+/** public/theme-init.js, cached for the process. Inlined so Next does not preload the URL. */
+function readThemeInitSource(): string {
+  if (themeInitSource != null) return themeInitSource;
+  const candidates = [
+    join(process.cwd(), "public", "theme-init.js"),
+    join(dirname(fileURLToPath(import.meta.url)), "../../../public/theme-init.js"),
+  ];
+  for (const path of candidates) {
+    try {
+      themeInitSource = readFileSync(path, "utf8").replace(/<\//g, "<\\/");
+      return themeInitSource;
+    } catch {
+      /* try the next path */
+    }
+  }
+  throw new Error("public/theme-init.js is missing");
+}
 
 /** Site Liquid Glass boot hints — paint data-glass-effect + CSS vars before hydration. */
 export type ThemeBootGlassPayload = {
@@ -83,6 +107,9 @@ export function buildThemeBootPayload(
  * anchors from localStorage / OS preference BEFORE first paint (not SSR-only
  * data-theme, which is often stuck on "light" for system mode).
  * Also hydrates Liquid Glass attr + intensity/opacity CSS vars early.
+ * theme-init.js is appended here. An external beforeInteractive src is preloaded
+ * by React on every navigation and never executed again, which Chrome reports as
+ * an unused preload.
  */
 export function generateThemeBootInlineScript(
   projection: BrowserProjection = BROWSER_CHROME_FALLBACK,
@@ -98,6 +125,7 @@ export function generateThemeBootInlineScript(
   var sk=boot.storageKeys||{};
   var glass=boot.glassEffect||{};
   var root=document.documentElement;
+  try{if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){root.classList.add("site-preloading-done");root.classList.remove("site-preloading");root.setAttribute("data-page-transition","none");root.setAttribute("data-page-transition-enabled","false");}}catch(e){}
   var path=location.pathname||"";
   var isAdmin=path.indexOf("/admin")===0;
   var modeKey=isAdmin?(sk.adminTheme||"admin-theme"):(sk.publicTheme||"devi-theme-mode");
@@ -128,6 +156,7 @@ export function generateThemeBootInlineScript(
   var go=typeof glass.opacity==="number"?glass.opacity:0.45;
   root.style.setProperty("--glass-effect-intensity",String(gi));
   root.style.setProperty("--glass-effect-opacity",String(go));
-  window.setTimeout(function(){try{if(!root.classList.contains("site-preloading-done")){root.classList.add("site-preloading-done");root.classList.remove("site-preloading");}}catch(e){}},4000);
-}catch(e){}})();`;
+  window.setTimeout(function(){try{if(!root.classList.contains("site-preloading-done")){root.classList.add("site-preloading-done");root.classList.remove("site-preloading");}}catch(e){}},${PRELOADER_HARD_CAP_MS});
+}catch(e){}})();
+${readThemeInitSource()}`;
 }

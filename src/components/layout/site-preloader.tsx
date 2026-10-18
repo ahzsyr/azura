@@ -17,14 +17,20 @@ import {
   resolveSectionPatternEffect,
 } from "@/features/theme/backgrounds/background-system";
 import { removeBootPreloader } from "@/lib/preloader/boot-preloader";
+import {
+  preloaderSeenCookieString,
+  reducedMotionCookieString,
+} from "@/lib/preloader/preloader-timing";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 type Props = {
   settings: ResolvedSitePreloader;
+  /** Repeat visit or reduced motion — do not arm the initial content-ready watcher. */
+  skipInitialOverlay?: boolean;
 };
 
-export function SitePreloader({ settings }: Props) {
+export function SitePreloader({ settings, skipInitialOverlay = false }: Props) {
   const pathname = usePathname();
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -53,6 +59,11 @@ export function SitePreloader({ settings }: Props) {
 
   const hidePreloader = useCallback(() => {
     clearTimers();
+    try {
+      document.cookie = preloaderSeenCookieString();
+    } catch {
+      /* private mode */
+    }
     setVisible(false);
     setShellPreloading(false);
     removeBootPreloader();
@@ -77,9 +88,11 @@ export function SitePreloader({ settings }: Props) {
     [hidePreloader, setShellPreloading, settings.enabled, settings.maxDurationMs],
   );
 
-  const scheduleDismiss = useCallback(() => {
+  const scheduleDismiss = useCallback((fromNavigation = false) => {
     clearTimers();
-    const elapsed = performance.now() - showStartRef.current;
+    const elapsed = fromNavigation
+      ? performance.now() - showStartRef.current
+      : performance.now();
     const remaining = Math.max(0, settings.minDurationMs - elapsed);
 
     dismissTimerRef.current = setTimeout(() => {
@@ -101,6 +114,20 @@ export function SitePreloader({ settings }: Props) {
   }, [mounted, settings.background]);
 
   useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncReducedMotionCookie = () => {
+      try {
+        document.cookie = reducedMotionCookieString(media.matches);
+      } catch {
+        /* private mode */
+      }
+    };
+    syncReducedMotionCookie();
+    media.addEventListener("change", syncReducedMotionCookie);
+    return () => media.removeEventListener("change", syncReducedMotionCookie);
+  }, []);
+
+  useEffect(() => {
     setMounted(true);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     reducedMotionRef.current = reduced;
@@ -112,6 +139,14 @@ export function SitePreloader({ settings }: Props) {
   }, []);
 
   useEffect(() => {
+    if (skipInitialOverlay) {
+      initialHandledRef.current = true;
+      document.documentElement.classList.remove("site-preloading");
+      removeBootPreloader();
+      document.dispatchEvent(new CustomEvent(SHELL_READY_EVENT));
+      return;
+    }
+
     if (!mounted || !settings.enabled) {
       if (mounted) {
         document.documentElement.classList.remove("site-preloading");
@@ -174,7 +209,7 @@ export function SitePreloader({ settings }: Props) {
     document.documentElement.classList.remove("site-preloading");
     removeBootPreloader();
     document.dispatchEvent(new CustomEvent(SHELL_READY_EVENT));
-  }, [mounted, scheduleDismiss, settings.enabled, settings.mode, settings.maxDurationMs, setShellPreloading, hidePreloader]);
+  }, [mounted, scheduleDismiss, settings.enabled, settings.mode, settings.maxDurationMs, setShellPreloading, hidePreloader, skipInitialOverlay]);
 
   useEffect(() => {
     if (!mounted || !settings.enabled || !preloaderShowsOnNavigation(settings.mode)) return;
@@ -209,7 +244,7 @@ export function SitePreloader({ settings }: Props) {
 
     if (!navPreloaderActiveRef.current || !visible) return;
 
-    const onContentReady = () => scheduleDismiss();
+    const onContentReady = () => scheduleDismiss(true);
     document.addEventListener(ROUTE_CONTENT_READY_EVENT, onContentReady, { once: true });
 
     return () => {

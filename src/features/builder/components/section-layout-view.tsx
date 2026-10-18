@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/carousel";
 import { usePreferNativeSliderTrack } from "@/lib/hooks/use-prefer-native-slider-track";
 import { cn } from "@/lib/utils";
+import { peekCountAttr, responsivePeekBasis, sliderPeekOpts } from "@/features/builder/slider-peek";
 import {
   normalizeSectionColumns,
   normalizeSectionGap,
@@ -45,12 +46,6 @@ function stackGapClass(gap: string): string {
   return "section-layout-stack--gap-md";
 }
 
-function sliderBasisClass(slidesPerView: number): string {
-  if (slidesPerView >= 3) return "basis-full sm:basis-1/2 lg:basis-1/3";
-  if (slidesPerView === 2) return "basis-full sm:basis-1/2";
-  return "basis-full";
-}
-
 function SectionLayoutSlider({
   children,
   slidesPerView,
@@ -58,7 +53,6 @@ function SectionLayoutSlider({
   showDots,
   autoplay,
   autoplayIntervalMs,
-  loop,
 }: {
   children: ReactNode[];
   slidesPerView: 1 | 2 | 3;
@@ -66,13 +60,11 @@ function SectionLayoutSlider({
   showDots: boolean;
   autoplay: boolean;
   autoplayIntervalMs: number;
-  loop: boolean;
 }) {
   const [api, setApi] = useState<CarouselApi>();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const preferNativeTrack = usePreferNativeSliderTrack();
-  const basis = sliderBasisClass(slidesPerView);
-  const canLoop = loop && children.length > slidesPerView;
+  const basis = responsivePeekBasis(slidesPerView);
 
   useEffect(() => {
     if (!api) return;
@@ -90,18 +82,18 @@ function SectionLayoutSlider({
     if (!api || !autoplay || preferNativeTrack) return;
     const interval = window.setInterval(() => {
       if (api.canScrollNext()) api.scrollNext();
-      else if (canLoop) api.scrollTo(0);
+      else api.scrollTo(0);
     }, autoplayIntervalMs);
     return () => window.clearInterval(interval);
-  }, [api, autoplay, autoplayIntervalMs, preferNativeTrack, canLoop]);
+  }, [api, autoplay, autoplayIntervalMs, preferNativeTrack]);
 
   if (children.length === 0) return null;
 
   if (preferNativeTrack) {
     return (
-      <div className="block-overflow-slider-track">
+      <div className="block-overflow-slider-track" data-peek={peekCountAttr(slidesPerView)}>
         {children.map((child, index) => (
-          <div key={index} className="min-w-[280px] max-w-sm shrink-0">
+          <div key={index} className="min-w-0 shrink-0">
             {child}
           </div>
         ))}
@@ -113,7 +105,7 @@ function SectionLayoutSlider({
     <div className="relative w-full">
       <Carousel
         setApi={setApi}
-        opts={{ align: "start", loop: canLoop }}
+        opts={sliderPeekOpts}
         className="w-full"
       >
         <CarouselContent className="-ms-3">
@@ -161,7 +153,6 @@ export function SectionLayoutView({
   showDots = false,
   autoplay = false,
   autoplayIntervalMs = 5000,
-  loop = true,
   children,
   className,
 }: SectionLayoutViewProps) {
@@ -251,7 +242,6 @@ export function SectionLayoutView({
         showDots={showDots}
         autoplay={autoplay}
         autoplayIntervalMs={autoplayIntervalMs}
-        loop={loop}
       >
         {childArray}
       </SectionLayoutSlider>

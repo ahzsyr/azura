@@ -36,6 +36,7 @@ describe("theme boot Liquid Glass", () => {
     assert.match(script, /--glass-effect-opacity/);
     assert.match(script, /--az-site-glass-tint/);
     assert.match(script, /site-preloading-done/);
+    assert.match(script, /runAfterHydration/);
   });
 });
 

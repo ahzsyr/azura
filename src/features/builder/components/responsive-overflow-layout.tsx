@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import type { DeviceBreakpoint, ResolvedContentOverflow } from "@/types/block-system";
 import { useStableDeviceBreakpoint } from "@/lib/hooks/use-stable-device-breakpoint";
 import { usePreferNativeSliderTrack } from "@/lib/hooks/use-prefer-native-slider-track";
+import { peekCountAttr, responsivePeekBasis, sliderPeekOpts } from "@/features/builder/slider-peek";
 import { cn } from "@/lib/utils";
 
 export type ResponsiveOverflowLayoutProps<T> = {
@@ -95,14 +96,11 @@ function OverflowSlider<T>({
 
   if (useNativeTrack) {
     return (
-      <div className="block-overflow-slider-track">
+      <div className="block-overflow-slider-track" data-peek={peekCountAttr(columns ?? 3)}>
         {items.map((item, i) => (
           <div
             key={getItemKey(item, i)}
-            className={cn(
-              sliderItemClassName ? undefined : "min-w-[280px] max-w-sm",
-              sliderItemClassName,
-            )}
+            className={cn("min-w-0", sliderItemClassName)}
           >
             {renderItem(item, i)}
           </div>
@@ -112,17 +110,12 @@ function OverflowSlider<T>({
   }
 
   const slidesPerView = columns ?? 3;
-  const basis =
-    slidesPerView >= 3
-      ? "basis-full sm:basis-1/2 lg:basis-1/3"
-      : slidesPerView === 2
-        ? "basis-full sm:basis-1/2"
-        : "basis-full";
+  const basis = responsivePeekBasis(slidesPerView);
 
   return (
     <Carousel
       setApi={setApi}
-      opts={{ align: "start", loop: true }}
+      opts={sliderPeekOpts}
       className="mx-auto w-full max-w-6xl px-0 sm:px-10"
     >
       <CarouselContent className="-ms-4">

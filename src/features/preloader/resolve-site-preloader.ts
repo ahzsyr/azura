@@ -3,6 +3,7 @@ import {
   parseSitePreloaderSettings,
   type SitePreloaderSettings,
 } from "@/features/preloader/site-preloader.schema";
+import { PRELOADER_HARD_CAP_MS } from "@/lib/preloader/preloader-timing";
 
 export type ResolvedSitePreloader = SitePreloaderSettings & {
   resolvedLogoUrl: string | null;
@@ -46,7 +47,7 @@ export function resolveSitePreloader(
   return {
     ...settings,
     /** Cap overlay lifetime — timeout is UX escape hatch, not a content-load budget. */
-    maxDurationMs: Math.min(settings.maxDurationMs, 4000),
+    maxDurationMs: Math.min(settings.maxDurationMs, PRELOADER_HARD_CAP_MS),
     background:
       background.type === "color" ? { ...background, color: backgroundColor || background.color } : background,
     backgroundColor,

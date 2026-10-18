@@ -35,7 +35,7 @@ export async function computeCollectionSlugs(
     (await loadCollectionsFromDisk()).filter((c) => c.visible !== false),
   );
   const engine = catalogProductToCollectionProduct(canonicalSlug, product);
-  const matches = getCollectionsMatchingProduct(engine, collections, { includeParents: true });
+  const matches = getCollectionsMatchingProduct(engine, collections);
   return matches.map((c) => c.slug);
 }
 

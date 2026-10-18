@@ -37,8 +37,10 @@
   }
 }
 
-/* Horizontal snap slider fallback (catalog-style) */
+/* Horizontal snap slider. Width is N.2 cards so the next card peeks.
+   The last card snaps to the end so the previous card peeks instead. */
 .block-overflow-slider-track {
+  --slider-peek: 1.2;
   display: flex;
   gap: 1rem;
   width: 100%;
@@ -52,9 +54,59 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.block-overflow-slider-track[data-peek-base="3"] {
+  --slider-peek: 3.2;
+}
+
 .block-overflow-slider-track > * {
   scroll-snap-align: start;
-  flex-shrink: 0;
+  flex: 0 0 calc(100% / var(--slider-peek));
+  width: calc(100% / var(--slider-peek));
+  min-width: 0;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+.block-overflow-slider-track > *:last-child {
+  scroll-snap-align: end;
+}
+
+@media (min-width: 640px) {
+  .block-overflow-slider-track[data-peek="2"],
+  .block-overflow-slider-track[data-peek="3"],
+  .block-overflow-slider-track[data-peek="4"],
+  .block-overflow-slider-track[data-peek="5"],
+  .block-overflow-slider-track[data-peek="6"] {
+    --slider-peek: 2.2;
+  }
+
+  .block-overflow-slider-track[data-peek-sm="4"] {
+    --slider-peek: 4.2;
+  }
+}
+
+@media (min-width: 768px) {
+  .block-overflow-slider-track[data-peek-md="5"] {
+    --slider-peek: 5.2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .block-overflow-slider-track[data-peek="3"] {
+    --slider-peek: 3.2;
+  }
+
+  .block-overflow-slider-track[data-peek="4"] {
+    --slider-peek: 4.2;
+  }
+
+  .block-overflow-slider-track[data-peek="5"] {
+    --slider-peek: 5.2;
+  }
+
+  .block-overflow-slider-track[data-peek="6"] {
+    --slider-peek: 6.2;
+  }
 }
 
 .block-overflow-stack {

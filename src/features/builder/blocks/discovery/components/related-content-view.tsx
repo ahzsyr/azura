@@ -12,18 +12,13 @@ import {
 import { parseRelatedContentProps } from "@/features/builder/blocks/discovery/lib/parse-block-props";
 import { mergeDisplaySettings, type DisplaySettings } from "@/schemas/content/display-settings";
 import { cn } from "@/lib/utils";
+import { responsivePeekBasis, sliderPeekOpts } from "@/features/builder/slider-peek";
 
 type Props = {
   locale: string;
   items: ContentCardData[];
   blockProps: Record<string, unknown>;
 };
-
-function slidesPerViewClass(columns: 2 | 3 | 4): string {
-  if (columns === 2) return "basis-full sm:basis-1/2";
-  if (columns === 4) return "basis-full sm:basis-1/2 lg:basis-1/4";
-  return "basis-full sm:basis-1/2 lg:basis-1/3";
-}
 
 export function RelatedContentView({ locale, items, blockProps: raw }: Props) {
   const p = parseRelatedContentProps(raw);
@@ -40,10 +35,10 @@ export function RelatedContentView({ locale, items, blockProps: raw }: Props) {
 
   if (p.layout === "carousel") {
     return (
-      <Carousel opts={{ align: "start", loop: p.loop !== false }} className="w-full">
+      <Carousel opts={sliderPeekOpts} className="w-full">
         <CarouselContent className="-ms-4">
           {items.map((item) => (
-            <CarouselItem key={item.id} className={cn("ps-4", slidesPerViewClass(columns))}>
+            <CarouselItem key={item.id} className={cn("ps-4", responsivePeekBasis(columns))}>
               <ContentCard item={item} locale={locale} display={display} />
             </CarouselItem>
           ))}

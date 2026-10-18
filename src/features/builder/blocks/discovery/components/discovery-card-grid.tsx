@@ -31,7 +31,7 @@ export function DiscoveryCardGrid({
 
   if (layout === "carousel") {
     return (
-      <div className="block-overflow-slider-track pl-block-slider-track">
+      <div className="block-overflow-slider-track pl-block-slider-track" data-peek={String(columns)}>
         <DiscoveryProductCardList
           cards={cards}
           locale={locale}

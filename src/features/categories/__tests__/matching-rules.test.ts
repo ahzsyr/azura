@@ -14,8 +14,12 @@ import {
 import { matchProductToCollection, catalogProductToCollectionProduct, type CollectionEngineProduct } from "@/features/collections/engine";
 import type { Collection } from "@/features/collections/types";
 import { categoriesToCollections } from "@/features/categories/category-collection-view";
+import { selectDirectRuleMatches } from "@/features/categories/matching/direct-matches";
 import type { Category } from "@/features/categories/types";
 import type { Product } from "@/features/products/types";
+import { getCollectionsMatchingProduct } from "@/features/products/product-collections";
+import { listingRecordToRuleFields } from "@/features/catalog/brand-matching";
+import type { ProductListingRecord } from "@/features/products/listing/types";
 
 const sampleProduct: CollectionEngineProduct = {
   id: "1",
@@ -650,6 +654,123 @@ describe("Matching Rules — dual taxonomy fields", () => {
             values: ["airFiber 60 GHz", "Radio Systems"],
           },
         ],
+      }),
+      true,
+    );
+  });
+});
+
+describe("Matching Rules — live category parity", () => {
+  it("parent category does not inherit a child-only match", () => {
+    const parent = {
+      ...collection({
+        kind: "group",
+        match: "all",
+        children: [{ kind: "leaf", field: "brand", operator: "equals", value: "Apple" }],
+      }),
+      slug: "parent",
+      name: "Parent",
+    };
+    const child = {
+      ...collection({
+        kind: "group",
+        match: "all",
+        children: [{ kind: "leaf", field: "brand", operator: "equals", value: "Samsung" }],
+      }),
+      slug: "child",
+      name: "Child",
+      parentSlug: "parent",
+    };
+    const samsung = { ...sampleProduct, id: "2", slug: "galaxy", name: "Galaxy", brand: "Samsung" };
+    const matched = getCollectionsMatchingProduct(samsung, [parent, child]);
+    assert.deepEqual(
+      matched.map((item) => item.slug),
+      ["child"],
+    );
+
+    const products = [
+      { slug: "macbook-pro", id: "1", name: "MacBook", publishStatus: "published", fields: { brand: "Apple" } },
+      { slug: "galaxy", id: "2", name: "Galaxy", publishStatus: "published", fields: { brand: "Samsung" } },
+    ];
+    assert.deepEqual(selectDirectRuleMatches(products, parent.conditions).slugs, ["macbook-pro"]);
+    assert.deepEqual(selectDirectRuleMatches(products, child.conditions).slugs, ["galaxy"]);
+  });
+
+  it("preview count equals the published direct-match set", () => {
+    const rules = {
+      kind: "group" as const,
+      match: "any" as const,
+      children: [{ kind: "leaf" as const, field: "brand", operator: "equals" as const, value: "Apple" }],
+    };
+    const products = [
+      { slug: "a", id: "a", name: "A", publishStatus: "published", fields: { brand: "Apple" } },
+      { slug: "b", id: "b", name: "B", publishStatus: "published", fields: { brand: "Apple" } },
+      { slug: "draft", id: "d", name: "D", publishStatus: "draft", fields: { brand: "Apple" } },
+      { slug: "other", id: "o", name: "O", publishStatus: "published", fields: { brand: "Samsung" } },
+    ];
+    const result = selectDirectRuleMatches(products, rules, { sampleLimit: 1 });
+    assert.equal(result.count, 2);
+    assert.equal(result.totalScanned, 3);
+    assert.deepEqual(result.slugs, ["a", "b"]);
+    assert.equal(result.samples.length, 1);
+    assert.equal(result.samples[0]?.slug, "a");
+  });
+
+  it("brand listing rows match the same spec and matchingRules as category preview", () => {
+    const record = {
+      slug: "u6-pro",
+      id: "u6",
+      name: "U6 Pro",
+      brand: "Ubiquiti",
+      categories: ["WiFi"],
+      tags: [],
+      price: { value: 100, currency: "USD" as const },
+      priceMin: 100,
+      priceMax: 100,
+      in_stock: true,
+      conditions: [],
+      variationFacets: { "Wi-Fi Standard": ["WiFi 6"] },
+      collectionSlugs: [],
+      searchText: "",
+      matchingRules: ["unifi", "wifi6"],
+    } satisfies ProductListingRecord;
+    const fields = listingRecordToRuleFields(record);
+    const productFields = productToRuleFields("u6-pro", {
+      id: "u6",
+      productTitle: "U6 Pro",
+      brand: "Ubiquiti",
+      categories: ["WiFi"],
+      matchingRules: ["unifi", "wifi6"],
+      price: { value: 100, currency: "USD" },
+      media: { images: [] },
+      reviews: { rating: 0, count: 0 },
+      specifications: [{ features: [{ name: "Wi-Fi Standard", value: "WiFi 6" }] }],
+    } as Product);
+    assert.equal(
+      matchEntityToRulesBool(fields, {
+        kind: "group",
+        match: "all",
+        children: [{ kind: "leaf", field: "matchingRules", operator: "contains", value: "unifi" }],
+      }),
+      matchEntityToRulesBool(productFields, {
+        kind: "group",
+        match: "all",
+        children: [{ kind: "leaf", field: "matchingRules", operator: "contains", value: "unifi" }],
+      }),
+    );
+    assert.equal(
+      matchEntityToRulesBool(fields, {
+        kind: "group",
+        match: "all",
+        children: [{ kind: "leaf", field: "spec:Wi-Fi Standard", operator: "equals", value: "WiFi 6" }],
+      }),
+      true,
+    );
+    assert.equal(
+      matchEntityToRulesBool(productFields, {
+        kind: "group",
+        match: "all",
+        children: [{ kind: "leaf", field: "spec:Wi-Fi Standard", operator: "equals", value: "WiFi 6" }],
       }),
       true,
     );

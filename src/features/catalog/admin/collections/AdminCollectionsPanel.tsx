@@ -913,7 +913,7 @@ export default function AdminCollectionsPanel({
 
   const runSync = useCallback(async (
     autoCreate = false,
-    options?: { switchTab?: boolean },
+    options?: { switchTab?: boolean; quiet?: boolean },
   ) => {
     const switchTab = options?.switchTab !== false;
     setSyncing(true);
@@ -925,21 +925,35 @@ export default function AdminCollectionsPanel({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ autoCreate }),
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = (await res.json()) as { report: SyncReport };
+      const data = (await res.json().catch(() => ({}))) as {
+        report?: SyncReport & {
+          indexesRebuilt?: boolean;
+          indexRebuildError?: string | null;
+          ruleMembershipError?: string | null;
+        };
+        error?: string;
+      };
+      if (!res.ok) throw new Error(data.error ?? `HTTP ${res.status}`);
+      if (!data.report) throw new Error("Sync did not return a report");
+      if (!data.report.indexesRebuilt) {
+        throw new Error(data.report.indexRebuildError || "Index rebuild failed");
+      }
+      if (data.report.ruleMembershipError) {
+        throw new Error(data.report.ruleMembershipError);
+      }
       setReport(data.report);
       if (switchTab) setTab("sync");
       if (data.report.newCollectionsCreated > 0) await fetchCollections();
-      const parts: string[] = [switchTab ? "Sync complete" : "Indexes rebuilt"];
-      if (data.report.newCollectionsCreated > 0) {
-        parts.push(`${data.report.newCollectionsCreated} new category(ies) created`);
-      }
-      if (data.report.indexesRebuilt) {
+      if (!options?.quiet) {
+        const parts: string[] = [switchTab ? "Sync complete" : "Indexes rebuilt"];
+        if (data.report.newCollectionsCreated > 0) {
+          parts.push(`${data.report.newCollectionsCreated} new category(ies) created`);
+        }
         const counts = data.report.indexRebuildCounts ?? {};
         const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
         parts.push(`indexes rebuilt (${total} products)`);
+        showSuccess(parts.join(" — "));
       }
-      showSuccess(parts.join(" — "));
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Sync failed";
       setGlobalError(msg);
@@ -1033,6 +1047,9 @@ export default function AdminCollectionsPanel({
       });
     }
     void fetchSyncReport();
+    if (mode === "publish") {
+      await runSync(false, { switchTab: false, quiet: true });
+    }
     if (mode === "save") {
       setEditTarget(null);
     } else if (json.collection) {
@@ -1049,7 +1066,7 @@ export default function AdminCollectionsPanel({
       msg += ` — ${json.reparentedChildren} child category(ies) updated`;
     }
     showSuccess(msg);
-  }, [editTarget, fetchSyncReport, markSaved, updateCollectionsAfterSave]);
+  }, [editTarget, fetchSyncReport, markSaved, runSync, updateCollectionsAfterSave]);
 
   const submitCollectionForm = useCallback(
     async (mode: CollectionSaveMode) => {

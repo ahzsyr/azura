@@ -33,6 +33,11 @@ import { MarketingPageTransition } from "@/components/motion/marketing-page-tran
 import { loadLocaleLayoutData } from "@/features/i18n/load-locale-layout-data";
 import { DeferredLocaleMarketingChrome } from "@/features/i18n/deferred-locale-marketing-chrome";
 import { preloaderShowsOnInitialLoad } from "@/features/preloader/site-preloader.schema";
+import { cookies } from "next/headers";
+import {
+  PRELOADER_SEEN_COOKIE,
+  REDUCED_MOTION_COOKIE,
+} from "@/lib/preloader/preloader-timing";
 import { PreloaderBootScript } from "@/components/layout/preloader-boot-script";
 import { NavigationRejectionGuard } from "@/components/layout/navigation-rejection-guard";
 import { AdminPreviewBar } from "@/components/layout/admin-preview-bar";
@@ -156,8 +161,17 @@ export default async function LocaleLayout({ children, params }: Props) {
     htmlLang,
   } = layoutData;
   const themeColors = resolveThemeColors(resolvedTheme.tokens);
+  const cookieStore = await cookies();
+  const preloaderSeen = cookieStore.get(PRELOADER_SEEN_COOKIE)?.value === "1";
+  const reducedMotion = cookieStore.get(REDUCED_MOTION_COOKIE)?.value === "1";
   const preloaderActive =
-    preloaderSettings.enabled && preloaderShowsOnInitialLoad(preloaderSettings.mode);
+    preloaderSettings.enabled &&
+    preloaderShowsOnInitialLoad(preloaderSettings.mode) &&
+    !preloaderSeen &&
+    !reducedMotion;
+  const bootPageTransitions = reducedMotion
+    ? { ...pageTransitionSettings, enabled: false, preset: "none" as const }
+    : pageTransitionSettings;
   const localeBootPayload = buildLocaleBootPayload({
     lang: htmlLang,
     dir: shell.direction,
@@ -166,7 +180,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     cursorEffect: resolvedTheme.tokens.cursorEffect,
     primaryColor: themeColors.primary,
     accentColor: themeColors.secondary,
-    pageTransitionSettings,
+    pageTransitionSettings: bootPageTransitions,
     preloaderActive,
     preloaderMaxMs: preloaderSettings.maxDurationMs,
   });
@@ -192,7 +206,10 @@ export default async function LocaleLayout({ children, params }: Props) {
       <NextIntlClientProvider locale={locale} messages={messages}>
         <ThemeProvider resolved={resolvedTheme} previewDraft={false}>
           <DeferredNavigationProgress />
-          <DeferredSitePreloaderHost settings={preloaderSettings} />
+          <DeferredSitePreloaderHost
+            settings={preloaderSettings}
+            skipInitialOverlay={preloaderSeen || reducedMotion}
+          />
           <DeferredNavigationViewTransition />
           <DeferredRecentlyViewedTracker />
           <MotionRuntimeHost />

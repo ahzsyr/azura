@@ -12,6 +12,10 @@ import { emitRouteContentReady, SHELL_READY_EVENT } from "@/lib/motion/shell-rea
 import { recordNavigationEnd } from "@/lib/performance/runtime-metrics";
 import { clearSharedElementHandoff } from "@/lib/navigation/shared-elements";
 import { readPageTransitionEnterClearMs } from "@/lib/navigation/page-transitions";
+import {
+  armNavHoldForceCommit,
+  clearNavHoldForceCommit,
+} from "@/lib/navigation/nav-hold-force-commit";
 import { usePointerGestureActive } from "@/lib/hooks/use-pointer-gesture-active";
 import { removeBootPreloader } from "@/lib/preloader/boot-preloader";
 import {
@@ -69,6 +73,14 @@ export function MarketingPageTransition({ children }: Props) {
   const prevPathnameRef = useRef(pathname);
   const enterTimeoutRef = useRef<number | null>(null);
   const pendingEscapeRef = useRef<number | null>(null);
+  const navHoldTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const holdStateRef = useRef({
+    holdFrozen: false,
+    navStillStreaming: false,
+    children,
+    pathname,
+  });
+  const routerRef = useRef(router);
   const [layerState, setLayerState] = useState<"idle" | "stale" | "entering">("idle");
   const [holdFrozen, setHoldFrozen] = useState(false);
   const [displayChildren, setDisplayChildren] = useState<ReactNode>(children);
@@ -90,6 +102,8 @@ export function MarketingPageTransition({ children }: Props) {
   const navStillStreaming =
     isNavigating && !routePending && containsPartialRouteContent(children);
   const showStaleHold = holdFrozen && (isNavigating || navStillStreaming) && !forceCommitted;
+  holdStateRef.current = { holdFrozen, navStillStreaming, children, pathname };
+  routerRef.current = router;
 
   const clearEnterTimeout = () => {
     if (enterTimeoutRef.current == null) return;
@@ -101,6 +115,11 @@ export function MarketingPageTransition({ children }: Props) {
     if (pendingEscapeRef.current == null) return;
     window.clearTimeout(pendingEscapeRef.current);
     pendingEscapeRef.current = null;
+  };
+
+  const clearNavHoldTimer = () => {
+    clearNavHoldForceCommit(navHoldTimerRef.current);
+    navHoldTimerRef.current = null;
   };
 
   useLayoutEffect(() => {
@@ -119,6 +138,26 @@ export function MarketingPageTransition({ children }: Props) {
     if (!hasCommittedRef.current) return;
     setHoldFrozen(true);
     setLayerState("stale");
+    navHoldTimerRef.current = armNavHoldForceCommit(navHoldTimerRef.current, () => {
+      navHoldTimerRef.current = null;
+      const snap = holdStateRef.current;
+      if (!snap.holdFrozen && !snap.navStillStreaming) return;
+      committedPathRef.current = snap.pathname;
+      hasCommittedRef.current = true;
+      setForceCommitted(true);
+      setHoldFrozen(false);
+      setDisplayChildren(snap.children);
+      setLayerState("idle");
+      emitRouteContentReady();
+      recordNavigationEnd(snap.pathname, { success: true });
+      if (isBuildShell(snap.children)) {
+        try {
+          routerRef.current.refresh();
+        } catch {
+          /* ignore */
+        }
+      }
+    });
   }, [pathname]);
 
   useLayoutEffect(() => {
@@ -135,6 +174,7 @@ export function MarketingPageTransition({ children }: Props) {
     }
 
     const commit = () => {
+      clearNavHoldTimer();
       const isFirstCommit = !hasCommittedRef.current;
 
       committedPathRef.current = pathname;
@@ -204,6 +244,7 @@ export function MarketingPageTransition({ children }: Props) {
     () => () => {
       clearEnterTimeout();
       clearPendingEscape();
+      clearNavHoldTimer();
     },
     [],
   );

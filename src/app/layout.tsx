@@ -20,6 +20,7 @@ import {
 import { ChunkLoadDiagnostics } from "@/components/debug/chunk-load-diagnostics";
 import { SearchQueryShell } from "@/capabilities/search/query/search-query-shell";
 import { NuqsProvider } from "@/components/providers/nuqs-provider";
+import { REDUCED_MOTION_COOKIE } from "@/lib/preloader/preloader-timing";
 
 type Props = {
   children: ReactNode;
@@ -67,6 +68,7 @@ export default async function RootLayout({ children }: Props) {
   const appearance = resolveAppearanceFromCookie(
     cookieStore.get(APPEARANCE_MODE_COOKIE)?.value,
   );
+  const reducedMotion = cookieStore.get(REDUCED_MOTION_COOKIE)?.value === "1";
 
   let themeHtmlProps: Record<string, string> = {};
   let htmlClassName = appearance.className;
@@ -124,6 +126,9 @@ export default async function RootLayout({ children }: Props) {
       data-theme={appearance.resolved}
       data-theme-mode={appearance.mode}
       {...themeHtmlProps}
+      {...(reducedMotion
+        ? { "data-page-transition": "none", "data-page-transition-enabled": "false" }
+        : {})}
       style={htmlChromeStyle}
       suppressHydrationWarning
     >
@@ -149,7 +154,6 @@ export default async function RootLayout({ children }: Props) {
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: bootScript }}
         />
-        <Script src="/theme-init.js" strategy="beforeInteractive" />
         {process.env.DEBUG_SESSION === "57e90f" ? <ChunkLoadDiagnostics /> : null}
         <NuqsProvider>
           <SearchQueryShell>{children}</SearchQueryShell>

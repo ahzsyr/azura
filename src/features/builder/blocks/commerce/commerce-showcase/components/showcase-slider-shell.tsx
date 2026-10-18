@@ -8,6 +8,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { usePreferNativeSliderTrack } from "@/lib/hooks/use-prefer-native-slider-track";
+import { peekCountAttr, responsivePeekBasis, sliderPeekOpts } from "@/features/builder/slider-peek";
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
@@ -31,22 +32,15 @@ export function ShowcaseSliderShell({
 
   if (items.length === 0) return null;
 
-  const basis =
-    slidesPerView >= 4
-      ? "basis-full sm:basis-1/2 lg:basis-1/4"
-      : slidesPerView === 3
-        ? "basis-full sm:basis-1/2 lg:basis-1/3"
-        : slidesPerView === 2
-          ? "basis-full sm:basis-1/2"
-          : "basis-full";
+  const basis = responsivePeekBasis(slidesPerView);
 
   if (preferNativeTrack) {
     return (
-      <div className="block-overflow-slider-track">
+      <div className="block-overflow-slider-track" data-peek={peekCountAttr(slidesPerView)}>
         {items.map((item) => (
           <div
             key={item.key}
-            className={cn("min-w-[280px] max-w-sm shrink-0", itemClassName)}
+            className={cn("min-w-0 shrink-0", itemClassName)}
           >
             {item.node}
           </div>
@@ -56,7 +50,7 @@ export function ShowcaseSliderShell({
   }
 
   return (
-    <Carousel opts={{ align: "start", loop: items.length > slidesPerView }} className="w-full">
+    <Carousel opts={sliderPeekOpts} className="w-full">
       <CarouselContent className="-ms-3">
         {items.map((item) => (
           <CarouselItem key={item.key} className={cn("ps-3", basis, itemClassName)}>

@@ -1,18 +1,18 @@
 .mre {
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  padding: 16px;
+  padding: 10px 12px;
   background: #fafafa;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .mre-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .mre-label {
@@ -24,6 +24,43 @@
 .mre-match {
   display: flex;
   gap: 16px;
+}
+
+.mre-seg {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  background: #fff;
+  gap: 2px;
+}
+
+.mre-seg-btn {
+  border: 0;
+  background: transparent;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.mre-seg-btn:hover {
+  color: #111827;
+}
+
+.mre-seg-btn.is-active {
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.mre-group-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
 }
 
 .mre-check {
@@ -42,21 +79,30 @@
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   background: #fff;
-  padding: 10px;
-  margin-bottom: 8px;
+  padding: 6px 8px;
+  margin-bottom: 6px;
+}
+
+.mre-group--empty {
+  padding-bottom: 6px;
+}
+
+.mre-group--empty .mre-group-header {
+  margin-bottom: 4px;
 }
 
 .mre-group--nested {
-  background: #f9fafb;
-  margin-left: 12px;
+  background: #f8fafc;
+  margin-left: 16px;
+  border-color: #e2e8f0;
 }
 
 .mre-group-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 6px;
+  margin-bottom: 4px;
   flex-wrap: wrap;
 }
 
@@ -87,9 +133,9 @@
 }
 
 .mre-join-btn {
-  min-width: 52px;
-  padding: 4px 10px;
-  font-size: 11px;
+  min-width: 44px;
+  padding: 2px 8px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.04em;
   border: 1px solid #d1d5db;
@@ -176,14 +222,14 @@
 
 .mre-actions {
   display: flex;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 6px;
+  margin-top: 6px;
   flex-wrap: wrap;
 }
 
 .mre-btn {
-  font-size: 13px;
-  padding: 6px 12px;
+  font-size: 12px;
+  padding: 4px 8px;
   border-radius: 6px;
   border: 1px solid #d1d5db;
   background: #fff;
@@ -247,6 +293,13 @@
 }
 
 .mre-preview-meta {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.mre-preview-sub {
+  margin: 0 0 8px;
   font-size: 12px;
   color: #6b7280;
 }
@@ -274,6 +327,7 @@
 }
 
 .mre-preview-item:hover,
+.mre-preview-item.is-active,
 .mre-preview-item--active {
   border-color: #a78bfa;
   background: #f5f3ff;

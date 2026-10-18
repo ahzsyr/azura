@@ -9,6 +9,7 @@ import {
   parseAsStringLiteral,
   type UrlKeys,
 } from "nuqs/server";
+import { isEmptyRuleTree, upgradeLegacyRuleSet, type RuleGroup } from "@/features/categories/matching";
 import { LISTING_PER_OPTIONS, type ListingFilterState, type ListingPerPage } from "./types";
 
 const DEFAULT_PER: ListingPerPage = 20;
@@ -77,6 +78,24 @@ const parseAsStockOnly = createParser({
   eq: (a, b) => Boolean(a) === Boolean(b),
 }).withDefault(false);
 
+const parseAsNavRules = createParser<RuleGroup | null>({
+  parse: (raw) => {
+    const text = raw.trim();
+    if (!text) return null;
+    try {
+      const root = upgradeLegacyRuleSet(JSON.parse(text));
+      return isEmptyRuleTree(root) ? null : root;
+    } catch {
+      return null;
+    }
+  },
+  serialize: (value) => {
+    if (!value || isEmptyRuleTree(value)) return "";
+    return JSON.stringify(value);
+  },
+  eq: (a, b) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null),
+});
+
 const parseAsCollectionScope = createParser({
   parse: (raw) => {
     const trimmed = raw.trim();
@@ -113,6 +132,7 @@ export const listingFilterParsers = {
   page: parseAsPage,
   per: parseAsNumberLiteral(LISTING_PER_OPTIONS).withDefault(DEFAULT_PER),
   logic: parseAsStringLiteral(["or"] as const),
+  navRules: parseAsNavRules,
 };
 
 export const listingFilterUrlKeys: UrlKeys<typeof listingFilterParsers> = {
@@ -127,6 +147,7 @@ export const listingFilterUrlKeys: UrlKeys<typeof listingFilterParsers> = {
   priceMin: "price_min",
   priceMax: "price_max",
   stockOnly: "stock",
+  navRules: "rules",
 };
 
 export type ListingFilterQueryValues = {
@@ -145,6 +166,7 @@ export type ListingFilterQueryValues = {
   page: number;
   per: ListingPerPage;
   logic: "or" | null;
+  navRules: RuleGroup | null;
 };
 
 export function toListingFilterState(values: ListingFilterQueryValues): ListingFilterState {
@@ -164,6 +186,7 @@ export function toListingFilterState(values: ListingFilterQueryValues): ListingF
     page: values.page,
     per: values.per,
     ...(values.logic === "or" ? { logic: "or" as const } : {}),
+    ...(values.navRules ? { navRules: values.navRules } : {}),
   };
 }
 
@@ -188,6 +211,7 @@ export function fromListingFilterState(
     page: state.page,
     per: state.per,
     logic: state.logic === "or" ? "or" : null,
+    navRules: state.navRules && !isEmptyRuleTree(state.navRules) ? state.navRules : null,
   };
 }
 
@@ -233,6 +257,7 @@ export function countActiveFilters(state: ListingFilterState): number {
   for (const opts of Object.values(state.variations)) n += opts.length;
   if (state.priceMin != null || state.priceMax != null) n += 1;
   if (state.stockOnly) n += 1;
+  if (state.navRules && !isEmptyRuleTree(state.navRules)) n += 1;
   return n;
 }
 

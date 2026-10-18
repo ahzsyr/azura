@@ -1,4 +1,5 @@
 import type { LocaleBootPayload } from "@/lib/locale-boot/locale-boot-payload";
+import { PRELOADER_HARD_CAP_MS } from "@/lib/preloader/preloader-timing";
 
 /** Apply locale shell boot hooks after React hydration (never before). */
 export function applyLocaleBoot(payload: LocaleBootPayload): void {
@@ -62,7 +63,7 @@ export function applyLocaleBoot(payload: LocaleBootPayload): void {
   const maxMs =
     typeof payload.preloaderMaxMs === "number" && payload.preloaderMaxMs > 0
       ? payload.preloaderMaxMs
-      : 4000;
+      : PRELOADER_HARD_CAP_MS;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const hideBoot = () => {

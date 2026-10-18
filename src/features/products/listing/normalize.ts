@@ -1,5 +1,6 @@
 import { LISTING_PER_OPTIONS, type ListingFilterState, type ListingPerPage } from "./types";
 import { filterStateToApiSearchParams } from "./url-state";
+import { isEmptyRuleTree } from "@/features/categories/matching";
 
 const DEFAULT_PER: ListingPerPage = 20;
 
@@ -104,6 +105,7 @@ export function normalizeListingFilterState(state: ListingFilterState): ListingF
     page: Math.max(1, Number.isFinite(state.page) ? Math.floor(state.page) : 1),
     per: normalizePerPage(state.per),
     ...(logic ? { logic } : {}),
+    ...(state.navRules && !isEmptyRuleTree(state.navRules) ? { navRules: state.navRules } : {}),
   };
 }
 

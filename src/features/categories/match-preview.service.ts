@@ -1,21 +1,9 @@
 import "server-only";
 
-import {
-  explainEntityMatch,
-  matchEntityToRulesBool,
-  productToRuleFields,
-  upgradeLegacyRuleSet,
-  type RuleGroup,
-} from "@/features/categories/matching";
-import { loadAllProducts } from "@/features/collections/collection-sync.service";
+import { matchPublishedProductsToRules } from "@/features/categories/direct-rule-match.service";
+import type { DirectRuleSample } from "@/features/categories/matching/direct-matches";
 
-export type MatchPreviewSample = {
-  id: string;
-  slug: string;
-  name: string;
-  matched: boolean;
-  explain?: ReturnType<typeof explainEntityMatch>["entries"];
-};
+export type MatchPreviewSample = DirectRuleSample;
 
 export type MatchPreviewResult = {
   count: number;
@@ -24,7 +12,8 @@ export type MatchPreviewResult = {
 };
 
 /**
- * Preview Matching Rules against catalog products (PRODUCT scope).
+ * Preview Matching Rules against published catalog products (PRODUCT scope).
+ * Count is the full direct-match set the live category page uses.
  * Empty rules → count 0 (contract).
  */
 export async function previewProductRuleMatches(input: {
@@ -33,55 +22,13 @@ export async function previewProductRuleMatches(input: {
   sampleLimit?: number;
   explainEntityIdOrSlug?: string;
 }): Promise<MatchPreviewResult> {
-  const root: RuleGroup = upgradeLegacyRuleSet(input.conditions);
-  const sampleLimit = Math.min(Math.max(input.sampleLimit ?? 25, 1), 100);
-  const products = await loadAllProducts(input.locale ?? "en-us");
-
-  const samples: MatchPreviewSample[] = [];
-  let count = 0;
-  let explainTarget: MatchPreviewSample | null = null;
-
-  for (const { slug, product } of products) {
-    const fields = productToRuleFields(slug, product);
-    const matched = matchEntityToRulesBool(fields, root);
-    if (matched) {
-      count += 1;
-      if (samples.length < sampleLimit) {
-        samples.push({
-          id: String(product.id),
-          slug,
-          name: String(fields.name ?? slug),
-          matched: true,
-        });
-      }
-    }
-
-    const want =
-      input.explainEntityIdOrSlug &&
-      (slug === input.explainEntityIdOrSlug ||
-        String(product.id) === input.explainEntityIdOrSlug);
-    if (want) {
-      const explained = explainEntityMatch(fields, root);
-      explainTarget = {
-        id: String(product.id),
-        slug,
-        name: String(fields.name ?? slug),
-        matched: explained.matched,
-        explain: explained.entries,
-      };
-    }
-  }
-
-  if (explainTarget && !samples.some((s) => s.slug === explainTarget!.slug)) {
-    samples.unshift(explainTarget);
-  } else if (explainTarget) {
-    const idx = samples.findIndex((s) => s.slug === explainTarget!.slug);
-    if (idx >= 0) samples[idx] = explainTarget;
-  }
-
+  const result = await matchPublishedProductsToRules(input.locale ?? "en-us", input.conditions, {
+    sampleLimit: input.sampleLimit,
+    explainEntityIdOrSlug: input.explainEntityIdOrSlug,
+  });
   return {
-    count,
-    totalScanned: products.length,
-    samples,
+    count: result.count,
+    totalScanned: result.totalScanned,
+    samples: result.samples,
   };
 }

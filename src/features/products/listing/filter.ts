@@ -5,7 +5,8 @@ import {
   recordMatchesCategoryFacetValue,
   type CategoryTaxonomyNode,
 } from "@/features/categories/resolve-category-for-facet";
-import type { ProductConditionOption } from "../types";
+import { isEmptyRuleTree, matchEntityToRulesBool } from "@/features/categories/matching";
+import { listingRecordToRuleFields } from "@/features/catalog/brand-matching";
 import type { ListingFilterState, ProductListingRecord } from "./types";
 import { listingRecordMatchesExactPhrase } from "./search/listing-search-engine";
 
@@ -155,7 +156,9 @@ export function filterListingCatalog(
       }
     }
 
-    if (useOr) {
+    if (state.navRules && !isEmptyRuleTree(state.navRules)) {
+      if (!matchEntityToRulesBool(listingRecordToRuleFields(r), state.navRules)) return false;
+    } else if (useOr) {
       if (!matchesFacetDimensionsOr(r, state, categoryIndex)) return false;
     } else {
       if (!matchesCategories(r, state.categories, categoryIndex)) return false;

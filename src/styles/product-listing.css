@@ -53,12 +53,12 @@
   }
 }
 
-/* Fixed widths apply on the native snap track only.
-   Embla slides use percentage `basis-*` and break if min/max width fight those. */
+/* Native snap tracks size slides from --slider-peek (N.2 cards). */
 .block-overflow-slider-track > .pl-block-slider-item {
-  min-width: min(280px, 85vw);
-  max-width: 320px;
-  width: 100%;
+  min-width: 0;
+  max-width: none;
+  width: calc(100% / var(--slider-peek, 1.2));
+  flex: 0 0 calc(100% / var(--slider-peek, 1.2));
 }
 
 .pl-block-slider-track {

@@ -17,6 +17,19 @@ function orderedBrandProfiles(profiles: CatalogBrandProfile[]): CatalogBrandProf
 
 /** Map a listing index row to the Matching Rules field bag (PRODUCT scope). */
 export function listingRecordToRuleFields(record: ProductListingRecord): RuleEntityFields {
+  const specification: string[] = [];
+  const specFields: Record<string, string[]> = {};
+  for (const [typeRaw, options] of Object.entries(record.variationFacets ?? {})) {
+    const type = typeRaw.trim();
+    if (!type || !options?.length) continue;
+    specFields[`spec:${type}`] = options;
+    for (const option of options) {
+      const value = option.trim();
+      if (!value) continue;
+      specification.push(`${type}:${value}`, `${type}: ${value}`, value);
+    }
+  }
+
   return {
     id: record.id ?? record.slug,
     slug: record.slug,
@@ -25,16 +38,22 @@ export function listingRecordToRuleFields(record: ProductListingRecord): RuleEnt
     category: record.category ?? "",
     categories: record.categories ?? [],
     brand: record.brand ?? "",
+    mainCategory: record.mainCategory ?? "",
+    environment: record.environment ?? "",
+    mountingMethod: record.mountingMethod ?? "",
+    generation: record.generation ?? "",
+    antennaDesign: record.antennaDesign ?? "",
     price: record.priceMin ?? Number(record.price?.value ?? 0),
     comparePrice: record.old_price ?? null,
     badge: "",
     tags: record.tags ?? [],
     status: record.availability ?? "",
-    stock: record.stock_status ?? "",
+    stock: record.stock_status ?? (record.in_stock ? "in-stock" : "out-of-stock"),
     mpn: record.mpn ?? "",
     description: record.short_description ?? "",
-    specification: [],
+    specification,
     matchingRules: record.matchingRules ?? [],
+    ...specFields,
   };
 }
 

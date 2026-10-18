@@ -15,7 +15,8 @@ export function readSharedElementHandoff(): SharedElementHandoff | null {
     if (!raw) return null;
     const parsed = JSON.parse(raw) as SharedElementHandoff;
     if (!parsed?.type || !parsed?.id) return null;
-    if (Date.now() - parsed.ts > 30_000) {
+    // Same-tab abandoned-navigation fallback only. sessionStorage is not a cross-tab channel.
+    if (Date.now() - parsed.ts > 5_000) {
       sessionStorage.removeItem(SHARED_ELEMENT_HANDOFF_KEY);
       return null;
     }

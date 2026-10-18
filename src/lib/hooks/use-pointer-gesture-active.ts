@@ -1,52 +1,42 @@
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
+import { createPointerIdleQueue } from "@/lib/hooks/pointer-idle-queue";
 
 /** Tracks whether a pointer/touch gesture is currently active on the document. */
 export function usePointerGestureActive() {
-  const gestureActiveRef = useRef(false);
-  const pendingCallbacksRef = useRef<Array<() => void>>([]);
+  const queueRef = useRef<ReturnType<typeof createPointerIdleQueue> | null>(null);
+  if (queueRef.current == null) {
+    queueRef.current = createPointerIdleQueue();
+  }
 
   useEffect(() => {
-    const flushPending = () => {
-      if (gestureActiveRef.current) return;
-      const pending = pendingCallbacksRef.current.splice(0);
-      for (const callback of pending) {
-        callback();
-      }
-    };
+    const queue = queueRef.current;
+    if (!queue) return;
 
     const onPointerDown = () => {
-      gestureActiveRef.current = true;
+      queue.pointerDown();
     };
-
     const onPointerUp = () => {
-      gestureActiveRef.current = false;
-      flushPending();
+      queue.pointerUp();
     };
 
-    document.addEventListener("pointerdown", onPointerDown, { passive: true });
-    document.addEventListener("pointerup", onPointerUp, { passive: true });
-    document.addEventListener("pointercancel", onPointerUp, { passive: true });
-    document.addEventListener("touchend", onPointerUp, { passive: true });
-    document.addEventListener("touchcancel", onPointerUp, { passive: true });
+    document.addEventListener("pointerdown", onPointerDown, { capture: true, passive: true });
+    document.addEventListener("pointerup", onPointerUp, { capture: true, passive: true });
+    document.addEventListener("pointercancel", onPointerUp, { capture: true, passive: true });
 
     return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("pointerup", onPointerUp);
-      document.removeEventListener("pointercancel", onPointerUp);
-      document.removeEventListener("touchend", onPointerUp);
-      document.removeEventListener("touchcancel", onPointerUp);
+      document.removeEventListener("pointerdown", onPointerDown, { capture: true });
+      document.removeEventListener("pointerup", onPointerUp, { capture: true });
+      document.removeEventListener("pointercancel", onPointerUp, { capture: true });
+      queue.dispose();
+      queueRef.current = createPointerIdleQueue();
     };
   }, []);
 
   const runWhenGestureIdle = useCallback((callback: () => void) => {
-    if (!gestureActiveRef.current) {
-      callback();
-      return;
-    }
-    pendingCallbacksRef.current.push(callback);
+    queueRef.current?.runWhenIdle(callback);
   }, []);
 
-  return { gestureActiveRef, runWhenGestureIdle };
+  return { runWhenGestureIdle };
 }

@@ -43,7 +43,10 @@ const DeferredSitePreloader = dynamic(
   { ssr: false },
 );
 
-export function DeferredSitePreloaderHost(props: { settings: ResolvedSitePreloader }) {
+export function DeferredSitePreloaderHost(props: {
+  settings: ResolvedSitePreloader;
+  skipInitialOverlay?: boolean;
+}) {
   return <DeferredSitePreloader {...props} />;
 }
 

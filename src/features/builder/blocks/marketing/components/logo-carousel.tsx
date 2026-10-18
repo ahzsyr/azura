@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/carousel";
 import { LogoCloudImage } from "@/features/builder/blocks/marketing/components/logo-cloud-image";
 import { usePreferNativeSliderTrack } from "@/lib/hooks/use-prefer-native-slider-track";
+import { peekBasis, sliderPeekOpts } from "@/features/builder/slider-peek";
 import { cn } from "@/lib/utils";
 
 export type LogoCarouselItem = {
@@ -119,9 +120,15 @@ export function LogoCarousel({
 
   if (preferNativeTrack) {
     return (
-      <div className={cn("block-overflow-slider-track", className)}>
+      <div
+        className={cn("block-overflow-slider-track", className)}
+        data-peek="6"
+        data-peek-base="3"
+        data-peek-sm="4"
+        data-peek-md="5"
+      >
         {items.map((item) => (
-          <div key={item.id} className="min-w-[120px] max-w-[160px] shrink-0">
+          <div key={item.id} className="min-w-0 shrink-0">
             <LogoImage
               item={item}
               grayscale={grayscale}
@@ -136,10 +143,13 @@ export function LogoCarousel({
   }
 
   return (
-    <Carousel setApi={setApi} opts={{ align: "start", loop: true }} className={className}>
+    <Carousel setApi={setApi} opts={sliderPeekOpts} className={className}>
       <CarouselContent className="-ms-4">
         {items.map((item) => (
-          <CarouselItem key={item.id} className="basis-1/3 ps-4 sm:basis-1/4 md:basis-1/5 lg:basis-1/6">
+          <CarouselItem
+            key={item.id}
+            className={cn("ps-4", peekBasis(3), peekBasis(4, "sm"), peekBasis(5, "md"), peekBasis(6, "lg"))}
+          >
             <LogoImage
               item={item}
               grayscale={grayscale}

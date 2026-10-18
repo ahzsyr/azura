@@ -90,6 +90,37 @@ type MatchingRulesEditorProps = {
   locale?: string;
 };
 
+function MatchModeControl({
+  match,
+  onChange,
+  label,
+}: {
+  match: RuleMatchMode;
+  onChange: (next: RuleMatchMode) => void;
+  label: string;
+}) {
+  return (
+    <div className="mre-seg" role="group" aria-label={label}>
+      <button
+        type="button"
+        className={`mre-seg-btn ${match !== "all" ? "is-active" : ""}`}
+        aria-pressed={match !== "all"}
+        onClick={() => onChange("any")}
+      >
+        Match ANY
+      </button>
+      <button
+        type="button"
+        className={`mre-seg-btn ${match === "all" ? "is-active" : ""}`}
+        aria-pressed={match === "all"}
+        onClick={() => onChange("all")}
+      >
+        Match ALL
+      </button>
+    </div>
+  );
+}
+
 export function MatchingRulesEditor({
   value,
   onChange,
@@ -108,26 +139,11 @@ export function MatchingRulesEditor({
     <div className="mre">
       <div className="mre-header">
         <span className="mre-label">Matching Rules</span>
-        <div className="mre-match">
-          <label className="mre-check">
-            <input
-              type="radio"
-              name="mre-root-match"
-              checked={root.match !== "all"}
-              onChange={() => setRoot({ ...root, match: "any" })}
-            />
-            Match ANY (OR)
-          </label>
-          <label className="mre-check">
-            <input
-              type="radio"
-              name="mre-root-match"
-              checked={root.match === "all"}
-              onChange={() => setRoot({ ...root, match: "all" })}
-            />
-            Match ALL (AND)
-          </label>
-        </div>
+        <MatchModeControl
+          label="Root matching mode"
+          match={root.match === "all" ? "all" : "any"}
+          onChange={(match) => setRoot({ ...root, match })}
+        />
       </div>
 
       <RuleGroupEditor group={root} depth={0} onChange={setRoot} showHeader={false} locale={locale} />
@@ -182,27 +198,16 @@ function RuleGroupEditor({
   };
 
   return (
-    <div className={`mre-group ${depth > 0 ? "mre-group--nested" : ""}`}>
+    <div className={`mre-group ${depth > 0 ? "mre-group--nested" : ""} ${group.children.length === 0 ? "mre-group--empty" : ""}`}>
       {showHeader && (
         <div className="mre-group-header">
           <span className="mre-group-title">{pathLabel ?? "Group"}</span>
-          <div className="mre-match">
-            <label className="mre-check">
-              <input
-                type="radio"
-                checked={group.match !== "all"}
-                onChange={() => onChange({ ...group, match: "any" })}
-              />
-              ANY
-            </label>
-            <label className="mre-check">
-              <input
-                type="radio"
-                checked={group.match === "all"}
-                onChange={() => onChange({ ...group, match: "all" })}
-              />
-              ALL
-            </label>
+          <div className="mre-group-tools">
+            <MatchModeControl
+              label={`${pathLabel ?? "Group"} matching mode`}
+              match={group.match === "all" ? "all" : "any"}
+              onChange={(match) => onChange({ ...group, match })}
+            />
             {onRemove && (
               <button type="button" className="mre-btn mre-btn-icon mre-btn-danger" onClick={onRemove} title="Remove group">
                 ×
@@ -641,10 +646,18 @@ function MatchPreviewPanel({ conditions, locale }: { conditions: RuleGroup; loca
           {loading
             ? "Scanning…"
             : preview
-              ? `${preview.count} match${preview.count === 1 ? "" : "es"} of ${preview.totalScanned}`
+              ? `${preview.count} match${preview.count === 1 ? "" : "es"}`
               : "—"}
         </span>
       </div>
+      {preview && !loading && (
+        <p className="mre-preview-sub">
+          {preview.samples.length > 0
+            ? `Showing ${Math.min(preview.samples.length, preview.count)} of ${preview.count}`
+            : "No matching products"}
+          {` · ${preview.totalScanned} published scanned`}
+        </p>
+      )}
       {error && <div className="mre-preview-error">{error}</div>}
       {preview && preview.samples.length > 0 && (
         <ul className="mre-preview-list">

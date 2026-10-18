@@ -9,6 +9,7 @@ import {
 import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
 import { normalizeCatalogLocaleCode } from "@/features/catalog/locales";
 import { rebuildAllCatalogProductIndexes } from "@/features/products/index/product-index-patcher";
+import { syncProductCategoryRuleMemberships } from "@/features/categories/sync-rule-memberships";
 import { appendCatalogSyncAudit } from "@/features/catalog/admin/sync/catalog-sync-audit";
 
 export async function GET(request: Request) {
@@ -65,6 +66,7 @@ export async function POST(request: Request) {
 
     let indexesRebuilt = false;
     let indexRebuildError: string | null = null;
+    let ruleMembershipError: string | null = null;
     const indexRebuildCounts: Record<string, number> = {};
     const indexRebuildDetails: Record<
       string,
@@ -87,10 +89,23 @@ export async function POST(request: Request) {
       console.warn("[collections] product index rebuild after sync failed", err);
     }
 
+    if (indexesRebuilt) {
+      try {
+        const membership = await syncProductCategoryRuleMemberships(locale);
+        if (membership.errors.length > 0) {
+          ruleMembershipError = membership.errors.join("; ");
+        }
+      } catch (err) {
+        ruleMembershipError = err instanceof Error ? err.message : String(err);
+        console.warn("[collections] rule membership sync failed", err);
+      }
+    }
+
     const enrichedReport = {
       ...report,
       indexesRebuilt,
       indexRebuildError,
+      ruleMembershipError,
       indexRebuildCounts,
       indexRebuildDetails,
     };
