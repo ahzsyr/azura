@@ -16,19 +16,6 @@ import { runPrisma } from "./run-prisma.mjs";
 import { ensureMarketingCampaignIntelligenceMysql } from "./ensure-marketing-campaign-intelligence.mjs";
 import { ensureSearchFulltextMysql } from "./ensure-search-fulltext-mysql.mjs";
 
-function shouldSkipMigrate(env = process.env) {
-  if (env.SKIP_DB_MIGRATE === "1") {
-    console.log("[db-migrate] SKIP_DB_MIGRATE=1 — skipping");
-    return true;
-  }
-  const url = buildPrismaEnv().DATABASE_URL?.trim();
-  if (!url) {
-    console.log("[db-migrate] DATABASE_URL unset — skipping");
-    return true;
-  }
-  return false;
-}
-
 function isPoolCheckoutError(message) {
   return (
     message.includes("ECHECKOUTTIMEOUT") ||
@@ -1885,11 +1872,29 @@ async function applyPostgresPatchesWithFallback(candidates) {
 }
 
 async function main() {
-  if (shouldSkipMigrate()) {
+  const env = buildPrismaEnv();
+  if (!env.DATABASE_URL?.trim()) {
+    console.log("[db-migrate] DATABASE_URL unset — skipping");
     return;
   }
+  if (process.env.SKIP_DB_MIGRATE === "1") {
+    let userPresent = false;
+    try {
+      userPresent = await isUserTablePresent(env.DATABASE_URL);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.warn(
+        `[db-migrate] SKIP_DB_MIGRATE=1 — could not check User table (${message.split("\n")[0]}), skipping`,
+      );
+      return;
+    }
+    if (userPresent) {
+      console.log("[db-migrate] SKIP_DB_MIGRATE=1 — skipping");
+      return;
+    }
+    console.warn("[db-migrate] SKIP_DB_MIGRATE=1 ignored because the User table is missing");
+  }
 
-  const env = buildPrismaEnv();
   assertMysqlDatabaseUrl(env.DATABASE_URL);
   const datamodelSchema = resolvePrismaSchemaPath(env);
   const migrateSchema = resolvePrismaMigrateSchemaPath(env);

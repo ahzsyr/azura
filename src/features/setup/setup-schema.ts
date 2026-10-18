@@ -80,6 +80,16 @@ function childEnvWithoutSkipMigrate(): NodeJS.ProcessEnv {
   return env;
 }
 
+function commandDetail(result: {
+  status: number | null;
+  stdout?: string | null;
+  stderr?: string | null;
+}): string {
+  const text = `${result.stderr ?? ""}\n${result.stdout ?? ""}`.trim();
+  const tail = text.split("\n").filter(Boolean).slice(-12).join(" ");
+  return tail || `exit ${result.status ?? 1}`;
+}
+
 function runNodeScript(scriptRelative: string): { ok: boolean; detail: string } {
   const root = process.cwd();
   const script = path.join(root, scriptRelative);
@@ -93,12 +103,8 @@ function runNodeScript(scriptRelative: string): { ok: boolean; detail: string } 
     encoding: "utf8",
     maxBuffer: 8 * 1024 * 1024,
   });
-  if ((result.status ?? 1) === 0) return { ok: true, detail: "" };
-  const stderr = (result.stderr || result.stdout || "").trim();
-  return {
-    ok: false,
-    detail: stderr.split("\n").filter(Boolean).slice(-8).join(" ") || `exit ${result.status ?? 1}`,
-  };
+  const ok = (result.status ?? 1) === 0;
+  return { ok, detail: commandDetail(result) };
 }
 
 function runPrismaDbPush(): { ok: boolean; detail: string } {
@@ -119,17 +125,21 @@ function runPrismaDbPush(): { ok: boolean; detail: string } {
       maxBuffer: 8 * 1024 * 1024,
     },
   );
-  if ((result.status ?? 1) === 0) return { ok: true, detail: "" };
-  const stderr = (result.stderr || result.stdout || "").trim();
-  return {
-    ok: false,
-    detail: stderr.split("\n").filter(Boolean).slice(-8).join(" ") || `exit ${result.status ?? 1}`,
-  };
+  const ok = (result.status ?? 1) === 0;
+  return { ok, detail: commandDetail(result) };
+}
+
+function stillMissingDetail(label: string, result: { ok: boolean; detail: string }): string {
+  if (result.ok) {
+    return `${label} exited 0 but the User table is still missing. ${result.detail}`.trim();
+  }
+  return result.detail;
 }
 
 /**
- * Best-effort schema apply for first-run setup when tables are missing.
- * Runs migrate deploy, then prisma db push if User is still missing (MySQL or Postgres).
+ * Apply the same deploy migrate script, then prisma db push, until User exists.
+ * A command that exits 0 without creating User is a failure and its output is returned.
+ * SKIP_DB_MIGRATE is removed so an empty database is not skipped.
  */
 export async function ensureSetupSchemaBestEffort(): Promise<{
   ready: boolean;
@@ -142,16 +152,16 @@ export async function ensureSetupSchemaBestEffort(): Promise<{
 
   const details: string[] = [];
   const migrate = runNodeScript("scripts/deploy/prisma-migrate-deploy.mjs");
-  if (!migrate.ok && migrate.detail) details.push(migrate.detail);
   if (await isSetupSchemaReady()) {
     return { ready: true, attempted: true };
   }
+  details.push(stillMissingDetail("Schema migrate", migrate));
 
   const push = runPrismaDbPush();
-  if (!push.ok && push.detail) details.push(push.detail);
   if (await isSetupSchemaReady()) {
     return { ready: true, attempted: true };
   }
+  details.push(stillMissingDetail("prisma db push", push));
 
   return {
     ready: false,

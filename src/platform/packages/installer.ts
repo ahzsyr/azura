@@ -109,6 +109,35 @@ async function assertDependenciesActive(manifest: PackageManifest): Promise<void
   }
 }
 
+/** Install and activate every app included in the built deployment profile. Applies each app's SQL. */
+export async function installIncludedProfilePackages(): Promise<void> {
+  const profile = getDeploymentProfile();
+  const ids = profile.generated
+    ? [...profile.modules]
+    : getModuleManifests().map((manifest) => manifest.id);
+  const pending = new Set(ids);
+  const ordered: string[] = [];
+  while (pending.size > 0) {
+    const ready = [...pending].filter((id) => {
+      const required = builtinManifest(id)?.requiredPackages ?? [];
+      return required.every((dependency) => !pending.has(dependency));
+    });
+    if (ready.length === 0) {
+      ordered.push(...pending);
+      break;
+    }
+    for (const id of ready) {
+      pending.delete(id);
+      ordered.push(id);
+    }
+  }
+  for (const packageId of ordered) {
+    if (!builtinManifest(packageId)) continue;
+    await installPackage(packageId);
+    await activatePackage(packageId);
+  }
+}
+
 export async function installPackage(packageId: string): Promise<PackageRecord> {
   assertIncluded(packageId);
   const manifest = builtinManifest(packageId);

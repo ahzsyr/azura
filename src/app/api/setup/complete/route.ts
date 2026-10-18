@@ -30,6 +30,7 @@ import { revalidateAllWiredMarketingPaths } from "@/features/cms/revalidate-wire
 import { revalidateJsonNamespace } from "@/services/cache";
 import { publishShellChange } from "@/services/publish-propagation";
 import { ensureAuthSecretAtSetup } from "@/lib/auth-secret.server";
+import { installIncludedProfilePackages } from "@/platform/packages/installer";
 import { Prisma } from "@prisma/client";
 
 /** Remote Supabase pooler latency can exceed Prisma's default 5s interactive transaction limit. */
@@ -105,6 +106,8 @@ export async function POST(request: Request) {
         { status: 503 },
       );
     }
+
+    await installIncludedProfilePackages();
 
     const passwordHash = await bcrypt.hash(data.adminPassword, 12);
     const completedAt = new Date().toISOString();
