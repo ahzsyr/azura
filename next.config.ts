@@ -116,6 +116,10 @@ const nextConfig: NextConfig = {
   },
   /** Set OUTPUT_STANDALONE=1 before build to deploy a prebuilt bundle on Hostinger (no on-server build). */
   ...(process.env.OUTPUT_STANDALONE === "1" ? { output: "standalone" as const } : {}),
+  /** Setup creates tables from this file; NFT must pack it even when the path is read at runtime. */
+  outputFileTracingIncludes: {
+    "/api/setup/complete": ["./database/mysql/01-schema.sql"],
+  },
   /** Hostinger build blocks scanning folders named `admin`; URLs stay /api/admin via rewrite */
   async rewrites() {
     return {
