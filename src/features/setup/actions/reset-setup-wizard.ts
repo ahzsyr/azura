@@ -26,8 +26,13 @@ export async function resetSetupWizardAction(input: {
     const cookieStore = await cookies();
     cookieStore.delete(SETUP_COMPLETE_COOKIE);
     return ok({ redirectTo: "/setup" });
-  } catch {
-    return fail("Unauthorized or reset failed.");
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "";
+    if (message === "Unauthorized" || message === "Forbidden") {
+      return fail("Unauthorized or reset failed.");
+    }
+    console.error("[setup reset] failed:", error);
+    return fail("Reset failed. The database was not cleared.");
   }
 }
 

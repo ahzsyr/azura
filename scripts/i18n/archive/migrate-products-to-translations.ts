@@ -5,7 +5,7 @@
  * Run: npx tsx scripts/i18n/migrate-products-to-translations.ts
  * Dry run: npx tsx scripts/i18n/migrate-products-to-translations.ts --dry-run
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../../src/lib/create-prisma-client";
 import {
   detectLocaleColumn,
   tableHasColumn,
@@ -13,7 +13,7 @@ import {
   upsertLocalizedSlug,
 } from "./migration-utils";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 const dryRun = process.argv.includes("--dry-run");
 
 type PreMigrationProductRow = {

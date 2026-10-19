@@ -6,11 +6,11 @@
  *   npm run entities:reindex-products
  *   npm run entities:reindex-products -- --remove-legacy
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { searchIndexer } from "@/capabilities/search/search-indexer.service";
 import { PRODUCT_CONTENT_TYPE_SLUG, isMigratedProductItem } from "@/features/entities/migration/metadata";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 async function main() {
   const removeLegacy = process.argv.includes("--remove-legacy");

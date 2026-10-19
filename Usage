@@ -1,0 +1,36 @@
+Your .env already points DATABASE_URL at the Docker MySQL service (mysql:3306 / azura_db). Start the whole stack with Compose so the app container can reach that hostname.
+
+From the project root:
+
+
+docker compose up --build
+That starts two containers:
+
+App (azura_app) on http://localhost:3000. On startup it installs dependencies if the named node_modules volume is empty, runs npm run db:migrate:deploy, then npm run dev.
+MySQL 8.4 (azura_mysql) on the host at 127.0.0.1:3307. Inside the Docker network the app uses hostname mysql and port 3306.
+Compose waits until MySQL is healthy before starting the app. The first run is slow because of the image build and npm ci.
+
+Leave this terminal running. Detached mode:
+
+
+docker compose up -d --build
+docker compose logs -f app
+Stop everything with docker compose down. That keeps the database volume. docker compose down -v deletes it.
+
+Database login (from docker-compose.yml): user azura, database azura_db, host 127.0.0.1, port 3307. The password is MYSQL_PASSWORD in that file. Prisma Studio from the host:
+
+
+npm run db:studio
+If the app cannot connect, DATABASE_URL in .env must use the Compose hostname, not localhost:
+
+
+mysql://azura:PASSWORD@mysql:3306/azura_db
+localhost:3307 only works when the Next.js process runs on your Mac, not inside the app container.
+
+After a package.json change, the azura_node_modules volume can stay stale. Recreate it:
+
+
+docker compose down
+docker volume rm azura_azura_node_modules
+docker compose up --build
+A blank database sends the first visit to /setup to create the admin user.

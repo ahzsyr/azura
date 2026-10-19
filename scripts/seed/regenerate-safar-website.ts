@@ -2,10 +2,10 @@
  * Regenerate Safar Al-Madina CMS pages, company profile, and sample data.
  * Usage: npm run db:seed-demo-safar
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { seedSafarWebsite } from "../../prisma/seed-safar-website";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 async function main() {
   await seedSafarWebsite(prisma);

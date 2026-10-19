@@ -24,10 +24,8 @@ async function probeDatabase(env = buildPrismaEnv()) {
     return { ok: false, reason: "DATABASE_URL unset" };
   }
   try {
-    const { PrismaClient } = await import("@prisma/client");
-    const client = new PrismaClient({
-      datasources: { db: { url } },
-    });
+    const { createPrismaClient } = await import("../lib/create-prisma-client.mjs");
+    const client = createPrismaClient(url);
     await client.$queryRaw`SELECT 1`;
     await client.$disconnect();
     return { ok: true, reason: null };

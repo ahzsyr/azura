@@ -43,7 +43,8 @@ import { NavigationRejectionGuard } from "@/components/layout/navigation-rejecti
 import { AdminPreviewBar } from "@/components/layout/admin-preview-bar";
 import { CmsDraftPreviewBanner } from "@/components/layout/cms-draft-preview-banner";
 import { GlobalAnnouncementBar } from "@/features/announcement-bar/global-announcement-bar";
-import { resolveFaviconUrl } from "@/lib/metadata/favicon-url";
+import { omitMissingLocalIcon, resolveFaviconUrl } from "@/lib/metadata/favicon-url";
+import { resolveExistingUploadDiskPath } from "@/lib/local-media-files";
 import {
   buildChromeAppleWebApp,
   buildChromeViewport,
@@ -91,7 +92,10 @@ export async function generateMetadata(): Promise<Metadata> {
       resolvePublishedSiteTheme(),
       resolveSiteIdentityFromDb(),
     ]);
-    const iconUrl = resolveFaviconUrl(resolved.tokens?.faviconUrl || resolved.tokens?.logoUrl);
+    const iconUrl = omitMissingLocalIcon(
+      resolveFaviconUrl(resolved.tokens?.faviconUrl || resolved.tokens?.logoUrl),
+      (url) => resolveExistingUploadDiskPath(url) !== null,
+    );
     const projection = resolveBrowserProjection(resolved.tokens);
 
     return {

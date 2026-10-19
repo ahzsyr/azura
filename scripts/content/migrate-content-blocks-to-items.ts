@@ -13,9 +13,9 @@
  * Run: npx tsx scripts/content/migrate-content-blocks-to-items.ts
  * Idempotent — skips items that already have non-empty blocks.
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 function slugFromHref(href: string | null | undefined): string | null {
   if (!href) return null;

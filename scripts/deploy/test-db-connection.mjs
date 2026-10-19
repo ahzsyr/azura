@@ -3,7 +3,7 @@
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../lib/create-prisma-client.mjs";
 import { buildPrismaEnv } from "./load-database-url.mjs";
 import {
   isPostgresDatabaseUrl,
@@ -48,7 +48,7 @@ if (currentProvider !== expectedProvider) {
   }
 }
 
-const client = new PrismaClient();
+const client = createPrismaClient();
 try {
   await client.$queryRaw`SELECT 1`;
   console.log("OK — database credentials work.");

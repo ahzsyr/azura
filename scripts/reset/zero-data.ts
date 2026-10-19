@@ -3,7 +3,8 @@
  * Wipe runtime content: DB rows, catalog JSON, indexes, and JsonStore workspaces.
  * Usage: npm run db:zero-data
  */
-import { PrismaClient, type Prisma } from "@prisma/client";
+import { type Prisma } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { execSync } from "child_process";
 import { existsSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "fs";
 import { join } from "path";
@@ -18,7 +19,7 @@ import {
   getFactorySiteUiPatch,
 } from "../../src/config/factory-defaults";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 const ROOT = process.cwd();
 const DATA = join(ROOT, "seeds", "catalog");
 

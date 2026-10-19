@@ -18,6 +18,8 @@ services:
     environment:
       NODE_ENV: development
       WATCHPACK_POLLING: "true"
+      # prisma@latest is 8.0.0-rc with no matching @prisma/client. Stay on 7.10.1.
+      PRISMA_HIDE_UPDATE_MESSAGE: "1"
 
     env_file:
       - .env
@@ -26,13 +28,13 @@ services:
       mysql:
         condition: service_healthy
 
-    # Named node_modules volume can go stale after package.json changes (e.g. @aws-sdk).
-    # Sync deps when the AWS SDK package is missing, then migrate + start.
+    # Named node_modules volume can go stale after package.json or schema changes.
+    # Sync deps when the AWS SDK package is missing, regenerate the Prisma client, then migrate + start.
     command:
       [
         "sh",
         "-c",
-        "if [ ! -d node_modules/@aws-sdk/client-s3 ]; then npm ci; fi; npm run db:migrate:deploy && npm run dev",
+        "if [ ! -d node_modules/@aws-sdk/client-s3 ]; then npm ci; fi; npm run db:generate && npm run db:migrate:deploy && npm run dev",
       ]
 
     restart: unless-stopped

@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * Generate the edge-safe middleware manifest consumed by src/middleware.ts.
+ * Generate the edge-safe middleware manifest consumed by src/proxy.ts.
  * Middleware must not poll APIs or DB for version checks; this file is refreshed
  * at build/deploy time and optionally by admin publish workflows that can write it.
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../lib/create-prisma-client.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const outFile = path.join(root, "src", "generated", "middleware-manifest.json");
@@ -81,7 +81,7 @@ async function main() {
   let manifest = fallbackManifest();
 
   try {
-    prisma = new PrismaClient();
+    prisma = createPrismaClient();
 
     const [systemSettings, localeRows, redirectRows] = await Promise.all([
       prisma.jsonStore

@@ -6,10 +6,10 @@
  */
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import path from "path";
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { detectLocaleColumn, tableHasColumn } from "./migration-utils";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 const MESSAGES_DIR = path.join(process.cwd(), "messages");
 const write = process.argv.includes("--write");
 

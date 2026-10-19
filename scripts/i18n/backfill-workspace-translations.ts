@@ -2,7 +2,7 @@
  * Backfill EntityTranslation from JSON workspaces, block props, and form templates.
  * Run: npm run i18n:backfill:workspace
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import {
   extractTranslationsFromBlocks,
   type BlockParentType,
@@ -22,7 +22,7 @@ import type { PageBlocks } from "../../src/types/builder";
 import type { PublicLocale } from "../../src/i18n/locale-config";
 import { upsertEntityTranslation } from "./migration-utils";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 type MenuItemLike = {
   id: string;

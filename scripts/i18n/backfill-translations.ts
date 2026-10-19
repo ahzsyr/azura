@@ -4,7 +4,7 @@
  *
  * Run: npx tsx scripts/i18n/backfill-translations.ts
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { ENTITY_REGISTRY } from "../../src/features/translation/entity-registry";
 import type { TranslatableEntityType } from "../../src/features/translation/types";
 import {
@@ -22,7 +22,7 @@ import {
   upsertUiMessage,
 } from "./migration-utils";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 async function backfillEntityTypeFromCanonical(entityType: TranslatableEntityType) {
   const config = ENTITY_REGISTRY[entityType];

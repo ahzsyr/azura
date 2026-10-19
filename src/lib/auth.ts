@@ -36,11 +36,33 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
 
       // Node-only: refresh role from DB (ADMIN → SUPER_ADMIN promote, etc.).
-      if (typeof token.id === "string" && token.id) {
-        try {
-          const { prisma } = await import("@/lib/prisma");
+      // Older tokens carry role without id/sub; API checks then 401 even though admin pages load.
+      try {
+        const { prisma } = await import("@/lib/prisma");
+        let userId =
+          (typeof token.id === "string" && token.id) ||
+          (typeof token.sub === "string" && token.sub) ||
+          "";
+        if (!userId && typeof token.email === "string" && token.email) {
+          const byEmail = await prisma.user.findUnique({
+            where: { email: token.email },
+            select: { id: true },
+          });
+          if (byEmail) userId = byEmail.id;
+        }
+        if (!userId && token.role === "SUPER_ADMIN") {
+          const rows = await prisma.user.findMany({
+            where: { role: "SUPER_ADMIN", disabledAt: null },
+            select: { id: true },
+            take: 2,
+          });
+          if (rows.length === 1) userId = rows[0].id;
+        }
+        if (userId) {
+          token.id = userId;
+          if (!token.sub) token.sub = userId;
           const row = await prisma.user.findUnique({
-            where: { id: token.id },
+            where: { id: userId },
             select: {
               role: true,
               sessionVersion: true,
@@ -57,9 +79,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             token.totpEnabled = row.totpEnabled;
             if (row.email) token.email = row.email;
           }
-        } catch {
-          /* ignore refresh failures */
         }
+      } catch {
+        /* ignore refresh failures */
       }
       return token;
     },

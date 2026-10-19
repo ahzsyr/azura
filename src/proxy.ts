@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 import { needsSupabaseSession } from "@/features/account/account-middleware";
 import { middlewareFallback, runMiddleware } from "@/middleware/pipeline";
 
-export default async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const skipSupabase =
     pathname.startsWith("/admin") ||

@@ -1,7 +1,7 @@
 {
   "generated": true,
-  "manifestVersion": 1791834973846,
-  "buildTimestamp": "2026-10-12T19:56:13.846Z",
+  "manifestVersion": 1792447562610,
+  "buildTimestamp": "2026-10-19T22:06:02.610Z",
   "setup": {
     "setupComplete": true,
     "registrationEnabled": true,
@@ -14,10 +14,5 @@
     ],
     "defaultLocale": "en"
   },
-  "redirects": {
-    "/services": {
-      "toPath": "/solutions",
-      "type": "PERMANENT"
-    }
-  }
+  "redirects": {}
 }

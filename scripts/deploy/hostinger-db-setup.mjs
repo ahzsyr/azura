@@ -5,7 +5,7 @@
  * PostgreSQL (Supabase): prisma db push — use /setup wizard for admin (no seed)
  */
 import { spawnSync } from "node:child_process";
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../lib/create-prisma-client.mjs";
 import {
   isPostgresDatabaseUrl,
   resolvePrismaMigrateSchemaPath,
@@ -24,7 +24,7 @@ function run(command, args) {
 }
 
 async function hasHeaderWorkspaceRecord() {
-  const prisma = new PrismaClient();
+  const prisma = createPrismaClient();
   try {
     const row = await prisma.jsonStore.findUnique({
       where: { namespace_key: { namespace: "header-workspace", key: "default" } },

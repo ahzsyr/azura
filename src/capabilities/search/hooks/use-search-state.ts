@@ -165,14 +165,14 @@ export function useSearchState({
     locale,
     apiBase,
     surface,
-    useQueryLayer
+    active && useQueryLayer
   );
 
   const [legacyDiscovery, setLegacyDiscovery] = useState<SearchDiscoveryPayload | null>(null);
   const [legacyDiscoveryError, setLegacyDiscoveryError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (useQueryLayer) return;
+    if (useQueryLayer || !active) return;
     fetch(discoveryUrl)
       .then(async (r) => {
         const data = await r.json();
@@ -188,7 +188,7 @@ export function useSearchState({
         setLegacyDiscovery(null);
         setLegacyDiscoveryError(t.searchError);
       });
-  }, [discoveryUrl, t.searchError, useQueryLayer]);
+  }, [active, discoveryUrl, t.searchError, useQueryLayer]);
 
   const discovery = useQueryLayer ? (discoveryQuery.data ?? null) : legacyDiscovery;
   const discoveryError = useQueryLayer

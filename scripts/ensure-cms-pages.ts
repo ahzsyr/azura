@@ -3,10 +3,10 @@
  * Ensure all wired CMS pages exist; remove deprecated slugs (e.g. visa).
  * Usage: npm run cms:ensure-pages
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../src/lib/create-prisma-client";
 import { ensureWiredCmsPagesWithClient } from "../src/features/cms/ensure-wired-cms-pages-core";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 async function main() {
   console.log("Ensuring wired CMS pages…");

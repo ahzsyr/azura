@@ -4,9 +4,9 @@
  * Run after migrate/seed: npm run seo:validate
  */
 
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../lib/create-prisma-client.mjs";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 const STATIC_PAGE_KEYS = [
   "home",

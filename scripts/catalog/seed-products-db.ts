@@ -8,7 +8,7 @@
  *   npm run catalog:seed-db -- --dry-run
  */
 import { readFile } from "node:fs/promises";
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { SCRIPT_CATALOG_LOCALES } from "./locale-constants";
 import { orderCollectionsHierarchy } from "@/features/collections/collection-hierarchy";
 import { loadCollectionsFromFs } from "@/features/collections/collections-fs";
@@ -21,7 +21,7 @@ import { productSchema } from "@/features/products/lib/product-schema";
 import { walkAllCatalogProductFiles } from "@/features/products/fs/product-fs-scan";
 import type { Product } from "@/features/products/types";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 const CATALOG_PRODUCTS_NAMESPACE = "catalog-products";
 
 function parseProductStoreKey(key: string): { locale: string; slug: string } | null {

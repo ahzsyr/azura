@@ -42,6 +42,7 @@ function isWorkspaceOverlayMode(
 }
 
 function hasPageHeaderOverlay(): boolean {
+  if (typeof document === "undefined") return false;
   return document.querySelector('[data-page-header-overlay="true"]') != null;
 }
 

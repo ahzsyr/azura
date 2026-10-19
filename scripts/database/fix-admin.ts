@@ -1,9 +1,9 @@
 #!/usr/bin/env tsx
 import bcrypt from "bcryptjs";
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { getSeedAdminEmail, getSeedAdminPassword } from "../../src/config/site";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 async function main() {
   const email = process.argv[2] ?? getSeedAdminEmail();

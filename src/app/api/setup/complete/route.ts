@@ -31,10 +31,26 @@ import { revalidateJsonNamespace } from "@/services/cache";
 import { publishShellChange } from "@/services/publish-propagation";
 import { ensureAuthSecretAtSetup } from "@/lib/auth-secret.server";
 import { installIncludedProfilePackages } from "@/platform/packages/installer";
+import { clearRenderedSiteCache } from "@/features/setup/clear-rendered-site-cache";
 import { Prisma } from "@prisma/client";
 
 /** Remote Supabase pooler latency can exceed Prisma's default 5s interactive transaction limit. */
 const SETUP_COMPLETE_TX_OPTIONS = { maxWait: 30_000, timeout: 120_000 };
+
+const AUTH_SESSION_COOKIES = ["authjs.session-token", "__Secure-authjs.session-token"] as const;
+
+function clearStaleAuthSessionCookies(response: NextResponse) {
+  for (const name of AUTH_SESSION_COOKIES) {
+    for (const suffix of ["", ".0", ".1", ".2"]) {
+      response.cookies.set(`${name}${suffix}`, "", {
+        httpOnly: true,
+        path: "/",
+        maxAge: 0,
+        secure: name.startsWith("__Secure-"),
+      });
+    }
+  }
+}
 
 function isMissingSchemaError(error: unknown): boolean {
   if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2021") {
@@ -103,6 +119,7 @@ export async function POST(request: Request) {
       );
     }
 
+    await clearRenderedSiteCache();
     await installIncludedProfilePackages();
 
     const passwordHash = await bcrypt.hash(data.adminPassword, 12);
@@ -283,6 +300,9 @@ export async function POST(request: Request) {
       getSetupCompleteCookieValue(),
       setupCompleteCookieOptions(),
     );
+    // A previous database left an admin JWT whose user id no longer exists.
+    // Drop it so /admin sends the operator to login instead of firing 401s.
+    clearStaleAuthSessionCookies(response);
     return response;
   } catch (error) {
     console.error("Setup complete error:", error);

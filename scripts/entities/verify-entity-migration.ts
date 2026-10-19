@@ -4,10 +4,10 @@
  *
  * Usage: npm run entities:verify-migration
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { PRODUCT_CONTENT_TYPE_SLUG, isMigratedProductItem } from "@/features/entities/migration/metadata";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 type Issue = { level: "error" | "warn"; message: string };
 const issues: Issue[] = [];

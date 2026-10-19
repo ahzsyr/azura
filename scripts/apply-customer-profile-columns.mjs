@@ -2,9 +2,9 @@
  * Applies User profile columns + PasswordResetToken when migrate deploy is blocked.
  * Run: node scripts/apply-customer-profile-columns.mjs
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "./lib/create-prisma-client.mjs";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 const userColumns = [
   ["phone", "VARCHAR(191) NULL"],

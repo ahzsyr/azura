@@ -4,13 +4,13 @@
  *
  * Usage: npm run entities:inventory
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import {
   PRODUCT_CONTENT_TYPE_SLUG,
   isMigratedProductItem,
 } from "@/features/entities/migration/metadata";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 async function main() {
   console.log("Phase 3 catalog storage inventory\n");

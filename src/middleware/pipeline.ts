@@ -202,6 +202,16 @@ export async function runMiddleware(request: NextRequest) {
   const { isSetup: isSetupPath, canonical: setupCanonical } = resolveSetupPath(pathname);
 
   if (setupStatus.setupComplete && isSetupPath) {
+    // Flight requests must reach the page so `redirect()` is encoded in the
+    // RSC payload. An HTTP redirect here is rejected by Safari ("access control checks").
+    // Next strips the `rsc` header before this proxy. Router fetches still send `next-url`.
+    const isFlightRequest =
+      request.headers.has("next-url") ||
+      request.headers.has("next-router-state-tree") ||
+      request.headers.has("next-router-prefetch");
+    if (isFlightRequest) {
+      return NextResponse.next();
+    }
     const session = await getSession();
     const url = request.nextUrl.clone();
     if (session?.user && isAdminRole(session.user.role)) {

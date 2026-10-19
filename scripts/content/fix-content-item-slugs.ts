@@ -5,9 +5,9 @@
  * Run: npx tsx scripts/content/fix-content-item-slugs.ts
  * Idempotent — safe to re-run.
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 function normalizeSlug(raw: string, routePrefix: string | null): string {
   let slug = raw.trim();

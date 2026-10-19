@@ -84,8 +84,7 @@ function buildBaseHeader(header, provider) {
   return `${header.replace(
     /generator client \{[\s\S]*?\}/,
     `generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["prismaSchemaFolder"]
+  provider = "prisma-client-js"
 }`,
   ).replace(/provider = "mysql"/, `provider = "${provider}"`)}
 `;
@@ -120,13 +119,11 @@ fs.writeFileSync(
 // Migrations: prisma/migrations/ (unchanged)
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["prismaSchemaFolder"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
 }
 `,
 );
@@ -136,13 +133,11 @@ fs.writeFileSync(
   `// AZURA — Prisma schema entry (PostgreSQL). Domain models live in prisma/schema/postgresql/.
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["prismaSchemaFolder"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 `,
 );

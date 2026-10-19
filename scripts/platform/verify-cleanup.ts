@@ -33,10 +33,10 @@ function runNpmScript(script: string) {
 
 console.log("platform:verify — Phase 8 cleanup guards\n");
 
-const middlewarePath = path.join(ROOT, "src", "middleware.ts");
+const middlewarePath = path.join(ROOT, "src/proxy.ts");
 const middlewareLines = readFileSync(middlewarePath, "utf8").split(/\r?\n/).length;
 if (middlewareLines > 80) {
-  fail(`src/middleware.ts has ${middlewareLines} lines (budget: 80)`);
+  fail(`src/proxy.ts has ${middlewareLines} lines (budget: 80)`);
 } else {
   pass(`middleware entry ${middlewareLines} lines (<= 80)`);
 }

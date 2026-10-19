@@ -5,7 +5,7 @@
  *   DATABASE_URL=... npx tsx scripts/content/fill-solutions-arabic.ts
  *   DATABASE_URL=... npx tsx scripts/content/fill-solutions-arabic.ts --dry-run
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { getContentFieldSuffix } from "../../src/i18n/locale-config";
 import { compositionService } from "../../src/features/layout-engine/composition.service";
 import {
@@ -32,7 +32,7 @@ const AR_LOCALE = "ar";
 const AR_SUFFIX = getContentFieldSuffix(AR_LOCALE);
 const LOCALIZED_ELEMENT_KEYS = ["text", "title", "rawHtml", "alt", "ariaLabel", "caption"] as const;
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 const dryRun = process.argv.includes("--dry-run");
 const shouldRevalidate = process.argv.includes("--revalidate");
 

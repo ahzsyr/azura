@@ -2,9 +2,9 @@
  * One-time: disable all locales except English on the public site.
  * Run: npx tsx scripts/i18n/disable-non-english-locales.ts
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../../src/lib/create-prisma-client";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 async function main() {
   const result = await prisma.localeConfig.updateMany({

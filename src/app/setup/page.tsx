@@ -1,6 +1,9 @@
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { HardRedirect } from "@/components/setup/hard-redirect";
 import { SetupWizard } from "@/components/setup/setup-wizard";
+import { isAdminRole } from "@/features/auth/portal";
+import { auth } from "@/lib/auth";
 import { localeService } from "@/features/i18n/locale.service";
 import { getSetupStatus } from "@/features/setup/setup.service";
 import {
@@ -30,7 +33,18 @@ export default async function SetupPage({ searchParams }: Props) {
         setupCompleteCookieOptions(),
       );
     }
-    redirect(home);
+    const session = await auth();
+    const destination =
+      session?.user && isAdminRole(session.user.role) ? "/admin" : home;
+    const headerList = await headers();
+    const isRouterFlight =
+      headerList.has("next-url") ||
+      headerList.has("next-router-state-tree") ||
+      headerList.has("next-router-prefetch");
+    if (isRouterFlight) {
+      return <HardRedirect href={destination} />;
+    }
+    redirect(destination);
   }
 
   return (

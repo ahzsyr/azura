@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { isNextControlFlowError } from "@/lib/next-control-flow";
 import { setRequestLocale } from "next-intl/server";
 import { ContentDetailPage } from "@/features/content/components/content-detail-page";
 import { contentPublicService } from "@/features/content/content-public.service";
@@ -87,6 +88,7 @@ export default async function DynamicContentDetailRoute({ params }: Props) {
       />
     );
   } catch (error) {
+    if (isNextControlFlowError(error)) throw error;
     console.error(`[DynamicContentDetailRoute] render failed for /${slug}/${itemSlug}:`, error);
     notFound();
   }

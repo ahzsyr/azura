@@ -8,9 +8,10 @@
  */
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { PrismaClient, type Prisma } from "@prisma/client";
+import { type Prisma } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 const PRESETS_DIR = join(process.cwd(), "seeds", "catalog", "presets");
 const NAMESPACE = "theme-presets";
 

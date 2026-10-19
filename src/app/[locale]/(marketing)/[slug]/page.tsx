@@ -12,6 +12,7 @@ import { FALLBACK_LOCALES } from "@/i18n/locale-config";
 import { seoService } from "@/features/seo/seo.service";
 import { getLocalizedField } from "@/lib/utils";
 import { loadPublicLocaleContext } from "@/features/i18n/public-locale-context";
+import { isNextControlFlowError } from "@/lib/next-control-flow";
 
 /** Marketing routes with dedicated `page.tsx` files — never handled here. */
 const RESERVED_SLUGS = RESERVED_MARKETING_SLUGS;
@@ -117,6 +118,7 @@ export default async function MarketingSlugRoute({ params, searchParams }: Props
 
     notFound();
   } catch (error) {
+    if (isNextControlFlowError(error)) throw error;
     console.error(`[MarketingSlugRoute] render failed for /${slug}:`, error);
     notFound();
   }

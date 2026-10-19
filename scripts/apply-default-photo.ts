@@ -2,10 +2,10 @@
  * Sets all site image URLs in the database to DEFAULT_MEDIA_PLACEHOLDER.
  * Run: npm run db:apply-default-photo
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../src/lib/create-prisma-client";
 import { DEFAULT_MEDIA_PLACEHOLDER } from "../src/features/media/constants";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 const PLACEHOLDER = DEFAULT_MEDIA_PLACEHOLDER;
 
 const IMAGE_URL_KEYS = new Set([

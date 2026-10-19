@@ -4,7 +4,7 @@
  *      npx tsx scripts/i18n/verify-parity.ts --legacy-columns
  * Exit code 1 when required fields are missing (for CI).
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { readFileSync, readdirSync, statSync } from "fs";
 import path from "path";
 import { ENTITY_REGISTRY } from "../../src/features/translation/entity-registry";
@@ -38,7 +38,7 @@ function isPostgres(): boolean {
   return !!url && /^postgres(ql)?:\/\//i.test(url);
 }
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 const checkLegacyColumns = process.argv.includes("--legacy-columns");
 
 type CoverageResult = {

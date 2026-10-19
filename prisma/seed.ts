@@ -1,4 +1,5 @@
-import { PrismaClient, type Prisma } from "@prisma/client";
+import { type Prisma } from "@prisma/client";
+import { createPrismaClient } from "../src/lib/create-prisma-client";
 import bcrypt from "bcryptjs";
 import {
   getSeedAdminEmail,
@@ -15,7 +16,7 @@ import {
 import { seedContentPlatform } from "./seed-content";
 import { seedBilingualFields } from "../scripts/i18n/seed-translations-helper";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 const EMPTY_BLOCKS: Prisma.InputJsonValue = [];
 

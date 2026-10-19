@@ -4,7 +4,7 @@
  *
  * Skip: SKIP_DB_MIGRATE=1 or missing DATABASE_URL
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../lib/create-prisma-client.mjs";
 import { ensurePrismaEnginesExecutable } from "./ensure-prisma-engines-executable.mjs";
 import { buildPrismaEnv } from "./load-database-url.mjs";
 import {
@@ -527,16 +527,26 @@ async function mysqlTableExists(prisma, table) {
   return Number(rows[0]?.c ?? 0) > 0;
 }
 
+function errorFirstLine(error) {
+  const message = error instanceof Error ? error.message : String(error);
+  return message.split("\n").map((line) => line.trim()).find(Boolean) || "unknown error";
+}
+
 /** Prisma MySQL migrations require InnoDB (FKs + long unique indexes). */
 async function ensureMysqlInnoDBDefault(prisma) {
   await prisma.$executeRawUnsafe("SET SESSION default_storage_engine = 'InnoDB'");
+  const rows = await prisma.$queryRawUnsafe(
+    "SELECT @@GLOBAL.default_storage_engine AS engine",
+  );
+  const engine = String(rows[0]?.engine ?? "").toUpperCase();
+  if (engine === "INNODB") return;
+
   try {
     await prisma.$executeRawUnsafe("SET GLOBAL default_storage_engine = 'InnoDB'");
     console.log("[db-migrate] MySQL: default_storage_engine → InnoDB");
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
     console.warn(
-      `[db-migrate] MySQL: could not SET GLOBAL default_storage_engine=InnoDB (${message.split("\n")[0]}). Session is InnoDB; set it in my.cnf if new tables stay MyISAM.`,
+      `[db-migrate] MySQL: could not SET GLOBAL default_storage_engine=InnoDB (${errorFirstLine(error)}). Session is InnoDB; set default_storage_engine=InnoDB in the server config if new tables stay MyISAM.`,
     );
   }
 }
@@ -1829,7 +1839,7 @@ async function applyMysqlPatches(prisma) {
 }
 
 async function runWithPrisma(url, fn) {
-  const prisma = new PrismaClient({ datasources: { db: { url } } });
+  const prisma = createPrismaClient(url);
   try {
     return await fn(prisma);
   } finally {
@@ -1905,8 +1915,7 @@ async function main() {
   ensurePrismaEnginesExecutable();
   // Prefer InnoDB before migrate deploy creates tables (MyISAM breaks FKs / long unique keys).
   await runWithPrisma(env.DATABASE_URL, ensureMysqlInnoDBDefault).catch((error) => {
-    const message = error instanceof Error ? error.message : String(error);
-    console.warn(`[db-migrate] InnoDB preflight skipped: ${message.split("\n")[0]}`);
+    console.warn(`[db-migrate] InnoDB preflight skipped: ${errorFirstLine(error)}`);
   });
   const userPresent = await isUserTablePresent(env.DATABASE_URL);
   const prismaMigrationsPresent = await runWithPrisma(env.DATABASE_URL, (prisma) =>

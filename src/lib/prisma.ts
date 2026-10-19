@@ -5,6 +5,8 @@
 import "server-only";
 
 import { PrismaClient } from "@prisma/client";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { mariaDbPoolConfig } from "@/lib/create-prisma-client";
 import { getRuntimeDatabaseUrl } from "@/lib/database-url";
 import { isBuildWithoutDb } from "@/lib/build-db";
 import { createBuildStubPrismaClient } from "@/lib/build-prisma-stub";
@@ -34,7 +36,7 @@ const REQUIRED_DELEGATES = [
  * Bump after `prisma generate` when models/fields change so dev hot-reload
  * recreates a cached client (e.g. SiteTheme.brandConfig).
  */
-const PRISMA_CLIENT_VERSION = 9;
+const PRISMA_CLIENT_VERSION = 10;
 
 function normalizeRuntimeDatabaseUrl(url: string): string {
   return getRuntimeDatabaseUrl() || url;
@@ -44,8 +46,8 @@ function createPrismaClient() {
   const rawUrl = process.env.DATABASE_URL?.trim() ?? "";
   const datasourceUrl = normalizeRuntimeDatabaseUrl(rawUrl);
   const client = new PrismaClient({
+    adapter: new PrismaMariaDb(mariaDbPoolConfig(datasourceUrl)),
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
-    ...(datasourceUrl ? { datasourceUrl } : {}),
   });
   return client.$extends({
     query: {

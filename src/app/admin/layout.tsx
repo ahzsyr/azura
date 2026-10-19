@@ -3,7 +3,8 @@ import { AdminSessionProvider } from "@/components/admin/admin-session-provider"
 import { AdminEditingLocaleProvider } from "@/components/admin/admin-editing-locale-provider";
 import { resolveSiteIdentityFromDb } from "@/lib/site-identity.server";
 import { resolvePublishedSiteTheme } from "@/lib/theme/resolve-site-theme.server";
-import { resolveFaviconUrl } from "@/lib/metadata/favicon-url";
+import { omitMissingLocalIcon, resolveFaviconUrl } from "@/lib/metadata/favicon-url";
+import { resolveExistingUploadDiskPath } from "@/lib/local-media-files";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +14,10 @@ export async function generateMetadata(): Promise<Metadata> {
       resolvePublishedSiteTheme(),
       resolveSiteIdentityFromDb(),
     ]);
-    const iconUrl = resolveFaviconUrl(resolved.tokens?.faviconUrl || resolved.tokens?.logoUrl);
+    const iconUrl = omitMissingLocalIcon(
+      resolveFaviconUrl(resolved.tokens?.faviconUrl || resolved.tokens?.logoUrl),
+      (url) => resolveExistingUploadDiskPath(url) !== null,
+    );
     return {
       title: {
         default: identity.brandName,

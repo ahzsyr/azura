@@ -4,6 +4,16 @@ function hasUrlProtocol(value: string): boolean {
   return /^[a-z][a-z0-9+\-.]*:/i.test(value);
 }
 
+/** Drop /uploads icons whose file is not on disk so the manifest does not advertise a 404. */
+export function omitMissingLocalIcon(
+  url: string | undefined,
+  localFileExists: (uploadUrl: string) => boolean,
+): string | undefined {
+  if (!url) return undefined;
+  if (url.startsWith("/uploads/") && !localFileExists(url)) return undefined;
+  return url;
+}
+
 /**
  * Ensures favicon URLs resolve correctly from nested routes like `/ar/...`.
  * Theme values may be stored as `uploads/...` without a leading slash.

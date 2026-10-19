@@ -6,14 +6,14 @@
  *   npm run entities:migrate-products
  *   npm run entities:migrate-products -- --dry-run
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { ensureBuiltinContentTypes } from "@/features/content/content-data.service";
 import { PRODUCT_CONTENT_TYPE_SLUG } from "@/features/entities/migration/metadata";
 import { mapDbProductRowToContentItemData } from "@/features/entities/migration/product-mapper";
 import { syncProductToContentItem } from "@/features/entities/migration/sync-product-content-item";
 import { fromDbRow } from "@/features/products/db/product-db-mapper";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 function parseArgs() {
   return { dryRun: process.argv.includes("--dry-run") };

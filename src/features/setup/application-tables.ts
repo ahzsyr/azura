@@ -33,8 +33,12 @@ export function readSqlName(row: Record<string, unknown>, keys: readonly string[
   return null;
 }
 
+/**
+ * MySQL error 1701: TRUNCATE is rejected when another table has a foreign key
+ * to this one, even with FOREIGN_KEY_CHECKS disabled. DELETE clears the rows.
+ */
 export function buildTruncateStatements(tables: readonly string[]): string[] {
-  return filterApplicationTables(tables).map((table) => `TRUNCATE TABLE ${quoteMysqlIdentifier(table)}`);
+  return filterApplicationTables(tables).map((table) => `DELETE FROM ${quoteMysqlIdentifier(table)}`);
 }
 
 export function escapeMysqlString(value: string): string {

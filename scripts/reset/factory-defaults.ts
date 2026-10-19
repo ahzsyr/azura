@@ -5,7 +5,8 @@
  *
  * Usage: npm run db:factory-defaults
  */
-import { PrismaClient, type Prisma } from "@prisma/client";
+import { type Prisma } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 import {
@@ -19,7 +20,7 @@ import {
   getFactorySiteUiPatch,
 } from "../../src/config/factory-defaults";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 const ROOT = process.cwd();
 
 function writeJson(path: string, data: unknown) {

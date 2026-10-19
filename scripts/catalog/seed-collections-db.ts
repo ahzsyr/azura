@@ -8,13 +8,13 @@
  */
 import { access, readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { SCRIPT_CATALOG_LOCALES } from "./locale-constants";
 import type { Collection } from "@/features/collections/types";
 import { collectionToRow } from "@/features/collections/db/catalog-collection-db-mapper";
 import { seedEntityTranslations } from "../i18n/seed-translations-helper";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 async function readJson<T>(path: string): Promise<T | null> {
   try {

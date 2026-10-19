@@ -7,14 +7,15 @@
  *   npx tsx scripts/catalog/migrate-product-action-buttons.ts --dry-run
  *   npx tsx scripts/catalog/migrate-product-action-buttons.ts --locale en-us
  */
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import {
   migrateProductDocumentForProductActions,
   migrateSiteSettingsForProductActions,
 } from "@/features/products/lib/migrate-product-action-buttons";
 import { siteSettingsRepository } from "@/repositories/site-settings.repository";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 function parseArgs() {
   const dryRun = process.argv.includes("--dry-run");

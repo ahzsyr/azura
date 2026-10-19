@@ -2,9 +2,9 @@
  * Ensures FaqSet.coverUrl exists (TEXT) when migrate deploy is blocked or behind.
  * Run: node scripts/apply-faq-set-cover-url.mjs
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "./lib/create-prisma-client.mjs";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 function isPostgres() {
   const url = process.env.DATABASE_URL ?? "";

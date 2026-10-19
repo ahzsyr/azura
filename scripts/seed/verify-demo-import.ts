@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { loadTranslationsMap } from "../../src/features/translation/bilingual-serialize";
 import { resolveTranslation } from "../../src/features/translation/translation-resolver";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 async function main() {
   const pages = await prisma.cmsPage.findMany({

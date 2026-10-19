@@ -270,6 +270,7 @@ const nextConfig: NextConfig = {
       "worker-src 'self' blob:",
       "connect-src 'self' https: blob:",
       "frame-src 'self' https://www.googletagmanager.com https://www.google.com https://www.facebook.com",
+      "report-to csp-endpoint",
     ].join("; ");
 
     return [
@@ -281,6 +282,7 @@ const nextConfig: NextConfig = {
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" },
+          { key: "Reporting-Endpoints", value: 'csp-endpoint="/api/security/csp-report"' },
           { key: "Content-Security-Policy-Report-Only", value: cspReportOnly },
         ],
       },

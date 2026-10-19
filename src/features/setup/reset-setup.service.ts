@@ -12,6 +12,7 @@ import { refreshMiddlewareManifestBestEffort } from "@/features/setup/refresh-mi
 import { writeSystemSettings } from "@/features/setup/setup.service";
 import { truncateApplicationTables } from "@/features/setup/application-tables";
 import { RESET_SYSTEM_SETTINGS } from "@/features/setup/reset-setup.constants";
+import { clearRenderedSiteCache } from "@/features/setup/clear-rendered-site-cache";
 
 const GENERATED_INDEX_DIRS = [
   join(process.cwd(), "seeds", "catalog", "products-index"),
@@ -74,11 +75,17 @@ async function clearLocalWebsiteFiles(): Promise<void> {
 
 export async function resetSetupWizard(): Promise<void> {
   await deleteRemoteStoredMedia();
-  await truncateApplicationTables({
-    query: async (sql) =>
-      (await prisma.$queryRawUnsafe(sql)) as Array<Record<string, unknown>>,
-    execute: (sql) => prisma.$executeRawUnsafe(sql),
-  });
+  // One transaction keeps FOREIGN_KEY_CHECKS on the same pooled connection.
+  await prisma.$transaction(
+    async (tx) => {
+      await truncateApplicationTables({
+        query: async (sql) =>
+          (await tx.$queryRawUnsafe(sql)) as Array<Record<string, unknown>>,
+        execute: (sql) => tx.$executeRawUnsafe(sql),
+      });
+    },
+    { maxWait: 30_000, timeout: 120_000 },
+  );
   try {
     await clearLocalWebsiteFiles();
   } catch (error) {
@@ -86,5 +93,6 @@ export async function resetSetupWizard(): Promise<void> {
   }
   await writeSystemSettings({ ...RESET_SYSTEM_SETTINGS });
   invalidateSetupStatusCache();
+  await clearRenderedSiteCache();
   await refreshMiddlewareManifestBestEffort("setup reset");
 }

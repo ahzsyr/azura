@@ -5,10 +5,10 @@
  * Usage: npm run entities:rollback-products
  *        npm run entities:rollback-products -- --dry-run
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { PRODUCT_CONTENT_TYPE_SLUG, isMigratedProductItem } from "@/features/entities/migration/metadata";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 async function main() {
   const dryRun = process.argv.includes("--dry-run");

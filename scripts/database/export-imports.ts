@@ -12,7 +12,7 @@
  *   npm run db:export -- --pg-from-mysql --seed all  # regenerate PostgreSQL seeds from MySQL SQL only
  */
 import bcrypt from "bcryptjs";
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -28,7 +28,7 @@ const CSV_DIR = join(DB_DIR, "csv");
 
 type SeedMode = "blank" | "demo-brt" | "demo-safar";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 const MYSQL_SCHEMA_DIR = join(ROOT, "prisma/schema/mysql");
 const PG_SCHEMA_DIR = join(ROOT, "prisma/schema/postgresql");

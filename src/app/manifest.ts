@@ -5,7 +5,8 @@ import {
   resolveBrowserProjection,
 } from "@/lib/theme/browser-chrome-projection";
 import { resolveSiteIdentityFromDb } from "@/lib/site-identity.server";
-import { manifestIconsForUrl, resolveFaviconUrl } from "@/lib/metadata/favicon-url";
+import { manifestIconsForUrl, omitMissingLocalIcon, resolveFaviconUrl } from "@/lib/metadata/favicon-url";
+import { resolveExistingUploadDiskPath } from "@/lib/local-media-files";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +18,10 @@ export default async function manifest(): Promise<MetadataRoute.Manifest> {
     ]);
 
     const projection = resolveBrowserProjection(resolved.tokens);
-    const iconUrl = resolveFaviconUrl(resolved.tokens?.faviconUrl || resolved.tokens?.logoUrl);
+    const iconUrl = omitMissingLocalIcon(
+      resolveFaviconUrl(resolved.tokens?.faviconUrl || resolved.tokens?.logoUrl),
+      (url) => resolveExistingUploadDiskPath(url) !== null,
+    );
 
     const icons: MetadataRoute.Manifest["icons"] = iconUrl
       ? manifestIconsForUrl(iconUrl)

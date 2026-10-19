@@ -5,10 +5,10 @@
  * Options:
  *   --dry-run   Preview changes without writing
  */
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../../src/lib/create-prisma-client";
 import { legacyInquiryToStoredDefinition } from "../../src/features/forms/adapters/legacy-inquiry-migration";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 const dryRun = process.argv.includes("--dry-run");
 
 type Block = {

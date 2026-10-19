@@ -5,7 +5,7 @@
  */
 import { appendFileSync } from "fs";
 import { join } from "path";
-import { PrismaClient } from "@prisma/client";
+import { createPrismaClient } from "../lib/create-prisma-client.mjs";
 
 function agentLog(hypothesisId, message, data) {
   const payload = {
@@ -43,7 +43,7 @@ async function main() {
   const isPostgres = url.startsWith("postgres");
   agentLog("H3", "database provider", { isPostgres });
 
-  const prisma = new PrismaClient();
+  const prisma = createPrismaClient();
   try {
     let columns;
     if (isPostgres) {

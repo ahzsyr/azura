@@ -28,8 +28,8 @@ test("quoteMysqlIdentifier backticks safe names and rejects others", () => {
 
 test("buildTruncateStatements quotes application tables only", () => {
   assert.deepEqual(buildTruncateStatements(["User", "_prisma_migrations", "CmsPage"]), [
-    "TRUNCATE TABLE `User`",
-    "TRUNCATE TABLE `CmsPage`",
+    "DELETE FROM `User`",
+    "DELETE FROM `CmsPage`",
   ]);
 });
 
@@ -51,8 +51,8 @@ test("truncateApplicationTables disables foreign keys and skips migrations", asy
   });
   assert.deepEqual(executed, [
     "SET FOREIGN_KEY_CHECKS = 0",
-    "TRUNCATE TABLE `User`",
-    "TRUNCATE TABLE `JsonStore`",
+    "DELETE FROM `User`",
+    "DELETE FROM `JsonStore`",
     "SET FOREIGN_KEY_CHECKS = 1",
   ]);
 });
