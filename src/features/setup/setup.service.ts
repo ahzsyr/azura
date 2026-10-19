@@ -2,7 +2,7 @@ import "server-only";
 
 
 
-import { prisma } from "@/lib/prisma";
+import { prisma, resetPrismaClient } from "@/lib/prisma";
 
 import { jsonStoreService } from "@/features/storage/json-store.service";
 
@@ -27,8 +27,10 @@ import {
   SETUP_SCHEMA_MISSING_MESSAGE,
 } from "@/features/setup/setup-schema";
 import {
+  enableHostingerMysqlLocalhostOverride,
   hasFixableDatabaseUrlFormatting,
   isDatabaseUrlMalformed,
+  isHostingerMysqlRemoteHost,
   isMysqlDatabaseUrl,
   sanitizeDatabaseUrl,
 } from "@/lib/database-url";
@@ -56,24 +58,52 @@ function getSanitizedDatabaseInfo() {
 
 let lastDatabaseProbeError: string | null = null;
 
+function isUnreachableMysqlProbeError(message: string): boolean {
+  return (
+    /Can't reach database server/i.test(message) ||
+    /ECONNREFUSED|ENOTFOUND|ETIMEDOUT|EHOSTUNREACH/i.test(message) ||
+    /Connection (?:lost|refused|timed out)/i.test(message) ||
+    /server has gone away/i.test(message) ||
+    /\bP1001\b|\bP1017\b/i.test(message)
+  );
+}
+
+function isAuthMysqlProbeError(message: string): boolean {
+  return (
+    /Authentication failed/i.test(message) ||
+    /Access denied for user/i.test(message) ||
+    /credentials for/i.test(message) ||
+    /\bP1000\b/i.test(message) ||
+    (/password/i.test(message) && /denied|failed|invalid/i.test(message))
+  );
+}
+
+function isPrismaClientMismatchError(message: string): boolean {
+  return (
+    /Unsupported protocol|URL must start with the protocol/i.test(message) ||
+    /PrismaClientConstructorValidationError/i.test(message) ||
+    /adapter is required|driver adapter/i.test(message) ||
+    /Prisma Client could not locate the Query Engine/i.test(message)
+  );
+}
+
 function summarizeDatabaseProbeError(error: unknown): string {
   const message = error instanceof Error ? error.message : String(error);
   if (isDatabaseUrlMalformed() || /postgres(ql)?:\/\//i.test(message)) {
     return "DATABASE_URL is missing or invalid. Azura requires MySQL 8.4 — set a full mysql://… URI in hPanel (no DATABASE_URL= prefix, no quotes), then restart the app.";
   }
-  if (message.includes("Invalid `prisma.$queryRaw()`") || message.includes("Invalid `prisma.")) {
-    return "Prisma client does not match DATABASE_URL. Run npm run db:generate against the MySQL schema, redeploy, and restart.";
+  // Prisma wraps driver failures as `Invalid \`prisma.$queryRaw()\``. Inspect the cause first.
+  if (isUnreachableMysqlProbeError(message)) {
+    return isHostingerMysqlRemoteHost()
+      ? "Cannot reach MySQL at the Hostinger remote host. Set HOSTINGER_MYSQL_LOCALHOST=1 (or DATABASE_MYSQL_HOST=localhost) in hPanel, restart the app, and retry."
+      : "Cannot reach MySQL. On Hostinger, set HOSTINGER_MYSQL_LOCALHOST=1 (or DATABASE_MYSQL_HOST=localhost), verify the database exists, and import database/mysql/import-blank.sql.";
   }
-  if (message.includes("Can't reach database server") || message.includes("ENOTFOUND")) {
-    return "Cannot reach MySQL. On Hostinger, set HOSTINGER_MYSQL_LOCALHOST=1 (or DATABASE_MYSQL_HOST=localhost), verify the database exists, and import database/mysql/import-blank.sql.";
-  }
-  if (
-    message.includes("Authentication failed") ||
-    message.includes("credentials for") ||
-    message.includes("password")
-  ) {
+  if (isAuthMysqlProbeError(message)) {
     const info = getSanitizedDatabaseInfo();
     return `MySQL authentication failed (host: ${info.host}, user: ${info.projectRef}). Verify username, password, and database name in hPanel → Databases, then update DATABASE_URL (URL-encode special characters in the password).`;
+  }
+  if (isPrismaClientMismatchError(message)) {
+    return "Prisma client does not match DATABASE_URL. Run npm run db:generate against the MySQL schema, redeploy, and restart.";
   }
   if (hasFixableDatabaseUrlFormatting()) {
     return "DATABASE_URL is set with extra quotes or a DATABASE_URL= prefix. Remove quotes in hPanel so the value is only mysql://…, then restart the app.";
@@ -96,7 +126,20 @@ export async function isSetupDatabaseConnected(): Promise<boolean> {
       return false;
     }
 
-    await prisma.$queryRaw`SELECT 1`;
+    try {
+      await prisma.$queryRaw`SELECT 1`;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (isUnreachableMysqlProbeError(message) && enableHostingerMysqlLocalhostOverride()) {
+        console.warn(
+          "[setup] MySQL remote host unreachable — retrying via localhost (HOSTINGER_MYSQL_LOCALHOST=1)",
+        );
+        resetPrismaClient();
+        await prisma.$queryRaw`SELECT 1`;
+      } else {
+        throw error;
+      }
+    }
     lastDatabaseProbeError = null;
     return true;
   } catch (error) {

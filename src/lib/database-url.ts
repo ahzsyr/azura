@@ -63,16 +63,35 @@ export function getDatabaseHostFromUrl(url: string): string | null {
   }
 }
 
+/** True when DATABASE_URL points at Hostinger's shared MySQL hostname. */
+export function isHostingerMysqlRemoteHost(url = process.env.DATABASE_URL ?? ""): boolean {
+  try {
+    const host = new URL(sanitizeDatabaseUrl(url)).hostname;
+    return /^srv\d+\.hstgr\.io$/i.test(host);
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Hostinger Node apps on the same server as MySQL often cannot use srv*.hstgr.io.
- * Set DATABASE_MYSQL_HOST=localhost or HOSTINGER_MYSQL_LOCALHOST=1 in hPanel.
+ * Prefer DATABASE_MYSQL_HOST / HOSTINGER_MYSQL_LOCALHOST=1 in hPanel.
+ * When unset, srv*.hstgr.io is rewritten to localhost (set HOSTINGER_MYSQL_LOCALHOST=0 to keep remote).
  */
 export function applyMysqlHostOverride(url: string): string {
   if (!/^mysql:\/\//i.test(url)) return url;
 
-  const override =
-    process.env.DATABASE_MYSQL_HOST?.trim() ||
-    (process.env.HOSTINGER_MYSQL_LOCALHOST === "1" ? "localhost" : "");
+  let override = process.env.DATABASE_MYSQL_HOST?.trim() || "";
+  if (!override) {
+    const flag = process.env.HOSTINGER_MYSQL_LOCALHOST?.trim();
+    if (flag === "0" || flag === "false") {
+      override = "";
+    } else if (flag === "1" || flag === "true") {
+      override = "localhost";
+    } else if (isHostingerMysqlRemoteHost(url)) {
+      override = "localhost";
+    }
+  }
   if (!override) return url;
 
   try {
@@ -83,6 +102,18 @@ export function applyMysqlHostOverride(url: string): string {
   } catch {
     return url;
   }
+}
+
+/**
+ * Enable localhost rewrite for Hostinger shared MySQL after a remote connect failure.
+ * Mutates process.env so Prisma scripts and later requests share the same host.
+ */
+export function enableHostingerMysqlLocalhostOverride(): boolean {
+  if (!isHostingerMysqlRemoteHost()) return false;
+  if (process.env.DATABASE_MYSQL_HOST?.trim()) return false;
+  if (process.env.HOSTINGER_MYSQL_LOCALHOST === "1") return false;
+  process.env.HOSTINGER_MYSQL_LOCALHOST = "1";
+  return true;
 }
 
 /** Runtime Prisma datasource URL (sanitized + pool limit + optional MySQL host override). */

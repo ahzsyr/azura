@@ -8,7 +8,7 @@ import { PrismaClient } from "@prisma/client";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { mariaDbPoolConfig } from "@/lib/create-prisma-client";
 import { getRuntimeDatabaseUrl } from "@/lib/database-url";
-import { isBuildWithoutDb } from "@/lib/build-db";
+import { isCompileTimeBuildWithoutDb } from "@/lib/build-db";
 import { createBuildStubPrismaClient } from "@/lib/build-prisma-stub";
 import {
   missingScalarColumnsFromPrismaError,
@@ -82,7 +82,8 @@ function isStalePrismaClient(client: PrismaClient): boolean {
 }
 
 function getPrismaClient(): PrismaClient {
-  if (isBuildWithoutDb()) {
+  // Only stub during `next build` — a leaked BUILD_WITHOUT_DB at runtime must not blank the DB.
+  if (isCompileTimeBuildWithoutDb()) {
     if (!globalForPrisma.prisma) {
       globalForPrisma.prisma = createBuildStubPrismaClient();
     }
@@ -102,6 +103,16 @@ function getPrismaClient(): PrismaClient {
   }
 
   return globalForPrisma.prisma;
+}
+
+/** Drop the cached client so the next access rebuilds with current DATABASE_URL / host override. */
+export function resetPrismaClient(): void {
+  const cached = globalForPrisma.prisma;
+  globalForPrisma.prisma = undefined;
+  globalForPrisma.prismaClientVersion = undefined;
+  if (cached && typeof cached.$disconnect === "function") {
+    void cached.$disconnect();
+  }
 }
 
 /**

@@ -27,6 +27,14 @@ export function sanitizeDatabaseUrl(raw) {
   return url.trim();
 }
 
+function isHostingerMysqlRemoteHost(url) {
+  try {
+    return /^srv\d+\.hstgr\.io$/i.test(new URL(url).hostname);
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Hostinger Node apps on the same server as MySQL often cannot use srv*.hstgr.io.
  * Mirrors src/lib/database-url.ts applyMysqlHostOverride.
@@ -34,9 +42,17 @@ export function sanitizeDatabaseUrl(raw) {
 export function applyMysqlHostOverride(url, env = process.env) {
   if (!/^mysql:\/\//i.test(url)) return url;
 
-  const override =
-    env.DATABASE_MYSQL_HOST?.trim() ||
-    (env.HOSTINGER_MYSQL_LOCALHOST === "1" ? "localhost" : "");
+  let override = env.DATABASE_MYSQL_HOST?.trim() || "";
+  if (!override) {
+    const flag = env.HOSTINGER_MYSQL_LOCALHOST?.trim();
+    if (flag === "0" || flag === "false") {
+      override = "";
+    } else if (flag === "1" || flag === "true") {
+      override = "localhost";
+    } else if (isHostingerMysqlRemoteHost(url)) {
+      override = "localhost";
+    }
+  }
   if (!override) return url;
 
   try {
