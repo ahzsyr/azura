@@ -4,6 +4,7 @@
  *
  * Skip: SKIP_DB_MIGRATE=1 or missing DATABASE_URL
  */
+import { existsSync, readFileSync } from "node:fs";
 import { createPrismaClient } from "../lib/create-prisma-client.mjs";
 import { ensurePrismaEnginesExecutable } from "./ensure-prisma-engines-executable.mjs";
 import { buildPrismaEnv } from "./load-database-url.mjs";
@@ -525,6 +526,85 @@ async function mysqlTableExists(prisma, table) {
     table,
   );
   return Number(rows[0]?.c ?? 0) > 0;
+}
+
+/** Prisma queries `User`. A case-insensitive catalog hit is not enough on case-sensitive MySQL. */
+async function isPrismaUserTableQueryable(prisma) {
+  try {
+    await prisma.$queryRawUnsafe("SELECT `id` FROM `User` LIMIT 1");
+    return true;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (/does(?:n't| not) exist|unknown table|1146|P2021/i.test(message)) return false;
+    throw error;
+  }
+}
+
+async function renameMismatchedUserTable(prisma) {
+  const rows = await prisma.$queryRawUnsafe(
+    `SELECT TABLE_NAME AS name FROM INFORMATION_SCHEMA.TABLES
+     WHERE TABLE_SCHEMA = DATABASE() AND TABLE_TYPE = 'BASE TABLE' AND LOWER(TABLE_NAME) = 'user'`,
+  );
+  const name = String(rows[0]?.name ?? "");
+  if (!name || name === "User") return false;
+  console.log(`[db-migrate] Renaming MySQL table \`${name}\` → \`User\``);
+  await prisma.$executeRawUnsafe(`RENAME TABLE \`${name.replace(/`/g, "")}\` TO \`User\``);
+  return true;
+}
+
+function mysqlBootstrapStatements(sql) {
+  const withoutComments = sql
+    .split("\n")
+    .filter((line) => !line.trim().startsWith("--"))
+    .join("\n");
+  return withoutComments
+    .split(/;\s*(?:\r?\n|$)/)
+    .map((statement) => statement.trim())
+    .filter((statement) => statement.length > 0)
+    .map((statement) => statement.replace(/^CREATE TABLE /i, "CREATE TABLE IF NOT EXISTS "));
+}
+
+function isIgnorableMysqlBootstrapError(message) {
+  return /already exists|Duplicate foreign key|Duplicate key name|Duplicate column name|errno:\s*(1050|1060|1061|1022|1826)\b/i.test(
+    message,
+  );
+}
+
+/** Create any missing core tables. Existing tables are left in place. */
+async function applyCoreMysqlSchemaSql(prisma) {
+  const file = "database/mysql/01-schema.sql";
+  if (!existsSync(file)) {
+    console.warn(`[db-migrate] Missing ${file} — cannot bootstrap MySQL schema`);
+    return false;
+  }
+  console.log("[db-migrate] Applying database/mysql/01-schema.sql (CREATE TABLE IF NOT EXISTS)…");
+  const statements = mysqlBootstrapStatements(readFileSync(file, "utf8"));
+  let failures = 0;
+  for (const statement of statements) {
+    try {
+      await prisma.$executeRawUnsafe(statement);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (isIgnorableMysqlBootstrapError(message)) continue;
+      failures += 1;
+      if (failures <= 5) {
+        console.warn(`[db-migrate] schema SQL skipped: ${errorFirstLine(error)}`);
+      }
+    }
+  }
+  if (failures > 5) {
+    console.warn(`[db-migrate] schema SQL: ${failures} statements failed`);
+  }
+  return true;
+}
+
+async function ensurePrismaUserTable(prisma) {
+  if (await isPrismaUserTableQueryable(prisma)) return true;
+  if (await renameMismatchedUserTable(prisma) && (await isPrismaUserTableQueryable(prisma))) {
+    return true;
+  }
+  await applyCoreMysqlSchemaSql(prisma);
+  return isPrismaUserTableQueryable(prisma);
 }
 
 function errorFirstLine(error) {
@@ -1788,8 +1868,7 @@ async function runMysqlPatch(label, fn) {
   try {
     await fn();
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.warn(`[db-migrate] MySQL patch "${label}" failed: ${message.split("\n")[0]}`);
+    console.warn(`[db-migrate] MySQL patch "${label}" failed: ${errorFirstLine(error)}`);
   }
 }
 
@@ -1848,7 +1927,7 @@ async function runWithPrisma(url, fn) {
 }
 
 async function isUserTablePresent(url) {
-  return runWithPrisma(url, async (prisma) => mysqlTableExists(prisma, "User"));
+  return runWithPrisma(url, async (prisma) => isPrismaUserTableQueryable(prisma));
 }
 
 /** Empty first-install DBs: migrate deploy can fail; db push bootstraps core tables. */
@@ -1936,10 +2015,14 @@ async function main() {
   }
 
   // Re-check after migrate — empty DBs may have been bootstrapped by migrate deploy.
-  const userPresentAfterMigrate = await isUserTablePresent(env.DATABASE_URL);
+  let userPresentAfterMigrate = await isUserTablePresent(env.DATABASE_URL);
   if (!userPresentAfterMigrate) {
-    // db push uses the full datamodel; SeoSearchMetric unique needs prefix indexes from migrations.
-    // Prefer a second migrate attempt after a clean DB; push is last-resort bootstrap only.
+    // information_schema can see `user` while Prisma queries `User` (P2021 on case-sensitive MySQL).
+    // The failed 20260601133653 migration also blocks migrate deploy, so create tables from the SQL schema.
+    const bootstrapped = await runWithPrisma(env.DATABASE_URL, ensurePrismaUserTable);
+    userPresentAfterMigrate = bootstrapped;
+  }
+  if (!userPresentAfterMigrate) {
     const pushed = bootstrapSchemaWithDbPush(
       datamodelSchema,
       env,

@@ -243,7 +243,16 @@ export type { SetupDatabaseKind, SetupStatusResult } from "@/features/setup/setu
 
 export async function getSetupStatus(): Promise<SetupStatusResult> {
 
-  const databaseReady = await isSetupDatabaseReady();
+  let databaseReady = await isSetupDatabaseReady();
+  if (!databaseReady && isSetupSchemaMissingMessage(lastDatabaseProbeError)) {
+    const ensured = await ensureSetupSchemaBestEffort();
+    if (ensured.ready) {
+      databaseReady = true;
+      lastDatabaseProbeError = null;
+    } else if (ensured.detail?.trim()) {
+      lastDatabaseProbeError = ensured.detail.trim();
+    }
+  }
 
   const settings = await readSystemSettings();
 
