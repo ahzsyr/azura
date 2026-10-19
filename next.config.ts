@@ -85,6 +85,12 @@ const nextConfig: NextConfig = {
       }
     : {}),
   experimental: {
+    /**
+     * Hostinger’s build image reports dozens of CPUs but a tiny thread limit.
+     * Next.js otherwise starts `os.cpus() - 1` page-data workers and the process
+     * aborts with EAGAIN (os error 11).
+     */
+    ...(hostingerWebpackBuild ? { cpus: 1 } : {}),
     /** Keep recently visited routes warm in the client router cache for snappier back/forward nav */
     staleTimes: {
       dynamic: 30,

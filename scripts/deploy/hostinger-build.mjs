@@ -114,7 +114,9 @@ if (dbProbe.ok) {
 }
 
 const nextBin = join(process.cwd(), "node_modules", "next", "dist", "bin", "next");
-console.log("[hostinger-build] Running next build --webpack…");
+console.log(
+  "[hostinger-build] Running next build --webpack (1 page-data worker — Hostinger thread limit)…",
+);
 const webpackEnv = withBuildNodeOptions({
   ...buildEnv,
   AZURA_WEBPACK_BUILD: "1",
