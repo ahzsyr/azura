@@ -25,6 +25,8 @@ import {
   isSetupSchemaMissingMessage,
   isSetupSchemaReady,
   SETUP_SCHEMA_MISSING_MESSAGE,
+  setupSchemaErrorMessage,
+  takeSetupSchemaGapMessage,
 } from "@/features/setup/setup-schema";
 import {
   enableHostingerMysqlLocalhostOverride,
@@ -157,7 +159,7 @@ export async function isSetupDatabaseReady(): Promise<boolean> {
 
   try {
     if (!(await isSetupSchemaReady())) {
-      lastDatabaseProbeError = SETUP_SCHEMA_MISSING_MESSAGE;
+      lastDatabaseProbeError = takeSetupSchemaGapMessage() ?? SETUP_SCHEMA_MISSING_MESSAGE;
       return false;
     }
     lastDatabaseProbeError = null;
@@ -174,6 +176,7 @@ export {
   isSetupSchemaMissingMessage,
   isSetupSchemaReady,
   SETUP_SCHEMA_MISSING_MESSAGE,
+  setupSchemaErrorMessage,
 };
 
 

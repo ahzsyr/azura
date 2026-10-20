@@ -54,14 +54,53 @@ function summarizeSchemaEnsureFailure(detail: string): string {
   return text.length > 500 ? `${text.slice(0, 500)}…` : text;
 }
 
+let lastSetupSchemaGap: string | null = null;
+
+export function takeSetupSchemaGapMessage(): string | null {
+  const message = lastSetupSchemaGap;
+  lastSetupSchemaGap = null;
+  return message;
+}
+
 export async function isSetupSchemaReady(): Promise<boolean> {
-  try {
-    await prisma.user.findFirst({ select: { id: true }, take: 1 });
-    return true;
-  } catch (error) {
-    if (isMissingTableError(error)) return false;
-    throw error;
+  lastSetupSchemaGap = null;
+  const probes = [
+    () => prisma.user.findFirst({ select: { id: true }, take: 1 }),
+    () => prisma.companyInfo.findFirst({ select: { id: true }, take: 1 }),
+    () => prisma.jsonStore.findFirst({ select: { id: true }, take: 1 }),
+    () => prisma.siteTheme.findFirst({ select: { id: true }, take: 1 }),
+  ];
+  for (const probe of probes) {
+    try {
+      await probe();
+    } catch (error) {
+      if (isMissingTableError(error)) {
+        lastSetupSchemaGap = setupSchemaErrorMessage(error);
+        return false;
+      }
+      throw error;
+    }
   }
+  return true;
+}
+
+/** Name the missing table or column. The generic User message is only for User itself. */
+export function setupSchemaErrorMessage(error: unknown): string | null {
+  if (!isMissingTableError(error)) return null;
+  const message = error instanceof Error ? error.message : String(error);
+  const column =
+    message.match(/The column [`']?([\w.]+)[`']? does not exist/i)?.[1] ??
+    message.match(/Unknown column [`']([^']+)[`']/i)?.[1];
+  const table =
+    message.match(/The table `([^`]+)` does not exist/i)?.[1] ??
+    message.match(/Table '[^.]+\.([^']+)' doesn't exist/i)?.[1] ??
+    message.match(/table [`']([A-Za-z0-9_]+)[`'] does(?:n't| not) exist/i)?.[1];
+  const subject = column
+    ? `${column} is missing`
+    : table && table.toLowerCase() !== "user"
+      ? `${table} table missing`
+      : "User table missing";
+  return `Database schema is not applied (${subject}). Completing setup will try to apply migrations. If that fails, run \`npm run deploy:hostinger-db\` or import blank SQL, and do not set SKIP_DB_MIGRATE=1 on an empty database.`;
 }
 
 function resolvePrismaCli(cwd: string): string | null {

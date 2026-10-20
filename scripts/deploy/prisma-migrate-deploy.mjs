@@ -4,7 +4,7 @@
  *
  * Skip: SKIP_DB_MIGRATE=1 or missing DATABASE_URL
  */
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { createPrismaClient } from "../lib/create-prisma-client.mjs";
 import { ensurePrismaEnginesExecutable } from "./ensure-prisma-engines-executable.mjs";
 import { buildPrismaEnv } from "./load-database-url.mjs";
@@ -127,22 +127,19 @@ async function ensureSiteThemeEffectSettingsColumnsPostgres(prisma) {
 }
 
 async function ensureSiteThemeEffectSettingsColumnsMysql(prisma) {
+  if (!(await mysqlTableExists(prisma, "SiteTheme"))) {
+    console.log("[db-migrate] MySQL: SiteTheme missing — skip effect settings");
+    return;
+  }
   for (const column of SITE_THEME_EFFECT_SETTINGS_COLUMNS) {
-    if (await mysqlColumnExists(prisma, "SiteTheme", column)) {
-      console.log(`[db-migrate] MySQL: SiteTheme.${column} already exists`);
-      continue;
-    }
-    await prisma.$executeRawUnsafe(
-      `ALTER TABLE \`SiteTheme\` ADD COLUMN \`${column}\` JSON NOT NULL DEFAULT ('{}')`,
-    );
-    console.log(`[db-migrate] MySQL: added SiteTheme.${column}`);
+    await ensureMysqlColumn(prisma, "SiteTheme", column, "JSON NOT NULL DEFAULT ('{}')");
   }
-  if (!(await mysqlColumnExists(prisma, "SiteTheme", "glassEffectEnabled"))) {
-    await prisma.$executeRawUnsafe(
-      `ALTER TABLE \`SiteTheme\` ADD COLUMN \`glassEffectEnabled\` BOOLEAN NOT NULL DEFAULT false`,
-    );
-    console.log(`[db-migrate] MySQL: added SiteTheme.glassEffectEnabled`);
-  }
+  await ensureMysqlColumn(
+    prisma,
+    "SiteTheme",
+    "glassEffectEnabled",
+    "BOOLEAN NOT NULL DEFAULT false",
+  );
 }
 
 const CONTENT_ITEM_EXTRA_COLUMNS = [
@@ -165,14 +162,7 @@ async function ensureContentItemExtraColumnsPostgres(prisma) {
 
 async function ensureContentItemExtraColumnsMysql(prisma) {
   for (const column of CONTENT_ITEM_EXTRA_COLUMNS) {
-    if (await mysqlColumnExists(prisma, "ContentItem", column.name)) {
-      console.log(`[db-migrate] MySQL: ContentItem.${column.name} already exists`);
-      continue;
-    }
-    await prisma.$executeRawUnsafe(
-      `ALTER TABLE \`ContentItem\` ADD COLUMN \`${column.name}\` ${column.mysqlSql}`,
-    );
-    console.log(`[db-migrate] MySQL: added ContentItem.${column.name}`);
+    await ensureMysqlColumn(prisma, "ContentItem", column.name, column.mysqlSql);
   }
 }
 
@@ -231,14 +221,7 @@ async function ensureCmsPageCompositionColumnsPostgres(prisma) {
 
 async function ensureCmsPageCompositionColumnsMysql(prisma) {
   for (const { table, name } of CMS_PAGE_COMPOSITION_COLUMNS) {
-    if (await mysqlColumnExists(prisma, table, name)) {
-      console.log(`[db-migrate] MySQL: ${table}.${name} already exists`);
-      continue;
-    }
-    await prisma.$executeRawUnsafe(
-      `ALTER TABLE \`${table}\` ADD COLUMN \`${name}\` JSON NOT NULL DEFAULT ('{}')`,
-    );
-    console.log(`[db-migrate] MySQL: added ${table}.${name}`);
+    await ensureMysqlColumn(prisma, table, name, "JSON NOT NULL DEFAULT ('{}')");
   }
 }
 
@@ -257,14 +240,7 @@ async function ensurePostContentCompositionColumnsPostgres(prisma) {
 
 async function ensurePostContentCompositionColumnsMysql(prisma) {
   for (const { table, name } of POST_CONTENT_COMPOSITION_COLUMNS) {
-    if (await mysqlColumnExists(prisma, table, name)) {
-      console.log(`[db-migrate] MySQL: ${table}.${name} already exists`);
-      continue;
-    }
-    await prisma.$executeRawUnsafe(
-      `ALTER TABLE \`${table}\` ADD COLUMN \`${name}\` JSON NOT NULL DEFAULT ('{}')`,
-    );
-    console.log(`[db-migrate] MySQL: added ${table}.${name}`);
+    await ensureMysqlColumn(prisma, table, name, "JSON NOT NULL DEFAULT ('{}')");
   }
 }
 
@@ -366,6 +342,10 @@ async function mysqlIndexExists(prisma, table, indexName) {
 }
 
 async function ensureMysqlIndex(prisma, table, indexName, columnsSql) {
+  if (!(await mysqlTableExists(prisma, table))) {
+    console.log(`[db-migrate] MySQL: ${table} missing — skip index ${indexName}`);
+    return;
+  }
   if (await mysqlIndexExists(prisma, table, indexName)) {
     console.log(`[db-migrate] MySQL: index ${indexName} already exists`);
     return;
@@ -609,7 +589,9 @@ async function ensurePrismaUserTable(prisma) {
 
 function errorFirstLine(error) {
   const message = error instanceof Error ? error.message : String(error);
-  return message.split("\n").map((line) => line.trim()).find(Boolean) || "unknown error";
+  const lines = message.split("\n").map((line) => line.trim()).filter(Boolean);
+  const cause = lines.find((line) => !/^Invalid `prisma\./.test(line));
+  return cause || lines[0] || "unknown error";
 }
 
 /** Prisma MySQL migrations require InnoDB (FKs + long unique indexes). */
@@ -666,6 +648,9 @@ async function mysqlEnumHasValue(prisma, table, column, value) {
 
 /** Safety net when migrate history is behind the live schema UI forms release. */
 async function ensureSchemaUiFormsMysql(prisma) {
+  if (!(await mysqlTableExists(prisma, "FormSubmission"))) {
+    console.log("[db-migrate] MySQL: FormSubmission missing — skip submission columns");
+  } else {
   const submissionColumns = [
     { name: "pipelineType", sql: "VARCHAR(64) NULL" },
     { name: "assigneeId", sql: "VARCHAR(36) NULL" },
@@ -676,14 +661,7 @@ async function ensureSchemaUiFormsMysql(prisma) {
     { name: "metadata", sql: "JSON NOT NULL DEFAULT ('{}')" },
   ];
   for (const column of submissionColumns) {
-    if (await mysqlColumnExists(prisma, "FormSubmission", column.name)) {
-      console.log(`[db-migrate] MySQL: FormSubmission.${column.name} already exists`);
-      continue;
-    }
-    await prisma.$executeRawUnsafe(
-      `ALTER TABLE \`FormSubmission\` ADD COLUMN \`${column.name}\` ${column.sql}`,
-    );
-    console.log(`[db-migrate] MySQL: added FormSubmission.${column.name}`);
+    await ensureMysqlColumn(prisma, "FormSubmission", column.name, column.sql);
   }
 
   try {
@@ -700,33 +678,21 @@ async function ensureSchemaUiFormsMysql(prisma) {
   } catch {
     /* index may already exist */
   }
-
-  if (!(await mysqlColumnExists(prisma, "FormTemplate", "publishedVersion"))) {
-    await prisma.$executeRawUnsafe(
-      `ALTER TABLE \`FormTemplate\` ADD COLUMN \`publishedVersion\` INT NULL`,
-    );
-    console.log("[db-migrate] MySQL: added FormTemplate.publishedVersion");
-  } else {
-    console.log("[db-migrate] MySQL: FormTemplate.publishedVersion already exists");
   }
 
-  if (!(await mysqlColumnExists(prisma, "FormTemplate", "allowedAdminIds"))) {
-    await prisma.$executeRawUnsafe(
-      `ALTER TABLE \`FormTemplate\` ADD COLUMN \`allowedAdminIds\` JSON NOT NULL DEFAULT ('[]')`,
-    );
-    console.log("[db-migrate] MySQL: added FormTemplate.allowedAdminIds");
-  } else {
-    console.log("[db-migrate] MySQL: FormTemplate.allowedAdminIds already exists");
+  if (!(await mysqlTableExists(prisma, "FormTemplate"))) {
+    console.log("[db-migrate] MySQL: FormTemplate missing — skip template columns");
+    return;
   }
 
-  if (!(await mysqlColumnExists(prisma, "FormTemplate", "definitionRaw"))) {
-    await prisma.$executeRawUnsafe(
-      `ALTER TABLE \`FormTemplate\` ADD COLUMN \`definitionRaw\` JSON NULL`,
-    );
-    console.log("[db-migrate] MySQL: added FormTemplate.definitionRaw");
-  } else {
-    console.log("[db-migrate] MySQL: FormTemplate.definitionRaw already exists");
-  }
+  await ensureMysqlColumn(prisma, "FormTemplate", "publishedVersion", "INT NULL");
+  await ensureMysqlColumn(
+    prisma,
+    "FormTemplate",
+    "allowedAdminIds",
+    "JSON NOT NULL DEFAULT ('[]')",
+  );
+  await ensureMysqlColumn(prisma, "FormTemplate", "definitionRaw", "JSON NULL");
 
   if (!(await mysqlTableExists(prisma, "FormTemplateSnapshot"))) {
     await prisma.$executeRawUnsafe(`
@@ -827,14 +793,7 @@ async function ensureEditorialMetadataColumnsPostgres(prisma) {
 
 async function ensureEditorialMetadataColumnsMysql(prisma) {
   for (const column of EDITORIAL_METADATA_COLUMNS) {
-    if (await mysqlColumnExists(prisma, column.table, column.name)) {
-      console.log(`[db-migrate] MySQL: ${column.table}.${column.name} already exists`);
-      continue;
-    }
-    await prisma.$executeRawUnsafe(
-      `ALTER TABLE \`${column.table}\` ADD COLUMN \`${column.name}\` ${column.mysqlSql}`,
-    );
-    console.log(`[db-migrate] MySQL: added ${column.table}.${column.name}`);
+    await ensureMysqlColumn(prisma, column.table, column.name, column.mysqlSql);
   }
 }
 
@@ -848,6 +807,10 @@ async function ensureFaqSetCoverUrlPostgres(prisma) {
 }
 
 async function ensureFaqSetCoverUrlMysql(prisma) {
+  if (!(await mysqlTableExists(prisma, "FaqSet"))) {
+    console.log("[db-migrate] MySQL: FaqSet missing — skip coverUrl");
+    return;
+  }
   if (!(await mysqlColumnExists(prisma, "FaqSet", "coverUrl"))) {
     await prisma.$executeRawUnsafe(`ALTER TABLE \`FaqSet\` ADD COLUMN \`coverUrl\` TEXT NULL`);
     console.log("[db-migrate] MySQL: added FaqSet.coverUrl");
@@ -1648,6 +1611,10 @@ async function ensureMarketingFoundationMysql(prisma) {
 }
 
 async function ensureMysqlColumn(prisma, table, column, definition) {
+  if (!(await mysqlTableExists(prisma, table))) {
+    console.log(`[db-migrate] MySQL: ${table} missing — skip ${column}`);
+    return;
+  }
   if (await mysqlColumnExists(prisma, table, column)) {
     console.log(`[db-migrate] MySQL: ${table}.${column} already exists`);
     return;
@@ -1960,6 +1927,68 @@ async function applyPostgresPatchesWithFallback(candidates) {
   throw lastError ?? new Error("No PostgreSQL migrate URL available");
 }
 
+async function listMigrationHistory(prisma) {
+  if (!(await mysqlTableExists(prisma, "_prisma_migrations"))) return [];
+  const rows = await prisma.$queryRawUnsafe(
+    `SELECT migration_name AS name, finished_at AS finishedAt, rolled_back_at AS rolledBackAt, started_at AS startedAt
+     FROM \`_prisma_migrations\``,
+  );
+  return rows.map((row) => ({
+    name: String(row.name ?? ""),
+    finished: row.finishedAt != null,
+    rolledBack: row.rolledBackAt != null,
+    started: row.startedAt != null,
+  }));
+}
+
+function listMigrationDirectories() {
+  const root = "prisma/migrations";
+  if (!existsSync(root)) return [];
+  return readdirSync(root, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && existsSync(`${root}/${entry.name}/migration.sql`))
+    .map((entry) => entry.name)
+    .sort();
+}
+
+/**
+ * A failed migration (P3009) blocks every later migration. 01-schema.sql is the current
+ * schema, so mark unfinished history applied instead of replaying the broken diff.
+ */
+function baselineUnresolvedMigrations(env, migrateSchema, history) {
+  const finished = new Set(
+    history.filter((row) => row.finished && !row.rolledBack).map((row) => row.name),
+  );
+  const failed = history.filter((row) => row.started && !row.finished && !row.rolledBack);
+  if (failed.length === 0) return false;
+
+  const failedNames = new Set(failed.map((row) => row.name));
+  console.log(
+    `[db-migrate] Baselining ${failed.map((row) => row.name).join(", ")} — current schema comes from database/mysql/01-schema.sql`,
+  );
+  for (const name of listMigrationDirectories()) {
+    if (!name || finished.has(name)) continue;
+    if (failedNames.has(name)) {
+      const rolled = runPrisma(
+        ["migrate", "resolve", "--rolled-back", name, "--schema", migrateSchema],
+        { env },
+      );
+      if (rolled !== 0) {
+        console.warn(`[db-migrate] migrate resolve --rolled-back ${name} exited ${rolled}`);
+      }
+    }
+    const applied = runPrisma(
+      ["migrate", "resolve", "--applied", name, "--schema", migrateSchema],
+      { env },
+    );
+    if (applied !== 0) {
+      console.warn(`[db-migrate] migrate resolve --applied ${name} exited ${applied}`);
+    } else {
+      console.log(`[db-migrate] Marked migration applied: ${name}`);
+    }
+  }
+  return true;
+}
+
 async function main() {
   const env = buildPrismaEnv();
   if (!env.DATABASE_URL?.trim()) {
@@ -2010,8 +2039,22 @@ async function main() {
   }
   if (migrateStatus !== 0) {
     console.warn(
-      "[db-migrate] prisma migrate deploy exited with errors — will try db push bootstrap if needed, then patches",
+      "[db-migrate] prisma migrate deploy exited with errors — will try schema SQL and baseline if a migration is stuck, then patches",
     );
+    const history = await runWithPrisma(env.DATABASE_URL, listMigrationHistory).catch((error) => {
+      console.warn(`[db-migrate] Could not read _prisma_migrations: ${errorFirstLine(error)}`);
+      return [];
+    });
+    const hasFailed = history.some((row) => row.started && !row.finished && !row.rolledBack);
+    if (hasFailed) {
+      await runWithPrisma(env.DATABASE_URL, async (prisma) => {
+        await renameMismatchedUserTable(prisma).catch((error) => {
+          console.warn(`[db-migrate] User table rename skipped: ${errorFirstLine(error)}`);
+        });
+        await applyCoreMysqlSchemaSql(prisma);
+      });
+      baselineUnresolvedMigrations(env, migrateSchema, history);
+    }
   }
 
   // Re-check after migrate — empty DBs may have been bootstrapped by migrate deploy.

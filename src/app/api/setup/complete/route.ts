@@ -12,6 +12,7 @@ import {
   isValidSetupToken,
   readSystemSettings,
   SETUP_SCHEMA_MISSING_MESSAGE,
+  setupSchemaErrorMessage,
   writeSystemSettings,
 } from "@/features/setup/setup.service";
 import {
@@ -73,7 +74,7 @@ function formatSetupError(error: unknown): string {
     return message || "Invalid form data";
   }
   if (isMissingSchemaError(error)) {
-    return SETUP_SCHEMA_MISSING_MESSAGE;
+    return setupSchemaErrorMessage(error) ?? SETUP_SCHEMA_MISSING_MESSAGE;
   }
   if (error instanceof Error && error.message.trim()) {
     return error.message;
