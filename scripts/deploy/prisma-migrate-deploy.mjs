@@ -1086,6 +1086,21 @@ async function ensureSecurityHardeningMysql(prisma) {
 
 /** P1–P3 auth lifecycle columns/tables when migrate history was not applied on Hostinger. */
 async function ensureAuthLifecycleMysql(prisma) {
+  const profileColumns = [
+    ["phone", "VARCHAR(191) NULL"],
+    ["dateOfBirth", "DATE NULL"],
+    ["addressLine1", "VARCHAR(191) NULL"],
+    ["addressLine2", "VARCHAR(191) NULL"],
+    ["city", "VARCHAR(191) NULL"],
+    ["state", "VARCHAR(191) NULL"],
+    ["postalCode", "VARCHAR(191) NULL"],
+    ["country", "VARCHAR(191) NULL"],
+    ["marketingOptIn", "BOOLEAN NOT NULL DEFAULT false"],
+  ];
+  for (const [name, definition] of profileColumns) {
+    await ensureMysqlColumn(prisma, "User", name, definition);
+  }
+
   if (!(await mysqlColumnExists(prisma, "User", "disabledAt"))) {
     await prisma.$executeRawUnsafe("ALTER TABLE `User` ADD COLUMN `disabledAt` DATETIME(3) NULL");
     console.log("[db-migrate] MySQL: added User.disabledAt");

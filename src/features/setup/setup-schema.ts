@@ -272,6 +272,31 @@ async function applyPlatformTables(): Promise<void> {
   }
 }
 
+async function ensureUserProfileColumns(): Promise<void> {
+  const columns: [string, string][] = [
+    ["phone", "VARCHAR(191) NULL"],
+    ["dateOfBirth", "DATE NULL"],
+    ["addressLine1", "VARCHAR(191) NULL"],
+    ["addressLine2", "VARCHAR(191) NULL"],
+    ["city", "VARCHAR(191) NULL"],
+    ["state", "VARCHAR(191) NULL"],
+    ["postalCode", "VARCHAR(191) NULL"],
+    ["country", "VARCHAR(191) NULL"],
+    ["marketingOptIn", "BOOLEAN NOT NULL DEFAULT false"],
+  ];
+  for (const [name, definition] of columns) {
+    const rows = await prisma.$queryRawUnsafe<Array<{ c: bigint | number }>>(
+      `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.COLUMNS
+       WHERE TABLE_SCHEMA = DATABASE()
+         AND LOWER(TABLE_NAME) = 'user'
+         AND LOWER(COLUMN_NAME) = LOWER(?)`,
+      name,
+    );
+    if (Number(rows[0]?.c ?? 0) > 0) continue;
+    await prisma.$executeRawUnsafe(`ALTER TABLE \`User\` ADD COLUMN \`${name}\` ${definition}`);
+  }
+}
+
 /**
  * Apply database/mysql/01-schema.sql on the live connection, then the deploy migrate script, until User exists.
  * A command that exits 0 without creating User is a failure and its output is returned.
@@ -283,6 +308,10 @@ export async function ensureSetupSchemaBestEffort(): Promise<{
   detail?: string;
 }> {
   await applyPlatformTables();
+  await ensureUserProfileColumns().catch((error) => {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[setup] User profile columns skipped: ${message.split("\n").find((line) => line.trim()) ?? message}`);
+  });
   if (await isSetupSchemaReady()) {
     return { ready: true, attempted: true };
   }
