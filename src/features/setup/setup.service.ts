@@ -290,6 +290,20 @@ import type { SetupDatabaseKind, SetupStatusResult } from "@/features/setup/setu
 
 export type { SetupDatabaseKind, SetupStatusResult } from "@/features/setup/setup.types";
 
+/** A live site already has an admin and company row. That is not a fresh install. */
+async function installedSiteAlreadyExists(): Promise<boolean> {
+  try {
+    const [user, company] = await Promise.all([
+      prisma.user.findFirst({ select: { id: true } }),
+      prisma.companyInfo.findFirst({ select: { id: true } }),
+    ]);
+    return Boolean(user && company);
+  } catch (error) {
+    logSetupDbError("existing site probe failed", error);
+    return false;
+  }
+}
+
 export async function getSetupStatus(): Promise<SetupStatusResult> {
 
   let databaseReady = await isSetupDatabaseReady();
@@ -305,7 +319,18 @@ export async function getSetupStatus(): Promise<SetupStatusResult> {
 
   const settings = await readSystemSettings();
 
-  const complete = settings.setupComplete;
+  let complete = settings.setupComplete;
+  if (!complete && databaseReady && (await installedSiteAlreadyExists())) {
+    complete = true;
+    try {
+      await writeSystemSettings({
+        setupComplete: true,
+        completedAt: settings.completedAt ?? new Date().toISOString(),
+      });
+    } catch (error) {
+      logSetupDbError("could not record the existing site as setup complete", error);
+    }
+  }
 
   const registrationEnabled = await isRegistrationEnabled();
 

@@ -9,12 +9,15 @@ export function mariaDbPoolConfig(connectionString) {
     throw new Error("DATABASE_URL must include a host and database name");
   }
   return {
-    host: url.hostname,
+    // Node resolves "localhost" to ::1. Hostinger MySQL listens on IPv4, and that
+    // mismatch leaves the pool at active=0 idle=0 (error 45028).
+    host: url.hostname === "localhost" ? "127.0.0.1" : url.hostname,
     port: url.port ? Number(url.port) : 3306,
     user: decodeURIComponent(url.username),
     password: decodeURIComponent(url.password),
     database,
     connectionLimit: 10,
+    connectTimeout: 10_000,
     allowPublicKeyRetrieval: true,
   };
 }

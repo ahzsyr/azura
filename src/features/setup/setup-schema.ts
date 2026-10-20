@@ -272,6 +272,42 @@ async function applyPlatformTables(): Promise<void> {
   }
 }
 
+/** Legacy JSON/TEXT columns are not in the current model. NULL keeps stored copy and lets inserts omit them. */
+async function relaxLegacyCompanyInfoColumns(): Promise<void> {
+  const columns = [
+    "taglineEn",
+    "taglineAr",
+    "storyEn",
+    "storyAr",
+    "missionEn",
+    "missionAr",
+    "visionEn",
+    "visionAr",
+    "valuesEn",
+    "valuesAr",
+    "addressEn",
+    "addressAr",
+    "officeHoursEn",
+    "officeHoursAr",
+  ];
+  for (const column of columns) {
+    const rows = await prisma.$queryRawUnsafe<Array<{ columnType: string; nullable: string }>>(
+      `SELECT COLUMN_TYPE AS columnType, IS_NULLABLE AS nullable
+       FROM INFORMATION_SCHEMA.COLUMNS
+       WHERE TABLE_SCHEMA = DATABASE()
+         AND LOWER(TABLE_NAME) = 'companyinfo'
+         AND LOWER(COLUMN_NAME) = LOWER(?)`,
+      column,
+    );
+    const row = rows[0];
+    if (!row || String(row.nullable).toUpperCase() === "YES") continue;
+    const columnType = String(row.columnType || "TEXT");
+    await prisma.$executeRawUnsafe(
+      `ALTER TABLE \`CompanyInfo\` MODIFY COLUMN \`${column}\` ${columnType} NULL`,
+    );
+  }
+}
+
 async function ensureUserProfileColumns(): Promise<void> {
   const columns: [string, string][] = [
     ["phone", "VARCHAR(191) NULL"],
@@ -308,6 +344,10 @@ export async function ensureSetupSchemaBestEffort(): Promise<{
   detail?: string;
 }> {
   await applyPlatformTables();
+  await relaxLegacyCompanyInfoColumns().catch((error) => {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[setup] CompanyInfo columns skipped: ${message.split("\n").find((line) => line.trim()) ?? message}`);
+  });
   await ensureUserProfileColumns().catch((error) => {
     const message = error instanceof Error ? error.message : String(error);
     console.warn(`[setup] User profile columns skipped: ${message.split("\n").find((line) => line.trim()) ?? message}`);

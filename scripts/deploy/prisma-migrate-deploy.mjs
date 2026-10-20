@@ -1914,7 +1914,51 @@ async function runMysqlPatch(label, fn) {
   }
 }
 
+/**
+ * Old CompanyInfo rows still have JSON/TEXT columns the current client does not write.
+ * MariaDB rejects an insert that omits `valuesEn` JSON NOT NULL with error 4025.
+ * Make those columns nullable and keep the stored copy.
+ */
+async function relaxLegacyCompanyInfoColumnsMysql(prisma) {
+  if (!(await mysqlTableExists(prisma, "CompanyInfo"))) return;
+  const columns = [
+    "taglineEn",
+    "taglineAr",
+    "storyEn",
+    "storyAr",
+    "missionEn",
+    "missionAr",
+    "visionEn",
+    "visionAr",
+    "valuesEn",
+    "valuesAr",
+    "addressEn",
+    "addressAr",
+    "officeHoursEn",
+    "officeHoursAr",
+  ];
+  for (const column of columns) {
+    const rows = await prisma.$queryRawUnsafe(
+      `SELECT COLUMN_TYPE AS columnType, IS_NULLABLE AS nullable
+       FROM INFORMATION_SCHEMA.COLUMNS
+       WHERE TABLE_SCHEMA = DATABASE()
+         AND LOWER(TABLE_NAME) = 'companyinfo'
+         AND LOWER(COLUMN_NAME) = LOWER(?)`,
+      column,
+    );
+    const row = rows[0];
+    if (!row) continue;
+    if (String(row.nullable).toUpperCase() === "YES") continue;
+    const columnType = String(row.columnType || "TEXT");
+    await prisma.$executeRawUnsafe(
+      `ALTER TABLE \`CompanyInfo\` MODIFY COLUMN \`${column}\` ${columnType} NULL`,
+    );
+    console.log(`[db-migrate] MySQL: CompanyInfo.${column} is nullable; existing values kept`);
+  }
+}
+
 async function applyMysqlPatches(prisma) {
+  await runMysqlPatch("legacyCompanyInfo", () => relaxLegacyCompanyInfoColumnsMysql(prisma));
   await runMysqlPatch("innodbDefault", () => ensureMysqlInnoDBDefault(prisma));
   await runMysqlPatch("innodbTables", () => ensureMysqlTablesInnoDB(prisma));
 
@@ -2067,17 +2111,6 @@ async function sealMigrationHistory(prisma, history) {
   return true;
 }
 
-function historyNeedsSeal(history) {
-  const successful = new Set(
-    history.filter((row) => row.finished && !row.rolledBack).map((row) => row.name),
-  );
-  return history.some((row) => {
-    if (!row.name || successful.has(row.name)) return false;
-    const failed = row.started && !row.finished && !row.rolledBack;
-    return failed || row.rolledBack;
-  });
-}
-
 async function main() {
   const env = buildPrismaEnv();
   if (!env.DATABASE_URL?.trim()) {
@@ -2114,33 +2147,26 @@ async function main() {
   await runWithPrisma(env.DATABASE_URL, ensureMysqlInnoDBDefault).catch((error) => {
     console.warn(`[db-migrate] InnoDB preflight skipped: ${errorFirstLine(error)}`);
   });
-  const historyBeforeDeploy = await runWithPrisma(env.DATABASE_URL, listMigrationHistory).catch((error) => {
-    console.warn(`[db-migrate] Could not read _prisma_migrations: ${errorFirstLine(error)}`);
-    return [];
-  });
-  if (historyNeedsSeal(historyBeforeDeploy)) {
+  const userPresent = await isUserTablePresent(env.DATABASE_URL);
+  const prismaMigrationsPresent = userPresent
+    ? await runWithPrisma(env.DATABASE_URL, (prisma) => mysqlTableExists(prisma, "_prisma_migrations"))
+    : false;
+  let migrateStatus = 0;
+  if (userPresent) {
     console.warn(
-      "[db-migrate] A failed or rolled-back migration is in history. It will be sealed, not replayed.",
+      "[db-migrate] Existing MySQL database — skipping prisma migrate deploy. Pending migrations include DROP TABLE/COLUMN and would erase the live site.",
     );
     await runWithPrisma(env.DATABASE_URL, async (prisma) => {
       await applyCoreMysqlSchemaSql(prisma);
       await ensurePlatformTablesMysql(prisma);
-      await sealMigrationHistory(prisma, historyBeforeDeploy);
+      if (prismaMigrationsPresent) {
+        await sealMigrationHistory(prisma, await listMigrationHistory(prisma));
+      }
     });
-  }
-  const userPresent = await isUserTablePresent(env.DATABASE_URL);
-  const prismaMigrationsPresent = await runWithPrisma(env.DATABASE_URL, (prisma) =>
-    mysqlTableExists(prisma, "_prisma_migrations"),
-  );
-  let migrateStatus = 0;
-  if (userPresent && !prismaMigrationsPresent) {
-    console.log(
-      "[db-migrate] Existing MySQL schema without _prisma_migrations — skipping migrate deploy (P3005), applying patches",
-    );
   } else {
     migrateStatus = runPrisma(["migrate", "deploy", "--schema", migrateSchema], { env });
   }
-  if (migrateStatus !== 0) {
+  if (!userPresent && migrateStatus !== 0) {
     console.warn(
       "[db-migrate] prisma migrate deploy exited with errors — creating missing tables only, then patches",
     );
