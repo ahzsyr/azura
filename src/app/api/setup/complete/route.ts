@@ -15,6 +15,7 @@ import {
   setupSchemaErrorMessage,
   writeSystemSettings,
 } from "@/features/setup/setup.service";
+import { relaxLegacyCompanyInfoColumns } from "@/features/setup/setup-schema";
 import {
   invalidateSetupStatusCache,
   setCachedSetupStatus,
@@ -61,7 +62,18 @@ function isMissingSchemaError(error: unknown): boolean {
   return (
     message.includes("P2021") ||
     message.includes("does not exist in the current database") ||
-    /table [`']?User[`']? does(?:n't| not) exist/i.test(message)
+    /table [`']?User[`']? does(?:n't| not) exist/i.test(message) ||
+    isCompanyInfoConstraintError(error)
+  );
+}
+
+/** MariaDB 4025 when legacy CompanyInfo.valuesEn (etc.) is still NOT NULL. */
+function isCompanyInfoConstraintError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error);
+  return (
+    /Code:\s*`?4025`?/i.test(message) ||
+    /CONSTRAINT\s+`?CompanyInfo\./i.test(message) ||
+    /failed for .*`CompanyInfo`/i.test(message)
   );
 }
 
@@ -72,6 +84,13 @@ function formatSetupError(error: unknown): string {
       .filter((issue) => issue.trim().length > 0)
       .join(" ");
     return message || "Invalid form data";
+  }
+  if (isCompanyInfoConstraintError(error)) {
+    return (
+      "Database schema is not applied (CompanyInfo.valuesEn is missing or still required). " +
+      "Completing setup will try to apply migrations. If that fails, run `npm run deploy:hostinger-db` " +
+      "or import blank SQL, and do not set SKIP_DB_MIGRATE=1 on an empty database."
+    );
   }
   if (isMissingSchemaError(error)) {
     return setupSchemaErrorMessage(error) ?? SETUP_SCHEMA_MISSING_MESSAGE;
@@ -126,120 +145,129 @@ export async function POST(request: Request) {
     const passwordHash = await bcrypt.hash(data.adminPassword, 12);
     const completedAt = new Date().toISOString();
 
-    await prisma.$transaction(async (tx) => {
-      const existingAdmin = await tx.user.findFirst({
-        where: { role: { in: ["ADMIN", "SUPER_ADMIN"] } },
-        orderBy: { createdAt: "asc" },
-      });
+    const runSetupTransaction = () =>
+      prisma.$transaction(async (tx) => {
+        const existingAdmin = await tx.user.findFirst({
+          where: { role: { in: ["ADMIN", "SUPER_ADMIN"] } },
+          orderBy: { createdAt: "asc" },
+        });
 
-      // Never overwrite an existing admin unless explicitly authorized via SETUP_TOKEN
-      // after setup was already completed (re-setup). First-run creates admin only when none exists.
-      if (existingAdmin) {
-        if (!settingsBefore.setupComplete || !isValidSetupToken(data.setupToken)) {
-          throw new Error(
-            "An admin account already exists. Use Admin → Reset setup or present a valid SETUP_TOKEN after setup is complete.",
-          );
+        // Never overwrite an existing admin unless explicitly authorized via SETUP_TOKEN
+        // after setup was already completed (re-setup). First-run creates admin only when none exists.
+        if (existingAdmin) {
+          if (!settingsBefore.setupComplete || !isValidSetupToken(data.setupToken)) {
+            throw new Error(
+              "An admin account already exists. Use Admin → Reset setup or present a valid SETUP_TOKEN after setup is complete.",
+            );
+          }
+          await tx.user.update({
+            where: { id: existingAdmin.id },
+            data: {
+              email: data.adminEmail,
+              passwordHash,
+              name: data.adminName,
+              role: "SUPER_ADMIN",
+              emailVerifiedAt: new Date(),
+              pendingEmail: null,
+              mustChangePassword: false,
+              totpEnabled: false,
+              totpSecret: null,
+            },
+          });
+        } else {
+          await tx.user.create({
+            data: {
+              email: data.adminEmail,
+              passwordHash,
+              name: data.adminName,
+              role: "SUPER_ADMIN",
+              emailVerifiedAt: new Date(),
+              mustChangePassword: false,
+            },
+          });
         }
-        await tx.user.update({
-          where: { id: existingAdmin.id },
-          data: {
-            email: data.adminEmail,
-            passwordHash,
-            name: data.adminName,
-            role: "SUPER_ADMIN",
-            emailVerifiedAt: new Date(),
-            pendingEmail: null,
-            mustChangePassword: false,
-            totpEnabled: false,
-            totpSecret: null,
+
+        const tagline = data.tagline?.trim() || "Solutions";
+        const company = await tx.companyInfo.upsert({
+          where: { id: "default" },
+          update: {
+            name: data.siteName,
           },
-        });
-      } else {
-        await tx.user.create({
-          data: {
-            email: data.adminEmail,
-            passwordHash,
-            name: data.adminName,
-            role: "SUPER_ADMIN",
-            emailVerifiedAt: new Date(),
-            mustChangePassword: false,
-          },
-        });
-      }
-
-      const tagline = data.tagline?.trim() || "Solutions";
-      const company = await tx.companyInfo.upsert({
-        where: { id: "default" },
-        update: {
-          name: data.siteName,
-        },
-        create: {
-          id: "default",
-          name: data.siteName,
-          registrationNo: "",
-          licenseInfo: "",
-          phone: "",
-          whatsapp: "",
-          email: data.adminEmail,
-          socialLinks: {},
-          trustBadges: [],
-        },
-      });
-      const { syncLegacyShapeTranslationsTx } = await import(
-        "@/features/portal/lib/portal-translation"
-      );
-      await syncLegacyShapeTranslationsTx(tx, "CompanyInfo", company.id, {
-        taglineEn: tagline,
-        taglineAr: tagline,
-        storyEn: `${data.siteName} — your trusted partner.`,
-        storyAr: `${data.siteName} — شريكك الموثوق.`,
-        missionEn: "Deliver excellence in every interaction.",
-        missionAr: "تقديم التميز في كل تفاعل.",
-        visionEn: "Grow with our customers.",
-        visionAr: "النمو مع عملائنا.",
-        valuesEn: JSON.stringify(["Trust", "Quality", "Service"]),
-        valuesAr: JSON.stringify(["الثقة", "الجودة", "الخدمة"]),
-        addressEn: "",
-        addressAr: "",
-        officeHoursEn: "",
-        officeHoursAr: "",
-      }, [
-        { field: "tagline", enKey: "taglineEn", arKey: "taglineAr" },
-        { field: "story", enKey: "storyEn", arKey: "storyAr" },
-        { field: "mission", enKey: "missionEn", arKey: "missionAr" },
-        { field: "vision", enKey: "visionEn", arKey: "visionAr" },
-        { field: "values", enKey: "valuesEn", arKey: "valuesAr" },
-        { field: "address", enKey: "addressEn", arKey: "addressAr" },
-        { field: "officeHours", enKey: "officeHoursEn", arKey: "officeHoursAr" },
-      ]);
-
-      const brandConfig = {
-        name: data.siteName,
-        shortName: data.siteName.slice(0, 2).toUpperCase() || DEFAULT_BRAND_NAME,
-        tagline,
-        logoMode: "text",
-        logoText: data.siteName.slice(0, 2).toUpperCase(),
-        showTagline: true,
-      };
-
-      for (const themeId of ["published", "draft"]) {
-        const theme = await tx.siteTheme.findUnique({ where: { id: themeId } });
-        const existingBrand =
-          theme?.brandConfig && typeof theme.brandConfig === "object"
-            ? (theme.brandConfig as Record<string, unknown>)
-            : {};
-        await tx.siteTheme.upsert({
-          where: { id: themeId },
-          update: { brandConfig: { ...existingBrand, ...brandConfig } },
           create: {
-            id: themeId,
-            brandConfig,
+            id: "default",
+            name: data.siteName,
+            registrationNo: "",
+            licenseInfo: "",
+            phone: "",
+            whatsapp: "",
+            email: data.adminEmail,
+            socialLinks: {},
+            trustBadges: [],
           },
         });
-      }
+        const { syncLegacyShapeTranslationsTx } = await import(
+          "@/features/portal/lib/portal-translation"
+        );
+        await syncLegacyShapeTranslationsTx(tx, "CompanyInfo", company.id, {
+          taglineEn: tagline,
+          taglineAr: tagline,
+          storyEn: `${data.siteName} — your trusted partner.`,
+          storyAr: `${data.siteName} — شريكك الموثوق.`,
+          missionEn: "Deliver excellence in every interaction.",
+          missionAr: "تقديم التميز في كل تفاعل.",
+          visionEn: "Grow with our customers.",
+          visionAr: "النمو مع عملائنا.",
+          valuesEn: JSON.stringify(["Trust", "Quality", "Service"]),
+          valuesAr: JSON.stringify(["الثقة", "الجودة", "الخدمة"]),
+          addressEn: "",
+          addressAr: "",
+          officeHoursEn: "",
+          officeHoursAr: "",
+        }, [
+          { field: "tagline", enKey: "taglineEn", arKey: "taglineAr" },
+          { field: "story", enKey: "storyEn", arKey: "storyAr" },
+          { field: "mission", enKey: "missionEn", arKey: "missionAr" },
+          { field: "vision", enKey: "visionEn", arKey: "visionAr" },
+          { field: "values", enKey: "valuesEn", arKey: "valuesAr" },
+          { field: "address", enKey: "addressEn", arKey: "addressAr" },
+          { field: "officeHours", enKey: "officeHoursEn", arKey: "officeHoursAr" },
+        ]);
 
-      await ensureBaselineCmsAndLocales(tx);
-    }, SETUP_COMPLETE_TX_OPTIONS);
+        const brandConfig = {
+          name: data.siteName,
+          shortName: data.siteName.slice(0, 2).toUpperCase() || DEFAULT_BRAND_NAME,
+          tagline,
+          logoMode: "text",
+          logoText: data.siteName.slice(0, 2).toUpperCase(),
+          showTagline: true,
+        };
+
+        for (const themeId of ["published", "draft"]) {
+          const theme = await tx.siteTheme.findUnique({ where: { id: themeId } });
+          const existingBrand =
+            theme?.brandConfig && typeof theme.brandConfig === "object"
+              ? (theme.brandConfig as Record<string, unknown>)
+              : {};
+          await tx.siteTheme.upsert({
+            where: { id: themeId },
+            update: { brandConfig: { ...existingBrand, ...brandConfig } },
+            create: {
+              id: themeId,
+              brandConfig,
+            },
+          });
+        }
+
+        await ensureBaselineCmsAndLocales(tx);
+      }, SETUP_COMPLETE_TX_OPTIONS);
+
+    try {
+      await runSetupTransaction();
+    } catch (error) {
+      if (!isCompanyInfoConstraintError(error)) throw error;
+      await relaxLegacyCompanyInfoColumns();
+      await runSetupTransaction();
+    }
 
     if (data.installMode !== "blank") {
       await importDemoProfile(prisma, data.installMode, {

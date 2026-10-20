@@ -64,12 +64,17 @@ export function takeSetupSchemaGapMessage(): string | null {
 
 export async function isSetupSchemaReady(): Promise<boolean> {
   lastSetupSchemaGap = null;
+  // Tables setup complete writes. Column completeness is handled by migrate patches.
   const probes = [
     () => prisma.user.findFirst({ select: { id: true }, take: 1 }),
     () => prisma.companyInfo.findFirst({ select: { id: true }, take: 1 }),
     () => prisma.jsonStore.findFirst({ select: { id: true }, take: 1 }),
     () => prisma.siteTheme.findFirst({ select: { id: true }, take: 1 }),
     () => prisma.packageInstallation.findFirst({ select: { packageId: true }, take: 1 }),
+    () => prisma.entityTranslation.findFirst({ select: { id: true }, take: 1 }),
+    () => prisma.cmsPage.findFirst({ select: { id: true }, take: 1 }),
+    () => prisma.localeConfig.findFirst({ select: { code: true }, take: 1 }),
+    () => prisma.custom404.findFirst({ select: { locale: true }, take: 1 }),
   ];
   for (const probe of probes) {
     try {
@@ -272,8 +277,26 @@ async function applyPlatformTables(): Promise<void> {
   }
 }
 
+async function mysqlColumnExists(table: string, column: string): Promise<boolean> {
+  const rows = await prisma.$queryRawUnsafe<Array<{ c: bigint | number }>>(
+    `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.COLUMNS
+     WHERE TABLE_SCHEMA = DATABASE()
+       AND LOWER(TABLE_NAME) = LOWER(?)
+       AND LOWER(COLUMN_NAME) = LOWER(?)`,
+    table,
+    column,
+  );
+  return Number(rows[0]?.c ?? 0) > 0;
+}
+
+async function ensureMysqlColumn(table: string, column: string, definition: string): Promise<void> {
+  if (!(await mysqlColumnExists(table, column))) {
+    await prisma.$executeRawUnsafe(`ALTER TABLE \`${table}\` ADD COLUMN \`${column}\` ${definition}`);
+  }
+}
+
 /** Legacy JSON/TEXT columns are not in the current model. NULL keeps stored copy and lets inserts omit them. */
-async function relaxLegacyCompanyInfoColumns(): Promise<void> {
+export async function relaxLegacyCompanyInfoColumns(): Promise<void> {
   const columns = [
     "taglineEn",
     "taglineAr",
@@ -308,8 +331,21 @@ async function relaxLegacyCompanyInfoColumns(): Promise<void> {
   }
 }
 
-async function ensureUserProfileColumns(): Promise<void> {
+/** Auth + profile columns setup complete writes. Safe when User is missing. */
+async function ensureUserSetupColumns(): Promise<void> {
+  const userTable = await prisma.$queryRawUnsafe<Array<{ c: bigint | number }>>(
+    `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.TABLES
+     WHERE TABLE_SCHEMA = DATABASE() AND LOWER(TABLE_NAME) = 'user'`,
+  );
+  if (Number(userTable[0]?.c ?? 0) === 0) return;
+
   const columns: [string, string][] = [
+    ["sessionVersion", "INT NOT NULL DEFAULT 0"],
+    ["disabledAt", "DATETIME(3) NULL"],
+    ["lockedUntil", "DATETIME(3) NULL"],
+    ["failedLoginCount", "INT NOT NULL DEFAULT 0"],
+    ["emailVerifiedAt", "DATETIME(3) NULL"],
+    ["pendingEmail", "VARCHAR(191) NULL"],
     ["phone", "VARCHAR(191) NULL"],
     ["dateOfBirth", "DATE NULL"],
     ["addressLine1", "VARCHAR(191) NULL"],
@@ -319,23 +355,43 @@ async function ensureUserProfileColumns(): Promise<void> {
     ["postalCode", "VARCHAR(191) NULL"],
     ["country", "VARCHAR(191) NULL"],
     ["marketingOptIn", "BOOLEAN NOT NULL DEFAULT false"],
+    ["totpSecret", "TEXT NULL"],
+    ["totpEnabled", "BOOLEAN NOT NULL DEFAULT false"],
+    ["mustChangePassword", "BOOLEAN NOT NULL DEFAULT false"],
   ];
   for (const [name, definition] of columns) {
-    const rows = await prisma.$queryRawUnsafe<Array<{ c: bigint | number }>>(
-      `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.COLUMNS
-       WHERE TABLE_SCHEMA = DATABASE()
-         AND LOWER(TABLE_NAME) = 'user'
-         AND LOWER(COLUMN_NAME) = LOWER(?)`,
-      name,
+    await ensureMysqlColumn("User", name, definition);
+  }
+
+  await prisma.$executeRawUnsafe(
+    "UPDATE `User` SET `emailVerifiedAt` = `createdAt` WHERE `emailVerifiedAt` IS NULL",
+  );
+
+  const enumRows = await prisma.$queryRawUnsafe<Array<{ columnType: string }>>(
+    `SELECT COLUMN_TYPE AS columnType FROM INFORMATION_SCHEMA.COLUMNS
+     WHERE TABLE_SCHEMA = DATABASE()
+       AND LOWER(TABLE_NAME) = 'user'
+       AND LOWER(COLUMN_NAME) = 'role'`,
+  );
+  const columnType = String(enumRows[0]?.columnType ?? "");
+  if (columnType && !/SUPER_ADMIN/i.test(columnType)) {
+    await prisma.$executeRawUnsafe(
+      `ALTER TABLE \`User\`
+        MODIFY COLUMN \`role\`
+        ENUM('ADMIN', 'CUSTOMER', 'SUPER_ADMIN')
+        NOT NULL DEFAULT 'CUSTOMER'`,
     );
-    if (Number(rows[0]?.c ?? 0) > 0) continue;
-    await prisma.$executeRawUnsafe(`ALTER TABLE \`User\` ADD COLUMN \`${name}\` ${definition}`);
   }
 }
 
+function logSetupPatchSkip(label: string, error: unknown): void {
+  const message = error instanceof Error ? error.message : String(error);
+  console.warn(`[setup] ${label} skipped: ${message.split("\n").find((line) => line.trim()) ?? message}`);
+}
+
 /**
- * Apply database/mysql/01-schema.sql on the live connection, then the deploy migrate script, until User exists.
- * A command that exits 0 without creating User is a failure and its output is returned.
+ * Apply platform tables, additive User/CompanyInfo patches, core CREATE IF NOT EXISTS,
+ * then always run the deploy migrate script (patches only on existing DBs).
  * SKIP_DB_MIGRATE is removed so an empty database is not skipped.
  */
 export async function ensureSetupSchemaBestEffort(): Promise<{
@@ -343,32 +399,38 @@ export async function ensureSetupSchemaBestEffort(): Promise<{
   attempted: boolean;
   detail?: string;
 }> {
+  const details: string[] = [];
+
   await applyPlatformTables();
-  await relaxLegacyCompanyInfoColumns().catch((error) => {
-    const message = error instanceof Error ? error.message : String(error);
-    console.warn(`[setup] CompanyInfo columns skipped: ${message.split("\n").find((line) => line.trim()) ?? message}`);
-  });
-  await ensureUserProfileColumns().catch((error) => {
-    const message = error instanceof Error ? error.message : String(error);
-    console.warn(`[setup] User profile columns skipped: ${message.split("\n").find((line) => line.trim()) ?? message}`);
-  });
+  await relaxLegacyCompanyInfoColumns().catch((error) => logSetupPatchSkip("CompanyInfo columns", error));
+  await ensureUserSetupColumns().catch((error) => logSetupPatchSkip("User setup columns", error));
+
+  // Existing DBs often already pass the table probes; still run migrate so auth/CMS patches apply.
+  const migrate = runNodeScript("scripts/deploy/prisma-migrate-deploy.mjs");
+  await applyPlatformTables();
+  await relaxLegacyCompanyInfoColumns().catch((error) => logSetupPatchSkip("CompanyInfo columns", error));
+  await ensureUserSetupColumns().catch((error) => logSetupPatchSkip("User setup columns", error));
   if (await isSetupSchemaReady()) {
     return { ready: true, attempted: true };
   }
+  if (!migrate.ok) {
+    details.push(stillMissingDetail("Schema migrate", migrate));
+  }
 
-  const details: string[] = [];
   const applied = await applyCoreMysqlSchema();
   if (await isSetupSchemaReady()) {
     return { ready: true, attempted: true };
   }
   details.push(stillMissingDetail("Schema SQL", applied));
 
-  const migrate = runNodeScript("scripts/deploy/prisma-migrate-deploy.mjs");
+  // Re-run migrate after CREATE so patches can ALTER newly created tables.
+  const migrateAgain = runNodeScript("scripts/deploy/prisma-migrate-deploy.mjs");
   await applyPlatformTables();
+  await ensureUserSetupColumns().catch((error) => logSetupPatchSkip("User setup columns", error));
   if (await isSetupSchemaReady()) {
     return { ready: true, attempted: true };
   }
-  details.push(stillMissingDetail("Schema migrate", migrate));
+  details.push(stillMissingDetail("Schema migrate", migrateAgain));
 
   const userExists = await prisma.user
     .findFirst({ select: { id: true }, take: 1 })

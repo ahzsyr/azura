@@ -290,7 +290,11 @@ import type { SetupDatabaseKind, SetupStatusResult } from "@/features/setup/setu
 
 export type { SetupDatabaseKind, SetupStatusResult } from "@/features/setup/setup.types";
 
-/** A live site already has an admin and company row. That is not a fresh install. */
+/**
+ * A live site already has an admin and company row. That is not a fresh install.
+ * Keeps safeermedina-style domains off universal /welcome after deploy.
+ * For public hold + admin full site, enable Coming Soon (Admin → Settings → Site), not setupComplete=false.
+ */
 async function installedSiteAlreadyExists(): Promise<boolean> {
   try {
     const [user, company] = await Promise.all([

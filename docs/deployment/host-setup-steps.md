@@ -67,7 +67,18 @@ Do **not** start with bare `node server.js` on an empty database (that skips sch
 - If redirected, complete `/setup` (no query token needed when `SETUP_TOKEN` is set in env)
 - Login at `/account/login` (admins are routed to `/admin` after sign-in)
 
-## 7) Post-deploy checks
+## 7) Existing site (e.g. safeermedina) — admin site, public hold
+
+After deploy, an existing database with an admin user and company row is treated as setup complete (visitors leave `/welcome`). To keep the public on a hold page while signed-in admins browse the full site:
+
+1. Sign in at `/account/login` as admin.
+2. Open **Admin → Settings → Site**.
+3. Enable **Show coming soon page to visitors** (`comingSoonEnabled`).
+4. Public visitors are redirected to `/coming-soon`; admin sessions see the live marketing site.
+
+Do **not** flip `setupComplete` off to force `/welcome` — that path has no admin bypass, and the app re-marks setup complete when user + company already exist. Do not set `SKIP_DB_MIGRATE=1` until the schema is current; migrate skips destructive `prisma migrate deploy` when the `User` table already exists.
+
+## 8) Post-deploy checks
 
 - Confirm database reads/writes work
 - Confirm media upload works (Supabase bucket and service role key)
