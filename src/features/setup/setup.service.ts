@@ -66,6 +66,7 @@ function isUnreachableMysqlProbeError(message: string): boolean {
     /ECONNREFUSED|ENOTFOUND|ETIMEDOUT|EHOSTUNREACH/i.test(message) ||
     /Connection (?:lost|refused|timed out)/i.test(message) ||
     /server has gone away/i.test(message) ||
+    /45028|pool failed to retrieve a connection/i.test(message) ||
     /\bP1001\b|\bP1017\b/i.test(message)
   );
 }
@@ -96,9 +97,11 @@ function summarizeDatabaseProbeError(error: unknown): string {
   }
   // Prisma wraps driver failures as `Invalid \`prisma.$queryRaw()\``. Inspect the cause first.
   if (isUnreachableMysqlProbeError(message)) {
-    return isHostingerMysqlRemoteHost()
-      ? "Cannot reach MySQL at the Hostinger remote host. Set HOSTINGER_MYSQL_LOCALHOST=1 (or DATABASE_MYSQL_HOST=localhost) in hPanel, restart the app, and retry."
-      : "Cannot reach MySQL. On Hostinger, set HOSTINGER_MYSQL_LOCALHOST=1 (or DATABASE_MYSQL_HOST=localhost), verify the database exists, and import database/mysql/import-blank.sql.";
+    return /45028|pool failed to retrieve a connection/i.test(message)
+      ? "MySQL did not accept a connection (error 45028, no pooled connections). In hPanel, confirm this site’s DATABASE_URL user and database, set HOSTINGER_MYSQL_LOCALHOST=1 when MySQL is on the same server, then restart."
+      : isHostingerMysqlRemoteHost()
+        ? "Cannot reach MySQL at the Hostinger remote host. Set HOSTINGER_MYSQL_LOCALHOST=1 (or DATABASE_MYSQL_HOST=localhost) in hPanel, restart the app, and retry."
+        : "Cannot reach MySQL. On Hostinger, set HOSTINGER_MYSQL_LOCALHOST=1 (or DATABASE_MYSQL_HOST=localhost), verify the database exists, and import database/mysql/import-blank.sql.";
   }
   if (isAuthMysqlProbeError(message)) {
     const info = getSanitizedDatabaseInfo();

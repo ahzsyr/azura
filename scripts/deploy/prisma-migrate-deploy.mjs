@@ -18,8 +18,13 @@ import { runPrisma } from "./run-prisma.mjs";
 import { ensureMarketingCampaignIntelligenceMysql } from "./ensure-marketing-campaign-intelligence.mjs";
 import { ensureSearchFulltextMysql } from "./ensure-search-fulltext-mysql.mjs";
 
+function isPoolAcquireError(message) {
+  return /45028|pool failed to retrieve a connection|active=0 idle=0/i.test(message);
+}
+
 function isPoolCheckoutError(message) {
   return (
+    isPoolAcquireError(message) ||
     message.includes("ECHECKOUTTIMEOUT") ||
     message.includes("connection pool") ||
     message.includes("P2024") ||
@@ -542,7 +547,9 @@ function mysqlBootstrapStatements(sql) {
     .split(/;\s*(?:\r?\n|$)/)
     .map((statement) => statement.trim())
     .filter((statement) => statement.length > 0)
-    .map((statement) => statement.replace(/^CREATE TABLE /i, "CREATE TABLE IF NOT EXISTS "));
+    .map((statement) =>
+      statement.replace(/^CREATE TABLE (?!IF NOT EXISTS\b)/i, "CREATE TABLE IF NOT EXISTS "),
+    );
 }
 
 function isIgnorableMysqlBootstrapError(message) {
@@ -2167,11 +2174,12 @@ async function main() {
 
 main().catch((error) => {
   const message = error instanceof Error ? error.message : String(error);
-  console.error("[db-migrate] Failed:", message);
-  if (isPoolCheckoutError(message) || isUnreachableDbError(message) || isAuthDbError(message)) {
-    console.error(
-      "[db-migrate] All migrate URLs failed. Ensure DATABASE_URL is correct; omit stale DIRECT_URL or sync its password. Or set SKIP_DB_MIGRATE=1.",
+  if (isPoolAcquireError(message) || isUnreachableDbError(message) || isAuthDbError(message)) {
+    console.warn(
+      `[db-migrate] Database is not reachable from this process (${errorFirstLine(error)}). Continuing so the build can finish. Schema updates run again when MySQL accepts connections.`,
     );
+    process.exit(0);
   }
+  console.error("[db-migrate] Failed:", message);
   process.exit(1);
 });

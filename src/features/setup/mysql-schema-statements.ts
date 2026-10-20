@@ -8,7 +8,9 @@ export function mysqlSchemaStatements(sql: string): string[] {
     .split(/;\s*(?:\r?\n|$)/)
     .map((statement) => statement.trim())
     .filter((statement) => statement.length > 0)
-    .map((statement) => statement.replace(/^CREATE TABLE /i, "CREATE TABLE IF NOT EXISTS "));
+    .map((statement) =>
+      statement.replace(/^CREATE TABLE (?!IF NOT EXISTS\b)/i, "CREATE TABLE IF NOT EXISTS "),
+    );
 }
 
 export function isIgnorableMysqlSchemaError(error: unknown): boolean {
