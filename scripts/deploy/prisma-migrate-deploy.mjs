@@ -4,6 +4,7 @@
  *
  * Skip: SKIP_DB_MIGRATE=1 or missing DATABASE_URL
  */
+import { createHash, randomUUID } from "node:crypto";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { createPrismaClient } from "../lib/create-prisma-client.mjs";
 import { ensurePrismaEnginesExecutable } from "./ensure-prisma-engines-executable.mjs";
@@ -550,15 +551,17 @@ function isIgnorableMysqlBootstrapError(message) {
   );
 }
 
-/** Create any missing core tables. Existing tables are left in place. */
+/** Create missing tables only. ALTER/DROP from the dump are never run against a live database. */
 async function applyCoreMysqlSchemaSql(prisma) {
   const file = "database/mysql/01-schema.sql";
   if (!existsSync(file)) {
     console.warn(`[db-migrate] Missing ${file} — cannot bootstrap MySQL schema`);
     return false;
   }
-  console.log("[db-migrate] Applying database/mysql/01-schema.sql (CREATE TABLE IF NOT EXISTS)…");
-  const statements = mysqlBootstrapStatements(readFileSync(file, "utf8"));
+  console.log("[db-migrate] Creating missing tables from database/mysql/01-schema.sql…");
+  const statements = mysqlBootstrapStatements(readFileSync(file, "utf8")).filter((statement) =>
+    /^CREATE TABLE IF NOT EXISTS\b/i.test(statement),
+  );
   let failures = 0;
   for (const statement of statements) {
     try {
@@ -576,6 +579,56 @@ async function applyCoreMysqlSchemaSql(prisma) {
     console.warn(`[db-migrate] schema SQL: ${failures} statements failed`);
   }
   return true;
+}
+
+const PLATFORM_TABLES_SQL = `
+CREATE TABLE IF NOT EXISTS \`SiteFeature\` (
+    \`kind\` VARCHAR(16) NOT NULL,
+    \`featureId\` VARCHAR(64) NOT NULL,
+    \`enabled\` BOOLEAN NOT NULL DEFAULT true,
+    \`updatedAt\` DATETIME(3) NOT NULL,
+    PRIMARY KEY (\`kind\`, \`featureId\`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS \`PackageInstallation\` (
+    \`packageId\` VARCHAR(64) NOT NULL,
+    \`kind\` VARCHAR(16) NOT NULL,
+    \`version\` VARCHAR(32) NOT NULL,
+    \`status\` VARCHAR(16) NOT NULL,
+    \`manifest\` JSON NOT NULL,
+    \`installedAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    \`updatedAt\` DATETIME(3) NOT NULL,
+    INDEX \`PackageInstallation_status_idx\`(\`status\`),
+    PRIMARY KEY (\`packageId\`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS \`PackageMigration\` (
+    \`id\` VARCHAR(191) NOT NULL,
+    \`packageId\` VARCHAR(64) NOT NULL,
+    \`version\` VARCHAR(32) NOT NULL,
+    \`filename\` VARCHAR(255) NOT NULL,
+    \`checksum\` VARCHAR(64) NOT NULL,
+    \`direction\` VARCHAR(8) NOT NULL,
+    \`appliedAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    INDEX \`PackageMigration_packageId_idx\`(\`packageId\`),
+    UNIQUE INDEX \`PackageMigration_packageId_filename_direction_key\`(\`packageId\`, \`filename\`, \`direction\`),
+    PRIMARY KEY (\`id\`),
+    CONSTRAINT \`PackageMigration_packageId_fkey\` FOREIGN KEY (\`packageId\`) REFERENCES \`PackageInstallation\`(\`packageId\`) ON DELETE CASCADE ON UPDATE CASCADE
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+`;
+
+async function ensurePlatformTablesMysql(prisma) {
+  if (await mysqlTableExists(prisma, "PackageInstallation") && (await mysqlTableExists(prisma, "SiteFeature"))) {
+    return;
+  }
+  console.log("[db-migrate] Creating missing platform tables (PackageInstallation, SiteFeature)…");
+  for (const statement of mysqlBootstrapStatements(PLATFORM_TABLES_SQL)) {
+    try {
+      await prisma.$executeRawUnsafe(statement);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (isIgnorableMysqlBootstrapError(message)) continue;
+      console.warn(`[db-migrate] platform table skipped: ${errorFirstLine(error)}`);
+    }
+  }
 }
 
 async function ensurePrismaUserTable(prisma) {
@@ -1951,42 +2004,56 @@ function listMigrationDirectories() {
 }
 
 /**
- * A failed migration (P3009) blocks every later migration. 01-schema.sql is the current
- * schema, so mark unfinished history applied instead of replaying the broken diff.
+ * Mark unfinished migrations finished in _prisma_migrations without executing them.
+ * `migrate resolve --rolled-back` makes Prisma replay the migration. 20260601133653
+ * drops package/hotel/service tables, so it must never be rolled back or deployed.
  */
-function baselineUnresolvedMigrations(env, migrateSchema, history) {
-  const finished = new Set(
+async function sealMigrationHistory(prisma, history) {
+  const successful = new Set(
     history.filter((row) => row.finished && !row.rolledBack).map((row) => row.name),
   );
-  const failed = history.filter((row) => row.started && !row.finished && !row.rolledBack);
-  if (failed.length === 0) return false;
-
-  const failedNames = new Set(failed.map((row) => row.name));
-  console.log(
-    `[db-migrate] Baselining ${failed.map((row) => row.name).join(", ")} — current schema comes from database/mysql/01-schema.sql`,
+  const names = listMigrationDirectories().filter((name) => name && !successful.has(name));
+  if (names.length === 0) return false;
+  console.warn(
+    `[db-migrate] Sealing ${names.length} migration(s) as applied without executing SQL`,
   );
-  for (const name of listMigrationDirectories()) {
-    if (!name || finished.has(name)) continue;
-    if (failedNames.has(name)) {
-      const rolled = runPrisma(
-        ["migrate", "resolve", "--rolled-back", name, "--schema", migrateSchema],
-        { env },
-      );
-      if (rolled !== 0) {
-        console.warn(`[db-migrate] migrate resolve --rolled-back ${name} exited ${rolled}`);
-      }
-    }
-    const applied = runPrisma(
-      ["migrate", "resolve", "--applied", name, "--schema", migrateSchema],
-      { env },
+  for (const name of names) {
+    const checksum = createHash("sha256")
+      .update(readFileSync(`prisma/migrations/${name}/migration.sql`))
+      .digest("hex");
+    const updated = await prisma.$executeRawUnsafe(
+      `UPDATE \`_prisma_migrations\`
+       SET \`finished_at\` = NOW(3), \`rolled_back_at\` = NULL, \`logs\` = NULL, \`applied_steps_count\` = 1, \`checksum\` = ?
+       WHERE \`migration_name\` = ?`,
+      checksum,
+      name,
     );
-    if (applied !== 0) {
-      console.warn(`[db-migrate] migrate resolve --applied ${name} exited ${applied}`);
-    } else {
-      console.log(`[db-migrate] Marked migration applied: ${name}`);
+    if (Number(updated) > 0) {
+      console.log(`[db-migrate] Sealed existing migration row: ${name}`);
+      continue;
     }
+    await prisma.$executeRawUnsafe(
+      `INSERT INTO \`_prisma_migrations\`
+        (\`id\`, \`checksum\`, \`finished_at\`, \`migration_name\`, \`logs\`, \`rolled_back_at\`, \`started_at\`, \`applied_steps_count\`)
+       VALUES (?, ?, NOW(3), ?, NULL, NULL, NOW(3), 1)`,
+      randomUUID(),
+      checksum,
+      name,
+    );
+    console.log(`[db-migrate] Recorded migration as applied: ${name}`);
   }
   return true;
+}
+
+function historyNeedsSeal(history) {
+  const successful = new Set(
+    history.filter((row) => row.finished && !row.rolledBack).map((row) => row.name),
+  );
+  return history.some((row) => {
+    if (!row.name || successful.has(row.name)) return false;
+    const failed = row.started && !row.finished && !row.rolledBack;
+    return failed || row.rolledBack;
+  });
 }
 
 async function main() {
@@ -2025,6 +2092,20 @@ async function main() {
   await runWithPrisma(env.DATABASE_URL, ensureMysqlInnoDBDefault).catch((error) => {
     console.warn(`[db-migrate] InnoDB preflight skipped: ${errorFirstLine(error)}`);
   });
+  const historyBeforeDeploy = await runWithPrisma(env.DATABASE_URL, listMigrationHistory).catch((error) => {
+    console.warn(`[db-migrate] Could not read _prisma_migrations: ${errorFirstLine(error)}`);
+    return [];
+  });
+  if (historyNeedsSeal(historyBeforeDeploy)) {
+    console.warn(
+      "[db-migrate] A failed or rolled-back migration is in history. It will be sealed, not replayed.",
+    );
+    await runWithPrisma(env.DATABASE_URL, async (prisma) => {
+      await applyCoreMysqlSchemaSql(prisma);
+      await ensurePlatformTablesMysql(prisma);
+      await sealMigrationHistory(prisma, historyBeforeDeploy);
+    });
+  }
   const userPresent = await isUserTablePresent(env.DATABASE_URL);
   const prismaMigrationsPresent = await runWithPrisma(env.DATABASE_URL, (prisma) =>
     mysqlTableExists(prisma, "_prisma_migrations"),
@@ -2039,22 +2120,14 @@ async function main() {
   }
   if (migrateStatus !== 0) {
     console.warn(
-      "[db-migrate] prisma migrate deploy exited with errors — will try schema SQL and baseline if a migration is stuck, then patches",
+      "[db-migrate] prisma migrate deploy exited with errors — creating missing tables only, then patches",
     );
-    const history = await runWithPrisma(env.DATABASE_URL, listMigrationHistory).catch((error) => {
-      console.warn(`[db-migrate] Could not read _prisma_migrations: ${errorFirstLine(error)}`);
-      return [];
+    await runWithPrisma(env.DATABASE_URL, async (prisma) => {
+      await applyCoreMysqlSchemaSql(prisma);
+      await ensurePlatformTablesMysql(prisma);
+    }).catch((error) => {
+      console.warn(`[db-migrate] Missing-table create skipped: ${errorFirstLine(error)}`);
     });
-    const hasFailed = history.some((row) => row.started && !row.finished && !row.rolledBack);
-    if (hasFailed) {
-      await runWithPrisma(env.DATABASE_URL, async (prisma) => {
-        await renameMismatchedUserTable(prisma).catch((error) => {
-          console.warn(`[db-migrate] User table rename skipped: ${errorFirstLine(error)}`);
-        });
-        await applyCoreMysqlSchemaSql(prisma);
-      });
-      baselineUnresolvedMigrations(env, migrateSchema, history);
-    }
   }
 
   // Re-check after migrate — empty DBs may have been bootstrapped by migrate deploy.
@@ -2078,7 +2151,12 @@ async function main() {
     }
   }
 
-  await withPoolRetry("mysql", () => runWithPrisma(env.DATABASE_URL, applyMysqlPatches));
+  await withPoolRetry("mysql", () =>
+    runWithPrisma(env.DATABASE_URL, async (prisma) => {
+      await ensurePlatformTablesMysql(prisma);
+      await applyMysqlPatches(prisma);
+    }),
+  );
 
   if (migrateStatus !== 0) {
     console.warn(

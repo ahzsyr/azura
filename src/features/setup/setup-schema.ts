@@ -69,6 +69,7 @@ export async function isSetupSchemaReady(): Promise<boolean> {
     () => prisma.companyInfo.findFirst({ select: { id: true }, take: 1 }),
     () => prisma.jsonStore.findFirst({ select: { id: true }, take: 1 }),
     () => prisma.siteTheme.findFirst({ select: { id: true }, take: 1 }),
+    () => prisma.packageInstallation.findFirst({ select: { packageId: true }, take: 1 }),
   ];
   for (const probe of probes) {
     try {
@@ -227,7 +228,9 @@ async function applyCoreMysqlSchema(): Promise<{ ok: boolean; detail: string }> 
     return { ok: false, detail: loaded.detail };
   }
   const statements = [
-    ...mysqlSchemaStatements(loaded.sql),
+    ...mysqlSchemaStatements(loaded.sql).filter((statement) =>
+      /^CREATE TABLE IF NOT EXISTS\b/i.test(statement),
+    ),
     ...mysqlSchemaStatements(PLATFORM_TABLES_SQL),
   ];
   const failures: string[] = [];
@@ -257,6 +260,18 @@ function stillMissingDetail(label: string, result: { ok: boolean; detail: string
   return result.detail;
 }
 
+async function applyPlatformTables(): Promise<void> {
+  for (const statement of mysqlSchemaStatements(PLATFORM_TABLES_SQL)) {
+    try {
+      await prisma.$executeRawUnsafe(statement);
+    } catch (error) {
+      if (isIgnorableMysqlSchemaError(error)) continue;
+      const message = error instanceof Error ? error.message : String(error);
+      console.warn(`[setup] platform table skipped: ${message.split("\n").find((line) => line.trim()) ?? message}`);
+    }
+  }
+}
+
 /**
  * Apply database/mysql/01-schema.sql on the live connection, then the deploy migrate script, until User exists.
  * A command that exits 0 without creating User is a failure and its output is returned.
@@ -267,8 +282,9 @@ export async function ensureSetupSchemaBestEffort(): Promise<{
   attempted: boolean;
   detail?: string;
 }> {
+  await applyPlatformTables();
   if (await isSetupSchemaReady()) {
-    return { ready: true, attempted: false };
+    return { ready: true, attempted: true };
   }
 
   const details: string[] = [];
@@ -279,10 +295,27 @@ export async function ensureSetupSchemaBestEffort(): Promise<{
   details.push(stillMissingDetail("Schema SQL", applied));
 
   const migrate = runNodeScript("scripts/deploy/prisma-migrate-deploy.mjs");
+  await applyPlatformTables();
   if (await isSetupSchemaReady()) {
     return { ready: true, attempted: true };
   }
   details.push(stillMissingDetail("Schema migrate", migrate));
+
+  const userExists = await prisma.user
+    .findFirst({ select: { id: true }, take: 1 })
+    .then(() => true)
+    .catch(() => false);
+  if (userExists) {
+    details.push(
+      "Existing data was left in place. prisma db push was not run because it can drop columns on a live database.",
+    );
+    const first = details.map((line) => line.trim()).find((line) => line.length > 0);
+    return {
+      ready: false,
+      attempted: true,
+      detail: summarizeSchemaEnsureFailure(first ?? ""),
+    };
+  }
 
   const push = runPrismaDbPush();
   if (await isSetupSchemaReady()) {
