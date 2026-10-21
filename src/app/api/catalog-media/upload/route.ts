@@ -11,74 +11,74 @@ import {
 import { catalogExtToCmsMediaType } from "@/features/media/lib/media-type-map";
 import { storeUploadedFile } from "@/lib/media-storage";
 import { persistMediaUpload } from "@/features/media/persist-upload";
-import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
-import { auth } from "@/lib/auth";
+import { defineApiRoute } from "@/lib/api-auth";
 import { mimeTypeForUpload } from "@/lib/local-media-storage";
 
-export async function POST(request: Request) {
-  const unauthorized = await requireCatalogAdmin();
-  if (unauthorized) return unauthorized;
+export const POST = defineApiRoute({
+  access: "admin",
+  skipAdminLifecycleGate: true,
+  verifySessionVersion: false,
+  handler: async ({ request, session }) => {
+    try {
+      const formData = await request.formData();
+      const file = formData.get("file");
+      if (!(file instanceof File) || file.size === 0) {
+        return NextResponse.json({ error: "No file provided" }, { status: 400 });
+      }
 
-  try {
-    const formData = await request.formData();
-    const file = formData.get("file");
-    if (!(file instanceof File) || file.size === 0) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 });
-    }
+      const ext = extname(file.name).toLowerCase();
+      if (!ALLOWED_EXTS.has(ext)) {
+        return NextResponse.json({ error: `File type "${ext}" is not allowed` }, { status: 400 });
+      }
 
-    const ext = extname(file.name).toLowerCase();
-    if (!ALLOWED_EXTS.has(ext)) {
-      return NextResponse.json({ error: `File type "${ext}" is not allowed` }, { status: 400 });
-    }
+      const maxSize = MAX_SIZES[ext] ?? DEFAULT_MAX_SIZE;
+      if (file.size > maxSize) {
+        return NextResponse.json({ error: `File too large` }, { status: 400 });
+      }
 
-    const maxSize = MAX_SIZES[ext] ?? DEFAULT_MAX_SIZE;
-    if (file.size > maxSize) {
-      return NextResponse.json({ error: `File too large` }, { status: 400 });
-    }
+      const type = getMediaType(ext);
+      const now = new Date().toISOString();
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const cmsType = catalogExtToCmsMediaType(ext);
 
-    const type = getMediaType(ext);
-    const now = new Date().toISOString();
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const cmsType = catalogExtToCmsMediaType(ext);
+      const stored = await storeUploadedFile(
+        { name: file.name, type: mimeTypeForUpload(file.name, file.type, cmsType) },
+        buffer,
+        cmsType,
+      );
 
-    const stored = await storeUploadedFile(
-      { name: file.name, type: mimeTypeForUpload(file.name, file.type, cmsType) },
-      buffer,
-      cmsType,
-    );
-
-    const filename = filenameFromStoredUrl(stored.url) || `${Date.now()}-${safeFilename(file.name)}`;
-    const session = await auth();
-    const asset = await persistMediaUpload({
-      filename: file.name,
-      url: stored.url,
-      mimeType: mimeTypeForUpload(file.name, file.type, cmsType),
-      mediaType: cmsType,
-      sizeBytes: file.size,
-      uploadedById: session?.user?.id,
-      uploaderEmail: session?.user?.email,
-      assetScope: "CATALOG",
-      storageBackend: stored.storage,
-      bucket: stored.bucket,
-      objectKey: stored.objectKey,
-    });
-
-    return NextResponse.json({
-      item: {
-        id: asset.id,
-        filename,
-        originalName: file.name,
+      const filename = filenameFromStoredUrl(stored.url) || `${Date.now()}-${safeFilename(file.name)}`;
+      const asset = await persistMediaUpload({
+        filename: file.name,
         url: stored.url,
-        type,
-        ext,
-        size: file.size,
-        uploadedAt: now,
-      },
-    });
-  } catch (e) {
-    return NextResponse.json(
-      { error: e instanceof Error ? e.message : "Upload failed" },
-      { status: 500 },
-    );
-  }
-}
+        mimeType: mimeTypeForUpload(file.name, file.type, cmsType),
+        mediaType: cmsType,
+        sizeBytes: file.size,
+        uploadedById: session?.user?.id,
+        uploaderEmail: session?.user?.email,
+        assetScope: "CATALOG",
+        storageBackend: stored.storage,
+        bucket: stored.bucket,
+        objectKey: stored.objectKey,
+      });
+
+      return NextResponse.json({
+        item: {
+          id: asset.id,
+          filename,
+          originalName: file.name,
+          url: stored.url,
+          type,
+          ext,
+          size: file.size,
+          uploadedAt: now,
+        },
+      });
+    } catch (e) {
+      return NextResponse.json(
+        { error: e instanceof Error ? e.message : "Upload failed" },
+        { status: 500 },
+      );
+    }
+  },
+});

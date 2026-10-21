@@ -1,12 +1,16 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { attributionService } from "@/modules/marketing/attribution/service";
 import { geoFromRequestHeaders, parseUserAgent } from "@/modules/marketing/attribution/ua-geo";
 import { isRecoverableDbError } from "@/lib/debug/recoverable-db-error";
 import type { MarketingClickIdType } from "@prisma/client";
+import { defineApiRoute } from "@/lib/api-auth";
 
 export const runtime = "nodejs";
 
-export async function POST(request: NextRequest) {
+/** Public attribution capture (browser beacon). */
+export const POST = defineApiRoute({
+  access: "public",
+  handler: async ({ request }) => {
   try {
     const body = (await request.json()) as Record<string, unknown>;
     const visitorToken = String(body.visitorToken ?? "").trim();
@@ -73,4 +77,5 @@ export async function POST(request: NextRequest) {
     const message = error instanceof Error ? error.message : "capture_failed";
     return NextResponse.json({ error: message }, { status: 500 });
   }
-}
+  },
+});

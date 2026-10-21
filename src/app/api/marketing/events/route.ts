@@ -1,13 +1,17 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { marketingEventService } from "@/modules/marketing/events/service";
 import { mapUtmSourceToKey, resolveSourceByKey } from "@/modules/marketing/sources/service";
 import { campaignService } from "@/modules/marketing/campaigns/service";
 import { isRecoverableDbError } from "@/lib/debug/recoverable-db-error";
+import { defineApiRoute } from "@/lib/api-auth";
 
 export const runtime = "nodejs";
 
-export async function POST(request: NextRequest) {
+/** Public marketing event ingest (browser beacon). */
+export const POST = defineApiRoute({
+  access: "public",
+  handler: async ({ request }) => {
   try {
     const body = (await request.json()) as Record<string, unknown>;
     const name = String(body.name ?? "").trim();
@@ -81,4 +85,5 @@ export async function POST(request: NextRequest) {
     const message = error instanceof Error ? error.message : "event_failed";
     return NextResponse.json({ error: message }, { status: 500 });
   }
-}
+  },
+});

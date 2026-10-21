@@ -4,6 +4,7 @@ import { consumeEmailVerification } from "@/features/account/email-verification.
 import { consumeSignupEmailOtp } from "@/features/auth/email-otp.service";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { getTrustedClientIp } from "@/lib/client-ip";
+import { defineApiRoute } from "@/lib/api-auth";
 
 const bodySchema = z
   .object({
@@ -15,38 +16,42 @@ const bodySchema = z
     message: "Provide token or email+code",
   });
 
-export async function POST(request: Request) {
-  const ip = getTrustedClientIp(request);
-  const rl = await enforceRateLimit({
-    key: `verify:consume:ip:${ip}`,
-    limit: 20,
-    windowMs: 60 * 60 * 1000,
-  });
-  if (!rl.allowed) {
-    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
-  }
+/** Public email verification — token/OTP in body is the credential. */
+export const POST = defineApiRoute({
+  access: "public",
+  handler: async ({ request }) => {
+    const ip = getTrustedClientIp(request);
+    const rl = await enforceRateLimit({
+      key: `verify:consume:ip:${ip}`,
+      limit: 20,
+      windowMs: 60 * 60 * 1000,
+    });
+    if (!rl.allowed) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
 
-  try {
-    const body = await request.json();
-    const data = bodySchema.parse(body);
+    try {
+      const body = await request.json();
+      const data = bodySchema.parse(body);
 
-    if (data.email && data.code) {
-      const result = await consumeSignupEmailOtp({
-        email: data.email,
-        code: data.code,
-      });
+      if (data.email && data.code) {
+        const result = await consumeSignupEmailOtp({
+          email: data.email,
+          code: data.code,
+        });
+        if ("error" in result) {
+          return NextResponse.json({ error: result.error }, { status: 400 });
+        }
+        return NextResponse.json({ success: true, purpose: "SIGNUP_VERIFY" });
+      }
+
+      const result = await consumeEmailVerification(data.token!);
       if ("error" in result) {
         return NextResponse.json({ error: result.error }, { status: 400 });
       }
-      return NextResponse.json({ success: true, purpose: "SIGNUP_VERIFY" });
+      return NextResponse.json({ success: true, purpose: result.purpose });
+    } catch {
+      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
     }
-
-    const result = await consumeEmailVerification(data.token!);
-    if ("error" in result) {
-      return NextResponse.json({ error: result.error }, { status: 400 });
-    }
-    return NextResponse.json({ success: true, purpose: result.purpose });
-  } catch {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
-  }
-}
+  },
+});

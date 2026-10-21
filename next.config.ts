@@ -6,6 +6,11 @@ import {
   NEXT_IMAGE_REMOTE_PATTERNS,
 } from "./src/lib/config/next-image";
 import { parsePreferredApexSiteUrl } from "./src/lib/preferred-host";
+import {
+  buildAzuraCspPolicy,
+  buildCspHeaderEntries,
+  resolveCspMode,
+} from "./src/lib/security/csp-headers";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
@@ -247,37 +252,11 @@ const nextConfig: NextConfig = {
     remotePatterns: NEXT_IMAGE_REMOTE_PATTERNS,
   },
   async headers() {
-    const cspReportOnly = [
-      "default-src 'self'",
-      "base-uri 'self'",
-      "frame-ancestors 'none'",
-      "object-src 'none'",
-      "img-src 'self' data: blob: https:",
-      "font-src 'self' data: https:",
-      "media-src 'self' blob: https:",
-      "style-src 'self' 'unsafe-inline' https:",
-      [
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-        "https://www.googletagmanager.com",
-        "https://www.google-analytics.com",
-        "https://www.google.com",
-        "https://www.googleadservices.com",
-        "https://googleads.g.doubleclick.net",
-        "https://connect.facebook.net",
-        "https://www.facebook.com",
-        /* Meta CAPI Param Builder (loaded via GTM / Meta Pixel) */
-        "https://capi-automation.s3.us-east-2.amazonaws.com",
-        /* Cloudflare Insights — if #418 text mismatches persist after deploy, disable
-           Cloudflare Auto Minify → HTML (whitespace collapse breaks React hydration). */
-        "https://static.cloudflareinsights.com",
-        "https://snap.licdn.com",
-        "https://ajax.googleapis.com",
-      ].join(" "),
-      "worker-src 'self' blob:",
-      "connect-src 'self' https: blob:",
-      "frame-src 'self' https://www.googletagmanager.com https://www.google.com https://www.facebook.com",
-      "report-to csp-endpoint",
-    ].join("; ");
+    // AZURA_CSP_MODE: report (default) | enforce. Evaluated when Next loads this config
+    // (build / start). On Hostinger set in hPanel and redeploy — see docs/deployment/csp-rollout.md.
+    // Do not remove 'unsafe-inline' / 'unsafe-eval' here; that is milestones CSP-2…CSP-4.
+    const cspMode = resolveCspMode(process.env.AZURA_CSP_MODE);
+    const cspPolicy = buildAzuraCspPolicy();
 
     return [
       {
@@ -289,7 +268,7 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" },
           { key: "Reporting-Endpoints", value: 'csp-endpoint="/api/security/csp-report"' },
-          { key: "Content-Security-Policy-Report-Only", value: cspReportOnly },
+          ...buildCspHeaderEntries(cspMode, cspPolicy),
         ],
       },
     ];

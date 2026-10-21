@@ -17,7 +17,7 @@ import {
 import { updateAllCatalogReferences } from "@/features/media/fs/catalog-media-references";
 import { catalogExtToCmsMediaType } from "@/features/media/lib/media-type-map";
 import { deleteStoredUpload, storeUploadedFile, useRemoteMediaStorage } from "@/lib/media-storage";
-import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
+import { defineApiRoute } from "@/lib/api-auth";
 import { useDatabaseOnlyCatalog } from "@/features/catalog/catalog-data-source";
 import { isCloudNativeProduction } from "@/lib/production-runtime-guard";
 import { mediaRepository } from "@/repositories/media.repository";
@@ -79,62 +79,106 @@ async function replaceRemoteAsset(params: {
   return { newUrl, newFilename, updatedProducts, updatedCollections };
 }
 
-export async function POST(request: Request) {
-  const unauthorized = await requireCatalogAdmin();
-  if (unauthorized) return unauthorized;
-
-  try {
-    const formData = await request.formData();
-    const file = formData.get("file");
-    const oldFilename = formData.get("filename");
-    if (!(file instanceof File) || file.size === 0) {
-      return NextResponse.json({ error: "No replacement file provided" }, { status: 400 });
-    }
-    if (typeof oldFilename !== "string" || !oldFilename) {
-      return NextResponse.json({ error: "Original filename required" }, { status: 400 });
-    }
-
-    const newExt = extname(file.name).toLowerCase();
-    if (!ALLOWED_EXTS.has(newExt)) {
-      return NextResponse.json({ error: `File type "${newExt}" is not allowed` }, { status: 400 });
-    }
-
-    const maxSize = MAX_SIZES[newExt] ?? DEFAULT_MAX_SIZE;
-    if (file.size > maxSize) {
-      return NextResponse.json({ error: "File too large" }, { status: 400 });
-    }
-
-    let oldUrl = "";
-    if (useDatabaseOnlyCatalog() || isCloudNativeProduction()) {
-      const assets = await mediaRepository.listAssets({ assetScope: "CATALOG" });
-      const match =
-        assets.find((a) => a.filename === oldFilename || a.url.endsWith(`/${oldFilename}`)) ??
-        assets.find((a) => a.id === oldFilename);
-      if (!match) {
-        return NextResponse.json({ error: "Original file not found" }, { status: 404 });
+export const POST = defineApiRoute({
+  access: "admin",
+  skipAdminLifecycleGate: true,
+  verifySessionVersion: false,
+  handler: async ({ request }) => {
+    try {
+      const formData = await request.formData();
+      const file = formData.get("file");
+      const oldFilename = formData.get("filename");
+      if (!(file instanceof File) || file.size === 0) {
+        return NextResponse.json({ error: "No replacement file provided" }, { status: 400 });
       }
-      oldUrl = match.url;
-    } else {
+      if (typeof oldFilename !== "string" || !oldFilename) {
+        return NextResponse.json({ error: "Original filename required" }, { status: 400 });
+      }
+
+      const newExt = extname(file.name).toLowerCase();
+      if (!ALLOWED_EXTS.has(newExt)) {
+        return NextResponse.json({ error: `File type "${newExt}" is not allowed` }, { status: 400 });
+      }
+
+      const maxSize = MAX_SIZES[newExt] ?? DEFAULT_MAX_SIZE;
+      if (file.size > maxSize) {
+        return NextResponse.json({ error: "File too large" }, { status: 400 });
+      }
+
+      let oldUrl = "";
+      if (useDatabaseOnlyCatalog() || isCloudNativeProduction()) {
+        const assets = await mediaRepository.listAssets({ assetScope: "CATALOG" });
+        const match =
+          assets.find((a) => a.filename === oldFilename || a.url.endsWith(`/${oldFilename}`)) ??
+          assets.find((a) => a.id === oldFilename);
+        if (!match) {
+          return NextResponse.json({ error: "Original file not found" }, { status: 404 });
+        }
+        oldUrl = match.url;
+      } else {
+        const meta = await readMeta();
+        const fsFiles = await scanFilesystem();
+        const found = fsFiles.find((f) => f.filename === oldFilename);
+        const oldEntry = meta[oldFilename];
+        if (!found && !oldEntry) {
+          return NextResponse.json({ error: "Original file not found" }, { status: 404 });
+        }
+        oldUrl = oldEntry?.url ?? found?.url ?? "";
+      }
+
+      const type = getMediaType(newExt);
+
+      if (useRemoteMediaStorage()) {
+        const { newUrl, newFilename, updatedProducts, updatedCollections } = await replaceRemoteAsset({
+          file,
+          oldFilename,
+          oldUrl,
+          newExt,
+          type,
+        });
+
+        if (updatedProducts > 0) {
+          try {
+            const { catalogSyncOrchestrator } = await import(
+              "@/features/catalog/sync/catalog-sync-orchestrator"
+            );
+            const { adminLocale } = await import("@/features/catalog/admin/catalog-admin-config");
+            await catalogSyncOrchestrator.onBulkImportComplete([adminLocale.code]);
+          } catch (e) {
+            console.warn("[catalog-media] index sync after reference update failed", e);
+          }
+        }
+
+        return NextResponse.json({
+          newUrl,
+          oldUrl,
+          newFilename,
+          updatedProducts,
+          updatedPages: 0,
+          updatedCollections,
+        });
+      }
+
       const meta = await readMeta();
       const fsFiles = await scanFilesystem();
       const found = fsFiles.find((f) => f.filename === oldFilename);
       const oldEntry = meta[oldFilename];
-      if (!found && !oldEntry) {
-        return NextResponse.json({ error: "Original file not found" }, { status: 404 });
+      const oldExt = found?.ext ?? oldEntry?.ext ?? extname(oldFilename).toLowerCase();
+      const subDir = found?.subDir ?? getSubDir(type);
+      const newFilename =
+        newExt === oldExt ? oldFilename : `${Date.now()}-${safeFilename(file.name)}`;
+
+      const dir = join(resolveLocalUploadsDiskDir(), subDir);
+      await mkdir(dir, { recursive: true });
+      const newPath = join(dir, newFilename);
+      await writeFile(newPath, Buffer.from(await file.arrayBuffer()));
+
+      if (newFilename !== oldFilename && found) {
+        await unlink(join(dir, oldFilename));
       }
-      oldUrl = oldEntry?.url ?? found?.url ?? "";
-    }
 
-    const type = getMediaType(newExt);
-
-    if (useRemoteMediaStorage()) {
-      const { newUrl, newFilename, updatedProducts, updatedCollections } = await replaceRemoteAsset({
-        file,
-        oldFilename,
-        oldUrl,
-        newExt,
-        type,
-      });
+      const newUrl = `/uploads/${subDir}/${newFilename}`;
+      const { updatedProducts, updatedCollections } = await updateAllCatalogReferences(oldUrl, newUrl);
 
       if (updatedProducts > 0) {
         try {
@@ -148,6 +192,22 @@ export async function POST(request: Request) {
         }
       }
 
+      if (meta[oldFilename]) {
+        const now = new Date().toISOString();
+        meta[newFilename] = {
+          ...meta[oldFilename],
+          id: newFilename,
+          originalName: file.name,
+          uploadedAt: now,
+          url: newUrl,
+          size: file.size,
+          ext: newExt,
+          type,
+        };
+        if (newFilename !== oldFilename) delete meta[oldFilename];
+        await writeMeta(meta);
+      }
+
       return NextResponse.json({
         newUrl,
         oldUrl,
@@ -156,69 +216,11 @@ export async function POST(request: Request) {
         updatedPages: 0,
         updatedCollections,
       });
+    } catch (e) {
+      return NextResponse.json(
+        { error: e instanceof Error ? e.message : "Replace failed" },
+        { status: 500 },
+      );
     }
-
-    const meta = await readMeta();
-    const fsFiles = await scanFilesystem();
-    const found = fsFiles.find((f) => f.filename === oldFilename);
-    const oldEntry = meta[oldFilename];
-    const oldExt = found?.ext ?? oldEntry?.ext ?? extname(oldFilename).toLowerCase();
-    const subDir = found?.subDir ?? getSubDir(type);
-    const newFilename =
-      newExt === oldExt ? oldFilename : `${Date.now()}-${safeFilename(file.name)}`;
-
-    const dir = join(resolveLocalUploadsDiskDir(), subDir);
-    await mkdir(dir, { recursive: true });
-    const newPath = join(dir, newFilename);
-    await writeFile(newPath, Buffer.from(await file.arrayBuffer()));
-
-    if (newFilename !== oldFilename && found) {
-      await unlink(join(dir, oldFilename));
-    }
-
-    const newUrl = `/uploads/${subDir}/${newFilename}`;
-    const { updatedProducts, updatedCollections } = await updateAllCatalogReferences(oldUrl, newUrl);
-
-    if (updatedProducts > 0) {
-      try {
-        const { catalogSyncOrchestrator } = await import(
-          "@/features/catalog/sync/catalog-sync-orchestrator"
-        );
-        const { adminLocale } = await import("@/features/catalog/admin/catalog-admin-config");
-        await catalogSyncOrchestrator.onBulkImportComplete([adminLocale.code]);
-      } catch (e) {
-        console.warn("[catalog-media] index sync after reference update failed", e);
-      }
-    }
-
-    if (meta[oldFilename]) {
-      const now = new Date().toISOString();
-      meta[newFilename] = {
-        ...meta[oldFilename],
-        id: newFilename,
-        originalName: file.name,
-        uploadedAt: now,
-        url: newUrl,
-        size: file.size,
-        ext: newExt,
-        type,
-      };
-      if (newFilename !== oldFilename) delete meta[oldFilename];
-      await writeMeta(meta);
-    }
-
-    return NextResponse.json({
-      newUrl,
-      oldUrl,
-      newFilename,
-      updatedProducts,
-      updatedPages: 0,
-      updatedCollections,
-    });
-  } catch (e) {
-    return NextResponse.json(
-      { error: e instanceof Error ? e.message : "Replace failed" },
-      { status: 500 },
-    );
-  }
-}
+  },
+});

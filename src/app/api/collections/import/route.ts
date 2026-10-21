@@ -1,5 +1,5 @@
 import { NextResponse, after } from "next/server";
-import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
+import { defineApiRoute } from "@/lib/api-auth";
 import {
   runCollectionImportPipeline,
   type CollectionImportOptions,
@@ -22,39 +22,41 @@ async function schedulePostImportIndexRebuild(): Promise<void> {
 }
 
 /** Bulk collection import (JSON document or array). */
-export async function POST(request: Request) {
-  const unauthorized = await requireCatalogAdmin();
-  if (unauthorized) return unauthorized;
+export const POST = defineApiRoute({
+  access: "admin",
+  skipAdminLifecycleGate: true,
+  verifySessionVersion: false,
+  handler: async ({ request }) => {
+    try {
+      const body = (await request.json()) as {
+        collections?: unknown;
+        options?: Partial<CollectionImportOptions>;
+      } & Partial<CollectionImportOptions>;
 
-  try {
-    const body = (await request.json()) as {
-      collections?: unknown;
-      options?: Partial<CollectionImportOptions>;
-    } & Partial<CollectionImportOptions>;
+      const { options, ...importData } = body;
+      const opts = options ?? body;
+      const dryRun = opts.dryRun === true;
 
-    const { options, ...importData } = body;
-    const opts = options ?? body;
-    const dryRun = opts.dryRun === true;
+      const result = await runCollectionImportPipeline(importData, {
+        dryRun,
+        duplicatePolicy: opts.duplicatePolicy ?? "overwrite",
+        syncLocales: opts.syncLocales !== false,
+        replaceAll: opts.replaceAll === true,
+        knownSlugs: opts.knownSlugs,
+        clearExisting: opts.clearExisting === true,
+        finalizeReplaceAll: opts.finalizeReplaceAll === true,
+      });
 
-    const result = await runCollectionImportPipeline(importData, {
-      dryRun,
-      duplicatePolicy: opts.duplicatePolicy ?? "overwrite",
-      syncLocales: opts.syncLocales !== false,
-      replaceAll: opts.replaceAll === true,
-      knownSlugs: opts.knownSlugs,
-      clearExisting: opts.clearExisting === true,
-      finalizeReplaceAll: opts.finalizeReplaceAll === true,
-    });
+      if (!dryRun && result.aggregate.error === 0) {
+        await schedulePostImportIndexRebuild();
+      }
 
-    if (!dryRun && result.aggregate.error === 0) {
-      await schedulePostImportIndexRebuild();
+      return NextResponse.json(result);
+    } catch (e) {
+      return NextResponse.json(
+        { error: e instanceof Error ? e.message : "Import failed" },
+        { status: 500 },
+      );
     }
-
-    return NextResponse.json(result);
-  } catch (e) {
-    return NextResponse.json(
-      { error: e instanceof Error ? e.message : "Import failed" },
-      { status: 500 },
-    );
-  }
-}
+  },
+});

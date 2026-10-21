@@ -76,11 +76,12 @@ for (const file of files) {
     "setup/db-diag",
     "setup/reconcile",
     "debug/",
-    "publish-shell",
+    // publish-shell, save-settings, sync-collections: batch1 → defineApiRoute (removed from exemptions)
     "site-settings/status",
     "whatsapp-settings",
     "personalization-settings",
     "account/",
+    // products/, collections/, media/, catalog-media/, icons/, admin/: partial — keep until folder fully wrapped
     "products/",
     "categories/",
     "collections/",
@@ -95,8 +96,6 @@ for (const file of files) {
     //   /api/seo/debug — requireAdmin() at runtime
     //   /api/seo/indexnow-key/* — public key file
     "seo/",
-    "sync-collections",
-    "save-settings",
     "coming-soon",
   ];
 

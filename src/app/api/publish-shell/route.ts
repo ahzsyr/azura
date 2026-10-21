@@ -11,7 +11,7 @@ import {
   adminLocale,
   resolveConfiguredLocaleCode,
 } from "@/features/catalog/admin/catalog-admin-config";
-import { requireCatalogAdmin } from "@/lib/catalog-api-auth";
+import { defineApiRoute } from "@/lib/api-auth";
 
 const SHELL_ENTITY_TYPES = new Set<ShellEntityType>([
   "header",
@@ -21,46 +21,48 @@ const SHELL_ENTITY_TYPES = new Set<ShellEntityType>([
   "app-settings",
 ]);
 
-export async function POST(request: Request) {
-  const unauthorized = await requireCatalogAdmin();
-  if (unauthorized) return unauthorized;
+export const POST = defineApiRoute({
+  access: "admin",
+  skipAdminLifecycleGate: true,
+  verifySessionVersion: false,
+  handler: async ({ request }) => {
+    try {
+      const body = (await request.json()) as {
+        entityType?: string;
+        locale?: string;
+      };
 
-  try {
-    const body = (await request.json()) as {
-      entityType?: string;
-      locale?: string;
-    };
+      const entityType = body.entityType as ShellEntityType | undefined;
+      if (!entityType || !SHELL_ENTITY_TYPES.has(entityType)) {
+        return NextResponse.json({ error: "Invalid or missing entityType" }, { status: 400 });
+      }
 
-    const entityType = body.entityType as ShellEntityType | undefined;
-    if (!entityType || !SHELL_ENTITY_TYPES.has(entityType)) {
-      return NextResponse.json({ error: "Invalid or missing entityType" }, { status: 400 });
+      const locale = resolveConfiguredLocaleCode(
+        typeof body.locale === "string" ? body.locale : "",
+        adminLocale.code,
+      );
+
+      let publish: PublishResult;
+      switch (entityType) {
+        case "site-settings":
+          publish = await publishSiteSettings(locale);
+          break;
+        case "header":
+          publish = await navigationService.publishWorkspace();
+          break;
+        case "footer":
+          publish = await footerService.publishWorkspace();
+          break;
+        default:
+          publish = await publishShellChange({ entityType });
+      }
+
+      return NextResponse.json({ publish });
+    } catch (e) {
+      return NextResponse.json(
+        { error: e instanceof Error ? e.message : "Publish failed" },
+        { status: 500 },
+      );
     }
-
-    const locale = resolveConfiguredLocaleCode(
-      typeof body.locale === "string" ? body.locale : "",
-      adminLocale.code,
-    );
-
-    let publish: PublishResult;
-    switch (entityType) {
-      case "site-settings":
-        publish = await publishSiteSettings(locale);
-        break;
-      case "header":
-        publish = await navigationService.publishWorkspace();
-        break;
-      case "footer":
-        publish = await footerService.publishWorkspace();
-        break;
-      default:
-        publish = await publishShellChange({ entityType });
-    }
-
-    return NextResponse.json({ publish });
-  } catch (e) {
-    return NextResponse.json(
-      { error: e instanceof Error ? e.message : "Publish failed" },
-      { status: 500 },
-    );
-  }
-}
+  },
+});

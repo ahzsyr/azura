@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdmin } from "@/features/auth/guards";
+import { defineApiRoute } from "@/lib/api-auth";
 import { revalidateContentItemPublicPaths } from "@/features/content/revalidate-content-public";
 import { verifyCronSecret } from "@/lib/cron-auth";
 
@@ -19,20 +19,7 @@ type RevalidateBody = {
   itemIds?: string[];
 };
 
-/**
- * Bust ISR/data caches for content item public pages after CLI migrations or bulk fills.
- * Auth: admin session OR CONTENT_REVALIDATE_SECRET / CRON_SECRET bearer token.
- */
-export async function POST(request: NextRequest) {
-  const secretOk = authorizedBySecret(request);
-  if (!secretOk) {
-    try {
-      await requireAdmin();
-    } catch {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-  }
-
+async function runRevalidate(request: NextRequest): Promise<Response> {
   let body: RevalidateBody;
   try {
     body = (await request.json()) as RevalidateBody;
@@ -69,4 +56,23 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json({ ok: true, paths: [...new Set(allPaths)] });
+}
+
+const adminRevalidate = defineApiRoute({
+  access: "admin",
+  skipAdminLifecycleGate: true,
+  verifySessionVersion: false,
+  handler: async ({ request }) => runRevalidate(request),
+});
+
+/**
+ * Bust ISR/data caches for content item public pages after CLI migrations or bulk fills.
+ * Auth: admin session OR CONTENT_REVALIDATE_SECRET / CRON_SECRET bearer token.
+ * Dual-path preserved — do not collapse to access: "cron" alone.
+ */
+export async function POST(request: NextRequest, context: { params?: Promise<Record<string, string | string[]>> }) {
+  if (authorizedBySecret(request)) {
+    return runRevalidate(request);
+  }
+  return adminRevalidate(request, context);
 }
