@@ -129,7 +129,14 @@ function LocaleFormFields({
       </div>
       <div className="space-y-2">
         <Label>HTML lang</Label>
-        <Input name="htmlLang" placeholder="fr" defaultValue={locale?.htmlLang ?? ""} />
+        <Input
+          name="htmlLang"
+          placeholder="en-US"
+          defaultValue={locale?.htmlLang ?? ""}
+        />
+        <p className="text-xs text-muted-foreground">
+          BCP-47 tag for {"<html lang>"} and hreflang (e.g. en-US, fr-FR, de-DE).
+        </p>
       </div>
       <div className="space-y-2">
         <Label>Direction</Label>

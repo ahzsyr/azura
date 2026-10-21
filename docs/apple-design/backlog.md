@@ -22,5 +22,6 @@ Findings noticed during Phase B gates that are out of scope for the active gate.
 ## Noticed during Gate 4 (Commit 1 → Commit 5)
 
 - **Adding a locale** = admin `scaffoldMessageFile` + translation pass + enable `LocaleConfig` row; **no code change required.** Recover the Arabic (or Indonesian) UI payload from git history if a deployment needs it (`messages/ar.json` / `messages/id.json` removed in Commit 5).
+- **Live-locale check still unrun** against each environment (`SELECT code, isEnabled, isDefault FROM "LocaleConfig" ORDER BY sortOrder;`). Local `.env` points at compose host `mysql:3306` with no listener here — confirm staging/production before treating stale-row risk as closed.
 - **Storefront i18n debt (not polish)** — of ~28 storefront strings flagged in the Gate 4 copy audit, Commit 1 fixed 9 in `messages/en.json`. The rest live outside `messages/` (`search-copy.ts`, `load-pdp-labels.ts`, listing labels, component aria literals) and need a dedicated i18n pass, not absorption into “Gate 4 complete.”
 - **`.pl-card__stock-badge` residual hex** — still `#ef4444` / `#fff` in `product-listing.css` (Gate 3 inventory miss). Forced-colors path added in Gate 4; migrate to `--az-status-danger` / `--az-on-status-danger` in a token cleanup pass.

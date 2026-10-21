@@ -40,7 +40,8 @@ Section 7 is the deliverable that goes back to the team.
 | `fb388df8` | tokens: dark-mode contrast sweep | Real-surface contrast table; **no value changes** |
 | `acb30a95` | a11y: forced-colors coverage for status badges | Sale / low-stock / savings / wishlist / PDP stock |
 | `4721a35a` | docs: final report | Seven-section Phase B report |
-| *(Commit 5)* | i18n: English (en-US) base locale; translated payloads optional | `htmlLang: en-US`; remove `ar`/`id` message payloads; seed strips non-default locales |
+| `72e663eb` | i18n: English (en-US) base locale; translated payloads optional | `htmlLang: en-US`; remove `ar`/`id` message payloads; seed strips non-default locales |
+| *(Commit 6)* | i18n: English base locale hardening | No message file → default locale; admin htmlLang BCP-47 hint |
 
 ---
 
@@ -112,6 +113,8 @@ Of ~28 storefront strings flagged in the Gate 4 copy audit, **9** landed in `mes
 | Component aria literals | e.g. `Close search`, `Condition`, `Decrease quantity` / `Increase quantity`, `Close filters`, `View mode`, gallery zoom labels, MobileMenuPreview close/search |
 
 **Re-adding a locale:** admin `scaffoldMessageFile` → translation pass → enable `LocaleConfig` row. No code change required. Recover a prior Arabic/Indonesian UI payload from git history if a deployment needs it.
+
+Locales are add-on: base `en` (`htmlLang: en-US`); a locale without a message file is not routable as an untranslated shell (`request.ts` remaps to the default prefix/code before loading messages).
 
 Do not mark Phase B “complete” as having fixed storefront copy end-to-end.
 

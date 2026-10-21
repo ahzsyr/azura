@@ -1,6 +1,7 @@
 import { getRequestConfig } from "next-intl/server";
 import { isValidUrlPrefixSync, resolvePrefixToCode } from "@/i18n/locale-config";
 import { FALLBACK_LOCALES } from "@/i18n/locale-config";
+import { messageFileExists } from "@/i18n/message-files";
 import {
   getDefaultUrlPrefix,
   getEnabledLocales,
@@ -25,12 +26,21 @@ async function loadFileMessages(code: string): Promise<NestedDict> {
 export default getRequestConfig(async ({ requestLocale }) => {
   const locales = await getEnabledLocales();
   let urlPrefix = await requestLocale;
+  const defaultPrefix = await getDefaultUrlPrefix();
 
   if (!urlPrefix || !isValidUrlPrefixSync(urlPrefix, locales)) {
-    urlPrefix = await getDefaultUrlPrefix();
+    urlPrefix = defaultPrefix;
   }
 
-  const code = resolvePrefixToCode(urlPrefix, locales);
+  let code = resolvePrefixToCode(urlPrefix, locales);
+
+  // Stale LocaleConfig rows without a message payload must not load English under a foreign
+  // locale code (wrong <html lang> / hreflang). Default-locale path skips the FS check.
+  if (urlPrefix !== defaultPrefix && !(await messageFileExists(code))) {
+    urlPrefix = defaultPrefix;
+    code = resolvePrefixToCode(urlPrefix, locales);
+  }
+
   const fileMessages = await loadFileMessages(code);
 
   let brandName: string;
