@@ -558,14 +558,15 @@ html[data-theme="dark"][data-glass-effect="liquid"] .popup-promo {
 
 /* Content-layer cards: never receive glass blur
  * (liquid-glass.md › Where the material belongs). Keep selectors above for
- * paint containment only; material stays on chrome. */
+ * paint containment only; material stays on chrome.
+ * !important dropped in Gate 3 — no competing blur rule targets .az-card/.card. */
 [data-glass-effect="liquid"] .az-card,
 [data-glass-effect="liquid"] .card {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  background: var(--card, var(--background)) !important;
-  background-color: var(--card, var(--background)) !important;
-  background-image: none !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: var(--card, var(--background));
+  background-color: var(--card, var(--background));
+  background-image: none;
 }
 
 /* ── Floating chrome (layout-safe) ──────────────────────────────────────── */

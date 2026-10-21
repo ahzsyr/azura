@@ -11,5 +11,10 @@ Findings noticed during Phase B gates that are out of scope for the active gate.
 
 ## Noticed during Gate 2
 
-- Rename `data-card-style="liquid-glass"` card token once Gate 3 owns palette — attribute kept so callers keep working; cards are now opaque.
 - `src/components/layout/locale-switcher.tsx`: soft `useRouter().replace` for locale switch was evaluated and rejected (cookie + server-rendered next-intl). Revisit only if locale can be negotiated without a document navigation.
+
+## Noticed during Gate 3
+
+- **Card style storage rename (migration):** `data-card-style` values `liquid-glass` / `glassmorphism` still stored; Theme Studio labels rewritten to "Soft surface (opaque)" / "Lifted surface (opaque)" so the UI matches reality. A proper rename needs a data migration for user presets (`agency`/`saas` map to glassmorphism) — do not flip the stored value without migration.
+- A1 browser check still open: Reduce Motion on, resize across 968px with menu closed — panel must appear without entrance animation.
+- Residual partner hex kept intentionally: Trustpilot `#00b67a` (`.prd-trust*`), WhatsApp `#25d366`, overlay `#fff`/`#000` on media chrome, star `#ffc107`.
