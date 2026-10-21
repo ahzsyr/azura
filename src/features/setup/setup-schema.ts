@@ -62,40 +62,71 @@ export function takeSetupSchemaGapMessage(): string | null {
   return message;
 }
 
+async function mysqlTablePresent(table: string): Promise<boolean> {
+  const rows = await prisma.$queryRawUnsafe<Array<{ c: bigint | number }>>(
+    `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.TABLES
+     WHERE TABLE_SCHEMA = DATABASE() AND LOWER(TABLE_NAME) = LOWER(?)`,
+    table,
+  );
+  return Number(rows[0]?.c ?? 0) > 0;
+}
+
+async function mysqlColumnPresent(table: string, column: string): Promise<boolean> {
+  const rows = await prisma.$queryRawUnsafe<Array<{ c: bigint | number }>>(
+    `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.COLUMNS
+     WHERE TABLE_SCHEMA = DATABASE()
+       AND LOWER(TABLE_NAME) = LOWER(?)
+       AND LOWER(COLUMN_NAME) = LOWER(?)`,
+    table,
+    column,
+  );
+  return Number(rows[0]?.c ?? 0) > 0;
+}
+
+function schemaGapFor(table: string, column?: string): string {
+  const subject = column ? `${table}.${column} is missing` : `${table} table missing`;
+  return `Database schema is not applied (${subject}). Completing setup will try to apply migrations. If that fails, run \`npm run deploy:hostinger-db\` or import blank SQL, and do not set SKIP_DB_MIGRATE=1 on an empty database.`;
+}
+
+/**
+ * Readiness via INFORMATION_SCHEMA only.
+ * Do not SELECT Prisma JSON columns here — empty/invalid JSON on Hostinger throws
+ * "Unexpected end of JSON input" and the wizard mislabels it as a connection failure.
+ */
 export async function isSetupSchemaReady(): Promise<boolean> {
   lastSetupSchemaGap = null;
-  // Probe columns setup actually writes (not just table existence).
-  const probes = [
-    () => prisma.user.findFirst({ select: { id: true, emailVerifiedAt: true, country: true }, take: 1 }),
-    () => prisma.companyInfo.findFirst({ select: { id: true, name: true }, take: 1 }),
-    () => prisma.jsonStore.findFirst({ select: { id: true }, take: 1 }),
-    () => prisma.siteTheme.findFirst({ select: { id: true, brandConfig: true }, take: 1 }),
-    () => prisma.packageInstallation.findFirst({ select: { packageId: true }, take: 1 }),
-    () =>
-      prisma.entityTranslation.findFirst({
-        select: { id: true, localeCode: true, version: true },
-        take: 1,
-      }),
-    () => prisma.cmsPage.findFirst({ select: { id: true, composition: true }, take: 1 }),
-    () =>
-      prisma.localeConfig.findFirst({
-        select: { code: true, fallbackLocaleCode: true },
-        take: 1,
-      }),
-    () => prisma.custom404.findFirst({ select: { locale: true }, take: 1 }),
+  const required: Array<{ table: string; columns?: string[] }> = [
+    { table: "User", columns: ["emailVerifiedAt", "country", "mustChangePassword"] },
+    { table: "CompanyInfo", columns: ["name", "email"] },
+    { table: "JsonStore", columns: ["namespace", "key", "data"] },
+    { table: "SiteTheme", columns: ["brandConfig"] },
+    { table: "PackageInstallation", columns: ["packageId", "manifest"] },
+    { table: "EntityTranslation", columns: ["localeCode", "version", "value"] },
+    { table: "CmsPage", columns: ["composition", "blocks"] },
+    { table: "LocaleConfig", columns: ["code", "fallbackLocaleCode"] },
+    { table: "Custom404", columns: ["locale", "blocks"] },
   ];
-  for (const probe of probes) {
-    try {
-      await probe();
-    } catch (error) {
-      if (isMissingTableError(error)) {
-        lastSetupSchemaGap = setupSchemaErrorMessage(error);
+  try {
+    for (const { table, columns = [] } of required) {
+      if (!(await mysqlTablePresent(table))) {
+        lastSetupSchemaGap = schemaGapFor(table);
         return false;
       }
-      throw error;
+      for (const column of columns) {
+        if (!(await mysqlColumnPresent(table, column))) {
+          lastSetupSchemaGap = schemaGapFor(table, column);
+          return false;
+        }
+      }
     }
+    return true;
+  } catch (error) {
+    if (isMissingTableError(error)) {
+      lastSetupSchemaGap = setupSchemaErrorMessage(error);
+      return false;
+    }
+    throw error;
   }
-  return true;
 }
 
 /** Name the missing table or column. The generic User message is only for User itself. */

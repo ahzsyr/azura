@@ -261,6 +261,50 @@ async function ensureJsonStoreMysql(prisma, log = console.log) {
   await ensureIndex(prisma, "JsonStore", "JsonStore_namespace_key_key", "`namespace`, `key`", true, log);
 }
 
+/** Empty string / NULL in JSON columns breaks Prisma with "Unexpected end of JSON input". */
+async function repairInvalidJsonColumns(prisma, log = console.log) {
+  const repairs = [
+    ["SiteTheme", "brandConfig", "{}"],
+    ["SiteTheme", "headerConfig", "{}"],
+    ["SiteTheme", "footerConfig", "{}"],
+    ["SiteTheme", "typography", "{}"],
+    ["SiteTheme", "backgroundEffectSettings", "{}"],
+    ["SiteTheme", "cursorEffectSettings", "{}"],
+    ["SiteTheme", "textEffectSettings", "{}"],
+    ["SiteTheme", "glassEffectSettings", "{}"],
+    ["SiteTheme", "motionSettings", "{}"],
+    ["SiteTheme", "themeProvenance", "{}"],
+    ["SiteTheme", "mobileBrowserConfig", "{}"],
+    ["CmsPage", "composition", "{}"],
+    ["CmsPage", "visualSettings", "{}"],
+    ["CmsPage", "blocks", "[]"],
+    ["CompanyInfo", "socialLinks", "{}"],
+    ["CompanyInfo", "trustBadges", "[]"],
+    ["Custom404", "blocks", "[]"],
+    ["PackageInstallation", "manifest", "{}"],
+  ];
+  for (const [table, column, fallback] of repairs) {
+    if (!(await tableExists(prisma, table))) continue;
+    if (!(await columnExists(prisma, table, column))) continue;
+    try {
+      const result = await prisma.$executeRawUnsafe(
+        `UPDATE \`${table}\`
+         SET \`${column}\` = CAST(? AS JSON)
+         WHERE \`${column}\` IS NULL
+            OR CAST(\`${column}\` AS CHAR) = ''
+            OR JSON_VALID(CAST(\`${column}\` AS CHAR)) = 0`,
+        fallback,
+      );
+      if (Number(result) > 0) {
+        log(`[setup-schema] repaired invalid JSON in ${table}.${column} (${result} row(s))`);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      log(`[setup-schema] JSON repair skipped for ${table}.${column}: ${message.split("\n")[0]}`);
+    }
+  }
+}
+
 async function ensureCompanyInfoMysql(prisma, log = console.log) {
   if (!(await tableExists(prisma, "CompanyInfo"))) return;
   const required = [
@@ -380,4 +424,5 @@ export async function ensureSetupCriticalMysql(prisma, options = {}) {
   await ensureLocaleConfigMysql(prisma, log);
   await ensureCustom404Mysql(prisma, log);
   await ensureJsonStoreMysql(prisma, log);
+  await repairInvalidJsonColumns(prisma, log);
 }

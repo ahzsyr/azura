@@ -18,6 +18,17 @@ function isSchemaMissingError(message: string | null | undefined): boolean {
   return Boolean(message?.includes("Database schema is not applied"));
 }
 
+/** Real MySQL reachability/auth failures — not schema or JSON parse noise. */
+function isConnectionFailureError(message: string | null | undefined): boolean {
+  if (!message) return true;
+  if (isSchemaMissingError(message)) return false;
+  return (
+    /45028|pool failed|Cannot reach MySQL|Authentication failed|DATABASE_URL is|did not accept a connection|ECONNREFUSED|ETIMEDOUT|ENOTFOUND/i.test(
+      message,
+    ) || /Database connection failed/i.test(message)
+  );
+}
+
 type Step = 1 | 2 | 3;
 
 type SetupWizardProps = {
@@ -73,7 +84,7 @@ export function SetupWizard({
   async function handleFinish() {
     setError("");
     // Connection failures block finish; missing schema is allowed — server will try to apply it.
-    if (!databaseReady && !isSchemaMissingError(databaseError)) {
+    if (!databaseReady && isConnectionFailureError(databaseError) && !isSchemaMissingError(databaseError)) {
       setError(databaseError ?? "Database connection failed. Fix DATABASE_URL before completing setup.");
       return;
     }
@@ -159,10 +170,10 @@ export function SetupWizard({
         ) : null}
         {!databaseReady ? (
           <div className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive space-y-2">
-            {isSchemaMissingError(databaseError) ? (
+            {isSchemaMissingError(databaseError) || !isConnectionFailureError(databaseError) ? (
               <>
                 <p>
-                  Database is reachable, but the schema is not applied yet
+                  Database is reachable, but the schema needs an update
                   {step < 3 ? (
                     <>
                       . Continue to the last step and click <strong>Complete setup</strong> to apply
@@ -186,25 +197,12 @@ export function SetupWizard({
             ) : (
               <>
                 <p>
-                  {databaseKind === "mysql" ? (
-                    <>
-                      Database connection failed. In hPanel, set{" "}
-                      <code className="text-xs">PRISMA_SCHEMA=mysql</code> and a valid{" "}
-                      <code className="text-xs">DATABASE_URL</code> (mysql://…, no quotes). Import{" "}
-                      <code className="text-xs">database/mysql/import-blank.sql</code> in phpMyAdmin.
-                      On the same Hostinger server, use{" "}
-                      <code className="text-xs">HOSTINGER_MYSQL_LOCALHOST=1</code>. Rebuild/restart after
-                      saving env vars.
-                    </>
-                  ) : (
-                    <>
-                      Database connection failed. In hPanel, set a valid MySQL{" "}
-                      <code className="text-xs">DATABASE_URL</code> (mysql://…, no quotes), then import{" "}
-                      <code className="text-xs">database/mysql/import-blank.sql</code>. On the same
-                      Hostinger server, use <code className="text-xs">HOSTINGER_MYSQL_LOCALHOST=1</code>.
-                      Rebuild/restart after saving env vars.
-                    </>
-                  )}
+                  Database connection failed. In hPanel, set a valid MySQL{" "}
+                  <code className="text-xs">DATABASE_URL</code> (mysql://…, no quotes — no{" "}
+                  <code className="text-xs">DATABASE_URL=</code> prefix). Import{" "}
+                  <code className="text-xs">database/mysql/import-blank.sql</code> in phpMyAdmin if the
+                  database is empty. On the same Hostinger server, set{" "}
+                  <code className="text-xs">HOSTINGER_MYSQL_LOCALHOST=1</code>, then restart the app.
                 </p>
                 {databaseError ? (
                   <p className="text-xs">
@@ -396,7 +394,12 @@ export function SetupWizard({
               <Button
                 type="button"
                 className="flex-1"
-                disabled={loading || (!databaseReady && !isSchemaMissingError(databaseError))}
+                disabled={
+                  loading ||
+                  (!databaseReady &&
+                    isConnectionFailureError(databaseError) &&
+                    !isSchemaMissingError(databaseError))
+                }
                 onClick={handleFinish}
               >
                 {loading ? "Applying schema & saving…" : "Complete setup"}

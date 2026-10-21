@@ -113,6 +113,12 @@ function summarizeDatabaseProbeError(error: unknown): string {
   if (hasFixableDatabaseUrlFormatting()) {
     return "DATABASE_URL is set with extra quotes or a DATABASE_URL= prefix. Remove quotes in hPanel so the value is only mysql://…, then restart the app.";
   }
+  if (/Unexpected end of JSON input|JSON\.parse|invalid json/i.test(message)) {
+    return (
+      "Database schema is not applied (invalid JSON in SiteTheme/CmsPage). " +
+      "Completing setup will try to repair JSON columns and apply migrations."
+    );
+  }
   return message.split("\n").map((line) => line.trim()).filter(Boolean)[0] ?? "Database connection failed";
 }
 
