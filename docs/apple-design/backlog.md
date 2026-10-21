@@ -19,18 +19,8 @@ Findings noticed during Phase B gates that are out of scope for the active gate.
 - A1 browser check still open: Reduce Motion on, resize across 968px with menu closed — panel must appear without entrance animation.
 - Residual partner hex kept intentionally: Trustpilot `#00b67a` (`.prd-trust*`), WhatsApp `#25d366`, overlay `#fff`/`#000` on media chrome, star `#ffc107`.
 
-## Noticed during Gate 4 (Commit 1)
+## Noticed during Gate 4 (Commit 1 → Commit 5)
 
-- **Indonesian copy completion** — nine English-held keys from the approved Commit 1 set still need a translator with context (do not overwrite native `id` strings elsewhere). Nine keys now hold superseded English — translate from the current `en` values, not from memory. Enumerated:
-  - `contact.success` — `messages/id.json:148`
-  - `contact.error` — `messages/id.json:149`
-  - `common.loading` — `messages/id.json:322`
-  - `common.backToHome` — `messages/id.json:329`
-  - `common.pageNotFoundBody` — `messages/id.json:333`
-  - `locale.selectLanguageHint` — `messages/id.json:350`
-  - `compare.drawerEmpty` — `messages/id.json:360`
-  - `compare.empty` — `messages/id.json:361`
-  - `product.stock.tipLabel` — `messages/id.json:435`
-- **Arabic copy review** — `locale.selectLanguageHint` (`messages/ar.json:350`, native) and the other Commit 1 meaning-preserving edits need a native reviewer. Do not route translation through English copy fixes.
+- **Adding a locale** = admin `scaffoldMessageFile` + translation pass + enable `LocaleConfig` row; **no code change required.** Recover the Arabic (or Indonesian) UI payload from git history if a deployment needs it (`messages/ar.json` / `messages/id.json` removed in Commit 5).
 - **Storefront i18n debt (not polish)** — of ~28 storefront strings flagged in the Gate 4 copy audit, Commit 1 fixed 9 in `messages/en.json`. The rest live outside `messages/` (`search-copy.ts`, `load-pdp-labels.ts`, listing labels, component aria literals) and need a dedicated i18n pass, not absorption into “Gate 4 complete.”
 - **`.pl-card__stock-badge` residual hex** — still `#ef4444` / `#fff` in `product-listing.css` (Gate 3 inventory miss). Forced-colors path added in Gate 4; migrate to `--az-status-danger` / `--az-on-status-danger` in a token cleanup pass.

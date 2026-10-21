@@ -60,7 +60,7 @@ const LOCALE_SEEDS = [
     code: "en",
     urlPrefix: "en",
     label: "English",
-    htmlLang: "en",
+    htmlLang: "en-US",
     dir: "ltr",
     flag: "🇺🇸",
     dateLocale: "en-US",
@@ -181,7 +181,10 @@ export async function ensureBaselineCmsAndLocales(tx: Tx): Promise<void> {
   await ensureDefaultHeaderWorkspace(tx);
   pageIndex += 1;
 
-  await tx.localeConfig.deleteMany({ where: { code: "ar" } });
+  // English is the base locale; other locales are added per deployment.
+  await tx.localeConfig.deleteMany({
+    where: { code: { not: "en" }, isDefault: false },
+  });
 
   for (const locale of LOCALE_SEEDS) {
     await tx.localeConfig.upsert({

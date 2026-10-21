@@ -39,7 +39,8 @@ Section 7 is the deliverable that goes back to the team.
 | `44f27a5c` | copy: Gate 4 storefront copy, en only | 9 approved `messages/en.json` keys |
 | `fb388df8` | tokens: dark-mode contrast sweep | Real-surface contrast table; **no value changes** |
 | `acb30a95` | a11y: forced-colors coverage for status badges | Sale / low-stock / savings / wishlist / PDP stock |
-| *(this commit)* | docs: final report | This document |
+| `4721a35a` | docs: final report | Seven-section Phase B report |
+| *(Commit 5)* | i18n: English (en-US) base locale; translated payloads optional | `htmlLang: en-US`; remove `ar`/`id` message payloads; seed strips non-default locales |
 
 ---
 
@@ -95,13 +96,13 @@ Surfaces read from `theme-surfaces.ts` defaults (`#0a0f18` / `#020408` dark; `#f
 | Lockup | Ink wordmark + teal rule; weight/tracking/color respect Branding panel (G3-R1) |
 | English copy (9 keys) | `44f27a5c` — loading ellipsis, CTA case, 404 body, stock tip, locale hint, contact success/error, compare empties |
 | `common.pageNotFoundBody` | **Accurate and inert.** Live 404 is `src/app/[locale]/not-found.tsx` → `MarketingMaintenancePage` → `maintenance.*` (Contact Us / Inquire Now / phone / email). The string becomes live only if the route starts consuming it. |
-| `id` locale drift | Nine keys still hold **superseded English** after Commit 1; Arabic native text unaffected (meaning-preserving). Backlog: translate from current `en`, not memory. |
+| Locale policy (Commit 5) | Base is English: `code`/`urlPrefix` stay `en`; `htmlLang` is `en-US`. `messages/ar.json` and `messages/id.json` removed from the repo (optional add-ons). Seed/setup deletes every non-default locale row so DB rows cannot outlive payloads. |
 
 ---
 
 ## 5. What did not get fixed — storefront i18n debt
 
-Of ~28 storefront strings flagged in the Gate 4 copy audit, **9** landed in `messages/en.json`. The rest are **i18n debt, not polish** — they need keys + wiring, not another design gate.
+Of ~28 storefront strings flagged in the Gate 4 copy audit, **9** landed in `messages/en.json`. The Indonesian/Arabic UI-payload debt was **retired by deleting those files** (Commit 5) — not by translating them. What remains is **English storefront i18n debt outside `messages/`** — keys + wiring, not another design gate.
 
 | Location | Examples / scope |
 | --- | --- |
@@ -110,7 +111,9 @@ Of ~28 storefront strings flagged in the Gate 4 copy audit, **9** landed in `mes
 | `listing-labels.ts` / `load-listing-labels.ts` | Filters, empty results, pagination, sort, search placeholders, clear filters |
 | Component aria literals | e.g. `Close search`, `Condition`, `Decrease quantity` / `Increase quantity`, `Close filters`, `View mode`, gallery zoom labels, MobileMenuPreview close/search |
 
-Do not mark Gate 4 “complete” as having fixed storefront copy end-to-end.
+**Re-adding a locale:** admin `scaffoldMessageFile` → translation pass → enable `LocaleConfig` row. No code change required. Recover a prior Arabic/Indonesian UI payload from git history if a deployment needs it.
+
+Do not mark Phase B “complete” as having fixed storefront copy end-to-end.
 
 ---
 
@@ -144,4 +147,4 @@ Design pass is code-complete. **These need a human with a device.** Every line i
 
 ### Hand-off line for the team
 
-> Design pass done — these eleven things need a human with a device (section 7). Code is complete through `acb30a95` + this report; browser/AT verification is the remaining gate to “done.”
+> Design pass done — these eleven things need a human with a device (section 7). Code is complete through Commit 5 (en-US `htmlLang`, English-only message payloads); browser/AT verification is the remaining gate to “done.” Security/perf (CSP, `defineApiRoute`, lint debt) remains a parallel uncommitted workstream.

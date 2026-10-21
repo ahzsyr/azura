@@ -151,7 +151,7 @@ async function main() {
       code: "en",
       urlPrefix: "en",
       label: "English",
-      htmlLang: "en",
+      htmlLang: "en-US",
       dir: "ltr",
       flag: "🇺🇸",
       dateLocale: "en-US",
@@ -163,7 +163,10 @@ async function main() {
     },
   ];
 
-  await prisma.localeConfig.deleteMany({ where: { code: "ar" } });
+  // English is the base locale; other locales are added per deployment.
+  await prisma.localeConfig.deleteMany({
+    where: { code: { not: "en" }, isDefault: false },
+  });
 
   for (const loc of localeSeeds) {
     await prisma.localeConfig.upsert({
