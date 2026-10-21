@@ -31,7 +31,16 @@
   width: 100%;
   position: relative;
   z-index: 10;
-  background: color-mix(in srgb, var(--color-surface, var(--background)) 92%, transparent);
+  /* Track browser chrome tint (theme-color / Safari edge sample) — not a separate surface. */
+  background: color-mix(
+    in srgb,
+    var(
+      --az-site-glass-tint,
+      var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
+    )
+      92%,
+    transparent
+  );
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--cg2);
@@ -1279,10 +1288,19 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
     color: var(--cp, var(--primary));
   }
 
-  /* Mobile chrome: glass, safe area. Flush top only when auto-remove is on. */
+  /* Mobile chrome: glass, safe area. Flush top only when auto-remove is on.
+   * Fill tracks browser chrome tint so status bar / theme-color match the bar. */
   .header-root .site-header {
     box-shadow: var(--header-shadow-soft);
-    background: color-mix(in srgb, var(--color-surface, var(--background)) 98%, transparent);
+    background: color-mix(
+      in srgb,
+      var(
+        --az-site-glass-tint,
+        var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
+      )
+        98%,
+      transparent
+    );
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     padding-top: env(safe-area-inset-top, 0px);
@@ -1420,13 +1438,24 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
 }
 
 .header-root[data-header-overlay="true"][data-overlay-surface="glass"] .site-header {
-  background: color-mix(in srgb, var(--color-surface, var(--background)) 55%, transparent);
+  background: color-mix(
+    in srgb,
+    var(
+      --az-site-glass-tint,
+      var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
+    )
+      55%,
+    transparent
+  );
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
 
 .header-root[data-header-overlay="true"][data-overlay-surface="solid"] .site-header {
-  background: var(--color-surface, var(--background));
+  background: var(
+    --az-site-glass-tint,
+    var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
+  );
 }
 
 .header-root[data-header-overlay="true"] .brand-name,
@@ -1451,7 +1480,15 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
 }
 
 .header-root[data-header-overlay="true"].header--overlay-scrolled[data-overlay-mode="transparent-until-scroll"][data-overlay-surface="glass"] .site-header {
-  background: color-mix(in srgb, var(--color-surface, var(--background)) 72%, transparent);
+  background: color-mix(
+    in srgb,
+    var(
+      --az-site-glass-tint,
+      var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
+    )
+      72%,
+    transparent
+  );
   backdrop-filter: blur(14px);
 }
 
@@ -2489,7 +2526,15 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
  */
 .header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
 .header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header {
-  background: color-mix(in srgb, var(--color-surface, var(--background)) 96%, transparent);
+  background: color-mix(
+    in srgb,
+    var(
+      --az-site-glass-tint,
+      var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
+    )
+      96%,
+    transparent
+  );
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow: var(--header-shadow-strong, 0 8px 28px rgb(0 0 0 / 0.55));
@@ -2519,8 +2564,14 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   .mnav-portal-root[data-mnav-state="open"] .mnav-panel {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: var(--color-surface, var(--card, var(--background))) !important;
-    background-color: var(--color-surface, var(--card, var(--background))) !important;
+    background: var(
+      --az-site-glass-tint,
+      var(--az-browser-chrome-tint, var(--color-surface, var(--card, var(--background))))
+    ) !important;
+    background-color: var(
+      --az-site-glass-tint,
+      var(--az-browser-chrome-tint, var(--color-surface, var(--card, var(--background))))
+    ) !important;
     background-image: none !important;
   }
 }
@@ -2528,7 +2579,15 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
 /* Dark mode: even stronger glass for sticky header */
 .dark .header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
 .dark .header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header {
-  background: color-mix(in srgb, var(--color-surface, var(--background)) 90%, transparent);
+  background: color-mix(
+    in srgb,
+    var(
+      --az-site-glass-tint,
+      var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
+    )
+      90%,
+    transparent
+  );
   border-color: color-mix(in srgb, var(--color-primary, var(--primary)) 18%, transparent);
 }
 
@@ -2544,7 +2603,15 @@ html:has([data-page-header-overlay="true"]) .header-root.header--sticking[data-o
 
 .header-root[data-block-header-overlay="true"].header--sticking[data-overlay-surface="glass"] .site-header,
 html:has([data-page-header-overlay="true"]) .header-root.header--sticking[data-overlay-surface="glass"]:not([data-header-shell]) .site-header {
-  background: color-mix(in srgb, var(--color-surface, var(--background)) 55%, transparent);
+  background: color-mix(
+    in srgb,
+    var(
+      --az-site-glass-tint,
+      var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
+    )
+      55%,
+    transparent
+  );
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-color: color-mix(in srgb, var(--cg2) 35%, transparent);
@@ -2552,7 +2619,10 @@ html:has([data-page-header-overlay="true"]) .header-root.header--sticking[data-o
 
 .header-root[data-block-header-overlay="true"].header--sticking[data-overlay-surface="solid"] .site-header,
 html:has([data-page-header-overlay="true"]) .header-root.header--sticking[data-overlay-surface="solid"]:not([data-header-shell]) .site-header {
-  background: var(--color-surface, var(--background));
+  background: var(
+    --az-site-glass-tint,
+    var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
+  );
   border-color: color-mix(in srgb, var(--cg2) 35%, transparent);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;

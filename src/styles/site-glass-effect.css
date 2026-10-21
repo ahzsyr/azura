@@ -620,31 +620,31 @@ html[data-theme="dark"][data-glass-effect="liquid"] .popup-promo {
 }
 
 /*
- * Dark footers (default): tint with --foreground so text-background links stay
- * readable in light mode. Cap opacity so the liquid blur stays visible.
+ * Dark footers (default): fill from the same chrome tint as browser UI / header
+ * (`--az-site-glass-tint`), darkened just enough for light-on-dark copy.
  * Use background-color only — `background` shorthand would wipe specular layers.
  */
 [data-glass-effect="liquid"] .site-footer.bg-foreground {
-  /* Keep fill light enough that frost reads as glass, not a solid grey slab. */
-  --az-site-footer-glass-opacity: min(var(--az-site-glass-opacity), 0.34);
+  --az-site-footer-glass-opacity: min(var(--az-site-glass-opacity), 0.42);
+  /* Chrome tint + dark wash so footer tracks browser UI without a flat grey slab. */
   background-color: color-mix(
     in srgb,
-    var(--foreground) calc(var(--az-site-footer-glass-opacity) * 100%),
-    transparent
+    var(--foreground) 58%,
+    var(--az-site-glass-tint, var(--az-browser-chrome-tint, var(--background))) 42%
   ) !important;
   color: var(--background);
 }
 
 /*
- * Dark appearance inverts --foreground to a light ink. Using that as the glass
- * fill creates a flat pale slab. Match header liquid glass: dark translucent
- * surface + foreground-tinted copy.
+ * Dark appearance: match header liquid glass — chrome tint translucent surface
+ * + foreground-tinted copy (not a flat pale slab from inverted --foreground).
  */
 .dark[data-glass-effect="liquid"] .site-footer.bg-foreground,
 html[data-theme="dark"][data-glass-effect="liquid"] .site-footer.bg-foreground {
   background-color: color-mix(
     in srgb,
-    var(--background) calc(max(calc(var(--az-site-footer-glass-opacity) * 0.85), 0.32) * 100%),
+    var(--az-site-glass-tint, var(--az-browser-chrome-tint, var(--background)))
+      calc(max(calc(var(--az-site-footer-glass-opacity) * 0.85), 0.32) * 100%),
     transparent
   ) !important;
   color: var(--foreground);
