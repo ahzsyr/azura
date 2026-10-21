@@ -442,6 +442,10 @@ export function ThemeEngineProvider({
       }
       const { payload } = result;
       invalidateThemeStorageReadCache();
+      // Sticking, not painting: React visitor state must stay behind the same
+      // scope gate as localStorage. Moving these out so an editor preview
+      // "reflects in the panel" re-enters the leak through engine state even
+      // when persistPresetSession is skipped.
       if (scope === "visitor") {
         setVisitorPresetId(presetId);
         setActivePresetSource("catalog");
@@ -479,6 +483,7 @@ export function ThemeEngineProvider({
       const scope = resolvePresetSessionScope();
       applyUserPresetToDocument(preset, resolved, { scope });
       invalidateThemeStorageReadCache();
+      // Same sticking gate as applyCatalogPreset — see comment there.
       if (scope === "visitor") {
         setVisitorPresetId(preset.id);
         setActivePresetSource("user");

@@ -79,6 +79,29 @@ describe("preset session scope", () => {
     assert.equal(localStorage.getItem(PRESET_ORIGIN_STORAGE_KEY), "visitor");
   });
 
+  it("public personalization apply still writes devi-user-preset (auto visitor scope)", () => {
+    // Personalization panel lives on /[locale] — must not fall into the editor skip.
+    (globalThis as { window?: { location: { pathname: string } } }).window = {
+      location: { pathname: "/en" },
+    };
+    assert.equal(resolvePresetSessionScope(), "visitor");
+
+    persistPresetSession(SAMPLE_PAYLOAD);
+    assert.equal(localStorage.getItem(PRESET_STORAGE_KEY), "networking");
+    assert.ok(localStorage.getItem(PRESET_COLORS_STORAGE_KEY));
+    assert.equal(localStorage.getItem(PRESET_ORIGIN_STORAGE_KEY), "visitor");
+
+    // Boot clear must keep this intentional pick.
+    assert.equal(
+      shouldClearLeakedVisitorPreset({
+        presetId: localStorage.getItem(PRESET_STORAGE_KEY),
+        origin: localStorage.getItem(PRESET_ORIGIN_STORAGE_KEY),
+        publishedPresetIds: ["networking", "travel"],
+      }),
+      false,
+    );
+  });
+
   it("shouldClearLeakedVisitorPreset drops missing origin (legacy editor leak)", () => {
     assert.equal(
       shouldClearLeakedVisitorPreset({
