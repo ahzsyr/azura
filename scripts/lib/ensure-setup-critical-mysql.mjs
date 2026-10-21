@@ -282,16 +282,18 @@ async function repairInvalidJsonColumns(prisma, log = console.log) {
     ["CompanyInfo", "trustBadges", "[]"],
     ["Custom404", "blocks", "[]"],
     ["PackageInstallation", "manifest", "{}"],
+    ["JsonStore", "data", "{}"],
   ];
   for (const [table, column, fallback] of repairs) {
     if (!(await tableExists(prisma, table))) continue;
     if (!(await columnExists(prisma, table, column))) continue;
     try {
+      // CAST AS CHAR can still fail for some drivers; also catch bare empty / whitespace.
       const result = await prisma.$executeRawUnsafe(
         `UPDATE \`${table}\`
          SET \`${column}\` = CAST(? AS JSON)
          WHERE \`${column}\` IS NULL
-            OR CAST(\`${column}\` AS CHAR) = ''
+            OR TRIM(CAST(\`${column}\` AS CHAR)) = ''
             OR JSON_VALID(CAST(\`${column}\` AS CHAR)) = 0`,
         fallback,
       );
@@ -303,6 +305,11 @@ async function repairInvalidJsonColumns(prisma, log = console.log) {
       log(`[setup-schema] JSON repair skipped for ${table}.${column}: ${message.split("\n")[0]}`);
     }
   }
+}
+
+/** Public alias for setup complete — repair before any Prisma model read. */
+export async function repairSetupJsonColumns(prisma, options = {}) {
+  await repairInvalidJsonColumns(prisma, options.log ?? console.log);
 }
 
 async function ensureCompanyInfoMysql(prisma, log = console.log) {

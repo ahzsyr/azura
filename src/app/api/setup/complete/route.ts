@@ -54,6 +54,11 @@ function clearStaleAuthSessionCookies(response: NextResponse) {
   }
 }
 
+function isInvalidJsonDataError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error);
+  return /Unexpected end of JSON input|JSON\.parse|invalid json|Malformed JSON/i.test(message);
+}
+
 function isMissingSchemaError(error: unknown): boolean {
   if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2021") {
     return true;
@@ -63,7 +68,8 @@ function isMissingSchemaError(error: unknown): boolean {
     message.includes("P2021") ||
     message.includes("does not exist in the current database") ||
     /table [`']?User[`']? does(?:n't| not) exist/i.test(message) ||
-    isCompanyInfoConstraintError(error)
+    isCompanyInfoConstraintError(error) ||
+    isInvalidJsonDataError(error)
   );
 }
 
@@ -84,6 +90,12 @@ function formatSetupError(error: unknown): string {
       .filter((issue) => issue.trim().length > 0)
       .join(" ");
     return message || "Invalid form data";
+  }
+  if (isInvalidJsonDataError(error)) {
+    return (
+      "Database schema is not applied (invalid JSON in SiteTheme/CmsPage/JsonStore). " +
+      "Completing setup will try to repair JSON columns and apply migrations."
+    );
   }
   if (isCompanyInfoConstraintError(error)) {
     return (
@@ -109,7 +121,22 @@ export async function POST(request: Request) {
         { status: 503 },
       );
     }
-    const body = await request.json();
+    const rawBody = await request.text();
+    if (!rawBody.trim()) {
+      return NextResponse.json(
+        { error: "Empty setup request body. Refresh /setup and try Complete setup again." },
+        { status: 400 },
+      );
+    }
+    let body: unknown;
+    try {
+      body = JSON.parse(rawBody);
+    } catch {
+      return NextResponse.json(
+        { error: "Invalid setup request JSON. Refresh /setup and try Complete setup again." },
+        { status: 400 },
+      );
+    }
     const data = setupCompleteSchema.parse(body);
 
     const settingsBefore = await readSystemSettings();
@@ -138,6 +165,15 @@ export async function POST(request: Request) {
         { status: 503 },
       );
     }
+
+    const { repairSetupJsonColumns } = await import(
+      "../../../../../scripts/lib/ensure-setup-critical-mysql.mjs"
+    );
+    await repairSetupJsonColumns(prisma, {
+      log: (message: unknown) => console.warn(String(message)),
+    }).catch((error: unknown) => {
+      console.warn("[setup.complete] JSON repair skipped:", error);
+    });
 
     await clearRenderedSiteCache();
     await installIncludedProfilePackages();
@@ -242,19 +278,18 @@ export async function POST(request: Request) {
           showTagline: true,
         };
 
+        // Do not findUnique SiteTheme first — invalid JSON columns throw
+        // "Unexpected end of JSON input". Select id only so Prisma does not
+        // deserialize other corrupt JSON fields on the return path.
         for (const themeId of ["published", "draft"]) {
-          const theme = await tx.siteTheme.findUnique({ where: { id: themeId } });
-          const existingBrand =
-            theme?.brandConfig && typeof theme.brandConfig === "object"
-              ? (theme.brandConfig as Record<string, unknown>)
-              : {};
           await tx.siteTheme.upsert({
             where: { id: themeId },
-            update: { brandConfig: { ...existingBrand, ...brandConfig } },
+            update: { brandConfig },
             create: {
               id: themeId,
               brandConfig,
             },
+            select: { id: true },
           });
         }
 
@@ -264,9 +299,20 @@ export async function POST(request: Request) {
     try {
       await runSetupTransaction();
     } catch (error) {
-      if (!isCompanyInfoConstraintError(error)) throw error;
-      await relaxLegacyCompanyInfoColumns();
-      await runSetupTransaction();
+      if (isCompanyInfoConstraintError(error)) {
+        await relaxLegacyCompanyInfoColumns();
+        await runSetupTransaction();
+      } else if (isInvalidJsonDataError(error)) {
+        const { repairSetupJsonColumns: repairJson } = await import(
+          "../../../../../scripts/lib/ensure-setup-critical-mysql.mjs"
+        );
+        await repairJson(prisma, {
+          log: (message: unknown) => console.warn(String(message)),
+        });
+        await runSetupTransaction();
+      } else {
+        throw error;
+      }
     }
 
     if (data.installMode !== "blank") {
@@ -335,7 +381,7 @@ export async function POST(request: Request) {
     return response;
   } catch (error) {
     console.error("Setup complete error:", error);
-    const status = isMissingSchemaError(error) ? 503 : 400;
+    const status = isMissingSchemaError(error) || isInvalidJsonDataError(error) ? 503 : 400;
     return NextResponse.json({ error: formatSetupError(error) }, { status });
   }
 }

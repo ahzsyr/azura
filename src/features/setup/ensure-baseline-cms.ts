@@ -14,15 +14,6 @@ type Tx = Omit<
 const EMPTY_BLOCKS: Prisma.InputJsonValue = [];
 const EMPTY_COMPOSITION = compositionService.save(compositionService.createEmpty()).composition;
 
-function pageHasBlocks(blocks: unknown): boolean {
-  return Array.isArray(blocks) && blocks.length > 0;
-}
-
-/** True when blocks are empty or still the generic blank-install landing hero. */
-function isStarterHomeBlocks(blocks: unknown): boolean {
-  return !pageHasBlocks(blocks);
-}
-
 const CMS_PAGE_SEEDS = [
   { slug: "home", templateKey: "home", title: "Home" },
   { slug: "about", templateKey: "about", title: "About Us" },
@@ -84,7 +75,11 @@ const LOCALE_SEEDS = [
 /** Publish homepage with starter landing blocks when missing or still draft. */
 export async function ensurePublishedHomePage(tx: Tx): Promise<{ updated: boolean }> {
   const now = new Date();
-  const existing = await tx.cmsPage.findUnique({ where: { slug: "home" } });
+  // Select scalars only — loading invalid blocks/composition JSON throws in Prisma.
+  const existing = await tx.cmsPage.findUnique({
+    where: { slug: "home" },
+    select: { id: true, status: true, publishedAt: true },
+  });
 
   if (!existing) {
     const created = await tx.cmsPage.create({
@@ -96,32 +91,23 @@ export async function ensurePublishedHomePage(tx: Tx): Promise<{ updated: boolea
         blocks: EMPTY_BLOCKS,
         composition: EMPTY_COMPOSITION,
       },
+      select: { id: true },
     });
     await upsertCmsPageTitle(tx, created.id, "Home");
     return { updated: true };
   }
 
-  if (
-    existing.status === "PUBLISHED" &&
-    pageHasBlocks(existing.blocks) &&
-    !isStarterHomeBlocks(existing.blocks)
-  ) {
+  if (existing.status === "PUBLISHED" && existing.publishedAt) {
     return { updated: false };
   }
-
-  const blocks: Prisma.InputJsonValue = pageHasBlocks(existing.blocks)
-    ? (existing.blocks as Prisma.InputJsonValue)
-    : EMPTY_BLOCKS;
 
   await tx.cmsPage.update({
     where: { slug: "home" },
     data: {
       status: "PUBLISHED",
       publishedAt: existing.publishedAt ?? now,
-      blocks,
-      composition:
-        ("composition" in existing ? (existing.composition as Prisma.InputJsonValue) : undefined) ??
-        EMPTY_COMPOSITION,
+      blocks: EMPTY_BLOCKS,
+      composition: EMPTY_COMPOSITION,
     },
   });
   return { updated: true };
@@ -129,16 +115,29 @@ export async function ensurePublishedHomePage(tx: Tx): Promise<{ updated: boolea
 
 /** Seed starter header nav when the persisted workspace has an empty main menu. */
 export async function ensureDefaultHeaderWorkspace(tx: Tx): Promise<{ updated: boolean }> {
-  const row = await tx.jsonStore.findUnique({
-    where: {
-      namespace_key: { namespace: HEADER_WORKSPACE_NS, key: HEADER_WORKSPACE_KEY },
-    },
-  });
+  let existingData: HeaderWorkspace | null = null;
+  try {
+    const row = await tx.jsonStore.findUnique({
+      where: {
+        namespace_key: { namespace: HEADER_WORKSPACE_NS, key: HEADER_WORKSPACE_KEY },
+      },
+      select: { data: true },
+    });
+    existingData = (row?.data as HeaderWorkspace | null) ?? null;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (!/Unexpected end of JSON input|invalid json|Malformed JSON/i.test(message)) {
+      throw error;
+    }
+    // Corrupt JsonStore.data — replace with a fresh workspace below.
+    existingData = null;
+  }
 
-  const workspace = mergeWorkspaceImport((row?.data as HeaderWorkspace | null) ?? null);
+  const workspace = mergeWorkspaceImport(existingData);
   const filled = fillEmptyMainMenu(workspace);
-  if (!filled) return { updated: false };
+  if (!filled && existingData) return { updated: false };
 
+  const next = filled ?? workspace;
   await tx.jsonStore.upsert({
     where: {
       namespace_key: { namespace: HEADER_WORKSPACE_NS, key: HEADER_WORKSPACE_KEY },
@@ -146,10 +145,10 @@ export async function ensureDefaultHeaderWorkspace(tx: Tx): Promise<{ updated: b
     create: {
       namespace: HEADER_WORKSPACE_NS,
       key: HEADER_WORKSPACE_KEY,
-      data: filled as unknown as Prisma.InputJsonValue,
+      data: next as unknown as Prisma.InputJsonValue,
     },
     update: {
-      data: filled as unknown as Prisma.InputJsonValue,
+      data: next as unknown as Prisma.InputJsonValue,
     },
   });
   return { updated: true };
@@ -172,6 +171,7 @@ export async function ensureBaselineCmsAndLocales(tx: Tx): Promise<void> {
         blocks: EMPTY_BLOCKS,
         composition: EMPTY_COMPOSITION,
       },
+      select: { id: true },
     });
     await upsertCmsPageTitle(tx, row.id, page.title);
     pageIndex += 1;
