@@ -105,6 +105,62 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   APPLE DESIGN ROLE TOKENS (Gate 3)
+   one color means one thing.
+   Enforced: body text token-on-canvas ≥ 4.5 AND token-on-10%-tint ≥ 4.5
+   in light; dark must pass the same. Do NOT define --az-accent here —
+   the theme engine owns that name (colors.ts / aliases.ts).
+   Distinct from --az-canvas-well (globals) — different property.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --az-canvas: #f7f6f3;
+  --az-ink: #1a1c22;
+  --az-ink-muted: #5c6170;
+  --az-brand: #0e6b5c;
+  --az-on-brand: #ffffff;
+  --az-danger: #b42318;
+  --az-on-danger: #ffffff;
+  --az-status-success: #0e6e42;
+  --az-status-warning: #8f5206;
+  --az-status-info: #1b5f8a;
+  --az-status-danger: var(--az-danger);
+  --az-on-status-success: #ffffff;
+  --az-on-status-warning: #ffffff;
+  --az-on-status-info: #ffffff;
+  --az-on-status-danger: var(--az-on-danger);
+  --az-chrome-solid: #ffffff;
+  --az-chrome: color-mix(in srgb, var(--az-chrome-solid) 92%, transparent);
+}
+
+/* Match existing dark mechanism (.dark on root) — do not invent data-theme here */
+.dark {
+  --az-canvas: #12141a;
+  --az-ink: #f2f0eb;
+  --az-ink-muted: #a8adb8;
+  --az-brand: #3dcfb4;
+  --az-on-brand: #12141a;
+  --az-danger: #f97066;
+  --az-on-danger: #12141a;
+  --az-status-success: #3dcf8e;
+  --az-status-warning: #f0b429;
+  --az-status-info: #5bb8e8;
+  --az-status-danger: var(--az-danger);
+  --az-on-status-success: #12141a;
+  --az-on-status-warning: #12141a;
+  --az-on-status-info: #12141a;
+  --az-on-status-danger: var(--az-on-danger);
+  --az-chrome-solid: #1c1f28;
+  --az-chrome: color-mix(in srgb, var(--az-chrome-solid) 92%, transparent);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :root,
+  .dark {
+    --az-chrome: var(--az-chrome-solid);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
    GAP / GUTTER TOKENS
    ═══════════════════════════════════════════════════════════════ */
 :root {
