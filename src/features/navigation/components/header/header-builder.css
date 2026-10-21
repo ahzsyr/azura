@@ -80,7 +80,7 @@
 .logo-area {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
   text-decoration: none;
   color: inherit;
   min-width: 0;
@@ -92,6 +92,15 @@
 .logo-area .brand-text {
   min-width: 0;
   overflow: hidden;
+  /* Gate 3 lockup: teal/brand accent mark between glyph and wordmark */
+  border-inline-start: 2px solid var(--cp, var(--az-brand));
+  padding-inline-start: 0.65rem;
+}
+
+.logo-area[data-brand-mobile="text-only"] .brand-text,
+.logo-area[data-brand-desktop="text-only"] .brand-text {
+  border-inline-start: none;
+  padding-inline-start: 0;
 }
 
 .logo-area .brand-name,
@@ -219,16 +228,16 @@
 .brand-name {
   font-family: var(--brand-name-font, var(--font-display, var(--az-font-display, system-ui, sans-serif)));
   font-size: var(--brand-name-size-mobile, 1.2rem);
-  font-weight: var(--brand-name-font-weight, 800);
+  font-weight: var(--brand-name-font-weight, 750);
   line-height: 1.1;
-  letter-spacing: 0.02em;
-  /* Track active preset primary. Text effects (neon / gradient-flow / …) own extra paint. */
-  color: var(--primary);
+  letter-spacing: 0.035em;
+  /* Gate 3 lockup: ink wordmark; accent lives in the logo-area mark, not the type fill */
+  color: var(--az-ink, var(--foreground));
 }
 
-/* gradient-flow sets its own clipped fill; keep a solid primary fill otherwise. */
+/* gradient-flow sets its own clipped fill; solid ink otherwise. */
 .brand-name:not([data-text-effect="gradient-flow"]) {
-  -webkit-text-fill-color: var(--primary);
+  -webkit-text-fill-color: var(--az-ink, var(--foreground));
   background: none;
   background-image: none;
   text-shadow: none;
@@ -254,7 +263,8 @@
   font-family: var(--brand-tagline-font, var(--font-body, var(--az-font-body, system-ui, sans-serif)));
   font-size: var(--brand-tagline-size-mobile, 0.72rem);
   font-weight: var(--brand-tagline-font-weight, 400);
-  color: var(--color-text-muted, var(--cg6));
+  letter-spacing: 0.02em;
+  color: var(--az-ink-muted, var(--color-text-muted, var(--cg6)));
   letter-spacing: 0.04em;
 }
 
