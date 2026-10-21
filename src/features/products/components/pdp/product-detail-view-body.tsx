@@ -162,6 +162,8 @@ function ProductDetailViewInner({
         description={product.description}
         shortDescription={product.short_description}
         emptyLabel={labels.noDescription}
+        emptyCtaLabel={labels.exploreCollections}
+        emptyCtaHref="/categories"
         collapseLabel={labels.description}
       />
     ),

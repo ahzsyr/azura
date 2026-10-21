@@ -44,6 +44,8 @@ type Props = {
   viewMode?: ListingViewMode;
   numberLocale?: string;
   emptyMessage: string;
+  emptyClearLabel?: string;
+  onEmptyClear?: () => void;
   cardLayoutCssVars?: Record<string, string>;
   buyNow?: ResolvedProductBuyNow;
   productCta?: ResolvedProductCtaConfig;
@@ -60,6 +62,8 @@ export function ProductListingGrid({
   viewMode = "grid",
   numberLocale = "en-US",
   emptyMessage,
+  emptyClearLabel,
+  onEmptyClear,
   cardLayoutCssVars,
   buyNow,
   productCta,
@@ -83,11 +87,16 @@ export function ProductListingGrid({
 
   if (products.length === 0) {
     return (
-      <section className="pl-empty" aria-live="polite">
+      <section className="pl-empty" role="status" aria-live="polite">
         <span className="pl-empty-icon" aria-hidden="true">
           ◈
         </span>
         <p className="pl-empty-msg">{emptyMessage}</p>
+        {onEmptyClear && emptyClearLabel ? (
+          <button type="button" className="pl-empty-cta" onClick={onEmptyClear}>
+            {emptyClearLabel}
+          </button>
+        ) : null}
       </section>
     );
   }

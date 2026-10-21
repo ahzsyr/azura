@@ -47,8 +47,6 @@ html[data-effects-tier="light"][data-glass-effect="liquid"] {
 }
 
 /* ── Base frost (material only — no layout props) ───────────────────────── */
-[data-glass-effect="liquid"] .az-card,
-[data-glass-effect="liquid"] .card,
 [data-glass-effect="liquid"] .az-preset-surface,
 [data-glass-effect="liquid"] .az-liquid-glass,
 [data-glass-effect="liquid"] .az-liquid-glass-panel,
@@ -105,8 +103,6 @@ html[data-effects-tier="light"][data-glass-effect="liquid"] {
  * dark footers read as solid grey slabs with no frost.
  */
 @supports (backdrop-filter: blur(1px)) {
-  [data-glass-effect="liquid"] .az-card,
-  [data-glass-effect="liquid"] .card,
   [data-glass-effect="liquid"] .az-preset-surface,
   [data-glass-effect="liquid"] .az-liquid-glass,
   [data-glass-effect="liquid"] .az-liquid-glass-panel,
@@ -146,8 +142,6 @@ html[data-effects-tier="light"][data-glass-effect="liquid"] {
 
 /* Safari legacy: webkit in its own rule so Lightning cannot collapse the pair. */
 @supports (-webkit-backdrop-filter: blur(1px)) {
-  [data-glass-effect="liquid"] .az-card,
-  [data-glass-effect="liquid"] .card,
   [data-glass-effect="liquid"] .az-preset-surface,
   [data-glass-effect="liquid"] .az-liquid-glass,
   [data-glass-effect="liquid"] .az-liquid-glass-panel,
@@ -187,8 +181,6 @@ html[data-effects-tier="light"][data-glass-effect="liquid"] {
 
 /* Optional SVG refraction — unprefixed only so Lightning cannot webkit-strip blur. */
 @supports (backdrop-filter: url(#liquid-refraction)) {
-  [data-glass-effect="liquid"] .az-card,
-  [data-glass-effect="liquid"] .card,
   [data-glass-effect="liquid"] .az-preset-surface,
   [data-glass-effect="liquid"] .az-liquid-glass,
   [data-glass-effect="liquid"] .az-liquid-glass-panel,
@@ -564,6 +556,18 @@ html[data-theme="dark"][data-glass-effect="liquid"] .popup-promo {
   contain: paint;
 }
 
+/* Content-layer cards: never receive glass blur
+ * (liquid-glass.md › Where the material belongs). Keep selectors above for
+ * paint containment only; material stays on chrome. */
+[data-glass-effect="liquid"] .az-card,
+[data-glass-effect="liquid"] .card {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: var(--card, var(--background)) !important;
+  background-color: var(--card, var(--background)) !important;
+  background-image: none !important;
+}
+
 /* ── Floating chrome (layout-safe) ──────────────────────────────────────── */
 [data-glass-effect="liquid"] .header-root:not([data-header-shell]) {
   padding-inline: var(--az-site-glass-float-inset);
@@ -708,8 +712,6 @@ html[data-theme="dark"][data-glass-effect="liquid"] .site-footer.bg-foreground >
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  [data-glass-effect="liquid"] .az-card,
-  [data-glass-effect="liquid"] .card,
   [data-glass-effect="liquid"] .az-preset-surface,
   [data-glass-effect="liquid"] .header-root .site-header,
   [data-glass-effect="liquid"] .mega-menu,
@@ -773,8 +775,6 @@ html[data-theme="dark"][data-glass-effect="liquid"] .site-footer.bg-foreground >
   }
 }
 
-html[data-reduced-paint="true"][data-glass-effect="liquid"] .az-card,
-html[data-reduced-paint="true"][data-glass-effect="liquid"] .card,
 html[data-reduced-paint="true"][data-glass-effect="liquid"] .az-preset-surface,
 html[data-reduced-paint="true"][data-glass-effect="liquid"] .header-root .site-header,
 html[data-reduced-paint="true"][data-glass-effect="liquid"] .mega-menu,
@@ -790,8 +790,6 @@ html[data-reduced-paint="true"][data-glass-effect="liquid"] .site-footer-shell {
 }
 
 @supports (backdrop-filter: url(#liquid-refraction)) {
-  html[data-reduced-paint="true"][data-glass-effect="liquid"] .az-card,
-  html[data-reduced-paint="true"][data-glass-effect="liquid"] .card,
   html[data-reduced-paint="true"][data-glass-effect="liquid"] .az-preset-surface,
   html[data-reduced-paint="true"][data-glass-effect="liquid"] .header-root .site-header,
   html[data-reduced-paint="true"][data-glass-effect="liquid"] .mega-menu,

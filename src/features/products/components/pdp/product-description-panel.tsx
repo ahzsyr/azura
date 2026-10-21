@@ -1,3 +1,4 @@
+import { Link } from "@/i18n/navigation";
 import type { ProductDetailedSection } from "../../types";
 import { ProductSectionAccordion } from "./product-section-accordion";
 
@@ -6,6 +7,8 @@ type Props = {
   description?: string;
   shortDescription?: string;
   emptyLabel?: string;
+  emptyCtaLabel?: string;
+  emptyCtaHref?: string;
   collapseLabel?: string;
 };
 
@@ -20,6 +23,8 @@ export function ProductDescriptionPanel({
   description,
   shortDescription,
   emptyLabel = "No description for this product yet.",
+  emptyCtaLabel,
+  emptyCtaHref,
   collapseLabel = "Description",
 }: Props) {
   const populated = sections.filter((s) => (s.heading?.trim() || s.text?.trim()).length > 0);
@@ -53,5 +58,16 @@ export function ProductDescriptionPanel({
     );
   }
 
-  return <p className="prd-text prd-text--muted">{emptyLabel}</p>;
+  return (
+    <div className="prd-empty" role="status">
+      <p className="prd-text">{emptyLabel}</p>
+      {emptyCtaLabel && emptyCtaHref ? (
+        <p className="prd-empty__action">
+          <Link href={emptyCtaHref} className="prd-empty__cta">
+            {emptyCtaLabel}
+          </Link>
+        </p>
+      ) : null}
+    </div>
+  );
 }

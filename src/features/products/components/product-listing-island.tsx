@@ -1336,6 +1336,8 @@ export function ProductListingIsland({
         viewMode={viewMode}
         numberLocale={numberLocale}
         emptyMessage={labels.noProducts}
+        emptyClearLabel={labels.clearAll}
+        onEmptyClear={clearAll}
         collectionCardVariant={isCatalogLayout && isCollectionListing ? "catalog" : "default"}
         collectionViewLabel={catalogToolbarLabels?.viewCollection ?? "View"}
       />

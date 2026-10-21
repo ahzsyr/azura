@@ -2479,11 +2479,35 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   -webkit-backdrop-filter: blur(20px);
   box-shadow: var(--header-shadow-strong, 0 8px 28px rgb(0 0 0 / 0.55));
   border-color: color-mix(in srgb, var(--color-primary, var(--primary)) 12%, transparent);
+  /* Soft sticky settle — Gate 3 owns easing/color; keep ≤200ms here */
   transition:
-    background-color 0.3s ease,
-    backdrop-filter 0.3s ease,
-    box-shadow 0.3s ease,
-    border-color 0.3s ease;
+    background-color 180ms ease,
+    backdrop-filter 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
+  .header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
+  .site-header {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .site-header,
+  .header-root .site-header,
+  .header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
+  .header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
+  .header-root[data-block-header-overlay="true"].header--sticking[data-overlay-surface="glass"] .site-header,
+  .mnav-portal-root[data-mnav-state="open"] .mnav-panel {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--color-surface, var(--card, var(--background))) !important;
+    background-color: var(--color-surface, var(--card, var(--background))) !important;
+    background-image: none !important;
+  }
 }
 
 /* Dark mode: even stronger glass for sticky header */

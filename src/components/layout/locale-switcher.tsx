@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { switchLocalePath } from "@/i18n/url-helpers";
@@ -82,6 +82,17 @@ export function LocaleSwitcher({ className, locales: localesProp, showInline = t
     [locales, locale]
   );
 
+  // Full document navigation is required: locale is negotiated via cookie +
+  // server-rendered next-intl messages. Soft router.replace would leave stale
+  // RSC/locale chrome until a hard reload. Soft-nav attempt is backlogged.
+  const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
+    };
+  }, []);
+
   const switchLocale = (targetUrlPrefix: string) => {
     setFading(true);
     const fullPath =
@@ -106,7 +117,8 @@ export function LocaleSwitcher({ className, locales: localesProp, showInline = t
       router.replace(href);
     }
     setOpen(false);
-    setTimeout(() => setFading(false), 300);
+    if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
+    fadeTimerRef.current = setTimeout(() => setFading(false), 300);
   };
 
   const modalTitle = t.has("selectLanguage") ? t("selectLanguage") : MODAL_COPY_FALLBACK;
