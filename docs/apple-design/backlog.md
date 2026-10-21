@@ -21,7 +21,7 @@ Findings noticed during Phase B gates that are out of scope for the active gate.
 
 ## Noticed during Gate 4 (Commit 1)
 
-- **Indonesian copy completion** — nine English-held keys from the approved Commit 1 set still need a translator with context (do not overwrite native `id` strings elsewhere). Enumerated:
+- **Indonesian copy completion** — nine English-held keys from the approved Commit 1 set still need a translator with context (do not overwrite native `id` strings elsewhere). Nine keys now hold superseded English — translate from the current `en` values, not from memory. Enumerated:
   - `contact.success` — `messages/id.json:148`
   - `contact.error` — `messages/id.json:149`
   - `common.loading` — `messages/id.json:322`
