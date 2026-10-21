@@ -44,7 +44,7 @@ run. Pass criteria are one line each.
 | 9 | Dark theme storefront | **UNASSIGNED** | Desktop/mobile dark mode | Lockup (ink + teal rule), status badges, and sticky chrome readable on real dark surfaces |
 | 10 | Bottom-nav captions at 320px | **UNASSIGNED** | 320px-wide viewport | Four labels remain legible; no severe clip/overlap |
 | 11 | Empty-state CTA at 320px | **UNASSIGNED** | 320px-wide viewport | CTA meets 44px hit target and does not dominate the empty state |
-| 12 | Safari chrome-tint boot identity | **UNASSIGNED** | Safari iOS (real device) | After clearing `devi-user-preset*`, hard-reload ×3: paint 1 ≡ paint 3 for `data-theme`, `meta[theme-color]`, `--az-browser-chrome-tint`, `--az-site-glass-tint`; dark mode has no light chrome before dark paint; light status bar matches header fill (not scroll-sample brown); personalization apply updates status bar at hydration |
+| 12 | Safari chrome-tint boot identity | **UNASSIGNED** | Safari iOS (real device) | After clearing `devi-user-preset*`, hard-reload ×3: paint 1 ≡ paint 3 for `data-theme`, `meta[theme-color]`, `--az-browser-chrome-tint`, `--az-site-glass-tint`; dark mode has no light chrome before dark paint; light status bar matches header fill (not scroll-sample brown); personalization apply updates status bar at hydration. **Record the four values** (paint 1 vs paint 3, light and dark) — not only pass/fail. Mismatch on `--az-site-glass-tint` alone → boot split; on `--az-browser-chrome-tint` alone → `scroll-chrome-tint.ts` re-entering after hydrate |
 
 ### Blockers (unassigned)
 
