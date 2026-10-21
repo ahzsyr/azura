@@ -16,10 +16,37 @@ function isDatabaseConnectionFailure(message: string | null): boolean {
 }
 
 export async function GET() {
-  const status = await getSetupStatus();
+  let status;
+  try {
+    status = await getSetupStatus();
+  } catch (error) {
+    console.error("[setup/status] getSetupStatus failed:", error);
+    return NextResponse.json(
+      {
+        setupComplete: false,
+        registrationEnabled: true,
+        comingSoonEnabled: false,
+        databaseReady: false,
+        databaseKind: null,
+      },
+      {
+        status: 503,
+        headers: {
+          "Cache-Control": "private, no-store, max-age=0, must-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      },
+    );
+  }
 
-  // A failed connection is not a fresh install. 503 keeps middleware from sending the live site to /welcome.
-  if (!status.databaseReady && isDatabaseConnectionFailure(status.databaseError)) {
+  // Connection failure is not a fresh install. 503 lets middleware use cookie/manifest fallback
+  // instead of confidently sending the live site to /welcome.
+  if (
+    !status.setupComplete &&
+    !status.databaseReady &&
+    isDatabaseConnectionFailure(status.databaseError)
+  ) {
     return NextResponse.json(
       {
         setupComplete: false,

@@ -292,16 +292,29 @@ export type { SetupDatabaseKind, SetupStatusResult } from "@/features/setup/setu
 
 /**
  * A live site already has an admin and company row. That is not a fresh install.
- * Keeps safeermedina-style domains off universal /welcome after deploy.
+ * Uses raw SQL so a partial schema (missing PackageInstallation/Custom404, etc.) still counts.
  * For public hold + admin full site, enable Coming Soon (Admin → Settings → Site), not setupComplete=false.
  */
+async function tableHasRows(table: "User" | "CompanyInfo"): Promise<boolean> {
+  const tables = await prisma.$queryRawUnsafe<Array<{ c: bigint | number }>>(
+    `SELECT COUNT(*) AS c FROM INFORMATION_SCHEMA.TABLES
+     WHERE TABLE_SCHEMA = DATABASE() AND LOWER(TABLE_NAME) = LOWER(?)`,
+    table,
+  );
+  if (Number(tables[0]?.c ?? 0) === 0) return false;
+  const rows = await prisma.$queryRawUnsafe<Array<{ c: bigint | number }>>(
+    `SELECT COUNT(*) AS c FROM \`${table}\``,
+  );
+  return Number(rows[0]?.c ?? 0) > 0;
+}
+
 async function installedSiteAlreadyExists(): Promise<boolean> {
   try {
-    const [user, company] = await Promise.all([
-      prisma.user.findFirst({ select: { id: true } }),
-      prisma.companyInfo.findFirst({ select: { id: true } }),
+    const [hasUser, hasCompany] = await Promise.all([
+      tableHasRows("User"),
+      tableHasRows("CompanyInfo"),
     ]);
-    return Boolean(user && company);
+    return hasUser && hasCompany;
   } catch (error) {
     logSetupDbError("existing site probe failed", error);
     return false;
@@ -309,58 +322,68 @@ async function installedSiteAlreadyExists(): Promise<boolean> {
 }
 
 export async function getSetupStatus(): Promise<SetupStatusResult> {
-
-  let databaseReady = await isSetupDatabaseReady();
-  if (!databaseReady && isSetupSchemaMissingMessage(lastDatabaseProbeError)) {
-    const ensured = await ensureSetupSchemaBestEffort();
-    if (ensured.ready) {
-      databaseReady = true;
-      lastDatabaseProbeError = null;
-    } else if (ensured.detail?.trim()) {
-      lastDatabaseProbeError = ensured.detail.trim();
-    }
-  }
-
-  const settings = await readSystemSettings();
-
-  let complete = settings.setupComplete;
-  if (!complete && databaseReady && (await installedSiteAlreadyExists())) {
-    complete = true;
-    try {
-      await writeSystemSettings({
-        setupComplete: true,
-        completedAt: settings.completedAt ?? new Date().toISOString(),
-      });
-    } catch (error) {
-      logSetupDbError("could not record the existing site as setup complete", error);
-    }
-  }
-
-  const registrationEnabled = await isRegistrationEnabled();
-
-  const comingSoonEnabled = await isComingSoonEnabled();
-
   const databaseKind: SetupDatabaseKind = isMysqlDatabaseUrl() ? "mysql" : "unknown";
 
-  return {
+  try {
+    // Status must stay fast for middleware. Do not spawn migrate here — Complete setup owns that.
+    const connected = await isSetupDatabaseConnected();
+    let databaseReady = false;
+    if (connected) {
+      try {
+        databaseReady = await isSetupSchemaReady();
+        if (!databaseReady) {
+          lastDatabaseProbeError = takeSetupSchemaGapMessage() ?? SETUP_SCHEMA_MISSING_MESSAGE;
+        } else {
+          lastDatabaseProbeError = null;
+        }
+      } catch (error) {
+        logSetupDbError("schema probe failed", error);
+        lastDatabaseProbeError = summarizeDatabaseProbeError(error);
+        databaseReady = false;
+      }
+    }
 
-    setupComplete: complete,
+    const settings = await readSystemSettings();
+    let complete = settings.setupComplete;
 
-    registrationEnabled,
+    // Existing installs must leave /welcome even when newer tables are still missing.
+    if (!complete && connected && (await installedSiteAlreadyExists())) {
+      complete = true;
+      try {
+        await writeSystemSettings({
+          setupComplete: true,
+          completedAt: settings.completedAt ?? new Date().toISOString(),
+        });
+      } catch (error) {
+        logSetupDbError("could not record the existing site as setup complete", error);
+      }
+    }
 
-    comingSoonEnabled,
+    const registrationEnabled = await isRegistrationEnabled();
+    const comingSoonEnabled = await isComingSoonEnabled();
 
-    comingSoonEnvOverride: getComingSoonEnvOverrideForAdmin(),
-
-    completedAt: settings.completedAt ?? null,
-
-    databaseReady,
-
-    databaseError: databaseReady ? null : lastDatabaseProbeError,
-
-    databaseKind,
-
-  };
-
+    return {
+      setupComplete: complete,
+      registrationEnabled,
+      comingSoonEnabled,
+      comingSoonEnvOverride: getComingSoonEnvOverrideForAdmin(),
+      completedAt: settings.completedAt ?? null,
+      databaseReady,
+      databaseError: databaseReady ? null : lastDatabaseProbeError,
+      databaseKind,
+    };
+  } catch (error) {
+    logSetupDbError("getSetupStatus failed", error);
+    return {
+      setupComplete: false,
+      registrationEnabled: true,
+      comingSoonEnabled: false,
+      comingSoonEnvOverride: getComingSoonEnvOverrideForAdmin(),
+      completedAt: null,
+      databaseReady: false,
+      databaseError: summarizeDatabaseProbeError(error),
+      databaseKind,
+    };
+  }
 }
 

@@ -20,22 +20,54 @@ type Props = {
 export default async function SetupPage({ searchParams }: Props) {
   const params = await searchParams;
   const token = params.token;
-  const setupStatus = await getSetupStatus();
+
+  let setupStatus;
+  try {
+    setupStatus = await getSetupStatus();
+  } catch (error) {
+    console.error("[setup] getSetupStatus failed:", error);
+    setupStatus = {
+      setupComplete: false,
+      registrationEnabled: true,
+      comingSoonEnabled: false,
+      comingSoonEnvOverride: null,
+      completedAt: null,
+      databaseReady: false,
+      databaseError:
+        error instanceof Error ? error.message : "Database status check failed",
+      databaseKind: "unknown" as const,
+    };
+  }
 
   if (setupStatus.setupComplete) {
-    const defaultLocale = await localeService.getDefaultUrlPrefix();
-    const home = `/${defaultLocale}`;
-    const cookieStore = await cookies();
-    if (!hasSetupCompleteCookie(cookieStore.get(SETUP_COMPLETE_COOKIE)?.value)) {
-      cookieStore.set(
-        SETUP_COMPLETE_COOKIE,
-        getSetupCompleteCookieValue(),
-        setupCompleteCookieOptions(),
-      );
+    let home = "/en";
+    try {
+      const defaultLocale = await localeService.getDefaultUrlPrefix();
+      home = `/${defaultLocale}`;
+    } catch (error) {
+      console.error("[setup] locale lookup failed during redirect:", error);
     }
-    const session = await auth();
-    const destination =
-      session?.user && isAdminRole(session.user.role) ? "/admin" : home;
+    try {
+      const cookieStore = await cookies();
+      if (!hasSetupCompleteCookie(cookieStore.get(SETUP_COMPLETE_COOKIE)?.value)) {
+        cookieStore.set(
+          SETUP_COMPLETE_COOKIE,
+          getSetupCompleteCookieValue(),
+          setupCompleteCookieOptions(),
+        );
+      }
+    } catch (error) {
+      console.error("[setup] could not set setup-complete cookie:", error);
+    }
+    let destination = home;
+    try {
+      const session = await auth();
+      if (session?.user && isAdminRole(session.user.role)) {
+        destination = "/admin";
+      }
+    } catch (error) {
+      console.error("[setup] auth check failed during redirect:", error);
+    }
     const headerList = await headers();
     const isRouterFlight =
       headerList.has("next-url") ||
