@@ -33,3 +33,4 @@ Findings noticed during Phase B gates that are out of scope for the active gate.
   - `product.stock.tipLabel` — `messages/id.json:435`
 - **Arabic copy review** — `locale.selectLanguageHint` (`messages/ar.json:350`, native) and the other Commit 1 meaning-preserving edits need a native reviewer. Do not route translation through English copy fixes.
 - **Storefront i18n debt (not polish)** — of ~28 storefront strings flagged in the Gate 4 copy audit, Commit 1 fixed 9 in `messages/en.json`. The rest live outside `messages/` (`search-copy.ts`, `load-pdp-labels.ts`, listing labels, component aria literals) and need a dedicated i18n pass, not absorption into “Gate 4 complete.”
+- **`.pl-card__stock-badge` residual hex** — still `#ef4444` / `#fff` in `product-listing.css` (Gate 3 inventory miss). Forced-colors path added in Gate 4; migrate to `--az-status-danger` / `--az-on-status-danger` in a token cleanup pass.
