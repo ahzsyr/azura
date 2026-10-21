@@ -1342,7 +1342,7 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
     min-height: 40px;
     border-radius: 16px;
     background: linear-gradient(135deg, var(--cp), var(--cpd));
-    color: #fff;
+    color: var(--az-on-brand, #fff);
     font-size: 1rem;
   }
 }
@@ -1884,7 +1884,7 @@ html[data-reduced-paint="true"] .mnav-portal-root[data-mnav-state="open"] .mnav-
 .header-root[data-mobile-nav-style="bordered"] .mnav-panel,
 .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   border-left-width: 3px;
-  border-left-color: var(--cp, #1a5f82);
+  border-left-color: var(--cp, var(--az-brand));
 }
 
 html[dir="rtl"] .mnav-panel,
@@ -1931,7 +1931,7 @@ html.rtl .header-root[data-mobile-nav-style="bordered"] .mnav-panel,
 html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   border-left: none;
   border-right-width: 3px;
-  border-right-color: var(--cp, #1a5f82);
+  border-right-color: var(--cp, var(--az-brand));
 }
 
 .mnav-overlay--fullscreen {
@@ -2078,7 +2078,7 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
 
 .mnav-row:hover {
   background: color-mix(in srgb, var(--foreground) 6%, transparent);
-  color: var(--cp, #1a5f82);
+  color: var(--cp, var(--az-brand));
 }
 
 .mnav-row--parent {
@@ -2112,7 +2112,7 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
 
 .mnav-row__toggle:hover {
   background: color-mix(in srgb, var(--foreground) 6%, transparent);
-  color: var(--cp, #1a5f82);
+  color: var(--cp, var(--az-brand));
 }
 
 .mnav-row__icon {
@@ -2321,8 +2321,8 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
 }
 
 .mnav-fs-item:hover {
-  background: color-mix(in srgb, var(--cp, #1a5f82) 6%, var(--background));
-  border-color: color-mix(in srgb, var(--cp, #1a5f82) 40%, transparent);
+  background: color-mix(in srgb, var(--cp, var(--az-brand)) 6%, var(--background));
+  border-color: color-mix(in srgb, var(--cp, var(--az-brand)) 40%, transparent);
 }
 
 /* Tabs bar */
@@ -2350,8 +2350,8 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
 }
 
 .mnav-tab-btn.is-active {
-  background: var(--cp, #1a5f82);
-  color: #fff;
+  background: var(--cp, var(--az-brand));
+  color: var(--az-on-brand, #fff);
 }
 
 /* Search first */
@@ -2454,7 +2454,7 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
 
 .mnav-bottom-item:hover,
 .mnav-bottom-item:focus-visible {
-  color: var(--cp, #1a5f82);
+  color: var(--cp, var(--az-brand));
 }
 
 /* Trigger type variants */
@@ -2651,14 +2651,14 @@ html:has([data-page-header-overlay="true"]) .header-root.header--sticking[data-o
 
 /* Mobile nav panel: neon border tint in dark mode */
 .dark .mnav-panel {
-  border-color: color-mix(in srgb, var(--cp, #00e5ff) 20%, transparent);
+  border-color: color-mix(in srgb, var(--cp, var(--az-brand)) 20%, transparent);
 }
 
 /* ── BRT parity: CTA nav button gradient ─────────────────────────────────── */
 .nav-cta-btn,
 .nav-link[data-link-style="cta"] {
   background: linear-gradient(135deg, var(--cp, var(--primary)), var(--cpd, var(--accent)));
-  color: var(--primary-foreground, #fff) !important;
+  color: var(--primary-foreground, var(--az-on-brand, #fff)) !important;
   border: none !important;
   border-radius: 999px;
   padding-inline: 1.25rem;

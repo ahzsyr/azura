@@ -72,7 +72,7 @@
   display: block;
   width: 100%;
   font-size: 0.68rem;
-  color: #16a34a;
+  color: var(--az-status-success);
   font-weight: 600;
 }
 
@@ -97,12 +97,13 @@
 
 .pl-card__badge--sale,
 .pl-card__badge--sale.pl-card__discount {
-  background: #ef4444;
+  background: var(--az-status-danger);
+  color: var(--az-on-status-danger);
 }
 
 .pl-card__badge--low_stock {
-  background: #f59e0b;
-  color: #111;
+  background: var(--az-status-warning);
+  color: var(--az-on-status-warning);
 }
 
 .pl-card__badge--inline {
@@ -177,9 +178,9 @@
 }
 
 .pl-card__wishlist.is-saved {
-  color: #ef4444;
-  background: color-mix(in srgb, #ef4444 12%, var(--sur, #fff));
-  border-color: color-mix(in srgb, #ef4444 45%, transparent);
+  color: var(--az-status-danger);
+  background: color-mix(in srgb, var(--az-status-danger) 12%, transparent);
+  border-color: color-mix(in srgb, var(--az-status-danger) 45%, transparent);
 }
 
 .pl-card__compare-btn {

@@ -957,21 +957,21 @@ html[data-header-inset-active="true"] .prd-page:not(:has(.prd-page__chrome-rail)
 }
 
 .prd-purchase__stock.is-in_stock {
-  color: #10b981;
-  border-color: color-mix(in srgb, #10b981 40%, transparent);
-  background: color-mix(in srgb, #10b981 10%, transparent);
+  color: var(--az-status-success);
+  border-color: color-mix(in srgb, var(--az-status-success) 40%, transparent);
+  background: color-mix(in srgb, var(--az-status-success) 10%, transparent);
 }
 
 .prd-purchase__stock.is-preorder {
-  color: #8b5cf6;
-  border-color: color-mix(in srgb, #8b5cf6 40%, transparent);
-  background: color-mix(in srgb, #8b5cf6 10%, transparent);
+  color: var(--az-status-info);
+  border-color: color-mix(in srgb, var(--az-status-info) 40%, transparent);
+  background: color-mix(in srgb, var(--az-status-info) 10%, transparent);
 }
 
 .prd-purchase__stock.is-out_of_stock {
-  color: #ef4444;
-  border-color: color-mix(in srgb, #ef4444 40%, transparent);
-  background: color-mix(in srgb, #ef4444 10%, transparent);
+  color: var(--az-status-danger);
+  border-color: color-mix(in srgb, var(--az-status-danger) 40%, transparent);
+  background: color-mix(in srgb, var(--az-status-danger) 10%, transparent);
 }
 
 .prd-purchase__stock-tip {
