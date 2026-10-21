@@ -78,11 +78,13 @@
   --az-fs-xs:     clamp(0.625rem,0.8vw, 0.75rem);
   --az-fs-label:  clamp(0.6rem,  0.8vw, 0.72rem);
   --az-fs-mono:   clamp(0.65rem, 0.9vw, 0.78rem);
-  /* Caption — ≥11px floor (accessibility.md › Vision mobile minimum) */
-  --az-fs-caption: max(0.6875rem, clamp(0.6875rem, 0.9vw, 0.8125rem));
+  /* Caption — floor 11px, grows in the mobile band (accessibility.md › Vision)
+   * Computed (16px root): 320→11.0px · 390→11.7px · 768→13.0px · cap 13px */
+  --az-fs-caption: clamp(0.6875rem, 1.6vw, 0.8125rem);
 
-  /* Touch / pointer hit target floor (accessibility.md › Mobility — 44×44 pt → CSS px) */
-  --az-hit-min: 44px;
+  /* Hit target floor — 32px fine pointer (desktop); 44px on coarse/touch
+   * (accessibility.md › Mobility). Touched up by @media (pointer: coarse) below. */
+  --az-hit-min: 32px;
 
   /* Product PDP + listing cards (not page-hero h1 scale; must stay separate from --az-fs-h1/h3) */
   --az-fs-product-detail-title: clamp(1.125rem, 2.25vw, 1.5rem);
@@ -94,6 +96,12 @@
   --az-lh-normal:  1.5;
   --az-lh-relaxed: 1.7;
   --az-lh-loose:   1.9;
+}
+
+@media (pointer: coarse) {
+  :root {
+    --az-hit-min: 44px;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════

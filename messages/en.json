@@ -433,6 +433,7 @@
     },
     "stock": {
       "tipLabel": "Stock availability details"
-    }
+    },
+    "servicesPaymentDesc": "Secure payments via card and bank transfer."
   }
 }
