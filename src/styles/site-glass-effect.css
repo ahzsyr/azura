@@ -892,6 +892,44 @@ html[data-reduced-paint="true"][data-glass-effect="liquid"] .pp-float-bar::after
     outline: 2px solid Highlight !important;
     outline-offset: 2px;
   }
+
+  /* Status badges / stock / wishlist — fill carried meaning; force opaque system colors */
+  .pl-card__badge--sale,
+  .pl-card__badge--sale.pl-card__discount,
+  .pl-card__badge--low_stock,
+  .pl-card__stock-badge {
+    forced-color-adjust: auto;
+    background: Highlight !important;
+    background-color: Highlight !important;
+    background-image: none !important;
+    color: HighlightText !important;
+    border: 1px solid CanvasText !important;
+  }
+
+  .pl-card__savings {
+    forced-color-adjust: auto;
+    color: CanvasText !important;
+  }
+
+  .pl-card__wishlist.is-saved {
+    forced-color-adjust: auto;
+    background: Canvas !important;
+    background-color: Canvas !important;
+    background-image: none !important;
+    color: CanvasText !important;
+    border: 1px solid Highlight !important;
+  }
+
+  .prd-purchase__stock.is-in_stock,
+  .prd-purchase__stock.is-preorder,
+  .prd-purchase__stock.is-out_of_stock {
+    forced-color-adjust: auto;
+    background: Canvas !important;
+    background-color: Canvas !important;
+    background-image: none !important;
+    color: CanvasText !important;
+    border: 1px solid CanvasText !important;
+  }
 }
 
 @media (prefers-contrast: more) {
@@ -911,5 +949,25 @@ html[data-reduced-paint="true"][data-glass-effect="liquid"] .pp-float-bar::after
   .az-ab-close,
   .mobile-search-btn {
     border: 1px solid var(--foreground) !important;
+  }
+
+  /* Tinted status fills keep a border so meaning is not fill-only */
+  .pl-card__badge--sale,
+  .pl-card__badge--sale.pl-card__discount,
+  .pl-card__badge--low_stock,
+  .pl-card__stock-badge {
+    border: 1px solid currentColor !important;
+  }
+
+  .pl-card__wishlist.is-saved {
+    border: 1px solid var(--az-status-danger, currentColor) !important;
+    background: color-mix(in srgb, var(--az-status-danger) 12%, var(--card, var(--background))) !important;
+  }
+
+  .prd-purchase__stock.is-in_stock,
+  .prd-purchase__stock.is-preorder,
+  .prd-purchase__stock.is-out_of_stock {
+    border-width: 1px !important;
+    border-style: solid !important;
   }
 }
