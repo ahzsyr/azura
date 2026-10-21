@@ -46,6 +46,7 @@ export function getDefaultThemeTokens(): ThemeTokens {
     },
     mobileBrowserConfig: {
       syncWithTheme: true,
+      chromeTintSource: "surface",
       browserThemeColorLight: null,
       browserThemeColorDark: null,
       browserBackgroundColor: null,

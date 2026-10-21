@@ -71,6 +71,25 @@ export function colorMix(
   return `color-mix(in ${space}, ${base} ${basePercent}%, ${mix})`;
 }
 
+/**
+ * Solid #rrggbb mix for theme-color / meta (browsers reject translucent values).
+ * `accentWeight` is 0–1 amount of accent blended into base.
+ */
+export function mixHexColors(
+  base: string,
+  accent: string,
+  accentWeight: number,
+): string {
+  const a = hexToRgb(base);
+  const b = hexToRgb(accent);
+  if (!a || !b) return coerceColorString(base) ?? "#fafafa";
+  const t = Math.min(1, Math.max(0, accentWeight));
+  const channel = (x: number, y: number) =>
+    Math.round((x * (1 - t) + y * t) * 255);
+  const toHex = (n: number) => n.toString(16).padStart(2, "0");
+  return `#${toHex(channel(a[0], b[0]))}${toHex(channel(a[1], b[1]))}${toHex(channel(a[2], b[2]))}`;
+}
+
 /** CSS light-dark() helper for static fallbacks. */
 export function lightDark(light: string, dark: string): string {
   return `light-dark(${light}, ${dark})`;

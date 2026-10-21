@@ -173,6 +173,7 @@ export function themeConfigToTokens(config: ThemeConfig): ThemeTokens {
     themeProvenance: config.themeProvenance ?? null,
     mobileBrowserConfig: config.mobileBrowser ?? {
       syncWithTheme: true,
+      chromeTintSource: "surface" as const,
       browserThemeColorLight: null,
       browserThemeColorDark: null,
       browserBackgroundColor: null,

@@ -43,7 +43,7 @@ import { resolveLocaleFonts } from "@/lib/theme/locale-fonts";
 import { LocaleFontPreview } from "../locale-font-preview";
 import { useTypographyFontLoader } from "../use-typography-font-loader";
 import { resolveMobileBrowserTheme } from "@/lib/theme/resolve-mobile-browser-theme";
-import type { IosStatusBarStyle } from "@/schemas/theme";
+import type { ChromeTintSource, IosStatusBarStyle } from "@/schemas/theme";
 import { ChromeVisibilityControls } from "../chrome-visibility-controls";
 import type { ChromePageOption } from "@/features/theme/chrome-page-options";
 import {
@@ -965,6 +965,14 @@ const IOS_STATUS_BAR_OPTIONS: { value: IosStatusBarStyle; label: string }[] = [
   { value: "black-translucent", label: "Black Translucent (content extends behind bar)" },
 ];
 
+const CHROME_TINT_SOURCE_OPTIONS: { value: ChromeTintSource; label: string }[] = [
+  { value: "surface", label: "Surface (match page background)" },
+  {
+    value: "primary",
+    label: "Primary (preset main color + glass wash)",
+  },
+];
+
 function MobileBrowserChromePreview({
   themeColorLight,
   themeColorDark,
@@ -1013,6 +1021,7 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
   const { state, setState } = studio;
   const config = state.mobileBrowserConfig ?? {
     syncWithTheme: true,
+    chromeTintSource: "surface" as ChromeTintSource,
     browserThemeColorLight: null,
     browserThemeColorDark: null,
     browserBackgroundColor: null,
@@ -1043,7 +1052,33 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
             searchTerms={["sync", "auto", "inherit"]}
           />
 
-          {!config.syncWithTheme ? (
+          {config.syncWithTheme ? (
+            <div className="space-y-2 border-t pt-4">
+              <ThemeSelect
+                label="Chrome tint source"
+                value={config.chromeTintSource ?? "surface"}
+                options={CHROME_TINT_SOURCE_OPTIONS}
+                onChange={(val) =>
+                  setConfig({ chromeTintSource: val as ChromeTintSource })
+                }
+                searchTerms={[
+                  "tint",
+                  "primary",
+                  "glass",
+                  "header",
+                  "footer",
+                  "safari",
+                  "chrome",
+                  "preset",
+                ]}
+              />
+              <p className="text-xs text-muted-foreground">
+                Primary washes the active preset main color into header, footer, and
+                browser chrome. With Liquid Glass on, mix strength follows glass
+                opacity so the tint reads as a translucent material, not a flat fill.
+              </p>
+            </div>
+          ) : (
             <div className="space-y-4 border-t pt-4">
               <p className="text-xs text-muted-foreground">
                 Override browser chrome colors manually. Leave blank to fall back to theme surface colors.
@@ -1075,7 +1110,7 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
                 />
               </div>
             </div>
-          ) : null}
+          )}
 
           <div className="border-t pt-4">
             <ThemeSelect

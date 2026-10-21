@@ -87,9 +87,17 @@ export const iosStatusBarStyleSchema = z
   .enum(["default", "black", "black-translucent"])
   .default("black-translucent");
 
+export const chromeTintSourceSchema = z.enum(["surface", "primary"]).default("surface");
+
 export const mobileBrowserConfigSchema = z
   .object({
     syncWithTheme: z.boolean().default(true),
+    /**
+     * When syncing with theme: derive browser/header/footer chrome from page
+     * surfaces, or wash the active preset primary into those surfaces (glass
+     * opacity controls mix strength when Liquid Glass is on).
+     */
+    chromeTintSource: chromeTintSourceSchema.optional(),
     browserThemeColorLight: z.string().nullable().optional(),
     browserThemeColorDark: z.string().nullable().optional(),
     browserBackgroundColor: z.string().nullable().optional(),
@@ -135,6 +143,7 @@ export const siteThemeSchema = z.object({
 });
 
 export type MobileBrowserConfig = z.infer<typeof mobileBrowserConfigSchema>;
+export type ChromeTintSource = z.infer<typeof chromeTintSourceSchema>;
 export type IosStatusBarStyle = z.infer<typeof iosStatusBarStyleSchema>;
 export type VisualEffectSettings = z.infer<typeof visualEffectSettingsSchema>;
 export type MotionSettings = z.infer<typeof motionSettingsSchema>;

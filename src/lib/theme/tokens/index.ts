@@ -16,7 +16,13 @@ export { buildSpacingCss, SPACING_TOKENS } from "./spacing";
 
 export { buildMotionCss, MOTION_TOKENS } from "./motion";
 
-export { hexToOklch, toModernColor, colorMix, lightDark } from "./color-utils";
+export {
+  hexToOklch,
+  toModernColor,
+  colorMix,
+  mixHexColors,
+  lightDark,
+} from "./color-utils";
 
 export { buildThemeTokenCss } from "./pipeline";
 export { tokensToPresetColorTokens } from "./preset-colors";

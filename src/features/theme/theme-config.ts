@@ -165,11 +165,19 @@ const VALID_IOS_STATUS_BAR_STYLES: IosStatusBarStyle[] = [
   "black-translucent",
 ];
 
+const VALID_CHROME_TINT_SOURCES = ["surface", "primary"] as const;
+
 export function parseMobileBrowserConfig(raw: unknown): MobileBrowserConfig {
   const r = asRecord(raw);
   const iosStyle = r.iosStatusBarStyle;
+  const tintSource = r.chromeTintSource;
   return {
     syncWithTheme: r.syncWithTheme !== false,
+    chromeTintSource:
+      typeof tintSource === "string" &&
+      (VALID_CHROME_TINT_SOURCES as readonly string[]).includes(tintSource)
+        ? (tintSource as (typeof VALID_CHROME_TINT_SOURCES)[number])
+        : "surface",
     browserThemeColorLight:
       typeof r.browserThemeColorLight === "string" ? r.browserThemeColorLight : null,
     browserThemeColorDark:

@@ -133,4 +133,74 @@ describe("resolveMobileBrowserTheme", () => {
       "light and dark surfaces should produce different browser colors",
     );
   });
+
+  it("washes preset primary into chrome when chromeTintSource is primary", () => {
+    const surface = makeTokens({
+      primaryColor: "#047857",
+      glassEffectEnabled: false,
+      mobileBrowserConfig: {
+        syncWithTheme: true,
+        chromeTintSource: "surface",
+        browserThemeColorLight: null,
+        browserThemeColorDark: null,
+        browserBackgroundColor: null,
+        iosStatusBarStyle: "black-translucent",
+      },
+    });
+    const primary = makeTokens({
+      primaryColor: "#047857",
+      glassEffectEnabled: false,
+      mobileBrowserConfig: {
+        syncWithTheme: true,
+        chromeTintSource: "primary",
+        browserThemeColorLight: null,
+        browserThemeColorDark: null,
+        browserBackgroundColor: null,
+        iosStatusBarStyle: "black-translucent",
+      },
+    });
+    const surfaceResult = resolveMobileBrowserTheme(surface);
+    const primaryResult = resolveMobileBrowserTheme(primary);
+    assert.notEqual(
+      primaryResult.themeColorLight,
+      surfaceResult.themeColorLight,
+      "primary tint should diverge from pure surface",
+    );
+    assert.ok(primaryResult.themeColorLight.startsWith("#"));
+    assert.equal(primaryResult.themeColorLight.length, 7);
+  });
+
+  it("strengthens primary wash when Liquid Glass opacity increases", () => {
+    const soft = makeTokens({
+      primaryColor: "#047857",
+      glassEffectEnabled: true,
+      glassEffectSettings: { intensity: 1, opacity: 0.2 },
+      mobileBrowserConfig: {
+        syncWithTheme: true,
+        chromeTintSource: "primary",
+        browserThemeColorLight: null,
+        browserThemeColorDark: null,
+        browserBackgroundColor: null,
+        iosStatusBarStyle: "black-translucent",
+      },
+    });
+    const strong = makeTokens({
+      primaryColor: "#047857",
+      glassEffectEnabled: true,
+      glassEffectSettings: { intensity: 1, opacity: 0.9 },
+      mobileBrowserConfig: {
+        syncWithTheme: true,
+        chromeTintSource: "primary",
+        browserThemeColorLight: null,
+        browserThemeColorDark: null,
+        browserBackgroundColor: null,
+        iosStatusBarStyle: "black-translucent",
+      },
+    });
+    assert.notEqual(
+      resolveMobileBrowserTheme(soft).themeColorLight,
+      resolveMobileBrowserTheme(strong).themeColorLight,
+      "higher glass opacity should pull chrome closer to primary",
+    );
+  });
 });

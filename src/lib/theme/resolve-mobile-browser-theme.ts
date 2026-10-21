@@ -1,6 +1,7 @@
 import type { ThemeTokens } from "@/types/theme";
-import type { IosStatusBarStyle } from "@/schemas/theme";
+import type { ChromeTintSource, IosStatusBarStyle } from "@/schemas/theme";
 import { resolveThemeSurfaces } from "@/features/theme/surfaces/theme-surfaces";
+import { coerceColorString, mixHexColors } from "@/lib/theme/tokens/color-utils";
 
 export type ResolvedMobileBrowserTheme = {
   /** Hex color for browser chrome in light mode (used in theme-color meta). */
@@ -17,11 +18,13 @@ export type ResolvedMobileBrowserTheme = {
  * Resolve effective mobile browser theme values.
  *
  * When `syncWithTheme` is true the colors are derived from the site's resolved
- * surface tokens, providing automatic parity with the active theme palette.
- * When false the explicit override values from `mobileBrowserConfig` are used.
+ * surface tokens (optionally washed with the preset primary when
+ * `chromeTintSource` is `"primary"`). When false the explicit override values
+ * from `mobileBrowserConfig` are used.
  */
 const DEFAULT_MOBILE_BROWSER_CONFIG = {
   syncWithTheme: true,
+  chromeTintSource: "surface" as ChromeTintSource,
   browserThemeColorLight: null as string | null,
   browserThemeColorDark: null as string | null,
   browserBackgroundColor: null as string | null,
@@ -41,6 +44,40 @@ function resolveIosStatusBarStyle(
   return "black-translucent";
 }
 
+function resolvePrimaryHex(tokens: ThemeTokens): string | null {
+  const raw =
+    coerceColorString(tokens.primaryColor) ??
+    coerceColorString(tokens.presetColors?.primary);
+  if (!raw?.startsWith("#")) return null;
+  const normalized = raw.replace("#", "").trim();
+  if (normalized.length !== 6) return null;
+  return `#${normalized.toLowerCase()}`;
+}
+
+/**
+ * Accent wash strength for solid theme-color hex.
+ * When Liquid Glass is on, track glass opacity so chrome matches the material.
+ * When glass is off, use a soft brand wash so primary tint still reads.
+ */
+function resolveChromeAccentWeight(tokens: ThemeTokens): number {
+  if (tokens.glassEffectEnabled) {
+    const opacity = tokens.glassEffectSettings?.opacity ?? 0.45;
+    return Math.min(0.4, Math.max(0.12, opacity * 0.55));
+  }
+  return 0.2;
+}
+
+function applyChromeTintSource(
+  surfaceHex: string,
+  tokens: ThemeTokens,
+  source: ChromeTintSource | undefined,
+): string {
+  if (source !== "primary") return surfaceHex;
+  const primary = resolvePrimaryHex(tokens);
+  if (!primary) return surfaceHex;
+  return mixHexColors(surfaceHex, primary, resolveChromeAccentWeight(tokens));
+}
+
 export function resolveMobileBrowserTheme(tokens: ThemeTokens): ResolvedMobileBrowserTheme {
   const config = tokens.mobileBrowserConfig ?? DEFAULT_MOBILE_BROWSER_CONFIG;
 
@@ -58,14 +95,26 @@ export function resolveMobileBrowserTheme(tokens: ThemeTokens): ResolvedMobileBr
     };
   }
 
-  // Auto-sync: derive from resolved surface background colors.
+  // Auto-sync: derive from resolved surface backgrounds, optionally primary-washed.
   const lightSurfaces = resolveThemeSurfaces(presetColors, "light", tokens.primaryColor);
   const darkSurfaces = resolveThemeSurfaces(presetColors, "dark", tokens.primaryColor);
+  const tintSource = config.chromeTintSource ?? "surface";
+
+  const themeColorLight = applyChromeTintSource(
+    lightSurfaces.background,
+    tokens,
+    tintSource,
+  );
+  const themeColorDark = applyChromeTintSource(
+    darkSurfaces.background,
+    tokens,
+    tintSource,
+  );
 
   return {
-    themeColorLight: lightSurfaces.background,
-    themeColorDark: darkSurfaces.background,
-    backgroundColor: lightSurfaces.background,
+    themeColorLight,
+    themeColorDark,
+    backgroundColor: themeColorLight,
     iosStatusBarStyle: resolveIosStatusBarStyle(config.iosStatusBarStyle),
   };
 }
