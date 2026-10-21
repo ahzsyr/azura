@@ -975,8 +975,11 @@ html[data-header-inset-active="true"] .prd-page:not(:has(.prd-page__chrome-rail)
 }
 
 .prd-purchase__stock-tip {
-  width: 1.1rem;
-  height: 1.1rem;
+  box-sizing: border-box;
+  width: var(--az-hit-min, 44px);
+  height: var(--az-hit-min, 44px);
+  min-width: var(--az-hit-min, 44px);
+  min-height: var(--az-hit-min, 44px);
   border-radius: 50%;
   border: 1px solid currentColor;
   background: transparent;
@@ -985,6 +988,9 @@ html[data-header-inset-active="true"] .prd-page:not(:has(.prd-page__chrome-rail)
   cursor: help;
   line-height: 1;
   padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .prd-purchase__stock-tooltip {
@@ -1091,7 +1097,12 @@ html[data-header-inset-active="true"] .prd-page:not(:has(.prd-page__chrome-rail)
     color-mix(in srgb, var(--m) 12%, transparent) 75%
   );
   background-size: 200% 100%;
-  animation: prd-purchase-shimmer 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .prd-purchase__skel-card {
+    animation: prd-purchase-shimmer 1.2s ease-in-out infinite;
+  }
 }
 
 @keyframes prd-purchase-shimmer {

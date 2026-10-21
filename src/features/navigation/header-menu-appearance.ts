@@ -126,6 +126,15 @@ export function resolveMobileMenuAppearance(
 }
 
 export function getMobileAnimDuration(animation: MobileNavAnimation): number {
+  if (typeof window !== "undefined") {
+    try {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return 0;
+      }
+    } catch {
+      /* matchMedia unavailable — use design duration */
+    }
+  }
   switch (animation) {
     case "spring":
       return 380;

@@ -153,6 +153,8 @@
   justify-content: center;
   width: 2rem;
   height: 2rem;
+  min-width: var(--az-hit-min, 44px);
+  min-height: var(--az-hit-min, 44px);
   padding: 0;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--p) 38%, transparent);
@@ -186,6 +188,8 @@
   justify-content: center;
   width: 2rem;
   height: 2rem;
+  min-width: var(--az-hit-min, 44px);
+  min-height: var(--az-hit-min, 44px);
   padding: 0;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--p) 38%, transparent);
@@ -668,6 +672,8 @@
 .pl-card[data-prd-style="media_flip"] .pl-card__overlay-actions .pl-card__wishlist {
   width: 1.65rem;
   height: 1.65rem;
+  min-width: var(--az-hit-min, 44px);
+  min-height: var(--az-hit-min, 44px);
   border-color: color-mix(in srgb, var(--p, var(--color-primary)) 22%, transparent);
   background: color-mix(in srgb, var(--sur, #fff) 88%, transparent);
   box-shadow: 0 1px 8px color-mix(in srgb, #000 14%, transparent);

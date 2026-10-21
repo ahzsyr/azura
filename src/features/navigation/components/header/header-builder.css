@@ -436,7 +436,11 @@ a.nav-link {
 .dropdown-menu a.hb-mega-dropdown-row:focus-visible {
   background: var(--cg1);
   color: var(--cp);
-  outline: none;
+}
+
+.dropdown-menu a.hb-mega-dropdown-row:focus-visible {
+  outline: 2px solid var(--cp, var(--primary));
+  outline-offset: 2px;
 }
 
 .hb-mega-dropdown-icon {
@@ -1161,8 +1165,10 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 42px;
-    height: 42px;
+    width: var(--az-hit-min, 44px);
+    height: var(--az-hit-min, 44px);
+    min-width: var(--az-hit-min, 44px);
+    min-height: var(--az-hit-min, 44px);
     margin-inline-end: 2px;
     border-radius: 12px;
     border: 1px solid color-mix(in srgb, var(--cp, var(--primary)) 16%, transparent);
@@ -1185,7 +1191,11 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
     background: color-mix(in srgb, var(--cp, var(--primary)) 14%, transparent);
     border-color: color-mix(in srgb, var(--cp, var(--primary)) 28%, transparent);
     color: var(--cp, var(--primary));
-    outline: none;
+  }
+
+  .mobile-search-btn:focus-visible {
+    outline: 2px solid var(--cp, var(--primary));
+    outline-offset: 2px;
   }
 
   .mobile-search-btn:active {
@@ -2380,6 +2390,11 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   font-family: var(--font-body, system-ui, sans-serif);
 }
 
+.mnav-search-input:focus-visible {
+  outline: 2px solid var(--cp, var(--primary));
+  outline-offset: 2px;
+}
+
 /* Bottom bar */
 .mnav-bottom-bar {
   position: fixed;
@@ -2424,6 +2439,7 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
 }
 
 .mnav-bottom-item__label {
+  font-size: var(--az-fs-caption, 0.6875rem);
   line-height: 1.2;
   text-align: center;
   max-width: 100%;
@@ -2818,7 +2834,11 @@ html:has([data-page-header-overlay="true"]) .header-root.header--sticking[data-o
 .hb-mega-v2-sidebar__item:focus-visible {
   opacity: 1;
   background: color-mix(in srgb, var(--cp, var(--primary)) 8%, transparent);
-  outline: none;
+}
+
+.hb-mega-v2-sidebar__item:focus-visible {
+  outline: 2px solid var(--cp, var(--primary));
+  outline-offset: 2px;
 }
 
 .hb-mega-v2-sidebar__item.is-active {

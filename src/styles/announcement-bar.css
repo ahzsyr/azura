@@ -44,6 +44,8 @@
   border: none;
   cursor: pointer;
   padding: 0.5rem;
+  min-width: var(--az-hit-min, 44px);
+  min-height: var(--az-hit-min, 44px);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -78,6 +78,11 @@
   --az-fs-xs:     clamp(0.625rem,0.8vw, 0.75rem);
   --az-fs-label:  clamp(0.6rem,  0.8vw, 0.72rem);
   --az-fs-mono:   clamp(0.65rem, 0.9vw, 0.78rem);
+  /* Caption — ≥11px floor (accessibility.md › Vision mobile minimum) */
+  --az-fs-caption: max(0.6875rem, clamp(0.6875rem, 0.9vw, 0.8125rem));
+
+  /* Touch / pointer hit target floor (accessibility.md › Mobility — 44×44 pt → CSS px) */
+  --az-hit-min: 44px;
 
   /* Product PDP + listing cards (not page-hero h1 scale; must stay separate from --az-fs-h1/h3) */
   --az-fs-product-detail-title: clamp(1.125rem, 2.25vw, 1.5rem);

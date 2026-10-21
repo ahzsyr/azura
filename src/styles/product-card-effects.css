@@ -45,11 +45,16 @@
     transparent 60%
   );
   transform: translateX(-120%);
-  transition: transform var(--prd-motion-slow, 720ms) ease;
 }
 
-.pl-card:hover .pl-card__fx--sweep::after {
-  transform: translateX(120%);
+@media (prefers-reduced-motion: no-preference) {
+  .pl-card__fx--sweep::after {
+    transition: transform var(--prd-motion-slow, 720ms) ease;
+  }
+
+  .pl-card:hover .pl-card__fx--sweep::after {
+    transform: translateX(120%);
+  }
 }
 
 .pl-card__fx--noise {

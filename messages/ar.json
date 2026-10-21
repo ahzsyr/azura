@@ -426,5 +426,13 @@
       "contact": "السلام عليكم، أود التواصل مع {brandName}.",
       "contentInquiry": "السلام عليكم، أنا مهتم بـ {itemTitle} من {brandName}."
     }
+  },
+  "product": {
+    "gallery": {
+      "thumbLabel": "{title}, image {index} of {count}"
+    },
+    "stock": {
+      "tipLabel": "Stock availability details"
+    }
   }
 }

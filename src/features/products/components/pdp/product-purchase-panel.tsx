@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import type { Product, ProductConditionOption, ProductStockStatus } from "../../types";
 import {
   resolveDeliveryOptionsForProduct,
@@ -86,6 +87,7 @@ export function ProductPurchasePanel({
   conditionInVariations = false,
   sectionOrder,
 }: Props) {
+  const tProduct = useTranslations("product");
   const stockStatus: ProductStockStatus = product.stock_status || "in_stock";
   const outOfStock = stockStatus === "out_of_stock";
   const conditions = product.condition_options ?? [];
@@ -316,6 +318,7 @@ export function ProductPurchasePanel({
           <button
             type="button"
             className="prd-purchase__stock-tip"
+            aria-label={tProduct("stock.tipLabel")}
             aria-describedby="prd-stock-tooltip"
             title={labels.stockTooltip}
           >

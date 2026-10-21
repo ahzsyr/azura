@@ -101,7 +101,7 @@ export async function loadPdpLabels(localePrefix: string): Promise<PdpLabels> {
     servicesPayment: t("servicesPayment", "Payment"),
     servicesPaymentDesc: t(
       "servicesPaymentDesc",
-      "Secure payments via card, bank transfer, and Apple Pay where available.",
+      "Secure payments via card and bank transfer.",
     ),
     servicesWarranty: t("servicesWarranty", "Warranty & Returns"),
     servicesWarrantyDesc: t(

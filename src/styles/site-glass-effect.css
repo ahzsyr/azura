@@ -858,3 +858,59 @@ html[data-reduced-paint="true"][data-glass-effect="liquid"] .pp-float-bar::befor
 html[data-reduced-paint="true"][data-glass-effect="liquid"] .pp-float-bar::after {
   display: none !important;
 }
+
+/* High-contrast / forced-colors — accessibility.md › Vision
+ * Opaque Canvas / ButtonFace surfaces and CanvasText borders so glass color-mix
+ * fills stay readable when OS high-contrast themes replace author colors. */
+@media (forced-colors: active) {
+  .header-root .site-header,
+  .mnav-panel,
+  .mnav-portal-root .mnav-panel,
+  .sm-search-panel,
+  .sm-search-root.sm-search-panel,
+  .az-ab-close {
+    forced-color-adjust: auto;
+    background: Canvas !important;
+    background-color: Canvas !important;
+    background-image: none !important;
+    color: CanvasText !important;
+    border: 1px solid CanvasText !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .az-ab-close,
+  .mobile-search-btn {
+    background: ButtonFace !important;
+    background-color: ButtonFace !important;
+    color: ButtonText !important;
+    border: 1px solid ButtonText !important;
+  }
+
+  .mobile-search-btn:focus-visible,
+  .mnav-search-input:focus-visible,
+  .sm-search-panel input:focus-visible {
+    outline: 2px solid Highlight !important;
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .header-root .site-header,
+  .mnav-panel,
+  .mnav-portal-root .mnav-panel,
+  .sm-search-panel,
+  .sm-search-root.sm-search-panel {
+    background: var(--card, var(--background)) !important;
+    background-color: var(--card, var(--background)) !important;
+    background-image: none !important;
+    border: 1px solid var(--foreground, CanvasText) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .az-ab-close,
+  .mobile-search-btn {
+    border: 1px solid var(--foreground) !important;
+  }
+}

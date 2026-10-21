@@ -426,5 +426,13 @@
       "contact": "Assalamu Alaikum, I would like to get in touch with {brandName}.",
       "contentInquiry": "Assalamu Alaikum, I am interested in {itemTitle} from {brandName}."
     }
+  },
+  "product": {
+    "gallery": {
+      "thumbLabel": "{title}, image {index} of {count}"
+    },
+    "stock": {
+      "tipLabel": "Stock availability details"
+    }
   }
 }

@@ -255,7 +255,7 @@ export function GlobalSearchPanel({
                 onClose();
               }
             }}
-            className="flex h-10 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+            className="flex h-10 min-w-0 flex-1 bg-transparent text-sm outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring placeholder:text-muted-foreground"
           />
         </SearchInputShell>
         {onClose ? (

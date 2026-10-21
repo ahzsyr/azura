@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ZoomIn } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useTranslations } from "next-intl";
 import { normalizeRemoteImageUrl, shouldOptimizeNextImage } from "@/lib/config/next-image";
 import { IMAGE_SIZES } from "@/lib/config/performance";
 import { sharedElementAttrs } from "@/lib/navigation/shared-elements";
@@ -61,6 +62,7 @@ export function ProductGallery({
   layoutMode = "immersive",
   thumbPlacement = "below",
 }: Props) {
+  const tProduct = useTranslations("product");
   const title = product.productTitle || product.name || "Product";
   const defaultColor = product.variations?.find(
     (v) => v.type?.toLowerCase().includes("color") || v.type?.toLowerCase().includes("colour"),
@@ -427,6 +429,11 @@ export function ProductGallery({
           type="button"
           role="tab"
           aria-selected={index === active}
+          aria-label={tProduct("gallery.thumbLabel", {
+            title,
+            index: index + 1,
+            count: allMedia.length,
+          })}
           className={`prd-gallery__thumb${index === active ? " is-active" : ""}${media.kind === "video" ? " prd-gallery__thumb--video" : ""}`}
           onClick={() => selectSlide(index)}
         >
