@@ -18,3 +18,18 @@ Findings noticed during Phase B gates that are out of scope for the active gate.
 - **Card style storage rename (migration):** `data-card-style` values `liquid-glass` / `glassmorphism` still stored; Theme Studio labels rewritten to "Soft surface (opaque)" / "Lifted surface (opaque)" so the UI matches reality. A proper rename needs a data migration for user presets (`agency`/`saas` map to glassmorphism) — do not flip the stored value without migration.
 - A1 browser check still open: Reduce Motion on, resize across 968px with menu closed — panel must appear without entrance animation.
 - Residual partner hex kept intentionally: Trustpilot `#00b67a` (`.prd-trust*`), WhatsApp `#25d366`, overlay `#fff`/`#000` on media chrome, star `#ffc107`.
+
+## Noticed during Gate 4 (Commit 1)
+
+- **Indonesian copy completion** — nine English-held keys from the approved Commit 1 set still need a translator with context (do not overwrite native `id` strings elsewhere). Enumerated:
+  - `contact.success` — `messages/id.json:148`
+  - `contact.error` — `messages/id.json:149`
+  - `common.loading` — `messages/id.json:322`
+  - `common.backToHome` — `messages/id.json:329`
+  - `common.pageNotFoundBody` — `messages/id.json:333`
+  - `locale.selectLanguageHint` — `messages/id.json:350`
+  - `compare.drawerEmpty` — `messages/id.json:360`
+  - `compare.empty` — `messages/id.json:361`
+  - `product.stock.tipLabel` — `messages/id.json:435`
+- **Arabic copy review** — `locale.selectLanguageHint` (`messages/ar.json:350`, native) and the other Commit 1 meaning-preserving edits need a native reviewer. Do not route translation through English copy fixes.
+- **Storefront i18n debt (not polish)** — of ~28 storefront strings flagged in the Gate 4 copy audit, Commit 1 fixed 9 in `messages/en.json`. The rest live outside `messages/` (`search-copy.ts`, `load-pdp-labels.ts`, listing labels, component aria literals) and need a dedicated i18n pass, not absorption into “Gate 4 complete.”

@@ -145,8 +145,8 @@
     "phone": "Phone Number",
     "message": "Your Message",
     "submit": "Send Message",
-    "success": "Thank you! We will contact you shortly.",
-    "error": "Something went wrong. Please try again.",
+    "success": "Message sent. We'll get back to you shortly.",
+    "error": "We couldn't send your message. Try again.",
     "office": "Office Details",
     "hours": "Office Hours",
     "whatsapp": "Chat on WhatsApp",
@@ -319,18 +319,18 @@
     "resetToSiteDefault": "Reset to site default"
   },
   "common": {
-    "loading": "Loading...",
+    "loading": "Loading…",
     "readMore": "Read More",
     "back": "Back",
     "stars": "stars",
     "yes": "Yes",
     "no": "No",
     "feature": "Feature",
-    "backToHome": "Back to home",
+    "backToHome": "Back to Home",
     "day": "Day",
     "viewAll": "View all",
     "pageNotFound": "Page not found",
-    "pageNotFoundBody": "The page you are looking for does not exist."
+    "pageNotFoundBody": "This page doesn't exist. Contact us or send an inquiry."
   },
   "blog": {
     "title": "Blog",
@@ -347,7 +347,7 @@
   },
   "locale": {
     "selectLanguage": "Select language",
-    "selectLanguageHint": "Choose your preferred language"
+    "selectLanguageHint": "Choose a language"
   },
   "compare": {
     "drawerTitle": "Compare",
@@ -357,8 +357,8 @@
     "compareNow": "Compare now",
     "viewComparison": "View comparison",
     "clearAll": "Clear all",
-    "drawerEmpty": "No items selected for comparison.",
-    "empty": "Comparison list is empty",
+    "drawerEmpty": "Nothing to compare yet. Add items from the catalog.",
+    "empty": "Your compare list is empty. Add items from the catalog.",
     "typeNotComparable": "These items are saved for comparison, but this catalog type is not available on the compare page right now. Clear the list or try again after refreshing the page.",
     "allSpecs": "All attributes",
     "differences": "Differences only",
@@ -432,7 +432,7 @@
       "thumbLabel": "{title}, image {index} of {count}"
     },
     "stock": {
-      "tipLabel": "Stock availability details"
+      "tipLabel": "About stock availability"
     },
     "servicesPaymentDesc": "Secure payments via card and bank transfer."
   }
