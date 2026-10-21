@@ -190,4 +190,23 @@ describe("syncThemeColorMeta", () => {
     assert.equal(styleProps["--az-browser-chrome-tint"], "#0a0a0a");
     assert.equal(styleProps["--az-site-glass-tint"], "#0a0a0a");
   });
+
+  it("keeps glass tint on projection when scroll chrome color differs", async () => {
+    const { syncThemeColorMeta } = await import("@/features/theme/engine/appearance");
+    const light = document.createElement("meta");
+    light.name = "theme-color";
+    light.content = "#fafafa";
+    document.head.appendChild(light);
+
+    syncThemeColorMeta("light", {
+      mode: "light",
+      color: "#c4b5a0",
+      lightColor: "#fafafa",
+      darkColor: "#020408",
+      glassTint: "#fafafa",
+    });
+
+    assert.equal(styleProps["--az-browser-chrome-tint"], "#c4b5a0");
+    assert.equal(styleProps["--az-site-glass-tint"], "#fafafa");
+  });
 });

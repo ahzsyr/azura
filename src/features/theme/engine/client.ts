@@ -20,6 +20,8 @@ import {
   readStoredPresetEffects,
   readStoredPresetId,
   readStoredPresetVisual,
+  type PersistPresetSessionOptions,
+  type PresetSessionScope,
 } from "./preset-session";
 import type {
   ApplyPresetPayload,
@@ -102,12 +104,13 @@ export function buildLiveVisualExperience(
 export function applyPresetToDocument(
   payload: ApplyPresetPayload,
   resolvedAppearance: ResolvedAppearance,
+  options?: PersistPresetSessionOptions,
 ): void {
   applyPresetColors(payload.colors, resolvedAppearance);
   if (payload.visual) {
     applyVisualSnapshot(payload.visual, resolvedAppearance);
   }
-  persistPresetSession(payload);
+  persistPresetSession(payload, options);
 
   const body = document.body;
   const cursorPref = readStoredCursorPreference();
@@ -152,6 +155,7 @@ export function clearVisitorPresetOverrides(): void {
 export function applyUserPresetToDocument(
   preset: UserCreatedPreset,
   resolvedAppearance: ResolvedAppearance,
+  options?: PersistPresetSessionOptions,
 ): void {
   applyPresetToDocument(
     {
@@ -165,12 +169,14 @@ export function applyUserPresetToDocument(
       borderStyle: preset.borderStyle,
     },
     resolvedAppearance,
+    options,
   );
 }
 
 export async function fetchAndApplyCatalogPreset(
   presetId: string,
   resolvedAppearance: ResolvedAppearance,
+  options?: PersistPresetSessionOptions,
 ): Promise<CatalogPresetApplyResult> {
   let res: Response;
   try {
@@ -246,9 +252,11 @@ export async function fetchAndApplyCatalogPreset(
     visual: data.visual,
   };
 
-  applyPresetToDocument(payload, resolvedAppearance);
+  applyPresetToDocument(payload, resolvedAppearance, options);
   return { ok: true, payload };
 }
+
+export type { PersistPresetSessionOptions, PresetSessionScope };
 
 export function applyLiveEffectsFromStorage(
   site: ThemeTokens,

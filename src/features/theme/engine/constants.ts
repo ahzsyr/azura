@@ -15,6 +15,12 @@ export const PRESET_EFFECTS_STORAGE_KEY = "devi-user-preset-effects";
 /** Full preset visual metrics snapshot (gradients, radius, shadows, blur, typography). */
 export const PRESET_VISUAL_STORAGE_KEY = "devi-user-preset-visual";
 
+/**
+ * Marks intentional visitor personalization writes.
+ * Missing / non-"visitor" values are treated as editor/preview leakage and cleared at boot.
+ */
+export const PRESET_ORIGIN_STORAGE_KEY = "devi-user-preset-origin";
+
 /** User-created custom presets (local only). */
 export const USER_PRESETS_STORAGE_KEY = "devi-user-custom-presets";
 

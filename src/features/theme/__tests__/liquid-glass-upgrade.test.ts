@@ -15,6 +15,9 @@ describe("theme boot Liquid Glass", () => {
     assert.equal(payload.glassEffect.enabled, false);
     assert.equal(payload.glassEffect.intensity, 1);
     assert.equal(payload.glassEffect.opacity, 0.45);
+    assert.ok(Array.isArray(payload.publishedPresetIds));
+    assert.ok(payload.publishedPresetIds.length > 0);
+    assert.equal(payload.storageKeys.presetOrigin, "devi-user-preset-origin");
   });
 
   it("serializes enabled glass settings into boot payload", () => {

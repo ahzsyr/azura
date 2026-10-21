@@ -2,10 +2,13 @@ import {
   ADMIN_THEME_KEY,
   PRESET_COLORS_STORAGE_KEY,
   PRESET_EFFECTS_STORAGE_KEY,
+  PRESET_ORIGIN_STORAGE_KEY,
   PRESET_STORAGE_KEY,
   PRESET_VISUAL_STORAGE_KEY,
   PUBLIC_THEME_KEY,
+  USER_PRESETS_STORAGE_KEY,
 } from "@/features/theme/engine/constants";
+import { ALL_PRESETS } from "@/features/theme/presets-catalog";
 import { getPresetMetricsBootPayload } from "./preset-metrics";
 import type { BrowserProjection } from "./browser-chrome-projection";
 import { readFileSync } from "node:fs";
@@ -13,6 +16,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { BROWSER_CHROME_FALLBACK } from "./browser-chrome-projection";
 import { PRELOADER_HARD_CAP_MS } from "@/lib/preloader/preloader-timing";
+
+const PUBLISHED_PRESET_IDS = ALL_PRESETS.map((p) => p.id);
 
 let themeInitSource: string | null = null;
 
@@ -52,6 +57,8 @@ export type ThemeBootPayload = {
     presetColors: string;
     presetVisual: string;
     presetEffects: string;
+    presetOrigin: string;
+    userPresets: string;
   };
   /** Same colors as generateViewport theme-color — paints Safari anchors before hydration. */
   browserProjection: Pick<
@@ -60,6 +67,8 @@ export type ThemeBootPayload = {
   >;
   /** Site Liquid Glass — SSR attr + vars before React mounts the controller. */
   glassEffect: ThemeBootGlassPayload;
+  /** Catalog ids allowed as intentional visitor personalization. */
+  publishedPresetIds: readonly string[];
 };
 
 export type ThemeBootOptions = {
@@ -88,6 +97,8 @@ export function buildThemeBootPayload(
       presetColors: PRESET_COLORS_STORAGE_KEY,
       presetVisual: PRESET_VISUAL_STORAGE_KEY,
       presetEffects: PRESET_EFFECTS_STORAGE_KEY,
+      presetOrigin: PRESET_ORIGIN_STORAGE_KEY,
+      userPresets: USER_PRESETS_STORAGE_KEY,
     },
     browserProjection: {
       themeColorLight: projection.themeColorLight,
@@ -99,6 +110,7 @@ export function buildThemeBootPayload(
       intensity: Number.isFinite(glass.intensity) ? glass.intensity : 1,
       opacity: Number.isFinite(glass.opacity) ? glass.opacity : 0.45,
     },
+    publishedPresetIds: PUBLISHED_PRESET_IDS,
   };
 }
 

@@ -52,6 +52,11 @@ export type SyncThemeColorMetaOptions = {
   mode?: AppearanceMode;
   lightColor?: string;
   darkColor?: string;
+  /**
+   * Header/footer glass fill. When omitted, mirrors `color`.
+   * Use projection surface so scroll chrome samples don't retint site glass.
+   */
+  glassTint?: string;
 };
 
 function setMetaContent(meta: HTMLMetaElement, content: string): void {
@@ -105,12 +110,14 @@ export function syncThemeColorMeta(
     document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]'),
   );
 
+  const glassTint = options?.glassTint?.trim() || activeColor;
+
   if (existing.length === 0) {
     const meta = document.createElement("meta");
     meta.name = "theme-color";
     meta.content = activeColor;
     document.head.appendChild(meta);
-    syncSafariChromeTint(activeColor, { lightColor, darkColor });
+    syncSafariChromeTint(activeColor, { lightColor, darkColor, glassTint });
     return;
   }
 
@@ -124,7 +131,7 @@ export function syncThemeColorMeta(
       setMetaContent(meta, next);
     }
     // Safari ignores media-qualified theme-color — paint the resolved active tint.
-    syncSafariChromeTint(activeColor, { lightColor, darkColor });
+    syncSafariChromeTint(activeColor, { lightColor, darkColor, glassTint });
     return;
   }
 
@@ -134,7 +141,7 @@ export function syncThemeColorMeta(
     existing.forEach((meta) => setMetaContent(meta, activeColor));
   }
   // Always refresh Safari tint — early return on meta content alone skipped iOS.
-  syncSafariChromeTint(activeColor, { lightColor, darkColor });
+  syncSafariChromeTint(activeColor, { lightColor, darkColor, glassTint });
 }
 
 export function readStoredAppearanceMode(storageKey: string): AppearanceMode | null {

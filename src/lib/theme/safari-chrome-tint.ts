@@ -16,6 +16,12 @@ export const SAFARI_CHROME_BOTTOM_ID = "az-safari-chrome-bottom";
 export type SyncSafariChromeTintOptions = {
   lightColor?: string;
   darkColor?: string;
+  /**
+   * Header/footer Liquid Glass fill. Defaults to `color`.
+   * Pass the projection surface (not a scroll-section sample) so capsules
+   * stay on the site chrome while Safari anchors may follow scroll tint.
+   */
+  glassTint?: string;
 };
 
 function ensureTintAnchor(id: string, edge: "top" | "bottom"): HTMLElement | null {
@@ -45,8 +51,8 @@ function setRootVar(root: HTMLElement, name: string, value: string): void {
  * inline only by overwriting — never leave anchors on a stale light SSR value
  * while the document is Forced dark.
  *
- * Also mirrors the active tint onto --az-site-glass-tint so floating header /
- * footer Liquid Glass capsules track scroll + appearance chrome colors.
+ * Mirrors onto --az-site-glass-tint unless `glassTint` is provided separately
+ * (scroll samples retint Safari anchors without washing header/footer glass).
  */
 export function syncSafariChromeTint(
   color: string,
@@ -57,8 +63,9 @@ export function syncSafariChromeTint(
   if (!tint) return;
 
   const root = document.documentElement;
+  const glass = options?.glassTint?.trim() || tint;
   setRootVar(root, SAFARI_CHROME_TINT_VAR, tint);
-  setRootVar(root, SITE_GLASS_TINT_VAR, tint);
+  setRootVar(root, SITE_GLASS_TINT_VAR, glass);
 
   const light = options?.lightColor?.trim();
   const dark = options?.darkColor?.trim();

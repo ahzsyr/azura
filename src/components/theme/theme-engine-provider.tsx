@@ -26,6 +26,7 @@ import {
   type UserCreatedPreset,
   fetchAndApplyCatalogPreset,
   applyUserPresetToDocument,
+  resolvePresetSessionScope,
   notifyAppearanceChange,
   readStoredAppearanceMode,
   readStoredPresetId,
@@ -41,10 +42,14 @@ import {
   saveUserPreset,
   deleteUserPreset,
   clearVisitorPresetOverrides,
+  clearLeakedVisitorPresetIfNeeded,
   readStoredPresetColors,
   readDocumentThemeBackground,
   dispatchThemeChange,
 } from "@/features/theme/engine";
+import { ALL_PRESETS } from "@/features/theme/presets-catalog";
+
+const PUBLISHED_PRESET_IDS = ALL_PRESETS.map((p) => p.id);
 import { reconcileSiteHtmlAttributes } from "@/lib/theme/reconcile-html-attributes";
 import {
   forceApplyVisualEffects,
@@ -234,6 +239,7 @@ export function ThemeEngineProvider({
         visitorEffectsBootRef.current = true;
       }
     } else {
+      clearLeakedVisitorPresetIfNeeded(PUBLISHED_PRESET_IDS);
       const storedPreset = readStoredPresetId();
       if (storedPreset) {
         setVisitorPresetId(storedPreset);
@@ -302,11 +308,14 @@ export function ThemeEngineProvider({
         baseActiveColor,
         scroll,
       });
+      // Scroll may retint Safari anchors; header/footer glass stays on the
+      // projection surface so status-bar samples don't wash the chrome capsule.
       syncThemeColorMeta(resolved, {
         mode,
         color,
         lightColor,
         darkColor,
+        glassTint: baseActiveColor,
       });
     },
     [siteTheme],
@@ -421,7 +430,8 @@ export function ThemeEngineProvider({
   const applyCatalogPreset = useCallback(
     async (presetId: string) => {
       const resolved = resolveAppearance(appearanceMode);
-      const result = await fetchAndApplyCatalogPreset(presetId, resolved);
+      const scope = resolvePresetSessionScope();
+      const result = await fetchAndApplyCatalogPreset(presetId, resolved, { scope });
       if (!result.ok) {
         return {
           ok: false,
@@ -432,8 +442,10 @@ export function ThemeEngineProvider({
       }
       const { payload } = result;
       invalidateThemeStorageReadCache();
-      setVisitorPresetId(presetId);
-      setActivePresetSource("catalog");
+      if (scope === "visitor") {
+        setVisitorPresetId(presetId);
+        setActivePresetSource("catalog");
+      }
       if (siteTheme) {
         forceApplyVisualEffects(
           resolveVisitorVisualExperience({
@@ -464,10 +476,13 @@ export function ThemeEngineProvider({
   const applyUserPreset = useCallback(
     (preset: UserCreatedPreset) => {
       const resolved = resolveAppearance(appearanceMode);
-      applyUserPresetToDocument(preset, resolved);
+      const scope = resolvePresetSessionScope();
+      applyUserPresetToDocument(preset, resolved, { scope });
       invalidateThemeStorageReadCache();
-      setVisitorPresetId(preset.id);
-      setActivePresetSource("user");
+      if (scope === "visitor") {
+        setVisitorPresetId(preset.id);
+        setActivePresetSource("user");
+      }
       if (siteTheme) {
         forceApplyVisualEffects(
           resolveVisitorVisualExperience({

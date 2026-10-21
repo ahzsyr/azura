@@ -3,6 +3,7 @@
   var sk = boot.storageKeys || {};
   var path = window.location.pathname;
   var isAdmin = path.indexOf("/admin") === 0;
+  var isEditorRoute = isAdmin || path.indexOf("/preview") === 0;
   var modeKey = isAdmin
     ? sk.adminTheme || "admin-theme"
     : sk.publicTheme || "devi-theme-mode";
@@ -79,6 +80,53 @@
     return proj.themeColorLight || "#fafafa";
   }
 
+  function clearVisitorPresetKeys() {
+    try {
+      localStorage.removeItem(sk.presetId || "devi-user-preset");
+      localStorage.removeItem(sk.presetColors || "devi-user-preset-colors");
+      localStorage.removeItem(sk.presetEffects || "devi-user-preset-effects");
+      localStorage.removeItem(sk.presetVisual || "devi-user-preset-visual");
+      localStorage.removeItem(sk.presetOrigin || "devi-user-preset-origin");
+    } catch (e) {}
+    _presetCache = null;
+    _presetCacheLoaded = true;
+  }
+
+  /**
+   * Drop Theme Studio / preview leakage that outranks the published site.
+   * Keeps intentional visitor personalization (origin=visitor + catalog/user id).
+   */
+  function clearLeakedVisitorPreset() {
+    if (isEditorRoute) return;
+    try {
+      var presetId = localStorage.getItem(sk.presetId || "devi-user-preset");
+      if (!presetId) return;
+      var origin = localStorage.getItem(sk.presetOrigin || "devi-user-preset-origin");
+      if (origin !== "visitor") {
+        clearVisitorPresetKeys();
+        return;
+      }
+      var published = boot.publishedPresetIds || [];
+      var userOk = false;
+      try {
+        var userRaw = localStorage.getItem(sk.userPresets || "devi-user-custom-presets");
+        var userList = userRaw ? JSON.parse(userRaw) : null;
+        if (Array.isArray(userList)) {
+          for (var ui = 0; ui < userList.length; ui++) {
+            if (userList[ui] && userList[ui].id === presetId) {
+              userOk = true;
+              break;
+            }
+          }
+        }
+      } catch (e) {}
+      if (userOk) return;
+      if (published.length && published.indexOf(presetId) === -1) {
+        clearVisitorPresetKeys();
+      }
+    } catch (e) {}
+  }
+
   function visitorChromeColor(mode) {
     var visitor = readVisitorPresetColors();
     if (!visitor) return "";
@@ -93,57 +141,63 @@
 
   /**
    * @param {boolean} allowComputed
-   *   Pre-paint (false): projection + cached visitor hex only. No style flush.
-   *   Post-hydration (true): computed style is allowed.
+   *   Pre-paint (false): published browserProjection only — matches SSR theme-color.
+   *   Post-hydration (true): intentional visitor wash, then computed fallback.
    */
   function resolveForcedChromeBg(mode, allowComputed) {
+    // First paint must match SSR projection (chromeTintSource already baked in).
+    if (!allowComputed) {
+      return projectionColor(mode);
+    }
+
     var fromVisitor = visitorChromeColor(mode);
     if (fromVisitor) return fromVisitor;
 
-    if (allowComputed) {
-      var styles = window.getComputedStyle(root);
-      var computed =
-        styles.getPropertyValue("--az-bg-primary").trim() ||
-        styles.getPropertyValue("--background").trim();
-      if (computed) return computed;
+    var styles = window.getComputedStyle(root);
+    var computed =
+      styles.getPropertyValue("--az-bg-primary").trim() ||
+      styles.getPropertyValue("--background").trim();
+    if (computed) return computed;
 
-      var existing = Array.prototype.slice.call(
-        document.querySelectorAll('meta[name="theme-color"]'),
-      );
-      var proj = boot.browserProjection || {};
-      var lightColor = proj.themeColorLight || "";
-      var darkColor = proj.themeColorDark || "";
-      for (var i = 0; i < existing.length; i++) {
-        var media = existing[i].getAttribute("media") || "";
-        var content = existing[i].getAttribute("content") || "";
-        if (/prefers-color-scheme:\s*light/i.test(media) && content) {
-          lightColor = lightColor || content;
-        }
-        if (/prefers-color-scheme:\s*dark/i.test(media) && content) {
-          darkColor = darkColor || content;
-        }
-        if (!media && content) {
-          if (mode === "dark") darkColor = darkColor || content;
-          else lightColor = lightColor || content;
-        }
+    var existing = Array.prototype.slice.call(
+      document.querySelectorAll('meta[name="theme-color"]'),
+    );
+    var proj = boot.browserProjection || {};
+    var lightColor = proj.themeColorLight || "";
+    var darkColor = proj.themeColorDark || "";
+    for (var i = 0; i < existing.length; i++) {
+      var media = existing[i].getAttribute("media") || "";
+      var content = existing[i].getAttribute("content") || "";
+      if (/prefers-color-scheme:\s*light/i.test(media) && content) {
+        lightColor = lightColor || content;
       }
-      if (mode === "dark") return darkColor || "#020408";
-      return lightColor || "#fafafa";
+      if (/prefers-color-scheme:\s*dark/i.test(media) && content) {
+        darkColor = darkColor || content;
+      }
+      if (!media && content) {
+        if (mode === "dark") darkColor = darkColor || content;
+        else lightColor = lightColor || content;
+      }
     }
-
-    return projectionColor(mode);
+    if (mode === "dark") return darkColor || "#020408";
+    return lightColor || "#fafafa";
   }
 
-  function paintSafariChromeTint(color) {
-    if (!color) return;
+  /**
+   * @param {string} browserColor Safari edge anchors / theme-color
+   * @param {string} [glassColor] Header/footer glass — defaults to browserColor
+   */
+  function paintSafariChromeTint(browserColor, glassColor) {
+    if (!browserColor) return;
     try {
-      root.style.setProperty("--az-browser-chrome-tint", color);
-      root.style.setProperty("--az-site-glass-tint", color);
+      var glass = glassColor || browserColor;
+      root.style.setProperty("--az-browser-chrome-tint", browserColor);
+      root.style.setProperty("--az-site-glass-tint", glass);
       root.style.colorScheme = resolved === "dark" ? "dark" : "light";
       function paintExistingTint(id) {
         var el = document.getElementById(id);
         if (!el || !el.style) return;
-        el.style.backgroundColor = color;
+        el.style.backgroundColor = browserColor;
       }
       paintExistingTint("az-safari-chrome-top");
       paintExistingTint("az-safari-chrome-bottom");
@@ -159,13 +213,16 @@
   function syncThemeColorMetaFromProjection(mutateHead) {
     var mode = stored || ssrMode || "light";
     var allowComputed = mutateHead === true;
+    // Glass always tracks published projection for the resolved appearance —
+    // never a scroll sample or stale visitor wash on first paint.
+    var glassBg = projectionColor(resolved === "dark" ? "dark" : "light");
 
     if (mode === "system") {
       var systemBg =
         resolved === "dark"
           ? resolveForcedChromeBg("dark", allowComputed)
           : resolveForcedChromeBg("light", allowComputed);
-      paintSafariChromeTint(systemBg);
+      paintSafariChromeTint(systemBg, glassBg);
       return;
     }
 
@@ -173,7 +230,7 @@
     var bg = resolveForcedChromeBg(paintMode, allowComputed);
     if (!bg) return;
 
-    paintSafariChromeTint(bg);
+    paintSafariChromeTint(bg, projectionColor(paintMode));
     if (!mutateHead) return;
 
     var metaBg = isHexColor(bg) ? bg : projectionColor(paintMode);
@@ -218,14 +275,13 @@
   }
 
   /**
-   * Paint Safari edge anchors IMMEDIATELY (before hydration).
-   * Waiting for runAfterHydration lets Safari 26 lock flat/opaque chrome for
-   * the first compositing pass — Liquid Glass never recovers until nav.
+   * Apply resolved appearance BEFORE chrome paint so the first theme-color
+   * projection matches data-theme (kills light→dark chrome flash).
+   * Clear leaked editor presets before any visitor color read.
    * Head <meta> mutations wait until after hydration (React #418).
-   * Do not set --primary / --pre-primary here; the inline boot script and SSR own them.
    */
   try {
-    syncThemeColorMetaFromProjection(false);
+    clearLeakedVisitorPreset();
     root.style.colorScheme = resolved;
     if (resolved === "dark") {
       root.classList.add("dark");
@@ -245,6 +301,8 @@
     if (typeof glassBoot.opacity === "number") {
       root.style.setProperty("--glass-effect-opacity", String(glassBoot.opacity));
     }
+
+    syncThemeColorMetaFromProjection(false);
   } catch (e) {}
 
   function runAfterHydration(fn) {
@@ -291,7 +349,8 @@
         }
       } catch (e) {}
 
-      if (!isAdmin) {
+      if (!isEditorRoute) {
+        clearLeakedVisitorPreset();
         var metricsKeys = boot.metricsKeys || [];
         var metricsFieldMap = boot.metricsFieldMap || {};
         var visitorBootstrapped = false;
