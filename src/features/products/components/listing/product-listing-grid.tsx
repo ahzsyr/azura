@@ -87,7 +87,7 @@ export function ProductListingGrid({
 
   if (products.length === 0) {
     return (
-      <section className="pl-empty" role="status" aria-live="polite">
+      <section className="pl-empty" role="status">
         <span className="pl-empty-icon" aria-hidden="true">
           ◈
         </span>

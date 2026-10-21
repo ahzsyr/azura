@@ -1136,7 +1136,8 @@
   padding: 0.55rem 1rem;
   border-radius: 0.5rem;
   cursor: pointer;
-  min-height: var(--az-hit-min, 32px);
+  /* Empty state is mobile-first content — thumb target, not fine-pointer floor */
+  min-height: 44px;
 }
 
 .pl-card__overlay-actions {

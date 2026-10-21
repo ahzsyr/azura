@@ -163,6 +163,7 @@ function ProductDetailViewInner({
         shortDescription={product.short_description}
         emptyLabel={labels.noDescription}
         emptyCtaLabel={labels.exploreCollections}
+        /* Locale-aware via next-intl Link; /categories exists for all storefront locales */
         emptyCtaHref="/categories"
         collapseLabel={labels.description}
       />

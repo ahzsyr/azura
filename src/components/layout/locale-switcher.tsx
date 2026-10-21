@@ -93,6 +93,15 @@ export function LocaleSwitcher({ className, locales: localesProp, showInline = t
     };
   }, []);
 
+  // Clear fade if locale/path changes without unmounting (soft path / cancelled nav).
+  useEffect(() => {
+    if (fadeTimerRef.current) {
+      clearTimeout(fadeTimerRef.current);
+      fadeTimerRef.current = null;
+    }
+    setFading(false);
+  }, [pathname, locale]);
+
   const switchLocale = (targetUrlPrefix: string) => {
     setFading(true);
     const fullPath =
@@ -113,12 +122,17 @@ export function LocaleSwitcher({ className, locales: localesProp, showInline = t
     if (typeof window !== "undefined") {
       const target = new URL(absolutePath + search, window.location.origin);
       window.location.replace(target.toString());
-    } else {
+      // Hard nav destroys the timer; do not arm a soft fade-clear.
+      setOpen(false);
+      return;
+    }
+    try {
       router.replace(href);
+    } finally {
+      if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
+      setFading(false);
     }
     setOpen(false);
-    if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
-    fadeTimerRef.current = setTimeout(() => setFading(false), 300);
   };
 
   const modalTitle = t.has("selectLanguage") ? t("selectLanguage") : MODAL_COPY_FALLBACK;
