@@ -2,6 +2,7 @@
 
 import type { MegaMenuChildViewModel } from "@/features/navigation/mega-menu-resolver";
 import { MegaMenuCardFrameMedia, NavIconMedia } from "../mega-menu-media";
+import { NavLink } from "../../NavLink";
 
 type Props = {
   child: MegaMenuChildViewModel;
@@ -57,7 +58,7 @@ export function MegaMenuChildItem({ child, onLinkClick }: Props) {
 
   if (appearance === "image") {
     return (
-      <a
+      <NavLink
         href={child.href}
         className="hb-mega-v2-featured-card"
         onClick={() => onLinkClick?.()}
@@ -76,13 +77,13 @@ export function MegaMenuChildItem({ child, onLinkClick }: Props) {
         <span className="hb-mega-v2-featured-card__cta">
           {child.ctaLabel?.trim() || "Learn More"}
         </span>
-      </a>
+      </NavLink>
     );
   }
 
   if (appearance === "icon") {
     return (
-      <a
+      <NavLink
         href={child.href}
         className="hb-mega-v2-icon-item"
         data-variant="centered"
@@ -96,17 +97,17 @@ export function MegaMenuChildItem({ child, onLinkClick }: Props) {
         {child.subtitle ? (
           <span className="hb-mega-v2-icon-item__desc">{child.subtitle}</span>
         ) : null}
-      </a>
+      </NavLink>
     );
   }
 
   return (
-    <a
+    <NavLink
       href={child.href}
       className="hb-mega-v2-link"
       onClick={() => onLinkClick?.()}
     >
       <span className="hb-mega-v2-link__label">{child.label}</span>
-    </a>
+    </NavLink>
   );
 }

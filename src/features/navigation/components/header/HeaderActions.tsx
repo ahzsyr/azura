@@ -4,6 +4,7 @@ import type { HeaderAction } from "@/features/navigation/types";
 import { getActionTypeLabel } from "@/features/navigation/menu-engine";
 import { resolveActionHref } from "@/features/navigation/resolve-href";
 import { prefetchSearchModal } from "@/capabilities/search/components/search-prefetch";
+import { NavLink } from "./NavLink";
 
 interface Props {
   actions: HeaderAction[];
@@ -29,7 +30,7 @@ export function HeaderActions({ actions, localeCode, onActionClick }: Props) {
         if (action.style === "icon") {
           if (isCustomLink) {
             return (
-              <a
+              <NavLink
                 key={action.id}
                 href={href}
                 className="icon-btn preview-action-btn"
@@ -40,7 +41,7 @@ export function HeaderActions({ actions, localeCode, onActionClick }: Props) {
                 onClick={handleClick}
               >
                 <i className={`fas ${iconClass}`} aria-hidden />
-              </a>
+              </NavLink>
             );
           }
           return (
@@ -61,7 +62,7 @@ export function HeaderActions({ actions, localeCode, onActionClick }: Props) {
 
         if (isCustomLink) {
           return (
-            <a
+            <NavLink
               key={action.id}
               href={href}
               className={`action-pill action-pill-${action.style}${outlined} preview-action-btn`}
@@ -72,7 +73,7 @@ export function HeaderActions({ actions, localeCode, onActionClick }: Props) {
             >
               <i className={`fas ${iconClass}`} aria-hidden />
               <span>{label}</span>
-            </a>
+            </NavLink>
           );
         }
 

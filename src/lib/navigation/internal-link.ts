@@ -1,6 +1,26 @@
 import { getCmsPagePublicPath } from "@/features/cms/cms-page-path";
 import { stripAnyLocalePrefix } from "@/i18n/url-helpers";
 
+/**
+ * Returns true when `href` should be handled by the client router (soft nav).
+ *
+ * A path qualifies when it:
+ *  - starts with `/` (root-relative, i.e. same origin)
+ *  - is NOT a bare hash (`#`, `#section`)
+ *  - is NOT a `mailto:` or `tel:` URI
+ *  - is NOT an absolute URL (`http://` / `https://`)
+ *
+ * Callers render `Link` from `@/i18n/navigation` for truthy results and a
+ * plain `<a>` for falsy results (external, mailto, hash, missing href).
+ */
+export function isInternalHref(href: string | null | undefined): boolean {
+  if (!href) return false;
+  if (href === "#" || href.startsWith("#")) return false;
+  if (href.startsWith("mailto:") || href.startsWith("tel:")) return false;
+  if (href.startsWith("http://") || href.startsWith("https://")) return false;
+  return href.startsWith("/");
+}
+
 export type InternalNavTarget = {
   path: string;
   search: string;

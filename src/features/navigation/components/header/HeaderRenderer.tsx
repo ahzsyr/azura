@@ -2,7 +2,9 @@
 
 import { routing } from "@/i18n/routing";
 import { type PublicLocale } from "@/i18n/locale-config";
-import { localePath, resolveActionHref } from "@/features/navigation/resolve-href";
+import { resolveActionHref } from "@/features/navigation/resolve-href";
+import { useRouter } from "@/i18n/navigation";
+import { isInternalHref, normalizeInternalNavHref } from "@/lib/navigation/internal-link";
 import type { HeaderAction, HeaderWorkspace } from "@/features/navigation/types";
 import { useHeaderWorkspace } from "@/features/navigation/header-store";
 import { resolveMenuForSurface } from "@/features/navigation/menu-engine";
@@ -60,6 +62,8 @@ export function HeaderRenderer({
   headerConfig,
   enabledLocales: _enabledLocales,
 }: Props) {
+  void _enabledLocales;
+  const router = useRouter();
   const storeWs = useHeaderWorkspace();
   const workspace = controlled ?? storeWs;
 
@@ -80,15 +84,25 @@ export function HeaderRenderer({
       if (searchEnabled) {
         requestOpenSearch();
       } else {
-        window.location.assign(localePath("/search", localeCode));
+        // Soft-navigate to the search page (no locale prefix needed — useRouter handles it).
+        router.push("/search");
       }
     } else if (action.type === "language" && canSwitchLocale) {
       document.getElementById("locale-switcher-trigger")?.click();
     } else if (action.type === "account") {
-      window.location.assign(localePath("/account", localeCode));
+      // Soft-navigate; auth redirects and back-navigation remain correct via App Router.
+      router.push("/account");
     } else if (action.type === "custom") {
       const href = resolveActionHref(action, localeCode);
-      if (href) window.location.assign(href);
+      if (href) {
+        if (isInternalHref(href)) {
+          // Soft-navigate for internal custom action hrefs.
+          router.push(normalizeInternalNavHref(href) as string);
+        } else {
+          // External or mailto — keep hard navigation.
+          window.location.assign(href);
+        }
+      }
     }
 
     if (typeof window !== "undefined" && window.matchMedia(NAV_MOBILE_MQ).matches) {

@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
-/** Avoid hydration mismatches for client-only UI. */
+const emptySubscribe = () => () => {};
+
+/** Avoid hydration mismatches for client-only UI (no setState-in-effect). */
 export function useMounted() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  return mounted;
+  return useSyncExternalStore(emptySubscribe, () => true, () => false);
 }

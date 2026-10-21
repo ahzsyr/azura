@@ -10,6 +10,7 @@ import type { NavIconVisibility } from "@/features/navigation/nav-icon-visibilit
 import { resolveItemShowsNavIcon } from "@/features/navigation/nav-icon-visibility";
 import { MegaMenuSurface } from "./MegaMenu/MegaMenuSurface";
 import { NavMenuGlyph } from "./NavMenuGlyph";
+import { NavLink } from "./NavLink";
 
 const DEFAULT_ICON_VISIBILITY: NavIconVisibility = {
   mobile: true,
@@ -134,7 +135,7 @@ function NavFlyoutItem({
         }
       }}
     >
-      <a
+      <NavLink
         href={getItemHref(item, localeCode)}
         className="nav-link"
         aria-haspopup="true"
@@ -145,7 +146,7 @@ function NavFlyoutItem({
         {glyph ? " " : null}
         {item.label}{" "}
         <i className="fas fa-chevron-down" aria-hidden />
-      </a>
+      </NavLink>
       <MegaMenuSurface
         item={item}
         menuType={effectiveMega}
@@ -234,11 +235,11 @@ export function HeaderMenu({
 
           return (
             <li key={item.id} className="nav-item">
-              <a href={getItemHref(item, localeCode)} className="nav-link">
+              <NavLink href={getItemHref(item, localeCode)} className="nav-link">
                 {glyph}
                 {glyph ? " " : null}
                 {item.label}
-              </a>
+              </NavLink>
             </li>
           );
         })}

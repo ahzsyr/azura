@@ -3,8 +3,7 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { useTheme } from "next-themes";
 import { useVisualExperience } from "@/components/theme/visual-experience-context";
-import { defaultLocale } from "@/i18n/routing";
-import { localePath } from "@/features/navigation/resolve-href";
+import { Link } from "@/i18n/navigation";
 import { DEFAULT_BRAND_SHORT } from "@/config/site";
 import { brandingCssVariables } from "@/features/navigation/branding-defaults";
 import { siteHeroHeadingAttrs } from "@/features/theme/hero-heading-attrs";
@@ -12,10 +11,12 @@ import { useTextEffectRescan } from "@/features/theme/use-text-effect-rescan";
 import { BrandLogoImage } from "@/features/navigation/components/header/brand-logo-image";
 import { THEME_CHANGE_EVENT } from "@/features/theme/engine/constants";
 import { readStoredPresetEffects } from "@/features/theme/engine";
+import { useMounted } from "@/hooks/use-mounted";
 import type { BrandingState } from "@/features/navigation/types";
 
 interface Props {
   branding: BrandingState;
+  /** Retained for call-site compatibility; locale is applied by next-intl Link. */
   localeCode?: string;
   /** Override site text effect (e.g. theme studio preview without VisualExperienceProvider). */
   siteTextEffect?: string | null;
@@ -37,16 +38,16 @@ function readLiveTextEffect(): string | null {
   }
 }
 
-export function HeaderBrand({ branding, localeCode = defaultLocale.code, siteTextEffect }: Props) {
+export function HeaderBrand({ branding, localeCode: _localeCode, siteTextEffect }: Props) {
+  void _localeCode;
   const lightUrl = branding.logoImageLightUrl || branding.logoImageUrl || "";
   const darkUrl = branding.logoImageDarkUrl || lightUrl;
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const experience = useVisualExperience();
   const [visitorTextEffect, setVisitorTextEffect] = useState<string | null>(null);
 
   useEffect(() => {
-    setMounted(true);
     const sync = () => setVisitorTextEffect(readLiveTextEffect());
     sync();
     window.addEventListener(THEME_CHANGE_EVENT, sync);
@@ -86,15 +87,15 @@ export function HeaderBrand({ branding, localeCode = defaultLocale.code, siteTex
     (branding.logoText || "").trim() || DEFAULT_BRAND_SHORT
   );
 
-  const homeHref = localePath("/", localeCode);
+  // next-intl Link adds the locale prefix automatically; pass the neutral root path.
   const brandName = (branding.brandName ?? "").trim();
   const layoutMobile = branding.brandLayoutMobile ?? "logo-and-text";
   const layoutDesktop = branding.brandLayoutDesktop ?? "logo-and-text";
   const logoSizingMode = branding.logoSizing?.mode ?? "fixed";
 
   return (
-    <a
-      href={homeHref}
+    <Link
+      href="/"
       className={`logo-area ${areaClass}`.trim()}
       data-brand-mobile={layoutMobile}
       data-brand-desktop={layoutDesktop}
@@ -113,6 +114,6 @@ export function HeaderBrand({ branding, localeCode = defaultLocale.code, siteTex
           <div className="brand-tagline">{branding.tagline}</div>
         ) : null}
       </div>
-    </a>
+    </Link>
   );
 }
