@@ -97,8 +97,13 @@
   padding-inline-start: 0.65rem;
 }
 
+/* Mark sits between glyph and wordmark — suppress when either slot is alone.
+ * logo-only also hides .brand-text via display:none (below); keep border off
+ * in case a preview paints the node without the media-query hide. */
 .logo-area[data-brand-mobile="text-only"] .brand-text,
-.logo-area[data-brand-desktop="text-only"] .brand-text {
+.logo-area[data-brand-desktop="text-only"] .brand-text,
+.logo-area[data-brand-mobile="logo-only"] .brand-text,
+.logo-area[data-brand-desktop="logo-only"] .brand-text {
   border-inline-start: none;
   padding-inline-start: 0;
 }
@@ -228,16 +233,17 @@
 .brand-name {
   font-family: var(--brand-name-font, var(--font-display, var(--az-font-display, system-ui, sans-serif)));
   font-size: var(--brand-name-size-mobile, 1.2rem);
+  /* Branding panel owns weight; 750 is lockup fallback only */
   font-weight: var(--brand-name-font-weight, 750);
   line-height: 1.1;
-  letter-spacing: 0.035em;
-  /* Gate 3 lockup: ink wordmark; accent lives in the logo-area mark, not the type fill */
-  color: var(--az-ink, var(--foreground));
+  letter-spacing: var(--brand-name-tracking, 0.035em);
+  /* Prefer ink when loaded; fall back to theme primary (preset-tracked fill) */
+  color: var(--az-ink, var(--primary));
 }
 
-/* gradient-flow sets its own clipped fill; solid ink otherwise. */
+/* gradient-flow sets its own clipped fill; otherwise ink → primary. */
 .brand-name:not([data-text-effect="gradient-flow"]) {
-  -webkit-text-fill-color: var(--az-ink, var(--foreground));
+  -webkit-text-fill-color: var(--az-ink, var(--primary));
   background: none;
   background-image: none;
   text-shadow: none;
@@ -263,9 +269,8 @@
   font-family: var(--brand-tagline-font, var(--font-body, var(--az-font-body, system-ui, sans-serif)));
   font-size: var(--brand-tagline-size-mobile, 0.72rem);
   font-weight: var(--brand-tagline-font-weight, 400);
-  letter-spacing: 0.02em;
-  color: var(--az-ink-muted, var(--color-text-muted, var(--cg6)));
   letter-spacing: 0.04em;
+  color: var(--az-ink-muted, var(--color-text-muted, var(--cg6)));
 }
 
 @media (min-width: 969px) {
