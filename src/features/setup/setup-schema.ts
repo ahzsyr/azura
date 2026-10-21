@@ -64,16 +64,24 @@ export function takeSetupSchemaGapMessage(): string | null {
 
 export async function isSetupSchemaReady(): Promise<boolean> {
   lastSetupSchemaGap = null;
-  // Tables setup complete writes. Column completeness is handled by migrate patches.
+  // Probe columns setup actually writes (not just table existence).
   const probes = [
-    () => prisma.user.findFirst({ select: { id: true }, take: 1 }),
-    () => prisma.companyInfo.findFirst({ select: { id: true }, take: 1 }),
+    () => prisma.user.findFirst({ select: { id: true, emailVerifiedAt: true, country: true }, take: 1 }),
+    () => prisma.companyInfo.findFirst({ select: { id: true, name: true }, take: 1 }),
     () => prisma.jsonStore.findFirst({ select: { id: true }, take: 1 }),
-    () => prisma.siteTheme.findFirst({ select: { id: true }, take: 1 }),
+    () => prisma.siteTheme.findFirst({ select: { id: true, brandConfig: true }, take: 1 }),
     () => prisma.packageInstallation.findFirst({ select: { packageId: true }, take: 1 }),
-    () => prisma.entityTranslation.findFirst({ select: { id: true }, take: 1 }),
-    () => prisma.cmsPage.findFirst({ select: { id: true }, take: 1 }),
-    () => prisma.localeConfig.findFirst({ select: { code: true }, take: 1 }),
+    () =>
+      prisma.entityTranslation.findFirst({
+        select: { id: true, localeCode: true, version: true },
+        take: 1,
+      }),
+    () => prisma.cmsPage.findFirst({ select: { id: true, composition: true }, take: 1 }),
+    () =>
+      prisma.localeConfig.findFirst({
+        select: { code: true, fallbackLocaleCode: true },
+        take: 1,
+      }),
     () => prisma.custom404.findFirst({ select: { locale: true }, take: 1 }),
   ];
   for (const probe of probes) {
@@ -389,8 +397,17 @@ function logSetupPatchSkip(label: string, error: unknown): void {
   console.warn(`[setup] ${label} skipped: ${message.split("\n").find((line) => line.trim()) ?? message}`);
 }
 
+async function ensureSetupCriticalColumns(): Promise<void> {
+  const { ensureSetupCriticalMysql } = await import(
+    "../../../scripts/lib/ensure-setup-critical-mysql.mjs"
+  );
+  await ensureSetupCriticalMysql(prisma, {
+    log: (message: unknown) => console.log(String(message)),
+  });
+}
+
 /**
- * Apply platform tables, additive User/CompanyInfo patches, core CREATE IF NOT EXISTS,
+ * Apply platform tables, additive setup-critical column patches, core CREATE IF NOT EXISTS,
  * then always run the deploy migrate script (patches only on existing DBs).
  * SKIP_DB_MIGRATE is removed so an empty database is not skipped.
  */
@@ -402,12 +419,14 @@ export async function ensureSetupSchemaBestEffort(): Promise<{
   const details: string[] = [];
 
   await applyPlatformTables();
+  await ensureSetupCriticalColumns().catch((error) => logSetupPatchSkip("setup-critical columns", error));
   await relaxLegacyCompanyInfoColumns().catch((error) => logSetupPatchSkip("CompanyInfo columns", error));
   await ensureUserSetupColumns().catch((error) => logSetupPatchSkip("User setup columns", error));
 
   // Existing DBs often already pass the table probes; still run migrate so auth/CMS patches apply.
   const migrate = runNodeScript("scripts/deploy/prisma-migrate-deploy.mjs");
   await applyPlatformTables();
+  await ensureSetupCriticalColumns().catch((error) => logSetupPatchSkip("setup-critical columns", error));
   await relaxLegacyCompanyInfoColumns().catch((error) => logSetupPatchSkip("CompanyInfo columns", error));
   await ensureUserSetupColumns().catch((error) => logSetupPatchSkip("User setup columns", error));
   if (await isSetupSchemaReady()) {
@@ -426,6 +445,7 @@ export async function ensureSetupSchemaBestEffort(): Promise<{
   // Re-run migrate after CREATE so patches can ALTER newly created tables.
   const migrateAgain = runNodeScript("scripts/deploy/prisma-migrate-deploy.mjs");
   await applyPlatformTables();
+  await ensureSetupCriticalColumns().catch((error) => logSetupPatchSkip("setup-critical columns", error));
   await ensureUserSetupColumns().catch((error) => logSetupPatchSkip("User setup columns", error));
   if (await isSetupSchemaReady()) {
     return { ready: true, attempted: true };

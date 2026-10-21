@@ -1958,6 +1958,12 @@ async function relaxLegacyCompanyInfoColumnsMysql(prisma) {
 }
 
 async function applyMysqlPatches(prisma) {
+  const { ensureSetupCriticalMysql } = await import("../lib/ensure-setup-critical-mysql.mjs");
+  await runMysqlPatch("setupCritical", () =>
+    ensureSetupCriticalMysql(prisma, {
+      log: (message) => console.log(String(message).replace("[setup-schema]", "[db-migrate]")),
+    }),
+  );
   await runMysqlPatch("legacyCompanyInfo", () => relaxLegacyCompanyInfoColumnsMysql(prisma));
   await runMysqlPatch("innodbDefault", () => ensureMysqlInnoDBDefault(prisma));
   await runMysqlPatch("innodbTables", () => ensureMysqlTablesInnoDB(prisma));
