@@ -177,7 +177,10 @@ export function shouldRedirectToPreSetupWelcome(
   status: { confident: boolean; setupComplete: boolean },
 ): boolean {
   if (!status.confident || status.setupComplete) return false;
+  // Admin recovery must stay reachable while visitors are held on /welcome.
   if (pathname.startsWith("/admin")) return false;
+  if (pathname.startsWith("/account/login")) return false;
+  if (pathname.startsWith("/api/auth")) return false;
   return !isPreSetupHoldExemptPath(pathname);
 }
 

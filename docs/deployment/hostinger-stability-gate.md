@@ -8,8 +8,11 @@ Hostinger is the **sole** supported production runtime. Do not treat Vercel (or 
 - [ ] `npm ci` succeeds using committed `package-lock.json` (npm ≥ 10)
 - [ ] `npm run build` / `npm run build:hostinger` completes
 - [ ] `DATABASE_URL` is `mysql://…` (MySQL **8.4**); `HOSTINGER_MYSQL_LOCALHOST=1` if same server
-- [ ] Migrate/start applies schema; `/setup` completes if blank
-- [ ] Public site and `/admin` load without restart loops
+- [ ] Multi-site: each website has its **own** MySQL DB and `LOCAL_PUBLIC_DIR=/home/<user>/persistent/<site-slug>/public`
+- [ ] Start command is `node scripts/deploy/hostinger-start.mjs` (not bare `node server.js` on empty schema)
+- [ ] Migrate/start applies schema; `/setup` completes if blank; no blank SQL / `SETUP_FRESH_INSTALL=1` on live data
+- [ ] `/api/setup/status` returns `databaseReady: true`
+- [ ] Public site and `/admin` load without restart loops (not stuck on `/welcome`)
 
 ## Storage (`MEDIA_STORAGE`)
 

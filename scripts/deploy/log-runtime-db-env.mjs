@@ -9,16 +9,38 @@ if (!url) {
   process.exit(0);
 }
 
-const host = url.match(/@([^/:?]+)/)?.[1] ?? "unset";
-const user = url.match(/\/\/([^:]+):/)?.[1] ?? "unset";
+let host = "unset";
+let dbName = "unset";
+let user = "unset";
+try {
+  const parsed = new URL(url);
+  host = parsed.hostname || "unset";
+  dbName = parsed.pathname.replace(/^\//, "").split("?")[0] || "unset";
+  user = decodeURIComponent(parsed.username || "unset");
+} catch {
+  host = url.match(/@([^/:?]+)/)?.[1] ?? "unset";
+  user = url.match(/\/\/([^:]+):/)?.[1] ?? "unset";
+  dbName = url.match(/\/([^/?]+)(?:\?|$)/)?.[1] ?? "unset";
+}
+
 const projectRef = user.includes(".") ? user.split(".")[1] : user;
 const safe = url.replace(/:([^:@/]+)@/, ":***@");
+const localhostFlag = process.env.HOSTINGER_MYSQL_LOCALHOST?.trim() || "(unset)";
+const mysqlHostOverride = process.env.DATABASE_MYSQL_HOST?.trim() || "(unset)";
 
 console.log(`[prestart] DATABASE_URL resolved: ${safe}`);
-console.log(`[prestart] pooler host=${host} projectRef=${projectRef}`);
+console.log(
+  `[prestart] db host=${host} database=${dbName} user=${projectRef} HOSTINGER_MYSQL_LOCALHOST=${localhostFlag} DATABASE_MYSQL_HOST=${mysqlHostOverride}`,
+);
+
+if (/^srv\d+\.hstgr\.io$/i.test(host) && localhostFlag !== "1" && localhostFlag !== "true" && mysqlHostOverride === "(unset)") {
+  console.warn(
+    "[prestart] WARNING: Hostinger remote MySQL host without localhost override — set HOSTINGER_MYSQL_LOCALHOST=1 (or DATABASE_MYSQL_HOST=localhost) if the Node app cannot reach srv*.hstgr.io",
+  );
+}
 
 if (projectRef === "ugiepgwgluwpktmngklp") {
   console.warn(
-    "[prestart] WARNING: old Supabase project ref detected — update hPanel DATABASE_URL to xxvvokguzrcrshplzqwp",
+    "[prestart] WARNING: old Supabase project ref detected — update hPanel DATABASE_URL to a MySQL URI for this site",
   );
 }

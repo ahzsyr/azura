@@ -5,12 +5,13 @@ SQL schemas and import bundles live under [`database/`](../database/README.md).
 
 | Document | Purpose |
 |----------|---------|
-| [host-setup-steps.md](./host-setup-steps.md) | Step-by-step first deploy |
+| [host-setup-steps.md](./host-setup-steps.md) | Step-by-step first deploy (incl. multi-site: one DB + uploads per website) |
 | [deployment-requirements.md](./deployment-requirements.md) | Software, env vars, build/run |
 | [recommended-host-specs.md](./recommended-host-specs.md) | Sizing and ops guidance |
 | [technology-policy.md](./technology-policy.md) | Phase 5 technology SSOT / anti-drift status table |
 | [next-usage-audit.md](./next-usage-audit.md) | Phase 5 Next.js usage audit; Cache Components deferred |
 | [hostinger-stability-gate.md](./hostinger-stability-gate.md) | Phase 4 Stability Gate checklist |
+| [hostinger-site-repair.md](./hostinger-site-repair.md) | Fix Welcome / `databaseReady: false` / broken admin per site |
 | [hostinger-cron.md](./hostinger-cron.md) | HTTP cron table (SEO, search, CMS, marketing, translation) |
 | [storage-and-webhooks.md](./storage-and-webhooks.md) | StorageProvider, MediaAsset identity, outbound webhooks |
 | [local-dev-runtime.md](./local-dev-runtime.md) | Local Node/Bun + Docker MySQL |

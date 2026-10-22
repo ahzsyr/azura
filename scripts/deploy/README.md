@@ -17,24 +17,43 @@
 | `log-runtime-persistence-env.mjs` | Log persistence paths and symlink layout at `prestart` |
 | `local-persistence-paths.mjs` | Shared path validation for persistent media (used by symlink + diagnose scripts) |
 
-## Hostinger (brt-me.com) — reduce 503 / Max Processes
+## Hostinger — reduce 503 / Max Processes
 
 This app is **Next.js SSR** (`next start`), not WordPress. Shared hosting limits concurrent Node processes; each page view can trigger middleware self-fetches and DB work unless configured correctly.
 
+### Multiple websites
+
+Each Hostinger website needs **its own** MySQL database and **its own** persistent uploads path. See [host-setup-steps.md §8](../../docs/deployment/host-setup-steps.md).
+
+Example for site slug `site-a`:
+
+```env
+DATABASE_URL=mysql://site_a_user:PASSWORD@localhost:3306/site_a_db
+HOSTINGER_MYSQL_LOCALHOST=1
+LOCAL_PUBLIC_DIR=/home/<user>/persistent/site-a/public
+```
+
+### Do not destroy data on redeploy
+
+- Never run `db:zero-data`, `db:reset-setup`, `db:factory-defaults`, blank SQL import, or `SETUP_FRESH_INSTALL=1` on a live DB.
+- Prefer start command `node scripts/deploy/hostinger-start.mjs` (additive migrate/patches, then server).
+- Existing MySQL DBs skip destructive `prisma migrate deploy`; only additive patches apply.
+
 ### hPanel environment variables (required)
 
-Copy from [`.env.brt`](../.env.brt) into **Websites → Node.js → Environment variables**. The uploaded zip does **not** apply `.env` files automatically.
+Set in **Websites → Node.js → Environment variables**. The uploaded zip does **not** apply `.env` files automatically. Start from [`database/env/.env.mysql`](../../database/env/.env.mysql).
 
 | Variable | Value | Why |
 |----------|-------|-----|
 | `SETUP_COMPLETE` | `true` | Marks setup complete when `/api/setup/status` is temporarily unreachable |
 | `INTERNAL_APP_URL` | `http://127.0.0.1:3000` | Reliable loopback for middleware `/api/setup/status` self-fetch |
-| `DATABASE_URL` | Supabase transaction pooler port **6543**, `?pgbouncer=true&connection_limit=3&sslmode=require` | Avoids connection pool exhaustion under SSR |
+| `DATABASE_URL` | `mysql://USER:PASSWORD@localhost:3306/DATABASE_NAME` | App DB is **MySQL 8.4** only (URL-encode special characters in the password) |
 | `NODE_ENV` | `production` | Enables ISR / caching |
 | `MEDIA_STORAGE` | `local` | Use Hostinger disk for CMS uploads (no Supabase) |
-| `LOCAL_PUBLIC_DIR` | `/home/u637787491/persistent/public` | **Recommended** — CMS writes to `persistent/public/uploads`; only `public/uploads` is symlinked |
-| `LOCAL_UPLOADS_DIR` | `/home/u637787491/persistent/media-uploads` | Alternative uploads-only path (use when `LOCAL_PUBLIC_DIR` is unset) |
+| `LOCAL_PUBLIC_DIR` | `/home/<user>/persistent/<site-slug>/public` | **Recommended** — CMS writes to `…/uploads`; only `public/uploads` is symlinked |
+| `LOCAL_UPLOADS_DIR` | `/home/<user>/persistent/<site-slug>/media-uploads` | Alternative uploads-only path (use when `LOCAL_PUBLIC_DIR` is unset) |
 | `HOSTINGER_MYSQL_LOCALHOST` | `1` | Use `localhost` instead of `srv*.hstgr.io` in `DATABASE_URL` at runtime |
+| `AUTH_SECRET` | long random string | Unique per website |
 
 Coming soon mode is controlled in **Admin → Settings → Site**. Optional `COMING_SOON_ENABLED` env is only used as a fallback when middleware cannot reach `/api/setup/status` — it does not override the admin toggle when the API responds.
 
@@ -80,22 +99,22 @@ If `a.txt` is gone → Git mutates through `public` symlinks (uploads-only symli
 
 | Path | Safe for CMS uploads? |
 |------|----------------------|
-| `/home/u637787491/persistent/public` | Yes — recommended (`LOCAL_PUBLIC_DIR`) |
-| `/home/u637787491/brt-data/public` | **No** — inside deploy tree if app lives in `brt-data/` |
+| `/home/<user>/persistent/<site-slug>/public` | Yes — recommended (`LOCAL_PUBLIC_DIR`) |
+| `/home/<user>/<deploy-folder>/public` | **No** — inside deploy tree |
 | `./public` or relative paths | **No** — rejected by deploy script |
 | Symlink entire `public/` | **No** — Git Deploy risk |
 
-**One-time migration** (if uploads were under `brt-data/public`):
+**One-time migration** (if uploads were under the deploy tree):
 
 ```bash
-mkdir -p /home/u637787491/persistent/public/uploads
-cp -a /home/u637787491/brt-data/public/uploads/. /home/u637787491/persistent/public/uploads/ 2>/dev/null || true
+mkdir -p /home/<user>/persistent/<site-slug>/public/uploads
+cp -a /home/<user>/<deploy-folder>/public/uploads/. /home/<user>/persistent/<site-slug>/public/uploads/ 2>/dev/null || true
 ```
 
 **hPanel env (with `MEDIA_STORAGE=local`):**
 
 ```env
-LOCAL_PUBLIC_DIR=/home/u637787491/persistent/public
+LOCAL_PUBLIC_DIR=/home/<user>/persistent/<site-slug>/public
 ```
 
 Set the **same value** in both Build and Runtime env sections if hPanel separates them.
@@ -103,7 +122,7 @@ Set the **same value** in both Build and Runtime env sections if hPanel separate
 Alternative (uploads-only env, unset `LOCAL_PUBLIC_DIR`):
 
 ```env
-LOCAL_UPLOADS_DIR=/home/u637787491/persistent/media-uploads
+LOCAL_UPLOADS_DIR=/home/<user>/persistent/<site-slug>/media-uploads
 ```
 
 **Post-deploy verification** (SSH):
@@ -111,12 +130,12 @@ LOCAL_UPLOADS_DIR=/home/u637787491/persistent/media-uploads
 ```bash
 pwd
 ls -ld public                    # should be a directory, NOT a symlink
-readlink -f public/uploads       # -> /home/u637787491/persistent/public/uploads
-ls -la /home/u637787491/persistent/public/uploads/images/
+readlink -f public/uploads       # -> /home/<user>/persistent/<site-slug>/public/uploads
+ls -la /home/<user>/persistent/<site-slug>/public/uploads/images/
 npm run diagnose:hostinger
 ```
 
-Upload a test image, Git deploy **twice**, confirm the file remains in `persistent/public/uploads/`.
+Upload a test image, Git deploy **twice**, confirm the file remains under `persistent/<site-slug>/public/uploads/`.
 
 Startup logs (`[prestart]`) show `LOCAL_PUBLIC_DIR`, resolved uploads path, and symlink layout. Upload logs show `[media-storage] wrote local upload: /path/...`.
 

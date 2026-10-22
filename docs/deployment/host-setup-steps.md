@@ -78,9 +78,41 @@ After deploy, an existing database with an admin user and company row is treated
 
 Do **not** flip `setupComplete` off to force `/welcome` — that path has no admin bypass, and the app re-marks setup complete when user + company already exist. Do not set `SKIP_DB_MIGRATE=1` until the schema is current; migrate skips destructive `prisma migrate deploy` when the `User` table already exists.
 
-## 8) Post-deploy checks
+## 8) Multiple Hostinger websites (one DB + uploads per site)
 
+Each Hostinger website must have **its own** MySQL database and **its own** persistent uploads directory. Do not point two Node apps at the same `DATABASE_URL` or the same `LOCAL_PUBLIC_DIR`.
+
+Per website, set distinct hPanel env (Websites → Node.js → Environment variables):
+
+```env
+NEXT_PUBLIC_SITE_URL=https://that-site.example
+DATABASE_URL=mysql://SITE_USER:PASSWORD@localhost:3306/SITE_DB
+HOSTINGER_MYSQL_LOCALHOST=1
+INTERNAL_APP_URL=http://127.0.0.1:3000
+SETUP_COMPLETE=true
+MEDIA_STORAGE=local
+LOCAL_PUBLIC_DIR=/home/<user>/persistent/<site-slug>/public
+AUTH_SECRET=<unique per site>
+```
+
+- Create a MySQL database + user for that site only (hPanel → Databases).
+- Create the uploads root once (SSH): `mkdir -p /home/<user>/persistent/<site-slug>/public/uploads`
+- `LOCAL_PUBLIC_DIR` must sit **outside** the Git/deploy folder. Only `public/uploads` is symlinked — never symlink entire `public/`.
+- Start command: `node scripts/deploy/hostinger-start.mjs` (applies additive schema patches, then starts the app).
+
+### Do not destroy data on redeploy
+
+- Never run `db:zero-data`, `db:reset-setup`, `db:factory-defaults`, or a blank SQL import against a live database that already has content.
+- Never set `SETUP_FRESH_INSTALL=1` on an existing site.
+- Do not start with bare `node server.js` on an empty schema (skips bootstrap). Prefer `hostinger-start.mjs`.
+- Production migrate skips destructive `prisma migrate deploy` when the `User` table already exists; only additive patches run.
+
+If `/api/setup/status` shows `databaseReady: false` or visitors see `/welcome` while admin fails: fix that site’s `DATABASE_URL` / `HOSTINGER_MYSQL_LOCALHOST=1`, restart with `hostinger-start.mjs`, then run `npm run test:db` and `npm run diagnose:hostinger` over SSH.
+
+## 9) Post-deploy checks
+
+- Confirm `/api/setup/status` returns `databaseReady: true`
 - Confirm database reads/writes work
-- Confirm media upload works (Supabase bucket and service role key)
-- Confirm auth login works
+- Confirm media upload works (`MEDIA_STORAGE=local` → persistent path, or Supabase/S3 when configured)
+- Confirm `/account/login` and `/admin` load (not stuck on `/welcome`)
 - Confirm email provider works (SMTP or Resend)

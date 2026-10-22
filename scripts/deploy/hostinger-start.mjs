@@ -42,11 +42,16 @@ if (process.env.LOCAL_PUBLIC_DIR?.trim() || process.env.LOCAL_UPLOADS_DIR?.trim(
   }
 }
 
-console.log("[hostinger-start] Applying database migrations / patches…");
+console.log(
+  "[hostinger-start] Applying additive database migrations / patches (will not DROP live tables)…",
+);
+console.log(
+  "[hostinger-start] Do not run db:zero-data / blank SQL import / SETUP_FRESH_INSTALL=1 on a live site.",
+);
 const migrateExit = runNode("scripts/deploy/prisma-migrate-deploy.mjs");
 if (migrateExit !== 0) {
   console.error(
-    "[hostinger-start] DB migrate failed. Fix DATABASE_URL, or run: npm run deploy:hostinger-db",
+    "[hostinger-start] DB migrate failed. Fix DATABASE_URL + HOSTINGER_MYSQL_LOCALHOST=1, or run: npm run deploy:hostinger-db",
   );
   console.error(
     "[hostinger-start] Only set SKIP_DB_MIGRATE=1 if the schema (including User table) is already present.",

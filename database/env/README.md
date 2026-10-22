@@ -8,4 +8,6 @@ Copy the MySQL template to `.env` in the project root (never commit secrets).
 
 Optional: set `MEDIA_STORAGE=supabase` and related `SUPABASE_*` keys for media files only. Azura does not use PostgreSQL as the application database.
 
+**Multiple Hostinger websites:** use a distinct `DATABASE_URL` and `LOCAL_PUBLIC_DIR=/home/<user>/persistent/<site-slug>/public` per site. See [`docs/deployment/host-setup-steps.md`](../../docs/deployment/host-setup-steps.md) §8.
+
 Deployment steps: [`docs/deployment/host-setup-steps.md`](../../docs/deployment/host-setup-steps.md).

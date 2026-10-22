@@ -17,6 +17,8 @@ test("pre-setup welcome holds public pages only when status is confidently incom
   assert.equal(shouldRedirectToPreSetupWelcome("/setup", incomplete), false);
   assert.equal(shouldRedirectToPreSetupWelcome("/api/setup/status", incomplete), false);
   assert.equal(shouldRedirectToPreSetupWelcome("/admin", incomplete), false);
+  assert.equal(shouldRedirectToPreSetupWelcome("/account/login", incomplete), false);
+  assert.equal(shouldRedirectToPreSetupWelcome("/api/auth/signin", incomplete), false);
   assert.equal(shouldRedirectToPreSetupWelcome("/", complete), false);
   assert.equal(shouldRedirectToPreSetupWelcome("/", uncertain), false);
 });
