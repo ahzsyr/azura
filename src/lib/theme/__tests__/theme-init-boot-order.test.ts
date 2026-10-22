@@ -9,14 +9,14 @@ describe("theme-init boot order", () => {
     "utf8",
   );
 
-  it("applies data-theme before the first chrome projection paint", () => {
-    const themeAttr = source.indexOf('setAttribute("data-theme"');
+  it("applies SSR data-theme before the first chrome projection paint", () => {
+    const firstPaint = source.indexOf('var firstPaint = ssrTheme === "dark"');
     const firstSync = source.indexOf("syncThemeColorMetaFromProjection(false)");
-    assert.ok(themeAttr > 0, "must set data-theme");
+    assert.ok(firstPaint > 0, "must derive firstPaint from SSR");
     assert.ok(firstSync > 0, "must call pre-hydration chrome sync");
     assert.ok(
-      themeAttr < firstSync,
-      "data-theme must precede syncThemeColorMetaFromProjection(false)",
+      firstPaint < firstSync,
+      "SSR firstPaint must precede syncThemeColorMetaFromProjection(false)",
     );
   });
 
@@ -38,16 +38,18 @@ describe("theme-init boot order", () => {
     assert.match(source, /paintSafariChromeTint\(browserColor, glassColor\)/);
   });
 
-  it("post-hydrate sync does not write tint vars or call visitorChromeColor", () => {
+  it("post-hydrate sync does not mutate theme-color metas or call visitorChromeColor", () => {
     assert.doesNotMatch(source, /visitorChromeColor\s*\(/);
-    // mutateHead true: metas only — paintSafariChromeTint gated behind !mutateHead
+    assert.match(source, /if \(mutateHead\) return;/);
     assert.match(
       source,
-      /if \(!mutateHead\) \{\s*paintSafariChromeTint/s,
+      /Mutating Next-owned theme-color metas during\/after hydrate caused #418/,
     );
-    assert.match(
-      source,
-      /do NOT rewrite tint vars/,
-    );
+  });
+
+  it("runAfterHydration waits for data-hydrated and does not race load+rAF", () => {
+    assert.match(source, /root\.dataset\.hydrated !== "true"/);
+    assert.match(source, /azura:hydrated/);
+    assert.doesNotMatch(source, /addEventListener\(\s*["']load["']/);
   });
 });

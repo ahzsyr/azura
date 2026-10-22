@@ -166,62 +166,26 @@
    * @param {boolean} mutateHead
    *   When false (pre-hydration): paint Safari tint vars + anchors — never
    *   create/rewrite <meta> nodes (extra head children → React #418).
-   *   When true (post-hydration): update theme-color metas from projection only;
-   *   do NOT rewrite tint vars — ThemeEngineProvider is the sole post-boot mutator.
+   *   When true: no-op. ThemeEngineProvider owns all post-boot meta + tint writes.
+   *   Mutating Next-owned theme-color metas during/after hydrate caused #418 remounts.
    */
   function syncThemeColorMetaFromProjection(mutateHead) {
-    var mode = stored || ssrMode || "light";
-    var paintMode =
-      mode === "system"
-        ? resolved === "dark"
-          ? "dark"
-          : "light"
-        : mode === "dark"
-          ? "dark"
-          : "light";
+    if (mutateHead) return;
+
+    // First paint matches SSR data-theme (not localStorage) so React hydrates
+    // against the same tree. Stored preference is applied by ThemeEngineProvider.
+    var paintMode = ssrTheme === "dark" ? "dark" : "light";
     var bg = resolveForcedChromeBg(paintMode);
     if (!bg) return;
-
-    // Pre-paint only: write --az-* tint vars. Post-hydrate leaves them alone.
-    if (!mutateHead) {
-      paintSafariChromeTint(bg, projectionColor(paintMode));
-      return;
-    }
-
-    var metaBg = isHexColor(bg) ? bg : projectionColor(paintMode);
-    if (!isHexColor(metaBg)) return;
-
-    var existing = Array.prototype.slice.call(
-      document.querySelectorAll('meta[name="theme-color"]'),
-    );
-    if (existing.length > 0) {
-      var needsUpdate = false;
-      for (var j = 0; j < existing.length; j++) {
-        if (existing[j].getAttribute("content") !== metaBg) {
-          needsUpdate = true;
-          break;
-        }
-      }
-      if (needsUpdate) {
-        for (var mi = 0; mi < existing.length; mi++) {
-          existing[mi].setAttribute("content", metaBg);
-        }
-      }
-      return;
-    }
-    var meta = document.createElement("meta");
-    meta.name = "theme-color";
-    meta.content = metaBg;
-    document.head.appendChild(meta);
+    paintSafariChromeTint(bg, projectionColor(paintMode));
   }
 
+  // Resolve stored preference for post-hydrate cookie sync only — do not flip
+  // data-theme before React hydrates (Sleep Focus / system dark vs SSR light
+  // was the dark flash + #418 text remount).
   if (stored === "dark" || stored === "light") {
     resolved = stored;
-  } else if (stored === "system") {
-    resolved = window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-  } else if (ssrMode === "system") {
+  } else if (stored === "system" || ssrMode === "system") {
     resolved = window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"
       : "light";
@@ -230,15 +194,14 @@
   }
 
   /**
-   * Apply resolved appearance BEFORE chrome paint so the first theme-color
-   * projection matches data-theme (kills light→dark chrome flash).
+   * Pre-hydrate: keep SSR data-theme/class, paint chrome for that appearance.
    * Clear leaked editor presets before any visitor color read.
-   * Head <meta> mutations wait until after hydration (React #418).
    */
   try {
     clearLeakedVisitorPreset();
-    root.style.colorScheme = resolved;
-    if (resolved === "dark") {
+    var firstPaint = ssrTheme === "dark" ? "dark" : "light";
+    root.style.colorScheme = firstPaint;
+    if (firstPaint === "dark") {
       root.classList.add("dark");
       root.setAttribute("data-theme", "dark");
     } else {
@@ -264,6 +227,9 @@
     var ran = false;
     function runOnce() {
       if (ran) return;
+      // Never run before LocaleBootClient marks hydrated — load+rAF raced React
+      // and mutated head mid-hydrate (React #418).
+      if (root.dataset.hydrated !== "true") return;
       ran = true;
       fn();
     }
@@ -272,15 +238,6 @@
       return;
     }
     document.addEventListener("azura:hydrated", runOnce, { once: true });
-    window.addEventListener(
-      "load",
-      function () {
-        requestAnimationFrame(function () {
-          requestAnimationFrame(runOnce);
-        });
-      },
-      { once: true },
-    );
   }
 
   runAfterHydration(function () {
@@ -415,114 +372,8 @@
           clearVisitorDomFromReset();
           applySitePresetBodyEffects();
         } else {
-          var c = readVisitorPresetColors();
-          var presetIdRaw = null;
-          try {
-            presetIdRaw = localStorage.getItem(sk.presetId || "devi-user-preset");
-          } catch (e) {}
-          if (c && presetIdRaw && c.primary) {
-            var primary = c.primary;
-            var accent = c.accent || primary;
-            var secondary = c.secondary || accent;
-            var border = "color-mix(in srgb, " + primary + " 14%, transparent)";
-            var cssRules =
-              "html{--primary:" +
-              primary +
-              ";--accent:" +
-              accent +
-              ";--p:var(--primary);--a:var(--accent);--color-primary:" +
-              primary +
-              ";--color-accent:" +
-              accent +
-              ";--color-secondary:" +
-              secondary +
-              ";--az-color-primary:" +
-              primary +
-              ";--az-color-accent:" +
-              accent +
-              ";--az-color-secondary:" +
-              secondary +
-              ";--az-accent:" +
-              accent +
-              ";--az-border-subtle:" +
-              border +
-              ";--az-color-border:" +
-              border +
-              ";}";
-
-            root.style.setProperty("--primary", primary);
-            root.style.setProperty("--accent", accent);
-            root.style.setProperty("--color-primary", primary);
-            root.style.setProperty("--color-accent", accent);
-            root.style.setProperty("--color-secondary", secondary);
-            root.style.setProperty("--az-color-primary", primary);
-            root.style.setProperty("--az-color-accent", accent);
-            root.style.setProperty("--az-color-secondary", secondary);
-            root.style.setProperty("--az-accent", accent);
-            root.style.setProperty("--az-border-subtle", border);
-            root.style.setProperty("--az-color-border", border);
-
-            if (c.background) {
-              var bg = c.background;
-              var surface = c.surface || bg;
-              var skipSurface = resolved === "dark" && isLightBackgroundHex(bg);
-              if (!skipSurface) {
-                var text = c.text || (resolved === "dark" ? "#f4f4f5" : "#18181b");
-                var muted = c.textMuted || (resolved === "dark" ? "#a1a1aa" : "#71717a");
-                cssRules =
-                  cssRules.slice(0, -1) +
-                  "--background:" +
-                  bg +
-                  ";--foreground:" +
-                  text +
-                  ";--card:" +
-                  surface +
-                  ";--bg:" +
-                  bg +
-                  ";--sur:" +
-                  surface +
-                  ";--t:" +
-                  text +
-                  ";--m:" +
-                  muted +
-                  ";--az-bg-primary:" +
-                  bg +
-                  ";--az-bg-secondary:" +
-                  surface +
-                  ";--az-text-primary:" +
-                  text +
-                  ";--az-text-secondary:" +
-                  muted +
-                  ";--az-color-bg:" +
-                  bg +
-                  ";--az-color-surface:" +
-                  surface +
-                  ";--az-color-text:" +
-                  text +
-                  ";--az-color-muted:" +
-                  muted +
-                  ";}";
-                root.style.setProperty("--background", bg);
-                root.style.setProperty("--foreground", text);
-                root.style.setProperty("--card", surface);
-                root.style.setProperty("--bg", bg);
-                root.style.setProperty("--sur", surface);
-                root.style.setProperty("--t", text);
-                root.style.setProperty("--m", muted);
-                root.style.setProperty("--az-bg-primary", bg);
-                root.style.setProperty("--az-bg-secondary", surface);
-                root.style.setProperty("--az-text-primary", text);
-                root.style.setProperty("--az-text-secondary", muted);
-                root.style.setProperty("--az-color-bg", bg);
-                root.style.setProperty("--az-color-surface", surface);
-                root.style.setProperty("--az-color-text", text);
-                root.style.setProperty("--az-color-muted", muted);
-              }
-            }
-
-            injectVisitorThemeStyle(cssRules);
-            markVisitorBootstrapped();
-          }
+          // Do not set --primary / --pre-primary here; ThemeEngineProvider owns
+          // visitor colors after hydrate (avoids purple→dark→site flash + #418).
 
           var visualRaw = null;
           var fxRaw = null;
@@ -586,6 +437,12 @@
         void visitorBootstrapped;
       }
 
+      // Re-assert published projection tint after visitor CSS vars (no meta writes).
+      // ThemeEngineProvider then owns metas + visitor-aware wash on the same frame.
+      var postMode = resolved === "dark" ? "dark" : "light";
+      var postBg = resolveForcedChromeBg(postMode);
+      if (postBg) paintSafariChromeTint(postBg, projectionColor(postMode));
+      // No-op placeholder — kept so boot contracts still see a post-hydrate call site.
       syncThemeColorMetaFromProjection(true);
     } catch (e) {}
   });
