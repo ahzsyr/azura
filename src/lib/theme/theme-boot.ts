@@ -67,6 +67,8 @@ export type ThemeBootPayload = {
     | "themeColorDark"
     | "backgroundColor"
     | "chromeTintStyle"
+    | "chromeTintSource"
+    | "iosStatusBarStyle"
     | "chromeTintOpacity"
     | "chromeGradientLight"
     | "chromeGradientDark"
@@ -119,6 +121,8 @@ export function buildThemeBootPayload(
       themeColorDark: projection.themeColorDark,
       backgroundColor: projection.backgroundColor,
       chromeTintStyle: projection.chromeTintStyle,
+      chromeTintSource: projection.chromeTintSource,
+      iosStatusBarStyle: projection.iosStatusBarStyle,
       chromeTintOpacity: projection.chromeTintOpacity,
       chromeGradientLight: projection.chromeGradientLight,
       chromeGradientDark: projection.chromeGradientDark,
@@ -175,10 +179,6 @@ export function generateThemeBootInlineScript(
   if(color){
     root.style.setProperty("--az-browser-chrome-tint",color);
     root.style.colorScheme=ssr;
-    var top=document.getElementById("az-safari-chrome-top");
-    var bottom=document.getElementById("az-safari-chrome-bottom");
-    if(top)top.style.backgroundColor=color;
-    if(bottom)bottom.style.backgroundColor=color;
   }
   if(glassTint){
     root.style.setProperty("--az-site-glass-tint",glassTint);
@@ -187,6 +187,28 @@ export function generateThemeBootInlineScript(
   if(tintStyle==="transparent"||tintStyle==="glass"||tintStyle==="solid"||tintStyle==="gradient"){
     root.setAttribute("data-chrome-tint-style",tintStyle);
   }
+  var tintSource=proj.chromeTintSource;
+  if(tintSource==="surface"||tintSource==="primary"){
+    root.setAttribute("data-chrome-tint-source",tintSource);
+  }
+  var iosBar=proj.iosStatusBarStyle;
+  if(iosBar==="black"||iosBar==="default"||iosBar==="black-translucent"){
+    root.setAttribute("data-ios-status-bar",iosBar);
+  }
+  var top=document.getElementById("az-safari-chrome-top");
+  var bottom=document.getElementById("az-safari-chrome-bottom");
+  function paintAnchor(el){
+    if(!el||!el.style)return;
+    if(tintStyle==="solid"&&color){
+      el.style.backgroundColor=color;
+      el.style.backgroundImage="";
+    }else{
+      el.style.backgroundColor="";
+      el.style.backgroundImage="";
+    }
+  }
+  paintAnchor(top);
+  paintAnchor(bottom);
   if(boot.edgeToEdge==="on"||boot.edgeToEdge==="off"){
     root.setAttribute("data-edge-to-edge",boot.edgeToEdge);
   }

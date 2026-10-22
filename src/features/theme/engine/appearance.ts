@@ -58,6 +58,8 @@ export type SyncThemeColorMetaOptions = {
    */
   glassTint?: string;
   chromeTintStyle?: string;
+  chromeTintSource?: string;
+  iosStatusBarStyle?: string;
   chromeTintOpacity?: number;
   chromeGradientLight?: string | null;
   chromeGradientDark?: string | null;
@@ -122,6 +124,8 @@ export function syncThemeColorMeta(
     darkColor,
     glassTint,
     chromeTintStyle: options?.chromeTintStyle,
+    chromeTintSource: options?.chromeTintSource,
+    iosStatusBarStyle: options?.iosStatusBarStyle,
     chromeTintOpacity: options?.chromeTintOpacity,
     chromeGradientLight: options?.chromeGradientLight,
     chromeGradientDark: options?.chromeGradientDark,

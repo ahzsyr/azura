@@ -83,6 +83,13 @@
     return proj.themeColorLight || "#fafafa";
   }
 
+  /** Site glass fill — never the OS theme-color / page canvas. */
+  function projectionGlassTint(mode) {
+    var proj = boot.browserProjection || {};
+    if (mode === "dark") return proj.glassTintDark || proj.themeColorDark || "#020408";
+    return proj.glassTintLight || proj.themeColorLight || "#fafafa";
+  }
+
   function clearVisitorPresetKeys() {
     try {
       localStorage.removeItem(sk.presetId || "devi-user-preset");
@@ -162,7 +169,17 @@
       function paintExistingTint(id) {
         var el = document.getElementById(id);
         if (!el || !el.style) return;
-        el.style.backgroundColor = browserColor;
+        var proj = boot.browserProjection || {};
+        var style =
+          proj.chromeTintStyle || root.getAttribute("data-chrome-tint-style") || "glass";
+        // Inline backgroundColor beats the style CSS. Only solid may keep one.
+        if (style === "solid") {
+          el.style.backgroundColor = browserColor;
+          el.style.backgroundImage = "";
+        } else {
+          el.style.backgroundColor = "";
+          el.style.backgroundImage = "";
+        }
       }
       paintExistingTint("az-safari-chrome-top");
       paintExistingTint("az-safari-chrome-bottom");
@@ -183,7 +200,7 @@
     var paintMode = ssrTheme === "dark" ? "dark" : "light";
     var bg = resolveForcedChromeBg(paintMode);
     if (!bg) return;
-    paintSafariChromeTint(bg, projectionColor(paintMode), paintMode);
+    paintSafariChromeTint(bg, projectionGlassTint(paintMode), paintMode);
   }
 
   // Resolve stored preference for post-hydrate cookie sync only — do not flip
@@ -449,7 +466,7 @@
       // ThemeEngineProvider then owns metas + visitor-aware wash on the same frame.
       var postMode = resolved === "dark" ? "dark" : "light";
       var postBg = resolveForcedChromeBg(postMode);
-      if (postBg) paintSafariChromeTint(postBg, projectionColor(postMode), postMode);
+      if (postBg) paintSafariChromeTint(postBg, projectionGlassTint(postMode), postMode);
       // No-op placeholder — kept so boot contracts still see a post-hydrate call site.
       syncThemeColorMetaFromProjection(true);
     } catch (e) {}

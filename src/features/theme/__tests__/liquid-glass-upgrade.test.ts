@@ -15,6 +15,8 @@ describe("theme boot Liquid Glass", () => {
     assert.equal(payload.glassEffect.enabled, false);
     assert.equal(payload.glassEffect.intensity, 1);
     assert.equal(payload.glassEffect.opacity, 0.45);
+    assert.equal(payload.browserProjection.chromeTintSource, "surface");
+    assert.equal(payload.browserProjection.iosStatusBarStyle, "black-translucent");
     assert.ok(Array.isArray(payload.publishedPresetIds));
     assert.ok(payload.publishedPresetIds.length > 0);
     assert.equal(payload.storageKeys.presetOrigin, "devi-user-preset-origin");
@@ -40,9 +42,34 @@ describe("theme boot Liquid Glass", () => {
     assert.match(script, /--az-site-glass-tint/);
     assert.match(script, /--az-site-glass-fill-alpha/);
     assert.match(script, /glassTintLight|proj\.glassTint/);
+    assert.match(script, /data-chrome-tint-source/);
+    assert.match(script, /data-ios-status-bar/);
+    assert.match(script, /tintStyle==="solid"/);
     assert.doesNotMatch(script, /setProperty\("--az-chrome-tint-mix"/);
     assert.match(script, /site-preloading-done/);
     assert.match(script, /runAfterHydration/);
+  });
+});
+
+describe("safari chrome anchor contract", () => {
+  it("clips the page only for solid and edge-to-edge off", () => {
+    const cssPath = path.join(
+      path.dirname(fileURLToPath(import.meta.url)),
+      "../../../styles/safari-chrome-tint.css",
+    );
+    const css = readFileSync(cssPath, "utf8");
+    assert.match(css, /data-chrome-tint-style="transparent"/);
+    assert.match(css, /data-chrome-tint-style="glass"/);
+    assert.match(css, /data-chrome-tint-style="solid"/);
+    assert.match(css, /data-chrome-tint-style="gradient"/);
+    assert.match(css, /data-chrome-tint-source="primary"/);
+    assert.match(css, /data-ios-status-bar="black"/);
+    assert.match(css, /data-ios-status-bar="default"/);
+    assert.match(css, /data-edge-to-edge="off"\] body/);
+    assert.match(
+      css,
+      /html\[data-chrome-tint-style="solid"\] #az-page-paint,\s*html\[data-edge-to-edge="off"\] #az-page-paint/,
+    );
   });
 });
 

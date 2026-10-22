@@ -123,6 +123,9 @@ export default async function RootLayout({ children }: Props) {
     } catch {
       // DB unavailable — appearance cookie attrs still apply.
     }
+    themeHtmlProps["data-chrome-tint-style"] = chromeProjection.chromeTintStyle;
+    themeHtmlProps["data-chrome-tint-source"] = chromeProjection.chromeTintSource;
+    themeHtmlProps["data-ios-status-bar"] = chromeProjection.iosStatusBarStyle;
   }
 
   const bootChromeColor =

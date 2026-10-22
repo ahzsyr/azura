@@ -1005,19 +1005,10 @@ function MobileBrowserChromePreview({
 }) {
   const glassOpacity = chromeTintGlassOpacity;
   /**
-   * The browser's own toolbar is opaque theme-color; the material lives on the
-   * site bar and on the device edge band. The preview mirrors that split so a
-   * "Transparent" style is not shown as a translucent OS toolbar.
+   * iPhone Safari 26 samples the edge material (glass, transparent, solid,
+   * gradient). Chrome on Android still paints an opaque theme-color. The
+   * preview shows the Safari material.
    */
-  const edgeColor = (mode: "light" | "dark", solid: string): string => {
-    if (chromeTintStyle === "gradient") {
-      return (
-        (mode === "dark" ? chromeGradientDark : chromeGradientLight) || solid
-      );
-    }
-    return solid;
-  };
-
   const barBackground = (mode: "light" | "dark", solid: string): string => {
     if (chromeTintStyle === "gradient") {
       return (
@@ -1030,6 +1021,9 @@ function MobileBrowserChromePreview({
     );
     return `color-mix(in srgb, ${solid} ${pct}%, transparent)`;
   };
+
+  const edgeColor = (mode: "light" | "dark", solid: string): string =>
+    barBackground(mode, solid);
 
   return (
     <div className="grid gap-3 sm:grid-cols-2">
@@ -1156,17 +1150,14 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
               />
               <p className="text-xs text-muted-foreground">
                 Glass keeps the page perceptible through a frosted bar.
-                Transparent lets the page show through almost unchanged.
-                Solid and gradient paint an opaque bar from the active preset.
-                Light and dark each resolve separately.
+                Transparent lets the page show through almost unchanged. Solid
+                paints an opaque bar from the color basis. Gradient fades that
+                color into the page. Light and dark each resolve separately.
               </p>
               <p className="text-xs text-muted-foreground">
-                The browser&apos;s own toolbar (address bar, tabs, bottom
-                toolbar) is drawn by the browser and is always an opaque
-                theme color — no website can make it translucent. Translucency
-                lives on the site bar, which the page scrolls beneath, and on
-                the device edge (status bar / home indicator) that shares the
-                same tint.
+                On iPhone Safari these four materials are what the toolbar and
+                status bar sample. Glass needs Liquid Glass enabled. Chrome on
+                Android keeps an opaque theme-color in the address bar.
               </p>
 
               {tintStyle === "transparent" ? (
@@ -1256,7 +1247,7 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
           <div className="border-t pt-4">
             <ThemeToggle
               label="Edge-to-edge page"
-              description="Page content scrolls under the site bar and the bar stretches into the device safe area (status bar / home indicator), like a native browser. The bar's own shape, radius and spacing do not change. Turn off to keep the bar in its own space."
+              description="Page content scrolls under the site bar and reaches the browser edges (status bar and toolbar). Turn off to pad the page below the status bar and keep the bar in its own space. The bar's own shape, radius and spacing do not change."
               checked={config.edgeToEdge !== false}
               onChange={(edgeToEdge) => setConfig({ edgeToEdge })}
               searchTerms={[
@@ -1281,8 +1272,11 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
               searchTerms={["apple", "safari", "status bar", "ios"]}
             />
             <p className="mt-1.5 text-xs text-muted-foreground">
-              Controls the <code>apple-mobile-web-app-status-bar-style</code> meta tag on iOS.
-              <strong> Black Translucent</strong> lets page content extend behind the bar.
+              In Safari, <strong>Black Translucent</strong> lets the page show
+              behind the status bar, <strong>Black</strong> paints a black band,
+              and <strong>Default</strong> paints a light band. Solid chrome tint
+              keeps its own color there. Installed home-screen apps also read
+              the <code>apple-mobile-web-app-status-bar-style</code> meta tag.
             </p>
           </div>
         </div>

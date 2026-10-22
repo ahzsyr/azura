@@ -19,6 +19,8 @@ export const CHROME_GRADIENT_VAR = "--az-browser-chrome-gradient";
 export const CHROME_GRADIENT_LIGHT_VAR = "--az-browser-chrome-gradient-light";
 export const CHROME_GRADIENT_DARK_VAR = "--az-browser-chrome-gradient-dark";
 export const CHROME_TINT_STYLE_ATTR = "data-chrome-tint-style";
+export const CHROME_TINT_SOURCE_ATTR = "data-chrome-tint-source";
+export const IOS_STATUS_BAR_ATTR = "data-ios-status-bar";
 export const SAFARI_CHROME_TOP_ID = "az-safari-chrome-top";
 export const SAFARI_CHROME_BOTTOM_ID = "az-safari-chrome-bottom";
 
@@ -33,6 +35,10 @@ export type SyncSafariChromeTintOptions = {
   glassTint?: string;
   /** transparent | glass | solid | gradient */
   chromeTintStyle?: string;
+  /** surface | primary */
+  chromeTintSource?: string;
+  /** default | black | black-translucent */
+  iosStatusBarStyle?: string;
   /** Effective fill strength 0–1 */
   chromeTintOpacity?: number;
   chromeGradientLight?: string | null;
@@ -57,14 +63,33 @@ function setRootVar(root: HTMLElement, name: string, value: string): void {
   }
 }
 
+const CHROME_TINT_STYLES = new Set(["transparent", "glass", "solid", "gradient"]);
+const CHROME_TINT_SOURCES = new Set(["surface", "primary"]);
+const IOS_STATUS_BARS = new Set(["default", "black", "black-translucent"]);
+
+/**
+ * Safari samples these strips. CSS owns glass, transparent, and gradient.
+ * An inline backgroundColor beats that CSS, so only solid may keep one —
+ * and it is cleared when the style changes. Stale light paint on Forced dark
+ * is avoided by always writing the CSS variable in the same call.
+ */
+function paintSafariAnchor(
+  el: HTMLElement | null,
+  style: string | undefined,
+  tint: string,
+): void {
+  if (!el?.style) return;
+  if (style === "solid") {
+    if (el.style.backgroundColor !== tint) el.style.backgroundColor = tint;
+    el.style.backgroundImage = "";
+    return;
+  }
+  el.style.backgroundColor = "";
+  el.style.backgroundImage = "";
+}
+
 /**
  * Project the active Theme Color onto Safari-sampled paint surfaces.
- * Inline anchor colors so tint updates in the same frame as appearance flips
- * (CSS-var-only updates can lag a frame behind header paint).
- *
- * Always write both the CSS var and inline backgroundColor. Clear any prior
- * inline only by overwriting — never leave anchors on a stale light SSR value
- * while the document is Forced dark.
  *
  * Mirrors onto --az-site-glass-tint unless `glassTint` is provided separately
  * (scroll samples retint Safari anchors without washing header/footer glass).
@@ -96,14 +121,23 @@ export function syncSafariChromeTint(
   }
 
   const style = options?.chromeTintStyle?.trim();
-  if (
-    style === "transparent" ||
-    style === "glass" ||
-    style === "solid" ||
-    style === "gradient"
-  ) {
+  if (style && CHROME_TINT_STYLES.has(style)) {
     if (root.getAttribute(CHROME_TINT_STYLE_ATTR) !== style) {
       root.setAttribute(CHROME_TINT_STYLE_ATTR, style);
+    }
+  }
+
+  const source = options?.chromeTintSource?.trim();
+  if (source && CHROME_TINT_SOURCES.has(source)) {
+    if (root.getAttribute(CHROME_TINT_SOURCE_ATTR) !== source) {
+      root.setAttribute(CHROME_TINT_SOURCE_ATTR, source);
+    }
+  }
+
+  const iosStatusBar = options?.iosStatusBarStyle?.trim();
+  if (iosStatusBar && IOS_STATUS_BARS.has(iosStatusBar)) {
+    if (root.getAttribute(IOS_STATUS_BAR_ATTR) !== iosStatusBar) {
+      root.setAttribute(IOS_STATUS_BAR_ATTR, iosStatusBar);
     }
   }
 
@@ -127,10 +161,6 @@ export function syncSafariChromeTint(
   if (!document.body) return;
   const top = ensureTintAnchor(SAFARI_CHROME_TOP_ID, "top");
   const bottom = ensureTintAnchor(SAFARI_CHROME_BOTTOM_ID, "bottom");
-  if (top?.style && top.style.backgroundColor !== tint) {
-    top.style.backgroundColor = tint;
-  }
-  if (bottom?.style && bottom.style.backgroundColor !== tint) {
-    bottom.style.backgroundColor = tint;
-  }
+  paintSafariAnchor(top, style, tint);
+  paintSafariAnchor(bottom, style, tint);
 }

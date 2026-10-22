@@ -316,6 +316,8 @@ export function ThemeEngineProvider({
         darkColor,
         glassTint,
         chromeTintStyle: projection.chromeTintStyle,
+        chromeTintSource: projection.chromeTintSource,
+        iosStatusBarStyle: projection.iosStatusBarStyle,
         chromeTintOpacity: projection.chromeTintOpacity,
         chromeGradientLight: projection.chromeGradientLight,
         chromeGradientDark: projection.chromeGradientDark,

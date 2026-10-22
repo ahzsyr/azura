@@ -2,13 +2,20 @@
  * Safari 26+ Liquid Glass: theme-color meta is ignored; the browser samples
  * fixed/sticky elements within ~4px of the viewport edges.
  *
- * - Thin edge anchors carry --az-browser-chrome-tint (boot + syncThemeColorMeta).
- * - Anchors MUST stay in the real compositing stack (positive z-index). z-index: -1
- *   puts them behind opaque body paint — Safari then falls back to flat light chrome
- *   with no Liquid Glass material.
- * - Keep strips thin so a matching tint does not read as a visible hairline.
+ * The four Mobile Browser styles paint these anchors. Inline backgroundColor
+ * is reserved for solid (boot + syncSafariChromeTint). Glass, transparent,
+ * and gradient must stay free of an opaque inline fill or Safari renders a
+ * solid toolbar.
+ *
+ * - Anchors MUST stay in the real compositing stack (positive z-index).
+ *   z-index: -1 puts them behind opaque body paint — Safari then falls back
+ *   to flat light chrome with no Liquid Glass material.
+ * - Glass / transparent / gradient leave #az-page-paint unclipped so the page
+ *   itself is the sample. Solid and edge-to-edge off keep the bottom clip so
+ *   a footer cannot replace the sample.
  * - Ambient body::before wash is inset so it is NOT sampled as chrome.
  * - Enabled for Safari on iOS and macOS (Apple WebKit), not Chromium.
+ *   Chromium still uses the opaque theme-color meta.
  */
 
 #az-safari-chrome-top,
@@ -21,12 +28,12 @@
   width: 100%;
   /* Participate in edge sampling — do NOT use z-index: -1. */
   z-index: 2147483000;
-  /* Never fall through to an implicit black/transparent sample. */
   background-color: var(--az-browser-chrome-tint, var(--bg-primary, var(--background, #fafafa)));
+  background-image: none;
   transition: background-color 0.1s ease-out;
 }
 
-/* Thin top sample strip — thick slabs read as a solid status bar band */
+/* Thin top sample strip. Solid, gradient, and status-bar styles grow it. */
 #az-safari-chrome-top {
   top: 0;
   height: 2px;
@@ -39,6 +46,113 @@
   min-height: max(12px, env(safe-area-inset-bottom, 0px));
 }
 
+/* ── Transparent: the page is the sample ──────────────────────────────── */
+html[data-chrome-tint-style="transparent"] #az-safari-chrome-top,
+html[data-chrome-tint-style="transparent"] #az-safari-chrome-bottom {
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+}
+
+/* ── Glass: translucent basis veil. Page shows through. ───────────────── */
+html[data-chrome-tint-style="glass"] #az-safari-chrome-top,
+html[data-chrome-tint-style="glass"] #az-safari-chrome-bottom {
+  background-color: color-mix(
+    in srgb,
+    var(--background, var(--bg-primary, var(--az-browser-chrome-tint, #fafafa)))
+      calc(var(--az-chrome-tint-opacity, 0.7) * 100%),
+    transparent
+  ) !important;
+  background-image: none !important;
+  backdrop-filter: blur(12px) saturate(1.35) !important;
+}
+
+html[data-chrome-tint-style="glass"][data-chrome-tint-source="primary"] #az-safari-chrome-top,
+html[data-chrome-tint-style="glass"][data-chrome-tint-source="primary"] #az-safari-chrome-bottom {
+  background-color: color-mix(
+    in srgb,
+    var(--primary, var(--az-browser-chrome-tint, #047857))
+      calc(var(--az-chrome-tint-opacity, 0.7) * 100%),
+    transparent
+  ) !important;
+}
+
+html[data-chrome-tint-style="glass"][data-glass-effect="liquid"] #az-safari-chrome-top,
+html[data-chrome-tint-style="glass"][data-glass-effect="liquid"] #az-safari-chrome-bottom {
+  backdrop-filter: blur(var(--az-site-glass-blur, 20px))
+    saturate(var(--az-site-glass-saturate, 1.6)) !important;
+}
+
+/* ── Solid: opaque basis on both edges. Top fills the status bar. ─────── */
+html[data-chrome-tint-style="solid"] #az-safari-chrome-top,
+html[data-chrome-tint-style="solid"] #az-safari-chrome-bottom {
+  background-color: var(--az-browser-chrome-tint, var(--background, #fafafa)) !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+}
+
+html[data-chrome-tint-style="solid"] #az-safari-chrome-top {
+  height: max(2px, env(safe-area-inset-top, 0px));
+  min-height: max(2px, env(safe-area-inset-top, 0px));
+  max-height: none;
+}
+
+/* ── Gradient: fade the basis into the page from both edges. ──────────── */
+html[data-chrome-tint-style="gradient"] #az-safari-chrome-top,
+html[data-chrome-tint-style="gradient"] #az-safari-chrome-bottom {
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+}
+
+html[data-chrome-tint-style="gradient"] #az-safari-chrome-top {
+  height: calc(env(safe-area-inset-top, 0px) + 48px);
+  min-height: calc(env(safe-area-inset-top, 0px) + 48px);
+  max-height: none;
+  background-image: var(
+    --az-browser-chrome-gradient,
+    linear-gradient(
+      to bottom,
+      var(--az-browser-chrome-tint, var(--background, #fafafa)) 0%,
+      transparent 100%
+    )
+  ) !important;
+}
+
+html[data-chrome-tint-style="gradient"] #az-safari-chrome-bottom {
+  bottom: 0;
+  height: calc(env(safe-area-inset-bottom, 0px) + 48px);
+  min-height: calc(env(safe-area-inset-bottom, 0px) + 48px);
+  background-image: linear-gradient(
+    to top,
+    var(--az-browser-chrome-tint, var(--background, #fafafa)) 0%,
+    transparent 100%
+  ) !important;
+}
+
+/* ── iOS status bar (in-Safari). Solid keeps its own band. ────────────── */
+html[data-ios-status-bar="black"]:not([data-chrome-tint-style="solid"]) #az-safari-chrome-top {
+  height: max(2px, env(safe-area-inset-top, 0px));
+  min-height: max(2px, env(safe-area-inset-top, 0px));
+  max-height: none;
+  background-color: #000 !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+}
+
+html[data-ios-status-bar="default"]:not([data-chrome-tint-style="solid"]) #az-safari-chrome-top {
+  height: max(2px, env(safe-area-inset-top, 0px));
+  min-height: max(2px, env(safe-area-inset-top, 0px));
+  max-height: none;
+  background-color: #f7f7f8 !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Edge-to-edge off: keep the page below the status bar. */
+html[data-edge-to-edge="off"] body {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
 /*
  * Apple WebKit (iOS Safari + macOS Safari): `font: -apple-system-body` is
  * Safari-only in @supports. No width gate — desktop Safari also samples edges.
@@ -49,10 +163,7 @@
     display: block;
   }
 
-  /* Keep ambient wash off the sampling band: the wash starts below the top
-   * anchor and ends above the bottom anchor (the previous bottom: 8px left the
-   * wash covering an 8px strip at the foot of the viewport on every scroll
-   * position, including the very top where nothing may cover the bottom edge). */
+  /* Keep ambient wash off the sampling band. */
   body::before {
     top: 2px;
     right: 0;
@@ -66,19 +177,25 @@
   body {
     background-color: var(--bg-primary, var(--background));
   }
-}
 
-/* Safari samples whatever is painted at the extreme bottom edge. In the resting
- * (scroll 0) state, page-edge content such as the footer must not sit there:
- * cut the page paint off at the bottom anchor so the sample is the tint
- * projection instead of a sliver of footer. #az-page-paint is a dedicated
- * wrapper rendered by the locale layout; without it the cut is harmless
- * because .site-shell is transparent and body still paints. */
-@supports (font: -apple-system-body) {
-  #az-page-paint {
+  /* Solid, and edge-to-edge off, must not let the footer replace the sample.
+   * Glass, transparent, and gradient leave the page at the edge. */
+  html[data-chrome-tint-style="solid"] #az-page-paint,
+  html[data-edge-to-edge="off"] #az-page-paint {
     clip-path: inset(
       0 0 max(12px, env(safe-area-inset-bottom, 0px)) 0
     );
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  html[data-chrome-tint-style="glass"] #az-safari-chrome-top,
+  html[data-chrome-tint-style="glass"] #az-safari-chrome-bottom,
+  html[data-chrome-tint-style="transparent"] #az-safari-chrome-top,
+  html[data-chrome-tint-style="transparent"] #az-safari-chrome-bottom {
+    background-color: var(--az-browser-chrome-tint, var(--background, #fafafa)) !important;
+    background-image: none !important;
+    backdrop-filter: none !important;
   }
 }
 

@@ -5,7 +5,7 @@ type FakeMeta = {
   name: string;
   content: string;
   id?: string;
-  style?: { backgroundColor: string };
+  style?: { backgroundColor: string; backgroundImage: string };
   getAttribute: (name: string) => string | null;
   setAttribute: (name: string, value: string) => void;
   remove: () => void;
@@ -15,6 +15,7 @@ function installMinimalDocument() {
   const metas: FakeMeta[] = [];
   const styleProps: Record<string, string> = {};
   const bodyChildren: FakeMeta[] = [];
+  const rootAttrs: Record<string, string> = {};
 
   const head = {
     appendChild(node: FakeMeta) {
@@ -35,6 +36,15 @@ function installMinimalDocument() {
       setProperty(name: string, value: string) {
         styleProps[name] = value;
       },
+      removeProperty(name: string) {
+        delete styleProps[name];
+      },
+    },
+    getAttribute(name: string) {
+      return rootAttrs[name] ?? null;
+    },
+    setAttribute(name: string, value: string) {
+      rootAttrs[name] = value;
     },
   };
 
@@ -54,8 +64,8 @@ function installMinimalDocument() {
     head,
     body,
     documentElement,
-    getElementById() {
-      return null;
+    getElementById(id: string) {
+      return bodyChildren.find((node) => node.id === id) ?? null;
     },
     createElement(tag: string): FakeMeta {
       if (tag !== "meta" && tag !== "div") throw new Error(`unexpected tag: ${tag}`);
@@ -71,6 +81,12 @@ function installMinimalDocument() {
           },
           set backgroundColor(value: string) {
             stylePropsLocal.backgroundColor = value;
+          },
+          get backgroundImage() {
+            return stylePropsLocal.backgroundImage ?? "";
+          },
+          set backgroundImage(value: string) {
+            stylePropsLocal.backgroundImage = value;
           },
         },
         getAttribute(name: string) {
@@ -94,26 +110,33 @@ function installMinimalDocument() {
   };
 
   (globalThis as { document?: typeof documentMock }).document = documentMock;
-  return { metas, documentMock, styleProps };
+  return { metas, documentMock, styleProps, bodyChildren, rootAttrs };
 }
 
 describe("syncThemeColorMeta", () => {
   let metas: FakeMeta[];
   let styleProps: Record<string, string>;
+  let bodyChildren: FakeMeta[];
+  let rootAttrs: Record<string, string>;
 
   before(() => {
     const installed = installMinimalDocument();
     metas = installed.metas;
     styleProps = installed.styleProps;
+    bodyChildren = installed.bodyChildren;
+    rootAttrs = installed.rootAttrs;
   });
 
   beforeEach(() => {
     metas.splice(0, metas.length);
+    bodyChildren.splice(0, bodyChildren.length);
     for (const key of Object.keys(styleProps)) delete styleProps[key];
+    for (const key of Object.keys(rootAttrs)) delete rootAttrs[key];
   });
 
   afterEach(() => {
     metas.splice(0, metas.length);
+    bodyChildren.splice(0, bodyChildren.length);
   });
 
   it("forced dark writes the same color to all existing metas in place", async () => {
@@ -227,6 +250,69 @@ describe("syncThemeColorMeta", () => {
 
     assert.equal(styleProps["--az-browser-chrome-tint"], "#020408");
     assert.equal(styleProps["--az-site-glass-tint"], "#0a0f18");
+  });
+
+  function anchorBackgrounds(): { top: string; bottom: string } {
+    const top = document.getElementById("az-safari-chrome-top");
+    const bottom = document.getElementById("az-safari-chrome-bottom");
+    return {
+      top: top?.style?.backgroundColor ?? "",
+      bottom: bottom?.style?.backgroundColor ?? "",
+    };
+  }
+
+  it("glass does not leave an opaque inline anchor color", async () => {
+    const { syncThemeColorMeta } = await import("@/features/theme/engine/appearance");
+    syncThemeColorMeta("light", {
+      mode: "light",
+      color: "#f8fafc",
+      chromeTintStyle: "glass",
+      chromeTintSource: "surface",
+      iosStatusBarStyle: "black-translucent",
+      chromeTintOpacity: 0.7,
+    });
+    const anchors = anchorBackgrounds();
+    assert.equal(anchors.top, "");
+    assert.equal(anchors.bottom, "");
+    assert.equal(document.documentElement.getAttribute("data-chrome-tint-style"), "glass");
+    assert.equal(document.documentElement.getAttribute("data-chrome-tint-source"), "surface");
+    assert.equal(
+      document.documentElement.getAttribute("data-ios-status-bar"),
+      "black-translucent",
+    );
+  });
+
+  it("transparent and gradient clear a previous solid anchor fill", async () => {
+    const { syncThemeColorMeta } = await import("@/features/theme/engine/appearance");
+    syncThemeColorMeta("light", {
+      mode: "light",
+      color: "#047857",
+      chromeTintStyle: "solid",
+      chromeTintSource: "primary",
+    });
+    assert.equal(anchorBackgrounds().top, "#047857");
+    assert.equal(anchorBackgrounds().bottom, "#047857");
+
+    syncThemeColorMeta("light", {
+      mode: "light",
+      color: "#047857",
+      chromeTintStyle: "transparent",
+    });
+    assert.equal(anchorBackgrounds().top, "");
+    assert.equal(anchorBackgrounds().bottom, "");
+
+    syncThemeColorMeta("light", {
+      mode: "light",
+      color: "#047857",
+      chromeTintStyle: "gradient",
+      chromeGradientLight: "linear-gradient(to bottom, #047857 0%, transparent 100%)",
+    });
+    assert.equal(anchorBackgrounds().top, "");
+    assert.equal(anchorBackgrounds().bottom, "");
+    assert.equal(
+      styleProps["--az-browser-chrome-gradient"],
+      "linear-gradient(to bottom, #047857 0%, transparent 100%)",
+    );
   });
 });
 
