@@ -114,6 +114,13 @@ html[data-edge-to-edge="off"] .az-chrome-scroll-edge {
   display: none;
 }
 
+/* Transparent and Glass leave the status bar to Safari's own glass. An
+ * opaque band at the top edge would be sampled as a solid status bar. */
+html[data-chrome-tint-style="transparent"] .az-chrome-tint-zone,
+html[data-chrome-tint-style="glass"] .az-chrome-tint-zone {
+  display: none;
+}
+
 /* Overlay / absolute / fixed header modes sit at the viewport top, under the
  * status bar, so the root needs the safe-area padding (the floating inset
  * already exists and is never reduced). The in-flow sticky / static modes put
@@ -157,11 +164,12 @@ html[data-edge-to-edge="off"] .az-chrome-scroll-edge {
   opacity: 1;
 }
 
-/* Glass and transparent styles already give the bar a real backdrop; the fade
- * there only has to bridge into the safe area, so it stays lighter. */
+/* Glass and transparent styles already give the bar a real backdrop. The fade
+ * starts below the status bar so the clock area stays Safari's own glass. */
 html[data-chrome-tint-style="glass"] .az-chrome-scroll-edge,
 html[data-chrome-tint-style="transparent"] .az-chrome-scroll-edge {
-  --az-chrome-fade-size: calc(var(--az-safe-top, 0px) + 28px);
+  top: var(--az-safe-top, 0px);
+  --az-chrome-fade-size: 28px;
 }
 
 /* Opaque styles get a slightly longer fade so content never touches a hard

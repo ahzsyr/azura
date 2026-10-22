@@ -1155,9 +1155,11 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
                 color into the page. Light and dark each resolve separately.
               </p>
               <p className="text-xs text-muted-foreground">
-                On iPhone Safari these four materials are what the toolbar and
-                status bar sample. Glass needs Liquid Glass enabled. Chrome on
-                Android keeps an opaque theme-color in the address bar.
+                On iPhone Safari, Transparent and Glass let Safari draw its own
+                glass over the page under the clock and behind the toolbar.
+                Glass strength and Color basis apply to the site bar. Solid and
+                Gradient color the browser edges. Chrome on Android keeps an
+                opaque theme-color in the address bar.
               </p>
 
               {tintStyle === "transparent" ? (

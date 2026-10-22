@@ -5,7 +5,7 @@
  * The four Mobile Browser styles paint these anchors. Inline backgroundColor
  * is reserved for solid (boot + syncSafariChromeTint). Glass, transparent,
  * and gradient must stay free of an opaque inline fill or Safari renders a
- * solid toolbar.
+ * solid toolbar. Transparent and Glass have no top anchor at all.
  *
  * - Anchors MUST stay in the real compositing stack (positive z-index).
  *   z-index: -1 puts them behind opaque body paint — Safari then falls back
@@ -46,41 +46,27 @@
   min-height: max(12px, env(safe-area-inset-bottom, 0px));
 }
 
-/* ── Transparent: the page is the sample ──────────────────────────────── */
+/* ── Transparent and Glass: Safari draws its own glass over the page ─────
+ * Safari paints any edge sample as an opaque color, so a tinted veil here
+ * becomes a solid box. Both styles keep the strips clear. Glass strength,
+ * color basis, and blur apply to the site bar (edge-to-edge.css). */
 html[data-chrome-tint-style="transparent"] #az-safari-chrome-top,
-html[data-chrome-tint-style="transparent"] #az-safari-chrome-bottom {
+html[data-chrome-tint-style="transparent"] #az-safari-chrome-bottom,
+html[data-chrome-tint-style="glass"] #az-safari-chrome-top,
+html[data-chrome-tint-style="glass"] #az-safari-chrome-bottom {
   background-color: transparent !important;
   background-image: none !important;
   backdrop-filter: none !important;
 }
 
-/* ── Glass: translucent basis veil. Page shows through. ───────────────── */
-html[data-chrome-tint-style="glass"] #az-safari-chrome-top,
-html[data-chrome-tint-style="glass"] #az-safari-chrome-bottom {
-  background-color: color-mix(
-    in srgb,
-    var(--background, var(--bg-primary, var(--az-browser-chrome-tint, #fafafa)))
-      calc(var(--az-chrome-tint-opacity, 0.7) * 100%),
-    transparent
-  ) !important;
-  background-image: none !important;
-  backdrop-filter: blur(12px) saturate(1.35) !important;
-}
-
-html[data-chrome-tint-style="glass"][data-chrome-tint-source="primary"] #az-safari-chrome-top,
-html[data-chrome-tint-style="glass"][data-chrome-tint-source="primary"] #az-safari-chrome-bottom {
-  background-color: color-mix(
-    in srgb,
-    var(--primary, var(--az-browser-chrome-tint, #047857))
-      calc(var(--az-chrome-tint-opacity, 0.7) * 100%),
-    transparent
-  ) !important;
-}
-
-html[data-chrome-tint-style="glass"][data-glass-effect="liquid"] #az-safari-chrome-top,
-html[data-chrome-tint-style="glass"][data-glass-effect="liquid"] #az-safari-chrome-bottom {
-  backdrop-filter: blur(var(--az-site-glass-blur, 20px))
-    saturate(var(--az-site-glass-saturate, 1.6)) !important;
+/* Edge-to-edge off keeps the page below the clock: the status bar takes the
+ * page canvas instead of Safari's default color. */
+html[data-edge-to-edge="off"][data-chrome-tint-style="transparent"] #az-safari-chrome-top,
+html[data-edge-to-edge="off"][data-chrome-tint-style="glass"] #az-safari-chrome-top {
+  height: max(2px, env(safe-area-inset-top, 0px));
+  min-height: max(2px, env(safe-area-inset-top, 0px));
+  max-height: none;
+  background-color: var(--bg-primary, var(--background, #fafafa)) !important;
 }
 
 /* ── Solid: opaque basis on both edges. Top fills the status bar. ─────── */
@@ -176,6 +162,28 @@ html[data-edge-to-edge="off"] body {
   html,
   body {
     background-color: var(--bg-primary, var(--background));
+  }
+
+  /* Transparent and Glass under the clock: nothing fixed at the top edge and
+   * no opaque page color for Safari to fall back on, so the page shows
+   * through the status bar. A clear top strip or an opaque html/body color
+   * both turn the status bar into a solid band. The canvas still paints, as
+   * an image layer, which Safari does not use as the edge color. */
+  html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]):not([data-ios-status-bar="black"]):not([data-ios-status-bar="default"])
+    #az-safari-chrome-top {
+    display: none;
+  }
+
+  html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]),
+  html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]) body {
+    background-color: transparent;
+  }
+
+  html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]) body {
+    background-image: linear-gradient(
+      var(--bg-primary, var(--background)),
+      var(--bg-primary, var(--background))
+    );
   }
 
   /* Solid, and edge-to-edge off, must not let the footer replace the sample.

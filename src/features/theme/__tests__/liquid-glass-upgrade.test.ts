@@ -62,13 +62,29 @@ describe("safari chrome anchor contract", () => {
     assert.match(css, /data-chrome-tint-style="glass"/);
     assert.match(css, /data-chrome-tint-style="solid"/);
     assert.match(css, /data-chrome-tint-style="gradient"/);
-    assert.match(css, /data-chrome-tint-source="primary"/);
     assert.match(css, /data-ios-status-bar="black"/);
     assert.match(css, /data-ios-status-bar="default"/);
     assert.match(css, /data-edge-to-edge="off"\] body/);
     assert.match(
       css,
       /html\[data-chrome-tint-style="solid"\] #az-page-paint,\s*html\[data-edge-to-edge="off"\] #az-page-paint/,
+    );
+  });
+
+  it("leaves the status bar to Safari for transparent and glass", () => {
+    const stylesDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "../../../styles");
+    const css = readFileSync(path.join(stylesDir, "safari-chrome-tint.css"), "utf8");
+    const edge = readFileSync(path.join(stylesDir, "edge-to-edge.css"), "utf8");
+    assert.doesNotMatch(css, /data-chrome-tint-style="glass"\][^{]*\{[^}]*color-mix/);
+    assert.doesNotMatch(css, /data-chrome-tint-style="glass"\][^{]*\{[^}]*backdrop-filter: blur/);
+    assert.match(
+      css,
+      /html:is\(\[data-chrome-tint-style="transparent"\], \[data-chrome-tint-style="glass"\]\)[^{]*#az-safari-chrome-top \{\s*display: none;/,
+    );
+    assert.match(css, /\) body \{\s*background-color: transparent;/);
+    assert.match(
+      edge,
+      /html\[data-chrome-tint-style="transparent"\] \.az-chrome-tint-zone,\s*html\[data-chrome-tint-style="glass"\] \.az-chrome-tint-zone \{\s*display: none;/,
     );
   });
 });
