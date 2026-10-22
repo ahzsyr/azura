@@ -41,8 +41,8 @@ export function shouldShowScrollEdge(scrollY: number): boolean {
  * Height of the bar's own band that the page must tuck under, in px.
  *
  * Desktop (>= 969px, in-flow sticky/static bars): the header root paints a
- * transparent band around the capsule (its float inset above and below), so the
- * band is the root's padding-top doubled.
+ * transparent band around the capsule via its inline padding, so the band is
+ * that inset (measured, token as fallback).
  * Mobile: the bar is in normal flow; the band is its measured box height, which
  * already contains the device safe-area padding (never added twice).
  * Overlay / fixed / hiding modes position the bar out of flow, so no band is
@@ -56,8 +56,6 @@ export function measureChromeBand(
   const mode = root.getAttribute("data-header-desktop") ?? "";
   if (mode === "fixed-top" || mode === "hide-reveal" || mode === "absolute") return 0;
   if (root.getAttribute("data-header-overlay") === "true") return 0;
-  const style = getComputedStyle(root);
-  const padTop = parseFloat(style.paddingTop) || 0;
   if (opts.isMobile) {
     // The bar is in flow: its own box already includes the safe-area padding
     // (header-builder.css pads .site-header by --az-safe-top), so the band is the
@@ -69,7 +67,22 @@ export function measureChromeBand(
     );
     return Math.round((headerHeight || 0) + opts.safeTopPx);
   }
-  return Math.round(padTop * 2);
+  // Desktop: the floating chrome rule pads the root INLINE (--az-site-glass-float-inset
+  // each side) and lets the capsule sit flush at the top, so the transparent band
+  // around the capsule is the float inset, not a top padding. Prefer the actual
+  // measured inline padding and fall back to the token.
+  const style = getComputedStyle(root);
+  const padInlineStart = parseFloat(style.paddingInlineStart) || 0;
+  const inset =
+    padInlineStart > 0
+      ? padInlineStart
+      : parseFloat(
+          style.getPropertyValue("--az-site-glass-float-inset") ||
+            getComputedStyle(document.documentElement).getPropertyValue(
+              "--az-site-glass-float-inset",
+            ),
+        ) || 12;
+  return Math.round(inset);
 }
 
 const MOBILE_MQ = "(max-width: 968px)";
@@ -118,7 +131,10 @@ export function ChromeEdgeLayers() {
 
     const syncUnderlay = () => {
       mode = readEdgeToEdgeMode(headerRoot);
-      setUnderlay(mode === "on");
+      // Routes without a site bar (hero-only pages) must not get the fixed
+      // chrome layers: the fade would paint a haze band over the hero.
+      html.setAttribute("data-has-site-header", headerRoot ? "true" : "false");
+      setUnderlay(mode === "on" && Boolean(headerRoot));
       publishBand();
     };
     syncUnderlay();
@@ -131,15 +147,19 @@ export function ChromeEdgeLayers() {
     if (headerRoot) resizeObserver?.observe(headerRoot);
     window.addEventListener("resize", publishBand);
 
-    // Theme Studio can flip the setting at runtime.
+    // The bar can appear/disappear with client navigation, and Theme Studio can
+    // flip the setting at runtime: watch the shell for both.
     const attrObserver =
-      headerRoot && typeof MutationObserver !== "undefined"
+      typeof MutationObserver !== "undefined"
         ? new MutationObserver(syncUnderlay)
         : null;
-    attrObserver?.observe(headerRoot as HTMLElement, {
-      attributes: true,
-      attributeFilter: ["data-edge-to-edge"],
-    });
+    attrObserver?.observe(document.body, { childList: true, subtree: true });
+    if (headerRoot) {
+      attrObserver?.observe(headerRoot, {
+        attributes: true,
+        attributeFilter: ["data-edge-to-edge"],
+      });
+    }
 
     if (!fade) {
       return () => {
@@ -148,6 +168,7 @@ export function ChromeEdgeLayers() {
         window.removeEventListener("resize", publishBand);
         setUnderlay(false);
         html.style.removeProperty("--az-chrome-band");
+        html.removeAttribute("data-has-site-header");
       };
     }
 

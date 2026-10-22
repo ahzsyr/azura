@@ -239,6 +239,11 @@ export default async function LocaleLayout({ children, params }: Props) {
               headerConfig={shell.theme?.headerConfig}
               // Content under bar + safe-area padding (Theme Studio opt-out).
               edgeToEdge={shell.theme?.mobileBrowserConfig?.edgeToEdge !== false}
+              chromeTintSource={
+                shell.theme?.mobileBrowserConfig?.chromeTintSource === "primary"
+                  ? "primary"
+                  : "surface"
+              }
             />
           </SiteChromeGate>
           <main className="site-main flex-1">

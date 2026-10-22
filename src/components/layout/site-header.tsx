@@ -18,6 +18,8 @@ type Props = {
   headerConfig?: HeaderThemeConfig;
   /** Page content passes under the bar + safe-area padding. Default on. */
   edgeToEdge?: boolean;
+  /** Theme Studio "Color basis" for the bar wash. */
+  chromeTintSource?: "surface" | "primary";
 };
 
 export function SiteHeader({
@@ -28,6 +30,7 @@ export function SiteHeader({
   themePreset,
   headerConfig,
   edgeToEdge = true,
+  chromeTintSource,
 }: Props) {
   useLayoutEffect(() => {
     setWorkspace(workspace);
@@ -56,6 +59,7 @@ export function SiteHeader({
           sticky: headerConfig?.sticky,
           showNav: headerConfig?.showNav,
           edgeToEdge,
+          chromeTintSource,
         }}
       />
       {headerConfig?.showSearch !== false && <DeferredSearchCommand />}

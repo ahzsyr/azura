@@ -54,7 +54,10 @@
   border: 1px solid var(--cg2);
   border-radius: var(--header-radius, 20px);
   font-family: var(--font-body, var(--az-font-body, inherit));
-  overflow-x: clip;
+  /* edge-to-edge: never clip the bar content — overflow-x: clip cut the masked
+     logo glyph out of the bar. Menus live in portals; the bar itself never
+     overflows horizontally. */
+  overflow: visible;
   transition:
     background-color 0.35s ease,
     border-color 0.35s ease,

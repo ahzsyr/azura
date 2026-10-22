@@ -54,6 +54,7 @@ export function getDefaultThemeTokens(): ThemeTokens {
       browserThemeColorDark: null,
       browserBackgroundColor: null,
       iosStatusBarStyle: "black-translucent",
+    edgeToEdge: true,
     },
   };
 }

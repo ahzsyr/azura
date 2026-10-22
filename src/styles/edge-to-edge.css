@@ -55,9 +55,11 @@
  * Attribute-on-ancestor descendant selectors are used instead. */
 .header-root[data-edge-to-edge="on"] ~ .site-main {
   position: relative;
-  /* Paint order: content passes UNDER the bar (bar z-index 100). The fixed
-   * chrome layers live at z 2 (OS edge band) and z 40 (scroll edge fade). */
+  /* Content paints UNDER the bar (bar z-index 100). The fixed chrome layers sit
+   * above it: OS edge band z 2, scroll edge fade z 40. */
   z-index: 0;
+  /* --az-chrome-band is measured and written by ChromeEdgeLayers (px). Pulling
+   * the page up by it is what makes content pass beneath the bar. */
   margin-top: calc(-1 * var(--az-chrome-band, 0px));
 }
 
@@ -81,12 +83,29 @@
   }
 }
 
+/* Desktop: the bar has no vertical padding of its own (it is a floating capsule
+ * over transparent space), so the pull-up must be handed back INSIDE the page
+ * stack — otherwise the first block starts flush against the top edge and the
+ * hero loses its inset. Mobile already gets this from [data-az-underlay]. */
+@media (min-width: 969px) {
+  .header-root[data-edge-to-edge="on"] ~ .site-main [data-az-underlay="true"] {
+    padding-top: var(--az-chrome-band, 0px);
+  }
+}
+
 /* Opt-out (Theme Studio) and static header modes: no underlay. Scoped to the
  * header root's sibling so it can never override the `="on"` rule above (both
  * carry equal specificity; source order would otherwise decide). */
 .header-root[data-edge-to-edge="off"] ~ .site-main {
   margin-top: 0;
   padding-top: 0;
+}
+
+/* No site bar on this route (hero-only page): the fixed chrome layers would
+ * paint a haze band over the hero. ChromeEdgeLayers publishes the flag. */
+html[data-has-site-header="false"] .az-chrome-tint-zone,
+html[data-has-site-header="false"] .az-chrome-scroll-edge {
+  display: none;
 }
 
 [data-edge-to-edge="off"] .az-chrome-tint-zone,
@@ -179,6 +198,26 @@ html[data-chrome-tint-style="gradient"] .az-chrome-scroll-edge {
  * restore the meaning of the four chrome styles on the bar, using the tokens
  * the Theme Studio already resolves. Specificity is intentionally higher than
  * [data-glass-effect="liquid"] .header-root .site-header. */
+
+/* Color basis = Primary: wash the preset primary into the bar for the
+ * translucent styles (the Theme Studio copy promises this). The surface tint
+ * stays the default when the basis is "surface".
+ * Uses background-color (not background-image): the bar's specular image is
+ * owned by site-glass-effect.css, and layering another image lost the cascade.
+ * The attribute lives on .header-root (not <html>), so the selector is scoped
+ * there; the extra [data-edge-to-edge] keeps specificity above the surface fill. */
+html[data-chrome-tint-style="glass"] .header-root[data-chrome-tint-source="primary"][data-edge-to-edge] .site-header,
+html[data-chrome-tint-style="transparent"] .header-root[data-chrome-tint-source="primary"][data-edge-to-edge] .site-header {
+  background-color: color-mix(
+    in srgb,
+    var(--primary, #047857) var(--az-chrome-primary-wash, 22%),
+    color-mix(
+        in srgb,
+        var(--az-site-glass-tint, #ffffff) calc(var(--az-site-glass-fill-alpha, 0.45) * 100%),
+        transparent
+      )
+  ) !important;
+}
 
 /* Solid: opaque surface (luminance-safe). Uses the appearance-aware glass tint
  * (dark values in dark appearance), not the OS theme-color projection, which

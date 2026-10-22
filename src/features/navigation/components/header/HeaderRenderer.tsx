@@ -49,6 +49,8 @@ interface Props {
     sticky?: boolean;
     /** Page content passes under the bar + safe-area padding (default on). */
     edgeToEdge?: boolean;
+    /** surface | primary — drives the bar's colour wash (Theme Studio "Color basis"). */
+    chromeTintSource?: "surface" | "primary";
   };
   enabledLocales?: PublicLocale[];
 }
@@ -130,6 +132,7 @@ export function HeaderRenderer({
     themePreset,
     sticky: headerConfig?.sticky,
     edgeToEdge: headerConfig?.edgeToEdge,
+    chromeTintSource: headerConfig?.chromeTintSource,
   });
   const mobileMenuAppearance = resolveMobileMenuAppearance(settings);
   const iconVisibility = resolveNavIconVisibility(settings);

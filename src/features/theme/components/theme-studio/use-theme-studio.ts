@@ -97,6 +97,7 @@ export function createInitialThemeTokens(base: SiteTheme | null): ThemeTokens {
       browserThemeColorDark: null,
       browserBackgroundColor: null,
       iosStatusBarStyle: "black-translucent",
+    edgeToEdge: true,
     },
   };
 }

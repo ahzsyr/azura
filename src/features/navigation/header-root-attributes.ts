@@ -45,6 +45,8 @@ export function buildHeaderRootPresentation(args: {
   sticky?: boolean;
   shellPlaceholder?: boolean;
   edgeToEdge?: boolean;
+  /** Theme Studio "Color basis": surface (default) or primary. */
+  chromeTintSource?: "surface" | "primary";
 }): {
   id?: string;
   className: string;
@@ -88,6 +90,8 @@ export function buildHeaderRootPresentation(args: {
       "data-mobile-nav-density": settings.mobileNavDensity ?? "comfortable",
       "data-header-desktop": desktopModeForLayout,
       // Edge-to-edge (content under bar + safe areas). Never on preview surfaces.
+      // Color basis drives the bar wash in edge-to-edge.css.
+      "data-chrome-tint-source": args.chromeTintSource ?? "surface",
       "data-edge-to-edge": resolveEdgeToEdgeMode({
         requested: args.edgeToEdge,
         isPreview,

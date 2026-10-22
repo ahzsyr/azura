@@ -22,6 +22,8 @@ export type BrowserProjection = {
   backgroundColor: string;
   iosStatusBarStyle: ResolvedMobileBrowserTheme["iosStatusBarStyle"];
   chromeTintStyle: ResolvedMobileBrowserTheme["chromeTintStyle"];
+  /** surface | primary — which colour the chrome is derived from. */
+  chromeTintSource: ResolvedMobileBrowserTheme["chromeTintSource"];
   chromeTintOpacity: number;
   chromeGradientLight: string | null;
   chromeGradientDark: string | null;
@@ -41,6 +43,7 @@ export const BROWSER_CHROME_FALLBACK: BrowserProjection = {
   backgroundColor: DEFAULT_LIGHT_SURFACES.background,
   iosStatusBarStyle: "black-translucent",
   chromeTintStyle: "glass",
+  chromeTintSource: "surface",
   chromeTintOpacity: 0.7,
   chromeGradientLight: null,
   chromeGradientDark: null,
@@ -61,6 +64,7 @@ export function toBrowserProjection(
     backgroundColor: mobile.backgroundColor,
     iosStatusBarStyle: mobile.iosStatusBarStyle,
     chromeTintStyle: mobile.chromeTintStyle,
+    chromeTintSource: mobile.chromeTintSource,
     chromeTintOpacity: mobile.chromeTintOpacity,
     chromeGradientLight: mobile.chromeGradientLight,
     chromeGradientDark: mobile.chromeGradientDark,

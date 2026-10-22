@@ -1395,13 +1395,22 @@ html[data-header-inset-active="true"]:has([data-page-header-overlay="true"]) .si
   z-index: 0;
 }
 
-/* CMS / block / cover heroes: pull under fixed header and grow so media fills the inset */
+/* CMS / block / cover heroes: pull under fixed header and grow so media fills the inset. */
 .block-first-with-header-overlay,
 html:has([data-page-header-overlay="true"]) .page-top-header-overlay,
 html[data-block-header-overlay="true"] .page-top-header-overlay {
   margin-top: calc(-1 * (var(--header-height, 76px) + var(--header-overlay-top-gap, 12px)));
   padding-top: calc(var(--header-height, 76px) + var(--header-overlay-top-gap, 12px));
   min-height: calc(50vh + var(--header-height, 76px) + var(--header-overlay-top-gap, 12px));
+}
+
+/* Edge-to-edge: the page-stack root already reserves the bar height, so the
+ * hero must not pull under the bar a second time. Geometry only — the hero
+ * keeps its own min-height and internal padding. */
+[data-az-underlay="true"] .block-first-with-header-overlay {
+  margin-top: 0;
+  padding-top: 0;
+  min-height: 0;
 }
 
 /* Catalog banner/split + blog cover only (not collection cards / PDP) */

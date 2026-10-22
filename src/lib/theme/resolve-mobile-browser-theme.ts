@@ -19,6 +19,11 @@ export type ResolvedMobileBrowserTheme = {
   /** Material style for header/footer/browser chrome CSS. */
   chromeTintStyle: ChromeTintStyle;
   /**
+   * Which colour the chrome is derived from: `surface` (page surface) or
+   * `primary` (preset main colour washed into the surface).
+   */
+  chromeTintSource: ChromeTintSource;
+  /**
    * Effective fill strength 0–1 written to `--az-chrome-tint-opacity`.
    * Transparent → chromeTintOpacity; glass → chromeTintGlassOpacity; solid/gradient → 1.
    */
@@ -181,6 +186,7 @@ export function resolveMobileBrowserTheme(tokens: ThemeTokens): ResolvedMobileBr
       backgroundColor: config.browserBackgroundColor || lightSurfaces.background,
       iosStatusBarStyle,
       chromeTintStyle: style,
+      chromeTintSource: config.chromeTintSource ?? "surface",
       chromeTintOpacity: opacity,
       chromeGradientLight: null,
       chromeGradientDark: null,
@@ -245,6 +251,7 @@ export function resolveMobileBrowserTheme(tokens: ThemeTokens): ResolvedMobileBr
     backgroundColor: themeColorLight,
     iosStatusBarStyle,
     chromeTintStyle: style,
+    chromeTintSource: tintSource,
     chromeTintOpacity: opacity,
     chromeGradientLight,
     chromeGradientDark,
