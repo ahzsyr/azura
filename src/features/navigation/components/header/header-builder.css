@@ -31,14 +31,15 @@
   width: 100%;
   position: relative;
   z-index: 10;
-  /* Track browser chrome tint (theme-color / Safari edge sample) — not a separate surface. */
+  /* Track browser chrome tint (theme-color / Safari edge sample) — not a separate surface.
+   * Mix % from --az-chrome-tint-mix (site-glass-effect.css); overlay 55/72 stay hardcoded. */
   background: color-mix(
     in srgb,
     var(
       --az-site-glass-tint,
       var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
     )
-      92%,
+      calc(var(--az-chrome-tint-mix, 0.92) * 100%),
     transparent
   );
   backdrop-filter: blur(12px);
@@ -1289,7 +1290,8 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
   }
 
   /* Mobile chrome: glass, safe area. Flush top only when auto-remove is on.
-   * Fill tracks browser chrome tint so status bar / theme-color match the bar. */
+   * Fill tracks browser chrome tint so status bar / theme-color match the bar.
+   * --az-chrome-tint-mix-mobile defaults to mix+0.06 (98% at 0.92). */
   .header-root .site-header {
     box-shadow: var(--header-shadow-soft);
     background: color-mix(
@@ -1298,7 +1300,7 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
         --az-site-glass-tint,
         var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
       )
-        98%,
+        calc(var(--az-chrome-tint-mix-mobile, 0.98) * 100%),
       transparent
     );
     backdrop-filter: blur(20px);
@@ -2522,7 +2524,7 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
 
 /* ── BRT parity: sticky glass reinforcement ─────────────────────────────────
  * When the header becomes sticky (header--sticking), upgrade to full glass:
- * 96% opaque surface + 20px blur + stronger shadow + border fade.
+ * --az-chrome-tint-mix-sticky (0.96 light / 0.9 dark) + 20px blur + stronger shadow.
  */
 .header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
 .header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header {
@@ -2532,7 +2534,7 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
       --az-site-glass-tint,
       var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
     )
-      96%,
+      calc(var(--az-chrome-tint-mix-sticky, 0.96) * 100%),
     transparent
   );
   backdrop-filter: blur(20px);
@@ -2576,18 +2578,9 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   }
 }
 
-/* Dark mode: even stronger glass for sticky header */
+/* Dark sticky mix comes from html.dark --az-chrome-tint-mix-sticky (0.9). */
 .dark .header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
 .dark .header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header {
-  background: color-mix(
-    in srgb,
-    var(
-      --az-site-glass-tint,
-      var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
-    )
-      90%,
-    transparent
-  );
   border-color: color-mix(in srgb, var(--color-primary, var(--primary)) 18%, transparent);
 }
 

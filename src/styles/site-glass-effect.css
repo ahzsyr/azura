@@ -10,6 +10,22 @@
  * html[data-glass-effect] selectors (not only .header-root descendants).
  */
 
+/* ── Non-liquid chrome capsule strength (header-builder consumes these) ────
+ * Overlay glass (55%) and scrolled (72%) stay hardcoded — intentional translucency.
+ * Base 92 / sticky 96 / mobile 98 / dark-sticky 90 map through these vars.
+ */
+html {
+  --az-chrome-tint-mix: 0.92;
+  --az-chrome-tint-mix-sticky: 0.96;
+  /* Mobile bar: slight bump toward opaque (+0.06 → 98% at default mix). */
+  --az-chrome-tint-mix-mobile: calc(var(--az-chrome-tint-mix) + 0.06);
+}
+
+html.dark,
+html[data-theme="dark"] {
+  --az-chrome-tint-mix-sticky: 0.9;
+}
+
 /* ── Tokens ─────────────────────────────────────────────────────────────── */
 [data-glass-effect="liquid"] {
   --az-site-glass-intensity: var(--glass-effect-intensity, 1);
