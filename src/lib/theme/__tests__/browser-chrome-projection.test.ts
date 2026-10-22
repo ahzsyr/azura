@@ -27,9 +27,46 @@ describe("browser-chrome-projection", () => {
     const tokens = tokensForChromeResolution(site, visitor);
     assert.ok(tokens);
     assert.equal(tokens!.presetColors?.background, "#abcdef");
+    assert.equal(tokens!.primaryColor, "#111111");
     const projection = resolveBrowserProjection(site, visitor);
     assert.equal(typeof projection.themeColorLight, "string");
     assert.ok(projection.themeColorLight.startsWith("#"));
+  });
+
+  it("visitor primary drives chromeTintSource primary wash", () => {
+    const site = {
+      ...getDefaultThemeTokens(),
+      primaryColor: "#d4af37",
+      mobileBrowserConfig: {
+        syncWithTheme: true,
+        chromeTintSource: "primary" as const,
+        browserThemeColorLight: null,
+        browserThemeColorDark: null,
+        browserBackgroundColor: null,
+        iosStatusBarStyle: "black-translucent" as const,
+      },
+    };
+    const visitor = {
+      primary: "#0d9488",
+      accent: "#0d9488",
+      background: "#fafafa",
+      surface: "#ffffff",
+    };
+    const siteOnly = resolveBrowserProjection(site);
+    const withVisitor = resolveBrowserProjection(site, visitor);
+    assert.notEqual(
+      withVisitor.themeColorLight,
+      siteOnly.themeColorLight,
+      "visitor teal wash must diverge from site gold wash",
+    );
+    const tealWash = resolveBrowserProjection(
+      { ...site, primaryColor: "#0d9488" },
+    );
+    assert.equal(
+      withVisitor.themeColorLight,
+      tealWash.themeColorLight,
+      "visitor merge must equal teal primary wash",
+    );
   });
 
   it("activeBrowserThemeColor picks dark vs light", () => {

@@ -47,8 +47,15 @@ export function tokensForChromeResolution(
 ): ThemeTokens | null {
   if (!siteTheme) return null;
   if (!visitorColors) return siteTheme;
+  // primaryColor must move with visitor primary so chromeTintSource: "primary"
+  // washes the visitor brand (resolvePrimaryHex prefers primaryColor first).
+  const visitorPrimary =
+    typeof visitorColors.primary === "string" && visitorColors.primary.trim()
+      ? visitorColors.primary.trim()
+      : undefined;
   return {
     ...siteTheme,
+    ...(visitorPrimary ? { primaryColor: visitorPrimary } : {}),
     presetColors: {
       primary: visitorColors.primary,
       accent: visitorColors.accent ?? visitorColors.primary,
