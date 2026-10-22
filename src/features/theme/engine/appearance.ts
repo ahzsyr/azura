@@ -57,6 +57,10 @@ export type SyncThemeColorMetaOptions = {
    * Use projection surface so scroll chrome samples don't retint site glass.
    */
   glassTint?: string;
+  chromeTintStyle?: string;
+  chromeTintOpacity?: number;
+  chromeGradientLight?: string | null;
+  chromeGradientDark?: string | null;
 };
 
 function setMetaContent(meta: HTMLMetaElement, content: string): void {
@@ -111,13 +115,22 @@ export function syncThemeColorMeta(
   );
 
   const glassTint = options?.glassTint?.trim() || activeColor;
+  const tintOpts = {
+    lightColor,
+    darkColor,
+    glassTint,
+    chromeTintStyle: options?.chromeTintStyle,
+    chromeTintOpacity: options?.chromeTintOpacity,
+    chromeGradientLight: options?.chromeGradientLight,
+    chromeGradientDark: options?.chromeGradientDark,
+  };
 
   if (existing.length === 0) {
     const meta = document.createElement("meta");
     meta.name = "theme-color";
     meta.content = activeColor;
     document.head.appendChild(meta);
-    syncSafariChromeTint(activeColor, { lightColor, darkColor, glassTint });
+    syncSafariChromeTint(activeColor, tintOpts);
     return;
   }
 
@@ -131,7 +144,7 @@ export function syncThemeColorMeta(
       setMetaContent(meta, next);
     }
     // Safari ignores media-qualified theme-color — paint the resolved active tint.
-    syncSafariChromeTint(activeColor, { lightColor, darkColor, glassTint });
+    syncSafariChromeTint(activeColor, tintOpts);
     return;
   }
 
@@ -141,7 +154,7 @@ export function syncThemeColorMeta(
     existing.forEach((meta) => setMetaContent(meta, activeColor));
   }
   // Always refresh Safari tint — early return on meta content alone skipped iOS.
-  syncSafariChromeTint(activeColor, { lightColor, darkColor, glassTint });
+  syncSafariChromeTint(activeColor, tintOpts);
 }
 
 export function readStoredAppearanceMode(storageKey: string): AppearanceMode | null {

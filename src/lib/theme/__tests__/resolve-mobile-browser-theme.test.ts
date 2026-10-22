@@ -178,6 +178,8 @@ describe("resolveMobileBrowserTheme", () => {
       mobileBrowserConfig: {
         syncWithTheme: true,
         chromeTintSource: "primary",
+        chromeTintStyle: "glass",
+        chromeTintGlassOpacity: 0.7,
         browserThemeColorLight: null,
         browserThemeColorDark: null,
         browserBackgroundColor: null,
@@ -191,6 +193,8 @@ describe("resolveMobileBrowserTheme", () => {
       mobileBrowserConfig: {
         syncWithTheme: true,
         chromeTintSource: "primary",
+        chromeTintStyle: "glass",
+        chromeTintGlassOpacity: 0.7,
         browserThemeColorLight: null,
         browserThemeColorDark: null,
         browserBackgroundColor: null,
@@ -202,5 +206,72 @@ describe("resolveMobileBrowserTheme", () => {
       resolveMobileBrowserTheme(strong).themeColorLight,
       "higher glass opacity should pull chrome closer to primary",
     );
+  });
+
+  it("resolves transparent / glass / solid / gradient styles from preset colors", () => {
+    const base = {
+      syncWithTheme: true as const,
+      chromeTintSource: "primary" as const,
+      browserThemeColorLight: null,
+      browserThemeColorDark: null,
+      browserBackgroundColor: null,
+      iosStatusBarStyle: "black-translucent" as const,
+    };
+    const transparent = resolveMobileBrowserTheme(
+      makeTokens({
+        primaryColor: "#047857",
+        secondaryColor: "#d4af37",
+        mobileBrowserConfig: {
+          ...base,
+          chromeTintStyle: "transparent",
+          chromeTintOpacity: 0.25,
+        },
+      }),
+    );
+    assert.equal(transparent.chromeTintStyle, "transparent");
+    assert.equal(transparent.chromeTintOpacity, 0.25);
+    assert.equal(transparent.chromeGradientLight, null);
+
+    const glass = resolveMobileBrowserTheme(
+      makeTokens({
+        primaryColor: "#047857",
+        mobileBrowserConfig: {
+          ...base,
+          chromeTintStyle: "glass",
+          chromeTintGlassOpacity: 0.7,
+        },
+      }),
+    );
+    assert.equal(glass.chromeTintStyle, "glass");
+    assert.equal(glass.chromeTintOpacity, 0.7);
+
+    const solid = resolveMobileBrowserTheme(
+      makeTokens({
+        primaryColor: "#047857",
+        mobileBrowserConfig: {
+          ...base,
+          chromeTintStyle: "solid",
+        },
+      }),
+    );
+    assert.equal(solid.chromeTintStyle, "solid");
+    assert.equal(solid.chromeTintOpacity, 1);
+    assert.equal(solid.themeColorLight, "#047857");
+
+    const gradient = resolveMobileBrowserTheme(
+      makeTokens({
+        primaryColor: "#047857",
+        secondaryColor: "#d4af37",
+        mobileBrowserConfig: {
+          ...base,
+          chromeTintStyle: "gradient",
+        },
+      }),
+    );
+    assert.equal(gradient.chromeTintStyle, "gradient");
+    assert.ok(gradient.chromeGradientLight?.includes("#047857"));
+    assert.ok(gradient.chromeGradientLight?.includes("#d4af37"));
+    assert.ok(gradient.chromeGradientDark?.startsWith("linear-gradient"));
+    assert.notEqual(gradient.themeColorLight, gradient.themeColorDark);
   });
 });

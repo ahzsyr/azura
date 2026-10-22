@@ -166,11 +166,23 @@ const VALID_IOS_STATUS_BAR_STYLES: IosStatusBarStyle[] = [
 ];
 
 const VALID_CHROME_TINT_SOURCES = ["surface", "primary"] as const;
+const VALID_CHROME_TINT_STYLES = [
+  "transparent",
+  "glass",
+  "solid",
+  "gradient",
+] as const;
+
+function clampUnit(value: unknown, fallback: number): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) return fallback;
+  return Math.min(1, Math.max(0, value));
+}
 
 export function parseMobileBrowserConfig(raw: unknown): MobileBrowserConfig {
   const r = asRecord(raw);
   const iosStyle = r.iosStatusBarStyle;
   const tintSource = r.chromeTintSource;
+  const tintStyle = r.chromeTintStyle;
   return {
     syncWithTheme: r.syncWithTheme !== false,
     chromeTintSource:
@@ -178,6 +190,13 @@ export function parseMobileBrowserConfig(raw: unknown): MobileBrowserConfig {
       (VALID_CHROME_TINT_SOURCES as readonly string[]).includes(tintSource)
         ? (tintSource as (typeof VALID_CHROME_TINT_SOURCES)[number])
         : "surface",
+    chromeTintStyle:
+      typeof tintStyle === "string" &&
+      (VALID_CHROME_TINT_STYLES as readonly string[]).includes(tintStyle)
+        ? (tintStyle as (typeof VALID_CHROME_TINT_STYLES)[number])
+        : "glass",
+    chromeTintOpacity: clampUnit(r.chromeTintOpacity, 0.35),
+    chromeTintGlassOpacity: clampUnit(r.chromeTintGlassOpacity, 0.7),
     browserThemeColorLight:
       typeof r.browserThemeColorLight === "string" ? r.browserThemeColorLight : null,
     browserThemeColorDark:

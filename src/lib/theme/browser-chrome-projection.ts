@@ -17,6 +17,10 @@ export type BrowserProjection = {
   themeColorDark: string;
   backgroundColor: string;
   iosStatusBarStyle: ResolvedMobileBrowserTheme["iosStatusBarStyle"];
+  chromeTintStyle: ResolvedMobileBrowserTheme["chromeTintStyle"];
+  chromeTintOpacity: number;
+  chromeGradientLight: string | null;
+  chromeGradientDark: string | null;
 };
 
 export const BROWSER_CHROME_FALLBACK: BrowserProjection = {
@@ -24,6 +28,10 @@ export const BROWSER_CHROME_FALLBACK: BrowserProjection = {
   themeColorDark: DEFAULT_DARK_SURFACES.background,
   backgroundColor: DEFAULT_LIGHT_SURFACES.background,
   iosStatusBarStyle: "black-translucent",
+  chromeTintStyle: "glass",
+  chromeTintOpacity: 0.7,
+  chromeGradientLight: null,
+  chromeGradientDark: null,
 };
 
 /** Cookie mirrored from public appearance mode (client Forced sync / analytics). */
@@ -37,6 +45,10 @@ export function toBrowserProjection(
     themeColorDark: mobile.themeColorDark,
     backgroundColor: mobile.backgroundColor,
     iosStatusBarStyle: mobile.iosStatusBarStyle,
+    chromeTintStyle: mobile.chromeTintStyle,
+    chromeTintOpacity: mobile.chromeTintOpacity,
+    chromeGradientLight: mobile.chromeGradientLight,
+    chromeGradientDark: mobile.chromeGradientDark,
   };
 }
 

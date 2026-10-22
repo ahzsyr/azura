@@ -308,6 +308,10 @@ export function ThemeEngineProvider({
         lightColor,
         darkColor,
         glassTint: baseActiveColor,
+        chromeTintStyle: projection.chromeTintStyle,
+        chromeTintOpacity: projection.chromeTintOpacity,
+        chromeGradientLight: projection.chromeGradientLight,
+        chromeGradientDark: projection.chromeGradientDark,
       });
     },
     [siteTheme],

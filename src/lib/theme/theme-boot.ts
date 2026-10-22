@@ -63,7 +63,13 @@ export type ThemeBootPayload = {
   /** Same colors as generateViewport theme-color — paints Safari anchors before hydration. */
   browserProjection: Pick<
     BrowserProjection,
-    "themeColorLight" | "themeColorDark" | "backgroundColor"
+    | "themeColorLight"
+    | "themeColorDark"
+    | "backgroundColor"
+    | "chromeTintStyle"
+    | "chromeTintOpacity"
+    | "chromeGradientLight"
+    | "chromeGradientDark"
   >;
   /** Site Liquid Glass — SSR attr + vars before React mounts the controller. */
   glassEffect: ThemeBootGlassPayload;
@@ -104,6 +110,10 @@ export function buildThemeBootPayload(
       themeColorLight: projection.themeColorLight,
       themeColorDark: projection.themeColorDark,
       backgroundColor: projection.backgroundColor,
+      chromeTintStyle: projection.chromeTintStyle,
+      chromeTintOpacity: projection.chromeTintOpacity,
+      chromeGradientLight: projection.chromeGradientLight,
+      chromeGradientDark: projection.chromeGradientDark,
     },
     glassEffect: {
       enabled: glass.enabled === true,
@@ -155,6 +165,28 @@ export function generateThemeBootInlineScript(
     if(top)top.style.backgroundColor=color;
     if(bottom)bottom.style.backgroundColor=color;
   }
+  var tintStyle=proj.chromeTintStyle||"glass";
+  if(tintStyle==="transparent"||tintStyle==="glass"||tintStyle==="solid"||tintStyle==="gradient"){
+    root.setAttribute("data-chrome-tint-style",tintStyle);
+  }
+  var tintOp=typeof proj.chromeTintOpacity==="number"?proj.chromeTintOpacity:0.7;
+  if(tintOp<0)tintOp=0;if(tintOp>1)tintOp=1;
+  root.style.setProperty("--az-chrome-tint-opacity",String(tintOp));
+  if(tintStyle==="transparent"||tintStyle==="glass"){
+    root.style.setProperty("--az-chrome-tint-mix",String(tintOp));
+    root.style.setProperty("--az-chrome-tint-mix-sticky",String(Math.min(1,tintOp+0.08)));
+    root.style.setProperty("--az-chrome-tint-mix-mobile",String(Math.min(1,tintOp+0.06)));
+  }else if(tintStyle==="solid"||tintStyle==="gradient"){
+    root.style.setProperty("--az-chrome-tint-mix","1");
+    root.style.setProperty("--az-chrome-tint-mix-sticky","1");
+    root.style.setProperty("--az-chrome-tint-mix-mobile","1");
+  }
+  var gLight=proj.chromeGradientLight||"";
+  var gDark=proj.chromeGradientDark||"";
+  if(gLight)root.style.setProperty("--az-browser-chrome-gradient-light",gLight);
+  if(gDark)root.style.setProperty("--az-browser-chrome-gradient-dark",gDark);
+  var gActive=ssr==="dark"?(gDark||gLight):(gLight||gDark);
+  if(gActive)root.style.setProperty("--az-browser-chrome-gradient",gActive);
   var ssrGlass=root.getAttribute("data-glass-effect");
   var glassOn=glass.enabled===true||ssrGlass==="liquid";
   root.setAttribute("data-glass-effect",glassOn?"liquid":"off");

@@ -197,6 +197,16 @@ export function generateHtmlAttributes(input: HtmlAttributesInput): Record<strin
   attrs["data-site-cursor-effects"] = cursorOn ? "on" : "off";
   attrs["data-glass-effect"] = config.effects.glassEnabled ? "liquid" : "off";
 
+  const chromeStyle = config.mobileBrowser?.chromeTintStyle ?? "glass";
+  if (
+    chromeStyle === "transparent" ||
+    chromeStyle === "glass" ||
+    chromeStyle === "solid" ||
+    chromeStyle === "gradient"
+  ) {
+    attrs["data-chrome-tint-style"] = chromeStyle;
+  }
+
   if (appearance.resolved === "dark") {
     attrs.class = "dark";
   }

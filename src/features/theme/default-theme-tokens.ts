@@ -47,6 +47,9 @@ export function getDefaultThemeTokens(): ThemeTokens {
     mobileBrowserConfig: {
       syncWithTheme: true,
       chromeTintSource: "surface",
+      chromeTintStyle: "glass",
+      chromeTintOpacity: 0.35,
+      chromeTintGlassOpacity: 0.7,
       browserThemeColorLight: null,
       browserThemeColorDark: null,
       browserBackgroundColor: null,

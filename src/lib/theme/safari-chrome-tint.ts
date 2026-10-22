@@ -10,6 +10,13 @@ export const SAFARI_CHROME_TINT_LIGHT_VAR = "--az-browser-chrome-tint-light";
 export const SAFARI_CHROME_TINT_DARK_VAR = "--az-browser-chrome-tint-dark";
 /** Active chrome tint fed into site Liquid Glass header/footer fills. */
 export const SITE_GLASS_TINT_VAR = "--az-site-glass-tint";
+/** Fill strength 0–1 for transparent/glass chrome styles. */
+export const CHROME_TINT_OPACITY_VAR = "--az-chrome-tint-opacity";
+/** Active CSS gradient when chromeTintStyle is gradient. */
+export const CHROME_GRADIENT_VAR = "--az-browser-chrome-gradient";
+export const CHROME_GRADIENT_LIGHT_VAR = "--az-browser-chrome-gradient-light";
+export const CHROME_GRADIENT_DARK_VAR = "--az-browser-chrome-gradient-dark";
+export const CHROME_TINT_STYLE_ATTR = "data-chrome-tint-style";
 export const SAFARI_CHROME_TOP_ID = "az-safari-chrome-top";
 export const SAFARI_CHROME_BOTTOM_ID = "az-safari-chrome-bottom";
 
@@ -22,6 +29,12 @@ export type SyncSafariChromeTintOptions = {
    * stay on the site chrome while Safari anchors may follow scroll tint.
    */
   glassTint?: string;
+  /** transparent | glass | solid | gradient */
+  chromeTintStyle?: string;
+  /** Effective fill strength 0–1 */
+  chromeTintOpacity?: number;
+  chromeGradientLight?: string | null;
+  chromeGradientDark?: string | null;
 };
 
 function ensureTintAnchor(id: string, edge: "top" | "bottom"): HTMLElement | null {
@@ -78,6 +91,48 @@ export function syncSafariChromeTint(
   const scheme = isDark ? "dark" : "light";
   if (root.style && root.style.colorScheme !== scheme) {
     root.style.colorScheme = scheme;
+  }
+
+  const style = options?.chromeTintStyle?.trim();
+  if (
+    style === "transparent" ||
+    style === "glass" ||
+    style === "solid" ||
+    style === "gradient"
+  ) {
+    if (root.getAttribute(CHROME_TINT_STYLE_ATTR) !== style) {
+      root.setAttribute(CHROME_TINT_STYLE_ATTR, style);
+    }
+  }
+
+  if (typeof options?.chromeTintOpacity === "number") {
+    const opacity = Math.min(1, Math.max(0, options.chromeTintOpacity));
+    setRootVar(root, CHROME_TINT_OPACITY_VAR, String(opacity));
+    // Drive shared chrome mix from style opacity (header-builder consumes it).
+    if (style === "transparent" || style === "glass") {
+      setRootVar(root, "--az-chrome-tint-mix", String(opacity));
+      setRootVar(root, "--az-chrome-tint-mix-sticky", String(Math.min(1, opacity + 0.08)));
+      setRootVar(
+        root,
+        "--az-chrome-tint-mix-mobile",
+        String(Math.min(1, opacity + 0.06)),
+      );
+    } else if (style === "solid" || style === "gradient") {
+      setRootVar(root, "--az-chrome-tint-mix", "1");
+      setRootVar(root, "--az-chrome-tint-mix-sticky", "1");
+      setRootVar(root, "--az-chrome-tint-mix-mobile", "1");
+    }
+  }
+
+  const gradLight = options?.chromeGradientLight?.trim() || "";
+  const gradDark = options?.chromeGradientDark?.trim() || "";
+  if (gradLight) setRootVar(root, CHROME_GRADIENT_LIGHT_VAR, gradLight);
+  if (gradDark) setRootVar(root, CHROME_GRADIENT_DARK_VAR, gradDark);
+  const activeGrad = isDark ? gradDark || gradLight : gradLight || gradDark;
+  if (activeGrad) {
+    setRootVar(root, CHROME_GRADIENT_VAR, activeGrad);
+  } else if (style && style !== "gradient") {
+    root.style.removeProperty(CHROME_GRADIENT_VAR);
   }
 
   if (!document.body) return;

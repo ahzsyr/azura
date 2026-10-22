@@ -174,6 +174,9 @@ export function themeConfigToTokens(config: ThemeConfig): ThemeTokens {
     mobileBrowserConfig: config.mobileBrowser ?? {
       syncWithTheme: true,
       chromeTintSource: "surface" as const,
+      chromeTintStyle: "glass" as const,
+      chromeTintOpacity: 0.35,
+      chromeTintGlassOpacity: 0.7,
       browserThemeColorLight: null,
       browserThemeColorDark: null,
       browserBackgroundColor: null,

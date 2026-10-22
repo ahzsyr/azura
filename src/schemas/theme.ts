@@ -89,15 +89,35 @@ export const iosStatusBarStyleSchema = z
 
 export const chromeTintSourceSchema = z.enum(["surface", "primary"]).default("surface");
 
+/**
+ * Material / fill style for browser + header/footer chrome.
+ * Colors always resolve from the active preset (light/dark aware).
+ * `theme-color` meta stays opaque hex (OS requirement); CSS applies the style.
+ */
+export const chromeTintStyleSchema = z
+  .enum(["transparent", "glass", "solid", "gradient"])
+  .default("glass");
+
 export const mobileBrowserConfigSchema = z
   .object({
     syncWithTheme: z.boolean().default(true),
     /**
      * When syncing with theme: derive browser/header/footer chrome from page
-     * surfaces, or wash the active preset primary into those surfaces (glass
-     * opacity controls mix strength when Liquid Glass is on).
+     * surfaces, or wash the active preset primary into those surfaces.
      */
     chromeTintSource: chromeTintSourceSchema.optional(),
+    /** Fill material: transparent / glass / solid / gradient. */
+    chromeTintStyle: chromeTintStyleSchema.optional(),
+    /**
+     * Transparent fill strength (0–1). Higher = more opaque tint.
+     * Only applied when `chromeTintStyle` is `"transparent"`.
+     */
+    chromeTintOpacity: z.number().min(0).max(1).optional(),
+    /**
+     * Glass fill strength (0–1). Drives chrome mix + blur when style is `"glass"`.
+     * Default ~0.7 tracks Apple HIG regular material fill (about 60–80%).
+     */
+    chromeTintGlassOpacity: z.number().min(0).max(1).optional(),
     browserThemeColorLight: z.string().nullable().optional(),
     browserThemeColorDark: z.string().nullable().optional(),
     browserBackgroundColor: z.string().nullable().optional(),
@@ -144,6 +164,7 @@ export const siteThemeSchema = z.object({
 
 export type MobileBrowserConfig = z.infer<typeof mobileBrowserConfigSchema>;
 export type ChromeTintSource = z.infer<typeof chromeTintSourceSchema>;
+export type ChromeTintStyle = z.infer<typeof chromeTintStyleSchema>;
 export type IosStatusBarStyle = z.infer<typeof iosStatusBarStyleSchema>;
 export type VisualEffectSettings = z.infer<typeof visualEffectSettingsSchema>;
 export type MotionSettings = z.infer<typeof motionSettingsSchema>;

@@ -12,6 +12,7 @@ import {
 import { resolvePublishedSiteTheme } from "@/lib/theme/resolve-site-theme.server";
 import { htmlAttributesToReactProps } from "@/lib/theme/theme-resolver";
 import {
+  CHROME_TINT_OPACITY_VAR,
   SAFARI_CHROME_BOTTOM_ID,
   SAFARI_CHROME_TOP_ID,
   SAFARI_CHROME_TINT_VAR,
@@ -112,9 +113,21 @@ export default async function RootLayout({ children }: Props) {
   });
   // Drive anchors via CSS var only — inline backgroundColor would freeze the SSR
   // light cookie value and block boot/theme-init from retinting for Forced dark.
+  const activeGradient =
+    appearance.resolved === "dark"
+      ? chromeProjection.chromeGradientDark || chromeProjection.chromeGradientLight
+      : chromeProjection.chromeGradientLight || chromeProjection.chromeGradientDark;
   const htmlChromeStyle = {
     [SAFARI_CHROME_TINT_VAR]: bootChromeColor,
     [SITE_GLASS_TINT_VAR]: bootChromeColor,
+    [CHROME_TINT_OPACITY_VAR]: String(chromeProjection.chromeTintOpacity),
+    ...(chromeProjection.chromeGradientLight
+      ? { "--az-browser-chrome-gradient-light": chromeProjection.chromeGradientLight }
+      : {}),
+    ...(chromeProjection.chromeGradientDark
+      ? { "--az-browser-chrome-gradient-dark": chromeProjection.chromeGradientDark }
+      : {}),
+    ...(activeGradient ? { "--az-browser-chrome-gradient": activeGradient } : {}),
   } as CSSProperties;
 
   return (

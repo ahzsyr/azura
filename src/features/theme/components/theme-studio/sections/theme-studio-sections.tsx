@@ -43,7 +43,11 @@ import { resolveLocaleFonts } from "@/lib/theme/locale-fonts";
 import { LocaleFontPreview } from "../locale-font-preview";
 import { useTypographyFontLoader } from "../use-typography-font-loader";
 import { resolveMobileBrowserTheme } from "@/lib/theme/resolve-mobile-browser-theme";
-import type { ChromeTintSource, IosStatusBarStyle } from "@/schemas/theme";
+import type {
+  ChromeTintSource,
+  ChromeTintStyle,
+  IosStatusBarStyle,
+} from "@/schemas/theme";
 import { ChromeVisibilityControls } from "../chrome-visibility-controls";
 import type { ChromePageOption } from "@/features/theme/chrome-page-options";
 import {
@@ -966,34 +970,85 @@ const IOS_STATUS_BAR_OPTIONS: { value: IosStatusBarStyle; label: string }[] = [
 ];
 
 const CHROME_TINT_SOURCE_OPTIONS: { value: ChromeTintSource; label: string }[] = [
-  { value: "surface", label: "Surface (match page background)" },
+  { value: "surface", label: "Surface (page background)" },
   {
     value: "primary",
-    label: "Primary (preset main color + glass wash)",
+    label: "Primary (preset main color)",
   },
+];
+
+const CHROME_TINT_STYLE_OPTIONS: { value: ChromeTintStyle; label: string }[] = [
+  { value: "transparent", label: "Transparent" },
+  { value: "glass", label: "Glass" },
+  { value: "solid", label: "Solid color" },
+  { value: "gradient", label: "Gradient color" },
 ];
 
 function MobileBrowserChromePreview({
   themeColorLight,
   themeColorDark,
   backgroundColor,
+  chromeTintStyle,
+  chromeTintOpacity,
+  chromeGradientLight,
+  chromeGradientDark,
 }: {
   themeColorLight: string;
   themeColorDark: string;
   backgroundColor: string;
+  chromeTintStyle: ChromeTintStyle;
+  chromeTintOpacity: number;
+  chromeGradientLight: string | null;
+  chromeGradientDark: string | null;
 }) {
+  const chromeBackground = (
+    mode: "light" | "dark",
+    solid: string,
+  ): string => {
+    if (chromeTintStyle === "gradient") {
+      return (
+        (mode === "dark" ? chromeGradientDark : chromeGradientLight) || solid
+      );
+    }
+    if (chromeTintStyle === "transparent" || chromeTintStyle === "glass") {
+      const pct = Math.round(chromeTintOpacity * 100);
+      return `color-mix(in srgb, ${solid} ${pct}%, transparent)`;
+    }
+    return solid;
+  };
+
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       {(
         [
-          { label: "Light mode", chromeColor: themeColorLight, bgColor: backgroundColor },
-          { label: "Dark mode", chromeColor: themeColorDark, bgColor: "#1a1a2e" },
+          {
+            label: "Light mode",
+            mode: "light" as const,
+            chromeColor: themeColorLight,
+            bgColor: backgroundColor,
+          },
+          {
+            label: "Dark mode",
+            mode: "dark" as const,
+            chromeColor: themeColorDark,
+            bgColor: "#1a1a2e",
+          },
         ] as const
-      ).map(({ label, chromeColor, bgColor }) => (
+      ).map(({ label, mode, chromeColor, bgColor }) => (
         <div key={label} className="overflow-hidden rounded-xl border shadow-sm">
           <div
             className="flex items-center gap-2 px-3 py-2 text-xs"
-            style={{ background: chromeColor }}
+            style={{
+              background: chromeBackground(mode, chromeColor),
+              backdropFilter:
+                chromeTintStyle === "glass"
+                  ? `blur(${8 + chromeTintOpacity * 16}px) saturate(1.35)`
+                  : undefined,
+              WebkitBackdropFilter:
+                chromeTintStyle === "glass"
+                  ? `blur(${8 + chromeTintOpacity * 16}px) saturate(1.35)`
+                  : undefined,
+            }}
           >
             <span className="size-2 rounded-full bg-black/20" />
             <span
@@ -1022,6 +1077,9 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
   const config = state.mobileBrowserConfig ?? {
     syncWithTheme: true,
     chromeTintSource: "surface" as ChromeTintSource,
+    chromeTintStyle: "glass" as ChromeTintStyle,
+    chromeTintOpacity: 0.35,
+    chromeTintGlassOpacity: 0.7,
     browserThemeColorLight: null,
     browserThemeColorDark: null,
     browserBackgroundColor: null,
@@ -1029,6 +1087,7 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
   };
 
   const effective = resolveMobileBrowserTheme(state);
+  const tintStyle = (config.chromeTintStyle ?? "glass") as ChromeTintStyle;
 
   const setConfig = (patch: Partial<typeof config>) =>
     setState((s) => ({
@@ -1053,9 +1112,63 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
           />
 
           {config.syncWithTheme ? (
-            <div className="space-y-2 border-t pt-4">
+            <div className="space-y-4 border-t pt-4">
               <ThemeSelect
-                label="Chrome tint source"
+                label="Chrome tint style"
+                value={tintStyle}
+                options={CHROME_TINT_STYLE_OPTIONS}
+                onChange={(val) =>
+                  setConfig({ chromeTintStyle: val as ChromeTintStyle })
+                }
+                searchTerms={[
+                  "tint",
+                  "transparent",
+                  "glass",
+                  "solid",
+                  "gradient",
+                  "header",
+                  "footer",
+                  "safari",
+                  "chrome",
+                ]}
+              />
+              <p className="text-xs text-muted-foreground">
+                Transparent and glass keep content visible through the chrome.
+                Solid and gradient paint opaque fills from the active preset.
+                Light and dark each resolve separately. OS theme-color stays an
+                opaque hex approximation; CSS applies the real material.
+              </p>
+
+              {tintStyle === "transparent" ? (
+                <ThemeSlider
+                  label="Transparency strength"
+                  value={config.chromeTintOpacity ?? 0.35}
+                  min={0.05}
+                  max={0.85}
+                  step={0.01}
+                  formatValue={(v) => `${Math.round(v * 100)}%`}
+                  onChange={(chromeTintOpacity) => setConfig({ chromeTintOpacity })}
+                  searchTerms={["opacity", "transparent", "percentage", "clear"]}
+                />
+              ) : null}
+
+              {tintStyle === "glass" ? (
+                <ThemeSlider
+                  label="Glass strength"
+                  value={config.chromeTintGlassOpacity ?? 0.7}
+                  min={0.15}
+                  max={0.9}
+                  step={0.01}
+                  formatValue={(v) => `${Math.round(v * 100)}%`}
+                  onChange={(chromeTintGlassOpacity) =>
+                    setConfig({ chromeTintGlassOpacity })
+                  }
+                  searchTerms={["glass", "frost", "blur", "opacity", "percentage"]}
+                />
+              ) : null}
+
+              <ThemeSelect
+                label="Color basis"
                 value={config.chromeTintSource ?? "surface"}
                 options={CHROME_TINT_SOURCE_OPTIONS}
                 onChange={(val) =>
@@ -1064,20 +1177,16 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
                 searchTerms={[
                   "tint",
                   "primary",
-                  "glass",
-                  "header",
-                  "footer",
-                  "safari",
-                  "chrome",
+                  "surface",
                   "preset",
+                  "color",
                 ]}
               />
               <p className="text-xs text-muted-foreground">
-                Primary washes the active preset main color into header, footer, and
-                browser chrome. With Liquid Glass on, mix strength follows glass
-                opacity so the tint reads as a translucent material, not a flat fill.
-                Forced appearance and personalization resolve through the same
-                projection; scroll sections may retint Safari chrome only.
+                Surface matches the page canvas. Primary uses the preset main
+                color (full for solid; washed into the surface for glass and
+                transparent). Gradient always runs primary → secondary from the
+                active preset.
               </p>
             </div>
           ) : (
@@ -1139,19 +1248,29 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
           themeColorLight={effective.themeColorLight}
           themeColorDark={effective.themeColorDark}
           backgroundColor={effective.backgroundColor}
+          chromeTintStyle={effective.chromeTintStyle}
+          chromeTintOpacity={effective.chromeTintOpacity}
+          chromeGradientLight={effective.chromeGradientLight}
+          chromeGradientDark={effective.chromeGradientDark}
         />
-        <div className="mt-3 grid gap-1 text-xs text-muted-foreground sm:grid-cols-3">
+        <div className="mt-3 grid gap-1 text-xs text-muted-foreground sm:grid-cols-2 lg:grid-cols-4">
           <span>
-            Light chrome:{" "}
+            Style:{" "}
+            <code className="rounded bg-muted px-1">{effective.chromeTintStyle}</code>
+          </span>
+          <span>
+            Light:{" "}
             <code className="rounded bg-muted px-1">{effective.themeColorLight}</code>
           </span>
           <span>
-            Dark chrome:{" "}
+            Dark:{" "}
             <code className="rounded bg-muted px-1">{effective.themeColorDark}</code>
           </span>
           <span>
-            Background:{" "}
-            <code className="rounded bg-muted px-1">{effective.backgroundColor}</code>
+            Fill:{" "}
+            <code className="rounded bg-muted px-1">
+              {Math.round(effective.chromeTintOpacity * 100)}%
+            </code>
           </span>
         </div>
       </ThemeSectionCard>
