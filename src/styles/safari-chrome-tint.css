@@ -2,17 +2,17 @@
  * Safari 26+ Liquid Glass: theme-color meta is ignored; the browser samples
  * fixed/sticky elements within ~4px of the viewport edges.
  *
- * The four Mobile Browser styles paint these anchors. Inline backgroundColor
- * is reserved for solid (boot + syncSafariChromeTint). Glass, transparent,
- * and gradient must stay free of an opaque inline fill or Safari renders a
- * solid toolbar.
+ * Solid and gradient paint these anchors. Transparent and glass hide them:
+ * a fixed strip at the viewport edge becomes the status bar and toolbar
+ * color, so a clear strip reads as black and a tinted strip reads as a solid
+ * band. With nothing fixed at the edge, Safari applies its own Liquid Glass
+ * over the page.
  *
- * - Anchors MUST stay in the real compositing stack (positive z-index).
- *   z-index: -1 puts them behind opaque body paint — Safari then falls back
- *   to flat light chrome with no Liquid Glass material.
- * - Glass / transparent / gradient leave #az-page-paint unclipped so the page
- *   itself is the sample. Solid and edge-to-edge off keep the bottom clip so
- *   a footer cannot replace the sample.
+ * - Solid and gradient anchors MUST stay in the real compositing stack
+ *   (positive z-index). z-index: -1 puts them behind opaque body paint.
+ * - Transparent and glass leave #az-page-paint unclipped so the page is what
+ *   Safari frosts. Solid and edge-to-edge off keep the bottom clip so a
+ *   footer cannot replace the sample.
  * - Ambient body::before wash is inset so it is NOT sampled as chrome.
  * - Enabled for Safari on iOS and macOS (Apple WebKit), not Chromium.
  *   Chromium still uses the opaque theme-color meta.
@@ -46,41 +46,14 @@
   min-height: max(12px, env(safe-area-inset-bottom, 0px));
 }
 
-/* ── Transparent: the page is the sample ──────────────────────────────── */
+/* ── Transparent and glass: no fixed edge for Safari to sample ───────────
+ * display:none beats the Safari @supports rule below and any inline color.
+ * iOS Black / Default re-show the top band further down. */
 html[data-chrome-tint-style="transparent"] #az-safari-chrome-top,
-html[data-chrome-tint-style="transparent"] #az-safari-chrome-bottom {
-  background-color: transparent !important;
-  background-image: none !important;
-  backdrop-filter: none !important;
-}
-
-/* ── Glass: translucent basis veil. Page shows through. ───────────────── */
+html[data-chrome-tint-style="transparent"] #az-safari-chrome-bottom,
 html[data-chrome-tint-style="glass"] #az-safari-chrome-top,
 html[data-chrome-tint-style="glass"] #az-safari-chrome-bottom {
-  background-color: color-mix(
-    in srgb,
-    var(--background, var(--bg-primary, var(--az-browser-chrome-tint, #fafafa)))
-      calc(var(--az-chrome-tint-opacity, 0.7) * 100%),
-    transparent
-  ) !important;
-  background-image: none !important;
-  backdrop-filter: blur(12px) saturate(1.35) !important;
-}
-
-html[data-chrome-tint-style="glass"][data-chrome-tint-source="primary"] #az-safari-chrome-top,
-html[data-chrome-tint-style="glass"][data-chrome-tint-source="primary"] #az-safari-chrome-bottom {
-  background-color: color-mix(
-    in srgb,
-    var(--primary, var(--az-browser-chrome-tint, #047857))
-      calc(var(--az-chrome-tint-opacity, 0.7) * 100%),
-    transparent
-  ) !important;
-}
-
-html[data-chrome-tint-style="glass"][data-glass-effect="liquid"] #az-safari-chrome-top,
-html[data-chrome-tint-style="glass"][data-glass-effect="liquid"] #az-safari-chrome-bottom {
-  backdrop-filter: blur(var(--az-site-glass-blur, 20px))
-    saturate(var(--az-site-glass-saturate, 1.6)) !important;
+  display: none !important;
 }
 
 /* ── Solid: opaque basis on both edges. Top fills the status bar. ─────── */
@@ -131,6 +104,7 @@ html[data-chrome-tint-style="gradient"] #az-safari-chrome-bottom {
 
 /* ── iOS status bar (in-Safari). Solid keeps its own band. ────────────── */
 html[data-ios-status-bar="black"]:not([data-chrome-tint-style="solid"]) #az-safari-chrome-top {
+  display: block !important;
   height: max(2px, env(safe-area-inset-top, 0px));
   min-height: max(2px, env(safe-area-inset-top, 0px));
   max-height: none;
@@ -140,6 +114,7 @@ html[data-ios-status-bar="black"]:not([data-chrome-tint-style="solid"]) #az-safa
 }
 
 html[data-ios-status-bar="default"]:not([data-chrome-tint-style="solid"]) #az-safari-chrome-top {
+  display: block !important;
   height: max(2px, env(safe-area-inset-top, 0px));
   min-height: max(2px, env(safe-area-inset-top, 0px));
   max-height: none;
@@ -185,17 +160,6 @@ html[data-edge-to-edge="off"] body {
     clip-path: inset(
       0 0 max(12px, env(safe-area-inset-bottom, 0px)) 0
     );
-  }
-}
-
-@media (prefers-reduced-transparency: reduce) {
-  html[data-chrome-tint-style="glass"] #az-safari-chrome-top,
-  html[data-chrome-tint-style="glass"] #az-safari-chrome-bottom,
-  html[data-chrome-tint-style="transparent"] #az-safari-chrome-top,
-  html[data-chrome-tint-style="transparent"] #az-safari-chrome-bottom {
-    background-color: var(--az-browser-chrome-tint, var(--background, #fafafa)) !important;
-    background-image: none !important;
-    backdrop-filter: none !important;
   }
 }
 

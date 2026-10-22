@@ -52,23 +52,44 @@ describe("theme boot Liquid Glass", () => {
 });
 
 describe("safari chrome anchor contract", () => {
-  it("clips the page only for solid and edge-to-edge off", () => {
+  it("hides transparent and glass anchors so Safari frosts the page", () => {
     const cssPath = path.join(
       path.dirname(fileURLToPath(import.meta.url)),
       "../../../styles/safari-chrome-tint.css",
     );
+    const edgePath = path.join(
+      path.dirname(fileURLToPath(import.meta.url)),
+      "../../../styles/edge-to-edge.css",
+    );
     const css = readFileSync(cssPath, "utf8");
+    const edge = readFileSync(edgePath, "utf8");
     assert.match(css, /data-chrome-tint-style="transparent"/);
     assert.match(css, /data-chrome-tint-style="glass"/);
     assert.match(css, /data-chrome-tint-style="solid"/);
     assert.match(css, /data-chrome-tint-style="gradient"/);
-    assert.match(css, /data-chrome-tint-source="primary"/);
+    assert.match(
+      css,
+      /html\[data-chrome-tint-style="transparent"\] #az-safari-chrome-top,\s*html\[data-chrome-tint-style="transparent"\] #az-safari-chrome-bottom,\s*html\[data-chrome-tint-style="glass"\] #az-safari-chrome-top,\s*html\[data-chrome-tint-style="glass"\] #az-safari-chrome-bottom \{\s*display: none !important;/,
+    );
+    assert.doesNotMatch(
+      css,
+      /#az-safari-chrome-top[\s\S]{0,180}color-mix\(\s*in srgb,\s*var\(--primary/,
+    );
     assert.match(css, /data-ios-status-bar="black"/);
     assert.match(css, /data-ios-status-bar="default"/);
+    assert.match(css, /display: block !important;/);
     assert.match(css, /data-edge-to-edge="off"\] body/);
     assert.match(
       css,
       /html\[data-chrome-tint-style="solid"\] #az-page-paint,\s*html\[data-edge-to-edge="off"\] #az-page-paint/,
+    );
+    assert.match(
+      edge,
+      /html\[data-chrome-tint-style="transparent"\] \.az-chrome-tint-zone,\s*html\[data-chrome-tint-style="glass"\] \.az-chrome-tint-zone \{\s*display: none;/,
+    );
+    assert.match(
+      edge,
+      /html\[data-chrome-tint-style="glass"\] \.az-chrome-scroll-edge,\s*html\[data-chrome-tint-style="transparent"\] \.az-chrome-scroll-edge \{[^}]*top: var\(--az-safe-top, 0px\);/,
     );
   });
 });
