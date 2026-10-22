@@ -44,28 +44,32 @@ describe("theme boot Liquid Glass", () => {
     assert.match(script, /glassTintLight|proj\.glassTint/);
     assert.match(script, /data-chrome-tint-source/);
     assert.match(script, /data-ios-status-bar/);
-    assert.match(script, /data-tint-top/);
-    assert.doesNotMatch(script, /az-safari-chrome-top/);
+    assert.match(script, /tintStyle==="solid"/);
     assert.doesNotMatch(script, /setProperty\("--az-chrome-tint-mix"/);
     assert.match(script, /site-preloading-done/);
     assert.match(script, /runAfterHydration/);
   });
 });
 
-describe("browser tint stylesheet", () => {
-  it("paints edges from data-tint attributes and hides the top strip for page", () => {
+describe("safari chrome anchor contract", () => {
+  it("clips the page only for solid and edge-to-edge off", () => {
     const cssPath = path.join(
       path.dirname(fileURLToPath(import.meta.url)),
-      "../../../styles/browser-tint.css",
+      "../../../styles/safari-chrome-tint.css",
     );
     const css = readFileSync(cssPath, "utf8");
-    assert.match(css, /data-tint-top="page"/);
-    assert.match(css, /data-tint-bottom="page"/);
-    assert.match(css, /data-tint-top="color"/);
-    assert.match(css, /data-tint-bottom="gradient"/);
-    assert.match(css, /data-tint-pad="on"/);
-    assert.doesNotMatch(css, /az-safari-chrome/);
-    assert.doesNotMatch(css, /az-chrome-tint-zone/);
+    assert.match(css, /data-chrome-tint-style="transparent"/);
+    assert.match(css, /data-chrome-tint-style="glass"/);
+    assert.match(css, /data-chrome-tint-style="solid"/);
+    assert.match(css, /data-chrome-tint-style="gradient"/);
+    assert.match(css, /data-chrome-tint-source="primary"/);
+    assert.match(css, /data-ios-status-bar="black"/);
+    assert.match(css, /data-ios-status-bar="default"/);
+    assert.match(css, /data-edge-to-edge="off"\] body/);
+    assert.match(
+      css,
+      /html\[data-chrome-tint-style="solid"\] #az-page-paint,\s*html\[data-edge-to-edge="off"\] #az-page-paint/,
+    );
   });
 });
 

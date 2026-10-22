@@ -62,9 +62,7 @@ import {
   resolveBrowserProjection,
 } from "@/lib/theme/browser-chrome-projection";
 import { resolveForcedChromeColor } from "@/lib/theme/resolve-forced-chrome-color";
-import { isLightBackground, resolveThemeSurfaces } from "@/features/theme/surfaces/theme-surfaces";
-import { applyBrowserTint } from "@/lib/theme/browser-tint/apply";
-import { tintAttrsFromProjection } from "@/lib/theme/browser-tint/resolve";
+import { isLightBackground } from "@/features/theme/surfaces/theme-surfaces";
 import {
   getActiveScrollChromeTint,
   resolveScrollAwareChromeColors,
@@ -324,14 +322,6 @@ export function ThemeEngineProvider({
         chromeGradientLight: projection.chromeGradientLight,
         chromeGradientDark: projection.chromeGradientDark,
       });
-      const primary = siteTheme.primaryColor || siteTheme.presetColors?.primary || "#047857";
-      applyBrowserTint(
-        tintAttrsFromProjection(projection, resolved, {
-          canvasLight: resolveThemeSurfaces(siteTheme.presetColors, "light", primary).background,
-          canvasDark: resolveThemeSurfaces(siteTheme.presetColors, "dark", primary).background,
-          edgeToEdge: siteTheme.mobileBrowserConfig?.edgeToEdge !== false,
-        }),
-      );
     },
     [siteTheme],
   );

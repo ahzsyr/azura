@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import type { CSSProperties } from "react";
 import type { SiteTheme } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -44,9 +43,6 @@ import { resolveLocaleFonts } from "@/lib/theme/locale-fonts";
 import { LocaleFontPreview } from "../locale-font-preview";
 import { useTypographyFontLoader } from "../use-typography-font-loader";
 import { resolveMobileBrowserTheme } from "@/lib/theme/resolve-mobile-browser-theme";
-import { resolveBrowserProjection } from "@/lib/theme/browser-chrome-projection";
-import { tintAttrsFromProjection, type TintAttrs } from "@/lib/theme/browser-tint/resolve";
-import { resolveThemeSurfaces } from "@/features/theme/surfaces/theme-surfaces";
 import type {
   ChromeTintSource,
   ChromeTintStyle,
@@ -988,48 +984,99 @@ const CHROME_TINT_STYLE_OPTIONS: { value: ChromeTintStyle; label: string }[] = [
   { value: "gradient", label: "Gradient color" },
 ];
 
-const PAGE_SAMPLE =
-  "linear-gradient(160deg, #1d4e89 0%, #e8a87c 42%, #f6d365 70%, #f7f3ea 100%)";
+function MobileBrowserChromePreview({
+  themeColorLight,
+  themeColorDark,
+  backgroundColor,
+  chromeTintStyle,
+  chromeTintOpacity,
+  chromeTintGlassOpacity,
+  chromeGradientLight,
+  chromeGradientDark,
+}: {
+  themeColorLight: string;
+  themeColorDark: string;
+  backgroundColor: string;
+  chromeTintStyle: ChromeTintStyle;
+  chromeTintOpacity: number;
+  chromeTintGlassOpacity: number;
+  chromeGradientLight: string | null;
+  chromeGradientDark: string | null;
+}) {
+  const glassOpacity = chromeTintGlassOpacity;
+  /**
+   * iPhone Safari 26 samples the edge material (glass, transparent, solid,
+   * gradient). Chrome on Android still paints an opaque theme-color. The
+   * preview shows the Safari material.
+   */
+  const barBackground = (mode: "light" | "dark", solid: string): string => {
+    if (chromeTintStyle === "gradient") {
+      return (
+        (mode === "dark" ? chromeGradientDark : chromeGradientLight) || solid
+      );
+    }
+    if (chromeTintStyle === "solid") return solid;
+    const pct = Math.round(
+      (chromeTintStyle === "glass" ? glassOpacity : chromeTintOpacity) * 100,
+    );
+    return `color-mix(in srgb, ${solid} ${pct}%, transparent)`;
+  };
 
-function edgePaint(attrs: TintAttrs, edge: "top" | "bottom"): CSSProperties {
-  const kind = edge === "top" ? attrs.top : attrs.bottom;
-  const color = edge === "top" ? attrs.topColor : attrs.bottomColor;
-  if (kind === "page") return { background: PAGE_SAMPLE };
-  if (kind === "gradient") {
-    return {
-      backgroundImage:
-        edge === "bottom"
-          ? `linear-gradient(to top, ${color} 0%, transparent 100%)`
-          : attrs.gradient,
-    };
-  }
-  return { background: color };
-}
+  const edgeColor = (mode: "light" | "dark", solid: string): string =>
+    barBackground(mode, solid);
 
-function MobileBrowserChromePreview({ light, dark }: { light: TintAttrs; dark: TintAttrs }) {
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       {(
         [
-          { label: "Light mode", attrs: light },
-          { label: "Dark mode", attrs: dark },
+          {
+            label: "Light mode",
+            mode: "light" as const,
+            chromeColor: themeColorLight,
+            bgColor: backgroundColor,
+          },
+          {
+            label: "Dark mode",
+            mode: "dark" as const,
+            chromeColor: themeColorDark,
+            bgColor: "#1a1a2e",
+          },
         ] as const
-      ).map(({ label, attrs }) => (
+      ).map(({ label, mode, chromeColor, bgColor }) => (
         <div key={label} className="overflow-hidden rounded-xl border shadow-sm">
-          <div className="h-3" style={edgePaint(attrs, "top")} aria-hidden />
+          {/* Device edge (status bar / home indicator) — the OS samples this colour. */}
+          <div
+            className="h-3"
+            style={{ background: edgeColor(mode, chromeColor) }}
+            aria-hidden
+          />
+          {/* Site bar: the only place the four styles change the material. */}
           <div
             className="flex items-center gap-2 px-3 py-2 text-xs"
-            style={edgePaint(attrs, "bottom")}
+            style={{
+              background: barBackground(mode, chromeColor),
+              backdropFilter:
+                chromeTintStyle === "glass" || chromeTintStyle === "transparent"
+                  ? `blur(${chromeTintStyle === "glass" ? 14 : 5}px) saturate(1.35)`
+                  : undefined,
+              WebkitBackdropFilter:
+                chromeTintStyle === "glass" || chromeTintStyle === "transparent"
+                  ? `blur(${chromeTintStyle === "glass" ? 14 : 5}px) saturate(1.35)`
+                  : undefined,
+            }}
           >
             <span className="size-2 rounded-full bg-black/20" />
-            <span className="flex-1 truncate rounded bg-black/10 px-2 py-0.5 text-center">
+            <span
+              className="flex-1 truncate rounded bg-black/10 px-2 py-0.5 text-center"
+              style={{ color: "inherit" }}
+            >
               example.com
             </span>
             <span className="size-2 rounded-full bg-black/20" />
           </div>
           <div
             className="flex h-20 items-center justify-center text-xs text-muted-foreground"
-            style={{ background: attrs.htmlBackground === "transparent" ? PAGE_SAMPLE : attrs.htmlBackground }}
+            style={{ background: bgColor }}
           >
             Page content
           </div>
@@ -1108,11 +1155,9 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
                 color into the page. Light and dark each resolve separately.
               </p>
               <p className="text-xs text-muted-foreground">
-                On iPhone Safari, Transparent and Glass let Safari frost the
-                page under the clock and behind the toolbar. Glass strength
-                and Color basis apply to the site bar. Solid and Gradient
-                color the browser edges. Chrome on Android keeps an opaque
-                theme-color in the address bar.
+                On iPhone Safari these four materials are what the toolbar and
+                status bar sample. Glass needs Liquid Glass enabled. Chrome on
+                Android keeps an opaque theme-color in the address bar.
               </p>
 
               {tintStyle === "transparent" ? (
@@ -1227,11 +1272,11 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
               searchTerms={["apple", "safari", "status bar", "ios"]}
             />
             <p className="mt-1.5 text-xs text-muted-foreground">
-              In Safari, <strong>Black Translucent</strong> follows the chrome
-              tint. <strong>Black</strong> paints a black status band and{" "}
-              <strong>Default</strong> paints a light one, in every tint style.
-              Installed home-screen apps also read the{" "}
-              <code>apple-mobile-web-app-status-bar-style</code> meta tag.
+              In Safari, <strong>Black Translucent</strong> lets the page show
+              behind the status bar, <strong>Black</strong> paints a black band,
+              and <strong>Default</strong> paints a light band. Solid chrome tint
+              keeps its own color there. Installed home-screen apps also read
+              the <code>apple-mobile-web-app-status-bar-style</code> meta tag.
             </p>
           </div>
         </div>
@@ -1243,32 +1288,16 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
         searchTerms={["preview", "mobile chrome", "address bar preview"]}
       >
         <MobileBrowserChromePreview
-          light={tintAttrsFromProjection(resolveBrowserProjection(state), "light", {
-            canvasLight: resolveThemeSurfaces(
-              state.presetColors,
-              "light",
-              state.primaryColor || "#047857",
-            ).background,
-            canvasDark: resolveThemeSurfaces(
-              state.presetColors,
-              "dark",
-              state.primaryColor || "#047857",
-            ).background,
-            edgeToEdge: config.edgeToEdge !== false,
-          })}
-          dark={tintAttrsFromProjection(resolveBrowserProjection(state), "dark", {
-            canvasLight: resolveThemeSurfaces(
-              state.presetColors,
-              "light",
-              state.primaryColor || "#047857",
-            ).background,
-            canvasDark: resolveThemeSurfaces(
-              state.presetColors,
-              "dark",
-              state.primaryColor || "#047857",
-            ).background,
-            edgeToEdge: config.edgeToEdge !== false,
-          })}
+          themeColorLight={effective.themeColorLight}
+          themeColorDark={effective.themeColorDark}
+          backgroundColor={effective.backgroundColor}
+          chromeTintStyle={effective.chromeTintStyle}
+          chromeTintOpacity={effective.chromeTintOpacity}
+          chromeTintGlassOpacity={
+            state.mobileBrowserConfig?.chromeTintGlassOpacity ?? 0.7
+          }
+          chromeGradientLight={effective.chromeGradientLight}
+          chromeGradientDark={effective.chromeGradientDark}
         />
         <div className="mt-3 grid gap-1 text-xs text-muted-foreground sm:grid-cols-2 lg:grid-cols-4">
           <span>

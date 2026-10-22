@@ -117,8 +117,8 @@ describe("blank-page acceptance criteria (static)", () => {
     const applyBoot = await readSrc("../../../lib/locale-boot/apply-locale-boot.ts");
     const rootLayout = await readSrc("../../../app/layout.tsx");
     const removeBoot = await readSrc("../../../lib/preloader/boot-preloader.ts");
-    assert.match(rootLayout, /TINT_TOP_ID/);
-    assert.match(rootLayout, /TINT_BOTTOM_ID/);
+    assert.match(rootLayout, /SAFARI_CHROME_TOP_ID/);
+    assert.match(rootLayout, /SAFARI_CHROME_BOTTOM_ID/);
     assert.doesNotMatch(themeInit, /document\.body\.appendChild/);
     assert.match(themeInit, /runAfterHydration/);
     assert.match(themeInit, /syncThemeColorMetaFromProjection\(false\)/);

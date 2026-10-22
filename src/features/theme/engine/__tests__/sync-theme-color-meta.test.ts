@@ -252,20 +252,67 @@ describe("syncThemeColorMeta", () => {
     assert.equal(styleProps["--az-site-glass-tint"], "#0a0f18");
   });
 
-  it("records chrome style without creating Safari edge elements", async () => {
+  function anchorBackgrounds(): { top: string; bottom: string } {
+    const top = document.getElementById("az-safari-chrome-top");
+    const bottom = document.getElementById("az-safari-chrome-bottom");
+    return {
+      top: top?.style?.backgroundColor ?? "",
+      bottom: bottom?.style?.backgroundColor ?? "",
+    };
+  }
+
+  it("glass does not leave an opaque inline anchor color", async () => {
+    const { syncThemeColorMeta } = await import("@/features/theme/engine/appearance");
+    syncThemeColorMeta("light", {
+      mode: "light",
+      color: "#f8fafc",
+      chromeTintStyle: "glass",
+      chromeTintSource: "surface",
+      iosStatusBarStyle: "black-translucent",
+      chromeTintOpacity: 0.7,
+    });
+    const anchors = anchorBackgrounds();
+    assert.equal(anchors.top, "");
+    assert.equal(anchors.bottom, "");
+    assert.equal(document.documentElement.getAttribute("data-chrome-tint-style"), "glass");
+    assert.equal(document.documentElement.getAttribute("data-chrome-tint-source"), "surface");
+    assert.equal(
+      document.documentElement.getAttribute("data-ios-status-bar"),
+      "black-translucent",
+    );
+  });
+
+  it("transparent and gradient clear a previous solid anchor fill", async () => {
     const { syncThemeColorMeta } = await import("@/features/theme/engine/appearance");
     syncThemeColorMeta("light", {
       mode: "light",
       color: "#047857",
       chromeTintStyle: "solid",
       chromeTintSource: "primary",
-      iosStatusBarStyle: "black",
     });
-    assert.equal(document.getElementById("az-safari-chrome-top"), null);
-    assert.equal(document.getElementById("az-tint-top"), null);
-    assert.equal(document.documentElement.getAttribute("data-chrome-tint-style"), "solid");
-    assert.equal(document.documentElement.getAttribute("data-chrome-tint-source"), "primary");
-    assert.equal(document.documentElement.getAttribute("data-ios-status-bar"), "black");
+    assert.equal(anchorBackgrounds().top, "#047857");
+    assert.equal(anchorBackgrounds().bottom, "#047857");
+
+    syncThemeColorMeta("light", {
+      mode: "light",
+      color: "#047857",
+      chromeTintStyle: "transparent",
+    });
+    assert.equal(anchorBackgrounds().top, "");
+    assert.equal(anchorBackgrounds().bottom, "");
+
+    syncThemeColorMeta("light", {
+      mode: "light",
+      color: "#047857",
+      chromeTintStyle: "gradient",
+      chromeGradientLight: "linear-gradient(to bottom, #047857 0%, transparent 100%)",
+    });
+    assert.equal(anchorBackgrounds().top, "");
+    assert.equal(anchorBackgrounds().bottom, "");
+    assert.equal(
+      styleProps["--az-browser-chrome-gradient"],
+      "linear-gradient(to bottom, #047857 0%, transparent 100%)",
+    );
   });
 });
 

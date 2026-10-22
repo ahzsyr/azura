@@ -21,8 +21,8 @@
  * - `html[data-az-motion="reduce"]` (written by effects-runtime from the
  *   Reduce Motion setting) drops the fade transition but keeps the underlay.
  *
- * Paint order created here (z-index): header 100 → scroll fade layer 40 →
- * content 0. Safari edge color lives in browser-tint.css.
+ * Paint order created here (z-index): chrome tint zone 2 → header 100 →
+ * scroll fade layer 1 → content 0. Higher wins.
  */
 
 /* ── 1. Safe-area contract ────────────────────────────────────────────────
@@ -104,7 +104,12 @@ html[data-edge-to-edge="off"] .site-main {
 
 /* No site bar on this route (hero-only page): the fixed chrome layers would
  * paint a haze band over the hero. ChromeEdgeLayers publishes the flag. */
-html[data-has-site-header="false"] .az-chrome-scroll-edge,
+html[data-has-site-header="false"] .az-chrome-tint-zone,
+html[data-has-site-header="false"] .az-chrome-scroll-edge {
+  display: none;
+}
+
+html[data-edge-to-edge="off"] .az-chrome-tint-zone,
 html[data-edge-to-edge="off"] .az-chrome-scroll-edge {
   display: none;
 }
@@ -156,9 +161,7 @@ html[data-edge-to-edge="off"] .az-chrome-scroll-edge {
  * there only has to bridge into the safe area, so it stays lighter. */
 html[data-chrome-tint-style="glass"] .az-chrome-scroll-edge,
 html[data-chrome-tint-style="transparent"] .az-chrome-scroll-edge {
-  /* Below the status bar, so the clock area stays Safari's native glass. */
-  top: var(--az-safe-top, 0px);
-  --az-chrome-fade-size: 28px;
+  --az-chrome-fade-size: calc(var(--az-safe-top, 0px) + 28px);
 }
 
 /* Opaque styles get a slightly longer fade so content never touches a hard
@@ -168,7 +171,24 @@ html[data-chrome-tint-style="gradient"] .az-chrome-scroll-edge {
   --az-chrome-fade-size: calc(var(--az-safe-top, 0px) + 40px);
 }
 
-/* ── 4. Style contract for the bar fill ───────────────────────────────────
+/* ── 4. Chrome tint zone (OS edge colour) ─────────────────────────────────
+ * A full-bleed band pinned under the bar that paints the SAME colour the OS
+ * chrome is projected (--az-browser-chrome-tint) through the active style,
+ * so status bar / iOS home indicator / Android nav bar sit on the page's own
+ * tint instead of the raw document. Sits below the header (z 2 < 100) and is
+ * transparent to pointers. */
+.az-chrome-tint-zone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--az-safe-top, 0px);
+  z-index: 2;
+  pointer-events: none;
+  background-color: var(--az-site-glass-tint, var(--az-browser-chrome-tint, var(--background)));
+}
+
+/* ── 5. Style contract for the bar fill ───────────────────────────────────
  * The liquid-glass sheet applies one fill to every glass surface. These rules
  * restore the meaning of the four chrome styles on the bar, using the tokens
  * the Theme Studio already resolves. Specificity is intentionally higher than
@@ -235,6 +255,17 @@ html[data-chrome-tint-style="gradient"] .header-root .site-header {
   backdrop-filter: none !important;
 }
 
+html[data-chrome-tint-style="gradient"] .az-chrome-tint-zone {
+  background: var(
+    --az-browser-chrome-gradient,
+    linear-gradient(
+      to bottom,
+      var(--az-browser-chrome-tint, var(--background)) 0%,
+      transparent 100%
+    )
+  );
+}
+
 /* Safari only. Do not pair this with an unprefixed backdrop-filter: the
  * minifier collapses the pair into webkit-only and Chromium drops the filter. */
 @supports (-webkit-backdrop-filter: blur(1px)) {
@@ -298,6 +329,7 @@ html[data-chrome-tint-style="gradient"] .header-root .site-header {
 
 /* Forced colors: system palette wins; no tint-only meaning. */
 @media (forced-colors: active) {
+  .az-chrome-tint-zone,
   .az-chrome-scroll-edge {
     display: none;
   }

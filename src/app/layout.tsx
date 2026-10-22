@@ -4,14 +4,6 @@ import Script from "next/script";
 import "@/app/globals.css";
 import { FALLBACK_LOCALES } from "@/i18n/locale-config";
 import { generateThemeBootInlineScript } from "@/lib/theme/theme-boot";
-import { resolveThemeSurfaces } from "@/features/theme/surfaces/theme-surfaces";
-import { tintAttrsFromProjection } from "@/lib/theme/browser-tint/resolve";
-import {
-  TINT_BOTTOM_ID,
-  TINT_TOP_ID,
-  tintCssVars,
-  tintHtmlAttrs,
-} from "@/lib/theme/browser-tint/apply";
 import {
   APPEARANCE_MODE_COOKIE,
   BROWSER_CHROME_FALLBACK,
@@ -21,6 +13,8 @@ import { resolvePublishedSiteTheme } from "@/lib/theme/resolve-site-theme.server
 import { htmlAttributesToReactProps } from "@/lib/theme/theme-resolver";
 import {
   CHROME_TINT_OPACITY_VAR,
+  SAFARI_CHROME_BOTTOM_ID,
+  SAFARI_CHROME_TOP_ID,
   SAFARI_CHROME_TINT_VAR,
   SITE_GLASS_TINT_VAR,
 } from "@/lib/theme/safari-chrome-tint";
@@ -83,7 +77,6 @@ export default async function RootLayout({ children }: Props) {
   const headerStore = await headers();
   const cookieStore = await cookies();
   const pathname = headerStore.get("x-pathname") ?? "/";
-  const tintLab = pathname.startsWith("/preview/tint-lab");
   const { lang, dir } = resolveDocumentLocale(pathname);
   const appearance = resolveAppearanceFromCookie(
     cookieStore.get(APPEARANCE_MODE_COOKIE)?.value,
@@ -100,8 +93,6 @@ export default async function RootLayout({ children }: Props) {
   };
   let edgeToEdge: "on" | "off" = "on";
   let hasSiteHeader = true;
-  let canvasLight = chromeProjection.themeColorLight;
-  let canvasDark = chromeProjection.themeColorDark;
   if (!pathname.startsWith("/admin")) {
     try {
       const resolved = await resolvePublishedSiteTheme();
@@ -123,9 +114,6 @@ export default async function RootLayout({ children }: Props) {
         opacity: resolved.tokens.glassEffectSettings?.opacity ?? 0.45,
       };
       edgeToEdge = resolved.tokens.mobileBrowserConfig?.edgeToEdge === false ? "off" : "on";
-      const primary = resolved.tokens.primaryColor || "#047857";
-      canvasLight = resolveThemeSurfaces(resolved.tokens.presetColors, "light", primary).background;
-      canvasDark = resolveThemeSurfaces(resolved.tokens.presetColors, "dark", primary).background;
       hasSiteHeader = isChromeVisible(
         resolved.tokens.headerConfig,
         localeStrippedPathname(pathname),
@@ -152,13 +140,6 @@ export default async function RootLayout({ children }: Props) {
     glassEffect: glassBoot,
     edgeToEdge,
     hasSiteHeader,
-    canvasLight,
-    canvasDark,
-  });
-  const tintAttrs = tintAttrsFromProjection(chromeProjection, appearance.resolved, {
-    canvasLight,
-    canvasDark,
-    edgeToEdge: edgeToEdge !== "off",
   });
   // Drive anchors via CSS var only — inline backgroundColor would freeze the SSR
   // light cookie value and block boot/theme-init from retinting for Forced dark.
@@ -179,7 +160,6 @@ export default async function RootLayout({ children }: Props) {
       ? { "--az-browser-chrome-gradient-dark": chromeProjection.chromeGradientDark }
       : {}),
     ...(activeGradient ? { "--az-browser-chrome-gradient": activeGradient } : {}),
-    ...(tintLab ? {} : tintCssVars(tintAttrs)),
   } as CSSProperties;
 
   return (
@@ -192,7 +172,6 @@ export default async function RootLayout({ children }: Props) {
       data-ssr-theme={appearance.resolved}
       data-theme-mode={appearance.mode}
       {...themeHtmlProps}
-      {...(tintLab ? { "data-tint-lab": "1" } : tintHtmlAttrs(tintAttrs))}
       {...(reducedMotion
         ? { "data-page-transition": "none", "data-page-transition-enabled": "false" }
         : {})}
@@ -204,22 +183,23 @@ export default async function RootLayout({ children }: Props) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="min-h-full antialiased" suppressHydrationWarning>
-        {tintLab ? null : (
-          <>
-            <div id={TINT_TOP_ID} aria-hidden="true" data-tint-edge="top" suppressHydrationWarning />
-            <div
-              id={TINT_BOTTOM_ID}
-              aria-hidden="true"
-              data-tint-edge="bottom"
-              suppressHydrationWarning
-            />
-            <Script
-              id="az-theme-boot"
-              strategy="beforeInteractive"
-              dangerouslySetInnerHTML={{ __html: bootScript }}
-            />
-          </>
-        )}
+        <div
+          id={SAFARI_CHROME_TOP_ID}
+          aria-hidden="true"
+          data-safari-chrome-tint="top"
+          suppressHydrationWarning
+        />
+        <div
+          id={SAFARI_CHROME_BOTTOM_ID}
+          aria-hidden="true"
+          data-safari-chrome-tint="bottom"
+          suppressHydrationWarning
+        />
+        <Script
+          id="az-theme-boot"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: bootScript }}
+        />
         {process.env.DEBUG_SESSION === "57e90f" ? <ChunkLoadDiagnostics /> : null}
         <NuqsProvider>
           <SearchQueryShell>{children}</SearchQueryShell>
