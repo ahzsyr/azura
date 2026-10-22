@@ -44,7 +44,6 @@ import {
   clearVisitorPresetOverrides,
   clearLeakedVisitorPresetIfNeeded,
   readStoredPresetColors,
-  readDocumentThemeBackground,
   dispatchThemeChange,
 } from "@/features/theme/engine";
 import { ALL_PRESETS } from "@/features/theme/presets-catalog";
@@ -61,10 +60,8 @@ import {
   activeBrowserThemeColor,
   resolveBrowserProjection,
 } from "@/lib/theme/browser-chrome-projection";
-import {
-  forcedModeOrNull,
-  resolveForcedChromeColor,
-} from "@/lib/theme/resolve-forced-chrome-color";
+import { resolveForcedChromeColor } from "@/lib/theme/resolve-forced-chrome-color";
+import { isLightBackground } from "@/features/theme/surfaces/theme-surfaces";
 import {
   getActiveScrollChromeTint,
   resolveScrollAwareChromeColors,
@@ -284,19 +281,17 @@ export function ThemeEngineProvider({
     ) => {
       const visitorColors = readStoredPresetColors();
       const projection = resolveBrowserProjection(siteTheme, visitorColors);
-      const forced = forcedModeOrNull(mode, resolved);
-      const baseActiveColor =
-        forced != null
-          ? resolveForcedChromeColor({
-              mode: forced,
-              visitorColors,
-              computedBg: readDocumentThemeBackground(),
-              bootLight: projection.themeColorLight,
-              bootDark: projection.themeColorDark,
-              ssrLight: projection.themeColorLight,
-              ssrDark: projection.themeColorDark,
-            })
-          : activeBrowserThemeColor(projection, resolved);
+      let baseActiveColor = activeBrowserThemeColor(projection, resolved);
+      // Luminance safety only — never visitor background / computed page paint.
+      // Projection must match the appearance we actually paint so dark metas
+      // never carry a light-side wash.
+      if (resolved === "dark" && isLightBackground(baseActiveColor)) {
+        baseActiveColor = resolveForcedChromeColor({
+          mode: "dark",
+          bootDark: projection.themeColorDark,
+          ssrDark: projection.themeColorDark,
+        });
+      }
       // Scroll section tint (if any) overrides projection; syncThemeColorMeta
       // remains the sole DOM writer and always refreshes Safari edge anchors.
       const scroll =
@@ -379,7 +374,7 @@ export function ThemeEngineProvider({
   }, [hydrated, siteTheme, appearanceMode, syncThemeColorForMode]);
 
   // Soft-nav: Next head may restore SSR media metas after first paint.
-  // Immediate sync + one settle frame + short timeout (was double-rAF + 64ms).
+  // Immediate sync + one rAF settle (Next head restore) — no 32ms third pass.
   const pathname = usePathname();
   useEffect(() => {
     if (!hydrated || !siteTheme) return;
@@ -388,10 +383,8 @@ export function ThemeEngineProvider({
     const run = () => syncThemeColorForMode(mode, resolved);
     run();
     const raf = requestAnimationFrame(run);
-    const timer = window.setTimeout(run, 32);
     return () => {
       cancelAnimationFrame(raf);
-      window.clearTimeout(timer);
     };
   }, [pathname, hydrated, siteTheme, appearanceMode, syncThemeColorForMode]);
 

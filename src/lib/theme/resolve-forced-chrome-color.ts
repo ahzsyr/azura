@@ -20,13 +20,15 @@ export type ResolveForcedChromeColorInput = {
 };
 
 /**
- * Forced-appearance chrome color priority (boot + runtime).
- * Mirrored in public/theme-init.js — keep in sync.
+ * Luminance safety only — not an active-color source.
  *
- * 1. Visitor preset surface for mode (with skip-surface rule)
- * 2. Computed CSS (matches painted page)
- * 3. Boot projection / SSR media metas
- * 4. DEFAULT surfaces
+ * Prefer callers that omit `visitorColors` / `computedBg` and pass boot/SSR
+ * projection fallbacks. Active chrome must come from
+ * `resolveBrowserProjection` + `activeBrowserThemeColor`; use this helper only
+ * when a projected dark color is still light (or the inverse safety case).
+ *
+ * Legacy branches (visitor surface, computed CSS) remain for older tests and
+ * must not be used from ThemeEngineProvider.
  */
 export function resolveForcedChromeColor(
   input: ResolveForcedChromeColorInput,
