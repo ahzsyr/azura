@@ -127,60 +127,18 @@
     } catch (e) {}
   }
 
-  function visitorChromeColor(mode) {
-    var visitor = readVisitorPresetColors();
-    if (!visitor) return "";
-    var raw = visitor.background ? String(visitor.background).trim() : "";
-    if (!raw && visitor.surface) raw = String(visitor.surface).trim();
-    if (!isHexColor(raw)) return "";
-    if (mode === "dark" && isLightBackgroundHex(raw)) return "#020408";
-    if (mode === "light" && isLightBackgroundHex(raw)) return raw;
-    if (mode === "dark" && !isLightBackgroundHex(raw)) return raw;
-    return "";
-  }
-
   /**
-   * @param {boolean} allowComputed
-   *   Pre-paint (false): published browserProjection only — matches SSR theme-color.
-   *   Post-hydration (true): intentional visitor wash, then computed fallback.
+   * Active chrome always from published browserProjection (chromeTintSource baked).
+   * Luminance safety: never paint a light projection as Forced dark chrome.
+   * Visitor / computed page backgrounds are not sources — ThemeEngineProvider owns
+   * post-boot tint after hydrate.
    */
-  function resolveForcedChromeBg(mode, allowComputed) {
-    // First paint must match SSR projection (chromeTintSource already baked in).
-    if (!allowComputed) {
-      return projectionColor(mode);
+  function resolveForcedChromeBg(mode) {
+    var color = projectionColor(mode);
+    if (mode === "dark" && isLightBackgroundHex(color)) {
+      return "#020408";
     }
-
-    var fromVisitor = visitorChromeColor(mode);
-    if (fromVisitor) return fromVisitor;
-
-    var styles = window.getComputedStyle(root);
-    var computed =
-      styles.getPropertyValue("--az-bg-primary").trim() ||
-      styles.getPropertyValue("--background").trim();
-    if (computed) return computed;
-
-    var existing = Array.prototype.slice.call(
-      document.querySelectorAll('meta[name="theme-color"]'),
-    );
-    var proj = boot.browserProjection || {};
-    var lightColor = proj.themeColorLight || "";
-    var darkColor = proj.themeColorDark || "";
-    for (var i = 0; i < existing.length; i++) {
-      var media = existing[i].getAttribute("media") || "";
-      var content = existing[i].getAttribute("content") || "";
-      if (/prefers-color-scheme:\s*light/i.test(media) && content) {
-        lightColor = lightColor || content;
-      }
-      if (/prefers-color-scheme:\s*dark/i.test(media) && content) {
-        darkColor = darkColor || content;
-      }
-      if (!media && content) {
-        if (mode === "dark") darkColor = darkColor || content;
-        else lightColor = lightColor || content;
-      }
-    }
-    if (mode === "dark") return darkColor || "#020408";
-    return lightColor || "#fafafa";
+    return color;
   }
 
   /**
@@ -206,32 +164,29 @@
 
   /**
    * @param {boolean} mutateHead
-   *   When false (pre-hydration): paint Safari tint only — never create/rewrite
-   *   <meta> nodes (extra head children → React #418). No getComputedStyle.
-   *   When true (after visitor colors): sync theme-color metas for Chrome.
+   *   When false (pre-hydration): paint Safari tint vars + anchors — never
+   *   create/rewrite <meta> nodes (extra head children → React #418).
+   *   When true (post-hydration): update theme-color metas from projection only;
+   *   do NOT rewrite tint vars — ThemeEngineProvider is the sole post-boot mutator.
    */
   function syncThemeColorMetaFromProjection(mutateHead) {
     var mode = stored || ssrMode || "light";
-    var allowComputed = mutateHead === true;
-    // Glass always tracks published projection for the resolved appearance —
-    // never a scroll sample or stale visitor wash on first paint.
-    var glassBg = projectionColor(resolved === "dark" ? "dark" : "light");
-
-    if (mode === "system") {
-      var systemBg =
-        resolved === "dark"
-          ? resolveForcedChromeBg("dark", allowComputed)
-          : resolveForcedChromeBg("light", allowComputed);
-      paintSafariChromeTint(systemBg, glassBg);
-      return;
-    }
-
-    var paintMode = mode === "dark" ? "dark" : "light";
-    var bg = resolveForcedChromeBg(paintMode, allowComputed);
+    var paintMode =
+      mode === "system"
+        ? resolved === "dark"
+          ? "dark"
+          : "light"
+        : mode === "dark"
+          ? "dark"
+          : "light";
+    var bg = resolveForcedChromeBg(paintMode);
     if (!bg) return;
 
-    paintSafariChromeTint(bg, projectionColor(paintMode));
-    if (!mutateHead) return;
+    // Pre-paint only: write --az-* tint vars. Post-hydrate leaves them alone.
+    if (!mutateHead) {
+      paintSafariChromeTint(bg, projectionColor(paintMode));
+      return;
+    }
 
     var metaBg = isHexColor(bg) ? bg : projectionColor(paintMode);
     if (!isHexColor(metaBg)) return;

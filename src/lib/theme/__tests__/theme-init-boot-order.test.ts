@@ -28,12 +28,26 @@ describe("theme-init boot order", () => {
   });
 
   it("pre-paint chrome resolves from browserProjection, not visitor storage", () => {
-    assert.match(source, /Pre-paint \(false\): published browserProjection only/);
-    assert.match(source, /if \(!allowComputed\) \{\s*return projectionColor\(mode\);/s);
+    assert.match(source, /Active chrome always from published browserProjection/);
+    assert.match(source, /function resolveForcedChromeBg\(mode\)/);
+    assert.match(source, /var color = projectionColor\(mode\);/);
   });
 
   it("splits glass tint from browser chrome tint", () => {
     assert.match(source, /--az-site-glass-tint/);
     assert.match(source, /paintSafariChromeTint\(browserColor, glassColor\)/);
+  });
+
+  it("post-hydrate sync does not write tint vars or call visitorChromeColor", () => {
+    assert.doesNotMatch(source, /visitorChromeColor\s*\(/);
+    // mutateHead true: metas only — paintSafariChromeTint gated behind !mutateHead
+    assert.match(
+      source,
+      /if \(!mutateHead\) \{\s*paintSafariChromeTint/s,
+    );
+    assert.match(
+      source,
+      /do NOT rewrite tint vars/,
+    );
   });
 });
