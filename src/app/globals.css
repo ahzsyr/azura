@@ -4,7 +4,7 @@
 @import "../styles/responsive-tokens.css" layer(tokens);
 @import "../styles/preset-visuals.css";
 @import "../styles/site-backgrounds.css";
-@import "../styles/safari-chrome-tint.css";
+@import "../styles/browser-tint.css";
 @import "../styles/edge-to-edge.css";
 @import "../styles/visual-enhancements.css";
 @import "../styles/arabic-typography.css";
@@ -502,8 +502,8 @@ html[data-site-cursor-effects="on"] #theme-toggle {
   html.theme-transitioning,
   html.theme-transitioning body,
   html.theme-transitioning .header-root .site-header,
-  html.theme-transitioning #az-safari-chrome-top,
-  html.theme-transitioning #az-safari-chrome-bottom {
+  html.theme-transitioning #az-tint-top,
+  html.theme-transitioning #az-tint-bottom {
     transition:
       background-color 0.08s ease-out,
       color 0.1s ease-out,

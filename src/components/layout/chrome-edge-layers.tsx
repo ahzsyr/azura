@@ -6,11 +6,8 @@
  * Responsibilities — all visual only; the header's own design is untouched:
  * - Marks the page-stack root (`[data-az-underlay]`) so that root reserves the
  *   bar's height while the bar overlays it. CSS owns the actual reserve.
- * - Renders two fixed, pointer-transparent layers:
- *     `.az-chrome-tint-zone`   – paints the OS chrome colour in the device
- *                                safe area (status bar / home indicator) so the
- *                                browser edge and the bar read as one surface.
- *     `.az-chrome-scroll-edge` – scroll edge fade where content meets the bar.
+ * - Renders the scroll-edge fade where content meets the bar. Safari edge
+ *   color is owned by browser-tint.css, not by a tint band here.
  * - Reveals the fade once scrolled; rAF-throttled passive scroll listener.
  *
  * Degrades safely: with JavaScript off the underlay class is never added, so
@@ -203,14 +200,11 @@ export function ChromeEdgeLayers() {
   }, []);
 
   return (
-    <>
-      <div className="az-chrome-tint-zone" aria-hidden="true" />
-      <div
-        ref={fadeRef}
-        className="az-chrome-scroll-edge"
-        data-reveal="false"
-        aria-hidden="true"
-      />
-    </>
+    <div
+      ref={fadeRef}
+      className="az-chrome-scroll-edge"
+      data-reveal="false"
+      aria-hidden="true"
+    />
   );
 }

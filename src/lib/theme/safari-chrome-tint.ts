@@ -1,9 +1,7 @@
 /**
- * Safari 26+ (iOS) ignores `<meta name="theme-color">` and samples
- * fixed/sticky edge backgrounds instead. Keep a CSS var + edge anchors
- * in sync with the Theme Color projection so Liquid Glass toolbars match.
- *
- * Spec still uses theme-color for Chromium; this layer is Safari-only paint.
+ * Chromium still reads theme-color. Safari 26 samples the edges painted by
+ * browser-tint.css. This module only publishes the CSS variables and chrome
+ * attributes those stylesheets read. It does not create or paint edge strips.
  */
 export const SAFARI_CHROME_TINT_VAR = "--az-browser-chrome-tint";
 export const SAFARI_CHROME_TINT_LIGHT_VAR = "--az-browser-chrome-tint-light";
@@ -45,18 +43,6 @@ export type SyncSafariChromeTintOptions = {
   chromeGradientDark?: string | null;
 };
 
-function ensureTintAnchor(id: string, edge: "top" | "bottom"): HTMLElement | null {
-  if (typeof document === "undefined") return null;
-  let el = document.getElementById(id);
-  if (el) return el;
-  el = document.createElement("div");
-  el.id = id;
-  el.setAttribute("aria-hidden", "true");
-  el.setAttribute("data-safari-chrome-tint", edge);
-  document.body?.appendChild(el);
-  return el;
-}
-
 function setRootVar(root: HTMLElement, name: string, value: string): void {
   if (root.style.getPropertyValue(name) !== value) {
     root.style.setProperty(name, value);
@@ -68,31 +54,12 @@ const CHROME_TINT_SOURCES = new Set(["surface", "primary"]);
 const IOS_STATUS_BARS = new Set(["default", "black", "black-translucent"]);
 
 /**
- * Safari samples these strips. CSS owns glass, transparent, and gradient.
- * An inline backgroundColor beats that CSS, so only solid may keep one —
- * and it is cleared when the style changes. Stale light paint on Forced dark
- * is avoided by always writing the CSS variable in the same call.
- */
-function paintSafariAnchor(
-  el: HTMLElement | null,
-  style: string | undefined,
-  tint: string,
-): void {
-  if (!el?.style) return;
-  if (style === "solid") {
-    if (el.style.backgroundColor !== tint) el.style.backgroundColor = tint;
-    el.style.backgroundImage = "";
-    return;
-  }
-  el.style.backgroundColor = "";
-  el.style.backgroundImage = "";
-}
-
-/**
- * Project the active Theme Color onto Safari-sampled paint surfaces.
+ * Project the active Theme Color onto CSS variables and chrome attributes.
+ * Safari edge strips are owned by applyBrowserTint — this function must not
+ * paint them.
  *
  * Mirrors onto --az-site-glass-tint unless `glassTint` is provided separately
- * (scroll samples retint Safari anchors without washing header/footer glass).
+ * (scroll samples retint the theme-color without washing header/footer glass).
  */
 export function syncSafariChromeTint(
   color: string,
@@ -157,10 +124,4 @@ export function syncSafariChromeTint(
   } else if (style && style !== "gradient") {
     root.style.removeProperty(CHROME_GRADIENT_VAR);
   }
-
-  if (!document.body) return;
-  const top = ensureTintAnchor(SAFARI_CHROME_TOP_ID, "top");
-  const bottom = ensureTintAnchor(SAFARI_CHROME_BOTTOM_ID, "bottom");
-  paintSafariAnchor(top, style, tint);
-  paintSafariAnchor(bottom, style, tint);
 }

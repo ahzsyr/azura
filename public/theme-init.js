@@ -166,23 +166,20 @@
       if (scheme === "dark" || scheme === "light") {
         root.style.colorScheme = scheme;
       }
-      function paintExistingTint(id) {
-        var el = document.getElementById(id);
-        if (!el || !el.style) return;
-        var proj = boot.browserProjection || {};
-        var style =
-          proj.chromeTintStyle || root.getAttribute("data-chrome-tint-style") || "glass";
-        // Inline backgroundColor beats the style CSS. Only solid may keep one.
-        if (style === "solid") {
-          el.style.backgroundColor = browserColor;
-          el.style.backgroundImage = "";
-        } else {
-          el.style.backgroundColor = "";
-          el.style.backgroundImage = "";
-        }
+      var tint = boot.browserTint
+        ? scheme === "dark"
+          ? boot.browserTint.dark
+          : boot.browserTint.light
+        : null;
+      if (tint) {
+        if (tint.top) root.setAttribute("data-tint-top", tint.top);
+        if (tint.bottom) root.setAttribute("data-tint-bottom", tint.bottom);
+        if (tint.pad) root.setAttribute("data-tint-pad", tint.pad);
+        if (tint.topColor) root.style.setProperty("--az-tint-top-color", tint.topColor);
+        if (tint.bottomColor) root.style.setProperty("--az-tint-bottom-color", tint.bottomColor);
+        if (tint.gradient) root.style.setProperty("--az-tint-gradient", tint.gradient);
+        if (tint.htmlBackground) root.style.setProperty("--az-tint-html-bg", tint.htmlBackground);
       }
-      paintExistingTint("az-safari-chrome-top");
-      paintExistingTint("az-safari-chrome-bottom");
     } catch (e) {}
   }
 

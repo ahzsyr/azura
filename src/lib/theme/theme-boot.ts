@@ -15,6 +15,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { BROWSER_CHROME_FALLBACK } from "./browser-chrome-projection";
+import { tintAttrsFromProjection, type TintAttrs } from "./browser-tint/resolve";
 import { PRELOADER_HARD_CAP_MS } from "@/lib/preloader/preloader-timing";
 
 const PUBLISHED_PRESET_IDS = ALL_PRESETS.map((p) => p.id);
@@ -83,12 +84,16 @@ export type ThemeBootPayload = {
   edgeToEdge: "on" | "off";
   /** Mirrors html[data-has-site-header] from header visibility, before hydration. */
   hasSiteHeader: boolean;
+  /** Safari edge plan for both appearances. The boot script applies the SSR one. */
+  browserTint: { light: TintAttrs; dark: TintAttrs };
 };
 
 export type ThemeBootOptions = {
   glassEffect?: ThemeBootGlassPayload;
   edgeToEdge?: "on" | "off";
   hasSiteHeader?: boolean;
+  canvasLight?: string;
+  canvasDark?: string;
 };
 
 const DEFAULT_GLASS_BOOT: ThemeBootGlassPayload = {
@@ -103,6 +108,12 @@ export function buildThemeBootPayload(
 ): ThemeBootPayload {
   const { keys, fieldMap } = getPresetMetricsBootPayload();
   const glass = options.glassEffect ?? DEFAULT_GLASS_BOOT;
+  const edgeToEdge = options.edgeToEdge !== "off";
+  const tintOptions = {
+    canvasLight: options.canvasLight,
+    canvasDark: options.canvasDark,
+    edgeToEdge,
+  };
   return {
     metricsKeys: keys,
     metricsFieldMap: fieldMap,
@@ -135,8 +146,12 @@ export function buildThemeBootPayload(
       opacity: Number.isFinite(glass.opacity) ? glass.opacity : 0.45,
     },
     publishedPresetIds: PUBLISHED_PRESET_IDS,
-    edgeToEdge: options.edgeToEdge === "off" ? "off" : "on",
+    edgeToEdge: edgeToEdge ? "on" : "off",
     hasSiteHeader: options.hasSiteHeader !== false,
+    browserTint: {
+      light: tintAttrsFromProjection(projection, "light", tintOptions),
+      dark: tintAttrsFromProjection(projection, "dark", tintOptions),
+    },
   };
 }
 
@@ -195,20 +210,16 @@ export function generateThemeBootInlineScript(
   if(iosBar==="black"||iosBar==="default"||iosBar==="black-translucent"){
     root.setAttribute("data-ios-status-bar",iosBar);
   }
-  var top=document.getElementById("az-safari-chrome-top");
-  var bottom=document.getElementById("az-safari-chrome-bottom");
-  function paintAnchor(el){
-    if(!el||!el.style)return;
-    if(tintStyle==="solid"&&color){
-      el.style.backgroundColor=color;
-      el.style.backgroundImage="";
-    }else{
-      el.style.backgroundColor="";
-      el.style.backgroundImage="";
-    }
+  var tint=ssr==="dark"?(boot.browserTint&&boot.browserTint.dark):(boot.browserTint&&boot.browserTint.light);
+  if(tint){
+    if(tint.top)root.setAttribute("data-tint-top",tint.top);
+    if(tint.bottom)root.setAttribute("data-tint-bottom",tint.bottom);
+    if(tint.pad)root.setAttribute("data-tint-pad",tint.pad);
+    if(tint.topColor)root.style.setProperty("--az-tint-top-color",tint.topColor);
+    if(tint.bottomColor)root.style.setProperty("--az-tint-bottom-color",tint.bottomColor);
+    if(tint.gradient)root.style.setProperty("--az-tint-gradient",tint.gradient);
+    if(tint.htmlBackground)root.style.setProperty("--az-tint-html-bg",tint.htmlBackground);
   }
-  paintAnchor(top);
-  paintAnchor(bottom);
   if(boot.edgeToEdge==="on"||boot.edgeToEdge==="off"){
     root.setAttribute("data-edge-to-edge",boot.edgeToEdge);
   }
