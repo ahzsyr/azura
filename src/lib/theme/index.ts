@@ -39,6 +39,8 @@ export {
 
 export {
   resolveBrowserProjection,
+  activeBrowserGlassTint,
+  activeBrowserThemeColor,
   buildChromeViewport,
   buildChromeAppleWebApp,
   chromeViewportFallback,
@@ -58,8 +60,15 @@ export {
 export {
   syncSafariChromeTint,
   SAFARI_CHROME_TINT_VAR,
+  SITE_GLASS_FILL_ALPHA_VAR,
   SITE_GLASS_TINT_VAR,
 } from "./safari-chrome-tint";
+
+export {
+  activeSiteGlassTint,
+  resolveSiteGlassTintPair,
+  type SiteGlassTintPair,
+} from "./resolve-site-glass-tint";
 
 export {
   CHROME_TINT_LIGHT_ATTR,

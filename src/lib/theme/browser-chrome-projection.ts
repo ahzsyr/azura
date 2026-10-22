@@ -10,6 +10,10 @@ import {
   resolveMobileBrowserTheme,
   type ResolvedMobileBrowserTheme,
 } from "@/lib/theme/resolve-mobile-browser-theme";
+import {
+  activeSiteGlassTint,
+  resolveSiteGlassTintPair,
+} from "@/lib/theme/resolve-site-glass-tint";
 
 /** Serializable browser projection for boot / ThemeState. */
 export type BrowserProjection = {
@@ -21,7 +25,15 @@ export type BrowserProjection = {
   chromeTintOpacity: number;
   chromeGradientLight: string | null;
   chromeGradientDark: string | null;
+  /**
+   * Site Liquid Glass fill (surface role) — distinct from themeColor / page canvas.
+   * OS chrome continues to use themeColorLight/Dark only.
+   */
+  glassTintLight: string;
+  glassTintDark: string;
 };
+
+const FALLBACK_GLASS = resolveSiteGlassTintPair();
 
 export const BROWSER_CHROME_FALLBACK: BrowserProjection = {
   themeColorLight: DEFAULT_LIGHT_SURFACES.background,
@@ -32,6 +44,8 @@ export const BROWSER_CHROME_FALLBACK: BrowserProjection = {
   chromeTintOpacity: 0.7,
   chromeGradientLight: null,
   chromeGradientDark: null,
+  glassTintLight: FALLBACK_GLASS.light,
+  glassTintDark: FALLBACK_GLASS.dark,
 };
 
 /** Cookie mirrored from public appearance mode (client Forced sync / analytics). */
@@ -39,6 +53,7 @@ export const APPEARANCE_MODE_COOKIE = "devi-theme-mode";
 
 export function toBrowserProjection(
   mobile: ResolvedMobileBrowserTheme,
+  glassPair: { light: string; dark: string } = FALLBACK_GLASS,
 ): BrowserProjection {
   return {
     themeColorLight: mobile.themeColorLight,
@@ -49,6 +64,8 @@ export function toBrowserProjection(
     chromeTintOpacity: mobile.chromeTintOpacity,
     chromeGradientLight: mobile.chromeGradientLight,
     chromeGradientDark: mobile.chromeGradientDark,
+    glassTintLight: glassPair.light,
+    glassTintDark: glassPair.dark,
   };
 }
 
@@ -86,7 +103,11 @@ export function resolveBrowserProjection(
 ): BrowserProjection {
   const tokens = tokensForChromeResolution(siteTheme, visitorColors);
   if (!tokens) return BROWSER_CHROME_FALLBACK;
-  return toBrowserProjection(resolveMobileBrowserTheme(tokens));
+  const glassPair = resolveSiteGlassTintPair(
+    tokens.presetColors ?? visitorColors ?? null,
+    tokens.primaryColor,
+  );
+  return toBrowserProjection(resolveMobileBrowserTheme(tokens), glassPair);
 }
 
 export function activeBrowserThemeColor(
@@ -94,6 +115,17 @@ export function activeBrowserThemeColor(
   resolved: ResolvedAppearance,
 ): string {
   return resolved === "dark" ? projection.themeColorDark : projection.themeColorLight;
+}
+
+/** Site glass fill for the active appearance (never OS theme-color / page canvas). */
+export function activeBrowserGlassTint(
+  projection: BrowserProjection,
+  resolved: ResolvedAppearance,
+): string {
+  return activeSiteGlassTint(
+    { light: projection.glassTintLight, dark: projection.glassTintDark },
+    resolved,
+  );
 }
 
 /**

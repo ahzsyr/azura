@@ -114,6 +114,8 @@ export function syncThemeColorMeta(
     document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]'),
   );
 
+  // Prefer explicit surface-role glass tint. Never silently fall back to the
+  // OS theme-color / page canvas — that collapses translucency (tint === backdrop).
   const glassTint = options?.glassTint?.trim() || activeColor;
   const tintOpts = {
     lightColor,

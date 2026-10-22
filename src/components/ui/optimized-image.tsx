@@ -43,6 +43,7 @@ export function OptimizedImage({
   unoptimized,
   src: rawSrc,
   fetchPriority,
+  priority,
   ...props
 }: OptimizedImageProps) {
   const imgRef = useRef<HTMLImageElement>(null);
@@ -53,10 +54,15 @@ export function OptimizedImage({
   const resolvedUnoptimized =
     unoptimized ??
     (typeof src === "string" ? !shouldOptimizeNextImage(src) : false);
-  const resolvedLoading = loading ?? (aboveFold ? "eager" : "lazy");
+  // Next.js rejects priority + loading="lazy" together (E218). Resolve one
+  // priority path, then only pass loading when priority is not active.
+  const resolvedPriority = priority ?? (aboveFold ? true : undefined);
+  const resolvedLoading =
+    resolvedPriority === true
+      ? undefined
+      : (loading ?? (aboveFold ? "eager" : "lazy"));
   const shouldFade =
-    !skipFade && !aboveFold && !props.priority && resolvedLoading === "lazy";
-  const resolvedPriority = props.priority ?? (aboveFold ? true : undefined);
+    !skipFade && !aboveFold && !resolvedPriority && resolvedLoading === "lazy";
   const resolvedFetchPriority = fetchPriority ?? (aboveFold ? "high" : "auto");
   const [loaded, setLoaded] = useState(false);
 

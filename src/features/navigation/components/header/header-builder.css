@@ -31,15 +31,22 @@
   width: 100%;
   position: relative;
   z-index: 10;
-  /* Track browser chrome tint (theme-color / Safari edge sample) — not a separate surface.
-   * Mix % from --az-chrome-tint-mix (site-glass-effect.css); overlay 55/72 stay hardcoded. */
+  /* Site glass fill — surface-role tint + dedicated fill alpha (not OS chrome opacity).
+   * Liquid Glass overrides via --az-site-glass-bg when data-glass-effect=liquid.
+   * Non-liquid chrome styles may still use --az-chrome-tint-mix from CSS attrs. */
   background: color-mix(
     in srgb,
     var(
       --az-site-glass-tint,
-      var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
+      var(--color-surface, var(--card, var(--background)))
     )
-      calc(var(--az-chrome-tint-mix, 0.92) * 100%),
+      calc(
+        var(
+            --az-site-glass-fill-alpha,
+            var(--az-chrome-tint-mix, 0.72)
+          )
+          * 100%
+      ),
     transparent
   );
   backdrop-filter: blur(12px);
@@ -1290,17 +1297,22 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
   }
 
   /* Mobile chrome: glass, safe area. Flush top only when auto-remove is on.
-   * Fill tracks browser chrome tint so status bar / theme-color match the bar.
-   * --az-chrome-tint-mix-mobile defaults to mix+0.06 (98% at 0.92). */
+   * Fill uses site glass tint + fill-alpha (not OS theme-color opacity). */
   .header-root .site-header {
     box-shadow: var(--header-shadow-soft);
     background: color-mix(
       in srgb,
       var(
         --az-site-glass-tint,
-        var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
+        var(--color-surface, var(--card, var(--background)))
       )
-        calc(var(--az-chrome-tint-mix-mobile, 0.98) * 100%),
+        calc(
+          var(
+              --az-site-glass-fill-alpha,
+              var(--az-chrome-tint-mix-mobile, 0.78)
+            )
+            * 100%
+        ),
       transparent
     );
     backdrop-filter: blur(20px);
@@ -2522,9 +2534,9 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   line-height: 1;
 }
 
-/* ── BRT parity: sticky glass reinforcement ─────────────────────────────────
- * When the header becomes sticky (header--sticking), upgrade to full glass:
- * --az-chrome-tint-mix-sticky (0.96 light / 0.9 dark) + 20px blur + stronger shadow.
+/* ── Sticky glass reinforcement ─────────────────────────────────────────────
+ * Slightly stronger fill + blur while sticking. Uses site glass fill-alpha
+ * (not OS chrome opacity). Liquid Glass still overrides via --az-site-glass-bg.
  */
 .header-root[data-header-desktop="sticky"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header,
 .header-root[data-header-desktop="shrink-scroll"]:not([data-block-header-overlay="true"]):not([data-header-overlay="true"]).header--sticking .site-header {
@@ -2532,9 +2544,17 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
     in srgb,
     var(
       --az-site-glass-tint,
-      var(--az-browser-chrome-tint, var(--color-surface, var(--background)))
+      var(--color-surface, var(--card, var(--background)))
     )
-      calc(var(--az-chrome-tint-mix-sticky, 0.96) * 100%),
+      calc(
+        min(
+            0.85,
+            calc(
+              var(--az-site-glass-fill-alpha, var(--az-chrome-tint-mix-sticky, 0.72)) + 0.08
+            )
+          )
+          * 100%
+      ),
     transparent
   );
   backdrop-filter: blur(20px);
@@ -2566,13 +2586,14 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   .mnav-portal-root[data-mnav-state="open"] .mnav-panel {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    /* Appearance-aware opaque fallback — --az-site-glass-tint tracks light/dark. */
     background: var(
       --az-site-glass-tint,
-      var(--az-browser-chrome-tint, var(--color-surface, var(--card, var(--background))))
+      var(--color-surface, var(--card, var(--background)))
     ) !important;
     background-color: var(
       --az-site-glass-tint,
-      var(--az-browser-chrome-tint, var(--color-surface, var(--card, var(--background))))
+      var(--color-surface, var(--card, var(--background)))
     ) !important;
     background-image: none !important;
   }

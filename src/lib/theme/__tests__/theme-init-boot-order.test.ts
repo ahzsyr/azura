@@ -35,6 +35,12 @@ describe("theme-init boot order", () => {
 
   it("splits glass tint from browser chrome tint", () => {
     assert.match(source, /--az-site-glass-tint/);
+    assert.match(source, /glassTintLight|glassTintDark|proj\.glassTint/);
+    // Browser opacity must not drive site header mix (F6).
+    assert.doesNotMatch(
+      source,
+      /setProperty\("--az-chrome-tint-mix"/,
+    );
     assert.match(
       source,
       /paintSafariChromeTint\(browserColor, glassColor(?:, scheme)?\)/,

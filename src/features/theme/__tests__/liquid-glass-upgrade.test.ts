@@ -38,13 +38,16 @@ describe("theme boot Liquid Glass", () => {
     assert.match(script, /--glass-effect-intensity/);
     assert.match(script, /--glass-effect-opacity/);
     assert.match(script, /--az-site-glass-tint/);
+    assert.match(script, /--az-site-glass-fill-alpha/);
+    assert.match(script, /glassTintLight|proj\.glassTint/);
+    assert.doesNotMatch(script, /setProperty\("--az-chrome-tint-mix"/);
     assert.match(script, /site-preloading-done/);
     assert.match(script, /runAfterHydration/);
   });
 });
 
 describe("site-glass-effect surface coverage", () => {
-  it("targets real UI classes instead of missing data-slot attrs", () => {
+  it("targets functional chrome classes instead of missing data-slot attrs", () => {
     const cssPath = path.join(
       path.dirname(fileURLToPath(import.meta.url)),
       "../../../styles/site-glass-effect.css",
@@ -54,11 +57,19 @@ describe("site-glass-effect surface coverage", () => {
     assert.match(css, /\.sheet-content/);
     assert.match(css, /\.dropdown-menu-content/);
     assert.match(css, /\.tooltip-content/);
-    assert.match(css, /\.az-ab/);
-    assert.match(css, /\.pl-table-wrap/);
+    assert.match(css, /\.header-root \.site-header/);
     assert.match(css, /--az-site-glass-tint/);
     assert.match(css, /data-glass-transition="cheap"/);
     assert.doesNotMatch(css, /data-slot="dialog-content"/);
+    // Content-layer surfaces must not receive Liquid Glass fill (Apple materials).
+    assert.doesNotMatch(
+      css,
+      /\[data-glass-effect="liquid"\] \.pl-table-wrap,\s*\n\[data-glass-effect="liquid"\]/,
+    );
+    assert.doesNotMatch(
+      css,
+      /\[data-glass-effect="liquid"\] \.az-form-surface,\s*\n\[data-glass-effect="liquid"\]/,
+    );
   });
 });
 

@@ -203,10 +203,30 @@ describe("syncThemeColorMeta", () => {
       color: "#c4b5a0",
       lightColor: "#fafafa",
       darkColor: "#020408",
-      glassTint: "#fafafa",
+      glassTint: "#ffffff",
     });
 
     assert.equal(styleProps["--az-browser-chrome-tint"], "#c4b5a0");
-    assert.equal(styleProps["--az-site-glass-tint"], "#fafafa");
+    assert.equal(styleProps["--az-site-glass-tint"], "#ffffff");
+  });
+
+  it("dark appearance can keep a dark surface glass tint while chrome uses theme-color", async () => {
+    const { syncThemeColorMeta } = await import("@/features/theme/engine/appearance");
+    const light = document.createElement("meta");
+    light.name = "theme-color";
+    light.content = "#fafafa";
+    document.head.appendChild(light);
+
+    syncThemeColorMeta("dark", {
+      mode: "dark",
+      color: "#020408",
+      lightColor: "#fafafa",
+      darkColor: "#020408",
+      glassTint: "#0a0f18",
+    });
+
+    assert.equal(styleProps["--az-browser-chrome-tint"], "#020408");
+    assert.equal(styleProps["--az-site-glass-tint"], "#0a0f18");
   });
 });
+

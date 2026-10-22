@@ -100,7 +100,7 @@ html[data-chrome-tint-style="gradient"]:not([data-glass-effect="liquid"]) .site-
   --az-site-glass-opacity: var(--glass-effect-opacity, 0.45);
   --az-site-glass-blur: calc(22px * var(--az-site-glass-intensity));
   --az-site-glass-saturate: calc(1.2 + (0.45 * var(--az-site-glass-intensity)));
-  /* Chrome tint (scroll / Safari) preferred; falls back to surface tokens. */
+  /* Surface-role tint (never page canvas). Written by syncSafariChromeTint / boot. */
   --az-site-glass-fill: var(
     --az-site-glass-tint,
     var(--az-color-surface, var(--card, var(--background)))
@@ -125,37 +125,30 @@ html[data-effects-tier="light"][data-glass-effect="liquid"] {
   --az-site-glass-specular-opacity: calc(0.18 + (0.22 * var(--az-site-glass-intensity)));
 }
 
+html.dark[data-glass-effect="liquid"],
+html[data-theme="dark"][data-glass-effect="liquid"] {
+  --az-site-glass-specular-opacity: calc(0.12 + (0.18 * var(--az-site-glass-intensity)));
+}
+
 /* Cheap blur during route transitions — less backdrop-filter work on dual layers */
 [data-glass-effect="liquid"][data-glass-transition="cheap"] {
   --az-site-glass-blur: calc(10px * var(--az-site-glass-intensity));
 }
 
 /* ── Base frost (material only — no layout props) ───────────────────────── */
-[data-glass-effect="liquid"] .az-preset-surface,
 [data-glass-effect="liquid"] .az-liquid-glass,
 [data-glass-effect="liquid"] .az-liquid-glass-panel,
-[data-glass-effect="liquid"] .az-section-atmosphere,
 [data-glass-effect="liquid"] .header-root .site-header,
 [data-glass-effect="liquid"] .header-root.header--sticking .site-header,
 [data-glass-effect="liquid"] .mega-menu,
 [data-glass-effect="liquid"] [data-mega-menu]:not(.dropdown-menu),
 [data-glass-effect="liquid"] .dropdown-menu,
 [data-glass-effect="liquid"] .popup-floating-btn__button,
-[data-glass-effect="liquid"] .fxs-theme,
-[data-glass-effect="liquid"] .fxs-theme .fxs-card,
-[data-glass-effect="liquid"] .fxs-theme .fxs-panel,
-[data-glass-effect="liquid"] .schema-theme,
 [data-glass-effect="liquid"] .dialog-content,
 [data-glass-effect="liquid"] .sheet-content,
 [data-glass-effect="liquid"] .popover-content,
 [data-glass-effect="liquid"] .dropdown-menu-content,
 [data-glass-effect="liquid"] .tooltip-content,
-[data-glass-effect="liquid"] .az-ab,
-[data-glass-effect="liquid"] .pl-table-wrap,
-[data-glass-effect="liquid"] .cmp-table-wrap,
-[data-glass-effect="liquid"] .cb-table-block,
-[data-glass-effect="liquid"] .cb-comparison--table,
-[data-glass-effect="liquid"] .az-form-surface,
 [data-glass-effect="liquid"] .pp-float-bar,
 [data-glass-effect="liquid"] .pp-side-toggle,
 [data-glass-effect="liquid"] .pp-panel,
@@ -187,32 +180,20 @@ html[data-effects-tier="light"][data-glass-effect="liquid"] {
  * dark footers read as solid grey slabs with no frost.
  */
 @supports (backdrop-filter: blur(1px)) {
-  [data-glass-effect="liquid"] .az-preset-surface,
-  [data-glass-effect="liquid"] .az-liquid-glass,
+    [data-glass-effect="liquid"] .az-liquid-glass,
   [data-glass-effect="liquid"] .az-liquid-glass-panel,
-  [data-glass-effect="liquid"] .az-section-atmosphere,
-  [data-glass-effect="liquid"] .header-root .site-header,
+    [data-glass-effect="liquid"] .header-root .site-header,
   [data-glass-effect="liquid"] .header-root.header--sticking .site-header,
   [data-glass-effect="liquid"] .mega-menu,
   [data-glass-effect="liquid"] [data-mega-menu]:not(.dropdown-menu),
   [data-glass-effect="liquid"] .dropdown-menu,
   [data-glass-effect="liquid"] .popup-floating-btn__button,
-  [data-glass-effect="liquid"] .fxs-theme,
-  [data-glass-effect="liquid"] .fxs-theme .fxs-card,
-  [data-glass-effect="liquid"] .fxs-theme .fxs-panel,
-  [data-glass-effect="liquid"] .schema-theme,
-  [data-glass-effect="liquid"] .dialog-content,
+          [data-glass-effect="liquid"] .dialog-content,
   [data-glass-effect="liquid"] .sheet-content,
   [data-glass-effect="liquid"] .popover-content,
   [data-glass-effect="liquid"] .dropdown-menu-content,
   [data-glass-effect="liquid"] .tooltip-content,
-  [data-glass-effect="liquid"] .az-ab,
-  [data-glass-effect="liquid"] .pl-table-wrap,
-  [data-glass-effect="liquid"] .cmp-table-wrap,
-  [data-glass-effect="liquid"] .cb-table-block,
-  [data-glass-effect="liquid"] .cb-comparison--table,
-  [data-glass-effect="liquid"] .az-form-surface,
-  [data-glass-effect="liquid"] .pp-float-bar,
+              [data-glass-effect="liquid"] .pp-float-bar,
   [data-glass-effect="liquid"] .pp-side-toggle,
   [data-glass-effect="liquid"] .pp-panel,
   [data-glass-effect="liquid"] .pp-root .pp-panel--docked,
@@ -226,32 +207,20 @@ html[data-effects-tier="light"][data-glass-effect="liquid"] {
 
 /* Safari legacy: webkit in its own rule so Lightning cannot collapse the pair. */
 @supports (-webkit-backdrop-filter: blur(1px)) {
-  [data-glass-effect="liquid"] .az-preset-surface,
-  [data-glass-effect="liquid"] .az-liquid-glass,
+    [data-glass-effect="liquid"] .az-liquid-glass,
   [data-glass-effect="liquid"] .az-liquid-glass-panel,
-  [data-glass-effect="liquid"] .az-section-atmosphere,
-  [data-glass-effect="liquid"] .header-root .site-header,
+    [data-glass-effect="liquid"] .header-root .site-header,
   [data-glass-effect="liquid"] .header-root.header--sticking .site-header,
   [data-glass-effect="liquid"] .mega-menu,
   [data-glass-effect="liquid"] [data-mega-menu]:not(.dropdown-menu),
   [data-glass-effect="liquid"] .dropdown-menu,
   [data-glass-effect="liquid"] .popup-floating-btn__button,
-  [data-glass-effect="liquid"] .fxs-theme,
-  [data-glass-effect="liquid"] .fxs-theme .fxs-card,
-  [data-glass-effect="liquid"] .fxs-theme .fxs-panel,
-  [data-glass-effect="liquid"] .schema-theme,
-  [data-glass-effect="liquid"] .dialog-content,
+          [data-glass-effect="liquid"] .dialog-content,
   [data-glass-effect="liquid"] .sheet-content,
   [data-glass-effect="liquid"] .popover-content,
   [data-glass-effect="liquid"] .dropdown-menu-content,
   [data-glass-effect="liquid"] .tooltip-content,
-  [data-glass-effect="liquid"] .az-ab,
-  [data-glass-effect="liquid"] .pl-table-wrap,
-  [data-glass-effect="liquid"] .cmp-table-wrap,
-  [data-glass-effect="liquid"] .cb-table-block,
-  [data-glass-effect="liquid"] .cb-comparison--table,
-  [data-glass-effect="liquid"] .az-form-surface,
-  [data-glass-effect="liquid"] .pp-float-bar,
+              [data-glass-effect="liquid"] .pp-float-bar,
   [data-glass-effect="liquid"] .pp-side-toggle,
   [data-glass-effect="liquid"] .pp-panel,
   [data-glass-effect="liquid"] .pp-root .pp-panel--docked,
@@ -265,32 +234,20 @@ html[data-effects-tier="light"][data-glass-effect="liquid"] {
 
 /* Optional SVG refraction — unprefixed only so Lightning cannot webkit-strip blur. */
 @supports (backdrop-filter: url(#liquid-refraction)) {
-  [data-glass-effect="liquid"] .az-preset-surface,
-  [data-glass-effect="liquid"] .az-liquid-glass,
+    [data-glass-effect="liquid"] .az-liquid-glass,
   [data-glass-effect="liquid"] .az-liquid-glass-panel,
-  [data-glass-effect="liquid"] .az-section-atmosphere,
-  [data-glass-effect="liquid"] .header-root .site-header,
+    [data-glass-effect="liquid"] .header-root .site-header,
   [data-glass-effect="liquid"] .header-root.header--sticking .site-header,
   [data-glass-effect="liquid"] .mega-menu,
   [data-glass-effect="liquid"] [data-mega-menu]:not(.dropdown-menu),
   [data-glass-effect="liquid"] .dropdown-menu,
   [data-glass-effect="liquid"] .popup-floating-btn__button,
-  [data-glass-effect="liquid"] .fxs-theme,
-  [data-glass-effect="liquid"] .fxs-theme .fxs-card,
-  [data-glass-effect="liquid"] .fxs-theme .fxs-panel,
-  [data-glass-effect="liquid"] .schema-theme,
-  [data-glass-effect="liquid"] .dialog-content,
+          [data-glass-effect="liquid"] .dialog-content,
   [data-glass-effect="liquid"] .sheet-content,
   [data-glass-effect="liquid"] .popover-content,
   [data-glass-effect="liquid"] .dropdown-menu-content,
   [data-glass-effect="liquid"] .tooltip-content,
-  [data-glass-effect="liquid"] .az-ab,
-  [data-glass-effect="liquid"] .pl-table-wrap,
-  [data-glass-effect="liquid"] .cmp-table-wrap,
-  [data-glass-effect="liquid"] .cb-table-block,
-  [data-glass-effect="liquid"] .cb-comparison--table,
-  [data-glass-effect="liquid"] .az-form-surface,
-  [data-glass-effect="liquid"] .pp-float-bar,
+              [data-glass-effect="liquid"] .pp-float-bar,
   [data-glass-effect="liquid"] .pp-side-toggle,
   [data-glass-effect="liquid"] .pp-panel,
   [data-glass-effect="liquid"] .pp-root .pp-panel--docked,
@@ -633,9 +590,6 @@ html[data-theme="dark"][data-glass-effect="liquid"] .popup-promo {
 /* Safe paint containment on frosted cards/tables — never on header/menus/popups */
 [data-glass-effect="liquid"] .az-card,
 [data-glass-effect="liquid"] .card,
-[data-glass-effect="liquid"] .az-preset-surface,
-[data-glass-effect="liquid"] .pl-table-wrap,
-[data-glass-effect="liquid"] .cmp-table-wrap,
 [data-glass-effect="liquid"] .cb-table-block {
   contain: paint;
 }
@@ -797,17 +751,15 @@ html[data-theme="dark"][data-glass-effect="liquid"] .site-footer.bg-foreground >
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  [data-glass-effect="liquid"] .az-preset-surface,
-  [data-glass-effect="liquid"] .header-root .site-header,
+    [data-glass-effect="liquid"] .header-root .site-header,
   [data-glass-effect="liquid"] .mega-menu,
   [data-glass-effect="liquid"] .dropdown-menu,
-  [data-glass-effect="liquid"] .fxs-theme,
-  [data-glass-effect="liquid"] .pp-float-bar,
+    [data-glass-effect="liquid"] .pp-float-bar,
   [data-glass-effect="liquid"] #theme-toggle {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: var(--card, var(--background)) !important;
-    background-color: var(--card, var(--background)) !important;
+    background: var(--az-site-glass-tint, var(--card, var(--background))) !important;
+    background-color: var(--az-site-glass-tint, var(--card, var(--background))) !important;
     background-image: none !important;
   }
 
@@ -860,26 +812,26 @@ html[data-theme="dark"][data-glass-effect="liquid"] .site-footer.bg-foreground >
   }
 }
 
-html[data-reduced-paint="true"][data-glass-effect="liquid"] .az-preset-surface,
 html[data-reduced-paint="true"][data-glass-effect="liquid"] .header-root .site-header,
 html[data-reduced-paint="true"][data-glass-effect="liquid"] .mega-menu,
 html[data-reduced-paint="true"][data-glass-effect="liquid"] .dropdown-menu,
-html[data-reduced-paint="true"][data-glass-effect="liquid"] .fxs-theme,
 html[data-reduced-paint="true"][data-glass-effect="liquid"] .pp-float-bar,
 html[data-reduced-paint="true"][data-glass-effect="liquid"] #theme-toggle,
 html[data-reduced-paint="true"][data-glass-effect="liquid"] .site-footer,
 html[data-reduced-paint="true"][data-glass-effect="liquid"] .site-footer-shell {
   backdrop-filter: blur(10px) !important;
-  background: color-mix(in srgb, var(--card, var(--background)) 72%, transparent) !important;
+  background: color-mix(
+    in srgb,
+    var(--az-site-glass-tint, var(--card, var(--background))) 72%,
+    transparent
+  ) !important;
   background-image: none !important;
 }
 
 @supports (backdrop-filter: url(#liquid-refraction)) {
-  html[data-reduced-paint="true"][data-glass-effect="liquid"] .az-preset-surface,
   html[data-reduced-paint="true"][data-glass-effect="liquid"] .header-root .site-header,
   html[data-reduced-paint="true"][data-glass-effect="liquid"] .mega-menu,
   html[data-reduced-paint="true"][data-glass-effect="liquid"] .dropdown-menu,
-  html[data-reduced-paint="true"][data-glass-effect="liquid"] .fxs-theme,
   html[data-reduced-paint="true"][data-glass-effect="liquid"] .pp-float-bar,
   html[data-reduced-paint="true"][data-glass-effect="liquid"] #theme-toggle,
   html[data-reduced-paint="true"][data-glass-effect="liquid"] .site-footer,
@@ -1022,8 +974,8 @@ html[data-reduced-paint="true"][data-glass-effect="liquid"] .pp-float-bar::after
   .mnav-portal-root .mnav-panel,
   .sm-search-panel,
   .sm-search-root.sm-search-panel {
-    background: var(--card, var(--background)) !important;
-    background-color: var(--card, var(--background)) !important;
+    background: var(--az-site-glass-tint, var(--card, var(--background))) !important;
+    background-color: var(--az-site-glass-tint, var(--card, var(--background))) !important;
     background-image: none !important;
     border: 1px solid var(--foreground, CanvasText) !important;
     backdrop-filter: none !important;

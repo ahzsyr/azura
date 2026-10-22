@@ -108,6 +108,10 @@ export default async function RootLayout({ children }: Props) {
     appearance.resolved === "dark"
       ? chromeProjection.themeColorDark
       : chromeProjection.themeColorLight;
+  const bootGlassTint =
+    appearance.resolved === "dark"
+      ? chromeProjection.glassTintDark
+      : chromeProjection.glassTintLight;
   const bootScript = generateThemeBootInlineScript(chromeProjection, {
     glassEffect: glassBoot,
   });
@@ -119,8 +123,10 @@ export default async function RootLayout({ children }: Props) {
       : chromeProjection.chromeGradientLight || chromeProjection.chromeGradientDark;
   const htmlChromeStyle = {
     [SAFARI_CHROME_TINT_VAR]: bootChromeColor,
-    [SITE_GLASS_TINT_VAR]: bootChromeColor,
+    // Surface-role glass fill — distinct from OS theme-color / page canvas.
+    [SITE_GLASS_TINT_VAR]: bootGlassTint,
     [CHROME_TINT_OPACITY_VAR]: String(chromeProjection.chromeTintOpacity),
+    "--az-site-glass-fill-alpha": String(glassBoot.opacity),
     ...(chromeProjection.chromeGradientLight
       ? { "--az-browser-chrome-gradient-light": chromeProjection.chromeGradientLight }
       : {}),

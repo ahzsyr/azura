@@ -74,6 +74,13 @@ describe("browser-chrome-projection", () => {
     assert.equal(activeBrowserThemeColor(p, "light"), p.themeColorLight);
     assert.equal(activeBrowserThemeColor(p, "dark"), p.themeColorDark);
   });
+
+  it("exposes appearance-aware glass tint distinct from theme-color", () => {
+    const p = BROWSER_CHROME_FALLBACK;
+    assert.ok(p.glassTintLight);
+    assert.ok(p.glassTintDark);
+    assert.notEqual(p.glassTintLight.toLowerCase(), p.themeColorLight.toLowerCase());
+  });
 });
 
 describe("buildThemeState", () => {

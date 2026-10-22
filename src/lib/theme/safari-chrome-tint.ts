@@ -10,7 +10,9 @@ export const SAFARI_CHROME_TINT_LIGHT_VAR = "--az-browser-chrome-tint-light";
 export const SAFARI_CHROME_TINT_DARK_VAR = "--az-browser-chrome-tint-dark";
 /** Active chrome tint fed into site Liquid Glass header/footer fills. */
 export const SITE_GLASS_TINT_VAR = "--az-site-glass-tint";
-/** Fill strength 0–1 for transparent/glass chrome styles. */
+/** Site glass fill alpha 0–1 (Liquid Glass / header capsule — not OS chrome). */
+export const SITE_GLASS_FILL_ALPHA_VAR = "--az-site-glass-fill-alpha";
+/** Fill strength 0–1 for transparent/glass chrome styles (OS / Theme Studio meta). */
 export const CHROME_TINT_OPACITY_VAR = "--az-chrome-tint-opacity";
 /** Active CSS gradient when chromeTintStyle is gradient. */
 export const CHROME_GRADIENT_VAR = "--az-browser-chrome-gradient";
@@ -107,21 +109,8 @@ export function syncSafariChromeTint(
 
   if (typeof options?.chromeTintOpacity === "number") {
     const opacity = Math.min(1, Math.max(0, options.chromeTintOpacity));
+    // OS / Theme Studio chrome opacity only — do not restyle site header fill.
     setRootVar(root, CHROME_TINT_OPACITY_VAR, String(opacity));
-    // Drive shared chrome mix from style opacity (header-builder consumes it).
-    if (style === "transparent" || style === "glass") {
-      setRootVar(root, "--az-chrome-tint-mix", String(opacity));
-      setRootVar(root, "--az-chrome-tint-mix-sticky", String(Math.min(1, opacity + 0.08)));
-      setRootVar(
-        root,
-        "--az-chrome-tint-mix-mobile",
-        String(Math.min(1, opacity + 0.06)),
-      );
-    } else if (style === "solid" || style === "gradient") {
-      setRootVar(root, "--az-chrome-tint-mix", "1");
-      setRootVar(root, "--az-chrome-tint-mix-sticky", "1");
-      setRootVar(root, "--az-chrome-tint-mix-mobile", "1");
-    }
   }
 
   const gradLight = options?.chromeGradientLight?.trim() || "";

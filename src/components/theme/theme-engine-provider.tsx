@@ -57,6 +57,7 @@ import {
 } from "@/features/theme/visual-effects-coordinator";
 import { invalidateThemeStorageReadCache } from "@/features/theme/engine/storage-read-cache";
 import {
+  activeBrowserGlassTint,
   activeBrowserThemeColor,
   resolveBrowserProjection,
 } from "@/lib/theme/browser-chrome-projection";
@@ -301,13 +302,19 @@ export function ThemeEngineProvider({
         scroll,
       });
       // Scroll may retint Safari anchors; header/footer glass stays on the
-      // projection surface so status-bar samples don't wash the chrome capsule.
+      // surface-role tint (never page canvas / scroll sample).
+      let glassTint = activeBrowserGlassTint(projection, resolved);
+      if (resolved === "dark" && isLightBackground(glassTint)) {
+        glassTint = projection.glassTintDark;
+      } else if (resolved === "light" && !isLightBackground(glassTint)) {
+        glassTint = projection.glassTintLight;
+      }
       syncThemeColorMeta(resolved, {
         mode,
         color,
         lightColor,
         darkColor,
-        glassTint: baseActiveColor,
+        glassTint,
         chromeTintStyle: projection.chromeTintStyle,
         chromeTintOpacity: projection.chromeTintOpacity,
         chromeGradientLight: projection.chromeGradientLight,

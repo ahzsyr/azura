@@ -41,6 +41,10 @@ export function buildEffectSettingsCssVarEntries(
       "--glass-effect-opacity",
       String(resolved.glassEffectSettings?.opacity ?? 0.45),
     ],
+    [
+      "--az-site-glass-fill-alpha",
+      String(resolved.glassEffectSettings?.opacity ?? 0.45),
+    ],
   ];
 
   if (cursor.colors?.primary) {

@@ -70,6 +70,8 @@ export type ThemeBootPayload = {
     | "chromeTintOpacity"
     | "chromeGradientLight"
     | "chromeGradientDark"
+    | "glassTintLight"
+    | "glassTintDark"
   >;
   /** Site Liquid Glass — SSR attr + vars before React mounts the controller. */
   glassEffect: ThemeBootGlassPayload;
@@ -114,6 +116,8 @@ export function buildThemeBootPayload(
       chromeTintOpacity: projection.chromeTintOpacity,
       chromeGradientLight: projection.chromeGradientLight,
       chromeGradientDark: projection.chromeGradientDark,
+      glassTintLight: projection.glassTintLight,
+      glassTintDark: projection.glassTintDark,
     },
     glassEffect: {
       enabled: glass.enabled === true,
@@ -144,6 +148,8 @@ export function generateThemeBootInlineScript(
   const payload = buildThemeBootPayload(projection, options);
   const light = JSON.stringify(projection.themeColorLight);
   const dark = JSON.stringify(projection.themeColorDark);
+  const glassLight = JSON.stringify(projection.glassTintLight);
+  const glassDark = JSON.stringify(projection.glassTintDark);
   return `window.__AZ_THEME_BOOT=${JSON.stringify(payload)};
 (function(){try{
   var boot=window.__AZ_THEME_BOOT||{};
@@ -156,14 +162,18 @@ export function generateThemeBootInlineScript(
   if(ssr!=="dark"&&ssr!=="light")ssr="light";
   root.setAttribute("data-ssr-theme",ssr);
   var color=ssr==="dark"?(proj.themeColorDark||${dark}):(proj.themeColorLight||${light});
+  // Site glass fill is a surface-role tint — never mirror OS theme-color / page canvas.
+  var glassTint=ssr==="dark"?(proj.glassTintDark||${glassDark}):(proj.glassTintLight||${glassLight});
   if(color){
     root.style.setProperty("--az-browser-chrome-tint",color);
-    root.style.setProperty("--az-site-glass-tint",color);
     root.style.colorScheme=ssr;
     var top=document.getElementById("az-safari-chrome-top");
     var bottom=document.getElementById("az-safari-chrome-bottom");
     if(top)top.style.backgroundColor=color;
     if(bottom)bottom.style.backgroundColor=color;
+  }
+  if(glassTint){
+    root.style.setProperty("--az-site-glass-tint",glassTint);
   }
   var tintStyle=proj.chromeTintStyle||"glass";
   if(tintStyle==="transparent"||tintStyle==="glass"||tintStyle==="solid"||tintStyle==="gradient"){
@@ -172,15 +182,8 @@ export function generateThemeBootInlineScript(
   var tintOp=typeof proj.chromeTintOpacity==="number"?proj.chromeTintOpacity:0.7;
   if(tintOp<0)tintOp=0;if(tintOp>1)tintOp=1;
   root.style.setProperty("--az-chrome-tint-opacity",String(tintOp));
-  if(tintStyle==="transparent"||tintStyle==="glass"){
-    root.style.setProperty("--az-chrome-tint-mix",String(tintOp));
-    root.style.setProperty("--az-chrome-tint-mix-sticky",String(Math.min(1,tintOp+0.08)));
-    root.style.setProperty("--az-chrome-tint-mix-mobile",String(Math.min(1,tintOp+0.06)));
-  }else if(tintStyle==="solid"||tintStyle==="gradient"){
-    root.style.setProperty("--az-chrome-tint-mix","1");
-    root.style.setProperty("--az-chrome-tint-mix-sticky","1");
-    root.style.setProperty("--az-chrome-tint-mix-mobile","1");
-  }
+  // Do NOT write --az-chrome-tint-mix from browser opacity — site header fill
+  // uses --az-site-glass-fill-alpha / CSS data-chrome-tint-style rules only.
   var gLight=proj.chromeGradientLight||"";
   var gDark=proj.chromeGradientDark||"";
   if(gLight)root.style.setProperty("--az-browser-chrome-gradient-light",gLight);
@@ -194,6 +197,7 @@ export function generateThemeBootInlineScript(
   var go=typeof glass.opacity==="number"?glass.opacity:0.45;
   root.style.setProperty("--glass-effect-intensity",String(gi));
   root.style.setProperty("--glass-effect-opacity",String(go));
+  root.style.setProperty("--az-site-glass-fill-alpha",String(go));
   window.setTimeout(function(){try{if(!root.classList.contains("site-preloading-done")){root.classList.add("site-preloading-done");root.classList.remove("site-preloading");}}catch(e){}},${PRELOADER_HARD_CAP_MS});
 }catch(e){}})();
 ${readThemeInitSource()}`;
