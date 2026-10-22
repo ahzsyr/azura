@@ -5,6 +5,7 @@
 @import "../styles/preset-visuals.css";
 @import "../styles/site-backgrounds.css";
 @import "../styles/safari-chrome-tint.css";
+@import "../styles/edge-to-edge.css";
 @import "../styles/visual-enhancements.css";
 @import "../styles/arabic-typography.css";
 @import "../styles/themed-scrollbars.css" layer(utilities);

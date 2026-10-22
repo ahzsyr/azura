@@ -1317,7 +1317,15 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
     );
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  /* Edge-to-edge: the bar stretches into the device safe area instead of being
+     pushed down by it, so the status-bar slots sit on the bar's own surface and
+     the bar+system edge read as one surface. box-sizing keeps the total height
+     unchanged; the content row stays below the cutout. */
+  .header-root[data-edge-to-edge]:not([data-edge-to-edge="off"]) .site-header {
+    box-sizing: border-box;
+    padding-top: var(--az-safe-top, env(safe-area-inset-top, 0px));
   }
 
   .header-root[data-mobile-flush-top="true"] .site-header {

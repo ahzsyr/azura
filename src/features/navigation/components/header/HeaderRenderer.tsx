@@ -47,6 +47,8 @@ interface Props {
     showCta?: boolean;
     showNav?: boolean;
     sticky?: boolean;
+    /** Page content passes under the bar + safe-area padding (default on). */
+    edgeToEdge?: boolean;
   };
   enabledLocales?: PublicLocale[];
 }
@@ -127,6 +129,7 @@ export function HeaderRenderer({
     surface,
     themePreset,
     sticky: headerConfig?.sticky,
+    edgeToEdge: headerConfig?.edgeToEdge,
   });
   const mobileMenuAppearance = resolveMobileMenuAppearance(settings);
   const iconVisibility = resolveNavIconVisibility(settings);

@@ -16,6 +16,8 @@ type Props = {
   enabledLocales?: PublicLocale[];
   themePreset?: string;
   headerConfig?: HeaderThemeConfig;
+  /** Page content passes under the bar + safe-area padding. Default on. */
+  edgeToEdge?: boolean;
 };
 
 export function SiteHeader({
@@ -25,6 +27,7 @@ export function SiteHeader({
   enabledLocales,
   themePreset,
   headerConfig,
+  edgeToEdge = true,
 }: Props) {
   useLayoutEffect(() => {
     setWorkspace(workspace);
@@ -52,6 +55,7 @@ export function SiteHeader({
           showCta: headerConfig?.showCta,
           sticky: headerConfig?.sticky,
           showNav: headerConfig?.showNav,
+          edgeToEdge,
         }}
       />
       {headerConfig?.showSearch !== false && <DeferredSearchCommand />}

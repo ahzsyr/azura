@@ -122,6 +122,12 @@ export const mobileBrowserConfigSchema = z
     browserThemeColorDark: z.string().nullable().optional(),
     browserBackgroundColor: z.string().nullable().optional(),
     iosStatusBarStyle: iosStatusBarStyleSchema.optional(),
+    /**
+     * Page content passes under the site bar (like a native browser scroll edge)
+     * and the bar is padded into the device safe area. The bar's own design,
+     * radius and spacing are not affected. Default on.
+     */
+    edgeToEdge: z.boolean().default(true),
   })
   .default({});
 

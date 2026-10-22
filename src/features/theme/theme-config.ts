@@ -207,6 +207,8 @@ export function parseMobileBrowserConfig(raw: unknown): MobileBrowserConfig {
       typeof iosStyle === "string" && VALID_IOS_STATUS_BAR_STYLES.includes(iosStyle as IosStatusBarStyle)
         ? (iosStyle as IosStatusBarStyle)
         : "black-translucent",
+    // Absent in older saved themes → default on (matches the schema default).
+    edgeToEdge: r.edgeToEdge !== false,
   };
 }
 

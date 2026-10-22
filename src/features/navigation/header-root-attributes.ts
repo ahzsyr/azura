@@ -13,6 +13,25 @@ import {
 
 export type HeaderRootSurface = "site" | "preview";
 
+/**
+ * Edge-to-edge behaviour: page content passes under the bar and the bar is
+ * padded into the device safe area. Purely additive — the bar's design,
+ * radius, gap and borders are untouched (owned by edge-to-edge.css).
+ *   on   – content underlay + safe-area padding (default)
+ *   edge – safe-area padding, no content underlay
+ *   off  – legacy static layout
+ * Preview surfaces never opt in (the studio must show the static design).
+ */
+export type EdgeToEdgeMode = "on" | "edge" | "off";
+
+export function resolveEdgeToEdgeMode(args: {
+  requested?: boolean | null;
+  isPreview: boolean;
+}): EdgeToEdgeMode {
+  if (args.isPreview) return "off";
+  return args.requested === false ? "off" : "on";
+}
+
 export function isWorkspaceOverlayMode(
   overlayMode?: HeaderWorkspace["settings"]["overlayMode"],
 ): boolean {
@@ -25,6 +44,7 @@ export function buildHeaderRootPresentation(args: {
   themePreset?: string;
   sticky?: boolean;
   shellPlaceholder?: boolean;
+  edgeToEdge?: boolean;
 }): {
   id?: string;
   className: string;
@@ -67,6 +87,11 @@ export function buildHeaderRootPresentation(args: {
       "data-mobile-nav-animation": mobileMenuAppearance.animation,
       "data-mobile-nav-density": settings.mobileNavDensity ?? "comfortable",
       "data-header-desktop": desktopModeForLayout,
+      // Edge-to-edge (content under bar + safe areas). Never on preview surfaces.
+      "data-edge-to-edge": resolveEdgeToEdgeMode({
+        requested: args.edgeToEdge,
+        isPreview,
+      }),
       "data-header-radius": settings.headerBorderRadius ?? "lg",
       "data-mobile-boxed-sticky": settings.mobileBoxedSticky === true ? "true" : "false",
       // Boxed on always keeps the floating top gap; flush only applies when boxed is off.

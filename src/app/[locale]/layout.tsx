@@ -20,6 +20,7 @@ import {
   ThemePerformanceMonitorDeferred,
 } from "@/components/layout/marketing-shell-deferred";
 import { DocumentAttributes } from "@/components/layout/document-attributes";
+import { ChromeEdgeLayers } from "@/components/layout/chrome-edge-layers";
 import { LocaleBootClient } from "@/components/layout/locale-boot-client";
 import { buildLocaleBootPayload } from "@/lib/locale-boot/locale-boot-payload";
 import { ThemeProvider } from "@/components/theme/theme-provider";
@@ -193,6 +194,10 @@ export default async function LocaleLayout({ children, params }: Props) {
     <div className="site-shell flex min-h-full flex-col" dir={shell.direction}>
       <CmsDraftPreviewBanner />
       <AdminPreviewBar />
+      {/* Edge-to-edge: OS-edge tint band + scroll edge fade, content under bar. */}
+      <Suspense fallback={null}>
+        <ChromeEdgeLayers />
+      </Suspense>
       <LocaleBootClient payload={localeBootPayload} />
       <PreloaderBootScript
         active={preloaderActive}
@@ -232,6 +237,8 @@ export default async function LocaleLayout({ children, params }: Props) {
               enabledLocales={shell.enabledLocales}
               themePreset={shell.theme?.preset}
               headerConfig={shell.theme?.headerConfig}
+              // Content under bar + safe-area padding (Theme Studio opt-out).
+              edgeToEdge={shell.theme?.mobileBrowserConfig?.edgeToEdge !== false}
             />
           </SiteChromeGate>
           <main className="site-main flex-1">

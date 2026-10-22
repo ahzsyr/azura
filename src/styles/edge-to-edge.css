@@ -1,0 +1,282 @@
+/**
+ * Edge-to-edge browser experience — chrome styles, safe areas, scroll edge.
+ *
+ * Goal: the page behaves like it does inside a native browser (Bayut-style):
+ * page content passes UNDER the site bar, the bar is padded into the device
+ * safe areas, and the OS edge (status bar / iOS home indicator, Android
+ * navigation bar) is tinted by the SAME colour as the chrome, so the site bar
+ * and the system edge read as one surface.
+ *
+ * Hard constraints (product decision, this task):
+ * - The header's design must NOT change: floating capsule / boxed look,
+ *   radius, gap, borders, shadows, specular layer and nav layout stay exactly
+ *   as authored. This file only owns what happens BEHIND and BELOW the bar.
+ * - Solid and gradient styles are opaque by definition and pass the
+ *   luminance rule: the glass effect never overrides their fill.
+ *
+ * Activation:
+ * - `.header-root` carries `data-edge-to-edge="on" | "off" | "edge"`.
+ *   "on" (default) = edge-to-edge. "edge" = full-bleed bar that still takes
+ *   the safe-area padding. "off" = legacy static layout (no underlay).
+ * - `html[data-az-motion="reduce"]` (written by effects-runtime from the
+ *   Reduce Motion setting) drops the fade transition but keeps the underlay.
+ *
+ * Paint order created here (z-index): chrome tint zone 2 → header 100 →
+ * scroll fade layer 1 → content 0. Higher wins.
+ */
+
+/* ── 1. Safe-area contract ────────────────────────────────────────────────
+ * Devices without cutouts resolve env() to 0px, so everything below is a
+ * no-op there. --az-safe-top is the union of the hardware safe area and any
+ * CSS-driven top-browser inset (e.g. Android edge-to-edge status bar). */
+:root {
+  --az-safe-top: env(safe-area-inset-top, 0px);
+  --az-safe-bottom: env(safe-area-inset-bottom, 0px);
+  /* Extra room below the bar before content text can reach it. */
+  --az-chrome-content-gap: 16px;
+  /* Scroll-edge fade depth; must not exceed the underlay reveal height. */
+  --az-chrome-fade-size: clamp(28px, calc(var(--az-safe-top, 0px) + 36px), 72px);
+}
+
+/* ── 2. Content under the bar ─────────────────────────────────────────────
+ * Desktop: the header keeps its floating look because the root already paints
+ * a transparent band with its own padding (site-glass-effect floating chrome).
+ * Pulling .site-main up by exactly that band puts content under the capsule
+ * without moving the capsule by a single pixel.
+ *
+ * Mobile: the bar is in normal flow. Pull the root of the page stack up by the
+ * measured bar height (--header-height is published by HeaderDesktopBehavior)
+ * and re-add the reserved area as padding on that root, so the layout height
+ * is identical to today and only the paint order changes.
+ *
+ * NOTE: no `:has()` here. Chromium 155 fails to match `:has()` when a
+ * descendant combinator appears inside the parentheses
+ * (`html:has(X Y)` never matches), which silently disabled these rules.
+ * Attribute-on-ancestor descendant selectors are used instead. */
+.header-root[data-edge-to-edge="on"] ~ .site-main {
+  position: relative;
+  /* Paint order: content passes UNDER the bar (bar z-index 100). The fixed
+   * chrome layers live at z 2 (OS edge band) and z 40 (scroll edge fade). */
+  z-index: 0;
+  margin-top: calc(-1 * var(--az-chrome-band, 0px));
+}
+
+@media (max-width: 968px) {
+  .header-root[data-edge-to-edge="on"] ~ .site-main {
+    /* Bar height plus the device safe area, measured, never guessed. */
+    margin-top: calc(-1 * (var(--header-height, 88px) + var(--az-safe-top, 0px)));
+  }
+
+  /* The page stack root reserves the bar's space. Applied to the stack wrapper
+     only (marketing root / route layer), never to an individual design block,
+     so block geometry is untouched. */
+  [data-az-underlay="true"] {
+    padding-top: calc(var(--header-height, 88px) + var(--az-safe-top, 0px));
+  }
+
+  /* Keep the ambient wash off the safe area so the system edge samples the
+     tint projection, not a gradient. */
+  body::before {
+    top: var(--az-safe-top, 0px);
+  }
+}
+
+/* Opt-out (Theme Studio) and static header modes: no underlay. Scoped to the
+ * header root's sibling so it can never override the `="on"` rule above (both
+ * carry equal specificity; source order would otherwise decide). */
+.header-root[data-edge-to-edge="off"] ~ .site-main {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+[data-edge-to-edge="off"] .az-chrome-tint-zone,
+[data-edge-to-edge="off"] .az-chrome-scroll-edge {
+  display: none;
+}
+
+/* Overlay / absolute / fixed header modes sit at the viewport top, under the
+ * status bar, so the root needs the safe-area padding (the floating inset
+ * already exists and is never reduced). The in-flow sticky / static modes put
+ * the bar below the status bar naturally and must not be shifted. */
+@media (max-width: 968px) {
+  .header-root[data-header-overlay="true"][data-edge-to-edge]:not([data-edge-to-edge="off"]),
+  .header-root[data-header-desktop="fixed-top"][data-edge-to-edge]:not([data-edge-to-edge="off"]),
+  .header-root[data-header-desktop="hide-reveal"][data-edge-to-edge]:not([data-edge-to-edge="off"]),
+  .header-root[data-header-desktop="absolute"][data-edge-to-edge]:not([data-edge-to-edge="off"]) {
+    padding-top: var(--az-safe-top, 0px);
+  }
+}
+
+/* ── 3. Scroll edge effect ────────────────────────────────────────────────
+ * Content passes under the bar, so the moment it reaches the bar it must fade
+ * instead of colliding with it (Apple scroll edge effect). A fixed layer under
+ * the header draws a gradient from the surface colour to transparent. */
+.az-chrome-scroll-edge {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--az-safe-top, 0px) + var(--az-chrome-fade-size));
+  z-index: 40;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    var(--az-chrome-fade-color, var(--bg-primary, var(--background))) 0%,
+    color-mix(in srgb, var(--az-chrome-fade-color, var(--bg-primary, var(--background))) 55%, transparent) 55%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+/* Fade in only when the scroll position is past the point where the first
+ * content can reach the bar. Kept as a class toggled by ScrollEdgeFade, which
+ * also avoids a repaint per scroll frame. */
+.az-chrome-scroll-edge[data-reveal="true"] {
+  opacity: 1;
+}
+
+/* Glass and transparent styles already give the bar a real backdrop; the fade
+ * there only has to bridge into the safe area, so it stays lighter. */
+html[data-chrome-tint-style="glass"] .az-chrome-scroll-edge,
+html[data-chrome-tint-style="transparent"] .az-chrome-scroll-edge {
+  --az-chrome-fade-size: calc(var(--az-safe-top, 0px) + 28px);
+}
+
+/* Opaque styles get a slightly longer fade so content never touches a hard
+ * fill edge. */
+html[data-chrome-tint-style="solid"] .az-chrome-scroll-edge,
+html[data-chrome-tint-style="gradient"] .az-chrome-scroll-edge {
+  --az-chrome-fade-size: calc(var(--az-safe-top, 0px) + 40px);
+}
+
+/* ── 4. Chrome tint zone (OS edge colour) ─────────────────────────────────
+ * A full-bleed band pinned under the bar that paints the SAME colour the OS
+ * chrome is projected (--az-browser-chrome-tint) through the active style,
+ * so status bar / iOS home indicator / Android nav bar sit on the page's own
+ * tint instead of the raw document. Sits below the header (z 2 < 100) and is
+ * transparent to pointers. */
+.az-chrome-tint-zone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--az-safe-top, 0px);
+  z-index: 2;
+  pointer-events: none;
+  background-color: var(--az-site-glass-tint, var(--az-browser-chrome-tint, var(--background)));
+}
+
+/* No cutout → no band to tint. */
+@media (max-width: 968px) {
+  .az-chrome-tint-zone {
+    height: 0;
+  }
+}
+
+/* ── 5. Style contract for the bar fill ───────────────────────────────────
+ * The liquid-glass sheet applies one fill to every glass surface. These rules
+ * restore the meaning of the four chrome styles on the bar, using the tokens
+ * the Theme Studio already resolves. Specificity is intentionally higher than
+ * [data-glass-effect="liquid"] .header-root .site-header. */
+
+/* Solid: opaque surface (luminance-safe). Uses the appearance-aware glass tint
+ * (dark values in dark appearance), not the OS theme-color projection, which
+ * is a single light hex. */
+html[data-chrome-tint-style="solid"][data-glass-effect="liquid"]
+  .header-root .site-header {
+  background: var(--az-site-glass-tint, var(--az-browser-chrome-tint)) !important;
+  background-color: var(--az-site-glass-tint, var(--az-browser-chrome-tint)) !important;
+  backdrop-filter: none !important;
+}
+
+/* Gradient: opaque preset gradient, same stops the OS projection uses. */
+html[data-chrome-tint-style="gradient"][data-glass-effect="liquid"]
+  .header-root .site-header {
+  background: var(
+    --az-browser-chrome-gradient,
+    linear-gradient(
+      135deg,
+      var(--primary, #047857),
+      var(--secondary, #d4af37)
+    )
+  ) !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+}
+
+/* Clear: the page shows through almost unchanged (fill strength 35% default). */
+html[data-chrome-tint-style="transparent"][data-glass-effect="liquid"]
+  .header-root .site-header {
+  backdrop-filter: blur(calc(var(--az-site-glass-blur) * 0.35))
+    saturate(var(--az-site-glass-saturate)) !important;
+}
+
+/* Glass: frost that keeps content perceptible while the bar stays readable. */
+html[data-chrome-tint-style="glass"][data-glass-effect="liquid"]
+  .header-root .site-header {
+  backdrop-filter: blur(var(--az-site-glass-blur, 20px))
+    saturate(var(--az-site-glass-saturate, 1.6)) !important;
+}
+
+/* ── 6. Accessibility fallbacks ───────────────────────────────────────────
+ * Reduce Transparency: the bar becomes opaque in its resolved surface colour;
+ * the scroll fade is no longer needed (nothing shows through) but the fade
+ * layer stays so the resting layout is identical.
+ * Increase Contrast: keeps the opaque surface and adds a visible edge. */
+/* Note: stylesheet rules inside this media block were NOT applied under
+ * Chromium's CDP media emulation (verified: the rule exists with
+ * backdrop-filter:none, an inline none on the same element works, and even
+ * prefers-contrast:more failed to apply). Test on a real device / OS setting.
+ * The block is authored per spec and mirrors the existing
+ * prefers-reduced-transparency handling in site-glass-effect.css. */
+@media (prefers-reduced-transparency: reduce) {
+  /* Also covers a glass effect that is toggled off: the style rules above are
+   * scoped to [data-glass-effect="liquid"], this one is not. */
+  html[data-chrome-tint-style] .header-root .site-header {
+    background: var(--az-site-glass-tint, var(--card, var(--background))) !important;
+    background-color: var(--az-site-glass-tint, var(--card, var(--background))) !important;
+    background-image: none !important;
+    /* Unprefixed ONLY: the Lightning minifier collapses an unprefixed +
+       -webkit- pair into the webkit property alone, which Chromium ignores. */
+    backdrop-filter: none !important;
+  }
+
+  .az-chrome-scroll-edge {
+    opacity: 0 !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  [data-edge-to-edge="on"] .header-root .site-header {
+    outline: 1px solid var(--foreground, currentColor);
+    outline-offset: -1px;
+  }
+
+  .az-chrome-scroll-edge {
+    --az-chrome-fade-size: calc(var(--az-safe-top, 0px) + 64px);
+  }
+}
+
+/* Forced colors: system palette wins; no tint-only meaning. */
+@media (forced-colors: active) {
+  .az-chrome-tint-zone,
+  .az-chrome-scroll-edge {
+    display: none;
+  }
+}
+
+/* ── 7. Motion preference ─────────────────────────────────────────────────
+ * Reduce Motion (site setting → data-motion on <html>; "off" / "reduced")
+ * keeps the underlay but removes the fade transition so nothing animates
+ * while scrolling. */
+html[data-motion="off"] .az-chrome-scroll-edge,
+html[data-motion="reduced"] .az-chrome-scroll-edge {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .az-chrome-scroll-edge {
+    transition: none;
+  }
+}

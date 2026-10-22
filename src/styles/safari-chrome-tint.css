@@ -49,11 +49,14 @@
     display: block;
   }
 
-  /* Keep ambient wash off the sampling band */
+  /* Keep ambient wash off the sampling band: the wash starts below the top
+   * anchor and ends above the bottom anchor (the previous bottom: 8px left the
+   * wash covering an 8px strip at the foot of the viewport on every scroll
+   * position, including the very top where nothing may cover the bottom edge). */
   body::before {
     top: 2px;
     right: 0;
-    bottom: 8px;
+    bottom: max(12px, env(safe-area-inset-bottom, 0px));
     left: 0;
     inset: unset;
     height: auto;
@@ -62,6 +65,20 @@
   html,
   body {
     background-color: var(--bg-primary, var(--background));
+  }
+}
+
+/* Safari samples whatever is painted at the extreme bottom edge. In the resting
+ * (scroll 0) state, page-edge content such as the footer must not sit there:
+ * cut the page paint off at the bottom anchor so the sample is the tint
+ * projection instead of a sliver of footer. #az-page-paint is a dedicated
+ * wrapper rendered by the locale layout; without it the cut is harmless
+ * because .site-shell is transparent and body still paints. */
+@supports (font: -apple-system-body) {
+  #az-page-paint {
+    clip-path: inset(
+      0 0 max(12px, env(safe-area-inset-bottom, 0px)) 0
+    );
   }
 }
 

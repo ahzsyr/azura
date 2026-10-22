@@ -990,6 +990,7 @@ function MobileBrowserChromePreview({
   backgroundColor,
   chromeTintStyle,
   chromeTintOpacity,
+  chromeTintGlassOpacity,
   chromeGradientLight,
   chromeGradientDark,
 }: {
@@ -998,23 +999,36 @@ function MobileBrowserChromePreview({
   backgroundColor: string;
   chromeTintStyle: ChromeTintStyle;
   chromeTintOpacity: number;
+  chromeTintGlassOpacity: number;
   chromeGradientLight: string | null;
   chromeGradientDark: string | null;
 }) {
-  const chromeBackground = (
-    mode: "light" | "dark",
-    solid: string,
-  ): string => {
+  const glassOpacity = chromeTintGlassOpacity;
+  /**
+   * The browser's own toolbar is opaque theme-color; the material lives on the
+   * site bar and on the device edge band. The preview mirrors that split so a
+   * "Transparent" style is not shown as a translucent OS toolbar.
+   */
+  const edgeColor = (mode: "light" | "dark", solid: string): string => {
     if (chromeTintStyle === "gradient") {
       return (
         (mode === "dark" ? chromeGradientDark : chromeGradientLight) || solid
       );
     }
-    if (chromeTintStyle === "transparent" || chromeTintStyle === "glass") {
-      const pct = Math.round(chromeTintOpacity * 100);
-      return `color-mix(in srgb, ${solid} ${pct}%, transparent)`;
-    }
     return solid;
+  };
+
+  const barBackground = (mode: "light" | "dark", solid: string): string => {
+    if (chromeTintStyle === "gradient") {
+      return (
+        (mode === "dark" ? chromeGradientDark : chromeGradientLight) || solid
+      );
+    }
+    if (chromeTintStyle === "solid") return solid;
+    const pct = Math.round(
+      (chromeTintStyle === "glass" ? glassOpacity : chromeTintOpacity) * 100,
+    );
+    return `color-mix(in srgb, ${solid} ${pct}%, transparent)`;
   };
 
   return (
@@ -1036,17 +1050,24 @@ function MobileBrowserChromePreview({
         ] as const
       ).map(({ label, mode, chromeColor, bgColor }) => (
         <div key={label} className="overflow-hidden rounded-xl border shadow-sm">
+          {/* Device edge (status bar / home indicator) — the OS samples this colour. */}
+          <div
+            className="h-3"
+            style={{ background: edgeColor(mode, chromeColor) }}
+            aria-hidden
+          />
+          {/* Site bar: the only place the four styles change the material. */}
           <div
             className="flex items-center gap-2 px-3 py-2 text-xs"
             style={{
-              background: chromeBackground(mode, chromeColor),
+              background: barBackground(mode, chromeColor),
               backdropFilter:
-                chromeTintStyle === "glass"
-                  ? `blur(${8 + chromeTintOpacity * 16}px) saturate(1.35)`
+                chromeTintStyle === "glass" || chromeTintStyle === "transparent"
+                  ? `blur(${chromeTintStyle === "glass" ? 14 : 5}px) saturate(1.35)`
                   : undefined,
               WebkitBackdropFilter:
-                chromeTintStyle === "glass"
-                  ? `blur(${8 + chromeTintOpacity * 16}px) saturate(1.35)`
+                chromeTintStyle === "glass" || chromeTintStyle === "transparent"
+                  ? `blur(${chromeTintStyle === "glass" ? 14 : 5}px) saturate(1.35)`
                   : undefined,
             }}
           >
@@ -1080,6 +1101,7 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
     chromeTintStyle: "glass" as ChromeTintStyle,
     chromeTintOpacity: 0.35,
     chromeTintGlassOpacity: 0.7,
+    edgeToEdge: true,
     browserThemeColorLight: null,
     browserThemeColorDark: null,
     browserBackgroundColor: null,
@@ -1133,10 +1155,18 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
                 ]}
               />
               <p className="text-xs text-muted-foreground">
-                Transparent and glass keep content visible through the chrome.
-                Solid and gradient paint opaque fills from the active preset.
-                Light and dark each resolve separately. OS theme-color stays an
-                opaque hex approximation; CSS applies the real material.
+                Glass keeps the page perceptible through a frosted bar.
+                Transparent lets the page show through almost unchanged.
+                Solid and gradient paint an opaque bar from the active preset.
+                Light and dark each resolve separately.
+              </p>
+              <p className="text-xs text-muted-foreground">
+                The browser&apos;s own toolbar (address bar, tabs, bottom
+                toolbar) is drawn by the browser and is always an opaque
+                theme color — no website can make it translucent. Translucency
+                lives on the site bar, which the page scrolls beneath, and on
+                the device edge (status bar / home indicator) that shares the
+                same tint.
               </p>
 
               {tintStyle === "transparent" ? (
@@ -1224,6 +1254,25 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
           )}
 
           <div className="border-t pt-4">
+            <ThemeToggle
+              label="Edge-to-edge page"
+              description="Page content scrolls under the site bar and the bar stretches into the device safe area (status bar / home indicator), like a native browser. The bar's own shape, radius and spacing do not change. Turn off to keep the bar in its own space."
+              checked={config.edgeToEdge !== false}
+              onChange={(edgeToEdge) => setConfig({ edgeToEdge })}
+              searchTerms={[
+                "edge to edge",
+                "under",
+                "scroll",
+                "safe area",
+                "status bar",
+                "notch",
+                "home indicator",
+                "transparent bar",
+              ]}
+            />
+          </div>
+
+          <div className="border-t pt-4">
             <ThemeSelect
               label="iOS status bar style"
               value={config.iosStatusBarStyle ?? "black-translucent"}
@@ -1250,6 +1299,9 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
           backgroundColor={effective.backgroundColor}
           chromeTintStyle={effective.chromeTintStyle}
           chromeTintOpacity={effective.chromeTintOpacity}
+          chromeTintGlassOpacity={
+            state.mobileBrowserConfig?.chromeTintGlassOpacity ?? 0.7
+          }
           chromeGradientLight={effective.chromeGradientLight}
           chromeGradientDark={effective.chromeGradientDark}
         />
