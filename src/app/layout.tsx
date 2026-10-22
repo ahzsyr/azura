@@ -124,6 +124,7 @@ export default async function RootLayout({ children }: Props) {
       data-scroll-behavior="smooth"
       className={htmlClassName}
       data-theme={appearance.resolved}
+      data-ssr-theme={appearance.resolved}
       data-theme-mode={appearance.mode}
       {...themeHtmlProps}
       {...(reducedMotion

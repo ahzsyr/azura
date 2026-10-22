@@ -13,7 +13,10 @@
     stored = localStorage.getItem(modeKey);
   } catch (e) {}
   var ssrMode = root.getAttribute("data-theme-mode");
-  var ssrTheme = root.getAttribute("data-theme");
+  // Prefer data-ssr-theme frozen by the inline boot prefix — data-theme may have
+  // been overwritten historically; never treat a flipped value as SSR.
+  var ssrTheme =
+    root.getAttribute("data-ssr-theme") || root.getAttribute("data-theme");
   var resolved = ssrTheme === "dark" || ssrTheme === "light" ? ssrTheme : "light";
 
   /** IIFE-scoped. beforeInteractive runs once per document load. */
@@ -144,14 +147,18 @@
   /**
    * @param {string} browserColor Safari edge anchors / theme-color
    * @param {string} [glassColor] Header/footer glass — defaults to browserColor
+   * @param {string} [scheme] Explicit color-scheme — never use stored `resolved` here
+   *   (that flipped before first paint and caused #418).
    */
-  function paintSafariChromeTint(browserColor, glassColor) {
+  function paintSafariChromeTint(browserColor, glassColor, scheme) {
     if (!browserColor) return;
     try {
       var glass = glassColor || browserColor;
       root.style.setProperty("--az-browser-chrome-tint", browserColor);
       root.style.setProperty("--az-site-glass-tint", glass);
-      root.style.colorScheme = resolved === "dark" ? "dark" : "light";
+      if (scheme === "dark" || scheme === "light") {
+        root.style.colorScheme = scheme;
+      }
       function paintExistingTint(id) {
         var el = document.getElementById(id);
         if (!el || !el.style) return;
@@ -172,12 +179,11 @@
   function syncThemeColorMetaFromProjection(mutateHead) {
     if (mutateHead) return;
 
-    // First paint matches SSR data-theme (not localStorage) so React hydrates
-    // against the same tree. Stored preference is applied by ThemeEngineProvider.
+    // First paint matches frozen SSR appearance (not localStorage).
     var paintMode = ssrTheme === "dark" ? "dark" : "light";
     var bg = resolveForcedChromeBg(paintMode);
     if (!bg) return;
-    paintSafariChromeTint(bg, projectionColor(paintMode));
+    paintSafariChromeTint(bg, projectionColor(paintMode), paintMode);
   }
 
   // Resolve stored preference for post-hydrate cookie sync only — do not flip
@@ -200,7 +206,9 @@
   try {
     clearLeakedVisitorPreset();
     var firstPaint = ssrTheme === "dark" ? "dark" : "light";
+    root.setAttribute("data-ssr-theme", firstPaint);
     root.style.colorScheme = firstPaint;
+    // Align class/attr with SSR only — do not introduce a stored preference flip.
     if (firstPaint === "dark") {
       root.classList.add("dark");
       root.setAttribute("data-theme", "dark");
@@ -441,7 +449,7 @@
       // ThemeEngineProvider then owns metas + visitor-aware wash on the same frame.
       var postMode = resolved === "dark" ? "dark" : "light";
       var postBg = resolveForcedChromeBg(postMode);
-      if (postBg) paintSafariChromeTint(postBg, projectionColor(postMode));
+      if (postBg) paintSafariChromeTint(postBg, projectionColor(postMode), postMode);
       // No-op placeholder — kept so boot contracts still see a post-hydrate call site.
       syncThemeColorMetaFromProjection(true);
     } catch (e) {}

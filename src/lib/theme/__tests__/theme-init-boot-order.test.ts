@@ -35,7 +35,10 @@ describe("theme-init boot order", () => {
 
   it("splits glass tint from browser chrome tint", () => {
     assert.match(source, /--az-site-glass-tint/);
-    assert.match(source, /paintSafariChromeTint\(browserColor, glassColor\)/);
+    assert.match(
+      source,
+      /paintSafariChromeTint\(browserColor, glassColor(?:, scheme)?\)/,
+    );
   });
 
   it("post-hydrate sync does not mutate theme-color metas or call visitorChromeColor", () => {
@@ -51,5 +54,29 @@ describe("theme-init boot order", () => {
     assert.match(source, /root\.dataset\.hydrated !== "true"/);
     assert.match(source, /azura:hydrated/);
     assert.doesNotMatch(source, /addEventListener\(\s*["']load["']/);
+  });
+
+  it("reads frozen data-ssr-theme rather than a flipped data-theme", () => {
+    assert.match(source, /data-ssr-theme/);
+    assert.match(
+      source,
+      /getAttribute\("data-ssr-theme"\) \|\| root\.getAttribute\("data-theme"\)/,
+    );
+  });
+});
+
+describe("theme-boot prefix does not flip data-theme", () => {
+  it("paints tint for SSR appearance without classList dark from localStorage", async () => {
+    const { generateThemeBootInlineScript } = await import("@/lib/theme/theme-boot");
+    const { BROWSER_CHROME_FALLBACK } = await import(
+      "@/lib/theme/browser-chrome-projection"
+    );
+    const script = generateThemeBootInlineScript(BROWSER_CHROME_FALLBACK);
+    // Prefix IIFE only — stop before inlined theme-init body.
+    const prefix = script.slice(0, script.indexOf("(function () {"));
+    assert.match(prefix, /data-ssr-theme/);
+    assert.doesNotMatch(prefix, /localStorage\.getItem/);
+    assert.doesNotMatch(prefix, /classList\.add\("dark"\)/);
+    assert.doesNotMatch(prefix, /setAttribute\("data-theme","dark"\)/);
   });
 });

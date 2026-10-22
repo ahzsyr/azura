@@ -116,8 +116,12 @@ export function buildThemeBootPayload(
 
 /**
  * Minimal inline script — sets window.__AZ_THEME_BOOT and paints Safari edge
- * anchors from localStorage / OS preference BEFORE first paint (not SSR-only
- * data-theme, which is often stuck on "light" for system mode).
+ * anchors for the SSR appearance BEFORE first paint.
+ *
+ * Must NOT flip data-theme / .dark from localStorage here: that raced theme-init
+ * (which then read the flipped value as "SSR") and caused React #418 remounts.
+ * ThemeEngineProvider applies stored preference after hydrate.
+ *
  * Also hydrates Liquid Glass attr + intensity/opacity CSS vars early.
  * theme-init.js is appended here. An external beforeInteractive src is preloaded
  * by React on every navigation and never executed again, which Chrome reports as
@@ -134,28 +138,18 @@ export function generateThemeBootInlineScript(
 (function(){try{
   var boot=window.__AZ_THEME_BOOT||{};
   var proj=boot.browserProjection||{};
-  var sk=boot.storageKeys||{};
   var glass=boot.glassEffect||{};
   var root=document.documentElement;
   try{if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){root.classList.add("site-preloading-done");root.classList.remove("site-preloading");root.setAttribute("data-page-transition","none");root.setAttribute("data-page-transition-enabled","false");}}catch(e){}
-  var path=location.pathname||"";
-  var isAdmin=path.indexOf("/admin")===0;
-  var modeKey=isAdmin?(sk.adminTheme||"admin-theme"):(sk.publicTheme||"devi-theme-mode");
-  var stored=null;
-  try{stored=localStorage.getItem(modeKey);}catch(e){}
-  var ssr=root.getAttribute("data-theme")||"light";
-  var mode=ssr;
-  if(stored==="dark"||stored==="light")mode=stored;
-  else if(stored==="system"||(!stored&&root.getAttribute("data-theme-mode")==="system")){
-    mode=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";
-  }
-  var color=mode==="dark"?(proj.themeColorDark||${dark}):(proj.themeColorLight||${light});
+  // Freeze SSR appearance before any later script can overwrite data-theme.
+  var ssr=root.getAttribute("data-ssr-theme")||root.getAttribute("data-theme")||"light";
+  if(ssr!=="dark"&&ssr!=="light")ssr="light";
+  root.setAttribute("data-ssr-theme",ssr);
+  var color=ssr==="dark"?(proj.themeColorDark||${dark}):(proj.themeColorLight||${light});
   if(color){
     root.style.setProperty("--az-browser-chrome-tint",color);
     root.style.setProperty("--az-site-glass-tint",color);
-    root.style.colorScheme=mode;
-    if(mode==="dark"){root.classList.add("dark");root.setAttribute("data-theme","dark");}
-    else{root.classList.remove("dark");root.setAttribute("data-theme","light");}
+    root.style.colorScheme=ssr;
     var top=document.getElementById("az-safari-chrome-top");
     var bottom=document.getElementById("az-safari-chrome-bottom");
     if(top)top.style.backgroundColor=color;
