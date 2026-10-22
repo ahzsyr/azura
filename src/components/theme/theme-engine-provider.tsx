@@ -286,11 +286,8 @@ export function ThemeEngineProvider({
       // Projection must match the appearance we actually paint so dark metas
       // never carry a light-side wash.
       if (resolved === "dark" && isLightBackground(baseActiveColor)) {
-        baseActiveColor = resolveForcedChromeColor({
-          mode: "dark",
-          bootDark: projection.themeColorDark,
-          ssrDark: projection.themeColorDark,
-        });
+        // Omit boot/SSR — they already failed the luminance check; fall to defaults.
+        baseActiveColor = resolveForcedChromeColor({ mode: "dark" });
       }
       // Scroll section tint (if any) overrides projection; syncThemeColorMeta
       // remains the sole DOM writer and always refreshes Safari edge anchors.

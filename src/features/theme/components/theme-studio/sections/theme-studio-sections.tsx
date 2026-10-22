@@ -1076,6 +1076,8 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
                 Primary washes the active preset main color into header, footer, and
                 browser chrome. With Liquid Glass on, mix strength follows glass
                 opacity so the tint reads as a translucent material, not a flat fill.
+                Forced appearance and personalization resolve through the same
+                projection; scroll sections may retint Safari chrome only.
               </p>
             </div>
           ) : (
