@@ -127,6 +127,7 @@ export async function generateViewport(): Promise<Viewport> {
     return buildChromeViewport({
       projection,
       darkModeEnabled: resolved.config.appearance.darkModeEnabled,
+      edgeToEdge: resolved.tokens.mobileBrowserConfig?.edgeToEdge !== false,
     });
   } catch {
     return chromeViewportFallback();

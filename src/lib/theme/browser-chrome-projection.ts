@@ -140,12 +140,15 @@ export function activeBrowserGlassTint(
 export function buildChromeViewport(options: {
   projection: BrowserProjection;
   darkModeEnabled: boolean;
+  /** When edge-to-edge is on, Android and iOS both need viewport-fit=cover. */
+  edgeToEdge?: boolean;
 }): Viewport {
   const { projection, darkModeEnabled } = options;
+  const edgeToEdge = options.edgeToEdge !== false;
   return {
     width: "device-width",
     initialScale: 1,
-    viewportFit: "cover",
+    viewportFit: edgeToEdge ? "cover" : "auto",
     colorScheme: darkModeEnabled ? "light dark" : "light",
     themeColor: [
       { media: "(prefers-color-scheme: light)", color: projection.themeColorLight },

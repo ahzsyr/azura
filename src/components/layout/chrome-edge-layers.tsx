@@ -134,6 +134,9 @@ export function ChromeEdgeLayers() {
       // Routes without a site bar (hero-only pages) must not get the fixed
       // chrome layers: the fade would paint a haze band over the hero.
       html.setAttribute("data-has-site-header", headerRoot ? "true" : "false");
+      if (headerRoot) {
+        html.setAttribute("data-edge-to-edge", mode);
+      }
       setUnderlay(mode === "on" && Boolean(headerRoot));
       publishBand();
     };

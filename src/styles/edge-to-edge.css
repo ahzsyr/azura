@@ -96,7 +96,8 @@
 /* Opt-out (Theme Studio) and static header modes: no underlay. Scoped to the
  * header root's sibling so it can never override the `="on"` rule above (both
  * carry equal specificity; source order would otherwise decide). */
-.header-root[data-edge-to-edge="off"] ~ .site-main {
+.header-root[data-edge-to-edge="off"] ~ .site-main,
+html[data-edge-to-edge="off"] .site-main {
   margin-top: 0;
   padding-top: 0;
 }
@@ -108,8 +109,8 @@ html[data-has-site-header="false"] .az-chrome-scroll-edge {
   display: none;
 }
 
-[data-edge-to-edge="off"] .az-chrome-tint-zone,
-[data-edge-to-edge="off"] .az-chrome-scroll-edge {
+html[data-edge-to-edge="off"] .az-chrome-tint-zone,
+html[data-edge-to-edge="off"] .az-chrome-scroll-edge {
   display: none;
 }
 
@@ -135,7 +136,8 @@ html[data-has-site-header="false"] .az-chrome-scroll-edge {
   top: 0;
   left: 0;
   right: 0;
-  height: calc(var(--az-safe-top, 0px) + var(--az-chrome-fade-size));
+  /* Fade size already includes the safe area. Do not add it again. */
+  height: var(--az-chrome-fade-size);
   z-index: 40;
   pointer-events: none;
   background: linear-gradient(
@@ -186,76 +188,105 @@ html[data-chrome-tint-style="gradient"] .az-chrome-scroll-edge {
   background-color: var(--az-site-glass-tint, var(--az-browser-chrome-tint, var(--background)));
 }
 
-/* No cutout → no band to tint. */
-@media (max-width: 968px) {
-  .az-chrome-tint-zone {
-    height: 0;
-  }
-}
-
 /* ── 5. Style contract for the bar fill ───────────────────────────────────
  * The liquid-glass sheet applies one fill to every glass surface. These rules
  * restore the meaning of the four chrome styles on the bar, using the tokens
  * the Theme Studio already resolves. Specificity is intentionally higher than
  * [data-glass-effect="liquid"] .header-root .site-header. */
 
-/* Color basis = Primary: wash the preset primary into the bar for the
- * translucent styles (the Theme Studio copy promises this). The surface tint
- * stays the default when the basis is "surface".
- * Uses background-color (not background-image): the bar's specular image is
- * owned by site-glass-effect.css, and layering another image lost the cascade.
- * The attribute lives on .header-root (not <html>), so the selector is scoped
- * there; the extra [data-edge-to-edge] keeps specificity above the surface fill. */
-html[data-chrome-tint-style="glass"] .header-root[data-chrome-tint-source="primary"][data-edge-to-edge] .site-header,
-html[data-chrome-tint-style="transparent"] .header-root[data-chrome-tint-source="primary"][data-edge-to-edge] .site-header {
+/* Bar fill follows --az-chrome-tint-mix (the style alpha). Surface uses the
+ * glass tint; primary washes --primary at that same alpha. These selectors
+ * beat [data-glass-effect="liquid"] .header-root .site-header and the overlay
+ * transparent rules. Overlay still owns position. Unprefixed filter only —
+ * the webkit copy lives in the @supports block below. */
+html[data-chrome-tint-style="glass"] .header-root .site-header,
+html[data-chrome-tint-style="transparent"] .header-root .site-header {
   background-color: color-mix(
     in srgb,
-    var(--primary, #047857) var(--az-chrome-primary-wash, 22%),
-    color-mix(
-        in srgb,
-        var(--az-site-glass-tint, #ffffff) calc(var(--az-site-glass-fill-alpha, 0.45) * 100%),
-        transparent
-      )
+    var(--az-site-glass-tint, var(--background, #fafafa)) calc(var(--az-chrome-tint-mix, 0.7) * 100%),
+    transparent
+  ) !important;
+  background-image: none !important;
+}
+
+html[data-chrome-tint-style="glass"] .header-root[data-chrome-tint-source="primary"] .site-header,
+html[data-chrome-tint-style="transparent"] .header-root[data-chrome-tint-source="primary"] .site-header {
+  background-color: color-mix(
+    in srgb,
+    var(--primary, #047857) calc(var(--az-chrome-tint-mix, 0.7) * 100%),
+    transparent
   ) !important;
 }
 
-/* Solid: opaque surface (luminance-safe). Uses the appearance-aware glass tint
- * (dark values in dark appearance), not the OS theme-color projection, which
- * is a single light hex. */
-html[data-chrome-tint-style="solid"][data-glass-effect="liquid"]
-  .header-root .site-header {
-  background: var(--az-site-glass-tint, var(--az-browser-chrome-tint)) !important;
-  background-color: var(--az-site-glass-tint, var(--az-browser-chrome-tint)) !important;
+html[data-chrome-tint-style="transparent"] .header-root .site-header {
+  backdrop-filter: blur(calc(var(--az-site-glass-blur, 20px) * 0.35))
+    saturate(var(--az-site-glass-saturate, 1.6)) !important;
+}
+
+html[data-chrome-tint-style="glass"][data-glass-effect="liquid"] .header-root .site-header {
+  backdrop-filter: blur(var(--az-site-glass-blur, 20px))
+    saturate(var(--az-site-glass-saturate, 1.6)) !important;
+}
+
+html[data-chrome-tint-style="glass"]:not([data-glass-effect="liquid"]) .header-root .site-header {
+  backdrop-filter: blur(var(--az-chrome-tint-blur, 12px)) saturate(1.35) !important;
+}
+
+/* Solid: opaque basis colour. --az-browser-chrome-tint is that colour
+ * (surface or primary, light or dark). */
+html[data-chrome-tint-style="solid"] .header-root .site-header {
+  background: var(--az-browser-chrome-tint, var(--az-site-glass-tint, var(--background))) !important;
+  background-color: var(--az-browser-chrome-tint, var(--az-site-glass-tint, var(--background))) !important;
+  background-image: none !important;
   backdrop-filter: none !important;
 }
 
-/* Gradient: opaque preset gradient, same stops the OS projection uses. */
-html[data-chrome-tint-style="gradient"][data-glass-effect="liquid"]
-  .header-root .site-header {
+/* Gradient: vertical fade from the basis colour into the page. */
+html[data-chrome-tint-style="gradient"] .header-root .site-header {
   background: var(
     --az-browser-chrome-gradient,
     linear-gradient(
-      135deg,
-      var(--primary, #047857),
-      var(--secondary, #d4af37)
+      to bottom,
+      var(--az-browser-chrome-tint, var(--az-site-glass-tint, var(--background))) 0%,
+      transparent 100%
     )
   ) !important;
   background-color: transparent !important;
   backdrop-filter: none !important;
 }
 
-/* Clear: the page shows through almost unchanged (fill strength 35% default). */
-html[data-chrome-tint-style="transparent"][data-glass-effect="liquid"]
-  .header-root .site-header {
-  backdrop-filter: blur(calc(var(--az-site-glass-blur) * 0.35))
-    saturate(var(--az-site-glass-saturate)) !important;
+html[data-chrome-tint-style="gradient"] .az-chrome-tint-zone {
+  background: var(
+    --az-browser-chrome-gradient,
+    linear-gradient(
+      to bottom,
+      var(--az-browser-chrome-tint, var(--background)) 0%,
+      transparent 100%
+    )
+  );
 }
 
-/* Glass: frost that keeps content perceptible while the bar stays readable. */
-html[data-chrome-tint-style="glass"][data-glass-effect="liquid"]
-  .header-root .site-header {
-  backdrop-filter: blur(var(--az-site-glass-blur, 20px))
-    saturate(var(--az-site-glass-saturate, 1.6)) !important;
+/* Safari only. Do not pair this with an unprefixed backdrop-filter: the
+ * minifier collapses the pair into webkit-only and Chromium drops the filter. */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  html[data-chrome-tint-style="transparent"] .header-root .site-header {
+    -webkit-backdrop-filter: blur(calc(var(--az-site-glass-blur, 20px) * 0.35))
+      saturate(var(--az-site-glass-saturate, 1.6)) !important;
+  }
+
+  html[data-chrome-tint-style="glass"][data-glass-effect="liquid"] .header-root .site-header {
+    -webkit-backdrop-filter: blur(var(--az-site-glass-blur, 20px))
+      saturate(var(--az-site-glass-saturate, 1.6)) !important;
+  }
+
+  html[data-chrome-tint-style="glass"]:not([data-glass-effect="liquid"]) .header-root .site-header {
+    -webkit-backdrop-filter: blur(var(--az-chrome-tint-blur, 12px)) saturate(1.35) !important;
+  }
+
+  html[data-chrome-tint-style="solid"] .header-root .site-header,
+  html[data-chrome-tint-style="gradient"] .header-root .site-header {
+    -webkit-backdrop-filter: none !important;
+  }
 }
 
 /* ── 6. Accessibility fallbacks ───────────────────────────────────────────
@@ -270,8 +301,7 @@ html[data-chrome-tint-style="glass"][data-glass-effect="liquid"]
  * The block is authored per spec and mirrors the existing
  * prefers-reduced-transparency handling in site-glass-effect.css. */
 @media (prefers-reduced-transparency: reduce) {
-  /* Also covers a glass effect that is toggled off: the style rules above are
-   * scoped to [data-glass-effect="liquid"], this one is not. */
+  /* Opaque fallback for every chrome style, including when Liquid Glass is off. */
   html[data-chrome-tint-style] .header-root .site-header {
     background: var(--az-site-glass-tint, var(--card, var(--background))) !important;
     background-color: var(--az-site-glass-tint, var(--card, var(--background))) !important;

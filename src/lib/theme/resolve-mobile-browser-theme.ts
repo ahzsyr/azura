@@ -55,15 +55,15 @@ const DEFAULT_MOBILE_BROWSER_CONFIG = {
 };
 
 /**
- * Immersive chrome: published themes often still store "default".
- * Coerce that to black-translucent; keep explicit "black" as solid opt-out.
+ * Keep an explicit studio choice. Only a missing value falls back to
+ * black-translucent (older rows that never stored a style).
  */
 function resolveIosStatusBarStyle(
   style: IosStatusBarStyle | undefined | null,
 ): IosStatusBarStyle {
-  if (style === "black") return "black";
-  if (style === "black-translucent") return "black-translucent";
-  // undefined, "default", or any other → immersive translucent
+  if (style === "black" || style === "default" || style === "black-translucent") {
+    return style;
+  }
   return "black-translucent";
 }
 
@@ -82,32 +82,8 @@ function resolvePrimaryHex(tokens: ThemeTokens): string | null {
   return `#${normalized.toLowerCase()}`;
 }
 
-function resolveSecondaryHex(tokens: ThemeTokens): string | null {
-  const raw =
-    coerceColorString(tokens.secondaryColor) ??
-    coerceColorString(tokens.presetColors?.secondary) ??
-    coerceColorString(tokens.presetColors?.accent) ??
-    resolvePrimaryHex(tokens);
-  if (!raw?.startsWith("#")) return null;
-  const normalized = raw.replace("#", "").trim();
-  if (normalized.length !== 6) return null;
-  return `#${normalized.toLowerCase()}`;
-}
-
-/**
- * Accent wash strength for glass/transparent primary tint.
- * When Liquid Glass is on, track glass opacity so chrome matches the material.
- * When glass is off, use a soft brand wash so primary tint still reads.
- */
-function resolveChromeAccentWeight(tokens: ThemeTokens): number {
-  if (tokens.glassEffectEnabled) {
-    const opacity = tokens.glassEffectSettings?.opacity ?? 0.45;
-    return Math.min(0.4, Math.max(0.12, opacity * 0.55));
-  }
-  return 0.2;
-}
-
-function applyChromeTintSource(
+/** Colour the bar and the opaque sample are derived from, before style mixing. */
+function resolveChromeBasis(
   surfaceHex: string,
   tokens: ThemeTokens,
   source: ChromeTintSource | undefined,
@@ -116,13 +92,31 @@ function applyChromeTintSource(
   if (source !== "primary") return surfaceHex;
   const primary = resolvePrimaryHex(tokens);
   if (!primary) return surfaceHex;
-  // Solid primary = full brand; glass/transparent/gradient wash into surface.
-  if (style === "solid") return primary;
-  return mixHexColors(surfaceHex, primary, resolveChromeAccentWeight(tokens));
+  // Solid and glass use the preset primary. Transparent samples the page
+  // surface (themeColorForStyle). Gradient uses its own top stop.
+  if (style === "solid" || style === "glass") return primary;
+  return surfaceHex;
 }
 
-function buildPresetGradient(from: string, to: string): string {
-  return `linear-gradient(135deg, ${from} 0%, ${to} 100%)`;
+/**
+ * Top of the vertical fade. Light primary is the preset colour. Dark primary
+ * is that colour washed into the dark surface so the sample is not neon.
+ * Surface basis is the page background in either appearance.
+ */
+function resolveGradientTop(
+  surfaceHex: string,
+  tokens: ThemeTokens,
+  source: ChromeTintSource | undefined,
+  dark: boolean,
+): string {
+  if (source !== "primary") return surfaceHex;
+  const primary = resolvePrimaryHex(tokens);
+  if (!primary) return surfaceHex;
+  return dark ? mixHexColors(surfaceHex, primary, 0.55) : primary;
+}
+
+function buildVerticalFade(top: string): string {
+  return `linear-gradient(to bottom, ${top} 0%, transparent 100%)`;
 }
 
 function resolveStyleOpacity(
@@ -150,17 +144,18 @@ function themeColorForStyle(
   tintHex: string,
   surfaceHex: string,
   opacity: number,
-  gradientMid: string | null,
+  gradientTop: string | null,
 ): string {
   if (style === "transparent") {
-    // Page shows through — status bar samples the page surface.
+    // Page shows through — the opaque sample is the page surface.
     return surfaceHex;
   }
   if (style === "gradient") {
-    return gradientMid ?? tintHex;
+    // Safari cannot paint the fade. Sample the fade's top stop, not a midpoint.
+    return gradientTop ?? tintHex;
   }
   if (style === "glass") {
-    // Approximate frosted fill as tint mixed over the page surface.
+    // Opaque stand-in for the frosted fill: basis mixed over the page surface.
     return mixHexColors(surfaceHex, tintHex, opacity);
   }
   return tintHex;
@@ -194,55 +189,44 @@ export function resolveMobileBrowserTheme(tokens: ThemeTokens): ResolvedMobileBr
   }
 
   const tintSource = config.chromeTintSource ?? "surface";
-  const tintLight = applyChromeTintSource(
+  const tintLight = resolveChromeBasis(
     lightSurfaces.background,
     tokens,
     tintSource,
     style,
   );
-  const tintDark = applyChromeTintSource(
+  const tintDark = resolveChromeBasis(
     darkSurfaces.background,
     tokens,
     tintSource,
     style,
   );
 
-  const primary = resolvePrimaryHex(tokens);
-  const secondary = resolveSecondaryHex(tokens);
-  // Light: brand ends. Dark: brand washed into dark surfaces so the gradient
-  // respects appearance instead of painting neon brand on a dark canvas.
-  const gradFromLight = primary ?? tintLight;
-  const gradToLight = secondary ?? lightSurfaces.surface ?? tintLight;
-  const gradFromDark = primary
-    ? mixHexColors(darkSurfaces.background, primary, 0.55)
-    : tintDark;
-  const gradToDark = secondary
-    ? mixHexColors(darkSurfaces.background, secondary, 0.55)
-    : darkSurfaces.surface ?? tintDark;
+  const gradTopLight =
+    style === "gradient"
+      ? resolveGradientTop(lightSurfaces.background, tokens, tintSource, false)
+      : null;
+  const gradTopDark =
+    style === "gradient"
+      ? resolveGradientTop(darkSurfaces.background, tokens, tintSource, true)
+      : null;
 
-  const chromeGradientLight =
-    style === "gradient" ? buildPresetGradient(gradFromLight, gradToLight) : null;
-  const chromeGradientDark =
-    style === "gradient" ? buildPresetGradient(gradFromDark, gradToDark) : null;
-
-  const midLight =
-    style === "gradient" ? mixHexColors(gradFromLight, gradToLight, 0.5) : null;
-  const midDark =
-    style === "gradient" ? mixHexColors(gradFromDark, gradToDark, 0.5) : null;
+  const chromeGradientLight = gradTopLight ? buildVerticalFade(gradTopLight) : null;
+  const chromeGradientDark = gradTopDark ? buildVerticalFade(gradTopDark) : null;
 
   const themeColorLight = themeColorForStyle(
     style,
     tintLight,
     lightSurfaces.background,
     opacity,
-    midLight,
+    gradTopLight,
   );
   const themeColorDark = themeColorForStyle(
     style,
     tintDark,
     darkSurfaces.background,
     opacity,
-    midDark,
+    gradTopDark,
   );
 
   return {

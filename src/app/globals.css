@@ -1413,6 +1413,15 @@ html[data-block-header-overlay="true"] .page-top-header-overlay {
   min-height: 0;
 }
 
+/* No site bar: do not reserve --header-height for a header that is not rendered. */
+html[data-has-site-header="false"] .block-first-with-header-overlay,
+html[data-has-site-header="false"]:has([data-page-header-overlay="true"]) .page-top-header-overlay,
+html[data-has-site-header="false"][data-block-header-overlay="true"] .page-top-header-overlay {
+  margin-top: 0;
+  padding-top: 0;
+  min-height: unset;
+}
+
 /* Catalog banner/split + blog cover only (not collection cards / PDP) */
 html:has([data-page-header-overlay="true"]) .catalog-hero--banner,
 html:has([data-page-header-overlay="true"]) .catalog-hero--split,

@@ -2,6 +2,7 @@ import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import {
   activeBrowserThemeColor,
+  buildChromeViewport,
   resolveBrowserProjection,
   BROWSER_CHROME_FALLBACK,
   tokensForChromeResolution,
@@ -99,5 +100,20 @@ describe("buildThemeState", () => {
       state.browserProjection.themeColorDark,
       resolveBrowserProjection(site).themeColorDark,
     );
+  });
+
+  it("keeps viewport-fit cover while edge-to-edge is on and drops it when off", () => {
+    const on = buildChromeViewport({
+      projection: BROWSER_CHROME_FALLBACK,
+      darkModeEnabled: true,
+      edgeToEdge: true,
+    });
+    const off = buildChromeViewport({
+      projection: BROWSER_CHROME_FALLBACK,
+      darkModeEnabled: true,
+      edgeToEdge: false,
+    });
+    assert.equal(on.viewportFit, "cover");
+    assert.equal(off.viewportFit, "auto");
   });
 });

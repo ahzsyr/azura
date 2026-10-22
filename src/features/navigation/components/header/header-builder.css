@@ -31,9 +31,10 @@
   width: 100%;
   position: relative;
   z-index: 10;
-  /* Site glass fill — surface-role tint + dedicated fill alpha (not OS chrome opacity).
-   * Liquid Glass overrides via --az-site-glass-bg when data-glass-effect=liquid.
-   * Non-liquid chrome styles may still use --az-chrome-tint-mix from CSS attrs. */
+  /* Site glass fill. Chrome style alpha (--az-chrome-tint-mix) wins over the
+   * Liquid Glass opacity (--az-site-glass-fill-alpha). Liquid Glass still
+   * overrides via --az-site-glass-bg when data-glass-effect=liquid, and
+   * edge-to-edge.css wins that back per chrome tint style. */
   background: color-mix(
     in srgb,
     var(
@@ -42,8 +43,8 @@
     )
       calc(
         var(
-            --az-site-glass-fill-alpha,
-            var(--az-chrome-tint-mix, 0.72)
+            --az-chrome-tint-mix,
+            var(--az-site-glass-fill-alpha, 0.72)
           )
           * 100%
       ),
@@ -1300,7 +1301,7 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
   }
 
   /* Mobile chrome: glass, safe area. Flush top only when auto-remove is on.
-   * Fill uses site glass tint + fill-alpha (not OS theme-color opacity). */
+   * Fill alpha is the chrome style mix, not the Liquid Glass opacity. */
   .header-root .site-header {
     box-shadow: var(--header-shadow-soft);
     background: color-mix(
@@ -1311,8 +1312,8 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
       )
         calc(
           var(
-              --az-site-glass-fill-alpha,
-              var(--az-chrome-tint-mix-mobile, 0.78)
+              --az-chrome-tint-mix-mobile,
+              var(--az-site-glass-fill-alpha, 0.78)
             )
             * 100%
         ),
@@ -2561,7 +2562,7 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
         min(
             0.85,
             calc(
-              var(--az-site-glass-fill-alpha, var(--az-chrome-tint-mix-sticky, 0.72)) + 0.08
+              var(--az-chrome-tint-mix-sticky, var(--az-site-glass-fill-alpha, 0.72)) + 0.08
             )
           )
           * 100%

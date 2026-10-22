@@ -77,10 +77,16 @@ export type ThemeBootPayload = {
   glassEffect: ThemeBootGlassPayload;
   /** Catalog ids allowed as intentional visitor personalization. */
   publishedPresetIds: readonly string[];
+  /** Mirrors html[data-edge-to-edge] so the fixed layers match SSR. */
+  edgeToEdge: "on" | "off";
+  /** Mirrors html[data-has-site-header] from header visibility, before hydration. */
+  hasSiteHeader: boolean;
 };
 
 export type ThemeBootOptions = {
   glassEffect?: ThemeBootGlassPayload;
+  edgeToEdge?: "on" | "off";
+  hasSiteHeader?: boolean;
 };
 
 const DEFAULT_GLASS_BOOT: ThemeBootGlassPayload = {
@@ -125,6 +131,8 @@ export function buildThemeBootPayload(
       opacity: Number.isFinite(glass.opacity) ? glass.opacity : 0.45,
     },
     publishedPresetIds: PUBLISHED_PRESET_IDS,
+    edgeToEdge: options.edgeToEdge === "off" ? "off" : "on",
+    hasSiteHeader: options.hasSiteHeader !== false,
   };
 }
 
@@ -178,6 +186,12 @@ export function generateThemeBootInlineScript(
   var tintStyle=proj.chromeTintStyle||"glass";
   if(tintStyle==="transparent"||tintStyle==="glass"||tintStyle==="solid"||tintStyle==="gradient"){
     root.setAttribute("data-chrome-tint-style",tintStyle);
+  }
+  if(boot.edgeToEdge==="on"||boot.edgeToEdge==="off"){
+    root.setAttribute("data-edge-to-edge",boot.edgeToEdge);
+  }
+  if(boot.hasSiteHeader===true||boot.hasSiteHeader===false){
+    root.setAttribute("data-has-site-header",boot.hasSiteHeader?"true":"false");
   }
   var tintOp=typeof proj.chromeTintOpacity==="number"?proj.chromeTintOpacity:0.7;
   if(tintOp<0)tintOp=0;if(tintOp>1)tintOp=1;

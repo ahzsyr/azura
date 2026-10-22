@@ -22,6 +22,7 @@ import { ChunkLoadDiagnostics } from "@/components/debug/chunk-load-diagnostics"
 import { SearchQueryShell } from "@/capabilities/search/query/search-query-shell";
 import { NuqsProvider } from "@/components/providers/nuqs-provider";
 import { REDUCED_MOTION_COOKIE } from "@/lib/preloader/preloader-timing";
+import { isChromeVisible } from "@/lib/theme/chrome-visibility";
 
 type Props = {
   children: ReactNode;
@@ -49,6 +50,17 @@ function resolveAppearanceFromCookie(mode: string | undefined): {
     return { resolved: "light", mode: "light", className: "h-full" };
   }
   return { resolved: "light", mode: mode ?? "system", className: "h-full" };
+}
+
+/** Match SiteChromeGate, which sees the locale-stripped pathname. */
+function localeStrippedPathname(pathname: string): string {
+  const parts = pathname.split("/").filter(Boolean);
+  const first = parts[0];
+  if (first && FALLBACK_LOCALES.some((locale) => locale.urlPrefix === first)) {
+    const rest = parts.slice(1);
+    return rest.length ? `/${rest.join("/")}` : "/";
+  }
+  return pathname.startsWith("/") ? pathname : `/${pathname}`;
 }
 
 function mergeHtmlClasses(...parts: Array<string | undefined>): string {
@@ -79,6 +91,8 @@ export default async function RootLayout({ children }: Props) {
     intensity: 1,
     opacity: 0.45,
   };
+  let edgeToEdge: "on" | "off" = "on";
+  let hasSiteHeader = true;
   if (!pathname.startsWith("/admin")) {
     try {
       const resolved = await resolvePublishedSiteTheme();
@@ -99,6 +113,13 @@ export default async function RootLayout({ children }: Props) {
         intensity: resolved.tokens.glassEffectSettings?.intensity ?? 1,
         opacity: resolved.tokens.glassEffectSettings?.opacity ?? 0.45,
       };
+      edgeToEdge = resolved.tokens.mobileBrowserConfig?.edgeToEdge === false ? "off" : "on";
+      hasSiteHeader = isChromeVisible(
+        resolved.tokens.headerConfig,
+        localeStrippedPathname(pathname),
+      );
+      themeHtmlProps["data-edge-to-edge"] = edgeToEdge;
+      themeHtmlProps["data-has-site-header"] = hasSiteHeader ? "true" : "false";
     } catch {
       // DB unavailable — appearance cookie attrs still apply.
     }
@@ -114,6 +135,8 @@ export default async function RootLayout({ children }: Props) {
       : chromeProjection.glassTintLight;
   const bootScript = generateThemeBootInlineScript(chromeProjection, {
     glassEffect: glassBoot,
+    edgeToEdge,
+    hasSiteHeader,
   });
   // Drive anchors via CSS var only — inline backgroundColor would freeze the SSR
   // light cookie value and block boot/theme-init from retinting for Forced dark.

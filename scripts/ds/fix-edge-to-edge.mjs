@@ -143,7 +143,9 @@ patch("src/features/navigation/components/header/header-builder.css", "E2 stop c
  * bar for glass/transparent, exactly as the Theme Studio copy promises.
  * The attribute lives on .header-root, so the rule is scoped there. */
 patch("src/styles/edge-to-edge.css", "E3 honor chromeTintSource=primary", (css) => {
-  if (css.includes("--az-chrome-primary-wash")) return css;
+  if (css.includes("--az-chrome-primary-wash") || css.includes("Bar fill follows --az-chrome-tint-mix")) {
+    return css;
+  }
   const anchor = `/* Solid: opaque surface (luminance-safe).`;
   if (!css.includes(anchor)) return null;
   return css.replace(
@@ -270,8 +272,15 @@ async function prodCheck(url) {
     return m ? m[1] ?? m[0] : null;
   };
 
+  const htmlTag = html.match(/<html\b[^>]*>/i)?.[0] ?? "";
+  const headerConfig = html.match(/"headerConfig"\s*:\s*\{[^}]*\}/)?.[0] ?? "";
+  const headerDisabled = /"enabled"\s*:\s*false/.test(headerConfig);
   const report = {
+    edgeToEdgeOnHtml: /data-edge-to-edge=/.test(htmlTag),
     edgeToEdge: pick(/data-edge-to-edge="([^"]+)"/),
+    hasSiteHeader: pick(/data-has-site-header="([^"]+)"/),
+    headerRoot: /header-root/.test(html),
+    headerDisabled,
     glassEffect: pick(/data-glass-effect="([^"]+)"/),
     chromeTintStyle: pick(/data-chrome-tint-style="([^"]+)"/),
     chromeTintSource: pick(/data-chrome-tint-source="([^"]+)"/),
@@ -286,14 +295,17 @@ async function prodCheck(url) {
   }
 
   const fail = [];
-  if (!report.edgeToEdge) {
-    fail.push("SSR missing data-edge-to-edge — redeploy full build (stale SSR + new client = cream empty band)");
+  if (!report.edgeToEdgeOnHtml) {
+    fail.push("SSR <html> missing data-edge-to-edge — redeploy full build (stale SSR + new client = cream empty band)");
   }
-  if (report.glassEffect === "off" || report.glassEffect == null) {
-    fail.push('data-glass-effect is off/missing — enable site Liquid Glass for real translucency ("Glass 70%" alone is not enough)');
+  if (!headerDisabled && !report.headerRoot) {
+    fail.push("header-root missing while headerConfig.enabled is not false — the site bar is not in the DOM");
   }
-  if (!report.viewportFit) {
-    fail.push("viewport-fit=cover missing — status-bar edge-to-edge will not opt in");
+  if (report.glassEffect == null) {
+    fail.push("data-glass-effect missing — redeploy so the glass attribute is in the SSR HTML");
+  }
+  if (!report.viewportFit && report.edgeToEdge !== "off") {
+    fail.push("viewport-fit=cover missing while edge-to-edge is on");
   }
   if (fail.length) {
     console.log("\n  Deploy / config gaps:");
