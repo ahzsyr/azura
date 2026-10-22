@@ -1383,7 +1383,7 @@ function renderTab(
             />
             <ToggleField
               label="Skip LIKE when FULLTEXT succeeds"
-              description="Reduces DB load when FULLTEXT returns hits (hybrid mode)."
+              description="Recommended on. Skipping LIKE avoids slow title/body scans after FULLTEXT already matched (can 500 on large Hostinger indexes)."
               checked={s.performance.skipLikeWhenFullText}
               onChange={(v) => patchNested("performance", "skipLikeWhenFullText", v)}
             />

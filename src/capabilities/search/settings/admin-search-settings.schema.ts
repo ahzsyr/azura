@@ -304,7 +304,7 @@ export const searchAdminSearchSchema = z.object({
 
 export const searchPerformanceSchema = z.object({
   syncCatalogOnProductIndex: z.boolean().default(true),
-  skipLikeWhenFullText: z.boolean().default(false),
+  skipLikeWhenFullText: z.boolean().default(true),
   mediaIndexLimit: z.number().min(0).max(5000).default(500),
   maxRetrievalCandidates: z.number().min(20).max(120).default(120),
   indexBodyMaxChars: z.number().min(2000).max(24000).default(12000),

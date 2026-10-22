@@ -46,7 +46,9 @@ function createPrismaClient() {
   const rawUrl = process.env.DATABASE_URL?.trim() ?? "";
   const datasourceUrl = normalizeRuntimeDatabaseUrl(rawUrl);
   const client = new PrismaClient({
-    adapter: new PrismaMariaDb(mariaDbPoolConfig(datasourceUrl)),
+    // Text protocol avoids mariadb binary-protocol edge cases on Hostinger MySQL
+    // (prepared LIKE / JSON handling can surface as bare route 500s).
+    adapter: new PrismaMariaDb(mariaDbPoolConfig(datasourceUrl), { useTextProtocol: true }),
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
   });
   return client.$extends({

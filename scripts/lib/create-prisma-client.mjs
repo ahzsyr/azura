@@ -29,6 +29,8 @@ export function createPrismaClient(url = process.env.DATABASE_URL) {
     throw new Error("DATABASE_URL is required");
   }
   return new PrismaClient({
-    adapter: new PrismaMariaDb(mariaDbPoolConfig(connectionString)),
+    adapter: new PrismaMariaDb(mariaDbPoolConfig(connectionString), {
+      useTextProtocol: true,
+    }),
   });
 }

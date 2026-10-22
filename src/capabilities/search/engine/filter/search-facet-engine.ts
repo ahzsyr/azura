@@ -98,27 +98,31 @@ export async function countByEntityTypeForQuery(params: {
   const locale = params.locale;
   const types = parseTypesParam(params.types ?? null);
 
+  const q = params.q.trim();
+  // Title-only — body LIKE full-scans TEXT and times out on large Hostinger indexes.
   const where: Prisma.SearchDocumentWhereInput = {
     locale,
     ...(types?.length ? { entityType: { in: types } } : {}),
-    ...(params.q.trim()
-      ? {
-          OR: [
-            { title: { contains: params.q.trim() } },
-            { body: { contains: params.q.trim() } },
-          ],
-        }
-      : {}),
+    ...(q ? { title: { contains: q } } : {}),
   };
 
-  const rows = await prisma.searchDocument.groupBy({
-    by: ["entityType"],
-    where,
-    _count: { _all: true },
-  });
+  try {
+    const rows = await prisma.searchDocument.groupBy({
+      by: ["entityType"],
+      where,
+      _count: { _all: true },
+    });
 
-  return rows.map((r) => ({
-    entityType: r.entityType,
-    count: r._count._all,
-  }));
+    return rows.map((r) => ({
+      entityType: r.entityType,
+      count: r._count._all,
+    }));
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error("[search-facet-engine] countByEntityTypeForQuery failed:", msg, {
+      locale,
+      q,
+    });
+    return [];
+  }
 }

@@ -212,9 +212,9 @@ export const searchRepository = {
 
     if (!tokens.length) return [];
 
-    const tokenClause = (tok: string) => ({
-      OR: [{ title: { contains: tok } }, { body: { contains: tok } }],
-    });
+    // Title-only LIKE. Leading-wildcard matches on `body` (TEXT) force full-table
+    // scans and time out on Hostinger-sized indexes (~1s → bare 500).
+    const tokenClause = (tok: string) => ({ title: { contains: tok } });
 
     const textFilter =
       tokens.length === 1
@@ -225,25 +225,35 @@ export const searchRepository = {
 
     const limit = Math.min(params.limit, SEARCH_PERF_LIMITS.maxRetrievalCandidates);
 
-    const rows = await prisma.searchDocument.findMany({
-      where: {
-        locale: params.locale,
-        ...(params.types?.length ? { entityType: { in: params.types } } : {}),
-        ...textFilter,
-      },
-      select: {
-        ...leanSelect,
-        body: true,
-      },
-      take: limit,
-      orderBy: { updatedAt: "desc" },
-    });
+    try {
+      const rows = await prisma.searchDocument.findMany({
+        where: {
+          locale: params.locale,
+          ...(params.types?.length ? { entityType: { in: params.types } } : {}),
+          ...textFilter,
+        },
+        select: {
+          ...leanSelect,
+          body: true,
+        },
+        take: limit,
+        orderBy: { title: "asc" },
+      });
 
-    return rows.map((r) => {
-      const body =
-        r.body.length > BODY_PREVIEW ? r.body.slice(0, BODY_PREVIEW) : r.body;
-      return mapLeanRow({ ...r, body });
-    });
+      return rows.map((r) => {
+        const rawBody = typeof r.body === "string" ? r.body : "";
+        const body =
+          rawBody.length > BODY_PREVIEW ? rawBody.slice(0, BODY_PREVIEW) : rawBody;
+        return mapLeanRow({ ...r, body });
+      });
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : String(error);
+      console.error("[search.repository] likeSearch failed:", msg, {
+        locale: params.locale,
+        tokenCount: tokens.length,
+      });
+      return [];
+    }
   },
 
   async prefixSuggestions(params: {
@@ -251,26 +261,38 @@ export const searchRepository = {
     locale: string;
     limit: number;
   }): Promise<SearchRow[]> {
-    const rows = await prisma.searchDocument.findMany({
-      where: {
+    const q = params.q.trim();
+    if (!q) return [];
+
+    try {
+      // Prefix-only so MySQL can use SearchDocument_title_idx. An OR with
+      // `contains: " ${q}"` (leading wildcard) disables the index and scans every row.
+      const rows = await prisma.searchDocument.findMany({
+        where: {
+          locale: params.locale,
+          title: { startsWith: q },
+        },
+        take: Math.min(params.limit, 20),
+        select: {
+          ...leanSelect,
+          body: true,
+        },
+        orderBy: { title: "asc" },
+      });
+      return rows.map((r) => {
+        const rawBody = typeof r.body === "string" ? r.body : "";
+        const body =
+          rawBody.length > BODY_PREVIEW ? rawBody.slice(0, BODY_PREVIEW) : rawBody;
+        return mapLeanRow({ ...r, body });
+      });
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : String(error);
+      console.error("[search.repository] prefixSuggestions failed:", msg, {
         locale: params.locale,
-        OR: [
-          { title: { startsWith: params.q } },
-          { title: { contains: ` ${params.q}` } },
-        ],
-      },
-      take: Math.min(params.limit, 20),
-      select: {
-        ...leanSelect,
-        body: true,
-      },
-      orderBy: { title: "asc" },
-    });
-    return rows.map((r) => {
-      const body =
-        r.body.length > BODY_PREVIEW ? r.body.slice(0, BODY_PREVIEW) : r.body;
-      return mapLeanRow({ ...r, body });
-    });
+        q,
+      });
+      return [];
+    }
   },
 
   async documentCount(locale?: string) {
@@ -314,7 +336,9 @@ export const searchRepository = {
       orderBy: { title: "asc" },
     });
     return rows.map((r) => {
-      const body = r.body.length > BODY_PREVIEW ? r.body.slice(0, BODY_PREVIEW) : r.body;
+      const rawBody = typeof r.body === "string" ? r.body : "";
+      const body =
+        rawBody.length > BODY_PREVIEW ? rawBody.slice(0, BODY_PREVIEW) : rawBody;
       return mapLeanRow({ ...r, body });
     });
   },

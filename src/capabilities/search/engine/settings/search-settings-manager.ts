@@ -15,7 +15,9 @@ const DEFAULT_SETTINGS: ResolvedSearchSettings = {
   fullTextMinLength: 2,
   maxResults: 20,
   searchMode: "hybrid",
-  skipLikeWhenFullText: false,
+  // Avoid a second title/body LIKE scan when FULLTEXT already returned hits
+  // (Hostinger kills long TEXT scans around ~1s → empty HTTP 500).
+  skipLikeWhenFullText: true,
 };
 
 function clamp(n: number, min: number, max: number): number {
@@ -119,7 +121,7 @@ export class SearchSettingsManager {
       minQueryLength,
       fullTextMinLength,
       searchMode,
-      skipLikeWhenFullText: performance?.skipLikeWhenFullText === true,
+      skipLikeWhenFullText: performance?.skipLikeWhenFullText !== false,
     };
   }
 
