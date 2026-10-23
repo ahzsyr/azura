@@ -17,6 +17,11 @@ function originFromUrl(raw: string): string | undefined {
   }
 }
 
+function isBindAddress(hostname: string): boolean {
+  const host = hostname.toLowerCase();
+  return host === "0.0.0.0" || host === "localhost" || host === "127.0.0.1" || host === "::1" || host === "[::1]";
+}
+
 function isInvalidOAuthHost(hostname: string): boolean {
   const host = hostname.toLowerCase();
   if (host === "0.0.0.0") return true;
@@ -26,22 +31,67 @@ function isInvalidOAuthHost(hostname: string): boolean {
   return false;
 }
 
-/** Map hosts Google rejects (e.g. 0.0.0.0) to localhost while preserving port/protocol. */
+/**
+ * Bind addresses are not a public origin. In production, localhost is the same
+ * mistake: the process is behind the public domain, not a local browser.
+ */
+function hostNeedsPublicOrigin(hostname: string): boolean {
+  const host = hostname.toLowerCase();
+  if (host === "0.0.0.0") return true;
+  if (
+    process.env.NODE_ENV === "production" &&
+    (host === "localhost" || host === "127.0.0.1" || host === "::1" || host === "[::1]")
+  ) {
+    return true;
+  }
+  return isInvalidOAuthHost(host);
+}
+
+/** First configured origin that is a real domain, skipping bind addresses. */
+function configuredPublicOrigin(): string | undefined {
+  const candidates = [
+    trimEnv("NEXT_PUBLIC_SITE_URL"),
+    trimEnv("AUTH_URL"),
+    trimEnv("NEXTAUTH_URL"),
+  ];
+  for (const candidate of candidates) {
+    const origin = candidate ? originFromUrl(candidate) : undefined;
+    if (!origin) continue;
+    try {
+      if (!isBindAddress(new URL(origin).hostname)) return origin;
+    } catch {
+      continue;
+    }
+  }
+  return undefined;
+}
+
+/** Map hosts the browser cannot use (e.g. 0.0.0.0) onto the public site, or localhost in local dev. */
 export function normalizeOAuthHost(origin: string): string {
   try {
     const url = new URL(origin);
-    if (!isInvalidOAuthHost(url.hostname)) {
+    if (!hostNeedsPublicOrigin(url.hostname)) {
       return url.origin;
     }
-    const portSuffix = url.port ? `:${url.port}` : "";
-    return new URL(`${url.protocol}//localhost${portSuffix}`).origin;
+    const configured = configuredPublicOrigin();
+    if (configured) return configured;
+    if (isInvalidOAuthHost(url.hostname)) {
+      const portSuffix = url.port ? `:${url.port}` : "";
+      return new URL(`${url.protocol}//localhost${portSuffix}`).origin;
+    }
+    return url.origin;
   } catch {
+    const configured = configuredPublicOrigin();
+    if (configured) return configured;
     const port = process.env.PORT ?? "3000";
     return `http://localhost:${port}`;
   }
 }
 
 function getConfiguredSiteOrigin(): string | undefined {
+  const configured = configuredPublicOrigin();
+  if (configured) return configured;
+
   const candidates = [
     trimEnv("NEXT_PUBLIC_SITE_URL"),
     trimEnv("AUTH_URL"),
@@ -57,6 +107,49 @@ function getConfiguredSiteOrigin(): string | undefined {
 
   const fallback = originFromUrl(getSiteUrl());
   return fallback ? normalizeOAuthHost(fallback) : undefined;
+}
+
+/**
+ * Auth.js redirect callback. Relative sign-out paths stay on the public domain
+ * when the request host is the process bind address (0.0.0.0) or, in production,
+ * localhost.
+ */
+export function rewriteAuthRedirect(url: string, baseUrl: string): string {
+  const publicBase = normalizeOAuthHost(baseUrl);
+  if (url.startsWith("/") && !url.startsWith("//")) {
+    return new URL(url, publicBase).href;
+  }
+  let target: URL;
+  try {
+    target = new URL(url);
+  } catch {
+    return publicBase;
+  }
+  const allowed = new Set<string>([new URL(publicBase).origin]);
+  try {
+    allowed.add(new URL(baseUrl).origin);
+  } catch {
+    // baseUrl was already normalized above
+  }
+  const configured = configuredPublicOrigin();
+  if (configured) allowed.add(new URL(configured).origin);
+  if (allowed.has(target.origin) || hostNeedsPublicOrigin(target.hostname)) {
+    return new URL(`${target.pathname}${target.search}${target.hash}`, publicBase).href;
+  }
+  return publicBase;
+}
+
+/** Rewrite an absolute Location that points at the bind address onto the public site. */
+export function rewriteBindHostLocation(location: string): string {
+  try {
+    const target = new URL(location);
+    if (!hostNeedsPublicOrigin(target.hostname)) return location;
+    const configured = configuredPublicOrigin();
+    if (!configured) return location;
+    return new URL(`${target.pathname}${target.search}${target.hash}`, configured).href;
+  } catch {
+    return location;
+  }
 }
 
 /** Env-based fallback when the request host is missing or invalid for OAuth. */
@@ -189,7 +282,11 @@ export function ensureCanonicalOAuthRequest(request: NextRequest): NextResponse 
   }
 
   const canonicalOrigin = getCanonicalAppOrigin();
-  if (resolveRequestOrigin(request) === canonicalOrigin) {
+  try {
+    if (new URL(canonicalOrigin).hostname === request.nextUrl.hostname) {
+      return null;
+    }
+  } catch {
     return null;
   }
 

@@ -9,6 +9,8 @@ import {
   getOAuthOrigin,
   normalizeOAuthHost,
   resolveRequestOrigin,
+  rewriteAuthRedirect,
+  rewriteBindHostLocation,
 } from "@/lib/oauth-redirect-origin";
 
 const ORIGINAL_ENV = { ...process.env };
@@ -69,9 +71,55 @@ test("resolveRequestOrigin prefers x-forwarded headers", () => {
   assert.equal(resolveRequestOrigin(request), "https://domain2.com");
 });
 
-test("normalizeOAuthHost maps 0.0.0.0 to localhost", () => {
+test("normalizeOAuthHost maps 0.0.0.0 to localhost when no public site is configured", () => {
+  restoreEnv();
+  delete process.env.NEXT_PUBLIC_SITE_URL;
+  delete process.env.AUTH_URL;
+  delete process.env.NEXTAUTH_URL;
   assert.equal(normalizeOAuthHost("https://0.0.0.0:3000"), "https://localhost:3000");
   assert.equal(normalizeOAuthHost("http://0.0.0.0:3000"), "http://localhost:3000");
+});
+
+test("normalizeOAuthHost maps 0.0.0.0 to the public site when configured", () => {
+  restoreEnv();
+  process.env.NEXT_PUBLIC_SITE_URL = "https://brt.example.com";
+  assert.equal(normalizeOAuthHost("https://0.0.0.0:3000"), "https://brt.example.com");
+  assert.equal(normalizeOAuthHost("http://0.0.0.0:3000"), "https://brt.example.com");
+});
+
+test("rewriteAuthRedirect keeps sign-out on the public domain", () => {
+  restoreEnv();
+  process.env.NEXT_PUBLIC_SITE_URL = "https://brt.example.com";
+  assert.equal(
+    rewriteAuthRedirect("/account/login", "https://0.0.0.0:3000"),
+    "https://brt.example.com/account/login",
+  );
+  assert.equal(
+    rewriteAuthRedirect("https://0.0.0.0:3000/account/login", "https://0.0.0.0:3000"),
+    "https://brt.example.com/account/login",
+  );
+  assert.equal(
+    rewriteAuthRedirect("https://evil.example/phish", "https://0.0.0.0:3000"),
+    "https://brt.example.com",
+  );
+  assert.equal(
+    rewriteAuthRedirect("/account/login", "https://domain2.com"),
+    "https://domain2.com/account/login",
+  );
+});
+
+test("rewriteAuthRedirect replaces localhost in production", () => {
+  restoreEnv();
+  process.env.NODE_ENV = "production";
+  process.env.NEXT_PUBLIC_SITE_URL = "https://brt.example.com";
+  assert.equal(
+    rewriteAuthRedirect("/account/login", "http://localhost:3000"),
+    "https://brt.example.com/account/login",
+  );
+  assert.equal(
+    rewriteBindHostLocation("http://0.0.0.0:3000/account/login?callbackUrl=%2Fadmin"),
+    "https://brt.example.com/account/login?callbackUrl=%2Fadmin",
+  );
 });
 
 test("getOAuthOrigin falls back to env for invalid request hosts", () => {

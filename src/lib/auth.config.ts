@@ -1,4 +1,5 @@
 import type { NextAuthConfig } from "next-auth";
+import { rewriteAuthRedirect } from "@/lib/oauth-redirect-origin";
 import { hasSessionUserId } from "@/lib/session-revocation";
 
 /**
@@ -13,6 +14,9 @@ export const authConfig = {
   },
   providers: [],
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      return rewriteAuthRedirect(url, baseUrl);
+    },
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role;
