@@ -62,11 +62,14 @@ html[data-chrome-tint-style="glass"] #az-safari-chrome-bottom {
 
 /* Status bar and top safe area take the site bar tint. Safari paints this
  * edge as an opaque color, so it reads the opaque glass sample
- * (--az-browser-chrome-tint: color basis mixed by glass strength). */
+ * (--az-browser-chrome-tint: color basis mixed by glass strength).
+ * In a Safari tab the page starts below the status bar and the top inset is
+ * 0, and Safari skips a 2px edge element, so every top band keeps the same
+ * 12px minimum as the bottom strip. */
 html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]):not([data-ios-status-bar="black"]):not([data-ios-status-bar="default"])
   #az-safari-chrome-top {
-  height: max(2px, env(safe-area-inset-top, 0px));
-  min-height: max(2px, env(safe-area-inset-top, 0px));
+  height: max(12px, env(safe-area-inset-top, 0px));
+  min-height: max(12px, env(safe-area-inset-top, 0px));
   max-height: none;
   background-color: var(--az-browser-chrome-tint, var(--bg-primary, var(--background, #fafafa))) !important;
 }
@@ -75,8 +78,8 @@ html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]
  * page canvas instead of Safari's default color. */
 html[data-edge-to-edge="off"][data-chrome-tint-style="transparent"] #az-safari-chrome-top,
 html[data-edge-to-edge="off"][data-chrome-tint-style="glass"] #az-safari-chrome-top {
-  height: max(2px, env(safe-area-inset-top, 0px));
-  min-height: max(2px, env(safe-area-inset-top, 0px));
+  height: max(12px, env(safe-area-inset-top, 0px));
+  min-height: max(12px, env(safe-area-inset-top, 0px));
   max-height: none;
   background-color: var(--bg-primary, var(--background, #fafafa)) !important;
 }
@@ -90,8 +93,8 @@ html[data-chrome-tint-style="solid"] #az-safari-chrome-bottom {
 }
 
 html[data-chrome-tint-style="solid"] #az-safari-chrome-top {
-  height: max(2px, env(safe-area-inset-top, 0px));
-  min-height: max(2px, env(safe-area-inset-top, 0px));
+  height: max(12px, env(safe-area-inset-top, 0px));
+  min-height: max(12px, env(safe-area-inset-top, 0px));
   max-height: none;
 }
 
@@ -129,8 +132,8 @@ html[data-chrome-tint-style="gradient"] #az-safari-chrome-bottom {
 
 /* ── iOS status bar (in-Safari). Solid keeps its own band. ────────────── */
 html[data-ios-status-bar="black"]:not([data-chrome-tint-style="solid"]) #az-safari-chrome-top {
-  height: max(2px, env(safe-area-inset-top, 0px));
-  min-height: max(2px, env(safe-area-inset-top, 0px));
+  height: max(12px, env(safe-area-inset-top, 0px));
+  min-height: max(12px, env(safe-area-inset-top, 0px));
   max-height: none;
   background-color: #000 !important;
   background-image: none !important;
@@ -138,8 +141,8 @@ html[data-ios-status-bar="black"]:not([data-chrome-tint-style="solid"]) #az-safa
 }
 
 html[data-ios-status-bar="default"]:not([data-chrome-tint-style="solid"]) #az-safari-chrome-top {
-  height: max(2px, env(safe-area-inset-top, 0px));
-  min-height: max(2px, env(safe-area-inset-top, 0px));
+  height: max(12px, env(safe-area-inset-top, 0px));
+  min-height: max(12px, env(safe-area-inset-top, 0px));
   max-height: none;
   background-color: #f7f7f8 !important;
   background-image: none !important;

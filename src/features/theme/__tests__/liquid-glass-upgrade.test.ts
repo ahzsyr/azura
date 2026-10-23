@@ -79,7 +79,7 @@ describe("safari chrome anchor contract", () => {
     assert.doesNotMatch(css, /data-chrome-tint-style="glass"\][^{]*\{[^}]*backdrop-filter: blur/);
     assert.match(
       css,
-      /html:is\(\[data-chrome-tint-style="transparent"\], \[data-chrome-tint-style="glass"\]\)[^{]*#az-safari-chrome-top \{[^}]*height: max\(2px, env\(safe-area-inset-top, 0px\)\);[^}]*background-color: var\(--az-browser-chrome-tint/,
+      /html:is\(\[data-chrome-tint-style="transparent"\], \[data-chrome-tint-style="glass"\]\)[^{]*#az-safari-chrome-top \{[^}]*height: max\(12px, env\(safe-area-inset-top, 0px\)\);[^}]*background-color: var\(--az-browser-chrome-tint/,
     );
     assert.doesNotMatch(css, /#az-safari-chrome-top \{\s*display: none;\s*\}\s*\n\s*html:is/);
     assert.match(css, /\) body \{\s*background-color: transparent;/);
