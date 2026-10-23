@@ -75,12 +75,17 @@ describe("safari chrome anchor contract", () => {
     const stylesDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "../../../styles");
     const css = readFileSync(path.join(stylesDir, "safari-chrome-tint.css"), "utf8");
     const edge = readFileSync(path.join(stylesDir, "edge-to-edge.css"), "utf8");
-    assert.doesNotMatch(css, /data-chrome-tint-style="glass"\][^{]*\{[^}]*color-mix/);
+    assert.doesNotMatch(css, /data-chrome-tint-style="glass"\][^{]*#az-safari-chrome-[a-z]+[^{]*\{[^}]*color-mix/);
     assert.doesNotMatch(css, /data-chrome-tint-style="glass"\][^{]*\{[^}]*backdrop-filter: blur/);
     assert.match(
       css,
-      /html:is\(\[data-chrome-tint-style="transparent"\], \[data-chrome-tint-style="glass"\]\)[^{]*#az-safari-chrome-top \{[^}]*height: max\(12px, env\(safe-area-inset-top, 0px\)\);[^}]*background-color: var\(--az-browser-chrome-tint/,
+      /html:is\(\[data-chrome-tint-style="transparent"\], \[data-chrome-tint-style="glass"\]\)[^{]*#az-safari-chrome-top \{[^}]*height: max\(var\(--az-top-band-min, 12px\), env\(safe-area-inset-top, 0px\)\);[^}]*background-color: var\(--az-status-bar-tint/,
     );
+    assert.match(
+      css,
+      /\[data-chrome-tint-source="primary"\] \{\s*--az-status-bar-tint: color-mix\(\s*in srgb,\s*var\(--primary/,
+    );
+    assert.doesNotMatch(edge, /\.header-root\[data-chrome-tint-source="primary"\] \.site-header/);
     assert.doesNotMatch(css, /#az-safari-chrome-top \{\s*display: none;\s*\}\s*\n\s*html:is/);
     assert.match(css, /\) body \{\s*background-color: transparent;/);
     assert.match(

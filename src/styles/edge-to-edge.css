@@ -202,8 +202,9 @@ html[data-chrome-tint-style="gradient"] .az-chrome-scroll-edge {
  * the Theme Studio already resolves. Specificity is intentionally higher than
  * [data-glass-effect="liquid"] .header-root .site-header. */
 
-/* Bar fill follows --az-chrome-tint-mix (the style alpha). Surface uses the
- * glass tint; primary washes --primary at that same alpha. These selectors
+/* Bar fill follows --az-chrome-tint-mix (the style alpha) over the surface
+ * glass tint. Color basis tints the status bar (safari-chrome-tint.css), not
+ * this bar. These selectors
  * beat [data-glass-effect="liquid"] .header-root .site-header and the overlay
  * transparent rules. Overlay still owns position. Unprefixed filter only —
  * the webkit copy lives in the @supports block below. */
@@ -215,15 +216,6 @@ html[data-chrome-tint-style="transparent"] .header-root .site-header {
     transparent
   ) !important;
   background-image: none !important;
-}
-
-html[data-chrome-tint-style="glass"] .header-root[data-chrome-tint-source="primary"] .site-header,
-html[data-chrome-tint-style="transparent"] .header-root[data-chrome-tint-source="primary"] .site-header {
-  background-color: color-mix(
-    in srgb,
-    var(--primary, #047857) calc(var(--az-chrome-tint-mix, 0.7) * 100%),
-    transparent
-  ) !important;
 }
 
 html[data-chrome-tint-style="transparent"] .header-root .site-header {
