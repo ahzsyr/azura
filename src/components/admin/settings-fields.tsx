@@ -129,8 +129,26 @@ export function PasswordField({
       <Label htmlFor={id}>{label}</Label>
       {description ? <p className="text-xs text-muted-foreground">{description}</p> : null}
       <div className="relative">
+        {autoComplete === "current-password" ? (
+          <input
+            type="text"
+            name="username"
+            autoComplete="username"
+            tabIndex={-1}
+            defaultValue=""
+            aria-hidden="true"
+            className="pointer-events-none absolute h-px w-px overflow-hidden opacity-0"
+          />
+        ) : null}
         <Input
           id={id}
+          name={
+            autoComplete === "current-password"
+              ? "current-password"
+              : autoComplete === "new-password"
+                ? "new-password"
+                : undefined
+          }
           type={visible ? "text" : "password"}
           placeholder={placeholder}
           value={value}

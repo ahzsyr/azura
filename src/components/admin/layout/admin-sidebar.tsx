@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -24,7 +24,6 @@ import {
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -98,6 +97,7 @@ function SidebarContent({
   const toggleSectionExpanded = useAdminUiStore((s) => s.toggleSectionExpanded);
   const expandOnlyNavGroup = useAdminUiStore((s) => s.expandOnlyNavGroup);
 
+  const [navFilterLocked, setNavFilterLocked] = useState(true);
   const isSearching = Boolean(navSearchQuery.trim());
   const activeGroupId = findNavGroupIdByPath(pathname);
   const activeSectionId = findNavSectionIdByPath(pathname);
@@ -120,23 +120,61 @@ function SidebarContent({
   return (
     <>
       {!collapsed && (
-        <div className="px-3 py-3">
+        <form
+          role="search"
+          autoComplete="off"
+          className="px-3 pb-2 pt-3"
+          onSubmit={(event) => event.preventDefault()}
+        >
           <div className="relative">
-            <Search className="pointer-events-none absolute start-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-            <Input
+            <Search
+              className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+              aria-hidden
+            />
+            <input
+              type="search"
+              id="admin-nav-filter"
+              name="admin-nav-filter"
               value={navSearchQuery}
               onChange={(e) => setNavSearchQuery(e.target.value)}
-              placeholder="Filter navigation…"
-              className="h-8 ps-8 text-xs"
+              placeholder="Filter navigation"
               aria-label="Filter navigation"
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
+              enterKeyHint="search"
+              data-1p-ignore="true"
+              data-lpignore="true"
+              data-form-type="other"
+              readOnly={navFilterLocked}
+              onPointerDown={(event) => {
+                event.currentTarget.readOnly = false;
+                setNavFilterLocked(false);
+              }}
+              onFocus={(event) => {
+                event.currentTarget.readOnly = false;
+                setNavFilterLocked(false);
+              }}
+              className="h-9 w-full rounded-lg border border-border/70 bg-muted/40 ps-9 pe-9 text-start text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/80 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/40 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none"
             />
             {isSearching ? (
-              <p className="mt-1.5 text-[10px] text-muted-foreground">
-                Matching groups expanded
-              </p>
+              <button
+                type="button"
+                className="absolute end-1.5 top-1/2 flex size-6 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
+                aria-label="Clear navigation filter"
+                onClick={() => setNavSearchQuery("")}
+              >
+                <X className="size-3.5" />
+              </button>
             ) : null}
           </div>
-        </div>
+          {isSearching ? (
+            <p className="mt-1.5 px-1 text-[11px] leading-4 text-muted-foreground">
+              Matching groups expanded
+            </p>
+          ) : null}
+        </form>
       )}
 
       <ScrollArea type="always" className={cn("az-scroll-thin flex-1 px-2", collapsed && "pt-3")}>
