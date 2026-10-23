@@ -53,11 +53,6 @@ export function MobileMenuTrigger({ hostId, mobileType, surface = "site" }: Prop
     activate();
   };
 
-  const icon =
-    mobileType === "search" ? "fa-search" :
-    mobileType === "fullscreen" ? "fa-th" :
-    "fa-bars";
-
   return (
     <button
       id="mobileTriggerBtn"
@@ -71,8 +66,15 @@ export function MobileMenuTrigger({ hostId, mobileType, surface = "site" }: Prop
       onPointerDown={onPointerDown}
       onClick={onClick}
     >
-      {/* Keep bars icon — panel owns the close control (avoids double X through glass) */}
-      <i className={`fas ${icon}`} aria-hidden />
+      {mobileType === "search" ? (
+        <i className="fas fa-search" aria-hidden />
+      ) : (
+        <span className="mobile-trigger__bars" aria-hidden>
+          <span />
+          <span />
+          <span />
+        </span>
+      )}
     </button>
   );
 }

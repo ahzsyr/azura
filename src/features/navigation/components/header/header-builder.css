@@ -1072,6 +1072,60 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
   display: none;
 }
 
+/* Three bars that fold into an X while the menu is open. */
+.mobile-trigger__bars {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 14px;
+}
+
+.mobile-trigger__bars > span {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transform-origin: center;
+  transition:
+    transform 0.32s cubic-bezier(0.32, 1.4, 0.5, 1),
+    opacity 0.16s ease;
+}
+
+.mobile-trigger__bars > span:nth-child(1) {
+  transform: translateY(-6px);
+}
+
+.mobile-trigger__bars > span:nth-child(3) {
+  transform: translateY(6px);
+}
+
+.mobile-trigger[aria-expanded="true"] .mobile-trigger__bars > span:nth-child(1) {
+  transform: rotate(45deg);
+}
+
+.mobile-trigger[aria-expanded="true"] .mobile-trigger__bars > span:nth-child(2) {
+  transform: scaleX(0.2);
+  opacity: 0;
+}
+
+.mobile-trigger[aria-expanded="true"] .mobile-trigger__bars > span:nth-child(3) {
+  transform: rotate(-45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-trigger__bars > span {
+    transition: none;
+  }
+}
+
+html[data-motion="off"] .mobile-trigger__bars > span,
+html[data-motion="reduced"] .mobile-trigger__bars > span {
+  transition: none;
+}
+
 .header-style-normal-minimal .nav-container {
   min-height: 62px;
 }
@@ -1295,8 +1349,8 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
     transform: scale(0.9);
   }
 
-  /* Panel has its own close — hide header trigger so it does not ghost through glass */
-  html.mnav-open .header-root .mobile-trigger {
+  /* Preview drawer covers the header and carries its own close. */
+  html.mnav-open:not(:has(.mnav-portal-root[data-mnav-placement="header"])) .header-root .mobile-trigger {
     visibility: hidden;
     pointer-events: none;
   }
@@ -1958,6 +2012,12 @@ html[data-reduced-paint="true"] .mnav-portal-root[data-mnav-state="open"] .mnav-
   pointer-events: none;
 }
 
+/* Safari tints its bars from fixed boxes on the viewport edges; even a
+   transparent full-screen layer counts, so the closed tree must not render. */
+.mnav-portal-root[data-mnav-state="closed"]:not([data-mnav-from-edge]) .mnav-overlay {
+  visibility: hidden;
+}
+
 /*
  * iOS WebKit (Safari and every other iPhone browser) recomposites the whole
  * page when a transformed layer also blurs. A solid panel slides on the GPU.
@@ -1981,7 +2041,7 @@ html[data-reduced-paint="true"] .mnav-portal-root[data-mnav-state="open"] .mnav-
   }
 
   /* A blurred header behind a moving panel forces WebKit to re-blur every frame. */
-  html.mnav-open .header-root .site-header {
+  html.mnav-open:not(:has(.mnav-portal-root[data-mnav-placement="header"])) .header-root .site-header {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
@@ -3577,4 +3637,87 @@ html:has([data-page-header-overlay="true"]) .header-root.header--sticking[data-o
   .hb-mega-v2-mixed {
     grid-template-columns: 1fr;
   }
+}
+
+/*
+ * Site menu drops from under the header. The header stays above the scrim and
+ * its button is the only open/close control. Declarations are !important
+ * because the drawer variants (slide, fade, scale, card, RTL, Safari inset)
+ * all position and move .mnav-panel with more specific selectors.
+ */
+html:has(.mnav-portal-root[data-mnav-placement="header"]:is([data-mnav-state="opening"], [data-mnav-state="open"], [data-mnav-state="closing"])) .header-root {
+  z-index: 9999 !important;
+}
+
+/* Dim only below the header; Safari's painted scrim edge is clipped to match. */
+.mnav-portal-root[data-mnav-placement="header"] .mnav-backdrop {
+  top: var(--mnav-top, 72px) !important;
+  clip-path: inset(0 -100vmax -100vmax -100vmax);
+}
+
+.mnav-portal-root[data-mnav-placement="header"] .mnav-head,
+.mnav-portal-root[data-mnav-placement="header"] .mnav-close--fs {
+  display: none;
+}
+
+.mnav-portal-root[data-mnav-placement="header"] .mnav-panel {
+  --mnav-sheet-gap: 8px;
+  --mnav-sheet-hidden: translate3d(0, -10px, 0) scale(0.96);
+  top: calc(var(--mnav-top, 72px) + var(--mnav-sheet-gap)) !important;
+  right: var(--mnav-inline-end, 8px) !important;
+  bottom: auto !important;
+  left: var(--mnav-inline-start, 8px) !important;
+  width: auto !important;
+  height: auto !important;
+  max-height: calc(
+    100dvh - var(--mnav-top, 72px) - var(--mnav-sheet-gap) -
+      max(16px, env(safe-area-inset-bottom, 0px)) - 4px
+  ) !important;
+  padding: 6px 0 !important;
+  border: 1px solid var(--menu-border, var(--cg2, var(--border))) !important;
+  border-radius: var(--header-radius, 20px) !important;
+  box-shadow:
+    0 24px 48px -16px rgba(15, 23, 42, 0.28),
+    0 2px 8px rgba(15, 23, 42, 0.08) !important;
+  overscroll-behavior: contain;
+  transform-origin: top right;
+  transform: var(--mnav-sheet-hidden) !important;
+  opacity: 0 !important;
+  transition:
+    transform var(--mnav-duration-exit, 100ms) var(--mnav-ease-exit, cubic-bezier(0.16, 1, 0.3, 1)),
+    opacity var(--mnav-duration-exit, 100ms) ease !important;
+}
+
+:is(html[dir="rtl"], html.rtl) .mnav-portal-root[data-mnav-placement="header"] .mnav-panel {
+  transform-origin: top left;
+}
+
+.mnav-portal-root[data-mnav-placement="header"]:is([data-mnav-state="opening"], [data-mnav-state="open"]) .mnav-panel {
+  transform: none !important;
+  opacity: 1 !important;
+  transition:
+    transform var(--mnav-duration-enter, 140ms) var(--mnav-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    opacity var(--mnav-duration-enter, 140ms) ease !important;
+}
+
+.mnav-portal-root[data-mnav-placement="header"][data-mnav-state="opening"] .mnav-panel {
+  @starting-style {
+    transform: var(--mnav-sheet-hidden) !important;
+    opacity: 0 !important;
+  }
+}
+
+.mnav-portal-root[data-mnav-placement="header"] .mnav-overlay--fullscreen {
+  top: var(--mnav-top, 72px) !important;
+  bottom: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mnav-portal-root[data-mnav-placement="header"] .mnav-panel {
+    transition: none !important;
+  }
+}
+
+html:is([data-motion="off"], [data-motion="reduced"]) .mnav-portal-root[data-mnav-placement="header"] .mnav-panel {
+  transition: none !important;
 }

@@ -414,6 +414,8 @@ interface OverlayProps {
   showArrows: boolean;
   /** False while the tree is pre-mounted and closed, so the page can still scroll. */
   scrollLock?: boolean;
+  /** False when the header stays usable above the menu. */
+  modal?: boolean;
 }
 
 function MobileNavActionsStrip({
@@ -438,12 +440,14 @@ function MobileNavActionsStrip({
 function overlayDialogProps(
   type: MobileNavType,
   onCloseAutoFocus: OverlayProps["onCloseAutoFocus"],
+  modal: boolean,
 ): Partial<React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>> {
   return {
     // Keep the overlay in the DOM during the CSS close-animation (portalVisible
     // controls actual unmounting, not Radix).
     forceMount: true,
     "aria-label": "Navigation",
+    "aria-modal": modal,
     // Restore focus to the header trigger instead of Radix's default behaviour.
     onCloseAutoFocus: (e: Event) => {
       e.preventDefault();
@@ -471,6 +475,7 @@ export function MobileNavOverlay({
   iconDefaults,
   showArrows,
   scrollLock = true,
+  modal = true,
 }: OverlayProps) {
   const [activeTab, setActiveTab] = useState(0);
 
@@ -485,7 +490,7 @@ export function MobileNavOverlay({
     };
   }, [surface, scrollLock]);
 
-  const dialogProps = overlayDialogProps(type, onCloseAutoFocus);
+  const dialogProps = overlayDialogProps(type, onCloseAutoFocus, modal);
 
   if (type === "fullscreen") {
     return (
@@ -695,6 +700,7 @@ type PortalShellProps = {
   iconVisibility?: NavIconVisibility;
   showArrows: boolean;
   portalRef: RefObject<HTMLDivElement | null>;
+  belowHeader?: boolean;
 };
 
 function MobileNavPortalShell({
@@ -710,6 +716,7 @@ function MobileNavPortalShell({
   iconVisibility,
   showArrows,
   portalRef,
+  belowHeader = false,
 }: PortalShellProps) {
   const menuAttrs = menuAppearance ? menuAppearanceDataAttributes(menuAppearance) : {};
   const iconAttrs = iconVisibility ? navIconVisibilityDataAttributes(iconVisibility) : {};
@@ -725,6 +732,7 @@ function MobileNavPortalShell({
       data-mobile-nav-show-icons={showIcons ? "true" : "false"}
       data-mobile-nav-show-arrows={showArrows ? "true" : "false"}
       data-header-surface={surface}
+      data-mnav-placement={belowHeader ? "header" : undefined}
       inert={animState === "closed" ? true : undefined}
       aria-hidden={animState === "closed" ? true : undefined}
       style={menuAppearance ? menuAppearanceStyle(menuAppearance) : undefined}
@@ -760,6 +768,8 @@ export function MobileMenuHost({
   edgeSwipe = true,
 }: HostProps) {
   const isSiteHost = surface !== "preview";
+  /** On the site the menu drops from under the header, whose button toggles it. */
+  const belowHeader = isSiteHost && mobileType !== "bottom";
   const iconBreakpoint = useNavIconBreakpoint();
   const iconDefaults: NavIconVisibility = iconVisibility ?? {
     mobile: showIcons,
@@ -1059,6 +1069,7 @@ export function MobileMenuHost({
     if (!mounted || !isSiteHost || !edgeSwipe || mobileType === "search") return;
     const mq = window.matchMedia(NAV_MOBILE_MQ);
     const followsFinger =
+      !belowHeader &&
       (mobileNavAnimation === "slide" || mobileNavAnimation === "spring") &&
       mobileType !== "fullscreen";
     let drag: { root: HTMLElement; panel: HTMLElement; closedOffset: number } | null = null;
@@ -1080,7 +1091,15 @@ export function MobileMenuHost({
         onOpen?.();
       } else {
         document.documentElement.classList.remove("mnav-open");
-        root.removeAttribute("data-mnav-from-edge");
+        let timer = 0;
+        const hide = (e?: TransitionEvent) => {
+          if (e && (e.target !== panel || e.propertyName !== "transform")) return;
+          window.clearTimeout(timer);
+          panel.removeEventListener("transitionend", hide);
+          if (animStateRef.current === "closed") root.removeAttribute("data-mnav-from-edge");
+        };
+        panel.addEventListener("transitionend", hide);
+        timer = window.setTimeout(hide, 400);
       }
       // Commit the dragged position as the transition's start, then let the
       // state's transform take over so the drawer finishes from the finger.
@@ -1125,7 +1144,7 @@ export function MobileMenuHost({
       onRelease: releaseDrag,
       onCancel: () => releaseDrag(false),
     });
-  }, [mounted, isSiteHost, edgeSwipe, mobileType, mobileNavAnimation, openMenu, onOpen]);
+  }, [mounted, isSiteHost, belowHeader, edgeSwipe, mobileType, mobileNavAnimation, openMenu, onOpen]);
 
   useEffect(() => {
     if (surface === "preview") return;
@@ -1194,18 +1213,80 @@ export function MobileMenuHost({
     return () => root.classList.remove("mnav-open");
   }, [portalVisible, animState]);
 
+  const opening = animState === "opening";
+  useLayoutEffect(() => {
+    if (!belowHeader || !opening) return;
+    const measure = () => {
+      const portal = portalRef.current;
+      const trigger = document.querySelector(`[data-mnav-trigger="${CSS.escape(hostId)}"]`);
+      const headerRoot = trigger?.closest(".header-root");
+      const bar = headerRoot?.querySelector(".site-header") ?? headerRoot;
+      if (!portal || !bar) return;
+      const rect = bar.getBoundingClientRect();
+      const inset = (px: number) => `${Math.max(8, Math.round(px))}px`;
+      portal.style.setProperty("--mnav-top", `${Math.max(0, Math.round(rect.bottom))}px`);
+      portal.style.setProperty("--mnav-inline-start", inset(rect.left));
+      portal.style.setProperty("--mnav-inline-end", inset(window.innerWidth - rect.right));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [belowHeader, opening, hostId]);
+
   const focusTrigger = useCallback(() => {
     const selector = `[data-mnav-trigger="${CSS.escape(hostId)}"]`;
     document.querySelector<HTMLElement>(selector)?.focus();
   }, [hostId]);
 
-  // DialogPrimitive.Root provides the context consumed by DialogPrimitive.Content
-  // inside MobileNavOverlay (React context flows through createPortal).
-  // open=true only during the "open" animation state; this deactivates the focus
-  // trap early (on close-start) and fires onCloseAutoFocus to restore focus to the
-  // trigger button while the CSS close-animation still plays.
+  useEffect(() => {
+    if (!menuShown || surface === "preview") return;
+    const root = portalRef.current;
+    const trigger = document.querySelector<HTMLElement>(
+      `[data-mnav-trigger="${CSS.escape(hostId)}"]`
+    );
+    // Below the header the trigger stays visible as the close control, so it
+    // keeps focus and joins the Tab cycle.
+    const raf = belowHeader
+      ? 0
+      : requestAnimationFrame(() => {
+          if (root?.contains(document.activeElement)) return;
+          root?.querySelector<HTMLElement>(".mnav-close")?.focus({ preventScroll: true });
+        });
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Tab" || !root) return;
+      const focusables = Array.from(
+        root.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter(
+        (el) => el.tabIndex >= 0 && el.getClientRects().length > 0 && !el.closest("[inert]")
+      );
+      if (belowHeader && trigger) focusables.unshift(trigger);
+      if (focusables.length === 0) return;
+      // The trigger and the portal sit apart in the DOM, so step manually.
+      e.preventDefault();
+      const index = focusables.indexOf(document.activeElement as HTMLElement);
+      const step = e.shiftKey ? -1 : 1;
+      const next =
+        index === -1
+          ? focusables[0]
+          : focusables[(index + step + focusables.length) % focusables.length];
+      next.focus();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      cancelAnimationFrame(raf);
+      document.removeEventListener("keydown", onKeyDown);
+      if (root?.contains(document.activeElement)) focusTrigger();
+    };
+  }, [menuShown, surface, focusTrigger, belowHeader, hostId]);
+
+  // Non-modal on purpose: the closed tree stays mounted on phones, and a modal
+  // Radix layer sets body pointer-events:none for as long as it is mounted.
+  // The host supplies the modal behaviour itself (scrim, scroll lock, focus).
   return (
     <DialogPrimitive.Root
+      modal={false}
       open={menuShown}
       onOpenChange={(open) => {
         if (!open) closeMenu();
@@ -1225,8 +1306,10 @@ export function MobileMenuHost({
               portalRef={portalRef}
               iconVisibility={iconVisibility}
               showArrows={showArrows}
+              belowHeader={belowHeader}
             >
               <MobileNavOverlay
+                modal={!belowHeader}
                 type={mobileType}
                 items={mobileItems}
                 actions={actions}
