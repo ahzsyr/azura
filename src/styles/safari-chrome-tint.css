@@ -5,7 +5,8 @@
  * The four Mobile Browser styles paint these anchors. Inline backgroundColor
  * is reserved for solid (boot + syncSafariChromeTint). Glass, transparent,
  * and gradient must stay free of an opaque inline fill or Safari renders a
- * solid toolbar. Transparent and Glass have no top anchor at all.
+ * solid toolbar. Transparent and Glass fill the top anchor with the opaque
+ * site bar tint so the status bar matches the header.
  *
  * - Anchors MUST stay in the real compositing stack (positive z-index).
  *   z-index: -1 puts them behind opaque body paint — Safari then falls back
@@ -57,6 +58,17 @@ html[data-chrome-tint-style="glass"] #az-safari-chrome-bottom {
   background-color: transparent !important;
   background-image: none !important;
   backdrop-filter: none !important;
+}
+
+/* Status bar and top safe area take the site bar tint. Safari paints this
+ * edge as an opaque color, so it reads the opaque glass sample
+ * (--az-browser-chrome-tint: color basis mixed by glass strength). */
+html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]):not([data-ios-status-bar="black"]):not([data-ios-status-bar="default"])
+  #az-safari-chrome-top {
+  height: max(2px, env(safe-area-inset-top, 0px));
+  min-height: max(2px, env(safe-area-inset-top, 0px));
+  max-height: none;
+  background-color: var(--az-browser-chrome-tint, var(--bg-primary, var(--background, #fafafa))) !important;
 }
 
 /* Edge-to-edge off keeps the page below the clock: the status bar takes the
@@ -164,16 +176,9 @@ html[data-edge-to-edge="off"] body {
     background-color: var(--bg-primary, var(--background));
   }
 
-  /* Transparent and Glass under the clock: nothing fixed at the top edge and
-   * no opaque page color for Safari to fall back on, so the page shows
-   * through the status bar. A clear top strip or an opaque html/body color
-   * both turn the status bar into a solid band. The canvas still paints, as
+  /* Transparent and Glass: no opaque page color at the bottom edge, so the
+   * toolbar shows Safari's glass over the page. The canvas still paints, as
    * an image layer, which Safari does not use as the edge color. */
-  html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]):not([data-ios-status-bar="black"]):not([data-ios-status-bar="default"])
-    #az-safari-chrome-top {
-    display: none;
-  }
-
   html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]),
   html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]) body {
     background-color: transparent;
