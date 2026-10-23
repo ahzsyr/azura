@@ -1,12 +1,24 @@
-import {
-  getEffectColor,
-  getMatrixTrailColor,
-  getStarFillColor,
-  getThemeColor,
-  resolveCssColor,
-  themeColorWithAlpha,
-} from "@/features/theme/effects/color-helper";
+import { getThemeColor, resolveCssColor } from "@/features/theme/effects/color-helper";
 import type { BackgroundMountContext, BackgroundRuntimeConfig } from "../types";
+import { cachedColorRgb, cachedIsDark, cachedVarRgb, rgba } from "./theme-color-cache";
+
+const FALLBACK_COLOR = "#047857";
+const LIGHT_ALPHA_BOOST = 1.75;
+
+const THEME_FALLBACK_VARS: Record<string, string[]> = {
+  "--color-primary": ["--color-primary", "--primary"],
+  "--color-accent": ["--color-accent", "--accent"],
+  "--color-secondary": ["--color-secondary", "--gold"],
+};
+
+/** Same result as `getEffectColor`, without reading computed style every call. */
+function effectColor(alpha: number, cssVar: string): string {
+  const base =
+    cachedVarRgb(THEME_FALLBACK_VARS[cssVar] ?? [cssVar], () => FALLBACK_COLOR) ??
+    cachedColorRgb(FALLBACK_COLOR);
+  const boosted = cachedIsDark() ? alpha : Math.min(1, alpha * LIGHT_ALPHA_BOOST);
+  return rgba(base, boosted);
+}
 
 /** Prefer effect override CSS vars, then brand aliases. */
 const COLOR_VAR_MAP: Record<string, string[]> = {
@@ -58,38 +70,23 @@ export function createColorHelpers(config: BackgroundRuntimeConfig) {
       return resolveCssColor(color);
     },
     getColor(alpha: number, cssVar = "--color-primary"): string {
+      const boosted = alpha * intensity;
       const override = overrideForVar(cssVar, config.colors);
-      if (override) {
-        const boosted = alpha * intensity;
-        const hex = resolveCssColor(override);
-        const r = Number.parseInt(hex.slice(1, 3), 16);
-        const g = Number.parseInt(hex.slice(3, 5), 16);
-        const b = Number.parseInt(hex.slice(5, 7), 16);
-        return `rgba(${r},${g},${b},${Math.min(1, boosted)})`;
-      }
+      if (override) return rgba(cachedColorRgb(override), boosted);
       const chain = COLOR_VAR_MAP[cssVar];
-      if (chain) {
-        const fromCss = readCssColorChain(chain);
-        if (fromCss) {
-          const boosted = alpha * intensity;
-          const hex = resolveCssColor(fromCss);
-          const r = Number.parseInt(hex.slice(1, 3), 16);
-          const g = Number.parseInt(hex.slice(3, 5), 16);
-          const b = Number.parseInt(hex.slice(5, 7), 16);
-          return `rgba(${r},${g},${b},${Math.min(1, boosted)})`;
-        }
-      }
-      return getEffectColor(alpha * intensity, cssVar);
+      const fromCss = chain ? cachedVarRgb(chain) : null;
+      if (fromCss) return rgba(fromCss, boosted);
+      return effectColor(boosted, cssVar);
     },
     getStarColor(twinkle: number): string {
+      const alpha = twinkle * intensity;
       const override = config.colors?.primary;
-      if (override) {
-        return themeColorWithAlpha(resolveCssColor(override), twinkle * intensity);
-      }
-      return getStarFillColor(twinkle * intensity);
+      if (override) return rgba(cachedColorRgb(override), alpha);
+      if (cachedIsDark()) return `rgba(255,255,255,${alpha})`;
+      return effectColor(alpha * 0.85, "--color-primary");
     },
     getMatrixTrail(): string {
-      return getMatrixTrailColor();
+      return cachedIsDark() ? "rgba(1,4,9,0.05)" : "rgba(250,250,250,0.08)";
     },
   };
 }

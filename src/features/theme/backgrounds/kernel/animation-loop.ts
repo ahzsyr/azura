@@ -1,4 +1,9 @@
-/** Schedules canvas draw loops that skip work while the tab is hidden. */
+/** Full-screen overlays that hide the page; drawing under them only steals frames. */
+function pageCoveredByOverlay(): boolean {
+  return document.documentElement.classList.contains("mnav-open");
+}
+
+/** Schedules canvas draw loops that skip work while the tab is hidden or covered. */
 export function runCanvasLoop(
   draw: () => void,
   options?: { isActive?: () => boolean },
@@ -9,7 +14,7 @@ export function runCanvasLoop(
 
   const loop = () => {
     if (!active) return;
-    if (!document.hidden && isActive()) {
+    if (!document.hidden && !pageCoveredByOverlay() && isActive()) {
       draw();
     }
     frameId = requestAnimationFrame(loop);

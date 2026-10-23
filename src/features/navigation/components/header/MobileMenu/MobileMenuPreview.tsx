@@ -55,6 +55,16 @@ function mnavMotionTarget(root: HTMLElement | null): HTMLElement | null {
   return root.querySelector<HTMLElement>(".mnav-panel, .mnav-overlay--fullscreen");
 }
 
+/**
+ * Property that actually changes. Slide keeps opacity at 1; Safari still emits
+ * an immediate transitionend for the unchanged opacity and would mark the menu
+ * settled (and turn on blur) while the drawer is still moving.
+ */
+function mnavEndProperty(animation: MobileNavAnimation, target: HTMLElement | null): string {
+  if (target?.classList.contains("mnav-overlay--fullscreen") || animation === "fade") return "opacity";
+  return "transform";
+}
+
 function isRtlDocument(): boolean {
   const root = document.documentElement;
   return root.dir === "rtl" || root.classList.contains("rtl");
@@ -389,6 +399,8 @@ interface OverlayProps {
   iconBreakpoint?: NavIconBreakpoint;
   iconDefaults?: NavIconVisibility;
   showArrows: boolean;
+  /** False while the tree is pre-mounted and closed, so the page can still scroll. */
+  scrollLock?: boolean;
 }
 
 function MobileNavActionsStrip({
@@ -445,19 +457,20 @@ export function MobileNavOverlay({
   iconBreakpoint,
   iconDefaults,
   showArrows,
+  scrollLock = true,
 }: OverlayProps) {
   const [activeTab, setActiveTab] = useState(0);
 
   // Body-scroll lock — keep this effect; Escape + focus-trap are handled by
   // DialogPrimitive.Root / DialogPrimitive.Content.
   useEffect(() => {
-    if (surface === "preview") return;
+    if (surface === "preview" || !scrollLock) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
     };
-  }, [surface]);
+  }, [surface, scrollLock]);
 
   const dialogProps = overlayDialogProps(type, onCloseAutoFocus);
 
@@ -699,6 +712,8 @@ function MobileNavPortalShell({
       data-mobile-nav-show-icons={showIcons ? "true" : "false"}
       data-mobile-nav-show-arrows={showArrows ? "true" : "false"}
       data-header-surface={surface}
+      inert={animState === "closed" ? true : undefined}
+      aria-hidden={animState === "closed" ? true : undefined}
       style={menuAppearance ? menuAppearanceStyle(menuAppearance) : undefined}
       {...iconAttrs}
       {...menuAttrs}
@@ -740,14 +755,19 @@ export function MobileMenuPreview({
   const portalRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const pathnameRef = useRef(pathname);
+  const animStateRef = useRef(animState);
+  animStateRef.current = animState;
+  /** Keep the closed tree mounted on phones so the next tap is a class change. */
+  const retainPortalRef = useRef(false);
+  const touchToggleRef = useRef(false);
 
   const menuShown = animState === "open" || animState === "opening";
   const portalShowsIcons = anyItemShowsNavIcon(mobileItems, iconBreakpoint, iconDefaults);
 
   const finishClose = useCallback(() => {
-    setPortalVisible(false);
     setAnimState("closed");
     setSettled(false);
+    if (!retainPortalRef.current) setPortalVisible(false);
   }, []);
 
   const openMenu = useCallback(() => {
@@ -788,14 +808,16 @@ export function MobileMenuPreview({
       setAnimState("open");
       if (!prefersReducedSiteMotion()) setSettled(true);
     };
+    const endProp = mnavEndProperty(mobileNavAnimation, panel);
     const onEnd = (event: TransitionEvent) => {
       if (event.target !== panel) return;
-      if (event.propertyName !== "transform" && event.propertyName !== "opacity") return;
+      const name = event.propertyName;
+      if (name !== endProp && name !== `-webkit-${endProp}`) return;
       finish();
     };
     panel?.addEventListener("transitionend", onEnd);
     const ms = getMobileAnimDuration(mobileNavAnimation, "enter");
-    const fallback = window.setTimeout(finish, ms + 48);
+    const fallback = window.setTimeout(finish, ms + 32);
     return () => {
       panel?.removeEventListener("transitionend", onEnd);
       window.clearTimeout(fallback);
@@ -825,14 +847,16 @@ export function MobileMenuPreview({
       done = true;
       finishClose();
     };
+    const endProp = mnavEndProperty(mobileNavAnimation, panel);
     const onEnd = (event: TransitionEvent) => {
       if (event.target !== panel) return;
-      if (event.propertyName !== "transform" && event.propertyName !== "opacity") return;
+      const name = event.propertyName;
+      if (name !== endProp && name !== `-webkit-${endProp}`) return;
       finish();
     };
     panel?.addEventListener("transitionend", onEnd);
     const ms = getMobileAnimDuration(mobileNavAnimation, "exit");
-    const fallback = window.setTimeout(finish, Math.max(ms, 0) + 48);
+    const fallback = window.setTimeout(finish, Math.max(ms, 0) + 32);
     return () => {
       panel?.removeEventListener("transitionend", onEnd);
       window.clearTimeout(fallback);
@@ -928,7 +952,8 @@ export function MobileMenuPreview({
         closeMenu();
         return;
       }
-      panel.style.transition = "transform var(--mnav-duration-enter, 220ms) cubic-bezier(0.22, 1, 0.36, 1)";
+      panel.style.transition =
+        "transform var(--mnav-duration-enter, 140ms) var(--mnav-ease, cubic-bezier(0.16, 1, 0.3, 1))";
       panel.style.transform = "translate3d(0, 0, 0)";
       const clearInline = (endEvent: TransitionEvent) => {
         if (endEvent.target !== panel || endEvent.propertyName !== "transform") return;
@@ -979,6 +1004,42 @@ export function MobileMenuPreview({
   }, [pathname, closeMenu, surface]);
 
   useEffect(() => {
+    if (!mounted || surface === "preview") return;
+    if (mobileType === "bottom" || mobileType === "search") return;
+    const mq = window.matchMedia(NAV_MOBILE_MQ);
+    let idleId = 0;
+    let timerId = 0;
+    const arm = () => {
+      if (!mq.matches || animStateRef.current !== "closed") return;
+      retainPortalRef.current = true;
+      setPortalVisible(true);
+    };
+    const schedule = () => {
+      if (!mq.matches) return;
+      if (typeof window.requestIdleCallback === "function") {
+        idleId = window.requestIdleCallback(arm, { timeout: 700 });
+      } else {
+        timerId = window.setTimeout(arm, 250);
+      }
+    };
+    schedule();
+    const onViewport = () => {
+      if (mq.matches) {
+        schedule();
+        return;
+      }
+      retainPortalRef.current = false;
+      if (animStateRef.current === "closed") setPortalVisible(false);
+    };
+    mq.addEventListener("change", onViewport);
+    return () => {
+      mq.removeEventListener("change", onViewport);
+      if (idleId) window.cancelIdleCallback(idleId);
+      window.clearTimeout(timerId);
+    };
+  }, [mounted, surface, mobileType]);
+
+  useEffect(() => {
     if (surface === "preview") return;
     const mq = window.matchMedia(NAV_MOBILE_MQ);
     const onChange = () => {
@@ -992,10 +1053,11 @@ export function MobileMenuPreview({
     };
   }, [closeMenu, surface]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!portalVisible) return;
     const root = document.documentElement;
-    // Drop lock class as soon as close starts so page chrome isn't held blurred
+    // Before paint, so Safari drops header blur and the background loop skips
+    // the same frame the drawer starts moving.
     if (animState === "open" || animState === "opening") root.classList.add("mnav-open");
     else root.classList.remove("mnav-open");
     return () => root.classList.remove("mnav-open");
@@ -1008,7 +1070,29 @@ export function MobileMenuPreview({
     }
     if (animState === "closing") cancelClose();
     else if (menuShown) closeMenu();
-    else if (!portalVisible) openMenu();
+    else openMenu();
+  };
+
+  const onTriggerPointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
+    if (mobileType === "search" && surface !== "preview") {
+      prefetchSearchModal();
+      return;
+    }
+    // Mouse keeps the click path. Touch starts on contact so iOS doesn't wait
+    // for the compatibility click, which lands after the finger lifts.
+    if (event.pointerType === "mouse" || !event.isPrimary) return;
+    event.preventDefault();
+    touchToggleRef.current = true;
+    toggle();
+  };
+
+  const onTriggerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (touchToggleRef.current) {
+      touchToggleRef.current = false;
+      event.preventDefault();
+      return;
+    }
+    toggle();
   };
 
   if (mobileType === "bottom") {
@@ -1072,12 +1156,8 @@ export function MobileMenuPreview({
         aria-expanded={menuShown}
         aria-haspopup="dialog"
         data-mobile-type={mobileType}
-        onPointerDown={
-          mobileType === "search" && surface !== "preview"
-            ? () => prefetchSearchModal()
-            : undefined
-        }
-        onClick={toggle}
+        onPointerDown={onTriggerPointerDown}
+        onClick={onTriggerClick}
       >
         {/* Keep bars icon — panel owns the close control (avoids double X through glass) */}
         <i className={`fas ${triggerIcon}`} aria-hidden />
@@ -1109,6 +1189,7 @@ export function MobileMenuPreview({
                 iconBreakpoint={iconBreakpoint}
                 iconDefaults={iconDefaults}
                 showArrows={showArrows}
+                scrollLock={menuShown}
               />
             </MobileNavPortalShell>,
             document.body

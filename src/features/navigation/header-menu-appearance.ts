@@ -1,5 +1,4 @@
 import type { CSSProperties } from "react";
-import { PUBLIC_MOTION } from "@/lib/motion/public-motion";
 import type {
   HeaderBorderRadius,
   HeaderBuilderSettings,
@@ -126,9 +125,13 @@ export function resolveMobileMenuAppearance(
   };
 }
 
-const MOBILE_ENTER_MS = Math.round(PUBLIC_MOTION.enterDuration * 1000);
-const MOBILE_EXIT_MS = Math.round(PUBLIC_MOTION.exitDuration * 1000);
-const MOBILE_SPRING_ENTER_MS = 260;
+/** Drawer timings are shorter than page motion so open/close feel immediate. */
+const MOBILE_ENTER_MS = 140;
+const MOBILE_EXIT_MS = 100;
+const MOBILE_SPRING_ENTER_MS = 180;
+const MNAV_EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
+const MNAV_EASE_EXIT = "cubic-bezier(0.16, 1, 0.3, 1)";
+const MNAV_EASE_SPRING = "cubic-bezier(0.22, 1.35, 0.36, 1)";
 
 /** OS Reduce Motion, or the site motion level `off` / `reduced`. */
 export function prefersReducedSiteMotion(): boolean {
@@ -173,6 +176,10 @@ export function menuAppearanceStyle(
   const { surface, glassEnabled, blurPx, transparency, shadow, animation, radius } = appearance;
   const radiusPx = RADIUS_PX[radius];
   const opacity = transparency;
+  const enterMs = getMobileAnimDuration(animation as MobileNavAnimation, "enter");
+  const exitMs = getMobileAnimDuration(animation as MobileNavAnimation, "exit");
+  const backdropEnterMs = enterMs === 0 ? 0 : Math.max(70, Math.round(enterMs * 0.65));
+  const backdropExitMs = exitMs === 0 ? 0 : Math.max(60, Math.round(exitMs * 0.75));
   const bgMix =
     surface === "transparent"
       ? "transparent"
@@ -187,8 +194,12 @@ export function menuAppearanceStyle(
     "--menu-shadow": SHADOW_CSS[shadow],
     "--menu-radius": `${radiusPx}px`,
     "--menu-card-radius": `calc(${radiusPx}px * 0.65)`,
-    "--mnav-duration": `${getMobileAnimDuration(animation as MobileNavAnimation, "enter")}ms`,
-    "--mnav-duration-enter": `${getMobileAnimDuration(animation as MobileNavAnimation, "enter")}ms`,
-    "--mnav-duration-exit": `${getMobileAnimDuration(animation as MobileNavAnimation, "exit")}ms`,
+    "--mnav-duration": `${enterMs}ms`,
+    "--mnav-duration-enter": `${enterMs}ms`,
+    "--mnav-duration-exit": `${exitMs}ms`,
+    "--mnav-duration-backdrop-enter": `${backdropEnterMs}ms`,
+    "--mnav-duration-backdrop-exit": `${backdropExitMs}ms`,
+    "--mnav-ease": animation === "spring" ? MNAV_EASE_SPRING : MNAV_EASE,
+    "--mnav-ease-exit": MNAV_EASE_EXIT,
   } as CSSProperties;
 }

@@ -35,6 +35,7 @@ export class LiquidGlassController {
       const h = window.innerHeight || 1;
       this.targetX = (e.clientX / w) * 100;
       this.targetY = (e.clientY / h) * 100;
+      if (!this.rafId) this.schedule();
     };
     this.onVisibility = () => {
       if (document.hidden || isTransitionPaused()) this.pause();
@@ -108,8 +109,12 @@ export class LiquidGlassController {
     this.rafId = 0;
     if (!this.running || document.hidden || isTransitionPaused()) return;
 
-    this.currentX += (this.targetX - this.currentX) * this.lerp;
-    this.currentY += (this.targetY - this.currentY) * this.lerp;
+    const dx = this.targetX - this.currentX;
+    const dy = this.targetY - this.currentY;
+    // Writing vars on <html> restyles the whole page; idle until the pointer moves again.
+    const settled = Math.abs(dx) < 0.05 && Math.abs(dy) < 0.05;
+    this.currentX = settled ? this.targetX : this.currentX + dx * this.lerp;
+    this.currentY = settled ? this.targetY : this.currentY + dy * this.lerp;
 
     const angle =
       Math.atan2(this.currentY - 50, this.currentX - 50) * (180 / Math.PI) + 90;
@@ -119,7 +124,7 @@ export class LiquidGlassController {
     root.style.setProperty("--pointer-y", this.currentY.toFixed(2));
     root.style.setProperty("--specular-angle", `${angle.toFixed(2)}deg`);
 
-    this.schedule();
+    if (!settled) this.schedule();
   }
 
   private clearVars(): void {

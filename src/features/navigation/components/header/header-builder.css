@@ -1189,6 +1189,8 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
     border-radius: 12px;
     font-size: 1.25rem;
     flex-shrink: 0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
     transition:
       background 0.18s ease,
       color 0.18s ease,
@@ -1287,6 +1289,10 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
   .mobile-trigger[aria-expanded="true"] {
     background: color-mix(in srgb, var(--cp, var(--primary)) 12%, transparent);
     color: var(--cp, var(--primary));
+  }
+
+  .mobile-trigger:active {
+    transform: scale(0.9);
   }
 
   /* Panel has its own close — hide header trigger so it does not ghost through glass */
@@ -1821,8 +1827,8 @@ html:has([data-page-header-overlay="true"]) .header-root[data-header-shell]:not(
   pointer-events: none;
   /* Hide only after the fade so close does not snap off */
   transition:
-    opacity var(--mnav-duration-exit, 160ms) ease,
-    visibility 0s linear var(--mnav-duration-exit, 160ms);
+    opacity var(--mnav-duration-backdrop-exit, 75ms) var(--mnav-ease-exit, cubic-bezier(0.16, 1, 0.3, 1)),
+    visibility 0s linear var(--mnav-duration-backdrop-exit, 75ms);
   /* Never leave backdrop-filter active while transparent — Safari keeps blurring */
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
@@ -1834,7 +1840,7 @@ html:has([data-page-header-overlay="true"]) .header-root[data-header-shell]:not(
   visibility: visible;
   pointer-events: auto;
   transition:
-    opacity var(--mnav-duration-enter, 220ms) ease,
+    opacity var(--mnav-duration-backdrop-enter, 90ms) var(--mnav-ease, cubic-bezier(0.16, 1, 0.3, 1)),
     visibility 0s linear 0s;
 }
 
@@ -1877,19 +1883,21 @@ html:has([data-page-header-overlay="true"]) .header-root[data-header-shell]:not(
   -webkit-backdrop-filter: none;
   color: var(--cg7, var(--foreground));
   transform: translate3d(100%, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   opacity: 1;
   touch-action: pan-y;
   transition:
-    transform var(--mnav-duration-exit, 160ms) cubic-bezier(0.22, 1, 0.36, 1),
-    opacity var(--mnav-duration-exit, 160ms) ease;
+    transform var(--mnav-duration-exit, 100ms) var(--mnav-ease-exit, cubic-bezier(0.16, 1, 0.3, 1)),
+    opacity var(--mnav-duration-exit, 100ms) var(--mnav-ease-exit, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .mnav-portal-root[data-mnav-state="opening"] .mnav-panel,
 .mnav-portal-root[data-mnav-state="open"] .mnav-panel {
   transform: translate3d(0, 0, 0);
   transition:
-    transform var(--mnav-duration-enter, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
-    opacity var(--mnav-duration-enter, 220ms) ease;
+    transform var(--mnav-duration-enter, 140ms) var(--mnav-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    opacity var(--mnav-duration-enter, 140ms) var(--mnav-ease, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .mnav-portal-root[data-mnav-state="opening"] .mnav-panel {
@@ -1902,6 +1910,8 @@ html:has([data-page-header-overlay="true"]) .header-root[data-header-shell]:not(
 .mnav-portal-root[data-mnav-state="closing"] .mnav-panel,
 .mnav-portal-root[data-mnav-dragging="true"] .mnav-panel {
   will-change: transform;
+  /* overflow:auto during a transform makes WebKit repaint the layer every frame */
+  overflow: hidden;
 }
 
 .mnav-portal-root[data-mnav-state="open"][data-mnav-settled="true"] .mnav-panel {
@@ -1928,6 +1938,43 @@ html[data-reduced-paint="true"] .mnav-portal-root[data-mnav-state="open"] .mnav-
   transform: translate3d(100%, 0, 0);
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+}
+
+/* Pre-mounted closed tree stays off-screen and must not take taps (child pointer-events:auto would otherwise punch through). */
+.mnav-portal-root[data-mnav-state="closed"],
+.mnav-portal-root[data-mnav-state="closed"] .mnav-overlay,
+.mnav-portal-root[data-mnav-state="closed"] .mnav-panel,
+.mnav-portal-root[data-mnav-state="closed"] .mnav-backdrop {
+  pointer-events: none;
+}
+
+/*
+ * iOS WebKit (Safari and every other iPhone browser) recomposites the whole
+ * page when a transformed layer also blurs. A solid panel slides on the GPU.
+ * Per-row entrance animations add more layers and are dropped here too.
+ */
+@supports (-webkit-touch-callout: none) {
+  .mnav-panel,
+  .mnav-portal-root[data-mnav-state="open"] .mnav-panel,
+  .mnav-portal-root[data-mnav-state="open"][data-mnav-settled="true"] .mnav-panel,
+  .mnav-overlay--fullscreen {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: var(--color-surface, var(--background));
+  }
+
+  .mnav-actions,
+  .mnav-item-wrap,
+  .mnav-row,
+  .mnav-fs-item {
+    animation: none !important;
+  }
+
+  /* A blurred header behind a moving panel forces WebKit to re-blur every frame. */
+  html.mnav-open .header-root .site-header {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
 }
 
 /* Fade animation */
@@ -1991,7 +2038,7 @@ html[data-reduced-paint="true"] .mnav-portal-root[data-mnav-state="open"] .mnav-
   opacity: 0;
 }
 
-/* Spring uses the shared ease at a slightly longer enter (set via --mnav-duration-enter). */
+/* Spring uses a short overshoot ease and a slightly longer enter (set via --mnav-ease / --mnav-duration-enter). */
 
 .header-root[data-mobile-nav-style="card"] .mnav-panel,
 .mnav-portal-root[data-mobile-nav-style="card"] .mnav-panel {
@@ -2086,13 +2133,13 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity var(--mnav-duration-exit, 160ms) ease;
+  transition: opacity var(--mnav-duration-exit, 100ms) var(--mnav-ease-exit, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .mnav-portal-root[data-mnav-state="opening"] .mnav-overlay--fullscreen,
 .mnav-portal-root[data-mnav-state="open"] .mnav-overlay--fullscreen {
   opacity: 1;
-  transition: opacity var(--mnav-duration-enter, 220ms) ease;
+  transition: opacity var(--mnav-duration-enter, 140ms) var(--mnav-ease, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .mnav-portal-root[data-mnav-state="opening"] .mnav-overlay--fullscreen {
@@ -2105,6 +2152,36 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
 .mnav-portal-root[data-mnav-state="closing"] .mnav-overlay--fullscreen {
   opacity: 0;
 }
+
+/* Items settle with the drawer. Opacity stays at 1 so links are readable on the first frame. */
+@keyframes mnav-settle {
+  from {
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.mnav-portal-root:is([data-mnav-state="opening"], [data-mnav-state="open"]) :is(
+  .mnav-actions,
+  .mnav-body > .mnav-item-wrap,
+  .mnav-body > .mnav-row,
+  .mnav-fs-item
+) {
+  animation: mnav-settle var(--mnav-duration-enter, 140ms) var(--mnav-ease, cubic-bezier(0.16, 1, 0.3, 1)) both;
+}
+
+.mnav-body > :nth-child(2),
+.mnav-fs-grid > :nth-child(2) { animation-delay: 16ms; }
+.mnav-body > :nth-child(3),
+.mnav-fs-grid > :nth-child(3) { animation-delay: 28ms; }
+.mnav-body > :nth-child(4),
+.mnav-fs-grid > :nth-child(4) { animation-delay: 40ms; }
+.mnav-body > :nth-child(5),
+.mnav-fs-grid > :nth-child(5) { animation-delay: 50ms; }
+.mnav-body > :nth-child(n + 6),
+.mnav-fs-grid > :nth-child(n + 6) { animation-delay: 58ms; }
 
 /* Glass mobile panel: subtle inner scrim for link readability */
 .mnav-portal-root[data-menu-surface="glass"] .mnav-body {
@@ -2125,7 +2202,12 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   .mnav-overlay--fullscreen,
   .mnav-children,
   .mnav-children__clip,
-  .mnav-row__chevron {
+  .mnav-row__chevron,
+  .mnav-close,
+  .mnav-actions,
+  .mnav-item-wrap,
+  .mnav-row,
+  .mnav-fs-item {
     transition: none !important;
     animation: none !important;
   }
@@ -2157,12 +2239,22 @@ html[data-motion="off"] .mnav-overlay--fullscreen,
 html[data-motion="off"] .mnav-children,
 html[data-motion="off"] .mnav-children__clip,
 html[data-motion="off"] .mnav-row__chevron,
+html[data-motion="off"] .mnav-close,
+html[data-motion="off"] .mnav-actions,
+html[data-motion="off"] .mnav-item-wrap,
+html[data-motion="off"] .mnav-row,
+html[data-motion="off"] .mnav-fs-item,
 html[data-motion="reduced"] .mnav-panel,
 html[data-motion="reduced"] .mnav-backdrop,
 html[data-motion="reduced"] .mnav-overlay--fullscreen,
 html[data-motion="reduced"] .mnav-children,
 html[data-motion="reduced"] .mnav-children__clip,
-html[data-motion="reduced"] .mnav-row__chevron {
+html[data-motion="reduced"] .mnav-row__chevron,
+html[data-motion="reduced"] .mnav-close,
+html[data-motion="reduced"] .mnav-actions,
+html[data-motion="reduced"] .mnav-item-wrap,
+html[data-motion="reduced"] .mnav-row,
+html[data-motion="reduced"] .mnav-fs-item {
   transition: none !important;
   animation: none !important;
 }
@@ -2232,10 +2324,19 @@ html[data-motion="reduced"] .mnav-portal-root[data-mnav-state="open"] .mnav-pane
   background: color-mix(in srgb, var(--foreground) 6%, transparent);
   border: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent);
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   color: var(--cg7, var(--foreground));
   font-size: 1.15rem;
   position: relative;
   z-index: 5;
+  transition:
+    background 0.12s ease,
+    transform 0.12s var(--mnav-ease, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.mnav-close:active {
+  transform: scale(0.9);
 }
 
 .mnav-close:hover {
@@ -2351,7 +2452,7 @@ html[data-motion="reduced"] .mnav-portal-root[data-mnav-state="open"] .mnav-pane
   opacity: 0.55;
   color: var(--cg6, var(--muted-foreground));
   transform: rotate(0deg);
-  transition: transform var(--mnav-duration-enter, 220ms) cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--mnav-duration-enter, 140ms) var(--mnav-ease, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .mnav-row__chevron.is-open {
@@ -2458,7 +2559,12 @@ html[data-motion="reduced"] .mnav-portal-root[data-mnav-state="open"] .mnav-pane
   display: grid;
   grid-template-rows: 0fr;
   background: transparent;
-  transition: grid-template-rows var(--mnav-duration-exit, 160ms) cubic-bezier(0.22, 1, 0.36, 1);
+  transition: grid-template-rows var(--mnav-duration-exit, 100ms) var(--mnav-ease-exit, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.mnav-item-wrap.is-open > .mnav-children {
+  transition-duration: var(--mnav-duration-enter, 140ms);
+  transition-timing-function: var(--mnav-ease, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .mnav-portal-root[data-mnav-state="opening"] .mnav-children,
@@ -2477,11 +2583,13 @@ html[data-motion="reduced"] .mnav-portal-root[data-mnav-state="open"] .mnav-pane
   overflow: hidden;
   background: transparent;
   opacity: 0;
-  transition: opacity var(--mnav-duration-exit, 160ms) ease;
+  transition: opacity var(--mnav-duration-exit, 100ms) var(--mnav-ease-exit, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .mnav-item-wrap.is-open > .mnav-children > .mnav-children__clip {
   opacity: 1;
+  transition-duration: var(--mnav-duration-enter, 140ms);
+  transition-timing-function: var(--mnav-ease, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 /* Fullscreen grid */
