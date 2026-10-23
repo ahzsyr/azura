@@ -299,6 +299,7 @@ export const headerWorkspaceSchema = z.object({
     tabletNavShowIcons: z.boolean().optional(),
     desktopNavShowIcons: z.boolean().optional(),
     mobileNavShowArrows: z.boolean().optional(),
+    mobileNavEdgeSwipe: z.boolean().optional(),
     overlayMode: z.enum(["none", "over-media", "transparent-until-scroll"]).optional(),
     overlaySurface: z.enum(["glass", "solid", "transparent"]).optional(),
     firstBlockHeaderOverlay: z

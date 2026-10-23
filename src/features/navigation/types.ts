@@ -386,6 +386,8 @@ export interface HeaderBuilderSettings {
   /** Desktop main-nav / mega icons (≥969px). */
   desktopNavShowIcons?: boolean;
   mobileNavShowArrows?: boolean;
+  /** Swipe in from the screen edge to open the mobile drawer. Unset is on. */
+  mobileNavEdgeSwipe?: boolean;
   overlayMode?: "none" | "over-media" | "transparent-until-scroll";
   overlaySurface?: "glass" | "solid" | "transparent";
   firstBlockHeaderOverlay?: HeaderFirstBlockOverlaySettings;

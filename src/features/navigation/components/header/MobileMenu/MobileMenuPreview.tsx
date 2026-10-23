@@ -11,7 +11,7 @@ import {
   type ReactNode,
   type RefObject,
 } from "react";
-import { createPortal } from "react-dom";
+import { createPortal, flushSync } from "react-dom";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { usePathname } from "next/navigation";
@@ -37,7 +37,16 @@ import { NavLink } from "../NavLink";
 import type { HeaderRendererSurface } from "../HeaderRenderer";
 import { HeaderActions } from "../HeaderActions";
 import { NavMenuGlyph } from "../NavMenuGlyph";
-import { prefetchSearchModal, requestOpenSearch } from "@/capabilities/search/components/search-prefetch";
+import { requestOpenSearch } from "@/capabilities/search/components/search-prefetch";
+import {
+  MOBILE_MENU_CLOSE_EVENT,
+  MOBILE_MENU_OPEN_EVENT,
+  MOBILE_MENU_TOGGLE_EVENT,
+  clearMobileMenuHost,
+  mobileMenuEventTargetsHost,
+  setMobileMenuShown,
+} from "./mobile-menu-bridge";
+import { attachEdgeSwipe, EDGE_SWIPE_UNTRACKED_DISTANCE_PX } from "./mobile-menu-edge-swipe";
 import type { NavIconBreakpoint, NavIconVisibility } from "@/features/navigation/nav-icon-visibility";
 import {
   navIconVisibilityDataAttributes,
@@ -118,7 +127,9 @@ function anyItemShowsNavIcon(
   );
 }
 
-interface Props {
+interface HostProps {
+  /** Pairs this host with its MobileMenuTrigger. */
+  hostId: string;
   mobileType: MobileNavType;
   items?: MenuItem[];
   surface?: HeaderRendererSurface;
@@ -134,6 +145,8 @@ interface Props {
   /** Per-breakpoint icon visibility attrs for CSS (portal is outside header-root). */
   iconVisibility?: NavIconVisibility;
   showArrows?: boolean;
+  /** Swipe in from the drawer's screen edge to open. Live site only. */
+  edgeSwipe?: boolean;
 }
 
 function blockPreviewNav(e: React.MouseEvent, surface?: HeaderRendererSurface) {
@@ -391,7 +404,7 @@ interface OverlayProps {
   actions: HeaderAction[];
   onActionClick?: (action: HeaderAction) => void;
   onClose: () => void;
-  /** Called after focus is returned when the dialog closes; use to restore focus to the trigger. */
+  /** Restores focus when the dialog closes. Defaults to #mobileTriggerBtn. */
   onCloseAutoFocus?: (e: Event) => void;
   localeCode: string;
   surface?: HeaderRendererSurface;
@@ -431,11 +444,11 @@ function overlayDialogProps(
     // controls actual unmounting, not Radix).
     forceMount: true,
     "aria-label": "Navigation",
-    // Restore focus to #mobileTriggerBtn instead of Radix's default behaviour.
+    // Restore focus to the header trigger instead of Radix's default behaviour.
     onCloseAutoFocus: (e: Event) => {
       e.preventDefault();
-      (document.getElementById("mobileTriggerBtn") as HTMLElement | null)?.focus();
-      onCloseAutoFocus?.(e);
+      if (onCloseAutoFocus) onCloseAutoFocus(e);
+      else document.getElementById("mobileTriggerBtn")?.focus();
     },
     // The backdrop / fullscreen overlay already cover the viewport, so there is
     // nothing outside to interact with.  Prevent Radix from dismissing on any
@@ -723,7 +736,13 @@ function MobileNavPortalShell({
   );
 }
 
-export function MobileMenuPreview({
+/**
+ * The mobile menu, mounted beside the header rather than inside it. It owns
+ * open state, motion, and gestures; MobileMenuTrigger and any other code reach
+ * it through the events in mobile-menu-bridge, the way search is opened.
+ */
+export function MobileMenuHost({
+  hostId,
   mobileType,
   items = [],
   surface = "site",
@@ -738,7 +757,9 @@ export function MobileMenuPreview({
   showIcons = true,
   iconVisibility,
   showArrows = true,
-}: Props) {
+  edgeSwipe = true,
+}: HostProps) {
+  const isSiteHost = surface !== "preview";
   const iconBreakpoint = useNavIconBreakpoint();
   const iconDefaults: NavIconVisibility = iconVisibility ?? {
     mobile: showIcons,
@@ -756,27 +777,30 @@ export function MobileMenuPreview({
   const pathname = usePathname();
   const pathnameRef = useRef(pathname);
   const animStateRef = useRef(animState);
-  animStateRef.current = animState;
+  useLayoutEffect(() => {
+    animStateRef.current = animState;
+  }, [animState]);
   /** Keep the closed tree mounted on phones so the next tap is a class change. */
   const retainPortalRef = useRef(false);
-  const touchToggleRef = useRef(false);
 
   const menuShown = animState === "open" || animState === "opening";
   const portalShowsIcons = anyItemShowsNavIcon(mobileItems, iconBreakpoint, iconDefaults);
 
   const finishClose = useCallback(() => {
+    portalRef.current?.removeAttribute("data-mnav-from-edge");
     setAnimState("closed");
     setSettled(false);
     if (!retainPortalRef.current) setPortalVisible(false);
-  }, []);
+  }, [setAnimState, setSettled, setPortalVisible]);
 
   const openMenu = useCallback(() => {
     const reduced = prefersReducedSiteMotion();
+    portalRef.current?.removeAttribute("data-mnav-from-edge");
     setSettled(false);
     setPortalVisible(true);
     setAnimState(reduced ? "open" : "opening");
     onOpen?.();
-  }, [onOpen]);
+  }, [onOpen, setAnimState, setSettled, setPortalVisible]);
 
   const closeMenu = useCallback(() => {
     if (!portalVisible) return;
@@ -786,7 +810,7 @@ export function MobileMenuPreview({
       return;
     }
     setAnimState((prev) => (prev === "closing" || prev === "closed" ? prev : "closing"));
-  }, [portalVisible, finishClose]);
+  }, [portalVisible, finishClose, setAnimState, setSettled]);
 
   const cancelClose = useCallback(() => {
     if (prefersReducedSiteMotion()) {
@@ -796,7 +820,7 @@ export function MobileMenuPreview({
     }
     setSettled(false);
     setAnimState("opening");
-  }, []);
+  }, [setAnimState, setSettled]);
 
   useEffect(() => {
     if (!portalVisible || animState !== "opening") return;
@@ -990,11 +1014,118 @@ export function MobileMenuPreview({
     };
   }, [animState, mobileNavAnimation, closeMenu]);
 
+  const toggleMenu = useCallback(() => {
+    const state = animStateRef.current;
+    if (state === "closing") cancelClose();
+    else if (state === "open" || state === "opening") closeMenu();
+    else openMenu();
+  }, [cancelClose, closeMenu, openMenu]);
+
   useEffect(() => {
-    const close = () => closeMenu();
-    document.addEventListener("azura:close-mobile-menu", close);
-    return () => document.removeEventListener("azura:close-mobile-menu", close);
-  }, [closeMenu]);
+    setMobileMenuShown(hostId, menuShown);
+  }, [hostId, menuShown]);
+
+  useEffect(() => () => clearMobileMenuHost(hostId), [hostId]);
+
+  useEffect(() => {
+    const onOpenRequest = (event: Event) => {
+      if (!mobileMenuEventTargetsHost(event, hostId, isSiteHost, "open")) return;
+      if (animStateRef.current === "closing") cancelClose();
+      else if (animStateRef.current === "closed") openMenu();
+    };
+    const onToggleRequest = (event: Event) => {
+      if (mobileMenuEventTargetsHost(event, hostId, isSiteHost, "open")) toggleMenu();
+    };
+    const onCloseRequest = (event: Event) => {
+      if (mobileMenuEventTargetsHost(event, hostId, isSiteHost, "close")) closeMenu();
+    };
+    // Search and the menu are separate layers; opening search closes the menu.
+    const onSearchOpen = () => {
+      if (isSiteHost) closeMenu();
+    };
+    document.addEventListener(MOBILE_MENU_OPEN_EVENT, onOpenRequest);
+    document.addEventListener(MOBILE_MENU_TOGGLE_EVENT, onToggleRequest);
+    document.addEventListener(MOBILE_MENU_CLOSE_EVENT, onCloseRequest);
+    document.addEventListener("sm:open-search", onSearchOpen);
+    return () => {
+      document.removeEventListener(MOBILE_MENU_OPEN_EVENT, onOpenRequest);
+      document.removeEventListener(MOBILE_MENU_TOGGLE_EVENT, onToggleRequest);
+      document.removeEventListener(MOBILE_MENU_CLOSE_EVENT, onCloseRequest);
+      document.removeEventListener("sm:open-search", onSearchOpen);
+    };
+  }, [hostId, isSiteHost, cancelClose, closeMenu, openMenu, toggleMenu]);
+
+  useEffect(() => {
+    if (!mounted || !isSiteHost || !edgeSwipe || mobileType === "search") return;
+    const mq = window.matchMedia(NAV_MOBILE_MQ);
+    const followsFinger =
+      (mobileNavAnimation === "slide" || mobileNavAnimation === "spring") &&
+      mobileType !== "fullscreen";
+    let drag: { root: HTMLElement; panel: HTMLElement; closedOffset: number } | null = null;
+
+    const releaseDrag = (open: boolean) => {
+      const current = drag;
+      drag = null;
+      if (!current) {
+        if (open) openMenu();
+        else portalRef.current?.removeAttribute("data-mnav-from-edge");
+        return;
+      }
+      const { root, panel } = current;
+      if (open) {
+        flushSync(() => {
+          setSettled(false);
+          setAnimState("opening");
+        });
+        onOpen?.();
+      } else {
+        document.documentElement.classList.remove("mnav-open");
+        root.removeAttribute("data-mnav-from-edge");
+      }
+      // Commit the dragged position as the transition's start, then let the
+      // state's transform take over so the drawer finishes from the finger.
+      panel.getBoundingClientRect();
+      root.removeAttribute("data-mnav-dragging");
+      root.removeAttribute("data-mnav-edge-drag");
+      root.style.removeProperty("--mnav-drag-progress");
+      panel.getBoundingClientRect();
+      panel.style.transform = "";
+    };
+
+    return attachEdgeSwipe({
+      isRtl: isRtlDocument,
+      canStart: () =>
+        mq.matches &&
+        animStateRef.current === "closed" &&
+        !document.querySelector('[role="dialog"][data-state="open"]'),
+      onClaim: () => {
+        retainPortalRef.current = true;
+        if (!portalRef.current) flushSync(() => setPortalVisible(true));
+        const root = portalRef.current;
+        const panel = mnavMotionTarget(root);
+        if (!root || !panel) return 0;
+        root.setAttribute("data-mnav-from-edge", "true");
+        if (!followsFinger || prefersReducedSiteMotion()) return EDGE_SWIPE_UNTRACKED_DISTANCE_PX;
+        const closedOffset = new DOMMatrixReadOnly(getComputedStyle(panel).transform).m41;
+        if (!closedOffset) return EDGE_SWIPE_UNTRACKED_DISTANCE_PX;
+        root.setAttribute("data-mnav-dragging", "true");
+        root.setAttribute("data-mnav-edge-drag", "true");
+        document.documentElement.classList.add("mnav-open");
+        drag = { root, panel, closedOffset };
+        return Math.abs(closedOffset);
+      },
+      onMove: (travel) => {
+        if (!drag) return;
+        const { root, panel, closedOffset } = drag;
+        const distance = Math.abs(closedOffset);
+        const offset = Math.sign(closedOffset) * (distance - travel);
+        panel.style.transform = `translate3d(${offset}px, 0, 0)`;
+        root.style.setProperty("--mnav-drag-progress", (travel / distance).toFixed(3));
+      },
+      onRelease: releaseDrag,
+      onCancel: () => releaseDrag(false),
+    });
+  }, [mounted, isSiteHost, edgeSwipe, mobileType, mobileNavAnimation, openMenu, onOpen]);
 
   useEffect(() => {
     if (surface === "preview") return;
@@ -1063,72 +1194,10 @@ export function MobileMenuPreview({
     return () => root.classList.remove("mnav-open");
   }, [portalVisible, animState]);
 
-  const toggle = () => {
-    if (mobileType === "search" && surface !== "preview") {
-      requestOpenSearch();
-      return;
-    }
-    if (animState === "closing") cancelClose();
-    else if (menuShown) closeMenu();
-    else openMenu();
-  };
-
-  const onTriggerPointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
-    if (mobileType === "search" && surface !== "preview") {
-      prefetchSearchModal();
-      return;
-    }
-    // Mouse keeps the click path. Touch starts on contact so iOS doesn't wait
-    // for the compatibility click, which lands after the finger lifts.
-    if (event.pointerType === "mouse" || !event.isPrimary) return;
-    event.preventDefault();
-    touchToggleRef.current = true;
-    toggle();
-  };
-
-  const onTriggerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (touchToggleRef.current) {
-      touchToggleRef.current = false;
-      event.preventDefault();
-      return;
-    }
-    toggle();
-  };
-
-  if (mobileType === "bottom") {
-    const iconAttrs = iconVisibility ? navIconVisibilityDataAttributes(iconVisibility) : {};
-    return (
-      <nav
-        className="mnav-bottom-bar"
-        data-mobile-type="bottom"
-        data-mobile-nav-show-icons={portalShowsIcons ? "true" : "false"}
-        aria-label="Navigation"
-        {...iconAttrs}
-      >
-        {mobileItems.slice(0, 5).map((item) => (
-          <NavLink
-            key={item.id}
-            href={getItemHref(item, localeCode)}
-            className="mnav-bottom-item"
-            onClick={surface === "preview" ? (e) => e.preventDefault() : undefined}
-          >
-            <MnavIconSlot
-              icon={item.icon}
-              showIcons={iconSlotDecision(item, iconBreakpoint, iconDefaults).show}
-              override={iconSlotDecision(item, iconBreakpoint, iconDefaults).override}
-              fallbackIcon="fa-circle"
-            />
-            <span className="mnav-bottom-item__label">{item.label}</span>
-          </NavLink>
-        ))}
-      </nav>
-    );
-  }
-
-  const triggerIcon =
-    mobileType === "search" ? "fa-search" :
-    mobileType === "fullscreen" ? "fa-th" :
-    "fa-bars";
+  const focusTrigger = useCallback(() => {
+    const selector = `[data-mnav-trigger="${CSS.escape(hostId)}"]`;
+    document.querySelector<HTMLElement>(selector)?.focus();
+  }, [hostId]);
 
   // DialogPrimitive.Root provides the context consumed by DialogPrimitive.Content
   // inside MobileNavOverlay (React context flows through createPortal).
@@ -1142,26 +1211,6 @@ export function MobileMenuPreview({
         if (!open) closeMenu();
       }}
     >
-      <button
-        id="mobileTriggerBtn"
-        type="button"
-        className={`mobile-trigger mobile-trigger--${mobileType}`}
-        aria-label={
-          mobileType === "search" && surface !== "preview"
-            ? "Open search"
-            : menuShown
-              ? "Close menu"
-              : "Open menu"
-        }
-        aria-expanded={menuShown}
-        aria-haspopup="dialog"
-        data-mobile-type={mobileType}
-        onPointerDown={onTriggerPointerDown}
-        onClick={onTriggerClick}
-      >
-        {/* Keep bars icon — panel owns the close control (avoids double X through glass) */}
-        <i className={`fas ${triggerIcon}`} aria-hidden />
-      </button>
       {portalVisible && mounted
         ? createPortal(
             <MobileNavPortalShell
@@ -1183,6 +1232,7 @@ export function MobileMenuPreview({
                 actions={actions}
                 onActionClick={onActionClick}
                 onClose={closeMenu}
+                onCloseAutoFocus={focusTrigger}
                 localeCode={localeCode}
                 surface={surface}
                 showIcons={portalShowsIcons}
@@ -1196,5 +1246,58 @@ export function MobileMenuPreview({
           )
         : null}
     </DialogPrimitive.Root>
+  );
+}
+
+export function MobileNavBottomBar({
+  items = [],
+  surface = "site",
+  localeCode = "en",
+  showIcons = true,
+  iconVisibility,
+}: {
+  items?: MenuItem[];
+  surface?: HeaderRendererSurface;
+  localeCode?: string;
+  showIcons?: boolean;
+  iconVisibility?: NavIconVisibility;
+}) {
+  const iconBreakpoint = useNavIconBreakpoint();
+  const iconDefaults: NavIconVisibility = iconVisibility ?? {
+    mobile: showIcons,
+    tablet: showIcons,
+    desktop: true,
+  };
+  const mobileItems = items.filter(
+    (item) => item.placement === "both" || item.placement === "mobile",
+  );
+  const iconAttrs = iconVisibility ? navIconVisibilityDataAttributes(iconVisibility) : {};
+  return (
+    <nav
+      className="mnav-bottom-bar"
+      data-mobile-type="bottom"
+      data-mobile-nav-show-icons={
+        anyItemShowsNavIcon(mobileItems, iconBreakpoint, iconDefaults) ? "true" : "false"
+      }
+      aria-label="Navigation"
+      {...iconAttrs}
+    >
+      {mobileItems.slice(0, 5).map((item) => (
+        <NavLink
+          key={item.id}
+          href={getItemHref(item, localeCode)}
+          className="mnav-bottom-item"
+          onClick={surface === "preview" ? (e) => e.preventDefault() : undefined}
+        >
+          <MnavIconSlot
+            icon={item.icon}
+            showIcons={iconSlotDecision(item, iconBreakpoint, iconDefaults).show}
+            override={iconSlotDecision(item, iconBreakpoint, iconDefaults).override}
+            fallbackIcon="fa-circle"
+          />
+          <span className="mnav-bottom-item__label">{item.label}</span>
+        </NavLink>
+      ))}
+    </nav>
   );
 }

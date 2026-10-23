@@ -403,8 +403,9 @@ html[data-theme="dark"][data-glass-effect="liquid"] .popup-promo {
   box-shadow: -10px 0 36px -14px color-mix(in srgb, black 22%, transparent);
 }
 
-[data-glass-effect="liquid"] .mnav-portal-root[data-mnav-state="open"] .mnav-backdrop {
-  background: color-mix(in srgb, var(--foreground) 42%, transparent) !important;
+[data-glass-effect="liquid"] .mnav-portal-root .mnav-backdrop {
+  --mnav-scrim: color-mix(in srgb, var(--foreground) 42%, transparent);
+  background: var(--mnav-scrim) !important;
 }
 
 [data-glass-effect="liquid"] .mnav-portal-root[data-mnav-state="closing"] .mnav-panel,

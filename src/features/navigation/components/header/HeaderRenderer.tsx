@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import { routing } from "@/i18n/routing";
 import { type PublicLocale } from "@/i18n/locale-config";
 import { resolveActionHref } from "@/features/navigation/resolve-href";
@@ -14,7 +15,9 @@ import { MobileHeaderSearchButton } from "./MobileHeaderSearchButton";
 import { HeaderBrand } from "./HeaderBrand";
 import { HeaderDesktopBehavior } from "./HeaderDesktopBehavior";
 import { HeaderMenu } from "./HeaderMenu";
-import { MobileMenuPreview } from "./MobileMenu/MobileMenuPreview";
+import { MobileMenuHost, MobileNavBottomBar } from "./MobileMenu/MobileMenuPreview";
+import { MobileMenuTrigger } from "./MobileMenu/MobileMenuTrigger";
+import { requestCloseMobileMenu } from "./MobileMenu/mobile-menu-bridge";
 import { PageHeaderOverlayCoordinator } from "@/features/builder/components/page-header-overlay-coordinator";
 import { resolvePageHeaderOverlay } from "@/features/builder/header-overlay";
 import {
@@ -68,6 +71,7 @@ export function HeaderRenderer({
 }: Props) {
   void _enabledLocales;
   const router = useRouter();
+  const menuHostId = useId();
   const storeWs = useHeaderWorkspace();
   const workspace = controlled ?? storeWs;
 
@@ -110,7 +114,7 @@ export function HeaderRenderer({
     }
 
     if (typeof window !== "undefined" && window.matchMedia(NAV_MOBILE_MQ).matches) {
-      document.dispatchEvent(new CustomEvent("azura:close-mobile-menu", { bubbles: true }));
+      requestCloseMobileMenu(menuHostId);
     }
   };
 
@@ -164,6 +168,9 @@ export function HeaderRenderer({
   const actionsForMobileMenu = showMobileHeaderSearch
     ? actionsForRender.filter((a) => a.type !== "search")
     : actionsForRender;
+  // The search trigger opens the search panel on the live site, so there is no menu to host.
+  const hasMenuHost =
+    settings.mobileType !== "bottom" && (settings.mobileType !== "search" || isPreview);
 
   return (
     <>
@@ -208,25 +215,44 @@ export function HeaderRenderer({
                   iconClass={searchAction?.icon || "fa-search"}
                 />
               ) : null}
-              <MobileMenuPreview
-                mobileType={settings.mobileType}
-                items={mobileItems}
-                surface={surface}
-                actions={actionsForMobileMenu}
-                onActionClick={onHeaderAction}
-                localeCode={localeCode}
-                mobileNavStyle={settings.mobileNavStyle}
-                mobileNavAnimation={mobileMenuAppearance.animation}
-                mobileNavDensity={settings.mobileNavDensity}
-                menuAppearance={mobileMenuAppearance}
-                showIcons={showMobileIcons}
-                iconVisibility={iconVisibility}
-                showArrows={settings.mobileNavShowArrows !== false}
-              />
+              {settings.mobileType === "bottom" ? (
+                <MobileNavBottomBar
+                  items={mobileItems}
+                  surface={surface}
+                  localeCode={localeCode}
+                  showIcons={showMobileIcons}
+                  iconVisibility={iconVisibility}
+                />
+              ) : (
+                <MobileMenuTrigger
+                  hostId={menuHostId}
+                  mobileType={settings.mobileType}
+                  surface={surface}
+                />
+              )}
             </div>
           </div>
         </div>
       </div>
+      {hasMenuHost ? (
+        <MobileMenuHost
+          hostId={menuHostId}
+          mobileType={settings.mobileType}
+          items={mobileItems}
+          surface={surface}
+          actions={actionsForMobileMenu}
+          onActionClick={onHeaderAction}
+          localeCode={localeCode}
+          mobileNavStyle={settings.mobileNavStyle}
+          mobileNavAnimation={mobileMenuAppearance.animation}
+          mobileNavDensity={settings.mobileNavDensity}
+          menuAppearance={mobileMenuAppearance}
+          showIcons={showMobileIcons}
+          iconVisibility={iconVisibility}
+          showArrows={settings.mobileNavShowArrows !== false}
+          edgeSwipe={settings.mobileNavEdgeSwipe !== false}
+        />
+      ) : null}
       {!isPreview ? (
         <HeaderDesktopBehavior
           mode={desktopModeForBehavior}

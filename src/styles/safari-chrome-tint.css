@@ -236,6 +236,57 @@ html[data-edge-to-edge="off"] body {
     }
   }
 
+  /* Mobile menu: opening it must leave the status bar and toolbar as they
+   * were. Its fixed boxes stay out of the top and bottom sample bands, the
+   * scrim reaches the edges as a box-shadow (painted, never sampled), and the
+   * drawer floats between the bands as an inset panel. */
+  html[data-safari-edge="on"] .mnav-portal-root {
+    --mnav-edge-top: calc(max(var(--az-top-band-min, 12px), env(safe-area-inset-top, 0px)) + 4px);
+    --mnav-edge-bottom: calc(max(12px, env(safe-area-inset-bottom, 0px)) + 4px);
+    --mnav-edge-inline: 8px;
+  }
+
+  html[data-safari-edge="on"] .mnav-portal-root .mnav-backdrop {
+    inset: var(--mnav-edge-top) 0 var(--mnav-edge-bottom) 0;
+    box-shadow: 0 0 0 100vmax var(--mnav-scrim);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  html[data-safari-edge="on"] .mnav-portal-root .mnav-panel {
+    --mnav-offscreen: calc(100% + var(--mnav-edge-inline) + 40px);
+    top: var(--mnav-edge-top);
+    right: var(--mnav-edge-inline);
+    bottom: var(--mnav-edge-bottom);
+    height: auto;
+    max-height: none;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-top: 1px solid var(--menu-border, var(--cg2, var(--border)));
+    border-right: 1px solid var(--menu-border, var(--cg2, var(--border)));
+    border-bottom: 1px solid var(--menu-border, var(--cg2, var(--border)));
+    border-radius: 24px;
+  }
+
+  :is(html[dir="rtl"], html.rtl)[data-safari-edge="on"] .mnav-portal-root .mnav-panel {
+    right: auto;
+    left: var(--mnav-edge-inline);
+    border-left: 1px solid var(--menu-border, var(--cg2, var(--border)));
+  }
+
+  html[data-safari-edge="on"] .mnav-portal-root .mnav-overlay--fullscreen {
+    inset: var(--mnav-edge-top) 0 var(--mnav-edge-bottom) 0;
+    height: auto;
+    max-height: none;
+    padding-top: 0;
+    padding-bottom: 0;
+    box-shadow: 0 0 0 100vmax var(--menu-bg, var(--color-surface, var(--background)));
+  }
+
+  html[data-safari-edge="on"] .mnav-portal-root .mnav-close--fs {
+    top: 16px;
+  }
+
   /* Solid, and edge-to-edge off, must not let the footer replace the sample.
    * Glass, transparent, and gradient leave the page at the edge. */
   html[data-safari-edge="on"][data-chrome-tint-style="solid"] #az-page-paint,

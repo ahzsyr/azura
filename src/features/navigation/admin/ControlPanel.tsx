@@ -120,6 +120,21 @@ export function HeaderSettingsPanel({ workspace, section }: Props) {
               />
               <div className="mt-2">
                 <OptionButtonGroup
+                  value={settings.mobileNavEdgeSwipe !== false ? "edge-swipe-on" : "edge-swipe-off"}
+                  options={[
+                    { value: "edge-swipe-on", label: "Edge swipe on" },
+                    { value: "edge-swipe-off", label: "Edge swipe off" },
+                  ]}
+                  onChange={(v) => setSettings({ mobileNavEdgeSwipe: v === "edge-swipe-on" })}
+                  columns={2}
+                />
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Swipe in from the side of the screen to open the menu. The menu button still
+                  works either way.
+                </p>
+              </div>
+              <div className="mt-2">
+                <OptionButtonGroup
                   value={settings.mobileBoxedSticky === true ? "boxed-on" : "boxed-off"}
                   options={[
                     { value: "boxed-on", label: "Boxed on" },
