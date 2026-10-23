@@ -31,9 +31,14 @@ export function authorizeSetupToken(token: string | null | undefined): boolean {
 
 /**
  * First-run unlock for /api/setup/complete (setup not yet complete).
- * - Production: SETUP_TOKEN must be set in host env (presence unlocks; URL/body token optional)
- * - If a token is presented, it must still match
- * - Non-production: open when env unset; when env set, empty presented is allowed, wrong presented fails
+ *
+ * - Production: SETUP_TOKEN must be configured AND the request must present a
+ *   token that matches it. An empty presented token is a FAILURE — merely
+ *   having the env var set is not authorization.
+ * - Non-production: open when the env var is unset. When it is set, a
+ *   presented token must still match; an empty presented token is accepted for
+ *   local convenience (empty still fails via isValidSetupToken, so it can never
+ *   authenticate against a configured value).
  */
 export function authorizeFirstRunSetup(token: string | null | undefined): boolean {
   const expected = getSetupTokenFromEnv();
@@ -41,8 +46,8 @@ export function authorizeFirstRunSetup(token: string | null | undefined): boolea
 
   if (isSetupTokenRequired()) {
     if (!expected) return false;
-    if (!presented) return true;
-    return isValidSetupToken(presented);
+    // Must actually present the matching token.
+    return presented.length > 0 && safeEqualSecret(presented, expected);
   }
 
   if (!expected) return true;

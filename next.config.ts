@@ -252,10 +252,10 @@ const nextConfig: NextConfig = {
     remotePatterns: NEXT_IMAGE_REMOTE_PATTERNS,
   },
   async headers() {
-    // AZURA_CSP_MODE: report (default) | enforce. Evaluated when Next loads this config
-    // (build / start). On Hostinger set in hPanel and redeploy — see docs/deployment/csp-rollout.md.
+    // AZURA_CSP_MODE: enforce (default in production) | report (rollback). Evaluated when
+    // Next loads this config (build / start) — set it in the host panel and redeploy.
     // Do not remove 'unsafe-inline' / 'unsafe-eval' here; that is milestones CSP-2…CSP-4.
-    const cspMode = resolveCspMode(process.env.AZURA_CSP_MODE);
+    const cspMode = resolveCspMode(process.env.AZURA_CSP_MODE, process.env.NODE_ENV);
     const cspPolicy = buildAzuraCspPolicy();
 
     return [

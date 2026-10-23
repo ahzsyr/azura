@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useCallback, useState, type ReactNode } from "react";
+import { TurnstileField } from "@/components/security/turnstile-field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -263,6 +264,8 @@ function toAttachmentValue(raw: unknown): AttachmentValue | null {
 
 function FileFieldInput({ ctx }: { ctx: RenderContext }) {
   const [uploading, setUploading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const onTurnstileToken = useCallback((token: string | null) => setTurnstileToken(token), []);
   const [localError, setLocalError] = useState<string | null>(null);
   const [items, setItems] = useState<UploadFileItem[]>(() => {
     const attachment = toAttachmentValue(ctx.value);
@@ -300,6 +303,7 @@ function FileFieldInput({ ctx }: { ctx: RenderContext }) {
     body.set("file", file);
     body.set("templateId", schemaId);
     body.set("fieldId", ctx.binding.bindingId);
+    if (turnstileToken) body.set("turnstileToken", turnstileToken);
     const res = await fetch("/api/forms/upload", { method: "POST", body });
     const data = await res.json();
     if (!res.ok || !data.ok) {
@@ -402,6 +406,7 @@ function FileFieldInput({ ctx }: { ctx: RenderContext }) {
             return { url: result.url, id: result.id };
           }}
         />
+        <TurnstileField onToken={onTurnstileToken} />
       </FieldWrapper>
     );
   }
@@ -415,6 +420,7 @@ function FileFieldInput({ ctx }: { ctx: RenderContext }) {
         onChange={(e) => void onFileChange(e.target.files?.[0] ?? null)}
         onBlur={ctx.onBlur}
       />
+      <TurnstileField onToken={onTurnstileToken} />
       {uploading ? <p className="text-xs text-muted-foreground">Uploading…</p> : null}
       {current && !uploading ? (
         <p className="text-xs text-muted-foreground truncate">

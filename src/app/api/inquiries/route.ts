@@ -8,6 +8,7 @@ import { getTrustedClientIp } from "@/lib/client-ip";
 import { verifyTurnstileToken } from "@/lib/turnstile";
 import { attachLeadAttributionFromUtm } from "@/modules/marketing/leads/attribution-bridge";
 import { isRecoverableDbError } from "@/lib/debug/recoverable-db-error";
+import { normalizeEmail } from "@/lib/security/email-input";
 
 export async function POST(request: Request) {
   try {
@@ -35,7 +36,9 @@ export async function POST(request: Request) {
     const customer =
       session?.user?.id && isCustomerRole(session.user.role) ? session.user : null;
 
-    const email = (data.email || customer?.email || "").trim().toLowerCase();
+    // Normalized by inquirySchema (trim + lowercase); fall back to the signed-in
+    // customer's address, also normalized.
+    const email = data.email || normalizeEmail(customer?.email);
     let userId = customer?.id ?? null;
     if (!userId && email) {
       const matched = await prisma.user.findFirst({
@@ -54,7 +57,8 @@ export async function POST(request: Request) {
       data: {
         type: data.type === "PACKAGE" ? "CONTENT" : data.type,
         name: data.name || customer?.name || "",
-        email: data.email || customer?.email || "",
+        // Store the same normalized address used for the lookup above.
+        email,
         phone: data.phone,
         message: data.message,
         contentItemId: data.contentItemId || data.packageId || null,

@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 import type { Session } from "next-auth";
 import { getAuthSecretForMiddleware } from "@/lib/auth-secret.edge";
 import { isAdminRole } from "@/features/auth/portal";
+import { hasSessionUserId, publicSessionFromToken } from "@/lib/session-revocation";
 
 /** Auth.js v5 session cookie — must match sign-in cookie name and salt. */
 function resolveSessionCookieName(): string {
@@ -48,21 +49,22 @@ export async function getAuthToken(request: NextRequest) {
 export function isAdminToken(
   token: Awaited<ReturnType<typeof getAuthToken>>,
 ): boolean {
-  return isAdminRole(token?.role as string | undefined);
+  return hasSessionUserId(token?.id) && isAdminRole(token?.role as string | undefined);
 }
 
 export function tokenToSession(
   token: Awaited<ReturnType<typeof getAuthToken>>,
 ): Session | null {
-  if (!token?.id && !token?.email) return null;
+  const user = publicSessionFromToken(token);
+  if (!user) return null;
   return {
     user: {
-      id: String(token.id ?? ""),
-      role: String(token.role ?? ""),
-      email: token.email ?? undefined,
-      name: token.name ?? undefined,
-      image: token.picture ?? undefined,
+      id: user.id,
+      role: user.role,
+      email: user.email,
+      name: token?.name ?? undefined,
+      image: token?.picture ?? undefined,
     },
-    expires: token.exp ? new Date(token.exp * 1000).toISOString() : new Date().toISOString(),
+    expires: token?.exp ? new Date(token.exp * 1000).toISOString() : new Date().toISOString(),
   };
 }

@@ -4,9 +4,10 @@ import { resendSignupVerification } from "@/features/account/email-verification.
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { getTrustedClientIp } from "@/lib/client-ip";
 import { defineApiRoute } from "@/lib/api-auth";
+import { emailInputSchema } from "@/lib/security/email-input";
 
 const bodySchema = z.object({
-  email: z.string().email(),
+  email: emailInputSchema,
   locale: z.string().min(2).max(10).default("en"),
 });
 

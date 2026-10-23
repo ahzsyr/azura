@@ -1,7 +1,9 @@
 import "server-only";
 
+import { extname } from "node:path";
 import type { MediaType } from "@prisma/client";
 import { SUBDIR, mimeTypeForUpload, safeFilename } from "@/lib/local-media-storage";
+import { containsActiveSvgContent, sanitizeSvg } from "@/lib/security/svg-sanitize";
 import { getLocalPersistenceLayout, isLocalPersistenceInsideDeployRoot } from "@/lib/local-public-path";
 import {
   createStorageProvider,
@@ -98,6 +100,28 @@ export function assertMediaStorageReady(): void {
   }
 }
 
+function isSvgUpload(file: { name: string; type: string }, mediaType: MediaType): boolean {
+  return (
+    mediaType === "SVG" ||
+    extname(file.name).toLowerCase() === ".svg" ||
+    (file.type ?? "").toLowerCase().startsWith("image/svg")
+  );
+}
+
+/**
+ * Strip script, event handlers, and external references from SVG bytes before
+ * they are ever written to storage. Throws (instead of storing) when active
+ * content survives sanitization — uploads are same-origin, so a script-bearing
+ * SVG would execute with the site's origin on direct navigation.
+ */
+export function sanitizeSvgUploadBuffer(buffer: Buffer): Buffer {
+  const sanitized = sanitizeSvg(buffer.toString("utf8"));
+  if (containsActiveSvgContent(sanitized)) {
+    throw new Error("SVG contains active content that could not be sanitized");
+  }
+  return Buffer.from(sanitized, "utf8");
+}
+
 export async function storeUploadedFile(
   file: { name: string; type: string },
   buffer: Buffer,
@@ -107,10 +131,12 @@ export async function storeUploadedFile(
   const storedName = `${Date.now()}-${safeFilename(file.name)}`;
   assertMediaStorageReady();
 
+  const bytes = isSvgUpload(file, mediaType) ? sanitizeSvgUploadBuffer(buffer) : buffer;
+
   const provider = createStorageProvider();
   const objectKey = `${subDir}/${storedName}`;
   const contentType = mimeTypeForUpload(file.name, file.type, mediaType);
-  const result = await provider.upload(buffer, objectKey, contentType);
+  const result = await provider.upload(bytes, objectKey, contentType);
 
   return {
     url: result.url,

@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { issueEmailVerification } from "@/features/account/email-verification.service";
 import { sendEmail } from "@/features/email/email.service";
 import { writeSecurityAuditLog } from "@/lib/security-audit";
+import { normalizeEmail } from "@/lib/security/email-input";
 
 export async function startEmailChange(input: {
   userId: string;
@@ -18,13 +19,18 @@ export async function startEmailChange(input: {
   const valid = await bcrypt.compare(input.currentPassword, user.passwordHash);
   if (!valid) return { error: "Current password is incorrect" };
 
-  const newEmail = input.newEmail.trim().toLowerCase();
+  const newEmail = normalizeEmail(input.newEmail);
   if (newEmail === user.email.toLowerCase()) {
+    // Owning this address is not a disclosure, so this specific error stays.
     return { error: "New email must be different" };
   }
 
   const taken = await prisma.user.findUnique({ where: { email: newEmail } });
-  if (taken) return { error: "Email is already in use" };
+  if (taken) {
+    // The caller already proved the current password, so a specific error is
+    // recoverable and does not stage pendingEmail.
+    return { error: "Email is already in use" };
+  }
 
   await prisma.user.update({
     where: { id: user.id },

@@ -148,6 +148,8 @@ export type SubmitCommand = {
     honeypot?: string;
     /** Client IP for rate limiting (set by API route). */
     clientIp?: string;
+    /** Set when the route already consumed the shared rate-limit budget. */
+    rateLimitChecked?: boolean;
     /** Signed-in customer id when submitting from a session. */
     customerId?: string;
   };

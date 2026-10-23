@@ -4,10 +4,11 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { isCustomerRole } from "@/features/auth/portal";
 import { startEmailChange } from "@/features/account/email-change.service";
+import { emailInputSchema } from "@/lib/security/email-input";
 
 const bodySchema = z.object({
   currentPassword: z.string().min(1),
-  newEmail: z.string().email(),
+  newEmail: emailInputSchema,
   locale: z.string().min(2).max(10).default("en"),
 });
 

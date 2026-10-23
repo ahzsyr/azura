@@ -1,9 +1,10 @@
 import { z } from "zod";
+import { emailInputSchema } from "@/lib/security/email-input";
 
 export const inquirySchema = z.object({
   type: z.enum(["GENERAL", "PACKAGE", "CONTENT", "VISA", "CONTACT"]),
   name: z.string().min(2, "Name is required").max(120),
-  email: z.string().email("Valid email required").max(254),
+  email: emailInputSchema,
   phone: z.string().max(32).optional(),
   message: z.string().min(10, "Message must be at least 10 characters").max(5000),
   contentItemId: z.string().max(64).optional(),

@@ -9,6 +9,7 @@ import { ok, fail } from "@/types/api";
 import { bumpUserSessionVersion } from "@/lib/session-version";
 import { writeSecurityAuditLog } from "@/lib/security-audit";
 import { startEmailChange } from "@/features/account/email-change.service";
+import { PASSWORD_REUSE_ERROR, isPasswordReused } from "@/lib/security/password-reuse.server";
 
 export async function updateAdminCredentials(
   input: unknown
@@ -46,6 +47,10 @@ export async function updateAdminCredentials(
     }
 
     if (data.newPassword) {
+      // Reuse guard: the new admin password must differ from the current one.
+      if (await isPasswordReused(data.newPassword, user.passwordHash)) {
+        return fail(PASSWORD_REUSE_ERROR);
+      }
       const passwordHash = await bcrypt.hash(data.newPassword, 12);
       await prisma.user.update({
         where: { id: user.id },

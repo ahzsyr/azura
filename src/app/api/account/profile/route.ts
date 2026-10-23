@@ -10,6 +10,7 @@ import {
 } from "@/features/setup/setup-complete.schema";
 import { isCustomerRole } from "@/features/auth/portal";
 import { writeSecurityAuditLog } from "@/lib/security-audit";
+import { PASSWORD_REUSE_ERROR, isPasswordReused } from "@/lib/security/password-reuse.server";
 
 async function assertCustomerSessionWithVersion() {
   const session = await auth();
@@ -90,6 +91,10 @@ export async function PATCH(request: Request) {
       const valid = await bcrypt.compare(data.currentPassword, user.passwordHash);
       if (!valid) {
         return NextResponse.json({ error: "Current password is incorrect" }, { status: 400 });
+      }
+      // Reuse guard: the new password must not equal the current one.
+      if (await isPasswordReused(data.newPassword, user.passwordHash)) {
+        return NextResponse.json({ error: PASSWORD_REUSE_ERROR }, { status: 400 });
       }
       update.passwordHash = await bcrypt.hash(data.newPassword, 12);
       update.sessionVersion = { increment: 1 };

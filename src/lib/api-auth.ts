@@ -18,6 +18,8 @@ export type ApiSession = {
     email?: string | null;
     name?: string | null;
     sessionVersion?: number;
+    /** Admin signed in password-only because OTP delivery is unconfigured. */
+    adminOtpUnconfigured?: boolean;
   };
 };
 
@@ -63,6 +65,9 @@ export async function assertRole(
         email: session.user.email,
         name: session.user.name,
         sessionVersion: (session.user as { sessionVersion?: number }).sessionVersion,
+        adminOtpUnconfigured: (
+          session.user as { adminOtpUnconfigured?: boolean }
+        ).adminOtpUnconfigured,
       },
     },
   };
@@ -72,10 +77,13 @@ async function verifyDbSessionVersion(session: ApiSession): Promise<NextResponse
   try {
     const row = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { sessionVersion: true, role: true },
+      select: { sessionVersion: true, role: true, disabledAt: true },
     });
     if (!row) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    if (row.disabledAt) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     const tokenVersion = session.user.sessionVersion ?? 0;
     const dbVersion = row.sessionVersion ?? 0;
@@ -86,12 +94,30 @@ async function verifyDbSessionVersion(session: ApiSession): Promise<NextResponse
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     return null;
-  } catch {
-    // sessionVersion column may be missing until migrate — skip check
-    return null;
+  } catch (error) {
+    console.error("[api-auth] session check failed; denying", error instanceof Error ? error.name : "unknown");
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 }
 
+/** Customer sessions: reject disabled accounts. Version is checked by the caller. */
+async function assertCustomerAccountActive(session: ApiSession): Promise<NextResponse | null> {
+  try {
+    const row = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { disabledAt: true },
+    });
+    if (row?.disabledAt) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    return null;
+  } catch (error) {
+    console.error("[api-auth] customer account check failed; denying", error instanceof Error ? error.name : "unknown");
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+}
+
+/** Admin routes: disabled account blocked; incomplete lifecycle gated. */
 async function assertAdminLifecycleClear(session: ApiSession): Promise<NextResponse | null> {
   try {
     const row = await prisma.user.findUnique({
@@ -104,14 +130,23 @@ async function assertAdminLifecycleClear(session: ApiSession): Promise<NextRespo
     if (row.disabledAt) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
-    const block = adminLifecycleDestination(row);
+    // The OTP-delivery flag is a property of the sign-in session, not the user
+    // row. Only honor it while delivery is STILL unconfigured; once a sender
+    // exists the login itself requires OTP, so a stale claim must not block.
+    let adminOtpUnconfigured = false;
+    if (session.user.adminOtpUnconfigured) {
+      const { isAdminEmailMfaConfigured } = await import("@/features/auth/admin-auth-delivery");
+      adminOtpUnconfigured = !(await isAdminEmailMfaConfigured());
+    }
+    const block = adminLifecycleDestination({ ...row, adminOtpUnconfigured });
     if (!block) return null;
     return NextResponse.json(
       { error: "Lifecycle incomplete", code: block.kind },
       { status: 403 },
     );
-  } catch {
-    return null;
+  } catch (error) {
+    console.error("[api-auth] admin lifecycle check failed; denying", error instanceof Error ? error.name : "unknown");
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 }
 
@@ -158,6 +193,8 @@ export function defineApiRoute(config: DefineApiRouteConfig) {
         const revoked = await verifyDbSessionVersion(session);
         if (revoked) return revoked;
       }
+      const inactive = await assertCustomerAccountActive(session);
+      if (inactive) return inactive;
     } else if (config.access === "public") {
       // optional session for public routes
       const raw = await auth();
@@ -169,6 +206,9 @@ export function defineApiRoute(config: DefineApiRouteConfig) {
             email: raw.user.email,
             name: raw.user.name,
             sessionVersion: (raw.user as { sessionVersion?: number }).sessionVersion,
+            adminOtpUnconfigured: (
+              raw.user as { adminOtpUnconfigured?: boolean }
+            ).adminOtpUnconfigured,
           },
         };
       }

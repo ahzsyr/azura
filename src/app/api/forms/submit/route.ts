@@ -3,24 +3,39 @@ import { formSubmitRequestSchema } from "@/features/forms/schemas/form-definitio
 import "@/features/forms/platform/register-commands.server";
 import { commandBus } from "@/platform/schema-ui/pipeline/command-bus";
 import type { SubmitCommand } from "@/platform/schema-ui/manifests/types";
-import { enforceRateLimit } from "@/lib/rate-limit";
 import { getTrustedClientIp } from "@/lib/client-ip";
 import { verifyTurnstileToken } from "@/lib/turnstile";
+import { PUBLIC_FORM_BODY_MAX_BYTES, classifyContentLength } from "@/lib/security/abuse-controls";
+import {
+  RateLimitUnavailableError,
+  checkFormSubmitRateLimit,
+} from "@/features/forms/platform/handlers/spam-handler";
 import { auth } from "@/lib/auth";
 import { isCustomerRole } from "@/features/auth/portal";
 
+function unavailable() {
+  return NextResponse.json({ error: "Service unavailable" }, { status: 503 });
+}
+
 export async function POST(request: Request) {
+  const size = classifyContentLength(request.headers.get("content-length"), PUBLIC_FORM_BODY_MAX_BYTES);
+  if (size !== "ok") {
+    return NextResponse.json({ error: "Payload too large" }, { status: 413 });
+  }
+
+  const clientIp = getTrustedClientIp(request);
   try {
-    const clientIp = getTrustedClientIp(request);
-    const rl = await enforceRateLimit({
-      key: `forms-submit:${clientIp}`,
-      limit: 20,
-      windowMs: 10 * 60 * 1000,
-    });
-    if (!rl.allowed) {
+    const allowed = await checkFormSubmitRateLimit(clientIp);
+    if (!allowed) {
       return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 });
     }
+  } catch (error) {
+    if (error instanceof RateLimitUnavailableError) return unavailable();
+    console.error("[forms/submit] rate limit failed", error instanceof Error ? error.name : "unknown");
+    return unavailable();
+  }
 
+  try {
     const body = await request.json();
     const turnstileOk = await verifyTurnstileToken(
       typeof body?.turnstileToken === "string" ? body.turnstileToken : undefined,
@@ -50,6 +65,7 @@ export async function POST(request: Request) {
         abVariantId: data.abVariantId,
         honeypot: data.honeypot,
         clientIp,
+        rateLimitChecked: true,
         customerId,
       },
     };
@@ -57,7 +73,8 @@ export async function POST(request: Request) {
     const result = await commandBus.execute("Submit", command);
     return NextResponse.json({ success: true, ...result });
   } catch (error) {
-    console.error("Form submit error:", error);
+    if (error instanceof RateLimitUnavailableError) return unavailable();
+    console.error("Form submit error:", error instanceof Error ? error.name : "unknown");
     const message = error instanceof Error ? error.message : "Invalid request";
     if (message.includes("Rate limit")) {
       return NextResponse.json({ error: message }, { status: 429 });

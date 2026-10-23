@@ -67,14 +67,11 @@ export function NewsletterSignupView(props: Props) {
         }),
       });
       if (!res.ok) throw new Error("Failed");
-      const data = await res.json();
-      setStatus(
-        data.status === "CONFIRMED" && !doubleOptIn
-          ? "success"
-          : data.alreadySubscribed
-            ? "success"
-            : "pending",
-      );
+      const data = (await res.json()) as { status?: string };
+      // The server reports the request MODE only (double opt-in → PENDING,
+      // else CONFIRMED). It never says whether the address already existed,
+      // so the UI cannot be used to probe for subscribers.
+      setStatus(data.status === "PENDING" ? "pending" : "success");
     } catch {
       setStatus("error");
     }

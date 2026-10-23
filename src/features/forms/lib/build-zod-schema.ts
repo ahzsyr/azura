@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { emailInputSchema } from "@/lib/security/email-input";
 import type { FormFieldDefinition, FormTemplateDefinition } from "@/features/forms/types";
 
 function acceptMatches(value: string, accept?: string): boolean {
@@ -46,7 +47,7 @@ function fieldSchema(field: FormFieldDefinition, required: boolean): z.ZodTypeAn
 
   switch (field.type) {
     case "email":
-      schema = z.string().email();
+      schema = emailInputSchema;
       break;
     case "number":
       schema = z.coerce.number();

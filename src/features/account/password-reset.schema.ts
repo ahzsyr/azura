@@ -1,8 +1,9 @@
 import { z } from "zod";
 import { passwordPolicySchema } from "@/schemas/password-policy";
+import { emailInputSchema } from "@/lib/security/email-input";
 
 export const forgotPasswordSchema = z.object({
-  email: z.string().trim().email("Enter a valid email address"),
+  email: emailInputSchema,
   locale: z.string().min(2).max(10).default("en"),
 });
 

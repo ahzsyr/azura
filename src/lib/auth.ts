@@ -3,10 +3,30 @@ import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "@/lib/auth.config";
 import { resolveAuthSecret } from "@/lib/auth-secret.server";
 import { getTrustedClientIp } from "@/lib/client-ip";
+import { decideJwtRefresh, hasSessionUserId } from "@/lib/session-revocation";
 import {
   assertLoginIpAllowed,
   authorizeCredentials,
 } from "@/features/auth/authorize-credentials";
+
+/** Remove identity so the session callback cannot treat the token as signed in. */
+function dropSessionClaims(token: {
+  id?: unknown;
+  sub?: unknown;
+  role?: unknown;
+  email?: unknown;
+  mustChangePassword?: unknown;
+  totpEnabled?: unknown;
+  adminOtpUnconfigured?: unknown;
+}) {
+  delete token.id;
+  delete token.sub;
+  delete token.role;
+  delete token.email;
+  delete token.mustChangePassword;
+  delete token.totpEnabled;
+  delete token.adminOtpUnconfigured;
+}
 
 const authSecret = await resolveAuthSecret();
 
@@ -32,56 +52,75 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           (user as { mustChangePassword?: boolean }).mustChangePassword,
         );
         token.totpEnabled = Boolean((user as { totpEnabled?: boolean }).totpEnabled);
+        token.adminOtpUnconfigured = Boolean(
+          (user as { adminOtpUnconfigured?: boolean }).adminOtpUnconfigured,
+        );
         return token;
       }
 
-      // Node-only: refresh role from DB (ADMIN → SUPER_ADMIN promote, etc.).
-      // Older tokens carry role without id/sub; API checks then 401 even though admin pages load.
+      // Node-only refresh. sessionVersion was frozen at sign-in and is NEVER
+      // written back here: copying the DB value onto the token would make a
+      // revoked session compare equal on its next request.
+      //
+      // - disabledAt set or DB version differs → drop the session (no claims)
+      // - version matches → refresh role / mustChangePassword / totpEnabled only
+      // - unexpected DB error, including a missing sessionVersion column →
+      //   fail closed. Apply prisma/migrations/20260821120000_security_hardening
+      //   before this code. There is no P2022 bypass: that error fires before
+      //   disabledAt can be read.
       try {
         const { prisma } = await import("@/lib/prisma");
-        let userId =
-          (typeof token.id === "string" && token.id) ||
-          (typeof token.sub === "string" && token.sub) ||
-          "";
-        if (!userId && typeof token.email === "string" && token.email) {
-          const byEmail = await prisma.user.findUnique({
-            where: { email: token.email },
-            select: { id: true },
-          });
-          if (byEmail) userId = byEmail.id;
+        const userId = hasSessionUserId(token.id)
+          ? token.id
+          : hasSessionUserId(token.sub)
+            ? token.sub
+            : "";
+
+        // No id on the token: do not look the account up by email or role.
+        if (!userId) {
+          dropSessionClaims(token);
+          return token;
         }
-        if (!userId && token.role === "SUPER_ADMIN") {
-          const rows = await prisma.user.findMany({
-            where: { role: "SUPER_ADMIN", disabledAt: null },
-            select: { id: true },
-            take: 2,
-          });
-          if (rows.length === 1) userId = rows[0].id;
+
+        const row = await prisma.user.findUnique({
+          where: { id: userId },
+          select: {
+            id: true,
+            role: true,
+            sessionVersion: true,
+            mustChangePassword: true,
+            totpEnabled: true,
+            email: true,
+            disabledAt: true,
+          },
+        });
+
+        if (row && !row.disabledAt) token.id = row.id;
+        if (!token.sub && row?.id) token.sub = row.id;
+
+        const decision = decideJwtRefresh(
+          typeof token.sessionVersion === "number" ? token.sessionVersion : 0,
+          row,
+        );
+
+        if (decision.action === "revoke") {
+          // Drop identity + privilege claims. The session callback then yields
+          // no user, and the API gate / layouts treat the session as gone.
+          dropSessionClaims(token);
+          return token;
         }
-        if (userId) {
-          token.id = userId;
-          if (!token.sub) token.sub = userId;
-          const row = await prisma.user.findUnique({
-            where: { id: userId },
-            select: {
-              role: true,
-              sessionVersion: true,
-              mustChangePassword: true,
-              totpEnabled: true,
-              email: true,
-              disabledAt: true,
-            },
-          });
-          if (row && !row.disabledAt) {
-            token.role = row.role;
-            token.sessionVersion = row.sessionVersion;
-            token.mustChangePassword = row.mustChangePassword;
-            token.totpEnabled = row.totpEnabled;
-            if (row.email) token.email = row.email;
-          }
-        }
-      } catch {
-        /* ignore refresh failures */
+
+        token.role = decision.role;
+        token.mustChangePassword = decision.mustChangePassword;
+        token.totpEnabled = decision.totpEnabled;
+        if (decision.email) token.email = decision.email;
+        // NOTE: token.sessionVersion is intentionally not assigned here.
+      } catch (error) {
+        console.error(
+          "[auth] session refresh failed; dropping session claims",
+          error instanceof Error ? error.name : "unknown",
+        );
+        dropSessionClaims(token);
       }
       return token;
     },

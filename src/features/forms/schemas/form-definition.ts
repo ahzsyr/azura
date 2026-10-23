@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { emailInputSchema, optionalEmailInputSchema } from "@/lib/security/email-input";
 
 export const formFieldTypeSchema = z.enum([
   "text",
@@ -65,12 +66,12 @@ export const formWebhookConfigSchema = z.object({
 });
 
 export const formNotificationsConfigSchema = z.object({
-  receiverEmails: z.array(z.string().email()).default([]),
+  receiverEmails: z.array(emailInputSchema).default([]),
   sendToSubmitter: z.boolean().default(false),
   /** Named email account id from Settings → Email Accounts. */
   accountId: z.string().optional(),
   /** Legacy field; prefer receiverEmails. Retained for stored definitions. */
-  adminEmails: z.array(z.string().email()).optional(),
+  adminEmails: z.array(emailInputSchema).optional(),
 });
 
 export const formRoutingRuleSchema = z.object({
@@ -87,7 +88,7 @@ export const formRoutingRuleSchema = z.object({
 export const formDestinationConfigSchema = z.object({
   type: z.enum(["slack", "email"]),
   webhookUrl: z.string().url().optional(),
-  emails: z.array(z.string().email()).optional(),
+  emails: z.array(emailInputSchema).optional(),
 });
 
 export const formPipelineConfigSchema = z.object({
@@ -108,7 +109,7 @@ export const formAutomationRuleSchema = z.object({
       z.object({ type: z.literal("tag"), tags: z.array(z.string()) }),
       z.object({ type: z.literal("assign"), assigneeId: z.string() }),
       z.object({ type: z.literal("setPipeline"), pipelineType: z.string() }),
-      z.object({ type: z.literal("notify"), emails: z.array(z.string().email()) }),
+      z.object({ type: z.literal("notify"), emails: z.array(emailInputSchema) }),
     ]),
   ).default([]),
 });
@@ -171,7 +172,7 @@ export const formDraftSaveSchema = z.object({
 });
 
 export const newsletterSubscribeSchema = z.object({
-  email: z.string().email(),
+  email: emailInputSchema,
   name: z.string().optional(),
   segment: z.string().default("default"),
   locale: z.string().default("en"),
@@ -184,7 +185,7 @@ export const newsletterSubscribeSchema = z.object({
 export const downloadGateUnlockSchema = z.object({
   mediaAssetId: z.string().min(1),
   unlockMethod: z.enum(["FORM", "NEWSLETTER", "EXTERNAL"]),
-  email: z.string().email().optional(),
+  email: optionalEmailInputSchema,
   submissionId: z.string().optional(),
   subscriberId: z.string().optional(),
   expiryHours: z.coerce.number().min(1).max(720).default(72),

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { passwordPolicySchema } from "@/schemas/password-policy";
+import { emailInputSchema, optionalEmailInputSchema } from "@/lib/security/email-input";
 
 export const setupCompleteSchema = z.object({
   siteName: z.string().min(2).max(120),
@@ -13,7 +14,7 @@ export const setupCompleteSchema = z.object({
     }
     return trimmed;
   }, z.string().url().optional()),
-  adminEmail: z.string().email(),
+  adminEmail: emailInputSchema,
   adminPassword: passwordPolicySchema,
   adminName: z.string().min(1).max(80).default("Admin"),
   registrationEnabled: z.boolean().default(true),
@@ -26,7 +27,7 @@ export type SetupCompleteInput = z.infer<typeof setupCompleteSchema>;
 export const updateAdminCredentialsSchema = z
   .object({
     currentPassword: z.string().min(1),
-    newEmail: z.string().email().optional(),
+    newEmail: optionalEmailInputSchema,
     newPassword: passwordPolicySchema.optional(),
     confirmPassword: z.string().optional(),
   })
@@ -69,7 +70,7 @@ export const registerSchema = z.object({
     .trim()
     .min(2, "Name must be at least 2 characters")
     .max(80, "Name is too long"),
-  email: z.string().trim().email("Enter a valid email address"),
+  email: emailInputSchema,
   password: passwordPolicySchema,
 });
 

@@ -92,6 +92,12 @@ export async function handleAdminFastPath(request: NextRequest): Promise<NextRes
           (token as { mustChangePassword?: boolean }).mustChangePassword,
         ),
         totpEnabled: Boolean((token as { totpEnabled?: boolean }).totpEnabled),
+        // The edge cannot read the database. This claim is evaluated only by
+        // adminLifecycleDestination, which still redirects to Account Settings;
+        // the Node layout re-checks against live delivery config.
+        adminOtpUnconfigured: Boolean(
+          (token as { adminOtpUnconfigured?: boolean }).adminOtpUnconfigured,
+        ),
       });
       if (block) {
         return NextResponse.redirect(new URL(block.redirectTo, request.url));

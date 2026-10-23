@@ -62,7 +62,10 @@ export async function POST(request: Request) {
       }
     }
 
-    return NextResponse.json({ success: true, ...result });
+    // Public body is exactly { success, status }. The `id` stays server-side
+    // (attribution only) so the response cannot correlate submissions or
+    // reveal whether the address was already subscribed.
+    return NextResponse.json({ success: true, status: result.status });
   } catch (error) {
     console.error("Newsletter subscribe error:", error);
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });

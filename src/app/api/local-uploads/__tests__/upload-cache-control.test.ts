@@ -18,10 +18,19 @@ describe("uploadCacheControl", () => {
     assert.equal(uploadCacheControl("image/jpeg", false), "public, max-age=86400");
   });
 
-  it("serves SVG uploads as inline images without a response CSP", () => {
-    const metadata = resolveUploadContentMetadata(".svg");
+  it("serves non-icon SVG uploads as attachments without a response CSP", () => {
+    // Known public icon paths still render inline; every other SVG is forced
+    // to download so direct navigation cannot execute script.
+    const metadata = resolveUploadContentMetadata(".svg", "/uploads/svg/uploaded-diagram.svg");
 
     assert.equal(metadata.contentType, "image/svg+xml");
+    assert.equal(metadata.forceAttachment, true);
+    assert.equal(metadata.contentSecurityPolicy, undefined);
+  });
+
+  it("serves known public icon SVG inline without a response CSP", () => {
+    const metadata = resolveUploadContentMetadata(".svg", "/uploads/svg/favicon.svg");
+
     assert.equal(metadata.forceAttachment, false);
     assert.equal(metadata.contentSecurityPolicy, undefined);
   });

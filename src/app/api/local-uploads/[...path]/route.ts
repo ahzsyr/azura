@@ -1,13 +1,17 @@
 import { createReadStream } from "node:fs";
-import { open, stat } from "node:fs/promises";
+import { open, readFile, stat } from "node:fs/promises";
 import { basename, extname } from "node:path";
 import { Readable } from "node:stream";
 import { NextResponse } from "next/server";
 import { parseBytesRange } from "@/app/api/local-uploads/parse-bytes-range";
-import { uploadCacheControl } from "@/app/api/local-uploads/upload-cache-control";
 import { resolveUploadContentMetadata } from "@/app/api/local-uploads/upload-content-metadata";
-import { resolveExistingUploadDiskPath } from "@/lib/local-media-files";
-import { uploadFallbackUrls } from "@/lib/local-upload-urls";
+import {
+  isUploadVisibleTo,
+  uploadResponseCacheControl,
+  type UploadAssetLookup,
+} from "@/app/api/local-uploads/upload-access-policy";
+import { resolveLocalUploadDiskPath } from "@/lib/local-media-files";
+import { containsActiveSvgContent } from "@/lib/security/svg-sanitize";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { isAdminRole } from "@/features/auth/portal";
@@ -27,67 +31,65 @@ function notFoundEmpty() {
 function baseHeaders(
   contentType: string,
   size: number,
-  filename: string,
-  forceAttachment: boolean,
-  contentSecurityPolicy?: string,
-  isPartial = false,
+  contentDisposition: string | undefined,
+  cacheControl: string,
 ): HeadersInit {
   const headers: Record<string, string> = {
     "Content-Type": contentType,
     "Accept-Ranges": "bytes",
-    "Cache-Control": uploadCacheControl(contentType, isPartial),
+    "Cache-Control": cacheControl,
     "Content-Length": String(size),
     "X-Content-Type-Options": "nosniff",
   };
-  if (contentSecurityPolicy) {
-    headers["Content-Security-Policy"] = contentSecurityPolicy;
-  }
-  if (forceAttachment) {
-    headers["Content-Disposition"] = `attachment; filename="${filename.replace(/"/g, "")}"`;
-  }
+  if (contentDisposition) headers["Content-Disposition"] = contentDisposition;
   return headers;
 }
 
-function isAlwaysPublicUpload(url: string, mediaType?: string | null, mimeType?: string | null) {
-  if (extname(url).toLowerCase() === ".svg") return true;
-  if (mediaType === "IMAGE" || mediaType === "SVG") return true;
-  const mime = mimeType?.toLowerCase().split(";")[0]?.trim() ?? "";
-  return mime.startsWith("image/");
-}
-
-async function findMediaAssetForUpload(url: string) {
-  const filename = basename(url);
-  const urls = uploadFallbackUrls(url);
+/**
+ * One MediaAsset whose stored url equals the request path.
+ * Zero rows, more than one row, or a lookup error are all "not found".
+ * Filename and endsWith matches are not used: they can select the wrong asset.
+ */
+async function findMediaAssetForUpload(url: string): Promise<(UploadAssetLookup & { url: string }) | null> {
+  if (!url.startsWith("/uploads/") || url.includes("..")) return null;
   try {
-    return await prisma.mediaAsset.findFirst({
-      where: {
-        OR: [
-          ...(urls.length ? [{ url: { in: urls } }] : []),
-          ...(filename
-            ? [{ filename }, { url: { endsWith: `/${filename}` } }]
-            : []),
-        ],
-      },
+    const rows = await prisma.mediaAsset.findMany({
+      where: { url },
       select: { visibility: true, mediaType: true, url: true, mimeType: true },
+      take: 2,
     });
-  } catch {
+    if (rows.length !== 1 || !rows[0]?.url) return null;
+    return rows[0];
+  } catch (error) {
+    console.error("[local-uploads] asset lookup failed", error instanceof Error ? error.name : "unknown");
     return null;
   }
 }
 
-async function assertPublicOrAuthorized(url: string): Promise<NextResponse | null> {
-  if (isAlwaysPublicUpload(url)) return null;
-  try {
-    const asset = await findMediaAssetForUpload(url);
-    if (!asset) return null;
-    if (isAlwaysPublicUpload(url, asset.mediaType, asset.mimeType)) return null;
-    if (asset.visibility === "PUBLIC") return null;
-    const session = await auth();
-    if (isAdminRole(session?.user?.role)) return null;
-    return notFoundJson();
-  } catch {
-    return null;
+type StoredUploadAsset = UploadAssetLookup & { url: string };
+
+async function resolveAuthorization(url: string): Promise<
+  | { authorized: true; asset: StoredUploadAsset }
+  | { authorized: false }
+> {
+  const asset = await findMediaAssetForUpload(url);
+
+  // Authorize from visibility before any bytes or remote redirect.
+  // PUBLIC is anonymous. PRIVATE and GATED require an admin session.
+  if (asset && isUploadVisibleTo(asset, false)) {
+    return { authorized: true, asset };
   }
+
+  // Private/gated/missing: only an admin session may read it.
+  let isAdmin = false;
+  try {
+    const session = await auth();
+    isAdmin = isAdminRole(session?.user?.role);
+  } catch {
+    isAdmin = false;
+  }
+  if (!isUploadVisibleTo(asset, isAdmin)) return { authorized: false };
+  return { authorized: true, asset };
 }
 
 type ResolvedUpload =
@@ -95,42 +97,61 @@ type ResolvedUpload =
   | { kind: "redirect"; location: string }
   | { kind: "missing" };
 
-async function resolveUploadTarget(url: string): Promise<ResolvedUpload> {
-  const diskPath = resolveExistingUploadDiskPath(url);
+async function resolveUploadTarget(url: string, asset: StoredUploadAsset): Promise<ResolvedUpload> {
+  const diskPath = resolveLocalUploadDiskPath(url);
   if (diskPath) return { kind: "file", diskPath };
-
-  const asset = await findMediaAssetForUpload(url);
-  if (asset?.url && /^https?:\/\//i.test(asset.url)) {
+  // Remote bytes are followed only for the same authorized row.
+  if (/^https?:\/\//i.test(asset.url)) {
     return { kind: "redirect", location: asset.url };
   }
-  if (asset?.url?.startsWith("/uploads/") && asset.url !== url) {
-    const alt = resolveExistingUploadDiskPath(asset.url);
-    if (alt) return { kind: "file", diskPath: alt };
-  }
   return { kind: "missing" };
+}
+
+async function svgIsActive(diskPath: string): Promise<boolean | null> {
+  try {
+    const svg = await readFile(diskPath, "utf8");
+    return containsActiveSvgContent(svg);
+  } catch {
+    return null;
+  }
 }
 
 export async function GET(request: Request, context: RouteContext) {
   const { path } = await context.params;
   const rel = path.join("/");
   const url = `/uploads/${rel}`;
-  const target = await resolveUploadTarget(url);
 
+  // Authorize BEFORE resolving/statting so a missing row and a lookup error
+  // produce the same 404 as an existing private file.
+  const authz = await resolveAuthorization(url);
+  if (!authz.authorized) return notFoundJson();
+
+  const target = await resolveUploadTarget(url, authz.asset);
   if (target.kind === "missing") return notFoundJson();
   if (target.kind === "redirect") {
     return NextResponse.redirect(target.location, 302);
   }
 
-  const blocked = await assertPublicOrAuthorized(url);
-  if (blocked) return blocked;
-
   const { diskPath } = target;
-  const fileStat = await stat(diskPath);
+  let fileStat;
+  try {
+    fileStat = await stat(diskPath);
+  } catch {
+    return notFoundJson();
+  }
   const size = fileStat.size;
   const ext = extname(diskPath).toLowerCase();
-  const { contentType, forceAttachment, contentSecurityPolicy } =
-    resolveUploadContentMetadata(ext);
-  const filename = basename(diskPath);
+  if (ext === ".svg") {
+    const active = await svgIsActive(diskPath);
+    if (active === null || active) return notFoundJson();
+  }
+  const meta = resolveUploadContentMetadata(ext, url);
+  const contentType = meta.contentType;
+  const contentDisposition =
+    ext === ".svg" && authz.asset.visibility !== "PUBLIC"
+      ? `attachment; filename="${basename(diskPath).replace(/"/g, "")}"`
+      : meta.contentDisposition;
+  const cacheControl = uploadResponseCacheControl(authz.asset, contentType, false);
 
   const range = parseBytesRange(request.headers.get("range"), size);
 
@@ -157,10 +178,8 @@ export async function GET(request: Request, context: RouteContext) {
         ...baseHeaders(
           contentType,
           chunkSize,
-          filename,
-          forceAttachment,
-          contentSecurityPolicy,
-          true,
+          contentDisposition,
+          uploadResponseCacheControl(authz.asset, contentType, true),
         ),
         "Content-Range": `bytes ${start}-${end}/${size}`,
       },
@@ -176,7 +195,7 @@ export async function GET(request: Request, context: RouteContext) {
 
   return new NextResponse(body, {
     status: 200,
-    headers: baseHeaders(contentType, size, filename, forceAttachment, contentSecurityPolicy),
+    headers: baseHeaders(contentType, size, contentDisposition, cacheControl),
   });
 }
 
@@ -184,30 +203,41 @@ export async function HEAD(_request: Request, context: RouteContext) {
   const { path } = await context.params;
   const rel = path.join("/");
   const url = `/uploads/${rel}`;
-  const target = await resolveUploadTarget(url);
 
+  const authz = await resolveAuthorization(url);
+  if (!authz.authorized) return notFoundEmpty();
+
+  const target = await resolveUploadTarget(url, authz.asset);
   if (target.kind === "missing") return notFoundEmpty();
   if (target.kind === "redirect") {
     return NextResponse.redirect(target.location, 302);
   }
 
-  const blocked = await assertPublicOrAuthorized(url);
-  if (blocked) return blocked;
-
-  const fileStat = await stat(target.diskPath);
+  let fileStat;
+  try {
+    fileStat = await stat(target.diskPath);
+  } catch {
+    return notFoundEmpty();
+  }
   const ext = extname(target.diskPath).toLowerCase();
-  const { contentType, forceAttachment, contentSecurityPolicy } =
-    resolveUploadContentMetadata(ext);
-  const filename = basename(target.diskPath);
+  if (ext === ".svg") {
+    const active = await svgIsActive(target.diskPath);
+    if (active === null || active) return notFoundEmpty();
+  }
+  const meta = resolveUploadContentMetadata(ext, url);
+  const contentType = meta.contentType;
+  const contentDisposition =
+    ext === ".svg" && authz.asset.visibility !== "PUBLIC"
+      ? `attachment; filename="${basename(target.diskPath).replace(/"/g, "")}"`
+      : meta.contentDisposition;
 
   return new NextResponse(null, {
     status: 200,
     headers: baseHeaders(
       contentType,
       fileStat.size,
-      filename,
-      forceAttachment,
-      contentSecurityPolicy,
+      contentDisposition,
+      uploadResponseCacheControl(authz.asset, contentType, false),
     ),
   });
 }

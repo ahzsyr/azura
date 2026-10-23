@@ -43,16 +43,50 @@ describe("P0 security regressions", () => {
       }
     });
 
-    it("first-run unlocks when SETUP_TOKEN is set in production without presented token", () => {
+    it("first-run requires a presented matching token in production", () => {
       const prevNode = process.env.NODE_ENV;
       const prevToken = process.env.SETUP_TOKEN;
       process.env.NODE_ENV = "production";
       process.env.SETUP_TOKEN = "host-env-token-value";
       try {
+        // Empty presented token must FAIL even though SETUP_TOKEN is set.
+        assert.equal(authorizeFirstRunSetup(undefined), false);
+        assert.equal(authorizeFirstRunSetup(""), false);
+        assert.equal(authorizeFirstRunSetup("   "), false);
+        // Wrong token still fails.
+        assert.equal(authorizeFirstRunSetup("wrong"), false);
+        // Only the matching token unlocks first-run setup.
+        assert.equal(authorizeFirstRunSetup("host-env-token-value"), true);
+      } finally {
+        process.env.NODE_ENV = prevNode;
+        if (prevToken === undefined) delete process.env.SETUP_TOKEN;
+        else process.env.SETUP_TOKEN = prevToken;
+      }
+    });
+
+    it("development stays open for first-run when SETUP_TOKEN is unset", () => {
+      const prevNode = process.env.NODE_ENV;
+      const prevToken = process.env.SETUP_TOKEN;
+      process.env.NODE_ENV = "development";
+      delete process.env.SETUP_TOKEN;
+      try {
         assert.equal(authorizeFirstRunSetup(undefined), true);
         assert.equal(authorizeFirstRunSetup(""), true);
-        assert.equal(authorizeFirstRunSetup("host-env-token-value"), true);
+      } finally {
+        process.env.NODE_ENV = prevNode;
+        if (prevToken === undefined) delete process.env.SETUP_TOKEN;
+        else process.env.SETUP_TOKEN = prevToken;
+      }
+    });
+
+    it("development with SETUP_TOKEN set rejects a wrong presented token", () => {
+      const prevNode = process.env.NODE_ENV;
+      const prevToken = process.env.SETUP_TOKEN;
+      process.env.NODE_ENV = "development";
+      process.env.SETUP_TOKEN = "dev-token-value";
+      try {
         assert.equal(authorizeFirstRunSetup("wrong"), false);
+        assert.equal(authorizeFirstRunSetup("dev-token-value"), true);
       } finally {
         process.env.NODE_ENV = prevNode;
         if (prevToken === undefined) delete process.env.SETUP_TOKEN;

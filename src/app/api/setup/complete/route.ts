@@ -141,8 +141,8 @@ export async function POST(request: Request) {
 
     const settingsBefore = await readSystemSettings();
 
-    // First-run: SETUP_TOKEN must be set in host env (URL/body token optional).
-    // Re-setup: presented token must match SETUP_TOKEN.
+    // First-run: in production the request must PRESENT the matching SETUP_TOKEN.
+    // Re-setup: presented token must also match the current SETUP_TOKEN.
     if (settingsBefore.setupComplete) {
       if (!isValidSetupToken(data.setupToken)) {
         return NextResponse.json({ error: "Setup already completed" }, { status: 403 });
@@ -151,7 +151,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error: isSetupTokenRequired()
-            ? "SETUP_TOKEN must be configured in the host environment to complete setup in production"
+            ? "First-run setup requires the SETUP_TOKEN configured in the host environment. Open /setup?setupToken=<token>."
             : "Invalid SETUP_TOKEN",
         },
         { status: 403 },

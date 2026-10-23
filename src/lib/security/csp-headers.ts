@@ -12,9 +12,39 @@ import { createHash } from "node:crypto";
 
 export type CspMode = "report" | "enforce";
 
-export function resolveCspMode(raw: string | undefined): CspMode {
-  const value = (raw ?? "report").trim().toLowerCase();
-  return value === "enforce" ? "enforce" : "report";
+/**
+ * Default stays report-only until representative local production reports are
+ * reviewed. Routes to exercise before setting AZURA_CSP_MODE=enforce:
+ * home, account login, admin login, one public form, setup; navigate between
+ * them; submit a form; open admin account settings. Read /api/security/csp-report.
+ *
+ * The policy body still allows 'unsafe-inline' and 'unsafe-eval'. Do not remove
+ * them in this pass. AZURA_CSP_MODE=enforce turns the same body into a blocking
+ * header. AZURA_CSP_MODE=report is the rollback.
+ */
+export const DEFAULT_CSP_MODE: CspMode = "report";
+
+export const CSP_MEASUREMENT_ROUTES = [
+  "/",
+  "/account/login",
+  "/admin/login",
+  "/setup",
+] as const;
+
+/**
+ * Explicit AZURA_CSP_MODE wins. Otherwise stay on report, including production,
+ * until the measurement window above has been reviewed.
+ */
+export function resolveCspMode(raw: string | undefined, _nodeEnv?: string | undefined): CspMode {
+  const value = (raw ?? "").trim().toLowerCase();
+  if (value === "enforce") return "enforce";
+  if (value === "report" || value === "report-only" || value === "reportonly") return "report";
+  return DEFAULT_CSP_MODE;
+}
+
+/** Same decision as resolveCspMode. Kept so callers can name the site-wide mode. */
+export function resolveSiteCspMode(raw: string | undefined, nodeEnv?: string | undefined): CspMode {
+  return resolveCspMode(raw, nodeEnv);
 }
 
 export type BuildAzuraCspPolicyOptions = {

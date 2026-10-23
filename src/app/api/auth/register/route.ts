@@ -36,11 +36,15 @@ export async function POST(request: Request) {
     }
 
     const data = registerSchema.parse(body);
-    const email = data.email.trim().toLowerCase();
+    // Normalized by emailInputSchema (trim + lowercase).
+    const email = data.email;
+
+    // Identical response for new and existing addresses — no account enumeration.
+    const UNIFORM_RESPONSE = { success: true as const, requiresVerification: true as const };
 
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {
-      return NextResponse.json({ success: true, requiresVerification: true });
+      return NextResponse.json(UNIFORM_RESPONSE);
     }
 
     const passwordHash = await bcrypt.hash(data.password, 12);
@@ -63,7 +67,7 @@ export async function POST(request: Request) {
       emailAccountId: settings.emailVerification.emailAccountId || null,
     });
 
-    return NextResponse.json({ success: true, requiresVerification: true, email });
+    return NextResponse.json(UNIFORM_RESPONSE);
   } catch (error) {
     return NextResponse.json({ error: zodErrorMessage(error) }, { status: 400 });
   }

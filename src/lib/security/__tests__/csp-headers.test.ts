@@ -5,20 +5,44 @@ import {
   buildCspHeaderEntries,
   cspSha256Token,
   resolveCspMode,
+  resolveSiteCspMode,
 } from "@/lib/security/csp-headers";
 
 describe("CSP header rollout", () => {
-  it("defaults to report mode for unset, empty, and unknown values", () => {
-    assert.equal(resolveCspMode(undefined), "report");
-    assert.equal(resolveCspMode(""), "report");
-    assert.equal(resolveCspMode("report"), "report");
-    assert.equal(resolveCspMode("REPORT"), "report");
-    assert.equal(resolveCspMode("something-else"), "report");
+  it("stays in report mode until AZURA_CSP_MODE=enforce", () => {
+    assert.equal(resolveCspMode(undefined, "production"), "report");
+    assert.equal(resolveCspMode("", "production"), "report");
+    assert.equal(resolveCspMode("something-else", "production"), "report");
+    assert.equal(resolveCspMode(undefined, "development"), "report");
+    assert.equal(resolveCspMode("enforce", "production"), "enforce");
+    assert.equal(resolveCspMode("enforce", "development"), "enforce");
   });
 
-  it("enables enforce only for explicit enforce", () => {
-    assert.equal(resolveCspMode("enforce"), "enforce");
-    assert.equal(resolveCspMode(" Enforce "), "enforce");
+  it("site mode matches the explicit switch and otherwise stays report", () => {
+    assert.equal(resolveSiteCspMode(undefined, "production"), "report");
+    assert.equal(resolveSiteCspMode(undefined, "development"), "report");
+    assert.equal(resolveSiteCspMode("enforce", "development"), "enforce");
+  });
+
+  it("AZURA_CSP_MODE=report stays available as the rollback", () => {
+    assert.equal(resolveCspMode("report"), "report");
+    assert.equal(resolveCspMode("REPORT"), "report");
+    assert.equal(resolveCspMode(" report-only "), "report");
+  });
+
+  it("default mode emits Report-Only only", () => {
+    const headers = buildCspHeaderEntries(resolveCspMode(undefined, "production"), buildAzuraCspPolicy());
+    assert.deepEqual(
+      headers.map((h) => h.key),
+      ["Content-Security-Policy-Report-Only"],
+    );
+  });
+
+  it("enforcing policy keeps unsafe-inline / unsafe-eval (not removed in this pass)", () => {
+    const headers = buildCspHeaderEntries("enforce", buildAzuraCspPolicy());
+    const enforced = headers.find((h) => h.key === "Content-Security-Policy")?.value ?? "";
+    assert.ok(enforced.includes("'unsafe-inline'"));
+    assert.ok(enforced.includes("'unsafe-eval'"));
   });
 
   it("report mode emits Report-Only only", () => {

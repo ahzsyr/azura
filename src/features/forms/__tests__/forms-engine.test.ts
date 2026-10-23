@@ -11,11 +11,7 @@ import {
   leadFormPropsSchema,
   downloadGatePropsSchema,
 } from "@/features/builder/blocks/conversion/schemas/conversion-blocks";
-import {
-  checkFormSubmitRateLimit,
-  isHoneypotTriggered,
-  resetFormSubmitRateLimitsForTests,
-} from "@/features/forms/platform/handlers/spam-handler";
+import { isHoneypotTriggered } from "@/features/forms/platform/handlers/spam-rules";
 import { submissionsToCsv } from "@/features/forms/submission-csv";
 
 describe("formTemplateDefinitionSchema", () => {
@@ -140,16 +136,6 @@ describe("spam honeypot and rate limit", () => {
     assert.equal(isHoneypotTriggered("   "), false);
     assert.equal(isHoneypotTriggered(undefined), false);
     assert.equal(isHoneypotTriggered("http://spam"), true);
-  });
-
-  it("rate limits after max attempts", () => {
-    resetFormSubmitRateLimitsForTests();
-    const ip = "test-ip-forms-engine";
-    for (let i = 0; i < 10; i++) {
-      assert.equal(checkFormSubmitRateLimit(ip), true);
-    }
-    assert.equal(checkFormSubmitRateLimit(ip), false);
-    resetFormSubmitRateLimitsForTests();
   });
 });
 

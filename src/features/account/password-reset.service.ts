@@ -10,6 +10,7 @@ import { isAdminRole } from "@/features/auth/portal";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { writeSecurityAuditLog } from "@/lib/security-audit";
 import { bumpUserSessionVersion } from "@/lib/session-version";
+import { PASSWORD_REUSE_ERROR, isPasswordReused } from "@/lib/security/password-reuse.server";
 import { accountPublicPath } from "@/features/account/account-public-path";
 
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
@@ -235,6 +236,12 @@ export async function consumePasswordResetToken(input: {
   const role = record.user.role;
   if (role !== "CUSTOMER" && !isAdminRole(role)) {
     return { error: "This reset link is invalid or has expired. Request a new one." };
+  }
+
+  // Reuse guard: reject a reset that keeps the current password. The token is
+  // NOT consumed, so the user can retry with a different password.
+  if (await isPasswordReused(input.password, record.user.passwordHash)) {
+    return { error: PASSWORD_REUSE_ERROR };
   }
 
   const passwordHash = await bcrypt.hash(input.password, 12);

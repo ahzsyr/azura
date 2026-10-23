@@ -40,17 +40,30 @@ export async function subscribeNewsletter(input: {
   doubleOptIn: boolean;
   blockId?: string;
   pageSlug?: string;
-}) {
+}): Promise<{
+  /**
+   * Status that follows the REQUEST MODE only (double opt-in → PENDING, else
+   * CONFIRMED). It must not reveal whether the address already existed; the
+   * public route returns exactly `{ success: true, status }` from this.
+   */
+  status: "PENDING" | "CONFIRMED";
+  /** Server-internal id for attribution wiring. NEVER send to the client. */
+  id: string | null;
+}> {
   const existing = await prisma.newsletterSubscriber.findUnique({
     where: { email_segment: { email: input.email, segment: input.segment } },
   });
 
+  const requestedStatus: "PENDING" | "CONFIRMED" = input.doubleOptIn ? "PENDING" : "CONFIRMED";
+
   if (existing?.status === "CONFIRMED") {
-    return { id: existing.id, status: "CONFIRMED" as const, alreadySubscribed: true };
+    // Already subscribed: do not resend or rewrite anything; report the
+    // requested mode so the response is indistinguishable from a new sign-up.
+    return { id: existing.id, status: requestedStatus };
   }
 
   const confirmToken = input.doubleOptIn ? createConfirmToken() : null;
-  const status = input.doubleOptIn ? "PENDING" : "CONFIRMED";
+  const status = requestedStatus;
   const serverWebhookUrl = await resolveNewsletterWebhookFromBlock(input.blockId, input.pageSlug);
 
   const metadata = {
@@ -96,7 +109,7 @@ export async function subscribeNewsletter(input: {
     void dispatchNewsletterWebhook(serverWebhookUrl, subscriber);
   }
 
-  return { id: subscriber.id, status: subscriber.status, alreadySubscribed: false };
+  return { id: subscriber.id, status: requestedStatus };
 }
 
 export async function confirmNewsletter(token: string) {

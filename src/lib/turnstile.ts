@@ -1,9 +1,19 @@
 import "server-only";
 
+import { resolveTurnstileMissingKeyPolicy } from "@/lib/security/abuse-controls";
+
+export { resolveTurnstileMissingKeyPolicy } from "@/lib/security/abuse-controls";
+
 /**
- * Optional Cloudflare Turnstile verification.
- * When TURNSTILE_SECRET_KEY is unset: allow (local/dev). In production, warn once.
+ * Cloudflare Turnstile verification.
+ *
+ * Fail-closed in production: with no TURNSTILE_SECRET_KEY configured, public
+ * forms / register / forgot-password reject. Set the key on the host before
+ * deploying or those endpoints stop accepting submissions (intended).
+ *
+ * Development (and test) stays open when the key is unset.
  */
+
 let warnedMissing = false;
 
 export async function verifyTurnstileToken(
@@ -12,11 +22,18 @@ export async function verifyTurnstileToken(
 ): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY?.trim();
   if (!secret) {
-    if (process.env.NODE_ENV === "production" && !warnedMissing) {
+    const policy = resolveTurnstileMissingKeyPolicy(process.env.NODE_ENV);
+    if (!warnedMissing) {
       warnedMissing = true;
-      console.warn("[turnstile] TURNSTILE_SECRET_KEY unset — CAPTCHA not enforced");
+      if (policy === "deny") {
+        console.error(
+          "[turnstile] TURNSTILE_SECRET_KEY unset in production — rejecting public form submissions",
+        );
+      } else {
+        console.warn("[turnstile] TURNSTILE_SECRET_KEY unset — CAPTCHA not enforced (non-production)");
+      }
     }
-    return true;
+    return policy === "allow";
   }
   if (!token?.trim()) return false;
 
@@ -34,7 +51,8 @@ export async function verifyTurnstileToken(
     const data = (await res.json()) as { success?: boolean };
     return Boolean(data.success);
   } catch (error) {
-    console.error("[turnstile] verify failed:", error);
+    // Never log the secret or the submitted token.
+    console.error("[turnstile] verify failed:", error instanceof Error ? error.name : "unknown");
     return false;
   }
 }

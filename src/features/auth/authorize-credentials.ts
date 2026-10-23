@@ -1,5 +1,6 @@
 import "server-only";
 
+import crypto from "node:crypto";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import {
@@ -24,6 +25,20 @@ const LOGIN_LIMIT = 10;
 const MFA_WINDOW_MS = 15 * 60 * 1000;
 const MFA_LIMIT = 5;
 
+/**
+ * A real bcrypt hash (cost 12, matching password writes) of a random value
+ * that is never a password. Used only to equalize work on the
+ * user-does-not-exist path. Lazily computed once per process.
+ */
+let dummyPasswordHash: string | null = null;
+
+export function getDummyPasswordHash(): string {
+  if (!dummyPasswordHash) {
+    dummyPasswordHash = bcrypt.hashSync(crypto.randomUUID(), 12);
+  }
+  return dummyPasswordHash;
+}
+
 export type AuthorizeCredentialsInput = {
   email?: unknown;
   password?: unknown;
@@ -38,6 +53,12 @@ export type AuthorizeResultUser = {
   sessionVersion: number;
   mustChangePassword: boolean;
   totpEnabled: boolean;
+  /**
+   * Admin signed in with password only because no sendable email-OTP sender is
+   * configured. Carried into the JWT so every admin route except account
+   * settings redirects there until a sender exists.
+   */
+  adminOtpUnconfigured: boolean;
 };
 
 /**
@@ -83,6 +104,13 @@ export async function authorizeCredentials(
   }
 
   if (!user) {
+    // Do the same bcrypt work as a real comparison so the missing-user path is
+    // not distinguishable by response time. The result is still uniformly null.
+    try {
+      await bcrypt.compare(String(credentials.password ?? ""), getDummyPasswordHash());
+    } catch {
+      /* timing equalizer only */
+    }
     await writeSecurityAuditLog({
       action: "auth.login.failure",
       ip,
@@ -137,13 +165,25 @@ export async function authorizeCredentials(
     return null;
   }
 
+  let adminOtpUnconfigured = false;
   if (requiresMfaAtLogin(user.role, user.totpEnabled)) {
     const { isAdminEmailMfaConfigured, resolveAdminOtpProviderConfig } = await import(
       "@/features/auth/admin-auth-delivery"
     );
     const mfaDeliveryReady = await isAdminEmailMfaConfigured();
     if (!mfaDeliveryReady) {
-      // Password-only admin login when Master Admin has not configured a sendable OTP sender
+      // Password-only admin login when Master Admin has not configured a
+      // sendable OTP sender. Mark the session so the lifecycle gate sends the
+      // admin to Account Settings to configure one; once it exists, OTP is
+      // required again at the next sign-in.
+      adminOtpUnconfigured = true;
+      await writeSecurityAuditLog({
+        action: "auth.mfa.unconfigured",
+        actorId: user.id,
+        actorRole: user.role,
+        ip,
+        meta: { passwordOnly: true },
+      });
     } else if (!mfaCode) {
       const { accountSettingsService } = await import(
         "@/features/account/account-settings.service"
@@ -228,6 +268,7 @@ export async function authorizeCredentials(
     sessionVersion: user.sessionVersion ?? 0,
     mustChangePassword: Boolean(user.mustChangePassword),
     totpEnabled: Boolean(user.totpEnabled),
+    adminOtpUnconfigured,
   };
 }
 

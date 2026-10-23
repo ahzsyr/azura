@@ -1,40 +1,39 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
-import { isAdminRole } from "@/features/auth/portal";
+import { defineApiRoute } from "@/lib/api-auth";
 import { isCapabilityEnabled } from "@/config/deployment-profile";
 import {
   personalizationService,
   type PersonalizationSettings,
 } from "@/capabilities/personalization/personalization.service";
 
-export async function GET() {
-  if (!isCapabilityEnabled("personalization")) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
-  }
-  try {
-    const settings = await personalizationService.get();
-    return NextResponse.json(settings);
-  } catch (e) {
-    const message = e instanceof Error ? e.message : "Failed to load settings";
-    return NextResponse.json({ error: message }, { status: 500 });
-  }
-}
+const capabilityDisabled = () => NextResponse.json({ error: "Not found" }, { status: 404 });
 
-export async function POST(request: Request) {
-  if (!isCapabilityEnabled("personalization")) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
-  }
-  const session = await auth();
-  if (!session?.user || !isAdminRole(session.user.role)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+/** Admin-only: returns the full personalization configuration. */
+export const GET = defineApiRoute({
+  access: "admin",
+  handler: async () => {
+    if (!isCapabilityEnabled("personalization")) return capabilityDisabled();
+    try {
+      const settings = await personalizationService.get();
+      return NextResponse.json(settings);
+    } catch (e) {
+      console.error("[personalization-settings] load failed", e instanceof Error ? e.name : "unknown");
+      return NextResponse.json({ error: "Failed to load settings" }, { status: 500 });
+    }
+  },
+});
 
-  try {
-    const body = (await request.json()) as PersonalizationSettings;
-    const saved = await personalizationService.save(body);
-    return NextResponse.json({ saved: true, settings: saved });
-  } catch (e) {
-    const message = e instanceof Error ? e.message : "Failed to save settings";
-    return NextResponse.json({ error: message }, { status: 500 });
-  }
-}
+export const POST = defineApiRoute({
+  access: "admin",
+  handler: async ({ request }) => {
+    if (!isCapabilityEnabled("personalization")) return capabilityDisabled();
+    try {
+      const body = (await request.json()) as PersonalizationSettings;
+      const saved = await personalizationService.save(body);
+      return NextResponse.json({ saved: true, settings: saved });
+    } catch (e) {
+      console.error("[personalization-settings] save failed", e instanceof Error ? e.name : "unknown");
+      return NextResponse.json({ error: "Failed to save settings" }, { status: 500 });
+    }
+  },
+});

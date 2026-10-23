@@ -1,5 +1,4 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import type { Session } from "next-auth";
 import {
   isAdminRole,
@@ -8,6 +7,21 @@ import {
 } from "@/features/auth/portal";
 
 type IntlMiddleware = (request: NextRequest) => NextResponse | Promise<NextResponse>;
+
+/**
+ * Forward to next-intl with the account pathname attached, so the account
+ * layout (which has no access to the request URL) can tell public auth pages
+ * apart from protected account pages.
+ */
+function intlWithAccountPathname(
+  request: NextRequest,
+  pathname: string,
+  intlMiddleware: IntlMiddleware,
+): NextResponse | Promise<NextResponse> {
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-account-pathname", pathname);
+  return intlMiddleware(new NextRequest(request.url, { headers: requestHeaders }));
+}
 
 /** e.g. /account, /account/login (default locale) or /ar/account/login */
 export function parseAccountPath(
@@ -85,14 +99,14 @@ export async function handleAccountPath(
       });
       return NextResponse.redirect(new URL(dest, request.url));
     }
-    return intlMiddleware(request);
+    return intlWithAccountPathname(request, pathname, intlMiddleware);
   }
 
   const isPublicAccountHub = sub === "";
 
   if (!session?.user) {
     if (isPublicAccountHub) {
-      return intlMiddleware(request);
+      return intlWithAccountPathname(request, pathname, intlMiddleware);
     }
     const entry = resolveLoginEntryPath({
       locale,
@@ -101,5 +115,5 @@ export async function handleAccountPath(
     return NextResponse.redirect(new URL(entry, request.url));
   }
 
-  return intlMiddleware(request);
+  return intlWithAccountPathname(request, pathname, intlMiddleware);
 }

@@ -5,11 +5,12 @@ import { consumeSignupEmailOtp } from "@/features/auth/email-otp.service";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { getTrustedClientIp } from "@/lib/client-ip";
 import { defineApiRoute } from "@/lib/api-auth";
+import { optionalEmailInputSchema } from "@/lib/security/email-input";
 
 const bodySchema = z
   .object({
     token: z.string().min(32).max(128).optional(),
-    email: z.string().email().optional(),
+    email: optionalEmailInputSchema,
     code: z.string().min(6).max(6).optional(),
   })
   .refine((d) => Boolean(d.token) || (Boolean(d.email) && Boolean(d.code)), {
