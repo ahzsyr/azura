@@ -95,6 +95,14 @@ describe("safari chrome anchor contract", () => {
       /html\[data-chrome-tint-style="transparent"\] \.az-chrome-tint-zone,\s*html\[data-chrome-tint-style="glass"\] \.az-chrome-tint-zone \{\s*display: none;/,
     );
   });
+
+  it("lifts catalog and product bottom bars off the address bar sample", () => {
+    const stylesDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "../../../styles");
+    const css = readFileSync(path.join(stylesDir, "safari-chrome-tint.css"), "utf8");
+    assert.match(css, /--az-bottom-bar-lift: calc\(max\(12px, env\(safe-area-inset-bottom, 0px\)\) \+ 4px\);/);
+    assert.match(css, /\.pl-catalog-dock--bottom \{\s*bottom: var\(--az-bottom-bar-lift\);/);
+    assert.match(css, /:is\(\.unifi-sticky-bar, \.mikrotik-pdp__sticky\) \{\s*bottom: var\(--az-bottom-bar-lift\);/);
+  });
 });
 
 describe("site-glass-effect surface coverage", () => {

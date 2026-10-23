@@ -207,6 +207,35 @@ html[data-edge-to-edge="off"] body {
     );
   }
 
+  /* Page bars pinned to the bottom edge (catalog dock, product buy bars) win
+   * Safari's edge sample over the clear strip, so the toolbar turns into the
+   * bar's color. Float them above the strip so the glass toolbar stays. */
+  @media (hover: none) and (pointer: coarse) {
+    html[data-safari-edge="on"]:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]) {
+      --az-bottom-bar-lift: calc(max(12px, env(safe-area-inset-bottom, 0px)) + 4px);
+    }
+
+    html[data-safari-edge="on"]:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"])
+      .pl-catalog-dock--bottom {
+      bottom: var(--az-bottom-bar-lift);
+      padding-bottom: 0;
+    }
+
+    html[data-safari-edge="on"]:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"])
+      :is(.unifi-sticky-bar, .mikrotik-pdp__sticky) {
+      bottom: var(--az-bottom-bar-lift);
+      inset-inline: 12px;
+      border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    html[data-safari-edge="on"]:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"])
+      :is(.unifi-sticky-bar:not(.unifi-sticky-bar--visible), .mikrotik-pdp__sticky:not(.is-visible)) {
+      transform: translateY(calc(100% + var(--az-bottom-bar-lift) + 8px));
+    }
+  }
+
   /* Solid, and edge-to-edge off, must not let the footer replace the sample.
    * Glass, transparent, and gradient leave the page at the edge. */
   html[data-safari-edge="on"][data-chrome-tint-style="solid"] #az-page-paint,
