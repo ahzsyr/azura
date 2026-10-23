@@ -136,83 +136,83 @@ html[data-page-transition="none"] .route-page-layer--active {
  */
 @media (prefers-reduced-motion: no-preference) {
   html[data-page-transition-enabled="true"][data-page-transition="fade"] .route-page-layer--stale {
-    animation: route-content-fade-out var(--page-transition-duration, 280ms)
+    animation: route-content-fade-out var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   html[data-page-transition-enabled="true"][data-page-transition="fade"] .route-page-layer--active {
-    animation: route-content-fade-in var(--page-transition-duration, 280ms)
+    animation: route-content-fade-in var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   html[data-page-transition-enabled="true"][data-page-transition="zoom"] .route-page-layer--stale {
-    animation: astroZoomOut var(--page-transition-duration, 280ms)
+    animation: astroZoomOut var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   html[data-page-transition-enabled="true"][data-page-transition="zoom"] .route-page-layer--active {
-    animation: astroZoomIn var(--page-transition-duration, 280ms)
+    animation: astroZoomIn var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   html[data-page-transition-enabled="true"][data-page-transition="slide"] .route-page-layer--stale {
-    animation: route-content-slide-out var(--page-transition-duration, 280ms)
+    animation: route-content-slide-out var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   html[data-page-transition-enabled="true"][data-page-transition="slide"] .route-page-layer--active {
-    animation: route-content-slide-in var(--page-transition-duration, 280ms)
+    animation: route-content-slide-in var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   html[data-page-transition-enabled="true"][data-page-transition="scale"] .route-page-layer--stale {
-    animation: route-content-scale-out var(--page-transition-duration, 300ms)
+    animation: route-content-scale-out var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   html[data-page-transition-enabled="true"][data-page-transition="scale"] .route-page-layer--active {
-    animation: route-content-scale-in var(--page-transition-duration, 300ms)
+    animation: route-content-scale-in var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   /* Dormant View Transition API rules (unused while commits stay outside startViewTransition) */
   html[data-page-transition="fade"] ::view-transition-old(route-content) {
-    animation: route-content-fade-out var(--page-transition-duration, 280ms)
+    animation: route-content-fade-out var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   html[data-page-transition="fade"] ::view-transition-new(route-content) {
-    animation: route-content-fade-in var(--page-transition-duration, 280ms)
+    animation: route-content-fade-in var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   html[data-page-transition="zoom"] ::view-transition-old(route-content) {
-    animation: astroZoomOut var(--page-transition-duration, 280ms)
+    animation: astroZoomOut var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   html[data-page-transition="zoom"] ::view-transition-new(route-content) {
-    animation: astroZoomIn var(--page-transition-duration, 280ms)
+    animation: astroZoomIn var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   html[data-page-transition="slide"] ::view-transition-old(route-content) {
-    animation: route-content-slide-out var(--page-transition-duration, 280ms)
+    animation: route-content-slide-out var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   html[data-page-transition="slide"] ::view-transition-new(route-content) {
-    animation: route-content-slide-in var(--page-transition-duration, 280ms)
+    animation: route-content-slide-in var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   html[data-page-transition="scale"] ::view-transition-old(route-content) {
-    animation: route-content-scale-out var(--page-transition-duration, 300ms)
+    animation: route-content-scale-out var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 
   html[data-page-transition="scale"] ::view-transition-new(route-content) {
-    animation: route-content-scale-in var(--page-transition-duration, 300ms)
+    animation: route-content-scale-in var(--page-transition-duration, 220ms)
       var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
   }
 }
@@ -264,7 +264,7 @@ html[data-page-transition="none"] .route-page-layer--active {
   }
 
   html[data-shared-elements-enabled="true"] ::view-transition-group(*) {
-    animation-duration: var(--page-transition-duration, 300ms);
+    animation-duration: var(--page-transition-duration, 220ms);
     animation-timing-function: var(--page-transition-ease, cubic-bezier(0.22, 1, 0.36, 1));
   }
 
@@ -310,6 +310,35 @@ html[data-shared-elements-enabled="false"] [data-shared-element] {
   .marketing-page-content {
     view-transition-name: none;
   }
+}
+
+html[data-motion="off"] .nav-progress,
+html[data-motion="off"] .route-loading-overlay,
+html[data-motion="off"] .route-page-layer--stale,
+html[data-motion="off"] .route-page-layer--active,
+html[data-motion="reduced"] .nav-progress,
+html[data-motion="reduced"] .route-loading-overlay,
+html[data-motion="reduced"] .route-page-layer--stale,
+html[data-motion="reduced"] .route-page-layer--active {
+  animation: none !important;
+  transition: none !important;
+}
+
+html[data-motion="off"] .route-page-layer--stale,
+html[data-motion="reduced"] .route-page-layer--stale {
+  opacity: 1;
+}
+
+html[data-motion="off"] .route-page-layer--active,
+html[data-motion="reduced"] .route-page-layer--active {
+  will-change: auto;
+}
+
+html[data-motion="off"] .marketing-page-content,
+html[data-motion="reduced"] .marketing-page-content,
+html[data-motion="off"] [data-shared-element],
+html[data-motion="reduced"] [data-shared-element] {
+  view-transition-name: none !important;
 }
 
 html[data-reduced-paint="true"] .route-loading-overlay {

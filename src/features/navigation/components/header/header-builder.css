@@ -1553,7 +1553,6 @@ a.hb-mega-card--icon-photo.hb-mega-card-link,
   width: 100%;
   z-index: 100;
   transition: transform 0.28s ease, box-shadow 0.28s ease;
-  will-change: transform;
 }
 
 .header-root[data-header-desktop="hide-reveal"].header--concealed {
@@ -1822,20 +1821,27 @@ html:has([data-page-header-overlay="true"]) .header-root[data-header-shell]:not(
   pointer-events: none;
   /* Hide only after the fade so close does not snap off */
   transition:
-    opacity var(--mnav-duration, 240ms) ease,
-    visibility 0s linear var(--mnav-duration, 240ms);
+    opacity var(--mnav-duration-exit, 160ms) ease,
+    visibility 0s linear var(--mnav-duration-exit, 160ms);
   /* Never leave backdrop-filter active while transparent — Safari keeps blurring */
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
 
+.mnav-portal-root[data-mnav-state="opening"] .mnav-backdrop,
 .mnav-portal-root[data-mnav-state="open"] .mnav-backdrop {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
   transition:
-    opacity var(--mnav-duration, 240ms) ease,
+    opacity var(--mnav-duration-enter, 220ms) ease,
     visibility 0s linear 0s;
+}
+
+.mnav-portal-root[data-mnav-state="opening"] .mnav-backdrop {
+  @starting-style {
+    opacity: 0;
+  }
 }
 
 .mnav-portal-root[data-mnav-state="closed"] .mnav-backdrop,
@@ -1870,17 +1876,44 @@ html:has([data-page-header-overlay="true"]) .header-root[data-header-shell]:not(
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   color: var(--cg7, var(--foreground));
-  transform: translateX(100%);
+  transform: translate3d(100%, 0, 0);
   opacity: 1;
+  touch-action: pan-y;
   transition:
-    transform var(--mnav-duration, 240ms) cubic-bezier(0.22, 1, 0.36, 1),
-    opacity var(--mnav-duration, 240ms) ease;
+    transform var(--mnav-duration-exit, 160ms) cubic-bezier(0.22, 1, 0.36, 1),
+    opacity var(--mnav-duration-exit, 160ms) ease;
 }
 
+.mnav-portal-root[data-mnav-state="opening"] .mnav-panel,
 .mnav-portal-root[data-mnav-state="open"] .mnav-panel {
-  transform: translateX(0);
+  transform: translate3d(0, 0, 0);
+  transition:
+    transform var(--mnav-duration-enter, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
+    opacity var(--mnav-duration-enter, 220ms) ease;
+}
+
+.mnav-portal-root[data-mnav-state="opening"] .mnav-panel {
+  @starting-style {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+.mnav-portal-root[data-mnav-state="opening"] .mnav-panel,
+.mnav-portal-root[data-mnav-state="closing"] .mnav-panel,
+.mnav-portal-root[data-mnav-dragging="true"] .mnav-panel {
+  will-change: transform;
+}
+
+.mnav-portal-root[data-mnav-state="open"][data-mnav-settled="true"] .mnav-panel {
   backdrop-filter: blur(var(--menu-blur, 12px));
   -webkit-backdrop-filter: blur(var(--menu-blur, 12px));
+  will-change: auto;
+}
+
+.mnav-portal-root[data-mnav-dragging="true"] .mnav-panel {
+  transition: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 html[data-reduced-paint="true"] .mnav-panel,
@@ -1892,7 +1925,7 @@ html[data-reduced-paint="true"] .mnav-portal-root[data-mnav-state="open"] .mnav-
 
 .mnav-portal-root[data-mnav-state="closed"] .mnav-panel,
 .mnav-portal-root[data-mnav-state="closing"] .mnav-panel {
-  transform: translateX(100%);
+  transform: translate3d(100%, 0, 0);
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -1904,9 +1937,19 @@ html[data-reduced-paint="true"] .mnav-portal-root[data-mnav-state="open"] .mnav-
   opacity: 0;
 }
 
+.mnav-portal-root[data-mobile-nav-animation="fade"][data-mnav-state="opening"] .mnav-panel,
 .mnav-portal-root[data-mobile-nav-animation="fade"][data-mnav-state="open"] .mnav-panel,
+.mnav-portal-root[data-menu-animation="fade"][data-mnav-state="opening"] .mnav-panel,
 .mnav-portal-root[data-menu-animation="fade"][data-mnav-state="open"] .mnav-panel {
   opacity: 1;
+}
+
+.mnav-portal-root[data-mobile-nav-animation="fade"][data-mnav-state="opening"] .mnav-panel,
+.mnav-portal-root[data-menu-animation="fade"][data-mnav-state="opening"] .mnav-panel {
+  @starting-style {
+    transform: none;
+    opacity: 0;
+  }
 }
 
 .mnav-portal-root[data-mobile-nav-animation="fade"][data-mnav-state="closed"] .mnav-panel,
@@ -1924,10 +1967,20 @@ html[data-reduced-paint="true"] .mnav-portal-root[data-mnav-state="open"] .mnav-
   opacity: 0;
 }
 
+.mnav-portal-root[data-mobile-nav-animation="scale"][data-mnav-state="opening"] .mnav-panel,
 .mnav-portal-root[data-mobile-nav-animation="scale"][data-mnav-state="open"] .mnav-panel,
+.mnav-portal-root[data-menu-animation="scale"][data-mnav-state="opening"] .mnav-panel,
 .mnav-portal-root[data-menu-animation="scale"][data-mnav-state="open"] .mnav-panel {
   transform: scale(1);
   opacity: 1;
+}
+
+.mnav-portal-root[data-mobile-nav-animation="scale"][data-mnav-state="opening"] .mnav-panel,
+.mnav-portal-root[data-menu-animation="scale"][data-mnav-state="opening"] .mnav-panel {
+  @starting-style {
+    transform: scale(0.94);
+    opacity: 0;
+  }
 }
 
 .mnav-portal-root[data-mobile-nav-animation="scale"][data-mnav-state="closed"] .mnav-panel,
@@ -1938,10 +1991,7 @@ html[data-reduced-paint="true"] .mnav-portal-root[data-mnav-state="open"] .mnav-
   opacity: 0;
 }
 
-/* Spring animation — slide with overshoot easing */
-.mnav-portal-root[data-mobile-nav-animation="spring"] .mnav-panel {
-  transition-timing-function: cubic-bezier(0.2, 0.9, 0.4, 1.1);
-}
+/* Spring uses the shared ease at a slightly longer enter (set via --mnav-duration-enter). */
 
 .header-root[data-mobile-nav-style="card"] .mnav-panel,
 .mnav-portal-root[data-mobile-nav-style="card"] .mnav-panel {
@@ -1974,13 +2024,20 @@ html.rtl .mnav-panel {
   box-shadow: 8px 0 32px rgba(15, 23, 42, 0.12);
 }
 
-html[dir="rtl"] .mnav-portal-root[data-mnav-state="open"] .mnav-panel {
-  transform: translateX(0);
+:is(html[dir="rtl"], html.rtl) .mnav-portal-root[data-mnav-state="opening"]:not([data-mobile-nav-animation="fade"]):not([data-mobile-nav-animation="scale"]) .mnav-panel,
+:is(html[dir="rtl"], html.rtl) .mnav-portal-root[data-mnav-state="open"]:not([data-mobile-nav-animation="fade"]):not([data-mobile-nav-animation="scale"]) .mnav-panel {
+  transform: translate3d(0, 0, 0);
 }
 
-html[dir="rtl"] .mnav-portal-root[data-mnav-state="closed"] .mnav-panel,
-html[dir="rtl"] .mnav-portal-root[data-mnav-state="closing"] .mnav-panel {
-  transform: translateX(-100%);
+:is(html[dir="rtl"], html.rtl) .mnav-portal-root[data-mnav-state="opening"]:not([data-mobile-nav-animation="fade"]):not([data-mobile-nav-animation="scale"]) .mnav-panel {
+  @starting-style {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+:is(html[dir="rtl"], html.rtl) .mnav-portal-root[data-mnav-state="closed"]:not([data-mobile-nav-animation="fade"]):not([data-mobile-nav-animation="scale"]) .mnav-panel,
+:is(html[dir="rtl"], html.rtl) .mnav-portal-root[data-mnav-state="closing"]:not([data-mobile-nav-animation="fade"]):not([data-mobile-nav-animation="scale"]) .mnav-panel {
+  transform: translate3d(-100%, 0, 0);
 }
 
 html[dir="rtl"] .mnav-portal-root[data-mobile-nav-animation="fade"] .mnav-panel,
@@ -2029,11 +2086,19 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity var(--mnav-duration, 240ms) ease;
+  transition: opacity var(--mnav-duration-exit, 160ms) ease;
 }
 
+.mnav-portal-root[data-mnav-state="opening"] .mnav-overlay--fullscreen,
 .mnav-portal-root[data-mnav-state="open"] .mnav-overlay--fullscreen {
   opacity: 1;
+  transition: opacity var(--mnav-duration-enter, 220ms) ease;
+}
+
+.mnav-portal-root[data-mnav-state="opening"] .mnav-overlay--fullscreen {
+  @starting-style {
+    opacity: 0;
+  }
 }
 
 .mnav-portal-root[data-mnav-state="closed"] .mnav-overlay--fullscreen,
@@ -2061,8 +2126,66 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   .mnav-children,
   .mnav-children__clip,
   .mnav-row__chevron {
-    transition-duration: 0.01ms !important;
+    transition: none !important;
+    animation: none !important;
   }
+
+  .mnav-panel {
+    transform: none !important;
+  }
+
+  .mnav-portal-root[data-mnav-state="closed"] .mnav-panel,
+  .mnav-portal-root[data-mnav-state="closing"] .mnav-panel {
+    opacity: 0;
+  }
+
+  .mnav-portal-root[data-mnav-state="opening"] .mnav-panel,
+  .mnav-portal-root[data-mnav-state="open"] .mnav-panel {
+    opacity: 1;
+  }
+
+  .mnav-panel,
+  .mnav-portal-root[data-mnav-settled="true"] .mnav-panel {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+html[data-motion="off"] .mnav-panel,
+html[data-motion="off"] .mnav-backdrop,
+html[data-motion="off"] .mnav-overlay--fullscreen,
+html[data-motion="off"] .mnav-children,
+html[data-motion="off"] .mnav-children__clip,
+html[data-motion="off"] .mnav-row__chevron,
+html[data-motion="reduced"] .mnav-panel,
+html[data-motion="reduced"] .mnav-backdrop,
+html[data-motion="reduced"] .mnav-overlay--fullscreen,
+html[data-motion="reduced"] .mnav-children,
+html[data-motion="reduced"] .mnav-children__clip,
+html[data-motion="reduced"] .mnav-row__chevron {
+  transition: none !important;
+  animation: none !important;
+}
+
+html[data-motion="off"] .mnav-panel,
+html[data-motion="reduced"] .mnav-panel {
+  transform: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-motion="off"] .mnav-portal-root[data-mnav-state="closed"] .mnav-panel,
+html[data-motion="off"] .mnav-portal-root[data-mnav-state="closing"] .mnav-panel,
+html[data-motion="reduced"] .mnav-portal-root[data-mnav-state="closed"] .mnav-panel,
+html[data-motion="reduced"] .mnav-portal-root[data-mnav-state="closing"] .mnav-panel {
+  opacity: 0;
+}
+
+html[data-motion="off"] .mnav-portal-root[data-mnav-state="opening"] .mnav-panel,
+html[data-motion="off"] .mnav-portal-root[data-mnav-state="open"] .mnav-panel,
+html[data-motion="reduced"] .mnav-portal-root[data-mnav-state="opening"] .mnav-panel,
+html[data-motion="reduced"] .mnav-portal-root[data-mnav-state="open"] .mnav-panel {
+  opacity: 1;
 }
 
 .mnav-head {
@@ -2228,7 +2351,7 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   opacity: 0.55;
   color: var(--cg6, var(--muted-foreground));
   transform: rotate(0deg);
-  transition: transform var(--mnav-duration, 240ms) cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--mnav-duration-enter, 220ms) cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .mnav-row__chevron.is-open {
@@ -2335,7 +2458,14 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   display: grid;
   grid-template-rows: 0fr;
   background: transparent;
-  transition: grid-template-rows var(--mnav-duration, 240ms) cubic-bezier(0.22, 1, 0.36, 1);
+  transition: grid-template-rows var(--mnav-duration-exit, 160ms) cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mnav-portal-root[data-mnav-state="opening"] .mnav-children,
+.mnav-portal-root[data-mnav-state="closing"] .mnav-children,
+.mnav-portal-root[data-mnav-state="opening"] .mnav-children__clip,
+.mnav-portal-root[data-mnav-state="closing"] .mnav-children__clip {
+  transition: none;
 }
 
 .mnav-item-wrap.is-open > .mnav-children {
@@ -2347,7 +2477,7 @@ html.rtl .mnav-portal-root[data-mobile-nav-style="bordered"] .mnav-panel {
   overflow: hidden;
   background: transparent;
   opacity: 0;
-  transition: opacity var(--mnav-duration, 240ms) ease;
+  transition: opacity var(--mnav-duration-exit, 160ms) ease;
 }
 
 .mnav-item-wrap.is-open > .mnav-children > .mnav-children__clip {

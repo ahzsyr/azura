@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { PUBLIC_MOTION } from "@/lib/motion/public-motion";
 import type {
   HeaderBorderRadius,
   HeaderBuilderSettings,
@@ -125,26 +126,30 @@ export function resolveMobileMenuAppearance(
   };
 }
 
-export function getMobileAnimDuration(animation: MobileNavAnimation): number {
-  if (typeof window !== "undefined") {
-    try {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        return 0;
-      }
-    } catch {
-      /* matchMedia unavailable — use design duration */
-    }
+const MOBILE_ENTER_MS = Math.round(PUBLIC_MOTION.enterDuration * 1000);
+const MOBILE_EXIT_MS = Math.round(PUBLIC_MOTION.exitDuration * 1000);
+const MOBILE_SPRING_ENTER_MS = 260;
+
+/** OS Reduce Motion, or the site motion level `off` / `reduced`. */
+export function prefersReducedSiteMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return true;
+  } catch {
+    /* matchMedia unavailable */
   }
-  switch (animation) {
-    case "spring":
-      return 380;
-    case "scale":
-    case "fade":
-      return 220;
-    case "slide":
-    default:
-      return 240;
-  }
+  const level = document.documentElement.getAttribute("data-motion");
+  return level === "off" || level === "reduced";
+}
+
+export function getMobileAnimDuration(
+  animation: MobileNavAnimation | MenuPanelAnimation,
+  phase: "enter" | "exit" = "enter",
+): number {
+  if (prefersReducedSiteMotion()) return 0;
+  if (phase === "exit") return MOBILE_EXIT_MS;
+  if (animation === "spring") return MOBILE_SPRING_ENTER_MS;
+  return MOBILE_ENTER_MS;
 }
 
 export function menuAppearanceDataAttributes(
@@ -182,6 +187,8 @@ export function menuAppearanceStyle(
     "--menu-shadow": SHADOW_CSS[shadow],
     "--menu-radius": `${radiusPx}px`,
     "--menu-card-radius": `calc(${radiusPx}px * 0.65)`,
-    "--mnav-duration": `${getMobileAnimDuration(animation as MobileNavAnimation)}ms`,
+    "--mnav-duration": `${getMobileAnimDuration(animation as MobileNavAnimation, "enter")}ms`,
+    "--mnav-duration-enter": `${getMobileAnimDuration(animation as MobileNavAnimation, "enter")}ms`,
+    "--mnav-duration-exit": `${getMobileAnimDuration(animation as MobileNavAnimation, "exit")}ms`,
   } as CSSProperties;
 }

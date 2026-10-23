@@ -1761,3 +1761,39 @@ html:not(.dark):not([data-theme="dark"]) .site-footer:not(.bg-accent) .footer-he
 .section-layout-stack--gap-lg {
   gap: 2rem;
 }
+
+/* Sheets follow the public motion tokens: 220ms open, 160ms close. */
+.sheet-content {
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes az-sheet-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes az-sheet-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet-content[data-state="open"] {
+    animation: az-sheet-fade-in 120ms linear both !important;
+  }
+
+  .sheet-content[data-state="closed"] {
+    animation: az-sheet-fade-out 120ms linear both !important;
+  }
+}
+
+html[data-motion="off"] .sheet-content[data-state="open"],
+html[data-motion="reduced"] .sheet-content[data-state="open"] {
+  animation: az-sheet-fade-in 120ms linear both !important;
+}
+
+html[data-motion="off"] .sheet-content[data-state="closed"],
+html[data-motion="reduced"] .sheet-content[data-state="closed"] {
+  animation: az-sheet-fade-out 120ms linear both !important;
+}

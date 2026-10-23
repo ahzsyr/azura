@@ -3,11 +3,13 @@
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   useSyncExternalStore,
   type CSSProperties,
   type ReactNode,
+  type RefObject,
 } from "react";
 import { createPortal } from "react-dom";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
@@ -26,6 +28,7 @@ import {
   getMobileAnimDuration,
   menuAppearanceDataAttributes,
   menuAppearanceStyle,
+  prefersReducedSiteMotion,
 } from "@/features/navigation/header-menu-appearance";
 import { NAV_MOBILE_MQ, NAV_MOBILE_NARROW_MAX_PX } from "@/features/navigation/nav-breakpoints";
 import { useMounted } from "@/hooks/use-mounted";
@@ -42,7 +45,20 @@ import {
   resolveNavIconBreakpoint,
 } from "@/features/navigation/nav-icon-visibility";
 
-type MnavAnimState = "closed" | "open" | "closing";
+type MnavAnimState = "closed" | "opening" | "open" | "closing";
+
+const SWIPE_DISMISS_RATIO = 0.3;
+const SWIPE_DISMISS_VELOCITY = 0.6;
+
+function mnavMotionTarget(root: HTMLElement | null): HTMLElement | null {
+  if (!root) return null;
+  return root.querySelector<HTMLElement>(".mnav-panel, .mnav-overlay--fullscreen");
+}
+
+function isRtlDocument(): boolean {
+  const root = document.documentElement;
+  return root.dir === "rtl" || root.classList.contains("rtl");
+}
 
 function subscribeViewportWidth(onChange: () => void) {
   if (typeof window === "undefined") return () => {};
@@ -648,9 +664,11 @@ type PortalShellProps = {
   surface?: HeaderRendererSurface;
   menuAppearance?: ResolvedMobileMenuAppearance;
   animState: MnavAnimState;
+  settled: boolean;
   showIcons: boolean;
   iconVisibility?: NavIconVisibility;
   showArrows: boolean;
+  portalRef: RefObject<HTMLDivElement | null>;
 };
 
 function MobileNavPortalShell({
@@ -661,16 +679,20 @@ function MobileNavPortalShell({
   surface = "site",
   menuAppearance,
   animState,
+  settled,
   showIcons,
   iconVisibility,
   showArrows,
+  portalRef,
 }: PortalShellProps) {
   const menuAttrs = menuAppearance ? menuAppearanceDataAttributes(menuAppearance) : {};
   const iconAttrs = iconVisibility ? navIconVisibilityDataAttributes(iconVisibility) : {};
   return (
     <div
+      ref={portalRef}
       className="mnav-portal-root"
       data-mnav-state={animState}
+      data-mnav-settled={settled ? "true" : "false"}
       data-mobile-nav-style={mobileNavStyle}
       data-mobile-nav-animation={mobileNavAnimation}
       data-mobile-nav-density={mobileNavDensity}
@@ -713,56 +735,235 @@ export function MobileMenuPreview({
   );
   const [portalVisible, setPortalVisible] = useState(false);
   const [animState, setAnimState] = useState<MnavAnimState>("closed");
+  const [settled, setSettled] = useState(false);
   const mounted = useMounted();
-  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const portalRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const pathnameRef = useRef(pathname);
 
-  const isMenuOpen = animState === "open";
+  const menuShown = animState === "open" || animState === "opening";
   const portalShowsIcons = anyItemShowsNavIcon(mobileItems, iconBreakpoint, iconDefaults);
 
-  const openMenu = useCallback(() => {
-    setPortalVisible(true);
+  const finishClose = useCallback(() => {
+    setPortalVisible(false);
     setAnimState("closed");
+    setSettled(false);
+  }, []);
+
+  const openMenu = useCallback(() => {
+    const reduced = prefersReducedSiteMotion();
+    setSettled(false);
+    setPortalVisible(true);
+    setAnimState(reduced ? "open" : "opening");
     onOpen?.();
   }, [onOpen]);
 
   const closeMenu = useCallback(() => {
     if (!portalVisible) return;
-    setAnimState((prev) => (prev === "closing" ? prev : "closing"));
-  }, [portalVisible]);
-
-  useEffect(() => {
-    if (!portalVisible || animState !== "closed") return;
-    // Skip open rAF when Reduce Motion is on — otherwise the closed→open
-    // transition still plays on first paint (incl. resize reopen under NAV_MOBILE_MQ).
-    let prefersReducedMotion = false;
-    try {
-      prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    } catch {
-      /* matchMedia unavailable */
-    }
-    if (prefersReducedMotion) {
-      setAnimState("open");
+    setSettled(false);
+    if (prefersReducedSiteMotion()) {
+      finishClose();
       return;
     }
-    const id = requestAnimationFrame(() => {
-      requestAnimationFrame(() => setAnimState("open"));
-    });
-    return () => cancelAnimationFrame(id);
-  }, [portalVisible, animState]);
+    setAnimState((prev) => (prev === "closing" || prev === "closed" ? prev : "closing"));
+  }, [portalVisible, finishClose]);
+
+  const cancelClose = useCallback(() => {
+    if (prefersReducedSiteMotion()) {
+      setAnimState("open");
+      setSettled(false);
+      return;
+    }
+    setSettled(false);
+    setAnimState("opening");
+  }, []);
+
+  useEffect(() => {
+    if (!portalVisible || animState !== "opening") return;
+    const panel = mnavMotionTarget(portalRef.current);
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      setAnimState("open");
+      if (!prefersReducedSiteMotion()) setSettled(true);
+    };
+    const onEnd = (event: TransitionEvent) => {
+      if (event.target !== panel) return;
+      if (event.propertyName !== "transform" && event.propertyName !== "opacity") return;
+      finish();
+    };
+    panel?.addEventListener("transitionend", onEnd);
+    const ms = getMobileAnimDuration(mobileNavAnimation, "enter");
+    const fallback = window.setTimeout(finish, ms + 48);
+    return () => {
+      panel?.removeEventListener("transitionend", onEnd);
+      window.clearTimeout(fallback);
+    };
+  }, [portalVisible, animState, mobileNavAnimation]);
+
+  useLayoutEffect(() => {
+    if (animState !== "closing") return;
+    const root = portalRef.current;
+    const panel = root?.querySelector<HTMLElement>(".mnav-panel");
+    if (!root || !panel?.style.transform) return;
+    root.removeAttribute("data-mnav-dragging");
+    const current = panel.style.transform;
+    panel.style.transition = "none";
+    panel.style.transform = current;
+    panel.getBoundingClientRect();
+    panel.style.transition = "";
+    panel.style.transform = "";
+  }, [animState]);
 
   useEffect(() => {
     if (animState !== "closing") return;
-    const ms = getMobileAnimDuration(mobileNavAnimation);
-    closeTimerRef.current = setTimeout(() => {
-      setPortalVisible(false);
-      setAnimState("closed");
-    }, ms);
-    return () => {
-      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    const panel = mnavMotionTarget(portalRef.current);
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      finishClose();
     };
-  }, [animState, mobileNavAnimation]);
+    const onEnd = (event: TransitionEvent) => {
+      if (event.target !== panel) return;
+      if (event.propertyName !== "transform" && event.propertyName !== "opacity") return;
+      finish();
+    };
+    panel?.addEventListener("transitionend", onEnd);
+    const ms = getMobileAnimDuration(mobileNavAnimation, "exit");
+    const fallback = window.setTimeout(finish, Math.max(ms, 0) + 48);
+    return () => {
+      panel?.removeEventListener("transitionend", onEnd);
+      window.clearTimeout(fallback);
+    };
+  }, [animState, mobileNavAnimation, finishClose]);
+
+  useEffect(() => {
+    if (animState !== "closing") return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      cancelClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [animState, cancelClose]);
+
+  useEffect(() => {
+    if (animState !== "open") return;
+    if (mobileNavAnimation !== "slide" && mobileNavAnimation !== "spring") return;
+    const root = portalRef.current;
+    const panel = root?.querySelector<HTMLElement>(".mnav-panel");
+    if (!root || !panel) return;
+
+    let tracking = false;
+    let axis: "undecided" | "h" | "v" = "undecided";
+    let startX = 0;
+    let startY = 0;
+    let lastX = 0;
+    let lastT = 0;
+    let velocity = 0;
+    let dragged = false;
+
+    const dismissTravel = (dx: number, rtl: boolean) => Math.max(0, rtl ? -dx : dx);
+
+    const onDown = (event: PointerEvent) => {
+      if (event.button !== 0) return;
+      const target = event.target as Element | null;
+      if (target?.closest("input, textarea, select, button")) return;
+      tracking = true;
+      dragged = false;
+      axis = "undecided";
+      startX = lastX = event.clientX;
+      startY = event.clientY;
+      lastT = event.timeStamp;
+      velocity = 0;
+    };
+
+    const onMove = (event: PointerEvent) => {
+      if (!tracking) return;
+      const dx = event.clientX - startX;
+      const dy = event.clientY - startY;
+      if (axis === "undecided") {
+        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+        axis = Math.abs(dx) > Math.abs(dy) ? "h" : "v";
+        if (axis === "v") {
+          tracking = false;
+          return;
+        }
+        if (prefersReducedSiteMotion()) {
+          tracking = false;
+          closeMenu();
+          return;
+        }
+        dragged = true;
+        panel.setPointerCapture(event.pointerId);
+        root.setAttribute("data-mnav-dragging", "true");
+        setSettled(false);
+      }
+      if (axis !== "h") return;
+      const dt = event.timeStamp - lastT;
+      if (dt > 0) velocity = (event.clientX - lastX) / dt;
+      lastX = event.clientX;
+      lastT = event.timeStamp;
+      const rtl = isRtlDocument();
+      const travel = dismissTravel(dx, rtl);
+      const signed = rtl ? -travel : travel;
+      panel.style.transform = `translate3d(${signed}px, 0, 0)`;
+    };
+
+    const onUp = (event: PointerEvent) => {
+      if (!tracking && !dragged) return;
+      const wasHorizontal = axis === "h";
+      tracking = false;
+      axis = "undecided";
+      if (!wasHorizontal) return;
+      root.removeAttribute("data-mnav-dragging");
+      const rtl = isRtlDocument();
+      const travel = dismissTravel(event.clientX - startX, rtl);
+      const width = panel.getBoundingClientRect().width || 1;
+      const velDismiss = rtl ? -velocity : velocity;
+      if (travel / width > SWIPE_DISMISS_RATIO || velDismiss > SWIPE_DISMISS_VELOCITY) {
+        closeMenu();
+        return;
+      }
+      panel.style.transition = "transform var(--mnav-duration-enter, 220ms) cubic-bezier(0.22, 1, 0.36, 1)";
+      panel.style.transform = "translate3d(0, 0, 0)";
+      const clearInline = (endEvent: TransitionEvent) => {
+        if (endEvent.target !== panel || endEvent.propertyName !== "transform") return;
+        panel.style.transition = "";
+        panel.style.transform = "";
+        if (!prefersReducedSiteMotion()) setSettled(true);
+        panel.removeEventListener("transitionend", clearInline);
+      };
+      panel.addEventListener("transitionend", clearInline);
+    };
+
+    const onClickCapture = (event: MouseEvent) => {
+      if (!dragged) return;
+      dragged = false;
+      event.preventDefault();
+      event.stopPropagation();
+    };
+
+    panel.addEventListener("pointerdown", onDown);
+    panel.addEventListener("pointermove", onMove);
+    panel.addEventListener("pointerup", onUp);
+    panel.addEventListener("pointercancel", onUp);
+    panel.addEventListener("click", onClickCapture, true);
+    return () => {
+      panel.removeEventListener("pointerdown", onDown);
+      panel.removeEventListener("pointermove", onMove);
+      panel.removeEventListener("pointerup", onUp);
+      panel.removeEventListener("pointercancel", onUp);
+      panel.removeEventListener("click", onClickCapture, true);
+      if (root.getAttribute("data-mnav-state") === "closing") return;
+      root.removeAttribute("data-mnav-dragging");
+      panel.style.transition = "";
+      panel.style.transform = "";
+    };
+  }, [animState, mobileNavAnimation, closeMenu]);
 
   useEffect(() => {
     const close = () => closeMenu();
@@ -795,7 +996,7 @@ export function MobileMenuPreview({
     if (!portalVisible) return;
     const root = document.documentElement;
     // Drop lock class as soon as close starts so page chrome isn't held blurred
-    if (animState === "open") root.classList.add("mnav-open");
+    if (animState === "open" || animState === "opening") root.classList.add("mnav-open");
     else root.classList.remove("mnav-open");
     return () => root.classList.remove("mnav-open");
   }, [portalVisible, animState]);
@@ -805,7 +1006,8 @@ export function MobileMenuPreview({
       requestOpenSearch();
       return;
     }
-    if (isMenuOpen) closeMenu();
+    if (animState === "closing") cancelClose();
+    else if (menuShown) closeMenu();
     else if (!portalVisible) openMenu();
   };
 
@@ -851,8 +1053,10 @@ export function MobileMenuPreview({
   // trigger button while the CSS close-animation still plays.
   return (
     <DialogPrimitive.Root
-      open={animState === "open"}
-      onOpenChange={(open) => { if (!open) closeMenu(); }}
+      open={menuShown}
+      onOpenChange={(open) => {
+        if (!open) closeMenu();
+      }}
     >
       <button
         id="mobileTriggerBtn"
@@ -861,11 +1065,11 @@ export function MobileMenuPreview({
         aria-label={
           mobileType === "search" && surface !== "preview"
             ? "Open search"
-            : isMenuOpen
+            : menuShown
               ? "Close menu"
               : "Open menu"
         }
-        aria-expanded={isMenuOpen}
+        aria-expanded={menuShown}
         aria-haspopup="dialog"
         data-mobile-type={mobileType}
         onPointerDown={
@@ -887,7 +1091,9 @@ export function MobileMenuPreview({
               surface={surface}
               menuAppearance={menuAppearance}
               animState={animState}
+              settled={settled}
               showIcons={portalShowsIcons}
+              portalRef={portalRef}
               iconVisibility={iconVisibility}
               showArrows={showArrows}
             >
