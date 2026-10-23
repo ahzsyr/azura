@@ -86,6 +86,10 @@ describe("safari chrome anchor contract", () => {
       /\[data-chrome-tint-source="primary"\] \{\s*--az-status-bar-tint: color-mix\(\s*in srgb,\s*var\(--primary/,
     );
     assert.doesNotMatch(edge, /\.header-root\[data-chrome-tint-source="primary"\] \.site-header/);
+    assert.match(
+      edge,
+      /html\[data-chrome-tint-style="glass"\] \.az-chrome-scroll-edge,\s*html\[data-chrome-tint-style="transparent"\] \.az-chrome-scroll-edge \{\s*display: none;/,
+    );
     assert.doesNotMatch(css, /#az-safari-chrome-top \{\s*display: none;\s*\}\s*\n\s*html:is/);
     assert.match(css, /\) body \{\s*background-color: transparent;/);
     assert.match(

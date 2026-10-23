@@ -164,12 +164,12 @@ html[data-chrome-tint-style="glass"] .az-chrome-tint-zone {
   opacity: 1;
 }
 
-/* Glass and transparent styles already give the bar a real backdrop. The fade
- * starts below the status bar so the clock area stays Safari's own glass. */
+/* Glass and transparent bars carry their own backdrop. A canvas-colored fade
+ * behind them reads as an opaque gradient line across the top, so these
+ * styles have no fade. */
 html[data-chrome-tint-style="glass"] .az-chrome-scroll-edge,
 html[data-chrome-tint-style="transparent"] .az-chrome-scroll-edge {
-  top: var(--az-safe-top, 0px);
-  --az-chrome-fade-size: 28px;
+  display: none;
 }
 
 /* Opaque styles get a slightly longer fade so content never touches a hard
