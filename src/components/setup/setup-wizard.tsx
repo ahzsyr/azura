@@ -9,7 +9,7 @@ import { PasswordField } from "@/components/account/password-field";
 import { SITE_PRODUCT_NAME } from "@/config/site";
 import { DEMO_PROFILE_META } from "@/features/setup/demo-import/profiles";
 import { setupCompleteSchema } from "@/features/setup/setup-complete.schema";
-import { passwordPolicySchema } from "@/schemas/password-policy";
+import { CredentialChecks, useCredentialCheck } from "@/components/security/credential-checks";
 import type { InstallMode } from "@/features/setup/demo-import/types";
 import type { SetupDatabaseKind } from "@/features/setup/setup.types";
 
@@ -62,6 +62,11 @@ export function SetupWizard({
   const [adminPasswordConfirm, setAdminPasswordConfirm] = useState("");
   const [adminName, setAdminName] = useState("Admin");
   const [registrationEnabled, setRegistrationEnabled] = useState(true);
+  const credentialCheck = useCredentialCheck({
+    email: adminEmail,
+    password: adminPassword,
+    confirmPassword: adminPasswordConfirm,
+  });
 
   function handleInstallModeChange(mode: InstallMode) {
     setInstallMode(mode);
@@ -340,6 +345,7 @@ export function SetupWizard({
               minLength={12}
               autoComplete="new-password"
             />
+            <CredentialChecks email={adminEmail} password={adminPassword} check={credentialCheck} />
             <div className="flex gap-2">
               <Button type="button" variant="outline" className="flex-1" onClick={() => setStep(1)}>
                 Back
@@ -347,11 +353,7 @@ export function SetupWizard({
               <Button
                 type="button"
                 className="flex-1"
-                disabled={
-                  !adminEmail.includes("@") ||
-                  !passwordPolicySchema.safeParse(adminPassword).success ||
-                  adminPassword !== adminPasswordConfirm
-                }
+                disabled={!credentialCheck.emailOk || !credentialCheck.passwordOk}
                 onClick={() => setStep(3)}
               >
                 Continue

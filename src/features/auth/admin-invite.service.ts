@@ -7,6 +7,8 @@ import { sendEmail } from "@/features/email/email.service";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { writeSecurityAuditLog } from "@/lib/security-audit";
 import { bumpUserSessionVersion } from "@/lib/session-version";
+import { emailInputSchema } from "@/lib/security/email-input";
+import { verifyEmailDomain } from "@/lib/security/email-domain.server";
 import { passwordPolicySchema } from "@/schemas/password-policy";
 import { accountPublicPath } from "@/features/account/account-public-path";
 
@@ -31,7 +33,11 @@ export async function inviteAdmin(input: {
   locale?: string;
   ip?: string | null;
 }): Promise<{ ok: true; userId: string } | { error: string }> {
-  const email = input.email.trim().toLowerCase();
+  const parsedEmail = emailInputSchema.safeParse(input.email);
+  if (!parsedEmail.success) return { error: "Enter a valid email address" };
+  const email = parsedEmail.data;
+  const domain = await verifyEmailDomain(email);
+  if (!domain.ok) return { error: domain.message };
   const name = input.name.trim();
   if (!name || name.length < 1) return { error: "Name is required" };
 

@@ -6,6 +6,7 @@ import { issueEmailVerification } from "@/features/account/email-verification.se
 import { sendEmail } from "@/features/email/email.service";
 import { writeSecurityAuditLog } from "@/lib/security-audit";
 import { normalizeEmail } from "@/lib/security/email-input";
+import { verifyEmailDomain } from "@/lib/security/email-domain.server";
 
 export async function startEmailChange(input: {
   userId: string;
@@ -20,6 +21,8 @@ export async function startEmailChange(input: {
   if (!valid) return { error: "Current password is incorrect" };
 
   const newEmail = normalizeEmail(input.newEmail);
+  const domain = await verifyEmailDomain(newEmail);
+  if (!domain.ok) return { error: domain.message };
   if (newEmail === user.email.toLowerCase()) {
     // Owning this address is not a disclosure, so this specific error stays.
     return { error: "New email must be different" };

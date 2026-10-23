@@ -35,7 +35,7 @@ describe("P2 slim registerSchema", () => {
     const parsed = registerSchema.safeParse({
       name: "Ada Lovelace",
       email: "ada@example.com",
-      password: "Correct-Horse-Battery",
+      password: "Correct-Horse-Battery1",
     });
     assert.equal(parsed.success, true);
   });
@@ -44,7 +44,7 @@ describe("P2 slim registerSchema", () => {
     const parsed = registerSchema.safeParse({
       name: "Ada",
       email: "ada@example.com",
-      password: "Correct-Horse-Battery",
+      password: "Correct-Horse-Battery1",
       phone: undefined,
     });
     assert.equal(parsed.success, true);

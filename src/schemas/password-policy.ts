@@ -47,16 +47,58 @@ const COMMON_PASSWORDS = new Set(
   ].map((s) => s.toLowerCase()),
 );
 
+/** Printable English ASCII only. Spaces and non-English letters are rejected. */
+const ENGLISH_PASSWORD = /^[\x21-\x7E]+$/;
+
+export type PasswordChecks = {
+  length: boolean;
+  uppercase: boolean;
+  lowercase: boolean;
+  number: boolean;
+  symbol: boolean;
+  english: boolean;
+  uncommon: boolean;
+};
+
+/** Shared by the password schema and the live checklist. */
+export function assessPassword(value: string): { ok: boolean; checks: PasswordChecks } {
+  const english = value.length === 0 || ENGLISH_PASSWORD.test(value);
+  const checks: PasswordChecks = {
+    length: value.length >= 12 && value.length <= 128,
+    uppercase: /[A-Z]/.test(value),
+    lowercase: /[a-z]/.test(value),
+    number: /[0-9]/.test(value),
+    symbol: english && /[^A-Za-z0-9]/.test(value),
+    english,
+    uncommon: value.length > 0 && !COMMON_PASSWORDS.has(value.toLowerCase()),
+  };
+  return { ok: Object.values(checks).every(Boolean), checks };
+}
+
 /**
- * Server-authoritative policy for creating/changing/resetting passwords.
- * Login continues to accept existing shorter hashes via loginSchema.
+ * Server-authoritative policy for creating, changing, and resetting passwords.
+ * Applies to every account type. Login still accepts existing shorter hashes.
  */
-export const passwordPolicySchema = z
-  .string()
-  .min(12, "Password must be at least 12 characters")
-  .max(128)
-  .refine((value) => !COMMON_PASSWORDS.has(value.toLowerCase()), {
-    message: "Choose a less common password",
-  });
+export const passwordPolicySchema = z.string().superRefine((value, ctx) => {
+  const { checks } = assessPassword(value);
+  if (!checks.english) {
+    ctx.addIssue({ code: "custom", message: "Use English letters, numbers, and symbols only" });
+    return;
+  }
+  if (!checks.length) {
+    ctx.addIssue({
+      code: "custom",
+      message:
+        value.length > 128
+          ? "Password must be at most 128 characters"
+          : "Password must be at least 12 characters",
+    });
+  }
+  if (!checks.uppercase) ctx.addIssue({ code: "custom", message: "Include an uppercase letter" });
+  if (!checks.lowercase) ctx.addIssue({ code: "custom", message: "Include a lowercase letter" });
+  if (!checks.number) ctx.addIssue({ code: "custom", message: "Include a number" });
+  if (!checks.symbol) ctx.addIssue({ code: "custom", message: "Include a symbol" });
+  if (!checks.uncommon) ctx.addIssue({ code: "custom", message: "Choose a less common password" });
+});
 
 export type PasswordPolicy = z.infer<typeof passwordPolicySchema>;

@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PasswordField } from "@/components/account/password-field";
+import { CredentialChecks, useCredentialCheck } from "@/components/security/credential-checks";
 import {
   sendCustomerPasswordResetAction,
   setCustomerDisabledAction,
@@ -64,6 +65,7 @@ export function UserDetailForm({ user }: Props) {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const credentialCheck = useCredentialCheck({ password: newPassword, confirmPassword });
 
   const { markUnsaved, markSaved, setSaveStatus } = useAdminFormState({
     onSave: async () => {
@@ -111,6 +113,10 @@ export function UserDetailForm({ user }: Props) {
   }, [user]);
 
   async function savePassword() {
+    if (!credentialCheck.passwordOk) {
+      setError("Password must include an English uppercase letter, lowercase letter, number, and symbol.");
+      return;
+    }
     setLoading(true);
     setError("");
     setMessage("");
@@ -304,7 +310,7 @@ export function UserDetailForm({ user }: Props) {
             </Button>
             <PasswordField
               id="newPassword"
-              label="Set new password (min. 12)"
+              label="Set new password"
               value={newPassword}
               onChange={setNewPassword}
               minLength={12}
@@ -318,7 +324,8 @@ export function UserDetailForm({ user }: Props) {
               minLength={12}
               autoComplete="new-password"
             />
-            <Button type="button" onClick={savePassword} disabled={loading || !newPassword}>
+            <CredentialChecks password={newPassword} check={credentialCheck} />
+            <Button type="button" onClick={savePassword} disabled={loading || !credentialCheck.passwordOk}>
               Update password
             </Button>
           </CardContent>

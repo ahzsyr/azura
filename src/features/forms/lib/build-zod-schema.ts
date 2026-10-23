@@ -94,7 +94,7 @@ function fieldSchema(field: FormFieldDefinition, required: boolean): z.ZodTypeAn
       schema = schema.refine((v) => fileUrlFromValue(v).trim().length > 0, {
         message: "Required",
       });
-    } else if (field.type !== "number") {
+    } else if (field.type !== "number" && field.type !== "email") {
       schema = (schema as z.ZodString).min(1, { message: "Required" });
     }
   }

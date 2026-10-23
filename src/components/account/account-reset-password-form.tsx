@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PasswordField } from "@/components/account/password-field";
 import { validateNewPassword } from "@/features/account/lib/password-form-validation";
+import { CredentialChecks, useCredentialCheck } from "@/components/security/credential-checks";
 import { accountPublicPath } from "@/features/account/account-public-path";
 import {
   FieldWrapper,
@@ -26,6 +27,9 @@ export function AccountResetPasswordForm({ locale }: Props) {
   const token = searchParams.get("token") ?? "";
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const credentialCheck = useCredentialCheck({ password, confirmPassword });
   const fxsOn = isFxsEnabled();
 
   async function handleSubmit(e?: React.FormEvent<HTMLFormElement>) {
@@ -44,10 +48,10 @@ export function AccountResetPasswordForm({ locale }: Props) {
       return;
     }
     const fd = new FormData(form);
-    const password = String(fd.get("password") ?? "");
-    const confirmPassword = String(fd.get("confirmPassword") ?? "");
+    const passwordValue = password || String(fd.get("password") ?? "");
+    const confirmValue = confirmPassword || String(fd.get("confirmPassword") ?? "");
 
-    const localError = validateNewPassword(password, confirmPassword);
+    const localError = validateNewPassword(passwordValue, confirmValue);
     if (localError) {
       setError(localError);
       setLoading(false);
@@ -57,7 +61,7 @@ export function AccountResetPasswordForm({ locale }: Props) {
     const res = await fetch("/api/auth/reset-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, password, confirmPassword }),
+      body: JSON.stringify({ token, password: passwordValue, confirmPassword: confirmValue }),
     });
     setLoading(false);
     if (!res.ok) {
@@ -94,6 +98,8 @@ export function AccountResetPasswordForm({ locale }: Props) {
         required
         minLength={12}
         autoComplete="new-password"
+        value={password}
+        onChange={setPassword}
       />
       <PasswordField
         id="confirmPassword"
@@ -102,7 +108,10 @@ export function AccountResetPasswordForm({ locale }: Props) {
         required
         minLength={12}
         autoComplete="new-password"
+        value={confirmPassword}
+        onChange={setConfirmPassword}
       />
+      <CredentialChecks password={password} check={credentialCheck} />
       <p className="text-muted-foreground text-xs">
         Use at least 12 characters. Links expire after 5 minutes and can only be used once.
       </p>
@@ -155,6 +164,8 @@ export function AccountResetPasswordForm({ locale }: Props) {
             minLength={12}
             autoComplete="new-password"
             className="space-y-0"
+            value={password}
+            onChange={setPassword}
           />
         </FieldWrapper>
         <FieldWrapper id="confirmPassword" label={t("confirmPassword")} required>
@@ -165,8 +176,11 @@ export function AccountResetPasswordForm({ locale }: Props) {
             minLength={12}
             autoComplete="new-password"
             className="space-y-0"
+            value={confirmPassword}
+            onChange={setConfirmPassword}
           />
         </FieldWrapper>
+        <CredentialChecks password={password} check={credentialCheck} />
         <p className="text-muted-foreground text-xs">
           Use at least 12 characters. Links expire after 5 minutes and can only be used once.
         </p>

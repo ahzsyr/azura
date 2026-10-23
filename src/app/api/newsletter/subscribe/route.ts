@@ -6,6 +6,7 @@ import { getTrustedClientIp } from "@/lib/client-ip";
 import { verifyTurnstileToken } from "@/lib/turnstile";
 import { attachLeadAttributionFromUtm } from "@/modules/marketing/leads/attribution-bridge";
 import { isRecoverableDbError } from "@/lib/debug/recoverable-db-error";
+import { EmailDomainError, assertDeliverableEmail } from "@/lib/security/email-domain.server";
 
 export async function POST(request: Request) {
   try {
@@ -29,6 +30,7 @@ export async function POST(request: Request) {
     }
 
     const data = newsletterSubscribeSchema.parse(body);
+    await assertDeliverableEmail(data.email);
     const result = await subscribeNewsletter({
       email: data.email,
       name: data.name,
@@ -67,6 +69,9 @@ export async function POST(request: Request) {
     // reveal whether the address was already subscribed.
     return NextResponse.json({ success: true, status: result.status });
   } catch (error) {
+    if (error instanceof EmailDomainError) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
     console.error("Newsletter subscribe error:", error);
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }

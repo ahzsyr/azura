@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { AccountNav } from "@/components/account/account-nav";
 import { PasswordField } from "@/components/account/password-field";
 import { accountPublicPath } from "@/features/account/account-public-path";
+import { CredentialChecks, useCredentialCheck } from "@/components/security/credential-checks";
 import { publicLocalePath } from "@/i18n/url-helpers";
 
 type Props = {
@@ -28,6 +29,11 @@ export function AccountSecurityForm({ locale }: Props) {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const credentialCheck = useCredentialCheck({
+    email: newEmail,
+    password: newPassword,
+    confirmPassword: confirmPassword,
+  });
 
   useEffect(() => {
     void (async () => {
@@ -44,6 +50,10 @@ export function AccountSecurityForm({ locale }: Props) {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
       setError(t("passwordMismatch"));
+      return;
+    }
+    if (!credentialCheck.passwordOk) {
+      setError("Password must include an English uppercase letter, lowercase letter, number, and symbol.");
       return;
     }
     setLoading(true);
@@ -71,9 +81,13 @@ export function AccountSecurityForm({ locale }: Props) {
 
   async function changeEmail(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
     setError("");
     setMessage("");
+    if (!credentialCheck.emailOk) {
+      setError(credentialCheck.emailMessage ?? t("emailChangeFailed"));
+      return;
+    }
+    setLoading(true);
     const res = await fetch("/api/account/email-change", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -163,7 +177,8 @@ export function AccountSecurityForm({ locale }: Props) {
                 autoComplete="new-password"
                 required
               />
-              <Button type="submit" disabled={loading}>
+              <CredentialChecks password={newPassword} check={credentialCheck} />
+              <Button type="submit" disabled={loading || !credentialCheck.passwordOk}>
                 {t("changePassword")}
               </Button>
             </form>
@@ -195,7 +210,8 @@ export function AccountSecurityForm({ locale }: Props) {
                   autoComplete="email"
                 />
               </div>
-              <Button type="submit" disabled={loading}>
+              <CredentialChecks email={newEmail} check={credentialCheck} />
+              <Button type="submit" disabled={loading || !credentialCheck.emailOk}>
                 {t("changeEmail")}
               </Button>
             </form>

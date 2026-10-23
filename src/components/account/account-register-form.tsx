@@ -22,6 +22,7 @@ import {
   validateEmailFormat,
   validateNewPassword,
 } from "@/features/account/lib/password-form-validation";
+import { CredentialChecks, useCredentialCheck } from "@/components/security/credential-checks";
 import { accountPublicPath } from "@/features/account/account-public-path";
 
 type Props = {
@@ -39,6 +40,10 @@ export function AccountRegisterForm({ locale }: Props) {
   const [resendBusy, setResendBusy] = useState(false);
   const [resendMessage, setResendMessage] = useState("");
   const [verifyBusy, setVerifyBusy] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const credentialCheck = useCredentialCheck({ email, password, confirmPassword: confirm });
   const onTurnstileToken = useCallback((token: string | null) => {
     setTurnstileToken(token);
   }, []);
@@ -49,9 +54,6 @@ export function AccountRegisterForm({ locale }: Props) {
     setError("");
     const fd = new FormData(e.currentTarget);
     const name = String(fd.get("name") ?? "").trim();
-    const password = String(fd.get("password") ?? "");
-    const confirm = String(fd.get("confirmPassword") ?? "");
-    const email = String(fd.get("email") ?? "").trim();
 
     if (name.length < 2) {
       setError("Name must be at least 2 characters");
@@ -67,6 +69,11 @@ export function AccountRegisterForm({ locale }: Props) {
     const passwordError = validateNewPassword(password, confirm);
     if (passwordError) {
       setError(passwordError);
+      setLoading(false);
+      return;
+    }
+    if (!credentialCheck.emailOk) {
+      setError(credentialCheck.emailMessage ?? "Enter a valid email address");
       setLoading(false);
       return;
     }
@@ -197,7 +204,15 @@ export function AccountRegisterForm({ locale }: Props) {
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">{t("email")}</Label>
-            <Input id="email" name="email" type="email" required autoComplete="email" />
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
           </div>
           <PasswordField
             id="password"
@@ -206,6 +221,8 @@ export function AccountRegisterForm({ locale }: Props) {
             required
             minLength={12}
             autoComplete="new-password"
+            value={password}
+            onChange={setPassword}
           />
           <PasswordField
             id="confirmPassword"
@@ -214,7 +231,10 @@ export function AccountRegisterForm({ locale }: Props) {
             required
             minLength={12}
             autoComplete="new-password"
+            value={confirm}
+            onChange={setConfirm}
           />
+          <CredentialChecks email={email} password={password} check={credentialCheck} />
           <TurnstileField onToken={onTurnstileToken} />
           {error ? <p className="text-destructive text-sm">{error}</p> : null}
         </CardContent>

@@ -12,6 +12,7 @@ import {
 } from "@/features/forms/platform/handlers/spam-handler";
 import { auth } from "@/lib/auth";
 import { isCustomerRole } from "@/features/auth/portal";
+import { EmailDomainError } from "@/lib/security/email-domain.server";
 
 function unavailable() {
   return NextResponse.json({ error: "Service unavailable" }, { status: 503 });
@@ -74,6 +75,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, ...result });
   } catch (error) {
     if (error instanceof RateLimitUnavailableError) return unavailable();
+    if (error instanceof EmailDomainError) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
     console.error("Form submit error:", error instanceof Error ? error.name : "unknown");
     const message = error instanceof Error ? error.message : "Invalid request";
     if (message.includes("Rate limit")) {

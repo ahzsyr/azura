@@ -9,6 +9,7 @@ import { verifyTurnstileToken } from "@/lib/turnstile";
 import { attachLeadAttributionFromUtm } from "@/modules/marketing/leads/attribution-bridge";
 import { isRecoverableDbError } from "@/lib/debug/recoverable-db-error";
 import { normalizeEmail } from "@/lib/security/email-input";
+import { EmailDomainError, assertDeliverableEmail } from "@/lib/security/email-domain.server";
 
 export async function POST(request: Request) {
   try {
@@ -32,6 +33,7 @@ export async function POST(request: Request) {
     }
 
     const data = inquirySchema.parse(body);
+    await assertDeliverableEmail(data.email);
     const session = await auth();
     const customer =
       session?.user?.id && isCustomerRole(session.user.role) ? session.user : null;
@@ -96,6 +98,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, id: inquiry.id });
   } catch (error) {
+    if (error instanceof EmailDomainError) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
     console.error("Inquiry error:", error);
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }

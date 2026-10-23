@@ -30,9 +30,10 @@ describe("shared server email schema", () => {
   it("enforces max 254 on the normalized value", () => {
     const local = "a".repeat(EMAIL_MAX_LENGTH);
     assert.equal(emailInputSchema.safeParse(`${local}@example.com`).success, false);
-    const ok = `${"a".repeat(240)}@example.com`;
+    const ok = `${"a".repeat(64)}@${"b".repeat(50)}.example.com`;
     assert.equal(ok.length <= EMAIL_MAX_LENGTH, true);
     assert.equal(emailInputSchema.safeParse(ok).success, true);
+    assert.equal(emailInputSchema.safeParse(`${"a".repeat(65)}@example.com`).success, false);
   });
 
   it("optional variant maps blank to undefined", () => {
@@ -60,7 +61,7 @@ describe("email schema is used by every listed entry point", () => {
     const parsed = registerSchema.parse({
       name: "Ada Lovelace",
       email: "  ADA@Example.com",
-      password: "Correct-Horse-Battery",
+      password: "Correct-Horse-Battery1",
     });
     assert.equal(parsed.email, "ada@example.com");
   });

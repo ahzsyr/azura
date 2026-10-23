@@ -63,7 +63,15 @@ describe("P1 password policy", () => {
   });
 
   it("accepts a strong new password", () => {
-    assert.equal(passwordPolicySchema.safeParse("Correct-Horse-Battery").success, true);
+    assert.equal(passwordPolicySchema.safeParse("Correct-Horse-Battery1").success, true);
+  });
+
+  it("requires uppercase, lowercase, number, symbol, and English characters", () => {
+    assert.equal(passwordPolicySchema.safeParse("correct-horse-battery1").success, false);
+    assert.equal(passwordPolicySchema.safeParse("CORRECT-HORSE-BATTERY1").success, false);
+    assert.equal(passwordPolicySchema.safeParse("CorrectHorseBattery1").success, false);
+    assert.equal(passwordPolicySchema.safeParse("Correct-Horse-Battery").success, false);
+    assert.equal(passwordPolicySchema.safeParse("Corréct-Horse-Battery1").success, false);
   });
 
   it("loginSchema still accepts existing ≥8 passwords", () => {

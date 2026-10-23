@@ -1,3 +1,4 @@
+import { assessEmailPattern } from "@/lib/security/email-input";
 import { passwordPolicySchema } from "@/schemas/password-policy";
 
 /** Client-side password checks aligned with server passwordPolicySchema. */
@@ -18,8 +19,5 @@ export function validateNewPassword(
 export function validateEmailFormat(email: string): string | null {
   const trimmed = email.trim();
   if (!trimmed) return "Enter your email address";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
-    return "Enter a valid email address";
-  }
-  return null;
+  return assessEmailPattern(trimmed).message;
 }

@@ -3,6 +3,7 @@ import { downloadGateUnlockSchema } from "@/features/forms/schemas/form-definiti
 import { createDownloadUnlock } from "@/features/forms/download-gate.service";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { getTrustedClientIp } from "@/lib/client-ip";
+import { EmailDomainError, assertDeliverableEmail } from "@/lib/security/email-domain.server";
 
 export async function POST(request: Request) {
   try {
@@ -18,6 +19,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const data = downloadGateUnlockSchema.parse(body);
+    if (data.email) await assertDeliverableEmail(data.email);
 
     if (data.unlockMethod === "EXTERNAL") {
       return NextResponse.json({ error: "Invalid unlock method" }, { status: 400 });
@@ -43,6 +45,9 @@ export async function POST(request: Request) {
       expiresAt: unlock.expiresAt.toISOString(),
     });
   } catch (error) {
+    if (error instanceof EmailDomainError) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
     console.error("Download gate unlock error:", error);
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }

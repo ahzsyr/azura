@@ -35,6 +35,7 @@ import { ensureAuthSecretAtSetup } from "@/lib/auth-secret.server";
 import { installIncludedProfilePackages } from "@/platform/packages/installer";
 import { clearRenderedSiteCache } from "@/features/setup/clear-rendered-site-cache";
 import { Prisma } from "@prisma/client";
+import { EmailDomainError, assertDeliverableEmail } from "@/lib/security/email-domain.server";
 
 /** Remote Supabase pooler latency can exceed Prisma's default 5s interactive transaction limit. */
 const SETUP_COMPLETE_TX_OPTIONS = { maxWait: 30_000, timeout: 120_000 };
@@ -138,6 +139,7 @@ export async function POST(request: Request) {
       );
     }
     const data = setupCompleteSchema.parse(body);
+    await assertDeliverableEmail(data.adminEmail);
 
     const settingsBefore = await readSystemSettings();
 
@@ -380,6 +382,9 @@ export async function POST(request: Request) {
     clearStaleAuthSessionCookies(response);
     return response;
   } catch (error) {
+    if (error instanceof EmailDomainError) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
     console.error("Setup complete error:", error);
     const status = isMissingSchemaError(error) || isInvalidJsonDataError(error) ? 503 : 400;
     return NextResponse.json({ error: formatSetupError(error) }, { status });

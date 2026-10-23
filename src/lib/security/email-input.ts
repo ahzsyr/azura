@@ -19,12 +19,43 @@ export function normalizeEmail(value: unknown): string {
  * Normalized, validated email. Output is already trimmed and lowercased, so
  * callers must NOT trim/lowercase again before storing.
  */
+const EMAIL_MESSAGE = "Enter a valid email address";
+
+/** ASCII local-part plus a real-looking domain. Rejects homograph and IP hosts. */
+function hasEnglishEmailShape(value: string): boolean {
+  const at = value.lastIndexOf("@");
+  if (at <= 0) return false;
+  const local = value.slice(0, at);
+  const domain = value.slice(at + 1);
+  if (local.length > 64 || domain.length > 253) return false;
+  if (!/^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+$/.test(local)) return false;
+  if (local.startsWith(".") || local.endsWith(".") || local.includes("..")) return false;
+  if (!/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/.test(domain)) {
+    return false;
+  }
+  const tld = domain.split(".").pop() ?? "";
+  return /^[a-z]{2,24}$/.test(tld);
+}
+
 export const emailInputSchema = z
-  .string({ required_error: "Enter a valid email address", invalid_type_error: "Enter a valid email address" })
+  .string({ required_error: EMAIL_MESSAGE, invalid_type_error: EMAIL_MESSAGE })
   .trim()
   .toLowerCase()
-  .email("Enter a valid email address")
-  .max(EMAIL_MAX_LENGTH, "Enter a valid email address");
+  .email(EMAIL_MESSAGE)
+  .max(EMAIL_MAX_LENGTH, EMAIL_MESSAGE)
+  .refine(hasEnglishEmailShape, EMAIL_MESSAGE);
+
+export function assessEmailPattern(value: string): {
+  ok: boolean;
+  message: string | null;
+  normalized: string;
+} {
+  const parsed = emailInputSchema.safeParse(value);
+  if (!parsed.success) {
+    return { ok: false, message: EMAIL_MESSAGE, normalized: normalizeEmail(value) };
+  }
+  return { ok: true, message: null, normalized: parsed.data };
+}
 
 /** Optional variant for fields that may be omitted or blank ("" → undefined). */
 export const optionalEmailInputSchema = z.preprocess(

@@ -9,6 +9,7 @@ import { enforceRateLimit } from "@/lib/rate-limit";
 import { getTrustedClientIp } from "@/lib/client-ip";
 import { verifyTurnstileToken } from "@/lib/turnstile";
 import { zodErrorMessage } from "@/lib/zod-error";
+import { EmailDomainError, assertDeliverableEmail } from "@/lib/security/email-domain.server";
 
 export async function POST(request: Request) {
   try {
@@ -38,6 +39,7 @@ export async function POST(request: Request) {
     const data = registerSchema.parse(body);
     // Normalized by emailInputSchema (trim + lowercase).
     const email = data.email;
+    await assertDeliverableEmail(email);
 
     // Identical response for new and existing addresses — no account enumeration.
     const UNIFORM_RESPONSE = { success: true as const, requiresVerification: true as const };
@@ -69,6 +71,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json(UNIFORM_RESPONSE);
   } catch (error) {
+    if (error instanceof EmailDomainError) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
     return NextResponse.json({ error: zodErrorMessage(error) }, { status: 400 });
   }
 }

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PasswordField } from "@/components/account/password-field";
 import { validateNewPassword } from "@/features/account/lib/password-form-validation";
+import { CredentialChecks, useCredentialCheck } from "@/components/security/credential-checks";
 import { accountPublicPath } from "@/features/account/account-public-path";
 
 type Props = {
@@ -19,6 +20,9 @@ export function AccountAcceptInviteForm({ locale }: Props) {
   const token = searchParams.get("token") ?? "";
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const credentialCheck = useCredentialCheck({ password, confirmPassword });
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -28,9 +32,6 @@ export function AccountAcceptInviteForm({ locale }: Props) {
     }
     setLoading(true);
     setError("");
-    const fd = new FormData(e.currentTarget);
-    const password = String(fd.get("password") ?? "");
-    const confirmPassword = String(fd.get("confirmPassword") ?? "");
     const localError = validateNewPassword(password, confirmPassword);
     if (localError) {
       setError(localError);
@@ -85,6 +86,8 @@ export function AccountAcceptInviteForm({ locale }: Props) {
             required
             minLength={12}
             autoComplete="new-password"
+            value={password}
+            onChange={setPassword}
           />
           <PasswordField
             id="confirmPassword"
@@ -93,7 +96,10 @@ export function AccountAcceptInviteForm({ locale }: Props) {
             required
             minLength={12}
             autoComplete="new-password"
+            value={confirmPassword}
+            onChange={setConfirmPassword}
           />
+          <CredentialChecks password={password} check={credentialCheck} />
           {error ? <p className="text-destructive text-sm">{error}</p> : null}
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Saving…" : "Set password"}

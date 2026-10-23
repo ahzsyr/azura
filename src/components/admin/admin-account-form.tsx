@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
 import { AdminSettingsLayout } from "@/components/admin/layout/admin-settings-layout";
+import { CredentialChecks, useCredentialCheck } from "@/components/security/credential-checks";
+import { assessPassword } from "@/schemas/password-policy";
 import {
   PasswordField,
   SettingsSection,
@@ -137,6 +139,12 @@ export function AdminAccountForm({
 
     if (hasPasswordChange && newPassword !== confirmPassword) {
       setError("New password and confirmation do not match.");
+      setSaveStatus("error");
+      return false;
+    }
+
+    if (hasPasswordChange && !assessPassword(newPassword).ok) {
+      setError("Password must include an English uppercase letter, lowercase letter, number, and symbol.");
       setSaveStatus("error");
       return false;
     }
@@ -430,6 +438,7 @@ function EmailTab({
   newEmail: string;
   onNewEmailChange: (value: string) => void;
 }) {
+  const credentialCheck = useCredentialCheck({ email: newEmail });
   return (
     <SettingsSection
       title="Email address"
@@ -446,6 +455,7 @@ function EmailTab({
         value={newEmail}
         onChange={onNewEmailChange}
       />
+      <CredentialChecks email={newEmail} check={credentialCheck} />
     </SettingsSection>
   );
 }
@@ -461,10 +471,14 @@ function PasswordTab({
   onNewPasswordChange: (value: string) => void;
   onConfirmPasswordChange: (value: string) => void;
 }) {
+  const credentialCheck = useCredentialCheck({
+    password: newPassword,
+    confirmPassword,
+  });
   return (
     <SettingsSection
       title="Password"
-      description="Minimum 12 characters. Leave both fields blank to keep your current password."
+      description="At least 12 English characters, with an uppercase letter, a lowercase letter, a number, and a symbol. Leave both fields blank to keep your current password."
     >
       <div className="grid gap-4 md:grid-cols-2">
         <PasswordField
@@ -484,6 +498,7 @@ function PasswordTab({
           onChange={onConfirmPasswordChange}
         />
       </div>
+      <CredentialChecks password={newPassword} check={credentialCheck} />
     </SettingsSection>
   );
 }

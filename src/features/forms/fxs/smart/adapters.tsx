@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { FieldWrapper } from "../fields/FieldWrapper";
+import { CredentialChecks, useCredentialCheck } from "@/components/security/credential-checks";
 import type { FxsValidationPhase } from "../types";
 
 const EMAIL_TYPOS: Record<string, string> = {
@@ -49,6 +50,7 @@ export function SmartEmailInput({
   placeholder?: string;
 }) {
   const suggestion = useMemo(() => suggestEmailDomain(value), [value]);
+  const credentialCheck = useCredentialCheck({ email: value });
   return (
     <FieldWrapper
       id={id}
@@ -70,6 +72,7 @@ export function SmartEmailInput({
         onBlur={onBlur}
         aria-invalid={Boolean(error)}
       />
+      <CredentialChecks email={value} check={credentialCheck} />
       {suggestion ? (
         <button
           type="button"
