@@ -15,6 +15,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { BROWSER_CHROME_FALLBACK } from "./browser-chrome-projection";
+import { NON_SAFARI_UA_PATTERN, SAFARI_EDGE_ATTR, SAFARI_UA_PATTERN } from "./safari-chrome-tint";
 import { PRELOADER_HARD_CAP_MS } from "@/lib/preloader/preloader-timing";
 
 const PUBLISHED_PRESET_IDS = ALL_PRESETS.map((p) => p.id);
@@ -194,6 +195,10 @@ export function generateThemeBootInlineScript(
   var iosBar=proj.iosStatusBarStyle;
   if(iosBar==="black"||iosBar==="default"||iosBar==="black-translucent"){
     root.setAttribute("data-ios-status-bar",iosBar);
+  }
+  if(root.hasAttribute("${SAFARI_EDGE_ATTR}")){
+    var ua=navigator.userAgent||"";
+    root.setAttribute("${SAFARI_EDGE_ATTR}",(${SAFARI_UA_PATTERN.toString()}.test(ua)&&!${NON_SAFARI_UA_PATTERN.toString()}.test(ua))?"on":"off");
   }
   var top=document.getElementById("az-safari-chrome-top");
   var bottom=document.getElementById("az-safari-chrome-bottom");

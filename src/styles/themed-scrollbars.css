@@ -20,6 +20,10 @@
   --az-scrollbar-thumb-active: var(--primary);
 }
 
+/* Pointer devices only. Touch browsers keep the system scroll indicator,
+ * which hides at rest; a styled bar there paints a permanent colored rail
+ * down the screen edge. */
+@media (hover: hover) and (pointer: fine) {
 /* Firefox */
 html,
 .az-scroll,
@@ -79,6 +83,7 @@ html::-webkit-scrollbar-thumb:active,
 .az-scroll-thin::-webkit-scrollbar {
   width: var(--az-scrollbar-size-thin);
   height: var(--az-scrollbar-size-thin);
+}
 }
 
 /* Scroll container — smooth + momentum */

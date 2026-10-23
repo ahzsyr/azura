@@ -21,6 +21,18 @@ export const CHROME_GRADIENT_DARK_VAR = "--az-browser-chrome-gradient-dark";
 export const CHROME_TINT_STYLE_ATTR = "data-chrome-tint-style";
 export const CHROME_TINT_SOURCE_ATTR = "data-chrome-tint-source";
 export const IOS_STATUS_BAR_ATTR = "data-ios-status-bar";
+/** `on` only in Safari itself, the one browser that tints its UI from page edges. */
+export const SAFARI_EDGE_ATTR = "data-safari-edge";
+/** Safari carries `Version/x … Safari/`. Chrome, Firefox, Edge, and Opera on iOS use WebKit but never sample edges. */
+export const SAFARI_UA_PATTERN = /Version\/[\d.]+.*Safari\//;
+export const NON_SAFARI_UA_PATTERN =
+  /CriOS|FxiOS|EdgiOS|EdgA|OPiOS|OPT\/|GSA\/|YaBrowser|DuckDuckGo|Brave|Chrome\/|Chromium|Android|FBAN|FBAV|Instagram|Line\/|Snapchat|Twitter|TikTok|MicroMessenger/;
+
+export function isSafariEdgeTintUA(userAgent: string | null | undefined): boolean {
+  if (!userAgent) return false;
+  return SAFARI_UA_PATTERN.test(userAgent) && !NON_SAFARI_UA_PATTERN.test(userAgent);
+}
+
 export const SAFARI_CHROME_TOP_ID = "az-safari-chrome-top";
 export const SAFARI_CHROME_BOTTOM_ID = "az-safari-chrome-bottom";
 

@@ -13,6 +13,8 @@ import { resolvePublishedSiteTheme } from "@/lib/theme/resolve-site-theme.server
 import { htmlAttributesToReactProps } from "@/lib/theme/theme-resolver";
 import {
   CHROME_TINT_OPACITY_VAR,
+  isSafariEdgeTintUA,
+  SAFARI_EDGE_ATTR,
   SAFARI_CHROME_BOTTOM_ID,
   SAFARI_CHROME_TOP_ID,
   SAFARI_CHROME_TINT_VAR,
@@ -126,6 +128,9 @@ export default async function RootLayout({ children }: Props) {
     themeHtmlProps["data-chrome-tint-style"] = chromeProjection.chromeTintStyle;
     themeHtmlProps["data-chrome-tint-source"] = chromeProjection.chromeTintSource;
     themeHtmlProps["data-ios-status-bar"] = chromeProjection.iosStatusBarStyle;
+    themeHtmlProps[SAFARI_EDGE_ATTR] = isSafariEdgeTintUA(headerStore.get("user-agent"))
+      ? "on"
+      : "off";
   }
 
   const bootChromeColor =

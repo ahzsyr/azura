@@ -179,17 +179,20 @@ html[data-edge-to-edge="off"] body {
 }
 
 /*
- * Apple WebKit (iOS Safari + macOS Safari): `font: -apple-system-body` is
- * Safari-only in @supports. No width gate — desktop Safari also samples edges.
+ * Safari only (iOS and macOS). `font: -apple-system-body` also passes in
+ * Chrome, Firefox, and Edge on iOS, which share WebKit but never tint their
+ * UI from the page, so the strips would show as stripes. html[data-safari-edge]
+ * is set from the user agent (layout SSR, corrected by the boot script).
+ * Other browsers use the theme-color meta only.
  */
 @supports (font: -apple-system-body) {
-  #az-safari-chrome-top,
-  #az-safari-chrome-bottom {
+  html[data-safari-edge="on"] #az-safari-chrome-top,
+  html[data-safari-edge="on"] #az-safari-chrome-bottom {
     display: block;
   }
 
   /* Keep ambient wash off the sampling band. */
-  body::before {
+  html[data-safari-edge="on"] body::before {
     top: 2px;
     right: 0;
     bottom: max(12px, env(safe-area-inset-bottom, 0px));
@@ -198,20 +201,20 @@ html[data-edge-to-edge="off"] body {
     height: auto;
   }
 
-  html,
-  body {
+  html[data-safari-edge="on"],
+  html[data-safari-edge="on"] body {
     background-color: var(--bg-primary, var(--background));
   }
 
   /* Transparent and Glass: no opaque page color at the bottom edge, so the
    * toolbar shows Safari's glass over the page. The canvas still paints, as
    * an image layer, which Safari does not use as the edge color. */
-  html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]),
-  html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]) body {
+  html[data-safari-edge="on"]:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]),
+  html[data-safari-edge="on"]:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]) body {
     background-color: transparent;
   }
 
-  html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]) body {
+  html[data-safari-edge="on"]:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]) body {
     background-image: linear-gradient(
       var(--bg-primary, var(--background)),
       var(--bg-primary, var(--background))
@@ -220,8 +223,8 @@ html[data-edge-to-edge="off"] body {
 
   /* Solid, and edge-to-edge off, must not let the footer replace the sample.
    * Glass, transparent, and gradient leave the page at the edge. */
-  html[data-chrome-tint-style="solid"] #az-page-paint,
-  html[data-edge-to-edge="off"] #az-page-paint {
+  html[data-safari-edge="on"][data-chrome-tint-style="solid"] #az-page-paint,
+  html[data-safari-edge="on"][data-edge-to-edge="off"] #az-page-paint {
     clip-path: inset(
       0 0 max(12px, env(safe-area-inset-bottom, 0px)) 0
     );

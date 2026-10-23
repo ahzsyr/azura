@@ -67,7 +67,7 @@ describe("safari chrome anchor contract", () => {
     assert.match(css, /data-edge-to-edge="off"\] body/);
     assert.match(
       css,
-      /html\[data-chrome-tint-style="solid"\] #az-page-paint,\s*html\[data-edge-to-edge="off"\] #az-page-paint/,
+      /html\[data-safari-edge="on"\]\[data-chrome-tint-style="solid"\] #az-page-paint,\s*html\[data-safari-edge="on"\]\[data-edge-to-edge="off"\] #az-page-paint/,
     );
   });
 
