@@ -71,7 +71,7 @@ describe("safari chrome anchor contract", () => {
     );
   });
 
-  it("tints the status bar from the site bar for transparent and glass", () => {
+  it("shapes the status bar strip like the address bar strip for transparent and glass", () => {
     const stylesDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "../../../styles");
     const css = readFileSync(path.join(stylesDir, "safari-chrome-tint.css"), "utf8");
     const edge = readFileSync(path.join(stylesDir, "edge-to-edge.css"), "utf8");
@@ -79,12 +79,10 @@ describe("safari chrome anchor contract", () => {
     assert.doesNotMatch(css, /data-chrome-tint-style="glass"\][^{]*\{[^}]*backdrop-filter: blur/);
     assert.match(
       css,
-      /html:is\(\[data-chrome-tint-style="transparent"\], \[data-chrome-tint-style="glass"\]\)[^{]*#az-safari-chrome-top \{[^}]*height: max\(var\(--az-top-band-min, 12px\), env\(safe-area-inset-top, 0px\)\);[^}]*background-color: var\(--az-status-bar-tint/,
+      /html:is\(\[data-chrome-tint-style="transparent"\], \[data-chrome-tint-style="glass"\]\)[^{]*#az-safari-chrome-top \{\s*top: -2px;\s*height: max\(12px, env\(safe-area-inset-top, 0px\)\);\s*min-height: max\(12px, env\(safe-area-inset-top, 0px\)\);\s*max-height: none;\s*\}/,
     );
-    assert.match(
-      css,
-      /\[data-chrome-tint-source="primary"\] \{\s*--az-status-bar-tint: color-mix\(\s*in srgb,\s*var\(--primary/,
-    );
+    assert.match(css, /#az-safari-chrome-bottom \{\s*bottom: -2px;\s*min-height: max\(12px, env\(safe-area-inset-bottom, 0px\)\);/);
+    assert.doesNotMatch(css, /az-status-bar-tint/);
     assert.doesNotMatch(edge, /\.header-root\[data-chrome-tint-source="primary"\] \.site-header/);
     assert.match(
       edge,

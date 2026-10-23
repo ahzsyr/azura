@@ -1155,11 +1155,10 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
                 color into the page. Light and dark each resolve separately.
               </p>
               <p className="text-xs text-muted-foreground">
-                On iPhone Safari, Transparent and Glass tint the status bar
-                from the Color basis and let Safari draw its own glass toolbar
-                over the page. Safari shows the status bar as an opaque color in
-                a browser tab. Solid and Gradient color both browser edges.
-                Chrome on Android keeps an opaque theme-color in the address bar.
+                On iPhone Safari, Transparent and Glass let Safari draw its own
+                glass over the page at the status bar and the toolbar, on every
+                page. Solid and Gradient color both browser edges. Chrome on
+                Android keeps an opaque theme-color in the address bar.
               </p>
 
               {tintStyle === "transparent" ? (
@@ -1206,11 +1205,10 @@ export function MobileBrowserSection({ studio }: Pick<SectionProps, "studio">) {
                 ]}
               />
               <p className="text-xs text-muted-foreground">
-                Color basis tints the browser status bar, not the site header.
-                Surface matches the page canvas. Primary uses the preset main
-                color (full for solid; washed into the canvas by Transparency or
-                Glass strength). Gradient always runs primary → secondary from
-                the active preset.
+                Color basis sets the browser color for Solid and Gradient and
+                the Android address bar. Surface matches the page canvas.
+                Primary uses the preset main color. Gradient always runs
+                primary → secondary from the active preset.
               </p>
             </div>
           ) : (

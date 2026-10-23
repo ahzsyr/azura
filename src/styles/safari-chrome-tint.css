@@ -5,8 +5,8 @@
  * The four Mobile Browser styles paint these anchors. Inline backgroundColor
  * is reserved for solid (boot + syncSafariChromeTint). Glass, transparent,
  * and gradient must stay free of an opaque inline fill or Safari renders a
- * solid toolbar. Transparent and Glass fill the top anchor with the opaque
- * site bar tint so the status bar matches the header.
+ * solid toolbar. Transparent and Glass keep both anchors clear, the top one
+ * shaped exactly like the bottom one.
  *
  * - Anchors MUST stay in the real compositing stack (positive z-index).
  *   z-index: -1 puts them behind opaque body paint — Safari then falls back
@@ -59,25 +59,11 @@
   }
 }
 
-/* Status bar color for Transparent and Glass. Surface is the page canvas.
- * Primary washes the preset primary into the canvas by the style strength
- * (Transparency strength or Glass strength). Both follow light and dark. */
-html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]) {
-  --az-status-bar-tint: var(--bg-primary, var(--background, #fafafa));
-}
-
-html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"])[data-chrome-tint-source="primary"] {
-  --az-status-bar-tint: color-mix(
-    in srgb,
-    var(--primary, #047857) calc(var(--az-chrome-tint-opacity, 0.7) * 100%),
-    var(--bg-primary, var(--background, #fafafa))
-  );
-}
-
 /* ── Transparent and Glass: Safari draws its own glass over the page ─────
  * Safari paints any edge sample as an opaque color, so a tinted veil here
- * becomes a solid box. The bottom strip stays clear for Safari's glass
- * toolbar. Glass strength and blur on the site bar live in edge-to-edge.css. */
+ * becomes a solid box. Both strips stay clear for Safari's glass at the
+ * status bar and the toolbar. Glass strength and blur on the site bar live in
+ * edge-to-edge.css. */
 html[data-chrome-tint-style="transparent"] #az-safari-chrome-top,
 html[data-chrome-tint-style="transparent"] #az-safari-chrome-bottom,
 html[data-chrome-tint-style="glass"] #az-safari-chrome-top,
@@ -87,15 +73,15 @@ html[data-chrome-tint-style="glass"] #az-safari-chrome-bottom {
   backdrop-filter: none !important;
 }
 
-/* Status bar and top safe area take the color basis. In a Safari tab the page
- * starts below the status bar, so Safari fills the status bar with this
- * band's color. It can only show an opaque color there. */
+/* Status bar and top safe area mirror the address bar: the same clear strip,
+ * the same 12px minimum, the same 2px overhang past the edge. Safari then
+ * draws its own glass over the page at the top, as it does at the bottom. */
 html:is([data-chrome-tint-style="transparent"], [data-chrome-tint-style="glass"]):not([data-edge-to-edge="off"]):not([data-ios-status-bar="black"]):not([data-ios-status-bar="default"])
   #az-safari-chrome-top {
-  height: max(var(--az-top-band-min, 12px), env(safe-area-inset-top, 0px));
-  min-height: max(var(--az-top-band-min, 12px), env(safe-area-inset-top, 0px));
+  top: -2px;
+  height: max(12px, env(safe-area-inset-top, 0px));
+  min-height: max(12px, env(safe-area-inset-top, 0px));
   max-height: none;
-  background-color: var(--az-status-bar-tint, var(--bg-primary, var(--background, #fafafa))) !important;
 }
 
 /* Edge-to-edge off keeps the page below the clock: the status bar takes the
