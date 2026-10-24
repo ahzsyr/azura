@@ -99,7 +99,7 @@ export function InquiriesListPage({ inquiries }: Props) {
         description="Manage leads and contact requests. Inquiries from signed-in customers are linked automatically."
         actions={
           <Button asChild variant="outline" size="sm">
-            <Link href="/admin/users">Customer accounts</Link>
+            <Link href="/admin/settings/users?role=customer">Customer accounts</Link>
           </Button>
         }
       />
@@ -228,7 +228,7 @@ export function InquiriesListPage({ inquiries }: Props) {
                               </Badge>
                               <p>
                                 <Link
-                                  href={`/admin/users/${inquiry.user.id}`}
+                                  href={`/admin/settings/users/${inquiry.user.id}`}
                                   className="font-medium text-primary hover:underline"
                                 >
                                   {inquiry.user.name}

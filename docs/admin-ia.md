@@ -83,7 +83,7 @@ See [glossary.md § Banned terms](./glossary.md#banned-terms). Summary:
 │      Header                         │
 │      Footer                         │
 │      Theme                          │
-│      Personalization                │
+│      Widget                         │
 │      Preloader                      │
 │      Announcement Bar               │
 │      Popups                         │
@@ -350,7 +350,7 @@ Implementation: Phase 8 with [`getBreadcrumbs`](src/config/admin-nav.ts) refacto
 | design | Header Builder | `/admin/header` | design | Header | — |
 | design | Footer Builder | `/admin/footer` | design | Footer | — |
 | design | Theme Studio | `/admin/theme` | design | Theme | — |
-| design | Personalization | `/admin/personalization` | design | Personalization | — |
+| design | Personalization | `/admin/personalization` | design | Widget | — |
 | design | Preloader | `/admin/preloader` | design | Preloader | — |
 | design | Announcement Bar | `/admin/announcement-bar` | design | Announcement Bar | — |
 | design | Popup Management | `/admin/popups` | design | Popups | — |

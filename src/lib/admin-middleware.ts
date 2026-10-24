@@ -10,10 +10,6 @@ import {
   resolvePostLoginRedirect,
 } from "@/features/auth/portal";
 import {
-  adminLifecycleDestination,
-  isAdminLifecycleExemptPath,
-} from "@/features/auth/admin-lifecycle";
-import {
   FALLBACK_LOCALE_PREFIXES,
   getLocaleRoutingCache,
 } from "@/features/i18n/locale-middleware";
@@ -33,6 +29,16 @@ function portalLocaleFromRequest(request: NextRequest): string {
 function withPathnameHeader(request: NextRequest): Headers {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-admin-pathname", request.nextUrl.pathname);
+  // Save and router.refresh() are client requests. The layout must not
+  // redirect those, or the admin leaves the page and section they just saved.
+  // Stamp our own header: Next may strip rsc / next-action before the layout.
+  if (
+    request.headers.get("next-action") ||
+    request.headers.get("rsc") === "1" ||
+    request.headers.get("next-url")
+  ) {
+    requestHeaders.set("x-admin-client-refresh", "1");
+  }
   return requestHeaders;
 }
 
@@ -86,24 +92,10 @@ export async function handleAdminFastPath(request: NextRequest): Promise<NextRes
       return NextResponse.redirect(new URL(dest, request.url));
     }
 
-    if (!isAdminLifecycleExemptPath(pathname)) {
-      const block = adminLifecycleDestination({
-        mustChangePassword: Boolean(
-          (token as { mustChangePassword?: boolean }).mustChangePassword,
-        ),
-        totpEnabled: Boolean((token as { totpEnabled?: boolean }).totpEnabled),
-        // The edge cannot read the database. This claim is evaluated only by
-        // adminLifecycleDestination, which still redirects to Account Settings;
-        // the Node layout re-checks against live delivery config.
-        adminOtpUnconfigured: Boolean(
-          (token as { adminOtpUnconfigured?: boolean }).adminOtpUnconfigured,
-        ),
-      });
-      if (block) {
-        return NextResponse.redirect(new URL(block.redirectTo, request.url));
-      }
-    }
-
+    // Lifecycle (password change, OTP sender) is enforced in the dashboard
+    // layout against the database. The edge JWT is stale after a password
+    // change or after an Email Account is saved, and redirecting here traps
+    // the browser on /admin/settings/account before that check can run.
     return NextResponse.next({
       request: { headers: withPathnameHeader(request) },
     });

@@ -12,6 +12,7 @@ import {
   resolvePostLoginRedirect,
   sanitizeInternalPath,
 } from "@/features/auth/portal";
+import { pickLoginUser } from "@/features/auth/login-user";
 
 describe("P1 MFA login policy", () => {
   it("CUSTOMER never challenged (even if totpEnabled)", () => {
@@ -28,9 +29,10 @@ describe("P1 MFA login policy", () => {
     assert.equal(requiresMfaAtLogin("SUPER_ADMIN", true), true);
   });
   it("MfaRequiredError / MfaInvalidError expose CredentialsSignin codes", async () => {
-    const { MfaInvalidError, MfaRequiredError } = await import("@/lib/auth-errors");
+    const { MfaDeliveryError, MfaInvalidError, MfaRequiredError } = await import("@/lib/auth-errors");
     assert.equal(new MfaRequiredError().code, "mfa_required");
     assert.equal(new MfaInvalidError().code, "mfa_invalid");
+    assert.equal(new MfaDeliveryError().code, "mfa_delivery_failed");
   });
 });
 
@@ -109,5 +111,29 @@ describe("P0 portal destination regression (post-P1)", () => {
   it("sanitize still blocks open redirects", () => {
     assert.equal(sanitizeInternalPath("https://evil.example"), null);
     assert.equal(sanitizeInternalPath("//evil.example"), null);
+  });
+});
+
+describe("login email selection", () => {
+  it("prefers the current email over another account's pending address", () => {
+    const picked = pickLoginUser("new@example.com", [
+      { email: "old@example.com", pendingEmail: "new@example.com" },
+      { email: "new@example.com", pendingEmail: null },
+    ]);
+    assert.equal(picked?.email, "new@example.com");
+  });
+
+  it("accepts a pending address when it is not already a login email", () => {
+    const picked = pickLoginUser("new@example.com", [
+      { email: "old@example.com", pendingEmail: "new@example.com" },
+    ]);
+    assert.equal(picked?.email, "old@example.com");
+  });
+
+  it("matches email case-insensitively", () => {
+    const picked = pickLoginUser("admin@example.com", [
+      { email: "Admin@Example.com", pendingEmail: null },
+    ]);
+    assert.equal(picked?.email, "Admin@Example.com");
   });
 });

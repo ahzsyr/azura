@@ -2,8 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
 import { useAdminFormDirtySync } from "@/hooks/use-admin-form";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
+import { publishShell } from "@/lib/publish-shell.client";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import type { LocaleConfig } from "@prisma/client";
 import {
@@ -276,11 +279,16 @@ export function LanguagesAdmin({ locales: initialLocales, completionByLocale }: 
     return true;
   }, [editId, showAddForm]);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSaveForm, () => publishShell("site-settings"));
+  }, [handleSaveForm]);
+
   useAdminPageActions({
     ownerKey: "languages-admin",
     scope: "settings",
     priority: 0,
     onSave: handleSaveForm,
+    onPublish: handlePublish,
     onCancel: handleCancelForm,
     saveStatusMode: "self-managed",
     canCancel: true,
@@ -324,6 +332,7 @@ export function LanguagesAdmin({ locales: initialLocales, completionByLocale }: 
 
   return (
     <div className="space-y-6">
+      <AdminPageConfigRegistrar configKey="settingsSavePublish" />
       <Card className="border-primary/20 bg-primary/5">
         <CardHeader className="pb-2">
           <CardTitle className="text-base flex items-center gap-2">

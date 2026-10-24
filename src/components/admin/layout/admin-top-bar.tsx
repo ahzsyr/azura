@@ -32,8 +32,11 @@ import { AdminActionDevIndicator } from "./admin-action-dev-indicator";
 
 function AdminBrand() {
   return (
+    // Prefetch would follow the password/OTP lifecycle redirect back onto
+    // /admin/settings/account and flood history.replaceState until the page is blank.
     <Link
       href="/admin"
+      prefetch={false}
       className="flex min-w-0 shrink-0 flex-col leading-tight"
       aria-label={`${SITE_PRODUCT_NAME} admin home`}
     >
@@ -133,7 +136,7 @@ export function AdminTopBar() {
   const consumePendingDirty = useAdminUiStore((s) => s.consumePendingDirty);
 
   const handleSave = useCallback(async () => {
-    if (!pageActions.onSave || saveStatus === "saving") return;
+    if (!pageActions.onSave || pageActions.canSave === false || saveStatus === "saving") return;
     if (!isSelfManagedSaveStatus(pageActions)) {
       setSaveStatus("saving");
     }
@@ -166,7 +169,7 @@ export function AdminTopBar() {
   }, [pageActions, saveStatus, markSaved]);
 
   const handleUpdate = useCallback(async () => {
-    if (!pageActions.onUpdate || saveStatus === "saving") return;
+    if (!pageActions.onUpdate || pageActions.canUpdate === false || saveStatus === "saving") return;
     setSaveStatus("saving");
     try {
       await pageActions.onUpdate();
@@ -177,7 +180,14 @@ export function AdminTopBar() {
   }, [pageActions, saveStatus, setSaveStatus, markSaved]);
 
   const handlePublish = useCallback(async () => {
-    if (!pageActions.onPublish || saveStatus === "saving" || publishStatus === "publishing") return;
+    if (
+      !pageActions.onPublish ||
+      pageActions.canPublish === false ||
+      saveStatus === "saving" ||
+      publishStatus === "publishing"
+    ) {
+      return;
+    }
     setPublishStatus("publishing");
     try {
       await pageActions.onPublish();
@@ -339,14 +349,14 @@ export function AdminTopBar() {
             </Tooltip>
           )}
 
-          {pageActions.onSave && pageActions.canSave !== false && (
+          {pageActions.onSave && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   variant="outline"
                   size="sm"
                   className="h-8 gap-1.5"
-                  disabled={saveStatus === "saving"}
+                  disabled={saveStatus === "saving" || pageActions.canSave === false}
                   onClick={() => void handleSave()}
                 >
                   {saveStatus === "saving" ? (
@@ -366,14 +376,14 @@ export function AdminTopBar() {
             </Tooltip>
           )}
 
-          {pageActions.onUpdate && pageActions.canUpdate !== false && (
+          {pageActions.onUpdate && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   variant="outline"
                   size="sm"
                   className="h-8 gap-1.5"
-                  disabled={saveStatus === "saving"}
+                  disabled={saveStatus === "saving" || pageActions.canUpdate === false}
                   onClick={() => void handleUpdate()}
                 >
                   {saveStatus === "saving" ? (
@@ -392,13 +402,17 @@ export function AdminTopBar() {
             </Tooltip>
           )}
 
-          {pageActions.onPublish && pageActions.canPublish !== false && (
+          {pageActions.onPublish && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   size="sm"
                   className="h-8 gap-1.5"
-                  disabled={saveStatus === "saving" || publishStatus === "publishing"}
+                  disabled={
+                    saveStatus === "saving" ||
+                    publishStatus === "publishing" ||
+                    pageActions.canPublish === false
+                  }
                   onClick={() => void handlePublish()}
                 >
                   {publishStatus === "publishing" ? (

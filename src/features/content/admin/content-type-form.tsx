@@ -22,6 +22,7 @@ import {
   AdminSettingsRibbon,
   type SettingsRibbonTab,
 } from "@/components/admin/layout/admin-shell";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { useAdminActionToastStore } from "@/components/admin/layout/admin-action-toast";
 import { Button } from "@/components/ui/button";
@@ -142,6 +143,10 @@ export function ContentTypeForm({ contentType, isNew }: Props) {
     }
   }, [contentType, router]);
 
+  const handleCancel = useCallback(() => {
+    formRef.current?.reset();
+  }, []);
+
   const updateFieldSchema = useCallback(
     (next: ContentFieldDefinition[]) => {
       markDirty();
@@ -181,7 +186,15 @@ export function ContentTypeForm({ contentType, isNew }: Props) {
   );
 
   return (
-    <AdminFormProvider onSave={handleSave} trackFormId="content-type-form">
+    <AdminFormProvider
+      onSave={handleSave}
+      onPublish={handleSave}
+      onCancel={handleCancel}
+      canCancel
+      canPublish
+      trackFormId="content-type-form"
+    >
+      <AdminPageConfigRegistrar configKey="entityEditor" />
     <form
       id="content-type-form"
       ref={formRef}

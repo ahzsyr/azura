@@ -13,9 +13,11 @@ import { isCustomerEmailUnverified } from "@/features/auth/account-status";
 import { requiresMfaAtLogin } from "@/features/auth/mfa-policy";
 import {
   DatabaseUnavailableError,
+  MfaDeliveryError,
   MfaInvalidError,
   MfaRequiredError,
 } from "@/lib/auth-errors";
+import { pickLoginUser } from "@/features/auth/login-user";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { writeSecurityAuditLog } from "@/lib/security-audit";
 import { loginSchema } from "@/schemas/auth";
@@ -39,6 +41,42 @@ export function getDummyPasswordHash(): string {
   return dummyPasswordHash;
 }
 
+/**
+ * Match the typed address against the current login email or a pending change.
+ * A second lookup covers collations where `email` is stored with different case.
+ */
+async function findUserForLogin(email: string) {
+  const normalized = email.trim().toLowerCase();
+  const direct = await prisma.user.findMany({
+    where: {
+      OR: [{ email: normalized }, { pendingEmail: normalized }],
+    },
+    take: 5,
+  });
+  const picked = pickLoginUser(normalized, direct);
+  if (picked) return picked;
+
+  try {
+    const rows = await prisma.$queryRaw<Array<{ id: string }>>`
+      SELECT id FROM \`User\`
+      WHERE LOWER(\`email\`) = ${normalized}
+         OR LOWER(\`pendingEmail\`) = ${normalized}
+      LIMIT 5
+    `;
+    if (!rows.length) return null;
+    const extra = await prisma.user.findMany({
+      where: { id: { in: rows.map((row) => row.id) } },
+    });
+    return pickLoginUser(normalized, extra);
+  } catch (error) {
+    console.error(
+      "[auth] case-insensitive email lookup failed",
+      error instanceof Error ? error.name : "unknown",
+    );
+    return null;
+  }
+}
+
 export type AuthorizeCredentialsInput = {
   email?: unknown;
   password?: unknown;
@@ -55,8 +93,8 @@ export type AuthorizeResultUser = {
   totpEnabled: boolean;
   /**
    * Admin signed in with password only because no sendable email-OTP sender is
-   * configured. Carried into the JWT so every admin route except account
-   * settings redirects there until a sender exists.
+   * configured. The dashboard layout re-checks live delivery config and keeps
+   * Email Accounts reachable until a sender exists.
    */
   adminOtpUnconfigured: boolean;
 };
@@ -97,7 +135,7 @@ export async function authorizeCredentials(
 
   let user;
   try {
-    user = await prisma.user.findUnique({ where: { email } });
+    user = await findUserForLogin(email);
   } catch (error) {
     console.error("[auth] database lookup failed:", error);
     throw new DatabaseUnavailableError();
@@ -192,14 +230,28 @@ export async function authorizeCredentials(
       const otpAccountId = settings.adminAuth.otpEmailAccountId?.trim() || null;
       const providerConfig = await resolveAdminOtpProviderConfig();
       const { issueEmailOtp } = await import("@/features/auth/email-otp.service");
-      await issueEmailOtp({
+      const typedEmail =
+        user.pendingEmail && user.pendingEmail.trim().toLowerCase() === email
+          ? user.pendingEmail
+          : user.email;
+      const issued = await issueEmailOtp({
         userId: user.id,
         purpose: "ADMIN_LOGIN",
-        toEmail: user.email,
+        toEmail: typedEmail,
         emailAccountId: otpAccountId,
         providerConfig,
         allowEnvFallback: false,
       });
+      if ("error" in issued) {
+        await writeSecurityAuditLog({
+          action: "auth.mfa.failure",
+          actorId: user.id,
+          actorRole: user.role,
+          ip,
+          meta: { reason: "MFA_DELIVERY_FAILED" },
+        });
+        throw new MfaDeliveryError();
+      }
       await writeSecurityAuditLog({
         action: "auth.mfa.challenge",
         actorId: user.id,

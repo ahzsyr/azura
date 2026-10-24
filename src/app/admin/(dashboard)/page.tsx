@@ -5,6 +5,8 @@ import { rebuildSearchIndex } from "@/capabilities/search/actions";
 import { prisma } from "@/lib/prisma";
 import { AdminDashboardClient } from "@/components/admin/admin-dashboard-client";
 import { ActivePackageSections } from "@/platform/packages/active-package-sections";
+import { auth } from "@/lib/auth";
+import { listRecentPortalUsers } from "@/features/account/admin/user-portal.service";
 
 export const metadata = {
   title: "Dashboard",
@@ -21,10 +23,16 @@ export default async function AdminDashboardPage() {
     >
   > = [];
   let customerCount = 0;
+  let recentUsers: Awaited<ReturnType<typeof listRecentPortalUsers>> = [];
+  let actor = { id: "", role: "ADMIN" };
   let branding = { brandName: "Site", brandShort: "SI", tagline: "", logoUrl: "" };
 
   try {
-    const [statsResult, platformResult, brand, submissions, customers] = await Promise.all([
+    const session = await auth();
+    if (session?.user?.id) {
+      actor = { id: session.user.id, role: session.user.role };
+    }
+    const [statsResult, platformResult, brand, submissions, customers, users] = await Promise.all([
       getDashboardStats(),
       getAdminDashboardStats(),
       loadSiteBrandContext(),
@@ -34,12 +42,14 @@ export default async function AdminDashboardPage() {
         include: { template: { select: { name: true } } },
       }),
       prisma.user.count({ where: { role: "CUSTOMER" } }),
+      listRecentPortalUsers(8),
     ]);
     stats = statsResult;
     platform = platformResult;
     branding = brand;
     recentSubmissions = submissions;
     customerCount = customers;
+    recentUsers = users;
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
     console.error("[admin/dashboard] load failed:", errMsg);
@@ -58,6 +68,8 @@ export default async function AdminDashboardPage() {
         stats={stats}
         platform={platform}
         customerCount={customerCount}
+        recentUsers={recentUsers}
+        actor={actor}
         recentSubmissions={recentSubmissions}
         rebuildSearchAction={rebuildSearchIndex}
       />

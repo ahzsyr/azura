@@ -24,6 +24,7 @@ import {
 } from "@/features/account/lib/password-form-validation";
 import { CredentialChecks, useCredentialCheck } from "@/components/security/credential-checks";
 import { accountPublicPath } from "@/features/account/account-public-path";
+import { readStoredVisitorToken } from "@/features/marketing-attribution/client";
 
 type Props = {
   locale: string;
@@ -92,6 +93,7 @@ export function AccountRegisterForm({ locale }: Props) {
         password,
         locale,
         turnstileToken,
+        visitorToken: readStoredVisitorToken(),
       }),
     });
     setLoading(false);

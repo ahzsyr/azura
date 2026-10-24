@@ -19,7 +19,10 @@ import {
 } from "@/features/translation/actions";
 import { AdminCardGrid, AdminSettingsRibbon } from "@/components/admin/layout/admin-shell";
 import { AdminCollapsibleSection } from "@/components/admin/layout/admin-collapsible-section";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
+import { publishShell } from "@/lib/publish-shell.client";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -273,7 +276,7 @@ export function TranslationsDashboard({ locales, aiConfig: initialAiConfig }: Pr
     markSaved();
   }, [markSaved]);
 
-  const handleSaveAll = useCallback(() => {
+  const handleSaveAll = useCallback(async () => {
     const cells = Object.entries(dirtyCells)
       .map(([key, dirty]) => {
         const parsed = parseTranslationCellKey(key);
@@ -290,10 +293,10 @@ export function TranslationsDashboard({ locales, aiConfig: initialAiConfig }: Pr
       })
       .filter(Boolean);
 
-    if (cells.length === 0) return;
+    if (cells.length === 0) return true;
 
     setSaveStatus("saving");
-    startTransition(async () => {
+    try {
       const result = await bulkSaveTranslationGridAction(
         cells as Parameters<typeof bulkSaveTranslationGridAction>[0]
       );
@@ -311,11 +314,15 @@ export function TranslationsDashboard({ locales, aiConfig: initialAiConfig }: Pr
         );
         markSaved();
         await loadGrid();
-      } else {
-        setSaveNotice(`Saved with ${result.errors.length} error(s).`);
-        setSaveStatus("error");
+        return true;
       }
-    });
+      setSaveNotice(`Saved with ${result.errors.length} error(s).`);
+      setSaveStatus("error");
+      return false;
+    } catch {
+      setSaveStatus("error");
+      return false;
+    }
   }, [dirtyCells, loadGrid, markSaved, setSaveStatus]);
 
   useEffect(() => {
@@ -323,15 +330,21 @@ export function TranslationsDashboard({ locales, aiConfig: initialAiConfig }: Pr
     else markSaved();
   }, [dirtyCount, markUnsaved, markSaved]);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSaveAll, () => publishShell("site-settings"));
+  }, [handleSaveAll]);
+
   useAdminPageActions({
     ownerKey: "translations-dashboard",
     scope: "settings",
     priority: 0,
     onSave: handleSaveAll,
+    onPublish: handlePublish,
     onCancel: handleRevertDirty,
-    saveLabel: dirtyCount > 0 ? `Save changes (${dirtyCount})` : "Save changes",
+    saveTooltip: dirtyCount > 0 ? `Save ${dirtyCount} translation change${dirtyCount === 1 ? "" : "s"}` : "Save",
     saveStatusMode: "self-managed",
     canSave: dirtyCount > 0 && !isPending,
+    canPublish: !isPending,
     canCancel: dirtyCount > 0 && !isPending,
   });
 
@@ -413,6 +426,7 @@ export function TranslationsDashboard({ locales, aiConfig: initialAiConfig }: Pr
 
   return (
     <div className="space-y-6">
+      <AdminPageConfigRegistrar configKey="settingsSavePublish" />
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Translations</h1>
@@ -499,18 +513,18 @@ export function TranslationsDashboard({ locales, aiConfig: initialAiConfig }: Pr
 
           <div className="flex flex-wrap gap-2 items-center border-t pt-4">
             <Button
-              onClick={handleSaveAll}
+              onClick={() => void handleSaveAll()}
               disabled={dirtyCount === 0 || isPending}
-              className="gap-2"
+              className="gap-2 lg:hidden"
             >
               <Save className="h-4 w-4" />
-              {isPending ? "Saving…" : `Save changes (${dirtyCount})`}
+              {isPending ? "Saving…" : "Save"}
             </Button>
             <Button
               variant="outline"
               onClick={handleRevertDirty}
               disabled={dirtyCount === 0 || isPending}
-              className="gap-2"
+              className="gap-2 lg:hidden"
             >
               <RotateCcw className="h-4 w-4" />
               Revert
@@ -605,7 +619,7 @@ export function TranslationsDashboard({ locales, aiConfig: initialAiConfig }: Pr
 
       {/* Footer summary */}
       {dirtyCount > 0 ? (
-        <div className="sticky bottom-4 z-30 mx-auto max-w-xl rounded-lg border bg-background/95 backdrop-blur px-4 py-3 shadow-lg flex items-center justify-between gap-4">
+        <div className="sticky bottom-4 z-30 mx-auto flex max-w-xl items-center justify-between gap-4 rounded-lg border bg-background/95 px-4 py-3 shadow-lg backdrop-blur lg:hidden">
           <span className="text-sm">
             <strong>{dirtyCount}</strong> unsaved change(s)
           </span>
@@ -613,8 +627,8 @@ export function TranslationsDashboard({ locales, aiConfig: initialAiConfig }: Pr
             <Button size="sm" variant="outline" onClick={handleRevertDirty}>
               Revert
             </Button>
-            <Button size="sm" onClick={handleSaveAll} disabled={isPending}>
-              Save all
+            <Button size="sm" onClick={() => void handleSaveAll()} disabled={isPending}>
+              Save
             </Button>
           </div>
         </div>

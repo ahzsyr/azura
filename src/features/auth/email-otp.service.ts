@@ -126,6 +126,7 @@ export async function issueEmailOtp(input: {
       actorRole: user.role,
       meta: { purpose: input.purpose, errorCode: result.errorCode ?? "unknown" },
     });
+    return { error: "Could not send the verification code" };
   } else {
     await writeSecurityAuditLog({
       action: "auth.email_otp.sent",

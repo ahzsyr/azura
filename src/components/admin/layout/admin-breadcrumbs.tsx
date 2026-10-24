@@ -36,6 +36,7 @@ function BreadcrumbSegment({
       return (
         <Link
           href={crumb.href}
+          prefetch={false}
           className={cn(labelClass, "transition-colors hover:text-foreground")}
         >
           {crumb.label}
@@ -65,7 +66,7 @@ function BreadcrumbSegment({
           const active = option.current === true;
           return (
             <DropdownMenuItem key={`${option.label}-${option.href}`} asChild>
-              <Link href={option.href} className="flex items-center gap-2">
+              <Link href={option.href} prefetch={false} className="flex items-center gap-2">
                 <span className="flex-1 truncate">{option.label}</span>
                 {active ? <Check className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden /> : null}
               </Link>

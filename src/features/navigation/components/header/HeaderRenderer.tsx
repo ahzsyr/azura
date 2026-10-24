@@ -5,7 +5,12 @@ import { routing } from "@/i18n/routing";
 import { type PublicLocale } from "@/i18n/locale-config";
 import { resolveActionHref } from "@/features/navigation/resolve-href";
 import { useRouter } from "@/i18n/navigation";
-import { isInternalHref, normalizeInternalNavHref } from "@/lib/navigation/internal-link";
+import {
+  isInternalHref,
+  normalizeInternalNavHref,
+  requiresDocumentNavigation,
+} from "@/lib/navigation/internal-link";
+import { accountPublicPath } from "@/features/account/account-public-path";
 import type { HeaderAction, HeaderWorkspace } from "@/features/navigation/types";
 import { useHeaderWorkspace } from "@/features/navigation/header-store";
 import { resolveMenuForSurface } from "@/features/navigation/menu-engine";
@@ -98,12 +103,13 @@ export function HeaderRenderer({
     } else if (action.type === "language" && canSwitchLocale) {
       document.getElementById("locale-switcher-trigger")?.click();
     } else if (action.type === "account") {
-      // Soft-navigate; auth redirects and back-navigation remain correct via App Router.
-      router.push("/account");
+      // /account redirects to sign-in or the admin dashboard; a soft
+      // navigation through that redirect renders a blank page.
+      window.location.assign(accountPublicPath(localeCode));
     } else if (action.type === "custom") {
       const href = resolveActionHref(action, localeCode);
       if (href) {
-        if (isInternalHref(href)) {
+        if (isInternalHref(href) && !requiresDocumentNavigation(href)) {
           // Soft-navigate for internal custom action hrefs.
           router.push(normalizeInternalNavHref(href) as string);
         } else {

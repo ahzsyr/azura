@@ -6,6 +6,9 @@ import { readLegacyFieldForLocale } from "@/features/translation/admin-field-val
 import type { CompanyInfoView } from "@/features/translation/admin-localized-view";
 import { readAdminDefaultLocaleField } from "@/features/translation/admin-localized-view";
 import { updateCompanyInfo } from "@/lib/actions/admin";
+import { publishShell } from "@/lib/publish-shell.client";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
 import { AdminFormProvider, useAdminForm } from "@/components/admin/layout/admin-form-provider";
 import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
 import { AdminSettingsLayout } from "@/components/admin/layout/admin-settings-layout";
@@ -255,7 +258,7 @@ function CompanyFormFields({ company, formRef }: Props & { formRef: React.RefObj
       </AdminSettingsLayout>
 
       <div className="flex justify-end lg:hidden">
-        <Button type="submit">Save Company Info</Button>
+        <Button type="submit">Save</Button>
       </div>
     </>
   );
@@ -265,16 +268,39 @@ export function CompanyAdminForm({ company }: Props) {
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSave = useCallback(async () => {
-    formRef.current?.requestSubmit();
+    const form = formRef.current;
+    if (!form || !form.reportValidity()) return false;
+    await updateCompanyInfo(new FormData(form));
+    return true;
   }, []);
 
   const handleCancel = useCallback(() => {
     formRef.current?.reset();
   }, []);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSave, () => publishShell("site-settings"));
+  }, [handleSave]);
+
   return (
-    <AdminFormProvider onSave={handleSave} onCancel={handleCancel} canCancel trackFormId="company-admin-form">
-      <form ref={formRef} id="company-admin-form" action={updateCompanyInfo} className="space-y-6">
+    <AdminFormProvider
+      onSave={handleSave}
+      onPublish={handlePublish}
+      onCancel={handleCancel}
+      canCancel
+      canPublish
+      trackFormId="company-admin-form"
+    >
+      <AdminPageConfigRegistrar configKey="settingsSavePublish" />
+      <form
+        ref={formRef}
+        id="company-admin-form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          void handleSave();
+        }}
+        className="space-y-6"
+      >
         <CompanyFormFields company={company} formRef={formRef} />
       </form>
     </AdminFormProvider>

@@ -1,11 +1,8 @@
-/** Supported send provider. */
-export type EmailAccountProvider = "resend";
+/** Built-in transports. Add providers here as their send adapters are implemented. */
+export type EmailAccountProvider = "resend" | "smtp";
 
-/**
- * Provider value as stored in the JSON store.
- * Legacy `"smtp"` records may still exist but are no longer sendable.
- */
-export type StoredEmailAccountProvider = EmailAccountProvider | "smtp";
+/** Provider values that may occur in previously stored account data. */
+export type StoredEmailAccountProvider = EmailAccountProvider | (string & {});
 
 /** Stored shape (secrets sealed). */
 export type EmailAccountRecord = {
@@ -14,10 +11,10 @@ export type EmailAccountRecord = {
   provider: StoredEmailAccountProvider;
   from: string;
   resendApiKeySealed?: string;
-  /** @deprecated Legacy SMTP fields — ignored for sending. */
   smtp?: {
     host: string;
     port: number;
+    secure?: boolean;
     userSealed?: string;
     passSealed?: string;
   };
@@ -36,18 +33,23 @@ export type EmailAccountPublic = {
   provider: StoredEmailAccountProvider;
   from: string;
   hasResendApiKey: boolean;
-  /** True when this is a legacy SMTP account that must be recreated with Resend. */
-  isLegacySmtp: boolean;
+  hasSmtpCredentials: boolean;
+  smtpHost?: string;
+  smtpPort?: number;
+  smtpSecure?: boolean;
+  smtpUser?: string;
   createdAt: string;
   updatedAt: string;
 };
 
 /** Resolved credentials for sending (in-memory only). */
-export type EmailProviderConfig = {
-  provider: EmailAccountProvider;
-  from: string;
-  resendApiKey: string;
-};
+export type EmailProviderConfig =
+  | { provider: "resend"; from: string; resendApiKey: string }
+  | {
+      provider: "smtp";
+      from: string;
+      smtp: { host: string; port: number; secure: boolean; user?: string; pass?: string };
+    };
 
 export type UpsertEmailAccountInput = {
   id?: string;
@@ -56,4 +58,5 @@ export type UpsertEmailAccountInput = {
   from: string;
   /** Blank on edit = keep existing sealed value. */
   resendApiKey?: string;
+  smtp?: { host: string; port: number; secure: boolean; user?: string; pass?: string };
 };

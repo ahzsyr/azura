@@ -24,6 +24,8 @@ import {
 } from "@/features/setup/admin/admin-account-tabs";
 import { saveAdminAuthSettingsAction } from "@/features/account/admin/customer-user-actions";
 import type { AdminAuthSettings } from "@/features/account/account-settings.schema";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 
@@ -164,20 +166,26 @@ export function AdminAccountForm({
     }
 
     const nextEmail = result.data?.email ?? email;
-    if (result.data?.pendingEmail) {
-      setPendingEmail(result.data.pendingEmail);
+    if (result.data?.requiresRelogin) {
+      const pending = result.data.pendingEmail;
+      if (pending) setPendingEmail(pending);
       setFeedback(
-        `Confirmation sent to ${result.data.pendingEmail}. Your login email stays the same until you confirm.`,
+        pending
+          ? `Password updated. Sign in with ${nextEmail} or ${pending}.`
+          : "Password updated. Sign in again with the same email and your new password.",
       );
-    } else if (result.data?.requiresRelogin) {
-      setFeedback("Password updated. Sign in again to continue.");
       setNewEmail("");
       clearSensitiveFields(setCurrentPassword, setNewPassword, setConfirmPassword);
       markSaved();
-      setTimeout(() => {
+      window.setTimeout(() => {
         void signOut({ callbackUrl: "/account/login" });
       }, 800);
       return true;
+    } else if (result.data?.pendingEmail) {
+      setPendingEmail(result.data.pendingEmail);
+      setFeedback(
+        `Confirmation sent to ${result.data.pendingEmail}. Your login email stays ${nextEmail} until you confirm. You can also sign in with the new address.`,
+      );
     } else if (nextEmail !== email) {
       setEmail(nextEmail);
       setFeedback("Email updated. Sign in again if your session no longer matches.");
@@ -208,11 +216,16 @@ export function AdminAccountForm({
     setFeedback(null);
   }, [savedAdminAuth]);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSave, async () => undefined);
+  }, [handleSave]);
+
   useAdminPageActions({
     ownerKey: "admin-account",
     scope: "settings",
     priority: 0,
     onSave: handleSave,
+    onPublish: handlePublish,
     onCancel: handleCancel,
     saveStatusMode: "self-managed",
   });
@@ -223,16 +236,19 @@ export function AdminAccountForm({
 
   return (
     <div className="space-y-6">
+      <AdminPageConfigRegistrar configKey="settingsSavePublish" />
       <AdminPageHeader
         title="Admin account"
         description="Credentials for signing in to the admin panel."
         actions={
-          <Button asChild variant="outline" size="sm">
-            <Link href="/admin/settings/portal">
-              <UserCog className="me-2 size-4" aria-hidden />
-              Visitor portal
-            </Link>
-          </Button>
+          isMasterAdmin ? (
+            <Button asChild variant="outline" size="sm">
+              <Link href="/admin/settings/portal" prefetch={false}>
+                <UserCog className="me-2 size-4" aria-hidden />
+                Visitor portal
+              </Link>
+            </Button>
+          ) : null
         }
       />
 

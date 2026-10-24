@@ -269,12 +269,10 @@
     "/admin/testimonials",
     "/admin/theme",
     "/admin/translations",
-    "/admin/users",
+    "/admin/settings/users",
     "/admin/videos"
   ],
-  "disabledAdminPrefixes": [
-    "/admin/settings/staff"
-  ],
+  "disabledAdminPrefixes": [],
   "disabledPublicSegments": [],
   "disabledPublicPrefixes": [],
   "disabledApiPrefixes": []

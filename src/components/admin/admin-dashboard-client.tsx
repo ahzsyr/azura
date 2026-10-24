@@ -27,6 +27,9 @@ import {
 } from "@/components/admin/layout/admin-shell";
 import { formatAdminDate } from "@/lib/admin-date-format";
 import { extractSubmissionContact } from "@/features/forms/lib/submission-contact";
+import { UserContactActions } from "@/features/account/admin/user-contact-actions";
+import { UserStatusButton } from "@/features/account/admin/user-status-button";
+import type { PortalUserRow } from "@/features/account/admin/user-portal-types";
 import { cn } from "@/lib/utils";
 
 type DashboardStats = {
@@ -64,6 +67,8 @@ type AdminDashboardClientProps = {
   stats: DashboardStats;
   platform: PlatformStats;
   customerCount: number;
+  recentUsers: PortalUserRow[];
+  actor: { id: string; role: string };
   recentSubmissions: FormSubmission[];
   rebuildSearchAction: () => void;
 };
@@ -74,7 +79,7 @@ const QUICK_ACTIONS = [
   { label: "Theme Studio", href: "/admin/theme", icon: Palette, description: "Look & feel, presets, preview" },
   { label: "Site access", href: "/admin/settings/site", icon: EyeOff, description: "Coming soon mode" },
   { label: "Visitor portal", href: "/admin/settings/portal", icon: UserCog, description: "Registration & reset" },
-  { label: "Customers", href: "/admin/users", icon: Users, description: "Visitor accounts" },
+  { label: "Users", href: "/admin/settings/users", icon: Users, description: "Admins and customers" },
   { label: "Search", href: "/admin/settings/search", icon: Search, description: "Index & ranking" },
 ] as const;
 
@@ -116,6 +121,8 @@ export function AdminDashboardClient({
   stats,
   platform,
   customerCount,
+  recentUsers,
+  actor,
   recentSubmissions,
   rebuildSearchAction,
 }: AdminDashboardClientProps) {
@@ -132,7 +139,7 @@ export function AdminDashboardClient({
     { label: "CMS pages", value: platform.pages, icon: FileText, href: "/admin/pages" },
     { label: "Blog posts", value: platform.posts, icon: Newspaper, href: "/admin/posts" },
     { label: "Media assets", value: platform.media, icon: Image, href: "/admin/media" },
-    { label: "Customers", value: customerCount, icon: Users, href: "/admin/users" },
+    { label: "Customers", value: customerCount, icon: Users, href: "/admin/settings/users?role=customer" },
   ];
 
   return (
@@ -184,6 +191,54 @@ export function AdminDashboardClient({
               </Button>
             </form>
           </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <CardTitle>Users</CardTitle>
+              <CardDescription>Recent accounts. Enable, disable, or contact them here.</CardDescription>
+            </div>
+            <Button asChild size="sm" variant="outline">
+              <Link href="/admin/settings/users">All users</Link>
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {recentUsers.length === 0 ? (
+            <p className="text-muted-foreground text-sm">No accounts yet.</p>
+          ) : (
+            recentUsers.map((user) => (
+              <div
+                key={user.id}
+                className="flex flex-col gap-3 rounded-lg border p-3 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div>
+                  <p className="font-medium">
+                    <Link href={`/admin/settings/users/${user.id}`} className="hover:underline">
+                      {user.name}
+                    </Link>
+                  </p>
+                  <p className="text-muted-foreground text-xs">
+                    {user.email} · {user.role === "SUPER_ADMIN" ? "Super admin" : user.role === "ADMIN" ? "Admin" : "Customer"} ·{" "}
+                    {user.disabledAt ? "Disabled" : "Enabled"}
+                  </p>
+                </div>
+                <div className="flex flex-col items-start gap-2 sm:items-end">
+                  <UserContactActions userId={user.id} email={user.email} phone={user.phone} />
+                  <UserStatusButton
+                    userId={user.id}
+                    role={user.role}
+                    disabled={Boolean(user.disabledAt)}
+                    actorId={actor.id}
+                    actorRole={actor.role}
+                  />
+                </div>
+              </div>
+            ))
+          )}
         </CardContent>
       </Card>
 

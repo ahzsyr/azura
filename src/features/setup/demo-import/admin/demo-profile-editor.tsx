@@ -10,6 +10,8 @@ import {
 } from "@/features/setup/demo-import/actions";
 import type { ProfileId } from "@/features/setup/demo-import/profile-id";
 import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { Button } from "@/components/ui/button";
@@ -75,11 +77,16 @@ export function DemoProfileEditor({
     setStatus(null);
   }, [savedJson]);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSave, async () => undefined);
+  }, [handleSave]);
+
   useAdminPageActions({
     ownerKey: "demo-profile-editor",
     scope: "editor",
     priority: 0,
     onSave: handleSave,
+    onPublish: handlePublish,
     onCancel: handleCancel,
     saveStatusMode: "self-managed",
     enabled: !readOnly,
@@ -101,6 +108,7 @@ export function DemoProfileEditor({
 
   return (
     <div className="space-y-6">
+      <AdminPageConfigRegistrar configKey="entityEditor" />
       <AdminPageHeader
         title={displayName}
         description={

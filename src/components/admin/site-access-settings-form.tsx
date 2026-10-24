@@ -22,6 +22,9 @@ import { SettingsSection, ToggleField } from "@/components/admin/settings-fields
 import { updateSiteAccessSettings } from "@/features/coming-soon/actions/update-site-access-settings";
 import { COMING_SOON_PATH } from "@/features/coming-soon/coming-soon.constants";
 import { resetSetupWizardAction } from "@/features/setup/actions/reset-setup-wizard";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
+import { publishShell } from "@/lib/publish-shell.client";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 
@@ -157,11 +160,16 @@ export function SiteAccessSettingsForm({
     router.refresh();
   }, [backupBeforeReset, resetConfirmText, router]);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSave, () => publishShell("site-settings"));
+  }, [handleSave]);
+
   useAdminPageActions({
     ownerKey: "site-access-settings",
     scope: "settings",
     priority: 0,
     onSave: handleSave,
+    onPublish: handlePublish,
     onCancel: handleCancel,
     saveStatusMode: "self-managed",
   });
@@ -170,6 +178,7 @@ export function SiteAccessSettingsForm({
 
   return (
     <div className="space-y-6">
+      <AdminPageConfigRegistrar configKey="settingsSavePublish" />
       <AdminPageHeader
         title="Site access"
         description="Control whether public visitors can browse the site or see the coming soon page. The setting applies immediately and is enforced by the server."

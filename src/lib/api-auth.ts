@@ -7,7 +7,10 @@ import { verifyCronSecret } from "@/lib/cron-auth";
 import { prisma } from "@/lib/prisma";
 import type { UserRole } from "@prisma/client";
 import { isAdminRole, isCustomerRole } from "@/features/auth/portal";
-import { adminLifecycleDestination } from "@/features/auth/admin-lifecycle";
+import {
+  adminLifecycleBlocksDashboard,
+  adminLifecycleDestination,
+} from "@/features/auth/admin-lifecycle";
 
 export type ApiAccess = "public" | "admin" | "customer" | "cron" | "super_admin";
 
@@ -139,7 +142,7 @@ async function assertAdminLifecycleClear(session: ApiSession): Promise<NextRespo
       adminOtpUnconfigured = !(await isAdminEmailMfaConfigured());
     }
     const block = adminLifecycleDestination({ ...row, adminOtpUnconfigured });
-    if (!block) return null;
+    if (!block || !adminLifecycleBlocksDashboard(block)) return null;
     return NextResponse.json(
       { error: "Lifecycle incomplete", code: block.kind },
       { status: 403 },

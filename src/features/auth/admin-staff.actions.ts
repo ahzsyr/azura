@@ -33,6 +33,7 @@ export async function inviteAdminAction(input: {
       ip: await actorIp(),
     });
     if ("error" in result) return fail(result.error);
+    revalidatePath("/admin/settings/users");
     revalidatePath("/admin/settings/staff");
     return ok({ userId: result.userId });
   } catch {
@@ -49,6 +50,7 @@ export async function disableAdminAction(userId: string): Promise<ActionResult<{
       ip: await actorIp(),
     });
     if ("error" in result) return fail(result.error);
+    revalidatePath("/admin/settings/users");
     revalidatePath("/admin/settings/staff");
     return ok({ ok: true });
   } catch {
@@ -65,6 +67,7 @@ export async function enableAdminAction(userId: string): Promise<ActionResult<{ 
       ip: await actorIp(),
     });
     if ("error" in result) return fail(result.error);
+    revalidatePath("/admin/settings/users");
     revalidatePath("/admin/settings/staff");
     return ok({ ok: true });
   } catch {
@@ -83,6 +86,7 @@ export async function forceAdminPasswordAction(
       ip: await actorIp(),
     });
     if ("error" in result) return fail(result.error);
+    revalidatePath("/admin/settings/users");
     revalidatePath("/admin/settings/staff");
     return ok({ ok: true });
   } catch {
@@ -101,6 +105,7 @@ export async function revokeAdminSessionsAction(
       ip: await actorIp(),
     });
     if ("error" in result) return fail(result.error);
+    revalidatePath("/admin/settings/users");
     revalidatePath("/admin/settings/staff");
     return ok({ ok: true });
   } catch {

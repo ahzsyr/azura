@@ -1,8 +1,10 @@
 "use client";
 
 import { useCallback, useRef } from "react";
-import { upsertCustom404Action } from "@/features/seo/actions";
+import { publishSeoPublicAction, upsertCustom404Action } from "@/features/seo/actions";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
 import { runAdminAction } from "@/components/admin/layout/admin-action-toast";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { AdminLocalizedFormField } from "@/features/translation/components/admin-localized-form-field";
@@ -47,17 +49,23 @@ export function Custom404SettingsClient({ custom404Id, defaultLocaleCode, legacy
     formRef.current?.reset();
   }, []);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSave, publishSeoPublicAction);
+  }, [handleSave]);
+
   useAdminPageActions({
     ownerKey: "seo-custom-404",
     scope: "settings",
     priority: 0,
     onSave: handleSave,
+    onPublish: handlePublish,
     onCancel: handleCancel,
     saveStatusMode: "self-managed",
   });
 
   return (
     <div className="space-y-8 max-w-xl">
+      <AdminPageConfigRegistrar configKey="settingsSavePublish" />
       <h1 className="text-2xl font-bold">404 Page Manager</h1>
       <p className="text-sm text-muted-foreground">
         Edit title and body per locale using the language switcher in the admin header.

@@ -5,8 +5,10 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { SeoStructuredConfig } from "@/features/seo/types";
 import type { TypeRepresentation } from "@/features/seo/platform/schema-pipeline/constants";
-import { upsertStructuredDataAction } from "@/features/seo/actions";
+import { publishSeoPublicAction, upsertStructuredDataAction } from "@/features/seo/actions";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
 import { runAdminAction } from "@/components/admin/layout/admin-action-toast";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { AdminSettingsLayout } from "@/components/admin/layout/admin-settings-layout";
@@ -209,9 +211,11 @@ export function StructuredDataSettingsClient({
         websiteJson,
       };
       markSaved();
+      return true;
     } catch (error) {
       setSaveStatus("error");
       setSaveError(error instanceof Error ? error.message : "Save failed.");
+      return false;
     }
   }, [
     builderFlags,
@@ -228,11 +232,16 @@ export function StructuredDataSettingsClient({
     markSaved();
   }, [markSaved, resetFormState]);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSave, publishSeoPublicAction);
+  }, [handleSave]);
+
   useAdminPageActions({
     ownerKey: "seo-structured-data",
     scope: "settings",
     priority: 0,
     onSave: handleSave,
+    onPublish: handlePublish,
     onCancel: handleCancel,
     saveStatusMode: "self-managed",
   });
@@ -243,6 +252,7 @@ export function StructuredDataSettingsClient({
 
   return (
     <div className={embedded ? "space-y-5" : "max-w-6xl space-y-5"}>
+      <AdminPageConfigRegistrar configKey="settingsSavePublish" />
       {!embedded ? (
         <div>
           <Link href="/admin/seo" className="text-sm text-primary hover:underline">

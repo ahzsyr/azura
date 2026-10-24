@@ -1,14 +1,13 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { SearchQueryProvider } from "@/capabilities/search/query/search-query-provider";
 
-/** Root-level nuqs + TanStack Query providers — no next-intl hooks. */
+/**
+ * TanStack Query for the root document. Nuqs lives once, in NuqsProvider.
+ * A second NuqsAdapter on this shell syncs useSearchParams through
+ * history.replaceState on every render and blanks the account page.
+ */
 export function SearchQueryShell({ children }: { children: ReactNode }) {
-  return (
-    <NuqsAdapter>
-      <SearchQueryProvider>{children}</SearchQueryProvider>
-    </NuqsAdapter>
-  );
+  return <SearchQueryProvider>{children}</SearchQueryProvider>;
 }

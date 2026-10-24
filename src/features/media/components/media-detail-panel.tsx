@@ -17,6 +17,7 @@ import { uploadMediaFile } from "@/features/media/upload-client";
 import { acceptForMediaTypes } from "@/lib/local-media-storage";
 import { AdminLocalizedTextField } from "@/features/translation/components/admin-localized-text-field";
 import { useLocalizedField } from "@/features/translation/hooks/use-localized-field";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { Button } from "@/components/ui/button";
@@ -84,28 +85,28 @@ export function MediaDetailPanel({ assetId, folders, onClose, onUpdated }: Props
     if (assetId) void reloadAlt();
   }, [assetId, reloadAlt]);
 
-  const saveMeta = useCallback(() => {
-    if (!assetId) return;
+  const saveMeta = useCallback(async () => {
+    if (!assetId) return false;
     setSaveStatus("saving");
-    startTransition(async () => {
-      try {
-        await saveAlt();
-        await updateMediaAsset(assetId, {
-          filename,
-          folderId: folderId || null,
-        });
-        onUpdated();
-        const detail = await getMediaAssetDetail(assetId);
-        if (detail) {
-          setAsset(detail as AssetDetail);
-          setBaseline({ filename: detail.filename, folderId: detail.folderId ?? "" });
-        }
-        await reloadAlt();
-        markSaved();
-      } catch {
-        setSaveStatus("error");
+    try {
+      await saveAlt();
+      await updateMediaAsset(assetId, {
+        filename,
+        folderId: folderId || null,
+      });
+      onUpdated();
+      const detail = await getMediaAssetDetail(assetId);
+      if (detail) {
+        setAsset(detail as AssetDetail);
+        setBaseline({ filename: detail.filename, folderId: detail.folderId ?? "" });
       }
-    });
+      await reloadAlt();
+      markSaved();
+      return true;
+    } catch {
+      setSaveStatus("error");
+      return false;
+    }
   }, [assetId, filename, folderId, markSaved, onUpdated, reloadAlt, saveAlt, setSaveStatus]);
 
   const cancelMeta = useCallback(() => {
@@ -116,15 +117,21 @@ export function MediaDetailPanel({ assetId, folders, onClose, onUpdated }: Props
     markSaved();
   }, [baseline, markSaved, reloadAlt]);
 
+  const publishMeta = useCallback(async () => {
+    await saveIfNeededThenPublish(saveMeta, async () => undefined);
+  }, [saveMeta]);
+
   useAdminPageActions({
     ownerKey: "media-detail",
     scope: "editor",
     priority: 0,
     onSave: saveMeta,
+    onPublish: publishMeta,
     onCancel: cancelMeta,
-    saveLabel: "Save metadata",
+    saveTooltip: "Save metadata",
     saveStatusMode: "self-managed",
     canSave: !pending && !altLoading,
+    canPublish: !pending && !altLoading,
     canCancel: true,
     enabled: Boolean(assetId && asset),
   });

@@ -1,11 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useCallback, useRef, useState, useTransition } from "react";
 import type { VideoAdmin } from "@/features/videos/types";
 import { upsertVideo } from "@/features/videos/actions";
 import { isJpgOrPngThumbnail } from "@/features/videos/video-validation";
 import { MediaPickerField } from "@/features/media/components/media-picker-field";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
+import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
+import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,8 +28,11 @@ function toDatetimeLocalValue(date: Date | string | null | undefined): string {
 
 export function VideoForm({ video }: Props) {
   const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
+  const markSaved = useAdminUiStore((s) => s.markSaved);
 
   const [title, setTitle] = useState(video?.title ?? "");
   const [description, setDescription] = useState(video?.description ?? "");
@@ -45,51 +51,125 @@ export function VideoForm({ video }: Props) {
   const [thumbnailUrl, setThumbnailUrl] = useState(video?.thumbnailMedia?.url ?? "");
   const [thumbnailMime, setThumbnailMime] = useState(video?.thumbnailMedia?.mimeType ?? "");
 
-  const handleSubmit = (formData: FormData) => {
-    setError(null);
-    if (!contentMediaId) {
-      setError("Select a content video from the media library.");
-      return;
-    }
-    if (!thumbnailMediaId) {
-      setError("Select a JPG or PNG thumbnail.");
-      return;
-    }
-    if (!isJpgOrPngThumbnail(thumbnailMime, thumbnailUrl)) {
-      setError("Thumbnail must be JPG or PNG (SVG is not allowed).");
-      return;
-    }
+  const persist = useCallback(
+    async (nextStatus?: "DRAFT" | "PUBLISHED") => {
+      const form = formRef.current;
+      if (!form || !form.reportValidity()) return false;
+      setError(null);
+      if (!contentMediaId) {
+        setError("Select a content video from the media library.");
+        setSaveStatus("error");
+        return false;
+      }
+      if (!thumbnailMediaId) {
+        setError("Select a JPG or PNG thumbnail.");
+        setSaveStatus("error");
+        return false;
+      }
+      if (!isJpgOrPngThumbnail(thumbnailMime, thumbnailUrl)) {
+        setError("Thumbnail must be JPG or PNG (SVG is not allowed).");
+        setSaveStatus("error");
+        return false;
+      }
 
-    formData.set("contentMediaId", contentMediaId);
-    formData.set("thumbnailMediaId", thumbnailMediaId);
-    formData.set("title", title);
-    formData.set("description", description);
-    formData.set("slug", slug);
-    formData.set("locale", locale);
-    formData.set("duration", duration);
-    formData.set("embedUrl", embedUrl);
-    formData.set("status", status);
-    formData.set("uploadDate", uploadDate);
+      const formData = new FormData(form);
+      formData.set("contentMediaId", contentMediaId);
+      formData.set("thumbnailMediaId", thumbnailMediaId);
+      formData.set("title", title);
+      formData.set("description", description);
+      formData.set("slug", slug);
+      formData.set("locale", locale);
+      formData.set("duration", duration);
+      formData.set("embedUrl", embedUrl);
+      formData.set("status", nextStatus ?? status);
+      formData.set("uploadDate", uploadDate);
 
-    startTransition(async () => {
+      setSaveStatus("saving");
       try {
         const saved = await upsertVideo(formData);
+        if (nextStatus) setStatus(nextStatus);
+        markSaved();
         if (!video) router.push(`/admin/videos/${saved.id}`);
         else router.refresh();
+        return true;
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to save video");
+        setSaveStatus("error");
+        return false;
       }
+    },
+    [
+      contentMediaId,
+      description,
+      duration,
+      embedUrl,
+      locale,
+      markSaved,
+      router,
+      setSaveStatus,
+      slug,
+      status,
+      thumbnailMediaId,
+      thumbnailMime,
+      thumbnailUrl,
+      title,
+      uploadDate,
+      video,
+    ],
+  );
+
+  const handleSave = useCallback(() => {
+    startTransition(() => {
+      void persist();
     });
-  };
+  }, [persist]);
+
+  const handlePublish = useCallback(async () => {
+    const ok = await persist("PUBLISHED");
+    if (!ok) throw new Error("Publish failed");
+  }, [persist]);
+
+  const handleCancel = useCallback(() => {
+    setTitle(video?.title ?? "");
+    setDescription(video?.description ?? "");
+    setSlug(video?.slug ?? "");
+    setLocale(video?.locale ?? "en");
+    setDuration(video?.duration ?? "");
+    setEmbedUrl(video?.embedUrl ?? "");
+    setStatus(video?.status ?? "DRAFT");
+    setUploadDate(toDatetimeLocalValue(video?.uploadDate) || toDatetimeLocalValue(new Date()));
+    setContentMediaId(video?.contentMediaId ?? "");
+    setContentUrl(video?.contentMedia?.url ?? "");
+    setThumbnailMediaId(video?.thumbnailMediaId ?? "");
+    setThumbnailUrl(video?.thumbnailMedia?.url ?? "");
+    setThumbnailMime(video?.thumbnailMedia?.mimeType ?? "");
+    setError(null);
+    markSaved();
+  }, [markSaved, video]);
+
+  useAdminPageActions({
+    ownerKey: "video-editor",
+    scope: "editor",
+    priority: 0,
+    onSave: handleSave,
+    onPublish: handlePublish,
+    onCancel: handleCancel,
+    canCancel: true,
+    canPublish: !pending,
+    canSave: !pending,
+    saveStatusMode: "self-managed",
+  });
 
   return (
     <form
+      ref={formRef}
       className="mx-auto max-w-2xl space-y-5"
       onSubmit={(e) => {
         e.preventDefault();
-        handleSubmit(new FormData(e.currentTarget));
+        handleSave();
       }}
     >
+      <AdminPageConfigRegistrar configKey="entityEditor" />
       {video ? <input type="hidden" name="id" value={video.id} /> : null}
 
       <div className="space-y-2">
@@ -223,9 +303,9 @@ export function VideoForm({ video }: Props) {
 
       {error ? <p className="text-sm text-destructive">{error}</p> : null}
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 lg:hidden">
         <Button type="submit" disabled={pending}>
-          {pending ? "Saving…" : video ? "Save changes" : "Create video"}
+          {pending ? "Saving…" : "Save"}
         </Button>
         <Button type="button" variant="outline" onClick={() => router.push("/admin/videos")}>
           Cancel

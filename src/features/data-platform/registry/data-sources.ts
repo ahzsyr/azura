@@ -460,7 +460,7 @@ const MYSQL_SOURCES: DataSourceDefinition[] = [
     prismaModelName: "User",
     category: "system",
     displayName: "Users",
-    adminHref: "/admin/users",
+    adminHref: "/admin/settings/users?role=customer",
     capabilities: { count: true, browse: true, inspect: true, edit: false, export: false },
     list: {
       title: (row) => String((row as { name?: unknown }).name ?? (row as { email?: unknown }).email ?? row.id),

@@ -1,6 +1,7 @@
 import "server-only";
 
 import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import type { EmailProviderConfig } from "@/features/email/email-accounts.types";
 import {
   getEmailAccountRecord,
@@ -34,7 +35,7 @@ export type SendEmailResult = {
 
 export type EmailDeliveryStatus = {
   configured: boolean;
-  provider: "resend" | "none";
+  provider: "resend" | "smtp" | "none";
   from: string;
   /** How delivery was resolved. */
   source: "account" | "env" | "none";
@@ -101,16 +102,14 @@ export async function getEmailDeliveryStatusForAccount(
     const configured = isEmailAccountConfigured(record);
     return {
       configured,
-      provider: configured ? "resend" : "none",
+      provider: configured ? record.provider as "resend" | "smtp" : "none",
       from: record.from,
       source: "account",
       accountId: record.id,
       accountName: record.name,
       message: configured
         ? undefined
-        : record.provider === "smtp"
-          ? "SMTP accounts are no longer supported. Recreate this account with Resend under Settings → Email Accounts."
-          : "This email account is missing credentials. Edit it under Settings → Email Accounts.",
+        : "This email account is missing credentials. Edit it under Settings → Email Accounts.",
     };
   }
   return getEmailDeliveryStatusFromEnv();
@@ -159,6 +158,32 @@ export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult>
     console.error("[email] delivery failed", { errorCode: "not_configured", errorMessage, to });
     console.info(devLog);
     return { sent: false, errorCode: "not_configured", errorMessage, devLog };
+  }
+
+  if (config.provider === "smtp" && config.smtp?.host && config.smtp.pass) {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: config.smtp.host,
+        port: config.smtp.port,
+        secure: config.smtp.secure,
+        ...(config.smtp.user ? { auth: { user: config.smtp.user, pass: config.smtp.pass } } : {}),
+      });
+      await transporter.sendMail({
+        from: formatFromAddress(config.from, input.fromName),
+        to,
+        subject: input.subject,
+        html: input.html,
+        text: input.text,
+        replyTo: input.replyTo,
+        ...(cc ? { cc } : {}),
+        ...(bcc ? { bcc } : {}),
+      });
+      return { sent: true };
+    } catch (err) {
+      const errorMessage = `SMTP delivery failed: ${providerErrorMessage(err)}`;
+      console.error("[email] delivery failed", { errorCode: "provider_error", errorMessage, to });
+      return { sent: false, errorCode: "provider_error", errorMessage };
+    }
   }
 
   if (config.provider !== "resend" || !config.resendApiKey) {

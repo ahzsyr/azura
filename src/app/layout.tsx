@@ -23,6 +23,7 @@ import {
 import { ChunkLoadDiagnostics } from "@/components/debug/chunk-load-diagnostics";
 import { SearchQueryShell } from "@/capabilities/search/query/search-query-shell";
 import { NuqsProvider } from "@/components/providers/nuqs-provider";
+import { HISTORY_LOOP_GUARD_SCRIPT } from "@/lib/navigation/history-loop-guard";
 import { REDUCED_MOTION_COOKIE } from "@/lib/preloader/preloader-timing";
 import { isChromeVisible } from "@/lib/theme/chrome-visibility";
 
@@ -199,6 +200,11 @@ export default async function RootLayout({ children }: Props) {
           aria-hidden="true"
           data-safari-chrome-tint="bottom"
           suppressHydrationWarning
+        />
+        <Script
+          id="az-history-loop-guard"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: HISTORY_LOOP_GUARD_SCRIPT }}
         />
         <Script
           id="az-theme-boot"

@@ -27,6 +27,10 @@ import {
 import { expandMegaMenuPanelSources } from "./mega-menu-panel-source";
 import type { HeaderWorkspace, MenuItem, MenuRecord } from "./types";
 import {
+  dropUnservableUploadUrl,
+  retainServablePublicUploadUrls,
+} from "@/lib/servable-public-uploads";
+import {
   pickBrandMenuMedia,
   shouldPreferStoredMenuImageUrl,
   usesLinkedMenuImageSource,
@@ -468,6 +472,53 @@ export async function enrichFlyoutMenuImagesOnly(
       navIcons,
     );
   }
+  return dropUnservableMenuUploads({ ...ws, menusDatabase });
+}
+
+function collectMenuUploadUrls(item: MenuItem, into: string[]) {
+  for (const value of [
+    item.sourceLogoUrl,
+    item.sourceIconUrl,
+    item.sourceImageUrl,
+    item.iconImageUrl,
+    item.photoUrl,
+    item.imageUrl,
+    item.megaMenuImageUrl,
+  ]) {
+    if (value) into.push(value);
+  }
+  item.children?.forEach((child) => collectMenuUploadUrls(child, into));
+}
+
+function cleanMenuUploadUrls(item: MenuItem, servable: ReadonlySet<string>): MenuItem {
+  const keep = (value: string | undefined) => dropUnservableUploadUrl(value, servable);
+  return {
+    ...item,
+    sourceLogoUrl: keep(item.sourceLogoUrl),
+    sourceIconUrl: keep(item.sourceIconUrl),
+    sourceImageUrl: keep(item.sourceImageUrl),
+    iconImageUrl: keep(item.iconImageUrl),
+    photoUrl: keep(item.photoUrl),
+    imageUrl: keep(item.imageUrl),
+    megaMenuImageUrl: keep(item.megaMenuImageUrl),
+    children: item.children.map((child) => cleanMenuUploadUrls(child, servable)),
+  };
+}
+
+/** Header logos that 404 also get a <link rel="preload"> that Chrome then reports as unused. */
+async function dropUnservableMenuUploads(ws: HeaderWorkspace): Promise<HeaderWorkspace> {
+  const urls: string[] = [];
+  for (const record of Object.values(ws.menusDatabase)) {
+    record.items.forEach((item) => collectMenuUploadUrls(item, urls));
+  }
+  const servable = await retainServablePublicUploadUrls(urls);
+  const menusDatabase = { ...ws.menusDatabase };
+  for (const key of Object.keys(menusDatabase)) {
+    menusDatabase[key] = {
+      ...menusDatabase[key],
+      items: menusDatabase[key].items.map((item) => cleanMenuUploadUrls(item, servable)),
+    };
+  }
   return { ...ws, menusDatabase };
 }
 
@@ -505,7 +556,7 @@ export async function enrichHeaderWorkspaceForSiteCached(
       const withSources = await expandMegaMenuPanelSources(localized, localeCode);
       return enrichFlyoutMenuImagesOnly(withSources, localeCode);
     },
-    ["header-flyout-images-v5", localeCode, fingerprint],
+    ["header-flyout-images-v6", localeCode, fingerprint],
     { tags: ["header-workspace", `header-flyout-${localeCode}`], revalidate: 300 },
   )();
 }

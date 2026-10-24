@@ -36,7 +36,7 @@ const REQUIRED_DELEGATES = [
  * Bump after `prisma generate` when models/fields change so dev hot-reload
  * recreates a cached client (e.g. SiteTheme.brandConfig).
  */
-const PRISMA_CLIENT_VERSION = 10;
+const PRISMA_CLIENT_VERSION = 11;
 
 function normalizeRuntimeDatabaseUrl(url: string): string {
   return getRuntimeDatabaseUrl() || url;

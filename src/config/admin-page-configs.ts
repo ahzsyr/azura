@@ -94,7 +94,7 @@ export const ADMIN_PAGE_CONFIGS = {
     expectedActions: {
       save: "required",
       cancel: "required",
-      publish: "conditional",
+      publish: "required",
     },
   },
   searchSettings: {

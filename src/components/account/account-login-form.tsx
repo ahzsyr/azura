@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { getSession, signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,9 +11,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PasswordField } from "@/components/account/password-field";
 import { useTranslations } from "next-intl";
 import { mergeLocalFavoritesToServer } from "@/features/account/lib/favorites-sync";
-import { resolvePostLoginRedirect } from "@/features/auth/portal";
+import { isCustomerRole, resolvePostLoginLanding } from "@/features/auth/portal";
 import { validateEmailFormat } from "@/features/account/lib/password-form-validation";
 import { accountPublicPath } from "@/features/account/account-public-path";
+import { readStoredVisitorToken } from "@/features/marketing-attribution/client";
 
 type Props = {
   locale: string;
@@ -24,7 +25,6 @@ type Step = "password" | "mfa";
 
 export function AccountLoginForm({ locale, registrationEnabled }: Props) {
   const t = useTranslations("account");
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,14 +47,32 @@ export function AccountLoginForm({ locale, registrationEnabled }: Props) {
     }
 
     const callbackUrl = searchParams.get("callbackUrl");
-    const redirectTo = resolvePostLoginRedirect({
+    const redirectTo = resolvePostLoginLanding({
       role: session.user.role,
       locale,
       callbackUrl,
+      mustChangePassword: session.user.mustChangePassword,
+      adminOtpUnconfigured: session.user.adminOtpUnconfigured,
     });
-    await mergeLocalFavoritesToServer(locale);
-    router.replace(redirectTo);
-    router.refresh();
+    // Customer-only. Admins receive 403, and waiting on it delayed the handoff.
+    if (isCustomerRole(session.user.role)) {
+      await mergeLocalFavoritesToServer(locale);
+    }
+    const visitorToken = readStoredVisitorToken();
+    if (visitorToken) {
+      await Promise.race([
+        fetch("/api/account/visitor-link", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ visitorToken }),
+        }).catch(() => undefined),
+        new Promise((resolve) => setTimeout(resolve, 1500)),
+      ]);
+    }
+    // A soft replace plus refresh follows the admin lifecycle redirect and
+    // then refreshes the original URL, which floods history.replaceState and
+    // leaves a blank page. One full navigation paints the destination.
+    window.location.assign(redirectTo);
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -111,6 +129,12 @@ export function AccountLoginForm({ locale, registrationEnabled }: Props) {
         return;
       }
 
+      if (result?.code === "mfa_delivery_failed") {
+        setError("Could not send the sign-in code. Check the admin Email Account, then try again.");
+        setStep("password");
+        return;
+      }
+
       if (result?.error || result?.ok === false) {
         setError("Invalid email or password");
         return;
@@ -136,6 +160,9 @@ export function AccountLoginForm({ locale, registrationEnabled }: Props) {
       });
       if (result?.code === "mfa_required") {
         setError("");
+      } else if (result?.code === "mfa_delivery_failed") {
+        setError("Could not send the sign-in code. Check the admin Email Account, then try again.");
+        setStep("password");
       } else if (result?.error || result?.ok === false) {
         setError("Could not resend code. Sign in again.");
         setStep("password");

@@ -37,6 +37,7 @@ test("normalizeMetaPixelId strips non-digits", () => {
 test("buildMetaPixelBaseCode embeds pixel id", () => {
   const code = buildMetaPixelBaseCode("2600123456789012");
   assert.match(code, /fbq\('init', '2600123456789012'\)/);
+  assert.match(code, /fbq\.disablePushState=true/);
   assert.match(code, /id=2600123456789012/);
 });
 
@@ -49,5 +50,8 @@ test("extractMetaPixelScriptContent returns fbq body", () => {
 test("resolveMetaPixelInitScript prefers pasted snippet", () => {
   const script = resolveMetaPixelInitScript("999", SAMPLE);
   assert.match(script, /2600123456789012/);
+  assert.match(script, /fbq\.disablePushState=true;/);
   assert.doesNotMatch(script, /fbq\('init', '999'\)/);
+  const initAt = script.indexOf("fbq('init'");
+  assert.ok(script.indexOf("fbq.disablePushState=true;") < initAt);
 });

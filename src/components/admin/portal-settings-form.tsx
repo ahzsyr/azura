@@ -26,6 +26,9 @@ import type {
   PasswordResetSettings,
 } from "@/features/account/account-settings.schema";
 import { routing } from "@/i18n/routing";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
+import { publishShell } from "@/lib/publish-shell.client";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 
@@ -172,6 +175,7 @@ export function PortalSettingsForm({
     setSavedVerificationSettings(verificationSettings);
     setFeedback("Visitor portal settings saved.");
     markSaved();
+    return true;
   }, [enabled, resetSettings, verificationSettings, markSaved, setSaveStatus]);
 
   const handleCancel = useCallback(() => {
@@ -182,23 +186,29 @@ export function PortalSettingsForm({
     setFeedback(null);
   }, [savedEnabled, savedResetSettings, savedVerificationSettings]);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSave, () => publishShell("site-settings"));
+  }, [handleSave]);
+
   useAdminPageActions({
     ownerKey: "portal-settings",
     scope: "settings",
     priority: 0,
     onSave: handleSave,
+    onPublish: handlePublish,
     onCancel: handleCancel,
     saveStatusMode: "self-managed",
   });
 
   return (
     <div className="space-y-6">
+      <AdminPageConfigRegistrar configKey="settingsSavePublish" />
       <AdminPageHeader
         title="Visitor portal"
         description="Customer registration, signup OTP delivery, and password reset emails. Master Admin only."
         actions={
           <Button asChild variant="outline" size="sm">
-            <Link href="/admin/users">
+            <Link href="/admin/settings/users?role=customer">
               <Users className="me-2 size-4" aria-hidden />
               Customer accounts
             </Link>

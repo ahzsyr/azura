@@ -73,6 +73,7 @@ import {
   getSearchOpsNavBySegment,
   SEARCH_OPS_NAV,
 } from "@/features/search-intelligence/workspaces/search-ops-nav";
+import { filterGroupsBySectionGrants } from "@/features/auth/admin-section-grants";
 
 export type AdminNavItem = {
   href: string;
@@ -296,7 +297,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         keywords: ["theme", "colors", "branding", "presets", "typography", "motion", "effects"],
         navItemId: "theme",
       },
-      { href: "/admin/personalization", label: "Personalization", icon: Wand2, keywords: ["customize"], navItemId: "personalization" },
+      { href: "/admin/personalization", label: "Widget", icon: Wand2, keywords: ["customize"], navItemId: "personalization" },
       {
         href: "/admin/preloader",
         label: "Preloader",
@@ -569,11 +570,11 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         navItemId: "admin-account",
       },
       {
-        href: "/admin/settings/staff",
-        label: "Staff",
-        icon: ShieldCheck,
-        keywords: ["admin", "invite", "super", "operators", "mfa", "disable"],
-        navItemId: "admin-staff",
+        href: "/admin/settings/users",
+        label: "Users",
+        icon: Users,
+        keywords: ["admin", "invite", "customers", "users", "permissions", "disable", "staff"],
+        navItemId: "customer-accounts",
       },
       {
         href: "/admin/settings/email-accounts",
@@ -581,13 +582,6 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         icon: Mail,
         keywords: ["email", "resend", "notifications", "forms", "mail"],
         navItemId: "email-accounts",
-      },
-      {
-        href: "/admin/users",
-        label: "Customer accounts",
-        icon: Users,
-        keywords: ["registration", "customers", "users", "password"],
-        navItemId: "customer-accounts",
       },
       {
         href: "/admin/settings/portal",
@@ -1003,9 +997,13 @@ function itemMatchesQuery(item: AdminNavItem, q: string): boolean {
 export function filterNavItems(
   query: string,
   inactiveNavItemIds?: readonly string[],
+  allowedSectionIds?: readonly string[] | null,
 ): { group: AdminNavGroup; items: AdminNavItem[] }[] {
   const q = query.trim().toLowerCase();
-  const groups = resolveNavGroups(inactiveNavItemIds);
+  const groups =
+    allowedSectionIds == null
+      ? resolveNavGroups(inactiveNavItemIds)
+      : filterGroupsBySectionGrants(resolveNavGroups(inactiveNavItemIds), allowedSectionIds);
   if (!q) {
     return groups.map((group) => ({ group, items: flattenGroupItems(group) }));
   }

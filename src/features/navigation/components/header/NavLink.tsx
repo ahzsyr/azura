@@ -2,7 +2,11 @@
 
 import { type ComponentPropsWithoutRef } from "react";
 import { Link } from "@/i18n/navigation";
-import { isInternalHref, normalizeInternalNavHref } from "@/lib/navigation/internal-link";
+import {
+  isInternalHref,
+  normalizeInternalNavHref,
+  requiresDocumentNavigation,
+} from "@/lib/navigation/internal-link";
 
 type Props = ComponentPropsWithoutRef<"a"> & {
   href?: string;
@@ -25,7 +29,7 @@ type Props = ComponentPropsWithoutRef<"a"> & {
  * Pass an `onClick` handler that calls `e.preventDefault()` when needed.
  */
 export function NavLink({ href = "#", ...props }: Props) {
-  if (isInternalHref(href)) {
+  if (isInternalHref(href) && !requiresDocumentNavigation(href)) {
     const neutralHref = normalizeInternalNavHref(href);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return <Link href={neutralHref as any} {...(props as object)} />;

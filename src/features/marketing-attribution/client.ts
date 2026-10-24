@@ -40,6 +40,11 @@ const CONSENT_KEY = "mkt_consent";
 const ATTR_KEY = "mkt_attr";
 const SESSION_MS = 30 * 60 * 1000;
 
+export function readStoredVisitorToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(VISITOR_KEY) || readCookie(VISITOR_KEY);
+}
+
 function randomToken() {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
   return `t_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;

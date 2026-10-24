@@ -56,9 +56,10 @@ function buildInitialForm(user: CustomerDetail) {
 
 type Props = {
   user: CustomerDetail;
+  listHref?: string;
 };
 
-export function UserDetailForm({ user }: Props) {
+export function UserDetailForm({ user, listHref = "/admin/settings/users?role=customer" }: Props) {
   const [form, setForm] = useState(() => buildInitialForm(user));
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -151,7 +152,7 @@ export function UserDetailForm({ user }: Props) {
         description={user.email}
         actions={
           <Button asChild variant="outline" size="sm">
-            <Link href="/admin/users">Back to list</Link>
+            <Link href={listHref}>Back to list</Link>
           </Button>
         }
       />

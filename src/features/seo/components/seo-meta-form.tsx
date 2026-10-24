@@ -6,7 +6,7 @@ import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import type { SeoMeta } from "@prisma/client";
 import { runAdminAction } from "@/components/admin/layout/admin-action-toast";
-import { upsertSeoMetaAction, suggestAutoFillAction } from "@/features/seo/actions";
+import { publishSeoPublicAction, suggestAutoFillAction, upsertSeoMetaAction } from "@/features/seo/actions";
 import { AutoFillPreviewPanel } from "./autofill-preview-panel";
 import type { AutoFillSuggestionResult } from "@/features/seo/platform/types/autofill";
 import { isSavedSeoTranslation } from "@/features/seo/cms-page-seo-context";
@@ -467,11 +467,14 @@ export function SeoMetaForm({
   const handlePublishFromTopBar = useCallback(async () => {
     const saved = await handleSave();
     if (!saved) {
-      // Ensure the top bar doesn't mark "published" when SEO save failed.
       throw new Error("SEO save failed");
     }
-    if (!onPublish) return true;
-    return onPublish();
+    if (onPublish) {
+      const result = await onPublish();
+      if (result === false) throw new Error("Publish failed");
+      return;
+    }
+    await publishSeoPublicAction();
   }, [handleSave, onPublish]);
 
   const handleCancel = useCallback(() => {
@@ -490,8 +493,8 @@ export function SeoMetaForm({
           priority: 10,
           onSave: handleSave,
           onCancel: handleCancel,
-          onPublish: onPublish ? handlePublishFromTopBar : undefined,
-          canPublish: canPublish ?? Boolean(onPublish),
+          onPublish: handlePublishFromTopBar,
+          canPublish: canPublish ?? true,
           saveStatusMode: "self-managed",
         }
       : undefined,

@@ -51,14 +51,31 @@ export async function updateAdminCredentials(
       if (await isPasswordReused(data.newPassword, user.passwordHash)) {
         return fail(PASSWORD_REUSE_ERROR);
       }
+      const previousHash = user.passwordHash;
       const passwordHash = await bcrypt.hash(data.newPassword, 12);
       await prisma.user.update({
         where: { id: user.id },
         data: {
           passwordHash,
           mustChangePassword: false,
+          failedLoginCount: 0,
+          lockedUntil: null,
         },
       });
+      const stored = await prisma.user.findUnique({
+        where: { id: user.id },
+        select: { passwordHash: true },
+      });
+      const saved =
+        Boolean(stored?.passwordHash) &&
+        (await bcrypt.compare(data.newPassword, stored!.passwordHash));
+      if (!saved) {
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { passwordHash: previousHash },
+        });
+        return fail("Password could not be saved. Your previous password is still active.");
+      }
       await bumpUserSessionVersion(user.id);
       requiresRelogin = true;
       await writeSecurityAuditLog({

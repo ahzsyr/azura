@@ -29,6 +29,18 @@ export function extractMetaPixelIdFromSnippet(snippet: string): string | undefin
   return undefined;
 }
 
+/**
+ * fbevents.js wraps history.replaceState unless this is set before it loads.
+ * That wrap re-enters the Next.js router and blanks the first client paint.
+ */
+export function withMetaPixelHistoryPatchDisabled(script: string): string {
+  if (/disablePushState/.test(script)) return script;
+  const line = "fbq.disablePushState=true;";
+  const init = script.search(/fbq\s*\(\s*['"]init['"]/);
+  if (init >= 0) return `${script.slice(0, init)}${line}${script.slice(init)}`;
+  return `${script}\n${line}`;
+}
+
 /** Build the official Meta Pixel head base code for a Pixel ID. */
 export function buildMetaPixelBaseCode(pixelId: string): string {
   const id = normalizeMetaPixelId(pixelId) ?? pixelId.trim();
@@ -42,6 +54,7 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
+fbq.disablePushState=true;
 fbq('init', '${id}');
 fbq('track', 'PageView');
 </script>
@@ -83,10 +96,10 @@ export function extractMetaPixelNoscriptSrc(snippet: string, pixelId: string): s
 export function resolveMetaPixelInitScript(pixelId: string, headSnippet?: string): string {
   if (headSnippet) {
     const parsed = extractMetaPixelScriptContent(headSnippet);
-    if (parsed) return parsed;
+    if (parsed) return withMetaPixelHistoryPatchDisabled(parsed);
   }
   const id = normalizeMetaPixelId(pixelId) ?? pixelId.trim();
-  return `!function(f,b,e,v,n,t,s)
+  return withMetaPixelHistoryPatchDisabled(`!function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
 if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
@@ -95,7 +108,7 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '${id}');
-fbq('track', 'PageView');`;
+fbq('track', 'PageView');`);
 }
 
 export function readMetaPixelHeadSnippet(metadata: unknown): string | undefined {

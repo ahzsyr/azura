@@ -10,6 +10,8 @@ import { getTrustedClientIp } from "@/lib/client-ip";
 import { verifyTurnstileToken } from "@/lib/turnstile";
 import { zodErrorMessage } from "@/lib/zod-error";
 import { EmailDomainError, assertDeliverableEmail } from "@/lib/security/email-domain.server";
+import { linkVisitorTokenToUser } from "@/features/account/admin/visitor-link.service";
+import { normalizeVisitorToken } from "@/features/account/admin/visitor-link-policy";
 
 export async function POST(request: Request) {
   try {
@@ -37,6 +39,7 @@ export async function POST(request: Request) {
     }
 
     const data = registerSchema.parse(body);
+    const visitorToken = normalizeVisitorToken(body?.visitorToken);
     // Normalized by emailInputSchema (trim + lowercase).
     const email = data.email;
     await assertDeliverableEmail(email);
@@ -68,6 +71,10 @@ export async function POST(request: Request) {
       toEmail: email,
       emailAccountId: settings.emailVerification.emailAccountId || null,
     });
+
+    if (visitorToken) {
+      await linkVisitorTokenToUser(created.id, visitorToken);
+    }
 
     return NextResponse.json(UNIFORM_RESPONSE);
   } catch (error) {

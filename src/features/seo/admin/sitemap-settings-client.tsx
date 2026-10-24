@@ -4,7 +4,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { SeoSitemapConfig, SeoSitemapPreviewEntry } from "@/features/seo/types";
-import { upsertSeoSitemapAction } from "@/features/seo/actions";
+import { publishSeoPublicAction, upsertSeoSitemapAction } from "@/features/seo/actions";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
 import { runAdminAction } from "@/components/admin/layout/admin-action-toast";
 import {
   formatPathForDisplay,
@@ -13,6 +14,7 @@ import {
   pathFromSitemapUrl,
 } from "@/features/seo/sitemap-path-utils";
 import { useAdminFormDirtySync } from "@/hooks/use-admin-form";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { Label } from "@/components/ui/label";
@@ -120,8 +122,23 @@ export function SitemapSettingsClient({
   );
 
   const handleSave = useCallback(async () => {
-    formRef.current?.requestSubmit();
-  }, []);
+    const form = formRef.current;
+    if (!form || !form.reportValidity()) return false;
+    setSaveStatus("saving");
+    try {
+      await runAdminAction(
+        "Saving sitemap settings…",
+        () => upsertSeoSitemapAction(new FormData(form)),
+        "Sitemap settings saved.",
+      );
+      markSaved();
+      router.refresh();
+      return true;
+    } catch {
+      setSaveStatus("error");
+      return false;
+    }
+  }, [markSaved, router, setSaveStatus]);
 
   const handleCancel = useCallback(() => {
     setExcludeText(listToLines(config.excludePaths ?? []));
@@ -129,17 +146,23 @@ export function SitemapSettingsClient({
     formRef.current?.reset();
   }, [config.excludePaths, config.extraPaths]);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSave, publishSeoPublicAction);
+  }, [handleSave]);
+
   useAdminPageActions({
     ownerKey: "seo-sitemap",
     scope: "settings",
     priority: 0,
     onSave: handleSave,
+    onPublish: handlePublish,
     onCancel: handleCancel,
     saveStatusMode: "self-managed",
   });
 
   return (
     <div className={embedded ? "space-y-6" : "mx-auto max-w-5xl space-y-6"}>
+      <AdminPageConfigRegistrar configKey="settingsSavePublish" />
       {embedded ? null : (
       <div>
         <Link href="/admin/seo" className="text-sm text-primary hover:underline">
@@ -313,19 +336,9 @@ export function SitemapSettingsClient({
       <form
         ref={formRef}
         id="sitemap-settings-form"
-        action={async (formData) => {
-          setSaveStatus("saving");
-          try {
-            await runAdminAction(
-              "Saving sitemap settings…",
-              () => upsertSeoSitemapAction(formData),
-              "Sitemap settings saved.",
-            );
-            markSaved();
-            router.refresh();
-          } catch {
-            setSaveStatus("error");
-          }
+        onSubmit={(event) => {
+          event.preventDefault();
+          void handleSave();
         }}
         className="space-y-4 rounded-xl border p-6"
       >

@@ -13,6 +13,10 @@ import {
 } from "@/features/builder/blocks/commerce/commerce-showcase/lib/brand-selection";
 import type { BrandShowcaseNode } from "@/features/builder/blocks/commerce/commerce-showcase/types/brand-showcase-node";
 import { publicLocalePath } from "@/i18n/url-helpers";
+import {
+  dropUnservableUploadUrl,
+  retainServablePublicUploadUrls,
+} from "@/lib/servable-public-uploads";
 
 export type { BrandShowcaseNode };
 
@@ -165,5 +169,13 @@ export async function resolveBrandShowcaseNodes(
   }
 
   const limit = Math.min(48, Math.max(1, config.limit ?? 12));
-  return nodes.slice(0, limit);
+  const limited = nodes.slice(0, limit);
+  const servable = await retainServablePublicUploadUrls(
+    limited.flatMap((node) => [node.logoUrl, node.bannerUrl]),
+  );
+  return limited.map((node) => ({
+    ...node,
+    logoUrl: dropUnservableUploadUrl(node.logoUrl, servable),
+    bannerUrl: dropUnservableUploadUrl(node.bannerUrl, servable),
+  }));
 }

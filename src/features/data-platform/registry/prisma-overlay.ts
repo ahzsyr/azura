@@ -21,7 +21,7 @@ export interface PrismaModelOverlay {
 
 export const PRISMA_MODEL_OVERLAYS: PrismaModelOverlay[] = [
   // core.prisma
-  { name: "User", category: "system", adminHref: "/admin/users", note: "Auth — edit via admin users only" },
+  { name: "User", category: "system", adminHref: "/admin/settings/users", note: "Auth — edit via admin users only" },
   { name: "PasswordResetToken", category: "system", note: "Auth token — system managed" },
   { name: "UserFavorite", category: "system", note: "Visitor favorites — system managed" },
   { name: "Gallery", category: "content", adminHref: "/admin/gallery", deploymentNavItemId: "gallery", note: "Gallery — /admin/gallery" },

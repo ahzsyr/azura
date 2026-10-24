@@ -84,9 +84,11 @@ function isActive(pathname: string, href: string) {
 function SidebarContent({
   collapsed,
   inactiveNavItemIds,
+  allowedSectionIds,
 }: {
   collapsed: boolean;
   inactiveNavItemIds: readonly string[];
+  allowedSectionIds: readonly string[] | null;
 }) {
   const pathname = usePathname();
   const navSearchQuery = useAdminUiStore((s) => s.navSearchQuery);
@@ -101,7 +103,7 @@ function SidebarContent({
   const isSearching = Boolean(navSearchQuery.trim());
   const activeGroupId = findNavGroupIdByPath(pathname);
   const activeSectionId = findNavSectionIdByPath(pathname);
-  const filteredGroups = filterNavItems(navSearchQuery, inactiveNavItemIds);
+  const filteredGroups = filterNavItems(navSearchQuery, inactiveNavItemIds, allowedSectionIds);
   const DashboardIcon = ADMIN_DASHBOARD.icon;
 
   useEffect(() => {
@@ -363,7 +365,13 @@ function SidebarContent({
   );
 }
 
-export function AdminSidebar({ inactiveNavItemIds = [] }: { inactiveNavItemIds?: readonly string[] }) {
+export function AdminSidebar({
+  inactiveNavItemIds = [],
+  allowedSectionIds = null,
+}: {
+  inactiveNavItemIds?: readonly string[];
+  allowedSectionIds?: readonly string[] | null;
+}) {
   const sidebarCollapsed = useAdminUiStore((s) => s.sidebarCollapsed);
   const sidebarMobileOpen = useAdminUiStore((s) => s.sidebarMobileOpen);
   const toggleSidebarCollapsed = useAdminUiStore((s) => s.toggleSidebarCollapsed);
@@ -399,7 +407,11 @@ export function AdminSidebar({ inactiveNavItemIds = [] }: { inactiveNavItemIds?:
         >
           {sidebarCollapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-3 w-3" />}
         </Button>
-        <SidebarContent collapsed={sidebarCollapsed} inactiveNavItemIds={inactiveNavItemIds} />
+        <SidebarContent
+          collapsed={sidebarCollapsed}
+          inactiveNavItemIds={inactiveNavItemIds}
+          allowedSectionIds={allowedSectionIds}
+        />
       </motion.aside>
 
       {/* Mobile drawer overlay */}
@@ -425,7 +437,11 @@ export function AdminSidebar({ inactiveNavItemIds = [] }: { inactiveNavItemIds?:
             <X className="h-4 w-4" />
           </Button>
         </div>
-        <SidebarContent collapsed={false} inactiveNavItemIds={inactiveNavItemIds} />
+        <SidebarContent
+          collapsed={false}
+          inactiveNavItemIds={inactiveNavItemIds}
+          allowedSectionIds={allowedSectionIds}
+        />
       </motion.aside>
     </TooltipProvider>
   );

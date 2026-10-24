@@ -14,3 +14,8 @@ export class MfaRequiredError extends CredentialsSignin {
 export class MfaInvalidError extends CredentialsSignin {
   code = "mfa_invalid";
 }
+
+/** Password OK but the sign-in code email could not be sent. */
+export class MfaDeliveryError extends CredentialsSignin {
+  code = "mfa_delivery_failed";
+}

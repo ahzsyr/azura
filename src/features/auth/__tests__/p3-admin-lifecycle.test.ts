@@ -1,8 +1,11 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
+  adminLifecycleBlocksDashboard,
   adminLifecycleDestination,
+  isAdminClientRefresh,
   isAdminLifecycleExemptPath,
+  shouldRedirectForAdminLifecycle,
 } from "@/features/auth/admin-lifecycle";
 import { requiresMfaAtLogin } from "@/features/auth/mfa-policy";
 import { isCustomerEmailUnverified } from "@/features/auth/account-status";
@@ -51,6 +54,80 @@ describe("P3 admin lifecycle gate", () => {
   it("account settings is exempt; products is not", () => {
     assert.equal(isAdminLifecycleExemptPath("/admin/settings/account"), true);
     assert.equal(isAdminLifecycleExemptPath("/admin/products"), false);
+  });
+
+  it("email accounts is reachable only while OTP delivery is unconfigured", () => {
+    const otpBlock = adminLifecycleDestination({
+      mustChangePassword: false,
+      adminOtpUnconfigured: true,
+    });
+    assert.equal(isAdminLifecycleExemptPath("/admin/settings/email-accounts", otpBlock), true);
+    assert.equal(isAdminLifecycleExemptPath("/admin/settings/email-accounts"), false);
+    const passwordBlock = adminLifecycleDestination({ mustChangePassword: true });
+    assert.equal(
+      isAdminLifecycleExemptPath("/admin/settings/email-accounts", passwordBlock),
+      false,
+    );
+  });
+
+  it("only a password change locks the dashboard; missing OTP sender does not", () => {
+    assert.equal(
+      adminLifecycleBlocksDashboard(adminLifecycleDestination({ mustChangePassword: true })),
+      true,
+    );
+    assert.equal(
+      adminLifecycleBlocksDashboard(
+        adminLifecycleDestination({ mustChangePassword: true, adminOtpUnconfigured: true }),
+      ),
+      true,
+    );
+    assert.equal(
+      adminLifecycleBlocksDashboard(adminLifecycleDestination({ adminOtpUnconfigured: true })),
+      false,
+    );
+    assert.equal(adminLifecycleBlocksDashboard(null), false);
+  });
+
+  it("a save refresh stays on the current page", () => {
+    const passwordBlock = adminLifecycleDestination({ mustChangePassword: true });
+    assert.equal(
+      shouldRedirectForAdminLifecycle({
+        block: passwordBlock,
+        pathname: "/admin/theme",
+        clientRefresh: true,
+      }),
+      false,
+    );
+    assert.equal(
+      shouldRedirectForAdminLifecycle({
+        block: passwordBlock,
+        pathname: "/admin/theme",
+        clientRefresh: false,
+      }),
+      true,
+    );
+    assert.equal(
+      shouldRedirectForAdminLifecycle({
+        block: adminLifecycleDestination({ adminOtpUnconfigured: true }),
+        pathname: "/admin/theme",
+        clientRefresh: false,
+      }),
+      false,
+    );
+    const refreshHeaders = {
+      get(name: string) {
+        if (name === "x-admin-client-refresh") return "1";
+        return null;
+      },
+    };
+    const documentHeaders = { get: () => null };
+    assert.equal(isAdminClientRefresh(refreshHeaders), true);
+    assert.equal(isAdminClientRefresh(documentHeaders), false);
+    assert.equal(isAdminClientRefresh({ get: (name) => (name === "rsc" ? "1" : null) }), true);
+    assert.equal(
+      isAdminClientRefresh({ get: (name) => (name === "next-action" ? "abc" : null) }),
+      true,
+    );
   });
 });
 

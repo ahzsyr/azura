@@ -2,9 +2,12 @@
 
 import { useCallback, useEffect, useRef } from "react";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useRegisterAdminPageConfig } from "@/components/admin/layout/admin-page-config-provider";
 import { ADMIN_PAGE_CONFIGS } from "@/config/admin-page-configs";
 import type { AdminPageConfig } from "@/config/admin-page-config";
+import { publishShell } from "@/lib/publish-shell.client";
+import type { ShellEntityType } from "@/services/publish-propagation";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 
 const SAVE_FORM_ATTR = "data-admin-save-form";
@@ -39,10 +42,11 @@ export function AdminServerFormTopBarActions({
   formId,
   formSelector,
   ownerKey,
-  config = ADMIN_PAGE_CONFIGS.settingsSaveOnly,
+  config = ADMIN_PAGE_CONFIGS.settingsSavePublish,
   saveLabel = "Save",
   cancelLabel = "Cancel",
   enableCancel = true,
+  publishEntityType,
 }: {
   /** Primary / fallback form id */
   formId?: string;
@@ -50,9 +54,12 @@ export function AdminServerFormTopBarActions({
   formSelector?: string;
   ownerKey: string;
   config?: AdminPageConfig;
+  /** Kept as the Save tooltip when it is more specific than "Save". */
   saveLabel?: string;
   cancelLabel?: string;
   enableCancel?: boolean;
+  /** When set, Publish refreshes this shell after saving a dirty form. */
+  publishEntityType?: ShellEntityType;
 }) {
   useRegisterAdminPageConfig(config);
   const markUnsaved = useAdminUiStore((s) => s.markUnsaved);
@@ -104,13 +111,23 @@ export function AdminServerFormTopBarActions({
     markSaved();
   }, [formId, formSelector, markSaved]);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSave, async () => {
+      if (publishEntityType) {
+        await publishShell(publishEntityType);
+      }
+    });
+  }, [handleSave, publishEntityType]);
+
   useAdminPageActions({
     ownerKey,
     scope: "settings",
     priority: 0,
     onSave: handleSave,
-    saveLabel,
+    onPublish: handlePublish,
+    saveTooltip: saveLabel !== "Save" ? saveLabel : undefined,
     canSave: true,
+    canPublish: true,
     onCancel: enableCancel ? handleCancel : undefined,
     cancelLabel,
     canCancel: enableCancel ? true : undefined,

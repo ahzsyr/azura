@@ -12,10 +12,14 @@ import { prisma } from "@/lib/prisma";
 import { decideJwtRefresh } from "@/lib/session-revocation";
 import { isAdminRole, resolveLoginEntryPath } from "@/features/auth/portal";
 import {
+  adminLifecycleBlocksDashboard,
   adminLifecycleDestination,
-  isAdminLifecycleExemptPath,
+  isAdminClientRefresh,
+  shouldRedirectForAdminLifecycle,
 } from "@/features/auth/admin-lifecycle";
 import { listInactiveContributedNavItemIds } from "@/platform/packages/contributions";
+import { findNavGroupIdByPath } from "@/config/admin-nav";
+import { isAdminPathGranted, parseAdminSectionGrants } from "@/features/auth/admin-section-grants";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
@@ -36,6 +40,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     mustChangePassword: boolean;
     totpEnabled: boolean;
     disabledAt: Date | null;
+    adminSectionGrants?: unknown;
   } | null = null;
   try {
     row = await prisma.user.findUnique({
@@ -46,6 +51,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         mustChangePassword: true,
         totpEnabled: true,
         disabledAt: true,
+        adminSectionGrants: true,
       },
     });
   } catch (error) {
@@ -67,24 +73,43 @@ export default async function DashboardLayout({ children }: { children: React.Re
     redirect(resolveLoginEntryPath({ locale: "en", callbackUrl: pathname || "/admin" }));
   }
 
-  if (pathname && !isAdminLifecycleExemptPath(pathname)) {
-    // Password change always wins; OTP delivery is only surfaced when no
-    // sendable OTP sender is currently configured (never trust a stale claim).
-    const block = adminLifecycleDestination(row);
-    if (block) {
-      redirect(block.redirectTo);
+  // Password change always wins. The OTP flag on the JWT is only honored
+  // while delivery is still unconfigured — a saved Email Account clears it.
+  let adminOtpUnconfigured = false;
+  if (session.user.adminOtpUnconfigured) {
+    try {
+      const { isAdminEmailMfaConfigured } = await import("@/features/auth/admin-auth-delivery");
+      adminOtpUnconfigured = !(await isAdminEmailMfaConfigured());
+    } catch {
+      adminOtpUnconfigured = true;
     }
-    if (session.user.adminOtpUnconfigured) {
-      let otpReady = true;
-      try {
-        const { isAdminEmailMfaConfigured } = await import("@/features/auth/admin-auth-delivery");
-        otpReady = await isAdminEmailMfaConfigured();
-      } catch {
-        otpReady = false;
-      }
-      if (!otpReady) {
-        redirect(adminLifecycleDestination({ ...row, adminOtpUnconfigured: true })!.redirectTo);
-      }
+  }
+  const lifecycleBlock = adminLifecycleDestination({ ...row, adminOtpUnconfigured });
+  const clientRefresh = isAdminClientRefresh(headerList);
+  const dashboardLocked = adminLifecycleBlocksDashboard(lifecycleBlock);
+  // A save re-renders this layout. Redirecting here drops the open page and section.
+  if (
+    lifecycleBlock &&
+    shouldRedirectForAdminLifecycle({
+      block: lifecycleBlock,
+      pathname,
+      clientRefresh,
+    })
+  ) {
+    redirect(lifecycleBlock.redirectTo);
+  }
+
+  if (pathname && !clientRefresh && !dashboardLocked) {
+    const grants = row.role === "SUPER_ADMIN" ? null : parseAdminSectionGrants(row.adminSectionGrants);
+    if (
+      !isAdminPathGranted({
+        pathname,
+        role: row.role,
+        grants,
+        groupId: findNavGroupIdByPath(pathname),
+      })
+    ) {
+      redirect("/admin");
     }
   }
 
@@ -107,7 +132,13 @@ export default async function DashboardLayout({ children }: { children: React.Re
   return (
     <div className="admin-route-root">
       <AdminThemeStyles resolved={resolved} />
-      <AdminShell inactiveNavItemIds={inactiveNavItemIds}>{children}</AdminShell>
+      <AdminShell
+        inactiveNavItemIds={inactiveNavItemIds}
+        allowedSectionIds={
+          row.role === "SUPER_ADMIN" ? null : parseAdminSectionGrants(row.adminSectionGrants)
+        }
+        otpSetupPending={lifecycleBlock?.kind === "otp_delivery_unconfigured"}
+      >{children}</AdminShell>
     </div>
   );
 }

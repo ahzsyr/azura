@@ -5,9 +5,11 @@ import { useActionState, useCallback, useEffect, useMemo, useRef, useState } fro
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAdminActionToastStore } from "@/components/admin/layout/admin-action-toast";
 import {
+  publishSeoPublicAction,
   upsertSeoIntegrationsAction,
   type SeoActionResult,
 } from "@/features/seo/actions";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
 import type {
   PublicSeoIntegrationProviderConfig,
   SeoProviderHealth,
@@ -16,6 +18,7 @@ import { GoogleIndexingKeyField } from "./google-indexing-key-field";
 import { encodeServiceAccountJsonForTransport } from "@/features/seo/google-live/service-account-json";
 import { AdminSettingsRibbon } from "@/components/admin/layout/admin-settings-ribbon";
 import { useAdminFormDirtySync } from "@/hooks/use-admin-form";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { Button } from "@/components/ui/button";
@@ -211,15 +214,21 @@ export function IntegrationsConfigurePanel({
     setIntegrationsSaved(false);
   }, []);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSave, publishSeoPublicAction);
+  }, [handleSave]);
+
   useAdminPageActions({
     ownerKey: "seo-integrations",
     scope: "settings",
     priority: 0,
     onSave: handleSave,
+    onPublish: handlePublish,
     onCancel: handleCancel,
-    saveLabel: "Save integrations",
+    saveTooltip: "Save integrations",
     saveStatusMode: "self-managed",
     canSave: !savePending,
+    canPublish: !savePending,
   });
 
   return (
@@ -234,6 +243,7 @@ export function IntegrationsConfigurePanel({
         setIntegrationsSaved(false);
       }}
     >
+      <AdminPageConfigRegistrar configKey="settingsSavePublish" />
       <input
         type="hidden"
         name="googleIndexingServiceAccountJsonB64"

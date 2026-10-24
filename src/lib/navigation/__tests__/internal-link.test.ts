@@ -5,7 +5,25 @@ import {
   isSameInternalNavTarget,
   normalizeInternalNavHref,
   parseInternalNavTarget,
+  requiresDocumentNavigation,
 } from "../internal-link";
+
+describe("requiresDocumentNavigation", () => {
+  it("loads account and admin routes as a full document", () => {
+    assert.equal(requiresDocumentNavigation("/account"), true);
+    assert.equal(requiresDocumentNavigation("/en/account/"), true);
+    assert.equal(requiresDocumentNavigation("/account/login?callbackUrl=%2Faccount"), true);
+    assert.equal(requiresDocumentNavigation("/admin"), true);
+    assert.equal(requiresDocumentNavigation("/admin/settings/account"), true);
+  });
+
+  it("keeps marketing routes on soft navigation", () => {
+    assert.equal(requiresDocumentNavigation("/products"), false);
+    assert.equal(requiresDocumentNavigation("/en/accounting-services"), false);
+    assert.equal(requiresDocumentNavigation("/administration"), false);
+    assert.equal(requiresDocumentNavigation(null), false);
+  });
+});
 
 describe("normalizeInternalNavHref", () => {
   it("strips locale prefix and preserves query", () => {

@@ -596,7 +596,7 @@ items:
     status: stable
 
   - id: personalization
-    label: Personalization
+    label: Widget
     group: design
     icon: Wand2
     href_current: /admin/personalization
@@ -1114,11 +1114,11 @@ items:
     label: Staff
     group: settings
     icon: ShieldCheck
-    href_current: /admin/settings/staff
-    href_target: /admin/settings/staff
+    href_current: /admin/settings/users
+    href_target: /admin/settings/users
     profiles: [marketing, showroom, agency, tourism, documentation, enterprise]
     keywords: [admin, invite, operators, mfa]
-    status: stable
+    status: redirected
 
   - id: email-accounts
     label: Email Accounts
@@ -1131,11 +1131,11 @@ items:
     status: stable
 
   - id: customer-accounts
-    label: Customer Accounts
+    label: Users
     group: settings
     icon: Users
-    href_current: /admin/users
-    href_target: /admin/users
+    href_current: /admin/settings/users
+    href_target: /admin/settings/users
     profiles: [showroom, enterprise]
     keywords: [registration, customers, users]
     status: stable

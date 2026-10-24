@@ -82,7 +82,7 @@ describe("admin OTP delivery lifecycle", () => {
     assert.equal(block?.redirectTo, "/admin/settings/account");
   });
 
-  it("every path except account settings redirects while unconfigured", () => {
+  it("dashboard paths stay gated while email accounts stays open for OTP setup", () => {
     const block = adminLifecycleDestination({ adminOtpUnconfigured: true });
     assert.ok(block);
     for (const path of ["/admin", "/admin/products", "/admin/media", "/admin/settings/general"]) {
@@ -90,6 +90,7 @@ describe("admin OTP delivery lifecycle", () => {
       assert.equal(block.redirectTo, "/admin/settings/account");
     }
     assert.equal(isAdminLifecycleExemptPath("/admin/settings/account"), true);
+    assert.equal(isAdminLifecycleExemptPath("/admin/settings/email-accounts", block), true);
   });
 
   it("configured delivery imposes no block", () => {

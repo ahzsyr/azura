@@ -465,6 +465,21 @@ model MarketingVisitor {
   touches     MarketingTouch[]
   events      MarketingEvent[]
   conversions MarketingConversion[]
+  userLinks   UserVisitorLink[]
+}
+
+model UserVisitorLink {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  visitorId  String
+  visitor    MarketingVisitor @relation(fields: [visitorId], references: [id], onDelete: Cascade)
+  linkedAt   DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+
+  @@unique([userId, visitorId])
+  @@index([userId])
+  @@index([visitorId])
 }
 
 model MarketingSession {

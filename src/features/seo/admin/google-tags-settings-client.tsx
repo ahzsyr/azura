@@ -21,6 +21,9 @@ import {
   normalizeGtmContainerId,
   normalizeMeasurementId,
 } from "@/features/seo/tracking/resolve-tracking";
+import { publishSeoPublicAction } from "@/features/seo/actions";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { runAdminAction } from "@/components/admin/layout/admin-action-toast";
@@ -166,11 +169,16 @@ export function GoogleTagsSettingsClient({
     setGtmBodySnippet(config.gtmBodySnippet ?? gtmDefaults.body);
   }, [config, envFallbackGaId, focus]);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSave, publishSeoPublicAction);
+  }, [handleSave]);
+
   useAdminPageActions({
     ownerKey: "seo-google-tags",
     scope: "settings",
     priority: 0,
     onSave: handleSave,
+    onPublish: handlePublish,
     onCancel: handleCancel,
     saveStatusMode: "self-managed",
   });
@@ -283,6 +291,7 @@ export function GoogleTagsSettingsClient({
 
   return (
     <div className={embedded ? "space-y-6" : "max-w-3xl space-y-6"}>
+      <AdminPageConfigRegistrar configKey="settingsSavePublish" />
       <div className="space-y-1">
         <h2 className="text-lg font-semibold">{title}</h2>
         <p className="text-sm text-muted-foreground">{description}</p>

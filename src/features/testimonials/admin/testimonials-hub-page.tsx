@@ -41,7 +41,13 @@ export function TestimonialsHubPage({ collections, testimonials }: Props) {
   const onSave = activeTab === "add" ? handleSave : undefined;
 
   return (
-    <AdminFormProvider onSave={onSave} onPreview={handlePreview} canPreview>
+    <AdminFormProvider
+      onSave={onSave}
+      onPublish={onSave}
+      canPublish={activeTab === "add"}
+      onPreview={handlePreview}
+      canPreview
+    >
       <AdminPageHeader
         title="Testimonials"
         description="Manage customer reviews, collections for builder blocks, and the public testimonials page."

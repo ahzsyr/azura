@@ -5,6 +5,10 @@
 
 import { routing } from "@/i18n/routing";
 import { publicLocalePath } from "@/i18n/url-helpers";
+import {
+  adminLifecycleDestination,
+  isAdminLifecycleExemptPath,
+} from "@/features/auth/admin-lifecycle";
 
 const PUBLIC_AUTH_SUBPATHS = new Set([
   "login",
@@ -170,6 +174,30 @@ export function resolvePostLoginRedirect(input: {
 
   // Customer: allow sanitized non-admin internal path
   return sanitized;
+}
+
+/**
+ * Final URL after sign-in. Admins who still owe a password change or an OTP
+ * sender go straight there, so the dashboard layout does not answer the first
+ * navigation with another redirect.
+ */
+export function resolvePostLoginLanding(input: {
+  role: string | null | undefined;
+  locale: string;
+  callbackUrl?: string | null;
+  mustChangePassword?: boolean | null;
+  adminOtpUnconfigured?: boolean | null;
+}): string {
+  const dest = resolvePostLoginRedirect(input);
+  if (!isAdminRole(input.role)) return dest;
+  const block = adminLifecycleDestination({
+    mustChangePassword: input.mustChangePassword,
+    adminOtpUnconfigured: input.adminOtpUnconfigured,
+  });
+  if (!block) return dest;
+  const path = dest.split("?")[0] || dest;
+  if (isAdminLifecycleExemptPath(path, block)) return dest;
+  return block.redirectTo;
 }
 
 /** Resolve locale for login entry: path prefix if present, else cookie, else default. */

@@ -100,7 +100,7 @@ export async function sendEmailAccountTestAction(input: {
       preview: "Test email account",
       heading: "Test email account",
       paragraphs: [
-        "This is a test from your Resend email account.",
+        `This is a test from your ${providerConfig.provider.toUpperCase()} email account.`,
         `From: ${providerConfig.from}`,
       ],
     });
@@ -108,7 +108,7 @@ export async function sendEmailAccountTestAction(input: {
       to,
       subject: "Test email account",
       html: rendered.html,
-      text: rendered.text ?? `Test from Resend account (${providerConfig.from}).`,
+      text: rendered.text ?? `Test from ${providerConfig.provider.toUpperCase()} account (${providerConfig.from}).`,
       providerConfig,
     });
     if (!result.sent) {

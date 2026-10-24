@@ -21,14 +21,22 @@ type Job = {
 };
 
 function PublishingTopBarActions() {
-  useRegisterAdminPageConfig(ADMIN_PAGE_CONFIGS.settingsSaveOnly);
+  useRegisterAdminPageConfig(ADMIN_PAGE_CONFIGS.settingsSavePublish);
 
-  const handleSave = useCallback(() => {
+  const handlePublish = useCallback(() => {
     const form = document.getElementById(
       "marketing-publish-enqueue-form",
     ) as HTMLFormElement | null;
-    form?.requestSubmit();
+    if (!form || !form.reportValidity()) return false;
+    form.requestSubmit();
     return true;
+  }, []);
+
+  const handleCancel = useCallback(() => {
+    const form = document.getElementById(
+      "marketing-publish-enqueue-form",
+    ) as HTMLFormElement | null;
+    form?.reset();
   }, []);
 
   const handleRebuild = useCallback(async () => {
@@ -40,11 +48,15 @@ function PublishingTopBarActions() {
 
   useAdminPageActions({
     ownerKey: "marketing-publishing",
-    scope: "utility",
+    scope: "settings",
     priority: 0,
-    onSave: handleSave,
-    saveLabel: "Enqueue publish",
+    onSave: handlePublish,
+    onPublish: handlePublish,
+    onCancel: handleCancel,
+    canCancel: true,
+    saveTooltip: "Save this publish job",
     canSave: true,
+    canPublish: true,
     onRebuildIndex: handleRebuild,
     rebuildIndexLabel: "Run due jobs",
     saveStatusMode: "automatic",
@@ -113,8 +125,8 @@ export function MarketingPublishingPanel({ jobs }: { jobs: Job[] }) {
               className="md:col-span-2 min-h-24 rounded border px-3 py-2 text-sm"
               required
             />
-            <Button type="submit" className="md:col-span-2 w-fit">
-              Enqueue publish
+            <Button type="submit" className="w-fit md:col-span-2 lg:hidden">
+              Publish
             </Button>
           </form>
         </CardContent>

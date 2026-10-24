@@ -6,6 +6,7 @@ import {
   remapLocalePrefixedAdmin,
   resolveLoginEntryPath,
   resolvePortalLocale,
+  resolvePostLoginLanding,
   resolvePostLoginRedirect,
   sanitizeInternalPath,
 } from "@/features/auth/portal";
@@ -262,6 +263,58 @@ describe("resolveLoginEntryPath", () => {
       "/account/login",
     );
     assert.equal(resolveLoginEntryPath({ locale: "en" }), "/account/login");
+  });
+});
+
+describe("resolvePostLoginLanding", () => {
+  it("sends an admin with unconfigured OTP straight to account settings", () => {
+    assert.equal(
+      resolvePostLoginLanding({
+        role: "SUPER_ADMIN",
+        locale: "en",
+        callbackUrl: "/admin",
+        adminOtpUnconfigured: true,
+      }),
+      "/admin/settings/account",
+    );
+  });
+
+  it("keeps an account-settings callback when OTP is unconfigured", () => {
+    assert.equal(
+      resolvePostLoginLanding({
+        role: "ADMIN",
+        locale: "en",
+        callbackUrl: "/admin/settings/account",
+        adminOtpUnconfigured: true,
+      }),
+      "/admin/settings/account",
+    );
+  });
+
+  it("password change wins over the requested admin page", () => {
+    assert.equal(
+      resolvePostLoginLanding({
+        role: "ADMIN",
+        locale: "en",
+        callbackUrl: "/admin/products",
+        mustChangePassword: true,
+        adminOtpUnconfigured: true,
+      }),
+      "/admin/settings/account?tab=password",
+    );
+  });
+
+  it("leaves a ready admin on the requested admin page", () => {
+    assert.equal(
+      resolvePostLoginLanding({
+        role: "SUPER_ADMIN",
+        locale: "en",
+        callbackUrl: "/admin/products",
+        mustChangePassword: false,
+        adminOtpUnconfigured: false,
+      }),
+      "/admin/products",
+    );
   });
 });
 

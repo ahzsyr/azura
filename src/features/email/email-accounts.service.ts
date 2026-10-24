@@ -44,17 +44,26 @@ export function toPublicEmailAccount(account: EmailAccountRecord): EmailAccountP
     provider: account.provider,
     from: account.from,
     hasResendApiKey: Boolean(account.resendApiKeySealed?.trim()),
-    isLegacySmtp: account.provider === "smtp",
+    hasSmtpCredentials: Boolean(account.smtp?.host?.trim() && account.smtp?.passSealed?.trim()),
+    ...(account.smtp ? {
+      smtpHost: account.smtp.host,
+      smtpPort: account.smtp.port,
+      smtpSecure: Boolean(account.smtp.secure),
+      smtpUser: unsealSecret(account.smtp.userSealed) ?? "",
+    } : {}),
     createdAt: account.createdAt,
     updatedAt: account.updatedAt,
   };
 }
 
 export function isEmailAccountConfigured(account: EmailAccountRecord): boolean {
-  return (
-    account.provider === "resend" &&
-    Boolean(account.from?.trim() && account.resendApiKeySealed?.trim())
-  );
+  if (account.provider === "resend") {
+    return Boolean(account.from?.trim() && account.resendApiKeySealed?.trim());
+  }
+  if (account.provider === "smtp") {
+    return Boolean(account.from?.trim() && account.smtp?.host?.trim() && account.smtp.port > 0 && account.smtp.passSealed?.trim());
+  }
+  return false;
 }
 
 export async function listEmailAccounts(): Promise<EmailAccountPublic[]> {
@@ -74,15 +83,23 @@ export async function resolveEmailProviderConfig(
 ): Promise<EmailProviderConfig | null> {
   if (!accountId?.trim()) return null;
   const account = await getEmailAccountRecord(accountId.trim());
-  if (!account || account.provider !== "resend") return null;
-
-  const resendApiKey = unsealSecret(account.resendApiKeySealed);
-  if (!resendApiKey) return null;
-  return {
-    provider: "resend",
-    from: account.from,
-    resendApiKey,
-  };
+  if (!account) return null;
+  if (account.provider === "resend") {
+    const resendApiKey = unsealSecret(account.resendApiKeySealed);
+    if (!resendApiKey) return null;
+    return { provider: "resend", from: account.from, resendApiKey };
+  }
+  if (account.provider === "smtp" && account.smtp) {
+    const pass = unsealSecret(account.smtp.passSealed);
+    if (!account.smtp.host?.trim() || !account.smtp.port || !pass) return null;
+    const user = unsealSecret(account.smtp.userSealed) ?? undefined;
+    return {
+      provider: "smtp",
+      from: account.from,
+      smtp: { host: account.smtp.host, port: account.smtp.port, secure: Boolean(account.smtp.secure), user, pass },
+    };
+  }
+  return null;
 }
 
 export async function upsertEmailAccount(
@@ -92,25 +109,34 @@ export async function upsertEmailAccount(
   const from = input.from.trim();
   if (!name) throw new Error("Account name is required.");
   if (!from.includes("@")) throw new Error("A valid From email is required.");
-  if (input.provider !== "resend") {
-    throw new Error("Only Resend email accounts are supported.");
-  }
+  if (input.provider !== "resend" && input.provider !== "smtp") throw new Error("Unsupported email provider.");
 
   const store = await readStore();
   const now = new Date().toISOString();
   const existing = input.id ? store.accounts.find((a) => a.id === input.id) : undefined;
 
-  const sealedKey =
-    sealSecret(input.resendApiKey) ??
-    (existing?.provider === "resend" ? existing.resendApiKeySealed : undefined);
-  if (!sealedKey) throw new Error("Resend API key is required.");
+  let providerFields: Pick<EmailAccountRecord, "resendApiKeySealed" | "smtp">;
+  if (input.provider === "resend") {
+    const sealedKey = sealSecret(input.resendApiKey) ??
+      (existing?.provider === "resend" ? existing.resendApiKeySealed : undefined);
+    if (!sealedKey) throw new Error("Resend API key is required.");
+    providerFields = { resendApiKeySealed: sealedKey };
+  } else {
+    const host = input.smtp?.host.trim();
+    const port = Number(input.smtp?.port);
+    if (!host || !Number.isInteger(port) || port < 1 || port > 65535) throw new Error("A valid SMTP host and port are required.");
+    const pass = sealSecret(input.smtp?.pass) ?? (existing?.provider === "smtp" ? existing.smtp?.passSealed : undefined);
+    if (!pass) throw new Error("SMTP password is required.");
+    const user = sealSecret(input.smtp?.user) ?? (existing?.provider === "smtp" ? existing.smtp?.userSealed : undefined);
+    providerFields = { smtp: { host, port, secure: Boolean(input.smtp?.secure), userSealed: user, passSealed: pass } };
+  }
 
   const record: EmailAccountRecord = {
     id: existing?.id ?? randomUUID(),
     name,
-    provider: "resend",
+    provider: input.provider,
     from,
-    resendApiKeySealed: sealedKey,
+    ...providerFields,
     createdAt: existing?.createdAt ?? now,
     updatedAt: now,
   };

@@ -73,6 +73,25 @@ describe("prisma missing column compat", () => {
     assert.equal("omit" in next, false);
   });
 
+  it("does not strip credential columns from write payloads", () => {
+    const next = withoutScalarColumns(
+      {
+        data: {
+          passwordHash: "hash",
+          mustChangePassword: false,
+          sessionVersion: { increment: 1 },
+          showAuthor: true,
+        },
+      },
+      ["passwordHash", "mustChangePassword", "sessionVersion", "showAuthor"],
+    );
+    assert.deepEqual(next.data, {
+      passwordHash: "hash",
+      mustChangePassword: false,
+      sessionVersion: { increment: 1 },
+    });
+  });
+
   it("strips display columns from write payloads", () => {
     const next = withoutEditorialDisplayColumns({
       data: { slug: "home", showAuthor: true, showPublishedAt: false },

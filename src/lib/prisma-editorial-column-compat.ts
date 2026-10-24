@@ -5,6 +5,23 @@
 
 const MAX_IDENTIFIER = 64;
 
+/**
+ * Credential and session columns must never be dropped from a write to make
+ * a query succeed. Stripping `passwordHash` or `mustChangePassword` reports
+ * success while login or the admin gate still sees the old values.
+ */
+const PROTECTED_WRITE_FIELDS = new Set([
+  "passwordHash",
+  "email",
+  "pendingEmail",
+  "role",
+  "sessionVersion",
+  "mustChangePassword",
+  "disabledAt",
+  "lockedUntil",
+  "failedLoginCount",
+]);
+
 function errorText(error: unknown): string {
   if (error instanceof Error) return error.message;
   if (error && typeof error === "object" && "message" in error) {
@@ -88,7 +105,8 @@ export function withoutScalarColumns<T extends Record<string, unknown>>(
   }
 
   if (next.data && typeof next.data === "object") {
-    next.data = stripKeys(next.data, columns);
+    const writable = columns.filter((column) => !PROTECTED_WRITE_FIELDS.has(column));
+    next.data = stripKeys(next.data, writable);
   }
 
   return next as T;

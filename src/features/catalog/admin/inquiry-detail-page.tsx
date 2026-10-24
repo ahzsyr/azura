@@ -269,7 +269,7 @@ function CustomerAccountCard({
             </div>
             <div className="flex flex-wrap gap-2">
               <Button asChild size="sm">
-                <Link href={`/admin/users/${user.id}`}>
+                <Link href={`/admin/settings/users/${user.id}`}>
                   Manage customer
                   <ExternalLink className="ms-2 size-3.5" aria-hidden />
                 </Link>
@@ -309,7 +309,7 @@ function CustomerAccountCard({
           <p className="text-muted-foreground">
             No linked account. If the visitor registers later with the same email, new inquiries will
             link automatically. You can also create a customer from{" "}
-            <Link href="/admin/users" className="text-primary hover:underline">
+            <Link href="/admin/settings/users?role=customer" className="text-primary hover:underline">
               Customer accounts
             </Link>
             .
@@ -319,7 +319,7 @@ function CustomerAccountCard({
         {inquiry.email && !user ? (
           <Button asChild variant="outline" size="sm">
             <Link
-              href={`/admin/users?search=${encodeURIComponent(inquiry.email)}`}
+              href={`/admin/settings/users?role=customer&search=${encodeURIComponent(inquiry.email)}`}
             >
               Search customers by email
             </Link>

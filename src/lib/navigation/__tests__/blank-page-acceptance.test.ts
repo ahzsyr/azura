@@ -135,6 +135,28 @@ describe("blank-page acceptance criteria (static)", () => {
     assert.doesNotMatch(themeBoot, /azura-boot-preloader/);
   });
 
+  it("root document stops a replaceState loop and mounts nuqs once", async () => {
+    const layout = await readSrc("../../../app/layout.tsx");
+    const shell = await readSrc("../../../capabilities/search/query/search-query-shell.tsx");
+    const nuqs = await readSrc("../../../components/providers/nuqs-provider.tsx");
+    assert.match(layout, /az-history-loop-guard/);
+    assert.match(layout, /HISTORY_LOOP_GUARD_SCRIPT/);
+    assert.match(nuqs, /<NuqsAdapter>/);
+    assert.doesNotMatch(shell, /<NuqsAdapter>/);
+  });
+
+  it("admin chrome does not prefetch routes that redirect back to account settings", async () => {
+    const topBar = await readSrc("../../../components/admin/layout/admin-top-bar.tsx");
+    const crumbs = await readSrc("../../../components/admin/layout/admin-breadcrumbs.tsx");
+    const account = await readSrc("../../../components/admin/admin-account-form.tsx");
+    assert.match(topBar, /href="\/admin"\s+prefetch=\{false\}/);
+    assert.match(crumbs, /prefetch=\{false\}/);
+    assert.match(
+      account,
+      /isMasterAdmin \? \([\s\S]*href="\/admin\/settings\/portal"\s+prefetch=\{false\}/,
+    );
+  });
+
   it("public marketing setup resolution prefers API status for site access", async () => {
     const setup = await readSrc("../../../features/setup/setup-middleware.ts");
     assert.match(setup, /resolveSetupStatusForPublicMarketing/);

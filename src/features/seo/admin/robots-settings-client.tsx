@@ -3,9 +3,11 @@
 import { useCallback, useRef } from "react";
 import Link from "next/link";
 import type { SeoGlobalConfig } from "@/features/seo/types";
-import { upsertSeoGlobalAction } from "@/features/seo/actions";
+import { publishSeoPublicAction, upsertSeoGlobalAction } from "@/features/seo/actions";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
 import { runAdminAction } from "@/components/admin/layout/admin-action-toast";
 import { useAdminFormDirtySync } from "@/hooks/use-admin-form";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { Input } from "@/components/ui/input";
@@ -26,24 +28,44 @@ export function RobotsSettingsClient({ config, siteUrl, embedded = false }: Prop
   useAdminFormDirtySync(formRef);
 
   const handleSave = useCallback(async () => {
-    formRef.current?.requestSubmit();
-  }, []);
+    const form = formRef.current;
+    if (!form || !form.reportValidity()) return false;
+    setSaveStatus("saving");
+    try {
+      await runAdminAction(
+        "Saving robots.txt…",
+        () => upsertSeoGlobalAction(new FormData(form)),
+        "Robots.txt saved.",
+      );
+      markSaved();
+      return true;
+    } catch {
+      setSaveStatus("error");
+      return false;
+    }
+  }, [markSaved, setSaveStatus]);
 
   const handleCancel = useCallback(() => {
     formRef.current?.reset();
   }, []);
+
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSave, publishSeoPublicAction);
+  }, [handleSave]);
 
   useAdminPageActions({
     ownerKey: "seo-robots",
     scope: "settings",
     priority: 0,
     onSave: handleSave,
+    onPublish: handlePublish,
     onCancel: handleCancel,
     saveStatusMode: "self-managed",
   });
 
   return (
     <div className={embedded ? "space-y-6" : "max-w-2xl space-y-6"}>
+      <AdminPageConfigRegistrar configKey="settingsSavePublish" />
       {!embedded ? (
         <div>
           <Link href="/admin/seo" className="text-sm text-primary hover:underline">
@@ -63,14 +85,9 @@ export function RobotsSettingsClient({ config, siteUrl, embedded = false }: Prop
       <form
         ref={formRef}
         id="robots-settings-form"
-        action={async (formData) => {
-          setSaveStatus("saving");
-          try {
-            await runAdminAction("Saving robots.txt…", () => upsertSeoGlobalAction(formData), "Robots.txt saved.");
-            markSaved();
-          } catch {
-            setSaveStatus("error");
-          }
+        onSubmit={(event) => {
+          event.preventDefault();
+          void handleSave();
         }}
         className="space-y-4 rounded-xl border p-6"
       >

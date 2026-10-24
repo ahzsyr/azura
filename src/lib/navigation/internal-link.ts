@@ -21,6 +21,31 @@ export function isInternalHref(href: string | null | undefined): boolean {
   return href.startsWith("/");
 }
 
+/**
+ * Account and admin routes redirect on the server (sign-in, admin landing,
+ * password/OTP lifecycle). A soft navigation that follows those redirects
+ * across layout trees leaves a blank page, so they load as a full document.
+ */
+export function requiresDocumentNavigation(
+  href: string | null | undefined,
+  origin = "https://local",
+): boolean {
+  if (!href) return false;
+  let pathname: string;
+  try {
+    pathname = new URL(href, origin).pathname;
+  } catch {
+    return false;
+  }
+  const path = stripAnyLocalePrefix(pathname).replace(/\/$/, "") || "/";
+  return (
+    path === "/account" ||
+    path.startsWith("/account/") ||
+    path === "/admin" ||
+    path.startsWith("/admin/")
+  );
+}
+
 export type InternalNavTarget = {
   path: string;
   search: string;
@@ -70,7 +95,8 @@ export function isInternalNavigationLink(anchor: HTMLAnchorElement): boolean {
   if (anchor.target === "_blank" || anchor.hasAttribute("download")) return false;
   try {
     const url = new URL(href, window.location.origin);
-    return url.origin === window.location.origin;
+    if (url.origin !== window.location.origin) return false;
+    return !requiresDocumentNavigation(url.pathname, window.location.origin);
   } catch {
     return href.startsWith("/");
   }

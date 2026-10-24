@@ -4,11 +4,13 @@ import { useCallback, useMemo, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ExternalLink, Pencil, X } from "lucide-react";
-import { upsertRedirectAction } from "@/features/seo/actions";
+import { publishRedirectsAction, upsertRedirectAction } from "@/features/seo/actions";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
 import { runAdminAction } from "@/components/admin/layout/admin-action-toast";
 import type { RouteCatalogEntry } from "@/features/seo/admin/route-catalog.types";
 import { RedirectDeleteButton } from "@/features/seo/admin/redirect-delete-button";
 import { useAdminFormDirtySync } from "@/hooks/use-admin-form";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { Button } from "@/components/ui/button";
@@ -52,6 +54,7 @@ export function RedirectsSettingsPanel({
   const [isActive, setIsActive] = useState(true);
   const [catalogFilter, setCatalogFilter] = useState("");
   const markSaved = useAdminUiStore((s) => s.markSaved);
+  const markPublishPending = useAdminUiStore((s) => s.markPublishPending);
   const setSaveStatus = useAdminUiStore((s) => s.setSaveStatus);
 
   useAdminFormDirtySync(formRef);
@@ -102,31 +105,33 @@ export function RedirectsSettingsPanel({
       );
       resetForm();
       markSaved();
+      markPublishPending();
       router.refresh();
       return true;
     } catch {
       setSaveStatus("error");
       return false;
     }
-  }, [markSaved, resetForm, router, setSaveStatus]);
+  }, [editingId, markPublishPending, markSaved, resetForm, router, setSaveStatus]);
 
   const handleCancel = useCallback(() => {
     resetForm();
   }, [resetForm]);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSave, publishRedirectsAction);
+  }, [handleSave]);
+
   useAdminPageActions({
     ownerKey: "seo-redirects",
     scope: "settings",
     priority: 0,
-    onSave: () => {
-      startTransition(() => {
-        void handleSave();
-      });
-    },
+    onSave: handleSave,
+    onPublish: handlePublish,
     onCancel: handleCancel,
-    saveLabel: editing ? "Update redirect" : "Add redirect",
     saveStatusMode: "self-managed",
     canSave: !pending,
+    canPublish: !pending,
   });
 
   const filteredCatalog = useMemo(() => {
@@ -144,11 +149,13 @@ export function RedirectsSettingsPanel({
 
   return (
     <div className={embedded ? "space-y-8" : "max-w-4xl space-y-8"}>
+      <AdminPageConfigRegistrar configKey="settingsSavePublish" />
       {!embedded ? (
         <div>
           <h1 className="text-2xl font-bold">Redirect Manager</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Browse current public routes and manage 301/302 redirect rules.
+            Browse current public routes and manage 301/302 redirect rules. Save stores a rule.
+            Publish applies redirect changes on the live site.
           </p>
         </div>
       ) : null}
@@ -281,7 +288,7 @@ export function RedirectsSettingsPanel({
           <input type="hidden" name="isActive" value={isActive ? "true" : "false"} />
         </div>
         <Button type="submit" className="lg:hidden" disabled={pending}>
-          {pending ? "Saving…" : editing ? "Update redirect" : "Add redirect"}
+          {pending ? "Saving…" : "Save"}
         </Button>
       </form>
 

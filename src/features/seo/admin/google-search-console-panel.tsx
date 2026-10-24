@@ -4,15 +4,18 @@ import { useActionState, useCallback, useEffect, useMemo, useRef, useState } fro
 import { useRouter, useSearchParams } from "next/navigation";
 import { Upload } from "lucide-react";
 import {
+  publishSeoPublicAction,
   upsertGoogleIntegrationAction,
   type SeoActionResult,
 } from "@/features/seo/actions";
+import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
 import {
   findMissingOAuthRedirectUri,
   parseGoogleOAuthCredentialsJson,
 } from "@/features/seo/integrations/google-oauth-credentials";
 import type { PublicSeoIntegrationProviderConfig, SeoProviderHealth } from "@/features/seo/types";
 import { useAdminFormDirtySync } from "@/hooks/use-admin-form";
+import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 import { Button } from "@/components/ui/button";
@@ -127,15 +130,21 @@ export function GoogleSearchConsolePanel({
     setImportStatus(null);
   }, [google.clientId]);
 
+  const handlePublish = useCallback(async () => {
+    await saveIfNeededThenPublish(handleSave, publishSeoPublicAction);
+  }, [handleSave]);
+
   useAdminPageActions({
     ownerKey: "seo-google-search-console",
     scope: "settings",
     priority: 0,
     onSave: handleSave,
+    onPublish: handlePublish,
     onCancel: handleCancel,
-    saveLabel: "Save Google settings",
+    saveTooltip: "Save Google settings",
     saveStatusMode: "self-managed",
     canSave: !savePending,
+    canPublish: !savePending,
   });
 
   const googleSaved = searchParams.get("googleSaved") === "1";
@@ -200,6 +209,7 @@ export function GoogleSearchConsolePanel({
 
   return (
     <div className={embedded ? "space-y-6" : "max-w-3xl space-y-6"}>
+      <AdminPageConfigRegistrar configKey="settingsSavePublish" />
       <div className="space-y-1">
         <h2 className="text-lg font-semibold">Search Console &amp; Analytics API</h2>
         <p className="text-sm text-muted-foreground">

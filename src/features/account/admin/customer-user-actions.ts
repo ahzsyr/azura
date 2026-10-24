@@ -30,6 +30,8 @@ export async function updateCustomerUserAction(
   try {
     await requireAdmin();
     await usersService.updateCustomer(userId, payload);
+    revalidatePath("/admin/settings/users");
+    revalidatePath(`/admin/settings/users/${userId}`);
     revalidatePath("/admin/users");
     revalidatePath(`/admin/users/${userId}`);
     return ok();
@@ -45,6 +47,8 @@ export async function setCustomerPasswordAction(
   try {
     await requireAdmin();
     await usersService.setCustomerPassword(userId, payload);
+    revalidatePath("/admin/settings/users");
+    revalidatePath(`/admin/settings/users/${userId}`);
     revalidatePath(`/admin/users/${userId}`);
     return ok();
   } catch (e) {
@@ -78,6 +82,9 @@ export async function setCustomerDisabledAction(
       id: session.user.id,
       role: session.user.role,
     });
+    revalidatePath("/admin");
+    revalidatePath("/admin/settings/users");
+    revalidatePath(`/admin/settings/users/${userId}`);
     revalidatePath("/admin/users");
     revalidatePath(`/admin/users/${userId}`);
     return ok();

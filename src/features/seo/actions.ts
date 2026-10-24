@@ -28,6 +28,7 @@ import { bingProvider, googleProvider, indexNowProvider } from "./integrations/p
 import { seoTriggerService } from "./triggers/seo-trigger.service";
 import { seoAnalyticsIngestionService } from "./analytics/analytics-ingestion.service";
 import { richResultsMonitoringService } from "./quality/rich-results-monitoring.service";
+import { clearRedirectLookupCache } from "@/features/seo/redirect-lookup-cache";
 import { refreshMiddlewareManifestBestEffort } from "@/features/setup/refresh-middleware-manifest.server";
 import { getDatabaseHostFromUrl, getRuntimeDatabaseUrl } from "@/lib/database-url";
 import { isStaticSeoPageKey } from "./constants";
@@ -234,31 +235,52 @@ export async function upsertRedirectAction(formData: FormData) {
       parsed.isActive,
     );
   }
-  await seoTriggerService.handle({
-    type: "seo.redirectChanged",
-    entityType: "REDIRECT",
-    fromPath: await absoluteUrl(parsed.fromPath),
-    submitFromPath: true,
-  });
-  revalidateTag(CACHE_TAGS.redirects, "max");
-  await refreshMiddlewareManifestBestEffort("redirect upsert");
   revalidatePath("/admin/seo/redirects");
   revalidatePath("/admin/seo/settings");
 }
 
+/** Push stored redirect rules to the live site (middleware manifest + lookup cache). */
+export async function publishRedirectsAction() {
+  await requireAdmin();
+  clearRedirectLookupCache();
+  revalidateTag(CACHE_TAGS.redirects, "max");
+  await refreshMiddlewareManifestBestEffort("redirect publish");
+  const redirects = await seoRepository.listRedirects(true);
+  if (redirects.length === 0) {
+    await seoTriggerService.handle({
+      type: "content.sitemapChanged",
+      entityType: "SITE",
+    });
+  } else {
+    await seoTriggerService.handle({
+      type: "seo.redirectChanged",
+      entityType: "REDIRECT",
+      fromPath: await absoluteUrl(redirects[0]!.fromPath),
+      submitFromPath: true,
+    });
+  }
+  revalidatePath("/admin/seo/redirects");
+  revalidatePath("/admin/seo/settings");
+}
+
+/** Revalidate public SEO surfaces after a settings publish. */
+export async function publishSeoPublicAction() {
+  await requireAdmin();
+  clearRedirectLookupCache();
+  revalidateTag(CACHE_TAGS.redirects, "max");
+  await refreshMiddlewareManifestBestEffort("seo publish");
+  revalidatePath("/robots.txt");
+  revalidateSitemap();
+  await seoTriggerService.handle({
+    type: "content.sitemapChanged",
+    entityType: "SITE",
+  });
+  revalidatePath("/admin/seo");
+}
+
 export async function deleteRedirectAction(id: string) {
   await requireAdmin();
-  const redirects = await seoRepository.listRedirects(false);
-  const existing = redirects.find((redirect) => redirect.id === id);
   await seoRepository.deleteRedirect(id);
-  await seoTriggerService.handle({
-    type: "seo.redirectChanged",
-    entityType: "REDIRECT",
-    fromPath: existing ? await absoluteUrl(existing.fromPath) : undefined,
-    submitFromPath: Boolean(existing),
-  });
-  revalidateTag(CACHE_TAGS.redirects, "max");
-  await refreshMiddlewareManifestBestEffort("redirect delete");
   revalidatePath("/admin/seo/redirects");
   revalidatePath("/admin/seo/settings");
 }

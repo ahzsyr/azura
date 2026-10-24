@@ -24,9 +24,9 @@ Anti-drift contract for Azura. **No new platform or major technology is introduc
 | TanStack Query | Selective | Client search sync under `src/capabilities/search/query/` only; no global expansion |
 | Fuse.js | Selective | Genuine client-side fuzzy lists only — [search-architecture.md](./search-architecture.md) |
 | MySQL FULLTEXT | Canonical search | `SearchDocument` MATCH…AGAINST — not Fuse as DB substitute |
-| React Email + Resend | Canonical email | Product path only |
-| Nodemailer | Non-product | Not a direct dependency; may reappear transitively via Auth.js — never use as product transport |
-| SMTP accounts | Migration-only | UI may show legacy; send rejects `provider === "smtp"` |
+| React Email + Resend | Supported email transport | Use when configured with a Resend API key |
+| SMTP | Supported email transport | Configurable per named email account; credentials sealed at rest |
+| Nodemailer | SMTP adapter | Direct dependency used only by the SMTP transport |
 | StorageProvider | Canonical media | `MEDIA_STORAGE=local\|supabase\|s3` |
 | Prisma jobs + HTTP cron | Canonical background | `CRON_SECRET`, lease/reclaim |
 | Hostinger | Sole production | Node 24 + npm + MySQL 8.4 |
