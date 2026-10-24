@@ -75,6 +75,14 @@ describe("CSP header rollout", () => {
     assert.ok(policy.includes("report-to csp-endpoint"));
   });
 
+  it("allows Cloudflare Turnstile script and iframe", () => {
+    const policy = buildAzuraCspPolicy();
+    const scriptSrc = policy.split("; ").find((part) => part.startsWith("script-src")) ?? "";
+    const frameSrc = policy.split("; ").find((part) => part.startsWith("frame-src")) ?? "";
+    assert.ok(scriptSrc.includes("https://challenges.cloudflare.com"));
+    assert.ok(frameSrc.includes("https://challenges.cloudflare.com"));
+  });
+
   it("milestone helpers can add script hashes and drop unsafe flags without changing default", () => {
     const token = cspSha256Token("console.log(1)");
     assert.match(token, /^'sha256-[A-Za-z0-9+/=]+'$/);

@@ -4,7 +4,8 @@ import "@/features/forms/platform/register-commands.server";
 import { commandBus } from "@/platform/schema-ui/pipeline/command-bus";
 import type { SubmitCommand } from "@/platform/schema-ui/manifests/types";
 import { getTrustedClientIp } from "@/lib/client-ip";
-import { verifyTurnstileToken } from "@/lib/turnstile";
+import { checkCaptcha } from "@/features/captcha/captcha.guard";
+import { readFormCaptchaOverride } from "@/features/forms/lib/form-captcha";
 import { PUBLIC_FORM_BODY_MAX_BYTES, classifyContentLength } from "@/lib/security/abuse-controls";
 import {
   RateLimitUnavailableError,
@@ -38,11 +39,15 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const turnstileOk = await verifyTurnstileToken(
-      typeof body?.turnstileToken === "string" ? body.turnstileToken : undefined,
-      clientIp,
-    );
-    if (!turnstileOk) {
+    const templateId = typeof body?.templateId === "string" ? body.templateId : "";
+    const formOverride = templateId ? await readFormCaptchaOverride(templateId) : undefined;
+    const captcha = await checkCaptcha({
+      scope: "forms",
+      token: typeof body?.turnstileToken === "string" ? body.turnstileToken : undefined,
+      remoteIp: clientIp,
+      formOverride,
+    });
+    if (!captcha.ok) {
       return NextResponse.json({ error: "Captcha failed" }, { status: 400 });
     }
 

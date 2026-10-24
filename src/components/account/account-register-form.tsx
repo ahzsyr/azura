@@ -28,11 +28,14 @@ import { readStoredVisitorToken } from "@/features/marketing-attribution/client"
 
 type Props = {
   locale: string;
+  /** Site key resolved on the server; empty means no captcha is required. */
+  captchaSiteKey?: string;
 };
 
-export function AccountRegisterForm({ locale }: Props) {
+export function AccountRegisterForm({ locale, captchaSiteKey = "" }: Props) {
   const t = useTranslations("account");
   const router = useRouter();
+  const captchaRequired = Boolean(captchaSiteKey.trim());
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [checkEmail, setCheckEmail] = useState<string | null>(null);
@@ -78,7 +81,8 @@ export function AccountRegisterForm({ locale }: Props) {
       setLoading(false);
       return;
     }
-    if (!turnstileToken) {
+    // Only block when this page actually rendered a captcha.
+    if (captchaRequired && !turnstileToken) {
       setError("Complete the captcha before continuing.");
       setLoading(false);
       return;
@@ -237,7 +241,7 @@ export function AccountRegisterForm({ locale }: Props) {
             onChange={setConfirm}
           />
           <CredentialChecks email={email} password={password} check={credentialCheck} />
-          <TurnstileField onToken={onTurnstileToken} />
+          <TurnstileField onToken={onTurnstileToken} siteKey={captchaSiteKey} />
           {error ? <p className="text-destructive text-sm">{error}</p> : null}
         </CardContent>
         <CardFooter className="flex flex-col gap-4">

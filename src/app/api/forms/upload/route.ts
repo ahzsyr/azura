@@ -7,7 +7,8 @@ import { validateFormUploadFile } from "@/lib/local-media-storage";
 import { checkFormSubmitRateLimit } from "@/features/forms/platform/handlers/spam-handler";
 import { mergeFormDefinitionWithSchema } from "@/features/forms/adapters/schema-document.adapter";
 import { getTrustedClientIp } from "@/lib/client-ip";
-import { verifyTurnstileToken } from "@/lib/turnstile";
+import { checkCaptcha } from "@/features/captcha/captcha.guard";
+import { readFormCaptchaOverride } from "@/features/forms/lib/form-captcha";
 import { formUploadKindMatches, sniffFormUploadKind } from "@/lib/security/upload-magic-bytes";
 import { PUBLIC_FORM_BODY_MAX_BYTES, classifyContentLength } from "@/lib/security/abuse-controls";
 import { RateLimitUnavailableError } from "@/features/forms/platform/handlers/spam-handler";
@@ -43,31 +44,30 @@ export const POST = defineApiRoute({
         return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 });
       }
 
-      const headerToken = request.headers.get("x-turnstile-token");
-      if (headerToken) {
-        const headerOk = await verifyTurnstileToken(headerToken, clientIp);
-        if (!headerOk) {
-          return NextResponse.json({ error: "Captcha failed. Please try again." }, { status: 400 });
-        }
-      }
-
       const formData = await request.formData();
       const file = formData.get("file");
       if (!(file instanceof File)) return badRequest("No file provided");
 
-      if (!headerToken) {
-        const turnstileToken = formData.get("turnstileToken");
-        const turnstileOk = await verifyTurnstileToken(
-          typeof turnstileToken === "string" ? turnstileToken : null,
-          clientIp,
-        );
-        if (!turnstileOk) {
-          return NextResponse.json({ error: "Captcha failed. Please try again." }, { status: 400 });
-        }
-      }
-
       const templateId = String(formData.get("templateId") ?? "");
       if (!templateId) return badRequest("templateId required");
+
+      // Captcha policy follows the form, like /api/forms/submit. The whole
+      // multipart body is read before this point, so the token can come from
+      // either the header or the form data.
+      const formOverride = await readFormCaptchaOverride(templateId);
+      const headerToken = request.headers.get("x-turnstile-token");
+      const formToken = formData.get("turnstileToken");
+      const token =
+        headerToken ?? (typeof formToken === "string" ? formToken : undefined);
+      const captcha = await checkCaptcha({
+        scope: "forms",
+        token,
+        remoteIp: clientIp,
+        formOverride,
+      });
+      if (!captcha.ok) {
+        return NextResponse.json({ error: "Captcha failed. Please try again." }, { status: 400 });
+      }
 
       const template = await getFormTemplateById(templateId);
       if (!template?.isPublished) {

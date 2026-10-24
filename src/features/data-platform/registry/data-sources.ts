@@ -883,6 +883,17 @@ const JSON_SOURCES: DataSourceDefinition[] = [
     capabilities: { count: true, browse: true, inspect: true, edit: true, export: true },
   },
   {
+    id: "json:captcha",
+    storage: "json-store",
+    namespace: "captcha",
+    category: "system",
+    displayName: "Captcha",
+    description: "Turnstile keys and per-scope captcha enforcement (secret sealed)",
+    jsonCategory: "settings",
+    adminHref: "/admin/settings/captcha",
+    capabilities: { count: true, browse: true, inspect: true, edit: true, export: true },
+  },
+  {
     id: "json:translation-ai",
     storage: "json-store",
     namespace: "translation-ai",

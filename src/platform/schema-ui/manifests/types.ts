@@ -146,6 +146,8 @@ export type SubmitCommand = {
     abVariantId?: string;
     /** Bot trap — must be empty when submitted by humans. */
     honeypot?: string;
+    /** Cloudflare Turnstile token, when the form's captcha policy requires one. */
+    turnstileToken?: string;
     /** Client IP for rate limiting (set by API route). */
     clientIp?: string;
     /** Set when the route already consumed the shared rate-limit budget. */

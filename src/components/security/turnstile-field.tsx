@@ -5,6 +5,12 @@ import { useEffect, useRef, useState } from "react";
 type Props = {
   onToken: (token: string | null) => void;
   className?: string;
+  /**
+   * Site key to render. Pass one only after the server confirmed a captcha is
+   * actually enforced for this scope/form. When omitted the widget falls back
+   * to NEXT_PUBLIC_TURNSTILE_SITE_KEY, then renders nothing.
+   */
+  siteKey?: string;
 };
 
 declare global {
@@ -25,11 +31,19 @@ declare global {
 }
 
 /**
- * Renders Cloudflare Turnstile when NEXT_PUBLIC_TURNSTILE_SITE_KEY is set.
- * When unset, renders nothing (server allows requests without a token).
+ * Renders Cloudflare Turnstile when a site key is available.
+ *
+ * When no key is available the component renders nothing AND reports a null
+ * token. Callers must therefore never treat a missing token as a hard failure
+ * on its own: the server decides whether a token is required
+ * (`resolveCaptchaFor`). Requiring one client-side while rendering nothing is
+ * what produced "Complete the captcha before continuing." with no captcha.
  */
-export function TurnstileField({ onToken, className }: Props) {
-  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? "";
+export function TurnstileField({ onToken, className, siteKey: siteKeyProp }: Props) {
+  const siteKey =
+    siteKeyProp?.trim() ||
+    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ||
+    "";
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
   const [ready, setReady] = useState(false);

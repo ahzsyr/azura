@@ -13,5 +13,6 @@ export function compileWorkflow(extensions: DocumentExtensions = {}): Partial<Fo
     automationRules: extensions.automationRules,
     allowedAdminIds: extensions.allowedAdminIds,
     abTests: extensions.abTests,
+    captcha: extensions.captcha,
   };
 }

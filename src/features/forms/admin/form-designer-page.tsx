@@ -101,6 +101,7 @@ export function FormDesignerPage({
       automationRules: nextForm.definition.automationRules,
       allowedAdminIds: nextForm.definition.allowedAdminIds,
       abTests: nextForm.definition.abTests,
+      captcha: nextForm.definition.captcha,
     }),
     [],
   );
@@ -265,6 +266,48 @@ export function FormDesignerPage({
                 <dd className="text-lg font-semibold">{schemaDocument.rules?.length ?? 0}</dd>
               </div>
             </dl>
+          </Card>
+          <Card className="space-y-3 rounded-xl border p-6 shadow-sm lg:col-span-2">
+            <div>
+              <h3 className="text-sm font-semibold">Security</h3>
+              <p className="text-xs text-muted-foreground">
+                Captcha for this form. The master switch and keys live under{" "}
+                <Link href="/admin/settings/captcha" className="underline">
+                  Settings → Captcha
+                </Link>
+                .
+              </p>
+            </div>
+            <div className="grid gap-2 sm:grid-cols-3">
+              {(
+                [
+                  ["inherit", "Use global setting", "Follow Settings → Captcha"],
+                  ["on", "Always require", "Captcha even if globally off"],
+                  ["off", "Never require", "Skip captcha for this form"],
+                ] as const
+              ).map(([value, label, hint]) => {
+                const active = (form.definition.captcha ?? "inherit") === value;
+                return (
+                  <button
+                    key={value}
+                    type="button"
+                    onClick={() =>
+                      patchForm((prev) => ({
+                        ...prev,
+                        definition: { ...prev.definition, captcha: value },
+                      }))
+                    }
+                    aria-pressed={active}
+                    className={`rounded-lg border p-3 text-left transition-colors ${
+                      active ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                    }`}
+                  >
+                    <span className="block text-sm font-medium">{label}</span>
+                    <span className="mt-0.5 block text-xs text-muted-foreground">{hint}</span>
+                  </button>
+                );
+              })}
+            </div>
           </Card>
         </div>
       </div>

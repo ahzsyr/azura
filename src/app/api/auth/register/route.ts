@@ -7,7 +7,7 @@ import { issueEmailOtp } from "@/features/auth/email-otp.service";
 import { accountSettingsService } from "@/features/account/account-settings.service";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { getTrustedClientIp } from "@/lib/client-ip";
-import { verifyTurnstileToken } from "@/lib/turnstile";
+import { checkCaptcha } from "@/features/captcha/captcha.guard";
 import { zodErrorMessage } from "@/lib/zod-error";
 import { EmailDomainError, assertDeliverableEmail } from "@/lib/security/email-domain.server";
 import { linkVisitorTokenToUser } from "@/features/account/admin/visitor-link.service";
@@ -30,11 +30,12 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const turnstileOk = await verifyTurnstileToken(
-      typeof body?.turnstileToken === "string" ? body.turnstileToken : undefined,
-      ip,
-    );
-    if (!turnstileOk) {
+    const captcha = await checkCaptcha({
+      scope: "register",
+      token: typeof body?.turnstileToken === "string" ? body.turnstileToken : undefined,
+      remoteIp: ip,
+    });
+    if (!captcha.ok) {
       return NextResponse.json({ error: "Captcha failed. Please try again." }, { status: 400 });
     }
 

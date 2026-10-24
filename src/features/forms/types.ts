@@ -131,6 +131,8 @@ export type FormAbTest = {
   variants: FormAbTestVariant[];
 };
 
+export type FormCaptchaPolicy = "inherit" | "on" | "off";
+
 export type FormTemplateDefinition = {
   fields: FormFieldDefinition[];
   steps?: FormStepDefinition[];
@@ -143,6 +145,8 @@ export type FormTemplateDefinition = {
   automationRules?: FormAutomationRule[];
   allowedAdminIds?: string[];
   abTests?: FormAbTest[];
+  /** Per-form captcha override; inherit follows Admin → Settings → Captcha. */
+  captcha?: FormCaptchaPolicy;
 };
 
 export type FormSubmitEntityRefs = {

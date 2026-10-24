@@ -584,6 +584,13 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         navItemId: "email-accounts",
       },
       {
+        href: "/admin/settings/captcha",
+        label: "Captcha",
+        icon: ShieldCheck,
+        keywords: ["captcha", "turnstile", "bot", "spam", "security", "forms"],
+        navItemId: "captcha",
+      },
+      {
         href: "/admin/settings/portal",
         label: "Visitor portal",
         icon: UserCog,

@@ -22,6 +22,7 @@ export type DocumentExtensions = Partial<
     | "automationRules"
     | "allowedAdminIds"
     | "abTests"
+    | "captcha"
   >
 >;
 
@@ -57,6 +58,7 @@ const EXTENSION_KEYS = [
   "automationRules",
   "allowedAdminIds",
   "abTests",
+  "captcha",
 ] as const;
 
 export function wrapDocumentEnvelope(

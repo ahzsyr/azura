@@ -148,6 +148,8 @@ export const formTemplateDefinitionSchema = z.object({
   automationRules: z.array(formAutomationRuleSchema).optional(),
   allowedAdminIds: z.array(z.string()).optional(),
   abTests: z.array(formAbTestSchema).optional(),
+  /** Per-form captcha override; inherit follows Admin → Settings → Captcha. */
+  captcha: z.enum(["inherit", "on", "off"]).optional(),
 });
 
 export const formSubmitRequestSchema = z.object({

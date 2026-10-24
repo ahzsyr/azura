@@ -179,6 +179,7 @@ export const ADMIN_ACTION_INVENTORY: AdminActionInventoryEntry[] = [
   { routePattern: "/admin/services/new", mode: "editor", configKey: "entityEditor", registrationStrategy: "provider" },
   { routePattern: "/admin/settings", mode: "dashboard", configKey: "dashboard", registrationStrategy: "none" },
   { routePattern: "/admin/settings/account", mode: "settings", configKey: "settingsSavePublish", registrationStrategy: "hook" },
+  { routePattern: "/admin/settings/captcha", mode: "dashboard", configKey: "dashboard", registrationStrategy: "none" },
   { routePattern: "/admin/settings/email-accounts", mode: "dashboard", configKey: "dashboard", registrationStrategy: "none" },
   { routePattern: "/admin/settings/portal", mode: "settings", configKey: "settingsSavePublish", registrationStrategy: "hook" },
   { routePattern: "/admin/settings/search", mode: "settings", configKey: "searchSettings", registrationStrategy: "hook" },

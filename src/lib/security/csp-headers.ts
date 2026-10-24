@@ -87,6 +87,8 @@ export function buildAzuraCspPolicy(options: BuildAzuraCspPolicyOptions = {}): s
     "https://static.cloudflareinsights.com",
     "https://snap.licdn.com",
     "https://ajax.googleapis.com",
+    /* Cloudflare Turnstile (captcha) — widget script. */
+    "https://challenges.cloudflare.com",
   ]
     .filter((part): part is string => Boolean(part))
     .join(" ");
@@ -103,7 +105,8 @@ export function buildAzuraCspPolicy(options: BuildAzuraCspPolicyOptions = {}): s
     scriptSrc,
     "worker-src 'self' blob:",
     "connect-src 'self' https: blob:",
-    "frame-src 'self' https://www.googletagmanager.com https://www.google.com https://www.facebook.com",
+    /* Turnstile renders its challenge in an iframe. */
+    "frame-src 'self' https://www.googletagmanager.com https://www.google.com https://www.facebook.com https://challenges.cloudflare.com",
     "report-to csp-endpoint",
   ].join("; ");
 }

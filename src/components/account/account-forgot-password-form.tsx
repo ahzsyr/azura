@@ -13,10 +13,13 @@ import { accountPublicPath } from "@/features/account/account-public-path";
 
 type Props = {
   locale: string;
+  /** Site key resolved on the server; empty means no captcha is required. */
+  captchaSiteKey?: string;
 };
 
-export function AccountForgotPasswordForm({ locale }: Props) {
+export function AccountForgotPasswordForm({ locale, captchaSiteKey = "" }: Props) {
   const t = useTranslations("account");
+  const captchaRequired = Boolean(captchaSiteKey.trim());
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -37,7 +40,8 @@ export function AccountForgotPasswordForm({ locale }: Props) {
       setLoading(false);
       return;
     }
-    if (!turnstileToken) {
+    // Only block when this page actually rendered a captcha.
+    if (captchaRequired && !turnstileToken) {
       setError("Complete the captcha before continuing.");
       setLoading(false);
       return;
@@ -81,7 +85,7 @@ export function AccountForgotPasswordForm({ locale }: Props) {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <TurnstileField onToken={onTurnstileToken} />
+          <TurnstileField onToken={onTurnstileToken} siteKey={captchaSiteKey} />
           {error && <p className="text-destructive text-sm">{error}</p>}
           {message && <p className="text-sm text-green-600">{message}</p>}
           <Button type="submit" className="w-full" disabled={loading}>

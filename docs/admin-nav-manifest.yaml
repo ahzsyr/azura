@@ -1130,6 +1130,16 @@ items:
     keywords: [email, smtp, resend, notifications, forms]
     status: stable
 
+  - id: captcha
+    label: Captcha
+    group: settings
+    icon: ShieldCheck
+    href_current: /admin/settings/captcha
+    href_target: /admin/settings/captcha
+    profiles: [marketing, showroom, agency, tourism, documentation, enterprise]
+    keywords: [captcha, turnstile, bot, spam, security]
+    status: stable
+
   - id: customer-accounts
     label: Users
     group: settings

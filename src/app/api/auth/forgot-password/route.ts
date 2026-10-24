@@ -3,7 +3,7 @@ import { forgotPasswordSchema } from "@/features/account/password-reset.schema";
 import { requestPasswordReset } from "@/features/account/password-reset.service";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { getTrustedClientIp } from "@/lib/client-ip";
-import { verifyTurnstileToken } from "@/lib/turnstile";
+import { checkCaptcha } from "@/features/captcha/captcha.guard";
 import { zodErrorMessage } from "@/lib/zod-error";
 
 export async function POST(request: Request) {
@@ -23,11 +23,12 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const turnstileOk = await verifyTurnstileToken(
-      typeof body?.turnstileToken === "string" ? body.turnstileToken : undefined,
-      ip,
-    );
-    if (!turnstileOk) {
+    const captcha = await checkCaptcha({
+      scope: "passwordReset",
+      token: typeof body?.turnstileToken === "string" ? body.turnstileToken : undefined,
+      remoteIp: ip,
+    });
+    if (!captcha.ok) {
       return NextResponse.json({ error: "Captcha failed. Please try again." }, { status: 400 });
     }
 

@@ -33,6 +33,9 @@ import {
 } from "@/features/forms/fxs/appearance/dynamic-form-appearance";
 import { resolveMarketingIcon } from "@/features/builder/blocks/marketing/lib/icon-map";
 import { formatSubmissionReference } from "@/features/forms/lib/submission-contact";
+import { captchaSiteKeyFor } from "@/features/captcha/captcha.client";
+import type { CaptchaPublicConfig } from "@/features/captcha/captcha.schema";
+import { TurnstileField } from "@/components/security/turnstile-field";
 import { cn } from "@/lib/utils";
 import "@/features/forms/platform/register-commands.client";
 import {
@@ -140,6 +143,26 @@ export function DynamicFormView({
     setAbVisitorKey(getAbVisitorKey(`brt_ab_${templateId}`));
   }, [templateId]);
 
+  // Captcha: resolved by the server for this form (global switch + per-form
+  // override + keys). Until the answer arrives the widget stays hidden and the
+  // token is null — the API decides whether that is acceptable.
+  const [captchaConfig, setCaptchaConfig] = useState<CaptchaPublicConfig | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const onTurnstileToken = useCallback((token: string | null) => setTurnstileToken(token), []);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/captcha/config?scope=forms`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: CaptchaPublicConfig | null) => {
+        if (!cancelled && data) setCaptchaConfig(data);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const abAssignment = useMemo(() => {
     return resolveAbTestedRaw(sourceRaw, abVisitorKey);
   }, [sourceRaw, abVisitorKey]);
@@ -162,6 +185,8 @@ export function DynamicFormView({
       },
     };
   }, [abAssignment.raw, sourceRaw, definition]);
+
+  const captchaSiteKey = captchaSiteKeyFor(captchaConfig, form.captcha);
 
   const [translatedSchema, setTranslatedSchema] = useState(schema);
 
@@ -375,6 +400,11 @@ export function DynamicFormView({
       return;
     }
 
+    if (captchaSiteKey && turnstileToken === null) {
+      setErrors((prev) => ({ ...prev, __captcha: "Complete the captcha before continuing." }));
+      return;
+    }
+
     setStatus("submitting");
     try {
       const result = await runtime.submit({
@@ -385,6 +415,7 @@ export function DynamicFormView({
         abTestId: abAssignment.abTestId,
         abVariantId: abAssignment.abVariantId,
         honeypot,
+        ...(turnstileToken ? { turnstileToken } : {}),
         utm: attributionToUtmRecord(getStoredAttribution()),
       });
       setSubmissionId(String(result.id));
@@ -559,6 +590,15 @@ export function DynamicFormView({
           {renderer}
         </FormSectionCard>
       )}
+
+      {captchaSiteKey ? (
+        <div className="space-y-1">
+          <TurnstileField siteKey={captchaSiteKey} onToken={onTurnstileToken} />
+          {errors.__captcha ? (
+            <p className="text-destructive text-sm">{errors.__captcha}</p>
+          ) : null}
+        </div>
+      ) : null}
 
       {saveAndResume && draftToken ? (
         <p className="text-xs text-muted-foreground">

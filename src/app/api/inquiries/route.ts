@@ -5,7 +5,7 @@ import { auth } from "@/lib/auth";
 import { isCustomerRole } from "@/features/auth/portal";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { getTrustedClientIp } from "@/lib/client-ip";
-import { verifyTurnstileToken } from "@/lib/turnstile";
+import { checkCaptcha } from "@/features/captcha/captcha.guard";
 import { attachLeadAttributionFromUtm } from "@/modules/marketing/leads/attribution-bridge";
 import { isRecoverableDbError } from "@/lib/debug/recoverable-db-error";
 import { normalizeEmail } from "@/lib/security/email-input";
@@ -24,11 +24,12 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const turnstileOk = await verifyTurnstileToken(
-      typeof body?.turnstileToken === "string" ? body.turnstileToken : undefined,
-      ip,
-    );
-    if (!turnstileOk) {
+    const captcha = await checkCaptcha({
+      scope: "inquiries",
+      token: typeof body?.turnstileToken === "string" ? body.turnstileToken : undefined,
+      remoteIp: ip,
+    });
+    if (!captcha.ok) {
       return NextResponse.json({ error: "Captcha failed" }, { status: 400 });
     }
 

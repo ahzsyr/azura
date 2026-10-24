@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PasswordField } from "@/components/account/password-field";
+import { TurnstileField } from "@/components/security/turnstile-field";
 import { useTranslations } from "next-intl";
 import { mergeLocalFavoritesToServer } from "@/features/account/lib/favorites-sync";
 import { isCustomerRole, resolvePostLoginLanding } from "@/features/auth/portal";
@@ -19,19 +20,23 @@ import { readStoredVisitorToken } from "@/features/marketing-attribution/client"
 type Props = {
   locale: string;
   registrationEnabled: boolean;
+  /** Site key resolved on the server; empty means no captcha is required. */
+  captchaSiteKey?: string;
 };
 
 type Step = "password" | "mfa";
 
-export function AccountLoginForm({ locale, registrationEnabled }: Props) {
+export function AccountLoginForm({ locale, registrationEnabled, captchaSiteKey = "" }: Props) {
   const t = useTranslations("account");
   const searchParams = useSearchParams();
+  const captchaRequired = Boolean(captchaSiteKey.trim());
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<Step>("password");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [resendBusy, setResendBusy] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const resetSuccess = searchParams.get("reset") === "1";
   const verifiedSuccess = searchParams.get("verified") === "1";
 
@@ -100,6 +105,27 @@ export function AccountLoginForm({ locale, registrationEnabled }: Props) {
       setError("Enter the 6-digit code from your email");
       setLoading(false);
       return;
+    }
+
+    if (step === "password" && captchaRequired) {
+      if (!turnstileToken) {
+        setError("Complete the captcha before continuing.");
+        setLoading(false);
+        return;
+      }
+      // Auth.js owns the sign-in endpoint, so the token is verified up front.
+      const preflight = await fetch("/api/captcha/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ turnstileToken }),
+      }).catch(() => null);
+      if (preflight && !preflight.ok) {
+        const data = (await preflight.json().catch(() => ({}))) as { error?: string };
+        setError(data.error ?? "Captcha failed. Please try again.");
+        setTurnstileToken(null);
+        setLoading(false);
+        return;
+      }
     }
 
     try {
@@ -267,6 +293,9 @@ export function AccountLoginForm({ locale, registrationEnabled }: Props) {
               </Button>
             </>
           )}
+          {captchaRequired && step === "password" ? (
+            <TurnstileField siteKey={captchaSiteKey} onToken={setTurnstileToken} />
+          ) : null}
           {error && <p className="text-destructive text-sm">{error}</p>}
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? t("signingIn") : step === "mfa" ? "Verify" : t("signIn")}

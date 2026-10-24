@@ -21,6 +21,7 @@ async function submitViaApi(command: SubmitCommand): Promise<Record<string, unkn
       abTestId: command.context.abTestId,
       abVariantId: command.context.abVariantId,
       honeypot: command.context.honeypot,
+      turnstileToken: command.context.turnstileToken,
     }),
   });
   if (!res.ok) throw new Error("Submit failed");
