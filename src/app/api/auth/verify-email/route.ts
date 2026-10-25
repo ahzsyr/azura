@@ -48,7 +48,11 @@ export const POST = defineApiRoute({
 
       const result = await consumeEmailVerification(data.token!);
       if ("error" in result) {
-        return NextResponse.json({ error: result.error }, { status: 400 });
+        // `reason` lets the page offer the right next step (resend vs. redo).
+        return NextResponse.json(
+          { error: result.error, reason: result.reason },
+          { status: 400 },
+        );
       }
       return NextResponse.json({ success: true, purpose: result.purpose });
     } catch {

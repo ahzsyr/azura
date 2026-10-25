@@ -80,6 +80,13 @@ export async function handleAccountPath(
   const session = await getSession();
   const role = session?.user?.role;
 
+  // Verification links must run for signed-in users too — including admins.
+  // Redirecting first sent admins to the dashboard before the page could POST
+  // the token, so their email-change confirmation silently never completed.
+  if (isAuthPage && sub === "verify-email" && request.nextUrl.searchParams.get("token")) {
+    return intlWithAccountPathname(request, pathname, intlMiddleware);
+  }
+
   // Admins never use the customer account portal as a destination
   if (session?.user && isAdminRole(role)) {
     const dest = resolvePostLoginRedirect({

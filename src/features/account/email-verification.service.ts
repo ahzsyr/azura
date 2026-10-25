@@ -21,9 +21,40 @@ export const SEND_FAILED_MESSAGE =
 export const RATE_LIMITED_MESSAGE =
   "Too many verification emails were requested recently. Try again in about an hour.";
 
-const TOKEN_EXPIRY_HOURS = 24;
+/**
+ * Verification links are single-use and short-lived: a link that sits in an
+ * inbox for a day is a long-lived credential for taking over an address.
+ * Every issue/consume/expiry/invalidation is recorded in the security audit log.
+ */
+export const TOKEN_EXPIRY_MINUTES = 30;
 const RESEND_LIMIT = 3;
 const RESEND_WINDOW_MS = 60 * 60 * 1000;
+
+export type EmailVerificationFailureReason =
+  | "INVALID"
+  | "EXPIRED"
+  | "ALREADY_USED"
+  | "NO_PENDING_EMAIL"
+  | "EMAIL_TAKEN"
+  | "RATE_LIMITED";
+
+/** Reason-specific copy so the user knows whether to resend or redo the change. */
+export function verificationFailureMessage(reason: EmailVerificationFailureReason): string {
+  switch (reason) {
+    case "EXPIRED":
+      return `This confirmation link has expired. Confirmation links are valid for ${TOKEN_EXPIRY_MINUTES} minutes — request a new one.`;
+    case "ALREADY_USED":
+      return "This confirmation link was already used. If your email did not change, request a new confirmation email.";
+    case "NO_PENDING_EMAIL":
+      return "There is no pending email change for this account. Start the change again.";
+    case "EMAIL_TAKEN":
+      return "That email address is no longer available. Start the change again with a different address.";
+    case "RATE_LIMITED":
+      return RATE_LIMITED_MESSAGE;
+    default:
+      return "This confirmation link is invalid. Request a new confirmation email.";
+  }
+}
 
 function hashToken(token: string): string {
   return createHash("sha256").update(token).digest("hex");
@@ -80,9 +111,10 @@ export async function issueEmailVerification(input: {
   const toEmail = (input.toEmail ?? user.email).trim().toLowerCase();
   const rawToken = randomBytes(32).toString("hex");
   const tokenHash = hashToken(rawToken);
-  const expiresAt = new Date(Date.now() + TOKEN_EXPIRY_HOURS * 60 * 60 * 1000);
+  const expiresAt = new Date(Date.now() + TOKEN_EXPIRY_MINUTES * 60 * 1000);
 
-  await prisma.emailVerificationToken.deleteMany({
+  // Supersede any outstanding link for this purpose so exactly one is live.
+  const superseded = await prisma.emailVerificationToken.deleteMany({
     where: { userId: user.id, purpose: input.purpose, usedAt: null },
   });
 
@@ -95,13 +127,28 @@ export async function issueEmailVerification(input: {
     },
   });
 
+  await writeSecurityAuditLog({
+    action: "auth.email.verify.issued",
+    actorId: user.id,
+    actorRole: user.role,
+    meta: {
+      purpose: input.purpose,
+      toEmail,
+      tokenId: token.id,
+      expiresAt: expiresAt.toISOString(),
+      supersededCount: superseded.count,
+    },
+  });
+
   const settings = await accountSettingsService.get();
   const verifyLink = `${getSiteBaseUrl()}${accountPublicPath(input.locale, "verify-email")}?token=${encodeURIComponent(rawToken)}`;
   const vars = {
     name: user.name,
     verifyLink,
     email: toEmail,
-    expiryHours: String(TOKEN_EXPIRY_HOURS),
+    expiryMinutes: String(TOKEN_EXPIRY_MINUTES),
+    // Kept for custom templates that still reference the old placeholder.
+    expiryHours: String(TOKEN_EXPIRY_MINUTES / 60),
   };
 
   const subject = applyTemplate(settings.emailVerification.emailSubject, vars);
@@ -165,41 +212,127 @@ export async function issueEmailVerification(input: {
   return { ok: true };
 }
 
+export type ConsumeEmailVerificationResult =
+  | { ok: true; purpose: EmailVerificationPurpose }
+  | { error: string; reason: EmailVerificationFailureReason };
+
+/**
+ * Redeem a verification link.
+ *
+ * - Single use: the token is marked used inside the same transaction as the
+ *   change, so a concurrent/repeat click cannot apply twice.
+ * - Immediate invalidation: a link is retired as soon as it is redeemed,
+ *   expires, or is found unusable — it never stays live afterwards.
+ * - Every outcome is audited, including reuse attempts against a dead link.
+ */
 export async function consumeEmailVerification(
   rawToken: string,
-): Promise<{ ok: true; purpose: EmailVerificationPurpose } | { error: string }> {
+): Promise<ConsumeEmailVerificationResult> {
   const tokenHash = hashToken(rawToken.trim());
+  const now = new Date();
+
+  // Look up even used tokens so a repeat click is reported as ALREADY_USED
+  // instead of the misleading "invalid link".
   const record = await prisma.emailVerificationToken.findFirst({
-    where: { tokenHash, usedAt: null },
+    where: { tokenHash },
+    orderBy: { createdAt: "desc" },
     include: { user: true },
   });
 
-  if (!record || record.expiresAt < new Date()) {
+  if (!record) {
     await writeSecurityAuditLog({
       action: "auth.email.verify.failure",
-      meta: { reason: "INVALID_OR_EXPIRED" },
+      meta: { reason: "INVALID", tokenHashPrefix: tokenHash.slice(0, 12) },
     });
-    return { error: "Invalid or expired verification link" };
+    return { error: verificationFailureMessage("INVALID"), reason: "INVALID" };
   }
 
   const user = record.user;
 
+  if (record.usedAt) {
+    await writeSecurityAuditLog({
+      action: "auth.email.verify.reuse_blocked",
+      actorId: user.id,
+      actorRole: user.role,
+      meta: {
+        purpose: record.purpose,
+        tokenId: record.id,
+        usedAt: record.usedAt.toISOString(),
+      },
+    });
+    return {
+      error: verificationFailureMessage("ALREADY_USED"),
+      reason: "ALREADY_USED",
+    };
+  }
+
+  if (record.expiresAt <= now) {
+    // Retire the expired link immediately instead of leaving it redeemable
+    // forever (previously only a later resend swept it up).
+    await prisma.emailVerificationToken.update({
+      where: { id: record.id },
+      data: { usedAt: now },
+    });
+    await writeSecurityAuditLog({
+      action: "auth.email.verify.expired",
+      actorId: user.id,
+      actorRole: user.role,
+      meta: {
+        purpose: record.purpose,
+        tokenId: record.id,
+        expiredAt: record.expiresAt.toISOString(),
+      },
+    });
+    return { error: verificationFailureMessage("EXPIRED"), reason: "EXPIRED" };
+  }
+
+  const purpose = record.purpose;
+  const failWithoutUse = async (
+    reason: EmailVerificationFailureReason,
+    tokenId: string,
+  ): Promise<ConsumeEmailVerificationResult> => {
+    await prisma.emailVerificationToken.update({
+      where: { id: tokenId },
+      data: { usedAt: now },
+    });
+    await writeSecurityAuditLog({
+      action: "auth.email.verify.failure",
+      actorId: user.id,
+      actorRole: user.role,
+      meta: { purpose, reason, tokenId },
+    });
+    return { error: verificationFailureMessage(reason), reason };
+  };
+
   if (record.purpose === "SIGNUP_VERIFY") {
-    await prisma.$transaction([
-      prisma.user.update({
+    // Conditional update: only the request that flips usedAt wins, so a race
+    // cannot mark the address verified twice from two different sessions.
+    const redeemed = await prisma.$transaction(async (tx) => {
+      const claim = await tx.emailVerificationToken.updateMany({
+        where: { id: record.id, usedAt: null },
+        data: { usedAt: now },
+      });
+      if (claim.count === 0) return false;
+      await tx.user.update({
         where: { id: user.id },
-        data: { emailVerifiedAt: new Date() },
-      }),
-      prisma.emailVerificationToken.update({
-        where: { id: record.id },
-        data: { usedAt: new Date() },
-      }),
-    ]);
+        data: { emailVerifiedAt: now },
+      });
+      return true;
+    });
+    if (!redeemed) {
+      await writeSecurityAuditLog({
+        action: "auth.email.verify.reuse_blocked",
+        actorId: user.id,
+        actorRole: user.role,
+        meta: { purpose: "SIGNUP_VERIFY", tokenId: record.id, reason: "RACE" },
+      });
+      return { error: verificationFailureMessage("ALREADY_USED"), reason: "ALREADY_USED" };
+    }
     await writeSecurityAuditLog({
       action: "auth.email.verify.success",
       actorId: user.id,
       actorRole: user.role,
-      meta: { purpose: "SIGNUP_VERIFY" },
+      meta: { purpose: "SIGNUP_VERIFY", tokenId: record.id },
     });
     return { ok: true, purpose: "SIGNUP_VERIFY" };
   }
@@ -207,51 +340,61 @@ export async function consumeEmailVerification(
   // EMAIL_CHANGE
   const pending = user.pendingEmail?.trim().toLowerCase();
   if (!pending) {
-    await writeSecurityAuditLog({
-      action: "auth.email.verify.failure",
-      actorId: user.id,
-      actorRole: user.role,
-      meta: { reason: "NO_PENDING_EMAIL" },
-    });
-    return { error: "Invalid or expired verification link" };
+    return failWithoutUse("NO_PENDING_EMAIL", record.id);
   }
 
   const taken = await prisma.user.findUnique({ where: { email: pending } });
   if (taken && taken.id !== user.id) {
-    await writeSecurityAuditLog({
-      action: "auth.email.verify.failure",
-      actorId: user.id,
-      actorRole: user.role,
-      meta: { reason: "EMAIL_TAKEN" },
-    });
-    return { error: "Email is already in use" };
+    return failWithoutUse("EMAIL_TAKEN", record.id);
   }
 
-  await prisma.$transaction([
-    prisma.user.update({
+  const redeemed = await prisma.$transaction(async (tx) => {
+    const claim = await tx.emailVerificationToken.updateMany({
+      where: { id: record.id, usedAt: null },
+      data: { usedAt: now },
+    });
+    if (claim.count === 0) return false;
+    await tx.user.update({
       where: { id: user.id },
       data: {
         email: pending,
         pendingEmail: null,
-        emailVerifiedAt: new Date(),
+        emailVerifiedAt: now,
       },
-    }),
-    prisma.emailVerificationToken.update({
-      where: { id: record.id },
-      data: { usedAt: new Date() },
-    }),
-  ]);
+    });
+    return true;
+  });
+
+  if (!redeemed) {
+    // Lost the race to another redemption of the same link.
+    await writeSecurityAuditLog({
+      action: "auth.email.verify.reuse_blocked",
+      actorId: user.id,
+      actorRole: user.role,
+      meta: { purpose: "EMAIL_CHANGE", tokenId: record.id, reason: "RACE" },
+    });
+    return { error: verificationFailureMessage("ALREADY_USED"), reason: "ALREADY_USED" };
+  }
+
+  // Retire any other outstanding links for this user: the change is done and
+  // stale links must not remain redeemable.
+  await prisma.emailVerificationToken.updateMany({
+    where: { userId: user.id, usedAt: null },
+    data: { usedAt: now },
+  });
+
   await bumpUserSessionVersion(user.id);
   await writeSecurityAuditLog({
     action: "auth.email.verify.success",
     actorId: user.id,
     actorRole: user.role,
-    meta: { purpose: "EMAIL_CHANGE" },
+    meta: { purpose: "EMAIL_CHANGE", tokenId: record.id, from: user.email, to: pending },
   });
   await writeSecurityAuditLog({
     action: "auth.email.changed",
     actorId: user.id,
     actorRole: user.role,
+    meta: { from: user.email, to: pending },
   });
   await writeSecurityAuditLog({
     action: "auth.session.revoked",

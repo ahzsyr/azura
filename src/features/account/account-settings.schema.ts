@@ -32,7 +32,7 @@ export const emailVerificationSettingsSchema = z.object({
     .min(1)
     .max(4000)
     .default(
-      "Hello {{name}},\n\nYour verification code expires in 5 minutes. Enter it on the verification page to activate your account."
+      "Hello {{name}},\n\nUse the button below to confirm your email address. The link can be used once and expires in {{expiryMinutes}} minutes. If you did not request this, you can ignore this email."
     ),
   fromName: z.string().max(120).optional().or(z.literal("")),
   emailAccountId: z.string().max(64).optional().or(z.literal("")),

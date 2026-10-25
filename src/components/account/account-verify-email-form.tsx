@@ -21,8 +21,11 @@ export function AccountVerifyEmailForm({ locale }: Props) {
   const emailParam = searchParams.get("email") ?? "";
   const [email, setEmail] = useState(emailParam);
   const [code, setCode] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error" | "otp">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error" | "otp">(
+    token ? "loading" : "idle",
+  );
   const [error, setError] = useState("");
+  const [failureReason, setFailureReason] = useState("");
 
   useEffect(() => {
     if (!token) {
@@ -32,19 +35,31 @@ export function AccountVerifyEmailForm({ locale }: Props) {
     let cancelled = false;
     setStatus("loading");
     void (async () => {
-      const res = await fetch("/api/auth/verify-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
-      });
-      if (cancelled) return;
-      if (!res.ok) {
-        const data = (await res.json().catch(() => ({}))) as { error?: string };
-        setError(data.error ?? t("verifyEmailFailed"));
+      try {
+        const res = await fetch("/api/auth/verify-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token }),
+        });
+        if (cancelled) return;
+        if (!res.ok) {
+          const data = (await res.json().catch(() => ({}))) as {
+            error?: string;
+            reason?: string;
+          };
+          setError(data.error ?? t("verifyEmailFailed"));
+          setFailureReason(data.reason ?? "");
+          setStatus("error");
+          return;
+        }
+        setStatus("ok");
+      } catch {
+        // A network failure must never look like success.
+        if (cancelled) return;
+        setError(t("verifyEmailFailed"));
+        setFailureReason("NETWORK");
         setStatus("error");
-        return;
       }
-      setStatus("ok");
     })();
     return () => {
       cancelled = true;
@@ -124,15 +139,13 @@ export function AccountVerifyEmailForm({ locale }: Props) {
         {status === "error" ? (
           <>
             <p className="text-destructive text-sm">{error}</p>
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full"
-              onClick={() => setStatus("otp")}
-            >
-              Enter code instead
+            <p className="text-muted-foreground text-xs">
+              Confirmation links are single-use and expire shortly after they are sent.
+            </p>
+            <Button asChild className="w-full">
+              <Link href="/admin/settings/account">Go to Admin account</Link>
             </Button>
-            <Button asChild variant="ghost" className="w-full">
+            <Button type="button" variant="ghost" className="w-full" asChild>
               <Link href={accountPublicPath(locale, "login")}>{t("signIn")}</Link>
             </Button>
           </>
