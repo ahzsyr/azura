@@ -90,8 +90,8 @@ export const contentTypeSchema = z.object({
   isEnabled: z.boolean().default(true),
   sortOrder: z.coerce.number().default(0),
   fieldSchema: z.array(contentFieldDefinitionSchema).default([]),
-  displaySchema: z.record(z.unknown()).default({}),
-  adminConfig: z.record(z.unknown()).default({}),
+  displaySchema: z.record(z.string(), z.unknown()).default({}),
+  adminConfig: z.record(z.string(), z.unknown()).default({}),
 });
 
 export type ContentTypeInput = z.infer<typeof contentTypeSchema>;

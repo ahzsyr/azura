@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { withObjectDefaults } from "@/lib/zod/object-defaults";
 
 const emptyToUndefined = (v: unknown) => (v === "" || v === null ? undefined : v);
 
@@ -21,8 +22,8 @@ export const searchSmartSchema = z.object({
   naturalLanguageParsing: z.boolean().default(true),
   /** Admin-defined synonym map: token → list of synonyms. */
   synonyms: z.record(z.string(), z.array(z.string())).default({}),
-  semantic: z
-    .object({
+  semantic: withObjectDefaults(
+    z.object({
       enabled: z.boolean().default(false),
       provider: z.preprocess(
         emptyToUndefined,
@@ -33,8 +34,8 @@ export const searchSmartSchema = z.object({
       /** Rewrite natural-language queries to keywords via LLM when configured. */
       aiAssistEnabled: z.boolean().default(false),
       model: z.string().default("gpt-4o-mini"),
-    })
-    .default({}),
+    }),
+  ),
 });
 
 export type SearchSmartSettings = z.infer<typeof searchSmartSchema>;

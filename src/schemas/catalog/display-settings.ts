@@ -48,7 +48,7 @@ export const catalogPropsSchema = z.object({
   featuredOnly: z.boolean().default(false),
   manualIds: z.array(z.string()).default([]),
   limit: z.coerce.number().default(6),
-  attributeFilters: z.record(z.string()).default({}),
+  attributeFilters: z.record(z.string(), z.string()).default({}),
   displaySettings: displaySettingsSchema.default(DEFAULT_DISPLAY_SETTINGS),
   viewAllHref: z.string().default(""),
   emptyMessage: z.string().default(""),

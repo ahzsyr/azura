@@ -36,7 +36,7 @@ const htmlElementAttributesSchema = z.object({
   linkHref: z.string().optional(),
   linkTarget: z.string().optional(),
   sources: z.array(htmlSourceSchema).optional(),
-  dataAttributes: z.record(z.string()).optional(),
+  dataAttributes: z.record(z.string(), z.string()).optional(),
   listVariant: z.enum(["plain", "withHeader"]).optional(),
   dir: z.enum(["ltr", "rtl"]).optional(),
   // Table-level

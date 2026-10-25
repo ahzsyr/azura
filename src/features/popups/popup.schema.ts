@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { withObjectDefaults } from "@/lib/zod/object-defaults";
 
 export const popupTypeSchema = z.enum([
   "floatingButton",
@@ -130,8 +131,8 @@ export const popupContentSchema = z.object({
   imageUrl: z.string().default(""),
   imageAlt: z.string().default(""),
   videoUrl: z.string().default(""),
-  primaryCta: popupCtaSchema.default({}),
-  secondaryCta: popupCtaSchema.default({}),
+  primaryCta: withObjectDefaults(popupCtaSchema),
+  secondaryCta: withObjectDefaults(popupCtaSchema),
   blocks: z.array(popupContentBlockSchema).default([]),
 });
 
@@ -143,14 +144,14 @@ export const popupItemSchema = z.object({
   enabled: z.boolean().default(true),
   type: popupTypeSchema.default("modal"),
   position: popupPositionSchema.default("bottom-end"),
-  customOffset: popupCustomOffsetSchema.default({}),
-  devices: popupDeviceTargetingSchema.default({}),
-  pageTargeting: popupPageTargetingSchema.default({}),
-  design: popupDesignSchema.default({}),
-  content: popupContentSchema.default({}),
-  trigger: popupTriggerSchema.default({}),
-  schedule: popupScheduleSchema.default({}),
-  frequency: popupFrequencySchema.default({}),
+  customOffset: withObjectDefaults(popupCustomOffsetSchema),
+  devices: withObjectDefaults(popupDeviceTargetingSchema),
+  pageTargeting: withObjectDefaults(popupPageTargetingSchema),
+  design: withObjectDefaults(popupDesignSchema),
+  content: withObjectDefaults(popupContentSchema),
+  trigger: withObjectDefaults(popupTriggerSchema),
+  schedule: withObjectDefaults(popupScheduleSchema),
+  frequency: withObjectDefaults(popupFrequencySchema),
   dismissible: z.boolean().default(true),
   dismissKey: z.string().default(""),
   linkedPopupId: z.string().default(""),

@@ -104,8 +104,8 @@ const megaMenuContentSchema = z
       )
       .optional(),
     dropdownShowIcons: z.boolean().optional(),
-    childDescriptions: z.record(z.string()).optional(),
-    childCtaLabels: z.record(z.string()).optional(),
+    childDescriptions: z.record(z.string(), z.string()).optional(),
+    childCtaLabels: z.record(z.string(), z.string()).optional(),
     iconLayout: z
       .object({
         iconSize: z.enum(["sm", "md", "lg"]).optional(),
@@ -210,18 +210,19 @@ const menuItemSchema: z.ZodType<unknown> = z.lazy(() =>
     openInNewTab: z.boolean().optional(),
     noFollow: z.boolean().optional(),
     customTarget: z.string().optional(),
-    localizedUrls: z.record(z.string()).optional(),
+    localizedUrls: z.record(z.string(), z.string()).optional(),
   })
 );
 
 export const headerWorkspaceSchema = z.object({
   version: z.literal(1).default(1),
   menusDatabase: z.record(
+    z.string(),
     z.object({
       name: z.string(),
       items: z.array(menuItemSchema),
       globalApply: z.enum(["none", "Both", "Mobile", "Desktop"]),
-    })
+    }),
   ),
   activeMenuKey: z.string(),
   branding: z.object({

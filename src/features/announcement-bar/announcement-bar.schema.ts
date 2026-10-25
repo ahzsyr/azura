@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { withObjectDefaults } from "@/lib/zod/object-defaults";
 import { newId } from "@/features/builder/blocks/marketing/schemas/marketing-blocks";
 
 export const announcementBarToneSchema = z.enum(["accent", "dark", "light", "muted", "gold"]);
@@ -119,12 +120,12 @@ export const announcementBarPropsSchema = z.object({
   showEdgeFade: z.boolean().default(true),
   separator: z.string().default(""),
   items: z.array(announcementItemSchema).default([]),
-  visual: announcementBarVisualSchema.default({}),
-  layout: announcementBarLayoutSchema.default({}),
-  animations: announcementBarAnimationsSchema.default({}),
-  interactive: announcementBarInteractiveSchema.default({}),
-  responsive: announcementBarResponsiveSchema.default({}),
-  advanced: announcementBarAdvancedSchema.default({}),
+  visual: withObjectDefaults(announcementBarVisualSchema),
+  layout: withObjectDefaults(announcementBarLayoutSchema),
+  animations: withObjectDefaults(announcementBarAnimationsSchema),
+  interactive: withObjectDefaults(announcementBarInteractiveSchema),
+  responsive: withObjectDefaults(announcementBarResponsiveSchema),
+  advanced: withObjectDefaults(announcementBarAdvancedSchema),
 });
 
 export type AnnouncementItem = z.infer<typeof announcementItemSchema>;

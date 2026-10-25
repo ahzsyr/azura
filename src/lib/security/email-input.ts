@@ -38,7 +38,9 @@ function hasEnglishEmailShape(value: string): boolean {
 }
 
 export const emailInputSchema = z
-  .string({ required_error: EMAIL_MESSAGE, invalid_type_error: EMAIL_MESSAGE })
+  // zod v4 replaced `required_error`/`invalid_type_error` with a single `error`
+  // string; keep one message for missing, wrong-type and format failures.
+  .string({ error: EMAIL_MESSAGE })
   .trim()
   .toLowerCase()
   .email(EMAIL_MESSAGE)

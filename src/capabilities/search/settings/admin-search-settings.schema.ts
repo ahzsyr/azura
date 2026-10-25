@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { withObjectDefaults } from "@/lib/zod/object-defaults";
 import { STANDARD_SEARCH_INDEX_FIELDS } from "@/capabilities/search/engine/indexing/search-index-field-keys";
 import {
   DEFAULT_RANKING_PRIORITY_ORDER,
@@ -240,7 +241,7 @@ export const searchPageDesignSchema = z.object({
   resultTypeOrder: z.array(searchResultTypeSchema).default([...searchResultTypeSchema.options]),
   resultTypes: z.record(z.string(), searchResultTypeDisplaySchema).default({}),
   resultCardStyle: z.preprocess(emptyToUndefined, searchResultCardStyleSchema.default("rich")),
-  resultCardFields: searchResultCardFieldsSchema.default({}),
+  resultCardFields: withObjectDefaults(searchResultCardFieldsSchema),
   maxContentWidth: z.preprocess(emptyToUndefined, searchPageMaxWidthSchema.default("lg")),
   title: z.string().default(""),
   subtitle: z.string().default(""),
@@ -267,7 +268,7 @@ export type SearchModalElementsSettings = z.infer<typeof searchModalElementsSche
 export const searchAppearanceSchema = z.object({
   /** When true, search UI uses global Theme System tokens (colors, preset glass, motion). */
   inheritGlobalTheme: z.boolean().default(true),
-  modal: searchModalStyleSchema.default({}),
+  modal: withObjectDefaults(searchModalStyleSchema),
   publicHeaderLayout: z.preprocess(
     emptyToUndefined,
     searchHeaderLayoutSchema.default("icon-floating"),
@@ -282,8 +283,8 @@ export const searchAppearanceSchema = z.object({
   keyboardShortcut: z.preprocess(emptyToUndefined, searchShortcutSchema.default("/")),
   showInHeader: z.boolean().default(true),
   showOnMobile: z.boolean().default(true),
-  page: searchPageDesignSchema.default({}),
-  modalElements: searchModalElementsSchema.default({}),
+  page: withObjectDefaults(searchPageDesignSchema),
+  modalElements: withObjectDefaults(searchModalElementsSchema),
 });
 
 export const searchAnalyticsSchema = z.object({
@@ -314,20 +315,20 @@ export const searchPerformanceSchema = z.object({
 });
 
 export const adminSearchSettingsSchema = z.object({
-  general: searchGeneralSchema.default({}),
+  general: withObjectDefaults(searchGeneralSchema),
   /** Mirrors `general.enabled` for legacy site.json and APIs. */
   enabled: z.boolean().default(true),
   fuzziness: z.union([searchFuzzinessLabelSchema, z.number()]).optional(),
-  catalog: searchCatalogSourcesSchema.default({}),
-  sources: searchSourcesSchema.default({}),
-  ranking: searchRankingSchema.default({}),
-  filters: searchFiltersSchema.default({}),
-  autocomplete: searchAutocompleteSchema.default({}),
-  smart: searchSmartSchema.default({}),
-  appearance: searchAppearanceSchema.default({}),
-  adminSearch: searchAdminSearchSchema.default({}),
-  analytics: searchAnalyticsSchema.default({}),
-  performance: searchPerformanceSchema.default({}),
+  catalog: withObjectDefaults(searchCatalogSourcesSchema),
+  sources: withObjectDefaults(searchSourcesSchema),
+  ranking: withObjectDefaults(searchRankingSchema),
+  filters: withObjectDefaults(searchFiltersSchema),
+  autocomplete: withObjectDefaults(searchAutocompleteSchema),
+  smart: withObjectDefaults(searchSmartSchema),
+  appearance: withObjectDefaults(searchAppearanceSchema),
+  adminSearch: withObjectDefaults(searchAdminSearchSchema),
+  analytics: withObjectDefaults(searchAnalyticsSchema),
+  performance: withObjectDefaults(searchPerformanceSchema),
   /** Legacy numeric fuzziness 0–1 (catalog listing) */
   listingFuzziness: z.number().min(0.1).max(0.6).optional(),
 });

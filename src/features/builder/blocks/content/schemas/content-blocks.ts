@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { withObjectDefaults } from "@/lib/zod/object-defaults";
 
 export const maxWidthSchema = z.enum(["full", "contained", "narrow", "reading"]);
 
@@ -51,7 +52,7 @@ export const tableColumnSchema = z
 
 export const tableRowSchema = z.object({
   id: z.string(),
-  cells: z.record(z.string()).default({}),
+  cells: z.record(z.string(), z.string()).default({}),
 });
 
 export const tableFeaturesSchema = z.object({
@@ -66,7 +67,7 @@ export const tablePropsSchema = z.object({
   title: z.string().default(""),
   columns: z.array(tableColumnSchema).default([]),
   rows: z.array(tableRowSchema).default([]),
-  features: tableFeaturesSchema.default({}),
+  features: withObjectDefaults(tableFeaturesSchema),
   striped: z.boolean().default(true),
   compact: z.boolean().default(false),
 });
@@ -109,7 +110,7 @@ export const changelogReleaseSchema = z.object({
   date: z.string().default(""),
   status: z.enum(["released", "beta", "deprecated"]).default("released"),
   tags: z.array(z.string()).default([]),
-  sections: changelogSectionsSchema.default({}),
+  sections: withObjectDefaults(changelogSectionsSchema),
 });
 
 export const changelogLayoutSchema = z.enum(["timeline", "list"]);
@@ -136,7 +137,7 @@ export const comparisonRowSchema = z
   .object({
     id: z.string(),
     label: z.string().default(""),
-    values: z.record(z.union([z.string(), z.boolean()])).default({}),
+    values: z.record(z.string(), z.union([z.string(), z.boolean()])).default({}),
   })
   .passthrough();
 

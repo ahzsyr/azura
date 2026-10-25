@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { withObjectDefaults } from "@/lib/zod/object-defaults";
 
 /**
  * Scopes are the public endpoints that may require a captcha. Form submissions
@@ -36,16 +37,16 @@ export const captchaSettingsSchema = z.object({
   siteKey: z.string().trim().max(200).default(""),
   /** Sealed with the shared secret-seal helper; never returned to the client. */
   secretKeySealed: z.string().optional(),
-  scopes: z
-    .object({
+  scopes: withObjectDefaults(
+    z.object({
       register: captchaOverrideSchema.default("inherit"),
       login: captchaOverrideSchema.default("inherit"),
       passwordReset: captchaOverrideSchema.default("inherit"),
       forms: captchaOverrideSchema.default("inherit"),
       newsletter: captchaOverrideSchema.default("inherit"),
       inquiries: captchaOverrideSchema.default("inherit"),
-    })
-    .default({}),
+    }),
+  ),
 });
 
 export type CaptchaSettings = z.infer<typeof captchaSettingsSchema>;

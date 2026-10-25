@@ -1,7 +1,8 @@
 import { z } from "zod";
+import { withObjectDefaults } from "@/lib/zod/object-defaults";
 import { normalizeBranding } from "@/features/navigation/branding-defaults";
 
-export const brandConfigSchema = z.record(z.unknown()).optional();
+export const brandConfigSchema = z.record(z.string(), z.unknown()).optional();
 
 export const themePresetSchema = z.enum(["CLASSIC", "MODERN", "LUXURY", "CUSTOM"]);
 
@@ -17,7 +18,7 @@ export const typographySchema = z.object({
   headingFont: z.string().default("Amiri"),
   baseFontSize: z.string().default("16px"),
   headingScale: z.number().min(1).max(1.5).default(1.25),
-  localeFonts: z.record(localeFontOverrideSchema).optional(),
+  localeFonts: z.record(z.string(), localeFontOverrideSchema).optional(),
 });
 
 export const chromeVisibilityModeSchema = z.enum(["all", "selected", "except"]);
@@ -98,8 +99,8 @@ export const chromeTintStyleSchema = z
   .enum(["transparent", "glass", "solid", "gradient"])
   .default("glass");
 
-export const mobileBrowserConfigSchema = z
-  .object({
+export const mobileBrowserConfigSchema = withObjectDefaults(
+  z.object({
     syncWithTheme: z.boolean().default(true),
     /**
      * When syncing with theme: derive browser/header/footer chrome from page
@@ -128,8 +129,8 @@ export const mobileBrowserConfigSchema = z
      * radius and spacing are not affected. Default on.
      */
     edgeToEdge: z.boolean().default(true),
-  })
-  .default({});
+  }),
+);
 
 export const siteThemeSchema = z.object({
   preset: themePresetSchema.default("CLASSIC"),
@@ -138,7 +139,7 @@ export const siteThemeSchema = z.object({
   typography: typographySchema.optional(),
   faviconUrl: z.string().nullable().optional(),
   logoUrl: z.string().nullable().optional(),
-  brandConfig: z.record(z.unknown()).optional(),
+  brandConfig: z.record(z.string(), z.unknown()).optional(),
   headerConfig: headerConfigSchema.optional(),
   footerConfig: footerConfigSchema.optional(),
   animationsEnabled: z.boolean().default(true),

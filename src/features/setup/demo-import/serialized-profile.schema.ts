@@ -24,7 +24,7 @@ const demoCompanyInfoSchema = z.object({
   email: z.string().email().or(z.literal("")),
   website: z.string().optional(),
   officeHours: z.string(),
-  socialLinks: z.record(z.string()),
+  socialLinks: z.record(z.string(), z.string()),
   trustBadges: z.array(
     z.object({
       label: z.string(),
@@ -122,7 +122,7 @@ const demoSampleDataSchema = z.object({
       title: z.string(),
       excerpt: z.string(),
       description: z.string(),
-      attributes: z.record(z.unknown()),
+      attributes: z.record(z.string(), z.unknown()),
       imageKey: z.string().optional(),
       isFeatured: z.boolean().optional(),
     })
@@ -132,7 +132,7 @@ const demoSampleDataSchema = z.object({
       slug: z.string(),
       name: z.string(),
       category: z.enum(["GENERAL", "CONTACT", "LEAD", "MULTI_STEP", "SURVEY"]),
-      definition: z.record(z.unknown()),
+      definition: z.record(z.string(), z.unknown()),
     })
   ),
   posts: z.array(
@@ -159,9 +159,9 @@ const blockNodeSchema: z.ZodType<Record<string, unknown>> = z.lazy(() =>
       id: z.string(),
       type: z.string(),
       version: z.string().optional(),
-      props: z.record(z.unknown()).optional(),
-      settings: z.record(z.unknown()).optional(),
-      styles: z.record(z.unknown()).optional(),
+      props: z.record(z.string(), z.unknown()).optional(),
+      settings: z.record(z.string(), z.unknown()).optional(),
+      styles: z.record(z.string(), z.unknown()).optional(),
       children: z.array(blockNodeSchema).optional(),
     })
     .passthrough()
@@ -179,8 +179,8 @@ export const serializedDemoProfileSchema = z.object({
   meta: demoProfileMetaSchema,
   company: demoCompanyInfoSchema,
   theme: demoThemeConfigSchema,
-  header: z.record(z.unknown()),
-  footer: z.record(z.unknown()),
+  header: z.record(z.string(), z.unknown()),
+  footer: z.record(z.string(), z.unknown()),
   mediaFiles: z.array(demoMediaFileSchema),
   sampleData: demoSampleDataSchema,
   pages: z.array(serializedDemoPageSchema),

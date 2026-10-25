@@ -62,7 +62,7 @@ export const formScoringRuleSchema = z.object({
 export const formWebhookConfigSchema = z.object({
   url: z.string().url(),
   events: z.array(z.literal("submit")).default(["submit"]),
-  headers: z.record(z.string()).optional(),
+  headers: z.record(z.string(), z.string()).optional(),
 });
 
 export const formNotificationsConfigSchema = z.object({
@@ -124,7 +124,7 @@ export const formAbTestVariantSchema = z.object({
       bindings: z.array(z.unknown()).optional(),
       steps: z.array(z.unknown()).optional(),
       rules: z.array(z.unknown()).optional(),
-      theme: z.record(z.unknown()).optional(),
+      theme: z.record(z.string(), z.unknown()).optional(),
     })
     .optional(),
 });
@@ -154,13 +154,13 @@ export const formTemplateDefinitionSchema = z.object({
 
 export const formSubmitRequestSchema = z.object({
   templateId: z.string().min(1),
-  payload: z.record(z.unknown()),
+  payload: z.record(z.string(), z.unknown()),
   blockType: z.string().optional(),
   blockId: z.string().optional(),
   pageId: z.string().optional(),
   pageSlug: z.string().optional(),
   locale: z.string().default("en"),
-  utm: z.record(z.string()).optional(),
+  utm: z.record(z.string(), z.string()).optional(),
   abTestId: z.string().optional(),
   abVariantId: z.string().optional(),
   honeypot: z.string().optional(),
@@ -169,7 +169,7 @@ export const formSubmitRequestSchema = z.object({
 export const formDraftSaveSchema = z.object({
   templateId: z.string().min(1),
   token: z.string().optional(),
-  payload: z.record(z.unknown()),
+  payload: z.record(z.string(), z.unknown()),
   currentStep: z.coerce.number().min(0).default(0),
 });
 
@@ -181,7 +181,7 @@ export const newsletterSubscribeSchema = z.object({
   doubleOptIn: z.boolean().default(true),
   blockId: z.string().optional(),
   pageSlug: z.string().optional(),
-  utm: z.record(z.string()).optional().nullable(),
+  utm: z.record(z.string(), z.string()).optional().nullable(),
 });
 
 export const downloadGateUnlockSchema = z.object({

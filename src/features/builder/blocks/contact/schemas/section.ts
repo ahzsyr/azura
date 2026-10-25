@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { withObjectDefaults } from "@/lib/zod/object-defaults";
 import { contactThemeSchema } from "./common";
 
 const columnRatioEnum = z.enum(["50/50", "40/60", "60/40", "30/70", "70/30", "stacked"]);
@@ -14,7 +15,7 @@ export const contactSectionPropsSchema = z.object({
   tabletLayout: z.enum(["stacked", "sideBySide"]).default("sideBySide"),
   leftSlotIds: z.array(z.string()).default([]),
   rightSlotIds: z.array(z.string()).default([]),
-  theme: contactThemeSchema.default({}),
+  theme: withObjectDefaults(contactThemeSchema),
 });
 
 export type ContactSectionProps = z.infer<typeof contactSectionPropsSchema>;

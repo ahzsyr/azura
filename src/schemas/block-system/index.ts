@@ -104,7 +104,7 @@ export const blockPositionStylesSchema = z
 export const blockCustomStylesSchema = z
   .object({
     className: z.string().optional(),
-    cssVariables: z.record(z.string()).optional(),
+    cssVariables: z.record(z.string(), z.string()).optional(),
     inlineCss: z.string().optional(),
     tokenOverrides: z
       .object({
@@ -228,7 +228,7 @@ export const blockVisibilityRulesSchema = z
 
 export const blockSeoSettingsSchema = z
   .object({
-    structuredData: z.record(z.unknown()).optional(),
+    structuredData: z.record(z.string(), z.unknown()).optional(),
     schemaOrgType: z.string().optional(),
     canonicalOverride: z.string().optional(),
     openGraph: z
@@ -244,9 +244,9 @@ export const blockSeoSettingsSchema = z
 
 export const blockLocalizationSettingsSchema = z
   .object({
-    translations: z.record(z.record(z.string())).optional(),
-    localeStyles: z.record(blockStyleSettingsSchema).optional(),
-    localeVisibility: z.record(blockVisibilityRulesSchema).optional(),
+    translations: z.record(z.string(), z.record(z.string(), z.string())).optional(),
+    localeStyles: z.record(z.string(), blockStyleSettingsSchema).optional(),
+    localeVisibility: z.record(z.string(), blockVisibilityRulesSchema).optional(),
     fallbackChain: z.array(z.string()).optional(),
   })
   .partial();
@@ -256,7 +256,7 @@ export const blockInstanceV2Schema: z.ZodType<BlockInstanceV2> = z.lazy(() =>
     id: z.string().min(1),
     type: blockTypeSchema,
     version: z.string(),
-    settings: z.record(z.unknown()),
+    settings: z.record(z.string(), z.unknown()),
     styles: blockStyleSettingsSchema.optional(),
     responsive: blockResponsiveSettingsSchema.optional(),
     localization: blockLocalizationSettingsSchema.optional(),

@@ -8,7 +8,7 @@ const behaviorEventSchema = z.object({
   type: z.string().min(1),
   sessionId: z.string().optional(),
   bindingId: z.string().optional(),
-  payload: z.record(z.unknown()).optional(),
+  payload: z.record(z.string(), z.unknown()).optional(),
 });
 
 export async function POST(request: Request) {

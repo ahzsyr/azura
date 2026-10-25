@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { withObjectDefaults } from "@/lib/zod/object-defaults";
 import { productSortSchema } from "@/features/builder/blocks/commerce/product-blocks/schemas/product-blocks";
 
 export function newShowcaseId(prefix = "item") {
@@ -191,7 +192,7 @@ export const brandShowcasePropsSchema = z.object({
   selectedBrandSlugs: z.array(z.string()).default([]),
   /** @deprecated use selectedBrandSlugs */
   manualSlugs: z.array(z.string()).default([]),
-  brandOverrides: z.record(z.string(), brandOverrideSchema).default({}),
+  brandOverrides: z.record(z.string(), withObjectDefaults(brandOverrideSchema)).default({}),
   showCounts: z.boolean().default(true),
   showDescriptions: z.boolean().default(false),
   grayscale: z.boolean().default(true),
@@ -239,7 +240,7 @@ export const taxonomyProductTabsPropsSchema = z.object({
   tabSource: z.enum(["auto", "manual", "pick"]).default("auto"),
   autoTabLimit: z.coerce.number().min(1).max(24).default(6),
   selectedBrandSlugs: z.array(z.string()).default([]),
-  brandOverrides: z.record(z.string(), brandOverrideSchema).default({}),
+  brandOverrides: z.record(z.string(), withObjectDefaults(brandOverrideSchema)).default({}),
   tabs: z.array(taxonomyTabItemSchema).default([]),
   productLayout: z.enum(["grid", "carousel"]).default("grid"),
   productsPerTab: z.coerce.number().min(1).max(48).default(8),
@@ -265,7 +266,8 @@ export const taxonomyProductTabsPropsSchema = z.object({
 
 export const megaCollectionShowcasePropsSchema = z.object({
   ...localizedShowcaseFields,
-  leftNavSource: categoryShowcaseSourceSchema.default("collections"),
+  // Defaults skip transforms, so the post-transform value must be given here.
+  leftNavSource: categoryShowcaseSourceSchema.default("categories"),
   leftNavMaxDepth: z.coerce.number().min(1).max(5).default(3),
   leftShowIcons: z.boolean().default(true),
   centerCollectionSlug: z.string().default(""),
