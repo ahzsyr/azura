@@ -18,6 +18,8 @@ export async function updateAdminCredentials(
     email: string;
     pendingEmail?: string | null;
     requiresRelogin?: boolean;
+    /** Set when the confirmation email went out but a secondary notice failed. */
+    warning?: string;
   }>
 > {
   try {
@@ -34,6 +36,9 @@ export async function updateAdminCredentials(
 
     let pendingEmail: string | null | undefined = user.pendingEmail;
     let requiresRelogin = false;
+    let warning: string | undefined;
+    /** Only a change requested in THIS submit can be announced as "sent". */
+    let emailChangeRequested = false;
 
     if (data.newEmail && data.newEmail.trim().toLowerCase() !== user.email.toLowerCase()) {
       const change = await startEmailChange({
@@ -44,6 +49,8 @@ export async function updateAdminCredentials(
       });
       if ("error" in change) return fail(change.error);
       pendingEmail = change.pendingEmail;
+      warning = change.warning;
+      emailChangeRequested = true;
     }
 
     if (data.newPassword) {
@@ -98,8 +105,13 @@ export async function updateAdminCredentials(
 
     return ok({
       email: refreshed?.email ?? user.email,
-      pendingEmail: refreshed?.pendingEmail ?? pendingEmail ?? null,
+      // Returning a pending address that was not sent in this submit would make
+      // the client announce a confirmation email that never happened.
+      pendingEmail: emailChangeRequested
+        ? (refreshed?.pendingEmail ?? pendingEmail ?? null)
+        : null,
       requiresRelogin,
+      warning,
     });
   } catch (e) {
     if (e instanceof Error && e.message === "Unauthorized") {

@@ -100,6 +100,7 @@ export function AccountSecurityForm({ locale }: Props) {
     const data = (await res.json().catch(() => ({}))) as {
       error?: string;
       pendingEmail?: string;
+      warning?: string;
     };
     setLoading(false);
     if (!res.ok) {
@@ -107,7 +108,9 @@ export function AccountSecurityForm({ locale }: Props) {
       return;
     }
     setPendingEmail(data.pendingEmail ?? newEmail);
-    setMessage(t("emailChangePending", { email: data.pendingEmail ?? newEmail }));
+    setMessage(
+      `${t("emailChangePending", { email: data.pendingEmail ?? newEmail })}${data.warning ? ` ${data.warning}` : ""}`,
+    );
     setNewEmail("");
     setEmailPassword("");
   }

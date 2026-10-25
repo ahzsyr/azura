@@ -42,7 +42,11 @@ export async function POST(request: Request) {
     if ("error" in result) {
       return NextResponse.json({ error: result.error }, { status: 400 });
     }
-    return NextResponse.json({ success: true, pendingEmail: result.pendingEmail });
+    return NextResponse.json({
+      success: true,
+      pendingEmail: result.pendingEmail,
+      ...(result.warning ? { warning: result.warning } : {}),
+    });
   } catch {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }

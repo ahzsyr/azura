@@ -18,9 +18,22 @@ import {
 const NAMESPACE = "account";
 const SETTINGS_KEY = "settings";
 
+/**
+ * Treat "nothing stored" as defaults, never as a configured value.
+ *
+ * `jsonStoreService.get()` resolves to `null` when the row is absent. Passing
+ * that down as `{}` made `schema.parse({})` look like a complete settings
+ * object: every field is optional or defaulted, so the result was a
+ * `{ emailAccountId: undefined }` shape that reads as "configured". Callers
+ * then resolved no provider and silently dropped delivery.
+ */
+function isStoredSettings(raw: unknown): raw is Record<string, unknown> {
+  return typeof raw === "object" && raw !== null && !Array.isArray(raw);
+}
+
 function normalizePasswordReset(raw: unknown): PasswordResetSettings {
   const base = defaultAccountSettings().passwordReset;
-  if (!raw || typeof raw !== "object") return base;
+  if (!isStoredSettings(raw)) return base;
   const parsed = passwordResetSettingsSchema.safeParse({ ...base, ...raw });
   if (!parsed.success) return base;
   const v = parsed.data;
@@ -35,7 +48,7 @@ function normalizePasswordReset(raw: unknown): PasswordResetSettings {
 
 function normalizeEmailVerification(raw: unknown): EmailVerificationSettings {
   const base = defaultEmailVerificationSettings();
-  if (!raw || typeof raw !== "object") return base;
+  if (!isStoredSettings(raw)) return base;
   const parsed = emailVerificationSettingsSchema.safeParse({ ...base, ...raw });
   if (!parsed.success) return base;
   const v = parsed.data;
@@ -48,7 +61,7 @@ function normalizeEmailVerification(raw: unknown): EmailVerificationSettings {
 
 function normalizeAdminAuth(raw: unknown): AdminAuthSettings {
   const base = defaultAdminAuthSettings();
-  if (!raw || typeof raw !== "object") return base;
+  if (!isStoredSettings(raw)) return base;
   const parsed = adminAuthSettingsSchema.safeParse({ ...base, ...raw });
   if (!parsed.success) return base;
   return {
@@ -58,12 +71,11 @@ function normalizeAdminAuth(raw: unknown): AdminAuthSettings {
 }
 
 function normalizeSettings(raw: unknown): AccountSettings {
-  if (!raw || typeof raw !== "object") return defaultAccountSettings();
-  const o = raw as Record<string, unknown>;
+  if (!isStoredSettings(raw)) return defaultAccountSettings();
   return {
-    passwordReset: normalizePasswordReset(o.passwordReset),
-    emailVerification: normalizeEmailVerification(o.emailVerification),
-    adminAuth: normalizeAdminAuth(o.adminAuth),
+    passwordReset: normalizePasswordReset(raw.passwordReset),
+    emailVerification: normalizeEmailVerification(raw.emailVerification),
+    adminAuth: normalizeAdminAuth(raw.adminAuth),
   };
 }
 

@@ -161,6 +161,13 @@ describe("enumeration-resistant response contracts (static)", () => {
     assert.match(service, /Email is already in use/);
     assert.match(service, /New email must be different/);
     assert.doesNotMatch(service, /pendingEmail: newEmail[\s\S]{0,80}taken/);
-    assert.match(service, /if \(taken\) \{[^}]*return \{ error: "Email is already in use" \}/s);
+    // The taken-email branch must return an error (not stage the address).
+    // Extra result fields (e.g. `deliveryFailed`) are allowed.
+    assert.match(service, /if \(taken\) \{[\s\S]*?return \{ error: "Email is already in use"/);
+    // The guard must run before the pending email is written.
+    const takenGuard = service.indexOf('if (taken) {');
+    const stageWrite = service.indexOf("data: { pendingEmail: newEmail }");
+    assert.ok(takenGuard !== -1 && stageWrite !== -1, "expected guard and stage write");
+    assert.ok(takenGuard < stageWrite, "taken-email guard must run before staging");
   });
 });

@@ -3,12 +3,23 @@ import "server-only";
 import { createHash, randomBytes } from "crypto";
 import type { EmailVerificationPurpose } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { sendEmail } from "@/features/email/email.service";
+import {
+  getEmailDeliveryStatusForAccount,
+  resolveSendProviderConfig,
+  sendEmail,
+} from "@/features/email/email.service";
 import { accountSettingsService } from "@/features/account/account-settings.service";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { writeSecurityAuditLog } from "@/lib/security-audit";
 import { bumpUserSessionVersion } from "@/lib/session-version";
 import { accountPublicPath } from "@/features/account/account-public-path";
+
+export const NOT_CONFIGURED_MESSAGE =
+  "No email provider is configured, so the confirmation could not be sent. Configure Settings → Email Accounts (or RESEND_API_KEY) and try again.";
+export const SEND_FAILED_MESSAGE =
+  "The confirmation email could not be sent. Check the email provider settings and try again.";
+export const RATE_LIMITED_MESSAGE =
+  "Too many verification emails were requested recently. Try again in about an hour.";
 
 const TOKEN_EXPIRY_HOURS = 24;
 const RESEND_LIMIT = 3;
@@ -34,22 +45,37 @@ function applyTemplate(template: string, vars: Record<string, string>): string {
   return out;
 }
 
+export type IssueEmailVerificationResult =
+  | { ok: true }
+  /** `deliveryFailed` means nothing was sent, so callers must not claim it was. */
+  | { error: string; deliveryFailed: boolean };
+
 export async function issueEmailVerification(input: {
   userId: string;
   purpose: EmailVerificationPurpose;
   locale: string;
   /** Destination inbox — pending email for EMAIL_CHANGE, else current email. */
   toEmail?: string;
-}): Promise<{ ok: true } | { error: string }> {
+}): Promise<IssueEmailVerificationResult> {
   const user = await prisma.user.findUnique({ where: { id: input.userId } });
-  if (!user) return { error: "User not found" };
+  if (!user) return { error: "User not found", deliveryFailed: true };
 
   const rl = await enforceRateLimit({
     key: `verify-resend:${user.id}:${input.purpose}`,
     limit: RESEND_LIMIT,
     windowMs: RESEND_WINDOW_MS,
   });
-  if (!rl.allowed) return { ok: true };
+  if (!rl.allowed) {
+    // Callers are authenticated flows that report delivery, so "silently
+    // pretend we sent it" is wrong here: say so instead of returning ok.
+    await writeSecurityAuditLog({
+      action: "auth.email.verify.failed",
+      actorId: user.id,
+      actorRole: user.role,
+      meta: { purpose: input.purpose, reason: "RATE_LIMITED" },
+    });
+    return { error: RATE_LIMITED_MESSAGE, deliveryFailed: true };
+  }
 
   const toEmail = (input.toEmail ?? user.email).trim().toLowerCase();
   const rawToken = randomBytes(32).toString("hex");
@@ -60,7 +86,7 @@ export async function issueEmailVerification(input: {
     where: { userId: user.id, purpose: input.purpose, usedAt: null },
   });
 
-  await prisma.emailVerificationToken.create({
+  const token = await prisma.emailVerificationToken.create({
     data: {
       userId: user.id,
       purpose: input.purpose,
@@ -92,12 +118,42 @@ export async function issueEmailVerification(input: {
     linkLabel: verifyLink,
   });
 
-  await sendEmail({
+  const emailAccountId = settings.emailVerification.emailAccountId || null;
+  const delivery = await getEmailDeliveryStatusForAccount(emailAccountId);
+  if (!delivery.configured) {
+    // Never report success when no provider can deliver: the caller would
+    // otherwise show "confirmation sent" for an email that never left.
+    await prisma.emailVerificationToken.delete({ where: { id: token.id } });
+    await writeSecurityAuditLog({
+      action: "auth.email.verify.failed",
+      actorId: user.id,
+      actorRole: user.role,
+      meta: { purpose: input.purpose, reason: "NOT_CONFIGURED" },
+    });
+    return { error: NOT_CONFIGURED_MESSAGE, deliveryFailed: true };
+  }
+
+  const result = await sendEmail({
     to: toEmail,
     subject,
     html: rendered.html,
     text: rendered.text ?? `${heading}\n\n${bodyText}\n\n${verifyLink}`,
+    providerConfig: await resolveSendProviderConfig(emailAccountId),
+    fromName: settings.emailVerification.fromName?.trim() || undefined,
   });
+
+  if (!result.sent) {
+    // The token is useless without a delivered link — drop it so a retry
+    // starts clean instead of leaving an unreachable pending invite.
+    await prisma.emailVerificationToken.delete({ where: { id: token.id } });
+    await writeSecurityAuditLog({
+      action: "auth.email.verify.failed",
+      actorId: user.id,
+      actorRole: user.role,
+      meta: { purpose: input.purpose, errorCode: result.errorCode ?? "unknown" },
+    });
+    return { error: result.errorMessage ?? SEND_FAILED_MESSAGE, deliveryFailed: true };
+  }
 
   await writeSecurityAuditLog({
     action: "auth.email.verify.sent",

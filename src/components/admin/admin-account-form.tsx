@@ -166,12 +166,14 @@ export function AdminAccountForm({
     }
 
     const nextEmail = result.data?.email ?? email;
+    // Secondary notice failure: the primary confirmation did go out.
+    const warning = result.data?.warning ? ` ${result.data.warning}` : "";
     if (result.data?.requiresRelogin) {
       const pending = result.data.pendingEmail;
       if (pending) setPendingEmail(pending);
       setFeedback(
         pending
-          ? `Password updated. Sign in with ${nextEmail} or ${pending}.`
+          ? `Password updated. A confirmation email was sent to ${pending}. Sign in with ${nextEmail} or ${pending}.${warning}`
           : "Password updated. Sign in again with the same email and your new password.",
       );
       setNewEmail("");
@@ -184,7 +186,7 @@ export function AdminAccountForm({
     } else if (result.data?.pendingEmail) {
       setPendingEmail(result.data.pendingEmail);
       setFeedback(
-        `Confirmation sent to ${result.data.pendingEmail}. Your login email stays ${nextEmail} until you confirm. You can also sign in with the new address.`,
+        `Confirmation sent to ${result.data.pendingEmail}. Your login email stays ${nextEmail} until you confirm. You can also sign in with the new address.${warning}`,
       );
     } else if (nextEmail !== email) {
       setEmail(nextEmail);
