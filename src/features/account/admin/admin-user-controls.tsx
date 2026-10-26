@@ -17,6 +17,7 @@ type Props = {
   disabled: boolean;
 };
 
+/** Staff management for an Admin account. A Super Admin acts on Admins only. */
 export function AdminUserControls({ userId, disabled }: Props) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
@@ -72,9 +73,14 @@ export function AdminUserControls({ userId, disabled }: Props) {
           size="sm"
           variant="outline"
           disabled={busy}
-          onClick={() => void run(() => sendAdminPasswordResetAction(userId), "Reset email sent.")}
+          onClick={() =>
+            void run(
+              () => sendAdminPasswordResetAction(userId),
+              "A password-reset code was emailed to this admin.",
+            )
+          }
         >
-          Send reset email
+          Send reset code
         </Button>
         <Button
           type="button"

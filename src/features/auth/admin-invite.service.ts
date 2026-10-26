@@ -11,6 +11,10 @@ import { emailInputSchema } from "@/lib/security/email-input";
 import { verifyEmailDomain } from "@/lib/security/email-domain.server";
 import { passwordPolicySchema } from "@/schemas/password-policy";
 import { accountPublicPath } from "@/features/account/account-public-path";
+import {
+  ROLE_NOT_PERMITTED_MESSAGE,
+  canManageUser,
+} from "@/features/auth/role-policy";
 
 const INVITE_EXPIRY_HOURS = 24;
 
@@ -182,18 +186,51 @@ export async function listStaffUsers() {
   });
 }
 
+export type StaffActor = { id: string; role: string };
+
+/**
+ * Load a target for a staff-management action and apply the hierarchy on the
+ * server. A role at or above the actor's — including the Super Admin, who is
+ * never managed through this surface — reports the same answer as a missing
+ * account, so the endpoint cannot be used to probe for privileged accounts.
+ */
+type ManageableAdminResult =
+  | { ok: true; target: { id: string; role: string; name: string; email: string } }
+  | { ok: false; error: string };
+
+async function loadManageableAdmin(input: {
+  targetUserId: string;
+  actor: StaffActor;
+}): Promise<ManageableAdminResult> {
+  if (input.targetUserId === input.actor.id) {
+    return { ok: false, error: "Cannot change your own account here" };
+  }
+  const target = await prisma.user.findUnique({
+    where: { id: input.targetUserId },
+    select: { id: true, role: true, name: true, email: true },
+  });
+  if (
+    !target ||
+    !canManageUser({
+      actorId: input.actor.id,
+      actorRole: input.actor.role,
+      targetId: target.id,
+      targetRole: target.role,
+    })
+  ) {
+    return { ok: false, error: ROLE_NOT_PERMITTED_MESSAGE };
+  }
+  return { ok: true, target };
+}
+
 export async function disableAdminAccount(input: {
   targetUserId: string;
-  actor: { id: string; role: string };
+  actor: StaffActor;
   ip?: string | null;
 }): Promise<{ ok: true } | { error: string }> {
-  if (input.targetUserId === input.actor.id) {
-    return { error: "Cannot disable your own account" };
-  }
-  const target = await prisma.user.findUnique({ where: { id: input.targetUserId } });
-  if (!target || target.role !== "ADMIN") {
-    return { error: "Only ADMIN staff can be disabled" };
-  }
+  const gate = await loadManageableAdmin(input);
+  if (!gate.ok) return { error: gate.error };
+  const target = gate.target;
   await prisma.user.update({
     where: { id: target.id },
     data: { disabledAt: new Date() },
@@ -204,7 +241,7 @@ export async function disableAdminAccount(input: {
     actorId: input.actor.id,
     actorRole: input.actor.role,
     ip: input.ip,
-    meta: { targetUserId: target.id },
+    meta: { targetUserId: target.id, targetRole: target.role },
   });
   await writeSecurityAuditLog({
     action: "auth.session.revoked",
@@ -218,13 +255,12 @@ export async function disableAdminAccount(input: {
 
 export async function enableAdminAccount(input: {
   targetUserId: string;
-  actor: { id: string; role: string };
+  actor: StaffActor;
   ip?: string | null;
 }): Promise<{ ok: true } | { error: string }> {
-  const target = await prisma.user.findUnique({ where: { id: input.targetUserId } });
-  if (!target || target.role !== "ADMIN") {
-    return { error: "Only ADMIN staff can be enabled" };
-  }
+  const gate = await loadManageableAdmin(input);
+  if (!gate.ok) return { error: gate.error };
+  const target = gate.target;
   await prisma.user.update({
     where: { id: target.id },
     data: { disabledAt: null, failedLoginCount: 0, lockedUntil: null },
@@ -234,20 +270,19 @@ export async function enableAdminAccount(input: {
     actorId: input.actor.id,
     actorRole: input.actor.role,
     ip: input.ip,
-    meta: { targetUserId: target.id },
+    meta: { targetUserId: target.id, targetRole: target.role },
   });
   return { ok: true };
 }
 
 export async function forceAdminPasswordChange(input: {
   targetUserId: string;
-  actor: { id: string; role: string };
+  actor: StaffActor;
   ip?: string | null;
 }): Promise<{ ok: true } | { error: string }> {
-  const target = await prisma.user.findUnique({ where: { id: input.targetUserId } });
-  if (!target || target.role !== "ADMIN") {
-    return { error: "Only ADMIN staff can be forced to change password" };
-  }
+  const gate = await loadManageableAdmin(input);
+  if (!gate.ok) return { error: gate.error };
+  const target = gate.target;
   await prisma.user.update({
     where: { id: target.id },
     data: { mustChangePassword: true },
@@ -258,7 +293,7 @@ export async function forceAdminPasswordChange(input: {
     actorId: input.actor.id,
     actorRole: input.actor.role,
     ip: input.ip,
-    meta: { targetUserId: target.id },
+    meta: { targetUserId: target.id, targetRole: target.role },
   });
   await writeSecurityAuditLog({
     action: "auth.session.revoked",
@@ -272,20 +307,24 @@ export async function forceAdminPasswordChange(input: {
 
 export async function revokeAdminSessions(input: {
   targetUserId: string;
-  actor: { id: string; role: string };
+  actor: StaffActor;
   ip?: string | null;
 }): Promise<{ ok: true } | { error: string }> {
-  const target = await prisma.user.findUnique({ where: { id: input.targetUserId } });
-  if (!target || target.role !== "ADMIN") {
-    return { error: "Only ADMIN staff sessions can be revoked this way" };
+  // Signing yourself out is always allowed; it only affects the actor.
+  if (input.targetUserId === input.actor.id) {
+    await bumpUserSessionVersion(input.actor.id);
+    return { ok: true };
   }
+  const gate = await loadManageableAdmin(input);
+  if (!gate.ok) return { error: gate.error };
+  const target = gate.target;
   await bumpUserSessionVersion(target.id);
   await writeSecurityAuditLog({
     action: "auth.session.revoked",
     actorId: input.actor.id,
     actorRole: input.actor.role,
     ip: input.ip,
-    meta: { targetUserId: target.id, reason: "ADMIN_REVOKED_BY_SUPER" },
+    meta: { targetUserId: target.id, reason: "ADMIN_SESSIONS_REVOKED" },
   });
   return { ok: true };
 }

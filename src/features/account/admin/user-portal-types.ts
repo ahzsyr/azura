@@ -26,6 +26,11 @@ export type PortalUserRecord = PortalUserRow & {
   country: string | null;
   marketingOptIn: boolean;
   totpEnabled: boolean;
+  /** Per-user MFA state (see mfa-policy.helpers.ts). */
+  mfaEnrolled: boolean;
+  mfaMethod: "AUTHENTICATOR" | "EMAIL_OTP" | null;
+  mfaMethodLabel: string | null;
+  mfaDisabledByAdminAt: string | null;
   adminSectionGrants: AdminSectionId[] | null;
 };
 

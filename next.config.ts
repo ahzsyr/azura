@@ -147,6 +147,11 @@ const nextConfig: NextConfig = {
           source: "/api/admin/:path*",
           destination: "/api/manage/:path*",
         },
+        /** Public llms.txt document served by the SEO API route. */
+        {
+          source: "/llms.txt",
+          destination: "/api/seo/llms",
+        },
         /** IndexNow verification file at https://{host}/{key}.txt */
         {
           source: "/:key([A-Za-z0-9\\-]{8,128}).txt",

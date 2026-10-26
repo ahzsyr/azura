@@ -2,10 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ChevronDown, ChevronRight, Globe } from "lucide-react";
-import {
-  UniversalTranslationEditor,
-  LocaleCompletionTabs,
-} from "@/features/translation/components/universal-translation-editor";
+import { UniversalTranslationEditor } from "@/features/translation/components/universal-translation-editor";
 import { TranslatableStringList } from "@/features/translation/components/translatable-string-list";
 import {
   getEntityConfig,
@@ -45,17 +42,11 @@ export function LocaleTabPanel({
   }, [entityType, excludeFields, sourceData]);
 
   const [expanded, setExpanded] = useState(false);
-  const [activeLocale, setActiveLocale] = useState("");
+  const [activeLocale, setActiveLocale] = useState(targetLocales[0]?.code ?? "");
 
   useEffect(() => {
     if (hasAnyTranslation) setExpanded(true);
   }, [hasAnyTranslation]);
-
-  useEffect(() => {
-    if (targetLocales.length > 0 && !activeLocale) {
-      setActiveLocale(targetLocales[0].code);
-    }
-  }, [targetLocales, activeLocale]);
 
   const completionByLocale = useMemo(() => {
     const result: Record<string, number> = {};
@@ -87,7 +78,7 @@ export function LocaleTabPanel({
               Translations
             </CardTitle>
             <CardDescription>
-              Side-by-side editing — English source on the left, target locale on the right.
+              Edit translations for the language selected in the admin bar.
             </CardDescription>
           </div>
           <button type="button" className="text-muted-foreground mt-1" aria-label={expanded ? "Collapse" : "Expand"}>
@@ -95,29 +86,10 @@ export function LocaleTabPanel({
           </button>
         </div>
 
-        {!expanded && targetLocales.length > 0 ? (
-          <div className="pt-2" onClick={(e) => e.stopPropagation()}>
-            <LocaleCompletionTabs
-              locales={locales}
-              defaultLocaleCode={defaultCode}
-              completionByLocale={completionByLocale}
-              activeLocale={activeLocale}
-              onLocaleChange={setActiveLocale}
-            />
-          </div>
-        ) : null}
       </CardHeader>
 
       {expanded ? (
         <CardContent className={cn("space-y-6 pt-0", loading && "opacity-60 pointer-events-none")}>
-          <LocaleCompletionTabs
-            locales={locales}
-            defaultLocaleCode={defaultCode}
-            completionByLocale={completionByLocale}
-            activeLocale={activeLocale}
-            onLocaleChange={setActiveLocale}
-          />
-
           {fields.map((fieldDef) => {
             const englishValue = sourceData[fieldDef.field] ?? "";
 

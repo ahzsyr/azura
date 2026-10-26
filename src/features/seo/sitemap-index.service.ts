@@ -6,6 +6,13 @@ import { generateSitemap, fallbackStaticSitemapEntries } from "./sitemap.service
 import { resolveSiteOrigin } from "./resolve-site-origin";
 import { resolveSitemapOriginSafe } from "./sitemap-origin";
 import { canonicalizeSitemapLoc } from "./sitemap-path-utils";
+import {
+  classifySitemapUrl,
+  isSitemapIndexableUrl,
+  type SitemapType,
+} from "./sitemap-url-classify";
+
+export { classifySitemapUrl, isSitemapIndexableUrl } from "./sitemap-url-classify";
 
 export const SITEMAP_CHUNK_SIZE = 1000;
 export const SITEMAP_XSL_HREF = "/sitemap.xsl";
@@ -17,7 +24,7 @@ export const SITEMAP_XML_HEADERS = {
   "Cache-Control": SITEMAP_CACHE_CONTROL,
 } as const;
 
-export type SitemapType = "page" | "post" | "product" | "category" | "brand" | "video";
+export type { SitemapType } from "./sitemap-url-classify";
 
 export type SitemapUrlEntry = MetadataRoute.Sitemap[number];
 
@@ -44,35 +51,8 @@ export type SitemapChunk = {
   entries: SitemapUrlEntry[];
 };
 
-const SKIP_INDEXABLE_SEGMENT = /(?:^|\/)(compare|account|favorites|search)(?:\/|$)/i;
-
 export function emptySitemapBuckets(): SitemapBuckets {
   return { page: [], post: [], product: [], category: [], brand: [], video: [] };
-}
-
-export function classifySitemapUrl(url: string): SitemapType {
-  try {
-    const path = new URL(url).pathname;
-    // Exact /videos index stays a page; watch pages under /videos/ go to video sitemap.
-    if (/\/videos\/.+/i.test(path)) return "video";
-    if (path.includes("/products/")) return "product";
-    if (path.includes("/blog/")) return "post";
-    if (path.includes("/categories/") || path.includes("/collections/")) return "category";
-    if (path.includes("/brands/")) return "brand";
-    return "page";
-  } catch {
-    return "page";
-  }
-}
-
-export function isSitemapIndexableUrl(url: string): boolean {
-  let path = url;
-  try {
-    path = new URL(url).pathname;
-  } catch {
-    if (!path.startsWith("/")) path = `/${path}`;
-  }
-  return !SKIP_INDEXABLE_SEGMENT.test(path);
 }
 
 /**

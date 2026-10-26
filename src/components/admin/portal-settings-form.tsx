@@ -242,7 +242,7 @@ export function PortalSettingsForm({
             Signup OTP {verificationSettings.emailAccountId ? "account set" : "unset"}
           </Badge>
           <Badge variant={resetSettings.enabled ? "default" : "secondary"}>
-            Reset emails {resetSettings.enabled ? "on" : "off"}
+            Reset codes {resetSettings.enabled ? "on" : "off"}
           </Badge>
         </CardContent>
       </Card>
@@ -264,11 +264,7 @@ export function PortalSettingsForm({
                   emailAccounts={emailAccounts}
                 />
               ) : (
-                <PasswordResetTab
-                  settings={resetSettings}
-                  onChange={patchReset}
-                  emailAccounts={emailAccounts}
-                />
+                <PasswordResetTab settings={resetSettings} onChange={patchReset} />
               )}
             </CardContent>
           </Card>
@@ -390,35 +386,34 @@ function EmailVerificationTab({
 function PasswordResetTab({
   settings,
   onChange,
-  emailAccounts,
 }: {
   settings: PasswordResetSettings;
   onChange: (patch: Partial<PasswordResetSettings>) => void;
-  emailAccounts: EmailAccountOption[];
 }) {
   return (
     <div className="space-y-8">
       <SettingsSection
-        title="Customer password reset"
-        description="Emails sent when customers request a reset from the account hub. Never used for administrator resets."
+        title="Password reset codes"
+        description="Every eligible account — customer, Admin or Super Admin — resets with a 6-digit code emailed to its registered address. The response never says whether an address has an account."
       >
         <ToggleField
-          label="Enable password reset emails"
-          description="When off, reset requests are rejected even if the form is visible."
+          label="Enable password reset by email"
+          description="When off, no reset codes are sent for any account type."
           checked={settings.enabled}
           onChange={(enabled) => onChange({ enabled })}
         />
+        <div className="rounded-lg border bg-muted/40 px-3 py-2 text-sm text-muted-foreground">
+          Codes expire after <strong className="text-foreground">10 minutes</strong>, work once, and
+          replace any earlier code. A successful reset signs the user out everywhere and turns off
+          their two-step verification, which they must set up again at the next sign-in.
+        </div>
       </SettingsSection>
 
       <SettingsSection
-        title="Delivery"
-        description="Choose an Email Account for customer reset emails."
+        title="Sender"
+        description="Reset codes use the OTP email account configured under Settings → Admin account → Email delivery, so one sender is used by every code."
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-lg border bg-muted/40 px-3 py-2 text-sm text-muted-foreground md:col-span-2">
-            Reset links always expire after <strong className="text-foreground">5 minutes</strong> and
-            can only be used once.
-          </div>
           <TextField
             id="fromName"
             label="From name (optional)"
@@ -426,14 +421,6 @@ function PasswordResetTab({
             onChange={(fromName) => onChange({ fromName })}
           />
         </div>
-        <EmailAccountSelect
-          id="emailAccountId"
-          label="Email account"
-          value={settings.emailAccountId ?? ""}
-          onChange={(emailAccountId) => onChange({ emailAccountId })}
-          emailAccounts={emailAccounts}
-          allowEnvFallback
-        />
         <TextField
           id="notifyReceiverEmail"
           label="Notify receiver email (optional)"

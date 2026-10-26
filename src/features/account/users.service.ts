@@ -9,7 +9,6 @@ import {
   emptyToNull,
   parseDateOfBirth,
 } from "@/features/setup/setup-complete.schema";
-import { sendPasswordResetForUser } from "@/features/account/password-reset.service";
 import { bumpUserSessionVersion } from "@/lib/session-version";
 import { writeSecurityAuditLog } from "@/lib/security-audit";
 import {
@@ -140,9 +139,5 @@ export const usersService = {
       await enableCustomerAccount(id, actor);
     }
     return { ok: true as const };
-  },
-
-  async triggerPasswordReset(id: string, locale = "en") {
-    return sendPasswordResetForUser(id, locale);
   },
 };

@@ -18,6 +18,8 @@ import {
 const NAMESPACE = "account";
 const SETTINGS_KEY = "settings";
 
+export type { AccountSettings } from "@/features/account/account-settings.schema";
+
 /**
  * Treat "nothing stored" as defaults, never as a configured value.
  *

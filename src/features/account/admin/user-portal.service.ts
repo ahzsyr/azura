@@ -3,6 +3,7 @@ import "server-only";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { parseAdminSectionGrants } from "@/features/auth/admin-section-grants";
+import { MFA_METHOD_LABELS, resolveMfaState } from "@/features/auth/mfa-policy.helpers";
 import { buildUserFunnel, type FunnelEvent } from "@/features/account/admin/user-funnel";
 import type {
   LoginLogRow,
@@ -131,11 +132,15 @@ export async function getPortalUser(id: string): Promise<PortalUserRecord | null
       country: true,
       marketingOptIn: true,
       totpEnabled: true,
+      totpSecret: true,
+      mfaMethod: true,
+      mfaDisabledByAdminAt: true,
       adminSectionGrants: true,
     },
   });
   if (!user) return null;
   const logins = await lastLoginByUser([user.id]);
+  const mfa = resolveMfaState(user);
   return {
     ...toRow(user, logins.get(user.id) ?? null),
     dateOfBirth: iso(user.dateOfBirth),
@@ -146,7 +151,11 @@ export async function getPortalUser(id: string): Promise<PortalUserRecord | null
     postalCode: user.postalCode,
     country: user.country,
     marketingOptIn: user.marketingOptIn,
-    totpEnabled: user.totpEnabled,
+    totpEnabled: mfa.enrolled && mfa.method === "AUTHENTICATOR",
+    mfaEnrolled: mfa.enrolled,
+    mfaMethod: mfa.method,
+    mfaMethodLabel: mfa.method ? MFA_METHOD_LABELS[mfa.method] : null,
+    mfaDisabledByAdminAt: iso(user.mfaDisabledByAdminAt),
     adminSectionGrants: parseAdminSectionGrants(user.adminSectionGrants),
   };
 }

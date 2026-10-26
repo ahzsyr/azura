@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AccountNav } from "@/components/account/account-nav";
+import { AccountMfaCard, type SelfMfaView } from "@/components/account/account-mfa-card";
 import { PasswordField } from "@/components/account/password-field";
 import { accountPublicPath } from "@/features/account/account-public-path";
 import { CredentialChecks, useCredentialCheck } from "@/components/security/credential-checks";
@@ -15,9 +16,11 @@ import { publicLocalePath } from "@/i18n/url-helpers";
 
 type Props = {
   locale: string;
+  /** Read on the server so the MFA card paints with real state. */
+  mfaStatus: SelfMfaView | null;
 };
 
-export function AccountSecurityForm({ locale }: Props) {
+export function AccountSecurityForm({ locale, mfaStatus }: Props) {
   const t = useTranslations("account");
   const [pendingEmail, setPendingEmail] = useState<string | null>(null);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -187,6 +190,8 @@ export function AccountSecurityForm({ locale }: Props) {
             </form>
           </CardContent>
         </Card>
+
+        {mfaStatus ? <AccountMfaCard initialStatus={mfaStatus} /> : null}
 
         <Card>
           <CardHeader>

@@ -10,7 +10,7 @@ import { collectionsDataService } from "@/features/collections/collections-data.
 import { productsDataService } from "@/features/products/products-data.service";
 import { loadListingRecords } from "@/features/products/index/product-index-loader";
 import { loadBrandAndTagEntries } from "@/features/catalog/brand-tag-pages.service";
-import { STATIC_SEO_PAGES } from "./constants";
+import { STATIC_SEO_PAGES, isIndexableStaticPage } from "./constants";
 import { seoRepository } from "@/repositories/seo.repository";
 import { listPageSeoContexts } from "./resolve-page-seo-context";
 import type { SeoSitemapConfig } from "./types";
@@ -53,7 +53,7 @@ function fallbackStaticSitemap(siteUrl: string, localePrefixes: string[]): Metad
   const defaultPrefix =
     FALLBACK_LOCALES.find((l) => l.isDefault)?.urlPrefix ?? localePrefixes[0] ?? "en";
   return localePrefixes.flatMap((locale) =>
-    STATIC_SEO_PAGES.map((page) => ({
+    STATIC_SEO_PAGES.filter((page) => isIndexableStaticPage(page.pageKey)).map((page) => ({
       url: sitemapPublicUrl(siteUrl, locale, page.path || "/", defaultPrefix),
       lastModified: now,
       changeFrequency: page.path === "" ? ("weekly" as const) : ("monthly" as const),
@@ -228,7 +228,8 @@ async function buildSitemapEntries(
   }
 
   function isPathExcluded(path: string): boolean {
-    return excludePathSet.has(normalizeSitemapPath(path)) || noIndexPaths.has(path);
+    const normalized = normalizeSitemapPath(path);
+    return excludePathSet.has(normalized) || noIndexPaths.has(normalized);
   }
 
   function isEntryExcluded(url: string, path: string): boolean {
@@ -356,6 +357,7 @@ async function buildSitemapEntries(
     const languageCode = localeConfig?.code ?? localePrefix;
 
     for (const page of STATIC_SEO_PAGES) {
+      if (!isIndexableStaticPage(page.pageKey)) continue;
       const ctx = staticContexts[page.pageKey];
       if (ctx?.indexing.isNoIndex) continue;
       pushEntry(

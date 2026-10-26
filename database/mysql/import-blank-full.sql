@@ -40,6 +40,9 @@ CREATE TABLE `User` (
     `marketingOptIn` BOOLEAN NOT NULL DEFAULT false,
     `totpSecret` TEXT NULL,
     `totpEnabled` BOOLEAN NOT NULL DEFAULT false,
+    `mfaMethod` ENUM('AUTHENTICATOR', 'EMAIL_OTP') NULL,
+    `mfaEnrolledAt` DATETIME(3) NULL,
+    `mfaDisabledByAdminAt` DATETIME(3) NULL,
     `mustChangePassword` BOOLEAN NOT NULL DEFAULT false,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -108,7 +111,7 @@ CREATE TABLE `EmailVerificationToken` (
 CREATE TABLE `EmailOtpToken` (
     `id` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
-    `purpose` ENUM('SIGNUP_VERIFY', 'ADMIN_LOGIN') NOT NULL,
+    `purpose` ENUM('SIGNUP_VERIFY', 'ADMIN_LOGIN', 'PASSWORD_RESET', 'LOGIN_MFA') NOT NULL,
     `codeHash` VARCHAR(64) NOT NULL,
     `expiresAt` DATETIME(3) NOT NULL,
     `usedAt` DATETIME(3) NULL,

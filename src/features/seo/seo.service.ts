@@ -8,6 +8,7 @@ import { resolveSiteIdentityFromDb } from "@/lib/site-identity.server";
 import { buildCanonicalUrl } from "@/i18n/seo-helpers";
 import { getFallbackDefaultLocalePrefix } from "@/i18n/url-helpers";
 import { resolveSiteOrigin } from "@/features/seo/resolve-site-origin";
+import { isIndexableStaticPage } from "@/features/seo/constants";
 import type { SeoResolveInput, SeoStructuredConfig } from "./types";
 
 function toDocumentInput(params: SeoResolveInput) {
@@ -23,6 +24,7 @@ function toDocumentInput(params: SeoResolveInput) {
     entityType: params.entityType,
     entityId: params.entityId,
     slug: params.slug,
+    slugByLocale: params.slugByLocale,
     status: params.status,
     ogImage: params.ogImage,
     fallback: params.fallback,
@@ -37,6 +39,10 @@ async function resolveSafeMetadataFallback(params: SeoResolveInput): Promise<Met
     // keep sync default
   }
 
+  const status = params.status ?? 200;
+  const indexable =
+    status === 200 && (!params.pageKey || isIndexableStaticPage(params.pageKey));
+
   const pageTitle =
     params.fallback?.title?.trim() ||
     (params.pageKey === "home" ? brandName : "") ||
@@ -47,32 +53,34 @@ async function resolveSafeMetadataFallback(params: SeoResolveInput): Promise<Met
     `${brandName} — wireless, networking and smart technology solutions.`;
 
   let canonical: string | undefined;
-  try {
-    const origin = (await resolveSiteOrigin("public")).replace(/\/$/, "");
-    const path =
-      !params.path || params.path === "" || params.path === "/"
-        ? "/"
-        : params.path.startsWith("/")
-          ? params.path
-          : `/${params.path}`;
-    const defaultPrefix = getFallbackDefaultLocalePrefix();
-    canonical = buildCanonicalUrl(
-      origin,
-      params.locale || defaultPrefix,
-      path,
-      undefined,
-      defaultPrefix,
-    );
-  } catch {
-    canonical = undefined;
+  if (indexable) {
+    try {
+      const origin = (await resolveSiteOrigin("public")).replace(/\/$/, "");
+      const path =
+        !params.path || params.path === "" || params.path === "/"
+          ? "/"
+          : params.path.startsWith("/")
+            ? params.path
+            : `/${params.path}`;
+      const defaultPrefix = getFallbackDefaultLocalePrefix();
+      canonical = buildCanonicalUrl(
+        origin,
+        params.locale || defaultPrefix,
+        path,
+        undefined,
+        defaultPrefix,
+      );
+    } catch {
+      canonical = undefined;
+    }
   }
 
   return {
     title: { absolute: absoluteTitle },
     description,
-    ...(canonical
-      ? { alternates: { canonical }, robots: { index: true, follow: true } }
-      : { robots: { index: true, follow: true } }),
+    ...(canonical ? { alternates: { canonical } } : {}),
+    // A fallback must never accidentally index an error page or a private route.
+    robots: { index: indexable, follow: true },
   };
 }
 

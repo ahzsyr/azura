@@ -3,8 +3,8 @@ import "server-only";
 import type { EmailOtpPurpose } from "@prisma/client";
 import type { EmailProviderConfig } from "@/features/email/email-accounts.types";
 import { prisma } from "@/lib/prisma";
-import { sendEmail, resolveSendProviderConfig } from "@/features/email/email.service";
-import { resolveEmailProviderConfig } from "@/features/email/email-accounts.service";
+import { sendEmail } from "@/features/email/email.service";
+import { resolveAuthEmailSender } from "@/features/email/auth-email-sender";
 import { accountSettingsService } from "@/features/account/account-settings.service";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { writeSecurityAuditLog } from "@/lib/security-audit";
@@ -23,17 +23,24 @@ const CONSUME_WINDOW_MS = 15 * 60 * 1000;
 
 /**
  * Issue a 6-digit email OTP (hashed at rest). Never logs or returns the plaintext code.
+ *
+ * Delivery always goes through the administrator-configured OTP sender
+ * (`resolveAuthEmailSender`), the same mailbox used for password-reset codes and
+ * email-code MFA. `providerConfig` is only honoured for callers that already
+ * resolved a sender themselves (the admin sign-in path).
  */
 export async function issueEmailOtp(input: {
   userId: string;
   purpose: EmailOtpPurposeValue;
   toEmail?: string;
+  /** Legacy per-flow selector; ignored when the site has a configured OTP sender. */
   emailAccountId?: string | null;
   /** When set, used as-is (admin MFA path). */
   providerConfig?: EmailProviderConfig | null;
   /**
-   * When false, do not fall back to env Resend or portal customer accounts.
-   * Admin login OTP must use only the Master-Admin-selected Email Account.
+   * Kept for call-site compatibility. Delivery no longer silently falls back to
+   * a different mailbox: an unconfigured site simply cannot send, and the
+   * caller is told so instead of the code vanishing.
    */
   allowEnvFallback?: boolean;
 }): Promise<{ ok: true } | { error: string }> {
@@ -61,31 +68,9 @@ export async function issueEmailOtp(input: {
   });
 
   const settings = await accountSettingsService.get();
-  const allowEnvFallback = input.allowEnvFallback !== false && input.purpose !== "ADMIN_LOGIN";
-
-  let providerConfig = input.providerConfig ?? null;
-  if (!providerConfig) {
-    if (input.purpose === "ADMIN_LOGIN") {
-      const accountId = input.emailAccountId?.trim() || null;
-      providerConfig = accountId ? await resolveEmailProviderConfig(accountId) : null;
-    } else {
-      const accountId =
-        input.emailAccountId ??
-        settings.emailVerification.emailAccountId ??
-        settings.passwordReset.emailAccountId ??
-        null;
-      providerConfig = allowEnvFallback
-        ? await resolveSendProviderConfig(accountId)
-        : accountId
-          ? await resolveEmailProviderConfig(accountId)
-          : null;
-    }
-  }
-
-  const fromName =
-    settings.emailVerification.fromName?.trim() ||
-    settings.passwordReset.fromName?.trim() ||
-    undefined;
+  const sender = await resolveAuthEmailSender(input.purpose, settings);
+  const providerConfig = input.providerConfig ?? sender.providerConfig;
+  const fromName = sender.fromName;
 
   const subject =
     input.purpose === "ADMIN_LOGIN"
@@ -120,6 +105,10 @@ export async function issueEmailOtp(input: {
   });
 
   if (!result.sent) {
+    // Never leave a live code the user cannot read.
+    await prisma.emailOtpToken.deleteMany({
+      where: { userId: user.id, purpose, usedAt: null },
+    });
     await writeSecurityAuditLog({
       action: "auth.email_otp.send_failed",
       actorId: user.id,
@@ -127,14 +116,14 @@ export async function issueEmailOtp(input: {
       meta: { purpose: input.purpose, errorCode: result.errorCode ?? "unknown" },
     });
     return { error: "Could not send the verification code" };
-  } else {
-    await writeSecurityAuditLog({
-      action: "auth.email_otp.sent",
-      actorId: user.id,
-      actorRole: user.role,
-      meta: { purpose: input.purpose },
-    });
   }
+
+  await writeSecurityAuditLog({
+    action: "auth.email_otp.sent",
+    actorId: user.id,
+    actorRole: user.role,
+    meta: { purpose: input.purpose, sender: sender.source, accountId: sender.accountId },
+  });
 
   return { ok: true };
 }

@@ -9,9 +9,19 @@ import { UserContactActions } from "@/features/account/admin/user-contact-action
 import { UserPermissionsForm } from "@/features/account/admin/user-permissions-form";
 import { AdminUserControls } from "@/features/account/admin/admin-user-controls";
 import { UserActivityPanels } from "@/features/account/admin/user-activity-panels";
+import { UserRoleSelect } from "@/features/account/admin/user-role-select";
+import { UserSecurityControls } from "@/features/account/admin/user-security-controls";
+import { getMfaStatusForUser, type MfaStatus } from "@/features/auth/mfa-totp.service";
 import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  canManageUser,
+  canManageUserSecurity,
+  isSuperAdminRole,
+  roleLabel,
+} from "@/features/auth/role-policy";
 
 type RoleFilter = "all" | "admin" | "customer";
 
@@ -39,7 +49,7 @@ export default async function SettingsUsersPage({
       initialSearch={params.search ?? ""}
       actorId={session.user.id}
       actorRole={session.user.role}
-      actorIsSuperAdmin={session.user.role === "SUPER_ADMIN"}
+      actorIsSuperAdmin={isSuperAdminRole(session.user.role)}
     />
   );
 }
@@ -58,12 +68,52 @@ export async function SettingsUserRecordPage({
   if (!user) notFound();
   const usagePage = Math.max(0, Number((await searchParams).usagePage ?? 0) || 0);
   const activity = await getUserActivity(id, usagePage);
-  const actorIsSuperAdmin = session.user.role === "SUPER_ADMIN";
-  const manageStaff = actorIsSuperAdmin && user.role === "ADMIN" && user.id !== session.user.id;
+
+  const hierarchy = {
+    actorId: session.user.id,
+    actorRole: session.user.role,
+    targetId: user.id,
+    targetRole: user.role,
+  };
+  // Server-enforced rule, mirrored here only to decide what to render.
+  const canEdit = canManageUser(hierarchy);
+  const canManageSecurity = canManageUserSecurity(hierarchy);
+  const canChangeRole =
+    isSuperAdminRole(session.user.role) && user.role !== "SUPER_ADMIN" && canEdit;
+  const isSelf = user.id === session.user.id;
+
+  // Read on the server so the controls render with the real state (no effect-
+  // driven fetch); mutations call router.refresh() to re-read.
+  const mfaStatus: MfaStatus | null = canManageSecurity
+    ? await getMfaStatusForUser(user.id)
+    : null;
+
+  const securityCard =
+    canManageSecurity && mfaStatus ? (
+      <UserSecurityControls userId={user.id} userName={user.name} initialStatus={mfaStatus} />
+    ) : null;
 
   return (
     <div className="space-y-6">
-      {user.role === "CUSTOMER" ? (
+      <AdminPageHeader
+        title={user.name}
+        description={`${user.email} · ${roleLabel(user.role)}`}
+        actions={
+          <Button asChild variant="outline" size="sm">
+            <Link href={user.role === "CUSTOMER" ? "/admin/settings/users?role=customer" : "/admin/settings/users?role=admin"}>
+              Back to list
+            </Link>
+          </Button>
+        }
+      />
+
+      {user.role === "SUPER_ADMIN" ? (
+        <p className="text-muted-foreground text-sm">
+          Super Admin accounts stay view-only — manage them from Account settings on that account.
+        </p>
+      ) : null}
+
+      {user.role === "CUSTOMER" && canEdit ? (
         <UserDetailForm
           listHref="/admin/settings/users?role=customer"
           user={{
@@ -83,24 +133,48 @@ export async function SettingsUserRecordPage({
             createdAt: new Date(user.createdAt),
           }}
         />
-      ) : (
-        <>
-          <AdminPageHeader
-            title={user.name}
-            description={`${user.email} · ${user.role === "SUPER_ADMIN" ? "Super admin" : "Admin"}`}
-            actions={
-              <Button asChild variant="outline" size="sm">
-                <Link href="/admin/settings/users?role=admin">Back to list</Link>
-              </Button>
-            }
-          />
-          {manageStaff ? <AdminUserControls userId={user.id} disabled={Boolean(user.disabledAt)} /> : null}
-          {manageStaff ? <UserPermissionsForm userId={user.id} grants={user.adminSectionGrants} /> : null}
-          {user.role === "SUPER_ADMIN" ? (
-            <p className="text-muted-foreground text-sm">Super admin accounts stay view-only.</p>
+      ) : null}
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Role &amp; access</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant={user.role === "CUSTOMER" ? "outline" : "default"}>
+              {roleLabel(user.role)}
+            </Badge>
+            {user.mfaEnrolled ? (
+              <Badge variant="secondary">MFA: {user.mfaMethodLabel}</Badge>
+            ) : (
+              <Badge variant="outline">MFA: off</Badge>
+            )}
+          </div>
+          {canChangeRole ? (
+            <UserRoleSelect
+              userId={user.id}
+              role={user.role === "ADMIN" ? "ADMIN" : "CUSTOMER"}
+              userName={user.name}
+            />
           ) : null}
-        </>
-      )}
+          {isSelf ? (
+            <p className="text-muted-foreground text-sm">This is your own account.</p>
+          ) : null}
+          {!canEdit && !isSelf ? (
+            <p className="text-muted-foreground text-sm">
+              You can view this account, but only an administrator ranked above it can change it.
+            </p>
+          ) : null}
+          {canEdit && user.role === "ADMIN" ? (
+            <UserPermissionsForm userId={user.id} grants={user.adminSectionGrants} />
+          ) : null}
+          {canEdit && user.role === "ADMIN" ? (
+            <AdminUserControls userId={user.id} disabled={Boolean(user.disabledAt)} />
+          ) : null}
+        </CardContent>
+      </Card>
+
+      {securityCard}
 
       <Card>
         <CardHeader>

@@ -102,6 +102,7 @@ admin:
       - seo-redirects
       - seo-robots
       - seo-sitemap
+      - seo-llms
       - seo-structured-data
       - seo-google
       - seo-integrations

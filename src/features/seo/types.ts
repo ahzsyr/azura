@@ -60,6 +60,39 @@ export type SeoSitemapPreviewEntry = {
   priority?: number;
 };
 
+/** A link entry in the admin-managed llms.txt document. */
+export type SeoLlmsLink = {
+  id: string;
+  title: string;
+  /** Absolute canonical URL — validated and served as-is. */
+  url: string;
+  description?: string;
+};
+
+/** A markdown H2 section in the admin-managed llms.txt document. */
+export type SeoLlmsSection = {
+  id: string;
+  heading: string;
+  body?: string;
+  links: SeoLlmsLink[];
+};
+
+/** Admin-managed llms.txt document stored in JsonStore `seo-llms`. */
+export type SeoLlmsConfig = {
+  version: 1;
+  enabled: boolean;
+  title: string;
+  summary?: string;
+  details?: string;
+  sections: SeoLlmsSection[];
+  updatedAt?: string;
+  generatedFrom?: {
+    origin?: string;
+    generatedAt?: string;
+    entryCount?: number;
+  };
+};
+
 export type SeoStructuredConfig = {
   version?: number;
   organization?: Record<string, unknown>;

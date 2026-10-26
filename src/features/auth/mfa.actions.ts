@@ -1,36 +1,43 @@
 "use server";
 
-import { requireAdmin } from "@/features/auth/guards";
+import { requireSession } from "@/features/auth/guards";
 import {
-  beginTotpEnrollment,
-  confirmTotpEnrollment,
-  disableTotpWithReauth,
-  userRequiresTotp,
-} from "@/features/auth/mfa.service";
-import { prisma } from "@/lib/prisma";
+  beginAuthenticatorEnrollment,
+  confirmAuthenticatorEnrollment,
+  disableOwnMfa,
+  getMfaStatusForUser,
+} from "@/features/auth/mfa-totp.service";
+import { renderTotpQrSvg } from "@/features/auth/totp-qr";
 import { fail, ok, type ActionResult } from "@/types/api";
 
-export async function getAdminMfaStatusAction(): Promise<
-  ActionResult<{ totpEnabled: boolean }>
-> {
+/**
+ * Admin-panel MFA actions. These are aliases of the self-service actions:
+ * the target is always the signed-in account, so an admin can only change
+ * their own factor here. Administrator control over *other* accounts lives in
+ * `@/features/account/admin/user-mfa.actions`.
+ */
+
+export async function getAdminMfaStatusAction(): Promise<ActionResult<{ totpEnabled: boolean }>> {
   try {
-    const session = await requireAdmin();
-    const totpEnabled = await userRequiresTotp(session.user.id);
-    return ok({ totpEnabled });
+    const session = await requireSession();
+    const status = await getMfaStatusForUser(session.user.id);
+    if (!status) return fail("Unable to load MFA status");
+    return ok({ totpEnabled: status.enrolled });
   } catch {
     return fail("Unable to load MFA status");
   }
 }
 
 export async function startAdminMfaEnrollmentAction(): Promise<
-  ActionResult<{ secret: string; otpauthUrl: string }>
+  ActionResult<{ secret: string; otpauthUrl: string; qrCodeSvg: string }>
 > {
   try {
-    const session = await requireAdmin();
-    const data = await beginTotpEnrollment(session.user.id, session.user.email ?? "admin");
-    return ok(data);
-  } catch {
-    return fail("Unable to start MFA enrollment");
+    const session = await requireSession();
+    const data = await beginAuthenticatorEnrollment(session.user.id);
+    const qrCodeSvg = await renderTotpQrSvg(data.otpauthUrl);
+    return ok({ ...data, qrCodeSvg });
+  } catch (error) {
+    return fail(error instanceof Error ? error.message : "Unable to start MFA enrollment");
   }
 }
 
@@ -38,8 +45,8 @@ export async function confirmAdminMfaEnrollmentAction(input: {
   code: string;
 }): Promise<ActionResult<{ recoveryCodes: string[] }>> {
   try {
-    const session = await requireAdmin();
-    const data = await confirmTotpEnrollment(session.user.id, input.code);
+    const session = await requireSession();
+    const data = await confirmAuthenticatorEnrollment(session.user.id, input.code);
     return ok(data);
   } catch {
     return fail("Invalid authenticator code");
@@ -51,8 +58,8 @@ export async function disableAdminMfaAction(input: {
   mfaCode?: string;
 }): Promise<ActionResult<{ ok: true }>> {
   try {
-    const session = await requireAdmin();
-    await disableTotpWithReauth(session.user.id, {
+    const session = await requireSession();
+    await disableOwnMfa(session.user.id, {
       password: input.password,
       mfaCode: input.mfaCode,
     });
@@ -63,10 +70,7 @@ export async function disableAdminMfaAction(input: {
 }
 
 export async function getAdminMfaEnabledFlag(): Promise<boolean> {
-  const session = await requireAdmin();
-  const row = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { totpEnabled: true },
-  });
-  return Boolean(row?.totpEnabled);
+  const session = await requireSession();
+  const status = await getMfaStatusForUser(session.user.id);
+  return Boolean(status?.enrolled);
 }

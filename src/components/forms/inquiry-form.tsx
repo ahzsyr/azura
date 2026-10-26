@@ -294,17 +294,19 @@ export function InquiryForm({
               onChange={(v) => setValue("phone", v, { shouldDirty: true })}
             />
           ) : (
-            <FieldWrapper
+            <SmartPhoneInput
               id="phone"
               label={t("phone")}
+              value={phone}
+              onChange={(v) => setValue("phone", v, { shouldDirty: true })}
+              onBlur={() => void register("phone").onBlur({ target: { name: "phone" } } as never)}
+              error={errors.phone?.message}
               optional
               phase={phaseFromField(
                 { isTouched: touchedFields.phone, isDirty: dirtyFields.phone },
                 submitted,
               )}
-            >
-              <Input id="phone" type="tel" autoComplete="tel" {...register("phone")} />
-            </FieldWrapper>
+            />
           )}
         </FormSectionCard>
 

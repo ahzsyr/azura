@@ -6,7 +6,7 @@ import { requireAdmin } from "@/features/auth/guards";
 import { prisma } from "@/lib/prisma";
 import { seoRepository } from "@/repositories/seo.repository";
 import { redirectSchema } from "@/schemas/seo";
-import { CACHE_TAGS, revalidateSeoDocument, revalidateSeoMeta, revalidateSitemap } from "@/services/cache";
+import { CACHE_TAGS, revalidateLlmsTxt, revalidateSeoDocuments, revalidateSeoMeta, revalidateSitemap } from "@/services/cache";
 import { localeService } from "@/features/i18n/locale.service";
 import { syncEntityTranslationsFromForm } from "@/features/translation/form-sync.server";
 import { translationService } from "@/features/translation/translation.service";
@@ -34,6 +34,14 @@ import { getDatabaseHostFromUrl, getRuntimeDatabaseUrl } from "@/lib/database-ur
 import { isStaticSeoPageKey } from "./constants";
 import { normalizeCanonicalUrlForPageKey } from "./normalize-canonical-url";
 import { resolvePageSeoContext } from "./resolve-page-seo-context";
+import {
+  generateLlmsDraft,
+  getSavedLlmsConfig,
+  LlmsValidationError,
+  saveLlmsConfig,
+  type LlmsDraftResponse,
+} from "./llms/llms.service";
+import { validateLlmsDocument } from "./llms/llms-document";
 import { toSeoMetaFormProps } from "./mappers/to-seo-meta-form-props";
 import type { SeoMetaFormPropsFromContext } from "./mappers/to-seo-meta-form-props";
 import type { PublicLocale } from "@/i18n/locale-config";
@@ -63,7 +71,7 @@ export async function upsertSeoAppearanceAction(
   try {
     await requireAdmin();
     await seoRepository.upsertAppearanceConfig(config);
-    revalidateSeoDocument("seo-document");
+    revalidateSeoDocuments();
     await enqueueSitemapSubmission("metadata");
     revalidatePath("/admin/seo/templates");
     revalidateSitemap();
@@ -271,6 +279,7 @@ export async function publishSeoPublicAction() {
   await refreshMiddlewareManifestBestEffort("seo publish");
   revalidatePath("/robots.txt");
   revalidateSitemap();
+  revalidateLlmsTxt();
   await seoTriggerService.handle({
     type: "content.sitemapChanged",
     entityType: "SITE",
@@ -358,6 +367,88 @@ export async function upsertSeoSitemapAction(formData: FormData) {
   revalidatePath("/admin/seo/sitemap");
   revalidateSitemap();
   await seoTriggerService.handle({ type: "content.sitemapChanged", entityType: "SITE" });
+}
+
+export type LlmsActionResult = {
+  ok: boolean;
+  message: string;
+  errors?: string[];
+};
+
+/** Persist the admin-managed llms.txt document and refresh the public surface. */
+export async function upsertSeoLlmsAction(formData: FormData): Promise<LlmsActionResult> {
+  try {
+    await requireAdmin();
+    const raw = formData.get("document");
+    if (typeof raw !== "string" || !raw.trim()) {
+      return { ok: false, message: "llms.txt document is missing." };
+    }
+
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      return { ok: false, message: "Invalid llms.txt document payload." };
+    }
+
+    const config = await saveLlmsConfig(parsed);
+    revalidateLlmsTxt();
+    revalidatePath("/admin/seo/llms");
+    revalidatePath("/admin/seo");
+    return {
+      ok: true,
+      message: `llms.txt saved and republished (${config.sections.length} section${
+        config.sections.length === 1 ? "" : "s"
+      }).`,
+    };
+  } catch (error) {
+    if (error instanceof LlmsValidationError) {
+      return {
+        ok: false,
+        message: error.issues[0] ?? "Invalid llms.txt document.",
+        errors: error.issues,
+      };
+    }
+    console.error("[llms] save failed:", error);
+    return {
+      ok: false,
+      message: error instanceof Error ? error.message : "Could not save llms.txt.",
+    };
+  }
+}
+
+/** Validate the saved document and refresh caches without changing content. */
+export async function publishLlmsTxtAction(): Promise<LlmsActionResult> {
+  try {
+    await requireAdmin();
+    const config = await getSavedLlmsConfig();
+    if (!config) {
+      return { ok: false, message: "Save an llms.txt document before publishing." };
+    }
+    const validation = validateLlmsDocument(config);
+    if (!validation.valid) {
+      return {
+        ok: false,
+        message: validation.errors[0] ?? "Saved llms.txt document is invalid.",
+        errors: validation.errors,
+      };
+    }
+    revalidateLlmsTxt();
+    revalidatePath("/admin/seo/llms");
+    return { ok: true, message: "llms.txt published and cache refreshed." };
+  } catch (error) {
+    console.error("[llms] publish failed:", error);
+    return {
+      ok: false,
+      message: error instanceof Error ? error.message : "Could not publish llms.txt.",
+    };
+  }
+}
+
+/** Generate an editable draft from published, indexable content (never drafts). */
+export async function generateLlmsDraftAction(): Promise<LlmsDraftResponse> {
+  await requireAdmin();
+  return generateLlmsDraft();
 }
 
 export async function upsertSeoTrackingAction(formData: FormData) {

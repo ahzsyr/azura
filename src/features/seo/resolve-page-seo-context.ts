@@ -626,9 +626,12 @@ export async function localizedStaticUrlsFromContext(pageKey: StaticSeoPageKey):
     originContext: "public",
   });
   const { localeService } = await import("@/features/i18n/locale.service");
+  const { publicLocaleAbsoluteUrl } = await import("@/i18n/url-helpers");
   const locales = await localeService.listEnabled().catch(() => []);
   const prefixes = locales.length ? locales.map((l) => l.urlPrefix) : ["en"];
+  const defaultPrefix =
+    locales.find((locale) => locale.isDefault)?.urlPrefix ?? prefixes[0] ?? "en";
   const base = context.origin.replace(/\/$/, "");
   const path = context.indexing.publicPath;
-  return prefixes.map((prefix) => `${base}/${prefix}${path}`);
+  return prefixes.map((prefix) => publicLocaleAbsoluteUrl(base, prefix, path, defaultPrefix));
 }

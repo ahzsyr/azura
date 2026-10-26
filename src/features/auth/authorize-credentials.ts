@@ -10,13 +10,14 @@ import {
   recordFailedPasswordAttempt,
 } from "@/features/auth/login-lockout.service";
 import { isCustomerEmailUnverified } from "@/features/auth/account-status";
-import { requiresMfaAtLogin } from "@/features/auth/mfa-policy";
+import { requiresSecondFactorForUser } from "@/features/auth/mfa-policy";
 import {
   DatabaseUnavailableError,
   MfaDeliveryError,
   MfaInvalidError,
   MfaRequiredError,
 } from "@/lib/auth-errors";
+import { issueMfaChallengeCookie } from "@/features/auth/mfa-challenge-cookie";
 import { pickLoginUser } from "@/features/auth/login-user";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { writeSecurityAuditLog } from "@/lib/security-audit";
@@ -204,103 +205,22 @@ export async function authorizeCredentials(
   }
 
   let adminOtpUnconfigured = false;
-  if (requiresMfaAtLogin(user.role, user.totpEnabled)) {
-    const { isAdminEmailMfaConfigured, resolveAdminOtpProviderConfig } = await import(
-      "@/features/auth/admin-auth-delivery"
-    );
-    const mfaDeliveryReady = await isAdminEmailMfaConfigured();
-    if (!mfaDeliveryReady) {
-      // Password-only admin login when Master Admin has not configured a
-      // sendable OTP sender. Mark the session so the lifecycle gate sends the
-      // admin to Account Settings to configure one; once it exists, OTP is
-      // required again at the next sign-in.
-      adminOtpUnconfigured = true;
-      await writeSecurityAuditLog({
-        action: "auth.mfa.unconfigured",
-        actorId: user.id,
-        actorRole: user.role,
-        ip,
-        meta: { passwordOnly: true },
-      });
-    } else if (!mfaCode) {
-      const { accountSettingsService } = await import(
-        "@/features/account/account-settings.service"
-      );
-      const settings = await accountSettingsService.get();
-      const otpAccountId = settings.adminAuth.otpEmailAccountId?.trim() || null;
-      const providerConfig = await resolveAdminOtpProviderConfig();
-      const { issueEmailOtp } = await import("@/features/auth/email-otp.service");
-      const typedEmail =
-        user.pendingEmail && user.pendingEmail.trim().toLowerCase() === email
-          ? user.pendingEmail
-          : user.email;
-      const issued = await issueEmailOtp({
-        userId: user.id,
-        purpose: "ADMIN_LOGIN",
-        toEmail: typedEmail,
-        emailAccountId: otpAccountId,
-        providerConfig,
-        allowEnvFallback: false,
-      });
-      if ("error" in issued) {
-        await writeSecurityAuditLog({
-          action: "auth.mfa.failure",
-          actorId: user.id,
-          actorRole: user.role,
-          ip,
-          meta: { reason: "MFA_DELIVERY_FAILED" },
-        });
-        throw new MfaDeliveryError();
-      }
-      await writeSecurityAuditLog({
-        action: "auth.mfa.challenge",
-        actorId: user.id,
-        actorRole: user.role,
-        ip,
-        meta: { channel: "email_otp" },
-      });
-      throw new MfaRequiredError();
-    } else {
-      const mfaRl = await enforceRateLimit({
-        key: `mfa:${user.id}`,
-        limit: MFA_LIMIT,
-        windowMs: MFA_WINDOW_MS,
-      });
-      if (!mfaRl.allowed) {
-        await writeSecurityAuditLog({
-          action: "auth.mfa.failure",
-          actorId: user.id,
-          actorRole: user.role,
-          ip,
-          meta: { reason: "RATE_LIMITED" },
-        });
-        throw new MfaInvalidError();
-      }
+  const needsSecondFactor = requiresSecondFactorForUser(user);
+  if (needsSecondFactor) {
+    adminOtpUnconfigured = await completeMfaChallenge(user, mfaCode, ip);
 
-      const { consumeEmailOtp } = await import("@/features/auth/email-otp.service");
-      const otpResult = await consumeEmailOtp({
-        userId: user.id,
-        purpose: "ADMIN_LOGIN",
-        code: mfaCode,
-      });
-      if ("error" in otpResult) {
-        await writeSecurityAuditLog({
-          action: "auth.mfa.failure",
-          actorId: user.id,
-          actorRole: user.role,
-          ip,
-          meta: { reason: "INVALID_MFA" },
-        });
-        throw new MfaInvalidError();
+    // Record how this browser completed the challenge so the "send a code"
+    // / "switch channel" actions can be authorised. Best-effort: a cookie that
+    // cannot be written must not block sign-in.
+    if (!adminOtpUnconfigured) {
+      try {
+        await issueMfaChallengeCookie({ userId: user.id, passwordHash: user.passwordHash });
+      } catch (error) {
+        console.error(
+          "[auth] could not issue MFA challenge cookie",
+          error instanceof Error ? error.message : "unknown",
+        );
       }
-
-      await writeSecurityAuditLog({
-        action: "auth.mfa.success",
-        actorId: user.id,
-        actorRole: user.role,
-        ip,
-        meta: { channel: "email_otp" },
-      });
     }
   }
 
@@ -322,6 +242,192 @@ export async function authorizeCredentials(
     totpEnabled: Boolean(user.totpEnabled),
     adminOtpUnconfigured,
   };
+}
+
+type LoginUserRow = Awaited<ReturnType<typeof findUserForLogin>>;
+
+/**
+ * Enforce the second factor (admins, and customers who enrolled one).
+ *
+ * Order of precedence: an enrolled authenticator app is tried first, then a
+ * delivered email code. SMS/WhatsApp stay available when an operator wires a
+ * transport, but email is always deliverable whenever the site has a sender.
+ *
+ * Returns `true` when an admin account has no usable factor at all (caller
+ * marks the session `adminOtpUnconfigured`). Returns `false` when sign-in may
+ * proceed. Throws a CredentialsSignin subclass when a challenge is required or
+ * failed.
+ */
+async function completeMfaChallenge(
+  user: NonNullable<LoginUserRow>,
+  mfaCode: string,
+  ip: string | null,
+): Promise<boolean> {
+  const { isAdminEmailMfaConfigured } = await import("@/features/auth/admin-auth-delivery");
+  const { isLoginOtpChannelConfigured, isUsablePhoneNumber } = await import(
+    "@/features/auth/login-otp-delivery"
+  );
+  const { rankLoginMfaFactors, resolveLoginMfaAttempt } = await import(
+    "@/features/auth/login-mfa-factors"
+  );
+  const { resolveMfaState } = await import("@/features/auth/mfa-policy.helpers");
+
+  const mfaState = resolveMfaState(user);
+  // A customer is challenged only for the factor they enrolled. An admin's
+  // authenticator counts regardless of the per-user column (legacy rows).
+  const totpEnabled = mfaState.enrolled
+    ? mfaState.method === "AUTHENTICATOR"
+    : Boolean(user.totpEnabled);
+  const emailDeliverable = await isAdminEmailMfaConfigured();
+  const phoneDeliverable =
+    isUsablePhoneNumber(user.phone) &&
+    (await isLoginOtpChannelConfigured("sms", { emailConfigured: false }));
+  const whatsappDeliverable =
+    isUsablePhoneNumber(user.phone) &&
+    (await isLoginOtpChannelConfigured("whatsapp", { emailConfigured: false }));
+
+  const factors = rankLoginMfaFactors({
+    totpEnabled,
+    emailDeliverable,
+    phoneDeliverable,
+    whatsappDeliverable,
+  });
+
+  // No factor at all: password-only sign-in, flagged so the admin lifecycle
+  // gate can prompt for a factor. (An admin normally always has email OTP;
+  // this branch means the site has no sender yet.)
+  if (factors.length === 0) {
+    await writeSecurityAuditLog({
+      action: "auth.mfa.unconfigured",
+      actorId: user.id,
+      actorRole: user.role,
+      ip,
+      meta: { passwordOnly: true, mfaMethod: mfaState.method },
+    });
+    return true;
+  }
+
+  const {
+    hasPendingAdminLoginOtp,
+    consumeAdminLoginOtp,
+    issueAdminLoginOtp,
+  } = await import("@/features/auth/admin-login-otp.service");
+
+  // No code yet: ask for one. Send an OTP immediately only when there is no
+  // authenticator to fall back on; otherwise wait for the user to ask.
+  if (!mfaCode) {
+    if (!totpEnabled) {
+      const channel =
+        factors[0] === "email_otp" ? "email" : factors[0] === "sms_otp" ? "sms" : "whatsapp";
+      const issued = await issueAdminLoginOtp({ user, channel });
+      if (!issued.ok) {
+        await writeSecurityAuditLog({
+          action: "auth.mfa.failure",
+          actorId: user.id,
+          actorRole: user.role,
+          ip,
+          meta: { reason: "MFA_DELIVERY_FAILED", channel },
+        });
+        throw new MfaDeliveryError();
+      }
+    }
+    throw new MfaRequiredError();
+  }
+
+  const mfaRl = await enforceRateLimit({
+    key: `mfa:${user.id}`,
+    limit: MFA_LIMIT,
+    windowMs: MFA_WINDOW_MS,
+  });
+  if (!mfaRl.allowed) {
+    await writeSecurityAuditLog({
+      action: "auth.mfa.failure",
+      actorId: user.id,
+      actorRole: user.role,
+      ip,
+      meta: { reason: "RATE_LIMITED" },
+    });
+    throw new MfaInvalidError();
+  }
+
+  const attempt = resolveLoginMfaAttempt({
+    code: mfaCode,
+    totpEnabled,
+    hasDeliveredOtp: await hasPendingAdminLoginOtp(user.id),
+  });
+
+  if (attempt.kind === "recovery") {
+    const { verifyAuthenticatorCode } = await import("@/features/auth/mfa-totp.service");
+    const recovery = await verifyAuthenticatorCode(user.id, mfaCode);
+    if (!recovery.ok) {
+      await writeSecurityAuditLog({
+        action: "auth.mfa.failure",
+        actorId: user.id,
+        actorRole: user.role,
+        ip,
+        meta: { reason: "INVALID_RECOVERY_CODE" },
+      });
+      throw new MfaInvalidError();
+    }
+    await writeSecurityAuditLog({
+      action: "auth.mfa.success",
+      actorId: user.id,
+      actorRole: user.role,
+      ip,
+      meta: { channel: "recovery_code" },
+    });
+    return false;
+  }
+
+  // Authenticator app first: strongest factor, needs no delivery.
+  if (attempt.tryAuthenticatorFirst) {
+    const { verifyAuthenticatorCode } = await import("@/features/auth/mfa-totp.service");
+    const authenticator = await verifyAuthenticatorCode(user.id, mfaCode);
+    if (authenticator.ok && !authenticator.usedRecoveryCode) {
+      await writeSecurityAuditLog({
+        action: "auth.mfa.success",
+        actorId: user.id,
+        actorRole: user.role,
+        ip,
+        meta: { channel: "authenticator" },
+      });
+      return false;
+    }
+    if (!attempt.tryDeliveredOtp) {
+      await writeSecurityAuditLog({
+        action: "auth.mfa.failure",
+        actorId: user.id,
+        actorRole: user.role,
+        ip,
+        meta: { reason: "INVALID_TOTP" },
+      });
+      throw new MfaInvalidError();
+    }
+    // 6 digits are ambiguous with a delivered OTP; fall through and try those.
+  }
+
+  if (attempt.tryDeliveredOtp) {
+    const otpResult = await consumeAdminLoginOtp(user.id, mfaCode);
+    if ("ok" in otpResult) {
+      await writeSecurityAuditLog({
+        action: "auth.mfa.success",
+        actorId: user.id,
+        actorRole: user.role,
+        ip,
+        meta: { channel: otpResult.channel },
+      });
+      return false;
+    }
+  }
+
+  await writeSecurityAuditLog({
+    action: "auth.mfa.failure",
+    actorId: user.id,
+    actorRole: user.role,
+    ip,
+    meta: { reason: "INVALID_MFA", factors },
+  });
+  throw new MfaInvalidError();
 }
 
 /** Pre-authorize IP rate limit (call from login server action / wrapper). */

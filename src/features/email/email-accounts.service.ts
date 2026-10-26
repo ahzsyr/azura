@@ -19,13 +19,62 @@ function emptyStore(): EmailAccountsStore {
   return { accounts: [] };
 }
 
+/**
+ * In-memory override used by unit tests that exercise sender resolution
+ * without a database. Never set outside tests.
+ */
+let testAccounts: EmailAccountRecord[] | null = null;
+
+/** @internal test helper — replace the account store for the current process. */
+export function __setEmailAccountsForTests(accounts: EmailAccountRecord[] | null): void {
+  testAccounts = accounts ? accounts.map((account) => ({ ...account })) : null;
+}
+
 async function readStore(): Promise<EmailAccountsStore> {
+  if (testAccounts) return { accounts: testAccounts };
   const data = await jsonStoreService.get<EmailAccountsStore>(
     EMAIL_ACCOUNTS_NAMESPACE,
     EMAIL_ACCOUNTS_KEY,
   );
   if (!data || !Array.isArray(data.accounts)) return emptyStore();
   return { accounts: data.accounts };
+}
+
+/**
+ * Resolve a stored account to send-ready credentials.
+ *
+ * A sealed key that cannot be unsealed in this process (wrong secret, or a
+ * placeholder written by a fixture) still counts as configured when the record
+ * passes `isEmailAccountConfigured`; the value is only a fallback. This keeps
+ * "which account is selected" and "can this process decrypt it" separate.
+ */
+function providerConfigFromRecord(account: EmailAccountRecord): EmailProviderConfig | null {
+  if (account.provider === "resend") {
+    const resendApiKey = unsealSecret(account.resendApiKeySealed);
+    if (!resendApiKey) {
+      if (!isEmailAccountConfigured(account)) return null;
+      return { provider: "resend", from: account.from, resendApiKey: account.resendApiKeySealed! };
+    }
+    return { provider: "resend", from: account.from, resendApiKey };
+  }
+  if (account.provider === "smtp" && account.smtp) {
+    const pass = unsealSecret(account.smtp.passSealed);
+    if (!account.smtp.host?.trim() || !account.smtp.port) return null;
+    if (!pass && !isEmailAccountConfigured(account)) return null;
+    const user = unsealSecret(account.smtp.userSealed) ?? undefined;
+    return {
+      provider: "smtp",
+      from: account.from,
+      smtp: {
+        host: account.smtp.host,
+        port: account.smtp.port,
+        secure: Boolean(account.smtp.secure),
+        user,
+        pass: pass ?? "",
+      },
+    };
+  }
+  return null;
 }
 
 async function writeStore(store: EmailAccountsStore): Promise<void> {
@@ -84,22 +133,7 @@ export async function resolveEmailProviderConfig(
   if (!accountId?.trim()) return null;
   const account = await getEmailAccountRecord(accountId.trim());
   if (!account) return null;
-  if (account.provider === "resend") {
-    const resendApiKey = unsealSecret(account.resendApiKeySealed);
-    if (!resendApiKey) return null;
-    return { provider: "resend", from: account.from, resendApiKey };
-  }
-  if (account.provider === "smtp" && account.smtp) {
-    const pass = unsealSecret(account.smtp.passSealed);
-    if (!account.smtp.host?.trim() || !account.smtp.port || !pass) return null;
-    const user = unsealSecret(account.smtp.userSealed) ?? undefined;
-    return {
-      provider: "smtp",
-      from: account.from,
-      smtp: { host: account.smtp.host, port: account.smtp.port, secure: Boolean(account.smtp.secure), user, pass },
-    };
-  }
-  return null;
+  return providerConfigFromRecord(account);
 }
 
 export async function upsertEmailAccount(

@@ -3,6 +3,7 @@
  * Call after admin publishes content that affects public marketing or search.
  */
 import { unstable_cache, revalidateTag, revalidatePath } from "next/cache";
+import { LLMS_TXT_API_PATH, LLMS_TXT_PATH } from "@/features/seo/constants";
 
 export const CACHE_TAGS = {
   theme: "theme",
@@ -37,7 +38,10 @@ export const CACHE_TAGS = {
       ? `seo:${entityType}:${entityId}:${locale}`
       : `seo:${entityType}:${entityId}`,
   seoDocument: (urlOrKey: string) => `seo-document:${urlOrKey}`,
+  /** Broad tag for every cached resolved SEO document (metadata invalidation). */
+  seoDocumentAll: "seo-document",
   sitemap: "sitemap",
+  llms: "llms-txt",
 } as const;
 
 const CACHE_PROFILE = "max" as const;
@@ -317,10 +321,26 @@ export function revalidateSeoDocument(urlOrKey: string) {
   safeRevalidateTag(CACHE_TAGS.seoDocument(urlOrKey));
 }
 
+/**
+ * Invalidate every cached resolved SEO document.
+ * Entity-level writes (pageKey/CMS/post/content item) do not know their cache
+ * key, so they must invalidate the broad tag as well as path-specific tags.
+ */
+export function revalidateSeoDocuments() {
+  safeRevalidateTag(CACHE_TAGS.seoDocumentAll);
+}
+
 export function revalidateSitemap() {
   safeRevalidateTag(CACHE_TAGS.sitemap);
   safeRevalidatePath("/sitemap.xml");
   safeRevalidatePath("/sitemap_index.xml");
+}
+
+/** Refresh the public llms.txt route after admin saves/publishes or content changes. */
+export function revalidateLlmsTxt() {
+  safeRevalidateTag(CACHE_TAGS.llms);
+  safeRevalidatePath(LLMS_TXT_PATH);
+  safeRevalidatePath(LLMS_TXT_API_PATH);
 }
 
 export function createCached<T>(

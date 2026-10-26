@@ -1219,34 +1219,85 @@ async function ensureAuthLifecycleMysql(prisma) {
 }
 
 async function ensureEmailOtpMysql(prisma) {
-  if (await mysqlTableExists(prisma, "EmailOtpToken")) {
+  if (!(await mysqlTableExists(prisma, "EmailOtpToken"))) {
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE \`EmailOtpToken\` (
+        \`id\` VARCHAR(191) NOT NULL,
+        \`userId\` VARCHAR(191) NOT NULL,
+        \`purpose\` ENUM('SIGNUP_VERIFY', 'ADMIN_LOGIN', 'PASSWORD_RESET', 'LOGIN_MFA') NOT NULL,
+        \`codeHash\` VARCHAR(64) NOT NULL,
+        \`expiresAt\` DATETIME(3) NOT NULL,
+        \`usedAt\` DATETIME(3) NULL,
+        \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+        INDEX \`EmailOtpToken_userId_purpose_idx\`(\`userId\`, \`purpose\`),
+        INDEX \`EmailOtpToken_expiresAt_idx\`(\`expiresAt\`),
+        PRIMARY KEY (\`id\`)
+      ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    try {
+      await prisma.$executeRawUnsafe(`
+        ALTER TABLE \`EmailOtpToken\`
+        ADD CONSTRAINT \`EmailOtpToken_userId_fkey\`
+        FOREIGN KEY (\`userId\`) REFERENCES \`User\`(\`id\`)
+        ON DELETE CASCADE ON UPDATE CASCADE`);
+    } catch {
+      /* fk may already exist */
+    }
+    console.log("[db-migrate] MySQL: created EmailOtpToken");
+  } else {
     console.log("[db-migrate] MySQL: EmailOtpToken already exists");
+    ensureEmailOtpPurposeEnumMysql(prisma);
+  }
+}
+
+/** Add PASSWORD_RESET / LOGIN_MFA to the EmailOtpToken.purpose enum (no-op when present). */
+async function ensureEmailOtpPurposeEnumMysql(prisma) {
+  const missing = [];
+  if (!(await mysqlEnumHasValue(prisma, "EmailOtpToken", "purpose", "PASSWORD_RESET"))) {
+    missing.push("PASSWORD_RESET");
+  }
+  if (!(await mysqlEnumHasValue(prisma, "EmailOtpToken", "purpose", "LOGIN_MFA"))) {
+    missing.push("LOGIN_MFA");
+  }
+  if (missing.length === 0) {
+    console.log("[db-migrate] MySQL: EmailOtpToken.purpose already complete");
     return;
   }
-  await prisma.$executeRawUnsafe(`
-    CREATE TABLE \`EmailOtpToken\` (
-      \`id\` VARCHAR(191) NOT NULL,
-      \`userId\` VARCHAR(191) NOT NULL,
-      \`purpose\` ENUM('SIGNUP_VERIFY', 'ADMIN_LOGIN') NOT NULL,
-      \`codeHash\` VARCHAR(64) NOT NULL,
-      \`expiresAt\` DATETIME(3) NOT NULL,
-      \`usedAt\` DATETIME(3) NULL,
-      \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-      INDEX \`EmailOtpToken_userId_purpose_idx\`(\`userId\`, \`purpose\`),
-      INDEX \`EmailOtpToken_expiresAt_idx\`(\`expiresAt\`),
-      PRIMARY KEY (\`id\`)
-    ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
-  try {
-    await prisma.$executeRawUnsafe(`
-      ALTER TABLE \`EmailOtpToken\`
-      ADD CONSTRAINT \`EmailOtpToken_userId_fkey\`
-      FOREIGN KEY (\`userId\`) REFERENCES \`User\`(\`id\`)
-      ON DELETE CASCADE ON UPDATE CASCADE`);
-  } catch {
-    /* fk may already exist */
-  }
-  console.log("[db-migrate] MySQL: created EmailOtpToken");
+  await prisma.$executeRawUnsafe(
+    "ALTER TABLE `EmailOtpToken` MODIFY COLUMN `purpose` " +
+      "ENUM('SIGNUP_VERIFY', 'ADMIN_LOGIN', 'PASSWORD_RESET', 'LOGIN_MFA') NOT NULL",
+  );
+  console.log(`[db-migrate] MySQL: added ${missing.join(", ")} to EmailOtpToken.purpose`);
 }
+
+/**
+ * Per-user MFA method columns. The legacy totpEnabled flag is mapped onto
+ * mfaMethod so no existing authenticator enrollment is lost.
+ */
+async function ensureUserMfaMethodMysql(prisma) {
+  if (!(await mysqlColumnExists(prisma, "User", "mfaMethod"))) {
+    await prisma.$executeRawUnsafe(
+      "ALTER TABLE `User` ADD COLUMN `mfaMethod` ENUM('AUTHENTICATOR', 'EMAIL_OTP') NULL",
+    );
+    console.log("[db-migrate] MySQL: added User.mfaMethod");
+  }
+  if (!(await mysqlColumnExists(prisma, "User", "mfaEnrolledAt"))) {
+    await prisma.$executeRawUnsafe(
+      "ALTER TABLE `User` ADD COLUMN `mfaEnrolledAt` DATETIME(3) NULL",
+    );
+    console.log("[db-migrate] MySQL: added User.mfaEnrolledAt");
+  }
+  if (!(await mysqlColumnExists(prisma, "User", "mfaDisabledByAdminAt"))) {
+    await prisma.$executeRawUnsafe(
+      "ALTER TABLE `User` ADD COLUMN `mfaDisabledByAdminAt` DATETIME(3) NULL",
+    );
+    console.log("[db-migrate] MySQL: added User.mfaDisabledByAdminAt");
+  }
+  await prisma.$executeRawUnsafe(`
+    UPDATE \`User\`
+    SET \`mfaMethod\` = 'AUTHENTICATOR', \`mfaEnrolledAt\` = COALESCE(\`updatedAt\`, NOW(3))
+    WHERE \`totpEnabled\` = true AND \`mfaMethod\` IS NULL`);
+}
+
 
 async function ensureSecurityHardeningPostgres(prisma) {
   if (!(await postgresColumnExists(prisma, "User", "sessionVersion"))) {
@@ -1881,6 +1932,36 @@ async function applyPostgresPatches(prisma) {
   await ensureMarketingIntegrationsPostgres(prisma);
   // PostgreSQL campaign intelligence removed — Azura is MySQL-only.
   await ensureSecurityHardeningPostgres(prisma);
+  await ensureUserMfaMethodPostgres(prisma);
+}
+
+/**
+ * PostgreSQL parity for the per-user MFA method columns. MySQL is the
+ * supported production target; this keeps the legacy PG path from failing
+ * when Prisma reads the new columns.
+ */
+async function ensureUserMfaMethodPostgres(prisma) {
+  await prisma.$executeRawUnsafe(`
+    DO $$ BEGIN
+      CREATE TYPE "MfaMethod" AS ENUM ('AUTHENTICATOR', 'EMAIL_OTP');
+    EXCEPTION WHEN duplicate_object THEN NULL;
+    END $$`);
+  if (!(await postgresColumnExists(prisma, "User", "mfaMethod"))) {
+    await prisma.$executeRawUnsafe(
+      `ALTER TABLE "User" ADD COLUMN "mfaMethod" "MfaMethod"`,
+    );
+    console.log("[db-migrate] PostgreSQL: added User.mfaMethod");
+  }
+  if (!(await postgresColumnExists(prisma, "User", "mfaEnrolledAt"))) {
+    await prisma.$executeRawUnsafe(
+      `ALTER TABLE "User" ADD COLUMN "mfaEnrolledAt" TIMESTAMP(3)`,
+    );
+  }
+  if (!(await postgresColumnExists(prisma, "User", "mfaDisabledByAdminAt"))) {
+    await prisma.$executeRawUnsafe(
+      `ALTER TABLE "User" ADD COLUMN "mfaDisabledByAdminAt" TIMESTAMP(3)`,
+    );
+  }
 }
 
 async function fixHomePageLayout(prisma) {
@@ -2006,6 +2087,7 @@ async function applyMysqlPatches(prisma) {
   await runMysqlPatch("securityHardening", () => ensureSecurityHardeningMysql(prisma));
   await runMysqlPatch("authLifecycle", () => ensureAuthLifecycleMysql(prisma));
   await runMysqlPatch("emailOtp", () => ensureEmailOtpMysql(prisma));
+  await runMysqlPatch("userMfaMethod", () => ensureUserMfaMethodMysql(prisma));
   await runMysqlPatch("fixHomePageLayout", () => fixHomePageLayout(prisma));
 }
 

@@ -38,9 +38,12 @@ import {
 
   SEO_TRACKING_NAMESPACE,
 
+  SEO_LLMS_NAMESPACE,
+
 } from "@/features/seo/constants";
 import { normalizeStructuredConfig, prepareStructuredConfigForSave } from "@/features/seo/platform/schema-pipeline/structured-config";
 import { getCmsPageSeoPageKey } from "@/features/seo/cms-page-seo-context";
+import { resolveNoIndexPaths } from "@/features/seo/noindex-paths";
 import { seoObservabilityFlags } from "@/features/seo/observability-flags";
 
 import type {
@@ -52,6 +55,8 @@ import type {
   SeoIntegrationsConfig,
 
   SeoSitemapConfig,
+
+  SeoLlmsConfig,
 
   SeoStructuredConfig,
 
@@ -678,6 +683,52 @@ export const seoRepository = {
         namespace: SEO_SITEMAP_NAMESPACE,
 
         key: "config",
+
+        data: config as Prisma.InputJsonValue,
+
+      },
+
+      update: { data: config as Prisma.InputJsonValue },
+
+    });
+
+  },
+
+
+
+  async getLlmsConfig(): Promise<SeoLlmsConfig | null> {
+
+    const row = await prisma.jsonStore.findUnique({
+
+      where: {
+
+        namespace_key: { namespace: SEO_LLMS_NAMESPACE, key: "document" },
+
+      },
+
+    });
+
+    return (row?.data as SeoLlmsConfig | undefined) ?? null;
+
+  },
+
+
+
+  async upsertLlmsConfig(config: SeoLlmsConfig) {
+
+    return prisma.jsonStore.upsert({
+
+      where: {
+
+        namespace_key: { namespace: SEO_LLMS_NAMESPACE, key: "document" },
+
+      },
+
+      create: {
+
+        namespace: SEO_LLMS_NAMESPACE,
+
+        key: "document",
 
         data: config as Prisma.InputJsonValue,
 
@@ -1512,88 +1563,111 @@ export const seoRepository = {
 
 
 
+  async listLocalizedSlugs(
+
+    entityType: string,
+
+    entityId: string,
+
+    localeCodes: string[],
+
+  ): Promise<Record<string, string>> {
+
+    if (!entityType || !entityId || localeCodes.length === 0) return {};
+
+    const rows = await prisma.localizedSlug.findMany({
+
+      where: {
+
+        entityType,
+
+        entityId,
+
+        localeCode: { in: [...new Set(localeCodes)] },
+
+      },
+
+      select: { localeCode: true, slug: true },
+
+    });
+
+    const byLocale: Record<string, string> = {};
+
+    for (const row of rows) {
+
+      const slug = row.slug?.trim();
+
+      if (slug) byLocale[row.localeCode] = slug;
+
+    }
+
+    return byLocale;
+
+  },
+
+
+
   async listNoIndexPaths(): Promise<Set<string>> {
 
     const metas = await prisma.seoMeta.findMany({
 
       where: { robots: { contains: "noindex" } },
 
-      select: { pageKey: true, entityType: true, entityId: true, cmsPage: { select: { slug: true } }, post: { select: { slug: true } } },
+      select: {
+
+        pageKey: true,
+
+        entityType: true,
+
+        entityId: true,
+
+        robots: true,
+
+        cmsPage: { select: { slug: true } },
+
+        post: { select: { slug: true } },
+
+      },
 
     });
 
-    const paths = new Set<string>();
+    const contentItemIds = [
 
-    for (const m of metas) {
+      ...new Set(
 
-      if (m.pageKey) {
+        metas
 
-        const staticPaths: Record<string, string> = {
+          .filter((meta) => meta.entityType === "CONTENT_ITEM" && meta.entityId)
 
-          home: "",
+          .map((meta) => meta.entityId as string),
 
-          about: "/about",
+      ),
 
-          packages: "/packages",
+    ];
 
-          products: "/products",
+    const contentItems =
 
-          collections: "/categories",
-          categories: "/categories",
+      contentItemIds.length > 0
 
-          services: "/services",
+        ? await prisma.contentItem.findMany({
 
-          compare: "/compare",
+            where: { id: { in: contentItemIds } },
 
-          favorites: "/favorites",
+            select: {
 
-          account: "/account",
+              id: true,
 
-          "hotels-transport": "/hotels-transport",
+              slug: true,
 
-          gallery: "/gallery",
+              contentType: { select: { routePrefix: true, slug: true } },
 
-          testimonials: "/testimonials",
+            },
 
-          contact: "/contact",
+          })
 
-          blog: "/blog",
+        : [];
 
-          faqs: "/faqs",
-
-          brands: "/brands",
-
-          tags: "/tags",
-
-        };
-
-        if (m.pageKey in staticPaths) paths.add(staticPaths[m.pageKey]);
-
-      }
-
-      if (m.cmsPage?.slug) paths.add(`/pages/${m.cmsPage.slug}`);
-
-      if (m.post?.slug) paths.add(`/blog/${m.post.slug}`);
-
-      if (m.entityType === "CONTENT_ITEM" && m.entityId) {
-
-        const item = await prisma.contentItem.findUnique({
-
-          where: { id: m.entityId },
-
-          select: { slug: true, contentType: { select: { routePrefix: true } } },
-
-        });
-
-        const prefix = item?.contentType.routePrefix ?? "content";
-
-        if (item?.slug) paths.add(`/${prefix}/${item.slug}`);
-
-      }
-
-    }
-
-    return paths;
+    return resolveNoIndexPaths(metas, contentItems);
 
   },
 

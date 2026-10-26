@@ -108,6 +108,8 @@ export type SeoDocumentResolveInput =
       entityType?: string;
       entityId?: string;
       slug?: string;
+      /** Per language code (`en`, `ar`, …) when slugs differ by locale. */
+      slugByLocale?: Record<string, string>;
       status?: SeoHttpStatus;
       ogImage?: string;
       fallback?: { title?: string; description?: string };

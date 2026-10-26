@@ -1,6 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { ResolvedProductBuyNow } from "@/features/products/lib/product-buy-now";
 import { previewBuyNowHref } from "@/features/products/lib/product-buy-now";
+import { SmartPhoneInput } from "@/features/forms/fxs/smart/adapters";
 
 export function ProductBuyNowFields({
   value,
@@ -71,11 +72,10 @@ export function ProductBuyNowFields({
             </p>
             <label className="pm-cta-field">
               <span>WhatsApp phone number</span>
-              <input
-                type="tel"
-                value={value.whatsappPhone}
-                onChange={(e) => onChange((c) => ({ ...c, whatsappPhone: e.target.value }))}
-                placeholder="971554727292"
+              <SmartPhoneInput
+                hideLabel
+                value={value.whatsappPhone.startsWith("+") ? value.whatsappPhone : `+${value.whatsappPhone}`}
+                onChange={(phone) => onChange((c) => ({ ...c, whatsappPhone: phone.replace(/\D/g, "") }))}
               />
             </label>
             <label className="pm-cta-field">

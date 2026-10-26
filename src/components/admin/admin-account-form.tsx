@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signOut } from "next-auth/react";
@@ -25,6 +25,7 @@ import {
 import { saveAdminAuthSettingsAction } from "@/features/account/admin/customer-user-actions";
 import type { AdminAuthSettings } from "@/features/account/account-settings.schema";
 import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
+import { AccountMfaCard, type SelfMfaView } from "@/components/account/account-mfa-card";
 import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
@@ -39,6 +40,8 @@ type Props = {
   adminAuth?: AdminAuthSettings;
   adminMfaEnabled?: boolean;
   hasEmailAccounts?: boolean;
+  /** This admin's own second factor, read on the server render. */
+  mfaStatus?: SelfMfaView | null;
 };
 
 function clearSensitiveFields(
@@ -59,6 +62,7 @@ export function AdminAccountForm({
   adminAuth: initialAdminAuth,
   adminMfaEnabled = false,
   hasEmailAccounts = false,
+  mfaStatus,
 }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -118,7 +122,7 @@ export function AdminAccountForm({
         return false;
       }
       setSavedAdminAuth(adminAuth);
-      setFeedback("Admin email delivery settings saved.");
+      setFeedback("OTP email delivery settings saved.");
       markSaved();
       // Continue if credential changes also pending; otherwise done
     }
@@ -314,7 +318,12 @@ export function AdminAccountForm({
                   }}
                 />
               ) : tab === "mfa" ? (
-                <MfaTab adminMfaEnabled={adminMfaEnabled} isMasterAdmin={isMasterAdmin} />
+                <MfaTab
+                  adminMfaEnabled={adminMfaEnabled}
+                  isMasterAdmin={isMasterAdmin}
+                  emailForQr={email}
+                  mfaStatus={mfaStatus ?? null}
+                />
               ) : tab === "delivery" && isMasterAdmin ? (
                 <DeliveryTab
                   adminAuth={adminAuth}
@@ -400,13 +409,13 @@ function OverviewTab({
             <strong className="text-foreground">Password</strong> — set a new password (min. 12 characters)
           </li>
           <li>
-            <strong className="text-foreground">MFA</strong> — optional authenticator app (login email OTP
-            is controlled by Email delivery when you are Master Admin)
+            <strong className="text-foreground">MFA</strong> — two-step verification for your own
+            account: an authenticator app or emailed codes
           </li>
           {isMasterAdmin ? (
             <li>
-              <strong className="text-foreground">Email delivery</strong> — choose Email Accounts for
-              admin login OTP and admin password reset
+              <strong className="text-foreground">Email delivery</strong> — choose the OTP email
+              account used for verification, email codes and password-reset codes
             </li>
           ) : null}
           <li>
@@ -524,175 +533,33 @@ function PasswordTab({
 function MfaTab({
   adminMfaEnabled,
   isMasterAdmin,
+  emailForQr,
+  mfaStatus,
 }: {
   adminMfaEnabled: boolean;
   isMasterAdmin: boolean;
+  emailForQr: string;
+  mfaStatus: SelfMfaView | null;
 }) {
-  const [totpEnabled, setTotpEnabled] = useState(false);
-  const [secret, setSecret] = useState<string | null>(null);
-  const [otpauthUrl, setOtpauthUrl] = useState<string | null>(null);
-  const [confirmCode, setConfirmCode] = useState("");
-  const [recoveryCodes, setRecoveryCodes] = useState<string[] | null>(null);
-  const [disablePassword, setDisablePassword] = useState("");
-  const [disableCode, setDisableCode] = useState("");
-  const [message, setMessage] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [busy, setBusy] = useState(false);
-
-  useEffect(() => {
-    void (async () => {
-      const { getAdminMfaStatusAction } = await import("@/features/auth/mfa.actions");
-      const status = await getAdminMfaStatusAction();
-      if (status.success && status.data) {
-        setTotpEnabled(status.data.totpEnabled);
-      }
-    })();
-  }, []);
-
-  async function startEnrollment() {
-    setBusy(true);
-    setError(null);
-    setMessage(null);
-    setRecoveryCodes(null);
-    const { startAdminMfaEnrollmentAction } = await import("@/features/auth/mfa.actions");
-    const result = await startAdminMfaEnrollmentAction();
-    setBusy(false);
-    if (!result.success || !result.data) {
-      setError(!result.success ? result.error : "Unable to start MFA");
-      return;
-    }
-    setSecret(result.data.secret);
-    setOtpauthUrl(result.data.otpauthUrl);
-  }
-
-  async function confirmEnrollment() {
-    setBusy(true);
-    setError(null);
-    const { confirmAdminMfaEnrollmentAction } = await import("@/features/auth/mfa.actions");
-    const result = await confirmAdminMfaEnrollmentAction({ code: confirmCode });
-    setBusy(false);
-    if (!result.success || !result.data) {
-      setError(!result.success ? result.error : "Invalid code");
-      return;
-    }
-    setTotpEnabled(true);
-    setSecret(null);
-    setOtpauthUrl(null);
-    setConfirmCode("");
-    setRecoveryCodes(result.data.recoveryCodes);
-    setMessage(
-      "MFA enabled. Store these recovery codes now — they will not be shown again. Then sign in again.",
-    );
-  }
-
-  async function disableMfa() {
-    setBusy(true);
-    setError(null);
-    const { disableAdminMfaAction } = await import("@/features/auth/mfa.actions");
-    const result = await disableAdminMfaAction({
-      password: disablePassword || undefined,
-      mfaCode: disableCode || undefined,
-    });
-    setBusy(false);
-    if (!result.success) {
-      setError(result.error ?? "Unable to disable MFA");
-      return;
-    }
-    setTotpEnabled(false);
-    setDisablePassword("");
-    setDisableCode("");
-    setRecoveryCodes(null);
-    setMessage("MFA disabled. Existing sessions were revoked.");
-  }
-
   return (
-    <SettingsSection
-      title="Multi-factor authentication"
-      description={
-        isMasterAdmin
-          ? `Login email OTP is ${adminMfaEnabled ? "enabled" : "disabled"} based on Email delivery settings. Authenticator app enrollment below is optional.`
-          : "Login may require an email OTP when the Master Admin has configured admin email delivery. Authenticator app enrollment below is optional."
-      }
-    >
-      {message ? (
-        <p className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm">
-          {message}
+    <div className="space-y-6">
+      <SettingsSection
+        title="Two-step verification at sign-in"
+        description={`Sign-in codes are ${adminMfaEnabled ? "enabled" : "not configured yet"} for the whole site from Email delivery. You may also add an authenticator app — it is offered first and belongs to your account only.`}
+      >
+        <p className="text-muted-foreground text-sm">
+          Account: <span className="text-foreground">{emailForQr}</span>
+          {isMasterAdmin ? " · Master Admin" : ""}
         </p>
-      ) : null}
-      {error ? <p className="text-destructive text-sm">{error}</p> : null}
-      <p className="text-sm text-muted-foreground">
-        Status:{" "}
-        <strong className="text-foreground">{totpEnabled ? "Enabled" : "Disabled"}</strong>
-      </p>
-
-      {!totpEnabled ? (
-        <div className="space-y-4">
-          {!secret ? (
-            <Button type="button" onClick={() => void startEnrollment()} disabled={busy}>
-              Start MFA enrollment
-            </Button>
-          ) : (
-            <>
-              <p className="text-sm break-all font-mono">{otpauthUrl}</p>
-              <p className="text-muted-foreground text-xs">
-                Secret: <span className="font-mono text-foreground">{secret}</span>
-              </p>
-              <TextField
-                id="mfaConfirm"
-                label="Authenticator code"
-                value={confirmCode}
-                onChange={setConfirmCode}
-              />
-              <Button type="button" onClick={() => void confirmEnrollment()} disabled={busy}>
-                Confirm and enable
-              </Button>
-            </>
-          )}
-        </div>
+      </SettingsSection>
+      {mfaStatus ? (
+        <AccountMfaCard initialStatus={mfaStatus} embedded />
       ) : (
-        <div className="space-y-4">
-          <PasswordField
-            id="disableMfaPassword"
-            label="Current password (or leave blank if using a code)"
-            value={disablePassword}
-            onChange={setDisablePassword}
-            autoComplete="current-password"
-          />
-          <TextField
-            id="disableMfaCode"
-            label="Authenticator or recovery code"
-            value={disableCode}
-            onChange={setDisableCode}
-          />
-          <Button
-            type="button"
-            variant="destructive"
-            onClick={() => void disableMfa()}
-            disabled={busy}
-          >
-            Disable MFA
-          </Button>
-        </div>
+        <p className="text-muted-foreground text-sm">
+          Could not read your two-step verification state. Reload the page to try again.
+        </p>
       )}
-
-      {recoveryCodes ? (
-        <div className="rounded-md border bg-muted/30 p-3">
-          <p className="mb-2 text-sm font-medium">Recovery codes (save now)</p>
-          <ul className="font-mono text-xs space-y-1">
-            {recoveryCodes.map((code) => (
-              <li key={code}>{code}</li>
-            ))}
-          </ul>
-          <Button
-            type="button"
-            className="mt-3"
-            onClick={() => void signOut({ callbackUrl: "/account/login" })}
-          >
-            Continue — sign in again
-          </Button>
-        </div>
-      ) : null}
-    </SettingsSection>
+    </div>
   );
 }
 
@@ -713,13 +580,13 @@ function DeliveryTab({
     <div className="space-y-8">
       <SettingsSection
         title="Security / Email delivery"
-        description="Master Admin only. Select Email Accounts for administrator authentication emails. Credentials stay under Email Accounts — this page only stores which account is used."
+        description="Master Admin only. This is the sender used for every authentication email: signup verification, email sign-in codes, and password-reset codes for customers, Admins and you. Credentials stay under Email Accounts — this page only stores which account is used."
       >
         <div className="flex flex-wrap items-center gap-2">
           {adminMfaEnabled ? (
-            <Badge variant="default">Admin MFA Enabled</Badge>
+            <Badge variant="default">Email sign-in codes enabled</Badge>
           ) : (
-            <Badge variant="secondary">Admin MFA Disabled — Configure an Email Account</Badge>
+            <Badge variant="secondary">Email sign-in codes disabled — configure an Email Account</Badge>
           )}
         </div>
         {!hasEmailAccounts ? (
@@ -732,7 +599,7 @@ function DeliveryTab({
         ) : null}
         <div className="space-y-1.5">
           <label htmlFor="otpEmailAccountId" className="text-sm font-medium">
-            Admin login OTP Email Account
+            OTP email account
           </label>
           <select
             id="otpEmailAccountId"
@@ -748,29 +615,9 @@ function DeliveryTab({
             ))}
           </select>
           <p className="text-xs text-muted-foreground">
-            When a valid sendable account is selected, admin login requires a 5-minute email OTP.
-            Otherwise login is password-only.
-          </p>
-        </div>
-        <div className="space-y-1.5">
-          <label htmlFor="passwordResetEmailAccountId" className="text-sm font-medium">
-            Admin password reset Email Account
-          </label>
-          <select
-            id="passwordResetEmailAccountId"
-            className="border-input bg-background flex h-9 w-full rounded-md border px-3 text-sm"
-            value={adminAuth.passwordResetEmailAccountId ?? ""}
-            onChange={(e) => onChange({ passwordResetEmailAccountId: e.target.value })}
-          >
-            <option value="">Select an Email Account</option>
-            {emailAccounts.map((account) => (
-              <option key={account.id} value={account.id}>
-                {account.name} ({account.from})
-              </option>
-            ))}
-          </select>
-          <p className="text-xs text-muted-foreground">
-            Used only for administrator password-reset emails — never the customer portal sender.
+            Used for signup verification, email-code two-step verification, and password-reset
+            codes for every account type. When a sendable account is selected, admin sign-in
+            requires a 5-minute email code.
           </p>
         </div>
         <Button asChild variant="outline" size="sm">

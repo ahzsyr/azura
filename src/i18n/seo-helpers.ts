@@ -13,7 +13,28 @@ export type HreflangAlternate = {
 };
 
 /**
+ * Replace the final path segment with a localized slug.
+ * Home ("", "/") is never rewritten — a localized slug must not invent a home path.
+ */
+export function applyLocalizedSlug(path: string, localizedSlug?: string | null): string {
+  const slug = localizedSlug?.trim();
+  if (!slug) return path;
+  const withLeading = path.startsWith("/") ? path : path ? `/${path}` : "";
+  if (!withLeading || withLeading === "/") return path;
+  const lastSlash = withLeading.lastIndexOf("/");
+  return `${withLeading.slice(0, lastSlash + 1)}${slug}`;
+}
+
+function pickSlugForLocale(
+  slugByLocale: Record<string, string> | undefined,
+  locale: { code: string; urlPrefix: string },
+): string | undefined {
+  return slugByLocale?.[locale.code] ?? slugByLocale?.[locale.urlPrefix];
+}
+
+/**
  * Build hreflang alternates for all enabled locales.
+ * x-default mirrors the default locale's localized slug (not the neutral path).
  */
 export function buildHreflangAlternates(
   path: string,
@@ -27,16 +48,18 @@ export function buildHreflangAlternates(
   const origin = (forceApexOrigin(siteUrl) ?? siteUrl).replace(/\/$/, "");
 
   for (const locale of locales) {
-    const localizedPath = slugByLocale?.[locale.code]
-      ? path.replace(/[^/]+$/, slugByLocale[locale.code]!)
-      : path;
+    const localizedPath = applyLocalizedSlug(path, pickSlugForLocale(slugByLocale, locale));
     const publicPath = publicLocalePath(locale.urlPrefix, localizedPath, defaultPrefix);
     languages[locale.htmlLang] =
       publicPath === "/" ? `${origin}/` : `${origin}${publicPath}`;
   }
 
   if (defaultLocale) {
-    const xDefaultPath = publicLocalePath(defaultPrefix, path, defaultPrefix);
+    const xDefaultPath = publicLocalePath(
+      defaultPrefix,
+      applyLocalizedSlug(path, pickSlugForLocale(slugByLocale, defaultLocale)),
+      defaultPrefix,
+    );
     languages["x-default"] =
       xDefaultPath === "/" ? `${origin}/` : `${origin}${xDefaultPath}`;
   }
@@ -53,12 +76,7 @@ export function buildCanonicalUrl(
 ): string {
   const defaultLoc = defaultPrefix ?? getFallbackDefaultLocalePrefix();
   const origin = forceApexOrigin(siteUrl) ?? siteUrl;
-  let cleanPath = path.startsWith("/") ? path : `/${path}`;
-  if (localizedSlug) {
-    const segments = cleanPath.split("/");
-    segments[segments.length - 1] = localizedSlug;
-    cleanPath = segments.join("/");
-  }
+  const cleanPath = applyLocalizedSlug(path, localizedSlug);
   return publicLocaleAbsoluteUrl(origin, localePrefix, cleanPath, defaultLoc);
 }
 

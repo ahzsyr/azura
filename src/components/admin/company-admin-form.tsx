@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { readLegacyFieldForLocale } from "@/features/translation/admin-field-value";
 import type { CompanyInfoView } from "@/features/translation/admin-localized-view";
@@ -20,6 +20,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { DEFAULT_BRAND_NAME } from "@/config/site";
 import { AdminLocalizedFormField } from "@/features/translation/components/admin-localized-form-field";
 import { LocaleTabPanel } from "@/features/translation/components/locale-tab-panel";
+import { SmartPhoneInput } from "@/features/forms/fxs/smart/adapters";
 
 const TABS = [
   { id: "general", label: "General" },
@@ -31,10 +32,18 @@ const TABS = [
 
 type Props = {
   company: CompanyInfoView | null;
+  /** Visitor/session country used for empty phone fields; saved values keep their own code. */
+  defaultPhoneCountry?: string | null;
 };
 
-function CompanyFormFields({ company, formRef }: Props & { formRef: React.RefObject<HTMLFormElement | null> }) {
+function CompanyFormFields({
+  company,
+  formRef,
+  defaultPhoneCountry,
+}: Props & { formRef: React.RefObject<HTMLFormElement | null> }) {
   const { setDirty } = useAdminForm();
+  const [phone, setPhone] = useState(company?.phone ?? "");
+  const [whatsapp, setWhatsapp] = useState(company?.whatsapp ?? "");
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
@@ -156,12 +165,26 @@ function CompanyFormFields({ company, formRef }: Props & { formRef: React.RefObj
                 <CardContent className="space-y-4">
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
-                      <Label>Phone</Label>
-                      <Input name="phone" defaultValue={company?.phone} />
+                      <SmartPhoneInput
+                        id="company-phone"
+                        label="Phone"
+                        value={phone}
+                        onChange={setPhone}
+                        variant="plain"
+                        defaultCountry={defaultPhoneCountry}
+                      />
+                      <input type="hidden" name="phone" value={phone} readOnly />
                     </div>
                     <div className="space-y-2">
-                      <Label>WhatsApp</Label>
-                      <Input name="whatsapp" defaultValue={company?.whatsapp} />
+                      <SmartPhoneInput
+                        id="company-whatsapp"
+                        label="WhatsApp"
+                        value={whatsapp}
+                        onChange={setWhatsapp}
+                        variant="plain"
+                        defaultCountry={defaultPhoneCountry}
+                      />
+                      <input type="hidden" name="whatsapp" value={whatsapp} readOnly />
                     </div>
                     <div className="space-y-2">
                       <Label>Email</Label>
@@ -264,7 +287,7 @@ function CompanyFormFields({ company, formRef }: Props & { formRef: React.RefObj
   );
 }
 
-export function CompanyAdminForm({ company }: Props) {
+export function CompanyAdminForm({ company, defaultPhoneCountry }: Props) {
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSave = useCallback(async () => {
@@ -301,7 +324,11 @@ export function CompanyAdminForm({ company }: Props) {
         }}
         className="space-y-6"
       >
-        <CompanyFormFields company={company} formRef={formRef} />
+        <CompanyFormFields
+          company={company}
+          formRef={formRef}
+          defaultPhoneCountry={defaultPhoneCountry}
+        />
       </form>
     </AdminFormProvider>
   );

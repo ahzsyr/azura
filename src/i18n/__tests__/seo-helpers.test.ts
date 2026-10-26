@@ -38,6 +38,18 @@ describe("buildCanonicalUrl", () => {
   it("keeps Arabic prefix", () => {
     assert.equal(buildCanonicalUrl(SITE, "ar", "/about", undefined, "en"), `${SITE}/ar/about`);
   });
+
+  it("uses localized slugs for the active locale", () => {
+    assert.equal(
+      buildCanonicalUrl(SITE, "ar", "/blog/hello", "مرحبا", "en"),
+      `${SITE}/ar/blog/مرحبا`,
+    );
+  });
+
+  it("never invents a home path from a localized slug", () => {
+    assert.equal(buildCanonicalUrl(SITE, "en", "/", "home-ar", "en"), `${SITE}/`);
+    assert.equal(buildCanonicalUrl(SITE, "ar", "/", "home-ar", "en"), `${SITE}/ar`);
+  });
 });
 
 describe("buildHreflangAlternates", () => {
@@ -46,6 +58,25 @@ describe("buildHreflangAlternates", () => {
     assert.equal(alternates["x-default"], `${SITE}/`);
     assert.equal(alternates.en, `${SITE}/`);
     assert.equal(alternates.ar, `${SITE}/ar`);
+  });
+
+  it("uses localized slugs for every locale and x-default", () => {
+    const alternates = buildHreflangAlternates("/blog/hello", LOCALES, SITE, {
+      en: "hello",
+      ar: "مرحبا",
+    });
+    assert.equal(alternates.en, `${SITE}/blog/hello`);
+    assert.equal(alternates.ar, `${SITE}/ar/blog/مرحبا`);
+    assert.equal(alternates["x-default"], `${SITE}/blog/hello`);
+  });
+
+  it("accepts locale urlPrefix keys when codes differ", () => {
+    const alternates = buildHreflangAlternates("/about", LOCALES, SITE, {
+      en: "about-us",
+      ar: "من-نحن",
+    });
+    assert.equal(alternates.en, `${SITE}/about-us`);
+    assert.equal(alternates["x-default"], `${SITE}/about-us`);
   });
 });
 

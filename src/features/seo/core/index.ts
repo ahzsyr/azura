@@ -1,5 +1,6 @@
 export type { ResolvedSeoDocument, SeoDocumentResolveInput } from "./seo-document";
 export { resolveSeoDocument, isIndexableSeoDocument } from "./seo-resolver";
+export { buildSeoDocumentCacheKey } from "./seo-cache-key";
 export { documentToMetadata } from "./document-to-metadata";
 export { resolveRobots, robotsDirectiveToContentString, isNoIndexRobots } from "./seo-robots";
 export { resolveCanonical } from "./seo-canonical";

@@ -786,6 +786,16 @@ items:
     keywords: [sitemap, xml, urls]
     status: stable
 
+  - id: seo-llms
+    label: LLMs.txt
+    group: seo
+    icon: ScrollText
+    href_current: /admin/seo/llms
+    href_target: /admin/seo/llms
+    profiles: [marketing, showroom, agency, tourism, documentation, enterprise]
+    keywords: [llms, ai, crawlers, markdown]
+    status: stable
+
   - id: seo-structured-data
     label: Structured Data
     group: seo

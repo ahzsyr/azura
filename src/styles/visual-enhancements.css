@@ -578,7 +578,7 @@ html[data-effects-tier="light"] .az-section-orb {
   min-height: 44px;
 }
 
-.fxs-theme [data-fxs-field-mode="floating"] .fxs-field input {
+.fxs-theme [data-fxs-field-mode="floating"] .fxs-field [data-fxs-floating-label="true"] input {
   padding-top: 1.1rem;
 }
 

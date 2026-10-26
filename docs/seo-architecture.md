@@ -404,6 +404,30 @@ buildCanonicalUrl(SITE_URL, locale, path, slugByLocale[locale])
 
 ---
 
+## LLMs.txt (AI discovery surface)
+
+`/llms.txt` is a first-class, admin-managed crawl surface alongside sitemap and robots.
+
+| Concern | Implementation |
+|---|---|
+| Store | JsonStore namespace `seo-llms`, key `document` |
+| Public route | `app/api/seo/llms/route.ts`, rewritten from `/llms.txt` |
+| Document model | `src/features/seo/llms/llms-document.ts` (pure format/parse/validate/draft) |
+| Service | `src/features/seo/llms/llms.service.ts` |
+| Admin | `/admin/seo/llms` — structured editor, raw markdown editor, preview |
+| Cache | `CACHE_TAGS.llms` + `revalidateLlmsTxt()` (`/llms.txt`, `/api/seo/llms`) |
+| Publish hook | `publishSeoPublicAction`, `publishLlmsTxtAction`, and `seoTriggerService` publish events |
+
+**Rules:**
+
+- Links are absolute canonical URLs. Draft generation reads `generateSitemap()` so publication status, noindex, sitemap exclusions, locale variants, and localized slugs are inherited from the existing crawl pipeline.
+- Only default-locale (unprefixed) URLs are drafted; localized variants are skipped with a warning.
+- Private prefixes (`/admin`, `/api`, `/account`, `/favorites`, `/compare`, `/search`, …) are rejected by validation and stripped defensively at serve time.
+- If the site origin cannot be resolved, draft links are omitted with a warning instead of inventing a domain.
+- If the saved document is missing/invalid or the DB is unavailable, the public route serves a safe site-identity document (never a stack trace); `enabled: false` returns 404.
+
+---
+
 ## Rendering Pipeline
 
 ```
@@ -456,6 +480,8 @@ SEO metadata is resolved on every `generateMetadata()` call. Freshness is delega
 | `force-dynamic` locale layout | Shell/global JSON-LD always fresh |
 | `revalidateTag(CACHE_TAGS.redirects)` | Redirect middleware/API cache |
 | `revalidateTranslations()` | Entity translation cache tags |
+| `revalidateSeoDocuments()` | Broad tag for cached resolved SEO documents (identity writes) |
+| `revalidateLlmsTxt()` | `/llms.txt` tag + public route paths |
 | Publish propagation | Shell/marketing tags on site-wide publish |
 
 **There is no dedicated SEO `unstable_cache` wrapper today.** Sub-minute SEO-only updates may require a future `CACHE_TAGS.seoMeta(entityType, entityId)` extension.
@@ -535,6 +561,7 @@ Locale-neutral: `canonicalUrl`, `robots`, `focusKeywords`, `ogImageUrl`, `twitte
 | `seo-global` | Robots.txt extras, host |
 | `seo-structured` | Global organization + website JSON-LD |
 | `seo-integrations` | Provider credentials (sealed) |
+| `seo-llms` | Admin-managed `/llms.txt` document |
 
 ### Operational tables
 
@@ -550,6 +577,9 @@ Locale-neutral: `canonicalUrl`, `robots`, `focusKeywords`, `ogImageUrl`, `twitte
 | Next.js adapter | `src/lib/seo.tsx` |
 | Repository | `src/repositories/seo.repository.ts` |
 | URL layer | `src/i18n/seo-helpers.ts` |
+| LLMs.txt document/service | `src/features/seo/llms/` |
+| LLMs.txt public route | `src/app/api/seo/llms/route.ts` |
+| LLMs.txt admin | `/admin/seo/llms` |
 | Constants / static registry | `src/features/seo/constants.ts` |
 | Triggers | `src/features/seo/triggers/` |
 | Integrations | `src/features/seo/integrations/` |

@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type { ProductCtaCardLayout, ResolvedProductCtaConfig } from "@/features/products/lib/product-cta";
 import { validateProductCtaExternalUrl } from "@/features/products/lib/product-cta";
+import { SmartPhoneInput } from "@/features/forms/fxs/smart/adapters";
 import { AdminSettingsRibbon } from "@/components/admin/layout/admin-settings-ribbon";
 import { InternalLinkSelector } from "./InternalLinkSelector";
 import { CtaIconUploadControls } from "./CtaIconUploadControls";
@@ -189,11 +190,10 @@ export function ProductCtaSettingsPanel({
                       <>
                         <label className="pm-cta-field">
                           <span>WhatsApp phone number</span>
-                          <input
-                            type="tel"
-                            value={cta.whatsappPhone}
-                            onChange={(e) => patch((c) => ({ ...c, whatsappPhone: e.target.value }))}
-                            placeholder="971554727292"
+                          <SmartPhoneInput
+                            hideLabel
+                            value={cta.whatsappPhone.startsWith("+") ? cta.whatsappPhone : `+${cta.whatsappPhone}`}
+                            onChange={(phone) => patch((c) => ({ ...c, whatsappPhone: phone.replace(/\D/g, "") }))}
                           />
                         </label>
                         <label className="pm-cta-field">

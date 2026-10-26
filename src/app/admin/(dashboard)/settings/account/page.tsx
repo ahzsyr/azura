@@ -6,6 +6,7 @@ import { redirectUnlessAdmin } from "@/features/auth/redirect-unless-admin";
 import { accountSettingsService } from "@/features/account/account-settings.service";
 import { listEmailAccounts } from "@/features/email/email-accounts.service";
 import { getAdminAuthDeliveryStatus } from "@/features/auth/admin-auth-delivery";
+import { getSelfMfaView } from "@/features/auth/mfa-self.read";
 
 export const metadata = {
   title: "Admin account",
@@ -15,7 +16,7 @@ export default async function AdminAccountSettingsPage() {
   const session = await auth();
   redirectUnlessAdmin(session, "/admin/settings/account");
   const isMasterAdmin = session.user.role === "SUPER_ADMIN";
-  const [row, accountSettings, accounts, delivery] = await Promise.all([
+  const [row, accountSettings, accounts, delivery, mfaStatus] = await Promise.all([
     session.user.id
       ? prisma.user.findUnique({
           where: { id: session.user.id },
@@ -34,6 +35,8 @@ export default async function AdminAccountSettingsPage() {
           otpEmailAccountId: null,
           passwordResetEmailAccountId: null,
         }),
+    // This admin's own factor, read on the server for the MFA tab.
+    session.user.id ? getSelfMfaView(session.user.id) : Promise.resolve(null),
   ]);
 
   return (
@@ -48,6 +51,7 @@ export default async function AdminAccountSettingsPage() {
         adminAuth={accountSettings?.adminAuth}
         adminMfaEnabled={delivery.mfaEnabled}
         hasEmailAccounts={delivery.hasEmailAccounts}
+        mfaStatus={mfaStatus}
       />
     </Suspense>
   );

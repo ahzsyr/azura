@@ -49,6 +49,7 @@ import {
   type SeoTemplateType,
 } from "./seo-templates";
 import { isIndexableSeoDocument } from "./is-indexable-seo-document";
+import { buildSeoDocumentCacheKey } from "./seo-cache-key";
 
 function extractSearchPhrase(url: string, pageType: string): string | undefined {
   if (pageType !== "search" && !url.includes("/search")) return undefined;
@@ -131,14 +132,76 @@ async function resolveHttpStatus(
   return 200;
 }
 
+function normalizeSlugByLocale(
+  map: Record<string, string> | undefined,
+  enabledLocales: Awaited<ReturnType<typeof localeService.listEnabled>>,
+): Record<string, string> | undefined {
+  if (!map) return undefined;
+  const out: Record<string, string> = {};
+  for (const [key, value] of Object.entries(map)) {
+    const slug = value?.trim();
+    if (slug) out[key] = slug;
+  }
+  for (const locale of enabledLocales) {
+    const slug = out[locale.code] ?? out[locale.urlPrefix];
+    if (slug) {
+      out[locale.code] = slug;
+      out[locale.urlPrefix] = slug;
+    }
+  }
+  return Object.keys(out).length > 0 ? out : undefined;
+}
+
+function identityForLocalizedSlug(
+  parsed: SeoUrlContextInput,
+  seoContext: Awaited<ReturnType<typeof resolvePageSeoContext>>,
+): { entityType: "CmsPage" | "Post" | "ContentItem"; entityId: string } | null {
+  const cmsPageId = seoContext.identity.cmsPageId ?? parsed.cmsPageId;
+  if (cmsPageId) return { entityType: "CmsPage", entityId: cmsPageId };
+
+  const postId = seoContext.identity.postId ?? parsed.postId;
+  if (postId) return { entityType: "Post", entityId: postId };
+
+  const contentItemId = seoContext.identity.contentItemId ?? parsed.contentItemId;
+  if (contentItemId) return { entityType: "ContentItem", entityId: contentItemId };
+
+  return null;
+}
+
 async function loadSlugByLocale(
   parsed: SeoUrlContextInput,
+  seoContext: Awaited<ReturnType<typeof resolvePageSeoContext>>,
+  enabledLocales: Awaited<ReturnType<typeof localeService.listEnabled>>,
+  provided?: Record<string, string>,
 ): Promise<Record<string, string> | undefined> {
-  if (parsed.pageType === "product" && parsed.slug) {
-    const enabledLocales = await localeService.listEnabled();
-    return productsDataService.getProductSlugAlternates(parsed.slug, enabledLocales);
+  if (provided && Object.keys(provided).length > 0) {
+    return normalizeSlugByLocale(provided, enabledLocales);
   }
-  return undefined;
+
+  if (parsed.pageType === "product" && parsed.slug) {
+    try {
+      return normalizeSlugByLocale(
+        await productsDataService.getProductSlugAlternates(parsed.slug, enabledLocales),
+        enabledLocales,
+      );
+    } catch {
+      return undefined;
+    }
+  }
+
+  const identity = identityForLocalizedSlug(parsed, seoContext);
+  if (!identity) return undefined;
+
+  try {
+    const map = await seoRepository.listLocalizedSlugs(
+      identity.entityType,
+      identity.entityId,
+      enabledLocales.map((locale) => locale.code),
+    );
+    return normalizeSlugByLocale(map, enabledLocales);
+  } catch {
+    return undefined;
+  }
 }
 
 async function loadImageSources(
@@ -311,7 +374,12 @@ async function resolveDocumentUncached(
   const resolvedDescription =
     description.trim() ||
     (descriptionTemplate ? resolveSeoTemplate(descriptionTemplate, templateContext) : "");
-  const slugByLocale = await loadSlugByLocale(parsed);
+  const slugByLocale = await loadSlugByLocale(
+    parsed,
+    seoContext,
+    enabledLocales,
+    "slugByLocale" in input ? input.slugByLocale : undefined,
+  );
 
   const defaultCanonical = sanitizeMetadataAbsoluteUrl(
     buildCanonicalUrl(
@@ -503,15 +571,14 @@ async function resolveDocumentUncached(
 export async function resolveSeoDocument(
   input: SeoDocumentResolveInput,
 ): Promise<ResolvedSeoDocument> {
-  const cacheKey =
-    "url" in input
-      ? `url:${input.url}`
-      : `identity:${input.locale}:${input.path ?? ""}:${input.pageKey ?? ""}:${input.slug ?? ""}`;
+  const cacheKey = buildSeoDocumentCacheKey(input);
 
   return createCached(
     () => resolveDocumentUncached(input),
     ["seo-document", cacheKey],
-    { tags: [CACHE_TAGS.seoDocument(cacheKey), "seo-document"] },
+    {
+      tags: [CACHE_TAGS.seoDocument(cacheKey), CACHE_TAGS.seoDocumentAll],
+    },
   )();
 }
 

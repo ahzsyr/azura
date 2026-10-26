@@ -14,6 +14,17 @@ enum EmailVerificationPurpose {
 enum EmailOtpPurpose {
   SIGNUP_VERIFY
   ADMIN_LOGIN
+  /// Password reset one-time code (any role). Set by the migration only;
+  /// drop this line if Prisma reports the enum is already up to date.
+  PASSWORD_RESET
+  /// Email-code second factor at sign-in (per-user MFA method).
+  LOGIN_MFA
+}
+
+/// Second factor a single user has enrolled.
+enum MfaMethod {
+  AUTHENTICATOR
+  EMAIL_OTP
 }
 
 enum FavoriteEntityType {

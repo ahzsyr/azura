@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
-import { requireSuperAdmin } from "@/features/auth/guards";
+import { requireAdmin, requireSuperAdmin } from "@/features/auth/guards";
 import {
   disableAdminAccount,
   enableAdminAccount,
@@ -41,9 +41,15 @@ export async function inviteAdminAction(input: {
   }
 }
 
+/**
+ * Disable a dashboard account.
+ *
+ * A Super Admin may disable Admins — never themselves. An Admin cannot disable
+ * another Admin: the hierarchy check lives inside the service, not in the UI.
+ */
 export async function disableAdminAction(userId: string): Promise<ActionResult<{ ok: true }>> {
   try {
-    const session = await requireSuperAdmin();
+    const session = await requireAdmin();
     const result = await disableAdminAccount({
       targetUserId: userId,
       actor: { id: session.user.id, role: session.user.role },
@@ -58,9 +64,10 @@ export async function disableAdminAction(userId: string): Promise<ActionResult<{
   }
 }
 
+/** Enable a dashboard account (same hierarchy as `disableAdminAction`). */
 export async function enableAdminAction(userId: string): Promise<ActionResult<{ ok: true }>> {
   try {
-    const session = await requireSuperAdmin();
+    const session = await requireAdmin();
     const result = await enableAdminAccount({
       targetUserId: userId,
       actor: { id: session.user.id, role: session.user.role },
@@ -79,7 +86,7 @@ export async function forceAdminPasswordAction(
   userId: string,
 ): Promise<ActionResult<{ ok: true }>> {
   try {
-    const session = await requireSuperAdmin();
+    const session = await requireAdmin();
     const result = await forceAdminPasswordChange({
       targetUserId: userId,
       actor: { id: session.user.id, role: session.user.role },
@@ -98,7 +105,7 @@ export async function revokeAdminSessionsAction(
   userId: string,
 ): Promise<ActionResult<{ ok: true }>> {
   try {
-    const session = await requireSuperAdmin();
+    const session = await requireAdmin();
     const result = await revokeAdminSessions({
       targetUserId: userId,
       actor: { id: session.user.id, role: session.user.role },

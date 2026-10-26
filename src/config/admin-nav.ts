@@ -419,6 +419,13 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
             navItemId: "seo-sitemap",
           },
           {
+            href: "/admin/seo/llms",
+            label: "LLMs.txt",
+            icon: ScrollText,
+            keywords: ["llms", "ai", "crawlers", "markdown", "discovery"],
+            navItemId: "seo-llms",
+          },
+          {
             href: "/admin/seo/integrations",
             label: "Search Engines",
             icon: Activity,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useState, type ReactNode } from "react";
+import { useId, useMemo, useState, type ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FxsValidationPhase } from "../types";
@@ -57,12 +57,11 @@ export function FieldWrapper({
   const fieldsCollapsibleFromContext = useCollapsibleFields();
   const collapsible = collapsibleProp ?? fieldsCollapsibleFromContext;
   const isFloating = fieldMode === "floating";
+  const showFloatingLabel = isFloating && Boolean(label) && !hideLabel;
   const showSuccess = Boolean(success) && !error && (phase === "validated" || phase === "blurred");
-  const [open, setOpen] = useState(!defaultCollapsed || Boolean(error));
-
-  useEffect(() => {
-    if (error) setOpen(true);
-  }, [error]);
+  const [open, setOpen] = useState(!defaultCollapsed);
+  // A field with an error is always expanded; once resolved the user's toggle wins.
+  const isOpen = Boolean(error) || open;
 
   const describedBy = useMemo(() => {
     const parts: string[] = [];
@@ -112,7 +111,7 @@ export function FieldWrapper({
           }
           role={collapsible ? "button" : undefined}
           tabIndex={collapsible ? 0 : undefined}
-          aria-expanded={collapsible ? open : undefined}
+          aria-expanded={collapsible ? isOpen : undefined}
         >
           <FxsLabel htmlFor={fieldId}>{label}</FxsLabel>
           {required ? <RequiredBadge /> : null}
@@ -121,7 +120,7 @@ export function FieldWrapper({
             <ChevronDown
               className={cn(
                 "ml-auto size-4 shrink-0 text-muted-foreground transition-transform",
-                open && "rotate-180",
+                isOpen && "rotate-180",
               )}
               aria-hidden
             />
@@ -134,7 +133,7 @@ export function FieldWrapper({
           "fxs-field__control pt-1 fxs-collapse-content",
           collapsible && "fxs-collapse-content--animated",
         )}
-        data-open={open || !collapsible}
+        data-open={isOpen || !collapsible}
       >
         <div className="min-h-0 space-y-2">
           <div
@@ -156,8 +155,11 @@ export function FieldWrapper({
                 {leading}
               </div>
             ) : null}
-            <div className={cn("relative min-w-0 flex-1", isFloating && "pt-4")}>
-              {isFloating && label ? (
+            <div
+              className={cn("relative min-w-0 flex-1", showFloatingLabel && "pt-4")}
+              data-fxs-floating-label={showFloatingLabel || undefined}
+            >
+              {showFloatingLabel ? (
                 <FxsLabel htmlFor={fieldId} floating active>
                   {label}
                   {required ? " *" : ""}

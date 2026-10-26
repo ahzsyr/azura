@@ -26,6 +26,25 @@ type Props = {
 
 type Step = "password" | "mfa";
 
+type OtpChannel = "email" | "sms" | "whatsapp";
+
+const CHANNEL_LABELS: Record<OtpChannel, string> = {
+  email: "Email",
+  sms: "SMS",
+  whatsapp: "WhatsApp",
+};
+
+function channelButtonLabel(channel: OtpChannel): string {
+  switch (channel) {
+    case "email":
+      return "Email me a code";
+    case "sms":
+      return "Text me a code";
+    case "whatsapp":
+      return "Send a code on WhatsApp";
+  }
+}
+
 export function AccountLoginForm({ locale, registrationEnabled, captchaSiteKey = "" }: Props) {
   const t = useTranslations("account");
   const searchParams = useSearchParams();
@@ -35,8 +54,16 @@ export function AccountLoginForm({ locale, registrationEnabled, captchaSiteKey =
   const [step, setStep] = useState<Step>("password");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [mfaCode, setMfaCode] = useState("");
   const [resendBusy, setResendBusy] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  // Which second factors this account can use, asked after the password step.
+  const [mfaOptions, setMfaOptions] = useState<{ totpEnabled: boolean; channels: OtpChannel[] } | null>(
+    null,
+  );
+  // Set once a delivered code has gone out, so the UI can say where it went.
+  const [otpSent, setOtpSent] = useState<{ channel: OtpChannel; masked: string } | null>(null);
+  const [notice, setNotice] = useState("");
   const resetSuccess = searchParams.get("reset") === "1";
   const verifiedSuccess = searchParams.get("verified") === "1";
 
@@ -84,25 +111,22 @@ export function AccountLoginForm({ locale, registrationEnabled, captchaSiteKey =
     e.preventDefault();
     setLoading(true);
     setError("");
-    const fd = new FormData(e.currentTarget);
-    const nextEmail = String(fd.get("email") ?? email).trim();
-    const nextPassword = String(fd.get("password") ?? password);
-    const mfaCode = String(fd.get("mfaCode") ?? "").trim();
 
     if (step === "password") {
+      const nextEmail = email.trim();
       const emailError = validateEmailFormat(nextEmail);
       if (emailError) {
         setError(emailError);
         setLoading(false);
         return;
       }
-      if (!nextPassword) {
+      if (!password) {
         setError("Enter your password");
         setLoading(false);
         return;
       }
-    } else if (!/^\d{6}$/.test(mfaCode)) {
-      setError("Enter the 6-digit code from your email");
+    } else if (!/^\d{6}$/.test(mfaCode.trim()) && !/^[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{2}$/i.test(mfaCode.trim())) {
+      setError("Enter the 6-digit code (or a recovery code)");
       setLoading(false);
       return;
     }
@@ -130,22 +154,25 @@ export function AccountLoginForm({ locale, registrationEnabled, captchaSiteKey =
 
     try {
       const result = await signIn("credentials", {
-        email: nextEmail,
-        password: nextPassword,
-        ...(mfaCode ? { mfaCode } : {}),
+        email,
+        password,
+        ...(step === "mfa" && mfaCode.trim() ? { mfaCode: mfaCode.trim() } : {}),
         redirect: false,
       });
 
       if (result?.code === "mfa_required") {
-        setEmail(nextEmail);
-        setPassword(nextPassword);
         setStep("mfa");
-        setError("");
+        setMfaCode("");
+        await loadMfaOptions({ autoSendEmail: true });
         return;
       }
 
       if (result?.code === "mfa_invalid") {
-        setError("Invalid or expired code. Request a new code and try again.");
+        setError(
+          mfaOptions?.totpEnabled
+            ? "That code was not accepted. Use the current code from your authenticator app."
+            : "Invalid or expired code. Request a new code and try again.",
+        );
         setStep("mfa");
         return;
       }
@@ -156,7 +183,15 @@ export function AccountLoginForm({ locale, registrationEnabled, captchaSiteKey =
       }
 
       if (result?.code === "mfa_delivery_failed") {
-        setError("Could not send the sign-in code. Check the admin Email Account, then try again.");
+        setError("Could not send the sign-in code. Try another method.");
+        setStep("mfa");
+        return;
+      }
+
+      if (result?.code === "mfa_unavailable") {
+        setError(
+          "This account has no second factor available. Contact the Master Admin to enroll an authenticator app.",
+        );
         setStep("password");
         return;
       }
@@ -175,24 +210,46 @@ export function AccountLoginForm({ locale, registrationEnabled, captchaSiteKey =
     }
   }
 
-  async function resendOtp() {
+  /**
+   * Ask the server which factors are available (never sends anything unless
+   * asked to). Accounts without an authenticator get their code immediately.
+   */
+  async function loadMfaOptions(options: { autoSendEmail?: boolean } = {}) {
+    let factors: { totpEnabled: boolean; channels: OtpChannel[] } | null = null;
+    try {
+      const { getLoginMfaOptionsAction } = await import("@/features/auth/login-otp.actions");
+      const result = await getLoginMfaOptionsAction({ email, password });
+      if (result.success && result.data) {
+        factors = result.data;
+        setMfaOptions(result.data);
+      }
+    } catch {
+      // Non-fatal: the user can still enter an authenticator code.
+    }
+    if (
+      options.autoSendEmail &&
+      factors &&
+      !factors.totpEnabled &&
+      factors.channels.includes("email")
+    ) {
+      await sendCode("email");
+    }
+  }
+
+  /** Send a code over the chosen channel (or resend on the same one). */
+  async function sendCode(channel: OtpChannel) {
     setResendBusy(true);
     setError("");
+    setNotice("");
     try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-      if (result?.code === "mfa_required") {
-        setError("");
-      } else if (result?.code === "mfa_delivery_failed") {
-        setError("Could not send the sign-in code. Check the admin Email Account, then try again.");
-        setStep("password");
-      } else if (result?.error || result?.ok === false) {
-        setError("Could not resend code. Sign in again.");
-        setStep("password");
+      const { sendLoginOtpAction } = await import("@/features/auth/login-otp.actions");
+      const result = await sendLoginOtpAction({ email, password, channel });
+      if (!result.success || !result.data) {
+        setError(result.success ? "Unable to send a sign-in code." : result.error);
+        return;
       }
+      setOtpSent({ channel: result.data.channel, masked: result.data.maskedDestination });
+      setNotice(`We sent a 6-digit code via ${CHANNEL_LABELS[channel]}. It expires in 5 minutes.`);
     } finally {
       setResendBusy(false);
     }
@@ -201,7 +258,7 @@ export function AccountLoginForm({ locale, registrationEnabled, captchaSiteKey =
   return (
     <Card className="mx-auto w-full max-w-md">
       <CardHeader>
-        <CardTitle>{step === "mfa" ? "Email verification code" : t("signIn")}</CardTitle>
+        <CardTitle>{step === "mfa" ? "Two-step verification" : t("signIn")}</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -252,11 +309,19 @@ export function AccountLoginForm({ locale, registrationEnabled, captchaSiteKey =
             </>
           ) : (
             <>
-              <input type="hidden" name="email" value={email} />
-              <input type="hidden" name="password" value={password} />
               <p className="text-muted-foreground text-sm">
-                We sent a 6-digit code to your email. It expires in 5 minutes.
+                {mfaOptions?.totpEnabled ? (
+                  <>
+                    Open your authenticator app and enter the current 6-digit code for{" "}
+                    <span className="text-foreground">{email}</span>.
+                  </>
+                ) : (
+                  <>Enter the 6-digit code we sent you. It expires in 5 minutes.</>
+                )}
               </p>
+              {notice ? (
+                <p className="text-sm text-emerald-700 dark:text-emerald-300">{notice}</p>
+              ) : null}
               <div className="space-y-2">
                 <Label htmlFor="mfaCode">Verification code</Label>
                 <Input
@@ -267,19 +332,45 @@ export function AccountLoginForm({ locale, registrationEnabled, captchaSiteKey =
                   autoComplete="one-time-code"
                   required
                   autoFocus
-                  maxLength={6}
-                  pattern="\d{6}"
+                  maxLength={14}
+                  value={mfaCode}
+                  onChange={(e) => setMfaCode(e.target.value)}
+                  placeholder="123456"
                 />
+                <p className="text-muted-foreground text-xs">
+                  {mfaOptions?.totpEnabled
+                    ? "Lost your authenticator? Use a recovery code, or send a sign-in code another way."
+                    : "Didn't get the code? Send it again, or choose another delivery method."}
+                </p>
               </div>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                disabled={resendBusy}
-                onClick={() => void resendOtp()}
-              >
-                {resendBusy ? "Sending…" : "Resend code"}
-              </Button>
+
+              {/* Fallback delivery: only rendered for channels that can deliver. */}
+              {(mfaOptions?.channels.length ?? 0) > 0 || mfaOptions === null ? (
+                <div className="space-y-2">
+                  {(mfaOptions?.channels ?? (["email"] as OtpChannel[])).map((channel) => (
+                    <Button
+                      key={channel}
+                      type="button"
+                      variant={channel === otpSent?.channel ? "secondary" : "outline"}
+                      className="w-full"
+                      disabled={resendBusy}
+                      onClick={() => void sendCode(channel)}
+                    >
+                      {resendBusy
+                        ? "Sending…"
+                        : channel === otpSent?.channel
+                          ? `Resend code via ${CHANNEL_LABELS[channel]}`
+                          : channelButtonLabel(channel)}
+                    </Button>
+                  ))}
+                  {otpSent ? (
+                    <p className="text-muted-foreground text-xs">
+                      Last code sent to {otpSent.masked}. Sending a new code replaces the previous one.
+                    </p>
+                  ) : null}
+                </div>
+              ) : null}
+
               <Button
                 type="button"
                 variant="ghost"
@@ -287,6 +378,10 @@ export function AccountLoginForm({ locale, registrationEnabled, captchaSiteKey =
                 onClick={() => {
                   setStep("password");
                   setError("");
+                  setNotice("");
+                  setMfaCode("");
+                  setOtpSent(null);
+                  setMfaOptions(null);
                 }}
               >
                 Back

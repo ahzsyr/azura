@@ -43,7 +43,7 @@ function buildLocaleValues(
   return next;
 }
 
-/** Uncontrolled form field: visible for active admin locale, hidden inputs preserve other locales. */
+/** Locale-aware form field: visible values follow the admin locale, hidden inputs preserve other locales. */
 export function AdminLocalizedFormField({
   fieldKey,
   label,
@@ -107,6 +107,8 @@ export function AdminLocalizedFormField({
     setLocaleValues((prev) => ({ ...prev, [localeCode]: value }));
   };
 
+  const targetValue = localeValues[activeLocaleCode] ?? "";
+
   return (
     <>
       <AdminLocalizedTextField
@@ -114,7 +116,7 @@ export function AdminLocalizedFormField({
         label={label}
         legacyEntity={legacyEntity}
         values={localeValues}
-        value={localeValues[activeLocaleCode] ?? ""}
+        value={targetValue}
         onChange={handleChange}
         multiline={multiline}
         rows={rows}

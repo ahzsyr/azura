@@ -38,17 +38,14 @@ export async function resolveAdminOtpProviderConfig() {
   return resolveEmailProviderConfig(accountId);
 }
 
-/** Resolve sendable provider for admin password-reset emails only. */
-export async function resolveAdminPasswordResetProviderConfig() {
-  const settings = await accountSettingsService.get();
-  const accountId = settings.adminAuth.passwordResetEmailAccountId?.trim();
-  if (!accountId) return null;
-
-  const record = await getEmailAccountRecord(accountId);
-  if (!record || !isEmailAccountConfigured(record)) return null;
-  return resolveEmailProviderConfig(accountId);
-}
-
+/**
+ * Delivery status for the admin Email delivery tab.
+ *
+ * `passwordResetEmailAccountId` is reported for backward compatibility with
+ * stored settings, but it no longer selects a sender: every authentication
+ * email (including password-reset codes) goes through the OTP account via
+ * `resolveAuthEmailSender`.
+ */
 export async function getAdminAuthDeliveryStatus(): Promise<{
   mfaEnabled: boolean;
   hasEmailAccounts: boolean;

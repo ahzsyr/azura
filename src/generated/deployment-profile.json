@@ -114,6 +114,7 @@
     "seo-redirects",
     "seo-robots",
     "seo-sitemap",
+    "seo-llms",
     "seo-structured-data",
     "seo-google",
     "seo-integrations",
@@ -226,6 +227,7 @@
     "/admin/seo/history",
     "/admin/seo/integrations",
     "/admin/seo/issues",
+    "/admin/seo/llms",
     "/admin/seo/metadata",
     "/admin/seo/recommendations",
     "/admin/seo/redirects",
@@ -261,6 +263,7 @@
     "/admin/settings/portal",
     "/admin/settings/search",
     "/admin/settings/site",
+    "/admin/settings/users",
     "/admin/settings/whatsapp",
     "/admin/status",
     "/admin/studio",
@@ -269,10 +272,11 @@
     "/admin/testimonials",
     "/admin/theme",
     "/admin/translations",
-    "/admin/settings/users",
     "/admin/videos"
   ],
-  "disabledAdminPrefixes": [],
+  "disabledAdminPrefixes": [
+    "/admin/settings/captcha"
+  ],
   "disabledPublicSegments": [],
   "disabledPublicPrefixes": [],
   "disabledApiPrefixes": []

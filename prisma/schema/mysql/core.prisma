@@ -23,6 +23,14 @@ model User {
   marketingOptIn  Boolean   @default(false)
   totpSecret      String?   @db.Text
   totpEnabled     Boolean   @default(false)
+  /// Per-user second factor. Each account owns its own setting; one user's
+  /// enrollment can never enable, disable or replace another user's.
+  mfaMethod       MfaMethod?
+  mfaEnrolledAt   DateTime?
+  /// Set when an admin disables MFA on this account. Self-service enrollment is
+  /// refused until an admin re-enables it, so a managed ban cannot be undone by
+  /// the user it applies to.
+  mfaDisabledByAdminAt DateTime?
   mustChangePassword Boolean @default(false)
   /// Null means every admin section. SUPER_ADMIN ignores this field.
   adminSectionGrants Json?
@@ -100,6 +108,8 @@ model EmailOtpToken {
   userId    String
   user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   purpose   EmailOtpPurpose
+  /// Delivery channel the code was sent through (email/sms/whatsapp).
+  channel   String         @default("email") @db.VarChar(16)
   codeHash  String         @db.VarChar(64)
   expiresAt DateTime
   usedAt    DateTime?

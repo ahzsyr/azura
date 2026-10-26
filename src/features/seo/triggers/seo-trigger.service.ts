@@ -3,7 +3,7 @@ import {
   enqueueSeoSubmissionsForPath,
   enqueueSitemapSubmission,
 } from "@/features/seo/integrations/enqueue";
-import { revalidateSeoDocument, revalidateSitemap } from "@/services/cache";
+import { revalidateSeoDocument, revalidateSeoDocuments, revalidateSitemap, revalidateLlmsTxt } from "@/services/cache";
 import { revalidatePath } from "next/cache";
 import type { SeoContentEvent } from "./events";
 import { SEO_EVENT_REASON } from "./events";
@@ -35,6 +35,9 @@ async function enqueueUrlJobs(reason: SeoContentEvent["type"], paths: Array<stri
 
 async function enqueueSitemap(reason: SeoContentEvent["type"]) {
   revalidateSitemap();
+  // llms.txt drafts fall back to generated content, so keep it in sync with
+  // the same publish/unpublish/sitemap events that refresh the sitemap cache.
+  revalidateLlmsTxt();
   await enqueueSitemapSubmission(SEO_EVENT_REASON[reason]);
 }
 
@@ -43,7 +46,8 @@ function invalidateDocumentCache(paths: Array<string | undefined>) {
     revalidateSeoDocument(`url:${path}`);
     revalidateSeoDocument(path);
   }
-  revalidateSeoDocument("seo-document");
+  // Identity-keyed documents cannot be addressed by path; invalidate broadly.
+  revalidateSeoDocuments();
 }
 
 function revalidatePublicPaths(paths: Array<string | undefined>) {
