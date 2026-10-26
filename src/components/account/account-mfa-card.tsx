@@ -255,8 +255,8 @@ export function AccountMfaCard({ initialStatus, embedded = false }: Props) {
           )}
           {status.emailOtpAvailable === false ? (
             <p className="text-muted-foreground text-xs">
-              Email codes need an OTP email account. Ask an administrator to configure one in
-              Settings → Email delivery.
+              Email codes need an OTP email account. Ask an administrator to choose one in
+              Settings → Email Accounts → Email delivery.
             </p>
           ) : null}
         </div>

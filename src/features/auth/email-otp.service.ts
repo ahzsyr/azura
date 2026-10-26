@@ -1,7 +1,6 @@
 import "server-only";
 
 import type { EmailOtpPurpose } from "@prisma/client";
-import type { EmailProviderConfig } from "@/features/email/email-accounts.types";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/features/email/email.service";
 import { resolveAuthEmailSender } from "@/features/email/auth-email-sender";
@@ -24,23 +23,27 @@ const CONSUME_WINDOW_MS = 15 * 60 * 1000;
 /**
  * Issue a 6-digit email OTP (hashed at rest). Never logs or returns the plaintext code.
  *
- * Delivery always goes through the administrator-configured OTP sender
- * (`resolveAuthEmailSender`), the same mailbox used for password-reset codes and
- * email-code MFA. `providerConfig` is only honoured for callers that already
- * resolved a sender themselves (the admin sign-in path).
+ * Delivery always goes through the site-wide authentication sender
+ * (`resolveAuthEmailSender` → Settings → Email Accounts → Email delivery), the
+ * same mailbox used for password-reset codes and email-code MFA, for every
+ * role. There is deliberately no per-call sender override: a caller cannot
+ * mail a code from a mailbox no administrator configured.
  */
 export async function issueEmailOtp(input: {
   userId: string;
   purpose: EmailOtpPurposeValue;
   toEmail?: string;
-  /** Legacy per-flow selector; ignored when the site has a configured OTP sender. */
-  emailAccountId?: string | null;
-  /** When set, used as-is (admin MFA path). */
-  providerConfig?: EmailProviderConfig | null;
   /**
-   * Kept for call-site compatibility. Delivery no longer silently falls back to
-   * a different mailbox: an unconfigured site simply cannot send, and the
-   * caller is told so instead of the code vanishing.
+   * @deprecated Ignored. Every authentication code is sent through the
+   * site-wide sender (Settings → Email Accounts → Email delivery); a per-flow
+   * account is how a signup code could leave from a mailbox that was never
+   * configured, or never leave at all.
+   */
+  emailAccountId?: string | null;
+  /**
+   * Kept for call-site compatibility. Delivery never silently falls back to a
+   * different mailbox: an unconfigured site cannot send, and the caller is told
+   * so instead of the code vanishing.
    */
   allowEnvFallback?: boolean;
 }): Promise<{ ok: true } | { error: string }> {
@@ -69,8 +72,12 @@ export async function issueEmailOtp(input: {
 
   const settings = await accountSettingsService.get();
   const sender = await resolveAuthEmailSender(input.purpose, settings);
-  const providerConfig = input.providerConfig ?? sender.providerConfig;
+  const providerConfig = sender.providerConfig;
   const fromName = sender.fromName;
+  // Expiry comes from the service so the copy and the stored token agree.
+  const expiresInMinutes = Math.round(
+    (expiresAt.getTime() - Date.now()) / 60_000,
+  );
 
   const subject =
     input.purpose === "ADMIN_LOGIN"
@@ -82,8 +89,8 @@ export async function issueEmailOtp(input: {
       : settings.emailVerification.emailHeading || "Confirm your email";
   const bodyLines =
     input.purpose === "ADMIN_LOGIN"
-      ? `Hello ${user.name},\n\nYour one-time sign-in code expires in 5 minutes.\n\nEnter this code to continue.`
-      : `Hello ${user.name},\n\nYour verification code expires in 5 minutes.\n\nEnter the code on the verification page to activate your account.`;
+      ? `Hello ${user.name},\n\nYour one-time sign-in code expires in ${expiresInMinutes} minutes.\n\nEnter this code to continue.`
+      : `Hello ${user.name},\n\nYour verification code expires in ${expiresInMinutes} minutes.\n\nEnter the code on the verification page to activate your account.`;
 
   const { renderTransactionalEmail } = await import(
     "@/features/email/react-templates"
@@ -113,7 +120,12 @@ export async function issueEmailOtp(input: {
       action: "auth.email_otp.send_failed",
       actorId: user.id,
       actorRole: user.role,
-      meta: { purpose: input.purpose, errorCode: result.errorCode ?? "unknown" },
+      meta: {
+        purpose: input.purpose,
+        errorCode: result.errorCode ?? "unknown",
+        reason: sender.reason,
+        accountId: sender.accountId,
+      },
     });
     return { error: "Could not send the verification code" };
   }
@@ -122,7 +134,12 @@ export async function issueEmailOtp(input: {
     action: "auth.email_otp.sent",
     actorId: user.id,
     actorRole: user.role,
-    meta: { purpose: input.purpose, sender: sender.source, accountId: sender.accountId },
+    meta: {
+      purpose: input.purpose,
+      sender: sender.source,
+      accountId: sender.accountId,
+      from: sender.from,
+    },
   });
 
   return { ok: true };

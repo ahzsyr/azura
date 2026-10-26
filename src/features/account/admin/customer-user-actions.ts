@@ -17,14 +17,17 @@ import { usersService } from "@/features/account/users.service";
 import { accountSettingsService } from "@/features/account/account-settings.service";
 import type {
   AdminAuthSettings,
+  EmailDeliverySettings,
   EmailVerificationSettings,
   PasswordResetSettings,
 } from "@/features/account/account-settings.schema";
 import { sendPasswordResetCodeToUser } from "@/features/account/password-reset.service";
+import { resolveAuthEmailSender } from "@/features/email/auth-email-sender";
 import { clearUserMfa } from "@/features/auth/mfa-totp.service";
 import { bumpUserSessionVersion } from "@/lib/session-version";
 import { getTrustedClientIp } from "@/lib/client-ip";
 import { writeSecurityAuditLog } from "@/lib/security-audit";
+import { ok as okResult, type ActionResult as ApiActionResult } from "@/types/api";
 
 export type ActionResult =
   | { success: true; sent?: boolean }
@@ -279,16 +282,150 @@ export async function saveEmailVerificationSettingsAction(
 }
 
 /**
- * Master Admin only — the OTP email account used for every authentication
- * message (verification, email MFA, password reset).
+ * Any administrator — the site-wide sender for every authentication email
+ * (signup verification, email-code two-step verification, password-reset and
+ * sign-in codes) for customers, Admins and the Super Admin alike.
+ *
+ * This is an operational setting, not a privileged one: the admin who runs
+ * sign-in problems must be able to point the codes at a mailbox without being
+ * the Super Admin, and the choice is never tied to the account that saved it.
+ */
+export async function saveEmailDeliverySettingsAction(
+  payload: Partial<EmailDeliverySettings>,
+): Promise<ActionResult> {
+  try {
+    const session = await requireAdmin();
+    await accountSettingsService.saveEmailDelivery(payload);
+    await writeSecurityAuditLog({
+      action: "admin.email_delivery.updated",
+      actorId: session.user.id,
+      actorRole: session.user.role,
+      meta: { emailAccountId: payload.emailAccountId ?? null },
+    });
+    revalidatePath("/admin/settings/email-accounts");
+    revalidatePath("/admin/settings/account");
+    revalidatePath("/admin/settings/portal");
+    return ok();
+  } catch (e) {
+    return fail(e instanceof Error ? e.message : "Save failed");
+  }
+}
+
+/**
+ * Current state of the authentication sender, for the Email Accounts screen:
+ * which account actually sends, and why nothing does when it cannot.
+ */
+export async function getEmailDeliveryStatusAction(): Promise<
+  ApiActionResult<{
+    effectiveAccountId: string | null;
+    effectiveAccountName: string | null;
+    effectiveFrom: string | null;
+    reason:
+      | "ready"
+      | "no_accounts"
+      | "not_selected_multiple"
+      | "selected_missing"
+      | "selected_incomplete";
+  }>
+> {
+  try {
+    await requireAdmin();
+    const { getAuthEmailDeliveryState } = await import("@/features/email/auth-email-sender");
+    const state = await getAuthEmailDeliveryState();
+    return okResult({
+      effectiveAccountId: state.account?.id ?? null,
+      effectiveAccountName: state.account?.name ?? null,
+      effectiveFrom: state.account?.from ?? null,
+      reason: state.reason,
+    });
+  } catch (e) {
+    return fail(e instanceof Error ? e.message : "Could not read email delivery status");
+  }
+}
+
+/* ---------------------------------------------------------------- tests --- */
+
+/**
+ * Send a real authentication email through the configured sender to the
+ * signed-in administrator's own address, so "Email delivery" can be verified
+ * end-to-end from the screen that configures it.
+ */
+export async function sendEmailDeliveryTestAction(): Promise<
+  | { success: true; from: string; accountName: string }
+  | { success: false; error: string }
+> {
+  try {
+    const session = await requireAdmin();
+    const to = session.user.email?.trim().toLowerCase();
+    if (!to?.includes("@")) return { success: false, error: "Your admin account has no email address to test with." };
+
+    const settings = await accountSettingsService.get();
+    const sender = await resolveAuthEmailSender("PASSWORD_RESET", settings);
+    if (!sender.providerConfig) {
+      return {
+        success: false,
+        error:
+          sender.reason === "env_unset" || sender.reason === "no_accounts"
+            ? "No Email Account can send yet. Add one and save Email delivery first."
+            : "The selected Email Account is missing or incomplete. Pick another account.",
+      };
+    }
+    const { sendEmail } = await import("@/features/email/email.service");
+    const message = `Your test email from ${sender.from}.`;
+    const { renderTransactionalEmail } = await import("@/features/email/react-templates");
+    const rendered = await renderTransactionalEmail({
+      preview: "Email delivery test",
+      heading: "Email delivery test",
+      paragraphs: [
+        `This message was sent through the Email Account configured for authentication codes.`,
+        message,
+      ],
+    });
+    const result = await sendEmail({
+      to,
+      subject: "Email delivery test",
+      html: rendered.html,
+      text: rendered.text ?? message,
+      providerConfig: sender.providerConfig,
+      fromName: sender.fromName,
+    });
+    if (!result.sent) {
+      await writeSecurityAuditLog({
+        action: "admin.email_delivery.test_failed",
+        actorId: session.user.id,
+        actorRole: session.user.role,
+        meta: { errorCode: result.errorCode ?? "unknown", accountId: sender.accountId },
+      });
+      return { success: false, error: result.errorMessage ?? "The test email could not be sent." };
+    }
+    await writeSecurityAuditLog({
+      action: "admin.email_delivery.test_sent",
+      actorId: session.user.id,
+      actorRole: session.user.role,
+      meta: { sender: sender.source, accountId: sender.accountId },
+    });
+    return { success: true, from: sender.from ?? "", accountName: sender.accountId ?? "" };
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : "Could not send the test email" };
+  }
+}
+
+/**
+ * @deprecated The OTP sender moved to Settings → Email Accounts → Email
+ * delivery (`saveEmailDeliverySettingsAction`). Kept so an open admin tab
+ * holding the old "Admin account → Email delivery" form still saves, and
+ * writes the canonical setting instead of the legacy field.
  */
 export async function saveAdminAuthSettingsAction(
   payload: Partial<AdminAuthSettings>,
 ): Promise<ActionResult> {
   try {
-    await requireSuperAdmin();
-    await accountSettingsService.saveAdminAuth(payload);
+    await requireAdmin();
+    await accountSettingsService.saveEmailDelivery({
+      emailAccountId: payload.otpEmailAccountId,
+    });
     revalidatePath("/admin/settings/account");
+    revalidatePath("/admin/settings/email-accounts");
     revalidatePath("/admin/settings/portal");
     return ok();
   } catch (e) {

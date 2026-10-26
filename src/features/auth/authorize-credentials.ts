@@ -267,6 +267,8 @@ async function completeMfaChallenge(
   const { isLoginOtpChannelConfigured, isUsablePhoneNumber } = await import(
     "@/features/auth/login-otp-delivery"
   );
+  // One source of truth for "can an email code be sent?": the resolver the
+  // sending code itself uses (Settings → Email Accounts → Email delivery).
   const { rankLoginMfaFactors, resolveLoginMfaAttempt } = await import(
     "@/features/auth/login-mfa-factors"
   );
@@ -326,7 +328,14 @@ async function completeMfaChallenge(
           actorId: user.id,
           actorRole: user.role,
           ip,
-          meta: { reason: "MFA_DELIVERY_FAILED", channel },
+          meta: {
+            reason: "MFA_DELIVERY_FAILED",
+            channel,
+            // `rate_limited` vs `delivery_failed` vs `not_configured` is what
+            // tells an operator whether to fix the sender or wait.
+            cause: issued.reason,
+            errorCode: "errorCode" in issued ? issued.errorCode : undefined,
+          },
         });
         throw new MfaDeliveryError();
       }

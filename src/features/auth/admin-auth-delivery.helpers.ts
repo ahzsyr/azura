@@ -1,14 +1,11 @@
 /**
- * Pure sendability checks for admin MFA delivery (unit-testable).
- * Server helper isAdminEmailMfaConfigured uses these after loading store data.
+ * Pure sendability checks for email-code (OTP) delivery (unit-testable).
+ * Server helpers use these after resolving the site-wide authentication
+ * sender, so a code can only be "enabled" when a mailbox can actually send it.
  */
 
 export type EmailAccountSendabilityInput = {
-  /** At least one Email Account in the store */
-  accountCount: number;
-  /** Selected admin OTP Email Account id */
-  otpEmailAccountId: string | null | undefined;
-  /** Whether the selected account row exists */
+  /** The site-wide authentication Email Account row exists */
   accountExists: boolean;
   /** isEmailAccountConfigured(record) */
   accountConfigured: boolean;
@@ -17,8 +14,6 @@ export type EmailAccountSendabilityInput = {
 };
 
 export function evaluateAdminEmailMfaConfigured(input: EmailAccountSendabilityInput): boolean {
-  if (input.accountCount <= 0) return false;
-  if (!input.otpEmailAccountId?.trim()) return false;
   if (!input.accountExists) return false;
   if (!input.accountConfigured) return false;
   if (!input.providerResolved) return false;

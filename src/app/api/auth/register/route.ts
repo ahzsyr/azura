@@ -4,7 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { registerSchema } from "@/features/setup/setup-complete.schema";
 import { isRegistrationEnabled } from "@/features/setup/setup.service";
 import { issueEmailOtp } from "@/features/auth/email-otp.service";
-import { accountSettingsService } from "@/features/account/account-settings.service";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { getTrustedClientIp } from "@/lib/client-ip";
 import { checkCaptcha } from "@/features/captcha/captcha.guard";
@@ -65,12 +64,12 @@ export async function POST(request: Request) {
       select: { id: true },
     });
 
-    const settings = await accountSettingsService.get();
+    // The signup code leaves through the site-wide Email delivery sender, the
+    // same mailbox used for every other authentication email.
     await issueEmailOtp({
       userId: created.id,
       purpose: "SIGNUP_VERIFY",
       toEmail: email,
-      emailAccountId: settings.emailVerification.emailAccountId || null,
     });
 
     if (visitorToken) {

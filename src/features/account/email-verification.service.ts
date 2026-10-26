@@ -434,13 +434,12 @@ export async function resendSignupVerification(input: {
   }
 
   const { issueEmailOtp } = await import("@/features/auth/email-otp.service");
-  const { accountSettingsService } = await import("@/features/account/account-settings.service");
-  const settings = await accountSettingsService.get();
+  // Same site-wide sender as the first signup code (Settings → Email Accounts
+  // → Email delivery); a resend must not switch mailboxes.
   await issueEmailOtp({
     userId: user.id,
     purpose: "SIGNUP_VERIFY",
     toEmail: email,
-    emailAccountId: settings.emailVerification.emailAccountId || null,
   });
   return { ok: true };
 }

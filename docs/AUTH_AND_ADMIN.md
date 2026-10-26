@@ -45,12 +45,34 @@ clears MFA (the user enrolls again at next sign-in) and does not touch any other
 account. Links mailed before this change still work once via
 `POST /api/auth/reset-password`.
 
-### Sender
+### Sender — one Email Account, every role
 
-**Settings → Admin account → Email delivery** selects one Email Account used for
-all authentication mail: signup verification, email codes, and password-reset
-codes. `resolveAuthEmailSender()` is the only resolver, so a flow cannot pick a
-different mailbox.
+**Settings → Email Accounts → Email delivery** selects the one Email Account
+used for all authentication mail: signup verification, email-code sign-in /
+two-step codes, and password-reset codes. The setting lives with the accounts
+it refers to and applies to **every** account type (customers, Admins and the
+Super Admin).
+
+- `resolveAuthEmailSender()` (→ `resolveAuthSender()` in
+  `src/features/email/email-delivery.ts`) is the only resolver, so a flow cannot
+  pick a different mailbox. It reads `accountSettings.emailDelivery.emailAccountId`.
+- **Any administrator** may save it (`saveEmailDeliverySettingsAction`,
+  `requireAdmin`). It is an operational setting, not a privilege: the sender
+  belongs to the site, never to the admin who saved it.
+- With no explicit choice, the only *sendable* Email Account is used. With
+  several, nothing is sent until one is chosen — the admin screen says so and
+  the failure is audited with its cause (`not_selected_multiple`, …).
+- A selected-but-missing/incomplete account is an error, never a silent move to
+  another mailbox. `RESEND_API_KEY` is a fallback **only** for sites with no
+  Email Account at all.
+- Upgrades: a site that still has the legacy `adminAuth.otpEmailAccountId`
+  ("Admin account → Email delivery", now removed) keeps sending from that
+  account; the value is read as the default until an admin saves Email delivery.
+
+Every send (or its failure, with the resolved sender and cause) is recorded in
+the security audit log: `auth.email_otp.sent|send_failed`,
+`auth.password_reset.otp_sent|email_failed`, `auth.mfa.challenge|delivery_failed`.
+
 
 ## Database
 

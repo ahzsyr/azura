@@ -43,6 +43,7 @@ const PURE_TESTS = [
 const SERVER_TESTS = [
   "src/features/account/__tests__/password-reset-delivery.test.ts",
   "src/features/auth/__tests__/mfa-isolation.test.ts",
+  "src/features/email/__tests__/auth-email-delivery.test.ts",
 ];
 
 function run(files) {

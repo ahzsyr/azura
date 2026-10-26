@@ -98,6 +98,9 @@ async function issuePasswordResetCode(input: {
   // Every role is eligible; a disabled account is simply never mailed.
   if (!user || user.disabledAt) return null;
 
+  // Resolve the site-wide sender (Settings → Email Accounts → Email delivery)
+  // *before* minting a token: no sender means no code, and an honest audit
+  // entry instead of a token the user can never redeem.
   const sender = await resolveAuthEmailSender("PASSWORD_RESET", account);
   if (!sender.providerConfig) {
     await writeSecurityAuditLog({
@@ -105,7 +108,12 @@ async function issuePasswordResetCode(input: {
       actorId: user.id,
       actorRole: user.role,
       ip: input.ip,
-      meta: { errorCode: "not_configured", audience: user.role },
+      meta: {
+        errorCode: "not_configured",
+        reason: sender.reason,
+        accountId: sender.accountId,
+        audience: user.role,
+      },
     });
     return null;
   }
@@ -153,7 +161,13 @@ async function issuePasswordResetCode(input: {
       actorId: user.id,
       actorRole: user.role,
       ip: input.ip,
-      meta: { errorCode: result.errorCode ?? "unknown", audience: user.role },
+      meta: {
+        errorCode: result.errorCode ?? "unknown",
+        sender: sender.source,
+        accountId: sender.accountId,
+        providerMessage: result.errorMessage,
+        audience: user.role,
+      },
     });
     return null;
   }
@@ -163,7 +177,7 @@ async function issuePasswordResetCode(input: {
     actorId: user.id,
     actorRole: user.role,
     ip: input.ip,
-    meta: { sender: sender.source, accountId: sender.accountId },
+    meta: { sender: sender.source, accountId: sender.accountId, from: sender.from },
   });
 
   const ticket = await createResetTicket(user.id);

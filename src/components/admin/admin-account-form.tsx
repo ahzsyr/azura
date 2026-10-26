@@ -22,24 +22,18 @@ import {
   ADMIN_ACCOUNT_TABS,
   isAdminAccountTab,
 } from "@/features/setup/admin/admin-account-tabs";
-import { saveAdminAuthSettingsAction } from "@/features/account/admin/customer-user-actions";
-import type { AdminAuthSettings } from "@/features/account/account-settings.schema";
 import { AdminPageConfigRegistrar } from "@/components/admin/layout/admin-page-config-registrar";
 import { AccountMfaCard, type SelfMfaView } from "@/components/account/account-mfa-card";
 import { saveIfNeededThenPublish } from "@/hooks/save-then-publish";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 
-type EmailAccountOption = { id: string; name: string; from: string };
-
 type Props = {
   currentEmail: string;
   pendingEmail?: string | null;
   isMasterAdmin?: boolean;
-  emailAccounts?: EmailAccountOption[];
-  adminAuth?: AdminAuthSettings;
+  /** Email-code sign-in availability (site-wide sender configured). */
   adminMfaEnabled?: boolean;
-  hasEmailAccounts?: boolean;
   /** This admin's own second factor, read on the server render. */
   mfaStatus?: SelfMfaView | null;
 };
@@ -58,26 +52,18 @@ export function AdminAccountForm({
   currentEmail: initialEmail,
   pendingEmail: initialPendingEmail = null,
   isMasterAdmin = false,
-  emailAccounts = [],
-  adminAuth: initialAdminAuth,
   adminMfaEnabled = false,
-  hasEmailAccounts = false,
   mfaStatus,
 }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
-  const visibleTabs = useMemo(
-    () =>
-      ADMIN_ACCOUNT_TABS.filter((t) => (t.id === "delivery" ? isMasterAdmin : true)),
-    [isMasterAdmin],
+  // Email delivery is configured with the Email Accounts, not here; old
+  // bookmarks to this page's `delivery` tab land on Overview.
+  const activeTab = useMemo(
+    () => (isAdminAccountTab(tabParam) ? tabParam : "overview"),
+    [tabParam],
   );
-  const activeTab = useMemo(() => {
-    if (isAdminAccountTab(tabParam) && (tabParam !== "delivery" || isMasterAdmin)) {
-      return tabParam;
-    }
-    return "overview";
-  }, [tabParam, isMasterAdmin]);
 
   const [email, setEmail] = useState(initialEmail);
   const [pendingEmail, setPendingEmail] = useState<string | null>(initialPendingEmail);
@@ -85,10 +71,6 @@ export function AdminAccountForm({
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [adminAuth, setAdminAuth] = useState<AdminAuthSettings>(
-    initialAdminAuth ?? { otpEmailAccountId: "", passwordResetEmailAccountId: "" },
-  );
-  const [savedAdminAuth, setSavedAdminAuth] = useState(adminAuth);
   const [error, setError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
 
@@ -108,31 +90,11 @@ export function AdminAccountForm({
     setError(null);
     setFeedback(null);
 
-    const adminAuthDirty =
-      isMasterAdmin &&
-      (adminAuth.otpEmailAccountId !== savedAdminAuth.otpEmailAccountId ||
-        adminAuth.passwordResetEmailAccountId !== savedAdminAuth.passwordResetEmailAccountId);
-
-    if (adminAuthDirty) {
-      setSaveStatus("saving");
-      const deliveryResult = await saveAdminAuthSettingsAction(adminAuth);
-      if (!deliveryResult.success) {
-        setError(deliveryResult.error);
-        setSaveStatus("error");
-        return false;
-      }
-      setSavedAdminAuth(adminAuth);
-      setFeedback("OTP email delivery settings saved.");
-      markSaved();
-      // Continue if credential changes also pending; otherwise done
-    }
-
     const hasEmailChange = Boolean(newEmail.trim() && newEmail.trim() !== email);
     const hasPasswordChange = Boolean(newPassword.trim());
 
     if (!hasEmailChange && !hasPasswordChange) {
-      if (adminAuthDirty) return true;
-      setError("Provide a new email and/or new password to update, or change Email delivery settings.");
+      setError("Provide a new email and/or new password to update.");
       setSaveStatus("error");
       return false;
     }
@@ -202,9 +164,6 @@ export function AdminAccountForm({
     clearSensitiveFields(setCurrentPassword, setNewPassword, setConfirmPassword);
     markSaved();
   }, [
-    isMasterAdmin,
-    adminAuth,
-    savedAdminAuth,
     currentPassword,
     newEmail,
     email,
@@ -217,10 +176,9 @@ export function AdminAccountForm({
   const handleCancel = useCallback(() => {
     setNewEmail("");
     clearSensitiveFields(setCurrentPassword, setNewPassword, setConfirmPassword);
-    setAdminAuth(savedAdminAuth);
     setError(null);
     setFeedback(null);
-  }, [savedAdminAuth]);
+  }, []);
 
   const handlePublish = useCallback(async () => {
     await saveIfNeededThenPublish(handleSave, async () => undefined);
@@ -270,7 +228,7 @@ export function AdminAccountForm({
       ) : null}
 
       <AdminSettingsLayout
-        tabs={[...visibleTabs]}
+        tabs={[...ADMIN_ACCOUNT_TABS]}
         activeTab={activeTab}
         onTabChange={handleTabChange}
       >
@@ -324,17 +282,6 @@ export function AdminAccountForm({
                   emailForQr={email}
                   mfaStatus={mfaStatus ?? null}
                 />
-              ) : tab === "delivery" && isMasterAdmin ? (
-                <DeliveryTab
-                  adminAuth={adminAuth}
-                  emailAccounts={emailAccounts}
-                  hasEmailAccounts={hasEmailAccounts}
-                  adminMfaEnabled={adminMfaEnabled}
-                  onChange={(patch) => {
-                    markDirty();
-                    setAdminAuth((s) => ({ ...s, ...patch }));
-                  }}
-                />
               ) : (
                 <AccessTab />
               )}
@@ -372,11 +319,9 @@ function OverviewTab({
         <p className="rounded-lg border bg-muted/30 px-3 py-2 font-mono text-sm">{email}</p>
         <div className="flex flex-wrap gap-2">
           <Badge variant="default">{isMasterAdmin ? "Master Admin" : "Administrator"}</Badge>
-          {isMasterAdmin ? (
-            <Badge variant={adminMfaEnabled ? "default" : "secondary"}>
-              Admin MFA {adminMfaEnabled ? "enabled" : "disabled"}
-            </Badge>
-          ) : null}
+          <Badge variant={adminMfaEnabled ? "default" : "secondary"}>
+            Email sign-in codes {adminMfaEnabled ? "enabled" : "disabled"}
+          </Badge>
           {pendingEmailChange && pendingEmail ? (
             <Badge variant="secondary">Pending confirmation: {pendingEmail}</Badge>
           ) : null}
@@ -412,12 +357,13 @@ function OverviewTab({
             <strong className="text-foreground">MFA</strong> — two-step verification for your own
             account: an authenticator app or emailed codes
           </li>
-          {isMasterAdmin ? (
-            <li>
-              <strong className="text-foreground">Email delivery</strong> — choose the OTP email
-              account used for verification, email codes and password-reset codes
-            </li>
-          ) : null}
+          <li>
+            <strong className="text-foreground">Email delivery</strong> (with{" "}
+            <Link href="/admin/settings/email-accounts" className="text-primary underline">
+              Email Accounts
+            </Link>
+            ) — choose the account that sends every verification, sign-in code and reset code
+          </li>
           <li>
             <strong className="text-foreground">Access</strong> — open the public sign-in page
             to verify credentials (admins are routed to the admin portal)
@@ -545,7 +491,7 @@ function MfaTab({
     <div className="space-y-6">
       <SettingsSection
         title="Two-step verification at sign-in"
-        description={`Sign-in codes are ${adminMfaEnabled ? "enabled" : "not configured yet"} for the whole site from Email delivery. You may also add an authenticator app — it is offered first and belongs to your account only.`}
+        description={`Email sign-in codes are ${adminMfaEnabled ? "enabled" : "not configured yet"} for the whole site from Email Accounts → Email delivery. You may also add an authenticator app — it is offered first and belongs to your account only.`}
       >
         <p className="text-muted-foreground text-sm">
           Account: <span className="text-foreground">{emailForQr}</span>
@@ -559,74 +505,6 @@ function MfaTab({
           Could not read your two-step verification state. Reload the page to try again.
         </p>
       )}
-    </div>
-  );
-}
-
-function DeliveryTab({
-  adminAuth,
-  emailAccounts,
-  hasEmailAccounts,
-  adminMfaEnabled,
-  onChange,
-}: {
-  adminAuth: AdminAuthSettings;
-  emailAccounts: EmailAccountOption[];
-  hasEmailAccounts: boolean;
-  adminMfaEnabled: boolean;
-  onChange: (patch: Partial<AdminAuthSettings>) => void;
-}) {
-  return (
-    <div className="space-y-8">
-      <SettingsSection
-        title="Security / Email delivery"
-        description="Master Admin only. This is the sender used for every authentication email: signup verification, email sign-in codes, and password-reset codes for customers, Admins and you. Credentials stay under Email Accounts — this page only stores which account is used."
-      >
-        <div className="flex flex-wrap items-center gap-2">
-          {adminMfaEnabled ? (
-            <Badge variant="default">Email sign-in codes enabled</Badge>
-          ) : (
-            <Badge variant="secondary">Email sign-in codes disabled — configure an Email Account</Badge>
-          )}
-        </div>
-        {!hasEmailAccounts ? (
-          <p className="text-sm text-muted-foreground">
-            No Email Accounts yet.{" "}
-            <Link href="/admin/settings/email-accounts" className="text-primary underline">
-              Configure an Email Account
-            </Link>
-          </p>
-        ) : null}
-        <div className="space-y-1.5">
-          <label htmlFor="otpEmailAccountId" className="text-sm font-medium">
-            OTP email account
-          </label>
-          <select
-            id="otpEmailAccountId"
-            className="border-input bg-background flex h-9 w-full rounded-md border px-3 text-sm"
-            value={adminAuth.otpEmailAccountId ?? ""}
-            onChange={(e) => onChange({ otpEmailAccountId: e.target.value })}
-          >
-            <option value="">Select an Email Account</option>
-            {emailAccounts.map((account) => (
-              <option key={account.id} value={account.id}>
-                {account.name} ({account.from})
-              </option>
-            ))}
-          </select>
-          <p className="text-xs text-muted-foreground">
-            Used for signup verification, email-code two-step verification, and password-reset
-            codes for every account type. When a sendable account is selected, admin sign-in
-            requires a 5-minute email code.
-          </p>
-        </div>
-        <Button asChild variant="outline" size="sm">
-          <Link href="/admin/settings/email-accounts">
-            Manage Email Accounts
-            <ExternalLink className="ms-2 size-3.5" aria-hidden />
-          </Link>
-        </Button>
-      </SettingsSection>
     </div>
   );
 }

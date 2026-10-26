@@ -74,7 +74,7 @@ export async function enableSelfEmailOtpMfaAction(): Promise<ActionResult<{ ok: 
     const session = await requireSession();
     if (!(await emailOtpAvailable())) {
       return fail(
-        "Email codes are not available yet. Ask an administrator to configure the OTP email account.",
+        "Email codes are not available yet. Ask an administrator to choose the OTP email account under Settings → Email Accounts → Email delivery.",
       );
     }
     await enableEmailOtpMfa(session.user.id);

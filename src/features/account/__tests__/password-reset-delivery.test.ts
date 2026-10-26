@@ -108,10 +108,10 @@ afterEach(() => {
   else process.env.RESEND_API_KEY = savedResend;
 });
 
-/** Point the settings at the OTP account (fresh stores start with none). */
+/** Configure the site-wide sender (Settings → Email Accounts → Email delivery). */
 async function useOtpSender() {
   const { accountSettingsService } = await import("@/features/account/account-settings.service");
-  await accountSettingsService.saveAdminAuth({ otpEmailAccountId: OTP_ACCOUNT.id });
+  await accountSettingsService.saveEmailDelivery({ emailAccountId: OTP_ACCOUNT.id });
 }
 
 describe("reset works for admins and customers alike", () => {
@@ -188,15 +188,38 @@ describe("the request never reveals whether an address has an account", () => {
     assert.equal(__table("emailOtpToken").length, 0);
   });
 
-  it("sites without a sender answer generically and audit the failure", async () => {
+  it("sites without any Email Account answer generically and audit the failure", async () => {
     delete process.env.RESEND_API_KEY;
+    __setEmailAccountsForTests([]);
     seedUser({ id: "u-admin", email: "owner@example.com", role: "ADMIN" });
     const result = await requestPasswordReset({ email: "owner@example.com" });
     assert.deepEqual(result, { ok: true });
     assert.equal(sentEmails.length, 0);
     assert.ok(
-      __table("securityAuditLog").some((row) => row.action === "auth.password_reset.email_failed"),
-      "delivery failure is audited",
+      __table("securityAuditLog").some(
+        (row) =>
+          row.action === "auth.password_reset.email_failed" && row.meta?.reason === "env_unset",
+      ),
+      "delivery failure is audited with its cause",
+    );
+  });
+
+  it("several accounts and none chosen: no code and no env fallback", async () => {
+    // The env fallback is already set by beforeEach — it must not be used.
+    __setEmailAccountsForTests([
+      OTP_ACCOUNT,
+      { ...OTP_ACCOUNT, id: "acc-forms", name: "Forms", from: "forms@otp.example" },
+    ]);
+    seedUser({ id: "u-admin", email: "owner@example.com", role: "ADMIN" });
+    const result = await requestPasswordReset({ email: "owner@example.com" });
+    assert.deepEqual(result, { ok: true });
+    assert.equal(sentEmails.length, 0, "a mailbox nobody chose is never used");
+    assert.ok(
+      __table("securityAuditLog").some(
+        (row) =>
+          row.action === "auth.password_reset.email_failed" &&
+          row.meta?.reason === "not_selected_multiple",
+      ),
     );
   });
 });

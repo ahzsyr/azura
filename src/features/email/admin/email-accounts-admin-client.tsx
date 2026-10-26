@@ -14,11 +14,13 @@ import {
   sendEmailAccountTestAction,
   upsertEmailAccountAction,
 } from "@/features/email/email-accounts.actions";
+import { getEmailDeliveryStatusAction } from "@/features/account/admin/customer-user-actions";
 import type {
   EmailAccountPublic,
   UpsertEmailAccountInput,
 } from "@/features/email/email-accounts.types";
-import { Mail, Plus, Trash2 } from "lucide-react";
+import { ExternalLink, Mail, Plus, Trash2 } from "lucide-react";
+import { EmailDeliverySettingsCard, type EmailDeliveryStatus } from "@/features/email/admin/email-delivery-settings-card";
 
 type Draft = {
   id?: string;
@@ -48,10 +50,15 @@ const emptyDraft = (): Draft => ({
 export function EmailAccountsAdminClient({
   initialAccounts,
   canManage = true,
+  delivery,
+  deliveryStatus,
 }: {
   initialAccounts: EmailAccountPublic[];
   /** Master Admin (SUPER_ADMIN) may create/edit/delete/test. Others are read-only. */
   canManage?: boolean;
+  /** Authentication sender selection (site-wide, editable by any admin). */
+  delivery?: { selectedId: string; fromName: string };
+  deliveryStatus?: EmailDeliveryStatus;
 }) {
   const [accounts, setAccounts] = useState(initialAccounts);
   const [draft, setDraft] = useState<Draft | null>(null);
@@ -59,6 +66,23 @@ export function EmailAccountsAdminClient({
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
   const [testTo, setTestTo] = useState("");
   const [testingId, setTestingId] = useState<string | null>(null);
+  const [status, setStatus] = useState<EmailDeliveryStatus>(
+    deliveryStatus ?? {
+      effectiveAccountId: null,
+      effectiveAccountName: null,
+      effectiveFrom: null,
+      reason: initialAccounts.length === 0 ? "no_accounts" : "not_selected_multiple",
+    },
+  );
+
+  const refreshStatus = useCallback(async () => {
+    try {
+      const res = await getEmailDeliveryStatusAction();
+      if (res.success && res.data) setStatus(res.data);
+    } catch {
+      // Leave the last known status; the card still shows the selector.
+    }
+  }, []);
 
   const refresh = useCallback(async () => {
     try {
@@ -80,7 +104,8 @@ export function EmailAccountsAdminClient({
 
   useEffect(() => {
     void refresh();
-  }, [refresh]);
+    void refreshStatus();
+  }, [refresh, refreshStatus]);
 
   const openCreate = () => {
     if (!canManage) {
@@ -206,7 +231,8 @@ export function EmailAccountsAdminClient({
             Email Accounts
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Named email accounts using Resend or SMTP. Forms pick one under Automation → Email Notifications.
+            Named email accounts using Resend or SMTP. One of them sends every authentication email
+            (Email delivery below); forms pick another under Automation → Email Notifications.
             Secrets are stored sealed and never shown again after save.
             {!canManage
               ? " Viewing only — ask the Master Admin to add or change accounts."
@@ -234,6 +260,14 @@ export function EmailAccountsAdminClient({
           {message.text}
         </p>
       )}
+
+      {/* Authentication sender: the one mailbox every OTP / reset code leaves from. */}
+      <EmailDeliverySettingsCard
+        selectedId={delivery?.selectedId ?? ""}
+        fromName={delivery?.fromName ?? ""}
+        initialStatus={status}
+        accounts={accounts}
+      />
 
       {canManage ? (
       <Card className="space-y-3 p-4">
@@ -369,11 +403,16 @@ export function EmailAccountsAdminClient({
       )}
 
       <p className="text-xs text-muted-foreground">
-        After creating an account, open a form → Automation →{" "}
+        After creating an account, choose it under <strong>Email delivery</strong> above so
+        authentication codes use it; for form notifications open a form → Automation →{" "}
         <Link href="/admin/forms" className="underline">
           Email Notifications
         </Link>{" "}
-        and select it.
+        and select it.{" "}
+        <Link href="/admin/settings/portal" className="inline-flex items-center underline">
+          Portal sign-in &amp; reset settings
+          <ExternalLink className="ms-1 inline size-3" aria-hidden />
+        </Link>
       </p>
     </div>
   );

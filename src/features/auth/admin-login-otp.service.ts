@@ -17,6 +17,7 @@ import {
   isUsablePhoneNumber,
   getLoginOtpTransport,
 } from "@/features/auth/login-otp-delivery";
+import type { ResolvedAuthSender } from "@/features/email/auth-email-sender";
 
 const ISSUE_LIMIT = 5;
 const ISSUE_WINDOW_MS = 15 * 60 * 1000;
@@ -25,21 +26,22 @@ const CONSUME_WINDOW_MS = 15 * 60 * 1000;
 
 const EXPIRES_IN_MINUTES = Math.round(EMAIL_OTP_TTL_MS / 60000);
 
-/** Send the admin sign-in code by email using the Master Admin's OTP account. */
+/**
+ * Send a sign-in code by email through the site-wide authentication sender
+ * (Settings → Email Accounts → Email delivery) — the same mailbox used for
+ * password-reset and signup codes, for every role.
+ */
 export async function sendAdminLoginOtpEmail(input: {
   userId: string;
   user: { name: string; role: string };
   toEmail: string;
   code: string;
-  providerConfig: Awaited<
-    ReturnType<typeof import("@/features/auth/admin-auth-delivery").resolveAdminOtpProviderConfig>
-  >;
+  /** Resolved by the caller (same sender as every other code); re-resolved when absent. */
+  sender?: ResolvedAuthSender | null;
 }): Promise<{ sent: boolean; errorCode?: string }> {
   const { sendEmail } = await import("@/features/email/email.service");
-  const { accountSettingsService } = await import("@/features/account/account-settings.service");
-  const settings = await accountSettingsService.get();
-  const fromName =
-    settings.emailVerification.fromName?.trim() || settings.passwordReset.fromName?.trim() || undefined;
+  const { resolveAuthEmailSender } = await import("@/features/email/auth-email-sender");
+  const sender = input.sender ?? (await resolveAuthEmailSender("ADMIN_LOGIN"));
 
   const subject = "Your admin sign-in code";
   const heading = "Admin verification code";
@@ -58,8 +60,8 @@ export async function sendAdminLoginOtpEmail(input: {
     subject,
     html: rendered.html,
     text: rendered.text ?? `${heading}\n\nCode: ${input.code}\n\n${bodyLines}`,
-    providerConfig: input.providerConfig,
-    fromName,
+    providerConfig: sender?.providerConfig ?? null,
+    fromName: sender?.fromName,
   });
 
   if (!result.sent) {
@@ -67,7 +69,11 @@ export async function sendAdminLoginOtpEmail(input: {
       action: "auth.email_otp.send_failed",
       actorId: input.userId,
       actorRole: input.user.role,
-      meta: { purpose: "ADMIN_LOGIN", errorCode: result.errorCode ?? "unknown" },
+      meta: {
+        purpose: "ADMIN_LOGIN",
+        errorCode: result.errorCode ?? "unknown",
+        accountId: sender?.accountId ?? null,
+      },
     });
     return { sent: false, errorCode: result.errorCode ?? "unknown" };
   }
@@ -75,14 +81,24 @@ export async function sendAdminLoginOtpEmail(input: {
     action: "auth.email_otp.sent",
     actorId: input.userId,
     actorRole: input.user.role,
-    meta: { purpose: "ADMIN_LOGIN" },
+    meta: {
+      purpose: "ADMIN_LOGIN",
+      sender: sender?.source ?? "none",
+      accountId: sender?.accountId ?? null,
+      from: sender?.providerConfig?.from ?? null,
+    },
   });
   return { sent: true };
 }
 
 export type AdminLoginOtpDeliveryResult =
   | { ok: true; sentTo: string }
-  | { ok: false; reason: "rate_limited" | "not_configured" | "invalid_recipient" | "delivery_failed" };
+  | {
+      ok: false;
+      reason: "rate_limited" | "not_configured" | "invalid_recipient" | "delivery_failed";
+      /** Provider/transport detail, once, for the server log (never echoed to the browser). */
+      errorCode?: string;
+    };
 
 export type AdminLoginOtpUser = {
   id: string;
@@ -106,15 +122,14 @@ export async function issueAdminLoginOtp(input: {
 }): Promise<AdminLoginOtpDeliveryResult> {
   const { user, channel } = input;
 
-  // Email reuses the Master Admin's OTP Email Account; phone channels need a
-  // wired transport. Resolve both up front so phone-only deployments still work.
-  const { isAdminEmailMfaConfigured, resolveAdminOtpProviderConfig } = await import(
-    "@/features/auth/admin-auth-delivery"
-  );
-  const emailAvailable = await isAdminEmailMfaConfigured().catch(() => false);
-  const emailProviderConfig = emailAvailable
-    ? await resolveAdminOtpProviderConfig().catch(() => null)
-    : null;
+  // Email uses the site-wide authentication sender configured under Settings →
+  // Email Accounts → Email delivery (any admin, every role); phone channels
+  // need a wired transport. Resolve both up front so phone-only deployments
+  // still work.
+  const { resolveAuthEmailSender } = await import("@/features/email/auth-email-sender");
+  const emailSender = channel === "email" ? await resolveAuthEmailSender("ADMIN_LOGIN") : null;
+  // Fail closed: a settings-store problem must never look like "configured".
+  const emailAvailable = emailSender?.providerConfig != null;
 
   const rl = await enforceRateLimit({
     key: `admin-login-otp:issue:${user.id}:${channel}`,
@@ -124,9 +139,17 @@ export async function issueAdminLoginOtp(input: {
   if (!rl.allowed) return { ok: false, reason: "rate_limited" };
 
   const configured = await isLoginOtpChannelConfigured(channel, {
-    emailConfigured: emailAvailable && emailProviderConfig != null,
+    emailConfigured: emailAvailable,
   });
-  if (!configured) return { ok: false, reason: "not_configured" };
+  if (!configured) {
+    await writeSecurityAuditLog({
+      action: "auth.mfa.delivery_failed",
+      actorId: user.id,
+      actorRole: user.role,
+      meta: { channel, errorCode: "not_configured", reason: emailSender?.reason ?? "transport_missing" },
+    });
+    return { ok: false, reason: "not_configured" };
+  }
 
   let sentTo: string;
   if (channel === "email") {
@@ -156,7 +179,7 @@ export async function issueAdminLoginOtp(input: {
         user,
         toEmail: sentTo,
         code,
-        providerConfig: emailProviderConfig,
+        sender: emailSender,
       });
     } else {
       const transport = getLoginOtpTransport(channel);
@@ -188,7 +211,7 @@ export async function issueAdminLoginOtp(input: {
       actorRole: user.role,
       meta: { channel, errorCode: delivery.errorCode ?? "unknown" },
     });
-    return { ok: false, reason: "delivery_failed" };
+    return { ok: false, reason: "delivery_failed", errorCode: delivery.errorCode ?? "unknown" };
   }
 
   await writeSecurityAuditLog({

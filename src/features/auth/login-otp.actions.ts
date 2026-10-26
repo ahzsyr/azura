@@ -66,18 +66,26 @@ async function authorizeChallenge(
   };
 }
 
-function messageForIssueFailure(reason: string, channel: LoginOtpChannel): string {
+function messageForIssueFailure(
+  reason: string,
+  channel: LoginOtpChannel,
+  errorCode?: string,
+): string {
   switch (reason) {
     case "rate_limited":
       return "Too many codes requested. Wait a few minutes and try again.";
     case "not_configured":
       return channel === "email"
-        ? "Email sign-in codes are not configured. Contact the Master Admin."
+        ? "Email sign-in codes are not configured yet. Ask an administrator to choose the OTP email account under Settings → Email Accounts → Email delivery."
         : "That delivery channel is not available right now.";
     case "invalid_recipient":
       return "No phone number on file for this account.";
     default:
-      return "Could not send the code. Try another method.";
+      // Name the provider error once ("not_configured", a rejected key, an
+      // unverified sender domain) — it is what makes the problem fixable.
+      return errorCode && errorCode !== "unknown" && errorCode !== "transport_error"
+        ? `Could not send the code (${errorCode}). Ask an administrator to check the Email delivery account, or use another method.`
+        : "Could not send the code. Try another method.";
   }
 }
 
@@ -99,7 +107,7 @@ export async function sendLoginOtpAction(input: {
 
     const issued = await issueAdminLoginOtp({ user: auth.user, channel });
     if (!issued.ok) {
-      return fail(messageForIssueFailure(issued.reason, channel));
+      return fail(messageForIssueFailure(issued.reason, channel, issued.errorCode));
     }
 
     const source = channel === "email" ? auth.user.email : (auth.user.phone ?? "");

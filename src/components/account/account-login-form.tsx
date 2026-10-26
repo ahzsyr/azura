@@ -183,7 +183,9 @@ export function AccountLoginForm({ locale, registrationEnabled, captchaSiteKey =
       }
 
       if (result?.code === "mfa_delivery_failed") {
-        setError("Could not send the sign-in code. Try another method.");
+        setError(
+          "Could not send the sign-in code. Try another method, or ask an administrator to check Settings → Email Accounts → Email delivery.",
+        );
         setStep("mfa");
         return;
       }
@@ -249,7 +251,11 @@ export function AccountLoginForm({ locale, registrationEnabled, captchaSiteKey =
         return;
       }
       setOtpSent({ channel: result.data.channel, masked: result.data.maskedDestination });
-      setNotice(`We sent a 6-digit code via ${CHANNEL_LABELS[channel]}. It expires in 5 minutes.`);
+      setNotice(
+        `We sent a 6-digit code via ${CHANNEL_LABELS[channel]} to ${result.data.maskedDestination}. It expires in 5 minutes — check spam if it does not arrive.`,
+      );
+    } catch {
+      setError("Could not reach the server to send the code. Try again.");
     } finally {
       setResendBusy(false);
     }

@@ -32,68 +32,18 @@ import { publishShell } from "@/lib/publish-shell.client";
 import { useAdminPageActions } from "@/hooks/use-admin-page-actions";
 import { useAdminUiStore } from "@/stores/admin-ui-store";
 
-type EmailAccountOption = { id: string; name: string; from: string };
-
 type Props = {
   registrationEnabled: boolean;
   passwordReset: PasswordResetSettings;
   emailVerification: EmailVerificationSettings;
-  emailAccounts: EmailAccountOption[];
 };
 
 const PUBLIC_ACCOUNT_BASE = `/${routing.defaultLocale}/account`;
-
-function EmailAccountSelect({
-  id,
-  label,
-  value,
-  onChange,
-  emailAccounts,
-  allowEnvFallback,
-}: {
-  id: string;
-  label: string;
-  value: string;
-  onChange: (id: string) => void;
-  emailAccounts: EmailAccountOption[];
-  allowEnvFallback?: boolean;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <label htmlFor={id} className="text-sm font-medium">
-        {label}
-      </label>
-      <select
-        id={id}
-        className="border-input bg-background flex h-9 w-full rounded-md border px-3 text-sm"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      >
-        <option value="">
-          {allowEnvFallback ? "Env default (RESEND)" : "Select an Email Account"}
-        </option>
-        {emailAccounts.map((account) => (
-          <option key={account.id} value={account.id}>
-            {account.name} ({account.from})
-          </option>
-        ))}
-      </select>
-      <p className="text-xs text-muted-foreground">
-        Credentials live under{" "}
-        <Link href="/admin/settings/email-accounts" className="underline">
-          Settings → Email Accounts
-        </Link>
-        .
-      </p>
-    </div>
-  );
-}
 
 export function PortalSettingsForm({
   registrationEnabled: initial,
   passwordReset: initialReset,
   emailVerification: initialVerification,
-  emailAccounts,
 }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -238,8 +188,8 @@ export function PortalSettingsForm({
           <Badge variant={enabled ? "default" : "secondary"}>
             Registration {enabled ? "open" : "closed"}
           </Badge>
-          <Badge variant={verificationSettings.emailAccountId ? "default" : "secondary"}>
-            Signup OTP {verificationSettings.emailAccountId ? "account set" : "unset"}
+          <Badge variant="outline">
+            Signup &amp; reset codes use Email Accounts → Email delivery
           </Badge>
           <Badge variant={resetSettings.enabled ? "default" : "secondary"}>
             Reset codes {resetSettings.enabled ? "on" : "off"}
@@ -261,7 +211,6 @@ export function PortalSettingsForm({
                 <EmailVerificationTab
                   settings={verificationSettings}
                   onChange={patchVerification}
-                  emailAccounts={emailAccounts}
                 />
               ) : (
                 <PasswordResetTab settings={resetSettings} onChange={patchReset} />
@@ -331,26 +280,24 @@ function RegistrationTab({
 function EmailVerificationTab({
   settings,
   onChange,
-  emailAccounts,
 }: {
   settings: EmailVerificationSettings;
   onChange: (patch: Partial<EmailVerificationSettings>) => void;
-  emailAccounts: EmailAccountOption[];
 }) {
   return (
     <div className="space-y-8">
       <SettingsSection
         title="Registration email verification / OTP"
-        description="6-digit codes expire in 5 minutes. Used for signup and OTP resend. Independent of admin authentication."
+        description="6-digit codes expire in 5 minutes. Used for signup and OTP resend."
       >
-        <EmailAccountSelect
-          id="verificationEmailAccountId"
-          label="Email account"
-          value={settings.emailAccountId ?? ""}
-          onChange={(emailAccountId) => onChange({ emailAccountId })}
-          emailAccounts={emailAccounts}
-          allowEnvFallback
-        />
+        <div className="rounded-lg border bg-muted/40 px-3 py-2 text-sm text-muted-foreground">
+          Signup codes are sent through the shared OTP sender — the Email Account chosen under{" "}
+          <Link href="/admin/settings/email-accounts" className="text-primary underline">
+            Settings → Email Accounts → Email delivery
+          </Link>
+          . One sender serves every code: signup, sign-in and password reset, for customers and
+          Admins alike.
+        </div>
         <TextField
           id="verificationFromName"
           label="From name (optional)"
@@ -411,7 +358,7 @@ function PasswordResetTab({
 
       <SettingsSection
         title="Sender"
-        description="Reset codes use the OTP email account configured under Settings → Admin account → Email delivery, so one sender is used by every code."
+        description="Reset codes use the OTP email account configured under Settings → Email Accounts → Email delivery, so one sender is used by every code and every account type."
       >
         <div className="grid gap-4 md:grid-cols-2">
           <TextField

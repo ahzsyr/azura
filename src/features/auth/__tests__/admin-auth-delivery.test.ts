@@ -2,25 +2,10 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { evaluateAdminEmailMfaConfigured } from "@/features/auth/admin-auth-delivery.helpers";
 
-describe("admin email MFA delivery gate", () => {
-  it("false when no Email Accounts", () => {
+describe("email code delivery gate", () => {
+  it("false when no account was resolved", () => {
     assert.equal(
       evaluateAdminEmailMfaConfigured({
-        accountCount: 0,
-        otpEmailAccountId: "acc_1",
-        accountExists: true,
-        accountConfigured: true,
-        providerResolved: true,
-      }),
-      false,
-    );
-  });
-
-  it("false when otpEmailAccountId unset", () => {
-    assert.equal(
-      evaluateAdminEmailMfaConfigured({
-        accountCount: 1,
-        otpEmailAccountId: "",
         accountExists: false,
         accountConfigured: false,
         providerResolved: false,
@@ -29,24 +14,9 @@ describe("admin email MFA delivery gate", () => {
     );
   });
 
-  it("false when account row missing", () => {
+  it("false when the account is incomplete (not sendable)", () => {
     assert.equal(
       evaluateAdminEmailMfaConfigured({
-        accountCount: 1,
-        otpEmailAccountId: "acc_1",
-        accountExists: false,
-        accountConfigured: false,
-        providerResolved: false,
-      }),
-      false,
-    );
-  });
-
-  it("false when account incomplete (not sendable)", () => {
-    assert.equal(
-      evaluateAdminEmailMfaConfigured({
-        accountCount: 1,
-        otpEmailAccountId: "acc_1",
         accountExists: true,
         accountConfigured: false,
         providerResolved: false,
@@ -55,11 +25,9 @@ describe("admin email MFA delivery gate", () => {
     );
   });
 
-  it("false when provider config cannot resolve", () => {
+  it("false when the provider config cannot resolve", () => {
     assert.equal(
       evaluateAdminEmailMfaConfigured({
-        accountCount: 1,
-        otpEmailAccountId: "acc_1",
         accountExists: true,
         accountConfigured: true,
         providerResolved: false,
@@ -68,11 +36,9 @@ describe("admin email MFA delivery gate", () => {
     );
   });
 
-  it("true when selected account exists and is sendable", () => {
+  it("true only when a sendable account was resolved (any role, any purpose)", () => {
     assert.equal(
       evaluateAdminEmailMfaConfigured({
-        accountCount: 2,
-        otpEmailAccountId: "acc_1",
         accountExists: true,
         accountConfigured: true,
         providerResolved: true,
